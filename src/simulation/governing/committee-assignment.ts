@@ -67,6 +67,12 @@ export interface CommitteePreferenceRun {
   readonly requestEventIds: readonly EntityId[];
 }
 
+export interface PlayerCommitteeRequestRun {
+  readonly world: World;
+  readonly requestEventId: EntityId;
+  readonly preferences: readonly string[];
+}
+
 /** NPC members decide and record an ordered preference list from supplied facts. */
 export function recordComputerCommitteeRequests(
   world: World,
@@ -108,6 +114,7 @@ export function recordComputerCommitteeRequests(
       continue;
     }
     const preferences: string[] = [];
+    const decisionTraceIds: EntityId[] = [];
     let decisionWorld = next;
     const remaining = new Set(committeeKeys);
     for (let preferenceNumber = 1; remaining.size > 0; preferenceNumber += 1) {
@@ -157,6 +164,7 @@ export function recordComputerCommitteeRequests(
         retention: "durable",
       });
       decisionWorld = recordDurableDecisionTrace(decisionWorld, evaluation);
+      decisionTraceIds.push(decisionWorld.history.decisionTraces.at(-1)!.id);
       const selected = evaluation.selectedOptionKey;
       if (evaluation.outcomeKind !== "selected" || !selected || selected === "stop-requesting")
         break;
@@ -179,6 +187,7 @@ export function recordComputerCommitteeRequests(
       memberPersonId: member.personId,
       assignerPersonId: input.assignerPersonId,
       preferences,
+      decisionTraceIds,
       reason:
         selectedReasons.join("; ") ||
         "No further committee preference was supported by the recorded district, work, or service evidence.",
@@ -192,6 +201,107 @@ export function recordComputerCommitteeRequests(
     if (saved) requestEventIds.push(saved.eventId);
   }
   return { world: next, requestEventIds };
+}
+
+/** Record the controlled member's ordered requests from their played choices. */
+export function recordPlayerCommitteeRequest(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly jurisdictionId: EntityId;
+    readonly chamberKey: string;
+    readonly assignmentRoundKey: string;
+    readonly body: SeatedBody;
+    readonly memberKey: string;
+    readonly assignerPersonId: EntityId;
+    /** Durable traces produced by the request conversation, in played order. */
+    readonly decisionTraceIds: readonly EntityId[];
+    readonly committeeKeys: readonly string[];
+  },
+): PlayerCommitteeRequestRun {
+  if (world.control.kind !== "person")
+    throw new Error("A player committee request requires person control.");
+  const playerPersonId = world.control.personId;
+  const member = input.body.members.find(
+    (candidate) => candidate.memberKey === input.memberKey,
+  );
+  if (input.body.chamberKey !== input.chamberKey || member?.personId !== playerPersonId)
+    throw new Error("A player committee request must come from their seated member record.");
+  const prior = memberCommitteeRequests(world, {
+    jurisdictionId: input.jurisdictionId,
+    chamberKey: input.chamberKey,
+    assignmentRoundKey: input.assignmentRoundKey,
+    memberKey: input.memberKey,
+  }).at(-1);
+  if (prior)
+    return {
+      world,
+      requestEventId: prior.eventId,
+      preferences: prior.preferences,
+    };
+  if (input.decisionTraceIds.length === 0)
+    throw new Error("A player committee request needs played decision traces.");
+  if (new Set(input.decisionTraceIds).size !== input.decisionTraceIds.length)
+    throw new Error("A player committee request cannot repeat a decision trace.");
+  const knownCommitteeKeys = new Set(input.committeeKeys);
+  const preferences: string[] = [];
+  let stopped = false;
+  for (const decisionTraceId of input.decisionTraceIds) {
+    const trace = world.history.decisionTraces.find(
+      (candidate) => candidate.id === decisionTraceId,
+    );
+    if (
+      !trace ||
+      trace.context.actorPersonId !== playerPersonId ||
+      trace.context.decisionType !== "legislature.request-committee-membership" ||
+      trace.context.subject.kind !== "context:committee-request" ||
+      trace.context.subject.key !==
+        `${input.chamberKey}:${input.assignmentRoundKey}` ||
+      trace.context.retention !== "durable" ||
+      trace.outcomeKind !== "selected" ||
+      !trace.selectedOptionKey ||
+      !trace.context.options.some(
+        (option) => option.key === trace.selectedOptionKey,
+      )
+    )
+      throw new Error("A player request must cite its exact played request trace.");
+    if (trace.selectedOptionKey === "stop-requesting") {
+      if (stopped || decisionTraceId !== input.decisionTraceIds.at(-1))
+        throw new Error("Stop-requesting must be the final request choice.");
+      stopped = true;
+      continue;
+    }
+    if (
+      !knownCommitteeKeys.has(trace.selectedOptionKey) ||
+      preferences.includes(trace.selectedOptionKey)
+    )
+      throw new Error("A player request trace selected an unknown or repeated committee.");
+    preferences.push(trace.selectedOptionKey);
+  }
+  const next = recordMemberCommitteeRequest(world, {
+    stableKey: input.stableKey,
+    jurisdictionId: input.jurisdictionId,
+    chamberKey: input.chamberKey,
+    assignmentRoundKey: input.assignmentRoundKey,
+    memberKey: input.memberKey,
+    memberPersonId: playerPersonId,
+    assignerPersonId: input.assignerPersonId,
+    preferences,
+    decisionTraceIds: input.decisionTraceIds,
+    reason: `Played request decisions: ${input.decisionTraceIds.join(", ")}.`,
+  });
+  const recorded = memberCommitteeRequests(next, {
+    jurisdictionId: input.jurisdictionId,
+    chamberKey: input.chamberKey,
+    assignmentRoundKey: input.assignmentRoundKey,
+    memberKey: input.memberKey,
+  }).at(-1);
+  if (!recorded) throw new Error("The player committee request was not recorded.");
+  return {
+    world: next,
+    requestEventId: recorded.eventId,
+    preferences,
+  };
 }
 
 /** Attach one exact saved round to a body for the unchanged roster readers. */

@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
+import { currentHistoricalCutoff } from "../queries";
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { lifePlaceStateIdentities } from "../life-places";
 import { personName } from "../people";
 import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { SeatedBody } from "../legislation-scenarios";
-import type { EntityId } from "../types";
+import type { EntityId, World } from "../types";
 import {
   assignCommitteeSeats,
   committeeAssignmentBodyForRound,
@@ -13,10 +15,12 @@ import {
   committeeRosters,
   committeesForMember,
   committeesForPerson,
+  recordPlayerCommitteeRequest,
   type AssignableCommittee,
 } from "./committee-assignment";
 import {
   committeeSeatAssignmentsForChamber,
+  memberCommitteeRequests,
   recordMemberCommitteeRequest,
 } from "./committee-assignment-records";
 
@@ -116,6 +120,80 @@ function assignedInPlace(place: string, seed: string) {
 }
 
 describe("recorded committee requests and assignments", () => {
+  it("records a player's ordered request from the played durable choices", () => {
+    const { result, body, jurisdictionId, assigner } = assignedInPlace(
+      "OR",
+      "b10-p3-player-request",
+    );
+    const member = body.members[2]!;
+    const playerPersonId = member.personId!;
+    let next: World = {
+      ...result.world,
+      control: { kind: "person" as const, personId: playerPersonId },
+    };
+    const decisionTraceIds: EntityId[] = [];
+    for (const [index, optionKey] of ["education", "ways-and-means"].entries()) {
+      const evaluation = evaluateDecision(next, {
+        stableKey: `played-request:${index + 1}`,
+        decisionType: "legislature.request-committee-membership",
+        actorPersonId: playerPersonId,
+        cutoff: currentHistoricalCutoff(next),
+        subject: {
+          kind: "context:committee-request",
+          key: "house:2026-organizing",
+          entityId: null,
+        },
+        options: [
+          {
+            key: optionKey,
+            label: optionKey,
+            description: "The player requests this committee.",
+          },
+          {
+            key: "other",
+            label: "Another committee",
+            description: "The player does not request this committee here.",
+          },
+        ],
+        constraints: [
+          {
+            stableKey: `played-request:${index + 1}:exclude-other`,
+            optionKey: "other",
+            kind: "not-selected-in-this-played-answer",
+            explanation: "This recorded answer selected the requested committee.",
+            sourceRefs: [],
+          },
+        ],
+        considerations: [],
+        perceptionIds: [],
+        randomness: "none",
+        retention: "durable",
+      });
+      next = recordDurableDecisionTrace(next, evaluation);
+      decisionTraceIds.push(next.history.decisionTraces.at(-1)!.id);
+    }
+    const recorded = recordPlayerCommitteeRequest(next, {
+      stableKey: "b10-p3:player-request",
+      jurisdictionId,
+      chamberKey: body.chamberKey,
+      assignmentRoundKey: "2026-organizing",
+      body,
+      memberKey: member.memberKey,
+      assignerPersonId: assigner,
+      decisionTraceIds,
+      committeeKeys: COMMITTEES.map((committee) => committee.committeeKey),
+    });
+    expect(recorded.preferences).toEqual(["education", "ways-and-means"]);
+    expect(
+      memberCommitteeRequests(recorded.world, {
+        jurisdictionId,
+        chamberKey: body.chamberKey,
+        assignmentRoundKey: "2026-organizing",
+        memberKey: member.memberKey,
+      }).at(-1)?.decisionTraceIds,
+    ).toEqual(decisionTraceIds);
+  });
+
   it("reads rosters only from the seat decisions on the body", () => {
     const { result } = assignedInPlace("OH", "recorded-roster");
     const roster = committeeRoster(

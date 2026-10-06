@@ -19,6 +19,7 @@ export interface MemberCommitteeRequest {
   readonly memberPersonId: EntityId;
   readonly assignerPersonId: EntityId;
   readonly preferences: readonly string[];
+  readonly decisionTraceIds: readonly EntityId[];
   readonly reason: string;
 }
 
@@ -47,6 +48,7 @@ export interface RecordMemberCommitteeRequestInput {
   readonly memberPersonId: EntityId;
   readonly assignerPersonId: EntityId;
   readonly preferences: readonly string[];
+  readonly decisionTraceIds?: readonly EntityId[];
   readonly reason: string;
   readonly occurredAt?: IsoDate;
 }
@@ -171,7 +173,7 @@ export function recordMemberCommitteeRequest(
       },
     ],
     personFactConstraints: [],
-    visibility: "public",
+    visibility: "limited",
     tags: [
       tag("kind", "request"),
       tag("chamber", input.chamberKey),
@@ -179,6 +181,9 @@ export function recordMemberCommitteeRequest(
       tag("member", input.memberKey),
       ...input.preferences.map((preference, index) =>
         tag(`preference-${index + 1}`, preference),
+      ),
+      ...(input.decisionTraceIds ?? []).map((decisionTraceId, index) =>
+        tag(`decision-trace-${index + 1}`, decisionTraceId),
       ),
       tag("reason", input.reason),
     ],
@@ -321,6 +326,10 @@ function parseRequest(event: HistoricalEvent): MemberCommitteeRequest | null {
     .filter(([key]) => key.startsWith("preference-"))
     .sort(([a], [b]) => Number(a.slice(11)) - Number(b.slice(11)))
     .map(([, value]) => value);
+  const decisionTraceIds = Object.entries(values)
+    .filter(([key]) => key.startsWith("decision-trace-"))
+    .sort(([a], [b]) => Number(a.slice(15)) - Number(b.slice(15)))
+    .map(([, value]) => value as EntityId);
   return {
     eventId: event.id,
     stableKey: event.stableKey,
@@ -333,6 +342,7 @@ function parseRequest(event: HistoricalEvent): MemberCommitteeRequest | null {
     memberPersonId: personId,
     assignerPersonId,
     preferences,
+    decisionTraceIds,
     reason: values.reason,
   };
 }

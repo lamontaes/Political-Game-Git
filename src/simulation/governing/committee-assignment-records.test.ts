@@ -28,6 +28,10 @@ describe("durable committee assignment records", () => {
       reason: "My district needs work on energy and schools.",
     } as const;
     const requested = recordMemberCommitteeRequest(world, request);
+    expect(
+      requested.history.events.find((event) => event.stableKey === request.stableKey)
+        ?.visibility,
+    ).toBe("limited");
     expect(recordMemberCommitteeRequest(requested, request)).toBe(requested);
     expect(
       memberCommitteeRequests(requested, { chamberKey: "house" }),
