@@ -59,10 +59,16 @@ describe("append-aware election contest lookups", () => {
     expect(electionContestById(loaded, contest.id)).toEqual(contest);
     expect(electionContestResult(loaded, contest.id)).toBeNull();
     expect(
-      electionContestById(loaded, createStableId("lookup", "missing")),
+      electionContestById(
+        loaded,
+        createStableId("election-contest", "missing"),
+      ),
     ).toBeNull();
     expect(
-      electionContestResult(loaded, createStableId("lookup", "missing")),
+      electionContestResult(
+        loaded,
+        createStableId("election-contest", "missing"),
+      ),
     ).toBeNull();
   });
 
@@ -73,14 +79,14 @@ describe("append-aware election contest lookups", () => {
       (row) => row.entityIds[0] === contest.id,
     )!;
     const result: ElectionContestResultRecord = {
-      id: createStableId("lookup", "lookup:result"),
+      id: createStableId("election-contest-result", "lookup:result"),
       stableKey: "lookup:result",
       sequence: 1,
       contestId: contest.id,
       resolvedAt: contest.electionDate,
       winnerPersonId: contest.candidatePersonIds[0]!,
       tallies: [],
-      outcomeEventId: createStableId("lookup", "lookup:outcome"),
+      outcomeEventId: createStableId("event", "lookup:outcome"),
       provenance: contest.provenance,
     };
     // Deliberately malformed reader controls; these are never canonical writer inputs.
@@ -93,15 +99,24 @@ describe("append-aware election contest lookups", () => {
         ]),
         electionContestResults: [
           result,
-          { ...result, id: createStableId("lookup", "lookup:later-result") },
+          {
+            ...result,
+            id: createStableId(
+              "election-contest-result",
+              "lookup:later-result",
+            ),
+          },
         ],
         futureDueItems: appendedList(world.history.futureDueItems, [
-          { ...item, id: createStableId("lookup", "lookup:later-item") },
+          {
+            ...item,
+            id: createStableId("future-due-item", "lookup:later-item"),
+          },
         ]),
         futureDueItemStates: [
           {
             ...world.history.futureDueItemStates[0]!,
-            dueItemId: createStableId("lookup", "lookup:later-item"),
+            dueItemId: createStableId("future-due-item", "lookup:later-item"),
             status: "cancelled",
           },
         ],
@@ -146,7 +161,7 @@ describe("append-aware election contest lookups", () => {
         ...world.history,
         futureDueItemStates: statuses.map((status, at) => ({
           ...state,
-          id: createStableId("lookup", `state:${at}`),
+          id: createStableId("future-due-item-state", `state:${at}`),
           sequence: at === 0 ? 99 : 50,
           status,
         })),
