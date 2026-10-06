@@ -15,7 +15,7 @@ import type {
   ValidationReport,
 } from "../../core/index";
 import { isOfficeExistence } from "./types";
-import type { QualificationRecord } from "./types";
+import type { CandidateFilingTerms, QualificationRecord } from "./types";
 
 /** The citation PR #72 used 1,819 times. It does not resolve and never did. */
 export const REJECTED_PLACEHOLDER_CITATIONS: readonly string[] = [
@@ -28,6 +28,36 @@ export const REJECTED_PLACEHOLDER_VALUES: readonly string[] = [
   "Standard state term limit",
   "Standard state term rule",
 ];
+
+/** Validate the complete, separately compiled filing-terms projection. */
+export function validateCandidateFilingTerms(
+  records: readonly CandidateFilingTerms[],
+): ValidationFinding[] {
+  return records.flatMap((record) => {
+    const signatureValue =
+      record.signatureRequirement.kind === "COUNT"
+        ? record.signatureRequirement.count
+        : record.signatureRequirement.percent;
+    const invalid =
+      record.filingFeeCents < 0 ||
+      signatureValue < 0 ||
+      (record.filingFeeCents === 0 && signatureValue === 0) ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(record.circulationOpenDate) ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(record.deadline) ||
+      (record.estimated && !record.estimatedFrom?.length) ||
+      (!record.estimated && record.estimatedFrom !== null);
+    return invalid
+      ? [
+          {
+            severity: "error" as const,
+            code: "qualifications/invalid-filing-terms",
+            message: `${record.recordId} carries incomplete or inconsistent candidate filing terms.`,
+            recordId: record.recordId,
+          },
+        ]
+      : [];
+  });
+}
 
 export function validateQualificationCorpus(
   compiled: CompiledCorpus<QualificationRecord>,

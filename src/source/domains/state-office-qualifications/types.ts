@@ -156,6 +156,32 @@ export interface OfficeExistence {
   readonly evidence: Evidence;
 }
 
+export type FilingSignatureRequirement =
+  | { readonly kind: "COUNT"; readonly count: number }
+  | {
+      readonly kind: "PERCENT_OF_NAMED_BASE";
+      readonly percent: number;
+      readonly namedBase: string;
+    };
+
+/** Candidate-ballot access terms, including a marked estimate where unread. */
+export interface CandidateFilingTerms {
+  readonly recordId: string;
+  readonly place: string;
+  readonly jurisdictionKey: string;
+  readonly populationBand: "SMALL" | "MEDIUM" | "LARGE";
+  readonly officeFamily: OfficeFamily;
+  readonly filingFeeCents: number;
+  readonly signatureRequirement: FilingSignatureRequirement;
+  readonly feeInLieuOfSignatures: boolean;
+  readonly circulationOpenDate: string;
+  readonly deadline: string;
+  readonly sameDistrictOnly: boolean;
+  readonly onePerSigner: boolean;
+  readonly estimated: boolean;
+  readonly estimatedFrom: readonly string[] | null;
+}
+
 export type QualificationRecord = QualificationClaim | OfficeExistence;
 
 /** True for an existence record rather than a field claim. */

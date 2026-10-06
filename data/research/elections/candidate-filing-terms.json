@@ -1,0 +1,612 @@
+{
+  "schemaVersion": "candidate-filing-terms/v1",
+  "asOf": "2026-10-06",
+  "officeFamilies": [
+    "GOVERNOR",
+    "LIEUTENANT_GOVERNOR",
+    "ATTORNEY_GENERAL",
+    "SECRETARY_OF_STATE",
+    "UPPER_CHAMBER",
+    "LOWER_CHAMBER",
+    "UNICAMERAL_CHAMBER"
+  ],
+  "places": [
+    {
+      "place": "US-AL",
+      "jurisdictionKey": "US-AL",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-AK",
+      "jurisdictionKey": "US-AK",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-AZ",
+      "jurisdictionKey": "US-AZ",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-AR",
+      "jurisdictionKey": "US-AR",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-CA",
+      "jurisdictionKey": "US-CA",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-CO",
+      "jurisdictionKey": "US-CO",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-CT",
+      "jurisdictionKey": "US-CT",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-DE",
+      "jurisdictionKey": "US-DE",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-DC",
+      "jurisdictionKey": "US-DC",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-FL",
+      "jurisdictionKey": "US-FL",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-GA",
+      "jurisdictionKey": "US-GA",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-HI",
+      "jurisdictionKey": "US-HI",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-ID",
+      "jurisdictionKey": "US-ID",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-IL",
+      "jurisdictionKey": "US-IL",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-IN",
+      "jurisdictionKey": "US-IN",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-IA",
+      "jurisdictionKey": "US-IA",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-KS",
+      "jurisdictionKey": "US-KS",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-KY",
+      "jurisdictionKey": "US-KY",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-LA",
+      "jurisdictionKey": "US-LA",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-ME",
+      "jurisdictionKey": "US-ME",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-MD",
+      "jurisdictionKey": "US-MD",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-MA",
+      "jurisdictionKey": "US-MA",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-MI",
+      "jurisdictionKey": "US-MI",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-MN",
+      "jurisdictionKey": "US-MN",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-MS",
+      "jurisdictionKey": "US-MS",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-MO",
+      "jurisdictionKey": "US-MO",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-MT",
+      "jurisdictionKey": "US-MT",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-NE",
+      "jurisdictionKey": "US-NE",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-NV",
+      "jurisdictionKey": "US-NV",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-NH",
+      "jurisdictionKey": "US-NH",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-NJ",
+      "jurisdictionKey": "US-NJ",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-NM",
+      "jurisdictionKey": "US-NM",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-NY",
+      "jurisdictionKey": "US-NY",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-NC",
+      "jurisdictionKey": "US-NC",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-ND",
+      "jurisdictionKey": "US-ND",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-OH",
+      "jurisdictionKey": "US-OH",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-OK",
+      "jurisdictionKey": "US-OK",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-OR",
+      "jurisdictionKey": "US-OR",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "Lycoming",
+      "jurisdictionKey": "US-PA",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-RI",
+      "jurisdictionKey": "US-RI",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-SC",
+      "jurisdictionKey": "US-SC",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-SD",
+      "jurisdictionKey": "US-SD",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-TN",
+      "jurisdictionKey": "US-TN",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "Temple",
+      "jurisdictionKey": "US-TX",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "Provo",
+      "jurisdictionKey": "US-UT",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-VT",
+      "jurisdictionKey": "US-VT",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-VA",
+      "jurisdictionKey": "US-VA",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-WA",
+      "jurisdictionKey": "US-WA",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-WV",
+      "jurisdictionKey": "US-WV",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-WI",
+      "jurisdictionKey": "US-WI",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-WY",
+      "jurisdictionKey": "US-WY",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-PR",
+      "jurisdictionKey": "US-PR",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-GU",
+      "jurisdictionKey": "US-GU",
+      "populationBand": "MEDIUM"
+    },
+    {
+      "place": "US-VI",
+      "jurisdictionKey": "US-VI",
+      "populationBand": "LARGE"
+    },
+    {
+      "place": "US-AS",
+      "jurisdictionKey": "US-AS",
+      "populationBand": "SMALL"
+    },
+    {
+      "place": "US-MP",
+      "jurisdictionKey": "US-MP",
+      "populationBand": "MEDIUM"
+    }
+  ],
+  "readTerms": [
+    {
+      "place": "Provo",
+      "officeFamily": "GOVERNOR",
+      "filingFeeCents": 7500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 250
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-02",
+      "deadline": "2026-01-08",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Provo municipal candidate filing instructions"
+    },
+    {
+      "place": "Provo",
+      "officeFamily": "LIEUTENANT_GOVERNOR",
+      "filingFeeCents": 7500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 250
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-02",
+      "deadline": "2026-01-08",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Provo municipal candidate filing instructions"
+    },
+    {
+      "place": "Provo",
+      "officeFamily": "ATTORNEY_GENERAL",
+      "filingFeeCents": 7500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 250
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-02",
+      "deadline": "2026-01-08",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Provo municipal candidate filing instructions"
+    },
+    {
+      "place": "Provo",
+      "officeFamily": "SECRETARY_OF_STATE",
+      "filingFeeCents": 7500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 250
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-02",
+      "deadline": "2026-01-08",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Provo municipal candidate filing instructions"
+    },
+    {
+      "place": "Provo",
+      "officeFamily": "UPPER_CHAMBER",
+      "filingFeeCents": 7500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 250
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-02",
+      "deadline": "2026-01-08",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Provo municipal candidate filing instructions"
+    },
+    {
+      "place": "Provo",
+      "officeFamily": "LOWER_CHAMBER",
+      "filingFeeCents": 7500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 250
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-02",
+      "deadline": "2026-01-08",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Provo municipal candidate filing instructions"
+    },
+    {
+      "place": "Provo",
+      "officeFamily": "UNICAMERAL_CHAMBER",
+      "filingFeeCents": 7500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 250
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-02",
+      "deadline": "2026-01-08",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Provo municipal candidate filing instructions"
+    },
+    {
+      "place": "Temple",
+      "officeFamily": "GOVERNOR",
+      "filingFeeCents": 10000,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 25
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-14",
+      "deadline": "2026-02-13",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Temple candidate packet"
+    },
+    {
+      "place": "Temple",
+      "officeFamily": "LIEUTENANT_GOVERNOR",
+      "filingFeeCents": 10000,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 25
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-14",
+      "deadline": "2026-02-13",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Temple candidate packet"
+    },
+    {
+      "place": "Temple",
+      "officeFamily": "ATTORNEY_GENERAL",
+      "filingFeeCents": 10000,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 25
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-14",
+      "deadline": "2026-02-13",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Temple candidate packet"
+    },
+    {
+      "place": "Temple",
+      "officeFamily": "SECRETARY_OF_STATE",
+      "filingFeeCents": 10000,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 25
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-14",
+      "deadline": "2026-02-13",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Temple candidate packet"
+    },
+    {
+      "place": "Temple",
+      "officeFamily": "UPPER_CHAMBER",
+      "filingFeeCents": 10000,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 25
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-14",
+      "deadline": "2026-02-13",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Temple candidate packet"
+    },
+    {
+      "place": "Temple",
+      "officeFamily": "LOWER_CHAMBER",
+      "filingFeeCents": 10000,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 25
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-14",
+      "deadline": "2026-02-13",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Temple candidate packet"
+    },
+    {
+      "place": "Temple",
+      "officeFamily": "UNICAMERAL_CHAMBER",
+      "filingFeeCents": 10000,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 25
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-01-14",
+      "deadline": "2026-02-13",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Temple candidate packet"
+    },
+    {
+      "place": "Lycoming",
+      "officeFamily": "GOVERNOR",
+      "filingFeeCents": 2500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 100
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-02-17",
+      "deadline": "2026-03-10",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Lycoming County nomination petition instructions"
+    },
+    {
+      "place": "Lycoming",
+      "officeFamily": "LIEUTENANT_GOVERNOR",
+      "filingFeeCents": 2500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 100
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-02-17",
+      "deadline": "2026-03-10",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Lycoming County nomination petition instructions"
+    },
+    {
+      "place": "Lycoming",
+      "officeFamily": "ATTORNEY_GENERAL",
+      "filingFeeCents": 2500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 100
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-02-17",
+      "deadline": "2026-03-10",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Lycoming County nomination petition instructions"
+    },
+    {
+      "place": "Lycoming",
+      "officeFamily": "SECRETARY_OF_STATE",
+      "filingFeeCents": 2500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 100
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-02-17",
+      "deadline": "2026-03-10",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Lycoming County nomination petition instructions"
+    },
+    {
+      "place": "Lycoming",
+      "officeFamily": "UPPER_CHAMBER",
+      "filingFeeCents": 2500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 100
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-02-17",
+      "deadline": "2026-03-10",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Lycoming County nomination petition instructions"
+    },
+    {
+      "place": "Lycoming",
+      "officeFamily": "LOWER_CHAMBER",
+      "filingFeeCents": 2500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 100
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-02-17",
+      "deadline": "2026-03-10",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Lycoming County nomination petition instructions"
+    },
+    {
+      "place": "Lycoming",
+      "officeFamily": "UNICAMERAL_CHAMBER",
+      "filingFeeCents": 2500,
+      "signatureRequirement": {
+        "kind": "COUNT",
+        "count": 100
+      },
+      "feeInLieuOfSignatures": false,
+      "circulationOpenDate": "2026-02-17",
+      "deadline": "2026-03-10",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "source": "Lycoming County nomination petition instructions"
+    }
+  ]
+}

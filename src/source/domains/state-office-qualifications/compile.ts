@@ -43,7 +43,8 @@ import { QUALIFICATION_SOURCES, qualificationSource } from "./acquisition";
 import type { QualificationSourceSpec } from "./acquisition";
 import { matrixField, parseQualificationMatrix } from "./parse";
 import type { QualificationMatrixSchema } from "./parse";
-import { readRequirement } from "./normalize";
+import { compileCandidateFilingTerms, readRequirement } from "./normalize";
+import type { CandidateFilingTerms } from "./types";
 import {
   QUALIFICATION_TRANSCRIPTIONS,
   locatorNames,
@@ -93,6 +94,11 @@ export const RESEARCH_MATRICES: readonly ResearchMatrixSpec[] = [
       "The 601 claims recovered losslessly from research batch 31D (NM NY NC ND OH OK OR PA RI SC) after its delimiters were found intact.",
   },
 ];
+
+/** Compile the candidate-filing projection without weakening the locked corpus. */
+export function compileFilingTerms(): readonly CandidateFilingTerms[] {
+  return compileCandidateFilingTerms();
+}
 
 /** Why one research row did not become a record. */
 export type QualificationRefusalKind =

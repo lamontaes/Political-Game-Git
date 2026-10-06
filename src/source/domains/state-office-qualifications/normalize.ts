@@ -37,6 +37,143 @@ import type {
   QualificationRecord,
 } from "./types";
 import { unknownTransportValidity } from "./temporal";
+import filingTermsData from "../../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
+import type { CandidateFilingTerms, FilingSignatureRequirement } from "./types";
+
+interface FilingTermsRow {
+  readonly place: string;
+  readonly officeFamily: OfficeFamily;
+  readonly filingFeeCents: number;
+  readonly signatureRequirement: FilingSignatureRequirement;
+  readonly feeInLieuOfSignatures: boolean;
+  readonly circulationOpenDate: string;
+  readonly deadline: string;
+  readonly sameDistrictOnly: boolean;
+  readonly onePerSigner: boolean;
+  readonly source: string;
+}
+
+const filingData = filingTermsData as {
+  readonly officeFamilies: readonly OfficeFamily[];
+  readonly places: readonly {
+    readonly place: string;
+    readonly jurisdictionKey: string;
+    readonly populationBand: "SMALL" | "MEDIUM" | "LARGE";
+  }[];
+  readonly readTerms: readonly FilingTermsRow[];
+};
+
+function middle<T>(values: readonly T[], compare: (a: T, b: T) => number): T {
+  return [...values].sort(compare)[Math.floor((values.length - 1) / 2)]!;
+}
+
+function medianNumber(values: readonly number[]): number {
+  const ordered = [...values].sort((a, b) => a - b);
+  const center = Math.floor(ordered.length / 2);
+  return ordered.length % 2 === 1
+    ? ordered[center]!
+    : Math.round((ordered[center - 1]! + ordered[center]!) / 2);
+}
+
+/**
+ * Resolve one filing rule. Unread places use same-family medians, narrowed to
+ * their population band only when that band has at least three read places.
+ */
+export function estimatedFilingTerms(
+  place: string,
+  officeFamily: OfficeFamily,
+): CandidateFilingTerms {
+  const placeRow = filingData.places.find(
+    (candidate) =>
+      candidate.place === place || candidate.jurisdictionKey === place,
+  );
+  if (!placeRow)
+    throw new Error(`Candidate filing place "${place}" is absent.`);
+  if (!filingData.officeFamilies.includes(officeFamily)) {
+    throw new Error(
+      `Candidate filing office family "${officeFamily}" is absent.`,
+    );
+  }
+  const exact = filingData.readTerms.find(
+    (row) => row.place === placeRow.place && row.officeFamily === officeFamily,
+  );
+  if (exact) {
+    return {
+      recordId: `FILING:${placeRow.jurisdictionKey}:${officeFamily}`,
+      ...placeRow,
+      officeFamily,
+      filingFeeCents: exact.filingFeeCents,
+      signatureRequirement: exact.signatureRequirement,
+      feeInLieuOfSignatures: exact.feeInLieuOfSignatures,
+      circulationOpenDate: exact.circulationOpenDate,
+      deadline: exact.deadline,
+      sameDistrictOnly: exact.sameDistrictOnly,
+      onePerSigner: exact.onePerSigner,
+      estimated: false,
+      estimatedFrom: null,
+    };
+  }
+  const familyRows = filingData.readTerms.filter(
+    (row) => row.officeFamily === officeFamily,
+  );
+  const bandRows = familyRows.filter((row) => {
+    const donor = filingData.places.find(
+      (candidate) => candidate.place === row.place,
+    );
+    return donor?.populationBand === placeRow.populationBand;
+  });
+  const donors = bandRows.length >= 3 ? bandRows : familyRows;
+  if (donors.length === 0) {
+    throw new Error(`No read filing terms exist for ${officeFamily}.`);
+  }
+  const signatureRows = donors.filter(
+    (row) => row.signatureRequirement.kind === "COUNT",
+  );
+  const template = middle(donors, (a, b) =>
+    a.deadline.localeCompare(b.deadline),
+  );
+  const signatures = signatureRows.map((row) =>
+    row.signatureRequirement.kind === "COUNT"
+      ? row.signatureRequirement.count
+      : 0,
+  );
+  return {
+    recordId: `FILING:${placeRow.jurisdictionKey}:${officeFamily}`,
+    ...placeRow,
+    officeFamily,
+    filingFeeCents: medianNumber(donors.map((row) => row.filingFeeCents)),
+    signatureRequirement:
+      signatureRows.length > 0
+        ? { kind: "COUNT", count: medianNumber(signatures) }
+        : template.signatureRequirement,
+    feeInLieuOfSignatures:
+      donors.filter((row) => row.feeInLieuOfSignatures).length * 2 >=
+      donors.length,
+    circulationOpenDate: middle(
+      donors.map((row) => row.circulationOpenDate),
+      (a, b) => a.localeCompare(b),
+    ),
+    deadline: middle(
+      donors.map((row) => row.deadline),
+      (a, b) => a.localeCompare(b),
+    ),
+    sameDistrictOnly:
+      donors.filter((row) => row.sameDistrictOnly).length * 2 >= donors.length,
+    onePerSigner:
+      donors.filter((row) => row.onePerSigner).length * 2 >= donors.length,
+    estimated: true,
+    estimatedFrom: donors.map((row) => `${row.place}: ${row.source}`).sort(),
+  };
+}
+
+/** Compile the complete place-by-office-family filing matrix. */
+export function compileCandidateFilingTerms(): CandidateFilingTerms[] {
+  return filingData.places.flatMap((place) =>
+    filingData.officeFamilies.map((family) =>
+      estimatedFilingTerms(place.jurisdictionKey, family),
+    ),
+  );
+}
 
 /**
  * The office names the two batches use, mapped onto this domain's vocabulary.
