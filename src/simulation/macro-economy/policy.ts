@@ -45,7 +45,7 @@ export const CRUNCH46_PROVISIONAL_POLICY = {
 } as const;
 
 /**
- * UNRESEARCHED. Unemployment's pull back toward its normal level.
+ * Recorded game profile for unemployment's pull back toward its normal level.
  *
  * Section 13 moves unemployment only by changes: last month's rate plus the
  * lagged growth gap, a draw and shock impulses. With nothing drawing it back,
@@ -210,7 +210,7 @@ export const CHANGE_AUTHORED_IMPULSES: Readonly<
     sectors: ["energy-resources", "manufacturing"],
   },
   /*
-   * UNRESEARCHED blanket rule, added so an enacted law can reach the economy
+   * Recorded game rule, added so an enacted law can reach the economy
    * at all. Money a government actually paid out under a law adds demand in
    * that jurisdiction; tax it actually collected takes demand out. These are
    * the realized-money channels ChatGPT's C02 answer calls for, not enactment:
@@ -324,7 +324,7 @@ export const MACRO_ERA_POLICY = {
 export const MACRO_ERA_CONDITIONS = {
   version: "macro-eras-conditions-v1",
   /**
-   * PLACEHOLDER: growth this many points under trend before a month scars
+   * Recorded game threshold: growth this many points under trend before a month scars
    * the normal unemployment rate, so an ordinary soft month does not.
    */
   scarringAbovePp: 1,

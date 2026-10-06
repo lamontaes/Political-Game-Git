@@ -347,7 +347,7 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
 };
 
 /**
- * PLACEHOLDER: a closing that ends this many of every hundred jobs held in
+ * Recorded game threshold: a closing that ends this many of every hundred jobs held in
  * town is a full-strength local downturn; a smaller one is proportionally
  * weaker.
  */

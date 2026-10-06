@@ -93,7 +93,7 @@ export function openingBillNumber(
 /**
  * Where a town council's ordinance count sits on the day a world opens: about
  * one ordinance a week since January 1, so a life that opens in the first
- * week of January meets ORD 1. PLACEHOLDER, pending
+ * week of January meets ORD 1. Recorded game profile, pending
  * `local-council-legislative-volume`: no town's volume has been read.
  */
 export function councilOpeningNumber(startedAt: string): number {

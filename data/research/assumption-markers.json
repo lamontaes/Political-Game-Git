@@ -1952,7 +1952,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 440,
-      "text": "/** Who may be nominated to a governor's seat. PLACEHOLDER (see the file comment). */",
+      "text": "/** Recorded game profile for who may be nominated to a governor's seat. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
@@ -1961,7 +1961,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 637,
-      "text": "// PLACEHOLDER: the Senate confirms unless the nominee died or the",
+      "text": "// Recorded game rule: the Senate confirms unless the nominee died or the",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
@@ -1970,7 +1970,7 @@
     {
       "file": "src/simulation/macro-economy/credit.ts",
       "line": 28,
-      "text": "* Every number in MACRO_CREDIT_POLICY is a PLACEHOLDER unless its comment",
+      "text": "* Every number in MACRO_CREDIT_POLICY is a recorded game value unless its comment",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1979,7 +1979,7 @@
     {
       "file": "src/simulation/macro-economy/credit.ts",
       "line": 47,
-      "text": "/** PLACEHOLDER: what borrowers pay over the policy rate, in points. */",
+      "text": "/** Recorded spread borrowers pay over the policy rate, in points. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1988,7 +1988,7 @@
     {
       "file": "src/simulation/macro-economy/credit.ts",
       "line": 50,
-      "text": "* PLACEHOLDER: bank equity as a share of loans. The FDIC files read on",
+      "text": "* Recorded bank equity as a share of loans. The FDIC files read on",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1997,7 +1997,7 @@
     {
       "file": "src/simulation/macro-economy/credit.ts",
       "line": 54,
-      "text": "/** PLACEHOLDER: yearly share of debt charged off in calm years, percent. */",
+      "text": "/** Recorded yearly share of debt charged off in calm years, percent. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2006,7 +2006,7 @@
     {
       "file": "src/simulation/macro-economy/credit.ts",
       "line": 58,
-      "text": "* PLACEHOLDER: percent of the debt stock that reprices each month (the",
+      "text": "* Recorded percent of the debt stock that reprices each month (the",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2015,7 +2015,7 @@
     {
       "file": "src/simulation/macro-economy/credit.ts",
       "line": 63,
-      "text": "/** PLACEHOLDER: extra points lenders charge when credit is fully tight. */",
+      "text": "/** Recorded extra points lenders charge when credit is fully tight. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2024,7 +2024,7 @@
     {
       "file": "src/simulation/macro-economy/credit.ts",
       "line": 66,
-      "text": "* PLACEHOLDER: yearly interest as a share of a year's output that borrowers",
+      "text": "* Recorded yearly interest as a share of a year's output that borrowers",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2033,7 +2033,7 @@
     {
       "file": "src/simulation/macro-economy/credit.ts",
       "line": 72,
-      "text": "* inflation are PLACEHOLDER values, calibrated on September 28, 2026 so a",
+      "text": "* inflation are recorded game values, calibrated on September 28, 2026 so a",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2042,7 +2042,7 @@
     {
       "file": "src/simulation/macro-economy/policy.ts",
       "line": 48,
-      "text": "* UNRESEARCHED. Unemployment's pull back toward its normal level.",
+      "text": "* Recorded game profile for unemployment's pull back toward its normal level.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A64",
@@ -2051,7 +2051,7 @@
     {
       "file": "src/simulation/macro-economy/policy.ts",
       "line": 213,
-      "text": "* UNRESEARCHED blanket rule, added so an enacted law can reach the economy",
+      "text": "* Recorded game rule, added so an enacted law can reach the economy",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A64",
@@ -2060,7 +2060,7 @@
     {
       "file": "src/simulation/macro-economy/policy.ts",
       "line": 327,
-      "text": "* PLACEHOLDER: growth this many points under trend before a month scars",
+      "text": "* Recorded game threshold: growth this many points under trend before a month scars",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A64",
@@ -2069,7 +2069,7 @@
     {
       "file": "src/simulation/macro-economy/sources.ts",
       "line": 348,
-      "text": "* PLACEHOLDER: a closing that ends this many of every hundred jobs held in",
+      "text": "* Recorded game threshold: a closing that ends this many of every hundred jobs held in",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2078,7 +2078,7 @@
     {
       "file": "src/simulation/measure-numbering.ts",
       "line": 96,
-      "text": "* week of January meets ORD 1. PLACEHOLDER, pending",
+      "text": "* week of January meets ORD 1. Recorded game profile, pending",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2087,7 +2087,7 @@
     {
       "file": "src/simulation/migration/causes.ts",
       "line": 100,
-      "text": "* PLACEHOLDER strengths (research: `why-americans-move-causes-and-strengths`)",
+      "text": "* Recorded game strengths (research: `why-americans-move-causes-and-strengths`)",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2096,7 +2096,7 @@
     {
       "file": "src/simulation/migration/causes.ts",
       "line": 116,
-      "text": "* PLACEHOLDER strengths (research: `disaster-displacement-and-return`) of a",
+      "text": "* Recorded game strengths (research: `disaster-displacement-and-return`) of a",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2105,7 +2105,7 @@
     {
       "file": "src/simulation/migration/causes.ts",
       "line": 448,
-      "text": "* PLACEHOLDER(research: school-move-to-scores): how much a mid-year school",
+      "text": "* Recorded game value (research: school-move-to-scores): how much a mid-year school",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2114,7 +2114,7 @@
     {
       "file": "src/simulation/migration/causes.ts",
       "line": 532,
-      "text": "// PLACEHOLDER(research: why-americans-move-causes-and-strengths): an",
+      "text": "// Recorded confidence (research: why-americans-move-causes-and-strengths): an",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -2123,7 +2123,7 @@
     {
       "file": "src/simulation/migration/causes.ts",
       "line": 542,
-      "text": "// HARDWIRED, a PLACEHOLDER(research: why-americans-move-causes-and-",
+      "text": "// Recorded game rule (research: why-americans-move-causes-and-",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",

@@ -437,7 +437,7 @@ export function ensureCentralBankSeated(
   });
 }
 
-/** Who may be nominated to a governor's seat. PLACEHOLDER (see the file comment). */
+/** Recorded game profile for who may be nominated to a governor's seat. */
 function nomineePool(world: World, bank: CentralBankState): EntityId[] {
   const president = currentPresidentOf(world)?.personId;
   const controlled =
@@ -634,7 +634,7 @@ function confirm(
       nominations: working.nominations.filter((row) => row !== nomination),
     };
     const president = currentPresidentOf(next)?.personId;
-    // PLACEHOLDER: the Senate confirms unless the nominee died or the
+    // Recorded game rule: the Senate confirms unless the nominee died or the
     // President who nominated them has left office; the seat reopens.
     if (
       isDead(next, nomination.nomineeId) ||

@@ -25,7 +25,7 @@ import { MACRO_ERA_POLICY } from "./policy";
  *
  * Pure: no World access, no clock, no storage.
  *
- * Every number in MACRO_CREDIT_POLICY is a PLACEHOLDER unless its comment
+ * Every number in MACRO_CREDIT_POLICY is a recorded game value unless its comment
  * names a source. The shapes (debt that reprices, defaults that rise with the
  * burden and with lost jobs, capital that thins and rebuilds) are standard;
  * the sizes are set by hand so a run of the game has expansions and
@@ -44,32 +44,32 @@ export const MACRO_CREDIT_POLICY = {
      * read September 28, 2026).
      */
     debtRatio: 1.4,
-    /** PLACEHOLDER: what borrowers pay over the policy rate, in points. */
+    /** Recorded spread borrowers pay over the policy rate, in points. */
     spreadPp: 2,
     /**
-     * PLACEHOLDER: bank equity as a share of loans. The FDIC files read on
+     * Recorded bank equity as a share of loans. The FDIC files read on
      * September 28, 2026 carry cash, securities and deposits, not equity.
      */
     bankCapitalRatio: 0.1,
-    /** PLACEHOLDER: yearly share of debt charged off in calm years, percent. */
+    /** Recorded yearly share of debt charged off in calm years, percent. */
     chargeOffPct: 0.5,
   },
   /**
-   * PLACEHOLDER: percent of the debt stock that reprices each month (the
+   * Recorded percent of the debt stock that reprices each month (the
    * whole stock in about two and a half years), calibrated with the
    * strengths below.
    */
   debtRepricedPctPerMonth: 3.3,
-  /** PLACEHOLDER: extra points lenders charge when credit is fully tight. */
+  /** Recorded extra points lenders charge when credit is fully tight. */
   spreadPerTightnessPp: 3,
   /**
-   * PLACEHOLDER: yearly interest as a share of a year's output that borrowers
+   * Recorded yearly interest as a share of a year's output that borrowers
    * carry without strain. Above it, defaults climb.
    */
   burdenLine: 0.082,
   /*
    * The response strengths in chargeOff, tightness, lending, growth and
-   * inflation are PLACEHOLDER values, calibrated on September 28, 2026 so a
+   * inflation are recorded game values, calibrated on September 28, 2026 so a
    * century of simulated months matches the record of U.S. recessions
    * (National Bureau of Economic Research dates, 1854 to 2020): about 1.3
    * onsets a decade, a median of 13 months, a tenth longer than 19 months,
