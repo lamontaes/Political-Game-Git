@@ -72,6 +72,124 @@ export const LAW_AMOUNT_UNITS = [
   "litres",
 ] as const;
 export type LawAmountUnit = (typeof LAW_AMOUNT_UNITS)[number];
+
+/**
+ * Additional applicability dimensions for a sourced scalar law amount.
+ * Missing scope on legacy source rows means unknown and cannot match a
+ * modeled peer. These fields describe the rule's subject/base; geography and
+ * affected people remain on the provision's applicationScope.
+ */
+export type LawTermScope =
+  | { readonly kind: "statewide" }
+  | {
+      readonly kind: "consumer-credit";
+      readonly lenderClass: string;
+      readonly productClass: string;
+      readonly rateBasis: string;
+      readonly includedChargeKeys: readonly string[];
+      readonly exceptionSetKey: string;
+    }
+  | {
+      readonly kind: "vehicle-mileage";
+      readonly vehicleClass: string;
+      readonly programKey: string;
+      readonly participationRuleKey: string;
+      readonly capRuleKey: string | null;
+    }
+  | {
+      readonly kind: "retail-sales-tax";
+      readonly taxableBaseKey: string;
+      readonly purchaserClass: string;
+    };
+
+/** Canonical structural key; absent, malformed or extended scopes stay unknown. */
+export function lawTermScopeKey(
+  scope: LawTermScope | undefined,
+): string | null {
+  if (!scope || typeof scope !== "object") return null;
+  const exactKeys: Readonly<Record<LawTermScope["kind"], readonly string[]>> = {
+    statewide: ["kind"],
+    "consumer-credit": [
+      "kind",
+      "lenderClass",
+      "productClass",
+      "rateBasis",
+      "includedChargeKeys",
+      "exceptionSetKey",
+    ],
+    "vehicle-mileage": [
+      "kind",
+      "vehicleClass",
+      "programKey",
+      "participationRuleKey",
+      "capRuleKey",
+    ],
+    "retail-sales-tax": ["kind", "taxableBaseKey", "purchaserClass"],
+  };
+  const expected = exactKeys[scope.kind];
+  if (!expected) return null;
+  const actual = Object.keys(scope).sort();
+  if (JSON.stringify(actual) !== JSON.stringify([...expected].sort()))
+    return null;
+  const nonempty = (value: unknown): value is string =>
+    typeof value === "string" && value.trim().length > 0;
+  switch (scope.kind) {
+    case "statewide":
+      return JSON.stringify([scope.kind]);
+    case "consumer-credit": {
+      if (
+        !nonempty(scope.lenderClass) ||
+        !nonempty(scope.productClass) ||
+        !nonempty(scope.rateBasis) ||
+        !nonempty(scope.exceptionSetKey) ||
+        !Array.isArray(scope.includedChargeKeys) ||
+        scope.includedChargeKeys.some((key) => !nonempty(key)) ||
+        new Set(scope.includedChargeKeys).size !==
+          scope.includedChargeKeys.length
+      )
+        return null;
+      return JSON.stringify([
+        scope.kind,
+        scope.lenderClass,
+        scope.productClass,
+        scope.rateBasis,
+        [...scope.includedChargeKeys].sort(),
+        scope.exceptionSetKey,
+      ]);
+    }
+    case "vehicle-mileage":
+      return nonempty(scope.vehicleClass) &&
+        nonempty(scope.programKey) &&
+        nonempty(scope.participationRuleKey) &&
+        (scope.capRuleKey === null || nonempty(scope.capRuleKey))
+        ? JSON.stringify([
+            scope.kind,
+            scope.vehicleClass,
+            scope.programKey,
+            scope.participationRuleKey,
+            scope.capRuleKey,
+          ])
+        : null;
+    case "retail-sales-tax":
+      return nonempty(scope.taxableBaseKey) && nonempty(scope.purchaserClass)
+        ? JSON.stringify([
+            scope.kind,
+            scope.taxableBaseKey,
+            scope.purchaserClass,
+          ])
+        : null;
+  }
+}
+
+/** Exact scopes only; a legacy term with no scope never matches a donor. */
+export function lawTermScopesMatch(
+  target: LawTermScope | undefined,
+  donor: LawTermScope | undefined,
+): boolean {
+  const targetKey = lawTermScopeKey(target);
+  return targetKey !== null && targetKey === lawTermScopeKey(donor);
+}
+
 export type LawAmountExpression =
   | {
       op: "term" | "record" | "capacity" | "exposure";
