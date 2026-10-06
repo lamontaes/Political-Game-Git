@@ -9,13 +9,9 @@ interface GeneratedLawConsequenceModule {
 }
 
 const GENERATED_LAW_CONSEQUENCE_MODULES: readonly GeneratedLawConsequenceModule[] =
-  [
-    lawConsequenceElectionStateLandingsRegistrations,
-  ];
+  [lawConsequenceElectionStateLandingsRegistrations];
 
-export const LAW_CONSEQUENCE_MODULE_KEYS = [
-  "election-state-landings",
-] as const;
+export const LAW_CONSEQUENCE_MODULE_KEYS = ["election-state-landings"] as const;
 
 export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =
   Object.freeze(
