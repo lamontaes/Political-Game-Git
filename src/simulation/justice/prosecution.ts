@@ -121,14 +121,18 @@ export type { EvidenceStrength } from "./court-reasoning";
  * these decides whether anybody is charged, pleads, is convicted or goes to
  * jail; the people in the case decide that (`court-reasoning.ts`).
  *
- * PLACEHOLDER. Every number here is set by hand and filed with the research
- * queue as `criminal-sentence-consequences`: how long charging, trial and
- * retrial take. Sentence lengths now use the applicable sourced range and
- * the actual judge's recorded term decision; no placeholder midpoint remains.
+ * ESTIMATED FROM AVERAGE. The fallback timings and the hung-jury count are
+ * game estimates, filed with the research queue as
+ * `criminal-sentence-consequences`: how long charging, trial and retrial
+ * take. Sentence lengths use the applicable sourced range and the actual
+ * judge's recorded term decision; no midpoint remains.
  */
-export const UNRESEARCHED_PROSECUTION = {
+export const PROSECUTION_ESTIMATE = {
   version: "prosecution-decided-v3",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "median of the places read from court reports for timings; two hung juries before dismissal is a game estimate",
   /**
    * ESTIMATED FROM AVERAGE. The labeled fallback only: a case reads its own
    * state's days through `prosecutionTimingFor` (`prosecution-timing.ts`),
@@ -147,14 +151,18 @@ export const UNRESEARCHED_PROSECUTION = {
 } as const;
 
 /**
- * UNRESEARCHED. What a jail sentence does, filed with the research queue as
- * `criminal-sentence-consequences`. Whether an officeholder keeps the office,
- * and whether a jailed candidate stays on the ballot, varies by state and by
- * office; until that is read, one blanket rule applies everywhere.
+ * ESTIMATED FROM AVERAGE. What a jail sentence does, filed with the research
+ * queue as `criminal-sentence-consequences`. Whether an officeholder keeps the
+ * office, and whether a jailed candidate stays on the ballot, varies by state
+ * and by office; until that is read, the common rule (a jailed holder cannot
+ * serve or campaign) applies everywhere.
  */
-export const UNRESEARCHED_JAIL_EFFECTS = {
+export const JAIL_EFFECTS_ESTIMATE = {
   version: "jail-effects-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "the common rule across states that a jailed officeholder cannot serve; state-by-state office rules are not yet read (research request `criminal-sentence-consequences`)",
   /** A jail sentence removes the holder from every office they hold. */
   removedFromOffice: true,
   /** Nobody in jail can campaign; they stay on the ballot. */
@@ -310,7 +318,7 @@ function recordedProsecutorForCase(world: World, courtCase: CourtCase) {
 }
 
 function referralStableKey(stableKey: string): string {
-  return `${UNRESEARCHED_PROSECUTION.version}:referral:${stableKey}`;
+  return `${PROSECUTION_ESTIMATE.version}:referral:${stableKey}`;
 }
 
 /**
@@ -357,7 +365,7 @@ export function referForProsecution(
     personFactConstraints: [],
     visibility: "private",
     tags: [
-      UNRESEARCHED_PROSECUTION.version,
+      PROSECUTION_ESTIMATE.version,
       `${OFFENSE_TAG}${input.offenseKey}`,
       `${EVIDENCE_TAG}${input.evidence}`,
       `${STANDING_TAG}${input.standingFindings}`,
@@ -469,7 +477,7 @@ function recordFollowUp(
     personFactConstraints: [],
     visibility: detail.visibility ?? "public",
     tags: [
-      UNRESEARCHED_PROSECUTION.version,
+      PROSECUTION_ESTIMATE.version,
       `${REFERRAL_TAG}${referral.id}`,
       `justice.follows-event:${after.id}`,
       ...referral.tags.filter((tag) => tag.startsWith(OFFENSE_TAG)),
@@ -577,7 +585,7 @@ function removeFromOffice(
   personId: EntityId,
   sentenced: HistoricalEvent,
 ): World {
-  if (!UNRESEARCHED_JAIL_EFFECTS.removedFromOffice) return world;
+  if (!JAIL_EFFECTS_ESTIMATE.removedFromOffice) return world;
   let next = world;
   for (const office of officesHeldBy(world, personId)) {
     next = recordOfficeConsequence(next, {
@@ -764,7 +772,7 @@ export function advanceProsecutions(
   world: World,
   referralId?: EntityId,
 ): World {
-  const rule = UNRESEARCHED_PROSECUTION;
+  const rule = PROSECUTION_ESTIMATE;
   let next = world;
   const byReferral = (type: FollowUpType, referral: HistoricalEvent) =>
     eventsOfType(next, type).filter((event) =>
