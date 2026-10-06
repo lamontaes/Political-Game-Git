@@ -3,6 +3,7 @@
 ## Current part
 
 - Branch: `session-38-b17-p7`
+- Exact head: `fb5cc3220211bb3b6119f6acdaf398fdafcfcdad`
 - Part: b17 Part 7, inherited executive orders
 - Base: P6 branch head `b64f97f7ef6a0c748e43f6fd929bae6aaf98ae1a`
 - PR: #2451, one PR for this numbered part
@@ -18,3 +19,7 @@ On the P6 base above, `inherited-orders-transition.test.ts` passed (1 test) and 
 ## Remaining scope
 
 The lookup recognizes executive revocation records. Other termination paths, such as a normal bill repealing or replacing an order, are not connected to this inherited-order reader.
+
+## Resume
+
+Part 8 remains gated until b08 Part 4 merges. Exact next command: `gh pr list --repo lamontaes/Political-Game-Git --state all --search "b08 p4 in:title"`. If Part 4 has not merged, take the next item assigned by the current Fable map and preserve this b17 branch; do not start Part 8 early.
