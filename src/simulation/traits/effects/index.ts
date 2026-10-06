@@ -1,4 +1,5 @@
 import type { TraitEffectDeclaration } from "../../trait-packs";
+import { facetAnalyticalEffects } from "./facet-analytical";
 import { facetCuriousEffects } from "./facet-curious";
 import { actionDespiteFearEffects } from "./action-despite-fear";
 import { bondLoyaltyEffects } from "./bond-loyalty";
@@ -54,6 +55,7 @@ import { voluntaryEffortEffects } from "./voluntary-effort";
  */
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
+    ...facetAnalyticalEffects,
     ...actionDespiteFearEffects,
     ...bondLoyaltyEffects,
     ...concernForDistressEffects,
