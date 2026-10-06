@@ -12,7 +12,9 @@ export function recordedRoomPresence(world: World, personId: EntityId) {
       (event.type === "life.scene.opened" ||
         event.type === "life.scene.arrived") &&
       event.context.location !== null &&
-      event.occurredAt <= world.currentDate,
+      event.occurredAt <= world.currentDate &&
+      event.recordedAt <= world.currentDate &&
+      event.sequence < world.history.nextSequence,
   );
   const event = places
     .filter((entry) =>
@@ -22,7 +24,10 @@ export function recordedRoomPresence(world: World, personId: EntityId) {
     )
     .at(-1);
   if (!event || event.occurredAt !== world.currentDate) return null;
-  if (event.type === "life.scene.opened") {
+  if (
+    event.type === "life.scene.opened" ||
+    event.tags.includes("playtest65:initial-placement")
+  ) {
     if (!event.tags.includes(`moment:${JSON.stringify(world.currentMoment)}`))
       return null;
   } else {

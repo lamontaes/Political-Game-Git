@@ -162,7 +162,10 @@ export function readStorySceneSituation(
           sourceRecordIds: [event.id, activity.id, state.id],
         };
     }
-  } else if (request.place.kind === "opened-scene") {
+  } else if (
+    request.place.kind === "opened-scene" ||
+    request.place.kind === "recorded-place"
+  ) {
     placeMatches = request.place.eventId === event.id;
   } else if (request.place.kind === "household") {
     const householdId = request.place.householdId;
@@ -210,6 +213,7 @@ export function readStorySceneSituation(
 /** IDs identify records, never a room inferred from its label or artwork. */
 export type StoryScenePlace =
   | { readonly kind: "activity"; readonly activityId: EntityId }
+  | { readonly kind: "recorded-place"; readonly eventId: EntityId }
   | { readonly kind: "opened-scene"; readonly eventId: EntityId }
   | { readonly kind: "household"; readonly householdId: EntityId }
   | {
@@ -561,6 +565,22 @@ export function resolveStoryScene(
     if (presentPeople.length === 0)
       coverage.push(
         "No current recorded presence at this activity; scheduled participants are expectations only.",
+      );
+  } else if (request.place.kind === "recorded-place") {
+    const presence = recordedRoomPresence(world, viewer);
+    if (!presence || presence.eventId !== request.place.eventId)
+      return result("missing-place");
+    const event = events.get(presence.eventId);
+    if (!event) return result("missing-place");
+    jurisdictionId = presence.location.jurisdictionId;
+    sceneEvidence = [{ kind: "event", id: presence.eventId }];
+    for (const id of presence.personIds)
+      add(
+        presentPeople,
+        id,
+        "recorded-arrival",
+        "recorded-presence",
+        sceneEvidence,
       );
   } else if (request.place.kind === "opened-scene") {
     const opened = currentOpeningLifeScene(world, viewer);

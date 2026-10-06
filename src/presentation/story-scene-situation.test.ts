@@ -1,6 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   deserializeWorld,
+  advanceWorldMinutes,
   serializeWorld,
   type EntityId,
   type World,
@@ -16,8 +17,12 @@ import {
   currentStorySceneRequest,
   currentStorySceneSituation,
 } from "./story-scene-day";
-import { readStorySceneSituation } from "./story-scene-resolver";
+import {
+  readStorySceneSituation,
+  resolveStoryScene,
+} from "./story-scene-resolver";
 import { projectToday } from "./day-overview";
+import { recordedRoomPresence } from "./recorded-room-presence";
 
 const seed = "session4-live-place-block-one";
 const random = new SeededRng(seed);
@@ -88,6 +93,36 @@ describe(
       expect(currentStorySceneSituation(restored, viewer)).toEqual(
         currentStorySceneSituation(world, viewer),
       );
+    });
+
+    it("resolves a recorded place without substituting a household or expected roster", () => {
+      const before = serializeWorld(world);
+      const request = currentStorySceneRequest(world, viewer)!;
+      expect(request.place.kind).toBe("recorded-place");
+      const scene = resolveStoryScene(world, request);
+      expect(scene.status).toBe("resolved");
+      expect(scene.presentPeople.map((person) => person.personId)).toEqual([
+        viewer,
+      ]);
+      expect(scene.expectedPeople).toEqual([]);
+      expect(scene.options).toEqual([]);
+      expect(serializeWorld(world)).toBe(before);
+    });
+
+    it("selects only recorded initial participants and expires initial placement after time passes", () => {
+      const before = serializeWorld(world);
+      const presence = recordedRoomPresence(world, viewer)!;
+      expect(presence).not.toBeNull();
+      expect(presence.personIds).toEqual([viewer]);
+      expect(presence.eventId).toBe(
+        currentStorySceneSituation(world, viewer)!.location!.sourceRecordIds[0],
+      );
+      const later = advanceWorldMinutes(world, 1);
+      expect(recordedRoomPresence(later, viewer)).toBeNull();
+      expect(currentStorySceneSituation(later, viewer)!.status).toBe(
+        "missing-place",
+      );
+      expect(serializeWorld(world)).toBe(before);
     });
 
     it("feeds the actual recorded location to the existing Day consumer", () => {

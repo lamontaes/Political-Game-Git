@@ -8,6 +8,7 @@ import { workSchedulesFor } from "../simulation/living-world/work-schedules";
 import { currentOpeningLifeScene } from "./life-scene-flow";
 import { completedActivityHere } from "./scene-venues";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import { recordedRoomPresence } from "./recorded-room-presence";
 import {
   resolveStoryScene,
   readStorySceneSituation,
@@ -80,6 +81,12 @@ export function currentStorySceneRequest(
   const completed = completedActivityHere(world, viewerPersonId);
   if (completed)
     return { ...basis, place: { kind: "activity", activityId: completed.id } };
+  const presence = recordedRoomPresence(world, viewerPersonId);
+  if (presence)
+    return {
+      ...basis,
+      place: { kind: "recorded-place", eventId: presence.eventId },
+    };
   const home = householdMembershipsAt(world, viewerPersonId)[0];
   return home
     ? { ...basis, place: { kind: "household", householdId: home.household.id } }

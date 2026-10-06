@@ -6,7 +6,7 @@ After: Reusable blocks read actual places and records, compose English exchanges
 
 Replaces: All chat interfaces and button grids. Council and work remain evidence illustrations, not templates.
 
-Next: CTO 6006639692 passed the spec to code. Implement situation, participants, exchange, art and writeback in that order, posting each random-town played clip before the next block. Clerk is the first consumer. No implementation acceptance or completed proof is claimed here.
+Next: CTO passed the spec to code. Build all five shared blocks as one system under correction 6006877917. Clips prove each completed PR, not permission to start the next block. Clerk is the first consumer. No complete exchange acceptance is claimed here.
 
 ## Governing instructions
 
@@ -42,7 +42,7 @@ Measured instruction: [CTO 6006516319](https://github.com/lamontaes/Political-Ga
 
 Acceptance requires arrival in a random town and whatever the simulation composes, shown in a real-game screenshot and clip. Two different players must produce two different scenes through these same blocks. Fixed council/work templates, handpicked contrast records and a prose-only report cannot satisfy that proof. Exact file claims and producer/consumer handoffs must precede overlapping edits.
 
-## Latest accepted implementation sequence
+## Superseded sequential interpretation
 
 Measured instruction: [CTO 6006639692](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6006639692) marks this specification **PASS to code with conditions**. Its ordered clip gates supersede the all-at-once sequence above while retaining reusable blocks as the product. Implement situation reading, then participant selection, then exchange composition, then art selection, then writeback. Each block must run in play in a random town with a posted clip before work proceeds to the next.
 
@@ -57,6 +57,12 @@ The first consumer is Session 13's clerk. Coordinate Session 20's office-scoped 
 | Writeback      | Existing simulation event/knowledge/claim writers and central conversation contact writer |
 
 The acceptance proof requires two different characters arriving at the same place to produce different exchanges from the same primitives, with both clips posted. No authored situation bank beyond the 12 proposed primitives is allowed until the blocks run; weekly growth starts afterward. The Lie presentation ruling is scales tipping, upper right, size 34, red glow and white hover. No black bars.
+
+## Current implementation authority: cohesive shared system
+
+Measured instruction: [CTO 6006877917](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6006877917) corrects the sequential interpretation above: “Build all five blocks together as one system; the random-town clips are PROOF at the end of each PR, not gates between blocks. Strike my 'block 1 only until its clip' reading.” The earlier per-block holds are superseded. Situation reading, actual participants, English exchanges, existing art and canonical writeback are a cohesive deliverable through the existing paths listed above.
+
+Clerk remains the first consumer, and the initial-placement timestamp hunk still needs explicit coordination with the loading owner. The proof still requires actual characters, recorded people, meaningful exchanges, saved follow-through, screenshots and clips. No authored scene list or duplicate engine is authorized. The owner mockup pick governs presentation redesign; it does not create a between-block implementation or capture hold.
 
 ## Shared data row: all four requirements
 
@@ -324,7 +330,7 @@ Inferred from reviewed implementation: `src/presentation/grounded-english.ts:32`
 
 The proposed producer payload contains actual record references for place/time, present people/roles, wants/reasons, pending matters, available actions and each fact's speaker/viewer knowledge. Historical payloads also include their dated cutoff and completed canonical episode outcomes. These are required handoff fields, not invented function names. Consumers request the actual producer head/API before implementation.
 
-Session 3 owns the selected scene/image/portrait consumer; Sessions 2/3/14 do mockups only until owner pick. Session 13's clerk scene consumes the ordered shared blocks after the relevant played clip and coordinated handoff. Session 4 does not write their registration/layout hunks or a new engine.
+Session 3 owns the selected scene/image/portrait consumer; Sessions 2/3/14 do mockups only until owner pick. Session 13's clerk scene consumes the cohesive shared blocks through a coordinated handoff. Session 4 does not write their registration/layout hunks or a new engine.
 
 ## Persistence and removal boundaries
 
@@ -340,6 +346,6 @@ The existing chat surfaces include SceneConversation, ConversationStrip, Ordinar
 
 Begin with the proposed 12 core situation primitives and expand it every week toward hundreds. Each addition brings fact requirements, meaningful record-permitted replies, image/pose needs, knowledge/privacy boundaries and writeback checks. Compose compatible situations from live state. Reliable new combinations are the continuing goal; a finite list is never completion.
 
-The mandatory random-town clip follows each block before the next begins. After the owner mockup pick, full experience proof draws a place from all 56 and names the seed. Council proof shows supported real speakers, chosen comment, canonical roll call/outcome, normal-room return and retained journal/knowledge records. Work proof shows actual first-day cause, actual workers, meaningful exchange/environmental action, earned contact where applicable and a quiet transition when nothing happens. Opening proof plays three or four real historical episodes before the first room without fabricating earlier events or current occupants.
+The random-town screenshots and clips prove the cohesive system at the end of each PR. After the owner mockup pick, full experience proof draws a place from all 56 and names the seed. Council proof shows supported real speakers, chosen comment, canonical roll call/outcome, normal-room return and retained journal/knowledge records. Work proof shows actual first-day cause, actual workers, meaningful exchange/environmental action, earned contact where applicable and a quiet transition when nothing happens. Opening proof plays three or four real historical episodes before the first room without fabricating earlier events or current occupants.
 
 Measured status: This is documentation only. No scene code, new dialogue banks, new engine or mockup has been built. Drafts #2207 and #2220 remain unchanged and unmerged. Expanded run 63137 ended 18 PASS/13 FAIL; canceled baseline 65055 exited 143 without a completed result. Those receipts are preserved, not pursued as replacement acceptance. No READY is claimed.
