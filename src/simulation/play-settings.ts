@@ -20,6 +20,9 @@ export const DEFAULT_PLAY_SETTINGS: PlaySettings = {
   },
 };
 
+/** One-save remains hidden from new players until the owner enables the option. */
+export const ONE_SAVE_OFFERED = false;
+
 export function playSettingsOf(world: World): PlaySettings {
   return world.playSettings ?? DEFAULT_PLAY_SETTINGS;
 }

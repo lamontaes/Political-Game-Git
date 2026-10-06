@@ -174,6 +174,8 @@ import {
   type NewGame,
   type NewGameSetup,
 } from "../presentation/new-game";
+import { olderOneSaveSlots } from "../presentation/one-save-slots";
+import { playSettingsOf } from "../simulation/play-settings";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
@@ -682,9 +684,17 @@ export function PlayerGame() {
     saveInFlight.current = true;
     setNotice("Saving…");
     const worldToSave = observerCheckpoint ?? session.world;
+    const oneSave = playSettingsOf(worldToSave).saves === "one-save";
+    const shelfBeforeWrite = oneSave ? await store.list() : null;
+    const existingLifeSlot =
+      shelfBeforeWrite?.saves.find((entry) => entry.worldId === worldToSave.id)
+        ?.saveId ?? null;
     // A slot of its own, so keeping this life never lands on top of another
     // save of the same world.
-    const saveId = session.saveId ?? store.newSaveId(worldToSave);
+    const saveId =
+      session.saveId ??
+      (oneSave ? existingLifeSlot : null) ??
+      store.newSaveId(worldToSave);
     try {
       // Persist presentation references first: a newly visible world slot must
       // already have its pins, even if the player reloads immediately afterward.
@@ -695,6 +705,14 @@ export function PlayerGame() {
         // player looking for the wrong problem.
         setProblem(outcome.reason);
         return false;
+      }
+      if (oneSave && shelfBeforeWrite) {
+        const olderSlots = olderOneSaveSlots(
+          shelfBeforeWrite.saves,
+          worldToSave.id,
+          saveId,
+        );
+        for (const olderSlot of olderSlots) await store.remove(olderSlot);
       }
       setSession((current) =>
         current?.world.id === worldToSave.id
