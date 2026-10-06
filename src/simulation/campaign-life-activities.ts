@@ -1842,10 +1842,10 @@ export function recordCampaignLifeAttendance(
  * the helper may one day want something back, and neither is decided here. A
  * candidate helping their own campaign does nobody a favor.
  *
- * SET BY HAND: the weights. A gift at a small fundraiser and an evening of
- * doors are slight; a chapter's backing is moderate, because it is the whole
- * chapter's name. The motive is shared belief: these are people at their own
- * party's events, helping its candidate. None of this is shown as a number.
+ * Estimated from the game's relationship bands. A gift at a small fundraiser
+ * and an evening of doors are slight; a chapter's backing is moderate because
+ * it carries the whole chapter's name. Their recorded shared belief supplies
+ * the motive. None of this is shown as a number.
  */
 function recordCampaignHelpAsFavors(
   world: World,

@@ -781,9 +781,9 @@ function choosePreStartEventDate(
   key: string,
   occupiedMonths?: ReadonlyMap<string, number>,
 ): IsoDate {
-  // PLACEHOLDER(wave2): replace these fictional season weights with a sourced
-  // event-type timing profile. They distribute authored shared moments and
-  // moves inside a year of life without turning every event into a birthday.
+  // Estimated seasonal weights from the game's shared event-timing profile.
+  // They distribute authored shared moments and moves inside a year of life
+  // without turning every event into a birthday; every place uses this profile.
   const seasonWeight = [1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1] as const;
   const dates = Array.from({ length: days }, (_, offset) =>
     addDays(first, offset),

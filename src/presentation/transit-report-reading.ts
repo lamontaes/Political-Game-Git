@@ -9,7 +9,7 @@ import type {
 } from "../simulation/types";
 import { projectNewsArticle } from "./news-front-page";
 
-/** PLACEHOLDER(wave2): focused attention to one published report. */
+/** Estimated reading time for one published report: ten minutes. */
 export const TRANSIT_REPORT_READ_MINUTES = 10;
 
 /**

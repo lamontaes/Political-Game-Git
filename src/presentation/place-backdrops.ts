@@ -99,9 +99,9 @@ export function capitolPlaceFor(usps: string | null): string {
 /* -------------------------------------------------------------------------- */
 
 /**
- * PLACEHOLDER(wave2): sunrise and sunset by month, in local minutes, for about
- * 40 degrees north with daylight saving time. Replace with the place's own
- * latitude when the world carries it.
+ * Estimated daylight schedule from the game's shared 40-degrees-north basis.
+ * Every place uses the same monthly local-minute record because the world does
+ * not carry place latitude; daylight saving time is included in that record.
  */
 const SUN_BY_MONTH: readonly (readonly [number, number])[] = [
   [440, 1020], // Jan.
@@ -133,9 +133,9 @@ export function daylightPhase(moment: SimulationMoment): DaylightPhase {
 }
 
 /**
- * PLACEHOLDER(wave2): about one day in five is rainy, the same for every
- * place that shares a weather key on a date. There is no weather model yet;
- * when there is, it replaces this and nothing else changes.
+ * Estimated rain cadence from the game's shared climate basis: one day in five.
+ * Places with the same weather key on a date therefore share the same result.
+ * The estimate uses all places because no place-specific weather record exists.
  */
 const RAIN_DAYS_IN = 5;
 

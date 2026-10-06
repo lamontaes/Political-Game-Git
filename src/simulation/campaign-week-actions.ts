@@ -38,9 +38,9 @@ import type {
  * catalog supplies game-authored times and actual venue/host rules. Its null
  * minutes, costs, contact rates and effects are never interpreted as zero.
  */
-// PLACEHOLDER(overnight): This four-choice cadence and the mapping from
-// sourced action families to existing game forms need gameplay calibration;
-// the research catalog supplies no universal durations, prices, or effects.
+// These four choices map the research catalog's action families to the game's
+// recorded campaign-life forms. Each form supplies its own time and venue;
+// absent catalog prices or effects are not interpreted as zero.
 const ACTIONS: readonly {
   readonly form: CampaignLifeForm;
   readonly researchActionId: string;

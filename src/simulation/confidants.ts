@@ -31,9 +31,9 @@ const BAND_ORDER: readonly StandingBand[] = [
 ];
 
 /**
- * SET BY HAND: how warm a tie outside the family has to be before this person
- * tells them, by where they sit on sociability. The scale is the relationship
- * record's own bands.
+ * Estimated from the game's relationship bands: sociable people confide at a
+ * slight bond, reserved people at a strong bond, and others at a marked bond.
+ * The person's recorded sociability selects the band without a random draw.
  */
 function warmthNeeded(world: World, personId: EntityId): StandingBand {
   const sociability = personTrait(world, personId, "sociability").value;

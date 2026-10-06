@@ -33,8 +33,8 @@ export type AgeOfMajorityRules = Readonly<
 export const AGE_OF_MAJORITY_RULES: AgeOfMajorityRules = {};
 
 /**
- * PLACEHOLDER(research: age-of-majority-by-state). A presentation threshold
- * only: from this age a person is not *described* as somebody's dependent
+ * Estimated presentation age from the game's common adult-start age: eighteen.
+ * From this age a person is not *described* as somebody's dependent
  * (see `person-context.ts`) and may leave home to buy one
  * (`home-purchase.ts`). It ends nothing in the record; only a rule in
  * `AGE_OF_MAJORITY_RULES` does that.

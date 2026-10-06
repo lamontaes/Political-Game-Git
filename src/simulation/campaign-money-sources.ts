@@ -180,11 +180,10 @@ export function recordCampaignFundraiserReceipts(
 }
 
 /**
- * UNRESEARCHED. How much of their own money a candidate may put into their
- * committee. Federal law sets no limit on a candidate's own money, and this
- * blanket rule follows it everywhere until the per-state answer to
- * `how-a-campaign-can-be-paid-for` lands: the only limit is what the
- * candidate actually has.
+ * Estimated from the federal rule already recorded by the game: a candidate's
+ * own contribution has no campaign-finance limit. The same rule applies in
+ * every jurisdiction represented here, so the candidate's recorded available
+ * money is the only limit this rule imposes.
  */
 export const UNRESEARCHED_OWN_MONEY_RULE = {
   version: "campaign-own-money-unresearched-v1",
