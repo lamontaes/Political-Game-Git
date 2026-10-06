@@ -6,6 +6,7 @@ import {
   generateOpeningLifeWithProgress,
   advancePreStartHistory,
   prepareOpeningLife,
+  prepareCreatorLifeWithProgress,
 } from "./opening-life";
 import {
   DEFAULT_NEW_GAME_SETUP,
@@ -180,3 +181,76 @@ it("surfaces the staged life chapters before institution preparation or final as
   ).rejects.toMatchObject({ name: "AbortError" });
   expect(emitted).toBe(1);
 });
+
+it(
+  "completes history before prompts and consumes its receipt once through Begin and reload",
+  { timeout: 60000 },
+  async () => {
+    const seed = "session7-completed-before-prompts";
+    const place = drawRandomPlace(seed);
+    const setup = {
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      worldOpeningVersion: undefined,
+      openingDataVersion: undefined,
+      creatorLifeForks: [],
+    };
+    const target = place.context.initialMoment.date;
+    const game = createPreStartNewGameWorld(setup, addDays(target, -1));
+    const chapters: string[] = [];
+    const receipt = await prepareCreatorLifeWithProgress(game, {
+      yieldControl: async () => {},
+      onProgress: (progress) => {
+        if (progress.label.startsWith("Living through"))
+          chapters.push(progress.world!.currentDate);
+      },
+    });
+    const completed = receipt.game;
+    expect(chapters).toEqual([game.world.currentDate, target]);
+    expect(completed.world.id).toBe(game.world.id);
+    expect(completed.world.currentMoment.date).toBe(target);
+    expect(completed.world.preStartLife?.personId).toBe(game.playerPersonId);
+    expect(completed.world.control.kind).toBe("observer");
+    expect(completed.world.pastMode).toBeUndefined();
+    const choices = projectCreatorLifeForkMoments(
+      completed.world,
+      game.playerPersonId,
+    ).map((moment) => ({ forkKey: moment.key, optionKey: "pursue" }));
+    const answered = applyPreStartCreatorLifeForks(completed, choices);
+    expect(applyPreStartCreatorLifeForks(answered, choices).world).toBe(
+      answered.world,
+    );
+    const controller = createOpeningLifeController(
+      answered.setup,
+      answered,
+      receipt,
+    );
+    const finished = await controller.finishTransitionWithProgress({
+      advanceHistory: async () => {
+        throw new Error("History must not run after prompts");
+      },
+      onProgress: () => {
+        throw new Error("Institutions must not run twice");
+      },
+    });
+    expect(controller.finishTransition()).toBe(finished);
+    expect(await controller.finishTransitionWithProgress()).toBe(finished);
+    expect(finished.game!.world.currentMoment).toEqual(
+      completed.world.currentMoment,
+    );
+    expect(finished.game!.world.history).toBe(answered.world.history);
+    const restored = deserializeWorld(serializeWorld(finished.game!.world));
+    expect(restored.id).toBe(game.world.id);
+    expect(restored.control).toEqual({
+      kind: "person",
+      personId: game.playerPersonId,
+    });
+    expect(restored.currentMoment).toEqual(completed.world.currentMoment);
+    expect(() =>
+      createOpeningLifeController(answered.setup, answered, {
+        game: completed,
+      }).finishTransition(),
+    ).toThrow("completed recorded life");
+  },
+);

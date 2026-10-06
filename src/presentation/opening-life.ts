@@ -869,23 +869,83 @@ export function sameOpeningSetup(
   return canonicalJson(left) === canonicalJson(right);
 }
 
+/** Host-local proof that institutions and the past clock completed before prompts. */
+export interface PreparedCreatorLife {
+  readonly game: NewGame;
+}
+const preparedCreatorLives = new WeakSet<PreparedCreatorLife>();
+
+export async function prepareCreatorLifeWithProgress(
+  game: NewGame,
+  options: OpeningLifeGenerationOptions = {},
+): Promise<PreparedCreatorLife> {
+  const session = prepareOpeningLife(game.setup, game);
+  const prepared = await generateOpeningLifeWithProgress(
+    session,
+    options,
+    game,
+  );
+  const world = await advancePreStartHistory(
+    prepared.game!.world,
+    game.playerPersonId,
+    options,
+  );
+  throwIfOpeningAborted(options.signal, options.deadlineAt);
+  const receipt = { game: { ...prepared.game!, world } };
+  preparedCreatorLives.add(receipt);
+  return receipt;
+}
+
+function finishPreparedCreatorLife(
+  session: OpeningLifeSession,
+  receipt: PreparedCreatorLife,
+): OpeningLifeSession {
+  const game = session.stagedGame;
+  const original = receipt.game;
+  if (
+    !preparedCreatorLives.has(receipt) ||
+    !game ||
+    game.world.id !== original.world.id ||
+    game.playerPersonId !== original.playerPersonId ||
+    game.setup.seed !== original.setup.seed ||
+    game.setup.placeKey !== original.setup.placeKey ||
+    game.world.currentDate !== original.world.currentDate ||
+    JSON.stringify(game.world.currentMoment) !==
+      JSON.stringify(original.world.currentMoment) ||
+    game.world.currentDate !== game.world.preStartLife?.targetStartDate
+  )
+    throw new Error(
+      "Begin must consume its completed recorded life without advancing again.",
+    );
+  return { ...session, game: finishPreStartNewGameWorld(game) };
+}
+
 /** Keep one controller per Begin activation; duplicate transition callbacks share it. */
 export function createOpeningLifeController(
   setup: NewGameSetup,
   stagedGame?: NewGame,
+  preparedLife?: PreparedCreatorLife,
 ) {
   let current = prepareOpeningLife(setup, stagedGame);
   let progressiveGeneration: Promise<OpeningLifeSession> | null = null;
   return {
     read: (): OpeningLifeSession => current,
     finishTransition: (): OpeningLifeSession => {
-      current = generateOpeningLife(current);
+      if (current.game) return current;
+      current = preparedLife
+        ? finishPreparedCreatorLife(current, preparedLife)
+        : generateOpeningLife(current);
       return current;
     },
     finishTransitionWithProgress: (
       options: OpeningLifeGenerationOptions = {},
     ): Promise<OpeningLifeSession> => {
       if (current.game) return Promise.resolve(current);
+      if (preparedLife) {
+        throwIfOpeningAborted(options.signal, options.deadlineAt);
+        current = finishPreparedCreatorLife(current, preparedLife);
+        return Promise.resolve(current);
+      }
       if (!progressiveGeneration) {
         const preparing = current;
         progressiveGeneration = generateOpeningLifeWithProgress(

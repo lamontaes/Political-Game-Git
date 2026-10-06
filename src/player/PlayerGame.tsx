@@ -40,7 +40,11 @@ import {
   savedRenderSnapshots,
   SavedAppearanceControls,
 } from "./SavedAppearance";
-import { createOpeningLifeController } from "../presentation/opening-life";
+import {
+  createOpeningLifeController,
+  prepareCreatorLifeWithProgress,
+  type PreparedCreatorLife,
+} from "../presentation/opening-life";
 import { openSavedPlayedLife } from "../presentation/open-saved-played-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
@@ -395,6 +399,7 @@ type Screen =
       readonly kind: "transition";
       readonly setup: NewGameSetup;
       readonly stagedGame?: NewGame;
+      readonly preparedLife?: PreparedCreatorLife;
     }
   | { readonly kind: "playing" };
 
@@ -470,7 +475,7 @@ export function PlayerGame() {
   const [creatorStagedGame, setCreatorStagedGame] = useState<NewGame>();
   const [creatorLifePreparation, setCreatorLifePreparation] =
     useState<NewGameSetup>();
-  const stagedCreatorLives = useRef(new Map<string, NewGame>());
+  const stagedCreatorLives = useRef(new Map<string, PreparedCreatorLife>());
   const [session, setSession] = useState<Session | null>(null);
   /*
    * GOVERNING time/continuity: a World change computed from an older World
@@ -978,7 +983,12 @@ export function PlayerGame() {
     setScreen({
       kind: "transition",
       setup,
-      ...(answeredGame ? { stagedGame: answeredGame } : {}),
+      ...(answeredGame
+        ? {
+            stagedGame: answeredGame,
+            preparedLife: stagedCreatorLives.current.get(worldSeedFor(setup)),
+          }
+        : {}),
     });
   }
 
@@ -995,6 +1005,7 @@ export function PlayerGame() {
                   await createOpeningLifeController(
                     screen.setup,
                     screen.stagedGame,
+                    screen.preparedLife,
                   ).finishTransitionWithProgress({
                     signal,
                     deadlineAt,
@@ -1045,7 +1056,7 @@ export function PlayerGame() {
                 const existing = stagedCreatorLives.current.get(
                   worldSeedFor(setup),
                 );
-                if (existing) setCreatorStagedGame(existing);
+                if (existing) setCreatorStagedGame(existing.game);
                 else setCreatorLifePreparation(setup);
               }}
               onBack={() => setScreen({ kind: "title" })}
@@ -1067,7 +1078,12 @@ export function PlayerGame() {
             {creatorLifePreparation && (
               <LifeStartTransition
                 onReturn={() => setCreatorLifePreparation(undefined)}
-                onPrepare={async (report, signal, deadlineAt) => {
+                onPrepare={async (
+                  report,
+                  signal,
+                  deadlineAt,
+                  advanceHistory,
+                ) => {
                   const checkPreparation = () => {
                     if (signal.aborted) throw signal.reason;
                     if (performance.now() >= deadlineAt)
@@ -1078,8 +1094,8 @@ export function PlayerGame() {
                   };
                   const setup = creatorLifePreparation;
                   const key = worldSeedFor(setup);
-                  let game = stagedCreatorLives.current.get(key);
-                  if (!game) {
+                  let preparedLife = stagedCreatorLives.current.get(key);
+                  if (!preparedLife) {
                     report({
                       label: "Preparing your life",
                       completed: 0,
@@ -1089,7 +1105,7 @@ export function PlayerGame() {
                       window.requestAnimationFrame(() => resolve()),
                     );
                     checkPreparation();
-                    game = createPreStartNewGameWorld(
+                    const game = createPreStartNewGameWorld(
                       setup,
                       makeIsoDate("2021-01-01"),
                       (world, playerPersonId) => {
@@ -1104,9 +1120,16 @@ export function PlayerGame() {
                       },
                     );
                     checkPreparation();
-                    stagedCreatorLives.current.set(key, game);
+                    preparedLife = await prepareCreatorLifeWithProgress(game, {
+                      signal,
+                      deadlineAt,
+                      advanceHistory,
+                      onProgress: report,
+                    });
+                    checkPreparation();
+                    stagedCreatorLives.current.set(key, preparedLife);
                   }
-                  setCreatorStagedGame(game);
+                  setCreatorStagedGame(preparedLife.game);
                   setCreatorLifePreparation(undefined);
                 }}
               />

@@ -14,7 +14,7 @@ const state = lifePlaceStateIdentities().find(
   (entry) => entry.jurisdictionKey === place.stateJurisdictionKey,
 )!;
 
-test("real Creator retains the recorded life into Begin before any historical advance", async ({
+test("real Creator keeps prompts pending while its same recorded life is prepared", async ({
   page,
 }, info) => {
   await page.addInitScript(() => {
@@ -72,21 +72,6 @@ test("real Creator retains the recorded life into Begin before any historical ad
     { age: 38, place: place.displayName, state: state.name },
     false,
   );
-  const moments = page.getByTestId("creator-stage-whoareyou");
-  await expect(moments).toBeVisible();
-  await expect(page.getByTestId("whoareyou-play")).toBeEnabled({
-    timeout: 60000,
-  });
-  await expect(page.getByTestId("life-start-transition")).toHaveCount(0);
-  const choices = moments.locator(
-    'button[data-testid^="creator-fork-"][data-testid$="-pursue"]',
-  );
-  expect(await choices.count()).toBeGreaterThan(0);
-  for (const choice of await choices.all()) await choice.click();
-  await moments.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(page.getByTestId("begin")).toBeEnabled();
-  await page.screenshot({ path: info.outputPath("recorded-creator.png") });
-  await page.getByTestId("begin").click();
   await expect(page.getByTestId("life-start-transition")).toBeVisible();
   await expect(page.getByLabel("My journal")).toContainText("I ");
   await page.waitForFunction(
@@ -122,6 +107,7 @@ test("real Creator retains the recorded life into Begin before any historical ad
       .getAttribute("data-person-id"),
   ).toBe(evidence.workerPersonId);
   await expect(page.getByTestId("play-screen")).toHaveCount(0);
+  await expect(page.getByTestId("whoareyou-play")).toBeDisabled();
   await writeFile(
     info.outputPath("staged-handoff.json"),
     JSON.stringify(
@@ -131,7 +117,7 @@ test("real Creator retains the recorded life into Begin before any historical ad
         age: 38,
         ...evidence,
         scope:
-          "Real Creator and Begin preparation; worker step held before historical advance. No populated cap, save/reload or clip acceptance.",
+          "Real Creator preparation before recorded prompts; worker step held before historical advance. No completed-history browser, populated cap, save/reload or clip acceptance.",
       },
       null,
       2,
