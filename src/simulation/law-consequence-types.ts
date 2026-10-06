@@ -27,7 +27,6 @@ export type LegacyEffectKind =
   | "federal-income-tax-withholding"
   | "government-outlay-change"
   | "government-program-payment"
-  | "health-coverage"
   | "housing-permit-units"
   | "inclusionary-affordable-rent"
   | "justice.held-before-trial"
