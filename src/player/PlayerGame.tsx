@@ -240,6 +240,11 @@ import {
   personName,
   requireLifePlace,
 } from "../simulation";
+import {
+  currentOfficeWorkflowPreference,
+  recordOfficeWorkflowPreference,
+} from "../simulation/office-workflow";
+import { GameSelect } from "./controls/GameSelect";
 import type { EntityId, World } from "../simulation";
 import {
   openLegislativeWork,
@@ -4813,6 +4818,11 @@ function renderWorkspace({
           ? localGoverningSeatFor(session.world, session.personId)
           : null;
       if (townSeat) {
+        const townCaseworkPreference = currentOfficeWorkflowPreference(
+          session.world,
+          session.personId,
+          townSeat.officeRelationshipId,
+        );
         /*
          * A seat on the town's own governing body. Sourced and disclosed game
          * profiles both open the local screen; an otherwise unprofiled seat
@@ -4838,6 +4848,42 @@ function renderWorkspace({
                   ? "Its meetings and business are under Government, in Local meetings and records."
                   : "The game has not read this town's charter yet, so its meetings, votes and powers are not established here. The seat is yours all the same."}
               </p>
+              <h3>Casework</h3>
+              <GameSelect
+                aria-label="How your town office handles constituent cases"
+                value={townCaseworkPreference?.caseworkMode ?? ""}
+                placeholder="Choose how cases are handled"
+                options={[
+                  {
+                    value: "player-handles-all",
+                    label: "Handle every case yourself",
+                    disabled: false,
+                  },
+                  {
+                    value: "staff-routine-player-exceptions",
+                    label: "Handle unusual cases yourself",
+                    disabled: false,
+                  },
+                  {
+                    value: "staff-handles-and-briefs",
+                    label: "Have staff handle all cases",
+                    disabled: false,
+                  },
+                ]}
+                onChange={(event) => {
+                  const mode = event.target.value as
+                    | "player-handles-all"
+                    | "staff-routine-player-exceptions"
+                    | "staff-handles-and-briefs";
+                  const result = recordOfficeWorkflowPreference(session.world, {
+                    personId: session.personId,
+                    officeRelationshipId: townSeat.officeRelationshipId,
+                    votingMode: null,
+                    caseworkMode: mode,
+                  });
+                  if (result.kind === "recorded") onWorldChange(result.world);
+                }}
+              />
             </div>
           ),
         });

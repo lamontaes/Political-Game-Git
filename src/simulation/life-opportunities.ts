@@ -75,6 +75,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "household-shortfall",
   "eviction-case",
   "crime-report",
+  "constituent-case",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -96,6 +97,7 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   // Written by the monthly crime pass in `crime/producer.ts` when an offense
   // happened to the played person and nobody else it happened to reported it.
   "crime-report": "adult.crime-report",
+  "constituent-case": "adult.constituent-case",
 };
 
 /**
@@ -119,6 +121,7 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "household-shortfall": false,
   "eviction-case": false,
   "crime-report": false,
+  "constituent-case": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
@@ -255,7 +258,9 @@ export function lifeOpportunitiesFor(
         event.participants.find(
           (participant) =>
             participant.personId !== personId &&
-            participant.role.startsWith("agency:"),
+            (participant.role.startsWith("agency:") ||
+              (kind === "constituent-case" &&
+                participant.role === "focus:subject")),
         )?.personId ?? null,
       occasionDate,
       sequence: event.sequence,

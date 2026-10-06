@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { playerRoutedConstituentCase } from "./constituent-case-routing";
 import { lifeRequestDetails } from "./life-request-details";
 import { describePersonContext } from "./person-context";
 import {
@@ -1952,6 +1953,78 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     ],
   },
 
+  {
+    key: "adult.constituent-case",
+    opportunity: "constituent-case",
+    companion: "community-member",
+    stakes: "pressing",
+    prose: "A constituent has come to your office. They need an answer.",
+    tensions: [
+      tension(
+        "institutional-trust",
+        1,
+        "achievement-ambition",
+        1,
+        "Doing what you can for one person, against the limits of the office.",
+      ),
+    ],
+    available: (context) =>
+      playerRoutedConstituentCase(context.world, context.personId) !== null,
+    options: [
+      {
+        key: "help",
+        label: "Try to help",
+        description: "Work on the request with the authority you have.",
+        memory: "You tried to help with the constituent's request.",
+        witnessed: "They saw you try to help with their request.",
+        stance: "engaged",
+        nudges: [
+          nudge("institutional-trust", 0.4),
+          nudge("achievement-ambition", 0.2),
+        ],
+        aftermath: null,
+      },
+      {
+        key: "refer",
+        label: "Refer them",
+        description: "Send them to an office that may be able to help.",
+        memory: "You referred the constituent to another office.",
+        witnessed: "They heard you refer them to another office.",
+        stance: "engaged",
+        nudges: [
+          nudge("institutional-trust", 0.2),
+          nudge("privacy-preference", -0.1),
+        ],
+        aftermath: null,
+      },
+      {
+        key: "cannot-help",
+        label: "Explain you cannot help",
+        description: "Tell them the office cannot take up their request.",
+        memory: "You told the constituent the office could not help.",
+        witnessed: "They heard you explain that the office could not help.",
+        stance: "withdrawn",
+        nudges: [
+          nudge("institutional-trust", -0.2),
+          nudge("decision-style", 0.2),
+        ],
+        aftermath: null,
+      },
+      {
+        key: "ignore",
+        label: "Leave it unanswered",
+        description: "Do not take up their request.",
+        memory: "You left the constituent's request unanswered.",
+        witnessed: "They saw that you left their request unanswered.",
+        stance: "withdrawn",
+        nudges: [
+          nudge("institutional-trust", -0.45),
+          nudge("privacy-preference", 0.25),
+        ],
+        aftermath: null,
+      },
+    ],
+  },
   /* --------------------------------------------------------- and beyond -- */
   {
     key: "adult.local-issue-position",

@@ -1,9 +1,10 @@
 /**
  * Office workflow preferences and standing vote instructions.
  *
- * These records bind a controlled person to an office work relationship. They
- * are a play/scheduling policy, not voting membership and not a floor vote.
- * Legislative transitions remain with the legislative writers.
+ * These records bind a controlled person to an office work relationship or a
+ * recorded municipal-office participation. They are a play/scheduling policy,
+ * not voting membership and not a floor vote. Legislative transitions remain
+ * with the legislative writers.
  */
 
 import { canonicalJson } from "./canonical-json";
@@ -15,6 +16,7 @@ import {
   requireMeasure,
 } from "./legislation";
 import { currentMeasureProvisions } from "./legislative-politics";
+import { activeOrganizationParticipationsAt } from "./life-queries";
 import type {
   EntityId,
   OfficeBriefingInspectionRecord,
@@ -168,17 +170,29 @@ export function recordOfficeWorkflowPreference(
   const relationship = world.history.workRelationships.find(
     (entry) => entry.id === input.officeRelationshipId,
   );
-  if (!relationship) {
+  const municipalSeat = activeOrganizationParticipationsAt(
+    world,
+    input.personId,
+  ).find(
+    ({ participation, state }) =>
+      participation.id === input.officeRelationshipId &&
+      participation.kind === "leadership:municipal-office" &&
+      state.roleKind?.startsWith("leader:municipal-") === true,
+  );
+  if (!relationship && !municipalSeat) {
     return refused(world, "No office relationship matches this preference.");
   }
-  if (relationship.personId !== input.personId) {
+  if (
+    relationship?.personId !== undefined &&
+    relationship.personId !== input.personId
+  ) {
     return refused(
       world,
       "An office preference must belong to the person who holds the office.",
     );
   }
   if (input.votingMode === null) {
-    if (relationship.kind === "employment:legislative-member")
+    if (relationship?.kind === "employment:legislative-member")
       return refused(world, "A legislative seat needs a voting workflow.");
   } else if (!VOTING_MODES.includes(input.votingMode)) {
     return refused(world, "That voting workflow is not a supported choice.");
