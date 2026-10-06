@@ -100,6 +100,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     kind: "decision",
     reader: "answerFamilyPlan — src/simulation/people-family-plan.ts",
   },
+  {
+    trait: "personality-v1:self-confidence",
+    kind: "decision",
+    reader:
+      "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
+  },
 ];
 
 /**
@@ -110,7 +116,6 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
  * here. The coverage test below permits no third state.
  */
 export const NOT_YET_CONNECTED_TRAITS = [
-  "personality-v1:self-confidence",
   "personality-v1:playful-manner",
   "personality-v1:voluntary-effort",
   "personality-v1:concern-for-distress",
