@@ -1873,15 +1873,8 @@ function PlayingScreen({
    * could not tell anybody whether what they were hunting for was behind it.
    * The hint is now built from what the Work surface will actually mount.
    */
-  const holdsOffice =
-    !capabilities.formativeYears &&
-    (judicialOfficeContexts(session.world).length > 0 ||
-      resolveExecutiveOffice(session.world) !== null ||
-      // A governorship is a held office recorded against the office itself,
-      // not an executive employment relationship, so it has to be asked for
-      // by name or the menu sends an officeholder to Campaigns.
-      governingOfficeForPerson(session.world, session.personId) !== null ||
-      capabilities.legislation);
+  const officeScope = playerOfficeScope(session.world, session.personId);
+  const holdsOffice = !capabilities.formativeYears && officeScope.length > 0;
   const workHint = capabilities.formativeYears
     ? "School, and anything waiting on you"
     : [

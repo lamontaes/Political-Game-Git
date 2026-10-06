@@ -21,7 +21,9 @@ import {
 } from "../living-world/opening";
 import { seatTermWindow } from "../living-world/congress-seats";
 import { stateJurisdictionForKey } from "../life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type { CongressSeat } from "../living-world/congress-seats";
+import { publicOfficesHeldBy } from "../crisis/offices";
 
 /** The tags a seat record carries, so the congress projection reads it. */
 function congressSeatVacancyTags(
@@ -417,6 +419,148 @@ export function officesHeldBy(
       held.push({ officeKey, title });
   }
   return held;
+}
+
+export type PlayerOfficeLevel =
+  | "town"
+  | "county"
+  | "state-legislature"
+  | "state-executive"
+  | "congress"
+  | "federal-executive"
+  | "judicial";
+
+export interface PlayerOfficeScopeEntry {
+  readonly officeKey: string;
+  readonly title: string;
+  readonly jurisdictionId: EntityId;
+  readonly level: PlayerOfficeLevel;
+}
+
+/**
+ * All of a player's current public offices with their institutional scope.
+ * This is a read composed from the existing office and seat readers; it does
+ * not maintain a second office store. Offices without a known jurisdiction
+ * are omitted instead of borrowing a nearby government's identity.
+ */
+export function playerOfficeScope(
+  world: World,
+  personId: EntityId,
+): readonly PlayerOfficeScopeEntry[] {
+  const result = new Map<string, PlayerOfficeScopeEntry>();
+  for (const office of currentGoverningOffices(world)) {
+    if (office.holderPersonId !== personId) continue;
+    const municipal = office.programOffice?.kind === "municipal";
+    result.set(office.officeKey, {
+      officeKey: office.officeKey,
+      title: office.title,
+      jurisdictionId: office.jurisdictionId,
+      level: municipal ? "town" : "state-executive",
+    });
+  }
+
+  const congress = projectCongress(world);
+  for (const chamber of congress ? [congress.house, congress.senate] : []) {
+    for (const seat of chamber.seats) {
+      if (
+        seat.occupant.kind !== "member" ||
+        seat.occupant.member.personId !== personId
+      )
+        continue;
+      const seatKey = seat.seatKey;
+      const state = seatKey.match(/(?:^|:)([A-Z]{2})(?:-|:)/)?.[1];
+      const jurisdiction = state
+        ? stateJurisdictionForKey(`US-${state}`)
+        : null;
+      if (!jurisdiction) continue;
+      result.set(seatKey, {
+        officeKey: seatKey,
+        title: seat.occupant.member.title,
+        jurisdictionId: jurisdiction.id,
+        level: "congress",
+      });
+    }
+  }
+
+  for (const office of officesHeldBy(world, personId)) {
+    if (result.has(office.officeKey)) continue;
+    if (
+      office.officeKey === "us-president" ||
+      office.officeKey === "us-vice-president"
+    ) {
+      result.set(office.officeKey, {
+        ...office,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        level: "federal-executive",
+      });
+    } else if (
+      /supreme-court|justice/i.test(`${office.officeKey} ${office.title}`)
+    ) {
+      result.set(office.officeKey, {
+        ...office,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        level: "judicial",
+      });
+    }
+  }
+  for (const office of publicOfficesHeldBy(world, personId)) {
+    if (result.has(office.officeKey)) continue;
+    if (/^us-(?:president|vice-president)$/.test(office.officeKey)) {
+      result.set(office.officeKey, {
+        officeKey: office.officeKey,
+        title: office.title,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        level: "federal-executive",
+      });
+    } else if (
+      /supreme-court|justice/i.test(`${office.officeKey} ${office.title}`)
+    ) {
+      result.set(office.officeKey, {
+        officeKey: office.officeKey,
+        title: office.title,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        level: "judicial",
+      });
+    }
+  }
+  for (const entry of activeWorkRelationshipsAt(world, personId)) {
+    const title = entry.role.title;
+    const officeKey = entry.relationship.stableKey;
+    const jurisdictionId = entry.role.locationJurisdictionId;
+    const jurisdiction = jurisdictionId
+      ? world.jurisdictions[jurisdictionId]
+      : null;
+    if (
+      !title ||
+      !officeKey ||
+      !jurisdictionId ||
+      !jurisdiction ||
+      !(
+        OFFICE_EMPLOYMENT_KINDS.includes(entry.relationship.kind) ||
+        entry.relationship.kind.startsWith("office:")
+      ) ||
+      result.has(officeKey)
+    )
+      continue;
+    const level: PlayerOfficeLevel =
+      entry.relationship.kind === "employment:judicial-office" ||
+      /judge|justice/i.test(title)
+        ? "judicial"
+        : entry.relationship.kind === "employment:legislative-member" &&
+            jurisdiction.kind === "state"
+          ? "state-legislature"
+          : jurisdiction.kind === "county"
+            ? "county"
+            : jurisdiction.kind === "state"
+              ? "state-executive"
+              : jurisdiction.kind === "federal"
+                ? "federal-executive"
+                : "town";
+    result.set(officeKey, { officeKey, title, jurisdictionId, level });
+  }
+  return [...result.values()].sort((a, b) =>
+    a.officeKey.localeCompare(b.officeKey),
+  );
 }
 
 /** Everything recorded about one office, newest first. */
