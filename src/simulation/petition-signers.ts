@@ -31,11 +31,8 @@ export type PetitionSignerRefusalKey =
 
 export interface PetitionSignerEligibility {
   readonly eligible: boolean;
-  /** Why not, in the clerk's words; empty when eligible. */
-  readonly reasons: readonly {
-    readonly key: PetitionSignerRefusalKey;
-    readonly text: string;
-  }[];
+  /** Why not, as record keys; empty when eligible. No wording lives here. */
+  readonly reasons: readonly { readonly key: PetitionSignerRefusalKey }[];
   readonly terms: PetitionSignerTerms;
 }
 
@@ -68,13 +65,10 @@ export function petitionSignerEligibility(
   },
 ): PetitionSignerEligibility {
   const terms = petitionSignerTerms(input.stateUsps);
-  const reasons: { key: PetitionSignerRefusalKey; text: string }[] = [];
+  const reasons: { key: PetitionSignerRefusalKey }[] = [];
   const person = world.people[input.signerPersonId];
   if (!person) {
-    reasons.push({
-      key: "not-in-this-world",
-      text: "No such person is recorded.",
-    });
+    reasons.push({ key: "not-in-this-world" });
     return { eligible: false, reasons, terms };
   }
   if (
@@ -83,23 +77,13 @@ export function petitionSignerEligibility(
       historySequenceExclusive: world.history.nextSequence,
     })
   )
-    reasons.push({
-      key: "not-living",
-      text: "The signer was not living on the day of signing.",
-    });
+    reasons.push({ key: "not-living" });
   const age = ageOnDate(person.birthDate, input.on);
   const youngButQualifies =
     terms.mustTurnEighteenBy === "next-general-election" &&
     age >= terms.minimumAge &&
     ageOnDate(person.birthDate, nextGeneralElection(input.on)) >= 18;
-  if (age < 18 && !youngButQualifies)
-    reasons.push({
-      key: "too-young",
-      text:
-        terms.mustTurnEighteenBy === null
-          ? `The signer was ${age}; a petition signer must be at least ${terms.minimumAge}.`
-          : `The signer was ${age}; a petition signer must be at least ${terms.minimumAge} and 18 by the next general election.`,
-    });
+  if (age < 18 && !youngButQualifies) reasons.push({ key: "too-young" });
   if (
     !residesForVoting(
       world,
@@ -108,9 +92,6 @@ export function petitionSignerEligibility(
       input.on,
     )
   )
-    reasons.push({
-      key: "not-a-resident",
-      text: "The signer's residence records do not place them in the area this petition covers.",
-    });
+    reasons.push({ key: "not-a-resident" });
   return { eligible: reasons.length === 0, reasons, terms };
 }

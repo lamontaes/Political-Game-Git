@@ -1501,7 +1501,7 @@ export function recordedPetitionSignatures(
               )
             ? "No preceding request to this signer is recorded."
             : eligibility && !eligibility.eligible
-              ? eligibility.reasons[0]!.text
+              ? "The signer's age, life or residence records do not establish eligibility."
               : !trace ||
                   trace.sequence >= signed.sequence ||
                   trace.context.actorPersonId !== signer ||
