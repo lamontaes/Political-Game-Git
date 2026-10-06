@@ -1,6 +1,6 @@
 # Earlier worlds use dated inputs, but the populated past is still too large
 
-Earlier worlds now use dated wages, prices, laws and congressional allocations. The populated life-start test remains above the two-minute limit. The ordinary populated route exhausted the heap while saving. The lighter historical route completed its first year, but the next year remains unfinished. This work is a checkpoint for the other life-start sessions; it is not ready for acceptance or merging.
+Earlier worlds now use dated wages, prices, laws and congressional allocations. The populated life-start test remains above the two-minute limit. The ordinary populated route exhausted the heap while saving. The current historical route completed two years, then stopped because a constitutional vote lacked a quorum. This work is a checkpoint for the other life-start sessions; it is not ready for acceptance or merging.
 
 ## What changed
 
@@ -10,7 +10,11 @@ Measured: the electoral tests cover the previous House allocation and the 2020 p
 
 Measured: the existing institution pipeline opens a historical world. The optional supplied-game argument in [`opening-life.ts:156`](https://github.com/lamontaes/Political-Game-Git/blob/16553ecf5/src/presentation/opening-life.ts#L156) retains the supplied world and character. Session 7 owns the surrounding loading orchestration and has an equivalent institution adapter.
 
-The lighter historical mode uses the same Observer clock and financial writers. Distant office pay becomes annual statements. Nearby residents, relatives, contacts and people with private goals retain ordinary payroll. Inferred from the preserved clock path: existing records remain intact, and decisions and meaningful records continue through the same handlers. Annual statements sum the original dated weekly amounts. Their cash and tax settlement occurs later than ordinary weekly settlement, an approved historical approximation. See [`office-salary.ts:324`](https://github.com/lamontaes/Political-Game-Git/blob/16553ecf5/src/simulation/office-salary.ts#L324). The streamed writer in [`serialization.ts:167`](https://github.com/lamontaes/Political-Game-Git/blob/16553ecf5/src/simulation/serialization.ts#L167) uses the existing stored form and JSON writer without retaining a second payload.
+The lighter historical mode uses the same Observer clock and financial writers. Distant office pay now becomes monthly statements. The player, recorded contacts and people living or working in touched towns retain ordinary payroll. Measured: the payroll regression preserves original weekly gross amounts, canonical residence and commuter exemptions, and repeated-settlement behavior. The writer sums each job's own dated terms; it does not use a town average. See the [monthly producer receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6006680145).
+
+Measured: repeated distant historical tax observations account for most financial records in the current run. The published tax repair retains the first actual unknown or not-imposed observation per authority, rule and month. It preserves every assessed liability and payment. It does not assign a zero amount to unknown taxes. Ordinary payroll keeps its source assessments. The [tax repair receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6007355291) includes the checked source and its regression results. This repair has not been timed in a populated run.
+
+The streamed writer uses the existing stored form and JSON writer without retaining a second complete text payload. Its annual byte measurement is reported separately from the clock.
 
 ## What the timing establishes
 
@@ -35,22 +39,37 @@ Measured: the lighter populated first year took 69.171 clock seconds and contain
 
 Measured: the preserved run reached the November 8, 2022 election boundary. A read-only snapshot contained 66,537 tax liabilities, 60,636 personality tendencies, 11,130 decision traces and 7,386 transfer outcomes. Its 37,406 crisis rows mostly recorded health episodes, disclosures, states and coverage. Those meaningful records remain intact. This is a dated checkpoint, not annual growth. See the [record-kind receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6005417048).
 
-Measured: an intake profile spent about 17 of 30 sampled seconds rebuilding dated household cohorts. An election profile spent 13.569 of 30.909 sampled seconds scanning decision history for an actor's prior choice. The published repairs reuse cohorts for identical immutable inputs, index actor traces, batch salary writes, and reuse canonical electorates in their original voter order. These repairs are not yet timed in the populated run. The [profile receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6005269425) records the dominant reads.
+Measured: an intake profile spent about 17 of 30 sampled seconds rebuilding dated household cohorts. An election profile spent 13.569 of 30.909 sampled seconds scanning decision history for an actor's prior choice. The published repairs reuse cohorts for identical immutable inputs, index actor traces, batch salary writes, and reuse canonical electorates in their original voter order. Those earlier reader and batch repairs were included in the current diagnostic run. Their individual speed effects were not isolated. The [profile receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6005269425) records the dominant reads.
+
+## Current populated result
+
+Measured: the current public life factory opened Paul Cole in Wabash County at age 62, with 9,421 people. The same seed, place and age were used for earlier populated diagnostics. The character and world IDs changed with the public factory, so these runs do not establish a controlled speed ratio. The [terminal receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6007366119) records the two completed years.
+
+| Period | Clock seconds | Saved bytes | Byte-measurement seconds |
+| --- | ---: | ---: | ---: |
+| 2021 | 119.379 | 829,871,593 | 17.133 |
+| 2022 | 593.336 | 1,769,785,431 | 37.298 |
+
+Measured: the 2022 checkpoint contained 1,529,955 statutory tax liabilities, 177,291 flows, 347,126 terms and 169,834 transfers. It also retained 11,260 decisions, 391 deaths and 428 functional-capacity records. Heap usage was 3,010,511,552 bytes; resident memory was 3,802,718,208 bytes. The two-year clock alone exceeds the full five-year limit.
+
+Measured: a read-only query at January 28, 2022 found 798,444 tax liabilities. Of those, 781,308 had unknown rules, 756 had unknown bases, and 16,380 were not imposed with zero liability. Every row had collection set to none. The tax repair targets those repeated routine observations. It keeps actual assessed debts and payments. See the [same-run histogram](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6007238047).
+
+Measured: a bounded payroll sample spent 7.601 of 10.755 seconds in the payday handler. A later election sample spent 2.941 of 11.233 seconds scanning federal tenure history. Session 13 owns the narrow federal-office reader index. Session 20 owns the constitutional writer input failure. The vote guard remains intact; no occupants or quorum were manufactured. See the [reader handoff](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6007335579).
 
 ## What remains open
 
-The populated five-year run, two-minute cap, terminal same-world handoff, printed journal and research-range checks remain unproved. The loading clip belongs to Session 7. No READY claim is made.
+The populated five-year run, two-minute cap, terminal same-world handoff, save/continue, printed journal and research-range checks remain unproved. The loading clip belongs to Session 7. No READY claim is made.
 
-Historical wage annual alignment and missing law observations remain estimates. They are labeled in developer records. Previous district boundaries are not reconstructed; the institutional seat counts are dated, and missing political observations use labeled same-state estimates.
+Historical wage annual alignment and missing law observations remain estimates. They are labeled in developer records. Previous district boundaries are not reconstructed; institutional seat counts are dated, and missing political observations use labeled same-state estimates.
 
 ## Method and retained evidence
 
-The original sparse seed was `session5-20261005-historical-world`. The populated shared seed was `session6-birth-resident-handoff`; place and age were independently drawn through the repository's seeded helpers. Both paths used the existing Observer clock. Diagnostic logs and scripts remain under `test-results/session5` in the primary and integration worktrees.
+The original sparse seed was `session5-20261005-historical-world`. The populated seed was `session6-birth-resident-handoff`. Place and age came from the repository's seeded helpers. Diagnostic logs and scripts remain under `test-results/session5` in both worktrees.
 
-Measured: 23 focused payroll, upbringing and eligibility tests pass after the producer type repair. Decision and peer-estimate tests pass. The election suite's same 12 failures reproduce on unchanged main. The upbringing-traits fixture's empty donor-pair failure also reproduces there. Earlier broader tax and opening failures were compared separately with main. See [producer-repair-tests.log:6](/workspace/Political-Game-Git/test-results/session5/producer-repair-tests.log:6) for the 23-test terminal result.
+Measured: the older retained run on `14747a3a1` completed 2022 in 5,280.747 seconds, with 344,959,627 saved bytes. It was stopped after that annual boundary with exit code 143. Its earlier life packet preserves existing events and family records; no scenes were fabricated. See the [old annual terminal receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6006634467).
 
-The application typecheck completes successfully. Complete repository typing stops at four existing opening-preparation test diagnostics owned by Session 7's separate prerequisite. Earlier typecheck PASS updates were sent before the command completed; the terminal failure was corrected, and the producer-owned errors are repaired. Zero-dice passes with no new draws. See [full-typecheck-latest.log:6](/workspace/Political-Game-Git/test-results/session5/full-typecheck-latest.log:6) for the remaining full-typing diagnostics.
+Measured: the current immutable run on `e52239f01` used the published loading composition and residence protections. It ran with a 4 GiB heap. It completed annual receipts through January 1, 2023, then exited with code 1 during further processing. The constitutional roll call lacked actual presence and quorum. This was an integrity failure, not an out-of-memory exit. Profiles and a read-only query ran on that same process. Some focused validation ran concurrently, so this remains diagnostic handler timing, not a controlled comparison.
 
-Published producer head: `16553ecf5`. Its [repair handoff](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6005417048) identifies the closure, eligibility and type dependencies. Session 6 confirmed its received annual-closure composition passed 15 payroll and character tests. Its newer composition contains the latest producer head. The [consumer receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6005504598) confirms 28 affected tests pass and complete typing exits successfully on Session 6 composition `5b995bc89`. Session 7 owns the institution adapter and loading orchestration.
+Measured: composed source `e52239f01` passed full typing and 29 payroll, character and transport tests before timing. Producer tax repair `61703e95d` passed application typing, lint, formatting and all 9 payroll regressions. Two ordinary statutory-tax fixtures failed identically with the repair and unchanged source. Their shop-pay expectations remain unresolved; no whole-suite PASS is claimed.
 
-The sole live populated timing run remains on integration `14747a3a1`, before the newest repairs. Its terminal 2022 receipt, final cap proof, journal and range validation remain open. No ordinary-main OOM job has been restarted.
+The tax repair is published for Sessions 6 and 7. Its consumer integration and populated speed remain unmeasured. The benchmark process is terminal; there is no live annual run. A new run will use actual published owner fixes after composition checks. No ordinary-main OOM job has been restarted.
