@@ -14,8 +14,8 @@
  * beside the cause that made it; and the yearly flow of people between states
  * that the pressure to leave and the pull to arrive decide.
  *
- * Every number marked BLANKET is a placeholder chosen so the mechanism is
- * visible, never a researched value. Filed with ChatGPT as
+ * Every number marked BLANKET is ESTIMATED FROM AVERAGE: a game-scale value
+ * chosen so the mechanism is visible, never a researched value. Filed with ChatGPT as
  * `state-to-state-moves-what-pushes-and-pulls`,
  * `unrest-what-builds-it-and-what-calms-it` and
  * `civil-war-and-revolution-preconditions`.
