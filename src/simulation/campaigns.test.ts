@@ -1125,6 +1125,67 @@ function playToElection(seed: string, outreachSessions: number) {
 }
 
 describe("election day", () => {
+  it("records a new-game campaign loss in a randomly drawn place without spending the committee balance", () => {
+    const seed = "b04-p1-newgame-0";
+    const place = drawRandomPlace(seed);
+    const game = createExplicitGeographyLife({
+      placeKey: place.key,
+      seed,
+      startAge: 30,
+    }).game;
+    const candidatePersonId = game.playerPersonId;
+    const jurisdictionId =
+      game.world.people[candidatePersonId]!.homeJurisdictionId;
+    const office = candidacyAuthority(jurisdictionId).pack?.offices[0];
+    if (!office)
+      throw new Error("The random place has no recorded state office.");
+    const opponents = ensureCampaignOpponents(game.world, {
+      stableKey: "b04-p1-random-game",
+      jurisdictionId,
+      count: 1,
+      excludePersonIds: [candidatePersonId],
+    });
+    const filed = fileCampaign(opponents.world, {
+      stableKey: "b04-p1-random-game",
+      candidatePersonId,
+      jurisdictionId,
+      officeKey: office.officeKey,
+      districtBinding: namedSeatForFixture(
+        game.world,
+        candidatePersonId,
+        office.officeKey,
+      ),
+      electionDate: addDays(game.world.currentDate, 21),
+      rivalPersonIds: opponents.personIds,
+      existingContestId: null,
+      committeeName: `${place.formalName} campaign committee`,
+      donorPoolName: "Campaign supporters",
+      advertisingVendorName: "Local advertising",
+      staffPersonIds: [],
+      treasuryCurrency: makeCurrencyCode("USD"),
+    });
+    const afterElection = advanceWorld(
+      filed.world,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const balance =
+      campaignTreasuryPosition(afterElection, filed.campaign)?.liquidBalance
+        .minorUnits ?? null;
+    console.info("b04-p1 random-place loss proof", {
+      seed,
+      place: place.displayName,
+      campaignId: filed.campaign.id,
+      outcome: campaignState(afterElection, filed.campaign.id).status,
+      committeeBalanceMinorUnits: balance,
+    });
+    expect(campaignState(afterElection, filed.campaign.id).status).toBe("lost");
+    expect(balance).toBe(0);
+    expect(
+      leftoverFundsRuleForState(place.stateJurisdictionKey ?? "")?.allowedUses,
+    ).toContain("keep-for-future-race");
+  });
+
   it("keeps a losing campaign's balance in its committee for an allowed later use", () => {
     const filed = fileKentuckyCampaign("probe-3");
     const cash = createResourcePosition(filed.world, {
