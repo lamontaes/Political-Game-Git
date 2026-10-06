@@ -499,6 +499,25 @@ it("summarizes distant historical routine earnings and resumes ordinary payroll 
   const past = beginHistoricalPastMode(initial, focusId, through);
   expect(distantHistoricalRoutine(past, f.personId)).toBe(true);
   expect(distantHistoricalRoutine(past, focusId)).toBe(false);
+  const role = workRoleAt(past, f.work.id)!;
+  const commutes = recordWorkRole(past, {
+    stableKey: "past-proof:commutes-to-touched-town",
+    workRelationshipId: f.work.id,
+    effectiveAt: past.currentDate,
+    title: role.title,
+    occupationClassification: role.occupationClassification,
+    locationJurisdictionId: focus.homeJurisdictionId,
+    timeDemand: {
+      ...role.timeDemand,
+      locationJurisdictionId: focus.homeJurisdictionId,
+    },
+    provenance: {
+      kind: "authored",
+      note: "Controlled recorded commuting fixture.",
+    },
+    supersedesRoleId: role.id,
+  });
+  expect(distantHistoricalRoutine(commutes, f.personId)).toBe(false);
   const touched = recordWorldEvent(past, {
     stableKey: "past-proof:recorded-visit",
     type: "life.household-move",
