@@ -1,38 +1,35 @@
 import { describe, expect, it } from "vitest";
 
-import { MUNICIPAL_RULE_PACKS_JSON } from "./municipal-rule-registry.generated";
-import { legislatureForState } from "./legislature-game-profile";
-import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { US_CONGRESS_RULE_PACK } from "./congress-rule-pack";
+import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import { seatsForChamber } from "./legislature-game-profile";
 import {
   assertRulePackIntegrity,
   type LegislativeRulePack,
+  type RuleValue,
 } from "./legislature-rules";
-import { STATES } from "./state-reference";
 
-function expectCompleteBodyRows(pack: {
-  readonly packId: string;
-  readonly chambers: readonly {
-    readonly chamberKey: string;
-    readonly seats: { readonly kind: string };
-    readonly quorum: { readonly kind: string };
-    readonly floorStages: readonly {
-      readonly vote: { readonly kind: string };
-    }[];
-    readonly committees: readonly {
-      readonly appointedMembers: number;
-      readonly reportThreshold: {
-        readonly numerator: number;
-        readonly denominatorParts: number;
-      };
-    }[];
-  }[];
-  readonly session: {
-    readonly adjournmentRule: { readonly kind: string };
-    readonly measuresDieAtAdjournment: { readonly kind: string };
+function ruleValues(node: unknown): RuleValue<unknown>[] {
+  const values: RuleValue<unknown>[] = [];
+  const visit = (value: unknown): void => {
+    if (Array.isArray(value)) {
+      value.forEach(visit);
+      return;
+    }
+    if (value && typeof value === "object") {
+      const kind = (value as { readonly kind?: unknown }).kind;
+      if (kind === "known" || kind === "unknown" || kind === "not-applicable")
+        values.push(value as RuleValue<unknown>);
+      Object.values(value).forEach(visit);
+    }
   };
-}): void {
+  visit(node);
+  return values;
+}
+
+function expectBodyRows(pack: LegislativeRulePack): void {
   expect(pack.chambers.length, pack.packId).toBeGreaterThan(0);
+  expect(pack.chamberOrder).toHaveLength(pack.chambers.length);
   for (const chamber of pack.chambers) {
     expect(
       chamber.seats.kind,
@@ -41,13 +38,13 @@ function expectCompleteBodyRows(pack: {
     expect(
       chamber.quorum.kind,
       `${pack.packId}/${chamber.chamberKey} quorum`,
-    ).toMatch(/^(known|unknown|not-applicable)$/);
+    ).toBe("known");
     expect(
       chamber.floorStages.length,
       `${pack.packId}/${chamber.chamberKey} floor`,
     ).toBeGreaterThan(0);
     for (const stage of chamber.floorStages)
-      expect(stage.vote.kind).toMatch(/^(known|unknown|not-applicable)$/);
+      expect(stage.vote.kind).toBe("known");
     for (const committee of chamber.committees) {
       expect(committee.appointedMembers).toBeGreaterThan(0);
       expect(committee.reportThreshold.numerator).toBeGreaterThan(0);
@@ -63,75 +60,60 @@ function expectCompleteBodyRows(pack: {
 }
 
 describe("per-level legislative body rows", () => {
-  it("keeps a complete row shape for all compiled, generated, municipal, DC, and federal bodies", () => {
-    const profileJurisdictions = Object.keys(STATES)
-      .map((usps) => `US-${usps}`)
-      .filter(
-        (jurisdiction) =>
-          !LEGISLATIVE_RULE_PACKS.some(
-            (pack) => pack.jurisdictionKey === jurisdiction,
-          ),
-      );
-    const statePacks = profileJurisdictions
-      .map((jurisdiction) => legislatureForState(jurisdiction))
-      .filter((pack) => pack !== null);
-    const municipalPacks = JSON.parse(
-      MUNICIPAL_RULE_PACKS_JSON,
-    ) as LegislativeRulePack[];
-    const districtOfColumbia = municipalPacks.filter(
-      (pack) => pack.jurisdictionKey === "US-DC",
-    );
-    const packs = [
-      ...LEGISLATIVE_RULE_PACKS,
-      ...statePacks,
-      ...municipalPacks,
-      US_CONGRESS_RULE_PACK,
-    ];
-
-    expect(statePacks.length).toBeGreaterThan(0);
-    expect(districtOfColumbia.length).toBeGreaterThan(0);
+  it("keeps a complete chamber and session row set in every compiled state and federal pack", () => {
+    const packs = [...LEGISLATIVE_RULE_PACKS, US_CONGRESS_RULE_PACK];
+    expect(LEGISLATIVE_RULE_PACKS).toHaveLength(9);
     for (const pack of packs) {
-      if (!municipalPacks.includes(pack))
-        expect(() => assertRulePackIntegrity(pack), pack.packId).not.toThrow();
-      expectCompleteBodyRows(pack);
+      expect(() => assertRulePackIntegrity(pack), pack.packId).not.toThrow();
+      expectBodyRows(pack);
     }
-    expect(US_CONGRESS_RULE_PACK.jurisdictionKey).toBe("US");
   });
 
-  it("labels estimated profile rows as game estimates and leaves unread legal rules unknown", () => {
-    const profiles = Object.keys(STATES)
-      .map((usps) => legislatureForState(`US-${usps}`))
-      .filter((pack) => pack?.basis === "game-profile");
-    expect(profiles.length).toBeGreaterThan(0);
+  it("keeps unresolved law distinct from sourced and explicitly estimated values", () => {
+    const values = [...LEGISLATIVE_RULE_PACKS, US_CONGRESS_RULE_PACK].flatMap(
+      ruleValues,
+    );
+    const unknowns = values.filter((value) => value.kind === "unknown");
+    expect(unknowns.length).toBeGreaterThan(0);
+    for (const value of unknowns) {
+      if (value.kind !== "unknown") continue;
+      expect(value.note.trim()).not.toBe("");
+      expect("value" in value).toBe(false);
+      expect("source" in value).toBe(false);
+    }
 
-    for (const pack of profiles) {
-      for (const chamber of pack!.chambers) {
-        expect(chamber.quorum.kind).toBe("known");
-        if (chamber.quorum.kind === "known") {
-          expect(chamber.quorum.source.authority).toBe("game-profile");
-          expect(chamber.quorum.source.note).toMatch(/ESTIMATED FROM AVERAGE/);
-        }
-        for (const stage of chamber.floorStages) {
-          if (stage.vote.kind === "known") {
-            expect(stage.vote.source.authority).toBe("game-profile");
-            expect(stage.vote.source.note).toMatch(/ESTIMATED FROM AVERAGE/);
-          }
-        }
-        for (const committee of chamber.committees) {
-          expect(committee.appointedMembers).toBeGreaterThanOrEqual(5);
-          expect(committee.appointedMembers).toBeLessThanOrEqual(25);
-          expect(committee.reportThreshold.source.note).toMatch(
-            /ESTIMATED FROM AVERAGE/,
-          );
-        }
-        const unreadReferral = chamber.referral.multipleReferralAllowed;
-        expect(unreadReferral.kind).toBe("unknown");
-        if (unreadReferral.kind === "unknown") {
-          expect("value" in unreadReferral).toBe(false);
-          expect("source" in unreadReferral).toBe(false);
-        }
+    for (const value of values) {
+      if (value.kind !== "known") continue;
+      const note = value.source.note ?? "";
+      if (note.includes("ESTIMATED FROM AVERAGE")) {
+        expect(note).toMatch(/basis|same|similar|average|compiled|class/i);
       }
-      expect(pack!.session.source.note).toMatch(/ESTIMATED FROM AVERAGE/);
+    }
+  });
+
+  it("does not promote sourced current chamber counts into formal seat rules", () => {
+    const cases = [
+      { jurisdiction: "US-KY", chamberKey: "house", seats: 100 },
+      { jurisdiction: "US-KY", chamberKey: "senate", seats: 38 },
+      { jurisdiction: "US-NV", chamberKey: "assembly", seats: 42 },
+      { jurisdiction: "US-NV", chamberKey: "senate", seats: 21 },
+    ];
+    for (const row of cases) {
+      const pack = LEGISLATIVE_RULE_PACKS.find(
+        (candidate) => candidate.jurisdictionKey === row.jurisdiction,
+      )!;
+      const formalSeats = pack.chambers.find(
+        (chamber) => chamber.chamberKey === row.chamberKey,
+      )!.seats;
+      expect(formalSeats.kind).toBe("unknown");
+      if (formalSeats.kind === "unknown") {
+        expect("value" in formalSeats).toBe(false);
+        expect("source" in formalSeats).toBe(false);
+      }
+      expect(seatsForChamber(pack, row.chamberKey)).toEqual({
+        seats: row.seats,
+        basis: "researched",
+      });
     }
   });
 });

@@ -581,11 +581,11 @@ function vetoWindowSentence(
 
 const QUORUM_SOURCE = profileSource(
   "Quorum",
-  "ESTIMATED FROM AVERAGE: a majority of the members elected to a chamber is used as the quorum because every compiled state rule pack says so. This game-profile value fills an unread state's playable row; it is not that state's law.",
+  "A majority of the members elected to a chamber is a quorum. Every researched state says so, and the game applies it where a state's own rule has not been read.",
 );
 const PASSAGE_SOURCE = profileSource(
   "Passage",
-  "ESTIMATED FROM AVERAGE: a majority of the members elected to a chamber is used for passage because every compiled state rule pack says so. This game-profile value fills an unread state's playable row; it is not that state's law.",
+  "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read.",
 );
 const ORIGINATION_SOURCE = profileSource(
   "Origination",
@@ -601,7 +601,7 @@ const ORIGINATION_SOURCE = profileSource(
  */
 const SESSION_SOURCE = profileSource(
   "Session",
-  "ESTIMATED FROM AVERAGE: the compiled state calendars model regular annual sessions, so an unread state gets an annual playable session and pending measures die at sine die. The state's own recurrence and carryover law remain unread; this is not a reading of its law.",
+  "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law.",
 );
 
 /**
@@ -614,7 +614,7 @@ const SESSION_SOURCE = profileSource(
  */
 const COMMITTEE_SOURCE = profileSource(
   "Committees",
-  "ESTIMATED FROM AVERAGE: an unread chamber gets one standing committee sized at about one-sixth of its chamber, bounded from five to twenty-five members, and a majority report threshold. The size formula is the game's explicit chamber-size-class proxy; it is not a reading of the state's committee rules.",
+  "The game's standing rule until this chamber's rules are read: one standing committee hears every bill and reports it on a majority of its members. This is not a reading of the state's law.",
 );
 
 function committeeSize(seats: number): number {
