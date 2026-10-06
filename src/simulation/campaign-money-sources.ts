@@ -1,4 +1,5 @@
 import { activeCampaignForCandidate } from "./campaign-queries";
+import { runCampaignCallTime } from "./campaign-donors";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { campaignFundraiserPayments } from "./campaign-money-source-queries";
 import { viewOfOfficial } from "./official-view-reads";
@@ -58,10 +59,10 @@ export const CAMPAIGN_MONEY_SOURCES = {
 
 export type CampaignMoneySource = keyof typeof CAMPAIGN_MONEY_SOURCES;
 
-/** Read receipts attributed to this event; never settle a completed gift again.
- * The current activity producers save attendance but no dated monetary ask or
- * contribution-cap law binding. Record that missing basis through the shared
- * evaluator instead of manufacturing a donor, ask, pledge, or payment.
+/** Fundraiser completion runs the remaining known-person call-time asks in
+ * stable order. Each answer, contribution, and transfer is stored separately;
+ * any legacy payment attributed directly to this event is read without paying
+ * it again.
  */
 export function recordCampaignFundraiserReceipts(
   world: World,
@@ -79,9 +80,21 @@ export function recordCampaignFundraiserReceipts(
   readonly unavailableBasis: readonly string[];
   readonly note: string;
 } {
-  const { event, flows, receipts } = campaignFundraiserPayments(world, input);
-  const unavailableBasis = ["monetary-ask", "contribution-cap-law-term"];
-  let next = world;
+  const active = activeCampaignForCandidate(world, input.candidatePersonId);
+  const asksBefore = new Set(
+    (world.history.campaignAsks ?? []).map((row) => row.id),
+  );
+  let next = active ? runCampaignCallTime(world, active.id) : world;
+  const callTimePeople = new Set(
+    (next.history.campaignAsks ?? [])
+      .filter((row) => !asksBefore.has(row.id))
+      .map((row) => row.residentId),
+  );
+  const { event, flows, receipts } = campaignFundraiserPayments(next, input);
+  const unavailableBasis = active
+    ? []
+    : ["monetary-ask", "contribution-cap-law-term"];
+
   const paidSources = new Set(
     flows
       .filter((flow) => receipts.some((row) => row.resourceFlowId === flow.id))
@@ -94,6 +107,7 @@ export function recordCampaignFundraiserReceipts(
     if (
       personId === input.candidatePersonId ||
       paidSources.has(personId) ||
+      callTimePeople.has(personId) ||
       (next.control.kind === "person" && next.control.personId === personId)
     )
       continue;
@@ -175,7 +189,9 @@ export function recordCampaignFundraiserReceipts(
           }
         : null,
     unavailableBasis,
-    note: "Completed gifts are reported from the recorded payments. New gifts need a recorded monetary ask and applicable contribution-cap law term; no payment was invented.",
+    note: active
+      ? "Call-time asked the remaining known people individually; each response and payment is saved by person."
+      : "No active campaign is attached to this event; no donor or payment was invented.",
   };
 }
 
