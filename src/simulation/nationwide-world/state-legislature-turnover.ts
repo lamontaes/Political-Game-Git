@@ -30,7 +30,6 @@ import {
 import { lawInForce } from "../governing/law-in-force";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { applyStateElectionLawLandings } from "../law-consequences/modules/election-state-landings";
-import { clampShare, logit, logistic } from "../world-setup/deterministic-math";
 import {
   isStateLegislativeSeatDue,
   stateLegislativeElectionRule,
