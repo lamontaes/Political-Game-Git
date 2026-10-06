@@ -66,6 +66,11 @@ const TOWN_WORDS: Record<
     cost: (who, sum) => `cost ${who} ${sum} at work`,
     none: (who) => `changed the rules at work for ${who}`,
   },
+  "election-rule": {
+    gain: (who) => `allowed ${who} to seek another term`,
+    cost: (who) => `prevented ${who} from seeking another term`,
+    none: (who) => `changed eligibility to seek another term for ${who}`,
+  },
   "business-rule": {
     gain: (who, sum) => `saved the businesses of ${who} ${sum}`,
     cost: (who, sum) => `cost the businesses of ${who} ${sum}`,
@@ -75,6 +80,11 @@ const TOWN_WORDS: Record<
     gain: (who, sum) => `saved ${who} ${sum} on public services`,
     cost: (who, sum) => `cost ${who} ${sum} for public services`,
     none: (who) => `changed public services used by ${who}`,
+  },
+  "court-rule": {
+    gain: (who) => `let ${who} go home while waiting for trial`,
+    cost: (who) => `kept ${who} in jail while waiting for trial`,
+    none: (who) => `changed how ${who} waited for trial`,
   },
   rent: {
     gain: (who, sum) => `lowered the rent of ${who} by ${sum}`,
@@ -159,7 +169,10 @@ export function projectMoneyLaws(
   for (const row of exposures) {
     if (row.relation !== "own") continue;
     if (world.people[row.personId]?.homeJurisdictionId !== home) continue;
-    const direction: Direction = row.amount === null ? "none" : row.direction;
+    const direction: Direction =
+      row.amount === null && row.channel !== "election-rule"
+        ? "none"
+        : row.direction;
     const key = `${row.measureId}|${row.channel}|${direction}`;
     const byPerson = groups.get(key) ?? new Map();
     const held = byPerson.get(row.personId);
@@ -176,12 +189,13 @@ export function projectMoneyLaws(
       const people = rows.length;
       const who = `${people} ${people === 1 ? "person" : "people"} in ${placeName}`;
       const direction: Direction =
-        first.amount === null ? "none" : first.direction;
+        first.amount === null && first.channel !== "election-rule"
+          ? "none"
+          : first.direction;
       const sum = direction === "none" ? null : totalText(rows);
-      const words = TOWN_WORDS[first.channel][sum ? direction : "none"](
-        who,
-        sum ?? "",
-      );
+      const words = TOWN_WORDS[first.channel][
+        sum || first.channel === "election-rule" ? direction : "none"
+      ](who, sum ?? "");
       return [
         {
           people,

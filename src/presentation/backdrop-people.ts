@@ -1,6 +1,9 @@
-import type { SceneSlotRole } from "./scene-slot-contract";
+import { slotAcceptsRole, type SceneSlotRole } from "./scene-slot-contract";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
-import { peopleAtWorkAt } from "../simulation/living-world/work-schedules";
+import {
+  peopleAtWorkAt,
+  presentAt,
+} from "../simulation/living-world/work-schedules";
 import { playerTown } from "../simulation/living-world/town-residents";
 import { personName } from "../simulation/people";
 import type { EntityId, SimulationMoment, World } from "../simulation/types";
@@ -119,6 +122,15 @@ export interface PlaceStaging {
   /** Raised floors: the same horizon, each with its own scale. */
   readonly floors?: Readonly<Record<string, number>>;
   readonly spots: readonly StagingSpot[];
+  readonly surfaceSlots?: readonly {
+    readonly surfaceId: string;
+    readonly kind: string;
+    readonly x: number;
+    readonly y: number;
+    readonly width: number;
+    readonly height: number;
+    readonly source: string;
+  }[];
 }
 
 /** Where and how large a person at a spot is drawn, in percent. */
@@ -308,6 +320,8 @@ export function placeBackdropPeople(
     /** The scene's people stand on the open floor instead of taking seats. */
     readonly standing?: boolean;
     readonly speakerId?: EntityId | null;
+    /** An explicitly selected illustration is not a workplace attendance query. */
+    readonly rosterOnly?: boolean;
   } = {},
 ): BackdropPeople {
   const stage = backdropStaging(place);
@@ -321,7 +335,23 @@ export function placeBackdropPeople(
       .map((person) => person.personId)
       .filter((id) => id !== playerId && world.people[id]),
   );
-  const onShift = (town ? peopleAtWorkAt(world, town, place, moment) : [])
+  const onShift = (
+    options.rosterOnly
+      ? []
+      : selected && town
+        ? presentAt(
+            world,
+            {
+              jurisdictionId: town,
+              place,
+              organizationId: selected.organizationId,
+            },
+            moment,
+          )
+        : town
+          ? peopleAtWorkAt(world, town, place, moment)
+          : []
+  )
     .filter((worker) => worker.personId !== playerId)
     .filter(
       (worker) =>
@@ -370,14 +400,26 @@ export function placeBackdropPeople(
   // A named counter belongs to staff. Scene roster order must not put a
   // customer behind it or make the cashier lose it to an earlier attendee.
   const isCounterSpot = (spot: StagingSpot) =>
-    spot.group === "counter" && spot.clipBelowY !== undefined;
+    spot.role === "staff-behind-counter";
   const visitorSpots = usable.filter((spot) => !isCounterSpot(spot));
+  const roleByPerson = new Map(
+    present.map((person) => [person.personId, person.role]),
+  );
   const sceneCounterJob = (personId: EntityId) =>
-    counterJob(presentTitle.get(personId) ?? "") ||
+    roleByPerson.get(personId) === "staff-behind-counter" ||
     counterJob(shiftByPerson.get(personId)?.title ?? "");
   const sceneIds = [...presentIds].sort(
     (a, b) => Number(sceneCounterJob(b)) - Number(sceneCounterJob(a)),
   );
+  const eligible = (spot: StagingSpot, personId: EntityId) =>
+    slotAcceptsRole(
+      spot.role ?? "general",
+      personId === options.speakerId
+        ? "speaker"
+        : sceneCounterJob(personId)
+          ? "staff-behind-counter"
+          : roleByPerson.get(personId),
+    );
   const inScene = sceneIds.map((personId) => ({
     worker: {
       personId,
@@ -387,17 +429,32 @@ export function placeBackdropPeople(
     onShift: shiftByPerson.has(personId),
     spot:
       (personId === options.speakerId
-        ? take(usable.filter((spot) => spot.pose === "podium"))
+        ? take(
+            usable.filter(
+              (spot) => spot.pose === "podium" && eligible(spot, personId),
+            ),
+          )
         : undefined) ??
       (sceneCounterJob(personId)
-        ? take(usable.filter(isCounterSpot))
+        ? take(
+            usable.filter(
+              (spot) => isCounterSpot(spot) && eligible(spot, personId),
+            ),
+          )
         : undefined) ??
       take(
         principal.filter(
-          (spot) => spot.pose !== "podium" && !isCounterSpot(spot),
+          (spot) =>
+            spot.pose !== "podium" &&
+            !isCounterSpot(spot) &&
+            eligible(spot, personId),
         ),
       ) ??
-      take(visitorSpots.filter((spot) => spot.pose !== "podium")),
+      take(
+        visitorSpots.filter(
+          (spot) => spot.pose !== "podium" && eligible(spot, personId),
+        ),
+      ),
   }));
   // Everyone on shift keeps the order the spots had before: behind a counter
   // or on the open floor, in the picture's own order.
@@ -422,8 +479,22 @@ export function placeBackdropPeople(
       worker,
       onShift: true,
       spot: counterJob(worker.title)
-        ? (behind.shift() ?? open.shift())
-        : (open.shift() ?? behind.shift()),
+        ? (take(
+            behind.filter((spot) =>
+              slotAcceptsRole(spot.role ?? "general", "staff-behind-counter"),
+            ),
+          ) ??
+          take(
+            open.filter((spot) =>
+              slotAcceptsRole(spot.role ?? "general", "staff-behind-counter"),
+            ),
+          ))
+        : (take(
+            open.filter((spot) => slotAcceptsRole(spot.role ?? "general")),
+          ) ??
+          take(
+            behind.filter((spot) => slotAcceptsRole(spot.role ?? "general")),
+          )),
     })),
   ];
   const placed: BackdropPerson[] = [];
@@ -474,6 +545,9 @@ export function placeBackdropPeople(
       peoplePackFileAvailable,
     );
     if (
+      !PEOPLE_PACK.slotKindsByPose?.[resolved.pose]?.includes(
+        spot.pose ?? "stand",
+      ) ||
       (spot.pose === "sit" && !isSeatedPose(resolved.pose)) ||
       resolved.view !== spotView(spot)
     ) {

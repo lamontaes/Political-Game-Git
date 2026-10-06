@@ -1,0 +1,70 @@
+# Election night with your people, precinct by precinct (bank id b03, phase P1 council journey; unlocks "campaigns by meeting people -> election night -> council")
+
+Verified against origin/main 1ee0abcda. Hand to Session 13. Bank spec: docs/codex/specs/bank/b03-election-night-scene.md. This adds no second counting engine; Session 13 stays the one writer of counts and results.
+
+## What the player experiences
+
+On election night you are somewhere real: your living room for a small race, a rented room or the campaign storefront if the campaign could pay for one. In the room are people who are actually in your life: who you live with, family and close friends nearby, volunteers and staff still working for you. Results arrive precinct by precinct on the TV: small precincts first, then bigger ones, each with its own numbers, so you watch a lead grow or slip. The crowd behind your named people is sized by the real turnout. Each person reacts in their own way as numbers land. When the last precinct is in, you give a victory speech or call your opponent in front of the same people. You can watch it all or skip to the end.
+
+## Owner decisions it rests on
+
+- "Election night: a scene with your people, results precinct by precinct."
+- Owner answer (this round): election night is a played scene with your real people, precinct by precinct, crowd behind sized by turnout (Session 13 stays the one writer of counts).
+- "Crowds: real people up front, a crowd sized by real turnout behind."
+- Sept 22 election-results decision: "election night has a few skippable updates using aggregate reports"; results are unofficial until canvass/certification.
+- Fixed rules: zero dice; nothing blank, estimate from similar places and mark; one rule for all 56 places; emergent; one writer per record kind; delete what you replace.
+
+## Existing code to extend (verified)
+
+- `src/simulation/election-contests.ts:177 countRecordedVoterBallots`: loops `world.personOrder` (:240ish), keeps eligible voters (`isEligibleVoterIn`), decides each through `evaluateDecision` with `randomness: "none"` (:283), returns `{winnerPersonId, tallies}` only. Callers: `evaluateDeterministicContestOutcome` (:157, the contest path) and `living-world/local-elections.ts:1146` inside `countVotes` (ward-filtered via `wardOfPerson`, which is the existing per-person ward precedent: `local-elections.ts:103,911,1017`), reached from `localElectionCountHandler` :1163.
+- Result record: `ElectionContestResultRecord` at `src/simulation/types.ts:3830` (`tallies`, `winnerPersonId`, `resolvedAt`, `outcomeEventId`). CORRECTION to the bank spec: `unit-result` is NOT a generic results-by-unit record. It is `NationalUnitResult` (`national-election-types.ts:43`), keyed by "USPS state/DC or ME-1/NE-1..." for presidential electoral units; `presentation/national-election-results.ts:31` filters `!record.unitKey.includes("-")` and `national-elections.ts:574` mutates those. Precinct rows must NOT be saved as `unit-result`. Save precinct tallies on/beside `ElectionContestResultRecord` (new field `precinctTallies`, or a sibling record keyed by `resultId`, one writer in Session 13's resolver).
+- `src/simulation/speech-reception.ts:119 electionNightWitnesses` (household, family/friends nearby with warm relationship, active staff only :127-133), `:148 speechReactionOf` (reasons from the record), `:312` writes each reaction.
+- `src/simulation/campaign-speeches.ts:42 ELECTION_NIGHT_LOCATION_KEY`, `:155 recordElectionSpeech`; `src/presentation/place-backdrops.ts:276 electionNightLocationKey`; `src/player/PlayerGame.tsx:1622` (election night overrides the home backdrop); `src/presentation/campaign-projection.ts:1213 giveElectionSpeech` (called from `src/player/CampaignWorkspace.tsx:835`); `campaign-projection.ts:229 displayedSharePercents` (shares that add to 100; used at :556, :598).
+- `src/presentation/backdrop-surfaces.ts:592 readResults`: TV surface shows the latest decided race within `RESULTS_DAYS = 3`, up to `RESULT_ROWS = 4` candidate rows. Wire reporting beats here.
+- `src/simulation/campaigns.ts:2099 closeCampaignAfterElection` (function begins at :2099; it is not exported). It ends the candidate and staff `recordWorkStatus` at `result.resolvedAt` (:2136-2152) and `electionNightWitnesses` accepts only `active` staff, so the player's own staff vanish from the room. Real bug, confirmed by reading both. Rivals' speeches are written in the same function (:2161-2175); the player's speech is only by choice.
+- `src/simulation/district-residence.ts`: the district-membership writer (`establishDistrictResidence` :385, `syncDistrictMembershipFromCanonicalHome` :664). It is built for legislative chambers (SLDL/SLDU/congressional from `place-membership.generated.json`), not for sub-city units. Check whether a `voting-precinct` chamber kind fits `DistrictChamber`/`DistrictIdentity` in `src/districts/types.ts` before extending; if it does not, ward membership (`wardOfPerson` in the local-election code) is the closest existing pattern, and the precinct membership should be added next to it through the same writer rather than as a new module.
+- `src/districts/place-district-population.generated.json` + `place-population-share.ts`: Census-tabulated shape to copy for precinct populations. `redistrictAfterCensus` at `local-elections.ts:1527`.
+- Gap confirmed: no precinct anywhere in src or data (grep: only rules about party precinct committee caucuses, `municipal-election-rules.ts:317`). No VTD file exists. No mail-first or counting-order data exists in repo.
+- Newer code covering part: none. The backdrop already shows a count on the room TV (3 days); that is the surface to feed, not rebuild.
+- Related unfinished research in repo: `docs/research/requests/election-results-calling-recounts-and-ties.json` (answered Sept 22: unofficial returns, canvass, certification are separate; media calls have no legal effect). The night scene shows unofficial returns; certification and recount are not part of this PR.
+
+## Build steps (one PR each)
+
+1. **Fix staff on the night** (small, first). In `closeCampaignAfterElection`, end staff work the day after `result.resolvedAt` (or on the speech, whichever the existing work-status API allows; the day after is the recorded rule), so `electionNightWitnesses` finds them. Update/extend `speech-reception.test.ts`. Must not: keep staff paid or working for later.
+2. **Precincts as a district membership.** Data file under `src/districts/` `place-precinct-population.generated.json`, same shape as `place-district-population.generated.json`: for each place, its Census 2020 voting districts (VTDs) with population. `district-residence.ts` (or the ward pattern, per the note above) gets a `voting-precinct` membership: at world creation residents are assigned in `world.personOrder` order, filling each precinct to its population share (deterministic, no draw); movers are assigned on arrival. A place with one VTD has one precinct. A place with no VTD row gets precincts sized from the state's rule or a similar-place estimate, marked estimated (tables). Boundaries change only through the existing redistricting step (`redistrictAfterCensus`). Must not: a precinct module outside the membership writer; a place special case.
+3. **Count by precinct, same count.** `countRecordedVoterBallots` also returns `byPrecinct` tallies (group the same loop by membership; also record each precinct's ballots cast). Winner and totals unchanged. Session 13's resolver saves them on the result as in the correction above. Keep ward-filtered counts working (`admitVoter`).
+4. **Reporting order from the record.** Precincts report in order of ballots cast, fewest first; where the state's rule counts early/mail ballots before or at poll close, that batch reports first. Nothing uncertain or invented: the scene reveals the saved count in that order.
+5. **The scene.** Through Session 4's scene blocks: place = `ELECTION_NIGHT_LOCATION_KEY` venue (home unless the campaign paid for a room through b02's costs); participants = `electionNightWitnesses`; one beat per reporting batch (a few skippable updates, not one per precinct if there are hundreds), each showing that batch's numbers and running totals on the room TV (`readResults`); people react through `speechReactionOf`-style reasons on each beat; last beat = the speech choice (`giveElectionSpeech`) in the same room. "Skip to the result" jumps to the last beat. Lines through `composeGroundedLine`, no authored lines.
+6. **Crowd.** For a rented venue the background crowd size reads the precinct turnout record; named people stay up front. Crowd is presentation sized from counted ballots, not a new population.
+
+## Must NOT build
+
+A second count, a projection or forecast, a "too close to call" from chance; fake partial results or rounding that changes the winner; a media call (separate bank item); authored election-night lines; a fixed list of who attends; a precinct system outside the membership writer; any place special case; saving precinct rows as national `unit-result` records.
+
+## Research tables
+
+In repo: nothing on precinct size, VTD populations or counting order. Web searches done (one per question, Oct 5, 2026):
+
+| Question                                                        | Finding                                                                                                                                                                                                                                                                                                   | Source                                                                                                                                         |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Which states may process/count mail ballots before election day | NCSL/Brennan via press summary: 12 states allow processing AND counting to start before election day: AZ, CO, DE, FL, HI, KS, MT, NE, NV, NJ, VA, UT. Processing (not counting) on election day before polls close: AL, MS, NH, PA, SD, WV, WI, D.C. 43 states allow some processing before election day. | 10tv.com Verify "These states can count votes before election day 2024"; NPR "When will mail-in and absentee ballots be counted?" (2024-11-04) |
+| Maximum voters per precinct                                     | No national table found. Examples only: Snohomish County WA, up to 1,000 active voters per precinct (county code 2.47.020); Texas bills proposed 3,000 to 5,000.                                                                                                                                          | snohomish.county.codes/SCC/2.47.020; Texas Legislative Reference Library bill analyses                                                         |
+| VTD population by place                                         | Not searched on the web: the Census 2020 VTD files (PL 94-171 redistricting data, Block Assignment Files) are public downloads; the compile step belongs to the source pipeline (`data/source`), not hand-typed.                                                                                          | census.gov (confirm file name when compiling)                                                                                                  |
+
+Judgement: the first row is good enough to build the order rule (data file listing the 12 plus the processing-only list, marked as 2024 state practice, rest estimated from similar states; "UNKNOWN is never zero", per the owner research rule). For precinct size use VTD populations where a place has them; otherwise an estimate from the state's own average VTD size computed from compiled data, marked estimated. The EAC EAVS survey (polling places per state) is the right source to add, but one more search is needed and was not run (10-minute cap per question already used).
+
+## Done when (played-game proof)
+
+- Random town, random state, council race: on the night the scene opens at home with the player's household, nearby family/friends and active volunteers by name; at least two reporting beats whose precinct numbers sum to the final count; the speech is given in the same room; skip works. The player's staff are present (the step 1 bug is gone).
+- Random large city: many precincts, a mail/early batch first where the state's rule says so.
+- Tests: `election-contests.test.ts` (byPrecinct sums equal totals; same save, same order), `district-residence.test.ts` (every resident in exactly one precinct; same seed, same assignment), `speech-reception.test.ts` (staff present on the night), a loop over all 56 places proving every resident gets a precinct, a test that `national-election-results` output is unchanged.
+
+## Proof to post
+
+Per PR: random place and seed; printed room list with names and why each is there; the beats with running totals; the sum check; skip; list of deleted/replaced items; typecheck and changed tests green.
+
+## Standing rules
+
+NEVER STOP WORK WAITING ON THE OWNER. When a decision is open, build everything that does not depend on the answer, plus the switch for it: a data row, a setting, or one function with the options stubbed. Log the question in the docket and keep building.
+
+- Open details with switches: how many reporting beats the scene shows = one setting `electionNightBeatCount` (default: one per reporting batch, capped at 6, skippable); venue rented-room rule = reads b02 costs, stub to home until b02 lands; early/mail-first order = a data row per state, default estimated from similar states.

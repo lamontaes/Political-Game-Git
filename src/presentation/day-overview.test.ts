@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { serializeWorld } from "../simulation";
 import { projectToday, projectWorkRole } from "./day-overview";
-import { currentOpeningLifeScene, openNextLifeScene } from "./life-scene-flow";
+import {
+  chooseOpeningLifeScene,
+  currentOpeningLifeScene,
+  openNextLifeScene,
+} from "./life-scene-flow";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { calendarEntryFor } from "./player-calendar";
@@ -11,6 +15,10 @@ import {
   respondCareerOffer,
   seekCareerOffer,
 } from "../simulation/career-path7";
+import {
+  cancelScheduledActivity,
+  scheduledActivityState,
+} from "../simulation/time-work";
 
 function adultLife(overrides: Partial<NewGameSetup> = {}, seed = "pt3-today") {
   const game = createNewGameWorld({
@@ -43,6 +51,32 @@ describe("PT3 — Today answers what is happening, next, waiting and time", () =
     const today = projectToday(world, personId);
     expect(today.nowKind).toBe("scene");
     expect(today.now).toBe(scene!.prose);
+  });
+
+  it("gives a quiet day a clear opening when no moment or commitment is due", () => {
+    const { world, personId } = adultLife();
+    const scene = currentOpeningLifeScene(world, personId);
+    expect(scene).not.toBeNull();
+    const resolved = chooseOpeningLifeScene(
+      world,
+      personId,
+      scene!.eventId,
+      scene!.choices[0]!.key,
+    );
+    const quiet = resolved.history.scheduledActivities
+      .filter((activity) => activity.participantPersonIds.includes(personId))
+      .filter(
+        (activity) =>
+          scheduledActivityState(resolved, activity.id).status === "scheduled",
+      )
+      .reduce(
+        (world, activity) => cancelScheduledActivity(world, activity.id),
+        resolved,
+      );
+
+    const today = projectToday(quiet, personId);
+    expect(today.nowKind).toBe("day");
+    expect(today.now).toBe("It's a quiet day. Nothing is happening right now.");
   });
 
   it("is a pure read: projecting today changes nothing in the world", () => {

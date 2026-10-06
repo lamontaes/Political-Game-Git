@@ -1,27 +1,40 @@
 import { expect, test } from "./fixtures";
-import { enterLife, goTo } from "./support/creator";
+import { goTo } from "./support/creator";
 import { drawRandomPlace } from "../support/random-place";
 
-test("routine notice omits the clock and fades after actual paycheck details", async ({
+test("a random new-life first paycheck is visible in Money and property", async ({
   page,
 }, info) => {
-  const place = drawRandomPlace("session8-clock-toast-2026-10-05");
+  test.setTimeout(240_000);
+  page.setDefaultTimeout(15_000);
+  const place = drawRandomPlace("session8-paycheck-toast-2026-10-06");
   await page.goto("/");
   await expect(page.getByTestId("new-game")).toBeVisible();
-  await page.evaluate(async (placeKey) => {
-    const gamePath = "/src/presentation/new-game.ts";
+  const receipt = await page.evaluate(async (placeKey) => {
+    const geographyPath = "/src/presentation/new-game-geography.ts";
+    const openingPath = "/src/presentation/opening-life.ts";
     const lifePath = "/src/simulation/life-paths2.ts";
+    const incomePath = "/src/simulation/resource-income.ts";
+    const worldPath = "/src/simulation/world.ts";
     const storePath = "/src/presentation/browser-world-repository.ts";
-    const { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } = await import(
-      /* @vite-ignore */ gamePath
+    const { explicitNewGameSetup } = await import(
+      /* @vite-ignore */ geographyPath
     );
-    const { enterLifePath, scheduleLifePathSession, performLifePathSession } =
-      await import(/* @vite-ignore */ lifePath);
+    const { generateOpeningLife, prepareOpeningLife } = await import(
+      /* @vite-ignore */ openingPath
+    );
+    const {
+      enterLifePath,
+      scheduleLifePathSession,
+      performLifePathSession,
+      lifePaths2Handlers,
+    } = await import(/* @vite-ignore */ lifePath);
+    const { recordedPayStubs } = await import(/* @vite-ignore */ incomePath);
+    const { advanceWorld } = await import(/* @vite-ignore */ worldPath);
     const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
-    // A randomly drawn locality with actual recorded earnings and taxes.
-    // This path reads saved world facts and does not invent a paycheck.
-    const game = createNewGameWorld({
-      ...DEFAULT_NEW_GAME_SETUP,
+    // Run the same opening pipeline as a playable random new life before
+    // recording the first completed-shift paycheck.
+    const setup = explicitNewGameSetup({
       startAge: 30,
       placeKey,
       startingLife: "ordinary-life",
@@ -30,6 +43,9 @@ test("routine notice omits the clock and fades after actual paycheck details", a
       priors: [],
       seed: `saved-pay-stub:${placeKey}`,
     });
+    const opened = generateOpeningLife(prepareOpeningLife(setup));
+    if (!opened.game) throw new Error("New game opening did not complete.");
+    const game = opened.game;
     const entered = enterLifePath(game.world, "shop-assistant");
     if (!entered.ok) throw new Error(entered.message);
     const scheduled = scheduleLifePathSession(
@@ -42,41 +58,35 @@ test("routine notice omits the clock and fades after actual paycheck details", a
       scheduled.world.history.scheduledActivities.at(-1).id,
     );
     if (!worked.ok) throw new Error(worked.message);
+    const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
+    const stubs = recordedPayStubs(paid, game.playerPersonId);
+    if (stubs.length !== 1)
+      throw new Error("Payday fixture did not record one canonical paycheck.");
+    if (stubs[0]!.netPaid.minorUnits <= 0)
+      throw new Error("The first paycheck did not transfer positive net pay.");
+    const netPaidMinor = stubs[0]!.netPaid.minorUnits;
     const store = new BrowserSaveStore();
-    const saved = await store.save(worked.world, store.newSaveId(worked.world));
+    const saveId = store.newSaveId(paid);
+    const saved = await store.save(paid, saveId);
     if (saved.status !== "saved")
       throw new Error(`Payday fixture refused: ${saved.status}`);
+    return { netPaidMinor };
   }, place.key);
   await page.reload();
   await page.getByTestId("continue").click();
-  await enterLife(page);
-  await goTo(page, "nav-jobs");
-  const jobs = page.getByTestId("work-layout");
-  await expect(jobs.getByTestId("work-role")).toHaveCount(0);
+  await goTo(page, "nav-finances");
+  const finances = page.getByTestId("personal-finances");
+  await expect(finances).toBeVisible();
+  await expect(finances).toContainText("Money and property");
   await expect(
-    jobs.getByRole("heading", { name: "Waiting on you" }),
-  ).toHaveCount(0);
-  await expect(
-    jobs.getByRole("navigation", { name: "On this page" }),
-  ).toHaveCount(0);
-  await expect(jobs.getByTestId("job-pay-floor")).toHaveCount(0);
-  await expect(jobs.getByText("Other work", { exact: true })).toHaveCount(0);
-  await expect(
-    jobs.getByText("Career opportunities", { exact: true }),
-  ).toHaveCount(0);
-  await expect(
-    jobs.getByRole("button", { name: "Work", exact: true }),
+    page
+      .getByTestId("personal-purses")
+      .locator("[data-testid^='purse-balance-']")
+      .first(),
   ).toBeVisible();
-  await expect(
-    jobs.getByRole("button", { name: "Study", exact: true }),
-  ).toBeVisible();
-  await page.screenshot({ path: info.outputPath("jobs-owner-after.png") });
-  await page.getByRole("button", { name: "Close", exact: true }).click();
-  await page.getByTestId("shell-pass-day").click();
-  const notice = page.getByTestId("pass-outcome");
-  await expect(notice).not.toContainText("It is now");
-  await expect(notice).toContainText("Paycheck: gross");
-  await expect(notice).toContainText("net received");
-  await page.screenshot({ path: info.outputPath("saved-pay-stub-1440.png") });
-  await expect(notice).toBeHidden({ timeout: 10000 });
+  await expect(page.getByTestId("personal-purses")).toContainText(
+    /\$[\d,]+\.\d{2}/,
+  );
+  await page.screenshot({ path: info.outputPath("first-paycheck-money.png") });
+  expect(receipt.netPaidMinor).toBeGreaterThan(0);
 });

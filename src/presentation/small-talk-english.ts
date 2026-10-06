@@ -1,3 +1,5 @@
+import { conversationRegister } from "./conversation-register";
+import { speakerTraits } from "./speaker-traits";
 import { ageOnDate } from "../simulation";
 import { readRelationshipStanding } from "../simulation/relationship-standing";
 import {
@@ -463,6 +465,7 @@ function compose(
   const line = composeGroundedLine(packet, bank, {
     relationship: readRelationshipStanding(world, speakerId, playerPersonId),
     recentPartKeys: recentPartKeys(history),
+    register: conversationRegister(world, speakerId, playerPersonId),
   });
   return line.kind === "rendered"
     ? { text: line.text, parts: line.parts }
@@ -505,8 +508,11 @@ export function greetAgainLine(
           }
         : {}),
     },
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     // The speaker learned the name, and that they talked, in that turn.
     knowledge: [
       {
@@ -554,8 +560,11 @@ export function matterUninformedLine(
     stage: stageOf(world, speakerId),
     sourceRecordIds: [matterEventId],
     facts: {},
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     knowledge: [],
   };
   return compose(
@@ -837,8 +846,11 @@ function livedOutcomeViewLine(
     stage: stageOf(world, speakerId),
     sourceRecordIds: sources,
     facts,
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     // The speaker's own saved view and the record of what happened to them
     // are how they know each of these.
     knowledge: Object.keys(facts).map((factKey) => ({
@@ -979,8 +991,11 @@ export function officialViewLine(
     stage: stageOf(world, speakerId),
     sourceRecordIds: sources,
     facts,
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     // The speaker's own saved view and exposure are the record of their
     // learning each of these: whom they judged, for what, and how it reached
     // them.

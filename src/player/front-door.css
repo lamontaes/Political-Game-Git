@@ -27,11 +27,28 @@
   --pg-control-radius: 2px;
 }
 
+/* The no-art case uses the same dark glass foundation as an illustrated room. */
+.title-tableau.front-door {
+  background: var(--kit12-glass);
+}
+
+.title-tableau.front-door .title-tableau-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: auto;
+  overflow: visible;
+  padding: 2rem clamp(1rem, 4vw, 3.5rem);
+  box-sizing: border-box;
+}
+
 /*
  * The room is left almost untouched: a faint warm shade toward the menu side
  * only, so the framed menu sits on the picture rather than in a dark slab.
  */
-.title-tableau--art.front-door .title-tableau-stage::after {
+.title-tableau.front-door .title-tableau-stage::after {
   background: linear-gradient(
     90deg,
     rgb(38 26 14 / 0.16) 0%,
@@ -45,32 +62,33 @@
  * The menu and creator use the approved kit12 glass and brass frame.
  */
 
-.title-tableau--art.front-door .title-tableau-content > * {
+.title-tableau.front-door .title-tableau-content > * {
   position: relative;
   z-index: 1;
 }
 
 @media (width <= 52rem) {
-  .title-tableau--art.front-door .title-tableau-content:has(.game-title) {
+  .title-tableau.front-door .title-tableau-content:has(.game-title) {
     align-items: flex-end;
     justify-content: center;
   }
 }
 
-.title-tableau--art.front-door .game-title {
+.title-tableau.front-door .game-title {
   width: min(24rem, 100%);
   max-width: none;
   margin: 0;
-  padding: 0;
-  /* The menu never clips: at a short window it scrolls inside its own frame. */
-  max-height: calc(var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem));
-  overflow-y: auto;
-  overscroll-behavior: contain;
   padding: 1.35rem 1.25rem 1.2rem;
   box-sizing: border-box;
   color: var(--front-door-ink);
   font-family: var(--front-door-read);
   text-shadow: none;
+  border: 1px solid var(--brass);
+  border-radius: 2px;
+  background: var(--kit12-glass);
+  box-shadow: var(--kit12-frame);
+  backdrop-filter: var(--kit12-blur);
+  -webkit-backdrop-filter: var(--kit12-blur);
 }
 
 .front-door-logo {
@@ -85,7 +103,7 @@
   height: 5.6rem;
   object-fit: contain;
 }
-.title-tableau--art.front-door .game-title h1 {
+.title-tableau.front-door .game-title h1 {
   max-width: none;
   margin: 0;
   padding: 0;
@@ -107,12 +125,12 @@
   text-shadow: none;
 }
 
-.title-tableau--art.front-door .game-title-actions {
+.title-tableau.front-door .game-title-actions {
   gap: 0.2rem;
   max-width: none;
 }
 
-.title-tableau--art.front-door .game-title:not(.game-creator) button {
+.title-tableau.front-door .game-title:not(.game-creator) button {
   align-items: flex-start;
   width: 100%;
   min-height: 2.75rem;
@@ -133,12 +151,12 @@
     color 120ms ease;
 }
 
-.title-tableau--art.front-door .game-title-actions button {
+.title-tableau.front-door .game-title-actions button {
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.title-tableau--art.front-door .game-title:not(.game-creator) button small {
+.title-tableau.front-door .game-title:not(.game-creator) button small {
   max-width: 100%;
   color: var(--front-door-ink-dim);
   font-weight: 500;
@@ -150,7 +168,7 @@
   opacity: 1;
 }
 
-.title-tableau--art.front-door
+.title-tableau.front-door
   .game-title:not(.game-creator)
   button:is(:hover, :focus-visible):not(:disabled) {
   color: #fff;
@@ -161,37 +179,30 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .title-tableau--art.front-door .game-title:not(.game-creator) button {
+  .title-tableau.front-door .game-title:not(.game-creator) button {
     transition: none;
   }
 }
 
-.title-tableau--art.front-door
-  .game-title:not(.game-creator)
-  button:focus-visible,
-.title-tableau--art.front-door
-  .game-title
-  input:not([type="search"]):focus-visible,
-.title-tableau--art.front-door .game-title summary:focus-visible {
+.title-tableau.front-door .game-title:not(.game-creator) button:focus-visible,
+.title-tableau.front-door .game-title input:not([type="search"]):focus-visible,
+.title-tableau.front-door .game-title summary:focus-visible {
   outline: 2px solid var(--front-door-focus);
   outline-offset: 3px;
 }
 
-.title-tableau--art.front-door .game-title:not(.game-creator) button:disabled {
+.title-tableau.front-door .game-title:not(.game-creator) button:disabled {
   cursor: not-allowed;
   opacity: 1;
   color: var(--text-2);
   background: transparent;
 }
 
-.title-tableau--art.front-door
-  .game-title:not(.game-creator)
-  button:disabled
-  small {
+.title-tableau.front-door .game-title:not(.game-creator) button:disabled small {
   color: var(--text-2);
 }
 
-.title-tableau--art.front-door .game-title:not(.game-creator) button.is-chosen {
+.title-tableau.front-door .game-title:not(.game-creator) button.is-chosen {
   color: var(--front-door-accent);
   background: var(--glass-bottom);
   box-shadow: none;
@@ -202,7 +213,7 @@
  * the content viewport rather than the nominal display height, so Back and
  * Begin stay reachable with Safari chrome and at short windows.
  */
-.title-tableau--art.front-door .game-creator {
+.title-tableau.front-door .game-creator {
   display: flex;
   flex-direction: column;
   width: min(24rem, 100%);
@@ -215,38 +226,36 @@
   text-shadow: none;
 }
 
-.title-tableau--art.front-door .game-creator > section {
+.title-tableau.front-door .game-creator > section {
   flex: 1 1 auto;
   min-height: 0;
   min-width: 0;
   overflow-y: auto;
   scrollbar-width: none;
 }
-.title-tableau--art.front-door .game-creator > section::-webkit-scrollbar {
+.title-tableau.front-door .game-creator > section::-webkit-scrollbar {
   display: none;
 }
-.title-tableau--art.front-door .game-creator .creator-summaries > button {
+.title-tableau.front-door .game-creator .creator-summaries > button {
   flex-shrink: 0;
 }
-.title-tableau--art.front-door .game-creator .game-search {
+.title-tableau.front-door .game-creator .game-search {
   margin-block-start: 0.65rem;
   min-width: 0;
 }
 
-.title-tableau--art.front-door
-  .game-creator
-  [data-testid="creator-stage-place"] {
+.title-tableau.front-door .game-creator [data-testid="creator-stage-place"] {
   display: flex;
   flex-direction: column;
 }
-.title-tableau--art.front-door
+.title-tableau.front-door
   .game-creator
   [data-testid="creator-stage-place"]
   > * {
   flex-shrink: 0;
 }
-.title-tableau--art.front-door .game-creator [data-testid="state-choices"],
-.title-tableau--art.front-door .game-creator [data-testid="place-choices"] {
+.title-tableau.front-door .game-creator [data-testid="state-choices"],
+.title-tableau.front-door .game-creator [data-testid="place-choices"] {
   flex: 1 1 auto;
   min-height: 0;
   max-height: 32vh;
@@ -254,12 +263,12 @@
   padding: 0.2rem 0.15rem 0.35rem;
 }
 
-.title-tableau--art.front-door .game-creator h2 {
+.title-tableau.front-door .game-creator h2 {
   background: none;
   padding-left: 0;
 }
 
-.title-tableau--art.front-door .game-creator h2 {
+.title-tableau.front-door .game-creator h2 {
   margin: 0.15rem 0 0.65rem;
   padding: 0.15rem 0.55rem 0.25rem 0.15rem;
   color: var(--gold);
@@ -272,7 +281,7 @@
   text-transform: none;
 }
 
-.title-tableau--art.front-door .game-creator h3 {
+.title-tableau.front-door .game-creator h3 {
   margin: 1rem 0 0.35rem;
   color: var(--front-door-muted);
   font-family: var(--front-door-read);
@@ -282,7 +291,7 @@
   text-transform: uppercase;
 }
 
-.title-tableau--art.front-door .game-creator .game-choices {
+.title-tableau.front-door .game-creator .game-choices {
   grid-template-columns: minmax(0, 1fr);
   min-width: 0;
 }
@@ -299,39 +308,39 @@
   display: none;
 }
 
-.title-tableau--art.front-door .game-creator .game-choices.game-choices-inline {
+.title-tableau.front-door .game-creator .game-choices.game-choices-inline {
   display: flex;
   flex-wrap: wrap;
   grid-template-columns: none;
 }
 
-.title-tableau--art.front-door
+.title-tableau.front-door
   .game-creator
   .game-choices.game-choices-inline
   button {
   width: auto;
 }
 
-.title-tableau--art.front-door .game-creator .game-fields {
+.title-tableau.front-door .game-creator .game-fields {
   grid-template-columns: 1fr;
 }
 
-.title-tableau--art.front-door .creator-group-name .game-fields {
+.title-tableau.front-door .creator-group-name .game-fields {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.title-tableau--art.front-door .game-creator legend,
-.title-tableau--art.front-door .game-creator .game-search,
-.title-tableau--art.front-door .game-creator .game-fields label,
-.title-tableau--art.front-door .game-creator .game-disclosure > summary {
+.title-tableau.front-door .game-creator legend,
+.title-tableau.front-door .game-creator .game-search,
+.title-tableau.front-door .game-creator .game-fields label,
+.title-tableau.front-door .game-creator .game-disclosure > summary {
   color: var(--front-door-ink-dim);
   font-family: var(--front-door-read);
   font-weight: 600;
 }
 
-.title-tableau--art.front-door .game-creator .game-fields input,
-.title-tableau--art.front-door .game-creator input[type="text"],
-.title-tableau--art.front-door .game-creator input[type="number"] {
+.title-tableau.front-door .game-creator .game-fields input,
+.title-tableau.front-door .game-creator input[type="text"],
+.title-tableau.front-door .game-creator input[type="number"] {
   background: #1c1c1e;
   border: 1px solid rgb(122 90 40 / 0.45);
   border-radius: 1px;
@@ -340,7 +349,7 @@
   font-weight: 500;
 }
 
-.title-tableau--art.front-door .creator-summary {
+.title-tableau.front-door .creator-summary {
   color: var(--front-door-ink);
   border-bottom-color: rgb(122 90 40 / 0.28);
   background: transparent;
@@ -349,56 +358,56 @@
   font-weight: 500;
 }
 
-.title-tableau--art.front-door .creator-summary-value {
+.title-tableau.front-door .creator-summary-value {
   display: grid;
   gap: 0.2rem;
   min-width: 0;
   overflow-wrap: anywhere;
 }
 
-.title-tableau--art.front-door .creator-summary-name {
+.title-tableau.front-door .creator-summary-name {
   color: var(--gold);
   font: 800 0.95rem var(--name);
 }
 
-.title-tableau--art.front-door .creator-summary-detail {
+.title-tableau.front-door .creator-summary-detail {
   color: var(--text-2);
   font: 400 0.78rem var(--ui);
 }
 
-.title-tableau--art.front-door .creator-summary-edit {
+.title-tableau.front-door .creator-summary-edit {
   color: var(--front-door-muted);
 }
 
-.title-tableau--art.front-door .game-hint,
-.title-tableau--art.front-door .game-note,
-.title-tableau--art.front-door .game-band,
-.title-tableau--art.front-door .game-dev,
-.title-tableau--art.front-door .creator-place-name {
+.title-tableau.front-door .game-hint,
+.title-tableau.front-door .game-note,
+.title-tableau.front-door .game-band,
+.title-tableau.front-door .game-dev,
+.title-tableau.front-door .creator-place-name {
   color: var(--front-door-ink-dim);
 }
 
-.title-tableau--art.front-door .game-scene {
+.title-tableau.front-door .game-scene {
   color: var(--front-door-ink);
   font-family: var(--front-door-read);
 }
 
-.title-tableau--art.front-door .game-problem {
+.title-tableau.front-door .game-problem {
   background: rgb(122 46 42 / 0.1);
   border-left-color: var(--front-door-accent);
   color: var(--front-door-ink);
 }
 
-.title-tableau--art.front-door .game-setup-actions {
+.title-tableau.front-door .game-setup-actions {
   gap: 0.45rem;
 }
 
-.title-tableau--art.front-door .game-setup-actions button {
+.title-tableau.front-door .game-setup-actions button {
   width: auto;
   flex: 1 1 8rem;
 }
 
-.title-tableau--art.front-door .game-title code {
+.title-tableau.front-door .game-title code {
   color: var(--front-door-ink);
 }
 
@@ -410,20 +419,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .title-tableau--art.front-door .game-title h1,
-  .title-tableau--art.front-door .game-title:not(.game-creator) button {
+  .title-tableau.front-door .game-title h1,
+  .title-tableau.front-door .game-title:not(.game-creator) button {
     transition: none;
   }
 }
 
 /* Role D grouping, adapted to #255's current birthday component. */
-.title-tableau--art.front-door .game-creator .creator-group {
+.title-tableau.front-door .game-creator .creator-group {
   margin: 0 0 0.85rem;
   padding: 0 0 0.7rem;
   border-bottom: 1px solid rgb(122 90 40 / 0.2);
 }
 
-.title-tableau--art.front-door .game-creator .creator-group-label {
+.title-tableau.front-door .game-creator .creator-group-label {
   display: block;
   margin: 0 0 0.45rem;
   color: var(--front-door-muted);
@@ -434,15 +443,15 @@
   text-transform: uppercase;
 }
 
-.title-tableau--art.front-door .game-creator input[type="number"] {
+.title-tableau.front-door .game-creator input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
 
-.title-tableau--art.front-door
+.title-tableau.front-door
   .game-creator
   input[type="number"]::-webkit-outer-spin-button,
-.title-tableau--art.front-door
+.title-tableau.front-door
   .game-creator
   input[type="number"]::-webkit-inner-spin-button {
   appearance: none;
@@ -450,22 +459,22 @@
   margin: 0;
 }
 
-.title-tableau--art.front-door .game-creator .game-setup-actions {
+.title-tableau.front-door .game-creator .game-setup-actions {
   display: flex;
   flex-wrap: wrap;
 }
 
-.title-tableau--art.front-door .game-creator .game-setup-actions button {
+.title-tableau.front-door .game-creator .game-setup-actions button {
   min-width: 0;
 }
 
-.title-tableau--art.front-door .game-creator .game-creator-next {
+.title-tableau.front-door .game-creator .game-creator-next {
   box-sizing: border-box;
   width: 100%;
 }
 
 /* One footer owns both directions, so Back cannot cover a step's Next. */
-.title-tableau--art.front-door .game-creator > .creator-navigation {
+.title-tableau.front-door .game-creator > .creator-navigation {
   position: relative;
   flex-shrink: 0;
   z-index: 5;
@@ -485,26 +494,26 @@
   box-shadow: none;
 }
 
-.title-tableau--art.front-door .game-creator > .creator-navigation button {
+.title-tableau.front-door .game-creator > .creator-navigation button {
   width: auto;
   min-width: 0;
   margin: 0;
 }
 
-.title-tableau--art.front-door .game-creator > .creator-navigation button {
+.title-tableau.front-door .game-creator > .creator-navigation button {
   min-height: 2.75rem;
   color: var(--gold);
   font: 600 0.875rem var(--ui);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
-.title-tableau--art.front-door
+.title-tableau.front-door
   .game-creator
   > .creator-navigation
   .creator-back-action {
   flex: 0 1 auto;
 }
-.title-tableau--art.front-door
+.title-tableau.front-door
   .game-creator
   > .creator-navigation
   .creator-primary-action {
@@ -513,10 +522,24 @@
   color: var(--text-strong);
   border-bottom: 0;
 }
-.title-tableau--art.front-door
+/* The approved primary corner marks a held static action, never its resting face. */
+.pg-game.pg-game
+  .title-tableau.front-door
   .game-creator
   > .creator-navigation
-  button:disabled {
+  .creator-primary-action:active:not(:disabled) {
+  background-image:
+    url("/ui/kit13/primary-corner.svg"), var(--kit13-grain),
+    var(--kit13-button-face);
+  background-position: left top;
+  background-size:
+    20px 20px,
+    96px 64px,
+    auto;
+  background-repeat: no-repeat, repeat, no-repeat;
+}
+
+.title-tableau.front-door .game-creator > .creator-navigation button:disabled {
   color: var(--text-3);
   border-bottom-color: transparent;
   background: transparent;
@@ -524,25 +547,22 @@
   cursor: not-allowed;
 }
 
-.title-tableau--art.front-door .game-creator--appearance > .creator-navigation {
+.title-tableau.front-door .game-creator--appearance > .creator-navigation {
   position: static;
   flex-shrink: 0;
 }
 
-.title-tableau--art.front-door .game-creator {
+.title-tableau.front-door .game-creator {
   scroll-padding-block-end: 4rem;
 }
 
 @media (height <= 50rem) {
-  .title-tableau--art.front-door .game-creator .creator-group {
+  .title-tableau.front-door .game-creator .creator-group {
     margin-bottom: 0.55rem;
     padding-bottom: 0.45rem;
   }
 
-  .title-tableau--art.front-door
-    .game-creator
-    .creator-group-name
-    .game-fields {
+  .title-tableau.front-door .game-creator .creator-group-name .game-fields {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -560,7 +580,7 @@
  * They open as a panel on the right of the room, beside the menu, and the
  * pictures keep changing behind both. They share the menu's glass frame.
  */
-.title-tableau--art.front-door .title-side-panel {
+.title-tableau.front-door .title-side-panel {
   margin-left: auto;
   width: min(36rem, 52vw);
   max-height: calc(var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem));
@@ -573,7 +593,7 @@
   backdrop-filter: var(--kit12-blur);
 }
 
-.title-tableau--art.front-door .title-side-panel > main {
+.title-tableau.front-door .title-side-panel > main {
   max-width: none;
   margin: 0;
   padding: 1.6rem 1.75rem 1.9rem;
@@ -582,8 +602,8 @@
 }
 
 /* Notes in the side panel read in the same muted ink as the menu. */
-.title-tableau--art.front-door .title-side-panel .game-note,
-.title-tableau--art.front-door .title-side-panel .game-hint {
+.title-tableau.front-door .title-side-panel .game-note,
+.title-tableau.front-door .title-side-panel .game-hint {
   color: var(--run-a-muted, #5f4e3b);
   text-shadow: none;
 }
@@ -593,17 +613,17 @@
  * own layer beneath it (player.css), and nothing in the menu's layer carries
  * an animation, so the menu cannot fade, flicker or move with a backdrop.
  */
-.title-tableau--art.front-door .title-tableau-content {
+.title-tableau.front-door .title-tableau-content {
   isolation: isolate;
 }
 
-.title-tableau--art.front-door .game-title {
+.title-tableau.front-door .game-title {
   animation: none;
   opacity: 1;
 }
 
 @media (width <= 52rem) {
-  .title-tableau--art.front-door .title-side-panel {
+  .title-tableau.front-door .title-side-panel {
     position: fixed;
     inset: 1rem;
     z-index: 2;
@@ -619,8 +639,7 @@
     text-shadow 0.25s ease,
     box-shadow 0.25s ease;
 }
-.title-tableau--art.front-door
-  button:is(:hover, :focus-visible):not(:disabled) {
+.title-tableau.front-door button:is(:hover, :focus-visible):not(:disabled) {
   color: #fff;
   text-shadow:
     0 0 6px rgba(255, 255, 255, 0.6),
@@ -632,7 +651,7 @@
   }
 }
 
-.title-tableau--art.front-door
+.title-tableau.front-door
   .game-title:not(.game-creator)
   button:active:not(:disabled) {
   background: var(--glass-bottom);

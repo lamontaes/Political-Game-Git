@@ -213,12 +213,24 @@ export function PersonCard({
     ];
   });
 
+  /*
+   * An anchor exists only when the player opened this card from the person's
+   * rendered figure. That direct scene evidence outranks a roster captured by
+   * an earlier render; otherwise the person under the pointer can be labeled
+   * away and offered travel actions while visibly standing in the room.
+   */
+  const openedFromSceneFigure = mode === "overlay" && anchor !== null;
+  const presentNow =
+    openedFromSceneFigure ||
+    (presentPersonIds
+      ? presentPersonIds.includes(dossier.personId)
+      : dossier.presentNow);
+  const contactPresence = presentNow
+    ? Array.from(new Set([...(presentPersonIds ?? []), dossier.personId]))
+    : presentPersonIds;
   const contact = projectPersonContact(world, playerId, dossier.personId, {
-    ...(presentPersonIds ? { presentPersonIds } : {}),
+    ...(contactPresence ? { presentPersonIds: contactPresence } : {}),
   });
-  const presentNow = presentPersonIds
-    ? presentPersonIds.includes(dossier.personId)
-    : dossier.presentNow;
   const facts = dossier.details;
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
@@ -400,6 +412,14 @@ export function PersonCard({
         ) : null}
         <div className="pg-person-card-reading">
           <section className="pg-dossier-section" aria-label="What you know">
+            {(dossier.notesMode === "full" ||
+              (dossier.notesMode === "light" && expanded)) &&
+            dossier.reminders.length > 0 ? (
+              <div data-testid="dossier-reminders">
+                <h3>What you may need to remember</h3>
+                <FactList facts={dossier.reminders} testId="dossier-reminder" />
+              </div>
+            ) : null}
             <p
               className="pg-person-card-read"
               data-testid={
