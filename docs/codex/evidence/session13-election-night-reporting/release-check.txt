@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --base codex/session13-precinct-results --head HEAD --mode pr
+
+release:check — version 0.4.0, revision bfe4eff, 1675 pending declaration(s), declaration range codex/session13-precinct-results..HEAD (pr). OK.
