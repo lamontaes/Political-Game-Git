@@ -1,3 +1,12 @@
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
+import { modelCampaignFieldReach } from "./campaign-contact-calibration";
+import { peopleTiedTo } from "./neighbor-news";
+import { recordEventKnowledge } from "./records";
+import { recordsByKey, recordsWithFieldValue } from "./history-index";
 import { addDays } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { organizationParticipationStateHistory } from "./life-queries";
@@ -27,6 +36,7 @@ import { viewOfOfficial } from "./official-view-reads";
 import { isEligibleVoterIn } from "./issue-record";
 import { nextTownElection } from "./nationwide-world/town-election-calendar";
 import type {
+  DecisionContext,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -53,10 +63,10 @@ import { recordWorldEvent } from "./world";
  * it takes the rule the most read states name (no draw), ESTIMATED FROM
  * AVERAGE and labeled `national-estimated`. It is never another state's law.
  *
- * Under the owner-approved game mechanism, recorded recall supporters count
- * as signatures and recorded registered residents supply the base. The legal
- * percentage and its original base label remain recorded separately. Election
- * counts use saved official views; no turnout is extrapolated.
+ * Signatures come from recorded asks and signer decisions. Recorded eligible
+ * residents supply the threshold base; the legal percentage and its original
+ * base label remain recorded separately. Election counts use saved official
+ * views; no turnout is extrapolated.
  *
  * NOT MODELED, with the blanket rule applied meanwhile:
  * - Recall of state officers, legislators and judges. Refused with the reason
@@ -470,6 +480,583 @@ export function recallResidentViews(
   return { yes, no, registeredVoters, sourceRecordIds: [...sourceRecordIds] };
 }
 
+export const PETITION_ASKED = "civic.petition-asked";
+export const PETITION_SIGNED = "civic.petition-signed";
+export const PETITION_ANSWERED = "civic.petition-answered";
+export const PETITION_SIGNATURE_REVIEWED = "civic.petition-signature-reviewed";
+
+export type PetitionSubject =
+  | { readonly kind: "official"; readonly personId: EntityId }
+  | { readonly kind: "proposition"; readonly propositionId: EntityId };
+
+/** A recorded request, not membership or a favorable view, makes signing answerable. */
+export function openPetitionAsksFor(
+  world: World,
+  personId: EntityId,
+  asOf = world.currentDate,
+  sequence = world.history.nextSequence,
+) {
+  const requests = recordsByKey(
+    world.history.events,
+    "petition-asks-by-requested-person",
+    (event) =>
+      event.type === PETITION_ASKED
+        ? event.participants
+            .filter((row) => row.role === "focus:requested")
+            .map((row) => row.personId)
+        : [],
+    personId,
+  );
+  if (requests.length === 0) return [];
+  const events = [
+    RECALL_PETITION_STARTED,
+    RECALL_PETITION_CLOSED,
+    RECALL_ELECTION_HELD,
+    PETITION_ASKED,
+    PETITION_SIGNED,
+    PETITION_ANSWERED,
+  ]
+    .flatMap((type) =>
+      recordsWithFieldValue(world.history.events, "type", type),
+    )
+    .filter(
+      (row) =>
+        row.occurredAt <= asOf &&
+        row.recordedAt <= asOf &&
+        row.sequence < sequence,
+    )
+    .sort((a, b) => a.sequence - b.sequence);
+  const petitions = recallPetitions({
+    ...world,
+    history: { ...world.history, events },
+  });
+  const answered = new Set(
+    events
+      .filter(
+        (row) => row.type === PETITION_SIGNED || row.type === PETITION_ANSWERED,
+      )
+      .map((row) => tagValue(row.tags, "ask:")),
+  );
+  return events.filter(
+    (event) =>
+      event.type === PETITION_ASKED &&
+      !answered.has(event.id) &&
+      event.participants.some(
+        (row) => row.personId === personId && row.role === "focus:requested",
+      ) &&
+      petitions.some(
+        (petition) =>
+          petition.stableKey === tagValue(event.tags, "petition:") &&
+          petition.phase === "circulating" &&
+          asOf <= petition.closesAt,
+      ),
+  );
+}
+
+/** The shared signer decision seam accepts official or proposition subjects. */
+export function askToSign(
+  world: World,
+  input: {
+    readonly petition: RecallPetition;
+    readonly signerPersonId: EntityId;
+    readonly circulatorPersonId: EntityId;
+    readonly subject?: PetitionSubject;
+    readonly askEventId?: EntityId;
+  },
+): World {
+  const petition = input.petition;
+  const subject: PetitionSubject = input.subject ?? {
+    kind: "official",
+    personId: petition.targetPersonId,
+  };
+  if (petition.phase !== "circulating" || world.currentDate > petition.closesAt)
+    throw new Error("This petition is no longer circulating.");
+  if (
+    !world.people[input.signerPersonId] ||
+    !world.people[input.circulatorPersonId]
+  )
+    throw new Error("A petition request must name recorded people.");
+  if (
+    subject.kind === "official"
+      ? !world.people[subject.personId]
+      : !world.policyCatalog.propositions[subject.propositionId]
+  )
+    throw new Error("The petition request must name a recorded subject.");
+  let next = world;
+  let asked = input.askEventId
+    ? world.history.events.find(
+        (row) =>
+          row.id === input.askEventId &&
+          row.type === PETITION_ASKED &&
+          row.tags.includes(`petition:${petition.stableKey}`) &&
+          row.participants.some(
+            (person) =>
+              person.personId === input.signerPersonId &&
+              person.role === "focus:requested",
+          ),
+      )
+    : undefined;
+  if (input.askEventId && !asked)
+    throw new Error("No matching petition request exists.");
+  if (!asked) {
+    next = recordWorldEvent(next, {
+      stableKey: `${petition.stableKey}:ask:${input.signerPersonId}:${next.history.nextSequence}`,
+      type: PETITION_ASKED,
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: petition.jurisdictionId,
+      involvedEntityIds: [
+        ...new Set([
+          input.signerPersonId,
+          input.circulatorPersonId,
+          petition.jurisdictionId,
+        ]),
+      ],
+      participants: [
+        {
+          personId: input.circulatorPersonId,
+          role: "agency:circulator",
+          detail: "Asked for a petition signature",
+        },
+        {
+          personId: input.signerPersonId,
+          role: "focus:requested",
+          detail: "Received this specific petition request",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: [
+        RECALL_VERSION,
+        `petition:${petition.stableKey}`,
+        `subject-kind:${subject.kind}`,
+        subject.kind === "official"
+          ? `official:${subject.personId}`
+          : `proposition:${subject.propositionId}`,
+        `closes:${petition.closesAt}`,
+        `answer-mode:${world.control.kind === "person" && world.control.personId === input.signerPersonId ? "player" : "resident"}`,
+      ],
+      summary: `${personName(next.people[input.circulatorPersonId]!)} asked ${personName(next.people[input.signerPersonId]!)} to sign the filed petition.`,
+      context: {
+        ...eventContext(),
+        socialContext: "A named petition and its filing terms",
+        choice: null,
+      },
+    });
+    asked = next.history.events.at(-1)!;
+    next = recordEventKnowledge(next, {
+      stableKey: `${asked.stableKey}:known`,
+      personId: input.signerPersonId,
+      eventId: asked.id,
+      learnedAt: next.currentDate,
+      believedSummary: asked.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+  }
+  if (
+    next.history.events.some(
+      (row) =>
+        (row.type === PETITION_SIGNED || row.type === PETITION_ANSWERED) &&
+        row.tags.includes(`ask:${asked!.id}`),
+    )
+  )
+    return next;
+  const player = asked.tags.includes("answer-mode:player");
+  const saved = player
+    ? next.history.events
+        .filter(
+          (event) =>
+            event.type === "life.petition-ask" &&
+            event.tags.includes("adult.petition-ask") &&
+            event.participants.some(
+              (row) =>
+                row.personId === input.signerPersonId &&
+                row.role === "agency:actor",
+            ) &&
+            event.sequence > asked!.sequence &&
+            event.occurredAt <= petition.closesAt &&
+            event.tags.some((tag) =>
+              ["choice.sign", "choice.refuse", "choice.help-quietly"].includes(
+                tag,
+              ),
+            ) &&
+            openPetitionAsksFor(
+              next,
+              input.signerPersonId,
+              event.occurredAt,
+              event.sequence,
+            ).length === 1 &&
+            openPetitionAsksFor(
+              next,
+              input.signerPersonId,
+              event.occurredAt,
+              event.sequence,
+            )[0]!.id === asked!.id,
+        )
+        .at(-1)
+    : undefined;
+  if (player && !saved) return next;
+  const selected = saved?.tags
+    .find((tag) => tag.startsWith("choice."))
+    ?.slice(7);
+  const belief = player
+    ? undefined
+    : next.history.privateBeliefs
+        .filter(
+          (row) =>
+            row.personId === input.signerPersonId &&
+            row.formedAt <= next.currentDate &&
+            (subject.kind === "official"
+              ? row.subject?.kind === "official" &&
+                row.subject.personId === subject.personId
+              : row.propositionId === subject.propositionId),
+        )
+        .sort(
+          (a, b) =>
+            a.formedAt.localeCompare(b.formedAt) || a.sequence - b.sequence,
+        )
+        .at(-1);
+  const context: DecisionContext = {
+    stableKey: `${asked.stableKey}:signer-decision`,
+    decisionType: "petition.sign",
+    actorPersonId: input.signerPersonId,
+    cutoff: {
+      asOfDate: next.currentDate,
+      historySequenceExclusive: next.history.nextSequence,
+    },
+    subject: {
+      kind: "context:petition",
+      key: petition.stableKey,
+      entityId: null,
+    },
+    options: [
+      {
+        key: "sign",
+        label: "Sign the petition",
+        description: "Add a dated signature to this specific petition.",
+      },
+      {
+        key: "refuse",
+        label: "Decline",
+        description: "Do not add a signature.",
+      },
+      {
+        key: "help-quietly",
+        label: "Help without signing",
+        description: "Do not add a signature.",
+      },
+    ],
+    constraints: saved
+      ? ["sign", "refuse", "help-quietly"]
+          .filter((key) => key !== selected)
+          .map((key) => ({
+            stableKey: `${asked!.stableKey}:already-answered:${key}`,
+            optionKey: key,
+            kind: "constraint:recorded-player-choice",
+            explanation:
+              "The player already chose another answer to this request.",
+            sourceRefs: [
+              { kind: "historical-event" as const, eventId: saved.id },
+            ],
+          }))
+      : [],
+    considerations: saved
+      ? [
+          {
+            stableKey: `${asked.stableKey}:player-answer`,
+            optionKey: selected!,
+            sourceType: "context:recorded-player-choice",
+            direction: "supports",
+            importance: "decisive",
+            confidence: "high",
+            explanation:
+              "The player's recorded answer to this unique petition request.",
+            sourceRefs: [{ kind: "historical-event", eventId: saved.id }],
+          },
+        ]
+      : belief &&
+          (belief.position === "support" || belief.position === "oppose")
+        ? [
+            {
+              stableKey: `${asked.stableKey}:view:${belief.id}`,
+              optionKey: "sign",
+              sourceType: "belief:petition",
+              direction: (
+                subject.kind === "official"
+                  ? belief.position === "oppose"
+                  : belief.position === "support"
+              )
+                ? "supports"
+                : "opposes",
+              importance:
+                belief.salience === "central"
+                  ? "decisive"
+                  : belief.salience === "high"
+                    ? "strong"
+                    : belief.salience === "moderate"
+                      ? "moderate"
+                      : "slight",
+              confidence:
+                belief.conviction === "tentative"
+                  ? "low"
+                  : belief.conviction === "moderate"
+                    ? "medium"
+                    : "high",
+              explanation:
+                belief.rationale ??
+                "The signer's recorded view of the petition subject.",
+              sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
+            },
+          ]
+        : [],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  };
+  const decision = evaluateDecision(next, context);
+  next = recordDurableDecisionTrace(next, decision);
+  const trace = next.history.decisionTraces.at(-1)!;
+  const answer = isSelectedDecision(decision)
+    ? decision.selectedOptionKey
+    : null;
+  return recordWorldEvent(next, {
+    stableKey: `${asked.stableKey}:answered`,
+    type: answer === "sign" ? PETITION_SIGNED : PETITION_ANSWERED,
+    occurredAt: saved?.occurredAt ?? next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: petition.jurisdictionId,
+    involvedEntityIds: [input.signerPersonId, petition.jurisdictionId],
+    participants: [
+      {
+        personId: input.signerPersonId,
+        role: "focus:signer",
+        detail:
+          answer === "sign"
+            ? "Signed the petition after being asked"
+            : "Did not sign",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: [
+      RECALL_VERSION,
+      `petition:${petition.stableKey}`,
+      `ask:${asked.id}`,
+      `signer-decision:${trace.id}`,
+      ...(saved ? [`player-choice:${saved.id}`] : []),
+    ],
+    summary: `${personName(next.people[input.signerPersonId]!)} ${answer === "sign" ? "signed" : "did not sign"} the petition after a recorded request.`,
+    context: {
+      ...eventContext(),
+      choice: answer,
+      motivation:
+        decision.context.considerations
+          .map((row) => row.explanation)
+          .join(" ") || "No separated preference on the recorded reasons.",
+    },
+  });
+}
+
+/** Circulators reach named residents through the existing field-work estimate. */
+export function circulatePetition(
+  world: World,
+  input: {
+    readonly petitionKey: string;
+    readonly circulatorPersonId: EntityId;
+    readonly minutes: number;
+    readonly form?: "door-canvass" | "phone-shift";
+  },
+): World {
+  const petition = recallPetitions(world).find(
+    (row) => row.stableKey === input.petitionKey,
+  );
+  if (!petition) throw new Error("No such petition.");
+  const reach = modelCampaignFieldReach(
+    input.form ?? "door-canvass",
+    input.minutes,
+  )!;
+  const conversations = reach.estimatedCompletedConversations;
+  if (!conversations)
+    throw new Error(
+      "This field-work row does not establish conversation reach.",
+    );
+  const budget = conversations.min;
+  const tied = peopleTiedTo(world, [input.circulatorPersonId], "known");
+  const candidates = [...new Set([...tied, ...world.personOrder])].filter(
+    (id) =>
+      id !== input.circulatorPersonId &&
+      isEligibleVoterIn(world, id, petition.jurisdictionId, world.currentDate),
+  );
+  const alreadyAsked = new Set(
+    world.history.events
+      .filter(
+        (row) =>
+          row.type === PETITION_ASKED &&
+          row.tags.includes(`petition:${petition.stableKey}`),
+      )
+      .flatMap((row) =>
+        row.participants
+          .filter((person) => person.role === "focus:requested")
+          .map((person) => person.personId),
+      ),
+  );
+  const reached = candidates
+    .filter((id) => !alreadyAsked.has(id))
+    .slice(0, budget);
+  let next = recordWorldEvent(world, {
+    stableKey: `${petition.stableKey}:circulation:${world.history.nextSequence}`,
+    type: "civic.petition-circulated",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: petition.jurisdictionId,
+    involvedEntityIds: [
+      ...new Set([
+        input.circulatorPersonId,
+        petition.jurisdictionId,
+        ...reached,
+      ]),
+    ],
+    participants: [
+      {
+        personId: input.circulatorPersonId,
+        role: "agency:circulator",
+        detail: "Completed recorded petition field work",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: [
+      RECALL_VERSION,
+      `petition:${petition.stableKey}`,
+      `minutes:${input.minutes}`,
+      `field-form:${input.form ?? "door-canvass"}`,
+      `estimated-conversations:${conversations.min}-${conversations.max}`,
+      ...reach.sourceObservationIds.map((id) => `field-source:${id}`),
+      ...reached.map((id) => `reached:${id}`),
+    ],
+    summary: `Petition field work reached ${reached.length} named residents; its conversation estimate is ${conversations.min}-${conversations.max}.`,
+    context: {
+      ...eventContext(),
+      motivation:
+        "Use the lower end of the existing field-work estimate, capped by the available named residents. ESTIMATED FROM AVERAGE; no signing conversion is assumed.",
+    },
+  });
+  for (const signerPersonId of reached)
+    next = askToSign(next, {
+      petition,
+      signerPersonId,
+      circulatorPersonId: input.circulatorPersonId,
+    });
+  return next;
+}
+
+/** One signature rule: invalidity needs an eligibility, duplicate, decision or clerk record. */
+export function recordedPetitionSignatures(
+  world: World,
+  petition: RecallPetition,
+) {
+  const events = world.history.events.filter(
+    (event) =>
+      (event.type === PETITION_SIGNED || event.type === PETITION_ASKED
+        ? event.occurredAt <= petition.closesAt
+        : event.occurredAt <= world.currentDate) &&
+      event.recordedAt <= world.currentDate &&
+      event.sequence < world.history.nextSequence,
+  );
+  const asks = new Map(
+    events
+      .filter(
+        (row) =>
+          row.type === PETITION_ASKED &&
+          row.tags.includes(`petition:${petition.stableKey}`),
+      )
+      .map((row) => [row.id, row]),
+  );
+  const seen = new Set<EntityId>();
+  const valid: {
+    readonly signerPersonId: EntityId;
+    readonly eventId: EntityId;
+    readonly askEventId: EntityId;
+  }[] = [];
+  const invalid: { readonly eventId: EntityId; readonly reason: string }[] = [];
+  for (const signed of events.filter(
+    (row) =>
+      row.type === PETITION_SIGNED &&
+      row.tags.includes(`petition:${petition.stableKey}`),
+  )) {
+    const signer = signed.participants.find(
+      (row) => row.role === "focus:signer",
+    )?.personId;
+    const askId = tagValue(signed.tags, "ask:") as EntityId | null;
+    const ask = askId ? asks.get(askId) : undefined;
+    const traceId = tagValue(signed.tags, "signer-decision:");
+    const trace = world.history.decisionTraces.find(
+      (row) => row.id === traceId,
+    );
+    const review = events
+      .filter(
+        (row) =>
+          row.type === PETITION_SIGNATURE_REVIEWED &&
+          row.tags.includes(`signature:${signed.id}`),
+      )
+      .at(-1);
+    const reason = review?.tags.includes("validity:invalid")
+      ? (review.context.motivation ??
+        "The clerk recorded this signature as invalid.")
+      : !signer
+        ? "The signature has no named signer."
+        : seen.has(signer)
+          ? "A prior signed record already counts for this signer."
+          : !ask ||
+              ask.sequence >= signed.sequence ||
+              ask.occurredAt > signed.occurredAt ||
+              !ask.participants.some(
+                (row) =>
+                  row.personId === signer && row.role === "focus:requested",
+              )
+            ? "No preceding request to this signer is recorded."
+            : !isEligibleVoterIn(
+                  world,
+                  signer,
+                  petition.jurisdictionId,
+                  signed.occurredAt,
+                )
+              ? "The signer's age, life or residence records do not establish eligibility."
+              : !trace ||
+                  trace.sequence >= signed.sequence ||
+                  trace.context.actorPersonId !== signer ||
+                  trace.context.subject.key !== petition.stableKey ||
+                  trace.selectedOptionKey !== "sign"
+                ? "No matching signer decision to sign is recorded."
+                : null;
+    if (reason) invalid.push({ eventId: signed.id, reason });
+    else {
+      seen.add(signer!);
+      valid.push({
+        signerPersonId: signer!,
+        eventId: signed.id,
+        askEventId: askId!,
+      });
+    }
+  }
+  const countAsOf =
+    petition.closesAt < world.currentDate
+      ? petition.closesAt
+      : world.currentDate;
+  const registeredVoters = world.personOrder.filter((id) =>
+    isEligibleVoterIn(world, id, petition.jurisdictionId, countAsOf),
+  ).length;
+  return {
+    yes: valid.length,
+    registeredVoters,
+    valid,
+    invalid,
+    sourceRecordIds: valid.flatMap((row) => [row.eventId, row.askEventId]),
+  };
+}
+
 function thresholdBase(threshold: PetitionThreshold): string {
   switch (threshold.base) {
     case "registered-voters":
@@ -568,7 +1155,30 @@ export function recallPetitionClosesHandler(
       context: "The jurisdiction's recall signature threshold is not recorded.",
       outcomeEventId: null,
     };
-  const counted = recallResidentViews(world, petition);
+  let signingWorld = world;
+  for (const request of world.history.events.filter(
+    (row) =>
+      row.type === PETITION_ASKED &&
+      row.tags.includes(`petition:${petition.stableKey}`) &&
+      row.tags.includes("answer-mode:player") &&
+      row.occurredAt <= petition.closesAt &&
+      row.recordedAt <= world.currentDate,
+  )) {
+    const circulatorPersonId = request.participants.find(
+      (row) => row.role === "agency:circulator",
+    )!.personId;
+    const signerPersonId = request.participants.find(
+      (row) => row.role === "focus:requested",
+    )!.personId;
+    signingWorld = askToSign(signingWorld, {
+      petition,
+      signerPersonId,
+      circulatorPersonId,
+      askEventId: request.id,
+    });
+  }
+  world = signingWorld;
+  const counted = recordedPetitionSignatures(world, petition);
   const required = resolveRequiredSignatures(
     threshold,
     counted.registeredVoters,
@@ -579,9 +1189,9 @@ export function recallPetitionClosesHandler(
     `required-signatures:${required}`,
     `threshold-percent:${threshold.percent}`,
     `threshold-base:${threshold.base}`,
-    "signature-mechanism:recorded-recall-supporters",
+    "signature-mechanism:asked-signed-events",
     "count-base:registered-voters",
-    ...counted.sourceRecordIds.map((id) => `view-source:${id}`),
+    ...counted.sourceRecordIds.map((id) => `signature-source:${id}`),
   ];
   if (counted.registeredVoters === 0 || counted.yes < required)
     return done(
@@ -590,10 +1200,10 @@ export function recallPetitionClosesHandler(
         petition,
         "failed",
         null,
-        `The petition to recall ${name} failed to qualify: ${counted.yes} recorded supporters, ${required} required from ${counted.registeredVoters} registered residents.`,
+        `The petition to recall ${name} failed to qualify: ${counted.yes} valid signed records, ${required} required from ${counted.registeredVoters} registered residents.`,
         countTags,
       ),
-      "Recorded recall supporters fell short of the jurisdiction's threshold.",
+      "Recorded eligible signatures fell short of the jurisdiction's threshold.",
     );
   const government = municipalGovernmentByKey(petition.governmentKey);
   const election =
@@ -610,7 +1220,7 @@ export function recallPetitionClosesHandler(
       status: "blocked",
       reasonKey: "recall:missing-election-calendar",
       context:
-        "Recorded supporters meet the threshold, but the town's election date is not sourced.",
+        "Recorded eligible signatures meet the threshold, but the town's election date is not sourced.",
       outcomeEventId: null,
     };
   const electionAt = election.electionDate;
@@ -619,7 +1229,7 @@ export function recallPetitionClosesHandler(
     petition,
     "qualified",
     electionAt,
-    `The petition to recall ${name} qualified: ${counted.yes} recorded supporters, ${required} required from ${counted.registeredVoters} registered residents. The vote is scheduled for the town's sourced election date, ${electionAt}.`,
+    `The petition to recall ${name} qualified: ${counted.yes} valid signed records, ${required} required from ${counted.registeredVoters} registered residents. The vote is scheduled for the town's sourced election date, ${electionAt}.`,
     countTags,
   );
   return done(
