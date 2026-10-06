@@ -1,4 +1,5 @@
 import { federalRulePackById } from "./congress-rule-pack";
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import { legislatureProfilePackById } from "./legislature-game-profile";
 import { municipalRulePackById } from "./municipal-rule-registry";
 import { withCommitteeStandIns } from "./standing-committee";
@@ -2646,7 +2647,7 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
   MISSOURI_RULE_PACK,
   NEVADA_RULE_PACK,
   OHIO_RULE_PACK,
-];
+].map(withMinorityPartyProcedureRows);
 
 /**
  * One registered rule pack, by id.

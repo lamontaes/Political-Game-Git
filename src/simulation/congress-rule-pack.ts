@@ -1,5 +1,6 @@
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import statehood from "../../data/research/congress/statehood-seats.json" with { type: "json" };
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import {
   fractionOf,
   knownRule,
@@ -353,7 +354,7 @@ function chamber(input: {
   };
 }
 
-export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
+const UNENRICHED_US_CONGRESS_RULE_PACK: LegislativeRulePack = {
   packId: US_CONGRESS_PACK_ID,
   jurisdictionKey: US_CONGRESS_JURISDICTION_KEY,
   displayName: "Congress of the United States",
@@ -528,6 +529,10 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
     "Committee jurisdiction is mapped by whole policy field, and committee sizes are the game's.",
   ],
 };
+
+export const US_CONGRESS_RULE_PACK = withMinorityPartyProcedureRows(
+  UNENRICHED_US_CONGRESS_RULE_PACK,
+);
 
 /** The Congress pack, when that is the id asked for. */
 export function federalRulePackById(

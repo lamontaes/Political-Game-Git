@@ -205,6 +205,7 @@ export * from "./legislature-rules";
 export * from "./measure-numbering";
 export * from "./legislature-rule-packs";
 export * from "./legislature-game-profile";
+export * from "./minority-party-procedure";
 export * from "./executive-authority-rules";
 export * from "./executive-authority-rule-packs";
 export * from "./evidence";

@@ -402,6 +402,26 @@ export interface ChamberRule {
   readonly amendments: AmendmentRule;
 }
 
+export type MinorityProcedureMotion =
+  | "table"
+  | "postpone"
+  | "recommit"
+  | "recorded-vote"
+  | "full-reading"
+  | "suspend-rules";
+
+export interface MinorityPartyProcedureRow {
+  readonly packId: string;
+  readonly chamberKey: string;
+  readonly motions: RuleValue<readonly MinorityProcedureMotion[]>;
+  readonly suspendRulesBar: RuleValue<VoteThresholdRule>;
+  readonly unlimitedDebate: RuleValue<boolean>;
+  readonly clotureBar: RuleValue<VoteThresholdRule>;
+  readonly quorum: RuleValue<VoteThresholdRule>;
+  readonly mayCompelAttendance: RuleValue<boolean>;
+  readonly absencePenalty: RuleValue<"chamber-prescribed" | "none">;
+}
+
 export interface AmendmentRule {
   readonly floorAmendmentsAllowed: RuleValue<boolean>;
   readonly germanenessStandard: RuleValue<string>;
@@ -613,6 +633,12 @@ export interface LegislativeRulePack {
   readonly basis: "researched" | "game-profile";
   readonly structure: LegislatureStructure;
   readonly chambers: readonly ChamberRule[];
+  /**
+   * Per-chamber delay, debate and attendance procedures. This is kept beside
+   * the base institutional pack so estimated minority-tool rules do not
+   * misstate the source basis of the underlying constitution and chamber rules.
+   */
+  readonly minorityPartyProcedureRows?: readonly MinorityPartyProcedureRow[];
   /**
    * The chambers in their declared order.
    *

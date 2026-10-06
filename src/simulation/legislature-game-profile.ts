@@ -59,6 +59,7 @@ import { listDistrictIdentities } from "../districts/query";
 import { seatsByDistrict } from "../districts/members-per-district";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { STATES } from "./state-reference";
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import {
   VETO_OVERRIDE_SOURCE_READINGS,
   vetoOverrideReadingFor,
@@ -688,11 +689,10 @@ export function legislatureProfilePack(
   stateName: string,
 ): LegislativeRulePack | null {
   const key = `${stateJurisdictionKey}|${stateName}`;
-  if (!PROFILE_PACKS.has(key))
-    PROFILE_PACKS.set(
-      key,
-      buildLegislatureProfilePack(stateJurisdictionKey, stateName),
-    );
+  if (!PROFILE_PACKS.has(key)) {
+    const pack = buildLegislatureProfilePack(stateJurisdictionKey, stateName);
+    PROFILE_PACKS.set(key, pack ? withMinorityPartyProcedureRows(pack) : null);
+  }
   return PROFILE_PACKS.get(key)!;
 }
 
