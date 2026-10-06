@@ -3,7 +3,10 @@ import { type CreatorAppearanceChoice } from "../presentation/creator-appearance
 import { proseDate } from "../presentation/prose-dates";
 import { resolveCreatorBirthday } from "../presentation/creator-full-birthday";
 import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
-import { projectHometownPage } from "../presentation/creator-hometown-page";
+import {
+  projectHometownPage,
+  hometownChoiceSubtitle,
+} from "../presentation/creator-hometown-page";
 import { previewCreatorNames } from "../presentation/creator-name-preview";
 import { stateUsps } from "../simulation/school-names";
 import {
@@ -51,7 +54,6 @@ import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
   GENDER_IDENTITY_LABELS,
-  lifePlaceCoverage,
   lifePlaceStateIdentities,
   lifePlaces,
 } from "../simulation";
@@ -162,7 +164,6 @@ export function SetupScreen({
   const [finishedQuestions, setFinishedQuestions] = useState(
     questionnaireComplete,
   );
-  const coverage = lifePlaceCoverage();
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
   const [replacingPlace, setReplacingPlace] = useState(false);
@@ -804,37 +805,14 @@ export function SetupScreen({
                     >
                       {candidate.displayName}
                       <small data-place-scope={candidate.scope}>
-                        {candidate.withinName ?? ""}
+                        {hometownChoiceSubtitle(candidate)}
                       </small>
                     </button>
                   ))}
                 </div>
               ) : null}
-              {placeListOpen && placePage && placePage.total > 0 ? (
-                <div className="creator-place-pager" data-testid="place-pager">
-                  <p
-                    className="game-hint"
-                    role="status"
-                    data-testid="place-page-status"
-                  >
-                    {placePage.status}
-                  </p>
-                </div>
-              ) : placeListOpen && placeQuery.trim().length === 0 ? (
-                <p className="game-note" data-testid="place-prompt">
-                  Choose a town in this state. {coverage.playerNote}
-                </p>
-              ) : placeListOpen ? (
-                <p className="game-note" data-testid="place-no-match">
-                  Nothing here matches that yet. {coverage.playerNote}
-                </p>
-              ) : null}
             </>
-          ) : (
-            <p className="game-note" data-testid="place-prompt">
-              Choose a state first. A fresh start has no home selected.
-            </p>
-          )}
+          ) : null}
           {place &&
           creatorLocationIsReady(location, custom ? "custom" : "normal") ? (
             <div className="creator-place-context" data-testid="place-context">
