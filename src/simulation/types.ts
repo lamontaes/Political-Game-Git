@@ -4776,6 +4776,8 @@ export interface LegislativeMeasureRecord {
    */
   readonly numberingSession?: LegislativeMeasureNumberingSession;
   readonly shortTitle: string;
+  /** Omitted on existing measures, which are statutes by default. */
+  readonly governmentInstrument?: "statute" | "regulation" | "executive-order";
   readonly summary: string;
   readonly origin: LegislativeMeasureOrigin;
   readonly subjectClass: LegislativeSubjectClass;
@@ -5093,6 +5095,10 @@ export interface LegislativeEnactmentRecord {
    * saves may carry null and retain their original game-interval reading.
    */
   readonly effectiveAt: IsoDate | null;
+  /** Publication is recorded separately from filing and taking effect. */
+  readonly publishedAt?: IsoDate | null;
+  /** An instrument ceases to govern after this date; null means no expiry. */
+  readonly expiresAt?: IsoDate | null;
   /** New records distinguish source dates from game defaults. */
   readonly effectiveDateBasis?: "source-default" | "game-default";
   /** A new game's fallback stays fixed when future profiles change. */

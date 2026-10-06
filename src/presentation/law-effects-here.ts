@@ -46,10 +46,16 @@ const LAW_CAUSE_PREFIX = "law:";
 const LEVEL_WORDS: Readonly<Record<LawLevel, string>> = {
   "federal-constitution": "The U.S. Constitution",
   "federal-statute": "Federal law",
+  "federal-regulation": "Federal regulation",
+  "federal-executive-order": "A federal executive order",
   "state-constitution": "The state constitution",
   "state-statute": "State law",
+  "state-regulation": "State regulation",
+  "state-executive-order": "A state executive order",
   "local-charter": "The local charter",
   "local-ordinance": "Local law",
+  "local-regulation": "Local regulation",
+  "local-executive-order": "A local executive order",
 };
 
 /** A rounded value reads the same way the records write it. */
