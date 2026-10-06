@@ -44,6 +44,7 @@ function employer(
   workers = 1,
   shiftPath?: LifePathDefinition,
   weeklyHours?: number,
+  locationJurisdictionId?: EntityId | null,
 ) {
   let next = createOrganization(world, {
     stableKey: key,
@@ -53,7 +54,9 @@ function employer(
       name: key,
       classification,
       locationJurisdictionId:
-        world.people[world.personOrder[0]!]!.homeJurisdictionId,
+        locationJurisdictionId === undefined
+          ? world.people[world.personOrder[0]!]!.homeJurisdictionId
+          : locationJurisdictionId,
     },
   });
   const id = next.history.organizations.at(-1)!.id;
@@ -350,6 +353,116 @@ describe("saved comparable employer cash reader", () => {
     expect(
       result.donors.every((donor) => donor.positionId && donor.profileId),
     ).toBe(true);
+  });
+
+  it("funds a new employer from staffed peers in the recorded place when its classification cohort is empty", () => {
+    const base = fixture().world;
+    const target = employer(
+      base,
+      "life-path-employer",
+      null,
+      "community:association",
+      1,
+      undefined,
+      undefined,
+      null,
+    );
+    const donor = employer(
+      target.world,
+      "local-retail-employer",
+      84_321,
+      "enterprise:retail",
+    );
+    const withTerms = createWorkCompensation(donor.world, {
+      stableKey: "life-path-employer:pay",
+      workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
+      startsAt: donor.world.currentDate,
+      amount: money(lifePathDefinition("shop-assistant").sessionPayMinor, USD),
+      cadenceKind: "work:completed-shift",
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance,
+    });
+    const funded = ensureEmployerCashPositions(
+      withTerms,
+      "later",
+      new Set([target.id]),
+    );
+    const cash = resourcePositionAt(
+      funded,
+      { kind: "organization", organizationId: target.id },
+      USD,
+    );
+    expect(cash?.liquidBalance.minorUnits).toBe(84_321);
+    expect(funded.history.resourceFlows).toEqual(
+      withTerms.history.resourceFlows,
+    );
+    expect(funded.history.resourceTransferOutcomes).toEqual(
+      withTerms.history.resourceTransferOutcomes,
+    );
+    const position = funded.history.resourcePositions.find(
+      (row) => row.id === cash!.positionId,
+    );
+    expect(position?.provenance).toMatchObject({
+      kind: "authored",
+      note: expect.stringContaining(
+        "ESTIMATED OPENING STOCK recorded before payroll settlement.",
+      ),
+    });
+    expect(position?.provenance).toMatchObject({
+      kind: "authored",
+      note: expect.stringContaining(
+        "saved staff and cash in a comparable place",
+      ),
+    });
+    expect(position?.provenance).toMatchObject({
+      kind: "authored",
+      note: expect.stringContaining("worker home jurisdiction"),
+    });
+  });
+
+  it("preserves a recorded insolvent employer account instead of replacing it from place peers", () => {
+    const base = fixture().world;
+    const target = employer(
+      base,
+      "insolvent-life-path-employer",
+      0,
+      "community:association",
+    );
+    const donor = employer(
+      target.world,
+      "solvent-local-employer",
+      84_321,
+      "enterprise:retail",
+    );
+    const withTerms = createWorkCompensation(donor.world, {
+      stableKey: "insolvent-life-path-employer:pay",
+      workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
+      startsAt: donor.world.currentDate,
+      amount: money(lifePathDefinition("shop-assistant").sessionPayMinor, USD),
+      cadenceKind: "work:completed-shift",
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance,
+    });
+    const funded = ensureEmployerCashPositions(
+      withTerms,
+      "later",
+      new Set([target.id]),
+    );
+    expect(
+      resourcePositionAt(
+        funded,
+        { kind: "organization", organizationId: target.id },
+        USD,
+      )?.liquidBalance.minorUnits,
+    ).toBe(0);
+    expect(funded.history.resourceFlows).toEqual(
+      withTerms.history.resourceFlows,
+    );
+    expect(funded.history.resourceTransferOutcomes).toEqual(
+      withTerms.history.resourceTransferOutcomes,
+    );
   });
 
   it("opens unpaid-record cash gaps from a fixed saved classification cohort, preserving zero and replay", () => {
