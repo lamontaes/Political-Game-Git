@@ -307,7 +307,7 @@ describe("petitions close on asked, decided signatures", () => {
     expect(recordedPetitionSignatures(underage, input.petition).yes).toBe(0);
     expect(
       recordedPetitionSignatures(underage, input.petition).invalid[0]!.reason,
-    ).toContain("eligibility");
+    ).toContain("must be at least 18");
   });
   it("caps reached residents by the shared field estimate and never converts all views into signatures", () => {
     const input = setup();
