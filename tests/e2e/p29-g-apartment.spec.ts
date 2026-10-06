@@ -5,6 +5,70 @@ import {
   startLife,
   enterLife,
 } from "./support/creator";
+import { drawRandomPlace } from "../support/random-place";
+
+test("a new game in a random place keeps every room figure's crown in frame", async ({
+  page,
+}, info) => {
+  const seed = "bg-05-room-crown-proof";
+  const place = drawRandomPlace(seed);
+  const replay = {
+    v: 3,
+    startKind: "custom",
+    seed,
+    placeKey: place.key,
+    startAge: 34,
+    depth: "summarize-formative-years",
+    startingLife: "ordinary-life",
+    household: "shares-a-home",
+    givenName: null,
+    familyName: null,
+  };
+  await page.setViewportSize({ width: 1200, height: 720 });
+  await page.goto(
+    `/?replay=${Buffer.from(JSON.stringify(replay)).toString("base64url")}`,
+  );
+  await enterLife(page);
+
+  const scene = page.getByTestId("scene-backdrop");
+  await expect(scene).toHaveAttribute("data-has-plate", "true");
+  const figures = page.locator('[data-testid^="scene-person-"]');
+  await expect(figures.first()).toBeVisible();
+  const geometry = await figures.evaluateAll((tokens) =>
+    tokens.map((token) => {
+      const box = token.getBoundingClientRect();
+      return {
+        id: token.getAttribute("data-testid"),
+        pose: token.getAttribute("data-pose-id"),
+        top: box.top,
+        artTops: Array.from(token.querySelectorAll("img")).map(
+          (image) => image.getBoundingClientRect().top,
+        ),
+      };
+    }),
+  );
+  for (const figure of geometry) {
+    expect(figure.top, `${figure.id} (${figure.pose})`).toBeGreaterThanOrEqual(
+      0,
+    );
+    for (const top of figure.artTops)
+      expect(top, `${figure.id} art (${figure.pose})`).toBeGreaterThanOrEqual(
+        0,
+      );
+  }
+  await page.screenshot({ path: info.outputPath("random-place-room.png") });
+  console.log(
+    JSON.stringify({
+      bug: "BG-05",
+      seed,
+      place: place.displayName,
+      placeKey: place.key,
+      sceneId: await scene.getAttribute("data-scene-id"),
+      headroom: await scene.getAttribute("data-headroom"),
+      figures: geometry,
+    }),
+  );
+});
 
 for (const room of [
   {

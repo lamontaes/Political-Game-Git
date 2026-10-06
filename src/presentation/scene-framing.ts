@@ -55,21 +55,20 @@ export function occupiedHorizontalPan(
 /**
  * How far to lower the camera so every figure's crown is on screen.
  *
- * Zero when nobody's head is above the top edge. Bounded, so a malformed or
- * absurd placement cannot push the room off the screen: past the cap the crown
- * stays cropped rather than the room disappearing.
+ * Zero when nobody's head is above the top edge. Otherwise this returns the
+ * whole missing distance: capping the correction left the tallest standing
+ * and seated slot measures cropped, which meant the rooms most in need of the
+ * correction were the only rooms where it did not finish the job.
  */
 export function figureHeadroom(
   figures: readonly ScreenFigure[],
-  viewportHeight: number,
   margin = 12,
-  capFraction = 0.2,
 ): number {
-  if (figures.length === 0 || viewportHeight <= 0) return 0;
+  if (figures.length === 0) return 0;
   const highest = Math.min(...figures.map((figure) => figure.top));
   const needed = margin - highest;
   if (needed <= 0) return 0;
-  return Math.min(Math.round(needed), Math.round(viewportHeight * capFraction));
+  return Math.round(needed);
 }
 
 export type ContentDock = "center" | "right" | "left";

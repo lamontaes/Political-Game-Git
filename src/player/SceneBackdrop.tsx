@@ -294,10 +294,7 @@ export function SceneBackdrop({
           };
         })
       : [];
-  const headroom = figureHeadroom(
-    figuresAt(covering.yOffset),
-    covering.viewport.height,
-  );
+  const headroom = figureHeadroom(figuresAt(covering.yOffset));
   const transform = {
     ...covering,
     xOffset:
