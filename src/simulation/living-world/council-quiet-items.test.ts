@@ -26,10 +26,16 @@ import { townCouncilProfilePackId } from "../town-council-profile";
 import type {
   EntityId,
   FutureDueItem,
+  OfficeMeetingDepth,
   OfficeVotingWorkflowMode,
   World,
 } from "../types";
 import { advanceWorld } from "../world";
+import {
+  chooseToSitThroughMeeting,
+  councilMeetingAgenda,
+  sitsThroughMeeting,
+} from "./council-agenda";
 import {
   decideQuietCouncilItem,
   playerCouncilSeat,
@@ -74,6 +80,7 @@ function meet(world: World, due: FutureDueItem): World {
 function fixture(workflow: {
   mode: OfficeVotingWorkflowMode | null;
   instruct?: "yea" | "nay" | null;
+  depth?: OfficeMeetingDepth;
 }) {
   const small = smallWorld({ place, people: 4, seed });
   let world = ensureLocalGovernmentSeats(small.world, small.personId);
@@ -146,6 +153,7 @@ function fixture(workflow: {
       officeRelationshipId: seat.participationId,
       votingMode: workflow.mode,
       caseworkMode: "player-handles-all",
+      ...(workflow.depth ? { meetingDepth: workflow.depth } : {}),
     });
     expect(pref.kind).toBe("recorded");
     world = pref.world;
@@ -262,4 +270,123 @@ describe(`quiet council items follow the member's voting workflow (${place}, ${s
       expect(meetingVote(met, quietId, me)?.disposition).toBe("absent");
     }
   }, 240_000);
+});
+
+describe(`the agenda before a council meeting (${place}, ${seed})`, () => {
+  it("marks what matters, says what the workflow does with the rest, and keeps the depth through reload", () => {
+    const { world, unit, me, quietId, matterId } = fixture({
+      mode: "prior-instructions-with-exceptions",
+      instruct: "nay",
+    });
+    const due = nextMeeting(world);
+    const agenda = councilMeetingAgenda(world, {
+      unit,
+      playerId: me,
+      dueItemId: due.id,
+    });
+    expect(agenda.depth).toBe("what-matters");
+    const quiet = agenda.items.find((row) => row.measure.id === quietId)!;
+    const mine = agenda.items.find((row) => row.measure.id === matterId);
+    expect(quiet).toMatchObject({
+      matters: false,
+      plays: false,
+      handling: "cast-by-standing-instruction",
+    });
+    // Their own ordinance matters because they sponsored it.
+    expect(mine?.reasons).toContain("player-sponsored");
+    expect(mine).toMatchObject({ plays: true, playsBecause: "matters" });
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(
+      councilMeetingAgenda(reopened, {
+        unit,
+        playerId: me,
+        dueItemId: due.id,
+      }).items.map((row) => [row.measure.id, row.plays]),
+    ).toEqual(agenda.items.map((row) => [row.measure.id, row.plays]));
+  });
+
+  it("an everything default or sitting through the meeting plays the quiet item, so no instruction casts it", () => {
+    const base = fixture({
+      mode: "prior-instructions-with-exceptions",
+      instruct: "nay",
+    });
+    const { unit, me, quietId } = base;
+    const due = nextMeeting(base.world);
+    // Control: the quiet item is cast from the standing instruction.
+    const cast = meet(base.world, due);
+    expect(meetingVote(cast, quietId, me)?.disposition).toBe("nay");
+
+    // This one meeting, by choice.
+    const sat = chooseToSitThroughMeeting(base.world, {
+      unit,
+      playerId: me,
+      dueItemId: due.id,
+    });
+    expect(sitsThroughMeeting(sat, me, due.id)).toBe(true);
+    expect(sitsThroughMeeting(base.world, me, due.id)).toBe(false);
+    expect(
+      councilMeetingAgenda(sat, {
+        unit,
+        playerId: me,
+        dueItemId: due.id,
+      }).items.find((row) => row.measure.id === quietId),
+    ).toMatchObject({ plays: true, playsBecause: "sits-through-this-meeting" });
+    // Choosing twice records nothing new.
+    expect(
+      chooseToSitThroughMeeting(sat, {
+        unit,
+        playerId: me,
+        dueItemId: due.id,
+      }).history.events,
+    ).toHaveLength(sat.history.events.length);
+    const metSitting = meet(sat, due);
+    expect(
+      memberBallotOn(metSitting, me, councilFloorQuestion(quietId)),
+    ).toBeNull();
+    expect(meetingVote(metSitting, quietId, me)?.disposition).toBe("absent");
+
+    // The standing default, for every meeting.
+    const everything = fixture({
+      mode: "prior-instructions-with-exceptions",
+      instruct: "nay",
+      depth: "everything",
+    });
+    expect(
+      councilMeetingAgenda(everything.world, {
+        unit: everything.unit,
+        playerId: everything.me,
+        dueItemId: nextMeeting(everything.world).id,
+      }).items.find((row) => row.measure.id === everything.quietId),
+    ).toMatchObject({ plays: true, playsBecause: "everything-default" });
+    const metEverything = meet(everything.world, nextMeeting(everything.world));
+    expect(
+      meetingVote(metEverything, everything.quietId, everything.me)
+        ?.disposition,
+    ).toBe("absent");
+  }, 240_000);
+
+  it("handling each vote individually plays every item, and only a seated member can sit through a meeting", () => {
+    const { world, unit, me, quietId } = fixture({
+      mode: "handle-individually",
+    });
+    const due = nextMeeting(world);
+    expect(
+      councilMeetingAgenda(world, {
+        unit,
+        playerId: me,
+        dueItemId: due.id,
+      }).items.find((row) => row.measure.id === quietId),
+    ).toMatchObject({ plays: true, playsBecause: "handles-each-vote" });
+    const seated = new Set(
+      sittingLocalOfficers(world, unit).map((seat) => seat.personId),
+    );
+    const outsider = world.personOrder.find((id) => !seated.has(id))!;
+    expect(
+      chooseToSitThroughMeeting(world, {
+        unit,
+        playerId: outsider,
+        dueItemId: due.id,
+      }),
+    ).toBe(world);
+  });
 });

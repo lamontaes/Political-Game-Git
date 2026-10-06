@@ -5202,6 +5202,12 @@ export interface OfficeStaffIncumbencyRecord {
   readonly note: string;
 }
 
+/**
+ * How much of a council meeting the member sits through by default: only the
+ * items that matter to them or the town, or every item on the agenda.
+ */
+export type OfficeMeetingDepth = "what-matters" | "everything";
+
 export interface OfficeWorkflowPreferenceRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -5214,6 +5220,8 @@ export interface OfficeWorkflowPreferenceRecord {
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  /** A council seat's default meeting depth; absent reads as "what-matters". */
+  readonly meetingDepth?: OfficeMeetingDepth;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;
 }

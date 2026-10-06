@@ -21,6 +21,7 @@ import type {
   OfficeBriefingInspectionRecord,
   OfficeBriefingItemKind,
   OfficeCaseworkWorkflowMode,
+  OfficeMeetingDepth,
   OfficeVoteInstructionDisposition,
   OfficeVoteInstructionRecord,
   OfficeVotingWorkflowMode,
@@ -39,6 +40,11 @@ const CASEWORK_MODES: readonly OfficeCaseworkWorkflowMode[] = [
   "player-handles-all",
   "staff-routine-player-exceptions",
   "staff-handles-and-briefs",
+];
+
+const MEETING_DEPTHS: readonly OfficeMeetingDepth[] = [
+  "what-matters",
+  "everything",
 ];
 
 const INSTRUCTION_DISPOSITIONS: readonly OfficeVoteInstructionDisposition[] = [
@@ -154,6 +160,8 @@ export interface RecordOfficeWorkflowPreferenceInput {
   /** Null only for an office that casts no votes; a legislative or council seat needs one. */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  /** Only a council seat reads it. Left out keeps the current choice. */
+  readonly meetingDepth?: OfficeMeetingDepth;
 }
 
 export function recordOfficeWorkflowPreference(
@@ -194,15 +202,24 @@ export function recordOfficeWorkflowPreference(
   if (!CASEWORK_MODES.includes(input.caseworkMode)) {
     return refused(world, "That casework workflow is not a supported choice.");
   }
+  if (
+    input.meetingDepth !== undefined &&
+    !MEETING_DEPTHS.includes(input.meetingDepth)
+  ) {
+    return refused(world, "That meeting depth is not a supported choice.");
+  }
   const current = currentOfficeWorkflowPreference(
     world,
     input.personId,
     input.officeRelationshipId,
   );
+  const chosenDepth = input.meetingDepth ?? current?.meetingDepth;
+  const meetingDepth: OfficeMeetingDepth = chosenDepth ?? "what-matters";
   if (
     current &&
     current.votingMode === input.votingMode &&
-    current.caseworkMode === input.caseworkMode
+    current.caseworkMode === input.caseworkMode &&
+    (current.meetingDepth ?? "what-matters") === meetingDepth
   ) {
     return { kind: "recorded", world };
   }
@@ -218,6 +235,9 @@ export function recordOfficeWorkflowPreference(
     officeRelationshipId: input.officeRelationshipId,
     votingMode: input.votingMode,
     caseworkMode: input.caseworkMode,
+    // Written only once a depth has been chosen, so other offices' records
+    // stay as they were.
+    ...(chosenDepth ? { meetingDepth } : {}),
     recordedAt: makeIsoDate(world.currentDate),
     supersedesPreferenceId: current?.id ?? null,
   };

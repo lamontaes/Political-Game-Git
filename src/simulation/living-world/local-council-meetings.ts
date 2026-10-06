@@ -49,6 +49,7 @@ import { PUBLIC_MEETING_KEY } from "../life-opportunities";
 import { playerTown } from "./town-residents";
 import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
 import { peopleKnownTo } from "./official-views";
+import { councilMeetingAgenda } from "./council-agenda";
 import { settleQuietCouncilItems } from "./council-quiet-items";
 
 /**
@@ -617,14 +618,28 @@ export function localCouncilChair(
 /* A meeting                                                                   */
 /* -------------------------------------------------------------------------- */
 
+/** The government a saved council meeting belongs to, and which kind it is. */
+export function councilMeetingBody(due: FutureDueItem): {
+  readonly unit: GovernmentUnitIdentity | null;
+  readonly kind: "meeting" | "posted-meeting";
+} | null {
+  const match = new RegExp(
+    `^${V.replace("/", "\\/")}:((?:gus2025|municipio):[^:]+):(meeting|posted-meeting):`,
+  ).exec(due.stableKey);
+  return match
+    ? {
+        unit: governmentUnit(match[1]!),
+        kind: match[2] as "meeting" | "posted-meeting",
+      }
+    : null;
+}
+
 export function localCouncilMeetingHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  const match = new RegExp(
-    `^${V.replace("/", "\\/")}:((?:gus2025|municipio):[^:]+):(meeting|posted-meeting):`,
-  ).exec(due.stableKey);
-  const unit = match ? governmentUnit(match[1]!) : null;
+  const body = councilMeetingBody(due);
+  const unit = body?.unit ?? null;
   const town = due.jurisdictionId;
   const player = due.entityIds[1] ?? null;
   const done = (next: World, context: string) => ({
@@ -643,7 +658,7 @@ export function localCouncilMeetingHandler(
   // The posted public meeting is one the player may attend, and its
   // attendance scene does not read a cancellation yet, so it always meets.
   const decision =
-    match![2] !== "meeting"
+    body!.kind !== "meeting"
       ? { world, canceled: false }
       : epidemicCouncilMeetingDecision(world, {
           stableKey: due.stableKey,
@@ -676,8 +691,12 @@ export function localCouncilMeetingHandler(
         unit,
         town,
         playerId: player,
-        quiet: meetingItemsThatMatter(world, player, due.id)
-          .filter((item) => item.reasons.length === 0)
+        quiet: councilMeetingAgenda(world, {
+          unit,
+          playerId: player,
+          dueItemId: due.id,
+        })
+          .items.filter((item) => !item.plays)
           .map((item) => item.measure),
       })
     : world;
@@ -721,7 +740,7 @@ export function localCouncilMeetingHandler(
     },
   });
   // The posted meeting is an extra one; only a regular meeting sets the next.
-  if (player && match![2] === "meeting")
+  if (player && body!.kind === "meeting")
     next = scheduleMeeting(
       next,
       unit,
