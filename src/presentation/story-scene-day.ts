@@ -10,6 +10,7 @@ import { completedActivityHere } from "./scene-venues";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import {
   resolveStoryScene,
+  readStorySceneSituation,
   type StorySceneRequest,
 } from "./story-scene-resolver";
 
@@ -88,6 +89,12 @@ export function currentStorySceneRequest(
 export function projectStorySceneDay(world: World, personId: EntityId) {
   const request = currentStorySceneRequest(world, personId);
   return request ? resolveStoryScene(world, request) : null;
+}
+
+/** Clerk/scene consumer seam for block one. Reading has no simulation effects. */
+export function currentStorySceneSituation(world: World, personId: EntityId) {
+  const request = currentStorySceneRequest(world, personId);
+  return request ? readStorySceneSituation(world, request) : null;
 }
 
 /** Retain existing meeting words and roles; canonical options gate visibility. */

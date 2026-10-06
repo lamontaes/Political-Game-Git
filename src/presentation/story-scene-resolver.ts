@@ -27,6 +27,185 @@ import {
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
 import type { OrdinaryMeetingAction } from "./ordinary-meeting-scene";
 import type { OrdinaryMeetingSpeechChoice } from "../simulation/ordinary-meeting-presence";
+import { recordedRoomPresence } from "./recorded-room-presence";
+import { openingWorkLocation } from "./opening-work-location";
+import {
+  sceneBindingsFor,
+  type BoundScene,
+} from "../simulation/scene-bindings";
+
+/** Block one reads place state only. Pending actors are not a selected cast,
+ * their requests are not spoken lines, and their facts are not viewer knowledge.
+ */
+export interface StorySceneSituation {
+  readonly status:
+    "current" | "missing-place" | "unsupported-moment" | "invalid-viewer";
+  readonly snapshot: StorySceneSnapshot;
+  readonly location: {
+    readonly jurisdictionId: EntityId | null;
+    readonly label: string;
+    readonly setting: string | null;
+    readonly sourceRecordIds: readonly EntityId[];
+  } | null;
+  readonly pendingRequests: readonly BoundScene[];
+  readonly currentActivity: {
+    readonly activityId: EntityId;
+    readonly stateId: EntityId;
+    readonly sourceRecordIds: readonly EntityId[];
+  } | null;
+  readonly quiet: boolean;
+}
+
+/** Current recorded place -> actual pending state, or nothing.
+ * No scene-family order, authored scene trigger, cast, wording, art or writeback.
+ */
+export function readStorySceneSituation(
+  world: World,
+  request: StorySceneRequest,
+): StorySceneSituation {
+  const snapshot: StorySceneSnapshot = {
+    worldId: world.id,
+    nextSequence: world.history.nextSequence,
+    actionSequence: world.actionSequence,
+    moment: { ...world.currentMoment },
+  };
+  const empty = (
+    status: StorySceneSituation["status"],
+  ): StorySceneSituation => ({
+    status,
+    snapshot,
+    location: null,
+    pendingRequests: [],
+    currentActivity: null,
+    quiet: true,
+  });
+  if (
+    Object.keys(world.currentMoment).some(
+      (key) =>
+        world.currentMoment[key as keyof SimulationMoment] !==
+        request.moment[key as keyof SimulationMoment],
+    )
+  )
+    return empty("unsupported-moment");
+  const viewer = request.viewerPersonId;
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== viewer ||
+    !world.people[viewer] ||
+    world.history.personDeaths.some(
+      (record) =>
+        record.personId === viewer && record.diedAt <= world.currentDate,
+    )
+  )
+    return empty("invalid-viewer");
+
+  const presence = recordedRoomPresence(world, viewer);
+  const initial = openingWorkLocation(world, viewer);
+  const startingHome = world.history.events
+    .filter(
+      (record) =>
+        (record.type === "life.scene.arrived" ||
+          record.type === "life.scene.opened") &&
+        record.sequence < snapshot.nextSequence &&
+        record.occurredAt <= world.currentDate &&
+        record.recordedAt <= world.currentDate &&
+        record.participants.some((person) => person.personId === viewer),
+    )
+    .at(-1);
+  const eventId =
+    presence?.eventId ??
+    (initial?.tags.includes(`moment:${JSON.stringify(world.currentMoment)}`)
+      ? initial.id
+      : startingHome?.tags.includes("playtest65:initial-placement") &&
+          startingHome.tags.includes(
+            `moment:${JSON.stringify(world.currentMoment)}`,
+          )
+        ? startingHome.id
+        : null);
+  const event = eventId
+    ? world.history.events.find(
+        (record) =>
+          record.id === eventId &&
+          record.sequence < snapshot.nextSequence &&
+          record.occurredAt <= world.currentDate &&
+          record.recordedAt <= world.currentDate,
+      )
+    : null;
+  const location = event?.context.location;
+  if (!event || !location) return empty("missing-place");
+
+  let placeMatches = false;
+  let currentActivity: StorySceneSituation["currentActivity"] = null;
+  if (request.place.kind === "activity") {
+    const activityId = request.place.activityId;
+    const activity = world.history.scheduledActivities.find(
+      (record) => record.id === activityId,
+    );
+    if (
+      activity &&
+      activity.sequence < snapshot.nextSequence &&
+      canPersonAccess(activity.access, viewer) &&
+      event.involvedEntityIds.includes(activity.id) &&
+      activity.location.jurisdictionId === location.jurisdictionId &&
+      activity.location.label === location.label
+    ) {
+      placeMatches = true;
+      const state = scheduledActivityState(world, activity.id);
+      if (
+        state.status === "scheduled" &&
+        compareSimulationMoments(state.start, world.currentMoment) <= 0 &&
+        compareSimulationMoments(world.currentMoment, state.end) < 0
+      )
+        currentActivity = {
+          activityId: activity.id,
+          stateId: state.id,
+          sourceRecordIds: [event.id, activity.id, state.id],
+        };
+    }
+  } else if (request.place.kind === "opened-scene") {
+    placeMatches = request.place.eventId === event.id;
+  } else if (request.place.kind === "household") {
+    const householdId = request.place.householdId;
+    placeMatches =
+      location.setting === "home" &&
+      householdMembershipsAt(world, viewer).some(
+        (entry) =>
+          entry.household.id === householdId &&
+          entry.location?.jurisdictionId === location.jurisdictionId,
+      );
+  } else {
+    placeMatches =
+      location.setting === "work" &&
+      request.place.jurisdictionId === location.jurisdictionId &&
+      event.involvedEntityIds.includes(request.place.organizationId);
+  }
+  if (!placeMatches) return empty("missing-place");
+
+  const pendingRequests = sceneBindingsFor(world, viewer).filter(
+    (row) =>
+      row.sequence < snapshot.nextSequence &&
+      row.boundAt <= world.currentDate &&
+      row.binding.expiresAt >= world.currentDate &&
+      row.binding.place === location.label &&
+      row.binding.jurisdictionId === location.jurisdictionId &&
+      !world.history.events.some(
+        (record) =>
+          record.sequence < snapshot.nextSequence &&
+          record.occurredAt <= world.currentDate &&
+          record.recordedAt <= world.currentDate &&
+          record.tags.includes(`scene.binding:${row.eventId}`) &&
+          record.tags.includes("scene.turn.settled"),
+      ),
+  );
+  return {
+    status: "current",
+    snapshot,
+    location: { ...location, sourceRecordIds: [event.id] },
+    pendingRequests,
+    currentActivity,
+    quiet: pendingRequests.length === 0 && currentActivity === null,
+  };
+}
 
 /** IDs identify records, never a room inferred from its label or artwork. */
 export type StoryScenePlace =

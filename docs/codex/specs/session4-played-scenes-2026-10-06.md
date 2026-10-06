@@ -324,7 +324,7 @@ Inferred from reviewed implementation: `src/presentation/grounded-english.ts:32`
 
 The proposed producer payload contains actual record references for place/time, present people/roles, wants/reasons, pending matters, available actions and each fact's speaker/viewer knowledge. Historical payloads also include their dated cutoff and completed canonical episode outcomes. These are required handoff fields, not invented function names. Consumers request the actual producer head/API before implementation.
 
-Session 3 owns the selected scene/image/portrait consumer; Sessions 2/3/14 do mockups only until owner pick. Session 13's clerk scene waits for this specification check. Session 4 does not write their registration/layout hunks or a new engine.
+Session 3 owns the selected scene/image/portrait consumer; Sessions 2/3/14 do mockups only until owner pick. Session 13's clerk scene consumes the ordered shared blocks after the relevant played clip and coordinated handoff. Session 4 does not write their registration/layout hunks or a new engine.
 
 ## Persistence and removal boundaries
 
@@ -340,6 +340,6 @@ The existing chat surfaces include SceneConversation, ConversationStrip, Ordinar
 
 Begin with the proposed 12 core situation primitives and expand it every week toward hundreds. Each addition brings fact requirements, meaningful record-permitted replies, image/pose needs, knowledge/privacy boundaries and writeback checks. Compose compatible situations from live state. Reliable new combinations are the continuing goal; a finite list is never completion.
 
-After CTO specification check and owner mockup pick, actual-game proof draws a place from all 56 and names the seed. Council proof shows supported real speakers, chosen comment, canonical roll call/outcome, normal-room return and retained journal/knowledge records. Work proof shows actual first-day cause, actual workers, meaningful exchange/environmental action, earned contact where applicable and a quiet transition when nothing happens. Opening proof plays three or four real historical episodes before the first room without fabricating earlier events or current occupants.
+The mandatory random-town clip follows each block before the next begins. After the owner mockup pick, full experience proof draws a place from all 56 and names the seed. Council proof shows supported real speakers, chosen comment, canonical roll call/outcome, normal-room return and retained journal/knowledge records. Work proof shows actual first-day cause, actual workers, meaningful exchange/environmental action, earned contact where applicable and a quiet transition when nothing happens. Opening proof plays three or four real historical episodes before the first room without fabricating earlier events or current occupants.
 
 Measured status: This is documentation only. No scene code, new dialogue banks, new engine or mockup has been built. Drafts #2207 and #2220 remain unchanged and unmerged. Expanded run 63137 ended 18 PASS/13 FAIL; canceled baseline 65055 exited 143 without a completed result. Those receipts are preserved, not pursued as replacement acceptance. No READY is claimed.
