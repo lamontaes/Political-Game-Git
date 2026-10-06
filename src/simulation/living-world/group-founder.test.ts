@@ -245,7 +245,7 @@ describe("a resident decides to found a shared-cause group", () => {
       "civic.join-shared-cause-group",
     );
   });
-  it("one named resident with a strong recorded view and goal founds with printed reasons", () => {
+  it("one named resident with a strong recorded view and goal founds with recorded reason keys", () => {
     const f = fixture(true);
     const world = organizeSharedCauseGroup(f.world, f.input);
     const groupId = sharedCauseGroup(
@@ -261,7 +261,7 @@ describe("a resident decides to found a shared-cause group", () => {
     expect(trace.context.randomness).toBe("none");
     expect(
       trace.context.considerations.map((row) => row.explanation).join(" "),
-    ).toContain("strong recorded view");
+    ).toContain("founder:view:strong:support");
     expect(
       trace.sourceSnapshots.some((row) => row.reference.kind === "goal-state"),
     ).toBe(true);

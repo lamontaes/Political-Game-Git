@@ -165,7 +165,7 @@ function causeDecision(
       direction: "supports",
       importance: strongView ? "strong" : "moderate",
       confidence: "high",
-      explanation: `They hold a ${view.conviction} recorded view ${input.stance === "support" ? "for" : "against"} this cause.`,
+      explanation: `founder:view:${view.conviction}:${input.stance}`,
       sourceRefs: [{ kind: "private-belief", beliefId: view.id }],
     });
   if (exposure)
@@ -177,10 +177,10 @@ function causeDecision(
       importance: stake ? "strong" : "moderate",
       confidence: "high",
       explanation: rightsOrEligibilityLoss(exposure)
-        ? `Recorded exposure ${exposure.id}: the law cost them a right or eligibility.`
+        ? `founder:exposure:${exposure.id}:rights-or-eligibility-loss`
         : moneyLost
-          ? `Recorded exposure ${exposure.id}: the law cost them recorded money; this is one reason to act.`
-          : `Recorded exposure ${exposure.id}: the law has an effect on them.`,
+          ? `founder:exposure:${exposure.id}:money-loss`
+          : `founder:exposure:${exposure.id}:other-effect`,
       sourceRefs: [],
     });
   const tieRefs = memberTieSources(world, input.personId, members);
@@ -192,7 +192,7 @@ function causeDecision(
       direction: "supports",
       importance: "moderate",
       confidence: "high",
-      explanation: "Someone they know already belongs to the group.",
+      explanation: "founder:known-member-in-group",
       sourceRefs: tieRefs,
     });
   const onShift = workSchedulesFor(world, input.personId).some((schedule) =>
@@ -206,8 +206,8 @@ function causeDecision(
     importance: onShift ? "strong" : "slight",
     confidence: "high",
     explanation: onShift
-      ? "Their current work shift takes this time."
-      : "Organizing would take some of their available time.",
+      ? "founder:time-taken-by-work-shift"
+      : "founder:time-needed-to-organize",
     sourceRefs: [],
   });
   return evaluateDecision(world, {
@@ -229,12 +229,12 @@ function causeDecision(
       {
         key: "organize",
         label: founding ? "Found the group" : "Join the group",
-        description: "Work with other residents toward the recorded goal.",
+        description: "founder:option:organize",
       },
       {
         key: "later",
         label: "Leave it for now",
-        description: "Keep their time for their other commitments.",
+        description: "founder:option:later",
       },
     ],
     constraints: [
@@ -244,7 +244,7 @@ function causeDecision(
               stableKey: `${key}:no-goal`,
               optionKey: "organize",
               kind: "recorded-goal",
-              explanation: "They have no active recorded goal for this cause.",
+              explanation: "founder:no-active-goal",
               sourceRefs: [],
             },
           ]
@@ -256,8 +256,8 @@ function causeDecision(
               optionKey: "organize",
               kind: "recorded-stake",
               explanation: founding
-                ? "Founding requires a strong recorded view or stake."
-                : "They have no aligned view or stake in this cause.",
+                ? "founder:needs-strong-view-or-stake"
+                : "founder:no-aligned-view-or-stake",
               sourceRefs: [],
             },
           ]
@@ -268,7 +268,7 @@ function causeDecision(
               stableKey: `${key}:on-shift`,
               optionKey: "organize",
               kind: "available-time",
-              explanation: "They are on their recorded work shift.",
+              explanation: "founder:on-work-shift",
               sourceRefs: [],
             },
           ]
@@ -334,7 +334,7 @@ export function organizeSharedCauseGroup(
       formedAt: next.currentDate,
       provenance: {
         kind: "authored",
-        note: `Founded toward recorded goal ${goal.id}. ${explanation}`,
+        note: `founder:founded:goal:${goal.id} (${explanation})`,
       },
       initialProfile: {
         name: `${lifePlaceByJurisdictionId(town)?.displayName ?? next.jurisdictions[town]?.name ?? "Local"} Residents: ${goal.objective}`,
@@ -364,7 +364,7 @@ export function organizeSharedCauseGroup(
     }),
     provenance: {
       kind: "authored",
-      note: `${groupId ? "Joined" : "Founded"} through their recorded decision. ${explanation}`,
+      note: `${groupId ? "founder:joined" : "founder:founded"} (${explanation})`,
     },
   });
 }
@@ -565,7 +565,7 @@ export function actForSharedCauseGroup(
       {
         key: "later",
         label: "Leave it for now",
-        description: "Keep their time for other commitments.",
+        description: "leader:option:later",
       },
     ],
     constraints: groupActionRows.actions.flatMap((row) =>
@@ -576,12 +576,12 @@ export function actForSharedCauseGroup(
               optionKey: row.key,
               kind: busy ? "available-time" : "canonical-action-writer",
               explanation: busy
-                ? "The leader is on their recorded work shift."
+                ? "leader:on-work-shift"
                 : row.key === "petition" &&
                     petitionTerms &&
                     !petitionTerms.available
                   ? petitionTerms.reason
-                  : "The canonical action writer or required subject is not available.",
+                  : "leader:action-writer-or-subject-unavailable",
               sourceRefs: [],
             },
           ]
@@ -609,7 +609,7 @@ export function actForSharedCauseGroup(
         direction: "supports",
         importance: "slight",
         confidence: "high",
-        explanation: "Acting would take the leader's time.",
+        explanation: "leader:time-needed-to-act",
         sourceRefs: [],
       },
     ],
