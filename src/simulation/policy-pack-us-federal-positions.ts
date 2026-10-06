@@ -1,4 +1,5 @@
 import type { PolicyPack } from "./policy-packs";
+import { FEDERAL_MANDATORY_MINIMUM_ROW } from "./law-consequences/modules/federal-justice-rights";
 
 /**
  * Positions on federal questions: one for each field of federal government,
@@ -638,6 +639,7 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
       name: "Reduce mandatory minimum sentences",
       question:
         "Should federal mandatory minimum prison sentences be shortened?",
+      consequences: [FEDERAL_MANDATORY_MINIMUM_ROW],
       tags: ["contested"],
       principles: [
         {
