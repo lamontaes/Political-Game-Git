@@ -163,7 +163,9 @@ export async function runUpdateCheck(deps) {
       "Updates are not configured for this build.",
       activation.reason === "steam"
         ? "This is a Steam-managed build; Steam delivers updates."
-        : "This internal build has no authorized update endpoint. Install a newer build manually to update.",
+        : activation.reason === "retention-unavailable"
+          ? "A safe previous build is not available, so updates are disabled for this launch."
+          : "This internal build has no authorized update endpoint. Install a newer build manually to update.",
     );
     return activation.reason === "steam" ? "steam-disabled" : "not-configured";
   }
