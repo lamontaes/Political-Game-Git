@@ -12,6 +12,7 @@
     {
       "key": "hearing.thanks.thank-you",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you.",
       "hearingsUsing": 32,
       "shippable": true,
@@ -25,6 +26,7 @@
     {
       "key": "hearing.thanks.thank-you-very-much",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you very much.",
       "hearingsUsing": 25,
       "shippable": true,
@@ -38,6 +40,7 @@
     {
       "key": "hearing.thanks.thank-you-so-much",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you so much.",
       "hearingsUsing": 17,
       "shippable": true,
@@ -51,6 +54,7 @@
     {
       "key": "hearing.thanks.thank-you-sir",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you, sir.",
       "hearingsUsing": 12,
       "shippable": true,
@@ -64,6 +68,7 @@
     {
       "key": "hearing.thanks.well-thank-you",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Well, thank you.",
       "hearingsUsing": 11,
       "shippable": true,
@@ -77,6 +82,7 @@
     {
       "key": "hearing.thanks.thank-you-mr-chairman",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you, Mr. Chairman.",
       "hearingsUsing": 28,
       "shippable": true,
@@ -90,6 +96,7 @@
     {
       "key": "hearing.thanks.thank-you-madam-chair",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you, Madam Chair.",
       "hearingsUsing": 6,
       "shippable": true,
@@ -103,6 +110,7 @@
     {
       "key": "hearing.thanks.thank-you-chairman",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you, Chairman.",
       "hearingsUsing": 13,
       "shippable": true,
@@ -116,6 +124,7 @@
     {
       "key": "hearing.thanks.thank-you-senator",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you, Senator.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -129,6 +138,7 @@
     {
       "key": "hearing.thanks.thank-you-chair",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you, Chair.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -142,6 +152,7 @@
     {
       "key": "hearing.thanks.thank-you-all",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you all.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -155,6 +166,7 @@
     {
       "key": "hearing.thanks.thanks-mr-chairman",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thanks, Mr. Chairman.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -168,6 +180,7 @@
     {
       "key": "hearing.thanks.oh-thank-you",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Oh, thank you.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -181,6 +194,7 @@
     {
       "key": "hearing.thanks.i-thank-you",
       "move": "thanks",
+      "kind": "spoken",
       "text": "I thank you.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -194,6 +208,7 @@
     {
       "key": "hearing.thanks.i-thank-the-gentleman",
       "move": "thanks",
+      "kind": "spoken",
       "text": "I thank the gentleman.",
       "hearingsUsing": 4,
       "shippable": true,
@@ -207,6 +222,7 @@
     {
       "key": "hearing.thanks.thank-you-for-that",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you for that.",
       "hearingsUsing": 17,
       "shippable": true,
@@ -220,6 +236,7 @@
     {
       "key": "hearing.thanks.thank-you-for-that-answer",
       "move": "thanks",
+      "kind": "spoken",
       "text": "Thank you for that answer.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -233,6 +250,7 @@
     {
       "key": "hearing.answer.thank-you-for-the-question",
       "move": "answer",
+      "kind": "spoken",
       "text": "Thank you for the question.",
       "hearingsUsing": 20,
       "shippable": true,
@@ -246,6 +264,7 @@
     {
       "key": "hearing.answer.thank-you-for-that-question",
       "move": "answer",
+      "kind": "spoken",
       "text": "Thank you for that question.",
       "hearingsUsing": 7,
       "shippable": true,
@@ -259,6 +278,7 @@
     {
       "key": "hearing.answer.thank-you-for-your-question",
       "move": "answer",
+      "kind": "spoken",
       "text": "Thank you for your question.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -272,6 +292,7 @@
     {
       "key": "hearing.answer.thank-you-for-the-question-sir",
       "move": "answer",
+      "kind": "spoken",
       "text": "Thank you for the question, sir.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -285,6 +306,7 @@
     {
       "key": "hearing.answer.thank-you-for-the-question-senator",
       "move": "answer",
+      "kind": "spoken",
       "text": "Thank you for the question, Senator.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -298,6 +320,7 @@
     {
       "key": "hearing.answer.senator-thank-you-for-that-question",
       "move": "answer",
+      "kind": "spoken",
       "text": "Senator, thank you for that question.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -311,6 +334,7 @@
     {
       "key": "hearing.answer.thank-you-for-that-question-senator",
       "move": "answer",
+      "kind": "spoken",
       "text": "Thank you for that question, Senator.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -324,6 +348,7 @@
     {
       "key": "hearing.answer.that-is-a-great-question",
       "move": "answer",
+      "kind": "spoken",
       "text": "That is a great question.",
       "hearingsUsing": 4,
       "shippable": true,
@@ -337,6 +362,7 @@
     {
       "key": "hearing.answer.yes-thank-you-for-that",
       "move": "answer",
+      "kind": "spoken",
       "text": "Yes, thank you for that.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -350,6 +376,7 @@
     {
       "key": "hearing.answer.yes-thank-you",
       "move": "answer",
+      "kind": "spoken",
       "text": "Yes, thank you.",
       "hearingsUsing": 4,
       "shippable": true,
@@ -363,6 +390,7 @@
     {
       "key": "hearing.agree.i-agree",
       "move": "agree",
+      "kind": "spoken",
       "text": "I agree.",
       "hearingsUsing": 9,
       "shippable": true,
@@ -376,6 +404,7 @@
     {
       "key": "hearing.agree.i-completely-agree",
       "move": "agree",
+      "kind": "spoken",
       "text": "I completely agree.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -389,6 +418,7 @@
     {
       "key": "hearing.agree.i-couldnt-agree-more",
       "move": "agree",
+      "kind": "spoken",
       "text": "I couldn't agree more.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -402,6 +432,7 @@
     {
       "key": "hearing.agree.i-appreciate-that",
       "move": "agree",
+      "kind": "spoken",
       "text": "I appreciate that.",
       "hearingsUsing": 12,
       "shippable": true,
@@ -415,6 +446,7 @@
     {
       "key": "hearing.agree.i-appreciate-it",
       "move": "agree",
+      "kind": "spoken",
       "text": "I appreciate it.",
       "hearingsUsing": 9,
       "shippable": true,
@@ -428,6 +460,7 @@
     {
       "key": "hearing.agree.appreciate-that",
       "move": "agree",
+      "kind": "spoken",
       "text": "Appreciate that.",
       "hearingsUsing": 4,
       "shippable": true,
@@ -441,6 +474,7 @@
     {
       "key": "hearing.agree.i-appreciate-that-very-much",
       "move": "agree",
+      "kind": "spoken",
       "text": "I appreciate that very much.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -454,6 +488,7 @@
     {
       "key": "hearing.agree.very-good",
       "move": "agree",
+      "kind": "spoken",
       "text": "Very good.",
       "hearingsUsing": 14,
       "shippable": true,
@@ -467,6 +502,7 @@
     {
       "key": "hearing.agree.that-is-great",
       "move": "agree",
+      "kind": "spoken",
       "text": "That is great.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -480,6 +516,7 @@
     {
       "key": "hearing.agree.that-would-be-great",
       "move": "agree",
+      "kind": "spoken",
       "text": "That would be great.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -493,6 +530,7 @@
     {
       "key": "hearing.agree.i-understand",
       "move": "agree",
+      "kind": "spoken",
       "text": "I understand.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -506,6 +544,7 @@
     {
       "key": "hearing.agree.i-got-you",
       "move": "agree",
+      "kind": "spoken",
       "text": "I got you.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -519,6 +558,7 @@
     {
       "key": "hearing.agree.i-know",
       "move": "agree",
+      "kind": "spoken",
       "text": "I know.",
       "hearingsUsing": 4,
       "shippable": true,
@@ -532,6 +572,7 @@
     {
       "key": "hearing.confirm.yes-sir",
       "move": "confirm",
+      "kind": "spoken",
       "text": "Yes, sir.",
       "hearingsUsing": 18,
       "shippable": true,
@@ -545,6 +586,7 @@
     {
       "key": "hearing.confirm.yes-maam",
       "move": "confirm",
+      "kind": "spoken",
       "text": "Yes, ma'am.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -558,6 +600,7 @@
     {
       "key": "hearing.confirm.yes-senator",
       "move": "confirm",
+      "kind": "spoken",
       "text": "Yes, Senator.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -571,6 +614,7 @@
     {
       "key": "hearing.confirm.no-sir",
       "move": "confirm",
+      "kind": "spoken",
       "text": "No, sir.",
       "hearingsUsing": 6,
       "shippable": true,
@@ -584,6 +628,7 @@
     {
       "key": "hearing.confirm.no-senator",
       "move": "confirm",
+      "kind": "spoken",
       "text": "No, Senator.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -597,6 +642,7 @@
     {
       "key": "hearing.confirm.that-is-correct",
       "move": "confirm",
+      "kind": "spoken",
       "text": "That is correct.",
       "hearingsUsing": 10,
       "shippable": true,
@@ -610,6 +656,7 @@
     {
       "key": "hearing.confirm.that-is-correct-sir",
       "move": "confirm",
+      "kind": "spoken",
       "text": "That is correct, sir.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -623,6 +670,7 @@
     {
       "key": "hearing.confirm.yes-that-is-correct",
       "move": "confirm",
+      "kind": "spoken",
       "text": "Yes, that is correct.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -636,6 +684,7 @@
     {
       "key": "hearing.confirm.that-is-right",
       "move": "confirm",
+      "kind": "spoken",
       "text": "That is right.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -649,6 +698,7 @@
     {
       "key": "hearing.confirm.yes-absolutely",
       "move": "confirm",
+      "kind": "spoken",
       "text": "Yes, absolutely.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -662,6 +712,7 @@
     {
       "key": "hearing.confirm.absolutely-yes",
       "move": "confirm",
+      "kind": "spoken",
       "text": "Absolutely, yes.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -675,6 +726,7 @@
     {
       "key": "hearing.confirm.absolutely-senator",
       "move": "confirm",
+      "kind": "spoken",
       "text": "Absolutely, Senator.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -688,6 +740,7 @@
     {
       "key": "hearing.confirm.of-course",
       "move": "confirm",
+      "kind": "spoken",
       "text": "Of course.",
       "hearingsUsing": 4,
       "shippable": true,
@@ -701,6 +754,7 @@
     {
       "key": "hearing.confirm.i-do",
       "move": "confirm",
+      "kind": "spoken",
       "text": "I do.",
       "hearingsUsing": 6,
       "shippable": true,
@@ -714,6 +768,7 @@
     {
       "key": "hearing.confirm.yes-i-do",
       "move": "confirm",
+      "kind": "spoken",
       "text": "Yes, I do.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -727,6 +782,7 @@
     {
       "key": "hearing.confirm.it-does",
       "move": "confirm",
+      "kind": "spoken",
       "text": "It does.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -740,6 +796,7 @@
     {
       "key": "hearing.confirm.it-is",
       "move": "confirm",
+      "kind": "spoken",
       "text": "It is.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -753,6 +810,7 @@
     {
       "key": "hearing.repair.i-am-sorry",
       "move": "repair",
+      "kind": "spoken",
       "text": "I am sorry.",
       "hearingsUsing": 6,
       "shippable": true,
@@ -766,6 +824,7 @@
     {
       "key": "hearing.repair.excuse-me",
       "move": "repair",
+      "kind": "spoken",
       "text": "Excuse me.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -779,6 +838,7 @@
     {
       "key": "hearing.repair.i-apologize",
       "move": "repair",
+      "kind": "spoken",
       "text": "I apologize.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -792,6 +852,7 @@
     {
       "key": "hearing.chair-procedure.without-objection-so-ordered",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "Without objection, so ordered.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -805,6 +866,7 @@
     {
       "key": "hearing.chair-procedure.without-objection",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "Without objection.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -818,6 +880,7 @@
     {
       "key": "hearing.chair-procedure.the-gentleman-yields-back",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "The gentleman yields back.",
       "hearingsUsing": 7,
       "shippable": true,
@@ -831,6 +894,7 @@
     {
       "key": "hearing.chair-procedure.the-gentlelady-yields-back",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "The gentlelady yields back.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -844,6 +908,7 @@
     {
       "key": "hearing.chair-procedure.the-gentlewoman-yields-back",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "The gentlewoman yields back.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -857,6 +922,7 @@
     {
       "key": "hearing.chair-procedure.the-gentleman-yields",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "The gentleman yields.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -870,6 +936,7 @@
     {
       "key": "hearing.chair-procedure.the-gentlemans-time-has-expired",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "The gentleman's time has expired.",
       "hearingsUsing": 6,
       "shippable": true,
@@ -883,6 +950,7 @@
     {
       "key": "hearing.chair-procedure.good-morning",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "Good morning.",
       "hearingsUsing": 5,
       "shippable": true,
@@ -896,6 +964,7 @@
     {
       "key": "hearing.chair-procedure.good-afternoon",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "Good afternoon.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -909,6 +978,7 @@
     {
       "key": "hearing.chair-procedure.all-right",
       "move": "chair-procedure",
+      "kind": "spoken",
       "text": "All right.",
       "hearingsUsing": 21,
       "shippable": true,
@@ -922,6 +992,7 @@
     {
       "key": "hearing.time.i-yield-back",
       "move": "time",
+      "kind": "spoken",
       "text": "I yield back.",
       "hearingsUsing": 17,
       "shippable": true,
@@ -935,6 +1006,7 @@
     {
       "key": "hearing.time.i-yield-back-mr-chairman",
       "move": "time",
+      "kind": "spoken",
       "text": "I yield back, Mr. Chairman.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -948,6 +1020,7 @@
     {
       "key": "hearing.time.mr-chairman-i-yield-back",
       "move": "time",
+      "kind": "spoken",
       "text": "Mr. Chairman, I yield back.",
       "hearingsUsing": 2,
       "shippable": true,
@@ -961,6 +1034,7 @@
     {
       "key": "hearing.time.i-yield",
       "move": "time",
+      "kind": "spoken",
       "text": "I yield.",
       "hearingsUsing": 3,
       "shippable": true,
@@ -974,6 +1048,7 @@
     {
       "key": "hearing.time.my-time-has-expired",
       "move": "time",
+      "kind": "spoken",
       "text": "My time has expired.",
       "hearingsUsing": 7,
       "shippable": true,
@@ -987,6 +1062,7 @@
     {
       "key": "hearing.time.my-time-is-up",
       "move": "time",
+      "kind": "spoken",
       "text": "My time is up.",
       "hearingsUsing": 3,
       "shippable": true,
