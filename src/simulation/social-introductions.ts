@@ -77,17 +77,27 @@ export interface IntroductionCandidate {
 }
 
 /**
- * Calibration pace, in days, for somebody of middling sociability meeting
- * somebody new on their own. See the header.
+ * Pace, in days, for somebody of middling sociability meeting somebody new on
+ * their own. See the header.
+ *
+ * SOURCE (ESTIMATED FROM AVERAGE, indirect): no table counts new
+ * acquaintances. The Bureau of Labor Statistics' American Time Use Survey
+ * (2025) has 30% of U.S. adults socializing or communicating on an average
+ * day, for about 35 minutes, and a commercial survey of 2,000 adults found the
+ * average American had not made a close friend in five years. An acquaintance
+ * from a shared workplace, group or friend sits between those: far more often
+ * than a friend, far less than a social day. Six days puts the typical adult
+ * at about one new acquaintance a week, three days for the most outgoing and
+ * twelve for the most reserved.
  */
-const INTRODUCTION_BASE_SPACING_DAYS = 4;
+const INTRODUCTION_BASE_SPACING_DAYS = 6;
 
 /**
  * Days this person leaves between meeting new people on their own.
  *
  * A smooth scale in the person's sociability, no step and no draw: every two
  * points of sociability halve the spacing, so the very sociable meet somebody
- * about every two days and the very reserved about every eight, with everyone
+ * about every three days and the very reserved about every twelve, with everyone
  * between on the same curve.
  */
 export function introductionSpacingDays(
