@@ -47,13 +47,14 @@ import {
 } from "../living-world/opening";
 import { currentGovernorOf, currentPresidentOf } from "../crisis/offices";
 import { publicPartyOf } from "./chamber-votes";
+import { chamberLeadershipProfileFor } from "../chamber-leadership-profile";
 import {
   legislativeSenateElectionDay,
   senateSelectionRuleAt,
 } from "./senate-selection";
 import {
-  electPresidingOfficer,
-  recordPresidingOfficerVote,
+  electChamberLeader,
+  recordChamberLeaderVote,
 } from "./presiding-officers";
 import {
   jointAssemblyCandidates,
@@ -1084,14 +1085,25 @@ function statutoryPresidentialSuccessor(
     });
     if (sitting.length === 0) continue;
     const voteKey = `${stableKey}:${chamberKey}:presiding-officer`;
-    const elected = electPresidingOfficer(next, {
+    const leadership = chamberLeadershipProfileFor({
+      jurisdictionKey: "US",
+      chamberKey,
+      form: "federal",
+    });
+    const post = leadership.posts[0]!;
+    const elected = electChamberLeader(next, {
       stableKey: voteKey,
-      officeTitle: office,
+      post: {
+        ...post,
+        title: office,
+        seniorityImportance: leadership.seniorityImportance,
+      },
       members: sitting,
     });
-    next = recordPresidingOfficerVote(elected.world, {
+    next = recordChamberLeaderVote(elected.world, {
       stableKey: voteKey,
       chamberKey,
+      postKey: post.key,
       officeTitle: office,
       occurredAt,
       election: elected.election,

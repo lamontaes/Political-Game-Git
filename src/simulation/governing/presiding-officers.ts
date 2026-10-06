@@ -1,19 +1,29 @@
 import { hasStableKey } from "../history-index";
+import { evaluateDecision } from "../decisions";
+import { currentHistoricalCutoff, latestPersonalityTendency } from "../queries";
+import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
 import { personName } from "../people";
-import type { EntityId, IsoDate, World } from "../types";
+import type {
+  DecisionConsideration,
+  DecisionImportance,
+  EntityId,
+  IsoDate,
+  World,
+} from "../types";
 import { recordWorldEvent } from "../world";
 import {
   castBallots,
   type BallotMember,
   type JointAssemblyCandidate,
   type JointAssemblyVote,
+  type OwedLeadershipCommitment,
 } from "./joint-assembly";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 
 /**
- * A CHAMBER ELECTS ITS PRESIDING OFFICER by vote: the Speaker of the House
- * and the President pro tempore of the Senate (CTO ruling, September 29,
- * 2026, 12:54 a.m.).
+ * Chamber leadership offices are filled by vote. The office and process are
+ * supplied as data, so party leaders, whips, and presiding officers reuse the
+ * same evaluator and ballot recorder.
  *
  * Two ballots, as the parties hold them. First each caucus chooses its
  * nominee from among its own members; then the chamber votes among the
@@ -28,30 +38,27 @@ import { ensureOfficeholderPrinciples } from "./officeholder-principles";
  * by name). Without one, nobody is elected on this reading, and the chair
  * stays empty.
  *
- * GAME ASSUMPTION (hand-set): a caucus's candidates are its five
- * longest-serving members, since a caucus weighing all of its members one by
- * one against each other made the vote too slow, and the nominee is the one
- * with the most caucus votes.
- *
- * NOT MODELED: repeated ballots (the House's 15 in January 2023); the
- * election is held when the line of succession is read, not at each
- * Congress's first sitting. A player in the chamber casts no ballot and is
- * not a candidate unless they choose to run, which no screen offers yet.
+ * The candidate field consists only of members who decide to declare. The
+ * controlled player can be named in `playerDeclarations` by the scene action;
+ * they never acquire a candidacy merely by being in the chamber.
  */
 
 export const PRESIDING_OFFICER_VOTE_EVENT =
   "governing.presiding-officer-vote" as const;
 
-/** PLACEHOLDER (hand-set): how many of a caucus's members stand for its nomination. */
-const CAUCUS_CANDIDATES = 5;
-
 export interface ChamberMember extends BallotMember {
-  readonly party: string;
+  readonly party: string | null;
   /** When their continuous service began; earlier is more senior. */
   readonly serviceSince: IsoDate | null;
 }
 
-export interface PresidingOfficerElection {
+export interface ChamberLeaderElection {
+  readonly postKey: string;
+  readonly declarations: readonly {
+    readonly personId: EntityId;
+    readonly declared: boolean;
+    readonly reason: string;
+  }[];
   readonly caucusVotes: readonly {
     readonly caucus: string;
     readonly vote: JointAssemblyVote;
@@ -61,73 +68,165 @@ export interface PresidingOfficerElection {
   readonly winnerPersonId: EntityId | null;
 }
 
-export function electPresidingOfficer(
+export interface ChamberLeaderPost {
+  readonly key: string;
+  readonly title: string;
+  readonly selection: "caucus-and-floor-vote" | "floor-vote";
+  readonly seniorityImportance: DecisionImportance;
+}
+
+/** One evaluator-driven leadership election for any post in the chamber row. */
+export function electChamberLeader(
   world: World,
   input: {
     readonly stableKey: string;
-    readonly officeTitle: string;
+    readonly post: ChamberLeaderPost;
     readonly members: readonly ChamberMember[];
+    /** Explicit player choice supplied by the action or scene that asks them. */
+    readonly playerDeclarations?: readonly EntityId[];
+    /** Resolved b08 promises, supplied by the canonical commitment reader. */
+    readonly owedLeadershipCommitments?: readonly OwedLeadershipCommitment[];
   },
-): { readonly world: World; readonly election: PresidingOfficerElection } {
+): { readonly world: World; readonly election: ChamberLeaderElection } {
   const next = ensureOfficeholderPrinciples(
     world,
     input.members.map((member) => member.personId),
   );
   const player = next.control.kind === "person" ? next.control.personId : null;
-  const caucuses = new Map<string, ChamberMember[]>();
-  for (const member of input.members)
-    caucuses.set(member.party, [...(caucuses.get(member.party) ?? []), member]);
+  const owedCommitments =
+    input.owedLeadershipCommitments?.filter(
+      (commitment) => commitment.postKey === input.post.key,
+    ) ?? [];
+  const declarations: ChamberLeaderElection["declarations"][number][] = [];
+  const declared: ChamberMember[] = [];
+  for (const member of input.members) {
+    if (member.personId === player) {
+      const choseToRun =
+        input.playerDeclarations?.includes(member.personId) ?? false;
+      declarations.push({
+        personId: member.personId,
+        declared: choseToRun,
+        reason: choseToRun
+          ? "player:declared-for-post"
+          : "player:did-not-declare",
+      });
+      if (choseToRun) declared.push(member);
+      continue;
+    }
+    const considerations = declarationConsiderations(next, input, member);
+    const evaluation = evaluateDecision(next, {
+      stableKey: `${input.stableKey}:declaration:${member.personId}`,
+      decisionType: "legislature.declare-chamber-leader",
+      actorPersonId: member.personId,
+      cutoff: currentHistoricalCutoff(next),
+      subject: {
+        kind: "context:chamber-leadership",
+        key: input.post.key,
+        entityId: null,
+      },
+      options: [
+        {
+          key: "declare",
+          label: "Run",
+          description: `Stand for ${input.post.title}.`,
+        },
+        {
+          key: "decline",
+          label: "Stay out",
+          description: "Do not seek the post.",
+        },
+      ],
+      constraints: [],
+      considerations,
+      perceptionIds: [],
+      randomness: "none",
+      retention: "ephemeral",
+    });
+    const declares = evaluation.selectedOptionKey === "declare";
+    const reason = bestReason(considerations, declares ? "declare" : "decline");
+    declarations.push({
+      personId: member.personId,
+      declared: declares,
+      reason,
+    });
+    if (declares) declared.push(member);
+  }
+
   const caucusVotes: {
     readonly caucus: string;
     readonly vote: JointAssemblyVote;
   }[] = [];
-  const nominees: JointAssemblyCandidate[] = [];
-  for (const [caucus, members] of [...caucuses.entries()].sort(
-    (a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]),
-  )) {
-    const standing = members
-      .filter((member) => member.personId !== player)
-      .sort(
+  let nominees: JointAssemblyCandidate[] = declared.map((member) => ({
+    key: `person:${member.personId}`,
+    personId: member.personId,
+    party: member.party ?? "independent",
+    incumbent: false,
+  }));
+  if (input.post.selection === "caucus-and-floor-vote") {
+    const caucuses = new Map<string, ChamberMember[]>();
+    for (const member of declared) {
+      const caucus = member.party ?? "independent";
+      caucuses.set(caucus, [...(caucuses.get(caucus) ?? []), member]);
+    }
+    nominees = [];
+    for (const [caucus, members] of [...caucuses.entries()].sort(
+      (a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]),
+    )) {
+      const order = [...members].sort(
         (a, b) =>
           (a.serviceSince ?? "9999").localeCompare(b.serviceSince ?? "9999") ||
           a.personId.localeCompare(b.personId),
-      )
-      .slice(0, CAUCUS_CANDIDATES);
-    if (standing.length === 0) continue;
-    const vote = castBallots(next, {
-      stableKey: `${input.stableKey}:caucus:${caucus}`,
-      decisionType: PRESIDING_OFFICER_VOTE_EVENT,
-      subjectKind: "context:caucus-nomination",
-      describe: () =>
-        `A candidate for the caucus's nomination for ${input.officeTitle}.`,
-      members,
-      candidates: standing.map((member, index) => ({
-        key: `person:${member.personId}`,
-        personId: member.personId,
-        party: caucus,
-        incumbent: false,
-        seniorMost: index === 0,
-      })),
-    });
-    caucusVotes.push({ caucus, vote });
-    // The caucus's choice: the most votes, the more senior on a tie.
-    const nominee = [...vote.candidates].sort(
-      (a, b) => (vote.tallies[b.key] ?? 0) - (vote.tallies[a.key] ?? 0),
-    )[0];
-    if (nominee && (vote.tallies[nominee.key] ?? 0) > 0)
-      nominees.push({ ...nominee, seniorMost: false });
+      );
+      const vote = castBallots(next, {
+        stableKey: `${input.stableKey}:caucus:${caucus}`,
+        decisionType: PRESIDING_OFFICER_VOTE_EVENT,
+        subjectKind: "context:caucus-nomination",
+        describe: () =>
+          `A candidate for the caucus's nomination for ${input.post.title}.`,
+        members,
+        owedLeadershipCommitments: owedCommitments,
+        candidates: order.map((member, index) => ({
+          key: `person:${member.personId}`,
+          personId: member.personId,
+          party: caucus,
+          incumbent: false,
+          seniorMost: index === 0,
+          seniorityImportance: input.post.seniorityImportance,
+        })),
+      });
+      caucusVotes.push({ caucus, vote });
+      const nominee = [...vote.candidates].sort(
+        (a, b) => (vote.tallies[b.key] ?? 0) - (vote.tallies[a.key] ?? 0),
+      )[0];
+      if (nominee && (vote.tallies[nominee.key] ?? 0) > 0)
+        nominees.push({ ...nominee, seniorMost: false });
+    }
   }
+  const mostSeniorId = [...declared].sort(
+    (left, right) =>
+      (left.serviceSince ?? "9999").localeCompare(
+        right.serviceSince ?? "9999",
+      ) || left.personId.localeCompare(right.personId),
+  )[0]?.personId;
+  nominees = nominees.map((candidate) => ({
+    ...candidate,
+    seniorMost: candidate.personId === mostSeniorId,
+    seniorityImportance: input.post.seniorityImportance,
+  }));
   const floorVote = castBallots(next, {
     stableKey: `${input.stableKey}:floor`,
     decisionType: PRESIDING_OFFICER_VOTE_EVENT,
-    subjectKind: "context:presiding-officer",
-    describe: () => `A caucus's nominee for ${input.officeTitle}.`,
+    subjectKind: "context:chamber-leadership",
+    describe: () => `A candidate for ${input.post.title}.`,
     members: input.members,
     candidates: nominees,
+    owedLeadershipCommitments: owedCommitments,
   });
   return {
     world: next,
     election: {
+      postKey: input.post.key,
+      declarations,
       caucusVotes,
       floorVote,
       winnerPersonId: floorVote.winner?.personId ?? null,
@@ -135,15 +234,65 @@ export function electPresidingOfficer(
   };
 }
 
+function declarationConsiderations(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly post: ChamberLeaderPost;
+    readonly members: readonly ChamberMember[];
+  },
+  actor: ChamberMember,
+): readonly DecisionConsideration[] {
+  const considerations: DecisionConsideration[] = [];
+  const ambitionId = SYNTHETIC_MIND_IDS.tendencies.ambition;
+  const ambition = latestPersonalityTendency(world, actor.personId, ambitionId);
+  if (ambition?.expressionKey === "ambitious") {
+    const importance: DecisionImportance =
+      ambition.strength === "defining" || ambition.strength === "strong"
+        ? "moderate"
+        : "slight";
+    considerations.push({
+      stableKey: `${input.stableKey}:ambition:${actor.personId}`,
+      optionKey: "declare",
+      sourceType: "mind:personality",
+      direction: "supports",
+      importance,
+      confidence: "medium",
+      explanation: `They often pursue positions with greater responsibility, such as ${input.post.title}.`,
+      sourceRefs: [
+        { kind: "personality-tendency", tendencyRecordId: ambition.id },
+      ],
+    });
+  }
+  // A recorded ambition can motivate entry. Seniority, standing, and ties are
+  // weighed on the ballots after the member declares; they do not make every
+  // seated member a candidate by default.
+  return considerations;
+}
+
+function bestReason(
+  considerations: readonly DecisionConsideration[],
+  optionKey: string,
+): string {
+  return (
+    considerations.find(
+      (consideration) =>
+        consideration.optionKey === optionKey &&
+        consideration.direction === "supports",
+    )?.stableKey ?? "legislator:no-recorded-reason"
+  );
+}
+
 /** Records the chamber's roll call, each ballot with its reason. */
-export function recordPresidingOfficerVote(
+export function recordChamberLeaderVote(
   world: World,
   input: {
     readonly stableKey: string;
     readonly chamberKey: string;
+    readonly postKey?: string;
     readonly officeTitle: string;
     readonly occurredAt: IsoDate;
-    readonly election: PresidingOfficerElection;
+    readonly election: ChamberLeaderElection;
   },
 ): World {
   if (hasStableKey(world.history.events, input.stableKey)) return world;
@@ -178,13 +327,24 @@ export function recordPresidingOfficerVote(
       ...vote.ballots.map((ballot) => ({
         personId: ballot.personId,
         role: "agency:legislature-vote" as const,
-        detail: `${ballot.candidateKey ?? "none"}|${ballot.reason}`,
+        detail: `${ballot.candidateKey ?? "none"}|${ballot.reason}|${
+          input.election.declarations.find(
+            (declaration) => declaration.personId === ballot.personId,
+          )?.declared
+            ? "declared"
+            : "not-declared"
+        }`,
       })),
     ],
     personFactConstraints: [],
     visibility: "public",
     tags: [
       `chamber:${input.chamberKey}`,
+      `post:${input.postKey ?? input.election.postKey}`,
+      ...input.election.declarations.map(
+        ({ personId, declared, reason }) =>
+          `declared:${personId}:${declared ? "yes" : "no"}:${reason}`,
+      ),
       ...input.election.caucusVotes.map(
         ({ caucus, vote: caucusVote }) =>
           `nominee:${caucus}:${
@@ -195,10 +355,17 @@ export function recordPresidingOfficerVote(
             )[0]?.personId ?? "none"
           }`,
       ),
+      ...input.election.caucusVotes.flatMap(({ caucus, vote: caucusVote }) =>
+        caucusVote.ballots.map(
+          (ballot) =>
+            `caucus-ballot:${caucus}:${ballot.personId}:${ballot.candidateKey ?? "none"}:${ballot.reason}`,
+        ),
+      ),
       ...vote.candidates.map(
         (candidate) =>
           `votes:${candidate.key}:${vote.tallies[candidate.key] ?? 0}`,
       ),
+      ...(winner ? [`winner:${winner.id}`] : []),
       winner ? "outcome:elected" : "outcome:deadlocked",
     ],
     summary: winner

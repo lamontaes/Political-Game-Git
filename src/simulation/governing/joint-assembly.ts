@@ -10,6 +10,7 @@ import {
 } from "../nationwide-world/state-legislature-opening";
 import { currentHistoricalCutoff } from "../queries";
 import type { DecisionConsideration, EntityId, IsoDate, World } from "../types";
+import type { DecisionImportance } from "../types";
 import { recordWorldEvent } from "../world";
 import { principleAgreement } from "./officeholder-principles";
 import { relationshipConsiderations } from "./standing-considerations";
@@ -54,6 +55,8 @@ export interface JointAssemblyCandidate {
   readonly incumbent: boolean;
   /** Set in a caucus's own vote for its longest-serving member. */
   readonly seniorMost?: boolean;
+  /** Chamber-specific importance of seniority custom for this post. */
+  readonly seniorityImportance?: DecisionImportance;
 }
 
 /** Who casts a ballot: a person and the caucus they sit with. */
@@ -75,6 +78,15 @@ export interface JointAssemblyVote {
   readonly tallies: Readonly<Record<string, number>>;
   /** Null when no candidate won a majority of the votes cast. */
   readonly winner: JointAssemblyCandidate | null;
+}
+
+/** A persisted b08 promise resolved for one specific office ballot. */
+export interface OwedLeadershipCommitment {
+  readonly commitmentId: EntityId;
+  readonly eventId: EntityId;
+  readonly memberPersonId: EntityId;
+  readonly candidatePersonId: EntityId;
+  readonly postKey: string;
 }
 
 export const JOINT_ASSEMBLY_VOTE_EVENT =
@@ -134,6 +146,7 @@ function memberReasons(
   world: World,
   member: BallotMember,
   candidate: JointAssemblyCandidate,
+  owedCommitments: readonly OwedLeadershipCommitment[] = [],
 ): DecisionConsideration[] {
   const reasons: DecisionConsideration[] = [];
   const optionKey = candidate.key;
@@ -148,6 +161,24 @@ function memberReasons(
       explanation: "The candidate is the nominee of the member's own caucus.",
       sourceRefs: [],
     });
+  for (const commitment of owedCommitments) {
+    if (
+      commitment.memberPersonId !== member.personId ||
+      commitment.candidatePersonId !== candidate.personId ||
+      !world.history.events.some((event) => event.id === commitment.eventId)
+    )
+      continue;
+    reasons.push({
+      stableKey: `legislator:owed-leadership-commitment:${commitment.commitmentId}:${optionKey}`,
+      optionKey,
+      sourceType: "institution:stated-commitment",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: `The member told the candidate they would support them for ${commitment.postKey}.`,
+      sourceRefs: [{ kind: "historical-event", eventId: commitment.eventId }],
+    });
+  }
   if (!candidate.personId || candidate.personId === member.personId)
     return reasons;
   if (candidate.seniorMost)
@@ -156,7 +187,7 @@ function memberReasons(
       optionKey,
       sourceType: "context:seniority",
       direction: "supports",
-      importance: "slight",
+      importance: candidate.seniorityImportance ?? "slight",
       confidence: "medium",
       explanation: "The candidate is the caucus's longest-serving member.",
       sourceRefs: [],
@@ -254,6 +285,7 @@ export function castBallots(
     readonly describe: (candidate: JointAssemblyCandidate) => string;
     readonly members: readonly BallotMember[];
     readonly candidates: readonly JointAssemblyCandidate[];
+    readonly owedLeadershipCommitments?: readonly OwedLeadershipCommitment[];
   },
 ): JointAssemblyVote {
   const player =
@@ -265,6 +297,12 @@ export function castBallots(
       : "Vote for the nominee",
     description: input.describe(candidate),
   }));
+  if (options.length === 1)
+    options.push({
+      key: "no-candidate",
+      label: "Withhold support",
+      description: "Do not support electing the sole declared candidate.",
+    });
   const ballots: JointAssemblyBallot[] = [];
   const tallies: Record<string, number> = {};
   for (const candidate of input.candidates) tallies[candidate.key] = 0;
@@ -279,7 +317,12 @@ export function castBallots(
         continue;
       }
       const considerations = input.candidates.flatMap((candidate) =>
-        memberReasons(world, member, candidate),
+        memberReasons(
+          world,
+          member,
+          candidate,
+          input.owedLeadershipCommitments ?? [],
+        ),
       );
       // A member with no caucus, tie or principle bearing on any candidate
       // has nothing to choose by, and casts no ballot rather than a default.
