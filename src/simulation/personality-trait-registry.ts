@@ -192,6 +192,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "registeredTraitConsiderations — src/simulation/traits/effects/facet-meticulous.ts",
   },
+  {
+    trait: "personality-v1:facet-independent",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-independent.ts",
+  },
 ];
 
 /**
@@ -210,15 +216,12 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-deferential",
   "personality-v1:facet-shy",
   "personality-v1:facet-slow-to-warm-up",
-  "personality-v1:facet-independent",
   "personality-v1:facet-charming",
   "personality-v1:facet-tactful",
-  "personality-v1:facet-polite",
   "personality-v1:facet-informal",
   "personality-v1:facet-sassy",
   "personality-v1:facet-mischievous",
   "personality-v1:facet-dramatic",
-  "personality-v1:facet-curious",
   "personality-v1:facet-analytical",
   "personality-v1:facet-practical",
   "personality-v1:facet-inventive",
@@ -228,12 +231,10 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-observant",
   "personality-v1:facet-ambitious",
   "personality-v1:facet-contented",
-  "personality-v1:facet-enterprising",
   "personality-v1:facet-self-serving",
   "personality-v1:facet-acquisitive",
   "personality-v1:facet-sincere",
   "personality-v1:facet-manipulative",
-  "personality-v1:facet-guarded",
   "personality-v1:facet-fair-minded",
   "personality-v1:facet-arbitrary",
   "personality-v1:facet-fickle",
