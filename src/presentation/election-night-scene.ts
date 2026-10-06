@@ -3,6 +3,8 @@ import {
   electionContestById,
   electionContestResult,
 } from "../simulation/election-contests";
+import { electionNightWitnesses } from "../simulation/speech-reception";
+import { recordedRoomPresence } from "./recorded-room-presence";
 import { eventById } from "../simulation/event-index";
 import { recordsWithFieldValue } from "../simulation/history-index";
 import { localGoverningBodyIdentityForOfficeKey } from "../simulation/nationwide-world/local-governing-body-candidacy-packs";
@@ -110,6 +112,37 @@ export function councilElectionNight(
       contestId: contest.id,
       resultId: result.id,
     },
+  };
+}
+
+/** A scene consumer may use only people in the current recorded room.
+ * The witness reader supplies eligibility, never an attendance receipt.
+ * Paid venues remain unsupported until their actual cost/location record exists.
+ */
+export function councilElectionNightRoomPacket(
+  world: World,
+  playerPersonId: EntityId,
+  contestId: EntityId,
+) {
+  const night = councilElectionNight(world, playerPersonId, contestId);
+  if (!night || night.returnedEventId || night.resolvedAt !== world.currentDate)
+    return null;
+  const presence = recordedRoomPresence(world, playerPersonId);
+  if (!presence || presence.location.setting !== "home") return null;
+  const witnesses = new Set(
+    electionNightWitnesses(world, playerPersonId, contestId),
+  );
+  return {
+    ...night,
+    presenceEventId: presence.eventId,
+    venue: { kind: "home" as const, location: presence.location },
+    participantPersonIds: presence.personIds.filter(
+      (id) => id === playerPersonId || witnesses.has(id),
+    ),
+    sourceRecordIds: [...night.sourceRecordIds, presence.eventId],
+    // No count-method evidence means no early/mail batch. No report means
+    // this packet cannot yet supply the precinct-reporting scene.
+    reportingReady: night.reports !== null,
   };
 }
 

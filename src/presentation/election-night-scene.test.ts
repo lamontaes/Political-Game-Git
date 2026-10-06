@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { addDays } from "../simulation/dates";
+import { recordWorldEvent } from "../simulation/world";
 import { advanceWorld } from "../simulation/world";
 import { createFutureTransitionHandlerRegistry } from "../simulation/future-transitions";
 import { smallWorld } from "../../tests/fixtures/small-world";
@@ -14,6 +15,7 @@ import { localGoverningBodyIdentityForOfficeKey } from "../simulation/nationwide
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import {
   councilElectionNight,
+  councilElectionNightRoomPacket,
   returnFromCouncilElectionNight,
 } from "./election-night-scene";
 
@@ -202,4 +204,62 @@ describe("council election night reads saved result authority", () => {
       councilElectionNight(elsewhere, f.candidates[0]!, f.contest.id),
     ).toBeNull();
   });
+});
+
+it("a room packet requires actual current presence and survives reload without adding attendees", () => {
+  const f = decided();
+  const player = f.candidates[0]!;
+  expect(
+    councilElectionNightRoomPacket(f.world, player, f.contest.id),
+  ).toBeNull();
+  const jurisdictionId = f.world.people[player]!.homeJurisdictionId;
+  const present = recordWorldEvent(f.world, {
+    stableKey: "authored-room-packet-fixture",
+    type: "life.scene.opened",
+    occurredAt: f.world.currentDate,
+    recordedAt: f.world.currentDate,
+    jurisdictionId,
+    involvedEntityIds: [player],
+    participants: [
+      {
+        personId: player,
+        role: "presence:participant",
+        detail: "Authored presence admission fixture",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [`moment:${JSON.stringify(f.world.currentMoment)}`],
+    summary: "Authored room admission fixture.",
+    context: {
+      location: { jurisdictionId, label: "Home", setting: "home" },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const before = serializeWorld(present);
+  const packet = councilElectionNightRoomPacket(present, player, f.contest.id)!;
+  expect(packet.participantPersonIds).toEqual([player]);
+  expect(packet.presenceEventId).toBe(present.history.events.at(-1)!.id);
+  expect(packet.reportingReady).toBe(false);
+  expect(packet.sourceRecordIds).toContain(packet.presenceEventId);
+  expect(serializeWorld(present)).toBe(before);
+  expect(
+    councilElectionNightRoomPacket(
+      deserializeWorld(before),
+      player,
+      f.contest.id,
+    ),
+  ).toEqual(packet);
+  const returned = returnFromCouncilElectionNight(
+    present,
+    player,
+    packet.resultId,
+  );
+  expect(
+    councilElectionNightRoomPacket(returned, player, f.contest.id),
+  ).toBeNull();
 });
