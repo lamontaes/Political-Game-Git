@@ -52,12 +52,12 @@ import {
   type LegislativeBargainingProgress,
 } from "./run-b-conversation-progress";
 import {
-  eligibleMotifVariantKeys,
-  legislativeMotifLine,
-  motifFamilies,
+  eligibleBargainingVariantKeys,
+  legislativeBargainingLine,
+  bargainingEnglishFamilies,
   type LegislativeMotifFacts,
   type LegislativeMotifGrounding,
-} from "./legislative-dialogue-motifs";
+} from "./legislative-bargaining-english";
 
 /**
  * A run of the bargaining slice, driven the way the player drives it.
@@ -860,14 +860,14 @@ describe("the motif layer", () => {
       billAmount: null,
       priorStatement: null,
     };
-    for (const family of motifFamilies()) {
+    for (const family of bargainingEnglishFamilies()) {
       for (const voice of [
         "district-advocate",
         "fiscal-guardian",
         "implementation-realist",
         "procedural-institutionalist",
       ] as const) {
-        const line = legislativeMotifLine({
+        const line = legislativeBargainingLine({
           family,
           voice,
           audience: "limited",
@@ -889,13 +889,13 @@ describe("the motif layer", () => {
       facts,
       grounding,
     } as const;
-    const advocate = legislativeMotifLine({
+    const advocate = legislativeBargainingLine({
       ...shared,
       family: "qualified-commitment",
       voice: "district-advocate",
       variantSeed: "same-turn",
     });
-    const guardian = legislativeMotifLine({
+    const guardian = legislativeBargainingLine({
       ...shared,
       family: "qualified-commitment",
       voice: "fiscal-guardian",
@@ -907,7 +907,7 @@ describe("the motif layer", () => {
   });
 
   it("never offers a line whose facts are missing", () => {
-    const keys = eligibleMotifVariantKeys({
+    const keys = eligibleBargainingVariantKeys({
       family: "offer-targeted-provision",
       voice: "fiscal-guardian",
       audience: "limited",

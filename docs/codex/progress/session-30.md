@@ -38,3 +38,9 @@ LW06 draft #2490 and LW07 draft #2481 remain preserved and unmerged. Their law-t
 - Replayed on current-main P4; focused `legislative-commitment-consequences.test.ts` passes 3/3.
 - P5 code commit: `17d216640`; current stack root: `8b0a877778bb12e27365a2cb87165faf08ed240f`.
 - Resume branch: `codex/session30-b08-p5-current-rebased`. Next: refresh existing P5 PR #2397 to this head and set its base to P4 PR #2545, then replay P6 and P7 against this stack.
+
+## B08 P6
+
+- Replayed against P5 PR #2397's current-main head. The isolated random-place cases passed 3/3; typecheck, presentation suites, lint, format, zero-dice, and A160 audit passed on the prior P5 base.
+- The broader world suite still has 7 pre-route campaign-polling setup failures (`This save has no recorded district leans`); required council/statehouse/territory bargaining proof remains incomplete.
+- Resume branch: `codex/session30-b08-p6-current-rebased`. Next: verify the exact refreshed-head checks, then update draft PR #2522 and replay P7 on this P6 branch.

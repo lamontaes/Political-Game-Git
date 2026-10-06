@@ -414,4 +414,4 @@ import type { EntityId, MetricSegmentKey, ProvisionReach } from "../simulation";
 import type {
   LegislativeMotifFamily,
   LegislativeVoice,
-} from "./legislative-dialogue-motifs";
+} from "./legislative-bargaining-english";

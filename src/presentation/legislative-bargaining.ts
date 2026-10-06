@@ -38,12 +38,12 @@ import type {
   World,
 } from "../simulation";
 import {
-  legislativeMotifLine,
+  legislativeBargainingLine,
   type LegislativeMotifFacts,
   type LegislativeMotifGrounding,
   type LegislativeMotifFamily,
   type LegislativeVoice,
-} from "./legislative-dialogue-motifs";
+} from "./legislative-bargaining-english";
 import type {
   LegislativeBargainingProgress,
   LegislativeBargainingProposition,
@@ -378,7 +378,7 @@ export function bargainingOpeningBeat(
       : progress.playerOffer === "none"
         ? "object-on-cost"
         : "press-visibility-concern";
-  return legislativeMotifLine({
+  return legislativeBargainingLine({
     family,
     voice: voiceFor(progress, speakerPersonId),
     audience: "limited",
@@ -1139,7 +1139,7 @@ function say(
     world,
     outcome: detail.outcome,
     speakerPersonId: input.speakerPersonId,
-    dialogue: legislativeMotifLine({
+    dialogue: legislativeBargainingLine({
       family: detail.family,
       voice: voiceFor(input.progress, input.speakerPersonId),
       audience: detail.audience,

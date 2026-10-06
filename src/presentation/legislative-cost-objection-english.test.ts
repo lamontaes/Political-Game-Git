@@ -9,10 +9,10 @@ import {
   type CostObjectionVoice,
 } from "./legislative-cost-objection-english";
 import {
-  eligibleMotifVariantKeys,
-  legislativeMotifLine,
+  eligibleBargainingVariantKeys,
+  legislativeBargainingLine,
   type LegislativeMotifContext,
-} from "./legislative-dialogue-motifs";
+} from "./legislative-bargaining-english";
 import { observerPlace } from "./observer-world";
 
 /**
@@ -161,16 +161,16 @@ describe(`the cost objection, worded from its packet (${place.displayName}, ${pl
         billAmountSourceIds: [provision],
       },
     };
-    const text = legislativeMotifLine(context);
+    const text = legislativeBargainingLine(context);
     expect(text).toMatch(/^“.+”$/);
     expect(text).toContain("HB 214");
     expect(text).toContain("$9,400,000");
     expect(
-      eligibleMotifVariantKeys(context).every((key) =>
+      eligibleBargainingVariantKeys(context).every((key) =>
         key.startsWith("legislative.object-on-cost.fiscal-guardian:"),
       ),
     ).toBe(true);
     // The same turn says the same words.
-    expect(legislativeMotifLine(context)).toBe(text);
+    expect(legislativeBargainingLine(context)).toBe(text);
   });
 });

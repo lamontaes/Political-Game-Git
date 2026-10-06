@@ -14,11 +14,11 @@ import {
 } from "./legislative-motif-english";
 import type { GroundedEnglishFact } from "./grounded-english";
 import {
-  eligibleMotifVariantKeys,
-  legislativeMotifLine,
-  motifFamilies,
+  eligibleBargainingVariantKeys,
+  legislativeBargainingLine,
+  bargainingEnglishFamilies,
   type LegislativeMotifContext,
-} from "./legislative-dialogue-motifs";
+} from "./legislative-bargaining-english";
 import { observerPlace } from "./observer-world";
 
 /**
@@ -230,9 +230,9 @@ describe("the bargaining room speaks these beats through the engine", () => {
   it("quotes an engine line for each converted beat, from the advocate's own bank first", () => {
     for (const family of ENGLISH_MOTIF_FAMILIES)
       for (const adopted of [false, true]) {
-        const text = legislativeMotifLine(context(family, adopted));
+        const text = legislativeBargainingLine(context(family, adopted));
         expect(text, family).toMatch(/^“.+”$/);
-        const keys = eligibleMotifVariantKeys(context(family, adopted));
+        const keys = eligibleBargainingVariantKeys(context(family, adopted));
         expect(keys.length).toBeGreaterThan(0);
         expect(
           keys.every((key) => key.startsWith(`legislative.${family}`)),
@@ -241,7 +241,7 @@ describe("the bargaining room speaks these beats through the engine", () => {
       }
     // With the section absent, the advocate says so about their own place.
     expect(
-      legislativeMotifLine(context("district-beneficiary-concern", false)),
+      legislativeBargainingLine(context("district-beneficiary-concern", false)),
     ).toContain(place.displayName);
   });
 });
@@ -299,12 +299,12 @@ describe("how the lines sound in the room", () => {
       "is written for the transit authority",
     );
     let lines = 0;
-    for (const family of motifFamilies())
+    for (const family of bargainingEnglishFamilies())
       for (const voice of VOICES)
         for (const requested of [null, "absent", "adopted"] as const)
           for (const priorFamily of [null, "refuse-to-commit-yet"] as const)
             for (let turn = 0; turn < 8; turn += 1) {
-              const line = legislativeMotifLine({
+              const line = legislativeBargainingLine({
                 family,
                 voice,
                 audience: "limited",
@@ -322,7 +322,7 @@ describe("how the lines sound in the room", () => {
               expect(line, where).not.toContain("written as language");
               expect(line, where).not.toMatch(/\blanguage reaching\b/);
             }
-    expect(lines).toBe(motifFamilies().length * 4 * 3 * 2 * 8);
+    expect(lines).toBe(bargainingEnglishFamilies().length * 4 * 3 * 2 * 8);
   });
 
   it("says a recorded state of the section wherever a bank has words for it", () => {

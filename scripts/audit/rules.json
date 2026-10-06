@@ -4585,18 +4585,18 @@
       "checks": [
         {
           "kind": "absent",
-          "file": "src/presentation/legislative-dialogue-motifs.ts",
+          "file": "src/presentation/legislative-bargaining-english.ts",
           "pattern": "stableHash\\(",
-          "why": "the authored line bank is still chosen by a hash of the turn key (legislative-dialogue-motifs.ts:606)"
+          "why": "bargaining dialogue must not select whole lines by a hash of the turn key"
         },
         {
           "kind": "present",
-          "file": "src/presentation/legislative-dialogue-motifs.ts",
+          "file": "src/presentation/legislative-bargaining-english.ts",
           "pattern": "from \"\\./(english-composition|grounded-english|speech-registers|[\\w-]*-english)\"",
           "why": "a beat type is composed through the English engine's parts rather than picked from the bank"
         }
       ],
-      "note": "Part only (this is one beat family of a much wider conversion): legislative-dialogue-motifs.ts:606 still picks lines by stableHash and imports no English-engine module, so 0 of 2 pass: not-started, as verified. Passing both would mean this file is converted, not that all prose is. The grounding test is not a check (a missing test would hide the not-started status)."
+      "note": "Part only (this is one beat family of a much wider conversion): bargaining dialogue is composed through the English engine from its fact packet. Passing both checks means only this bargaining slice is converted. The grounding test is not a check (a missing test would hide the not-started status)."
     },
     "A23": {
       "covers": "whole",
