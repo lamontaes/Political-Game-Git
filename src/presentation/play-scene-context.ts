@@ -13,6 +13,7 @@ import {
 } from "../simulation";
 import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
+import { workplacePresence } from "./workplace-presence";
 import { openingWorkLocation } from "./opening-work-location";
 import { selectedWorkplaceForPerson } from "./place-backdrops";
 import { recordedRoomPresence } from "./recorded-room-presence";
@@ -169,9 +170,39 @@ export function resolveOpeningPlaySceneContext(
       activityVenue,
     );
 
+  const work = workplacePresence(world, personId);
+  if (work) {
+    const venue = sceneVenueForLocationKey(`place:${work.place}`);
+    const sceneId = venue?.sceneId;
+    return {
+      purpose: "activity",
+      locationKey: work.locationKey,
+      sceneId: sceneId && libraryHas(scenes, library, sceneId) ? sceneId : null,
+      reason: work.arrival.summary,
+      ...(selectedWorkplaceForPerson(world, personId)
+        ? { workplace: selectedWorkplaceForPerson(world, personId)! }
+        : {}),
+      placeLabel: work.location.label,
+      presentPeople: work.personIds.flatMap((id) => {
+        if (id === personId) return [];
+        const context = describePersonContext(world, personId, id);
+        return context
+          ? [
+              {
+                personId: id,
+                name: context.name,
+                relationship: context.relationship,
+                introduction: introducePerson(context),
+              },
+            ]
+          : [];
+      }),
+    };
+  }
+
   const workArrival = openingWorkLocation(world, personId);
-  const workplace = selectedWorkplaceForPerson(world, personId);
-  if (workArrival?.context.location?.setting === "work")
+  if (workArrival?.context.location?.setting === "work") {
+    const workplace = selectedWorkplaceForPerson(world, personId);
     return {
       purpose: "activity",
       locationKey: "life-circumstance:covered-shift",
@@ -181,6 +212,7 @@ export function resolveOpeningPlaySceneContext(
       presentPeople: [],
       ...(workplace ? { workplace } : {}),
     };
+  }
 
   if (setting === "neighborhood" || setting === null)
     return {

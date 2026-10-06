@@ -56,7 +56,9 @@ export function lifeTalkConversationRoom(
   );
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const jurisdictionId =
-    place?.context.jurisdiction.id ?? person.homeJurisdictionId;
+    event?.context.location?.jurisdictionId ??
+    place?.context.jurisdiction.id ??
+    person.homeJurisdictionId;
   if (!world.jurisdictions[jurisdictionId]) return null;
 
   const present = scene.presentPersonIds;

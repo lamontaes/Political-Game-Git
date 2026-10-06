@@ -4,6 +4,7 @@ import { actionDespiteFearEffects } from "./action-despite-fear";
 import { bondLoyaltyEffects } from "./bond-loyalty";
 import { concernForDistressEffects } from "./concern-for-distress";
 import { facetAmbitiousEffects } from "./facet-ambitious";
+import { facetAnalyticalEffects } from "./facet-analytical";
 import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetAssertiveEffects } from "./facet-assertive";
 import { facetBluntEffects } from "./facet-blunt";
@@ -27,6 +28,7 @@ import { facetGuardedEffects } from "./facet-guarded";
 import { facetHostileEffects } from "./facet-hostile";
 import { facetHumbleEffects } from "./facet-humble";
 import { facetIndependentEffects } from "./facet-independent";
+import { facetInventiveEffects } from "./facet-inventive";
 import { facetMeticulousEffects } from "./facet-meticulous";
 import { facetNurturingEffects } from "./facet-nurturing";
 import { facetOpenMindedEffects } from "./facet-open-minded";
@@ -61,6 +63,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...bondLoyaltyEffects,
     ...concernForDistressEffects,
     ...facetAmbitiousEffects,
+    ...facetAnalyticalEffects,
     ...facetArgumentativeEffects,
     ...facetAssertiveEffects,
     ...facetBluntEffects,
@@ -84,6 +87,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetHostileEffects,
     ...facetHumbleEffects,
     ...facetIndependentEffects,
+    ...facetInventiveEffects,
     ...facetMeticulousEffects,
     ...facetNurturingEffects,
     ...facetOpenMindedEffects,
