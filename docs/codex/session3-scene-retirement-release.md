@@ -7,10 +7,10 @@ Exact inspected actual-main source: `c76514832e9c866b5cf5967206bed554b6a1e88e`. 
 | Consumer | Released scope |
 | --- | --- |
 | PlayerGame.tsx:210 | Retire OrdinaryMeetingPanel import when its last mount is removed. |
-| PlayerGame.tsx:2551 | Retire OrdinaryMeetingPanel and its immediately enclosing scene/readOnly/orientation/conversation gate (2544–2560). Preserve actual meeting producers, attendance, NPCs, time, authority and saved return in the shared played-scene path. |
+| PlayerGame.tsx:2551 | Retire OrdinaryMeetingPanel and its immediately enclosing scene/readOnly/orientation/conversation gate (2546–2559). Preserve actual meeting producers, attendance, NPCs, time, authority and saved return in the shared played-scene path. |
 | PlayerGame.tsx:137 | Retire CandidateGuidancePanel import when its last mount is removed. |
-| PlayerGame.tsx:2564 | Retire CandidateGuidancePanel and its immediately enclosing gate (2561–2572). Replace rejected guidance/button-grid entry through the approved shared scene, retaining canonical writers and resulting state. |
-| PlayerGame.tsx:2574 | Bounded OpeningLifeFlow invocation: pendingLife/availability/open/close and foreground wiring through 2655. Connect approved shared scene foreground and transition handoff here; preserve World/person identity, onWorldChange, focus return, orientation and existing navigation/save continuity. |
+| PlayerGame.tsx:2564 | Retire CandidateGuidancePanel and its immediately enclosing gate (2560–2571). Replace rejected guidance/button-grid entry through the approved shared scene, retaining canonical writers and resulting state. |
+| PlayerGame.tsx:2573 | Bounded OpeningLifeFlow invocation: pendingLife/availability/open/close and foreground wiring through 2655. Connect approved shared scene foreground and transition handoff here; preserve World/person identity, onWorldChange, focus return, orientation and existing navigation/save continuity. |
 | PlayerGame.tsx:966 | Bounded transition completion handoff: after createOpeningLifeController.finishTransitionWithProgress returns the game, route NEW beats to the shared scene path before the first room. Preserve cancellation/error handling, canonical world construction and startPlaying identity/seed. Coordinate this neighboring loading consumer with Sessions 2/7 before changing it. |
 | opening-life/OpeningLifeFlow.tsx:34–81 | Replace NEW-beat consumption through currentOpeningLifeScene/LifeScenePanel with approved shared foreground. Keep an explicit compatibility route for already recorded canonical opening scenes in old saves; do not fill new beats through that legacy path. |
 
