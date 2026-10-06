@@ -1,7 +1,8 @@
 import type { TraitEffectDeclaration } from "../../trait-packs";
 import { bondLoyaltyEffects } from "./bond-loyalty";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
-import { initialTrustEffects } from "./initial-trust";
+import { patienceEffects } from "./patience";
+import { facetHostileEffects } from "./facet-hostile";
 import { facetHumbleEffects } from "./facet-humble";
 import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetProudEffects } from "./facet-proud";
@@ -22,6 +23,7 @@ import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetZealousEffects } from "./facet-zealous";
+import { initialTrustEffects } from "./initial-trust";
 import { selfConfidenceEffects } from "./self-confidence";
 
 /**
@@ -31,7 +33,10 @@ import { selfConfidenceEffects } from "./self-confidence";
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
     ...facetSelfConsciousEffects,
+    ...facetHostileEffects,
     ...facetHumbleEffects,
+    ...patienceEffects,
+    ...initialTrustEffects,
     ...facetOpenMindedEffects,
     ...facetProudEffects,
     ...facetArgumentativeEffects,
@@ -39,7 +44,6 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetBrazenEffects,
     ...facetCockyEffects,
     ...facetComfortingEffects,
-    ...initialTrustEffects,
     ...facetDefensiveEffects,
     ...facetCruelEffects,
     ...facetEnviousEffects,
