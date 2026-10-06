@@ -166,7 +166,8 @@ function nextIntakeDate(after: IsoDate): IsoDate {
   );
 }
 
-function scheduleNextIntake(world: World): World {
+/** Seed the existing monthly member-agenda intake without advancing the clock. */
+export function scheduleCongressIntake(world: World): World {
   const dueAt = nextIntakeDate(world.currentDate);
   const stableKey = `${CONGRESS_LAWMAKING_VERSION}:intake:${dueAt}`;
   if (hasStableKey(world.history.futureDueItems, stableKey)) return world;
@@ -192,7 +193,7 @@ function scheduleNextIntake(world: World): World {
 export function applyCongressLawmaking(before: IsoDate, world: World): World {
   if (world.currentDate <= before) return world;
   if (!livingWorldEstablished(world)) return world;
-  return scheduleNextIntake(world);
+  return scheduleCongressIntake(world);
 }
 
 export function congressIntakeHandler(
@@ -206,7 +207,7 @@ export function congressIntakeHandler(
       chamberKey,
       intakeKey: due.dueAt,
     });
-  next = scheduleNextIntake(next);
+  next = scheduleCongressIntake(next);
   return {
     world: next,
     status: "resolved",

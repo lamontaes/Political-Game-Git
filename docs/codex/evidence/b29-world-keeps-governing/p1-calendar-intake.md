@@ -190,29 +190,29 @@ Machine-readable report with per-bill IDs/actions/enactments and state/federal j
 
 ## Session-end coverage required before acceptance
 
-The regular-session calendar in `data/content/legislative-session-calendars.json` is explicitly a game-profile cadence, not a convening/adjournment record. The April 30 run therefore cannot establish that every state's own regular session ended. The 2026 source end-date data supports the following state-level check:
+The regular-session calendar in `data/content/legislative-session-calendars.json` is explicitly a game-profile cadence, not a convening/adjournment record. The April 30 run therefore cannot establish that every state's own regular session ended. The 2026 source end-date data supports the following state-level source-date comparison. The Apr. 30 artifact does not serialize `sessionAdjournments`, so none of these source dates is claimed as a simulated session-end record reached by that run:
 
 | State | 2026 regular-session end evidence |
 | --- | --- |
-| Alabama | 2026-04-09 (all reached by cutoff) |
+| Alabama | 2026-04-09 (source date by cutoff; simulated adjournment record not captured) |
 | Alaska | no recorded 2026 end in sessionEnds data |
-| Arizona | 2026-06-13 (one or more after cutoff) |
-| Arkansas | 2026-04-29 (all reached by cutoff) |
+| Arizona | 2026-06-13 (source date after cutoff) |
+| Arkansas | 2026-04-29 (source date by cutoff; simulated adjournment record not captured) |
 | California | no recorded 2026 end in sessionEnds data |
 | Colorado | no recorded 2026 end in sessionEnds data |
 | Connecticut | no recorded 2026 end in sessionEnds data |
 | Delaware | no recorded 2026 end in sessionEnds data |
-| Florida | 2026-03-13 (all reached by cutoff) |
+| Florida | 2026-03-13 (source date by cutoff; simulated adjournment record not captured) |
 | Georgia | no recorded 2026 end in sessionEnds data |
-| Hawaii | 2026-05-08 (one or more after cutoff) |
-| Idaho | 2026-04-02 (all reached by cutoff) |
+| Hawaii | 2026-05-08 (source date after cutoff) |
+| Idaho | 2026-04-02 (source date by cutoff; simulated adjournment record not captured) |
 | Illinois | no recorded 2026 end in sessionEnds data |
 | Indiana | no recorded 2026 end in sessionEnds data |
 | Iowa | no recorded 2026 end in sessionEnds data |
-| Kansas | 2026-04-10 (all reached by cutoff) |
-| Kentucky | 2026-04-15 (all reached by cutoff) |
+| Kansas | 2026-04-10 (source date by cutoff; simulated adjournment record not captured) |
+| Kentucky | 2026-04-15 (source date by cutoff; simulated adjournment record not captured) |
 | Louisiana | no recorded 2026 end in sessionEnds data |
-| Maine | 2026-04-29 (all reached by cutoff) |
+| Maine | 2026-04-29 (source date by cutoff; simulated adjournment record not captured) |
 | Maryland | no recorded 2026 end in sessionEnds data |
 | Massachusetts | no recorded 2026 end in sessionEnds data |
 | Michigan | estimated date 2026-04-15; no recorded adjournment |
@@ -220,16 +220,16 @@ The regular-session calendar in `data/content/legislative-session-calendars.json
 | Mississippi | no recorded 2026 end in sessionEnds data |
 | Missouri | legal regular-session end limit 2026-05-30 (after cutoff) |
 | Montana | no recorded 2026 end in sessionEnds data |
-| Nebraska | 2026-04-17 (all reached by cutoff) |
+| Nebraska | 2026-04-17 (source date by cutoff; simulated adjournment record not captured) |
 | Nevada | no recorded 2026 end in sessionEnds data |
 | New Hampshire | no recorded 2026 end in sessionEnds data |
 | New Jersey | no recorded 2026 end in sessionEnds data |
-| New Mexico | 2026-02-19 (all reached by cutoff) |
+| New Mexico | 2026-02-19 (source date by cutoff; simulated adjournment record not captured) |
 | New York | no recorded 2026 end in sessionEnds data |
 | North Carolina | estimated date 2026-04-15; no recorded adjournment |
 | North Dakota | no recorded 2026 end in sessionEnds data |
 | Ohio | no recorded 2026 end in sessionEnds data |
-| Oklahoma | 2026-05-14 (one or more after cutoff) |
+| Oklahoma | 2026-05-14 (source date after cutoff) |
 | Oregon | no recorded 2026 end in sessionEnds data |
 | Pennsylvania | no recorded 2026 end in sessionEnds data |
 | Rhode Island | no recorded 2026 end in sessionEnds data |
@@ -237,22 +237,26 @@ The regular-session calendar in `data/content/legislative-session-calendars.json
 | South Dakota | no recorded 2026 end in sessionEnds data |
 | Tennessee | no recorded 2026 end in sessionEnds data |
 | Texas | no recorded 2026 end in sessionEnds data |
-| Utah | 2026-03-06 (all reached by cutoff) |
+| Utah | 2026-03-06 (source date by cutoff; simulated adjournment record not captured) |
 | Vermont | no recorded 2026 end in sessionEnds data |
 | Virginia | no recorded 2026 end in sessionEnds data |
-| Washington | 2026-03-12 (all reached by cutoff) |
+| Washington | 2026-03-12 (source date by cutoff; simulated adjournment record not captured) |
 | West Virginia | no recorded 2026 end in sessionEnds data |
 | Wisconsin | no recorded 2026 end in sessionEnds data |
-| Wyoming | 2026-03-11 (all reached by cutoff) |
+| Wyoming | 2026-03-11 (source date by cutoff; simulated adjournment record not captured) |
 | Puerto Rico | no recorded 2026 end in sessionEnds data |
 | Guam | no recorded 2026 end in sessionEnds data |
 | the U.S. Virgin Islands | no recorded 2026 end in sessionEnds data |
 | American Samoa | legal session ends 2026-02-25 and 2026-08-26 (second session after cutoff) |
 | the Northern Mariana Islands | no recorded 2026 end in sessionEnds data |
 
-The source table has 2026 published adjournments for 15 states: 12 by Apr. 30 and three later. It also has Missouri’s legal May 30 limit and American Samoa’s two 45-day legal sessions, with the second ending Aug. 26. Michigan and North Carolina have estimated Apr. 15 ends. Twenty-eight annual-session states have no finite end date in the current source table; four states have no 2026 regular session. Entries marked no recorded end are unverified for cutoff completion. Montana, Nevada, North Dakota, and Texas have no 2026 regular session under `regular-session-years.json`, so their next regular session is in 2027. American Samoa has two 2026 sessions ending Feb. 25 and Aug. 26; Apr. 30 covers only the first. Arizona (June 13), Hawaii (May 8), Missouri (May 30), and Oklahoma (May 14) end after Apr. 30. D.C. is a year-round Council, with no annual adjournment record; the federal Congress has no state-style session-end record in this coverage table; its Apr. 15 median date is an effective-date estimate, not a council session end. Puerto Rico, Guam, the Virgin Islands, and Northern Mariana Islands have no canonical legislative calendar/roster contract. The displayed Michigan, North Carolina and D.C. Apr. 15 dates are estimates, not recorded adjournments.
+The source table has 2026 published adjournments for 15 states: 12 source dates by Apr. 30 and three later. The bounded-run artifact has no `sessionAdjournments` field, so the number of session-end records actually reached is unmeasured. It also has Missouri’s legal May 30 limit and American Samoa’s two 45-day legal sessions, with the second ending Aug. 26. Michigan and North Carolina have estimated Apr. 15 ends. Twenty-eight annual-session states have no finite end date in the current source table; four states have no 2026 regular session. Entries marked no recorded end are unverified for cutoff completion. Montana, Nevada, North Dakota, and Texas have no 2026 regular session under `regular-session-years.json`, so their next regular session is in 2027. American Samoa has two 2026 sessions ending Feb. 25 and Aug. 26; Apr. 30 covers only the first. Arizona (June 13), Hawaii (May 8), Missouri (May 30), and Oklahoma (May 14) end after Apr. 30. D.C. is a year-round Council, with no annual adjournment record; the federal Congress has no state-style session-end record in this coverage table; its Apr. 15 median date is an effective-date estimate, not a council session end. Puerto Rico, Guam, the Virgin Islands, and Northern Mariana Islands have no canonical legislative calendar/roster contract. The displayed Michigan, North Carolina and D.C. Apr. 15 dates are estimates, not recorded adjournments.
 
 Thus the run is a useful all-due throughput result but not the CTO’s per-jurisdiction full-session acceptance. Four-year/annual wall-clock OOM is not treated as a b29 blocker; this is a source/session-end coverage gap. Continue bounded calendar work only against named recorded end dates, and route absent session-end/member-intake contracts to CTO rather than inventing dates or zero rows.
+
+## Opening calendar follow-up: seed Congress intake through its existing writer
+
+The regular opening paths now schedule the canonical Congress monthly intake row through `scheduleCongressIntake`, which the existing `congressIntakeHandler` consumes via `fileMemberAgendaBills`. It is the same producer as `applyCongressLawmaking` and does not depend on a daily clock advance to put the first filing date on the calendar. The async and synchronous opening paths both seed the existing state bill-season rows and D.C. Council sitting. Focused calendar/intake checks: 69 passed. The separate opening-life integration check did not pass in this checkout: after the new rows were scheduled, it failed its existing assertion that the opening Congress roster has more than 3,500 saved principle rows (observed 0); this remains a verification gap and no Congress passage count is claimed from it.
 
 ## Nationwide legislative-calendar-only compact run (diagnostic, not acceptance)
 

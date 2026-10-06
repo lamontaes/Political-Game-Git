@@ -7,6 +7,10 @@ import {
   type SittingCalendar,
 } from "./legislative-session-calendar";
 import { scheduleCongressSitting } from "./governing/congress-chambers";
+import {
+  CONGRESS_INTAKE_TRANSITION,
+  scheduleCongressIntake,
+} from "./governing/congress-lawmaking";
 import { scheduleDcCouncilSitting } from "./dc-council-sittings";
 import {
   scheduleGoverningSeasons,
@@ -22,6 +26,23 @@ import { createWorld } from "./world";
 import type { EntityId } from "./types";
 
 describe("one legislative session timetable", () => {
+  it("seeds the existing Congress member-agenda intake once at opening", () => {
+    const world = createWorld({
+      seed: "a11-congress-intake-at-opening",
+      currentDate: makeIsoDate("2026-01-05"),
+      jurisdictions: [stateJurisdictionForKey("US-OH")!],
+      people: [],
+    });
+    const scheduled = scheduleCongressIntake(world);
+    const intake = scheduled.history.futureDueItems.find(
+      (row) => row.transitionKey === CONGRESS_INTAKE_TRANSITION,
+    );
+
+    expect(intake?.dueAt).toBe("2026-02-01");
+    expect(scheduleCongressIntake(scheduled)).toEqual(scheduled);
+    expect(scheduled.history.legislativeMeasures ?? []).toHaveLength(0);
+  });
+
   it("seeds state bill intake rows from the existing session calendar at opening", () => {
     const states = ["MS", "NE"];
     const jurisdictions = states.map((state) =>

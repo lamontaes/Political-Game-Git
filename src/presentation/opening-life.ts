@@ -22,6 +22,7 @@ import {
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
 import { scheduleNationwideStateBillSeasons } from "../simulation/governing/governing-calendar";
+import { scheduleCongressIntake } from "../simulation/governing/congress-lawmaking";
 import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
@@ -216,6 +217,10 @@ export async function generateOpeningLifeWithProgress(
       });
       await (options.yieldControl ?? yieldOpeningPreparationToHost)();
     }
+    world = scheduleNationwideStateBillSeasons(world);
+    world = scheduleDcCouncilSitting(
+      ensureDistrictOfColumbiaCouncilOpening(world),
+    );
   }
 
   throwIfOpeningAborted(options.signal);
@@ -428,7 +433,9 @@ function* completeOpeningLifeSteps(
   yield openingStage("Preparing world conditions", preparedWorld);
   const { session, game, prewarmNationwide } = start;
   const withLocalIntakes = prewarmNationwide
-    ? scheduleLocalMemberAgendaIntakes(preparedWorld)
+    ? scheduleCongressIntake(
+        scheduleLocalMemberAgendaIntakes(preparedWorld),
+      )
     : preparedWorld;
   const withParties = ensurePartyGoverningBodies(
     ensureHomePartyChapters(
