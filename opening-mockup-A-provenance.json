@@ -1,0 +1,37 @@
+{
+  "kind": "static mockup proposal, not a played game",
+  "proposal": "A \u2014 separate art and opaque reader",
+  "sourceHead": "176bbff1c39718229a98fddae3011c85dd89fc6d",
+  "sourceChanged": false,
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "browser": "system Chromium /usr/bin/chromium",
+  "assets": [
+    {
+      "path": "art/backdrops/us-capitol-exterior__midday.jpg",
+      "sha256": "016d3c91f829c637f3c79c7c60f32d5b23b04b0417c6c8103d0ead6aa8be84ca",
+      "manifestApproval": "owner-placeholder-2026-09-27"
+    },
+    {
+      "path": "art/backdrops/state-capitol-mo__midday.jpg",
+      "sha256": "0f6f7ed992e52cd1f553181fc0a38fa656300995adc430a34719fca1c1e4d380",
+      "manifestApproval": "live-owner-reviews-in-play-2026-09-28"
+    }
+  ],
+  "artifactHashes": {
+    "opening.html": "03b55b84a77dfa7eb1e21c048b3afd2d9b441deb49f12668e1c3c68a78a82ba1",
+    "congress.png": "2e092b74a20a91425da39650b041a7a6589e571f3a0e1f535484a2fcdab17014",
+    "courier.png": "85a6f4173e929d60ae5eeda5b8f7d2c3690a876496b14e45b41ef919f52101e4"
+  },
+  "authority": "CTO6005940276 and complete private note relayed by local coordinator",
+  "limits": [
+    "Not owner approved; no product implementation",
+    "No saved-world/seed/recipe proof was supplied in private notes",
+    "Only Congress/Courier composition studies, not all eight opening cards",
+    "Missouri Capitol used as disclosed existing-art reference for Courier; not an Ava scene",
+    "Existing manifest assets carry owner-placeholder-2026-09-27 approval, not new art approval",
+    "Resolute desk art changes reserved to Session11"
+  ]
+}
