@@ -8,10 +8,10 @@
 
 ## Verification
 
-- Focused Vitest: `npm exec vitest -- run src/simulation/governing/member-vote-decision.test.ts` — 63 tests passed.
-- `npm run typecheck` — blocked by two unrelated errors in unchanged `src/simulation/press/press-premise.test.ts`: lines 35 and 125 omit required `PlaySettings.personalLifeDepiction` (`TS2741`). `git diff origin/main -- src/simulation/press/press-premise.test.ts` is empty; no T2 file errors were reported.
+- After rebasing onto main at `68c8a66307085d38c5db741ce46be9141cff3e18`, exact-head focused Vitest passed: `npm exec vitest -- run src/simulation/governing/member-vote-decision.test.ts` — 63 tests passed.
+- Exact-head `npm run typecheck` passed, including the test-file import scan and `check:law-consequence-modules`; the previously reported press-fixture type errors were fixed on main by #2470.
 - `node --import tsx scripts/dev-lab/typecheck-test-imports.ts` — passed; 804 test files without direct project coverage, 0 unresolved imports.
-- Targeted Prettier, ESLint, and `git diff --check` — passed.
+- Targeted Prettier, ESLint, and `git diff --check` passed on the original implementation. PR #2484's aggregate validation and audit workflows for rebased head `821fb9eb1a55b66f46fb733a321d7fef9edf512f` are queued and not yet reported.
 
 ## Random new-game proof
 
