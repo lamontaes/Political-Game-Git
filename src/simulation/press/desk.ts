@@ -197,7 +197,7 @@ export function publishOpeningPublicRecords(world: World): World {
   const candidates = world.history.events.filter(
     (event) =>
       event.occurredAt >= oldest &&
-      event.occurredAt < world.currentDate &&
+      event.occurredAt <= world.currentDate &&
       event.recordedAt <= world.currentDate &&
       !published.has(event.id) &&
       !event.tags.some(
