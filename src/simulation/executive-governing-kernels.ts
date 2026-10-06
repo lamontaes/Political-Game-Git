@@ -86,7 +86,9 @@ export type ExecutiveWorkflowFamilyId = `WF-${string}`;
  * getting a plan that quietly pretends otherwise.
  */
 export type ExecutiveKernelStatus =
-  "IMPLEMENTABLE_WITH_CURRENT_MECHANICS" | "NEEDS_MECHANIC" | "RESEARCH_GAP";
+  | "IMPLEMENTABLE_WITH_CURRENT_MECHANICS"
+  | "REQUIRES_ADDITIONAL_MECHANICS"
+  | "RESEARCH_GAP";
 
 export type ExecutiveKernelScope = "GENERIC" | "JURISDICTION-SPECIFIC";
 export type ExecutiveKernelTier = "ordinary" | "medium" | "high";
@@ -311,7 +313,7 @@ export type ExecutiveDispositionWithholdingReason =
   | "rule-not-applicable"
   /**
    * The rule is resolved, but no disposition record on accepted main can carry
-   * the act. 92H marks these kernels NEEDS_MECHANIC for exactly this reason.
+   * the act. 92H marks these kernels REQUIRES_ADDITIONAL_MECHANICS for exactly this reason.
    */
   | "record-family-absent";
 
@@ -631,12 +633,12 @@ export function resolveExecutiveDispositionOptions(
     {
       option: "item-veto",
       reason: "record-family-absent",
-      note: "92H kernel 92H-K-031 is NEEDS_MECHANIC: appropriation-item disposition records do not exist on accepted main.",
+      note: "92H kernel 92H-K-031 is REQUIRES_ADDITIONAL_MECHANICS: appropriation-item disposition records do not exist on accepted main.",
     },
     {
       option: "amendatory-veto",
       reason: "record-family-absent",
-      note: "92H kernel 92H-K-032 is NEEDS_MECHANIC: amendatory-recommendation records do not exist on accepted main.",
+      note: "92H kernel 92H-K-032 is REQUIRES_ADDITIONAL_MECHANICS: amendatory-recommendation records do not exist on accepted main.",
     },
   );
 
