@@ -54,8 +54,12 @@ describe(`context residence (${place.displayName}, ${seed})`, () => {
     const f = fixture();
     const world = createCharacterHistoryContextPerson(f.world, f.input);
     const id = characterHistoryContextPersonId(world, f.input.stableKey);
-    expect(residenceAt(world, id, cutoffAt(world, world.currentDate))).toBeNull();
-    expect(crimeResidenceAt(world, id, crimeCutoff(world, world.currentDate))).toBeNull();
+    expect(
+      residenceAt(world, id, cutoffAt(world, world.currentDate)),
+    ).toBeNull();
+    expect(
+      crimeResidenceAt(world, id, crimeCutoff(world, world.currentDate)),
+    ).toBeNull();
   });
 
   it("admits supplied existing household evidence, preserves sequence and save identity", () => {
@@ -77,7 +81,11 @@ describe(`context residence (${place.displayName}, ${seed})`, () => {
       residenceAt(world, id, cutoffAt(world, addDays(input.birthDate, -1))),
     ).toThrow("Historical cutoff predates the person's birth.");
     expect(
-      crimeResidenceAt(world, id, crimeCutoff(world, addDays(input.birthDate, -1))),
+      crimeResidenceAt(
+        world,
+        id,
+        crimeCutoff(world, addDays(input.birthDate, -1)),
+      ),
     ).toBeNull();
     expect(
       residenceAt(
@@ -90,7 +98,11 @@ describe(`context residence (${place.displayName}, ${seed})`, () => {
       f.jurisdictionId,
     );
     expect(
-      crimeResidenceAt(world, id, crimeCutoff(world, addDays(input.residence.establishedAt, -1))),
+      crimeResidenceAt(
+        world,
+        id,
+        crimeCutoff(world, addDays(input.residence.establishedAt, -1)),
+      ),
     ).toBeNull();
     expect(
       crimeResidenceAt(world, id, crimeCutoff(world, world.currentDate)),
@@ -99,8 +111,16 @@ describe(`context residence (${place.displayName}, ${seed})`, () => {
     const restored = deserializeWorld(serializeWorld(world));
     expect(restored.id).toBe(f.world.id);
     expect(restored.currentMoment).toEqual(f.world.currentMoment);
-    expect(residenceAt(restored, id, cutoffAt(restored, restored.currentDate))).toBe(f.jurisdictionId);
-    expect(crimeResidenceAt(restored, id, crimeCutoff(restored, restored.currentDate))).toBe(f.jurisdictionId);
+    expect(
+      residenceAt(restored, id, cutoffAt(restored, restored.currentDate)),
+    ).toBe(f.jurisdictionId);
+    expect(
+      crimeResidenceAt(
+        restored,
+        id,
+        crimeCutoff(restored, restored.currentDate),
+      ),
+    ).toBe(f.jurisdictionId);
   });
 
   it("can explicitly admit evidence for an existing context person without replacing their identity", () => {
@@ -115,8 +135,16 @@ describe(`context residence (${place.displayName}, ${seed})`, () => {
       },
     });
     expect(admitted.people[id]).toBe(initial.people[id]);
-    expect(residenceAt(admitted, id, cutoffAt(admitted, admitted.currentDate))).toBe(f.jurisdictionId);
-    expect(crimeResidenceAt(admitted, id, crimeCutoff(admitted, admitted.currentDate))).toBe(f.jurisdictionId);
+    expect(
+      residenceAt(admitted, id, cutoffAt(admitted, admitted.currentDate)),
+    ).toBe(f.jurisdictionId);
+    expect(
+      crimeResidenceAt(
+        admitted,
+        id,
+        crimeCutoff(admitted, admitted.currentDate),
+      ),
+    ).toBe(f.jurisdictionId);
   });
 
   it("rejects future, prebirth and unrecorded household dates", () => {
