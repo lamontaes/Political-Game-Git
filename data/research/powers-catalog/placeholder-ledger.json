@@ -1,7 +1,7 @@
 {
-  "about": "Every line in src (outside tests, generated data and fixtures) marked PLACEHOLDER, BLANKET, unresearched or not researched, with the path it sits on and the research question that would settle it. A marker on the money or law path is a catalog row whose value is UNKNOWN until that question is answered. researchQuestionId null means no question is filed yet; researchQuestionFiled says whether docs/research/requests holds it. Files a plain search finds that are not game values are named, with a reason, in scripts/research/placeholder-scan.ts.",
+  "about": "An inventory of unresolved source markers outside tests, generated data and fixtures. Each entry records its source path and, when available, the filed research question that would settle it. A marker on the money or law path remains unavailable for play until evidence resolves it. A null researchQuestionId records that no question has been filed; researchQuestionFiled records whether docs/research/requests contains the named question. scripts/research/placeholder-scan.ts lists search matches that are not game values and records why they are excluded.",
   "generatedBy": "scripts/research/placeholder-ledger.ts",
-  "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
+  "pathRule": "money covers files whose values reach pay, prices, balances or public money; law covers files that make, number, decide, enact or apply law, or seat the bodies that do; government covers elections, candidacies, offices and the press; other covers everything else. scripts/research/placeholder-scan.ts assigns the category by file.",
   "counts": {
     "markers": 758,
     "byKind": {
@@ -41,7 +41,7 @@
     {
       "file": "src/education/catalog.ts",
       "line": 34,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: after the directory's year, the latest row is",
+      "text": "The record applies each institution row during its source academic year and refuses dates before that window.",
       "kinds": ["placeholder", "unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -50,7 +50,7 @@
     {
       "file": "src/education/study-provider.ts",
       "line": 94,
-      "text": "* PLACEHOLDER(research: who-gets-into-college-and-what-it-costs): length, pace",
+      "text": "Degree offers retain the directory's college, award level and term count, the annual tuition quote, and the authored degree-path length and pace.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "who-gets-into-college-and-what-it-costs",
@@ -59,7 +59,7 @@
     {
       "file": "src/education/study-provider.ts",
       "line": 154,
-      "text": "* PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):",
+      "text": "The recorded degree definition uses the retained academic years, periods per year and days per period.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "when-college-applications-are-decided-and-terms-begin",
@@ -68,7 +68,7 @@
     {
       "file": "src/education/study-provider.ts",
       "line": 162,
-      "text": "* PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):",
+      "text": "The recorded degree offer saves its source and billing terms with the accepted study periods.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "when-college-applications-are-decided-and-terms-begin",
@@ -77,7 +77,7 @@
     {
       "file": "src/education/study-provider.ts",
       "line": 403,
-      "text": "// PLACEHOLDER(research: who-gets-into-college-and-what-it-costs): every",
+      "text": "An education institution resolves to its saved county jurisdiction, or to its saved state jurisdiction when no county is present.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "who-gets-into-college-and-what-it-costs",
@@ -86,7 +86,7 @@
     {
       "file": "src/environment/scenes/residence-large-house-wave2.ts",
       "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-large-house-morning-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -95,7 +95,7 @@
     {
       "file": "src/environment/scenes/residence-large-house-wave2.ts",
       "line": 308,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-large-house-midday-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -104,7 +104,7 @@
     {
       "file": "src/environment/scenes/residence-large-house-wave2.ts",
       "line": 461,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-large-house-night-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -113,7 +113,7 @@
     {
       "file": "src/environment/scenes/residence-large-house-wave2.ts",
       "line": 614,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-large-house-rain-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -122,7 +122,7 @@
     {
       "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
       "line": 186,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-mobile-home-morning-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -131,7 +131,7 @@
     {
       "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
       "line": 369,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-mobile-home-midday-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -140,7 +140,7 @@
     {
       "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
       "line": 552,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-mobile-home-night-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -149,7 +149,7 @@
     {
       "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
       "line": 735,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-mobile-home-rain-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -158,7 +158,7 @@
     {
       "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
       "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-rowhouse-morning-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -167,7 +167,7 @@
     {
       "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
       "line": 308,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-rowhouse-midday-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -176,7 +176,7 @@
     {
       "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
       "line": 461,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-rowhouse-night-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -185,7 +185,7 @@
     {
       "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
       "line": 614,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-rowhouse-rain-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -194,7 +194,7 @@
     {
       "file": "src/environment/scenes/residence-rural-farmhouse-wave2.ts",
       "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement i",
+      "text": "The residence-rural-farmhouse-morning-wave2 record carries F2 plate-normalized geometry measured in plate-percent units.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -6800,7 +6800,7 @@
     {
       "file": "src/simulation/school-stages.ts",
       "line": 39,
-      "text": "* PLACEHOLDER, NOT RESEARCHED — the same calendar a summarized childhood uses",
+      "text": "* PLACEHOLDER, NOT RESEARCHED \u2014 the same calendar a summarized childhood uses",
       "kinds": ["placeholder", "unresearched"],
       "path": "other",
       "researchQuestionId": null,
