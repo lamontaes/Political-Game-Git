@@ -2985,7 +2985,9 @@
 .pg-game.pg-game .pg-nav-flyout:not(.pg-nav-confirm) .pg-nav-more {
   display: none;
 }
-.pg-game.pg-game .pg-nav-flyout:not(.pg-nav-confirm) button[role="menuitem"] {
+.pg-game.pg-game
+  .pg-nav-flyout:not(.pg-nav-confirm)
+  button[role="menuitem"].ui-action--primary {
   background-image: var(--kit13-grain), var(--kit13-button-face);
   background-size:
     96px 64px,
