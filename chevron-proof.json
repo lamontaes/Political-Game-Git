@@ -1,0 +1,112 @@
+{
+  "head": "87ce19687d75db1e002f2a1e4faaae43afd3be36",
+  "baseline": "1ee0abcdabd4dadba0bc0a0737789f7c31decfa4",
+  "sourceClean": true,
+  "stylesheetSha256": "e4c9ab6abf6e5f2024a28bcb851c76bb53b597a423ec9c6b03a4984414a62b7e",
+  "browserVersion": "151.0.7922.173",
+  "kind": "controlled actual ShellNav markup and repository CSS; no generated world or intro proof",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "dpr": 1
+  },
+  "rows": [
+    {
+      "label": "baseline-static-rest",
+      "background": "url(\"http://proof.test/ui/kit13/primary-corner.svg\"), url(\"http://proof.test/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))",
+      "display": "flex",
+      "active": false
+    },
+    {
+      "label": "static-rest",
+      "background": "url(\"http://proof.test/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))",
+      "display": "flex",
+      "active": false
+    },
+    {
+      "label": "static-hover",
+      "background": "url(\"http://proof.test/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))",
+      "display": "flex",
+      "active": false
+    },
+    {
+      "label": "static-pointer-held",
+      "background": "url(\"http://proof.test/ui/kit13/primary-corner.svg\"), url(\"http://proof.test/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))",
+      "display": "flex",
+      "active": false
+    },
+    {
+      "label": "static-released",
+      "background": "url(\"http://proof.test/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))",
+      "display": "flex",
+      "active": false
+    },
+    {
+      "label": "static-key-held",
+      "background": "url(\"http://proof.test/ui/kit13/primary-corner.svg\"), url(\"http://proof.test/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))",
+      "display": "flex",
+      "active": false
+    },
+    {
+      "label": "static-key-released",
+      "background": "url(\"http://proof.test/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))",
+      "display": "flex",
+      "active": false
+    },
+    {
+      "label": "day-rest",
+      "background": "none",
+      "display": "none",
+      "active": false
+    },
+    {
+      "label": "day-hover",
+      "background": "none",
+      "display": "none",
+      "active": false
+    },
+    {
+      "label": "day-held",
+      "background": "none",
+      "display": "block",
+      "active": false
+    },
+    {
+      "label": "day-released",
+      "background": "none",
+      "display": "none",
+      "active": false
+    },
+    {
+      "label": "radial-rest",
+      "background": "none",
+      "display": "none",
+      "active": false
+    },
+    {
+      "label": "radial-hover",
+      "background": "none",
+      "display": "none",
+      "active": false
+    },
+    {
+      "label": "radial-held",
+      "background": "none",
+      "display": "none",
+      "active": false
+    },
+    {
+      "label": "radial-released",
+      "background": "none",
+      "display": "none",
+      "active": false
+    },
+    {
+      "label": "submenu-held",
+      "background": "url(\"http://proof.test/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))",
+      "display": "grid",
+      "active": false
+    }
+  ],
+  "passed": true
+}
