@@ -133,6 +133,57 @@ for (let draw = 0; draw < 6; draw += 1) {
             naturalWidth: image.naturalWidth,
           }));
         });
+        const copy = chapter.locator(".pg-orientation-copy");
+        await copy.evaluate(async (node) => {
+          const animations = [...node.getAnimations({ subtree: true })];
+          for (
+            let ancestor = node.parentElement;
+            ancestor;
+            ancestor = ancestor.parentElement
+          )
+            animations.push(...ancestor.getAnimations());
+          await Promise.allSettled(
+            animations
+              .filter(
+                (animation) =>
+                  animation.effect?.getTiming().iterations !== Infinity,
+              )
+              .map((animation) => animation.finished),
+          );
+          await new Promise<void>((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+          );
+        });
+        await expect
+          .poll(() =>
+            copy.evaluate((node) => {
+              const nodes = [node, ...node.querySelectorAll("*")];
+              for (
+                let ancestor = node.parentElement;
+                ancestor;
+                ancestor = ancestor.parentElement
+              )
+                nodes.push(ancestor);
+              return nodes.every(
+                (element) => Number(getComputedStyle(element).opacity) === 1,
+              );
+            }),
+          )
+          .toBe(true);
+        const panelPaint = await copy.evaluate((node) => ({
+          at: performance.now(),
+          elements: [node, ...node.querySelectorAll("*")].map((element) => {
+            const style = getComputedStyle(element);
+            return {
+              tag: element.tagName,
+              className: element.getAttribute("class"),
+              opacity: style.opacity,
+              color: style.color,
+              backgroundColor: style.backgroundColor,
+              animationName: style.animationName,
+            };
+          }),
+        }));
         const people = await chapter
           .locator("[data-person-id]")
           .evaluateAll((nodes) =>
@@ -146,6 +197,17 @@ for (let draw = 0; draw < 6; draw += 1) {
               selectionRecordIds: node.getAttribute(
                 "data-selection-record-ids",
               ),
+              figureRectangle: (() => {
+                const rect = node.getBoundingClientRect();
+                return {
+                  x: rect.x,
+                  y: rect.y,
+                  width: rect.width,
+                  height: rect.height,
+                };
+              })(),
+              rendererTag: node.tagName,
+              rendererClass: node.getAttribute("class"),
             })),
           );
         const screenshot = `${draw}-${cards.length}-${key}-full-size.png`;
@@ -165,6 +227,8 @@ for (let draw = 0; draw < 6; draw += 1) {
             ? JSON.parse(rawPlacementTrace)
             : null,
           imageReadiness,
+          panelPaint,
+          actualDpr: await page.evaluate(() => window.devicePixelRatio),
         });
         const next = intro.getByTestId("orientation-next");
         await next.focus();
