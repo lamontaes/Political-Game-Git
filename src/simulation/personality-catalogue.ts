@@ -1,4 +1,5 @@
 import { CATALOGUE_SCALES } from "./personality-catalogue.generated";
+import concernForDistressEffect from "../../data/traits/effects/concern-for-distress.json" with { type: "json" };
 import type {
   TraitDeclaration,
   TraitMovability,
@@ -200,6 +201,7 @@ const facet = (key: string) => `${PERSONALITY_PACK}:${key}`;
  * scale is read as its opposite.
  */
 const CATALOGUE_EFFECTS: TraitPack["effects"] = [
+  concernForDistressEffect as TraitPack["effects"][number],
   {
     decision: "career.consider-another-term",
     leans: [

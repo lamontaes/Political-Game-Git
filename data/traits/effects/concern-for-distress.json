@@ -1,0 +1,17 @@
+{
+  "decision": "contact.answer",
+  "leans": [
+    {
+      "option": "accept",
+      "trait": "personality-v1:concern-for-distress",
+      "pole": "high",
+      "explanation": "They want to make time when somebody reaches out for support."
+    },
+    {
+      "option": "decline",
+      "trait": "personality-v1:concern-for-distress",
+      "pole": "low",
+      "explanation": "They give less weight to another person's need for support."
+    }
+  ]
+}
