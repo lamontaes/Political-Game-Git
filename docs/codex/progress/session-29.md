@@ -14,13 +14,13 @@
 
 ## Next
 
-- Review the focused test, formatting/lint and typecheck results below.
-- Parent agent handles publication and PR creation after this local commit.
+- Rebased the PR onto current `origin/main` e597ec933. The focused `campaign-polling.test.ts` passes (1 test); formatting and lint pass. Main merge #2470 fixed the old press fixture errors; post-rebase typecheck is running.
+- Release declaration: `docs/release/changes/b07-remove-unused-polling-dice.md` (`impact: none`). Existing draft PR #2521 is preserved.
 
 ## Exact resume
 
 - Workspace: `/workspace/Political-Game-Git-b07-p6`
-- Branch: `session29-b07-p6`, based on `origin/main` at `e591ffc`.
+- Branch: `session29-b07-p6`, composed onto `origin/main` at `e597ec933`.
 - Scope: B07 numbered step 6 only. The isolated checkout is the working copy;
   leave the original dirty branch untouched.
 - Focused `campaign-polling.test.ts`: 1 test passed under the repository Vitest config. This check was rerun with the installed project dependencies linked into the worktree.
