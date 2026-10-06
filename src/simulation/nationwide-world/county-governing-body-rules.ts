@@ -215,3 +215,25 @@ export function countyGoverningBodySource(
 ): string {
   return `${rules.citation} (${rules.url})`;
 }
+
+export interface CountyStructureReading {
+  readonly structure: string;
+  readonly electedExecutive: "all" | "most" | "some" | "none";
+  readonly executiveTitle: string | null;
+  readonly executivePresidesOverBody: boolean;
+  readonly status: "SOURCED" | "ESTIMATED FROM AVERAGE";
+  readonly note: string;
+  readonly sourceUrls: readonly string[];
+}
+
+/** The form of county government a state's counties take unless a charter says otherwise. */
+export function countyStructureForState(
+  stateUsps: string,
+): CountyStructureReading | null {
+  const row = (
+    readings.structure.states as Readonly<
+      Record<string, CountyStructureReading>
+    >
+  )[stateUsps];
+  return row ?? null;
+}

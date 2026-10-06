@@ -1885,7 +1885,6 @@ export function OptionsWorkspace({
         <>
           <section className="pg-personal-section">
             <h3>Challenge</h3>
-            <p className="game-note">How often hard moments come up.</p>
             <div role="group" aria-label="Challenge intensity">
               {(
                 [
@@ -1908,9 +1907,6 @@ export function OptionsWorkspace({
           </section>
           <section className="pg-personal-section">
             <h3>Notebook</h3>
-            <p className="game-note">
-              How many known reminders appear without opening a person.
-            </p>
             <div role="group" aria-label="Notebook reminders">
               {(
                 [
@@ -1933,11 +1929,14 @@ export function OptionsWorkspace({
           </section>
           <section className="pg-personal-section">
             <h3>Premises and saves</h3>
-            <p className="game-note">
-              Chosen when this life began. Family money:{" "}
-              {playSettings.premises.familyMoney}; press:{" "}
-              {playSettings.premises.press}; saves: {playSettings.saves}.
-            </p>
+            <dl data-testid="option-premises">
+              <dt>Family money</dt>
+              <dd>{playSettings.premises.familyMoney}</dd>
+              <dt>Press</dt>
+              <dd>{playSettings.premises.press}</dd>
+              <dt>Saves</dt>
+              <dd>{playSettings.saves}</dd>
+            </dl>
           </section>
         </>
       ) : null}
@@ -1947,7 +1946,6 @@ export function OptionsWorkspace({
       </section>
       <section className="pg-personal-section">
         <h3>People</h3>
-        <p className="game-note">How the People screen opens.</p>
         <div role="group" aria-label="People default view">
           {(
             [
@@ -1972,7 +1970,6 @@ export function OptionsWorkspace({
 
       <section className="pg-personal-section">
         <h3>Pins</h3>
-        <p className="game-note">The size a new pin is created at.</p>
         <div role="group" aria-label="Default pin size">
           {(
             [
@@ -1993,14 +1990,6 @@ export function OptionsWorkspace({
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="pg-personal-section">
-        <h3>Motion</h3>
-        <p className="game-note">
-          Motion follows your system&rsquo;s reduced-motion setting, so nothing
-          here has to be switched on to make it stop.
-        </p>
       </section>
 
       {onOpenPatchNotes ? (

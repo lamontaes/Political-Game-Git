@@ -10,6 +10,12 @@ import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
 import { recordById, recordsByStringField } from "./history-index";
 import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
 import powerProjection from "../fiscal-authority/tax-powers.generated.json" with { type: "json" };
+import {
+  localTaxAuthority,
+  localTaxGovernment,
+  localTaxPowerEvidenceFor,
+  localTaxTermsQuestionKey,
+} from "./local-tax-authority";
 import { canonicalJson } from "./canonical-json";
 import { addDays, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
@@ -390,12 +396,52 @@ export function attachTaxProposal(
     throw new Error(
       "Tax authority is unsupported by the available research for this government and instrument.",
     );
-  const expected = taxPowerEvidenceFor(input.power.jurisdictionKey, {
-    instrument: input.power.instrument,
-    asOf: world.currentDate,
-  });
-  if (!expected || canonicalJson(expected) !== canonicalJson(input.power))
-    throw new Error("The tax power is not a supported sourced contract.");
+  const localInstrument = input.terms.instrument;
+  const localGovernment =
+    input.publicGovernmentIdentity?.kind === "local-government"
+      ? localTaxGovernment(input.publicGovernmentIdentity.governmentKey)
+      : null;
+  if (
+    localInstrument ||
+    input.publicGovernmentIdentity?.kind === "local-government"
+  ) {
+    // One rule for every place: a county or municipality levies a property,
+    // sales, payroll or corporate tax only as far as the state's own rule
+    // lets it, read by the same lookup everywhere.
+    if (!localInstrument || !localGovernment)
+      throw new Error(
+        "A local tax proposal needs a compiled local government and a named local tax.",
+      );
+    const authority = localTaxAuthority({
+      ...localGovernment,
+      instrument: localInstrument,
+    });
+    if (!authority.permits)
+      throw new Error(
+        `The state does not let this level of local government levy this tax (${authority.status}).`,
+      );
+    const expectedLocal = localTaxPowerEvidenceFor({
+      ...localGovernment,
+      governmentKey: (
+        input.publicGovernmentIdentity as Extract<
+          PublicGovernmentIdentity,
+          { kind: "local-government" }
+        >
+      ).governmentKey,
+      instrument: localInstrument,
+    });
+    if (canonicalJson(expectedLocal) !== canonicalJson(input.power))
+      throw new Error(
+        "The tax power is not a supported local authority contract.",
+      );
+  } else {
+    const expected = taxPowerEvidenceFor(input.power.jurisdictionKey, {
+      instrument: input.power.instrument,
+      asOf: world.currentDate,
+    });
+    if (!expected || canonicalJson(expected) !== canonicalJson(input.power))
+      throw new Error("The tax power is not a supported sourced contract.");
+  }
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction)
     throw new Error("The tax proposal belongs to an unknown jurisdiction.");
@@ -414,9 +460,12 @@ export function attachTaxProposal(
   if (
     input.power &&
     jurisdiction.id !==
-      (input.power.level === "FEDERAL" && input.power.jurisdictionKey === "US"
-        ? NATIONAL_ELECTION_JURISDICTION.id
-        : stateJurisdictionForKey(input.power.jurisdictionKey)?.id)
+      (localGovernment
+        ? publicGovernmentIdentity.jurisdictionId
+        : input.power.level === "FEDERAL" &&
+            input.power.jurisdictionKey === "US"
+          ? NATIONAL_ELECTION_JURISDICTION.id
+          : stateJurisdictionForKey(input.power.jurisdictionKey)?.id)
   )
     throw new Error("The tax power belongs to another jurisdiction.");
   if (input.power && world.currentDate < input.power.asOf)
@@ -442,9 +491,13 @@ export function attachTaxProposal(
     )
   )
     throw new Error("Tax terms must be filed before legislative deliberation.");
+  const termsQuestionKey =
+    localGovernment && localInstrument
+      ? localTaxTermsQuestionKey(localGovernment.level, localInstrument)
+      : "us-tax-terms:state.excise-tax-terms";
   const exciseQuestion = (measure.propositionIds ?? [])
     .map((id) => world.policyCatalog.propositions[id])
-    .find((row) => row?.stableKey === "us-tax-terms:state.excise-tax-terms");
+    .find((row) => row?.stableKey === termsQuestionKey);
   let next = ensurePublicGovernmentAccount(world, publicGovernmentIdentity);
   next = recordFiledProvision(next, {
     stableKey: `${input.stableKey}:levy`,
@@ -520,7 +573,17 @@ export function taxLevyText(terms: TaxTerms): string {
     terms.legalBaselineAssumption === "authored-state-game-profile"
       ? `This tax takes effect no earlier than ${effectiveDelay} after enactment or the law's own effective date, whichever is later.`
       : `This tax takes effect ${effectiveDelay} after enactment.`;
-  return `An authored selective excise at ${terms.rateNumerator}/${terms.rateDenominator} of the declared ${terms.baseLabel} base is imposed for ${terms.publicPurpose}. Excluded base classes: ${terms.exemptBaseKeys.join(", ") || "none additional"}. Allowance: ${terms.allowanceMinorUnits} ${terms.currency} minor units per modeled occurrence. ${effectiveRule} Settlement is due ${terms.collectionLagDays} days after each taxable occurrence and receipts enter the general public account. ${TAX_MODEL_NOTE} ${legalAssumption} ${terms.assumptionNote}`;
+  const kind =
+    terms.instrument === "property"
+      ? "property tax"
+      : terms.instrument === "sales"
+        ? "sales tax"
+        : terms.instrument === "payroll"
+          ? "payroll tax"
+          : terms.instrument === "corporate-income"
+            ? "corporate income tax"
+            : "selective excise";
+  return `An authored ${kind} at ${terms.rateNumerator}/${terms.rateDenominator} of the declared ${terms.baseLabel} base is imposed for ${terms.publicPurpose}. Excluded base classes: ${terms.exemptBaseKeys.join(", ") || "none additional"}. Allowance: ${terms.allowanceMinorUnits} ${terms.currency} minor units per modeled occurrence. ${effectiveRule} Settlement is due ${terms.collectionLagDays} days after each taxable occurrence and receipts enter the general public account. ${TAX_MODEL_NOTE} ${legalAssumption} ${terms.assumptionNote}`;
 }
 
 /** A profile delay cannot make the modeled tax effective before the enacted
@@ -1693,11 +1756,23 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
         row.effectiveAt <= proposal.recordedAt,
     );
     const sourcePower = proposal.power;
+    const localGovernment =
+      publicGovernmentIdentity.kind === "local-government"
+        ? localTaxGovernment(publicGovernmentIdentity.governmentKey)
+        : null;
     const expected = sourcePower
-      ? taxPowerEvidenceFor(sourcePower.jurisdictionKey, {
-          instrument: sourcePower.instrument,
-          asOf: proposal.recordedAt,
-        })
+      ? publicGovernmentIdentity.kind === "local-government"
+        ? localGovernment && proposal.terms.instrument
+          ? localTaxPowerEvidenceFor({
+              ...localGovernment,
+              governmentKey: publicGovernmentIdentity.governmentKey,
+              instrument: proposal.terms.instrument,
+            })
+          : null
+        : taxPowerEvidenceFor(sourcePower.jurisdictionKey, {
+            instrument: sourcePower.instrument,
+            asOf: proposal.recordedAt,
+          })
       : null;
     const measureJurisdictionKey = measure
       ? rulePackById(measure.rulePackId).jurisdictionKey
@@ -1719,12 +1794,16 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       expected &&
       measure &&
       canonicalJson(expected) === canonicalJson(sourcePower) &&
-      rulePackById(measure.rulePackId).jurisdictionKey ===
-        sourcePower.jurisdictionKey &&
+      (localGovernment ||
+        rulePackById(measure.rulePackId).jurisdictionKey ===
+          sourcePower.jurisdictionKey) &&
       proposal.jurisdictionId ===
-        (sourcePower.level === "FEDERAL" && sourcePower.jurisdictionKey === "US"
-          ? NATIONAL_ELECTION_JURISDICTION.id
-          : stateJurisdictionForKey(sourcePower.jurisdictionKey)?.id) &&
+        (localGovernment
+          ? publicGovernmentIdentity.jurisdictionId
+          : sourcePower.level === "FEDERAL" &&
+              sourcePower.jurisdictionKey === "US"
+            ? NATIONAL_ELECTION_JURISDICTION.id
+            : stateJurisdictionForKey(sourcePower.jurisdictionKey)?.id) &&
       proposal.recordedAt >= sourcePower.asOf &&
       proposal.terms.legalBaselineAssumption ===
         "carry-forward-acquired-baseline-in-game" &&
