@@ -1,6 +1,6 @@
 {
   "id": "place-outcome-bases-2024",
-  "about": "The real recent level (2024, or the latest year measured) of each place outcome, per state, D.C. and Puerto Rico where measured. The world starts each place here, and the outcome web moves it from there as laws and conditions change. A place not listed has no base and records nothing, which is unknown and never zero. Values are percents. After the first month nothing pulls a place back to its base: each outcome's underlying level drifts (part national, part the state's own), and now and then a society-wide wave moves it a long way. Laws and conditions act on top, through the outcome web. Drift sizes are PROVISIONAL game values, set so a decade moves a place about as far as recent decades moved real states, and filed for research as society-wide-waves-causes-pace-scale. A measure with scale \"index\" is a level where 100 is where the place began; it drifts in logs rather than log-odds and scales the outcome it feeds. A measure with scale \"rate\" is a level in its own unit (violent crimes per 100,000 people, micrograms per cubic meter); it drifts in logs like an index, and its bounds are in that unit. A few places no source reports (mostly territories) start at the national average instead of unknown: each such row says so in its note, in capitals, as ESTIMATED FROM NATIONAL AVERAGE, and names the places.",
+  "about": "The real recent level (2024, or the latest year measured) of each place outcome, per state, D.C. and Puerto Rico where measured. The world starts each place here, and the outcome web moves it from there as laws and conditions change. A place omitted by a source starts from an explicitly labeled estimate based on the source's reported places, never zero. Values are percents. After the first month nothing pulls a place back to its base: each outcome's underlying level drifts (part national, part the state's own), and now and then a society-wide wave moves it a long way. Laws and conditions act on top, through the outcome web. Drift sizes are PROVISIONAL game values, set so a decade moves a place about as far as recent decades moved real states, and filed for research as society-wide-waves-causes-pace-scale. A measure with scale \"index\" is a level where 100 is where the place began; it drifts in logs rather than log-odds and scales the outcome it feeds. A measure with scale \"rate\" is a level in its own unit (violent crimes per 100,000 people, micrograms per cubic meter); it drifts in logs like an index, and its bounds are in that unit. Each estimated row says so in its note, in capitals, and names both the basis and places.",
   "calibratedAt": "2024-07-01",
   "measures": {
     "health.uninsured-pct": {
@@ -410,7 +410,7 @@
       "shortUnit": "per 100,000 people",
       "scale": "rate",
       "source": "FBI Crime Data Explorer, 2024: the sum of the 12 monthly violent crime rates for reporting agencies in each state (https://cde.ucr.cjis.gov/LATEST/summarized/state/{ST}/violent-crime?from=01-2024&to=12-2024&type=rates), read by CLOUD I on Sept. 28, 2026. These cover the population the reporting agencies serve (96% nationally), so they run 1 to 4% above the FBI's estimated state totals.",
-      "note": "The state's one crime level: it replaces the old crime index at 100, and town crime reads it as a ratio to where the state began. Puerto Rico's reported 15.2 is not believable and the Virgin Islands reported nothing, so both are unknown.",
+      "note": "The state's one crime level: it replaces the old crime index at 100, and town crime reads it as a ratio to where the state began. ESTIMATED FROM AVERAGE for Puerto Rico, the Virgin Islands, American Samoa and the Northern Mariana Islands: 355.4 crimes per 100,000, the arithmetic mean of the 52 reported place values (50 states, D.C. and Guam); Puerto Rico's reported 15.2 fails the same-source plausibility check.",
       "drift": {
         "monthlySdLogit": 0.02,
         "nationalShare": 0.6,
@@ -471,7 +471,11 @@
         "US-WA": 332.0,
         "US-WI": 287.6,
         "US-WV": 263.8,
-        "US-WY": 212.5
+        "US-WY": 212.5,
+        "US-PR": 355.4,
+        "US-VI": 355.4,
+        "US-AS": 355.4,
+        "US-MP": 355.4
       },
       "replaces": "crime.rate-index"
     },
@@ -481,7 +485,7 @@
       "shortUnit": "per 10,000 people",
       "scale": "rate",
       "source": "HUD, 2024 Annual Homelessness Assessment Report Part 1, Appendix A, people experiencing homelessness per 10,000 (https://www.huduser.gov/portal/sites/default/files/pdf/2024-AHAR-Part-1.pdf), whole numbers as HUD rounds them. Puerto Rico, Guam and the Virgin Islands: HUD's 2024 counts (2007-2024 PIT Counts by State, https://www.huduser.gov/portal/sites/default/files/xls/2007-2024-PIT-Counts-by-State.xlsb) over the Census Vintage 2024 population for Puerto Rico and the 2020 Census count for Guam and the Virgin Islands.",
-      "note": "American Samoa and the Northern Mariana Islands have no HUD count, so they are unknown.",
+      "note": "ESTIMATED FROM AVERAGE for American Samoa and the Northern Mariana Islands: 22.1 people per 10,000, the arithmetic mean of the 54 recorded values for the 50 states, D.C., Puerto Rico, Guam and the Virgin Islands.",
       "drift": {
         "monthlySdLogit": 0.025,
         "nationalShare": 0.5,
@@ -544,7 +548,9 @@
         "US-WA": 40.0,
         "US-WI": 9.0,
         "US-WV": 10.0,
-        "US-WY": 9.0
+        "US-WY": 9.0,
+        "US-AS": 22.1,
+        "US-MP": 22.1
       }
     },
     "env.particulates": {
@@ -1302,7 +1308,7 @@
       "source": "S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number)",
       "scale": "level",
       "shortUnit": "basis points over AAA",
-      "note": "Puerto Rico and the territories are unknown. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "note": "ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
       "drift": {
         "monthlySdLogit": 0.5,
         "nationalShare": 0.3,
@@ -1362,7 +1368,12 @@
         "US-WA": 6,
         "US-WI": 6,
         "US-WV": 18,
-        "US-WY": 12
+        "US-WY": 12,
+        "US-PR": 8.7,
+        "US-GU": 8.7,
+        "US-VI": 8.7,
+        "US-AS": 8.7,
+        "US-MP": 8.7
       }
     },
     "population.in-migration": {
@@ -1586,7 +1597,7 @@
         "minPct": 0.1,
         "maxPct": 60
       },
-      "note": "Storefront lenders stand in for high-cost borrowing, because no agency counts high-cost loans by state; the establishment count is the closest measured fact and the McKernan-Ratcliffe-Kuehn effect is measured on the same kind of use. Alaska and Vermont are left out because the Census Bureau withholds their consumer-lending count, and Puerto Rico and the other territories because County Business Patterns does not cover them; those places are unknown and never zero. The drift is judged.",
+      "note": "Storefront lenders stand in for high-cost borrowing, because no agency counts high-cost loans by state; the establishment count is the closest measured fact and the McKernan-Ratcliffe-Kuehn effect is measured on the same kind of use. ESTIMATED FROM AVERAGE for Alaska, Vermont, Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 3.8 establishments per 100,000, the arithmetic mean of the 49 reported state and D.C. values. The drift is judged.",
       "places": {
         "US-AL": 12.82,
         "US-AR": 0.33,
@@ -1636,7 +1647,14 @@
         "US-WA": 0.97,
         "US-WI": 3.69,
         "US-WV": 1.8,
-        "US-WY": 1.72
+        "US-WY": 1.72,
+        "US-AK": 3.8,
+        "US-VT": 3.8,
+        "US-PR": 3.8,
+        "US-GU": 3.8,
+        "US-VI": 3.8,
+        "US-AS": 3.8,
+        "US-MP": 3.8
       }
     },
     "env.container-recycling-pct": {
@@ -1776,10 +1794,15 @@
         "US-WA": 107.01,
         "US-WI": 94.09,
         "US-WV": 89.5,
-        "US-WY": 92.69
+        "US-WY": 92.69,
+        "US-PR": 97.2,
+        "US-GU": 97.2,
+        "US-VI": 97.2,
+        "US-AS": 97.2,
+        "US-MP": 97.2
       },
       "shortUnit": "index, U.S. average = 100",
-      "note": "A price level against the nation, not a rate of inflation: the outcome web moves a state's level up or down from where the law leaves it, so a tariff changes what a household pays there. D.C. is included. Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands are outside the regional price parities and are unknown, never zero. The drift keeps the earlier judged settings and is not measured; a state's level against the nation moves a point or two a year."
+      "note": "A price level against the nation, not a rate of inflation: the outcome web moves a state's level up or down from where the law leaves it, so a tariff changes what a household pays there. D.C. is included. ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 97.2, the arithmetic mean of the recorded regional price parity values for all 50 states and D.C. The drift keeps the earlier judged settings and is not measured; a state's level against the nation moves a point or two a year."
     },
     "health.drug-out-of-pocket": {
       "name": "What Medicare enrollees pay out of pocket for drugs",
