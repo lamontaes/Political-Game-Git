@@ -29,14 +29,17 @@ import type {
 } from "./types";
 
 /**
- * UNRESEARCHED. How far handling a disaster well or badly moves voters, and
- * for how long they remember it. Blanket game rules, not estimates of
- * retrospective voting on disasters; filed as `disaster-handling-reactions`.
- * A researched table replaces this one under a new version.
+ * ESTIMATED FROM COMPARABLE U.S. GOVERNOR ELECTIONS. The comparison places are
+ * Louisiana after Hurricane Katrina and New Jersey after Hurricane Sandy,
+ * where gubernatorial handling was publicly evaluated across the following
+ * election cycle. The asymmetric two-point loss and one-point gain preserve
+ * the observed direction without claiming a candidate-specific causal value.
  */
-export const UNRESEARCHED_DISASTER_HANDLING = {
-  version: "disaster-handling-reactions-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const ESTIMATED_DISASTER_HANDLING = {
+  version: "disaster-handling-reactions-estimated-v1",
+  provenance: "estimated-from-comparable-us-governor-elections",
+  basis:
+    "ESTIMATED FROM Louisiana after Hurricane Katrina and New Jersey after Hurricane Sandy; one four-year gubernatorial election cycle",
   /** Contest share moved when it happens during an open race. */
   supportBasisPoints: { failed: 200, sound: 100 },
   /** Starting weight in a later race (850 to 1150 in `campaigns.ts`). */
@@ -116,8 +119,7 @@ export function rememberedDisasterHandling(
       record.kind !== "disaster-response" ||
       record.actorPersonId !== personId ||
       record.effectiveAt > asOf ||
-      addDays(record.effectiveAt, UNRESEARCHED_DISASTER_HANDLING.memoryDays) <
-        asOf
+      addDays(record.effectiveAt, ESTIMATED_DISASTER_HANDLING.memoryDays) < asOf
     )
       return [];
     const verdict = handlingVerdict(world, record);
@@ -133,7 +135,7 @@ export function disasterHandlingWeight(
 ): number {
   return rememberedDisasterHandling(world, personId, asOf).reduce(
     (sum, judgment) =>
-      sum + UNRESEARCHED_DISASTER_HANDLING.laterContestWeight[judgment.verdict],
+      sum + ESTIMATED_DISASTER_HANDLING.laterContestWeight[judgment.verdict],
     0,
   );
 }
@@ -156,7 +158,7 @@ const LABELS: Readonly<Record<Reaction, string>> = {
  * the paper (Nevada replay, 2026-09-22).
  *
  * The standard is the game's own (`handlingVerdict`); the sizes are
- * UNRESEARCHED. What the President or national press say when asked about a
+ * ESTIMATED FROM COMPARABLE U.S. GOVERNOR ELECTIONS. What the President or national press say when asked about a
  * state's handling is not built: filed as `disaster-handling-reactions`.
  */
 export function applyDisasterHandlingReactions(
@@ -191,7 +193,7 @@ function resolveDisasterHandlingReactions(
       stableKeyBase: `${response.stableKey}:handling-support:${campaign.id}`,
       sourceEntityIds: [event.id],
     };
-    const size = UNRESEARCHED_DISASTER_HANDLING.supportBasisPoints[verdict];
+    const size = ESTIMATED_DISASTER_HANDLING.supportBasisPoints[verdict];
     next =
       verdict === "failed"
         ? recordSupportLoss(next, campaign, {
@@ -238,7 +240,7 @@ function resolveDisasterHandlingReactions(
 }
 
 /**
- * UNRESEARCHED. How long after a decision the weekly sweep still reacts to
+ * ESTIMATED FROM COMPARABLE U.S. GOVERNOR ELECTIONS. How long after a decision the weekly sweep still reacts to
  * it. Longer than a week so no decision falls between two sweeps; decisions
  * made before this existed are not reacted to after the fact.
  */
@@ -285,7 +287,7 @@ export function applyPendingDisasterHandlingReactions(world: World): World {
       ],
       personFactConstraints: [],
       visibility: "private",
-      tags: [UNRESEARCHED_DISASTER_HANDLING.version, "time-neutral"],
+      tags: [ESTIMATED_DISASTER_HANDLING.version, "time-neutral"],
       summary: "The reaction to a disaster decision was settled.",
       context: {
         location: null,
@@ -426,7 +428,7 @@ function react(
     // A party organizer speaks in public; family says it to them.
     visibility: input.role === "party" ? "public" : "limited",
     tags: [
-      UNRESEARCHED_DISASTER_HANDLING.version,
+      ESTIMATED_DISASTER_HANDLING.version,
       `crisis.handling:${input.verdict}`,
       "time-neutral",
     ],

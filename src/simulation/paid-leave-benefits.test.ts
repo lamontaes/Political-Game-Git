@@ -10,7 +10,7 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { beginHealthEpisode } from "./crisis/health";
-import { EPIDEMIC_VERSION, UNRESEARCHED_EPIDEMIC } from "./crisis/epidemic";
+import { EPIDEMIC_VERSION, ESTIMATED_EPIDEMIC } from "./crisis/epidemic";
 import {
   PAID_LEAVE_BENEFIT_RULES,
   paidLeaveBenefitMinor,
@@ -97,7 +97,7 @@ describe("a state paid leave program pays for a serious illness", () => {
       const { minimumHours, maximumHours } = job.role.timeDemand.expectedWeekly;
       return (
         (minimumHours + maximumHours) / 2 <
-        UNRESEARCHED_EPIDEMIC.fullTimeWeeklyHours
+        ESTIMATED_EPIDEMIC.fullTimeWeeklyHours
       );
     })!;
     expect(flow).toBeDefined();

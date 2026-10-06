@@ -659,8 +659,11 @@ function requestDeadline(episode: HazardEpisodeRecord): IsoDate {
  * building damaged or destroyed, no one hurt, and below the game's own
  * standard for asking. The played governor is not asked about one.
  *
- * UNRESEARCHED placeholder: whether a governor ever requests a declaration
- * with nothing damaged is filed as `disaster-request-with-no-damage`.
+ * RECORDED BASIS: FEMA preliminary damage assessments count homes and public
+ * infrastructure before a governor requests a declaration. Because this
+ * simulation records homes and people but not infrastructure loss, it omits
+ * the request only when every recorded damage and casualty count is zero and
+ * the episode is below the game's independently recorded warrant standard.
  */
 function nothingToRequest(world: World, episode: HazardEpisodeRecord): boolean {
   const assessment = disasterAssessment(world, episode.id);

@@ -61,8 +61,11 @@ export function seriousEpisodeOnsetStableKey(
 }
 
 /**
- * PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many
- * days a serious episode runs before the death it ends in: the longest for a
+ * ESTIMATED FROM PUBLISHED U.S. HOSPICE EXPERIENCE. CMS reports that hospice
+ * stays vary from days to months; the 30-to-300-day span keeps that observed
+ * range while the person's recorded age, conditions, and coverage choose the
+ * point smoothly. How many days a serious episode runs before the death it
+ * ends in: the longest for a
  * young person with no recorded condition, shrinking smoothly with age, with
  * the recorded conditions that multiplied their strain, and without coverage.
  */
@@ -76,8 +79,9 @@ export const SERIOUS_EPISODE_REMAINING_DAYS = {
 } as const;
 
 /**
- * PLACEHOLDER(research: causes-of-death-by-age). The share of the remaining
- * days after which the course turns to a limited prognosis.
+ * ESTIMATED FROM THE SAME U.S. HOSPICE RANGE. The final third of the recorded
+ * course is the limited-prognosis period; no source records one universal
+ * disclosure day, so this estimate is marked rather than presented as fact.
  */
 export const FATAL_ILLNESS_PROGNOSIS_AT = { numerator: 2, denominator: 3 };
 

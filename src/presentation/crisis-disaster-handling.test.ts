@@ -10,7 +10,7 @@ import {
   recordKinship,
   rememberedDisasterHandling,
   searchLifePlaces,
-  UNRESEARCHED_DISASTER_HANDLING,
+  ESTIMATED_DISASTER_HANDLING,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -102,7 +102,7 @@ describe("a governor's handling of a disaster is noticed", () => {
       ]);
       expect(
         disasterHandlingWeight(lapsed, governorId, lapsed.currentDate),
-      ).toBe(UNRESEARCHED_DISASTER_HANDLING.laterContestWeight.failed);
+      ).toBe(ESTIMATED_DISASTER_HANDLING.laterContestWeight.failed);
       // Everybody around them who read it was asked what they thought, and
       // whatever each one said to them is on the record with its effect.
       const { traces, said } = reactionsTo(lapsed, governorId);
@@ -138,7 +138,7 @@ describe("a governor's handling of a disaster is noticed", () => {
         ),
       ).toEqual(["sound"]);
       expect(disasterHandlingWeight(asked, governorId, asked.currentDate)).toBe(
-        UNRESEARCHED_DISASTER_HANDLING.laterContestWeight.sound,
+        ESTIMATED_DISASTER_HANDLING.laterContestWeight.sound,
       );
       // The people around them react on the next weekly news sweep.
       const read = passOrdinaryDays(asked, 8);

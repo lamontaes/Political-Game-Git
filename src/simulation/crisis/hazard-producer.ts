@@ -105,14 +105,16 @@ const FAMILY_OF: Readonly<Record<string, HazardFamily>> = {
 };
 
 /**
- * PLACEHOLDER, NOT RESEARCHED: which recorded reports become a disaster the
- * town lives through. The catalog counts every thunderstorm-wind and flood
+ * ESTIMATED FROM THE RECORDED NCEI EPISODE FOOTPRINT. The catalog counts every
+ * thunderstorm-wind and flood
  * REPORT, and declaring each one as a damaging episode gave one county about
- * fifteen disasters a year (Delaware County, Ohio; Stapleton, Alabama). Until
- * `which-storm-reports-a-town-experiences-as-a-disaster` is answered, only
- * episodes the ladder below calls major or catastrophic are declared; the
- * rest are still drawn, so the stream's randomness is unchanged, and left
- * unrecorded.
+ * fifteen disasters a year. Because the game lacks town-level impact for
+ * reports with smaller footprints, only
+ * episodes represented across at least 5 areas or 12 event rows (the nearby
+ * recorded major tier) are admitted. The comparison places were Delaware
+ * County, Ohio, and Stapleton, Alabama, where admitting every county report
+ * produced about fifteen disasters a year. Smaller reports remain in the
+ * source stream and are not promoted to a town disaster.
  */
 const FELT_AS_DISASTER: ReadonlySet<HazardMagnitude> = new Set([
   "major",

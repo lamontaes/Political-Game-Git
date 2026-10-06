@@ -161,7 +161,7 @@ export const fatalIllnessOnsetHandler: FutureTransitionHandler = (
     initialLimitation: "limited",
     origin: {
       kind: "authored",
-      note: `${CRISIS_PROVISIONAL_POLICY} serious episode on the day recorded strain crossed the threshold (Ruling 29); remaining days PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age)`,
+      note: `${CRISIS_PROVISIONAL_POLICY} serious episode on the day recorded strain crossed the threshold (Ruling 29); remaining days ESTIMATED FROM PUBLISHED U.S. HOSPICE EXPERIENCE, adjusted smoothly by recorded age, conditions, and coverage`,
     },
     causalParentIds: [item.id, ...drivers.conditionIds, ...coverageDrove],
     initialAccess: family.length > 0 ? "specific-people" : "private",

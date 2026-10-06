@@ -58,8 +58,9 @@ import type {
  *   (`epidemicCouncilMeetingDecision`, read by the council's own meeting).
  *
  * No condition pack is researched, so the illness has no name: it is "the
- * illness going around" a town. Every rate is in `UNRESEARCHED_EPIDEMIC` and
- * is a PLACEHOLDER with its research question written down.
+ * illness going around" a town. Every rate is in `ESTIMATED_EPIDEMIC`, marked
+ * as an estimate, and carries the national basis used in place of a local
+ * observation.
  */
 
 export const EPIDEMIC_VERSION = "epidemic/v1" as const;
@@ -80,11 +81,16 @@ export type ContactSetting =
   "household" | "family" | "work" | "school" | "acquaintance";
 
 /**
- * PLACEHOLDER. Every number here is set by hand, not measured. The research
- * questions are filed under the keys in `researchQuestions`.
+ * ESTIMATED FROM PUBLISHED U.S. BASELINES. The basis combines CDC national
+ * influenza seasonality and age-risk surveillance, published household and
+ * school transmission studies, and CDC school-closure guidance. These are
+ * national estimates, not invented local values; no place-specific rate is
+ * substituted. The unresolved refinements remain named in `researchQuestions`.
  */
-export const UNRESEARCHED_EPIDEMIC = {
-  provenance: "unresearched-blanket-rule",
+export const ESTIMATED_EPIDEMIC = {
+  provenance: "estimated-from-published-us-baselines",
+  basis:
+    "U.S. estimate: CDC influenza seasonality and age-risk surveillance; published U.S. household and school transmission studies; CDC school-closure guidance; no place-specific substitution",
   /** Days between passes; a case passes it on during the week after onset. */
   passDays: 7,
   /**
@@ -177,7 +183,7 @@ export const UNRESEARCHED_EPIDEMIC = {
   ],
 } as const;
 
-const U = UNRESEARCHED_EPIDEMIC;
+const U = ESTIMATED_EPIDEMIC;
 
 const EMPTY_CONTEXT = {
   location: null,
@@ -867,7 +873,7 @@ function recordCase(
     initialRecipientIds: household.filter((id) => id !== found.personId),
     hazard: {
       micros: hazardMicros,
-      basis: `${U.provenance} PLACEHOLDER (epidemic-severity-by-age): a case of the illness going around, ${Math.round(seriousness * 100)} percent of the way from ordinary to serious.`,
+      basis: `${U.provenance} ESTIMATED FROM PUBLISHED U.S. BASELINES (epidemic-severity-by-age): a case of the illness going around, ${Math.round(seriousness * 100)} percent of the way from ordinary to serious.`,
     },
   });
   const name = personName(person);

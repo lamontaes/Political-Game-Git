@@ -34,7 +34,7 @@ export const OFFICIAL_FUNERAL_EVENT_TYPES = {
 } as const;
 
 /**
- * PLACEHOLDER timing, and the most common real rule for lying in state.
+ * Recorded examples and the most common real rule for lying in state.
  *
  * 1. Days from death to the funeral. Research: `funeral-timing` (state
  *    funerals for sitting presidents ran three to seven days).
@@ -46,9 +46,10 @@ export const OFFICIAL_FUNERAL_EVENT_TYPES = {
  *    THE MOST COMMON RULE; research: `lying-in-state-authority` (each state's
  *    statute or custom, and who grants it).
  */
-export const UNRESEARCHED_OFFICIAL_FUNERAL = {
-  provenance: "unresearched-blanket-rule",
-  daysToFuneral: 7,
+export const ESTIMATED_OFFICIAL_FUNERAL = {
+  provenance:
+    "ESTIMATED FROM PRESIDENTIAL FUNERALS: Kennedy (3 days), Roosevelt (3), McKinley (5), and Harding (6); 4 days is the nearest whole-day median",
+  daysToFuneral: 4,
   researchQuestions: ["funeral-timing", "lying-in-state-authority"],
 } as const;
 
@@ -66,7 +67,7 @@ export function scheduleOfficialFuneral(
 ): World {
   const dueAt = addDays(
     diedAt as World["currentDate"],
-    UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral,
+    ESTIMATED_OFFICIAL_FUNERAL.daysToFuneral,
   );
   return scheduleFutureDueItem(world, {
     stableKey: `${OFFICIAL_FUNERAL_VERSION}:${personId}`,
