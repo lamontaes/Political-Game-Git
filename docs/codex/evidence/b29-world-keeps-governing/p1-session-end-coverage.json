@@ -1,0 +1,599 @@
+{
+  "sourceHead": "3186f2d0c2add2182290b1b73686a7b65d453520",
+  "calendarRunCutoff": "2026-04-30",
+  "allDueRows": 2353,
+  "unresolvedDueRowsInsideBound": 0,
+  "sessionAdjournmentRecords": 0,
+  "states": [
+    {
+      "code": "AL",
+      "key": "US-AL",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-04-09"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-04-09"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "AK",
+      "key": "US-AK",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "AZ",
+      "key": "US-AZ",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-06-13"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-06-13"
+      ],
+      "throughApr30": false
+    },
+    {
+      "code": "AR",
+      "key": "US-AR",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-04-29"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-04-29"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "CA",
+      "key": "US-CA",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "CO",
+      "key": "US-CO",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "CT",
+      "key": "US-CT",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "DE",
+      "key": "US-DE",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "FL",
+      "key": "US-FL",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-03-13"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-03-13"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "GA",
+      "key": "US-GA",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "HI",
+      "key": "US-HI",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-05-08"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-05-08"
+      ],
+      "throughApr30": false
+    },
+    {
+      "code": "ID",
+      "key": "US-ID",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-04-02"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-04-02"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "IL",
+      "key": "US-IL",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "IN",
+      "key": "US-IN",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "IA",
+      "key": "US-IA",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "KS",
+      "key": "US-KS",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-04-10"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-04-10"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "KY",
+      "key": "US-KY",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-04-15"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-04-15"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "LA",
+      "key": "US-LA",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "ME",
+      "key": "US-ME",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-04-29"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-04-29"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "MD",
+      "key": "US-MD",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "MA",
+      "key": "US-MA",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "MI",
+      "key": "US-MI",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-04-15"
+      ],
+      "basis": "estimated: ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "published2026": [],
+      "throughApr30": true
+    },
+    {
+      "code": "MN",
+      "key": "US-MN",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "MS",
+      "key": "US-MS",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "MO",
+      "key": "US-MO",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-05-30"
+      ],
+      "basis": "constitutional/statutory latest limit",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "MT",
+      "key": "US-MT",
+      "regularSession2026": false,
+      "endDates": [],
+      "basis": "no regular session",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "NE",
+      "key": "US-NE",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-04-17"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-04-17"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "NV",
+      "key": "US-NV",
+      "regularSession2026": false,
+      "endDates": [],
+      "basis": "no regular session",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "NH",
+      "key": "US-NH",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "NJ",
+      "key": "US-NJ",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "NM",
+      "key": "US-NM",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-02-19"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-02-19"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "NY",
+      "key": "US-NY",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "NC",
+      "key": "US-NC",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-04-15"
+      ],
+      "basis": "estimated: ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "published2026": [],
+      "throughApr30": true
+    },
+    {
+      "code": "ND",
+      "key": "US-ND",
+      "regularSession2026": false,
+      "endDates": [],
+      "basis": "no regular session",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "OH",
+      "key": "US-OH",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "OK",
+      "key": "US-OK",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-05-14"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-05-14"
+      ],
+      "throughApr30": false
+    },
+    {
+      "code": "OR",
+      "key": "US-OR",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "PA",
+      "key": "US-PA",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "RI",
+      "key": "US-RI",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "SC",
+      "key": "US-SC",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "SD",
+      "key": "US-SD",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "TN",
+      "key": "US-TN",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "TX",
+      "key": "US-TX",
+      "regularSession2026": false,
+      "endDates": [],
+      "basis": "no regular session",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "UT",
+      "key": "US-UT",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-03-06"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-03-06"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "VT",
+      "key": "US-VT",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "VA",
+      "key": "US-VA",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "WA",
+      "key": "US-WA",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-03-12"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-03-12"
+      ],
+      "throughApr30": true
+    },
+    {
+      "code": "WV",
+      "key": "US-WV",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "WI",
+      "key": "US-WI",
+      "regularSession2026": true,
+      "endDates": [],
+      "basis": "no end date",
+      "published2026": [],
+      "throughApr30": false
+    },
+    {
+      "code": "WY",
+      "key": "US-WY",
+      "regularSession2026": true,
+      "endDates": [
+        "2026-03-11"
+      ],
+      "basis": "published 2026 adjournment",
+      "published2026": [
+        "2026-03-11"
+      ],
+      "throughApr30": true
+    }
+  ],
+  "calendarCompletionMechanism": {
+    "sourceData": "data/research/laws/starting-law-2026.json effectiveDates.sessionEnds; data/research/laws/regular-session-years.json",
+    "recordedSessionAdjournmentsInRun": [],
+    "existingDueTransition": "none found for session end/completion",
+    "billMeasureHandler": "applyInstitutionSessionEnd in src/simulation/governing/legislative-clock.ts; called while an individual measure advances and consults sessionStatus/sessionClosesOn; it does not record a session-end record",
+    "actualAdjournmentWriter": "recordSessionAdjournment in src/simulation/governing/session-adjournments.ts; invoked by considerSessionAdjournment in leaders-adjourn.ts after bill steps",
+    "gate": "same-year appropriation passed both chambers or enacted; seated leaders; no unresolved leader-carried bill; no later than legal limit",
+    "filingContract": "leaders-adjourn.ts documents general appropriation acts are not filed by the game; budgets use public-budgets",
+    "proposedMinimalDecision": "authorize a separately typed source-backed legal-limit/calendar completion record and due handler, or identify an already-approved distinct existing event. Preserve the current discretionary leader-adjournment gate and do not fabricate an appropriation."
+  },
+  "otherJurisdictions": [
+    {
+      "jurisdiction": "District of Columbia Council",
+      "currentCalendar": "year-round",
+      "sessionEndContract": "no annual session-end record in state session-end table; no actual sessionAdjournment captured"
+    },
+    {
+      "jurisdiction": "United States Congress",
+      "currentCalendar": "federal Congress sitting/intake rows",
+      "sessionEndContract": "no state-style session-end row or due handler found"
+    },
+    {
+      "jurisdiction": "Puerto Rico",
+      "currentCalendar": "generic state legislative pack only",
+      "sessionEndContract": "no territorial seated member roster/intake and no verified end-date contract"
+    },
+    {
+      "jurisdiction": "Guam",
+      "currentCalendar": "no canonical legislative pack/roster found",
+      "sessionEndContract": "no verified end-date contract"
+    },
+    {
+      "jurisdiction": "U.S. Virgin Islands",
+      "currentCalendar": "no canonical legislative pack/roster found",
+      "sessionEndContract": "no verified end-date contract"
+    },
+    {
+      "jurisdiction": "American Samoa",
+      "currentCalendar": "no canonical legislative pack/roster found",
+      "sessionEndContract": "no verified end-date contract"
+    },
+    {
+      "jurisdiction": "Northern Mariana Islands",
+      "currentCalendar": "no canonical legislative pack/roster found",
+      "sessionEndContract": "no verified end-date contract"
+    }
+  ],
+  "summary": {
+    "states": 50,
+    "regularSessionStates2026": 46,
+    "noRegularSession2026": [
+      "MT",
+      "NV",
+      "ND",
+      "TX"
+    ],
+    "published2026AdjournmentDates": 15,
+    "publishedDatesOnOrBeforeCutoff": 12,
+    "publishedDatesAfterCutoff": {
+      "AZ": "2026-06-13",
+      "HI": "2026-05-08",
+      "OK": "2026-05-14"
+    },
+    "estimatedDatesOnOrBeforeCutoff": {
+      "MI": "2026-04-15",
+      "NC": "2026-04-15"
+    },
+    "legalLimitAfterCutoff": {
+      "MO": "2026-05-30"
+    },
+    "regularSessionStatesWithoutFiniteCurrentTableEnd": 28,
+    "sourceDateOrEstimateWithinCalendarCutoff": 14,
+    "actualSimulationSessionAdjournmentRecords": 0
+  }
+}

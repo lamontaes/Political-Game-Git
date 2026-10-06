@@ -21,17 +21,17 @@ Date: 2026-10-06
 
 ## Still open
 
-- Full-session acceptance must process all due rows in date order through each jurisdiction's own recorded regular-session end, including D.C. and territories. The Apr. 30 artifact captured zero actual `sessionAdjournments`; no reached-end claim is made. Source trace: the only recording path follows bill-stage steps and requires a passed/enacted appropriation; the simulator documents that it files no general appropriations act. Legal limits affect bill handling but do not create an end record. Exact contract gap is documented in the P1 evidence and PR body.
+- Full-session acceptance must process all due rows in date order through each jurisdiction's own recorded regular-session end, including D.C. and territories. The Apr. 30 artifact captured zero actual `sessionAdjournments`; no event-based reached-end claim is made. Its calendar date crossed 12 published state end dates and two estimates; three published ends and Missouri’s statutory limit are later. Twenty-eight states have no finite end date in current data; four have no 2026 regular session. Full matrix: `docs/codex/evidence/b29-world-keeps-governing/p1-session-end-coverage.json`. No existing session-end/completion due handler was found; the exact source-backed path and proposed minimal contract are in `p1-session-end-contract.md`.
 - Territory coverage remains incomplete: PR has a generic pack without a territorial seated roster/intake; GU, VI, AS and MP lack canonical legislative packs/rosters. D.C. Council is year-round; federal Congress has no state-style session-end contract in the current coverage table.
-- A CTO question was attempted on #2052 with the exact base/candidate principle contract and requested intended producer/test contract. GitHub rejected the comment because the issue reached its 2,500-comment limit (`Commenting is disabled on issues with more than 2500 comments`). No comment was created. Do not claim an answer.
+- The #2052 limit prevented the opening-principle question (`Commenting is disabled on issues with more than 2500 comments`). The separate exact session-end/appropriation prerequisite question is now posted on current board #2424, receipt 6015246405: https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6015246405. It asks whether any approved end event exists or which owner should supply a distinct legal-limit completion writer, without relaxing the leaders’ appropriation gate.
 - Session5 owns daily-turnover/performance repair; no annual daily loop, heap increase, new tree, build, or merge was run.
 
 ## Next safe step
 
-Continue bounded source-backed per-jurisdiction coverage and determine which existing due transitions can record genuine session adjournments without daily advancement. Preserve the Apr. 30 empty-adjournment result and route absent territory/federal contracts to the CTO when the authorized board channel is available. Keep the opening assertion intact pending contract resolution. Do not claim full-session acceptance or mark the PR READY.
+Continue source-backed per-jurisdiction coverage while the #2424 question is pending. Preserve the Apr. 30 empty-adjournment result; do not add a due handler or broaden the saved record before CTO identifies an approved event/owner. Keep the opening assertion intact pending contract resolution. Do not claim full-session acceptance or mark the PR READY.
 
 Next command:
 
 ```bash
-rg -n "recordSessionAdjournment|considerSessionAdjournment|sessionClosesOn|sessionAdjournments" src/simulation/governing src/simulation/nationwide-world
+rg -n "STATE_LEGISLATURE_OPENING_TRANSITION|LEGISLATIVE_INSTITUTION_STEP|GOVERNING_SEASON|CONGRESS_INTAKE_TRANSITION|CONGRESS_SITTING_TRANSITION" src/simulation/governing/state-governing.ts src/simulation/governing/governing-calendar.ts src/simulation/governing/congress-lawmaking.ts src/simulation/governing/congress-chambers.ts
 ```
