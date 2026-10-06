@@ -103,9 +103,7 @@ describe("A life can start anywhere in the country", () => {
     expect(
       alabama.every((place) => place.stateJurisdictionKey === "US-AL"),
     ).toBe(true);
-    expect(alabama.some((place) => place.key === "lexington-fayette")).toBe(
-      false,
-    );
+    expect(alabama.some((place) => place.key === "2146027")).toBe(false);
     expect(alabama.some((place) => place.scope === "state")).toBe(false);
 
     const kentucky = searchLifePlaces("", 12, {
@@ -134,14 +132,14 @@ describe("A life can start anywhere in the country", () => {
     expect(
       page[0]!.displayName.localeCompare("Lexington, Kentucky", "en"),
     ).toBe(-1);
-    expect(page.some((place) => place.key === "lexington-fayette")).toBe(false);
+    expect(page.some((place) => place.key === "2146027")).toBe(false);
 
     const lexington = searchLifePlaces("Lexington", 20, options).find(
-      (place) => place.key === "lexington-fayette",
+      (place) => place.key === "2146027",
     );
     expect(lexington?.displayName).toBe("Lexington, Kentucky");
     expect(lexington?.formalName).toBe("Lexington-Fayette, Kentucky");
-    expect(lifePlaceByKey("lexington-fayette")?.key).toBe("lexington-fayette");
+    expect(lifePlaceByKey("2146027")?.key).toBe("2146027");
   });
 
   it("reaches the source only through the generated export, never src/source", () => {

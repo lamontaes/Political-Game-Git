@@ -37,8 +37,6 @@ import { resolvePlayerCapabilities } from "./player-capabilities";
  */
 
 export const LEGACY_REPLAY_PLACE_KEY = "kentucky" as const;
-export const KENTUCKY_LEXINGTON_REGRESSION_PLACE_KEY =
-  "lexington-fayette" as const;
 
 export type GeographyWorldOrigin =
   "explicit-creator" | "kentucky-regression-fixture" | "legacy-replay-default";
@@ -112,7 +110,7 @@ export function requireExplicitPlaceKey(
   const key = placeKey?.trim() ?? "";
   if (key.length === 0) {
     throw new Error(
-      "Choose a place the game can start a life in. Lexington is not assumed.",
+      "Choose a place the game can start a life in. No place is assumed.",
     );
   }
   return key;
@@ -123,9 +121,6 @@ export function geographyWorldOriginForPlaceKey(
   requested: GeographyWorldOrigin | undefined,
 ): GeographyWorldOrigin {
   if (requested) return requested;
-  if (placeKey === KENTUCKY_LEXINGTON_REGRESSION_PLACE_KEY) {
-    return "kentucky-regression-fixture";
-  }
   if (placeKey === LEGACY_REPLAY_PLACE_KEY) return "legacy-replay-default";
   return "explicit-creator";
 }
@@ -211,16 +206,6 @@ export function explicitNewGameSetup(
     seed: input.seed,
     placeKey,
   };
-}
-
-export function kentuckyLexingtonRegressionSetup(
-  input: Omit<ExplicitNewGameInput, "placeKey" | "worldOrigin">,
-): NewGameSetup {
-  return explicitNewGameSetup({
-    ...input,
-    placeKey: KENTUCKY_LEXINGTON_REGRESSION_PLACE_KEY,
-    worldOrigin: "kentucky-regression-fixture",
-  });
 }
 
 export function legacyReplayNewGameSetup(
@@ -315,9 +300,7 @@ export function resolveExplicitCreatorHometown(
     (afterComma && namedState(afterComma)?.name) ||
     "";
   if (!stateName) {
-    throw new Error(
-      "Name the state, then a town. Lexington and Kentucky are not assumed.",
-    );
+    throw new Error("Name the state, then a town. A place is not assumed.");
   }
   const state = namedState(stateName);
   if (!state) {

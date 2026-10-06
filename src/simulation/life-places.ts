@@ -7,7 +7,8 @@ import {
 } from "./legislation-scenarios";
 import {
   DEMO_START_DATE,
-  LEXINGTON_DEMO_CONTEXT,
+  authoredScenarioContext,
+  RETAINED_SCENARIO_PLACE_INPUTS,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
 import { createStableId } from "./ids";
@@ -229,31 +230,6 @@ function allPlaces(): readonly LifePlace[] {
         legislativeScenarioKey: "alaska",
         candidacyPackId: "us-ak-legislature-v1:candidacy",
       },
-    },
-    {
-      key: "lexington-fayette",
-      scope: "locality",
-      // A resident of Lexington is a Kentuckian. This is the fact that was
-      // missing: the city carries no state rules of its own, and it does not
-      // need to, because it sits inside a state that has them.
-      stateJurisdictionKey: "US-KY",
-      // Nobody who lives there calls it Lexington-Fayette. That is the merged
-      // city-county's filing name, and the human playtest flagged it on the
-      // setup screen as one of the places the game sounded like a database.
-      // The formal label stays available for a legal or data view.
-      displayName: "Lexington, Kentucky",
-      formalName: "Lexington-Fayette, Kentucky",
-      withinName: "Kentucky",
-      context: LEXINGTON_DEMO_CONTEXT,
-      // Nothing in the sources describes this city's own council, so it claims
-      // no local office. That is a statement about Lexington's municipal
-      // government and nothing else: the Kentucky General Assembly seats a
-      // resident here can stand for arrive through the state above, not from
-      // this line.
-      capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
-      // The same jurisdiction the Census Gazetteer lists as "Lexington-Fayette",
-      // so the corpus row is not offered as a second Lexington beside this one.
-      sourceGeoid: "2146027",
     },
   ];
   const existingKeys = new Set(
@@ -918,6 +894,24 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
       (place) => place.context.jurisdiction.id === jurisdictionId,
     );
     if (authored) return authored;
+    // Retained authored Worlds keep their recorded jurisdiction identity. This
+    // catalog never enters byKey(), search, coverage or fresh-place selection.
+    const scenario = RETAINED_SCENARIO_PLACE_INPUTS.find(
+      (input) =>
+        authoredScenarioContext(
+          input.contextKey as Parameters<typeof authoredScenarioContext>[0],
+        ).jurisdiction.id === jurisdictionId,
+    );
+    if (scenario) {
+      const { contextKey, ...placeInput } = scenario;
+      return {
+        ...placeInput,
+        scope: scenario.scope as LifePlaceScope,
+        context: authoredScenarioContext(
+          contextKey as Parameters<typeof authoredScenarioContext>[0],
+        ),
+      };
+    }
     const county = nationwideCountyByJurisdictionId(jurisdictionId);
     if (county) return county;
     const territory = territoryPlaceByJurisdictionId(jurisdictionId);

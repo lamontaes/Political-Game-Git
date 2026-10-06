@@ -185,7 +185,7 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     label: "A day of legislative staff work",
     runtimeComponent: "src/player/PlayerGame.tsx",
     canonicalGate:
-      "A completed activity with participant evidence at the canonical location `lexington-legislative-office`. Today that key is written ONLY by `createRunDLiteFixture`, so this is reachable from `?view=office-fixture` and from no ordinary life.",
+      "A completed activity with participant evidence at the canonical location `legislative-staff-workroom`. Today that key is written ONLY by `createRunDLiteFixture`, so this is reachable from `?view=office-fixture` and from no ordinary life.",
     sceneId: PRODUCTION_OFFICE_SCENE_ID,
     wiredThrough: "src/presentation/scene-venues.ts",
     openRequestIds: ["person-production-seated-body"],
@@ -209,7 +209,7 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     label: "A municipal council staff office",
     runtimeComponent: "src/player/PlayerOffice.tsx",
     canonicalGate:
-      "A legislative job whose jurisdiction is Lexington-Fayette. Nothing weaker: this plate has a Fayette County map on its wall.",
+      "Explicit development fixture only. The plate carries a fixed jurisdiction map and cannot stand for another place.",
     sceneId: OFFICE_FIXTURE_SCENE_ID,
     wiredThrough: "src/player/OfficeScene.tsx",
     openRequestIds: [],

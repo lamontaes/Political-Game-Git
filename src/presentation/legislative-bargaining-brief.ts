@@ -1,3 +1,4 @@
+import authoredBriefs from "./generated/authored-bargaining-briefs.generated.json" with { type: "json" };
 import { provisionReach, recordEventKnowledge } from "../simulation";
 import type {
   EntityId,
@@ -33,10 +34,14 @@ import { formatMinorUnits } from "../simulation/legislation-program-families";
  * told so rather than handed Kentucky's politics with the labels changed.
  */
 
-export const BARGAINING_BRIEF_SCENARIO_KEY = "kentucky";
+const authoredBrief = authoredBriefs.find(
+  (brief) => brief.key === "transit-local-match",
+)!;
 
-export const PROGRAM_PROVISION_KEY = "pilot-support-limit";
-export const REQUESTED_PROVISION_KEY = "local-project-match";
+export const BARGAINING_BRIEF_SCENARIO_KEY = authoredBrief.scenarioKey;
+
+export const PROGRAM_PROVISION_KEY = authoredBrief.programProvisionKey;
+export const REQUESTED_PROVISION_KEY = authoredBrief.requestedProvisionKey;
 
 /**
  * The suffix the authored Kentucky sitting's adopted provision has always used.
@@ -48,16 +53,18 @@ export const REQUESTED_PROVISION_KEY = "local-project-match";
  * A migration would be the alternative, and a migration is a much larger
  * promise than keeping four characters.
  */
-export const LEGACY_ADOPTED_PROVISION_SUFFIX = "section-4";
+export const LEGACY_ADOPTED_PROVISION_SUFFIX =
+  authoredBrief.legacyAdoptedProvisionSuffix;
 
 export const REQUESTED_SEGMENT_KEY: MetricSegmentKey =
-  "transit.ashland-boyd-local-match";
+  authoredBrief.requestedSegmentKey as MetricSegmentKey;
 
 // PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the three amounts below and the $8,000,000
 // in `fiscalNoteSummaryFor` are typed in, not sourced.
-export const PROGRAM_AMOUNT_MINOR_UNITS = 800_000_000;
-export const REQUESTED_AMOUNT_MINOR_UNITS = 140_000_000;
-export const CAPPED_AMOUNT_MINOR_UNITS = 60_000_000;
+export const PROGRAM_AMOUNT_MINOR_UNITS = authoredBrief.programAmountMinorUnits;
+export const REQUESTED_AMOUNT_MINOR_UNITS =
+  authoredBrief.requestedAmountMinorUnits;
+export const CAPPED_AMOUNT_MINOR_UNITS = authoredBrief.cappedAmountMinorUnits;
 
 /**
  * The place record the requested local match is about.
@@ -74,10 +81,11 @@ export const CAPPED_AMOUNT_MINOR_UNITS = 60_000_000;
  * the place are still written for one Kentucky measure, and widening that
  * means authoring a second sitting rather than deleting this one.
  */
-export const REQUESTED_MATCH_PLACE_GEOID = "2102368";
+export const REQUESTED_MATCH_PLACE_GEOID =
+  authoredBrief.requestedMatchPlaceGeoid;
 
-export const BENEFICIARY_LABEL = "the Ashland–Boyd County Transit Authority";
-export const PLACE_LABEL = "Ashland";
+export const BENEFICIARY_LABEL = authoredBrief.beneficiaryLabel;
+export const PLACE_LABEL = authoredBrief.placeLabel;
 
 export function requestedProvisionText(amountMinorUnits: number): string {
   const amount = `$${(amountMinorUnits / 100).toLocaleString("en-US", {
@@ -88,7 +96,7 @@ export function requestedProvisionText(amountMinorUnits: number): string {
 
 /** True when this legislature has an authored bargaining sitting at all. */
 export function bargainingBriefSupports(scenarioKey: string): boolean {
-  return scenarioKey === BARGAINING_BRIEF_SCENARIO_KEY;
+  return authoredBriefs.some((brief) => brief.scenarioKey === scenarioKey);
 }
 
 /** One filed section of the bill, said the way the canonical record wants it. */
@@ -104,44 +112,8 @@ export interface FiledSectionBrief {
 }
 
 /** HB 214 as filed: three sections, none of which names a provider. */
-export const FILED_SECTION_BRIEFS: readonly FiledSectionBrief[] = [
-  {
-    keySuffix: "section-1",
-    provisionKey: "purpose",
-    sectionNumber: 1,
-    heading: "Purpose and construction",
-    text: "It is the purpose of this Act to test whether removing the fare barrier increases access to work, care and school for riders who already qualify for state assistance. Nothing in this Act creates an entitlement to service.",
-    beneficiary: {
-      kind: "general-application",
-      appliesToLabel: "everyone the Act reaches",
-    },
-  },
-  {
-    keySuffix: "section-2",
-    provisionKey: "eligibility",
-    sectionNumber: 2,
-    heading: "Eligible riders",
-    text: "A rider is eligible under this Act if the rider is enrolled in a state assistance program administered under KRS Chapter 205 at the time of boarding. A participating provider shall not require a separate application.",
-    beneficiary: {
-      kind: "general-application",
-      appliesToLabel: "every rider enrolled in a state assistance program",
-    },
-  },
-  {
-    keySuffix: "section-3",
-    provisionKey: PROGRAM_PROVISION_KEY,
-    sectionNumber: 3,
-    heading: "Pilot support limit",
-    text: "There is appropriated for the two-year pilot a sum not to exceed $8,000,000, to be distributed among participating providers in proportion to eligible boardings. No provider is named in this section.",
-    beneficiary: {
-      kind: "general-application",
-      appliesToLabel:
-        "every participating provider, in proportion to eligible boardings",
-    },
-    fiscalExposureLabel: "$8,000,000 over the two-year pilot",
-    fiscalExposureMinorUnits: PROGRAM_AMOUNT_MINOR_UNITS,
-  },
-];
+export const FILED_SECTION_BRIEFS: readonly FiledSectionBrief[] =
+  authoredBrief.filedSections as unknown as readonly FiledSectionBrief[];
 
 /**
  * The fiscal note, about the bill this world actually filed.

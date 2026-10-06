@@ -1,5 +1,6 @@
+import { LEXINGTON_DEMO_CONTEXT } from "../fixtures/authored-scenario";
 import { createDemoWorld } from "../../src/simulation/demo";
-import { LEXINGTON_DEMO_CONTEXT } from "../../src/simulation/demo-jurisdiction-context";
+
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import { initializeExecutiveOfficePremiseForReview } from "../../src/simulation/executive-work-entry";
 import { resolveExecutiveOffice } from "../../src/simulation/executive-work-context";

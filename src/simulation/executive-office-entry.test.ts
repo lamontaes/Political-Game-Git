@@ -1,8 +1,9 @@
+import { LEXINGTON_DEMO_CONTEXT } from "../../tests/fixtures/authored-scenario";
 import { describe, expect, it } from "vitest";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
 import { addDays } from "./dates";
 import { createDemoWorld } from "./demo";
-import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+
 import { stateJurisdictionForKey } from "./life-places";
 import {
   ELECTION_CONTEST_TRANSITION_KEY,

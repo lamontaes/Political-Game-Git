@@ -1,3 +1,4 @@
+import { LEXINGTON_PLACEHOLDER_ID } from "../fixtures/authored-scenario";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -17,11 +18,7 @@ import type {
   EconomicContextReadModel,
 } from "../../src/source/adapters/economic-context";
 import { readPlaceDemography } from "../../src/source/adapters/place-demography";
-import {
-  LEXINGTON_PLACEHOLDER_ID,
-  lifePlaceByKey,
-  searchLifePlaces,
-} from "../../src/simulation/index";
+import { lifePlaceByKey, searchLifePlaces } from "../../src/simulation/index";
 
 const REPO = resolve(import.meta.dirname, "../..");
 
@@ -164,7 +161,7 @@ describe("Place demography uses provider geography, not a substitute city series
   });
 
   it("does not treat locked BEA income or HUD FMR area figures as city population", () => {
-    const lexington = lifePlaceByKey("lexington-fayette")!;
+    const lexington = lifePlaceByKey("2146027")!;
     const facts = readPlaceDemography(lexington, LEXINGTON_MODEL);
     expect(facts.population).toBeNull();
     expect(
@@ -186,10 +183,7 @@ describe("Place demography uses provider geography, not a substitute city series
       relationship: "same-jurisdiction",
     });
     const model = withPopulationObservation(LEXINGTON_MODEL, county);
-    const lexington = readPlaceDemography(
-      lifePlaceByKey("lexington-fayette")!,
-      model,
-    );
+    const lexington = readPlaceDemography(lifePlaceByKey("2146027")!, model);
     const auburn = searchLifePlaces("Auburn", 8, {
       stateJurisdictionKey: "US-AL",
       scope: "locality",

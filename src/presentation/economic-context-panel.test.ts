@@ -1,3 +1,4 @@
+import { LEXINGTON_ECONOMIC_BINDING } from "../../tests/fixtures/economic-binding";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createElement } from "react";
@@ -11,7 +12,6 @@ import {
 import {
   EconomicGraph,
   EconomicContextView,
-  LEXINGTON_ECONOMIC_BINDING,
 } from "../player/EconomicContextPanel";
 
 import { forbiddenPlayerPhrasesIn } from "./player-copy";

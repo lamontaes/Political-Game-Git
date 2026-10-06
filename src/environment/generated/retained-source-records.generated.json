@@ -1,0 +1,24 @@
+[
+  {
+    "sourceId": "env_lexington_council_staff_office_prompt30_v1",
+    "label": "A municipal council staff office (frozen fixture)",
+    "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+    "disposition": "released-no-canonical-activity",
+    "sceneId": "office-council-staff-fixture",
+    "remainingStep": null,
+    "owedBy": null,
+    "openRequestIds": [],
+    "note": "QUARANTINED ON PURPOSE, and not a candidate for generic reuse. The plate has a Fayette County map on its wall, so it is admissible only for a legislative job whose jurisdiction is Lexington-Fayette; the generic `legislative-staff-workroom` venue key resolves to the unscoped production WORKROOM instead. It is kept as frozen regression evidence and is reachable at ?view=office-fixture."
+  },
+  {
+    "sourceId": "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+    "label": "The council-staff office's furniture mask",
+    "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
+    "disposition": "released-no-canonical-activity",
+    "sceneId": "office-council-staff-fixture",
+    "remainingStep": null,
+    "owedBy": null,
+    "openRequestIds": [],
+    "note": "THE ONLY AUTHORED FOREGROUND MASK IN THE PROJECT. Every other room's occluders are declared as rectangles with no cutout, which is why `env-hearing-room-foreground-mask` is still open. It is a deterministic furniture-only derivative of the approved Prompt 30 input and is a development fixture derived at 2x, so it carries an upscaled-development-fixture lineage rather than claiming native detail."
+  }
+]

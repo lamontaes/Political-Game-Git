@@ -1,0 +1,53 @@
+[
+  {
+    "key": "transit-local-match",
+    "scenarioKey": "kentucky",
+    "programProvisionKey": "pilot-support-limit",
+    "requestedProvisionKey": "local-project-match",
+    "legacyAdoptedProvisionSuffix": "section-4",
+    "requestedSegmentKey": "transit.ashland-boyd-local-match",
+    "programAmountMinorUnits": 800000000,
+    "requestedAmountMinorUnits": 140000000,
+    "cappedAmountMinorUnits": 60000000,
+    "requestedMatchPlaceGeoid": "2102368",
+    "beneficiaryLabel": "the Ashland–Boyd County Transit Authority",
+    "placeLabel": "Ashland",
+    "filedSections": [
+      {
+        "keySuffix": "section-1",
+        "provisionKey": "purpose",
+        "sectionNumber": 1,
+        "heading": "Purpose and construction",
+        "text": "It is the purpose of this Act to test whether removing the fare barrier increases access to work, care and school for riders who already qualify for state assistance. Nothing in this Act creates an entitlement to service.",
+        "beneficiary": {
+          "kind": "general-application",
+          "appliesToLabel": "everyone the Act reaches"
+        }
+      },
+      {
+        "keySuffix": "section-2",
+        "provisionKey": "eligibility",
+        "sectionNumber": 2,
+        "heading": "Eligible riders",
+        "text": "A rider is eligible under this Act if the rider is enrolled in a state assistance program administered under KRS Chapter 205 at the time of boarding. A participating provider shall not require a separate application.",
+        "beneficiary": {
+          "kind": "general-application",
+          "appliesToLabel": "every rider enrolled in a state assistance program"
+        }
+      },
+      {
+        "keySuffix": "section-3",
+        "provisionKey": "pilot-support-limit",
+        "sectionNumber": 3,
+        "heading": "Pilot support limit",
+        "text": "There is appropriated for the two-year pilot a sum not to exceed $8,000,000, to be distributed among participating providers in proportion to eligible boardings. No provider is named in this section.",
+        "beneficiary": {
+          "kind": "general-application",
+          "appliesToLabel": "every participating provider, in proportion to eligible boardings"
+        },
+        "fiscalExposureLabel": "$8,000,000 over the two-year pilot",
+        "fiscalExposureMinorUnits": 800000000
+      }
+    ]
+  }
+]

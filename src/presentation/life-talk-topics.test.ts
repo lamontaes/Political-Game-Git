@@ -23,7 +23,7 @@ import { activeOrdinaryGoal } from "../simulation/life-personality";
 
 const setup = {
   startKind: "custom",
-  placeKey: "lexington-fayette",
+  placeKey: "2146027",
   startAge: 6,
   depth: "play-formative-years",
   startingLife: "ordinary-life",

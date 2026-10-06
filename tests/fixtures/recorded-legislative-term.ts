@@ -29,7 +29,7 @@ export function recordedTermFixture(
     ...DEFAULT_NEW_GAME_SETUP,
     seed: "rest37-n-recorded-term",
     startAge: 40,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     gender: "male",
     pronouns: "he-him",
     questionnaire: "skipped",

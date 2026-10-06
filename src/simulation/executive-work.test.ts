@@ -1,3 +1,4 @@
+import { LEXINGTON_DEMO_CONTEXT } from "../../tests/fixtures/authored-scenario";
 import { activeLifePathWorkers } from "./life-paths2-workers";
 import {
   createLegislativeScenario,
@@ -40,7 +41,7 @@ import {
 } from "./time-work";
 import { describe, it, expect } from "vitest";
 import { createDemoWorld } from "./demo";
-import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+
 import { stateJurisdictionForKey } from "./life-places";
 import { initializeExecutiveOfficePremiseForReview } from "./executive-work-entry";
 import {

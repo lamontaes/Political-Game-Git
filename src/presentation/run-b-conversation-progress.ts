@@ -373,7 +373,7 @@ export function createRunBConversationProgress(): RunBConversationProgress {
   return {
     subject: "shared-intake-checklist",
     subjectFacts: {
-      constituentDescription: "three Lexington tenants",
+      constituentDescription: "three local tenants",
       officeRole: "constituent-services referral",
       referralDestination: "county emergency-rent program",
       requiredDocument: "proof-of-income form",

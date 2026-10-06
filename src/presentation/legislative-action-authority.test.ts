@@ -68,7 +68,7 @@ function newLife(seed: string) {
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     gender: "male",
     pronouns: "he-him",
     questionnaire: "skipped",
@@ -362,8 +362,7 @@ describe("79R2 finding A — a retained chamber context cannot write after the b
       .filter((role) => role.workRelationshipId === seatRelationship.id)
       .at(-1)!;
     // The role now says the work happens somewhere the seat does not govern.
-    const elsewhere =
-      requireLifePlace("lexington-fayette").context.jurisdiction.id;
+    const elsewhere = requireLifePlace("2146027").context.jurisdiction.id;
     expect(elsewhere).not.toBe(previousRole.locationJurisdictionId);
     const contradicted = recordWorkRole(entry.world, {
       ...previousRole,

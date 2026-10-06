@@ -190,7 +190,7 @@ export function exerciseSceneVenues(): readonly VenueExercise[] {
   //
   // This exercise expects NO room, and that expectation is the finding. When
   // it was first written it expected the workroom, and running it on the real
-  // build is what showed that `lexington-legislative-office` is written only
+  // build is what showed that `legislative-staff-workroom` is written only
   // by `createRunDLiteFixture` — a development fixture reached at
   // `?view=office-fixture`. The room, the plate and the mapping are all fine;
   // no production path schedules a located day of staff work.
@@ -212,7 +212,7 @@ export function exerciseSceneVenues(): readonly VenueExercise[] {
   const fixtureOffice = activityAt(
     fixture.world,
     fixture.playerPersonId,
-    "lexington-legislative-office",
+    "legislative-staff-workroom",
   );
   results.push(
     fixtureOffice
@@ -225,7 +225,7 @@ export function exerciseSceneVenues(): readonly VenueExercise[] {
         )
       : {
           id: "staff-workroom-fixture",
-          what: "The Run D-Lite fixture should write an activity at `lexington-legislative-office`.",
+          what: "The Run D-Lite fixture should write an activity at `legislative-staff-workroom`.",
           expected: PRODUCTION_OFFICE_SCENE_ID,
           actual: null,
           passed: false,

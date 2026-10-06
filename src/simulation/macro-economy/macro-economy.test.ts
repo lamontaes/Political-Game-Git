@@ -92,11 +92,11 @@ function fixtureStart(
 function life(seed: string, seeded = false): World {
   // A legacy-descriptor life holds no WORLD record, and nothing in these
   // cases reads its households or town; the shared small world is that life.
-  if (!seeded) return smallWorld({ place: "lexington-fayette", seed }).world;
+  if (!seeded) return smallWorld({ place: "2146027", seed }).world;
   const setup: NewGameSetup = {
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     startAge: 34,
     questionnaire: "skipped" as const,
   };

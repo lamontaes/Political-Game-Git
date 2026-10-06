@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import COMMITTED from "../../src/simulation/school-name-patterns.json" with { type: "json" };
+import COMMITTED from "../../src/simulation/school-name-patterns.generated.json" with { type: "json" };
 import { measureSchoolNamePatterns } from "./school-name-patterns";
 
 describe("the measured school-name counts", () => {

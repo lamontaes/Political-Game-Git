@@ -113,7 +113,7 @@ export function parseCompareSeedOptions(
   }
 
   if (!placeExplicit || !setup?.placeKey.trim()) {
-    throw new Error("--place <key> is required. Lexington is not assumed.");
+    throw new Error("--place <key> is required. No place is assumed.");
   }
   return { seeds, setup, format };
 }

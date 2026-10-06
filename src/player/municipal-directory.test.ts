@@ -89,9 +89,9 @@ describe("formatMunicipalHomePlaceLabel", () => {
   });
 
   it("keeps locality display names that already include the state", () => {
-    expect(
-      formatMunicipalHomePlaceLabel(lifePlaceByKey("lexington-fayette")),
-    ).toBe("Lexington, Kentucky");
+    expect(formatMunicipalHomePlaceLabel(lifePlaceByKey("2146027"))).toBe(
+      "Lexington, Kentucky",
+    );
     expect(formatMunicipalHomePlaceLabel(lifePlaceByKey("5114968"))).toContain(
       "Charlottesville",
     );

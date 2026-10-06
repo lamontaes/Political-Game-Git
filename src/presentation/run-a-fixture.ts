@@ -1,4 +1,5 @@
 import {
+  residentNameForJurisdiction,
   createDemoWorld,
   createGeneratedWorld,
   personName,
@@ -11,16 +12,11 @@ export const RUN_A_SEED = "stage-6-5-run-a";
 export const RUN_A_HIDDEN_CANONICAL_TEXT =
   "Initial synthetic diagnostic record.";
 
-const RUN_A_LEXINGTON_DISPLAY_NAMES = {
-  canonical: "Lexington-Fayette, Kentucky",
-  full: "Lexington, Kentucky",
-  compact: "Lexington, KY",
-} as const;
-
 export function runAPlaceDisplayName(canonicalName: string): string {
-  return canonicalName === RUN_A_LEXINGTON_DISPLAY_NAMES.canonical
-    ? RUN_A_LEXINGTON_DISPLAY_NAMES.full
-    : canonicalName;
+  const separator = canonicalName.lastIndexOf(", ");
+  const parent = separator < 0 ? null : canonicalName.slice(separator + 2);
+  const resident = residentNameForJurisdiction(canonicalName, parent);
+  return parent === null ? resident : `${resident}, ${parent}`;
 }
 
 export const RUN_A_FIXTURE_STATE_NAMES = [
@@ -175,8 +171,8 @@ export function createRunAFixture(seedInput?: string): RunAFixture {
         "Direct and prepared. You have a useful working impression, though you may not know exactly where he stands.",
     },
     officeEventId: officeEvent.id,
-    locationDisplayName: RUN_A_LEXINGTON_DISPLAY_NAMES.full,
-    locationLabel: `${RUN_A_LEXINGTON_DISPLAY_NAMES.compact} · Legislative Office`,
+    locationDisplayName: runAPlaceDisplayName(jurisdiction.name),
+    locationLabel: `${runAPlaceDisplayName(jurisdiction.name)} · Legislative Office`,
     presentationTime: "9:10 AM",
   };
 }

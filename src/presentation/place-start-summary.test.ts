@@ -5,7 +5,7 @@ import { lifePlaceByKey, searchLifePlaces } from "../simulation";
 
 describe("A chosen place is introduced as useful context", () => {
   it("names Lexington without research or capability prose", () => {
-    const place = lifePlaceByKey("lexington-fayette")!;
+    const place = lifePlaceByKey("2146027")!;
     const facts = placeStartFacts(place);
     const text = facts.map((fact) => fact.text).join("\n");
     expect(facts[0]).toEqual({ kind: "name", text: "Lexington, Kentucky" });

@@ -199,12 +199,12 @@ describe("Where the game will let a life begin", () => {
   });
 
   it("never lends one place another's legislative procedure", () => {
-    const lexington = lifePlaceByKey("lexington-fayette")!;
+    const lexington = lifePlaceByKey("2146027")!;
     expect(lexington.capabilities.legislativeScenarioKey).toBeNull();
     expect(() =>
       createNewGameWorld(
         setup({
-          placeKey: "lexington-fayette",
+          placeKey: "2146027",
           startAge: 40,
           depth: "summarize-earlier-life",
           startingLife: "legislative-office",

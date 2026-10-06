@@ -32,7 +32,7 @@ function filedLife(seed: string) {
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     gender: "male",
     pronouns: "he-him",
     questionnaire: "skipped",

@@ -10,7 +10,7 @@ function newLife(seed: string) {
   return generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       startAge: 34,
       seed,
     }),

@@ -12,7 +12,6 @@ import {
   createExplicitGeographyLife,
   explicitNewGameSetup,
   freshNewGameSetup,
-  kentuckyLexingtonRegressionSetup,
   legacyReplayNewGameSetup,
   ordinaryControlCapabilities,
   reloadCreatedGeographyLife,
@@ -38,9 +37,7 @@ describe("New-game geography is chosen, not inherited", () => {
     expect(newGameSetupProblems(freshNewGameSetup("fresh-creator"))).toEqual(
       expect.arrayContaining([expect.objectContaining({ field: "placeKey" })]),
     );
-    expect(() => requireExplicitPlaceKey("")).toThrow(
-      /Lexington is not assumed/,
-    );
+    expect(() => requireExplicitPlaceKey("")).toThrow(/No place is assumed/);
     const replayed = legacyReplayNewGameSetup({ seed: "old-replay" });
     expect(replayed.placeKey).toBe("kentucky");
     const geography = resolvePlayGeography(
@@ -52,12 +49,15 @@ describe("New-game geography is chosen, not inherited", () => {
   });
 
   it("records Lexington as a named Kentucky regression, not the unnamed default", () => {
-    const setup = kentuckyLexingtonRegressionSetup({ seed: "ky-regression" });
+    const setup = explicitNewGameSetup({
+      seed: "ky-regression",
+      placeKey: "2146027",
+    });
     const geography = resolvePlayGeography(
       setup.placeKey,
       "kentucky-regression-fixture",
     );
-    expect(geography.selectedLocalityKey).toBe("lexington-fayette");
+    expect(geography.selectedLocalityKey).toBe("2146027");
     expect(geography.selectedStateJurisdictionKey).toBe("US-KY");
     expect(geography.legislativeRulePackId).toBe("us-ky-general-assembly-v1");
     expect(geography.legislativeScenarioKey).toBeNull();
@@ -108,7 +108,7 @@ describe("New-game geography is chosen, not inherited", () => {
   });
 
   it("clears an incompatible town on state change and keeps a same-state replacement", () => {
-    const lexington = creatorLocationFromPlaceKey("lexington-fayette");
+    const lexington = creatorLocationFromPlaceKey("2146027");
     const bowlingGreen = searchLifePlaces("Bowling Green", 8, {
       stateJurisdictionKey: "US-KY",
       scope: "locality",
@@ -161,7 +161,7 @@ describe("Creation and serialization across state and DC contexts", () => {
       if (state.usps !== "KY") {
         expect(created.geography.legislativeScenarioKey).not.toBe("kentucky");
         expect(created.game.place.context.jurisdiction.id).not.toBe(
-          resolvePlayGeography("lexington-fayette").resolvedJurisdictionId,
+          resolvePlayGeography("2146027").resolvedJurisdictionId,
         );
       }
     },

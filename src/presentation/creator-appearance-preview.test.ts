@@ -16,7 +16,7 @@ import { PRIVATE_CANDIDATE_ART_AVAILABLE } from "./private-candidate-manifests";
 
 const setup: NewGameSetup = {
   startKind: "custom",
-  placeKey: "lexington-fayette",
+  placeKey: "2146027",
   startAge: 34,
   depth: "summarize-earlier-life",
   startingLife: "ordinary-life",

@@ -21,7 +21,7 @@ function life(seed: string): World {
   const setup: NewGameSetup = {
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     startAge: 34,
     questionnaire: "skipped" as const,
   };

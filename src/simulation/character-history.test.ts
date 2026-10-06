@@ -1,8 +1,8 @@
+import { LEXINGTON_PLACEHOLDER_ID } from "../../tests/fixtures/authored-scenario";
 import { describe, expect, it } from "vitest";
 import { addDays } from "./dates";
 
 import {
-  LEXINGTON_PLACEHOLDER_ID,
   advanceWorld,
   appendPersonFact,
   claimsForEvent,

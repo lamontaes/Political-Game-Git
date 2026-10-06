@@ -1,3 +1,4 @@
+import retainedSources from "./generated/retained-source-records.generated.json" with { type: "json" };
 import assetManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
 import environmentIntake from "../../art/intake/ax-92b1/environment-intake-report.json" with { type: "json" };
 import driveInventory from "./public-drive-inventory.generated.json" with { type: "json" };
@@ -254,7 +255,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     disposition: "released-no-canonical-activity",
     sceneId: "shared-workroom-office-production",
     remainingStep:
-      "A PRODUCTION path that schedules a located day of legislative staff work. The venue mapping from `lexington-legislative-office` to this room is declared and proven, but that key is written only by `createRunDLiteFixture`, a development fixture reached at `?view=office-fixture`.",
+      "A PRODUCTION path that schedules a located day of legislative staff work. The venue mapping from `legislative-staff-workroom` to this room is declared and proven, but that key is written only by `createRunDLiteFixture`, a development fixture reached at `?view=office-fixture`.",
     owedBy: "the legislation owner",
     openRequestIds: ["person-production-seated-body"],
     note: "CORRECTED IN FLIGHT. This row first said 'in ordinary play'. The review page's own exercise, run against the real build, returned no room for a fresh legislative start and showed the claim was wrong: the room and the mapping are fine, and nothing in production writes the key that reaches them. Its person anchors also still fail closed — there is no released seated body, and a development mannequin is not drawn on a production plate to hide that.",
@@ -446,28 +447,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
   },
 
   /* --- Development fixtures, kept deliberately --------------------------- */
-  {
-    sourceId: "env_lexington_council_staff_office_prompt30_v1",
-    label: "A municipal council staff office (frozen fixture)",
-    path: "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
-    disposition: "released-no-canonical-activity",
-    sceneId: "office-council-staff-fixture",
-    remainingStep: null,
-    owedBy: null,
-    openRequestIds: [],
-    note: "QUARANTINED ON PURPOSE, and not a candidate for generic reuse. The plate has a Fayette County map on its wall, so it is admissible only for a legislative job whose jurisdiction is Lexington-Fayette; the generic `lexington-legislative-office` venue key resolves to the unscoped production WORKROOM instead. It is kept as frozen regression evidence and is reachable at ?view=office-fixture.",
-  },
-  {
-    sourceId: "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
-    label: "The council-staff office's furniture mask",
-    path: "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png",
-    disposition: "released-no-canonical-activity",
-    sceneId: "office-council-staff-fixture",
-    remainingStep: null,
-    owedBy: null,
-    openRequestIds: [],
-    note: "THE ONLY AUTHORED FOREGROUND MASK IN THE PROJECT. Every other room's occluders are declared as rectangles with no cutout, which is why `env-hearing-room-foreground-mask` is still open. It is a deterministic furniture-only derivative of the approved Prompt 30 input and is a development fixture derived at 2x, so it carries an upscaled-development-fixture lineage rather than claiming native detail.",
-  },
+  ...(retainedSources as readonly EnvironmentSourceRecord[]),
 
   /* --- Terminal: nothing is owed ----------------------------------------- */
   {

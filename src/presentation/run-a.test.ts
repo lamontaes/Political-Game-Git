@@ -105,7 +105,9 @@ describe("Stage 6.5 Run A presentation", () => {
     expect(birthplace?.jurisdictionId).toBe(jurisdictionId);
     expect(dossier.homePlace.value).toBe("Lexington, Kentucky");
     expect(fixture.locationDisplayName).toBe("Lexington, Kentucky");
-    expect(fixture.locationLabel).toBe("Lexington, KY · Legislative Office");
+    expect(fixture.locationLabel).toBe(
+      "Lexington, Kentucky · Legislative Office",
+    );
   });
 
   it("does not silently present home jurisdiction as hometown", () => {

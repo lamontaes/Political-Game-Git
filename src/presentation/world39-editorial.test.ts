@@ -12,7 +12,7 @@ import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 /** Generic checks use an explicit non-Kentucky locality (Minneapolis, Minnesota). */
 const GENERIC_PLACE_KEY = "2743000";
 /** Named Kentucky regression: only the consolidated-government sentence needs it. */
-const KENTUCKY_LEXINGTON_PLACE_KEY = "lexington-fayette";
+const KENTUCKY_LEXINGTON_PLACE_KEY = "2146027";
 
 /** Wording that describes the save or the engine instead of the place or the life. */
 const DATABASE_WORDING =

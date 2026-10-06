@@ -163,7 +163,7 @@ const KENTUCKY_HOUSE = "us-ky-general-assembly-v1:house";
 describe("a seat filled by district", () => {
   it("requires Kentucky's numbered House seat at filing and seats its winner on that roll", () => {
     const created = createExplicitGeographyLife({
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       seed: "numbered-kentucky-seat",
       startAge: 40,
       startKind: "normal",

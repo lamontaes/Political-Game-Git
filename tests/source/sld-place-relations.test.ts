@@ -1,8 +1,8 @@
+const ADAK_PLACE_GEOID = "0200065";
+const LEXINGTON_FAYETTE_PLACE_GEOID = "2146027";
 import { describe, expect, it } from "vitest";
 
 import {
-  ADAK_PLACE_GEOID,
-  LEXINGTON_FAYETTE_PLACE_GEOID,
   normalizeSldPlaceRelations,
   parseSldPlaceRelations,
 } from "../../src/source/domains/sld-place-relations/index";

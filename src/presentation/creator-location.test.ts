@@ -30,10 +30,10 @@ describe("Creator location is chosen, not inherited", () => {
   });
 
   it("keeps an explicit previously selected place, including statewide replay", () => {
-    const lexington = creatorLocationFromPlaceKey("lexington-fayette");
+    const lexington = creatorLocationFromPlaceKey("2146027");
     expect(lexington).toEqual({
       stateJurisdictionKey: "US-KY",
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
     });
     expect(creatorLocationIsReady(lexington)).toBe(true);
 
@@ -61,9 +61,7 @@ describe("Creator location is chosen, not inherited", () => {
       stateJurisdictionKey: "US-KY",
       scope: "locality",
     });
-    expect(kentucky.some((place) => place.key === "lexington-fayette")).toBe(
-      true,
-    );
+    expect(kentucky.some((place) => place.key === "2146027")).toBe(true);
     expect(kentucky.some((place) => place.key === "kentucky")).toBe(false);
     expect(
       kentucky.every((place) => place.stateJurisdictionKey === "US-KY"),
@@ -92,10 +90,10 @@ describe("Creator location is chosen, not inherited", () => {
 
   it("keeps a committed town until a deliberate replacement, and opens the list only then", () => {
     expect(creatorPlaceListOpen(null, false)).toBe(true);
-    expect(creatorPlaceListOpen("lexington-fayette", false)).toBe(false);
-    expect(creatorPlaceListOpen("lexington-fayette", true)).toBe(true);
+    expect(creatorPlaceListOpen("2146027", false)).toBe(false);
+    expect(creatorPlaceListOpen("2146027", true)).toBe(true);
 
-    const lexington = creatorLocationFromPlaceKey("lexington-fayette");
+    const lexington = creatorLocationFromPlaceKey("2146027");
     const bowlingGreen = searchLifePlaces("Bowling", 8, {
       stateJurisdictionKey: "US-KY",
       scope: "locality",
@@ -106,7 +104,7 @@ describe("Creator location is chosen, not inherited", () => {
   });
 
   it("clears an incompatible town when the state changes, and keeps a compatible one", () => {
-    const lexington = creatorLocationFromPlaceKey("lexington-fayette");
+    const lexington = creatorLocationFromPlaceKey("2146027");
     const afterAlabama = selectCreatorState(lexington, "US-AL");
     expect(afterAlabama).toEqual({
       stateJurisdictionKey: "US-AL",
@@ -114,12 +112,12 @@ describe("Creator location is chosen, not inherited", () => {
     });
 
     const stillKentucky = selectCreatorState(lexington, "US-KY");
-    expect(stillKentucky.placeKey).toBe("lexington-fayette");
+    expect(stillKentucky.placeKey).toBe("2146027");
   });
 
   it("refuses a town from another state and commits only a ready draft", () => {
     const alabama = selectCreatorState(emptyCreatorLocation(), "US-AL");
-    const lexington = lifePlaceByKey("lexington-fayette")!;
+    const lexington = lifePlaceByKey("2146027")!;
     expect(selectCreatorPlace(alabama, lexington)).toEqual(alabama);
 
     const auburn = searchLifePlaces("Auburn", 8, {

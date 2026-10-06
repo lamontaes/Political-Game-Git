@@ -26,7 +26,7 @@
 
 import { NAMES_STARTER_V1 } from "./names-data";
 import type { SeededRng } from "./rng";
-import PATTERNS from "./school-name-patterns.json" with { type: "json" };
+import PATTERNS from "./school-name-patterns.generated.json" with { type: "json" };
 
 export type SchoolLevel = "elementary" | "middle" | "high";
 
@@ -354,7 +354,7 @@ export function schoolFigureWeights(
  * The measured draw (`school-names-v2`).
  *
  * The directory the game ships says how schools are named, though never which
- * school existed when: `school-name-patterns.json`, measured by
+ * school existed when: `school-name-patterns.generated.json`, measured by
  * `scripts/source/school-name-patterns.ts`. A town's only high school carries
  * the town's name about two times in three, in every region; a national figure
  * names about one high school in five hundred there, and one in a hundred where

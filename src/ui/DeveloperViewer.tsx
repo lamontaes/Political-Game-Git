@@ -145,8 +145,8 @@ export function DeveloperViewer() {
 
       <aside className="placeholder-notice" role="note">
         <strong>Synthetic placeholder data.</strong> All people and events are
-        generated fixtures. Lexington-Fayette is the initial test jurisdiction;
-        no sourced civic dataset is loaded.
+        generated fixtures. An explicitly authored scenario supplies the test
+        jurisdiction; no sourced civic dataset is loaded.
       </aside>
 
       <WorldControls

@@ -1,0 +1,29 @@
+import type { BrowserEconomicGeographyBinding } from "../../src/presentation/economic-context-browser";
+export const LEXINGTON_ECONOMIC_BINDING: BrowserEconomicGeographyBinding = {
+  bindingKey: "economic-context.lexington-ky.v2",
+  placeKey: "2146027",
+  placeLabel: "Lexington, Kentucky",
+  beaAreas: [
+    {
+      geographyLevel: "county",
+      geoFips: "21067",
+      relationship: "same-jurisdiction",
+    },
+    {
+      geographyLevel: "msa",
+      geoFips: "30460",
+      relationship: "containing-metro",
+    },
+    {
+      geographyLevel: "state",
+      geoFips: "21000",
+      relationship: "containing-state",
+    },
+  ],
+  lausAreaCodes: [
+    { areaCode: "ST2100000000000", relationship: "containing-state" },
+  ],
+  hudFipsCodes: [
+    { hudFipsCode: "2106799999", relationship: "same-jurisdiction" },
+  ],
+};

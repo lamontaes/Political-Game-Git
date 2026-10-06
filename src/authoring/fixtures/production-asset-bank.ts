@@ -198,31 +198,6 @@ const ENTRIES: readonly AssetBankEntry[] = [
       ],
     },
   ),
-  inspected(
-    {
-      entryId: "office-council-staff-lexington",
-      proposedFilename: "env_office_lexington_council_staff_1024x572_v1.png",
-      width: 1024,
-      height: 572,
-      sceneFamilyId: "COUNCIL_STAFF_OFFICE_LEXINGTON_01",
-    },
-    {
-      cameraAngle: "eye level, across the desk from the guest chair",
-      floorUsable: "yes",
-      seatUsable: "yes",
-      occluderCandidates: ["desk-front", "guest-chair-near-arm"],
-      // The only plate here whose bytes are in the repository, so its style and
-      // its text were judged against real pixels rather than a description.
-      styleFamilyStatus: "in-family",
-      assessedBy: "human-review",
-      disposition: "reference",
-      reuseContexts: ["staff-working-day", "constituent-meeting"],
-      notes: [
-        "Frozen development fixture, and dispositioned `reference` rather than `production` for that reason. Its real detail is 1024x572; the shipped 2048x1144 file is a 2x resample of the same source and carries nothing extra.",
-        "The one room in the library with a derived alpha mask, and the one whose wall map makes the case for dynamic surfaces: the plate is painted with one city's street grid.",
-      ],
-    },
-  ),
   {
     ...createAssetBankEntry({
       entryId: "apartment-ordinary-02-upscale-mislabelled",
@@ -265,5 +240,5 @@ export const PRODUCTION_PLATE_ASSET_BANK: AssetBankManifest =
   createAssetBankManifest(
     "approved-environment-library-2026-09-03",
     ENTRIES,
-    "Five active approved environment masters, one FRONTDOOR44-retired reference master, and two mislabelled enlargements. No entry is dispositioned production; the retired meeting-hall master is history only and may not be regenerated or installed.",
+    "Four active approved environment masters, one FRONTDOOR44-retired reference master, and two mislabelled enlargements. No entry is dispositioned production; the retired meeting-hall master is history only and may not be regenerated or installed.",
   );

@@ -1,8 +1,9 @@
+import { LEXINGTON_DEMO_CONTEXT } from "../../tests/fixtures/authored-scenario";
 import { describe, expect, it } from "vitest";
 
 import { candidacyPacks } from "./candidacy-packs";
 import { createScenarioWorld } from "./demo";
-import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+
 import { makeIsoDate } from "./dates";
 import { OFFICE_QUALIFICATION_ROWS } from "./office-qualifications.generated";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";

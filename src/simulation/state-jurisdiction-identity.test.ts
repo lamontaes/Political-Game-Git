@@ -1,3 +1,4 @@
+import { LEXINGTON_DEMO_CONTEXT } from "../../tests/fixtures/authored-scenario";
 import { describe, expect, it } from "vitest";
 
 import { createStableId } from "./ids";
@@ -13,7 +14,7 @@ import {
   stateKeyForJurisdiction,
   stateKeyForJurisdictionSlug,
 } from "./life-places";
-import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+
 import { makeIsoDate } from "./dates";
 import { createWorld } from "./world";
 import { deserializeWorld, serializeWorld } from "./serialization";

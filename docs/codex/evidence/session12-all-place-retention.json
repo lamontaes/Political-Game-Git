@@ -1,0 +1,43 @@
+{
+  "base": "ab009f288",
+  "readOnly": true,
+  "rawGovernments": {
+    "count": 42,
+    "before": "5f33d089f69636cb33336f9dbe1fb6624ff2b649caff8007f00ae6fd7248a715",
+    "after": "5f33d089f69636cb33336f9dbe1fb6624ff2b649caff8007f00ae6fd7248a715"
+  },
+  "retainedScene": {
+    "sceneId": "office-council-staff-fixture",
+    "before": "c40a60d8c6e439fea72eef3e52246bfe7af7756a589f0184fbb49d2a842bb6e9",
+    "after": "c40a60d8c6e439fea72eef3e52246bfe7af7756a589f0184fbb49d2a842bb6e9"
+  },
+  "retiredFamily": {
+    "familyId": "COUNCIL_STAFF_OFFICE_LEXINGTON_01",
+    "before": "72230ae6061dbed73d4834a9b6be9237b846b2a8d1e04b62ef4e7dabe4fc2228",
+    "after": "72230ae6061dbed73d4834a9b6be9237b846b2a8d1e04b62ef4e7dabe4fc2228"
+  },
+  "fixtureFiles": [
+    {
+      "oldPath": "src/presentation/fixtures/morning23-old-gen2.json",
+      "newPath": "tests/fixtures/retained-worlds/morning23-old-gen2.json",
+      "bytes": 122276,
+      "before": "23fc52b59ab21609fbc5dfc4e3f92ae1dd17eda18f6b57db942b08254c196e92",
+      "after": "23fc52b59ab21609fbc5dfc4e3f92ae1dd17eda18f6b57db942b08254c196e92"
+    },
+    {
+      "oldPath": "src/presentation/fixtures/morning23-old-unpinned.json",
+      "newPath": "tests/fixtures/retained-worlds/morning23-old-unpinned.json",
+      "bytes": 122382,
+      "before": "4616a3038606faddab71a8742dd9953f8df5cc62da88179e4774b1c046b846e9",
+      "after": "4616a3038606faddab71a8742dd9953f8df5cc62da88179e4774b1c046b846e9"
+    },
+    {
+      "oldPath": "src/simulation/crisis/fixtures/dormant-annual-check-save.json",
+      "newPath": "tests/fixtures/retained-worlds/dormant-annual-check-save.json",
+      "bytes": 123069,
+      "before": "e02683a5f4c5bcb61c884ebe61daec57e03bbd8776197c30f70a99779cf8e2ed",
+      "after": "e02683a5f4c5bcb61c884ebe61daec57e03bbd8776197c30f70a99779cf8e2ed"
+    }
+  ],
+  "pass": true
+}

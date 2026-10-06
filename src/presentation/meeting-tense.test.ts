@@ -14,7 +14,7 @@ function lifeWithMeeting() {
   const game = createNewGameWorld({
     startKind: "custom",
     seed: "meeting-tense",
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     startAge: 34,
     depth: "summarize-earlier-life",
     startingLife: "ordinary-life",

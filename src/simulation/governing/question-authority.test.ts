@@ -126,7 +126,7 @@ function everyPlace(): readonly Place[] {
       });
     }
   }
-  const lexington = lifePlaceByKey("lexington-fayette")!;
+  const lexington = lifePlaceByKey("2146027")!;
   places.push({
     name: "Lexington (a consolidated city-county)",
     id: lexington.context.jurisdiction.id,
@@ -192,8 +192,7 @@ describe("which question each level may answer", () => {
   });
 
   it("names the questions the one-year Lexington report caught a city answering", () => {
-    const lexington =
-      lifePlaceByKey("lexington-fayette")!.context.jurisdiction.id;
+    const lexington = lifePlaceByKey("2146027")!.context.jurisdiction.id;
     for (const key of [
       "us-policy-positions:fiscal.graduated-income-tax",
       "us-policy-positions:fiscal.adopt-income-tax",
@@ -339,8 +338,7 @@ describe("which question each level may answer", () => {
 });
 
 describe("the law in force keeps to each level's powers", () => {
-  const lexington =
-    lifePlaceByKey("lexington-fayette")!.context.jurisdiction.id;
+  const lexington = lifePlaceByKey("2146027")!.context.jurisdiction.id;
   const kentucky = stateJurisdictionForKey("US-KY")!.id;
   let sequence = 0;
   function enacted(

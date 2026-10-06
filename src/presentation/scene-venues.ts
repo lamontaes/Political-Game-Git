@@ -1,3 +1,4 @@
+import aliases from "./generated/retained-venue-aliases.generated.json" with { type: "json" };
 import { municipalVenueForActivity } from "./municipal-venue";
 import {
   canPersonAccess,
@@ -115,7 +116,7 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
     isJourney: false,
   },
   {
-    locationKey: "lexington-legislative-office",
+    locationKey: "legislative-staff-workroom",
     sceneId: PRODUCTION_OFFICE_SCENE_ID,
     reason:
       "Legislative staff work happens in the shared workroom. The production workroom is generic and unscoped; the frozen council-staff FIXTURE is not used here, because it has a Fayette County map on its wall and is quarantined to its own consumer. CAVEAT, and it is the important part: today this key is written ONLY by `createRunDLiteFixture`, which reaches a player through the development route `?view=office-fixture`. The mapping is correct and proven, and no production path writes the key, so no ordinary life reaches this room yet.",
@@ -172,7 +173,12 @@ const VENUES_BY_KEY: ReadonlyMap<string, SceneVenue> = new Map(
 export function sceneVenueForLocationKey(
   locationKey: string,
 ): SceneVenue | null {
-  return VENUES_BY_KEY.get(locationKey) ?? null;
+  const key =
+    (aliases as Readonly<Record<string, string>>)[locationKey] ?? locationKey;
+  const venue = VENUES_BY_KEY.get(key);
+  if (!venue) return null;
+  // The venue is shared; retained records keep the exact location key they wrote.
+  return key === locationKey ? venue : { ...venue, locationKey };
 }
 
 /** The outcome of asking where somebody is, with the reason kept attached. */

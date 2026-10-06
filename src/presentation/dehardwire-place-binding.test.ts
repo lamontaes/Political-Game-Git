@@ -43,7 +43,7 @@ describe("an ordinary start is the place the player chose", () => {
       const jurisdictionId = expected!.context.jurisdiction.id;
       expect(built.world.jurisdictions[jurisdictionId]).toBeDefined();
 
-      const lexington = lifePlaceByKey("lexington-fayette");
+      const lexington = lifePlaceByKey("2146027");
       expect(built.world.jurisdictions[jurisdictionId]!.name).not.toBe(
         lexington!.context.jurisdiction.name,
       );
@@ -60,12 +60,7 @@ describe("the dossier names a place the way the catalog does", () => {
     // The catalog is the thing being bound to, so the check is that every
     // playable place it lists has the resident-facing name available — which
     // is what the projection now reads.
-    for (const placeKey of [
-      "kentucky",
-      "nebraska",
-      "alaska",
-      "lexington-fayette",
-    ]) {
+    for (const placeKey of ["kentucky", "nebraska", "alaska", "2146027"]) {
       const place = lifePlaceByKey(placeKey);
       expect(place).not.toBeNull();
       const resolved = lifePlaceByJurisdictionId(
@@ -77,7 +72,7 @@ describe("the dossier names a place the way the catalog does", () => {
     // Lexington is the case the fixture helper special-cased. It still reads
     // the way a resident says it — now because the catalog says so, not
     // because a development run spelled it out.
-    const lexington = lifePlaceByKey("lexington-fayette")!;
+    const lexington = lifePlaceByKey("2146027")!;
     expect(lexington.displayName).toBe("Lexington, Kentucky");
     expect(lexington.formalName).toBe("Lexington-Fayette, Kentucky");
     expect(

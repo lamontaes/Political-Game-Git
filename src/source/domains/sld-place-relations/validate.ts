@@ -11,7 +11,6 @@ import type {
   ValidationReport,
 } from "../../core/index";
 import {
-  LEXINGTON_FAYETTE_PLACE_GEOID,
   OFFICIAL_PLACE_RELATION_VECTORS,
   isPlaceGeoid,
   isStateLegislativeGeoid,
@@ -173,15 +172,6 @@ export function validateSldPlaceRelationCorpus(
           recordId: record.recordId,
         });
       }
-    }
-    const lexington = byId.get(`state-lower:${LEXINGTON_FAYETTE_PLACE_GEOID}`);
-    if (lexington && lexington.membership !== "split") {
-      findings.push({
-        severity: "error",
-        code: "sld-place-relations/lexington-split",
-        message:
-          "Lexington-Fayette must remain a split place; it is not whole-place house membership.",
-      });
     }
   }
 

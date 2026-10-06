@@ -347,7 +347,7 @@ export function compareSeeds(request: SeedComparisonRequest): SeedComparison {
   const baseSetup = request.setup;
   if (!baseSetup.placeKey.trim()) {
     throw new Error(
-      "Seed comparison needs an explicit place. Lexington is not assumed.",
+      "Seed comparison needs an explicit place. No place is assumed.",
     );
   }
   const summaries = request.seeds.map((seed) => {

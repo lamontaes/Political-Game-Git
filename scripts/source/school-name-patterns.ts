@@ -203,7 +203,7 @@ export function measureSchoolNamePatterns(root = ".") {
 }
 
 if (process.argv[1]?.endsWith("school-name-patterns.ts")) {
-  const out = "src/simulation/school-name-patterns.json";
+  const out = "src/simulation/school-name-patterns.generated.json";
   const { writeFileSync } = await import("node:fs");
   writeFileSync(out, `${JSON.stringify(measureSchoolNamePatterns())}\n`);
   console.log(`Wrote ${out}; run prettier --write on it before committing.`);

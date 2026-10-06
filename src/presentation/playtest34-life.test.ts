@@ -36,7 +36,7 @@ import {
 function life(
   seed = "p34-life-lexington-fayette",
   age = 35,
-  placeKey = "lexington-fayette",
+  placeKey = "2146027",
 ) {
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,

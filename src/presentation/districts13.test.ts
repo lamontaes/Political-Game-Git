@@ -127,7 +127,7 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "districts13-catalog-ky",
       startAge: 34,
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       questionnaire: "skipped",
     });
     const kyRows = offeredDistricts(
@@ -280,7 +280,7 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "districts13-lexington-split",
       startAge: 34,
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       questionnaire: "skipped" as const,
     };
     // The join itself still claims nothing for a split city: Lexington-Fayette

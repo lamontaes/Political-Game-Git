@@ -2254,6 +2254,13 @@ function PlayingScreen({
     });
     if (entry.kind === "unavailable") {
       setFloorNote(entry.reason);
+      const docket = document.querySelector<HTMLElement>(
+        '[data-testid="docket"]',
+      );
+      docket?.scrollIntoView({ block: "start" });
+      docket
+        ?.querySelector<HTMLElement>("input, select, button")
+        ?.focus({ preventScroll: true });
       return;
     }
     setFloorNote(null);

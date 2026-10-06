@@ -45,7 +45,7 @@ function newLife(overrides: Partial<NewGameSetup> = {}): {
   const created = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     questionnaire: "skipped",
     priors: [],
     seed: "p2r2-sustained",

@@ -39,7 +39,7 @@ import {
 describe("PLAYTEST34 C contracts", () => {
   it("does not charge ordinary talk lines", () => {
     const created = createExplicitGeographyLife({
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       seed: "pt34-c-talk-time",
       startAge: 16,
       household: "shares-a-home",
@@ -71,7 +71,7 @@ describe("PLAYTEST34 C contracts", () => {
 
   it("advances a simulated day through the existing time contract", () => {
     const created = createExplicitGeographyLife({
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       seed: "pt34-c-calendar-day",
       startAge: 34,
     });
@@ -87,7 +87,7 @@ describe("PLAYTEST34 C contracts", () => {
 
   it("keeps talk, contact, meet, and travel as separate capabilities", () => {
     const created = createExplicitGeographyLife({
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       seed: "pt34-c-contact",
       startAge: 16,
       household: "shares-a-home",
@@ -128,7 +128,7 @@ describe("PLAYTEST34 C contracts", () => {
 
   it("lets Talk follow openConversationWith outside an opening scene", () => {
     const created = createExplicitGeographyLife({
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       seed: "pt34-c-talk-gate",
       startAge: 16,
       household: "shares-a-home",
@@ -179,7 +179,7 @@ describe("PLAYTEST34 C contracts", () => {
 
   it("refuses unauthorized calendar simulation without moving time", () => {
     const created = createExplicitGeographyLife({
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       seed: "pt34-c-simulate-gate",
       startAge: 34,
     });

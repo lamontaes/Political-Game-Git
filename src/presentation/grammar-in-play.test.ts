@@ -29,7 +29,7 @@ describe("the grammar layer where the player reads it", () => {
         const game = createNewGameWorld({
           startKind: "custom",
           seed,
-          placeKey: "lexington-fayette",
+          placeKey: "2146027",
           startAge: 10,
           depth: "play-formative-years",
           startingLife: "ordinary-life",
