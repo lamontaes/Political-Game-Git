@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { addDays } from "../dates";
 import { hasHouseholdResidenceInJurisdiction } from "../life-queries";
 import { publicProgramRecordId } from "../public-program-integrity";
 import { applyPublicProgramCapacityOutturnReceivers } from "../public-program-capacity-outturn";
@@ -11,6 +10,7 @@ import {
   registrations,
 } from "./modules/civil-family-services";
 import { LAW_CONSEQUENCE_REGISTRATIONS } from "../law-consequence-registry";
+import { deserializeWorld, serializeWorld } from "../serialization";
 import type {
   EntityId,
   PublicProgramCapacityOutturnRecord,
@@ -67,7 +67,9 @@ function saveParkRecord(
     stableKey,
     sequence,
     kind,
-    programKey: "parks:service-area-test",
+    programKey:
+      (fields as { programKey?: string }).programKey ??
+      "parks:service-area-test",
     jurisdictionId,
     recordedAt: world.currentDate,
     eventId: eventWorld.history.events.at(-1)!.id,
@@ -88,7 +90,11 @@ function saveParkRecord(
 
 describe("parks law area effects", () => {
   it("lands only a law-linked saved improvement on addresses in the service area", () => {
-    const funded = fundedServiceFixture("US-AK", PARKS);
+    const funded = fundedServiceFixture(
+      "US-AK",
+      PARKS,
+      "parks:service-area-test",
+    );
     const before = (Object.keys(funded.world.people) as EntityId[]).filter(
       (personId) =>
         hasHouseholdResidenceInJurisdiction(
@@ -99,46 +105,30 @@ describe("parks law area effects", () => {
     );
     expect(before.length).toBeGreaterThan(0);
 
-    const sourceAppropriation = funded.world.history.publicProgramRecords!.find(
-      (record) => record.kind === "appropriation",
-    )!;
-    const appropriation = saveParkRecord(funded.world, "appropriation", {
-      accountOrganizationId: sourceAppropriation.accountOrganizationId,
-      amount: sourceAppropriation.amount,
-      availableFrom: funded.world.currentDate,
-      availableThrough: addDays(funded.world.currentDate, 30),
-      basis: sourceAppropriation.basis,
-      sourceMeasureId: funded.measureId,
-    });
-    const commitment = saveParkRecord(appropriation.world, "commitment", {
-      appropriationId: appropriation.record.id,
-      alternativeKey: "park-maintenance",
-      alternativeTitle: "Park maintenance",
-      decidedByPersonId: funded.personId,
-      authority: "Explicit saved test authority.",
-      recipientOrganizationId: funded.providerId,
-      installments: [
-        {
-          dueAt: funded.world.currentDate,
-          amount: sourceAppropriation.amount,
-          purpose: "maintenance",
-        },
-      ],
-      deliveryLeadDays: 1,
-    });
-    const sourceInstallment = funded.world.history.publicProgramRecords!.find(
-      (record) => record.kind === "installment",
-    )!;
-    const installment = saveParkRecord(commitment.world, "installment", {
-      commitmentId: commitment.record.id,
-      installmentIndex: 0,
-      status: "posted",
-      resourceFlowId: sourceInstallment.resourceFlowId,
-      reason: null,
-    });
-    const outturn = saveParkRecord(installment.world, "capacity-outturn", {
-      commitmentId: commitment.record.id,
-      installmentId: installment.record.id,
+    const records = funded.world.history.publicProgramRecords!;
+    const appropriation = records.find(
+      (record) =>
+        record.kind === "appropriation" &&
+        record.sourceMeasureId === funded.measureId,
+    );
+    if (appropriation?.kind !== "appropriation") throw new Error("fixture");
+    const commitmentRecord = records.find(
+      (record) =>
+        record.kind === "commitment" &&
+        record.appropriationId === appropriation.id,
+    );
+    if (commitmentRecord?.kind !== "commitment") throw new Error("fixture");
+    const installmentRecord = records.find(
+      (record) =>
+        record.kind === "installment" &&
+        record.commitmentId === commitmentRecord.id &&
+        record.status === "posted",
+    );
+    if (installmentRecord?.kind !== "installment") throw new Error("fixture");
+    const outturn = saveParkRecord(funded.world, "capacity-outturn", {
+      programKey: commitmentRecord.programKey,
+      commitmentId: commitmentRecord.id,
+      installmentId: installmentRecord.id,
       unitsOperational: 4,
       restoredUnits: 2,
       serviceLabel: "Park opening hours",
@@ -148,14 +138,11 @@ describe("parks law area effects", () => {
     const savedOutturn = outturn.record;
     expect(savedOutturn.kind).toBe("capacity-outturn");
     if (savedOutturn.kind !== "capacity-outturn") throw new Error("fixture");
-    if (commitment.record.kind !== "commitment") throw new Error("fixture");
     const worldWithOutturn = outturn.world;
-    const installmentRecord = installment.record;
-    if (installmentRecord.kind !== "installment") throw new Error("fixture");
     const reached = applyPublicProgramCapacityOutturnReceivers(
-      installment.world,
+      funded.world,
       worldWithOutturn,
-      commitment.record,
+      commitmentRecord,
       installmentRecord,
       localOutturnReceivers,
     );
@@ -178,7 +165,7 @@ describe("parks law area effects", () => {
       (row) => row.sourceRecordId === savedOutturn.id,
     )!;
     expect(areaExposure.stableKey).toContain(
-      `${savedOutturn.id}:${appropriation.record.id}:${funded.measureId}`,
+      `${savedOutturn.id}:${appropriation.id}:${funded.measureId}`,
     );
     expect(
       lawExposureSentence(reached, areaExposure.personId, areaExposure),
@@ -193,14 +180,28 @@ describe("parks law area effects", () => {
       applyPublicProgramCapacityOutturnReceivers(
         reached,
         reached,
-        commitment.record,
+        commitmentRecord,
         installmentRecord,
         localOutturnReceivers,
       ),
     ).toBe(reached);
 
+    const continued = deserializeWorld(serializeWorld(reached));
+    expect(continued.history.lawExposures).toEqual(
+      reached.history.lawExposures,
+    );
+    expect(
+      applyPublicProgramCapacityOutturnReceivers(
+        continued,
+        continued,
+        commitmentRecord,
+        installmentRecord,
+        localOutturnReceivers,
+      ),
+    ).toBe(continued);
+
     const zeroSaved = saveParkRecord(worldWithOutturn, "capacity-outturn", {
-      commitmentId: commitment.record.id,
+      commitmentId: commitmentRecord.id,
       installmentId: installmentRecord.id,
       unitsOperational: 0,
       restoredUnits: 0,
@@ -214,7 +215,7 @@ describe("parks law area effects", () => {
     const zeroReached = applyPublicProgramCapacityOutturnReceivers(
       worldWithOutturn,
       zeroSaved.world,
-      commitment.record,
+      commitmentRecord,
       installmentRecord,
       localOutturnReceivers,
     );
@@ -230,7 +231,7 @@ describe("parks law area effects", () => {
     ).toContain("closed is derived from the count");
 
     const unknownSaved = saveParkRecord(zeroSaved.world, "capacity-outturn", {
-      commitmentId: commitment.record.id,
+      commitmentId: commitmentRecord.id,
       installmentId: installmentRecord.id,
       unitsOperational: 4,
       restoredUnits: null,
@@ -244,7 +245,7 @@ describe("parks law area effects", () => {
     const unknownReached = applyPublicProgramCapacityOutturnReceivers(
       zeroSaved.world,
       unknownSaved.world,
-      commitment.record,
+      commitmentRecord,
       installmentRecord,
       localOutturnReceivers,
     );
@@ -257,7 +258,11 @@ describe("parks law area effects", () => {
   });
 
   it("writes nothing when no park service units changed", () => {
-    const funded = fundedServiceFixture("US-AK", PARKS);
+    const funded = fundedServiceFixture(
+      "US-AK",
+      PARKS,
+      "parks:service-area-test",
+    );
     const outturn: PublicProgramCapacityOutturnRecord = {
       id: "saved-outturn" as EntityId,
       stableKey: "saved-outturn",

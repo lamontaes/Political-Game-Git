@@ -219,6 +219,7 @@ export function appendProgram(
   jurisdictionId: EntityId,
   kind: PublicProgramRecord["kind"],
   fields: object,
+  selectedProgramKey = programKey,
 ) {
   const key = `test:program:${kind}:${world.history.nextSequence}`;
   const personId = procedure.playerPersonId;
@@ -249,7 +250,7 @@ export function appendProgram(
     id: publicProgramRecordId(next, key),
     stableKey: key,
     sequence: next.history.nextSequence,
-    programKey,
+    programKey: selectedProgramKey,
     jurisdictionId,
     recordedAt: next.currentDate,
     eventId: next.history.events.at(-1)!.id,
@@ -272,6 +273,7 @@ export function appendProgram(
 export function fundedServiceFixture(
   stateKey: string,
   keyOfQuestion = questionKey,
+  selectedProgramKey = programKey,
 ) {
   const jurisdiction = stateJurisdictionForKey(stateKey)!;
   let world: World = {
@@ -326,33 +328,45 @@ export function fundedServiceFixture(
     openingBalance: money(10_000, "USD"),
     provenance,
   });
-  let part = appendProgram(world, jurisdiction.id, "appropriation", {
-    accountOrganizationId: accountId,
-    amount: money(10_000, "USD"),
-    availableFrom: world.currentDate,
-    availableThrough: world.currentDate,
-    sourceMeasureId: measureId,
-    basis: { kind: "authored-fixture", note: provenance.note },
-  });
+  let part = appendProgram(
+    world,
+    jurisdiction.id,
+    "appropriation",
+    {
+      accountOrganizationId: accountId,
+      amount: money(10_000, "USD"),
+      availableFrom: world.currentDate,
+      availableThrough: world.currentDate,
+      sourceMeasureId: measureId,
+      basis: { kind: "authored-fixture", note: provenance.note },
+    },
+    selectedProgramKey,
+  );
   world = part.world;
   const appropriationId = part.record.id;
-  part = appendProgram(world, jurisdiction.id, "commitment", {
-    appropriationId,
-    alternativeKey: "recorded-trip",
-    alternativeTitle: "Operating support for the recorded trip",
-    decidedByPersonId: personId,
-    authority:
-      "Explicit authored test contract; not a live government decision.",
-    recipientOrganizationId: providerId,
-    installments: [
-      {
-        dueAt: world.currentDate,
-        amount: money(10_000, "USD"),
-        purpose: "operating",
-      },
-    ],
-    deliveryLeadDays: null,
-  });
+  part = appendProgram(
+    world,
+    jurisdiction.id,
+    "commitment",
+    {
+      appropriationId,
+      alternativeKey: "recorded-trip",
+      alternativeTitle: "Operating support for the recorded trip",
+      decidedByPersonId: personId,
+      authority:
+        "Explicit authored test contract; not a live government decision.",
+      recipientOrganizationId: providerId,
+      installments: [
+        {
+          dueAt: world.currentDate,
+          amount: money(10_000, "USD"),
+          purpose: "operating",
+        },
+      ],
+      deliveryLeadDays: null,
+    },
+    selectedProgramKey,
+  );
   world = part.world;
   const commitmentId = part.record.id,
     commitmentEventId = part.record.eventId;
@@ -387,13 +401,19 @@ export function fundedServiceFixture(
     note: "Actual fixture cash transfer, not service delivery.",
     provenance,
   });
-  part = appendProgram(world, jurisdiction.id, "installment", {
-    commitmentId,
-    installmentIndex: 0,
-    status: "posted",
-    resourceFlowId: flowId,
-    reason: null,
-  });
+  part = appendProgram(
+    world,
+    jurisdiction.id,
+    "installment",
+    {
+      commitmentId,
+      installmentIndex: 0,
+      status: "posted",
+      resourceFlowId: flowId,
+      reason: null,
+    },
+    selectedProgramKey,
+  );
   world = part.world;
   return {
     world,

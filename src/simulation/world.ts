@@ -2281,7 +2281,6 @@ function validateHistoryIntegrity(
   assertPressIntegrity(world, ids);
   for (const record of crisisRecords(world)) assertUniqueId(ids, record.id);
   assertCrisisIntegrity(world);
-  assertLawExposureIntegrity(world, ids);
   assertOfficialViewIntegrity(world, ids);
   assertLawPermissionIntegrity(world, ids);
   assertPermitIntegrity(world, ids);
@@ -2430,6 +2429,7 @@ function validateHistoryIntegrity(
   assertPersonnelIntegrity(world, ids);
   assertWorldSetupIntegrity(world, ids);
   assertPublicProgramIntegrity(world, ids);
+  assertLawExposureIntegrity(world, ids);
   assertEnactedDutyIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
