@@ -4,8 +4,11 @@ import type {
   LegacyEffectKind,
 } from "./law-consequence-types";
 import {
+  lawTermApplicabilitiesMatch,
+  lawTermApplicabilityKey,
   lawTermScopeKey,
   lawTermScopesMatch,
+  type LawTermApplicability,
   type LawTermScope,
 } from "./law-consequence-types";
 import type { LawEffectContext } from "./law-effect-stamp";
@@ -84,5 +87,43 @@ it("requires exact typed law-term scopes and canonicalizes charge-key sets", () 
       ...first,
       exceptionSetKey: "different-exceptions",
     }),
+  ).toBe(false);
+});
+
+it("matches explicit regional and place applicability without widening unknowns", () => {
+  const region: LawTermApplicability = {
+    kind: "census-regions",
+    regions: ["midwest", "west"],
+  };
+  expect(
+    lawTermApplicabilitiesMatch(region, {
+      kind: "census-regions",
+      regions: ["west", "midwest"],
+    }),
+  ).toBe(true);
+  expect(
+    lawTermApplicabilitiesMatch(region, {
+      kind: "census-regions",
+      regions: ["midwest"],
+    }),
+  ).toBe(false);
+  expect(lawTermApplicabilitiesMatch(region, undefined)).toBe(false);
+  expect(
+    lawTermApplicabilityKey({
+      kind: "census-regions",
+      regions: ["north"],
+    } as unknown as LawTermApplicability),
+  ).toBeNull();
+  expect(
+    lawTermApplicabilityKey({
+      kind: "place-set",
+      placeKeys: ["US-MI", "US-MI"],
+    }),
+  ).toBeNull();
+  expect(
+    lawTermApplicabilitiesMatch(
+      { kind: "place-set", placeKeys: ["US-MI"] },
+      { kind: "census-regions", regions: ["midwest"] },
+    ),
   ).toBe(false);
 });
