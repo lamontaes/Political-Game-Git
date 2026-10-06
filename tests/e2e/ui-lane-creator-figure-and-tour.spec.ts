@@ -3,6 +3,7 @@ import { expect, test, type Page } from "./fixtures";
 import { fillCreator } from "./support/creator";
 import { drawRandomPlace } from "../support/random-place";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
+import { creatorFaceIds } from "../../src/presentation/creator-face-choices";
 
 /*
  * Two things Lamontae saw on build 13a0757f.
@@ -70,6 +71,34 @@ async function reachRandomAppearance(page: Page) {
   });
   await expect(page.getByTestId("creator-engine-figure")).toBeVisible();
 }
+
+test(`a man gets the full face bank in a fresh ${MORNING_NOTE_PLACE.displayName} game (seed ${MORNING_NOTE_SEED})`, async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(180_000);
+  await freshBrowser(page);
+  await fillCreator(page, {
+    route: "normal",
+    age: 25,
+    gender: "male",
+    state: MORNING_NOTE_STATE_NAME,
+    place: MORNING_NOTE_PLACE.displayName,
+  });
+
+  const masculineFaces = creatorFaceIds("masculine");
+  const feminineFaces = creatorFaceIds("feminine");
+  expect(masculineFaces).toHaveLength(feminineFaces.length);
+  await expect(page.getByTestId("engine-appearance-face")).toContainText(
+    `of ${feminineFaces.length}`,
+  );
+
+  const screenshot = testInfo.outputPath("male-face-bank.png");
+  await page.screenshot({ path: screenshot, fullPage: false });
+  await testInfo.attach("male-face-bank", {
+    path: screenshot,
+    contentType: "image/png",
+  });
+});
 
 /** The whole figure shows: inside its column, above the action row. */
 async function expectWholeFigure(page: Page, height: number) {

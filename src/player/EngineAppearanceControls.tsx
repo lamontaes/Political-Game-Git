@@ -16,6 +16,7 @@ import {
 } from "../presentation/appearance-engine/face-extras";
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
 import { SKIN_RAMPS } from "../presentation/appearance-engine/skin";
+import { creatorFaceIds } from "../presentation/creator-face-choices";
 import "./creator-appearance.css";
 
 const PRESENTATIONS: readonly BodyPresentation[] = ["feminine", "masculine"];
@@ -105,8 +106,7 @@ export function EngineAppearanceControls({
 }) {
   const pack = PEOPLE_PACK.presentations[recipe.presentation];
   const outfit = packOutfit(pack, recipe.outfit);
-  const young = pack.faces.filter((f) => f.id.startsWith("20s30s-"));
-  const faceIds = (young.length > 0 ? young : pack.faces).map((f) => f.id);
+  const faceIds = creatorFaceIds(recipe.presentation);
   const currentFace =
     faceIds.find((id) => id.slice(-2) === recipe.face.slice(-2)) ?? faceIds[0]!;
   const shades = SKIN_RAMPS.map((_, index) => index + 1);

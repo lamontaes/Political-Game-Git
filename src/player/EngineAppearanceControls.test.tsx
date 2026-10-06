@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
 import { EngineAppearanceControls } from "./EngineAppearanceControls";
+import { creatorFaceIds } from "../presentation/creator-face-choices";
 import { creatorAppearanceDraft } from "../presentation/creator-appearance-preview";
 import { NORMAL_APPEARANCE_LIBRARY } from "./SavedAppearance";
 import { engineRecipeFor } from "../presentation/appearance-engine/recipe";
@@ -20,6 +21,16 @@ vi.mock(
 vi.mock("./EnginePerson", () => ({ EngineFigure: () => null }));
 
 describe("Creator presentation selector visibility", () => {
+  it("offers men the same breadth of face identities as women", () => {
+    const feminine = creatorFaceIds("feminine");
+    const masculine = creatorFaceIds("masculine");
+
+    expect(masculine).toHaveLength(feminine.length);
+    expect(masculine.length).toBeGreaterThan(1);
+    expect(new Set(masculine).size).toBe(masculine.length);
+    expect(new Set(feminine).size).toBe(feminine.length);
+  });
+
   it.each(["male", "female", "nonbinary"] as const)(
     "preserves %s setup and shows the body choice only when requested",
     (gender) => {
