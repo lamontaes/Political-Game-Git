@@ -1,6 +1,8 @@
 ---
 id: session1-main-prerequisites
-impact: none
+impact: patch
+section: Improved
+title: Education and city records use their locked source details.
 ---
 
-Source-only lint, formatting and test-type repairs; no player-visible behavior changes.
+Education choices now use published institution control, calendar, and location data. Charlottesville's government record includes its locked Virginia budget procedure.
