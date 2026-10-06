@@ -1,4 +1,3 @@
-import { ageOnDate } from "../dates";
 import {
   LIVED_OUTCOME_REFLECTION_PREFIX,
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -56,6 +55,7 @@ import type {
   World,
 } from "../types";
 import { affiliationAt } from "./party-evolution";
+import { newsHabitOf } from "./news-habits";
 
 /**
  * People credit or blame the officials behind a law that reached them
@@ -113,7 +113,6 @@ const DISCUSSION_PARTNERS = 3;
 // SET BY HAND from Pew (2024): 35 percent of people 65 and older follow local
 // news very closely, against 9 percent at 18 to 29. From this age someone with
 // no job to go to has the time and the habit of the older news audience.
-const RETIREMENT_AGE = 65;
 // SET BY HAND: what someone else went through moves a view as much as the
 // hearer cares about the teller. People feel more for those they are closer to
 // (Cialdini and others, 1997), so a strong tie passes on half of it, a marked
@@ -333,18 +332,7 @@ export function knowsVote(
  * news audience.
  */
 export function followsNewsClosely(world: World, personId: EntityId): boolean {
-  const person = world.people[personId];
-  if (!person) return false;
-  const curiosity = latestPersonalityTendency(
-    world,
-    personId,
-    SYNTHETIC_MIND_IDS.tendencies.curiosity,
-  )?.expressionKey;
-  if (curiosity === "curious") return true;
-  return (
-    ageOnDate(person.birthDate, world.currentDate) >= RETIREMENT_AGE &&
-    activeWorkRelationshipsAt(world, personId).length === 0
-  );
+  return newsHabitOf(world, personId).followsClosely;
 }
 
 /**
