@@ -83,10 +83,7 @@ export function MacroConditionsPanel({
         data-testid="pg-macro-conditions-unavailable"
       >
         <h4 id="pg-macro-conditions-title">This world&rsquo;s economy</h4>
-        <p>
-          This life began before the world kept its own economic history, so
-          there are no national conditions to show. Nothing has been filled in.
-        </p>
+        <p data-problem="no-world-economic-history" />
       </section>
     );
   }
@@ -100,14 +97,14 @@ export function MacroConditionsPanel({
     >
       <h4 id="pg-macro-conditions-title">This world&rsquo;s economy</h4>
       {model.startingConditions ? (
-        <p className="pg-macro-conditions-start">
-          At the start of this life (
-          {proseDate(model.startingConditions.effectiveDate)}) unemployment
-          stood near {model.startingConditions.unemploymentPct.toFixed(1)}% and
-          prices were rising about{" "}
-          {model.startingConditions.inflation12mPct.toFixed(1)}% a year. These
-          are starting conditions, not released figures.
-        </p>
+        <dl className="pg-macro-conditions-start" data-basis="starting">
+          <dt>Date</dt>
+          <dd>{proseDate(model.startingConditions.effectiveDate)}</dd>
+          <dt>Unemployment</dt>
+          <dd>{model.startingConditions.unemploymentPct.toFixed(1)}%</dd>
+          <dt>Prices, 12 months</dt>
+          <dd>{model.startingConditions.inflation12mPct.toFixed(1)}%</dd>
+        </dl>
       ) : null}
       <ul className="pg-macro-card-grid">
         {model.cards.map((card) => (

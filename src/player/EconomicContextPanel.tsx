@@ -84,10 +84,7 @@ export function EconomicContextPanel({
         if (current) {
           setState({
             status: "error",
-            message:
-              error instanceof Error
-                ? error.message
-                : "Economic context could not be loaded.",
+            message: error instanceof Error ? error.message : "load-failed",
           });
         }
       });
@@ -99,7 +96,7 @@ export function EconomicContextPanel({
   if (state.status === "loading") {
     return (
       <section className="economic-context-panel" aria-busy="true">
-        <p>Looking up the numbers for this place…</p>
+        <p data-problem="loading" />
       </section>
     );
   }
@@ -115,13 +112,13 @@ export function EconomicContextPanel({
       return (
         <section className="economic-context-panel" role="status">
           <h2>Economic context unavailable</h2>
-          <p>{state.message}</p>
+          <p data-problem="load-failed" data-detail={state.message} />
         </section>
       );
     return (
       <section className="economic-context-panel" role="status">
         <h2>Figures unavailable</h2>
-        <p>The figures for this place aren&apos;t available right now.</p>
+        <p data-problem="figures-unavailable" />
       </section>
     );
   }
@@ -202,10 +199,7 @@ export function EconomicContextView({
       </header>
 
       {diagnostics ? (
-        <p className="economic-context-boundary">
-          These are sourced observations known by this date—not simulated
-          history or a forecast of what a proposal will do.
-        </p>
+        <p className="economic-context-boundary" data-basis="observed" />
       ) : null}
 
       {/*
@@ -239,10 +233,7 @@ export function EconomicContextView({
           data-testid="economic-carried"
         >
           <h3>Where things stand now</h3>
-          <p className="game-note">
-            These have moved with prices, output and jobs in this world since
-            the time each one started from.
-          </p>
+          <p className="game-note" data-basis="carried-forward" />
           <ul>
             {carried.map((figure) => (
               <li key={figure.key}>{carriedLocalFigureLine(figure)}</li>
@@ -262,24 +253,15 @@ export function EconomicContextView({
           ))}
         </div>
       ) : (
-        <p role="status">
-          {context.withheldFutureObservationCount > 0
-            ? /*
-               * "Nothing has been published for this date yet" was false, and
-               * falsely reassuring: figures for this place are recorded and
-               * are being held back, because the only date the locked products
-               * establish for them is the day the game fetched them, not the
-               * day their publisher released them. So on an ordinary opening
-               * day every real number sits behind that date and the screen
-               * said there was nothing. Say what is actually happening.
-               */
-              `${context.withheldFutureObservationCount} ${
-                context.withheldFutureObservationCount === 1
-                  ? "figure is"
-                  : "figures are"
-              } recorded for this place, and none is known to have come out by this date, so none is shown yet.`
-            : "No figures for this place reach this date yet."}
-        </p>
+        <p
+          role="status"
+          data-problem={
+            context.withheldFutureObservationCount > 0
+              ? "figures-withheld"
+              : "no-figures"
+          }
+          data-withheld-count={context.withheldFutureObservationCount}
+        />
       )}
 
       {!hasRent && !diagnostics && stateFips ? (
@@ -316,10 +298,6 @@ export function EconomicContextView({
               </li>
             ))}
           </ul>
-          <p>
-            Reference periods, product vintages, release dates, retrieval dates,
-            and the simulation date remain separate. Missing data stays missing.
-          </p>
         </details>
       ) : null}
     </section>
@@ -621,10 +599,7 @@ function EstimatedRent({ stateFips }: { readonly stateFips: string }) {
     <figure className="economic-graph" data-testid="economic-rent-estimate">
       <figcaption>
         <strong>Two-bedroom rent</strong>
-        <span>
-          Estimated from the average for this state; this place has no figure of
-          its own.
-        </span>
+        <span data-basis="ESTIMATED FROM AVERAGE">State average</span>
       </figcaption>
       <p className="economic-graph-latest">
         {`About ${new Intl.NumberFormat("en-US", {

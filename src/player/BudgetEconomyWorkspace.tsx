@@ -91,11 +91,10 @@ export function BudgetEconomyWorkspace({
           aria-label="Economic graph availability"
         >
           <h4>Dated economic graphs</h4>
-          <p data-testid="economic-binding-unavailable">
-            No reviewed economic source binding is available for this exact
-            place. Figures from another city, county, metro, or state have not
-            been substituted.
-          </p>
+          <p
+            data-testid="economic-binding-unavailable"
+            data-problem="no-binding"
+          />
           {model.fiscalGraphs.length > 0 ? (
             <div className="economic-graph-grid">
               {model.fiscalGraphs.map((graph) => (

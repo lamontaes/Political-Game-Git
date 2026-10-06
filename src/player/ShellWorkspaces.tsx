@@ -16,10 +16,7 @@ import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
 import { TownBusinessesPanel } from "./TownBusinessesPanel";
-import {
-  economicContextBindingForPlace,
-  economicContextUnavailableReason,
-} from "../presentation/economic-context-bindings";
+import { economicContextBindingForPlace } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
@@ -1662,7 +1659,6 @@ export function PersonalFinancesWorkspace({
           {record.purses.map((purse) => (
             <li key={purse.kind} data-purse={purse.kind}>
               <strong>{purse.label}</strong>
-              <small>{purse.ownerNote}</small>
               {purse.balance ? (
                 <span data-testid={`purse-balance-${purse.kind}`}>
                   {dollars(purse.balance)}
@@ -1671,9 +1667,8 @@ export function PersonalFinancesWorkspace({
                 <span
                   className="game-note"
                   data-testid={`purse-absent-${purse.kind}`}
-                >
-                  {purse.absence}
-                </span>
+                  data-problem="no-balance-on-record"
+                />
               )}
             </li>
           ))}
@@ -1726,9 +1721,12 @@ export function PersonalFinancesWorkspace({
             jurisdictionId={economicJurisdictionId}
           />
         ) : economicPlace ? (
-          <p className="game-note" data-testid="economic-context-unavailable">
-            {economicContextUnavailableReason(economicPlace.key)}
-          </p>
+          <p
+            className="game-note"
+            data-testid="economic-context-unavailable"
+            data-problem="no-county-area"
+            data-place={economicPlace.key}
+          />
         ) : null}
         {economicPlace ? (
           <TownBusinessesPanel
