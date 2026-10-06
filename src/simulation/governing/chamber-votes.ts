@@ -243,6 +243,8 @@ export type ChamberNominationVoteInput = ChamberNominationVoteCommonInput &
       }
     | {
         readonly nominationKind: "executive-appointment";
+        readonly appointerId: EntityId;
+        readonly jurisdictionId: EntityId;
         readonly postOfficeKey: string;
         readonly seatOrdinal: number;
         readonly vacancyEventId: EntityId;
@@ -637,6 +639,43 @@ function nominationVoteContext(
     const trace = world.history.decisionTraces.find(
       (row) => row.id === input.appointmentDecisionTraceId,
     );
+    const sourceTag = event?.tags.find((tag) =>
+      tag.startsWith("source-event:"),
+    );
+    const decisionId = sourceTag?.slice("source-event:".length);
+    const decision = world.history.events.find((row) => row.id === decisionId);
+    const vacancyCauseTag = vacancy?.tags.find((tag) =>
+      tag.startsWith("vacancy-cause:"),
+    );
+    const vacancyCause = vacancyCauseTag?.slice("vacancy-cause:".length);
+    const vacancySourceTag = vacancy?.tags.find((tag) =>
+      tag.startsWith("source-event:"),
+    );
+    const vacancySourceId = vacancySourceTag?.slice("source-event:".length);
+    const vacancySource = world.history.events.find(
+      (row) => row.id === vacancySourceId,
+    );
+    const incumbentPersonId = incumbentTerm?.participants.find(
+      (row) => row.role === "focus:subject",
+    )?.personId;
+    const incumbentTermEnd = incumbentTerm?.tags
+      .find((tag) => tag.startsWith("term-end:"))
+      ?.slice("term-end:".length);
+    const latestSeatRecord = world.history.events
+      .filter(
+        (row) =>
+          (row.type === "world.office-tenure" ||
+            row.type === FEDERAL_VACANCY_EVENT) &&
+          row.tags.includes(`appointment-post:${input.postOfficeKey}`) &&
+          row.tags.includes(`appointment-seat:${input.seatOrdinal}`) &&
+          row.occurredAt <= (event?.occurredAt ?? world.currentDate) &&
+          row.recordedAt <= (event?.recordedAt ?? world.currentDate),
+      )
+      .reduce<(typeof world.history.events)[number] | null>(
+        (latest, row) =>
+          !latest || row.sequence > latest.sequence ? row : latest,
+        null,
+      );
     const matterTag = event?.tags.find((tag) =>
       tag.startsWith("appointment-matter:"),
     );
@@ -644,11 +683,13 @@ function nominationVoteContext(
     const matter = world.history.events.find((row) => row.id === matterId);
     if (
       !event ||
+      event.visibility !== "public" ||
       event.recordedAt > world.currentDate ||
       event.occurredAt > world.currentDate ||
       event.type !== "executive.appointment-nominated" ||
-      !event.jurisdictionId ||
-      !world.jurisdictions[event.jurisdictionId] ||
+      event.jurisdictionId !== input.jurisdictionId ||
+      !world.jurisdictions[input.jurisdictionId] ||
+      !world.people[input.appointerId] ||
       !world.people[input.nomineeId] ||
       !Number.isInteger(input.seatOrdinal) ||
       input.seatOrdinal < 1 ||
@@ -662,8 +703,7 @@ function nominationVoteContext(
       ) ||
       !event.participants.some(
         (row) =>
-          row.role === "agency:appointer" &&
-          row.personId === trace?.context.actorPersonId,
+          row.role === "agency:appointer" && row.personId === input.appointerId,
       ) ||
       !event.participants.some(
         (row) =>
@@ -674,27 +714,84 @@ function nominationVoteContext(
       vacancy.sequence >= event.sequence ||
       vacancy.recordedAt > event.recordedAt ||
       vacancy.occurredAt > event.occurredAt ||
-      !vacancy.tags.includes(`office:${input.postOfficeKey}`) ||
+      !vacancy.tags.includes(
+        `office:${input.postOfficeKey}:seat:${input.seatOrdinal}`,
+      ) ||
+      !vacancy.tags.includes(`appointment-post:${input.postOfficeKey}`) ||
+      !vacancy.tags.includes(`appointment-seat:${input.seatOrdinal}`) ||
       !vacancy.tags.includes(
         `appointment-term:${input.incumbentTermEventId}`,
       ) ||
-      !vacancy.tags.some((tag) => tag.startsWith("vacancy-cause:")) ||
+      latestSeatRecord?.id !== vacancy.id ||
+      !["term-expired", "death", "resignation"].includes(vacancyCause ?? "") ||
       !incumbentTerm ||
+      incumbentTerm.type !== "world.office-tenure" ||
       incumbentTerm.sequence >= vacancy.sequence ||
       incumbentTerm.recordedAt > vacancy.recordedAt ||
       incumbentTerm.occurredAt > vacancy.occurredAt ||
+      !incumbentTerm.tags.includes(`appointment-post:${input.postOfficeKey}`) ||
+      !incumbentTerm.tags.includes(`appointment-seat:${input.seatOrdinal}`) ||
       !incumbentTerm.participants.some(
         (row) =>
           row.role === "focus:subject" &&
           vacancy.involvedEntityIds.includes(row.personId),
       ) ||
+      !vacancySource ||
+      vacancySource.sequence >= vacancy.sequence ||
+      vacancySource.recordedAt > vacancy.recordedAt ||
+      vacancySource.occurredAt > vacancy.occurredAt ||
+      !incumbentPersonId ||
+      (vacancyCause === "term-expired" &&
+        (vacancySource.id !== incumbentTerm.id ||
+          !incumbentTermEnd ||
+          incumbentTermEnd > vacancy.occurredAt)) ||
+      (vacancyCause === "death" &&
+        !world.history.personDeaths.some(
+          (death) =>
+            death.personId === incumbentPersonId &&
+            death.eventId === vacancySource.id &&
+            death.diedAt <= vacancy.occurredAt,
+        )) ||
+      (vacancyCause === "resignation" &&
+        (vacancySource.type !== "world.office-resignation" ||
+          !vacancySource.tags.includes(
+            `appointment-term:${input.incumbentTermEventId}`,
+          ) ||
+          !vacancySource.participants.some(
+            (row) =>
+              row.personId === incumbentPersonId && row.role === "focus:actor",
+          ))) ||
+      !decision ||
+      decision.type !== "governing.matter-decided" ||
+      decision.sequence >= event.sequence ||
+      decision.recordedAt > event.recordedAt ||
+      !matter ||
+      !decision.tags.includes(`matter:${matter.id}`) ||
+      !decision.tags.includes(`choice:person:${input.nomineeId}`) ||
+      matter.sequence >= decision.sequence ||
+      matter.recordedAt > decision.recordedAt ||
+      matter.occurredAt > decision.occurredAt ||
+      !decision.participants.some(
+        (row) =>
+          row.role === "agency:decider" && row.personId === input.appointerId,
+      ) ||
       !trace ||
       trace.id !== input.appointmentDecisionTraceId ||
+      trace.stableKey !== `appointments-v1:${matter.stableKey}:choose:trace` ||
+      trace.context.decisionType !== "appointment.choose-appointee" ||
+      trace.context.actorPersonId !== input.appointerId ||
+      trace.context.subject.key !== input.postOfficeKey ||
       trace.sequence >= event.sequence ||
+      trace.sequence >= decision.sequence ||
       trace.recordedAt > event.recordedAt ||
+      trace.recordedAt > decision.recordedAt ||
       !world.people[trace.context.actorPersonId] ||
       trace.selectedOptionKey !== `person:${input.nomineeId}` ||
-      !matter ||
+      !trace.sourceSnapshots.some(
+        (snapshot) =>
+          snapshot.reference.kind === "historical-event" &&
+          snapshot.reference.eventId === matter.id,
+      ) ||
       matter.type !== "governing.matter-opened" ||
       matter.sequence >= event.sequence ||
       matter.recordedAt > event.recordedAt
