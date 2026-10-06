@@ -1,3 +1,4 @@
+import "../../src/simulation";
 import { test, expect } from "./fixtures";
 import { drawRandomPlace } from "../support/random-place";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
