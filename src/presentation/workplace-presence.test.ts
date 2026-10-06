@@ -63,7 +63,7 @@ function fixture() {
       provenance,
       initialProfile: {
         name: key,
-        classification: "business:professional-services",
+        classification: "custom:fixture-employer",
         locationJurisdictionId: town,
       },
     });
@@ -89,6 +89,7 @@ function fixture() {
       provenance,
       initialRole: {
         title: "Policy assistant",
+        occupationClassification: "occupation:policy-analyst",
         locationJurisdictionId: town,
         timeDemand: {
           expectedWeekly: { minimumHours: 40, maximumHours: 40 },
