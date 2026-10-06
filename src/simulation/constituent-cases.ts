@@ -3,10 +3,18 @@ import {
   activeWorkRelationshipsAt,
 } from "./life-queries";
 import { lifeOpportunityTag } from "./life-opportunities";
-import { evaluateDecision, isSelectedDecision, recordDurableDecisionTrace } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { currentOfficeWorkflowPreference } from "./office-workflow";
-import { defaultCaseHandlerRole, constituentCasesForOffice, routeConstituentCase } from "./constituent-case-routing";
+import {
+  defaultCaseHandlerRole,
+  constituentCasesForOffice,
+  routeConstituentCase,
+} from "./constituent-case-routing";
 import type { EntityId, HistoricalEvent, World } from "./types";
 import { recordWorldEvent } from "./world";
 import { scheduleConstituentCaseReflection } from "./law-exposure";
