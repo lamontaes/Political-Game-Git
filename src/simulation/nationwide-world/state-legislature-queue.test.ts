@@ -385,32 +385,37 @@ it("bootstraps dated clock once and preserves an unchanged day's people/history 
   );
 });
 
-it("installs a random state's intake before canonical multi-day midnight resolution", () => {
-  const prepared = prepareStateLegislatureClock(original);
-  const wake = stateLegislatureWakePlan(prepared, packId, 2025).find(
-    (p) => p.stage === "intake",
-  )!;
-  expect(wake).toBeDefined();
-  const start = at(
-    deserializeWorld(serializeWorld(prepared)),
-    addDays(wake.dueAt, -1),
-  );
-  const actual = advanceWorld(start, 2);
-  const item = actual.history.futureDueItems.find((i) => {
-    if (
-      i.transitionKey !== STATE_LEGISLATURE_WAKE_TRANSITION ||
-      i.dueAt !== wake.dueAt
-    )
-      return false;
-    const saved = readStateLegislatureSavedWake(i);
-    return saved.packId === packId && saved.stage === "intake";
-  });
-  expect(item).toBeDefined();
-  expect(
-    futureDueItemStateAt(actual, item!.id, {
-      asOfDate: actual.currentDate,
-      historySequenceExclusive: actual.history.nextSequence,
-    })?.status,
-  ).toBe("resolved");
-  expect(actual.currentDate).toBe(addDays(wake.dueAt, 1));
-});
+it.each(["prepared-save", "old-save-without-wakes"] as const)(
+  "installs a random state's intake before canonical multi-day midnight resolution: %s",
+  (origin) => {
+    const prepared = prepareStateLegislatureClock(original);
+    const wake = stateLegislatureWakePlan(prepared, packId, 2025).find(
+      (p) => p.stage === "intake",
+    )!;
+    expect(wake).toBeDefined();
+    const start = at(
+      deserializeWorld(
+        serializeWorld(origin === "prepared-save" ? prepared : original),
+      ),
+      addDays(wake.dueAt, -1),
+    );
+    const actual = advanceWorld(start, 2);
+    const item = actual.history.futureDueItems.find((i) => {
+      if (
+        i.transitionKey !== STATE_LEGISLATURE_WAKE_TRANSITION ||
+        i.dueAt !== wake.dueAt
+      )
+        return false;
+      const saved = readStateLegislatureSavedWake(i);
+      return saved.packId === packId && saved.stage === "intake";
+    });
+    expect(item).toBeDefined();
+    expect(
+      futureDueItemStateAt(actual, item!.id, {
+        asOfDate: actual.currentDate,
+        historySequenceExclusive: actual.history.nextSequence,
+      })?.status,
+    ).toBe("resolved");
+    expect(actual.currentDate).toBe(addDays(wake.dueAt, 1));
+  },
+);
