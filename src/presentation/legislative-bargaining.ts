@@ -18,6 +18,11 @@ import {
   recordDurableDecisionTrace,
   recordLegislativeCommitment,
   recordLegislativeNegotiation,
+  favorStandingBetween,
+  recordFavor,
+  measurePosition,
+  recordClaim,
+  feltDebtConsiderations,
 } from "../simulation";
 import type {
   ClaimAudience,
@@ -81,7 +86,13 @@ export const LEGISLATIVE_BARGAINING_INTENTS = [
   "ask-for-analysis",
   "offer-private-inducement",
   "remind-of-commitment",
+  "offer-endorsement",
+  "warn",
+  "call-in-favor",
 ] as const;
+
+/** A political threat is distinct from a personal inducement or vote trade. */
+const WARN_EXCHANGE_CHARACTER: LegislativeExchangeCharacter = "pressure";
 
 export type LegislativeBargainingIntent =
   (typeof LEGISLATIVE_BARGAINING_INTENTS)[number];
@@ -118,15 +129,37 @@ export interface BargainingCommitmentConsequence {
  */
 function finalPassageQuestion(
   facts: LegislativeBargainingSubjectFacts,
+  measureId: EntityId = facts.measureId,
 ): LegislativeQuestionIdentity {
   return {
-    measureId: facts.measureId,
+    measureId,
     purpose: "floor-stage",
     forumKey: null,
     floorStageKey: null,
     amendmentStableKey: null,
     provisionKey: null,
   };
+}
+
+/** The colleague's own first measure still before a legislative body. */
+function pendingMeasureFromSponsor(world: World, sponsorPersonId: EntityId) {
+  return (world.history.legislativeMeasures ?? []).find((measure) => {
+    if (measure.sponsorPersonId !== sponsorPersonId) return false;
+    const position = measurePosition(world, measure.id);
+    return !position.terminal && position.phase !== "drafting";
+  });
+}
+
+function nextRecordedRace(world: World, personId: EntityId) {
+  return (world.history.electionContests ?? [])
+    .filter(
+      (contest) =>
+        contest.electionDate > world.currentDate &&
+        contest.candidatePersonIds.includes(personId),
+    )
+    .sort((left, right) =>
+      left.electionDate.localeCompare(right.electionDate),
+    )[0];
 }
 
 export interface BargainingNegotiationConsequence {
@@ -141,6 +174,21 @@ export interface BargainingNegotiationConsequence {
 export interface BargainingConsequence {
   readonly negotiation: BargainingNegotiationConsequence | null;
   readonly commitment: BargainingCommitmentConsequence | null;
+  readonly additionalCommitments?: readonly BargainingCommitmentConsequence[];
+  readonly favor?: {
+    readonly giverPersonId: EntityId;
+    readonly receiverPersonId: EntityId;
+    readonly kind: `political:${string}`;
+    readonly inReturnForFavorId: EntityId | null;
+    readonly subject:
+      | { readonly kind: "none" }
+      | { readonly kind: "measure"; readonly measureId: EntityId };
+    readonly description: string;
+  } | null;
+  readonly claim?: {
+    readonly speakerPersonId: EntityId;
+    readonly statement: string;
+  } | null;
   readonly decisionTraceId: EntityId | null;
 }
 
@@ -265,6 +313,33 @@ export function availableBargainingIntents(
     });
   }
 
+  const nextRace = nextRecordedRace(world, addressee);
+  if (nextRace) {
+    options.push({
+      key: "offer-endorsement",
+      label: `Offer to endorse ${name} in their ${nextRace.office.title} race`,
+      description: `Put your public endorsement in ${name}'s recorded race if they support ${facts.designation}.`,
+    });
+  }
+
+  const owed = favorStandingBetween(world, addressee, room.playerPersonId);
+  if (owed.receiverDebt !== "none" && owed.openFavorIds.length > 0) {
+    options.push({
+      key: "call-in-favor",
+      label: `Call in a favor from ${name}`,
+      description: `Ask ${name} to answer the outstanding favor by supporting ${facts.designation}.`,
+    });
+  }
+
+  const threatenedMeasure = pendingMeasureFromSponsor(world, addressee);
+  if (threatenedMeasure) {
+    options.push({
+      key: "warn",
+      label: `Warn ${name} you will oppose ${threatenedMeasure.designation}`,
+      description: `Tell ${name} you will oppose their recorded pending measure if they oppose ${facts.designation}.`,
+    });
+  }
+
   // Deliberately available, deliberately private, and deliberately useless.
   // The game refuses to pretend an offer of personal benefit is the same act as
   // asking for an amendment, so it is a move you can make and never a move that
@@ -356,6 +431,133 @@ export function resolveBargainingResponse(
       isAdvocate,
       audience,
     });
+  }
+
+  if (
+    input.intent === "offer-endorsement" ||
+    input.intent === "call-in-favor" ||
+    input.intent === "warn"
+  ) {
+    const answer = decide(world, {
+      ...input,
+      intent: "request-support",
+      speaker,
+      isAdvocate,
+      audience,
+    });
+    const accepted = answer.outcome === "commitment-offered";
+    const endorsementRace =
+      input.intent === "offer-endorsement"
+        ? nextRecordedRace(world, speakerPersonId)
+        : null;
+    if (input.intent === "offer-endorsement" && !endorsementRace) {
+      throw new Error("An endorsement needs a recorded upcoming race.");
+    }
+    const negotiation: BargainingNegotiationConsequence = {
+      initiatorPersonId: playerPersonId,
+      counterpartyPersonId: speakerPersonId,
+      character:
+        input.intent === "offer-endorsement"
+          ? "reciprocal-support"
+          : input.intent === "warn"
+            ? WARN_EXCHANGE_CHARACTER
+            : "coalition-coordination",
+      request:
+        input.intent === "offer-endorsement"
+          ? `Offered a public endorsement of ${personName(speaker)} in ${endorsementRace!.office.title} for support on ${facts.designation}.`
+          : input.intent === "call-in-favor"
+            ? `Called in a favor and asked ${personName(speaker)} to support ${facts.designation}.`
+            : `Warned ${personName(speaker)} that opposition to ${facts.designation} will have a recorded political consequence.`,
+      disposition: accepted ? "accepted" : "deferred",
+      provisionKey: null,
+    };
+    const endorsementCondition: LegislativeCommitmentCondition = {
+      key: `${facts.measureStableKey}:endorsement:${speakerPersonId}`,
+      kind: "endorsement-given",
+      favorStableKey: `bargaining:${input.turnKey}:endorsement`,
+      giverPersonId: playerPersonId,
+      receiverPersonId: speakerPersonId,
+      description: `The promised endorsement of ${personName(speaker)} is given and recorded.`,
+    };
+    const threatenedMeasure =
+      input.intent === "warn"
+        ? pendingMeasureFromSponsor(world, speakerPersonId)
+        : null;
+    if (input.intent === "warn" && !threatenedMeasure) {
+      throw new Error("A warning needs a recorded pending measure to name.");
+    }
+    const threatStatement = threatenedMeasure
+      ? `If ${personName(speaker)} opposes ${facts.designation}, I will oppose ${threatenedMeasure.designation}.`
+      : null;
+    const additionalCommitments: BargainingCommitmentConsequence[] =
+      input.intent === "offer-endorsement"
+        ? [
+            {
+              holderPersonId: playerPersonId,
+              stance: "support-if",
+              firmness: "qualified",
+              conditions: [endorsementCondition],
+              question: finalPassageQuestion(facts),
+              questionLabel: `Final passage of ${facts.designation}`,
+            },
+          ]
+        : input.intent === "warn"
+          ? [
+              {
+                holderPersonId: playerPersonId,
+                stance: "oppose-if",
+                firmness: "explicit",
+                conditions: [
+                  {
+                    key: `${facts.measureStableKey}:opposition-by:${speakerPersonId}`,
+                    kind: "counterparty-opposed",
+                    counterpartyPersonId: speakerPersonId,
+                    triggerMeasureId: facts.measureId,
+                    description: `${personName(speaker)} votes against ${facts.designation}.`,
+                  },
+                ],
+                question: finalPassageQuestion(facts, threatenedMeasure!.id),
+                questionLabel: `Final passage of ${threatenedMeasure!.designation}`,
+              },
+            ]
+          : [];
+    const owed =
+      input.intent === "call-in-favor"
+        ? favorStandingBetween(world, speakerPersonId, playerPersonId)
+        : null;
+    const openFavor = owed?.openFavorIds.at(-1) ?? null;
+    return {
+      ...answer,
+      outcome: accepted ? "proposal-accepted" : "proposal-refused",
+      perception: accepted
+        ? `${personName(speaker)} accepted the offer and put support on the record.`
+        : `${personName(speaker)} heard the offer and did not commit.`,
+      consequence: {
+        ...answer.consequence,
+        negotiation,
+        additionalCommitments,
+        ...(input.intent === "call-in-favor" && accepted && openFavor
+          ? {
+              favor: {
+                giverPersonId: speakerPersonId,
+                receiverPersonId: playerPersonId,
+                kind: "political:legislative-support",
+                inReturnForFavorId: openFavor,
+                subject: { kind: "measure", measureId: facts.measureId },
+                description: `supported ${facts.designation} in return for an earlier favor`,
+              },
+            }
+          : {}),
+        ...(input.intent === "warn" && threatStatement
+          ? {
+              claim: {
+                speakerPersonId: playerPersonId,
+                statement: threatStatement,
+              },
+            }
+          : {}),
+      },
+    };
   }
 
   switch (input.intent) {
@@ -756,6 +958,21 @@ export function recordBargainingConsequences(
 ): World {
   let next = world;
   const facts = input.progress.subjectFacts;
+  let playerClaimId: EntityId | null = null;
+  if (input.consequence.claim) {
+    const claim = input.consequence.claim;
+    next = recordClaim(next, {
+      stableKey: `${input.turnKey}:player-threat-claim`,
+      speakerPersonId: claim.speakerPersonId,
+      eventId: input.eventId,
+      madeAt: next.currentDate,
+      audience: input.audience,
+      statement: claim.statement,
+      relationshipToTruth: "unknown",
+      provenance: { kind: "direct-record" },
+    });
+    playerClaimId = next.history.claims.at(-1)?.id ?? null;
+  }
   if (input.consequence.negotiation) {
     const negotiation = input.consequence.negotiation;
     next = recordLegislativeNegotiation(next, {
@@ -772,10 +989,16 @@ export function recordBargainingConsequences(
       decisionTraceId: input.consequence.decisionTraceId,
     });
   }
-  if (input.consequence.commitment) {
-    const commitment = input.consequence.commitment;
+  const commitments = [
+    ...(input.consequence.commitment ? [input.consequence.commitment] : []),
+    ...(input.consequence.additionalCommitments ?? []),
+  ];
+  for (const [index, commitment] of commitments.entries()) {
     next = recordLegislativeCommitment(next, {
-      stableKey: `${input.turnKey}:commitment`,
+      stableKey:
+        index === 0
+          ? `${input.turnKey}:commitment`
+          : `${input.turnKey}:commitment:${index}`,
       holderPersonId: commitment.holderPersonId,
       subject: {
         question: commitment.question,
@@ -787,19 +1010,44 @@ export function recordBargainingConsequences(
       audience: input.audience,
       eventId: input.eventId,
       claimId:
-        input.claimId !== null &&
-        commitment.holderPersonId !== undefined &&
-        isSpeakersOwnClaim(next, input.claimId, commitment.holderPersonId)
-          ? input.claimId
-          : null,
+        playerClaimId !== null &&
+        commitment.holderPersonId === input.consequence.claim?.speakerPersonId
+          ? playerClaimId
+          : input.claimId !== null &&
+              commitment.holderPersonId !== undefined &&
+              isSpeakersOwnClaim(next, input.claimId, commitment.holderPersonId)
+            ? input.claimId
+            : null,
       heardByPersonIds: input.listenerPersonIds,
-      statement: input.statement,
+      statement:
+        commitment.holderPersonId === input.consequence.claim?.speakerPersonId
+          ? input.consequence.claim.statement
+          : input.statement,
     });
     // The commitment just written is itself the evidence. A member's manner is
     // re-read from their own record here, where they acted, rather than when a
     // screen opened: looking at a room should not create a fact about the
     // people in it.
     next = conferBargainingManner(next, commitment.holderPersonId);
+  }
+  if (input.consequence.favor) {
+    const favor = input.consequence.favor;
+    next = recordFavor(next, {
+      stableKey: `bargaining:${input.turnKey}:${favor.kind.split(":")[1]}`,
+      giverPersonId: favor.giverPersonId,
+      receiverPersonId: favor.receiverPersonId,
+      kind: favor.kind,
+      description: favor.description,
+      givenAt: next.currentDate,
+      eventId: input.eventId,
+      subject: favor.subject,
+      motive: "trade",
+      weight: "moderate",
+      audience: input.audience,
+      witnessPersonIds: input.listenerPersonIds,
+      inReturnForFavorId: favor.inReturnForFavorId,
+      undertakingId: null,
+    });
   }
   return next;
 }
@@ -1172,6 +1420,16 @@ function bargainingConsiderations(
   const yes = input.intent === "request-support" ? "commit" : "take-the-offer";
   const no = "hold-off";
   const considerations: DecisionConsideration[] = [];
+
+  considerations.push(
+    ...feltDebtConsiderations(
+      world,
+      input.speakerPersonId,
+      input.room.playerPersonId,
+      "bargaining",
+      yes,
+    ),
+  );
 
   const adopted = currentProvisionByKey(
     world,

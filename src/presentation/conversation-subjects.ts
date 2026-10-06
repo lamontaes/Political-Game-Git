@@ -1225,6 +1225,12 @@ const COMMIT_CONTRACTS: Readonly<
         `The player put ${addresseeName}'s own words back in front of them.`,
       "offer-private-inducement": ({ addresseeName }) =>
         `The player offered ${addresseeName} a personal benefit, and it was refused.`,
+      "offer-endorsement": ({ addresseeName }) =>
+        `The player offered to endorse ${addresseeName}'s measure in return for support.`,
+      warn: ({ addresseeName }) =>
+        `The player warned ${addresseeName} about a political consequence for opposing the bill.`,
+      "call-in-favor": ({ addresseeName }) =>
+        `The player called in a favor from ${addresseeName} and asked for support.`,
       listen: () => "The player listened for the next relevant contribution.",
     }),
   },
