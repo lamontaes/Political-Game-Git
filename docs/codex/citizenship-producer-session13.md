@@ -21,3 +21,7 @@ The four other island areas lack observations in these ACS tables. They use the 
 ## Verification and publication
 
 Source compilation verifies the partition and hashes of all 3,222 counties. Focused regressions cover creation in all 56 jurisdictions, starting and appended people, private naturalization, same-day sequence, save/reload, future-date refusal, unknown old saves, unchanged identity/home reads, and citizenship duration. Recorded-transition fixtures are source proof, not a played naturalization or election route. No merge or build is authorized for this producer.
+
+Published source: draft [#2455](https://github.com/lamontaes/Political-Game-Git/pull/2455), source commit `1bd8916f88d27e8a2d51053fe0f4eb6170188af8`, based on main `f88508186b78f526ecf89a420b5fb584171e039a`. Thirteen targeted checks passed with ten skipped; all eight new citizenship cases ran. Configured application/Node typing passed, and changed-root typing found zero errors in twelve roots. The import checker separately reports 803 uncovered test files and zero unresolved imports. Lint, formatting, zero-dice, source compilation, four compiler tests, and the PR declaration range passed.
+
+The same-day source-reference failure was repaired and its receipt retained. The existing 16-opening birthday case timed out at 30 seconds on the candidate and exact main; its timeout was not raised. This auxiliary failure is not claimed as passing. All failed and terminal successful receipts are retained under `docs/codex/evidence/session13-citizenship/`.
