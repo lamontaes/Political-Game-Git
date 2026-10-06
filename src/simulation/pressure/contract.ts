@@ -23,6 +23,19 @@
 
 import type { EntityId, IsoDate } from "../types";
 
+/**
+ * Where the pressure sizes in `causes.ts`, `flows.ts` and `step.ts` come from.
+ * The base yearly outflow of 2 percent follows the Census Bureau's share of
+ * people who move to another state in a year (Current Population Survey, about
+ * 2 percent); the rest are game-scale sizes that no survey measures.
+ */
+export const PRESSURE_VALUES_PROVENANCE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "Census Bureau Current Population Survey yearly interstate mover share for the base outflow; game-scale sizes for the rest",
+} as const;
+
 export const PRESSURE_CONTRACT_VERSION = "pressure-layer/v1" as const;
 
 /** A public yearly event naming the largest movement between states. */
@@ -152,7 +165,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     status: "built",
     rule: "BLANKET: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to the pressure to leave, and each point below adds 0.02 to the pull to arrive. The economy records a place separately only after a disaster or public spending there, so most states read as the nation. On the town side, each point of the player's town's unemployment above the nation's adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Wages are not recorded.",
     where:
-      "src/simulation/pressure/causes.ts BLANKET_UNEMPLOYMENT_GAP_PRESSURE",
+      "src/simulation/pressure/causes.ts UNEMPLOYMENT_GAP_PRESSURE_ESTIMATE",
   },
   {
     key: "cause-job-loss",
@@ -266,7 +279,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects: "Pressure passing when nothing keeps feeding it.",
     status: "built",
     rule: "BLANKET: every pressure loses 25 percent of its level every quarter.",
-    where: "src/simulation/pressure/step.ts BLANKET_FADE_PER_QUARTER",
+    where: "src/simulation/pressure/step.ts FADE_PER_QUARTER_ESTIMATE",
   },
   {
     key: "state-flows",
