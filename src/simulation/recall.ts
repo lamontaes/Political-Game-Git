@@ -26,6 +26,7 @@ import { personName } from "./people";
 import { viewOfOfficial } from "./official-view-reads";
 import { isEligibleVoterIn } from "./issue-record";
 import { nextTownElection } from "./nationwide-world/town-election-calendar";
+import { askToSign } from "./candidate-petitions";
 import type {
   EntityId,
   FutureDueItem,
@@ -470,6 +471,92 @@ export function recallResidentViews(
   return { yes, no, registeredVoters, sourceRecordIds: [...sourceRecordIds] };
 }
 
+/** A recall petition records an actual ask and signature; views alone never count as signatures. */
+export function recallPetitionSignatures(
+  world: World,
+  petition: Pick<
+    RecallPetition,
+    "stableKey" | "jurisdictionId" | "targetPersonId" | "startedAt" | "closesAt"
+  >,
+): {
+  readonly signerPersonIds: readonly EntityId[];
+  readonly registeredVoters: number;
+  readonly sourceRecordIds: readonly EntityId[];
+} {
+  const signers = new Set<EntityId>();
+  const sourceRecordIds = new Set<EntityId>();
+  for (const event of world.history.events) {
+    if (
+      event.type !== "civic.petition-signed" ||
+      !event.tags.includes("civic:petition-ask") ||
+      !event.tags.includes(`petition:${petition.stableKey}`) ||
+      event.occurredAt < petition.startedAt ||
+      event.occurredAt > petition.closesAt
+    )
+      continue;
+    const signerId = event.participants.find(
+      (participant) => participant.role === "agency:signer",
+    )?.personId;
+    if (
+      !signerId ||
+      world.people[signerId]?.homeJurisdictionId !== petition.jurisdictionId ||
+      !isEligibleVoterIn(
+        world,
+        signerId,
+        petition.jurisdictionId,
+        event.occurredAt,
+      )
+    )
+      continue;
+    signers.add(signerId);
+    sourceRecordIds.add(event.id);
+  }
+  let eligibleResidents = 0;
+  for (const personId of world.personOrder) {
+    if (
+      world.people[personId]?.homeJurisdictionId === petition.jurisdictionId &&
+      isEligibleVoterIn(
+        world,
+        personId,
+        petition.jurisdictionId,
+        world.currentDate,
+      )
+    )
+      eligibleResidents += 1;
+  }
+  return {
+    signerPersonIds: [...signers],
+    registeredVoters: eligibleResidents,
+    sourceRecordIds: [...sourceRecordIds],
+  };
+}
+
+/** Route a recall ask through b01's one signer decision and event writer. */
+export function askRecallPetitionToSign(
+  world: World,
+  input: {
+    readonly petitionKey: string;
+    readonly signerPersonId: EntityId;
+    readonly circulatorPersonId: EntityId;
+  },
+) {
+  const petition = recallPetitions(world).find(
+    (candidate) => candidate.stableKey === input.petitionKey,
+  );
+  if (!petition || petition.phase !== "circulating")
+    throw new Error("No circulating recall petition matches this ask.");
+  return askToSign(world, {
+    petition: {
+      petitionId: petition.stableKey,
+      jurisdictionId: petition.jurisdictionId,
+      subject: { kind: "official", personId: petition.targetPersonId },
+    },
+    signerPersonId: input.signerPersonId,
+    circulatorPersonId: input.circulatorPersonId,
+    at: world.currentDate,
+  });
+}
+
 function thresholdBase(threshold: PetitionThreshold): string {
   switch (threshold.base) {
     case "registered-voters":
@@ -568,32 +655,33 @@ export function recallPetitionClosesHandler(
       context: "The jurisdiction's recall signature threshold is not recorded.",
       outcomeEventId: null,
     };
-  const counted = recallResidentViews(world, petition);
+  const counted = recallPetitionSignatures(world, petition);
+  const signatures = counted.signerPersonIds.length;
   const required = resolveRequiredSignatures(
     threshold,
     counted.registeredVoters,
   );
   const countTags = [
-    `signatures:${counted.yes}`,
+    `signatures:${signatures}`,
     `registered-voters:${counted.registeredVoters}`,
     `required-signatures:${required}`,
     `threshold-percent:${threshold.percent}`,
     `threshold-base:${threshold.base}`,
-    "signature-mechanism:recorded-recall-supporters",
+    "signature-mechanism:recorded-asks-and-signatures",
     "count-base:registered-voters",
-    ...counted.sourceRecordIds.map((id) => `view-source:${id}`),
+    ...counted.sourceRecordIds.map((id) => `signature-source:${id}`),
   ];
-  if (counted.registeredVoters === 0 || counted.yes < required)
+  if (counted.registeredVoters === 0 || signatures < required)
     return done(
       closingEvent(
         world,
         petition,
         "failed",
         null,
-        `The petition to recall ${name} failed to qualify: ${counted.yes} recorded supporters, ${required} required from ${counted.registeredVoters} registered residents.`,
+        `The petition to recall ${name} failed to qualify: ${signatures} valid signatures, ${required} required from ${counted.registeredVoters} registered residents.`,
         countTags,
       ),
-      "Recorded recall supporters fell short of the jurisdiction's threshold.",
+      "Recorded recall signatures fell short of the jurisdiction's threshold.",
     );
   const government = municipalGovernmentByKey(petition.governmentKey);
   const election =
@@ -619,7 +707,7 @@ export function recallPetitionClosesHandler(
     petition,
     "qualified",
     electionAt,
-    `The petition to recall ${name} qualified: ${counted.yes} recorded supporters, ${required} required from ${counted.registeredVoters} registered residents. The vote is scheduled for the town's sourced election date, ${electionAt}.`,
+    `The petition to recall ${name} qualified: ${signatures} valid signatures, ${required} required from ${counted.registeredVoters} registered residents. The vote is scheduled for the town's sourced election date, ${electionAt}.`,
     countTags,
   );
   return done(
@@ -634,7 +722,7 @@ export function recallPetitionClosesHandler(
         note: `Recall scheduled through the town election calendar (${election.basis}).`,
       },
     }),
-    "The recall petition qualified on recorded supporters and registered residents.",
+    "The recall petition qualified on recorded signatures and registered residents.",
   );
 }
 
