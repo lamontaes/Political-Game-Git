@@ -14,6 +14,7 @@ import {
 } from "../simulation";
 import { openThreadRecaps, recurringPeople } from "./life-narration";
 import { ownElectionResultsDecided } from "./own-election";
+import { officesHeldOverLife } from "../simulation/crisis/offices";
 
 /**
  * The life so far, as something a player chooses to read.
@@ -69,6 +70,13 @@ export interface LifeRecord {
   readonly chapters: readonly LifeRecordChapter[];
   readonly people: readonly LifeRecordPerson[];
   readonly open: readonly LifeRecordEntry[];
+  /** Recorded public service terms, including ended terms. */
+  readonly offices: readonly {
+    readonly officeKey: string;
+    readonly title: string;
+    readonly startsAt: IsoDate;
+    readonly endsAt: IsoDate | null;
+  }[];
 }
 
 /** How many years one chapter covers. Childhood moves faster than a decade. */
@@ -87,6 +95,7 @@ export function projectLifeRecord(
       chapters: [],
       people: [],
       open: [],
+      offices: [],
     };
   }
   const name = personName(person);
@@ -126,6 +135,12 @@ export function projectLifeRecord(
       ),
       sentence: recap.sentence,
       anchors: recap.anchors,
+    })),
+    offices: officesHeldOverLife(world, personId).map((office) => ({
+      officeKey: office.officeKey,
+      title: office.title,
+      startsAt: office.startsAt,
+      endsAt: office.endsAt,
     })),
   };
 }

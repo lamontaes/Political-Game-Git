@@ -2,6 +2,7 @@ import { currentFederalTenure } from "../federal-tenures";
 import { projectCongress } from "../living-world/congress";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import { datedTermsInOffice } from "../nationwide-world/prior-terms";
 import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
 import type { EntityId, World } from "../types";
 import type { OfficeRef } from "./types";
@@ -146,6 +147,70 @@ export function publicOfficesHeldBy(
   refs.push(...(table.justices.get(personId) ?? []));
   refs.push(...(table.congress.get(personId) ?? []));
   return refs.sort((a, b) => a.officeKey.localeCompare(b.officeKey));
+}
+
+/** One public office term recorded in this person's career. */
+export interface OfficeHeldOverLife extends OfficeRef {
+  readonly startsAt: import("../types").IsoDate;
+  /** Exclusive; null means the World does not record an end. */
+  readonly endsAt: import("../types").IsoDate | null;
+}
+
+/**
+ * Public offices a person has held, including ended terms. Dates come from
+ * the same work relationships and tenure events used by the term-limit
+ * reader. Unresolved dates remain null; no term is inferred from a title or
+ * election alone.
+ */
+export function officesHeldOverLife(
+  world: World,
+  personId: EntityId,
+  through: import("../types").IsoDate = world.currentDate,
+): readonly OfficeHeldOverLife[] {
+  const cutoff = through > world.currentDate ? world.currentDate : through;
+  const asOfWorld: World = { ...world, currentDate: cutoff };
+  const titles = new Map<string, string>();
+  const organizations = new Map<string, EntityId | null>();
+  for (const ref of publicOfficesHeldBy(asOfWorld, personId)) {
+    titles.set(ref.officeKey, ref.title);
+    organizations.set(ref.officeKey, ref.organizationId);
+  }
+  for (const contest of world.history.electionContests ?? []) {
+    if (contest.electionDate > cutoff) continue;
+    titles.set(contest.office.officeKey, contest.office.title);
+  }
+  const keys = new Set<string>([
+    ...titles.keys(),
+    ...world.history.events
+      .filter((event) => event.occurredAt <= cutoff)
+      .flatMap((event) =>
+        event.tags.flatMap((tag) =>
+          tag.startsWith("office:") ? [tag.slice("office:".length)] : [],
+        ),
+      ),
+  ]);
+  const result: OfficeHeldOverLife[] = [];
+  for (const officeKey of keys) {
+    const terms = datedTermsInOffice(asOfWorld, personId, officeKey);
+    const title = titles.get(officeKey);
+    if (!title) continue;
+    for (const term of terms) {
+      if (term.startsAt > cutoff) continue;
+      result.push({
+        officeKey,
+        title,
+        organizationId: organizations.get(officeKey) ?? null,
+        termEvidenceId: null,
+        startsAt: term.startsAt,
+        endsAt: term.endsAt && term.endsAt <= cutoff ? term.endsAt : null,
+      });
+    }
+  }
+  return result.sort(
+    (a, b) =>
+      a.startsAt.localeCompare(b.startsAt) ||
+      a.officeKey.localeCompare(b.officeKey),
+  );
 }
 
 export interface OfficeHolder {

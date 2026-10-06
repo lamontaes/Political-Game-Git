@@ -308,6 +308,26 @@ export function PersonalWorkspace({
               },
             )}
           </ul>
+          {life.offices.length > 0 ? (
+            <section aria-label="Offices held">
+              <h3>Offices held</h3>
+              {life.offices.map((office) => {
+                const start = office.startsAt.slice(0, 4);
+                const endYear = office.endsAt
+                  ? Number(office.endsAt.slice(0, 4)) -
+                    (office.endsAt.slice(5) === "01-01" ? 1 : 0)
+                  : null;
+                return (
+                  <p key={`${office.officeKey}:${office.startsAt}`}>
+                    {office.title},{" "}
+                    {endYear && endYear >= Number(start)
+                      ? `${start}–${endYear}`
+                      : start}
+                  </p>
+                );
+              })}
+            </section>
+          ) : null}
           {lives.around.length ? (
             <section aria-label="Around you">
               <h3>Around you</h3>
