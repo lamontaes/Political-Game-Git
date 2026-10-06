@@ -14332,7 +14332,15 @@
               "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
               "key": "cap",
               "value": 0.36,
-              "unit": "ratio"
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "deferred-deposit-loan-lender",
+                "productClass": "deferred-deposit-payday-loan",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["all-authorized-charges"],
+                "exceptionSetKey": "none"
+              }
             }
           ]
         },
@@ -14482,7 +14490,15 @@
               "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
               "key": "cap",
               "value": 0.5,
-              "unit": "ratio"
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "nonbank-lender",
+                "productClass": "short-term-loan-up-to-1300-repayment-test",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "ability-to-repay-underwriting-required-above-36-percent"
+              }
             }
           ]
         },
@@ -14547,7 +14563,15 @@
               "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
               "key": "cap",
               "value": 0.36,
-              "unit": "ratio"
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "licensed-small-loan-lender",
+                "productClass": "small-loan-excluding-payday-and-title",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
+              }
             }
           ]
         },
@@ -14562,7 +14586,15 @@
               "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
               "key": "cap",
               "value": 0.36,
-              "unit": "ratio"
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "licensed-small-loan-lender",
+                "productClass": "small-loan-excluding-payday-and-title",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
+              }
             }
           ]
         },
@@ -14654,7 +14686,15 @@
               "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
               "key": "cap",
               "value": 0.36,
-              "unit": "ratio"
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "licensed-small-loan-lender",
+                "productClass": "small-loan-excluding-payday-and-title",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
+              }
             }
           ]
         },
