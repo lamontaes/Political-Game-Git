@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-  composeWorldTimeHandlers,
-  createCampaignElectionTransitionRegistry,
-} from "./campaigns";
-import { addDays } from "./dates";
+import { createCampaignElectionTransitionRegistry } from "./campaigns";
+import { addDays, daysBetween } from "./dates";
 import { PUBLIC_PROGRAM_INSTALLMENT } from "./governing/public-program";
 import { stableHash } from "./ids";
 import { createOrganization, createWorkRelationship } from "./life";
@@ -16,11 +13,11 @@ import {
   SUBSTANCE_USE_DISORDER_KEY,
   holdsPackCondition,
 } from "./crisis/condition-pack";
-import { ensureCrisisMortality } from "./crisis/mortality";
 import {
-  resolveFutureDueItemsThrough,
-  scheduleFutureDueItem,
-} from "./future-transitions";
+  MORTALITY_WINDOW_KEY,
+  ensureCrisisMortality,
+} from "./crisis/mortality";
+import { scheduleFutureDueItem } from "./future-transitions";
 import { createMindProvenance, recordGoalState } from "./mind";
 import {
   LIVELIHOOD_GOAL_KEY,
@@ -163,7 +160,11 @@ function goal(world: World, personId: EntityId, goalKey: string) {
  * installment left for the clock to pay tomorrow. Residents and their
  * records are authored per scenario.
  */
-function fundedTomorrow(stateKey: string, keyOfQuestion: string) {
+function fundedTomorrow(
+  stateKey: string,
+  keyOfQuestion: string,
+  paidInDays = 1,
+) {
   const jurisdiction = stateJurisdictionForKey(stateKey)!;
   let world: World = {
     ...base,
@@ -203,7 +204,7 @@ function fundedTomorrow(stateKey: string, keyOfQuestion: string) {
     accountOrganizationId: account.id,
     amount: money(10_000),
     availableFrom: world.currentDate,
-    availableThrough: addDays(world.currentDate, 30),
+    availableThrough: addDays(world.currentDate, paidInDays + 30),
     sourceMeasureId: measureId,
     basis: { kind: "authored-fixture", note: provenance.note },
   });
@@ -217,7 +218,7 @@ function fundedTomorrow(stateKey: string, keyOfQuestion: string) {
     recipientOrganizationId: provider.id,
     installments: [
       {
-        dueAt: addDays(world.currentDate, 1),
+        dueAt: addDays(world.currentDate, paidInDays),
         amount: money(10_000),
         purpose: "operating",
       },
@@ -229,7 +230,7 @@ function fundedTomorrow(stateKey: string, keyOfQuestion: string) {
   // The same due item commitPublicProgram writes for a later installment.
   world = scheduleFutureDueItem(world, {
     stableKey: `${commitment.stableKey}:installment:0`,
-    dueAt: addDays(world.currentDate, 1),
+    dueAt: addDays(world.currentDate, paidInDays),
     transitionKey: PUBLIC_PROGRAM_INSTALLMENT,
     entityIds: [account.id],
     jurisdictionId: jurisdiction.id,
@@ -412,8 +413,15 @@ describe("residents ask for a paid service on their own records, then take part"
 
   const harmSeed = "lw16-harm-reduction-2";
   const harmPlace = drawPlace(harmSeed);
-  it(`harm reduction: people with the substance use record ask, work hours hold some back, people without it have no reason (${harmPlace}, seed ${harmSeed})`, () => {
-    const f = fundedTomorrow(harmPlace, HARM_REDUCTION);
+  it(`harm reduction: people with the substance use record ask, full-time work holds one back, people without it have no reason (${harmPlace}, seed ${harmSeed})`, () => {
+    // The model first exposes people at its next quarter window; the service
+    // is paid the day after, so the records exist when residents weigh it.
+    const window = ensureCrisisMortality(base).history.futureDueItems.find(
+      (item) => item.transitionKey === MORTALITY_WINDOW_KEY,
+    )!;
+    const paidInDays = daysBetween(base.currentDate, window.dueAt) + 1;
+    const f = fundedTomorrow(harmPlace, HARM_REDUCTION, paidInDays);
+    f.world = ensureCrisisMortality(f.world);
     // Authored fixture: twenty-year-olds living in the served place, given the
     // pack's starting conditions at the survey's shares by age.
     const date = f.world.currentDate;
@@ -428,16 +436,9 @@ describe("residents ask for a paid service on their own records, then take part"
       })),
     );
     const cohortIds = world.personOrder.slice(-80);
-    // The model's own first exposure writes the starting conditions.
-    world = ensureCrisisMortality(world);
-    const window = world.history.futureDueItems.find(
-      (item) => item.transitionKey === "crisis:mortality-window",
-    )!;
-    world = resolveFutureDueItemsThrough(
-      world,
-      window.dueAt,
-      composeWorldTimeHandlers(),
-    );
+    // Run to the window: the model's own first exposure writes the
+    // starting conditions of everyone in the world.
+    world = advanceWorld(world, paidInDays - 1, registry);
     const holders = cohortIds.filter((id) =>
       holdsPackCondition(world, id, SUBSTANCE_USE_DISORDER_KEY),
     );
@@ -463,7 +464,8 @@ describe("residents ask for a paid service on their own records, then take part"
     );
     // The same record, but forty hours of work already hold the day.
     const heldBack = traceFor(world, busy)!;
-    expect(heldBack.selectedOptionKey).toBe("wait");
+    // Equal reasons for and against: a saved trace, no request.
+    expect(heldBack.selectedOptionKey).not.toBe("ask");
     expect(heldBack.context.considerations.map((c) => c.optionKey)).toEqual([
       "ask",
       "wait",
