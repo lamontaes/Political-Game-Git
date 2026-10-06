@@ -19,6 +19,7 @@ import {
   measureById,
   peopleInHouseholdAt,
   personName,
+  favorRecords,
   scheduledActivitiesVisibleTo,
   type PersonAppearance,
   type EntityId,
@@ -456,18 +457,48 @@ export function projectPersonDossier(
       context?.basis ?? "No record establishes a relationship.",
     howYouKnowThem: context?.relationship ?? null,
     appearance: subject.appearance ?? null,
-    sharedHistory: world.history.relationshipInteractions
-      .filter(
-        (record) =>
-          record.personIds.includes(playerId) &&
-          record.personIds.includes(personId) &&
-          record.occurredAt <= world.currentDate,
+    sharedHistory: [
+      ...world.history.relationshipInteractions
+        .filter(
+          (record) =>
+            record.personIds.includes(playerId) &&
+            record.personIds.includes(personId) &&
+            record.occurredAt <= world.currentDate,
+        )
+        .map((record) => ({
+          id: record.id,
+          date: record.occurredAt,
+          sequence: record.sequence,
+          summary: record.summary,
+        })),
+      ...favorRecords(world)
+        .filter(
+          (favor) =>
+            favor.givenAt <= world.currentDate &&
+            ((favor.giverPersonId === playerId &&
+              favor.receiverPersonId === personId) ||
+              (favor.giverPersonId === personId &&
+                favor.receiverPersonId === playerId)),
+        )
+        .map((favor) => ({
+          id: favor.id,
+          date: favor.givenAt,
+          sequence: favor.sequence,
+          summary:
+            favor.giverPersonId === playerId
+              ? `You ${favor.description}.`
+              : `${personName(world.people[favor.giverPersonId]!)} ${favor.description}.`,
+        })),
+    ]
+      .sort(
+        (left, right) =>
+          left.date.localeCompare(right.date) || left.sequence - right.sequence,
       )
-      .map((record) => ({
-        id: record.id,
-        date: record.occurredAt,
-        dateLabel: proseDate(record.occurredAt),
-        summary: record.summary,
+      .map(({ id, date, summary }) => ({
+        id,
+        date,
+        dateLabel: proseDate(date),
+        summary,
       })),
     publicCareer: world.history.events
       .filter(
