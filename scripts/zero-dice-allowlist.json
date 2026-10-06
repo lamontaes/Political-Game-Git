@@ -490,27 +490,6 @@
       "kind": "roll",
       "build": "Build 21",
       "count": 1,
-      "code": "counterRoll < shares.deEscalate - shift"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": ": counterRoll < shares.deEscalate - shift + shares.hold"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "roll(world, [crisisId, state.cycle, \"allies\"]) <"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
       "code": "outcomeRoll < policy.killed"
     },
     {

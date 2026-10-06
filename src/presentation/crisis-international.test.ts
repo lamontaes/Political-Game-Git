@@ -13,6 +13,7 @@ import {
   deserializeWorld,
   internationalCrisisState,
   recordViolenceAttempt,
+  recordInternationalStance,
   serializeWorld,
 } from "../simulation";
 import type { IsoDate, Person, TensionLevel, World } from "../simulation";
@@ -83,18 +84,62 @@ describe("CRISIS K5 international crisis, first depth", () => {
   );
 
   it(
-    "gives counterparties their own varied answers",
+    "uses recorded counterparty and ally stances at the recorded pressure index",
     () => {
-      const answers = new Set<string>();
-      for (let i = 0; i < 12; i += 1) {
-        const { world, crisisId } = declare(opening, `vary-${i}`, "elevated");
-        const state = internationalCrisisState(
-          passOrdinaryDays(world, 8),
-          crisisId,
-        );
-        answers.add(state.responses[0]!.counterparty);
-      }
-      expect(answers.size).toBeGreaterThan(1);
+      const first = declare(opening, "stance-deescalates", "elevated");
+      const second = declare(opening, "stance-escalates", "elevated");
+      const deescalating = recordInternationalStance(first.world, {
+        crisisId: first.crisisId,
+        party: "counterparty",
+        stance: "de-escalate",
+        basis: "The recorded counterpart stance favors stepping back.",
+      });
+      const supported = recordInternationalStance(deescalating, {
+        crisisId: first.crisisId,
+        party: "allies",
+        stance: "support",
+        basis: "The recorded allies' stance backs the response.",
+      });
+      const escalating = recordInternationalStance(second.world, {
+        crisisId: second.crisisId,
+        party: "counterparty",
+        stance: "escalate",
+        basis: "The recorded counterpart stance favors escalation.",
+      });
+      const aside = recordInternationalStance(escalating, {
+        crisisId: second.crisisId,
+        party: "allies",
+        stance: "stand-aside",
+        basis: "The recorded allies' stance declines to back the response.",
+      });
+      const firstRun = passOrdinaryDays(supported, 20);
+      const firstResponse = internationalCrisisState(firstRun, first.crisisId)
+        .responses[0]!;
+      const secondResponse = internationalCrisisState(
+        passOrdinaryDays(aside, 20),
+        second.crisisId,
+      ).responses[0]!;
+      expect(firstResponse).toMatchObject({
+        counterparty: "de-escalated",
+        allies: "supported",
+        pressureIndex: "elevated",
+      });
+      expect(secondResponse).toMatchObject({
+        counterparty: "escalated",
+        allies: "stood-aside",
+        pressureIndex: "elevated",
+      });
+      const presidentId = currentPresidentOf(opening)!.personId;
+      const place =
+        opening.jurisdictions[opening.people[presidentId]!.homeJurisdictionId]!
+          .name;
+      const firstNewsLine = firstRun.history.events.find(
+        (event) => event.id === firstResponse.eventId,
+      )!.summary;
+      console.info(
+        `WATCHED RUN P3 — ${place} (seed crisis-k5): a recorded counterparty stance to de-escalate and allies' stance to support, at elevated pressure, caused a de-escalation and support; the same starting world with recorded escalation and allies standing aside caused escalation and no support.`,
+      );
+      console.info(`NEWS/JOURNAL — ${firstNewsLine}`);
     },
     SLOW,
   );

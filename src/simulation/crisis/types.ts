@@ -300,7 +300,20 @@ export interface CounterpartyResponseRecord extends CrisisRecordBase {
   readonly counterparty: "de-escalated" | "held" | "escalated";
   readonly allies: "supported" | "stood-aside";
   readonly tensionAfter: TensionLevel;
+  readonly pressureIndex: TensionLevel;
   readonly ended: boolean;
+}
+
+/** Recorded positions used by deterministic international responses. */
+export interface InternationalStanceRecord extends CrisisRecordBase {
+  readonly kind: "international-stance";
+  readonly crisisId: EntityId;
+  readonly cycle: number;
+  readonly party: "counterparty" | "allies";
+  readonly stance:
+    "de-escalate" | "hold" | "escalate" | "support" | "stand-aside";
+  readonly pressureIndex: TensionLevel;
+  readonly basis: string;
 }
 
 export type WarPowersStage =
@@ -335,6 +348,7 @@ export type CrisisRecord =
   | CrisisOptionsRecord
   | CrisisDecisionRecord
   | CounterpartyResponseRecord
+  | InternationalStanceRecord
   | WarPowersRecord
   | ViolenceAttemptRecord
   | HazardEpisodeRecord

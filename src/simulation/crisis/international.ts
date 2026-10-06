@@ -26,6 +26,7 @@ import {
   type CrisisOptionsRecord,
   type IntelligenceAssessmentRecord,
   type InternationalCrisisRecord,
+  type InternationalStanceRecord,
   type TensionLevel,
   type WarPowersRecord,
   type WarPowersStage,
@@ -71,19 +72,6 @@ export const PROVISIONAL_INTERNATIONAL_POLICY = Object.freeze({
    * is itself a record, not an expiry of the crisis's existence.
    */
   lapseAfterQuietDays: 180,
-  /** Counterparty response shares in millionths: de-escalate, hold (rest escalates). */
-  counterparty: {
-    diplomatic: { deEscalate: 350_000, hold: 450_000 },
-    economic: { deEscalate: 300_000, hold: 400_000 },
-    "force-posture": { deEscalate: 400_000, hold: 300_000 },
-  } satisfies Record<CrisisOptionKey, { deEscalate: number; hold: number }>,
-  /** Severe tension moves this much from de-escalation to escalation. */
-  severeShift: 100_000,
-  allySupport: {
-    diplomatic: 700_000,
-    economic: 500_000,
-    "force-posture": 400_000,
-  } satisfies Record<CrisisOptionKey, number>,
   /** Chance a represented attempt leaves the target injured / killed. */
   violence: { injured: 300_000, killed: 100_000 },
   warPowers: { reportWithinDays: 2, terminationDays: 60, extensionDays: 30 },
@@ -250,6 +238,76 @@ export function declareInternationalCrisis(
   next = assessAndAdvise(next, crisisId, 0);
   assertWorldIntegrity(next);
   return next;
+}
+
+export interface RecordInternationalStanceInput {
+  readonly crisisId: EntityId;
+  readonly party: InternationalStanceRecord["party"];
+  readonly stance: InternationalStanceRecord["stance"];
+  readonly basis: string;
+}
+
+/** Write an observed counterparty or allies' position for the current cycle. */
+export function recordInternationalStance(
+  world: World,
+  input: RecordInternationalStanceInput,
+): World {
+  const state = internationalCrisisState(world, input.crisisId);
+  if (
+    state.ended ||
+    state.responses.some((response) => response.cycle === state.cycle)
+  )
+    throw new Error(
+      "The international response for this cycle is already recorded.",
+    );
+  if (!input.basis.trim()) throw new Error("A recorded stance needs a basis.");
+  if (
+    (input.party === "counterparty" &&
+      !["de-escalate", "hold", "escalate"].includes(input.stance)) ||
+    (input.party === "allies" &&
+      !["support", "stand-aside"].includes(input.stance))
+  )
+    throw new Error("The stance does not match the party's role.");
+  if (
+    crisisRecords(world).some(
+      (record) =>
+        record.kind === "international-stance" &&
+        record.crisisId === input.crisisId &&
+        record.cycle === state.cycle &&
+        record.party === input.party,
+    )
+  )
+    throw new Error(
+      `A ${input.party} stance is already recorded for this cycle.`,
+    );
+  const crisis = crisisOf(world, input.crisisId);
+  const key = `${crisis.stableKey}:stance:${state.cycle}:${input.party}`;
+  const written = event(world, {
+    stableKey: `${key}:event`,
+    type: "crisis.international-stance",
+    involvedEntityIds: [input.crisisId],
+    visibility: "public",
+    tags: [
+      `cycle:${state.cycle}`,
+      `party:${input.party}`,
+      `stance:${input.stance}`,
+    ],
+    summary: `${input.party === "counterparty" ? crisis.counterpartyLabel : crisis.allyLabels.join(", ")} recorded a ${input.stance} position at ${state.tension} pressure.`,
+  });
+  return appendCrisisRecord(written.world, {
+    kind: "international-stance",
+    stableKey: key,
+    effectiveAt: world.currentDate,
+    causalParentIds: [input.crisisId],
+    visibility: "public",
+    eventId: written.eventId,
+    crisisId: input.crisisId,
+    cycle: state.cycle,
+    party: input.party,
+    stance: input.stance,
+    pressureIndex: state.tension,
+    basis: input.basis,
+  });
 }
 
 function assessAndAdvise(
@@ -582,21 +640,26 @@ export const internationalResponseHandler: FutureTransitionHandler = (
   if (state.ended || !decision)
     return settled(world, "cancelled", "Nothing to answer.");
   const policy = PROVISIONAL_INTERNATIONAL_POLICY;
-  const shares = policy.counterparty[decision.option];
-  const shift = state.tension === "severe" ? policy.severeShift : 0;
-  const counterRoll = roll(world, [crisisId, state.cycle, "counterparty"]);
+  const stances = crisisRecords(world).filter(
+    (record): record is InternationalStanceRecord =>
+      record.kind === "international-stance" &&
+      record.crisisId === crisisId &&
+      record.cycle === state.cycle,
+  );
+  const counterpartyStance = stances.find(
+    (record) => record.party === "counterparty",
+  );
+  const alliesStance = stances.find((record) => record.party === "allies");
   const counterparty =
-    counterRoll < shares.deEscalate - shift
+    counterpartyStance?.stance === "de-escalate"
       ? "de-escalated"
-      : counterRoll < shares.deEscalate - shift + shares.hold
-        ? "held"
-        : "escalated";
+      : counterpartyStance?.stance === "escalate"
+        ? "escalated"
+        : "held";
   const allies =
-    roll(world, [crisisId, state.cycle, "allies"]) <
-    policy.allySupport[decision.option]
-      ? "supported"
-      : "stood-aside";
-  const rank = TENSIONS.indexOf(state.tension);
+    alliesStance?.stance === "support" ? "supported" : "stood-aside";
+  const pressureIndex = counterpartyStance?.pressureIndex ?? state.tension;
+  const rank = TENSIONS.indexOf(pressureIndex);
   const tensionAfter =
     TENSIONS[
       counterparty === "escalated"
@@ -638,7 +701,7 @@ export const internationalResponseHandler: FutureTransitionHandler = (
     kind: "counterparty-response",
     stableKey: key,
     effectiveAt: world.currentDate,
-    causalParentIds: [decision.id],
+    causalParentIds: [decision.id, ...stances.map((stance) => stance.id)],
     visibility: "public",
     eventId: responded.eventId,
     crisisId,
@@ -646,6 +709,7 @@ export const internationalResponseHandler: FutureTransitionHandler = (
     counterparty,
     allies,
     tensionAfter,
+    pressureIndex,
     ended,
   });
   const responseId = crisisRecordId(next, key);
@@ -706,6 +770,7 @@ function lapse(
     counterparty: "held",
     allies: "stood-aside",
     tensionAfter: state.tension,
+    pressureIndex: state.tension,
     ended: true,
   });
   if (state.forcesIn)

@@ -411,9 +411,20 @@ function validateCrisisRecords(
       case "crisis-options":
       case "crisis-decision":
       case "counterparty-response":
+      case "international-stance":
       case "war-powers":
         if (!crises.has(record.crisisId))
           fail(record, "record for an unknown international crisis");
+        if (
+          record.kind === "international-stance" &&
+          (!Number.isSafeInteger(record.cycle) ||
+            record.cycle < 0 ||
+            !["low", "elevated", "high", "severe"].includes(
+              record.pressureIndex,
+            ) ||
+            !record.basis.trim())
+        )
+          fail(record, "malformed international stance");
         if (
           record.kind === "war-powers" &&
           record.terminationAt !== null &&
