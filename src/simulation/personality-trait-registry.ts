@@ -106,6 +106,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
+  {
+    trait: "personality-v1:facet-hot-headed",
+    kind: "decision",
+    reader:
+      "labor.worker-quit and civil-personnel.discharge-appeal — src/simulation/traits/effects/facet-hot-headed.ts",
+  },
 ];
 
 /**
@@ -194,7 +200,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-hostile",
   "personality-v1:facet-thrill-seeking",
   "personality-v1:facet-calm",
-  "personality-v1:facet-hot-headed",
   "personality-v1:facet-sensitive",
   "personality-v1:facet-tender-hearted",
   "personality-v1:facet-excitable",
