@@ -1448,7 +1448,7 @@ export function recordDebateExtension(
     floorStageKey: position.floorStageKey,
     actorLabel: input.actorLabel,
     rationale: input.rationale,
-    summary: `${input.actorLabel} held the floor in the ${chamber.name}; debate resumes on ${input.resumeAt}.`,
+    summary: `${chamber.name}: debate-extended by ${input.actorLabel}, resumes ${input.resumeAt}`,
     eventType: "legislation.debate-extended",
     tags: ["legislation.procedure"],
     participants: [

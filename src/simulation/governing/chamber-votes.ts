@@ -1204,7 +1204,7 @@ export function decideFloorHold(
         amendmentStableKey: null,
         provisionKey: null,
       },
-      questionLabel: "Whether debate on this measure should continue",
+      questionLabel: "debate-extended",
     },
   }).flatMap((reason) => {
     if (reason.optionKey !== "vote-yea" && reason.optionKey !== "vote-nay")
@@ -1215,9 +1215,7 @@ export function decideFloorHold(
         ...reason,
         stableKey: `member:floor-hold:${reason.stableKey}`,
         optionKey: supportsMeasure ? "release-floor" : "hold-floor",
-        explanation: supportsMeasure
-          ? "The member wants this measure to advance, which weighs against holding the floor."
-          : "The member opposes this measure, which weighs in favor of holding the floor.",
+        explanation: reason.explanation,
       },
     ];
   });
@@ -1254,13 +1252,13 @@ export function decideFloorHold(
     options: [
       {
         key: "hold-floor",
-        label: "Hold the floor",
-        description: "Keep debate open for another sitting day.",
+        label: "hold-floor",
+        description: "hold-floor",
       },
       {
         key: "release-floor",
-        label: "Let the floor go",
-        description: "Allow the chamber to proceed to the next question.",
+        label: "release-floor",
+        description: "release-floor",
       },
     ],
     constraints: [],
@@ -1286,7 +1284,7 @@ export function decideFloorHold(
           rationale:
             evaluation.context.considerations.find(
               (reason) => reason.optionKey === "hold-floor",
-            )?.explanation ?? "The member chose to hold the floor.",
+            )?.explanation ?? "hold-floor",
           resumeAt: input.resumeAt,
         })
       : world,
