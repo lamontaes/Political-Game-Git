@@ -51,6 +51,8 @@ export type MediaResourceTier = (typeof MEDIA_RESOURCE_TIERS)[number];
 
 export const MEDIA_CADENCES = ["continuous", "daily", "periodic"] as const;
 export type MediaCadence = (typeof MEDIA_CADENCES)[number];
+export type EditorialStandard = "gentler" | "realistic" | "tougher";
+export type ReporterTemperament = "low" | "medium" | "high";
 
 /** ALIVE44 R1–R8. */
 export const STORY_FAMILIES = [
@@ -373,6 +375,8 @@ export interface MediaOutletRecord extends PressRecordBase {
   readonly resourceTier: MediaResourceTier;
   readonly cadence: MediaCadence;
   readonly acceptsDeepBackground: boolean;
+  /** The outlet's recorded threshold, fixed when it is founded. */
+  readonly editorialStandard?: EditorialStandard;
   readonly establishedAt: IsoDate;
   readonly policyVersion: typeof PRESS_POLICY_VERSION;
   readonly provenanceNote: string;
@@ -388,6 +392,9 @@ export interface ReporterRoleRecord extends PressRecordBase {
   readonly beats: readonly MediaBeat[];
   readonly geographyJurisdictionIds: readonly EntityId[];
   readonly startedAt: IsoDate;
+  /** Recorded at hiring from the founding outlet's premise. */
+  readonly persistence?: ReporterTemperament;
+  readonly conflict?: ReporterTemperament;
 }
 
 export interface StoryLeadRecord extends PressRecordBase {
