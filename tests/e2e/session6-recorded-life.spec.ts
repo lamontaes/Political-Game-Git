@@ -2,7 +2,10 @@ import { expect, test, type Page } from "./fixtures";
 import { drawRandomPlace } from "../support/random-place";
 import { FAMILY_MEMBER_ADDED_EVENT } from "../../src/simulation/people-family";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
-import type { World } from "../../src/simulation/types";
+import {
+  readWorldSnapshot,
+  type WorldPayload,
+} from "../../src/simulation/serialization";
 import { enterLife, saveLife, startLife } from "./support/creator";
 
 const seed = "session6-recorded-life-random-place-20261006";
@@ -36,24 +39,53 @@ async function clearBrowser(page: Page) {
   await page.reload();
 }
 
-async function savedWorld(page: Page): Promise<World> {
-  return page.evaluate(async () => {
+async function savedWorld(page: Page) {
+  const payload = await page.evaluate(async (): Promise<WorldPayload> => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {
       const request = indexedDB.open("political-life-worlds");
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
     try {
-      return await new Promise<World>((resolve, reject) => {
+      return await new Promise<WorldPayload>((resolve, reject) => {
         const request = db
           .transaction("worlds", "readonly")
           .objectStore("worlds")
           .getAll();
         request.onsuccess = () => {
-          const saved = request.result.at(-1) as
-            { payload: string } | undefined;
+          const rows = request.result as {
+            saveId?: string;
+            generation?: number;
+            payload?: string;
+            payloadChunks?: { count: number };
+            metadata?: unknown;
+            data?: string;
+          }[];
+          const saved = rows.find(
+            (row) => row.metadata && typeof row.payload === "string",
+          );
           if (!saved) return reject(new Error("No saved new-game world."));
-          resolve(JSON.parse(saved.payload).world as World);
+          if (typeof saved.payload !== "string")
+            return reject(new Error("Saved world payload is missing."));
+          if (saved.payload !== "\u0000ocd-chunked-payload:v1")
+            return resolve(saved.payload);
+          const prefix = `\u0000ocd-world-chunk:v1:${saved.saveId}:${saved.generation}:`;
+          const chunks = rows
+            .filter(
+              (row) =>
+                row.saveId?.startsWith(prefix) && typeof row.data === "string",
+            )
+            .sort(
+              (left, right) =>
+                Number(left.saveId!.slice(prefix.length)) -
+                Number(right.saveId!.slice(prefix.length)),
+            )
+            .map((row) => row.data!);
+          if (chunks.length !== saved.payloadChunks?.count)
+            return reject(
+              new Error("Saved world history chunks are incomplete."),
+            );
+          resolve(chunks);
         };
         request.onerror = () => reject(request.error);
       });
@@ -61,6 +93,7 @@ async function savedWorld(page: Page): Promise<World> {
       db.close();
     }
   });
+  return readWorldSnapshot(payload).world;
 }
 
 test("Creator and Begin preserve a recorded birth in a randomly drawn locality", async ({
@@ -100,6 +133,7 @@ test("Creator and Begin preserve a recorded birth in a randomly drawn locality",
   console.info(
     `SESSION6_NEW_GAME_PROOF ${JSON.stringify({
       seed,
+      worldSeed: world.seed,
       worldId: world.id,
       date: world.currentDate,
       place: place.displayName,
