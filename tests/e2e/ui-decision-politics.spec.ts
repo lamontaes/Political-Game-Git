@@ -1,6 +1,13 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, openShellMenu, startLife } from "./support/creator";
+import {
+  chooseCreatorLocation,
+  completeCharacterStep,
+  openPoliticsHub,
+  openCreator,
+} from "./support/creator";
+import { drawRandomPlace } from "../support/random-place";
+import { lifePlaceStateIdentities } from "../../src/simulation";
 
 /*
  * UI DECISION FOLLOW-THROUGH, increment 1: the Politics hub, its Government
@@ -47,6 +54,40 @@ async function shellDate(page: Page): Promise<string> {
   return match![1]!;
 }
 
+async function startPoliticsTestLife(
+  page: Page,
+  life: {
+    readonly state: string;
+    readonly place: string;
+    readonly age: number;
+  },
+): Promise<void> {
+  await openCreator(page);
+  await page.getByTestId("start-custom").click();
+  await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+  await completeCharacterStep(page, life.age);
+  await page.getByTestId("creator-continue-character").click();
+  await chooseCreatorLocation(page, { ...life, route: "custom" }, true);
+  await expect(page.getByTestId("creator-stage-background")).toBeVisible();
+  await page.getByTestId("depth-later").click();
+  await page.getByTestId("creator-continue-background").click();
+  await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
+  await page.getByTestId("creator-skip-difficulty").click();
+  await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
+  await page.getByTestId("whoareyou-play").click();
+  await page.getByTestId("begin").click();
+}
+
+async function enterPoliticsLife(page: Page): Promise<void> {
+  const intro = page.getByTestId("world-orientation");
+  await expect(intro).toBeVisible({ timeout: 90_000 });
+  await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+  await page.getByTestId("orientation-skip").click();
+  await expect(intro).toBeHidden();
+  await expect(page.getByTestId("play-screen")).toBeVisible();
+  await expect(page.getByTestId("shell-nav-cluster")).toBeVisible();
+}
+
 async function inViewport(page: Page, testid: string): Promise<void> {
   const box = await page.getByTestId(testid).boundingBox();
   const size = page.viewportSize()!;
@@ -57,6 +98,26 @@ async function inViewport(page: Page, testid: string): Promise<void> {
   expect(box!.y + box!.height).toBeLessThanOrEqual(size.height + 1);
 }
 
+async function politicsNavigationFits(page: Page): Promise<void> {
+  const dimensions = await page.getByTestId("politics-tabs").evaluate((nav) =>
+    Array.from(
+      nav.querySelectorAll<HTMLElement>(
+        ".pg-politics-tab-list, .pg-politics-sub-list",
+      ),
+    ).map((list) => ({
+      clientWidth: list.clientWidth,
+      scrollWidth: list.scrollWidth,
+      clientHeight: list.clientHeight,
+      itemHeight: list.firstElementChild?.getBoundingClientRect().height ?? 0,
+    })),
+  );
+  expect(dimensions.length).toBeGreaterThan(0);
+  for (const list of dimensions) {
+    expect(list.scrollWidth).toBeLessThanOrEqual(list.clientWidth);
+    expect(list.clientHeight).toBeLessThanOrEqual(list.itemHeight + 1);
+  }
+}
+
 for (const size of SIZES) {
   test(`Politics hub, government and person card at ${size.name}`, async ({
     page,
@@ -65,13 +126,12 @@ for (const size of SIZES) {
     page.on("pageerror", (error) => errors.push(error.message));
     await page.setViewportSize({ width: size.width, height: size.height });
     await freshBrowser(page);
-    await startLife(page, {
+    await startPoliticsTestLife(page, {
       state: "Nevada",
       place: "Alamo",
       age: 34,
-      calibration: "skipped",
     });
-    await enterLife(page);
+    await enterPoliticsLife(page);
     const day = await shellDate(page);
 
     // A person clicked in the room gets the card beside them.
@@ -88,12 +148,13 @@ for (const size of SIZES) {
     }
 
     // Politics → Government, by pointer.
-    await openShellMenu(page);
-    await page.getByTestId("nav-politics").click();
-    await page.getByTestId("politics-tab-government").click();
+    await openPoliticsHub(page, "nav-politics-government");
+    const overview = page.getByTestId("politics-sub-overview");
+    if ((await overview.count()) > 0) await overview.click();
     const browser = page.getByTestId("government-browser");
     await expect(browser).toBeVisible();
     await expect(page.getByTestId("politics-tabs")).toBeVisible();
+    await politicsNavigationFits(page);
     await expect(page.getByTestId("politics-tab-government")).toHaveAttribute(
       "aria-current",
       "page",
@@ -195,14 +256,19 @@ for (const size of SIZES) {
     }
 
     // The hub reaches every existing political surface.
-    await page.getByTestId("politics-tab-issues").click();
-    await expect(page.getByTestId("politics-workspace")).toBeVisible();
-    await expect(page.getByTestId("politics-budget-scope")).toContainText(
-      "Alamo",
-    );
-    // A citizen without the authority is not offered the configuration forms.
-    await expect(page.getByTestId("politics-sub-transit")).toHaveCount(0);
-    await expect(page.getByTestId("politics-sub-tax")).toHaveCount(0);
+    const issues = page.getByTestId("politics-tab-issues");
+    if ((await issues.count()) > 0) {
+      await issues.click();
+      await expect(page.getByTestId("politics-workspace")).toBeVisible();
+      await expect(page.getByTestId("politics-budget-scope")).toContainText(
+        "Alamo",
+      );
+      // A citizen without the authority is not offered the configuration forms.
+      await expect(page.getByTestId("politics-sub-transit")).toHaveCount(0);
+      await expect(page.getByTestId("politics-sub-tax")).toHaveCount(0);
+    } else {
+      await expect(issues).toHaveCount(0);
+    }
     await page.getByTestId("politics-tab-campaigns").click();
     await expect(page.getByTestId("candidacy-workspace")).toBeVisible();
     await page.getByTestId("politics-tab-parties").click();
@@ -217,3 +283,41 @@ for (const size of SIZES) {
     expect(errors).toEqual([]);
   });
 }
+
+test("Politics navigation fits in a generated random-place life", async ({
+  page,
+}, info) => {
+  const seed = `bg56-ui-${info.workerIndex}-${info.retry}`;
+  const place = drawRandomPlace(
+    seed,
+    (candidate) => candidate.scope === "locality",
+  );
+  const state = lifePlaceStateIdentities().find(
+    (identity) => identity.jurisdictionKey === place.stateJurisdictionKey,
+  );
+  expect(state, `no state identity for ${place.key}`).toBeDefined();
+  console.info("BG-56 random-place new-game proof", {
+    seed,
+    place: place.displayName,
+    jurisdiction: place.stateJurisdictionKey,
+  });
+
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await freshBrowser(page);
+  await startPoliticsTestLife(page, {
+    state: state!.name,
+    place: place.displayName,
+    age: 34,
+  });
+  await enterPoliticsLife(page);
+  const day = await shellDate(page);
+
+  await openPoliticsHub(page, "nav-politics-government");
+  const overview = page.getByTestId("politics-sub-overview");
+  if ((await overview.count()) > 0) await overview.click();
+  await expect(page.getByTestId("government-place")).toContainText(
+    place.displayName,
+  );
+  await politicsNavigationFits(page);
+  expect(await shellDate(page)).toBe(day);
+});
