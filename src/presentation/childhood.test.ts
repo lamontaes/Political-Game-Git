@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { drawRandomPlace } from "../../tests/support/random-place";
-import { ageOnDate, assertWorldIntegrity, serializeWorld } from "../simulation";
+import {
+  addDays,
+  ageOnDate,
+  assertWorldIntegrity,
+  serializeWorld,
+} from "../simulation";
 import { formativeIntervalAt } from "../simulation/character-history";
 import { playerTemperament } from "../simulation/people-player-traits";
 import { personTrait } from "../simulation/people-traits";
@@ -98,6 +103,42 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
         role: "agency:actor",
       }),
     );
+    const {
+      id: _id,
+      sequence: _sequence,
+      recordedAt: _recordedAt,
+      stableKey: _stableKey,
+      ...entry
+    } = choice!;
+    expect(() =>
+      appendChildhoodEntry(played, {
+        ...entry,
+        stableKey: "test-caregiver-choice-wrong-date",
+        effectiveAt: addDays(choice!.effectiveAt, -1),
+      }),
+    ).toThrow(/adult caregiver and its formative event/);
+    const sourceWithoutChild = {
+      ...played,
+      history: {
+        ...played.history,
+        events: played.history.events.map((event) =>
+          event.id === source.id
+            ? {
+                ...event,
+                involvedEntityIds: event.involvedEntityIds.filter(
+                  (id) => id !== randomChild.player,
+                ),
+              }
+            : event,
+        ),
+      },
+    };
+    expect(() =>
+      appendChildhoodEntry(sourceWithoutChild, {
+        ...entry,
+        stableKey: "test-caregiver-choice-other-child-event",
+      }),
+    ).toThrow(/adult caregiver and its formative event/);
     const unauthorizedAdult = Object.keys(played.people).find(
       (candidate) =>
         candidate !== randomChild.player &&
@@ -106,13 +147,6 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
           18,
     ) as EntityId | undefined;
     if (unauthorizedAdult) {
-      const {
-        id: _id,
-        sequence: _sequence,
-        recordedAt: _recordedAt,
-        stableKey: _stableKey,
-        ...entry
-      } = choice!;
       expect(() =>
         appendChildhoodEntry(played, {
           ...entry,

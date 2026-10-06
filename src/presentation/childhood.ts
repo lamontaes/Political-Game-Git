@@ -18,7 +18,11 @@ import type { PeopleTrait } from "../simulation/people-trait-definitions";
 import { recordFormativePlayerTraitChoice } from "../simulation/people-player-traits";
 import { appendChildhoodEntry } from "../simulation/childhood-record";
 import type { DecisionConsideration } from "../simulation/types";
-import { chooseFormativeOption, projectFormativeYears } from "./formative-play";
+import {
+  chooseFormativeOption,
+  formativePlayStableKey,
+  projectFormativeYears,
+} from "./formative-play";
 import { goalConsiderations } from "../simulation/people-goal-pursuit";
 import {
   CONNECTION_GOAL_KEY,
@@ -145,6 +149,11 @@ export function playChildhoodMoment(
       true,
     );
     if (!decided.optionKey) return decided.world;
+    const formativeKey = formativePlayStableKey(
+      decided.world,
+      input.personId,
+      scene.situationKey,
+    );
     const chosen = chooseFormativeOption(decided.world, {
       personId: input.personId,
       situationKey: scene.situationKey,
@@ -161,6 +170,7 @@ export function playChildhoodMoment(
           moment.caregiverPersonId,
           scene,
           decided.optionKey,
+          formativeKey,
         )
       : chosen;
   }
@@ -190,6 +200,11 @@ export function playChildhoodMoment(
   }
   const chosen = caregiverChoice(world, input.personId, moment, scene);
   if (chosen === null) return world;
+  const formativeKey = formativePlayStableKey(
+    world,
+    input.personId,
+    scene.situationKey,
+  );
   const played = chooseFormativeOption(world, {
     personId: input.personId,
     situationKey: scene.situationKey,
@@ -204,6 +219,7 @@ export function playChildhoodMoment(
         moment.caregiverPersonId,
         scene,
         chosen,
+        formativeKey,
       )
     : played;
 }
@@ -214,21 +230,11 @@ function recordCaregiverChoice(
   caregiverPersonId: EntityId,
   scene: FormativeScene,
   optionKey: string,
+  formativeKey: string,
 ): World {
-  const source = world.history.events
-    .filter(
-      (event) =>
-        event.occurredAt === world.currentDate &&
-        event.tags.includes(scene.situationKey) &&
-        event.tags.includes(`choice.${optionKey}`) &&
-        event.participants.some(
-          (participant) =>
-            participant.personId === caregiverPersonId &&
-            participant.role === "agency:actor",
-        ) &&
-        event.involvedEntityIds.includes(personId),
-    )
-    .at(0);
+  const source = world.history.events.find(
+    (event) => event.stableKey === `${formativeKey}:event`,
+  );
   if (!source)
     throw new Error("The caregiver choice has no formative event to cite.");
   return appendChildhoodEntry(world, {

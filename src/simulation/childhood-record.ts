@@ -99,6 +99,8 @@ export function appendChildhoodEntry(world: World, input: EntryInput): World {
       input.caregiverPersonId === input.personId ||
       ageOnDate(world.people[input.caregiverPersonId]!.birthDate, effectiveAt) <
         18 ||
+      source.occurredAt !== effectiveAt ||
+      !source.involvedEntityIds.includes(input.personId) ||
       !input.optionKey.trim() ||
       !source.tags.includes(input.situationKey) ||
       !source.tags.includes(`choice.${input.optionKey}`) ||
@@ -173,6 +175,7 @@ export function assertChildhoodRecordIntegrity(world: World): void {
         (!caregiver ||
           caregiver.id === person.id ||
           ageOnDate(caregiver.birthDate, entry.effectiveAt) < 18 ||
+          source.occurredAt !== entry.effectiveAt ||
           !entry.optionKey.trim() ||
           !source.tags.includes(entry.situationKey) ||
           !source.tags.includes(`choice.${entry.optionKey}`) ||
