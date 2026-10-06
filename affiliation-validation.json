@@ -1,0 +1,28 @@
+{
+  "head": "f35c8e61685cfd957a26c76503c2b187f4f09aca",
+  "base": "c76514832e9c866b5cf5967206bed554b6a1e88e",
+  "focusedTests": {
+    "files": 2,
+    "passed": 20,
+    "durationSeconds": 31.13,
+    "paths": [
+      "src/simulation/living-world/opening-affiliation.test.ts",
+      "src/presentation/world-orientation.test.ts"
+    ]
+  },
+  "configuredTypecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "run": "286c26a6-e9e9-4cb9-9a69-541c44932299",
+    "source": "stable clean published head; no source switch, files/include overrides or composite overrides",
+    "unresolvedTestImports": 0,
+    "testsOutsideProjects": 794
+  },
+  "changedEslint": "PASS",
+  "changedPrettier": "PASS",
+  "release": "PASS",
+  "zeroDice": "PASS",
+  "diffWhitespace": "PASS",
+  "browser": "not run",
+  "yearBenchmark": "not run"
+}
