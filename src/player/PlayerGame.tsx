@@ -193,8 +193,8 @@ import { projectToday, projectWorkRole } from "../presentation/day-overview";
 import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import {
+  resolveCurrentPlaySceneContext,
   resolvePlaySceneContext,
-  resolveOpeningPlaySceneContext,
 } from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
@@ -1660,9 +1660,10 @@ function PlayingScreen({
         })),
       };
     if (!continuingLifeShown)
-      return resolveOpeningPlaySceneContext(
+      return resolveCurrentPlaySceneContext(
         session.world,
         session.personId,
+        projectedMoment.scene,
         undefined,
         sceneVisuals,
       );
