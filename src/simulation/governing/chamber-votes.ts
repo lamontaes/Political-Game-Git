@@ -46,6 +46,9 @@ import { readRelationshipStanding } from "../relationship-standing";
 import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
 import { FEDERAL_VACANCY_EVENT } from "../federal-tenures";
+import { PEOPLE_MIND_VERSION } from "../people-trait-definitions";
+import { readTrait } from "../trait-readings";
+import { traitRegistryFor } from "../trait-registry";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -184,6 +187,8 @@ const PUBLIC_PARTIES = new WeakMap<World, Map<EntityId, string | null>>();
 
 interface ChamberVoteCommonInput {
   readonly stableKey: string;
+  /** Actual vote writers may retain the evaluations; previews only read them. */
+  readonly onDecision?: (evaluation: DecisionEvaluation) => void;
   readonly members: readonly SeatedMember[];
   /**
    * Decide only these members (by member key). The whole chamber still names
@@ -194,6 +199,18 @@ interface ChamberVoteCommonInput {
   readonly playerPersonId?: EntityId | null;
   /** The player's own ballot, when they cast one. */
   readonly playerBallot?: LegislativeMemberDisposition | null;
+}
+
+/** The exact ephemeral evaluation used to produce one member's ballot. */
+export interface ChamberVoteMemberEvaluation {
+  readonly disposition: LegislativeVoteDisposition;
+  readonly evaluation: DecisionEvaluation | null;
+  readonly sourceRefs: readonly MindSourceReference[];
+}
+
+/** Optional evidence receiver for the domain roll-call writer. */
+export interface ChamberVoteOptions {
+  readonly onMemberEvaluation?: (row: ChamberVoteMemberEvaluation) => void;
 }
 
 export interface ChamberBillVoteInput extends ChamberVoteCommonInput {
@@ -1005,13 +1022,17 @@ function billVoteContext(
       let views: readonly DecisionConsideration[] | undefined;
       const viewsOf = (): readonly DecisionConsideration[] =>
         (views ??= [
-          ...memberVoteConsiderations(world, {
-            stableKey: `${input.stableKey}:${member.memberKey}`,
+          ...weighRecordedPolicyBeliefs(
+            world,
             personId,
-            question: input.question,
-          }).filter(
-            (consideration) =>
-              consideration.stableKey !== "member:nothing-decisive",
+            memberVoteConsiderations(world, {
+              stableKey: `${input.stableKey}:${member.memberKey}`,
+              personId,
+              question: input.question,
+            }).filter(
+              (consideration) =>
+                consideration.stableKey !== "member:nothing-decisive",
+            ),
           ),
           // GAME ASSUMPTION (Build 25): a member's principles are what they are
           // known to stand for, so a colleague predicting the vote reads them;
@@ -1203,8 +1224,9 @@ export function decideChamberVote(
       randomness: "none",
       retention: "ephemeral",
     });
+    input.onDecision?.(evaluation);
     const selected = evaluation.selectedOptionKey ?? "withhold";
-    const decisive = considerations
+    const decisive = evaluation.context.considerations
       .filter((consideration) => consideration.optionKey === selected)
       .sort(
         (l, r) =>
@@ -1232,6 +1254,71 @@ export function decideChamberVote(
       ),
     };
   }
+}
+
+const MEMBER_BELIEF_IMPORTANCE = [
+  "slight",
+  "moderate",
+  "strong",
+  "decisive",
+] as const;
+
+/**
+ * A member's recorded deliberation changes the weight of their own recorded
+ * policy belief; it never supplies a side to vote for. The low pole (thinks it
+ * through) strengthens that belief by the recorded magnitude, while the high
+ * pole (acts on impulse) weakens it by the same amount. Unrecorded and
+ * balanced traits leave the established vote reasons exactly as they are.
+ */
+function weighRecordedPolicyBeliefs(
+  world: World,
+  personId: EntityId,
+  considerations: readonly DecisionConsideration[],
+): readonly DecisionConsideration[] {
+  const trait = traitRegistryFor(world).traits.get(
+    `${PEOPLE_MIND_VERSION}:deliberation`,
+  );
+  if (!trait) return considerations;
+  const reading = readTrait(world, personId, trait);
+  if (reading.state !== "recorded" || reading.value === 0)
+    return considerations;
+
+  const direction = reading.value < 0 ? 1 : -1;
+  const steps = Math.abs(reading.value);
+  return considerations.map((consideration) => {
+    if (
+      consideration.sourceType !== "belief:formed-position" ||
+      !consideration.sourceRefs.some(
+        (reference) => reference.kind === "private-belief",
+      )
+    )
+      return consideration;
+    const current = MEMBER_BELIEF_IMPORTANCE.indexOf(
+      consideration.importance as (typeof MEMBER_BELIEF_IMPORTANCE)[number],
+    );
+    if (current < 0) return consideration;
+    const next = Math.max(
+      0,
+      Math.min(
+        MEMBER_BELIEF_IMPORTANCE.length - 1,
+        current + direction * steps,
+      ),
+    );
+    if (next === current) return consideration;
+    return {
+      ...consideration,
+      importance: MEMBER_BELIEF_IMPORTANCE[next]!,
+      explanation:
+        consideration.explanation +
+        (direction > 0
+          ? " Their recorded deliberation gives this considered view more weight."
+          : " Their recorded impulsiveness gives this considered view less weight."),
+      sourceRefs: [
+        ...consideration.sourceRefs,
+        { kind: "personality-tendency", tendencyRecordId: reading.recordId },
+      ],
+    };
+  });
 }
 
 /** A member's own bill, or one they put their name on: a view, not a cue. */

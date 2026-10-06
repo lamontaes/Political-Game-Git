@@ -698,7 +698,7 @@ export function prepareStateCandidateSlates(
               recruitmentSourceType:
                 "institution:community-recruitment" as const,
               recruitmentExplanation:
-                "A local opportunity to stand for the seat became available.",
+                "A local opportunity to run for the seat became available.",
             }
           : {}),
       });
@@ -843,7 +843,7 @@ export function prepareStateCandidateSlates(
           ? ["incumbent-qualification:provisional-game-profile"]
           : []),
       ],
-      summary: `${candidates.length} people entered the race for ${plan.title}.`,
+      summary: `${candidates.length} ${candidates.length === 1 ? "person" : "people"} entered the race for ${plan.title}.`,
       context: {
         location: null,
         socialContext: null,

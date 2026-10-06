@@ -180,16 +180,20 @@ export function recordCampaignFundraiserReceipts(
 }
 
 /**
- * UNRESEARCHED. How much of their own money a candidate may put into their
- * committee. Federal law sets no limit on a candidate's own money, and this
- * blanket rule follows it everywhere until the per-state answer to
- * `how-a-campaign-can-be-paid-for` lands: the only limit is what the
- * candidate actually has.
+ * A candidate may spend personal funds on their own candidacy without a legal
+ * ceiling. Buckley v. Valeo invalidated candidate personal-expenditure caps;
+ * current FEC guidance records the same no-limit rule while requiring federal
+ * candidates to report the money. The game separately limits the transfer to
+ * the candidate's recorded available balance.
  */
-export const UNRESEARCHED_OWN_MONEY_RULE = {
-  version: "campaign-own-money-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const CANDIDATE_OWN_MONEY_RULE = {
+  version: "campaign-own-money-buckley-v1",
+  provenance: "recorded-constitutional-rule",
   limitMinorUnits: null,
+  sources: [
+    "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/using-personal-funds-candidate/",
+    "https://www.govinfo.gov/app/details/USREPORTS-424/USREPORTS-424-1/context",
+  ],
 } as const;
 
 export const CANDIDATE_OWN_MONEY_EVENT = "campaign-finance.candidate-own-money";
@@ -287,7 +291,7 @@ export function contributeOwnMoneyToCampaign(
     personFactConstraints: [],
     visibility: "public",
     tags: [
-      UNRESEARCHED_OWN_MONEY_RULE.version,
+      CANDIDATE_OWN_MONEY_RULE.version,
       "campaign-finance:own-money",
       "time-neutral",
     ],

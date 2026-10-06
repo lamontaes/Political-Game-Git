@@ -1,6 +1,11 @@
 import { addDays, ageOnDate, daysBetween } from "./dates";
-import { evaluateDecision, isSelectedDecision } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { eventById } from "./event-index";
+import { observerAnchorPersonId } from "./people-continuation";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeEducationEnrollmentsAt,
@@ -92,16 +97,18 @@ import type {
 
 const REVIEW_KEY_PREFIX = "people-goal-review:";
 
-function lifeAnchor(world: World): EntityId | null {
+function goalReviewAnchor(world: World): EntityId | null {
   return (
     world.preStartLife?.personId ??
-    (world.control.kind === "person" ? world.control.personId : null)
+    (world.control.kind === "person"
+      ? world.control.personId
+      : observerAnchorPersonId(world))
   );
 }
 
-/** Schedules the first weekly review for a played life. Idempotent. */
+/** Schedules the weekly review around a played or observed life. Idempotent. */
 export function ensurePeopleGoalReview(world: World): World {
-  if (!lifeAnchor(world)) return world;
+  if (!goalReviewAnchor(world)) return world;
   if (
     world.history.futureDueItems.some(
       (item) => item.transitionKey === GOAL_REVIEW_TRANSITION_KEY,
@@ -168,13 +175,12 @@ function adultAlive(world: World, personId: EntityId, dead: Set<EntityId>) {
 }
 
 /**
- * Everybody the played life can run into: residents written out in the
- * played person's town, and anybody connected to the played person by home,
- * family or a recorded interaction. Sorted, so the week's order is the same
- * on every load. The played person is never reviewed; their goals are theirs.
+ * Everybody the anchor person can run into: residents written out in their
+ * town, and anybody connected by home, family or a recorded interaction.
+ * Sorted, so the week's order is the same on every load.
  */
 export function pursuitCandidates(world: World): readonly EntityId[] {
-  const anchorId = lifeAnchor(world);
+  const anchorId = goalReviewAnchor(world);
   if (!anchorId) return [];
   const anchor = world.people[anchorId];
   if (!anchor) return [];
@@ -187,7 +193,9 @@ export function pursuitCandidates(world: World): readonly EntityId[] {
   return (Object.keys(world.people) as EntityId[])
     .filter(
       (id) =>
-        (id !== anchorId || world.preStartLife?.personId === id) &&
+        (id !== anchorId ||
+          world.preStartLife?.personId === id ||
+          world.control.kind !== "person") &&
         adultAlive(world, id, dead) &&
         (world.people[id]!.homeJurisdictionId === anchor.homeJurisdictionId ||
           connected.has(id)),
@@ -283,7 +291,7 @@ function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
   // person is given (`life-personality.ts`). They resolve here, once, the first
   // time the played life reaches them. Residents the played life has no tie
   // to stay light: they act only on circumstances, such as losing work.
-  const anchorId = lifeAnchor(next);
+  const anchorId = goalReviewAnchor(next);
   if (anchorId) {
     const tied = new Set([
       ...connectedTo(next, anchorId),
@@ -524,6 +532,7 @@ function pursueLivelihood(world: World, goal: GoalStateRecord): PursuitOutcome {
         decided.world,
         application.id,
         decided.accept,
+        decided.world.history.decisionTraces.at(-1)?.id,
       );
       if (!answered.ok) continue;
       next = answered.world;
@@ -640,7 +649,11 @@ function decideOnOffer(
       asOfDate: withTraits.currentDate,
       historySequenceExclusive: withTraits.history.nextSequence,
     },
-    subject: { kind: "context:life", key: "job-offer", entityId: null },
+    subject: {
+      kind: "context:life",
+      key: "job-offer",
+      entityId: applicationId,
+    },
     options: [
       { key: "accept", label: "Take it", description: "Accept the offer." },
       {
@@ -653,10 +666,12 @@ function decideOnOffer(
     considerations,
     perceptionIds: [],
     randomness: "none",
-    retention: "ephemeral",
+    retention: "durable",
   });
   return {
-    world: withTraits,
+    world: isSelectedDecision(evaluation)
+      ? recordDurableDecisionTrace(withTraits, evaluation)
+      : withTraits,
     accept:
       evaluation.outcomeKind === "selected" &&
       evaluation.selectedOptionKey !== null
@@ -801,7 +816,7 @@ function pursueCall(
   goal: GoalStateRecord,
   purpose: "connection" | "learning",
 ): PursuitOutcome {
-  const anchorId = lifeAnchor(world);
+  const anchorId = goalReviewAnchor(world);
   if (!anchorId) return { kind: "waiting", world };
   const personId = goal.personId;
   const last = lastStepAt(world, goal);
@@ -1253,7 +1268,7 @@ function tellHousehold(
   eventId: EntityId,
   said: string | null,
 ): World {
-  const anchorId = lifeAnchor(world);
+  const anchorId = goalReviewAnchor(world);
   if (!said || !anchorId || anchorId === personId) return world;
   if (!connectedByHomeOrFamily(world, anchorId, personId)) return world;
   return recordEventKnowledge(world, {

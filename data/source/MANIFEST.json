@@ -45,7 +45,7 @@
       "domain": "acs-pums",
       "isCompleteUniverse": false,
       "recordCount": 220,
-      "universeDescription": "Sampled housing units and persons from the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata Sample for Wyoming. PUMS is a weighted sample supporting estimates at the public use microdata area level; it is not an enumeration, and it is not national — the national product (csv_pus.zip) is roughly a gigabyte, is not retrieved here, and is not claimed."
+      "universeDescription": "Housing units and persons represented in the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata for Wyoming. The published person and housing weights support estimates at the public use microdata area level; these records are not an enumeration or a national corpus. The national product (csv_pus.zip) is roughly a gigabyte, is not retrieved here, and is not claimed."
     },
     {
       "artifacts": [
@@ -375,7 +375,7 @@
       "domain": "civil-service-labor",
       "isCompleteUniverse": true,
       "recordCount": 51,
-      "universeDescription": "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial and unsupported facts remain UNKNOWN."
+      "universeDescription": "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial; a field without retrieved authority remains UNRESOLVED with its recorded reason and evidence."
     },
     {
       "artifacts": [
@@ -699,7 +699,7 @@
         }
       ],
       "asOf": "2024-09-30",
-      "boundedSampleReason": "First 25 sorted publisher IDs and their published item rows. Annual survey sample, not complete universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
+      "boundedSampleReason": "First 25 sorted publisher IDs and their published item rows. This bounded annual-survey subset is not the complete published universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
       "canonicalSha256": "d24581818239ed84442fa44db09f358aa1eded72c38f96358c92d804587cce4c",
       "compiler": {
         "name": "government-finances",
@@ -710,7 +710,7 @@
       "domain": "government-finances",
       "isCompleteUniverse": false,
       "recordCount": 886,
-      "universeDescription": "2024 Census finance sample inputs, not reviewed individual-unit time series."
+      "universeDescription": "Bounded 2024 Census finance survey inputs, not reviewed individual-unit time series."
     },
     {
       "artifacts": [
@@ -895,12 +895,12 @@
       ],
       "asOf": "2026-09-08",
       "boundedSampleReason": "Coverage is limited to reviewed, acquired and compiled enacted provisions for these named governments. Uncompiled fields remain unresolved; national research transcriptions remain separate and this is not nationwide coverage.",
-      "canonicalSha256": "0f43efbbb0b3321beab3a2f8998fa95be073b508c2d087a4911f882774c76a47",
+      "canonicalSha256": "f29235a609c2c0908303b45d5572b00367ec6a387a88a108310b58dcd4caee87",
       "compiler": {
         "name": "municipal-governance",
         "version": "3.0.0"
       },
-      "corpusFileSha256": "0f43efbbb0b3321beab3a2f8998fa95be073b508c2d087a4911f882774c76a47",
+      "corpusFileSha256": "f29235a609c2c0908303b45d5572b00367ec6a387a88a108310b58dcd4caee87",
       "corpusId": "municipal-governance",
       "domain": "municipal-governance",
       "isCompleteUniverse": false,
@@ -2264,7 +2264,7 @@
         }
       ],
       "asOf": "2025-03-31",
-      "boundedSampleReason": "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. Annual survey sample, not census universe. Reported/imputed flags retained; FTE unavailable. Census has not reviewed individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See locked publisher disclaimer.",
+      "boundedSampleReason": "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. This is an annual survey sample rather than the census universe. Reported/imputed flags are retained; FTE is unavailable. The publisher has not validated individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See the locked publisher disclaimer.",
       "canonicalSha256": "11be2f26896149e2ba161f0b28aac29cd138cd9de09952e259dd62f437cf1ece",
       "compiler": {
         "name": "public-employment",
@@ -2275,7 +2275,7 @@
       "domain": "public-employment",
       "isCompleteUniverse": false,
       "recordCount": 298,
-      "universeDescription": "2025 ASPEP individual-government sample observations; Census Bureau source data, not a reviewed individual-unit time series."
+      "universeDescription": "2025 ASPEP individual-government sample observations from Census Bureau source data. The publisher has not validated these as individual-unit time series."
     },
     {
       "artifacts": [
@@ -2476,7 +2476,7 @@
       "domain": "state-legislatures",
       "isCompleteUniverse": true,
       "recordCount": 50,
-      "universeDescription": "The fifty United States, one identity record each. Facts inside a record are KNOWN only where a locked state instrument states them; a state whose authority could not be retrieved carries UNKNOWN values and a gap naming the obstacle."
+      "universeDescription": "The fifty United States, one identity record each. Facts inside a record are recorded only where a locked state instrument states them; a state whose authority could not be retrieved carries unresolved values and a gap naming the obstacle."
     },
     {
       "artifacts": [

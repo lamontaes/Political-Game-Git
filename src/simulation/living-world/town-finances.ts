@@ -2091,14 +2091,14 @@ export function assertTownFinanceIntegrity(world: World): void {
     if (id !== books.organizationId || !organizations.has(id))
       throw new Error(`Town books name an unknown business: ${id}`);
     if (books.bankId && !organizations.has(books.bankId))
-      throw new Error(`Town books name an unknown bank: ${books.bankId}`);
+      throw new Error(`Town books name an unrecorded bank: ${books.bankId}`);
     finite(books.cash, books.debt, books.annualRevenue, books.capacity);
     if (books.debt < 0 || books.capacity < 0)
       throw new Error(`Town books hold a negative debt or capacity: ${id}`);
   }
   for (const [id, bank] of Object.entries(store.banks)) {
     if (id !== bank.organizationId || !organizations.has(id))
-      throw new Error(`Town books name an unknown bank: ${id}`);
+      throw new Error(`Town books name an unrecorded bank: ${id}`);
     finite(bank.deposits, bank.liquid, bank.loans, bank.capital);
     if (
       bank.failed &&

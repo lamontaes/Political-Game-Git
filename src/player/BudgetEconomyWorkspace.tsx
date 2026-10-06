@@ -7,6 +7,7 @@ import type { EntityId, World } from "../simulation";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { EconomicContextPanel, EconomicGraph } from "./EconomicContextPanel";
 import { MacroConditionsPanel } from "./MacroConditionsPanel";
+import { ExecutiveBudgetRequestHistory } from "./ExecutiveBudgetRequest";
 import { ModeledAccountHistory } from "./ModeledAccountHistory";
 import "./budget-economy-workspace.css";
 
@@ -105,6 +106,10 @@ export function BudgetEconomyWorkspace({
         </section>
       )}
 
+      <ExecutiveBudgetRequestHistory
+        world={world}
+        jurisdictionId={jurisdictionId}
+      />
       <ModeledAccountHistory history={modeledAccount} />
     </section>
   );

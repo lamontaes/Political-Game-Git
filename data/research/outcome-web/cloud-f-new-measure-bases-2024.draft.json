@@ -1,6 +1,6 @@
 {
   "id": "cloud-f-new-measure-bases-2024-draft",
-  "about": "The research record behind CLOUD F's place outcomes of September 28, 2026: each measure's source, unit, scale, drift and every place the source reports, pulled with curl from the primary publishers. The game reads the same values from place-outcome-bases-2024.json; this file also keeps what that one does not, such as each state's credit rating behind its borrowing cost. A place left out is unknown, never zero. Net migration is kept as two rates, in and out (Claude CTO, 2:58 p.m.), and recycling was dropped (no consistent state figures).",
+  "about": "The research record behind CLOUD F's place outcomes of September 28, 2026: each measure's source, unit, scale, drift and every place the source reports, pulled with curl from the primary publishers. The game reads the same values from place-outcome-bases-2024.json; this file also keeps what that one does not, such as each state's credit rating behind its borrowing cost. A place absent from a source uses an explicitly labeled estimate from the reported places, never zero. Net migration is kept as two rates, in and out (Claude CTO, 2:58 p.m.), and recycling was dropped (no consistent state figures).",
   "measures": {
     "household.food-insecurity": {
       "name": "Share of households that are food insecure",
@@ -533,7 +533,7 @@
       "source": "S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number)",
       "scale": "level",
       "shortUnit": "basis points over AAA",
-      "note": "Puerto Rico and the territories are unknown. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "note": "ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
       "drift": {
         "monthlySdLogit": 0.5,
         "nationalShare": 0.3,
@@ -593,7 +593,12 @@
         "US-WA": 6,
         "US-WI": 6,
         "US-WV": 18,
-        "US-WY": 12
+        "US-WY": 12,
+        "US-PR": 8.7,
+        "US-GU": 8.7,
+        "US-VI": 8.7,
+        "US-AS": 8.7,
+        "US-MP": 8.7
       },
       "ratings": {
         "US-AK": {

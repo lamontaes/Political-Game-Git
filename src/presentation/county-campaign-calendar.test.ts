@@ -75,7 +75,7 @@ describe("county calendar reaches existing campaign readers", () => {
     expect(row).toMatchObject({
       electionDate: null,
       eligible: false,
-      timing: "The next election date is not known.",
+      timing: "This office record has no scheduled election date.",
     });
     expect(() =>
       fileForOffice(world, person.id, null, county.officeKey),

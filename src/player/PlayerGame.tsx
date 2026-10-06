@@ -174,6 +174,8 @@ import {
   type NewGame,
   type NewGameSetup,
 } from "../presentation/new-game";
+import { olderOneSaveSlots } from "../presentation/one-save-slots";
+import { playSettingsOf, setPlaySetting } from "../simulation/play-settings";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
@@ -341,11 +343,7 @@ import {
 } from "./return-to-title-bridge";
 import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
-import {
-  ObserverClock,
-  ObserverRecordWorkspace,
-  ObserverInspectorWorkspace,
-} from "./ObserverWorkspace";
+import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
 import { ObserverRunController } from "./observer-run-controller";
 import {
   observerSetup,
@@ -356,6 +354,13 @@ import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
 
 /* The map carries its geometry; it loads only when a player opens it. */
 const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
+const ObserverInspectorRoute = import.meta.env.DEV
+  ? lazy(() =>
+      import("../ui/ObserverDevRoute").then((module) => ({
+        default: module.ObserverDevRoute,
+      })),
+    )
+  : () => null;
 
 /*
  * The map recomputes pinned-seat highlights whenever its focus object changes,
@@ -682,9 +687,17 @@ export function PlayerGame() {
     saveInFlight.current = true;
     setNotice("Saving…");
     const worldToSave = observerCheckpoint ?? session.world;
+    const oneSave = playSettingsOf(worldToSave).saves === "one-save";
+    const shelfBeforeWrite = oneSave ? await store.list() : null;
+    const existingLifeSlot =
+      shelfBeforeWrite?.saves.find((entry) => entry.worldId === worldToSave.id)
+        ?.saveId ?? null;
     // A slot of its own, so keeping this life never lands on top of another
     // save of the same world.
-    const saveId = session.saveId ?? store.newSaveId(worldToSave);
+    const saveId =
+      session.saveId ??
+      (oneSave ? existingLifeSlot : null) ??
+      store.newSaveId(worldToSave);
     try {
       // Persist presentation references first: a newly visible world slot must
       // already have its pins, even if the player reloads immediately afterward.
@@ -695,6 +708,14 @@ export function PlayerGame() {
         // player looking for the wrong problem.
         setProblem(outcome.reason);
         return false;
+      }
+      if (oneSave && shelfBeforeWrite) {
+        const olderSlots = olderOneSaveSlots(
+          shelfBeforeWrite.saves,
+          worldToSave.id,
+          saveId,
+        );
+        for (const olderSlot of olderSlots) await store.remove(olderSlot);
       }
       setSession((current) =>
         current?.world.id === worldToSave.id
@@ -2861,7 +2882,7 @@ function PlayingScreen({
                 data-testid="observing-label"
               >
                 <strong>Observing</strong>
-                <span>Nobody is being played. You can look, not act.</span>
+                <span>You can look, not act.</span>
                 <ObserverClock
                   runner={observerRunner}
                   onOpenInspector={(pausedWorld) => {
@@ -2933,7 +2954,9 @@ function PlayingScreen({
                 onBack={() => setInspectorWorld(null)}
                 onClose={() => setInspectorWorld(null)}
               >
-                <ObserverInspectorWorkspace world={admittedInspector} />
+                <Suspense fallback={<p>Opening Observer inspector…</p>}>
+                  <ObserverInspectorRoute initialWorld={admittedInspector} />
+                </Suspense>
               </WorkspaceFrame>
             ) : null}
             <div hidden={admittedInspector !== null}>{workspace}</div>
@@ -4292,6 +4315,25 @@ function renderWorkspace({
           <OptionsWorkspace
             state={shell}
             dispatch={dispatch}
+            playSettings={playSettingsOf(session.world)}
+            onSetPlaySetting={(key, value) => {
+              if (key === "challenge")
+                onWorldChange(
+                  setPlaySetting(
+                    session.world,
+                    key,
+                    value as "quiet" | "standard" | "relentless",
+                  ),
+                );
+              else
+                onWorldChange(
+                  setPlaySetting(
+                    session.world,
+                    key,
+                    value as "full" | "light" | "none",
+                  ),
+                );
+            }}
             onOpenPatchNotes={() =>
               dispatch({ type: "go-to-surface", surface: "patch-notes" })
             }

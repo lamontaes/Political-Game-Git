@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import type { EntityId, HistoricalEvent, World } from "../types";
-import type { MediaOutletRecord } from "./records";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
+import { PRESS_POLICY_VERSION, type MediaOutletRecord } from "./records";
 import {
   headlineFor,
   readHeadlineParts,
@@ -20,14 +20,26 @@ import {
 
 function outlet(over: Partial<MediaOutletRecord>): MediaOutletRecord {
   return {
+    id: "outlet-1" as EntityId,
+    stableKey: "media-outlet:the-evening-compass",
+    sequence: 1,
+    recordedAt: "2026-01-01" as IsoDate,
     kind: "media-outlet",
+    organizationId: "org-1" as EntityId,
     name: "The Evening Compass",
     product: "general-newspaper",
     scope: "local",
+    primaryJurisdictionIds: ["jur-ky" as EntityId],
     mediums: ["text"],
+    beats: ["general-assignment"],
     resourceTier: "standard",
+    cadence: "daily",
+    acceptsDeepBackground: false,
+    establishedAt: "2026-01-01" as IsoDate,
+    policyVersion: PRESS_POLICY_VERSION,
+    provenanceNote: "Test fixture outlet.",
     ...over,
-  } as MediaOutletRecord;
+  };
 }
 
 function event(over: Partial<HistoricalEvent>): HistoricalEvent {
@@ -149,4 +161,25 @@ describe("a headline is written for a reader", () => {
     });
     expect(headlineFor(world, confidential, outlet({}))).toContain("publicly");
   });
+
+  it.each([
+    ["softened", "A personal relationship ended in Kentucky."],
+    ["summary-only", "A personal event was recorded in Kentucky."],
+  ] as const)(
+    "softens only the headline for %s personal depiction",
+    (setting, expected) => {
+      const breakup = event({
+        type: "life.couple-ended",
+        summary: "Dana Reyes ended things with Amara Silva.",
+        tags: ["life.couple", "life.couple.ended"],
+      });
+      const configured = {
+        ...world,
+        playSettings: { personalLifeDepiction: setting },
+      } as unknown as World;
+
+      expect(headlineFor(configured, breakup, outlet({}))).toBe(expected);
+      expect(breakup.summary).toBe("Dana Reyes ended things with Amara Silva.");
+    },
+  );
 });

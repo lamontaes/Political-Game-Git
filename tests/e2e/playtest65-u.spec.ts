@@ -102,11 +102,13 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
     page.locator('.pg-opening-president [data-figure-status="ready"]'),
   ).toBeVisible();
   await page.screenshot({ path: info.outputPath("white-house.png") });
+  await expect(page.getByTestId("scene-place-nameplate")).toHaveCount(0);
+  await expect(page.locator(".pg-opening-official-labels")).toHaveCount(0);
   const president = page
-    .locator(".pg-opening-official-labels .pg-orientation-person")
+    .locator('button[data-testid^="opening-official-"]')
     .first();
   const presidentId = (await president.getAttribute("data-testid"))!.replace(
-    "orientation-person-",
+    "opening-official-",
     "",
   );
   await president.click();

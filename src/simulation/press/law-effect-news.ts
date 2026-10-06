@@ -81,6 +81,7 @@ type Reach =
   | "benefit"
   | "paycheck"
   | "job-rule"
+  | "election-rule"
   | "business-rule"
   | "public-service"
   | "health-coverage";
@@ -481,6 +482,8 @@ function effectPhrase(group: readonly Touch[], count: number): string {
       return `changed the paychecks of ${plural(count, "resident", "residents")}`;
     case "job-rule":
       return `changed the rules at work for ${plural(count, "resident", "residents")}`;
+    case "election-rule":
+      return `changed eligibility to seek another term for ${plural(count, "officeholder", "officeholders")}`;
     case "business-rule":
       return `changed the rules for ${plural(count, "local business owner", "local business owners")}`;
     case "health-coverage":

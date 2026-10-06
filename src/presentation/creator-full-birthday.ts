@@ -116,6 +116,22 @@ export function birthYearChoices(
   return years;
 }
 
+/** Player-facing year label with the age (or ages) it can produce. */
+export function birthYearChoiceLabel(
+  year: number,
+  month: number | null,
+  day: number | null,
+  startDate: IsoDate,
+): string {
+  const range = creatorBirthdayAgeRange({ year, month, day }, startDate);
+  if (!range) return String(year);
+  const age =
+    range.minimum === range.maximum
+      ? String(range.minimum)
+      : `${range.minimum}–${range.maximum}`;
+  return `${year} (age ${age})`;
+}
+
 /**
  * Applies a whole birthday to the setup. Returns null when that birthday
  * cannot start a life (outside the age range, or a date that never existed).
@@ -223,7 +239,8 @@ export function creatorBirthdayAgeRange(
         isoDateFromParts(birthday.year, month, day),
         startDate,
       );
-      if (age >= MINIMUM_START_AGE && age <= MAXIMUM_START_AGE) ages.push(age);
+      if (age < MINIMUM_START_AGE || age > MAXIMUM_START_AGE) return null;
+      ages.push(age);
     }
   return ages.length
     ? { minimum: Math.min(...ages), maximum: Math.max(...ages) }

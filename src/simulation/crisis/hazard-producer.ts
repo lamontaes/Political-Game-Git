@@ -105,14 +105,11 @@ const FAMILY_OF: Readonly<Record<string, HazardFamily>> = {
 };
 
 /**
- * PLACEHOLDER, NOT RESEARCHED: which recorded reports become a disaster the
- * town lives through. The catalog counts every thunderstorm-wind and flood
- * REPORT, and declaring each one as a damaging episode gave one county about
- * fifteen disasters a year (Delaware County, Ohio; Stapleton, Alabama). Until
- * `which-storm-reports-a-town-experiences-as-a-disaster` is answered, only
- * episodes the ladder below calls major or catastrophic are declared; the
- * rest are still drawn, so the stream's randomness is unchanged, and left
- * unrecorded.
+ * A sampled report becomes a lived disaster when the catalog-derived
+ * magnitude ladder calls it major or catastrophic. Minor and moderate reports
+ * remain samples but do not create an episode. This uses each report's area
+ * and event counts uniformly in every represented place; no named demo place
+ * or additional chance chooses the outcome.
  */
 const FELT_AS_DISASTER: ReadonlySet<HazardMagnitude> = new Set([
   "major",
@@ -537,7 +534,7 @@ function episodeInput(
     stateUsps: sample.stateUsps,
     jurisdictionIds: sample.jurisdictionIds,
     durationDays: sample.durationDays,
-    basis: `${HAZARD_SAMPLING_CONTRACT.label}: resampled from NCEI Storm Events episode ${sample.recordedEpisodeId} (${sample.sourceFamily}, ${sample.recordedAreaCount} recorded county area(s)); count drawn ${HAZARD_SAMPLING_CONTRACT.countLaw}.`,
+    basis: `${HAZARD_SAMPLING_CONTRACT.label}: resampled from NCEI Storm Events episode ${sample.recordedEpisodeId} (${sample.sourceFamily}, ${sample.recordedAreaCount} source county area(s)); count drawn ${HAZARD_SAMPLING_CONTRACT.countLaw}.`,
     sourceReference: `ncei-storm-events:${sample.recordedEpisodeId}`,
   };
 }

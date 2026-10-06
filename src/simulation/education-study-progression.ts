@@ -25,6 +25,7 @@ import {
   recordedStudyPeriodTuitionPrice,
 } from "../education/tuition-prices";
 import { TUITION_FREEZE_ROW } from "./law-consequences/tuition-freeze-row";
+import { noticeTuitionFreeze } from "./law-consequences/tuition-freeze-noticed";
 import {
   resolvePriceCostConsequences,
   applyPriceCostConsequence,
@@ -826,6 +827,7 @@ export function completeStudyPeriod(
         },
       ))
         next = applyPriceCostConsequence(next, resolved);
+      next = noticeTuitionFreeze(next, charge.id);
     }
     cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
   }

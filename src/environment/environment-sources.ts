@@ -245,7 +245,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
       "Same-source owner visual acceptance, floor-plane review and release approval. #212's release flag had no recorded acceptance; original bytes/history retained.",
     owedBy: "the owner",
     openRequestIds: [],
-    note: "Two deterministic downscales from IMG_5205, exact Drive ID 1omryvYo8QYASr96guWI7XeQkJ6hdTKCu. Actual canonical campaign-call-desk activity resolves this plate only in isolated development candidate mode. Stable scene ID does not imply release. Native detail unverified; rights unknown.",
+    note: "Two deterministic downscales from IMG_5205, exact Drive ID 1omryvYo8QYASr96guWI7XeQkJ6hdTKCu. Actual canonical campaign-call-desk activity resolves this plate only in isolated development candidate mode. Stable scene ID does not imply release. The source record does not establish native-detail provenance or reuse rights, so this asset remains candidate-preview-only.",
   },
   {
     sourceId: "env_shared_workroom_office_v1",
@@ -372,7 +372,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
       "THREE things, and none of them is a picture. (1) Owner acceptance and a style-family ruling — the AX-92B1 pass recorded `disposition: undecided` and `styleFamilyStatus: unassessed`. (2) The D-070 human floor-plane gate: `floorUsable` and `seatUsable` are unassessed on purpose, and no anchor may be authored until they are. (3) An outdoor environment family, because every registered scene in this game is an interior.",
     owedBy: "the owner",
     openRequestIds: [],
-    note: "#131 intake ran it to `production` disposition mechanically; that is an intake verdict about the bytes, not owner acceptance of the art. Its baked furniture is extensive — roughly a dozen picnic tables — so modular people could not stand on the slab without contending with them. Rights status is unknown and stays unknown.",
+    note: "#131 intake ran it to `production` disposition mechanically; that is an intake verdict about the bytes, not owner acceptance of the art. Its baked furniture is extensive — roughly a dozen picnic tables — so modular people could not stand on the slab without contending with them. The source record does not establish reuse rights, so the asset remains candidate-preview-only.",
   },
   {
     sourceId: "env_press_briefing_room_candidate_v1",
@@ -455,7 +455,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     remainingStep: null,
     owedBy: null,
     openRequestIds: [],
-    note: "QUARANTINED ON PURPOSE, and not a candidate for generic reuse. The plate has a Fayette County map on its wall, so it is admissible only for a legislative job whose jurisdiction is Lexington-Fayette; the generic `lexington-legislative-office` venue key resolves to the unscoped production WORKROOM instead. It is kept as frozen regression evidence and is reachable at ?view=office-fixture.",
+    note: "QUARANTINED ON PURPOSE, and not a candidate for generic reuse. The wall map ties the plate to the jurisdiction encoded by its source and scene identities, so only an exact jurisdiction match may admit it; the generic legislative-office venue resolves to the unscoped production WORKROOM instead. It is kept as frozen regression evidence and is reachable at ?view=office-fixture.",
   },
   {
     sourceId: "env_lexington_council_staff_office_prompt30_foreground_mask_v1",

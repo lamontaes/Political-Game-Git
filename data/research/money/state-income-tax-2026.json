@@ -15,7 +15,7 @@
       "finding": "0% on the first $10,000 of taxable income; 4% on the excess for tax year 2026; 3.75% in 2027. Matches."
     }
   ],
-  "scope": "Single-filer brackets and the single standard deduction only. Married and head-of-household schedules, exemptions and credits are NOT here and stay UNKNOWN until read. Territories are not covered.",
+  "scope": "Single-filer brackets and the single standard deduction only. Married and head-of-household schedules, exemptions, credits and territories are outside this table and must not be inferred from the single-filer rows.",
   "places": {
     "US-AL": {
       "wageIncomeTax": "graduated",

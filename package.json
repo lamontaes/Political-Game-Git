@@ -64,7 +64,10 @@
     "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "typecheck": "node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts",
+    "typecheck": "node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts && npm run check:law-consequence-modules",
+    "generate:law-consequence-modules": "node scripts/law-consequence-modules/generate-manifest.mjs",
+    "test:law-consequence-modules": "node --test scripts/law-consequence-modules/generate-manifest.test.mjs",
+    "check:law-consequence-modules": "node scripts/law-consequence-modules/generate-manifest.mjs --check",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
     "research:request": "node --import tsx scripts/research/cli-research-request.ts",
@@ -136,7 +139,8 @@
     "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts",
     "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run zero-dice && npm run source:validate && npm run source:check-fiscal-disposition && npm run source:replay && npm run education:check && npm run check:local-institutions && npm run check:municipal-generated && npm run check:chief-executive-baseline && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check",
     "test:modular:public": "node scripts/art-asset-factory/modular_fit/verify.mjs public",
-    "test:modular:private": "node scripts/art-asset-factory/modular_fit/verify.mjs private"
+    "test:modular:private": "node scripts/art-asset-factory/modular_fit/verify.mjs private",
+    "secrets:scan": "node scripts/secrets/scan-tracked-secrets.mjs"
   },
   "dependencies": {
     "react": "19.2.6",

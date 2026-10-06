@@ -135,7 +135,7 @@
       "retrieved": "2026-09-28 local read"
     }
   ],
-  "scope": "All 50 states, D.C. and five territories. State general fund and rainy-day balances (NASBO Spring 2026), state all-funds spending and its split by six functions (NASBO SER 2025, state government only), fiscal-year start and budget cycle (NASBO 2021), line-item veto and late-budget rules. Census combined state-and-local per-resident revenue by source and spending by function stay UNKNOWN per place: the Census and Urban pages were unreachable, and only a few national snippet values are recorded under national.",
+  "scope": "All 50 states, D.C. and five territories. State general fund and rainy-day balances (NASBO Spring 2026), state all-funds spending and its split by six functions (NASBO SER 2025, state government only), fiscal-year start and budget cycle (NASBO 2021), line-item veto and late-budget rules. Per-place Census combined state-and-local revenue and spending are supplied by state-local-finances-2022.json; this file records only the national snippet values under national.",
   "national": {
     "generalFundFY2026EstimatedMillions": {
       "expenditures50States": 1379503,
@@ -555,7 +555,7 @@
       "lineItemVeto": {
         "value": null,
         "status": "UNKNOWN",
-        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+        "question": "Does the territory's governor have an item veto on appropriations? The FY2026 vi.gov evidence establishes targeted vetoes only for the U.S. Virgin Islands."
       },
       "lateBudget": {
         "value": null,
@@ -916,7 +916,7 @@
         "fy2026Dollars": 143298000,
         "status": "UNVERIFIED",
         "source": "dc-fy2026-snippet",
-        "note": "Snippet says federal payments 'requested to be appropriated by Congress'; the enacted amounts and their items (tuition assistance, school improvement, courts, and others) are UNKNOWN.",
+        "note": "The snippet reports $143,298,000 requested from Congress. It does not establish enacted item amounts, so this corpus uses the request only as an unverified proposal.",
         "question": "What federal payments to D.C. did the FY2026 Financial Services and General Government appropriation enact, by item?"
       },
       "congressionalReview": {
@@ -1220,7 +1220,7 @@
       "lineItemVeto": {
         "value": null,
         "status": "UNKNOWN",
-        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+        "question": "Does the territory's governor have an item veto on appropriations? The FY2026 vi.gov evidence establishes targeted vetoes only for the U.S. Virgin Islands."
       },
       "lateBudget": {
         "value": null,
@@ -2265,7 +2265,7 @@
       "lineItemVeto": {
         "value": null,
         "status": "UNKNOWN",
-        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+        "question": "Does the territory's governor have an item veto on appropriations? The FY2026 vi.gov evidence establishes targeted vetoes only for the U.S. Virgin Islands."
       },
       "lateBudget": {
         "value": null,
@@ -3350,7 +3350,7 @@
         "federalFundDollars": 14200000000.0,
         "source": "fomb-fy2026",
         "evidence": "snippet-derived",
-        "note": "An amended FY2026 budget was later certified; its figures are UNKNOWN."
+        "note": "A later amended FY2026 budget was certified. This row remains the recorded original certified plan because the cited evidence does not supply the amended figures."
       },
       "fy2027CertifiedBudget": {
         "consolidatedDollars": 33600000000.0,
@@ -3364,7 +3364,7 @@
       "lineItemVeto": {
         "value": null,
         "status": "UNKNOWN",
-        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+        "question": "Does the territory's governor have an item veto on appropriations? The FY2026 vi.gov evidence establishes targeted vetoes only for the U.S. Virgin Islands."
       },
       "lateBudget": {
         "value": null,
@@ -3436,7 +3436,7 @@
         "governorHasItemVetoOnBudget": false,
         "source": "ncsl-veto-snippet",
         "crossCheck": "nasbo-bp-2021 Table 8",
-        "note": "None today. A 2026 Senate Finance file (H7127) discusses a constitutional amendment for one; outcome UNKNOWN."
+        "note": "Rhode Island has no item veto under the operative rule recorded here. A 2026 Senate Finance file (H7127) discusses a proposed constitutional amendment, which does not alter the current value."
       },
       "lateBudget": {
         "rule": "Law authorizes monthly appropriations based on the prior year's enacted budget; general obligation debt service is not limited.",
@@ -3933,7 +3933,7 @@
       "fy2026Budget": {
         "proposedGeneralFundDollars": 936400000.0,
         "proposedAllFundsDollars": 1640000000.0,
-        "status": "proposed, enacted totals UNKNOWN",
+        "status": "PROPOSED_ONLY",
         "source": "vi-fy2026-snippet",
         "evidence": "snippet-derived",
         "question": "What were the enacted FY2026 general fund and all-funds totals after the governor's line-item vetoes?"
@@ -3941,7 +3941,7 @@
       "lineItemVeto": {
         "value": null,
         "status": "UNKNOWN",
-        "question": "Does the territory's governor have an item veto on appropriations? (The Virgin Islands governor issued 'targeted vetoes' on FY2026 bills per vi.gov, scope UNKNOWN.)"
+        "question": "Does the territory's governor have an item veto on appropriations? The FY2026 vi.gov evidence establishes targeted vetoes only for the U.S. Virgin Islands."
       },
       "lateBudget": {
         "value": null,

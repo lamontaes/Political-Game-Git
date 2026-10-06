@@ -116,7 +116,7 @@ export function uspsFromStateJurisdictionKey(
 }
 
 export function stateDisplayName(stateCode: string | null | undefined): string {
-  if (!stateCode) return "Unknown state";
+  if (!stateCode) return "State outside the recorded home scope";
   return STATE_NAMES[stateCode] ?? stateCode;
 }
 

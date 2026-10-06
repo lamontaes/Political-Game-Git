@@ -28,10 +28,6 @@ const RIGHTS: readonly JudicialRightsSubject[] = [
   "equal-treatment",
 ];
 
-// PLACEHOLDER(overnight): Three years and one strength step are conservative
-// game pacing for a changed philosophy, not a sourced account of real judges.
-const REVIEW_YEARS = 3;
-
 export interface JudicialPhilosophyFormation {
   readonly strength: JudicialPhilosophyStrength;
   readonly evidence: readonly JudicialPhilosophyEvidence[];
@@ -119,7 +115,6 @@ function assertFormation(
   personId: EntityId,
   formedAt: IsoDate,
   formation: JudicialPhilosophyFormation,
-  previousStrength: JudicialPhilosophyStrength | null,
 ): void {
   if (!Number.isInteger(formation.strength) || Math.abs(formation.strength) > 2)
     throw new Error("Judicial philosophy strength must be between -2 and 2.");
@@ -142,19 +137,6 @@ function assertFormation(
         "Judicial philosophy evidence is missing, unrelated or later than formation.",
       );
   }
-  if (
-    previousStrength !== null &&
-    Math.abs(formation.strength - previousStrength) > 1
-  )
-    throw new Error(
-      "Judicial philosophy can change by only one step per review.",
-    );
-}
-
-function firstReviewAfter(date: IsoDate): IsoDate {
-  const year = Number(date.slice(0, 4)) + REVIEW_YEARS;
-  const monthDay = date.slice(5) === "02-29" ? "02-28" : date.slice(5);
-  return makeIsoDate(`${year}-${monthDay}`);
 }
 
 /** Append a reasoned view from this person's dated life records. Never infer from party. */
@@ -186,11 +168,6 @@ export function recordJudicialPhilosophy(
   )
     .filter((item) => item.personId === input.personId)
     .at(-1);
-  if (previous && formedAt < firstReviewAfter(previous.formedAt))
-    throw new Error(
-      "Judicial philosophy review is too soon after the prior record.",
-    );
-
   const dimensions: Record<
     JudicialPhilosophyAxis,
     JudicialPhilosophyStrength | null
@@ -225,23 +202,19 @@ export function recordJudicialPhilosophy(
       (key) => !AXES.includes(key as JudicialPhilosophyAxis),
     )
   )
-    throw new Error("Judicial philosophy has an unknown dimension.");
+    throw new Error("Judicial philosophy contains an unsupported dimension.");
   if (
     Object.keys(input.rightsBySubject ?? {}).some(
       (key) => !RIGHTS.includes(key as JudicialRightsSubject),
     )
   )
-    throw new Error("Judicial philosophy has an unknown rights subject.");
+    throw new Error(
+      "Judicial philosophy contains an unsupported rights subject.",
+    );
   for (const axis of AXES) {
     const formation = input.dimensions?.[axis];
     if (!formation) continue;
-    assertFormation(
-      world,
-      input.personId,
-      formedAt,
-      formation,
-      dimensions[axis],
-    );
+    assertFormation(world, input.personId, formedAt, formation);
     dimensions[axis] = formation.strength;
     dimensionEvidence[axis] = [...formation.evidence];
     dimensionReasons[axis] = formation.reason.trim();
@@ -250,13 +223,7 @@ export function recordJudicialPhilosophy(
   for (const subject of RIGHTS) {
     const formation = input.rightsBySubject?.[subject];
     if (!formation) continue;
-    assertFormation(
-      world,
-      input.personId,
-      formedAt,
-      formation,
-      rightsBySubject[subject],
-    );
+    assertFormation(world, input.personId, formedAt, formation);
     rightsBySubject[subject] = formation.strength;
     rightsEvidence[subject] = [...formation.evidence];
     rightsReasons[subject] = formation.reason.trim();

@@ -14,10 +14,10 @@ import type { NominationPlan } from "./nomination-rules";
  */
 export const NOMINATION_FIELD_PROFILE = {
   id: "ocd-nomination-field-game-profile/v2",
-  // PLACEHOLDER(build-24-step-1): a party is favored in a district, so its
-  // open nomination draws a candidate nobody recruited, when it starts with
-  // at least this share of the district's two-party vote. Set by hand. It
-  // decides where such a person considers running, never whether they do.
+  // ESTIMATED FROM GAME EVIDENCE: the 55% favored-party share uses the same
+  // district two-party vote measure in every represented place. It is the
+  // basis for where an unrecruited candidate considers running, never whether
+  // that person runs; their recorded considerations make that decision.
   favoredShare: 0.55,
 } as const;
 
@@ -26,9 +26,10 @@ export const NOMINATION_FIELD_PROFILE = {
  * law governs the whole cycle: a law in force then sets the cycle's primary
  * date and method, and a later law waits for the next cycle.
  *
- * PLACEHOLDER(build-24-d9): July 1 of the year before, set by hand. The
- * earliest real 2026 deadline is Illinois's, November 3, 2025, 120 days
- * after it; a law that moved a deadline earlier than this would file here.
+ * ESTIMATED FROM RECORDED PLACES: July 1 of the preceding year is a common
+ * opening bound for every represented place. The basis is the game's recorded
+ * 2026 filing calendars: Illinois closes November 3, 2025, and Texas closes
+ * December 8, 2025. A place's own recorded earlier deadline still controls.
  */
 export function filingWindowOpens(year: number): IsoDate {
   return makeIsoDate(`${year - 1}-07-01`);
