@@ -32,6 +32,7 @@ import { stateJurisdictionForKey } from "../life-places";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
+import { publishPublicEvent } from "../public-information";
 import { seatStartingCondition } from "../world-setup/conditions";
 import type { CongressSeat } from "./congress-seats";
 import { MINIMUM_AGE, seatTermWindow } from "./congress-seats";
@@ -374,6 +375,12 @@ export function prepareCongressCandidateSlates(
       ),
   ]);
   let next = createCharacterHistoryContextPeople(world, inputs);
+  let publishedCurrentFiling = (world.history.publications ?? []).some(
+    (publication) =>
+      publication.stableKey.startsWith(
+        `${CONGRESS_CANDIDATE_VERSION}:slate:`,
+      ) && publication.publishedAt === world.currentDate,
+  );
   for (const plan of pending) {
     const { seat, intakeDate } = plan;
     const chamberId = livingWorldOrganizationId(
@@ -521,8 +528,9 @@ export function prepareCongressCandidateSlates(
         ]);
       candidates.push({ personId, party, incumbent: false, selfStarter: true });
     }
+    const candidateSlateKey = slateKey(seat.seatKey, year);
     next = recordWorldEvent(next, {
-      stableKey: slateKey(seat.seatKey, year),
+      stableKey: candidateSlateKey,
       type: "election.congress-candidate-slate",
       occurredAt: intakeDate,
       recordedAt: next.currentDate,
@@ -554,6 +562,14 @@ export function prepareCongressCandidateSlates(
         immediateReaction: null,
       },
     });
+    if (intakeDate === next.currentDate && !publishedCurrentFiling) {
+      const slateEvent = next.history.events.at(-1)!;
+      next = publishPublicEvent(next, {
+        stableKey: `${candidateSlateKey}:publication`,
+        sourceEventId: slateEvent.id,
+      });
+      publishedCurrentFiling = true;
+    }
   }
   return next;
 }
