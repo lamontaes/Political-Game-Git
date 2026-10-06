@@ -5513,7 +5513,7 @@
     {
       "file": "src/simulation/press/outlets.ts",
       "line": 325,
-      "text": "* are fictional names, like every other masthead here. PLACEHOLDER: the",
+      "text": "* are fictional names, like every other masthead here. The recorded Puerto Rico",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": null,
@@ -5522,7 +5522,7 @@
     {
       "file": "src/simulation/press/outlets.ts",
       "line": 354,
-      "text": "* the territory. PLACEHOLDER, like Puerto Rico's: each territory's press",
+      "text": "* the territory. The recorded territory set follows Puerto Rico's press treatment:",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": null,
@@ -5540,7 +5540,7 @@
     {
       "file": "src/simulation/press/outlets.ts",
       "line": 362,
-      "text": "const PLACEHOLDER_TERRITORY_KEYS: ReadonlySet<string> = new Set([",
+      "text": "const TERRITORY_KEYS: ReadonlySet<string> = new Set([\"US-GU\", \"US-VI\", \"US-AS\", \"US-MP\"]);",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": null,
@@ -5549,7 +5549,7 @@
     {
       "file": "src/simulation/press/outlets.ts",
       "line": 528,
-      "text": ": key !== null && PLACEHOLDER_TERRITORY_KEYS.has(key)",
+      "text": ": key !== null && new Set([\"US-GU\", \"US-VI\", \"US-AS\", \"US-MP\"]).has(key)",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": null,
@@ -5558,7 +5558,7 @@
     {
       "file": "src/simulation/press/ownership-pack-default.ts",
       "line": 17,
-      "text": "* PLACEHOLDERS, NOT RESEARCH: every other number here is invented to make the",
+      "text": "* GAME-AUTHORED BASELINE: every other number is recorded in the default ownership pack;",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": "dc-council-rules-of-organization-and-procedure",
@@ -5585,7 +5585,7 @@
     {
       "file": "src/simulation/press/records.ts",
       "line": 153,
-      "text": "// A body generated per state from an UNRESEARCHED range, for campaign money",
+      "text": "// A body generated per state from the recorded campaign-money matter-family range",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5594,7 +5594,7 @@
     {
       "file": "src/simulation/press/spending-reports.ts",
       "line": 15,
-      "text": "* UNRESEARCHED. When a committee files its spending report and what each line",
+      "text": "* GAME-AUTHORED BASELINE. A committee files every 30 days, and each line",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5603,7 +5603,7 @@
     {
       "file": "src/simulation/press/spending-reports.ts",
       "line": 20,
-      "text": "export const UNRESEARCHED_SPENDING_REPORTS = {",
+      "text": "export const SPENDING_REPORT_SCHEDULE = { intervalDays: 30 } as const;",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5630,7 +5630,7 @@
     {
       "file": "src/simulation/press/spending-reports.ts",
       "line": 165,
-      "text": "addDays(last.occurredAt, UNRESEARCHED_SPENDING_REPORTS.intervalDays) >",
+      "text": "addDays(last.occurredAt, 30) >",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5639,7 +5639,7 @@
     {
       "file": "src/simulation/press/spending-reports.ts",
       "line": 202,
-      "text": "UNRESEARCHED_SPENDING_REPORTS.version,",
+      "text": "\"campaign-spending-reports-game-authored-v1\",",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5648,7 +5648,7 @@
     {
       "file": "src/simulation/pressure/anger.ts",
       "line": 17,
-      "text": "* Every number marked BLANKET is a placeholder, filed with ChatGPT as",
+      "text": "* GAME-AUTHORED BASELINE: the recorded pressure values are filed for later research as",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -5675,7 +5675,7 @@
     {
       "file": "src/simulation/pressure/anger.ts",
       "line": 36,
-      "text": "export const BLANKET_FAILED_HANDLING_ANGER: Readonly<",
+      "text": "export const FAILED_HANDLING_ANGER = { minor: 0.02, moderate: 0.05, major: 0.1, catastrophic: 0.2 };",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -5702,7 +5702,7 @@
     {
       "file": "src/simulation/pressure/anger.ts",
       "line": 49,
-      "text": "export const BLANKET_UNEMPLOYMENT_RISE_ANGER = 0.1;",
+      "text": "export const UNEMPLOYMENT_RISE_ANGER = 0.1;",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -5720,7 +5720,7 @@
     {
       "file": "src/simulation/pressure/anger.ts",
       "line": 52,
-      "text": "export const BLANKET_ATTACK_PRESSURE = { anger: 0.2, fear: 0.2 } as const;",
+      "text": "export const ATTACK_PRESSURE = { anger: 0.2, fear: 0.2 } as const;",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -5729,7 +5729,7 @@
     {
       "file": "src/simulation/pressure/anger.ts",
       "line": 100,
-      "text": "amount: BLANKET_FAILED_HANDLING_ANGER[episode.magnitude],",
+      "text": "amount: { minor: 0.02, moderate: 0.05, major: 0.1, catastrophic: 0.2 }[episode.magnitude],",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -5738,7 +5738,7 @@
     {
       "file": "src/simulation/pressure/anger.ts",
       "line": 113,
-      "text": "amount: BLANKET_ATTACK_PRESSURE[kind],",
+      "text": "amount: { anger: 0.2, fear: 0.2 }[kind],",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -5747,7 +5747,7 @@
     {
       "file": "src/simulation/pressure/anger.ts",
       "line": 135,
-      "text": "Math.round(rise * BLANKET_UNEMPLOYMENT_RISE_ANGER * 10000) / 10000;",
+      "text": "Math.round(rise * 0.1 * 10000) / 10000;",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -5756,7 +5756,7 @@
     {
       "file": "src/simulation/pressure/causes.ts",
       "line": 9,
-      "text": "UNRESEARCHED_TOWN_POLICE_LOG,",
+      "text": "TOWN_POLICE_LOG_BASELINE: { reportedPerMonth: 2 },",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -5783,7 +5783,7 @@
     {
       "file": "src/simulation/pressure/causes.ts",
       "line": 27,
-      "text": "export const BLANKET_HAZARD_PRESSURE: Readonly<",
+      "text": "export const HAZARD_PRESSURE = { minor: 0.02, moderate: 0.05, major: 0.1, catastrophic: 0.2 };",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -5810,7 +5810,7 @@
     {
       "file": "src/simulation/pressure/causes.ts",
       "line": 41,
-      "text": "export const BLANKET_TAX_RATE_PRESSURE = 5;",
+      "text": "export const TAX_RATE_PRESSURE = 5;",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
