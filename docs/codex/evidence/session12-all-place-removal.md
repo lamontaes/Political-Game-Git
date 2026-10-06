@@ -7,10 +7,28 @@ After: A fresh hometown uses the Census place path. The members’ room requires
 ## Replacements
 
 Replaces: the separate searchable Lexington hometown with the shared Census locality.
-Replaces: the named economic binding and duplicate finance prose with the existing all-place county/state binding and panel.
+Replaces: the named economic binding and duplicate finance prose with a shared canonical crosswalk catalog, Census-derived fallback and existing panel. Reviewed county/HUD relationships and metro membership remain data.
 Replaces: fixed office and calendar labels with recorded place names and local-time wording.
 Replaces: implicit authored transit entry with a recorded-docket requirement and existing player selection controls.
 Replaces: inline sourced and retained fixture facts with shared data catalogs; their identities and geometry are preserved.
+
+## Economic fact-retention correction
+
+Independent source review on `3445972` found that the earlier passing tests expected lost facts: county/HUD same-jurisdiction relationships and MSA `30460` had disappeared, and retained hometown lookup returned null. Those tests were not acceptance evidence for economic retention.
+
+The correction restores the reviewed provider binding in `src/presentation/generated/economic-context-crosswalks.generated.json`, keyed by canonical Census identity. `lifePlaceByRecordedKey` resolves a retained key through the existing retained catalog's source GEOID without making it searchable or changing saved hometown identity. Reviewed crosswalks take precedence; other places retain the shared Census fallback without inferred metro membership.
+
+Focused correction checks pass nine tests across the nationwide binding, retained Personal finances and economic panel files. The original full typecheck was interrupted (reported exit -1, no diagnostics), and its defunct PID/resource evidence is retained in `session12-economic-retention-validation.json`; the separate retry with `NODE_OPTIONS=--max-old-space-size=6144 npm run typecheck` passed, including test-import resolution. Formatting, ESLint, zero-dice, report and dirty-candidate release checks passed. The bounded retry supplies the full typing gate. Direct comparison with reviewed base `139ed9935` verifies every provider fact is identical, with only the place key canonicalized. The prior Walsh browser proof remains at `3445972`, not the corrected head; no new browser result is claimed for this data/reader correction.
+
+The added Personal finances regression renders the actual workspace, captures its panel binding, queries the real shipped provider and verifies the World remains byte-identical. Its panel boundary is mocked to capture props during server rendering; this is controlled reader evidence, not a browser capture or a new natural run.
+
+| Correction file                                                         | Change                                                                                |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `src/presentation/generated/economic-context-crosswalks.generated.json` | Preserve the previously reviewed provider geography facts as runtime data.            |
+| `src/presentation/economic-context-bindings.ts`                         | Read reviewed canonical crosswalks before the shared fallback.                        |
+| `src/simulation/life-places.ts`                                         | Resolve recorded aliases through retained source identities, outside fresh selection. |
+| `tests/nationwide/economic-context-nationwide.test.ts`                  | Restore county/HUD/metro fact assertions and retained-key parity.                     |
+| `src/player/PersonalFinancesWorkspace.test.tsx`                         | Exercise retained hometown finance binding and real provider without World writes.    |
 
 ## Measured checks and limits
 

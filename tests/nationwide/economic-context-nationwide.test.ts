@@ -27,7 +27,7 @@ const manifest = JSON.parse(
 };
 
 describe("economic context reaches the whole country", () => {
-  it("uses the same Census relation for a consolidated locality", () => {
+  it("preserves reviewed consolidated county, HUD and metro relationships", () => {
     const binding = economicContextBindingForPlace("2146027");
     expect(binding?.placeKey).toBe("2146027");
     expect(
@@ -37,10 +37,21 @@ describe("economic context reaches the whole country", () => {
     expect(
       binding?.beaAreas.find((area) => area.geographyLevel === "county")
         ?.relationship,
-    ).toBe("containing-county");
+    ).toBe("same-jurisdiction");
     expect(
-      binding?.beaAreas.some((area) => area.geographyLevel === "msa"),
-    ).toBe(false);
+      binding?.beaAreas.find((area) => area.geographyLevel === "msa"),
+    ).toEqual({
+      geographyLevel: "msa",
+      geoFips: "30460",
+      relationship: "containing-metro",
+    });
+    expect(binding?.hudFipsCodes).toContainEqual({
+      hudFipsCode: "2106799999",
+      relationship: "same-jurisdiction",
+    });
+    expect(economicContextBindingForPlace("lexington-fayette")).toEqual(
+      binding,
+    );
   });
 
   it("does not tell an ordinary town that it is its county", () => {
@@ -49,6 +60,9 @@ describe("economic context reaches the whole country", () => {
     // also Census places, which is a separate gap — see the township finding.)
     const newCanaan = economicContextBindingForPlace("0950576");
     expect(newCanaan).not.toBeNull();
+    expect(
+      newCanaan?.beaAreas.some((area) => area.geographyLevel === "msa"),
+    ).toBe(false);
     const counties = newCanaan?.beaAreas.filter(
       (area) => area.geographyLevel === "county",
     );

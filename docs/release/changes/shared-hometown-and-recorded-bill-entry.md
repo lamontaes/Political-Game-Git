@@ -6,6 +6,7 @@ title: Hometowns use the shared place records, and bargaining opens the bill you
 ---
 
 Lexington now follows the same hometown and economic-area lookup as other towns.
+Reviewed economic-area relationships remain available for fresh and retained hometowns.
 The calendar uses a local-time label. Opening the members' room asks you to choose
 a recorded bill from the existing docket instead of supplying a transit bill
 about one Kentucky town.

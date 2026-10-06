@@ -1,38 +1,18 @@
 import type { BrowserEconomicGeographyBinding } from "./economic-context-browser";
 import { countyGeoidsForPlace } from "../simulation/government-units";
-import { lifePlaceByKey } from "../simulation/life-places";
+import { lifePlaceByRecordedKey } from "../simulation/life-places";
 import type { LifePlace } from "../simulation/life-places";
+import reviewedCrosswalks from "./generated/economic-context-crosswalks.generated.json";
+
+const crosswalks: Readonly<Record<string, BrowserEconomicGeographyBinding>> =
+  reviewedCrosswalks as Readonly<
+    Record<string, BrowserEconomicGeographyBinding>
+  >;
 
 /**
- * Which provider geographies stand behind the place a player lives in.
- *
- * A binding is never inferred from a display name, from state membership, or
- * from a nearby geography. It comes from the
- * sourced Census place-to-county
- * relation the game already carries, which is a sourced statement about which
- * county areas a place lies in and not a guess about which one is close.
- *
- * ## Why deriving is not inferring
- *
- * This registry used to hold one entry, and the comment above it said a second
- * city was "one import and one line". That was true, and it was not the
- * bottleneck: at one reviewed crosswalk per town, a country of 32,350 places
- * is 32,350 reviews, so the shipped corpus — 3,597 BEA geographies and 4,934
- * HUD geographies, already on disk — stayed unreadable everywhere but
- * Lexington.
- *
- * What makes a derived binding honest is that every code in it is computed
- * from an identifier the sources themselves established. A county GEOID is the
- * whole of the Census county identity; a HUD area code is that county plus the
- * `99999` suffix HUD files it under; a state's BEA code is the state FIPS plus
- * `000`. None of those is a judgment call, and each is checked against the
- * shipped manifest index at query time, so a geography the corpus does not
- * carry yields no rows and is reported unavailable rather than guessed at.
- *
- * ## What is deliberately not derived
- *
- * Metropolitan areas require an accepted place-to-MSA crosswalk. A county
- * does not establish that relation, so no containing metro is inferred.
+ * Reviewed provider crosswalks take precedence over the shared Census-derived
+ * fallback. Metro membership and consolidated county relationships survive as
+ * sourced data; neither is inferred from a city name or county membership.
  */
 /**
  * The state FIPS prefix of a Census GEOID.
@@ -114,8 +94,10 @@ function deriveBinding(
 export function economicContextBindingForPlace(
   placeKey: string,
 ): BrowserEconomicGeographyBinding | null {
-  const place = lifePlaceByKey(placeKey);
-  return place ? deriveBinding(place) : null;
+  const place = lifePlaceByRecordedKey(placeKey);
+  return place
+    ? (crosswalks[place.sourceGeoid ?? ""] ?? deriveBinding(place))
+    : null;
 }
 
 /**
@@ -126,7 +108,7 @@ export function economicContextBindingForPlace(
  * the country. Where a reason exists, it is said.
  */
 export function economicContextUnavailableReason(placeKey: string): string {
-  const place = lifePlaceByKey(placeKey);
+  const place = lifePlaceByRecordedKey(placeKey);
   if (!place) {
     return "The game has no record of this place, so it cannot look up how the area is doing.";
   }
