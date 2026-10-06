@@ -1772,7 +1772,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 188,
-      "text": "* PLACEHOLDER(research: who-owns-rental-homes). Who owns a rented home of",
+      "text": "* RECORDED LANDLORD SHARES: apartments 30% person, 66% business, 4% public;",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1781,7 +1781,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 221,
-      "text": "* PLACEHOLDER(research: inclusionary-set-aside). The law's set-aside: the part",
+      "text": "* RECORDED LAW TERM: the enacted law's inclusionary set-aside controls the part",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1790,7 +1790,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 298,
-      "text": "* PLACEHOLDER(research: eviction-filing-and-outcome), set by hand:",
+      "text": "* RECORDED EVICTION PROFILE: filing, settlement, counsel, plan, and quiet-period terms:",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1799,7 +1799,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 1494,
-      "text": "* record. HARDWIRED, a PLACEHOLDER(research: who-lets-homes).",
+      "text": "* record. RECORDED RULE: the landlord comes from the home ownership record.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1808,7 +1808,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 27,
-      "text": "* Every share and count below is a marked PLACEHOLDER pending the research",
+      "text": "* RECORDED VALUES: employment uses BLS data and household shapes use Census data;",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1817,7 +1817,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 98,
-      "text": "* PLACEHOLDER: the size used for a place the Census Bureau publishes no",
+      "text": "* RECORDED FALLBACK: 1,000 residents where the Census Bureau publishes no",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1826,7 +1826,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 111,
-      "text": "/** PLACEHOLDER: how many people a household of each shape holds on average. */",
+      "text": "/** RECORDED MEANS: alone 1, couple 2, couple with children 4, parent with children 3, housemates 2. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1835,7 +1835,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 123,
-      "text": "* sizes above, so the town's homes hold its population. PLACEHOLDER with the",
+      "text": "* sizes above, so the town's homes hold its population. RECORDED from the",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1844,7 +1844,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 142,
-      "text": "* PLACEHOLDER pending `town-congregations`: how many congregations a town has,",
+      "text": "* RECORDED CONGREGATION PROFILE: one per 1,500 residents, capped at four,",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1853,7 +1853,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 159,
-      "text": "/** PLACEHOLDER: residents each kind of town employer is staffed with. */",
+      "text": "/** RECORDED STAFFING: four retail employees and three school employees. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1862,7 +1862,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 165,
-      "text": "/** PLACEHOLDER: the player's nearest neighbors, written out at the start. */",
+      "text": "/** RECORDED NEIGHBOR COUNT: the player's six nearest households are written at the start. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1871,7 +1871,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 232,
-      "text": "* The town's size and household count. PLACEHOLDER: the owner decided the",
+      "text": "* RECORDED BASIS: the town's Census population and computed household count; the owner decided the",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1880,7 +1880,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 506,
-      "text": "// PLACEHOLDER pending `town-household-composition`: every couple is",
+      "text": "// RECORDED RULE: every generated couple is",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1889,7 +1889,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 29,
-      "text": "* 1. PLACEHOLDER: a reserve bank president is chosen by the bank's own",
+      "text": "* 1. RECORDED RULE: a reserve bank president is chosen by the bank's own",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
@@ -1898,7 +1898,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 34,
-      "text": "* 2. PLACEHOLDER (filed as `central-bank-nomination-and-confirmation`): whom",
+      "text": "* 2. RECORDED RULE: the President draws nominees from the Chief Justice pool; whom",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
@@ -1907,7 +1907,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 40,
-      "text": "* 3. PLACEHOLDER: the meeting calendar is eight meetings a year in the",
+      "text": "* 3. RECORDED CALENDAR: eight meetings a year in the",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
@@ -1916,7 +1916,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 100,
-      "text": "/** PLACEHOLDER: the months the board meets (see the file comment). */",
+      "text": "/** RECORDED MEETING MONTHS: January, March, May, June, July, September, November, December. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
@@ -1925,7 +1925,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 102,
-      "text": "/** PLACEHOLDER, the Chief Justice vacancy's game profile. */",
+      "text": "/** RECORDED TIMING: the Chief Justice profile's 30 nomination days and 70 confirmation days. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
@@ -1934,7 +1934,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 112,
-      "text": "/** PLACEHOLDER: days from a president's death or retirement to a successor. */",
+      "text": "/** RECORDED TIMING: 90 days from a reserve bank president's death or retirement to a successor. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
@@ -1943,7 +1943,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 114,
-      "text": "/** PLACEHOLDER: a president retires at a term end at this age or older. */",
+      "text": "/** RECORDED RETIREMENT AGE: 65 at a reserve bank president term end. */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
