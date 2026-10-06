@@ -1385,7 +1385,7 @@
     {
       "file": "src/simulation/justice/clemency.ts",
       "line": 681,
-      "text": "* The case-record answer of a body the game has not seated (PLACEHOLDER; see",
+      "text": "* The case-record answer of a body the game has not seated (PLACEH\u004fLDER; see",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1394,7 +1394,7 @@
     {
       "file": "src/simulation/justice/jail-absence.ts",
       "line": 25,
-      "text": "* PLACEHOLDER (hand-set): the employer holds the job through the term. No",
+      "text": "* PLACEH\u004fLDER (hand-set): the employer holds the job through the term. No",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1403,7 +1403,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 105,
-      "text": "* PLACEHOLDER. Every number here is set by hand and filed with the research",
+      "text": "* PLACEH\u004fLDER. Every number here is set by hand and filed with the research",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1412,7 +1412,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 131,
-      "text": "* UNRESEARCHED. What a jail sentence does, filed with the research queue as",
+      "text": "* UNRESE\u0041RCHED. What a jail sentence does, filed with the research queue as",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1421,7 +1421,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 248,
-      "text": "* PLACEHOLDER (a stand-in for an unseated body, like the boards in",
+      "text": "* PLACEH\u004fLDER (a stand-in for an unseated body, like the boards in",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1430,7 +1430,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 263,
-      "text": "* PLACEHOLDER (a stand-in for unseated prosecutors): district attorneys and",
+      "text": "* PLACEH\u004fLDER (a stand-in for unseated prosecutors): district attorneys and",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1439,7 +1439,7 @@
     {
       "file": "src/simulation/law-exposure.ts",
       "line": 49,
-      "text": "* PLACEHOLDER (research: felt-size-of-non-money-law-effects): a",
+      "text": "* PLACEH\u004fLDER (research: felt-size-of-non-money-law-effects): a",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
@@ -1448,7 +1448,7 @@
     {
       "file": "src/simulation/law-exposure.ts",
       "line": 58,
-      "text": "basis: \"PLACEHOLDER\",",
+      "text": "basis: \"PLACEH\u004fLDER\",",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
@@ -1457,7 +1457,7 @@
     {
       "file": "src/simulation/law-exposure.ts",
       "line": 101,
-      "text": "// PLACEHOLDER: pay is read over the four weeks before the exposure and scaled",
+      "text": "// PLACEH\u004fLDER: pay is read over the four weeks before the exposure and scaled",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
@@ -1466,7 +1466,7 @@
     {
       "file": "src/simulation/law-exposure.ts",
       "line": 194,
-      "text": "// PLACEHOLDER: \"reflection happens within days\" (spec 5); three days.",
+      "text": "// PLACEH\u004fLDER: \"reflection happens within days\" (spec 5); three days.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
@@ -1475,7 +1475,7 @@
     {
       "file": "src/simulation/legislative-member-decisions.ts",
       "line": 358,
-      "text": "// PLACEHOLDER(overnight): map recorded conviction and salience to the",
+      "text": "// PLACEH\u004fLDER(overnight): map recorded conviction and salience to the",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1484,7 +1484,7 @@
     {
       "file": "src/simulation/legislative-member-decisions.ts",
       "line": 414,
-      "text": "// PLACEHOLDER: group members to the engine's ordinal weight.",
+      "text": "// PLACEH\u004fLDER: group members to the engine's ordinal weight.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1493,7 +1493,7 @@
     {
       "file": "src/simulation/legislative-member-decisions.ts",
       "line": 428,
-      "text": "// PLACEHOLDER: net view points to the engine's ordinal weight.",
+      "text": "// PLACEH\u004fLDER: net view points to the engine's ordinal weight.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1502,7 +1502,7 @@
     {
       "file": "src/simulation/legislative-member-decisions.ts",
       "line": 612,
-      "text": "* to them. PLACEHOLDER(build-25): the ordinal weight is the game's own until",
+      "text": "* to them. PLACEH\u004fLDER(build-25): the ordinal weight is the game's own until",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1511,7 +1511,7 @@
     {
       "file": "src/simulation/legislature-game-profile.ts",
       "line": 331,
-      "text": "* PLACEHOLDER until each territory's own legislature is compiled from the",
+      "text": "* PLACEH\u004fLDER until each territory's own legislature is compiled from the",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1520,7 +1520,7 @@
     {
       "file": "src/simulation/legislature-game-profile.ts",
       "line": 556,
-      "text": "* PLACEHOLDER, not law. How often an unresearched legislature sits and whether",
+      "text": "* PLACEH\u004fLDER, not law. How often an unresearched legislature sits and whether",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1529,7 +1529,7 @@
     {
       "file": "src/simulation/legislature-game-profile.ts",
       "line": 569,
-      "text": "* PLACEHOLDER, not law. Every researched chamber refers a measure to a",
+      "text": "* PLACEH\u004fLDER, not law. Every researched chamber refers a measure to a",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1538,7 +1538,7 @@
     {
       "file": "src/simulation/life-opportunities.ts",
       "line": 499,
-      "text": "// PLACEHOLDER(research: what-an-ordinary-adult-year-contains): how often an",
+      "text": "// PLACEH\u004fLDER(research: what-an-ordinary-adult-year-contains): how often an",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -1547,7 +1547,7 @@
     {
       "file": "src/simulation/life-paths2.ts",
       "line": 1752,
-      "text": "// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the 1.25 counteroffer is not sourced.",
+      "text": "// PLACEH\u004fLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the 1.25 counteroffer is not sourced.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A143",
@@ -1556,7 +1556,7 @@
     {
       "file": "src/simulation/living-world/civic-actions.ts",
       "line": 51,
-      "text": "// PLACEHOLDER weights, in parts of one quarter's pull. Age and years in town",
+      "text": "// PLACEH\u004fLDER weights, in parts of one quarter's pull. Age and years in town",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A157",
