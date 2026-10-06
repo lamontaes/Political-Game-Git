@@ -12,6 +12,7 @@ import {
   NATIONAL_ELECTION_JURISDICTION,
 } from "./national-election-geography";
 import { projectNationalElectionResults } from "../presentation/national-election-results";
+import { electionNightReports } from "../presentation/election-night-reporting";
 import {
   countRecordedVoterBallots,
   electionContestResult,
@@ -255,5 +256,65 @@ it("leaves the separate national result projection and records unchanged", () =>
   expect(projectNationalElectionResults(resolved, electionId)).toEqual(before);
   expect(resolved.history.nationalElectionRecords).toEqual(
     national.history.nationalElectionRecords,
+  );
+});
+
+it("reveals saved returns in fewest-ballots order with exact running totals and a final skip target", () => {
+  const fixture = ballot();
+  const world = establishVotingPrecinctMembership(
+    fixture.world,
+    fixture.contest.jurisdictionId,
+  );
+  const resolved = resolveElectionContest(world, {
+    contestId: fixture.contest.id,
+  });
+  const history = resolved.history;
+  const result = electionContestResult(resolved, fixture.contest.id)!;
+  const report = electionNightReports(resolved, fixture.contest.id)!;
+  expect(report.beats.length).toBeLessThanOrEqual(6);
+  const rows = report.beats.flatMap((beat) => beat.precincts);
+  expect(rows).toHaveLength(result.precinctTallies!.length);
+  for (let index = 1; index < rows.length; index++)
+    expect(rows[index]!.ballotsCast).toBeGreaterThanOrEqual(
+      rows[index - 1]!.ballotsCast,
+    );
+  expect(
+    new Set(rows.map((row) => `${row.mapId}:${row.precinctKey}`)).size,
+  ).toBe(rows.length);
+  const final = report.beats[report.finalBeatIndex]!;
+  expect(final.final).toBe(true);
+  expect(final.winnerPersonId).toBe(result.winnerPersonId);
+  expect(final.runningBallotsCast).toBe(
+    result.tallies.reduce((sum, row) => sum + row.votes, 0),
+  );
+  for (const tally of result.tallies)
+    expect(
+      final.runningTallies.find(
+        (row) => row.candidatePersonId === tally.candidatePersonId,
+      )!.votes,
+    ).toBe(tally.votes);
+  expect(
+    report.beats.slice(0, -1).every((beat) => beat.winnerPersonId === null),
+  ).toBe(true);
+  expect(
+    electionNightReports(
+      deserializeWorld(serializeWorld(resolved)),
+      fixture.contest.id,
+    ),
+  ).toEqual(report);
+  expect(resolved.history).toBe(history);
+  expect(report.earlyMailBatch).toBeNull();
+  expect(report.presenceEventId).toBeNull();
+});
+
+it("does not produce a night report from a forecast or a result without precinct evidence", () => {
+  const fixture = ballot();
+  expect(electionNightReports(fixture.world, fixture.contest.id)).toBeNull();
+  const old = resolveElectionContest(fixture.world, {
+    contestId: fixture.contest.id,
+  });
+  expect(electionNightReports(old, fixture.contest.id)).toBeNull();
+  expect(() => electionNightReports(old, fixture.contest.id, 7)).toThrow(
+    "one to six",
   );
 });
