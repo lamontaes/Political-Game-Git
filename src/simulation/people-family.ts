@@ -378,16 +378,16 @@ export function recordFamilyAddition(
     });
   }
 
-  // Where a parent lives now is where a newborn or newly adopted child lives.
-  const home = householdMembershipsAt(
-    next,
-    parents[0]!.id,
-    currentLifeCutoff(next),
-  )[0];
+  // Admit residence from the addition date, not a parent's later household.
+  const additionCutoff = {
+    ...currentLifeCutoff(next),
+    asOfDate: occurredAt,
+  };
+  const home = householdMembershipsAt(next, parents[0]!.id, additionCutoff)[0];
   const householdPeople: EntityId[] = [];
   if (
     home &&
-    !householdMembershipsAt(next, childId, currentLifeCutoff(next)).some(
+    !householdMembershipsAt(next, childId, additionCutoff).some(
       (entry) => entry.membership.householdId === home.membership.householdId,
     )
   ) {
@@ -403,7 +403,7 @@ export function recordFamilyAddition(
     for (const personId of next.personOrder) {
       if (personId === childId) continue;
       if (
-        householdMembershipsAt(next, personId, currentLifeCutoff(next)).some(
+        householdMembershipsAt(next, personId, additionCutoff).some(
           (entry) =>
             entry.membership.householdId === home.membership.householdId,
         )
