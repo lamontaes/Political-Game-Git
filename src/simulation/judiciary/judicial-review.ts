@@ -66,7 +66,8 @@ import type {
 import { measureAnswersAt } from "../vote-bundle";
 import { recordWorldEvent } from "../world";
 import { seatHolderAt, seatsForCourt } from "./courts";
-import { courtFor } from "./court-for";
+import { controlledPersonId, courtFor } from "./court-for";
+import { judicialCaseHandling } from "../office-workflow";
 import type { JudicialCourt } from "./types";
 
 export const JUDICIAL_REVIEW_EVENT = "court.judicial-review";
@@ -337,6 +338,13 @@ export function justiceVotes(
     readonly ruledAt: IsoDate;
   },
 ): readonly JusticeVote[] {
+  const controlled = controlledPersonId(world);
+  if (
+    controlled !== null &&
+    input.justiceIds.includes(controlled) &&
+    judicialCaseHandling(world, controlled, "law-review") === "hear-myself"
+  )
+    return [];
   return input.justiceIds.map((personId) => {
     const considerations = considerationsFor(
       world,
