@@ -17,6 +17,7 @@ import {
 } from "./legislative-politics";
 import { currentHistoricalCutoff, latestPrivateBelief } from "./queries";
 import { measureAnswersAt } from "./vote-bundle";
+import { ordinaryMeetingCommentConsiderationsForMember } from "./ordinary-meeting-presence";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -216,6 +217,14 @@ function memberConsiderations(
   const considerations: DecisionConsideration[] = [];
   const asked = input.question.question;
   const measureId = asked.measureId;
+
+  considerations.push(
+    ...ordinaryMeetingCommentConsiderationsForMember(
+      world,
+      input.personId,
+      measureId,
+    ),
+  );
 
   const pending = input.question.pendingChange ?? null;
   const currentExposure = currentMeasureProvisions(world, measureId).reduce(

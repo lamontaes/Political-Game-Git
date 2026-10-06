@@ -41,6 +41,7 @@ describe("ordinary meeting comment vote source", () => {
     );
     expect(reasons).toHaveLength(1);
     expect(reasons[0]?.direction).toBe("supports");
+    expect(reasons[0]?.optionKey).toBe("vote-yea");
     expect(
       ordinaryMeetingCommentConsiderationsForMember(
         commented,

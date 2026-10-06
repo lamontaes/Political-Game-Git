@@ -186,9 +186,9 @@ export function ordinaryMeetingCommentConsiderationsForMember(
     return [
       {
         stableKey: `ordinary-meeting-comment:${event.id}:${memberId}`,
-        optionKey: "pass",
+        optionKey: position === "support" ? "vote-yea" : "vote-nay",
         sourceType: "social:public-meeting-comment",
-        direction: position === "support" ? "supports" : "opposes",
+        direction: "supports",
         importance,
         confidence: "high",
         explanation: `${personName(world.people[speaker.personId]!)} ${position === "support" ? "supported" : "opposed"} this measure at a public meeting; you heard the comment.`,
