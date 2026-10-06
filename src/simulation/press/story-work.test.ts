@@ -6,6 +6,7 @@ import {
   recordWorkRole,
   recordWorkStatus,
 } from "../life";
+import { negotiateGroundRules } from "./sources";
 import { addDays } from "../dates";
 import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -18,6 +19,7 @@ import { recordWorldEvent } from "../world";
 import {
   assignedReporter,
   assignStory,
+  latestDisposition,
   pressStoryStepHandler,
   PRESS_STORY_STEP_TRANSITION_KEY,
   recordStoryLead,
@@ -135,6 +137,68 @@ describe.each(samples)(
       );
       expect(pressStoryStepHandler(advanced, due).reasonKey).not.toBe(
         "press:reporting-work-incomplete",
+      );
+    });
+
+    it("carries a recorded press contact through save, reporter choice, and response queue", () => {
+      const f = fixture();
+      const outlet = mediaOutlets(f.world).find((candidate) => {
+        const eligible = reporterRoles(f.world, candidate.id).filter((role) =>
+          role.beats.includes("general-assignment"),
+        );
+        return eligible.length > 1;
+      });
+      if (!outlet)
+        throw new Error("No opening outlet has two general reporters.");
+      const familiar = reporterRoles(f.world, outlet.id).find((role) =>
+        role.beats.includes("general-assignment"),
+      )!;
+      const terms = negotiateGroundRules(f.world, {
+        stableKey: `${seed}:recorded-contact`,
+        outletId: outlet.id,
+        reporterPersonId: familiar.personId,
+        sourcePersonId: f.personId,
+        leadId: null,
+        terms: "on-record",
+        attributionLabel: null,
+      });
+      expect(terms.accepted).toBe(true);
+      const contact = terms.world.history.relationshipInteractions.at(-1)!;
+      expect(contact.tags).toContain("press.contact");
+
+      const reloaded = deserializeWorld(serializeWorld(terms.world));
+      const recorded = recordStoryLead(reloaded, {
+        stableKey: `${seed}:contact-story`,
+        outletId: outlet.id,
+        family: "scheduled-beat",
+        route: "public-record",
+        basisEventIds: [f.source.id],
+        subjectPersonIds: [f.personId],
+        jurisdictionId: f.jurisdictionId,
+        matterId: null,
+        followsPublicationId: null,
+      });
+      const assigned = assignStory(recorded.world, recorded.lead.id);
+      expect(assignedReporter(assigned, recorded.lead.id)).toBe(
+        familiar.personId,
+      );
+      expect(latestDisposition(assigned, recorded.lead.id)?.decision).toBe(
+        "response-requested",
+      );
+      const responseRequest = assigned.history.events.find(
+        (event) =>
+          event.stableKey === `${recorded.lead.stableKey}:response-request`,
+      );
+      expect(responseRequest).toBeDefined();
+      expect(responseRequest!.involvedEntityIds).toContain(familiar.personId);
+      expect(storyWorkItem(assigned, recorded.lead.id)).not.toBeNull();
+      expect(
+        assigned.history.futureDueItems.some(
+          (item) => item.transitionKey === PRESS_STORY_STEP_TRANSITION_KEY,
+        ),
+      ).toBe(true);
+      console.info(
+        `WATCHED PRESS JOURNEY — ${place.displayName}: ${contact.id} press.contact survived save/reload; ${familiar.personId} received lead ${recorded.lead.id}; response request ${responseRequest!.id} entered the story queue after source event ${f.source.id}.`,
       );
     });
 
