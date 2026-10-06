@@ -1,0 +1,459 @@
+{
+  "schema": "english-parts/1",
+  "register": "meeting",
+  "description": "Sourced parts for formal meetings and floor debate, mined from the Congressional Record (public domain). Each text is a speaker's first sentence as recorded, with the address to the presiding officer replaced by a slot.",
+  "slots": {
+    "chair": "How the speaker addresses the presiding officer, such as Madam Speaker, Mr. President or Madam Chair."
+  },
+  "maxWords": 16,
+  "mining": {
+    "tool": "scripts/english-mining/mine-congressional-record.py",
+    "daysRead": "33 Congressional Record days, October 27 to December 18, 2025, House and Senate pages"
+  },
+  "parts": [
+    {
+      "key": "meeting.opener.i-am-here-today-because-i-oppose-this-resolution",
+      "move": "opener",
+      "text": "{chair}, I am here today because I oppose this resolution.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5978",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5978"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-opposition-to-the-amendment",
+      "move": "opener",
+      "text": "{chair}, I rise in opposition to the amendment.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-10",
+        "granule": "CREC-2025-12-10-pt1-PgH5522",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5522"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-opposition-to-this-bill",
+      "move": "opener",
+      "text": "{chair}, I rise in opposition to this bill.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-02",
+        "granule": "CREC-2025-12-02-pt1-PgH4989",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-02/CREC-2025-12-02-pt1-PgH4989"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-opposition-to-this-hateful-legislation",
+      "move": "opener",
+      "text": "{chair}, I rise in opposition to this hateful legislation.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-pt1-PgH6049",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18/CREC-2025-12-18-pt1-PgH6049"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-strong-opposition-to-this-bill",
+      "move": "opener",
+      "text": "{chair}, I rise in strong opposition to this bill.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5956-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5956-3"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-strong-opposition-to-this-legislation",
+      "move": "opener",
+      "text": "{chair}, I rise in strong opposition to this legislation.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-pt1-PgH6049",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18/CREC-2025-12-18-pt1-PgH6049"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-strong-opposition-to-this-resolution",
+      "move": "opener",
+      "text": "{chair}, I rise in strong opposition to this resolution.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5978",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5978"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-strong-support-of-this-legislation",
+      "move": "opener",
+      "text": "{chair}, I rise in strong support of this legislation.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5992",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5992"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-support-of-the-resolution",
+      "move": "opener",
+      "text": "{chair}, I rise in support of the resolution.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5978",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5978"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-support-of-this-bill",
+      "move": "opener",
+      "text": "{chair}, I rise in support of this bill.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-21",
+        "granule": "CREC-2025-11-21-pt1-PgH4883-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-21/CREC-2025-11-21-pt1-PgH4883-2"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-to-ask-a-point-of-parliamentary-inquiry",
+      "move": "opener",
+      "text": "{chair}, I rise to ask a point of parliamentary inquiry.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-18",
+        "granule": "CREC-2025-11-18-pt1-PgH4730",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4730"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-to-speak-briefly-in-gratitude-today",
+      "move": "opener",
+      "text": "{chair}, I rise to speak briefly in gratitude today.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-pt1-PgS8883",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18/CREC-2025-12-18-pt1-PgS8883"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-today-in-opposition-to-this-bill",
+      "move": "opener",
+      "text": "{chair}, I rise today in opposition to this bill.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5956-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5956-3"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-today-in-opposition-to-this-continuing-resolution",
+      "move": "opener",
+      "text": "{chair}, I rise today in opposition to this continuing resolution.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-12",
+        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-today-in-strong-opposition-to-this-bill",
+      "move": "opener",
+      "text": "{chair}, I rise today in strong opposition to this bill.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5956-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5956-3"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-today-in-strong-opposition-to-this-resolution",
+      "move": "opener",
+      "text": "{chair}, I rise today in strong opposition to this resolution.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5984",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5984"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-today-with-a-heavy-heart",
+      "move": "opener",
+      "text": "{chair}, I rise today with a heavy heart.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-02",
+        "granule": "CREC-2025-12-02-pt1-PgH4972",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-02/CREC-2025-12-02-pt1-PgH4972"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-today-with-a-profound-sense-of-loss",
+      "move": "opener",
+      "text": "{chair}, I rise today with a profound sense of loss.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-pt1-PgH6028",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18/CREC-2025-12-18-pt1-PgH6028"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-my-colleague-for-yielding",
+      "move": "opener",
+      "text": "{chair}, I thank my colleague for yielding.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-17",
+        "granule": "CREC-2025-11-17-pt1-PgH4699-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4699-3"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-chair-for-the-time",
+      "move": "opener",
+      "text": "{chair}, I thank the chair for the time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-20",
+        "granule": "CREC-2025-11-20-pt1-PgH4841-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgH4841-2"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-chairman-for-the-time",
+      "move": "opener",
+      "text": "{chair}, I thank the chairman for the time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-19",
+        "granule": "CREC-2025-11-19-pt1-PgH4783",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgH4783"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-chairman-for-this-time",
+      "move": "opener",
+      "text": "{chair}, I thank the chairman for this time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-03",
+        "granule": "CREC-2025-12-03-pt1-PgH5007",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03/CREC-2025-12-03-pt1-PgH5007"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-chairman-for-yielding",
+      "move": "opener",
+      "text": "{chair}, I thank the chairman for yielding.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-20",
+        "granule": "CREC-2025-11-20-pt1-PgH4841-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgH4841-2"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-chairman-for-yielding-to-me",
+      "move": "opener",
+      "text": "{chair}, I thank the chairman for yielding to me.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5984",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5984"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-gentleman-for-the-time",
+      "move": "opener",
+      "text": "{chair}, I thank the gentleman for the time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-09",
+        "granule": "CREC-2025-12-09-pt1-PgH5086",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-09/CREC-2025-12-09-pt1-PgH5086"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-gentleman-for-yielding",
+      "move": "opener",
+      "text": "{chair}, I thank the gentleman for yielding.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-12",
+        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-gentleman-for-yielding-and-for-his-strong-support",
+      "move": "opener",
+      "text": "{chair}, I thank the gentleman for yielding and for his strong support.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-09",
+        "granule": "CREC-2025-12-09-pt1-PgH5083",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-09/CREC-2025-12-09-pt1-PgH5083"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-gentleman-for-yielding-and-for-your-leadership",
+      "move": "opener",
+      "text": "{chair}, I thank the gentleman for yielding and for your leadership.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-10",
+        "granule": "CREC-2025-12-10-pt1-PgH5520",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5520"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-gentleman-for-yielding-the-time",
+      "move": "opener",
+      "text": "{chair}, I thank the gentleman for yielding the time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-20",
+        "granule": "CREC-2025-11-20-pt1-PgH4835-6",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgH4835-6"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-gentleman-for-yielding-time",
+      "move": "opener",
+      "text": "{chair}, I thank the gentleman for yielding time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-15",
+        "granule": "CREC-2025-12-15-pt1-PgH5864",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-15/CREC-2025-12-15-pt1-PgH5864"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-gentlemen-for-yielding-to-me",
+      "move": "opener",
+      "text": "{chair}, I thank the gentlemen for yielding to me.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-19",
+        "granule": "CREC-2025-11-19-pt1-PgH4796",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgH4796"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-gentlewoman-for-yielding",
+      "move": "opener",
+      "text": "{chair}, I thank the gentlewoman for yielding.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-12",
+        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-ranking-member-for-the-time",
+      "move": "opener",
+      "text": "{chair}, I thank the ranking member for the time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-18",
+        "granule": "CREC-2025-11-18-pt1-PgH4746",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4746"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-ranking-member-for-yielding",
+      "move": "opener",
+      "text": "{chair}, I thank the ranking member for yielding.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-16",
+        "granule": "CREC-2025-12-16-pt1-PgH5921",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgH5921"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-ranking-member-for-yielding-me-time",
+      "move": "opener",
+      "text": "{chair}, I thank the ranking member for yielding me time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-12",
+        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-ranking-member-for-yielding-to-me",
+      "move": "opener",
+      "text": "{chair}, I thank the ranking member for yielding to me.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5947-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5947-3"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-vice-chair-of-the-committee-for-yielding",
+      "move": "opener",
+      "text": "{chair}, I thank the vice chair of the committee for yielding.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-17",
+        "granule": "CREC-2025-12-17-pt1-PgH5947-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5947-3"
+      }
+    }
+  ]
+}
