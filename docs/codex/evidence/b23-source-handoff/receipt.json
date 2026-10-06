@@ -1,0 +1,84 @@
+{
+  "handoffFromSession": 12,
+  "ownerSession": 41,
+  "ownerThread": "01a10f7e-5626-76b0-906c-2362a016f0cf",
+  "status": "source candidates only; no compiler, catalog, reader or World writers published in this handoff",
+  "sourceOnlyBaseCommit": "e45f360e8b620a9fb4c366b0c00a20806d91d036",
+  "acquisitionInstant": null,
+  "acquisitionLimit": "Exact retrieval instants were not captured. Commit time is not a retrieval timestamp. FDIC aggregation is not a native single-response artifact; original page response bytes are not retained.",
+  "sources": [
+    {
+      "sourceKey": "cms:hospital-general-information",
+      "path": "data/source/local-institutions/raw/cms-hospital-general-information-2026-07-22.csv",
+      "bytes": 1450767,
+      "sha256": "f874f09fef895a1ccf5bb7392dcbb2be05c9860339261b093fe00f0c1b013480",
+      "recordCount": 5419,
+      "listingModifiedDate": "2026-07-22",
+      "metadataUrl": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/xubh-q36u",
+      "downloadUrl": "https://data.cms.gov/provider-data/sites/default/files/resources/893c372430d9d71a1c52737d01239d47_1785189955/Hospital_General_Information.csv",
+      "status": "retained publisher CSV; byte hash verified during handoff"
+    },
+    {
+      "sourceKey": "fdic:summary-of-deposits",
+      "path": "data/source/local-institutions/raw/fdic-sod-2026.json",
+      "bytes": 11962225,
+      "sha256": "7a62a6f7925003842fc93137ebc048112ace5673312c5422a4539dc139300283",
+      "recordCount": 75859,
+      "asOf": "2026-06-30",
+      "sourceUrl": "https://api.fdic.gov/banks/sod",
+      "publisherIndex": "sod_1789738734553",
+      "status": "derived aggregation of eight paginated API responses, preserving selected official fields and request/count/page-digest receipts",
+      "requests": [
+        {
+          "url": "https://api.fdic.gov/banks/sod?filters=YEAR:2026&fields=NAMEFULL,CITYBR,STALPBR,STCNTYBR,CERT,UNINUMBR,YEAR&limit=10000&offset=0&format=json",
+          "records": 10000,
+          "sha256": "22e7178f2e3971c2e96177163416385138918c954cc5f3a010cb801541ac5efd"
+        },
+        {
+          "url": "https://api.fdic.gov/banks/sod?filters=YEAR:2026&fields=NAMEFULL,CITYBR,STALPBR,STCNTYBR,CERT,UNINUMBR,YEAR&limit=10000&offset=10000&format=json",
+          "records": 10000,
+          "sha256": "33702f99cd30055a35b2150843a68d8c6d54901c734e820a7f011fe46b947f78"
+        },
+        {
+          "url": "https://api.fdic.gov/banks/sod?filters=YEAR:2026&fields=NAMEFULL,CITYBR,STALPBR,STCNTYBR,CERT,UNINUMBR,YEAR&limit=10000&offset=20000&format=json",
+          "records": 10000,
+          "sha256": "087055e7afe410b8c03404e3f21feb115f7bbe7e46a47274cc529373896610a7"
+        },
+        {
+          "url": "https://api.fdic.gov/banks/sod?filters=YEAR:2026&fields=NAMEFULL,CITYBR,STALPBR,STCNTYBR,CERT,UNINUMBR,YEAR&limit=10000&offset=30000&format=json",
+          "records": 10000,
+          "sha256": "c7d1793732a2a863cf7365c2a73059cedcc1e49c128a192e6a7af4c73679586b"
+        },
+        {
+          "url": "https://api.fdic.gov/banks/sod?filters=YEAR:2026&fields=NAMEFULL,CITYBR,STALPBR,STCNTYBR,CERT,UNINUMBR,YEAR&limit=10000&offset=40000&format=json",
+          "records": 10000,
+          "sha256": "c8e7364b4dd9a5f5fafb42027f60978a3d9364c2ba2649d6bfc31ce485556589"
+        },
+        {
+          "url": "https://api.fdic.gov/banks/sod?filters=YEAR:2026&fields=NAMEFULL,CITYBR,STALPBR,STCNTYBR,CERT,UNINUMBR,YEAR&limit=10000&offset=50000&format=json",
+          "records": 10000,
+          "sha256": "8ea059b21370594e2ef94fab187bcc95e0a05e63303096a95bea8c946b366ffd"
+        },
+        {
+          "url": "https://api.fdic.gov/banks/sod?filters=YEAR:2026&fields=NAMEFULL,CITYBR,STALPBR,STCNTYBR,CERT,UNINUMBR,YEAR&limit=10000&offset=60000&format=json",
+          "records": 10000,
+          "sha256": "ee298c5103406ee75d1cd41f55202c32c8e87cf058f59ec422f5e44a2023d17f"
+        },
+        {
+          "url": "https://api.fdic.gov/banks/sod?filters=YEAR:2026&fields=NAMEFULL,CITYBR,STALPBR,STCNTYBR,CERT,UNINUMBR,YEAR&limit=10000&offset=70000&format=json",
+          "records": 5859,
+          "sha256": "56337d444472c4a0d0d452dfaaac8338baa090abba996236bde0207fe5ca514a"
+        }
+      ],
+      "uniqueBranchIds": 75859
+    }
+  ],
+  "knownLimits": [
+    "One logical FDIC dataset was fetched as eight 10,000-row pages; final page has 5,859 rows. Bulk 100,000 limit and attempted sort parameters returned HTTP 400; ordinary paging succeeded.",
+    "Rows name institutions and bank branches only. They establish no public authority, district attendance boundaries, historical existence, employment size or job vacancies.",
+    "CMS postal city and county names need a shared reviewed place/county matching path; no single-place case or nearest-city guess is authorized.",
+    "FDIC NAMEFULL, CERT and branch identity remain in the same record. Bank names do not supply financial amounts absent an accepted certificate-linked financial record.",
+    "No TIGER street source was acquired in this handoff. Existing CCD/IPEDS inputs remain in public/education and data/source/education; do not download another education corpus.",
+    "Unvalidated catalog/reader prototype is preserved locally at 503ad800d on codex/session12-local-institutions, not published or presented as an accepted API. Session 41 is the only B23 writer."
+  ]
+}
