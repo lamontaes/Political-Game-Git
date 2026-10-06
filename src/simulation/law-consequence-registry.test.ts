@@ -92,9 +92,6 @@ it("registers person-level justice outcomes under their own selectors", () => {
     new Set(["justice.pretrial-defendant", "justice.sentenced-defendant"]),
   );
   expect(registry.capabilities.actions.get("justice-person-exposure")).toEqual(
-    new Set([
-      "record-cash-bail-exposure",
-      "record-mandatory-minimum-exposure",
-    ]),
+    new Set(["record-cash-bail-exposure", "record-mandatory-minimum-exposure"]),
   );
 });
