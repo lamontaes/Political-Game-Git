@@ -23,6 +23,7 @@ type Fixture = {
   cancel: () => void;
   hasPublishedGame: () => boolean;
 };
+type PaintedFrame = Fixture["evidence"]["painted"][number];
 declare global {
   interface Window {
     openingPreparationFixture: Fixture;
@@ -163,7 +164,13 @@ test("a fresh random life paints actual preparation stages and counts", async ({
   ).toBeVisible();
   await expect(page.getByLabel("My journal")).toContainText("I ");
   await expect(page.locator(".pg-life-transition-heading h1")).toBeVisible();
-  const stages = [...new Set(evidence.reports.map((step) => step.label))];
+  const stages = [
+    ...new Set(
+      evidence.reports.map(
+        (step: Omit<OpeningLifeGenerationProgress, "world">) => step.label,
+      ),
+    ),
+  ];
   expect(
     stages.filter((stage) => !stage.startsWith("Living through ")),
   ).toEqual([
@@ -189,13 +196,15 @@ test("a fresh random life paints actual preparation stages and counts", async ({
   for (const stage of stages) {
     expect(
       evidence.painted.some(
-        (frame) => frame.requested === stage && frame.visible === stage,
+        (frame: PaintedFrame) =>
+          frame.requested === stage && frame.visible === stage,
       ),
     ).toBe(true);
   }
   expect(
-    evidence.painted.find((frame) => frame.requested === "Preparing courts")!
-      .value,
+    evidence.painted.find(
+      (frame: PaintedFrame) => frame.requested === "Preparing courts",
+    )!.value,
   ).toBeNull();
   await expect(page.locator(".pg-life-transition-progress")).not.toContainText(
     "%",
