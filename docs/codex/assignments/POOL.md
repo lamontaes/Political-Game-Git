@@ -474,6 +474,16 @@ Order: T9-0 and T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by pha
 | T9-facet-nostalgic                     | Wire trait facet-nostalgic into the decisions it argues in, with a two-person proof                                                                                             | pool-traits.md T9           | open    |                           |
 | T9-facet-teasing                       | Wire trait facet-teasing into the decisions it argues in, with a two-person proof                                                                                               | pool-traits.md T9           | open    |                           |
 
+## Speed
+
+Engine and speed work.
+
+| item  | what it is                                                                                                                                                                                                                                                                                                                                             | doc and part        | status  | claimer |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- | ------- | ------- |
+| SP-01 | State legislature turnover moves from the daily loop onto dated calendar events (#2297); it is 44% of CPU (office-continuity.ts:1921); note: sole owner of the state-legislature daily-dispatch hunk; S1 keeps the other #2308 clock hunks; proof: a one-year calendar-only run finishes and the month profile shows the step gone from the daily loop | pool-speed.md SP-01 | claimed | S5      |
+| SP-02 | Payday moves from the daily loop onto its dated schedule (18% of CPU); proof: a one-year calendar-only run finishes and the month profile shows the step gone from the daily loop                                                                                                                                                                      | pool-speed.md SP-02 | open    |         |
+| SP-03 | Routine outcome moves from the daily loop onto its dated schedule (9% of CPU); proof: a one-year calendar-only run finishes and the month profile shows the step gone from the daily loop                                                                                                                                                              | pool-speed.md SP-03 | open    |         |
+
 ## Bugs and polish
 
 Take these after the order above, or any time a session is free. Every row is one PR.
