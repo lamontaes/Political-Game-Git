@@ -1,0 +1,280 @@
+{
+  "source": "b68e5bb63a40232299e60da9aa3cf65ef7846de2",
+  "sampledTotalMs": 158091.432,
+  "intakeSampledMs": 59654.161,
+  "exclusiveAssemblyBranches": [
+    {
+      "key": "ensurePeopleTraits",
+      "sampledMs": 42852.59,
+      "shareOfIntake": 0.7183503930262299,
+      "shareOfAllSamples": 0.27106206489419366
+    },
+    {
+      "key": "prepareStateCandidateSlates",
+      "sampledMs": 10016.328,
+      "shareOfIntake": 0.1679066109068234,
+      "shareOfAllSamples": 0.06335781688662293
+    },
+    {
+      "key": "other-intake-work",
+      "sampledMs": 4071.499,
+      "shareOfIntake": 0.06825171843419271,
+      "shareOfAllSamples": 0.02575407755178029
+    },
+    {
+      "key": "decideAnotherTerm",
+      "sampledMs": 2713.744,
+      "shareOfIntake": 0.0454912776327539,
+      "shareOfAllSamples": 0.017165661450900135
+    }
+  ],
+  "nestedCenters": [
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/history-index.ts\",\"withHistoryAppendTransaction\"]",
+      "sampledMs": 44758.704,
+      "shareOfIntake": 0.7503031347637259,
+      "shareOfAllSamples": 0.28311910034441334
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-traits.ts\",\"seedPeopleTraits\"]",
+      "sampledMs": 44548.204,
+      "shareOfIntake": 0.7467744622206656,
+      "shareOfAllSamples": 0.28178759238514584
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"readUpbringing\"]",
+      "sampledMs": 43531.597,
+      "shareOfIntake": 0.7297327842730031,
+      "shareOfAllSamples": 0.27535709209086046
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"childhoodFamilyContext\"]",
+      "sampledMs": 43455.616,
+      "shareOfIntake": 0.7284590927362133,
+      "shareOfAllSamples": 0.274876477809373
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-traits.ts\",\"ensurePeopleTraits\"]",
+      "sampledMs": 42852.59,
+      "shareOfIntake": 0.7183503930262299,
+      "shareOfAllSamples": 0.27106206489419366
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"familyCohortIndex\"]",
+      "sampledMs": 41523.207,
+      "shareOfIntake": 0.6960655602884097,
+      "shareOfAllSamples": 0.2626531145596809
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/nationwide-world/state-legislature-turnover.ts\",\"\"]",
+      "sampledMs": 39687.074,
+      "shareOfIntake": 0.665285930347759,
+      "shareOfAllSamples": 0.25103874067001936
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-traits.ts\",\"\"]",
+      "sampledMs": 36303.725,
+      "shareOfIntake": 0.6085698699207253,
+      "shareOfAllSamples": 0.22963752393614856
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"upbringingFor\"]",
+      "sampledMs": 35816.665,
+      "shareOfIntake": 0.6004051418978132,
+      "shareOfAllSamples": 0.22655664856018257
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"selectedHouseholdMembers\"]",
+      "sampledMs": 22137.502,
+      "shareOfIntake": 0.3710973656975915,
+      "shareOfAllSamples": 0.14002973924608386
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/life-queries.ts\",\"householdMembershipsAt\"]",
+      "sampledMs": 14925.367,
+      "shareOfIntake": 0.2501982552398985,
+      "shareOfAllSamples": 0.09440971475291589
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/nationwide-world/state-legislature-candidates.ts\",\"prepareStateCandidateSlates\"]",
+      "sampledMs": 14892.197,
+      "shareOfIntake": 0.24964221691090416,
+      "shareOfAllSamples": 0.09419989946071208
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/world.ts\",\"writeWithWorldIntegrityOnce\"]",
+      "sampledMs": 9227.269,
+      "shareOfIntake": 0.1546793860699843,
+      "shareOfAllSamples": 0.058366660882672
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/life-queries.ts\",\"\"]",
+      "sampledMs": 6979.763,
+      "shareOfIntake": 0.11700379123595418,
+      "shareOfAllSamples": 0.0441501662152064
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"\"]",
+      "sampledMs": 6314.32,
+      "shareOfIntake": 0.10584877725461599,
+      "shareOfAllSamples": 0.03994093746965364
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/world.ts\",\"withWorldIntegrityDeferred\"]",
+      "sampledMs": 6197.928,
+      "shareOfIntake": 0.10389766440600849,
+      "shareOfAllSamples": 0.039204705287254275
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/history-index.ts\",\"recordsByStringField\"]",
+      "sampledMs": 6039.573,
+      "shareOfIntake": 0.10124311361951767,
+      "shareOfAllSamples": 0.038203038100129295
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/nationwide-world/state-legislature-candidates.ts\",\"\"]",
+      "sampledMs": 5128.45,
+      "shareOfIntake": 0.08596969455324333,
+      "shareOfAllSamples": 0.0324397719415939
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/nominations/field-entry.ts\",\"decideSelfStarterRun\"]",
+      "sampledMs": 4904.482,
+      "shareOfIntake": 0.0822152540205871,
+      "shareOfAllSamples": 0.03102307277474721
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/dates.ts\",\"dateAtAge\"]",
+      "sampledMs": 4643.124,
+      "shareOfIntake": 0.0778340340751754,
+      "shareOfAllSamples": 0.02936986490197647
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/character-history.ts\",\"createCharacterHistoryContextPeople\"]",
+      "sampledMs": 4457.73,
+      "shareOfIntake": 0.07472622069062375,
+      "shareOfAllSamples": 0.02819716377798387
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"recordedParents\"]",
+      "sampledMs": 4139.645,
+      "shareOfIntake": 0.06939406959390478,
+      "shareOfAllSamples": 0.026185131905187627
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/dates.ts\",\"makeIsoDate\"]",
+      "sampledMs": 4004.456,
+      "shareOfIntake": 0.0671278571833405,
+      "shareOfAllSamples": 0.025330000173570445
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/life-queries.ts\",\"kinshipRelationshipsAt\"]",
+      "sampledMs": 3851.002,
+      "shareOfIntake": 0.0645554632810945,
+      "shareOfAllSamples": 0.024359334033991164
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/history-index.ts\",\"__name\"]",
+      "sampledMs": 3598.176,
+      "shareOfIntake": 0.0603172677258842,
+      "shareOfAllSamples": 0.022760094930381804
+    }
+  ],
+  "selfCenters": [
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"familyCohortIndex\"]",
+      "sampledMs": 12236.526,
+      "shareOfIntake": 0.20512443381778514,
+      "shareOfAllSamples": 0.07740157607023257
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/history-index.ts\",\"recordsByStringField\"]",
+      "sampledMs": 5260.719,
+      "shareOfIntake": 0.0881869581570345,
+      "shareOfAllSamples": 0.03327643334902552
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/life-queries.ts\",\"householdMembershipsAt\"]",
+      "sampledMs": 4833.064,
+      "shareOfIntake": 0.08101805337602519,
+      "shareOfAllSamples": 0.030571321537526463
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/dates.ts\",\"makeIsoDate\"]",
+      "sampledMs": 3991.531,
+      "shareOfIntake": 0.06691119166020959,
+      "shareOfAllSamples": 0.025248243687235373
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/character-history.ts\",\"createCharacterHistoryContextPeople\"]",
+      "sampledMs": 3836.325,
+      "shareOfIntake": 0.06430942847389975,
+      "shareOfAllSamples": 0.024266495353144756
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"selectedHouseholdMembers\"]",
+      "sampledMs": 2271.613,
+      "shareOfIntake": 0.03807970746583796,
+      "shareOfAllSamples": 0.014368982374705797
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/history-index.ts\",\"__name\"]",
+      "sampledMs": 1889.981,
+      "shareOfIntake": 0.031682299580074555,
+      "shareOfAllSamples": 0.01195498690909448
+    },
+    {
+      "key": "[\"\",\"set filename\"]",
+      "sampledMs": 1650.76,
+      "shareOfIntake": 0.027672168585188884,
+      "shareOfAllSamples": 0.010441805600192172
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts\",\"childhoodFamilyContext\"]",
+      "sampledMs": 1450.845,
+      "shareOfIntake": 0.024320935466681026,
+      "shareOfAllSamples": 0.00917725256609732
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/life-queries.ts\",\"\"]",
+      "sampledMs": 1399.644,
+      "shareOfIntake": 0.02346263825586282,
+      "shareOfAllSamples": 0.008853383022047646
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/life-queries.ts\",\"kinshipRelationshipsAt\"]",
+      "sampledMs": 1370.846,
+      "shareOfIntake": 0.022979889030708186,
+      "shareOfAllSamples": 0.008671222612494268
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/world.ts\",\"resolveEntityLabel\"]",
+      "sampledMs": 1040.324,
+      "shareOfIntake": 0.017439252896373818,
+      "shareOfAllSamples": 0.006580521074665197
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/history-index.ts\",\"startsWith\"]",
+      "sampledMs": 1007.718,
+      "shareOfIntake": 0.016892669062934268,
+      "shareOfAllSamples": 0.006374273338228729
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/life-queries.ts\",\"householdLocationHistory\"]",
+      "sampledMs": 973.749,
+      "shareOfIntake": 0.01632323686523728,
+      "shareOfAllSamples": 0.006159404008687833
+    },
+    {
+      "key": "[\"file:///workspace/session5-integration-proof/src/simulation/history-index.ts\",\"recordById\"]",
+      "sampledMs": 968.318,
+      "shareOfIntake": 0.016232195437297325,
+      "shareOfAllSamples": 0.0061250504707933825
+    }
+  ],
+  "limitations": [
+    "Read-only attribution of retained32candidateCPUprofiles; no new simulation run",
+    "Inclusive centers overlap; exclusive assembly branches assign every intake sample once",
+    "Inspector sampling overhead retained; no invocation counts or causal-isolation assertion"
+  ]
+}
