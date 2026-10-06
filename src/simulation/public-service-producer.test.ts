@@ -9,6 +9,12 @@ import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
 } from "./life-places";
+import { createCharacterHistoryContextPeople } from "./character-history";
+import {
+  SUBSTANCE_USE_DISORDER_KEY,
+  holdsPackCondition,
+  recordStartingConditions,
+} from "./crisis/condition-pack";
 import { createMindProvenance, recordGoalState } from "./mind";
 import {
   LIVELIHOOD_GOAL_KEY,
@@ -34,6 +40,8 @@ import type { EntityId, Person, World } from "./types";
 
 const PARKS =
   "us-policy-positions:civil-family-community.dedicated-parks-funding";
+const HARM_REDUCTION =
+  "us-policy-positions:health-human-services.harm-reduction-services";
 const TRANSIT =
   "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit";
 
@@ -395,4 +403,81 @@ describe("residents ask for a paid service on their own records, then take part"
       effectKind: "service-delivered",
     });
   });
+
+  const harmSeed = "lw16-harm-reduction-2";
+  const harmPlace = drawPlace(harmSeed);
+  it(`harm reduction: people with the substance use record ask, work hours hold some back, people without it have no reason (${harmPlace}, seed ${harmSeed})`, () => {
+    const f = fundedTomorrow(harmPlace, HARM_REDUCTION);
+    // Authored fixture: twenty-year-olds living in the served place, given the
+    // pack's starting conditions at the survey's shares by age.
+    const date = f.world.currentDate;
+    let world = createCharacterHistoryContextPeople(
+      f.world,
+      Array.from({ length: 80 }, (_, index) => ({
+        stableKey: `lw16:harm:${index}`,
+        givenName: "Resident",
+        familyName: `Member-${index}`,
+        birthDate: addDays(date, -Math.round(22 * 365.25) - index),
+        homeJurisdictionId: f.jurisdiction.id,
+      })),
+    );
+    const cohortIds = world.personOrder.slice(-80);
+    world = recordStartingConditions(
+      world,
+      cohortIds.map((personId) => ({
+        personId,
+        category: "equal-mixture" as const,
+      })),
+      date,
+      f.commitmentId,
+    );
+    const holders = cohortIds.filter((id) =>
+      holdsPackCondition(world, id, SUBSTANCE_USE_DISORDER_KEY),
+    );
+    const others = cohortIds.filter((id) => !holders.includes(id));
+    expect(holders.length).toBeGreaterThan(5);
+    const [free, busy] = holders as [EntityId, EntityId];
+    const [healthy] = others as [EntityId];
+    world = job(world, busy, f.jurisdiction.id, 40);
+    assertWorldIntegrity(world);
+
+    world = advanceWorld(world, 3, registry);
+
+    const askedTrace = traceFor(world, free)!;
+    expect(askedTrace.selectedOptionKey).toBe("ask");
+    expect(
+      askedTrace.context.considerations.map((c) => [
+        c.optionKey,
+        c.explanation,
+      ]),
+    ).toEqual([["ask", "Lives with a substance use disorder."]]);
+    expect(requestsBy(world, free)[0]!.summary).toContain(
+      "a harm reduction visit",
+    );
+    // The same record, but forty hours of work already hold the day.
+    const heldBack = traceFor(world, busy)!;
+    expect(heldBack.selectedOptionKey).toBe("wait");
+    expect(heldBack.context.considerations.map((c) => c.optionKey)).toEqual([
+      "ask",
+      "wait",
+    ]);
+    expect(requestsBy(world, busy)).toEqual([]);
+    // No record of the condition: no reason, nothing saved.
+    expect(traceFor(world, healthy)).toBeUndefined();
+    expect(requestsBy(world, healthy)).toEqual([]);
+    // Everyone who asked held the record; the law's receipt follows the visit.
+    const askers = cohortIds.filter((id) => requestsBy(world, id).length > 0);
+    expect(askers.length).toBeGreaterThan(0);
+    expect(askers.every((id) => holders.includes(id))).toBe(true);
+    const receipts = deliveries(world);
+    expect(receipts.length).toBe(askers.length);
+    expect(receipts[0]!.lawEffectStamps![0]).toMatchObject({
+      questionKey: HARM_REDUCTION,
+      jurisdictionId: f.jurisdiction.id,
+      effectKind: "service-delivered",
+    });
+    console.info(
+      `LW-16 harm reduction, ${harmPlace} (seed ${harmSeed}): ${holders.length} of ${cohortIds.length} twenty-two-year-olds hold the record; ${askers.length} asked; ${receipts.length} visits delivered; the 40-hour worker with the record waited.`,
+    );
+  }, 240_000);
 });
