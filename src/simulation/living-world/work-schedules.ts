@@ -35,6 +35,8 @@ import type {
   WorkRoleRecord,
   World,
 } from "../types";
+import { workAbsenceAt } from "./work-absence";
+import { isPersonAliveAt } from "../vitality-integrity";
 import { townWorkplaceFor } from "./town-employment";
 
 export const WORK_SCHEDULES_VERSION = "work-schedules-v1";
@@ -554,7 +556,12 @@ export type PersonWhereabouts =
       readonly title: string;
       readonly place: string;
     }
-  | { readonly kind: "home" };
+  | { readonly kind: "home" }
+  | {
+      readonly kind: "absent";
+      readonly recordId: EntityId;
+      readonly reason: string;
+    };
 
 function minuteOf(moment: SimulationMoment): number {
   return daysBetween(EPOCH, moment.date) * 1440 + moment.minuteOfDay;
@@ -583,9 +590,18 @@ export function whereaboutsAt(
   world: World,
   personId: EntityId,
   moment: SimulationMoment = world.currentMoment,
-  underWay = activitiesUnderWay(world, moment),
+  underWay?: ReturnType<typeof activitiesUnderWay>,
 ): PersonWhereabouts {
-  const activity = underWay.get(personId);
+  const absence = workAbsenceAt(world, personId, moment);
+  if (absence)
+    return {
+      kind: "absent",
+      recordId: absence.recordId,
+      reason: absence.absence.reason,
+    };
+  const activity = (underWay ?? activitiesUnderWay(world, moment)).get(
+    personId,
+  );
   if (activity) return { kind: "activity", ...activity };
   const index = jobIndex(world, moment.date);
   for (const job of index.byPerson.get(personId) ?? []) {
@@ -619,9 +635,9 @@ export function peopleAtWorkAt(
   town: EntityId,
   place: string,
   moment: SimulationMoment = world.currentMoment,
+  underWay = activitiesUnderWay(world, moment),
 ): readonly PersonAtWork[] {
   const index = jobIndex(world, moment.date);
-  const underWay = activitiesUnderWay(world, moment);
   const found: PersonAtWork[] = [];
   for (const job of index.byId.values()) {
     if (job.role.locationJurisdictionId !== town) continue;
@@ -646,4 +662,53 @@ export function peopleAtWorkAt(
     });
   }
   return found;
+}
+
+/** Physical workplace identity: category alone cannot identify an employer's room. */
+export interface WorkPlaceId {
+  readonly jurisdictionId: EntityId;
+  readonly place: string;
+  readonly organizationId: EntityId | null;
+}
+
+/** Computed work whereabouts, never a saved room-attendance claim.
+ * Scene/dialogue consumers must still require their central recorded presence.
+ */
+export function presentAt(
+  world: World,
+  placeId: WorkPlaceId,
+  moment: SimulationMoment = world.currentMoment,
+): readonly (PersonAtWork & {
+  readonly presenceBasis: "computed-work-schedule";
+})[] {
+  if (!placeId.organizationId) return [];
+  const underWay = activitiesUnderWay(world, moment);
+  return peopleAtWorkAt(
+    world,
+    placeId.jurisdictionId,
+    placeId.place,
+    moment,
+    underWay,
+  )
+    .filter((worker) => worker.organizationId === placeId.organizationId)
+    .filter((worker) =>
+      isPersonAliveAt(world, worker.personId, {
+        asOfDate:
+          moment.date <= world.currentDate ? moment.date : world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      }),
+    )
+    .filter((worker) => {
+      const where = whereaboutsAt(world, worker.personId, moment, underWay);
+      return (
+        where.kind === "work" &&
+        where.place === placeId.place &&
+        where.organizationId === placeId.organizationId &&
+        where.workRelationshipId === worker.workRelationshipId
+      );
+    })
+    .map((worker) => ({
+      ...worker,
+      presenceBasis: "computed-work-schedule" as const,
+    }));
 }

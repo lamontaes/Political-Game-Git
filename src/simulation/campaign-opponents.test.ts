@@ -5,7 +5,7 @@ import {
   CAMPAIGN_AD_CHANNELS,
 } from "./campaign-weekly-plans";
 import { contestDistrictGeography } from "./campaign-geography";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
@@ -47,8 +47,11 @@ import {
 import { canonicalJson } from "./canonical-json";
 import { daysBetween } from "./dates";
 import { cancelFutureDueItem } from "./future-transitions";
+import * as decisions from "./decisions";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { createOrganization, createOrganizationParticipation } from "./life";
+import { doorKnockingReturn } from "./campaign-recognition";
+import { recordRelationshipInteraction } from "./records";
 import {
   LIVING_WORLD_KEYS,
   PARTY_AFFILIATION_KIND,
@@ -56,12 +59,16 @@ import {
 } from "./living-world/opening";
 import { ensureHomePartyChapters } from "./living-world/party-chapters";
 import { resourcePositionAt } from "./resource-queries";
+import { recordWorldEvent } from "./world";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
 import type { LifePlace } from "./life-places";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import type { CampaignRecord, EntityId, World } from "./types";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
+const evaluateDecision = decisions.evaluateDecision;
+
+afterEach(() => vi.restoreAllMocks());
 
 interface Filed {
   readonly world: World;
@@ -343,7 +350,32 @@ describe("CRUNCH46 opponent campaigns", () => {
       const filed = withRelationshipsRival(
         fileRace(seed, { electionInDays: 42, chapters: true }),
       );
+      const spy = vi
+        .spyOn(decisions, "evaluateDecision")
+        .mockImplementation(
+          (
+            world: Parameters<typeof evaluateDecision>[0],
+            input: Parameters<typeof evaluateDecision>[1],
+          ) => {
+            const evaluation = evaluateDecision(world, input);
+            return input.decisionType === "campaign.opponent-weekly-step" &&
+              !campaignOpponentStepRecords(world).some(
+                (step) => step.kind === "support-request",
+              )
+              ? {
+                  ...evaluation,
+                  outcomeKind: "selected",
+                  selectedOptionKey: "support-request",
+                }
+              : evaluation;
+          },
+        );
       const played = advance(filed.world, 34);
+      expect(
+        spy.mock.calls.some(
+          ([, input]) => input.decisionType === "campaign.opponent-weekly-step",
+        ),
+      ).toBe(true);
       const step = campaignOpponentStepRecords(played).find(
         (record) => record.kind === "support-request",
       )!;
@@ -409,7 +441,65 @@ describe("CRUNCH46 opponent campaigns", () => {
   );
 
   it("reads field effort only from linked completed rival work", () => {
-    const filed = fileRace("opponents-recorded-field", { electionInDays: 60 });
+    let filed = fileRace("opponents-recorded-field", { electionInDays: 60 });
+    // Field gain is recognition-weighted. Record a small, fixed set of real
+    // campaign contacts so this reader test exercises a positive measured gain.
+    const residents = doorKnockingReturn(
+      filed.world,
+      filed.campaign,
+    ).adultResidentIds.slice(0, 2);
+    let contacted = filed.world;
+    for (const residentId of residents) {
+      const event = recordWorldEvent(contacted, {
+        stableKey: `opponents-recorded-field:contact:${residentId}`,
+        type: "campaign.fixture-contact",
+        occurredAt: contacted.currentDate,
+        recordedAt: contacted.currentDate,
+        jurisdictionId: filed.campaign.jurisdictionId,
+        involvedEntityIds: [filed.rivalPersonId, residentId],
+        participants: [
+          {
+            personId: filed.rivalPersonId,
+            role: "presence:participant",
+            detail: "Met a voter",
+          },
+          {
+            personId: residentId,
+            role: "presence:participant",
+            detail: "Met the candidate",
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: ["campaign.fixture"],
+        summary: "A recorded rival campaign contact.",
+        context: {
+          location: {
+            jurisdictionId: filed.campaign.jurisdictionId,
+            label: "Test",
+            setting: "campaign event",
+          },
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const eventId = event.history.events.at(-1)!.id;
+      contacted = recordRelationshipInteraction(event, {
+        stableKey: `opponents-recorded-field:contact:${residentId}`,
+        personIds: [filed.rivalPersonId, residentId],
+        eventId,
+        occurredAt: event.currentDate,
+        kind: CAMPAIGN_CONTACT_MET_KIND,
+        change: "formed",
+        significance: "minor",
+        summary: "Met during campaign work.",
+        tags: ["campaign.contact"],
+      });
+    }
+    filed = { ...filed, world: contacted };
     const moment = filed.world.currentMoment;
     const scheduled = scheduleCampaignAction(filed.world, {
       campaignId: filed.campaign.id,
@@ -428,7 +518,7 @@ describe("CRUNCH46 opponent campaigns", () => {
       spend: null,
     });
     const activityId = scheduled.action.scheduledActivityId;
-    const outcomeEventId = filed.world.history.events.at(-1)!.id;
+    const outcomeEventId = scheduled.world.history.events.at(-1)!.id;
     const timing = scheduledActivityState(scheduled.world, activityId);
     const world: World = {
       ...scheduled.world,
@@ -464,7 +554,7 @@ describe("CRUNCH46 opponent campaigns", () => {
       );
     expect(read(scheduled.world)).toBe(0);
     const expected = requestedCampaignFieldGainBasisPoints(
-      world,
+      filed.world,
       { ...filed.campaign, candidatePersonId: filed.rivalPersonId },
       30,
       1,
@@ -492,9 +582,37 @@ describe("CRUNCH46 opponent campaigns", () => {
   });
 
   it("gives undated-duration field work zero effect and strengthens only a repeat contact", () => {
-    // Pinned seed: this rival holds several field events.
     const filed = fileRace("opponents-money-b", { electionInDays: 60 });
+    const spy = vi
+      .spyOn(decisions, "evaluateDecision")
+      .mockImplementation(
+        (
+          world: Parameters<typeof evaluateDecision>[0],
+          input: Parameters<typeof evaluateDecision>[1],
+        ) => {
+          const evaluation = evaluateDecision(world, input);
+          return input.decisionType === "campaign.opponent-weekly-step" &&
+            evaluation.context.considerations.some(
+              (consideration) => consideration.optionKey === "field-event",
+            )
+            ? {
+                ...evaluation,
+                outcomeKind: "selected",
+                selectedOptionKey: "field-event",
+              }
+            : evaluation;
+        },
+      );
     const world = advance(filed.world, 59);
+    expect(
+      spy.mock.calls.some(
+        ([, input]) =>
+          input.decisionType === "campaign.opponent-weekly-step" &&
+          input.considerations.some(
+            (consideration) => consideration.optionKey === "field-event",
+          ),
+      ),
+    ).toBe(true);
     const opponent = campaignOpponentRecords(world)[0]!;
     const fieldSteps = campaignOpponentStepRecords(world).filter(
       (step) => step.kind === "field-event",
