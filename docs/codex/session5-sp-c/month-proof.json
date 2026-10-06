@@ -1,0 +1,874 @@
+{
+  "baselineSource": "f88508186b78f526ecf89a420b5fb584171e039a",
+  "candidateSource": "84cfe9c46d5f7236f9df9ef417df98256f0d7611",
+  "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec",
+  "place": "Ripon, Wisconsin",
+  "baseline": {
+    "steadyCalendarDays": 30,
+    "steadyActions": 31,
+    "meanDailyCpuMs": 5547.7166,
+    "meanEndOfDayHeapUsedBytes": 1174588483.7333333,
+    "maxEndOfDayHeapUsedBytes": 1704212008,
+    "rows": [
+      {
+        "from": "2026-01-06",
+        "to": "2026-01-07",
+        "actions": [1, 2],
+        "cpuMs": 2449.555,
+        "heapUsedBytes": 729351424
+      },
+      {
+        "from": "2026-01-07",
+        "to": "2026-01-08",
+        "actions": [3],
+        "cpuMs": 2359.097,
+        "heapUsedBytes": 583650824
+      },
+      {
+        "from": "2026-01-08",
+        "to": "2026-01-09",
+        "actions": [4],
+        "cpuMs": 2705.024,
+        "heapUsedBytes": 644312856
+      },
+      {
+        "from": "2026-01-09",
+        "to": "2026-01-10",
+        "actions": [5],
+        "cpuMs": 2038.751,
+        "heapUsedBytes": 723696752
+      },
+      {
+        "from": "2026-01-10",
+        "to": "2026-01-11",
+        "actions": [6],
+        "cpuMs": 2082.511,
+        "heapUsedBytes": 825451632
+      },
+      {
+        "from": "2026-01-11",
+        "to": "2026-01-12",
+        "actions": [7],
+        "cpuMs": 11606.246,
+        "heapUsedBytes": 1174034200
+      },
+      {
+        "from": "2026-01-12",
+        "to": "2026-01-13",
+        "actions": [8],
+        "cpuMs": 2590.2650000000003,
+        "heapUsedBytes": 1244208064
+      },
+      {
+        "from": "2026-01-13",
+        "to": "2026-01-14",
+        "actions": [9],
+        "cpuMs": 2413.786,
+        "heapUsedBytes": 1301384560
+      },
+      {
+        "from": "2026-01-14",
+        "to": "2026-01-15",
+        "actions": [10],
+        "cpuMs": 2548.8489999999997,
+        "heapUsedBytes": 1391463680
+      },
+      {
+        "from": "2026-01-15",
+        "to": "2026-01-16",
+        "actions": [11],
+        "cpuMs": 3087.944,
+        "heapUsedBytes": 1559031032
+      },
+      {
+        "from": "2026-01-16",
+        "to": "2026-01-17",
+        "actions": [12],
+        "cpuMs": 2594.2650000000003,
+        "heapUsedBytes": 1608781256
+      },
+      {
+        "from": "2026-01-17",
+        "to": "2026-01-18",
+        "actions": [13],
+        "cpuMs": 2504.6800000000003,
+        "heapUsedBytes": 1704212008
+      },
+      {
+        "from": "2026-01-18",
+        "to": "2026-01-19",
+        "actions": [14],
+        "cpuMs": 17285.434,
+        "heapUsedBytes": 803517592
+      },
+      {
+        "from": "2026-01-19",
+        "to": "2026-01-20",
+        "actions": [15],
+        "cpuMs": 3169.397,
+        "heapUsedBytes": 915456120
+      },
+      {
+        "from": "2026-01-20",
+        "to": "2026-01-21",
+        "actions": [16],
+        "cpuMs": 3071.72,
+        "heapUsedBytes": 1046849720
+      },
+      {
+        "from": "2026-01-21",
+        "to": "2026-01-22",
+        "actions": [17],
+        "cpuMs": 2971.99,
+        "heapUsedBytes": 1150193992
+      },
+      {
+        "from": "2026-01-22",
+        "to": "2026-01-23",
+        "actions": [18],
+        "cpuMs": 4528.488,
+        "heapUsedBytes": 1286108120
+      },
+      {
+        "from": "2026-01-23",
+        "to": "2026-01-24",
+        "actions": [19],
+        "cpuMs": 2865.058,
+        "heapUsedBytes": 1428746592
+      },
+      {
+        "from": "2026-01-24",
+        "to": "2026-01-25",
+        "actions": [20],
+        "cpuMs": 2941.2389999999996,
+        "heapUsedBytes": 1508504824
+      },
+      {
+        "from": "2026-01-25",
+        "to": "2026-01-26",
+        "actions": [21],
+        "cpuMs": 18755.885000000002,
+        "heapUsedBytes": 924982832
+      },
+      {
+        "from": "2026-01-26",
+        "to": "2026-01-27",
+        "actions": [22],
+        "cpuMs": 3663.532,
+        "heapUsedBytes": 1043408392
+      },
+      {
+        "from": "2026-01-27",
+        "to": "2026-01-28",
+        "actions": [23],
+        "cpuMs": 3493.732,
+        "heapUsedBytes": 1165804832
+      },
+      {
+        "from": "2026-01-28",
+        "to": "2026-01-29",
+        "actions": [24],
+        "cpuMs": 3375.315,
+        "heapUsedBytes": 1227894688
+      },
+      {
+        "from": "2026-01-29",
+        "to": "2026-01-30",
+        "actions": [25],
+        "cpuMs": 6455.751,
+        "heapUsedBytes": 1155599480
+      },
+      {
+        "from": "2026-01-30",
+        "to": "2026-01-31",
+        "actions": [26],
+        "cpuMs": 4756.997,
+        "heapUsedBytes": 1343958048
+      },
+      {
+        "from": "2026-01-31",
+        "to": "2026-02-01",
+        "actions": [27],
+        "cpuMs": 9340.410000000002,
+        "heapUsedBytes": 1618050304
+      },
+      {
+        "from": "2026-02-01",
+        "to": "2026-02-02",
+        "actions": [28],
+        "cpuMs": 26190.129,
+        "heapUsedBytes": 1055364416
+      },
+      {
+        "from": "2026-02-02",
+        "to": "2026-02-03",
+        "actions": [29],
+        "cpuMs": 4542.073,
+        "heapUsedBytes": 1157049776
+      },
+      {
+        "from": "2026-02-03",
+        "to": "2026-02-04",
+        "actions": [30],
+        "cpuMs": 6100.3279999999995,
+        "heapUsedBytes": 1397173136
+      },
+      {
+        "from": "2026-02-04",
+        "to": "2026-02-05",
+        "actions": [31],
+        "cpuMs": 3943.047,
+        "heapUsedBytes": 1519413360
+      }
+    ]
+  },
+  "candidate": {
+    "steadyCalendarDays": 30,
+    "steadyActions": 31,
+    "meanDailyCpuMs": 5414.7142,
+    "meanEndOfDayHeapUsedBytes": 1237753120.2666667,
+    "maxEndOfDayHeapUsedBytes": 2210699632,
+    "rows": [
+      {
+        "from": "2026-01-06",
+        "to": "2026-01-07",
+        "actions": [1, 2],
+        "cpuMs": 2269.217,
+        "heapUsedBytes": 742297800
+      },
+      {
+        "from": "2026-01-07",
+        "to": "2026-01-08",
+        "actions": [3],
+        "cpuMs": 1673.795,
+        "heapUsedBytes": 783445360
+      },
+      {
+        "from": "2026-01-08",
+        "to": "2026-01-09",
+        "actions": [4],
+        "cpuMs": 3347.4210000000003,
+        "heapUsedBytes": 638787696
+      },
+      {
+        "from": "2026-01-09",
+        "to": "2026-01-10",
+        "actions": [5],
+        "cpuMs": 1873.839,
+        "heapUsedBytes": 736992328
+      },
+      {
+        "from": "2026-01-10",
+        "to": "2026-01-11",
+        "actions": [6],
+        "cpuMs": 1915.6589999999999,
+        "heapUsedBytes": 787385792
+      },
+      {
+        "from": "2026-01-11",
+        "to": "2026-01-12",
+        "actions": [7],
+        "cpuMs": 10932.207999999999,
+        "heapUsedBytes": 1078737808
+      },
+      {
+        "from": "2026-01-12",
+        "to": "2026-01-13",
+        "actions": [8],
+        "cpuMs": 2412.793,
+        "heapUsedBytes": 1222163520
+      },
+      {
+        "from": "2026-01-13",
+        "to": "2026-01-14",
+        "actions": [9],
+        "cpuMs": 2349.906,
+        "heapUsedBytes": 1266512720
+      },
+      {
+        "from": "2026-01-14",
+        "to": "2026-01-15",
+        "actions": [10],
+        "cpuMs": 2494.465,
+        "heapUsedBytes": 1331445936
+      },
+      {
+        "from": "2026-01-15",
+        "to": "2026-01-16",
+        "actions": [11],
+        "cpuMs": 3144.187,
+        "heapUsedBytes": 1476847328
+      },
+      {
+        "from": "2026-01-16",
+        "to": "2026-01-17",
+        "actions": [12],
+        "cpuMs": 2792.121,
+        "heapUsedBytes": 1588923208
+      },
+      {
+        "from": "2026-01-17",
+        "to": "2026-01-18",
+        "actions": [13],
+        "cpuMs": 2721.483,
+        "heapUsedBytes": 1649206984
+      },
+      {
+        "from": "2026-01-18",
+        "to": "2026-01-19",
+        "actions": [14],
+        "cpuMs": 15873.555999999999,
+        "heapUsedBytes": 2011161664
+      },
+      {
+        "from": "2026-01-19",
+        "to": "2026-01-20",
+        "actions": [15],
+        "cpuMs": 3106.019,
+        "heapUsedBytes": 2089569216
+      },
+      {
+        "from": "2026-01-20",
+        "to": "2026-01-21",
+        "actions": [16],
+        "cpuMs": 3112.017,
+        "heapUsedBytes": 2210699632
+      },
+      {
+        "from": "2026-01-21",
+        "to": "2026-01-22",
+        "actions": [17],
+        "cpuMs": 4865.423000000001,
+        "heapUsedBytes": 910417984
+      },
+      {
+        "from": "2026-01-22",
+        "to": "2026-01-23",
+        "actions": [18],
+        "cpuMs": 4879.376,
+        "heapUsedBytes": 1025243816
+      },
+      {
+        "from": "2026-01-23",
+        "to": "2026-01-24",
+        "actions": [19],
+        "cpuMs": 3383.603,
+        "heapUsedBytes": 1175273328
+      },
+      {
+        "from": "2026-01-24",
+        "to": "2026-01-25",
+        "actions": [20],
+        "cpuMs": 3238.1800000000003,
+        "heapUsedBytes": 1263022096
+      },
+      {
+        "from": "2026-01-25",
+        "to": "2026-01-26",
+        "actions": [21],
+        "cpuMs": 17558.842,
+        "heapUsedBytes": 903158656
+      },
+      {
+        "from": "2026-01-26",
+        "to": "2026-01-27",
+        "actions": [22],
+        "cpuMs": 3533.3250000000003,
+        "heapUsedBytes": 1002152688
+      },
+      {
+        "from": "2026-01-27",
+        "to": "2026-01-28",
+        "actions": [23],
+        "cpuMs": 3323.726,
+        "heapUsedBytes": 1137467080
+      },
+      {
+        "from": "2026-01-28",
+        "to": "2026-01-29",
+        "actions": [24],
+        "cpuMs": 3234.0550000000003,
+        "heapUsedBytes": 1296363208
+      },
+      {
+        "from": "2026-01-29",
+        "to": "2026-01-30",
+        "actions": [25],
+        "cpuMs": 5600.25,
+        "heapUsedBytes": 1458311016
+      },
+      {
+        "from": "2026-01-30",
+        "to": "2026-01-31",
+        "actions": [26],
+        "cpuMs": 6472.222000000001,
+        "heapUsedBytes": 928618816
+      },
+      {
+        "from": "2026-01-31",
+        "to": "2026-02-01",
+        "actions": [27],
+        "cpuMs": 9826.948,
+        "heapUsedBytes": 1233228296
+      },
+      {
+        "from": "2026-02-01",
+        "to": "2026-02-02",
+        "actions": [28],
+        "cpuMs": 22531.701,
+        "heapUsedBytes": 1099169504
+      },
+      {
+        "from": "2026-02-02",
+        "to": "2026-02-03",
+        "actions": [29],
+        "cpuMs": 4518.753,
+        "heapUsedBytes": 1205316968
+      },
+      {
+        "from": "2026-02-03",
+        "to": "2026-02-04",
+        "actions": [30],
+        "cpuMs": 5823.277,
+        "heapUsedBytes": 1385622936
+      },
+      {
+        "from": "2026-02-04",
+        "to": "2026-02-05",
+        "actions": [31],
+        "cpuMs": 3633.059,
+        "heapUsedBytes": 1495050224
+      }
+    ]
+  },
+  "dailyCpuChangePercent": -2.397425996850655,
+  "capturedActionParity": true,
+  "cpuDown": true,
+  "actions": [
+    {
+      "action": 0,
+      "from": "2026-01-05",
+      "to": "2026-01-06",
+      "sequence": 88883,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 1,
+      "from": "2026-01-06",
+      "to": "2026-01-06",
+      "sequence": 88884,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 2,
+      "from": "2026-01-06",
+      "to": "2026-01-07",
+      "sequence": 91457,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 3,
+      "from": "2026-01-07",
+      "to": "2026-01-08",
+      "sequence": 94032,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 4,
+      "from": "2026-01-08",
+      "to": "2026-01-09",
+      "sequence": 99790,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 5,
+      "from": "2026-01-09",
+      "to": "2026-01-10",
+      "sequence": 102146,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 6,
+      "from": "2026-01-10",
+      "to": "2026-01-11",
+      "sequence": 104600,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 7,
+      "from": "2026-01-11",
+      "to": "2026-01-12",
+      "sequence": 232859,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 8,
+      "from": "2026-01-12",
+      "to": "2026-01-13",
+      "sequence": 235344,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 9,
+      "from": "2026-01-13",
+      "to": "2026-01-14",
+      "sequence": 237645,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 10,
+      "from": "2026-01-14",
+      "to": "2026-01-15",
+      "sequence": 240060,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 11,
+      "from": "2026-01-15",
+      "to": "2026-01-16",
+      "sequence": 242850,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 12,
+      "from": "2026-01-16",
+      "to": "2026-01-17",
+      "sequence": 245193,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 13,
+      "from": "2026-01-17",
+      "to": "2026-01-18",
+      "sequence": 247395,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 14,
+      "from": "2026-01-18",
+      "to": "2026-01-19",
+      "sequence": 375215,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 15,
+      "from": "2026-01-19",
+      "to": "2026-01-20",
+      "sequence": 377439,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 16,
+      "from": "2026-01-20",
+      "to": "2026-01-21",
+      "sequence": 379677,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 17,
+      "from": "2026-01-21",
+      "to": "2026-01-22",
+      "sequence": 381925,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 18,
+      "from": "2026-01-22",
+      "to": "2026-01-23",
+      "sequence": 386859,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 19,
+      "from": "2026-01-23",
+      "to": "2026-01-24",
+      "sequence": 388965,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 20,
+      "from": "2026-01-24",
+      "to": "2026-01-25",
+      "sequence": 391089,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 21,
+      "from": "2026-01-25",
+      "to": "2026-01-26",
+      "sequence": 518743,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 22,
+      "from": "2026-01-26",
+      "to": "2026-01-27",
+      "sequence": 520872,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 23,
+      "from": "2026-01-27",
+      "to": "2026-01-28",
+      "sequence": 522909,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 24,
+      "from": "2026-01-28",
+      "to": "2026-01-29",
+      "sequence": 524900,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 25,
+      "from": "2026-01-29",
+      "to": "2026-01-30",
+      "sequence": 527608,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 26,
+      "from": "2026-01-30",
+      "to": "2026-01-31",
+      "sequence": 531411,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 27,
+      "from": "2026-01-31",
+      "to": "2026-02-01",
+      "sequence": 541538,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 28,
+      "from": "2026-02-01",
+      "to": "2026-02-02",
+      "sequence": 669438,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 29,
+      "from": "2026-02-02",
+      "to": "2026-02-03",
+      "sequence": 672379,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 30,
+      "from": "2026-02-03",
+      "to": "2026-02-04",
+      "sequence": 676143,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 31,
+      "from": "2026-02-04",
+      "to": "2026-02-05",
+      "sequence": 677863,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    }
+  ],
+  "packets": [
+    {
+      "action": 4,
+      "exactPacketBytesEqual": true,
+      "baselineBytes": 5282838,
+      "candidateBytes": 5282838,
+      "sha256": "931204890c9a72dc71908f440e30b7b34d5d83674c0aa7ad2272a02098f056cd"
+    },
+    {
+      "action": 5,
+      "exactPacketBytesEqual": true,
+      "baselineBytes": 2136088,
+      "candidateBytes": 2136088,
+      "sha256": "adb0918fa86745c5bff602b18ba8b4eef839e923b58dbb3834b202df66957ac9"
+    }
+  ],
+  "limits": [
+    "Headless canonical Day computation; no browser navigation, annual speed or save/Continue acceptance.",
+    "Outer process CPU includes the identical portable runner sampling and digest accounting. Precise coverage is not enabled.",
+    "Exact digests cover all appended record payload fields and order; packet equality covers changed people definitions in actions4/5. Earlier prefix revisions and other state dictionaries were not captured.",
+    "CalendarDay1 action0 is excluded. CalendarDay2 includes same-date action1 plus action2; actions1\u201331 are grouped into30calendar days."
+  ],
+  "execution": {
+    "baselineExec": 72328,
+    "candidateExec": 21780,
+    "candidatePid": 57197,
+    "candidateTerminalExit": 0,
+    "candidateInputWrittenUTC": "2026-10-06T11:42:07.570233+00:00",
+    "metric": "Outer process.cpuUsage user+system milliseconds; actions1\u201331 grouped by from-date into30calendar days; action0 excluded",
+    "runnerHashes": {
+      "run.mjs": "88d8c8488540fb66203e3fe43dfce797e2f2ed008e20a9d4b18911777d16fc75",
+      "instrument.mjs": "daa456aa3a94efe3f753ab986d744445300bcf26e3c5312082b75ea80a1f184d",
+      "row-evidence.mjs": "975cbd4867937bb2beaec1c5fadb14bbba7300041d7c9dcdd88546a33820e947"
+    },
+    "separateBaseline": "Session48 SP-A5155.261ms is a different comparison, not combined here"
+  },
+  "priorTrials": [
+    {
+      "candidateSource": "25723fe0485efa9dbc77d2e42159bc3b9844e27c",
+      "dailyCpuChangePercent": -0.3141935308423327,
+      "capturedActionParity": true,
+      "cpuDown": true
+    },
+    {
+      "candidateSource": "9c8cee55f785503c41441ca4b54a9eeb13822ba1",
+      "dailyCpuChangePercent": 4.617458289055354,
+      "capturedActionParity": true,
+      "cpuDown": false
+    },
+    {
+      "candidateSource": "eb5475b8bd97a666ca18bb19929e1d54e5165c05",
+      "dailyCpuChangePercent": 9.018247255095924,
+      "capturedActionParity": true,
+      "cpuDown": false
+    },
+    {
+      "candidateSource": "d9caec2fab7e0b955d9c03b38337574a21a205a5",
+      "dailyCpuChangePercent": 3.4200184871255646,
+      "capturedActionParity": true,
+      "cpuDown": false
+    },
+    {
+      "candidateSource": "ff40143adf3d9301d46099982c73dc88832416ea",
+      "dailyCpuChangePercent": 8.48857528158522,
+      "capturedActionParity": true,
+      "cpuDown": false
+    }
+  ],
+  "focusedChecks": {
+    "configuredTypecheckExit": 0,
+    "testsPassed": 41,
+    "lintExit": 0,
+    "source": "84cfe9c46d5f7236f9df9ef417df98256f0d7611"
+  },
+  "sampledFunctions": {
+    "source": "84cfe9c46d5f7236f9df9ef417df98256f0d7611",
+    "allSampledMs": 136861.37200000018,
+    "targets": [
+      {
+        "name": "recordsByStringField",
+        "selfSampledMs": 5810.152000000017,
+        "shareOfAllSamples": 0.04245282591497044
+      },
+      {
+        "name": "householdMembershipsAt",
+        "selfSampledMs": 6872.970000000032,
+        "shareOfAllSamples": 0.05021847946986841
+      },
+      {
+        "name": "describeRoutineOutcome",
+        "selfSampledMs": 17461.849999999708,
+        "shareOfAllSamples": 0.12758786314081144
+      },
+      {
+        "name": "familyCohortIndex",
+        "selfSampledMs": 11885.281999999883,
+        "shareOfAllSamples": 0.08684175692758558
+      },
+      {
+        "name": "makeIsoDate",
+        "selfSampledMs": 4134.051000000018,
+        "shareOfAllSamples": 0.030206119810051387
+      }
+    ],
+    "top5ApplicationSelf": [
+      {
+        "url": "file:///workspace/session5-integration-proof/src/presentation/routine-outcome.ts",
+        "name": "describeRoutineOutcome",
+        "selfSampledMs": 17461.849999999708,
+        "shareOfAllSamples": 0.12758786314081144
+      },
+      {
+        "url": "file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts",
+        "name": "familyCohortIndex",
+        "selfSampledMs": 11885.281999999883,
+        "shareOfAllSamples": 0.08684175692758558
+      },
+      {
+        "url": "file:///workspace/session5-integration-proof/src/simulation/life-queries.ts",
+        "name": "householdMembershipsAt",
+        "selfSampledMs": 6872.970000000032,
+        "shareOfAllSamples": 0.05021847946986841
+      },
+      {
+        "url": "file:///workspace/session5-integration-proof/src/simulation/history-index.ts",
+        "name": "recordsByStringField",
+        "selfSampledMs": 5810.152000000017,
+        "shareOfAllSamples": 0.04245282591497044
+      },
+      {
+        "url": "file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts",
+        "name": "selectedHouseholdMembers",
+        "selfSampledMs": 5621.354000000008,
+        "shareOfAllSamples": 0.04107334244756805
+      }
+    ]
+  }
+}
