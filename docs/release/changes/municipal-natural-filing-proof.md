@@ -1,8 +1,6 @@
 ---
 id: municipal-natural-filing-proof
 impact: none
-section: Fixed
-title: Record natural municipal filing and Save/Continue proof
 ---
 
 Retains two natural browser routes and a reproducible check for the merged
