@@ -2333,7 +2333,69 @@
               "unit": "ratio"
             }
           ],
-          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control."
+          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control.",
+          "constructionSource": "https://olis.oregonlegislature.gov/liz/2023R1/Downloads/MeasureDocument/SB611/Enrolled",
+          "constructionQuote": "The first certificate of occupancy for the dwelling unit was issued less than 15 years from the date of the notice of the rent increase.",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2026 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "The allowable rent increase percentage for the previous year, 2026, was 9.5%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.095,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2027 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "For 2027, the maximum allowable rent increase percentage for tenancies subject to ORS 90.324(b) is 10%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.1,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
