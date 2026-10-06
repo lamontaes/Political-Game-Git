@@ -1,4 +1,5 @@
 import { CATALOGUE_SCALES } from "./personality-catalogue.generated";
+import voluntaryEffortEffects from "../../data/traits/effects/voluntary-effort.json" with { type: "json" };
 import type {
   TraitDeclaration,
   TraitMovability,
@@ -241,7 +242,10 @@ export function personalityCataloguePack(): TraitPack {
   return {
     pack: PERSONALITY_PACK,
     traits: CATALOGUE_SCALES.map(declarationFor),
-    effects: CATALOGUE_EFFECTS,
+    effects: [
+      ...CATALOGUE_EFFECTS,
+      ...(voluntaryEffortEffects as TraitPack["effects"]),
+    ],
   };
 }
 
