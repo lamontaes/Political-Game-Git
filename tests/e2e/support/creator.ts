@@ -291,6 +291,9 @@ export async function fillCreator(
     await page.getByTestId("creator-continue-background").click();
   }
 
+  await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
+  await page.getByTestId("creator-skip-difficulty").click();
+
   await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
   const calibration = life.calibration ?? "skipped";
   let answeredMoments = false;
