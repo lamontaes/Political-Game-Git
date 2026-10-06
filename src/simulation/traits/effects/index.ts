@@ -20,6 +20,7 @@ import { facetSkepticalEffects } from "./facet-skeptical";
 import { concernForDistressEffects } from "./concern-for-distress";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
+import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetZealousEffects } from "./facet-zealous";
 import { uncertainOutlookEffects } from "./uncertain-outlook";
@@ -44,6 +45,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetDefensiveEffects,
     ...uncertainOutlookEffects,
     ...facetCruelEffects,
+    ...outwardEmotionalDisplayEffects,
     ...facetEnviousEffects,
     ...facetGentleEffects,
     ...facetMeticulousEffects,
