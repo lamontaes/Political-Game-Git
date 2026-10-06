@@ -121,7 +121,10 @@ export function evaluateAppealFiling(
   world: World,
   input: AppealInput,
 ): DecisionEvaluation | null {
-  if (input.judgment.kind === "acquittal") return null;
+  // housing.evicted currently lacks the saved case key, evidence finding and
+  // operative legal-bound record required to support a civil appeal.
+  if (input.judgment.kind === "acquittal" || input.judgment.kind === "eviction")
+    return null;
   const outsideLaw = judgmentOutsideLaw(input.judgment);
   const stableKey = `${input.stableKey}:file`;
   const considerations: DecisionConsideration[] = [
@@ -284,7 +287,8 @@ export function appealJudgment(
   world: World,
   input: AppealInput,
 ): AppealResult | null {
-  if (input.judgment.kind === "acquittal") return null;
+  if (input.judgment.kind === "acquittal" || input.judgment.kind === "eviction")
+    return null;
   const appellateCourt = courtFor(
     world,
     input.venueJurisdictionId,
