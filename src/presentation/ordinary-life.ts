@@ -1,4 +1,5 @@
 import { composeWorldTimeHandlers } from "../simulation/campaigns";
+import { recordHomePresence } from "./home-presence";
 import {
   advanceApplications,
   settleHouseholdAdultJobPay,
@@ -241,9 +242,12 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
   // upbringing the first time a decision needs them (every decision calls
   // ensurePeopleTraits first). Writing them for the whole world at opening
   // made starting a life take about half an hour.
-  return ensurePeopleTraits(
-    opened,
-    contactBases(opened, personId).map((basis) => basis.personId),
+  return recordHomePresence(
+    ensurePeopleTraits(
+      opened,
+      contactBases(opened, personId).map((basis) => basis.personId),
+    ),
+    personId,
   );
 }
 

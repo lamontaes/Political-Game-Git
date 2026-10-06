@@ -2,6 +2,7 @@ import {
   openingNeighborhoodWalkOffer,
   walkOpeningNeighborhood,
 } from "./life-scene-flow";
+import { recordHomePresence } from "./home-presence";
 import { describePlacesOutcome } from "./player-places";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { projectCandidateGuidanceScene } from "./candidate-guidance-scene";
@@ -517,8 +518,13 @@ export function submitTimeCommand(
     };
   }
   const result = run(world, request, preview);
+  // Where time moved, record who is home at the moment it reached.
+  const reachedWorld =
+    result.world === world
+      ? world
+      : recordHomePresence(result.world, request.personId);
   return {
-    world: result.world,
+    world: reachedWorld,
     receipt: remember(
       {
         ...base,
