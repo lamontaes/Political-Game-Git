@@ -1,3 +1,14 @@
+import { readResults } from "../presentation/backdrop-surfaces";
+import { recordWorldEvent } from "./world";
+import { localGoverningBodiesForJurisdiction } from "./candidacy";
+import {
+  councilElectionNightRoomPacket,
+  returnFromCouncilElectionNight,
+} from "../presentation/election-night-scene";
+import {
+  electionNightViewedBeat,
+  recordElectionNightReportView,
+} from "../presentation/election-night-progress";
 import { expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
@@ -23,7 +34,13 @@ import {
 import { establishVotingPrecinctMembership } from "./living-world/town-wards";
 
 function ballot() {
-  const draw = drawRandomPlace("session13-saved-precinct-count");
+  const draw = drawRandomPlace("session13-saved-precinct-count", (candidate) =>
+    localGoverningBodiesForJurisdiction(candidate.context.jurisdiction.id).some(
+      (office) =>
+        office.unit.unitType === "municipality" &&
+        office.seat === "governing-body",
+    ),
+  );
   const fixture = smallWorld({
     place: draw.key,
     people: 12,
@@ -53,14 +70,20 @@ function ballot() {
       supersedesBeliefId: null,
     });
   }
+  const office = localGoverningBodiesForJurisdiction(
+    fixture.jurisdictionId,
+  ).find(
+    (row) =>
+      row.unit.unitType === "municipality" && row.seat === "governing-body",
+  )!;
   world = scheduleElectionContest(world, {
     stableKey: "precinct-test:council",
     jurisdictionId: fixture.jurisdictionId,
     electionDate: addDays(world.currentDate, 1),
     candidatePersonIds: candidates,
     office: {
-      officeKey: "council",
-      title: "Council",
+      officeKey: office.officeKey,
+      title: office.officeTitle,
       seatKey: null,
       occupationClassification: null,
     },
@@ -332,4 +355,99 @@ it("does not produce a night report from a forecast or a result without precinct
   expect(() => electionNightReports(old, fixture.contest.id, 7)).toThrow(
     "one to six",
   );
+});
+
+it("preserves report position through save, skip and return without changing counts or adding room attendees", () => {
+  const f = ballot();
+  const mapped = establishVotingPrecinctMembership(
+    f.world,
+    f.contest.jurisdictionId,
+  );
+  const counted = resolveElectionContest(mapped, { contestId: f.contest.id });
+  const player = f.contest.candidatePersonIds[0]!;
+  const reports = electionNightReports(counted, f.contest.id)!;
+  expect(reports.beats.length).toBeGreaterThan(1);
+  expect(() =>
+    recordElectionNightReportView(counted, player, f.contest.id, "next"),
+  ).toThrow();
+  const world = recordWorldEvent(counted, {
+    stableKey: "report-view:authored-current-room-fixture",
+    type: "life.scene.opened",
+    occurredAt: counted.currentDate,
+    recordedAt: counted.currentDate,
+    jurisdictionId: f.contest.jurisdictionId,
+    involvedEntityIds: [player],
+    participants: [
+      {
+        personId: player,
+        role: "presence:participant",
+        detail: "Authored report-view admission fixture",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [`moment:${JSON.stringify(counted.currentMoment)}`],
+    summary: "Authored report viewing fixture, not natural player arrival.",
+    context: {
+      location: {
+        jurisdictionId: f.contest.jurisdictionId,
+        label: "Home",
+        setting: "home",
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  expect(
+    councilElectionNightRoomPacket(world, player, f.contest.id)!
+      .participantPersonIds,
+  ).toEqual([player]);
+  expect(electionNightViewedBeat(world, player, f.contest.id)).toBe(0);
+  expect(readResults(world, player)?.dateLine).toContain("Unofficial returns");
+  expect(readResults(world, player)?.rows.every((row) => !row.won)).toBe(true);
+  const next = recordElectionNightReportView(
+    world,
+    player,
+    f.contest.id,
+    "next",
+  );
+  expect(electionNightViewedBeat(next, player, f.contest.id)).toBe(1);
+  expect(next.currentMoment).toEqual(world.currentMoment);
+  expect(next.history.electionContestResults).toBe(
+    world.history.electionContestResults,
+  );
+  expect(
+    next.history.events.filter((row) => row.type === "life.scene.opened"),
+  ).toEqual(
+    world.history.events.filter((row) => row.type === "life.scene.opened"),
+  );
+  const restored = deserializeWorld(serializeWorld(next));
+  expect(electionNightViewedBeat(restored, player, f.contest.id)).toBe(1);
+  const skipped = recordElectionNightReportView(
+    restored,
+    player,
+    f.contest.id,
+    "skip",
+  );
+  expect(electionNightViewedBeat(skipped, player, f.contest.id)).toBe(
+    reports.finalBeatIndex,
+  );
+  expect(
+    recordElectionNightReportView(skipped, player, f.contest.id, "skip"),
+  ).toBe(skipped);
+  expect(electionNightReports(skipped, f.contest.id)).toEqual(reports);
+  expect(
+    readResults(skipped, player)?.rows.find((row) => row.won)?.personId,
+  ).toBe(reports.beats.at(-1)!.winnerPersonId);
+  const returned = returnFromCouncilElectionNight(
+    skipped,
+    player,
+    reports.resultId,
+  );
+  expect(() =>
+    recordElectionNightReportView(returned, player, f.contest.id, "next"),
+  ).toThrow();
 });

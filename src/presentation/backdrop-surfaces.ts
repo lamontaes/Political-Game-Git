@@ -1,3 +1,6 @@
+import { councilElectionNightRoomPacket } from "./election-night-scene";
+import { electionNightViewedBeat } from "./election-night-progress";
+import { displayedSharePercents } from "./campaign-projection";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import surfaceData from "../../art/backdrops/surfaces.json" with { type: "json" };
 import { electionContestStatus } from "../simulation/election-contests";
@@ -620,7 +623,17 @@ export function readResults(
     )[0];
   if (!result) return null;
   const contest = contests.get(result.contestId)!;
-  const rows = [...result.tallies]
+  const night = councilElectionNightRoomPacket(world, personId, contest.id);
+  const beat =
+    night?.reports?.beats[electionNightViewedBeat(world, personId, contest.id)];
+  const counted = beat?.runningTallies ?? result.tallies;
+  const shares = displayedSharePercents(
+    counted.map((tally) => tally.voteShare),
+  );
+  const shareByPerson = new Map(
+    counted.map((tally, index) => [tally.candidatePersonId, shares[index]!]),
+  );
+  const rows = [...counted]
     .sort((a, b) => b.votes - a.votes)
     .slice(0, RESULT_ROWS)
     .flatMap((tally) => {
@@ -630,8 +643,10 @@ export function readResults(
         {
           personId: tally.candidatePersonId,
           name: personName(person),
-          share: `${Math.round(tally.voteShare * 100)}%`,
-          won: tally.candidatePersonId === result.winnerPersonId,
+          share: `${shareByPerson.get(tally.candidatePersonId)}%`,
+          won:
+            (!beat || beat.final) &&
+            tally.candidatePersonId === result.winnerPersonId,
         },
       ];
     });
@@ -639,7 +654,9 @@ export function readResults(
   return {
     kind: "results",
     office: contest.office.title,
-    dateLine: `Decided ${proseDate(result.resolvedAt)}`,
+    dateLine: beat
+      ? `Unofficial returns ${proseDate(result.resolvedAt)}`
+      : `Decided ${proseDate(result.resolvedAt)}`,
     rows,
   };
 }

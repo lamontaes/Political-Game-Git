@@ -1,4 +1,7 @@
 import { useMemo, useState } from "react";
+import { campaignForCandidate } from "../simulation/campaign-queries";
+import { councilElectionNightRoomPacket } from "../presentation/election-night-scene";
+import { CouncilElectionNightScene } from "./CouncilElectionNightScene";
 
 import { officeLabel, runForPhrase } from "../presentation/english-grammar";
 import "./campaign-workspace.css";
@@ -141,6 +144,12 @@ export function CampaignWorkspace({
     () => projectCampaign(world, personId, selectedOfficeKey),
     [world, personId, selectedOfficeKey],
   );
+  const night = useMemo(() => {
+    const campaign = campaignForCandidate(world, personId);
+    return campaign
+      ? councilElectionNightRoomPacket(world, personId, campaign.contestId)
+      : null;
+  }, [world, personId]);
   const strategy = useMemo(
     () => projectCampaignStrategy(world, personId),
     [world, personId],
@@ -793,64 +802,77 @@ export function CampaignWorkspace({
           */}
           {view.tallies.length > 0 ? (
             <div data-testid="campaign-result">
-              <p className="game-scene" data-testid="campaign-afterword">
-                {view.afterword}
-              </p>
-              <ul className="game-campaign-tallies">
-                {view.tallies.map((tally) => (
-                  <li key={tally.candidatePersonId}>
-                    {tally.candidateName}
-                    {tally.isThisCandidate ? " (you)" : ""} —{" "}
-                    {tally.displayedSharePercent}%
-                  </li>
-                ))}
-              </ul>
-              {view.speech ? (
-                view.speech.given ? (
-                  <div data-testid="campaign-speech-given">
-                    <p className="game-note">{view.speech.given}</p>
-                    {view.speech.words ? (
-                      <details data-testid="campaign-speech-words">
-                        <summary>{view.speech.words.opening}</summary>
-                        <p className="game-scene">{view.speech.words.text}</p>
-                      </details>
-                    ) : null}
-                    {view.speech.words?.heard ? (
-                      <p
-                        className="game-note"
-                        data-testid="campaign-speech-heard"
+              {night?.reportingReady ? (
+                <CouncilElectionNightScene
+                  world={world}
+                  personId={personId}
+                  contestId={night.contestId}
+                  onWorldChange={onWorldChange}
+                />
+              ) : (
+                <>
+                  <p className="game-scene" data-testid="campaign-afterword">
+                    {view.afterword}
+                  </p>
+                  <ul className="game-campaign-tallies">
+                    {view.tallies.map((tally) => (
+                      <li key={tally.candidatePersonId}>
+                        {tally.candidateName}
+                        {tally.isThisCandidate ? " (you)" : ""} —{" "}
+                        {tally.displayedSharePercent}%
+                      </li>
+                    ))}
+                  </ul>
+                  {view.speech ? (
+                    view.speech.given ? (
+                      <div data-testid="campaign-speech-given">
+                        <p className="game-note">{view.speech.given}</p>
+                        {view.speech.words ? (
+                          <details data-testid="campaign-speech-words">
+                            <summary>{view.speech.words.opening}</summary>
+                            <p className="game-scene">
+                              {view.speech.words.text}
+                            </p>
+                          </details>
+                        ) : null}
+                        {view.speech.words?.heard ? (
+                          <p
+                            className="game-note"
+                            data-testid="campaign-speech-heard"
+                          >
+                            {view.speech.words.heard}
+                          </p>
+                        ) : null}
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="game-campaign-action"
+                        data-testid="campaign-speech"
+                        data-kind={view.speech.kind}
+                        onClick={() => {
+                          try {
+                            onWorldChange(giveElectionSpeech(world, personId));
+                            setProblem(null);
+                          } catch (error) {
+                            setProblem(
+                              error instanceof Error
+                                ? error.message
+                                : String(error),
+                            );
+                          }
+                        }}
                       >
-                        {view.speech.words.heard}
-                      </p>
-                    ) : null}
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    className="game-campaign-action"
-                    data-testid="campaign-speech"
-                    data-kind={view.speech.kind}
-                    onClick={() => {
-                      try {
-                        onWorldChange(giveElectionSpeech(world, personId));
-                        setProblem(null);
-                      } catch (error) {
-                        setProblem(
-                          error instanceof Error
-                            ? error.message
-                            : String(error),
-                        );
-                      }
-                    }}
-                  >
-                    <span className="game-campaign-action-label">
-                      {view.speech.kind === "victory"
-                        ? "Give your victory speech"
-                        : `Concede to ${view.speech.winnerName}`}
-                    </span>
-                  </button>
-                )
-              ) : null}
+                        <span className="game-campaign-action-label">
+                          {view.speech.kind === "victory"
+                            ? "Give your victory speech"
+                            : `Concede to ${view.speech.winnerName}`}
+                        </span>
+                      </button>
+                    )
+                  ) : null}
+                </>
+              )}
             </div>
           ) : null}
           {strategyReport ? (
