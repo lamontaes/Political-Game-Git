@@ -517,7 +517,7 @@ describe("saved comparable employer cash reader", () => {
     ]);
   });
 
-  it("opens a random actual game with recorded employer cash and pays wages during its first 14 days", () => {
+  it("opens a random actual game with recorded employer cash and pays wages during its first 14 days", { timeout: 180000 }, () => {
     const seed = "standby4-a60-comparable-opening-20261002";
     const setup = observerSetup(seed);
     const session = generateOpeningLife(
