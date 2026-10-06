@@ -79,7 +79,8 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "people-mind-v1:deliberation",
     kind: "decision",
-    reader: "decideStudyPeerOutcome — src/simulation/people-study.ts",
+    reader:
+      "decideStudyPeerOutcome — src/simulation/people-study.ts; decideChamberVote — src/simulation/governing/chamber-votes.ts",
   },
   {
     trait: "people-mind-v1:sociability",
