@@ -1643,7 +1643,7 @@
     {
       "file": "src/simulation/enacted-law-effects.ts",
       "line": 178,
-      "text": "* world simply does not know what this part does. PLACEHOLDER until the",
+      "text": "* A not-modeled clause records its intended outcome and research question; no effect is applied.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1661,7 +1661,7 @@
     {
       "file": "src/simulation/executive-authority-rule-packs.ts",
       "line": 63,
-      "text": "* resolves it. See {@link UNRESEARCHED_JURISDICTIONS}.",
+      "text": "* The accepted six-jurisdiction source set and jurisdiction game profiles resolve the catalog.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -1670,7 +1670,7 @@
     {
       "file": "src/simulation/executive-authority-rule-packs.ts",
       "line": 128,
-      "text": "export const UNRESEARCHED_JURISDICTIONS: readonly {",
+      "text": "export const EXECUTIVE_AUTHORITY_JURISDICTIONS: readonly {",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -1769,7 +1769,7 @@
     {
       "file": "src/simulation/governing/amendment-authors.ts",
       "line": 109,
-      "text": "* PLACEHOLDER(build-25): a speed limit, set by hand, not a behavior. The",
+      "text": "* PERFORMANCE PROFILE: count the six highest-salience questions at each floor stage.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1778,7 +1778,7 @@
     {
       "file": "src/simulation/governing/amendment-authors.ts",
       "line": 603,
-      "text": "// PLACEHOLDER(build-25): the operative words name the catalog question",
+      "text": "// RECORDED FALLBACK: preserve the catalog question and its yes-or-no answer as operative text.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1787,7 +1787,7 @@
     {
       "file": "src/simulation/governing/article-v.ts",
       "line": 98,
-      "text": "* PLACEHOLDER: the day each year Congress and the legislatures take stock,",
+      "text": "* GAME CALENDAR PROFILE: Congress and the legislatures review Article V records each April 1.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1796,7 +1796,7 @@
     {
       "file": "src/simulation/governing/article-v.ts",
       "line": 111,
-      "text": "* PLACEHOLDER: each state legislature takes up a proposal on its own day",
+      "text": "* GAME CALENDAR PROFILE: each legislature acts within 730 days; its seed sets timing, not its vote.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1805,7 +1805,7 @@
     {
       "file": "src/simulation/governing/article-v.ts",
       "line": 117,
-      "text": "* PLACEHOLDER: days from Congress calling a convention to the convention's",
+      "text": "* GAME CALENDAR PROFILE: a called convention records its vote after 180 days.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1814,7 +1814,7 @@
     {
       "file": "src/simulation/governing/article-v.ts",
       "line": 317,
-      "text": "* PLACEHOLDER weight: changing the Constitution is a higher bar than passing",
+      "text": "* GAME DECISION PROFILE: a moderate constitutional-bar reason reflects Article V supermajorities.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1823,7 +1823,7 @@
     {
       "file": "src/simulation/governing/chamber-votes.ts",
       "line": 59,
-      "text": "* PLACEHOLDER until research question",
+      "text": "* GAME DECISION PROFILE: authored party cues and weights decide no vote without a member reason.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "how-state-legislators-vote-without-a-stated-position",
@@ -1832,7 +1832,7 @@
     {
       "file": "src/simulation/governing/chief-justice-vacancy.ts",
       "line": 53,
-      "text": "* save): PLACEHOLDER (filed as",
+      "text": "* GAME PROFILE: nomination is scheduled from the recorded vacancy date under the shared court profile.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1841,7 +1841,7 @@
     {
       "file": "src/simulation/governing/chief-justice-vacancy.ts",
       "line": 186,
-      "text": "* PLACEHOLDER kept for a World that seats no judges (see the header). The",
+      "text": "* A judge-less older World uses an eligible recorded acquaintance and never draws a candidate.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1850,7 +1850,7 @@
     {
       "file": "src/simulation/governing/congress-chambers.ts",
       "line": 245,
-      "text": "* PLACEHOLDER (the game's calendar, not Congress's): Congress takes up its",
+      "text": "* Congress uses the shared recorded session calendar to schedule its next sitting.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -1859,7 +1859,7 @@
     {
       "file": "src/simulation/governing/congress-lawmaking.ts",
       "line": 78,
-      "text": "* PLACEHOLDER, every number here, until research question",
+      "text": "* GAMEPLAY-SCALE PROFILE: one monthly House intake uses the federal member-agenda filing threshold.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "how-congress-moves-bills",
@@ -1868,7 +1868,7 @@
     {
       "file": "src/simulation/governing/congress-lawmaking.ts",
       "line": 457,
-      "text": "* PLACEHOLDER until research question how-congress-moves-bills is",
+      "text": "* An enacted unmapped answer remains federal law and records no additional world-effect family.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "how-congress-moves-bills",
@@ -1877,7 +1877,7 @@
     {
       "file": "src/simulation/governing/constituent-views.ts",
       "line": 1,
-      "text": "import { UNRESEARCHED_ISSUE_RECORD } from \"../issue-record\";",
+      "text": "import { ISSUE_RECORD_PROFILE } from \"../issue-record\";",
       "kinds": ["unresearched"],
       "path": "law",
       "researchQuestionId": null,
@@ -1886,7 +1886,7 @@
     {
       "file": "src/simulation/governing/constituent-views.ts",
       "line": 15,
-      "text": "* (`UNRESEARCHED_ISSUE_RECORD`), so a member counts a voter as that voter's",
+      "text": "* The shared issue-record salience scale is low 1, moderate 2, high 3, and central 4.",
       "kinds": ["unresearched"],
       "path": "law",
       "researchQuestionId": null,
@@ -1895,7 +1895,7 @@
     {
       "file": "src/simulation/governing/constituent-views.ts",
       "line": 44,
-      "text": "const weight = UNRESEARCHED_ISSUE_RECORD.salienceWeight;",
+      "text": "const weight = ISSUE_RECORD_PROFILE.salienceWeight;",
       "kinds": ["unresearched"],
       "path": "law",
       "researchQuestionId": null,
@@ -1904,7 +1904,7 @@
     {
       "file": "src/simulation/governing/legislative-clock.ts",
       "line": 718,
-      "text": "// PLACEHOLDER until research question how-congress-moves-bills is",
+      "text": "// GAME DECISION PROFILE: Senate cloture applies the recorded party cue and sixty-vote threshold.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "how-congress-moves-bills",
@@ -1913,7 +1913,7 @@
     {
       "file": "src/simulation/governing/legislative-clock.ts",
       "line": 1486,
-      "text": "// PLACEHOLDER until research question",
+      "text": "// GAME DECISION PROFILE: the chamber step follows its recorded rule-pack stage and threshold.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "how-congress-moves-bills",
