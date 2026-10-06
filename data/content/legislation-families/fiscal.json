@@ -760,7 +760,7 @@
               "maxYears": 12,
               "evidence": {
                 "kind": "authored-parameter",
-                "note": "An authored replacement expiration measured from this draft\u2019s filing date, not an addition to an unknown earlier date."
+                "note": "An authored replacement expiration measured from this draft\u2019s filing date; the draft does not add time to an earlier expiration."
               }
             },
             {
@@ -1181,7 +1181,7 @@
           "authorizesAppropriation": false,
           "declaredLimits": [
             "Dedicating money to a fund is not appropriating it out of that fund. Nobody may spend it until a separate Act says so.",
-            "It states a rate, not a total. What it raises is not known here."
+            "It states a rate, not a total. Revenue is calculated from the taxable activity recorded while the rate is in force."
           ],
           "defaults": {
             "surcharge-amount": {
