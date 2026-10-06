@@ -3,6 +3,7 @@ import type { AnyLawConsequenceKindRegistration } from "./law-consequence-types"
 import type { PublicProgramCapacityOutturnReceiverRegistration } from "./public-program-capacity-outturn";
 import * as lawConsequenceElectionLocalLandingsRegistrations from "./law-consequences/modules/election-local-landings";
 import * as lawConsequenceElectionStateLandingsRegistrations from "./law-consequences/modules/election-state-landings";
+import * as lawConsequenceElectionWardLandingsRegistrations from "./law-consequences/modules/election-ward-landings";
 import * as lawConsequenceGovernmentOperationsRegistrations from "./law-consequences/modules/government-operations";
 import * as lawConsequenceJusticePretrialLandingsRegistrations from "./law-consequences/modules/justice-pretrial-landings";
 
@@ -15,6 +16,7 @@ const GENERATED_LAW_CONSEQUENCE_MODULES: readonly GeneratedLawConsequenceModule[
   [
     lawConsequenceElectionLocalLandingsRegistrations,
     lawConsequenceElectionStateLandingsRegistrations,
+    lawConsequenceElectionWardLandingsRegistrations,
     lawConsequenceGovernmentOperationsRegistrations,
     lawConsequenceJusticePretrialLandingsRegistrations,
   ];
@@ -22,6 +24,7 @@ const GENERATED_LAW_CONSEQUENCE_MODULES: readonly GeneratedLawConsequenceModule[
 export const LAW_CONSEQUENCE_MODULE_KEYS = [
   "election-local-landings",
   "election-state-landings",
+  "election-ward-landings",
   "government-operations",
   "justice-pretrial-landings",
 ] as const;
