@@ -1,12 +1,17 @@
 import type { TraitEffectDeclaration } from "../../trait-packs";
-import { methodRevisionEffects } from "./method-revision";
+import { bondLoyaltyEffects } from "./bond-loyalty";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
 import { facetHumbleEffects } from "./facet-humble";
+import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetProudEffects } from "./facet-proud";
+import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetBluntEffects } from "./facet-blunt";
+import { methodRevisionEffects } from "./method-revision";
 import { facetBrazenEffects } from "./facet-brazen";
 import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
+import { facetDefensiveEffects } from "./facet-defensive";
+import { facetCruelEffects } from "./facet-cruel";
 import { facetEnviousEffects } from "./facet-envious";
 import { facetGentleEffects } from "./facet-gentle";
 import { facetMeticulousEffects } from "./facet-meticulous";
@@ -25,13 +30,18 @@ import { selfConfidenceEffects } from "./self-confidence";
  */
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
+    ...methodRevisionEffects,
     ...facetSelfConsciousEffects,
     ...facetHumbleEffects,
+    ...facetOpenMindedEffects,
     ...facetProudEffects,
+    ...facetArgumentativeEffects,
     ...facetBluntEffects,
     ...facetBrazenEffects,
     ...facetCockyEffects,
     ...facetComfortingEffects,
+    ...facetDefensiveEffects,
+    ...facetCruelEffects,
     ...facetEnviousEffects,
     ...facetGentleEffects,
     ...facetMeticulousEffects,
@@ -43,6 +53,6 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetTenderHeartedEffects,
     ...facetZealousEffects,
     ...selfConfidenceEffects,
-    ...methodRevisionEffects,
+    ...bondLoyaltyEffects,
   ];
 }
