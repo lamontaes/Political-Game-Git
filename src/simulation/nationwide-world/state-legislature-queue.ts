@@ -11,6 +11,7 @@ import { createFutureTransitionHandlerRegistry } from "../future-transition-regi
 import {
   hasStableKey,
   indexFollowingAppends,
+  recordsByKey,
   recordsWithFieldValue,
 } from "../history-index";
 import type {
@@ -226,12 +227,31 @@ export function stateLegislatureQueueRevision(
   return revision;
 }
 
+const savedWakeMemo = new WeakMap<
+  FutureDueItem,
+  {
+    note: string;
+    stableKey: string;
+    dueAt: IsoDate;
+    jurisdictionId: EntityId | null;
+    saved: SavedWake;
+  }
+>();
 export function readStateLegislatureSavedWake(item: FutureDueItem): SavedWake {
   if (
     item.transitionKey !== STATE_LEGISLATURE_WAKE_TRANSITION ||
     item.provenance.kind !== "authored"
   )
     throw new Error("Not a state legislature queue wake.");
+  const cached = savedWakeMemo.get(item);
+  if (
+    cached &&
+    cached.note === item.provenance.note &&
+    cached.stableKey === item.stableKey &&
+    cached.dueAt === item.dueAt &&
+    cached.jurisdictionId === item.jurisdictionId
+  )
+    return cached.saved;
   const saved = JSON.parse(item.provenance.note) as SavedWake;
   if (
     saved.version !== VERSION ||
@@ -259,7 +279,69 @@ export function readStateLegislatureSavedWake(item: FutureDueItem): SavedWake {
     throw new Error(
       "Saved state legislature identity does not match its payload.",
     );
+  savedWakeMemo.set(item, {
+    note: item.provenance.note,
+    stableKey: item.stableKey,
+    dueAt: item.dueAt,
+    jurisdictionId: item.jurisdictionId,
+    saved: Object.freeze(saved),
+  });
   return saved;
+}
+
+// Index only queue rows, in original history order. A reload/replacement builds
+// from its own array; an append extends the existing immutable-row projection.
+function wakeIndexKeys(item: FutureDueItem): readonly string[] {
+  if (item.transitionKey !== STATE_LEGISLATURE_WAKE_TRANSITION) return [];
+  const saved = readStateLegislatureSavedWake(item);
+  return [
+    JSON.stringify([saved.packId]),
+    ...item.entityIds.flatMap((source) => [
+      JSON.stringify([saved.packId, saved.revision, source]),
+      JSON.stringify([saved.packId, saved.revision, source, saved.throughYear]),
+      JSON.stringify([
+        saved.packId,
+        saved.revision,
+        source,
+        saved.throughYear,
+        saved.dueAt,
+      ]),
+    ]),
+  ];
+}
+function indexedWakes(
+  world: World,
+  key: readonly unknown[],
+): readonly FutureDueItem[] {
+  return recordsByKey(
+    world.history.futureDueItems,
+    "state-legislature:clock-wakes-by-source:v1",
+    wakeIndexKeys,
+    JSON.stringify(key),
+  );
+}
+
+const wakeDatesMemo = new WeakMap<
+  readonly FutureDueItem[],
+  readonly IsoDate[]
+>();
+function futureWakeDates(
+  items: readonly FutureDueItem[],
+  date: IsoDate,
+): readonly IsoDate[] {
+  let dates = wakeDatesMemo.get(items);
+  if (!dates) {
+    dates = [...new Set(items.map((item) => item.dueAt))].sort();
+    wakeDatesMemo.set(items, dates);
+  }
+  let low = 0,
+    high = dates.length;
+  while (low < high) {
+    const middle = (low + high) >>> 1;
+    if (dates[middle]! <= date) low = middle + 1;
+    else high = middle;
+  }
+  return dates.slice(low);
 }
 
 /**
@@ -324,7 +406,7 @@ export function reconcileStateLegislatureQueue(
   const desired = new Set(saved.map(key));
   const next = withWorldIntegrityDeferred(() => {
     let working = world;
-    for (const item of world.history.futureDueItems) {
+    for (const item of indexedWakes(world, [packId])) {
       if (
         item.transitionKey !== STATE_LEGISLATURE_WAKE_TRANSITION ||
         item.dueAt <= world.currentDate
@@ -354,7 +436,7 @@ export function reconcileStateLegislatureQueue(
     }
     for (const p of saved) {
       let stableKey = key(p);
-      const prior = working.history.futureDueItems
+      const prior = indexedWakes(working, [packId])
         .filter(
           (i) =>
             i.transitionKey === STATE_LEGISLATURE_WAKE_TRANSITION &&
@@ -482,24 +564,14 @@ export function prepareStateLegislatureClock(world: World): World {
     ),
   );
   const horizon = Number(world.currentDate.slice(0, 4)) + 4;
-  const saved = recordsWithFieldValue(
-    world.history.futureDueItems,
-    "transitionKey",
-    STATE_LEGISLATURE_WAKE_TRANSITION,
-  );
   let next = world;
-  const needsCatchUp = [...packs].some((packId) => {
+  const checkpoints = [...packs].map((packId) => {
     const opening = openings.find((e) => e.tags.includes(`pack:${packId}`))!;
     const revision = stateLegislatureQueueRevision(world, packId);
-    return !saved.some((item) => {
-      const wake = readStateLegislatureSavedWake(item);
-      return (
-        wake.packId === packId &&
-        wake.revision === revision &&
-        item.entityIds.includes(opening.id)
-      );
-    });
+    const saved = indexedWakes(world, [packId, revision, opening.id]);
+    return { packId, opening, revision, saved };
   });
+  const needsCatchUp = checkpoints.some(({ saved }) => saved.length === 0);
   // A changed recorded source can create a late intake obligation. Catch it up
   // once through the original writer; an unchanged date does no intake work.
   if (needsCatchUp)
@@ -508,7 +580,40 @@ export function prepareStateLegislatureClock(world: World): World {
       addDays(next.currentDate, -1),
       horizon,
     );
-  for (const packId of packs)
+  for (const { packId, opening, revision } of checkpoints) {
+    // The saved revision is the authoritative source key. On an unchanged
+    // quiet date, retain the queue without reparsing/walking its full history.
+    // Status checks keep explicit cancellation and old snapshots authoritative.
+    const horizonWakes = indexedWakes(next, [
+      packId,
+      revision,
+      opening.id,
+      horizon,
+    ]);
+    const dates = futureWakeDates(horizonWakes, next.currentDate);
+    // Imported/revised queues may contain several dates in append order.
+    // Only a single future boundary can bypass authoritative reconciliation.
+    if (!needsCatchUp && dates.length === 1) {
+      const due = indexedWakes(next, [
+        packId,
+        revision,
+        opening.id,
+        horizon,
+        dates[0]!,
+      ]);
+      if (
+        due.length > 0 &&
+        due.every(
+          (item) =>
+            futureDueItemStateAt(next, item.id, {
+              asOfDate: next.currentDate,
+              historySequenceExclusive: next.history.nextSequence,
+            })?.status === "scheduled",
+        )
+      )
+        continue;
+    }
     next = reconcileStateLegislatureQueue(next, packId, horizon);
+  }
   return next;
 }

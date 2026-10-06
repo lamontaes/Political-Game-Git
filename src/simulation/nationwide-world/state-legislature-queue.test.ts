@@ -5,6 +5,7 @@ import { stateCandidacyPack } from "../candidacy-packs";
 import { addDays, simulationMomentOnLocalDate } from "../dates";
 import {
   cancelFutureDueItem,
+  scheduleFutureDueItem,
   resolveFutureDueItemsThrough,
   futureDueItemStateAt,
   setFutureDueItemTerminalState,
@@ -419,3 +420,70 @@ it.each(["prepared-save", "old-save-without-wakes"] as const)(
     expect(actual.currentDate).toBe(addDays(wake.dueAt, 1));
   },
 );
+
+it("quiet clock reuse preserves a cancelled wake's authoritative replacement and old snapshot", () => {
+  const queued = prepareStateLegislatureClock(original);
+  const first = pending(queued)[0]!;
+  const cancelled = cancelFutureDueItem(queued, {
+    stableKey: "test:clock-fast-path-cancel",
+    dueItemId: first.id,
+    effectiveAt: queued.currentDate,
+    reasonKey: "test:recorded-cancellation",
+    context:
+      "A recorded cancellation must not be bypassed by a quiet-date cache.",
+  });
+  const horizon = Number(queued.currentDate.slice(0, 4)) + 4;
+  const expected = reconcileStateLegislatureQueue(cancelled, packId, horizon);
+  expect(prepareStateLegislatureClock(cancelled).history).toEqual(
+    expected.history,
+  );
+  expect(prepareStateLegislatureClock(queued).history).toEqual(queued.history);
+  expect(
+    prepareStateLegislatureClock(deserializeWorld(serializeWorld(cancelled)))
+      .history,
+  ).toEqual(expected.history);
+});
+
+it("cached saved payloads still reject replaced identities and retain their old read", () => {
+  const queued = prepareStateLegislatureClock(original);
+  const first = pending(queued)[0]!;
+  const saved = readStateLegislatureSavedWake(first);
+  const replaced = { ...first, dueAt: addDays(first.dueAt, 1) };
+  expect(() => readStateLegislatureSavedWake(replaced)).toThrow(
+    /Invalid saved/,
+  );
+  expect(readStateLegislatureSavedWake(first)).toEqual(saved);
+});
+
+it("a later appended boundary cannot hide an earlier cancelled obligation", () => {
+  const queued = prepareStateLegislatureClock(original);
+  const first = pending(queued)[0]!;
+  const saved = readStateLegislatureSavedWake(first);
+  const later = { ...saved, dueAt: addDays(first.dueAt, 1) };
+  const extended = scheduleFutureDueItem(queued, {
+    stableKey: `${later.version}:${later.packId}:${later.electionDay}:${later.stage}:${later.dueAt}:${later.revision}`,
+    dueAt: later.dueAt,
+    transitionKey: first.transitionKey,
+    entityIds: first.entityIds,
+    jurisdictionId: first.jurisdictionId,
+    provenance: { kind: "authored", note: JSON.stringify(later) },
+  });
+  const cancelled = cancelFutureDueItem(extended, {
+    stableKey: "test:mixed-date-cancel",
+    dueItemId: first.id,
+    effectiveAt: queued.currentDate,
+    reasonKey: "test:recorded-cancellation",
+    context:
+      "An earlier obligation remains authoritative after a later append.",
+  });
+  const horizon = Number(queued.currentDate.slice(0, 4)) + 4;
+  const expected = reconcileStateLegislatureQueue(cancelled, packId, horizon);
+  expect(prepareStateLegislatureClock(cancelled).history).toEqual(
+    expected.history,
+  );
+  expect(
+    prepareStateLegislatureClock(deserializeWorld(serializeWorld(cancelled)))
+      .history,
+  ).toEqual(expected.history);
+  expect(pending(queued).map((item) => item.id)).toContain(first.id);
+});
