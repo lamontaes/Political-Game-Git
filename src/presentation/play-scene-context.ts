@@ -164,6 +164,27 @@ export function resolveOpeningPlaySceneContext(
   );
 }
 
+/**
+ * Resolve the room at the current moment, using opening placement only while
+ * an opening scene or today's recorded work arrival is actually current.
+ *
+ * The opening location record remains useful history after its day has ended.
+ * Treating that historical record as the live room left the status card at
+ * yesterday's workplace and discarded the ordinary day's present people.
+ */
+export function resolveCurrentPlaySceneContext(
+  world: World,
+  personId: EntityId,
+  scene: StoryScene,
+  scenes: SceneRegistry = SCENE_REGISTRY,
+  library: RuntimeVisualLibrary = PRODUCTION_VISUAL_LIBRARY,
+): PlaySceneContext {
+  return currentOpeningLifeScene(world, personId) ||
+    openingWorkLocation(world, personId)
+    ? resolveOpeningPlaySceneContext(world, personId, scenes, library)
+    : resolvePlaySceneContext(world, personId, scene, scenes, library);
+}
+
 export function resolvePlaySceneContext(
   world: World,
   personId: EntityId,
