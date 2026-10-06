@@ -22,12 +22,16 @@ import { projectStoryMoment, type StoryScene } from "./life-story";
 import { DOMESTIC_SCENE_IDS } from "./scene-registry";
 import {
   householdResidentIds,
+  resolveCurrentPlaySceneContext,
   resolveOpeningPlaySceneContext,
   resolvePlaySceneContext,
 } from "./play-scene-context";
 import { currentOpeningLifeScene, openNextLifeScene } from "./life-scene-flow";
 import { resolveLifeScene } from "./life-scene";
 import { sceneVenueForLocationKey } from "./scene-venues";
+import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
+import { passOrdinaryDays } from "./ordinary-life";
+import { observerPlace } from "./observer-world";
 
 function childSetup(overrides: Partial<NewGameSetup> = {}): NewGameSetup {
   return {
@@ -143,6 +147,41 @@ function nonresidentParentLife(): {
 }
 
 describe("The foreground owns opening presence", () => {
+  it("moves from the opening workplace to the next ordinary day's room", () => {
+    const seed = "bg-12-current-room";
+    const place = observerPlace(seed);
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+        startKind: "custom",
+        startAge: 34,
+        household: "shares-a-home",
+      }),
+    ).game!;
+    const opening = resolveOpeningPlaySceneContext(
+      game.world,
+      game.playerPersonId,
+    );
+    const next = passOrdinaryDays(game.world, 1);
+    const ordinary = projectStoryMoment(next, game.playerPersonId).scene;
+    const current = resolveCurrentPlaySceneContext(
+      next,
+      game.playerPersonId,
+      ordinary,
+    );
+
+    expect(opening.purpose, `seed ${seed}, place ${place.key}`).toBe(
+      "activity",
+    );
+    expect(next.currentDate).not.toBe(game.world.currentDate);
+    expect(current.purpose).toBe("home");
+    expect(current.placeLabel).not.toBe(opening.placeLabel);
+    expect(current.presentPeople).toEqual(ordinary.presentPeople);
+    expect(current.presentPeople.length).toBeGreaterThan(0);
+  });
+
   it("does not introduce household residents without a current presence record", () => {
     const { world, playerPersonId } = createNewGameWorld(childSetup());
     const before = serializeWorld(world);
