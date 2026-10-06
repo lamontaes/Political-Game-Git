@@ -14,7 +14,8 @@
       "citation": "Ohio Rev. Code ch. 718",
       "coverage": "full chapter text",
       "status": "SOURCED",
-      "note": "Municipal income tax; chapter governs levy, base, and administration."
+      "note": "Municipal income tax; chapter governs levy, base, and administration.",
+      "retrievedAt": "2026-10-06T22:31:00Z"
     },
     {
       "state": "OR",
@@ -26,7 +27,8 @@
       "citation": "ORS ch. 267",
       "coverage": "full chapter text",
       "status": "SOURCED",
-      "note": "Mass transit district employer payroll and self-employment tax (TriMet, Lane Transit)."
+      "note": "Mass transit district employer payroll and self-employment tax (TriMet, Lane Transit).",
+      "retrievedAt": "2026-10-06T22:31:00Z"
     },
     {
       "state": "MD",
@@ -38,7 +40,8 @@
       "citation": "Md. Code, Tax-Gen. \u00a7 10-103",
       "coverage": "section text",
       "status": "SOURCED",
-      "note": "Each county has a county income tax on Maryland taxable income."
+      "note": "Each county has a county income tax on Maryland taxable income.",
+      "retrievedAt": "2026-10-06T22:31:00Z"
     },
     {
       "state": "MI",
@@ -50,7 +53,8 @@
       "citation": "MCL Act 284 of 1964",
       "coverage": "full act (PDF)",
       "status": "SOURCED",
-      "note": "Uniform City Income Tax Act."
+      "note": "Uniform City Income Tax Act.",
+      "retrievedAt": "2026-10-06T22:31:00Z"
     },
     {
       "state": "NY",
@@ -62,7 +66,8 @@
       "citation": "N.Y. Tax Law \u00a7 1301",
       "coverage": "section text",
       "status": "SOURCED",
-      "note": "Authority to impose the city personal income tax (art. 30)."
+      "note": "Authority to impose the city personal income tax (art. 30).",
+      "retrievedAt": "2026-10-06T22:31:00Z"
     },
     {
       "state": "MO",
@@ -74,7 +79,8 @@
       "citation": "RSMo \u00a7 92.111",
       "coverage": "section text",
       "status": "SOURCED",
-      "note": "Limitation on imposition of earnings tax. The matrix cites RSMo 92.110 for Kansas City and St. Louis; the revisor shows 92.110 repealed by Proposition A (Nov. 2, 2010), so the matrix citation is wrong and 92.111 is the section to cite."
+      "note": "Limitation on imposition of earnings tax. The matrix cites RSMo 92.110 for Kansas City and St. Louis; the revisor shows 92.110 repealed by Proposition A (Nov. 2, 2010), so the matrix citation is wrong and 92.111 is the section to cite.",
+      "retrievedAt": "2026-10-06T22:31:00Z"
     }
   ],
   "notAcquired": [
