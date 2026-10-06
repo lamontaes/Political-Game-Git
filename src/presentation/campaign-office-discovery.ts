@@ -71,13 +71,22 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
           eligibility.eligible &&
           electionDate !== null &&
           countyRefusal === null,
-        eligibility:
+        eligibility: [
           countyRefusal ??
-          (electionDate === null
-            ? "The county election calendar has not been read."
-            : eligibility.eligible
-              ? "You can run for this office."
-              : eligibility.blocks.map((block) => block.reason).join(" ")),
+            (electionDate === null
+              ? "The county election calendar has not been read."
+              : eligibility.eligible
+                ? "You can run for this office."
+                : eligibility.blocks.map((block) => block.reason).join(" ")),
+          eligibility.minimumAgeRequirement &&
+          !eligibility.blocks.some(
+            (block) => block.reason === eligibility.minimumAgeRequirement,
+          )
+            ? eligibility.minimumAgeRequirement
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" "),
         // The contest already on the record, else the office's own calendar:
         // the same date a filing today would stand in.
         electionDate,
