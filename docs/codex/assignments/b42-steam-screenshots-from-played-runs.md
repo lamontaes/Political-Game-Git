@@ -66,3 +66,7 @@ Others may touch this file; work anyway; whoever merges second rebases; message 
 Before every pause, push your branch and leave a resume marker: docs/codex/progress/session-<N>.md (what is done, what is next, the exact next command), plus a PROGRESS: note in the PR body.
 
 Open owner questions (none blocking): (1) Early Access label versus 1.0 at launch; (2) exact day for the Coming Soon page. Switches kept: store price and date in one data row `docs/steam/store-facts.json` (default $14.99, target about Oct 15), Early Access flag in the same row (default false per the Oct 2 handoff), number of shots one constant `STEAM_SHOT_COUNT` in `select-shots.ts` (default 6). If the council journey (b05), b19 or b40 has not landed, capture from the scenes that exist and leave the others as stubs in the cut list.
+
+## Correction (CTO, Oct 6 2:35 a.m.)
+
+The owner decided Early Access on Oct 6 at 12:20 a.m.: Early Access once the council journey plus mayor and state legislature play well, offices up to President in updates. Set the store-facts switch to Early Access by default; the Oct 2 "NOT Early Access" line is superseded.
