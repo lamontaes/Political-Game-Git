@@ -207,8 +207,12 @@ export function nationalMoodDemocraticShift(
   if (cached !== undefined) return cached;
   const president = currentPresidentOf(world);
   if (!president) return 0;
-  const elected = nationalOfficeHolder(world, "president");
-  const tenure = elected ? null : currentFederalTenure(world, "us-president");
+  const federalTenure = currentFederalTenure(world, "us-president");
+  const acting = federalTenure?.event.tags.includes("acting:true")
+    ? federalTenure
+    : null;
+  const elected = acting ? null : nationalOfficeHolder(world, "president");
+  const tenure = elected ? null : federalTenure;
   const inauguration =
     elected?.succession?.effectiveAt.date ??
     elected?.state.effectiveAt.date ??

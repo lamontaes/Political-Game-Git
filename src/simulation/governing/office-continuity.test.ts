@@ -50,6 +50,11 @@ import type { EntityId, World } from "../types";
 import { recordPersonDeath } from "../vitality";
 import { advanceWorld } from "../world";
 import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
+import { recordOfficialContinuity } from "../crisis/continuity";
+import {
+  OFFICIAL_FUNERAL_EVENT_TYPES,
+  UNRESEARCHED_OFFICIAL_FUNERAL,
+} from "../crisis/official-funeral";
 import { PRESIDING_OFFICER_VOTE_EVENT } from "./presiding-officers";
 import { currentFederalTenure } from "../federal-tenures";
 import {
@@ -80,7 +85,7 @@ function die(
   personId: EntityId,
   offices: OfficeContinuityNoticeInput["offices"],
 ): { world: World; notice: OfficeContinuityNoticeInput } {
-  const next = recordPersonDeath(world, {
+  let next = recordPersonDeath(world, {
     stableKey: `k3:death:${personId}`,
     personId,
     diedAt: world.currentDate,
@@ -90,6 +95,9 @@ function die(
     provenance: VITALITY,
   });
   const death = next.history.personDeaths.at(-1)!;
+  next = recordOfficialContinuity(world, next, personId, "death", {
+    sourceRecordId: death.id,
+  });
   return {
     world: next,
     notice: {
@@ -395,8 +403,18 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     );
   }, 600_000);
 
-  it("the opening Vice President succeeds a President who dies; illness transfers nothing", () => {
-    const world = openingWorld("k3-opening");
+  it("a recorded incapacity starts and ends an acting presidency before death succession", () => {
+    const seed = "k3-opening";
+    const place = new SeededRng(seed).pick(
+      lifePlaces().filter((candidate) => candidate.scope === "state"),
+    );
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...explicitNewGameSetup({ placeKey: place.key, seed }),
+        startAge: 40,
+      }),
+    ).game!;
+    const world = openOrdinaryLife(game.world, game.playerPersonId);
     const tenure = world.history.events.find(
       (e) =>
         e.type === "world.office-tenure" &&
@@ -425,9 +443,39 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     };
     let next = applyOfficeContinuityNotices(world, [ill]);
     expect(officeContinuityRulings(next, "us-president")[0]!.outcome).toBe(
-      "not-automatic",
+      "succeeded",
     );
     const vice = currentFederalTenure(next, "us-vice-president")!;
+    expect(currentFederalTenure(next, "us-president")?.personId).toBe(
+      vice.personId,
+    );
+    expect(currentPresidentOf(next)?.personId).toBe(vice.personId);
+    const acting = next.history.events.find((event) =>
+      event.tags.includes("acting-presidency:began"),
+    )!;
+    expect(
+      acting.participants.map((participant) => participant.personId),
+    ).toContain(vice.personId);
+    expect(acting.tags).toContain(`crisis-source:${ill.sourceRecordId}`);
+    const recovered: OfficeContinuityNoticeInput = {
+      ...ill,
+      noticeKey: "crisis:continuity:capacity-restored",
+      kind: "incapacity-ended",
+      sequence: next.history.nextSequence,
+    };
+    next = applyOfficeContinuityNotices(next, [recovered]);
+    expect(officeContinuityRulings(next, "us-president")[0]!.outcome).toBe(
+      "succeeded",
+    );
+    expect(currentFederalTenure(next, "us-president")?.personId).toBe(
+      president,
+    );
+    expect(currentPresidentOf(next)?.personId).toBe(president);
+    expect(
+      next.history.events.some((event) =>
+        event.tags.includes("acting-presidency:ended"),
+      ),
+    ).toBe(true);
     const termEnd = currentFederalTenure(next, "us-president")!.endExclusive;
     const dead = die(next, president, [office]);
     next = applyOfficeContinuityNotices(dead.world, [dead.notice]);
@@ -449,6 +497,20 @@ describe("GOVERNING K3: an office after its holder dies", () => {
         (due) => due.transitionKey === VICE_PRESIDENT_NOMINATION,
       ),
     ).toBe(true);
+    const afterFuneral = passOrdinaryDays(
+      next,
+      UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral,
+    );
+    expect(
+      afterFuneral.history.events.some(
+        (event) =>
+          event.type === OFFICIAL_FUNERAL_EVENT_TYPES.funeral &&
+          event.involvedEntityIds.includes(president),
+      ),
+    ).toBe(true);
+    console.info(
+      `WATCHED RUN P1 — ${place.displayName} (seed ${seed}): a public capacity notice caused the Vice President to act as President; the recorded recovery ended that acting term; the later recorded death transferred the presidency to the Vice President under the Twenty-Fifth Amendment and opened a nomination; the death record scheduled the funeral.`,
+    );
     const reopened = deserializeWorld(serializeWorld(next));
     expect(currentPresidentOf(reopened)!.personId).toBe(vice.personId);
   }, 300_000);

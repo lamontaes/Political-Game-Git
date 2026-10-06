@@ -173,6 +173,13 @@ export function currentGovernorOf(
 
 /** The person currently holding the Presidency, if the World records one. */
 export function currentPresidentOf(world: World): OfficeHolder | null {
+  const tenure = currentFederalTenure(world, "us-president");
+  if (tenure?.event.tags.includes("acting:true"))
+    return {
+      personId: tenure.personId,
+      officeKey: "us-president",
+      title: "Acting President of the United States",
+    };
   const elected = nationalOfficeHolder(world, "president");
   if (elected)
     return {
@@ -180,7 +187,6 @@ export function currentPresidentOf(world: World): OfficeHolder | null {
       officeKey: "us-president",
       title: "President of the United States",
     };
-  const tenure = currentFederalTenure(world, "us-president");
   return tenure
     ? {
         personId: tenure.personId,

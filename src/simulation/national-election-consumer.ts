@@ -216,7 +216,8 @@ export function nationalSuccessions(
  * Who holds the office now. After a recorded § 1 succession the former Vice
  * President holds the presidency for the rest of the term (their office work
  * is the vice-presidential work they already had), and the vice presidency is
- * vacant until a § 2 nomination is confirmed, which is not modeled.
+ * vacant until the President's § 2 nomination is confirmed. A confirmed
+ * nominee is read from the resulting term plan just like any other holder.
  */
 export function nationalOfficeHolder(
   world: World,

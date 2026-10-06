@@ -925,24 +925,9 @@ function presidentialRuling(
 ): { world: World; ruling: OfficeContinuityRuling } {
   const base = { officeKey: office.officeKey, title: office.title };
   if (notice.kind === "incapacity-ended")
-    return {
-      world,
-      ruling: {
-        ...base,
-        outcome: "no-change",
-        sentence: "No powers were transferred, so there is nothing to return.",
-      },
-    };
+    return endActingPresidency(world, notice, base);
   if (notice.kind === "incapacity-began")
-    return {
-      world,
-      ruling: {
-        ...base,
-        outcome: "not-automatic",
-        sentence:
-          "Illness alone transfers nothing. Under the Twenty-Fifth Amendment the President may declare an inability (§ 3), or the Vice President and a majority of the Cabinet may (§ 4); neither declaration is recorded.",
-      },
-    };
+    return beginActingPresidency(world, notice, base);
   const plan = nationalRecords(world).find(
     (record) =>
       record.kind === "term-plan" &&
@@ -1019,6 +1004,150 @@ function presidentialRuling(
       ...base,
       outcome: "succeeded",
       sentence: `${personName(world.people[vice.plan.personId]!)} became President under the Twenty-Fifth Amendment. ${VICE_PRESIDENCY_VACANT_SENTENCE}`,
+    },
+  };
+}
+
+/** Record the Vice President acting under the Twenty-Fifth Amendment while
+ * the President's incapacity is in the public institutional record. */
+function beginActingPresidency(
+  world: World,
+  notice: OfficeContinuityNoticeInput,
+  base: { readonly officeKey: string; readonly title: string },
+): { world: World; ruling: OfficeContinuityRuling } {
+  const vice =
+    nationalOfficeHolder(world, "vice-president")?.plan.personId ??
+    currentFederalTenure(world, "us-vice-president")?.personId;
+  if (!vice || !world.people[vice])
+    return {
+      world,
+      ruling: {
+        ...base,
+        outcome: "blocked",
+        sentence:
+          "The President is unable to serve, but no Vice President is in office to act.",
+      },
+    };
+  const presidentRecord = latestFederalOfficeRecord(world, "us-president");
+  const termEnd = presidentRecord
+    ? federalTenureEnd("us-president", presidentRecord)
+    : (nationalOfficeHolder(world, "president")?.plan.endsAt.date ?? null);
+  const stableKey = `${OFFICE_CONTINUITY_VERSION}:acting-presidency:${notice.sourceRecordId}:began`;
+  if (!world.history.events.some((event) => event.stableKey === stableKey))
+    world = recordWorldEvent(world, {
+      stableKey,
+      type: FEDERAL_TENURE_EVENT,
+      occurredAt: notice.effectiveDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [notice.personId, vice].sort(),
+      participants: [
+        { personId: vice, role: "focus:subject", detail: "Acting President" },
+        {
+          personId: notice.personId,
+          role: "focus:counterparty",
+          detail: "President temporarily unable to serve",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        OFFICE_CONTINUITY_VERSION,
+        "office:us-president",
+        "acting:true",
+        "acting-presidency:began",
+        `acting-for:${notice.personId}`,
+        ...(termEnd ? [`term-end:${termEnd}`] : []),
+        `crisis-notice:${notice.noticeKey}`,
+        `crisis-origin:${notice.originEventId}`,
+        `crisis-source:${notice.sourceRecordId}`,
+        "basis:us-const-amend-xxv-s3-s4",
+      ],
+      summary: `${personName(world.people[vice]!)} is acting as President while ${personName(world.people[notice.personId]!)} is unable to serve, under the Twenty-Fifth Amendment.`,
+      context: CONTEXT,
+    });
+  return {
+    world,
+    ruling: {
+      ...base,
+      outcome: "succeeded",
+      sentence: `${personName(world.people[vice]!)} is acting as President while the President is unable to serve.`,
+    },
+  };
+}
+
+function endActingPresidency(
+  world: World,
+  notice: OfficeContinuityNoticeInput,
+  base: { readonly officeKey: string; readonly title: string },
+): { world: World; ruling: OfficeContinuityRuling } {
+  const starts = world.history.events.filter(
+    (event) =>
+      event.tags.includes("acting-presidency:began") &&
+      event.tags.includes(`acting-for:${notice.personId}`),
+  );
+  const start = starts.at(-1);
+  const actor = start?.participants.find(
+    (participant) => participant.detail === "Acting President",
+  )?.personId;
+  const ended =
+    !!start &&
+    world.history.events.some((event) =>
+      event.tags.includes(`acting-start:${start.id}`),
+    );
+  if (!start || ended || !actor || !world.people[actor])
+    return {
+      world,
+      ruling: {
+        ...base,
+        outcome: "no-change",
+        sentence: "No acting presidency was in effect to end.",
+      },
+    };
+  const termEnd = tagValue(start, "term-end:");
+  const stableKey = `${OFFICE_CONTINUITY_VERSION}:acting-presidency:${notice.sourceRecordId}:ended`;
+  world = recordWorldEvent(world, {
+    stableKey,
+    type: FEDERAL_TENURE_EVENT,
+    occurredAt: notice.effectiveDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [notice.personId, actor].sort(),
+    participants: [
+      {
+        personId: notice.personId,
+        role: "focus:subject",
+        detail: "President resumed duties",
+      },
+      {
+        personId: actor,
+        role: "focus:counterparty",
+        detail: "Acting President",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      OFFICE_CONTINUITY_VERSION,
+      "office:us-president",
+      "acting-presidency:ended",
+      `acting-for:${notice.personId}`,
+      `acting-start:${start.id}`,
+      ...(termEnd ? [`term-end:${termEnd}`] : []),
+      `crisis-notice:${notice.noticeKey}`,
+      `crisis-origin:${notice.originEventId}`,
+      `crisis-source:${notice.sourceRecordId}`,
+      "basis:us-const-amend-xxv-s3-s4",
+    ],
+    summary: `${personName(world.people[notice.personId]!)} resumed the duties of President, ending ${personName(world.people[actor]!)}'s acting presidency under the Twenty-Fifth Amendment.`,
+    context: CONTEXT,
+  });
+  return {
+    world,
+    ruling: {
+      ...base,
+      outcome: "succeeded",
+      sentence: `${personName(world.people[notice.personId]!)} resumed the duties of President, ending the acting presidency.`,
     },
   };
 }
