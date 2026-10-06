@@ -1561,12 +1561,27 @@ function closingEvent(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: petition.jurisdictionId,
-    involvedEntityIds: [petition.targetPersonId ?? petition.petitionerPersonId],
+    involvedEntityIds: [
+      ...new Set([
+        petition.petitionerPersonId,
+        petition.targetPersonId ?? petition.petitionerPersonId,
+      ]),
+    ],
     participants: [
+      ...(petition.targetPersonId
+        ? [
+            {
+              personId: petition.targetPersonId,
+              role: "focus:subject" as const,
+              detail: "recall-target",
+            },
+          ]
+        : []),
+      // The filer did it, so their Journal carries the outcome.
       {
-        personId: petition.targetPersonId ?? petition.petitionerPersonId,
-        role: "focus:subject",
-        detail: petition.kind === "recall" ? "recall-target" : "petition-filer",
+        personId: petition.petitionerPersonId,
+        role: "agency:petitioner" as const,
+        detail: "petition-filer",
       },
     ],
     personFactConstraints: [],
