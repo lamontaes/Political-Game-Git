@@ -1,6 +1,6 @@
 # Session 132: committee referral landed; proud current-main checks passed
 
-The committee report command now follows the clock's referral and canonical NPC assignment list when its caller list is incomplete. Its focused regressions passed and A78 is merged. Proud is now composed with actual main; its fresh changed-file checks passed at `8975429004ed254539a883b871bd6c3600af8abb`. The remaining trait queue is preserved separately.
+The committee report command now follows the clock's referral and canonical NPC assignment list when its caller list is incomplete. Its focused regressions passed and A78 is merged. Proud is now composed with actual main; its fresh changed-file checks passed. The remaining trait queue is preserved separately.
 
 ## Current branch
 
@@ -10,7 +10,7 @@ Measured A78 [#2737 merged](https://github.com/lamontaes/Political-Game-Git/pull
 
 A78's controlled caller checks used canonical introduction, referral, hearing, and report writers. The command was `npx vitest run src/presentation/legislation-session-committee-report.test.ts src/presentation/legislation-session-hearing-calendar.test.ts --reporter=verbose`. House/Senate contrasting authored vote plans, valid saved referral precedence, NPC roster preservation, save/reload, and uncompiled refusal are checked (src/presentation/legislation-session-committee-report.test.ts:116). These are controlled caller fixtures, not elapsed-world legislative outcomes.
 
-A78 changed-source ESLint/Prettier, whitespace, zero-dice, and its release comparison passed. Proud's fresh composition passed 106 of 106 tests in six files (102.32 seconds), plus changed-source ESLint/Prettier, whitespace and its release comparison. These are new local receipts; no old CI result transfers. No full repository CI, runtime, art, or source acceptance is inferred. [The current CTO instruction](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020443625) requires changed tests, ESLint, and Prettier for merging. It explicitly removes waiting for typecheck or GitHub checks.
+A78 changed-source ESLint/Prettier, whitespace, zero-dice, and its release comparison passed. Proud's fresh composition at `8975429004ed254539a883b871bd6c3600af8abb` passed 106 of 106 tests in six files (102.32 seconds), plus changed-source ESLint/Prettier, whitespace and its release comparison. These are new local receipts; no old CI result transfers. No full repository CI, runtime, art, or source acceptance is inferred. [The current CTO instruction](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020443625) requires changed tests, ESLint, and Prettier for merging. It explicitly removes waiting for typecheck or GitHub checks.
 
 ## Preserved traits
 
