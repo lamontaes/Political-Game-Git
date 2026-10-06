@@ -27,6 +27,7 @@ import { facetGuardedEffects } from "./facet-guarded";
 import { facetHostileEffects } from "./facet-hostile";
 import { facetHumbleEffects } from "./facet-humble";
 import { facetIndependentEffects } from "./facet-independent";
+import { facetInventiveEffects } from "./facet-inventive";
 import { facetMeticulousEffects } from "./facet-meticulous";
 import { facetNurturingEffects } from "./facet-nurturing";
 import { facetOpenMindedEffects } from "./facet-open-minded";
@@ -83,6 +84,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetHostileEffects,
     ...facetHumbleEffects,
     ...facetIndependentEffects,
+    ...facetInventiveEffects,
     ...facetMeticulousEffects,
     ...facetNurturingEffects,
     ...facetOpenMindedEffects,
