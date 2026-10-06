@@ -31,8 +31,11 @@ const stages = process.argv.slice(2).map((path) => {
   return {
     stage: data.stage,
     denominator,
-    owners,
-    topAllocationStacks: paths.slice(0, 20),
+    owners: owners.slice(0, 30),
+    remainingOwnerWeight: owners
+      .slice(30)
+      .reduce((sum, item) => sum + item.weight, 0),
+    topAllocationStacks: paths.slice(0, 10),
   };
 });
 process.stdout.write(
