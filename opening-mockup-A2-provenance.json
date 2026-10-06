@@ -1,0 +1,95 @@
+{
+  "kind": "static mockup proposal, not a played game",
+  "proposal": "A2 \u2014 responsive civic-information composition, not a talking scene",
+  "sourceHead": "176bbff1c39718229a98fddae3011c85dd89fc6d",
+  "sourceChanged": false,
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "browser": "system Chromium /usr/bin/chromium",
+  "assets": [
+    {
+      "path": "art/backdrops/us-capitol-exterior__midday.jpg",
+      "sha256": "016d3c91f829c637f3c79c7c60f32d5b23b04b0417c6c8103d0ead6aa8be84ca",
+      "manifestApproval": "owner-placeholder-2026-09-27"
+    },
+    {
+      "path": "art/backdrops/state-capitol-mo__midday.jpg",
+      "sha256": "0f6f7ed992e52cd1f553181fc0a38fa656300995adc430a34719fca1c1e4d380",
+      "manifestApproval": "live-owner-reviews-in-play-2026-09-28"
+    }
+  ],
+  "artifactHashes": {
+    "opening.html": "83dc889216c35d27b76bca53165d005242e8aa519e58a16d999c4fadf9dc58e9",
+    "congress.png": "c7ea059f5cb0268f01c173506f51f913dd5ff7216d3518a075dc0ac974bbe172",
+    "courier.png": "1c37f5aa342178e9a012d15d9c822d26fa3c60cdae1bcf758523694e33fee776",
+    "congress-narrow.png": "a6041bffb42f1b1a416ef92910b79830b4f8d5259c878504ac26fe643779e445",
+    "courier-narrow.png": "7f66715891b9d3c6d093e9f865d17510668bc2c91db56e01ef49ef208595414a",
+    "fit.json": "e46741be371c988c11109778b134dbd69ff0a315400bc31e0f4fc54038b0a97a",
+    "reference-note.txt": "c9772656a7b8ff5c7b9e15c6e1b212b76bbbf4942f1dec39f5a3dca6d8b31fc1"
+  },
+  "authority": "CTO6005940276 and complete private note relayed by local coordinator",
+  "limits": [
+    "Not owner approved; no product implementation",
+    "No saved-world/seed/recipe proof was supplied in private notes",
+    "Only Congress/Courier composition studies, not all eight opening cards",
+    "Missouri Capitol used as disclosed existing-art reference for Courier; not an Ava scene",
+    "Existing manifest assets carry owner-placeholder-2026-09-27 approval, not new art approval",
+    "Resolute desk art changes reserved to Session11",
+    "No cinematic black bars; no scene selection or dialogue implementation",
+    "Scene/talking proposal waits for Session4 checked data-row specification",
+    "No-scroll fit covers static content in two mockup views only"
+  ],
+  "references": "References studied before proposal A2 redraw:\nCK3 Royal Court developer interface screenshot: https://forumcontent.paradoxplaza.com/public/759354/pasted%20image%200%20%284%29.png\nCK3 scene-dominant composition with separate readable event/interaction region.\nFootball Manager 2024 Mobile official interface manual: https://community.sports-interactive.com/sigames-manual/football-manager-mobile-2024/the-interface-r5223/\nStable screen title/sections and fixed bottom action bar; not claiming FM universally avoids scroll.\nOwner CTO6006178823: one-view/no inner scroll/no box stacks; preserve no-build-until-owner-pick.\n",
+  "fitReceipts": [
+    {
+      "view": "congress",
+      "failures": [],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "document": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "view": "courier",
+      "failures": [],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "document": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "view": "congress",
+      "failures": [],
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "document": {
+        "width": 1024,
+        "height": 768
+      }
+    },
+    {
+      "view": "courier",
+      "failures": [],
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "document": {
+        "width": 1024,
+        "height": 768
+      }
+    }
+  ]
+}

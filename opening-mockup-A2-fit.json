@@ -1,0 +1,50 @@
+[
+  {
+    "view": "congress",
+    "failures": [],
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "document": {
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  {
+    "view": "courier",
+    "failures": [],
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "document": {
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  {
+    "view": "congress",
+    "failures": [],
+    "viewport": {
+      "width": 1024,
+      "height": 768
+    },
+    "document": {
+      "width": 1024,
+      "height": 768
+    }
+  },
+  {
+    "view": "courier",
+    "failures": [],
+    "viewport": {
+      "width": 1024,
+      "height": 768
+    },
+    "document": {
+      "width": 1024,
+      "height": 768
+    }
+  }
+]

@@ -1,0 +1,6 @@
+References studied before proposal A2 redraw:
+CK3 Royal Court developer interface screenshot: https://forumcontent.paradoxplaza.com/public/759354/pasted%20image%200%20%284%29.png
+CK3 scene-dominant composition with separate readable event/interaction region.
+Football Manager 2024 Mobile official interface manual: https://community.sports-interactive.com/sigames-manual/football-manager-mobile-2024/the-interface-r5223/
+Stable screen title/sections and fixed bottom action bar; not claiming FM universally avoids scroll.
+Owner CTO6006178823: one-view/no inner scroll/no box stacks; preserve no-build-until-owner-pick.
