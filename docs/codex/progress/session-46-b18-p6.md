@@ -17,6 +17,6 @@ Background civic contacts become letters only when the resident has a settled pr
 ## Verification
 
 - Focused Vitest plus `tests/nationwide/town-civic-actions.test.ts`: 7 tests passed.
-- Repository typecheck source phase succeeds. The full typecheck currently stops on unrelated missing `PlaySettings.personalLifeDepiction` properties in `src/simulation/press/press-premise.test.ts` lines 35 and 125.
+- `npm run typecheck` passes on the rebased branch, including typechecking the tests and verifying the generated law module manifest.
 - Vitest uses a temporary minimal config because the checked-in Vite config calls `git status`, which is blocked by the sandbox with `spawnSync git EPERM`.
 - Generated proof seed `session46-b18-p6-random-place-proof` draws Pemberwick, Connecticut (`0959210`). The test opens that new game, records ten adult residents’ letters to the generated current governor, and verifies ten event references and all ten sender names appear in the constituent consideration.
