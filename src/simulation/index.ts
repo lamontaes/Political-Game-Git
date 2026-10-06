@@ -1,6 +1,7 @@
 export * from "./dates";
 export * from "./canonical-json";
 export * from "./character-history";
+export * from "./faith-record";
 export * from "./causal-effects";
 export * from "./candidacy-packs";
 export * from "./candidacy";
