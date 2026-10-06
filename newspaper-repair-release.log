@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --mode pr --base origin/main
+
+release:check — docs/release/changes/medicaid-coverage-reads-enacted-income-limit.md: id 'medicaid-coverage-enacted-income-limit' does not match its filename stem 'medicaid-coverage-reads-enacted-income-limit'.
