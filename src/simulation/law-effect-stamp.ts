@@ -198,16 +198,23 @@ export function isLawTermResolutionProvenance(
   )
     return false;
   if (row.kind === "source")
-    return Object.keys(row).every((key) =>
-      [
-        "kind",
-        "termKey",
-        "value",
-        "unit",
-        "requestedAt",
-        "scope",
-        "applicability",
-      ].includes(key),
+    return (
+      Object.keys(row).every((key) =>
+        [
+          "kind",
+          "termKey",
+          "value",
+          "unit",
+          "requestedAt",
+          "lawMeasureId",
+          "sourceRecordIds",
+          "scope",
+          "applicability",
+        ].includes(key),
+      ) &&
+      nonempty(row.lawMeasureId) &&
+      Array.isArray(row.sourceRecordIds) &&
+      row.sourceRecordIds.every(nonempty)
     );
   if (
     row.kind !== "modeled" ||
