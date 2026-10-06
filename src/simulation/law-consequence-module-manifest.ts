@@ -4,6 +4,7 @@ import type { PublicProgramCapacityOutturnReceiverRegistration } from "./public-
 import * as lawConsequenceElectionLocalLandingsRegistrations from "./law-consequences/modules/election-local-landings";
 import * as lawConsequenceElectionStateLandingsRegistrations from "./law-consequences/modules/election-state-landings";
 import * as lawConsequenceGovernmentOperationsRegistrations from "./law-consequences/modules/government-operations";
+import * as lawConsequenceJusticePretrialLandingsRegistrations from "./law-consequences/modules/justice-pretrial-landings";
 
 interface GeneratedLawConsequenceModule {
   readonly registrations: readonly AnyLawConsequenceKindRegistration[];
@@ -15,12 +16,14 @@ const GENERATED_LAW_CONSEQUENCE_MODULES: readonly GeneratedLawConsequenceModule[
     lawConsequenceElectionLocalLandingsRegistrations,
     lawConsequenceElectionStateLandingsRegistrations,
     lawConsequenceGovernmentOperationsRegistrations,
+    lawConsequenceJusticePretrialLandingsRegistrations,
   ];
 
 export const LAW_CONSEQUENCE_MODULE_KEYS = [
   "election-local-landings",
   "election-state-landings",
   "government-operations",
+  "justice-pretrial-landings",
 ] as const;
 
 export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =

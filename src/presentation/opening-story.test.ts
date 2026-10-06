@@ -193,7 +193,9 @@ describe("Your county and town", () => {
     expect(minneapolis.officials.some((line) => /, Mayor of /.test(line))).toBe(
       true,
     );
-    expect(minneapolis.matters.length).toBeGreaterThan(0);
+    // No ready-made local proposal is seeded into a new life
+    // (ensureLivingWorldDevelopments); a matter appears only once a real
+    // writer records one, and then it is a posted proposal.
     for (const matter of minneapolis.matters)
       expect(matter).toMatch(/posted a proposal/);
     // Lexington records no seated mayor, so none is named.
