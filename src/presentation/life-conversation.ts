@@ -507,43 +507,6 @@ function replyFor(
   }
   switch (intent) {
     case "scene": {
-      const scene = currentLifeTalkScene(world, playerPersonId)!;
-      if (scene.definition.key === "early.home.broken-mug")
-        return parent
-          ? say("tell-me-what-happened-leave-the-pieces")
-          : say("we-should-ask-for-help-with-the");
-      if (scene.definition.key === "early.home.bedtime-delay")
-        return parent
-          ? say("it-is-bedtime-put-the-toy-away")
-          : say("it-is-time-to-put-the-toy");
-      if (scene.definition.key === "early.home.food-refusal")
-        return parent
-          ? say("would-you-try-one-bite-you-can")
-          : say("you-do-not-have-to-pretend-you");
-      if (scene.definition.key === "young.home.ask-about-childhood")
-        return say("what-would-you-like-to-know-about");
-      if (scene.definition.key === "early.community.curious-neighbor")
-        return say("do-you-like-your-teacher");
-      const sceneQuestion: Readonly<Record<string, LifeReplyKey>> = {
-        "early.school.lunchbox-swap": "do-you-want-to-keep-your-snack",
-        "early.peer.sidewalk-game": "shall-we-try-one-round-with-that",
-        "early.peer.secret-whisper": "do-you-want-to-talk-about-the",
-        "early.peer.dropped-treat": "can-you-stay-with-me-for-a",
-        "early.peer.roughhouse-line": "do-you-want-to-stop-playing-tag",
-        "early.community.library-quiet": "should-we-move-farther-apart-so-we",
-        "early.school.crayon-sharing": "can-i-use-the-crayon-when-you",
-        "early.school.playground-turn": "do-you-want-a-turn-on-the",
-        "early.school.spilled-paint": "can-you-help-blot-the-paper",
-        "early.peer.toy-damage-accidental": "can-you-show-me-the-wheel",
-        "adult.home.shared-time": "would-you-like-to-talk-about-your",
-        "early.community.lost-pet-flyer": "shall-we-look-at-the-flyer-together",
-        "early.community.sidewalk-curb": "will-you-wait-here-with-me",
-        "early.family.packing-boxes": "is-there-a-toy-you-want-to",
-        "adult.trans.college-vs-work": "what-would-you-like-to-know-before",
-        "adult.trans.drop-class-keep-job": "do-you-want-to-ask-about-another",
-      };
-      if (sceneQuestion[scene.definition.key])
-        return say(sceneQuestion[scene.definition.key]!);
       // The only established topic is the scene's saved premise, not a new
       // worry or a fabricated past exchange attributed to this person.
       return say("what-would-you-like-to-do");
