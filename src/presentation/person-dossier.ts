@@ -19,7 +19,6 @@ import {
   measureById,
   peopleInHouseholdAt,
   personName,
-  favorRecords,
   scheduledActivitiesVisibleTo,
   type PersonAppearance,
   type EntityId,

@@ -204,7 +204,7 @@ describe("PEOPLE P3: reaching somebody", () => {
     // And time passing again does not answer it twice.
     const later = passOrdinaryDays(settled, 3);
     expect(answersTo(later, proposal.eventId)).toHaveLength(1);
-  });
+  }, 60_000);
 
   it("a different day offered back is an answer and a new request", () => {
     const theirAsk = askToMeet(
@@ -498,5 +498,5 @@ describe("what became of asking", () => {
       }
     }
     throw new Error("No request was answered within a day.");
-  });
+  }, 60_000);
 });

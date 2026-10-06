@@ -4,12 +4,12 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 vi.setConfig({ testTimeout: 300_000 });
 
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
-import { generateOpeningLife, prepareOpeningLife } from "../presentation/opening-life";
-import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
-  recordWorldEvent,
-  startHouseholdMembership,
-} from "../simulation";
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../presentation/opening-life";
+import { openOrdinaryLife } from "../presentation/ordinary-life";
+import { recordWorldEvent, startHouseholdMembership } from "../simulation";
 import { householdMembershipsAt } from "../simulation/life-queries";
 import { askToMeet, projectContacts } from "../presentation/people-contacts";
 import { projectChildhoodMoment } from "../presentation/childhood";
@@ -68,7 +68,8 @@ function adultWithARecordedRoom(): Life {
   const life = adultLife("ui47-seam-mounts-room");
   const companionId = life.world.personOrder.find(
     (id) =>
-      id !== life.personId && householdMembershipsAt(life.world, id).length === 0,
+      id !== life.personId &&
+      householdMembershipsAt(life.world, id).length === 0,
   );
   if (!companionId) throw new Error("The fixture needs a household companion.");
   const provenance = {
