@@ -1,40 +1,28 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { createScenarioWorld } from "./demo";
-import { makeIsoDate } from "./dates";
-import { searchLifePlaces } from "./life-places";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../presentation/new-game";
 import { recordTraitChange } from "./people-traits";
 import { recordWorldEvent } from "./world";
 import { mogulExposureConsiderations } from "./moguls";
-import type { EntityId } from "./types";
+import { drawRandomPlace } from "../../tests/support/random-place";
 
 describe("mogul exposure considerations", () => {
   it("use the mogul's recorded temperament and replay deterministically", () => {
-    const place = searchLifePlaces("", 1, {
-      stateJurisdictionKey: "US-OR",
-      scope: "locality",
-    })[0]!;
-    const world = createScenarioWorld(
-      "b14-mogul-exposure-traits",
-      {
-        jurisdiction: place.context.jurisdiction,
-        initialMoment: {
-          date: makeIsoDate("2026-09-14"),
-          minuteOfDay: 540,
-          timeZone: "America/Los_Angeles",
-          utcOffsetMinutes: -420,
-        },
-        creationSummary: "Generated fixture for mogul exposure decisions.",
-        goalScope: "Generated fixture",
-        householdLocationLabel: "A generated household",
-      },
-      { peopleCount: 6 },
-    );
-    const [official] = world.personOrder as readonly EntityId[];
-    const mogul = world.personOrder.find(
-      (personId) =>
-        world.control.kind !== "person" || personId !== world.control.personId,
-    )!;
+    const seed = "b14-mogul-exposure-traits";
+    const place = drawRandomPlace(seed);
+    const opening = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 30,
+      depth: "summarize-earlier-life",
+    });
+    const world = opening.world;
+    const official = opening.playerPersonId;
+    const mogul = world.personOrder.find((personId) => personId !== official)!;
     const exposureEventWorld = recordWorldEvent(world, {
       stableKey: "fixture:mogul-risk-trait-event",
       type: "fixture.mogul-risk-trait-recorded",
@@ -88,6 +76,15 @@ describe("mogul exposure considerations", () => {
           item.optionKey === "go-public" || item.optionKey === "let-it-go",
       ),
     ).toBe(true);
+    console.info("B14 part 3 random new-game mogul proof", {
+      seed,
+      place: place.displayName,
+      state: place.context.jurisdiction.parentName,
+      worldId: world.id,
+      official,
+      mogul,
+      recordedTraitReasons: first.length,
+    });
   });
 });
 

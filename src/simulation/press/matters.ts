@@ -863,6 +863,7 @@ export function pressLedgerReviewHandler(
       campaign,
       bookkeeper,
       actor,
+      occurrence,
       discovery,
     );
   }
@@ -1007,68 +1008,46 @@ function bookkeeperGoesOutside(
   campaign: CampaignRecord,
   bookkeeper: EntityId,
   actor: EntityId,
+  occurrence: FinancialOccurrenceRecord,
   discovery: HistoricalEvent,
 ): FutureTransitionHandlerResult {
-  const evaluation = evaluateDecision(world, {
-    stableKey: `${dueItem.stableKey}:report-decision`,
-    decisionType: "press.bookkeeper-report",
-    actorPersonId: bookkeeper,
-    cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:ledger-entry",
-      key: dueItem.stableKey,
-      entityId: discovery.id,
-    },
-    options: [
-      {
-        key: "report-outside",
-        label: "Report it outside the campaign",
-        description: "File a complaint about the payments to the candidate.",
-      },
-      {
-        key: "say-nothing",
-        label: "Say nothing",
-        description: "Leave the entry alone.",
-      },
-    ],
-    constraints: [],
-    considerations: [
-      {
-        stableKey: "press:raised-before-and-it-continued",
-        optionKey: "report-outside",
-        sourceType: "context:professional-role",
-        direction: "supports",
-        importance: "strong",
-        confidence: "high",
-        explanation:
-          "They already asked the candidate about a payment like this, and the payments continued.",
-        sourceRefs: [],
-      },
-      {
-        stableKey: "press:employment-dependence",
-        optionKey: "say-nothing",
-        sourceType: "context:professional-role",
-        direction: "supports",
-        importance: "moderate",
-        confidence: "medium",
-        explanation: "The bookkeeper works for the candidate.",
-        sourceRefs: [],
-      },
-    ],
-    perceptionIds: [],
-    randomness: "close-choices",
-    retention: "durable",
+  const grievance = [...world.history.events]
+    .reverse()
+    .find(
+      (event) =>
+        event.type === "matter.internal-concern-raised" &&
+        event.participants.some((entry) => entry.personId === bookkeeper) &&
+        event.participants.some((entry) => entry.personId === actor),
+    );
+  if (!grievance) {
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "press:bookkeeper-grievance-missing",
+      context: null,
+      outcomeEventId: null,
+    };
+  }
+  const decision = evaluateMisconductKnowerDecision(world, {
+    stableKey: `${dueItem.stableKey}:report`,
+    knowerPersonId: bookkeeper,
+    actorPersonId: actor,
+    occurrenceId: occurrence.id,
+    occurrenceEventId: occurrence.occurrenceEventId,
+    occasion: "wronged",
+    occasionEventId: grievance.id,
   });
+  let next = recordDurableDecisionTrace(decision.world, decision.evaluation);
+  const evaluation = decision.evaluation;
   if (!isSelectedDecision(evaluation)) {
     return {
-      world: world,
+      world: next,
       status: "blocked",
       reasonKey: "press:decision-undecided",
       context: null,
       outcomeEventId: null,
     };
   }
-  let next = recordDurableDecisionTrace(world, evaluation);
   const status = (reasonKey: `${string}:${string}`) => ({
     world: next,
     status: "resolved" as const,
@@ -1076,7 +1055,7 @@ function bookkeeperGoesOutside(
     context: null,
     outcomeEventId: discovery.id,
   });
-  if (evaluation.selectedOptionKey !== "report-outside") {
+  if (evaluation.selectedOptionKey !== "talk") {
     return status("press:bookkeeper-stayed-silent");
   }
   const round = candidatePaymentsRound(next, campaign);
