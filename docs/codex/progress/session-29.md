@@ -14,7 +14,7 @@
 
 ## Next
 
-- Rebased the PR onto current `origin/main` e597ec933. The focused `campaign-polling.test.ts` passes (1 test); formatting and lint pass. Main merge #2470 fixed the old press fixture errors; post-rebase typecheck is running.
+- Rebased the PR onto current `origin/main` e597ec933. The focused `campaign-polling.test.ts` passes (1 test); formatting and lint pass. Test-inclusive `npm run typecheck`, test-import audit, law module check, and `npm run release:check -- --mode pr` all pass. Main merge #2470 fixed the old press fixture errors.
 - Release declaration: `docs/release/changes/b07-remove-unused-polling-dice.md` (`impact: none`). Existing draft PR #2521 is preserved.
 
 ## Exact resume
@@ -24,7 +24,5 @@
 - Scope: B07 numbered step 6 only. The isolated checkout is the working copy;
   leave the original dirty branch untouched.
 - Focused `campaign-polling.test.ts`: 1 test passed under the repository Vitest config. This check was rerun with the installed project dependencies linked into the worktree.
-- Typecheck: both TypeScript stages reached completion; it reports only the two
-  known unrelated missing `personalLifeDepiction` properties in
-  `src/simulation/press/press-premise.test.ts` (lines 35 and 125).
+- Typecheck: both TypeScript stages pass on the rebased branch.
 - Prettier check, ESLint on both changed source/test files, and `git diff --check`: passed.
