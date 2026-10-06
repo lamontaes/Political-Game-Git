@@ -33,3 +33,7 @@ Next exact command:
 ```bash
 tail -45 /tmp/session110-recall-heap-probe.log
 ```
+
+Rebase completed without conflicts onto actual main99f04b3113ba7604707b9e06ff7472f520f356d0; signer code head054647d80ba46f631fbd350f6573d7b7a0985070. A partial-clone fetch error interrupted the first checkout; rebase --abort restored the committed work, then retry with normal network access succeeded. Shared artwork link restored unchanged. No other writer paths altered.
+
+Updated measured heap trace: ordinary-clock test finished16:06:32UTC at heap3,075,529,976 bytes, up from1,071,181,960; next `qualifies exactly at the sourced threshold using recorded supporters and registered residents` (recall.test.ts359) reuses cached ordinaryStart(GRAND_ISLAND,"recall-A") and calls resolveDueThrough for two petition thresholds and the qualifying election. Worker9368 RSS~4.2GB while this third test remains active. Exact terminal test still pending.
