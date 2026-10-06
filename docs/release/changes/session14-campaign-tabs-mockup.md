@@ -1,8 +1,6 @@
 ---
 id: session14-campaign-tabs-mockup
 impact: none
-section: Changed
-title: Publish Campaigns tab review candidates
 ---
 
 Documentation-only native-size Campaigns mockups preserve recorded election and
