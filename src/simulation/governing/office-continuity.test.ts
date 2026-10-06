@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import { explicitNewGameSetup } from "../../presentation/new-game-geography";
@@ -59,7 +59,6 @@ import {
 import { federalColleaguesOf } from "../patronage/federal-circle";
 import {
   HOUSE_SPECIAL_ELECTION,
-  SENATE_VACANCY_PROFILE,
   VICE_PRESIDENTIAL_VACANCY_PROFILE,
   VICE_PRESIDENT_NOMINATED_EVENT,
   VICE_PRESIDENT_NOMINATION,
@@ -108,13 +107,56 @@ function die(
 }
 
 function openingWorld(seed: string): World {
+  console.info(
+    JSON.stringify({
+      phase: "continuity-fixture-start",
+      seed,
+      at: new Date().toISOString(),
+    }),
+  );
+  let lastPhase = "";
   const game = generateOpeningLife(
     prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
+    (progress) => {
+      if (
+        progress.label !== lastPhase ||
+        progress.completed === progress.total
+      ) {
+        lastPhase = progress.label;
+        console.info(
+          JSON.stringify({
+            phase: "continuity-fixture-allocation",
+            seed,
+            at: new Date().toISOString(),
+            ...progress,
+          }),
+        );
+      }
+    },
   ).game!;
-  return openOrdinaryLife(game.world, game.playerPersonId);
+  const world = openOrdinaryLife(game.world, game.playerPersonId);
+  console.info(
+    JSON.stringify({
+      phase: "continuity-fixture-ready",
+      seed,
+      at: new Date().toISOString(),
+      people: Object.keys(world.people).length,
+      events: world.history.events.length,
+    }),
+  );
+  return world;
 }
 
 describe("GOVERNING K3: an office after its holder dies", () => {
+  beforeEach(({ task }) => {
+    console.info(
+      JSON.stringify({
+        phase: "continuity-test-start",
+        test: task.name,
+        at: new Date().toISOString(),
+      }),
+    );
+  });
   it("a Representative's seat is vacant, then a special election fills it once", () => {
     const world = openingWorld("k3-house");
     const seat = projectCongress(world)!.house.seats.find(
@@ -203,9 +245,13 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(view().occupant.kind).toBe("vacancy");
 
     // The state's law: the governor appoints, of the same party.
+    const appointment = next.history.futureDueItems.find((due) =>
+      due.stableKey.includes(`:appointment:${seat.seatKey}:`),
+    );
+    expect(appointment).toBeDefined();
     next = passOrdinaryDays(
       next,
-      SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment,
+      daysBetween(next.currentDate, appointment!.dueAt),
     );
     const appointed = view();
     expect(appointed.occupant.kind).toBe("member");
