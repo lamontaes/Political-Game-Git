@@ -240,6 +240,12 @@ describe("source-first modeled starting-law amount adapter", () => {
 
   it("does not flatten a recorded schedule into an estimated scalar", () => {
     const { world, targetLaw, targetJurisdictionId } = lawTermWorld("CA");
+    vi.spyOn(lawReader, "startingLawSchedules").mockReturnValue([
+      {
+        questionKey: "us-policy-positions:environment-energy.bottle-deposit",
+        key: "deposit",
+      } as never,
+    ]);
     const bottleLaw = {
       ...targetLaw,
       measureId:
