@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   settleTownCompensations,
   stateMedianAnnualWage,
@@ -538,6 +539,7 @@ function note(
     readonly involved: readonly EntityId[];
     readonly jurisdictionId: EntityId | null;
     readonly summary: string;
+    readonly decisionTraceId?: EntityId;
   },
 ): { world: World; eventId: EntityId } {
   const next = recordWorldEvent(world, {
@@ -556,7 +558,12 @@ function note(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["job-market"],
+    tags: [
+      "job-market",
+      ...(input.decisionTraceId
+        ? [`decision-trace:${input.decisionTraceId}`]
+        : []),
+    ],
     summary: input.summary,
     context: {
       location: null,
@@ -1104,6 +1111,7 @@ function addStep(
     readonly agreedWeeklyHours?: number | null;
     readonly workRelationshipId?: EntityId | null;
     readonly summary: string;
+    readonly decisionTraceId?: EntityId;
   },
 ): World {
   const index = applicationSteps(world, application.id).length;
@@ -1120,6 +1128,7 @@ function addStep(
     ],
     jurisdictionId: opening.jurisdictionId,
     summary: step.summary,
+    ...(step.decisionTraceId ? { decisionTraceId: step.decisionTraceId } : {}),
   });
   return append(noted.world, "jobApplicationSteps", "job-application-step", {
     stableKey,
@@ -1474,8 +1483,15 @@ export function answerJobOfferAsResident(
   world: World,
   applicationId: EntityId,
   accept: boolean,
+  decisionTraceId?: EntityId,
 ): JobMarketResult {
-  return answerOffer(world, applicationId, accept, residentCanAct);
+  return answerOffer(
+    world,
+    applicationId,
+    accept,
+    residentCanAct,
+    decisionTraceId,
+  );
 }
 
 function answerOffer(
@@ -1483,12 +1499,31 @@ function answerOffer(
   applicationId: EntityId,
   accept: boolean,
   canAct: (world: World, personId: EntityId) => string | null,
+  decisionTraceId?: EntityId,
 ): JobMarketResult {
   const application = (world.history.jobApplications ?? []).find(
     (row) => row.id === applicationId,
   );
   if (!application)
     return { world, ok: false, message: "There is no such application." };
+  if (decisionTraceId) {
+    const trace = world.history.decisionTraces.find(
+      (record) => record.id === decisionTraceId,
+    );
+    if (
+      !trace ||
+      trace.context.actorPersonId !== application.personId ||
+      trace.context.decisionType !== "people.job-offer-answer" ||
+      trace.context.stableKey !== `goal-offer:${applicationId}` ||
+      trace.outcomeKind !== "selected" ||
+      trace.selectedOptionKey !== (accept ? "accept" : "hold-out")
+    )
+      return {
+        world,
+        ok: false,
+        message: "The saved decision does not authorize this answer.",
+      };
+  }
   const refusal = canAct(world, application.personId);
   if (refusal) return { world, ok: false, message: refusal };
   const played = isPlayed(world, application.personId);
@@ -1506,6 +1541,7 @@ function answerOffer(
     return {
       world: addStep(world, application, {
         kind: "refused",
+        decisionTraceId,
         occurredAt: world.currentDate,
         summary: played
           ? `You turned down ${employer}'s offer.`
@@ -1517,6 +1553,7 @@ function answerOffer(
   return {
     world: addStep(world, application, {
       kind: "accepted",
+      decisionTraceId,
       occurredAt: world.currentDate,
       startAt: latest.startAt,
       summary: played
@@ -1605,6 +1642,17 @@ function beginWork(world: World, applicationId: EntityId): JobMarketResult {
   const application = (world.history.jobApplications ?? []).find(
     (row) => row.id === applicationId,
   )!;
+  const acceptedStep = applicationSteps(world, applicationId).find(
+    (step) => step.kind === "accepted",
+  );
+  const acceptance = acceptedStep?.eventId
+    ? eventById(world, acceptedStep.eventId)
+    : null;
+  const traceTag = acceptance?.tags.find((tag) =>
+    tag.startsWith("decision-trace:"),
+  );
+  const decisionTraceId = traceTag?.slice("decision-trace:".length) as
+    EntityId | undefined;
   const opening = jobOpening(world, application.openingId)!;
   const offer = applicationOffer(world, applicationId)!;
   const employer = organizationName(world, opening.organizationId);
@@ -1657,6 +1705,7 @@ function beginWork(world: World, applicationId: EntityId): JobMarketResult {
   });
   next = addStep(next, application, {
     kind: "started",
+    ...(decisionTraceId ? { decisionTraceId } : {}),
     occurredAt: world.currentDate,
     workRelationshipId: work.id,
     summary: isPlayed(world, application.personId)

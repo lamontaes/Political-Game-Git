@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { canonicalJson, createDemoWorld, worldContentId } from "../simulation";
 import type { EntityId, MindSourceReference } from "../simulation";
@@ -735,6 +735,22 @@ describe("the extension-source boundary", () => {
     expect(canonicalJson(world)).toBe(before);
     expect(worldContentId(world)).toBe(contentBefore);
     expect(world.currentDate).not.toBe("9999-12-31");
+  });
+
+  it("copies the world once for the built-in readers while isolating extensions", () => {
+    const world = createDemoWorld("trace-shared-built-in-snapshot");
+    const before = worldContentId(world);
+    const clone = vi.spyOn(globalThis, "structuredClone");
+    try {
+      const index = buildTraceIndex(world);
+      expect(index.nodes.length).toBeGreaterThan(0);
+      expect(
+        clone.mock.calls.filter(([input]) => input === world),
+      ).toHaveLength(1);
+      expect(worldContentId(world)).toBe(before);
+    } finally {
+      clone.mockRestore();
+    }
   });
 
   it("refuses a duplicate record id rather than merging two projections", () => {
