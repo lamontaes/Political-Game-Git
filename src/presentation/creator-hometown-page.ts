@@ -1,3 +1,5 @@
+import { placeStartFacts } from "./place-start-summary";
+import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
 import {
   lifePlaceSearch,
   type LifePlace,
@@ -23,8 +25,6 @@ export interface HometownPage {
   readonly pageCount: number;
   readonly hasPrevious: boolean;
   readonly hasNext: boolean;
-  /** A plain statement of what is shown, never "every town in the country". */
-  readonly status: string;
 }
 
 export function projectHometownPage(
@@ -42,18 +42,6 @@ export function projectHometownPage(
     lastOffset,
   );
   const places = all.slice(safeOffset, safeOffset + pageSize);
-  const searched = query.trim().length > 0;
-  const noun = total === 1 ? "place" : "places";
-  let status: string;
-  if (total === 0) {
-    status = searched ? "Nothing here matches that yet." : "";
-  } else if (total <= pageSize) {
-    status = searched
-      ? `${total} matching ${noun}.`
-      : `All ${total} ${noun} the game lists in this state.`;
-  } else {
-    status = `Showing ${safeOffset + 1}–${safeOffset + places.length} of ${total} ${searched ? `matching ${noun}` : `${noun} in this state`}.`;
-  }
   return {
     places,
     total,
@@ -62,6 +50,23 @@ export function projectHometownPage(
     pageCount,
     hasPrevious: safeOffset > 0,
     hasNext: safeOffset + pageSize < total,
-    status,
   };
+}
+
+/** Place-level sourced counts stay labeled by period; county totals never become town populations. */
+export function hometownChoiceSubtitle(place: LifePlace): string {
+  const county = placeStartFacts(place).find(
+    (fact) => fact.kind === "county",
+  )?.text;
+  const population = place.sourceGeoid
+    ? placeReferencePopulation(place.sourceGeoid)
+    : null;
+  return [
+    county,
+    population
+      ? `${new Intl.NumberFormat("en-US").format(population.value)} people (${population.source === "census-estimate-2025" ? "2025 estimate" : "2020–2024 estimate"})`
+      : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
 }
