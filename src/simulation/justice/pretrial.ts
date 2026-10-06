@@ -4,6 +4,19 @@ import { eventById } from "../event-index";
 import { recordsByStringField } from "../history-index";
 import { stableHash } from "../ids";
 import { spreadOf } from "../sample-spread";
+import {
+  comparableAmountApplicabilityKey,
+  comparableAmountApplicabilitiesMatch,
+  type ComparableAmountApplicability,
+} from "../law-consequence-types";
+import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
+} from "../life-places";
+import {
+  censusRegionOf,
+  censusRegionStates,
+} from "../world-setup/census-regions";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
@@ -87,10 +100,31 @@ export function recordedChargeBailMinorUnits(
   return Number.isSafeInteger(amount) && amount > 0 ? amount : null;
 }
 
+/** Read the existing statistical region; territories without one stay unknown. */
+function courtRegion(world: World, jurisdictionId: EntityId | null) {
+  const jurisdiction = jurisdictionId
+    ? world.jurisdictions[jurisdictionId]
+    : undefined;
+  const stateKey = jurisdictionId
+    ? (lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ??
+      (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null))
+    : null;
+  const usps = stateKey?.slice(3);
+  return usps && censusRegionStates().includes(usps)
+    ? censusRegionOf(usps)
+    : null;
+}
+
 /** Dev provenance accompanies an amount; it is never a claim of court authority. */
 export function newChargeBailAmount(
   world: World,
-  input: Parameters<typeof bailMinorUnits>[1] & { readonly courtId: string },
+  input: Parameters<typeof bailMinorUnits>[1] & {
+    readonly courtId: string;
+    readonly applicability?: Extract<
+      ComparableAmountApplicability,
+      { kind: "court-charge-cohort" }
+    >;
+  },
 ): {
   readonly amount: number;
   readonly provenanceTags: readonly string[];
@@ -106,6 +140,19 @@ export function newChargeBailAmount(
       provenanceTags: ["justice.bail-basis:operative-law"],
     };
 
+  const applicability = input.applicability;
+  if (applicability) {
+    if (
+      comparableAmountApplicabilityKey(applicability) === null ||
+      applicability.courtLevelKey !== court.level ||
+      (applicability.courtKey !== null &&
+        applicability.courtKey !== input.courtId) ||
+      applicability.offenseKey !== input.offenseKey ||
+      applicability.region !== courtRegion(world, court.jurisdictionId)
+    )
+      return null;
+  }
+
   // An exact offense key is narrower than an offense class. Charges do not
   // record felony/misdemeanor classes, so no broader class is inferred here.
   const candidates = recordsByStringField(
@@ -120,6 +167,21 @@ export function newChargeBailAmount(
       !charge.tags.includes(`justice.offense:${input.offenseKey}`)
     )
       return [];
+    if (applicability) {
+      const tags = charge.tags.filter((tag) =>
+        tag.startsWith("justice.bail-applicability:"),
+      );
+      if (tags.length !== 1) return [];
+      try {
+        const recorded = JSON.parse(
+          tags[0]!.slice("justice.bail-applicability:".length),
+        ) as ComparableAmountApplicability;
+        if (!comparableAmountApplicabilitiesMatch(applicability, recorded))
+          return [];
+      } catch {
+        return [];
+      }
+    }
     const courtTags = charge.tags.filter((tag) =>
       tag.startsWith("justice.court:"),
     );
@@ -130,6 +192,13 @@ export function newChargeBailAmount(
       !donorCourt ||
       donorCourt.level !== court.level ||
       donorCourt.createdAt > charge.occurredAt
+    )
+      return [];
+    if (
+      applicability &&
+      ((applicability.courtKey !== null &&
+        applicability.courtKey !== donorCourtId) ||
+        applicability.region !== courtRegion(world, donorCourt.jurisdictionId))
     )
       return [];
     const amount = recordedChargeBailMinorUnits(world, charge.id);
@@ -167,6 +236,9 @@ export function newChargeBailAmount(
       "justice.bail-estimate:ESTIMATED FROM AVERAGE",
       `justice.bail-donor-mean:${mean}`,
       `justice.bail-donor-spread:${standardDeviation}`,
+      ...(applicability
+        ? [`justice.bail-applicability:${JSON.stringify(applicability)}`]
+        : []),
       ...donors.map((donor) => `justice.bail-donor:${donor.charge.id}`),
     ],
   };

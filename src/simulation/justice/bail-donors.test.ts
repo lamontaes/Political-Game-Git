@@ -12,6 +12,8 @@ import type { EntityId, World } from "../types";
 import { newChargeBailAmount, recordedChargeBailMinorUnits } from "./pretrial";
 import { advanceProsecutions, referForProsecution } from "./prosecution";
 import { prosecutionTimingFor } from "./prosecution-timing";
+import type { ComparableAmountApplicability } from "../law-consequence-types";
+import { censusRegionOf } from "../world-setup/census-regions";
 
 const question = "us-policy-positions:justice-public-safety.end-cash-bail";
 const state = new SeededRng("session20-bail-donors").pick(
@@ -30,6 +32,10 @@ function donor(
   amount: string,
   offense = "crime:robbery",
   court = courtId,
+  applicability?: Extract<
+    ComparableAmountApplicability,
+    { kind: "court-charge-cohort" }
+  >,
 ): World {
   return recordWorldEvent(world, {
     stableKey: `authored-bail-donor:${key}`,
@@ -45,6 +51,9 @@ function donor(
       `justice.offense:${offense}`,
       `justice.court:${court}`,
       `justice.cash-bail-amount:${amount}`,
+      ...(applicability
+        ? [`justice.bail-applicability:${JSON.stringify(applicability)}`]
+        : []),
     ],
     summary:
       "Authored controlled charge amount, not measured starting court data.",
@@ -83,6 +92,56 @@ describe(`current-game bail donors (${state}, session20-bail-donors)`, () => {
       base.history.events.filter((event) => event.type === "justice.charged"),
     ).toHaveLength(0);
     expect(newChargeBailAmount(base, input())).toBeNull();
+  });
+  it("uses the shared exact cohort only with saved class, region and court evidence", () => {
+    const applicability: Extract<
+      ComparableAmountApplicability,
+      { kind: "court-charge-cohort" }
+    > = {
+      kind: "court-charge-cohort",
+      courtLevelKey: base.judiciary!.courts[courtId]!.level,
+      courtKey: courtId,
+      offenseKey: "crime:robbery",
+      offenseClassKey: "authored-control-class",
+      region: censusRegionOf(state.slice(3)),
+    };
+    const query = { ...input(), applicability };
+    const old = donor(base, "no-class-evidence", "12000");
+    expect(newChargeBailAmount(old, query)).toBeNull();
+    expect(newChargeBailAmount(old, input())!.amount).toBe(12000);
+    const saved = donor(
+      base,
+      "exact-cohort",
+      "12000",
+      "crime:robbery",
+      courtId,
+      applicability,
+    );
+    const result = newChargeBailAmount(saved, query)!;
+    expect(result.amount).toBe(12000);
+    expect(result.provenanceTags).toContain(
+      `justice.bail-applicability:${JSON.stringify(applicability)}`,
+    );
+    for (const delta of [
+      { offenseClassKey: "different-class" },
+      { courtKey: null },
+      { courtLevelKey: "different-level" },
+      { offenseKey: "crime:assault" },
+      {
+        region:
+          applicability.region === "south"
+            ? ("west" as const)
+            : ("south" as const),
+      },
+    ])
+      expect(
+        newChargeBailAmount(saved, {
+          ...query,
+          applicability: { ...applicability, ...delta },
+        }),
+      ).toBeNull();
+    const loaded = deserializeWorld(serializeWorld(saved));
+    expect(newChargeBailAmount(loaded, query)).toEqual(result);
   });
   it("uses bounded observed spread and retains exact donor evidence after reload", () => {
     const world = donor(donor(base, "low", "10000"), "high", "30000");
