@@ -12,6 +12,11 @@ import {
 } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import {
+  governmentUnit,
+  governmentUnitJurisdictionId,
+} from "./government-units";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import {
   assertPublicGovernmentIdentity,
   publicGovernmentIdentityForRecord,
   publicGovernmentOrganizationKey,
@@ -23,7 +28,7 @@ import {
   taxLevyText,
 } from "./tax-policy";
 import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
-import type { TaxTerms } from "./tax-types";
+import type { TaxPowerEvidence, TaxTerms } from "./tax-types";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -42,6 +47,69 @@ export type TaxLawTermBinding =
       readonly publicGovernmentIdentity: PublicGovernmentIdentity;
       readonly sourceRecordIds: readonly EntityId[];
     };
+
+export type TaxTermQuestionBinding = {
+  readonly questionKey: string;
+  readonly instrument: TaxPowerEvidence["instrument"];
+  readonly termFields: typeof TAX_NUMERIC_LAW_TERMS;
+};
+
+const TAX_TERM_LEVELS = ["federal", "state", "county", "city"] as const;
+const TAX_TERM_FAMILIES = [
+  ["income", "wage-income"],
+  ["sales", "sales"],
+  ["property", "property"],
+  ["excise", "selective-excise"],
+] as const satisfies readonly (readonly [
+  string,
+  TaxPowerEvidence["instrument"],
+])[];
+
+/** One question-to-authority table shared by every government level. The
+ * authority reader remains the sole source of whether an instrument is supported.
+ */
+export const TAX_TERM_QUESTION_BINDINGS: readonly TaxTermQuestionBinding[] =
+  TAX_TERM_LEVELS.flatMap((level) =>
+    TAX_TERM_FAMILIES.map(([family, instrument]) => ({
+      questionKey: `us-tax-terms:${level}.${family}-tax-terms`,
+      instrument,
+      termFields: TAX_NUMERIC_LAW_TERMS,
+    })),
+  );
+
+const TAX_TERM_BINDING_BY_QUESTION = new Map(
+  TAX_TERM_QUESTION_BINDINGS.map((row) => [row.questionKey, row]),
+);
+
+function jurisdictionForTaxPower(
+  world: World,
+  power: TaxPowerEvidence,
+): EntityId | null {
+  const jurisdictionByLevel: Readonly<
+    Record<TaxPowerEvidence["level"], (key: string) => EntityId | null>
+  > = {
+    FEDERAL: (key) => (key === "US" ? NATIONAL_ELECTION_JURISDICTION.id : null),
+    STATE: (key) => stateJurisdictionForKey(key)?.id ?? null,
+    COUNTY: (key) => {
+      const unit = governmentUnit(key);
+      return unit?.unitType === "county"
+        ? governmentUnitJurisdictionId(unit)
+        : null;
+    },
+    MUNICIPALITY: (key) => {
+      const unit = governmentUnit(key);
+      return unit?.unitType === "municipality"
+        ? governmentUnitJurisdictionId(unit)
+        : null;
+    },
+  };
+  const jurisdictionId = jurisdictionByLevel[power.level](
+    power.jurisdictionKey,
+  );
+  return jurisdictionId && world.jurisdictions[jurisdictionId]
+    ? jurisdictionId
+    : null;
+}
 
 /** Read-only conversion for an already saved typed proposal, never a levy
  * creator or assessment override. Missing shared bindings remain unavailable.
@@ -70,6 +138,7 @@ export function bindTaxLawTerms(
     );
   if (input.law.origin !== "enacted")
     return unavailable("Starting-law tax proposal binding is not admitted.");
+  const questionBinding = TAX_TERM_BINDING_BY_QUESTION.get(input.questionKey);
   const proposition = Object.values(world.policyCatalog.propositions).find(
     (row) => row.stableKey === input.questionKey,
   );
@@ -77,6 +146,7 @@ export function bindTaxLawTerms(
     (row) => row.id === input.proposalId,
   );
   if (
+    !questionBinding ||
     !proposition ||
     !proposal ||
     proposal.measureId !== input.law.measureId ||
@@ -89,7 +159,10 @@ export function bindTaxLawTerms(
   // Vocabulary and accounts do not extend the existing acquired authority.
   const power = proposal.power;
   const supportedPower = power
-    ? taxPowerEvidenceFor(power.jurisdictionKey)
+    ? taxPowerEvidenceFor(power.jurisdictionKey, {
+        instrument: questionBinding.instrument,
+        asOf: power.asOf,
+      })
     : null;
   if (
     !power ||
@@ -99,8 +172,7 @@ export function bindTaxLawTerms(
     power.asOf > input.onDate ||
     proposal.terms.legalBaselineAssumption !==
       "carry-forward-acquired-baseline-in-game" ||
-    (proposal.terms.effectiveDelayDays ?? 90) !== 90 ||
-    input.questionKey !== "us-tax-terms:state.excise-tax-terms"
+    (proposal.terms.effectiveDelayDays ?? 90) !== 90
   )
     return unavailable(
       "This tax family's acquired legal-power binding is unsupported.",
@@ -122,18 +194,15 @@ export function bindTaxLawTerms(
   } catch {
     return unavailable("The saved public-government identity is invalid.");
   }
-  if (identity.kind !== "jurisdiction")
-    return unavailable(
-      "Local tax power is not admitted by the existing proposal writer.",
-    );
-  // Reuse the writer's exact state jurisdiction check; no state/local alias.
   if (
-    !world.jurisdictions[proposal.jurisdictionId] ||
-    stateJurisdictionForKey(power.jurisdictionKey)?.id !==
-      proposal.jurisdictionId
+    jurisdictionForTaxPower(world, power) !== proposal.jurisdictionId ||
+    identity.jurisdictionId !== proposal.jurisdictionId ||
+    (identity.kind === "local-government" &&
+      power.governmentKey !== identity.governmentKey) ||
+    (identity.kind === "jurisdiction" && power.governmentKey !== undefined)
   )
     return unavailable(
-      "The acquired power must match the proposal's actual jurisdiction.",
+      "The acquired power must match the proposal's actual public government.",
     );
   const organization = organizationsAt(world, input.cutoff).find(
     (row) => row.id === proposal.publicOrganizationId,
@@ -188,7 +257,7 @@ export function bindTaxLawTerms(
     (typeof TAX_NUMERIC_LAW_TERMS)[number]["field"],
     number
   >;
-  for (const term of TAX_NUMERIC_LAW_TERMS) {
+  for (const term of questionBinding.termFields) {
     // Carry the published extended request. The current-only guard above stays
     // until the shared query and governing-law cutoff contract land on main.
     const request = {
