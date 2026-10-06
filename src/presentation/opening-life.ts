@@ -336,6 +336,8 @@ export async function generateOpeningLifeWithProgress(
   if (!suppliedGame && session.setup.creatorLifeForks !== undefined) {
     // Creator forks are the explicit new route marker; older replay descriptors
     // omit them and continue to rebuild their original opening byte for byte.
+    if (!session.stagedGame)
+      await reportOpeningStage("Preparing your life", options);
     const game =
       session.stagedGame ??
       createPreStartNewGameWorld(session.setup, makeIsoDate("2021-01-01"));
@@ -501,7 +503,11 @@ function* beginOpeningLifeSteps(
   session: OpeningLifeSession,
   suppliedGame?: NewGame,
 ): Generator<OpeningPreparationStep, OpeningLifeBuildStart, void> {
-  yield openingStage("Preparing your life");
+  yield openingStage(
+    "Preparing your life",
+    suppliedGame?.world,
+    suppliedGame?.playerPersonId,
+  );
   const game = suppliedGame ?? createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
