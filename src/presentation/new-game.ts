@@ -71,6 +71,7 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types"
 import type { WorldOpeningVersion } from "../simulation/world-setup/types";
 import {
   creatorLifeForkChoicesValid,
+  recordCreatorLifeForks,
   type CreatorLifeForkChoice,
 } from "../simulation/creator-life-forks";
 
@@ -555,16 +556,35 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
 export function createPreStartNewGameWorld(
   setup: NewGameSetup,
   priorYearStartDate: IsoDate,
+  onCharacterCheckpoint?: ProductionWorldInput["onCharacterCheckpoint"],
 ): NewGame {
-  return buildNewGameWorld(setup, {
-    version: "pre-start-world-year-v1",
-    targetStartDate: requireLifePlace(setup.placeKey).context.initialMoment
-      .date,
-    priorYearStartDate,
-  });
+  return buildNewGameWorld(
+    setup,
+    {
+      version: "pre-start-world-year-v1",
+      targetStartDate: requireLifePlace(setup.placeKey).context.initialMoment
+        .date,
+      priorYearStartDate,
+    },
+    onCharacterCheckpoint,
+  );
 }
 
 /** Begin changes control only; the World and its money/history remain authoritative. */
+/** Apply answers to the staged life; loading must receive this same World. */
+export function applyPreStartCreatorLifeForks(
+  game: NewGame,
+  choices: readonly CreatorLifeForkChoice[],
+): NewGame {
+  if (game.world.preStartLife?.personId !== game.playerPersonId)
+    throw new Error("Creator answers require the staged character's World.");
+  return {
+    ...game,
+    setup: { ...game.setup, creatorLifeForks: choices },
+    world: recordCreatorLifeForks(game.world, game.playerPersonId, choices),
+  };
+}
+
 export function finishPreStartNewGameWorld(game: NewGame): NewGame {
   if (game.world.pastMode)
     throw new Error(
@@ -587,6 +607,7 @@ export function finishPreStartNewGameWorld(game: NewGame): NewGame {
 function buildNewGameWorld(
   setup: NewGameSetup,
   preStartYear?: ProductionWorldInput["preStartYear"],
+  onCharacterCheckpoint?: ProductionWorldInput["onCharacterCheckpoint"],
 ): NewGame {
   if (
     setup.creatorLifeForks !== undefined &&
@@ -600,7 +621,11 @@ function buildNewGameWorld(
   const place = requireLifePlace(setup.placeKey);
   const input = productionWorldInputForSetup(setup);
   const built = preStartYear
-    ? buildPreStartCharacterWorld({ ...input, preStartYear })
+    ? buildPreStartCharacterWorld({
+        ...input,
+        preStartYear,
+        onCharacterCheckpoint,
+      })
     : buildProductionWorld(input);
   return finishNewGameConstruction(setup, place, built);
 }
