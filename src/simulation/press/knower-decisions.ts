@@ -58,7 +58,12 @@ export function evaluateMisconductKnowerDecision(
     input.actorPersonId,
     input.knowerPersonId,
   );
-  const grievance = input.occasion !== "record-reviewed";
+  const grievance =
+    input.occasion === "fired" ||
+    input.occasion === "cut-out" ||
+    input.occasion === "wronged";
+  const questioned = input.occasion === "questioned";
+  const charged = input.occasion === "charged";
   const considerations = [
     ...(grievance
       ? [
@@ -71,6 +76,27 @@ export function evaluateMisconductKnowerDecision(
             confidence: "high" as const,
             explanation:
               "They were directly wronged in a way that bears on this act.",
+            sourceRefs: [
+              {
+                kind: "historical-event" as const,
+                eventId: input.occasionEventId,
+              },
+            ],
+          },
+        ]
+      : []),
+    ...(questioned || charged
+      ? [
+          {
+            stableKey: `${input.stableKey}:${input.occasion}`,
+            optionKey: "talk",
+            sourceType: "context:questioning" as const,
+            direction: "supports" as const,
+            importance: "moderate" as const,
+            confidence: "high" as const,
+            explanation: charged
+              ? "They have been charged and can offer what they know to prosecutors."
+              : "They have been asked about a matter they know.",
             sourceRefs: [
               {
                 kind: "historical-event" as const,
