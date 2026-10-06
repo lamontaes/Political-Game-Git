@@ -1440,7 +1440,6 @@ function supportRequestDecision(
         description: "Leave it for the chapter to take up later.",
       },
     ],
-    constraints: [],
     considerations: [
       ...considerations,
       ...registeredTraitConsiderations(
@@ -1452,9 +1451,6 @@ function supportRequestDecision(
         record.subjectPersonId,
       ),
     ],
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
   });
   return evaluation.selectedOptionKey === "grant"
     ? "granted"
