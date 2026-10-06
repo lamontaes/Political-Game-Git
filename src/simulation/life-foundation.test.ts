@@ -680,6 +680,19 @@ describe("Stage 5.1 households, kinship, partnership, and care", () => {
     const originalMemberships = householdMembershipsAt(world, person);
     expect(originalMemberships).toHaveLength(2);
     expect(householdMembershipsAt(world, person)).toBe(originalMemberships);
+    const unrelatedWrite = recordLifeCommitment(world, {
+      stableKey: "commitment:unrelated-to-residence",
+      personId: person,
+      startsAt: "2020-01-01",
+      endsAt: null,
+      kind: "custom:translation-circle",
+      label: "Translation circle",
+      timeDemand: FLEXIBLE_TIME,
+      provenance: AUTHORED,
+    });
+    expect(householdMembershipsAt(unrelatedWrite, person)).toBe(
+      originalMemberships,
+    );
     const secondaryMembership = world.history.householdMemberships.find(
       (membership) => membership.stableKey === "membership:secondary",
     );

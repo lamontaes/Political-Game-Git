@@ -1,5 +1,6 @@
 import { makeIsoDate } from "./dates";
 import {
+  indexFollowingAppends,
   recordById,
   recordsByKey,
   recordsByStringField,
@@ -590,6 +591,29 @@ export function householdMembershipStateAt(
   return householdMembershipStateHistory(world, membershipId, cutoff).at(-1);
 }
 
+const HOUSEHOLD_SEQUENCE_CEILINGS = new WeakMap<object, number>();
+const RECENT_HOUSEHOLD_SEQUENCE_ARRAYS: (readonly unknown[])[] = [];
+
+function householdSequenceCeiling(
+  records: readonly { readonly sequence: number }[],
+): number {
+  const cached = HOUSEHOLD_SEQUENCE_CEILINGS.get(records);
+  if (cached !== undefined) return cached;
+  const extend = (maximum: number, from: number): number => {
+    for (let at = from; at < records.length; at += 1) {
+      maximum = Math.max(maximum, records[at]!.sequence);
+    }
+    return maximum;
+  };
+  return indexFollowingAppends(
+    HOUSEHOLD_SEQUENCE_CEILINGS,
+    RECENT_HOUSEHOLD_SEQUENCE_ARRAYS,
+    records,
+    () => extend(-1, 0),
+    extend,
+  );
+}
+
 // A membership revision owns one resolved by-person view for one exact cutoff.
 // Other contributing revisions invalidate it, including same-length corrections.
 // Keeping only the latest view bounds retention; reading an older World rebuilds.
@@ -601,6 +625,7 @@ const HOUSEHOLD_VIEWS = new WeakMap<
     readonly locations: World["history"]["householdLocations"];
     readonly date: string;
     readonly sequence: number;
+    readonly sequenceCeiling: number;
     readonly people: Map<EntityId, readonly ActiveHouseholdMembership[]>;
   }
 >();
@@ -619,14 +644,26 @@ export function householdMembershipsAt(
     view.households !== history.households ||
     view.locations !== history.householdLocations ||
     view.date !== cutoff.asOfDate ||
-    view.sequence !== cutoff.historySequenceExclusive
+    view.sequence !==
+      Math.min(cutoff.historySequenceExclusive, view.sequenceCeiling)
   ) {
+    // Once the exclusive cutoff includes every contributing row, later
+    // unrelated history sequences cannot change this view. Earlier cutoffs
+    // remain exact; appending any contributing row still invalidates it.
+    const sequenceCeiling =
+      Math.max(
+        householdSequenceCeiling(history.householdMemberships),
+        householdSequenceCeiling(history.householdMembershipStates),
+        householdSequenceCeiling(history.households),
+        householdSequenceCeiling(history.householdLocations),
+      ) + 1;
     view = {
       states: history.householdMembershipStates,
       households: history.households,
       locations: history.householdLocations,
       date: cutoff.asOfDate,
-      sequence: cutoff.historySequenceExclusive,
+      sequence: Math.min(cutoff.historySequenceExclusive, sequenceCeiling),
+      sequenceCeiling,
       people: new Map(),
     };
     HOUSEHOLD_VIEWS.set(history.householdMemberships, view);
