@@ -92,16 +92,48 @@ for (let draw = 0; draw < 6; draw += 1) {
     await page.getByTestId("begin").click();
     const intro = page.getByTestId("world-orientation");
     try {
+      // Wait for the existing loading terminal boundary, including refusal.
+      // The original visibility assertion still follows that actual outcome.
+      await page.waitForFunction(() => {
+        if (document.querySelector('[data-testid="life-start-transition"]'))
+          return false;
+        return !!document.querySelector(
+          '[data-testid="play-screen"], [role="alert"], .game-problem',
+        );
+      });
+      await expect(page.getByTestId("play-screen")).toBeVisible();
       await expect(intro).toBeVisible();
       const cards = [];
       while (await intro.isVisible()) {
-        const heading = intro
-          .locator('[data-testid^="orientation-step-"]')
-          .first();
-        const key = (await heading.getAttribute("data-testid"))!.slice(
-          "orientation-step-".length,
+        const key = (await intro.getAttribute("data-step"))!;
+        await expect(intro.getByTestId("scene-chapters")).toHaveAttribute(
+          "data-ready",
+          "true",
         );
-        const people = await intro
+        const chapter = intro.locator(
+          `.pg-scene-chapter[data-chapter="${key}"][data-stage="current"]:not([inert])`,
+        );
+        await expect(chapter).toBeVisible();
+        const heading = chapter.getByTestId(`orientation-step-${key}`);
+        await expect(heading).toBeVisible();
+        await expect(
+          chapter.locator(
+            '[data-material-group-state="pending"], [data-material-group-state="loading"], [data-material-state="loading"]',
+          ),
+        ).toHaveCount(0);
+        const imageReadiness = await chapter.evaluate(async (node) => {
+          const images = [...node.querySelectorAll("img")];
+          await Promise.allSettled(images.map((image) => image.decode()));
+          await new Promise<void>((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+          );
+          return images.map((image) => ({
+            currentSrc: image.currentSrc,
+            complete: image.complete,
+            naturalWidth: image.naturalWidth,
+          }));
+        });
+        const people = await chapter
           .locator("[data-person-id]")
           .evaluateAll((nodes) =>
             nodes.map((node) => ({
@@ -116,7 +148,7 @@ for (let draw = 0; draw < 6; draw += 1) {
               ),
             })),
           );
-        const screenshot = `${draw}-${key}-full-size.png`;
+        const screenshot = `${draw}-${cards.length}-${key}-full-size.png`;
         await page.screenshot({
           path: info.outputPath(screenshot),
           fullPage: true,
@@ -132,10 +164,18 @@ for (let draw = 0; draw < 6; draw += 1) {
           placementTrace: rawPlacementTrace
             ? JSON.parse(rawPlacementTrace)
             : null,
+          imageReadiness,
         });
         const next = intro.getByTestId("orientation-next");
         await next.focus();
         await page.keyboard.press("Enter");
+        // A leaving chapter must not be captured as the next card.
+        await page.waitForFunction((previous) => {
+          const dialog = document.querySelector(
+            '[data-testid="world-orientation"]',
+          );
+          return !dialog || dialog.getAttribute("data-step") !== previous;
+        }, key);
       }
       await saveLife(page);
       const recorded = await page.evaluate(async () => {
