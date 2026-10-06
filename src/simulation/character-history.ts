@@ -1281,6 +1281,7 @@ export function establishDrawnAdultFamily(
 export function establishPreStartAdultHistory(
   world: World,
   input: {
+    readonly onCheckpoint?: (world: World, personId: EntityId) => void;
     readonly personId: EntityId;
     readonly jurisdictionId: EntityId;
     readonly employerId: EntityId;
@@ -1618,6 +1619,7 @@ export function establishPreStartAdultHistory(
       },
     });
     countPreStartMonth(occupiedMonths, occurredAt);
+    input.onCheckpoint?.(next, player.id);
   }
   return next;
 }
@@ -3832,12 +3834,20 @@ export function generateQuickCharacterHistory(
       {
         kind: "education-state",
         input: {
-          stableKey: key("education:elementary:transfer"),
+          stableKey: key(
+            input.preStartDates
+              ? "education:elementary:completed"
+              : "education:elementary:transfer",
+          ),
           enrollmentStableKey: key("education:elementary"),
-          effectiveAt: episodeAt(7, "elementary-transfer"),
-          status: "transferred",
+          effectiveAt: input.preStartDates
+            ? schoolStageCalendarEnd(world, person.id, "elementary")
+            : episodeAt(7, "elementary-transfer"),
+          status: input.preStartDates ? "completed" : "transferred",
           contextKind: "stage:elementary",
-          reason: "Household move changed school context.",
+          reason: input.preStartDates
+            ? "Completed elementary school before the recorded middle-school enrollment."
+            : "Household move changed school context.",
           provenance: generated,
         },
       },
