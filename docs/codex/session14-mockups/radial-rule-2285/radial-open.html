@@ -1,0 +1,377 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: F;
+        src: url(fira-sans-400.ttf);
+      }
+      @font-face {
+        font-family: C;
+        src: url(cinzel-800.ttf);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: url(room-art.jpg) center/cover;
+        color: #f2ede4;
+        font: 17px/1.4 F;
+      }
+      .surface {
+        position: absolute;
+        left: 21px;
+        bottom: 20px;
+        width: 560px;
+        height: 112px;
+        background: rgba(24, 24, 25, 0.86);
+        border: 1px solid #86754e;
+        box-shadow: inset 0 0 0 1px #151616;
+        backdrop-filter: blur(3px);
+        border-radius: 5px;
+      }
+      .surface:hover,
+      .open .surface {
+        background: rgba(24, 24, 25, 0.96);
+      }
+      .bust {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 160px;
+        height: 215px;
+        overflow: hidden;
+        mask-image: linear-gradient(#000 65%, transparent 100%);
+      }
+      .bust img {
+        position: absolute;
+        width: 280px;
+        left: -60px;
+        top: -8px;
+      }
+      .open .bust {
+        width: 160px;
+        height: 215px;
+      }
+      .open .bust img {
+        width: 280px;
+        left: -60px;
+      }
+      .clock {
+        position: absolute;
+        left: 155px;
+        top: 8px;
+      }
+      .clock strong {
+        font: 22px C;
+        display: block;
+      }
+      .time-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .ui-action {
+        font: 18px F;
+        color: #fff4df;
+        background: rgba(44, 43, 39, 0.8);
+        border: 1px solid #9d8553;
+        padding: 7px 12px;
+        position: relative;
+      }
+      .ui-action:active:before {
+        content: "›";
+        position: absolute;
+        left: 2px;
+      }
+      .sheet-frame {
+        position: absolute;
+        background: rgba(24, 24, 25, 0.95);
+        border: 2px solid #c4a55e;
+        border-radius: 9px;
+        box-shadow:
+          0 0 0 1px #171717,
+          inset 0 0 0 1px #d3ae6380;
+        backdrop-filter: blur(2px);
+        padding: 26px 30px 20px;
+      }
+      .corner {
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        background-image: url(sheet.png);
+        background-size: 973.2px 581.4px;
+      }
+      .tl {
+        top: 0;
+        left: 0;
+        background-position: -33px -29.4px;
+      }
+      .tr {
+        top: 0;
+        right: 0;
+        background-position: -906px -29.4px;
+      }
+      .bl {
+        bottom: 0;
+        left: 0;
+        background-position: -33px -513px;
+      }
+      .br {
+        bottom: 0;
+        right: 0;
+        background-position: -906px -513px;
+      }
+      .a-card {
+        left: 21px;
+        bottom: 150px;
+        width: 510px;
+      }
+      .open .a-card {
+        left: 21px;
+        bottom: 550px;
+        width: 510px;
+      }
+      h2 {
+        font: 24px/1.2 C;
+        color: #e7d3a7;
+        margin: 0 0 12px;
+      }
+      .facts {
+        margin: 0;
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: 6px 10px;
+      }
+      .facts dt {
+        color: #d6bd84;
+      }
+      .facts dd {
+        margin: 0;
+      }
+      .entry {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        width: 160px;
+        height: 32px;
+        border: 1px solid #bc9e62;
+        border-radius: 3px;
+        box-shadow:
+          inset 0 0 0 1px #141514,
+          0 1px 2px #0009;
+        background: rgba(30, 32, 33, 0.96);
+        color: #efe9df;
+        padding: 0;
+        font: 17px/22px F;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .entry i {
+        position: absolute;
+        top: 0;
+        height: 20px;
+        width: 50px;
+        background: url(sheet.png) -147px -248px/1622px 969px;
+        opacity: 0.9;
+      }
+      .entry i:last-of-type {
+        width: 4px;
+      }
+      .entry span {
+        position: relative;
+      }
+      .entry:before,
+      .entry:after {
+        content: none !important;
+      }
+      .rest .fan {
+        display: none;
+      }
+      .note {
+        position: absolute;
+        right: 24px;
+        top: 24px;
+        font: 14px F;
+        background: #171919bc;
+        padding: 9px 13px;
+      }
+    </style>
+    <link rel="stylesheet" href="card-content.css" />
+  </head>
+  <body>
+    <main id="direction-a" class="open">
+      <div class="surface">
+        <div class="bust">
+          <img src="person.png" alt="Brianna Kennedy, recorded game recipe" />
+        </div>
+        <div class="clock"><strong>9:10 AM</strong>Monday, January 5, 2026</div>
+      </div>
+      <section class="sheet-frame a-card">
+        <i class="corner tl"></i><i class="corner tr"></i
+        ><i class="corner bl"></i><i class="corner br"></i>
+        <h2></h2>
+        <dl class="facts"></dl>
+        <div class="time-actions">
+          <button class="ui-action">Day</button
+          ><button class="ui-action">Week</button
+          ><button class="ui-action">Until needed</button>
+        </div>
+      </section>
+      <nav class="fan">
+        <button
+          class="entry"
+          data-angle="15.0"
+          style="
+            left: 423.75552267539257px;
+            top: 899.5897151161681px;
+            transform: translate(-50%, -50%) rotate(-15deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Calendar</span></button
+        ><button
+          class="entry"
+          data-angle="22.5"
+          style="
+            left: 409.8802457287246px;
+            top: 858.7144673195204px;
+            transform: translate(-50%, -50%) rotate(-22.5deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>People</span></button
+        ><button
+          class="entry"
+          data-angle="30.0"
+          style="
+            left: 390.78838324886476px;
+            top: 820px;
+            transform: translate(-50%, -50%) rotate(-30deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Politics</span></button
+        ><button
+          class="entry"
+          data-angle="37.5"
+          style="
+            left: 366.8066022961076px;
+            top: 784.1087284271222px;
+            transform: translate(-50%, -50%) rotate(-37.5deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>News</span></button
+        ><button
+          class="entry"
+          data-angle="45.0"
+          style="
+            left: 338.3452377915607px;
+            top: 751.6547622084394px;
+            transform: translate(-50%, -50%) rotate(-45deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Journal</span></button
+        ><button
+          class="entry"
+          data-angle="52.5"
+          style="
+            left: 305.8912715728778px;
+            top: 723.1933977038924px;
+            transform: translate(-50%, -50%) rotate(-52.5deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Who you are</span></button
+        ><button
+          class="entry"
+          data-angle="60.0"
+          style="
+            left: 270px;
+            top: 699.2116167511352px;
+            transform: translate(-50%, -50%) rotate(-60deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Money & property</span></button
+        ><button
+          class="entry"
+          data-angle="67.5"
+          style="
+            left: 231.28553268047966px;
+            top: 680.1197542712754px;
+            transform: translate(-50%, -50%) rotate(-67.5deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Jobs & study</span></button
+        ><button
+          class="entry"
+          data-angle="75.0"
+          style="
+            left: 190.41028488383185px;
+            top: 666.2444773246075px;
+            transform: translate(-50%, -50%) rotate(-75deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Travel</span></button
+        ><button
+          class="entry"
+          data-angle="82.5"
+          style="
+            left: 148.07364343261708px;
+            top: 657.8231957466426px;
+            transform: translate(-50%, -50%) rotate(-82.5deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Guide</span></button
+        ><button
+          class="entry"
+          data-angle="90.0"
+          style="
+            left: 105.00000000000001px;
+            top: 655px;
+            transform: translate(-50%, -50%) rotate(-90deg);
+          "
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Options</span>
+        </button>
+      </nav>
+    </main>
+    <aside class="note">
+      P3 · Session 14 + 3 readable revision · OPEN review candidate · real game
+      art / recorded handoff · not implemented
+    </aside>
+    <script type="module">
+      import { reviseACard } from "./card-content.js";
+      const recorded = await fetch("recorded-content.json").then((r) =>
+        r.json(),
+      );
+      const card = document.querySelector(".a-card");
+      const actions = reviseACard(card, recorded);
+      document.querySelector(".clock").append(actions);
+      await document.fonts.ready;
+      window.ready = true;
+    </script>
+  </body>
+</html>

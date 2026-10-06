@@ -171,12 +171,12 @@ export interface StateExecutiveIdentity {
   /** A state's USPS code, or `DC` for the District. */
   readonly stateUsps: string;
   readonly jurisdictionKey: string;
-  /** The accepted executive pack's own key where one exists; else `us-xx-governor`. */
+  /** The read pack or estimated profile's stable office key. */
   readonly officeKey: string;
   readonly title: string;
   /** "Governor of Kentucky" — the civic office display name readers match. */
   readonly displayName: string;
-  readonly executivePackId: string | null;
+  readonly executivePackId: string;
   readonly candidacyPackId: string;
 }
 
@@ -192,31 +192,28 @@ export function stateExecutiveIdentity(
 ): StateExecutiveIdentity | null {
   if (isDistrictOfColumbia(stateUsps)) return DISTRICT_OF_COLUMBIA_IDENTITY;
   if (isUsTerritoryWithGovernor(stateUsps)) {
-    const officeKey = `us-${stateUsps.toLowerCase()}-governor`;
+    const pack = executiveRulePackForJurisdiction(`US-${stateUsps}`);
     return {
       stateUsps,
       jurisdictionKey: `US-${stateUsps}`,
-      officeKey,
-      title: "Governor",
-      displayName: `Governor of ${US_TERRITORY_GOVERNED_NAMES[stateUsps]}`,
-      executivePackId: null,
-      candidacyPackId: `${officeKey}:candidacy`,
+      officeKey: pack.office.officeKey,
+      title: pack.office.title,
+      displayName: pack.displayName,
+      executivePackId: pack.packId,
+      candidacyPackId: `${pack.office.officeKey}:candidacy`,
     };
   }
   if (!isUsState(stateUsps)) return null;
   const jurisdictionKey = `US-${stateUsps}`;
   const pack = executiveRulePackForJurisdiction(jurisdictionKey);
-  const officeKey =
-    pack?.office.officeKey ?? `us-${stateUsps.toLowerCase()}-governor`;
   return {
     stateUsps,
     jurisdictionKey,
-    officeKey,
-    title: pack?.office.title ?? "Governor",
-    displayName:
-      pack?.displayName ?? `Governor of ${US_STATE_NAMES[stateUsps]}`,
-    executivePackId: pack?.packId ?? null,
-    candidacyPackId: `${officeKey}:candidacy`,
+    officeKey: pack.office.officeKey,
+    title: pack.office.title,
+    displayName: pack.displayName,
+    executivePackId: pack.packId,
+    candidacyPackId: `${pack.office.officeKey}:candidacy`,
   };
 }
 
@@ -226,7 +223,9 @@ const DISTRICT_OF_COLUMBIA_IDENTITY: StateExecutiveIdentity = {
   officeKey: DISTRICT_OF_COLUMBIA_OFFICE_KEY,
   title: DISTRICT_OF_COLUMBIA_OFFICE_TITLE,
   displayName: DISTRICT_OF_COLUMBIA_OFFICE_DISPLAY_NAME,
-  executivePackId: null,
+  executivePackId: executiveRulePackForJurisdiction(
+    DISTRICT_OF_COLUMBIA_JURISDICTION_KEY,
+  ).packId,
   candidacyPackId: `${DISTRICT_OF_COLUMBIA_OFFICE_KEY}:candidacy`,
 };
 
@@ -303,7 +302,7 @@ function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
     packId: identity.candidacyPackId,
     jurisdictionKey: identity.jurisdictionKey,
     displayName: identity.displayName,
-    legislativeRulePackId: identity.executivePackId ?? identity.officeKey,
+    legislativeRulePackId: identity.executivePackId,
     offices: [option],
     unresolvedGaps: [
       NO_FILING_PROCEDURE,

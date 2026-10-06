@@ -14,7 +14,6 @@ import {
   KENTUCKY_EXECUTIVE_PACK,
   MINNESOTA_EXECUTIVE_PACK,
   NEBRASKA_EXECUTIVE_PACK,
-  UNRESEARCHED_JURISDICTIONS,
   US_FEDERAL_EXECUTIVE_PACK,
   executiveRulePackById,
   executiveRulePackForJurisdiction,
@@ -125,14 +124,19 @@ describe("executive-authority pack integrity", () => {
     expect(new Set(jurisdictionKeys).size).toBe(jurisdictionKeys.length);
   });
 
-  it("resolves packs by id and jurisdiction, and rejects the unknown", () => {
+  it("resolves read packs and generates an estimated profile for an unread jurisdiction", () => {
     expect(executiveRulePackById("us-ak-governor-v1")).toBe(
       ALASKA_EXECUTIVE_PACK,
     );
     expect(executiveRulePackForJurisdiction("US-IL")).toBe(
       ILLINOIS_EXECUTIVE_PACK,
     );
-    expect(executiveRulePackForJurisdiction("US-XX")).toBeNull();
+    expect(
+      executiveRulePackForJurisdiction("US-WI").sources[0]?.authority,
+    ).toBe("game-profile");
+    expect(() => executiveRulePackForJurisdiction("US-XX")).toThrow(
+      /No executive game profile/,
+    );
     expect(() => executiveRulePackById("nope")).toThrow(/No executive/);
   });
 
@@ -1081,15 +1085,6 @@ describe("executive-authority: what the verified record establishes", () => {
         /prescribed by law|application/i,
       );
     }
-  });
-
-  it("names Wisconsin as an unresearched gap rather than fabricating a pack", () => {
-    expect(executiveRulePackForJurisdiction("US-WI")).toBeNull();
-    const wisconsin = UNRESEARCHED_JURISDICTIONS.find(
-      (entry) => entry.jurisdictionKey === "US-WI",
-    );
-    expect(wisconsin).toBeDefined();
-    expect(wisconsin?.reason).toMatch(/no.*research/i);
   });
 
   it("still resolves branch structure for every jurisdiction in the subset", () => {

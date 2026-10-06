@@ -1473,6 +1473,56 @@
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
+    },
+    {
+      "artifactId": "nv-constitution-governor",
+      "bytes": {
+        "length": 431607,
+        "sha256": "726067b645f47709f00c2cf23ee6a514f7fc64381fd6c1f6eb0b1f48b31c51cc"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/nv-constitution-governor.html",
+      "mediaType": "text/html",
+      "provider": "Nevada Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.leg.state.nv.us/Const/NVConst.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 431607,
+        "retrievedAt": "2026-10-06T00:32:21.437Z",
+        "url": "https://www.leg.state.nv.us/Const/NVConst.html"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nevada",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nevada",
+          "jurisdictionKey": "US-NV",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 564,
+              "sha256": "377e6af420165ecfffb041ee6cb2e56c6f6ee88da5c257dbdeba91a65dadd4db"
+            },
+            "regions": [
+              {
+                "beginsWith": "No person shall be eligible to the Office of Governor",
+                "endsWith": "shall be elected to the Office of Governor more than once."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
     }
   ],
   "domain": "state-office-qualifications"

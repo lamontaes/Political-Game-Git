@@ -26,6 +26,7 @@ export function PlacePeopleLayer({
   onSelectPerson,
   selectedPersonId = null,
   nameplates = false,
+  overflowLabel = "Also here",
 }: {
   readonly people: readonly BackdropPerson[] & {
     readonly overflow?: readonly BackdropOverflowPerson[];
@@ -35,6 +36,7 @@ export function PlacePeopleLayer({
   readonly selectedPersonId?: string | null;
   /** Show each person's name and title on a plate over their head. */
   readonly nameplates?: boolean;
+  readonly overflowLabel?: string;
 }) {
   const rect = useCoverRect(stageRef);
   const overflow = people.overflow ?? [];
@@ -61,7 +63,9 @@ export function PlacePeopleLayer({
             zIndex: 1,
           }}
         >
-          <summary>Also here ({overflow.length})</summary>
+          <summary>
+            {overflowLabel} ({overflow.length})
+          </summary>
           <ul>
             {overflow.map((person) => (
               <li key={person.personId}>
