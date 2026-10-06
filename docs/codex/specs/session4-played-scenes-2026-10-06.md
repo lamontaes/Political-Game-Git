@@ -6,7 +6,7 @@ After: This proposed data-row specification composes played situations from actu
 
 Replaces: EVERY existing chat interface and its button-grid experience, including the meeting panel. Council and first-day work are worked examples of composable situations, not a finite scene list.
 
-Next: Implement the five shared blocks together through existing engines under CTO ruling 6006516319. The previous spec-before-code hold is superseded. Presentation mockups still require the owner pick. No implementation or acceptance proof is claimed by this documentation checkpoint.
+Next: Implement reusable blocks through existing engines under CTO ruling 6006639692, in its five-step order with a played random-town clip before the next block. The specification has passed CTO review; the previous spec-before-code hold is superseded. Presentation mockups still require the owner pick. No implementation or acceptance proof is claimed by this documentation checkpoint.
 
 ## Governing instructions
 
@@ -41,6 +41,14 @@ Measured instruction: [CTO 6006516319](https://github.com/lamontaes/Political-Ga
 5. **Canonical writeback:** dispatch the existing validated action writers and retain actual words, meanings, listeners, consequences and source records. Reading a scene creates no event; scheduled intent does not masquerade as completed action.
 
 Acceptance requires arrival in a random town and whatever the simulation composes, shown in a real-game screenshot and clip. Two different players must produce two different scenes through these same blocks. Fixed council/work templates, handpicked contrast records and a prose-only report cannot satisfy that proof. Exact file claims and producer/consumer handoffs must precede overlapping edits.
+
+## Latest accepted implementation sequence
+
+Measured instruction: [CTO 6006639692](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6006639692) marks this specification **PASS to code with conditions**. Its ordered clip gates supersede the all-at-once sequence above while retaining reusable blocks as the product. Implement situation reading, then participant selection, then exchange composition, then art selection, then writeback. Each block must run in play in a random town with a posted clip before work proceeds to the next.
+
+The first consumer is Session 13's clerk. Coordinate Session 20's office-scoped dated guidance and central knowledge-writer ownership before overlapping edits. The existing-file plan is `story-scene-resolver.ts` / `story-scene-day.ts` for live situation projection, existing `recorded-room-presence.ts` and producer readers for participants, `english-composition.ts` / `grounded-english.ts` and canonical conversation adapters for exchanges, `play-scene-context.ts` / `person-visual.ts` / `life-scene-people.ts` for art, and the existing simulation event/knowledge/claim/contact writers for retention. These are intended integration boundaries, not a claim that each block is implemented. No parallel engine or store is introduced.
+
+The acceptance proof requires two different characters arriving at the same place to produce different exchanges from the same primitives, with both clips posted. No authored situation bank beyond the 12 proposed primitives is allowed until the blocks run; weekly growth starts afterward. The Lie presentation ruling is scales tipping, upper right, size 34, red glow and white hover. No black bars.
 
 ## Shared data row: all four requirements
 
