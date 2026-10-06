@@ -2,12 +2,12 @@
 id: clerk-night-shared-source-receive
 impact: patch
 section: Changed
-title: Compose dated election packets with the shared scene source
+title: Keep dated election records with played scenes
 ---
 
-Receive the existing shared scene blocks and dated clerk/council result
-producers on current main. The council result packet forwards saved precinct
-reporting beats without creating attendance, words, knowledge or an outcome.
+Election conversations and reports retain dated office requirements, recorded
+results and precinct vote totals. Clerk filing turns and played election-night
+controls remain unfinished.
 
 Replaces: separate published producer and shared-block candidates. Central
 filing-action integration and ordinary-player clerk/election-night proof remain
