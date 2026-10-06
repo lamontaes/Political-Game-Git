@@ -213,7 +213,7 @@ describe("current matters in ordinary talk", () => {
     expect(guarded!.reply).toBe("I'd rather not get into that right now.");
   });
 
-  it("remembers the matter they discussed ahead of an older generic exchange", () => {
+  it("never quotes the news headline back as a remembered topic", () => {
     const base = household();
     const { world } = publishedMatter(
       base.world,
@@ -227,8 +227,8 @@ describe("current matters in ordinary talk", () => {
       base.parentId,
       "remember",
     );
-    expect(recalled.history.events.at(-1)!.context.immediateReaction).toBe(
-      `I remember you bringing up “${world.history.publications![0]!.headline}”`,
-    );
+    const reply = recalled.history.events.at(-1)!.context.immediateReaction!;
+    expect(reply).not.toContain(world.history.publications![0]!.headline);
+    expect(reply).not.toContain("bringing up");
   });
 });

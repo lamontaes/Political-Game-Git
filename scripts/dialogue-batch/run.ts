@@ -652,27 +652,6 @@ function dateDecline(ctx: WorldContext): Produced {
   };
 }
 
-function rememberTopic(ctx: WorldContext): Produced {
-  const matter = currentKnownMatter(ctx.world, ctx.playerId);
-  if (!matter) return skip("no current news in this world to remember");
-  const speaker = ctx.cast.find((person) => person.age >= 13);
-  if (!speaker) return skip("nobody old enough in the cast");
-  const line = reply(ctx, speaker, "remembered-topic", {
-    topic: { text: matter.headline, sourceRecordIds: [matter.eventId] },
-  });
-  return {
-    axis: "experience",
-    composer: "lifeReplyLine (remembered-topic) in life-reply-english.ts",
-    situation: `${ctx.playerName} asks ${describeWho(speaker)} about an earlier conversation, which was about this real item of news: "${matter.headline}"`,
-    speaker,
-    line: line.text,
-    parts: line.parts,
-    harness: [
-      "The earlier conversation is not in the world's record; the headline and its event are real, and the harness set the memory.",
-    ],
-  };
-}
-
 interface TellCandidate {
   readonly speaker: Person;
   readonly topicKey: string;
@@ -1071,7 +1050,6 @@ const SITUATIONS: readonly Situation[] = [
   { id: "scene-school", run: sceneQuestion("school") },
   { id: "invite-game-accept", run: invitationAccept },
   { id: "invite-game-decline", run: invitationDecline },
-  { id: "remember-news-topic", run: rememberTopic },
   { id: "told-plan-first-listener", run: toldPlan(0) },
   { id: "running-open", run: running("open") },
   { id: "running-worry", run: running("worry") },
