@@ -437,9 +437,7 @@ function* completeOpeningLifeSteps(
   yield openingStage("Preparing world conditions", preparedWorld);
   const { session, game, prewarmNationwide } = start;
   const withLocalIntakes = prewarmNationwide
-    ? scheduleCongressIntake(
-        scheduleLocalMemberAgendaIntakes(preparedWorld),
-      )
+    ? scheduleCongressIntake(scheduleLocalMemberAgendaIntakes(preparedWorld))
     : preparedWorld;
   const withParties = ensurePartyGoverningBodies(
     ensureHomePartyChapters(

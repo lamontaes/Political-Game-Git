@@ -63,10 +63,7 @@
           "jurisdiction": "US-AL",
           "sessionId": "US-AL:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -107,10 +104,7 @@
           "jurisdiction": "US-AK",
           "sessionId": "US-AK:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
         }
       ],
@@ -151,10 +145,7 @@
           "jurisdiction": "US-AZ",
           "sessionId": "US-AZ:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
         }
       ],
@@ -225,10 +216,7 @@
           "jurisdiction": "US-CA",
           "sessionId": "US-CA:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
         }
       ],
@@ -269,10 +257,7 @@
           "jurisdiction": "US-CO",
           "sessionId": "US-CO:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
         }
       ],
@@ -313,10 +298,7 @@
           "jurisdiction": "US-CT",
           "sessionId": "US-CT:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
         }
       ],
@@ -357,10 +339,7 @@
           "jurisdiction": "US-DE",
           "sessionId": "US-DE:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -401,10 +380,7 @@
           "jurisdiction": "US-FL",
           "sessionId": "US-FL:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": null
         }
       ],
@@ -445,10 +421,7 @@
           "jurisdiction": "US-GA",
           "sessionId": "US-GA:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -489,10 +462,7 @@
           "jurisdiction": "US-HI",
           "sessionId": "US-HI:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
         }
       ],
@@ -533,10 +503,7 @@
           "jurisdiction": "US-ID",
           "sessionId": "US-ID:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
         }
       ],
@@ -697,10 +664,7 @@
           "jurisdiction": "US-KY",
           "sessionId": "US-KY:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": null
         }
       ],
@@ -741,10 +705,7 @@
           "jurisdiction": "US-LA",
           "sessionId": "US-LA:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -785,10 +746,7 @@
           "jurisdiction": "US-ME",
           "sessionId": "US-ME:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": null
         }
       ],
@@ -829,10 +787,7 @@
           "jurisdiction": "US-MD",
           "sessionId": "US-MD:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -873,10 +828,7 @@
           "jurisdiction": "US-MA",
           "sessionId": "US-MA:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
         }
       ],
@@ -977,10 +929,7 @@
           "jurisdiction": "US-MS",
           "sessionId": "US-MS:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -1131,10 +1080,7 @@
           "jurisdiction": "US-NH",
           "sessionId": "US-NH:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
         }
       ],
@@ -1175,10 +1121,7 @@
           "jurisdiction": "US-NJ",
           "sessionId": "US-NJ:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
         }
       ],
@@ -1219,10 +1162,7 @@
           "jurisdiction": "US-NM",
           "sessionId": "US-NM:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": null
         }
       ],
@@ -1263,10 +1203,7 @@
           "jurisdiction": "US-NY",
           "sessionId": "US-NY:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
         }
       ],
@@ -1307,10 +1244,7 @@
           "jurisdiction": "US-NC",
           "sessionId": "US-NC:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -1441,10 +1375,7 @@
           "jurisdiction": "US-OR",
           "sessionId": "US-OR:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
         }
       ],
@@ -1485,10 +1416,7 @@
           "jurisdiction": "US-PA",
           "sessionId": "US-PA:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
         }
       ],
@@ -1529,10 +1457,7 @@
           "jurisdiction": "US-RI",
           "sessionId": "US-RI:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
         }
       ],
@@ -1573,10 +1498,7 @@
           "jurisdiction": "US-SC",
           "sessionId": "US-SC:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -1647,10 +1569,7 @@
           "jurisdiction": "US-TN",
           "sessionId": "US-TN:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -1721,10 +1640,7 @@
           "jurisdiction": "US-UT",
           "sessionId": "US-UT:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": null
         }
       ],
@@ -1765,10 +1681,7 @@
           "jurisdiction": "US-VT",
           "sessionId": "US-VT:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
         }
       ],
@@ -1809,10 +1722,7 @@
           "jurisdiction": "US-VA",
           "sessionId": "US-VA:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -1853,10 +1763,7 @@
           "jurisdiction": "US-WA",
           "sessionId": "US-WA:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": null
         }
       ],
@@ -1897,10 +1804,7 @@
           "jurisdiction": "US-WV",
           "sessionId": "US-WV:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
         }
       ],
@@ -1971,10 +1875,7 @@
           "jurisdiction": "US-WY",
           "sessionId": "US-WY:regular:2026:1",
           "cause": "legal-limit",
-          "chambers": [
-            "house",
-            "senate"
-          ],
+          "chambers": ["house", "senate"],
           "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
         }
       ],

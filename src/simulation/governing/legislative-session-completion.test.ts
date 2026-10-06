@@ -23,11 +23,12 @@ describe("dated legislative session completion", () => {
       estimate: null,
     });
     const mississippi = stateSessionLegalLimit("US-MS", 2026);
-    expect(mississippi?.estimate).toContain(
-      "ESTIMATED FROM SIMILAR STATES",
-    );
+    expect(mississippi?.estimate).toContain("ESTIMATED FROM SIMILAR STATES");
     expect(mississippi?.estimate).toContain("south Census region");
-    expect(stateSessionLegalLimit("US-DC", 2026)).toBeNull();
+    expect(stateSessionLegalLimit("US-DC", 2026)).toMatchObject({
+      date: expect.any(String),
+      estimate: expect.stringContaining("SIMILAR STATES"),
+    });
   });
 
   it("is scheduled from the ordinary state bill-season producer", () => {
@@ -83,11 +84,7 @@ describe("dated legislative session completion", () => {
     expect(event.tags).toContain("session-chamber:house");
     expect(event.tags).toContain("session-chamber:senate");
     expect(
-      sessionClosesOn(
-        completed,
-        legislatureForState("US-KY")!,
-        2026,
-      ),
+      sessionClosesOn(completed, legislatureForState("US-KY")!, 2026),
     ).toBe("2026-04-15");
     expect(
       completed.history.futureDueItems.some(

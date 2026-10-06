@@ -9,13 +9,29 @@
   },
   "principleDiagnostics": {
     "exactBase": {
-      "sync": { "seatedCongressMembers": 535, "totalPrincipleRows": 342, "officeholderDrawPrefixRows": 0 },
-      "async": { "seatedCongressMembers": 535, "totalPrincipleRows": 342, "officeholderDrawPrefixRows": 0 }
+      "sync": {
+        "seatedCongressMembers": 535,
+        "totalPrincipleRows": 342,
+        "officeholderDrawPrefixRows": 0
+      },
+      "async": {
+        "seatedCongressMembers": 535,
+        "totalPrincipleRows": 342,
+        "officeholderDrawPrefixRows": 0
+      }
     },
     "candidateBeforeWorkLedger": {
       "head": "3186f2d0c2add2182290b1b73686a7b65d453520",
-      "sync": { "seatedCongressMembers": 535, "totalPrincipleRows": 342, "officeholderDrawPrefixRows": 0 },
-      "async": { "seatedCongressMembers": 535, "totalPrincipleRows": 342, "officeholderDrawPrefixRows": 0 }
+      "sync": {
+        "seatedCongressMembers": 535,
+        "totalPrincipleRows": 342,
+        "officeholderDrawPrefixRows": 0
+      },
+      "async": {
+        "seatedCongressMembers": 535,
+        "totalPrincipleRows": 342,
+        "officeholderDrawPrefixRows": 0
+      }
     },
     "currentCandidate": {
       "sync": {

@@ -263,7 +263,7 @@ export function stateSessionLegalLimit(
   year: number,
 ): { readonly date: IsoDate; readonly estimate: string | null } | null {
   const match = /^US-([A-Z]{2})$/.exec(jurisdictionKey);
-  if (!match || match[1] === "DC") return null;
+  if (!match) return null;
   const usps = match[1]!;
   if (!STATE_CODES.has(usps)) return null;
   const row = SESSION_ENDS[jurisdictionKey];
@@ -291,10 +291,11 @@ export function stateSessionLegalLimit(
   const fallback = comparable.length
     ? comparable
     : Object.entries(SESSION_ENDS)
-        .filter(([key, candidate]) =>
-          /^US-[A-Z]{2}$/.test(key) &&
-          STATE_CODES.has(key.slice(3)) &&
-          candidate.estimated === undefined,
+        .filter(
+          ([key, candidate]) =>
+            /^US-[A-Z]{2}$/.test(key) &&
+            STATE_CODES.has(key.slice(3)) &&
+            candidate.estimated === undefined,
         )
         .flatMap(([key, candidate]) => {
           const date = legalLimitDates(candidate, year).at(-1);

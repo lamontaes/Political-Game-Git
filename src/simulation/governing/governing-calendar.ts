@@ -78,10 +78,7 @@ function scheduleNextStateBillSeason(
     (code) => stateExecutiveIdentity(code)?.officeKey === officeKey,
   );
   if (stateUsps)
-    next = scheduleNextLegislativeSessionCompletion(
-      next,
-      `US-${stateUsps}`,
-    );
+    next = scheduleNextLegislativeSessionCompletion(next, `US-${stateUsps}`);
   return next;
 }
 

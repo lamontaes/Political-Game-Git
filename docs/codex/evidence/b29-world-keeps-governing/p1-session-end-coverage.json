@@ -9,13 +9,9 @@
       "code": "AL",
       "key": "US-AL",
       "regularSession2026": true,
-      "endDates": [
-        "2026-04-09"
-      ],
+      "endDates": ["2026-04-09"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-04-09"
-      ],
+      "published2026": ["2026-04-09"],
       "throughApr30": true
     },
     {
@@ -31,26 +27,18 @@
       "code": "AZ",
       "key": "US-AZ",
       "regularSession2026": true,
-      "endDates": [
-        "2026-06-13"
-      ],
+      "endDates": ["2026-06-13"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-06-13"
-      ],
+      "published2026": ["2026-06-13"],
       "throughApr30": false
     },
     {
       "code": "AR",
       "key": "US-AR",
       "regularSession2026": true,
-      "endDates": [
-        "2026-04-29"
-      ],
+      "endDates": ["2026-04-29"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-04-29"
-      ],
+      "published2026": ["2026-04-29"],
       "throughApr30": true
     },
     {
@@ -93,13 +81,9 @@
       "code": "FL",
       "key": "US-FL",
       "regularSession2026": true,
-      "endDates": [
-        "2026-03-13"
-      ],
+      "endDates": ["2026-03-13"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-03-13"
-      ],
+      "published2026": ["2026-03-13"],
       "throughApr30": true
     },
     {
@@ -115,26 +99,18 @@
       "code": "HI",
       "key": "US-HI",
       "regularSession2026": true,
-      "endDates": [
-        "2026-05-08"
-      ],
+      "endDates": ["2026-05-08"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-05-08"
-      ],
+      "published2026": ["2026-05-08"],
       "throughApr30": false
     },
     {
       "code": "ID",
       "key": "US-ID",
       "regularSession2026": true,
-      "endDates": [
-        "2026-04-02"
-      ],
+      "endDates": ["2026-04-02"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-04-02"
-      ],
+      "published2026": ["2026-04-02"],
       "throughApr30": true
     },
     {
@@ -168,26 +144,18 @@
       "code": "KS",
       "key": "US-KS",
       "regularSession2026": true,
-      "endDates": [
-        "2026-04-10"
-      ],
+      "endDates": ["2026-04-10"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-04-10"
-      ],
+      "published2026": ["2026-04-10"],
       "throughApr30": true
     },
     {
       "code": "KY",
       "key": "US-KY",
       "regularSession2026": true,
-      "endDates": [
-        "2026-04-15"
-      ],
+      "endDates": ["2026-04-15"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-04-15"
-      ],
+      "published2026": ["2026-04-15"],
       "throughApr30": true
     },
     {
@@ -203,13 +171,9 @@
       "code": "ME",
       "key": "US-ME",
       "regularSession2026": true,
-      "endDates": [
-        "2026-04-29"
-      ],
+      "endDates": ["2026-04-29"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-04-29"
-      ],
+      "published2026": ["2026-04-29"],
       "throughApr30": true
     },
     {
@@ -234,9 +198,7 @@
       "code": "MI",
       "key": "US-MI",
       "regularSession2026": true,
-      "endDates": [
-        "2026-04-15"
-      ],
+      "endDates": ["2026-04-15"],
       "basis": "estimated: ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
       "published2026": [],
       "throughApr30": true
@@ -263,9 +225,7 @@
       "code": "MO",
       "key": "US-MO",
       "regularSession2026": true,
-      "endDates": [
-        "2026-05-30"
-      ],
+      "endDates": ["2026-05-30"],
       "basis": "constitutional/statutory latest limit",
       "published2026": [],
       "throughApr30": false
@@ -283,13 +243,9 @@
       "code": "NE",
       "key": "US-NE",
       "regularSession2026": true,
-      "endDates": [
-        "2026-04-17"
-      ],
+      "endDates": ["2026-04-17"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-04-17"
-      ],
+      "published2026": ["2026-04-17"],
       "throughApr30": true
     },
     {
@@ -323,13 +279,9 @@
       "code": "NM",
       "key": "US-NM",
       "regularSession2026": true,
-      "endDates": [
-        "2026-02-19"
-      ],
+      "endDates": ["2026-02-19"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-02-19"
-      ],
+      "published2026": ["2026-02-19"],
       "throughApr30": true
     },
     {
@@ -345,9 +297,7 @@
       "code": "NC",
       "key": "US-NC",
       "regularSession2026": true,
-      "endDates": [
-        "2026-04-15"
-      ],
+      "endDates": ["2026-04-15"],
       "basis": "estimated: ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
       "published2026": [],
       "throughApr30": true
@@ -374,13 +324,9 @@
       "code": "OK",
       "key": "US-OK",
       "regularSession2026": true,
-      "endDates": [
-        "2026-05-14"
-      ],
+      "endDates": ["2026-05-14"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-05-14"
-      ],
+      "published2026": ["2026-05-14"],
       "throughApr30": false
     },
     {
@@ -450,13 +396,9 @@
       "code": "UT",
       "key": "US-UT",
       "regularSession2026": true,
-      "endDates": [
-        "2026-03-06"
-      ],
+      "endDates": ["2026-03-06"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-03-06"
-      ],
+      "published2026": ["2026-03-06"],
       "throughApr30": true
     },
     {
@@ -481,13 +423,9 @@
       "code": "WA",
       "key": "US-WA",
       "regularSession2026": true,
-      "endDates": [
-        "2026-03-12"
-      ],
+      "endDates": ["2026-03-12"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-03-12"
-      ],
+      "published2026": ["2026-03-12"],
       "throughApr30": true
     },
     {
@@ -512,13 +450,9 @@
       "code": "WY",
       "key": "US-WY",
       "regularSession2026": true,
-      "endDates": [
-        "2026-03-11"
-      ],
+      "endDates": ["2026-03-11"],
       "basis": "published 2026 adjournment",
-      "published2026": [
-        "2026-03-11"
-      ],
+      "published2026": ["2026-03-11"],
       "throughApr30": true
     }
   ],
@@ -572,12 +506,7 @@
   "summary": {
     "states": 50,
     "regularSessionStates2026": 46,
-    "noRegularSession2026": [
-      "MT",
-      "NV",
-      "ND",
-      "TX"
-    ],
+    "noRegularSession2026": ["MT", "NV", "ND", "TX"],
     "published2026AdjournmentDates": 15,
     "publishedDatesOnOrBeforeCutoff": 12,
     "publishedDatesAfterCutoff": {

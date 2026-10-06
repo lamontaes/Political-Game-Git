@@ -20,10 +20,10 @@ Run from the candidate working tree with `node --import tsx /tmp/session53-one-s
 
 The dated Feb. 15, 2026 intake called the existing member filer, whose `ensureOfficeholderPrinciples` call formed 154 new saved principle records. By Feb. 18, the Mississippi and seeded-random West Virginia rows had produced:
 
-| State | House filed | Senate filed | Admitted to committee | Passed | Failed | Enacted |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Mississippi | 2 | 0 | 2 | 0 | 0 | 0 |
-| West Virginia | 3 | 0 | 3 | 0 | 0 | 0 |
+| State         | House filed | Senate filed | Admitted to committee | Passed | Failed | Enacted |
+| ------------- | ----------: | -----------: | --------------------: | -----: | -----: | ------: |
+| Mississippi   |           2 |            0 |                     2 |      0 |      0 |       0 |
+| West Virginia |           3 |            0 |                     3 |      0 |      0 |       0 |
 
 Bills and named seated sponsors:
 
@@ -50,10 +50,10 @@ This targeted proof uses the ordinary opening-life world, seed `session53-one-da
 - Target event rows handled: 26, through April 15, 2026; bounded run total 6.12 seconds; unchanged default heap; zero blocked target rows.
 - Additional recorded principles: 268 for the two selected states' actual officeholder intake writers.
 
-| State | House filed | Senate filed | Committee-admitted | Passed floor stage | Failed | Enacted |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Mississippi | 2 | 0 | 2 | 0 | 2 | 0 |
-| West Virginia | 3 | 0 | 3 | 0 | 3 | 0 |
+| State         | House filed | Senate filed | Committee-admitted | Passed floor stage | Failed | Enacted |
+| ------------- | ----------: | -----------: | -----------------: | -----------------: | -----: | ------: |
+| Mississippi   |           2 |            0 |                  2 |                  0 |      2 |       0 |
+| West Virginia |           3 |            0 |                  3 |                  0 |      3 |       0 |
 
 All five bills were referred Feb. 18, received committee hearings Feb. 28, and were not reported on Mar. 1. Their recorded terminal outcome is `failed-in-committee`; no bill produced an enactment or downstream law consequence. The longer cutoff reached April 15 because the next state bill-season row was inside the bound; the two targeted states filed no additional bills there. No unrelated state queue was consumed. No daily loop, heap increase, fixed bill count, or dice were used.
 
@@ -71,116 +71,116 @@ The completed bounded run used the ordinary opening world and the canonical `res
 - State legislatures: 85 filed; 338 committee actions; 114 referrals; 45 floor-passage actions; 71 terminal non-enactments; 14 enacted. D.C. Council: 5 filed; 0 committee actions/referrals; 10 floor passages; 4 enacted; 1 pending. Combined recorded bills: 90 filed, 18 enacted, 71 failed, 1 pending; 0 vetoes. Filing/disposition are unique bills by origin body; committee/floor metrics count dated chamber actions.
 - The all-due world included 50 state jurisdictions, the federal Congress, the D.C. Council, and the five territory identities. The Council used its existing municipal intake path and filed five measures. Puerto Rico has a generic state pack but no territorial member roster or bill intake. GU/VI/AS/MP have no canonical legislative pack/roster. Those four territories are unmeasured, not successful zero-throughput cases.
 
-| Jurisdiction | Chamber | Filed (origin) | Committee actions | Referrals | Floor passages | Failed (origin) | Enacted (origin) |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Alabama | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Alabama | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Alaska | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Alaska | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Arizona | House of Representatives | 2 | 6 | 2 | 2 | 2 | 0 |
-| Arizona | Senate | 0 | 6 | 2 | 0 | 0 | 0 |
-| Arkansas | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Arkansas | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| California | Assembly | 1 | 3 | 1 | 1 | 0 | 1 |
-| California | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
-| Colorado | House of Representatives | 1 | 3 | 1 | 1 | 1 | 0 |
-| Colorado | Senate | 0 | 3 | 1 | 0 | 0 | 0 |
-| Connecticut | House of Representatives | 1 | 3 | 1 | 1 | 0 | 1 |
-| Connecticut | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
-| Delaware | House of Representatives | 1 | 3 | 1 | 1 | 1 | 0 |
-| Delaware | Senate | 0 | 3 | 1 | 0 | 0 | 0 |
-| Florida | House of Representatives | 1 | 3 | 1 | 0 | 1 | 0 |
-| Florida | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Georgia | House of Representatives | 1 | 3 | 1 | 0 | 1 | 0 |
-| Georgia | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Hawaii | House of Representatives | 2 | 6 | 2 | 2 | 0 | 2 |
-| Hawaii | Senate | 0 | 6 | 2 | 2 | 0 | 0 |
-| Idaho | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Idaho | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Illinois | House of Representatives | 3 | 9 | 3 | 3 | 0 | 3 |
-| Illinois | Senate | 0 | 9 | 3 | 3 | 0 | 0 |
-| Indiana | House of Representatives | 3 | 9 | 3 | 0 | 3 | 0 |
-| Indiana | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Iowa | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Iowa | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Kansas | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Kansas | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Kentucky | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Kentucky | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Louisiana | House of Representatives | 3 | 9 | 3 | 3 | 3 | 0 |
-| Louisiana | Senate | 0 | 9 | 3 | 0 | 0 | 0 |
-| Maine | House of Representatives | 3 | 9 | 3 | 0 | 3 | 0 |
-| Maine | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Maryland | House of Delegates | 1 | 3 | 1 | 1 | 1 | 0 |
-| Maryland | Senate | 0 | 3 | 1 | 0 | 0 | 0 |
-| Massachusetts | House of Representatives | 2 | 6 | 2 | 2 | 0 | 2 |
-| Massachusetts | Senate | 0 | 6 | 2 | 2 | 0 | 0 |
-| Michigan | House of Representatives | 1 | 3 | 1 | 0 | 1 | 0 |
-| Michigan | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Minnesota | House of Representatives | 1 | 3 | 1 | 0 | 1 | 0 |
-| Minnesota | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Mississippi | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Mississippi | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Missouri | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Missouri | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Montana | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
-| Montana | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Nebraska | Legislature | 2 | 6 | 2 | 0 | 2 | 0 |
-| Nevada | Assembly | 0 | 0 | 0 | 0 | 0 | 0 |
-| Nevada | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| New Hampshire | House of Representatives | 2 | 6 | 2 | 2 | 2 | 0 |
-| New Hampshire | Senate | 0 | 6 | 2 | 0 | 0 | 0 |
-| New Jersey | Assembly | 0 | 0 | 0 | 0 | 0 | 0 |
-| New Jersey | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| New Mexico | House of Representatives | 2 | 2 | 2 | 0 | 2 | 0 |
-| New Mexico | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| New York | Assembly | 1 | 3 | 1 | 1 | 0 | 1 |
-| New York | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
-| North Carolina | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| North Carolina | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| North Dakota | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
-| North Dakota | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Ohio | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Ohio | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Oklahoma | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Oklahoma | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Oregon | House of Representatives | 1 | 3 | 1 | 1 | 0 | 1 |
-| Oregon | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
-| Pennsylvania | House of Representatives | 3 | 9 | 3 | 3 | 3 | 0 |
-| Pennsylvania | Senate | 0 | 9 | 3 | 0 | 0 | 0 |
-| Rhode Island | House of Representatives | 2 | 6 | 2 | 2 | 2 | 0 |
-| Rhode Island | Senate | 0 | 6 | 2 | 0 | 0 | 0 |
-| South Carolina | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| South Carolina | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| South Dakota | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| South Dakota | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Tennessee | House of Representatives | 3 | 9 | 3 | 0 | 3 | 0 |
-| Tennessee | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Texas | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
-| Texas | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Utah | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Utah | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Vermont | House of Representatives | 1 | 3 | 1 | 1 | 0 | 1 |
-| Vermont | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
-| Virginia | House of Delegates | 2 | 6 | 2 | 2 | 0 | 2 |
-| Virginia | Senate | 0 | 6 | 2 | 2 | 0 | 0 |
-| Washington | House of Representatives | 2 | 6 | 2 | 2 | 2 | 0 |
-| Washington | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| West Virginia | House of Delegates | 3 | 9 | 3 | 0 | 3 | 0 |
-| West Virginia | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Wisconsin | Assembly | 2 | 6 | 2 | 0 | 2 | 0 |
-| Wisconsin | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Wyoming | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
-| Wyoming | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Puerto Rico | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
-| Puerto Rico | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| Guam | *No legislative pack* | — | — | — | — | — | — |
-| U.S. Virgin Islands | *No legislative pack* | — | — | — | — | — | — |
-| American Samoa | *No legislative pack* | — | — | — | — | — | — |
-| Northern Mariana Islands | *No legislative pack* | — | — | — | — | — | — |
-| United States | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
-| United States | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| District of Columbia | Council | 5 | 0 | 0 | 10 | 0 | 4 |
+| Jurisdiction             | Chamber                  | Filed (origin) | Committee actions | Referrals | Floor passages | Failed (origin) | Enacted (origin) |
+| ------------------------ | ------------------------ | -------------: | ----------------: | --------: | -------------: | --------------: | ---------------: |
+| Alabama                  | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Alabama                  | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Alaska                   | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Alaska                   | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Arizona                  | House of Representatives |              2 |                 6 |         2 |              2 |               2 |                0 |
+| Arizona                  | Senate                   |              0 |                 6 |         2 |              0 |               0 |                0 |
+| Arkansas                 | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Arkansas                 | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| California               | Assembly                 |              1 |                 3 |         1 |              1 |               0 |                1 |
+| California               | Senate                   |              0 |                 3 |         1 |              1 |               0 |                0 |
+| Colorado                 | House of Representatives |              1 |                 3 |         1 |              1 |               1 |                0 |
+| Colorado                 | Senate                   |              0 |                 3 |         1 |              0 |               0 |                0 |
+| Connecticut              | House of Representatives |              1 |                 3 |         1 |              1 |               0 |                1 |
+| Connecticut              | Senate                   |              0 |                 3 |         1 |              1 |               0 |                0 |
+| Delaware                 | House of Representatives |              1 |                 3 |         1 |              1 |               1 |                0 |
+| Delaware                 | Senate                   |              0 |                 3 |         1 |              0 |               0 |                0 |
+| Florida                  | House of Representatives |              1 |                 3 |         1 |              0 |               1 |                0 |
+| Florida                  | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Georgia                  | House of Representatives |              1 |                 3 |         1 |              0 |               1 |                0 |
+| Georgia                  | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Hawaii                   | House of Representatives |              2 |                 6 |         2 |              2 |               0 |                2 |
+| Hawaii                   | Senate                   |              0 |                 6 |         2 |              2 |               0 |                0 |
+| Idaho                    | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Idaho                    | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Illinois                 | House of Representatives |              3 |                 9 |         3 |              3 |               0 |                3 |
+| Illinois                 | Senate                   |              0 |                 9 |         3 |              3 |               0 |                0 |
+| Indiana                  | House of Representatives |              3 |                 9 |         3 |              0 |               3 |                0 |
+| Indiana                  | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Iowa                     | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Iowa                     | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Kansas                   | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Kansas                   | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Kentucky                 | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Kentucky                 | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Louisiana                | House of Representatives |              3 |                 9 |         3 |              3 |               3 |                0 |
+| Louisiana                | Senate                   |              0 |                 9 |         3 |              0 |               0 |                0 |
+| Maine                    | House of Representatives |              3 |                 9 |         3 |              0 |               3 |                0 |
+| Maine                    | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Maryland                 | House of Delegates       |              1 |                 3 |         1 |              1 |               1 |                0 |
+| Maryland                 | Senate                   |              0 |                 3 |         1 |              0 |               0 |                0 |
+| Massachusetts            | House of Representatives |              2 |                 6 |         2 |              2 |               0 |                2 |
+| Massachusetts            | Senate                   |              0 |                 6 |         2 |              2 |               0 |                0 |
+| Michigan                 | House of Representatives |              1 |                 3 |         1 |              0 |               1 |                0 |
+| Michigan                 | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Minnesota                | House of Representatives |              1 |                 3 |         1 |              0 |               1 |                0 |
+| Minnesota                | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Mississippi              | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Mississippi              | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Missouri                 | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Missouri                 | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Montana                  | House of Representatives |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Montana                  | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Nebraska                 | Legislature              |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Nevada                   | Assembly                 |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Nevada                   | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| New Hampshire            | House of Representatives |              2 |                 6 |         2 |              2 |               2 |                0 |
+| New Hampshire            | Senate                   |              0 |                 6 |         2 |              0 |               0 |                0 |
+| New Jersey               | Assembly                 |              0 |                 0 |         0 |              0 |               0 |                0 |
+| New Jersey               | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| New Mexico               | House of Representatives |              2 |                 2 |         2 |              0 |               2 |                0 |
+| New Mexico               | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| New York                 | Assembly                 |              1 |                 3 |         1 |              1 |               0 |                1 |
+| New York                 | Senate                   |              0 |                 3 |         1 |              1 |               0 |                0 |
+| North Carolina           | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| North Carolina           | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| North Dakota             | House of Representatives |              0 |                 0 |         0 |              0 |               0 |                0 |
+| North Dakota             | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Ohio                     | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Ohio                     | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Oklahoma                 | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Oklahoma                 | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Oregon                   | House of Representatives |              1 |                 3 |         1 |              1 |               0 |                1 |
+| Oregon                   | Senate                   |              0 |                 3 |         1 |              1 |               0 |                0 |
+| Pennsylvania             | House of Representatives |              3 |                 9 |         3 |              3 |               3 |                0 |
+| Pennsylvania             | Senate                   |              0 |                 9 |         3 |              0 |               0 |                0 |
+| Rhode Island             | House of Representatives |              2 |                 6 |         2 |              2 |               2 |                0 |
+| Rhode Island             | Senate                   |              0 |                 6 |         2 |              0 |               0 |                0 |
+| South Carolina           | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| South Carolina           | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| South Dakota             | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| South Dakota             | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Tennessee                | House of Representatives |              3 |                 9 |         3 |              0 |               3 |                0 |
+| Tennessee                | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Texas                    | House of Representatives |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Texas                    | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Utah                     | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Utah                     | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Vermont                  | House of Representatives |              1 |                 3 |         1 |              1 |               0 |                1 |
+| Vermont                  | Senate                   |              0 |                 3 |         1 |              1 |               0 |                0 |
+| Virginia                 | House of Delegates       |              2 |                 6 |         2 |              2 |               0 |                2 |
+| Virginia                 | Senate                   |              0 |                 6 |         2 |              2 |               0 |                0 |
+| Washington               | House of Representatives |              2 |                 6 |         2 |              2 |               2 |                0 |
+| Washington               | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| West Virginia            | House of Delegates       |              3 |                 9 |         3 |              0 |               3 |                0 |
+| West Virginia            | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Wisconsin                | Assembly                 |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Wisconsin                | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Wyoming                  | House of Representatives |              2 |                 6 |         2 |              0 |               2 |                0 |
+| Wyoming                  | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Puerto Rico              | House of Representatives |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Puerto Rico              | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| Guam                     | _No legislative pack_    |              — |                 — |         — |              — |               — |                — |
+| U.S. Virgin Islands      | _No legislative pack_    |              — |                 — |         — |              — |               — |                — |
+| American Samoa           | _No legislative pack_    |              — |                 — |         — |              — |               — |                — |
+| Northern Mariana Islands | _No legislative pack_    |              — |                 — |         — |              — |               — |                — |
+| United States            | House of Representatives |              0 |                 0 |         0 |              0 |               0 |                0 |
+| United States            | Senate                   |              0 |                 0 |         0 |              0 |               0 |                0 |
+| District of Columbia     | Council                  |              5 |                 0 |         0 |             10 |               0 |                4 |
 
 The table’s `failed` and `enacted` values are bills attributed to their originating chamber; chamber actions are recorded where performed. The single-chamber Nebraska Legislature is listed under its actual unified institution. Federal House and Senate each filed zero bills. D.C. is reported through its Council, not as a state-level pack.
 
@@ -192,63 +192,63 @@ Machine-readable report with per-bill IDs/actions/enactments and state/federal j
 
 The regular-session calendar in `data/content/legislative-session-calendars.json` is explicitly a game-profile cadence, not a convening/adjournment record. The April 30 run therefore cannot establish that every state's own regular session ended. The 2026 source end-date data supports the following state-level source-date comparison. The Apr. 30 artifact does not serialize `sessionAdjournments`, so none of these source dates is claimed as a simulated session-end record reached by that run:
 
-| State | 2026 regular-session end evidence |
-| --- | --- |
-| Alabama | 2026-04-09 (source date by cutoff; simulated adjournment record not captured) |
-| Alaska | no recorded 2026 end in sessionEnds data |
-| Arizona | 2026-06-13 (source date after cutoff) |
-| Arkansas | 2026-04-29 (source date by cutoff; simulated adjournment record not captured) |
-| California | no recorded 2026 end in sessionEnds data |
-| Colorado | no recorded 2026 end in sessionEnds data |
-| Connecticut | no recorded 2026 end in sessionEnds data |
-| Delaware | no recorded 2026 end in sessionEnds data |
-| Florida | 2026-03-13 (source date by cutoff; simulated adjournment record not captured) |
-| Georgia | no recorded 2026 end in sessionEnds data |
-| Hawaii | 2026-05-08 (source date after cutoff) |
-| Idaho | 2026-04-02 (source date by cutoff; simulated adjournment record not captured) |
-| Illinois | no recorded 2026 end in sessionEnds data |
-| Indiana | no recorded 2026 end in sessionEnds data |
-| Iowa | no recorded 2026 end in sessionEnds data |
-| Kansas | 2026-04-10 (source date by cutoff; simulated adjournment record not captured) |
-| Kentucky | 2026-04-15 (source date by cutoff; simulated adjournment record not captured) |
-| Louisiana | no recorded 2026 end in sessionEnds data |
-| Maine | 2026-04-29 (source date by cutoff; simulated adjournment record not captured) |
-| Maryland | no recorded 2026 end in sessionEnds data |
-| Massachusetts | no recorded 2026 end in sessionEnds data |
-| Michigan | estimated date 2026-04-15; no recorded adjournment |
-| Minnesota | no recorded 2026 end in sessionEnds data |
-| Mississippi | no recorded 2026 end in sessionEnds data |
-| Missouri | legal regular-session end limit 2026-05-30 (after cutoff) |
-| Montana | no recorded 2026 end in sessionEnds data |
-| Nebraska | 2026-04-17 (source date by cutoff; simulated adjournment record not captured) |
-| Nevada | no recorded 2026 end in sessionEnds data |
-| New Hampshire | no recorded 2026 end in sessionEnds data |
-| New Jersey | no recorded 2026 end in sessionEnds data |
-| New Mexico | 2026-02-19 (source date by cutoff; simulated adjournment record not captured) |
-| New York | no recorded 2026 end in sessionEnds data |
-| North Carolina | estimated date 2026-04-15; no recorded adjournment |
-| North Dakota | no recorded 2026 end in sessionEnds data |
-| Ohio | no recorded 2026 end in sessionEnds data |
-| Oklahoma | 2026-05-14 (source date after cutoff) |
-| Oregon | no recorded 2026 end in sessionEnds data |
-| Pennsylvania | no recorded 2026 end in sessionEnds data |
-| Rhode Island | no recorded 2026 end in sessionEnds data |
-| South Carolina | no recorded 2026 end in sessionEnds data |
-| South Dakota | no recorded 2026 end in sessionEnds data |
-| Tennessee | no recorded 2026 end in sessionEnds data |
-| Texas | no recorded 2026 end in sessionEnds data |
-| Utah | 2026-03-06 (source date by cutoff; simulated adjournment record not captured) |
-| Vermont | no recorded 2026 end in sessionEnds data |
-| Virginia | no recorded 2026 end in sessionEnds data |
-| Washington | 2026-03-12 (source date by cutoff; simulated adjournment record not captured) |
-| West Virginia | no recorded 2026 end in sessionEnds data |
-| Wisconsin | no recorded 2026 end in sessionEnds data |
-| Wyoming | 2026-03-11 (source date by cutoff; simulated adjournment record not captured) |
-| Puerto Rico | no recorded 2026 end in sessionEnds data |
-| Guam | no recorded 2026 end in sessionEnds data |
-| the U.S. Virgin Islands | no recorded 2026 end in sessionEnds data |
-| American Samoa | legal session ends 2026-02-25 and 2026-08-26 (second session after cutoff) |
-| the Northern Mariana Islands | no recorded 2026 end in sessionEnds data |
+| State                        | 2026 regular-session end evidence                                             |
+| ---------------------------- | ----------------------------------------------------------------------------- |
+| Alabama                      | 2026-04-09 (source date by cutoff; simulated adjournment record not captured) |
+| Alaska                       | no recorded 2026 end in sessionEnds data                                      |
+| Arizona                      | 2026-06-13 (source date after cutoff)                                         |
+| Arkansas                     | 2026-04-29 (source date by cutoff; simulated adjournment record not captured) |
+| California                   | no recorded 2026 end in sessionEnds data                                      |
+| Colorado                     | no recorded 2026 end in sessionEnds data                                      |
+| Connecticut                  | no recorded 2026 end in sessionEnds data                                      |
+| Delaware                     | no recorded 2026 end in sessionEnds data                                      |
+| Florida                      | 2026-03-13 (source date by cutoff; simulated adjournment record not captured) |
+| Georgia                      | no recorded 2026 end in sessionEnds data                                      |
+| Hawaii                       | 2026-05-08 (source date after cutoff)                                         |
+| Idaho                        | 2026-04-02 (source date by cutoff; simulated adjournment record not captured) |
+| Illinois                     | no recorded 2026 end in sessionEnds data                                      |
+| Indiana                      | no recorded 2026 end in sessionEnds data                                      |
+| Iowa                         | no recorded 2026 end in sessionEnds data                                      |
+| Kansas                       | 2026-04-10 (source date by cutoff; simulated adjournment record not captured) |
+| Kentucky                     | 2026-04-15 (source date by cutoff; simulated adjournment record not captured) |
+| Louisiana                    | no recorded 2026 end in sessionEnds data                                      |
+| Maine                        | 2026-04-29 (source date by cutoff; simulated adjournment record not captured) |
+| Maryland                     | no recorded 2026 end in sessionEnds data                                      |
+| Massachusetts                | no recorded 2026 end in sessionEnds data                                      |
+| Michigan                     | estimated date 2026-04-15; no recorded adjournment                            |
+| Minnesota                    | no recorded 2026 end in sessionEnds data                                      |
+| Mississippi                  | no recorded 2026 end in sessionEnds data                                      |
+| Missouri                     | legal regular-session end limit 2026-05-30 (after cutoff)                     |
+| Montana                      | no recorded 2026 end in sessionEnds data                                      |
+| Nebraska                     | 2026-04-17 (source date by cutoff; simulated adjournment record not captured) |
+| Nevada                       | no recorded 2026 end in sessionEnds data                                      |
+| New Hampshire                | no recorded 2026 end in sessionEnds data                                      |
+| New Jersey                   | no recorded 2026 end in sessionEnds data                                      |
+| New Mexico                   | 2026-02-19 (source date by cutoff; simulated adjournment record not captured) |
+| New York                     | no recorded 2026 end in sessionEnds data                                      |
+| North Carolina               | estimated date 2026-04-15; no recorded adjournment                            |
+| North Dakota                 | no recorded 2026 end in sessionEnds data                                      |
+| Ohio                         | no recorded 2026 end in sessionEnds data                                      |
+| Oklahoma                     | 2026-05-14 (source date after cutoff)                                         |
+| Oregon                       | no recorded 2026 end in sessionEnds data                                      |
+| Pennsylvania                 | no recorded 2026 end in sessionEnds data                                      |
+| Rhode Island                 | no recorded 2026 end in sessionEnds data                                      |
+| South Carolina               | no recorded 2026 end in sessionEnds data                                      |
+| South Dakota                 | no recorded 2026 end in sessionEnds data                                      |
+| Tennessee                    | no recorded 2026 end in sessionEnds data                                      |
+| Texas                        | no recorded 2026 end in sessionEnds data                                      |
+| Utah                         | 2026-03-06 (source date by cutoff; simulated adjournment record not captured) |
+| Vermont                      | no recorded 2026 end in sessionEnds data                                      |
+| Virginia                     | no recorded 2026 end in sessionEnds data                                      |
+| Washington                   | 2026-03-12 (source date by cutoff; simulated adjournment record not captured) |
+| West Virginia                | no recorded 2026 end in sessionEnds data                                      |
+| Wisconsin                    | no recorded 2026 end in sessionEnds data                                      |
+| Wyoming                      | 2026-03-11 (source date by cutoff; simulated adjournment record not captured) |
+| Puerto Rico                  | no recorded 2026 end in sessionEnds data                                      |
+| Guam                         | no recorded 2026 end in sessionEnds data                                      |
+| the U.S. Virgin Islands      | no recorded 2026 end in sessionEnds data                                      |
+| American Samoa               | legal session ends 2026-02-25 and 2026-08-26 (second session after cutoff)    |
+| the Northern Mariana Islands | no recorded 2026 end in sessionEnds data                                      |
 
 The source table has 2026 published adjournments for 15 states: 12 source dates by Apr. 30 and three later. The bounded-run artifact has no `sessionAdjournments` field, so the number of session-end records actually reached is unmeasured. It also has Missouri’s legal May 30 limit and American Samoa’s two 45-day legal sessions, with the second ending Aug. 26. Michigan and North Carolina have estimated Apr. 15 ends. Twenty-eight annual-session states have no finite end date in the current source table; four states have no 2026 regular session. Entries marked no recorded end are unverified for cutoff completion. Montana, Nevada, North Dakota, and Texas have no 2026 regular session under `regular-session-years.json`, so their next regular session is in 2027. American Samoa has two 2026 sessions ending Feb. 25 and Aug. 26; Apr. 30 covers only the first. Arizona (June 13), Hawaii (May 8), Missouri (May 30), and Oklahoma (May 14) end after Apr. 30. D.C. is a year-round Council, with no annual adjournment record; the federal Congress has no state-style session-end record in this coverage table; its Apr. 15 median date is an effective-date estimate, not a council session end. Puerto Rico, Guam, the Virgin Islands, and Northern Mariana Islands have no canonical legislative calendar/roster contract. The displayed Michigan, North Carolina and D.C. Apr. 15 dates are estimates, not recorded adjournments.
 
@@ -277,109 +277,109 @@ This bounded rerun used the ordinary opening world and canonical registered tran
 - Run produced 154 new measures and 888 total legislative action records. Recounting all bill action records by the chamber on each action (rather than attributing all passage actions to the filing chamber) yields 521 committee-stage actions, 51 floor-stage passages, 14 enacted, 140 terminal non-enactments, and 0 vetoes. “Filed” and terminal disposition are attributed to the bill’s originating chamber; committee/floor metrics are actions in the named chamber. 175 referral actions include bills that were referred in both chambers.
 - This report contains all 50 state jurisdictions and federal Congress. Opening-roster diagnostics found no DC council due rows and no territory due rows. Puerto Rico resolves to a generic state legislature pack but had no opening due row; GU/VI/AS/MP have no legislative pack. Thus this run does not establish DC/territorial throughput; those missing institutions are reported as unmeasured, not zero throughput.
 
-| Jurisdiction | Chamber | Filed (origin) | Committee actions | Floor passages | Failed (origin) | Enacted (origin) |
-| --- | --- | ---: | ---: | ---: | ---: | ---: |
-| Alabama | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Alabama | Senate | 0 | 0 | 0 | 0 | 0 |
-| Alaska | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Alaska | Senate | 0 | 0 | 0 | 0 | 0 |
-| Arizona | House of Representatives | 4 | 12 | 4 | 4 | 0 |
-| Arizona | Senate | 0 | 12 | 0 | 0 | 0 |
-| Arkansas | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Arkansas | Senate | 0 | 0 | 0 | 0 | 0 |
-| California | Assembly | 1 | 3 | 1 | 0 | 1 |
-| California | Senate | 0 | 3 | 1 | 0 | 0 |
-| Colorado | House of Representatives | 2 | 3 | 1 | 2 | 0 |
-| Colorado | Senate | 0 | 3 | 0 | 0 | 0 |
-| Connecticut | House of Representatives | 1 | 3 | 1 | 0 | 1 |
-| Connecticut | Senate | 0 | 3 | 1 | 0 | 0 |
-| Delaware | House of Representatives | 2 | 3 | 1 | 2 | 0 |
-| Delaware | Senate | 0 | 3 | 0 | 0 | 0 |
-| Florida | House of Representatives | 1 | 3 | 0 | 1 | 0 |
-| Florida | Senate | 0 | 0 | 0 | 0 | 0 |
-| Georgia | House of Representatives | 2 | 6 | 0 | 2 | 0 |
-| Georgia | Senate | 0 | 0 | 0 | 0 | 0 |
-| Hawaii | House of Representatives | 2 | 6 | 2 | 0 | 2 |
-| Hawaii | Senate | 0 | 6 | 2 | 0 | 0 |
-| Idaho | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Idaho | Senate | 0 | 0 | 0 | 0 | 0 |
-| Illinois | House of Representatives | 3 | 9 | 3 | 0 | 3 |
-| Illinois | Senate | 0 | 9 | 3 | 0 | 0 |
-| Indiana | House of Representatives | 6 | 18 | 0 | 6 | 0 |
-| Indiana | Senate | 0 | 0 | 0 | 0 | 0 |
-| Iowa | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Iowa | Senate | 0 | 0 | 0 | 0 | 0 |
-| Kansas | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Kansas | Senate | 0 | 0 | 0 | 0 | 0 |
-| Kentucky | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Kentucky | Senate | 0 | 0 | 0 | 0 | 0 |
-| Louisiana | House of Representatives | 6 | 9 | 3 | 6 | 0 |
-| Louisiana | Senate | 0 | 9 | 0 | 0 | 0 |
-| Maine | House of Representatives | 6 | 18 | 0 | 6 | 0 |
-| Maine | Senate | 0 | 0 | 0 | 0 | 0 |
-| Maryland | House of Delegates | 2 | 3 | 1 | 2 | 0 |
-| Maryland | Senate | 0 | 3 | 0 | 0 | 0 |
-| Massachusetts | House of Representatives | 2 | 6 | 2 | 0 | 2 |
-| Massachusetts | Senate | 0 | 6 | 2 | 0 | 0 |
-| Michigan | House of Representatives | 2 | 6 | 0 | 2 | 0 |
-| Michigan | Senate | 0 | 0 | 0 | 0 | 0 |
-| Minnesota | House of Representatives | 2 | 6 | 0 | 2 | 0 |
-| Minnesota | Senate | 0 | 0 | 0 | 0 | 0 |
-| Mississippi | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Mississippi | Senate | 0 | 0 | 0 | 0 | 0 |
-| Missouri | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Missouri | Senate | 0 | 0 | 0 | 0 | 0 |
-| Montana | House of Representatives | 1 | 3 | 0 | 1 | 0 |
-| Montana | Senate | 0 | 0 | 0 | 0 | 0 |
-| Nebraska | Legislature | 4 | 12 | 0 | 4 | 0 |
-| Nevada | Assembly | 2 | 6 | 2 | 2 | 0 |
-| Nevada | Senate | 0 | 6 | 0 | 0 | 0 |
-| New Hampshire | House of Representatives | 4 | 6 | 2 | 4 | 0 |
-| New Hampshire | Senate | 0 | 6 | 0 | 0 | 0 |
-| New Jersey | Assembly | 0 | 0 | 0 | 0 | 0 |
-| New Jersey | Senate | 0 | 0 | 0 | 0 | 0 |
-| New Mexico | House of Representatives | 2 | 2 | 0 | 2 | 0 |
-| New Mexico | Senate | 0 | 0 | 0 | 0 | 0 |
-| New York | Assembly | 1 | 3 | 1 | 0 | 1 |
-| New York | Senate | 0 | 3 | 1 | 0 | 0 |
-| North Carolina | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| North Carolina | Senate | 0 | 0 | 0 | 0 | 0 |
-| North Dakota | House of Representatives | 2 | 6 | 0 | 2 | 0 |
-| North Dakota | Senate | 0 | 0 | 0 | 0 | 0 |
-| Ohio | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Ohio | Senate | 0 | 0 | 0 | 0 | 0 |
-| Oklahoma | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| Oklahoma | Senate | 0 | 0 | 0 | 0 | 0 |
-| Oregon | House of Representatives | 1 | 3 | 1 | 0 | 1 |
-| Oregon | Senate | 0 | 3 | 1 | 0 | 0 |
-| Pennsylvania | House of Representatives | 6 | 9 | 3 | 6 | 0 |
-| Pennsylvania | Senate | 0 | 9 | 0 | 0 | 0 |
-| Rhode Island | House of Representatives | 4 | 6 | 2 | 4 | 0 |
-| Rhode Island | Senate | 0 | 6 | 0 | 0 | 0 |
-| South Carolina | House of Representatives | 4 | 12 | 0 | 4 | 0 |
-| South Carolina | Senate | 0 | 0 | 0 | 0 | 0 |
-| South Dakota | House of Representatives | 4 | 9 | 0 | 4 | 0 |
-| South Dakota | Senate | 0 | 0 | 0 | 0 | 0 |
-| Tennessee | House of Representatives | 6 | 18 | 0 | 6 | 0 |
-| Tennessee | Senate | 0 | 0 | 0 | 0 | 0 |
-| Texas | House of Representatives | 2 | 6 | 2 | 2 | 0 |
-| Texas | Senate | 0 | 6 | 0 | 0 | 0 |
-| Utah | House of Representatives | 2 | 6 | 0 | 2 | 0 |
-| Utah | Senate | 0 | 0 | 0 | 0 | 0 |
-| Vermont | House of Representatives | 1 | 3 | 1 | 0 | 1 |
-| Vermont | Senate | 0 | 3 | 1 | 0 | 0 |
-| Virginia | House of Delegates | 2 | 6 | 2 | 0 | 2 |
-| Virginia | Senate | 0 | 6 | 2 | 0 | 0 |
-| Washington | House of Representatives | 2 | 6 | 2 | 2 | 0 |
-| Washington | Senate | 0 | 0 | 0 | 0 | 0 |
-| West Virginia | House of Delegates | 6 | 18 | 0 | 6 | 0 |
-| West Virginia | Senate | 0 | 0 | 0 | 0 | 0 |
-| Wisconsin | Assembly | 4 | 12 | 0 | 4 | 0 |
-| Wisconsin | Senate | 0 | 0 | 0 | 0 | 0 |
-| Wyoming | House of Representatives | 2 | 6 | 0 | 2 | 0 |
-| Wyoming | Senate | 0 | 0 | 0 | 0 | 0 |
-| United States | House of Representatives | 0 | 0 | 0 | 0 | 0 |
-| United States | Senate | 0 | 0 | 0 | 0 | 0 |
+| Jurisdiction   | Chamber                  | Filed (origin) | Committee actions | Floor passages | Failed (origin) | Enacted (origin) |
+| -------------- | ------------------------ | -------------: | ----------------: | -------------: | --------------: | ---------------: |
+| Alabama        | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Alabama        | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Alaska         | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Alaska         | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Arizona        | House of Representatives |              4 |                12 |              4 |               4 |                0 |
+| Arizona        | Senate                   |              0 |                12 |              0 |               0 |                0 |
+| Arkansas       | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Arkansas       | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| California     | Assembly                 |              1 |                 3 |              1 |               0 |                1 |
+| California     | Senate                   |              0 |                 3 |              1 |               0 |                0 |
+| Colorado       | House of Representatives |              2 |                 3 |              1 |               2 |                0 |
+| Colorado       | Senate                   |              0 |                 3 |              0 |               0 |                0 |
+| Connecticut    | House of Representatives |              1 |                 3 |              1 |               0 |                1 |
+| Connecticut    | Senate                   |              0 |                 3 |              1 |               0 |                0 |
+| Delaware       | House of Representatives |              2 |                 3 |              1 |               2 |                0 |
+| Delaware       | Senate                   |              0 |                 3 |              0 |               0 |                0 |
+| Florida        | House of Representatives |              1 |                 3 |              0 |               1 |                0 |
+| Florida        | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Georgia        | House of Representatives |              2 |                 6 |              0 |               2 |                0 |
+| Georgia        | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Hawaii         | House of Representatives |              2 |                 6 |              2 |               0 |                2 |
+| Hawaii         | Senate                   |              0 |                 6 |              2 |               0 |                0 |
+| Idaho          | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Idaho          | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Illinois       | House of Representatives |              3 |                 9 |              3 |               0 |                3 |
+| Illinois       | Senate                   |              0 |                 9 |              3 |               0 |                0 |
+| Indiana        | House of Representatives |              6 |                18 |              0 |               6 |                0 |
+| Indiana        | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Iowa           | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Iowa           | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Kansas         | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Kansas         | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Kentucky       | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Kentucky       | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Louisiana      | House of Representatives |              6 |                 9 |              3 |               6 |                0 |
+| Louisiana      | Senate                   |              0 |                 9 |              0 |               0 |                0 |
+| Maine          | House of Representatives |              6 |                18 |              0 |               6 |                0 |
+| Maine          | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Maryland       | House of Delegates       |              2 |                 3 |              1 |               2 |                0 |
+| Maryland       | Senate                   |              0 |                 3 |              0 |               0 |                0 |
+| Massachusetts  | House of Representatives |              2 |                 6 |              2 |               0 |                2 |
+| Massachusetts  | Senate                   |              0 |                 6 |              2 |               0 |                0 |
+| Michigan       | House of Representatives |              2 |                 6 |              0 |               2 |                0 |
+| Michigan       | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Minnesota      | House of Representatives |              2 |                 6 |              0 |               2 |                0 |
+| Minnesota      | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Mississippi    | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Mississippi    | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Missouri       | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Missouri       | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Montana        | House of Representatives |              1 |                 3 |              0 |               1 |                0 |
+| Montana        | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Nebraska       | Legislature              |              4 |                12 |              0 |               4 |                0 |
+| Nevada         | Assembly                 |              2 |                 6 |              2 |               2 |                0 |
+| Nevada         | Senate                   |              0 |                 6 |              0 |               0 |                0 |
+| New Hampshire  | House of Representatives |              4 |                 6 |              2 |               4 |                0 |
+| New Hampshire  | Senate                   |              0 |                 6 |              0 |               0 |                0 |
+| New Jersey     | Assembly                 |              0 |                 0 |              0 |               0 |                0 |
+| New Jersey     | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| New Mexico     | House of Representatives |              2 |                 2 |              0 |               2 |                0 |
+| New Mexico     | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| New York       | Assembly                 |              1 |                 3 |              1 |               0 |                1 |
+| New York       | Senate                   |              0 |                 3 |              1 |               0 |                0 |
+| North Carolina | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| North Carolina | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| North Dakota   | House of Representatives |              2 |                 6 |              0 |               2 |                0 |
+| North Dakota   | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Ohio           | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Ohio           | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Oklahoma       | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| Oklahoma       | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Oregon         | House of Representatives |              1 |                 3 |              1 |               0 |                1 |
+| Oregon         | Senate                   |              0 |                 3 |              1 |               0 |                0 |
+| Pennsylvania   | House of Representatives |              6 |                 9 |              3 |               6 |                0 |
+| Pennsylvania   | Senate                   |              0 |                 9 |              0 |               0 |                0 |
+| Rhode Island   | House of Representatives |              4 |                 6 |              2 |               4 |                0 |
+| Rhode Island   | Senate                   |              0 |                 6 |              0 |               0 |                0 |
+| South Carolina | House of Representatives |              4 |                12 |              0 |               4 |                0 |
+| South Carolina | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| South Dakota   | House of Representatives |              4 |                 9 |              0 |               4 |                0 |
+| South Dakota   | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Tennessee      | House of Representatives |              6 |                18 |              0 |               6 |                0 |
+| Tennessee      | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Texas          | House of Representatives |              2 |                 6 |              2 |               2 |                0 |
+| Texas          | Senate                   |              0 |                 6 |              0 |               0 |                0 |
+| Utah           | House of Representatives |              2 |                 6 |              0 |               2 |                0 |
+| Utah           | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Vermont        | House of Representatives |              1 |                 3 |              1 |               0 |                1 |
+| Vermont        | Senate                   |              0 |                 3 |              1 |               0 |                0 |
+| Virginia       | House of Delegates       |              2 |                 6 |              2 |               0 |                2 |
+| Virginia       | Senate                   |              0 |                 6 |              2 |               0 |                0 |
+| Washington     | House of Representatives |              2 |                 6 |              2 |               2 |                0 |
+| Washington     | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| West Virginia  | House of Delegates       |              6 |                18 |              0 |               6 |                0 |
+| West Virginia  | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Wisconsin      | Assembly                 |              4 |                12 |              0 |               4 |                0 |
+| Wisconsin      | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| Wyoming        | House of Representatives |              2 |                 6 |              0 |               2 |                0 |
+| Wyoming        | Senate                   |              0 |                 0 |              0 |               0 |                0 |
+| United States  | House of Representatives |              0 |                 0 |              0 |               0 |                0 |
+| United States  | Senate                   |              0 |                 0 |              0 |               0 |                0 |
 
 For clarity, committee actions count every `referred`, `committee-hearing-held`, `committee-reported`, and `committee-not-reported` record in that chamber. Floor passages count every `floor-stage-passed` record there. A measure can therefore have activity in both chambers; failed/enacted are unique bills attributed once to the originating chamber. Federal House and Senate each had zero filed measures in this run. The five territory governments and D.C. are not listed with synthetic zero rows because their institutions were absent from the measured packs/queues.
 

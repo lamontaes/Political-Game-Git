@@ -104,8 +104,8 @@ describe("OPENING-LIFE1 opening lifecycle", () => {
       ),
     ).toBe(true);
     expect(
-      world.history.events.some((event) =>
-        event.stableKey === "dc-council-opening/v1:opening",
+      world.history.events.some(
+        (event) => event.stableKey === "dc-council-opening/v1:opening",
       ),
     ).toBe(true);
     const congressIds = ["house", "senate"].flatMap(

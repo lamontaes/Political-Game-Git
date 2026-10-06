@@ -23,9 +23,9 @@ The full `opening-life.test.ts` run on `d2f97bc10abf4337a5c5d43691d9a54e8d6ed6a7
 A bounded diagnostic generated the same opening and consumed only its scheduled Feb. 1, 2026 Congress intake through `congressIntakeHandler` / `fileMemberAgendaBills` (one due row; no daily clock loop). At source head `d2f97bc10abf4337a5c5d43691d9a54e8d6ed6a7`, the result is:
 
 | Chamber | Filed | Committee admitted | Floor passages | Failed | Enacted |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| House | 1 | 0 | 0 | 0 | 0 |
-| Senate | 0 | 0 | 0 | 0 | 0 |
+| ------- | ----: | -----------------: | -------------: | -----: | ------: |
+| House   |     1 |                  0 |              0 |      0 |       0 |
+| Senate  |     0 |                  0 |              0 |      0 |       0 |
 
 The House filing is H.R. 6, 119th Congress (`legislative-measure_6c12bfebec80fd39`), sponsored by Emma Mendoza (`person_8c2991a1399213e2`), introduced Feb. 1, 2026. It is nonterminal at this single intake, so it has no passage or policy consequence yet. This is a filing-path diagnostic, not an all-due chronological acceptance run or proof of congressional enactment.
 

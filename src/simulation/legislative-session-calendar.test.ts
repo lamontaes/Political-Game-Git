@@ -60,9 +60,9 @@ describe("one legislative session timetable", () => {
     );
 
     expect(billRows).toHaveLength(states.length);
-    expect(billRows.every((row) => row.transitionKey === "governing:season")).toBe(
-      true,
-    );
+    expect(
+      billRows.every((row) => row.transitionKey === "governing:season"),
+    ).toBe(true);
     expect(billRows.every((row) => row.dueAt > world.currentDate)).toBe(true);
     expect(scheduleNationwideStateBillSeasons(scheduled, states)).toEqual(
       scheduled,

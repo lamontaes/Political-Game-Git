@@ -28,9 +28,7 @@ interface SavedCompletion {
 }
 
 export type LegislativeSessionCompletionCause =
-  | "legal-limit"
-  | "sine-die-vote"
-  | "scope-disposed";
+  "legal-limit" | "sine-die-vote" | "scope-disposed";
 
 export interface RecordLegislativeSessionCompletionInput {
   readonly jurisdictionId: EntityId;
@@ -62,17 +60,16 @@ export function scheduleNextLegislativeSessionCompletion(
   // the next such session; the saved queue rearms itself after it fires.
   for (let year = currentYear; year <= currentYear + 4; year++) {
     const limit = stateSessionLegalLimit(jurisdictionKey, year);
-    if (
-      !limit ||
-      !regularSessionYearForWorld(world, jurisdiction.id, year)
-    )
+    if (!limit || !regularSessionYearForWorld(world, jurisdiction.id, year))
       continue;
 
     const date = limit.date;
     if (date <= world.currentDate) continue;
     const sessionOrdinal = 1;
     const sessionId = `${jurisdictionKey}:regular:${year}:${sessionOrdinal}`;
-    const chamberKeys = legislature.chambers.map((chamber) => chamber.chamberKey);
+    const chamberKeys = legislature.chambers.map(
+      (chamber) => chamber.chamberKey,
+    );
     const saved: SavedCompletion = {
       version: VERSION,
       jurisdictionKey,
@@ -84,7 +81,9 @@ export function scheduleNextLegislativeSessionCompletion(
       estimate: limit.estimate,
     };
     const stableKey = `${VERSION}:${sessionId}:${date}`;
-    if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    if (
+      world.history.futureDueItems.some((item) => item.stableKey === stableKey)
+    )
       return world;
     return scheduleFutureDueItem(world, {
       stableKey,
@@ -170,9 +169,13 @@ export function recordLegislativeSessionCompletion(
     input.chamberKeys.length === 0 ||
     input.chamberKeys.some((key) => key.length === 0)
   )
-    throw new Error("Session completion requires its saved jurisdiction and session.");
+    throw new Error(
+      "Session completion requires its saved jurisdiction and session.",
+    );
   if (input.estimate && input.cause !== "legal-limit")
-    throw new Error("Only a legal-limit completion may carry estimated-date provenance.");
+    throw new Error(
+      "Only a legal-limit completion may carry estimated-date provenance.",
+    );
   if (
     world.history.events.some(
       (event) =>
