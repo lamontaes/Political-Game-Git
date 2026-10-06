@@ -19,7 +19,10 @@ describe("an answer to a recorded story", () => {
     const listenerId = world.personOrder.find((id) => id !== playerPersonId)!;
     // Explicit goal fixture through the existing writer; this is not live-game proof.
     const planned = chooseOrdinaryLifeGoal(
-      { ...world, control: { kind: "person", personId: listenerId } },
+      {
+        ...chooseOrdinaryLifeGoal(world, playerPersonId, "connection"),
+        control: { kind: "person", personId: listenerId },
+      },
       listenerId,
       "connection",
     );
@@ -35,8 +38,7 @@ describe("an answer to a recorded story", () => {
       },
       { parentOfYoungPlayer: false },
     );
-    expect(sharedPlan.reply).toContain("people I know");
-    expect(sharedPlan.reply).not.toContain("people you know");
+    expect(sharedPlan.reply).toBe("Same here. Which people?");
 
     const otherPersonId = world.personOrder.find(
       (id) =>
