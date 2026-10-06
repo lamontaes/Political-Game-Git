@@ -168,9 +168,6 @@ export function SetupScreen({
   ) => void;
   readonly problem: string | null;
 }) {
-  const [finishedQuestions, setFinishedQuestions] = useState(
-    questionnaireComplete,
-  );
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
   const [replacingPlace, setReplacingPlace] = useState(false);
@@ -395,7 +392,7 @@ export function SetupScreen({
 
   return (
     <main
-      className={`game-title game-setup game-creator pg-glass-panel${onReady && (finishedQuestions || !questionnaireScreenFor(committed)) ? " game-creator--appearance" : ""}`}
+      className={`game-title game-setup game-creator pg-glass-panel${onReady ? " game-creator--appearance" : ""}`}
       data-testid="setup-screen"
     >
       {/*
