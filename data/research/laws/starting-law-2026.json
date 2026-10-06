@@ -1665,7 +1665,7 @@
           ],
           "cite": "R.I. Gen. Laws § 28-41-35(d)(5)",
           "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-41/28-41-35_28-41-35.htm",
-          "note": "Effective January 1, 2026, caregiver leave is up to eight weeks per benefit year; later scheduled replacement-rate increases do not apply in 2026."
+          "note": "Effective January 1, 2026, caregiver leave is up to eight weeks per benefit year; later scheduled replacement-rate increases do not apply in 2026. For new TDI/TCI claims beginning July 1, 2026 or later, the official weekly base-benefit maximum is $1,150 (not represented by this question's annual covered-wage-cap parameter); earlier claims retain the $1,103 maximum. Source: https://dlt.ri.gov/press-releases/maximum-weekly-benefit-amounts-unemployment-and-temporary-disability-insurance-4?language=en"
         },
         "US-SC": {
           "answer": "no"
@@ -2656,8 +2656,16 @@
         "US-IA": {
           "answer": "yes",
           "cite": "Iowa Code §§ 256C.2, 256C.3(1)",
-          "source": "https://www.legis.iowa.gov/docs/code/256C.3.pdf",
-          "note": "The Statewide Voluntary Preschool Program is open to every four-year-old resident and funded for each child enrolled, though each school district chooses to take part."
+          "source": "https://www.legis.iowa.gov/docs/code/2026/256C.3.pdf",
+          "note": "The Statewide Voluntary Preschool Program is open to every Iowa resident who is four years old by September 15 and funded for each child enrolled, though each school district chooses to take part. Minimum instruction is ten hours weekly. Funding follows a formula based on eligible enrollment and state cost, not one fixed statewide dollar amount.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "eligible-ages",
+              "value": 4,
+              "unit": "years"
+            }
+          ]
         },
         "US-ID": {
           "answer": "no",
@@ -2805,7 +2813,18 @@
           "note": "Early Childhood Education grants serve children found eligible through a unified state process, not every family. State law does not bar cities or counties from funding preschool."
         },
         "US-OK": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Oklahoma Admin. Code 210:15-11-2; 70 O.S. § 1-114",
+          "source": "https://www.oklahoma.gov/education/services/standards-learning/early-childhood-education/four-year-old-pre-k.html",
+          "note": "Public four-year-old pre-K is voluntary and open to children who are four on or before September 1. No fixed universal per-child funding amount was verified.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "eligible-ages",
+              "value": 4,
+              "unit": "years"
+            }
+          ]
         },
         "US-OR": {
           "answer": "no",
@@ -2873,10 +2892,29 @@
           "operativeAt": "2012-03-07",
           "cite": "V.I. Code tit. 17, § 231",
           "source": "https://law.justia.com/codes/virgin-islands/title-17/chapter-20/231/",
-          "note": "The Department of Education must run a territory-wide voluntary pre-kindergarten program for four-year-olds, aimed at all children who are four, with selection criteria left to Commissioner rules; the section was added March 7, 2012."
+          "note": "The Department of Education must run a territory-wide voluntary pre-kindergarten program for four-year-olds, aimed at all children who are four, with selection criteria left to Commissioner rules; the section was added March 7, 2012.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "eligible-ages",
+              "value": 4,
+              "unit": "years"
+            }
+          ]
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "16 V.S.A. § 829",
+          "source": "https://education.vermont.gov/learning/universal-prekindergarten-act-166/funding",
+          "note": "Act 166 supports eligible children ages three, four, and five who are not yet in kindergarten for ten hours weekly over 35 weeks. The official 2026–27 tuition rate is $4,106 for a prequalified external public/private program; this is a program tuition rate, not an unconditional family payment.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "funding",
+              "value": 410600,
+              "unit": "minor"
+            }
+          ]
         },
         "US-WA": {
           "answer": "no",
@@ -2892,9 +2930,17 @@
         },
         "US-WV": {
           "answer": "yes",
-          "cite": "W. Va. Code § 18-5-44(d), (e)",
+          "cite": "W. Va. Code § 18-5-44(b), (d)-(f), (q)",
           "source": "https://code.wvlegislature.gov/18-5-44/",
-          "note": "County boards must provide early childhood education programs for all children who are four before the school-year cutoff date, open to every child."
+          "note": "County boards must provide early childhood programs for children who turn four before July 1. The statute sets minimum instruction of 1,500 minutes weekly and 48,000 annually, with county waivers available; no fixed per-child funding amount is specified here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "eligible-ages",
+              "value": 4,
+              "unit": "years"
+            }
+          ]
         },
         "US-WY": {
           "answer": "no",
@@ -18233,7 +18279,7 @@
           "preempts": true,
           "cite": "Ala. Code §§ 16-6J-1 to 16-6J-9",
           "source": "https://governor.alabama.gov/newsroom/2026/07/governor-ivey-announces-funding-for-choose-act-education-savings-accounts-for-2026-2027-school-year/",
-          "note": "For 2026–27, participating-school accounts provide $7,000 per student; home education provides $2,000 per student with a $4,000 family cap. Eligibility restrictions apply. Other choice programs also exist.",
+          "note": "For 2026–27, the participating-school account maximum is $7,000 per student, limited to qualifying education expenses. Home education provides up to $2,000 per student with a $4,000 family cap. Eligibility restrictions apply. Other choice programs also exist.",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
@@ -18448,8 +18494,8 @@
           "answer": "yes",
           "preempts": true,
           "cite": "N.C. Gen. Stat. §§ 115C-562.1 to 115C-562.8",
-          "source": "https://www.edchoice.org/school-choice/programs/north-carolina-opportunity-scholarships/",
-          "note": "Universal-eligibility Opportunity Scholarship vouchers (about 103,400 students) and a special-needs education savings account."
+          "source": "https://k12prod.ncseaa.edu/media/boadvxj3/award-tiers.pdf",
+          "note": "For 2026–27, Opportunity Scholarship award caps are $7,942, $7,148, $4,766, or $3,574 by household income tier, paid half each semester and limited to tuition and fees. Tier thresholds vary by household size; tier 4 covers income above tier 3 or unreported income. The catalog lacks annual-USD tier thresholds, so no single award term is recorded. A special-needs ESA also exists."
         },
         "US-ND": {
           "answer": "no",
@@ -20708,8 +20754,16 @@
         "US-IL": {
           "answer": "yes",
           "cite": "105 ILCS 5/24-8",
-          "source": "https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=010500050K24-8",
-          "note": "School boards must pay full-time teachers at least $40,000 for 2023-24, raised each year by the consumer price index (in force on 1/1/2026)."
+          "source": "https://cgfa.ilga.gov/Upload/Certification%20of%20Teacher%20Min%20Salary%20Rate%202026-2027%20School%20Year.pdf",
+          "note": "The certified statewide minimum for a full-time teacher is $43,543 for the 2026–27 school year under the statutory CPI adjustment.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4354300,
+              "unit": "minor"
+            }
+          ]
         },
         "US-IN": {
           "answer": "no",
