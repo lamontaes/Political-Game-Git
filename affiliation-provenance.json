@@ -1,0 +1,32 @@
+{
+  "baselineHead": "96a1a08ff475d48479dcc7bdb5457e121eced608",
+  "candidateHead": "f35c8e61685cfd957a26c76503c2b187f4f09aca",
+  "candidateBase": "c76514832e9c866b5cf5967206bed554b6a1e88e",
+  "route": "ordinary generateOpeningLife(prepareOpeningLife), actual serializer deserializeWorld(serializeWorld)",
+  "sourceState": "clean candidate before launch, exact head printed in same execution before probe",
+  "seed": "session2-opening-affiliation-oct5",
+  "place": {
+    "key": "2832020",
+    "name": "Hickory Flat, Mississippi"
+  },
+  "worldId": "world_d4e8d118487e8b78",
+  "simulationDate": "2026-01-05",
+  "selectedRecords": [
+    {
+      "seatKey": "us-senate:ME:class-1",
+      "personId": "person_84b262272c3c41f5",
+      "tenureId": "event_c96d9c9f2deceee4"
+    },
+    {
+      "seatKey": "us-senate:VT:class-1",
+      "personId": "person_5f6cd41e4820b8a5",
+      "tenureId": "event_dc822e7df9e441f4"
+    }
+  ],
+  "normalizedSaveSha256": "05cd93193f2c2eac28d5abb8a1aed99646a6c16d483b27eba33224c907f0b685",
+  "normalization": "only party:independent token restored to baseline party:none; no other save fields removed",
+  "saveRoundTrip": true,
+  "sameSelectedPersonAndTenureIds": true,
+  "newPartyOrganizations": false,
+  "browserRun": false
+}

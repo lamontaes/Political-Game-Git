@@ -1,0 +1,185 @@
+{
+  "seed": "session2-opening-affiliation-oct5",
+  "place": {
+    "key": "2832020",
+    "name": "Hickory Flat, Mississippi"
+  },
+  "worldId": "world_d4e8d118487e8b78",
+  "date": "2026-01-05",
+  "playerPersonId": "person_f99d6cef4a245995",
+  "normalizedSaveSha256": "05cd93193f2c2eac28d5abb8a1aed99646a6c16d483b27eba33224c907f0b685",
+  "independents": [
+    {
+      "seatKey": "us-senate:ME:class-1",
+      "member": {
+        "personId": "person_84b262272c3c41f5",
+        "personName": "Jennifer Patel",
+        "officeKey": "us-senate",
+        "title": "U.S. Senator from Maine",
+        "stateUsps": "ME",
+        "partyOrganizationId": null,
+        "caucusOrganizationId": "organization_619316ef5cf94f6c",
+        "termId": "event_c96d9c9f2deceee4",
+        "startedAt": "2025-01-03",
+        "endExclusive": "2031-01-03",
+        "serviceSince": "2007-01-03",
+        "birthDate": "1967-08-12",
+        "residenceJurisdictionId": "jurisdiction_95dc3c80ebc2da09",
+        "residenceLabel": "Maine"
+      },
+      "tenure": {
+        "id": "event_c96d9c9f2deceee4",
+        "stableKey": "living-world-v1:seat:us-senate:ME:class-1:term:2025-01-03",
+        "sequence": 1813,
+        "type": "world.legislative-seat-tenure",
+        "occurredAt": "2025-01-03",
+        "recordedAt": "2026-01-05",
+        "jurisdictionId": "jurisdiction_95dc3c80ebc2da09",
+        "involvedEntityIds": [
+          "organization_708e9f3740c6b38d",
+          "person_84b262272c3c41f5"
+        ],
+        "participants": [
+          {
+            "personId": "person_84b262272c3c41f5",
+            "role": "focus:subject",
+            "detail": "U.S. Senator from Maine"
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "caucus:democratic",
+          "living-world-v1",
+          "office:us-senate",
+          "party:none",
+          "provenance:fictional-initial-tenure",
+          "seat:us-senate:ME:class-1",
+          "service-since:2007-01-03",
+          "state:ME",
+          "term-end:2031-01-03",
+          "term-start:2025-01-03"
+        ],
+        "summary": "Jennifer Patel serves as U.S. Senator from Maine in this fictional world.",
+        "context": {
+          "location": null,
+          "socialContext": null,
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      }
+    },
+    {
+      "seatKey": "us-senate:VT:class-1",
+      "member": {
+        "personId": "person_5f6cd41e4820b8a5",
+        "personName": "Christine Conway",
+        "officeKey": "us-senate",
+        "title": "U.S. Senator from Vermont",
+        "stateUsps": "VT",
+        "partyOrganizationId": null,
+        "caucusOrganizationId": "organization_619316ef5cf94f6c",
+        "termId": "event_dc822e7df9e441f4",
+        "startedAt": "2025-01-03",
+        "endExclusive": "2031-01-03",
+        "serviceSince": "2013-01-03",
+        "birthDate": "1951-12-14",
+        "residenceJurisdictionId": "jurisdiction_ccb5f5e8b173f9f5",
+        "residenceLabel": "Vermont"
+      },
+      "tenure": {
+        "id": "event_dc822e7df9e441f4",
+        "stableKey": "living-world-v1:seat:us-senate:VT:class-1:term:2025-01-03",
+        "sequence": 1863,
+        "type": "world.legislative-seat-tenure",
+        "occurredAt": "2025-01-03",
+        "recordedAt": "2026-01-05",
+        "jurisdictionId": "jurisdiction_ccb5f5e8b173f9f5",
+        "involvedEntityIds": [
+          "organization_708e9f3740c6b38d",
+          "person_5f6cd41e4820b8a5"
+        ],
+        "participants": [
+          {
+            "personId": "person_5f6cd41e4820b8a5",
+            "role": "focus:subject",
+            "detail": "U.S. Senator from Vermont"
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "caucus:democratic",
+          "living-world-v1",
+          "office:us-senate",
+          "party:none",
+          "provenance:fictional-initial-tenure",
+          "seat:us-senate:VT:class-1",
+          "service-since:2013-01-03",
+          "state:VT",
+          "term-end:2031-01-03",
+          "term-start:2025-01-03"
+        ],
+        "summary": "Christine Conway serves as U.S. Senator from Vermont in this fictional world.",
+        "context": {
+          "location": null,
+          "socialContext": null,
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      }
+    }
+  ],
+  "chambers": [
+    {
+      "title": "Senate",
+      "parties": [
+        {
+          "partyOrganizationId": "organization_9de8aad2ab580939",
+          "noParty": false,
+          "label": "Republican Party",
+          "members": 58,
+          "slot": 1
+        },
+        {
+          "partyOrganizationId": "organization_85c885d04d7aae79",
+          "noParty": false,
+          "label": "Democratic Party",
+          "members": 40,
+          "slot": 0
+        },
+        {
+          "partyOrganizationId": null,
+          "noParty": true,
+          "label": "No party",
+          "members": 2,
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "title": "House",
+      "parties": [
+        {
+          "partyOrganizationId": "organization_9de8aad2ab580939",
+          "noParty": false,
+          "label": "Republican Party",
+          "members": 231,
+          "slot": 1
+        },
+        {
+          "partyOrganizationId": "organization_85c885d04d7aae79",
+          "noParty": false,
+          "label": "Democratic Party",
+          "members": 204,
+          "slot": 0
+        }
+      ]
+    }
+  ],
+  "saveRoundTrip": true
+}

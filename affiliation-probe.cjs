@@ -1,0 +1,18 @@
+const root='/workspace/Political-Game-Git/';
+const {drawRandomPlace}=require(root+'tests/support/random-place.ts');
+const {DEFAULT_NEW_GAME_SETUP}=require(root+'src/presentation/new-game.ts');
+const {generateOpeningLife,prepareOpeningLife}=require(root+'src/presentation/opening-life.ts');
+const {serializeWorld,deserializeWorld,politicalStartingConditions,projectCongress}=require(root+'src/simulation/index.ts');
+const {projectWorldOrientation}=require(root+'src/presentation/living-world-orientation.ts');
+const {projectOrientationView}=require(root+'src/presentation/world-orientation.ts');
+const fs=require('fs'),crypto=require('crypto');
+const seed='session2-opening-affiliation-oct5';const place=drawRandomPlace(seed);
+const game=generateOpeningLife(prepareOpeningLife({...DEFAULT_NEW_GAME_SETUP,seed,placeKey:place.key,startAge:18,depth:'summarize-earlier-life'})).game;
+if(!game)throw Error('No generated game');
+const world=game.world;const loaded=deserializeWorld(serializeWorld(world));
+const politics=politicalStartingConditions(world);
+const seats=projectCongress(world).senate.seats.filter(s=>politics.seats.find(x=>x.seatKey===s.seatKey)?.affiliation==='independent');
+const normalized={...world,history:{...world.history,events:world.history.events.map(e=>({...e,tags:e.tags.map(t=>t==='party:independent'?'party:none':t)}))}};
+const view=projectOrientationView(projectWorldOrientation(loaded,game.playerPersonId),()=>null);
+const receipt={seed,place:{key:place.key,name:place.displayName},worldId:world.id,date:world.currentDate,playerPersonId:game.playerPersonId,normalizedSaveSha256:crypto.createHash('sha256').update(serializeWorld(normalized)).digest('hex'),independents:seats.map(s=>({seatKey:s.seatKey,member:s.occupant.member,tenure:world.history.events.find(e=>e.id===s.occupant.member.termId)})),chambers:view.steps.find(x=>x.key==='congress').chambers.map(x=>({title:x.title,parties:x.parties})),saveRoundTrip:serializeWorld(loaded)===serializeWorld(world)};
+fs.writeFileSync(process.argv[2],JSON.stringify(receipt,null,2));console.log(JSON.stringify({seed,place:receipt.place,worldId:world.id,date:world.currentDate,saveRoundTrip:receipt.saveRoundTrip,normalizedSaveSha256:receipt.normalizedSaveSha256,independents:receipt.independents.map(x=>({seat:x.seatKey,party:x.member.partyOrganizationId,tags:x.tenure.tags})),chambers:receipt.chambers}));
