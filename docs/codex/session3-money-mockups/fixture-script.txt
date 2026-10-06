@@ -1,0 +1,163 @@
+import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { createStableId } from "../../src/simulation/ids";
+import { createOrganization, createWorkRelationship } from "../../src/simulation/life";
+import { stateJurisdictionForKey } from "../../src/simulation/life-places";
+import { createLightweightPerson, personName } from "../../src/simulation/people";
+import {
+  createResourceFlow,
+  createResourcePosition,
+  createWorkCompensation,
+  money,
+  recordResourceTransferOutcome,
+} from "../../src/simulation/resources";
+import { deserializeWorld, serializeWorld } from "../../src/simulation/serialization";
+import { STATES } from "../../src/simulation/state-reference";
+import { assessPaychecksTaxes } from "../../src/simulation/statutory-tax";
+import {
+  taxBaseOccurrenceSource,
+  recordTaxBase,
+  assessTaxBase,
+  assertTaxIntegrity,
+  recordedPaycheckTaxInput,
+} from "../../src/simulation/tax-policy";
+import {
+  advanceWorld,
+  assertWorldIntegrity,
+  createWorld,
+  createWorldId,
+  recordWorldEvent,
+} from "../../src/simulation/world";
+
+const seed = "team6-a33-actual-paycheck-lineage";
+// Test-place sampling among all 56 saved reference places, not a money draw.
+const places = Object.keys(STATES)
+  .sort((a, b) =>
+    createStableId("decision", `${seed}:${a}`).localeCompare(
+      createStableId("decision", `${seed}:${b}`),
+    ),
+  )
+  .slice(0, 5);
+
+function fixture(
+  usps = places[0]!,
+  actual = 3600,
+  workBasis = true,
+  gross = 7200,
+) {
+  const date = makeIsoDate("2026-01-05");
+  const state = stateJurisdictionForKey(`US-${usps}`)!;
+  const worldSeed = `${seed}:${usps}`;
+  const person = createLightweightPerson({
+    worldId: createWorldId(worldSeed),
+    worldSeed,
+    index: 0,
+    currentDate: date,
+    homeJurisdictionId: state.id,
+  });
+  let world = createWorld({
+    seed: worldSeed,
+    currentDate: date,
+    jurisdictions: [state],
+    people: [person],
+  });
+  const provenance = {
+    kind: "authored" as const,
+    note: "Explicit layout fixture using the owner payment exemplar; no claim of the Kiara playtest or natural recorded pay.",
+  };
+  world = createOrganization(world, {
+    stableKey: "a33:employer",
+    formedAt: date,
+    provenance,
+    initialProfile: {
+      name: "Whitfield Transport",
+      classification: "enterprise:retail",
+      locationJurisdictionId: state.id,
+    },
+  });
+  const organizationId = world.history.organizations.at(-1)!.id;
+  world = createWorkRelationship(world, {
+    stableKey: "a33:work",
+    personId: person.id,
+    organizationId,
+    startedAt: date,
+    kind: "employment:employee",
+    compensation: "paid",
+    authority: "directed",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance,
+    initialRole: {
+      title: "Authored saved worker",
+      occupationClassification: null,
+      locationJurisdictionId: state.id,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 20, maximumHours: 20 },
+        attention: "moderate",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "rigid",
+        interruptibility: "limited",
+        locationJurisdictionId: state.id,
+      },
+    },
+  });
+  const workId = world.history.workRelationships.at(-1)!.id;
+  world = workBasis
+    ? createWorkCompensation(world, {
+        stableKey: "a33:pay-flow",
+        workRelationshipId: workId,
+        startsAt: date,
+        amount: money(gross, "USD"),
+        cadenceKind: "schedule:weekly",
+        restrictionKind: null,
+        jurisdictionId: state.id,
+        provenance,
+      })
+    : createResourceFlow(world, {
+        stableKey: "a33:not-work",
+        source: { kind: "organization", organizationId },
+        recipient: { kind: "person", personId: person.id },
+        startsAt: date,
+        amount: money(gross, "USD"),
+        cadenceKind: "schedule:weekly",
+        basisKind: "custom:gift",
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: state.id,
+        provenance,
+      });
+  const flowId = world.history.resourceFlows.at(-1)!.id;
+  world = createResourcePosition(world, {
+    stableKey: "a33:worker-account",
+    owner: { kind: "person", personId: person.id },
+    openedAt: date,
+    openingBalance: money(0, "USD"),
+    provenance,
+  });
+  world = advanceWorld(world, 6);
+  world = recordResourceTransferOutcome(world, {
+    stableKey: "a33:actual-pay",
+    resourceFlowId: flowId,
+    periodStartsAt: date,
+    periodEndsAt: makeIsoDate("2026-01-11"),
+    occurredAt: world.currentDate,
+    status:
+      actual === 0 ? "missed" : actual === gross ? "completed" : "partial",
+    attemptedAmount: money(gross, "USD"),
+    transferredAmount: money(actual, "USD"),
+    reasonKind: actual === gross ? null : "custom:authored-partial-payment",
+    note: "Authored recorded transfer; only the amount actually paid is an input.",
+    provenance,
+  });
+  const outcomeId = world.history.resourceTransferOutcomes.at(-1)!.id;
+  return { world, person, state, organizationId, workId, flowId, outcomeId };
+}
+
+
+import { writeFileSync } from "node:fs";
+function measured(gross:number){const f=fixture('NV',gross,true,gross);const paid=assessPaychecksTaxes(f.world,[f.outcomeId]);const input=recordedPaycheckTaxInput(paid,f.outcomeId);if(input.kind!=='recorded')throw Error(input.reason);return {f,paid,input,net:gross-input.statutoryCollections.reduce((sum,row)=>sum+row.amount.minorUnits,0)};}
+let low=100400,high=200000;let result=measured(low);
+while(low<=high){const gross=Math.floor((low+high)/2);result=measured(gross);if(result.net===100400)break;if(result.net<100400)low=gross+1;else high=gross-1;}
+if(result.net!==100400)throw Error('No exact fixture net');
+const {f,paid,input,net}=result;
+writeFileSync('test-results/session3-design/pay-stub-fixture.json',JSON.stringify({stage:'Controlled layout fixture, not natural game evidence',seed,place:'NV',employer:'Whitfield Transport',gross:input.amount.minorUnits,net,sourceOutcomeId:f.outcomeId,personId:f.person.id,statutoryCollections:input.statutoryCollections,liabilities:paid.history.statutoryTaxLiabilities?.filter(row=>row.sourceOutcomeId===f.outcomeId)},null,2));
+console.log(JSON.stringify({gross:input.amount.minorUnits,net,collections:input.statutoryCollections}));

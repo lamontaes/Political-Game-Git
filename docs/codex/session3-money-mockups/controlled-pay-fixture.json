@@ -1,0 +1,343 @@
+{
+  "stage": "Controlled layout fixture, not natural game evidence",
+  "seed": "team6-a33-actual-paycheck-lineage",
+  "place": "NV",
+  "employer": "Whitfield Transport",
+  "gross": 119736,
+  "net": 100400,
+  "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+  "personId": "person_55d0b25fd4fafdf5",
+  "statutoryCollections": [
+    {
+      "paymentId": "statutory-tax-payment_77f543e4be342332",
+      "liabilityId": "statutory-tax-liability_fc9be59cf96c746c",
+      "resourceOutcomeId": "resource-transfer-outcome_3414288780b3daef",
+      "amount": {
+        "minorUnits": 7424,
+        "currency": "USD"
+      }
+    },
+    {
+      "paymentId": "statutory-tax-payment_e33c1a6f2ab47b4a",
+      "liabilityId": "statutory-tax-liability_1578f37ffe88f146",
+      "resourceOutcomeId": "resource-transfer-outcome_3414288780b3daef",
+      "amount": {
+        "minorUnits": 1736,
+        "currency": "USD"
+      }
+    },
+    {
+      "paymentId": "statutory-tax-payment_a5c314729042ca8c",
+      "liabilityId": "statutory-tax-liability_859af93796d52d2e",
+      "resourceOutcomeId": "resource-transfer-outcome_3414288780b3daef",
+      "amount": {
+        "minorUnits": 10176,
+        "currency": "USD"
+      }
+    }
+  ],
+  "liabilities": [
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-federal:social-security-employee",
+      "taxKey": "us-federal:social-security-employee",
+      "authorityKey": "US",
+      "payer": {
+        "kind": "person",
+        "personId": "person_55d0b25fd4fafdf5"
+      },
+      "taxableAmount": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "liability": {
+        "minorUnits": 7424,
+        "currency": "USD"
+      },
+      "status": "assessed",
+      "collection": "withheld-from-pay",
+      "dueAt": "2026-01-11",
+      "sourceUrl": "https://www.irs.gov/publications/p15",
+      "researchQuestionId": null,
+      "id": "statutory-tax-liability_fc9be59cf96c746c",
+      "sequence": 11,
+      "recordedAt": "2026-01-11"
+    },
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-federal:medicare-employee",
+      "taxKey": "us-federal:medicare-employee",
+      "authorityKey": "US",
+      "payer": {
+        "kind": "person",
+        "personId": "person_55d0b25fd4fafdf5"
+      },
+      "taxableAmount": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "liability": {
+        "minorUnits": 1736,
+        "currency": "USD"
+      },
+      "status": "assessed",
+      "collection": "withheld-from-pay",
+      "dueAt": "2026-01-11",
+      "sourceUrl": "https://www.irs.gov/publications/p15",
+      "researchQuestionId": null,
+      "id": "statutory-tax-liability_1578f37ffe88f146",
+      "sequence": 12,
+      "recordedAt": "2026-01-11"
+    },
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-federal:additional-medicare-withholding",
+      "taxKey": "us-federal:additional-medicare-withholding",
+      "authorityKey": "US",
+      "payer": {
+        "kind": "person",
+        "personId": "person_55d0b25fd4fafdf5"
+      },
+      "taxableAmount": {
+        "minorUnits": 0,
+        "currency": "USD"
+      },
+      "liability": {
+        "minorUnits": 0,
+        "currency": "USD"
+      },
+      "status": "assessed",
+      "collection": "withheld-from-pay",
+      "dueAt": "2026-01-11",
+      "sourceUrl": "https://www.irs.gov/publications/p15",
+      "researchQuestionId": null,
+      "id": "statutory-tax-liability_c1876cd056eb4be3",
+      "sequence": 13,
+      "recordedAt": "2026-01-11"
+    },
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-federal:social-security-employer",
+      "taxKey": "us-federal:social-security-employer",
+      "authorityKey": "US",
+      "payer": {
+        "kind": "organization",
+        "organizationId": "organization_881c91217a9efdc4"
+      },
+      "taxableAmount": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "liability": {
+        "minorUnits": 7424,
+        "currency": "USD"
+      },
+      "status": "assessed",
+      "collection": "payable-by-payer",
+      "dueAt": null,
+      "sourceUrl": "https://www.irs.gov/publications/p15",
+      "researchQuestionId": "employer-payroll-tax-deposits-and-unemployment",
+      "id": "statutory-tax-liability_fc9bf49cf96c8de9",
+      "sequence": 14,
+      "recordedAt": "2026-01-11"
+    },
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-federal:medicare-employer",
+      "taxKey": "us-federal:medicare-employer",
+      "authorityKey": "US",
+      "payer": {
+        "kind": "organization",
+        "organizationId": "organization_881c91217a9efdc4"
+      },
+      "taxableAmount": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "liability": {
+        "minorUnits": 1736,
+        "currency": "USD"
+      },
+      "status": "assessed",
+      "collection": "payable-by-payer",
+      "dueAt": null,
+      "sourceUrl": "https://www.irs.gov/publications/p15",
+      "researchQuestionId": "employer-payroll-tax-deposits-and-unemployment",
+      "id": "statutory-tax-liability_1579067ffe89118f",
+      "sequence": 15,
+      "recordedAt": "2026-01-11"
+    },
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-federal:income-tax-withholding",
+      "taxKey": "us-federal:income-tax-withholding",
+      "authorityKey": "US",
+      "payer": {
+        "kind": "person",
+        "personId": "person_55d0b25fd4fafdf5"
+      },
+      "taxableAmount": {
+        "minorUnits": 88774,
+        "currency": "USD"
+      },
+      "liability": {
+        "minorUnits": 10176,
+        "currency": "USD"
+      },
+      "status": "assessed",
+      "collection": "withheld-from-pay",
+      "dueAt": "2026-01-11",
+      "sourceUrl": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
+      "researchQuestionId": null,
+      "id": "statutory-tax-liability_859af93796d52d2e",
+      "sequence": 16,
+      "recordedAt": "2026-01-11"
+    },
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-federal:futa",
+      "taxKey": "us-federal:futa",
+      "authorityKey": "US",
+      "payer": {
+        "kind": "organization",
+        "organizationId": "organization_881c91217a9efdc4"
+      },
+      "taxableAmount": null,
+      "liability": null,
+      "status": "rule-unknown",
+      "collection": "none",
+      "dueAt": null,
+      "sourceUrl": "https://www.irs.gov/publications/p15",
+      "researchQuestionId": "employer-payroll-tax-deposits-and-unemployment",
+      "id": "statutory-tax-liability_0aa69013a90424e1",
+      "sequence": 17,
+      "recordedAt": "2026-01-11"
+    },
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-nv:wage-income-tax",
+      "taxKey": "us-nv:wage-income-tax",
+      "authorityKey": "US-NV",
+      "payer": {
+        "kind": "person",
+        "personId": "person_55d0b25fd4fafdf5"
+      },
+      "taxableAmount": {
+        "minorUnits": 0,
+        "currency": "USD"
+      },
+      "liability": {
+        "minorUnits": 0,
+        "currency": "USD"
+      },
+      "status": "not-imposed",
+      "collection": "none",
+      "dueAt": null,
+      "sourceUrl": "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/",
+      "researchQuestionId": null,
+      "id": "statutory-tax-liability_d5479258fc6460c0",
+      "sequence": 18,
+      "recordedAt": "2026-01-11"
+    },
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-nv:local-wage-taxes",
+      "taxKey": "us-nv:local-wage-taxes",
+      "authorityKey": "US-NV:local",
+      "payer": {
+        "kind": "person",
+        "personId": "person_55d0b25fd4fafdf5"
+      },
+      "taxableAmount": null,
+      "liability": null,
+      "status": "rule-unknown",
+      "collection": "none",
+      "dueAt": null,
+      "sourceUrl": null,
+      "researchQuestionId": "local-income-tax-authority-56-places",
+      "id": "statutory-tax-liability_9ef7fc4d2d8e2756",
+      "sequence": 19,
+      "recordedAt": "2026-01-11"
+    },
+    {
+      "sourceOutcomeId": "resource-transfer-outcome_14e0321ec3bad7bc",
+      "occurredAt": "2026-01-11",
+      "taxYear": 2026,
+      "wages": {
+        "minorUnits": 119736,
+        "currency": "USD"
+      },
+      "stableKey": "statutory-tax:resource-transfer-outcome_14e0321ec3bad7bc:us-nv:modified-business-tax",
+      "taxKey": "us-nv:modified-business-tax",
+      "authorityKey": "US-NV",
+      "payer": {
+        "kind": "organization",
+        "organizationId": "organization_881c91217a9efdc4"
+      },
+      "taxableAmount": null,
+      "liability": null,
+      "status": "base-unknown",
+      "collection": "none",
+      "dueAt": null,
+      "sourceUrl": "https://tax.nv.gov/tax-types/modified-business-tax/",
+      "researchQuestionId": "employer-total-quarterly-payroll",
+      "id": "statutory-tax-liability_b1d7ea85d6b18e0c",
+      "sequence": 20,
+      "recordedAt": "2026-01-11"
+    }
+  ]
+}

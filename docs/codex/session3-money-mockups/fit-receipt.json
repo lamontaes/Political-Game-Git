@@ -1,0 +1,154 @@
+{
+  "stage": "Static prototype layout/navigation only, not game acceptance",
+  "fits": [
+    {
+      "skin": "graphite",
+      "state": "overview",
+      "panel": {
+        "x": 24,
+        "y": 423,
+        "width": 600,
+        "height": 234
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "roomVisibleFraction": 0.9322916666666666,
+      "scrollers": [],
+      "clipped": [],
+      "bodyScroll": false
+    },
+    {
+      "skin": "graphite",
+      "state": "pay-stub",
+      "panel": {
+        "x": 24,
+        "y": 281,
+        "width": 600,
+        "height": 518
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "roomVisibleFraction": 0.8501157407407407,
+      "scrollers": [],
+      "clipped": [],
+      "bodyScroll": false
+    },
+    {
+      "skin": "graphite",
+      "state": "overview",
+      "panel": {
+        "x": 18,
+        "y": 271,
+        "width": 520,
+        "height": 226
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "roomVisibleFraction": 0.8505655924479166,
+      "scrollers": [],
+      "clipped": [],
+      "bodyScroll": false
+    },
+    {
+      "skin": "graphite",
+      "state": "pay-stub",
+      "panel": {
+        "x": 18,
+        "y": 129,
+        "width": 520,
+        "height": 510
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "roomVisibleFraction": 0.66278076171875,
+      "scrollers": [],
+      "clipped": [],
+      "bodyScroll": false
+    },
+    {
+      "skin": "warm",
+      "state": "overview",
+      "panel": {
+        "x": 24,
+        "y": 423,
+        "width": 600,
+        "height": 234
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "roomVisibleFraction": 0.9322916666666666,
+      "scrollers": [],
+      "clipped": [],
+      "bodyScroll": false
+    },
+    {
+      "skin": "warm",
+      "state": "pay-stub",
+      "panel": {
+        "x": 24,
+        "y": 281,
+        "width": 600,
+        "height": 518
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "roomVisibleFraction": 0.8501157407407407,
+      "scrollers": [],
+      "clipped": [],
+      "bodyScroll": false
+    },
+    {
+      "skin": "warm",
+      "state": "overview",
+      "panel": {
+        "x": 18,
+        "y": 271,
+        "width": 520,
+        "height": 226
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "roomVisibleFraction": 0.8505655924479166,
+      "scrollers": [],
+      "clipped": [],
+      "bodyScroll": false
+    },
+    {
+      "skin": "warm",
+      "state": "pay-stub",
+      "panel": {
+        "x": 18,
+        "y": 129,
+        "width": 520,
+        "height": 510
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "roomVisibleFraction": 0.66278076171875,
+      "scrollers": [],
+      "clipped": [],
+      "bodyScroll": false
+    }
+  ],
+  "prototypePointerAndKeyboard": "PASS",
+  "fixtureNet": 100400,
+  "source": "772d1bfdc36d44e23bdc34e5e07082493888e026",
+  "art": "art/references/masters/scene-environment/OCD_SCENE_MASTER_APARTMENT_LIVING_CANONICAL_03_5504x3072.jpg",
+  "artSha256": "f4a97135966bcdf603efbce8f2d314e2c414816b45dbbbc1113b819557e2e5ea"
+}
