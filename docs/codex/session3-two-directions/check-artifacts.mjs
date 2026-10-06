@@ -1,6 +1,7 @@
+import { log } from "node:console";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, URL } from "node:url";
 const root = fileURLToPath(new URL(".", import.meta.url));
 const receipts = JSON.parse(readFileSync(root + "fit-receipt.json", "utf8"));
 const source = JSON.parse(readFileSync(root + "provenance.json", "utf8"));
@@ -27,6 +28,6 @@ for (const direction of ["a", "b"]) {
     assert.equal(receipt.viewport.height, 1080);
   }
 }
-console.log(
+log(
   "PASS: four native-1920 artifacts, recorded fit and served source binding. Historical evidence only; no fresh browser claim.",
 );
