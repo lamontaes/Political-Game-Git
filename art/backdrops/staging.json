@@ -9190,10 +9190,10 @@
       "spots": [
         {
           "x": 68,
-          "y": 70,
+          "y": 72,
           "pose": "stand",
           "facing": "viewer",
-          "depth": 70,
+          "depth": 72,
           "clipBelowY": 43,
           "group": "counter",
           "role": "staff-behind-counter",
@@ -9255,7 +9255,7 @@
           "id": "store:spot:6"
         }
       ],
-      "measuredFrom": "horizon rechecked from left shelving edges converging at x55 y35.5; checkout counter 0.95 m (front near x64 foot 70 top 44) about 0.73 at that depth, consistent with retained 0.68; cashier hidden floor visually estimated y70 +/-2 behind counter, replacing surface-height y50; counter clip remains y43",
+      "measuredFrom": "horizon rechecked from left shelving edges converging at x55 y35.5; checkout counter 0.95 m (front near x64 foot 72 top 43) about 0.68 at that depth; cashier floor contact follows the counter base at y72 rather than the counter surface; counter clip remains y43",
       "surfaceSlots": []
     },
     "suburban-house": {
