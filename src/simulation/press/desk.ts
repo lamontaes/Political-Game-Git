@@ -47,7 +47,6 @@ import {
 } from "./responses";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
-
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
   ensurePressExposureCoverage,
@@ -77,6 +76,7 @@ import {
   reportLawOutcomes,
 } from "./law-effect-news";
 import { recordStoryHeardExposure } from "./story-exposure";
+import { newsHabitOf } from "../living-world/news-habits";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -1281,8 +1281,21 @@ function recordProfessionalReaders(
     const basis = eventById(world, basisId);
     if (basis) for (const id of lawNewsReaders(world, basis)) readers.add(id);
   }
+  const outlet = mediaOutlets(world).find(
+    (candidate) => mediaOutletKey(candidate.id) === publication.outletKey,
+  );
+  // Only residents represented as individual people in the player's local
+  // outlet geography are written here. The rest of the country is reached by
+  // its scheduled group readers, not by a national person-by-person sweep.
+  if (outlet?.scope === "local") {
+    const coveredPlaces = new Set(outlet.primaryJurisdictionIds);
+    for (const person of Object.values(world.people))
+      if (coveredPlaces.has(person.homeJurisdictionId)) readers.add(person.id);
+  }
   let next = world;
   for (const personId of [...readers].sort()) {
+    if (!newsHabitOf(next, personId).outletKeys.includes(publication.outletKey))
+      continue;
     next = recordEventKnowledge(next, {
       stableKey: `${publication.stableKey}:read:${personId}`,
       personId,
