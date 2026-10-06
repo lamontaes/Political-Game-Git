@@ -16,7 +16,7 @@ const { startingLawTermsMock } = vi.hoisted(() => ({
 }));
 
 vi.mock("./law-in-force", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("./law-in-force")>();
+  const actual = await importOriginal<typeof lawReader>();
   return { ...actual, startingLawTerms: startingLawTermsMock };
 });
 
