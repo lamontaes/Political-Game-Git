@@ -1,6 +1,13 @@
 import { tallyDispositions } from "../legislation";
+import { municipalGovernmentByKey } from "../municipal-government";
+import { municipalGovernmentJurisdictionId } from "../municipal-public-work";
+import { nextTownElection } from "../nationwide-world/town-election-calendar";
+import { recordWorldEvent } from "../world";
 import {
   constitutionalActions,
+  ordinaryBallotMeasures,
+  type OrdinaryBallotMeasureInput,
+  type OrdinaryBallotMeasureRecord,
   constitutionalPosition,
   constitutionalProposalRuleForWorld,
   proposeConstitutionalMeasure,
@@ -1009,13 +1016,24 @@ function proposeAndVoteUnchecked(
  * counted here. Null where nobody counts: a term-limit amendment answers no
  * catalog question, so no view on it can be on record yet.
  */
+/** Ordinary measures and amendments name the same proposition and jurisdiction. */
+export interface BallotMeasureSubject {
+  readonly jurisdictionId: EntityId;
+  readonly ruleDelta: ConstitutionalRuleDelta;
+}
+
 export function recordedBallotTally(
   world: World,
-  measure: ConstitutionalMeasureRecord,
+  measure: BallotMeasureSubject,
 ): {
   readonly yes: number;
   readonly no: number;
   readonly beliefIds: readonly EntityId[];
+  readonly recordedBallots: readonly {
+    readonly personId: EntityId;
+    readonly optionKey: "yes" | "no";
+    readonly beliefId: EntityId;
+  }[];
 } | null {
   const delta = measure.ruleDelta;
   if (delta.kind !== "policy-provision") return null;
@@ -1036,6 +1054,11 @@ export function recordedBallotTally(
   let yes = 0;
   let no = 0;
   const beliefIds: EntityId[] = [];
+  const recordedBallots: {
+    personId: EntityId;
+    optionKey: "yes" | "no";
+    beliefId: EntityId;
+  }[] = [];
   for (const [personId, belief] of [...latest].sort(([a], [b]) =>
     a.localeCompare(b),
   )) {
@@ -1055,8 +1078,81 @@ export function recordedBallotTally(
     if (favors) yes += 1;
     else no += 1;
     beliefIds.push(belief.id);
+    recordedBallots.push({
+      personId,
+      optionKey: favors ? "yes" : "no",
+      beliefId: belief.id,
+    });
   }
-  return yes + no === 0 ? null : { yes, no, beliefIds };
+  return yes + no === 0 ? null : { yes, no, beliefIds, recordedBallots };
+}
+
+/** One referral calendar, retaining the town's compiled date and the existing state profile. */
+export function referOrdinaryBallotMeasure(
+  world: World,
+  input: OrdinaryBallotMeasureInput,
+): World {
+  const government = input.governmentKey
+    ? municipalGovernmentByKey(input.governmentKey)
+    : null;
+  if (
+    input.processKind === "ordinance" &&
+    (!government ||
+      municipalGovernmentJurisdictionId(world, government.key) !==
+        input.jurisdictionId)
+  )
+    throw new Error(
+      "A town ballot measure must name its actual municipal government.",
+    );
+  const townElection =
+    input.processKind === "ordinance" && government?.placeGeoid
+      ? nextTownElection(
+          government.state,
+          government.placeGeoid,
+          world.currentDate,
+        )
+      : null;
+  if (input.processKind === "ordinance" && !townElection)
+    throw new Error(
+      "The town's compiled election calendar has not established a lawful ballot date.",
+    );
+  const electionAt =
+    townElection?.electionDate ??
+    nextGeneralElectionDay(
+      addDays(world.currentDate, CONSTITUTIONAL_REFORM_PROFILE.ballotLeadDays),
+    );
+  const proposed = proposeConstitutionalMeasure(world, input);
+  const measure = ordinaryBallotMeasures(proposed).find(
+    (row) => row.stableKey === input.stableKey,
+  )!;
+  return scheduleFutureDueItem(proposed, {
+    stableKey: `${measure.stableKey}:ballot:${electionAt}`,
+    dueAt: electionAt,
+    transitionKey: CONSTITUTIONAL_REFORM_BALLOT,
+    entityIds: [measure.jurisdictionId],
+    jurisdictionId: measure.jurisdictionId,
+    provenance: {
+      kind: "authored",
+      note: townElection
+        ? `Municipal ballot calendar: ${townElection.basis}.`
+        : PLACEHOLDER_NOTE,
+    },
+  });
+}
+
+/** STUB: Session21's citizen-law enactment contract is pending on board6020713204. */
+export function enactCitizenBallotMeasure(
+  world: World,
+  measure: OrdinaryBallotMeasureRecord,
+  tally: NonNullable<ReturnType<typeof recordedBallotTally>>,
+): FutureTransitionHandlerResult {
+  return {
+    world,
+    status: "blocked",
+    reasonKey: "ballot:canonical-enactment-writer-pending",
+    context: `${measure.designation} passed ${tally.yes} to ${tally.no}; its versioned text awaits the canonical citizen-law enactment writer.`,
+    outcomeEventId: null,
+  };
 }
 
 /** Election day: the voters decide a referred amendment. */
@@ -1064,6 +1160,60 @@ export function constitutionalReformBallotHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
+  const ordinary = ordinaryBallotMeasures(world).find((candidate) =>
+    due.stableKey.startsWith(`${candidate.stableKey}:ballot:`),
+  );
+  if (ordinary) {
+    if (world.currentDate !== due.dueAt)
+      return {
+        world,
+        status: "blocked",
+        reasonKey: "ballot:not-election-day",
+        context:
+          "This measure is not before the voters until its scheduled lawful election day.",
+        outcomeEventId: null,
+      };
+    const tally = recordedBallotTally(world, ordinary);
+    if (!tally)
+      return done(
+        world,
+        "No eligible voter has a recorded position on this proposition.",
+      );
+    if (tally.yes > tally.no)
+      return enactCitizenBallotMeasure(world, ordinary, tally);
+    const rejected = recordWorldEvent(world, {
+      stableKey: `${ordinary.stableKey}:rejected:${world.currentDate}`,
+      type: "civic.ballot-measure-rejected",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: ordinary.jurisdictionId,
+      involvedEntityIds: tally.recordedBallots.map((row) => row.personId),
+      participants: tally.recordedBallots.map((row) => ({
+        personId: row.personId,
+        role: "focus:voter",
+        detail: row.optionKey,
+      })),
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        `ballot:${ordinary.stableKey}`,
+        `yes:${tally.yes}`,
+        `no:${tally.no}`,
+        ...tally.beliefIds.map((id) => `belief-source:${id}`),
+      ],
+      summary: `The voters rejected ${ordinary.designation}: ${tally.yes} yes, ${tally.no} no.`,
+      context: {
+        location: null,
+        socialContext: "A recorded ballot result",
+        pressure: null,
+        choice: "rejected",
+        motivation:
+          "A majority of the named ballots did not support this proposition.",
+        immediateReaction: null,
+      },
+    });
+    return done(rejected, "The measure failed; no law was enacted.");
+  }
   const found = stateForDue(due);
   const measure = (world.history.constitutionalMeasures ?? []).find(
     (candidate) => due.stableKey.startsWith(`${candidate.stableKey}:ballot:`),
