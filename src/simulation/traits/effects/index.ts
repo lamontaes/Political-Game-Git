@@ -9,6 +9,7 @@ import { facetBrazenEffects } from "./facet-brazen";
 import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
 import { facetDefensiveEffects } from "./facet-defensive";
+import { facetCruelEffects } from "./facet-cruel";
 import { facetEnviousEffects } from "./facet-envious";
 import { facetGentleEffects } from "./facet-gentle";
 import { facetMeticulousEffects } from "./facet-meticulous";
@@ -36,6 +37,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetCockyEffects,
     ...facetComfortingEffects,
     ...facetDefensiveEffects,
+    ...facetCruelEffects,
     ...facetEnviousEffects,
     ...facetGentleEffects,
     ...facetMeticulousEffects,
