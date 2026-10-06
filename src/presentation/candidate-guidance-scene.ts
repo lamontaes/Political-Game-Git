@@ -15,6 +15,7 @@ import { meetingDepartureRoute, meetingHomeRoute } from "./meeting-home-route";
 import { travelToPlace } from "./place-travel";
 import { performVenueActivity, venueActivities } from "./venue-activity";
 import { cancelScheduledActivity } from "../simulation/time-work";
+import { projectCampaignOffices } from "./campaign-office-discovery";
 
 export type CandidateGuidanceQuestion = "requirements" | "filing";
 
@@ -32,6 +33,28 @@ export const CANDIDATE_GUIDANCE_QUESTIONS: readonly {
 
 const baseKey = (activityId: EntityId) =>
   `candidate-guidance-scene-v1:${activityId}`;
+
+function candidateGuidanceReply(
+  world: World,
+  personId: EntityId,
+  question: CandidateGuidanceQuestion,
+): string {
+  const offices = projectCampaignOffices(world, personId);
+  if (question === "requirements") {
+    if (offices.length === 0) {
+      return "I don't have an office's requirements on record for your home place yet.";
+    }
+    return offices
+      .slice(0, 4)
+      .map((office) => `${office.title}: ${office.eligibility}`)
+      .join(" ");
+  }
+  const next = offices.find((office) => office.electionDate !== null);
+  if (!next) {
+    return "I don't have an upcoming election date on record for an office here.";
+  }
+  return `${next.timing} The filing office and deadline for ${next.title} aren't in the record yet.`;
+}
 
 /** A saved journey and the actual host are prerequisites for the conversation. */
 function guidanceHere(world: World, personId: EntityId, activityId: EntityId) {
@@ -264,12 +287,7 @@ export function askCandidateGuidance(
     (choice) => choice.key === question,
   )?.words;
   if (!scene || scene.activityId !== activityId || !words) return world;
-  // COPY-PENDING(wave2): Claude English will replace these short lines from
-  // the recorded scene packet. No filing rule or host knowledge is asserted.
-  const response =
-    question === "requirements"
-      ? "Let's check the requirements before you decide to run."
-      : "Let's check the filing steps before you act.";
+  const response = candidateGuidanceReply(world, personId, question);
   const host = scene.actors[0]!;
   const key = `${baseKey(activityId)}:question:${question}`;
   const next = recordWorldEvent(world, {
