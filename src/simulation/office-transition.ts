@@ -39,6 +39,7 @@ import {
   OATH_FORMS,
 } from "./oath-of-office";
 import type { OathForm, OathSwornOn } from "./oath-of-office";
+import { ensurePressHomeCoverage } from "./press/outlets";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -586,7 +587,7 @@ export function takeOathOfOffice(
       `The term does not begin until ${input.startsAt}; there is no oath to take yet.`,
     );
   const summary = `Sworn in as ${input.officeTitle}.`;
-  return recordWorldEvent(world, {
+  const sworn = recordWorldEvent(world, {
     stableKey: oathKey(input.personId, input.contestId),
     type: OFFICE_OATH_TAKEN,
     occurredAt: makeIsoDate(world.currentDate),
@@ -619,4 +620,7 @@ export function takeOathOfOffice(
       immediateReaction: null,
     },
   });
+  // Taking public office extends local and state press coverage to the
+  // jurisdictions in the player's political roles.
+  return ensurePressHomeCoverage(sworn);
 }

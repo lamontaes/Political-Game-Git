@@ -27,6 +27,11 @@ import {
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
+import {
+  homeStateJurisdictionId,
+  stateOfJurisdiction,
+} from "../simulation/press/outlets";
+import { ensurePressExposureCoverage } from "../simulation/press/views";
 import { MEMBER_BALLOT_LOCATION_KEY } from "../simulation/governing/member-ballots";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { recordDomainAttendance } from "./activity-attendance";
@@ -550,7 +555,27 @@ export function performVenueActivity(
   );
   // The wait before it can cross days in which an organizer booked something
   // for a time already gone; see `releaseMissedHolds`.
-  return performed === world ? world : releaseMissedHolds(performed, personId);
+  const settled =
+    performed === world ? world : releaseMissedHolds(performed, personId);
+  if (
+    settled !== world &&
+    world.control.kind === "person" &&
+    world.control.personId === personId
+  ) {
+    const homeState = homeStateJurisdictionId(settled, personId);
+    const attendedOutOfStatePublicEvent = settled.history.events
+      .slice(world.history.events.length)
+      .some(
+        (event) =>
+          event.visibility === "public" &&
+          event.jurisdictionId !== null &&
+          event.participants.some((entry) => entry.personId === personId) &&
+          stateOfJurisdiction(settled, event.jurisdictionId) !== homeState,
+      );
+    if (attendedOutOfStatePublicEvent)
+      return ensurePressExposureCoverage(settled);
+  }
+  return settled;
 }
 
 /**

@@ -14,6 +14,7 @@ import {
   bindRuleCapabilityResolver,
   datedTransitionServices,
   makeIsoDate,
+  mediaOutlets,
   officeTransitionProfile,
   OFFICE_TRANSITION_PROFILES,
   OFFICE_TRANSITION_SERVICE_ATTENDED,
@@ -156,6 +157,21 @@ describe("a Kentucky legislator-elect", () => {
     expect(
       projectOfficeTransition(moveToTermDate(late, view!.startsAt), personId),
     ).toBeNull();
+    const inOffice = moveToTermDate(late, view!.startsAt);
+    const sworn = takeOathForHeldOffice(inOffice, personId, {
+      swornOn: "bible",
+      form: "swear",
+    });
+    const oathEvent = sworn.history.events.find(
+      (event) => event.type === "office.oath-taken",
+    )!;
+    expect(
+      mediaOutlets(sworn).some(
+        (outlet) =>
+          outlet.scope === "state" &&
+          outlet.primaryJurisdictionIds.includes(oathEvent.jurisdictionId!),
+      ),
+    ).toBe(true);
   }, 240_000);
 
   it("shows no transition to the candidate who lost", () => {
