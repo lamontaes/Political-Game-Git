@@ -19,15 +19,16 @@ const baseline: MonthReceipt = {
     decisions: [],
     appendedPayloadDigest: "initial",
   },
-  actionDays: [
-    {
-      day: 2,
-      date: "2026-01-07",
-      actionNumbers: [1, 2],
+  actionDays: Array.from({ length: 30 }, (_, index) => {
+    const day = index + 2;
+    return {
+      day,
+      date: new Date(Date.UTC(2026, 0, 6 + index)).toISOString().slice(0, 10),
+      actionNumbers: day === 2 ? [1, 2] : [day],
       decisions: [],
       appendedPayloadDigest: "d",
-    },
-  ],
+    };
+  }),
   date: "2026-02-04",
   fingerprint: "before",
   people: [{ id: "p1", hash: "person" }],
