@@ -2,6 +2,7 @@ import type { TraitEffectDeclaration } from "../../trait-packs";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
 import { facetHumbleEffects } from "./facet-humble";
 import { facetProudEffects } from "./facet-proud";
+import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetBluntEffects } from "./facet-blunt";
 import { facetBrazenEffects } from "./facet-brazen";
 import { facetCockyEffects } from "./facet-cocky";
@@ -26,6 +27,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetSelfConsciousEffects,
     ...facetHumbleEffects,
     ...facetProudEffects,
+    ...facetArgumentativeEffects,
     ...facetBluntEffects,
     ...facetBrazenEffects,
     ...facetCockyEffects,
