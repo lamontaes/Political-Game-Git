@@ -340,3 +340,5 @@ export * from "./crisis/handling-reactions";
 export * from "./nationwide-world/presidential-turnover";
 export * from "./living-world/federal-reform";
 export * from "./federal-tenures";
+
+export * from "./campaign-managers";
