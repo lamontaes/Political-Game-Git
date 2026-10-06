@@ -39,7 +39,11 @@ import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
 import { personName, createLightweightPerson } from "./people";
-import { withWorldIntegrityDeferred, createWorld } from "./world";
+import {
+  withWorldIntegrityDeferred,
+  createWorld,
+  recordWorldEvent,
+} from "./world";
 import type { World, IsoDate } from "./types";
 
 const places = new Map<string, [string, number]>();
@@ -495,6 +499,36 @@ it("summarizes distant historical routine earnings and resumes ordinary payroll 
   const past = beginHistoricalPastMode(initial, focusId, through);
   expect(distantHistoricalRoutine(past, f.personId)).toBe(true);
   expect(distantHistoricalRoutine(past, focusId)).toBe(false);
+  const touched = recordWorldEvent(past, {
+    stableKey: "past-proof:recorded-visit",
+    type: "life.household-move",
+    occurredAt: past.currentDate,
+    recordedAt: past.currentDate,
+    jurisdictionId: past.people[f.personId]!.homeJurisdictionId,
+    involvedEntityIds: [focusId],
+    participants: [
+      { personId: focusId, role: "presence:participant", detail: null },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["life.household-move"],
+    summary: "The authored fixture focus moved to the office holder's town.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  expect(distantHistoricalRoutine(touched, f.personId)).toBe(false);
+  expect(
+    distantHistoricalRoutine(
+      deserializeWorld(serializeWorld(touched)),
+      f.personId,
+    ),
+  ).toBe(false);
   const at = (world: World, days: number): World => {
     const date = addDays(initial.currentDate, days);
     return {
@@ -507,6 +541,12 @@ it("summarizes distant historical routine earnings and resumes ordinary payroll 
   expect(early.history.resourceTransferOutcomes).toBe(
     initial.history.resourceTransferOutcomes,
   );
+  const firstMonth = settleAllOfficeSalaries(at(past, 31));
+  expect(
+    firstMonth.history.resourceTransferOutcomes.filter((row) =>
+      row.stableKey.startsWith(`past-office-summary:${f.flow.id}:`),
+    ),
+  ).toHaveLength(1);
   const ordinary = settleAllOfficeSalaries(at(initial, 365));
   const summarized = settleAllOfficeSalaries(at(past, 365));
   const outcomes = (world: World) =>
@@ -515,8 +555,13 @@ it("summarizes distant historical routine earnings and resumes ordinary payroll 
         row.resourceFlowId === f.flow.id ||
         row.stableKey.startsWith(`past-office-summary:${f.flow.id}:`),
     );
-  expect(outcomes(summarized)).toHaveLength(1);
-  expect(outcomes(summarized)[0]!.attemptedAmount.minorUnits).toBe(
+  expect(outcomes(summarized)).toHaveLength(12);
+  expect(
+    outcomes(summarized).reduce(
+      (sum, row) => sum + row.attemptedAmount.minorUnits,
+      0,
+    ),
+  ).toBe(
     outcomes(ordinary).reduce(
       (sum, row) => sum + row.attemptedAmount.minorUnits,
       0,
@@ -537,7 +582,9 @@ it("summarizes distant historical routine earnings and resumes ordinary payroll 
   expect(outcomes(resumed).length).toBeGreaterThan(outcomes(finished).length);
   expect(
     outcomes(resumed)
-      .slice(1)
-      .every((row) => row.periodStartsAt > outcomes(finished)[0]!.periodEndsAt),
+      .slice(outcomes(finished).length)
+      .every(
+        (row) => row.periodStartsAt > outcomes(finished).at(-1)!.periodEndsAt,
+      ),
   ).toBe(true);
 });
