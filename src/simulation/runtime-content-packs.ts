@@ -2,13 +2,21 @@ import { canonicalJson } from "./canonical-json";
 import { stableHash } from "./ids";
 import type { LifeSceneDefinition } from "./opening-life-content";
 import type { World } from "./types";
+import {
+  assertRuntimeContentRows,
+  mergeRuntimeContentRows,
+  type RuntimeContentRows,
+} from "./runtime-content-pack-rows";
 
 /** Data only. The version names the supported commands and validation contract. */
-export const CONTENT_PACK_API = "ordinary-scenes-v1";
+export const CONTENT_PACK_API = "ordinary-content-v2";
+export const LEGACY_CONTENT_PACK_API = "ordinary-scenes-v1";
+export type SupportedContentPackApi =
+  typeof CONTENT_PACK_API | typeof LEGACY_CONTENT_PACK_API;
 export const CONTENT_PACK_MAX_CHARACTERS = 128 * 1024;
 export interface RuntimeContentPack {
   readonly kind: "our-civic-duty-content-pack";
-  readonly api: typeof CONTENT_PACK_API;
+  readonly api: SupportedContentPackApi;
   readonly id: string;
   readonly version: string;
   readonly title: string;
@@ -37,6 +45,8 @@ export interface RuntimeContentPack {
     readonly traits: readonly unknown[];
     readonly effects: readonly unknown[];
   };
+  /** Typed data rows for the compiled domains that a pack may extend. */
+  readonly rows?: RuntimeContentRows;
 }
 export interface SavedContentPack {
   readonly pack: RuntimeContentPack;
@@ -44,7 +54,7 @@ export interface SavedContentPack {
   readonly digest: string;
 }
 export interface WorldContentPacks {
-  readonly api: typeof CONTENT_PACK_API;
+  readonly api: SupportedContentPackApi;
   /** Dependencies precede consumers; unrelated packages are sorted by id. */
   readonly installed: readonly SavedContentPack[];
 }
@@ -126,11 +136,11 @@ export function assertRuntimeContentPack(
       "durations",
       "scenes",
     ],
-    ["traits"],
+    ["traits", "rows"],
   );
   if (
     value.kind !== "our-civic-duty-content-pack" ||
-    value.api !== CONTENT_PACK_API ||
+    (value.api !== CONTENT_PACK_API && value.api !== LEGACY_CONTENT_PACK_API) ||
     value.authority !== "authored-fiction"
   )
     throw new Error(
@@ -154,6 +164,7 @@ export function assertRuntimeContentPack(
     list(value.traits.traits, 16);
     list(value.traits.effects, 32);
   }
+  if (value.rows !== undefined) assertRuntimeContentRows(value.rows);
   for (const dependency of value.dependencies) {
     record(dependency);
     shape(dependency, ["id", "version"]);
@@ -325,6 +336,7 @@ export function registerRuntimeContentPacks(
           "Scene duration disagrees with its pinned settings definition.",
         );
     }
+  mergeRuntimeContentRows(ordered.map((pack) => pack.rows));
   return {
     api: CONTENT_PACK_API,
     installed: ordered.map((pack) => ({
@@ -334,12 +346,22 @@ export function registerRuntimeContentPacks(
   };
 }
 
+/**
+ * Data presented to section consumers. Identity collisions are rejected here;
+ * explicit replacement semantics belong to the next compatibility layer.
+ */
+export function runtimeContentRows(world: World): RuntimeContentRows {
+  return mergeRuntimeContentRows(
+    world.contentPacks?.installed.map((entry) => entry.pack.rows) ?? [],
+  );
+}
+
 export function assertWorldContentPacks(
   value: unknown,
 ): asserts value is WorldContentPacks {
   record(value);
   shape(value, ["api", "installed"]);
-  if (value.api !== CONTENT_PACK_API)
+  if (value.api !== CONTENT_PACK_API && value.api !== LEGACY_CONTENT_PACK_API)
     throw new Error("Unsupported saved content API.");
   list(value.installed, 32);
   const packs = value.installed.map((entry) => {
@@ -349,9 +371,12 @@ export function assertWorldContentPacks(
     return entry.pack;
   });
   // Canonical bytes establish equality; the compact digest is only a name.
-  if (
-    canonicalJson(registerRuntimeContentPacks(packs)) !== canonicalJson(value)
-  )
+  const registered = registerRuntimeContentPacks(packs);
+  const canonicalSaved =
+    value.api === LEGACY_CONTENT_PACK_API
+      ? { ...registered, api: LEGACY_CONTENT_PACK_API }
+      : registered;
+  if (canonicalJson(canonicalSaved) !== canonicalJson(value))
     throw new Error(
       "Saved content identity, dependency order or digest is inconsistent.",
     );
