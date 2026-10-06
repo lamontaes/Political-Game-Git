@@ -67,20 +67,18 @@ export function openingTourStagedPeople(
   people: readonly OrientationPerson[],
 ) {
   const ids = new Set(people.map((person) => person.personId));
-  return placeBackdropPeople(
+  const placed = placeBackdropPeople(
     world,
     personId,
     place,
     world.currentMoment,
     people,
     { standing: true },
-  )
-    .filter((person) => ids.has(person.personId))
-    .map((person, index, roster) => ({
-      ...person,
-      // This is a public-role illustration. Space its saved cast across the
-      // chamber floor so one representative's plate cannot cover another.
-      leftPercent:
-        ((index + 0.5) / roster.length) * 100 - person.widthPercent / 2,
-    }));
+  );
+  return Object.assign(
+    placed.filter((person) => ids.has(person.personId)),
+    {
+      overflow: placed.overflow.filter((person) => ids.has(person.personId)),
+    },
+  );
 }

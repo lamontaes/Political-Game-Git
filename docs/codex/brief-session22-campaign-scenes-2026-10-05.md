@@ -1,0 +1,31 @@
+# Session 22 — Campaigning by meeting people (golden path step 4)
+
+Model: GPT-6 Luna, Medium. Cloud Codex. Repo lamontaes/Political-Game-Git, branch from current main. Post on status board issue #2052 as "Session 22". Up to 2 Sol 6.1 Light subagents for code search and test runs only.
+
+## What the owner wants (his words, Oct 5)
+"Campaigning by meeting people." The party office, door-knocking and events are SCENES the simulation composes from the place's live records, not a button grid. "You could go to the local party headquarters and they could be debating something, maybe they don't like the current Democrat power, maybe they're trying to get elected, or maybe a certain bill a councillor wants, or maybe nothing happened. It literally just depends on the simulation." "Only people who work there" are in a room. No goal UI. No black bars. All old dialogue and action menus are thrown out ("Ask for something", "Organizing meeting / Door canvass / Phone shift / Talk about running for office" as buttons are gone).
+
+## What exists (read first, reuse, never duplicate)
+- `src/simulation/campaign-life-catalog.ts` (168 lines): the five party activities as catalog entries (Organizing meeting, Door canvass, Phone shift, Talk about running, Community town hall) with hosts and locations. The CONTENT of these (who hosts, where, what they are) stays as data; the button-grid presentation goes.
+- `src/simulation/campaign-life-activities.ts` (2,413 lines): offer/accept/attend events, `contact:met-at-party-event`, recurring contacts, support requests. This is the writer for "met someone campaigning". Keep it; scenes write through it.
+- `src/simulation/campaign-support.ts`: support from people actually reached (`recordSupportShift`, `recordSupportLoss`, basis points). The ONLY support path; a scene that reaches a person records through it.
+- `src/simulation/campaign-recognition.ts` (`doorKnockingReturn`), `campaign-contact-calibration.ts` (`modelCampaignFieldReach`): door-knocking reach and recognition. Reuse for how many doors a scene covers and who answers.
+- `src/simulation/campaign-routine.ts`: the standing routine (D-11: campaign hours are a limited resource; a steady routine continues until changed, scenes interrupt). Scenes are the interruptions.
+- `src/simulation/campaign-week-actions.ts`, `campaign-opponents.ts` (rivals plan and spend through the same path).
+- Session 4's scene blocks (in flight, branch codex/session4-*; spec docs/codex/specs/session4-played-scenes-2026-10-06.md): situation reader from place records → participants → exchange through `composeGroundedLine` (src/presentation/english-composition.ts:215) with record-constrained replies and Lie → image → writeback. Consumers: `src/presentation/story-scene-resolver.ts`, `scene-conversation.ts`, `recorded-room-presence.ts`. You BUILD ON these; you do not write a second scene engine. Coordinate with Session 4 on the board before touching any of those files; Session 4 is the sole writer there.
+- Party chapters: `party-chapter-*.test.ts` and the organizer records (county Democrats/Republicans with an organizer person) already exist in the world.
+
+## Build (numbered parts; one PR each, against main, changed tests only, screenshot or clip from a random town per PR)
+1. **Arrival at the party office is a situation, not a menu.** When the player goes to the county party office (existing place + organizer person), Session 4's situation reader composes what is happening from the chapter's live records: a meeting about a pending bill, a recruitment push, a quarrel about the sitting incumbent, or nothing (the organizer says hello). Inputs you must supply as records the reader can read: the chapter's pending matters (from existing bill/election records for that county), its organizer's wants, who is present (chapter members with recorded attendance habits). No new engine: you write the chapter's "what's pending" projection as data the reader consumes. Proof: two random towns, two different arrivals.
+2. **Door-knocking as a scene.** A campaign routine block of door-knocking becomes a short scene: the street from the place art (existing backdrops by region), the resident who answers is a real resident of that block (from the place's residents), their reply composed from their records (their view of the race, their own stake, their traits), the player's replies from their records; Lie present. Reach and who answers come from `doorKnockingReturn` and `modelCampaignFieldReach`; support change recorded through `recordSupportShift`/`recordSupportLoss` only. Proof: one evening of doors in a random town; print the residents met and the support record lines.
+3. **Events as scenes.** A community town hall or organizing meeting the player attends plays through the same blocks (who speaks from their records, what they say, when the player can speak). Attendance and contacts write through `campaign-life-activities.ts` events. Delete the "Go / Go briefly / Leave and return home" trio and any "20-minute local journey, no fare" line; the journey is included (Register 2026-09-12 P21-01).
+4. **Delete the button grid.** Remove the "Ask for something" grid and "Put your name in" from the Campaigns screen (Session 14 owns the screen's redesign; you remove the dead actions and their handlers, with `Replaces:` lines). The party office is reached by going there (Places/Travel), not by a menu.
+
+## Rules
+- Nothing hard-coded: no fixed "2 people answer per hour", no canned lines. Every number comes from the existing calibration files or the game's own records; every line from `composeGroundedLine`.
+- Zero dice (`evaluateDecision` only). Nothing blank: a resident with no recorded view answers from the game's similar residents with spread.
+- One writer per file. Session 4 owns the scene block files; Session 13 owns the clerk; Session 21 owns votes. Post a board line naming the files you take before editing.
+- Proof per PR: a screenshot or short clip from a real new game in a random place, plus the record lines written. No proof, no READY.
+- Report in plain words on the board every ~30 minutes: what a player now sees that they didn't before.
+
+Start with part 1. Post "Session 22 ACK" with the files you will read and the first town you draw.
