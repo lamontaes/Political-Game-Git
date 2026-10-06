@@ -4,7 +4,12 @@ import {
   organizationProfileAt,
 } from "../simulation/life-queries";
 import { activeDwellingOccupanciesAt } from "../simulation/resource-queries";
-import { householdMembershipsAt } from "../simulation";
+import {
+  householdMembershipsAt,
+  mediaOutlets,
+  pressInterviewByLocationKey,
+  reporterRoles,
+} from "../simulation";
 import { ELECTION_NIGHT_LOCATION_KEY } from "../simulation/campaign-speeches";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import {
@@ -360,6 +365,8 @@ export function placeForLocationKey(
   if (exact === "home") return homePlaceForPerson(world, personId);
   if (exact) return exact;
   const prefix = locationKey.slice(0, locationKey.indexOf(":"));
+  if (prefix === "press-planned")
+    return pressInterviewPlace(world, locationKey);
   if (prefix === "municipal" || prefix === "municipal-notes") {
     if (/county/.test(locationKey)) return "county-commission";
     if (/township|town-board/.test(locationKey))
@@ -368,6 +375,39 @@ export function placeForLocationKey(
         : "council-chamber";
   }
   return LOCATION_PREFIX_PLACE[prefix] ?? null;
+}
+
+/**
+ * Where an arranged press exchange is held: the reporter's own outlet decides.
+ * A broadcaster takes a spoken exchange to its studio, an audio-only outlet to
+ * its booth, and every other outlet, written or spoken, to its newsroom. The
+ * briefing room has no released picture, so no exchange resolves to it. Null
+ * when no saved arrangement carries the key. A reporter with no outlet record
+ * still works from a newsroom, since the interview needs a journalism role.
+ */
+function pressInterviewPlace(world: World, locationKey: string): string | null {
+  const interview = pressInterviewByLocationKey(world, locationKey);
+  if (!interview) return null;
+  const role = [...reporterRoles(world)]
+    .reverse()
+    .find((candidate) => candidate.personId === interview.reporterPersonId);
+  const outlet = role
+    ? mediaOutlets(world).find((candidate) => candidate.id === role.outletId)
+    : null;
+  return pressVenuePlace(interview.channel, outlet?.mediums ?? []);
+}
+
+/** The place picture for a press channel and the mediums its outlet works in. */
+export function pressVenuePlace(
+  channel: "written" | "spoken",
+  mediums: readonly string[],
+): string {
+  if (channel === "spoken") {
+    if (mediums.includes("broadcast")) return "tv-studio";
+    if (mediums.includes("audio") && !mediums.includes("text"))
+      return "radio-booth";
+  }
+  return "newsroom";
 }
 
 const LOCATION_PLACE: Readonly<Record<string, string>> = {
@@ -396,6 +436,8 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
 
 const LOCATION_PREFIX_PLACE: Readonly<Record<string, string>> = {
   journey: "main-street",
+  // The day the court sat on the player's own case (`courtroomLocationKey`).
+  "court-case": "county-courtroom",
   "judicial-office": "county-courtroom",
   municipal: "council-chamber",
   "municipal-notes": "council-chamber",

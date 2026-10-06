@@ -1,0 +1,758 @@
+{
+  "schema": "english-parts/1",
+  "register": "judges",
+  "description": "Sourced judicial-wording parts: dispositions, holdings, reasoning turns and separate-opinion formulas, mined from the Supreme Court's October Term 2024 slip opinions (public domain). Each text is a recurring shape with particulars replaced by slots; opinionsUsing counts how many of the 67 opinions read use it.",
+  "slots": {
+    "court": "The lower court whose judgment is reviewed, such as the Court of Appeals.",
+    "disposition": "What the court orders, such as the judgment is affirmed.",
+    "holding": "What the court decides, as a clause.",
+    "conclusion": "What the court concludes, as a clause.",
+    "question": "The legal question, as a clause.",
+    "concession": "A point granted to the other side.",
+    "summary": "The point restated briefly.",
+    "example": "A case, rule or fact to weigh.",
+    "restatement": "The same point said another way.",
+    "scope": "text, decision or opinion.",
+    "limit": "What the ruling does not decide.",
+    "party": "A party to the case, such as the Government.",
+    "argument": "That party's argument, as a clause.",
+    "point": "The separate point the justice makes.",
+    "action": "What the majority does, in a verb phrase.",
+    "objection": "The dissent's objection, as a clause."
+  },
+  "maxWords": 20,
+  "mining": {
+    "tool": "scripts/english-mining/mine-court-opinions.py",
+    "read": "All 67 slip opinions of October Term 2024 listed at https://www.supremecourt.gov/opinions/slipopinion/24"
+  },
+  "parts": [
+    {
+      "key": "judges.disposition.it-is-so-ordered",
+      "move": "disposition",
+      "text": "It is so ordered.",
+      "opinionsUsing": 66,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2024-11-04",
+        "granule": "604us1r01_2dq3",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r01_2dq3.pdf"
+      }
+    },
+    {
+      "key": "judges.disposition.the-judgment-of-the-court-is-reversed-and-the-case-is-remanded-for-fur",
+      "move": "disposition",
+      "text": "The judgment of the {court} is reversed, and the case is remanded for further proceedings consistent with this opinion.",
+      "opinionsUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-25",
+        "granule": "604us1r12_8njq",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r12_8njq.pdf"
+      }
+    },
+    {
+      "key": "judges.disposition.for-these-reasons-disposition",
+      "move": "disposition",
+      "text": "For these reasons, {disposition}.",
+      "opinionsUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-25",
+        "granule": "604us1r13_c0n2",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r13_c0n2.pdf"
+      }
+    },
+    {
+      "key": "judges.disposition.the-judgment-of-the-court-is-vacated-and-the-case-is-remanded-for-furt",
+      "move": "disposition",
+      "text": "The judgment of the {court} is vacated, and the case is remanded for further proceedings consistent with this opinion.",
+      "opinionsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-21",
+        "granule": "604us1r09_1b7d",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r09_1b7d.pdf"
+      }
+    },
+    {
+      "key": "judges.disposition.the-writ-of-certiorari-is-dismissed-as-improvidently-granted",
+      "move": "disposition",
+      "text": "The writ of certiorari is dismissed as improvidently granted.",
+      "opinionsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2024-11-22",
+        "granule": "604us1r02_j4ek",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r02_j4ek.pdf"
+      }
+    },
+    {
+      "key": "judges.disposition.for-the-foregoing-reasons-disposition",
+      "move": "disposition",
+      "text": "For the foregoing reasons, {disposition}.",
+      "opinionsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-17",
+        "granule": "604us1r07_k536",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r07_k536.pdf"
+      }
+    },
+    {
+      "key": "judges.disposition.we-vacate-and-remand",
+      "move": "disposition",
+      "text": "We vacate and remand.",
+      "opinionsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-04-02",
+        "granule": "604us2r22_ed9g",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us2r22_ed9g.pdf"
+      }
+    },
+    {
+      "key": "judges.disposition.we-reverse",
+      "move": "disposition",
+      "text": "We reverse.",
+      "opinionsUsing": 1,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-05-29",
+        "granule": "605us1r34_h3ci",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/605us1r34_h3ci.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.we-granted-certiorari-to-resolve-question",
+      "move": "holding",
+      "text": "We granted certiorari to resolve {question}.",
+      "opinionsUsing": 41,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2024-12-10",
+        "granule": "604us1r03_3f14",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r03_3f14.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.we-hold-that-holding",
+      "move": "holding",
+      "text": "We hold that {holding}.",
+      "opinionsUsing": 16,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2024-12-10",
+        "granule": "604us1r03_3f14",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r03_3f14.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.the-question-presented-is-whether-question",
+      "move": "holding",
+      "text": "The question presented is whether {question}.",
+      "opinionsUsing": 13,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-21",
+        "granule": "604us1r10_mlio",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r10_mlio.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.we-disagree",
+      "move": "holding",
+      "text": "We disagree.",
+      "opinionsUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-17",
+        "granule": "604us1r07_k536",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r07_k536.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.we-conclude-that-conclusion",
+      "move": "holding",
+      "text": "We conclude that {conclusion}.",
+      "opinionsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-15",
+        "granule": "604us1r06_5ifl",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r06_5ifl.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.the-answer-is-no",
+      "move": "holding",
+      "text": "The answer is no.",
+      "opinionsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-04-17",
+        "granule": "604us2r26_7m48",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us2r26_7m48.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.today-the-court-holds-that-holding",
+      "move": "holding",
+      "text": "Today, the Court holds that {holding}.",
+      "opinionsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-25",
+        "granule": "604us1r12_8njq",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r12_8njq.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.the-answer-is-yes",
+      "move": "holding",
+      "text": "The answer is yes.",
+      "opinionsUsing": 1,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-06-26",
+        "granule": "606us1r59_g31h",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/606us1r59_g31h.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.we-agree",
+      "move": "holding",
+      "text": "We agree.",
+      "opinionsUsing": 1,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-06-27",
+        "granule": "606us2r65_3314",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/606us2r65_3314.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.to-be-sure-concession",
+      "move": "reasoning",
+      "text": "To be sure, {concession}.",
+      "opinionsUsing": 35,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-17",
+        "granule": "604us1r07_k536",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r07_k536.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.in-short-summary",
+      "move": "reasoning",
+      "text": "In short, {summary}.",
+      "opinionsUsing": 30,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-15",
+        "granule": "604us1r05_db8e",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r05_db8e.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.consider-example",
+      "move": "reasoning",
+      "text": "Consider {example}.",
+      "opinionsUsing": 25,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-15",
+        "granule": "604us1r05_db8e",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r05_db8e.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.put-differently-restatement",
+      "move": "reasoning",
+      "text": "Put differently, {restatement}.",
+      "opinionsUsing": 11,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-21",
+        "granule": "604us1r09_1b7d",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r09_1b7d.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.nothing-in-the-scope-limit",
+      "move": "reasoning",
+      "text": "Nothing in the {scope} {limit}.",
+      "opinionsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-21",
+        "granule": "604us1r09_1b7d",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r09_1b7d.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.the-party-argues-that-argument",
+      "move": "reasoning",
+      "text": "The {party} argues that {argument}.",
+      "opinionsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-03-21",
+        "granule": "604us2r18_9p6b",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us2r18_9p6b.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.so-it-is-here",
+      "move": "reasoning",
+      "text": "So it is here.",
+      "opinionsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-15",
+        "granule": "604us1r06_5ifl",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r06_5ifl.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.the-same-is-true-here",
+      "move": "reasoning",
+      "text": "The same is true here.",
+      "opinionsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-06-26",
+        "granule": "606us1r59_g31h",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/606us1r59_g31h.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.we-begin-with-the-text",
+      "move": "reasoning",
+      "text": "We begin with the text.",
+      "opinionsUsing": 1,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-03-04",
+        "granule": "604us1r16_o759",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r16_o759.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.i-respectfully-dissent",
+      "move": "separate-opinion",
+      "text": "I respectfully dissent.",
+      "opinionsUsing": 27,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-21",
+        "granule": "604us1r08_db8e",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r08_db8e.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.i-write-separately-to-point",
+      "move": "separate-opinion",
+      "text": "I write separately to {point}.",
+      "opinionsUsing": 21,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-26",
+        "granule": "604us1r15_dc8f",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r15_dc8f.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.the-court-today-action",
+      "move": "separate-opinion",
+      "text": "The Court today {action}.",
+      "opinionsUsing": 17,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-21",
+        "granule": "604us1r08_db8e",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r08_db8e.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.i-join-the-court-s-opinion-in-full",
+      "move": "separate-opinion",
+      "text": "I join the Court's opinion in full.",
+      "opinionsUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-21",
+        "granule": "604us1r10_mlio",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r10_mlio.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.the-majority-holds-that-holding",
+      "move": "separate-opinion",
+      "text": "The majority holds that {holding}.",
+      "opinionsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-21",
+        "granule": "604us1r11_2b8e",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r11_2b8e.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.respectfully-i-dissent",
+      "move": "separate-opinion",
+      "text": "Respectfully, I dissent.",
+      "opinionsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-04-29",
+        "granule": "605us1r28_limq",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/605us1r28_limq.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.i-concur-in-the-judgment",
+      "move": "separate-opinion",
+      "text": "I concur in the judgment.",
+      "opinionsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-21",
+        "granule": "604us1r08_db8e",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r08_db8e.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.with-respect-objection",
+      "move": "separate-opinion",
+      "text": "With respect, {objection}.",
+      "opinionsUsing": 1,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-06-27",
+        "granule": "606us2r63_n648",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/606us2r63_n648.pdf"
+      }
+    },
+    {
+      "key": "judges.disposition.we-therefore-reverse",
+      "move": "disposition",
+      "text": "We therefore reverse.",
+      "opinionsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-15",
+        "granule": "604us1r06_5ifl",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r06_5ifl.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.we-express-no-view-on",
+      "move": "holding",
+      "text": "We express no view on {question}.",
+      "opinionsUsing": 10,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2024-12-10",
+        "granule": "604us1r03_3f14",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r03_3f14.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.it-follows-that",
+      "move": "holding",
+      "text": "It follows that {conclusion}.",
+      "opinionsUsing": 10,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-04-30",
+        "granule": "605us1r29_bp7c",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/605us1r29_bp7c.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.we-decline-to",
+      "move": "holding",
+      "text": "We decline to {action}.",
+      "opinionsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-06-05",
+        "granule": "605us1r36_4f14",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/605us1r36_4f14.pdf"
+      }
+    },
+    {
+      "key": "judges.holding.we-need-not-decide",
+      "move": "holding",
+      "text": "We need not decide {question}.",
+      "opinionsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-17",
+        "granule": "604us1r07_k536",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r07_k536.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.of-course",
+      "move": "reasoning",
+      "text": "Of course, {concession}.",
+      "opinionsUsing": 34,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2024-12-10",
+        "granule": "604us1r03_3f14",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r03_3f14.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.in-any-event",
+      "move": "reasoning",
+      "text": "In any event, {summary}.",
+      "opinionsUsing": 29,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2024-12-10",
+        "granule": "604us1r03_3f14",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r03_3f14.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.at-the-same-time",
+      "move": "reasoning",
+      "text": "At the same time, {concession}.",
+      "opinionsUsing": 15,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2024-12-10",
+        "granule": "604us1r03_3f14",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r03_3f14.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.for-one-thing",
+      "move": "reasoning",
+      "text": "For one thing, {argument}.",
+      "opinionsUsing": 14,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-03-04",
+        "granule": "604us1r16_o759",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r16_o759.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.our-precedents",
+      "move": "reasoning",
+      "text": "Our precedents {action}.",
+      "opinionsUsing": 11,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-01-21",
+        "granule": "604us1r08_db8e",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r08_db8e.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.not-so",
+      "move": "reasoning",
+      "text": "Not so.",
+      "opinionsUsing": 10,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-04-29",
+        "granule": "605us1r28_limq",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/605us1r28_limq.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.for-another",
+      "move": "reasoning",
+      "text": "For another, {argument}.",
+      "opinionsUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-03-26",
+        "granule": "604us2r20_q8l1",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us2r20_q8l1.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.that-is-especially-so-here",
+      "move": "reasoning",
+      "text": "That is especially so here.",
+      "opinionsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-04-07",
+        "granule": "604us2r25_7648",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us2r25_7648.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.we-have-long-held-that",
+      "move": "reasoning",
+      "text": "We have long held that {holding}.",
+      "opinionsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-05-16",
+        "granule": "605us1r31_7k47",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/605us1r31_7k47.pdf"
+      }
+    },
+    {
+      "key": "judges.reasoning.more-to-the-point",
+      "move": "reasoning",
+      "text": "More to the point, {argument}.",
+      "opinionsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-06-20",
+        "granule": "606us1r56_bq7d",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/606us1r56_bq7d.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.the-majority-s",
+      "move": "separate-opinion",
+      "text": "The majority's {scope} {limit}.",
+      "opinionsUsing": 22,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-21",
+        "granule": "604us1r11_2b8e",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r11_2b8e.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.the-court-s-decision",
+      "move": "separate-opinion",
+      "text": "The Court's decision {action}.",
+      "opinionsUsing": 10,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-21",
+        "granule": "604us1r11_2b8e",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r11_2b8e.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.i-concur-in-part-and-dissent-in-part",
+      "move": "separate-opinion",
+      "text": "I concur in part and dissent in part.",
+      "opinionsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-02-25",
+        "granule": "604us1r13_c0n2",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us1r13_c0n2.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.i-agree-with-the-court-that",
+      "move": "separate-opinion",
+      "text": "I agree with the Court that {holding}.",
+      "opinionsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-04-07",
+        "granule": "604us2r25_7648",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us2r25_7648.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.i-cannot-agree",
+      "move": "separate-opinion",
+      "text": "I cannot agree.",
+      "opinionsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-05-16",
+        "granule": "605us1r31_7k47",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/605us1r31_7k47.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.i-would-reverse",
+      "move": "separate-opinion",
+      "text": "I would reverse.",
+      "opinionsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-06-05",
+        "granule": "605us1r37_986b",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/605us1r37_986b.pdf"
+      }
+    },
+    {
+      "key": "judges.separate-opinion.i-join-the-opinion-of-the-court",
+      "move": "separate-opinion",
+      "text": "I join the opinion of the Court.",
+      "opinionsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Supreme Court of the United States slip opinion",
+        "date": "2025-03-21",
+        "granule": "604us2r18_9p6b",
+        "url": "https://www.supremecourt.gov/opinions/24pdf/604us2r18_9p6b.pdf"
+      }
+    }
+  ]
+}
