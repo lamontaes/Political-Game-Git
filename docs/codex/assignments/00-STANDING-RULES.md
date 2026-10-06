@@ -9,3 +9,11 @@ Others may touch this file; work anyway; whoever merges second rebases; message 
 ## Asking another session (Oct 6)
 
 Cloud sessions have no direct message tool. The direct channel is a board post on GitHub issue #2052 starting "@Session N:" with the exact question. The default answer is docs/codex/assignments/INTERFACES.md: read it first. Never wait for the reply; stub the seam with the shape INTERFACES.md gives and keep building.
+
+## KEEP BUILDING (owner, Oct 6 1:55 a.m.)
+
+If the coordinator, the board or the CTO goes quiet, keep building. When your part is done, take the next unclaimed pool item from docs/codex/assignments/POOL.md (law batches LW-xx, traits T1–T13 and per-trait items, bank parts, audit items AU-xx, placeholders PH-xx) and post "Session N takes X". Before every pause, push your branch and leave a resume marker: docs/codex/progress/session-<N>.md (what is done, what is next, the exact next command), plus a "PROGRESS:" note in the PR body. If your machine restarts, read your marker and continue. Stop only when the pool is empty.
+
+## Subagents (owner, Oct 6)
+
+Traits and law batches are subagent work: the coordinator and any session with subagents fan out, one subagent per trait (after the per-trait registry split T9-0) and one per law batch, each one PR.
