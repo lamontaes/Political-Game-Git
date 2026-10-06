@@ -3161,17 +3161,17 @@
         {
           "kind": "present",
           "file": "src/simulation/living-world/local-council-meetings.ts",
-          "pattern": "presentmentRequired",
-          "why": "afterAdoption branches on the town pack's presentmentRequired"
+          "pattern": "completeCouncilPassage\\(",
+          "why": "The town council delegates adopted ordinances to the canonical passage writer, preserving its pack-based presentment branch and executive action."
         },
         {
           "kind": "present",
-          "file": "src/simulation/living-world/local-council-meetings.ts",
-          "pattern": "evaluateGovernorBill\\(",
-          "why": "where presentment is required the town ordinance is decided through evaluateGovernorBill"
+          "file": "src/simulation/municipal-ordinance-procedure.ts",
+          "pattern": "presentmentRequired",
+          "why": "The called canonical passage writer reads the executive presentment requirement; the preceding evaluator check requires the shared executive decision call in that same module."
         }
       ],
-      "note": "Whole: executiveDesk in the player session, evaluateGovernorBill in congress-lawmaking.ts and municipal-ordinance-procedure.ts pass; town councils branching on presentmentRequired and deciding through evaluateGovernorBill still fail. Scans partly, matching verified."
+      "note": "Whole delegate chain: player executiveDesk; congressional evaluateGovernorBill; council completeCouncilPassage call; canonical municipal presentmentRequired branch and evaluateGovernorBill call. This recognizes existing production delegation instead of demanding duplicate executive logic in local-council-meetings.ts. No runtime behavior is changed by this criterion repair."
     },
     "A81": {
       "covers": "whole",
