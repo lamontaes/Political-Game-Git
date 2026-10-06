@@ -1,5 +1,8 @@
 import { expect, it } from "vitest";
-import { createLawConsequenceRegistry } from "./law-consequence-registry";
+import {
+  createLawConsequenceRegistry,
+  LAW_CONSEQUENCE_REGISTRATIONS,
+} from "./law-consequence-registry";
 import { validateLawConsequences } from "./law-consequence-validation";
 import type {
   LawConsequenceKindRegistration,
@@ -48,6 +51,11 @@ it("does not admit another kind's selector", () => {
 });
 it("keeps an empty capability set unavailable", () =>
   expect(createLawConsequenceRegistry([]).handlers.size).toBe(0));
+
+it("retains the exported registration array through lazy cycle-safe access", () =>
+  expect(
+    LAW_CONSEQUENCE_REGISTRATIONS.map((registration) => registration.kind),
+  ).toContain("service-delivered"));
 
 it("admits the reviewed tax handler only with its declared selector and action", () => {
   const registry = createLawConsequenceRegistry();
