@@ -1,0 +1,36 @@
+import {test,expect} from '../../tests/e2e/fixtures';
+import {fillCreator} from '../../tests/e2e/support/creator';
+import {drawRandomPlace} from '../../tests/support/random-place';
+import {lifePlaceStateIdentities} from '../../src/simulation/life-places';
+import {writeFile} from 'node:fs/promises';
+import {join} from 'node:path';
+const seed='session2-kit13-oct5';
+const place=drawRandomPlace(seed,p=>p.scope==='locality');
+const state=lifePlaceStateIdentities().find(s=>s.jurisdictionKey===place.stateJurisdictionKey)!;
+test('capture visible Creator provider without starting a world',async({page},info)=>{
+ await page.setViewportSize({width:1920,height:1080});
+ const requested:string[]=[];
+ page.on('request',r=>{if(r.url().includes('/art/people-engine/v1/'))requested.push(r.url());});
+ await page.goto('/?seed='+seed);
+ await fillCreator(page,{place:place.displayName,state:state.name,age:35});
+ const figure=page.getByTestId('creator-engine-figure');
+ await expect(figure).toBeVisible({timeout:30_000});
+ const consumer=await figure.evaluate(async(img)=>{
+  const node=img as unknown as Record<string,unknown>;
+  const fiberKey=Object.keys(node).find(k=>k.startsWith('__reactFiber$'));
+  if(!fiberKey)throw new Error('Visible figure has no React fiber; do not infer recipe');
+  let fiber=node[fiberKey] as any;
+  while(fiber&&!fiber.memoizedProps?.recipe)fiber=fiber.return;
+  if(!fiber)throw new Error('Actual visible recipe was not found');
+  const recipe=fiber.memoizedProps.recipe;
+  const runtime=await import('/src/presentation/appearance-engine/runtime.ts');
+  const pack=await import('/src/presentation/appearance-engine/pack.ts');
+  const key=img.getAttribute('data-engine-recipe');
+  if(pack.engineRecipeKey(recipe)!==key)throw new Error('Recipe does not match visible figure');
+  const image=await runtime.enginePersonImage(recipe);
+  return {provider:'EngineFigure / people-engine-v1',testId:img.getAttribute('data-testid'),visibleRecipeKey:key,recipe,resolvedFiles:pack.recipeFiles(runtime.PEOPLE_PACK,recipe,runtime.peoplePackFileAvailable),image:{width:image.width,height:image.height,pose:image.pose,anchors:image.anchors},rectangle:img.getBoundingClientRect().toJSON()};
+ });
+ await page.screenshot({path:join(info.config.metadata.artifacts,'creator-provider.png')});
+ await figure.screenshot({path:join(info.config.metadata.artifacts,'creator-figure.png')});
+ await writeFile(join(info.config.metadata.artifacts,'creator-consumer.json'),JSON.stringify({seed,place:place.displayName,age:35,identity:await page.getByTestId('creator-summary-character').innerText(),consumer,requested,limitations:['controlled Session2 Creator; not Claude Alexander/Kiara actor','read-only fiber inspection matched visible DOM key; no provider substitution','stops before Begin; no pre-start world/history simulation']},null,2)+'\n');
+});

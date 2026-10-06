@@ -1,0 +1,141 @@
+{
+  "seed": "session2-kit13-oct5",
+  "place": "Croom, Maryland",
+  "age": 35,
+  "identity": "Blair Yates\nAge 35 \u00b7 Female\nBorn January 1, 1991\nChange",
+  "consumer": {
+    "provider": "EngineFigure / people-engine-v1",
+    "testId": "creator-engine-figure",
+    "visibleRecipeKey": "feminine|fuller|4|20s30s-06|low-ponytail|natural|cardigan-jeans|standing|bottom=olive|shirt=gray|sweater=olive",
+    "recipe": {
+      "presentation": "feminine",
+      "build": "fuller",
+      "shade": 4,
+      "face": "20s30s-06",
+      "hair": "low-ponytail",
+      "hairColor": "natural",
+      "outfit": "cardigan-jeans",
+      "colors": {
+        "sweater": "olive",
+        "shirt": "gray",
+        "bottom": "olive"
+      }
+    },
+    "resolvedFiles": [
+      "body-feminine-fuller.png",
+      "face-feminine-20s30s-06.png",
+      "hair-feminine-low-ponytail-back.png",
+      "hair-feminine-low-ponytail-front.png",
+      "outfit-feminine-cardigan-jeans-fuller.png",
+      "outfit-feminine-cardigan-jeans-fuller-hides.png",
+      "outfit-feminine-cardigan-jeans-fuller-sweater.png",
+      "outfit-feminine-cardigan-jeans-fuller-shirt.png",
+      "outfit-feminine-cardigan-jeans-fuller-bottom.png",
+      "outfit-feminine-cardigan-jeans-fuller-skin.png"
+    ],
+    "image": {
+      "width": 512,
+      "height": 808,
+      "pose": "standing",
+      "anchors": {
+        "top": 70,
+        "feet": 791,
+        "neck": {
+          "row": 155,
+          "centerX": 255,
+          "width": 49
+        },
+        "head": {
+          "left": 213,
+          "right": 296,
+          "top": 70,
+          "bottom": 155
+        },
+        "shoulderRow": 226
+      }
+    },
+    "rectangle": {
+      "x": 74.56466674804688,
+      "y": 241.921875,
+      "width": 397.109375,
+      "height": 626.703125,
+      "top": 241.921875,
+      "right": 471.6740417480469,
+      "bottom": 868.625,
+      "left": 74.56466674804688
+    }
+  },
+  "limitations": [
+    "controlled Session2 Creator; not Claude Alexander/Kiara actor",
+    "read-only fiber inspection matched visible DOM key; no provider substitution",
+    "stops before Begin; no pre-start world/history simulation"
+  ],
+  "requestEvidence": {
+    "totalPackRequests": 4803,
+    "note": "Vite eager import URLs excluded from raster list; original raw receipt retained locally",
+    "rasterRequests": [
+      "http://127.0.0.1:5298/art/people-engine/v1/body-feminine-fuller.png",
+      "http://127.0.0.1:5298/art/people-engine/v1/face-feminine-20s30s-06.png",
+      "http://127.0.0.1:5298/art/people-engine/v1/hair-feminine-low-ponytail-back.png",
+      "http://127.0.0.1:5298/art/people-engine/v1/hair-feminine-low-ponytail-front.png",
+      "http://127.0.0.1:5298/art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller.png",
+      "http://127.0.0.1:5298/art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-hides.png",
+      "http://127.0.0.1:5298/art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-sweater.png",
+      "http://127.0.0.1:5298/art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-shirt.png",
+      "http://127.0.0.1:5298/art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-bottom.png",
+      "http://127.0.0.1:5298/art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-skin.png"
+    ]
+  },
+  "files": [
+    {
+      "path": "art/people-engine/v1/body-feminine-fuller.png",
+      "sha256": "1c6a2f0277e49c9fa35b4db8c238debe0a326ebd0953b3665cc23a354431758a",
+      "bytes": 181746
+    },
+    {
+      "path": "art/people-engine/v1/face-feminine-20s30s-06.png",
+      "sha256": "f92fc061edeccbf4d549f916a9cd9954b1b6b5e96e6ca9ba54267a06bc201113",
+      "bytes": 19267
+    },
+    {
+      "path": "art/people-engine/v1/hair-feminine-low-ponytail-back.png",
+      "sha256": "ea02d5ca5fdf6feca531aa22540f76c1f415be35d2dc8d60778060407d7d6063",
+      "bytes": 2288
+    },
+    {
+      "path": "art/people-engine/v1/hair-feminine-low-ponytail-front.png",
+      "sha256": "9b42e11c18e1a74b3189e799d2df4b6c051a7d030b31b874d72c9249eceb05e1",
+      "bytes": 14446
+    },
+    {
+      "path": "art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller.png",
+      "sha256": "9182d2b4b6f4e6fef79c1b00409b84a07d9291516bf389bf3f2d13b11eb10f93",
+      "bytes": 210170
+    },
+    {
+      "path": "art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-hides.png",
+      "sha256": "32532ec8aea0c2d8e8bb8b6af008fefe5a4de629d54e7171bd48e87a4be8d03e",
+      "bytes": 2887
+    },
+    {
+      "path": "art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-sweater.png",
+      "sha256": "9871af9effc61b2389e591781319241472abf8eca2b27a11b5e672340cbd0d53",
+      "bytes": 3819
+    },
+    {
+      "path": "art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-shirt.png",
+      "sha256": "1a1942fe2dfb8fe9fd9722f038be41aa8ca6bc2bbf1b5034885fd016771d7718",
+      "bytes": 4476
+    },
+    {
+      "path": "art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-bottom.png",
+      "sha256": "903d214e2f003e225bb4606f92159b8301612cd2cf5901669940b454469785a7",
+      "bytes": 3516
+    },
+    {
+      "path": "art/people-engine/v1/outfit-feminine-cardigan-jeans-fuller-skin.png",
+      "sha256": "c4995675f81b2492b54b59622af71c1eecb6464c6b9a26b07df43be6aebfa95e",
+      "bytes": 2649
+    }
+  ]
+}
