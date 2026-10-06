@@ -102,8 +102,10 @@ export {
   viewOfOfficial,
 } from "../official-view-reads";
 
-// PLACEHOLDER, approved provisional: executives carry the blame for a visible
-// law they signed; a legislator's single vote carries less.
+// DESIGNED (game weight, no survey ratio): reads the signer's office on the
+// law's enactment record. Balances an executive, who signs alone and so carries
+// the blame for a visible law, against a legislator, whose single vote is one
+// of many and carries less.
 const EXECUTIVE_VISIBILITY = 1;
 const LEGISLATOR_VISIBILITY = 0.6;
 // SET BY HAND from the finding that people have about 2 to 4 political
@@ -124,17 +126,21 @@ const HEARD_BY_WARMTH: Readonly<Record<StandingBand, number>> = {
   slight: 1 / 8,
   none: 1 / 8,
 };
-// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their
-// own party's official, and credit for the other party's, count half.
+// DESIGNED (game weight, no survey ratio): reads the person's party and the
+// official's party. Balances partisan anchoring: blame for their own party's
+// official, and credit for the other party's, count half.
 const PARTY_ANCHOR = 0.5;
-// PLACEHOLDER (research: who-answers-for-what-happened-to-me): what happened
-// to a person weighs on the official who answers for it at less than a law
-// that official signed; how much less is unmeasured.
+// DESIGNED (game weight, no survey ratio): reads the law-exposure record of
+// what happened to the person and the office that answers for it. Balances that
+// office against a law its official signed: what happened to a person weighs on
+// the official who answers for it at less than a law that official signed.
 const ANSWERING_OFFICE_VISIBILITY = 0.4;
-// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a
+// DESIGNED (game weight, no survey ratio): reads the law-exposure record's felt
+// size. Balances an effect whose size next to pay is unmeasured: it is felt at a
 // quarter of full weight rather than guessed.
 const UNMEASURED_WEIGHT = 0.25;
-// PLACEHOLDER: how hard a law landed (1 = a law costing a tenth of a month's
+// DESIGNED (game weight, no survey ratio): reads how hard a law landed on the
+// person's law-exposure record. Balances a heavy law against none (1 = a law costing a tenth of a month's
 // pay, felt in full) to the weight the pipeline gives one reason. A law felt
 // at a tenth of that or more outweighs having no view at all, as a law felt
 // enough to round to a point did in the old rows; less leaves no view.
@@ -144,7 +150,8 @@ const IMPORTANCE_FROM: readonly (readonly [number, DecisionImportance])[] = [
   [0.1, "moderate"],
   [0, "slight"],
 ];
-// PLACEHOLDER: and to how much the view matters to the person.
+// DESIGNED (game weight, no survey ratio): reads the same felt size. Balances
+// how much the view matters to the person against everything else they weigh.
 const SALIENCE_FROM: readonly (readonly [number, PoliticalSalience])[] = [
   [1, "high"],
   [0.4, "moderate"],
@@ -156,8 +163,9 @@ const SALIENCE_ORDER: readonly PoliticalSalience[] = [
   "high",
   "central",
 ];
-// PLACEHOLDER: an old save's reflection rows, in the points they were kept
-// in, to the weight they carry as what the person already thought.
+// DESIGNED (game weight, no survey ratio): reads an old save's reflection rows,
+// in the points they were kept in. Balances them against new views: the weight
+// they carry as what the person already thought.
 const LEGACY_POINTS_FOR_STRONG = 20;
 
 interface OfficialAct {
@@ -835,8 +843,9 @@ function felt01(world: World, exposure: LawExposureRecord): number {
 /** How hard an effect landed, 0 to 1, from its size next to pay. */
 function feltFromShare(felt: Exclude<LawExposureFeltSize, null>): number {
   if (felt === "unmeasured") return UNMEASURED_WEIGHT;
-  // PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the
-  // square root keeps small amounts noticeable.
+  // DESIGNED (game weight, no survey ratio): reads the exposure's share of
+  // pay. Balances small against large: a law costing a tenth of a month's pay
+  // is felt fully, and the square root keeps small amounts noticeable.
   return Math.min(1, Math.sqrt(felt.share * 10));
 }
 
@@ -851,7 +860,10 @@ export function reactionLens(world: World, personId: EntityId): number {
     personId,
     SYNTHETIC_MIND_IDS.tendencies.responseTempo,
   )?.expressionKey;
-  // PLACEHOLDER multipliers.
+  // DESIGNED (game weights, no survey ratio): read the person's response-tempo
+  // and conflict-approach tendency records. Balance a reactive or combative
+  // person, who moves further on the same law, against a patient or
+  // conflict-averse one, who moves less.
   if (tempo === "reactive") factor *= 1.5;
   if (tempo === "patient") factor *= 0.75;
   const conflict = latestPersonalityTendency(
