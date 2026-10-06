@@ -46,5 +46,25 @@
   "limitations": [
     "Final publication metadata adds only release title and check receipt; source/config/test bytes remain the checked bytes",
     "Populated profile is baseline04e3; no populated candidate timing inferred from synthetic microbenchmark"
-  ]
+  ],
+  "mainBased": {
+    "source": "9319614331e0d64e8b59c953e971eed4b8dced3c",
+    "base": "ff4bf7cc91bdec86902e9c7a0a89b98112931b18",
+    "configuredType": {
+      "exec": 55761,
+      "exit": 0,
+      "output": "\n> political-life-rpg@0.4.0 typecheck\n> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts\n\ntypecheck-test-imports: 800 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 83, src/presentation 534, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).\n"
+    },
+    "focus": {
+      "exec": 95329,
+      "exit": 0,
+      "passed": 18,
+      "files": 2,
+      "log": "/tmp/session5-wake-index-main-focused.log"
+    },
+    "formatExit": 0,
+    "releaseExit": 0,
+    "releaseOutput": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --base ff4bf7cc91bdec86902e9c7a0a89b98112931b18 --head HEAD\n\nrelease:check \u2014 docs/release/changes/medicaid-coverage-reads-enacted-income-limit.md: id 'medicaid-coverage-enacted-income-limit' does not match its filename stem 'medicaid-coverage-reads-enacted-income-limit'.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n",
+    "finalChange": "Terminal evidence JSON only; exact source/config/test bytes preserved"
+  }
 }
