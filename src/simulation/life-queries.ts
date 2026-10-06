@@ -614,19 +614,21 @@ function householdSequenceCeiling(
   );
 }
 
-// A membership revision owns one resolved by-person view for one exact cutoff.
-// Other contributing revisions invalidate it, including same-length corrections.
-// Keeping only the latest view bounds retention; reading an older World rebuilds.
+// A membership revision owns resolved views grouped by person and exact cutoff.
+// Other contributing revisions invalidate them, including same-length corrections.
+// Eight recent cutoffs per person bound retention without one person's historical
+// query evicting every other person's current view. Older Worlds rebuild safely.
 const HOUSEHOLD_VIEWS = new WeakMap<
   object,
   {
     readonly states: World["history"]["householdMembershipStates"];
     readonly households: World["history"]["households"];
     readonly locations: World["history"]["householdLocations"];
-    readonly date: string;
-    readonly sequence: number;
     readonly sequenceCeiling: number;
-    readonly people: Map<EntityId, readonly ActiveHouseholdMembership[]>;
+    readonly people: Map<
+      EntityId,
+      Map<string, readonly ActiveHouseholdMembership[]>
+    >;
   }
 >();
 
@@ -642,10 +644,7 @@ export function householdMembershipsAt(
     !view ||
     view.states !== history.householdMembershipStates ||
     view.households !== history.households ||
-    view.locations !== history.householdLocations ||
-    view.date !== cutoff.asOfDate ||
-    view.sequence !==
-      Math.min(cutoff.historySequenceExclusive, view.sequenceCeiling)
+    view.locations !== history.householdLocations
   ) {
     // Once the exclusive cutoff includes every contributing row, later
     // unrelated history sequences cannot change this view. Earlier cutoffs
@@ -661,15 +660,23 @@ export function householdMembershipsAt(
       states: history.householdMembershipStates,
       households: history.households,
       locations: history.householdLocations,
-      date: cutoff.asOfDate,
-      sequence: Math.min(cutoff.historySequenceExclusive, sequenceCeiling),
       sequenceCeiling,
       people: new Map(),
     };
     HOUSEHOLD_VIEWS.set(history.householdMemberships, view);
   }
-  const cached = view.people.get(personId);
-  if (cached) return cached;
+  let cutoffs = view.people.get(personId);
+  if (!cutoffs) {
+    cutoffs = new Map();
+    view.people.set(personId, cutoffs);
+  }
+  const cutoffKey = `${cutoff.asOfDate}|${Math.min(cutoff.historySequenceExclusive, view.sequenceCeiling)}`;
+  const cached = cutoffs.get(cutoffKey);
+  if (cached) {
+    cutoffs.delete(cutoffKey);
+    cutoffs.set(cutoffKey, cached);
+    return cached;
+  }
   const result = recordsByStringField(
     world.history.householdMemberships,
     "personId",
@@ -693,7 +700,8 @@ export function householdMembershipsAt(
       },
     ];
   });
-  view.people.set(personId, result);
+  cutoffs.set(cutoffKey, result);
+  if (cutoffs.size > 8) cutoffs.delete(cutoffs.keys().next().value!);
   return result;
 }
 
