@@ -7,6 +7,7 @@ import {
   projectLifeConversation,
 } from "./life-conversation";
 import { createNewGameWorld } from "./new-game";
+import { openOrdinaryLife } from "./ordinary-life";
 import { resolveOpeningPlaySceneContext } from "./play-scene-context";
 import { SMALL_TALK_BANKS } from "./small-talk-english";
 
@@ -29,9 +30,13 @@ function adultAtHome(seed: string) {
     appearanceRecipeVersion: "appearance-recipe-v2",
     appearanceOutfitVersion: "complete-outfit-v2",
   } as never);
-  const present = resolveOpeningPlaySceneContext(world, playerPersonId)
+  // Play opens a day through the ordinary-life writer, which records who is home.
+  const opened = openOrdinaryLife(world, playerPersonId);
+  const present = resolveOpeningPlaySceneContext(opened, playerPersonId)
     .presentPeople[0];
-  return present ? { world, playerPersonId, personId: present.personId } : null;
+  return present
+    ? { world: opened, playerPersonId, personId: present.personId }
+    : null;
 }
 
 function greet(world: World, playerPersonId: string, personId: string): World {

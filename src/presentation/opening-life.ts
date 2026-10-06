@@ -2,6 +2,7 @@ import { initializeAllOfficeSalaryFlows } from "../simulation/office-salary";
 import { initializeWorkPayCoverage } from "../simulation/pay-coverage";
 import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
+import { recordHomePresence } from "./home-presence";
 import { recordOpeningWorkLocation } from "./opening-work-location";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
@@ -315,13 +316,19 @@ function* beginOpeningLifeSteps(
     openingData === "playtest65-v1" ||
     openingData === "playtest65-v2" ||
     openingData === "playtest65-v3";
-  const placed = versionedOpening
+  const located = versionedOpening
     ? establishOpeningLocation(
         economic,
         game.playerPersonId,
         session.setup.openingWorkLocationVersion,
       )
     : economic;
+  // Only the schedule-based opening records who is home; an older descriptor
+  // rebuilds its world exactly as it was first built.
+  const placed =
+    session.setup.openingWorkLocationVersion === "schedule-v1"
+      ? recordHomePresence(located, game.playerPersonId)
+      : located;
   const staffed = establishOpeningOfficeholders(placed, game.playerPersonId, {
     datedTerms: session.setup.worldOpeningVersion !== undefined,
     includeVicePresident: versionedOpening,
