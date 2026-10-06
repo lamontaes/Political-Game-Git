@@ -1,79 +1,66 @@
-# Session 127: Native collars stay behind front hair
+# Session 127: Front collars preserve opaque hair pixels
 
 The supplied front composites preserve fully opaque hair pixels where they
-overlap the measured collar band. The native harness detects overpainting in
-an explicitly reconstructed collar-last ordering. Turned art is
-still missing, so turned acceptance remains incomplete under CTO review.
-Continue the independent
-queue while the source holder supplies the required inputs.
+overlap the measured collar band. Turned acceptance remains incomplete because
+native inputs are missing. The CTO requested READY for review while retaining
+those failures; continue the independent queue without claiming turned proof.
 
 ## Resume state
 
-Current item: b24-p1-s3. Branch: codex/session127-b24-p1-s3.
-Base: ae27b4da00da3d9391a9d4c34776f1ef28f436cc on main.
-Claim and Session 11 collar-region question posted in
-[board comment 6019843641](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019843641).
-Main already contains the collar ordering correction from 2c64c2acf (#2567).
-Production assemble.ts and all source PNGs remain unchanged.
-Actual landed main 34bfffa3f1f343524e5a15449beb826fb6358088 (#2733 and hair
-#2730) is incorporated. The only conflict was the add/add resume marker;
-this task marker is retained and the landed hair result is recorded below.
+Current item: b24-p1-s3. Branch: codex/session127-b24-p1-s3. PR #2732.
+Actual main34bfffa3f1f343524e5a15449beb826fb6358088 is incorporated, including
+#2733 and landed hair #2730. Only the add/add resume-marker conflict required
+composition. Production assemble.ts and original PNGs are unchanged; main
+already contains the collar ordering fix from #2567.
 
-The [native collar test](../../../src/presentation/appearance-engine/collar-hair-order.test.ts#L1)
-covers both presentations, average build, every front hairstyle, standing and
-seated, formal and hooded outfits. Historical pre-hair-landing receipt: all 104 front cases pass: 16,522 opaque
-hair/collar overlap pixels measured, zero contaminated in the current composite.
-Forty-nine cells have a nonempty overlap mask. An explicitly labeled legacy-order
-reconstruction overlays the native collar band last and produces 16,498
-contaminated pixels. This is reconstructed old ordering, not an alleged failure
-of current main or fabricated old-render output.
-
-Eight requested turned cells fail because they fall back to front. These are
-missing-input failures, not turned pixel measurements. The CTO authorization
-for input-gap assertions applied specifically to the hair PR; it has not been
-extended to this collar task. Native dimensions are checked; PEOPLE_PACK_ROOT
-can select a supplied immutable pack. Complete turned source inputs and supported
-cloud staging remain requested in board comment 6018953167. When supplied,
-extend the overlap measurement to actual turned hair layers before READY.
 [CTO dispatch 6020522772](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020522772)
-now requests a fresh published head and READY after incorporating landed main.
-READY is the requested review state, not a claim that turned assertions pass.
-Preserve all eight explicit missing-view failures; report the exact fresh-head
-result to CTO. No hair-only scope exception is inferred for collars.
-No collar production fix, turned pixel proof, visual approval, installed runtime,
-merge or Steam action is claimed.
+requests fresh-head READY. That is the requested review state, not eight-red
+acceptance. All missing-view assertions remain; no hair-only exception is
+inferred for collars. Complete native turned input or a collar-specific scope
+decision is still required before claiming complete turned pixel acceptance.
 
-Terminal test receipt: /tmp/session127-collar-test.log (104 passed / 8 failed),
-published in the [measured board receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019923810).
-Final follow-up run includes 31 unchanged appearance-engine tests, all passing:
-135 passed / 8 missing-input failures in /tmp/session127-collar-final-test.log.
-Focused strict TypeScript, ESLint, formatter, release, report, whitespace and
-no-dice checks pass. Exact publication head is reported on the board.
-Release impact is none because this branch adds a regression harness only.
+Fresh executed receipt on producer0f8ec7cceb5f709e508b43bb381682fa331a2afb:
+104 native front cases PASS / eight turned-view failures, test EXIT1. Native
+fully opaque hair/collar-band overlap16,253 pixels across47 nonempty cells;
+current contaminated pixels0. Explicit reconstructed collar-last ordering
+contaminates16,230 pixels. This is a reconstruction, not an old render or a
+claimed defect in current main. Every failed cell returns front fallback:
+both presentations x standing/seated x formal/hoodie outfits. No assertion
+removed, skipped or weakened.
+[Fresh exact-head receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020637219).
+[Native test](../../../src/presentation/appearance-engine/collar-hair-order.test.ts#L1).
+Log: /tmp/session127-collar-recovered-test.log.
 
-Previous hair task b24-p1-s2 is merged under CTO input-gap scope as
-[PR #2730](https://github.com/lamontaes/Political-Game-Git/pull/2730), exact head
-producer d8915628fd3404d8cccb762b06f57987897e5706 -> actual main
-34bfffa3f1f343524e5a15449beb826fb6358088 at 16:12:40 UTC. Changed checks:
-57 tests pass, explicit
-turned-input gap, no turned pixel proof. GitHub unit112357271825 SUCCESS and
-scope112357199197 SUCCESS at that head; repository still running at last check.
-Full local npm run typecheck exits 1 with four inherited time-command.ts moment
-errors at 325/326/327/396, owned by the clock writer. No unrelated edits.
-See [exact-head receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019877943).
+Changed-file Prettier/ESLint, whitespace, report and release PASS at that head.
+This marker correction changes prose only; final publication head and checks
+are posted on #2424. Historical187cceb4 had135 PASS/eight missing-input failures,
+including31 unchanged appearance-engine tests. Its formatting/type/release
+checks and GitHub failures belong to that old head; no historical CI transfers.
+[Historical publication receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019954798).
 
-Rim task b24-p1-s1 remains draft #2725 at ef9d9ed6e290398fd5cf8def16856e539628fcbf.
-Supplied front cells have zero near-white rim pixels; assemble.ts is unchanged.
-Four turned cells lack native inputs. Its marker remains on its own branch.
+Hair #2730 is merged: producer d8915628fd3404d8cccb762b06f57987897e5706 ->
+main34bfffa3f1f343524e5a15449beb826fb6358088 at16:12:40 UTC, under CTO's explicit
+input-gap scope. Exact producer changed-file tests57 PASS and format/lint PASS.
+No turned proof, visual approval, installed runtime or full repository PASS.
+[Hair merge receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020488002).
 
-Next: publish this fresh collar head and execute changed-file formatter, lint
-and tests there; post CTO-requested READY with exact missing-input failures.
-Cuff draft #2734 and tag work on codex/session127-b24-p2 remain protected.
-Then continue the independent queue at b24-p3, preserving Session 11 tag data. Every task starts from main and has its
-own PR. Do not mark missing art as measured or approved.
+Cuff draft #2734 at4125bdd2 retains17 PASS/15 mask/turned failures: its broad
+junction probe is not a finished cuff alpha mask. Tag work on
+codex/session127-b24-p2 is committed/protected; proposed validator tests3 PASS/
+one explicit absent art/tags.json failure, no tag data or reader writes.
+Session11 keeps vocabulary/manifest/pose-data ownership. Rim draft #2725 remains
+blocked on turned inputs and reproduced fringe; no production change.
 
-Exact resume command, from /workspace/game with subprocess execution enabled:
+Next: publish this corrected marker, report CTO-requested READY exact head
+and the preserved eight-red gap, then continue b24-p3 independent work while
+protecting tag/cuff ownership. Full typecheck/GitHub waiting is not a gate under
+[CTO dispatch 6020443625](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020443625).
+
+Exact command from /workspace/game with subprocess execution enabled:
 
 ```sh
 OCD_STORAGE_STATE_DIR=/workspace/session127-storage npm run storage -- run test -- npx vitest run src/presentation/appearance-engine/collar-hair-order.test.ts --disableConsoleIntercept
 ```
+
+No collar production fix, turned proof, visual approval, installed runtime,
+merge, Steam action or queue completion is claimed.
