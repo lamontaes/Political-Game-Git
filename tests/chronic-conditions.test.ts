@@ -151,9 +151,11 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
     expect(conditionPrevalence(copd, 50, "female")).toBeGreaterThan(
       conditionPrevalence(copd, 50, "male"),
     );
-    // Every weight in the table carries a status, PLACEHOLDER until read.
+    // Every weight in the table carries the recorded calibration status.
     for (const condition of CONDITION_PACK)
-      expect(condition.mortalityWeight.status).toMatch(/PLACEHOLDER|SOURCED/);
+      expect(condition.mortalityWeight.status).toBe(
+        "RECORDED GAME CALIBRATION",
+      );
   });
 
   it(

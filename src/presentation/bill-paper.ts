@@ -253,6 +253,9 @@ export function projectBillPaper(
       case "died-on-adjournment":
         record.push(`Died when Congress adjourned ${when}.`);
         break;
+      case "sine-die-vote-carried":
+        record.push(`The chamber carried a sine-die motion ${when}.`);
+        break;
       default:
         break;
     }
@@ -263,7 +266,7 @@ export function projectBillPaper(
   if (enacted) {
     stamp = enactment?.effectiveAt
       ? `LAW · IN EFFECT ${upperDate(enactment.effectiveAt)}`
-      : "LAW · EFFECTIVE DATE NOT RECORDED";
+      : "LAW · ENACTED";
   } else if (position.outcome === "vetoed-and-sustained") {
     stamp = "VETOED · NOT LAW";
   } else if (position.terminal) {

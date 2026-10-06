@@ -1,11 +1,13 @@
 import { MUNICIPAL_RULE_PACKS_JSON } from "./municipal-rule-registry.generated";
 import { localOrdinanceGameRulePackById } from "./local-ordinance-game-profile";
-import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import type { LegislativeRulePack } from "./legislature-rules";
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 
 // This is the complete sourced admission result, available on a clean start.
 // Disclosed game profiles resolve separately from stable catalog unit ids.
-const packs = JSON.parse(MUNICIPAL_RULE_PACKS_JSON) as LegislativeRulePack[];
+const packs = (
+  JSON.parse(MUNICIPAL_RULE_PACKS_JSON) as LegislativeRulePack[]
+).map(withMinorityPartyProcedureRows);
 
 export function municipalRulePackById(
   packId: string,

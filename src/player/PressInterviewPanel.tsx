@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { civicGlossaryEntry } from "../presentation/civic-glossary";
 import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
+import type { GroundedEnglishPacket } from "../presentation/grounded-english";
 import { composePressAnswer } from "../presentation/press-request";
 import type {
   DraftPressResponseInput,
@@ -13,6 +14,7 @@ import type { EntityId } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
 
 export interface PressInterviewPanelProps {
+  readonly answerPacket: GroundedEnglishPacket | null;
   readonly view: PressInterviewProjection;
   readonly preparationUnavailable?: string;
   readonly feedbackUnavailable?: string;
@@ -53,6 +55,7 @@ const INTENT_COPY: Readonly<
  * back from canonical World through `PressInterviewProjection`.
  */
 export function PressInterviewPanel({
+  answerPacket,
   view,
   onClose,
   preparationUnavailable,
@@ -84,6 +87,7 @@ export function PressInterviewPanel({
       ? correctingEvidence
       : "";
   const answer = composePressAnswer({
+    grounding: answerPacket,
     intent,
     knownFacts: view.knownFacts,
     primaryQuestion: view.primaryQuestion,

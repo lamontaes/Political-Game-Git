@@ -45,6 +45,7 @@ import {
   LEGACY_WORLD_OPENING_VERSION,
 } from "../simulation/world-setup/types";
 import type { WorldOpeningVersion } from "../simulation/world-setup/types";
+import { creatorLifeForkChoicesValid } from "../simulation/creator-life-forks";
 
 /**
  * What makes one new game a different new game from another.
@@ -234,6 +235,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    ...(setup.creatorLifeForks === undefined
+      ? {}
+      : { creatorLifeForks: setup.creatorLifeForks }),
     // The player's own fact about the other parent travels with the replay
     // but stays out of the world half, preserving earlier replay identities.
     ...(setup.otherParent === undefined
@@ -416,6 +420,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   }
   const givenNameGenerationVersion = record.givenNameGenerationVersion;
   if (
+    record.creatorLifeForks !== undefined &&
+    !creatorLifeForkChoicesValid(record.creatorLifeForks)
+  )
+    return null;
+  if (
     record.questionnaireCopyVersion !== undefined &&
     record.questionnaireCopyVersion !== "playtest65-v2"
   )
@@ -524,6 +533,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       ? {}
       : { appearanceCatalogGeneration }),
     seed: record.seed,
+    ...(record.creatorLifeForks === undefined
+      ? {}
+      : { creatorLifeForks: record.creatorLifeForks }),
     placeKey: record.placeKey,
     startAge: record.startAge as number,
     ...(birthMonth === undefined || birthDay === undefined

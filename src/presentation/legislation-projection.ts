@@ -159,6 +159,7 @@ const ACTION_HEADLINES: Readonly<Record<LegislativeActionKind, string>> = {
   "recorded-vote-demanded": "Recorded vote demanded",
   "full-reading-demanded": "Full reading demanded",
   "rules-suspended": "Rules suspended",
+  "sine-die-vote-carried": "Sine-die motion carried",
   "quorum-not-present": "Quorum not present",
   "debate-extended": "Debate extended",
   transmitted: "Sent to the other chamber",

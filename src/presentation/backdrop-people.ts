@@ -320,6 +320,8 @@ export function placeBackdropPeople(
     /** The scene's people stand on the open floor instead of taking seats. */
     readonly standing?: boolean;
     readonly speakerId?: EntityId | null;
+    /** An explicitly selected illustration is not a workplace attendance query. */
+    readonly rosterOnly?: boolean;
   } = {},
 ): BackdropPeople {
   const stage = backdropStaging(place);
@@ -334,19 +336,21 @@ export function placeBackdropPeople(
       .filter((id) => id !== playerId && world.people[id]),
   );
   const onShift = (
-    selected && town
-      ? presentAt(
-          world,
-          {
-            jurisdictionId: town,
-            place,
-            organizationId: selected.organizationId,
-          },
-          moment,
-        )
-      : town
-        ? peopleAtWorkAt(world, town, place, moment)
-        : []
+    options.rosterOnly
+      ? []
+      : selected && town
+        ? presentAt(
+            world,
+            {
+              jurisdictionId: town,
+              place,
+              organizationId: selected.organizationId,
+            },
+            moment,
+          )
+        : town
+          ? peopleAtWorkAt(world, town, place, moment)
+          : []
   )
     .filter((worker) => worker.personId !== playerId)
     .filter(

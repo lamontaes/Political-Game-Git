@@ -1,17 +1,23 @@
 import { describe, expect, it } from "vitest";
 
-import { minorityPartyProcedureRows } from "./minority-party-procedure";
-import { legislatureForState } from "./legislature-game-profile";
-import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
-import { STATES } from "./state-reference";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../presentation/new-game";
 import { US_CONGRESS_RULE_PACK } from "./congress-rule-pack";
+import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import { legislatureForState } from "./legislature-game-profile";
 import { LOCAL_ORDINANCE_GAME_PROFILE_VERSION } from "./local-ordinance-game-profile";
+import { minorityPartyProcedureRows } from "./minority-party-procedure";
 import { municipalRulePackById } from "./municipal-rule-registry";
+import { assertRulePackIntegrity } from "./legislature-rules";
+import { STATES } from "./state-reference";
 
 describe("minority-party procedure rows", () => {
-  it("resolves a complete row for every compiled chamber", () => {
-    for (const pack of LEGISLATIVE_RULE_PACKS) {
+  it("attaches a complete rule row to each compiled legislative chamber", () => {
+    for (const pack of [US_CONGRESS_RULE_PACK, ...LEGISLATIVE_RULE_PACKS]) {
       const rows = minorityPartyProcedureRows(pack);
+      expect(() => assertRulePackIntegrity(pack)).not.toThrow();
       expect(pack.minorityPartyProcedureRows).toHaveLength(
         pack.chambers.length,
       );
@@ -29,49 +35,75 @@ describe("minority-party procedure rows", () => {
     }
   });
 
-  it("resolves the same complete row for each generated state chamber", () => {
+  it("attaches complete rows to generated state legislatures", () => {
     for (const [usps] of Object.entries(STATES)) {
       const pack = legislatureForState(`US-${usps}`);
       if (!pack) continue;
-      expect(minorityPartyProcedureRows(pack)).toHaveLength(
+      expect(() => assertRulePackIntegrity(pack)).not.toThrow();
+      expect(pack.minorityPartyProcedureRows).toHaveLength(
         pack.chambers.length,
       );
     }
   });
 
-  it("resolves a procedure row for a generated municipal council", () => {
-    const pack = municipalRulePackById(
+  it("attaches complete rows to sourced and game-profile municipal councils", () => {
+    const sourced = municipalRulePackById("us-dc-washington-council-v1");
+    const generated = municipalRulePackById(
       `gus2025:100019:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`,
     );
-    expect(pack).not.toBeNull();
-    expect(minorityPartyProcedureRows(pack!)).toHaveLength(
-      pack!.chambers.length,
+    expect(sourced).not.toBeNull();
+    expect(generated).not.toBeNull();
+    expect(sourced!.minorityPartyProcedureRows).toHaveLength(
+      sourced!.chambers.length,
+    );
+    expect(generated!.minorityPartyProcedureRows).toHaveLength(
+      generated!.chambers.length,
     );
   });
 
-  it("resolves a procedure row for the compiled District of Columbia council", () => {
-    const pack = municipalRulePackById("us-dc-washington-council-v1");
-    expect(pack).not.toBeNull();
-    expect(pack!.minorityPartyProcedureRows).toHaveLength(
-      pack!.chambers.length,
+  it("uses a chamber's recorded cloture stage as its debate rule", () => {
+    const senate = minorityPartyProcedureRows(US_CONGRESS_RULE_PACK).find(
+      (row) => row.chamberKey === "senate",
     );
-  });
+    const house = minorityPartyProcedureRows(US_CONGRESS_RULE_PACK).find(
+      (row) => row.chamberKey === "house",
+    );
 
-  it("reads unlimited debate and cloture from the chamber's rule row", () => {
-    const senate = [US_CONGRESS_RULE_PACK, ...LEGISLATIVE_RULE_PACKS]
-      .flatMap((pack) =>
-        minorityPartyProcedureRows(pack).map((row) => ({ pack, row })),
-      )
-      .find(({ row }) => row.clotureBar.kind === "known");
-
-    expect(senate).toBeDefined();
-    expect(senate!.row.unlimitedDebate).toMatchObject({
+    expect(senate?.unlimitedDebate).toMatchObject({
       kind: "known",
       value: true,
     });
-    expect(senate!.row.clotureBar).toMatchObject({
+    expect(senate?.clotureBar).toMatchObject({
       kind: "known",
       value: { numerator: 3, denominatorParts: 5 },
     });
+    expect(house?.unlimitedDebate).toMatchObject({
+      kind: "known",
+      value: false,
+    });
+    expect(house?.clotureBar.kind).toBe("not-applicable");
+  });
+
+  it("opens a new game in a randomly selected Washington place with procedure rows", () => {
+    const opening = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: "5363000",
+      seed: "b12-p1-random-place-procedure-profile",
+      startAge: 30,
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      questionnaire: "skipped",
+    });
+    const player = opening.world.people[opening.playerPersonId]!;
+    const home = opening.world.jurisdictions[player.homeJurisdictionId]!;
+    const pack = legislatureForState("US-WA");
+
+    expect(home).toBeDefined();
+    expect(pack?.minorityPartyProcedureRows).toHaveLength(
+      pack!.chambers.length,
+    );
+    expect(minorityPartyProcedureRows(pack!)).toEqual(
+      pack!.minorityPartyProcedureRows,
+    );
   });
 });

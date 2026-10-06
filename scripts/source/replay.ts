@@ -13,6 +13,7 @@
  */
 
 import {
+  mkdirSync,
   mkdtempSync,
   readFileSync,
   readdirSync,
@@ -32,7 +33,7 @@ import {
 } from "./fiscal-authority-inventory";
 import { exportEconomicContext } from "./export-economic-context";
 import { exportStateVotingContext } from "./export-state-voting-context";
-import { buildManifest } from "./manifest";
+import { buildManifest, stageResearchFileInputs } from "./manifest";
 
 export interface ReplayDifference {
   readonly path: string;
@@ -42,11 +43,13 @@ export interface ReplayDifference {
 /** Regenerate everything into a scratch tree and report every difference. */
 export async function replay(): Promise<readonly ReplayDifference[]> {
   const scratch = mkdtempSync(resolve(tmpdir(), "source-replay-"));
+  const compiledRoot = resolve(scratch, "data/source");
+  mkdirSync(compiledRoot, { recursive: true });
   const differences: ReplayDifference[] = [];
   try {
     for (const domain of await loadDomains()) {
       if (domain.productionGate) continue;
-      const target = resolve(scratch, domain.domain);
+      const target = resolve(compiledRoot, domain.domain);
       compileDomainInto(domain, target);
 
       for (const file of ["corpus.json", "corpus-manifest.json"]) {
@@ -71,6 +74,8 @@ export async function replay(): Promise<readonly ReplayDifference[]> {
       }
     }
 
+    stageResearchFileInputs(REPO_ROOT, compiledRoot);
+
     const generatedDisposition = buildFiscalAuthorityDisposition(
       readFileSync(FISCAL_DISPOSITION_MASTER),
       readFileSync(FISCAL_DISPOSITION_MIRROR),
@@ -83,10 +88,10 @@ export async function replay(): Promise<readonly ReplayDifference[]> {
       });
     }
 
-    const manifest = await buildManifest(scratch);
+    const manifest = await buildManifest(compiledRoot);
     const manifestPath = resolve(REPO_ROOT, "data/source/MANIFEST.json");
     const generatedManifest = toCanonicalJson(manifest);
-    writeText(resolve(scratch, "MANIFEST.json"), generatedManifest);
+    writeText(resolve(compiledRoot, "MANIFEST.json"), generatedManifest);
     if (!existsSync(manifestPath)) {
       differences.push({
         path: "data/source/MANIFEST.json",

@@ -5,6 +5,7 @@ import {
   openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
+import { playSettingsOf } from "../simulation/play-settings";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
 import { recordFormativePlayerTraitChoice } from "../simulation/people-player-traits";
 import { formatMinute } from "./player-calendar";
@@ -473,6 +474,7 @@ export function traceStorySelection(
   }
   const history = playedStoryKeys(world, personId);
   const selection = selectSituation({
+    intensity: playSettingsOf(world).challenge,
     selectionSeed: adaptiveSelectionSeed(world),
     personKey: personId,
     ordinal: history.length,
@@ -519,6 +521,7 @@ function chooseStoryScene(
 
   if (candidates.length > 0) {
     const selection = selectSituation({
+      intensity: playSettingsOf(world).challenge,
       selectionSeed: adaptiveSelectionSeed(world),
       personKey: personId,
       ordinal: history.length,
@@ -909,6 +912,8 @@ export interface ChooseStoryOptionInput {
   readonly personId: EntityId;
   readonly scene: StoryScene;
   readonly optionKey: string;
+  /** A faith choice only when the player made faith part of this scene. */
+  readonly faithChoice?: EntityId | null;
 }
 
 /**
@@ -995,6 +1000,7 @@ export function chooseStoryOption(
         choiceLabel:
           scene.options.find((option) => option.key === input.optionKey)
             ?.label ?? input.optionKey,
+        faithChoice: input.faithChoice,
       });
     }
     case "adult":
