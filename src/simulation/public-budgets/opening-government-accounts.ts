@@ -17,6 +17,7 @@ import {
 } from "../municipal-government";
 import {
   canonicalPublicGovernmentAccountKey,
+  publicGovernmentOrganizationKey,
   canonicalSavedPublicGovernmentAccountKey,
   assertPublicGovernmentIdentity,
 } from "../public-government-identity";
@@ -172,10 +173,7 @@ export function selectLocalOpeningAccount(
   // evidence reader below decides whether its actual ownership is usable.
   for (const organization of world.history.organizations) {
     let identity: PublicGovernmentIdentity | null = null;
-    if (
-      canonicalSavedPublicGovernmentAccountKey(organization.stableKey) ===
-      canonicalPublicGovernmentAccountKey(legacy)
-    )
+    if (organization.stableKey === publicGovernmentOrganizationKey(legacy))
       identity = legacy;
     else if (organization.stableKey.startsWith(prefix)) {
       let governmentKey: string;
@@ -219,7 +217,12 @@ export function selectLocalOpeningAccount(
       identity,
       cutoff,
     );
-    if (!evidence || evidence.organizationId !== organization.id)
+    if (
+      !evidence ||
+      evidence.organizationId !== organization.id ||
+      canonicalSavedPublicGovernmentAccountKey(organization.stableKey) !==
+        canonicalPublicGovernmentAccountKey(identity)
+    )
       unsupportedSaved = true;
     else matches.push({ identity, sourceRecordIds: evidence.sourceRecordIds });
   }

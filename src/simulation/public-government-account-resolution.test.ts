@@ -159,7 +159,7 @@ describe("one compiled government resolves one saved treasury", () => {
     const g = city("canonical-city-duplicate", 1_000_000_00);
     const identity = identityOf(g);
     const duplicate = createOrganization(g.world, {
-      stableKey: `public-government:${g.jurisdictionId}`,
+      stableKey: `public-government:local:${encodeURIComponent(g.governmentKey)}`,
       formedAt: g.world.currentDate,
       provenance: {
         kind: "authored",

@@ -267,7 +267,7 @@ export function ensurePublicGovernmentAccount(
     );
   assertPublicGovernmentIdentity(world, identity);
   const jurisdiction = world.jurisdictions[identity.jurisdictionId]!;
-  const key = canonicalPublicGovernmentAccountKey(identity);
+  const key = publicGovernmentOrganizationKey(identity);
   let next = world;
   const candidates = publicAccountCandidates(next, identity);
   if (candidates.length > 1)
