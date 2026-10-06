@@ -540,3 +540,15 @@ export function federalRulePackById(
 ): LegislativeRulePack | null {
   return packId === US_CONGRESS_PACK_ID ? US_CONGRESS_RULE_PACK : null;
 }
+
+/**
+ * Whether a rule-pack id names the federal Congress pack.
+ *
+ * Consumers ask the registry and read the pack's jurisdiction instead of
+ * copying the current pack id into policy branches. That keeps Congress an
+ * institutional rule pack: replacing its version does not require every
+ * consumer to learn another magic id.
+ */
+export function isCongressRulePack(packId: string): boolean {
+  return federalRulePackById(packId)?.jurisdictionKey === "US";
+}
