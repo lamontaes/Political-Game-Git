@@ -31,6 +31,7 @@ import {
   householdMembershipsAt,
   recordWorldEvent,
   ensureHomePartyChapters,
+  ensureCongressMemberWork,
   ensureLivingWorldDevelopments,
   ensureLivingWorldOpening,
   ensurePressOpening,
@@ -336,11 +337,14 @@ function* beginOpeningLifeSteps(
     openingData === "playtest65-v1"
       ? ensureOpeningPriorLocalRecords(staffed)
       : staffed;
-  const living = ensureLivingWorldOpening(
+  const livingOpening = ensureLivingWorldOpening(
     withPriorRecords,
     game.playerPersonId,
     session.setup.livingWorldMemberNameVersion,
   );
+  const living = session.setup.livingWorldMemberNameVersion
+    ? ensureCongressMemberWork(livingOpening)
+    : livingOpening;
   const prewarmNationwide =
     worldOpeningVersionOf(living) === CRUNCH46_WORLD_OPENING_VERSION;
   if (!prewarmNationwide) {
