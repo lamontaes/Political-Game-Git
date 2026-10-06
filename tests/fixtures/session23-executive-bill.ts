@@ -23,7 +23,11 @@ import { nextMeasureNumbering } from "../../src/simulation/measure-numbering";
 import { chamberByKey } from "../../src/simulation/legislature-rules";
 import { daysBetween } from "../../src/simulation/dates";
 import { mayAnswerQuestion } from "../../src/simulation/governing/question-authority";
-import { advanceWorld } from "../../src/simulation/world";
+import { advanceWorld, recordWorldEvent } from "../../src/simulation/world";
+import {
+  playerRequiredWorkIds,
+  releasePlayerRequiredWork,
+} from "../../src/simulation/time-work";
 import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
 import { ensureStateExecutiveIncumbent } from "../../src/simulation/nationwide-world/state-executives";
 import { openMunicipalBillMatter } from "../../src/simulation/governing/state-governing";
@@ -53,6 +57,42 @@ export function recordedCouncilBillPreview(
     world = ensureJurisdiction(world, dc.jurisdictions[id]!);
   world = ensureDistrictOfColumbiaCouncilOpening(world);
   world = ensureStateExecutiveIncumbent(world, subject, "DC");
+  const mayor = municipalExecutiveHolder(world, DC_GOVERNMENT_KEY);
+  if (!mayor) throw new Error("The council has no actual executive.");
+  if (mayor !== subject) {
+    world = recordWorldEvent(world, {
+      stableKey: `${seed}:controlled-incumbent-preview`,
+      type: "test.control-moved",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [
+        subject,
+        mayor,
+        ...playerRequiredWorkIds(world, subject),
+      ],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [],
+      summary:
+        "Controlled downstream preview moves play to the actual incumbent before the council reading interval.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    world = releasePlayerRequiredWork(world, {
+      personId: subject,
+      stableKeyPrefix: `${seed}:controlled-incumbent-preview:released`,
+      outcomeEventId: world.history.events.at(-1)!.id,
+    });
+    world = { ...world, control: { kind: "person", personId: mayor } };
+  }
   const government =
     municipalGovernment.municipalGovernmentByKey(DC_GOVERNMENT_KEY)!;
   const compiled = municipalGovernment.municipalRulePackFor(government);
@@ -113,6 +153,13 @@ export function recordedCouncilBillPreview(
         daysBetween(world.currentDate, position.earliestNextFloorDate),
         composeWorldTimeHandlers(),
       );
+    if (
+      position.earliestNextFloorDate &&
+      world.currentDate < position.earliestNextFloorDate
+    )
+      throw new Error(
+        `The ordinary clock stopped on ${world.currentDate} before the council reading date ${position.earliestNextFloorDate}.`,
+      );
     world = takeFloorVote(world, {
       stableKey: `${measure.stableKey}:${stage.stageKey}`,
       measureId: measure.id,
@@ -139,9 +186,6 @@ export function recordedCouncilBillPreview(
     stableKey: `${measure.stableKey}:presented`,
     measureId: measure.id,
   });
-  const mayor = municipalExecutiveHolder(world, DC_GOVERNMENT_KEY);
-  if (!mayor) throw new Error("The council has no actual executive.");
-  world = { ...world, control: { kind: "person", personId: mayor } };
   if (options.openDesk !== false)
     world = openMunicipalBillMatter(world, measure, DC_GOVERNMENT_KEY);
   return {
