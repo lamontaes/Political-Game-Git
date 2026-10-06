@@ -2,7 +2,7 @@
 
 The year command advances the real observer clock in 30-day steps, stopping at exact yearly anniversaries. Each row prints simulation seconds and SHA-256 of the real saved payload. Annual saving and hashing happen outside the year timer. The default scenario is South Fork, Pennsylvania (`4272168`), seed `b18-f375512c`.
 
-The portable month command gives day 1 the same untimed warm-up in both runs, then times each ordinary day from days 2 through 31 separately. Its paired comparison requires a lower mean day time and identical accepted decision order, choice facts, sequence and cutoff, recorded event order, and people. It reports the full saved-world fingerprint as additional evidence. Precise-coverage data is diagnostic only and never supplies timing.
+The portable month command gives calendar day 1 the same untimed action 0 in both runs, then times each ordinary day from days 2 through 31 separately. The day-2 bucket retains both the extra same-date action 1 and advancing action 2; days 3–31 retain actions 3–31. Acceptance requires lower mean process CPU per day for days 2–31. Wall time is reported separately. The comparison also requires identical accepted decision order, choice facts, sequence and cutoff, full appended-event payload digests, recorded event order, and people. It reports the full saved-world fingerprint as additional evidence. Precise-coverage data is diagnostic only and never supplies timing.
 
 Run only after the coordinator grants an exclusive host window. `--exclusive` records that assertion; it does not stop another application or establish exclusivity by itself. Use the repository storage wrapper for these heavy jobs. Team 1 currently owns `package.json`, so the npm entry is pending its merge. The direct candidate route is:
 

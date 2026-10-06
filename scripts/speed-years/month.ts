@@ -33,9 +33,16 @@ export interface MonthReceipt {
   readonly dailySeconds: readonly number[];
   readonly dailyCpuSeconds: readonly number[];
   readonly executionId: string;
+  readonly initialAction: {
+    readonly actionNumber: 0;
+    readonly date: string;
+    readonly decisions: readonly MonthDecision[];
+    readonly appendedPayloadDigest: string;
+  };
   readonly actionDays: readonly {
     readonly day: number;
     readonly date: string;
+    readonly actionNumbers: readonly number[];
     readonly decisions: readonly MonthDecision[];
     readonly appendedPayloadDigest: string;
   }[];
@@ -85,6 +92,31 @@ export function compareMonth(before: MonthReceipt, after: MonthReceipt) {
     );
   if (JSON.stringify(before.actionDays) !== JSON.stringify(after.actionDays))
     errors.push("Per-day accepted actions or appended payload digests differ");
+  if (
+    JSON.stringify(before.initialAction) !== JSON.stringify(after.initialAction)
+  )
+    errors.push("Initial action 0 or its appended payload differs");
+  for (const receipt of [before, after]) {
+    if (receipt.actionDays.length !== 30)
+      errors.push("The calendar action map must contain days 2–31");
+    const actionNumbers = [
+      receipt.initialAction.actionNumber,
+      ...receipt.actionDays.flatMap((row) => row.actionNumbers),
+    ];
+    if (
+      actionNumbers.length !== 32 ||
+      actionNumbers.some((action, index) => action !== index)
+    )
+      errors.push("The action map must preserve actions 0–31 exactly once");
+    if (
+      receipt.actionDays[0]?.day !== 2 ||
+      JSON.stringify(receipt.actionDays[0]?.actionNumbers) !==
+        JSON.stringify([1, 2])
+    )
+      errors.push(
+        "Calendar day 2 must retain same-date action 1 and advance action 2",
+      );
+  }
   if (JSON.stringify(before.people) !== JSON.stringify(after.people))
     errors.push("People, their facts, appearances or person order differ");
   if (before.decisions.length !== after.decisions.length)
@@ -164,15 +196,33 @@ async function main() {
   );
   // Day 1 is the same warm-up action in both runs. Time only the ordinary
   // daily steps that the assigned speed gate compares: days 2 through 31.
+  const initialDecisionCount = world.history.decisionTraces.length;
+  const initialEventCount = world.history.events.length;
   const firstDay = advanceObservedWorld(world, 1);
   if (firstDay.currentDate <= world.currentDate)
     throw new Error("The observer did not complete day 1");
   world = firstDay;
   const measuredFromDate = world.currentDate;
-  // The accepted action before this checkpoint and the first measured-day
-  // action share the day-2 bucket; the checkpoint itself is day-1 warm-up.
-  let priorDecisionCount = 0;
-  let priorEventCount = 0;
+  // Calendar day 1 is action 0. On calendar day 2, action 1 stops on the same
+  // date and action 2 advances; retain both in that day bucket.
+  const initialAction = {
+    actionNumber: 0 as const,
+    date: firstDay.currentDate,
+    decisions: firstDay.history.decisionTraces
+      .slice(initialDecisionCount)
+      .map((row) => ({
+        key: row.stableKey,
+        choice: row.selectedOptionKey,
+        hash: hash(withoutHistoryPositions(row)),
+        sequence: row.sequence,
+        cutoffSequence: row.context.cutoff.historySequenceExclusive,
+      })),
+    appendedPayloadDigest: hash(
+      firstDay.history.events.slice(initialEventCount),
+    ),
+  };
+  let priorDecisionCount = firstDay.history.decisionTraces.length;
+  let priorEventCount = firstDay.history.events.length;
   const hash = (value: unknown) =>
     createHash("sha256").update(canonicalJson(value)).digest("hex");
   const dailySeconds: number[] = [];
@@ -200,6 +250,7 @@ async function main() {
     actionDays.push({
       day,
       date: next.currentDate,
+      actionNumbers: day === 2 ? [1, 2] : [day],
       decisions,
       appendedPayloadDigest: hash(next.history.events.slice(priorEventCount)),
     });
@@ -230,6 +281,7 @@ async function main() {
     dailySeconds,
     dailyCpuSeconds,
     executionId,
+    initialAction,
     actionDays,
     date: next.currentDate,
     fingerprint: fingerprint.digest("hex"),

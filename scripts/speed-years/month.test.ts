@@ -13,8 +13,20 @@ const baseline: MonthReceipt = {
   dailySeconds: Array.from({ length: 30 }, () => 1),
   dailyCpuSeconds: Array.from({ length: 30 }, () => 0.8),
   executionId: "baseline-run",
+  initialAction: {
+    actionNumber: 0,
+    date: "2026-01-06",
+    decisions: [],
+    appendedPayloadDigest: "initial",
+  },
   actionDays: [
-    { day: 2, date: "2026-01-07", decisions: [], appendedPayloadDigest: "d" },
+    {
+      day: 2,
+      date: "2026-01-07",
+      actionNumbers: [1, 2],
+      decisions: [],
+      appendedPayloadDigest: "d",
+    },
   ],
   date: "2026-02-04",
   fingerprint: "before",
