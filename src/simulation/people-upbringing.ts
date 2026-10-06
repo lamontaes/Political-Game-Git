@@ -307,6 +307,8 @@ type FamilyContextRead = ReturnType<typeof householdContext>;
 interface FamilyCohortIndex {
   readonly date: IsoDate;
   readonly validUntil: IsoDate;
+  readonly sequenceFrom: number;
+  readonly sequenceUntil: number;
   readonly inputs: readonly unknown[];
   readonly estimate: ReturnType<typeof recordedFamilyEstimates>;
   readonly byPerson: ReadonlyMap<EntityId, RecordedFamilySample>;
@@ -451,6 +453,48 @@ function nextRecordDate(
   return dates[low] as IsoDate | undefined;
 }
 
+const COHORT_SEQUENCES = new WeakMap<object, readonly number[]>();
+const RECENT_COHORT_SEQUENCES: (readonly unknown[])[] = [];
+function cohortSequenceWindow(
+  inputs: readonly (readonly { readonly sequence: number }[])[],
+  cutoff: number,
+): { sequenceFrom: number; sequenceUntil: number } {
+  let sequenceFrom = 0;
+  let sequenceUntil = Number.POSITIVE_INFINITY;
+  for (const rows of inputs) {
+    const extend = (prior: readonly number[], from: number) => {
+      const added: number[] = [];
+      for (let at = from; at < rows.length; at += 1)
+        added.push(rows[at]!.sequence);
+      if (!added.length) return prior;
+      // Revisions and nonmonotonic appends receive the same numeric ordering.
+      return [...prior, ...added].sort((a, b) => a - b);
+    };
+    const sequences = indexFollowingAppends(
+      COHORT_SEQUENCES,
+      RECENT_COHORT_SEQUENCES,
+      rows,
+      () => extend([], 0),
+      extend,
+    );
+    let low = 0;
+    let high = sequences.length;
+    while (low < high) {
+      const middle = (low + high) >>> 1;
+      if (sequences[middle]! < cutoff) low = middle + 1;
+      else high = middle;
+    }
+    // s is excluded at cutoff s and admitted at s + 1. An unbounded upper
+    // interval reuses the cohort after unrelated trait/decision appends.
+    sequenceFrom = Math.max(sequenceFrom, (sequences[low - 1] ?? -1) + 1);
+    sequenceUntil = Math.min(
+      sequenceUntil,
+      (sequences[low] ?? Number.POSITIVE_INFINITY) + 1,
+    );
+  }
+  return { sequenceFrom, sequenceUntil };
+}
+
 function cohortKey(row: FamilyContextRead): string {
   return JSON.stringify([row.placeId, row.householdType, row.incomeBand]);
 }
@@ -467,12 +511,16 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     world.history.workRelationships,
     world.history.workStatuses,
     world.history.workRoles,
+    world.history.organizationParticipations,
+    world.history.organizationParticipationStates,
   ];
   const cache = cohortCache(key, inputs);
   const prior = cache.intervals.find(
     (row) =>
       row.date <= world.currentDate &&
       world.currentDate < row.validUntil &&
+      row.sequenceFrom <= world.history.nextSequence &&
+      world.history.nextSequence < row.sequenceUntil &&
       row.inputs.every((value, index) => value === inputs[index]),
   );
   if (prior) return prior;
@@ -571,7 +619,26 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   }
   const seenHouseholds = new Set<EntityId>();
   const householdSamples = [];
+  // A later membership cannot supply an own household at this cutoff. Keep
+  // anyone with another available membership, and every kinship participant
+  // whose recorded parent may supply a household even without an own one.
+  const householdCandidates = new Set<EntityId>();
   for (const membership of world.history.householdMemberships) {
+    if (
+      membership.sequence < world.history.nextSequence &&
+      membership.startedAt <= world.currentDate
+    )
+      householdCandidates.add(membership.personId);
+  }
+  for (const relationship of world.history.kinshipRelationships)
+    for (const id of relationship.personIds) householdCandidates.add(id);
+  for (const membership of world.history.householdMemberships) {
+    // Keep malformed missing-person inputs on the original validation path.
+    if (
+      world.people[membership.personId] &&
+      !householdCandidates.has(membership.personId)
+    )
+      continue;
     const { household, members } = selectedHouseholdMembers(
       world,
       membership.personId,
@@ -607,6 +674,13 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     paidPeopleByState,
     date: world.currentDate,
     validUntil,
+    ...cohortSequenceWindow(
+      [
+        world.history.kinshipRelationships,
+        ...inputs.slice(1),
+      ] as readonly (readonly { readonly sequence: number }[])[],
+      world.history.nextSequence,
+    ),
     inputs,
     estimate,
     byPerson: new Map(estimate.samples.map((row) => [row.personId, row])),
