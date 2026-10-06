@@ -1,7 +1,13 @@
 import { rightsOrEligibilityLoss } from "../law-exposure";
 import { createOrganization, createOrganizationParticipation } from "../life";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { activeOrganizationParticipationsAt } from "../life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+  kinshipRelationshipsAt,
+} from "../life-queries";
+import { relationshipHistory } from "../queries";
 import { peopleTiedTo } from "../neighbor-news";
 import {
   lawInterestGroupKey,
@@ -19,6 +25,7 @@ import type {
   EntityId,
   GoalStateRecord,
   LawExposureRecord,
+  MindSourceReference,
   PrivateBeliefRecord,
   World,
 } from "../types";
@@ -176,7 +183,8 @@ function causeDecision(
           : `Recorded exposure ${exposure.id}: the law has an effect on them.`,
       sourceRefs: [],
     });
-  if (knowsAMember(world, input.personId, members))
+  const tieRefs = memberTieSources(world, input.personId, members);
+  if (tieRefs.length)
     reasons.push({
       stableKey: `${key}:ties`,
       optionKey: "organize",
@@ -185,7 +193,7 @@ function causeDecision(
       importance: "moderate",
       confidence: "high",
       explanation: "Someone they know already belongs to the group.",
-      sourceRefs: [],
+      sourceRefs: tieRefs,
     });
   const onShift = workSchedulesFor(world, input.personId).some((schedule) =>
     onShiftAt(schedule, world.currentMoment),
@@ -389,13 +397,40 @@ export function joinLawInterestGroup(
   });
 }
 
-function knowsAMember(
+function memberTieSources(
   world: World,
   personId: EntityId,
   members: readonly EntityId[],
-): boolean {
+): readonly MindSourceReference[] {
   const others = new Set(members.filter((id) => id !== personId));
-  return peopleTiedTo(world, [personId], "known").some((id) => others.has(id));
+  const tiedMembers = new Set(
+    peopleTiedTo(world, [personId], "close").filter((id) => others.has(id)),
+  );
+  if (!tiedMembers.size) return [];
+  const refs: MindSourceReference[] = [];
+  for (const row of householdMembershipsAt(world, personId))
+    if (
+      peopleInHouseholdAt(world, row.membership.householdId).some((person) =>
+        tiedMembers.has(person),
+      )
+    )
+      refs.push({
+        kind: "life-history",
+        reference: {
+          family: "household-membership",
+          recordId: row.membership.id,
+        },
+      });
+  for (const row of kinshipRelationshipsAt(world, personId))
+    if (row.personIds.some((id) => tiedMembers.has(id)))
+      refs.push({
+        kind: "life-history",
+        reference: { family: "kinship", recordId: row.id },
+      });
+  for (const row of relationshipHistory(world, personId))
+    if (row.personIds.some((id) => tiedMembers.has(id)))
+      refs.push({ kind: "relationship-interaction", interactionId: row.id });
+  return refs;
 }
 
 export interface SharedCauseGroupActionContext {

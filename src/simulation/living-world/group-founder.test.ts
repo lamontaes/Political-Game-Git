@@ -232,6 +232,15 @@ describe("a resident decides to found a shared-cause group", () => {
       [f.input.personId, joiner].sort(),
     );
     expect(world.history.goalStates).toBe(beforeGoals);
+    expect(
+      world.history.decisionTraces
+        .at(-1)!
+        .context.considerations.some(
+          (row) =>
+            row.sourceType === "social:relationship" &&
+            row.sourceRefs.length > 0,
+        ),
+    ).toBe(true);
     expect(world.history.decisionTraces.at(-1)!.context.decisionType).toBe(
       "civic.join-shared-cause-group",
     );
