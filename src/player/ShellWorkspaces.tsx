@@ -1934,8 +1934,8 @@ export function OptionsWorkspace({
           <section className="pg-personal-section">
             <h3>Premises and saves</h3>
             <p className="game-note">
-              Chosen when this life began. {" "}
-              Family money: {playSettings.premises.familyMoney}; press:{" "}
+              Chosen when this life began. Family money:{" "}
+              {playSettings.premises.familyMoney}; press:{" "}
               {playSettings.premises.press}; saves: {playSettings.saves}.
             </p>
           </section>
