@@ -22,6 +22,7 @@ import { facetHumbleEffects } from "./facet-humble";
 import { facetMeticulousEffects } from "./facet-meticulous";
 import { facetNurturingEffects } from "./facet-nurturing";
 import { facetOpenMindedEffects } from "./facet-open-minded";
+import { facetPoliteEffects } from "./facet-polite";
 import { facetOpportunisticEffects } from "./facet-opportunistic";
 import { facetPersistentEffects } from "./facet-persistent";
 import { facetPhilanthropicEffects } from "./facet-philanthropic";
@@ -62,6 +63,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetDutyBoundEffects,
     ...facetEnviousEffects,
     ...facetForgivingEffects,
+    ...facetPoliteEffects,
     ...facetFriendlyEffects,
     ...facetGenerousEffects,
     ...facetGentleEffects,
