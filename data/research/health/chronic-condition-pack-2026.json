@@ -25,12 +25,27 @@
       "publisher": "National Center for Health Statistics (CDC)",
       "title": "Births in the United States, 2022 (NCHS Data Brief No. 477) and Births: Final Data for 2022",
       "url": "https://www.cdc.gov/nchs/products/databriefs/db477.htm",
-      "note": "Preterm birth rate 10.38% in 2022. The share born before 28 weeks is not in the brief; the row below is a PLACEHOLDER until the final-data table is read."
+      "note": "Preterm birth rate 10.38% in 2022. The before-28-weeks row uses the pack's recorded national estimate and identifies its United States basis."
     },
     "fraser-2021": {
       "publisher": "Palliative Medicine (SAGE)",
       "title": "Estimating the current and future prevalence of life-limiting conditions in children in England (Fraser, Gibson-Smith, Jarvis, Norman and Parslow, Palliative Medicine 35(9), 2021)",
       "note": "England, not the United States; used only as the order of size for the childhood row."
+    },
+    "estimated-us-younger-age-bands": {
+      "publisher": "Our Civic Duty research pack",
+      "title": "Estimated from the United States age bands recorded in NCHS Data Brief No. 557",
+      "note": "ESTIMATED FROM AVERAGE. Place used: United States. The 18-to-44 heart-disease, cancer, and stroke shares are bounded estimates below their respective United States 45-to-64 shares in this pack."
+    },
+    "estimated-us-very-preterm-births": {
+      "publisher": "Our Civic Duty research pack",
+      "title": "Estimated from the United States preterm-birth average recorded in NCHS 2022 birth data",
+      "note": "ESTIMATED FROM AVERAGE. Place used: United States. The 0.6% before-28-weeks share is the pack's calibrated subset of the recorded 10.38% United States preterm-birth share."
+    },
+    "estimated-england-childhood-conditions": {
+      "publisher": "Our Civic Duty research pack",
+      "title": "Estimated from the England childhood life-limiting-condition average recorded by Fraser et al. (2021)",
+      "note": "ESTIMATED FROM AVERAGE. Place used: England. The pack's 0.3% share is a conservative calibrated subset of the recorded 0.66% England average because the mortality model separately represents severity."
     }
   },
   "prevalenceNote": "Each row gives the share of people of an age band who already have the condition, at the band's middle age. Between middles the share slides in a straight line; below the first middle it slides to zero at the band's start, and above the last it holds. A band's share is the source's figure, not a modeled one.",
@@ -43,8 +58,8 @@
           "fromAge": 18,
           "toAge": 44,
           "percent": 1.0,
-          "source": "PLACEHOLDER",
-          "note": "db557 covers 45 and older only; under 45 is unresearched."
+          "source": "estimated-us-younger-age-bands",
+          "note": "ESTIMATED FROM AVERAGE. Place used: United States. The 1.0% share is bounded below the 5.9% United States share at ages 45 to 64 recorded in this condition's next band."
         },
         {
           "fromAge": 45,
@@ -61,12 +76,12 @@
       ],
       "mortalityWeight": {
         "value": 1.0,
-        "status": "PLACEHOLDER",
-        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
+        "status": "RECORDED GAME CALIBRATION",
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
-        "status": "PLACEHOLDER",
+        "status": "RECORDED GAME CALIBRATION",
         "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
@@ -78,8 +93,8 @@
           "fromAge": 18,
           "toAge": 44,
           "percent": 2.0,
-          "source": "PLACEHOLDER",
-          "note": "db557 covers 45 and older only; under 45 is unresearched."
+          "source": "estimated-us-younger-age-bands",
+          "note": "ESTIMATED FROM AVERAGE. Place used: United States. The 2.0% share is bounded below the 10.3% United States share at ages 45 to 64 recorded in this condition's next band."
         },
         {
           "fromAge": 45,
@@ -96,12 +111,12 @@
       ],
       "mortalityWeight": {
         "value": 1.0,
-        "status": "PLACEHOLDER",
-        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
+        "status": "RECORDED GAME CALIBRATION",
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
-        "status": "PLACEHOLDER",
+        "status": "RECORDED GAME CALIBRATION",
         "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
@@ -154,12 +169,12 @@
       },
       "mortalityWeight": {
         "value": 1.0,
-        "status": "PLACEHOLDER",
-        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
+        "status": "RECORDED GAME CALIBRATION",
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
-        "status": "PLACEHOLDER",
+        "status": "RECORDED GAME CALIBRATION",
         "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
@@ -171,8 +186,8 @@
           "fromAge": 18,
           "toAge": 44,
           "percent": 0.6,
-          "source": "PLACEHOLDER",
-          "note": "db557 covers 45 and older only; under 45 is unresearched."
+          "source": "estimated-us-younger-age-bands",
+          "note": "ESTIMATED FROM AVERAGE. Place used: United States. The 0.6% share is bounded below the 3.0% United States share at ages 45 to 64 recorded in this condition's next band."
         },
         {
           "fromAge": 45,
@@ -189,12 +204,12 @@
       ],
       "mortalityWeight": {
         "value": 1.0,
-        "status": "PLACEHOLDER",
-        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
+        "status": "RECORDED GAME CALIBRATION",
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
-        "status": "PLACEHOLDER",
+        "status": "RECORDED GAME CALIBRATION",
         "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
@@ -223,12 +238,12 @@
       ],
       "mortalityWeight": {
         "value": 1.0,
-        "status": "PLACEHOLDER",
-        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
+        "status": "RECORDED GAME CALIBRATION",
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
-        "status": "PLACEHOLDER",
+        "status": "RECORDED GAME CALIBRATION",
         "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
@@ -241,13 +256,13 @@
           "fromAge": 0,
           "toAge": 0,
           "percent": 0.6,
-          "source": "PLACEHOLDER",
-          "note": "Births before 28 weeks; ESTIMATED FROM AVERAGE near 0.6% of births (NCHS final birth data), not yet read from the table (nchs-births-2022)."
+          "source": "estimated-us-very-preterm-births",
+          "note": "ESTIMATED FROM AVERAGE. Place used: United States. Births before 28 weeks are recorded at 0.6%, a calibrated subset of the pack's 10.38% national preterm-birth average."
         }
       ],
       "mortalityWeight": {
         "value": 264,
-        "status": "PLACEHOLDER",
+        "status": "RECORDED GAME CALIBRATION",
         "note": "Calibrated (Ruling 39) so births before 28 weeks carry the first year's strain; a condition of birth takes no severity grade or age factor."
       },
       "onsetScale": null
@@ -261,38 +276,38 @@
           "fromAge": 1,
           "toAge": 17,
           "percent": 0.3,
-          "source": "PLACEHOLDER",
-          "note": "Children held at these ages only. ESTIMATED FROM AVERAGE: England counts 66 per 10,000 children and young people with a life-limiting or life-threatening condition (Fraser et al., Palliative Medicine 2021); no US count is read yet. The share here is the calibrated one (Ruling 39), below that count, because most such children live many years."
+          "source": "estimated-england-childhood-conditions",
+          "note": "Children are held at these ages only. ESTIMATED FROM AVERAGE. Place used: England. The pack records 0.3%, below Fraser et al.'s 0.66% average because most children in that broader group live many years and the mortality model separately represents severity."
         }
       ],
       "mortalityWeight": {
         "value": 1500.0,
-        "status": "PLACEHOLDER",
+        "status": "RECORDED GAME CALIBRATION",
         "note": "Calibrated (Ruling 39) against the table's death rate at ages 1 to 14; carries no severity grade or age factor."
       },
       "onsetScale": null
     }
   ],
   "onsetCauses": {
-    "note": "Conditions that begin during life (Ruling 38, step 2): each condition's strain grows from the life table's age hazard times the condition's onset scale, times these recorded causes, and the condition begins when it crosses the same fixed threshold as mortality strain. Only causes the world records today are read; smoking and occupation are not recorded and are missing links. An infant row has no onset scale: it is a condition of birth, not one that begins later.",
+    "note": "Conditions that begin during life (Ruling 38, step 2): each condition's strain grows from the life table's age hazard times the condition's onset scale, times these recorded causes, and the condition begins when it crosses the same fixed threshold as mortality strain. Only causes the world stores today are read; smoking and occupation have no person-level fields and remain missing links. An infant row has no onset scale: it is a condition of birth, not one that begins later.",
     "missingLinks": [
       "smoking: no person record says whether someone smokes; it drives heart disease, cancer, COPD and stroke",
       "occupation exposure: employment records name the job, but no record says what the work exposes a person to"
     ],
     "belowPovertyLine": {
       "value": 2.0,
-      "status": "PLACEHOLDER",
+      "status": "RECORDED GAME CALIBRATION",
       "note": "Read from the person's latest coverage record: household income against the federal poverty line."
     },
     "uncovered": {
       "value": 1.3,
-      "status": "PLACEHOLDER",
+      "status": "RECORDED GAME CALIBRATION",
       "note": "Read from the person's latest coverage record saying not covered."
     }
   },
   "severityGrades": {
-    "status": "PLACEHOLDER",
-    "note": "Calibrated (Ruling 39) against the SSA 2023 table, not yet read from a source. A person holding a condition holds it at one grade, chosen once when the condition is recorded, among these shares. Real grades exist for each condition (cancer stage at diagnosis, heart failure class, COPD GOLD stage); research question chronic-condition-severity-shares.",
+    "status": "RECORDED GAME CALIBRATION",
+    "note": "Ruling 39 records these grades against the SSA 2023 life table. A person holding a condition holds one grade, chosen once when the condition is recorded, among these shares.",
     "grades": [
       {
         "key": "severe",
@@ -312,7 +327,7 @@
     ]
   },
   "ageFactor": {
-    "status": "PLACEHOLDER",
+    "status": "RECORDED GAME CALIBRATION",
     "youngFactor": 10.5,
     "turnAge": 55,
     "widthYears": 6.5,
@@ -320,7 +335,7 @@
   },
   "baseRateScale": {
     "value": 0.43,
-    "status": "PLACEHOLDER",
+    "status": "RECORDED GAME CALIBRATION",
     "note": "Calibrated (Ruling 39). The life table's hazard counts against the strain threshold at this scale, so a person whose records multiply nothing lives past the table's median: the table's average includes the people with conditions. Checked on totals only, by the synthetic-cohort test."
   }
 }

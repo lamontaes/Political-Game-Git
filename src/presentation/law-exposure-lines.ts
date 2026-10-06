@@ -46,6 +46,11 @@ const CHANNEL_WORDS: Record<
     gain: "gained {whom} {amount} at work",
     none: "changed the rules at {whose} job",
   },
+  "election-rule": {
+    cost: "prevented {whom} from seeking another term",
+    gain: "allowed {whom} to seek another term",
+    none: "changed {whose} eligibility to seek another term",
+  },
   "business-rule": {
     cost: "cost {whose} business {amount}",
     gain: "saved {whose} business {amount}",
@@ -97,7 +102,20 @@ export function lawExposureSentence(
   const measure = (world.history.legislativeMeasures ?? []).find(
     (row) => row.id === exposure.measureId,
   );
-  const title = measure?.shortTitle?.trim();
+  const sourceEvent =
+    exposure.channel === "election-rule"
+      ? world.history.events.find((row) => row.id === exposure.sourceRecordId)
+      : null;
+  const recordedTermLimitBar =
+    sourceEvent?.tags.includes("barred:term-limit") &&
+    sourceEvent.involvedEntityIds.includes(personId) &&
+    (sourceEvent.type === "local.officeholder-retired" ||
+      sourceEvent.type === "election.state-legislative-candidacy-intent");
+  const title =
+    measure?.shortTitle?.trim() ||
+    (recordedTermLimitBar && exposure.measureId.startsWith("starting-law:")
+      ? "term-limit law"
+      : null);
   if (!title) return null;
   const via =
     exposure.relation !== "own" && exposure.viaPersonId
@@ -108,13 +126,14 @@ export function lawExposureSentence(
   const whose = friend ? "their" : via ? `${via.givenName}'s` : "your";
   const whom = friend ? "them" : via ? via.givenName : "you";
   const direction =
-    exposure.amount === null || exposure.direction === "none"
+    (exposure.amount === null && exposure.channel !== "election-rule") ||
+    exposure.direction === "none"
       ? "none"
       : exposure.direction;
   const words = CHANNEL_WORDS[exposure.channel][direction]
     .replace("{whose}", whose)
     .replace("{whom}", whom)
-    .replace("{amount}", direction === "none" ? "" : amountText(exposure));
+    .replace("{amount}", exposure.amount === null ? "" : amountText(exposure));
   const share = direction === "none" ? null : shareOfPay(exposure);
   const named = /^the\s/i.test(title) ? title.replace(/^the\s/i, "") : title;
   const sentence = friend

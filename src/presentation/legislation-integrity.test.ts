@@ -483,7 +483,7 @@ describe("A chamber that is not at full strength", () => {
       /cannot have more members elected than its 67 formal seats/,
     );
     expect(() => electedMembersFor(senate, 0)).toThrow(
-      /positive count of elected members/,
+      /positive count of elected officials/,
     );
   });
 });

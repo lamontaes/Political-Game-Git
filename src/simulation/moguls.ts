@@ -44,6 +44,7 @@ import {
   recordDurableDecisionTrace,
 } from "./decisions";
 import { recordGoalState, createMindProvenance } from "./mind";
+import { MOGUL_APPROACH_DECISION } from "./mogul-decisions";
 import { personName } from "./people";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordPublicPosition } from "./politics";
@@ -622,7 +623,7 @@ function considerApproach(world: World, mogulId: EntityId): World {
   ];
   const evaluation = evaluateDecision(world, {
     stableKey: `${key}:approach`,
-    decisionType: "mogul.approach",
+    decisionType: MOGUL_APPROACH_DECISION.id,
     actorPersonId: mogulId,
     cutoff: currentHistoricalCutoff(world),
     subject: {

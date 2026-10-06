@@ -43,6 +43,8 @@ function input(
 ): CostObjectionInput {
   return {
     worldSeed: SEED,
+    speakerTraits: {},
+    listenerTraits: {},
     momentKey,
     speakerPersonId: speaker,
     listenerPersonId: listener,
@@ -155,6 +157,8 @@ describe(`the cost objection, worded from its packet (${place.displayName}, ${pl
       },
       grounding: {
         worldSeed: SEED,
+        speakerTraits: {},
+        listenerTraits: {},
         speakerPersonId: speaker,
         listenerPersonId: listener,
         measureId: measure,

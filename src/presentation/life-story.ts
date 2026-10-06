@@ -912,6 +912,8 @@ export interface ChooseStoryOptionInput {
   readonly personId: EntityId;
   readonly scene: StoryScene;
   readonly optionKey: string;
+  /** A faith choice only when the player made faith part of this scene. */
+  readonly faithChoice?: EntityId | null;
 }
 
 /**
@@ -998,6 +1000,7 @@ export function chooseStoryOption(
         choiceLabel:
           scene.options.find((option) => option.key === input.optionKey)
             ?.label ?? input.optionKey,
+        faithChoice: input.faithChoice,
       });
     }
     case "adult":

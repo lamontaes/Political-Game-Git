@@ -18,7 +18,11 @@ import {
   resolvePublicationSource,
 } from "../public-information-integrity";
 import { currentHistoricalCutoff } from "../queries";
-import { recordClaim, recordEventKnowledge } from "../records";
+import {
+  recordClaim,
+  recordEventKnowledge,
+  recordRelationshipInteraction,
+} from "../records";
 import type {
   DecisionConsideration,
   DecisionConstraint,
@@ -48,6 +52,7 @@ import {
 import { openPersonalLifeMatter } from "./matters";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
+import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
@@ -597,6 +602,28 @@ export function recordSubjectResponse(
     reporterPersonId: reporterId,
     eventId,
     reasonKey: `press:subject-${input.kind}`,
+  });
+  next = recordRelationshipInteraction(next, {
+    stableKey: `${lead.stableKey}:response-contact:${input.personId}`,
+    personIds: [input.personId, reporterId],
+    eventId,
+    occurredAt: next.currentDate,
+    kind: "exchange:press-contact",
+    change: next.history.relationshipInteractions.some(
+      (interaction) =>
+        interaction.personIds.includes(input.personId) &&
+        interaction.personIds.includes(reporterId),
+    )
+      ? "maintained"
+      : "formed",
+    significance: "minor",
+    summary:
+      input.kind === "decline"
+        ? "A subject declined a reporter's request for comment."
+        : "A subject answered a reporter's request for comment.",
+    tags: [
+      input.kind === "decline" ? "press.call.ducked" : "press.call.answered",
+    ],
   });
   return { world: next, eventId };
 }
@@ -1290,6 +1317,24 @@ function recordProfessionalReaders(
     const basis = eventById(world, basisId);
     if (basis) for (const id of lawNewsReaders(world, basis)) readers.add(id);
   }
+  // Individual readers are modeled only where the player follows the outlet
+  // and lives in the represented town. County membership remains unmodeled
+  // without a canonical town-to-county join. Other reach is handled by the
+  // scheduled group model rather than person-level knowledge rows.
+  const playerId =
+    world.control.kind === "person" ? world.control.personId : null;
+  const playerTownId = playerId
+    ? world.people[playerId]?.homeJurisdictionId
+    : null;
+  if (playerTownId) {
+    for (const personId of world.personOrder) {
+      if (
+        world.people[personId]?.homeJurisdictionId === playerTownId &&
+        hasModeledOutletAudience(world, personId, publication.outletKey)
+      )
+        readers.add(personId);
+    }
+  }
   let next = world;
   for (const personId of [...readers].sort()) {
     next = recordEventKnowledge(next, {
@@ -1321,6 +1366,21 @@ function recordProfessionalReaders(
     next = produceMatterResponses(next, lead.matterId, story);
   }
   return next;
+}
+
+/**
+ * Local conservative stub until World has a saved person-to-outlet reader
+ * source. A general news habit alone cannot establish outlet readership.
+ */
+export function hasModeledOutletAudience(
+  world: World,
+  personId: EntityId,
+  outletKey: string,
+): boolean {
+  void world;
+  void personId;
+  void outletKey;
+  return false;
 }
 
 interface StoryCopy {
@@ -2079,9 +2139,12 @@ function chooseReporter(
         assignedReporter(world, other.id) === role.personId &&
         other.subjectPersonIds.some((id) => lead.subjectPersonIds.includes(id)),
     );
+  const contactHistory = (role: ReporterRoleRecord) =>
+    reporterContactCount(world, role.personId, lead.subjectPersonIds);
   return [...current].sort(
     (left, right) =>
       Number(right.beats.includes(beat)) - Number(left.beats.includes(beat)) ||
+      contactHistory(right) - contactHistory(left) ||
       Number(familiar(right)) - Number(familiar(left)) ||
       load(left) - load(right) ||
       left.personId.localeCompare(right.personId),

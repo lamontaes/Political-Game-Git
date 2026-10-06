@@ -32,6 +32,7 @@ import {
   type SeatedMember,
 } from "../simulation/legislation-scenarios";
 import { chamberByKey, floorStageByKey } from "../simulation/legislature-rules";
+import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
 import { futureDueItemStateAt } from "../simulation/future-transitions";
 import { passOrdinaryDays } from "./ordinary-life";
 import { COMMITTEE_HEARING_TRANSITION_KEY } from "../simulation/legislation";
@@ -254,15 +255,27 @@ export function applyLegislativeStep(
       };
     }
     case "move-committee-report": {
+      const savedCommittee = chamber.committees.find(
+        (entry) => entry.committeeKey === position.committeeKey,
+      );
       const committee =
-        chamber.committees.find(
-          (entry) => entry.committeeKey === position.committeeKey,
-        ) ?? chamber.committees[0]!;
+        savedCommittee ?? referralCommittee(world, measureId, chamberKey);
+      if (!committee)
+        return {
+          world,
+          message: `The ${chamber.name}'s committees are not compiled, so no committee report vote is taken.`,
+        };
       const body = bodyForChamber(scenario, chamberKey);
+      const committees = savedCommittee
+        ? chamber.committees
+        : chamberByKey(
+            legislativeRulePackForWorld(world, measure!.rulePackId),
+            chamberKey,
+          ).committees;
       const members = scenario.memberDecisions
         ? committeeRoster(
             body,
-            chamber.committees,
+            committees,
             committee.committeeKey,
             `${pack.packId}:${chamberKey}`,
           )

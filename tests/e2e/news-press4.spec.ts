@@ -22,7 +22,7 @@ test("keyboard route preserves condensed intent and exact confirmed wording", as
     "Which details are not yet decided?",
   );
   const expected =
-    "The proposal was discussed at a public briefing. That recorded fact does not establish an outcome that has not happened.";
+    "The proposal was discussed at a public briefing. That doesn't tell us what happens next.";
   await expect(page.getByTestId("press-answer-preview")).toHaveText(expected);
   await page.getByRole("button", { name: "Review exact wording" }).click();
 

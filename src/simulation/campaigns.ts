@@ -647,7 +647,7 @@ export function fileCampaign(
   }
   if (!input.municipalSeatKey && municipalSeatMustBeNamed(input.officeKey)) {
     throw new Error(
-      "This council elects named seats. Choose a recorded at-large or ward seat before filing.",
+      "This council elects named seats. Choose a recorded at-large or district seat before filing.",
     );
   }
   const option = eligibility.office;
