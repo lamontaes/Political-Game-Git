@@ -22,6 +22,7 @@
  * This is a development tool for reviewing wording. It is never part of play.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
+import { batchStats, statsSummary, type BatchStat } from "./stats";
 import { dirname } from "node:path";
 import {
   activeWorkRelationshipsAt,
@@ -133,6 +134,8 @@ export interface BatchLine {
   };
   /** What the harness chose, as opposed to what the records hold. */
   readonly harness: readonly string[];
+  /** The turn this line answers, when the situation records one. */
+  readonly prior?: string;
 }
 
 export interface BatchSkip {
@@ -155,6 +158,8 @@ export interface BatchResult {
   readonly worlds: readonly BatchWorldSummary[];
   readonly lines: readonly BatchLine[];
   readonly skipped: readonly BatchSkip[];
+  /** The lines measured against the everyday register card. */
+  readonly stats: readonly BatchStat[];
 }
 
 export interface BatchOptions {
@@ -367,6 +372,8 @@ interface Produced {
   readonly line: string;
   readonly parts: readonly ComposedPart[];
   readonly harness?: readonly string[];
+  /** The turn the line answers, when the situation records one. */
+  readonly prior?: string;
 }
 
 const partKeys = (parts: readonly ComposedPart[]) =>
@@ -731,6 +738,7 @@ function toldPlan(which: 0 | 1): (ctx: WorldContext) => Produced {
       speaker: chosen.speaker,
       line: chosen.reply,
       parts: chosen.parts,
+      prior: chosen.topicLabel,
     };
   };
 }
@@ -1212,12 +1220,19 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
           date: ctx.world.currentDate,
         },
         harness: made.harness ?? [],
+        ...(made.prior !== undefined ? { prior: made.prior } : {}),
       });
       return;
     }
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
-  return { seed: options.seed, worlds: summaries, lines, skipped };
+  return {
+    seed: options.seed,
+    worlds: summaries,
+    lines,
+    skipped,
+    stats: batchStats(lines),
+  };
 }
 
 export function batchSummary(result: BatchResult): string {
@@ -1233,6 +1248,7 @@ export function batchSummary(result: BatchResult): string {
     out.push(
       `[${line.axis}] ${line.id} — ${line.speaker.name} (${line.speaker.age}): "${line.line}"`,
     );
+  out.push("", "Against the everyday card:", ...statsSummary(result.stats));
   if (result.skipped.length) {
     out.push("", "Skipped:");
     for (const entry of result.skipped)
