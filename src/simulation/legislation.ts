@@ -1960,6 +1960,9 @@ export function recordCommitteeDisposition(
     ? { kind: "reported", recommendation: input.recommendation }
     : { kind: "not-reported" };
 
+  const tally = vote.tally;
+  const attendance = `${tally.yea} in favor, ${tally.nay} against, ${tally.presentNotVoting} present without voting, ${tally.absent} absent, ${tally.excused} excused; ${vote.requiredVotes} of ${vote.denominatorValue} needed`;
+
   const withVoteWorld = appendAction(world, {
     measure,
     kind: reported ? "committee-reported" : "committee-not-reported",
@@ -1970,8 +1973,8 @@ export function recordCommitteeDisposition(
     actorLabel: committee.name,
     rationale: input.rationale,
     summary: reported
-      ? `The ${committee.name} reported ${measure.designation} to the floor ${REPORT_PHRASES[input.recommendation]} (${vote.tally.yea}-${vote.tally.nay}).`
-      : `The ${committee.name} did not report ${measure.designation} (${vote.tally.yea}-${vote.tally.nay}); it needed ${vote.requiredVotes}.`,
+      ? `The ${committee.name} reported ${measure.designation} to the floor ${REPORT_PHRASES[input.recommendation]} (${attendance}).`
+      : `The ${committee.name} did not report ${measure.designation} (${attendance}).`,
     eventType: reported
       ? "legislation.committee-reported"
       : "legislation.committee-not-reported",
