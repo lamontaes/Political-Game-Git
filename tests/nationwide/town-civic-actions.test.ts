@@ -162,6 +162,26 @@ describe(
       expect(shareAged(50, 120)).toBeGreaterThan(shareAged(18, 30));
     });
 
+    it("every contact carries its recorded reason or is explicitly a general opinion call", () => {
+      observeYear();
+      const contacts = events.filter(
+        (event) => event.type === CIVIC_ACTION_EVENTS.contacted,
+      );
+      expect(contacts.length).toBeGreaterThan(0);
+      for (const event of contacts) {
+        const reason = event.tags.find((tag) => tag.startsWith("reason:"));
+        expect(reason).toBeDefined();
+        const sources = event.tags.filter((tag) =>
+          tag.startsWith("source-record:"),
+        );
+        if (reason === "reason:general-opinion") expect(sources).toEqual([]);
+        else expect(sources.length).toBeGreaterThan(0);
+      }
+      process.stdout.write(
+        `${JSON.stringify({ receipt: "B06 contact reason provenance", seed: SEED, place: PLACE.displayName, placeKey: PLACE.key, worldId: world.id, simulationDate: world.currentDate, examples: contacts.slice(0, 3).map((event) => ({ eventId: event.id, reason: event.tags.find((tag) => tag.startsWith("reason:")), sources: event.tags.filter((tag) => tag.startsWith("source-record:")) })) })}\n`,
+      );
+    });
+
     it("attendance names its saved meeting record from the real quarter calendar", () => {
       observeYear();
       const attendance = events.filter(
