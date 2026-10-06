@@ -5,7 +5,7 @@ section: Fixed
 title: Faint white person edges borrow their own opaque layer color
 ---
 
-Person assembly replaces faint near-white edge colors with the nearest opaque
+Garment assembly replaces faint near-white edge colors with the nearest opaque
 color within two native pixels of the same layer. Original source rasters,
 opaque artwork and every alpha value remain unchanged. Isolated edges without
 an opaque neighbor retain their source color.

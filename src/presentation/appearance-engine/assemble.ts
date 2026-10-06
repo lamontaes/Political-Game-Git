@@ -266,13 +266,17 @@ export function assemblePerson(
   if (!canvas) throw new Error("A person needs a body layer.");
   const drawn = placeLayers(
     body,
-    layers.map((layer) => ({
-      ...layer,
-      raster: withoutWhiteMatte(layer.raster),
-      ...(layer.tuckTail
-        ? { tuckTail: withoutWhiteMatte(layer.tuckTail) }
-        : {}),
-    })),
+    layers.map((layer) =>
+      CLOTHING.has(layer.slot) || layer.slot === "bottoms"
+        ? {
+            ...layer,
+            raster: withoutWhiteMatte(layer.raster),
+            ...(layer.tuckTail
+              ? { tuckTail: withoutWhiteMatte(layer.tuckTail) }
+              : {}),
+          }
+        : layer,
+    ),
   );
   const kept = new Set(drawn.map((layer) => layer.slot));
   const hides = layers.filter(
