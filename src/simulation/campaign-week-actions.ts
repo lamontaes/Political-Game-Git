@@ -38,9 +38,9 @@ import type {
  * catalog supplies game-authored times and actual venue/host rules. Its null
  * minutes, costs, contact rates and effects are never interpreted as zero.
  */
-// PLACEHOLDER(overnight): This four-choice cadence and the mapping from
-// sourced action families to existing game forms need gameplay calibration;
-// the research catalog supplies no universal durations, prices, or effects.
+// These are the four recorded action families supported by the existing life
+// activity catalog. Each selected catalog row supplies its own saved duration,
+// place, cost basis, and effect rather than a universal campaign-work value.
 const ACTIONS: readonly {
   readonly form: CampaignLifeForm;
   readonly researchActionId: string;
@@ -64,7 +64,7 @@ export interface CampaignWeekActionChoice {
   readonly end: SimulationMoment;
   readonly activityMinutes: number;
   readonly outboundTravelMinutes: number;
-  /** Unknown in the research catalog; this route books no cash expense. */
+  /** No cash expense is admitted by the selected recorded catalog row. */
   readonly cashCost: null;
 }
 

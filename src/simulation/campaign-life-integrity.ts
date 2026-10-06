@@ -62,7 +62,7 @@ export function assertCampaignLifeIntegrity(
       record.origin !== "host-outreach" &&
       record.origin !== "subject-request"
     )
-      fail("has an unknown origin");
+      fail("has an origin outside the recorded catalog");
     if (
       !world.people[record.hostPersonId] ||
       !world.people[record.subjectPersonId] ||
@@ -115,7 +115,7 @@ export function assertCampaignLifeIntegrity(
     if (outcomeActivityIds.has(record.id)) fail("duplicates an outcome");
     outcomeActivityIds.add(record.id);
     if (outcome.attendance !== "attended" && outcome.attendance !== "condensed")
-      fail("has an unknown attendance");
+      fail("has attendance outside the recorded catalog");
     const hold = activityById.get(outcome.scheduledActivityId);
     const state = hold ? latestState(hold.id) : undefined;
     if (

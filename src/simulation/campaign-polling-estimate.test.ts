@@ -423,7 +423,7 @@ describe("campaign estimates use this save's district records", () => {
     )!;
     expect(() =>
       campaignDistrictPollingEstimate(sample.world, "test:unknown-seat"),
-    ).toThrow(/Unknown congressional seat/);
+    ).toThrow(/Congressional seat is not in the recorded catalog/);
     const missing: World = {
       ...sample.world,
       history: {

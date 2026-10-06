@@ -1246,7 +1246,7 @@ function guidanceText(view: CampaignGuidanceView): string {
   const describe = <T>(label: string, value: CampaignGuidanceValue<T>) =>
     value.state === "known"
       ? `${label} ${String(value.value)} (${value.citation})`
-      : `${label} not known to this game`;
+      : `${label} has no admitted rule for this place`;
   const offices =
     view.offices.length === 0
       ? (view.noOfficeReason ?? "No office is established here.")

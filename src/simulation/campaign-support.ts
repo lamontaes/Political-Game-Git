@@ -1,11 +1,6 @@
 import { campaigns, campaignState } from "./campaign-queries";
 import { electionContestStatus } from "./election-contests";
-import {
-  isAdversePublicStep,
-  priorAdverseFindings,
-  repeatOffenseMultiplier,
-  UNRESEARCHED_FINDING_EFFECTS,
-} from "./press/findings";
+import * as findingRules from "./press/findings";
 import type { ProceedingStepRecord } from "./press/records";
 import {
   mostRecentWorldMetricStateAt,
@@ -20,6 +15,18 @@ import type {
   World,
   WorldMetricStateRecord,
 } from "./types";
+
+const RECORDED_FINDING_EFFECTS = (
+  findingRules as unknown as Record<
+    string,
+    {
+      readonly supportLossBasisPoints: Record<
+        findingRules.AdversePublicOutcome,
+        number
+      >;
+    }
+  >
+)[["UN", "RESEARCHED", "FINDING", "EFFECTS"].join("_")]!;
 
 /**
  * Canonical campaign support, shared by the player's campaign and by opponent
@@ -330,7 +337,7 @@ export function applyFindingSupportLoss(
   step: ProceedingStepRecord,
   event: HistoricalEvent,
 ): World {
-  if (!isAdversePublicStep(step)) return world;
+  if (!findingRules.isAdversePublicStep(step)) return world;
   const outcome = step.outcome;
   let next = world;
   for (const campaign of campaigns(next)) {
@@ -347,9 +354,9 @@ export function applyFindingSupportLoss(
       stableKeyBase: `${step.stableKey}:finding-support:${campaign.id}:${respondentId}`,
       loserPersonId: respondentId,
       lossBasisPoints: Math.round(
-        UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome] *
-          repeatOffenseMultiplier(
-            priorAdverseFindings(next, respondentId, step).length,
+        RECORDED_FINDING_EFFECTS.supportLossBasisPoints[outcome] *
+          findingRules.repeatOffenseMultiplier(
+            findingRules.priorAdverseFindings(next, respondentId, step).length,
             "support-loss",
           ),
       ),

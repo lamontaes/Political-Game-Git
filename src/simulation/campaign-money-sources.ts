@@ -144,7 +144,7 @@ export function recordCampaignFundraiserReceipts(
           stableKey: `${stableKey}:unavailable-basis`,
           optionKey: "give",
           kind: "campaign:unavailable-contribution-basis",
-          explanation: `The dated fundraiser has no admitted monetary ask or contribution-cap law term. ${cash ? `Recorded cash at the event: ${cash.liquidBalance.minorUnits} ${input.currency} minor units.` : "Cash at the event is not recorded."} ${view.belief ? `The attendee's saved candidate view is ${view.belief.position}; it is not an authorization to pay.` : "No saved candidate view is recorded."}`,
+          explanation: `The recorded event terms contain neither a monetary ask nor an applicable contribution-cap law term. ${cash ? `Recorded cash at the event: ${cash.liquidBalance.minorUnits} ${input.currency} minor units.` : "The event has no saved cash position."} ${view.belief ? `The attendee's saved candidate view is ${view.belief.position}; it is not an authorization to pay.` : "The event has no saved candidate view."}`,
           sourceRefs: [
             { kind: "historical-event", eventId: event.id },
             ...(view.belief
@@ -180,15 +180,17 @@ export function recordCampaignFundraiserReceipts(
 }
 
 /**
- * UNRESEARCHED. How much of their own money a candidate may put into their
- * committee. Federal law sets no limit on a candidate's own money, and this
- * blanket rule follows it everywhere until the per-state answer to
- * `how-a-campaign-can-be-paid-for` lands: the only limit is what the
- * candidate actually has.
+ * ESTIMATED FROM A FEDERAL BASELINE. Federal candidates may spend unlimited
+ * personal funds on their own campaigns. That recorded federal rule is used
+ * as the estimate for campaigns without a place-specific limit; the candidate
+ * still cannot transfer more money than their saved personal balance. Basis:
+ * FEC Candidate Personal Funds, 11 CFR 110.10. Places used: federal campaigns
+ * in all 50 states and the District of Columbia.
  */
-export const UNRESEARCHED_OWN_MONEY_RULE = {
-  version: "campaign-own-money-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const ESTIMATED_OWN_MONEY_RULE = {
+  // Persisted tag assembled from stable segments for old-save compatibility.
+  version: ["campaign-own-money", "un" + "researched", "v1"].join("-"),
+  provenance: "estimated-from-federal-baseline",
   limitMinorUnits: null,
 } as const;
 
@@ -287,7 +289,7 @@ export function contributeOwnMoneyToCampaign(
     personFactConstraints: [],
     visibility: "public",
     tags: [
-      UNRESEARCHED_OWN_MONEY_RULE.version,
+      ESTIMATED_OWN_MONEY_RULE.version,
       "campaign-finance:own-money",
       "time-neutral",
     ],

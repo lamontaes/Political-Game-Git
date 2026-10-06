@@ -80,7 +80,10 @@ export function campaignDistrictPollingEstimate(
 ): CampaignPollingEstimate {
   const seats = congressSeats();
   const target = seats.find((seat) => seat.seatKey === seatKey);
-  if (!target) throw new Error(`Unknown congressional seat: ${seatKey}`);
+  if (!target)
+    throw new Error(
+      `Congressional seat is not in the recorded catalog: ${seatKey}`,
+    );
   return congressEstimate(world, target.chamberKey, target.stateUsps);
 }
 
@@ -168,7 +171,7 @@ export function campaignStateDistrictPollingEstimate(
   if (!peers.length) {
     const pack = candidacyPackById(packId);
     if (!pack?.offices.some((office) => office.officeKey === officeKey)) {
-      throw new Error("Unknown state legislative office.");
+      throw new Error("State legislative office is not in the recorded pack.");
     }
     const estimate = congressEstimate(
       world,

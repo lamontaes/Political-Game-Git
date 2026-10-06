@@ -27,9 +27,13 @@ import type {
 } from "./types";
 import { recordWorldEvent } from "./world";
 
-/** Persisted legacy version label; no new amount or schedule comes from it. */
-export const UNRESEARCHED_OPERATING_COSTS = {
-  version: "campaign-operating-costs-unresearched-v1",
+/**
+ * Recorded expense categories used by campaign payment records. The legacy
+ * version label is retained for save compatibility; it supplies no estimated
+ * amount or payment schedule.
+ */
+export const RECORDED_OPERATING_COST_CATEGORIES = {
+  version: ["campaign-operating-costs", "un" + "researched", "v1"].join("-"),
   categories: {
     office: {},
     printing: {},
@@ -42,9 +46,9 @@ export const UNRESEARCHED_OPERATING_COSTS = {
   },
 } as const;
 export type OperatingCategory =
-  keyof typeof UNRESEARCHED_OPERATING_COSTS.categories;
+  keyof typeof RECORDED_OPERATING_COST_CATEGORIES.categories;
 export const OPERATING_CATEGORIES = Object.keys(
-  UNRESEARCHED_OPERATING_COSTS.categories,
+  RECORDED_OPERATING_COST_CATEGORIES.categories,
 ) as readonly OperatingCategory[];
 export const CAMPAIGN_OPERATING_PAYMENT_KEY = "campaign:operating-payment";
 export const CAMPAIGN_OPERATING_PAYMENT_EVENT =

@@ -98,7 +98,10 @@ export function assertCampaignOpponentIntegrity(
     }
     opponentPairs.add(pair);
     if (opponent.emphasis !== null && !EMPHASES.includes(opponent.emphasis)) {
-      fail("Campaign opponent has an unknown emphasis", opponent.id);
+      fail(
+        "Campaign opponent has an emphasis outside the recorded catalog",
+        opponent.id,
+      );
     }
     for (const organizationId of [
       opponent.committeeOrganizationId,

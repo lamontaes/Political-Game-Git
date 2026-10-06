@@ -1217,7 +1217,7 @@ function recordSupportAfterAction(
   });
   const candidateStateId = shift.stateIdByPerson[campaign.candidatePersonId];
   if (!candidateStateId) {
-    throw new Error("Candidate support state was not recorded.");
+    throw new Error("The support writer did not save the candidate state.");
   }
   return { world: shift.world, stateIds: shift.stateIds, candidateStateId };
 }
