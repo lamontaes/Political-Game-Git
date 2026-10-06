@@ -839,6 +839,8 @@ describe("the motif layer", () => {
   };
   const grounding: LegislativeMotifGrounding = {
     worldSeed: "motif-layer",
+    speakerTraits: {},
+    listenerTraits: {},
     speakerPersonId: createStableId("person", "motif:speaker"),
     listenerPersonId: createStableId("person", "motif:listener"),
     measureId: createStableId("legislative-measure", "motif:measure"),
