@@ -206,7 +206,6 @@ import type {
   DistrictSeatBinding,
   ElectionContestRecord,
   EntityId,
-  IsoDate,
   FutureDueItem,
   FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
