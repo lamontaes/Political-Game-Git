@@ -21,6 +21,7 @@ import {
 } from "./law-exposure-lines";
 import { INTRODUCTION_EVENT } from "../simulation/social-introductions";
 import { crimeJournalLine } from "../simulation/crime/journal";
+import { petitionClosedJournalSentence } from "./petition-journal-english";
 import { playSettingsOf } from "../simulation/play-settings";
 import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
@@ -301,6 +302,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (crimeLine === null) continue;
     const text = livedWorld39Sentence(
       crimeLine ??
+        petitionClosedJournalSentence(world, event, personId) ??
         (event.type === "life.conversation"
           ? conversationSentence(world, event, personId)
           : (event.type === INTRODUCTION_EVENT &&
