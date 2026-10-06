@@ -185,6 +185,12 @@ export function countRecordedVoterBallots(
 ): {
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
+  readonly abstentions: number;
+  readonly recordedBallots: readonly {
+    readonly personId: EntityId;
+    readonly optionKey: string | null;
+    readonly choiceEventId: EntityId | null;
+  }[];
 } | null {
   const candidates = new Set<string>(input.candidatePersonIds);
   if (
@@ -291,6 +297,12 @@ export function countRecordedVoterBallots(
   }
   if (contexts.size === 0) return null;
   const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
+  let abstentions = 0;
+  const recordedBallots: {
+    personId: EntityId;
+    optionKey: string | null;
+    choiceEventId: EntityId | null;
+  }[] = [];
   for (const [voterId, context] of contexts) {
     if (
       !isEligibleVoterIn(
@@ -313,11 +325,46 @@ export function countRecordedVoterBallots(
       )
     )
       return null;
-    const evaluation = evaluateDecision(world, context);
-    if (isSelectedDecision(evaluation)) {
-      if (evaluation.selectedOptionKey === "abstain") continue;
+    const saved =
+      world.control.kind === "person" && world.control.personId === voterId
+        ? world.history.events
+            .filter(
+              (event) =>
+                event.type === "election.player-ballot" &&
+                event.jurisdictionId === input.jurisdictionId &&
+                event.tags.includes(`ballot:${input.stableKey}`) &&
+                event.tags.includes(`election-date:${input.electionDate}`) &&
+                event.occurredAt <= input.electionDate &&
+                event.recordedAt <= input.electionDate &&
+                event.sequence < world.history.nextSequence &&
+                event.participants.some(
+                  (person) =>
+                    person.personId === voterId &&
+                    person.role === "focus:voter",
+                ) &&
+                (event.context.choice === "abstain" ||
+                  candidates.has(event.context.choice ?? "")),
+            )
+            .at(-1)
+        : undefined;
+    const evaluation = saved ? null : evaluateDecision(world, context);
+    const optionKey =
+      saved?.context.choice ??
+      (evaluation && isSelectedDecision(evaluation)
+        ? evaluation.selectedOptionKey
+        : null);
+    recordedBallots.push({
+      personId: voterId,
+      optionKey,
+      choiceEventId: saved?.id ?? null,
+    });
+    if (optionKey === "abstain") {
+      abstentions++;
+      continue;
+    }
+    if (optionKey !== null) {
       const id = input.candidatePersonIds.find(
-        (candidateId) => candidateId === evaluation.selectedOptionKey,
+        (candidateId) => candidateId === optionKey,
       );
       if (!id) return null;
       votes.set(id, votes.get(id)! + 1);
@@ -334,7 +381,12 @@ export function countRecordedVoterBallots(
     .sort((a, b) => b.votes - a.votes);
   if (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
     return null;
-  return { winnerPersonId: tallies[0]!.candidatePersonId, tallies };
+  return {
+    winnerPersonId: tallies[0]!.candidatePersonId,
+    tallies,
+    abstentions,
+    recordedBallots,
+  };
 }
 
 export function resolveElectionContest(
