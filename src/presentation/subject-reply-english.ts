@@ -140,15 +140,6 @@ export const SCHOOL_RAISE: SubjectReplyBank = {
             },
           ],
         },
-        reason: {
-          variants: [
-            {
-              key: "reason-2",
-              kind: "template",
-              text: "What still needs doing?",
-            },
-          ],
-        },
       },
     },
     perception: "{full} asked about the unfinished work.",
@@ -736,11 +727,6 @@ export const NEIGHBORHOOD_MENTION: SubjectReplyBank = {
       parts: {
         core: {
           variants: [
-            {
-              key: "core-0",
-              kind: "template",
-              text: "What do you think about going?",
-            },
             {
               key: "core-1",
               kind: "template",
