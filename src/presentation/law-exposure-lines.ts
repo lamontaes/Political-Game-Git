@@ -117,6 +117,20 @@ export function lawExposureSentence(
     .replace("{amount}", direction === "none" ? "" : amountText(exposure));
   const share = direction === "none" ? null : shareOfPay(exposure);
   const named = /^the\s/i.test(title) ? title.replace(/^the\s/i, "") : title;
+  const parkOutturn = (world.history.publicProgramRecords ?? []).find(
+    (record) =>
+      record.kind === "capacity-outturn" &&
+      record.id === exposure.sourceRecordId &&
+      record.programKey.startsWith("parks:"),
+  );
+  if (
+    exposure.channel === "public-service" &&
+    exposure.direction === "none" &&
+    parkOutturn?.kind === "capacity-outturn"
+  )
+    return parkOutturn.unitsOperational > 0
+      ? `The ${named} recorded ${parkOutturn.unitsOperational} operational ${parkOutturn.unitLabel ?? "park service units"} for ${parkOutturn.serviceLabel ?? "park service"} in your area.`
+      : `The ${named} recorded zero operational units for ${parkOutturn.serviceLabel ?? "park service"} in your area; closed is derived from the count because no open-state field is recorded.`;
   const sentence = friend
     ? `${via!.givenName} told you the ${named} ${words}`
     : `The ${named} ${words}`;

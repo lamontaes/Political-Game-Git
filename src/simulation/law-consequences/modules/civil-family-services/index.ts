@@ -13,6 +13,10 @@ import type {
 } from "../../../law-consequence-types";
 import type { HistoricalEvent, World } from "../../../types";
 import { noticeCivilFamilyServiceDelivery } from "../../civil-family-service-noticed";
+import { recordParksServiceAreaEffect } from "../../parks-service-area";
+import { lawInForce } from "../../../governing/law-in-force";
+import { hasHouseholdResidenceInJurisdiction } from "../../../life-queries";
+import { eventById } from "../../../event-index";
 
 const LIBRARY_QUESTION =
   "us-policy-positions:civil-family-community.fund-public-libraries";
@@ -27,6 +31,10 @@ function resolveServiceKind(
   questionKey: string,
 ): readonly ResolvedLawConsequence[] {
   if (row.kind !== kind || context.questionKey !== questionKey) return [];
+  if (row.id === `${PARKS_QUESTION}:recorded-area-outturn`)
+    return kind === "parks-service-spending"
+      ? resolveParksAreaOutturn(world, row, context)
+      : [];
   // The existing service resolver and writer own completion, request,
   // appropriation and positive operating-payment evidence. Only the typed
   // law row category changes at this receiving boundary.
@@ -37,10 +45,102 @@ function resolveServiceKind(
   );
 }
 
+function resolveParksAreaOutturn(
+  world: World,
+  row: LawConsequenceRow,
+  context: LawConsequenceContext,
+): readonly ResolvedLawConsequence[] {
+  if (context.activity !== "service" || !context.questionKey) return [];
+  const outturn = world.history.publicProgramRecords?.find(
+    (record) =>
+      record.kind === "capacity-outturn" &&
+      record.id === context.activityId &&
+      record.programKey.startsWith("parks:"),
+  );
+  if (!outturn || outturn.kind !== "capacity-outturn") return [];
+  const event = eventById(world, outturn.eventId);
+  if (!event || event.occurredAt !== context.onDate) return [];
+
+  const records = world.history.publicProgramRecords ?? [];
+  const commitment = records.find(
+    (record) =>
+      record.kind === "commitment" && record.id === outturn.commitmentId,
+  );
+  if (!commitment || commitment.kind !== "commitment") return [];
+  const appropriation = records.find(
+    (record) =>
+      record.kind === "appropriation" &&
+      record.id === commitment.appropriationId,
+  );
+  if (
+    appropriation?.kind !== "appropriation" ||
+    appropriation.jurisdictionId !== outturn.jurisdictionId ||
+    !appropriation.sourceMeasureId ||
+    (context.governingLawId &&
+      context.governingLawId !== appropriation.sourceMeasureId)
+  )
+    return [];
+
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (candidate) => candidate.stableKey === context.questionKey,
+  );
+  if (!proposition) return [];
+  const law = lawInForce(
+    world,
+    outturn.jurisdictionId,
+    proposition.id,
+    event.occurredAt,
+  );
+  if (
+    !law ||
+    law.answer !== "yes" ||
+    law.measureId !== appropriation.sourceMeasureId
+  )
+    return [];
+
+  const cutoff = {
+    asOfDate: event.occurredAt,
+    historySequenceExclusive: outturn.sequence,
+  };
+  return context.subjectIds
+    .filter((personId) =>
+      hasHouseholdResidenceInJurisdiction(
+        world,
+        personId,
+        outturn.jurisdictionId,
+        cutoff,
+      ),
+    )
+    .map((personId) => ({
+      row,
+      law,
+      questionKey: context.questionKey!,
+      jurisdictionId: outturn.jurisdictionId,
+      subject: { kind: "person" as const, id: personId },
+      activityId: outturn.id,
+      effectiveAt: event.occurredAt,
+      sourceRecordIds: [outturn.id, appropriation.id],
+      value: {
+        type: "amount" as const,
+        value: outturn.unitsOperational,
+        unit: "count" as const,
+      },
+    }));
+}
+
 function applyServiceAndNotice(
   world: World,
   resolved: ResolvedLawConsequence,
 ): World {
+  if (resolved.row.id === `${PARKS_QUESTION}:recorded-area-outturn`) {
+    const outturn = world.history.publicProgramRecords?.find(
+      (record) =>
+        record.kind === "capacity-outturn" && record.id === resolved.activityId,
+    );
+    return outturn?.kind === "capacity-outturn"
+      ? recordParksServiceAreaEffect(world, outturn, resolved.subject.id)
+      : world;
+  }
   const saved = applyLawServiceConsequence(world, resolved);
   const receipt = saved.history.events.find(
     (event): event is HistoricalEvent =>
@@ -53,10 +153,10 @@ function applyServiceAndNotice(
 
 const common = {
   owner: "Session 41",
-  selectors: [SERVICE_SELECTOR],
-  actions: [SERVICE_ACTION],
+  selectors: [SERVICE_SELECTOR, "parks.service-area-resident"],
+  actions: [SERVICE_ACTION, "record-park-area-outturn"],
   predicates: [FUNDED_SERVICE],
-  units: ["hours"] as const,
+  units: ["hours", "count"] as const,
   apply: applyServiceAndNotice,
 };
 

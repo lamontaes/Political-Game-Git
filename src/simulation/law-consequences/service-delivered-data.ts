@@ -106,6 +106,40 @@ export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
   },
 ];
 
+const PARKS_FUNDING_QUESTION =
+  "us-policy-positions:civil-family-community.dedicated-parks-funding";
+const parksServiceRows = SERVICE_DELIVERED_LAW_ROWS[PARKS_FUNDING_QUESTION]!;
+(SERVICE_DELIVERED_LAW_ROWS as Record<string, readonly LawConsequenceRow[]>)[
+  PARKS_FUNDING_QUESTION
+] = [
+  ...parksServiceRows,
+  {
+    ...parksServiceRows[0]!,
+    id: `${PARKS_FUNDING_QUESTION}:recorded-area-outturn`,
+    who: { selector: "parks.service-area-resident", predicates: [] },
+    what: "record-park-area-outturn",
+    amount: {
+      op: "record",
+      key: "parks.restored-service-units",
+      unit: "count",
+    },
+    conditions: [],
+    evidence: {
+      sourceIds: [
+        "src/simulation/governing/public-program.ts:recordCapacityOutturn",
+        "src/simulation/life-queries.ts:hasHouseholdResidenceInJurisdiction",
+      ],
+      population:
+        "People whose recorded household address was in the park service jurisdiction when a law-linked capacity outturn was saved.",
+      scope:
+        "Every saved parks capacity outturn reached through its commitment, appropriation and source measure, including zero or unknown restoration.",
+      why: "The saved outturn records the operational state and preserves its cause. Its commitment and appropriation establish the law lineage; residence history establishes who lived in that service area on the effect date.",
+      uncertainty:
+        "A zero or unknown operational result does not claim a capacity increase. Open-close state is estimated from the operational count until the capacity record has an explicit state field.",
+    },
+  },
+];
+
 /**
  * How a person asks for each service whose request producer exists, and what
  * the saved activity is called. A service law with no form here has no
