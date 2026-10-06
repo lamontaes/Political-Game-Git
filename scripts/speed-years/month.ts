@@ -203,6 +203,8 @@ async function main() {
     throw new Error("The observer did not complete day 1");
   world = firstDay;
   const measuredFromDate = world.currentDate;
+  const hash = (value: unknown) =>
+    createHash("sha256").update(canonicalJson(value)).digest("hex");
   // Calendar day 1 is action 0. On calendar day 2, action 1 stops on the same
   // date and action 2 advances; retain both in that day bucket.
   const initialAction = {
@@ -223,8 +225,6 @@ async function main() {
   };
   let priorDecisionCount = firstDay.history.decisionTraces.length;
   let priorEventCount = firstDay.history.events.length;
-  const hash = (value: unknown) =>
-    createHash("sha256").update(canonicalJson(value)).digest("hex");
   const dailySeconds: number[] = [];
   const dailyCpuSeconds: number[] = [];
   const actionDays: MonthReceipt["actionDays"][number][] = [];
