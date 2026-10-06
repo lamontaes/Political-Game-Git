@@ -23,6 +23,106 @@ import {
   lifeReflectionOffer,
   chooseConversationApproach,
 } from "../../simulation/life-personality";
+import {
+  askToSign,
+  petitionAskOffer,
+} from "../../simulation/candidate-petitions";
+import {
+  composeGroundedLine,
+  type ComposedLineBank,
+} from "../../presentation/english-composition";
+import type { GroundedEnglishPacket } from "../../presentation/grounded-english";
+import { ageOnDate } from "../../simulation/dates";
+import { readRelationshipStanding } from "../../simulation/relationship-standing";
+
+const PETITION_REQUEST: ComposedLineBank = {
+  key: "candidate-petition.request",
+  version: "1",
+  surface: "dialogue",
+  act: "request",
+  parts: {
+    core: {
+      variants: [
+        {
+          key: "would-you-sign",
+          kind: "template",
+          text: "would you sign my petition to get on the ballot?",
+        },
+        {
+          key: "may-i-ask",
+          kind: "template",
+          text: "may I ask you to sign my petition to get on the ballot?",
+        },
+      ],
+    },
+  },
+};
+
+const PETITION_SIGNED: ComposedLineBank = {
+  key: "candidate-petition.signed",
+  version: "1",
+  surface: "dialogue",
+  act: "agree",
+  parts: {
+    core: {
+      variants: [
+        { key: "yes", kind: "template", text: "yes, I'll sign it." },
+        { key: "all-right", kind: "template", text: "all right, I'll sign." },
+      ],
+    },
+  },
+};
+
+const PETITION_DECLINED: ComposedLineBank = {
+  key: "candidate-petition.declined",
+  version: "1",
+  surface: "dialogue",
+  act: "decline",
+  parts: {
+    core: {
+      variants: [
+        { key: "no", kind: "template", text: "I won't sign it." },
+        { key: "not-signing", kind: "template", text: "I'm not signing." },
+      ],
+    },
+    reason: {
+      variants: [
+        {
+          key: "decision",
+          kind: "template",
+          text: "that's my decision.",
+        },
+      ],
+    },
+  },
+};
+
+function petitionLine(
+  world: World,
+  speakerId: EntityId,
+  listenerId: EntityId,
+  momentKey: string,
+  sourceRecordIds: readonly EntityId[],
+  bank: ComposedLineBank,
+): string | null {
+  const packet: GroundedEnglishPacket = {
+    surface: "dialogue",
+    momentKey,
+    worldSeed: world.seed,
+    bankVersion: bank.version,
+    stage:
+      ageOnDate(world.people[speakerId]!.birthDate, world.currentDate) < 13
+        ? "child"
+        : "adult",
+    sourceRecordIds,
+    facts: {},
+    speaker: { personId: speakerId, traits: {} },
+  };
+  const line = composeGroundedLine(packet, bank, {
+    relationship: readRelationshipStanding(world, speakerId, listenerId),
+  });
+  return line.kind === "rendered" ? line.text : null;
+}
 
 /**
  * The situation in front of the character: where, what is happening, what
@@ -78,6 +178,13 @@ export function LifeScenePanel({
   const identity = projectOpeningLife(world, playerPersonId);
   const scene = currentOpeningLifeScene(world, playerPersonId);
   const reflection = lifeReflectionOffer(world, playerPersonId);
+  const petitionOffers = scene
+    ? scene.presentPersonIds.flatMap((personId) => {
+        if (personId === playerPersonId) return [];
+        const offer = petitionAskOffer(world, playerPersonId, personId);
+        return offer ? [offer] : [];
+      })
+    : [];
   const lastSceneEvent = world.history.events
     .filter(
       (event) =>
@@ -195,6 +302,49 @@ export function LifeScenePanel({
                 {openingChoiceMinutes(scene.definition, choice)
                   ? ` · ${describeInterval(openingChoiceMinutes(scene.definition, choice))}`
                   : ""}
+              </button>
+            ))}
+            {petitionOffers.map((offer) => (
+              <button
+                className="ui-action"
+                type="button"
+                key={offer.key}
+                data-testid={`petition-ask-${offer.signerPersonId}`}
+                onClick={() => {
+                  const request = petitionLine(
+                    world,
+                    offer.circulatorPersonId,
+                    offer.signerPersonId,
+                    `${offer.key}:request`,
+                    [offer.campaignId],
+                    PETITION_REQUEST,
+                  );
+                  const result = askToSign(world, {
+                    campaignId: offer.campaignId,
+                    circulatorPersonId: offer.circulatorPersonId,
+                    signerPersonId: offer.signerPersonId,
+                    at: world.currentDate,
+                  });
+                  const reply = petitionLine(
+                    result.world,
+                    offer.signerPersonId,
+                    offer.circulatorPersonId,
+                    `${offer.key}:reply:${result.eventId}`,
+                    [result.eventId],
+                    result.decision === "sign"
+                      ? PETITION_SIGNED
+                      : PETITION_DECLINED,
+                  );
+                  setProblem(null);
+                  setOutcome(
+                    request && reply
+                      ? `You: “${request}” ${personName(world.people[offer.signerPersonId]!)}: “${reply}”`
+                      : "The petition ask was recorded.",
+                  );
+                  onWorldChange(result.world);
+                }}
+              >
+                {offer.label}
               </button>
             ))}
           </div>
