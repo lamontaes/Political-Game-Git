@@ -1608,7 +1608,8 @@ export function introduceMeasure(
       );
     for (const check of input.executiveAuthorityChecks) {
       const currentLaw =
-        check.clause.kind === "delegated-term"
+        check.clause.kind === "delegated-term" ||
+        check.clause.kind === "enforcement-priority"
           ? lawInForce(
               world,
               input.jurisdictionId,
@@ -1627,7 +1628,9 @@ export function introduceMeasure(
       input.executiveAuthorityChecks.flatMap((check) =>
         check.clause.kind === "delegated-term"
           ? [check.clause.propositionId]
-          : [],
+          : check.clause.kind === "enforcement-priority"
+            ? [check.clause.propositionId]
+            : [],
       ),
     );
     for (const propositionId of input.propositionIds ?? []) {

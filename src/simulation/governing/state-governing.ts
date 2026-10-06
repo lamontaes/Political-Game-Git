@@ -125,12 +125,15 @@ import { publicPartyOf } from "./chamber-votes";
 import { decideExecutiveActionAuthority } from "../executive-action-authority";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { crisisRecords } from "../crisis/records";
+import { lawInForce } from "./law-in-force";
 import { legislatureProfilePackId } from "../legislature-game-profile";
 import {
   delegatedRegulationAuthority,
   issueDelegatedRegulation,
 } from "../executive-regulation-issuance";
 import { recordExecutiveEmergency } from "../executive-emergencies";
+import { issueExecutiveEnforcementDirective } from "../executive-enforcement";
+import { executiveEnforcementPriorityForLaw } from "../executive-enforcement-reader";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -189,7 +192,8 @@ export type GoverningMatterFamily =
   | "clemency"
   | "executive-order"
   | "regulation"
-  | "emergency";
+  | "emergency"
+  | "enforcement-directive";
 
 export interface GoverningOffice {
   readonly officeKey: string;
@@ -958,7 +962,8 @@ function optionsFor(
             label: "Send it back for more work",
             effect:
               "Return the proposed rule because its delegating statute and term range are not recorded.",
-            tradeoff: "No delegated term changes until its legal authority is recorded.",
+            tradeoff:
+              "No delegated term changes until its legal authority is recorded.",
             personId: null,
             assessment: null,
           },
@@ -1021,6 +1026,16 @@ function optionsFor(
           assessment: null,
         },
       ];
+    case "enforcement-directive":
+      return (["first", "ordinary", "lowest"] as const).map((priority) => ({
+        key: `enforcement:${priority}`,
+        label: `Enforce this law ${priority === "ordinary" ? "on the usual schedule" : `${priority} in line`}`,
+        effect: `Record ${priority} enforcement priority for the named statute.`,
+        tradeoff:
+          "The directive changes enforcement sequence, not the statute's requirements.",
+        personId: null,
+        assessment: null,
+      }));
   }
 }
 
@@ -1082,6 +1097,11 @@ const FAMILY_TEXT: Record<
     ask: "A recorded crisis may allow a temporary emergency declaration under this jurisdiction's rules.",
     ifIgnored: "No emergency declaration is made.",
   },
+  "enforcement-directive": {
+    title: (subject) => `Enforcement priority: ${subject}`,
+    ask: "Choose how urgently agencies should enforce this law, within the duty to execute it faithfully.",
+    ifIgnored: "The law stays on the ordinary enforcement schedule.",
+  },
   implementation: {
     title: (subject) => `Direct the agencies on ${subject}`,
     ask: "The agencies are ready to act on your priority and need to know how fast to move.",
@@ -1101,6 +1121,7 @@ const DEADLINE_DAYS: Record<Exclude<GoverningMatterFamily, "bill">, number> = {
   "executive-order": 21,
   regulation: 30,
   emergency: 7,
+  "enforcement-directive": 14,
 };
 
 // Preserve the existing NPC review pace; this is not a legal action window.
@@ -1444,6 +1465,7 @@ export function staffRecommendation(
     case "executive-order":
     case "regulation":
     case "emergency":
+    case "enforcement-directive":
       return null;
     case "agenda": {
       const priority = currentPriority(world, office);
@@ -1628,6 +1650,38 @@ export function openEmergencyMatter(
     titleSubject: `${episode.magnitude} ${episode.family} emergency`,
     subjectKey: `${episode.family}:${episode.magnitude}`,
     sourceEventId: episode.eventId,
+  });
+}
+
+/** Put a statute-specific enforcement choice on the same executive inbox. */
+export function openEnforcementDirectiveMatter(
+  world: World,
+  officeKey: string,
+  input: {
+    readonly instance: string;
+    readonly subject: string;
+    readonly propositionId: EntityId;
+    readonly sourceEventId: EntityId;
+  },
+): World {
+  const office = governingOfficeByKey(world, officeKey);
+  if (!office || !authorityJurisdictionForOffice(world, office)) return world;
+  const law = lawInForce(world, office.jurisdictionId, input.propositionId);
+  if (
+    !law ||
+    (law.level !== "federal-statute" &&
+      law.level !== "state-statute" &&
+      law.level !== "local-ordinance")
+  )
+    return world;
+  return openMatter(world, office, {
+    family: "enforcement-directive",
+    instance: input.instance,
+    titleSubject: input.subject,
+    subjectKey: input.subject,
+    sourceEventId: input.sourceEventId,
+    measureId: law.measureId,
+    extraTags: [`enforcement-proposition:${input.propositionId}`],
   });
 }
 
@@ -1823,6 +1877,23 @@ export function enforcementPriorityForLaw(
   subjectKey: string,
 ): ExecutiveEnforcementPriority {
   const office = governingOfficeByKey(world, officeKey);
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (row) => row.stableKey === subjectKey,
+  );
+  const law =
+    office && proposition
+      ? lawInForce(world, office.jurisdictionId, proposition.id)
+      : null;
+  const directive =
+    office && proposition && law
+      ? executiveEnforcementPriorityForLaw(
+          world,
+          office.jurisdictionId,
+          proposition.id,
+          law.measureId,
+        )
+      : null;
+  if (directive) return directive;
   const priority = office ? currentPriority(world, office) : null;
   if (!priority) return "ordinary";
   return subjectKey === priority ? "first" : "lowest";
@@ -2524,6 +2595,11 @@ function decisionSummary(
               visibility: "limited",
             };
       }
+    case "enforcement-directive":
+      return {
+        summary: `${who}, ${office.title}, set enforcement of ${matter.title} to ${option.key.slice("enforcement:".length)} priority.`,
+        visibility: "public",
+      };
     case "emergency":
       return option.key === "emergency:declare"
         ? {
@@ -2611,6 +2687,30 @@ function applyConsequence(
       if (option.key === "regulation:return") return world;
       const input = regulationIssueForChoice(world, office, matter, option);
       return input ? issueDelegatedRegulation(world, input) : world;
+    }
+    case "enforcement-directive": {
+      const propositionId = tagValue(
+        matter.openedEvent,
+        "enforcement-proposition:",
+      ) as EntityId | null;
+      const priority = option.key.startsWith("enforcement:")
+        ? option.key.slice("enforcement:".length)
+        : null;
+      if (
+        !propositionId ||
+        !matter.measureId ||
+        (priority !== "first" &&
+          priority !== "ordinary" &&
+          priority !== "lowest")
+      )
+        return world;
+      return issueExecutiveEnforcementDirective(world, {
+        office,
+        matter,
+        propositionId,
+        statuteMeasureId: matter.measureId,
+        priority,
+      });
     }
     case "emergency":
       return option.key === "emergency:declare"
