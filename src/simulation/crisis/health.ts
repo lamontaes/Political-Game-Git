@@ -359,6 +359,16 @@ export function beginHealthEpisode(
     course,
   });
   const episodeId = crisisRecordId(next, key);
+  next = recordEventKnowledge(next, {
+    stableKey: `${key}:knows:${input.personId}:${began.eventId}`,
+    personId: input.personId,
+    eventId: began.eventId,
+    learnedAt: onsetAt,
+    believedSummary: began.world.history.events.at(-1)!.summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
   next = appendCrisisRecord(next, {
     kind: "health-disclosure",
     stableKey: `${key}:disclosure:initial`,
