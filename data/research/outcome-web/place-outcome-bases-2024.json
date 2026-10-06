@@ -1868,10 +1868,15 @@
         "US-WA": 337.0,
         "US-WI": 362.0,
         "US-WV": 348.0,
-        "US-WY": 444.0
+        "US-WY": 444.0,
+        "US-AS": 251.0,
+        "US-GU": 251.0,
+        "US-MP": 251.0,
+        "US-PR": 336.0,
+        "US-VI": 336.0
       },
       "shortUnit": "dollars a year per enrollee",
-      "note": "The reading is 2022, before the Inflation Reduction Act's Part D changes began in 2023 and the out-of-pocket cap in 2025, so a state starts above what enrollees pay today until a law or the drift moves it. Puerto Rico and the other territories are not in the table and are unknown, never zero. The drift keeps the earlier judged settings and is not measured."
+      "note": "The reading is 2022, before the Inflation Reduction Act's Part D changes began in 2023 and the out-of-pocket cap in 2025, so a state starts above what enrollees pay today until a law or the drift moves it. ESTIMATED FROM AVERAGE: Puerto Rico uses Florida's recorded value, the Virgin Islands use Florida's recorded value, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded value because the source omits those five places. The drift keeps the earlier judged settings and is not measured."
     },
     "labor.older-employment": {
       "name": "Share of people 62 to 66 who are working",
@@ -1957,7 +1962,7 @@
         "minPct": 50,
         "maxPct": 300000
       },
-      "note": "A yearly average over 2001 to 2016, the latest statewide reading of farmland lost to development; the state and local purchase-of-easement programs then running are already in it. Alaska and Hawaii are left out because the study mapped only the contiguous states, and D.C. and the territories because it did not cover them; those places are unknown and never zero. The drift is judged.",
+      "note": "A yearly average over 2001 to 2016, the latest statewide reading of farmland lost to development; the state and local purchase-of-easement programs then running are already in it. ESTIMATED FROM AVERAGE: Alaska averages Montana and Wyoming; D.C. averages Maryland and Virginia; Hawaii, American Samoa, Guam and the Northern Mariana Islands use California; Puerto Rico and the Virgin Islands use Florida. The source mapped only the contiguous states, so these estimates fill its coverage gap. The drift is judged.",
       "places": {
         "US-AL": 24133,
         "US-AR": 17800,
@@ -2006,7 +2011,15 @@
         "US-WA": 6533,
         "US-WI": 16667,
         "US-WV": 5933,
-        "US-WY": 3667
+        "US-WY": 3667,
+        "US-AK": 5034,
+        "US-AS": 31067,
+        "US-DC": 14767,
+        "US-GU": 31067,
+        "US-HI": 31067,
+        "US-MP": 31067,
+        "US-PR": 19867,
+        "US-VI": 19867
       }
     },
     "water.irrigation-groundwater": {
@@ -2156,7 +2169,7 @@
       "name": "Share of homes that are rented",
       "unit": "percent of occupied homes that are renter-occupied",
       "source": "U.S. Census Bureau, American Community Survey 2024 1-year, table B25003 Tenure (https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/1YRData/acsdt1y2024-b25003.dat): renter-occupied over occupied housing units. Nation: 34.7%.",
-      "note": "Rent stabilization's measured loss of rental homes (Diamond, McQuade and Qian 2019: 15% among covered landlords) moves this share, so the web applies the covered buildings' loss to the whole place, the upper end of what the study found. The American Community Survey does not cover Guam, the Virgin Islands, American Samoa or the Northern Mariana Islands; those places are unknown and never zero. The drift is judged.",
+      "note": "Rent stabilization's measured loss of rental homes (Diamond, McQuade and Qian 2019: 15% among covered landlords) moves this share, so the web applies the covered buildings' loss to the whole place, the upper end of what the study found. ESTIMATED FROM AVERAGE: the Virgin Islands use Florida's recorded share, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded share because the American Community Survey omits those four places. The drift is judged.",
       "drift": {
         "monthlySdLogit": 0.01,
         "nationalShare": 0.6,
@@ -2217,14 +2230,18 @@
         "US-WA": 37.1,
         "US-WI": 32.0,
         "US-WV": 24.5,
-        "US-WY": 28.3
+        "US-WY": 28.3,
+        "US-AS": 38.4,
+        "US-GU": 38.4,
+        "US-MP": 38.4,
+        "US-VI": 32.0
       }
     },
     "housing.renter-moves": {
       "name": "Share of renters who moved in the past year",
       "unit": "percent of people in renter-occupied homes who lived in a different home one year earlier",
       "source": "U.S. Census Bureau, American Community Survey 2024 1-year, table B07013 Geographical Mobility in the Past Year by Tenure (https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/1YRData/acsdt1y2024-b07013.dat): one minus the people in renter-occupied homes who lived in the same house a year earlier, over all people in renter-occupied homes. Nation: 21.6%.",
-      "note": "Rent stabilization's measured effect, covered renters 20% less likely to move (Diamond, McQuade and Qian 2019), moves this share. The table covers the fifty states and D.C. only; Puerto Rico and the other territories are unknown and never zero. The drift is judged.",
+      "note": "Rent stabilization's measured effect, covered renters 20% less likely to move (Diamond, McQuade and Qian 2019), moves this share. ESTIMATED FROM AVERAGE: Puerto Rico and the Virgin Islands use Florida's recorded share, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded share because the table covers only the 50 states and D.C. The drift is judged.",
       "drift": {
         "monthlySdLogit": 0.012,
         "nationalShare": 0.6,
@@ -2284,7 +2301,12 @@
         "US-WA": 25.4,
         "US-WI": 22.6,
         "US-WV": 22.1,
-        "US-WY": 26.5
+        "US-WY": 26.5,
+        "US-AS": 20.0,
+        "US-GU": 20.0,
+        "US-MP": 20.0,
+        "US-PR": 24.0,
+        "US-VI": 24.0
       }
     },
     "housing.new-large-buildings": {
@@ -2293,7 +2315,7 @@
       "scale": "rate",
       "shortUnit": "new apartments per 10,000 people",
       "source": "U.S. Census Bureau, Building Permits Survey, 2024 annual state estimates (https://www2.census.gov/econ/bps/State/st2024a.txt), units in buildings of 5 units or more, over the American Community Survey 2024 1-year population, table B01003 (https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/1YRData/acsdt1y2024-b01003.dat). 442,191 units across the states, D.C. and Puerto Rico: 13.0 per 10,000 residents.",
-      "note": "The survey does not cover Guam, the Virgin Islands, American Samoa or the Northern Mariana Islands; those places are unknown and never zero. The drift is judged.",
+      "note": "ESTIMATED FROM AVERAGE: the Virgin Islands use Florida's recorded rate, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded rate because the survey omits those four places. The drift is judged.",
       "drift": {
         "monthlySdLogit": 0.02,
         "nationalShare": 0.6,
@@ -2354,7 +2376,11 @@
         "US-WA": 20.6,
         "US-WI": 15.6,
         "US-WV": 3.3,
-        "US-WY": 6.1
+        "US-WY": 6.1,
+        "US-AS": 8.7,
+        "US-GU": 8.7,
+        "US-MP": 8.7,
+        "US-VI": 20.1
       }
     },
     "energy.electricity-price": {
@@ -2422,9 +2448,14 @@
         "US-WA": 10.13,
         "US-WI": 12.72,
         "US-WV": 11.05,
-        "US-WY": 9.14
+        "US-WY": 9.14,
+        "US-AS": 38.0,
+        "US-GU": 38.0,
+        "US-MP": 38.0,
+        "US-PR": 12.53,
+        "US-VI": 12.53
       },
-      "note": "D.C. is included. Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands are outside EIA's state profiles and are unknown, never zero. The drift is a PROVISIONAL game value: state prices rose about a quarter from 2020 to 2024."
+      "note": "D.C. is included. ESTIMATED FROM AVERAGE: Puerto Rico and the Virgin Islands use Florida's recorded price, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded price because EIA's state profiles omit those five places. The drift is a PROVISIONAL game value: state prices rose about a quarter from 2020 to 2024."
     },
     "env.emissions": {
       "name": "Carbon dioxide from energy, per person",
@@ -2491,9 +2522,14 @@
         "US-WA": 9.3,
         "US-WI": 14.3,
         "US-WV": 40.9,
-        "US-WY": 85.2
+        "US-WY": 85.2,
+        "US-AS": 12.5,
+        "US-GU": 12.5,
+        "US-MP": 12.5,
+        "US-PR": 9.9,
+        "US-VI": 9.9
       },
-      "note": "Counted where the energy is used, so a state that makes power for its neighbors (Wyoming, North Dakota) carries its emissions. D.C. is included. The territories are outside the State Energy Data System's emission tables and are unknown, never zero. The drift is a PROVISIONAL game value: U.S. emissions per person fell from about 20 metric tons in 2000 to 14 in 2024."
+      "note": "Counted where the energy is used, so a state that makes power for its neighbors (Wyoming, North Dakota) carries its emissions. D.C. is included. ESTIMATED FROM AVERAGE: Puerto Rico and the Virgin Islands use Florida's recorded emissions, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded emissions because the State Energy Data System's emission tables omit those five places. The drift is a PROVISIONAL game value: U.S. emissions per person fell from about 20 metric tons in 2000 to 14 in 2024."
     },
     "env.litter": {
       "name": "Litter on roads and public places",
@@ -2791,7 +2827,7 @@
         "minPct": 1,
         "maxPct": 20
       },
-      "note": "Final 2024 rates for the 50 states and D.C. The territories are not in the table and are unknown, never zero. The drift reuses the slow-moving settings of the other health rates and is a PROVISIONAL game value: the U.S. rate fell only from about 6.9 in 2005 to under 6 by 2024.",
+      "note": "Final 2024 rates for the 50 states and D.C. ESTIMATED FROM AVERAGE: Puerto Rico and the Virgin Islands use Florida's recorded rate, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded rate because the CDC table omits those five places. The drift reuses the slow-moving settings of the other health rates and is a PROVISIONAL game value: the U.S. rate fell only from about 6.9 in 2005 to under 6 by 2024.",
       "places": {
         "US-AK": 6.82,
         "US-AL": 7.06,
@@ -2843,7 +2879,12 @@
         "US-WA": 4.79,
         "US-WI": 5.91,
         "US-WV": 6.64,
-        "US-WY": 4.6
+        "US-WY": 4.6,
+        "US-AS": 4.36,
+        "US-GU": 4.36,
+        "US-MP": 4.36,
+        "US-PR": 5.74,
+        "US-VI": 5.74
       }
     },
     "school.spending-per-student": {
@@ -2860,7 +2901,7 @@
         "minPct": 3000,
         "maxPct": 80000
       },
-      "note": "The 50 states and D.C. Puerto Rico and the other territories are outside the Census survey and are unknown, never zero. Current spending leaves out building and debt costs. The drift reuses the setting for median earnings and is a PROVISIONAL game value.",
+      "note": "The source covers the 50 states and D.C. ESTIMATED FROM AVERAGE: Puerto Rico and the Virgin Islands use Florida's recorded spending, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded spending because the Census survey omits those five places. Current spending leaves out building and debt costs. The drift reuses the setting for median earnings and is a PROVISIONAL game value.",
       "places": {
         "US-AK": 21004,
         "US-AL": 13627,
@@ -2912,7 +2953,12 @@
         "US-WA": 18564,
         "US-WI": 15952,
         "US-WV": 15640,
-        "US-WY": 20521
+        "US-WY": 20521,
+        "US-AS": 23878,
+        "US-GU": 23878,
+        "US-MP": 23878,
+        "US-PR": 12693,
+        "US-VI": 12693
       }
     },
     "labor.mothers-participation": {
@@ -2929,7 +2975,7 @@
         "minPct": 20,
         "maxPct": 98
       },
-      "note": "Covers the 50 states, D.C. and Puerto Rico. Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands are outside the ACS and are unknown, never zero. Small states carry margins of error of 4 to 8 points. The drift reuses the setting for older workers and is a PROVISIONAL game value.",
+      "note": "Covers the 50 states, D.C. and Puerto Rico. ESTIMATED FROM AVERAGE: the Virgin Islands use Florida's recorded share, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded share because the ACS omits those four places. Small states carry margins of error of 4 to 8 points. The drift reuses the setting for older workers and is a PROVISIONAL game value.",
       "places": {
         "US-AK": 61.8,
         "US-AL": 74.0,
@@ -2982,7 +3028,11 @@
         "US-WA": 73.5,
         "US-WI": 80.6,
         "US-WV": 76.8,
-        "US-WY": 72.1
+        "US-WY": 72.1,
+        "US-AS": 66.0,
+        "US-GU": 66.0,
+        "US-MP": 66.0,
+        "US-VI": 73.7
       }
     },
     "health.youth-cannabis-use": {
@@ -2999,7 +3049,7 @@
         "minPct": 0.5,
         "maxPct": 40
       },
-      "note": "The 50 states and D.C., from a two-year model-based estimate; state 95% intervals run about 2 to 3 points either side. Puerto Rico and the other territories are outside the survey and are unknown, never zero. The drift is a PROVISIONAL game value.",
+      "note": "The 50 states and D.C. use a two-year model-based estimate; state 95% intervals run about 2 to 3 points either side. ESTIMATED FROM AVERAGE: Puerto Rico and the Virgin Islands use Florida's recorded share, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded share because the survey omits those five places. The drift is a PROVISIONAL game value.",
       "places": {
         "US-AK": 4.92,
         "US-AL": 5.27,
@@ -3051,7 +3101,12 @@
         "US-WA": 6.38,
         "US-WI": 5.21,
         "US-WV": 5.22,
-        "US-WY": 4.1
+        "US-WY": 4.1,
+        "US-AS": 3.65,
+        "US-GU": 3.65,
+        "US-MP": 3.65,
+        "US-PR": 5.74,
+        "US-VI": 5.74
       }
     },
     "labor.married-women-participation": {
@@ -3068,7 +3123,7 @@
         "minPct": 20,
         "maxPct": 95
       },
-      "note": "Covers the 50 states, D.C. and Puerto Rico. Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands are outside the ACS and are unknown, never zero. The share includes women past retirement age, so it runs lower than for working-age wives. The drift reuses the setting for older workers and is a PROVISIONAL game value.",
+      "note": "Covers the 50 states, D.C. and Puerto Rico. ESTIMATED FROM AVERAGE: the Virgin Islands use Florida's recorded share, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded share because the ACS omits those four places. The share includes women past retirement age, so it runs lower than for working-age wives. The drift reuses the setting for older workers and is a PROVISIONAL game value.",
       "places": {
         "US-AK": 59.6,
         "US-AL": 56.2,
@@ -3121,7 +3176,11 @@
         "US-WA": 59.6,
         "US-WI": 62.4,
         "US-WV": 54.2,
-        "US-WY": 61.9
+        "US-WY": 61.9,
+        "US-AS": 59.8,
+        "US-GU": 59.8,
+        "US-MP": 59.8,
+        "US-VI": 56.1
       }
     },
     "crime.firearm-homicide": {
@@ -3138,7 +3197,7 @@
         "minPct": 0.2,
         "maxPct": 60
       },
-      "note": "ESTIMATED FROM AVERAGE: each place's 2024 homicide rate times the national firearm share (76.2%), because CDC publishes state firearm homicide rates only through its WONDER query form; the firearm share runs higher in some states and lower in others. The CDC firearm mortality table counts all intents, suicides included, so it is not used. The 50 states and D.C.; the territories are unknown, never zero. The drift reuses the violent crime setting and is a PROVISIONAL game value.",
+      "note": "ESTIMATED FROM AVERAGE: each place's 2024 homicide rate times the national firearm share (76.2%), because CDC publishes state firearm homicide rates only through its WONDER query form; the firearm share runs higher in some states and lower in others. The CDC firearm mortality table counts all intents, suicides included, so it is not used. Puerto Rico and the Virgin Islands use Florida's resulting rate, while American Samoa, Guam and the Northern Mariana Islands use Hawaii's resulting rate because the source omits those five places. The drift reuses the violent crime setting and is a PROVISIONAL game value.",
       "places": {
         "US-AK": 5.87,
         "US-AL": 10.13,
@@ -3190,7 +3249,12 @@
         "US-WA": 3.35,
         "US-WI": 3.66,
         "US-WV": 4.5,
-        "US-WY": 3.66
+        "US-WY": 3.66,
+        "US-AS": 2.13,
+        "US-GU": 2.13,
+        "US-MP": 2.13,
+        "US-PR": 4.19,
+        "US-VI": 4.19
       }
     },
     "finance.medical-debt-in-collections": {
@@ -3207,7 +3271,7 @@
         "minPct": 0,
         "maxPct": 40
       },
-      "note": "The 50 states and D.C. Seven states read zero because their own laws bar medical debt from credit reports, so the zero is recorded, not missing, and it stays zero. Since 2023 the credit bureaus also leave off paid medical debt and debts under $500, so these shares run well below the pre-2023 figures the Medicaid expansion study used; the link moves the share by the study's proportion. Puerto Rico and the other territories are outside the credit panel and are unknown, never zero. The drift moves in proportion, so a zero stays zero, and it is a PROVISIONAL game value.",
+      "note": "The 50 states and D.C. include seven recorded zeroes where state laws bar medical debt from credit reports. Since 2023 the credit bureaus also leave off paid medical debt and debts under $500, so these shares run well below the pre-2023 figures the Medicaid expansion study used; the link moves the share by the study's proportion. ESTIMATED FROM AVERAGE: Puerto Rico and the Virgin Islands use Florida's recorded share, and American Samoa, Guam and the Northern Mariana Islands use Hawaii's recorded share because the credit panel omits those five places. The drift moves in proportion, so a recorded zero stays zero, and it is a PROVISIONAL game value.",
       "places": {
         "US-AK": 5.84,
         "US-AL": 5.87,
@@ -3259,7 +3323,12 @@
         "US-WA": 0.0,
         "US-WI": 3.21,
         "US-WV": 5.61,
-        "US-WY": 8.46
+        "US-WY": 8.46,
+        "US-AS": 1.14,
+        "US-GU": 1.14,
+        "US-MP": 1.14,
+        "US-PR": 4.33,
+        "US-VI": 4.33
       }
     },
     "police.officers-per-1000": {
