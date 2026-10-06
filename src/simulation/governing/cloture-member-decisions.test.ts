@@ -18,12 +18,49 @@ import {
   seatedChamberForPack,
 } from "./chamber-votes";
 import { chamberByKey } from "../legislature-rules";
+import { seatEveryone } from "../vote-bundle.fixture";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "../national-election-geography";
 
 describe("cloture member decisions", () => {
+  it("lets a supplied recorded leader strain weigh on the member's vote", () => {
+    const { setup, members } = seatEveryone(billOnTheFloor());
+    const member = members[0]!;
+    const personId = member.personId!;
+    const reason = {
+      stableKey: "b12:moderate-deal:leader-strain",
+      optionKey: "vote-yea",
+      sourceType: "context:recorded-leader-strain" as const,
+      direction: "supports" as const,
+      importance: "strong" as const,
+      confidence: "high" as const,
+      explanation: "The member has a recorded strain with their own leaders.",
+      sourceRefs: [],
+    };
+    const vote = decideChamberVote(setup.world, {
+      stableKey: "b12:moderate-deal:vote",
+      members,
+      question: {
+        question: {
+          measureId: setup.measureId,
+          purpose: "floor-stage",
+          forumKey: "legislature",
+          floorStageKey: "final-passage",
+          amendmentStableKey: null,
+          provisionKey: null,
+        },
+        questionLabel: "Vote on the measure",
+      },
+      leaderStrainByMember: new Map([[personId, [reason]]]),
+    });
+
+    expect(vote.find((row) => row.personId === personId)?.reason).toBe(
+      "b12:moderate-deal",
+    );
+  });
+
   it("does not allow a floor hold where the body has no unlimited debate", () => {
     const setup = billOnTheFloor();
     expect(() =>
