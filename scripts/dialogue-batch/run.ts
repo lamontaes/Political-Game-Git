@@ -21,7 +21,9 @@
  *
  * This is a development tool for reviewing wording. It is never part of play.
  */
+import { execSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
+import { gradingBatchId, toGradingBatch, writeCoverageLedger } from "./grading";
 import { batchStats, statsSummary, type BatchStat } from "./stats";
 import { LIFE_TALK_INTENTS } from "../../src/presentation/life-conversation";
 import { dirname } from "node:path";
@@ -130,6 +132,10 @@ export interface BatchLine {
   readonly speaker: {
     readonly name: string;
     readonly age: number;
+    /** How the player knows them ("your mom"), or null for a stranger. */
+    readonly relation: string | null;
+    /** True when the line is the player's own. */
+    readonly isPlayer: boolean;
     /** The recorded voice cues the engine reads for this person. */
     readonly traits: Readonly<Record<string, string>>;
     /** The temperament words the person card shows, when any were recorded. */
@@ -292,6 +298,8 @@ function speakerOf(ctx: WorldContext, person: Person): BatchLine["speaker"] {
   return {
     name: person.name,
     age: person.age,
+    relation: person.relation,
+    isPlayer: person.id === ctx.playerId,
     traits: voiceOf(ctx.world, person.id),
     observed: observedTraitLabels(ctx.world, person.id),
   };
@@ -1036,7 +1044,8 @@ function pressAnswer(ctx: WorldContext): Produced {
         return {
           axis: "interaction",
           composer: "composePressLine (answer-unknown) in press-english.ts",
-          situation: `In an arranged spoken interview with ${reporter.personName} about "${topic.summary}", ${ctx.playerName} answers the reporter's question ("${question.statement}") with no preparation.`,
+          situation: `In an arranged spoken interview with ${reporter.personName} about "${topic.summary}", ${ctx.playerName} answers the reporter's question with no preparation.`,
+          prior: question.statement,
           speaker,
           line: answer.text,
           parts: answer.parts,
@@ -1343,6 +1352,26 @@ function main() {
   writeFileSync(out, `${JSON.stringify(result, null, 2)}\n`);
   console.log(batchSummary(result));
   console.log(`\nWrote ${out}.`);
+  // The grading page's file: only exchanges that pass the rules; the rest go
+  // to the bin beside it.
+  const at = new Date();
+  const batchId = opt("batch-id", gradingBatchId(at));
+  const head = execSync("git rev-parse HEAD").toString().trim();
+  const { batch, bin } = toGradingBatch(result, { id: batchId, head, at });
+  const gradingOut = `test-results/dialogue-batch/${batchId}.json`;
+  mkdirSync(dirname(gradingOut), { recursive: true });
+  writeFileSync(gradingOut, `${JSON.stringify(batch, null, 2)}\n`);
+  writeFileSync(
+    `test-results/dialogue-batch/${batchId}.bin.json`,
+    `${JSON.stringify(bin, null, 2)}\n`,
+  );
+  console.log(
+    `Wrote ${gradingOut}: ${batch.items.length} exchanges to grade, ${bin.length} in the bin.`,
+  );
+  if (args.includes("--write-ledger")) {
+    writeCoverageLedger(batch);
+    console.log("Updated data/english/coverage.json.");
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();
