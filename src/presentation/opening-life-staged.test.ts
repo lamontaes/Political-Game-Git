@@ -217,6 +217,7 @@ it(
       completed.world,
       game.playerPersonId,
     ).map((moment) => ({ forkKey: moment.key, optionKey: "pursue" }));
+    expect(choices.length).toBeGreaterThan(0);
     const answered = applyPreStartCreatorLifeForks(completed, choices);
     expect(applyPreStartCreatorLifeForks(answered, choices).world).toBe(
       answered.world,
@@ -247,6 +248,11 @@ it(
       personId: game.playerPersonId,
     });
     expect(restored.currentMoment).toEqual(completed.world.currentMoment);
+    expect(
+      restored.history.decisionTraces.filter(
+        (trace) => trace.context.decisionType === "people.creator-life-fork",
+      ),
+    ).toHaveLength(choices.length);
     expect(() =>
       createOpeningLifeController(answered.setup, answered, {
         game: completed,
