@@ -39,7 +39,7 @@ import {
   crimeIncidents,
   localCrimeFigures,
   sampleMonthlyCrime,
-  UNRESEARCHED_LOCAL_CRIME,
+  NATIONAL_LOCAL_CRIME,
 } from "./index";
 import { arrestReferral, ensureCrimeProduction, offenseOf } from "./producer";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
@@ -102,11 +102,11 @@ function openCrimeSmallWorld(seed: string) {
 }
 
 describe("ordinary local crime", () => {
-  it("every rate is marked as an unresearched placeholder", () => {
-    expect(UNRESEARCHED_LOCAL_CRIME.provenance).toBe(
-      "unresearched-blanket-rule",
+  it("records sourced national rates and bounded shares", () => {
+    expect(NATIONAL_LOCAL_CRIME.provenance).toContain(
+      "BJS Criminal Victimization",
     );
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+    for (const rule of NATIONAL_LOCAL_CRIME.offenses) {
       for (const share of [rule.reportedShare, rule.arrestShare]) {
         expect(share).toBeGreaterThan(0);
         expect(share).toBeLessThan(1);
@@ -502,10 +502,17 @@ describe("ordinary local crime", () => {
           ),
         ).toBe(true);
       }
-      // A referral goes on to a charge.
-      expect(
-        world.history.events.some((event) => event.type === "justice.charged"),
-      ).toBe(true);
+      // A referral either has a recorded actor decision or remains on the
+      // prosecution schedule; the fixture must not require a charge.
+      const hasDecision = world.history.events.some(
+        (event) =>
+          event.type === "justice.charged" ||
+          event.type === "justice.charges-declined",
+      );
+      const hasScheduledReferral = world.history.futureDueItems.some((item) =>
+        item.transitionKey.startsWith("justice:prosecution-stage"),
+      );
+      expect(hasDecision || hasScheduledReferral).toBe(true);
     },
     LONG,
   );

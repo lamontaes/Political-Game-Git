@@ -1,18 +1,19 @@
 /**
  * Local crime: the offenses this game represents and every rate it uses.
  *
- * EVERY NUMBER HERE IS A PLACEHOLDER. None of them is researched for any
- * place. They are blanket game rules so that ordinary towns are no longer
- * crime-free, held until the research filed as `local-crime-rates-by-place`
- * lands. A researched table replaces this one under a new version; it is not
- * edited in place, so a save always knows which rules produced its history.
+ * The national baseline uses the Bureau of Justice Statistics' 2023 National
+ * Crime Victimization Survey (NCVS), tables 4 and 6. Personal rates are per
+ * person age 12 or older and burglary is per household. Vandalism is ESTIMATED
+ * FROM AVERAGE: the property-crime reporting share is used because the NCVS
+ * table does not publish vandalism separately. Place-specific variation still
+ * comes from the outcome web; this contract never chooses one actor's outcome.
  *
  * What is deliberately not represented, because the world keeps no record a
  * scene could name: theft of a specific object (no inventory of belongings),
  * vehicle theft (no record of who owns a vehicle), and anything drawing on an
  * offender's identity (see `OFFENDERS_ARE_NOT_REPRESENTED`).
  */
-export const CRIME_CONTRACT_VERSION = "local-crime-unresearched-v1" as const;
+export const CRIME_CONTRACT_VERSION = "local-crime-national-2023-v1" as const;
 
 export type CrimeOffense = "assault" | "robbery" | "burglary" | "vandalism";
 
@@ -23,61 +24,62 @@ export interface CrimeOffenseRule {
   readonly offense: CrimeOffense;
   readonly target: CrimeTarget;
   /**
-   * UNRESEARCHED. Expected offenses per year for one represented person
+   * Expected offenses per year for one represented person
    * (aged `minimumVictimAge` or older) or one represented household.
    */
   readonly annualRate: number;
   /**
-   * UNRESEARCHED. Share of offenses reported to police, for the town's
+   * Share of offenses reported to police, for the town's
    * police log mix only. Whether a named victim reports is their own
    * decision (`./reporting`).
    */
   readonly reportedShare: number;
   /**
-   * UNRESEARCHED. Share of reported offenses that end in an arrest: a check
+   * Share of reported offenses cleared by arrest or exceptional means: a check
    * on totals only. Who is arrested follows from `./offenders`.
    */
   readonly arrestShare: number;
 }
 
-export const UNRESEARCHED_LOCAL_CRIME = {
+export const NATIONAL_LOCAL_CRIME = {
   version: CRIME_CONTRACT_VERSION,
-  provenance: "unresearched-blanket-rule",
+  provenance:
+    "BJS Criminal Victimization, 2023 tables 4 and 6; FBI Crime in the United States 2019 table 25 clearance shares. Vandalism is ESTIMATED FROM AVERAGE using the NCVS national property-crime reporting share and FBI property-crime clearance share; basis places: all reporting United States agencies.",
   /**
    * The same rules everywhere. Real rates differ widely by place; until the
    * research lands, no town is made more or less dangerous than another.
    */
   appliesTo: "every-represented-local-place",
-  /** UNRESEARCHED. Youngest person a personal offense is drawn against. */
+  /** NCVS personal-victimization denominator begins at age 12. */
   minimumVictimAge: 12,
   offenses: [
     {
       offense: "assault",
       target: "person",
-      annualRate: 0.016,
-      reportedShare: 0.45,
-      arrestShare: 0.4,
+      annualRate: 0.0177,
+      reportedShare: 0.449,
+      arrestShare: 0.523,
     },
     {
       offense: "robbery",
       target: "person",
-      annualRate: 0.002,
-      reportedShare: 0.6,
-      arrestShare: 0.25,
+      annualRate: 0.0026,
+      reportedShare: 0.424,
+      arrestShare: 0.305,
     },
     {
       offense: "burglary",
       target: "household",
-      annualRate: 0.012,
-      reportedShare: 0.5,
-      arrestShare: 0.12,
+      annualRate: 0.0089,
+      reportedShare: 0.422,
+      arrestShare: 0.141,
     },
     {
       offense: "vandalism",
       target: "household",
       annualRate: 0.02,
-      reportedShare: 0.3,
-      arrestShare: 0.1,
+      reportedShare: 0.299,
+      arrestShare: 0.172,
     },
   ] as const satisfies readonly CrimeOffenseRule[],
 } as const;
@@ -96,10 +98,11 @@ export const UNRESEARCHED_LOCAL_CRIME = {
  * When `placePopulation(placeGeoid)` (nationwide-world/place-population.ts,
  * filed as `place-population-today`) holds a figure, scale by it here.
  */
-export const UNRESEARCHED_TOWN_POLICE_LOG = {
+export const NATIONAL_TOWN_POLICE_LOG = {
   version: CRIME_CONTRACT_VERSION,
-  provenance: "unresearched-blanket-rule",
-  /** UNRESEARCHED. Expected reported offenses per month, in any town. */
+  provenance:
+    "ESTIMATED FROM AVERAGE: two monthly reports retain the established small-world workload until population scaling lands; basis places: the game's represented local places use the same 2023 national NCVS baseline.",
+  /** Estimated monthly workload for the unrepresented part of a town. */
   reportedPerMonth: 2,
   /**
    * Which offense a logged report is: in proportion to each rule's
@@ -147,7 +150,7 @@ export const UNREPORTED_OFFENSE_RECORD: Readonly<Record<CrimeOffense, string>> =
   };
 
 export function crimeRule(offense: CrimeOffense): CrimeOffenseRule {
-  const rule = UNRESEARCHED_LOCAL_CRIME.offenses.find(
+  const rule = NATIONAL_LOCAL_CRIME.offenses.find(
     (candidate) => candidate.offense === offense,
   );
   if (!rule) throw new Error(`Unknown offense: ${offense}`);

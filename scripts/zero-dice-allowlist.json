@@ -357,56 +357,56 @@
       "kind": "fixed-share",
       "build": "Build 21",
       "count": 1,
-      "code": "reportedShare: 0.45,"
+      "code": "reportedShare: 0.449,"
     },
     {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
       "count": 1,
-      "code": "arrestShare: 0.4,"
+      "code": "arrestShare: 0.523,"
     },
     {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
       "count": 1,
-      "code": "reportedShare: 0.6,"
+      "code": "reportedShare: 0.424,"
     },
     {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
       "count": 1,
-      "code": "arrestShare: 0.25,"
+      "code": "arrestShare: 0.305,"
     },
     {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
       "count": 1,
-      "code": "reportedShare: 0.5,"
+      "code": "reportedShare: 0.422,"
     },
     {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
       "count": 1,
-      "code": "arrestShare: 0.12,"
+      "code": "arrestShare: 0.141,"
     },
     {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
       "count": 1,
-      "code": "reportedShare: 0.3,"
+      "code": "reportedShare: 0.299,"
     },
     {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
       "count": 1,
-      "code": "arrestShare: 0.1,"
+      "code": "arrestShare: 0.172,"
     },
     {
       "file": "src/simulation/crisis/disaster.ts",

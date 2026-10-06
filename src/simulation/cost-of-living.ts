@@ -250,7 +250,8 @@ export function recordedHouseholdHousingBillsAt(
     });
     return terms?.status === "active" ? [{ flow, terms }] : [];
   });
-  // No recorded contract means an unknown housing bill, never a $900 estimate or zero.
+  // No recorded contract means there is no bill the game may charge; never
+  // substitute the former $900 interim amount or zero.
   return bills.length ? bills : null;
 }
 

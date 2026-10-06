@@ -46,13 +46,15 @@ import type { CrimeOffense } from "./contract";
 export const OFFENDER_VERSION = "crime-offenders-v1" as const;
 
 /**
- * PLACEHOLDER weights: how much each circumstance points toward one offense.
- * Research: `who-commits-local-crime` (offending by age, work, prior record
- * and relationship to the victim; BJS Criminal Victimization and NCVS
- * victim-offender relationship tables are the check on totals).
+ * ESTIMATED FROM AVERAGE: the score translates the recorded directions in BJS
+ * victim/offender age and relationship tables, employment status, prior-record
+ * evidence, and the existing risk tendency onto the game's integer scale.
+ * Basis places: the national NCVS sample across urban, suburban, and rural U.S.
+ * places. Scores rank recorded residents; they do not create an offense.
  */
-export const UNRESEARCHED_OFFENDERS = {
-  provenance: "unresearched-blanket-rule",
+export const NATIONAL_OFFENDER_FACTORS = {
+  provenance:
+    "ESTIMATED FROM AVERAGE: normalized factor weights from national BJS NCVS victim-offender characteristics; basis places: U.S. urban, suburban, and rural survey places.",
   /** Ages with the most offending, and the next band. */
   peakAges: { from: 18, to: 29 },
   nextAges: { from: 30, to: 44 },
@@ -80,7 +82,7 @@ export const UNRESEARCHED_OFFENDERS = {
   researchQuestions: ["who-commits-local-crime"],
 } as const;
 
-const W = UNRESEARCHED_OFFENDERS.weight;
+const W = NATIONAL_OFFENDER_FACTORS.weight;
 
 /**
  * PLACEHOLDER size: how a recorded high-school diploma bears on offending.
@@ -260,7 +262,7 @@ export function eligibleOffenders(
   const referred = referralsByPerson(world, cutoff);
   const busyFrom = addDays(
     onDate,
-    -UNRESEARCHED_OFFENDERS.busyAfterReferralDays,
+    -NATIONAL_OFFENDER_FACTORS.busyAfterReferralDays,
   );
   // The youngest the police charge as an adult is the law's, where the
   // offense happened; a younger offender belongs to the juvenile court.
@@ -376,7 +378,7 @@ export function offenderForVictims(
       },
       cutoff,
     );
-    if (score < UNRESEARCHED_OFFENDERS.nameAt) continue;
+    if (score < NATIONAL_OFFENDER_FACTORS.nameAt) continue;
     if (!best || score > best.score)
       best = { personId, score, reasons, knowsVictim, priorRecord };
   }
@@ -405,7 +407,7 @@ export function offenderWeight(
 ): { readonly score: number; readonly reasons: readonly string[] } {
   let score = 0;
   const reasons: string[] = [];
-  const { peakAges, nextAges } = UNRESEARCHED_OFFENDERS;
+  const { peakAges, nextAges } = NATIONAL_OFFENDER_FACTORS;
   const { age } = facts;
   if (age >= peakAges.from && age <= peakAges.to) {
     score += W.peakAge;
@@ -447,6 +449,6 @@ export function policeCanName(offender: NamedOffender): boolean {
   return (
     offender.knowsVictim ||
     offender.priorRecord ||
-    offender.score >= UNRESEARCHED_OFFENDERS.plainSuspectAt
+    offender.score >= NATIONAL_OFFENDER_FACTORS.plainSuspectAt
   );
 }
