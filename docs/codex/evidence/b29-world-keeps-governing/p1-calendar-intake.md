@@ -3,8 +3,8 @@
 ## Candidate source
 
 - Exact base `HEAD`: `f88508186b78f526ecf89a420b5fb584171e039a` (branch `session-53-b29-p1`).
-- Candidate has uncommitted edits in `src/presentation/opening-life.ts`, `src/simulation/governing/governing-calendar.ts`, `src/simulation/governing/member-agenda-state-intake.test.ts`, and `src/simulation/legislative-session-calendar.test.ts`.
-- Focused verification: 2 Vitest files passed, 68 tests; `git diff --check` passed.
+- Producer code is committed at `5bbb72c920acb031bb67479f5d6b4541eda79f65` (state bill-season seed plus D.C. Council seating/scheduling on every opening); this evidence update is a later documentation commit.
+- Focused verification: the two simulation files passed (68 tests); the changed opening-life file passed separately (11 tests); `git diff --check` passed.
 - Change: opening setup seeds the same rolling state bill-season due rows used by `scheduleGoverningSeasons`, one next eligible session date per state executive jurisdiction. The existing `governingSeasonHandler` calls the canonical `fileMemberAgendaBill` path. It creates no measure by itself and adds no per-state or fixed-count quota.
 - Session5-owned daily-turnover code is untouched.
 
@@ -57,19 +57,19 @@ This targeted proof uses the ordinary opening-life world, seed `session53-one-da
 
 All five bills were referred Feb. 18, received committee hearings Feb. 28, and were not reported on Mar. 1. Their recorded terminal outcome is `failed-in-committee`; no bill produced an enactment or downstream law consequence. The longer cutoff reached April 15 because the next state bill-season row was inside the bound; the two targeted states filed no additional bills there. No unrelated state queue was consumed. No daily loop, heap increase, fixed bill count, or dice were used.
 
-This answers the two-state filing/committee question only. It is deliberately not the whole-world chronological acceptance run. The CTO subsequently required a separate nationwide calendar-only run through one full regular session with all jurisdiction rows in date order and per-state/chamber counts. The complete all-due first-session run is recorded below; it supersedes this paragraph’s then-outstanding status.
+This answers the two-state filing/committee question only. It is deliberately not a nationwide acceptance run. The Apr. 30 all-due bounded progress run and its full-session limitations are recorded below.
 
-## Nationwide all-due chronological first-session acceptance
+## Nationwide all-due run through Apr. 30 (bounded progress; not full-session acceptance)
 
-The completed acceptance run used the ordinary opening world and the canonical `resolveFutureDueItemsThrough` resolver with `composeWorldTimeHandlers()`. At each iteration it advanced directly to the next scheduled due date and resolved **all due items** through that date in `(dueAt, sequence)` order. This is a bounded future-calendar traversal, not a daily clock loop.
+The completed bounded run used the ordinary opening world and the canonical `resolveFutureDueItemsThrough` resolver with `composeWorldTimeHandlers()`. At each iteration it advanced directly to the next scheduled due date and resolved **all due items** through that date in `(dueAt, sequence)` order. This is a bounded future-calendar traversal, not a daily clock loop.
 
-- Exact source HEAD: `598fa88c347a517493f20e153348442bd991b491` (candidate branch; base/current-main composition `f88508186b78f526ecf89a420b5fb584171e039a`).
+- Exact code source HEAD: `5bbb72c920acb031bb67479f5d6b4541eda79f65` (candidate branch; base/current-main composition `f88508186b78f526ecf89a420b5fb584171e039a`).
 - Seed/place: `session53-nationwide-2026-2027`, observer place `session53-random-state`, key `2825740`; opening Jan. 5, 2026.
-- Full first-session bound: through Apr. 30, 2026. This covers the actual filing, committee, floor, enrollment, executive decision, and enactment paths for the bills produced in the session; no due item inside the bound remained scheduled at cutoff.
-- Opening/setup 5.336 s; full run 180.939 s. Default Node heap, no heap-size override, no daily loop.
-- **2,312 due rows processed in 75 chronological date batches; 0 unresolved due rows inside cutoff.**
-- 85 bills filed; 338 committee actions (referral/hearing/report/not-reported, counted in the chamber of action); 114 chamber referrals/admissions; 45 floor passage actions; 71 terminal non-enactments; 14 enacted; 0 vetoes. Filing and final disposition are unique-bill counts attributed to originating chamber, while committee/floor totals count dated chamber actions, including both chambers.
-- The run covers all 50 state jurisdictions and federal Congress; DC and the five territory jurisdiction entries are also included below. Four territories lack a canonical legislative pack; PR has a generic state pack but no recorded bill intake. D.C. has no state legislative pack, and this opening had no DC council intake due row. Report these as no recorded filing/unmeasured institution coverage, not as a successful zero-throughput simulation for those governments.
+- Bounded cutoff: Apr. 30, 2026. This resolved every scheduled due item through that date, but Apr. 30 is not the recorded end of every jurisdiction’s regular session; do not label this result full-session acceptance.
+- Opening/setup 5.617 s; full run 179.133 s. Default Node heap, no heap-size override, no daily loop.
+- **2,347 due rows processed in 77 chronological date batches; 0 unresolved due rows inside cutoff.**
+- State legislatures: 85 filed; 338 committee actions; 114 referrals; 45 floor-passage actions; 71 terminal non-enactments; 14 enacted. D.C. Council: 5 filed; 0 committee actions/referrals; 10 floor passages; 4 enacted; 1 pending. Combined recorded bills: 90 filed, 18 enacted, 71 failed, 1 pending; 0 vetoes. Filing/disposition are unique bills by origin body; committee/floor metrics count dated chamber actions.
+- The all-due world included 50 state jurisdictions, the federal Congress, the D.C. Council, and the five territory identities. The Council used its existing municipal intake path and filed five measures. Puerto Rico has a generic state pack but no territorial member roster or bill intake. GU/VI/AS/MP have no canonical legislative pack/roster. Those four territories are unmeasured, not successful zero-throughput cases.
 
 | Jurisdiction | Chamber | Filed (origin) | Committee actions | Referrals | Floor passages | Failed (origin) | Enacted (origin) |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -172,7 +172,6 @@ The completed acceptance run used the ordinary opening world and the canonical `
 | Wisconsin | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
 | Wyoming | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
 | Wyoming | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
-| District of Columbia | *No legislative pack* | — | — | — | — | — | — |
 | Puerto Rico | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
 | Puerto Rico | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
 | Guam | *No legislative pack* | — | — | — | — | — | — |
@@ -181,22 +180,89 @@ The completed acceptance run used the ordinary opening world and the canonical `
 | Northern Mariana Islands | *No legislative pack* | — | — | — | — | — | — |
 | United States | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
 | United States | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| District of Columbia | Council | 5 | 0 | 0 | 10 | 0 | 4 |
 
-The table’s `failed` and `enacted` values are bills attributed to their originating chamber; chamber actions are recorded where performed. The single-chamber Nebraska Legislature is listed under its actual unified institution. Federal House and Senate each filed zero bills in this run. DC council activity was not generated by an opening due row, so the missing DC pack remains an institution-coverage gap for b29, not evidence that its council votes bills down.
+The table’s `failed` and `enacted` values are bills attributed to their originating chamber; chamber actions are recorded where performed. The single-chamber Nebraska Legislature is listed under its actual unified institution. Federal House and Senate each filed zero bills. D.C. is reported through its Council, not as a state-level pack.
 
-Representative outcomes from the saved bill records: California AB 12 (`legislative-measure_698081622022ef68`) and Illinois HB 16 (`legislative-measure_83db18f3e16e86bd`) passed both chambers, were signed and enacted Apr. 17, with effective date Jan. 1, 2027; each record includes introduction, committee, floor, enrollment, presentation, signature and enactment dates. Those enactment records establish that laws pass after the opening President's term only if the presidency changes during this bounded span; this four-month run alone does not establish post-first-term persistence. The report records effective dates, but it does not record downstream law-effect application by Apr. 30 because those effective dates are in 2027; it makes no claim about an already-applied policy consequence.
+Representative outcomes from the saved bill records: D.C. B26-0011 (`legislative-measure_4ff62c1eefdab998`) passed the Council twice and became law without signature Mar. 17, effective Apr. 28; B26-0015 (`legislative-measure_3f1bc31b979e41b8`) passed the Council twice and was presented to the Mayor Apr. 27, still pending at cutoff. California AB 12 (`legislative-measure_698081622022ef68`) and Illinois HB 16 (`legislative-measure_83db18f3e16e86bd`) passed both chambers, were signed and enacted Apr. 17, effective Jan. 1, 2027; each record includes introduction, committee, floor, enrollment, presentation, signature and enactment dates. Those enactment records establish that laws pass after the opening President's term only if the presidency changes during this bounded span; this four-month run alone does not establish post-first-term persistence. The report records effective dates, but it does not record downstream law-effect application by Apr. 30 because those effective dates are in 2027; it makes no claim about an already-applied policy consequence.
 
-Machine-readable report with per-bill IDs/actions/enactments and every jurisdiction/chamber row: `/tmp/session53-all-due-first-session.json`.
+Machine-readable report with per-bill IDs/actions/enactments and state/federal jurisdiction rows (the five D.C. bills use municipal jurisdiction `jurisdiction_7691c6e3ae48f824`): `/tmp/session53-all-due-first-session.json`.
+
+## Session-end coverage required before acceptance
+
+The regular-session calendar in `data/content/legislative-session-calendars.json` is explicitly a game-profile cadence, not a convening/adjournment record. The April 30 run therefore cannot establish that every state's own regular session ended. The 2026 source end-date data supports the following state-level check:
+
+| State | 2026 regular-session end evidence |
+| --- | --- |
+| Alabama | 2026-04-09 (all reached by cutoff) |
+| Alaska | no recorded 2026 end in sessionEnds data |
+| Arizona | 2026-06-13 (one or more after cutoff) |
+| Arkansas | 2026-04-29 (all reached by cutoff) |
+| California | no recorded 2026 end in sessionEnds data |
+| Colorado | no recorded 2026 end in sessionEnds data |
+| Connecticut | no recorded 2026 end in sessionEnds data |
+| Delaware | no recorded 2026 end in sessionEnds data |
+| Florida | 2026-03-13 (all reached by cutoff) |
+| Georgia | no recorded 2026 end in sessionEnds data |
+| Hawaii | 2026-05-08 (one or more after cutoff) |
+| Idaho | 2026-04-02 (all reached by cutoff) |
+| Illinois | no recorded 2026 end in sessionEnds data |
+| Indiana | no recorded 2026 end in sessionEnds data |
+| Iowa | no recorded 2026 end in sessionEnds data |
+| Kansas | 2026-04-10 (all reached by cutoff) |
+| Kentucky | 2026-04-15 (all reached by cutoff) |
+| Louisiana | no recorded 2026 end in sessionEnds data |
+| Maine | 2026-04-29 (all reached by cutoff) |
+| Maryland | no recorded 2026 end in sessionEnds data |
+| Massachusetts | no recorded 2026 end in sessionEnds data |
+| Michigan | estimated date 2026-04-15; no recorded adjournment |
+| Minnesota | no recorded 2026 end in sessionEnds data |
+| Mississippi | no recorded 2026 end in sessionEnds data |
+| Missouri | legal regular-session end limit 2026-05-30 (after cutoff) |
+| Montana | no recorded 2026 end in sessionEnds data |
+| Nebraska | 2026-04-17 (all reached by cutoff) |
+| Nevada | no recorded 2026 end in sessionEnds data |
+| New Hampshire | no recorded 2026 end in sessionEnds data |
+| New Jersey | no recorded 2026 end in sessionEnds data |
+| New Mexico | 2026-02-19 (all reached by cutoff) |
+| New York | no recorded 2026 end in sessionEnds data |
+| North Carolina | estimated date 2026-04-15; no recorded adjournment |
+| North Dakota | no recorded 2026 end in sessionEnds data |
+| Ohio | no recorded 2026 end in sessionEnds data |
+| Oklahoma | 2026-05-14 (one or more after cutoff) |
+| Oregon | no recorded 2026 end in sessionEnds data |
+| Pennsylvania | no recorded 2026 end in sessionEnds data |
+| Rhode Island | no recorded 2026 end in sessionEnds data |
+| South Carolina | no recorded 2026 end in sessionEnds data |
+| South Dakota | no recorded 2026 end in sessionEnds data |
+| Tennessee | no recorded 2026 end in sessionEnds data |
+| Texas | no recorded 2026 end in sessionEnds data |
+| Utah | 2026-03-06 (all reached by cutoff) |
+| Vermont | no recorded 2026 end in sessionEnds data |
+| Virginia | no recorded 2026 end in sessionEnds data |
+| Washington | 2026-03-12 (all reached by cutoff) |
+| West Virginia | no recorded 2026 end in sessionEnds data |
+| Wisconsin | no recorded 2026 end in sessionEnds data |
+| Wyoming | 2026-03-11 (all reached by cutoff) |
+| Puerto Rico | no recorded 2026 end in sessionEnds data |
+| Guam | no recorded 2026 end in sessionEnds data |
+| the U.S. Virgin Islands | no recorded 2026 end in sessionEnds data |
+| American Samoa | legal session ends 2026-02-25 and 2026-08-26 (second session after cutoff) |
+| the Northern Mariana Islands | no recorded 2026 end in sessionEnds data |
+
+The source table has 2026 published adjournments for 15 states: 12 by Apr. 30 and three later. It also has Missouri’s legal May 30 limit and American Samoa’s two 45-day legal sessions, with the second ending Aug. 26. Michigan and North Carolina have estimated Apr. 15 ends. Twenty-eight annual-session states have no finite end date in the current source table; four states have no 2026 regular session. Entries marked no recorded end are unverified for cutoff completion. Montana, Nevada, North Dakota, and Texas have no 2026 regular session under `regular-session-years.json`, so their next regular session is in 2027. American Samoa has two 2026 sessions ending Feb. 25 and Aug. 26; Apr. 30 covers only the first. Arizona (June 13), Hawaii (May 8), Missouri (May 30), and Oklahoma (May 14) end after Apr. 30. D.C. is a year-round Council, with no annual adjournment record; the federal Congress has no state-style session-end record in this coverage table; its Apr. 15 median date is an effective-date estimate, not a council session end. Puerto Rico, Guam, the Virgin Islands, and Northern Mariana Islands have no canonical legislative calendar/roster contract. The displayed Michigan, North Carolina and D.C. Apr. 15 dates are estimates, not recorded adjournments.
+
+Thus the run is a useful all-due throughput result but not the CTO’s per-jurisdiction full-session acceptance. Four-year/annual wall-clock OOM is not treated as a b29 blocker; this is a source/session-end coverage gap. Continue bounded calendar work only against named recorded end dates, and route absent session-end/member-intake contracts to CTO rather than inventing dates or zero rows.
 
 ## Nationwide legislative-calendar-only compact run (diagnostic, not acceptance)
 
-A separate narrower dispatcher selected only state bill-season rows, Congress/DC legislative rows, and due rows attached to legislative measures and their executive matters. It processed 1,254 selected rows through May 22, 2027 in 64 date batches (requested cutoff June 30, 2027) in 98.806 seconds. Its origin-chamber-only rollup was initially mistaken for per-chamber action counts; the count from its action log is 521 committee actions and 51 floor passage actions, with 154 filings, 140 failed, and 14 enacted. This is retained as a compact diagnostic only; it is **not** substituted for the all-due first-session acceptance above.
+A separate narrower dispatcher selected only state bill-season rows, Congress/DC legislative rows, and due rows attached to legislative measures and their executive matters. It processed 1,254 selected rows through May 22, 2027 in 64 date batches (requested cutoff June 30, 2027) in 98.806 seconds. Its origin-chamber-only rollup was initially mistaken for per-chamber action counts; the count from its action log is 521 committee actions and 51 floor passage actions, with 154 filings, 140 failed, and 14 enacted. This is retained as a compact diagnostic only; it is **not** substituted for an all-due, per-jurisdiction session-end acceptance.
 
 ## Preserved broader failed run
 
-Before the bounded session acceptance, a broad all-transition run was requested through Apr. 15, 2027 on the same source head and seed. It stopped at Sep. 11, 2026 after 194 date batches, 85 measures, 604 legislative actions, RSS 4,243,042,304 bytes, elapsed 718,229 ms; exit 134 with V8 heap OOM at about 770,843 ms (heap near 3.8 GB). It produced no final counts or processed-row counter. Full evidence remains at `/tmp/session53-nationwide-calendar-attempt-oom.txt`. That failed longer run remains preserved and was not restarted. The accepted run above uses the new Apr. 30, 2026 session cutoff because the full regular-session bill lifecycle settled inside it, and it stops at the first-session horizon rather than running a year.
+Before the bounded session acceptance, a broad all-transition run was requested through Apr. 15, 2027 on the same source head and seed. It stopped at Sep. 11, 2026 after 194 date batches, 85 measures, 604 legislative actions, RSS 4,243,042,304 bytes, elapsed 718,229 ms; exit 134 with V8 heap OOM at about 770,843 ms (heap near 3.8 GB). It produced no final counts or processed-row counter. Full evidence remains at `/tmp/session53-nationwide-calendar-attempt-oom.txt`. That failed longer run remains preserved and was not restarted. The Apr. 30 result above is a completed bounded all-due traversal, not full-session acceptance. It resolves the original longer-run cost question for a four-month horizon, but it is not a substitute for reaching each jurisdiction’s own end date.
 
-## Nationwide legislative-calendar-only diagnostic — not whole-world chronological acceptance.
+## Nationwide legislative-calendar-only compact diagnostic — not all-due acceptance.
 
 This bounded rerun used the ordinary opening world and canonical registered transition handlers for state bill-season rows, Congress/DC intake and sitting, and due rows attached to filed legislative measures and their executive matters. Rows were dispatched by `(dueAt, sequence)` through the next due item, with no daily advance loop and no heap override. The earlier all-transition attempt remains preserved separately below. Per the latest scope correction, these results are a legislative-only diagnostic; they do **not** satisfy acceptance requiring ALL due rows in nationwide chronological order.
 
