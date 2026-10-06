@@ -491,7 +491,8 @@ export function tellViewToHearers(
       personId: hearerId,
       eventId: input.eventId,
       learnedAt: next.currentDate,
-      believedSummary: `${holder.givenName} ${holder.familyName} told them what they think of ${official.givenName} ${official.familyName}.`,
+      // Fields, not a sentence: the English engine composes what is shown.
+      believedSummary: `told-view:${input.holderId}:${input.officialId}:${held.position}`,
       accuracy: "accurate",
       confidence: "medium",
       source: {
@@ -535,9 +536,7 @@ export function tellViewToHearers(
           sourceType: "information:told-view",
           importance: "strong",
           confidence: "medium",
-          explanation: `A relative told the person they ${
-            favors === "support" ? "think well" : "think poorly"
-          } of this official.`,
+          explanation: `told-view:${favors}`,
           sourceRefs: [
             { kind: "historical-event", eventId: input.eventId },
             { kind: "event-knowledge", knowledgeId: knowledge.id },
