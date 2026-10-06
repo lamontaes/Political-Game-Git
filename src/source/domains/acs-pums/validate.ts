@@ -43,7 +43,7 @@ export function validatePumsCorpus(
       severity: "error",
       code: "pums/coverage-overclaim",
       message:
-        "This corpus holds a slice of one state's 1-year sample. It is not a complete universe of anything, and a microdata corpus that claims to be one invites every consumer to treat it as the population.",
+        "This corpus holds a bounded subset of one state's 1-year survey responses. It is not a complete population universe, and claiming otherwise invites every consumer to treat the responses as the population.",
     });
   }
 
@@ -68,7 +68,7 @@ export function validatePumsCorpus(
         findings.push({
           severity: "error",
           code: "pums/sample-is-not-behaviour",
-          message: `Field "${key}" derives behavior from a survey sample. A weighted observation supports a population estimate, not a rule about how people act.`,
+          message: `Field "${key}" derives behavior from survey responses. A weighted observation supports a population estimate, not a rule about how people act.`,
           recordId: record.serialNumber,
         });
       }
