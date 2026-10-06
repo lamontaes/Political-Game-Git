@@ -33,12 +33,9 @@ import {
   membersAgainstLaw,
   officialViewReflectionEventKey,
 } from "./official-view-reads";
-import {
-  decideChamberVote,
-  type ChamberVoteMemberEvaluation,
-} from "./governing/chamber-votes";
+import { decideChamberVote, type ChamberVoteMemberEvaluation } from "./governing/chamber-votes";
 import { joinLawInterestGroup } from "./living-world/law-interest-groups";
-import { recordRelationshipInteraction } from "./records";
+import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, PrivateBeliefRecord, World } from "./types";
@@ -168,6 +165,26 @@ describe("a law reaches a person", () => {
       // what the law did to the household.
       expect(view.position).toBe("oppose");
       expect(view.formation.relevantEventIds).toContain(reflection.id);
+      if (
+        known.some(
+          (act) => !act.executive && act.officialId === officialOf(view),
+        )
+      ) {
+        expect(view.formation.eventKnowledgeIds.length).toBeGreaterThan(0);
+        for (const id of view.formation.eventKnowledgeIds) {
+          const knowledge = later.history.knowledge.find(
+            (row) => row.id === id,
+          )!;
+          expect(knowledge.personId).toBe(spouseId);
+          expect(knowledge.learnedAt <= view.formedAt).toBe(true);
+          expect(
+            later.history.legislativeActions!.some(
+              (action) =>
+                action.eventId === knowledge.eventId && action.voteId !== null,
+            ),
+          ).toBe(true);
+        }
+      }
       const trace = later.history.decisionTraces.find(
         (row) => row.id === view.formation.decisionTraceIds[0],
       )!;
@@ -187,6 +204,30 @@ describe("a law reaches a person", () => {
       expect(read.points).toBeLessThan(0);
     }
     expect(officialViewsOf(later, personId)).toEqual([]);
+    expect(
+      later.history.knowledge.filter(
+        (row) =>
+          row.personId === personId &&
+          row.stableKey.startsWith("official-view:vote-knowledge:"),
+      ),
+    ).toEqual([]);
+    const reloaded = deserializeWorld(serializeWorld(later));
+    expect(officialViewsOf(reloaded, spouseId)).toEqual(views);
+    expect(reloaded.history.knowledge).toEqual(later.history.knowledge);
+    const replayed = advanceWorld(
+      reloaded,
+      3,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(officialViewsOf(replayed, spouseId)).toEqual(views);
+    for (const knowledge of later.history.knowledge.filter((row) =>
+      row.stableKey.startsWith("official-view:vote-knowledge:"),
+    )) {
+      expect(
+        replayed.history.knowledge.filter((row) => row.id === knowledge.id),
+      ).toHaveLength(1);
+    }
+    assertWorldIntegrity(reloaded);
     assertWorldIntegrity(later);
   });
 
@@ -506,17 +547,64 @@ describe("a law reaches a person", () => {
     expect(heardShare(close, heardFrom(close))).toBeGreaterThan(1 / 8);
   });
 
-  it("a close news follower knows a legislator's vote; someone who neither follows nor knows them does not", () => {
+  it("public recorded votes are knowable at reflection time; private votes require actual event knowledge", () => {
     const { world } = collected();
     const exposure = lawExposuresOf(world, world.personOrder[0]!)[0]!;
-    const official = world.personOrder[0]!;
-    for (const personId of world.personOrder) {
-      if (personId === official) continue;
-      const probe = { ...exposure, personId };
-      const follows = followsNewsClosely(world, personId);
-      const acquainted = peopleKnownTo(world, personId).includes(official);
-      expect(knowsVote(world, probe, official)).toBe(follows || acquainted);
-    }
+    const vote = world.history.legislativeVotes!.find(
+      (row) => row.purpose === "floor-stage",
+    )!;
+    const official = vote.dispositions.find(
+      (row) =>
+        row.personId &&
+        (row.disposition === "yea" || row.disposition === "nay"),
+    )!.personId!;
+    const action = world.history.legislativeActions!.find(
+      (row) => row.voteId === vote.id,
+    )!;
+    const event = world.history.events.find(
+      (row) => row.id === action.eventId,
+    )!;
+    expect(event.visibility).toBe("public");
+    const personId = world.personOrder.find((id) => id !== official)!;
+    const probe = { ...exposure, personId };
+    expect(knowsVote(world, probe, official)).toBe(
+      followsNewsClosely(world, personId) ||
+        peopleKnownTo(world, personId).includes(official),
+    );
+    const privateWorld = {
+      ...world,
+      history: {
+        ...world.history,
+        events: world.history.events.map((row) =>
+          row.id === event.id
+            ? { ...row, visibility: "private" as const }
+            : row,
+        ),
+      },
+    };
+    expect(knowsVote(privateWorld, probe, official)).toBe(false);
+    const informed = recordEventKnowledge(privateWorld, {
+      stableKey: "vote-knowledge-test:actual-event",
+      personId,
+      eventId: event.id,
+      learnedAt: world.currentDate,
+      believedSummary: event.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "public-record", reference: event.id },
+    });
+    expect(knowsVote(informed, probe, official)).toBe(true);
+    // Restore the actual public event for the canonical save proof: existing
+    // publications still reference this public roll call. The privacy variation
+    // above tests the reader only, not a rewritten historical save.
+    const publicInformed = {
+      ...informed,
+      history: { ...informed.history, events: world.history.events },
+    };
+    const reloaded = deserializeWorld(serializeWorld(publicInformed));
+    expect(knowsVote(reloaded, probe, official)).toBe(true);
+    const beforeVote = { ...informed, currentDate: makeIsoDate("2026-01-01") };
+    expect(knowsVote(beforeVote, probe, official)).toBe(false);
   });
 
   it("a cost with no money is felt at one estimated size, labeled PLACEHOLDER", () => {
