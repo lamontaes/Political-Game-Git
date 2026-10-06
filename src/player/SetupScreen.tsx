@@ -126,22 +126,18 @@ type CreatorStep =
 const OTHER_PARENT_CHOICES: readonly {
   readonly key: NewGameOtherParent;
   readonly label: string;
-  readonly detail: string;
 }[] = [
   {
     key: "living",
     label: "Living",
-    detail: "Alive, and not part of this story.",
   },
   {
     key: "nonresident",
     label: "Lives elsewhere",
-    detail: "Alive, and living somewhere else.",
   },
   {
     key: "deceased",
     label: "Has died",
-    detail: "Died before your story begins.",
   },
 ];
 
@@ -350,9 +346,7 @@ export function SetupScreen({
   const continueCharacter = () => {
     const completed = resolveCreatorBirthday(setup, ageChosen);
     if (!completed) {
-      setBirthdayCompletionProblem(
-        "Choose both a birthday month and day, or leave both blank. Check that the date exists in your chosen year.",
-      );
+      setBirthdayCompletionProblem("incomplete-birthday");
       return;
     }
     setBirthdayCompletionProblem(null);
@@ -452,7 +446,7 @@ export function SetupScreen({
 
       {isCurrent("route") ? (
         <section data-testid="creator-stage-route">
-          <h2>How do you want to start?</h2>
+          <h2>Start</h2>
           <div className="game-choices" data-testid="start-kind-choices">
             <button
               type="button"
@@ -471,11 +465,6 @@ export function SetupScreen({
               }}
             >
               Start a life
-              <small>
-                You say who you are and where you're from. Everything else —
-                your family, your home, the years behind you — the game builds
-                when you begin.
-              </small>
             </button>
             <button
               type="button"
@@ -488,10 +477,6 @@ export function SetupScreen({
               }}
             >
               Custom start
-              <small>
-                Set the background yourself — who's at home, whether you already
-                work somewhere, how much of the early years to play.
-              </small>
             </button>
           </div>
         </section>
@@ -610,7 +595,7 @@ export function SetupScreen({
           </div>
 
           {birthdayCompletionProblem ? (
-            <p role="alert">{birthdayCompletionProblem}</p>
+            <p role="alert" data-problem={birthdayCompletionProblem} />
           ) : null}
         </section>
       ) : null}
@@ -705,9 +690,7 @@ export function SetupScreen({
                   ))}
                 </div>
               ) : (
-                <p className="game-note" data-testid="state-no-match">
-                  Nothing here matches that yet.
-                </p>
+                <p data-testid="state-no-match" />
               )}
             </>
           )}
@@ -715,9 +698,7 @@ export function SetupScreen({
             <>
               {placeListOpen ? (
                 <div className="game-search">
-                  <label htmlFor="creator-place-search">
-                    Search places in this state
-                  </label>
+                  <label htmlFor="creator-place-search">Search</label>
                   <div className="creator-search-entry">
                     <input
                       id="creator-place-search"
@@ -783,9 +764,6 @@ export function SetupScreen({
                     }}
                   >
                     {statewidePlace.displayName}
-                    <small data-place-scope="state">
-                      Statewide — not a hometown
-                    </small>
                   </button>
                 </div>
               ) : null}
@@ -858,13 +836,6 @@ export function SetupScreen({
                   {replacingPlace ? "Keep" : "Change"}
                 </span>
               </button>
-              {place.scope !== "locality" ? (
-                <p className="game-hint" data-testid="place-scope">
-                  {place.scope === "state"
-                    ? "Statewide start."
-                    : "County-wide start; a specific town is not selected."}
-                </p>
-              ) : null}
               {placeStartFacts(place)
                 .filter((fact) => fact.kind !== "name")
                 .map((fact) => (
@@ -906,7 +877,7 @@ export function SetupScreen({
       {custom && isCurrent("background") ? (
         <section data-testid="creator-stage-background">
           <h2>Your background</h2>
-          <h3>How much of the early years to play</h3>
+          <h3>Early years</h3>
           <div className="game-choices">
             <button
               type="button"
@@ -922,11 +893,6 @@ export function SetupScreen({
               }
             >
               Start in childhood
-              <small>
-                {setup.startAge < 18
-                  ? "Play the early years one at a time."
-                  : "Only for a character under eighteen."}
-              </small>
             </button>
             <button
               type="button"
@@ -944,7 +910,6 @@ export function SetupScreen({
               }
             >
               Begin later
-              <small>The early years are already behind you.</small>
             </button>
           </div>
 
@@ -963,7 +928,6 @@ export function SetupScreen({
               }
             >
               Everyday life
-              <small>No office. No formal political role.</small>
             </button>
             <button
               type="button"
@@ -982,13 +946,6 @@ export function SetupScreen({
               }
             >
               Legislative staff
-              <small>
-                {place?.capabilities.legislativeScenarioKey === null
-                  ? "A legislative staff start is not available for this selected place yet."
-                  : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
-                    ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
-                    : "Working for a state legislature."}
-              </small>
             </button>
           </div>
 
@@ -1010,11 +967,6 @@ export function SetupScreen({
             }
           >
             Judicial office practice
-            <small>
-              Fictional workplace and working relationships, for ages 25 and
-              older. This start grants no election, appointment, legal term or
-              authority to decide cases.
-            </small>
           </button>
           <button
             type="button"
@@ -1034,18 +986,11 @@ export function SetupScreen({
             }
           >
             State agency director
-            <small>
-              {stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null)
-                ? setup.startAge < STATE_AGENCY_START_MINIMUM_AGE
-                  ? `Available for characters ${STATE_AGENCY_START_MINIMUM_AGE} and older.`
-                  : "A fictional state agency with existing staff. Its charter makes you the appointing authority; personnel procedures apply only where acquired law supports them."
-                : "Available only in a state whose personnel procedures the game has compiled."}
-            </small>
           </button>
           <h3>At home</h3>
           {setup.startAge < 18 ? (
             <>
-              <h3>Who raises you?</h3>
+              <h3>Raised by</h3>
               <div className="game-choices" data-testid="family-shape-choices">
                 {(
                   [
@@ -1083,11 +1028,6 @@ export function SetupScreen({
               }
             >
               Nobody else
-              <small>
-                {setup.startAge < 18
-                  ? "No other children in the household."
-                  : "You live on your own."}
-              </small>
             </button>
             <button
               type="button"
@@ -1100,11 +1040,6 @@ export function SetupScreen({
               }
             >
               Somebody else
-              <small>
-                {setup.startAge < 18
-                  ? "A brother or a sister in the house too."
-                  : "One other adult shares the household."}
-              </small>
             </button>
           </div>
           {otherParentQuestionApplies(setup) ? (
@@ -1124,7 +1059,6 @@ export function SetupScreen({
                     }
                   >
                     {choice.label}
-                    <small>{choice.detail}</small>
                   </button>
                 ))}
               </div>
@@ -1168,7 +1102,6 @@ export function SetupScreen({
                     }
                   >
                     {option.label}
-                    <small>{option.description}</small>
                   </button>
                 ))}
               </fieldset>
@@ -1222,9 +1155,6 @@ export function SetupScreen({
       {isCurrent("difficulty") ? (
         <section data-testid="creator-stage-difficulty">
           <h2>Difficulty</h2>
-          <p className="game-note">
-            These settings are optional. You can keep the defaults and continue.
-          </p>
           <div
             role="group"
             aria-label="Challenge intensity"
@@ -1482,13 +1412,9 @@ export function SetupScreen({
         <details className="game-dev" data-testid="setup-advanced">
           <summary>Advanced &mdash; reproducing this world</summary>
           <p>
-            This world is generated from{" "}
-            <code data-testid="setup-seed">{seed}</code>
-            {seedOrigin === "replay"
-              ? ", which was supplied to reproduce an earlier one."
-              : ", drawn fresh for this session."}{" "}
-            The address below carries the place, the age and any names you typed
-            as well, so it rebuilds the same world.
+            <code data-testid="setup-seed" data-seed-origin={seedOrigin}>
+              {seed}
+            </code>
           </p>
           <p>
             <code data-testid="setup-replay-link">

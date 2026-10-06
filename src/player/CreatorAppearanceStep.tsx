@@ -166,17 +166,8 @@ export function CreatorAppearanceStep({
           </div>
           <div>
             <h2>Character appearance</h2>
-            {ready ? (
-              <p className="creator-preview-note">
-                Choose your appearance before beginning. These changes affect
-                only your preview.
-              </p>
-            ) : null}
             {bodyUnavailable ? (
-              <p role="alert">
-                No compatible masculine body and outfit is available for this
-                preview. Choose a supported body before beginning.
-              </p>
+              <p role="alert" data-problem="no-compatible-body" />
             ) : null}
             {ready ? (
               <PersonAppearanceControls
@@ -243,17 +234,12 @@ export function CreatorAppearanceStep({
                     ? "creator-invalid-pack"
                     : "creator-artwork-status"
                 }
-              >
-                {libraries?.unavailableReason ??
-                  (refusal
-                    ? "This age has no supported portrait artwork yet. Your character can still begin."
-                    : "Choosing how you look is not available yet. Your character can still begin.")}
-              </p>
+              ></p>
             )}
           </div>
         </div>
       ) : (
-        <p>Choose a hometown to preview your character.</p>
+        <p data-problem="no-hometown" />
       )}
       <div className="game-setup-actions">
         <button
