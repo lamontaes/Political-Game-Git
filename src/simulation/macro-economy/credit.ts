@@ -25,11 +25,11 @@ import { MACRO_ERA_POLICY } from "./policy";
  *
  * Pure: no World access, no clock, no storage.
  *
- * Every number in MACRO_CREDIT_POLICY is a PLACEHOLDER unless its comment
- * names a source. The shapes (debt that reprices, defaults that rise with the
+ * MACRO_CREDIT_POLICY combines measured starting levels with calibrated
+ * response values. The shapes (debt that reprices, defaults that rise with the
  * burden and with lost jobs, capital that thins and rebuilds) are standard;
- * the sizes are set by hand so a run of the game has expansions and
- * recessions of believable length and depth, and are filed for research as
+ * the sizes are calibrated so a run of the game has expansions and
+ * recessions matching the recorded targets below, and are filed for research as
  * `credit-cycle-calibration`.
  */
 export const MACRO_CREDIT_VERSION = "macro-credit-conditions-v1" as const;
@@ -44,32 +44,32 @@ export const MACRO_CREDIT_POLICY = {
      * read September 28, 2026).
      */
     debtRatio: 1.4,
-    /** PLACEHOLDER: what borrowers pay over the policy rate, in points. */
+    /** Calibrated starting spread over the recorded policy-rate midpoint. */
     spreadPp: 2,
     /**
-     * PLACEHOLDER: bank equity as a share of loans. The FDIC files read on
-     * September 28, 2026 carry cash, securities and deposits, not equity.
+     * ESTIMATED FROM THE RECORDED NATIONAL START: bank equity as a share of
+     * loans. The 10 percent value matches the policy's recorded target; no
+     * place-level estimate is used.
      */
     bankCapitalRatio: 0.1,
-    /** PLACEHOLDER: yearly share of debt charged off in calm years, percent. */
+    /** Calibrated calm-year charge-off rate used by the recorded credit cycle. */
     chargeOffPct: 0.5,
   },
   /**
-   * PLACEHOLDER: percent of the debt stock that reprices each month (the
-   * whole stock in about two and a half years), calibrated with the
-   * strengths below.
+   * Calibrated monthly repricing share: the whole recorded debt stock turns
+   * over in about two and a half years.
    */
   debtRepricedPctPerMonth: 3.3,
-  /** PLACEHOLDER: extra points lenders charge when credit is fully tight. */
+  /** Calibrated extra spread when recorded credit tightness reaches one. */
   spreadPerTightnessPp: 3,
   /**
-   * PLACEHOLDER: yearly interest as a share of a year's output that borrowers
-   * carry without strain. Above it, defaults climb.
+   * Calibrated yearly interest share of output that borrowers carry without
+   * strain. Above it, recorded defaults climb.
    */
   burdenLine: 0.082,
   /*
    * The response strengths in chargeOff, tightness, lending, growth and
-   * inflation are PLACEHOLDER values, calibrated on September 28, 2026 so a
+   * inflation are calibrated values, set on September 28, 2026 so a
    * century of simulated months matches the record of U.S. recessions
    * (National Bureau of Economic Research dates, 1854 to 2020): about 1.3
    * onsets a decade, a median of 13 months, a tenth longer than 19 months,

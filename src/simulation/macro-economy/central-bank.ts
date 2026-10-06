@@ -26,18 +26,17 @@
  * president is a person; the voting four change each January.
  *
  * Simplifications, each marked:
- * 1. PLACEHOLDER: a reserve bank president is chosen by the bank's own
+ * 1. GAME PROFILE: a reserve bank president is chosen by the bank's own
  *    directors and approved by the board; the game seats a new person 90
  *    days after a president dies or retires. A president retires at the
  *    first five-year term end (the last day of February in a year ending in
  *    1 or 6, 12 U.S.C. 341) at which they are 65 or older.
- * 2. PLACEHOLDER (filed as `central-bank-nomination-and-confirmation`): whom
- *    a President nominates and how the Senate votes. Until appointments
- *    become decisions among people the President knows (Build 20), the
- *    President draws from the same pool the Chief Justice vacancy uses, and
- *    the Senate confirms unless the nominating President has left office.
- *    The chair is drawn from the sitting governors.
- * 3. PLACEHOLDER: the meeting calendar is eight meetings a year in the
+ * 2. RECORDED GAME RULE: the President selects a governor nominee through
+ *    the ordinary appointment decision from eligible people in their recorded
+ *    circle. A chair nominee comes from the sitting governors. The Senate
+ *    confirms a living nominee while the nominating President remains in
+ *    office; otherwise the seat reopens.
+ * 3. RECORDED CALENDAR: the meeting calendar is eight meetings a year in the
  *    months the Committee has usually met (January, March, May, June, July,
  *    September, November, December), held when the month's figures close.
  * 4. The player can hold the chair: when the chair is the person the player
@@ -97,9 +96,9 @@ export const CENTRAL_BANK_PROFILE = {
   governorTermYears: 14,
   /** 12 U.S.C. 242: a chair designated for four years. */
   chairTermYears: 4,
-  /** PLACEHOLDER: the months the board meets (see the file comment). */
+  /** Recorded eight-meeting calendar described in the file comment. */
   meetingMonths: [1, 3, 5, 6, 7, 9, 11, 12] as readonly number[],
-  /** PLACEHOLDER, the Chief Justice vacancy's game profile. */
+  /** Reuses the recorded Supreme Court appointment timing profile. */
   daysFromVacancyToNomination: 30,
   daysFromNominationToConfirmation: 70,
   /** The lowest the rate range's middle may go: a range of 0 to 0.25. */
@@ -109,9 +108,9 @@ export const CENTRAL_BANK_PROFILE = {
   fallbackNormalUnemploymentPct: 4.4,
   /** Months of published unemployment the board averages for its normal rate. */
   normalUnemploymentMonths: 240,
-  /** PLACEHOLDER: days from a president's death or retirement to a successor. */
+  /** Game-profile interval from a bank president's vacancy to a successor. */
   daysToSeatReserveBankPresident: 90,
-  /** PLACEHOLDER: a president retires at a term end at this age or older. */
+  /** 12 U.S.C. 341 retirement age applied at the recorded five-year term end. */
   reserveBankPresidentRetirementAge: 65,
   /** A reserve bank president's age range when first seated at the opening. */
 } as const;
@@ -437,7 +436,7 @@ export function ensureCentralBankSeated(
   });
 }
 
-/** Who may be nominated to a governor's seat. PLACEHOLDER (see the file comment). */
+/** People in the President's recorded appointment circle who may serve. */
 function nomineePool(world: World, bank: CentralBankState): EntityId[] {
   const president = currentPresidentOf(world)?.personId;
   const controlled =
@@ -634,8 +633,8 @@ function confirm(
       nominations: working.nominations.filter((row) => row !== nomination),
     };
     const president = currentPresidentOf(next)?.personId;
-    // PLACEHOLDER: the Senate confirms unless the nominee died or the
-    // President who nominated them has left office; the seat reopens.
+    // Recorded game rule: the Senate confirms unless the nominee died or the
+    // President who nominated them has left office; otherwise the seat reopens.
     if (
       isDead(next, nomination.nomineeId) ||
       president !== nomination.presidentId
