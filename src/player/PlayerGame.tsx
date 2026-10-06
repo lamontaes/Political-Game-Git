@@ -2879,7 +2879,7 @@ function PlayingScreen({
                 data-testid="observing-label"
               >
                 <strong>Observing</strong>
-                <span>Nobody is being played. You can look, not act.</span>
+                <span>You can look, not act.</span>
                 <ObserverClock
                   runner={observerRunner}
                   onOpenInspector={(pausedWorld) => {
