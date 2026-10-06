@@ -1,9 +1,13 @@
+import { readFileSync } from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import type { BackdropSurface } from "../presentation/backdrop-surfaces";
 import type { EntityId } from "../simulation";
 import { BackdropSurfaceFaces } from "./BackdropSurfaceLayer";
-import billSurfaceCss from "./BackdropSurfaceLayer.css?raw";
+const billSurfaceCss = readFileSync(
+  "src/player/BackdropSurfaceLayer.css",
+  "utf8",
+);
 
 const officeBillSurface: BackdropSurface = {
   slot: {
