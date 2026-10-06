@@ -5,14 +5,27 @@ import {
   readOrEstimateFinalEnactedLawTerm,
 } from "./final-law-term-query";
 import type { EntityId, IsoDate, World } from "../types";
+import type { LawTermScope } from "../law-consequence-types";
 import type { LawInForce } from "./law-in-force";
 import * as lawReader from "./law-in-force";
 import { afterEach, vi } from "vitest";
 import { stateJurisdictionForKey } from "../life-places";
 
+const { startingLawTermsMock } = vi.hoisted(() => ({
+  startingLawTermsMock: vi.fn(),
+}));
+
+vi.mock("./law-in-force", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./law-in-force")>();
+  return { ...actual, startingLawTerms: startingLawTermsMock };
+});
+
 const CLEAN_STANDARD =
   "us-policy-positions:environment-energy.clean-electricity-standard";
 const TERM_DATE = "2026-10-05" as IsoDate;
+const CLEAN_SCOPE = {
+  kind: "statewide",
+} as const satisfies LawTermScope;
 const SOURCE_TERM_STATES = [
   ["AZ", 0.15],
   ["CO", 0.3],
@@ -93,7 +106,7 @@ function lawTermWorld(target: string): {
   vi.spyOn(lawReader, "lawInForce").mockImplementation(
     (_world, jurisdictionId) => laws.get(jurisdictionId) ?? null,
   );
-  vi.spyOn(lawReader, "startingLawTerms").mockImplementation((law) => {
+  startingLawTermsMock.mockImplementation((law: LawInForce) => {
     const state = /^starting-law:US-([A-Z]{2}):/.exec(law.measureId)?.[1];
     const source = SOURCE_TERM_STATES.find(([key]) => key === state);
     return source
@@ -114,7 +127,11 @@ function lawTermWorld(target: string): {
   };
 }
 
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  vi.restoreAllMocks();
+  startingLawTermsMock.mockReset();
+  startingLawTermsMock.mockImplementation(() => []);
+});
 
 describe("adopted term history boundary", () => {
   it("retains the earlier provision before replacement and excludes later dates", () => {
@@ -183,6 +200,14 @@ describe("adopted term history boundary", () => {
 describe("source-first modeled starting-law amount adapter", () => {
   it("returns an exact source term unchanged before consulting peers", () => {
     const { world, targetJurisdictionId } = lawTermWorld("AZ");
+    startingLawTermsMock.mockReturnValue([
+      {
+        questionKey: CLEAN_STANDARD,
+        key: "target",
+        value: 0.15,
+        unit: "ratio",
+      },
+    ]);
     const result = readOrEstimateFinalEnactedLawTerm(world, startingLaw("AZ"), {
       questionKey: CLEAN_STANDARD,
       termKey: "target",
@@ -200,14 +225,88 @@ describe("source-first modeled starting-law amount adapter", () => {
     });
   });
 
-  it("models a missing statewide scalar from current comparable source laws", () => {
+  it("returns a source term's declared scope without rewriting it", () => {
+    const { world } = lawTermWorld("AZ");
+    startingLawTermsMock.mockReturnValue([
+      {
+        questionKey: CLEAN_STANDARD,
+        key: "target",
+        value: 0.15,
+        unit: "ratio",
+        scope: CLEAN_SCOPE,
+      },
+    ]);
+    const result = readOrEstimateFinalEnactedLawTerm(world, startingLaw("AZ"), {
+      questionKey: CLEAN_STANDARD,
+      termKey: "target",
+      unit: "ratio",
+      jurisdictionId: stateJurisdictionForKey("US-AZ")!.id,
+      onDate: TERM_DATE,
+      scope: CLEAN_SCOPE,
+    });
+    expect(result).toMatchObject({
+      kind: "source",
+      term: { value: 0.15, unit: "ratio", scope: CLEAN_SCOPE },
+    });
+  });
+
+  it("does not use legacy unscoped amounts as modeled donors", () => {
     const { world, targetLaw, targetJurisdictionId } = lawTermWorld("CA");
+    startingLawTermsMock.mockImplementation((law: LawInForce) => {
+      const state = /^starting-law:US-([A-Z]{2}):/.exec(law.measureId)?.[1];
+      const source = SOURCE_TERM_STATES.find(([key]) => key === state);
+      return source
+        ? [
+            {
+              questionKey: CLEAN_STANDARD,
+              key: "target",
+              value: source[1],
+              unit: "ratio",
+            },
+          ]
+        : [];
+    });
     const input = {
       questionKey: CLEAN_STANDARD,
       termKey: "target",
       unit: "ratio" as const,
       jurisdictionId: targetJurisdictionId,
       onDate: TERM_DATE,
+      scope: CLEAN_SCOPE,
+    };
+    expect(
+      readOrEstimateFinalEnactedLawTerm(world, targetLaw, input),
+    ).toMatchObject({
+      kind: "unsupported",
+      reason:
+        "No same-level, same-form state law has a sourced numeric term in this scope and unit.",
+    });
+  });
+
+  it("models only from source terms carrying the exact declared scope", () => {
+    const { world, targetLaw, targetJurisdictionId } = lawTermWorld("CA");
+    startingLawTermsMock.mockImplementation((law: LawInForce) => {
+      const state = /^starting-law:US-([A-Z]{2}):/.exec(law.measureId)?.[1];
+      const source = SOURCE_TERM_STATES.find(([key]) => key === state);
+      return source
+        ? [
+            {
+              questionKey: CLEAN_STANDARD,
+              key: "target",
+              value: source[1],
+              unit: "ratio",
+              scope: CLEAN_SCOPE,
+            },
+          ]
+        : [];
+    });
+    const input = {
+      questionKey: CLEAN_STANDARD,
+      termKey: "target",
+      unit: "ratio" as const,
+      jurisdictionId: targetJurisdictionId,
+      onDate: TERM_DATE,
+      scope: CLEAN_SCOPE,
     };
     const first = readOrEstimateFinalEnactedLawTerm(world, targetLaw, input);
     const repeated = readOrEstimateFinalEnactedLawTerm(world, targetLaw, input);
@@ -218,7 +317,7 @@ describe("source-first modeled starting-law amount adapter", () => {
         targetJurisdictionId,
         questionKey: CLEAN_STANDARD,
         termKey: "target",
-        scope: "statewide",
+        scope: CLEAN_SCOPE,
         lawLevel: "state-statute",
       },
     });
@@ -231,6 +330,9 @@ describe("source-first modeled starting-law amount adapter", () => {
       ),
     );
     expect(first.evidence.donorSourceRecordIds.length).toBeGreaterThan(0);
+    expect(first.evidence.donors.map((row) => row.scope)).toEqual(
+      Array.from({ length: first.evidence.donors.length }, () => CLEAN_SCOPE),
+    );
     expect(first.estimate.spread).toBeGreaterThan(0);
     expect(SOURCE_TERM_STATES.some(([, value]) => value === first.value)).toBe(
       true,
