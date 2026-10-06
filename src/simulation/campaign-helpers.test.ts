@@ -136,6 +136,17 @@ describe("campaign helpers", () => {
     expect(campaignHelperCandidates(knownWorld, filed.campaignId)).toEqual(
       expect.arrayContaining([{ personId, name: expect.any(String) }]),
     );
+    expect(
+      campaignHelperCandidates(knownWorld, filed.campaignId).some(
+        (candidate) => candidate.personId === filed.candidatePersonId,
+      ),
+    ).toBe(false);
+    expect(() =>
+      askToHelp(knownWorld, {
+        campaignId: filed.campaignId,
+        personId: filed.candidatePersonId,
+      }),
+    ).toThrow("A candidate cannot be recruited as their own helper.");
     const input = { campaignId: filed.campaignId, personId };
     const first = askToHelp(knownWorld, input);
     const replay = askToHelp(knownWorld, input);

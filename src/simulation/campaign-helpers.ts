@@ -34,6 +34,7 @@ export interface AskToHelpResult {
   readonly world: World;
   readonly campaignId: EntityId;
   readonly personId: EntityId;
+  readonly outcome: "help" | "decline" | "defer";
   readonly accepted: boolean;
   readonly reasonBeliefId: EntityId | null;
   readonly reasons: readonly string[];
@@ -52,6 +53,9 @@ export function askToHelp(
   if (!inputWorld.people[input.personId]) {
     throw new Error(`Campaign helper is missing: ${input.personId}`);
   }
+  if (input.personId === campaign.candidatePersonId) {
+    throw new Error("A candidate cannot be recruited as their own helper.");
+  }
   if (
     !peopleKnownTo(inputWorld, campaign.candidatePersonId).includes(
       input.personId,
@@ -62,14 +66,26 @@ export function askToHelp(
   if (campaignHasHelper(inputWorld, campaign.id, input.personId)) {
     throw new Error("This person already helps the campaign.");
   }
-  const stableKey = `${campaign.stableKey}:ask-help:${input.personId}`;
+  const requestKey = `${campaign.stableKey}:ask-help:${input.personId}`;
+  const priorAttempts = inputWorld.history.events.filter((event) =>
+    event.stableKey.startsWith(`${requestKey}:attempt:`),
+  );
   if (
-    inputWorld.history.events.some(
-      (event) => event.stableKey === `${stableKey}:event`,
+    priorAttempts.some(
+      (event) =>
+        event.tags.includes("campaign:accepted") ||
+        event.tags.includes("campaign:declined"),
     )
   ) {
     throw new Error("This person has already answered the campaign's request.");
   }
+  const latestDeferral = [...priorAttempts]
+    .reverse()
+    .find((event) => event.tags.includes("campaign:deferred"));
+  if (latestDeferral?.occurredAt === inputWorld.currentDate) {
+    throw new Error("This person needs time before being asked again.");
+  }
+  const stableKey = `${requestKey}:attempt:${priorAttempts.length + 1}`;
 
   // Trait facts are lazily established by the canonical PEOPLE writer before
   // they influence a consequential personal choice.
@@ -209,9 +225,16 @@ export function askToHelp(
     ],
     considerations,
   });
-  const accepted = evaluation.selectedOptionKey === "help";
+  const outcome =
+    evaluation.outcomeKind !== "selected" ||
+    evaluation.selectedOptionKey === null
+      ? "defer"
+      : evaluation.selectedOptionKey === "help"
+        ? "help"
+        : "decline";
+  const accepted = outcome === "help";
   const reasons = considerations
-    .filter((row) => row.optionKey === (accepted ? "help" : "decline"))
+    .filter((row) => outcome === "defer" || row.optionKey === outcome)
     .map((row) => row.explanation);
   let next = world;
   if (accepted) {
@@ -244,22 +267,28 @@ export function askToHelp(
         role: accepted ? "agency:campaign-volunteer" : "focus:asked-of",
         detail: accepted
           ? "Agreed to help the campaign."
-          : "Turned down the request.",
+          : outcome === "decline"
+            ? "Turned down the request."
+            : "Needs time to decide about helping.",
       },
     ],
     personFactConstraints: [],
     visibility: "private",
     tags: [
       "campaign:helper-request",
-      accepted ? "campaign:accepted" : "campaign:declined",
+      outcome === "help"
+        ? "campaign:accepted"
+        : outcome === "decline"
+          ? "campaign:declined"
+          : "campaign:deferred",
       ...(view.belief ? [`campaign:reason-belief:${view.belief.id}`] : []),
     ],
-    summary: `${personName(next.people[input.personId]!)} ${accepted ? "agreed to help" : "declined to help"}${reasons[0] ? ` because ${reasons[0].toLowerCase()}` : ""}.`,
+    summary: `${personName(next.people[input.personId]!)} ${outcome === "help" ? "agreed to help" : outcome === "decline" ? "declined to help" : "needs time to decide whether to help"}${reasons[0] ? ` because ${reasons[0].toLowerCase()}` : ""}.`,
     context: {
       location: null,
       socialContext: "A personal campaign request",
       pressure: null,
-      choice: accepted ? "help" : "decline",
+      choice: outcome,
       motivation: reasons[0] ?? null,
       immediateReaction: null,
     },
@@ -282,6 +311,7 @@ export function askToHelp(
     world: next,
     campaignId: campaign.id,
     personId: input.personId,
+    outcome,
     accepted,
     reasonBeliefId: view.belief?.id ?? null,
     reasons,
@@ -408,22 +438,33 @@ export function campaignHasHelper(
   );
 }
 
-/** People the candidate knows who have not already answered a help request. */
+/** People the candidate knows who can still be asked for campaign help. */
 export function campaignHelperCandidates(
   world: World,
   campaignId: EntityId,
 ): readonly { readonly personId: EntityId; readonly name: string }[] {
   const campaign = requireCampaign(world, campaignId);
   return peopleKnownTo(world, campaign.candidatePersonId)
+    .filter((personId) => personId !== campaign.candidatePersonId)
     .filter((personId) => !campaignHasHelper(world, campaignId, personId))
-    .filter(
-      (personId) =>
-        !world.history.events.some(
+    .filter((personId) => {
+      const requestPrefix = `${campaign.stableKey}:ask-help:${personId}:attempt:`;
+      const attempts = world.history.events.filter((event) =>
+        event.stableKey.startsWith(requestPrefix),
+      );
+      if (
+        attempts.some(
           (event) =>
-            event.stableKey ===
-            `${campaign.stableKey}:ask-help:${personId}:event`,
-        ),
-    )
+            event.tags.includes("campaign:accepted") ||
+            event.tags.includes("campaign:declined"),
+        )
+      )
+        return false;
+      const latestDeferral = [...attempts]
+        .reverse()
+        .find((event) => event.tags.includes("campaign:deferred"));
+      return latestDeferral?.occurredAt !== world.currentDate;
+    })
     .flatMap((personId) => {
       const person = world.people[personId];
       return person ? [{ personId, name: personName(person) }] : [];

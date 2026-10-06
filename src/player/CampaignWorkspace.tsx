@@ -768,8 +768,14 @@ export function CampaignWorkspace({
                                 candidate.personId,
                               );
                               onWorldChange(decision.world);
+                              const response =
+                                decision.outcome === "help"
+                                  ? "agreed to help"
+                                  : decision.outcome === "decline"
+                                    ? "declined"
+                                    : "is still deciding";
                               setHelperNotice(
-                                `${candidate.name} ${decision.accepted ? "agreed to help" : "declined"}${decision.reasons[0] ? `: ${decision.reasons.join(" ")}` : "."}`,
+                                `${candidate.name} ${response}${decision.reasons[0] ? `: ${decision.reasons.join(" ")}` : "."}`,
                               );
                               setProblem(null);
                             } catch (error) {
