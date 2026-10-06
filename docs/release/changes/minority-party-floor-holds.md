@@ -1,7 +1,7 @@
 ---
 id: minority-party-floor-holds
 impact: minor
-section: Legislation
+section: Added
 title: Senators decide cloture from their own reasons
 ---
 
