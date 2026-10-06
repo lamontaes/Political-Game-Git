@@ -46,6 +46,18 @@ describe("full birthday with a derived starting age", () => {
     }
   });
 
+  it("starts at agency age five and excludes a birthday still aged four", () => {
+    expect(MINIMUM_START_AGE).toBe(5);
+    expect(birthYearChoices(1, 5, START)[0]).toBe(2021);
+    expect(birthYearChoices(1, 6, START)[0]).toBe(2020);
+    expect(
+      applyFullBirthday(SETUP, { year: 2021, month: 1, day: 6 }),
+    ).toBeNull();
+    expect(
+      applyFullBirthday(SETUP, { year: 2021, month: 1, day: 5 })!.startAge,
+    ).toBe(5);
+  });
+
   it("writes the derived age and round-trips the birth year", () => {
     const next = applyFullBirthday(SETUP, {
       year: 1991,
