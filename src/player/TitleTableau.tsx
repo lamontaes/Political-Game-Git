@@ -15,6 +15,7 @@ import {
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
 import { useRasterTier } from "./useRasterTier";
 import { useSceneCoverTransform } from "./useSceneTransform";
+import { OvalOfficeDeskDetail } from "./OvalOfficeDeskDetail";
 
 /**
  * The title screen's backdrop.
@@ -322,6 +323,7 @@ function PictureStage({
               objectFit: "cover",
             }}
           />
+          {picture.place === "oval-office" ? <OvalOfficeDeskDetail /> : null}
           {hero ? (
             <div
               data-testid="title-hero"
