@@ -544,7 +544,7 @@ export function prepareCongressCandidateSlates(
           ? [`primary-date:${nomination.primaryDate}`]
           : ["nomination:not-held"]),
       ],
-      summary: `${candidates.length} people entered the race for ${congressSeatTitle(seat)}.`,
+      summary: `${candidates.length} ${candidates.length === 1 ? "person" : "people"} entered the race for ${congressSeatTitle(seat)}.`,
       context: {
         location: null,
         socialContext: null,
