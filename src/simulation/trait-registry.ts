@@ -8,6 +8,7 @@ import { installedTraitPacks } from "./installed-trait-packs";
 import { CLEMENCY_PETITION_DECISION } from "./justice/clemency-decisions";
 import { ANOTHER_TERM_DECISION } from "./careers/another-term-decision";
 import { JURY_VOTE_DECISION, PLEA_DECISION } from "./justice/court-decisions";
+import { JOB_TRAIT_DECISION_DECLARATIONS } from "./traits/jobs-decisions";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
@@ -31,6 +32,7 @@ const DECISIONS = [
   PLEA_DECISION,
   JURY_VOTE_DECISION,
   ANOTHER_TERM_DECISION,
+  ...JOB_TRAIT_DECISION_DECLARATIONS,
 ];
 
 let cached: TraitRegistry | null = null;
