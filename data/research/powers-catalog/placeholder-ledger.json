@@ -480,15 +480,6 @@
       "researchQuestionFiled": false
     },
     {
-      "file": "src/presentation/day-rhythm.ts",
-      "line": 58,
-      "text": "// PLACEHOLDER(wave2): local noon bounds the optional morning thought until",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
       "file": "src/presentation/dress-code.ts",
       "line": 75,
       "text": "* November through March. PLACEHOLDER(wave2): one season for every state; a",

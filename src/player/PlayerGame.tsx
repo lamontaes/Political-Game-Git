@@ -1,3 +1,4 @@
+import { observerInspectorCheckpoint } from "./observer-inspector-entry";
 import {
   NATIVE_SAVE_EVENT,
   NATIVE_SESSION_QUERY_EVENT,
@@ -177,7 +178,6 @@ import {
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
-import { projectDayRhythm } from "../presentation/day-rhythm";
 import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import {
@@ -203,7 +203,6 @@ import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
-import { ordinaryMeetingEntry } from "../simulation/ordinary-meeting-presence";
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
 import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
@@ -270,7 +269,6 @@ import {
 import {
   activeView,
   canGoBack,
-  EMPTY_JOURNAL,
   conversationSuspended,
   isPinned,
   type ShellAction,
@@ -283,7 +281,6 @@ import { useShell } from "./useShell";
 
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
-import { MorningThoughtPanel } from "./MorningThoughtPanel";
 import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
@@ -325,7 +322,11 @@ import {
 } from "./return-to-title-bridge";
 import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
-import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
+import {
+  ObserverClock,
+  ObserverRecordWorkspace,
+  ObserverInspectorWorkspace,
+} from "./ObserverWorkspace";
 import { ObserverRunController } from "./observer-run-controller";
 import {
   observerSetup,
@@ -1251,6 +1252,15 @@ function PlayingScreen({
    * through the last life played; that lens is never committed or saved.
    */
   const observing = isObserving(storedSession.world);
+  const latestInspectorWorld = useRef(storedSession.world);
+  latestInspectorWorld.current = storedSession.world;
+  const [inspectorWorld, setInspectorWorld] = useState<World | null>(null);
+  const admittedInspector = inspectorWorld
+    ? observerInspectorCheckpoint(storedSession.world, inspectorWorld)
+    : null;
+  useEffect(() => {
+    if (!admittedInspector) setInspectorWorld(null);
+  }, [admittedInspector]);
   const observerRunner = useMemo(
     () => new ObserverRunController(storedSession.world),
     [storedSession.world.id],
@@ -1321,30 +1331,7 @@ function PlayingScreen({
    * which references they have kept. It owns navigation and nothing else — the
    * gameplay writers below are still the only things that change the world.
    */
-  const [shell, dispatch, shellRecordReady] = useShell(
-    session.world,
-    session.saveId,
-    shellStore,
-  );
-  /* Saved interface progress frames the existing Today and recap readers. */
-  const dayRhythm = useMemo(
-    () =>
-      shellRecordReady
-        ? projectDayRhythm(
-            session.world,
-            session.personId,
-            shell.progress,
-            shell.preferences,
-          )
-        : { summary: null, morningThought: null },
-    [
-      session.world,
-      session.personId,
-      shell.progress,
-      shell.preferences,
-      shellRecordReady,
-    ],
-  );
+  const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
   /*
    * The world introduction follows a new, not-yet-saved life until it is
    * finished or skipped. Loaded lives never see it pushed at them; it stays
@@ -2207,32 +2194,6 @@ function PlayingScreen({
    * Asked once, and kept: the same answer drives the Talk control AND the
    * sentence beside it, so the two cannot disagree.
    */
-  const talkingInTheRoom = conversation !== null && view.surface === "scene";
-  const meeting = useMemo(
-    () =>
-      view.surface === "scene" &&
-      !readOnly &&
-      !showOrientation &&
-      !conversation &&
-      (projectOrdinaryMeetingScene(session.world, session.personId) !== null ||
-        session.world.history.scheduledActivities.some(
-          (activity) =>
-            activity.location.locationKey === "ordinary-life:meeting-room" &&
-            ordinaryMeetingEntry(
-              session.world,
-              session.personId,
-              activity.id,
-            ) !== null,
-        )),
-    [
-      view.surface,
-      readOnly,
-      showOrientation,
-      conversation,
-      session.world,
-      session.personId,
-    ],
-  );
   const inspectTalkEntry = selectedDossier
     ? openConversationWith(
         session.world,
@@ -2320,8 +2281,6 @@ function PlayingScreen({
     pauseAndKeep({
       pins: shell.pins,
       preferences: shell.preferences,
-      journal: shell.legacyJournal,
-      journals: shell.journals,
       personWardrobes: shell.personWardrobes,
       progress: shell.progress,
     });
@@ -2375,8 +2334,6 @@ function PlayingScreen({
         {
           pins: shell.pins,
           preferences: shell.preferences,
-          journal: shell.legacyJournal,
-          journals: shell.journals,
           personWardrobes: shell.personWardrobes,
           progress: shell.progress,
         },
@@ -2810,6 +2767,14 @@ function PlayingScreen({
                 <span>Nobody is being played. You can look, not act.</span>
                 <ObserverClock
                   runner={observerRunner}
+                  onOpenInspector={(pausedWorld) => {
+                    setInspectorWorld(
+                      observerInspectorCheckpoint(
+                        latestInspectorWorld.current,
+                        pausedWorld,
+                      ),
+                    );
+                  }}
                   onOpenRecord={() =>
                     dispatch({
                       type: "go-to-surface",
@@ -2863,7 +2828,18 @@ function PlayingScreen({
               </button>
             ) : null}
 
-            {workspace}
+            {admittedInspector ? (
+              <WorkspaceFrame
+                title="Developer inspector"
+                testid="observer-inspector-workspace"
+                canGoBack
+                onBack={() => setInspectorWorld(null)}
+                onClose={() => setInspectorWorld(null)}
+              >
+                <ObserverInspectorWorkspace world={admittedInspector} />
+              </WorkspaceFrame>
+            ) : null}
+            <div hidden={admittedInspector !== null}>{workspace}</div>
 
             <div className="life-hud" data-testid="life-hud">
               {notice ? (
@@ -2940,25 +2916,6 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
-              {/*
-                The optional morning note waits until the first orientation
-                tour, conversations, meetings and selected dossiers close.
-              */}
-              {!showOrientation &&
-              !talkingInTheRoom &&
-              !meeting &&
-              !selectedDossier &&
-              dayRhythm.morningThought ? (
-                <MorningThoughtPanel
-                  thought={dayRhythm.morningThought}
-                  onDismiss={(date) =>
-                    dispatch({ type: "acknowledge-morning-thought", date })
-                  }
-                  onOpenToday={() =>
-                    dispatch({ type: "go-to-surface", surface: "calendar" })
-                  }
-                />
-              ) : null}
               {session.unsavedSeed !== null ? (
                 <p className="sr-only" data-testid="unsaved-note">
                   This life has not been saved yet.
@@ -3006,8 +2963,6 @@ function PlayingScreen({
                   const shellState = {
                     pins: shell.pins,
                     preferences: shell.preferences,
-                    journal: shell.legacyJournal,
-                    journals: shell.journals,
                     personWardrobes: shell.personWardrobes,
                     progress: shell.progress,
                   };
@@ -4165,17 +4120,8 @@ function renderWorkspace({
           onYearChange={(journalYear) =>
             dispatch({ type: "set-reader-preferences", patch: { journalYear } })
           }
-          journal={shell.journals[session.personId] ?? EMPTY_JOURNAL}
-          onJournalChange={(journal) =>
-            dispatch({
-              type: "set-journal",
-              personId: session.personId,
-              journal,
-            })
-          }
           world={session.world}
           personId={session.personId}
-          onOpenPerson={openPerson}
         />,
       );
 

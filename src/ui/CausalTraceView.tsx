@@ -6,6 +6,7 @@ import {
   buildTraceIndex,
   createCausalTraceFixture,
   projectConversationObserverTrace,
+  projectDecisionTraceDetails,
   traceExportJson,
   traceExportMarkdown,
   TRACE_RECORD_CLASSES,
@@ -14,7 +15,7 @@ import {
   type TraceNode,
   type TraceRecordClass,
 } from "../devtools";
-import type { EntityId } from "../simulation";
+import type { EntityId, DecisionTraceRecord } from "../simulation";
 import type { ConversationAudibility } from "../presentation/run-b-conversation";
 import "./causal-trace.css";
 
@@ -145,6 +146,12 @@ export function CausalTraceView({
         It is not part of the game.
       </p>
       <h1>Causal trace inspector</h1>
+      {world.history.decisionTraces.length === 0 ? (
+        <p data-testid="decision-traces-empty">
+          No saved decision traces in this snapshot. Inspection does not
+          evaluate or reconstruct missing decisions.
+        </p>
+      ) : null}
       <p>
         Every link shown here is a field the record itself carries. Where the
         repository recorded no parent, this page says UNKNOWN rather than
@@ -361,6 +368,21 @@ export function CausalTraceView({
                 </tbody>
               </table>
 
+              {selected.recordClass === "decision-trace"
+                ? (() => {
+                    const record = world.history.decisionTraces.find(
+                      (row) => row.id === selected.id,
+                    );
+                    return record ? (
+                      <DecisionDetails record={record} />
+                    ) : (
+                      <p>
+                        The selected decision record is missing from this
+                        snapshot.
+                      </p>
+                    );
+                  })()
+                : null}
               <h3>Recorded links ({selected.links.length})</h3>
               {selected.links.length === 0 ? (
                 <p className="causal-trace__unknown">
@@ -582,5 +604,163 @@ export function CausalTraceView({
         value={exportText}
       />
     </main>
+  );
+}
+
+/** The inspector never evaluates or applies a decision. */
+export function DecisionDetails({
+  record,
+}: {
+  readonly record: DecisionTraceRecord;
+}) {
+  const detail = projectDecisionTraceDetails(record);
+  const context = record.context;
+  return (
+    <section aria-label="Decision details" data-testid="decision-details">
+      <h3>Saved decision</h3>
+      <p>
+        Outcome: {record.outcomeKind}. Selected option:{" "}
+        {record.selectedOptionKey ?? "none"}.
+      </p>
+      <p>
+        Actor: {context.actorPersonId}. Type: {context.decisionType}. Cutoff:{" "}
+        {context.cutoff.asOfDate}, history sequence exclusive{" "}
+        {context.cutoff.historySequenceExclusive}.
+      </p>
+      <h4>Saved options and ranks</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Description</th>
+            <th>Saved availability</th>
+            <th>Saved rank</th>
+            <th>Saved preference</th>
+            <th>Saved blockers</th>
+          </tr>
+        </thead>
+        <tbody>
+          {context.options.map((option) => {
+            const result = record.optionEvaluations.find(
+              (row) => row.optionKey === option.key,
+            );
+            return (
+              <tr key={option.key}>
+                <th scope="row">
+                  {option.label} ({option.key})
+                </th>
+                <td>{option.description}</td>
+                <td>
+                  {result
+                    ? result.available
+                      ? "available"
+                      : "blocked"
+                    : "not recorded"}
+                </td>
+                <td>{result?.finalRank ?? "unranked"}</td>
+                <td>{result?.preference ?? "not recorded"}</td>
+                <td>
+                  {result
+                    ? result.blockedByConstraintKeys.join(", ") ||
+                      "none recorded"
+                    : "not recorded"}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <details>
+        <summary>Complete saved context and option evaluations</summary>
+        <pre>
+          {JSON.stringify(
+            { context, optionEvaluations: record.optionEvaluations },
+            null,
+            2,
+          )}
+        </pre>
+      </details>
+      <h4>Saved constraints</h4>
+      {context.constraints.length ? (
+        <ul>
+          {context.constraints.map((row) => (
+            <li key={row.stableKey}>
+              {row.optionKey}: {row.kind} — {row.explanation}
+              <pre>{JSON.stringify(row.sourceRefs, null, 2)}</pre>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No constraints recorded.</p>
+      )}
+      <h4>{detail.currentCodeCalculation.label}</h4>
+      <p>{detail.currentCodeCalculation.note}</p>
+      {detail.currentCodeCalculation.options.map((option) => (
+        <div key={option.optionKey}>
+          <h5>
+            {option.optionKey}: current-code sum {option.sum}
+          </h5>
+          <p>
+            Current-code ties among saved available options:{" "}
+            {option.tiedWith.join(", ") || "none"}.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Saved consideration</th>
+                <th>Direction</th>
+                <th>Importance / current weight</th>
+                <th>Confidence / current weight</th>
+                <th>Current contribution</th>
+              </tr>
+            </thead>
+            <tbody>
+              {option.components.map((row) => (
+                <tr key={row.consideration.stableKey}>
+                  <th scope="row">
+                    {row.consideration.explanation} (
+                    {row.consideration.sourceType})
+                    <pre>
+                      {JSON.stringify(row.consideration.sourceRefs, null, 2)}
+                    </pre>
+                  </th>
+                  <td>{row.consideration.direction}</td>
+                  <td>
+                    {row.consideration.importance} / {row.importanceWeight}
+                  </td>
+                  <td>
+                    {row.consideration.confidence} / {row.confidenceWeight}
+                  </td>
+                  <td>{row.contribution}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
+      <h4>Saved peer estimates</h4>
+      {context.peerEstimates?.length ? (
+        <pre>{JSON.stringify(context.peerEstimates, null, 2)}</pre>
+      ) : (
+        <p>No peer estimates recorded.</p>
+      )}
+      <h4>Saved source snapshots</h4>
+      {record.sourceSnapshots.length ? (
+        <ul>
+          {record.sourceSnapshots.map((row, index) => (
+            <li key={index}>
+              {row.label}
+              <pre>{JSON.stringify(row.reference, null, 2)}</pre>
+              <pre>{row.content}</pre>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>
+          No source snapshots recorded. No missing source or causal edge has
+          been reconstructed.
+        </p>
+      )}
+    </section>
   );
 }

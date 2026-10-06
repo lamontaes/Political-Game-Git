@@ -128,9 +128,9 @@ export function WorldOrientationPanel({
     readonly family?: readonly OpeningFamilyMember[];
   })[] = useMemo(() => {
     const order = ["executive", "state", "congress", "locality"];
-    const ordered = [...view.steps].sort(
-      (a, b) => order.indexOf(a.key) - order.indexOf(b.key),
-    );
+    const ordered = view.steps
+      .filter((step) => step.key !== "locality")
+      .sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
     if (!snapshot) return ordered;
     const officials = [snapshot.president, snapshot.vicePresident].flatMap(
       (holder) => {
@@ -285,8 +285,8 @@ export function WorldOrientationPanel({
     closed.current = true;
     onClose();
   };
-  const step = steps[Math.min(index, steps.length - 1)]!;
-  const chapter = living?.chapters.find((entry) => entry.key === step.key);
+  const step = steps[Math.min(index, steps.length - 1)];
+  const chapter = living?.chapters.find((entry) => entry.key === step?.key);
   const last = index >= steps.length - 1;
   const regionalContext =
     snapshot?.beats.find(
@@ -322,20 +322,20 @@ export function WorldOrientationPanel({
       regionScene,
       homeStateUsps,
     });
-  const backdrop = backdropFor(step.key);
+  const backdrop = backdropFor(step?.key ?? "");
   const nextStep = steps[index + 1];
   const nextPlateUrl = nextStep ? backdropUrl(backdropFor(nextStep.key)) : null;
   const chapterCast =
-    step.key === "parents" && world
+    step?.key === "parents" && world
       ? step.people.map((person) => ({
           slotKey: `parent:${person.personId}`,
           person,
         }))
-      : step.key !== "executive" && step.key !== "your-life" && world
+      : step?.key !== "executive" && step?.key !== "your-life" && world
         ? (chapter?.actors ?? [])
         : [];
   const cast =
-    step.key === "state" && world
+    step?.key === "state" && world
       ? [
           ...chapterCast,
           ...step.people
@@ -351,7 +351,7 @@ export function WorldOrientationPanel({
             })),
         ]
       : chapterCast;
-  const executiveWithoutPlate = step.key === "executive" && !plate;
+  const executiveWithoutPlate = step?.key === "executive" && !plate;
   // In the painted Oval Office the President and Vice President stand in
   // front of the desk on the room's measured spots, facing each other, at
   // the room's own scale and in a natural stance, like people in any other
@@ -373,28 +373,30 @@ export function WorldOrientationPanel({
             personId,
             officePlace,
             world.currentMoment,
-            step.people,
+            step?.people ?? [],
             { standing: true },
           )
         : [],
-    [officePlace, world, personId, step.people],
+    [officePlace, world, personId, step?.people],
   );
   const officeStaged = officePlace !== null && officePeople.length > 0;
   const legislatureStage = useRef<HTMLDivElement>(null);
   const legislaturePeople = useMemo(
     () =>
-      step.key === "legislature" &&
+      step?.key === "legislature" &&
       backdrop.kind === "place" &&
       world &&
       personId
         ? openingTourStagedPeople(world, personId, backdrop.place, step.people)
         : [],
-    [step.key, backdrop, world, personId, step.people],
+    [step?.key, backdrop, world, personId, step?.people],
   );
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
       ? "centered"
       : "scene";
+
+  if (!step) return null;
 
   return (
     <section
