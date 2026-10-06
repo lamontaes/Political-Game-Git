@@ -394,13 +394,9 @@ export function WorldOrientationPanel({
   const executiveScenePeople = useMemo(
     () =>
       step?.key === "executive" && world && personId
-        ? openingTourStagedPeople(
-            world,
-            personId,
-            "oval-office",
-            step.people,
-            { furniture: true },
-          )
+        ? openingTourStagedPeople(world, personId, "oval-office", step.people, {
+            furniture: true,
+          })
         : [],
     [step, world, personId],
   );
@@ -520,8 +516,7 @@ export function WorldOrientationPanel({
                       {renderFigure?.(person.personId) ??
                         (() => {
                           const actor = executiveScenePeople.find(
-                            (placed) =>
-                              placed.personId === person.personId,
+                            (placed) => placed.personId === person.personId,
                           );
                           if (!actor) {
                             // Turned officeholder art is still incomplete in
@@ -540,9 +535,7 @@ export function WorldOrientationPanel({
                             <figure
                               className="pg-opening-figure"
                               data-person-id={person.personId}
-                              data-engine-recipe={engineRecipeKey(
-                                actor.engine,
-                              )}
+                              data-engine-recipe={engineRecipeKey(actor.engine)}
                               aria-label={`${person.name} — saved appearance`}
                               style={{
                                 position: "relative",
