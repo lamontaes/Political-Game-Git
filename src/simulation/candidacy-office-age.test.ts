@@ -1,4 +1,3 @@
-import { randomInt } from "node:crypto";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
@@ -15,10 +14,11 @@ import { projectCampaignGuidance } from "./campaign-life-activities";
 import { addDays, isoDateFromParts, makeIsoDate, yearOf } from "./dates";
 import { officeFamilyForChamberKey } from "./office-qualification-rules";
 import { settledQualification } from "./settled-qualifications";
-import { lifePlaces, lifePlaceStateIdentities } from "./life-places";
+import { lifePlaceStateIdentities } from "./life-places";
 import { unknownRule, notApplicableRule } from "./legislature-rules";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
 import type { EntityId, World } from "./types";
+import { drawRandomPlace } from "../../tests/support/random-place";
 
 const identities = lifePlaceStateIdentities();
 const seed = "a116-recorded-office-age";
@@ -118,20 +118,25 @@ describe("one recorded office-age route across all places", () => {
   });
 
   it("opens a new game in a randomly selected accepted place", () => {
-    const places = lifePlaces().filter(
-      (place) =>
-        place.scope === "state" &&
-        packs.stateCandidacyPack(place.stateJurisdictionKey)?.offices.length,
+    const placeDrawSeed = "b01-part1-new-random-place-proof";
+    const place = drawRandomPlace(
+      placeDrawSeed,
+      (candidate) =>
+        candidate.scope === "locality" &&
+        Boolean(
+          candidate.stateJurisdictionKey &&
+          packs.stateCandidacyPack(candidate.stateJurisdictionKey)?.offices
+            .length,
+        ),
     );
-    const place = places[randomInt(places.length)]!;
+    const gameSeed = `${placeDrawSeed}:${place.key}`;
     const built = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       placeKey: place.key,
-      seed,
+      seed: gameSeed,
     });
-    const office = candidacyPackForJurisdiction(
-      built.world.people[built.playerPersonId]!.homeJurisdictionId,
-    )!.offices[0]!;
+    const office = packs.stateCandidacyPack(place.stateJurisdictionKey!)!
+      .offices[0]!;
     const filing = candidacyEligibility(built.world, {
       personId: built.playerPersonId,
       jurisdictionId:
@@ -145,6 +150,8 @@ describe("one recorded office-age route across all places", () => {
       `${JSON.stringify({
         receipt: "B01 Part 1 random-place new-game filing terms",
         placeKey: place.key,
+        placeDrawSeed,
+        gameSeed,
         worldId: built.world.id,
         currentDate: built.world.currentDate,
         officeKey: office.officeKey,
