@@ -2091,6 +2091,7 @@ function validateHistoryIntegrity(
         ...(history.officeVoteInstructions ?? []),
         ...(history.officeBriefingInspections ?? []),
         ...(history.chamberRuleChanges ?? []),
+        ...(history.legislativeProposals ?? []),
         ...(history.sessionAdjournments ?? []),
         ...(history.itemVetoes ?? []),
         ...(history.favors ?? []),
@@ -2169,6 +2170,10 @@ function validateHistoryIntegrity(
   assertSequenceOrdered(
     history.legislativeMeasures ?? [],
     "legislative measure",
+  );
+  assertSequenceOrdered(
+    history.legislativeProposals ?? [],
+    "legislative proposal",
   );
   assertSequenceOrdered(history.legislativeActions ?? [], "legislative action");
   assertSequenceOrdered(history.committeeReferrals ?? [], "committee referral");
@@ -2284,6 +2289,37 @@ function validateHistoryIntegrity(
   for (const entry of childhoodRecordEntries(world))
     assertUniqueId(ids, entry.id);
   assertChildhoodRecordIntegrity(world);
+  for (const proposal of history.legislativeProposals ?? []) {
+    assertUniqueId(ids, proposal.id);
+    if (!world.people[proposal.sponsorPersonId]) {
+      throw new Error(
+        `Legislative proposal names a missing sponsor: ${proposal.id}`,
+      );
+    }
+    if (!world.jurisdictions[proposal.jurisdictionId]) {
+      throw new Error(
+        `Legislative proposal names a missing jurisdiction: ${proposal.id}`,
+      );
+    }
+    if (
+      proposal.id !==
+      createStableId(
+        "legislative-proposal",
+        `${world.id}:${proposal.stableKey}`,
+      )
+    ) {
+      throw new Error(
+        `Legislative proposal ID does not match its stable key: ${proposal.id}`,
+      );
+    }
+    if (
+      !proposal.title.trim() ||
+      !proposal.operativeText.trim() ||
+      proposal.proposedAt > world.currentDate
+    ) {
+      throw new Error(`Legislative proposal is incomplete: ${proposal.id}`);
+    }
+  }
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
@@ -2416,6 +2452,10 @@ function validateHistoryIntegrity(
   assertUniqueStableKeys(
     history.legislativeMeasures ?? [],
     "legislative measure",
+  );
+  assertUniqueStableKeys(
+    history.legislativeProposals ?? [],
+    "legislative proposal",
   );
   assertUniqueStableKeys(
     history.legislativeActions ?? [],
