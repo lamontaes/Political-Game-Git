@@ -2,13 +2,22 @@
 
 Generated 2026-10-06 by cto-notes/tools/laws_wired.mjs against main. Rerun it to refresh.
 
+## Ownership rule (Opus ruling, #2424, Oct 6 ~5:05 a.m.)
+
+- Session 20 is sole writer of the applyLawConsequences core, the kind registry and the landing core
+- Session 19 is sole writer of lawInForce
+- An LW batch writes ONLY data rows plus, for a new kind, one kind-module file registered through the registry's registration point
+- No batch edits the core files
+- If no data-driven registration point exists yet, Session 20's next PR adds a folder-loaded kind registry before batches add kinds
+- A batch that needs a core change posts the need on the board and waits on Session 20 while finishing its data rows
+
 ## Rules (all batches)
 
 - Zero dice. Nothing is rolled anywhere in a law's effect.
 - Nothing blank: where the law's own number is not known for a place, estimate it from similar places and mark it as an estimate (basis and the places used on the row).
 - One law engine. Add rows as data (WHO / WHAT / HOW MUCH) and register a kind through `src/simulation/law-consequence-registry.ts` if one is missing. No per-law code paths.
 - Make the effect land on named people through Session 20's landing engine (`applyLawConsequences`, `recordLawExposure`, the `law-effects-noticed.ts` pattern), so the exposure names the person, the law and the amount.
-- One PR per batch. Post "Session N takes LW-xx" on #2052 before starting. Whoever merges second rebases.
+- One PR per batch. Post "Session N takes LW-xx" on #2424 before starting. Whoever merges second rebases.
 - Proof for each law: start a new game in a random place where the law is in force and print the cause chain: law, effect, person.
 
 ## Today's numbers

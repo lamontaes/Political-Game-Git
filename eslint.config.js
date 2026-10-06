@@ -27,6 +27,12 @@ export default tseslint.config(
       // Proof receipts: each squad's verbatim evidence, kept as captured.
       "docs/codex/effect-batches/**",
       "docs/codex/law-audit/**",
+      // Design-session mockup render helpers: CommonJS (require/module) and
+      // browser-global (document/window) scripts that build static HTML and
+      // screenshots. They are evidence for a design review, not game code.
+      // TypeScript in these folders is still linted.
+      "docs/codex/session14-mockups/**/*.cjs",
+      "docs/codex/session14-mockups/**/*.js",
     ],
   },
   eslint.configs.recommended,

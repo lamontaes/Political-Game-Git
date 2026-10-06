@@ -154,6 +154,7 @@ import type {
   Person,
   PersonFact,
   PersonIdentity,
+  OccupationClassification,
   World,
 } from "./types";
 import { advanceWorldMinutes } from "./time-work";
@@ -1280,12 +1281,16 @@ export function establishDrawnAdultFamily(
 export function establishPreStartAdultHistory(
   world: World,
   input: {
+    readonly onCheckpoint?: (world: World, personId: EntityId) => void;
     readonly personId: EntityId;
     readonly jurisdictionId: EntityId;
     readonly employerId: EntityId;
     readonly employerName: string;
     readonly employerFormedAt: IsoDate;
     readonly monthlyWageMinor: number;
+    readonly monthlyWageAtDate?: (onDate: IsoDate) => number;
+    readonly workTitle?: string;
+    readonly occupationClassification?: OccupationClassification;
   },
 ): World {
   const key = `pre-start-adult-history-v2:${input.personId}`;
@@ -1428,8 +1433,9 @@ export function establishPreStartAdultHistory(
       economicRisk: "organization-borne",
       provenance: generated,
       initialRole: {
-        title: "Staff member",
-        occupationClassification: "custom:local-business-staff",
+        title: input.workTitle ?? "Staff member",
+        occupationClassification:
+          input.occupationClassification ?? "custom:local-business-staff",
         locationJurisdictionId: input.jurisdictionId,
         timeDemand: {
           expectedWeekly: { minimumHours: 30, maximumHours: 40 },
@@ -1441,15 +1447,21 @@ export function establishPreStartAdultHistory(
         },
       },
     });
-    // The observed terms start now. A past work start is not a claim that
-    // every earlier salary was actually paid; the forward year settles only
-    // its own months through the local business wage flow.
+    // Dated terms preserve the earlier nominal pay. Transfers remain separate;
+    // the forward clock settles only the periods it actually advances through.
     next = createResourceFlow(next, {
       stableKey: `${key}:local-pay`,
       source: { kind: "organization", organizationId: input.employerId },
       recipient: { kind: "person", personId: player.id },
-      startsAt: world.currentDate,
-      amount: money(input.monthlyWageMinor, "USD"),
+      startsAt: input.monthlyWageAtDate
+        ? next.history.workRelationships.at(-1)!.startedAt
+        : world.currentDate,
+      amount: money(
+        input.monthlyWageAtDate?.(
+          next.history.workRelationships.at(-1)!.startedAt,
+        ) ?? input.monthlyWageMinor,
+        "USD",
+      ),
       cadenceKind: "schedule:monthly",
       basisKind: "compensation:wages",
       basisReference: {
@@ -1460,6 +1472,20 @@ export function establishPreStartAdultHistory(
       jurisdictionId: input.jurisdictionId,
       provenance: generated,
     });
+    if (input.monthlyWageAtDate && workStart < world.currentDate) {
+      const flow = next.history.resourceFlows.at(-1)!;
+      next = recordResourceFlowTerms(next, {
+        stableKey: `${key}:local-pay-current`,
+        resourceFlowId: flow.id,
+        effectiveAt: world.currentDate,
+        amount: money(input.monthlyWageMinor, "USD"),
+        cadenceKind: "schedule:monthly",
+        status: "active",
+        reason: "Recorded pay at the start of these years.",
+        supersedesTermsId: next.history.resourceFlowTerms.at(-1)!.id,
+        provenance: generated,
+      });
+    }
   }
 
   const aliveOn = (personId: EntityId, date: IsoDate): boolean =>
@@ -1593,6 +1619,7 @@ export function establishPreStartAdultHistory(
       },
     });
     countPreStartMonth(occupiedMonths, occurredAt);
+    input.onCheckpoint?.(next, player.id);
   }
   return next;
 }
@@ -3655,7 +3682,9 @@ export function generateQuickCharacterHistory(
           formedAt: age(0),
           provenance: generated,
           initialProfile: {
-            name: "Neighborhood Market",
+            name: input.preStartDates
+              ? `${homeJurisdiction!.name} Market`
+              : "Neighborhood Market",
             classification: "enterprise:retail",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -3805,12 +3834,20 @@ export function generateQuickCharacterHistory(
       {
         kind: "education-state",
         input: {
-          stableKey: key("education:elementary:transfer"),
+          stableKey: key(
+            input.preStartDates
+              ? "education:elementary:completed"
+              : "education:elementary:transfer",
+          ),
           enrollmentStableKey: key("education:elementary"),
-          effectiveAt: episodeAt(7, "elementary-transfer"),
-          status: "transferred",
+          effectiveAt: input.preStartDates
+            ? schoolStageCalendarEnd(world, person.id, "elementary")
+            : episodeAt(7, "elementary-transfer"),
+          status: input.preStartDates ? "completed" : "transferred",
           contextKind: "stage:elementary",
-          reason: "Household move changed school context.",
+          reason: input.preStartDates
+            ? "Completed elementary school before the recorded middle-school enrollment."
+            : "Household move changed school context.",
           provenance: generated,
         },
       },

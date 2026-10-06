@@ -18,7 +18,12 @@ import type {
 } from "../types";
 import { eventsOfType, jailTermOn } from "../justice/jail-terms";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
-import { peopleTiedTo } from "../neighbor-news";
+import {
+  crimeCutoff,
+  crimeKnownTiesAt,
+  crimeResidenceAt,
+  crimeJusticeEvidenceAt,
+} from "./dated-inputs";
 import { isPersonAliveAt } from "../vitality";
 import type { CrimeOffense } from "./contract";
 
@@ -208,9 +213,17 @@ export interface NamedOffender {
 }
 
 /** People who have been referred to prosecutors, with the latest date. */
-function referralsByPerson(world: World): ReadonlyMap<EntityId, string> {
+function referralsByPerson(
+  world: World,
+  cutoff: HistoricalCutoff,
+): ReadonlyMap<EntityId, string> {
   const latest = new Map<EntityId, string>();
   for (const event of eventsOfType(world, "justice.prosecution-referred")) {
+    if (
+      event.sequence >= cutoff.historySequenceExclusive ||
+      event.occurredAt >= cutoff.asOfDate
+    )
+      continue;
     for (const participant of event.participants) {
       if (participant.role !== "focus:subject") continue;
       const prior = latest.get(participant.personId);
@@ -241,11 +254,12 @@ export function eligibleOffenders(
   world: World,
   town: EntityId,
   onDate: IsoDate,
+  historySequenceExclusive = world.history.nextSequence,
 ): readonly EligibleOffender[] {
-  const cutoff = currentLifeCutoff(world);
-  const referred = referralsByPerson(world);
+  const cutoff = crimeCutoff(world, onDate, historySequenceExclusive);
+  const referred = referralsByPerson(world, cutoff);
   const busyFrom = addDays(
-    world.currentDate,
+    onDate,
     -UNRESEARCHED_OFFENDERS.busyAfterReferralDays,
   );
   // The youngest the police charge as an adult is the law's, where the
@@ -258,7 +272,11 @@ export function eligibleOffenders(
   const eligible: EligibleOffender[] = [];
   for (const personId of Object.keys(world.people).sort() as EntityId[]) {
     const person = world.people[personId]!;
-    if (person.homeJurisdictionId !== town || personId === player) continue;
+    if (
+      crimeResidenceAt(world, personId, cutoff) !== town ||
+      personId === player
+    )
+      continue;
     if (!isPersonAliveAt(world, personId, cutoff)) continue;
     const age = ageOnDate(person.birthDate, onDate);
     if (age < youngestCharged) continue;
@@ -266,7 +284,8 @@ export function eligibleOffenders(
     // Someone already answering for a recent case is not out offending.
     if (lastReferral && lastReferral >= busyFrom) continue;
     // Someone serving a jail term is not in town to offend.
-    if (jailTermOn(world, personId, onDate)) continue;
+    if (jailTermOn(crimeJusticeEvidenceAt(world, cutoff), personId, onDate))
+      continue;
     eligible.push({
       personId,
       age,
@@ -290,6 +309,7 @@ export function offenderFor(
   world: World,
   incident: HistoricalEvent,
   offense: CrimeOffense,
+  historySequenceExclusive = world.history.nextSequence,
 ): NamedOffender | null {
   if (!incident.jurisdictionId) return null;
   return offenderForVictims(
@@ -300,6 +320,7 @@ export function offenderFor(
       victimPersonIds: incident.participants.map((row) => row.personId),
     },
     offense,
+    historySequenceExclusive,
   );
 }
 
@@ -312,32 +333,49 @@ export function offenderForVictims(
     readonly victimPersonIds: readonly EntityId[];
   },
   offense: CrimeOffense,
+  historySequenceExclusive = world.history.nextSequence,
 ): NamedOffender | null {
+  const cutoff = crimeCutoff(
+    world,
+    incident.occurredAt,
+    historySequenceExclusive,
+  );
   const victims = [...incident.victimPersonIds];
   const excluded = new Set<EntityId>(victims);
   // Nobody is charged with an offense against their own home.
   for (const victim of victims)
-    for (const membership of householdMembershipsAt(world, victim))
-      for (const id of peopleInHouseholdAt(world, membership.household.id))
+    for (const membership of householdMembershipsAt(world, victim, cutoff))
+      for (const id of peopleInHouseholdAt(
+        world,
+        membership.household.id,
+        cutoff,
+      ))
         excluded.add(id);
   const knownToVictims = new Set<EntityId>(
-    AGAINST_A_PERSON[offense] ? peopleTiedTo(world, victims, "known") : [],
+    AGAINST_A_PERSON[offense] ? crimeKnownTiesAt(world, victims, cutoff) : [],
   );
   let best: NamedOffender | null = null;
   for (const candidate of eligibleOffenders(
     world,
     incident.jurisdictionId,
     incident.occurredAt,
+    historySequenceExclusive,
   )) {
     const { personId, priorRecord } = candidate;
     if (excluded.has(personId)) continue;
     const knowsVictim = knownToVictims.has(personId);
-    const { score, reasons } = offenderWeight(world, personId, offense, {
-      age: candidate.age,
-      priorRecord,
-      knowsVictim,
-      diploma: candidate.diploma,
-    });
+    const { score, reasons } = offenderWeight(
+      world,
+      personId,
+      offense,
+      {
+        age: candidate.age,
+        priorRecord,
+        knowsVictim,
+        diploma: candidate.diploma,
+      },
+      cutoff,
+    );
     if (score < UNRESEARCHED_OFFENDERS.nameAt) continue;
     if (!best || score > best.score)
       best = { personId, score, reasons, knowsVictim, priorRecord };
@@ -363,6 +401,7 @@ export function offenderWeight(
   personId: EntityId,
   offense: CrimeOffense,
   facts: OffenderFacts,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): { readonly score: number; readonly reasons: readonly string[] } {
   let score = 0;
   const reasons: string[] = [];
@@ -372,7 +411,7 @@ export function offenderWeight(
     score += W.peakAge;
     reasons.push(`is ${age}`);
   } else if (age >= nextAges.from && age <= nextAges.to) score += W.nextAge;
-  if (activeWorkRelationshipsAt(world, personId).length === 0) {
+  if (activeWorkRelationshipsAt(world, personId, cutoff).length === 0) {
     score += W.outOfWork + (TAKES_MONEY[offense] ? W.needsMoney : 0);
     reasons.push("has no work");
   }
@@ -388,6 +427,7 @@ export function offenderWeight(
     world,
     personId,
     RISK_TENDENCY_ID,
+    cutoff,
   )?.expressionKey;
   if (risk === "risk-seeking") {
     score += W.riskSeeking;

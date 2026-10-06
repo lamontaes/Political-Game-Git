@@ -17,6 +17,11 @@ import type {
   World,
 } from "../types";
 import { lawInForce, statuteAnswer, judicialRulingKey } from "./law-in-force";
+import {
+  LAW_LEVELS,
+  lawLevelForInstrument,
+  lawLevelRank,
+} from "../law-hierarchy";
 
 /**
  * The reader alone, over hand-written records: which enacted law governs a
@@ -40,6 +45,9 @@ function law(
   resolvedAt: string,
   effectiveAt: string | null = null,
   propositionId: EntityId = QUESTION,
+  governmentInstrument?: "statute" | "regulation" | "executive-order",
+  publishedAt: string | null = null,
+  expiresAt: string | null = null,
 ): {
   measure: LegislativeMeasureRecord;
   enactment: LegislativeEnactmentRecord;
@@ -55,6 +63,7 @@ function law(
       rulePackId: "test",
       designation: `HB ${sequence}`,
       shortTitle: "A test act",
+      ...(governmentInstrument ? { governmentInstrument } : {}),
       summary: "A test act.",
       origin: "member-introduction",
       subjectClass: "general-policy",
@@ -75,6 +84,10 @@ function law(
       outcome: "enacted",
       actDesignation: null,
       effectiveAt: effectiveAt ? makeIsoDate(effectiveAt) : null,
+      ...(publishedAt !== null
+        ? { publishedAt: makeIsoDate(publishedAt) }
+        : {}),
+      ...(expiresAt !== null ? { expiresAt: makeIsoDate(expiresAt) } : {}),
       outcomeEventId: `event_${sequence}` as EntityId,
     },
   };
@@ -167,6 +180,92 @@ describe("the law in force on a question", () => {
       level: "federal-statute",
     });
     expect(lawInForce(world, texas, QUESTION)?.measureId).toBe(act.measure.id);
+  });
+
+  it("ranks regulations and executive orders just below their government's statute", () => {
+    expect(LAW_LEVELS).toEqual([
+      "federal-constitution",
+      "federal-statute",
+      "federal-regulation",
+      "federal-executive-order",
+      "state-constitution",
+      "state-statute",
+      "state-regulation",
+      "state-executive-order",
+      "local-charter",
+      "local-ordinance",
+      "local-regulation",
+      "local-executive-order",
+    ]);
+    expect(lawLevelForInstrument("state-statute", "regulation")).toBe(
+      "state-regulation",
+    );
+    expect(lawLevelForInstrument("state-statute", "executive-order")).toBe(
+      "state-executive-order",
+    );
+    expect(lawLevelRank("state-statute")).toBeGreaterThan(
+      lawLevelRank("state-regulation"),
+    );
+    expect(lawLevelRank("state-regulation")).toBeGreaterThan(
+      lawLevelRank("state-executive-order"),
+    );
+  });
+
+  it("reads published, effective and unexpired executive instruments in the shared law reader", () => {
+    const statute = law(ohio, "no", "2026-02-01", "2026-03-01");
+    const unpublished = law(
+      ohio,
+      "yes",
+      "2026-03-01",
+      "2026-03-02",
+      QUESTION,
+      "regulation",
+    );
+    const regulation = law(
+      ohio,
+      "yes",
+      "2026-03-03",
+      "2026-03-04",
+      QUESTION,
+      "regulation",
+      "2026-03-02",
+      "2026-03-05",
+    );
+    const order = law(
+      ohio,
+      "yes",
+      "2026-03-04",
+      "2026-03-05",
+      QUESTION,
+      "executive-order",
+      "2026-03-04",
+      "2026-03-05",
+    );
+    expect(
+      lawInForce(worldWith("2026-03-02", [unpublished]), ohio, QUESTION),
+    ).toBeNull();
+    expect(
+      lawInForce(worldWith("2026-03-04", [regulation]), ohio, QUESTION),
+    ).toMatchObject({
+      measureId: regulation.measure.id,
+      level: "state-regulation",
+    });
+    expect(
+      lawInForce(worldWith("2026-03-05", [regulation, order]), ohio, QUESTION),
+    ).toMatchObject({
+      measureId: regulation.measure.id,
+      level: "state-regulation",
+    });
+    expect(
+      lawInForce(worldWith("2026-03-06", [regulation, order]), ohio, QUESTION),
+    ).toBeNull();
+    expect(
+      lawInForce(
+        worldWith("2026-03-04", [statute, regulation]),
+        ohio,
+        QUESTION,
+      ),
+    ).toMatchObject({ measureId: statute.measure.id, level: "state-statute" });
   });
 });
 

@@ -51,6 +51,24 @@ export function validateLawConsequences(
       errors.push(
         `Consequence ${row.id}: source evidence and why are required`,
       );
+    for (const delegation of row.delegations ?? []) {
+      if (!delegation.key.trim() || !delegation.questionKey.trim())
+        errors.push(
+          `Consequence ${row.id}: delegation needs a key and question`,
+        );
+      if (
+        (delegation.minimum !== null && !Number.isFinite(delegation.minimum)) ||
+        (delegation.maximum !== null && !Number.isFinite(delegation.maximum)) ||
+        (delegation.minimum !== null &&
+          delegation.maximum !== null &&
+          delegation.minimum > delegation.maximum)
+      )
+        errors.push(`Consequence ${row.id}: delegation has invalid bounds`);
+      if (!delegation.sourceIds.length)
+        errors.push(
+          `Consequence ${row.id}: delegation requires source evidence`,
+        );
+    }
     for (const onward of row.onward ?? []) visit(onward);
   };
   rows.forEach(visit);

@@ -166,9 +166,22 @@ import {
   type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
-import { type NewGameSetup } from "../presentation/new-game";
+import {
+  applyPreStartCreatorLifeForks,
+  createPreStartNewGameWorld,
+  finishPreStartNewGameWorld,
+  type NewGame,
+  type NewGameSetup,
+} from "../presentation/new-game";
+import { olderOneSaveSlots } from "../presentation/one-save-slots";
+import { playSettingsOf, setPlaySetting } from "../simulation/play-settings";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
+import {
+  beginHistoricalPastMode,
+  endHistoricalPastMode,
+} from "../simulation/historical-past-mode";
+import { advanceWorld } from "../simulation/world";
 import {
   answerQuestionnaire,
   endQuestionnaireEarly,
@@ -215,8 +228,16 @@ import {
   readReplaySeed,
   resolveSessionSeed,
 } from "../presentation/session-seed";
-import { readReplaySetup } from "../presentation/new-game-identity";
-import { ageOnDate, personName } from "../simulation";
+import {
+  readReplaySetup,
+  worldSeedFor,
+} from "../presentation/new-game-identity";
+import {
+  addDays,
+  ageOnDate,
+  personName,
+  requireLifePlace,
+} from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
   openLegislativeWork,
@@ -373,6 +394,7 @@ type Screen =
       readonly kind: "setup";
       readonly draft?: NewGameSetup;
       readonly questionnaireComplete?: boolean;
+      readonly stagedGame?: NewGame;
     }
   /**
    * The calibration, between choosing a life and starting one.
@@ -389,6 +411,7 @@ type Screen =
   | {
       readonly kind: "transition";
       readonly setup: NewGameSetup;
+      readonly stagedGame?: NewGame;
     }
   | { readonly kind: "playing" };
 
@@ -659,9 +682,17 @@ export function PlayerGame() {
     saveInFlight.current = true;
     setNotice("Saving…");
     const worldToSave = observerCheckpoint ?? session.world;
+    const oneSave = playSettingsOf(worldToSave).saves === "one-save";
+    const shelfBeforeWrite = oneSave ? await store.list() : null;
+    const existingLifeSlot =
+      shelfBeforeWrite?.saves.find((entry) => entry.worldId === worldToSave.id)
+        ?.saveId ?? null;
     // A slot of its own, so keeping this life never lands on top of another
     // save of the same world.
-    const saveId = session.saveId ?? store.newSaveId(worldToSave);
+    const saveId =
+      session.saveId ??
+      (oneSave ? existingLifeSlot : null) ??
+      store.newSaveId(worldToSave);
     try {
       // Persist presentation references first: a newly visible world slot must
       // already have its pins, even if the player reloads immediately afterward.
@@ -672,6 +703,14 @@ export function PlayerGame() {
         // player looking for the wrong problem.
         setProblem(outcome.reason);
         return false;
+      }
+      if (oneSave && shelfBeforeWrite) {
+        const olderSlots = olderOneSaveSlots(
+          shelfBeforeWrite.saves,
+          worldToSave.id,
+          saveId,
+        );
+        for (const olderSlot of olderSlots) await store.remove(olderSlot);
       }
       setSession((current) =>
         current?.world.id === worldToSave.id
@@ -954,10 +993,11 @@ export function PlayerGame() {
     );
   }
 
-  function beginLife(setup: NewGameSetup) {
+  function beginLife(setup: NewGameSetup, stagedGame?: NewGame) {
     setScreen({
       kind: "transition",
       setup,
+      ...(stagedGame ? { stagedGame } : {}),
     });
   }
 
@@ -972,6 +1012,7 @@ export function PlayerGame() {
                 const game = (
                   await createOpeningLifeController(
                     screen.setup,
+                    screen.stagedGame,
                   ).finishTransitionWithProgress({
                     signal,
                     onProgress: report,
@@ -1014,8 +1055,34 @@ export function PlayerGame() {
             previewMode={previewMode}
             initialSetup={screen.draft}
             questionnaireComplete={screen.questionnaireComplete}
+            stagedGame={screen.stagedGame}
+            onRequestRecordedLife={(setup) => {
+              try {
+                const place = requireLifePlace(setup.placeKey);
+                const staged = createPreStartNewGameWorld(
+                  setup,
+                  addDays(place.context.initialMoment.date, -1),
+                );
+                const identity = worldSeedFor(setup);
+                setScreen((current) => {
+                  if (current.kind !== "setup") return current;
+                  if (
+                    current.stagedGame &&
+                    worldSeedFor(current.stagedGame.setup) === identity
+                  )
+                    return current;
+                  return { ...current, stagedGame: staged };
+                });
+              } catch (error) {
+                setProblem(
+                  error instanceof Error
+                    ? error.message
+                    : "Your recorded life could not be prepared.",
+                );
+              }
+            }}
             onBack={() => setScreen({ kind: "title" })}
-            onBegin={(setup, appearance, questionsFinished) => {
+            onBegin={(setup, appearance, questionsFinished, stagedGame) => {
               pendingAppearance.current = appearance;
               setProblem(null);
               // The calibration runs before the world is built, because its
@@ -1026,7 +1093,38 @@ export function PlayerGame() {
                 setScreen({ kind: "questionnaire", setup });
                 return;
               }
-              beginLife(endQuestionnaireEarly(setup));
+              const completedSetup = endQuestionnaireEarly(setup);
+              if (stagedGame) {
+                try {
+                  const answered = applyPreStartCreatorLifeForks(
+                    stagedGame,
+                    completedSetup.creatorLifeForks ?? [],
+                  );
+                  const preStart = answered.world.preStartLife;
+                  if (!preStart)
+                    throw new Error("The staged character is missing.");
+                  const historical = beginHistoricalPastMode(
+                    answered.world,
+                    answered.playerPersonId,
+                    preStart.targetStartDate,
+                  );
+                  const atBoundary = advanceWorld(historical, 1);
+                  const closed = endHistoricalPastMode(atBoundary);
+                  const begun = finishPreStartNewGameWorld({
+                    ...answered,
+                    world: closed,
+                  });
+                  beginLife(completedSetup, begun);
+                } catch (error) {
+                  setProblem(
+                    error instanceof Error
+                      ? error.message
+                      : "Your recorded life could not reach Begin.",
+                  );
+                }
+                return;
+              }
+              beginLife(completedSetup);
             }}
             problem={problem}
           />
@@ -4184,6 +4282,25 @@ function renderWorkspace({
           <OptionsWorkspace
             state={shell}
             dispatch={dispatch}
+            playSettings={playSettingsOf(session.world)}
+            onSetPlaySetting={(key, value) => {
+              if (key === "challenge")
+                onWorldChange(
+                  setPlaySetting(
+                    session.world,
+                    key,
+                    value as "quiet" | "standard" | "relentless",
+                  ),
+                );
+              else
+                onWorldChange(
+                  setPlaySetting(
+                    session.world,
+                    key,
+                    value as "full" | "light" | "none",
+                  ),
+                );
+            }}
             onOpenPatchNotes={() =>
               dispatch({ type: "go-to-surface", surface: "patch-notes" })
             }

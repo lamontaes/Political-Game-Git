@@ -57,7 +57,9 @@ import {
   MISCONDUCT_FAMILY_LABELS,
   MISCONDUCT_FAMILY_ROWS,
   PRESS_CONTRACT_VERSION,
+  PERSONAL_LIFE_MATTER_FAMILY,
   type FinancialOccurrenceRecord,
+  type MatterFamily,
   type MatterRecord,
   type MisconductFamily,
   type ProcedureKey,
@@ -389,10 +391,11 @@ export function spendCampaignFundsPersonally(
 
 export interface OpenMatterInput {
   readonly stableKey: string;
-  readonly family: MisconductFamily;
+  readonly family: MatterFamily;
   readonly subjectPersonIds: readonly EntityId[];
   readonly occurrenceId: EntityId | null;
   readonly originEventId: EntityId;
+  readonly personalEventId?: EntityId | null;
   readonly jurisdictionId: EntityId | null;
 }
 
@@ -404,10 +407,112 @@ export function openMatter(
   if (existing) return { world, matter: existing };
   const appended = appendPressRecord(world, "matter", {
     ...input,
+    personalEventId: input.personalEventId ?? null,
     subjectPersonIds: sortedUnique(input.subjectPersonIds),
     openedAt: world.currentDate,
   });
   return { world: appended.world, matter: appended.record };
+}
+
+/** Open a press matter from an existing personal event with an on-record
+ * source. A private event needs a public claim that points to that event. */
+export function openPersonalLifeMatter(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly sourceEventId: EntityId;
+    readonly subjectPersonIds: readonly EntityId[];
+    readonly publicClaimId?: EntityId;
+  },
+): { readonly world: World; readonly matter: MatterRecord } {
+  const event = eventById(world, input.sourceEventId);
+  if (!event) throw new Error("A personal-life matter needs a recorded event.");
+  const allowedPersonalEvent =
+    event.type === "crime.arrest-made" || event.type === "life.couple-ended";
+  if (!allowedPersonalEvent && !input.publicClaimId) {
+    throw new Error(
+      "A personal-life matter needs an arrest, breakup, or public claim.",
+    );
+  }
+  const publicClaim = input.publicClaimId
+    ? world.history.claims.find((claim) => claim.id === input.publicClaimId)
+    : undefined;
+  if (
+    input.publicClaimId &&
+    (!publicClaim ||
+      publicClaim.eventId !== input.sourceEventId ||
+      publicClaim.audience !== "public")
+  ) {
+    throw new Error(
+      "A claim-based personal matter needs a matching public claim.",
+    );
+  }
+  if (event.visibility !== "public" && !publicClaim) {
+    throw new Error(
+      "A private personal event needs a public claim on the record.",
+    );
+  }
+  const subjects = sortedUnique(input.subjectPersonIds);
+  if (
+    subjects.length === 0 ||
+    subjects.some((personId) => !world.people[personId]) ||
+    !subjects.some((personId) =>
+      event.participants.some(
+        (participant) => participant.personId === personId,
+      ),
+    )
+  ) {
+    throw new Error(
+      "A personal-life matter must name a person in its source record.",
+    );
+  }
+  const opened = openMatter(world, {
+    stableKey: input.stableKey,
+    family: PERSONAL_LIFE_MATTER_FAMILY,
+    subjectPersonIds: subjects,
+    occurrenceId: null,
+    originEventId: event.id,
+    personalEventId: event.id,
+    jurisdictionId: event.jurisdictionId,
+  });
+  const openedEventKey = `${input.stableKey}:on-record`;
+  const existing = opened.world.history.events.find(
+    (candidate) => candidate.stableKey === openedEventKey,
+  );
+  if (existing) return opened;
+  const names = subjects
+    .map((personId) => world.people[personId]!)
+    .map(personName);
+  const publicEvent = recordWorldEvent(opened.world, {
+    stableKey: openedEventKey,
+    type: "matter.personal-life-opened",
+    occurredAt: opened.world.currentDate,
+    recordedAt: opened.world.currentDate,
+    jurisdictionId: event.jurisdictionId,
+    involvedEntityIds: sortedUnique([...subjects, opened.matter.id]),
+    participants: subjects.map((personId) => ({
+      personId,
+      role: "focus:personal-matter-subject",
+      detail: "Named in a matter based on a recorded personal event",
+    })),
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `${PRESS_MATTER_TAG}${opened.matter.id}`,
+      "time-neutral",
+    ],
+    summary: `A recorded personal event involving ${names.join(" and ")} became public.`,
+    context: {
+      location: null,
+      socialContext: MISCONDUCT_FAMILY_LABELS[PERSONAL_LIFE_MATTER_FAMILY],
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return { ...opened, world: publicEvent };
 }
 
 export interface RecordAllegationInput {

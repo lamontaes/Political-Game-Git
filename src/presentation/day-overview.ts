@@ -115,7 +115,7 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
       now ||
       (upcoming
         ? `Next: ${upcoming.title} at ${formatMinute(upcoming.start.minuteOfDay)}.`
-        : ""),
+        : "It's a quiet day. Nothing is happening right now."),
     nowKind:
       finished || openingLocation?.context.location?.setting === "work"
         ? "activity"

@@ -16,7 +16,11 @@ import {
 } from "../justice/prosecution";
 import { recordsByKey } from "../history-index";
 import { stableHash } from "../ids";
-import { peopleTiedTo } from "../neighbor-news";
+import {
+  crimeCutoff,
+  crimeKnownTiesAt,
+  crimeResidenceAt,
+} from "./dated-inputs";
 import { recordEventKnowledge } from "../records";
 import type {
   EntityId,
@@ -230,11 +234,10 @@ interface Target {
 export function crimeExposures(
   world: World,
   monthStart: IsoDate,
+  historySequenceExclusive = world.history.nextSequence,
 ): readonly CrimeExposure[] {
-  const cutoff = {
-    asOfDate: world.currentDate,
-    historySequenceExclusive: world.history.nextSequence,
-  };
+  if (monthStart > world.currentDate) return [];
+  const cutoff = crimeCutoff(world, monthStart, historySequenceExclusive);
   const alive = (personId: EntityId) =>
     isPersonAliveAt(world, personId, cutoff);
   const { minimumVictimAge } = UNRESEARCHED_LOCAL_CRIME;
@@ -282,12 +285,13 @@ export function crimeExposures(
   for (const personId of Object.keys(world.people).sort() as EntityId[]) {
     const person = world.people[personId]!;
     if (person.birthDate > monthStart) continue;
-    if (!isLocalPlace(person.homeJurisdictionId)) continue;
-    if (!world.jurisdictions[person.homeJurisdictionId]) continue;
+    const residence = crimeResidenceAt(world, personId, cutoff);
+    if (!residence || !isLocalPlace(residence)) continue;
+    if (!world.jurisdictions[residence]) continue;
     if (!alive(personId) || !oldEnough(personId)) continue;
     for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
       if (rule.target !== "person") continue;
-      add(person.homeJurisdictionId, {
+      add(residence, {
         offense: rule.offense,
         targetId: personId,
         victimPersonIds: [personId],
@@ -305,12 +309,15 @@ export function crimeExposures(
   const exposures: CrimeExposure[] = [];
   for (const town of [...targetsByTown.keys()].sort()) {
     const targets = targetsByTown.get(town)!;
-    const offenders = eligibleOffenders(world, town, monthStart).map(
-      (offender) => ({
-        offender,
-        known: new Set(peopleTiedTo(world, [offender.personId], "known")),
-      }),
-    );
+    const offenders = eligibleOffenders(
+      world,
+      town,
+      monthStart,
+      historySequenceExclusive,
+    ).map((offender) => ({
+      offender,
+      known: new Set(crimeKnownTiesAt(world, [offender.personId], cutoff)),
+    }));
     for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
       const ofRule = targets.filter(
         (target) => target.offense === rule.offense,
@@ -319,12 +326,18 @@ export function crimeExposures(
       const againstPerson = offenseAgainstAPerson(rule.offense);
       const scored = offenders.map(({ offender, known }) => {
         const score = (knowsVictim: boolean) =>
-          offenderWeight(world, offender.personId, rule.offense, {
-            age: offender.age,
-            priorRecord: offender.priorRecord,
-            knowsVictim,
-            diploma: offender.diploma,
-          }).score;
+          offenderWeight(
+            world,
+            offender.personId,
+            rule.offense,
+            {
+              age: offender.age,
+              priorRecord: offender.priorRecord,
+              knowsVictim,
+              diploma: offender.diploma,
+            },
+            cutoff,
+          ).score;
         return {
           personId: offender.personId,
           known,
@@ -352,7 +365,12 @@ export function crimeExposures(
         const prior = Math.max(
           0,
           ...target.victimPersonIds.map((victim) =>
-            priorVictimizations(world, victim, monthStart),
+            priorVictimizations(
+              world,
+              victim,
+              monthStart,
+              historySequenceExclusive,
+            ),
           ),
         );
         const weight =
@@ -486,10 +504,17 @@ function offensesOnRecord(
 export function sampleMonthlyCrime(
   world: World,
   monthStart: IsoDate,
+  historySequenceExclusive = world.history.nextSequence,
 ): readonly SampledCrime[] {
-  const monthEnd = addDays(firstOfNextMonth(monthStart), -1);
+  const calendarEnd = addDays(firstOfNextMonth(monthStart), -1);
+  const monthEnd =
+    calendarEnd < world.currentDate ? calendarEnd : world.currentDate;
   const sampled: SampledCrime[] = [];
-  for (const exposure of crimeExposures(world, monthStart)) {
+  for (const exposure of crimeExposures(
+    world,
+    monthStart,
+    historySequenceExclusive,
+  )) {
     // One offense of a kind against one target in a month, on the day its
     // exposure reached it.
     const occurredAt = exposureDays(exposure, monthStart, monthEnd)[0];
@@ -497,13 +522,17 @@ export function sampleMonthlyCrime(
     // The victims decide, from what was done to them, whether it happened
     // before, their past with police and their temperament (`./reporting`);
     // nothing is drawn. The played person decides in play.
-    const decision = decideReport(world, {
-      offense: exposure.offense,
-      jurisdictionId: exposure.jurisdictionId,
-      occurredAt,
-      targetId: exposure.targetId,
-      victimPersonIds: exposure.victimPersonIds,
-    });
+    const decision = decideReport(
+      world,
+      {
+        offense: exposure.offense,
+        jurisdictionId: exposure.jurisdictionId,
+        occurredAt,
+        targetId: exposure.targetId,
+        victimPersonIds: exposure.victimPersonIds,
+      },
+      historySequenceExclusive,
+    );
     sampled.push({
       offense: exposure.offense,
       jurisdictionId: exposure.jurisdictionId,
@@ -964,7 +993,7 @@ function recordArrests(
     if (!offense) continue;
     // Police arrest the person the offense points to, when they can name
     // them: the victim knows them, or police already do.
-    const offender = offenderFor(next, incident, offense);
+    const offender = offenderFor(next, incident, offense, incident.sequence);
     if (!offender || !policeCanName(offender)) continue;
     const place = placeName(incident.jurisdictionId!);
     const offenderName = personName(next.people[offender.personId]!);

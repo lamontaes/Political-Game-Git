@@ -35,6 +35,7 @@ import {
   internationalResponseHandler,
   warPowersHandler,
 } from "./international";
+import { outsideShockResponseHandler } from "./outside-shock";
 import {
   CRIME_SAMPLE_TRANSITION_KEY,
   crimeSampleHandler,
@@ -75,6 +76,7 @@ export * from "./disaster";
 export * from "./disaster-warrants";
 export * from "./hazard-producer";
 export * from "./international";
+export * from "./outside-shock";
 export * from "./epidemic";
 export * from "./official-funeral";
 export * from "./health-coverage";
@@ -108,7 +110,15 @@ export function createCrisisTransitionRegistry() {
     [DISASTER_FEDERAL_REVIEW_KEY, disasterFederalReviewHandler],
     [DISASTER_REPAIR_CYCLE_KEY, disasterRepairCycleHandler],
     [INTERNATIONAL_DECISION_KEY, internationalCycleOrDecisionHandler],
-    [INTERNATIONAL_RESPONSE_KEY, internationalResponseHandler],
-    [WAR_POWERS_KEY, warPowersHandler],
+    [
+      INTERNATIONAL_RESPONSE_KEY,
+      (world, item) =>
+        outsideShockResponseHandler(world, item, internationalResponseHandler),
+    ],
+    [
+      WAR_POWERS_KEY,
+      (world, item) =>
+        outsideShockResponseHandler(world, item, warPowersHandler),
+    ],
   ]);
 }

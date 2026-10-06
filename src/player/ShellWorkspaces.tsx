@@ -25,6 +25,11 @@ import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import type {
+  ChallengeIntensity,
+  NotebookNotesSetting,
+  PlaySettings,
+} from "../simulation/types";
 
 import {
   CATEGORY_LABELS,
@@ -1862,13 +1867,80 @@ export function OptionsWorkspace({
   state,
   dispatch,
   onOpenPatchNotes,
+  playSettings,
+  onSetPlaySetting,
 }: {
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
   readonly onOpenPatchNotes?: () => void;
+  readonly playSettings?: PlaySettings;
+  readonly onSetPlaySetting?: (
+    key: "challenge" | "notes",
+    value: ChallengeIntensity | NotebookNotesSetting,
+  ) => void;
 }) {
   return (
     <>
+      {playSettings && onSetPlaySetting ? (
+        <>
+          <section className="pg-personal-section">
+            <h3>Challenge</h3>
+            <p className="game-note">How often hard moments come up.</p>
+            <div role="group" aria-label="Challenge intensity">
+              {(
+                [
+                  ["quiet", "Quiet"],
+                  ["standard", "Standard"],
+                  ["relentless", "Relentless"],
+                ] as const
+              ).map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  className="ui-action ui-action--rail"
+                  aria-pressed={playSettings.challenge === value}
+                  onClick={() => onSetPlaySetting("challenge", value)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </section>
+          <section className="pg-personal-section">
+            <h3>Notebook</h3>
+            <p className="game-note">
+              How many known reminders appear without opening a person.
+            </p>
+            <div role="group" aria-label="Notebook reminders">
+              {(
+                [
+                  ["full", "Full"],
+                  ["light", "Light"],
+                  ["none", "None"],
+                ] as const
+              ).map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  className="ui-action ui-action--rail"
+                  aria-pressed={playSettings.notes === value}
+                  onClick={() => onSetPlaySetting("notes", value)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </section>
+          <section className="pg-personal-section">
+            <h3>Premises and saves</h3>
+            <p className="game-note">
+              Chosen when this life began. Family money:{" "}
+              {playSettings.premises.familyMoney}; press:{" "}
+              {playSettings.premises.press}; saves: {playSettings.saves}.
+            </p>
+          </section>
+        </>
+      ) : null}
       <section className="pg-personal-section">
         <h3>Calendar</h3>
         <DateFormatSetting />
