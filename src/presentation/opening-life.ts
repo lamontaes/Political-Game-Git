@@ -158,11 +158,12 @@ export function generateOpeningLife(
 export async function generateOpeningLifeWithProgress(
   session: OpeningLifeSession,
   options: OpeningLifeGenerationOptions = {},
+  suppliedGame?: NewGame,
 ): Promise<OpeningLifeSession> {
   if (session.game) return session;
   throwIfOpeningAborted(options.signal);
   const beginning = await runOpeningPreparationSteps(
-    beginOpeningLifeSteps(session),
+    beginOpeningLifeSteps(session, suppliedGame),
     (start) => start.world,
     options,
   );
@@ -626,7 +627,10 @@ export function sameOpeningSetup(
 }
 
 /** Keep one controller per Begin activation; duplicate transition callbacks share it. */
-export function createOpeningLifeController(setup: NewGameSetup) {
+export function createOpeningLifeController(
+  setup: NewGameSetup,
+  suppliedGame?: NewGame,
+) {
   let current = prepareOpeningLife(setup);
   let progressiveGeneration: Promise<OpeningLifeSession> | null = null;
   return {
@@ -644,6 +648,7 @@ export function createOpeningLifeController(setup: NewGameSetup) {
         progressiveGeneration = generateOpeningLifeWithProgress(
           preparing,
           options,
+          suppliedGame,
         )
           .then((next) => {
             if (current === preparing) current = next;
