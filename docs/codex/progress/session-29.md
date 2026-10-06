@@ -6,7 +6,7 @@
 
 **Open source gap:** Media outlet records carry an editorial standard, but no reader-to-outlet trust record or trust query exists in this checkout. The formation currently uses the story's recorded media source without a separate outlet trust factor. Add that factor when a canonical trust seam exists; do not derive or persist an invented trust rating.
 
-**Verification:** The focused test passes (1/1) in Red Feather Lakes, Colorado (GEOID 0863320); targeted ESLint and Prettier pass. Full `npm run typecheck` reports two unrelated existing errors in `src/simulation/press/press-premise.test.ts` for omitted `personalLifeDepiction` values.
+**Verification:** After rebasing onto current `origin/main` e597ec933, the focused test passes (1/1) in Red Feather Lakes, Colorado (GEOID 0863320), and targeted formatting/lint pass. The #2470 main merge supplies the previously missing `personalLifeDepiction` fixture fields; post-rebase test-inclusive typecheck is running. Release declaration is `docs/release/changes/b07-official-views-from-stories.md` (`patch`).
 
 **Next:** Resolve the outlet-trust seam with the Session 21 owner and extend act support to recorded public quotes/findings when their canonical action records are identified. Step 2 word-of-mouth and all other B07 steps remain untouched.
 
