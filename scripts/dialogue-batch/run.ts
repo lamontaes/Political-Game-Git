@@ -21,7 +21,9 @@
  *
  * This is a development tool for reviewing wording. It is never part of play.
  */
+import { execSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
+import { gradingBatchId, toGradingBatch, writeCoverageLedger } from "./grading";
 import { batchStats, statsSummary, type BatchStat } from "./stats";
 import { LIFE_TALK_INTENTS } from "../../src/presentation/life-conversation";
 import { dirname } from "node:path";
@@ -94,6 +96,20 @@ import {
 } from "../../src/presentation/life-talk-running";
 import { speakerTraits } from "../../src/presentation/speaker-traits";
 import { placeFor, rng } from "../playtest/mass-play/driver";
+import {
+  composePressRequestPitch,
+  composeReporterQuestion,
+  plannedPressArrangementPlace,
+} from "../../src/presentation/press-request";
+import { pressAnswerPacket } from "../../src/presentation/press-english";
+import {
+  addSimulationMinutes,
+  arrangeAcceptedPressInterview,
+  producePressRequestResponse,
+  projectEligiblePressReporters,
+  projectPitchablePressBases,
+  recordPressRequest,
+} from "../../src/simulation";
 
 export type BatchAxis =
   | "pose"
@@ -116,6 +132,10 @@ export interface BatchLine {
   readonly speaker: {
     readonly name: string;
     readonly age: number;
+    /** How the player knows them ("your mom"), or null for a stranger. */
+    readonly relation: string | null;
+    /** True when the line is the player's own. */
+    readonly isPlayer: boolean;
     /** The recorded voice cues the engine reads for this person. */
     readonly traits: Readonly<Record<string, string>>;
     /** The temperament words the person card shows, when any were recorded. */
@@ -278,6 +298,8 @@ function speakerOf(ctx: WorldContext, person: Person): BatchLine["speaker"] {
   return {
     name: person.name,
     age: person.age,
+    relation: person.relation,
+    isPlayer: person.id === ctx.playerId,
     traits: voiceOf(ctx.world, person.id),
     observed: observedTraitLabels(ctx.world, person.id),
   };
@@ -925,6 +947,125 @@ function officialsView(ctx: WorldContext): Produced {
   return skip("no one in this world has formed a view of an official yet");
 }
 
+/**
+ * A press interview answer: the player asks a reporter for an exchange through
+ * the press desk's own writers, the reporter decides from their record, and
+ * if they accept the exchange is arranged and the player answers the
+ * reporter's question with the answer banks.
+ */
+function pressAnswer(ctx: WorldContext): Produced {
+  const reasons: string[] = [];
+  for (const topic of projectPitchablePressBases(ctx.world, ctx.playerId)) {
+    const reporters = projectEligiblePressReporters(ctx.world, {
+      sourcePersonId: ctx.playerId,
+      questionBasisEventIds: [topic.eventId],
+    });
+    for (const reporter of reporters) {
+      const pitch = composePressRequestPitch({
+        subjectSummary: topic.summary,
+        intent: "request-exchange",
+        stance: "report-what-is-recorded",
+        channel: "spoken",
+        terms: "on-record",
+        backgroundAttribution: null,
+      });
+      const question = composeReporterQuestion({
+        subjectSummary: topic.summary,
+        terms: "on-record",
+        grounding: reporterQuestionPacket(
+          ctx.world,
+          ctx.playerId,
+          reporter.personId,
+          topic.eventId,
+        ),
+      });
+      if (!pitch.ok || !question.ok) {
+        reasons.push(
+          !pitch.ok ? pitch.reason : (question as { reason: string }).reason,
+        );
+        continue;
+      }
+      try {
+        const asked = recordPressRequest(ctx.world, {
+          stableKey: `dialogue-batch:press:${topic.eventId}:${reporter.personId}`,
+          reporterPersonId: reporter.personId,
+          reporterWorkRoleId: reporter.workRoleId,
+          jurisdictionId: topic.jurisdictionId,
+          channel: "spoken",
+          terms: "on-record",
+          backgroundAttribution: null,
+          pitch: pitch.statement,
+          primaryQuestion: question.statement,
+          questionBasisEventIds: [topic.eventId],
+        });
+        const answered = producePressRequestResponse(asked.world, {
+          stableKey: `${asked.requestEventId}:reporter-response`,
+          requestEventId: asked.requestEventId,
+        });
+        const response = answered.world.history.events.find(
+          (event) => event.id === answered.responseEventId,
+        );
+        if (response?.context.choice !== "accepted") {
+          reasons.push(`${reporter.personName} declined`);
+          continue;
+        }
+        const start = addSimulationMinutes(answered.world.currentMoment, 60);
+        const arranged = arrangeAcceptedPressInterview(answered.world, {
+          stableKey: `${asked.requestEventId}:arrangement`,
+          requestEventId: asked.requestEventId,
+          reporterResponseEventId: answered.responseEventId,
+          adviserResponseEventId: null,
+          start,
+          end: addSimulationMinutes(start, 30),
+          preparationMinutes: 0,
+          location: {
+            locationKey: `press-planned:${asked.requestEventId}`,
+            label: plannedPressArrangementPlace("spoken").label,
+          },
+        });
+        // With no preparation the player holds no recorded fact, so the
+        // answer bank composePressAnswer uses is answer-unknown.
+        const packet = pressAnswerPacket(arranged.world, arranged.activityId);
+        const answer = packet
+          ? composePressLine(packet, "answer-unknown", {
+              question: question.statement,
+            })
+          : null;
+        if (!answer) {
+          reasons.push("the answer bank could not word it from the record");
+          continue;
+        }
+        const speaker = personOf(
+          arranged.world,
+          ctx.playerId,
+          ctx.playerId,
+          null,
+        );
+        return {
+          axis: "interaction",
+          composer: "composePressLine (answer-unknown) in press-english.ts",
+          situation: `In an arranged spoken interview with ${reporter.personName} about "${topic.summary}", ${ctx.playerName} answers the reporter's question with no preparation.`,
+          prior: question.statement,
+          speaker,
+          line: answer.text,
+          parts: answer.parts,
+          harness: [
+            "Key answer-unknown is the one composePressAnswer picks when the player holds no recorded fact.",
+            "The request, the reporter's own decision and the arrangement were written through the press desk's producers; the world they wrote is discarded after this line.",
+          ],
+        };
+      } catch (error) {
+        reasons.push(error instanceof Error ? error.message : String(error));
+      }
+    }
+  }
+  return skip(
+    reasons.length
+      ? reasons.slice(0, 3).join("; ")
+      : "no development a reporter knows",
+  );
+}
+
 function privacyMood(ctx: WorldContext): Produced {
   const speaker =
     ctx.cast.find(
@@ -1006,6 +1147,7 @@ const SITUATIONS: readonly Situation[] = [
   { id: "press-reporter-question", run: pressQuestion },
   { id: "matter-uninformed", run: matterUninformed },
   { id: "officials-view", run: officialsView },
+  { id: "press-answer", run: pressAnswer },
   // Fallbacks, used only when one above cannot be worded in any world.
   { id: "told-plan-second-listener", run: toldPlan(1) },
   { id: "school-offer", run: schoolReply("offer") },
@@ -1210,6 +1352,26 @@ function main() {
   writeFileSync(out, `${JSON.stringify(result, null, 2)}\n`);
   console.log(batchSummary(result));
   console.log(`\nWrote ${out}.`);
+  // The grading page's file: only exchanges that pass the rules; the rest go
+  // to the bin beside it.
+  const at = new Date();
+  const batchId = opt("batch-id", gradingBatchId(at));
+  const head = execSync("git rev-parse HEAD").toString().trim();
+  const { batch, bin } = toGradingBatch(result, { id: batchId, head, at });
+  const gradingOut = `test-results/dialogue-batch/${batchId}.json`;
+  mkdirSync(dirname(gradingOut), { recursive: true });
+  writeFileSync(gradingOut, `${JSON.stringify(batch, null, 2)}\n`);
+  writeFileSync(
+    `test-results/dialogue-batch/${batchId}.bin.json`,
+    `${JSON.stringify(bin, null, 2)}\n`,
+  );
+  console.log(
+    `Wrote ${gradingOut}: ${batch.items.length} exchanges to grade, ${bin.length} in the bin.`,
+  );
+  if (args.includes("--write-ledger")) {
+    writeCoverageLedger(batch);
+    console.log("Updated data/english/coverage.json.");
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();
