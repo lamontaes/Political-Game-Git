@@ -578,6 +578,12 @@ export function WorldOrientationPanel({
 
           <div className="pg-orientation-copy">
             <div className="pg-orientation-panel pg-glass-panel">
+              <span className="pg-orientation-corners" aria-hidden="true">
+                <span data-corner="top-left" />
+                <span data-corner="top-right" />
+                <span data-corner="bottom-left" />
+                <span data-corner="bottom-right" />
+              </span>
               <p className="pg-orientation-kicker">
                 {index + 1} of {steps.length} · {view.dateLabel}
               </p>

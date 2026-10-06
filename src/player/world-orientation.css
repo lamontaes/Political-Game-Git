@@ -485,6 +485,7 @@
 
 /* The words share the existing Kit 13 glass surface, not stacked paper cards. */
 .pg-orientation-panel {
+  position: relative;
   --run-a-ink: var(--text-strong);
   --run-a-muted: var(--text-2);
   --run-a-gold: var(--gold);
@@ -493,6 +494,41 @@
   flex: 0 1 auto;
   color: var(--text-strong);
   font-family: var(--speech);
+}
+/* Original approved sheet pixels; no new corner art or altered source image. */
+.pg-orientation-panel > .pg-orientation-corners {
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+}
+.pg-orientation-corners > span {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  background-image: url("/ui/kit13/approved-controls-sheet.png");
+  background-repeat: no-repeat;
+  background-size: 1622px 969px;
+  pointer-events: none;
+}
+.pg-orientation-corners [data-corner="top-left"] {
+  top: 0;
+  left: 0;
+  background-position: -54px -47px;
+}
+.pg-orientation-corners [data-corner="top-right"] {
+  top: 0;
+  right: 0;
+  background-position: -1512px -47px;
+}
+.pg-orientation-corners [data-corner="bottom-left"] {
+  bottom: 0;
+  left: 0;
+  background-position: -54px -857px;
+}
+.pg-orientation-corners [data-corner="bottom-right"] {
+  bottom: 0;
+  right: 0;
+  background-position: -1512px -857px;
 }
 .pg-orientation-panel .pg-orientation-title {
   font-family: var(--name);
