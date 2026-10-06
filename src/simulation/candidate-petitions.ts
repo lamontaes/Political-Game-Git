@@ -4,12 +4,18 @@ import { viewOfOfficial } from "./official-view-reads";
 import { majorPartyOf } from "./statewide-electorate";
 import { readRelationshipStanding } from "./relationship-standing";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
-import { campaignById } from "./campaign-queries";
+import { activeCampaignForCandidate, campaignById } from "./campaign-queries";
 import { personName } from "./people";
 import { recordWorldEvent } from "./world";
 import type { DecisionConsideration, EntityId, IsoDate, World } from "./types";
 
 export const CANDIDATE_PETITION_ASKED_TAG = "campaign:candidate-petition-ask";
+export const CANDIDATE_PETITION_SIGNATURE_PATH_TAG =
+  "campaign:candidate-petition-signature-path";
+export const CANDIDATE_PETITION_CIRCULATING_TAG =
+  "campaign:candidate-petition-circulating";
+export const CANDIDATE_PETITION_FEE_ONLY_TAG =
+  "campaign:candidate-petition-fee-only";
 
 export interface AskToSignInput {
   readonly campaignId: EntityId;
@@ -23,6 +29,55 @@ export interface AskToSignResult {
   readonly eventId: EntityId;
   readonly decision: "sign" | "decline";
   readonly alreadyAsked: false;
+}
+
+export interface PetitionAskOffer {
+  readonly key: string;
+  readonly label: string;
+  readonly campaignId: EntityId;
+  readonly circulatorPersonId: EntityId;
+  readonly signerPersonId: EntityId;
+}
+
+/**
+ * The petition choice available while the candidate is physically with one
+ * person. Filing law opts a campaign into this route through its recorded
+ * filing event; an active campaign alone is not evidence that signatures are
+ * required. Consequently a fee-only place never acquires this choice by
+ * fallback.
+ */
+export function petitionAskOffer(
+  world: World,
+  circulatorPersonId: EntityId,
+  signerPersonId: EntityId,
+): PetitionAskOffer | null {
+  if (
+    circulatorPersonId === signerPersonId ||
+    !world.people[circulatorPersonId] ||
+    !world.people[signerPersonId]
+  ) {
+    return null;
+  }
+  const campaign = activeCampaignForCandidate(world, circulatorPersonId);
+  if (!campaign) return null;
+  const filing = world.history.events.find(
+    (event) => event.id === campaign.filingEventId,
+  );
+  if (
+    !filing?.tags.includes(CANDIDATE_PETITION_SIGNATURE_PATH_TAG) ||
+    !filing.tags.includes(CANDIDATE_PETITION_CIRCULATING_TAG) ||
+    filing.tags.includes(CANDIDATE_PETITION_FEE_ONLY_TAG) ||
+    petitionAskedPersonIds(world, campaign.id).has(signerPersonId)
+  ) {
+    return null;
+  }
+  return {
+    key: `candidate-petition:${campaign.id}:${signerPersonId}`,
+    label: `Ask ${personName(world.people[signerPersonId])} to sign the petition`,
+    campaignId: campaign.id,
+    circulatorPersonId,
+    signerPersonId,
+  };
 }
 
 /** The event log's first ask for each signer, in recorded order. */

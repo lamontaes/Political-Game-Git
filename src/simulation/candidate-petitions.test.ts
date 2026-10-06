@@ -6,7 +6,11 @@ import { addDays } from "./dates";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import {
   askToSign,
+  CANDIDATE_PETITION_CIRCULATING_TAG,
+  CANDIDATE_PETITION_FEE_ONLY_TAG,
+  CANDIDATE_PETITION_SIGNATURE_PATH_TAG,
   petitionAskedPersonIds,
+  petitionAskOffer,
   petitionSignaturesForCampaign,
 } from "./candidate-petitions";
 import type { EntityId, World } from "./types";
@@ -23,7 +27,90 @@ function firstOther(world: World, candidateId: EntityId): EntityId {
   return personId;
 }
 
+function withPetitionFiling(world: World, filingEventId: EntityId): World {
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      events: world.history.events.map((event) =>
+        event.id === filingEventId
+          ? {
+              ...event,
+              tags: [
+                ...event.tags,
+                CANDIDATE_PETITION_SIGNATURE_PATH_TAG,
+                CANDIDATE_PETITION_CIRCULATING_TAG,
+              ],
+            }
+          : event,
+      ),
+    },
+  };
+}
+
 describe("candidate petition asks", () => {
+  it("offers a played ask only for a signature filing in circulation", () => {
+    const fixture = petitionFixture("petition-played-offer");
+    const signerId = firstOther(fixture.world, fixture.candidateId);
+    const signatureWorld = withPetitionFiling(
+      fixture.world,
+      fixture.campaign.filingEventId,
+    );
+    const offer = petitionAskOffer(
+      signatureWorld,
+      fixture.candidateId,
+      signerId,
+    );
+    expect(offer).toMatchObject({
+      campaignId: fixture.campaign.id,
+      circulatorPersonId: fixture.candidateId,
+      signerPersonId: signerId,
+    });
+    expect(offer?.label).toContain(signatureWorld.people[signerId]!.givenName);
+
+    const played = askToSign(signatureWorld, {
+      campaignId: offer!.campaignId,
+      circulatorPersonId: offer!.circulatorPersonId,
+      signerPersonId: offer!.signerPersonId,
+      at: signatureWorld.currentDate,
+    });
+    expect(played.world.history.events.at(-1)).toMatchObject({
+      type:
+        played.decision === "sign"
+          ? "campaign.petition-signed"
+          : "campaign.petition-declined",
+      participants: [
+        { personId: signerId, role: "agency:signer" },
+        { personId: fixture.candidateId, role: "agency:circulator" },
+      ],
+    });
+    expect(
+      petitionAskOffer(played.world, fixture.candidateId, signerId),
+    ).toBeNull();
+
+    expect(
+      petitionAskOffer(fixture.world, fixture.candidateId, signerId),
+    ).toBeNull();
+
+    const feeOnlyWorld = {
+      ...signatureWorld,
+      history: {
+        ...signatureWorld.history,
+        events: signatureWorld.history.events.map((event) =>
+          event.id === fixture.campaign.filingEventId
+            ? {
+                ...event,
+                tags: [...event.tags, CANDIDATE_PETITION_FEE_ONLY_TAG],
+              }
+            : event,
+        ),
+      },
+    };
+    expect(
+      petitionAskOffer(feeOnlyWorld, fixture.candidateId, signerId),
+    ).toBeNull();
+  });
+
   it("records a deterministic dated decision with signer and circulator participants", () => {
     const fixture = petitionFixture("petition-same-world");
     const signerId = firstOther(fixture.world, fixture.candidateId);
