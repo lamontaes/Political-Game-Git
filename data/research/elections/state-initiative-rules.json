@@ -4353,11 +4353,11 @@
           "reason": "Registered voters may petition for this form under the cited constitutional provision.",
           "basis": "primary-text-read",
           "distribution": {
-            "requiredFraction": 0.5,
-            "unit": "counties",
-            "localThresholdFraction": 0.5,
-            "basis": "estimated-from-average",
-            "note": "Median required geographic share across reviewed clauses (none, half counties, half congressional districts); county unit is an explicit game estimate."
+            "requiredFraction": 0,
+            "unit": "none",
+            "localThresholdFraction": 0,
+            "basis": "primary-text-read",
+            "note": "Article II section1 specifies a statewide gubernatorial-vote signature base without a geographic quota in its petition clauses."
           },
           "review": {
             "authority": "secretary of state",
@@ -4384,11 +4384,11 @@
           "reason": "Registered voters may petition for this form under the cited constitutional provision.",
           "basis": "primary-text-read",
           "distribution": {
-            "requiredFraction": 0.5,
-            "unit": "counties",
-            "localThresholdFraction": 0.5,
-            "basis": "estimated-from-average",
-            "note": "Median required geographic share across reviewed clauses (none, half counties, half congressional districts); county unit is an explicit game estimate."
+            "requiredFraction": 0,
+            "unit": "none",
+            "localThresholdFraction": 0,
+            "basis": "primary-text-read",
+            "note": "Article II section1 specifies a statewide gubernatorial-vote signature base without a geographic quota in its petition clauses."
           },
           "review": {
             "authority": "secretary of state",

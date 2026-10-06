@@ -1,4 +1,5 @@
 import statePetitionData from "../../data/research/elections/state-initiative-rules.json" with { type: "json" };
+import { stateKeyForJurisdiction } from "./life-places";
 import { municipalRulePackFor } from "./municipal-election-rule-packs";
 import { municipalValueOrNull } from "./municipal-election-rules";
 import { addDays } from "./dates";
@@ -678,18 +679,22 @@ function writePetitionStart(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: input.jurisdictionId,
-    involvedEntityIds: [input.petitionerPersonId, input.subjectId].sort(),
+    involvedEntityIds: [
+      input.petitionerPersonId,
+      input.kind === "recall" ? input.subjectId : input.jurisdictionId,
+    ].sort(),
     participants: [
       {
         personId: input.petitionerPersonId,
         role: "focus:actor",
-        detail: "petition-circulator",
+        detail:
+          input.kind === "recall" ? "recall-petitioner" : "petition-circulator",
       },
       ...(input.kind === "recall"
         ? [
             {
               personId: input.subjectId,
-              role: "focus:subject",
+              role: "focus:subject" as const,
               detail: "recall-target",
             },
           ]
@@ -756,6 +761,32 @@ export function startCitizenPetition(
     )
   )
     throw new Error("Only an eligible resident may file this petition.");
+  if (
+    input.kind === "local-initiative" ||
+    input.kind === "protest-referendum"
+  ) {
+    const government = input.governmentKey
+      ? municipalGovernmentByKey(input.governmentKey)
+      : null;
+    if (
+      !government ||
+      government.state !== rule.stateUsps ||
+      municipalGovernmentJurisdictionId(world, government.key) !==
+        input.jurisdictionId
+    )
+      throw new Error(
+        "A local petition must name its own recorded municipal government.",
+      );
+  } else {
+    const jurisdiction = world.jurisdictions[input.jurisdictionId];
+    if (
+      !jurisdiction ||
+      stateKeyForJurisdiction(jurisdiction) !== `US-${rule.stateUsps}`
+    )
+      throw new Error(
+        "A state petition must name the jurisdiction governed by its rule row.",
+      );
+  }
   const proposition = world.policyCatalog.propositions[input.propositionId];
   if (!proposition)
     throw new Error("The petition must name a recorded proposition.");

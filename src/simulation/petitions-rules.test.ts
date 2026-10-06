@@ -1,9 +1,17 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { isEligibleVoterIn } from "./issue-record";
+import { deserializeWorld, serializeWorldPayload } from "./serialization";
+import { addDays } from "./dates";
+import { generalElectionDay } from "./nominations/nomination-rules";
 import stateRules from "../../data/research/elections/state-initiative-rules.json" with { type: "json" };
 import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import { municipalGovernmentForLifePlace } from "./municipal-government";
 import { resolveMunicipalRecallRule } from "./municipal-ballot-rules";
 import {
+  citizenPetitions,
+  startCitizenPetition,
+  RECALL_PETITION_CLOSES,
   municipalRecallRule,
   petitionFilingCheck,
   petitionRule,
@@ -98,5 +106,112 @@ describe("one petition rule gate", () => {
       checked++;
     }
     expect(checked).toBeGreaterThan(0);
+  });
+  it("files a proposition through the shared event reader and close clock, retaining terms after reload", () => {
+    const sample = Object.entries(stateRules.places).find(
+      ([, place]) =>
+        place.kinds["state-initiative"].basis === "estimated-from-average",
+    )!;
+    const fixture = smallWorld({
+      place: sample[0],
+      seed: "session-110-petition-rule-clock",
+      people: 6,
+    });
+    const petitionerPersonId = fixture.world.personOrder.find((id) =>
+      isEligibleVoterIn(
+        fixture.world,
+        id,
+        fixture.stateJurisdictionId,
+        fixture.world.currentDate,
+      ),
+    )!;
+    const propositionId = fixture.world.policyCatalog.propositionOrder[0]!;
+    const world = startCitizenPetition(fixture.world, {
+      kind: "state-initiative",
+      petitionerPersonId,
+      jurisdictionId: fixture.stateJurisdictionId,
+      stateUsps: fixture.stateUsps,
+      propositionId,
+    });
+    const reloaded = deserializeWorld(serializeWorldPayload(world));
+    const petition = citizenPetitions(reloaded)[0]!;
+    expect(petition.kind).toBe("state-initiative");
+    if (petition.kind === "recall")
+      throw new Error("Expected a proposition subject.");
+    expect(petition.propositionId).toBe(propositionId);
+    expect(petition.targetPersonId).toBeNull();
+    expect(petition.rule).toEqual(
+      petitionRule("state-initiative", fixture.stateUsps),
+    );
+    expect(petition.closesAt).toBe(
+      addDays(fixture.world.currentDate, Number(petition.rule.window.days)),
+    );
+    expect(
+      reloaded.history.futureDueItems.find(
+        (row) => row.stableKey === `${petition.stableKey}:closes`,
+      ),
+    ).toMatchObject({
+      transitionKey: RECALL_PETITION_CLOSES,
+      dueAt: petition.closesAt,
+    });
+  });
+  it("applies an actual initiative refusal at filing before creating any petition", () => {
+    const sample = Object.entries(stateRules.places).find(
+      ([, place]) => !place.kinds["constitutional-initiative"].available,
+    )!;
+    const fixture = smallWorld({
+      place: sample[0],
+      seed: "session-110-petition-refusal",
+    });
+    expect(() =>
+      startCitizenPetition(fixture.world, {
+        kind: "constitutional-initiative",
+        petitionerPersonId: fixture.personId,
+        jurisdictionId: fixture.stateJurisdictionId,
+        stateUsps: fixture.stateUsps,
+        propositionId: fixture.world.policyCatalog.propositionOrder[0]!,
+      }),
+    ).toThrow(sample[1].kinds["constitutional-initiative"].reason);
+    expect(citizenPetitions(fixture.world)).toEqual([]);
+  });
+  it("uses a read election-relative filing deadline rather than a circulation-duration guess", () => {
+    const sample = Object.entries(stateRules.places).find(
+      ([, place]) =>
+        place.kinds["state-initiative"].window.kind === "election-lead",
+    )!;
+    const fixture = smallWorld({
+      place: sample[0],
+      seed: "session-110-petition-deadline",
+      people: 6,
+    });
+    const petitionerPersonId = fixture.world.personOrder.find((id) =>
+      isEligibleVoterIn(
+        fixture.world,
+        id,
+        fixture.stateJurisdictionId,
+        fixture.world.currentDate,
+      ),
+    )!;
+    const input = {
+      kind: "state-initiative" as const,
+      petitionerPersonId,
+      jurisdictionId: fixture.stateJurisdictionId,
+      stateUsps: fixture.stateUsps,
+      propositionId: fixture.world.policyCatalog.propositionOrder[0]!,
+    };
+    expect(() => startCitizenPetition(fixture.world, input)).toThrow(
+      "lawful election date",
+    );
+    const electionDate = generalElectionDay(
+      Number(fixture.world.currentDate.slice(0, 4)),
+    );
+    const world = startCitizenPetition(fixture.world, {
+      ...input,
+      electionDate,
+    });
+    const petition = citizenPetitions(world)[0]!;
+    expect(petition.closesAt).toBe(
+      `${electionDate.slice(0, 4)}-07-${electionDate.slice(8)}`,
+    );
   });
 });
