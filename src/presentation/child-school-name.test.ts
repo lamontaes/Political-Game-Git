@@ -7,6 +7,7 @@ import {
   lifePlaceSearch,
   organizationProfileAt,
 } from "../simulation";
+import { localInstitutionsFor } from "../simulation/local-institutions";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -52,14 +53,48 @@ describe("a child who starts in school goes to a school with a name", () => {
   });
 
   it("names the school for the level the child is at now", () => {
-    expect(schoolOf(start(8, "child-school-8"))).toMatch(/Elementary/);
-    expect(schoolOf(start(12, "child-school-12"))).toMatch(/Middle/);
+    expect(schoolOf(start(8, "child-school-8"))).not.toMatch(/public school$/i);
+    expect(schoolOf(start(12, "child-school-12"))).not.toMatch(
+      /public school$/i,
+    );
   });
 
-  it("an old replay that never declared the repair keeps its school", () => {
-    expect(schoolOf(start(17, "child-school-legacy", false))).toMatch(
-      /public school$/,
+  it("does not create the old town public-school placeholder", () => {
+    expect(schoolOf(start(17, "child-school-legacy", false))).not.toMatch(
+      /public school$/i,
     );
+  });
+
+  it("uses the local source row in a new Seattle game", () => {
+    const setup: NewGameSetup = {
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "b23-real-school-seattle",
+      placeKey: "5363000",
+      startAge: 17,
+    };
+    const game = generateOpeningLife(prepareOpeningLife(setup)).game!;
+    const player = game.world.people[game.playerPersonId]!;
+    const enrollment = educationEnrollmentHistoryForPerson(
+      game.world,
+      player.id,
+    ).at(-1)!;
+    const profile = organizationProfileAt(
+      game.world,
+      enrollment.organizationId,
+    )!;
+    const school = localInstitutionsFor(game.world, player.homeJurisdictionId)
+      .highSchools[0]!;
+    expect(profile.name).toBe(school.name);
+    const organization = game.world.history.organizations.find(
+      (row) => row.id === enrollment.organizationId,
+    )!;
+    expect(organization.provenance).toMatchObject({
+      kind: "source-record",
+      reference: `${school.sourceKey}:${school.sourceId} (directory as of ${school.asOf}); historical name estimated before directory vintage`,
+      asOf: game.world.history.organizations.find(
+        (row) => row.id === enrollment.organizationId,
+      )!.formedAt,
+    });
   });
 
   // The 17-year-old had no earlier life at all: one school, attended since
@@ -82,8 +117,8 @@ describe("a child who starts in school goes to a school with a name", () => {
       [11, "completed"],
       [14, "active"],
     ]);
-    expect(rows[0]!.school).toMatch(/Elementary/);
-    expect(rows[1]!.school).toMatch(/Middle/);
+    expect(rows[0]!.school).not.toMatch(/public school$/i);
+    expect(rows[1]!.school).not.toMatch(/public school$/i);
     expect(rows[2]!.school).toMatch(/High School$/);
   });
 

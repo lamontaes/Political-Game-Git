@@ -156,6 +156,9 @@ function institutionRow(
     sourceKey: row[1] === "postsecondary" ? "IPEDS" : "NCES-CCD",
     sourceId: institutionId,
     asOf: row[1] === "postsecondary" ? `${row[14].slice(0, 4)}-06-30` : AS_OF,
+    ...(row[1] === "school" || row[1] === "district"
+      ? { historicalNameEstimated: true as const }
+      : {}),
   };
 }
 

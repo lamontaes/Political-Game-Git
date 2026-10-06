@@ -79,6 +79,7 @@ describe("compiled local institutions", () => {
         sourceKey: "NCES-CCD",
         sourceId: "010000100001",
         asOf: "2025-06-30",
+        historicalNameEstimated: true,
       },
     ]);
   });
