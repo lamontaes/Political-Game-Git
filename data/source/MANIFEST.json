@@ -2723,5 +2723,13 @@
       "productionGate": "The official 2025 archive is now retrieved and locked. Its actual five-tab XLSX/PID6 format differs from the historical TSV/14-digit-GID fixture contract. The general-purpose publisher identity reader is available for MUNI; full legacy corpus production remains gated until all tabs, native identifiers, dormant-versus-inventory status and unavailable legacy GIDs are reconciled without dropping usable units or guessing joins."
     }
   ],
-  "manifestVersion": "1"
+  "manifestVersion": "1",
+  "researchFiles": [
+    {
+      "asOf": "2025-06-30",
+      "path": "data/research/places/local-institutions.json",
+      "recordCount": 12261,
+      "sha256": "1be993de758d18376ec66c234f32a604fd17cbce9ab82b681ed965cbc82cb382"
+    }
+  ]
 }
