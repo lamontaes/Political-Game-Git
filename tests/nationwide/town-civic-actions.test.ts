@@ -197,9 +197,32 @@ describe(
         }
         for (const tag of contact!.tags.filter(
           (value) =>
-            value.startsWith("reason:") || value.startsWith("source-record:"),
+            value.startsWith("reason:") ||
+            value.startsWith("source-record:"),
         ))
           expect(opened.tags).toContain(tag);
+      }
+      const closedCases = world.history.events.filter(
+        (event) => event.type === "office.case-closed",
+      );
+      expect(closedCases.length).toBeGreaterThan(0);
+      for (const closed of closedCases) {
+        const caseId = closed.tags
+          .find((tag) => tag.startsWith("case:"))
+          ?.slice("case:".length);
+        const opened = openedCases.find((event) => event.id === caseId);
+        expect(opened).toBeDefined();
+        expect(
+          closed.participants.some(
+            ({ role }) => role === "coordination:handler",
+          ),
+        ).toBe(true);
+        for (const tag of opened!.tags.filter(
+          (value) =>
+            value.startsWith("reason:") ||
+            value.startsWith("source-record:"),
+        ))
+          expect(closed.tags).toContain(tag);
       }
       process.stdout.write(
         `${JSON.stringify({ receipt: "B06 contact reason provenance", seed: SEED, place: PLACE.displayName, placeKey: PLACE.key, worldId: world.id, simulationDate: world.currentDate, examples: contacts.slice(0, 3).map((event) => ({ eventId: event.id, reason: event.tags.find((tag) => tag.startsWith("reason:")), sources: event.tags.filter((tag) => tag.startsWith("source-record:")) })) })}\n`,
