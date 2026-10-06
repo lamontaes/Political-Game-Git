@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { decideExecutiveActionAuthority } from "./executive-action-authority";
+import {
+  decideExecutiveActionAuthority,
+  type ExecutiveActionClause,
+} from "./executive-action-authority";
 import { executiveRulePackForJurisdiction } from "./executive-authority-rule-packs";
 import type { LawInForce } from "./governing/law-in-force";
 import type { EntityId } from "./types";
@@ -7,6 +10,9 @@ import { makeIsoDate } from "./dates";
 import { issueExecutiveInstrument, replayMeasure } from "./legislation";
 import { legislatureProfilePackId } from "./legislature-game-profile";
 import { stateJurisdictionForKey } from "./life-places";
+import { searchLifePlaces } from "./life-places";
+import { SeededRng } from "./rng";
+import { STATES } from "./state-reference";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
@@ -111,14 +117,24 @@ describe("executive action authority", () => {
   });
 
   it("files and issues an executive order through the canonical measure and enactment records", () => {
+    const seed = "session38-executive-profile-new-game-20261006";
+    const rng = new SeededRng(seed);
+    const stateUsps = rng.pick(Object.keys(STATES));
+    const jurisdictionKey = `US-${stateUsps}`;
+    const places = searchLifePlaces("", 100, {
+      scope: "locality",
+      stateJurisdictionKey: jurisdictionKey,
+    });
+    expect(places.length).toBeGreaterThan(0);
+    const place = rng.pick(places);
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       startKind: "normal",
-      placeKey: "3300980",
+      placeKey: place.key,
       startAge: 30,
       depth: "summarize-earlier-life",
       startingLife: "ordinary-life",
-      seed: "session38-executive-instrument-record",
+      seed,
       questionnaire: "skipped",
       priors: [],
     });
@@ -126,25 +142,34 @@ describe("executive action authority", () => {
     const stateExecutiveWorld = ensureStateExecutiveIncumbent(
       game.world,
       subjectPersonId,
-      "NH",
+      stateUsps,
     );
     const actorPersonId = currentStateExecutiveHolders(
       stateExecutiveWorld,
-    ).find((holder) => holder.stateUsps === "NH")!.personId;
-    const jurisdictionId = stateJurisdictionForKey("US-NH")!.id;
+    ).find((holder) => holder.stateUsps === stateUsps)!.personId;
+    const jurisdictionId = stateJurisdictionForKey(jurisdictionKey)!.id;
+    const clause: ExecutiveActionClause = {
+      kind: "executive-branch-management",
+      topicKey: "agency-instructions",
+    };
+    const authority = decideExecutiveActionAuthority(
+      executiveRulePackForJurisdiction(jurisdictionKey),
+      clause,
+      null,
+    );
     const issued = issueExecutiveInstrument(stateExecutiveWorld, {
-      stableKey: "session38:nh:order:records-audit",
-      jurisdictionKey: "US-NH",
+      stableKey: `session38:${stateUsps}:order:records-audit`,
+      jurisdictionKey,
       jurisdictionId,
-      legislativeRulePackId: legislatureProfilePackId("US-NH"),
+      legislativeRulePackId: legislatureProfilePackId(jurisdictionKey),
       instrument: "executive-order",
       designation: "Executive Order 1",
       shortTitle: "Direct a records audit",
       summary: "Direct the executive branch to review its records process.",
-      actorLabel: "Governor of New Hampshire",
+      actorLabel: executiveRulePackForJurisdiction(jurisdictionKey).displayName,
       actorPersonId,
       rationale: "The governor is directing an internal agency process.",
-      sourceDocumentKey: "session9:executive-order:records-audit",
+      sourceDocumentKey: `session9:executive-order:${stateUsps}:records-audit`,
       publishedAt: stateExecutiveWorld.currentDate,
       effectiveAt: stateExecutiveWorld.currentDate,
       expiresAt: null,
@@ -152,20 +177,17 @@ describe("executive action authority", () => {
       propositionAnswers: [],
       authorityChecks: [
         {
-          clause: {
-            kind: "executive-branch-management",
-            topicKey: "agency-instructions",
-          },
+          clause,
         },
       ],
     });
     const measure = issued.history.legislativeMeasures?.find(
-      (row) => row.stableKey === "session38:nh:order:records-audit",
+      (row) => row.stableKey === `session38:${stateUsps}:order:records-audit`,
     );
     expect(measure).toMatchObject({
       governmentInstrument: "executive-order",
       origin: "executive-request",
-      sourceDocumentKey: "session9:executive-order:records-audit",
+      sourceDocumentKey: `session9:executive-order:${stateUsps}:records-audit`,
     });
     const enactment = issued.history.legislativeEnactments?.find(
       (row) => row.measureId === measure?.id,
@@ -178,5 +200,27 @@ describe("executive action authority", () => {
     });
     expect(replayMeasure(issued, measure!.id).violations).toEqual([]);
     expect(replayMeasure(issued, measure!.id).position.phase).toBe("enacted");
+    console.log(
+      JSON.stringify({
+        proof: "generated executive order measure and enactment",
+        seed,
+        worldId: issued.id,
+        simulationDate: issued.currentDate,
+        place: place.displayName,
+        placeKey: place.key,
+        jurisdictionKey,
+        office: executiveRulePackForJurisdiction(jurisdictionKey).displayName,
+        authorityBasis:
+          executiveRulePackForJurisdiction(jurisdictionKey).office.source
+            .authority,
+        authorityDecision: authority,
+        measureId: measure!.id,
+        enactmentId: enactment!.id,
+        outcomeEventId: enactment!.outcomeEventId,
+        publishedAt: enactment!.publishedAt,
+        effectiveAt: enactment!.effectiveAt,
+        expiresAt: enactment!.expiresAt,
+      }),
+    );
   });
 });
