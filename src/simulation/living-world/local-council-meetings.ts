@@ -1,14 +1,8 @@
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { applyInstitutionStep } from "../governing/legislative-clock";
-import { offerPlannedAmendment } from "../governing/amendment-authors";
-import {
-  amendmentAdmissible,
-  floorStageTakesAmendments,
-} from "../governing/chamber-procedure";
-import { councilBallotPartisanship } from "../governing/body-partisanship";
-import { publicPartyOf } from "../governing/chamber-votes";
-import { personName } from "../people";
+import { legislativeSittingHandler } from "../governing/legislative-sittings";
+import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import {
   councilRules,
   lawJurisdiction,
@@ -270,73 +264,42 @@ function moveOrdinances(
   rules: CouncilRules,
   player: EntityId | null,
 ): World {
-  let next = world;
   const law = lawJurisdiction(world, unit, town).jurisdictionId;
-  for (const measure of councilMeasures(world, rules, law)) {
-    if (player && measure.sponsorPersonId === player) continue;
-    const phase = measurePosition(next, measure.id).phase;
-    if (phase !== "awaiting-referral" && phase !== "on-floor") continue;
-    // Taken up at a meeting after the one it was introduced at.
-    if (phase === "on-floor" && measure.introducedAt >= next.currentDate)
-      continue;
-    if (phase === "on-floor") {
-      const position = measurePosition(next, measure.id);
-      const pack = rulePackById(rules.packId);
-      const chamber = chamberByKey(pack, "council");
-      const stage = chamber.floorStages.find(
-        (row) => row.stageKey === position.floorStageKey,
+  const pack = legislativeRulePackForWorld(world, rules.packId);
+  const measures = councilMeasures(world, rules, law);
+  return legislativeSittingHandler(world, {
+    chambers: pack.chambers,
+    session: pack.session,
+    measureIds: measures.map((measure) => measure.id),
+    eligible: (current, measureId) => {
+      const measure = measures.find((row) => row.id === measureId);
+      if (!measure || (player && measure.sponsorPersonId === player))
+        return false;
+      const phase = measurePosition(current, measureId).phase;
+      // A newly introduced ordinance is first taken up at the next meeting.
+      return (
+        (phase === "awaiting-referral" || phase === "on-floor") &&
+        !(phase === "on-floor" && measure.introducedAt >= current.currentDate)
       );
-      const seats = members(next, unit);
-      if (
-        stage &&
-        seats.length > 0 &&
-        seats.every((seat) => next.people[seat.personId]) &&
-        (!position.earliestNextFloorDate ||
-          position.earliestNextFloorDate <= next.currentDate) &&
-        floorStageTakesAmendments(chamber, stage)
-      ) {
-        next = offerPlannedAmendment(next, {
-          measureId: measure.id,
-          chamber,
-          stage,
-          members: seats.map((seat, index) => ({
-            memberKey: `council:${index + 1}`,
-            personId: seat.personId,
-            name: personName(next.people[seat.personId]!),
-            caucusLabel: publicPartyOf(next, seat.personId) ?? "No party",
-          })),
-          stableKey: `${measure.stableKey}:reading:${stage.stageKey}:amendment`,
-          nonpartisan: councilBallotPartisanship(unit).nonpartisan,
-          admissible: (bill, part) =>
-            mayAnswerQuestion(
-              next,
-              measure.jurisdictionId,
-              part.propositionId,
-            ) &&
-            amendmentAdmissible(next, pack, chamber.chamberKey, bill, part)
-              .admissible,
-        });
-      }
-    }
-    const result = applyInstitutionStep(
-      next,
-      measure.id,
-      (unchanged) => unchanged,
-      {
+    },
+    takeStep: (current, measureId) =>
+      applyInstitutionStep(current, measureId, (unchanged) => unchanged, {
         localCouncil: {
           governmentUnitId: unit.id,
           townJurisdictionId: town,
           playerPersonId: player,
         },
-      },
-    );
-    // The shared writer preserves every compiled reading interval and quorum.
-    if (result.kind !== "applied") continue;
-    next = result.world;
-    if (measurePosition(next, measure.id).phase === "awaiting-enrollment")
-      next = completeCouncilPassage(next, measure, rules.governmentKey);
-  }
-  return next;
+      }),
+    applyResult: (current, measureId, result) => {
+      if (result.kind !== "applied") return current;
+      const measure = measures.find((row) => row.id === measureId);
+      if (!measure) return current;
+      const moved = result.world;
+      return measurePosition(moved, measureId).phase === "awaiting-enrollment"
+        ? completeCouncilPassage(moved, measure, rules.governmentKey)
+        : moved;
+    },
+  });
 }
 
 /* -------------------------------------------------------------------------- */
