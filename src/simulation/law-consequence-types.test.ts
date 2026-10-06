@@ -3,6 +3,11 @@ import type {
   LawConsequenceKind,
   LegacyEffectKind,
 } from "./law-consequence-types";
+import {
+  lawTermScopeKey,
+  lawTermScopesMatch,
+  type LawTermScope,
+} from "./law-consequence-types";
 import type { LawEffectContext } from "./law-effect-stamp";
 
 it("closes new writer labels while listing the legacy labels to retire", () => {
@@ -45,4 +50,39 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
   // @ts-expect-error A new bespoke outcome label must not enter the shared writer.
   const invented: LawEffectContext["effectKind"] = "invented-new-effect";
   void invented;
+});
+
+it("requires exact typed law-term scopes and canonicalizes charge-key sets", () => {
+  const first: LawTermScope = {
+    kind: "consumer-credit",
+    lenderClass: "licensed-finance-company",
+    productClass: "small-loan",
+    rateBasis: "annual-percentage-rate",
+    includedChargeKeys: ["origination", "servicing"],
+    exceptionSetKey: "statutory-exceptions-v1",
+  };
+  const reordered: LawTermScope = {
+    ...first,
+    includedChargeKeys: ["servicing", "origination"],
+  };
+  expect(lawTermScopesMatch(first, reordered)).toBe(true);
+  expect(lawTermScopesMatch(first, undefined)).toBe(false);
+  expect(
+    lawTermScopeKey({
+      ...first,
+      includedChargeKeys: ["origination", "origination"],
+    }),
+  ).toBeNull();
+  expect(
+    lawTermScopeKey({
+      ...first,
+      extra: "not part of the closed contract",
+    } as LawTermScope),
+  ).toBeNull();
+  expect(
+    lawTermScopesMatch(first, {
+      ...first,
+      exceptionSetKey: "different-exceptions",
+    }),
+  ).toBe(false);
 });
