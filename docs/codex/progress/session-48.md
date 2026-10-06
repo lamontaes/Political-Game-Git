@@ -9,7 +9,7 @@ Claim receipt: board #2424 comment 6016809471. Fable assignment map routes Sessi
 - Preserved the exact current-main desk implementation and applied only the p6 reader hunk; current main at composition was `e597ec933608993a9ecfef6110b3f9b9f856a3c7`.
 - Focused test: `npx vitest run --config /tmp/press-vitest.config.mjs src/simulation/press/publication-reach.test.ts --reporter=verbose` — 1/1 passed.
 - Scoped ESLint, Prettier, and `git diff --check` pass.
-- Typecheck on the existing shared worktree reports only two inherited missing `personalLifeDepiction` fields in `src/simulation/press/press-premise.test.ts:35,125`; no p6 diagnostics. The shared checkout has not yet composed #2470's fixture fix.
+- Typecheck on the existing shared worktree reported missing `personalLifeDepiction` at `src/simulation/press/press-premise.test.ts:35,125`, but that checkout is stale: local fixture blob `2d0b38d2b4e7e11cae4c872b60bd1ac10f1f9f69` differs from the PR-base (`e597ec933608993a9ecfef6110b3f9b9f856a3c7`) fixture blob `a5fea6fd86a6c525a5b25886a9daba7bdaa63d33`. The exact PR-base fixture includes `personalLifeDepiction: "full"` at both locations. Those local diagnostics are not current-main failures or p6 diagnostics; exact composed-head typecheck is pending hosted validation.
 - No random-new-game readership proof is claimed because the predicate is deliberately false; that producer remains a separate needed interface.
 
 ## Next
