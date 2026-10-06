@@ -599,11 +599,7 @@ interface HouseholdPersonProjection {
     readonly locations: readonly HouseholdLocationRecord[];
     readonly locationGroup: readonly HouseholdLocationRecord[];
   }[];
-  // Revision identity must not retain a whole old history array per person.
-  // A collected revision triggers conservative group validation on the next read.
-  statesSource: WeakRef<World["history"]["householdMembershipStates"]>;
-  householdsSource: WeakRef<World["history"]["households"]>;
-  locationsSource: WeakRef<World["history"]["householdLocations"]>;
+  sourceRevision: object;
   readonly sequenceCeiling: number;
   readonly results: Map<string, readonly ActiveHouseholdMembership[]>;
 }
@@ -612,6 +608,36 @@ interface HouseholdPersonProjection {
 // Cutoff queries only choose available rows; public history readers remain intact.
 const HOUSEHOLD_PROJECTIONS = new WeakMap<object, HouseholdPersonProjection>();
 const NO_HOUSEHOLD_MEMBERSHIPS: readonly ActiveHouseholdMembership[] = [];
+
+// Opaque identity tokens retain no history arrays. Nested weak keys identify
+// an exact contributing revision; old Worlds keep their own exact token.
+const HOUSEHOLD_REVISIONS = new WeakMap<
+  object,
+  WeakMap<object, WeakMap<object, object>>
+>();
+const HOUSEHOLD_REVISION_BY_HISTORY = new WeakMap<object, object>();
+
+function householdSourceRevision(history: World["history"]): object {
+  const known = HOUSEHOLD_REVISION_BY_HISTORY.get(history);
+  if (known) return known;
+  let households = HOUSEHOLD_REVISIONS.get(history.householdMembershipStates);
+  if (!households) {
+    households = new WeakMap();
+    HOUSEHOLD_REVISIONS.set(history.householdMembershipStates, households);
+  }
+  let locations = households.get(history.households);
+  if (!locations) {
+    locations = new WeakMap();
+    households.set(history.households, locations);
+  }
+  let revision = locations.get(history.householdLocations);
+  if (!revision) {
+    revision = {};
+    locations.set(history.householdLocations, revision);
+  }
+  HOUSEHOLD_REVISION_BY_HISTORY.set(history, revision);
+  return revision;
+}
 
 function lastHouseholdRowAt<
   T extends { readonly sequence: number; readonly effectiveAt: string },
@@ -639,12 +665,8 @@ export function householdMembershipsAt(
   // Group identities change only when that person's rows change. Unrelated
   // appends keep those immutable groups and their joined projection intact.
   let person = HOUSEHOLD_PROJECTIONS.get(memberships);
-  if (
-    person &&
-    (person.statesSource.deref() !== history.householdMembershipStates ||
-      person.householdsSource.deref() !== history.households ||
-      person.locationsSource.deref() !== history.householdLocations)
-  ) {
+  const sourceRevision = householdSourceRevision(history);
+  if (person && person.sourceRevision !== sourceRevision) {
     const unchanged = person.rows.every(
       (row) =>
         recordById(history.households, row.membership.householdId) ===
@@ -662,9 +684,7 @@ export function householdMembershipsAt(
           ) === row.locationGroup),
     );
     if (unchanged) {
-      person.statesSource = new WeakRef(history.householdMembershipStates);
-      person.householdsSource = new WeakRef(history.households);
-      person.locationsSource = new WeakRef(history.householdLocations);
+      person.sourceRevision = sourceRevision;
     } else person = undefined;
   }
   if (!person) {
@@ -699,9 +719,7 @@ export function householdMembershipsAt(
     });
     person = {
       rows,
-      statesSource: new WeakRef(history.householdMembershipStates),
-      householdsSource: new WeakRef(history.households),
-      locationsSource: new WeakRef(history.householdLocations),
+      sourceRevision,
       sequenceCeiling: maximum + 1,
       results: new Map(),
     };
