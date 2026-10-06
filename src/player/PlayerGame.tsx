@@ -175,7 +175,7 @@ import {
   type NewGameSetup,
 } from "../presentation/new-game";
 import { olderOneSaveSlots } from "../presentation/one-save-slots";
-import { playSettingsOf } from "../simulation/play-settings";
+import { playSettingsOf, setPlaySetting } from "../simulation/play-settings";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
@@ -4310,6 +4310,25 @@ function renderWorkspace({
           <OptionsWorkspace
             state={shell}
             dispatch={dispatch}
+            playSettings={playSettingsOf(session.world)}
+            onSetPlaySetting={(key, value) => {
+              if (key === "challenge")
+                onWorldChange(
+                  setPlaySetting(
+                    session.world,
+                    key,
+                    value as "quiet" | "standard" | "relentless",
+                  ),
+                );
+              else
+                onWorldChange(
+                  setPlaySetting(
+                    session.world,
+                    key,
+                    value as "full" | "light" | "none",
+                  ),
+                );
+            }}
             onOpenPatchNotes={() =>
               dispatch({ type: "go-to-surface", surface: "patch-notes" })
             }
