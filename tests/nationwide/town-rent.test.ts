@@ -1,4 +1,8 @@
 import { rentConstructionCovered } from "../../src/simulation/law-consequences/rent-construction-coverage";
+import {
+  serializeWorld,
+  deserializeWorld,
+} from "../../src/simulation/serialization";
 import { dateAtAge } from "../../src/simulation/dates";
 import {
   createMacroMonthlyStepHandler,
@@ -23,6 +27,9 @@ import {
 } from "../../src/simulation/dates";
 import {
   livingCostsFlowFor,
+  estimatedHouseholdLivingCostsAt,
+  initializeLivingCostsFlow,
+  LIVING_COSTS_BASIS,
   settleLivingCosts,
 } from "../../src/simulation/cost-of-living";
 import { householdMembershipsAt } from "../../src/simulation/life-queries";
@@ -32,6 +39,8 @@ import { readFinalEnactedLawTerm } from "../../src/simulation/governing/automati
 import {
   money,
   recordResourceFlowTerms,
+  createResourcePosition,
+  createResourceFlow,
   createDwelling,
   createHousingTenure,
   recordHousingTenureState,
@@ -66,7 +75,10 @@ import {
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { resourceFlowTermsAt } from "../../src/simulation/resource-queries";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
-import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import {
+  withWorldIntegrityDeferred,
+  writeWithWorldIntegrityOnce,
+} from "../../src/simulation/world";
 import type { IsoDate, World } from "../../src/simulation";
 
 /** The largest place of each state and D.C., Honolulu, and one per territory. */
@@ -697,38 +709,115 @@ describe("rent day", { timeout: 600_000 }, () => {
   });
 
   it("A52 retained nonhousing bills stay separate from actual household rent", () => {
-    // Several openings, so both a renting and an owning player household are
-    // seen; each one's month follows its own home.
+    // Several generated openings exercise actual households and rent writers.
+    // Saved nonhousing bills are explicit controlled fixture inputs.
     const seen = new Set<string>();
     for (const seed of ["a", "b", "c", "d", "e", "f"]) {
-      const { world, player } = liveMonths(
-        "1714000",
-        `town-rent-month-${seed}`,
-        2,
+      const opening = liveMonths("1714000", `town-rent-month-${seed}`, 0);
+      const player = opening.player;
+      const world = writeWithWorldIntegrityOnce(opening.world, () =>
+        collectTownRent(opening.world, opening.world.currentDate),
       );
-      // The player's money is tracked from the opening on.
-      const settled = withWorldIntegrityDeferred(() =>
-        settleLivingCosts(
-          ensureLifePathPersonalPosition(
-            world,
-            player,
-            money(0, "USD").currency,
-          ),
-          player,
-        ),
+      const tracked = ensureLifePathPersonalPosition(
+        world,
+        player,
+        money(0, "USD").currency,
       );
+      const household = householdMembershipsAt(tracked, player).find(
+        (entry) => entry.state.residenceRole === "primary",
+      )!.household.id;
+      const housingBefore = townLeases(tracked);
+      const personalPositions = tracked.history.resourcePositions.filter(
+        (row) => row.owner.kind === "person" && row.owner.personId === player,
+      );
+      // Personal cash is not household cash. A missing account must not create
+      // an estimated bill by pooling the player's recorded money.
+      expect(
+        livingCostsFlowFor(settleLivingCosts(tracked, player), player),
+      ).toBeNull();
+      const provenance = {
+        kind: "authored" as const,
+        note: "Controlled saved A52 household bill; no generated cash or observed spending claim.",
+      };
+      const initialized = initializeLivingCostsFlow(
+        createResourcePosition(tracked, {
+          stableKey: `a52:household-account:${seed}`,
+          owner: { kind: "household", householdId: household },
+          openedAt: tracked.currentDate,
+          openingBalance: money(0, "USD"),
+          provenance,
+        }),
+        player,
+      );
+      const estimate = livingCostsFlowFor(initialized, player)!;
+      expect(estimate, seed).not.toBeNull();
+      expect(
+        resourceFlowTermsAt(initialized, estimate.id)!.amount.minorUnits,
+      ).toBe(
+        estimatedHouseholdLivingCostsAt(initialized, player)!.monthlyMinor,
+      );
+      // Retain the old amount as an explicit saved provider contract. It is
+      // not the current household-size/region estimate or a housing charge.
+      const billed = createResourceFlow(initialized, {
+        stableKey: `a52:retained-provider-bill:${seed}`,
+        source: { kind: "household", householdId: household },
+        recipient: estimate.recipient,
+        startsAt: initialized.currentDate,
+        amount: money(79_125, "USD"),
+        cadenceKind: "schedule:monthly",
+        basisKind: LIVING_COSTS_BASIS,
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: estimate.jurisdictionId,
+        provenance,
+      });
+      const provider = billed.history.resourceFlows.at(-1)!;
+      const savedTerms = resourceFlowTermsAt(billed, provider.id)!;
+      const settled = settleLivingCosts(billed, player);
       const flow = livingCostsFlowFor(settled, player);
       expect(flow, seed).not.toBeNull();
-      if (!flow) continue;
-      const household = householdMembershipsAt(settled, player).find(
-        (entry) => entry.state.residenceRole === "primary",
-      )?.household.id;
+      expect(flow!.id).toBe(provider.id);
+      expect(resourceFlowTermsAt(settled, provider.id)).toEqual(savedTerms);
+      expect(resourceFlowTermsAt(settled, estimate.id)!.status).toBe("ended");
+      expect(townLeases(settled)).toEqual(housingBefore);
+      expect(
+        settled.history.resourcePositions.filter(
+          (row) => row.owner.kind === "person" && row.owner.personId === player,
+        ),
+      ).toEqual(personalPositions);
+      expect(settled.history.resourceTransferOutcomes).toEqual(
+        tracked.history.resourceTransferOutcomes,
+      );
+      expect(settleLivingCosts(settled, player)).toBe(settled);
+      const reopened = deserializeWorld(serializeWorld(settled));
+      expect(resourceFlowTermsAt(reopened, provider.id)).toEqual(savedTerms);
+      expect(townLeases(reopened)).toEqual(housingBefore);
+      expect(settleLivingCosts(reopened, player)).toBe(reopened);
       const leased = townLeases(settled).some(
         (lease) => !lease.ended && lease.householdId === household,
       );
-      const monthly = resourceFlowTermsAt(settled, flow.id)!.amount.minorUnits;
-      // Chicago: independently rounded 2024 CES Midwest retained categories.
+      const monthly = resourceFlowTermsAt(settled, flow!.id)!.amount.minorUnits;
+      // The recorded nonhousing bill retains its original amount.
       expect(monthly, seed).toBe(79_125);
+      console.log(
+        "A52 retained bill",
+        JSON.stringify({
+          seed: `town-rent-month-${seed}`,
+          placeKey: "1714000",
+          worldId: settled.id,
+          onDate: settled.currentDate,
+          personId: player,
+          householdId: household,
+          providerFlowId: provider.id,
+          retainedMinor: monthly,
+          estimateMinor: resourceFlowTermsAt(initialized, estimate.id)!.amount
+            .minorUnits,
+          leased,
+          householdRentFlowIds: housingBefore
+            .filter((lease) => lease.householdId === household && !lease.ended)
+            .map((lease) => lease.flow.id),
+        }),
+      );
       seen.add(leased ? "leased" : "not leased");
     }
     expect(seen.has("leased")).toBe(true);
