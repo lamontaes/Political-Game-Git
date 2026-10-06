@@ -217,14 +217,26 @@ describe.each(places)(
         ),
       ).toBe(false);
     });
-    it("Until needed on the meeting morning stops at its departure rather than skipping the evening", () => {
+    it("Until needed reaches an evening meeting departure in one press", () => {
+      const departure = scheduledActivityState(world, journeyId).start;
+      const priorPreview = previewTimeCommand(world, viewer, {
+        kind: "quiet-stretch",
+      })!;
+      expect(priorPreview.target).toEqual(departure);
+      const onePress = submitTimeCommand(world, {
+        requestId: `one-press:${placeKey}`,
+        personId: viewer,
+        sourceMoment: world.currentMoment,
+        command: { kind: "quiet-stretch" },
+      }).world;
+      expect(onePress.currentMoment).toEqual(departure);
+
       const morning = submitTimeCommand(world, {
         requestId: `morning:${placeKey}`,
         personId: viewer,
         sourceMoment: world.currentMoment,
         command: { kind: "days", days: 1 },
       }).world;
-      const departure = scheduledActivityState(morning, journeyId).start;
       const preview = previewTimeCommand(morning, viewer, {
         kind: "quiet-stretch",
       })!;
