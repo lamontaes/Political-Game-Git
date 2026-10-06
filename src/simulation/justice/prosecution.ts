@@ -132,7 +132,7 @@ export const PROSECUTION_ESTIMATE = {
   provenance: "estimated-from-average",
   estimated: true,
   estimatedFrom:
-    "median of the places read from court reports for timings; two hung juries before dismissal is a game estimate",
+    "resolve-after days: median of the states read from the National Center for State Courts Effective Criminal Case Management (ECCM) reports, felony filing-to-disposition medians (data/research/justice/time-to-disposition-2026.json, as of 10/1/2026); charge-decision days (60) and two hung juries before dismissal are game estimates with no report series",
   /**
    * ESTIMATED FROM AVERAGE. The labeled fallback only: a case reads its own
    * state's days through `prosecutionTimingFor` (`prosecution-timing.ts`),
