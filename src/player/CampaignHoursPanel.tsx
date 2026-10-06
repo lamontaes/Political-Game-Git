@@ -14,11 +14,14 @@ import { CAMPAIGN_HOURS_TEXT } from "../presentation/campaign-hours-text";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 const LENGTHS = [30, 60, 90, 120, 180, 240] as const;
-const WORK: readonly CampaignRoutineWork[] = ["outreach", "fundraising"];
+const WORK = [
+  "outreach",
+  "fundraising",
+] as const satisfies readonly CampaignRoutineWork[];
 
 /** Where a row starts before the candidate has ever set hours for it. */
 const FRESH: Readonly<
-  Record<CampaignRoutineWork, { startMinute: number; minutes: number }>
+  Record<(typeof WORK)[number], { startMinute: number; minutes: number }>
 > = {
   outreach: { startMinute: 18 * 60, minutes: 120 },
   fundraising: { startMinute: 10 * 60, minutes: 60 },

@@ -1,6 +1,7 @@
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { eventById } from "./event-index";
 import { modelCampaignFieldReach } from "./campaign-contact-calibration";
+import { circulateCandidatePetition } from "./candidate-petitions";
 import { wasRefused } from "./scheduled-activity-answer";
 import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
@@ -30,6 +31,7 @@ import {
   campaigns,
 } from "./campaign-queries";
 import { recordSupportShift } from "./campaign-support";
+import { currentCampaignRoutine } from "./campaign-routine";
 import {
   candidacyAuthority,
   electiveOfficesForJurisdiction,
@@ -1824,6 +1826,20 @@ export function recordCampaignLifeAttendance(
       ],
     },
   };
+  const petitionRoutine = openCampaign
+    ? currentCampaignRoutine(next, openCampaign.id)?.blocks.some(
+        (block) => block.work === "petition",
+      ) === true
+    : false;
+  if (openCampaign && petitionRoutine && FIELD_FORMS.includes(record.form)) {
+    next = circulateCandidatePetition(next, {
+      campaignId: openCampaign.id,
+      circulatorPersonId: personId,
+      stableKey: `${record.stableKey}:petition-circulation`,
+      minutes,
+      at: completedAt,
+    });
+  }
   next = ensureCampaignLifeOutreach(next, personId, record.hostOrganizationId);
   assertWorldIntegrity(next);
   return next;

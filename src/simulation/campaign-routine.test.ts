@@ -16,6 +16,15 @@ import {
 } from "./index";
 import type { EntityId, World } from "./index";
 import { currentCampaignRoutine, setCampaignRoutine } from "./campaign-routine";
+import {
+  circulateCandidatePetition,
+  petitionAskedPersonIds,
+  petitionSignaturesForCampaign,
+} from "./candidate-petitions";
+import { personName } from "./people";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { createFormationContext, recordPrivateBelief } from "./politics";
 import { campaignActionForActivity } from "./campaign-queries";
 import {
   createScheduledActivity,
@@ -136,8 +145,99 @@ const SATURDAY_CALLS = {
   startMinute: 10 * 60,
   minutes: 60,
 };
+const PETITION_EVENINGS = {
+  work: "petition" as const,
+  weekdays: [1, 3, 5],
+  startMinute: 18 * 60,
+  minutes: 120,
+};
+
+function petitionRace(seed: string) {
+  const small = smallWorld({
+    place: "US-KY",
+    people: 12,
+    seed,
+    offices: ["congress"],
+  });
+  let world = small.world;
+  for (const residentId of world.personOrder) {
+    if (residentId === small.personId) continue;
+    world = recordPrivateBelief(world, {
+      stableKey: `fixture:petition-support:${residentId}`,
+      personId: residentId,
+      propositionId: null,
+      subject: { kind: "official", personId: small.personId },
+      formedAt: world.currentDate,
+      position: "support",
+      conviction: "settled",
+      salience: "central",
+      flexibility: "firm",
+      rationale: null,
+      formation: createFormationContext("reflection:initial"),
+      supersedesBeliefId: null,
+    });
+  }
+  return {
+    world: fileForOffice(world, small.personId),
+    personId: small.personId,
+  };
+}
 
 describe("standing campaign hours (D-11)", () => {
+  it(
+    "asks a stable, nonrepeating set of named residents over two weeks",
+    () => {
+      const first = petitionRace("b01-p4-background-petitions");
+      const second = petitionRace("b01-p4-background-petitions");
+      const run = ({ world, personId }: typeof first) => {
+        const withRoutine = setCampaignRoutine(world, personId, [
+          PETITION_EVENINGS,
+        ]);
+        const campaign = campaignForCandidate(withRoutine, personId)!;
+        let after = passDays(withRoutine, 14);
+        after = circulateCandidatePetition(after, {
+          campaignId: campaign.id,
+          circulatorPersonId: personId,
+          stableKey: "a",
+          minutes: PETITION_EVENINGS.minutes,
+          at: after.currentDate,
+        });
+        after = circulateCandidatePetition(after, {
+          campaignId: campaign.id,
+          circulatorPersonId: personId,
+          stableKey: "b",
+          minutes: PETITION_EVENINGS.minutes,
+          at: after.currentDate,
+        });
+        const asked = [...petitionAskedPersonIds(after, campaign.id)];
+        const signed = petitionSignaturesForCampaign(after, campaign.id);
+        return {
+          asked,
+          signed,
+          signerNames: signed.map((event) =>
+            personName(
+              after.people[
+                event.participants.find(
+                  (participant) => participant.role === "agency:signer",
+                )!.personId
+              ]!,
+            ),
+          ),
+        };
+      };
+      const one = run(first);
+      const replay = run(second);
+      expect(one.asked.length).toBeGreaterThan(0);
+      expect(one.signed.length).toBeGreaterThan(0);
+      expect(one.signerNames.every((name) => name.trim().length > 0)).toBe(
+        true,
+      );
+      expect(one.asked).toHaveLength(new Set(one.asked).size);
+      expect(replay).toEqual(one);
+    },
+    SLOW,
+  );
+
   it(
     "runs the routine on the ordinary clock until it is changed, and writes each session up",
     () => {

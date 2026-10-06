@@ -5,6 +5,7 @@ import { majorPartyOf } from "./statewide-electorate";
 import { readRelationshipStanding } from "./relationship-standing";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { campaignById } from "./campaign-queries";
+import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { personName } from "./people";
 import { recordWorldEvent } from "./world";
 import type { DecisionConsideration, EntityId, IsoDate, World } from "./types";
@@ -23,6 +24,70 @@ export interface AskToSignResult {
   readonly eventId: EntityId;
   readonly decision: "sign" | "decline";
   readonly alreadyAsked: false;
+}
+
+export interface CirculateCandidatePetitionInput {
+  readonly campaignId: EntityId;
+  readonly circulatorPersonId: EntityId;
+  /** Stable identity of the completed routine block or helper shift. */
+  readonly stableKey: string;
+  readonly minutes: number;
+  readonly at: IsoDate;
+}
+
+/**
+ * Ask the bounded next slice of residents reached by a completed shift.
+ *
+ * The stable shift key selects where the slice begins; it never selects an
+ * answer. Previously asked people are omitted before asks are written. The
+ * loop is capped by a small multiple of modeled reach plus the already-asked
+ * count, so a shift never turns into a daily population scan.
+ */
+export function circulateCandidatePetition(
+  inputWorld: World,
+  input: CirculateCandidatePetitionInput,
+): World {
+  const campaign = campaignById(inputWorld, input.campaignId);
+  if (!campaign) throw new Error(`Campaign not found: ${input.campaignId}`);
+  const reach = modelCampaignFieldReach("petition-circulation", input.minutes);
+  if (!reach) throw new Error("Petition circulation has no field-reach model.");
+  const target = reach.estimatedCompletedConversations?.min ?? 0;
+  if (target === 0 || inputWorld.personOrder.length === 0) return inputWorld;
+
+  const asked = new Set(petitionAskedPersonIds(inputWorld, campaign.id));
+  const residentOrder = inputWorld.personOrder;
+  let hash = 2166136261;
+  for (const character of input.stableKey) {
+    hash ^= character.charCodeAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  const offset = (hash >>> 0) % residentOrder.length;
+  let world = inputWorld;
+  let completed = 0;
+  const inspectionLimit = Math.min(
+    residentOrder.length,
+    target * 8 + asked.size + 1,
+  );
+  for (let step = 0; step < inspectionLimit && completed < target; step += 1) {
+    const signerPersonId =
+      residentOrder[(offset + step) % residentOrder.length]!;
+    if (
+      signerPersonId === campaign.candidatePersonId ||
+      asked.has(signerPersonId) ||
+      inputWorld.people[signerPersonId]?.homeJurisdictionId !==
+        inputWorld.people[campaign.candidatePersonId]?.homeJurisdictionId
+    )
+      continue;
+    world = askToSign(world, {
+      campaignId: campaign.id,
+      circulatorPersonId: input.circulatorPersonId,
+      signerPersonId,
+      at: input.at,
+    }).world;
+    asked.add(signerPersonId);
+    completed += 1;
+  }
+  return world;
 }
 
 /** The event log's first ask for each signer, in recorded order. */

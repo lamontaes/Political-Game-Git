@@ -22,6 +22,17 @@ describe("campaign contact calibration", () => {
     });
   });
 
+  it("uses the existing face-to-face reach model for petition circulation", () => {
+    expect(modelCampaignFieldReach("petition-circulation", 120)).toEqual({
+      profileVersion: "research1-wave2-v1",
+      volunteerEquivalentMinutes: 120,
+      estimatedDoorKnocks: null,
+      estimatedPhoneDials: null,
+      estimatedCompletedConversations: { min: 6, max: 16 },
+      sourceObservationIds: ["volunteer-door-conversations"],
+    });
+  });
+
   it("does not assign field reach to a fundraiser or invalid duration", () => {
     expect(modelCampaignFieldReach("fundraiser", 60)).toBeNull();
     expect(() => modelCampaignFieldReach("phone-shift", 0)).toThrow(

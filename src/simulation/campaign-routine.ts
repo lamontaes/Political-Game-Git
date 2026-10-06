@@ -74,6 +74,14 @@ export const CAMPAIGN_ROUTINE_WORK: Readonly<
     summary:
       "The standing session on the phones, asking people who might give for something the campaign cannot do without.",
   },
+  petition: {
+    label: "Gathering petition signatures",
+    locationKey: "campaign-petition-route",
+    locationLabel: "The campaign's petition route",
+    title: "A petition-circulation shift",
+    summary:
+      "The standing shift meeting district residents and asking each person whether they will sign the candidate's petition.",
+  },
 };
 
 /** The routine in force for a campaign, or null when none was ever set. */
@@ -134,7 +142,9 @@ function canonicalBlocks(
 function validateBlocks(blocks: readonly CampaignRoutineBlock[]): void {
   for (const block of blocks) {
     if (!(block.work in CAMPAIGN_ROUTINE_WORK))
-      throw new Error("A routine session is either doors or phones.");
+      throw new Error(
+        "A routine session must be doors, phones, or petition circulation.",
+      );
     if (
       block.weekdays.length === 0 ||
       block.weekdays.some(

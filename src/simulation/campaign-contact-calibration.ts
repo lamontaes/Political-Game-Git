@@ -42,16 +42,24 @@ function forMinutes(
  * The figures describe an estimated range, not identified voter encounters.
  */
 export function modelCampaignFieldReach(
-  form: CampaignLifeForm,
+  form: CampaignLifeForm | "petition-circulation",
   minutes: number,
 ): CampaignFieldReach | null {
-  if (form !== "door-canvass" && form !== "phone-shift") return null;
+  if (
+    form !== "door-canvass" &&
+    form !== "phone-shift" &&
+    form !== "petition-circulation"
+  )
+    return null;
   if (!Number.isSafeInteger(minutes) || minutes <= 0) {
     throw new Error("Completed field work requires positive whole minutes.");
   }
   // PLACEHOLDER(wave2): one candidate shift minute counts as one volunteer-
   // equivalent minute until staffing and participation have a measured rule.
-  const benchmark = FIELD_BENCHMARKS[form];
+  // Circulating a petition uses the same face-to-face conversation benchmark
+  // as door canvassing. It is another form of field reach, not a second model.
+  const benchmark =
+    FIELD_BENCHMARKS[form === "petition-circulation" ? "door-canvass" : form];
   return {
     profileVersion: "research1-wave2-v1",
     volunteerEquivalentMinutes: minutes,
