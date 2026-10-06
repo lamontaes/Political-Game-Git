@@ -504,7 +504,7 @@ export function startingLawTerms(
   return active.length === 1 ? active[0]!.lawTerms : [];
 }
 
-/** Whether the starting law's scalar terms are statewide or region-scoped. */
+/** Whether starting numeric terms are statewide or explicitly workplace-scoped. */
 export function startingLawTermScope(
   law: LawInForce,
   questionKey: string,
