@@ -554,7 +554,7 @@ export function resolveElectionContest(
       true,
     );
     world = counted.world;
-    if (!counted.outcome) return world;
+    if (!counted.outcome) return counted.world;
     winnerPersonId = counted.outcome.winnerPersonId;
     tallies = counted.outcome.tallies;
   }

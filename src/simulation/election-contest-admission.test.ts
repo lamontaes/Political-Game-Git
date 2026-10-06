@@ -250,6 +250,21 @@ describe("shared contest ballot admission", () => {
     expect(counted.world.history.decisionTraces.length).toBe(
       tied.history.decisionTraces.length + 2,
     );
+    const pendingContest = resolveElectionContest(tied, {
+      contestId: contest.id,
+      admitVoter: input.admitVoter,
+    });
+    expect(electionContestResult(pendingContest, contest.id)).toBeNull();
+    expect(pendingContest.history.decisionTraces.length).toBe(
+      tied.history.decisionTraces.length + 2,
+    );
+    const pendingReplay = resolveElectionContest(pendingContest, {
+      contestId: contest.id,
+      admitVoter: input.admitVoter,
+    });
+    expect(pendingReplay.history.decisionTraces).toEqual(
+      pendingContest.history.decisionTraces,
+    );
     const replayed = recordElectionBallots(counted.world, input);
     expect(replayed.tallies).toEqual(counted.tallies);
     expect(replayed.world.history.decisionTraces).toEqual(
