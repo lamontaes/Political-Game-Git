@@ -14,6 +14,30 @@ The inspected people already use premultiplied resampling, head-based garment re
 
 Measured: the current pack's turned face and hair lists are empty for both presentations. The front-view pack retains 18 faces and 11 hairstyles for the feminine presentation, and 18 faces and 15 hairstyles for the masculine presentation. Existing turned body and outfit files are retained. The repair lists people whose required view is missing instead of substituting front-facing artwork.
 
+## Owner-reported defects awaiting exact consumer receipts
+
+The authoritative private playtest note was relayed verbatim from the owner's local file. It names main `af8c09837`, the Observing run, and the player run as Alexander Franklin, 55, in Ava, Missouri. It supplies no screenshots, seed or resolved figure recipes. The owner reports two women in the same white top and jeans, a cashier on the counter, room figures with cuffs and white fringe, and the same cuff/outline defect on the Creator figure. These reports remain open; the earlier limited public-pack inspection does not clear them.
+
+| Consumer                                                      | Exact complained-about sheets                               | Receipt needed                                                                                                                                 |
+| ------------------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Creator at Session 2's preserved baseline/current checkpoints | Unresolved; do not infer a sheet from clothing description. | Session 2 screenshot, visible recipe/provider and resolved layer paths/hashes, requested on issue #2052 in comments 6005992159 and 6006069563. |
+| Two women in the reported room                                | Unresolved.                                                 | Room/world/seed, both person IDs and saved recipes, with resolved garment layers and colors.                                                   |
+| Room cuffs and white fringe                                   | Unresolved.                                                 | Affected screenshot, person ID, pose/view and exact resolved source layers.                                                                    |
+
+Measured: a further bounded inspection composed the six public standing formal layers `outfit-{masculine,feminine}-formal-{lean,average,fuller}.png` from `art/people-engine/v1`, at shade 7. No erased cuff or detached white fringe was reproduced in those six crops. Masculine white cuffs coincide with painted shirt fabric; feminine formal sleeves have no painted white cuffs. These are inspected reference sheets, not the identified defect sheets. The Creator uses the public engine when its pack is available and a separate modular fallback otherwise; the actual complained-about provider is still unresolved. Diagnostic crops remain outside the repository. Original paintings and candidate banks were preserved.
+
+Inferred: matching everyday outfit choices can occur in the deterministic per-person recipe selection; this does not establish why the two reported women matched. Saved colors and identity must not be reseeded merely to make a screenshot differ.
+
+The title Oval Office's Resolute-desk detail request also remains open. Measured in this checkout: the title's civic rotation admits the midday backdrop and its bytes match the manifest. The recorded original PNG is absent here. Confirm the actual consumer and recover its retained source before preparing any derivative. Source availability, runtime candidate selection and human pixel approval are separate dispositions; no replacement artwork was generated.
+
+| Title backdrop receipt   | Value                                                              |
+| ------------------------ | ------------------------------------------------------------------ |
+| Runtime file             | `art/backdrops/oval-office__midday.jpg`                            |
+| Verified runtime SHA-256 | `62704c6370b5388590ac05d714e01b4e203249ffe04b8567143f746e3389338f` |
+| Recorded original file   | `oval-office__midday-v1.png`                                       |
+| Recorded source SHA-256  | `09fcc939ae6fb2e3cf73c882e35a204ea80ea5a6e0f82976bd0c081ffce190c1` |
+| Manifest disposition     | `owner-placeholder-2026-09-27`; final pixel approval outstanding.  |
+
 ## Source requirements
 
 Verified private-bank delivery metadata and matching authored turned layers are needed to finish source repairs and directional seats. The coordinator found the MODULAR45 registry, builder and ledger in LAND with a retained MODULAR47 generation 16 candidate pack. They remain absent from this checkout; source availability in LAND is distinct from runtime approval. The historical Drive kit is readable and supplies front-view references, as recorded in [the private reference inspection](session11-private-reference-inspection.md). The exact IDs, filenames and registry paths are listed in [the source request](session11-source-request.json). The minimal recipient handoff is [here](session11-source-handoff.md). Turned standing views need 36 face files and 52 hair layers. Turned seating additionally needs six basic seated bodies and matching outfit/skin layers. The pack builder currently points to source directories on the owner's Mac; those directories are absent here. Existing alternative character candidates do not supply the same saved identities and cannot silently replace them.

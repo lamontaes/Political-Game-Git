@@ -302,9 +302,13 @@ export function placeBackdropPeople(
       .map((person) => person.personId)
       .filter((id) => id !== playerId && world.people[id]),
   );
-  const workers = (town ? peopleAtWorkAt(world, town, place, moment) : [])
-    .filter((worker) => worker.personId !== playerId)
-    .filter((worker) => !presentIds.has(worker.personId));
+  const onShift = (
+    town ? peopleAtWorkAt(world, town, place, moment) : []
+  ).filter((worker) => worker.personId !== playerId);
+  const shiftByPerson = new Map(
+    onShift.map((worker) => [worker.personId, worker]),
+  );
+  const workers = onShift.filter((worker) => !presentIds.has(worker.personId));
   // The scene's own people take the raised or grouped seats first (the
   // dais, the bench), then the open floor. Counter jobs take the spots behind
   // a counter first; everyone else the open floor, and whoever is left over
@@ -332,15 +336,37 @@ export function placeBackdropPeople(
   const presentTitle = new Map(
     present.map((person) => [person.personId, person.title ?? ""]),
   );
-  const inScene = [...presentIds].map((personId) => ({
-    worker: { personId, title: presentTitle.get(personId) ?? "" },
-    onShift: false,
+  // A named counter belongs to staff. Scene roster order must not put a
+  // customer behind it or make the cashier lose it to an earlier attendee.
+  const isCounterSpot = (spot: StagingSpot) =>
+    spot.group === "counter" && spot.clipBelowY !== undefined;
+  const visitorSpots = usable.filter((spot) => !isCounterSpot(spot));
+  const sceneCounterJob = (personId: EntityId) =>
+    counterJob(presentTitle.get(personId) ?? "") ||
+    counterJob(shiftByPerson.get(personId)?.title ?? "");
+  const sceneIds = [...presentIds].sort(
+    (a, b) => Number(sceneCounterJob(b)) - Number(sceneCounterJob(a)),
+  );
+  const inScene = sceneIds.map((personId) => ({
+    worker: {
+      personId,
+      title:
+        presentTitle.get(personId) || shiftByPerson.get(personId)?.title || "",
+    },
+    onShift: shiftByPerson.has(personId),
     spot:
       (personId === options.speakerId
         ? take(usable.filter((spot) => spot.pose === "podium"))
         : undefined) ??
-      take(principal.filter((spot) => spot.pose !== "podium")) ??
-      take(usable.filter((spot) => spot.pose !== "podium")),
+      (sceneCounterJob(personId)
+        ? take(usable.filter(isCounterSpot))
+        : undefined) ??
+      take(
+        principal.filter(
+          (spot) => spot.pose !== "podium" && !isCounterSpot(spot),
+        ),
+      ) ??
+      take(visitorSpots.filter((spot) => spot.pose !== "podium")),
   }));
   // Everyone on shift keeps the order the spots had before: behind a counter
   // or on the open floor, in the picture's own order.

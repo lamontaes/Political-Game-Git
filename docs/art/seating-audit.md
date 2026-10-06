@@ -125,7 +125,7 @@ One row per place. Counts include visually estimated rear-facing positions retai
 | `state-capitol-wy`                     | 7 / 2 / 0            | Retain current coordinates and floor scale pending assembled sprite verification; no obvious orientation mismatch in supported stand/lean/front-step poses at contact-sheet scale.                              |
 | `state-legislative-chamber-bicameral`  | 10 / 4 / 2           | Viewer clerk chairs match; member chairs corrected to away; missing presiding chair needs a bounded floor calibration and assembled verification.                                                               |
 | `state-legislative-chamber-unicameral` | 9 / 3 / 2            | Presiding desk chair changed from podium to sit with cushion estimate; member chairs corrected to away.                                                                                                         |
-| `store`                                | 7 / 0 / 0            | Cashier counter clipping and aisle stands fit; no painted chair.                                                                                                                                                |
+| `store`                                | 7 / 0 / 0            | Cashier hidden foot point corrected from counter surface y50 to estimated floor y70 (±2); clip y43 and floor coefficient retained; counter reserved for staff.                                                  |
 | `suburban-house`                       | 12 / 6 / 0           | Added sofa corner and three counter stools; retained existing dining chair.                                                                                                                                     |
 | `supreme-courtroom`                    | 17 / 13 / 4          | Added six missing judge seats to complete nine painted chairs; retained bench scale; counsel seats and lectern await rear artwork.                                                                              |
 | `tv-studio`                            | 7 / 2 / 0            | Two armchairs face inward and match cushions; stage and crew floor scales retained.                                                                                                                             |
@@ -155,3 +155,13 @@ The random-place draw was Monticello, New York, using seed `session11-seating-oc
 - [small-apartment](evidence/session11/small-apartment.png)
 - [pose-proof-coverage](evidence/session11/pose-proof-coverage.png)
 - [pose-proof-person](evidence/session11/pose-proof-person.png)
+
+## Cashier counter regression
+
+Measured: a customer-first scene roster could consume the named counter before its cashier. The repair reserves explicit clipped counter positions for counter staff and reads an actual on-shift title when the scene omits it. Both regression cases passed among 12 placement unit tests.
+
+Visual inspection of the controlled store proof found a second error: the cashier's hidden foot point was at surface-height y50, making the figure too small. It now uses an estimated floor point at y70, with about two percentage points of uncertainty. Counter clipping remains y43; the existing 0.68 floor coefficient and source painting are unchanged. This is a staging correction, not a people-sheet repair or pixel approval.
+
+The [before floor correction](evidence/session11/cashier-before-floor.png) and [after floor correction](evidence/session11/cashier-behind-counter.png) show the same generated person and saved recipe. The header labels the controlled customer/cashier roles. Actual on-shift workers remain included, so another cashier can be present. These captures establish placement behavior, not the identities or clothing in Claude's reported room. The [proof receipt](session11-cashier-proof.json) records the exact public layers and hashes, recipe, person ID, run identity and screenshot hashes.
+
+The six required room checks passed in serial run session11-cashier-serial. Its cashier test failed because an ambiguous selector matched two cashiers; the corrected test uses the controlled person's exact ID. Run session11-cashier-floor passed that browser regression and was visually inspected. The earlier concurrent attempt lost its unit process and browser server to the environment memory limit and supplies no pass evidence. The earlier 19-check proof remains evidence at its previously recorded source identity.

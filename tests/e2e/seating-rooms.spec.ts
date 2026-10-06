@@ -54,3 +54,43 @@ test("random-place game opens and six rooms preserve contacts and overflow selec
     await page.screenshot({ path: info.outputPath(`${room}.png`) });
   }
 });
+
+test("counter staff keep the clipped counter when a customer is listed first", async ({
+  page,
+}, info) => {
+  test.setTimeout(180_000);
+  await page.setViewportSize({ width: 1672, height: 981 });
+  await page.goto("/tests/e2e/support/seating-rooms.html");
+  await page.getByLabel("Room", { exact: true }).selectOption("store");
+  const cashierId = await page
+    .getByTestId("seating-room-proof")
+    .getAttribute("data-controlled-cashier-id");
+  expect(cashierId).toBeTruthy();
+  const cashier = page
+    .getByTestId("scene-place-person")
+    .and(page.locator(`[data-person-id="${cashierId}"]`))
+    .filter({ has: page.getByTestId("scene-place-person-figure") })
+    .and(page.getByRole("button", { name: /Cashier$/ }));
+  await expect(cashier).toBeVisible();
+  const bounds = await cashier.boundingBox();
+  const room = page.locator("main > div");
+  const roomBounds = await room.boundingBox();
+  expect(bounds).not.toBeNull();
+  expect(roomBounds).not.toBeNull();
+  // The cashier button ends at the counter top, with the source canvas
+  // preserved inside it. The unit test binds this to the staging metadata.
+  expect(bounds!.y + bounds!.height).toBeLessThan(
+    roomBounds!.y + roomBounds!.height / 2,
+  );
+  await cashier.click();
+  await expect(page.getByTestId("selected-person")).toHaveText(
+    (await cashier.getAttribute("data-person-id"))!,
+  );
+  await page.screenshot({ path: info.outputPath("store-cashier-counter.png") });
+  await info.attach("cashier-recipe", {
+    body: (await cashier
+      .getByTestId("scene-place-person-figure")
+      .getAttribute("data-engine-recipe"))!,
+    contentType: "text/plain",
+  });
+});

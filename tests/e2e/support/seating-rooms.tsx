@@ -29,6 +29,7 @@ const rooms = [
   "classroom",
   "county-courtroom",
   "small-apartment",
+  "store",
 ];
 // Explicit developer placement controls use real generated identities. This is
 // contact/scale evidence, not a claim that these people visited all six rooms.
@@ -52,18 +53,27 @@ function Proof() {
     playerPersonId,
     room,
     world.currentMoment,
-    present,
+    room === "store"
+      ? present.slice(0, 2).map((person, index) => ({
+          ...person,
+          title: index === 0 ? "Customer" : "Cashier",
+        }))
+      : present,
   );
   return (
     <main
       data-testid="seating-room-proof"
       data-world-seed={seed}
       data-world-id={world.id}
+      data-controlled-cashier-id={
+        room === "store" ? present[1]!.personId : undefined
+      }
     >
       <header
         style={{ background: "#151515", color: "white", padding: "0.5rem" }}
       >
         Room placement proof · {place.displayName} · {seed}
+        {room === "store" ? " · controlled cashier/customer roles" : ""}
         <select
           aria-label="Room"
           value={room}

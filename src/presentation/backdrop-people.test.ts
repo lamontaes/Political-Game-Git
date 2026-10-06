@@ -10,6 +10,8 @@ import {
   type StagingSpot,
 } from "./backdrop-people";
 import { hasBackdrop } from "./place-backdrops";
+import { peopleAtWorkAt } from "../simulation/living-world/work-schedules";
+import { playerTown } from "../simulation/living-world/town-residents";
 import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
 import type { IsoDate, World } from "../simulation";
 
@@ -77,6 +79,70 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     expect(
       placeBackdropPeople(world, player, "clerk-counter", night),
     ).toHaveLength(0);
+  });
+
+  it("keeps the counter for a scene cashier when a customer is listed first", () => {
+    const [customer, cashier] = Object.values(world.people)
+      .filter((person) => person.id !== player && person.appearance)
+      .slice(0, 2);
+    if (!customer || !cashier) throw new Error("two present people are needed");
+    const people = placeBackdropPeople(
+      world,
+      player,
+      "store",
+      world.currentMoment,
+      [
+        { personId: customer.id, title: "Customer" },
+        { personId: cashier.id, title: "Cashier" },
+      ],
+    );
+    const counterTop = staging.places.store.spots.find(
+      (spot) => "group" in spot && spot.group === "counter",
+    )!.clipBelowY;
+    expect(
+      people.find((person) => person.personId === cashier.id)?.clipBelowPercent,
+    ).toBe(counterTop);
+    const visitor = people.find((person) => person.personId === customer.id);
+    expect(visitor?.clipBelowPercent ?? null).toBeNull();
+    expect(
+      [...people, ...people.overflow].filter(
+        (person) => person.personId === customer.id,
+      ),
+    ).toHaveLength(1);
+  });
+
+  it("uses an on-shift clerk's recorded job when the scene omits their title", () => {
+    const morning = at(world, world.currentDate, 2, 10 * 60);
+    const clerk = peopleAtWorkAt(
+      world,
+      playerTown(world, player)!,
+      "clerk-counter",
+      morning,
+    ).find((worker) => worker.title === "City clerk")!;
+    expect(clerk).toBeDefined();
+    const customer = Object.values(world.people).find(
+      (person) =>
+        person.id !== player &&
+        person.id !== clerk.personId &&
+        person.appearance,
+    )!;
+    const people = placeBackdropPeople(
+      world,
+      player,
+      "clerk-counter",
+      morning,
+      [
+        { personId: customer.id, title: "Customer" },
+        { personId: clerk.personId },
+      ],
+    );
+    const placed = people.find((person) => person.personId === clerk.personId)!;
+    expect(placed.title).toBe(clerk.title);
+    const stage = staging.places["clerk-counter"];
+    const counterTops = stage.spots
+      .filter((spot) => "group" in spot && spot.group === "counter")
+      .map((spot) => spot.clipBelowY);
+    expect(counterTops).toContain(placed.clipBelowPercent);
   });
 
   it("puts nearer people lower and larger", () => {
