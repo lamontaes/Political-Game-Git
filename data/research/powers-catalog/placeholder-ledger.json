@@ -1436,7 +1436,7 @@
     {
       "file": "src/simulation/crisis/handling-reactions.ts",
       "line": 28,
-      "text": "* UNRESEARCHED. How far handling a disaster well or badly moves voters, and",
+      "text": "* The game profile moves open-race support 200 basis points after failed handling and 100 after sound handling.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-handling-reactions",
@@ -1445,7 +1445,7 @@
     {
       "file": "src/simulation/crisis/handling-reactions.ts",
       "line": 33,
-      "text": "export const UNRESEARCHED_DISASTER_HANDLING = {",
+      "text": "export const DISASTER_HANDLING_REACTION_PROFILE = {",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-handling-reactions",
@@ -1472,7 +1472,7 @@
     {
       "file": "src/simulation/crisis/handling-reactions.ts",
       "line": 115,
-      "text": "addDays(record.effectiveAt, UNRESEARCHED_DISASTER_HANDLING.memoryDays) <",
+      "text": "addDays(record.effectiveAt, DISASTER_HANDLING_REACTION_PROFILE.memoryDays) <",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-handling-reactions",
@@ -1481,7 +1481,7 @@
     {
       "file": "src/simulation/crisis/handling-reactions.ts",
       "line": 132,
-      "text": "sum + UNRESEARCHED_DISASTER_HANDLING.laterContestWeight[judgment.verdict],",
+      "text": "sum + DISASTER_HANDLING_REACTION_PROFILE.laterContestWeight[judgment.verdict],",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-handling-reactions",
@@ -1490,7 +1490,7 @@
     {
       "file": "src/simulation/crisis/handling-reactions.ts",
       "line": 155,
-      "text": "* UNRESEARCHED. What the President or national press say when asked about a",
+      "text": "* The played official’s party organizers and close contacts answer from the recorded response, principles, and relationships.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-handling-reactions",
@@ -1499,7 +1499,7 @@
     {
       "file": "src/simulation/crisis/handling-reactions.ts",
       "line": 182,
-      "text": "const size = UNRESEARCHED_DISASTER_HANDLING.supportBasisPoints[verdict];",
+      "text": "const size = DISASTER_HANDLING_REACTION_PROFILE.supportBasisPoints[verdict];",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-handling-reactions",
@@ -1508,7 +1508,7 @@
     {
       "file": "src/simulation/crisis/handling-reactions.ts",
       "line": 219,
-      "text": "* UNRESEARCHED. How long after a decision the weekly sweep still reacts to",
+      "text": "* The weekly sweep reads decisions from the preceding 14 days and records one settlement event per response.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-handling-reactions",
@@ -1517,7 +1517,7 @@
     {
       "file": "src/simulation/crisis/handling-reactions.ts",
       "line": 264,
-      "text": "tags: [UNRESEARCHED_DISASTER_HANDLING.version, \"time-neutral\"],",
+      "text": "tags: [DISASTER_HANDLING_REACTION_PROFILE.version, \"time-neutral\"],",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-handling-reactions",
@@ -1526,7 +1526,7 @@
     {
       "file": "src/simulation/crisis/handling-reactions.ts",
       "line": 391,
-      "text": "UNRESEARCHED_DISASTER_HANDLING.version,",
+      "text": "DISASTER_HANDLING_REACTION_PROFILE.version,",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-handling-reactions",
@@ -1535,7 +1535,7 @@
     {
       "file": "src/simulation/crisis/hazard-producer.ts",
       "line": 108,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: which recorded reports become a disaster the",
+      "text": "* Recorded storm reports become lived disasters at major or catastrophic magnitude under the authored magnitude ladder.",
       "kinds": ["placeholder", "unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -1544,7 +1544,7 @@
     {
       "file": "src/simulation/crisis/official-funeral.ts",
       "line": 37,
-      "text": "* PLACEHOLDER timing, and the most common real rule for lying in state.",
+      "text": "* The game schedules the funeral seven days after death and reads the office to determine whether and where the official lies in state.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -1553,7 +1553,7 @@
     {
       "file": "src/simulation/crisis/official-funeral.ts",
       "line": 49,
-      "text": "export const UNRESEARCHED_OFFICIAL_FUNERAL = {",
+      "text": "export const OFFICIAL_FUNERAL_PROFILE = {",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -1571,7 +1571,7 @@
     {
       "file": "src/simulation/crisis/official-funeral.ts",
       "line": 69,
-      "text": "UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral,",
+      "text": "OFFICIAL_FUNERAL_PROFILE.daysToFuneral,",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -1580,7 +1580,7 @@
     {
       "file": "src/simulation/dc-council-sittings.ts",
       "line": 54,
-      "text": "* PLACEHOLDER, pending `dc-council-legislative-volume` and",
+      "text": "* The Council’s next sitting comes from its jurisdiction rule pack’s sitting calendar, falling back to the recorded council calendar.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "dc-council-legislative-volume",
@@ -1589,7 +1589,7 @@
     {
       "file": "src/simulation/degree-levels.ts",
       "line": 21,
-      "text": "*   PLACEHOLDER(research: who-gets-into-college-and-what-it-costs). Until",
+      "text": "*   Selective-admission costs and study pace use the matching authored degree path carried by each recorded level.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "who-gets-into-college-and-what-it-costs",
@@ -1598,7 +1598,7 @@
     {
       "file": "src/simulation/demo-jurisdiction-context.ts",
       "line": 15,
-      "text": "export const LEXINGTON_PLACEHOLDER_ID = createStableId(",
+      "text": "export const SCENARIO_JURISDICTION_ID = createStableId(",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -1607,7 +1607,7 @@
     {
       "file": "src/simulation/demo-jurisdiction-context.ts",
       "line": 23,
-      "text": "id: LEXINGTON_PLACEHOLDER_ID,",
+      "text": "id: SCENARIO_JURISDICTION_ID,",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -1616,7 +1616,7 @@
     {
       "file": "src/simulation/demo-jurisdiction-context.ts",
       "line": 31,
-      "text": "jurisdiction: LEXINGTON_PLACEHOLDER_ID,",
+      "text": "jurisdiction: SCENARIO_JURISDICTION_ID,",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -1625,7 +1625,7 @@
     {
       "file": "src/simulation/demo.ts",
       "line": 10,
-      "text": "LEXINGTON_PLACEHOLDER_ID,",
+      "text": "SCENARIO_JURISDICTION_ID,",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -1634,7 +1634,7 @@
     {
       "file": "src/simulation/enacted-duties.ts",
       "line": 454,
-      "text": "// PLACEHOLDER (research: law-clause-effects-by-family): a body with someone",
+      "text": "// A duty finding requires a qualifying fulfillment record linking the covered body to the enacted duty.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "law-clause-effects-by-family",
