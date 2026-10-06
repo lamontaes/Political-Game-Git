@@ -2471,7 +2471,7 @@
     {
       "file": "src/simulation/issue-record.ts",
       "line": 45,
-      "text": "* The magnitudes below are UNRESEARCHED blanket rules, filed with the research",
+      "text": "* Recorded issue-record scale: salience weights 1-4, 150 per net agreement, capped at 150; voting age 18.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2480,7 +2480,7 @@
     {
       "file": "src/simulation/issue-record.ts",
       "line": 48,
-      "text": "export const UNRESEARCHED_ISSUE_RECORD = {",
+      "text": "Recorded game value: issue-record scale uses weights 1-4, multiplier 150, cap 150, and voting age 18.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2507,7 +2507,7 @@
     {
       "file": "src/simulation/issue-record.ts",
       "line": 351,
-      "text": "if (ageOnDate(person.birthDate, asOf) < UNRESEARCHED_ISSUE_RECORD.votingAge)",
+      "text": "Recorded game value: eligibility begins at age 18.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2516,7 +2516,7 @@
     {
       "file": "src/simulation/issue-record.ts",
       "line": 398,
-      "text": "const rule = UNRESEARCHED_ISSUE_RECORD;",
+      "text": "Recorded game value: apply the issue-record scale of 1-4 salience weights, a 150 multiplier, and a 150 cap.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2525,7 +2525,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 103,
-      "text": "* PLACEHOLDER(research: job-market-calibration). Nobody has researched any",
+      "text": "* ESTIMATED FROM AVERAGE: nationwide employer timing profile based on the recorded 7-28 day listing and 3-7 day reply windows; used in all 50 states, D.C., and five territories.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2534,7 +2534,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 107,
-      "text": "export const JOB_MARKET_PLACEHOLDER = {",
+      "text": "ESTIMATED FROM AVERAGE: unfilled-role offer spread 8%; decisions 2-7 days; starts 1-7 days after reply; missed-start grace 2 days; follow-up starts 3-7 days; full-time cutoff 30 hours.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2543,7 +2543,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 154,
-      "text": "* PLACEHOLDER(research: job-market-calibration): a business this many days",
+      "text": "* Recorded game value: employers through their first 91 days list their initial roles.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2552,7 +2552,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 161,
-      "text": "* PLACEHOLDER(research: public-employer-roles-and-pay). One role for every",
+      "text": "* ESTIMATED FROM AVERAGE: one office-clerk role at 37-40 weekly hours for each local public employer, based on the national OEWS office-clerk profile for all 50 states and D.C.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "public-employer-roles-and-pay",
@@ -2561,7 +2561,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 167,
-      "text": "export const PUBLIC_BODY_ROLE_PLACEHOLDER = {",
+      "text": "ESTIMATED FROM AVERAGE: office clerk, occupation:office-clerk, 37-40 weekly hours; national OEWS basis for all 50 states and D.C.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "public-employer-roles-and-pay",
@@ -2570,7 +2570,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 276,
-      "text": "const role = PUBLIC_BODY_ROLE_PLACEHOLDER;",
+      "text": "Recorded game value: use the national office-clerk local-public-employer profile.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "public-employer-roles-and-pay",
@@ -2579,7 +2579,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 358,
-      "text": "// PLACEHOLDER(research: job-market-calibration): which work is",
+      "text": "// ESTIMATED FROM AVERAGE: professional occupations are salaried and other occupations hourly, using one nationwide profile across all 50 states, D.C., and five territories.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2588,7 +2588,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 762,
-      "text": "const spread = wentUnfilled ? 1 + JOB_MARKET_PLACEHOLDER.offerSpread : 1;",
+      "text": "Recorded game value: an unfilled prior listing raises the next offer 8%.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2597,7 +2597,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 808,
-      "text": "// PLACEHOLDER(research: job-market-calibration): salaried work is",
+      "text": "// Recorded game value: salaried work uses saved annual pay; hourly work divides annual pay by 52 weeks and recorded weekly hours.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2606,7 +2606,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 833,
-      "text": "? `${PROVENANCE_NOTE} The role and its pay are the placeholder public-body profile (research: ${PUBLIC_BODY_ROLE_PLACEHOLDER.researchQuestionId}).`",
+      "text": "ESTIMATED FROM AVERAGE: the role uses the national OEWS office-clerk profile for all 50 states and D.C.; pay uses the recorded state median.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "public-employer-roles-and-pay",
@@ -2615,7 +2615,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 991,
-      "text": "? JOB_MARKET_PLACEHOLDER.decisionDays.minimum",
+      "text": "Recorded game value: a referred applicant receives a decision after 2 days.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2624,7 +2624,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 992,
-      "text": ": JOB_MARKET_PLACEHOLDER.decisionDays.maximum,",
+      "text": "Recorded game value: an applicant without a referral receives a decision after 7 days.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2633,7 +2633,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 1117,
-      "text": "JOB_MARKET_PLACEHOLDER.fullTimeHours,",
+      "text": "Recorded game value: 30 weekly hours is the full-time second-job cutoff.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2642,7 +2642,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 1212,
-      "text": "opening.weeklyHours.minimumHours >= JOB_MARKET_PLACEHOLDER.fullTimeHours &&",
+      "text": "Recorded game value: openings of at least 30 weekly hours count as full-time.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2651,7 +2651,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 1244,
-      "text": "// PLACEHOLDER(research: job-market-calibration): salaried work gives the",
+      "text": "// Recorded game value: salaried offers use the midpoint of recorded weekly hours; hourly offers use the recorded maximum.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
@@ -2660,7 +2660,7 @@
     {
       "file": "src/simulation/job-market.ts",
       "line": 1255,
-      "text": "? JOB_MARKET_PLACEHOLDER.startLeadDays.maximum",
+      "text": "Recorded game value: an applicant leaving a current job starts 7 days after the reply deadline.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "job-market-calibration",
