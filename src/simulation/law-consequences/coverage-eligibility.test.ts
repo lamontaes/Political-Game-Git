@@ -510,7 +510,6 @@ describe("coverage kind canonical enacted authority", () => {
   });
 });
 
-
 describe("resource currency startup", () => {
   it("creates a validated money amount after the coverage suite initializes", async () => {
     const { money } = await import("../resources");

@@ -710,7 +710,6 @@ describe("the people engine in the game", () => {
   }, 120_000);
 });
 
-
 describe("resource currency startup", () => {
   it("creates a validated money amount after the appearance suite initializes", async () => {
     const { money } = await import("../../simulation/resources");

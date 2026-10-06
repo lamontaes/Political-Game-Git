@@ -75,7 +75,6 @@ import type {
 } from "./types";
 import { assertWorldIntegrity } from "./world";
 
-
 export function makeCurrencyCode(value: string): CurrencyCode {
   if (!CURRENCY_CODE.test(value)) {
     throw new Error(`Currency code must be three uppercase letters: ${value}`);

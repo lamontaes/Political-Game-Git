@@ -40,7 +40,6 @@ import type {
   World,
 } from "./types";
 
-
 export function resourceHousingHistoryRecords(world: World): readonly {
   readonly sequence: number;
 }[] {
