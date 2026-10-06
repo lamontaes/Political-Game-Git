@@ -121,7 +121,11 @@ Put each handler at `src/simulation/law-consequences/modules/<module-key>/index.
 and export `registrations: readonly AnyLawConsequenceKindRegistration[]` (or
 the narrower `LawConsequenceKindRegistration<T>[]`). The shared registry
 eagerly loads modules in sorted path order; duplicate kind owners fail registry
-creation. Session 41 owns those modules and scoped effect adapters. In `apply`,
+creation. This avoids editing the registry for a new module, but
+`LawConsequenceKind` remains a closed union: introducing a new kind also needs
+a shared type-union edit. The current union admits `public-library-service` and
+`parks-service-spending`. Session 41 owns those modules and scoped effect
+adapters. In `apply`,
 call the canonical domain writer and pass the ID of the actual saved effect
 record to `recordLawExposure` with the affected person, canonical `measureId`,
 channel, direction, and supported amount. For a non-money effect use direction
@@ -129,6 +133,11 @@ channel, direction, and supported amount. For a non-money effect use direction
 exposure and schedules the normal official reflection. Aggregate reports and
 catalog rows do not count as a landing. Session 19's `lawInForce` remains
 unchanged.
+
+The `abortion-access` landing is not registered here: it needs an actual
+recorded pregnancy decision and person-level result from the family/births
+producer, per CTO ruling #6013162583. Aggregate birth and infant-death outcome
+links do not supply that evidence.
 
 ## 9. Session 19: law data
 
