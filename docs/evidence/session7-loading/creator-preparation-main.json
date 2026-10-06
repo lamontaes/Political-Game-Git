@@ -1,0 +1,12 @@
+{
+  "seed": "session7-creator-staged-handoff",
+  "place": "Oak Grove, South Carolina",
+  "age": 38,
+  "stagedWorldIds": [
+    "world_c6d79909e7727935"
+  ],
+  "workerWorldId": "world_c6d79909e7727935",
+  "workerPersonId": "person_aac2c26c49798447",
+  "heldSteps": 1,
+  "scope": "Real Creator preparation before recorded prompts; worker step held before historical advance. No completed-history browser, populated cap, save/reload or clip acceptance."
+}

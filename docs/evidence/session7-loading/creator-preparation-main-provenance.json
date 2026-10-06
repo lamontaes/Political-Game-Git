@@ -1,0 +1,47 @@
+{
+  "expectedIdentity": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "2975ef87e742641b61beedf2f407df9f3fd89507",
+    "branch": "codex/session7-life-loading-main",
+    "dirty": false,
+    "sourceDigest": "2a10a4f5fca8642c287be51820f137833d6090c97755840b0b922b60bd166da7"
+  },
+  "served": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "2975ef87e742641b61beedf2f407df9f3fd89507",
+    "branch": "codex/session7-life-loading-main",
+    "dirty": false,
+    "sourceDigest": "2a10a4f5fca8642c287be51820f137833d6090c97755840b0b922b60bd166da7",
+    "pid": 24738,
+    "runId": "81ee2d85-8f63-4517-af3f-b9ea58ee0f41"
+  },
+  "baseURL": "http://127.0.0.1:4192",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:4192",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": {
+          "mode": "on",
+          "size": {
+            "width": 1920,
+            "height": 1080
+          }
+        },
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "launchOptions": {
+          "executablePath": "/usr/bin/chromium",
+          "args": [
+            "--no-sandbox"
+          ]
+        }
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}
