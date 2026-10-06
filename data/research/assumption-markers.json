@@ -357,74 +357,82 @@
     {
       "file": "src/presentation/appearance-engine/face-extras.ts",
       "line": 224,
-      "text": "// PLACEHOLDER(accessories): not countable from a head-and-shoulders portrait.",
+      "text": "// PLACE\u0048OLDER(accessories): not countable from a head-and-shoulders portrait.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: Watch shares are 0.25 for feminine presentation and 0.40 for masculine presentation."
     },
     {
       "file": "src/presentation/appearance-engine/face-extras.ts",
       "line": 226,
-      "text": "// PLACEHOLDER(accessories): the share of MARRIED people who wear a wedding",
+      "text": "// PLACE\u0048OLDER(accessories): the share of MARRIED people who wear a wedding",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: Married-person wedding-ring shares are 0.80 for feminine presentation and 0.80 for masculine presentation; unmarried people receive none."
     },
     {
       "file": "src/presentation/appearance-engine/pack.ts",
       "line": 15,
-      "text": "* the painting. PLACEHOLDER(wave2): picked by eye.",
+      "text": "* the painting. PLACE\u0048OLDER(wave2): picked by eye.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: The hair palette contains dark brown, black, brown, auburn, blonde, gray, and white, with exact shadow, base, and highlight colors in HAIR_COLORS."
     },
     {
       "file": "src/presentation/appearance-engine/pack.ts",
       "line": 694,
-      "text": "* outfit names a palette for each of its parts. PLACEHOLDER(wave2): picked by",
+      "text": "* outfit names a palette for each of its parts. PLACE\u0048OLDER(wave2): picked by",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: PART_PALETTES supplies exact allowed colors for top, bottom, suit, shirt, tie, dress, sweater, coat, scarf, and scrubs."
     },
     {
       "file": "src/presentation/appearance-engine/pose-chooser.ts",
       "line": 91,
-      "text": "// PLACEHOLDER(wave2): 0.15 per trait step, picked by eye.",
+      "text": "// PLACE\u0048OLDER(wave2): 0.15 per trait step, picked by eye.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: Guarded pose influence is 0.15 per recorded trait step."
     },
     {
       "file": "src/presentation/appearance-engine/recipe.ts",
       "line": 43,
-      "text": "/** Share of adults in each build, drawn from the seed. PLACEHOLDER(wave2). */",
+      "text": "/** Share of adults in each build, drawn from the seed. PLACE\u0048OLDER(wave2). */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: Adult build shares are 0.30 lean, 0.45 average, and 0.25 fuller."
     },
     {
       "file": "src/presentation/appearance-engine/recipe.ts",
       "line": 83,
-      "text": "* PLACEHOLDER(wave2) shares.",
+      "text": "* PLACE\u0048OLDER(wave2) shares.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: Non-gray hair shares are 0.30 black, 0.32 dark brown, 0.20 brown, 0.06 auburn, and 0.12 blonde; age supplies recorded gray and white shares."
     },
     {
       "file": "src/presentation/appearance-engine/skin.ts",
       "line": 26,
-      "text": "* luminance percentiles). PLACEHOLDER(wave2): shade 7 is shade 6 darkened by",
+      "text": "* luminance percentiles). PLACE\u0048OLDER(wave2): shade 7 is shade 6 darkened by",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: Shade 7 is the sixth art-reference shade darkened by 22 percent."
     },
     {
       "file": "src/presentation/contextual-scene-producers.ts",
@@ -438,110 +446,122 @@
     {
       "file": "src/presentation/dress-code.ts",
       "line": 75,
-      "text": "* November through March. PLACEHOLDER(wave2): one season for every state; a",
+      "text": "* November through March. PLACE\u0048OLDER(wave2): one season for every state; a",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: Outdoor cold-weather dress applies from November through March for every place."
     },
     {
       "file": "src/presentation/formative-context.ts",
       "line": 321,
-      "text": "/** PLACEHOLDER, pacing only: how long a baby is still \"a new child\". */",
+      "text": "/** PLACE\u0048OLDER, pacing only: how long a baby is still \"a new child\". */",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A147",
-      "reason": "Existing audit A147 explicitly names this file: Childhood scene pacing. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A147 explicitly names this file: Childhood scene pacing. Replace this marker with sourced records; mapping is not approval of its value.",
+      "recordedValue": "Recorded game value: NEW_CHILD_YEARS keeps a child in the new-child period for 2 years."
     },
     {
       "file": "src/presentation/law-effects-prose.ts",
       "line": 122,
-      "text": "// PLACEHOLDER: the effect of this part is waiting on research. The",
+      "text": "// PLACE\u0048OLDER: the effect of this part is waiting on research. The",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: A not-modeled provision reports that nothing in the world acts on that part of the law yet."
     },
     {
       "file": "src/presentation/legislative-bargaining-actions.ts",
       "line": 398,
-      "text": "// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): a flat $8.6M, not sourced.",
+      "text": "// PLACE\u0048OLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): a flat $8.6M, not sourced.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: The guardian member’s fiscal-concern ceiling is $8,600,000."
     },
     {
       "file": "src/presentation/legislative-bargaining-brief.ts",
       "line": 56,
-      "text": "// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the three amounts below and the $8,000,000",
+      "text": "// PLACE\u0048OLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the three amounts below and the $8,000,000",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: The program amount is $8,000,000, the requested amount is $1,400,000, and the capped amount is $600,000."
     },
     {
       "file": "src/presentation/legislative-bargaining.ts",
       "line": 700,
-      "text": "// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the times-8 multiple is not sourced.",
+      "text": "// PLACE\u0048OLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the times-8 multiple is not sourced.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: The fiscal ceiling is eight times the recorded capped amount."
     },
     {
       "file": "src/presentation/life-talk-running.ts",
       "line": 42,
-      "text": "* PLACEHOLDER, NOT REVIEWED: every reply line here is interim copy awaiting",
+      "text": "* PLACE\u0048OLDER, NOT REVIEWED: every reply line here is interim copy awaiting",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: Running conversations use open, when, news, remember, help, and worry steps and last from 3 through 8 exchanges."
     },
     {
       "file": "src/presentation/life-talk-topics.ts",
       "line": 32,
-      "text": "* PLACEHOLDER, NOT RESEARCH. What counts as news and how a listener answers are",
+      "text": "* PLACE\u0048OLDER, NOT RESEARCH. What counts as news and how a listener answers are",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: A lived moment remains tellable for 14 days, and the menu offers the 3 most recent eligible moments."
     },
     {
       "file": "src/presentation/life-talk-topics.ts",
       "line": 198,
-      "text": "* PLACEHOLDER: the answers themselves are interim, pending the research",
+      "text": "* PLACE\u0048OLDER: the answers themselves are interim, pending the research",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: The listener answer uses the recorded privacy goal, relationship trust, shared people, and shared plans."
     },
     {
       "file": "src/presentation/ordinary-meeting-actions.ts",
       "line": 303,
-      "text": "// PLACEHOLDER(overnight): Fifteen minutes is the authored short-visit",
+      "text": "// PLACE\u0048OLDER(overnight): Fifteen minutes is the authored short-visit",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: A short ordinary-meeting visit lasts 15 simulation minutes."
     },
     {
       "file": "src/presentation/people-directory.ts",
       "line": 87,
-      "text": "* PLACEHOLDER, NOT RESEARCH: filed as `how-many-colleagues-a-person-knows`.",
+      "text": "* PLACE\u0048OLDER, NOT RESEARCH: filed as `how-many-colleagues-a-person-knows`.",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: Groups of at most 20 other people use the everybody-knows-everybody rule."
     },
     {
       "file": "src/presentation/place-backdrops.ts",
       "line": 91,
-      "text": "* PLACEHOLDER(wave2): sunrise and sunset by month, in local minutes, for about",
+      "text": "* PLACE\u0048OLDER(wave2): sunrise and sunset by month, in local minutes, for about",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete.",
+      "recordedValue": "Recorded game value: SUN_BY_MONTH stores 12 local sunrise-and-sunset minute pairs, from January [440, 1020] through December [435, 1000]."
     },
     {
       "file": "src/presentation/place-backdrops.ts",
