@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -152,8 +152,15 @@ function race() {
 }
 
 describe("recorded campaign operating bills", () => {
+  // Opening a life and passing days is the slow part. Worlds are immutable, so
+  // both tests share one fixture built once instead of building it twice.
+  let shared: ReturnType<typeof race>;
+  beforeAll(() => {
+    shared = race();
+  }, 240_000);
+
   it("does not manufacture a bill, vendor, payment date, or cost from available cash", () => {
-    const fixture = race();
+    const fixture = shared;
     console.info(`A66 operating place=${fixture.place} seed=${fixture.seed}`);
     expect(
       planCampaignOperatingWeek(
@@ -168,7 +175,7 @@ describe("recorded campaign operating bills", () => {
   });
 
   it("pays the saved amount to the saved payee on the saved due date and never pays it again", () => {
-    const fixture = race();
+    const fixture = shared;
     let world = createOrganization(fixture.world, {
       stableKey: "a66:printer",
       formedAt: fixture.world.currentDate,
