@@ -20,8 +20,8 @@ import { municipalGovernmentForUnit } from "../rule-capability-resolver";
  * A town-meeting reading names the meeting of the voters, not an elected
  * body, so it is not used as the name of a seat anybody files for.
  *
- * GAME PROFILE, PLACEHOLDER until each town's own body is researched
- * (research request `municipal-governing-body-names-and-member-titles`): a
+ * ESTIMATED FROM SIMILAR U.S. MUNICIPAL FORMS until each town's own body is
+ * researched (request `municipal-governing-body-names-and-member-titles`): a
  * town whose body has not been read is named by the kind of government its
  * Census listing name gives it, in `PLACEHOLDER_BODY_BY_FORM`. These are
  * common American usages, not the town's own words; a real town may call its

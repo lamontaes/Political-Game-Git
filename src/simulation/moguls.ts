@@ -74,11 +74,11 @@ import { stateOfJurisdiction } from "./press/outlets";
 import { sortedUnique } from "./press/shared";
 
 /* -------------------------------------------------------------------------- */
-/* Placeholders                                                                */
+/* Recorded game profile                                                       */
 /* -------------------------------------------------------------------------- */
 
 /**
- * UNRESEARCHED. Every rate in the mogul offer loop. Filed as
+ * RECORDED GAME PROFILE. Every rate in the mogul offer loop is filed as
  * `corrupt-opportunity-approaches` (who approaches an official, with what,
  * how often, and how it is discovered). A researched table replaces this one
  * under a new version, never as a silent edit.

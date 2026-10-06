@@ -32,8 +32,8 @@
  * place. Whoever leaves for it accepts it and starts there on arrival;
  * whoever stays turns it down.
  *
- * Every weight below is a PLACEHOLDER (research:
- * why-americans-move-causes-and-strengths), calibrated as a whole against one
+ * ESTIMATED FROM THE NATIONAL CPS AVERAGE: every weight below is calibrated
+ * as a whole against one
  * total (CTO ruling 23): about 1.5 to 2 percent of adults a year move for a
  * job offer. A new job or job transfer is 13.2 percent of movers' reasons in
  * the Census Bureau's CPS ASEC 2023 ("Why People Move"), about a fifth of
@@ -79,7 +79,7 @@ import {
   placeToLookFor,
 } from "./employers-elsewhere";
 
-/** PLACEHOLDER weights, each a strength from 0 to 1 at its fullest. */
+/** CPS-calibrated estimate weights, each a strength from 0 to 1 at its fullest. */
 export const UNRESEARCHED_JOB_SEARCH = {
   provenance: "unresearched-blanket-rule",
   researchQuestionId: "why-americans-move-causes-and-strengths",

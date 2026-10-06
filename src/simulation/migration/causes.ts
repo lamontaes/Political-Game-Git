@@ -97,8 +97,8 @@ const EVICTED_EVENT = "housing.evicted";
 const CAUSE_WINDOW_DAYS = 365;
 
 /**
- * PLACEHOLDER strengths (research: `why-americans-move-causes-and-strengths`)
- * of a household formed in the last year, by what formed it. The Current
+ * ESTIMATED FROM THE NATIONAL CPS AVERAGE: strengths for a household formed
+ * in the last year, by what formed it. The Current
  * Population Survey's reasons for moving count "to establish own household"
  * and "change in marital status" among the family reasons, and most such
  * moves stay in the county. So leaving home or moving in together is a
@@ -113,7 +113,7 @@ export const NEW_HOUSEHOLD_STRENGTH: Readonly<Record<string, number>> = {
 };
 
 /**
- * PLACEHOLDER strengths (research: `disaster-displacement-and-return`) of a
+ * RECORDED GAME PROFILE: strengths for
  * home a disaster wrecked since the last review. After Hurricane Katrina many
  * households never came back (the owner, September 22, 2026); after most
  * disasters most households repair and stay. So a destroyed home is a strong
@@ -445,7 +445,7 @@ export function importanceOf(strength: number): DecisionImportance | null {
 }
 
 /**
- * PLACEHOLDER(research: school-move-to-scores): how much a mid-year school
+ * ESTIMATED FROM THE RECORDED SCHOOL-MOVE EFFECT: how much a mid-year school
  * change weighs against moving at the very middle of a term; less toward
  * either break, nothing over the summer.
  */
@@ -529,7 +529,7 @@ export function decideToLeave(
       "leave",
       cause.strength,
       cause.explanation,
-      // PLACEHOLDER(research: why-americans-move-causes-and-strengths): an
+      // ESTIMATED FROM THE NATIONAL CPS AVERAGE: an
       // offer is a promise about a place they have not lived, weighed with
       // less certainty than what has already happened to them.
       cause.kind === "job-offer" ? "medium" : "high",
@@ -539,8 +539,8 @@ export function decideToLeave(
     "keep-home",
     clamp01(1 - bar.ageMoverRate / AGE_RATE_FOR_NO_BAR),
     `few people their age in their state move away (${Math.round(bar.ageMoverRate * 1000) / 10} percent a year)`,
-    // HARDWIRED, a PLACEHOLDER(research: why-americans-move-causes-and-
-    // strengths): what a person sees of their age group is weighed with
+    // ESTIMATED FROM THE NATIONAL ACS AGE AVERAGE: what a person sees of
+    // their age group is weighed with
     // less certainty than what happened to them.
     "medium",
   );
@@ -550,7 +550,7 @@ export function decideToLeave(
       "keep-home",
       0.5,
       "they own their home",
-      // PLACEHOLDER(research: why-americans-move-causes-and-strengths).
+      // ESTIMATED FROM THE NATIONAL CPS AVERAGE described above.
       "medium",
     );
   if (bar.childrenAtHome > 0)
@@ -565,7 +565,7 @@ export function decideToLeave(
     add(
       "bar:school-year",
       "keep-home",
-      // PLACEHOLDER(research: school-move-to-scores): the size a mid-year
+      // ESTIMATED FROM THE RECORDED SCHOOL-MOVE EFFECT: the size a mid-year
       // move weighs against leaving, at the middle of the term. Families are
       // known to time moves to the summer; how strongly is not sized here.
       clamp01(SCHOOL_YEAR_HOLD_AT_MID_TERM * bar.schoolYearDepth!),

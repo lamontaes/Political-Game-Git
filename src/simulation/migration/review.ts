@@ -186,8 +186,8 @@ const OPENING_REASONS: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * PLACEHOLDER (research: `migration-rates-and-reasons`): how many reviews an employer holds a
- * job open for somebody from elsewhere before it stops looking: two years.
+ * RECORDED GAME PROFILE: an employer holds a job open for somebody from
+ * elsewhere for eight quarterly reviews, or two years, before it stops looking.
  */
 export const OPENING_REVIEWS_HELD = 8;
 
