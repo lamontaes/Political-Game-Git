@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { ANOTHER_TERM_DECISION } from "../../careers/another-term-decision";
 import { personalityCataloguePack } from "../../personality-catalogue";
 import { CONTACT_ANSWER_DECISION } from "../../people-contact-decisions";
+import { BUILT_IN_TRAIT_DECISIONS } from "../../trait-registry";
 import { leansForDecision, loadTraitPacks } from "../../trait-packs";
 import { facetEnviousEffects } from "./facet-envious";
 import { personalityTraitEffects } from ".";
@@ -15,7 +15,7 @@ describe("the envious trait reader", () => {
   it("registers a reason to accept contact", () => {
     const registry = loadTraitPacks(
       [personalityCataloguePack()],
-      [CONTACT_ANSWER_DECISION, ANOTHER_TERM_DECISION],
+      BUILT_IN_TRAIT_DECISIONS,
     );
 
     expect(registry.report.rejections).toEqual([]);

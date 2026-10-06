@@ -1,17 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { ANOTHER_TERM_DECISION } from "../../careers/another-term-decision";
 import { personalityCataloguePack } from "../../personality-catalogue";
+import { BUILT_IN_TRAIT_DECISIONS } from "../../trait-registry";
 import { leansForDecision, loadTraitPacks } from "../../trait-packs";
-import {
-  FACET_AFFECTIONATE_DECISIONS,
-  FACET_AFFECTIONATE_EFFECTS,
-} from "./facet-affectionate";
+import { FACET_AFFECTIONATE_EFFECTS } from "./facet-affectionate";
 
 describe("the affectionate trait reader", () => {
   it("loads every romance lean against the catalog trait and published options", () => {
     const registry = loadTraitPacks(
       [personalityCataloguePack(), FACET_AFFECTIONATE_EFFECTS],
-      [...FACET_AFFECTIONATE_DECISIONS, ANOTHER_TERM_DECISION],
+      BUILT_IN_TRAIT_DECISIONS,
     );
 
     expect(registry.report.rejections).toEqual([]);

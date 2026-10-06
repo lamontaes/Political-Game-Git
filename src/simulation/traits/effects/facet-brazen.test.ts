@@ -2,16 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import { CATALOGUE_SCALES } from "../../personality-catalogue.generated";
 import { personalityCataloguePack } from "../../personality-catalogue";
-import { loadTraitPacks, type DecisionDeclaration } from "../../trait-packs";
-import { ANOTHER_TERM_DECISION } from "../../careers/another-term-decision";
+import { BUILT_IN_TRAIT_DECISIONS } from "../../trait-registry";
+import { loadTraitPacks } from "../../trait-packs";
 import { facetBrazenEffects } from "./facet-brazen";
 import { personalityTraitEffects } from ".";
-
-const MOGUL_APPROACH: DecisionDeclaration = {
-  id: "mogul.approach",
-  scope: "governing:conversation",
-  options: ["donate", "deal", "wait"],
-};
 
 describe("the brazen trait reader", () => {
   it("loads its argument through the shared effect loader", () => {
@@ -19,7 +13,7 @@ describe("the brazen trait reader", () => {
 
     const registry = loadTraitPacks(
       [personalityCataloguePack()],
-      [ANOTHER_TERM_DECISION, MOGUL_APPROACH],
+      BUILT_IN_TRAIT_DECISIONS,
     );
     expect(registry.report.rejections).toEqual([]);
     expect(registry.leans.get("mogul.approach")).toContainEqual({
