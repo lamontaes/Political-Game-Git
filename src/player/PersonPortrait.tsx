@@ -25,6 +25,10 @@ import {
 } from "../presentation/appearance-engine/runtime";
 import { personName } from "../simulation";
 import type { EntityId, PersonAppearance, World } from "../simulation";
+import {
+  withSceneClothing,
+  type PersonSceneAppearance,
+} from "../presentation/person-scene-appearance";
 
 export interface PersonPortraitProps {
   readonly snapshot?: PersonRenderSnapshot;
@@ -39,6 +43,8 @@ export interface PersonPortraitProps {
   readonly previewAppearance?: PersonAppearance;
   /** Prepared expression of this same identity; neutral remains the default. */
   readonly expression?: "neutral" | "smile";
+  /** Actual scene outfit and colors while inspecting that person there. */
+  readonly sceneAppearance?: PersonSceneAppearance;
 }
 
 export function PersonPortrait({
@@ -51,6 +57,7 @@ export function PersonPortrait({
   snapshot,
   previewAppearance,
   expression = "neutral",
+  sceneAppearance,
 }: PersonPortraitProps) {
   const savedWardrobe = useSavedWardrobe(personId);
   const sharedSnapshot = useSavedRenderSnapshot(personId);
@@ -100,7 +107,10 @@ export function PersonPortrait({
           uniform: workUniform(world, person.id, undefined),
         })
       : null;
-  if (engine) {
+  const portraitEngine = engine
+    ? withSceneClothing(engine, person.id, world.currentDate, sceneAppearance)
+    : null;
+  if (portraitEngine) {
     return (
       <figure
         className={`person-portrait person-portrait--${size}`}
@@ -114,7 +124,7 @@ export function PersonPortrait({
           style={{ position: "relative", overflow: "hidden", flexShrink: 0 }}
         >
           <EnginePortrait
-            recipe={engine}
+            recipe={portraitEngine}
             testId="person-portrait-engine"
             fallback={initials(person.givenName, person.familyName)}
           />
