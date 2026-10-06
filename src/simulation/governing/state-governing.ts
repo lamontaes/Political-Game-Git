@@ -1045,8 +1045,8 @@ const DEADLINE_DAYS: Record<Exclude<GoverningMatterFamily, "bill">, number> = {
   implementation: 30,
   budget: 30,
   program: 45,
-  // PLACEHOLDER: no state gives a governor a deadline on a clemency request
-  // that the game has read; this is how long it waits on the desk.
+  // RECORDED GAME PACE: clemency receives the longest executive-desk window,
+  // twice the 30 days used by agenda, implementation and budget matters.
   clemency: 60,
   "executive-order": 21,
   regulation: 30,

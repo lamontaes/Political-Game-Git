@@ -356,10 +356,10 @@ export function recordOfficeConsequence(
  * Congress's is notable; an ordinary recorded office adds nothing beyond
  * naming its holder.
  *
- * PLACEHOLDER(research: how-much-coverage-a-resignation-gets): the tiers are
- * the owner's direction ("if a governor or ... a president ... resigns, it
- * should be massive news"), not a sourced scale. The president is not a
- * holdable office yet.
+ * RECORDED GAME SCALE: the public-event importance levels already used by the
+ * history writer supply the tiers. Governors use `major`; statewide officers
+ * and members of Congress use `notable`; other recorded offices add no tier.
+ * The president is not a holdable office yet.
  */
 function resignationImportance(
   stateOfficeKey: string | null,

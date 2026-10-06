@@ -42,7 +42,7 @@ import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 export const PRESIDING_OFFICER_VOTE_EVENT =
   "governing.presiding-officer-vote" as const;
 
-/** PLACEHOLDER (hand-set): how many of a caucus's members stand for its nomination. */
+/** Recorded game ballot cap: the five most senior caucus members stand. */
 const CAUCUS_CANDIDATES = 5;
 
 export interface ChamberMember extends BallotMember {

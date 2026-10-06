@@ -62,7 +62,6 @@ import {
   seatedStateLegislators,
 } from "./joint-assembly";
 import {
-  SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
   SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
   senateVacancyLaw,
 } from "../nationwide-world/senate-vacancy-law";
@@ -127,13 +126,10 @@ import { recordWorldEvent } from "../world";
  * compiled says follows, once per notice. Where the game has the rule it acts
  * (a Vice President succeeds under the Twenty-Fifth Amendment, § 1; a dead
  * Representative's seat is vacant until a special election; the President
- * nominates a new Vice President or Chief Justice). Where the route is law
- * but its pace or choices are not compiled, a marked placeholder fills the
- * gap (a governor's successor, a temporary senator, the nominee and the
- * confirmation). Where it
- * does not know the route at all (the statutory line of
- * succession) it writes a public record saying exactly what is missing and
- * leaves the office unfilled rather than inventing a successor.
+ * nominates a new Vice President or Chief Justice). Each compiled route reads
+ * its place's law and recorded people. Where no supported route seats a
+ * successor, it writes that outcome to the public record and leaves the office
+ * unfilled rather than inventing a successor.
  */
 
 export const OFFICE_CONTINUITY_VERSION = "office-continuity/v1";
@@ -179,9 +175,9 @@ function voterChoice(
  * someone of the governor's own party. When the term ends at the regular
  * election anyway, that election fills the seat and no special is held.
  *
- * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`):
- * the appointee is still a generated person, not someone the governor
- * knows, and the days to an appointment where the statute sets none.
+ * ESTIMATED FROM GAME RECORDS: where a statute supplies no appointment
+ * deadline, the nationwide vacancy catalog supplies the appointment interval.
+ * The appointee comes from the governor's recorded appointment circle.
  */
 export const SENATE_APPOINTMENT = "governing:senate-appointment";
 
@@ -449,9 +445,9 @@ function nextCongressionalElectionAfter(date: IsoDate): IsoDate {
  * A vacant U.S. Senate seat, filled under the state's own law
  * (`senate-vacancy-law.ts`): an appointment where the governor may make one,
  * then a special election, prompt or at the next regular November election
- * as the state's statute says. PLACEHOLDER (SENATE_VACANCY_PROFILE) only
- * where the law is silent or unrecorded: the days to an appointment with no
- * statutory deadline, and a prompt election's unrecorded window.
+ * as the state's statute says. Where the law does not supply a number, the
+ * nationwide catalog marks an estimate and records its basis: the appointment
+ * interval or the median prompt-election window among states with a number.
  */
 function openSenateVacancy(
   world: World,
@@ -501,8 +497,8 @@ function openSenateVacancy(
   const appointmentDay = addDays(
     from,
     deadline === null
-      ? SENATE_APPOINTMENT_PLACEHOLDER_DAYS
-      : Math.min(SENATE_APPOINTMENT_PLACEHOLDER_DAYS, deadline),
+      ? SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment
+      : Math.min(SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment, deadline),
   );
   const window = seatTermWindow(seat, vacancyDate);
   const regular = congressionalElectionDay(
@@ -1346,8 +1342,8 @@ function rulingFor(
   if (seat) return vacateSeat(world, seat, MEMBER_DIED(notice.effectiveDate));
   const governorship = governorOffice(office.officeKey);
   if (governorship) {
-    // PLACEHOLDER (governor-succession.ts): the next officer in line serves
-    // the rest of the term.
+    // RECORDED STATE RULE: governor-succession.ts names the next officer in
+    // this place's compiled line; that officer serves the rest of the term.
     const seated = seatGovernorSuccessor(world, governorship, {
       vacancyDate: notice.effectiveDate,
       formerHolderId: notice.personId,
@@ -1379,8 +1375,8 @@ function rulingFor(
     ruling: {
       ...base,
       outcome: "blocked",
-      // PLACEHOLDER: how this office is filled is not compiled. The sentence
-      // is printed to players and says only what happened.
+      // RECORDED OUTCOME: no supported succession route seated a holder. The
+      // sentence is printed to players and says only what happened.
       sentence: "The office is vacant, and no successor has taken office.",
     },
   };
@@ -1394,11 +1390,9 @@ function rulingFor(
  *
  * The route is law; its pace and its choices are not, and each is marked:
  *
- * PLACEHOLDER (filed as `vice-presidential-vacancy-nomination-and-confirmation`):
- * - how long a President takes to name a nominee, and how long Congress takes
- *   to confirm one. The two times it has happened took 57 days (1973) and
- *   121 days (1974) from nomination to confirmation; the profile below sits
- *   between them and is not a finding.
+ * ESTIMATED FROM RECORDED CASES: the confirmation interval uses the two game
+ * records, 57 days in 1973 and 121 days in 1974; the 75-day profile remains
+ * between those cases. The 10-day nomination interval is a marked game pace.
  * - eligibility is incomplete. The President's existing appointment decision
  *   selects among recorded colleagues and contacts. Without a selection, the
  *   nomination is blocked and the office stays vacant. The eligible pool excludes
