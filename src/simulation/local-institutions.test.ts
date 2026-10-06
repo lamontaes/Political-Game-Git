@@ -7,7 +7,15 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
-import { localInstitutionsFor } from "./local-institutions";
+import {
+  educationEnrollmentHistoryForPerson,
+  organizationProfileAt,
+} from "./life-queries";
+import {
+  localInstitutionsFor,
+  localSchoolInstitutionFor,
+} from "./local-institutions";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import {
   compileLocalInstitutions,
   type LocalInstitutionEducationInput,
@@ -15,6 +23,15 @@ import {
 import type { LocalInstitutionsCorpus } from "./local-institutions-data";
 
 const corpus = JSON.parse(corpusText) as LocalInstitutionsCorpus;
+const RANDOM_SCHOOL_PLACE = drawRandomPlace(
+  "b23-random-school-proof",
+  (candidate) => {
+    const rows = candidate.sourceGeoid
+      ? corpus.places[candidate.sourceGeoid]
+      : undefined;
+    return !!rows && (rows.highSchools.length > 0 || rows.districts.length > 0);
+  },
+);
 
 describe("compiled local institutions", () => {
   it("indexes every Census place without inventing missing institution rows", () => {
@@ -110,5 +127,41 @@ describe("compiled local institutions", () => {
         (row) => row.sourceId === "530354000526",
       ),
     ).toBe(true);
+  });
+
+  it(`uses a source-backed school name in a new game at ${RANDOM_SCHOOL_PLACE.displayName}`, () => {
+    const place = RANDOM_SCHOOL_PLACE;
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed: "b23-random-school-proof-new-game",
+      startAge: 17,
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      questionnaire: "skipped",
+    });
+    const player = game.world.people[game.playerPersonId]!;
+    const expected = localSchoolInstitutionFor(
+      game.world,
+      player.homeJurisdictionId,
+      "high",
+    )!;
+    expect(expected).toBeDefined();
+    const enrollment = educationEnrollmentHistoryForPerson(
+      game.world,
+      player.id,
+    ).at(-1)!;
+    const organization = game.world.history.organizations.find(
+      (row) => row.id === enrollment.organizationId,
+    )!;
+    expect(
+      organizationProfileAt(game.world, enrollment.organizationId)?.name,
+    ).toBe(expected.name);
+    expect(organization.provenance).toMatchObject({
+      kind: "source-record",
+      reference: expect.stringContaining(
+        `${expected.sourceKey}:${expected.sourceId}`,
+      ),
+    });
   });
 });
