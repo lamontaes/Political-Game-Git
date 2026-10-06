@@ -1,0 +1,13 @@
+[
+  {
+    "decision": "contact.answer",
+    "leans": [
+      {
+        "option": "accept",
+        "trait": "personality-v1:facet-approval-seeking",
+        "pole": "high",
+        "explanation": "They value the good opinion of people they spend time with."
+      }
+    ]
+  }
+]
