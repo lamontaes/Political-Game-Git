@@ -45,6 +45,124 @@ export interface World39BiographyChapter {
 }
 
 /**
+ * The campaign records that can be carried into a loss chapter. The composer
+ * receives names and money wording already read from canonical records; it
+ * does not turn support, relationship standing, or a treasury balance into a
+ * second score.
+ */
+export interface CampaignLossJournalRecords {
+  readonly metPeople: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+    readonly stillThinksWellOfCandidate: boolean;
+  }[];
+  readonly helpers: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+    readonly stillClose: boolean;
+  }[];
+  readonly money: {
+    /** Player-facing amount from the campaign treasury record. */
+    readonly displayAmount: string;
+    /** Uses allowed by the campaign-finance record in force. */
+    readonly allowedUses: readonly string[];
+  } | null;
+  readonly group: {
+    readonly organizationId: EntityId;
+    readonly name: string;
+    readonly members: readonly {
+      readonly personId: EntityId;
+      readonly name: string;
+    }[];
+  } | null;
+}
+
+const SMALL_COUNTS = [
+  "no one",
+  "one person",
+  "two people",
+  "three people",
+  "four people",
+  "five people",
+  "six people",
+  "seven people",
+  "eight people",
+  "nine people",
+  "ten people",
+  "eleven people",
+  "twelve people",
+] as const;
+
+function peopleCount(count: number): string {
+  return SMALL_COUNTS[count] ?? "more than a dozen people";
+}
+
+function joinedNames(names: readonly string[]): string {
+  if (names.length < 2) return names[0] ?? "nobody";
+  if (names.length === 2) return `${names[0]} and ${names[1]}`;
+  return `${names.slice(0, -1).join(", ")}, and ${names.at(-1)}`;
+}
+
+function nonblank(values: readonly string[]): readonly string[] {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
+/**
+ * A lost race, remembered as what the person still has rather than as a
+ * results table. Every particular comes from the supplied records. Money is
+ * omitted unless its record also says what it may still be used for.
+ */
+export function composeCampaignLossJournalChapter(
+  records: CampaignLossJournalRecords,
+): string {
+  const met = new Map(
+    records.metPeople
+      .filter((person) => person.name.trim())
+      .map((person) => [person.personId, person] as const),
+  );
+  const favorable = [...met.values()]
+    .filter((person) => person.stillThinksWellOfCandidate)
+    .map((person) => person.name.trim());
+  const closeHelpers = new Map(
+    records.helpers
+      .filter((helper) => helper.stillClose && helper.name.trim())
+      .map((helper) => [helper.personId, helper.name.trim()] as const),
+  );
+
+  const sentences = [
+    `I met ${peopleCount(met.size)} during the campaign. ${
+      favorable.length > 0
+        ? `${joinedNames(favorable)} still thought well of me.`
+        : "None of them still thought well of me."
+    }`,
+    closeHelpers.size > 0
+      ? `${joinedNames([...closeHelpers.values()])} helped me and remained close.`
+      : "Nobody who helped on the campaign remained close.",
+  ];
+
+  const allowedUses = records.money ? nonblank(records.money.allowedUses) : [];
+  const amount = records.money?.displayAmount.trim() ?? "";
+  if (amount && allowedUses.length > 0) {
+    sentences.push(
+      `${amount} remained in the campaign account, available only for ${joinedNames(allowedUses)}.`,
+    );
+  }
+
+  if (records.group?.name.trim()) {
+    const members = nonblank(
+      records.group.members.map((member) => member.name),
+    );
+    sentences.push(
+      members.length > 0
+        ? `${records.group.name.trim()} carried on with ${joinedNames(members)}.`
+        : `${records.group.name.trim()} carried on without any recorded members.`,
+    );
+  }
+
+  return sentences.join(" ");
+}
+
+/**
  * Sentences that describe the save or the engine instead of the life, and
  * causes or feelings no record supports. They are omitted, never rewritten
  * into something the record does not say.
