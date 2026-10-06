@@ -1,6 +1,6 @@
 /**
- * PLACEHOLDERS for the parts of a council's ordinance procedure that its read
- * instruments leave to the body's own rules, pending research.
+ * ESTIMATES for parts of a council's ordinance procedure that its read
+ * instruments leave to the body's own rules.
  *
  * Each entry is the game's own stand-in, never a claim about the law, and
  * names the research question that replaces it. `municipalRulePackFor` reads
@@ -16,8 +16,8 @@
  * `dc-council-rules-of-organization-and-procedure`.
  */
 
-export const MUNICIPAL_PROCEDURE_PLACEHOLDER_VERSION =
-  "ocd-municipal-procedure-placeholder/v1" as const;
+export const MUNICIPAL_PROCEDURE_ESTIMATE_VERSION =
+  "ocd-municipal-procedure-estimate/v1" as const;
 
 export interface MunicipalProcedurePlaceholder {
   /** Who may introduce a measure. */
@@ -32,13 +32,13 @@ export interface MunicipalProcedurePlaceholder {
   readonly note: string;
 }
 
-const PLACEHOLDERS: Readonly<Record<string, MunicipalProcedurePlaceholder>> = {
+const ESTIMATES: Readonly<Record<string, MunicipalProcedurePlaceholder>> = {
   "us-dc-washington": {
     introductionSponsorship:
-      "Any member of the Council may introduce an act. (A placeholder: the Council's own rules were not read.)",
+      "Any member of the Council may introduce an act. (Estimated from the game's recorded council procedures for Charlottesville and Richmond, which allow councilmember introduction.)",
     everyReadingVoted: true,
     researchQuestionId: "dc-council-rules-of-organization-and-procedure",
-    note: `${MUNICIPAL_PROCEDURE_PLACEHOLDER_VERSION}: any member introduces an act, no committee stage is modeled, and each of the two readings is put to a vote of a majority of the members present and voting. Pending dc-council-rules-of-organization-and-procedure; not the Council's record.`,
+    note: `${MUNICIPAL_PROCEDURE_ESTIMATE_VERSION}: ESTIMATED FROM SIMILAR PLACES IN THE GAME (Charlottesville and Richmond): a councilmember may introduce an act. The recorded Home Rule Act supplies two readings and majority passage; it does not require a committee stage. This estimate is not the Council's own rule.`,
   },
 };
 
@@ -46,5 +46,5 @@ const PLACEHOLDERS: Readonly<Record<string, MunicipalProcedurePlaceholder>> = {
 export function municipalProcedurePlaceholder(
   governmentKey: string,
 ): MunicipalProcedurePlaceholder | null {
-  return PLACEHOLDERS[governmentKey] ?? null;
+  return ESTIMATES[governmentKey] ?? null;
 }
