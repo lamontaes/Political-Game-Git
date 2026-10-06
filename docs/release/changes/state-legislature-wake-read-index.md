@@ -1,6 +1,7 @@
 ---
 id: state-legislature-wake-read-index
 impact: patch
+title: Reuse recorded state legislature wake dates
 section: Fixed
 ---
 
