@@ -39,9 +39,7 @@
         "defaultBrowserType": "chromium",
         "launchOptions": {
           "executablePath": "/usr/bin/chromium",
-          "args": [
-            "--no-sandbox"
-          ]
+          "args": ["--no-sandbox"]
         }
       }
     }
