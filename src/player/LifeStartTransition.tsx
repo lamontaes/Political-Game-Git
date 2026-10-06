@@ -149,6 +149,9 @@ export function LifeStartTransition({
     <div
       className="pg-life-transition"
       data-testid="life-start-transition"
+      data-world-id={progress.world?.id}
+      data-world-seed={progress.world?.seed}
+      data-person-id={progress.playerPersonId}
       style={{ "--pg-start-fade": `${FADE_MS}ms` } as CSSProperties}
     >
       <div className="pg-life-transition-story pg-glass-panel">
