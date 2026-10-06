@@ -13,6 +13,7 @@ import {
 } from "./judicial-office";
 import { addSimulationMinutes } from "../simulation/dates";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
+import { recordOfficeWorkflowPreference } from "../simulation/office-workflow";
 
 describe("judicial Work feature adapter on a production life", () => {
   it.each(["SEED-41", "SEED-42", "SEED-43", "SEED-50", "SEED-59"] as const)(
@@ -40,6 +41,32 @@ describe("judicial Work feature adapter on a production life", () => {
         .courtOrganizationId;
       let world = start.world;
       {
+        const chambers = projectJudicialOffice(world, courtId)!;
+        expect(chambers.judicialCaseHandling).toMatchObject({
+          "criminal-sentence": "hear-myself",
+          "pretrial-detention": "hear-myself",
+          eviction: "decide-as-usual",
+          "law-review": "hear-myself",
+        });
+        const changedChambers = recordOfficeWorkflowPreference(world, {
+          personId: chambers.office.principalId,
+          officeRelationshipId: chambers.office.workRelationshipId,
+          votingMode: null,
+          caseworkMode:
+            chambers.preference?.caseworkMode ?? "staff-handles-and-briefs",
+          judicialCaseHandling: {
+            ...chambers.preference?.judicialCaseHandling,
+            "criminal-sentence": "decide-as-usual",
+          },
+        });
+        if (changedChambers.kind !== "recorded")
+          throw new Error(changedChambers.reason);
+        world = changedChambers.world;
+        expect(
+          projectJudicialOffice(world, courtId)!.judicialCaseHandling[
+            "criminal-sentence"
+          ],
+        ).toBe("decide-as-usual");
         const received = receiveJudicialOfficeWork(
           world,
           courtId,
