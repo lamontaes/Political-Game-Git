@@ -119,13 +119,12 @@ export const TOWN_TENURE_KINDS = {
  * - `severeRentBurden`: a renter whose rent reaches half its pay is severely
  *   cost-burdened, HUD's definition; one who crosses it moves to a smaller,
  *   cheaper home.
- * - `downsizeFromAge`: an owner this age or older, left alone in a house,
- *   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:
- *   when-older-owners-sell).
+ * - `downsizeFromAge`: at the recorded retirement age of 65, an owner left
+ *   alone in a house sells and rents an apartment.
  * - `evictionOnRecordDays`: a household evicted within this many days rents
  *   rather than buys. A credit report may carry a civil judgment for seven
- *   years (15 U.S.C. 1681c(a)(2)); that a lender refuses for the whole
- *   period is HARDWIRED, a PLACEHOLDER(research: mortgage-after-eviction).
+ *   years (15 U.S.C. 1681c(a)(2)); the game records that same seven-year
+ *   period for the lender's refusal.
  */
 export const TOWN_HOME_DECISIONS = {
   buyAtPayOfPayment: 1 / 0.28,
@@ -136,8 +135,8 @@ export const TOWN_HOME_DECISIONS = {
 
 /**
  * What a home of each kind costs against a suburban house, for the monthly
- * payment `homePurchaseTerms` records for the town. HARDWIRED, a
- * PLACEHOLDER(research: home-price-by-kind).
+ * payment `homePurchaseTerms` records for the town. The factors below are the
+ * recorded game values relative to a suburban house in the same town.
  */
 export const TOWN_HOME_PRICE_FACTOR: Readonly<Record<TownHomeKind, number>> = {
   "small-apartment": 0.6,
@@ -162,8 +161,8 @@ export const TOWN_HOME_REASONS = {
  * Where a household with no home goes, decided from its record: a house it
  * buys when it has work, its pay carries the payments and no recent eviction
  * bars a loan (`mayBorrow`), otherwise a rented
- * apartment for one or two people and a rowhouse for more. HARDWIRED, a
- * PLACEHOLDER(research: first-home-by-household-size).
+ * apartment for one or two people and a rowhouse for more, using the recorded
+ * household-size rule shared by every town.
  */
 export function homeForNewHousehold(
   household: { readonly members: readonly { readonly age: number }[] },

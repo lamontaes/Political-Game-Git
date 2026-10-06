@@ -579,7 +579,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A148",
-      "reason": "Existing audit A148 explicitly names this file: The player's opening family and town\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A148 explicitly names this file: The player's opening family and town…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/presentation/social-invitation.ts",
@@ -642,7 +642,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A122",
-      "reason": "Existing audit A122 explicitly names this file: Volunteer contacts, field-work effects and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A122 explicitly names this file: Volunteer contacts, field-work effects and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/campaign-money-sources.ts",
@@ -867,7 +867,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A131",
-      "reason": "Existing audit A131 explicitly names this file: Crime victims and whether crimes are reported\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A131 explicitly names this file: Crime victims and whether crimes are reported…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/crime/producer.ts",
@@ -876,7 +876,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A131",
-      "reason": "Existing audit A131 explicitly names this file: Crime victims and whether crimes are reported\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A131 explicitly names this file: Crime victims and whether crimes are reported…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/crime/reporting.ts",
@@ -993,7 +993,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A132",
-      "reason": "Existing audit A132 explicitly names this file: Disasters, their footprint and damage should\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A132 explicitly names this file: Disasters, their footprint and damage should…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/crisis/official-funeral.ts",
@@ -1029,7 +1029,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A141",
-      "reason": "Existing audit A141 explicitly names this file: Finishing paid study time should not by itself\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A141 explicitly names this file: Finishing paid study time should not by itself…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/education-study-progression.ts",
@@ -1038,7 +1038,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A141",
-      "reason": "Existing audit A141 explicitly names this file: Finishing paid study time should not by itself\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A141 explicitly names this file: Finishing paid study time should not by itself…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/enacted-law-effects.ts",
@@ -1047,7 +1047,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A18",
-      "reason": "Existing audit A18 explicitly names this file: Remove the transit special case inside the\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A18 explicitly names this file: Remove the transit special case inside the…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/favor-collection.ts",
@@ -1326,7 +1326,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A90",
-      "reason": "Existing audit A90 explicitly names this file: Spending after enactment should not depend on a\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A90 explicitly names this file: Spending after enactment should not depend on a…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/governing/supreme-court-appointment-profile.ts",
@@ -1443,7 +1443,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
-      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/law-exposure.ts",
@@ -1452,7 +1452,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
-      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/law-exposure.ts",
@@ -1461,7 +1461,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
-      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/law-exposure.ts",
@@ -1470,7 +1470,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A35",
-      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A35 explicitly names this file: When a law reaches a person, starting laws and…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
@@ -1551,7 +1551,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A143",
-      "reason": "Existing audit A143 explicitly names this file: Whether an NPC accepts session work should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A143 explicitly names this file: Whether an NPC accepts session work should not…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/civic-actions.ts",
@@ -1560,7 +1560,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A157",
-      "reason": "Existing audit A157 explicitly names this file: A resident's civic attendance event should\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A157 explicitly names this file: A resident's civic attendance event should…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/civic-actions.ts",
@@ -1569,7 +1569,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A157",
-      "reason": "Existing audit A157 explicitly names this file: A resident's civic attendance event should\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A157 explicitly names this file: A resident's civic attendance event should…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/congress-aggregate-outcome.ts",
@@ -1713,7 +1713,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1722,7 +1722,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1731,7 +1731,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1740,7 +1740,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1749,7 +1749,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1758,7 +1758,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/official-views.ts",
@@ -1767,187 +1767,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 136,
-      "text": "// PLACEHOLDER: how hard a law landed (1 = a law costing a tenth of a month's",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 146,
-      "text": "// PLACEHOLDER: and to how much the view matters to the person.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 158,
-      "text": "// PLACEHOLDER: an old save's reflection rows, in the points they were kept",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 771,
-      "text": "// PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 787,
-      "text": "// PLACEHOLDER multipliers.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A159",
-      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/political-reflection.ts",
-      "line": 54,
-      "text": "// PLACEHOLDER: one newly encountered question starts or revisits a modest,",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/simulation/living-world/town-family-plans.ts",
-      "line": 116,
-      "text": "* PLACEHOLDER near the US spacing between births (about 2.5 to 3 years,",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 101,
-      "text": "* PLACEHOLDER is set by hand and filed for research as",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 158,
-      "text": "* PLACEHOLDER, pending research question",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 177,
-      "text": "* PLACEHOLDER: how far a quarter's crowding moves a business's prices.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 185,
-      "text": "* PLACEHOLDER: how strongly customers choose among a town's businesses",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 192,
-      "text": "/** PLACEHOLDER: capital as a share of assets when books open. */",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 200,
-      "text": "/** PLACEHOLDER: below this capital ratio it makes no new loans. */",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 202,
-      "text": "/** PLACEHOLDER: below this capital ratio depositors take fright. */",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 204,
-      "text": "/** PLACEHOLDER: how much of a lost cushion it rebuilds a quarter. */",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/town-finances.ts",
-      "line": 227,
-      "text": "* Every other kind: PLACEHOLDER, 0.5.",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A61",
-      "reason": "Existing audit A61 explicitly names this file: A town bank's balance-sheet ratios should not\u2026. Replace this marker with sourced records; mapping is not approval of its value."
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "line": 122,
-      "text": "*   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "line": 127,
-      "text": "*   period is HARDWIRED, a PLACEHOLDER(research: mortgage-after-eviction).",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "line": 139,
-      "text": "* PLACEHOLDER(research: home-price-by-kind).",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "line": 165,
-      "text": "* PLACEHOLDER(research: first-home-by-household-size).",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+      "reason": "Existing audit A159 explicitly names this file: Officials' standing and interest groups use…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/living-world/town-rent.ts",
@@ -2073,7 +1893,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2082,7 +1902,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2091,7 +1911,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2100,7 +1920,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2109,7 +1929,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2118,7 +1938,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2127,7 +1947,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2136,7 +1956,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
@@ -2145,7 +1965,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A65",
-      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A65 explicitly names this file: Central bank board members' views on inflation…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/credit.ts",
@@ -2226,7 +2046,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A64",
-      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/policy.ts",
@@ -2235,7 +2055,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A64",
-      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/policy.ts",
@@ -2244,7 +2064,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A64",
-      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A64 explicitly names this file: Real payments should not be turned into economy…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/macro-economy/sources.ts",
@@ -2370,7 +2190,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A135",
-      "reason": "Existing audit A135 explicitly names this file: Who moves away, where they go and how many\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A135 explicitly names this file: Who moves away, where they go and how many…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/minimum-wage.ts",
@@ -2451,7 +2271,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A113",
-      "reason": "Existing audit A113 explicitly names this file: The presidency should be decided by national\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A113 explicitly names this file: The presidency should be decided by national…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/nationwide-world/presidential-turnover.ts",
@@ -2460,7 +2280,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A113",
-      "reason": "Existing audit A113 explicitly names this file: The presidency should be decided by national\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A113 explicitly names this file: The presidency should be decided by national…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/nationwide-world/senate-vacancy-law.ts",
@@ -2505,7 +2325,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A119",
-      "reason": "Existing audit A119 explicitly names this file: Invented candidates' years of residence should\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A119 explicitly names this file: Invented candidates' years of residence should…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-opening.ts",
@@ -2577,7 +2397,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A114",
-      "reason": "Existing audit A114 explicitly names this file: Party nominations should come from recorded\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A114 explicitly names this file: Party nominations should come from recorded…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/nominations/party-nominations.ts",
@@ -2586,7 +2406,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A114",
-      "reason": "Existing audit A114 explicitly names this file: Party nominations should come from recorded\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A114 explicitly names this file: Party nominations should come from recorded…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/official-view-reads.ts",
@@ -3081,7 +2901,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/relationship-absence.ts",
@@ -3090,7 +2910,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/relationship-absence.ts",
@@ -3099,7 +2919,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/relationship-absence.ts",
@@ -3108,7 +2928,7 @@
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/relationship-absence.ts",
@@ -3117,16 +2937,16 @@
       "occurrence": 2,
       "disposition": "rebuild",
       "rebuildStep": "A142",
-      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A142 explicitly names this file: Relationship fading uses unsupported cutoffs…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/school-stages.ts",
       "line": 53,
-      "text": "* PLACEHOLDER, NOT RESEARCHED \u2014 the same calendar a summarized childhood uses",
+      "text": "* PLACEHOLDER, NOT RESEARCHED — the same calendar a summarized childhood uses",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A140",
-      "reason": "Existing audit A140 explicitly names this file: School term dates should be one calendar per\u2026. Replace this marker with sourced records; mapping is not approval of its value."
+      "reason": "Existing audit A140 explicitly names this file: School term dates should be one calendar per…. Replace this marker with sourced records; mapping is not approval of its value."
     },
     {
       "file": "src/simulation/standing-committee.ts",

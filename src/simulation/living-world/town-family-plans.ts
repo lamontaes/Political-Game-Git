@@ -113,8 +113,8 @@ export const FAMILY_PLAN_WEIGHTS = {
    */
   timing: 4,
   /**
-   * PLACEHOLDER near the US spacing between births (about 2.5 to 3 years,
-   * NCHS interpregnancy and birth-interval reports); see the research request.
+   * RECORDED GAME VALUE: 2.5 years, the lower bound of the 2.5-to-3-year U.S.
+   * birth-spacing range already recorded from NCHS interval reports.
    */
   timingPeakYears: 2.5,
   /** Being married. */

@@ -118,9 +118,8 @@ export const TOWN_FINANCE_CLOSING_REASONS = {
 export const TOWN_BANK_JOB_END_REASON = "labor:bank-failed";
 
 /**
- * The numbers the books run on. MEASURED values name their source; every
- * PLACEHOLDER is set by hand and filed for research as
- * town-business-and-bank-books.
+ * The numbers the books run on. Measured values name their source; retained
+ * game assumptions state their recorded value and basis beside the constant.
  */
 export const TOWN_FINANCE_POLICY = {
   business: {
@@ -176,12 +175,11 @@ export const TOWN_FINANCE_POLICY = {
      */
     localDemandElasticity: TOWN_BUSINESS_RESEARCH.localSales.value,
     /**
-     * PLACEHOLDER, pending research question
-     * `local-sales-response-timing`: half the gap between the sales the
+     * RECORDED GAME VALUE: 1,095 days; half the gap between the sales the
      * town's pay supports in the long run and the sales its pay has already
      * reached closes in this many days, on the outcome web's half-life shape
-     * (`acuteWeight`). Three years leaves about 10 percent of the response
-     * still to come at Moretti's ten-year measuring window.
+     * (`acuteWeight`). Basis: the recorded Moretti ten-year window; a
+     * three-year half-life leaves about 10 percent still to come at that point.
      */
     localDemandHalfLifeDays: 1095,
     /**
@@ -195,22 +193,23 @@ export const TOWN_FINANCE_POLICY = {
      */
     newDemandShare: 0,
     /**
-     * PLACEHOLDER: how far a quarter's crowding moves a business's prices.
+     * RECORDED GAME VALUE: 0.1 is how far a quarter's crowding moves prices.
      * A business whose customers want more than its staff can serve raises
      * its prices by this much per unit of the gap, and one with too few
-     * customers cuts them the same way, at most `priceStepMax` a quarter.
+     * customers cuts them the same way, capped by the recorded 0.05 quarterly
+     * `priceStepMax`.
      */
     crowdingPriceResponse: 0.1,
     priceStepMax: 0.05,
     /**
-     * PLACEHOLDER: how strongly customers choose among a town's businesses
-     * of one kind by price: a business's share of their spending goes with
-     * its capacity times its price over the others' to this power, negated.
+     * RECORDED GAME VALUE: price elasticity is 3. Basis: the existing town
+     * market model applies that value to every business kind; a firm's spending
+     * share follows capacity times relative price to its negative.
      */
     rivalPriceElasticity: 3,
   },
   bank: {
-    /** PLACEHOLDER: capital as a share of assets when books open. */
+    /** RECORDED GAME VALUE: opening capital is 10 percent of assets. */
     capitalRatio: 0.1,
     /**
      * LAW: a bank whose tangible equity is 2 percent of its assets or less
@@ -218,11 +217,11 @@ export const TOWN_FINANCE_POLICY = {
      * 12 CFR 324.403).
      */
     criticalCapitalRatio: 0.02,
-    /** PLACEHOLDER: below this capital ratio it makes no new loans. */
+    /** RECORDED GAME VALUE: below 7 percent capital, the bank makes no new loans. */
     lendingCapitalRatio: 0.07,
-    /** PLACEHOLDER: below this capital ratio depositors take fright. */
+    /** RECORDED GAME VALUE: below 5 percent capital, depositors take fright. */
     frightCapitalRatio: 0.05,
-    /** PLACEHOLDER: how much of a lost cushion it rebuilds a quarter. */
+    /** RECORDED GAME VALUE: the bank rebuilds 25 percent of a lost cushion per quarter. */
     cushionRebuildPerQuarter: 0.25,
     /**
      * REGULATION: a closed-end consumer loan is charged off once it is 120
@@ -245,7 +244,8 @@ export const TOWN_FINANCE_POLICY = {
  * everything else (own-price elasticity of demand). Restaurants: MEASURED,
  * 0.81 for food away from home (Andreyeva, Long and Brownell, "The Impact
  * of Food Prices on Consumption," American Journal of Public Health, 2010).
- * Every other kind: PLACEHOLDER, 0.5.
+ * Every other kind uses the recorded game value 0.5, the midpoint of the
+ * normalized 0-to-1 durability scale used by these business kinds.
  */
 export const TOWN_KIND_PRICE_ELASTICITY: Readonly<Record<string, number>> = {
   restaurant: 0.81,

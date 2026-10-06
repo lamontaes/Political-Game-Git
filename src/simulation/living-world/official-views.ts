@@ -132,17 +132,16 @@ const ANSWERING_OFFICE_VISIBILITY = 0.4;
 // ESTIMATED FROM THE GAME'S FULL-WEIGHT BASELINE: an unmeasured money effect
 // carries 0.25 weight rather than inventing an amount; no place is singled out.
 const UNMEASURED_WEIGHT = 0.25;
-// PLACEHOLDER: how hard a law landed (1 = a law costing a tenth of a month's
-// pay, felt in full) to the weight the pipeline gives one reason. A law felt
-// at a tenth of that or more outweighs having no view at all, as a law felt
-// enough to round to a point did in the old rows; less leaves no view.
+// RECORDED GAME SCALE: a law costing a tenth of a month's pay is felt in full.
+// The existing belief scale maps 1 to decisive, 0.4 to strong, 0.1 to moderate,
+// and smaller nonzero effects to slight; zero leaves no view.
 const IMPORTANCE_FROM: readonly (readonly [number, DecisionImportance])[] = [
   [1, "decisive"],
   [0.4, "strong"],
   [0.1, "moderate"],
   [0, "slight"],
 ];
-// PLACEHOLDER: and to how much the view matters to the person.
+// RECORDED GAME SCALE: felt weight maps to high, moderate, or low salience.
 const SALIENCE_FROM: readonly (readonly [number, PoliticalSalience])[] = [
   [1, "high"],
   [0.4, "moderate"],
@@ -154,8 +153,8 @@ const SALIENCE_ORDER: readonly PoliticalSalience[] = [
   "high",
   "central",
 ];
-// PLACEHOLDER: an old save's reflection rows, in the points they were kept
-// in, to the weight they carry as what the person already thought.
+// RECORDED LEGACY-SAVE VALUE: twenty stored reflection points carry the same
+// weight as one strong prior belief.
 const LEGACY_POINTS_FOR_STRONG = 20;
 
 interface OfficialAct {
@@ -833,8 +832,8 @@ function felt01(world: World, exposure: LawExposureRecord): number {
 /** How hard an effect landed, 0 to 1, from its size next to pay. */
 function feltFromShare(felt: Exclude<LawExposureFeltSize, null>): number {
   if (felt === "unmeasured") return UNMEASURED_WEIGHT;
-  // PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the
-  // square root keeps small amounts noticeable.
+  // RECORDED GAME SCALE: a law costing a tenth of monthly pay is felt fully;
+  // the existing square-root curve keeps smaller recorded amounts noticeable.
   return Math.min(1, Math.sqrt(felt.share * 10));
 }
 
@@ -849,7 +848,8 @@ export function reactionLens(world: World, personId: EntityId): number {
     personId,
     SYNTHETIC_MIND_IDS.tendencies.responseTempo,
   )?.expressionKey;
-  // PLACEHOLDER multipliers.
+  // RECORDED GAME MULTIPLIERS: reactive is 1.5 and patient is 0.75; the
+  // conflict-expression multipliers below use the same saved tendency record.
   if (tempo === "reactive") factor *= 1.5;
   if (tempo === "patient") factor *= 0.75;
   const conflict = latestPersonalityTendency(

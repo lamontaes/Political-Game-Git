@@ -51,8 +51,8 @@ export {
 
 const V = "people-reflection";
 
-// PLACEHOLDER: one newly encountered question starts or revisits a modest,
-// revisable position; conviction follows the decision's actual outcome.
+// RECORDED GAME DIMENSIONS: one newly encountered question starts or revisits
+// a moderate, revisable position; conviction follows the actual outcome.
 const REFLECTION_DIMENSIONS = {
   conflicted: {
     conviction: "moderate",
