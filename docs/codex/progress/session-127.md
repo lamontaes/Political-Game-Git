@@ -1,92 +1,72 @@
-# Session 127: Front hair clears measured face-side overlap
+# Session 127: Preserve existing behavior while tags arrive
 
-The front-hair candidate clears measured overlap on every supplied front style
-while preserving bangs and original art. Turned inputs remain missing. The CTO
-authorized explicit input-gap reporting while retaining pixel checks for any
-supplied turned layers. Continue the independent queue after the scoped checks.
+An independent tag validator captures current dress-code and title behavior.
+The existing tag owner still controls the vocabulary and manifest data. The
+proposed validation boundary remains unconfirmed, so no reader or tag data was
+changed. Continue the independent work while preserving that ownership.
 
 ## Resume state
 
-Current item: b24-p1-s2. Branch: codex/session127-b24-p1-s2.
-Base: ae27b4da00da3d9391a9d4c34776f1ef28f436cc on main.
+Current item: b24-p2, independent reader/validation portion only.
+Branch: codex/session127-b24-p2. Original base ae27b4da on main; actual
+landed main 34bfffa3f1f343524e5a15449beb826fb6358088 is now incorporated.
+Only the add/add resume-marker conflict needed resolution; retained this task
+marker while recording the landed hair result below. No owner data/reader edit.
+[Claim and owner boundary question](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020272903).
+Session 11 retains art/tags.json, backdrop tags and pack pose-data ownership.
+The new [test](../../../src/presentation/backdrop-tags.test.ts#L1) proposes twelve
+closed lists directly on tags.json, row.tags values as strings/string arrays,
+and reuse of campus region/climate/terrain values. Reconcile the actual owner's
+schema before treating this proposal as a landed API. No invented place tags.
 
-Previous item b24-p1-s1 is published as draft PR #2725, exact head
-ef9d9ed6e290398fd5cf8def16856e539628fcbf. Its native composite harness passed
-four front cells with before=0 and after=0, and rejected all four missing turned
-cells. assemble.ts is unchanged because no supplied front cell reproduces the
-fringe. Its resume marker remains on that branch.
+Executed baseline on main ae27b4da: 117 places, 346 backdrop rows. SHA256 snapshots
+cover every dress-code result, civic kind and full fixture-URL title rotation,
+without a hard-coded place list. Test result: three passed / one failed. Closed
+value rejection and existing behavior parity pass; the explicit missing
+art/tags.json assertion fails. PLACE_RULES/KIND_RULES and production readers
+remain unchanged. No tag migration or READY claimed.
+[Executed baseline/test receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020325155).
+Logs: /tmp/session127-tag-baseline.log and /tmp/session127-tags-landed-test.log.
+Actual landed-main validator run remains three passed / one missing-vocabulary
+failure. Changed-file formatter, ESLint, diff, no-dice and release checks pass.
+Focused strict TypeScript with noUncheckedIndexedAccess also passes.
+Strict validation initially found undefined-list typing in the test; the guard
+is corrected. Final changed-file checks run on the resulting published head
+under CTO 6020443625; full typecheck is a separately reported supplemental check.
 
-Claim for b24-p1-s2 is delivered on #2424, comment 6019027259. Session 11 received
-the exact hair-layering boundary question there; manifest/tag files are untouched.
-Native measurement reproduced opaque face-side overlap in 24 of 26 styles. The
-candidate modifies only pack.ts hair layering, measuring the selected face's
-widest opaque row and clearing front-hair alpha in the outer quarters of the
-face below it. The mask follows actual face support below the body neck anchor.
-Bangs, RGB, back hair, body anchors and original PNG files remain unchanged.
-The mask writer is [pack.ts:1007](../../../src/presentation/appearance-engine/pack.ts#L1007).
+CTO dispatch 6020150829 requires actual #2733 landing before repository gate
+recovery. The merge is now verified: 99f04b3113ba7604707b9e06ff7472f520f356d0,
+producer 871ff86ad018a91055d59fc808cbffd2da1ac3f1, merged at 16:04:58 UTC. Receive
+current origin/main, preserve this committed independent work, and update the
+existing owned branches. Execute required checks at every resulting exact head;
+never transfer old CI or duplicate clock/trait repairs. No merge authority used.
 
-The new source-bound native test covers all 26 front hairstyles in standing and
-seated poses on one build. All 52 front cases pass. Under the
-[CTO ruling](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019622068),
-one explicit assertion reports the empty turned arrays instead of treating
-missing inputs as a candidate defect. When turned arrays are nonempty, both
-poses still require the requested view and zero opaque face-side overlap. The
-existing four hair-face-window tests pass unchanged. Latest combined result:
-57 passed, with one recorded input gap and no turned pixel proof. Art approval,
-installed runtime and merge are not claimed.
+Existing queue artifacts:
 
-Strict focused TypeScript validation includes the production code and the new
-test's typed PNG decoder interface.
-Formatter, ESLint and whitespace checks were executed. Final validation results
-are recorded below. Logs are /tmp/session127-hair-test.log and
-/tmp/session127-hair-typecheck.log.
+- Hair #2730 is merged under CTO input-gap scope: producer d8915628 -> actual
+  main 34bfffa3f, at 16:12:40 UTC. Exact producer changed-file 57 tests/format/lint
+  pass; no turned proof, visual approval, runtime or full repository PASS.
+  [Merged receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020488002).
+- Collar #2732 is READY for CTO-requested review at fa83b89e: actual fresh
+  changed-test result 104 pass / eight absent turned failures, format/lint pass.
+  Native current opaque collar-band overpaint zero; explicit failures retained.
+  READY is not eight-red acceptance or an inferred hair-only exception.
+  [Final review receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020703617).
+- Cuff draft #2734 at 4125bdd2: 17 pass / 15 mask/turned failures. Its broad
+  junction probe is not a finished cuff mask; production and source art unchanged.
+- Rim draft #2725 at ef9d9ed6: four front cells pass with zero near-white rim;
+  four missing turned cells fail. Production unchanged pending reproduced cause.
+  Each branch has its detailed resume marker and exact scoped board receipts.
 
-Historical receipts before the CTO-authorized assertion change, on candidate
-89d6ed33d8ced52425fbf0a08c823e12f1769461:
-all 52 front cases log 7,632 opaque overlap pixels before and zero after. The
-other selected pack tests pass (35 tests). After retrieving declared JSON and
-runtime raster inputs omitted by the sparse checkout, the remaining four
-integration suites pass unchanged (70 tests). Total across the disjoint checks:
-157 passed / 4 failed; all failures require the absent turned hair. Strict
-production+new-test TypeScript, formatting, ESLint, diff, report and no-dice
-checks pass. Release check passes after metadata history was fetched. The
-required speed:years command cannot run because main has no such npm script.
-These are actual executed results, published in the
-[scoped board receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019561755).
-The source-bound measurement and preservation assertions are in
-[front-hair-sides.test.ts:106](../../../src/presentation/appearance-engine/front-hair-sides.test.ts#L106).
-
-The unrelated repository job 112337327269 on PR #2725 at ef9d9ed6 fails on
-time-command.ts moment fields and facet-opportunistic.test.ts preferences.
-Session 10 delivered that exact receipt; Session 127 preserves those owners'
-files and does not create another baseline or writer for them.
-
-Complete immutable turned pack and supported cloud staging are still requested
-on #2424, comment 6018953167; Session 10 acknowledged the exact source-bank gap.
-Continue the independent queue after publishing this candidate. Next id is
-b24-p1-s3; check for an open cloud-task PR and post the claim before working.
-
-CTO-scope receipts: /tmp/session127-hair-cto-tests.log records 57 passing tests
-and the plain turned-input gap message, as posted in the
-[current board receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019766375).
-Formatter, ESLint, whitespace, no-dice
-and Lexington grep on both changed source files pass (grep has no matches).
-Before landed main was incorporated, full npm run typecheck failed at time-command.ts lines 325, 326, 327 and 396
-with TS2339 missing moment; these unrelated baseline failures stay with their
-existing owner. The focused strict production/test typecheck passed. The earlier 157/4
-receipt above describes the superseded missing-input assertion, not a new failure.
-
-Gate recovery: verified #2733 merged at 99f04b3113ba7604707b9e06ff7472f520f356d0.
-This branch incorporates actual landed main without changing clock/trait writers.
-All earlier CI/typecheck results above belong to their stated older heads.
-Run required checks on the new published head and record exact outcomes on
-#2424; do not transfer old CI. The source/input-gap scope is unchanged.
-
-Exact next command (from /workspace/game, with subprocess execution enabled):
+Next command from /workspace/game with subprocess execution enabled:
 
 ```sh
-OCD_STORAGE_STATE_DIR=/workspace/session127-storage npm run storage -- run test -- npx vitest run src/presentation/appearance-engine/front-hair-sides.test.ts src/presentation/appearance-engine/hair-face-window.test.ts --silent=false
+OCD_STORAGE_STATE_DIR=/workspace/session127-storage npm run storage -- run test -- npx vitest run src/presentation/backdrop-tags.test.ts --disableConsoleIntercept
 ```
 
-PEOPLE_PACK_ROOT selects the supplied immutable pack when it becomes available.
-Do not count missing turned cells or candidate pixel QA as visual acceptance.
+Finish changed-file checks, publish the bounded validator as a draft, reconcile
+Session 11's actual vocabulary schema and reader boundary, then continue the
+independent queue at b24-p3. No waiting on a full typecheck or GitHub acceptance
+gate under [CTO dispatch 6020443625](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020443625).
+Missing owned tags remain an explicit input/interface gap, not silently skipped.
+No installed runtime, visual approval, Steam action or queue completion claimed.
