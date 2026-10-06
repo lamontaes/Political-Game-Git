@@ -524,12 +524,12 @@
       ],
       "asOf": "2024-07-01",
       "boundedSampleReason": "Publisher product scope: public K-12 and IPEDS reporting institutions only; Alaska preliminary submission limitations and all source-year limits remain. Not all real schools or historical years; no admissions, attendance, exact tuition or major-level offerings.",
-      "canonicalSha256": "813e0e7c824ec4b18dd20f19e0cb1e59dd481b4295ef7a9dd4817c03ff861464",
+      "canonicalSha256": "6b4e0bc672d30bf4c4ff7fda52475303070bf45828f48725016e06f687010f6c",
       "compiler": {
         "name": "education",
         "version": "1.0.0"
       },
-      "corpusFileSha256": "813e0e7c824ec4b18dd20f19e0cb1e59dd481b4295ef7a9dd4817c03ff861464",
+      "corpusFileSha256": "6b4e0bc672d30bf4c4ff7fda52475303070bf45828f48725016e06f687010f6c",
       "corpusId": "education",
       "domain": "education",
       "isCompleteUniverse": false,
@@ -885,16 +885,22 @@
           "sha256": "e393d8d0372b2261a76f3d085d5a8b0ed8ff92190fe387c553b60db8a4cdb12a",
           "sliceOfParent": null,
           "storage": "committed"
+        },
+        {
+          "artifactId": "va-code-15-2-1420",
+          "sha256": "5b7c5b8c5e3bb7fd8e19249b0123e06c49173f34cf7416fee78c46b4b8be417f",
+          "sliceOfParent": null,
+          "storage": "committed"
         }
       ],
       "asOf": "2026-09-08",
       "boundedSampleReason": "Coverage is limited to reviewed, acquired and compiled enacted provisions for these named governments. Uncompiled fields remain unresolved; national research transcriptions remain separate and this is not nationwide coverage.",
-      "canonicalSha256": "d991c2349ec3b0ee9bc083d386f74aa077421bfb02bc88432ec5cd809f509342",
+      "canonicalSha256": "0f43efbbb0b3321beab3a2f8998fa95be073b508c2d087a4911f882774c76a47",
       "compiler": {
         "name": "municipal-governance",
         "version": "3.0.0"
       },
-      "corpusFileSha256": "d991c2349ec3b0ee9bc083d386f74aa077421bfb02bc88432ec5cd809f509342",
+      "corpusFileSha256": "0f43efbbb0b3321beab3a2f8998fa95be073b508c2d087a4911f882774c76a47",
       "corpusId": "municipal-governance",
       "domain": "municipal-governance",
       "isCompleteUniverse": false,
