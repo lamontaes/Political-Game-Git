@@ -19,6 +19,7 @@ import { currentHistoricalCutoff, latestPrivateBelief } from "./queries";
 import { measureAnswersAt } from "./vote-bundle";
 import { traitRegistryFor } from "./trait-registry";
 import { readTrait } from "./trait-readings";
+import { constituentContactsConsideration } from "./governing/constituent-views";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -510,6 +511,12 @@ function memberConsiderations(
   // carrying the bill, not anyone at all. A strengthened relationship with a
   // neighbor is no reason to vote for a stranger's bill.
   const sponsorPersonId = requireMeasure(world, measureId).sponsorPersonId;
+  const constituentContacts = constituentContactsConsideration(
+    world,
+    input.personId,
+    measureId,
+  );
+  if (constituentContacts) considerations.push(constituentContacts);
   const interaction = sponsorPersonId
     ? [...world.history.relationshipInteractions]
         .reverse()
