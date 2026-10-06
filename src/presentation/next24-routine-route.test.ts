@@ -11,7 +11,14 @@ import {
   venueActivities,
   declineVenueActivity,
 } from "./venue-activity";
-import { enterLifePath, changeLifePathStatus } from "../simulation/life-paths2";
+import {
+  enterLifePath,
+  changeLifePathStatus,
+  performLifePathSession,
+  scheduleLifePathSession,
+  lifePaths2Handlers,
+} from "../simulation/life-paths2";
+import { recordedPayStubs } from "../simulation/resource-income";
 import {
   ACTIVITY_LAPSED_EVENT,
   deserializeWorld,
@@ -20,6 +27,7 @@ import {
   createScheduledActivity,
   simulationMomentAtLocalTime,
   addDays,
+  advanceWorld,
   advanceWorldMinutes,
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
@@ -38,6 +46,41 @@ function life(seed = "next24-routine-route") {
 }
 
 describe("NEXT24 combined private-citizen routine route", () => {
+  it("suppresses the routine notice for a recorded paycheck", () => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startAge: 30,
+      placeKey: "2743000",
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      questionnaire: "skipped",
+      priors: [],
+      seed: "next24-no-paycheck-toast",
+    });
+    const personId = game.playerPersonId;
+    const entered = enterLifePath(game.world, "shop-assistant");
+    expect(entered.ok).toBe(true);
+    const scheduled = scheduleLifePathSession(
+      entered.world,
+      entered.world.history.workRelationships.at(-1)!.id,
+    );
+    expect(scheduled.ok).toBe(true);
+    const worked = performLifePathSession(
+      scheduled.world,
+      scheduled.world.history.scheduledActivities.at(-1)!.id,
+    );
+    expect(worked.ok).toBe(true);
+    const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
+    expect(recordedPayStubs(paid, personId)).toHaveLength(1);
+    const notice = describeRoutineOutcome(worked.world, paid, personId);
+    expect(notice).not.toContain("Paycheck:");
+    expect(notice).not.toContain("gross received");
+    expect(notice).not.toContain("net received");
+    expect(notice).not.toContain("Payment for the completed shift");
+    expect(notice).not.toContain("Paid $");
+    expect(notice).not.toContain("Received $");
+  });
+
   it("does not repeat the clock in routine outcome notices", () => {
     const { world, personId } = life("next24-no-clock-toast");
     const advanced = advanceWorldMinutes(
@@ -166,7 +209,7 @@ describe("NEXT24 combined private-citizen routine route", () => {
         (o) => o.transferredAmount.minorUnits === 7200,
       ),
     ).toHaveLength(1);
-    expect(describeRoutineOutcome(loaded, paid, personId)).toContain(
+    expect(describeRoutineOutcome(loaded, paid, personId)).not.toContain(
       "Received $72",
     );
     expect(

@@ -76,6 +76,12 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     const stubs = recordedPayStubs(paid, personId);
     expect(stubs).toHaveLength(1);
     const stub = stubs[0]!;
+    const notice = describeRoutineOutcome(before, paid, personId);
+    expect(notice).not.toContain("Paycheck:");
+    expect(notice).not.toContain("gross received");
+    expect(notice).not.toContain("net received");
+    expect(notice).not.toContain("Received $");
+    expect(notice).not.toContain("Payment for the completed shift");
     expect(stub.taxes.length).toBeGreaterThan(0);
     const liabilityIds = new Set(stub.taxes.map((row) => row.liability.id));
     const actualPayments = paid.history.statutoryTaxPayments!.filter((row) =>
@@ -101,27 +107,11 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
       .liquidBalance.minorUnits;
     expect(stub.netPaid.minorUnits).toBe(cashAfter - cashBefore);
     const notice = describeRoutineOutcome(before, paid, personId);
-    expect(notice).toContain("Paycheck: gross ");
-    const federal = stub.taxes.find(
-      (row) => row.liability.taxKey === "us-federal:income-tax-withholding",
-    )!;
-    const state = stub.taxes.find((row) =>
-      row.liability.taxKey.endsWith(":wage-income-tax"),
-    )!;
-    expect(federal).toBeDefined();
-    expect(state).toBeDefined();
-    expect(notice).toContain(
-      federal.liability.liability === null
-        ? "Federal income tax not priced"
-        : "Federal income tax withheld",
-    );
-    expect(notice).toContain(
-      state.liability.liability === null
-        ? "State income tax not priced"
-        : state.liability.status === "not-imposed"
-          ? "State income tax not imposed"
-          : "State income tax withheld",
-    );
+    expect(notice).not.toContain("Paycheck:");
+    expect(notice).not.toContain("gross received");
+    expect(notice).not.toContain("net received");
+    expect(notice).not.toContain("Received $");
+    expect(notice).not.toContain("Payment for the completed shift");
     for (const row of stub.taxes.filter(
       (tax) => tax.liability.liability === null,
     ))
@@ -132,9 +122,7 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     expect(serializeWorld(paid)).toBe(saved);
     const reopened = deserializeWorld(saved);
     expect(recordedPayStubs(reopened, personId)).toEqual(stubs);
-    expect(describeRoutineOutcome(before, reopened, personId)).toBe(
-      describeRoutineOutcome(before, paid, personId),
-    );
+    expect(describeRoutineOutcome(before, reopened, personId)).toBe(notice);
 
     // Actual canonical transfer/payment controls, not advertised earnings or
     // assumed full tax collections: a partial paycheck and an unassessed one.
@@ -171,12 +159,12 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     expect(partialStub.netPaid.minorUnits).toBe(
       partialStub.paidGross.minorUnits - partialStub.withheld.minorUnits,
     );
-    expect(describeRoutineOutcome(before, assessedPartial, personId)).toContain(
-      "gross received",
-    );
+    expect(
+      describeRoutineOutcome(before, assessedPartial, personId),
+    ).not.toContain("gross received");
     const unassessed = recordedPayStubs(partial, personId)[0]!;
     expect(unassessed.assessmentStatus).toBe("not-recorded");
-    expect(describeRoutineOutcome(before, partial, personId)).toContain(
+    expect(describeRoutineOutcome(before, partial, personId)).not.toContain(
       "withholding assessment not recorded",
     );
     console.log(
@@ -189,7 +177,6 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
         grossMinor: stub.paidGross.minorUnits,
         withheldMinor: stub.withheld.minorUnits,
         netMinor: stub.netPaid.minorUnits,
-        notice,
       }),
     );
   }, 120000);
