@@ -20301,9 +20301,22 @@
         "US-ME": {
           "answer": "yes",
           "preempts": true,
-          "cite": "20-A M.R.S. § 13407",
+          "operativeAt": "2022-07-01",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "cite": "20-A M.R.S. § 13407(3)",
           "source": "https://legislature.maine.gov/statutes/20-A/title20-Asec13407.html",
-          "note": "$40,000 minimum salary for certified teachers since the 2022-23 school year."
+          "note": "$40,000 minimum salary for certified teachers and career and technical education teachers for the school year starting after June 30, 2022, and each subsequent school year, in force on 1/1/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-MI": {
           "answer": "no",
