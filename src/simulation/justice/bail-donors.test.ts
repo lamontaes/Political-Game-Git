@@ -1,3 +1,4 @@
+import { createOrganization, createWorkRelationship } from "../life";
 import { beforeAll, describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
@@ -217,6 +218,52 @@ describe(`current-game bail donors (${state}, session20-bail-donors)`, () => {
         "crime:robbery",
         court.courtId,
       );
+    const prosecutor = Object.values(world.people).find(
+      (candidate) =>
+        candidate.id !== person &&
+        (world.control.kind !== "person" ||
+          candidate.id !== world.control.personId),
+    )!;
+    expect(prosecutor).toBeDefined();
+    const appointment = {
+      kind: "authored" as const,
+      note: "Controlled recorded prosecutor appointment for bail consumer proof; no opening official or measured court amount inferred.",
+    };
+    world = createOrganization(world, {
+      stableKey: "bail-donor:prosecution-office",
+      formedAt: world.currentDate,
+      provenance: appointment,
+      initialProfile: {
+        name: "Controlled prosecution office",
+        classification: "sector:government",
+        locationJurisdictionId: venueJurisdictionId,
+      },
+    });
+    world = createWorkRelationship(world, {
+      stableKey: "bail-donor:prosecutor-appointment",
+      personId: prosecutor.id,
+      organizationId: world.history.organizations.at(-1)!.id,
+      startedAt: world.currentDate,
+      kind: "employment:executive-office",
+      compensation: "unpaid",
+      authority: "self-directed",
+      dependency: "independent",
+      economicRisk: "organization-borne",
+      provenance: appointment,
+      initialRole: {
+        title: "Prosecutor",
+        occupationClassification: "profession:prosecutor",
+        locationJurisdictionId: venueJurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 0, maximumHours: 0 },
+          attention: "moderate",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: venueJurisdictionId,
+        },
+      },
+    });
     const referred = referForProsecution(world, {
       stableKey: "authored-bail-donor:new-case",
       subjectPersonId: person,
