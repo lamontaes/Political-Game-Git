@@ -1,3 +1,4 @@
+import { conversationRegister } from "./conversation-register";
 import { speakerTraits } from "./speaker-traits";
 import { ageOnDate } from "../simulation";
 import { readRelationshipStanding } from "../simulation/relationship-standing";
@@ -236,6 +237,7 @@ function compose(
   const line = composeGroundedLine(packet, bank, {
     relationship: readRelationshipStanding(world, speakerId, playerPersonId),
     recentPartKeys: recentPartKeys(history),
+    register: conversationRegister(world, speakerId, playerPersonId),
   });
   return line.kind === "rendered"
     ? { text: line.text, parts: line.parts }

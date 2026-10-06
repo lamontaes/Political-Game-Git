@@ -1,3 +1,4 @@
+import { applyWardCommissionLandings } from "../law-consequences/modules/election-ward-landings";
 import methods from "../../../data/research/local-government/council-election-methods.json" with { type: "json" };
 import { governmentUnitsForState } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
@@ -489,7 +490,7 @@ export function redrawTownWards(
   const attribution: LawEffectStampedRecord = stamp
     ? { lawEffectStamps: [stamp] }
     : {};
-  return recordWorldEvent(world, {
+  const drawnWorld = recordWorldEvent(world, {
     ...attribution,
     stableKey: `town-wards:${input.unit.id}:${world.currentDate}:${input.drawnBy}`,
     type: WARDS_DRAWN,
@@ -530,4 +531,12 @@ export function redrawTownWards(
       immediateReaction: null,
     },
   });
+  const saved = drawnWorld.history.events.find(
+    (row) =>
+      row.stableKey ===
+      `town-wards:${input.unit.id}:${world.currentDate}:${input.drawnBy}`,
+  );
+  return stamp && saved
+    ? applyWardCommissionLandings(drawnWorld, saved.id)
+    : drawnWorld;
 }
