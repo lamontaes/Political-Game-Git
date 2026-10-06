@@ -4794,6 +4794,8 @@ export interface LegislativeMeasureRecord {
   readonly shortTitle: string;
   /** Omitted on existing measures, which are statutes by default. */
   readonly governmentInstrument?: "statute" | "regulation" | "executive-order";
+  /** Statute whose delegated term this regulation implements. */
+  readonly delegatedFromMeasureId?: EntityId;
   readonly summary: string;
   readonly origin: LegislativeMeasureOrigin;
   readonly subjectClass: LegislativeSubjectClass;
