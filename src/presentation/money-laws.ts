@@ -76,6 +76,11 @@ const TOWN_WORDS: Record<
     cost: (who, sum) => `cost ${who} ${sum} for public services`,
     none: (who) => `changed public services used by ${who}`,
   },
+  "outcome-web": {
+    gain: (who) => `recorded an environmental exposure for ${who}`,
+    cost: (who) => `recorded an environmental exposure for ${who}`,
+    none: (who) => `recorded a monthly place measure for ${who}`,
+  },
   rent: {
     gain: (who, sum) => `lowered the rent of ${who} by ${sum}`,
     cost: (who, sum) => `raised the rent of ${who} by ${sum}`,
@@ -128,7 +133,8 @@ export function projectMoneyLaws(
   const home = person.homeJurisdictionId;
   const placeName = world.jurisdictions[home]?.name ?? "this place";
   const exposures = (world.history.lawExposures ?? []).filter(
-    (row) => row.recordedAt <= world.currentDate,
+    (row) =>
+      row.channel !== "outcome-web" && row.recordedAt <= world.currentDate,
   );
 
   const yours: MoneyLawLine[] = [];
