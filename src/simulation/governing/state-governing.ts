@@ -113,6 +113,10 @@ import {
   scheduleGoverningSeasons,
 } from "./governing-calendar";
 import {
+  LEGISLATIVE_SESSION_COMPLETION_TRANSITION,
+  legislativeSessionCompletionHandler,
+} from "./legislative-session-completion";
+import {
   ensureStateLegislatureOpening,
   STATE_LEGISLATURE_OPENING_TRANSITION,
   stateLegislatureOpeningHandler,
@@ -3849,6 +3853,10 @@ export function stateGoverningHandlers() {
     [LEGISLATIVE_INSTITUTION_STEP, createInstitutionStepHandler(executiveDesk)],
     ...congressLawmakingHandlers(),
     [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
+    [
+      LEGISLATIVE_SESSION_COMPLETION_TRANSITION,
+      legislativeSessionCompletionHandler,
+    ],
     [GOVERNING_SEASON, governingSeasonHandler],
     [GOVERNING_TRANSITION, governingTransitionHandler],
     [GOVERNING_DEADLINE, governingDeadlineHandler],

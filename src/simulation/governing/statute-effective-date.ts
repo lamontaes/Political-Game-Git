@@ -7,6 +7,10 @@ import {
   yearOf,
 } from "../dates";
 import type { IsoDate } from "../types";
+import {
+  censusRegionOf,
+  censusRegionStates,
+} from "../world-setup/census-regions";
 
 /**
  * When a state statute takes effect if the act names no date of its own, by
@@ -175,6 +179,7 @@ const EFFECTIVE_DATES = (
 const RULES: Readonly<Record<string, RuleRow>> = EFFECTIVE_DATES?.rules ?? {};
 const SESSION_ENDS: Readonly<Record<string, SessionEndRow>> =
   EFFECTIVE_DATES?.sessionEnds ?? {};
+const STATE_CODES = new Set(censusRegionStates());
 
 /** The rule for a state (`US-XX`), read or estimated, or null where the
  * file has none. */
@@ -248,6 +253,66 @@ export function stateSessionEndEstimate(
 }
 
 /**
+ * The outer legal end date for a session, deliberately separate from a
+ * published early sine-die date. Where the state's calendar limit is not in
+ * the rule table, estimate from date-limited sessions in the same Census
+ * region and retain the basis in the returned row.
+ */
+export function stateSessionLegalLimit(
+  jurisdictionKey: string,
+  year: number,
+): { readonly date: IsoDate; readonly estimate: string | null } | null {
+  const match = /^US-([A-Z]{2})$/.exec(jurisdictionKey);
+  if (!match || match[1] === "DC") return null;
+  const usps = match[1]!;
+  if (!STATE_CODES.has(usps)) return null;
+  const row = SESSION_ENDS[jurisdictionKey];
+  const actualLimits = row ? legalLimitDates(row, year) : [];
+  if (actualLimits.length > 0)
+    return { date: actualLimits.at(-1)!, estimate: null };
+
+  const region = censusRegionOf(usps);
+  const comparable = Object.entries(SESSION_ENDS)
+    .filter(([key, candidate]) => {
+      const code = /^US-([A-Z]{2})$/.exec(key)?.[1];
+      return (
+        code !== undefined &&
+        STATE_CODES.has(code) &&
+        code !== usps &&
+        censusRegionOf(code) === region &&
+        candidate.estimated === undefined
+      );
+    })
+    .flatMap(([key, candidate]) => {
+      const date = legalLimitDates(candidate, year).at(-1);
+      return date ? [{ key, date }] : [];
+    })
+    .sort((left, right) => left.date.localeCompare(right.date));
+  const fallback = comparable.length
+    ? comparable
+    : Object.entries(SESSION_ENDS)
+        .filter(([key, candidate]) =>
+          /^US-[A-Z]{2}$/.test(key) &&
+          STATE_CODES.has(key.slice(3)) &&
+          candidate.estimated === undefined,
+        )
+        .flatMap(([key, candidate]) => {
+          const date = legalLimitDates(candidate, year).at(-1);
+          return date ? [{ key, date }] : [];
+        })
+        .sort((left, right) => left.date.localeCompare(right.date));
+  if (fallback.length === 0) return null;
+  const median = fallback[Math.floor((fallback.length - 1) / 2)]!;
+  const basis = comparable.length
+    ? `${comparable.length} date-limited session row(s) in the ${region} Census region (for example ${median.key})`
+    : `${fallback.length} date-limited state session row(s) nationally (for example ${median.key}); no same-region date limit was available`;
+  return {
+    date: median.date,
+    estimate: `ESTIMATED FROM SIMILAR STATES: ${basis}; ${year} session year.`,
+  };
+}
+
+/**
  * A row's session ends in `year` from its own data: the published
  * adjournments, else its limits. Null for an estimated row with neither.
  */
@@ -256,6 +321,17 @@ function knownSessionEnds(row: SessionEndRow, year: number): IsoDate[] | null {
   if (adjourned) return adjourned.dates.map((date) => makeIsoDate(date)).sort();
   if (row.estimated) return null;
   return ((year % 2 ? row.oddYear : row.evenYear) ?? [])
+    .map((rule) =>
+      rule.kind === "on"
+        ? dayInYear(year, rule.day)
+        : addDays(dayInYear(year, rule.start), rule.lastDayAfterStart),
+    )
+    .sort();
+}
+
+function legalLimitDates(row: SessionEndRow, year: number): IsoDate[] {
+  const rules = year % 2 ? row.oddYear : row.evenYear;
+  return (rules ?? [])
     .map((rule) =>
       rule.kind === "on"
         ? dayInYear(year, rule.day)

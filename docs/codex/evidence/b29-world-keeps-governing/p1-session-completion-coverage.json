@@ -1,0 +1,2091 @@
+{
+  "head": "1332ee015cbbaa188d3643f37483bf27a8ca4e4f",
+  "seed": "session53-nationwide-2026-2027",
+  "from": "2026-01-05",
+  "cutoff": "2026-04-30",
+  "through": "2026-04-30",
+  "wallMs": 207199,
+  "openMs": 6756,
+  "rows": 2303,
+  "batches": 83,
+  "unresolved": 0,
+  "measures": 91,
+  "actions": 602,
+  "billTotals": {
+    "filed": 86,
+    "committeeActions": 323,
+    "committeeAdmitted": 109,
+    "floorPassages": 35,
+    "failed": 76,
+    "enacted": 10
+  },
+  "completionTotals": {
+    "events": 33,
+    "jurisdictions": 33,
+    "byCause": {
+      "legal-limit": 33,
+      "sine-die-vote": 0,
+      "scope-disposed": 0
+    },
+    "estimated": 27
+  },
+  "coverage": [
+    {
+      "name": "Alabama",
+      "id": "jurisdiction_889162829c20f922",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_1b4bf89e667b5219",
+          "jurisdictionId": "jurisdiction_889162829c20f922",
+          "date": "2026-04-15",
+          "jurisdiction": "US-AL",
+          "sessionId": "US-AL:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-al-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Alaska",
+      "id": "jurisdiction_7a7ff2336824055b",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_6abc157f34d8173a",
+          "jurisdictionId": "jurisdiction_7a7ff2336824055b",
+          "date": "2026-03-06",
+          "jurisdiction": "US-AK",
+          "sessionId": "US-AK:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ak-legislature-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Arizona",
+      "id": "jurisdiction_c00c4c51bcfc2c6c",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_cb1f8774e7994757",
+          "jurisdictionId": "jurisdiction_c00c4c51bcfc2c6c",
+          "date": "2026-03-06",
+          "jurisdiction": "US-AZ",
+          "sessionId": "US-AZ:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-az-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Arkansas",
+      "id": "jurisdiction_8acca737ebc52bd4",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ar-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "California",
+      "id": "jurisdiction_1e7b19669e8d2d53",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "Assembly",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_81dd0c5e2c556186",
+          "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+          "date": "2026-03-06",
+          "jurisdiction": "US-CA",
+          "sessionId": "US-CA:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ca-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Colorado",
+      "id": "jurisdiction_51a962cef0f937d1",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_04b5ffb6301fee08",
+          "jurisdictionId": "jurisdiction_51a962cef0f937d1",
+          "date": "2026-03-06",
+          "jurisdiction": "US-CO",
+          "sessionId": "US-CO:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-co-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Connecticut",
+      "id": "jurisdiction_5d94d14fe88f2d0c",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 1,
+          "failed": 0,
+          "enacted": 1
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 1,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_fe1ff49c7034df7f",
+          "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+          "date": "2026-04-15",
+          "jurisdiction": "US-CT",
+          "sessionId": "US-CT:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ct-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Delaware",
+      "id": "jurisdiction_2d97cfd7b9b1f290",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 1,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_73ef00b6585bbf23",
+          "jurisdictionId": "jurisdiction_2d97cfd7b9b1f290",
+          "date": "2026-04-15",
+          "jurisdiction": "US-DE",
+          "sessionId": "US-DE:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-de-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Florida",
+      "id": "jurisdiction_83dbdb4d39ee710d",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_9ddaaaacae9392e4",
+          "jurisdictionId": "jurisdiction_83dbdb4d39ee710d",
+          "date": "2026-03-13",
+          "jurisdiction": "US-FL",
+          "sessionId": "US-FL:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": null
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-fl-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Georgia",
+      "id": "jurisdiction_23ccafc89341e657",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_5ac40e9f66186b4a",
+          "jurisdictionId": "jurisdiction_23ccafc89341e657",
+          "date": "2026-04-15",
+          "jurisdiction": "US-GA",
+          "sessionId": "US-GA:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ga-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Hawaii",
+      "id": "jurisdiction_8f69e03a6d262848",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_e7eacb472013d9bb",
+          "jurisdictionId": "jurisdiction_8f69e03a6d262848",
+          "date": "2026-03-06",
+          "jurisdiction": "US-HI",
+          "sessionId": "US-HI:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-hi-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Idaho",
+      "id": "jurisdiction_b553cb6877c707f2",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_e1be05d578a9e3e9",
+          "jurisdictionId": "jurisdiction_b553cb6877c707f2",
+          "date": "2026-03-06",
+          "jurisdiction": "US-ID",
+          "sessionId": "US-ID:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-id-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Illinois",
+      "id": "jurisdiction_612e8d3a1fed4dba",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 3,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 3,
+          "failed": 0,
+          "enacted": 3
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 3,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-il-general-assembly-v1",
+      "measuresFiled": 3
+    },
+    {
+      "name": "Indiana",
+      "id": "jurisdiction_6d6a95d42895c878",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 3,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 0,
+          "failed": 3,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-in-legislature-profile-v1",
+      "measuresFiled": 3
+    },
+    {
+      "name": "Iowa",
+      "id": "jurisdiction_a3e4f4601cec2839",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ia-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Kansas",
+      "id": "jurisdiction_56ee73d43f5df3a5",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ks-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Kentucky",
+      "id": "jurisdiction_6752b5a7cd79cafe",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_72f4f75c8f8df406",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "date": "2026-04-15",
+          "jurisdiction": "US-KY",
+          "sessionId": "US-KY:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": null
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ky-general-assembly-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Louisiana",
+      "id": "jurisdiction_1d1fb29e9cc5bdb4",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 3,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 3,
+          "failed": 3,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_9569dc157e200257",
+          "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+          "date": "2026-04-15",
+          "jurisdiction": "US-LA",
+          "sessionId": "US-LA:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-la-legislature-profile-v1",
+      "measuresFiled": 3
+    },
+    {
+      "name": "Maine",
+      "id": "jurisdiction_95dc3c80ebc2da09",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 3,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 0,
+          "failed": 3,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_d8dca9223a5f76e8",
+          "jurisdictionId": "jurisdiction_95dc3c80ebc2da09",
+          "date": "2026-04-15",
+          "jurisdiction": "US-ME",
+          "sessionId": "US-ME:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": null
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-me-legislature-profile-v1",
+      "measuresFiled": 3
+    },
+    {
+      "name": "Maryland",
+      "id": "jurisdiction_4b72ee154e14b52e",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Delegates",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 1,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_50c9f6ce42083b85",
+          "jurisdictionId": "jurisdiction_4b72ee154e14b52e",
+          "date": "2026-04-15",
+          "jurisdiction": "US-MD",
+          "sessionId": "US-MD:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-md-general-assembly-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Massachusetts",
+      "id": "jurisdiction_660e18bc5aac592d",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 2,
+          "failed": 0,
+          "enacted": 2
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 2,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_bfc08790cdee8afc",
+          "jurisdictionId": "jurisdiction_660e18bc5aac592d",
+          "date": "2026-04-15",
+          "jurisdiction": "US-MA",
+          "sessionId": "US-MA:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ma-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Michigan",
+      "id": "jurisdiction_e3b5bf248cf4b8b5",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-mi-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Minnesota",
+      "id": "jurisdiction_8f31b51a5d2bba64",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-mn-legislature-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Mississippi",
+      "id": "jurisdiction_907de9c31da61f63",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_2103bc9583065dce",
+          "jurisdictionId": "jurisdiction_907de9c31da61f63",
+          "date": "2026-04-15",
+          "jurisdiction": "US-MS",
+          "sessionId": "US-MS:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ms-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Missouri",
+      "id": "jurisdiction_33cbfed7ea823907",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-mo-general-assembly-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Montana",
+      "id": "jurisdiction_fe97da6aa9eaa7be",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-mt-legislature-profile-v1",
+      "measuresFiled": 0
+    },
+    {
+      "name": "Nebraska",
+      "id": "jurisdiction_317641dc58effbce",
+      "chambers": [
+        {
+          "chamberKey": "legislature",
+          "chamberName": "Legislature",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ne-legislature-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Nevada",
+      "id": "jurisdiction_1a68f1df5dc5d333",
+      "chambers": [
+        {
+          "chamberKey": "assembly",
+          "chamberName": "Assembly",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-nv-legislature-v1",
+      "measuresFiled": 0
+    },
+    {
+      "name": "New Hampshire",
+      "id": "jurisdiction_036e73481ecd6dc1",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 2,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_d12a07a86a647b28",
+          "jurisdictionId": "jurisdiction_036e73481ecd6dc1",
+          "date": "2026-04-15",
+          "jurisdiction": "US-NH",
+          "sessionId": "US-NH:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-nh-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "New Jersey",
+      "id": "jurisdiction_8a587db997485af7",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "Assembly",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_9189abdd0189eeba",
+          "jurisdictionId": "jurisdiction_8a587db997485af7",
+          "date": "2026-04-15",
+          "jurisdiction": "US-NJ",
+          "sessionId": "US-NJ:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-nj-legislature-profile-v1",
+      "measuresFiled": 0
+    },
+    {
+      "name": "New Mexico",
+      "id": "jurisdiction_ca05aeb0981cd43a",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 2,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_42198efc332d2999",
+          "jurisdictionId": "jurisdiction_ca05aeb0981cd43a",
+          "date": "2026-02-19",
+          "jurisdiction": "US-NM",
+          "sessionId": "US-NM:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": null
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-nm-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "New York",
+      "id": "jurisdiction_9b5979cea0ce42f6",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "Assembly",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 1,
+          "failed": 0,
+          "enacted": 1
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 1,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_17ab0d417e56ae95",
+          "jurisdictionId": "jurisdiction_9b5979cea0ce42f6",
+          "date": "2026-04-15",
+          "jurisdiction": "US-NY",
+          "sessionId": "US-NY:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ny-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "North Carolina",
+      "id": "jurisdiction_9bf7e2c099b36a6c",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_6149b6be782da70f",
+          "jurisdictionId": "jurisdiction_9bf7e2c099b36a6c",
+          "date": "2026-04-15",
+          "jurisdiction": "US-NC",
+          "sessionId": "US-NC:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-nc-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "North Dakota",
+      "id": "jurisdiction_7e617609be5671dd",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-nd-legislature-profile-v1",
+      "measuresFiled": 0
+    },
+    {
+      "name": "Ohio",
+      "id": "jurisdiction_cd70b9ba3c8e7584",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-oh-general-assembly-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Oklahoma",
+      "id": "jurisdiction_11eee12d9a148471",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ok-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Oregon",
+      "id": "jurisdiction_517f8ff4401d685e",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_6d69d6ed78a37dcd",
+          "jurisdictionId": "jurisdiction_517f8ff4401d685e",
+          "date": "2026-03-06",
+          "jurisdiction": "US-OR",
+          "sessionId": "US-OR:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-or-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Pennsylvania",
+      "id": "jurisdiction_c7fdcd7966f6dfa8",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 3,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 3,
+          "failed": 3,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_707befe93c374fab",
+          "jurisdictionId": "jurisdiction_c7fdcd7966f6dfa8",
+          "date": "2026-04-15",
+          "jurisdiction": "US-PA",
+          "sessionId": "US-PA:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-pa-legislature-profile-v1",
+      "measuresFiled": 3
+    },
+    {
+      "name": "Rhode Island",
+      "id": "jurisdiction_8a0c343862e0898a",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 2,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_a6e335850065cb99",
+          "jurisdictionId": "jurisdiction_8a0c343862e0898a",
+          "date": "2026-04-15",
+          "jurisdiction": "US-RI",
+          "sessionId": "US-RI:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ri-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "South Carolina",
+      "id": "jurisdiction_e73897803685f85d",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_f1cea1a9165b2c74",
+          "jurisdictionId": "jurisdiction_e73897803685f85d",
+          "date": "2026-04-15",
+          "jurisdiction": "US-SC",
+          "sessionId": "US-SC:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-sc-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "South Dakota",
+      "id": "jurisdiction_04cf043711e2f0ec",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-sd-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Tennessee",
+      "id": "jurisdiction_de176811ef2894d5",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 3,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 0,
+          "failed": 3,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_f458d92147d1010c",
+          "jurisdictionId": "jurisdiction_de176811ef2894d5",
+          "date": "2026-04-15",
+          "jurisdiction": "US-TN",
+          "sessionId": "US-TN:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-tn-legislature-profile-v1",
+      "measuresFiled": 3
+    },
+    {
+      "name": "Texas",
+      "id": "jurisdiction_00bf606d2531f337",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-tx-legislature-profile-v1",
+      "measuresFiled": 0
+    },
+    {
+      "name": "Utah",
+      "id": "jurisdiction_01dc03d332dd4286",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_23488076be764cbd",
+          "jurisdictionId": "jurisdiction_01dc03d332dd4286",
+          "date": "2026-03-06",
+          "jurisdiction": "US-UT",
+          "sessionId": "US-UT:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": null
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-ut-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Vermont",
+      "id": "jurisdiction_ccb5f5e8b173f9f5",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 1,
+          "failed": 0,
+          "enacted": 1
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 1,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_fcb61e272c2f4bdc",
+          "jurisdictionId": "jurisdiction_ccb5f5e8b173f9f5",
+          "date": "2026-04-15",
+          "jurisdiction": "US-VT",
+          "sessionId": "US-VT:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 1 date-limited session row(s) in the northeast Census region (for example US-ME); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-vt-legislature-profile-v1",
+      "measuresFiled": 1
+    },
+    {
+      "name": "Virginia",
+      "id": "jurisdiction_b6689e8af16aa8e6",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Delegates",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 2,
+          "failed": 0,
+          "enacted": 2
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 2,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_b7b12dadaa4bbb35",
+          "jurisdictionId": "jurisdiction_b6689e8af16aa8e6",
+          "date": "2026-04-15",
+          "jurisdiction": "US-VA",
+          "sessionId": "US-VA:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-va-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Washington",
+      "id": "jurisdiction_057a41c4dae14607",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 2,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_d488518041017a1a",
+          "jurisdictionId": "jurisdiction_057a41c4dae14607",
+          "date": "2026-03-12",
+          "jurisdiction": "US-WA",
+          "sessionId": "US-WA:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": null
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-wa-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "West Virginia",
+      "id": "jurisdiction_d32ed0247ef215da",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Delegates",
+          "filed": 3,
+          "committeeActions": 9,
+          "committeeAdmitted": 3,
+          "floorPassages": 0,
+          "failed": 3,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_5c2c3e162850cbc9",
+          "jurisdictionId": "jurisdiction_d32ed0247ef215da",
+          "date": "2026-04-15",
+          "jurisdiction": "US-WV",
+          "sessionId": "US-WV:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 4 date-limited session row(s) in the south Census region (for example US-KY); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-wv-legislature-profile-v1",
+      "measuresFiled": 3
+    },
+    {
+      "name": "Wisconsin",
+      "id": "jurisdiction_613597ae5e7973bf",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "Assembly",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-wi-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "Wyoming",
+      "id": "jurisdiction_87f38f46e4bcf8cf",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 2,
+          "committeeActions": 6,
+          "committeeAdmitted": 2,
+          "floorPassages": 0,
+          "failed": 2,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [
+        {
+          "id": "event_f4643a542fb6b972",
+          "jurisdictionId": "jurisdiction_87f38f46e4bcf8cf",
+          "date": "2026-03-06",
+          "jurisdiction": "US-WY",
+          "sessionId": "US-WY:regular:2026:1",
+          "cause": "legal-limit",
+          "chambers": [
+            "house",
+            "senate"
+          ],
+          "estimate": "ESTIMATED FROM SIMILAR STATES: 3 date-limited session row(s) in the west Census region (for example US-UT); 2026 session year."
+        }
+      ],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-wy-legislature-profile-v1",
+      "measuresFiled": 2
+    },
+    {
+      "name": "District of Columbia",
+      "id": "jurisdiction_4e8b361474cdde9e",
+      "chambers": null,
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": null,
+      "measuresFiled": 0
+    },
+    {
+      "name": "Puerto Rico",
+      "id": "jurisdiction_bfc5954ab78d7a25",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 0,
+          "committeeAdmitted": 0,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": "us-pr-legislature-profile-v1",
+      "measuresFiled": 0
+    },
+    {
+      "name": "Guam",
+      "id": "jurisdiction_2f8fa072343ec9fb",
+      "chambers": null,
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": null,
+      "measuresFiled": 0
+    },
+    {
+      "name": "U.S. Virgin Islands",
+      "id": "jurisdiction_ad4f3bc31274b5fe",
+      "chambers": null,
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": null,
+      "measuresFiled": 0
+    },
+    {
+      "name": "American Samoa",
+      "id": "jurisdiction_ae6ce74aba911cf7",
+      "chambers": null,
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": null,
+      "measuresFiled": 0
+    },
+    {
+      "name": "Northern Mariana Islands",
+      "id": "jurisdiction_ac2227ed6775fd92",
+      "chambers": null,
+      "events": [],
+      "institutionKind": "state-placeholder",
+      "institutionPack": null,
+      "measuresFiled": 0
+    },
+    {
+      "name": "United States",
+      "id": "jurisdiction_55aa1fe9dcedd760",
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "chamberName": "House of Representatives",
+          "filed": 1,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 1,
+          "failed": 1,
+          "enacted": 0
+        },
+        {
+          "chamberKey": "senate",
+          "chamberName": "Senate",
+          "filed": 0,
+          "committeeActions": 3,
+          "committeeAdmitted": 1,
+          "floorPassages": 0,
+          "failed": 0,
+          "enacted": 0
+        }
+      ],
+      "events": [],
+      "institutionKind": "federal",
+      "institutionPack": "us-congress-v1",
+      "measuresFiled": 1
+    }
+  ]
+}

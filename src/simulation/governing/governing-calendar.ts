@@ -5,6 +5,7 @@ import {
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { scheduleNextLegislativeSessionCompletion } from "./legislative-session-completion";
 import {
   legislativeProcedureForJurisdiction,
   regularSessionYearForWorld,
@@ -60,19 +61,28 @@ function scheduleNextStateBillSeason(
       regularSessionYearForWorld(world, jurisdictionId, year),
   });
   const stableKey = `${STATE_GOVERNING_VERSION}:season:${officeKey}:bill:${dueAt}`;
-  if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
-    return world;
-  return scheduleFutureDueItem(world, {
-    stableKey,
-    dueAt,
-    transitionKey: GOVERNING_SEASON,
-    entityIds: [jurisdictionId],
-    jurisdictionId,
-    provenance: {
-      kind: "authored",
-      note: `${calendar.id}: ${calendar.note}`,
-    },
-  });
+  let next = world;
+  if (!world.history.futureDueItems.some((due) => due.stableKey === stableKey))
+    next = scheduleFutureDueItem(next, {
+      stableKey,
+      dueAt,
+      transitionKey: GOVERNING_SEASON,
+      entityIds: [jurisdictionId],
+      jurisdictionId,
+      provenance: {
+        kind: "authored",
+        note: `${calendar.id}: ${calendar.note}`,
+      },
+    });
+  const stateUsps = US_STATE_USPS.find(
+    (code) => stateExecutiveIdentity(code)?.officeKey === officeKey,
+  );
+  if (stateUsps)
+    next = scheduleNextLegislativeSessionCompletion(
+      next,
+      `US-${stateUsps}`,
+    );
+  return next;
 }
 
 /**

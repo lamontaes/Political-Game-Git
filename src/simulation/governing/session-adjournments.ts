@@ -55,7 +55,16 @@ export function sessionClosesOn(
   pack: LegislativeRulePack,
   year: number,
 ): IsoDate | null {
+  const completed = world.history.events.find(
+    (event) =>
+      event.type === "legislation.session-completed" &&
+      event.tags.includes(`session-jurisdiction:${pack.jurisdictionKey}`) &&
+      event.tags.some((tag) =>
+        tag.startsWith(`session-id:${pack.jurisdictionKey}:regular:${year}:`),
+      ),
+  );
   return (
+    completed?.occurredAt ??
     recordedSessionAdjournment(world, pack.packId, year)?.adjournedOn ??
     sessionLegalLimit(pack, year)
   );
