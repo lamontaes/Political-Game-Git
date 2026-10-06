@@ -63,6 +63,19 @@ for (let draw = 0; draw < 6; draw += 1) {
                 currentSrc: image.currentSrc,
                 complete: image.complete,
                 naturalWidth: image.naturalWidth,
+                naturalHeight: image.naturalHeight,
+                assetId:
+                  image
+                    .closest("[data-asset-id]")
+                    ?.getAttribute("data-asset-id") ?? null,
+                place:
+                  image.closest("[data-place]")?.getAttribute("data-place") ??
+                  null,
+                cameraReference:
+                  image
+                    .closest("[data-camera-id]")
+                    ?.getAttribute("data-camera-id") ?? null,
+                imageClass: image.getAttribute("class"),
               }))
             : [],
           problems: Array.from(
@@ -131,6 +144,17 @@ for (let draw = 0; draw < 6; draw += 1) {
             currentSrc: image.currentSrc,
             complete: image.complete,
             naturalWidth: image.naturalWidth,
+            naturalHeight: image.naturalHeight,
+            assetId:
+              image.closest("[data-asset-id]")?.getAttribute("data-asset-id") ??
+              null,
+            place:
+              image.closest("[data-place]")?.getAttribute("data-place") ?? null,
+            cameraReference:
+              image
+                .closest("[data-camera-id]")
+                ?.getAttribute("data-camera-id") ?? null,
+            imageClass: image.getAttribute("class"),
           }));
         });
         const copy = chapter.locator(".pg-orientation-copy");
@@ -157,7 +181,7 @@ for (let draw = 0; draw < 6; draw += 1) {
         await expect
           .poll(() =>
             copy.evaluate((node) => {
-              const nodes = [node, ...node.querySelectorAll("*")];
+              const nodes = [node, ...Array.from(node.querySelectorAll("*"))];
               for (
                 let ancestor = node.parentElement;
                 ancestor;
@@ -172,17 +196,19 @@ for (let draw = 0; draw < 6; draw += 1) {
           .toBe(true);
         const panelPaint = await copy.evaluate((node) => ({
           at: performance.now(),
-          elements: [node, ...node.querySelectorAll("*")].map((element) => {
-            const style = getComputedStyle(element);
-            return {
-              tag: element.tagName,
-              className: element.getAttribute("class"),
-              opacity: style.opacity,
-              color: style.color,
-              backgroundColor: style.backgroundColor,
-              animationName: style.animationName,
-            };
-          }),
+          elements: [node, ...Array.from(node.querySelectorAll("*"))].map(
+            (element) => {
+              const style = getComputedStyle(element);
+              return {
+                tag: element.tagName,
+                className: element.getAttribute("class"),
+                opacity: style.opacity,
+                color: style.color,
+                backgroundColor: style.backgroundColor,
+                animationName: style.animationName,
+              };
+            },
+          ),
         }));
         const people = await chapter
           .locator("[data-person-id]")
