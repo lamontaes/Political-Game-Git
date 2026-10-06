@@ -7,7 +7,7 @@ import { personName } from "../people";
 import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { SeatedBody } from "../legislation-scenarios";
-import type { EntityId, World } from "../types";
+import type { EntityId, LegislativeVoteRecord, World } from "../types";
 import {
   assignCommitteeSeats,
   committeeAssignmentBodyForRound,
@@ -133,7 +133,10 @@ describe("recorded committee requests and assignments", () => {
       control: { kind: "person" as const, personId: playerPersonId },
     };
     const decisionTraceIds: EntityId[] = [];
-    for (const [index, optionKey] of ["education", "ways-and-means"].entries()) {
+    for (const [index, optionKey] of [
+      "education",
+      "ways-and-means",
+    ].entries()) {
       const evaluation = evaluateDecision(next, {
         stableKey: `played-request:${index + 1}`,
         decisionType: "legislature.request-committee-membership",
@@ -161,7 +164,8 @@ describe("recorded committee requests and assignments", () => {
             stableKey: `played-request:${index + 1}:exclude-other`,
             optionKey: "other",
             kind: "not-selected-in-this-played-answer",
-            explanation: "This recorded answer selected the requested committee.",
+            explanation:
+              "This recorded answer selected the requested committee.",
             sourceRefs: [],
           },
         ],
@@ -256,6 +260,73 @@ describe("recorded committee requests and assignments", () => {
       committeeRoster(seated.body, COMMITTEES, "ways-and-means", "ignored"),
     ).toEqual([]);
     expect(seated.seats).toBe(body.members.length);
+  });
+
+  it("does not use a saved roll call from a different chamber as party-line evidence", () => {
+    const { initialWorld, body, jurisdictionId, assigner } = assignedInPlace(
+      "RI",
+      "b10-p3-other-chamber-vote",
+    );
+    const dispositions = body.members.map((member, index) => ({
+      memberKey: `other-${member.memberKey}`,
+      personId: member.personId,
+      disposition: index < 2 ? ("yea" as const) : ("nay" as const),
+    }));
+    const unrelatedVote: LegislativeVoteRecord = {
+      id: "vote:other-chamber" as EntityId,
+      stableKey: "test:other-chamber-roll-call",
+      sequence: 1,
+      measureId: "measure:other-chamber" as EntityId,
+      forum: { kind: "chamber", chamberKey: "senate" },
+      purpose: "floor-stage",
+      floorStageKey: "final-passage",
+      takenAt: initialWorld.currentDate,
+      eligibleMembers: dispositions.length,
+      presentMembers: dispositions.length,
+      dispositions,
+      tally: {
+        yea: 2,
+        nay: dispositions.length - 2,
+        presentNotVoting: 0,
+        absent: 0,
+        excused: 0,
+      },
+      thresholdLabel: "Test fixture",
+      denominatorKind: "test-fixture",
+      denominatorValue: dispositions.length,
+      requiredVotes: 1,
+      outcome: "passed",
+      provenance: {
+        method: "authored-fixture",
+        note: "Unrelated chamber fixture; not evidence about this House.",
+        sourceEntityIds: [],
+      },
+    };
+    const world: World = {
+      ...initialWorld,
+      history: {
+        ...initialWorld.history,
+        legislativeVotes: [unrelatedVote],
+      },
+    };
+    const result = assignCommitteeSeats(world, {
+      stableKey: "b10-p3-ignore-other-chamber-vote",
+      jurisdictionId,
+      assignmentRoundKey: "2026-organizing",
+      assignerPersonId: assigner,
+      body,
+      committees: [COMMITTEES[0]!],
+      partyRatioRule: "proportional",
+      seniorityImportance: "slight",
+    });
+    const considerations = result.world.history.decisionTraces.flatMap(
+      (trace) => trace.context.considerations,
+    );
+    expect(
+      considerations.some((row) =>
+        row.stableKey.startsWith("committee:party-line:"),
+      ),
+    ).toBe(false);
   });
 
   it("holds the proportional party ratio in three seeded random states and replays deterministically", () => {

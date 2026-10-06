@@ -9,6 +9,7 @@
 - Replaced round-robin roster synthesis with rosters read from seat-by-seat assignment records attached to `SeatedBody`.
 - Added limited-visibility member request events and public assignment events with source participants, committee preference order, seat number, assigner and reasons. Requests carry their actual decision-trace IDs.
 - Added evaluator-driven NPC requests and assignments with supplied district/work evidence, configurable party-ratio rule and seniority importance, relationship considerations, recorded roll-call alignment, owed-favor considerations, and durable decision traces.
+- Party-line history now matches the actual chamber and saved member keys (and verifies the person ID); a roll call from another chamber cannot shape this body's committee assignment.
 - Added validation for player-controlled seat selections against the exact durable decision trace. Added adapters to attach one exact saved assignment round to a body.
 - Added a player committee-request adapter that accepts only the controlled seated member's ordered durable choice traces and links those traces from the request event. The conversation producer still needs a caller.
 - Added an explicit-round local reader stub for Session 24's `seatedChamberForPack` consumer, per owner correction 6016500242 and CTO direction to build against the extended `SeatedBody` without waiting. It wraps the supplied body without changing its actual seat IDs and only attaches assignments recorded for the caller's exact round; no records means no committee roster.
@@ -19,12 +20,13 @@
 
 ## Checks
 
-- `npx vitest run src/simulation/governing/committee-assignment.test.ts src/simulation/governing/committee-assignment-records.test.ts` — PASS, 2 files / 7 tests on rebased main `e597ec933` (latest run 2026-10-06 12:58 UTC; required subprocess permission for Vite's source identity check).
+- `npx vitest run src/simulation/governing/committee-assignment.test.ts src/simulation/governing/committee-assignment-records.test.ts` — PASS, 2 files / 8 tests on rebased main `e597ec933` (latest run 2026-10-06 13:12 UTC; required subprocess permission for Vite's source identity check).
 - `npm run typecheck` — PASS on rebased main `e597ec933`; includes test-import audit (805 uncovered test files, 0 unresolved imports) and current law consequence manifest validation.
 - No random-place new-game roster/save proof yet. `seatedChamberForPack` does not yet call the saved-assignment adapter; it is Session 24's sole-owned consumer file. The narrow handoff was requested directly; continue independent work meanwhile.
 
 ## Next steps
 
-1. Resume with `git fetch origin main` in `/workspace/Political-Game-Git`, then inspect current #2424 replies for Session 24's consumer and Session 21's vote-reader answer.
-2. Integrate Session 24's optional exact-round consumer once its hunk is available; connect the player request adapter to the played request conversation and continue independent evidence-source adapters.
-3. Add and run random-place new-game assignment plus save/reload proof; keep PR #2487 draft until the actual reader and runtime proof are complete.
+1. Commit and push the chamber-scoped roll-call reader and regression to `codex/session-33-b10-p3`.
+2. Resume with `git fetch origin main` in `/workspace/Political-Game-Git`, then inspect current #2424 replies for Session 24's consumer and Session 21's vote-reader answer.
+3. Integrate Session 24's optional exact-round consumer once its hunk is available; connect the player request adapter to the played request conversation and continue independent evidence-source adapters.
+4. Add and run random-place new-game assignment plus save/reload proof; keep PR #2487 draft until the actual reader and runtime proof are complete.

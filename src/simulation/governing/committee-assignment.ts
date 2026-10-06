@@ -1,7 +1,4 @@
-import type {
-  SeatedBody,
-  SeatedMember,
-} from "../legislation-scenarios";
+import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { currentHistoricalCutoff } from "../queries";
 import { personName } from "../people";
@@ -103,12 +100,20 @@ export function recordComputerCommitteeRequests(
   for (const evidence of input.preferenceEvidence) {
     if (
       !committeeKeys.has(evidence.committeeKey) ||
-      !input.body.members.some((member) => member.memberKey === evidence.memberKey)
+      !input.body.members.some(
+        (member) => member.memberKey === evidence.memberKey,
+      )
     )
-      throw new Error("Committee preference evidence names an unknown seat or committee.");
+      throw new Error(
+        "Committee preference evidence names an unknown seat or committee.",
+      );
   }
   for (const member of input.body.members) {
-    if (!member.personId || member.personId === player || !next.people[member.personId])
+    if (
+      !member.personId ||
+      member.personId === player ||
+      !next.people[member.personId]
+    )
       continue;
     const stableKey = `${input.stableKey}:request:${member.memberKey}`;
     const existing = memberCommitteeRequests(next, {
@@ -174,7 +179,11 @@ export function recordComputerCommitteeRequests(
       decisionWorld = recordDurableDecisionTrace(decisionWorld, evaluation);
       decisionTraceIds.push(decisionWorld.history.decisionTraces.at(-1)!.id);
       const selected = evaluation.selectedOptionKey;
-      if (evaluation.outcomeKind !== "selected" || !selected || selected === "stop-requesting")
+      if (
+        evaluation.outcomeKind !== "selected" ||
+        !selected ||
+        selected === "stop-requesting"
+      )
         break;
       preferences.push(selected);
       remaining.delete(selected);
@@ -233,8 +242,13 @@ export function recordPlayerCommitteeRequest(
   const member = input.body.members.find(
     (candidate) => candidate.memberKey === input.memberKey,
   );
-  if (input.body.chamberKey !== input.chamberKey || member?.personId !== playerPersonId)
-    throw new Error("A player committee request must come from their seated member record.");
+  if (
+    input.body.chamberKey !== input.chamberKey ||
+    member?.personId !== playerPersonId
+  )
+    throw new Error(
+      "A player committee request must come from their seated member record.",
+    );
   const prior = memberCommitteeRequests(world, {
     jurisdictionId: input.jurisdictionId,
     chamberKey: input.chamberKey,
@@ -250,7 +264,9 @@ export function recordPlayerCommitteeRequest(
   if (input.decisionTraceIds.length === 0)
     throw new Error("A player committee request needs played decision traces.");
   if (new Set(input.decisionTraceIds).size !== input.decisionTraceIds.length)
-    throw new Error("A player committee request cannot repeat a decision trace.");
+    throw new Error(
+      "A player committee request cannot repeat a decision trace.",
+    );
   const knownCommitteeKeys = new Set(input.committeeKeys);
   const preferences: string[] = [];
   let stopped = false;
@@ -261,7 +277,8 @@ export function recordPlayerCommitteeRequest(
     if (
       !trace ||
       trace.context.actorPersonId !== playerPersonId ||
-      trace.context.decisionType !== "legislature.request-committee-membership" ||
+      trace.context.decisionType !==
+        "legislature.request-committee-membership" ||
       trace.context.subject.kind !== "context:committee-request" ||
       trace.context.subject.key !==
         `${input.chamberKey}:${input.assignmentRoundKey}` ||
@@ -272,7 +289,9 @@ export function recordPlayerCommitteeRequest(
         (option) => option.key === trace.selectedOptionKey,
       )
     )
-      throw new Error("A player request must cite its exact played request trace.");
+      throw new Error(
+        "A player request must cite its exact played request trace.",
+      );
     if (trace.selectedOptionKey === "stop-requesting") {
       if (stopped || decisionTraceId !== input.decisionTraceIds.at(-1))
         throw new Error("Stop-requesting must be the final request choice.");
@@ -283,7 +302,9 @@ export function recordPlayerCommitteeRequest(
       !knownCommitteeKeys.has(trace.selectedOptionKey) ||
       preferences.includes(trace.selectedOptionKey)
     )
-      throw new Error("A player request trace selected an unknown or repeated committee.");
+      throw new Error(
+        "A player request trace selected an unknown or repeated committee.",
+      );
     preferences.push(trace.selectedOptionKey);
   }
   const next = recordMemberCommitteeRequest(world, {
@@ -304,7 +325,8 @@ export function recordPlayerCommitteeRequest(
     assignmentRoundKey: input.assignmentRoundKey,
     memberKey: input.memberKey,
   }).at(-1);
-  if (!recorded) throw new Error("The player committee request was not recorded.");
+  if (!recorded)
+    throw new Error("The player committee request was not recorded.");
   return {
     world: next,
     requestEventId: recorded.eventId,
@@ -345,11 +367,10 @@ export function committeeSeatedChamberWithRecordedAssignments(
 ): CommitteeSeatedChamber {
   return {
     ...chamber,
-    body: committeeAssignmentBodyForRound(
-      world,
-      chamber.body,
-      { jurisdictionId, assignmentRoundKey },
-    ),
+    body: committeeAssignmentBodyForRound(world, chamber.body, {
+      jurisdictionId,
+      assignmentRoundKey,
+    }),
   };
 }
 
@@ -541,23 +562,28 @@ function assignmentConsiderations(input: {
 function partyLineByMember(
   world: World,
   members: readonly SeatedMember[],
+  chamberKey: string,
 ): ReadonlyMap<
   EntityId,
   { readonly aligned: number; readonly opposed: number }
 > {
   const counts = new Map<EntityId, { aligned: number; opposed: number }>();
-  const membersByPerson = new Map(
-    members.flatMap((member) =>
-      member.personId ? [[member.personId, member] as const] : [],
-    ),
+  const membersByKey = new Map(
+    members.map((member) => [member.memberKey, member] as const),
   );
   for (const vote of world.history.legislativeVotes ?? []) {
+    if (
+      vote.forum.kind === "joint-session" ||
+      vote.forum.chamberKey !== chamberKey
+    )
+      continue;
     const partyVotes = new Map<string, { yea: number; nay: number }>();
     for (const disposition of vote.dispositions) {
       if (!disposition.personId) continue;
-      const member = membersByPerson.get(disposition.personId);
+      const member = membersByKey.get(disposition.memberKey);
       if (
         !member ||
+        member.personId !== disposition.personId ||
         (disposition.disposition !== "yea" && disposition.disposition !== "nay")
       )
         continue;
@@ -569,9 +595,10 @@ function partyLineByMember(
     }
     for (const disposition of vote.dispositions) {
       if (!disposition.personId) continue;
-      const member = membersByPerson.get(disposition.personId);
+      const member = membersByKey.get(disposition.memberKey);
       if (
         !member ||
+        member.personId !== disposition.personId ||
         (disposition.disposition !== "yea" && disposition.disposition !== "nay")
       )
         continue;
@@ -661,7 +688,7 @@ export function assignCommitteeSeats(
   const requestByMember = new Map<string, (typeof requests)[number]>();
   for (const request of requests)
     requestByMember.set(request.memberKey, request);
-  const lineByPerson = partyLineByMember(next, members);
+  const lineByPerson = partyLineByMember(next, members, input.body.chamberKey);
   const owedFavors = (next.history.favors ?? []).filter(
     (favor) => favor.giverPersonId === input.assignerPersonId,
   );
