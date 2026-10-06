@@ -23,6 +23,11 @@ import {
   type LivingSceneStagePacket,
 } from "./living-scene-prose";
 import type { OpeningRegionalSceneContext } from "./opening-regional-plate";
+import {
+  openingFamilyActorSources,
+  openingLegislatureActorSources,
+} from "./opening-tour-people";
+import { workRelationshipHistoryForPerson } from "../simulation/life-queries";
 
 export interface LivingSceneActor {
   readonly slotKey: string;
@@ -34,7 +39,9 @@ export interface LivingSceneActor {
     | "congress-member"
     | "local-official"
     | "household-member"
-    | "present-person";
+    | "present-person"
+    | "state-legislator"
+    | "parent-or-guardian";
   readonly person: OrientationPerson;
   readonly recordIds: readonly EntityId[];
   readonly provenance: {
@@ -43,7 +50,10 @@ export interface LivingSceneActor {
       | "legislative-seat"
       | "municipal-participation"
       | "household-membership"
-      | "scene-event";
+      | "scene-event"
+      | "state-legislator-work"
+      | "kinship"
+      | "child-authority";
     readonly roleKey: string;
     readonly institutionId: EntityId | null;
   };
@@ -53,10 +63,13 @@ export interface LivingSceneActor {
   } | null;
   /** Public role display does not imply personal acquaintance or room presence. */
   readonly presenceBasis:
-    "illustrative-public-role" | "known-household" | "current-scene";
+    | "illustrative-public-role"
+    | "illustrative-family-record"
+    | "known-household"
+    | "current-scene";
 }
 export interface LivingSceneChapter {
-  readonly key: OrientationStepKey | "your-life";
+  readonly key: OrientationStepKey | "your-life" | "legislature" | "parents";
   readonly actors: readonly LivingSceneActor[];
   readonly publicFacts: readonly string[];
   readonly regionContext: OpeningRegionalSceneContext | null;
@@ -167,6 +180,56 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
           actorFor(orientation.homeState.governor, "governor", "governor"),
         ].filter(valid)
       : [];
+  const legislatureActors: LivingSceneActor[] = openingLegislatureActorSources(
+    world,
+    playerId,
+  ).flatMap(({ person, member, seatKey }) => {
+    if (!member) return [];
+    const work = workRelationshipHistoryForPerson(world, member.personId).find(
+      (record) => record.id === member.workRelationshipId,
+    );
+    if (!work) return [];
+    return [
+      {
+        slotKey: `state-seat:${seatKey}`,
+        role: "state-legislator" as const,
+        person,
+        recordIds: [
+          work.id,
+          ...(work.organizationId ? [work.organizationId] : []),
+        ],
+        provenance: {
+          kind: "state-legislator-work" as const,
+          roleKey: member.officeKey,
+          institutionId: work.organizationId,
+        },
+        publicTenure: null,
+        presenceBasis: "illustrative-public-role" as const,
+      },
+    ];
+  });
+  const parentActors: LivingSceneActor[] = openingFamilyActorSources(
+    world,
+    playerId,
+  ).flatMap((source) =>
+    source.kind && source.recordIds.length
+      ? [
+          {
+            slotKey: `parent:${source.person.personId}`,
+            role: "parent-or-guardian" as const,
+            person: source.person,
+            recordIds: source.recordIds,
+            provenance: {
+              kind: source.kind,
+              roleKey: "illustrated-parent-or-guardian",
+              institutionId: null,
+            },
+            publicTenure: null,
+            presenceBasis: "illustrative-family-record" as const,
+          },
+        ]
+      : [],
+  );
   // One home-state Senator, and the House member only for the district this
   // life's home is recorded in (or a state's single at-large seat). A city the
   // Census place file splits between districts names no House member: the
@@ -337,10 +400,28 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
     ),
     chapter(
       "state",
-      stateActors,
+      [...stateActors, ...legislatureActors],
       "public-office-work",
       stateFacts,
       stateActors.length ? [] : [dc ? "mayor" : "governor"],
+      region,
+    ),
+    chapter(
+      "legislature",
+      legislatureActors,
+      "public-office-work",
+      legislatureActors.map(
+        (actor) => `${actor.person.name} — ${actor.person.title}`,
+      ),
+    ),
+    chapter(
+      "parents",
+      parentActors,
+      "home-conversation",
+      parentActors.map(
+        (actor) => `${actor.person.name} — ${actor.person.title}`,
+      ),
+      [],
       region,
     ),
     chapter(

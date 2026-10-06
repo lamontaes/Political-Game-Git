@@ -45,12 +45,17 @@ import { personName } from "../people";
 import { readRelationshipStanding } from "../relationship-standing";
 import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
+import { PEOPLE_MIND_VERSION } from "../people-trait-definitions";
+import { readTrait } from "../trait-readings";
+import { traitRegistryFor } from "../trait-registry";
 import type {
   DecisionConsideration,
+  DecisionEvaluation,
   DecisionSubject,
   EntityId,
   LegislativeMemberDisposition,
   LegislativeVoteDisposition,
+  MindSourceReference,
   World,
 } from "../types";
 
@@ -191,6 +196,18 @@ interface ChamberVoteCommonInput {
   readonly playerPersonId?: EntityId | null;
   /** The player's own ballot, when they cast one. */
   readonly playerBallot?: LegislativeMemberDisposition | null;
+}
+
+/** The exact ephemeral evaluation used to produce one member's ballot. */
+export interface ChamberVoteMemberEvaluation {
+  readonly disposition: LegislativeVoteDisposition;
+  readonly evaluation: DecisionEvaluation | null;
+  readonly sourceRefs: readonly MindSourceReference[];
+}
+
+/** Optional evidence receiver for the domain roll-call writer. */
+export interface ChamberVoteOptions {
+  readonly onMemberEvaluation?: (row: ChamberVoteMemberEvaluation) => void;
 }
 
 export interface ChamberBillVoteInput extends ChamberVoteCommonInput {
@@ -795,13 +812,17 @@ function billVoteContext(
       let views: readonly DecisionConsideration[] | undefined;
       const viewsOf = (): readonly DecisionConsideration[] =>
         (views ??= [
-          ...memberVoteConsiderations(world, {
-            stableKey: `${input.stableKey}:${member.memberKey}`,
+          ...weighRecordedPolicyBeliefs(
+            world,
             personId,
-            question: input.question,
-          }).filter(
-            (consideration) =>
-              consideration.stableKey !== "member:nothing-decisive",
+            memberVoteConsiderations(world, {
+              stableKey: `${input.stableKey}:${member.memberKey}`,
+              personId,
+              question: input.question,
+            }).filter(
+              (consideration) =>
+                consideration.stableKey !== "member:nothing-decisive",
+            ),
           ),
           // GAME ASSUMPTION (Build 25): a member's principles are what they are
           // known to stand for, so a colleague predicting the vote reads them;
@@ -840,6 +861,7 @@ function billVoteContext(
 export function decideChamberVote(
   world: World,
   input: ChamberVoteInput,
+  options: ChamberVoteOptions = {},
 ): readonly LegislativeVoteDisposition[] {
   const cutoff = currentHistoricalCutoff(world);
   const context =
@@ -893,9 +915,14 @@ export function decideChamberVote(
   // A member with a view of their own decides from it and the cues, decided
   // once and only when asked for: a named few (`only`) decide exactly as in a
   // full count without every other member's ballot being worked out.
-  const byView = new Map<SeatedMember, LegislativeVoteDisposition>();
+  const byView = new Map<SeatedMember, ChamberVoteMemberEvaluation>();
   const decideByView = (row: (typeof first)[number]) => {
-    if (row.settled) return row.settled;
+    if (row.settled)
+      return {
+        disposition: row.settled,
+        evaluation: null,
+        sourceRefs: [],
+      } satisfies ChamberVoteMemberEvaluation;
     if (!row.views || row.views.length === 0) return null;
     let settled = byView.get(row.member);
     if (!settled) {
@@ -939,31 +966,40 @@ export function decideChamberVote(
     if (row.member.personId === null || !colleagues.has(row.member.personId))
       continue;
     if (!hasViews(row)) continue;
-    const disposition = decideByView(row)?.disposition;
+    const disposition = decideByView(row)?.disposition.disposition;
     if (disposition === "yea" || disposition === "nay")
       decidedByView.set(row.member.personId, disposition);
   }
   return deciding.map((row) => {
     const settled = decideByView(row);
-    if (settled) return settled;
-    const personId = row.member.personId!;
-    return decideMember(row.member, [
-      ...(row.cues ?? []),
-      ...(committee ? [committee] : []),
-      ...trustedColleagueCues(trusted.get(personId), decidedByView),
-    ]);
+    const decision =
+      settled ??
+      (() => {
+        const personId = row.member.personId!;
+        return decideMember(row.member, [
+          ...(row.cues ?? []),
+          ...(committee ? [committee] : []),
+          ...trustedColleagueCues(trusted.get(personId), decidedByView),
+        ]);
+      })();
+    options.onMemberEvaluation?.(decision);
+    return decision.disposition;
   });
 
   function decideMember(
     member: SeatedMember,
     considerations: readonly DecisionConsideration[],
-  ): LegislativeVoteDisposition {
+  ): ChamberVoteMemberEvaluation {
     if (considerations.length === 0)
       return {
-        memberKey: member.memberKey,
-        personId: member.personId,
-        disposition: "present-not-voting",
-        reason: "member:no-reason",
+        disposition: {
+          memberKey: member.memberKey,
+          personId: member.personId,
+          disposition: "present-not-voting",
+          reason: "member:no-reason",
+        },
+        evaluation: null,
+        sourceRefs: [],
       };
     const { evaluation, disposition } = decideMemberVote(world, {
       stableKey: `${input.stableKey}:${member.memberKey}:decision`,
@@ -986,21 +1022,92 @@ export function decideChamberVote(
           Math.abs(considerationScore(r)) - Math.abs(considerationScore(l)),
       )[0];
     return {
-      memberKey: member.memberKey,
-      personId: member.personId,
-      disposition,
-      reason: decisive
-        ? decisive.sourceType === "belief:formed-position" &&
-          decisive.sourceRefs[0]?.kind === "private-belief"
-          ? `member:private-belief:${decisive.sourceRefs[0].beliefId}`
-          : KEPT_REASON_PREFIXES.some((prefix) =>
-                decisive.stableKey.startsWith(prefix),
-              )
-            ? decisive.stableKey
-            : decisive.stableKey.split(":").slice(0, 2).join(":")
-        : "member:no-reason",
+      disposition: {
+        memberKey: member.memberKey,
+        personId: member.personId,
+        disposition,
+        reason: decisive
+          ? decisive.sourceType === "belief:formed-position" &&
+            decisive.sourceRefs[0]?.kind === "private-belief"
+            ? `member:private-belief:${decisive.sourceRefs[0].beliefId}`
+            : KEPT_REASON_PREFIXES.some((prefix) =>
+                  decisive.stableKey.startsWith(prefix),
+                )
+              ? decisive.stableKey
+              : decisive.stableKey.split(":").slice(0, 2).join(":")
+          : "member:no-reason",
+      },
+      evaluation,
+      sourceRefs: evaluation.sourceSnapshots.map(
+        (snapshot) => snapshot.reference,
+      ),
     };
   }
+}
+
+const MEMBER_BELIEF_IMPORTANCE = [
+  "slight",
+  "moderate",
+  "strong",
+  "decisive",
+] as const;
+
+/**
+ * A member's recorded deliberation changes the weight of their own recorded
+ * policy belief; it never supplies a side to vote for. The low pole (thinks it
+ * through) strengthens that belief by the recorded magnitude, while the high
+ * pole (acts on impulse) weakens it by the same amount. Unrecorded and
+ * balanced traits leave the established vote reasons exactly as they are.
+ */
+function weighRecordedPolicyBeliefs(
+  world: World,
+  personId: EntityId,
+  considerations: readonly DecisionConsideration[],
+): readonly DecisionConsideration[] {
+  const trait = traitRegistryFor(world).traits.get(
+    `${PEOPLE_MIND_VERSION}:deliberation`,
+  );
+  if (!trait) return considerations;
+  const reading = readTrait(world, personId, trait);
+  if (reading.state !== "recorded" || reading.value === 0)
+    return considerations;
+
+  const direction = reading.value < 0 ? 1 : -1;
+  const steps = Math.abs(reading.value);
+  return considerations.map((consideration) => {
+    if (
+      consideration.sourceType !== "belief:formed-position" ||
+      !consideration.sourceRefs.some(
+        (reference) => reference.kind === "private-belief",
+      )
+    )
+      return consideration;
+    const current = MEMBER_BELIEF_IMPORTANCE.indexOf(
+      consideration.importance as (typeof MEMBER_BELIEF_IMPORTANCE)[number],
+    );
+    if (current < 0) return consideration;
+    const next = Math.max(
+      0,
+      Math.min(
+        MEMBER_BELIEF_IMPORTANCE.length - 1,
+        current + direction * steps,
+      ),
+    );
+    if (next === current) return consideration;
+    return {
+      ...consideration,
+      importance: MEMBER_BELIEF_IMPORTANCE[next]!,
+      explanation:
+        consideration.explanation +
+        (direction > 0
+          ? " Their recorded deliberation gives this considered view more weight."
+          : " Their recorded impulsiveness gives this considered view less weight."),
+      sourceRefs: [
+        ...consideration.sourceRefs,
+        { kind: "personality-tendency", tendencyRecordId: reading.recordId },
+      ],
+    };
+  });
 }
 
 /** A member's own bill, or one they put their name on: a view, not a cue. */

@@ -26,6 +26,76 @@ interface ResearchPlace {
 }
 const places = research.places as Readonly<Record<string, ResearchPlace>>;
 
+/** Federal maximums for the B14 public-trust offenses, applied only where the
+ * referenced federal statute's elements are met. Place-specific rows take
+ * precedence when researched. */
+const FEDERAL_PUBLIC_TRUST_RANGES: Readonly<
+  Record<
+    string,
+    {
+      readonly maxMonths: number;
+      readonly citation: string;
+      readonly offenseGrade: string;
+    }
+  >
+> = {
+  "public-bribery": {
+    maxMonths: 180,
+    citation:
+      "https://uscode.house.gov/view.xhtml?req=(title:18%20section:201%20edition:prelim)",
+    offenseGrade: "18 U.S.C. § 201(b) bribery; statutory elements apply",
+  },
+  "public-kickback": {
+    maxMonths: 120,
+    citation:
+      "https://uscode.house.gov/view.xhtml?req=(title:18%20section:666%20edition:prelim)",
+    offenseGrade:
+      "18 U.S.C. § 666; covered organization and federal-funds elements apply",
+  },
+  "protected-job-patronage": {
+    maxMonths: 120,
+    citation:
+      "https://uscode.house.gov/view.xhtml?req=(title:18%20section:666%20edition:prelim)",
+    offenseGrade:
+      "18 U.S.C. § 666; covered organization and federal-funds elements apply",
+  },
+  "public-funds-embezzlement": {
+    maxMonths: 120,
+    citation:
+      "https://uscode.house.gov/view.xhtml?req=(title:18%20section:641%20edition:prelim)",
+    offenseGrade:
+      "18 U.S.C. § 641; ten-year maximum applies above the statutory $1,000 threshold",
+  },
+  "theft-of-public-money": {
+    maxMonths: 120,
+    citation:
+      "https://uscode.house.gov/view.xhtml?req=(title:18%20section:641%20edition:prelim)",
+    offenseGrade:
+      "18 U.S.C. § 641; ten-year maximum applies above the statutory $1,000 threshold",
+  },
+  "extortion-under-color-of-official-right": {
+    maxMonths: 240,
+    citation:
+      "https://uscode.house.gov/view.xhtml?req=(title:18%20section:1951%20edition:prelim)",
+    offenseGrade:
+      "18 U.S.C. § 1951 extortion under color of official right; statutory elements apply",
+  },
+  "honest-services-contract-steering": {
+    maxMonths: 240,
+    citation:
+      "https://uscode.house.gov/view.xhtml?req=(title:18%20section:1343%20edition:prelim)",
+    offenseGrade:
+      "18 U.S.C. §§ 1343 and 1346; honest-services fraud requires a bribe or kickback theory",
+  },
+  "unreported-official-gift": {
+    maxMonths: 24,
+    citation:
+      "https://uscode.house.gov/view.xhtml?req=(title:18%20section:201%20edition:prelim)",
+    offenseGrade:
+      "18 U.S.C. § 201(c) unlawful gratuity; nondisclosure alone is not a federal offense",
+  },
+};
+
 export interface SourcedSentenceRange {
   readonly rowId: string;
   readonly offenseGrade: string;
@@ -46,7 +116,27 @@ export function sentencingRangeForCase(
 ): SourcedSentenceRange | null {
   const place = courtCase.stateKey ? places[courtCase.stateKey] : undefined;
   const row = place?.offenses[courtCase.offenseKey];
-  if (!place || !row) return null;
+  if (!row) {
+    const federal = FEDERAL_PUBLIC_TRUST_RANGES[courtCase.offenseKey];
+    return federal
+      ? {
+          rowId: `federal-public-trust-v1:${courtCase.offenseKey}`,
+          offenseGrade: federal.offenseGrade,
+          minMonths: 0,
+          maxMonths: federal.maxMonths,
+          maxLife: false,
+          presumptiveMonths: null,
+          basis: "SOURCED",
+          citations: [federal.citation],
+          sources: [
+            "United States Code, House Office of the Law Revision Counsel",
+          ],
+          estimateMethod: null,
+          contributors: [],
+        }
+      : null;
+  }
+  if (!place) return null;
   const applicability = courtCase.sentencingApplicability;
   const facts = applicability?.allegations ?? {};
   const recordedGrade = facts.grade?.value;

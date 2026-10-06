@@ -1,0 +1,76 @@
+{
+  "phase": "P1",
+  "piece": "Measured wake-plan index repair",
+  "producerCheckedSource": "2c43e97ba8c61d941e9ef856faa3f2316b714620",
+  "receiverCheckedSource": "91640c45d2e18884236231cd96a58a2228b6fd88",
+  "configuredTypechecks": [
+    {
+      "scope": "producer",
+      "exec": 57189,
+      "exit": 0,
+      "output": "\n> political-life-rpg@0.4.0 typecheck\n> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts\n\ntypecheck-test-imports: 800 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 83, src/presentation 534, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).\n"
+    },
+    {
+      "scope": "receiver",
+      "exec": 9171,
+      "exit": 0,
+      "output": "\n> political-life-rpg@0.4.0 typecheck\n> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts\n\ntypecheck-test-imports: 800 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 83, src/presentation 534, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).\n"
+    }
+  ],
+  "receiverFocused": {
+    "exec": 81869,
+    "exit": 0,
+    "passed": 22,
+    "files": 4,
+    "log": "/tmp/session5-wake-index-916-focused.log"
+  },
+  "syntheticReaderComparison": {
+    "baselineSource": "04e3eb7b5813be7fd481940c3b196bd6c73ee783",
+    "seed": "session6-birth-resident-handoff",
+    "pack": "us-il-general-assembly-v1:candidacy",
+    "eventRows": 100001,
+    "syntheticIrrelevantRows": 100000,
+    "wakes": 12,
+    "legacyMs": 85.38425700000062,
+    "indexedColdMs": 33.787464,
+    "indexedWarm10Ms": 30.81098800000018,
+    "equivalent": true,
+    "limitations": [
+      "Read-only plan microbenchmark with synthetic irrelevant history; not annual speed or populated boundary comparison",
+      "Legacy full source retained with only absolute import rewrites; canonical writers never dispatched"
+    ]
+  },
+  "releaseCheckPriorFailure": "Missing release declaration title; corrected documentation only after both configured typing runs terminal",
+  "codeReview": "Existing civic_report_reviewer PASS narrow evidence/repair scope; no history deletion",
+  "annualOrReloadStarted": false,
+  "limitations": [
+    "Final publication metadata adds only release title and check receipt; source/config/test bytes remain the checked bytes",
+    "Populated profile is baseline04e3; no populated candidate timing inferred from synthetic microbenchmark"
+  ],
+  "mainBased": {
+    "source": "9319614331e0d64e8b59c953e971eed4b8dced3c",
+    "base": "ff4bf7cc91bdec86902e9c7a0a89b98112931b18",
+    "configuredType": {
+      "exec": 55761,
+      "exit": 0,
+      "output": "\n> political-life-rpg@0.4.0 typecheck\n> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts\n\ntypecheck-test-imports: 800 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 83, src/presentation 534, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).\n"
+    },
+    "focus": {
+      "exec": 95329,
+      "exit": 0,
+      "passed": 18,
+      "files": 2,
+      "log": "/tmp/session5-wake-index-main-focused.log"
+    },
+    "formatExit": 0,
+    "releaseExit": 1,
+    "releaseOutput": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --base ff4bf7cc91bdec86902e9c7a0a89b98112931b18 --head HEAD\n\nrelease:check \u2014 docs/release/changes/medicaid-coverage-reads-enacted-income-limit.md: id 'medicaid-coverage-enacted-income-limit' does not match its filename stem 'medicaid-coverage-reads-enacted-income-limit'.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n",
+    "finalChange": "Terminal evidence JSON only; exact source/config/test bytes preserved",
+    "releaseCorrection": "Prior fresh-main status0 was incorrectly taken from the later successful git push in a sequential shell; actual release check failed on inherited Medicaid declaration ID mismatch. One-line ID alignment preserves content; corrected standalone check terminal0.",
+    "correctedRelease": {
+      "source": "c78253662162ffc66f4ed735fbadccfdd173e824",
+      "exit": 0,
+      "output": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --base ff4bf7cc91bdec86902e9c7a0a89b98112931b18 --head HEAD\n\nrelease:check \u2014 version 0.4.0, revision unknown, 1660 pending declaration(s), declaration range ff4bf7cc91bdec86902e9c7a0a89b98112931b18..HEAD (pr). OK.\n"
+    }
+  }
+}

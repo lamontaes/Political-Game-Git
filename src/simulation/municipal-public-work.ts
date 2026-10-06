@@ -72,6 +72,7 @@ import {
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import { addSimulationMinutes } from "./dates";
 import { introduceMeasure } from "./legislation";
+import { recordFiledProvision } from "./legislative-politics";
 import type {
   EntityId,
   IsoDate,
@@ -1711,6 +1712,7 @@ export function introduceMunicipalOrdinance(
     readonly numberingSession?: LegislativeMeasureNumberingSession;
     readonly shortTitle: string;
     readonly summary: string;
+    readonly sourceDocumentKey?: string;
   },
 ): MunicipalVisitResult {
   const no = (reason: string): MunicipalVisitResult => ({
@@ -1764,12 +1766,175 @@ export function introduceMunicipalOrdinance(
         : {}),
       shortTitle: input.shortTitle,
       summary: input.summary,
+      ...(input.sourceDocumentKey
+        ? { sourceDocumentKey: input.sourceDocumentKey }
+        : {}),
       origin: "member-introduction",
       subjectClass: "general-policy",
       originChamberKey: "council",
       sponsorPersonId: personId,
     }),
   };
+}
+
+/** Introduce one saved proposal and file its exact authored language. */
+export function introduceMunicipalProposal(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly proposalId: EntityId;
+    readonly designation: string;
+    readonly numberingSession?: LegislativeMeasureNumberingSession;
+  },
+): MunicipalVisitResult {
+  const proposal = world.history.legislativeProposals?.find(
+    (record) => record.id === input.proposalId,
+  );
+  if (!proposal) {
+    return {
+      ok: false,
+      world,
+      reason: "That ordinance proposal is not in this save.",
+    };
+  }
+  if (proposal.governmentKey !== input.governmentKey) {
+    return {
+      ok: false,
+      world,
+      reason: "That proposal was written for a different government.",
+    };
+  }
+  if (world.control.kind !== "person") {
+    return { ok: false, world, reason: "Person control is required." };
+  }
+  if (proposal.sponsorPersonId !== world.control.personId) {
+    return {
+      ok: false,
+      world,
+      reason: "Only the member who wrote this proposal can introduce it.",
+    };
+  }
+  if (
+    (world.history.legislativeMeasures ?? []).some(
+      (measure) => measure.sourceDocumentKey === proposal.id,
+    )
+  ) {
+    return {
+      ok: false,
+      world,
+      reason: "This proposal has already been introduced.",
+    };
+  }
+  const introduced = introduceMunicipalOrdinance(world, {
+    governmentKey: input.governmentKey,
+    designation: input.designation,
+    ...(input.numberingSession
+      ? { numberingSession: input.numberingSession }
+      : {}),
+    shortTitle: proposal.title,
+    summary: `A member introduced a measure drafted as “${proposal.title}.”`,
+    sourceDocumentKey: proposal.id,
+  });
+  if (!introduced.ok) return introduced;
+  const measure = introduced.world.history.legislativeMeasures?.find(
+    (record) => record.sourceDocumentKey === proposal.id,
+  );
+  if (!measure) {
+    throw new Error("The introduced proposal has no canonical measure record.");
+  }
+  const withText = recordFiledProvision(introduced.world, {
+    stableKey: `${measure.stableKey}:proposal-language`,
+    measureId: measure.id,
+    provisionKey: "proposal-language",
+    sectionNumber: 1,
+    heading: "WHAT IT WOULD DO",
+    text: proposal.operativeText,
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel: `People and places in ${world.jurisdictions[proposal.jurisdictionId]!.name}`,
+    },
+    applicationScope: {
+      jurisdictionId: proposal.jurisdictionId,
+      segmentKey: null,
+    },
+  });
+  return { ok: true, world: withText };
+}
+
+/**
+ * Save a member-authored ordinance draft without introducing a legislative
+ * measure. Introduction remains a later act with its own chamber authority.
+ */
+export function proposeMunicipalOrdinance(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly title: string;
+    readonly operativeText: string;
+  },
+): MunicipalVisitResult {
+  const no = (reason: string): MunicipalVisitResult => ({
+    ok: false,
+    world,
+    reason,
+  });
+  if (world.control.kind !== "person") return no("Person control is required.");
+  const personId = world.control.personId;
+  const authority = municipalActionAuthority(world, {
+    governmentKey: input.governmentKey,
+    personId,
+    residentPlaceGeoid: null,
+    action: "introduce-ordinance",
+  });
+  if (!authority.ok) return no(authority.reason);
+  const government = municipalGovernmentByKey(input.governmentKey);
+  if (!government) return no("No municipal government is compiled.");
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) {
+    return no(
+      `${primaryReading(government).displayName} cannot carry an ordinance here yet: ${rules.missing
+        .map((entry) => `${entry.field} — ${entry.reason}`)
+        .join(" ")}`,
+    );
+  }
+  const jurisdictionId = municipalGovernmentJurisdictionId(
+    world,
+    input.governmentKey,
+  );
+  if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) {
+    return no("This government has no canonical jurisdiction for a measure.");
+  }
+  const title = input.title.trim();
+  const operativeText = input.operativeText.trim();
+  if (!title) return no("An ordinance proposal needs a title.");
+  if (!operativeText) return no("Write what the ordinance would do.");
+
+  const sequence = world.history.nextSequence;
+  const stableKey = `municipal-ordinance-proposal:${input.governmentKey}:${personId}:${sequence}`;
+  const proposal = {
+    id: createStableId("legislative-proposal", `${world.id}:${stableKey}`),
+    stableKey,
+    sequence,
+    governmentKey: input.governmentKey,
+    jurisdictionId,
+    sponsorPersonId: personId,
+    title,
+    operativeText,
+    proposedAt: world.currentDate,
+  } as const;
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: sequence + 1,
+      legislativeProposals: [
+        ...(world.history.legislativeProposals ?? []),
+        proposal,
+      ],
+    },
+  };
+  assertWorldIntegrity(next);
+  return { ok: true, world: next };
 }
 
 // ---------------------------------------------------------------------------

@@ -77,6 +77,69 @@ export interface PersonContext {
   readonly pronouns: PronounSet;
 }
 
+export interface InferredProtege {
+  readonly elderPersonId: EntityId;
+  readonly interactionIds: readonly EntityId[];
+}
+
+/**
+ * An observer may infer a protégé only from repeated, known occasions when
+ * the elder brought the younger person along. Names and mentorship labels do
+ * not establish this social relationship.
+ */
+export function inferredProtegeOf(
+  world: World,
+  observerId: EntityId,
+  personId: EntityId,
+  asOfDate: IsoDate = world.currentDate,
+): InferredProtege | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  const eventsByElder = new Map<EntityId, Map<EntityId, EntityId>>();
+  for (const interaction of world.history.relationshipInteractions) {
+    if (interaction.occurredAt > asOfDate || !interaction.eventId) continue;
+    if (!interaction.personIds.includes(personId)) continue;
+    const elderId = interaction.personIds.find((id) => id !== personId);
+    const elder = elderId ? world.people[elderId] : undefined;
+    if (!elder || elder.birthDate >= person.birthDate) continue;
+    const kind = interaction.kind.toLowerCase();
+    const description =
+      `${interaction.kind} ${interaction.summary} ${interaction.tags.join(" ")}`.toLowerCase();
+    const carriedAlong =
+      kind.startsWith("experience:shared") ||
+      kind.startsWith("contact:") ||
+      /campaign|appointment|introduc|brought along/.test(description);
+    if (!carriedAlong) continue;
+    const event = world.history.events.find(
+      (row) => row.id === interaction.eventId,
+    );
+    if (!event || event.occurredAt > asOfDate) continue;
+    const observerWitnessed = event.participants.some(
+      (participant) => participant.personId === observerId,
+    );
+    const observerHeard = world.history.knowledge.some(
+      (knowledge) =>
+        knowledge.personId === observerId &&
+        knowledge.eventId === interaction.eventId &&
+        knowledge.learnedAt <= asOfDate &&
+        knowledge.accuracy !== "inaccurate",
+    );
+    if (!observerWitnessed && !observerHeard) continue;
+    const events = eventsByElder.get(elderId!) ?? new Map<EntityId, EntityId>();
+    events.set(interaction.eventId, interaction.id);
+    eventsByElder.set(elderId!, events);
+  }
+  const inferred = [...eventsByElder.entries()]
+    .filter(([, events]) => events.size >= 2)
+    .sort(([first], [second]) => first.localeCompare(second))[0];
+  return inferred
+    ? {
+        elderPersonId: inferred[0],
+        interactionIds: [...inferred[1].values()],
+      }
+    : null;
+}
+
 /**
  * The relationship, if any, and the record that establishes it.
  *

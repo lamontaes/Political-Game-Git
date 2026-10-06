@@ -1,10 +1,10 @@
 import { addDays } from "../dates";
 import { measureActions } from "../legislation";
+import { vetoWindowDayBasisFor } from "../legislature-game-profile";
 import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import { measureSessionClosedOn } from "./legislative-clock";
 import { evaluateDecision } from "../decisions";
-import { rulePackById } from "../legislature-rule-packs";
-import { chamberByKey, resolveRequiredVotes } from "../legislature-rules";
+import { resolveRequiredVotes } from "../legislature-rules";
 import { currentHistoricalCutoff } from "../queries";
 import type {
   DecisionConsideration,
@@ -16,11 +16,8 @@ import type {
   World,
 } from "../types";
 import { measureAnswersAt } from "../vote-bundle";
-import {
-  decideChamberVote,
-  publicPartyOf,
-  seatedChamberForPack,
-} from "./chamber-votes";
+import { decideChamberVote, publicPartyOf } from "./chamber-votes";
+import { executiveBillChamber } from "./executive-bill-roster";
 import { measureCosponsors } from "./congress-chambers";
 import { principleVoteConsideration } from "./officeholder-principles";
 import { relationshipConsiderations } from "./standing-considerations";
@@ -107,16 +104,11 @@ export function overrideCount(
     readonly required: number;
   }[];
 } | null {
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const override = pack.executive.override;
   if (override.kind === "not-applicable") return null;
   const chambers = pack.chamberOrder.map((chamberKey) =>
-    seatedChamberForPack(
-      world,
-      measure.rulePackId,
-      chamberKey,
-      chamberByKey(pack, chamberKey).name,
-    ),
+    executiveBillChamber(world, measure.rulePackId, chamberKey),
   );
   if (chambers.some((chamber) => !chamber)) return null;
   const count = (
@@ -350,9 +342,15 @@ export function executiveBillActionWindow(
   const days = afterAdjournment
     ? pack.executive.actionWindowDaysAfterAdjournment
     : pack.executive.actionWindowDaysInSession;
-  const basis = afterAdjournment
+  const recordedBasis = afterAdjournment
     ? pack.executive.actionWindowDayBasisAfterAdjournment
     : pack.executive.actionWindowDayBasisInSession;
+  // Older state packs predate this optional field. The same sourced table
+  // reader used by generated profiles supplies their day-count basis, without
+  // replacing an explicit unresolved rule or changing a recorded day count.
+  const basis =
+    recordedBasis ??
+    vetoWindowDayBasisFor(pack.jurisdictionKey, afterAdjournment);
   if (
     days.kind !== "known" ||
     basis?.kind !== "known" ||

@@ -149,4 +149,25 @@ describe("a headline is written for a reader", () => {
     });
     expect(headlineFor(world, confidential, outlet({}))).toContain("publicly");
   });
+
+  it.each([
+    ["softened", "A personal relationship ended in Kentucky."],
+    ["summary-only", "A personal event was recorded in Kentucky."],
+  ] as const)(
+    "softens only the headline for %s personal depiction",
+    (setting, expected) => {
+      const breakup = event({
+        type: "life.couple-ended",
+        summary: "Dana Reyes ended things with Amara Silva.",
+        tags: ["life.couple", "life.couple.ended"],
+      });
+      const configured = {
+        ...world,
+        playSettings: { personalLifeDepiction: setting },
+      } as unknown as World;
+
+      expect(headlineFor(configured, breakup, outlet({}))).toBe(expected);
+      expect(breakup.summary).toBe("Dana Reyes ended things with Amara Silva.");
+    },
+  );
 });

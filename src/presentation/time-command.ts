@@ -111,6 +111,9 @@ export interface TimeCommandReceipt {
   readonly outcome: string;
 }
 
+/** Bounded command diagnostics intentionally omit text nobody consumed. */
+export type RecentTimeCommandReceipt = Omit<TimeCommandReceipt, "outcome">;
+
 export interface TimeCommandPreview {
   readonly elapsedMinutes?: number;
   readonly target: SimulationMoment;
@@ -382,41 +385,62 @@ function run(
   return {
     world: next,
     reached: next.currentMoment,
-    outcome: [
-      ...ownElectionResultsBetween(world, next, request.personId),
-      ...deathNewsBetween(
-        next,
-        request.personId,
-        world.currentDate,
-        next.currentDate,
-      ).map((news) => news.sentence),
-      ...offerDeadlines(next, request.personId)
-        .filter((deadline) => deadline.replyBy === next.currentDate)
-        .map(
-          (deadline) => `Today is the last day to answer. ${deadline.sentence}`,
+    get outcome() {
+      return [
+        ...ownElectionResultsBetween(world, next, request.personId),
+        ...deathNewsBetween(
+          next,
+          request.personId,
+          world.currentDate,
+          next.currentDate,
+        ).map((news) => news.sentence),
+        ...offerDeadlines(next, request.personId)
+          .filter((deadline) => deadline.replyBy === next.currentDate)
+          .map(
+            (deadline) =>
+              `Today is the last day to answer. ${deadline.sentence}`,
+          ),
+        describeRoutineOutcome(
+          world,
+          next,
+          request.personId,
+          simulationMinutesBetween(world.currentMoment, preview.target),
         ),
-      describeRoutineOutcome(
-        world,
-        next,
-        request.personId,
-        simulationMinutesBetween(world.currentMoment, preview.target),
-      ),
-    ].join(" "),
+      ].join(" ");
+    },
   };
 }
 
 const RECENT_LIMIT = 50;
-const recent: TimeCommandReceipt[] = [];
+const recent: RecentTimeCommandReceipt[] = [];
 
 /** Recent receipts, newest last. Diagnostics only; never saved. */
-export function recentTimeCommandReceipts(): readonly TimeCommandReceipt[] {
+export function recentTimeCommandReceipts(): readonly RecentTimeCommandReceipt[] {
   return [...recent];
 }
 
-function remember(receipt: TimeCommandReceipt): TimeCommandReceipt {
-  recent.push(receipt);
+function remember(
+  receipt: RecentTimeCommandReceipt,
+  outcome: () => string,
+): TimeCommandReceipt {
+  let materialized: string | undefined;
+  let resolveOutcome: (() => string) | null = outcome;
+  const diagnostic = { ...receipt };
+  const returned = { ...receipt } as TimeCommandReceipt;
+  Object.defineProperty(returned, "outcome", {
+    enumerable: true,
+    get() {
+      if (materialized === undefined) {
+        const resolve = resolveOutcome;
+        resolveOutcome = null;
+        materialized = resolve?.() ?? "";
+      }
+      return materialized;
+    },
+  });
+  recent.push(diagnostic);
   if (recent.length > RECENT_LIMIT) recent.shift();
-  return receipt;
+  return returned;
 }
 
 export function submitTimeCommand(
@@ -433,16 +457,18 @@ export function submitTimeCommand(
   if (compareSimulationMoments(world.currentMoment, request.sourceMoment) !== 0)
     return {
       world,
-      receipt: remember({
-        ...base,
-        status: "stale",
-        requestedTarget: null,
-        reached: world.currentMoment,
-        stoppedEarly: false,
-        elapsedMs: now() - started,
-        outcome:
+      receipt: remember(
+        {
+          ...base,
+          status: "stale",
+          requestedTarget: null,
+          reached: world.currentMoment,
+          stoppedEarly: false,
+          elapsedMs: now() - started,
+        },
+        () =>
           "Time had already moved since this was shown, so the request was not applied again.",
-      }),
+      ),
     };
   const preview = previewTimeCommand(world, request.personId, request.command);
   if (!preview) {
@@ -452,30 +478,34 @@ export function submitTimeCommand(
         : null;
     return {
       world,
-      receipt: remember({
-        ...base,
-        status: "refused",
-        requestedTarget: null,
-        reached: world.currentMoment,
-        stoppedEarly: false,
-        elapsedMs: now() - started,
-        outcome: waiting ?? "That event does not start later than now.",
-      }),
+      receipt: remember(
+        {
+          ...base,
+          status: "refused",
+          requestedTarget: null,
+          reached: world.currentMoment,
+          stoppedEarly: false,
+          elapsedMs: now() - started,
+        },
+        () => waiting ?? "That event does not start later than now.",
+      ),
     };
   }
   const result = run(world, request, preview);
   return {
     world: result.world,
-    receipt: remember({
-      ...base,
-      status: result.world === world ? "refused" : "accepted",
-      requestedTarget: preview.target,
-      reached: result.reached,
-      stoppedEarly:
-        compareSimulationMoments(result.reached, preview.target) < 0,
-      elapsedMs: now() - started,
-      outcome: result.outcome,
-    }),
+    receipt: remember(
+      {
+        ...base,
+        status: result.world === world ? "refused" : "accepted",
+        requestedTarget: preview.target,
+        reached: result.reached,
+        stoppedEarly:
+          compareSimulationMoments(result.reached, preview.target) < 0,
+        elapsedMs: now() - started,
+      },
+      () => result.outcome,
+    ),
   };
 }
 

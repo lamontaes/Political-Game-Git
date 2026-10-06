@@ -11,7 +11,6 @@ import { previewCreatorNames } from "../presentation/creator-name-preview";
 import { stateUsps } from "../simulation/school-names";
 import {
   creatorBirthDate,
-  creatorCharacterHint,
   creatorCharacterMissing,
   statedCreatorGender,
 } from "../presentation/creator-character";
@@ -25,6 +24,7 @@ import {
   otherParentQuestionApplies,
   type NewGameOtherParent,
   type NewGameSetup,
+  type NewGame,
 } from "../presentation/new-game";
 import {
   clearCreatorState,
@@ -43,13 +43,18 @@ import {
 } from "../presentation/place-start-summary";
 import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
-import { questionnaireScreenFor } from "../presentation/setup-questionnaire-flow";
+import { projectCreatorLifeForkMoments } from "../simulation/creator-life-forks";
 import {
   setupForArtPreview,
   type ArtPreviewMode,
 } from "../presentation/art-preview";
-import { replayDescriptorUrl } from "../presentation/new-game-identity";
+import {
+  worldSeedFor,
+  replayDescriptorUrl,
+} from "../presentation/new-game-identity";
 import { DIAGNOSTICS } from "./diagnostics-profile";
+import { ONE_SAVE_OFFERED } from "../simulation/play-settings";
+import { initialPlaySettings } from "../simulation/play-settings";
 import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
@@ -100,6 +105,7 @@ const NORMAL_CREATOR_STEPS = [
   "route",
   "character",
   "place",
+  "difficulty",
   "whoAreYou",
   "begin",
 ] as const;
@@ -108,6 +114,7 @@ const CUSTOM_CREATOR_STEPS = [
   "character",
   "place",
   "background",
+  "difficulty",
   "whoAreYou",
   "begin",
 ] as const;
@@ -143,7 +150,8 @@ export function SetupScreen({
   seedOrigin,
   previewMode,
   initialSetup,
-  questionnaireComplete = false,
+  stagedGame,
+  onRequestRecordedLife,
   onBack,
   onBegin,
   problem,
@@ -153,17 +161,17 @@ export function SetupScreen({
   readonly previewMode: ArtPreviewMode;
   readonly initialSetup?: NewGameSetup;
   readonly questionnaireComplete?: boolean;
+  readonly stagedGame?: NewGame;
+  readonly onRequestRecordedLife?: (setup: NewGameSetup) => void;
   readonly onBack: () => void;
   readonly onBegin: (
     setup: NewGameSetup,
     appearance: CreatorAppearanceChoice | null,
     questionsFinished?: boolean,
+    stagedGame?: NewGame,
   ) => void;
   readonly problem: string | null;
 }) {
-  const [finishedQuestions, setFinishedQuestions] = useState(
-    questionnaireComplete,
-  );
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
   const [replacingPlace, setReplacingPlace] = useState(false);
@@ -262,9 +270,44 @@ export function SetupScreen({
       steps.indexOf(step) > steps.indexOf(now) ? step : now,
     );
   const reopen = (step: CreatorStep) => {
-    if (step === "whoAreYou") setFinishedQuestions(false);
     setCurrent(step);
   };
+
+  const stagedSetup: NewGameSetup = {
+    ...committed,
+    questionnaire: "skipped",
+    priors: [],
+    creatorLifeForks: [],
+  };
+  const stageIdentity = worldSeedFor(stagedSetup);
+  const matchingStagedGame =
+    stagedGame && worldSeedFor(stagedGame.setup) === stageIdentity
+      ? stagedGame
+      : undefined;
+  const requestedLife = useRef<string | null>(null);
+  useEffect(() => {
+    if (
+      current !== "whoAreYou" ||
+      matchingStagedGame ||
+      !onRequestRecordedLife ||
+      requestedLife.current === stageIdentity
+    )
+      return;
+    requestedLife.current = stageIdentity;
+    onRequestRecordedLife(stagedSetup);
+  }, [
+    current,
+    stageIdentity,
+    matchingStagedGame,
+    onRequestRecordedLife,
+    stagedSetup,
+  ]);
+  const recordedMoments = matchingStagedGame
+    ? projectCreatorLifeForkMoments(
+        matchingStagedGame.world,
+        matchingStagedGame.playerPersonId,
+      )
+    : [];
 
   const problems = newGameSetupProblems(committed);
   /*
@@ -304,7 +347,6 @@ export function SetupScreen({
   const [birthdayCompletionProblem, setBirthdayCompletionProblem] = useState<
     string | null
   >(null);
-  const characterHint = creatorCharacterHint(characterMissing);
   const continueCharacter = () => {
     const completed = resolveCreatorBirthday(setup, ageChosen);
     if (!completed) {
@@ -332,6 +374,7 @@ export function SetupScreen({
       .filter(Boolean)
       .join(" · "),
     place: place ? place.displayName : "",
+    difficulty: "Optional settings",
     background: custom
       ? [
           setup.household === "shares-a-home" ? "Shares a home" : "Lives alone",
@@ -344,16 +387,17 @@ export function SetupScreen({
                 : "Everyday life",
         ].join(" · ")
       : "",
-    whoAreYou:
-      setup.questionnaire === "skipped"
+    whoAreYou: setup.creatorLifeForks?.length
+      ? "Your life so far"
+      : setup.questionnaire === "skipped"
         ? "Discover through play"
-        : "Answering a few questions",
+        : "Your life so far",
   };
   const onReady = currentIndex >= steps.indexOf("begin");
 
   return (
     <main
-      className={`game-title game-setup game-creator pg-glass-panel${onReady && (finishedQuestions || !questionnaireScreenFor(committed)) ? " game-creator--appearance" : ""}`}
+      className={`game-title game-setup game-creator pg-glass-panel${onReady ? " game-creator--appearance" : ""}`}
       data-testid="setup-screen"
     >
       {/*
@@ -503,7 +547,6 @@ export function SetupScreen({
                   required
                   autoComplete="off"
                   value={setup.givenName ?? ""}
-                  aria-describedby="creator-name-hint"
                   onChange={(event) =>
                     setSetup((now) => ({
                       ...now,
@@ -519,7 +562,6 @@ export function SetupScreen({
                   required
                   autoComplete="off"
                   value={setup.familyName ?? ""}
-                  aria-describedby="creator-name-hint"
                   onChange={(event) =>
                     setSetup((now) => ({
                       ...now,
@@ -553,15 +595,6 @@ export function SetupScreen({
               >
                 Randomize name
               </button>
-              <p
-                className="game-hint"
-                id="creator-name-hint"
-                data-testid="creator-name-hint"
-              >
-                {chosenGender === null
-                  ? "Choose a gender first; Randomize name then draws a name for it."
-                  : "Type a first and last name, or use Randomize name."}
-              </p>
             </div>
           </div>
 
@@ -576,15 +609,6 @@ export function SetupScreen({
             />
           </div>
 
-          {characterHint ? (
-            <p
-              className="game-hint"
-              id="creator-character-missing"
-              data-testid="creator-character-missing"
-            >
-              {characterHint}
-            </p>
-          ) : null}
           {birthdayCompletionProblem ? (
             <p role="alert">{birthdayCompletionProblem}</p>
           ) : null}
@@ -1084,10 +1108,6 @@ export function SetupScreen({
           {otherParentQuestionApplies(setup) ? (
             <>
               <h3>Your other parent</h3>
-              <p className="game-note" data-testid="other-parent-note">
-                One parent is raising you. Say what is true of the other, or
-                leave it unsaid.
-              </p>
               <div className="game-choices" data-testid="other-parent-choices">
                 {OTHER_PARENT_CHOICES.map((choice) => (
                   <button
@@ -1113,46 +1133,66 @@ export function SetupScreen({
 
       {isCurrent("whoAreYou") ? (
         <section data-testid="creator-stage-whoareyou">
-          <h2>Who are you?</h2>
-          <p className="game-note" data-testid="whoareyou-note">
-            A few imagined situations. Choose what you would do, or skip. These
-            answers do not write your character’s biography.
-          </p>
+          <h2>Your life so far</h2>
           <div className="game-choices" data-testid="whoareyou-choices">
+            {recordedMoments.map((fork) => (
+              <fieldset key={fork.key}>
+                <legend>{fork.occurredAt}</legend>
+                <p>{fork.prompt}</p>
+                {fork.options.map((option) => (
+                  <button
+                    key={option.key}
+                    type="button"
+                    data-testid={`creator-fork-${fork.key}-${option.key}`}
+                    aria-pressed={
+                      setup.creatorLifeForks?.some(
+                        (choice) =>
+                          choice.forkKey === fork.key &&
+                          choice.optionKey === option.key,
+                      ) ?? false
+                    }
+                    onClick={() =>
+                      setSetup((now) => ({
+                        ...now,
+                        questionnaire: "skipped",
+                        priors: [],
+                        creatorLifeForks: [
+                          ...(now.creatorLifeForks ?? []).filter(
+                            (choice) => choice.forkKey !== fork.key,
+                          ),
+                          { forkKey: fork.key, optionKey: option.key },
+                        ],
+                      }))
+                    }
+                  >
+                    {option.label}
+                    <small>{option.description}</small>
+                  </button>
+                ))}
+              </fieldset>
+            ))}
             <button
               type="button"
               data-testid="whoareyou-answer"
-              className={
-                setup.questionnaire === "short" ? "is-chosen" : undefined
+              disabled={
+                recordedMoments.length === 0 ||
+                recordedMoments.some(
+                  (moment) =>
+                    !setup.creatorLifeForks?.some(
+                      (choice) => choice.forkKey === moment.key,
+                    ),
+                )
               }
               onClick={() => {
                 setSetup((now) => ({
                   ...now,
-                  questionnaire: "short",
-                  priors: now.questionnaire === "short" ? now.priors : [],
+                  questionnaire: "skipped",
+                  priors: [],
                 }));
                 advanceTo("begin");
               }}
             >
-              Answer a few questions
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-deep"
-              className={
-                setup.questionnaire === "deep" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "deep",
-                  priors: now.questionnaire === "deep" ? now.priors : [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Answer more questions
-              <small>You can begin your life whenever you are ready.</small>
+              Continue
             </button>
             <button
               type="button"
@@ -1165,12 +1205,196 @@ export function SetupScreen({
                   ...now,
                   questionnaire: "skipped",
                   priors: [],
+                  creatorLifeForks: [],
                 }));
                 advanceTo("begin");
               }}
+              disabled={Boolean(onRequestRecordedLife && !matchingStagedGame)}
             >
-              Discover through play
+              Begin this life
             </button>
+          </div>
+        </section>
+      ) : null}
+
+      {isCurrent("difficulty") ? (
+        <section data-testid="creator-stage-difficulty">
+          <h2>Difficulty</h2>
+          <p className="game-note">
+            These settings are optional. You can keep the defaults and continue.
+          </p>
+          <div
+            role="group"
+            aria-label="Challenge intensity"
+            className="game-choices"
+          >
+            {(
+              [
+                ["quiet", "Quiet"],
+                ["standard", "Standard"],
+                ["relentless", "Relentless"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={
+                  (setup.playSettings?.challenge ?? "standard") === value
+                }
+                onClick={() =>
+                  setSetup((now) => ({
+                    ...now,
+                    playSettings: {
+                      ...initialPlaySettings(now.playSettings ?? {}),
+                      ...now.playSettings,
+                      challenge: value,
+                    },
+                  }))
+                }
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div
+            role="group"
+            aria-label="Notebook reminders"
+            className="game-choices"
+          >
+            {(
+              [
+                ["full", "Full"],
+                ["light", "Light"],
+                ["none", "None"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={(setup.playSettings?.notes ?? "full") === value}
+                onClick={() =>
+                  setSetup((now) => ({
+                    ...now,
+                    playSettings: {
+                      ...initialPlaySettings(now.playSettings ?? {}),
+                      ...now.playSettings,
+                      notes: value,
+                    },
+                  }))
+                }
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          {ONE_SAVE_OFFERED ? (
+            <div role="group" aria-label="Save mode" className="game-choices">
+              {(
+                [
+                  ["free", "Free saves"],
+                  ["one-save", "One save"],
+                ] as const
+              ).map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-pressed={(setup.playSettings?.saves ?? "free") === value}
+                  onClick={() =>
+                    setSetup((now) => ({
+                      ...now,
+                      playSettings: {
+                        ...initialPlaySettings(now.playSettings ?? {}),
+                        ...now.playSettings,
+                        saves: value,
+                      },
+                    }))
+                  }
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          ) : null}
+          <div
+            role="group"
+            aria-label="Family money premise"
+            className="game-choices"
+          >
+            {(
+              [
+                ["comfortable", "Comfortable family"],
+                ["ordinary", "Ordinary family"],
+                ["tight", "Tight family"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={
+                  (setup.playSettings?.premises?.familyMoney ?? "ordinary") ===
+                  value
+                }
+                onClick={() =>
+                  setSetup((now) => {
+                    const defaults = initialPlaySettings(
+                      now.playSettings ?? {},
+                    );
+                    return {
+                      ...now,
+                      playSettings: {
+                        ...defaults,
+                        ...now.playSettings,
+                        premises: {
+                          ...defaults.premises,
+                          ...now.playSettings?.premises,
+                          familyMoney: value,
+                        },
+                      },
+                    };
+                  })
+                }
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div role="group" aria-label="Press premise" className="game-choices">
+            {(
+              [
+                ["gentler", "Gentler press"],
+                ["realistic", "Realistic press"],
+                ["tougher", "Tougher press"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={
+                  (setup.playSettings?.premises?.press ?? "realistic") === value
+                }
+                onClick={() =>
+                  setSetup((now) => {
+                    const defaults = initialPlaySettings(
+                      now.playSettings ?? {},
+                    );
+                    return {
+                      ...now,
+                      playSettings: {
+                        ...defaults,
+                        ...now.playSettings,
+                        premises: {
+                          ...defaults.premises,
+                          ...now.playSettings?.premises,
+                          press: value,
+                        },
+                      },
+                    };
+                  })
+                }
+              >
+                {label}
+              </button>
+            ))}
           </div>
         </section>
       ) : null}
@@ -1203,9 +1427,6 @@ export function SetupScreen({
             type="button"
             className="game-creator-next creator-primary-action"
             data-testid="creator-continue-character"
-            aria-describedby={
-              characterHint ? "creator-character-missing" : undefined
-            }
             disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
             onClick={continueCharacter}
           >
@@ -1222,7 +1443,7 @@ export function SetupScreen({
               !creatorLocationIsReady(location, custom ? "custom" : "normal") ||
               replacingPlace
             }
-            onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
+            onClick={() => advanceTo(custom ? "background" : "difficulty")}
           >
             Next
           </button>
@@ -1232,32 +1453,41 @@ export function SetupScreen({
             type="button"
             className="game-creator-next creator-primary-action"
             data-testid="creator-continue-background"
-            onClick={() => advanceTo("whoAreYou")}
+            onClick={() => advanceTo("difficulty")}
           >
             Next
           </button>
         ) : null}
-        {onReady && !finishedQuestions && questionnaireScreenFor(committed) ? (
-          <button
-            type="button"
-            className="creator-primary-action"
-            data-testid="begin"
-            disabled={problems.length > 0}
-            onClick={() => onBegin(committed, null)}
-          >
-            Continue to questions
-          </button>
+        {isCurrent("difficulty") ? (
+          <>
+            <button
+              type="button"
+              className="game-creator-next creator-primary-action"
+              data-testid="creator-continue-difficulty"
+              onClick={() => advanceTo("whoAreYou")}
+            >
+              Next
+            </button>
+            <button
+              type="button"
+              className="creator-back-action"
+              data-testid="creator-skip-difficulty"
+              onClick={() => advanceTo("whoAreYou")}
+            >
+              Keep defaults
+            </button>
+          </>
         ) : null}
       </div>
 
-      {onReady &&
-      problems.length === 0 &&
-      (finishedQuestions || !questionnaireScreenFor(committed)) ? (
+      {onReady && problems.length === 0 ? (
         <CreatorAppearanceStep
           key={JSON.stringify(committed)}
           setup={committed}
           mode={previewMode}
-          onBegin={(appearance) => onBegin(committed, appearance, true)}
+          onBegin={(appearance) =>
+            onBegin(committed, appearance, true, matchingStagedGame)
+          }
         />
       ) : null}
 

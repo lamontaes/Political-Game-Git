@@ -1,6 +1,26 @@
 import moneyBail from "../../../data/research/justice/money-bail-2026.json" with { type: "json" };
-import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
+import {
+  readFinalEnactedLawTerm,
+  type FinalEnactedLawTerm,
+} from "../governing/final-law-term-query";
 import { eventById } from "../event-index";
+import { recordsByStringField } from "../history-index";
+import { stableHash } from "../ids";
+import { spreadOf } from "../sample-spread";
+import {
+  comparableAmountApplicabilityKey,
+  comparableAmountApplicabilitiesMatch,
+  type ComparableAmountApplicability,
+  type LawAmountUnit,
+} from "../law-consequence-types";
+import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
+} from "../life-places";
+import {
+  censusRegionOf,
+  censusRegionStates,
+} from "../world-setup/census-regions";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
@@ -52,9 +72,9 @@ export function bailMinorUnits(
     readonly offenseKey: string;
   },
 ): number | null {
-  const law = pretrialGoverningLawAt(world, input.venueJurisdictionId);
-  if (!law || law.answer !== "no") return null;
-  const term = readFinalEnactedLawTerm(world, law, {
+  if (pretrialLawAt(world, input.venueJurisdictionId) !== "money-bail")
+    return null;
+  const term = pretrialLawTermAt(world, input.venueJurisdictionId, {
     questionKey: END_CASH_BAIL_QUESTION,
     termKey: `cash-bail:${input.offenseKey}`,
     unit: "minor",
@@ -82,6 +102,150 @@ export function recordedChargeBailMinorUnits(
   if (tags.length !== 1) return null;
   const amount = Number(tags[0]!.slice("justice.cash-bail-amount:".length));
   return Number.isSafeInteger(amount) && amount > 0 ? amount : null;
+}
+
+/** Read the existing statistical region; territories without one stay unknown. */
+function courtRegion(world: World, jurisdictionId: EntityId | null) {
+  const jurisdiction = jurisdictionId
+    ? world.jurisdictions[jurisdictionId]
+    : undefined;
+  const stateKey = jurisdictionId
+    ? (lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ??
+      (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null))
+    : null;
+  const usps = stateKey?.slice(3);
+  return usps && censusRegionStates().includes(usps)
+    ? censusRegionOf(usps)
+    : null;
+}
+
+/** Dev provenance accompanies an amount; it is never a claim of court authority. */
+export function newChargeBailAmount(
+  world: World,
+  input: Parameters<typeof bailMinorUnits>[1] & {
+    readonly courtId: string;
+    readonly applicability?: Extract<
+      ComparableAmountApplicability,
+      { kind: "court-charge-cohort" }
+    >;
+  },
+): {
+  readonly amount: number;
+  readonly provenanceTags: readonly string[];
+} | null {
+  const court = world.judiciary?.courts[input.courtId];
+  if (!court || court.createdAt > world.currentDate) return null;
+  if (pretrialLawAt(world, input.venueJurisdictionId) !== "money-bail")
+    return null;
+  const operative = bailMinorUnits(world, input);
+  if (operative !== null)
+    return {
+      amount: operative,
+      provenanceTags: ["justice.bail-basis:operative-law"],
+    };
+
+  const applicability = input.applicability;
+  if (applicability) {
+    if (
+      comparableAmountApplicabilityKey(applicability) === null ||
+      applicability.courtLevelKey !== court.level ||
+      (applicability.courtKey !== null &&
+        applicability.courtKey !== input.courtId) ||
+      applicability.offenseKey !== input.offenseKey ||
+      applicability.region !== courtRegion(world, court.jurisdictionId)
+    )
+      return null;
+  }
+
+  // An exact offense key is narrower than an offense class. Charges do not
+  // record felony/misdemeanor classes, so no broader class is inferred here.
+  const candidates = recordsByStringField(
+    world.history.events,
+    "type",
+    "justice.charged",
+  ).flatMap((charge) => {
+    if (
+      charge.occurredAt > world.currentDate ||
+      charge.recordedAt > world.currentDate ||
+      charge.sequence >= world.history.nextSequence ||
+      !charge.tags.includes(`justice.offense:${input.offenseKey}`)
+    )
+      return [];
+    if (applicability) {
+      const tags = charge.tags.filter((tag) =>
+        tag.startsWith("justice.bail-applicability:"),
+      );
+      if (tags.length !== 1) return [];
+      try {
+        const recorded = JSON.parse(
+          tags[0]!.slice("justice.bail-applicability:".length),
+        ) as ComparableAmountApplicability;
+        if (!comparableAmountApplicabilitiesMatch(applicability, recorded))
+          return [];
+      } catch {
+        return [];
+      }
+    }
+    const courtTags = charge.tags.filter((tag) =>
+      tag.startsWith("justice.court:"),
+    );
+    if (courtTags.length !== 1) return [];
+    const donorCourtId = courtTags[0]!.slice("justice.court:".length);
+    const donorCourt = world.judiciary?.courts[donorCourtId];
+    if (
+      !donorCourt ||
+      donorCourt.level !== court.level ||
+      donorCourt.createdAt > charge.occurredAt
+    )
+      return [];
+    if (
+      applicability &&
+      ((applicability.courtKey !== null &&
+        applicability.courtKey !== donorCourtId) ||
+        applicability.region !== courtRegion(world, donorCourt.jurisdictionId))
+    )
+      return [];
+    const amount = recordedChargeBailMinorUnits(world, charge.id);
+    return amount === null ? [] : [{ charge, courtId: donorCourtId, amount }];
+  });
+  const local = candidates.filter((donor) => donor.courtId === input.courtId);
+  const donors = (local.length ? local : candidates).sort((a, b) =>
+    a.charge.id.localeCompare(b.charge.id),
+  );
+  if (!donors.length) return null; // No actual sample can be averaged at this boundary.
+  const values = donors.map((donor) => donor.amount);
+  const { mean, standardDeviation } = spreadOf(values);
+  // A stable world/court circumstance spreads a modeled amount within the
+  // observed donor bounds; it never selects detention or a person's action.
+  const position =
+    Number.parseInt(
+      stableHash(
+        `${world.id}:cash-bail/v1:${input.courtId}:${input.offenseKey}`,
+      ).slice(0, 8),
+      16,
+    ) / 0xffffffff;
+  const amount = Math.round(
+    Math.max(
+      Math.min(...values),
+      Math.min(
+        Math.max(...values),
+        mean + (2 * position - 1) * standardDeviation,
+      ),
+    ),
+  );
+  return {
+    amount,
+    provenanceTags: [
+      "justice.bail-basis:similar-charges/v1",
+      "justice.bail-estimate:ESTIMATED FROM AVERAGE",
+      `justice.bail-donor-mean:${mean}`,
+      `justice.bail-donor-spread:${standardDeviation}`,
+      ...(applicability
+        ? [`justice.bail-applicability:${JSON.stringify(applicability)}`]
+        : []),
+      ...donors.map((donor) => `justice.bail-donor:${donor.charge.id}`),
+    ],
+  };
 }
 
 /** Full cash deposit; commercial premiums are not court deposits. */
@@ -116,6 +280,20 @@ export function pretrialLawAt(
   const law = pretrialGoverningLawAt(world, venueJurisdictionId);
   if (!law) return null;
   return law.answer === "yes" ? "no-money-bail" : "money-bail";
+}
+
+/** Reads an adopted pretrial term only under the law currently in force there. */
+export function pretrialLawTermAt(
+  world: World,
+  venueJurisdictionId: EntityId | null,
+  input: {
+    readonly questionKey: string;
+    readonly termKey: string;
+    readonly unit: LawAmountUnit;
+  },
+): FinalEnactedLawTerm | null {
+  const law = pretrialGoverningLawAt(world, venueJurisdictionId);
+  return law ? readFinalEnactedLawTerm(world, law, input) : null;
 }
 
 /** Exact operative law for attribution on the defendant's saved consequence. */

@@ -1,5 +1,9 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
-import { applyItemVetoes } from "./item-veto";
+import {
+  applyItemVetoes,
+  executiveItemVetoSelectionProblem,
+  type ExecutiveItemVetoSelection,
+} from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
@@ -19,8 +23,13 @@ import {
   municipalOrganizationFor,
   municipalGovernmentJurisdictionId,
   municipalSeats,
+  municipalMeasures,
 } from "../municipal-public-work";
-import { municipalExecutiveHolder } from "../municipal-ordinance-procedure";
+import {
+  municipalExecutiveHolder,
+  recordCouncilExecutiveDecision,
+  recordCouncilExecutiveInaction,
+} from "../municipal-ordinance-procedure";
 import {
   municipalGovernmentByKey,
   primaryReading,
@@ -35,7 +44,9 @@ import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
   committeeHearingTransitionHandler,
+  measureActions,
   recordExecutiveInaction,
+  issueExecutiveInstrument,
   measurePosition,
 } from "../legislation";
 import { createWorkItem, workItemState } from "../time-work";
@@ -47,6 +58,7 @@ import type {
   FutureTransitionHandlerResult,
   HistoricalEvent,
   IsoDate,
+  LegislativeMeasureRecord,
   PublicGovernmentIdentity,
   PublicProgramAppropriationRecord,
   World,
@@ -113,6 +125,9 @@ import {
   principleAnswersConsideration,
 } from "./officeholder-principles";
 import { publicPartyOf } from "./chamber-votes";
+import { decideExecutiveActionAuthority } from "../executive-action-authority";
+import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
+import { legislatureProfilePackId } from "../legislature-game-profile";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -168,7 +183,10 @@ export type GoverningMatterFamily =
   | "budget"
   | "bill"
   | "program"
-  | "clemency";
+  | "clemency"
+  | "executive-order"
+  | "regulation"
+  | "emergency";
 
 export interface GoverningOffice {
   readonly officeKey: string;
@@ -359,6 +377,33 @@ export function openPresidentBillMatter(
     (m) => m.measureId === measure.id && m.status === "open",
   );
   return matter ? applyExecutiveBillInaction(next, matter) : next;
+}
+
+/** A council's actual presentment joins the same bound executive bill matter. */
+export function openMunicipalBillMatter(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  governmentKey: string,
+): World {
+  const holder = municipalExecutiveHolder(world, governmentKey);
+  const office = holder ? governingOfficeForPerson(world, holder) : null;
+  if (
+    !office ||
+    !municipalMeasures(world, governmentKey).some(
+      (entry) => entry.id === measure.id,
+    ) ||
+    measurePosition(world, measure.id).phase !== "awaiting-executive"
+  )
+    return world;
+  return openMatter(world, office, {
+    family: "bill",
+    instance: `measure:${measure.id}`,
+    measureId: measure.id,
+    extraTags: [`municipal-government:${encodeURIComponent(governmentKey)}`],
+    sourceEventId: measureActions(world, measure.id).find(
+      (action) => action.kind === "presented-to-executive",
+    )?.eventId,
+  });
 }
 
 export function governingOfficeForPerson(
@@ -871,6 +916,61 @@ function optionsFor(
           assessment: null,
         },
       ];
+    case "executive-order":
+      return [
+        {
+          key: "order:agency-instructions",
+          label: "Direct an agency's internal work",
+          effect:
+            "Issue an order about how the executive branch carries out its work.",
+          tradeoff: "The order applies only within the executive branch.",
+          personId: null,
+          assessment: null,
+        },
+        {
+          key: "order:independent-policy",
+          label: "Set a new public policy by order",
+          effect:
+            "Ask to create policy without a statute or delegated authority.",
+          tradeoff:
+            "The authority check will refuse this request and explain why.",
+          personId: null,
+          assessment: null,
+        },
+      ];
+    case "regulation":
+      return [
+        {
+          key: "regulation:issue",
+          label: "Issue the delegated rule",
+          effect:
+            "Record an agency rule under the statute that delegates its terms.",
+          tradeoff: "The rule must stay within the statute's recorded terms.",
+          personId: null,
+          assessment: null,
+        },
+      ];
+    case "emergency":
+      return [
+        {
+          key: "emergency:declare",
+          label: "Declare an emergency",
+          effect:
+            "Record a temporary declaration for the crisis affecting this jurisdiction.",
+          tradeoff:
+            "It lasts only for the period allowed by the jurisdiction's rules.",
+          personId: null,
+          assessment: null,
+        },
+        {
+          key: "emergency:decline",
+          label: "Do not declare an emergency",
+          effect: "Leave the existing response in place.",
+          tradeoff: "The crisis continues without emergency powers.",
+          personId: null,
+          assessment: null,
+        },
+      ];
   }
 }
 
@@ -917,6 +1017,21 @@ const FAMILY_TEXT: Record<
     ifIgnored:
       "The request goes unanswered, and the sentence stands as it was handed down.",
   },
+  "executive-order": {
+    title: (subject) => `Executive order: ${subject}`,
+    ask: "Choose whether to direct the executive branch on a matter within your office's authority.",
+    ifIgnored: "No executive order is issued.",
+  },
+  regulation: {
+    title: (subject) => `Agency rule: ${subject}`,
+    ask: "Review the proposed rule and decide whether to issue it under the law that delegated the details.",
+    ifIgnored: "The proposed rule is not issued.",
+  },
+  emergency: {
+    title: (subject) => `Emergency declaration: ${subject}`,
+    ask: "A recorded crisis may allow a temporary emergency declaration under this jurisdiction's rules.",
+    ifIgnored: "No emergency declaration is made.",
+  },
   implementation: {
     title: (subject) => `Direct the agencies on ${subject}`,
     ask: "The agencies are ready to act on your priority and need to know how fast to move.",
@@ -933,6 +1048,9 @@ const DEADLINE_DAYS: Record<Exclude<GoverningMatterFamily, "bill">, number> = {
   // PLACEHOLDER: no state gives a governor a deadline on a clemency request
   // that the game has read; this is how long it waits on the desk.
   clemency: 60,
+  "executive-order": 21,
+  regulation: 30,
+  emergency: 7,
 };
 
 // Preserve the existing NPC review pace; this is not a legal action window.
@@ -1273,6 +1391,9 @@ export function staffRecommendation(
     // Clemency is the officeholder's own power; nobody decides it for them.
     case "chief-of-staff":
     case "clemency":
+    case "executive-order":
+    case "regulation":
+    case "emergency":
       return null;
     case "agenda": {
       const priority = currentPriority(world, office);
@@ -1394,6 +1515,215 @@ export function currentPriority(
     );
   const choice = decision ? tagValue(decision, "choice:priority:") : null;
   return choice && choice !== "none" ? choice : null;
+}
+
+function authorityJurisdictionForOffice(
+  world: World,
+  office: GoverningOffice,
+): string | null {
+  if (office.officeKey === "us-president") return "US";
+  const holder = currentStateExecutiveHolders(world).find(
+    (candidate) => candidate.personId === office.holderPersonId,
+  );
+  return holder ? `US-${holder.stateUsps}` : null;
+}
+
+/** Open an executive order on the office's existing governing inbox. */
+export function openExecutiveOrderMatter(
+  world: World,
+  officeKey: string,
+  input: {
+    readonly instance: string;
+    readonly subject: string;
+    readonly subjectKey?: string;
+    readonly sourceEventId: EntityId;
+  },
+): World {
+  const office = governingOfficeByKey(world, officeKey);
+  if (!office || !authorityJurisdictionForOffice(world, office)) return world;
+  return openMatter(world, office, {
+    family: "executive-order",
+    instance: input.instance,
+    titleSubject: input.subject,
+    subjectKey: input.subjectKey ?? input.subject,
+    sourceEventId: input.sourceEventId,
+  });
+}
+
+/**
+ * A recorded condition can prompt an NPC officeholder to issue an order. The
+ * decision reads the recorded agenda priority and any principle answers the
+ * caller can ground in the condition; the order still passes through this
+ * office's shared matter records and authority check.
+ */
+export function considerExecutiveOrderCondition(
+  world: World,
+  officeKey: string,
+  input: {
+    readonly instance: string;
+    readonly subject: string;
+    readonly subjectKey: string;
+    readonly sourceEventId: EntityId;
+    readonly principleAnswers: readonly {
+      readonly propositionId: EntityId;
+      readonly answer: "yes" | "no";
+    }[];
+  },
+): World {
+  const office = governingOfficeByKey(world, officeKey);
+  if (!office || !authorityJurisdictionForOffice(world, office)) return world;
+  if (controlledPersonId(world) === office.holderPersonId)
+    return openExecutiveOrderMatter(world, officeKey, input);
+
+  const considerations: DecisionConsideration[] = [];
+  const priority = currentPriority(world, office);
+  if (priority)
+    considerations.push({
+      stableKey: `executive-order:priority:${office.officeKey}:${input.subjectKey}`,
+      optionKey: "issue",
+      sourceType: "context:agenda-priority",
+      direction: priority === input.subjectKey ? "supports" : "opposes",
+      importance: "strong",
+      confidence: "high",
+      explanation:
+        priority === input.subjectKey
+          ? "The recorded condition concerns the officeholder's first priority."
+          : "The recorded condition concerns a different subject than the officeholder's first priority.",
+      sourceRefs: [{ kind: "historical-event", eventId: input.sourceEventId }],
+    });
+  const principles = principleAnswersConsideration(
+    world,
+    office.holderPersonId,
+    input.principleAnswers,
+  );
+  if (principles)
+    considerations.push({
+      ...principles,
+      stableKey: `executive-order:${principles.stableKey}`,
+      optionKey: principles.optionKey === "vote-yea" ? "issue" : "pass",
+      direction: principles.optionKey === "vote-yea" ? "supports" : "opposes",
+      explanation:
+        principles.optionKey === "vote-yea"
+          ? `The officeholder's recorded principles support action on ${input.subject}.`
+          : `The officeholder's recorded principles oppose action on ${input.subject}.`,
+    });
+  const stableKey = `${STATE_GOVERNING_VERSION}:${office.officeKey}:${office.termId}:executive-order-decision:${input.instance}`;
+  const saved = world.history.decisionTraces.find(
+    (trace) => trace.context.stableKey === stableKey,
+  );
+  if (saved) return world;
+  const evaluation = evaluateDecision(world, {
+    stableKey,
+    decisionType: "governing:executive-order-condition",
+    actorPersonId: office.holderPersonId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:governing-matter",
+      key: `${office.officeKey}:${input.subjectKey}`,
+      entityId: null,
+    },
+    options: [
+      {
+        key: "issue",
+        label: "Issue the executive order",
+        description: `Direct the executive branch on ${input.subject}.`,
+      },
+      {
+        key: "pass",
+        label: "Take no action by order",
+        description: "Leave the executive branch's existing work in place.",
+      },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  const traced = recordDurableDecisionTrace(world, evaluation);
+  if (
+    evaluation.outcomeKind !== "selected" ||
+    evaluation.selectedOptionKey !== "issue"
+  )
+    return traced;
+  const opened = openExecutiveOrderMatter(traced, officeKey, input);
+  const matter = governingMatters(opened, officeKey).find(
+    (candidate) =>
+      candidate.family === "executive-order" &&
+      candidate.stableKey.endsWith(`:executive-order:${input.instance}`),
+  );
+  const orderOption = matter?.options.find(
+    (option) => option.key === "order:agency-instructions",
+  );
+  return matter && orderOption
+    ? recordDecision(
+        opened,
+        matter,
+        orderOption,
+        "officeholder",
+        office.holderPersonId,
+        `The recorded condition concerns ${input.subject}, and the officeholder's priority and principles support directing the agency.`,
+      )
+    : opened;
+}
+
+/** Delegated rule drafts matching the office's agenda priority come first. */
+export function orderDelegatedRuleDrafts<
+  T extends { readonly subjectKey: string },
+>(world: World, officeKey: string, drafts: readonly T[]): readonly T[] {
+  const office = governingOfficeByKey(world, officeKey);
+  const priority = office ? currentPriority(world, office) : null;
+  return priority
+    ? [...drafts].sort(
+        (left, right) =>
+          Number(right.subjectKey === priority) -
+          Number(left.subjectKey === priority),
+      )
+    : drafts;
+}
+
+export interface DelegatedRuleDraftMatterInput {
+  readonly instance: string;
+  readonly subjectKey: string;
+  readonly title: string;
+  readonly sourceEventId: EntityId;
+  readonly measureId: EntityId;
+}
+
+/** Open delegated-rule work on the shared inbox in the office's priority order. */
+export function openDelegatedRuleDraftMatters(
+  world: World,
+  officeKey: string,
+  drafts: readonly DelegatedRuleDraftMatterInput[],
+): World {
+  const office = governingOfficeByKey(world, officeKey);
+  if (!office) return world;
+  return orderDelegatedRuleDrafts(world, officeKey, drafts).reduce(
+    (next, draft) =>
+      openMatter(next, office, {
+        family: "regulation",
+        instance: `delegation:${draft.instance}`,
+        subjectKey: draft.subjectKey,
+        titleSubject: draft.title,
+        sourceEventId: draft.sourceEventId,
+        measureId: draft.measureId,
+      }),
+    world,
+  );
+}
+
+export type ExecutiveEnforcementPriority = "first" | "ordinary" | "lowest";
+
+/** An officeholder's recorded priority changes which law agencies enforce first. */
+export function enforcementPriorityForLaw(
+  world: World,
+  officeKey: string,
+  subjectKey: string,
+): ExecutiveEnforcementPriority {
+  const office = governingOfficeByKey(world, officeKey);
+  const priority = office ? currentPriority(world, office) : null;
+  if (!priority) return "ordinary";
+  return subjectKey === priority ? "first" : "lowest";
 }
 
 /* ------------------------------------------------------------------ *
@@ -1987,6 +2317,53 @@ function decisionSummary(
             summary: `${office.title} directed agencies to begin work on ${subjectLabel(matter.subjectKey)}.`,
             visibility: "public",
           };
+    case "executive-order": {
+      const jurisdictionKey = authorityJurisdictionForOffice(world, office);
+      const clause =
+        option.key === "order:independent-policy"
+          ? ({
+              kind: "independent-policy",
+              topicKey: matter.subjectKey ?? "unspecified-policy",
+            } as const)
+          : ({
+              kind: "executive-branch-management",
+              topicKey: "agency-instructions",
+            } as const);
+      const authority = jurisdictionKey
+        ? decideExecutiveActionAuthority(
+            executiveRulePackForJurisdiction(jurisdictionKey),
+            clause,
+            null,
+          )
+        : {
+            allowed: false,
+            reason: "This office has no recorded executive-order authority.",
+          };
+      return authority.allowed
+        ? {
+            summary: `${who}, ${office.title}, directed an agency's internal work by executive order.`,
+            visibility: "public",
+          }
+        : {
+            summary: `${who}, ${office.title}, requested an executive order on ${matter.subjectKey ?? "this matter"}. The request was refused: ${authority.reason}`,
+            visibility: "limited",
+          };
+    }
+    case "regulation":
+      return {
+        summary: `${who}, ${office.title}, reviewed the proposed rule: ${option.label.toLowerCase()}.`,
+        visibility: "public",
+      };
+    case "emergency":
+      return option.key === "emergency:declare"
+        ? {
+            summary: `${who}, ${office.title}, declared an emergency for ${matter.subjectKey ?? "the recorded crisis"}.`,
+            visibility: "public",
+          }
+        : {
+            summary: `${who}, ${office.title}, declined to declare an emergency for ${matter.subjectKey ?? "the recorded crisis"}.`,
+            visibility: "public",
+          };
   }
 }
 
@@ -1996,6 +2373,8 @@ function applyConsequence(
   matter: GoverningMatter,
   option: GoverningMatterOption | null,
   decisionEventId: EntityId,
+  billReasons?: string,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): World {
   if (!option) {
     if (matter.family === "bill" && matter.measureId) return world;
@@ -2013,6 +2392,56 @@ function applyConsequence(
     // The grant itself is written by the clemency route, which reads this
     // decision on its own clock with every other body's answer.
     case "clemency":
+      return world;
+    case "executive-order": {
+      const jurisdictionKey = authorityJurisdictionForOffice(world, office);
+      if (!jurisdictionKey) return world;
+      const pack = executiveRulePackForJurisdiction(jurisdictionKey);
+      const clause =
+        option.key === "order:independent-policy"
+          ? ({
+              kind: "independent-policy",
+              topicKey: matter.subjectKey ?? "unspecified-policy",
+            } as const)
+          : ({
+              kind: "executive-branch-management",
+              topicKey: "agency-instructions",
+            } as const);
+      const authority = decideExecutiveActionAuthority(pack, clause, null);
+      if (!authority.allowed) return world;
+      const instrumentKey = `${matter.stableKey}:instrument`;
+      const next = issueExecutiveInstrument(world, {
+        stableKey: instrumentKey,
+        jurisdictionKey,
+        jurisdictionId: office.jurisdictionId,
+        legislativeRulePackId: legislatureProfilePackId(jurisdictionKey),
+        instrument: "executive-order",
+        designation: `Executive Order ${
+          (world.history.legislativeMeasures ?? []).filter(
+            (measure) =>
+              measure.governmentInstrument === "executive-order" &&
+              measure.jurisdictionId === office.jurisdictionId,
+          ).length + 1
+        }`,
+        shortTitle: matter.title,
+        summary: option.effect,
+        actorLabel: pack.displayName,
+        actorPersonId: office.holderPersonId,
+        rationale: billReasons?.trim() || option.effect,
+        sourceDocumentKey: `session9:executive-order:${jurisdictionKey}:${matter.subjectKey ?? matter.id}`,
+        publishedAt: world.currentDate,
+        effectiveAt: world.currentDate,
+        expiresAt: null,
+        propositionIds: [],
+        propositionAnswers: [],
+        authorityChecks: [{ clause }],
+      });
+      return next;
+    }
+    case "regulation":
+    case "emergency":
+      // Their canonical writers are added by the regulation and emergency
+      // steps; these families already share this inbox and decision record.
       return world;
     case "chief-of-staff": {
       if (!office.organizationId) return world;
@@ -2093,6 +2522,28 @@ function applyConsequence(
         // what follows (enactment, or the legislature's override) runs
         // through the legislature's own steps.
         const signed = option.key === "bill:sign";
+        const municipalKey = tagValue(
+          matter.openedEvent,
+          "municipal-government:",
+        );
+        if (municipalKey) {
+          const measure = world.history.legislativeMeasures?.find(
+            (entry) => entry.id === matter.measureId,
+          );
+          return measure
+            ? recordCouncilExecutiveDecision(
+                world,
+                decodeURIComponent(municipalKey),
+                measure,
+                signed ? "signed" : "vetoed",
+                billReasons?.trim() ||
+                  (signed
+                    ? "The executive signed the council act."
+                    : "The executive returned the council act with reasons for disapproval."),
+                office.holderPersonId,
+              )
+            : world;
+        }
         let next = recordGovernorDecisionOnMeasure(
           world,
           matter.measureId,
@@ -2105,7 +2556,12 @@ function applyConsequence(
         // A signing governor with an item veto strikes the floor-added
         // sections they cannot accept (Build 25 step 5).
         if (signed)
-          next = applyItemVetoes(next, matter.measureId, office.holderPersonId);
+          next = applyItemVetoes(
+            next,
+            matter.measureId,
+            office.holderPersonId,
+            itemSelection,
+          );
         next = scheduleInstitutionStep(next, matter.measureId);
         return signed && office.organizationId
           ? openMatter(next, office, {
@@ -2219,6 +2675,8 @@ function recordDecision(
   option: GoverningMatterOption | null,
   mode: GoverningDecisionMode | "lapsed",
   deciderPersonId: EntityId,
+  billReasons?: string,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): World {
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office || office.holderPersonId !== matter.holderPersonId)
@@ -2263,6 +2721,12 @@ function recordDecision(
       `matter:${matter.id}`,
       `choice:${option?.key ?? "lapsed"}`,
       `decided-by:${mode}`,
+      ...(itemSelection
+        ? [
+            `item-veto-snapshot:${itemSelection.measureActionSequence}`,
+            ...itemSelection.provisionIds.map((id) => `item-veto-item:${id}`),
+          ]
+        : []),
     ],
     summary,
     context: { ...emptyContext(), choice: option?.label ?? "No decision" },
@@ -2274,7 +2738,15 @@ function recordDecision(
     decision.id,
     option ? "completed" : "cancelled",
   );
-  const outcome = applyConsequence(next, office, matter, option, decision.id);
+  const outcome = applyConsequence(
+    next,
+    office,
+    matter,
+    option,
+    decision.id,
+    billReasons,
+    itemSelection,
+  );
   if (matter.family === "clemency" && option) {
     const petitionId = tagValue(matter.openedEvent, "source-event:");
     if (petitionId)
@@ -2310,6 +2782,13 @@ function openMatterForPlayer(
         )
       : undefined;
   const window = measure ? executiveBillActionWindow(world, measure) : null;
+  if (
+    measure &&
+    measurePosition(world, measure.id).phase !== "awaiting-executive"
+  )
+    return "This bill is no longer awaiting executive action.";
+  if (measure && !window)
+    return "No executable action window is recorded for this bill.";
   const deadline =
     matter.family === "bill" ? window?.lastActionDate : matter.deadline;
   if (deadline && world.currentDate > deadline)
@@ -2322,12 +2801,34 @@ export function decideGoverningMatter(
   world: World,
   matterId: EntityId,
   optionKey: string,
+  billReasons?: string,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): GoverningActionResult {
   const matter = openMatterForPlayer(world, matterId);
   if (typeof matter === "string") return { ok: false, world, reason: matter };
   const option = matter.options.find((o) => o.key === optionKey);
   if (!option)
     return { ok: false, world, reason: "That choice is not available." };
+  if (itemSelection) {
+    if (
+      matter.family !== "bill" ||
+      !matter.measureId ||
+      option.key !== BILL_SIGN ||
+      itemSelection.matterId !== matter.openedEvent.id
+    )
+      return {
+        ok: false,
+        world,
+        reason:
+          "An item-veto selection belongs to this bill's signature decision only.",
+      };
+    const problem = executiveItemVetoSelectionProblem(
+      world,
+      matter.measureId,
+      itemSelection,
+    );
+    if (problem) return { ok: false, world, reason: problem };
+  }
   let next = world;
   if (matter.family === "bill" && matter.measureId) {
     const measure = world.history.legislativeMeasures?.find(
@@ -2363,6 +2864,8 @@ export function decideGoverningMatter(
     option,
     "player",
     matter.holderPersonId,
+    billReasons,
+    itemSelection,
   );
   if (decided === world)
     return {
@@ -2531,6 +3034,17 @@ function applyExecutiveBillInaction(
     world.currentDate <= window.lastActionDate
   )
     return world;
+  const municipalKey = tagValue(matter.openedEvent, "municipal-government:");
+  if (municipalKey) {
+    const enacted = recordCouncilExecutiveInaction(
+      world,
+      decodeURIComponent(municipalKey),
+      measure,
+    );
+    return enacted === world
+      ? world
+      : recordDecision(enacted, matter, null, "lapsed", matter.holderPersonId);
+  }
   const inactive = recordExecutiveInaction(world, {
     stableKey: `${matter.stableKey}:executive-inaction`,
     measureId: measure.id,

@@ -7,7 +7,11 @@ import {
   stateRuleBasis,
 } from "../enacted-rule-changes";
 import { type PropositionAnswer } from "../issue-record";
-import { lawLevelRank, type LawLevel } from "../law-hierarchy";
+import {
+  lawLevelForInstrument,
+  lawLevelRank,
+  type LawLevel,
+} from "../law-hierarchy";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -139,8 +143,12 @@ export function lawInForce(
         enactment.resolvedAt > cutoff.asOfDate)
     )
       continue;
-    const level = chain.get(measure.jurisdictionId);
-    if (!level) continue;
+    const baseLevel = chain.get(measure.jurisdictionId);
+    if (!baseLevel) continue;
+    const level = lawLevelForInstrument(
+      baseLevel,
+      measure.governmentInstrument ?? "statute",
+    );
     // The law as enacted, sections an amendment or a rider put in included.
     const answer =
       measureAnswersAt(world, measure.id, enactment.sequence).find(
@@ -164,6 +172,13 @@ export function lawInForce(
     if (!operative) continue;
     const { operativeAt, operativeBasis } = operative;
     if (operativeAt > onDate) continue;
+    if (
+      measure.governmentInstrument &&
+      measure.governmentInstrument !== "statute" &&
+      (!enactment.publishedAt || enactment.publishedAt > onDate)
+    )
+      continue;
+    if (enactment.expiresAt && enactment.expiresAt < onDate) continue;
     // Struck down by a court before this day: on the record, and governing
     // nothing (judiciary/judicial-review.ts).
     if (struckDownBy(world, enactment.id, propositionId, onDate, cutoff))
@@ -343,7 +358,7 @@ export interface StartingLawScope {
   }[];
 }
 
-interface StartingLawRow {
+export interface StartingLawRow {
   /** Exact recorded workplace identities; no name or county-containment guess. */
   readonly regionalTerms?: readonly {
     readonly workplaceKeys: readonly string[];

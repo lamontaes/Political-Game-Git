@@ -72,6 +72,7 @@ const UNIQUE_STABLE_KEY_FAMILIES: ReadonlySet<string> = new Set([
   "districtResidenceIntervals",
   "electionContestResults",
   "legislativeMeasures",
+  "legislativeProposals",
   "legislativeActions",
   "committeeReferrals",
   "committeeActions",

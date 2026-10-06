@@ -158,11 +158,12 @@ export function generateOpeningLife(
 export async function generateOpeningLifeWithProgress(
   session: OpeningLifeSession,
   options: OpeningLifeGenerationOptions = {},
+  suppliedGame?: NewGame,
 ): Promise<OpeningLifeSession> {
   if (session.game) return session;
   throwIfOpeningAborted(options.signal);
   const beginning = await runOpeningPreparationSteps(
-    beginOpeningLifeSteps(session),
+    beginOpeningLifeSteps(session, suppliedGame),
     (start) => start.world,
     options,
   );
@@ -287,9 +288,10 @@ async function reportOpeningStage(
 
 function* beginOpeningLifeSteps(
   session: OpeningLifeSession,
+  suppliedGame?: NewGame,
 ): Generator<OpeningPreparationStep, OpeningLifeBuildStart, void> {
   yield openingStage("Preparing your life");
-  const game = createNewGameWorld(session.setup);
+  const game = suppliedGame ?? createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
   const conditioned = ensureWorldStartingConditions(game.world, {
@@ -626,7 +628,10 @@ export function sameOpeningSetup(
 }
 
 /** Keep one controller per Begin activation; duplicate transition callbacks share it. */
-export function createOpeningLifeController(setup: NewGameSetup) {
+export function createOpeningLifeController(
+  setup: NewGameSetup,
+  suppliedGame?: NewGame,
+) {
   let current = prepareOpeningLife(setup);
   let progressiveGeneration: Promise<OpeningLifeSession> | null = null;
   return {
@@ -644,6 +649,7 @@ export function createOpeningLifeController(setup: NewGameSetup) {
         progressiveGeneration = generateOpeningLifeWithProgress(
           preparing,
           options,
+          suppliedGame,
         )
           .then((next) => {
             if (current === preparing) current = next;

@@ -1,3 +1,12 @@
+import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+} from "../life";
 import { describe, expect, it } from "vitest";
 import { chooseAdultOption } from "../../presentation/adult-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -5,7 +14,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
 import { adultLifeSituations } from "../adult-situations";
 import {
   CRIME_EVENT_TYPES,
@@ -21,7 +30,7 @@ import { ensurePeopleTraits } from "../people-traits";
 import { SeededRng } from "../rng";
 import { TERRITORY_PLACE_ROWS } from "../territory-places";
 import type { EntityId, IsoDate, World } from "../types";
-import { withWorldIntegrityDeferred } from "../world";
+import { advanceWorld, withWorldIntegrityDeferred } from "../world";
 import type { CrimeOffense } from "./contract";
 import {
   CRIME_REPORTING_VERSION,
@@ -358,10 +367,65 @@ describe(`victims decide whether to report a crime (place ${PLACE}, place seed $
   it(
     "the town's monthly crime carries each victim's own decision",
     () => {
-      const { world } = first;
+      // Authored long-standing homes supply a completed exposure interval;
+      // no incident or researched rate is installed by this reader fixture.
+      const scoped = smallWorld({
+        place: PLACE,
+        people: 40,
+        seed: "a131-monthly-recorded-residents",
+        date: addDays(first.world.currentDate, -50 * 365),
+      });
+      let world = scoped.world;
+      const provenance = {
+        kind: "authored" as const,
+        note: "Monthly crime reader fixture homes",
+      };
+      for (const personId of world.personOrder) {
+        const key = `monthly-home:${personId}`;
+        world = createHousehold(world, {
+          stableKey: key,
+          formedAt: world.currentDate,
+          label: "Resident home",
+          provenance,
+        });
+        const householdId = world.history.households.at(-1)!.id;
+        world = recordHouseholdLocation(world, {
+          stableKey: `${key}:location`,
+          householdId,
+          effectiveAt: world.currentDate,
+          jurisdictionId: scoped.jurisdictionId,
+          kind: "residence:home",
+          label: "Resident home",
+          provenance,
+          supersedesLocationId: null,
+        });
+        world = startHouseholdMembership(world, {
+          stableKey: `${key}:member`,
+          personId,
+          householdId,
+          startedAt: world.currentDate,
+          residenceRole: "primary",
+          kind: "resident:member",
+          provenance,
+        });
+      }
+      world = ensureWorldStartingConditions(world, {
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+        political: generatePoliticalStartingConditions,
+      });
+      world = advanceWorld(
+        world,
+        daysBetween(world.currentDate, first.world.currentDate),
+      );
+      const player = scoped.personId;
       let month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
       const crimes = [];
       for (let index = 0; index < 12; index += 1) {
+        const end = makeIsoDate(
+          addDays(makeIsoDate(`${addDays(month, 32).slice(0, 7)}-01`), -1),
+        );
+        if (end > world.currentDate)
+          world = advanceWorld(world, daysBetween(world.currentDate, end));
         crimes.push(...sampleMonthlyCrime(world, month));
         month = makeIsoDate(`${addDays(month, 32).slice(0, 7)}-01`);
       }
@@ -371,10 +435,10 @@ describe(`victims decide whether to report a crime (place ${PLACE}, place seed $
           decision.reported,
         );
         // The played person is never decided for.
-        expect(decision.reportedBy).not.toBe(first.player);
+        expect(decision.reportedBy).not.toBe(player);
         expect(crime.playerChooses).toBe(
-          !crime.reported && crime.victimPersonIds.includes(first.player)
-            ? first.player
+          !crime.reported && crime.victimPersonIds.includes(player)
+            ? player
             : null,
         );
       }

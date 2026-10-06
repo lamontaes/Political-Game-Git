@@ -2,6 +2,7 @@ import type { SceneSlotKind } from "../scene-slot-contract";
 import type { BodyAnchors } from "./anchors";
 import { OPAQUE_ALPHA } from "./anchors";
 import { clothEdgeMask } from "./cloth-edges";
+import { hairWithFaceWindow, type HairFaceWindow } from "./hair-face-window";
 import { assemblePerson, type PersonLayer } from "./assemble";
 import type { Raster } from "./raster";
 import { SKIN_RAMPS, recolorSkin, type MeasuredRamp } from "./skin";
@@ -340,6 +341,7 @@ export interface PackHair {
   readonly id: string;
   readonly back: string;
   readonly front: string;
+  readonly faceWindow?: HairFaceWindow;
 }
 
 /**
@@ -1036,7 +1038,14 @@ export function composeEnginePerson(
     ),
     {
       slot: "front-hair",
-      raster: tint(front),
+      raster: tint(
+        hairWithFaceWindow(
+          front,
+          image(face.file),
+          hair.front,
+          hair.faceWindow,
+        ),
+      ),
       authoredFor: canonical,
     },
   );

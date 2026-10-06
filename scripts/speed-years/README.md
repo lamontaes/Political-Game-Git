@@ -1,6 +1,8 @@
-# Measure watched-world years
+# Measure watched-world time
 
-The command advances the real observer clock in 30-day steps, stopping at exact yearly anniversaries. Each row prints simulation seconds and SHA-256 of the real saved payload. Annual saving and hashing happen outside the year timer. The default scenario is South Fork, Pennsylvania (`4272168`), seed `b18-f375512c`.
+The year command advances the real observer clock in 30-day steps, stopping at exact yearly anniversaries. Each row prints simulation seconds and SHA-256 of the real saved payload. Annual saving and hashing happen outside the year timer. The default scenario is South Fork, Pennsylvania (`4272168`), seed `b18-f375512c`.
+
+The portable month command gives calendar day 1 the same untimed action 0 in both runs, then times each ordinary day from days 2 through 31 separately. The day-2 bucket retains both the extra same-date action 1 and advancing action 2; days 3–31 retain actions 3–31. Acceptance requires lower mean process CPU per day for days 2–31. Wall time is reported separately. The comparison also requires identical accepted decision order, choice facts, sequence and cutoff, full appended-event payload digests, recorded event order, and people. It reports the full saved-world fingerprint as additional evidence. Precise-coverage data is diagnostic only and never supplies timing.
 
 Run only after the coordinator grants an exclusive host window. `--exclusive` records that assertion; it does not stop another application or establish exclusivity by itself. Use the repository storage wrapper for these heavy jobs. Team 1 currently owns `package.json`, so the npm entry is pending its merge. The direct candidate route is:
 
@@ -19,13 +21,13 @@ node scripts/speed-years/profile.mjs test-results/speed/year9.cpuprofile
 
 The summarizer aggregates repeated call frames by function and source location and prints the 25 functions with greatest inclusive time and the 25 with greatest self time. Inclusive time includes samples in descendants, counting a recursive function once per sample. Frame locations use V8's source locations; no heap snapshot is created.
 
-The latest owner-approved speed proof advances one watched month in less than 15 seconds. Coordinate the timing window with the root before launching: Team 1 and Team 3 full simulations must acknowledge their reversible pauses. Focused tests, changed-file type checks and lint need no queue.
+The current SP-B gate is paired days 2–31 mean per-day CPU lower than the same seed and place on main, with exact accepted action parity. Coordinate a clean timing window before launching; do not mix profiler counts into CPU timing.
 
 ```sh
-npm run storage -- run test -- node --max-old-space-size=4096 --import tsx scripts/speed-years/month.ts --out test-results/speed/candidate-month.json --before test-results/speed/baseline-month.json --limit 15
+npm run storage -- run test -- node --max-old-space-size=4096 --import tsx scripts/speed-years/month.ts --seed <same-seed> --place <same-place> --out test-results/speed/candidate-month.json --before test-results/speed/baseline-month.json
 ```
 
-The comparator hashes every complete person in person order, every decision packet and evaluation, and every recorded event. Only `sequence` and `historySequenceExclusive` are removed from decision/event hashes. Changed people, choice facts or event results fail. The comparison file lists each changed decision sequence/cutoff with its unchanged choice. Full saved-world fingerprints are also retained. History-write order differences are accepted only under the owner's explicit batch exception and must be disclosed in the PR. The older two-year proof is superseded for this priority repair.
+The comparator hashes every complete person in person order, every decision packet and evaluation, and every recorded event. Decision/event order, sequence, and cutoff must match exactly. Changed people, action order, cutoff, choice facts, event order or event results fail. Full saved-world fingerprints are retained; they do not relax the action gate.
 
 The month tool accepts `--root` so a preserved copy can capture the baseline from an exact old source head in this same registered workspace. Never edit simulation files under a live run. Preserve the branch checkpoint before switching; do not create another source copy.
 
