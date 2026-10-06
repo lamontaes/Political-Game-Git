@@ -21,7 +21,7 @@ Date: 2026-10-06
 
 ## Still open
 
-- Full-session acceptance must process all due rows in date order through each jurisdiction's own recorded regular-session end, including D.C. and territories. The Apr. 30 artifact captured zero actual `sessionAdjournments`; no reached-end claim is made.
+- Full-session acceptance must process all due rows in date order through each jurisdiction's own recorded regular-session end, including D.C. and territories. The Apr. 30 artifact captured zero actual `sessionAdjournments`; no reached-end claim is made. Source trace: the only recording path follows bill-stage steps and requires a passed/enacted appropriation; the simulator documents that it files no general appropriations act. Legal limits affect bill handling but do not create an end record. Exact contract gap is documented in the P1 evidence and PR body.
 - Territory coverage remains incomplete: PR has a generic pack without a territorial seated roster/intake; GU, VI, AS and MP lack canonical legislative packs/rosters. D.C. Council is year-round; federal Congress has no state-style session-end contract in the current coverage table.
 - A CTO question was attempted on #2052 with the exact base/candidate principle contract and requested intended producer/test contract. GitHub rejected the comment because the issue reached its 2,500-comment limit (`Commenting is disabled on issues with more than 2500 comments`). No comment was created. Do not claim an answer.
 - Session5 owns daily-turnover/performance repair; no annual daily loop, heap increase, new tree, build, or merge was run.
