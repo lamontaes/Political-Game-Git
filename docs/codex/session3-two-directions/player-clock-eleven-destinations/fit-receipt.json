@@ -1,0 +1,344 @@
+[
+  {
+    "direction": "a",
+    "state": "rest",
+    "textBustOverlaps": [],
+    "menuDestinations": [],
+    "tabsCount": 0,
+    "cardDocked": true,
+    "timeControlsInsideCard": true,
+    "menuChevronCount": 0,
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "hub",
+        "x": 25,
+        "y": 888,
+        "width": 112,
+        "height": 170
+      },
+      {
+        "class": "sheet-frame a-card",
+        "x": 150,
+        "y": 911.609375,
+        "width": 465,
+        "height": 146.390625
+      },
+      {
+        "class": "clock",
+        "x": 174,
+        "y": 970.40625,
+        "width": 417,
+        "height": 67.59375
+      }
+    ],
+    "summedSurfaceFraction": 0.05560292938609182,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  },
+  {
+    "direction": "a",
+    "state": "open",
+    "textBustOverlaps": [],
+    "menuDestinations": [
+      "Your life",
+      "People",
+      "Money and property",
+      "Calendar",
+      "Journal",
+      "News",
+      "Politics",
+      "Jobs and study",
+      "Travel",
+      "Guide",
+      "Options"
+    ],
+    "tabsCount": 0,
+    "cardDocked": true,
+    "timeControlsInsideCard": true,
+    "menuChevronCount": 0,
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "hub",
+        "x": 25,
+        "y": 888,
+        "width": 112,
+        "height": 170
+      },
+      {
+        "class": "sheet-frame a-card",
+        "x": 150,
+        "y": 804.609375,
+        "width": 465,
+        "height": 253.390625
+      },
+      {
+        "class": "clock",
+        "x": 174,
+        "y": 970.40625,
+        "width": 417,
+        "height": 67.59375
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 559.90625,
+        "y": 645.84375,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 469.03125,
+        "y": 516.078125,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 349.46875,
+        "y": 412.140625,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 208.3125,
+        "y": 340.203125,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 53.9375,
+        "y": 284.5625,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 831.71875,
+        "y": 643.1875,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 740.796875,
+        "y": 460.828125,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 611.1875,
+        "y": 303.609375,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 449.53125,
+        "y": 179.5625,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 264.109375,
+        "y": 95.0625,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 64.4375,
+        "y": 54.4375,
+        "width": 190,
+        "height": 44
+      }
+    ],
+    "summedSurfaceFraction": 0.12394542552806713,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  },
+  {
+    "direction": "b",
+    "state": "rest",
+    "textBustOverlaps": [],
+    "menuDestinations": [],
+    "tabsCount": 0,
+    "cardDocked": true,
+    "timeControlsInsideCard": true,
+    "menuChevronCount": 0,
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "sheet-frame b-card",
+        "x": 150,
+        "y": 892.015625,
+        "width": 465,
+        "height": 165.984375
+      },
+      {
+        "class": "clock",
+        "x": 174,
+        "y": 950.8125,
+        "width": 417,
+        "height": 87.1875
+      },
+      {
+        "class": "hub",
+        "x": 25,
+        "y": 888,
+        "width": 112,
+        "height": 170
+      }
+    ],
+    "summedSurfaceFraction": 0.06393707652150848,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  },
+  {
+    "direction": "b",
+    "state": "open",
+    "textBustOverlaps": [],
+    "menuDestinations": [
+      "Your life",
+      "People",
+      "Money and property",
+      "Calendar",
+      "Journal",
+      "News",
+      "Politics",
+      "Jobs and study",
+      "Travel",
+      "Guide",
+      "Options"
+    ],
+    "tabsCount": 0,
+    "cardDocked": true,
+    "timeControlsInsideCard": true,
+    "menuChevronCount": 0,
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "sheet-frame b-card",
+        "x": 150,
+        "y": 779.640625,
+        "width": 465,
+        "height": 278.359375
+      },
+      {
+        "class": "clock",
+        "x": 174,
+        "y": 950.8125,
+        "width": 417,
+        "height": 87.1875
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 559.90625,
+        "y": 645.84375,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 469.03125,
+        "y": 516.078125,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 349.46875,
+        "y": 412.140625,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 208.3125,
+        "y": 340.203125,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 53.9375,
+        "y": 284.5625,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 831.71875,
+        "y": 643.1875,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 740.796875,
+        "y": 460.828125,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 611.1875,
+        "y": 303.609375,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 449.53125,
+        "y": 179.5625,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 264.109375,
+        "y": 95.0625,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 64.4375,
+        "y": 54.4375,
+        "width": 190,
+        "height": 44
+      },
+      {
+        "class": "hub",
+        "x": 25,
+        "y": 888,
+        "width": 112,
+        "height": 170
+      }
+    ],
+    "summedSurfaceFraction": 0.13348490397135418,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  }
+]

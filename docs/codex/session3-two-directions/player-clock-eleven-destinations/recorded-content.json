@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "name": "Brianna Kennedy",
+    "date": "Monday, January 5, 2026",
+    "time": "9:10 AM",
+    "home": "King Supply Company",
+    "backdrops": [
+      {
+        "testid": "scene-place-backdrop",
+        "src": "http://127.0.0.1:5344/art/backdrops/factory-floor__midday.jpg"
+      }
+    ],
+    "portrait": "<figure class=\"person-portrait person-portrait--small\" data-testid=\"person-portrait\" data-likeness=\"engine\" data-refusal=\"\"><span aria-hidden=\"true\" class=\"person-portrait-mark\" style=\"position: relative; overflow: hidden; flex-shrink: 0;\"><img class=\"engine-portrait\" alt=\"\" aria-hidden=\"true\" draggable=\"false\" data-testid=\"person-portrait-engine\" data-engine-recipe=\"feminine|average|7|20s30s-04|afro|blonde|sweater-slacks|standing|bottom=black|sweater=forest\" src=\"blob:http://127.0.0.1:5344/0bd16080-adec-410e-b1ea-f499c73de02c\" style=\"position: absolute; height: 342.954%; width: auto; max-width: none; top: -17.8947%; left: 50%; transform: translateX(-49.3164%); pointer-events: none;\"></span><figcaption><strong>Brianna Kennedy</strong></figcaption></figure>"
+  },
+  "facts": {
+    "age": "34",
+    "home": "Chicago, Illinois",
+    "work": "Sales representative at King Supply Company, since 2026.",
+    "household": "",
+    "family": "Your parents were Walter Kennedy and Kai Kennedy, in Chicago, Illinois. You grew up with 0 siblings."
+  },
+  "names": {
+    "parents": ["Walter Kennedy", "Kai Kennedy"],
+    "housemate": "",
+    "relationship": ""
+  },
+  "parentRows": [
+    {
+      "name": "Walter Kennedy",
+      "relationship": "your dad"
+    },
+    {
+      "name": "Kai Kennedy",
+      "relationship": "your mom"
+    }
+  ],
+  "place": {
+    "displayName": "Chicago, Illinois"
+  },
+  "sourceHead": "58468eccd118734fa52ad99f84aea6f32aecf7e9",
+  "stage": "Mockup-only browser overlays; actual rendered records/art, sheet-derived corners/icons, existing Kit13 action assets",
+  "referenceMain": "6048b1331",
+  "referenceSha256": "347c8e90d953229458e5eef34b497f4b109c09c3cc1ba5d79a7ba3f676f0f4c0"
+}
