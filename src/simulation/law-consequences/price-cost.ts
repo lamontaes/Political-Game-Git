@@ -22,6 +22,8 @@ import {
 } from "../governing/automatic-legislation";
 import { recordById, recordByStableKey } from "../history-index";
 import { lawEffectStamp } from "../law-effect-stamp";
+import { recordLawExposure } from "../law-exposure";
+import { periodsPerYear } from "../law-effects-noticed";
 import { resourceFlowTermsAt } from "../resource-queries";
 import { organizationProfileAt } from "../life-queries";
 import {
@@ -482,7 +484,7 @@ export function applyPriceCostConsequence(
   });
   if (!stamp)
     throw new Error("Price-cost requires an operative canonical law stamp");
-  return recordResourceFlowTerms(world, {
+  const repriced = recordResourceFlowTerms(world, {
     stableKey,
     resourceFlowId: flowId,
     effectiveAt: current.effectiveAt,
@@ -496,6 +498,28 @@ export function applyPriceCostConsequence(
     },
     supersedesTermsId: previous.id,
     lawEffectStamps: [stamp],
+  });
+  // The law's price change reaches the person who pays it: the saving (or the
+  // rise) per payment, named next to their pay.
+  const saved = previous.amount.minorUnits - resolved.value.value;
+  const periods = periodsPerYear(previous.cadenceKind);
+  const repricedTerms = recordByStableKey(
+    repriced.history.resourceFlowTerms,
+    stableKey,
+  );
+  if (!repricedTerms) return repriced;
+  return recordLawExposure(repriced, {
+    stableKey: `${stableKey}:exposure`,
+    personId: resolved.subject.id,
+    measureId: current.law.measureId,
+    channel: resolved.row.id === RENT_STABILIZATION_ROW.id ? "rent" : "benefit",
+    direction: saved >= 0 ? "gain" : "cost",
+    amount: money(
+      Math.abs(periods ? Math.round((saved * periods) / 12) : saved),
+      previous.amount.currency,
+    ),
+    cadence: periods ? "monthly" : "one-time",
+    sourceRecordId: repricedTerms.id,
   });
 }
 
