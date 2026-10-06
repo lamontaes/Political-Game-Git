@@ -1092,7 +1092,13 @@ function matterFromEvent(
   const family = tagValue(event, "matter-family:");
   const officeKey = tagValue(event, "office:");
   const deadline = tagValue(event, "deadline:");
-  if (!isFamily(family) || !officeKey || (!deadline && family !== "bill"))
+  const optionalBudget =
+    family === "budget" && event.tags.includes(BUDGET_DOLLARS_VERSION);
+  if (
+    !isFamily(family) ||
+    !officeKey ||
+    (!deadline && family !== "bill" && !optionalBudget)
+  )
     return null;
   const holderPersonId = event.participants.find(
     (participant) => participant.role === "agency:officeholder",
@@ -1138,7 +1144,9 @@ function matterFromEvent(
     deadline:
       family === "bill"
         ? (executiveWindow?.lastActionDate ?? null)
-        : makeIsoDate(deadline!),
+        : optionalBudget
+          ? null
+          : makeIsoDate(deadline!),
     title: text.title(
       family === "clemency"
         ? petitionerLabel(world, event)
@@ -1851,7 +1859,9 @@ function openMatter(
   const deadline =
     input.family === "bill"
       ? (executiveWindow?.lastActionDate ?? null)
-      : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
+      : input.family === "budget"
+        ? null
+        : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
   const text = FAMILY_TEXT[input.family];
   const title = text.title(
     input.titleSubject ??
@@ -1934,13 +1944,14 @@ function openMatter(
       effort: null,
       access: { kind: "private", personIds: [office.holderPersonId] },
       assignedPersonIds: [office.holderPersonId],
-      playerRequirement: "decision",
+      playerRequirement: input.family === "budget" ? "none" : "decision",
       waitingOnPersonIds: [],
       blocker: null,
       scheduledActivityId: null,
     });
     // A real bill lapses only through an executable, declared legal window.
-    if (input.family === "bill") return next;
+    // Dollar requests are optional planning; they have no invented action window.
+    if (input.family === "bill" || input.family === "budget") return next;
     return scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
       dueAt: deadline!,
@@ -3127,6 +3138,14 @@ export function governingDeadlineHandler(
   const matter = matterForDue(world, due);
   if (!matter || matter.status !== "open")
     return resolved(world, "The matter was already settled.");
+  if (
+    matter.family === "budget" &&
+    matter.openedEvent.tags.includes(BUDGET_DOLLARS_VERSION)
+  )
+    return resolved(
+      world,
+      "A dollar request has no compulsory action deadline.",
+    );
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office || office.holderPersonId !== matter.holderPersonId)
     return resolved(world, "The office changed hands before the deadline.");

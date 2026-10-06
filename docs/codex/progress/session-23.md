@@ -1,5 +1,18 @@
 # Session 23 executive track
 
+Part 4 is being composed for the ordered #2448, #2458, #2452 landings. Main
+`e591ffc637d1f6db84d2ff920e8662ce123202ed` is preserved in merge `916e2e62f`.
+The extra budget request initially broke the unchanged priority test by requiring
+a player decision. The repair makes dollar requests optional, without an invented
+deadline, and ignores an earlier candidate's saved budget deadline item. All 21
+focused budget, bill, mayor, source-window and priority tests pass; changed source
+and test compiler roots, lint and formatting pass. Configured typecheck's two press
+fixture errors reproduce independently on exact main; Session 25 supplied their
+repair for Session 20's #2470 composition. The new browser receipt is still pending.
+Earlier captures and failures below remain historical evidence, not current-head
+claims. Next: freeze and run the Terre Haute authored-seat budget route, publish
+its actual screenshot and record lines, then finish the ordered checked landings.
+
 Parts 1 and 2 are merged: #2286 mayor governing offices; #2360 shared bill desk.
 The first Part 2 browser refusal is retained. Its successful proof honored the
 canonical fourteen-day reading interval and used an explicitly controlled seat.

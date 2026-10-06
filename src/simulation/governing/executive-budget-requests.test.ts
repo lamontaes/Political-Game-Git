@@ -6,9 +6,13 @@ import {
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { city } from "../../../tests/fixtures/public-program-fixture";
 import { addDays, daysBetween, makeIsoDate } from "../dates";
-import { createFutureTransitionHandlerRegistry } from "../future-transitions";
+import {
+  createFutureTransitionHandlerRegistry,
+  scheduleFutureDueItem,
+} from "../future-transitions";
 import { money } from "../resources";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { workItemState } from "../time-work";
 import type { World } from "../types";
 import { advanceWorld } from "../world";
 import {
@@ -18,6 +22,8 @@ import {
 import {
   decideGoverningBudgetRequest,
   decideGoverningMatter,
+  GOVERNING_DEADLINE,
+  governingDeadlineHandler,
   governingMatterById,
   governingMatters,
   governingOfficeForPerson,
@@ -77,6 +83,48 @@ const input = {
 };
 
 describe("executive dollar requests", () => {
+  it("keeps an unanswered dollar request optional without a deadline or blocking another controlled role", () => {
+    const g = governorBudget();
+    expect(g.matter.deadline).toBeNull();
+    const work = g.world.history.workItems.find(
+      (item) => item.stableKey === `${g.matter.stableKey}:work`,
+    )!;
+    expect(workItemState(g.world, work.id)).toMatchObject({
+      playerRequirement: "none",
+      assignedPersonIds: [g.office.holderPersonId],
+    });
+    expect(
+      g.world.history.futureDueItems.some(
+        (item) =>
+          item.transitionKey === GOVERNING_DEADLINE &&
+          item.entityIds.includes(g.matter.id),
+      ),
+    ).toBe(false);
+    const observer: World = { ...g.world, control: { kind: "observer" } };
+    // An earlier candidate saved a deadline item for these tagged requests.
+    const withOldDeadline = scheduleFutureDueItem(observer, {
+      stableKey: `${g.matter.stableKey}:deadline`,
+      dueAt: addDays(observer.currentDate, 1),
+      transitionKey: GOVERNING_DEADLINE,
+      entityIds: [g.matter.id],
+      jurisdictionId: g.office.jurisdictionId,
+      provenance: { kind: "simulated", sourceEntityIds: [g.matter.id] },
+    });
+    const later = advanceWorld(
+      withOldDeadline,
+      1,
+      createFutureTransitionHandlerRegistry([
+        [GOVERNING_DEADLINE, governingDeadlineHandler],
+      ]),
+    );
+    const saved = deserializeWorld(serializeWorld(later));
+    expect(governingMatterById(saved, g.matter.id)).toMatchObject({
+      status: "open",
+      deadline: null,
+    });
+    expect(executiveBudgetRequests(saved)).toHaveLength(0);
+  });
+
   it("records the actual governor's amounts, completes its matter and survives reload without funding an account", () => {
     const g = governorBudget();
     expect(g.matter.options.map((entry) => entry.key)).toEqual([
