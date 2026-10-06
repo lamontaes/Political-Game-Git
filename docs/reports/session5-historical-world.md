@@ -86,6 +86,8 @@ Measured: the separate canonical Save/Continue check exhausted its 4 GB heap. It
 
 ## What remains open
 
+The later loading composition reported two new family and robbery-share calibration failures after receiving the household donor. They pass on unchanged main. Session 7 owns the bounded donor correctness repair; Session 5 keeps those household hunks read-only. The producer’s earlier focused pass does not clear these new consumer regressions. See the [consumer regression ruling](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6008532112).
+
 The populated five-year clock and final canonical save are measured. The two-minute cap failed. Save/Continue exhausted its 4 GB heap and exited with code 128; no result was produced. Browser acceptance and research-range checks remain unproved. The loading clip belongs to Session 7. No READY claim is made. The latest owner correction requires profiling and event-driven processing inside the player county as well as distant places. The targets remain under 120 seconds and a canonical save under 50 MB. The earlier coarse-only plan is superseded. The [profile-first receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6008485460) identifies the measured offenders before engine edits.
 
 Historical wage annual alignment and missing law observations remain estimates. They are labeled in developer records. Previous district boundaries are not reconstructed; institutional seat counts are dated, and missing political observations use labeled same-state estimates.
