@@ -2265,7 +2265,7 @@ function PlayingScreen({
   function goToTheFloorFor(bill: DocketBill) {
     const entry = openLegislativeBargaining(session.world, {
       playerPersonId: session.personId,
-      docketKey: bill.docketKey,
+      measureId: bill.measureId,
     });
     if (entry.kind === "unavailable") {
       setFloorNote(entry.reason);

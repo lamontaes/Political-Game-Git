@@ -98,6 +98,18 @@ describe("the production route and the developer fixture", () => {
     ).toBe(false);
   });
 
+  it("keeps authored Kentucky identifiers out of the production player route", () => {
+    for (const entry of [
+      "src/player/PlayerGame.tsx",
+      "src/presentation/legislative-bargaining-world.ts",
+    ]) {
+      const source = readFileSync(resolve(ROOT, entry), "utf8");
+      expect(source).not.toMatch(
+        /BARGAINING_BRIEF_SCENARIO_KEY|bargainingBriefSupports|PROGRAM_AMOUNT_MINOR_UNITS|REQUESTED_MATCH_PLACE_GEOID|LEGACY_ADOPTED_PROVISION_SUFFIX|PLACE_LABEL/,
+      );
+    }
+  });
+
   it("keeps the dev route itself outside the production spine", () => {
     // MeasureFloorView is the developer wrapper; only App's dev routing may
     // reach it. The production game screen must not.

@@ -1,5 +1,16 @@
 import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
+import { addSuppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import {
+  candidacyPackForJurisdiction,
+  searchLifePlaces,
+  stateJurisdictionForKey,
+} from "../simulation";
+import {
+  legislativePackForJurisdiction,
+  legislativeWorkKey,
+} from "../simulation/legislative-institutions";
 
 import {
   activeWorkRelationshipsAt,
@@ -26,6 +37,7 @@ import {
   applyLegislativeCommand,
   openLegislativeWork,
 } from "./legislation-world";
+import { fileDraftFromOffice } from "./legislation-docket";
 import { openLegislativeBargaining } from "./legislative-bargaining-world";
 import {
   availableConversationIntents,
@@ -533,10 +545,93 @@ describe("proof D — missing content fails closed, never borrows", () => {
 
   it("authors a sitting for exactly one legislature and says so", async () => {
     const { bargainingBriefSupports } =
-      await import("./legislative-bargaining-brief");
+      await import("./legislative-bargaining-fixture");
     expect(bargainingBriefSupports("kentucky")).toBe(true);
     for (const other of ["nebraska", "alaska", "kentucky-signage", ""]) {
       expect(bargainingBriefSupports(other)).toBe(false);
     }
+  });
+});
+
+describe("institutional bargaining entry across random states", () => {
+  const dynamicStatePlace = (seed: string) =>
+    drawRandomPlace(seed, (place) => {
+      const state = place.stateJurisdictionKey
+        ? stateJurisdictionForKey(place.stateJurisdictionKey)
+        : null;
+      const pack = state ? legislativePackForJurisdiction(state.id) : null;
+      return (
+        place.scope !== "state" &&
+        place.stateJurisdictionKey !== null &&
+        !!pack &&
+        legislativeWorkKey(pack).startsWith("institution:") &&
+        !!candidacyPackForJurisdiction(place.context.jurisdiction.id)
+      );
+    });
+
+  it.each([
+    "s30-random-dynamic-0",
+    "s30-random-dynamic-1",
+    "s30-random-dynamic-2",
+  ])("reads an actual docket bill in a new random-place game (%s)", (seed) => {
+    const place = dynamicStatePlace(seed);
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 34,
+      gender: "male",
+      pronouns: "he-him",
+      questionnaire: "skipped",
+    });
+
+    const seatPlace = searchLifePlaces("", 1, {
+      stateJurisdictionKey: place.stateJurisdictionKey!,
+      scope: "locality",
+    })[0]!;
+    const initialWorld = game.world.jurisdictions[
+      seatPlace.context.jurisdiction.id
+    ]
+      ? game.world
+      : {
+          ...game.world,
+          jurisdictions: {
+            ...game.world.jurisdictions,
+            [seatPlace.context.jurisdiction.id]: seatPlace.context.jurisdiction,
+          },
+          jurisdictionOrder: [
+            ...game.world.jurisdictionOrder,
+            seatPlace.context.jurisdiction.id,
+          ],
+        };
+    const seated = addSuppliedLegislativeSeat(
+      initialWorld,
+      game.playerPersonId,
+      place.stateJurisdictionKey!,
+      "house",
+      `session30:${seed}`,
+    );
+    const capabilities = resolvePlayerCapabilities(seated.world);
+    const scenarioKey = capabilities.legislativeScenarioKey!;
+    expect(scenarioKey.startsWith("institution:")).toBe(true);
+
+    const filed = fileDraftFromOffice(seated.world, {
+      playerPersonId: game.playerPersonId,
+      scenarioKey,
+      jurisdictionId: capabilities.legislativeJurisdictionId!,
+      familyKey: "broadband-access",
+      variantKey: "unserved-buildout",
+    });
+    const entry = openLegislativeBargaining(filed.world, {
+      playerPersonId: game.playerPersonId,
+      measureId: filed.bill.measureId,
+    });
+
+    expect(entry.kind).toBe("unavailable");
+    if (entry.kind === "unavailable") {
+      expect(entry.reason).toContain("is not on the floor yet");
+      expect(entry.reason).not.toMatch(/Kentucky|Ashland/i);
+    }
+    expect(filed.bill.measureId).toBeTruthy();
   });
 });
