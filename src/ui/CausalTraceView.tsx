@@ -735,15 +735,18 @@ export function DecisionDetails({
                     ? result.available
                       ? "available"
                       : "blocked"
-                    : "not recorded"}
+                    : "absent from saved evaluations"}
                 </td>
                 <td>{result?.finalRank ?? "unranked"}</td>
-                <td>{result?.preference ?? "not recorded"}</td>
+                <td>
+                  {result?.preference ??
+                    "no preference saved for this evaluation"}
+                </td>
                 <td>
                   {result
                     ? result.blockedByConstraintKeys.join(", ") ||
                       "none recorded"
-                    : "not recorded"}
+                    : "absent from saved evaluations"}
                 </td>
               </tr>
             );
