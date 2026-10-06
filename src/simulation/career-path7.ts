@@ -1,5 +1,4 @@
 import { addDays } from "./dates";
-/** Career content composes LIFE's canonical work, calendar and earned-pay writers. */
 import type {
   EntityId,
   IsoDate,
@@ -25,7 +24,6 @@ import {
 import { resourceFlowTermsAt } from "./resource-queries";
 import { recordWorldEvent } from "./world";
 import {
-  JOB_MARKET_PLACEHOLDER,
   JOB_TIMING,
   holdsWork,
   leaveFirstJobFor,
@@ -43,6 +41,18 @@ import {
   shiftPayAtHire,
 } from "./life-paths2";
 import type { LifePathResult } from "./life-paths2";
+
+/** Career content composes LIFE's canonical work, calendar and earned-pay writers. */
+/**
+ * The career route's recorded missed-start schedule. These values preserve the
+ * existing job-market timing: two days to classify a missed start, then a new
+ * start three to seven days after the employer follows up.
+ */
+const RECORDED_CAREER_START_FOLLOW_UP = {
+  missedStartGraceDays: 2,
+  followUpStartDays: { minimum: 3, maximum: 7 },
+} as const;
+
 export interface CareerTask {
   readonly id: string;
   readonly text: string;
@@ -550,7 +560,7 @@ function endOffer(
  */
 export function settleCareerOffers(w: World, personId: EntityId): World {
   let n = w;
-  const grace = JOB_MARKET_PLACEHOLDER.missedStartGraceDays;
+  const grace = RECORDED_CAREER_START_FOLLOW_UP.missedStartGraceDays;
   for (const r of w.history.workRelationships) {
     if (r.personId !== personId || !r.stableKey.startsWith("career-path7:"))
       continue;
@@ -595,7 +605,8 @@ export function settleCareerOffers(w: World, personId: EntityId): World {
         someoneKnownWorksAt(n, personId, r.organizationId)) ||
         !othersWaitingAt(n, personId, r.organizationId));
     if (callsBack) {
-      const { minimum, maximum } = JOB_MARKET_PLACEHOLDER.followUpStartDays;
+      const { minimum, maximum } =
+        RECORDED_CAREER_START_FOLLOW_UP.followUpStartDays;
       // The long end when the person has a job to leave first.
       const startAt = addDays(
         n.currentDate,

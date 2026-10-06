@@ -1476,8 +1476,8 @@ export function campaignWeeklyEvaluationHandler(
     .filter(
       (personId) => world.people[personId] && !isDeceased(world, personId),
     )
-    // Nobody campaigns from jail (UNRESEARCHED_JAIL_EFFECTS); they stay on
-    // the ballot and their support stands where it was.
+    // A recorded jail term makes the rival unavailable for campaign work; they
+    // stay on the ballot and their previously recorded support is unchanged.
     .filter((personId) => !jailTermOn(world, personId, weekStart))
     .sort();
   for (const rivalId of rivals) {
