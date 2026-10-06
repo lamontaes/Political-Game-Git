@@ -8,7 +8,7 @@
   "corpusId": "storm-events-2000-2024",
   "corpusPath": "data/source/storm-events-2000-2024/corpus.json",
   "coverage": {
-    "boundedSampleReason": "The episodes array is NOT the whole window. It is every episode of a contiguous recent sub-window, complete within that sub-window. It is not a sample of 2000-2024 and must not be counted as one. Use counts, monthlyCatalog and stateFootprintProfile for anything that needs the whole window.",
+    "boundedSampleReason": "The episodes array covers only a contiguous recent sub-window and contains every episode within that bounded period. It does not represent the 2000–2024 window and must not be counted as though it does. Use counts, monthlyCatalog and stateFootprintProfile for anything that needs the whole window.",
     "counts": {
       "countyRowsKept": 522662,
       "detailRowsRead": 1520489,

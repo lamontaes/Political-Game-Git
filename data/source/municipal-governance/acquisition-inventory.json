@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "Exact cited URLs extracted from municipal portions of 43A and the complete 44/45/46/92I cargo. Source roots, retrieval success and research labels do not establish operative law.",
   "inputClass": "evidence-inventory",
-  "rightsPolicy": "Capture rights remain UNKNOWN until individually reviewed. This inventory grants no production capability.",
+  "rightsPolicy": "Each artifact requires an individual rights review before it can receive a recorded capture-rights disposition. This evidence inventory grants no production capability.",
   "retrieved": 222,
   "failed": 69,
   "artifacts": [
