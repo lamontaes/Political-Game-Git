@@ -517,67 +517,71 @@ describe("saved comparable employer cash reader", () => {
     ]);
   });
 
-  it("opens a random actual game with recorded employer cash and pays wages during its first 14 days", { timeout: 180000 }, () => {
-    const seed = "standby4-a60-comparable-opening-20261002";
-    const setup = observerSetup(seed);
-    const session = generateOpeningLife(
-      prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
-    );
-    expect(session.game).toBeDefined();
-    const world = session.game!.world;
-    const employerIds = new Set<EntityId>(
-      world.history.resourceFlows.flatMap((flow) =>
-        flow.basisKind === "compensation:work" &&
-        flow.source.kind === "organization"
-          ? [flow.source.organizationId]
-          : [],
-      ),
-    );
-    const target = world.history.organizations.find(
-      (organization) =>
-        employerIds.has(organization.id) &&
-        world.history.organizationProfiles.some(
-          (profile) =>
-            profile.organizationId === organization.id &&
-            profile.classification.startsWith("enterprise:"),
+  it(
+    "opens a random actual game with recorded employer cash and pays wages during its first 14 days",
+    { timeout: 180000 },
+    () => {
+      const seed = "standby4-a60-comparable-opening-20261002";
+      const setup = observerSetup(seed);
+      const session = generateOpeningLife(
+        prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
+      );
+      expect(session.game).toBeDefined();
+      const world = session.game!.world;
+      const employerIds = new Set<EntityId>(
+        world.history.resourceFlows.flatMap((flow) =>
+          flow.basisKind === "compensation:work" &&
+          flow.source.kind === "organization"
+            ? [flow.source.organizationId]
+            : [],
         ),
-    );
-    expect(target).toBeDefined();
-    const cash = resourcePositionAt(
-      world,
-      { kind: "organization", organizationId: target!.id },
-      USD,
-    );
-    expect(cash!.liquidBalance.minorUnits).toBeGreaterThan(0);
-    const later = advanceWorld(world, 14);
-    expect(later.currentDate).toBe(addDays(world.currentDate, 14));
-    const flowIds = new Set(
-      world.history.resourceFlows
-        .filter((flow) => flow.basisKind === "compensation:work")
-        .map((flow) => flow.id),
-    );
-    const paid = later.history.resourceTransferOutcomes.filter(
-      (outcome) =>
-        flowIds.has(outcome.resourceFlowId) &&
-        outcome.occurredAt > world.currentDate &&
-        outcome.transferredAmount.minorUnits > 0,
-    );
-    expect(paid.length).toBeGreaterThan(0);
-    const amountPaid = paid.reduce(
-      (sum, outcome) => sum + outcome.transferredAmount.minorUnits,
-      0,
-    );
-    process.stdout.write(
-      JSON.stringify({
-        receipt: "A60 funded opening and 14 days",
-        seed,
-        placeKey: setup.placeKey,
-        organizationId: target!.id,
-        openingCashMinor: cash!.liquidBalance.minorUnits,
-        date: later.currentDate,
-        paidOutcomes: paid.length,
-        amountPaidMinor: amountPaid,
-      }) + "\n",
-    );
-  });
+      );
+      const target = world.history.organizations.find(
+        (organization) =>
+          employerIds.has(organization.id) &&
+          world.history.organizationProfiles.some(
+            (profile) =>
+              profile.organizationId === organization.id &&
+              profile.classification.startsWith("enterprise:"),
+          ),
+      );
+      expect(target).toBeDefined();
+      const cash = resourcePositionAt(
+        world,
+        { kind: "organization", organizationId: target!.id },
+        USD,
+      );
+      expect(cash!.liquidBalance.minorUnits).toBeGreaterThan(0);
+      const later = advanceWorld(world, 14);
+      expect(later.currentDate).toBe(addDays(world.currentDate, 14));
+      const flowIds = new Set(
+        world.history.resourceFlows
+          .filter((flow) => flow.basisKind === "compensation:work")
+          .map((flow) => flow.id),
+      );
+      const paid = later.history.resourceTransferOutcomes.filter(
+        (outcome) =>
+          flowIds.has(outcome.resourceFlowId) &&
+          outcome.occurredAt > world.currentDate &&
+          outcome.transferredAmount.minorUnits > 0,
+      );
+      expect(paid.length).toBeGreaterThan(0);
+      const amountPaid = paid.reduce(
+        (sum, outcome) => sum + outcome.transferredAmount.minorUnits,
+        0,
+      );
+      process.stdout.write(
+        JSON.stringify({
+          receipt: "A60 funded opening and 14 days",
+          seed,
+          placeKey: setup.placeKey,
+          organizationId: target!.id,
+          openingCashMinor: cash!.liquidBalance.minorUnits,
+          date: later.currentDate,
+          paidOutcomes: paid.length,
+          amountPaidMinor: amountPaid,
+        }) + "\n",
+      );
+    },
+  );
 });
