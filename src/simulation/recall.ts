@@ -508,14 +508,16 @@ export function openPetitionAsksFor(
     personId,
   );
   if (requests.length === 0) return [];
-  const events = [
-    RECALL_PETITION_STARTED,
-    RECALL_PETITION_CLOSED,
-    RECALL_ELECTION_HELD,
-    PETITION_ASKED,
-    PETITION_SIGNED,
-    PETITION_ANSWERED,
-  ]
+  const events = (
+    [
+      RECALL_PETITION_STARTED,
+      RECALL_PETITION_CLOSED,
+      RECALL_ELECTION_HELD,
+      PETITION_ASKED,
+      PETITION_SIGNED,
+      PETITION_ANSWERED,
+    ] as const
+  )
     .flatMap((type) =>
       recordsWithFieldValue(world.history.events, "type", type),
     )
