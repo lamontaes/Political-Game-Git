@@ -1,6 +1,6 @@
-# Session 132: committee referral landed; proud current-main checks next
+# Session 132: committee referral landed; proud current-main checks passed
 
-The committee report command now follows the clock's referral and canonical NPC assignment list when its caller list is incomplete. Its focused regressions passed and A78 is merged. Proud is now composed with actual main; its fresh changed-file checks are next. The remaining trait queue is preserved separately.
+The committee report command now follows the clock's referral and canonical NPC assignment list when its caller list is incomplete. Its focused regressions passed and A78 is merged. Proud is now composed with actual main; its fresh changed-file checks passed at `8975429004ed254539a883b871bd6c3600af8abb`. The remaining trait queue is preserved separately.
 
 ## Current branch
 
@@ -10,7 +10,7 @@ Measured A78 [#2737 merged](https://github.com/lamontaes/Political-Game-Git/pull
 
 A78's controlled caller checks used canonical introduction, referral, hearing, and report writers. The command was `npx vitest run src/presentation/legislation-session-committee-report.test.ts src/presentation/legislation-session-hearing-calendar.test.ts --reporter=verbose`. House/Senate contrasting authored vote plans, valid saved referral precedence, NPC roster preservation, save/reload, and uncompiled refusal are checked (src/presentation/legislation-session-committee-report.test.ts:116). These are controlled caller fixtures, not elapsed-world legislative outcomes.
 
-A78 changed-source ESLint/Prettier, whitespace, zero-dice, and its release comparison passed. Proud's newly composed head still needs its own changed-source checks; no old CI or test result transfers. No full repository CI, runtime, art, or source acceptance is inferred. [The current CTO instruction](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020443625) requires changed tests, ESLint, and Prettier for merging. It explicitly removes waiting for typecheck or GitHub checks.
+A78 changed-source ESLint/Prettier, whitespace, zero-dice, and its release comparison passed. Proud's fresh composition passed 106 of 106 tests in six files (102.32 seconds), plus changed-source ESLint/Prettier, whitespace and its release comparison. These are new local receipts; no old CI result transfers. No full repository CI, runtime, art, or source acceptance is inferred. [The current CTO instruction](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020443625) requires changed tests, ESLint, and Prettier for merging. It explicitly removes waiting for typecheck or GitHub checks.
 
 ## Preserved traits
 
@@ -22,9 +22,9 @@ Proud #2729 remains published at `62f8ab85140d46100691626339dba874901108d9`; no 
 
 ```sh
 cd /workspace/session132
-npx vitest run src/simulation/traits/effects/facet-proud.test.ts src/simulation/personality-trait-registry.test.ts src/simulation/governing/member-vote-decision.test.ts src/simulation/legislative-member-decisions.test.ts src/simulation/campaign-life-activities.test.ts src/simulation/press-interview-producers.test.ts --reporter=verbose
+gh api repos/lamontaes/Political-Game-Git/pulls/2729 --jq '{state,merged,head:.head.sha}'
 ```
 
-Commit this actual marker conflict resolution, execute proud's changed tests and changed-file ESLint/Prettier at its new exact head, publish fast-forward, and post READY per the current CTO rule. Land one trait at a time; create humble from current main and cherry-pick `c55abb8331d19fbbabca8fb6c87a9e55745bb655` only after proud's actual landing. Continue ordered leaves while preserving donor and mischievous boundaries. A78 covers only AU-05(a); parts (b)/(c) remain outside this work.
+Publish this documentation update by fast-forward and post READY per the current CTO rule. The tested production sources are unchanged by this marker correction. If proud is already merged, do not issue a duplicate merge. Land one trait at a time; create humble from current main and cherry-pick `c55abb8331d19fbbabca8fb6c87a9e55745bb655` only after proud's actual landing. Continue ordered leaves while preserving donor and mischievous boundaries. A78 covers only AU-05(a); parts (b)/(c) remain outside this work.
 
 Runtime: reuse this sole writer and installed dependencies; `/workspace/Political-Game-Git` remains read-only. No reset, clean, stash, new clone, deletion, or force-push. Use `/workspace/.npm-cache`, `OCD_STORAGE_STATE_DIR=/workspace/.ocd-storage`, and supported additional network permission. The storage override preserves both checkouts on the 32 GiB filesystem. Exact Git blob/tree/commit hashes are published through Git data API because smart-HTTP push failed; fast-forward refs use force=false.
