@@ -1,0 +1,26 @@
+{
+  "schema": "law-person-landing-projection/v1",
+  "supported": [
+    {
+      "questionKey": "us-policy-positions:government-operations.council-term-limits",
+      "sourceEventType": "local.officeholder-retired",
+      "sourceTag": "barred:term-limit",
+      "personSelector": "sole-recorded-involved-person",
+      "landedFact": "actual-candidacy-blocked",
+      "channel": "election-rule",
+      "direction": "cost",
+      "amount": null,
+      "cadence": null
+    }
+  ],
+  "unsupported": [
+    {
+      "questionKey": "us-policy-positions:government-operations.independent-ward-commission",
+      "reason": "The saved map event does not yet distinguish the specific person's changed eligibility from the general redistricting result."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.all-mail-voting",
+      "reason": "No saved per-voter ballot-delivery or receipt record exists to support a named-person landing."
+    }
+  ]
+}

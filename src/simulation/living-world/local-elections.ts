@@ -14,6 +14,7 @@ import {
   COUNCIL_TERM_LIMIT_QUESTION,
 } from "./local-council-term-limits";
 import { lawInForce } from "../governing/law-in-force";
+import { applyLocalElectionLawLandings } from "../law-consequences/modules/election-local-landings";
 import {
   lawEffectStamp,
   type LawEffectStampedRecord,
@@ -964,6 +965,12 @@ export function localElectionFilingHandler(
           tags: [`unit:${unit.id}`, `seat:${seat}`, "barred:term-limit"],
           summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: ${barred}`,
         });
+        if (stamp) {
+          next = applyLocalElectionLawLandings(
+            next,
+            next.history.events[next.history.events.length - 1]!.id,
+          );
+        }
       }
       const decided = barred
         ? { world: next, seeks: false }
