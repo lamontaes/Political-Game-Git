@@ -204,7 +204,7 @@ export function validateFiscalAuthorityCorpus(
         findings.push({
           severity: "warning",
           code: "fiscal/conflict-not-representable",
-          message: `${record.recordId} was recorded as conflicting and is carried UNKNOWN: a conflict needs claims from two distinct artifacts, and one matrix is one artifact.`,
+          message: `${record.recordId} was recorded as conflicting and is carried unresolved: a conflict needs claims from two distinct artifacts, and one matrix is one artifact.`,
           recordId: record.recordId,
         });
       }
@@ -220,7 +220,7 @@ export function validateFiscalAuthorityCorpus(
       findings.push({
         severity: "warning",
         code: "fiscal/conflict-not-representable",
-        message: `${record.recordId} was recorded as conflicting and is carried UNKNOWN: a conflict needs claims from two distinct artifacts, and one matrix is one artifact.`,
+        message: `${record.recordId} was recorded as conflicting and is carried unresolved: a conflict needs claims from two distinct artifacts, and one matrix is one artifact.`,
         recordId: record.recordId,
       });
     }
