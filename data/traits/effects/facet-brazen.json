@@ -1,0 +1,13 @@
+[
+  {
+    "decision": "contact.answer",
+    "leans": [
+      {
+        "option": "accept",
+        "trait": "personality-v1:facet-brazen",
+        "pole": "high",
+        "explanation": "They are not put off by a face-to-face meeting."
+      }
+    ]
+  }
+]
