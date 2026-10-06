@@ -372,9 +372,8 @@ export function PersonCard({
               <p
                 className="pg-person-card-note"
                 data-testid="person-card-presence-note"
-              >
-                Away from your current location.
-              </p>
+                data-presence="away"
+              />
             )}
           </div>
         </div>
@@ -455,8 +454,9 @@ export function PersonCard({
               <p
                 className="pg-person-card-note"
                 data-testid="dossier-facts-empty"
+                data-problem="no-facts-known"
               >
-                You don&rsquo;t know much about {dossier.shortName} yet.
+                {dossier.shortName}
               </p>
             ) : null}
             {!expanded && onExpand && (dossier.details.length > 3 || true) ? (
