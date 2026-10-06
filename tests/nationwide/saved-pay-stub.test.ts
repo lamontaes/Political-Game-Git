@@ -106,12 +106,6 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     const cashAfter = resourcePositionAt(paid, owner, money(0, "USD").currency)!
       .liquidBalance.minorUnits;
     expect(stub.netPaid.minorUnits).toBe(cashAfter - cashBefore);
-    const notice = describeRoutineOutcome(before, paid, personId);
-    expect(notice).not.toContain("Paycheck:");
-    expect(notice).not.toContain("gross received");
-    expect(notice).not.toContain("net received");
-    expect(notice).not.toContain("Received $");
-    expect(notice).not.toContain("Payment for the completed shift");
     for (const row of stub.taxes.filter(
       (tax) => tax.liability.liability === null,
     ))

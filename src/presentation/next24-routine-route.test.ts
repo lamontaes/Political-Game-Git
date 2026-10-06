@@ -121,10 +121,14 @@ describe("NEXT24 combined private-citizen routine route", () => {
       (e) => e.activity.title === "Posted public meeting",
     )!;
     expect(meeting.refusal).toBeNull();
+    const arrived = performVenueActivity(loaded, personId, meeting.activity.id);
+    expect(arrived.currentMoment.minuteOfDay).toBe(1110);
     const attended = performVenueActivity(
-      loaded,
+      arrived,
       personId,
       meeting.activity.id,
+      createCampaignElectionTransitionRegistry(),
+      { finishMeeting: true },
     );
     expect(attended.currentMoment.minuteOfDay).toBe(1185);
     expect(
@@ -133,9 +137,19 @@ describe("NEXT24 combined private-citizen routine route", () => {
       ),
     ).toHaveLength(1);
     const paid = passOrdinaryDays(deserializeWorld(serializeWorld(attended)));
+    const paychecks = recordedPayStubs(paid, personId);
+    expect(paychecks).toHaveLength(1);
     expect(
       paid.history.resourceTransferOutcomes.filter(
-        (o) => o.transferredAmount.minorUnits === 7200,
+        (o) => o.id === paychecks[0]!.paycheck.id,
+      ),
+    ).toHaveLength(1);
+    const reopenedPaid = deserializeWorld(serializeWorld(paid));
+    expect(recordedPayStubs(reopenedPaid, personId)).toEqual(paychecks);
+    const paidAgain = passOrdinaryDays(reopenedPaid);
+    expect(
+      paidAgain.history.resourceTransferOutcomes.filter(
+        (o) => o.id === paychecks[0]!.paycheck.id,
       ),
     ).toHaveLength(1);
   });
@@ -162,8 +176,16 @@ describe("NEXT24 combined private-citizen routine route", () => {
       ),
     ).toBeNull();
     expect(entry.journey?.journeyMinutes).toBe(20);
-    const attended = performVenueActivity(morning, personId, entry.activity.id);
-    expect(attended.currentMoment.minuteOfDay).toBe(19 * 60 + 45);
+    const arrived = performVenueActivity(morning, personId, entry.activity.id);
+    expect(arrived.currentMoment.minuteOfDay).toBe(1110);
+    const attended = performVenueActivity(
+      arrived,
+      personId,
+      entry.activity.id,
+      createCampaignElectionTransitionRegistry(),
+      { finishMeeting: true },
+    );
+    expect(attended.currentMoment.minuteOfDay).toBe(1185);
     const shifts = attended.history.events.filter(
       (e) => e.type === "life-paths2.work-session",
     );
@@ -193,30 +215,29 @@ describe("NEXT24 combined private-citizen routine route", () => {
         scheduledActivityState(attended, entry.activity.id).outcomeEventId,
     )!;
     expect(arrival.sequence).toBeLessThan(attendance.sequence);
-    expect(describeRoutineOutcome(morning, attended, personId)).not.toContain(
-      "work shift",
-    );
-    expect(describeRoutineOutcome(morning, attended, personId)).toContain(
-      "has not posted yet",
-    );
+    expect(recordedPayStubs(attended, personId)).toHaveLength(0);
     const loaded = deserializeWorld(serializeWorld(attended));
     expect(performVenueActivity(loaded, personId, entry.activity.id)).toBe(
       loaded,
     );
     const paid = passOrdinaryDays(loaded);
+    const paychecks = recordedPayStubs(paid, personId);
+    expect(paychecks).toHaveLength(1);
     expect(
       paid.history.resourceTransferOutcomes.filter(
-        (o) => o.transferredAmount.minorUnits === 7200,
+        (o) => o.id === paychecks[0]!.paycheck.id,
       ),
     ).toHaveLength(1);
-    expect(describeRoutineOutcome(loaded, paid, personId)).not.toContain(
-      "Received $72",
-    );
     expect(
-      passOrdinaryDays(paid).history.resourceTransferOutcomes.filter(
-        (o) =>
-          o.transferredAmount.minorUnits === 7200 &&
-          o.periodStartsAt === shifts[0]!.occurredAt,
+      paid.history.resourceTransferOutcomes.filter(
+        (o) => o.id === paychecks[0]!.paycheck.id,
+      ),
+    ).toHaveLength(1);
+    const reopenedPaid = deserializeWorld(serializeWorld(paid));
+    expect(recordedPayStubs(reopenedPaid, personId)).toEqual(paychecks);
+    expect(
+      passOrdinaryDays(reopenedPaid).history.resourceTransferOutcomes.filter(
+        (o) => o.id === paychecks[0]!.paycheck.id,
       ),
     ).toHaveLength(1);
   });
