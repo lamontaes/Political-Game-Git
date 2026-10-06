@@ -19,13 +19,14 @@ LW-28 library and parks saved service effects. Draft PR #2460 is open from `code
 ## Blockers and next work
 
 - Wait for Session20's receiver PR to land before claiming runtime admission; the proof-only composition is not runtime admission.
-- Identify the owner of the public-program producer hook immediately after `recordCapacityOutturn`; `POOL.md` currently has no owner entry for this writer. Do not edit its file.
+- Session20 is the confirmed owner of the post-outturn registration writer after both `recordCapacityOutturn` call sites (CTO comment 6014071812). The exact typed callback/receiver API is pending; it has been requested on #2424 comment 6014106901. Do not edit `public-program.ts` or guess a callback.
+- PR #2456 is still open on its own branch. Keep #2460 based on current `main`; after #2456 actually lands on `main`, rebase #2460 there and remove the inherited Vite/presentation glob registry hunk. Session20 then owns generated manifest admission and the 10-kind runtime test.
 - Add supported park proximity, opening-state, and worker effects only when the relevant owner supplies the required recorded fields and data. Actual area exposure currently follows operational outturns by recorded residence; visit notices remain tied to actual visitor receipts.
 - Changed proof: parks and service-delivery suites passed (229/229), `npm run typecheck` passed including test import checking, and changed-file ESLint/Prettier passed. Random-place new-game/save-continue proof is still pending.
-- Publish the current cohesive candidate and updated blocker evidence when GitHub access is available.
+- Candidate is published on PR #2460; no merge or build. Continue saved outturn integration after the typed receiver API lands.
 
 ## Next command
 
 `git status --short --branch`
 
-Then run the focused parks tests and typecheck; publish the candidate when GitHub access is available. Do not edit Session20’s shared registry or merge/build.
+Then obtain Session20's typed receiver API, finish the outturn hook integration, and complete random-place new-game/save-continue proof after actual main landing and manifest admission. Do not edit Session20's shared registry or merge/build.
