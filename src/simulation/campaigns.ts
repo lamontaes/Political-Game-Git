@@ -1,4 +1,5 @@
 import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import { addCampaignHelper } from "./campaign-helpers";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
@@ -798,37 +799,6 @@ export function fileCampaign(
   const candidateWorkRelationshipId = lastWorkRelationshipId(world);
 
   const staffWorkRelationshipIds: EntityId[] = [];
-  for (const staffPersonId of staffPersonIds) {
-    world = createWorkRelationship(world, {
-      stableKey: `${input.stableKey}:work:staff:${staffPersonId}`,
-      personId: staffPersonId,
-      organizationId,
-      startedAt: world.currentDate,
-      kind: "volunteer:campaign-staff",
-      compensation: "unpaid",
-      authority: "shared",
-      dependency: "partly-dependent",
-      economicRisk: "organization-borne",
-      provenance: {
-        kind: "authored",
-        note: "Somebody who agreed to help, recorded as the work it is.",
-      },
-      initialRole: {
-        title: "Campaign volunteer",
-        occupationClassification: "service:campaign-volunteer",
-        locationJurisdictionId: input.jurisdictionId,
-        timeDemand: {
-          expectedWeekly: { minimumHours: 2, maximumHours: 12 },
-          attention: "moderate",
-          concurrency: "partly-concurrent",
-          scheduleRigidity: "flexible",
-          interruptibility: "interruptible",
-          locationJurisdictionId: input.jurisdictionId,
-        },
-      },
-    });
-    staffWorkRelationshipIds.push(lastWorkRelationshipId(world));
-  }
 
   const candidate = inputWorld.people[input.candidatePersonId]!;
   world = recordWorldEvent(world, {
@@ -888,7 +858,7 @@ export function fileCampaign(
     "campaign",
     `${world.id}:${input.stableKey}`,
   );
-  const campaignRecord: CampaignRecord = {
+  let campaignRecord: CampaignRecord = {
     id: campaignId,
     stableKey: input.stableKey,
     sequence: world.history.nextSequence,
@@ -935,6 +905,15 @@ export function fileCampaign(
       campaignStates: [...(world.history.campaignStates ?? []), initialState],
     },
   };
+  for (const staffPersonId of staffPersonIds) {
+    world = addCampaignHelper(world, {
+      campaignId,
+      personId: staffPersonId,
+      role: "volunteer",
+      pay: null,
+    });
+  }
+  campaignRecord = campaignById(world, campaignId)!;
   assertWorldIntegrity(world);
   world = recordInitialSupport(world, campaignRecord);
   assertWorldIntegrity(world);
