@@ -1,5 +1,6 @@
 import { measureById } from "./legislation";
 import { measureProvisions } from "./legislative-politics";
+import { publicFaceOfPart, whoCaresAbout } from "./provision-public-face";
 import { rulePackById } from "./legislature-rule-packs";
 import { chamberByKey, nextFloorStageKey } from "./legislature-rules";
 import type {
@@ -254,6 +255,60 @@ export function stancesFromVote(
         ]
       : [],
   );
+}
+
+/** A vote part read for one member and the electorate of the bill's place. */
+export interface VoteReadingPart {
+  readonly part: VoteBundlePart;
+  readonly publicFace: ReturnType<typeof publicFaceOfPart>;
+  readonly whoCares: ReturnType<typeof whoCaresAbout> | null;
+  /** Null when this part names no catalog question or the member took no side. */
+  readonly stance: "for" | "against" | null;
+}
+
+/**
+ * Read a saved roll call as its public parts, local views and one member's
+ * stance. This is a pure reconstruction from the vote bundle and existing
+ * belief records; it creates no new history.
+ */
+export function voteReadingsOf(
+  world: World,
+  voteId: EntityId,
+  personId: EntityId,
+): readonly VoteReadingPart[] {
+  const vote = (world.history.legislativeVotes ?? []).find(
+    (row) => row.id === voteId,
+  );
+  if (!vote) return [];
+  const disposition = vote.dispositions.find(
+    (row) => row.personId === personId,
+  )?.disposition;
+  if (!disposition) return [];
+  const bundle = voteBundle(world, vote);
+  const measure = measureById(world, vote.measureId);
+  const stanceByPart = new Map(
+    stancesFromVote(bundle, disposition).map(({ part, stance }) => [
+      part,
+      stance,
+    ]),
+  );
+  return bundle.parts.map((part) => {
+    const publicFace = publicFaceOfPart(world, part);
+    return {
+      part,
+      publicFace,
+      whoCares:
+        publicFace.propositionId && measure
+          ? whoCaresAbout(
+              world,
+              publicFace.propositionId,
+              measure.jurisdictionId,
+              vote.takenAt,
+            )
+          : null,
+      stance: stanceByPart.get(part) ?? null,
+    };
+  });
 }
 
 /**
