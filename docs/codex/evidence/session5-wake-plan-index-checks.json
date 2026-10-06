@@ -1,0 +1,50 @@
+{
+  "phase": "P1",
+  "piece": "Measured wake-plan index repair",
+  "producerCheckedSource": "2c43e97ba8c61d941e9ef856faa3f2316b714620",
+  "receiverCheckedSource": "91640c45d2e18884236231cd96a58a2228b6fd88",
+  "configuredTypechecks": [
+    {
+      "scope": "producer",
+      "exec": 57189,
+      "exit": 0,
+      "output": "\n> political-life-rpg@0.4.0 typecheck\n> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts\n\ntypecheck-test-imports: 800 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 83, src/presentation 534, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).\n"
+    },
+    {
+      "scope": "receiver",
+      "exec": 9171,
+      "exit": 0,
+      "output": "\n> political-life-rpg@0.4.0 typecheck\n> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts\n\ntypecheck-test-imports: 800 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 83, src/presentation 534, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).\n"
+    }
+  ],
+  "receiverFocused": {
+    "exec": 81869,
+    "exit": 0,
+    "passed": 22,
+    "files": 4,
+    "log": "/tmp/session5-wake-index-916-focused.log"
+  },
+  "syntheticReaderComparison": {
+    "baselineSource": "04e3eb7b5813be7fd481940c3b196bd6c73ee783",
+    "seed": "session6-birth-resident-handoff",
+    "pack": "us-il-general-assembly-v1:candidacy",
+    "eventRows": 100001,
+    "syntheticIrrelevantRows": 100000,
+    "wakes": 12,
+    "legacyMs": 85.38425700000062,
+    "indexedColdMs": 33.787464,
+    "indexedWarm10Ms": 30.81098800000018,
+    "equivalent": true,
+    "limitations": [
+      "Read-only plan microbenchmark with synthetic irrelevant history; not annual speed or populated boundary comparison",
+      "Legacy full source retained with only absolute import rewrites; canonical writers never dispatched"
+    ]
+  },
+  "releaseCheckPriorFailure": "Missing release declaration title; corrected documentation only after both configured typing runs terminal",
+  "codeReview": "Existing civic_report_reviewer PASS narrow evidence/repair scope; no history deletion",
+  "annualOrReloadStarted": false,
+  "limitations": [
+    "Final publication metadata adds only release title and check receipt; source/config/test bytes remain the checked bytes",
+    "Populated profile is baseline04e3; no populated candidate timing inferred from synthetic microbenchmark"
+  ]
+}
