@@ -45,6 +45,8 @@ import {
 } from "./decisions";
 import { recordGoalState, createMindProvenance } from "./mind";
 import { personName } from "./people";
+import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { favorStandingBetween } from "./favors";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordPublicPosition } from "./politics";
 import { currentHistoricalCutoff, publicPositionAtDate } from "./queries";
@@ -1104,6 +1106,76 @@ function npcAnswers(world: World, offerEventId: EntityId): World {
 /* Found out                                                                   */
 /* -------------------------------------------------------------------------- */
 
+/** Reasons a mogul weighs before exposing a broken deal. The accepted payment
+ * and broken promise are shared facts; relationship and recorded temperament
+ * vary by person. */
+export function mogulExposureConsiderations(
+  world: World,
+  mogulPersonId: EntityId,
+  officialPersonId: EntityId,
+  key: string,
+): readonly DecisionConsideration[] {
+  const relationship = favorStandingBetween(
+    world,
+    mogulPersonId,
+    officialPersonId,
+  );
+  return [
+    {
+      stableKey: `${key}:paid-for-nothing`,
+      optionKey: "go-public",
+      sourceType: "context:unkept-deal",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation: "They paid for a stance and never got it.",
+      sourceRefs: [],
+    },
+    ...(relationship.receiverDebt === "none"
+      ? []
+      : [
+          {
+            stableKey: `${key}:relationship-with-target`,
+            optionKey: "let-it-go",
+            sourceType: "context:relationship" as const,
+            direction: "supports" as const,
+            importance: "slight" as const,
+            confidence: "medium" as const,
+            explanation:
+              "They have an ongoing personal obligation to the official.",
+            sourceRefs: [],
+          },
+        ]),
+    ...traitConsiderations(world, mogulPersonId, key, [
+      {
+        trait: "conflict",
+        pole: "high",
+        optionKey: "go-public",
+        explanation: "They press a dispute instead of smoothing it over.",
+      },
+      {
+        trait: "sociability",
+        pole: "high",
+        optionKey: "go-public",
+        explanation: "They are willing to bring the dispute to other people.",
+      },
+      {
+        trait: "risk",
+        pole: "high",
+        optionKey: "go-public",
+        explanation:
+          "They are willing to take the chance of admitting their own role.",
+      },
+      {
+        trait: "risk",
+        pole: "low",
+        optionKey: "let-it-go",
+        explanation: "They avoid the risk of admitting their own role.",
+      },
+    ]),
+  ];
+}
+
 /**
  * A deal whose stance never came. The mogul paid and got nothing, and knows
  * exactly what they paid for; they decide for themselves whether to say so
@@ -1117,7 +1189,14 @@ function reviewAcceptedDeals(world: World): World {
     if (offer.kind !== "deal" || offer.state !== "accepted") continue;
     if (!offer.deliverBy || offer.deliverBy > next.currentDate) continue;
     if (!offer.occurrenceId || !isAlive(next, offer.mogulPersonId)) continue;
+    next = ensurePeopleTraits(next, [offer.mogulPersonId]);
     const key = `mogul-broken:${offer.eventId}`;
+    const considerations = mogulExposureConsiderations(
+      next,
+      offer.mogulPersonId,
+      offer.toPersonId,
+      key,
+    );
     const evaluation = evaluateDecision(next, {
       stableKey: `${key}:decision`,
       decisionType: "mogul.deal-broken",
@@ -1142,30 +1221,9 @@ function reviewAcceptedDeals(world: World): World {
         },
       ],
       constraints: [],
-      considerations: [
-        {
-          stableKey: "mogul:paid-for-nothing",
-          optionKey: "go-public",
-          sourceType: "context:unkept-deal",
-          direction: "supports",
-          importance: "strong",
-          confidence: "high",
-          explanation: "They paid for a stance and never got it.",
-          sourceRefs: [],
-        },
-        {
-          stableKey: "mogul:own-exposure",
-          optionKey: "go-public",
-          sourceType: "context:ethics-risk",
-          direction: "opposes",
-          importance: "strong",
-          confidence: "high",
-          explanation: "Saying so admits that they offered the money.",
-          sourceRefs: [],
-        },
-      ],
+      considerations,
       perceptionIds: [],
-      randomness: "close-choices",
+      randomness: "none",
       retention: "durable",
     });
     next = recordDurableDecisionTrace(next, evaluation);
