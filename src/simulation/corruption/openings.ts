@@ -2,7 +2,7 @@ import { queryPersonnelProtections } from "../civil-personnel";
 import type { PersonnelClassContext } from "../civil-personnel-contract";
 import { recordMisconductAct } from "../press/matters";
 import { wasPersonalAppointment } from "../patronage/appointments";
-import { evaluateDecision } from "../decisions";
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { currentHistoricalCutoff } from "../queries";
 import type {
   DecisionEvaluation,
@@ -185,7 +185,7 @@ export function evaluateCorruptionOpening(
     readonly considerations: readonly DecisionConsideration[];
   },
 ) {
-  return evaluateDecision(world, {
+  const evaluation = evaluateDecision(world, {
     stableKey: input.stableKey,
     decisionType: "public-office.corruption-opening",
     actorPersonId: input.actorPersonId,
@@ -202,4 +202,8 @@ export function evaluateCorruptionOpening(
     randomness: "none",
     retention: "durable",
   });
+  return {
+    world: recordDurableDecisionTrace(world, evaluation),
+    evaluation,
+  };
 }

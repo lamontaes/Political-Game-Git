@@ -38,6 +38,17 @@ const considerations: readonly DecisionConsideration[] = [
   },
 ];
 
+const steerReason: DecisionConsideration = {
+  stableKey: "test:steer-reason",
+  optionKey: "a-steer",
+  sourceType: "context:fixture",
+  direction: "supports",
+  importance: "decisive",
+  confidence: "high",
+  explanation: "The controlled decision fixture favors steering.",
+  sourceRefs: [],
+};
+
 const mnClassifiedPost: PersonnelClassContext = {
   jurisdictionKey: "US-FEDERAL",
   employerLevel: "federal",
@@ -147,7 +158,10 @@ describe("corruption opening seams", () => {
     const first = evaluateCorruptionOpening(world, input);
     const replay = evaluateCorruptionOpening(world, input);
     expect(first).toEqual(replay);
-    expect(first.context.randomness).toBe("none");
+    expect(first.evaluation.context.randomness).toBe("none");
+    expect(first.world.history.decisionTraces).toHaveLength(
+      world.history.decisionTraces.length + 1,
+    );
   });
 
   it("turns a selected steering choice and completed purchase into shared-writer input", () => {
@@ -164,25 +178,24 @@ describe("corruption opening seams", () => {
       jurisdictionId: "jurisdiction:mn" as never,
       occurredAt: makeIsoDate("2026-10-01"),
     };
+    const choice = evaluateCorruptionOpening(world, {
+      stableKey: "test:recordable-opening",
+      actorPersonId: officialId,
+      subjectKey: "state-contract-authority",
+      options: [
+        { key: "a-steer", label: "Steer", description: "Steer." },
+        { key: "z-decline", label: "Decline", description: "Decline." },
+      ],
+      considerations: [steerReason],
+    });
     const decision = {
-      ...evaluateCorruptionOpening(world, {
-        stableKey: "test:recordable-opening",
-        actorPersonId: officialId,
-        subjectKey: "state-contract-authority",
-        options: [
-          { key: "decline", label: "Decline", description: "Decline." },
-          { key: "steer", label: "Steer", description: "Steer." },
-        ],
-        considerations: [],
-      }),
-      selectedOptionKey: "steer",
-      outcomeKind: "selected" as const,
+      ...choice.evaluation,
     };
     const input = contractSteeringActInput({
       stableKey: "test:steered-award",
       purchase,
       decision,
-      steeringOptionKey: "steer",
+      steeringOptionKey: "a-steer",
     });
     expect(input?.family).toBe("M8");
     expect(input?.existingResourceFlowIds).toEqual([purchase.resourceFlowId]);
@@ -193,8 +206,8 @@ describe("corruption opening seams", () => {
       contractSteeringActInput({
         stableKey: "test:no-selected-steering",
         purchase,
-        decision: { ...decision, selectedOptionKey: "decline" },
-        steeringOptionKey: "steer",
+        decision: { ...decision, selectedOptionKey: "z-decline" },
+        steeringOptionKey: "a-steer",
       }),
     ).toBeNull();
   });
@@ -245,24 +258,23 @@ describe("corruption opening seams", () => {
     });
     const resourceFlowId = transaction.occurrence.resourceFlowIds[0]!;
     const businessId = vendorId! as never;
+    const choice = evaluateCorruptionOpening(transaction.world, {
+      stableKey: "corruption:contract-decision",
+      actorPersonId: officialId!,
+      subjectKey: "local-program-contracts",
+      options: [
+        { key: "a-steer", label: "Steer", description: "Steer." },
+        { key: "z-decline", label: "Decline", description: "Decline." },
+      ],
+      considerations: [steerReason],
+    });
     const decision = {
-      ...evaluateCorruptionOpening(transaction.world, {
-        stableKey: "corruption:contract-decision",
-        actorPersonId: officialId!,
-        subjectKey: "local-program-contracts",
-        options: [
-          { key: "decline", label: "Decline", description: "Decline." },
-          { key: "steer", label: "Steer", description: "Steer." },
-        ],
-        considerations: [],
-      }),
-      selectedOptionKey: "steer",
-      outcomeKind: "selected" as const,
+      ...choice.evaluation,
     };
     const flowCount = transaction.world.history.resourceFlows.length;
-    const recorded = recordContractSteeringAct(transaction.world, {
+    const recorded = recordContractSteeringAct(choice.world, {
       stableKey: "corruption:steered-contract",
-      steeringOptionKey: "steer",
+      steeringOptionKey: "a-steer",
       decision,
       purchase: {
         status: "completed",
