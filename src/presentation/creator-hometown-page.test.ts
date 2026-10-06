@@ -56,7 +56,8 @@ describe(`hometown choices (${place.displayName}, ${seed})`, () => {
     expect(text).toContain(
       new Intl.NumberFormat("en-US").format(population.value),
     );
-    expect(text).toContain("estimate");
+    expect(text).not.toContain("estimate");
+    expect(population.source).toMatch(/census-estimate-2025|acs/);
     const county = placeStartFacts(place).find(
       (fact) => fact.kind === "county",
     );

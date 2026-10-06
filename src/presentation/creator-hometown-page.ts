@@ -53,7 +53,7 @@ export function projectHometownPage(
   };
 }
 
-/** Place-level sourced counts stay labeled by period; county totals never become town populations. */
+/** Source and estimate period remain in the reference data, outside player copy. */
 export function hometownChoiceSubtitle(place: LifePlace): string {
   const county = placeStartFacts(place).find(
     (fact) => fact.kind === "county",
@@ -64,7 +64,7 @@ export function hometownChoiceSubtitle(place: LifePlace): string {
   return [
     county,
     population
-      ? `${new Intl.NumberFormat("en-US").format(population.value)} people (${population.source === "census-estimate-2025" ? "2025 estimate" : "2020–2024 estimate"})`
+      ? `${new Intl.NumberFormat("en-US").format(population.value)} people`
       : null,
   ]
     .filter(Boolean)
