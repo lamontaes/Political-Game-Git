@@ -1,4 +1,5 @@
 import powers from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
+import type { LawConsequenceRow } from "./law-consequence-types";
 import type { PolicyPack, PolicyPropositionRow } from "./policy-packs";
 import { TAX_LAW_TERM_KEYS } from "./tax-law-term-keys";
 
@@ -55,6 +56,65 @@ export const TAX_QUESTION_LEVELS = [
   { key: "city", name: "city" },
 ] as const;
 
+const FEDERAL_TAX_TERM_CONSEQUENCE_FAMILIES = new Set([
+  "income",
+  "sales",
+  "payroll",
+  "corporate",
+]);
+
+function taxTermConsequenceRow(
+  levelKey: string,
+  familyKey: string,
+): LawConsequenceRow | undefined {
+  const federalTerm =
+    levelKey === "federal" &&
+    FEDERAL_TAX_TERM_CONSEQUENCE_FAMILIES.has(familyKey);
+  const excise = familyKey === "excise";
+  if (!federalTerm && !excise) return undefined;
+  return {
+    id: `tax:${levelKey}:${familyKey}:recorded-base`,
+    kind: "tax" as const,
+    when: "assessment" as const,
+    who: {
+      selector: "recorded-tax-base-payer",
+      predicates: [
+        {
+          capability: "has-operative-typed-tax-policy",
+          parameters: {},
+        },
+      ],
+    },
+    what: "assess-enacted-tax-base",
+    amount: {
+      op: "record" as const,
+      key: "enacted-tax-assessment",
+      unit: "minor" as const,
+    },
+    conditions: [],
+    lag: { days: 0, sourceIds: [] },
+    onRepeal: "preserve-completed" as const,
+    evidence: {
+      sourceIds: [
+        "src/simulation/tax-policy.ts",
+        federalTerm
+          ? "src/simulation/law-consequences/tax.ts"
+          : "src/fiscal-authority/tax-powers.generated.json",
+      ],
+      population: "The actual payer of a saved taxable occurrence.",
+      scope: federalTerm
+        ? "Only an operative law with supported legal power, saved terms, and a matching taxable record."
+        : "Only an operative law with supported saved taxing authority and exact adopted terms.",
+      why: federalTerm
+        ? "The common tax consequence reader derives an assessment from the adopted terms and the saved tax base; the row supplies no rate or amount."
+        : "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
+      uncertainty: federalTerm
+        ? "Federal tax-term binding is not yet supported by the shared reader. Until its exact law, power, and source-record contract is admitted, no assessment is resolved."
+        : "This row supplies no rate, authority, taxable occurrence or recipient. Missing bindings refuse assessment.",
+    },
+  };
+}
+
 export const TAX_TERM_QUESTION_ROWS: readonly PolicyPropositionRow[] =
   TAX_QUESTION_LEVELS.flatMap((level) =>
     TAX_QUESTION_FAMILIES.filter(
@@ -73,46 +133,8 @@ export const TAX_TERM_QUESTION_ROWS: readonly PolicyPropositionRow[] =
         key,
         value: field,
       })),
-      ...(family.key === "excise"
-        ? {
-            consequences: [
-              {
-                id: `tax:${level.key}:excise:recorded-base`,
-                kind: "tax" as const,
-                when: "assessment" as const,
-                who: {
-                  selector: "recorded-tax-base-payer",
-                  predicates: [
-                    {
-                      capability: "has-operative-typed-tax-policy",
-                      parameters: {},
-                    },
-                  ],
-                },
-                what: "assess-enacted-tax-base",
-                amount: {
-                  op: "record" as const,
-                  key: "enacted-tax-assessment",
-                  unit: "minor" as const,
-                },
-                conditions: [],
-                lag: { days: 0, sourceIds: [] },
-                onRepeal: "preserve-completed" as const,
-                evidence: {
-                  sourceIds: [
-                    "src/simulation/tax-policy.ts",
-                    "src/fiscal-authority/tax-powers.generated.json",
-                  ],
-                  population: "The actual payer of a saved taxable occurrence.",
-                  scope:
-                    "Only an operative law with supported saved taxing authority and exact adopted terms.",
-                  why: "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
-                  uncertainty:
-                    "This row supplies no rate, authority, taxable occurrence or recipient. Missing bindings refuse assessment.",
-                },
-              },
-            ],
-          }
+      ...(taxTermConsequenceRow(level.key, family.key)
+        ? { consequences: [taxTermConsequenceRow(level.key, family.key)!] }
         : {}),
       tags: ["tax", "adopted-terms-required"],
     })),

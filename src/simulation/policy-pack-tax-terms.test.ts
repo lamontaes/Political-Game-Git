@@ -29,11 +29,33 @@ it("loads tax questions without assigning any rates or replacing existing questi
       ),
     ).toBe(true);
   }
+  const federalTaxTermKeys = [
+    "federal.income-tax-terms",
+    "federal.sales-tax-terms",
+    "federal.payroll-tax-terms",
+    "federal.corporate-tax-terms",
+  ];
+  for (const key of federalTaxTermKeys) {
+    const row = TAX_TERM_QUESTION_ROWS.find((entry) => entry.key === key);
+    expect(row?.consequences).toHaveLength(1);
+    expect(row?.consequences?.[0]).toMatchObject({
+      kind: "tax",
+      when: "assessment",
+      who: { selector: "recorded-tax-base-payer" },
+      what: "assess-enacted-tax-base",
+      amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+      evidence: {
+        uncertainty: expect.stringContaining("Federal tax-term binding"),
+      },
+    });
+  }
   for (const row of TAX_TERM_QUESTION_ROWS) {
     expect(row.parameters?.map((term) => term.key)).toEqual(
       Object.values(TAX_LAW_TERM_KEYS),
     );
-    if (row.key.endsWith(".excise-tax-terms")) {
+    if (federalTaxTermKeys.includes(row.key)) {
+      expect(row.consequences).toHaveLength(1);
+    } else if (row.key.endsWith(".excise-tax-terms")) {
       expect(row.consequences).toHaveLength(1);
       expect(row.consequences![0]).toMatchObject({
         kind: "tax",
