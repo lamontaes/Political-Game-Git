@@ -4,7 +4,6 @@ import {
   createDemoWorld,
   createWorld,
   crisisEnvelopesBetween,
-  crisisOfficeContinuityNotices,
   crisisProtectedDecisions,
   crisisRecords,
   currentPresidentOf,
@@ -12,7 +11,9 @@ import {
   decideInternationalCrisis,
   deserializeWorld,
   internationalCrisisState,
+  recordPoliticalAttackIntent,
   recordViolenceAttempt,
+  recordWorldEvent,
   serializeWorld,
 } from "../simulation";
 import type { IsoDate, Person, TensionLevel, World } from "../simulation";
@@ -236,60 +237,114 @@ describe("CRISIS K5 international crisis, first depth", () => {
   );
 
   it(
-    "records abstract attempts with survival, injury and death outcomes",
+    "requires a named actor's earlier recorded intent before an attempt",
     () => {
       const president = currentPresidentOf(opening)!.personId;
       const { world } = declare(opening, "threat-context", "high");
       const evidence = world.history.events.at(-1)!.id;
       expect(() =>
         recordViolenceAttempt(world, {
-          stableKey: "no-evidence",
+          stableKey: "no-intent",
+          actorPersonId: president,
           targetPersonId: president,
-          threatEvidenceIds: [],
+          intentEventId: evidence,
+          threatEvidenceIds: [evidence],
           basis: "Test.",
         }),
-      ).toThrow(/threat evidence/);
-      const outcomes = new Map<string, World>();
-      for (let i = 0; i < 80 && outcomes.size < 3; i += 1) {
-        const next = recordViolenceAttempt(world, {
-          stableKey: `attempt-${i}`,
-          targetPersonId: president,
-          threatEvidenceIds: [evidence],
-          basis: "Declared test attempt; represented threat evidence.",
-        });
-        const attempt = crisisRecords(next).at(-1)!;
-        const outcome =
-          crisisRecords(next).find((r) => r.kind === "violence-attempt") &&
-          (
-            crisisRecords(next).find((r) => r.kind === "violence-attempt") as {
-              outcome: string;
-            }
-          ).outcome;
-        if (outcome && !outcomes.has(outcome)) outcomes.set(outcome, next);
-        expect(attempt).toBeDefined();
-      }
-      expect([...outcomes.keys()].sort()).toEqual([
-        "injured",
-        "killed",
-        "unharmed",
-      ]);
-      const killed = outcomes.get("killed")!;
+      ).toThrow(/earlier intent/);
       expect(
-        killed.history.personDeaths.find((d) => d.personId === president)
-          ?.causeKey,
-      ).toBe("crisis-violence:attempt");
+        crisisRecords(world).filter(
+          (record) => record.kind === "violence-attempt",
+        ),
+      ).toEqual([]);
+    },
+    SLOW,
+  );
+
+  it(
+    "records an NPC's own intent from prior evidence before evaluating an attempt",
+    () => {
+      const president = currentPresidentOf(opening)!.personId;
+      const vice = Object.values(opening.people).find(
+        (person) => person.id !== president,
+      )!.id;
+      let world: World = { ...opening, control: { kind: "observer" } };
+      const threat = recordWorldEvent(world, {
+        stableKey: "named-intent-prior-threat",
+        type: "pressure.political-threat",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: world.people[president]!.homeJurisdictionId,
+        involvedEntityIds: [vice, president],
+        participants: [
+          { personId: vice, role: "agency:threatener", detail: null },
+          { personId: president, role: "impact:threatened", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "limited",
+        tags: ["crisis", "crisis.political-threat"],
+        summary: "A prior threat was recorded against the President.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      world = threat;
+      const sourceEventId = world.history.events.at(-1)!.id;
+      const intent = recordPoliticalAttackIntent(world, {
+        stableKey: "named-intent-decision",
+        actorPersonId: vice,
+        targetPersonId: president,
+        threatEventId: sourceEventId,
+        actorStrain: {
+          explanation: "Recorded strain supports acting on the threat.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [sourceEventId],
+        },
+        actorMeans: {
+          explanation: "Recorded means support acting on the threat.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [sourceEventId],
+        },
+        targetSecurity: {
+          explanation: "Recorded security weighs against an attempt.",
+          importance: "slight",
+          confidence: "low",
+          sourceEventIds: [sourceEventId],
+        },
+        targetExposure: {
+          explanation: "Recorded exposure supports an attempt.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [sourceEventId],
+        },
+        basis:
+          "The named actor weighed the recorded strain, means, security and exposure.",
+      });
+      expect(intent.intentId).not.toBeNull();
+      const intentEventId = intent.world.history.events.at(-1)!.id;
+      const attempt = recordViolenceAttempt(intent.world, {
+        stableKey: "named-intent-attempt",
+        actorPersonId: vice,
+        targetPersonId: president,
+        intentEventId,
+        threatEvidenceIds: [sourceEventId],
+        basis:
+          "The actor's recorded intent and the earlier threat support this abstract attempt.",
+      });
+      expect(attempt.attemptId).not.toBeNull();
+      expect(attempt.outcome).not.toBeNull();
       expect(
-        crisisOfficeContinuityNotices(killed).map((n) => [n.kind, n.personId]),
-      ).toEqual([["death", president]]);
-      const injured = outcomes.get("injured")!;
-      expect(crisisOfficeContinuityNotices(injured).map((n) => n.kind)).toEqual(
-        ["incapacity-began"],
-      );
-      const events = killed.history.events.filter((e) =>
-        e.tags.includes("crisis.violence"),
-      );
-      expect(events.map((e) => e.visibility)).toEqual(["public"]);
-      expect(events[0]!.summary).not.toMatch(/gun|shot|bomb|knife|poison/i);
+        crisisRecords(attempt.world).find(
+          (record) => record.id === attempt.attemptId,
+        ),
+      ).toMatchObject({ actorPersonId: vice, targetPersonId: president });
     },
     SLOW,
   );

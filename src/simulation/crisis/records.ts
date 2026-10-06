@@ -19,6 +19,7 @@ import {
   type HealthDisclosureRecord,
   type HealthEpisodeRecord,
   type HealthStateRecord,
+  type PoliticalAttackIntentRecord,
 } from "./types";
 
 /**
@@ -236,6 +237,7 @@ function validateCrisisRecords(
   const hazards = new Map<EntityId, HazardRecord>();
   const damages = new Map<EntityId, DisasterDamageRecord>();
   const crises = new Set<EntityId>();
+  const intentsByEventId = new Map<EntityId, PoliticalAttackIntentRecord>();
   let previousSequence = -1;
   for (const record of records) {
     if (record.schemaVersion !== CRISIS_RECORD_SCHEMA)
@@ -421,9 +423,83 @@ function validateCrisisRecords(
         )
           fail(record, "war powers termination precedes its record");
         break;
-      case "violence-attempt":
-        if (!world.people[record.targetPersonId])
-          fail(record, "missing attempt target");
+      case "political-attack-intent": {
+        const event = record.eventId ? eventsById.get(record.eventId) : null;
+        const decision = world.history.decisionTraces.find(
+          (trace) => trace.id === record.decisionTraceId,
+        );
+        const threat = eventsById.get(record.threatEventId);
+        const malformed = {
+          actorMissing: !world.people[record.actorPersonId],
+          targetMissing: !world.people[record.targetPersonId],
+          selfTargeted: record.actorPersonId === record.targetPersonId,
+          intentEventType: event?.type ?? null,
+          intentEventMissingActor: !event?.involvedEntityIds.includes(
+            record.actorPersonId,
+          ),
+          intentEventMissingTarget: !event?.involvedEntityIds.includes(
+            record.targetPersonId,
+          ),
+          threatMissingTarget: !threat?.involvedEntityIds.includes(
+            record.targetPersonId,
+          ),
+          decisionActor: decision?.context.actorPersonId ?? null,
+          selectedOption: decision?.selectedOptionKey ?? null,
+          basis: record.basis,
+        };
+        if (
+          !world.people[record.actorPersonId] ||
+          !world.people[record.targetPersonId] ||
+          record.actorPersonId === record.targetPersonId ||
+          !event ||
+          event.type !== "crisis.political-attack-intent" ||
+          !event.involvedEntityIds.includes(record.actorPersonId) ||
+          !event.involvedEntityIds.includes(record.targetPersonId) ||
+          !threat?.involvedEntityIds.includes(record.targetPersonId) ||
+          decision?.context.actorPersonId !== record.actorPersonId ||
+          decision.selectedOptionKey !== "intend-attack" ||
+          !record.basis.trim()
+        )
+          fail(
+            record,
+            `malformed recorded attack intent: ${JSON.stringify(malformed)}`,
+          );
+        for (const factor of [
+          record.actorStrain,
+          record.actorMeans,
+          record.targetSecurity,
+          record.targetExposure,
+        ]) {
+          if (
+            factor.sourceEventIds.length === 0 ||
+            !factor.explanation.trim() ||
+            factor.sourceEventIds.some(
+              (id) => !record.causalParentIds.includes(id),
+            )
+          )
+            fail(record, "attack intent factor lacks earlier evidence");
+        }
+        intentsByEventId.set(record.eventId!, record);
+        break;
+      }
+      case "violence-attempt": {
+        const intent = intentsByEventId.get(record.intentEventId);
+        const outcomeTrace = world.history.decisionTraces.find(
+          (trace) => trace.id === record.outcomeDecisionTraceId,
+        );
+        if (
+          !world.people[record.actorPersonId] ||
+          !world.people[record.targetPersonId] ||
+          !intent ||
+          intent.actorPersonId !== record.actorPersonId ||
+          intent.targetPersonId !== record.targetPersonId ||
+          !record.causalParentIds.includes(record.intentEventId) ||
+          outcomeTrace?.context.actorPersonId !== record.actorPersonId ||
+          !["unharmed", "injured", "killed"].includes(
+            outcomeTrace.selectedOptionKey ?? "",
+          )
+        )
+          fail(record, "attempt lacks an earlier selected intent and outcome");
         if (
           record.threatEvidenceIds.length === 0 ||
           record.threatEvidenceIds.some(
@@ -432,6 +508,7 @@ function validateCrisisRecords(
         )
           fail(record, "attempt lacks its threat evidence");
         break;
+      }
       case "official-continuity": {
         const source =
           world.history.personDeaths.find(

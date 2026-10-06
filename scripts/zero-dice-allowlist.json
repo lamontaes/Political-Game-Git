@@ -507,20 +507,6 @@
       "code": "roll(world, [crisisId, state.cycle, \"allies\"]) <"
     },
     {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "outcomeRoll < policy.killed"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": ": outcomeRoll < policy.killed + policy.injured"
-    },
-    {
       "file": "src/simulation/given-name-cohorts.ts",
       "kind": "fixed-share",
       "build": "Build 7",

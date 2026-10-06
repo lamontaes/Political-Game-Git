@@ -2,7 +2,10 @@ import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { SeededRng } from "../rng";
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import type {
+  DecisionConsideration,
+  DecisionSourceType,
   EntityId,
   EventVisibility,
   FutureDueItem,
@@ -26,6 +29,7 @@ import {
   type CrisisOptionsRecord,
   type IntelligenceAssessmentRecord,
   type InternationalCrisisRecord,
+  type PoliticalAttackIntentRecord,
   type TensionLevel,
   type WarPowersRecord,
   type WarPowersStage,
@@ -84,8 +88,6 @@ export const PROVISIONAL_INTERNATIONAL_POLICY = Object.freeze({
     economic: 500_000,
     "force-posture": 400_000,
   } satisfies Record<CrisisOptionKey, number>,
-  /** Chance a represented attempt leaves the target injured / killed. */
-  violence: { injured: 300_000, killed: 100_000 },
   warPowers: { reportWithinDays: 2, terminationDays: 60, extensionDays: 30 },
 });
 
@@ -845,9 +847,17 @@ export function pendingInternationalDecisions(world: World) {
 
 export interface RecordViolenceAttemptInput {
   readonly stableKey: string;
+  readonly actorPersonId: EntityId;
   readonly targetPersonId: EntityId;
+  readonly intentEventId: EntityId;
   readonly threatEvidenceIds: readonly EntityId[];
   readonly basis: string;
+}
+
+export interface RecordViolenceAttemptResult {
+  readonly world: World;
+  readonly attemptId: EntityId | null;
+  readonly outcome: "unharmed" | "injured" | "killed" | null;
 }
 
 /**
@@ -858,46 +868,198 @@ export interface RecordViolenceAttemptInput {
 export function recordViolenceAttempt(
   world: World,
   input: RecordViolenceAttemptInput,
-): World {
+): RecordViolenceAttemptResult {
+  const actor = world.people[input.actorPersonId];
   const target = world.people[input.targetPersonId];
+  if (!actor) throw new Error("Unknown attempt actor.");
   if (!target) throw new Error("Unknown attempt target.");
-  if (
-    !isPersonAliveAt(world, target.id, {
+  const alive = (personId: EntityId) =>
+    isPersonAliveAt(world, personId, {
       asOfDate: world.currentDate,
       historySequenceExclusive: world.history.nextSequence,
-    })
-  )
-    throw new Error("The target is not alive.");
+    });
+  if (!alive(actor.id)) throw new Error("The attempt actor is not alive.");
+  if (!alive(target.id)) throw new Error("The target is not alive.");
   if (input.threatEvidenceIds.length === 0 || !input.basis.trim())
     throw new Error("An attempt needs threat evidence and a stated basis.");
-  for (const id of input.threatEvidenceIds)
-    if (
-      !world.history.events.some(
-        (e) => e.id === id && e.occurredAt <= world.currentDate,
-      )
-    )
+  for (const id of input.threatEvidenceIds) {
+    const evidence = world.history.events.find((event) => event.id === id);
+    if (!evidence || evidence.occurredAt > world.currentDate)
       throw new Error(`Threat evidence must be an earlier event: ${id}`);
+  }
+  const intent = crisisRecords(world).find(
+    (record): record is PoliticalAttackIntentRecord =>
+      record.kind === "political-attack-intent" &&
+      record.eventId === input.intentEventId,
+  );
+  if (
+    !intent ||
+    intent.actorPersonId !== actor.id ||
+    intent.targetPersonId !== target.id ||
+    intent.sequence >= world.history.nextSequence
+  )
+    throw new Error(
+      "An attempt needs this actor's earlier intent for this target.",
+    );
+  if (!input.threatEvidenceIds.includes(intent.threatEventId))
+    throw new Error(
+      "The selected intent must cite the attempt's prior threat.",
+    );
   const key = `crisis:violence:${input.stableKey}`;
-  const outcomeRoll = roll(world, ["violence", key, target.id]);
-  const policy = PROVISIONAL_INTERNATIONAL_POLICY.violence;
-  const outcome =
-    outcomeRoll < policy.killed
-      ? "killed"
-      : outcomeRoll < policy.killed + policy.injured
-        ? "injured"
-        : "unharmed";
-  const attempted = recordWorldEvent(world, {
+  const outcomeConsideration = (
+    stableKey: string,
+    optionKey: string,
+    sourceType: string,
+    factor: PoliticalAttackIntentRecord["actorMeans"],
+    direction: "supports" | "opposes",
+  ): DecisionConsideration => ({
+    stableKey,
+    optionKey,
+    sourceType: `context:${sourceType}` as DecisionSourceType,
+    direction,
+    importance: factor.importance,
+    confidence: factor.confidence,
+    explanation: factor.explanation,
+    sourceRefs: factor.sourceEventIds.map((eventId) => ({
+      kind: "historical-event",
+      eventId,
+    })),
+  });
+  const outcomeDecision = evaluateDecision(world, {
+    stableKey: `${key}:outcome`,
+    decisionType: "crisis.political-attack-outcome",
+    actorPersonId: actor.id,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: {
+      kind: "context:domain",
+      key: "political-attack-outcome",
+      entityId: target.id,
+    },
+    options: [
+      {
+        key: "unharmed",
+        label: "Unharmed",
+        description: "The target survives without injury.",
+      },
+      {
+        key: "harm",
+        label: "Harmed",
+        description: "The target is injured or killed.",
+      },
+    ],
+    constraints: [],
+    considerations: [
+      outcomeConsideration(
+        `${key}:means`,
+        "harm",
+        "actor-means",
+        intent.actorMeans,
+        "supports",
+      ),
+      outcomeConsideration(
+        `${key}:security`,
+        "unharmed",
+        "target-security",
+        intent.targetSecurity,
+        "supports",
+      ),
+      outcomeConsideration(
+        `${key}:exposure`,
+        "harm",
+        "target-exposure",
+        intent.targetExposure,
+        "supports",
+      ),
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  let evaluated = recordDurableDecisionTrace(world, outcomeDecision);
+  let outcomeTraceId = evaluated.history.decisionTraces.at(-1)!.id;
+  if (outcomeDecision.outcomeKind !== "selected")
+    return { world: evaluated, attemptId: null, outcome: null };
+  let outcome: "unharmed" | "injured" | "killed";
+  if (outcomeDecision.selectedOptionKey === "unharmed") {
+    outcome = "unharmed";
+  } else if (outcomeDecision.selectedOptionKey === "harm") {
+    const harmDecision = evaluateDecision(evaluated, {
+      stableKey: `${key}:harm-severity`,
+      decisionType: "crisis.political-attack-harm-severity",
+      actorPersonId: actor.id,
+      cutoff: {
+        asOfDate: evaluated.currentDate,
+        historySequenceExclusive: evaluated.history.nextSequence,
+      },
+      subject: {
+        kind: "context:domain",
+        key: "political-attack-outcome",
+        entityId: target.id,
+      },
+      options: [
+        {
+          key: "injured",
+          label: "Injured",
+          description: "The target is injured.",
+        },
+        {
+          key: "killed",
+          label: "Killed",
+          description: "The target is killed.",
+        },
+      ],
+      constraints: [],
+      considerations: [
+        outcomeConsideration(
+          `${key}:severity-means`,
+          "killed",
+          "actor-means",
+          intent.actorMeans,
+          "supports",
+        ),
+        outcomeConsideration(
+          `${key}:severity-exposure`,
+          "killed",
+          "target-exposure",
+          intent.targetExposure,
+          "supports",
+        ),
+        outcomeConsideration(
+          `${key}:severity-security`,
+          "injured",
+          "target-security",
+          intent.targetSecurity,
+          "supports",
+        ),
+      ],
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    evaluated = recordDurableDecisionTrace(evaluated, harmDecision);
+    if (harmDecision.outcomeKind !== "selected")
+      return { world: evaluated, attemptId: null, outcome: null };
+    outcome = harmDecision.selectedOptionKey as "injured" | "killed";
+    outcomeTraceId = evaluated.history.decisionTraces.at(-1)!.id;
+  } else {
+    throw new Error("Unknown recorded attack outcome option.");
+  }
+  const attempted = recordWorldEvent(evaluated, {
     stableKey: `${key}:event`,
     type: "crisis.violence-attempt",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
+    occurredAt: evaluated.currentDate,
+    recordedAt: evaluated.currentDate,
     jurisdictionId: target.homeJurisdictionId,
-    involvedEntityIds: [target.id],
+    involvedEntityIds: [actor.id, target.id],
     participants: [
+      { personId: actor.id, role: "agency:actor", detail: null },
       { personId: target.id, role: "impact:target", detail: outcome },
     ],
     personFactConstraints: [],
-    visibility: "public",
+    visibility: "limited",
     tags: ["crisis", "crisis.violence", `outcome:${outcome}`],
     summary:
       outcome === "killed"
@@ -905,16 +1067,22 @@ export function recordViolenceAttempt(
         : outcome === "injured"
           ? "An attack left its target injured."
           : "An attack was attempted; its target was unharmed.",
-    context: EMPTY_CONTEXT,
+    context: {
+      ...EMPTY_CONTEXT,
+      motivation: input.basis,
+    },
   });
   let next = appendCrisisRecord(attempted, {
     kind: "violence-attempt",
     stableKey: key,
-    effectiveAt: world.currentDate,
-    causalParentIds: [...input.threatEvidenceIds],
-    visibility: "public",
+    effectiveAt: evaluated.currentDate,
+    causalParentIds: [input.intentEventId, ...input.threatEvidenceIds],
+    visibility: "limited",
     eventId: attempted.history.events.at(-1)!.id,
+    actorPersonId: actor.id,
     targetPersonId: target.id,
+    intentEventId: input.intentEventId,
+    outcomeDecisionTraceId: outcomeTraceId,
     threatEvidenceIds: [...input.threatEvidenceIds],
     outcome,
     basis: input.basis,
@@ -947,5 +1115,5 @@ export function recordViolenceAttempt(
     });
   }
   assertWorldIntegrity(next);
-  return next;
+  return { world: next, attemptId, outcome };
 }

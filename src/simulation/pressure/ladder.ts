@@ -34,6 +34,8 @@
  */
 
 import { recordViolenceAttempt } from "../crisis/international";
+import { crisisRecords } from "../crisis/records";
+import type { PoliticalAttackIntentRecord } from "../crisis/types";
 import { currentGovernorOf } from "../crisis/offices";
 import { createStableId } from "../ids";
 import { stateKeyForJurisdiction } from "../life-places";
@@ -387,7 +389,6 @@ export function stepPressureLadder(
         incident.scope.jurisdictionId === threat.scope.jurisdictionId,
     );
     const anger = angerIn(threat.scope.jurisdictionId);
-    const stillOver = anger !== null && anger > policy.angerLine;
     const calmed = anger !== null && anger <= policy.angerLine;
     const lapse = (
       reasonKey: `${string}:${string}`,
@@ -411,24 +412,31 @@ export function stepPressureLadder(
       );
       continue;
     }
-    const strain = threatStrain(store.readings, threat);
-    const line = threatAttemptLine();
-    if (stillOver && unrest && strain >= line) {
-      const target = next.people[targetId]!;
-      next = recordViolenceAttempt(next, {
+    const intent = crisisRecords(next).find(
+      (record): record is PoliticalAttackIntentRecord =>
+        record.kind === "political-attack-intent" &&
+        record.targetPersonId === targetId &&
+        record.threatEventId === threat.onsetEventId,
+    );
+    if (intent?.eventId && unrest?.onsetEventId && threat.onsetEventId) {
+      const result = recordViolenceAttempt(next, {
         stableKey: `pressure:${threat.stableKey}:attempt`,
+        actorPersonId: intent.actorPersonId,
         targetPersonId: targetId,
+        intentEventId: intent.eventId,
         threatEvidenceIds: [threat.onsetEventId, unrest.onsetEventId],
-        basis: `Lasting unrest in ${name} and an earlier threat against the target: anger over its line added up to ${strain.toFixed(2)} since the threat, past this threat's own line of ${line.toFixed(2)}.`,
+        basis: `A named person recorded an attack intent against ${personName(next.people[targetId]!)} after weighing their recorded strain and means against the target's recorded security and exposure.`,
       });
+      next = result.world;
+      if (!result.attemptId) continue;
       next = recordIncidentStage(next, {
         stableKey: `${threat.stableKey}:attempted`,
         incidentId: threat.id,
         status: "resolved",
         phaseKey: THREAT_ATTEMPTED_PHASE,
         reasonKey: "pressure:attempted",
-        context: `Strain ${strain.toFixed(4)} reached the threat's line ${line.toFixed(4)}.`,
-        summary: `The threat against ${personName(target)} during unrest in ${name} ended in an attempt.`,
+        context: `Named actor ${personName(next.people[intent.actorPersonId]!)} acted on their earlier recorded intent.`,
+        summary: `The threat against ${personName(next.people[targetId]!)} during unrest in ${name} ended in an attempt.`,
       });
       continue;
     }
