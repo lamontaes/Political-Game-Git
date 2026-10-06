@@ -197,7 +197,7 @@ export function publishOpeningPublicRecords(world: World): World {
   const candidates = world.history.events.filter(
     (event) =>
       event.occurredAt >= oldest &&
-      event.occurredAt < world.currentDate &&
+      event.occurredAt <= world.currentDate &&
       event.recordedAt <= world.currentDate &&
       !published.has(event.id) &&
       !event.tags.some(
@@ -2081,6 +2081,8 @@ function beatForEventType(type: string): MediaBeat {
   )
     return "international";
   if (type.startsWith("civic.local-matter")) return "local-government";
+  // A protest is covered where it happens, by the reporter on local government.
+  if (type.startsWith("civic.protest-")) return "local-government";
   // What a law did to a town's people is covered where they live.
   if (type.startsWith("law.")) return "local-government";
   if (type.startsWith("congress.")) return "congress";
