@@ -9,7 +9,6 @@ import "./player/player.css";
 import "./player/shell.css";
 import "./player/docket.css";
 import "./player/front-door.css";
-import "./player/kit13.css";
 
 // The whole-save mutation proof runs in tests and development; a player's
 // clock keeps only the cheap shape check (see future-transitions.ts).

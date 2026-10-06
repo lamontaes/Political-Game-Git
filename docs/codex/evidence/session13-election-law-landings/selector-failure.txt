@@ -1,0 +1,21 @@
+{"stage":"draw","seed":"session13-election-landing-pool-2026-10-06","place":"3823340"}
+{"stage":"generated","seed":"session13-election-landing-pool-2026-10-06","place":"3823340","world":"world_953a393681a62f20","player":"person_81872335cd75a08a","date":"2026-01-05","people":9375,"barred":[],"exposures":[]}
+{"stage":"dated-wakes","count":375,"first":[{"packId":"us-ky-general-assembly-v1:candidacy","electionDay":"2026-11-03","stage":"intake","dueAt":"2026-01-06"},{"packId":"us-ak-legislature-v1:candidacy","electionDay":"2026-11-03","stage":"intake","dueAt":"2026-01-06"},{"packId":"us-mn-legislature-v1:candidacy","electionDay":"2026-11-03","stage":"intake","dueAt":"2026-01-06"},{"packId":"us-md-general-assembly-v1:candidacy","electionDay":"2026-11-03","stage":"intake","dueAt":"2026-01-06"},{"packId":"us-mo-general-assembly-v1:candidacy","electionDay":"2026-11-03","stage":"intake","dueAt":"2026-01-06"},{"packId":"us-nv-legislature-v1:candidacy","electionDay":"2026-11-03","stage":"intake","dueAt":"2026-01-06"}]}
+{"stage":"today-dispatched","world":"world_953a393681a62f20","date":"2026-01-05","barred":[],"exposures":[]}
+/workspace/session13-federal-reader/src/simulation/law-consequences/modules/election-state-landings/index.ts:35
+    throw new Error("Unsupported state election landing projection.");
+          ^
+
+Error: Unsupported state election landing projection.
+    at validatedProjection (/workspace/session13-federal-reader/src/simulation/law-consequences/modules/election-state-landings/index.ts:35:11)
+    at applyStateElectionLawLandings (/workspace/session13-federal-reader/src/simulation/law-consequences/modules/election-state-landings/index.ts:49:15)
+    at prepareStateIntake (/workspace/session13-federal-reader/src/simulation/nationwide-world/state-legislature-turnover.ts:479:16)
+    at applyStateLegislatureTurnover (/workspace/session13-federal-reader/src/simulation/nationwide-world/state-legislature-turnover.ts:1397:14)
+    at applyOfficeLifecycle (/workspace/session13-federal-reader/src/simulation/governing/office-continuity.ts:1921:14)
+    at applyDateBoundary (/workspace/session13-federal-reader/src/simulation/time-work.ts:2047:11)
+    at setCurrentMoment (/workspace/session13-federal-reader/src/simulation/time-work.ts:2019:10)
+    at setCurrentMomentWithDue (/workspace/session13-federal-reader/src/simulation/time-work.ts:2007:10)
+    at advanceCanonicalMinutes (/workspace/session13-federal-reader/src/simulation/time-work.ts:1649:11)
+    at advanceStoppingAtNewCommitments (/workspace/session13-federal-reader/src/simulation/time-work.ts:1474:22)
+
+Node.js v24.19.0

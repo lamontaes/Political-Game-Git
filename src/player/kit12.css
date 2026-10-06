@@ -84,7 +84,7 @@
   --kit12-glass: linear-gradient(var(--glass-top), var(--glass-bottom));
   --kit12-frame:
     0 0 0 1px var(--iron), inset 0 0 0 1px var(--iron),
-    0 4px 0 rgba(0, 0, 0, 0.58), 0 12px 24px rgba(0, 0, 0, 0.58);
+    0 6px 18px rgb(0 0 0 / 24%);
   --kit12-blur: blur(6px) saturate(0.65);
 }
 
@@ -199,4 +199,28 @@
 .pg-game :is(button, a, summary):focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
+}
+
+/* Approved Kit 13, consolidated into the existing theme. */
+:root {
+  --kit13-grain: url("/ui/kit13/button-grain.svg");
+  --kit13-button-face: linear-gradient(170deg, #343436, #222224);
+  --kit13-button-line: #686766;
+  --kit13-brass-fill: linear-gradient(90deg, #96703a, #d6bd84);
+  --kit13-control-shadow:
+    inset 0 1px 0 rgb(242 237 228 / 12%), inset 0 -1px 0 rgb(0 0 0 / 35%),
+    0 2px 3px rgb(0 0 0 / 36%);
+}
+
+/* One glass surface for shell and front-door panels; no paper card beneath it. */
+.pg-game .pg-glass-panel,
+.pg-game .pg-recap {
+  border: 1px solid var(--brass);
+  border-radius: 2px;
+  background: var(--kit12-glass);
+  box-shadow: var(--kit12-frame);
+  backdrop-filter: var(--kit12-blur);
+  -webkit-backdrop-filter: var(--kit12-blur);
+  color: var(--text-strong);
+  text-shadow: none;
 }

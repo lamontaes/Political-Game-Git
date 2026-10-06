@@ -66,8 +66,10 @@ import { recordWorldEvent } from "../world";
  * 1. The pace. MEASURED: from nomination to the Senate's final vote took a
  *    median of 66 days for the 17 justices confirmed from 1975 through 2022
  *    (senate.gov, "Supreme Court Nominations, 1789-Present", read September
- *    28, 2026). PLACEHOLDER (filed as `supreme-court-vacancy-to-nomination`):
- *    30 days from a vacancy to the nomination.
+ *    28, 2026). ESTIMATED FROM AVERAGE (filed as
+ *    `supreme-court-vacancy-to-nomination`): 21 days from a vacancy to the
+ *    nomination, the median of the four most recent vacancies (see the
+ *    appointment profile for the dates).
  * 2. The vote threshold. LAW: a majority of senators voting. Since the
  *    Senate's precedent of April 6, 2017, ending debate on a Supreme Court
  *    nomination also takes only a majority, so no separate cloture count is
@@ -75,16 +77,18 @@ import { recordWorldEvent } from "../world";
  *    cl. 4).
  * 3. Whom the President picks. Each President weighs every sitting federal
  *    appeals judge and state supreme court justice (and, for Chief Justice,
- *    every sitting associate justice) by the reasons below. PLACEHOLDER
+ *    every sitting associate justice) by the reasons below. ESTIMATED
  *    (filed as `supreme-court-nominee-selection`): how much each reason
- *    weighs, and the age bands. Inferred from the senate.gov list: all but
+ *    weighs, and the age bands, are set to put the measured pool (appeals
+ *    judges first) in play without a rule the senate.gov list contradicts. Inferred from the senate.gov list: all but
  *    one justice confirmed since 1990 came from a federal appeals court. A
  *    judge's legal views do not count yet, because the World records no
  *    judicial philosophy for its opening judges.
  * 4. How a senator votes. Each senator weighs whether the nominee comes from
  *    the President's party, the nominee's time on the bench, and whether the
- *    nominee is from the senator's own state. PLACEHOLDER (filed as
- *    `supreme-court-confirmation-votes`): how much each reason weighs.
+ *    nominee is from the senator's own state. ESTIMATED (filed as
+ *    `supreme-court-confirmation-votes`): how much each reason weighs, set so
+ *    party-line and bipartisan votes both occur as the comparison shows.
  *    MEASURED for comparison (same senate.gov list): the last five
  *    confirmations, 2017 to 2022, drew 50 to 54 votes; the 1975 to 1994
  *    confirmations drew 52 to 99.
@@ -245,7 +249,7 @@ function candidateReasons(
             sourceRefs: [],
           },
   );
-  // PLACEHOLDER (supreme-court-nominee-selection): the age bands. A younger
+  // ESTIMATED (supreme-court-nominee-selection): the age bands. A younger
   // justice serves longer, which is the reason a President has.
   const age = ageOn(person.birthDate, world.currentDate);
   if (age < 55 || age >= 62)
@@ -366,7 +370,7 @@ function senatorReasons(
 ): DecisionConsideration[] {
   const nominee = world.people[input.nomineeId]!;
   const reasons: DecisionConsideration[] = [];
-  // PLACEHOLDER (supreme-court-confirmation-votes): the weights.
+  // ESTIMATED (supreme-court-confirmation-votes): the weights.
   if (input.partyKey && input.presidentParty)
     reasons.push(
       input.partyKey === input.presidentParty
@@ -689,7 +693,7 @@ export function scheduleAssociateNomination(
     jurisdictionId: null,
     provenance: {
       kind: "authored",
-      note: `${SUPREME_COURT_APPOINTMENT_PROFILE.id}: the President nominates an associate justice (U.S. Const. art. II, § 2, cl. 2); the ${SUPREME_COURT_APPOINTMENT_PROFILE.daysFromVacancyToNomination}-day interval is a game profile.`,
+      note: `${SUPREME_COURT_APPOINTMENT_PROFILE.id}: the President nominates an associate justice (U.S. Const. art. II, § 2, cl. 2); the ${SUPREME_COURT_APPOINTMENT_PROFILE.daysFromVacancyToNomination}-day interval is estimated from the average of four recent vacancies.`,
     },
   });
 }

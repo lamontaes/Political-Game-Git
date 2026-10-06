@@ -13,6 +13,7 @@ import {
 import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
 import { openingWorkLocation } from "./opening-work-location";
+import { selectedWorkplaceForPerson } from "./place-backdrops";
 import { recordedRoomPresence } from "./recorded-room-presence";
 import {
   currentOpeningLifeScene,
@@ -69,6 +70,10 @@ export interface PlaySceneContext {
   readonly reason: string;
   readonly placeLabel: string | null;
   readonly presentPeople: readonly ScenePerson[];
+  /** Pictured workplace identity only; this does not admit people as present. */
+  readonly workplace?: NonNullable<
+    ReturnType<typeof selectedWorkplaceForPerson>
+  >;
 }
 
 type ContextScene =
@@ -124,6 +129,7 @@ export function resolveOpeningPlaySceneContext(
     );
 
   const workArrival = openingWorkLocation(world, personId);
+  const workplace = selectedWorkplaceForPerson(world, personId);
   if (workArrival?.context.location?.setting === "work")
     return {
       purpose: "activity",
@@ -132,6 +138,7 @@ export function resolveOpeningPlaySceneContext(
       reason: workArrival.summary,
       placeLabel: workArrival.context.location.label,
       presentPeople: [],
+      ...(workplace ? { workplace } : {}),
     };
 
   if (setting === "neighborhood" || setting === null)

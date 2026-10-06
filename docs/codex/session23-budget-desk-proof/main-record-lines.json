@@ -1,0 +1,173 @@
+{
+  "randomPlace": "Terre Haute, Indiana",
+  "randomPlaceKey": "1875428",
+  "proofKind": "authored governor seat for the original new life and supplied legislative votes; no natural election or NPC bargaining proof",
+  "seed": "setup-v3:b0afec5a06bd0c47:{\"v\":3,\"seed\":\"session23-part4-dollar-budget-new-game-2026-10-06\",\"placeKey\":\"1875428\",\"startAge\":40,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Emerson\",\"familyName\":\"Stuart\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+  "worldId": "world_1babde85a1cf4a0a",
+  "moment": {
+    "date": "2026-01-19",
+    "minuteOfDay": 420,
+    "timeZone": "America/New_York",
+    "utcOffsetMinutes": -300
+  },
+  "controlledPersonId": "person_b4607782c8d06f2c",
+  "office": {
+    "officeKey": "us-in-governor",
+    "stateUsps": "IN",
+    "title": "Governor of Indiana",
+    "jurisdictionId": "jurisdiction_6d6a95d42895c878",
+    "organizationId": "organization_1b1b5b9cc00d5d3e",
+    "holderPersonId": "person_b4607782c8d06f2c",
+    "termId": "event_256ae545f891239a",
+    "termStartedAt": "2026-01-05",
+    "termEndsAt": "2029-01-01",
+    "controlledByPlayer": true,
+    "calendarBasis": "game-profile",
+    "calendarNote": "The term runs 4 years, beginning the first Monday of January, with an election every 4 years in November."
+  },
+  "requests": [
+    {
+      "matterId": "event_0ed000642efbecb9",
+      "decisionEventId": "event_a25159f24968ef43",
+      "officeKey": "us-in-governor",
+      "personId": "person_b4607782c8d06f2c",
+      "governmentIdentity": {
+        "kind": "jurisdiction",
+        "jurisdictionId": "jurisdiction_6d6a95d42895c878"
+      },
+      "startsOn": "2026-01-05",
+      "endsOn": "2027-01-05",
+      "lines": [
+        {
+          "familyKey": "transit-access",
+          "amount": {
+            "minorUnits": 400000025,
+            "currency": "USD"
+          }
+        }
+      ],
+      "event": {
+        "id": "event_b954d8044e2c2687",
+        "stableKey": "state-governing/v1:us-in-governor:event_256ae545f891239a:budget:entry:event_256ae545f891239a:dollar-request",
+        "sequence": 71519,
+        "type": "governing.budget-request",
+        "occurredAt": "2026-01-05",
+        "recordedAt": "2026-01-05",
+        "jurisdictionId": "jurisdiction_6d6a95d42895c878",
+        "involvedEntityIds": [
+          "organization_1b1b5b9cc00d5d3e",
+          "person_b4607782c8d06f2c"
+        ],
+        "participants": [
+          {
+            "personId": "person_b4607782c8d06f2c",
+            "role": "agency:budget-request",
+            "detail": "Governor of Indiana"
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "executive-budget-request:%7B%22matterId%22%3A%22event_0ed000642efbecb9%22%2C%22decisionEventId%22%3A%22event_a25159f24968ef43%22%2C%22officeKey%22%3A%22us-in-governor%22%2C%22personId%22%3A%22person_b4607782c8d06f2c%22%2C%22governmentIdentity%22%3A%7B%22kind%22%3A%22jurisdiction%22%2C%22jurisdictionId%22%3A%22jurisdiction_6d6a95d42895c878%22%7D%2C%22startsOn%22%3A%222026-01-05%22%2C%22endsOn%22%3A%222027-01-05%22%2C%22lines%22%3A%5B%7B%22familyKey%22%3A%22transit-access%22%2C%22amount%22%3A%7B%22minorUnits%22%3A400000025%2C%22currency%22%3A%22USD%22%7D%7D%5D%7D",
+          "matter:event_0ed000642efbecb9",
+          "office:us-in-governor",
+          "source-event:event_a25159f24968ef43",
+          "term:event_256ae545f891239a"
+        ],
+        "summary": "Governor of Indiana requested $4,000,000.25 for Transit access for 2026-01-05 through 2027-01-05. This is a request to the legislature, not authority to spend.",
+        "context": {
+          "location": null,
+          "socialContext": null,
+          "pressure": null,
+          "choice": "Requested dollar amounts by program family.",
+          "motivation": null,
+          "immediateReaction": null
+        }
+      }
+    }
+  ],
+  "appropriations": [
+    {
+      "kind": "appropriation",
+      "programKey": "transit-access:in",
+      "jurisdictionId": "jurisdiction_6d6a95d42895c878",
+      "accountOrganizationId": "organization_0ebd6944f26195b7",
+      "amount": {
+        "minorUnits": 300000000,
+        "currency": "USD"
+      },
+      "availableFrom": "2026-01-19",
+      "availableThrough": "2027-01-18",
+      "basis": {
+        "kind": "game-profile",
+        "note": "enacted-appropriations/v1: adopted by section 3 of Budget comparison 1, Transit Access Pilot. The amount is that section's own enacted figure."
+      },
+      "sourceMeasureId": "legislative-measure_414166e01dc6a044",
+      "id": "public-program-record_6c191e06688620d6",
+      "stableKey": "public-program/v1:transit-access:in:appropriation:measure-budget-comparison-1-pilot-support-limit",
+      "sequence": 377731,
+      "recordedAt": "2026-01-19",
+      "eventId": "event_99bf350cc617a27e"
+    }
+  ],
+  "matters": [
+    {
+      "id": "event_0ed000642efbecb9",
+      "status": "decided",
+      "decision": {
+        "id": "event_a25159f24968ef43",
+        "stableKey": "state-governing/v1:us-in-governor:event_256ae545f891239a:budget:entry:event_256ae545f891239a:decided",
+        "sequence": 71515,
+        "type": "governing.matter-decided",
+        "occurredAt": "2026-01-05",
+        "recordedAt": "2026-01-05",
+        "jurisdictionId": "jurisdiction_6d6a95d42895c878",
+        "involvedEntityIds": [
+          "organization_1b1b5b9cc00d5d3e",
+          "person_b4607782c8d06f2c",
+          "work-item_d1a6e65af2e96687"
+        ],
+        "participants": [
+          {
+            "personId": "person_b4607782c8d06f2c",
+            "role": "agency:decider",
+            "detail": "player"
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "choice:budget:request-dollars",
+          "decided-by:player",
+          "matter-family:budget",
+          "matter:event_0ed000642efbecb9",
+          "office:us-in-governor",
+          "state-governing/v1"
+        ],
+        "summary": "Emerson Stuart, Governor of Indiana, prepared a dollar budget request for the legislature.",
+        "context": {
+          "location": null,
+          "socialContext": null,
+          "pressure": null,
+          "choice": "Prepare a dollar request",
+          "motivation": null,
+          "immediateReaction": null
+        }
+      }
+    }
+  ],
+  "enactments": [
+    {
+      "id": "legislative-enactment_db6098e44ef201da",
+      "stableKey": "measure:legislative-measure_414166e01dc6a044:enactment",
+      "sequence": 377728,
+      "measureId": "legislative-measure_414166e01dc6a044",
+      "resolvedAt": "2026-01-19",
+      "outcome": "enacted",
+      "actDesignation": null,
+      "effectiveAt": "2026-01-19",
+      "finalPassageAt": "2026-01-19",
+      "outcomeEventId": "event_58f5a37c472c10f8"
+    }
+  ]
+}

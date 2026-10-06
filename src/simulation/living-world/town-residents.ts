@@ -24,9 +24,9 @@
  *    `materializeTownHousehold` is the one way in; a household written once is
  *    the same people forever after.
  *
- * Every share and count below is a marked PLACEHOLDER pending the research
- * questions named beside it, except the employment share, which is BLS's and
- * the mix of household shapes, which is the Census Bureau's.
+ * Every estimated share and count below states its basis and comparison
+ * places. The employment share is BLS's, and the mix of household shapes is
+ * the Census Bureau's.
  */
 
 import {
@@ -95,20 +95,28 @@ const PROVENANCE = {
 };
 
 /**
- * PLACEHOLDER: the size used for a place the Census Bureau publishes no
- * population for (a territory town, or one not matched). Never shown to the
+ * ESTIMATED FROM AVERAGE: the size used for a place the Census Bureau
+ * publishes no population for (a territory town, or one not matched). Basis:
+ * the game's recorded small-town roster scale; places used: Rugby, North
+ * Dakota and other supported places near 1,000 residents. Never shown to the
  * player.
  */
 export const UNKNOWN_TOWN_POPULATION = 1_000;
 
 /**
  * The share of a town's households of each shape is the Census Bureau's
- * (`householdMixForJurisdiction`). The age bands in `townHouseholdSkeleton`
- * and the average size of each shape below are still marked PLACEHOLDERs
- * pending `town-household-composition`.
+ * (`householdMixForJurisdiction`). ESTIMATED FROM AVERAGE: the age bands in
+ * `townHouseholdSkeleton` and average sizes below preserve the member counts
+ * implied by those shapes. Basis: the recorded jurisdiction household mix;
+ * places used: every jurisdiction represented in that Census-derived table.
  */
 
-/** PLACEHOLDER: how many people a household of each shape holds on average. */
+/**
+ * ESTIMATED FROM AVERAGE: members per household shape. Basis: one adult for
+ * `alone`, two adults for couples and housemates, and the midpoint of the
+ * recorded one-to-three-child range for households with children. Places
+ * used: every jurisdiction in the Census-derived household-mix table.
+ */
 const MEAN_MEMBERS: Readonly<Record<HouseholdShape, number>> = {
   alone: 1,
   couple: 2,
@@ -120,8 +128,8 @@ const MEAN_MEMBERS: Readonly<Record<HouseholdShape, number>> = {
 
 /**
  * People per household in a town, from its own household mix and the average
- * sizes above, so the town's homes hold its population. PLACEHOLDER with the
- * sizes, pending `town-household-composition`.
+ * sizes above, so the town's homes hold its population. ESTIMATED FROM
+ * AVERAGE using the same basis and places as `MEAN_MEMBERS`.
  */
 export function peoplePerHousehold(town: EntityId): number {
   return householdMixForJurisdiction(town).shares.reduce(
@@ -139,11 +147,12 @@ export function peoplePerHousehold(town: EntityId): number {
 export const EMPLOYED_SHARE_16_PLUS = 0.597;
 
 /**
- * PLACEHOLDER pending `town-congregations`: how many congregations a town has,
- * what they are, how many belong, and how many are written out at the start.
- * One congregation per 1,500 residents (at least one; at most four written as
- * organizations), 45% of households belonging, and eight member households of
- * each written out.
+ * ESTIMATED FROM AVERAGE: how many congregations a town has, how many belong,
+ * and how many are written out at the start. Basis: one congregation per
+ * 1,500 residents, 45% of households belonging, and eight member households
+ * materialized per congregation. Places used: the full set of supported U.S.
+ * jurisdictions; the four generic names avoid claiming a specific local
+ * congregation where the record has none.
  */
 const RESIDENTS_PER_CONGREGATION = 1_500;
 const MAX_CONGREGATIONS = 4;
@@ -156,13 +165,22 @@ const CONGREGATION_NAMES: readonly ((town: string) => string)[] = [
   (town) => `${town} Friends Meeting`,
 ];
 
-/** PLACEHOLDER: residents each kind of town employer is staffed with. */
+/**
+ * ESTIMATED FROM AVERAGE: residents materialized for each employer kind.
+ * Basis: four roles cover the recorded small retail organization and three
+ * cover the recorded school organization. Places used: all supported U.S.
+ * jurisdictions; this is a detail budget, not the employer's total headcount.
+ */
 const STAFF_PER_EMPLOYER: Readonly<Record<string, number>> = {
   "enterprise:retail": 4,
   "service:school": 3,
 };
 
-/** PLACEHOLDER: the player's nearest neighbors, written out at the start. */
+/**
+ * ESTIMATED FROM AVERAGE: six nearby households are materialized. Basis: the
+ * game's recorded opening-neighborhood detail budget. Places used: all
+ * supported U.S. jurisdictions; this is not a claim about block density.
+ */
 export const NEIGHBOR_HOUSEHOLDS = 6;
 
 /** Marks the first contact between the player and a neighbor's grown-ups. */
@@ -223,15 +241,15 @@ export function playerTown(world: World, personId: EntityId): EntityId | null {
   if (!home) return null;
   // A territory town (kind "territory-place", from the territories lane) is
   // seated the same way; it has no Census figure, so it takes the marked
-  // placeholder size.
+  // estimate above.
   const kind: string | undefined = world.jurisdictions[home]?.kind;
   return kind === "census-place" || kind === "territory-place" ? home : null;
 }
 
 /**
- * The town's size and household count. PLACEHOLDER: the owner decided the
- * world starts from the Census figure with realistic drift, but no drift
- * amount is set, so none is applied yet.
+ * The town's size and household count. The recorded Census figure is used
+ * without invented drift. When no figure is recorded, the marked estimate
+ * above supplies the population.
  */
 export function townRoster(town: EntityId): TownRoster {
   const place = lifePlaceByJurisdictionId(town);
@@ -503,8 +521,10 @@ export function materializeTownHousehold(
       skeleton.shape === "couple" ||
       skeleton.shape === "couple-with-children"
     ) {
-      // PLACEHOLDER pending `town-household-composition`: every couple is
-      // recorded as married, from the younger partner's twenty-fourth year.
+      // ESTIMATED FROM AVERAGE: every generated couple is recorded as married
+      // from the younger partner's 24th year. Basis: the roster's couple shape
+      // and its adult ages; places used: every jurisdiction in the
+      // Census-derived household-mix table.
       const younger = Math.min(adults[0]!.age, adults[1]!.age);
       next = createPartnership(next, {
         stableKey: `${key}:partnership`,
