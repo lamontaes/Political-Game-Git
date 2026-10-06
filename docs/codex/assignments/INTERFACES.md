@@ -170,11 +170,12 @@ which looks up a completed scheduled activity by `activityId` and therefore
 cannot consume a capacity-outturn ID. Resolution must carry `outturn.id` in
 `sourceRecordIds` and the resolved person's own ID as `subject.id`; apply uses
 those to write the named-person exposure against the canonical measure. Dispatch
-for every law-linked saved outturn, including a saved zero-change outturn. Keep
-the zero record and its cause identity; do not synthesize a positive change.
-Whether a zero-change outturn should create a named-person no-change exposure
-or only remain a caused public zero record is pending an exact CTO ruling. The
-outturn links to `outturn.eventId` for its effect date. The writer call site is
+for every law-linked saved outturn, including `restoredUnits: 0`; retain its
+actual cause identity. Only positive capacity deltas may create downstream
+resident state changes. A zero delta preserves the caused zero record and
+creates no downstream state change. No-funding, closed, and unknown conditions
+must remain marked estimated where applicable; never turn unknown into zero.
+The outturn links to `outturn.eventId` for its effect date. The writer call site is
 `recordCapacityOutturn` in `src/simulation/governing/public-program.ts` and its
 owning hunk must be coordinated with that file's current owner before editing.
 
