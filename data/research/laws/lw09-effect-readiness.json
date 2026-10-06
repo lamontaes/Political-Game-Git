@@ -1,0 +1,48 @@
+{
+  "batch": "LW-09",
+  "status": "research-and-record-seams-required",
+  "runtimeActivation": false,
+  "entries": [
+    {
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "candidateEffect": "age-verification-compliance-cost-and-account-access",
+      "evidenceStatus": "not-sized-not-enabled",
+      "source": "data/research/outcome-web/social-media-age-verification-contracts.json",
+      "blockers": [
+        "No canonical platform account, age-verification, or identity-submission decision record exists.",
+        "No named-person consumer for an actual access decision exists.",
+        "Platform implementation and per-verification costs are not sized; no universal ID upload or breach rate is supported."
+      ]
+    },
+    {
+      "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+      "candidateEffect": "admission-and-workforce-change",
+      "evidenceStatus": "size-not-set",
+      "source": "data/research/outcome-web/links.json#more-immigration-to-workforce",
+      "blockers": [
+        "The federal question does not specify how many people are admitted or under which categories; the workforce link explicitly says no general size is available.",
+        "No canonical admitted-person or immigration-status transition consumer is present in the inspected simulation source."
+      ]
+    },
+    {
+      "questionKey": "us-federal-positions:education.forgive-student-loans",
+      "candidateEffect": "federal-student-debt-relief",
+      "evidenceStatus": "size-not-set-and-about-zero-place-link",
+      "source": "data/research/outcome-web/links.json#student-debt-relief-to-finances;student-loan-forgiveness-to-poverty",
+      "blockers": [
+        "The finance link is explicitly unsupported until a bill defines terms; its cited study concerns private loans in default and its outcome unit is undefined.",
+        "The poverty link is about-zero because debt relief is not money income; no canonical federal student-loan balance or discharge record consumer for named people was found."
+      ]
+    },
+    {
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "candidateEffect": "federal-state-disaster-cost-allocation",
+      "evidenceStatus": "no-running-effect-or-person-consumer",
+      "source": "src/simulation/policy-pack-us-federal-positions.ts#emergencies.states-share-disaster-costs",
+      "blockers": [
+        "The question alone does not specify a federal cost-share percentage or eligible disaster program, and no sourced term supports a rate.",
+        "The simulation's incident-response allocation is explicitly fictional and is not FEMA assistance or empirical damage; no canonical federal disaster reimbursement or named-recipient reader is available."
+      ]
+    }
+  ]
+}
