@@ -940,6 +940,7 @@ export type LawExposureChannel =
   | "business-rule"
   | "public-service"
   | "court-rule"
+  | "sentence-rule"
   | "rent";
 
 /**
