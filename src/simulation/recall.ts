@@ -1112,6 +1112,17 @@ export function askToSign(
                 row.role === "agency:actor",
             ) &&
             event.sequence > asked!.sequence &&
+            recordsWithFieldValue(
+              next.history.appraisals,
+              "eventId",
+              event.id,
+            ).some(
+              (appraisal) =>
+                appraisal.personId === input.signerPersonId &&
+                appraisal.provenance.kind === "player-choice" &&
+                appraisal.appraisedAt <= petition.closesAt &&
+                appraisal.sequence < next.history.nextSequence,
+            ) &&
             event.occurredAt <= petition.closesAt &&
             event.tags.some((tag) =>
               ["choice.sign", "choice.refuse", "choice.help-quietly"].includes(
@@ -1134,6 +1145,13 @@ export function askToSign(
         .at(-1)
     : undefined;
   if (player && !saved) return next;
+  const savedAppraisal = saved
+    ? recordsWithFieldValue(next.history.appraisals, "eventId", saved.id).find(
+        (row) =>
+          row.personId === input.signerPersonId &&
+          row.provenance.kind === "player-choice",
+      )
+    : undefined;
   const selected = saved?.tags
     .find((tag) => tag.startsWith("choice."))
     ?.slice(7);
@@ -1209,7 +1227,10 @@ export function askToSign(
             confidence: "high",
             explanation:
               "The player's recorded answer to this unique petition request.",
-            sourceRefs: [{ kind: "historical-event", eventId: saved.id }],
+            sourceRefs: [
+              { kind: "historical-event", eventId: saved.id },
+              { kind: "appraisal", appraisalId: savedAppraisal!.id },
+            ],
           },
         ]
       : belief &&
@@ -1281,7 +1302,12 @@ export function askToSign(
       `petition:${petition.stableKey}`,
       `ask:${asked.id}`,
       `signer-decision:${trace.id}`,
-      ...(saved ? [`player-choice:${saved.id}`] : []),
+      ...(saved
+        ? [
+            `player-choice:${saved.id}`,
+            `player-choice-appraisal:${savedAppraisal!.id}`,
+          ]
+        : []),
     ],
     summary: `${personName(next.people[input.signerPersonId]!)} ${answer === "sign" ? "signed" : "did not sign"} the petition after a recorded request.`,
     context: {
@@ -1523,7 +1549,7 @@ function done(world: World, context: string): FutureTransitionHandlerResult {
 
 function closingEvent(
   world: World,
-  petition: RecallPetition,
+  petition: CitizenPetition,
   outcome: "qualified" | "failed" | "lapsed",
   electionAt: IsoDate | null,
   summary: string,
@@ -1535,12 +1561,12 @@ function closingEvent(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: petition.jurisdictionId,
-    involvedEntityIds: [petition.targetPersonId],
+    involvedEntityIds: [petition.targetPersonId ?? petition.petitionerPersonId],
     participants: [
       {
-        personId: petition.targetPersonId,
+        personId: petition.targetPersonId ?? petition.petitionerPersonId,
         role: "focus:subject",
-        detail: "recall-target",
+        detail: petition.kind === "recall" ? "recall-target" : "petition-filer",
       },
     ],
     personFactConstraints: [],
@@ -1565,15 +1591,94 @@ export function recallPetitionClosesHandler(
   const petition = petitionForDue(world, due);
   if (!petition || petition.phase !== "circulating")
     return done(world, "No circulating recall petition matches.");
-  if (petition.kind !== "recall")
-    return {
-      world,
-      status: "blocked",
-      reasonKey: "petition:signed-record-close-pending",
-      context:
-        "This proposition petition is filed with its legal terms; the shared signed-record close integration is pending.",
-      outcomeEventId: null,
-    };
+  let signingWorld = world;
+  for (const request of world.history.events.filter(
+    (row) =>
+      row.type === PETITION_ASKED &&
+      row.tags.includes(`petition:${petition.stableKey}`) &&
+      row.tags.includes("answer-mode:player") &&
+      row.occurredAt <= petition.closesAt &&
+      row.recordedAt <= world.currentDate,
+  )) {
+    const circulatorPersonId = request.participants.find(
+      (row) => row.role === "agency:circulator",
+    )!.personId;
+    const signerPersonId = request.participants.find(
+      (row) => row.role === "focus:requested",
+    )!.personId;
+    signingWorld = askToSign(signingWorld, {
+      petition,
+      signerPersonId,
+      circulatorPersonId,
+      askEventId: request.id,
+    });
+  }
+  world = signingWorld;
+  const counted = recordedPetitionSignatures(world, petition);
+  if (petition.kind !== "recall") {
+    const required = Math.ceil(
+      (counted.registeredVoters * Number(petition.rule.threshold.percent)) /
+        100,
+    );
+    const tags = [
+      `petition-kind:${petition.kind}`,
+      `proposition:${petition.propositionId}`,
+      `signatures:${counted.yes}`,
+      `registered-voters:${counted.registeredVoters}`,
+      `required-signatures:${required}`,
+      `threshold-base:${petition.rule.threshold.base}`,
+      "signature-mechanism:asked-signed-events",
+      ...counted.sourceRecordIds.map((id) => `signature-source:${id}`),
+      ...(petition.rule.threshold.base !== "registered-voters"
+        ? [
+            "count-base:registered-voters-estimated",
+            "count-base-note:ESTIMATED FROM AVERAGE; recorded eligible residents stand in for the historical election denominator.",
+          ]
+        : ["count-base:registered-voters"]),
+    ];
+    if (counted.registeredVoters === 0 || counted.yes < required)
+      return done(
+        closingEvent(
+          world,
+          petition,
+          "failed",
+          null,
+          `The petition failed to qualify: ${counted.yes} valid signed records, ${required} required.`,
+          tags,
+        ),
+        "Recorded eligible signatures fell short of the filed threshold.",
+      );
+    const distribution = Number(
+      petition.rule.distribution.requiredFraction ?? 0,
+    );
+    const review = world.history.events.find(
+      (row) =>
+        row.type === PETITION_SIGNATURE_REVIEWED &&
+        row.tags.includes(`petition:${petition.stableKey}`) &&
+        row.tags.includes("distribution:valid") &&
+        row.occurredAt <= world.currentDate &&
+        row.recordedAt <= world.currentDate,
+    );
+    if (distribution > 0 && !review)
+      return {
+        world,
+        status: "blocked",
+        reasonKey: "petition:distribution-review-required",
+        context: `The filed rule requires signatures across ${distribution * 100}% of ${petition.rule.distribution.unit}. The clerk's distribution review is still due.`,
+        outcomeEventId: null,
+      };
+    return done(
+      closingEvent(
+        world,
+        petition,
+        "qualified",
+        null,
+        `The petition qualified on ${counted.yes} valid signed records. ${petition.rule.review.text}`,
+        [...tags, ...(review ? [`distribution-review:${review.id}`] : [])],
+      ),
+      "The certified proposition is ready for its lawful referral or ballot route.",
+    );
+  }
   const name = personName(world.people[petition.targetPersonId]!);
   if (!seatOf(world, petition.governmentKey, petition.targetPersonId))
     return done(
@@ -1600,30 +1705,6 @@ export function recallPetitionClosesHandler(
       context: "The jurisdiction's recall signature threshold is not recorded.",
       outcomeEventId: null,
     };
-  let signingWorld = world;
-  for (const request of world.history.events.filter(
-    (row) =>
-      row.type === PETITION_ASKED &&
-      row.tags.includes(`petition:${petition.stableKey}`) &&
-      row.tags.includes("answer-mode:player") &&
-      row.occurredAt <= petition.closesAt &&
-      row.recordedAt <= world.currentDate,
-  )) {
-    const circulatorPersonId = request.participants.find(
-      (row) => row.role === "agency:circulator",
-    )!.personId;
-    const signerPersonId = request.participants.find(
-      (row) => row.role === "focus:requested",
-    )!.personId;
-    signingWorld = askToSign(signingWorld, {
-      petition,
-      signerPersonId,
-      circulatorPersonId,
-      askEventId: request.id,
-    });
-  }
-  world = signingWorld;
-  const counted = recordedPetitionSignatures(world, petition);
   const required = resolveRequiredSignatures(
     threshold,
     counted.registeredVoters,

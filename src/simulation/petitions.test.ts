@@ -18,6 +18,9 @@ import {
   municipalRecallRule,
   startRecallPetition,
   recallPetitions,
+  citizenPetitions,
+  startCitizenPetition,
+  petitionRule,
   recallPetitionClosesHandler,
   askToSign,
   circulatePetition,
@@ -33,7 +36,13 @@ const place = drawRandomPlace(seed, (row) => {
   const government = municipalGovernmentForLifePlace(row);
   if (!government) return false;
   const rule = municipalRecallRule(government.key);
-  return rule.available && rule.threshold !== null;
+  return (
+    rule.available &&
+    rule.threshold !== null &&
+    petitionRule("local-initiative", government.state, {
+      governmentKey: government.key,
+    }).available
+  );
 });
 function setup(playerSigner = false) {
   const fixture = smallWorld({
@@ -128,6 +137,77 @@ function duplicate(world: World, signed: HistoricalEvent) {
   });
 }
 describe("petitions close on asked, decided signatures", () => {
+  it("uses the same asked signer records to close a proposition petition", () => {
+    const input = setup();
+    const government = municipalGovernmentForLifePlace(place)!;
+    const propositionId = Object.values(
+      input.world.policyCatalog.propositions,
+    )[0]!.id;
+    let world = startCitizenPetition(input.world, {
+      kind: "local-initiative",
+      petitionerPersonId: input.circulatorPersonId,
+      jurisdictionId: input.petition.jurisdictionId,
+      stateUsps: government.state,
+      governmentKey: government.key,
+      propositionId,
+    });
+    const petition = citizenPetitions(world).find(
+      (row) => row.kind === "local-initiative",
+    )!;
+    expect(petition.kind).toBe("local-initiative");
+    if (petition.kind === "recall")
+      throw new Error("Expected a proposition petition");
+    for (const signerPersonId of input.adults.filter(
+      (id) => id !== input.circulatorPersonId,
+    )) {
+      world = recordPrivateBelief(world, {
+        stableKey: `proposition-view:${signerPersonId}`,
+        personId: signerPersonId,
+        propositionId,
+        subject: null,
+        formedAt: world.currentDate,
+        position: "support",
+        conviction: "strong",
+        salience: "central",
+        flexibility: "firm",
+        rationale:
+          "The resident supports this petition's recorded proposition.",
+        formation: createFormationContext("reflection:initial"),
+        supersedesBeliefId: null,
+      });
+      world = askToSign(world, {
+        petition,
+        signerPersonId,
+        circulatorPersonId: input.circulatorPersonId,
+      });
+    }
+    const due = world.history.futureDueItems.find(
+      (row) => row.stableKey === `${petition.stableKey}:closes`,
+    )!;
+    world = {
+      ...world,
+      currentDate: petition.closesAt,
+      currentMoment: simulationMomentOnLocalDate(
+        world.currentMoment,
+        petition.closesAt,
+      ),
+    };
+    const result = recallPetitionClosesHandler(world, due);
+    expect(result.status).toBe("resolved");
+    expect(
+      citizenPetitions(result.world).find(
+        (row) => row.stableKey === petition.stableKey,
+      )!.phase,
+    ).toBe("awaiting-election");
+    const count = recordedPetitionSignatures(result.world, petition);
+    expect(count.yes).toBe(input.adults.length - 1);
+    expect(result.world.history.events.at(-1)!.tags).toContain(
+      `signatures:${count.yes}`,
+    );
+    expect(
+      citizenPetitions(deserializeWorld(serializeWorldPayload(result.world))),
+    ).toEqual(citizenPetitions(result.world));
+  });
   it("does not count favorable views from anyone who was never asked", () => {
     const input = setup();
     expect(input.world.history.privateBeliefs.length).toBeGreaterThan(0);
@@ -278,6 +358,40 @@ describe("petitions close on asked, decided signatures", () => {
       input.world.history.decisionTraces.length,
     );
   });
+  it("does not treat a generated life answer as a human selection", () => {
+    const input = setup(true);
+    let world = askToSign(input.world, {
+      petition: input.petition,
+      signerPersonId: input.signerPersonId,
+      circulatorPersonId: input.circulatorPersonId,
+    });
+    world = {
+      ...world,
+      control: { kind: "person", personId: input.circulatorPersonId },
+    };
+    const action = resolveLifeSituation(world, {
+      stableKey: "petition-generated-answer",
+      mode: "quick-generated",
+      personId: input.signerPersonId,
+      situationKey: "adult.petition-ask",
+      optionKey: "sign",
+      occurredAt: world.currentDate,
+      jurisdictionId: input.petition.jurisdictionId,
+    });
+    if (action.status !== "resolved")
+      throw new Error("Expected generated action fixture");
+    expect(
+      action.world.history.appraisals.find(
+        (row) => row.eventId === action.eventId,
+      )!.provenance.kind,
+    ).toBe("reflection");
+    world = deserializeWorld(serializeWorldPayload(action.world));
+    world = close(world, input);
+    expect(recordedPetitionSignatures(world, input.petition).yes).toBe(0);
+    expect(
+      world.history.events.filter((row) => row.type === PETITION_SIGNED),
+    ).toEqual([]);
+  });
   it.each(["sign", "refuse"] as const)(
     "traces the actual played %s action through reload and deadline follow-through",
     (optionKey) => {
@@ -312,6 +426,13 @@ describe("petitions close on asked, decided signatures", () => {
         row.tags.includes(`player-choice:${actionId}`),
       )!;
       expect(answered.context.choice).toBe(optionKey);
+      const appraisal = world.history.appraisals.find(
+        (row) =>
+          row.eventId === actionId && row.provenance.kind === "player-choice",
+      )!;
+      expect(answered.tags).toContain(
+        `player-choice-appraisal:${appraisal.id}`,
+      );
       const trace = world.history.decisionTraces.find((row) =>
         answered.tags.includes(`signer-decision:${row.id}`),
       )!;
