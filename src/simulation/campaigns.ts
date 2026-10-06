@@ -125,6 +125,7 @@ import {
 import {
   composeFutureTransitionHandlerRegistries,
   createFutureTransitionHandlerRegistry,
+  scheduleFutureDueItem,
 } from "./future-transitions";
 import { createStableId, stableHash } from "./ids";
 import {
@@ -2140,10 +2141,7 @@ function closeCampaignAfterElection(
     },
   };
   assertWorldIntegrity(next);
-  for (const workRelationshipId of [
-    campaign.candidateWorkRelationshipId,
-    ...campaign.staffWorkRelationshipIds,
-  ]) {
+  for (const workRelationshipId of [campaign.candidateWorkRelationshipId]) {
     const previous = workStatusHistory(next, workRelationshipId).at(-1);
     if (previous && previous.status !== "ended") {
       next = recordWorkStatus(next, {
@@ -2156,6 +2154,26 @@ function closeCampaignAfterElection(
         supersedesStatusId: previous.id,
       });
     }
+  }
+  // Staff remain on the record for the election-night gathering. Their
+  // work ends tomorrow through the existing clock, never a future-dated
+  // work-status record written today.
+  if (campaign.staffWorkRelationshipIds.length > 0) {
+    const endedAt = addDays(result.resolvedAt, 1);
+    if (endedAt <= next.currentDate) {
+      next = endCampaignStaff(next, campaign, endedAt, result.outcomeEventId);
+    } else
+      next = scheduleFutureDueItem(next, {
+        stableKey: `${campaign.stableKey}:staff-close:${result.id}`,
+        dueAt: addDays(result.resolvedAt, 1),
+        transitionKey: CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY,
+        entityIds: [campaign.contestId, result.id].sort(),
+        jurisdictionId: campaign.jurisdictionId,
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [result.id, result.outcomeEventId].sort(),
+        },
+      });
   }
   // CRUNCH46 CAMPAIGN: campaign work still on the calendar can no longer be
   // performed once the race is decided, so release it instead of leaving a
@@ -2275,6 +2293,67 @@ export function campaignElectionTransitionHandler(
   };
 }
 
+const CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY = "campaign:staff-close" as const;
+
+function closeCampaignStaffOnDueDate(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const campaign =
+    dueItem.entityIds
+      .map((id) => campaignForContest(world, id))
+      .find((row) => row !== null) ?? null;
+  const result = campaign
+    ? electionContestResult(world, campaign.contestId)
+    : null;
+  if (
+    !campaign ||
+    !result ||
+    !dueItem.entityIds.includes(result.id) ||
+    dueItem.dueAt !== addDays(result.resolvedAt, 1) ||
+    campaignState(world, campaign.id).status === "active"
+  )
+    throw new Error(
+      "Campaign staff closure requires its saved election result and next-day date.",
+    );
+  const next = endCampaignStaff(
+    world,
+    campaign,
+    dueItem.dueAt,
+    result.outcomeEventId,
+  );
+  return {
+    world: next,
+    status: "resolved",
+    reasonKey: null,
+    context: "Campaign staff work ended after election night.",
+    outcomeEventId: null,
+  };
+}
+
+function endCampaignStaff(
+  world: World,
+  campaign: CampaignRecord,
+  endedAt: IsoDate,
+  outcomeEventId: EntityId,
+): World {
+  let next = world;
+  for (const workRelationshipId of campaign.staffWorkRelationshipIds) {
+    const previous = workStatusHistory(next, workRelationshipId).at(-1);
+    if (previous && previous.status !== "ended")
+      next = recordWorkStatus(next, {
+        stableKey: `${campaign.stableKey}:work-ended:${workRelationshipId}`,
+        workRelationshipId,
+        effectiveAt: endedAt,
+        status: "ended",
+        reason: "Campaign staff work ended the day after the election.",
+        provenance: { kind: "simulated-event", eventId: outcomeEventId },
+        supersedesStatusId: previous.id,
+      });
+  }
+  return next;
+}
+
 export function composeWorldTimeHandlers(
   additional?: FutureTransitionHandlerRegistry,
 ): FutureTransitionHandlerRegistry {
@@ -2300,6 +2379,7 @@ export function composeWorldTimeHandlers(
       createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+        [CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY, closeCampaignStaffOnDueDate],
         // GOVERNING: state office matters, their deadlines and reports.
         ...stateGoverningHandlers(),
         ...governorTurnoverHandlers(),
