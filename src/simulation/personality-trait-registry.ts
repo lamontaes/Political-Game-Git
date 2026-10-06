@@ -106,6 +106,11 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
+  {
+    trait: "personality-v1:playful-manner",
+    kind: "decision",
+    reader: "contact.answer — src/simulation/traits/effects/playful-manner.ts",
+  },
 ];
 
 /**
@@ -116,7 +121,6 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
  * here. The coverage test below permits no third state.
  */
 export const NOT_YET_CONNECTED_TRAITS = [
-  "personality-v1:playful-manner",
   "personality-v1:voluntary-effort",
   "personality-v1:concern-for-distress",
   "personality-v1:initial-trust",
