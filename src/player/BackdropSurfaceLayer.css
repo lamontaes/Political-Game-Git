@@ -37,48 +37,6 @@
   border: 0.08em solid #0d0b09;
 }
 
-.bs-bills {
-  /* The office art is a green paper pinned to cork. Write on that sheet. */
-  gap: 0.1em;
-  padding: 0.18em 0.24em;
-  color: #173b25;
-  background: transparent;
-  border: 0;
-}
-
-.bs-bills .bs-board-heading {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.7em;
-  text-transform: none;
-  letter-spacing: 0.01em;
-  color: #163a24;
-  border-bottom-color: rgba(22, 58, 36, 0.48);
-  padding-bottom: 0.08em;
-}
-
-.bs-bills .bs-board-sub {
-  color: #244a31;
-  opacity: 0.9;
-}
-
-.bs-bills .bs-board-rows {
-  gap: 0.1em;
-}
-
-.bs-bills .bs-row {
-  display: block;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.6em;
-  color: #173b25;
-}
-
-.bs-bills .bs-row-note {
-  font-size: 0.8em;
-  opacity: 0.95;
-  color: #294b34;
-  -webkit-line-clamp: 1;
-}
-
 .bs-board-heading {
   flex: none;
   font-size: 0.7em;
@@ -452,4 +410,28 @@
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+ 
+/* The office's bill list is printed on the painted green sheet, not a second page. */
+.backdrop-surface[data-surface-id="office-green-poster"] .bs-sheet {
+  padding: 0.12em 0.16em;
+  color: #173b25;
+  background: transparent;
+  border: 0;
+}
+
+.backdrop-surface[data-surface-id="office-green-poster"] .bs-sheet-heading {
+  color: #163a24;
+  border-bottom-color: rgba(22, 58, 36, 0.5);
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+.backdrop-surface[data-surface-id="office-green-poster"] .bs-sheet-place {
+  color: #244a31;
+}
+
+.backdrop-surface[data-surface-id="office-green-poster"] .bs-sheet-line {
+  color: #173b25;
 }
