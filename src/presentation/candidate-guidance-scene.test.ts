@@ -14,6 +14,7 @@ import {
   leaveCandidateGuidance,
   projectCandidateGuidanceScene,
 } from "./candidate-guidance-scene";
+import { projectCampaignOffices } from "./campaign-office-discovery";
 import { openingLifeLocation } from "./life-scene-flow";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -94,9 +95,34 @@ describe("candidate guidance in the room", () => {
     expect(
       projectCandidateGuidanceScene(asked, personId)?.turns[0]?.words,
     ).toBe("What are the requirements to run here?");
+    const response =
+      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response;
+    const officeFacts = projectCampaignOffices(asked, personId).slice(0, 4);
+    expect(response).toBeTruthy();
+    if (officeFacts.length === 0) {
+      expect(response).toBe(
+        "I don't have an office's requirements on record for your home place yet.",
+      );
+    } else {
+      for (const office of officeFacts) {
+        expect(response).toContain(`${office.title}: ${office.eligibility}`);
+      }
+    }
+    expect(response).not.toContain("Let's check the requirements");
+    const answerEvent = asked.history.events.find(
+      (event) =>
+        event.type === "campaign.candidate-guidance-question" &&
+        event.tags.includes("question:requirements"),
+    )!;
+    expect(answerEvent.context.immediateReaction).toBe(response);
     expect(
-      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
-    ).toBe("Let's check the requirements before you decide to run.");
+      asked.history.knowledge.some(
+        (item) =>
+          item.eventId === answerEvent.id &&
+          item.personId === personId &&
+          item.accuracy === "accurate",
+      ),
+    ).toBe(true);
     expect(
       askCandidateGuidance(asked, personId, activityId, "requirements"),
     ).toBe(asked);
@@ -133,9 +159,23 @@ describe("candidate guidance in the room", () => {
       record.scheduledActivityId,
       "filing",
     );
+    const response =
+      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response;
+    const nextOffice = projectCampaignOffices(asked, personId).find(
+      (office) => office.electionDate !== null,
+    );
+    expect(response).toBe(
+      nextOffice
+        ? `${nextOffice.timing} The filing office and deadline for ${nextOffice.title} aren't in the record yet.`
+        : "I don't have an upcoming election date on record for an office here.",
+    );
     expect(
-      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
-    ).toBe("Let's check the filing steps before you act.");
+      asked.history.events.find(
+        (event) =>
+          event.type === "campaign.candidate-guidance-question" &&
+          event.tags.includes("question:filing"),
+      )?.context.immediateReaction,
+    ).toBe(response);
     const left = leaveCandidateGuidance(
       asked,
       personId,
