@@ -32,7 +32,7 @@ export const CURRICULUM_STANDARDS_ROW: LawConsequenceRow = {
       "data/research/outcome-web/links.json#curriculum-standards-to-math",
     ],
     population:
-      "People in dated active school enrollments whose saved school location resolves to the operative state.",
+      "People in dated active school enrollments at saved public-school organization types whose school location resolves to the operative state.",
     scope:
       "Records the saved enacted coverage categories against an active enrollment only when a category exactly matches its saved program kind.",
     why: "A state curriculum-standard law applies to covered school enrollment in its jurisdiction; this record does not claim that a lesson was taught or that a pupil learned material.",

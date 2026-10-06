@@ -74,13 +74,11 @@ function propositionForRow(world: World, row: LawConsequenceRow) {
     );
 }
 
-function schoolStateKey(world: World, schoolOrganizationId: EntityId) {
-  const profile = organizationProfileAt(world, schoolOrganizationId);
-  if (!profile?.locationJurisdictionId) return null;
+function schoolStateKey(world: World, locationJurisdictionId: EntityId) {
   return (
     lifePlaces().find(
       (candidate) =>
-        candidate.context.jurisdiction.id === profile.locationJurisdictionId,
+        candidate.context.jurisdiction.id === locationJurisdictionId,
     )?.stateJurisdictionKey ?? null
   );
 }
@@ -172,7 +170,11 @@ export function resolveLawCurriculumApplications(
     if (
       !profile ||
       !profile.locationJurisdictionId ||
-      schoolStateKey(world, enrollment.organizationId) !== governingStateKey
+      !["service:school", "sector:education"].includes(
+        profile.classification,
+      ) ||
+      schoolStateKey(world, profile.locationJurisdictionId) !==
+        governingStateKey
     )
       return [];
     const schoolLocationId = profile.locationJurisdictionId;
