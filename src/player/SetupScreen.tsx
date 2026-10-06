@@ -53,6 +53,8 @@ import {
   replayDescriptorUrl,
 } from "../presentation/new-game-identity";
 import { DIAGNOSTICS } from "./diagnostics-profile";
+import { ONE_SAVE_OFFERED } from "../simulation/play-settings";
+import { initialPlaySettings } from "../simulation/play-settings";
 import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
@@ -103,6 +105,7 @@ const NORMAL_CREATOR_STEPS = [
   "route",
   "character",
   "place",
+  "difficulty",
   "whoAreYou",
   "begin",
 ] as const;
@@ -111,6 +114,7 @@ const CUSTOM_CREATOR_STEPS = [
   "character",
   "place",
   "background",
+  "difficulty",
   "whoAreYou",
   "begin",
 ] as const;
@@ -370,6 +374,7 @@ export function SetupScreen({
       .filter(Boolean)
       .join(" · "),
     place: place ? place.displayName : "",
+    difficulty: "Optional settings",
     background: custom
       ? [
           setup.household === "shares-a-home" ? "Shares a home" : "Lives alone",
@@ -1212,6 +1217,188 @@ export function SetupScreen({
         </section>
       ) : null}
 
+      {isCurrent("difficulty") ? (
+        <section data-testid="creator-stage-difficulty">
+          <h2>Difficulty</h2>
+          <p className="game-note">
+            These settings are optional. You can keep the defaults and continue.
+          </p>
+          <div
+            role="group"
+            aria-label="Challenge intensity"
+            className="game-choices"
+          >
+            {(
+              [
+                ["quiet", "Quiet"],
+                ["standard", "Standard"],
+                ["relentless", "Relentless"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={
+                  (setup.playSettings?.challenge ?? "standard") === value
+                }
+                onClick={() =>
+                  setSetup((now) => ({
+                    ...now,
+                    playSettings: {
+                      ...initialPlaySettings(now.playSettings ?? {}),
+                      ...now.playSettings,
+                      challenge: value,
+                    },
+                  }))
+                }
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div
+            role="group"
+            aria-label="Notebook reminders"
+            className="game-choices"
+          >
+            {(
+              [
+                ["full", "Full"],
+                ["light", "Light"],
+                ["none", "None"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={(setup.playSettings?.notes ?? "full") === value}
+                onClick={() =>
+                  setSetup((now) => ({
+                    ...now,
+                    playSettings: {
+                      ...initialPlaySettings(now.playSettings ?? {}),
+                      ...now.playSettings,
+                      notes: value,
+                    },
+                  }))
+                }
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          {ONE_SAVE_OFFERED ? (
+            <div role="group" aria-label="Save mode" className="game-choices">
+              {(
+                [
+                  ["free", "Free saves"],
+                  ["one-save", "One save"],
+                ] as const
+              ).map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-pressed={(setup.playSettings?.saves ?? "free") === value}
+                  onClick={() =>
+                    setSetup((now) => ({
+                      ...now,
+                      playSettings: {
+                        ...initialPlaySettings(now.playSettings ?? {}),
+                        ...now.playSettings,
+                        saves: value,
+                      },
+                    }))
+                  }
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          ) : null}
+          <div
+            role="group"
+            aria-label="Family money premise"
+            className="game-choices"
+          >
+            {(
+              [
+                ["comfortable", "Comfortable family"],
+                ["ordinary", "Ordinary family"],
+                ["tight", "Tight family"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={
+                  (setup.playSettings?.premises?.familyMoney ?? "ordinary") ===
+                  value
+                }
+                onClick={() =>
+                  setSetup((now) => {
+                    const defaults = initialPlaySettings(
+                      now.playSettings ?? {},
+                    );
+                    return {
+                      ...now,
+                      playSettings: {
+                        ...defaults,
+                        ...now.playSettings,
+                        premises: {
+                          ...defaults.premises,
+                          ...now.playSettings?.premises,
+                          familyMoney: value,
+                        },
+                      },
+                    };
+                  })
+                }
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div role="group" aria-label="Press premise" className="game-choices">
+            {(
+              [
+                ["gentler", "Gentler press"],
+                ["realistic", "Realistic press"],
+                ["tougher", "Tougher press"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={
+                  (setup.playSettings?.premises?.press ?? "realistic") === value
+                }
+                onClick={() =>
+                  setSetup((now) => {
+                    const defaults = initialPlaySettings(
+                      now.playSettings ?? {},
+                    );
+                    return {
+                      ...now,
+                      playSettings: {
+                        ...defaults,
+                        ...now.playSettings,
+                        premises: {
+                          ...defaults.premises,
+                          ...now.playSettings?.premises,
+                          press: value,
+                        },
+                      },
+                    };
+                  })
+                }
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       {problems.length > 0 && onReady ? (
         <p className="game-problem" data-testid="setup-problem">
           {problems[0]!.message}
@@ -1256,7 +1443,7 @@ export function SetupScreen({
               !creatorLocationIsReady(location, custom ? "custom" : "normal") ||
               replacingPlace
             }
-            onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
+            onClick={() => advanceTo(custom ? "background" : "difficulty")}
           >
             Next
           </button>
@@ -1266,10 +1453,30 @@ export function SetupScreen({
             type="button"
             className="game-creator-next creator-primary-action"
             data-testid="creator-continue-background"
-            onClick={() => advanceTo("whoAreYou")}
+            onClick={() => advanceTo("difficulty")}
           >
             Next
           </button>
+        ) : null}
+        {isCurrent("difficulty") ? (
+          <>
+            <button
+              type="button"
+              className="game-creator-next creator-primary-action"
+              data-testid="creator-continue-difficulty"
+              onClick={() => advanceTo("whoAreYou")}
+            >
+              Next
+            </button>
+            <button
+              type="button"
+              className="creator-back-action"
+              data-testid="creator-skip-difficulty"
+              onClick={() => advanceTo("whoAreYou")}
+            >
+              Keep defaults
+            </button>
+          </>
         ) : null}
       </div>
 

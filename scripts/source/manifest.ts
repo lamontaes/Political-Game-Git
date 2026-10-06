@@ -7,8 +7,8 @@
  * fact about the world (13B B5).
  */
 
-import { existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import {
   sha256HexOfUtf8,
   toCanonicalJson,
@@ -57,6 +57,30 @@ export interface SourceManifest {
   }[];
 }
 
+/** Deterministic non-domain inputs that are included in MANIFEST.json. */
+export const RESEARCH_FILE_INPUTS = [
+  {
+    path: "data/research/places/local-institutions.json",
+    rootRelativePath: "../research/places/local-institutions.json",
+  },
+] as const;
+
+/** Copy every declared research input into a replay tree at manifest-relative paths. */
+export function stageResearchFileInputs(
+  sourceRoot: string,
+  compiledRoot: string,
+): void {
+  for (const input of RESEARCH_FILE_INPUTS) {
+    const source = resolve(sourceRoot, input.path);
+    if (!existsSync(source)) {
+      throw new Error(`Declared research input is missing: ${input.path}`);
+    }
+    const target = resolve(compiledRoot, input.rootRelativePath);
+    mkdirSync(dirname(target), { recursive: true });
+    copyFileSync(source, target);
+  }
+}
+
 /** Build the manifest by reading the compiled tree at `root`. */
 export async function buildManifest(root: string): Promise<SourceManifest> {
   const domains = await loadDomains();
@@ -102,30 +126,25 @@ export async function buildManifest(root: string): Promise<SourceManifest> {
     });
   }
 
-  const researchPath = resolve(
-    root,
-    "../research/places/local-institutions.json",
-  );
-  const researchText = existsSync(researchPath)
-    ? readFileSync(researchPath, "utf-8")
-    : null;
-  const researchCorpus = researchText
-    ? (JSON.parse(researchText) as {
-        asOf: string;
-        places: Record<string, unknown>;
-      })
-    : null;
-  const researchFiles =
-    researchText && researchCorpus
-      ? [
-          {
-            path: "data/research/places/local-institutions.json",
-            sha256: sha256HexOfUtf8(researchText),
-            asOf: researchCorpus.asOf,
-            recordCount: Object.keys(researchCorpus.places).length,
-          },
-        ]
-      : [];
+  const researchFiles = RESEARCH_FILE_INPUTS.map((input) => {
+    const researchPath = resolve(root, input.rootRelativePath);
+    if (!existsSync(researchPath)) {
+      throw new Error(
+        `Declared research input is missing: ${input.path} (expected at ${researchPath})`,
+      );
+    }
+    const researchText = readFileSync(researchPath, "utf-8");
+    const researchCorpus = JSON.parse(researchText) as {
+      asOf: string;
+      places: Record<string, unknown>;
+    };
+    return {
+      path: input.path,
+      sha256: sha256HexOfUtf8(researchText),
+      asOf: researchCorpus.asOf,
+      recordCount: Object.keys(researchCorpus.places).length,
+    };
+  });
   return {
     manifestVersion: "1",
     domains: entries,

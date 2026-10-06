@@ -26,6 +26,9 @@ import {
 } from "../simulation";
 import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
+import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
+import { favorRecords, favorStandingBetween } from "../simulation/favors";
+import { playSettingsOf } from "../simulation/play-settings";
 
 /**
  * What the player makes of somebody, read from the records they can see.
@@ -94,6 +97,9 @@ export interface PersonDossier {
    */
   readonly rightNow: string | null;
   readonly details: readonly DossierFact[];
+  /** Player-known, outstanding reminders about this person. */
+  readonly reminders: readonly DossierFact[];
+  readonly notesMode: "full" | "light" | "none";
   readonly lastInteraction: string;
   /**
    * Where the two of them stand, in the player's own words.
@@ -109,6 +115,57 @@ export interface PersonDossier {
   readonly links: readonly ShellRef[];
   /** Laws they sponsored that were enacted, and what each is doing. */
   readonly laws: readonly SponsoredLaw[];
+}
+
+function buildReminders(
+  world: World,
+  playerId: EntityId,
+  personId: EntityId,
+): readonly DossierFact[] {
+  const reminders: DossierFact[] = [];
+  const undertakings = allUndertakings(world).filter(
+    (undertaking) =>
+      undertaking.holderPersonId === personId &&
+      (personId === playerId ||
+        undertaking.owedToPersonIds.includes(playerId) ||
+        undertaking.heardByPersonIds.includes(playerId)),
+  );
+  for (const undertaking of undertakings) {
+    if (assessUndertaking(world, undertaking).standing !== "outstanding")
+      continue;
+    const commitment =
+      undertaking.source.store === "lifeCommitments"
+        ? world.history.lifeCommitments.find(
+            (record) => record.id === undertaking.source.recordId,
+          )
+        : undefined;
+    const dueBy = commitment?.undertaking?.dueBy;
+    if (!dueBy || dueBy < world.currentDate) continue;
+    reminders.push({
+      key: `promise-${undertaking.source.recordId}`,
+      text: `${undertaking.statement} · due ${proseDate(dueBy)}.`,
+      attribution: "known",
+    });
+  }
+
+  if (personId !== playerId) {
+    const standing = favorStandingBetween(world, playerId, personId);
+    const open = new Set(standing.openFavorIds);
+    for (const favor of favorRecords(world)) {
+      if (!open.has(favor.id)) continue;
+      if (
+        favor.giverPersonId !== personId ||
+        favor.receiverPersonId !== playerId
+      )
+        continue;
+      reminders.push({
+        key: `favor-${favor.id}`,
+        text: `You may still feel you owe ${personName(world.people[personId]!)} after ${favor.description}.`,
+        attribution: "known",
+      });
+    }
+  }
+  return reminders;
 }
 
 function describeInteraction(
@@ -386,6 +443,9 @@ export function projectPersonDossier(
   if (!subject) return null;
   const context = describePersonContext(world, playerId, personId);
   const details = buildDetails(world, playerId, personId);
+  const notesMode = playSettingsOf(world).notes;
+  const reminders =
+    notesMode === "none" ? [] : buildReminders(world, playerId, personId);
 
   return {
     personId,
@@ -444,6 +504,8 @@ export function projectPersonDossier(
     presentNow: options.presentNow ?? false,
     rightNow: options.rightNow ?? null,
     details,
+    reminders,
+    notesMode,
     lastInteraction: describeInteraction(world, playerId, personId),
     strain: recentStrain(world, playerId, personId),
     standing:
