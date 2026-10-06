@@ -7,7 +7,7 @@ import {
   recordPersonalityTendency,
 } from "../simulation/mind";
 import { serializeWorld, deserializeWorld } from "../simulation";
-import { lifeReplyLine } from "./life-reply-english";
+import { LIFE_REPLY_BANKS, lifeReplyLine } from "./life-reply-english";
 
 describe("ordinary replies through the existing English composer", () => {
   it("uses recorded contrasting voices, saves parts, and refuses missing proposal facts", () => {
@@ -83,5 +83,43 @@ describe("ordinary replies through the existing English composer", () => {
         "proposal-accepted",
       ),
     ).toThrow("Cannot word life reply");
+  });
+
+  it("keeps raw headlines, a bare echo and stock advice out of ordinary replies", () => {
+    const seed = "h2-en3-reply-removals";
+    const place = drawRandomPlace(seed, (p) => p.scope === "locality");
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 34,
+    });
+    const world = game.world;
+    const speakerId = world.personOrder.find(
+      (id) => id !== game.playerPersonId,
+    )!;
+    // No reply quotes a news headline back as a "remembered topic".
+    expect(Object.keys(LIFE_REPLY_BANKS)).not.toContain("remembered-topic");
+    const none = lifeReplyLine(
+      world,
+      speakerId,
+      game.playerPersonId,
+      [],
+      "running-worry-none",
+      {},
+    );
+    expect(none.text).toBe("Nothing yet.");
+    const plan = lifeReplyLine(
+      world,
+      speakerId,
+      game.playerPersonId,
+      [],
+      "tell-shared-plan",
+      {
+        plan: { text: "learn to swim", sourceRecordIds: [game.playerPersonId] },
+      },
+    );
+    expect(plan.text).not.toMatch(/^(Me too|[^?]*\? Me too)/);
+    expect(plan.text).toContain("I've been meaning to learn to swim.");
   });
 });
