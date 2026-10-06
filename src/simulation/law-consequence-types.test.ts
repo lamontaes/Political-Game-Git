@@ -126,4 +126,30 @@ it("matches explicit regional and place applicability without widening unknowns"
       { kind: "census-regions", regions: ["midwest"] },
     ),
   ).toBe(false);
+  const bailCohort: LawTermApplicability = {
+    kind: "court-charge-cohort",
+    courtLevelKey: "state-trial-court",
+    courtKey: null,
+    offenseKey: "crime:robbery",
+    offenseClassKey: "felony",
+    region: "south",
+  };
+  expect(
+    lawTermApplicabilitiesMatch(bailCohort, {
+      ...bailCohort,
+      offenseClassKey: "misdemeanor",
+    }),
+  ).toBe(false);
+  expect(
+    lawTermApplicabilitiesMatch(bailCohort, {
+      ...bailCohort,
+      region: "west",
+    }),
+  ).toBe(false);
+  expect(
+    lawTermApplicabilityKey({
+      ...bailCohort,
+      offenseClassKey: " ",
+    }),
+  ).toBeNull();
 });
