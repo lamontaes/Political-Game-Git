@@ -10,6 +10,7 @@ import { personWords } from "./english-grammar";
 import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
+  activeWorkRelationshipsAt,
   deriveRelationshipSummary,
   describePersonContext,
   explicitPerceptionHistory,
@@ -19,11 +20,13 @@ import {
   measureById,
   peopleInHouseholdAt,
   personName,
+  organizationProfileAt,
   scheduledActivitiesVisibleTo,
   type PersonAppearance,
   type EntityId,
   type World,
 } from "../simulation";
+import { monthlyPayByPerson } from "../simulation/living-world/town-rent";
 import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
@@ -88,6 +91,13 @@ export interface PersonDossier {
     readonly summary: string;
   }[];
   readonly age: number | null;
+  /** The ordinary life facts that make the full person record useful. */
+  readonly lifeRecord: {
+    readonly home: string;
+    readonly jobs: readonly string[];
+    readonly monthlyPay: number | null;
+    readonly household: readonly string[];
+  };
   /** True only when this moment's scene puts them in the room. */
   readonly presentNow: boolean;
   /**
@@ -245,6 +255,7 @@ function buildDetails(
   world: World,
   playerId: EntityId,
   personId: EntityId,
+  revealAll = false,
 ): readonly DossierFact[] {
   const details: DossierFact[] = [];
 
@@ -302,9 +313,10 @@ function buildDetails(
         event?.occurredAt !== undefined &&
         event.occurredAt <= world.currentDate &&
         event.recordedAt <= world.currentDate;
-      if (personId !== playerId && !publicFact && !knownFact) continue;
+      if (personId !== playerId && !publicFact && !knownFact && !revealAll)
+        continue;
       const attribution =
-        personId === playerId || knownFact
+        personId === playerId || knownFact || revealAll
           ? ("known" as const)
           : ("record" as const);
       if (fact.kind === "occupation") {
@@ -437,15 +449,32 @@ export function projectPersonDossier(
   options: {
     readonly presentNow?: boolean;
     readonly rightNow?: string | null;
+    /** Observer mode reads the world's record, rather than one person's knowledge. */
+    readonly observer?: boolean;
   } = {},
 ): PersonDossier | null {
   const subject = world.people[personId];
   if (!subject) return null;
   const context = describePersonContext(world, playerId, personId);
-  const details = buildDetails(world, playerId, personId);
+  const details = buildDetails(world, playerId, personId, options.observer);
   const notesMode = playSettingsOf(world).notes;
   const reminders =
     notesMode === "none" ? [] : buildReminders(world, playerId, personId);
+  const householdId = householdIdFor(world, personId);
+  const jobs = activeWorkRelationshipsAt(world, personId).map((active) => {
+    const employer = active.relationship.organizationId
+      ? organizationProfileAt(world, active.relationship.organizationId)?.name
+      : null;
+    return employer ? `${active.role.title} at ${employer}` : active.role.title;
+  });
+  const household = (householdId ? peopleInHouseholdAt(world, householdId) : [])
+    .filter((memberId) => memberId !== personId)
+    .flatMap((memberId) => {
+      const member = world.people[memberId];
+      return member ? [personName(member)] : [];
+    });
+  const pay =
+    monthlyPayByPerson(world, world.currentDate).get(personId) ?? null;
 
   return {
     personId,
@@ -472,7 +501,7 @@ export function projectPersonDossier(
     publicCareer: world.history.events
       .filter(
         (event) =>
-          event.visibility === "public" &&
+          (options.observer || event.visibility === "public") &&
           event.recordedAt <= world.currentDate &&
           !/^(?:press|setup|simulation|evidence|information|time|claim|publication)\./.test(
             event.type,
@@ -501,6 +530,14 @@ export function projectPersonDossier(
         })(),
       })),
     age: ageOnDate(subject.birthDate, world.currentDate),
+    lifeRecord: {
+      home:
+        world.jurisdictions[subject.homeJurisdictionId]?.name ??
+        "Home jurisdiction recorded",
+      jobs,
+      monthlyPay: pay,
+      household,
+    },
     presentNow: options.presentNow ?? false,
     rightNow: options.rightNow ?? null,
     details,

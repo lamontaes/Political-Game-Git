@@ -32,6 +32,7 @@ import { passOrdinaryDays } from "./ordinary-life";
 import { CONGRESS_RESULTS_EVENT } from "../simulation/living-world/congress-turnover";
 import { STATE_LEGISLATIVE_RESULTS_EVENT } from "../simulation/nationwide-world/state-legislature-turnover";
 import { candidacyPackById } from "../simulation/candidacy-packs";
+import { projectPersonDossier } from "./person-dossier";
 
 /**
  * OBSERVER MODE — the world with nobody played in it (Constitution rule 30).
@@ -492,6 +493,9 @@ export interface ObserverPersonFile {
   readonly diedHow: string | null;
   readonly home: string;
   readonly work: readonly string[];
+  readonly monthlyPay: number | null;
+  readonly household: readonly string[];
+  readonly career: readonly ObserverHappening[];
   readonly party: string | null;
   /** Everything the world has recorded them taking part in, newest first. */
   readonly record: readonly ObserverHappening[];
@@ -523,6 +527,15 @@ export function projectObserverPerson(
           : active.role.title;
       });
   const partyId = death ? null : publicPartyAffiliation(world, personId);
+  const dossier = projectPersonDossier(world, personId, personId, {
+    observer: true,
+  })!;
+  const career = activeWorkRelationshipsAt(world, personId).map((active) => ({
+    id: active.relationship.id,
+    at: active.relationship.startedAt,
+    text: `Started work as ${active.role.title}${active.relationship.organizationId ? ` at ${organizationNameAt(world, active.relationship.organizationId) ?? "the recorded employer"}` : ""}.`,
+    count: 1,
+  }));
   const record: ObserverHappening[] = [];
   const events = world.history.events;
   for (let index = events.length - 1; index >= 0; index -= 1) {
@@ -551,6 +564,9 @@ export function projectObserverPerson(
     diedHow: death ? deathCausePhrase(death.causeKey) : null,
     home: placeName(world, person.homeJurisdictionId),
     work,
+    monthlyPay: dossier.lifeRecord.monthlyPay,
+    household: dossier.lifeRecord.household,
+    career,
     party: partyId ? organizationNameAt(world, partyId) : null,
     record,
   };

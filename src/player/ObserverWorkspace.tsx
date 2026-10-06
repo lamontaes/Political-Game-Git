@@ -181,6 +181,30 @@ export function ObserverRecordWorkspace({
               : "No current job on record."}{" "}
             {file.party ? `Belongs to the ${file.party}.` : "No party."}
           </p>
+          <p data-testid="observer-person-pay">
+            Pay:{" "}
+            {file.monthlyPay === null
+              ? "No current pay on record."
+              : `${(file.monthlyPay / 100).toLocaleString("en-US", { style: "currency", currency: "USD" })} a month.`}
+          </p>
+          <p data-testid="observer-person-household">
+            Household:{" "}
+            {file.household.length > 0
+              ? file.household.join(", ")
+              : "Lives alone."}
+          </p>
+          <h4>Their career</h4>
+          {file.career.length === 0 ? (
+            <p className="game-note">No career lines on record.</p>
+          ) : (
+            <ul data-testid="observer-person-career">
+              {file.career.map((item) => (
+                <li key={item.id}>
+                  {proseDate(item.at)}: {item.text}
+                </li>
+              ))}
+            </ul>
+          )}
           <h4>Everything recorded about them</h4>
           {file.record.length === 0 ? (
             <p className="game-note">Nothing has been recorded yet.</p>

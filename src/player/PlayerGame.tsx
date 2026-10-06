@@ -2196,6 +2196,7 @@ function PlayingScreen({
   const dossierFor = useCallback(
     (personId: EntityId) =>
       projectPersonDossier(session.world, session.personId, personId, {
+        observer: observing,
         presentNow: moment.scene.presentPeople.some(
           (person) => person.personId === personId,
         ),
@@ -2206,7 +2207,7 @@ function PlayingScreen({
             ? null
             : "Here in the room with you.",
       }),
-    [session.world, session.personId, moment.scene.presentPeople],
+    [session.world, session.personId, moment.scene.presentPeople, observing],
   );
 
   /**
