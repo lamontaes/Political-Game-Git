@@ -3,12 +3,21 @@ import {
   activeWorkRelationshipsAt,
 } from "./life-queries";
 import { lifeOpportunityTag } from "./life-opportunities";
-import { evaluateDecision, isSelectedDecision, recordDurableDecisionTrace } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { currentOfficeWorkflowPreference } from "./office-workflow";
-import { defaultCaseHandlerRole, constituentCasesForOffice, routeConstituentCase } from "./constituent-case-routing";
+import {
+  defaultCaseHandlerRole,
+  constituentCasesForOffice,
+  routeConstituentCase,
+} from "./constituent-case-routing";
 import type { EntityId, HistoricalEvent, World } from "./types";
 import { recordWorldEvent } from "./world";
+import { scheduleConstituentCaseReflection } from "./law-exposure";
 
 const CONSTITUENT_CASE_OPENED = "office.case-opened";
 const CONSTITUENT_CASE_CLOSED = "office.case-closed";
@@ -177,6 +186,16 @@ export function closeConstituentCase(
       immediateReaction: null,
     },
   });
+  const closed = next.history.events.find(
+    (event) => event.stableKey === `${CONSTITUENT_CASE_CLOSED}:${caseEventId}`,
+  );
+  if (closed)
+    next = scheduleConstituentCaseReflection(
+      next,
+      residentId,
+      officialId,
+      closed.id,
+    );
   return next;
 }
 
