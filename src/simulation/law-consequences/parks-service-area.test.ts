@@ -6,7 +6,10 @@ import { applyPublicProgramCapacityOutturnReceivers } from "../public-program-ca
 import { recordWorldEvent } from "../world";
 import { lawExposureSentence } from "../../presentation/law-exposure-lines";
 import { applyLawConsequences } from "../enacted-law-effects";
-import { publicProgramCapacityOutturnReceivers } from "./modules/civil-family-services";
+import {
+  createParksCapacityOutturnReceiver,
+  registrations,
+} from "./modules/civil-family-services";
 import { LAW_CONSEQUENCE_REGISTRATIONS } from "../law-consequence-registry";
 import type {
   EntityId,
@@ -18,6 +21,14 @@ import { fundedServiceFixture } from "../../../tests/fixtures/funded-service-fix
 
 const PARKS =
   "us-policy-positions:civil-family-community.dedicated-parks-funding";
+
+const localParksReceiver = createParksCapacityOutturnReceiver(
+  (world, context, moduleRegistrations) =>
+    applyLawConsequences(world, context, moduleRegistrations),
+);
+const localOutturnReceivers = [
+  { key: "parks-local-composition", receive: localParksReceiver },
+];
 
 function saveParkRecord(
   world: World,
@@ -146,7 +157,7 @@ describe("parks law area effects", () => {
       worldWithOutturn,
       commitment.record,
       installmentRecord,
-      publicProgramCapacityOutturnReceivers,
+      localOutturnReceivers,
     );
     const exposures = reached.history.lawExposures ?? [];
     expect(
@@ -184,7 +195,7 @@ describe("parks law area effects", () => {
         reached,
         commitment.record,
         installmentRecord,
-        publicProgramCapacityOutturnReceivers,
+        localOutturnReceivers,
       ),
     ).toBe(reached);
 
@@ -205,7 +216,7 @@ describe("parks law area effects", () => {
       zeroSaved.world,
       commitment.record,
       installmentRecord,
-      publicProgramCapacityOutturnReceivers,
+      localOutturnReceivers,
     );
     const zeroCause = zeroReached.history.lawExposures!.filter(
       (row) => row.sourceRecordId === zeroOutturn.id,
@@ -235,7 +246,7 @@ describe("parks law area effects", () => {
       unknownSaved.world,
       commitment.record,
       installmentRecord,
-      publicProgramCapacityOutturnReceivers,
+      localOutturnReceivers,
     );
     const unknownCause = unknownReached.history.lawExposures!.find(
       (row) => row.sourceRecordId === unknownOutturn.id,
@@ -270,11 +281,10 @@ describe("parks law area effects", () => {
       governingLawId: funded.measureId,
     };
     expect(
-      applyLawConsequences(
-        funded.world,
-        context,
-        LAW_CONSEQUENCE_REGISTRATIONS,
-      ),
+      applyLawConsequences(funded.world, context, [
+        ...LAW_CONSEQUENCE_REGISTRATIONS,
+        ...registrations,
+      ]),
     ).toBe(funded.world);
     expect(funded.world.history.lawExposures ?? []).toEqual([]);
   });

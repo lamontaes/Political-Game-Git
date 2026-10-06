@@ -197,12 +197,17 @@ const parksServiceRegistration: LawConsequenceKindRegistration<ResolvedLawConseq
 export const registrations: readonly LawConsequenceKindRegistration<ResolvedLawConsequence>[] =
   [libraryServiceRegistration, parksServiceRegistration];
 
+type LawConsequenceDispatcher = typeof applyLawConsequences;
+
 /**
- * Route an actual saved parks outturn through the ordinary law dispatcher.
- * Uses Session20's published context; caller-provided facts are not accepted.
+ * Bind the typed module to the canonical dispatcher. Focused local composition
+ * supplies this module's registrations explicitly until the generated static
+ * manifest admits the module on shared main.
  */
-export const receiveParksCapacityOutturn: PublicProgramCapacityOutturnReceiver =
-  (world, context: PublicProgramCapacityOutturnContext): World => {
+export function createParksCapacityOutturnReceiver(
+  dispatch: LawConsequenceDispatcher = applyLawConsequences,
+): PublicProgramCapacityOutturnReceiver {
+  return (world, context: PublicProgramCapacityOutturnContext): World => {
     const { outturn, eventDate, commitment, installment, appropriation } =
       context;
     const sourceMeasureId = context.sourceMeasureId;
@@ -269,15 +274,26 @@ export const receiveParksCapacityOutturn: PublicProgramCapacityOutturnReceiver =
       )
       .sort();
 
-    return applyLawConsequences(world, {
-      activity: "service",
-      activityId: savedOutturn.id,
-      onDate: eventDate,
-      questionKey: PARKS_QUESTION,
-      governingLawId: sourceMeasureId,
-      subjectIds,
-    });
+    return dispatch(
+      world,
+      {
+        activity: "service",
+        activityId: savedOutturn.id,
+        onDate: eventDate,
+        questionKey: PARKS_QUESTION,
+        governingLawId: sourceMeasureId,
+        subjectIds,
+      },
+      registrations,
+    );
   };
+}
+
+/**
+ * Route an actual saved parks outturn through the ordinary law dispatcher.
+ * Uses Session20's published context; caller-provided facts are not accepted.
+ */
+export const receiveParksCapacityOutturn = createParksCapacityOutturnReceiver();
 
 export const publicProgramCapacityOutturnReceivers: readonly PublicProgramCapacityOutturnReceiverRegistration[] =
   [
