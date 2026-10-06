@@ -262,6 +262,48 @@ export function ensureEmployerCashPositions(
         provenance: { kind: "authored", note },
       });
     }
+    if (phase === "opening") {
+      // A paid employer without annualizable opening payroll can still use its
+      // saved classification cohort. Freeze donors before admitting estimates so
+      // one estimated account never becomes the source for another in this pass.
+      const cohortWorld = next;
+      const employers = new Set(
+        cohortWorld.history.workRelationships
+          .filter(
+            (work) =>
+              work.compensation === "paid" &&
+              work.startedAt <= cohortWorld.currentDate &&
+              workStatusAt(cohortWorld, work.id)?.status === "active",
+          )
+          .map((work) => work.organizationId),
+      );
+      for (const organizationId of employers) {
+        if (!organizationId) continue;
+        const owner = { kind: "organization" as const, organizationId };
+        if (
+          resourcePositionsOf(cohortWorld, owner).some(
+            (position) => position.openingBalance.currency === USD,
+          )
+        )
+          continue;
+        const peer = readOpeningEmployerCashEstimate(
+          cohortWorld,
+          organizationId,
+          USD,
+        );
+        if (peer.status === "blocked") continue;
+        next = createResourcePosition(next, {
+          stableKey: `employer-cash:${organizationId}:USD`,
+          owner,
+          openedAt: cohortWorld.currentDate,
+          openingBalance: peer.amount,
+          provenance: {
+            kind: "authored",
+            note: `ESTIMATED OPENING STOCK from the recorded classification cohort. ${peer.note}`,
+          },
+        });
+      }
+    }
     return phase === "opening"
       ? ensureTownOpeningBusinessBooks(
           next,
