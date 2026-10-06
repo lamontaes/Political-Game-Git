@@ -17,6 +17,7 @@ import { facetEnviousEffects } from "./facet-envious";
 import { facetGentleEffects } from "./facet-gentle";
 import { facetMeticulousEffects } from "./facet-meticulous";
 import { facetNurturingEffects } from "./facet-nurturing";
+import { facetPhilanthropicEffects } from "./facet-philanthropic";
 import { facetOpportunisticEffects } from "./facet-opportunistic";
 import { facetSkepticalEffects } from "./facet-skeptical";
 import { facetStudiousEffects } from "./facet-studious";
@@ -32,6 +33,7 @@ import { selfConfidenceEffects } from "./self-confidence";
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
     ...facetSelfConsciousEffects,
+    ...facetPhilanthropicEffects,
     ...facetHostileEffects,
     ...facetHumbleEffects,
     ...patienceEffects,
