@@ -444,10 +444,10 @@ export function settleEnactedDuty(world: World, dutyId: EntityId): World {
         ? "coverage-unknown"
         : "compliance-unknown";
     const reason = !placed
-      ? `Where ${body.name} operates is not on record, so whether the law reaches it is not known.`
+      ? `The record does not place ${body.name}, so the law’s coverage cannot be established.`
       : duty.coverage.kind === "unrecorded-test"
-        ? `Whether the law reaches ${body.name} turns on ${duty.coverage.testLabel}, which is not on record.`
-        : `No qualifying fulfillment record links ${body.name} to this duty by ${spokenDate(duty.complyBy)}, so whether it met the duty is not known.`;
+        ? `Whether the law reaches ${body.name} turns on ${duty.coverage.testLabel}, which the record does not establish.`
+        : `No qualifying fulfillment record links ${body.name} to this duty by ${spokenDate(duty.complyBy)}, so compliance is not established.`;
     next = writeDutyRecord(
       next,
       `${duty.stableKey}:finding:${body.organizationId}`,

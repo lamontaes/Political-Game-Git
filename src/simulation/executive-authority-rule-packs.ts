@@ -191,7 +191,7 @@ function r3hSource(
  * distinction matters: this field is not unresearched, it is not this PR's.
  */
 function deferredToR3J(dimension: string): string {
-  return `${dimension} is held by an accepted R3H node, but R3H routes the legislative_powers category to R3J; it is deliberately not compiled here, and stays unknown rather than being filled by this PR.`;
+  return `${dimension} is held by an accepted R3H node, but R3H routes the legislative_powers category to R3J; it is deliberately not compiled here, so this pack leaves the field unestablished.`;
 }
 
 /**
@@ -199,7 +199,7 @@ function deferredToR3J(dimension: string): string {
  * the dimension — the R3H row is itself UNKNOWN, so nothing was withheld.
  */
 function notResolvedByR3H(dimension: string): string {
-  return `${dimension} is not resolved by the accepted R3H subset: the certified row for it is itself UNKNOWN, so no accepted value exists to compile.`;
+  return `${dimension} has no accepted R3H value: the certified row marks it unestablished, so this pack has no value to compile.`;
 }
 
 // ---------------------------------------------------------------------------
@@ -322,7 +322,7 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
   specialSession: {
     executiveMayConvene: executiveKnown(true, US_ART2_S3),
     agendaLimitedToCall: executiveUnknown(
-      "Art. II, Sec. 3 lets the President convene both Houses on extraordinary occasions and says nothing about what Congress may then consider. That silence is not a positive rule either way, so the agenda limit stays unknown. The accepted R3H subset holds no federal special-session agenda node either.",
+      "Art. II, Sec. 3 lets the President convene both Houses on extraordinary occasions and says nothing about what Congress may then consider. That silence is not a positive rule either way, so this pack does not establish an agenda limit. The accepted R3H subset holds no federal special-session agenda node either.",
     ),
     source: US_ART2_S3,
   },
@@ -399,7 +399,7 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     // their own duties. That is narrower than a general supervisory authority,
     // so this field is not filled from it.
     supervisoryAuthority: executiveUnknown(
-      "Article II grants no general supervisory clause. The Opinions Clause (Art. II, Sec. 2, cl. 1) reaches only the President's power to require written opinions from principal officers on the duties of their own offices, which does not establish general supervisory authority over the branch; the field stays unknown rather than being widened to fit.",
+      "Article II grants no general supervisory clause. The Opinions Clause (Art. II, Sec. 2, cl. 1) reaches only the President's power to require written opinions from principal officers on the duties of their own offices, which does not establish general supervisory authority over the branch; the field is not widened to fit.",
     ),
     source: US_ART2_S3,
   },
@@ -426,7 +426,7 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     "Presidential removal doctrine is unresolved.",
     "Whether the convening power limits Congress's agenda is unresolved; Article II is silent, and silence is not a rule.",
     "Federal directive/executive-order authority and general supervisory authority are unresolved: Article II has no express clause for either, and neither is inferred from the vesting clause.",
-    "Statutory reorganization authority is unresolved; the accepted R3H reorganization rows for the federal executive are themselves UNKNOWN.",
+    "The accepted R3H rows do not establish statutory reorganization authority for the federal executive.",
     "The emergency-powers regime is resolved only as to the declaration power and congressional termination (50 U.S.C. Secs. 1621, 1622). No accepted node states an initial duration or a presidential extension mechanism, so both stay unknown.",
   ],
 };

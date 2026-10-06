@@ -82,8 +82,11 @@ const periodDueKey = "education:study-period-due" as const;
  *   elsewhere each week (work and care, from the life-load record): no draw
  *   and no cutoff. Students working long hours complete fewer of the credits
  *   they attempt (NCES, The Condition of Education, college student
- *   employment); the curve's size is PLACEHOLDER, research question
- *   `credits-earned-and-outside-hours`.
+ *   employment). The smooth curve is ESTIMATED FROM AVERAGE: its 15-hour
+ *   no-strain point and 30 additional hours to halve completion use the
+ *   comparable NCES groups for students working under 20 hours, 20–34 hours,
+ *   and 35 or more hours per week; research question
+ *   `credits-earned-and-outside-hours` records the basis.
  * - A student short of credits after the planned periods keeps studying, and
  *   paying, one period at a time, up to one and a half times the planned
  *   length: the federal maximum timeframe for satisfactory academic progress
@@ -91,7 +94,8 @@ const periodDueKey = "education:study-period-due" as const;
  *   credential.
  */
 export const STUDY_CREDIT_PACE = {
-  basis: "PLACEHOLDER",
+  basis:
+    "ESTIMATED FROM AVERAGE — NCES student-employment groups: under 20, 20–34, and 35+ weekly hours",
   researchQuestionId: "credits-earned-and-outside-hours",
   /** Credits an academic year when a saved term carries no requirement. */
   creditsPerAcademicYear: 30,

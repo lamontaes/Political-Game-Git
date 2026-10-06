@@ -1316,7 +1316,7 @@ export function assertRuleChangeProvisionIntegrity(
         throw new Error("Institution rule application was recorded twice");
       appliedRules.add(key);
       assertRuleChangeLawBinding(world, binding);
-    } else throw new Error("Unknown institution binding record kind");
+    } else throw new Error("Invalid institution binding record kind");
   }
   const seenKeys = new Set<string>();
   const seenClauses = new Set<string>();

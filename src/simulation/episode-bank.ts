@@ -361,7 +361,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         {
           kind: "withheld",
           reason:
-            "The late-night call is implied by a timer, not recorded, and the branch ignores what the player actually chose (dialogue review, 2026-09-23).",
+            "The durable history has no late-night-call event, and the branch does not consume the player’s recorded choice (dialogue review, 9/23/2026).",
         },
         needsHouseholdPeer,
         { kind: "after-stage", stage: "noticing" },

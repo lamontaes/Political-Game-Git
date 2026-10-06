@@ -39,7 +39,7 @@ export const LEXINGTON_DEMO_CONTEXT: DemoJurisdictionContext = {
     utcOffsetMinutes: -300,
   },
   creationSummary:
-    "Seeded demonstration world created with a Lexington-Fayette placeholder.",
-  goalScope: "Lexington-Fayette placeholder",
-  householdLocationLabel: "Synthetic Lexington-area location",
+    "Authored demonstration world set in recorded Lexington-Fayette, Kentucky.",
+  goalScope: "Lexington-Fayette, Kentucky",
+  householdLocationLabel: "Recorded Lexington-Fayette home jurisdiction",
 };

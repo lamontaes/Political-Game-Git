@@ -741,7 +741,7 @@ export function advanceDemoWorld(world: World, days = 7): World {
         setting: "Public listening session",
       },
       socialContext:
-        "Synthetic placeholder occurrence generated to exercise durable history.",
+        "Authored demonstration occurrence recorded to exercise durable history.",
       pressure: null,
       choice: `Both people chose to attend a session about ${topic}.`,
       motivation: "Learn about a local concern.",
@@ -751,7 +751,7 @@ export function advanceDemoWorld(world: World, days = 7): World {
 
   const listeningEvent = advanced.history.events.at(-1);
   if (!listeningEvent) {
-    throw new Error("Demo listening-session event was not recorded.");
+    throw new Error("Demo listening-session writer produced no event.");
   }
   advanced = recordRelationshipInteraction(advanced, {
     stableKey: `action:${actionSequence}:relationship:${firstPerson.id}:${secondPerson.id}`,

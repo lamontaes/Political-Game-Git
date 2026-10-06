@@ -187,8 +187,8 @@ export type LawEffectLine =
   | {
       /**
        * A clause the game has no rule for yet. The law is still law; the
-       * world simply does not know what this part does. PLACEHOLDER until the
-       * research answer arrives.
+       * world records that this part has no implemented causal rule until the
+       * named research answer arrives.
        */
       readonly kind: "not-modeled";
       readonly heading: string;
