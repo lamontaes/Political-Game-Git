@@ -28,7 +28,8 @@ export const TEXT_KINDS = [
 export type TextKind = (typeof TEXT_KINDS)[number];
 
 export interface GradingCell {
-  readonly register: "everyday" | "family" | "workplace" | "press" | "meeting";
+  readonly register:
+    "everyday" | "family" | "workplace" | "press" | "meeting" | "court";
   readonly kind: string;
   readonly relationship:
     | "stranger"
@@ -88,7 +89,7 @@ const BOSS = /\b(boss|manager|supervisor)\b/i;
 function relationshipOf(line: BatchLine): GradingCell["relationship"] {
   if (line.speaker.isPlayer) return "self";
   const relation = line.speaker.relation;
-  if (!relation) return "stranger";
+  if (!relation || relation === "judge") return "stranger";
   if (FAMILY.test(relation)) return "family";
   if (BOSS.test(relation)) return "boss";
   if (FRIEND.test(relation)) return "friend";
@@ -96,6 +97,7 @@ function relationshipOf(line: BatchLine): GradingCell["relationship"] {
 }
 
 function textKindOf(line: BatchLine): TextKind {
+  if (line.id.startsWith("judge-")) return "judges";
   return line.id.startsWith("press-") ? "press" : "conversation";
 }
 
@@ -107,6 +109,7 @@ function exchangeKindOf(id: string): string {
   if (id.startsWith("remember")) return "remembered-topic";
   if (id.startsWith("matter")) return "share-news";
   if (id === "press-answer") return "interview";
+  if (id.startsWith("judge-sentence")) return "sentence";
   if (id.startsWith("press")) return "interview-question";
   if (id.endsWith("decline")) return "decline";
   return id;
@@ -124,6 +127,7 @@ function ageBandOf(age: number): string {
 function voiceLabel(line: BatchLine): string {
   if (line.speaker.isPlayer) return "You";
   if (line.id.startsWith("press-")) return "Reporter";
+  if (line.id.startsWith("judge-")) return "Judge";
   const relation = line.speaker.relation;
   if (!relation) return "Someone in town";
   return relation[0]!.toUpperCase() + relation.slice(1);
@@ -191,11 +195,13 @@ export function toGradingBatch(
       composer: line.composer,
       kind: textKindOf(line),
       cell: {
-        register: line.id.startsWith("press-")
-          ? "press"
-          : relationshipOf(line) === "family"
-            ? "family"
-            : "everyday",
+        register: line.id.startsWith("judge-")
+          ? "court"
+          : line.id.startsWith("press-")
+            ? "press"
+            : relationshipOf(line) === "family"
+              ? "family"
+              : "everyday",
         kind: exchangeKindOf(line.id),
         relationship: relationshipOf(line),
         trait: traitKeys[0] ?? null,

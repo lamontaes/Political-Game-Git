@@ -39,6 +39,15 @@ import { LIFE_MIND_IDS } from "../../src/simulation/life-mind-content";
 import { activeOrdinaryGoal } from "../../src/simulation/life-personality";
 import { describePersonContext } from "../../src/simulation/person-context";
 import {
+  chosenReasons,
+  evaluateSentence,
+  prepareJudge,
+  sentencingJudge,
+  type CourtCase,
+} from "../../src/simulation/justice/court-reasoning";
+import { householdMembershipsAt } from "../../src/simulation/life-queries";
+import { stateKeyForJurisdiction } from "../../src/simulation/state-jurisdiction-id";
+import {
   latestPersonalValue,
   latestPersonalityTendency,
 } from "../../src/simulation/queries";
@@ -948,6 +957,61 @@ function officialsView(ctx: WorldContext): Produced {
 }
 
 /**
+ * A judge's sentence, in the justice code's own fixed sentences (CTO, 6:30
+ * p.m. Oct 6: the first kind of text beyond conversation). The judge is the
+ * sitting trial judge for the player's home court, drawn by the court's own
+ * docket rule; the case is the harness's, and the judge decides it through
+ * the shared decision engine. The line is exactly the reasons the code gives
+ * for the sentence the judge chose.
+ */
+function judgeSentence(
+  offenseKey: string,
+  offenseLabel: string,
+  pleaded: boolean,
+  standingFindings: number,
+) {
+  return (ctx: WorldContext): Produced => {
+    const home = householdMembershipsAt(ctx.world, ctx.playerId).find(
+      (row) => row.location,
+    )?.location;
+    if (!home) return skip("the player has no recorded home");
+    const defendant = findLocal(ctx, () => true);
+    if (!defendant) return skip("no adult outside the player's circle");
+    const jurisdiction = ctx.world.jurisdictions[home.jurisdictionId];
+    const courtCase: CourtCase = {
+      caseKey: `dialogue-batch:case:${offenseKey}:${pleaded ? "plea" : "trial"}:${standingFindings}`,
+      defendantId: defendant.id,
+      offenseKey,
+      offenseLabel,
+      evidence: "documentary",
+      standingFindings,
+      venueJurisdictionId: home.jurisdictionId,
+      stateKey: jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null,
+    };
+    const judgeId = sentencingJudge(ctx.world, courtCase, 0);
+    if (!judgeId) return skip("the home court has no sitting judge");
+    const world = prepareJudge(ctx.world, judgeId);
+    const decision = evaluateSentence(world, judgeId, courtCase, pleaded);
+    const line = chosenReasons(decision);
+    if (!line) return skip("the judge's sentence gave no reasons");
+    const chosen = decision.selectedOptionKey.endsWith("jail")
+      ? "jail"
+      : "probation";
+    return {
+      axis: "interaction",
+      composer: "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      situation: `Judge ${personName(world.people[judgeId]!)} sentences ${defendant.name} (${defendant.age}) for ${offenseLabel}${pleaded ? " after a guilty plea" : " after a trial"}. The judge chose ${chosen}.`,
+      speaker: personOf(world, ctx.playerId, judgeId, "judge"),
+      line,
+      parts: [],
+      harness: [
+        `The case (${offenseLabel}, ${pleaded ? "plea" : "trial"}, ${standingFindings} standing findings) is the harness's; the judge and defendant are real people in this world.`,
+      ],
+    };
+  };
+}
+
+/**
  * A press interview answer: the player asks a reporter for an exchange through
  * the press desk's own writers, the reporter decides from their record, and
  * if they accept the exchange is arranged and the player answers the
@@ -1148,6 +1212,22 @@ const SITUATIONS: readonly Situation[] = [
   { id: "matter-uninformed", run: matterUninformed },
   { id: "officials-view", run: officialsView },
   { id: "press-answer", run: pressAnswer },
+  {
+    id: "judge-sentence-vandalism-plea",
+    run: judgeSentence("crime:vandalism", "vandalism", true, 1),
+  },
+  {
+    id: "judge-sentence-assault-trial",
+    run: judgeSentence("crime:assault", "assault", false, 1),
+  },
+  {
+    id: "judge-sentence-burglary-repeat",
+    run: judgeSentence("crime:burglary", "burglary", false, 3),
+  },
+  {
+    id: "judge-sentence-bribery-plea",
+    run: judgeSentence("public-bribery", "public bribery", true, 1),
+  },
   // Fallbacks, used only when one above cannot be worded in any world.
   { id: "told-plan-second-listener", run: toldPlan(1) },
   { id: "school-offer", run: schoolReply("offer") },
