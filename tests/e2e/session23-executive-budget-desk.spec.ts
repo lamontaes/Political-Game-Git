@@ -104,10 +104,6 @@ test("authored governor seat: a new life requests dollars and reloads a differen
     body: JSON.stringify(before, null, 2),
     contentType: "application/json",
   });
-  await page.reload();
-  await expect(page.getByTestId("title-screen")).toBeVisible({
-    timeout: 30_000,
-  });
   await resume(page);
   await openElsewhere(page, "work");
   await expect(
@@ -123,7 +119,12 @@ test("authored governor seat: a new life requests dollars and reloads a differen
 });
 
 async function resume(page: Page) {
-  await page.reload();
+  // Each caller has already reloaded its saved life to the title screen.
+  // Continue reads the latest durable slot, including the explicit fixture
+  // change. A second navigation adds another full eager asset import.
+  await expect(page.getByTestId("title-screen")).toBeVisible({
+    timeout: 30_000,
+  });
   await page.getByTestId("continue").click();
   await expect(page.getByTestId("play-screen")).toBeVisible({
     timeout: 180_000,
