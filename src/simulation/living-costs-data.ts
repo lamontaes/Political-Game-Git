@@ -4,6 +4,10 @@ import {
   type CensusRegion,
 } from "./world-setup/census-regions";
 import { LIVING_COSTS_CATEGORY_DATA } from "./living-costs-category-data";
+import {
+  LIVING_COSTS_PRICE_TABLE,
+  livingCostsPriceLevel,
+} from "./living-costs-price-table";
 
 /** Representative retained 2024 CES categories, not observed personal bills.
  * Actual housing, vehicle purchases and tuition are settled by their own writers.
@@ -47,6 +51,13 @@ export function estimateLivingCostsCategoryAnnual(
 export function estimatedMonthlyHouseholdLivingCosts(
   region: LivingCostsRegion,
   householdSize: number,
+  price: {
+    readonly currentPriceIndex: number;
+    readonly basePriceIndex: number;
+  } = {
+    currentPriceIndex: 100,
+    basePriceIndex: 100,
+  },
 ) {
   if (!Number.isSafeInteger(householdSize) || householdSize < 1)
     throw new Error(
@@ -55,16 +66,36 @@ export function estimatedMonthlyHouseholdLivingCosts(
   const size = (
     householdSize >= 5 ? "5plus" : String(householdSize)
   ) as LivingCostsSize;
+  const priceLevel = livingCostsPriceLevel(
+    price.currentPriceIndex,
+    price.basePriceIndex,
+  );
   const categories = Object.entries(LIVING_COSTS_CATEGORY_DATA).map(
-    ([key, row]) => ({
-      key,
-      label: row.label,
-      ...estimateLivingCostsCategoryAnnual(
-        row.sizes[size],
+    ([key, row]) => {
+      const priceRow =
+        LIVING_COSTS_PRICE_TABLE[key as keyof typeof LIVING_COSTS_PRICE_TABLE];
+      const sourceSize = row.sizes[size];
+      const sizeSpread = priceRow.spreadByHousehold[size];
+      const priceTableSize =
+        sourceSize && Number.isFinite(sizeSpread)
+          ? {
+              ...sourceSize,
+              annualMeanUsd: priceRow.base * sizeSpread,
+            }
+          : sourceSize;
+      const source = estimateLivingCostsCategoryAnnual(
+        priceTableSize,
         row.regions[region],
         row.regions.national,
-      )!,
-    }),
+      )!;
+      return {
+        key,
+        label: row.label,
+        ...source,
+        annualMeanUsd: source.annualMeanUsd * priceLevel,
+        linkedMeasure: priceRow.linkedMeasure,
+      };
+    },
   );
   return {
     label: "ESTIMATED FROM AVERAGE" as const,

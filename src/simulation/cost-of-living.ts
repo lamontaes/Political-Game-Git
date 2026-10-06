@@ -37,6 +37,7 @@ import {
   estimatedMonthlyHouseholdLivingCosts,
 } from "./living-costs-data";
 import { townLeases } from "./living-world/town-rent";
+import { macroConditionsAt } from "./macro-economy/readers";
 import { recordWorldEvent } from "./world";
 import { drawnLinkSize } from "./outcome-web";
 import type {
@@ -155,9 +156,16 @@ export function estimatedHouseholdLivingCostsAt(
     householdLocationAt(world, householdId, cutoff)?.jurisdictionId ??
     world.people[personId]!.homeJurisdictionId;
   const place = lifePlaceByJurisdictionId(locationId);
+  // The macro kernel starts the recorded price index at 100; start conditions
+  // persist rates, not a second price-index baseline.
+  const basePriceIndex = 100;
+  const currentPriceIndex =
+    macroConditionsAt(world, "national", asOfDate)?.priceIndex ??
+    basePriceIndex;
   const estimate = estimatedMonthlyHouseholdLivingCosts(
     livingCostsRegionForState(place?.stateJurisdictionKey ?? null),
     residents.size,
+    { currentPriceIndex, basePriceIndex },
   );
   const jurisdictionId = place?.context.jurisdiction.id ?? locationId;
   return {
