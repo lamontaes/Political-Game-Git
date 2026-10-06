@@ -1,0 +1,553 @@
+{
+  "session": 21,
+  "sourceHead": "af8c098372379836cc22a0b487d10f79e2049a32",
+  "scope": "19 cause-not-recorded links only; research, no new coefficients or production implementation",
+  "coverage": {
+    "completed": 19,
+    "total": 19
+  },
+  "packets": [
+    {
+      "session": 21,
+      "scope": "First 10 cause-not-recorded links in file order; research only",
+      "researched_at": "2026-10-05",
+      "repository_edits": false,
+      "links": [
+        {
+          "key": "pretrial-detention-to-conviction",
+          "from_measure": "justice.pretrial-detained",
+          "to_measure": "justice.conviction",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://laweconcenter.law.harvard.edu/wp-content/uploads/2024/11/Yang_871.pdf",
+            "opened_and_read": true,
+            "locator": "pp. 12\u201313, 20\u201321"
+          },
+          "measurement_definition": "Defendant not released within three days of bail hearing; study treatment is the complementary binary release indicator.",
+          "units": "0/1 per defendant; aggregate denominator would be defendants with bail hearings",
+          "recorded_producer_or_source_data": "Administrative court bail-hearing and jail-release records. Existing src/simulation/justice/pretrial.ts and prosecution.ts decide individual cases; inventory explicitly says place-rate application would double count. No place aggregate or new producer established by this research.",
+          "outcome_definition": "Found guilty of any offense at disposition; guilty pleas separately recorded.",
+          "source_horizon": "Case disposition; fixed month lag not established by opened material",
+          "source_reported_range": null,
+          "unknowns": [
+            "Opened Harvard working-paper version reports 15.6 percentage-point release effect; do not silently replace final-paper coefficient or treat inventory 0.24\u20130.35 as a confidence interval.",
+            "Do not use a place detention rate to decide a defendant."
+          ],
+          "no_coefficient_added": true
+        },
+        {
+          "key": "pretrial-detention-to-employment",
+          "from_measure": "justice.pretrial-detained",
+          "to_measure": "labor.formal-employment",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://laweconcenter.law.harvard.edu/wp-content/uploads/2024/11/Yang_871.pdf",
+            "opened_and_read": true,
+            "locator": "pp. 12\u201313 and 4\u20135"
+          },
+          "measurement_definition": "Same three-day pretrial detention measure.",
+          "units": "0/1 per defendant",
+          "recorded_producer_or_source_data": "Administrative court bail-hearing and jail-release records. Existing src/simulation/justice/pretrial.ts and prosecution.ts decide individual cases; inventory explicitly says place-rate application would double count. No place aggregate or new producer established by this research. Employment data in source are IRS annual W-2 and tax records, matched to court records.",
+          "outcome_definition": "Formal employment is positive annual W-2 earnings.",
+          "source_horizon": "First two full years and third/fourth full years after bail; cited long-run result is years 3\u20134",
+          "source_reported_range": null,
+          "unknowns": [
+            "Six-month inventory lag is not the measured long-run horizon.",
+            "A 25% default spread is not a source confidence interval."
+          ],
+          "no_coefficient_added": true
+        },
+        {
+          "key": "release-lower-level-to-larceny",
+          "from_measure": "law.low-level-offense-reclassified",
+          "to_measure": "crime.larceny",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://www.ppic.org/publication/the-impact-of-proposition-47-on-crime-and-recidivism/",
+            "opened_and_read": true,
+            "locator": "Summary lines 102\u2013111"
+          },
+          "measurement_definition": "Recorded enactment and effective date of reclassification of specified lower-level drug/property offenses under Proposition 47.",
+          "units": "0/1 law-in-force indicator, with offense-specific statutory scope",
+          "recorded_producer_or_source_data": "Law record must encode which offenses and penalties changed; California DOJ statewide crime/arrest data and BSCC\u2013PPIC records supply observed outcomes. Inventory says no shipped reclassification question/reader.",
+          "outcome_definition": "Larceny theft count per 100,000 residents.",
+          "source_horizon": "2014 reform; crime comparison 2014\u20132016",
+          "source_reported_range": null,
+          "unknowns": [
+            "9% / 135 per 100,000 is an estimate, not a numeric interval.",
+            "Inventory contested range 0\u20130.18 is a default, not PPIC uncertainty.",
+            "Policy bundling means generic release is not the measured cause."
+          ],
+          "no_coefficient_added": true
+        },
+        {
+          "key": "disaster-to-public-transfers",
+          "from_measure": "disaster.severe",
+          "to_measure": "gov.nondisaster-transfers",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://deryugina.com/wp-content/uploads/2018/11/AEJPol-2014-0296-Deryugina-safety-net-final.pdf",
+            "opened_and_read": true,
+            "locator": "pp. 1\u20135"
+          },
+          "measurement_definition": "County exposed to hurricane-strength winds within estimated maximum-wind-speed radius; hurricane cutoff 74 mph.",
+          "units": "County-storm exposure 0/1; wind mph, storm location and six-hour observations",
+          "recorded_producer_or_source_data": "National Hurricane Center HURDAT2 storm tracks/wind/pressure plus Extended Best Track maximum-wind radius; BEA county transfers measure outcome. Inventory reports no per-place disaster reader.",
+          "outcome_definition": "Additional non-disaster social-insurance transfers per resident, present value in 2013 dollars.",
+          "source_horizon": "1979\u20132002 storms, 1969\u20132012 outcomes; ten years after hurricane",
+          "source_reported_range": {
+            "value": [780, 1150],
+            "units": "2013 dollars per capita present value over ten post-storm years",
+            "kind": "range of estimates, not annual rate"
+          },
+          "unknowns": [
+            "Generic severe disaster is not the study treatment.",
+            "Annual proportional conversion and baseline in inventory are repository derivations, not primary-source coefficients."
+          ],
+          "no_coefficient_added": true
+        },
+        {
+          "key": "disaster-to-out-migration",
+          "from_measure": "disaster.severe",
+          "to_measure": "population.out-migration",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://www.researchgate.net/publication/341512640_The_Effect_of_Natural_Disasters_on_Economic_Activity_in_US_Counties_A_Century_of_Data",
+            "opened_and_read": true,
+            "locator": "Author-uploaded June 2020 working-paper full text, sections III and IV"
+          },
+          "measurement_definition": "Any severe disaster in county-decade; preferred definition event with 25 or more dead or presumed missing, fatalities matched at event/state level.",
+          "units": "0/1 county-decade exposure; event deaths count",
+          "recorded_producer_or_source_data": "American Red Cross archival county/month/type event records plus FEMA/predecessor declarations; fatalities ARC and EM-DAT (maximum if both). Census-based net-migration series and housing values supply outcomes. Inventory reports no readable per-place disaster record.",
+          "outcome_definition": "Decadal net migration rate inferred from age-sex-race Census cohorts after births/deaths adjustment; includes international migration, and is not gross out-migration.",
+          "source_horizon": "Decades ending 1940\u20132010; disasters 1920\u20132010; migration analysis begins 1930",
+          "source_reported_range": {
+            "value": [20, 200],
+            "units": "event deaths",
+            "kind": "severity robustness thresholds discussed; not outcome effect interval"
+          },
+          "unknowns": [
+            "Inventory ~100 deaths differs from June 2020 preferred 25-death definition.",
+            "FEMA declaration alone does not establish fatalities.",
+            "No annual or monthly effect timing derived here.",
+            "County-to-state aggregation and territory coverage not verified."
+          ],
+          "no_coefficient_added": true
+        },
+        {
+          "key": "disaster-to-home-values",
+          "from_measure": "disaster.severe",
+          "to_measure": "housing.home-prices",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://www.researchgate.net/publication/341512640_The_Effect_of_Natural_Disasters_on_Economic_Activity_in_US_Counties_A_Century_of_Data",
+            "opened_and_read": true,
+            "locator": "Author-uploaded June 2020 working-paper full text, sections III and IV"
+          },
+          "measurement_definition": "Any severe disaster in county-decade; preferred definition event with 25 or more dead or presumed missing, fatalities matched at event/state level.",
+          "units": "0/1 county-decade exposure; event deaths count",
+          "recorded_producer_or_source_data": "American Red Cross archival county/month/type event records plus FEMA/predecessor declarations; fatalities ARC and EM-DAT (maximum if both). Census-based net-migration series and housing values supply outcomes. Inventory reports no readable per-place disaster record.",
+          "outcome_definition": "Log median housing value at Census decade end; median rent is separate.",
+          "source_horizon": "Decades ending 1940\u20132010; disasters 1920\u20132010; migration analysis begins 1930",
+          "source_reported_range": {
+            "value": [20, 200],
+            "units": "event deaths",
+            "kind": "severity robustness thresholds discussed; not outcome effect interval"
+          },
+          "unknowns": [
+            "Inventory ~100 deaths differs from June 2020 preferred 25-death definition.",
+            "FEMA declaration alone does not establish fatalities.",
+            "No annual or monthly effect timing derived here.",
+            "County-to-state aggregation and territory coverage not verified."
+          ],
+          "no_coefficient_added": true
+        },
+        {
+          "key": "coverage-to-catastrophic-bills",
+          "from_measure": "health.coverage",
+          "to_measure": "health.catastrophic-medical-bills",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/3701298/",
+            "opened_and_read": true,
+            "locator": "Opened author manuscript abstract/methods lines 107\u2013125; later detailed requests hit recaptcha"
+          },
+          "measurement_definition": "Medicaid insurance coverage induced by 2008 Oregon application lottery, rather than mere eligibility.",
+          "units": "0/1 Medicaid-covered adult; place covered share would need numerator and population denominator",
+          "recorded_producer_or_source_data": "Oregon lottery selection/application/enrollment records and study follow-up measurements; existing src/simulation/crisis/health-coverage.ts records person-level expansion eligibility/enrollment changes and explicitly omits baseline non-expansion adult coverage. This cannot alone represent full place insured share.",
+          "outcome_definition": "Self-reported catastrophic out-of-pocket expenditures; inventory defines over 30% of income, but exact denominator/table definition was not independently accessible on follow-up.",
+          "source_horizon": "Approximately two years after lottery",
+          "source_reported_range": null,
+          "unknowns": [
+            "No complete place coverage baseline or denominator established.",
+            "Person eligibility must not be conflated with enrollment/coverage.",
+            "Full Table 4 definition and CI need an accessible full-table lookup."
+          ],
+          "no_coefficient_added": true
+        },
+        {
+          "key": "coverage-to-medical-debt",
+          "from_measure": "health.coverage-pct",
+          "to_measure": "finance.medical-debt-in-collections",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://bfi.uchicago.edu/wp-content/uploads/HES-2017-06.pdf",
+            "opened_and_read": true,
+            "locator": "pp. 6\u20137, 14, 21, 41"
+          },
+          "measurement_definition": "Additional Medicaid enrollment attributed to Jan. 2014 expansion divided by nonelderly population; source estimates 4.1 percentage-point coverage gain.",
+          "units": "Coverage percentage points; medical-collection accrual dollars per person per year",
+          "recorded_producer_or_source_data": "CMS monthly Medicaid/CHIP enrollment reports (Dec. 2015 vs July\u2013September 2013 baseline); nonelderly population denominator; CFPB consumer-credit panel collection trade lines. Existing person-level Medicaid records are partial, no matching place-wide coverage reader.",
+          "outcome_definition": "Newly acquired medical collection debt, measured using next-quarter archive for reporting lag; flow rather than outstanding debt stock.",
+          "source_horizon": "First two expansion years (2014\u20132015); annualized accrual",
+          "source_reported_range": null,
+          "unknowns": [
+            "Opened 2017 working paper is a predecessor to 2020 article, not verification of all final-paper changes.",
+            "Per-point proportional coefficient/range in inventory requires external baseline and conversion; not a source-reported interval.",
+            "Reduced-form expansion and coverage-derived effect must not both be counted."
+          ],
+          "no_coefficient_added": true
+        },
+        {
+          "key": "coverage-to-depression",
+          "from_measure": "health.coverage",
+          "to_measure": "health.depression",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/3701298/",
+            "opened_and_read": true,
+            "locator": "Opened author manuscript abstract/methods lines 107\u2013125; later detailed requests hit recaptcha"
+          },
+          "measurement_definition": "Medicaid insurance coverage induced by 2008 Oregon application lottery, rather than mere eligibility.",
+          "units": "0/1 Medicaid-covered adult; place covered share would need numerator and population denominator",
+          "recorded_producer_or_source_data": "Oregon lottery selection/application/enrollment records and study follow-up measurements; existing src/simulation/crisis/health-coverage.ts records person-level expansion eligibility/enrollment changes and explicitly omits baseline non-expansion adult coverage. This cannot alone represent full place insured share.",
+          "outcome_definition": "Positive depression screening (binary); exact instrument/cutoff not independently verified in accessible abstract.",
+          "source_horizon": "Approximately two years after lottery",
+          "source_reported_range": {
+            "value": [-16.7, -1.6],
+            "units": "percentage points",
+            "kind": "95% confidence interval for depression coverage effect"
+          },
+          "unknowns": [
+            "No complete place coverage baseline or denominator established.",
+            "Person eligibility must not be conflated with enrollment/coverage.",
+            "Six-month depression lag not established by source."
+          ],
+          "no_coefficient_added": true
+        },
+        {
+          "key": "eitc-to-low-birthweight",
+          "from_measure": "program.eitc-dollars",
+          "to_measure": "health.low-birthweight",
+          "status_preserved": "cause-not-recorded",
+          "primary_lookup": {
+            "url": "https://gspp.berkeley.edu/research-and-impact/publications/income-the-earned-income-tax-credit-and-infant-health",
+            "opened_and_read": true,
+            "locator": "Author institution abstract lines 43\u201347"
+          },
+          "measurement_definition": "Policy-induced treatment-on-treated increase in after-tax income from federal EITC reforms among single mothers with at most 12 years education.",
+          "units": "Dollars per treated family; reported contrast $1,000",
+          "recorded_producer_or_source_data": "IRS tax-return EITC awards and household tax facts could record receipt, distinct from maximum statutory entitlement; primary study uses tax-reform variation. Inventory reports no EITC dollars by place. IRS aggregate-statistics URL attempt was inaccessible, so its geographic availability is not verified.",
+          "outcome_definition": "Low birthweight status; threshold definition not visible in opened abstract.",
+          "source_horizon": "Birth outcomes after policy-induced income increase; exact pregnancy exposure window not verified",
+          "source_reported_range": {
+            "value": [0.17, 0.31],
+            "units": "percentage-point reduction in low birthweight per $1,000 after-tax income",
+            "kind": "reported specification range; 1.6\u20132.9% relative decline in abstract, not confidence interval"
+          },
+          "unknowns": [
+            "EITC receipt versus total after-tax income must be reconciled before choosing cause measure.",
+            "Inventory contested designation preserved; this lookup does not adjudicate Dench/Joyce reanalysis.",
+            "Do not infer territory completeness or a monthly lag."
+          ],
+          "no_coefficient_added": true
+        }
+      ]
+    },
+    {
+      "session": 21,
+      "scope": "Last 9 of 19 cause-not-recorded links, positions 11\u201319 in filtered file order; research only",
+      "sourceHead": "af8c098372379836cc22a0b487d10f79e2049a32",
+      "checkedAt": "2026-10-05",
+      "skillsRead": [
+        "AGENTS.md",
+        ".claude/skills/research-habit/SKILL.md",
+        ".agents/skills/effects-link-audit/SKILL.md"
+      ],
+      "links": [
+        {
+          "position": 11,
+          "key": "lead-to-reading",
+          "cause": "health.blood-lead",
+          "result": "school.far-below-proficient",
+          "catalogStatus": "cause-not-recorded",
+          "primarySource": {
+            "url": "https://www.aeaweb.org/articles?id=10.1257/app.20160404",
+            "title": "Aizer et al. (2018), Do Low Levels of Blood Lead Reduce Children's Future Test Scores?",
+            "openedAndRead": true
+          },
+          "measurement": {
+            "definition": "Average preschool blood lead linked to third-grade reading; substantially-below-proficient reading is a separate outcome.",
+            "units": "Blood lead: micrograms per deciliter; reading: share/percentage points."
+          },
+          "recordedProducerOrSourceData": "Study links individual preschool blood lead measurements to third-grade tests for Rhode Island birth cohorts. Clinical blood-test records are the relevant cause record; a tested-child elevated-lead share does not supply mean blood lead.",
+          "sourceHorizon": "Preschool exposure to third grade; birth cohorts 1997\u20132005. Exact 48-month lag not verified from opened abstract.",
+          "sourceRange": null,
+          "researchGaps": [
+            "No representative state mean or 56-place coverage established. Full methods blocked by paywall/PMC access check. No empirical interval verified."
+          ],
+          "findings": [
+            "Published abstract reports 0.96 percentage-point reading change per one-unit decrease; catalog 3.1-point IV anchor is not verified by this abstract."
+          ],
+          "additionalSources": [
+            {
+              "url": "https://www.cdc.gov/lead-prevention/php/data/national-surveillance-data.html",
+              "openedAndRead": true,
+              "finding": "CDC 2017\u20132022 state surveillance is a tested subset, not population based; cannot compare states/counties. 2022 classifications use 3.5 micrograms/dL reference value."
+            }
+          ],
+          "implementation": "NOT RUN; research only; no production edits or new coefficients"
+        },
+        {
+          "position": 12,
+          "key": "heat-to-learning",
+          "cause": "env.school-year-temperature",
+          "result": "school.learning",
+          "catalogStatus": "cause-not-recorded",
+          "primarySource": {
+            "url": "https://files.eric.ed.gov/fulltext/ED670816.pdf",
+            "title": "Goodman et al., Heat and Learning, author working paper ED670816",
+            "openedAndRead": true
+          },
+          "measurement": {
+            "definition": "Mean daily maximum temperature on school days in the 365 days preceding PSAT; summers and weekends modeled separately.",
+            "units": "Degrees Fahrenheit; alternative hot-day exposure measured as counts of school days in temperature bins."
+          },
+          "recordedProducerOrSourceData": "NOAA Daily Global Historical Climatology Network daily station temperatures, matched to nearest high school; College Board PSAT records and survey of classroom heat/AC.",
+          "sourceHorizon": "Weather 1996\u20132014; high-school classes 2001\u20132014; cumulative prior-year exposure.",
+          "sourceRange": null,
+          "researchGaps": [
+            "School/calendar geocoding and AC record needed. No state baseline calculated. Default catalog 25% spread is not a source interval."
+          ],
+          "findings": [],
+          "additionalSources": [],
+          "implementation": "NOT RUN; research only; no production edits or new coefficients"
+        },
+        {
+          "position": 13,
+          "key": "home-prices-to-owner-births",
+          "cause": "housing.home-prices",
+          "result": "births.owners",
+          "catalogStatus": "cause-not-recorded",
+          "primarySource": {
+            "url": "https://econ.umd.edu/publicationprofile/1859",
+            "title": "Dettling and Kearney (2014), author university publication abstract",
+            "openedAndRead": true
+          },
+          "measurement": {
+            "definition": "Change in MSA-level house-price dollar level; distinguish current homeowners from non-owners.",
+            "units": "US dollars per home; published comparison is $10,000 change."
+          },
+          "recordedProducerOrSourceData": "FHFA repeat-sales HPI can supply geographic price movement, but an index needs an independently sourced dollar-level anchor to match this measurement. Ownership must be recorded per household.",
+          "sourceHorizon": "Abstract says short-term changes/current-period fertility; exact one-year lag not verified.",
+          "sourceRange": null,
+          "researchGaps": [
+            "HPI is an index, not dollars. No price-level dataset or common territorial coverage established. Non-owners are broader than renters. No interval supplied by abstract."
+          ],
+          "findings": [],
+          "additionalSources": [
+            {
+              "url": "https://www.fhfa.gov/data/hpi",
+              "openedAndRead": true,
+              "finding": "Weighted repeat-sales indexes from sales/refinancing mortgage transactions; national, state, metro, county, ZIP and tract products; history since mid-1970s."
+            }
+          ],
+          "implementation": "NOT RUN; research only; no production edits or new coefficients"
+        },
+        {
+          "position": 14,
+          "key": "home-prices-to-renter-births",
+          "cause": "housing.home-prices",
+          "result": "births.renters",
+          "catalogStatus": "cause-not-recorded",
+          "primarySource": {
+            "url": "https://econ.umd.edu/publicationprofile/1859",
+            "title": "Dettling and Kearney (2014), author university publication abstract",
+            "openedAndRead": true
+          },
+          "measurement": {
+            "definition": "Change in MSA-level house-price dollar level; distinguish current homeowners from non-owners.",
+            "units": "US dollars per home; published comparison is $10,000 change."
+          },
+          "recordedProducerOrSourceData": "FHFA repeat-sales HPI can supply geographic price movement, but an index needs an independently sourced dollar-level anchor to match this measurement. Ownership must be recorded per household.",
+          "sourceHorizon": "Abstract says short-term changes/current-period fertility; exact one-year lag not verified.",
+          "sourceRange": null,
+          "researchGaps": [
+            "HPI is an index, not dollars. No price-level dataset or common territorial coverage established. Non-owners are broader than renters. No interval supplied by abstract."
+          ],
+          "findings": [],
+          "additionalSources": [
+            {
+              "url": "https://www.fhfa.gov/data/hpi",
+              "openedAndRead": true,
+              "finding": "Weighted repeat-sales indexes from sales/refinancing mortgage transactions; national, state, metro, county, ZIP and tract products; history since mid-1970s."
+            }
+          ],
+          "implementation": "NOT RUN; research only; no production edits or new coefficients"
+        },
+        {
+          "position": 15,
+          "key": "marriage-equality-to-coverage",
+          "cause": "law.marriage-equality",
+          "result": "health.uninsured-pct",
+          "catalogStatus": "cause-not-recorded",
+          "primarySource": {
+            "url": "https://onlinelibrary.wiley.com/doi/10.1002/pam.22286",
+            "title": "Carpenter et al. (2021), Effects of Access to Legal Same-Sex Marriage on Marriage and Health",
+            "openedAndRead": true
+          },
+          "measurement": {
+            "definition": "Legal access to same-sex marriage in respondent state at interview date; binary policy indicator, not number of marriages.",
+            "units": "Indicator 0/1; insurance outcome is probability/share."
+          },
+          "recordedProducerOrSourceData": "State court/legislative effective dates, matched to exact BRFSS interview date and household sex composition; canonical law effective-date record is the relevant cause.",
+          "sourceHorizon": "BRFSS 2000\u20132017; adults age 25+; national access from June 2015 documented in paper.",
+          "sourceRange": null,
+          "researchGaps": [
+            "Historical treatment variation does not supply present-day place variation. Same-sex household proxy is not all sexual-minority men; population conversion requires separate denominator evidence. No aggregate uninsured effect interval verified."
+          ],
+          "findings": [
+            "Final paper insurance effect is 4.1 percentage points among men in same-sex households; women results inconclusive. Catalog says 4.2 and 2000\u20132016."
+          ],
+          "additionalSources": [],
+          "implementation": "NOT RUN; research only; no production edits or new coefficients"
+        },
+        {
+          "position": 16,
+          "key": "abortion-denied-to-financial-distress",
+          "cause": "person.abortion-denied",
+          "result": "finance.past-due-debt",
+          "catalogStatus": "cause-not-recorded",
+          "primarySource": {
+            "url": "https://www.aeaweb.org/articles?id=10.1257/pol.20210159",
+            "title": "Miller, Wherry and Foster (2023), The Economic Consequences of Being Denied an Abortion",
+            "openedAndRead": true
+          },
+          "measurement": {
+            "definition": "Woman seeking wanted abortion denied because pregnancy exceeds facility gestational limit; distinguish just-below-limit receipt comparison group.",
+            "units": "Person-level denial indicator; gestational age and limit in weeks; financial outcomes from credit reports."
+          },
+          "recordedProducerOrSourceData": "Turnaway Study encounter/denial and gestational-limit records linked to longitudinal credit reports. A law alone cannot substitute for an actual denial.",
+          "sourceHorizon": "Ten-year financial observation period; distress persists several years after encounter.",
+          "sourceRange": null,
+          "researchGaps": [
+            "Opened abstract does not define past-due debt threshold, confirm dollar denomination/year, or provide numeric interval. Full text access was paywalled; catalog 78% not independently verified here. No population denial frequency supplied."
+          ],
+          "findings": [],
+          "additionalSources": [],
+          "implementation": "NOT RUN; research only; no production edits or new coefficients"
+        },
+        {
+          "position": 17,
+          "key": "polling-distance-to-turnout",
+          "cause": "voting.polling-place-distance-miles",
+          "result": "voting.turnout-pct",
+          "catalogStatus": "cause-not-recorded",
+          "primarySource": {
+            "url": "https://swlb2.aeaweb.org/articles?id=10.1257/app.20180306",
+            "title": "Cantoni (2020), A Precinct Too Far: Turnout and Voting Costs",
+            "openedAndRead": true
+          },
+          "measurement": {
+            "definition": "Distance from voter location to assigned polling location, contrasting units across precinct boundaries.",
+            "units": "Miles; reported one standard deviation is 0.245 mile."
+          },
+          "recordedProducerOrSourceData": "Election-specific voter residence and assigned polling-site locations/precinct geography could supply person-level distance (proposed record design, not a verified statewide dataset).",
+          "sourceHorizon": "Four elections in nine municipalities in Massachusetts and Minnesota.",
+          "sourceRange": null,
+          "researchGaps": [
+            "Exact road-versus-straight-line distance construction not verified from abstract. No statewide mean or 56-place baseline found. Per-mile extrapolation is not directly measured."
+          ],
+          "findings": [
+            "Primary abstract gives 2\u20135 percent fewer ballots for 0.245-mile increase; this is study heterogeneity, not a confidence interval. Non-presidential high-minority effects three times larger."
+          ],
+          "additionalSources": [],
+          "implementation": "NOT RUN; research only; no production edits or new coefficients"
+        },
+        {
+          "position": 18,
+          "key": "newspaper-closure-to-engagement",
+          "cause": "press.local-newspaper",
+          "result": "voting.local-turnout",
+          "catalogStatus": "cause-not-recorded",
+          "primarySource": {
+            "url": "https://web.stanford.edu/~gentzkow/research/voting.pdf",
+            "title": "Gentzkow, Shapiro and Sinkinson (2011), The Effect of Newspaper Entry and Exit on Electoral Politics",
+            "openedAndRead": true
+          },
+          "measurement": {
+            "definition": "Net change in number of English-language general-circulation daily newspapers headquartered in county; daily means at least four weekdays/week.",
+            "units": "Count of papers per county/election-year; closure event must be recorded separately from stock."
+          },
+          "recordedProducerOrSourceData": "Rowell newspaper directories 1869\u20131876, Ayer 1880\u20131928, Editor and Publisher Yearbook 1932\u20132004; title/city/time-of-day matching produces entry/exit records.",
+          "sourceHorizon": "Presidential-year panel 1869\u20132004; main estimation 1872\u20131928 with four-year differences.",
+          "sourceRange": null,
+          "researchGaps": [
+            "Federal turnout cannot establish local-election outcome or exact 12-month lag. Modern newspaper coverage and territories unverified. Catalog range to zero/twice size is not directly reported interval."
+          ],
+          "findings": [],
+          "additionalSources": [],
+          "implementation": "NOT RUN; research only; no production edits or new coefficients"
+        },
+        {
+          "position": 19,
+          "key": "exposed-corruption-to-reelection",
+          "cause": "gov.corruption-exposed",
+          "result": "election.incumbent-reelection",
+          "catalogStatus": "cause-not-recorded",
+          "primarySource": {
+            "url": "https://docs.iza.org/dp2836.pdf",
+            "title": "Ferraz and Finan (2007 working paper; published 2008), Exposing Corrupt Politicians",
+            "openedAndRead": true
+          },
+          "measurement": {
+            "definition": "Publicly released municipal audit findings before an election, classified count of corruption violations; exposure timing differs from hidden misconduct.",
+            "units": "Number of documented corrupt violations; public release date; incumbent reelection indicator."
+          },
+          "recordedProducerOrSourceData": "Brazil federal municipal audit reports plus October 2004 municipal electoral records and local-radio presence. Audit finding and dissemination records could supply this cause; allegations alone are distinct.",
+          "sourceHorizon": "Audit reports released before versus after October 2004 municipal election.",
+          "sourceRange": null,
+          "researchGaps": [
+            "Working-paper version opened; catalog specific final-paper two-violation seven-point anchor not verified. No US/56-place baseline or transferable interval. Newspaper/radio exposure requires recorded dissemination."
+          ],
+          "findings": [
+            "Working paper describes nonlinear response across violation counts and possible rewards for no corruption; a universal linear penalty loses that distinction."
+          ],
+          "additionalSources": [],
+          "implementation": "NOT RUN; research only; no production edits or new coefficients"
+        }
+      ],
+      "limits": "No simulation execution, edits, coefficients, empirical ranges, or statewide baselines added. Unknowns remain explicit. SourceRange null means no suitable empirical range verified, not zero."
+    }
+  ],
+  "publication": {
+    "runtimeAdmissions": 0,
+    "scope": "Dev-only source evidence. No cause producer, landing API, P2 coefficient or source interval admission. Preserve the two original research packet schemas and explicit unknowns.",
+    "researchArtifacts": [
+      {
+        "file": "session21-unrecorded-causes-a.json",
+        "sha256": "1a7aac9b27cdd3f53301c7831087344e37ef1d89f513bf85703887ba23490d51"
+      },
+      {
+        "file": "session21-unrecorded-causes-b.json",
+        "sha256": "46473dc78442051090e6ffd08d9efa8e9fd0573b1b5f9a5c4da1547adc6bca43"
+      }
+    ],
+    "catalogKeyCoverage": {
+      "matched": 19,
+      "total": 19,
+      "duplicateKeys": 0
+    },
+    "sourceHeadPreserved": "af8c098372379836cc22a0b487d10f79e2049a32"
+  }
+}
