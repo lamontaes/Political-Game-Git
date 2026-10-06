@@ -1,7 +1,7 @@
 ---
 id: mr-7-money-record-data-only
 impact: patch
-section: Player
+section: Changed
 title: Menu reset: Money now shows record data only
 ---
 
