@@ -1,3 +1,4 @@
+import { openPetitionAsksFor } from "./recall";
 import { eventById } from "./event-index";
 import { lifeRequestDetails } from "./life-request-details";
 import { describePersonContext } from "./person-context";
@@ -2023,12 +2024,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.petition-ask",
-    withheld:
-      "Group participation does not establish a petition or a request to sign. The petition, request and disclosure terms are missing.",
-    companion: "community-member",
+    companion: null,
     stakes: "notable",
     prose:
-      "Somebody wants your name on something. It is public, it is local, and it will be read by people who know you.",
+      "You have been asked to sign a filed petition. Its subject and filing terms are on the record.",
     tensions: [
       tension(
         "privacy-preference",
@@ -2039,8 +2038,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       ),
     ],
     available: (context) =>
-      context.civicParticipationCount > 0 &&
-      context.communityMemberIds.length > 0,
+      openPetitionAsksFor(context.world, context.personId, context.asOfDate)
+        .length === 1,
     options: [
       {
         key: "sign",
