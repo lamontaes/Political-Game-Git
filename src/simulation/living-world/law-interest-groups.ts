@@ -126,7 +126,7 @@ function causeDecision(
   members: readonly EntityId[],
   founding: boolean,
 ) {
-  const key = `shared-cause:${input.subjectEntityId}:${input.personId}:${founding ? "found" : "join"}:${world.currentDate}`;
+  const key = `shared-cause:${input.subjectEntityId}:${input.stance}:${input.personId}:${founding ? "found" : "join"}:${world.currentDate}`;
   const view = recordedView(world, input);
   const exposure = ownExposure(world, input);
   const aligned = view?.position === input.stance;
