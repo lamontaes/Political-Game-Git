@@ -6,11 +6,11 @@ Updated: 2026-10-06
 
 ### b12-p1 — delay rules as data
 
-- Branch: `session35/b12-part1`, based on main `e591ffc63`.
+- Branch: `session35/b12-part1`, rebased on main `68c8a6630`; current head `13c7c438a`.
 - Complete per-chamber rows are attached to compiled/generated state packs, Congress, sourced municipalities, and local game-profile councils.
 - Chamber quorum is reused; a cloture threshold is read from the chamber's existing cloture stage. Shared motion, suspension, and attendance defaults are explicitly marked as comparable-chamber estimates.
 - Focused tests pass 5/5, including a fresh Seattle-area game. Test import scan, changed-file lint and `git diff --check` pass.
-- Full typecheck passes when temporarily supplying `personalLifeDepiction: "full"` to two unrelated existing fixtures in `src/simulation/press/press-premise.test.ts`. Those temporary edits were reverted. Without them, the current main baseline fails at those two fixture lines.
+- On fresh main after #2470, full `npm run typecheck` passes without local fixture edits; test import scan reports 804 files and zero unresolved imports. Full repo Prettier, ESLint, release check, zero-dice, and diff checks pass at this head.
 - Remaining p1 work: add the required chamber/state source survey rows and replace estimates wherever sources have been read. This draft does not claim the per-state research table is complete.
 
 ### b12-p2 — recorded procedural motions / sine die
