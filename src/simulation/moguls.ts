@@ -43,7 +43,6 @@ import {
   isSelectedDecision,
   recordDurableDecisionTrace,
 } from "./decisions";
-import { recordEvidenceArtifact } from "./evidence";
 import { recordGoalState, createMindProvenance } from "./mind";
 import { personName } from "./people";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -68,12 +67,11 @@ import {
   fileComplaint,
   openMatter,
   procedureForSubject,
+  recordMisconductAct,
   recordAllegation,
 } from "./press/matters";
 import { stateOfJurisdiction } from "./press/outlets";
-import { PRESS_CONTRACT_VERSION } from "./press/records";
 import { sortedUnique } from "./press/shared";
-import { appendPressRecord } from "./press/store";
 
 /* -------------------------------------------------------------------------- */
 /* Placeholders                                                                */
@@ -815,115 +813,105 @@ export function answerMogulOffer(
     ) {
       throw new Error(`${personName(mogul)} no longer has that money to give.`);
     }
-    next = createResourceFlow(next, {
-      stableKey: `${key}:flow`,
-      source: { kind: "person", personId: offer.mogulPersonId },
-      recipient: {
-        kind: "organization",
-        organizationId: committee.organizationId,
-      },
-      startsAt: next.currentDate,
-      initialStatus: "active",
-      amount: offer.amount,
-      cadenceKind: "schedule:one-time",
-      basisKind: "custom:campaign-contribution",
-      basisReference: { kind: "general" },
-      restrictionKind: "purpose:campaign",
-      jurisdictionId: campaign.jurisdictionId,
-      provenance: { kind: "simulated-event", eventId: offer.eventId },
-    });
-    const flow = next.history.resourceFlows.at(-1)!;
-    next = recordResourceTransferOutcome(next, {
-      stableKey: `${key}:transfer`,
-      resourceFlowId: flow.id,
-      periodStartsAt: next.currentDate,
-      periodEndsAt: next.currentDate,
-      occurredAt: next.currentDate,
-      status: "completed",
-      attemptedAmount: offer.amount,
-      transferredAmount: offer.amount,
-      reasonKind: null,
-      note: `Contribution from ${personName(mogul)}.`,
-      provenance: { kind: "simulated-event", eventId: offer.eventId },
-    });
     if (offer.kind === "deal") {
-      next = recordEvidenceArtifact(next, {
-        stableKey: `${key}:message`,
-        evidenceKind: "record:private-correspondence",
-        createdAt: offer.offeredAt,
-        recordedAt: next.currentDate,
-        relatedEntityIds: [offer.eventId],
-        access: "private",
-        description: `${personName(mogul)}'s message to ${personName(target)}: the contribution is for a public ${offer.wants === "support" ? "endorsement" : "rejection"} of "${propositionText(next, offer.propositionId)}".`,
-        provenance: { kind: "simulated", sourceEntityIds: [offer.eventId] },
-      });
-      const message = next.history.evidenceArtifacts.at(-1)!;
-      next = recordEvidenceArtifact(next, {
-        stableKey: `${key}:ledger`,
-        evidenceKind: "record:campaign-ledger-entry",
-        createdAt: next.currentDate,
-        recordedAt: next.currentDate,
-        relatedEntityIds: [offer.eventId],
-        access: "restricted",
-        description: `Committee ledger entry: a contribution of ${formatDollars(offer.amount)} from ${personName(mogul)}.`,
-        provenance: { kind: "simulated", sourceEntityIds: [offer.eventId] },
-      });
-      const ledger = next.history.evidenceArtifacts.at(-1)!;
-      next = recordWorldEvent(next, {
-        stableKey: `${key}:agreed`,
-        type: "mogul.deal-agreed",
-        occurredAt: next.currentDate,
-        recordedAt: next.currentDate,
-        jurisdictionId: campaign.jurisdictionId,
-        involvedEntityIds: sortedUnique([
-          offer.mogulPersonId,
-          offer.toPersonId,
-        ]),
-        participants: [
-          {
-            personId: offer.toPersonId,
-            role: "agency:actor",
-            detail: "Took money for a promised public stance",
-          },
-          {
-            personId: offer.mogulPersonId,
-            role: "agency:payer",
-            detail: "Paid for a promised public stance",
-          },
-        ],
-        personFactConstraints: [],
-        visibility: "private",
-        tags: [
-          PRESS_CONTRACT_VERSION,
-          "misconduct:M4",
-          offerTag(offer.eventId),
-        ],
-        summary: `${personName(target)} accepted ${personName(mogul)}'s money on the understanding of a public ${offer.wants} on "${propositionText(next, offer.propositionId)}".`,
-        context: {
-          location: null,
-          socialContext: "A private arrangement: money for a public stance.",
-          pressure: null,
-          choice: "accept",
-          motivation: null,
-          immediateReaction: null,
-        },
-      });
-      const act = next.history.events.at(-1)!;
-      const appended = appendPressRecord(next, "financial-occurrence", {
+      const proposition = propositionText(next, offer.propositionId);
+      const recorded = recordMisconductAct(next, {
         stableKey: `${key}:occurrence`,
+        eventStableKey: `${key}:agreed`,
+        eventType: "mogul.deal-agreed",
         family: "M4",
-        actorPersonIds: sortedUnique([offer.toPersonId, offer.mogulPersonId]),
-        occurrenceEventId: act.id,
-        resourceFlowIds: [flow.id],
-        recordEvidenceArtifactIds: [message.id, ledger.id],
-        dutyReference: null,
-        intentional: true,
-        occurredAt: next.currentDate,
+        actorPersonIds: [offer.toPersonId, offer.mogulPersonId],
+        participantPersonIds: [offer.toPersonId, offer.mogulPersonId],
+        relatedEntityIds: [committee.organizationId],
+        flows: [
+          {
+            flow: {
+              stableKey: `${key}:flow`,
+              source: { kind: "person", personId: offer.mogulPersonId },
+              recipient: {
+                kind: "organization",
+                organizationId: committee.organizationId,
+              },
+              startsAt: next.currentDate,
+              initialStatus: "active",
+              amount: offer.amount,
+              cadenceKind: "schedule:one-time",
+              basisKind: "custom:campaign-contribution",
+              basisReference: { kind: "general" },
+              restrictionKind: "purpose:campaign",
+              jurisdictionId: campaign.jurisdictionId,
+            },
+            outcome: {
+              stableKey: `${key}:transfer`,
+              periodStartsAt: next.currentDate,
+              periodEndsAt: next.currentDate,
+              occurredAt: next.currentDate,
+              status: "completed",
+              attemptedAmount: offer.amount,
+              transferredAmount: offer.amount,
+              reasonKind: null,
+              note: `Contribution from ${personName(mogul)}.`,
+            },
+          },
+        ],
+        artifacts: [
+          {
+            stableKey: `${key}:message`,
+            evidenceKind: "record:private-correspondence",
+            createdAt: offer.offeredAt,
+            recordedAt: next.currentDate,
+            access: "private",
+            description: `${personName(mogul)}'s message to ${personName(target)}: the contribution is for a public ${offer.wants === "support" ? "endorsement" : "rejection"} of "${proposition}".`,
+          },
+          {
+            stableKey: `${key}:ledger`,
+            evidenceKind: "record:campaign-ledger-entry",
+            createdAt: next.currentDate,
+            recordedAt: next.currentDate,
+            access: "restricted",
+            description: `Committee ledger entry: a contribution of ${formatDollars(offer.amount)} from ${personName(mogul)}.`,
+          },
+        ],
         jurisdictionId: campaign.jurisdictionId,
+        summary: `${personName(target)} accepted ${personName(mogul)}'s money on the understanding of a public ${offer.wants} on "${proposition}".`,
+        choice: "accept",
+        tags: [offerTag(offer.eventId)],
       });
-      next = appended.world;
-      occurrenceId = appended.record.id;
+      next = recorded.world;
+      occurrenceId = recorded.occurrence.id;
       tags.push(`mogul.occurrence:${occurrenceId}`);
+    } else {
+      next = createResourceFlow(next, {
+        stableKey: `${key}:flow`,
+        source: { kind: "person", personId: offer.mogulPersonId },
+        recipient: {
+          kind: "organization",
+          organizationId: committee.organizationId,
+        },
+        startsAt: next.currentDate,
+        initialStatus: "active",
+        amount: offer.amount,
+        cadenceKind: "schedule:one-time",
+        basisKind: "custom:campaign-contribution",
+        basisReference: { kind: "general" },
+        restrictionKind: "purpose:campaign",
+        jurisdictionId: campaign.jurisdictionId,
+        provenance: { kind: "simulated-event", eventId: offer.eventId },
+      });
+      const flow = next.history.resourceFlows.at(-1)!;
+      next = recordResourceTransferOutcome(next, {
+        stableKey: `${key}:transfer`,
+        resourceFlowId: flow.id,
+        periodStartsAt: next.currentDate,
+        periodEndsAt: next.currentDate,
+        occurredAt: next.currentDate,
+        status: "completed",
+        attemptedAmount: offer.amount,
+        transferredAmount: offer.amount,
+        reasonKind: null,
+        note: `Contribution from ${personName(mogul)}.`,
+        provenance: { kind: "simulated-event", eventId: offer.eventId },
+      });
     }
   }
   next = recordWorldEvent(next, {
