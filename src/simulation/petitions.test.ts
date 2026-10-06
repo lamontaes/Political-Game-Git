@@ -164,7 +164,6 @@ describe("petitions close on asked, decided signatures", () => {
         stableKey: `proposition-view:${signerPersonId}`,
         personId: signerPersonId,
         propositionId,
-        subject: null,
         formedAt: world.currentDate,
         position: "support",
         conviction: "strong",
