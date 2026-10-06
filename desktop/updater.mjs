@@ -236,6 +236,16 @@ export async function runUpdateCheck(deps) {
       );
       return "stable-install-blocked";
     }
+    try {
+      await updater.prepareUpdateRetention(result.updateInfo.version);
+    } catch (error) {
+      updater.setAutoInstallOnAppQuit(false);
+      await deps.notify(
+        "The update was not installed.",
+        `The previous app could not be retained safely. ${String(error?.message ?? error)}. Your current build and saves were left in place.`,
+      );
+      return "stable-retention-failed";
+    }
     updater.setAutoInstallOnAppQuit(false);
     updater.quitAndInstall();
     return "stable-installing";
