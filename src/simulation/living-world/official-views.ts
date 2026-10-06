@@ -22,6 +22,7 @@ import {
 } from "../political-belief-formation";
 import { officialOpinionSubject } from "../political-opinion-subjects";
 import { recordWorldEvent } from "../world";
+import { recordEventKnowledge } from "../records";
 import { joinLawInterestGroup } from "./law-interest-groups";
 import {
   LIVED_OUTCOME_ANSWERED_BY,
@@ -200,6 +201,21 @@ export function officialViewReflectionHandler(
   );
   let next = world;
   if (weighed.length > 0) {
+    for (const act of weighed) {
+      if (act.executive) continue;
+      const event = voteEvent(next, exposure, act.officialId);
+      if (!event || voteKnowledge(next, exposure.personId, event.id)) continue;
+      next = recordEventKnowledge(next, {
+        stableKey: `${V}:vote-knowledge:${exposure.personId}:${event.id}`,
+        personId: exposure.personId,
+        eventId: event.id,
+        learnedAt: next.currentDate,
+        believedSummary: event.summary,
+        accuracy: "accurate",
+        confidence: "high",
+        source: { kind: "public-record", reference: event.id },
+      });
+    }
     next = recordReflection(next, exposure);
     const eventId = next.history.events.at(-1)!.id;
     for (const act of weighed)
@@ -253,20 +269,60 @@ export function officialsBehind(
   return acts;
 }
 
-/**
- * Whether this person learned how this legislator voted on the law: they
- * follow the news closely, or they know the legislator themselves. About 11
- * percent of people can name their state legislator (Johns Hopkins, 2018);
- * that is a check on the total, never a chance for one person.
- */
+/** The recorded event for the member's latest vote available at reflection time. */
+function voteEvent(
+  world: World,
+  exposure: LawExposureRecord,
+  officialId: EntityId,
+) {
+  const vote = [...(world.history.legislativeVotes ?? [])]
+    .filter(
+      (row) =>
+        row.measureId === exposure.measureId &&
+        row.takenAt <= world.currentDate &&
+        row.dispositions.some(
+          (member) =>
+            member.personId === officialId &&
+            (member.disposition === "yea" || member.disposition === "nay"),
+        ),
+    )
+    .sort(
+      (a, b) => b.takenAt.localeCompare(a.takenAt) || b.sequence - a.sequence,
+    )[0];
+  if (!vote) return null;
+  const action = world.history.legislativeActions?.find(
+    (row) => row.voteId === vote.id && row.occurredAt <= world.currentDate,
+  );
+  return (
+    world.history.events.find(
+      (row) =>
+        row.id === action?.eventId && row.occurredAt <= world.currentDate,
+    ) ?? null
+  );
+}
+
+function voteKnowledge(world: World, personId: EntityId, eventId: EntityId) {
+  return world.history.knowledge.find(
+    (row) =>
+      row.personId === personId &&
+      row.eventId === eventId &&
+      row.learnedAt <= world.currentDate,
+  );
+}
+
+/** Public roll calls can be read or heard; private votes require recorded knowledge. */
 export function knowsVote(
   world: World,
   exposure: LawExposureRecord,
   officialId: EntityId,
 ): boolean {
+  const event = voteEvent(world, exposure, officialId);
+  if (!event) return false;
   return (
-    followsNewsClosely(world, exposure.personId) ||
-    peopleKnownTo(world, exposure.personId).includes(officialId)
+    !!voteKnowledge(world, exposure.personId, event.id) ||
+    (event.visibility === "public" &&
+      (followsNewsClosely(world, exposure.personId) ||
+        peopleKnownTo(world, exposure.personId).includes(officialId)))
   );
 }
 
@@ -651,6 +707,12 @@ function lawFactor(
   if (anchored) felt *= PARTY_ANCHOR;
   if (felt <= 0) return null;
   const importance = IMPORTANCE_FROM.find(([from]) => felt >= from)![1];
+  const vote = !act.executive
+    ? voteEvent(world, exposure, act.officialId)
+    : null;
+  const knowledge = vote
+    ? voteKnowledge(world, exposure.personId, vote.id)
+    : null;
   const what =
     act.act === "signed"
       ? "signed"
@@ -674,7 +736,12 @@ function lawFactor(
             ? "the person's household"
             : "someone the person knows"
       }${anchored ? "; the person's party loyalty tempers it" : ""}.`,
-      sourceRefs: [{ kind: "historical-event", eventId }],
+      sourceRefs: [
+        { kind: "historical-event", eventId },
+        ...(knowledge
+          ? [{ kind: "event-knowledge" as const, knowledgeId: knowledge.id }]
+          : []),
+      ],
     },
   };
 }
