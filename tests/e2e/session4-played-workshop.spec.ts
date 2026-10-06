@@ -26,6 +26,16 @@ for (let draw = 0; draw < 4; draw += 1) {
       place: place.displayName,
       route: "normal",
     });
+    await page.waitForFunction(() => {
+      if (document.querySelector('[data-testid="life-start-transition"]'))
+        return false;
+      return !!document.querySelector(
+        '[data-testid="play-screen"], [data-testid="world-orientation"], [role="alert"], .game-problem',
+      );
+    });
+    const intro = page.getByTestId("world-orientation");
+    if (await intro.isVisible())
+      await page.getByTestId("orientation-skip").click();
     await enterLife(page);
     await goTo(page, "nav-calendar");
     const meeting = page
@@ -37,6 +47,28 @@ for (let draw = 0; draw < 4; draw += 1) {
     await page.screenshot({ path: info.outputPath("00-calendar.png") });
     await meeting.click();
     await page.getByTestId("calendar-play-event").click();
+    await expect(page.getByTestId("shell-nav-cluster")).toHaveAttribute(
+      "aria-label",
+      /Public meeting room/,
+    );
+    await saveLife(page);
+    await page.getByTestId("shell-nav-cluster").click();
+    const arrivalWorld = await page.evaluate(async () => {
+      const storePath = "/src/presentation/browser-world-repository.ts";
+      const { BrowserSaveStore: Store } = await import(
+        /* @vite-ignore */ storePath
+      );
+      const store: BrowserSaveStore = new Store();
+      const shelf = await store.list();
+      if (shelf.saves.length !== 1)
+        throw new Error("Expected this fresh game's arrival save.");
+      return store.inspectSnapshot(shelf.saves[0]!.saveId);
+    });
+    expect(arrivalWorld).not.toBeNull();
+    await info.attach("actual-arrival-world", {
+      body: JSON.stringify(arrivalWorld),
+      contentType: "application/json",
+    });
     const scene = page.getByTestId("scene-conversation");
     await expect(scene).toBeVisible({ timeout: 60_000 });
     await expect(scene.getByTestId("talk-lie-toggle")).toBeEnabled();

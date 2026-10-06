@@ -62,6 +62,7 @@ import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
 import {
   projectPlayedSceneExchange,
   playedSceneEnglishPacket,
+  playedSceneAnswerPacket,
 } from "./scene-conversation";
 import type { StorySceneSnapshot } from "./story-scene-resolver";
 import {
@@ -1232,10 +1233,25 @@ export function commitPlayedSceneTurn(
         },
       ],
     };
-    const line = composePlayedSceneLine(
-      packet,
-      decided.meaning === "counter" ? "undecided" : decided.meaning,
-    );
+    const answer =
+      decided.meaning === "agree"
+        ? playedSceneAnswerPacket(
+            next,
+            input.playerPersonId,
+            input.addresseePersonId,
+            offer,
+            presence.id,
+          )
+        : null;
+    const line = answer
+      ? composePlayedSceneLine(
+          { ...answer, sourceRecordIds: [...answer.sourceRecordIds, trace.id] },
+          "tell-record",
+        )
+      : composePlayedSceneLine(
+          packet,
+          decided.meaning === "counter" ? "undecided" : decided.meaning,
+        );
     if (line.kind !== "rendered")
       throw new Error(
         "The recorded answer cannot be worded from its evidence.",

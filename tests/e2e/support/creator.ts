@@ -2,6 +2,11 @@ import { expect, type Page } from "@playwright/test";
 import { chooseOption } from "./controls";
 
 import { resolveExplicitCreatorHometown } from "../../../src/presentation/new-game-geography";
+import {
+  emptyCreatorLocation,
+  selectCreatorState,
+} from "../../../src/presentation/creator-location";
+import { lifePlaceByKey } from "../../../src/simulation/life-places";
 
 /**
  * Walking the character creator the way a player does.
@@ -140,6 +145,22 @@ export async function chooseCreatorLocation(
   await page.getByTestId("state-search").fill(hometown.stateName);
   await page.getByTestId(`state-${hometown.usps}`).click();
   await expect(page.getByTestId("creator-change-state")).toBeVisible();
+
+  // The normal Creator selects a district's sole locality itself. Verify
+  // that actual choice instead of waiting for its collapsed search field.
+  const selected = selectCreatorState(
+    emptyCreatorLocation(),
+    hometown.stateJurisdictionKey,
+  );
+  const sole = selected.placeKey ? lifePlaceByKey(selected.placeKey) : null;
+  if (!hometown.statewide && sole) {
+    expect(sole.formalName).toBe(hometown.townMatch);
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      sole.displayName,
+    );
+    await page.getByTestId("creator-continue-place").click();
+    return;
+  }
 
   if (hometown.statewide) {
     if (!custom) {

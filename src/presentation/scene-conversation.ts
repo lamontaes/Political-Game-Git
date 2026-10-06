@@ -126,7 +126,11 @@ function playedRecordSpeechFacts(
     )
       return {};
     if (!("bodyId" in raw) || typeof raw.bodyId !== "string") return {};
-    if (!raw.items.length) return { "speech-kind": fact("meeting-routine") };
+    if (!raw.items.length)
+      return {
+        "speech-kind": fact("meeting-routine"),
+        "agenda-body": fact(raw.bodyId),
+      };
     const items = raw.items.flatMap((item: unknown) => {
       if (!item || typeof item !== "object" || !("measureId" in item))
         return [];
@@ -141,6 +145,7 @@ function playedRecordSpeechFacts(
     if (items.length !== raw.items.length) return {};
     return {
       "speech-kind": fact("meeting-agenda"),
+      "agenda-body": fact(raw.bodyId),
       "agenda-title": fact(items.map((item) => item.shortTitle).join("; "), [
         event.id,
         ...items.map((item) => item.id),
@@ -234,6 +239,80 @@ export function playedSceneEnglishPacket(
   };
 }
 
+/** Answer this question from the respondent's own recorded knowledge/presence. */
+export function playedSceneAnswerPacket(
+  world: World,
+  viewer: EntityId,
+  speaker: EntityId,
+  offer: PlayedSceneReply,
+  presenceEventId: EntityId,
+): GroundedEnglishPacket | null {
+  const source = world.history.events.find(
+    (row) => row.id === offer.sourceEventId,
+  );
+  if (!source) return null;
+  const knowledge = world.history.knowledge.find(
+    (row) =>
+      row.personId === speaker &&
+      row.eventId === source.id &&
+      row.accuracy === "accurate" &&
+      row.learnedAt <= world.currentDate &&
+      row.sequence < world.history.nextSequence,
+  );
+  const own = playedSceneEnglishPacket(
+    world,
+    viewer,
+    speaker,
+    source.id,
+    source.summary,
+    "dialogue",
+    knowledge?.id ?? null,
+  );
+  if (own?.facts["speech-kind"]) return own;
+  const question = playedSceneEnglishPacket(
+    world,
+    viewer,
+    viewer,
+    source.id,
+    source.summary,
+    "dialogue",
+    offer.knowledgeId,
+  );
+  const kind = question?.facts["speech-kind"]?.text;
+  if (!question || !["meeting-agenda", "meeting-routine"].includes(kind ?? ""))
+    return null;
+  const current = playedSceneEnglishPacket(
+    world,
+    viewer,
+    speaker,
+    presenceEventId,
+    source.summary,
+    "dialogue",
+    null,
+    "meeting-agenda",
+  );
+  if (
+    !current ||
+    current.facts["speech-kind"]?.text !== kind ||
+    current.facts["agenda-body"]?.text !== question.facts["agenda-body"]?.text
+  )
+    return null;
+  const requestedMeasures =
+    question.facts["agenda-title"]?.sourceRecordIds.filter(
+      (id) => id !== source.id,
+    ) ?? [];
+  const knownMeasures =
+    current.facts["agenda-title"]?.sourceRecordIds.filter(
+      (id) => id !== presenceEventId,
+    ) ?? [];
+  if (
+    requestedMeasures.length !== knownMeasures.length ||
+    requestedMeasures.some((id) => !knownMeasures.includes(id))
+  )
+    return null;
+  return current;
+}
+
 /** The same primitives compose requests and replies from the current World.
  * No cast, past episode, knowledge or attendance is created by inspection. */
 export function projectPlayedSceneExchange(
@@ -306,7 +385,17 @@ export function projectPlayedSceneExchange(
       "meeting-agenda",
     );
     if (packet) {
-      const line = composePlayedSceneLine(packet, "recorded-observation");
+      let line = composePlayedSceneLine(packet, "recorded-observation");
+      if (line.kind !== "rendered" && !packet.facts["speech-kind"]) {
+        const chair = playedSceneEnglishPacket(
+          world,
+          viewer,
+          addresseePersonId,
+          presence.id,
+          presence.summary,
+        );
+        if (chair) line = composePlayedSceneLine(chair, "recorded-observation");
+      }
       if (line.kind === "rendered")
         contributions.push({
           speakerPersonId: addresseePersonId,

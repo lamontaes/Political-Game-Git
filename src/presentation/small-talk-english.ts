@@ -31,7 +31,7 @@ import {
 import type { GroundedEnglishPacket } from "./grounded-english";
 import type { CompositionContext } from "./english-composition";
 
-export const PLAYED_SCENE_ENGLISH_VERSION = "2";
+export const PLAYED_SCENE_ENGLISH_VERSION = "3";
 
 /** Reusable speech acts; the caller supplies the recorded matter and meaning. */
 export type PlayedScenePrimitive =
@@ -103,6 +103,9 @@ export function composePlayedSceneLine(
           : brief
             ? "Is {{chair-name}} the chair?"
             : "Is {{chair-name}} chairing this meeting?";
+      if (primitive === "tell-record")
+        if (packet.facts["speaker-chair"]?.text === "yes")
+          return brief ? "I'm chairing." : "I'm chairing this meeting.";
       if (primitive === "tell-record")
         return careful
           ? "The chair for this meeting is {{chair-name}}."
