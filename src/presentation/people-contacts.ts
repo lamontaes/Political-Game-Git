@@ -21,7 +21,7 @@ import {
   describeRelationshipStanding,
   readRelationshipStanding,
 } from "../simulation/relationship-standing";
-import { favorsBetween } from "../simulation/favors";
+import { favorRecords } from "../simulation/favors";
 import { relationshipHistory } from "../simulation/queries";
 import {
   introducedPeople,
@@ -132,12 +132,40 @@ export function projectContacts(
   const proposals = contactProposals(world, personId).filter(
     (proposal) => !proposal.answered,
   );
+  const favorsByContact = new Map<
+    EntityId,
+    ReturnType<typeof favorRecords>[number][]
+  >();
+  for (const favor of favorRecords(world)) {
+    const otherPersonId =
+      favor.giverPersonId === personId
+        ? favor.receiverPersonId
+        : favor.receiverPersonId === personId
+          ? favor.giverPersonId
+          : null;
+    if (otherPersonId === null) continue;
+    const records = favorsByContact.get(otherPersonId) ?? [];
+    records.push(favor);
+    favorsByContact.set(otherPersonId, records);
+  }
+  const interactionsByContact = new Map<
+    EntityId,
+    ReturnType<typeof relationshipHistory>[number][]
+  >();
+  for (const interaction of relationshipHistory(world, personId)) {
+    for (const otherPersonId of interaction.personIds) {
+      if (otherPersonId === personId) continue;
+      const records = interactionsByContact.get(otherPersonId) ?? [];
+      records.push(interaction);
+      interactionsByContact.set(otherPersonId, records);
+    }
+  }
   const contacts = contactBases(world, personId).map((basis): ContactEntry => {
     const outstanding = outstandingWith(proposals, personId, basis.personId);
     const standing = readRelationshipStanding(world, personId, basis.personId);
     const currentTension = new Set(standing.readings.tension.basis);
     const lookBack: ContactLookBackEntry[] = [
-      ...favorsBetween(world, personId, basis.personId).map((favor) => ({
+      ...(favorsByContact.get(basis.personId) ?? []).map((favor) => ({
         id: favor.id,
         at: favor.givenAt,
         sequence: favor.sequence,
@@ -147,7 +175,7 @@ export function projectContacts(
             ? `You ${favor.description}.`
             : `${basis.name} ${favor.description}.`,
       })),
-      ...relationshipHistory(world, personId, basis.personId)
+      ...(interactionsByContact.get(basis.personId) ?? [])
         .filter((interaction) => currentTension.has(interaction.id))
         .map((interaction) => ({
           id: interaction.id,

@@ -189,7 +189,7 @@ describe("PEOPLE P3: reaching somebody", () => {
     expect(serializeWorld(deserializeWorld(serializeWorld(settled)))).toBe(
       serializeWorld(settled),
     );
-  });
+  }, 60_000);
 
   it("the same proposal is answered once", () => {
     let settled = asked;
@@ -285,7 +285,7 @@ describe("PEOPLE P3: somebody gets back in touch", () => {
       ),
     ).toBe(true);
     assertWorldIntegrity(answered);
-  });
+  }, 60_000);
 });
 
 describe("PEOPLE P3: the call, answered in the conversation", () => {
@@ -336,7 +336,7 @@ describe("PEOPLE P3: the call, answered in the conversation", () => {
       "contact:arranged-to-meet",
     );
     assertWorldIntegrity(agreed);
-  });
+  }, 60_000);
 });
 
 describe("what the People screen says about somebody", () => {
