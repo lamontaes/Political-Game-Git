@@ -1,6 +1,7 @@
 import { SCHOOL_STAGE_TRANSITION_KEY } from "./school-calendar";
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { settleTownCompensations } from "./living-world/town-pay";
+import { ensureEmployerCashPositions } from "./opening-employer-cash";
 import { schoolStageTransitionHandler } from "./school-stages";
 import {
   acceptedEducationPath,
@@ -1041,7 +1042,15 @@ function lifePaths2CoreHandlers(): FutureTransitionHandlerRegistry {
             historySequenceExclusive: worked.sequence + 1,
           });
           if (!terms) throw new Error("Earned pay terms are missing.");
-          const next = settleTownCompensations(world, [
+          const fundedWorld =
+            flow.source.kind === "organization"
+              ? ensureEmployerCashPositions(
+                  world,
+                  "later",
+                  new Set([flow.source.organizationId]),
+                )
+              : world;
+          const next = settleTownCompensations(fundedWorld, [
             {
               stableKey: `${due.stableKey}:paid`,
               payFlowId: flow.id,
