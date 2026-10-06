@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "readOn": "2026-10-06",
+  "readBy": "Builder L3",
+  "purpose": "First-party text behind 92N local income and payroll cells. A cell upgrades from estimated to sourced when its row is present with a matching sha256.",
+  "sourced": [
+    {
+      "state": "OH",
+      "instrument": "earned-income",
+      "file": "raw/oh-rc-718.html",
+      "sha256": "0521688c023268ea180f908e0020de5642ca79dbb300efe4f497a7452edd6c7d",
+      "bytes": 414169,
+      "url": "https://codes.ohio.gov/ohio-revised-code/chapter-718",
+      "citation": "Ohio Rev. Code ch. 718",
+      "coverage": "full chapter text",
+      "status": "SOURCED",
+      "note": "Municipal income tax; chapter governs levy, base, and administration."
+    },
+    {
+      "state": "OR",
+      "instrument": "payroll",
+      "file": "raw/or-ors-267.html",
+      "sha256": "a854343ffff8176451b491a9d80431886ef645c09ab1656c82f041969afa5eac",
+      "bytes": 277565,
+      "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors267.html",
+      "citation": "ORS ch. 267",
+      "coverage": "full chapter text",
+      "status": "SOURCED",
+      "note": "Mass transit district employer payroll and self-employment tax (TriMet, Lane Transit)."
+    },
+    {
+      "state": "MD",
+      "instrument": "county-piggyback",
+      "file": "raw/md-tax-gen-10-103.html",
+      "sha256": "95c86243aa2aa1d119f74c7c30dc2adc6821ba763616798eb4fb6868b94e9ebe",
+      "bytes": 63166,
+      "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=10-103&enactments=false",
+      "citation": "Md. Code, Tax-Gen. \u00a7 10-103",
+      "coverage": "section text",
+      "status": "SOURCED",
+      "note": "Each county has a county income tax on Maryland taxable income."
+    },
+    {
+      "state": "MI",
+      "instrument": "earned-income",
+      "file": "raw/mi-act-284-of-1964.pdf",
+      "sha256": "103fd9544fe0b2a140af9932ef88010a060f82cf2d937f859107116360b242bd",
+      "bytes": 234810,
+      "url": "https://www.legislature.mi.gov/documents/mcl/pdf/mcl-Act-284-of-1964.pdf",
+      "citation": "MCL Act 284 of 1964",
+      "coverage": "full act (PDF)",
+      "status": "SOURCED",
+      "note": "Uniform City Income Tax Act."
+    },
+    {
+      "state": "NY",
+      "instrument": "earned-income",
+      "file": "raw/ny-tax-law-1301.html",
+      "sha256": "c945fe6042c1c879ac9994598076562ad98b57594058ea4a35c133eaada6f813",
+      "bytes": 35864,
+      "url": "https://www.nysenate.gov/legislation/laws/TAX/1301",
+      "citation": "N.Y. Tax Law \u00a7 1301",
+      "coverage": "section text",
+      "status": "SOURCED",
+      "note": "Authority to impose the city personal income tax (art. 30)."
+    },
+    {
+      "state": "MO",
+      "instrument": "earnings-tax",
+      "file": "raw/mo-rsmo-92-111.html",
+      "sha256": "bf1ae919d4faf9d4296c61e9ef49f9cac5089c261cd53cdba76e72d56059c8fd",
+      "bytes": 29930,
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?section=92.111",
+      "citation": "RSMo \u00a7 92.111",
+      "coverage": "section text",
+      "status": "SOURCED",
+      "note": "Limitation on imposition of earnings tax. The matrix cites RSMo 92.110 for Kansas City and St. Louis; the revisor shows 92.110 repealed by Proposition A (Nov. 2, 2010), so the matrix citation is wrong and 92.111 is the section to cite."
+    }
+  ],
+  "notAcquired": [
+    {
+      "state": "PA",
+      "instrument": "earned-income",
+      "citation": "Act 511 of 1965",
+      "reason": "legis.state.pa.us returned 403 to the fetch; try palegis.us or the Pennsylvania Code site"
+    },
+    {
+      "state": "IN",
+      "instrument": "local-income",
+      "citation": "IC 6-3.6",
+      "reason": "iga.in.gov is a script-rendered page; needs the PDF export"
+    },
+    {
+      "state": "NJ",
+      "instrument": "payroll",
+      "citation": "N.J.S.A. 40:48C-14",
+      "reason": "njleg statute site is script-rendered; needs a direct document link"
+    },
+    {
+      "state": "DE",
+      "instrument": "earned-income",
+      "citation": "22 Del. C. \u00a7 901",
+      "reason": "delcode chapter URL guessed wrong (404); needs the right chapter index"
+    },
+    {
+      "state": "KY",
+      "instrument": "occupational-license",
+      "citation": "KRS ch. 67, 68, 91, 92",
+      "reason": "statute ids not yet found"
+    },
+    {
+      "state": "CO",
+      "instrument": "head-tax",
+      "citation": "C.R.S. 29-2",
+      "reason": "title 29 PDF fetched (3 MB) but the head-tax section was not located; not stored"
+    },
+    {
+      "state": "AL",
+      "instrument": "occupational-license",
+      "citation": "Ala. Code",
+      "reason": "alison site is script-rendered"
+    }
+  ]
+}
