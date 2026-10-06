@@ -7,7 +7,7 @@ import {
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
-import { recordedPayStubs } from "../simulation/resource-income";
+import { recordById } from "../simulation/history-index";
 
 /** "7:00 a.m.": a time of day as a person would say it. */
 export function proseClockTime(minuteOfDay: number): string {
@@ -45,26 +45,28 @@ export function describeRoutineOutcome(
   );
   const lines = elapsed === 0 ? ["No time passed."] : [];
   const events = after.history.events.slice(before.history.events.length);
-  const newPayStubIds = new Set(
-    recordedPayStubs(after, personId)
-      .filter((stub) =>
-        after.history.resourceTransferOutcomes
-          .slice(before.history.resourceTransferOutcomes.length)
-          .some((outcome) => outcome.id === stub.paycheck.id),
-      )
-      .map((stub) => stub.paycheck.id),
+  const newOutcomes = after.history.resourceTransferOutcomes.slice(
+    before.history.resourceTransferOutcomes.length,
   );
   const amounts = new Map<
     string,
     { label: string; currency: string; minorUnits: number }
   >();
-  for (const outcome of after.history.resourceTransferOutcomes.slice(
-    before.history.resourceTransferOutcomes.length,
-  )) {
-    if (newPayStubIds.has(outcome.id)) continue;
-    const flow = after.history.resourceFlows.find(
-      (f) => f.id === outcome.resourceFlowId,
+  for (const outcome of newOutcomes) {
+    const flow = recordById(
+      after.history.resourceFlows,
+      outcome.resourceFlowId,
     );
+    // Routine notices omit payroll transfers just as recordedPayStubs does,
+    // without rebuilding every historical stub (and its tax rows) on each
+    // daily call. Only newly appended outcomes can affect this notice.
+    const isRecordedPaycheck =
+      outcome.occurredAt <= after.currentDate &&
+      flow?.basisKind.startsWith("compensation:") &&
+      flow.recipient.kind === "person" &&
+      flow.recipient.personId === personId &&
+      flow.source.kind === "organization";
+    if (isRecordedPaycheck) continue;
     const received =
       flow?.recipient.kind === "person" && flow.recipient.personId === personId;
     const sent =
