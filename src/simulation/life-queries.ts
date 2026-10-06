@@ -595,23 +595,21 @@ interface HouseholdPersonProjection {
     readonly membership: HouseholdMembership;
     readonly household: Household | undefined;
     readonly states: readonly HouseholdMembershipStateRecord[];
+    readonly stateGroup: readonly HouseholdMembershipStateRecord[];
     readonly locations: readonly HouseholdLocationRecord[];
+    readonly locationGroup: readonly HouseholdLocationRecord[];
   }[];
+  statesSource: World["history"]["householdMembershipStates"];
+  householdsSource: World["history"]["households"];
+  locationsSource: World["history"]["householdLocations"];
   readonly sequenceCeiling: number;
   readonly results: Map<string, readonly ActiveHouseholdMembership[]>;
 }
 
 // Join a person's recorded membership histories once per contributing revision.
 // Cutoff queries only choose available rows; public history readers remain intact.
-const HOUSEHOLD_PROJECTIONS = new WeakMap<
-  object,
-  {
-    readonly states: World["history"]["householdMembershipStates"];
-    readonly households: World["history"]["households"];
-    readonly locations: World["history"]["householdLocations"];
-    readonly people: Map<EntityId, HouseholdPersonProjection>;
-  }
->();
+const HOUSEHOLD_PROJECTIONS = new WeakMap<object, HouseholdPersonProjection>();
+const NO_HOUSEHOLD_MEMBERSHIPS: readonly ActiveHouseholdMembership[] = [];
 
 function lastHouseholdRowAt<
   T extends { readonly sequence: number; readonly effectiveAt: string },
@@ -630,53 +628,82 @@ export function householdMembershipsAt(
 ): readonly ActiveHouseholdMembership[] {
   validatePersonCutoff(world, personId, cutoff);
   const history = world.history;
-  let index = HOUSEHOLD_PROJECTIONS.get(history.householdMemberships);
+  const memberships = recordsByStringField(
+    history.householdMemberships,
+    "personId",
+    personId,
+  );
+  if (memberships.length === 0) return NO_HOUSEHOLD_MEMBERSHIPS;
+  // Group identities change only when that person's rows change. Unrelated
+  // appends keep those immutable groups and their joined projection intact.
+  let person = HOUSEHOLD_PROJECTIONS.get(memberships);
   if (
-    !index ||
-    index.states !== history.householdMembershipStates ||
-    index.households !== history.households ||
-    index.locations !== history.householdLocations
+    person &&
+    (person.statesSource !== history.householdMembershipStates ||
+      person.householdsSource !== history.households ||
+      person.locationsSource !== history.householdLocations)
   ) {
-    index = {
-      states: history.householdMembershipStates,
-      households: history.households,
-      locations: history.householdLocations,
-      people: new Map(),
-    };
-    HOUSEHOLD_PROJECTIONS.set(history.householdMemberships, index);
-  }
-  let person = index.people.get(personId);
-  if (!person) {
-    let maximum = -1;
-    const rows = recordsByStringField(
-      history.householdMemberships,
-      "personId",
-      personId,
-    ).map((membership) => {
-      const states = [
-        ...recordsByStringField(
+    const unchanged = person.rows.every(
+      (row) =>
+        recordById(history.households, row.membership.householdId) ===
+          row.household &&
+        recordsByStringField(
           history.householdMembershipStates,
           "membershipId",
-          membership.id,
-        ),
-      ].sort(byEffectiveDateThenSequence);
+          row.membership.id,
+        ) === row.stateGroup &&
+        (!row.household ||
+          recordsByStringField(
+            history.householdLocations,
+            "householdId",
+            row.household.id,
+          ) === row.locationGroup),
+    );
+    if (unchanged) {
+      person.statesSource = history.householdMembershipStates;
+      person.householdsSource = history.households;
+      person.locationsSource = history.householdLocations;
+    } else person = undefined;
+  }
+  if (!person) {
+    let maximum = -1;
+    const rows = memberships.map((membership) => {
+      const stateGroup = recordsByStringField(
+        history.householdMembershipStates,
+        "membershipId",
+        membership.id,
+      );
+      const states = [...stateGroup].sort(byEffectiveDateThenSequence);
       const household = recordById(history.households, membership.householdId);
-      const locations = household
-        ? [
-            ...recordsByStringField(
-              history.householdLocations,
-              "householdId",
-              household.id,
-            ),
-          ].sort(byEffectiveDateThenSequence)
+      const locationGroup = household
+        ? recordsByStringField(
+            history.householdLocations,
+            "householdId",
+            household.id,
+          )
         : [];
+      const locations = [...locationGroup].sort(byEffectiveDateThenSequence);
       maximum = Math.max(maximum, membership.sequence);
       for (const row of states) maximum = Math.max(maximum, row.sequence);
       for (const row of locations) maximum = Math.max(maximum, row.sequence);
-      return { membership, household, states, locations };
+      return {
+        membership,
+        household,
+        states,
+        stateGroup,
+        locations,
+        locationGroup,
+      };
     });
-    person = { rows, sequenceCeiling: maximum + 1, results: new Map() };
-    index.people.set(personId, person);
+    person = {
+      rows,
+      statesSource: history.householdMembershipStates,
+      householdsSource: history.households,
+      locationsSource: history.householdLocations,
+      sequenceCeiling: maximum + 1,
+      results: new Map(),
+    };
+    HOUSEHOLD_PROJECTIONS.set(memberships, person);
   }
   const key = `${cutoff.asOfDate}|${Math.min(cutoff.historySequenceExclusive, person.sequenceCeiling)}`;
   const cached = person.results.get(key);

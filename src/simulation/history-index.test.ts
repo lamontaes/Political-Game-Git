@@ -29,6 +29,8 @@ describe("person revision groups", () => {
       },
     });
     const first = [row("first"), row("second")];
+    const missing = recordsByStringField(first, "personId", "absent");
+    expect(recordsByStringField(first, "personId", "absent")).toBe(missing);
     const held = recordsByStringField(first, "personId", "person");
     expect(reads).toBe(2);
     expect(recordsByStringField(first, "personId", "person")).toBe(held);

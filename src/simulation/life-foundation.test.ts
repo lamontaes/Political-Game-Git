@@ -693,6 +693,14 @@ describe("Stage 5.1 households, kinship, partnership, and care", () => {
     expect(householdMembershipsAt(unrelatedWrite, person)).toBe(
       originalMemberships,
     );
+    const unrelatedHousehold = addHousehold(
+      world,
+      "household:unrelated-append",
+      OTHER_PLACE_ID,
+    ).world;
+    expect(householdMembershipsAt(unrelatedHousehold, person)).toBe(
+      originalMemberships,
+    );
     const secondaryMembership = world.history.householdMemberships.find(
       (membership) => membership.stableKey === "membership:secondary",
     );

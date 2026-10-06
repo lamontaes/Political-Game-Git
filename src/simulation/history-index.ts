@@ -225,6 +225,9 @@ const RECENT_BY_STRING_FIELD: (readonly unknown[])[] = [];
 // under the immutable record revision instead of traversing the field table.
 const PERSON_RECORDS = new WeakMap<object, Map<string, readonly unknown[]>>();
 const RECENT_PERSON_RECORDS: (readonly unknown[])[] = [];
+// Missing groups are immutable too. Reusing their empty view avoids allocating
+// a new list for every absent-person read and makes absence a stable dependency.
+const NO_FIELD_RECORDS: readonly unknown[] = Object.freeze([]);
 
 /** Preserve array order while narrowing a history scan to one owner. */
 export function recordsByStringField<T>(
@@ -243,7 +246,7 @@ export function recordsByStringField<T>(
         (groups, from) => extendGroups(groups, records, from, field),
       );
     }
-    return (people.get(value) ?? []) as readonly T[];
+    return (people.get(value) ?? NO_FIELD_RECORDS) as readonly T[];
   }
   let fields = RECORDS_BY_STRING_FIELD.get(records);
   if (!fields) {
@@ -276,7 +279,7 @@ export function recordsByStringField<T>(
     groups = extendGroups(new Map(), records, 0, field);
     fields.set(fieldName, groups);
   }
-  return (groups.get(value) ?? []) as readonly T[];
+  return (groups.get(value) ?? NO_FIELD_RECORDS) as readonly T[];
 }
 
 /** Adds records[from..] to their groups, copying any group that grows. */
