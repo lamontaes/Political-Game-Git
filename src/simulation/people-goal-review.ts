@@ -179,12 +179,6 @@ function adultAlive(world: World, personId: EntityId, dead: Set<EntityId>) {
  * town, and anybody connected by home, family or a recorded interaction.
  * Sorted, so the week's order is the same on every load.
  */
-function goalReviewAnchor(world: World): EntityId | null {
-  return world.control.kind === "person"
-    ? world.control.personId
-    : observerAnchorPersonId(world);
-}
-
 export function pursuitCandidates(world: World): readonly EntityId[] {
   const anchorId = goalReviewAnchor(world);
   if (!anchorId) return [];
@@ -297,7 +291,7 @@ function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
   // person is given (`life-personality.ts`). They resolve here, once, the first
   // time the played life reaches them. Residents the played life has no tie
   // to stay light: they act only on circumstances, such as losing work.
-  const anchorId = lifeAnchor(next);
+  const anchorId = goalReviewAnchor(next);
   if (anchorId) {
     const tied = new Set([
       ...connectedTo(next, anchorId),
@@ -822,7 +816,7 @@ function pursueCall(
   goal: GoalStateRecord,
   purpose: "connection" | "learning",
 ): PursuitOutcome {
-  const anchorId = lifeAnchor(world);
+  const anchorId = goalReviewAnchor(world);
   if (!anchorId) return { kind: "waiting", world };
   const personId = goal.personId;
   const last = lastStepAt(world, goal);
@@ -1274,7 +1268,7 @@ function tellHousehold(
   eventId: EntityId,
   said: string | null,
 ): World {
-  const anchorId = lifeAnchor(world);
+  const anchorId = goalReviewAnchor(world);
   if (!said || !anchorId || anchorId === personId) return world;
   if (!connectedByHomeOrFamily(world, anchorId, personId)) return world;
   return recordEventKnowledge(world, {
