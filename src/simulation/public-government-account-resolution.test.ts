@@ -65,9 +65,9 @@ describe("one compiled government resolves one saved treasury", () => {
       basis: FIXTURE,
     });
     expect(
-      adopted.world.history.publicProgramRecords!.find(
-        (row) => row.kind === "appropriation" && row.id === adopted.id,
-      )?.accountOrganizationId,
+      adopted.world.history
+        .publicProgramRecords!.filter((row) => row.kind === "appropriation")
+        .find((row) => row.id === adopted.id)?.accountOrganizationId,
     ).toBe(old.organizationId);
     expect(cash(adopted.world, old.organizationId)).toBe(balance);
     const loaded = deserializeWorld(serializeWorld(adopted.world));
