@@ -94,6 +94,7 @@ import { councilBallotPartisanship } from "./body-partisanship";
 import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
 import { currentMeasureProvisions } from "../legislative-politics";
 import { legislativePackForWorkKey } from "../legislative-institutions";
+import { minorityPartyProcedureRows } from "../minority-party-procedure";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
   adjournmentStopsPhase,
@@ -917,6 +918,18 @@ export function applyInstitutionStep(
       }
     }
     const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
+    const procedure = minorityPartyProcedureRows(pack).find(
+      (row) => row.chamberKey === chamberKey,
+    );
+    const clotureAvailable =
+      procedure?.unlimitedDebate.kind === "known" &&
+      procedure.unlimitedDebate.value &&
+      procedure.clotureBar.kind === "known";
+    if (stage.stageKey === "cloture" && !clotureAvailable)
+      return {
+        kind: "blocked",
+        reason: `The ${chamber.name} has no recorded unlimited-debate rule and cloture bar.`,
+      };
     const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
     // Before the question is put, a member may offer an amendment for their
     // own reasons, where this stage takes amendments and the chamber is
@@ -968,13 +981,7 @@ export function applyInstitutionStep(
                 floorStageKey: stage.stageKey,
               },
               stableKey,
-              // PLACEHOLDER until research question how-congress-moves-bills is
-              // answered: a Senate cloture vote divides by party, so a bill with
-              // backers from only one party needs sixty of that party to get past
-              // a filibuster.
-              isCongressMeasure(measure) && stage.stageKey === "cloture"
-                ? true
-                : undefined,
+              stage.stageKey === "cloture" ? clotureAvailable : undefined,
             )
           : null;
     if (!body || !decided)

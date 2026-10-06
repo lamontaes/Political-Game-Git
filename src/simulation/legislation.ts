@@ -1360,6 +1360,69 @@ export function recordProceduralMotion(
   });
 }
 
+export interface RecordDebateExtensionInput {
+  readonly measureId: EntityId;
+  readonly stableKey: string;
+  readonly chamberKey: string;
+  readonly memberPersonId: EntityId;
+  readonly actorLabel: string;
+  readonly rationale: string;
+  readonly resumeAt: IsoDate;
+}
+
+/** Record one member's decision to keep the floor for another sitting day. */
+export function recordDebateExtension(
+  world: World,
+  input: RecordDebateExtensionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const position = assertPhase(
+    world,
+    measure.id,
+    ["on-floor"],
+    "extend floor debate",
+  );
+  if (position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A debate extension must name the measure's current chamber.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const procedure = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    procedure?.unlimitedDebate.kind !== "known" ||
+    !procedure.unlimitedDebate.value ||
+    procedure.clotureBar.kind !== "known"
+  )
+    throw new Error("This chamber has no recorded unlimited-debate rule.");
+  if (input.resumeAt <= world.currentDate)
+    throw new Error("An extended debate must resume after today.");
+  const chamber = chamberByKey(pack, input.chamberKey);
+  return appendAction(world, {
+    measure,
+    kind: "debate-extended",
+    stableKey: input.stableKey,
+    chamberKey: input.chamberKey,
+    committeeKey: null,
+    floorStageKey: position.floorStageKey,
+    actorLabel: input.actorLabel,
+    rationale: input.rationale,
+    summary: `${input.actorLabel} held the floor in the ${chamber.name}; debate resumes on ${input.resumeAt}.`,
+    eventType: "legislation.debate-extended",
+    tags: ["legislation.procedure"],
+    participants: [
+      {
+        personId: input.memberPersonId,
+        role: "agency:decision-maker",
+        detail: "held the floor",
+      },
+    ],
+    involvedEntityIds: [input.memberPersonId],
+    resumeAt: input.resumeAt,
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Internal append helpers
 // ---------------------------------------------------------------------------

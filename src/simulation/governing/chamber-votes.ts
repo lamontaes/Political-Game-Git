@@ -1,5 +1,5 @@
 import { stateMemberSeatingEvidence } from "./member-seating";
-import { considerationScore } from "../decisions";
+import { considerationScore, evaluateDecision } from "../decisions";
 import { decideMemberVote } from "./member-vote-decision";
 import {
   ARTICLE_V_STATE_KEYS,
@@ -19,6 +19,7 @@ import { organizationProfileAt, workStatusAt } from "../life-queries";
 import {
   buildLegislativeVoteRecord,
   measurePosition,
+  recordDebateExtension,
   recordProceduralMotion,
   requireMeasure,
 } from "../legislation";
@@ -54,6 +55,7 @@ import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
 import type {
   DecisionConsideration,
+  DecisionEvaluation,
   DecisionSubject,
   EntityId,
   IsoDate,
@@ -1025,6 +1027,162 @@ export interface DecideProceduralMotionInput {
   readonly committeeKey?: string | null;
   readonly actorLabel: string;
   readonly rationale: string;
+}
+
+export type FloorHoldReason = Omit<DecisionConsideration, "optionKey"> & {
+  readonly optionKey: "hold-floor" | "release-floor";
+};
+
+export interface DecideFloorHoldInput {
+  readonly measureId: EntityId;
+  readonly chamberKey: string;
+  readonly memberPersonId: EntityId;
+  readonly stableKey: string;
+  readonly actorLabel: string;
+  readonly resumeAt: IsoDate;
+  readonly leadershipRequest?: FloorHoldReason | null;
+  readonly homeOpinion?: FloorHoldReason | null;
+  readonly traitReasons?: readonly FloorHoldReason[];
+}
+
+export interface DecideFloorHoldResult {
+  readonly world: World;
+  readonly evaluation: DecisionEvaluation;
+  readonly held: boolean;
+}
+
+/** Decide whether an individual member holds a floor under the body's rules. */
+export function decideFloorHold(
+  world: World,
+  input: DecideFloorHoldInput,
+): DecideFloorHoldResult {
+  const measure = requireMeasure(world, input.measureId);
+  const position = measurePosition(world, measure.id);
+  if (position.phase !== "on-floor" || position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A floor hold must concern a measure currently on this floor.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const procedure = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    procedure?.unlimitedDebate.kind !== "known" ||
+    !procedure.unlimitedDebate.value ||
+    procedure.clotureBar.kind !== "known"
+  )
+    throw new Error("This chamber has no recorded unlimited-debate rule.");
+  const member = seatedChamberForPack(
+    world,
+    pack.packId,
+    input.chamberKey,
+    chamberByKey(pack, input.chamberKey).name,
+  )?.body.members.find(
+    (candidate) => candidate.personId === input.memberPersonId,
+  );
+  if (!member)
+    throw new Error("A floor hold needs a recorded member of this chamber.");
+  const ownReasons = memberVoteConsiderations(world, {
+    stableKey: `${input.stableKey}:own-view`,
+    personId: input.memberPersonId,
+    question: {
+      question: {
+        measureId: measure.id,
+        purpose: "floor-stage",
+        forumKey: input.chamberKey,
+        floorStageKey: position.floorStageKey,
+        amendmentStableKey: null,
+        provisionKey: null,
+      },
+      questionLabel: "Whether debate on this measure should continue",
+    },
+  }).flatMap((reason) => {
+    if (reason.optionKey !== "vote-yea" && reason.optionKey !== "vote-nay")
+      return [];
+    const supportsMeasure = reason.optionKey === "vote-yea";
+    return [
+      {
+        ...reason,
+        stableKey: `member:floor-hold:${reason.stableKey}`,
+        optionKey: supportsMeasure ? "release-floor" : "hold-floor",
+        explanation: supportsMeasure
+          ? "The member wants this measure to advance, which weighs against holding the floor."
+          : "The member opposes this measure, which weighs in favor of holding the floor.",
+      },
+    ];
+  });
+  const leadershipRequest = input.leadershipRequest
+    ? [
+        {
+          ...input.leadershipRequest,
+          stableKey: `leadership:${input.leadershipRequest.stableKey}`,
+        },
+      ]
+    : [];
+  const homeOpinion = input.homeOpinion
+    ? [
+        {
+          ...input.homeOpinion,
+          stableKey: `home:${input.homeOpinion.stableKey}`,
+        },
+      ]
+    : [];
+  const traitReasons = (input.traitReasons ?? []).map((reason) => ({
+    ...reason,
+    stableKey: `trait:${reason.stableKey}`,
+  }));
+  const evaluation = evaluateDecision(world, {
+    stableKey: `${input.stableKey}:decision`,
+    decisionType: "legislation.floor-hold",
+    actorPersonId: input.memberPersonId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:legislative-question",
+      key: `${measure.stableKey}:floor-hold`,
+      entityId: measure.id,
+    },
+    options: [
+      {
+        key: "hold-floor",
+        label: "Hold the floor",
+        description: "Keep debate open for another sitting day.",
+      },
+      {
+        key: "release-floor",
+        label: "Let the floor go",
+        description: "Allow the chamber to proceed to the next question.",
+      },
+    ],
+    constraints: [],
+    considerations: [
+      ...ownReasons,
+      ...leadershipRequest,
+      ...homeOpinion,
+      ...traitReasons,
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  const held = evaluation.selectedOptionKey === "hold-floor";
+  return {
+    world: held
+      ? recordDebateExtension(world, {
+          measureId: measure.id,
+          stableKey: input.stableKey,
+          chamberKey: input.chamberKey,
+          memberPersonId: input.memberPersonId,
+          actorLabel: input.actorLabel,
+          rationale:
+            evaluation.context.considerations.find(
+              (reason) => reason.optionKey === "hold-floor",
+            )?.explanation ?? "The member chose to hold the floor.",
+          resumeAt: input.resumeAt,
+        })
+      : world,
+    evaluation,
+    held,
+  };
 }
 
 /** Have the seated members decide a permitted motion and append its roll call. */
