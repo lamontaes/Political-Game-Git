@@ -17,13 +17,14 @@ import { facetEnviousEffects } from "./facet-envious";
 import { facetGentleEffects } from "./facet-gentle";
 import { facetMeticulousEffects } from "./facet-meticulous";
 import { facetNurturingEffects } from "./facet-nurturing";
-import { facetAssertiveEffects } from "./facet-assertive";
 import { facetOpportunisticEffects } from "./facet-opportunistic";
 import { facetSkepticalEffects } from "./facet-skeptical";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetZealousEffects } from "./facet-zealous";
+import { initialTrustEffects } from "./initial-trust";
+import { facetDutyBoundEffects } from "./facet-duty-bound";
 import { selfConfidenceEffects } from "./self-confidence";
 
 /**
@@ -36,6 +37,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetHostileEffects,
     ...facetHumbleEffects,
     ...patienceEffects,
+    ...initialTrustEffects,
     ...facetOpenMindedEffects,
     ...facetProudEffects,
     ...facetArgumentativeEffects,
@@ -44,9 +46,9 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetCockyEffects,
     ...facetComfortingEffects,
     ...facetDefensiveEffects,
-    ...facetAssertiveEffects,
     ...facetCruelEffects,
     ...facetEnviousEffects,
+    ...facetDutyBoundEffects,
     ...facetGentleEffects,
     ...facetMeticulousEffects,
     ...facetNurturingEffects,
