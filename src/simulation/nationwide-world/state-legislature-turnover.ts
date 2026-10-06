@@ -114,9 +114,9 @@ const V = STATE_LEGISLATURE_TURNOVER_VERSION;
 
 export const STATE_LEGISLATURE_TURNOVER_PROFILE = {
   id: "ocd-state-legislature-turnover-game-profile/v3",
-  // PLACEHOLDER(overnight): a small incumbency effect around the save's
-  // recorded generated seat view. The seeded swing that varied each election
-  // is gone (Rule 0): a seat's own count decides it.
+  // The recorded game profile gives incumbency a small effect around the
+  // save's generated seat view. A seat's own count decides the result; there
+  // is no election-to-election random swing.
   incumbencyBonusLogit: 0.18,
 } as const;
 
@@ -478,12 +478,12 @@ function prepareStateIntake(
     const office = pack.offices.find(
       (candidate) => candidate.officeKey === row.officeKey,
     );
-    // PLACEHOLDER(overnight): unknown state qualifications remain unknown;
-    // this is a fictional prospect age floor, not a claim of legal eligibility.
+    // A sourced minimum age wins. Otherwise the candidate profile supplies
+    // the fictional prospect age floor, which is not a finding of eligibility.
     const minimumAge =
       office?.qualification.minimumAge.kind === "known"
         ? office.qualification.minimumAge.value
-        : STATE_LEGISLATURE_CANDIDATE_PROFILE.unknownMinimumAge;
+        : STATE_LEGISLATURE_CANDIDATE_PROFILE.profileMinimumAge;
     plans.push({
       packId,
       jurisdictionKey: pack.jurisdictionKey,
@@ -737,9 +737,9 @@ function holdStateLegislativeElection(
               ),
             ) + incumbentBonus,
           );
-    // PLACEHOLDER(overnight): the saved generated seat lean chooses between
-    // living candidates. A missing lean keeps the incumbent if they filed,
-    // then uses stable candidate order; it is not a fabricated vote margin.
+    // The saved generated seat lean chooses between living candidates. If the
+    // opening recorded no lean, a filing incumbent stays preferred, followed
+    // by stable candidate order; no vote margin is invented.
     const preferredParty =
       electionShare === null
         ? (sitting?.party ?? null)
@@ -1122,7 +1122,7 @@ function seatStateLegislativeWinners(
 /**
  * When an empty seat in this chamber is next filled: by a member already
  * elected who has not yet taken office, or at the next regular election.
- * Reads only; null where the pack is unknown.
+ * Reads only; null where the pack is absent.
  */
 export function nextStateSeatFilling(
   world: World,

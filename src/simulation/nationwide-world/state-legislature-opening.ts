@@ -385,9 +385,8 @@ function buildStateChamberPlan(pack: CandidacyPack): StateChamberPlan {
       : [];
     let size: number;
     let basis: ChamberSizeBasis;
-    // PLACEHOLDER until research question
-    // state-legislature-chamber-sizes-and-quorum is answered: a Census
-    // district is not a seat. How many members a district elects is read
+    // A Census district is not necessarily one seat. How many members a
+    // district elects is read
     // from `members-per-district.json`; a chamber it does not list elects
     // one per district.
     //
@@ -536,11 +535,9 @@ export function ensureStateLegislatureOpening(
   );
   const { chambers, unseated } = planStateChambers(pack);
 
-  // PLACEHOLDER until research question
-  // state-legislator-age-tenure-and-district-lean is answered: the spread,
-  // the age range and the years served below are the game's own rules, not
-  // measurements. Puerto Rico's members get no party until
-  // puerto-rico-legislative-parties is answered.
+  // The spread, age range, and years served below are the recorded opening
+  // profile's rules rather than measurements. A member gets no party when the
+  // jurisdiction's party record supplies none.
   //
   // A seat's lean: this state's own center, as the save generated its House
   // seats, spread by how much House districts inside one state actually

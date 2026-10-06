@@ -67,14 +67,14 @@ import {
 export const STATE_LEGISLATURE_CANDIDATE_VERSION =
   "state-legislature-candidates/v1";
 
-// PLACEHOLDER(overnight): this staggered fictional prospect window and the
-// opportunity threshold are not state filing, nomination, or primary law.
+// This game profile schedules fictional prospects across the recorded intake
+// span. It does not stand in for state filing, nomination, or primary law.
 export const STATE_LEGISLATURE_CANDIDATE_PROFILE = {
   id: "ocd-state-legislature-candidates-game-profile/v1",
   intakeStartMonthDay: "01-06",
   intakeDays: 60,
   lowOpportunityShare: 0.18,
-  unknownMinimumAge: 21,
+  profileMinimumAge: 21,
 } as const;
 
 export interface StateCandidateSeatPlan {
@@ -214,8 +214,9 @@ function prospectKey(seatKey: string, year: number, party: string): string {
 }
 
 /**
- * Fictional residence starts at the sourced chamber requirement. An unread
- * requirement is recorded as unknown, with no invented prior duration.
+ * Fictional residence starts at the sourced chamber requirement. When the
+ * catalog has no requirement, the record says that no duration was supplied;
+ * it never invents prior residence.
  */
 function recordFictionalResidence(
   world: World,
@@ -408,8 +409,8 @@ function satisfiesKnownQualifications(
         districtResidenceSince: districtSince,
       })
     : null;
-  // Unknown legal fields remain unknown and do not become a positive legal
-  // assertion. Only a known, measured refusal blocks this game-profile slate.
+  // Missing legal fields do not become a positive legal assertion. Only a
+  // known, measured refusal blocks this game-profile slate.
   if (
     assessment &&
     assessment.refusals.some((refusal) => refusal.kind !== "unresolved-rule")
