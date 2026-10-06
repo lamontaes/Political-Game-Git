@@ -8,8 +8,10 @@ import { workSchedulesFor } from "../simulation/living-world/work-schedules";
 import { currentOpeningLifeScene } from "./life-scene-flow";
 import { completedActivityHere } from "./scene-venues";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import { recordedRoomPresence } from "./recorded-room-presence";
 import {
   resolveStoryScene,
+  readStorySceneSituation,
   type StorySceneRequest,
 } from "./story-scene-resolver";
 
@@ -79,6 +81,12 @@ export function currentStorySceneRequest(
   const completed = completedActivityHere(world, viewerPersonId);
   if (completed)
     return { ...basis, place: { kind: "activity", activityId: completed.id } };
+  const presence = recordedRoomPresence(world, viewerPersonId);
+  if (presence)
+    return {
+      ...basis,
+      place: { kind: "recorded-place", eventId: presence.eventId },
+    };
   const home = householdMembershipsAt(world, viewerPersonId)[0];
   return home
     ? { ...basis, place: { kind: "household", householdId: home.household.id } }
@@ -88,6 +96,12 @@ export function currentStorySceneRequest(
 export function projectStorySceneDay(world: World, personId: EntityId) {
   const request = currentStorySceneRequest(world, personId);
   return request ? resolveStoryScene(world, request) : null;
+}
+
+/** Clerk/scene consumer seam for block one. Reading has no simulation effects. */
+export function currentStorySceneSituation(world: World, personId: EntityId) {
+  const request = currentStorySceneRequest(world, personId);
+  return request ? readStorySceneSituation(world, request) : null;
 }
 
 /** Retain existing meeting words and roles; canonical options gate visibility. */

@@ -1,0 +1,29 @@
+Applied patch to 'src/player/PlayerGame.tsx' cleanly.
+Applied patch to 'src/player/SceneConversation.tsx' cleanly.
+Applied patch to 'src/player/WorldOrientationPanel.tsx' with conflicts.
+Applied patch to 'src/player/opening-life/OpeningLifeFlow.tsx' cleanly.
+Applied patch to 'src/presentation/backdrop-people.ts' with conflicts.
+Applied patch to 'src/presentation/conversation-continuity.ts' cleanly.
+Falling back to direct application...
+Applied patch to 'src/presentation/day-overview.ts' cleanly.
+Performing three-way merge...
+Applied patch to 'src/presentation/intro-placement-trace.ts' cleanly.
+Applied patch to 'src/presentation/life-conversation.ts' cleanly.
+Applied patch to 'src/presentation/opening-life.ts' cleanly.
+Applied patch to 'src/presentation/opening-tour-people.test.ts' cleanly.
+Applied patch to 'src/presentation/person-conversation-entry.ts' cleanly.
+Applied patch to 'src/presentation/play-scene-context.ts' cleanly.
+Falling back to direct application...
+Applied patch to 'src/presentation/recorded-room-presence.ts' cleanly.
+Applied patch to 'src/presentation/scene-conversation.ts' cleanly.
+Performing three-way merge...
+Applied patch to 'src/presentation/scene-slot-contract.ts' cleanly.
+Applied patch to 'src/presentation/small-talk-english.ts' cleanly.
+Falling back to direct application...
+Applied patch to 'src/presentation/story-scene-day.ts' cleanly.
+Applied patch to 'src/presentation/story-scene-player-options.ts' cleanly.
+Applied patch to 'src/presentation/story-scene-resolver.ts' cleanly.
+Falling back to direct application...
+Applied patch to 'src/simulation/life-queries.ts' cleanly.
+U src/player/WorldOrientationPanel.tsx
+U src/presentation/backdrop-people.ts

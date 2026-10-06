@@ -1,9 +1,317 @@
 import { describePersonContext, personName } from "../simulation";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../simulation";
 import { claimStanceOf } from "../simulation/claim-stances";
-import { recordedConversationTurns } from "./conversation-continuity";
+import {
+  recordedConversationTurns,
+  recognizes,
+} from "./conversation-continuity";
 import { currentLifeTalkScene } from "./life-talk-presence";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
+import {
+  currentStorySceneRequest,
+  currentStorySceneSituation,
+} from "./story-scene-day";
+import {
+  resolveStoryScene,
+  type StorySceneSnapshot,
+} from "./story-scene-resolver";
+import {
+  composePlayedSceneLine,
+  type PlayedScenePrimitive,
+} from "./small-talk-english";
+import type { GroundedEnglishPacket } from "./grounded-english";
+import type { ComposedLineResult } from "./english-composition";
+import { speakerTraits } from "./speaker-traits";
+import { resolveOpeningPlaySceneContext } from "./play-scene-context";
+import { resolvePersonPortrait } from "./person-visual";
+import { sceneBindingOf } from "../simulation/scene-bindings";
+import { recordedRoomPresence } from "./recorded-room-presence";
+
+/** Only an actual recorded request or contribution can open the foreground. */
+export function nextPlayedSceneSpeaker(world: World, viewer: EntityId) {
+  const situation = currentStorySceneSituation(world, viewer);
+  const presence = recordedRoomPresence(world, viewer);
+  if (situation?.status !== "current" || !presence) return null;
+  if (
+    world.history.events.some(
+      (event) =>
+        event.type === "life.conversation" &&
+        event.tags.includes("scene.composed-turn") &&
+        event.tags.includes(`scene:${presence.eventId}`),
+    )
+  )
+    return null;
+  const source = world.history.events.find(
+    (event) => event.id === presence.eventId,
+  )!;
+  const people = [
+    ...new Set([
+      ...situation.pendingRequests.map((row) => row.binding.speakerPersonId),
+      ...source.participants
+        .filter(
+          (person) =>
+            person.role.startsWith("coordination:") &&
+            situation.currentActivity !== null &&
+            source.context.socialContext,
+        )
+        .map((person) => person.personId),
+    ]),
+  ].filter((id) => id !== viewer && presence.personIds.includes(id));
+  for (const personId of people) {
+    const scene = projectPlayedSceneExchange(world, viewer, personId);
+    if (scene?.contributions.length) return personId;
+  }
+  return null;
+}
+
+export type PlayedSceneLine = Extract<ComposedLineResult, { kind: "rendered" }>;
+export interface PlayedSceneReply {
+  readonly key: string;
+  readonly primitive: PlayedScenePrimitive;
+  readonly sourceEventId: EntityId;
+  readonly knowledgeId: EntityId | null;
+  readonly line: PlayedSceneLine;
+}
+export interface PlayedSceneExchange {
+  readonly snapshot: StorySceneSnapshot;
+  readonly presenceEventId: EntityId;
+  readonly participantPersonIds: readonly EntityId[];
+  readonly addresseePersonId: EntityId;
+  readonly contributions: readonly {
+    readonly speakerPersonId: EntityId;
+    readonly sourceEventId: EntityId;
+    readonly line: PlayedSceneLine;
+  }[];
+  readonly replies: readonly PlayedSceneReply[];
+  readonly art: ReturnType<typeof resolveOpeningPlaySceneContext>;
+  readonly recognition: ReturnType<typeof recognizes>;
+  readonly portraits: readonly {
+    readonly personId: EntityId;
+    readonly visual: ReturnType<typeof resolvePersonPortrait>;
+  }[];
+}
+
+/** Pure packet seam shared by scene and clerk consumers. Participation or
+ * saved knowledge establishes each fact; a date alone never establishes it. */
+export function playedSceneEnglishPacket(
+  world: World,
+  viewer: EntityId,
+  speaker: EntityId,
+  sourceEventId: EntityId,
+  matter: string,
+  surface: GroundedEnglishPacket["surface"] = "dialogue",
+  knowledgeId: EntityId | null = null,
+): GroundedEnglishPacket | null {
+  const event = world.history.events.find(
+    (row) =>
+      row.id === sourceEventId &&
+      row.sequence < world.history.nextSequence &&
+      row.occurredAt <= world.currentDate &&
+      row.recordedAt <= world.currentDate,
+  );
+  const knowledge =
+    knowledgeId === null
+      ? null
+      : world.history.knowledge.find(
+          (row) =>
+            row.id === knowledgeId &&
+            row.personId === speaker &&
+            row.eventId === sourceEventId &&
+            row.sequence < world.history.nextSequence &&
+            row.learnedAt <= world.currentDate &&
+            row.accuracy === "accurate",
+        );
+  if (
+    !event ||
+    (!knowledge &&
+      !event.participants.some((row) => row.personId === speaker) &&
+      sceneBindingOf(event)?.speakerPersonId !== speaker)
+  )
+    return null;
+  const basis = knowledge ? [event.id, knowledge.id] : [event.id];
+  return {
+    surface,
+    momentKey: `${JSON.stringify(world.currentMoment)}:${world.history.nextSequence}:${sourceEventId}:${speaker}`,
+    worldSeed: world.seed,
+    bankVersion: "1",
+    stage: "current",
+    sourceRecordIds: basis,
+    facts: { matter: { text: matter, sourceRecordIds: [event.id] } },
+    speaker: { personId: speaker, traits: speakerTraits(world, speaker) },
+    viewer: { personId: viewer, traits: speakerTraits(world, viewer) },
+    knowledge: [
+      { personId: speaker, factKey: "matter", sourceRecordIds: basis },
+    ],
+  };
+}
+
+/** The same primitives compose requests and replies from the current World.
+ * No cast, past episode, knowledge or attendance is created by inspection. */
+export function projectPlayedSceneExchange(
+  world: World,
+  viewer: EntityId,
+  addresseePersonId: EntityId,
+): PlayedSceneExchange | null {
+  const request = currentStorySceneRequest(world, viewer);
+  const situation = currentStorySceneSituation(world, viewer);
+  if (!request || situation?.status !== "current") return null;
+  const resolved = resolveStoryScene(world, request);
+  const presenceEventId = situation.location!.sourceRecordIds[0]!;
+  const presence = world.history.events.find(
+    (row) => row.id === presenceEventId,
+  )!;
+  const present = resolved.presentPeople.filter(
+    (person) =>
+      person.reason === "recorded-presence" &&
+      person.evidence.some(
+        (ref) => ref.kind === "event" && ref.id === presenceEventId,
+      ),
+  );
+  const participantPersonIds = [
+    ...new Set(present.map((person) => person.personId)),
+  ];
+  if (
+    viewer === addresseePersonId ||
+    !participantPersonIds.includes(viewer) ||
+    !participantPersonIds.includes(addresseePersonId)
+  )
+    return null;
+  const contributions: PlayedSceneExchange["contributions"][number][] = [];
+  for (const pending of situation.pendingRequests) {
+    if (!participantPersonIds.includes(pending.binding.speakerPersonId))
+      continue;
+    const packet = playedSceneEnglishPacket(
+      world,
+      viewer,
+      pending.binding.speakerPersonId,
+      pending.eventId,
+      pending.binding.request,
+    );
+    // A contextual binding's author is a saved knowledge basis, not an attendee.
+    // Its packet is admitted below only for that recorded author.
+    if (!packet) continue;
+    const line = composePlayedSceneLine(packet, "recorded-request");
+    if (line.kind === "rendered")
+      contributions.push({
+        speakerPersonId: pending.binding.speakerPersonId,
+        sourceEventId: pending.eventId,
+        line,
+      });
+  }
+  if (
+    presence.context.socialContext &&
+    presence.participants.some(
+      (person) =>
+        person.personId === addresseePersonId &&
+        person.role === "coordination:chair",
+    )
+  ) {
+    const packet = playedSceneEnglishPacket(
+      world,
+      viewer,
+      addresseePersonId,
+      presence.id,
+      presence.context.socialContext,
+    );
+    if (packet) {
+      const line = composePlayedSceneLine(packet, "recorded-observation");
+      if (line.kind === "rendered")
+        contributions.push({
+          speakerPersonId: addresseePersonId,
+          sourceEventId: presence.id,
+          line,
+        });
+    }
+  }
+  const replies: PlayedSceneReply[] = [];
+  const sources = world.history.knowledge.filter(
+    (row) =>
+      row.personId === viewer &&
+      row.learnedAt <= world.currentDate &&
+      row.sequence < world.history.nextSequence &&
+      row.accuracy === "accurate",
+  );
+  const seen = new Set<EntityId>();
+  for (const knowledge of [...sources].reverse()) {
+    if (seen.has(knowledge.eventId)) continue;
+    const event = world.history.events.find(
+      (row) => row.id === knowledge.eventId,
+    );
+    if (
+      !event ||
+      event.type === "life.conversation" ||
+      event.type === "scene.contextual-bound" ||
+      event.jurisdictionId !== situation.location!.jurisdictionId
+    )
+      continue;
+    seen.add(event.id);
+    const packet = playedSceneEnglishPacket(
+      world,
+      viewer,
+      viewer,
+      event.id,
+      knowledge.believedSummary,
+      "dialogue",
+      knowledge.id,
+    );
+    if (!packet) continue;
+    for (const primitive of [
+      "ask-record",
+      "tell-record",
+      "deny-record",
+    ] as const) {
+      const line = composePlayedSceneLine(packet, primitive);
+      if (line.kind === "rendered")
+        replies.push({
+          key: `${event.id}:${primitive}`,
+          primitive,
+          sourceEventId: event.id,
+          knowledgeId: knowledge.id,
+          line,
+        });
+    }
+  }
+  const packet = playedSceneEnglishPacket(
+    world,
+    viewer,
+    viewer,
+    presence.id,
+    presence.summary,
+  );
+  if (packet) {
+    const line = composePlayedSceneLine(packet, "depart");
+    if (line.kind === "rendered")
+      replies.push({
+        key: `${presence.id}:depart`,
+        primitive: "depart",
+        sourceEventId: presence.id,
+        knowledgeId: null,
+        line,
+      });
+  }
+  const art = resolveOpeningPlaySceneContext(world, viewer);
+  return {
+    snapshot: resolved.snapshot,
+    presenceEventId,
+    participantPersonIds,
+    addresseePersonId,
+    contributions,
+    replies,
+    art: {
+      ...art,
+      presentPeople: art.presentPeople.filter((person) =>
+        participantPersonIds.includes(person.personId),
+      ),
+    },
+    recognition: recognizes(world, viewer, addresseePersonId),
+    portraits: participantPersonIds
+      .filter((id) => id !== viewer)
+      .map((personId) => ({
+        personId,
+        visual: resolvePersonPortrait(world.people[personId]!),
+      })),
+  };
+}
 
 /**
  * What has been said in a conversation, read back from the record.
