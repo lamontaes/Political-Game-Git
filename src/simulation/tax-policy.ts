@@ -353,7 +353,7 @@ export function ensurePublicGovernmentAccount(
             ? `ESTIMATED FROM SAVED WORLD: ${PUBLIC_CASH_OPENING_PROFILE_VERSION}; opening public cash already recorded for this world, not an observed treasury balance or tax receipt.`
             : openingEstimate
               ? openingEstimate.sourceNote
-              : "Known zero opening of the modeled receipts account. Historical/real treasury cash is unknown and is not initialized from observational statistics.",
+              : "Recorded zero opening of the modeled receipts account; no observational treasury balance was supplied to this world.",
       },
     });
   }
@@ -398,7 +398,9 @@ export function attachTaxProposal(
     throw new Error("The tax power is not a supported sourced contract.");
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction)
-    throw new Error("The tax proposal belongs to an unknown jurisdiction.");
+    throw new Error(
+      "The tax proposal's jurisdiction is absent from this world.",
+    );
   const publicGovernmentIdentity = publicGovernmentIdentityForRecord({
     jurisdictionId: measure.jurisdictionId,
     publicGovernmentIdentity: input.publicGovernmentIdentity,

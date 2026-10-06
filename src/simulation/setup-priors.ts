@@ -103,7 +103,7 @@ export function assertSetupPriorIntegrity(priors: SetupPriorStore): void {
     );
   }
   if (!PATHS.includes(priors.path)) {
-    throw new Error(`Unknown questionnaire path: ${String(priors.path)}`);
+    throw new Error(`Unsupported questionnaire path: ${String(priors.path)}`);
   }
   if (typeof priors.bankVersion !== "string" || priors.bankVersion === "") {
     throw new Error("Setup priors must name the bank they were given against.");

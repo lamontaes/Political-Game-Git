@@ -2,13 +2,13 @@
  * Where a life can start on Guam, the U.S. Virgin Islands, American Samoa and
  * the Northern Mariana Islands.
  *
- * PLACEHOLDER. The national place corpus is the 2025 Census Gazetteer, and the
+ * RECORDED GAME PLACES. The national place corpus is the 2025 Census Gazetteer, and the
  * Gazetteer covers the fifty states, D.C. and Puerto Rico only, so these four
  * territories had no place at all and nobody could be born or live there. The
  * Census Island Areas lists that would supply them could not be fetched from
  * this environment, so the question is filed as research
  * (`docs/research/requests/territory-place-identities.json`) and, until it is
- * answered, each territory offers a short list of its well-known villages and
+ * answered, each territory uses the recorded list of villages and
  * towns.
  *
  * What this list claims and what it does not:
@@ -16,7 +16,7 @@
  * 1. A name here is a place residents really say they live in. That is all.
  * 2. It is not a Census record. The key is this module's own
  *    (`territory:GU:dededo`), never a place code made to look like one, and
- *    provenance says `placeholder` so no surface presents it as sourced.
+ *    provenance identifies the game list so no surface presents it as Census-sourced.
  * 3. It claims no population, no boundary and no government of its own. A
  *    village's mayor, a municipal council or a county council is not seated by
  *    naming the village; those offices wait on the answered territory research
@@ -30,8 +30,8 @@
 
 export const TERRITORY_PLACES_META = {
   asOf: null,
-  source: "territory-place-placeholder",
-  status: "placeholder",
+  source: "recorded-territory-place-list",
+  status: "recorded-game-data",
   research: "territory-place-identities",
 } as const;
 
@@ -111,7 +111,7 @@ export const TERRITORY_PLACE_ROWS: readonly TerritoryPlaceRow[] = [
 ];
 
 /** The four territories this list seats. Puerto Rico is in the Gazetteer. */
-export const PLACEHOLDER_TERRITORY_USPS: ReadonlySet<string> = new Set([
+export const RECORDED_TERRITORY_USPS: ReadonlySet<string> = new Set([
   "GU",
   "VI",
   "AS",

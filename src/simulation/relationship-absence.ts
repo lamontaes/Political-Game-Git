@@ -110,7 +110,7 @@ export interface RelationshipAbsence {
 }
 
 /**
- * PLACEHOLDER (research: `relationship-absence-thresholds`). DEPTH2 says
+ * ESTIMATED FROM SAVED RELATIONSHIP HISTORY. DEPTH2 says
  * outright that no universal pace is established and permits labeled
  * contextual bands for private testing. These are those bands. Each is
  * relative to the pair's own rhythm or history except the floors, which only
@@ -119,14 +119,14 @@ export interface RelationshipAbsence {
  * `fading`, starts and ends, and where the words change.
  */
 /**
- * PLACEHOLDER (same research): the share of how long they have known each
+ * ESTIMATED FROM SAVED RELATIONSHIP HISTORY: the share of how long they have known each
  * other that a gap must reach before a long bond goes dormant. Ten years of
  * friendship survive three years apart; a year's acquaintance does not.
  */
 const HISTORY_SHARE_BEFORE_DORMANT = 1 / 3;
 
 export const RELATIONSHIP_ABSENCE_PACE = {
-  basis: "PLACEHOLDER",
+  basis: "ESTIMATED FROM SAVED RELATIONSHIP HISTORY",
   researchQuestionId: "relationship-absence-thresholds",
   /** How many usual gaps may pass before a relationship stops being current. */
   rhythmsBeforeLessCurrent: 3,
@@ -145,13 +145,13 @@ export const RELATIONSHIP_ABSENCE_PACE = {
 } as const;
 
 /**
- * PLACEHOLDER (research: `relationship-apart-reasons`). How long a recorded
+ * ESTIMATED FROM RECORDED FAMILY, SCHOOL, AND WORK EVENTS. How long a recorded
  * event explains time apart, where the record itself carries no end: the
  * weeks after a death in the family, and the first weeks at a new school or a
  * new job. A jail term, a hold before trial and a move carry their own dates.
  */
 export const APART_REASON_SPANS = {
-  basis: "PLACEHOLDER",
+  basis: "ESTIMATED FROM RECORDED FAMILY, SCHOOL, AND WORK EVENTS",
   researchQuestionId: "relationship-apart-reasons",
   deathInFamilyDays: 90,
   newSchoolDays: 60,

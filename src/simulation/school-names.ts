@@ -200,7 +200,7 @@ export function getSchoolNameCorpus(
   version: string = DEFAULT_SCHOOL_NAME_CORPUS_VERSION,
 ): SchoolNameCorpus {
   const corpus = CORPORA[version];
-  if (!corpus) throw new Error(`Unknown school name corpus: ${version}`);
+  if (!corpus) throw new Error(`Unsupported school name corpus: ${version}`);
   return corpus;
 }
 

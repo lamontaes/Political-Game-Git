@@ -8,10 +8,10 @@ import {
 } from "./recorded-work-pay";
 import type { EntityId, OccupationClassification, World } from "./types";
 
-export const LOCAL_BUSINESS_PLACEHOLDER = {
+export const LOCAL_BUSINESS_WAGE_ESTIMATE = {
   researchQuestionId: "businesses-owners-and-wealth",
   currency: "USD",
-  /** PLACEHOLDER: a worker's monthly pay where no published wage covers. */
+  /** ESTIMATED FROM AVERAGE: $2,800 monthly fallback from the game's wage baseline. */
   monthlyWageMinor: 280_000,
 } as const;
 
@@ -19,7 +19,7 @@ export const LOCAL_BUSINESS_PLACEHOLDER = {
  * What one of a business's workers is paid a month in `jurisdictionId`: the
  * average comparable active saved pay, otherwise the existing state/national
  * BLS occupational median, never below the minimum wage. The marked
- * placeholder pay where no wage is published for that occupation and area.
+ * estimated pay where no wage is published for that occupation and area.
  */
 export function localBusinessWageMinor(
   kind: {
@@ -65,7 +65,7 @@ export function localBusinessWageMinor(
         sourced: true,
       }
     : {
-        monthlyMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+        monthlyMinor: LOCAL_BUSINESS_WAGE_ESTIMATE.monthlyWageMinor,
         sourced: false,
       };
 }

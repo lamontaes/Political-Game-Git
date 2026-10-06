@@ -897,12 +897,12 @@ export function assertStatutoryTaxIntegrity(
     const priced = row.status === "assessed" || row.status === "not-imposed";
     if (priced !== (row.liability !== null && row.taxableAmount !== null))
       throw new Error(
-        "An unknown tax cannot carry an amount, and a known one must.",
+        "An unpriced tax cannot carry an amount, and a priced one must.",
       );
     if (row.status === "not-imposed" && row.liability!.minorUnits !== 0)
       throw new Error("A tax the place does not impose owes nothing.");
     if (!priced && row.collection !== "none")
-      throw new Error("An unknown tax cannot be collected.");
+      throw new Error("An unpriced tax cannot be collected.");
     const rule = rules.get(row.taxKey);
     const incomeTax =
       row.taxKey === FEDERAL_INCOME_TAX_KEY ||

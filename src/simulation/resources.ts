@@ -604,7 +604,8 @@ function buildResourceTransferOutcome(
           input.earnedLawPayAssessmentId,
         );
   if (input.earnedLawPayAssessmentId !== undefined) {
-    if (!assessment) throw new Error("Earned pay assessment was not recorded.");
+    if (!assessment)
+      throw new Error("Earned pay assessment record is missing.");
     // A saved assessment is evidence, not permission to bypass the writer.
     validateEarnedLawPayAssessment(world, assessment);
     const cutoff = resourceTransferTermsCutoff(

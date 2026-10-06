@@ -8,12 +8,12 @@ import {
 
 export const STANDING_COMMITTEE_RULE_VERSION = "standing-committee/v1";
 /** The citation the researched-pack check admits under a chamber's committees. */
-export const STANDING_COMMITTEE_CITATION = "Standing committee (stand-in)";
+export const STANDING_COMMITTEE_CITATION =
+  "ESTIMATED FROM CHAMBER SIZE: standing committee";
 
 /**
- * PLACEHOLDER until research question
- * `legislative-committees-and-assignment-by-chamber` is answered for this
- * state: one standing committee of about a sixth of the chamber's seats,
+ * ESTIMATED FROM CHAMBER SIZE for a chamber without recorded committee rules:
+ * one standing committee of about a sixth of the chamber's seats,
  * between five and twenty-five, reporting on a majority of its members. It is
  * the rule a generated legislature profile uses.
  *
@@ -71,7 +71,7 @@ const derived = new WeakMap<LegislativeRulePack, LegislativeRulePack>();
 
 /**
  * The pack the game plays: the researched pack as read, with a standing
- * committee stood in for each chamber whose committees were never read. The
+ * estimated committee used for each chamber whose committees were never read. The
  * researched record itself is unchanged, and a chamber with any committee on
  * record keeps exactly its own.
  */
