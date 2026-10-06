@@ -11,6 +11,7 @@ import {
   BACKDROP_ASPECT,
   BACKDROP_FOCUS_Y,
   type BackdropPerson,
+  type BackdropOverflowPerson,
 } from "../presentation/backdrop-people";
 
 /**
@@ -26,7 +27,9 @@ export function PlacePeopleLayer({
   selectedPersonId = null,
   nameplates = false,
 }: {
-  readonly people: readonly BackdropPerson[];
+  readonly people: readonly BackdropPerson[] & {
+    readonly overflow?: readonly BackdropOverflowPerson[];
+  };
   readonly stageRef: RefObject<HTMLDivElement | null>;
   readonly onSelectPerson?: ScenePersonSelectionHandler;
   readonly selectedPersonId?: string | null;
@@ -34,134 +37,172 @@ export function PlacePeopleLayer({
   readonly nameplates?: boolean;
 }) {
   const rect = useCoverRect(stageRef);
-  if (!rect || people.length === 0) return null;
+  const overflow = people.overflow ?? [];
+  if (!rect || (people.length === 0 && overflow.length === 0)) return null;
   // The picture is centered and may be wider than the stage (a phone), so a
   // plate is kept inside the part of the picture that shows.
   const shownFrom = Math.max(0, -rect.left);
   const shownTo = rect.width - shownFrom;
   const plateHalf = Math.min(170, (shownTo - shownFrom) * 0.22);
   return (
-    <div
-      className="scene-place-people"
-      data-testid="scene-place-people"
-      style={
-        {
-          position: "absolute",
-          left: `${rect.left}px`,
-          top: `${rect.top}px`,
-          width: `${rect.width}px`,
-          height: `${rect.height}px`,
-          pointerEvents: "none",
-        } satisfies CSSProperties
-      }
-    >
-      {people.map((person) => {
-        // Open furniture hides only a band (the tabletop's edge); the
-        // person's legs show underneath, so the whole figure is drawn and the
-        // band is cut out of it.
-        const band =
-          person.clipBelowPercent !== null && person.clipBandEndPercent !== null
-            ? {
-                from:
-                  ((person.clipBelowPercent - person.topPercent) /
-                    person.heightPercent) *
-                  100,
-                to:
-                  ((person.clipBandEndPercent - person.topPercent) /
-                    person.heightPercent) *
-                  100,
-              }
-            : null;
-        const visibleHeight =
-          person.clipBelowPercent === null || band
-            ? person.heightPercent
-            : Math.max(0, person.clipBelowPercent - person.topPercent);
-        const button = (
-          <button
-            key={person.personId}
-            type="button"
-            className="scene-place-person"
-            data-testid="scene-place-person"
-            data-person-id={person.personId}
-            aria-label={`${person.name}, ${person.title}`}
-            aria-pressed={selectedPersonId === person.personId}
-            title={`${person.name}, ${person.title}`}
-            onClick={() => onSelectPerson?.(person.personId, person.engine)}
-            style={
-              {
-                position: "absolute",
-                left: `${person.leftPercent}%`,
-                top: `${person.topPercent}%`,
-                width: `${person.widthPercent}%`,
-                height: `${visibleHeight}%`,
-                overflow: "hidden",
-                ...(band
-                  ? {
-                      clipPath: `polygon(0 0, 100% 0, 100% ${band.from}%, 0 ${band.from}%, 0 ${band.to}%, 100% ${band.to}%, 100% 100%, 0 100%)`,
-                    }
-                  : {}),
-                padding: 0,
-                border: 0,
-                background: "none",
-                cursor: onSelectPerson ? "pointer" : "default",
-                pointerEvents: onSelectPerson ? "auto" : "none",
-              } satisfies CSSProperties
-            }
-          >
-            <span
+    <Fragment>
+      {overflow.length > 0 ? (
+        <details
+          data-testid="scene-place-overflow"
+          style={{
+            position: "absolute",
+            bottom: "1rem",
+            maxHeight: "50%",
+            overflowY: "auto",
+            padding: "0.5rem",
+            color: "#f0e8d8",
+            background: "rgba(18, 20, 22, 0.9)",
+            right: "1rem",
+            zIndex: 1,
+          }}
+        >
+          <summary>Also here ({overflow.length})</summary>
+          <ul>
+            {overflow.map((person) => (
+              <li key={person.personId}>
+                <button
+                  type="button"
+                  onClick={() => onSelectPerson?.(person.personId)}
+                >
+                  {person.name}
+                  {person.title ? `, ${person.title}` : ""}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
+      <div
+        className="scene-place-people"
+        data-testid="scene-place-people"
+        style={
+          {
+            position: "absolute",
+            left: `${rect.left}px`,
+            top: `${rect.top}px`,
+            width: `${rect.width}px`,
+            height: `${rect.height}px`,
+            pointerEvents: "none",
+          } satisfies CSSProperties
+        }
+      >
+        {people.map((person) => {
+          // Open furniture hides only a band (the tabletop's edge); the
+          // person's legs show underneath, so the whole figure is drawn and the
+          // band is cut out of it.
+          const band =
+            person.clipBelowPercent !== null &&
+            person.clipBandEndPercent !== null
+              ? {
+                  from:
+                    ((person.clipBelowPercent - person.topPercent) /
+                      person.heightPercent) *
+                    100,
+                  to:
+                    ((person.clipBandEndPercent - person.topPercent) /
+                      person.heightPercent) *
+                    100,
+                }
+              : null;
+          const visibleHeight =
+            person.clipBelowPercent === null || band
+              ? person.heightPercent
+              : Math.max(0, person.clipBelowPercent - person.topPercent);
+          const button = (
+            <button
+              key={person.personId}
+              type="button"
+              className="scene-place-person"
+              data-testid="scene-place-person"
+              data-person-id={person.personId}
+              aria-label={`${person.name}, ${person.title}`}
+              aria-pressed={selectedPersonId === person.personId}
+              title={`${person.name}, ${person.title}`}
+              onClick={() => onSelectPerson?.(person.personId, person.engine)}
               style={
                 {
                   position: "absolute",
-                  left: 0,
-                  top: 0,
-                  width: "100%",
-                  height: `${(person.heightPercent / visibleHeight) * 100}%`,
+                  left: `${person.leftPercent}%`,
+                  top: `${person.topPercent}%`,
+                  width: `${person.widthPercent}%`,
+                  height: `${visibleHeight}%`,
+                  overflow: "hidden",
+                  ...(band
+                    ? {
+                        clipPath: `polygon(0 0, 100% 0, 100% ${band.from}%, 0 ${band.from}%, 0 ${band.to}%, 100% ${band.to}%, 100% 100%, 0 100%)`,
+                      }
+                    : {}),
+                  padding: 0,
+                  border: 0,
+                  background: "none",
+                  cursor: onSelectPerson ? "pointer" : "default",
+                  pointerEvents: onSelectPerson ? "auto" : "none",
                 } satisfies CSSProperties
               }
             >
-              <EngineFigure
-                recipe={person.engine}
-                testId="scene-place-person-figure"
-              />
-            </span>
-          </button>
-        );
-        if (!nameplates) return button;
-        return (
-          <Fragment key={person.personId}>
-            {button}
-            <span
-              className="scene-place-nameplate"
-              data-testid="scene-place-nameplate"
-              style={
-                {
-                  position: "absolute",
-                  left: `${Math.min(
-                    Math.max(
-                      ((person.leftPercent + person.widthPercent / 2) / 100) *
-                        rect.width,
-                      shownFrom + plateHalf + 4,
-                    ),
-                    shownTo - plateHalf - 4,
-                  )}px`,
-                  maxWidth: `${plateHalf * 2}px`,
-                  // Over the head, where a panel over the lower picture
-                  // never covers it.
-                  top: `${Math.max(person.topPercent, 4)}%`,
-                } satisfies CSSProperties
-              }
-            >
-              <span className="scene-place-nameplate-name">{person.name}</span>
-              {person.title ? (
-                <span className="scene-place-nameplate-title">
-                  {person.title}
+              <span
+                style={
+                  {
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    width: "100%",
+                    height: `${(person.heightPercent / visibleHeight) * 100}%`,
+                  } satisfies CSSProperties
+                }
+              >
+                <EngineFigure
+                  canvas
+                  recipe={person.engine}
+                  testId="scene-place-person-figure"
+                />
+              </span>
+            </button>
+          );
+          if (!nameplates) return button;
+          return (
+            <Fragment key={person.personId}>
+              {button}
+              <span
+                className="scene-place-nameplate"
+                data-testid="scene-place-nameplate"
+                style={
+                  {
+                    position: "absolute",
+                    left: `${Math.min(
+                      Math.max(
+                        ((person.leftPercent + person.widthPercent / 2) / 100) *
+                          rect.width,
+                        shownFrom + plateHalf + 4,
+                      ),
+                      shownTo - plateHalf - 4,
+                    )}px`,
+                    maxWidth: `${plateHalf * 2}px`,
+                    // Over the head, where a panel over the lower picture
+                    // never covers it.
+                    top: `${Math.max(person.topPercent, 4)}%`,
+                  } satisfies CSSProperties
+                }
+              >
+                <span className="scene-place-nameplate-name">
+                  {person.name}
                 </span>
-              ) : null}
-            </span>
-          </Fragment>
-        );
-      })}
-    </div>
+                {person.title ? (
+                  <span className="scene-place-nameplate-title">
+                    {person.title}
+                  </span>
+                ) : null}
+              </span>
+            </Fragment>
+          );
+        })}
+      </div>
+    </Fragment>
   );
 }
 

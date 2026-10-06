@@ -126,6 +126,8 @@ function seatCongressChamber(
       memberKey: `${US_CONGRESS_PACK_ID}:${chamberKey}:${seat.seatKey}`,
       name: member.personName,
       personId: member.personId,
+      tenureStartedAt: member.startedAt,
+      seatingEventId: member.termId,
       caucusLabel: partyKey
         ? `${partyKey.charAt(0).toUpperCase()}${partyKey.slice(1)}`
         : "No party",
