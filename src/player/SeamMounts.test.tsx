@@ -178,9 +178,7 @@ describe("Getting in touch", () => {
       `<strong class="pg-contact-name">${first.name}</strong>`,
     );
     if (first.lastContactSpoken) {
-      expect(html).toContain(
-        `<p class="pg-contact-line">Last in touch ${first.lastContactSpoken}.`,
-      );
+      expect(html).toContain(`${first.lastContactSpoken}</p>`);
     }
   });
 

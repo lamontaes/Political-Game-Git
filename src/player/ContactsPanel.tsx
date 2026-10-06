@@ -120,9 +120,7 @@ export function ContactsPanel({
         onWorldChange={onWorldChange}
       />
       {!contactEntry && view.contacts.length === 0 ? (
-        <p data-testid="contacts-empty">
-          There is nobody you have a way of reaching yet.
-        </p>
+        <p data-testid="contacts-empty" />
       ) : (
         <ul className="pg-contacts-list">
           {shown.map((contact) => (
@@ -204,7 +202,7 @@ export function ContactsPanel({
       )}
       {newOptions.length > 0 ? (
         <div className="pg-contacts-new" data-testid="meet-new">
-          <h4>Meet somebody new</h4>
+          <h4>New</h4>
           <ul className="pg-contacts-new-list">
             {newOptions.map((option) => (
               <li key={option.key}>
@@ -310,11 +308,13 @@ function ContactRow({
         is nothing to say: an unknown last contact is not "never".
       */}
       {contact.livesWithYou ? (
-        <p className="pg-contact-line">You live together.</p>
+        <p className="pg-contact-line" data-lives-with-you="true" />
       ) : contact.lastContactSpoken ? (
-        <p className="pg-contact-line">
-          Last in touch {contact.lastContactSpoken}.
-          {contact.outOfTouch ? " It has been a long while." : ""}
+        <p
+          className="pg-contact-line"
+          data-out-of-touch={contact.outOfTouch ? "true" : undefined}
+        >
+          {contact.lastContactSpoken}
         </p>
       ) : null}
       {contact.lastAnswer ? (
@@ -360,7 +360,7 @@ function ContactRow({
       {theyAsked ? (
         <div className="pg-contact-ask">
           <p data-testid={tid(`contact-outstanding-${contact.personId}`)}>
-            {contact.name} asked about {theyAsked.onSpoken}: {theyAsked.purpose}
+            {contact.name} · {theyAsked.onSpoken} · {theyAsked.purpose}
           </p>
           <div className="pg-contact-actions">
             <button

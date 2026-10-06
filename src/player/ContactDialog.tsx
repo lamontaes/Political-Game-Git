@@ -88,7 +88,6 @@ export function ContactDialog({
         <header className="pg-contact-dialog-head">
           <div className="pg-contact-dialog-who">
             <h2 id={titleId}>{name}</h2>
-            <p>Get in touch</p>
           </div>
           <button
             type="button"
@@ -115,9 +114,10 @@ export function ContactDialog({
                 focused
               />
             ) : (
-              <p className="pg-contact-line" data-testid="contact-dialog-none">
-                You have no way of reaching {name} right now.
-              </p>
+              <p
+                className="pg-contact-line"
+                data-testid="contact-dialog-none"
+              />
             )}
           </div>
         </div>

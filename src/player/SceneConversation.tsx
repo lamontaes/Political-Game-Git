@@ -271,9 +271,7 @@ export function SceneConversation({
         ref={boxRef}
         onKeyDown={onKeyDown}
       >
-        <p className="pg-talk-line" data-testid="conversation-closed">
-          This conversation is over — there is nobody here to carry it on with.
-        </p>
+        <p className="pg-talk-line" data-testid="conversation-closed" />
         <div className="pg-talk-foot">
           <button
             type="button"
@@ -382,9 +380,7 @@ export function SceneConversation({
           ?.focus();
       });
     } catch (error) {
-      setTrouble(
-        error instanceof Error ? error.message : "That did not come out right.",
-      );
+      setTrouble(error instanceof Error ? error.message : "talk-failed");
     }
   }
 
@@ -586,9 +582,7 @@ export function SceneConversation({
           ) : null}
 
           {view.settled ? (
-            <p className="pg-talk-note" data-testid="conversation-closed">
-              That is settled for now.
-            </p>
+            <p className="pg-talk-note" data-testid="conversation-closed" />
           ) : leaving ? null : offeredSpeech.length > 0 ? (
             <div className="pg-talk-replies">
               <ConversationScales
@@ -639,9 +633,7 @@ export function SceneConversation({
               </div>
             </div>
           ) : (
-            <p className="pg-talk-note" data-testid="conversation-closed">
-              There is nothing more to say about it right now.
-            </p>
+            <p className="pg-talk-note" data-testid="conversation-closed" />
           )}
 
           <div className="pg-talk-foot">
@@ -700,11 +692,7 @@ export function SceneConversation({
           {!view.settled ? (
             <p className="pg-talk-hearing">
               <span data-testid="conversation-hearing">
-                {bystanders.length > 0
-                  ? `${bystanders.join(" and ")} ${
-                      bystanders.length === 1 ? "hears" : "hear"
-                    } this too.`
-                  : "Nobody else hears this."}
+                {bystanders.join(" · ")}
               </span>
               {privateReason ? (
                 <>
@@ -723,8 +711,7 @@ export function SceneConversation({
       ) : (
         <div className="pg-talk-history" data-testid="talk-history">
           <p className="pg-talk-context">
-            Earlier in this conversation · {history.count - history.index} of{" "}
-            {history.count}
+            {history.count - history.index} / {history.count}
           </p>
           <ol className="pg-talk-history-list">
             {history.turns.map((turn) => (
@@ -793,11 +780,6 @@ export function ConversationScales({
       aria-label="Show knowingly false replies"
       aria-pressed={lying}
       disabled={!available}
-      title={
-        available
-          ? "Show what you could say knowing it is false"
-          : "There is nothing here you know to be false"
-      }
       onClick={onToggle}
     >
       <img
@@ -933,13 +915,11 @@ export function ConversationStarters({
           className="ui-action ui-action--subtle"
           data-testid={`conversation-start-${entry.subject}`}
           data-here={isHere(entry) ? "true" : "false"}
+          data-settled={entry.settled ? "true" : "false"}
           onClick={() => onStart(first, entry.subject)}
         >
           {entry.topicLabel}
-          <small>
-            {names}
-            {entry.settled ? " · settled for now" : ""}
-          </small>
+          <small>{names}</small>
         </button>
       </li>
     );
