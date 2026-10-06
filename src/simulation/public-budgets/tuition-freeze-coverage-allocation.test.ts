@@ -752,7 +752,25 @@ describe(`A21 supported saved tuition (${place.displayName}, seed ${seed})`, () 
         (row) => row.id === revisedTerms.id,
       ),
     ).toEqual(revisedTerms);
+    // The held charge reaches the student: law -> lower saved terms -> person.
+    const landed = (paying.history.lawExposures ?? []).filter(
+      (row) => row.sourceRecordId === cappedTerms.id,
+    );
+    expect(landed).toHaveLength(1);
+    expect(landed[0]).toMatchObject({
+      personId: fixture.personId,
+      measureId: cappedTerms.lawEffectStamps![0]!.governingLawKey,
+      channel: "public-service",
+      relation: "own",
+      direction: "gain",
+      cadence: "one-time",
+      amount: money(
+        revisedTerms.amount.minorUnits - cappedTerms.amount.minorUnits,
+        "USD",
+      ),
+    });
     const saved = deserializeWorld(serializeWorld(paying));
+    expect(saved.history.lawExposures).toEqual(paying.history.lawExposures);
     expect(
       completeStudyPeriod(saved, directoryEnrollmentId, acceptedPath).history
         .resourceFlows,
