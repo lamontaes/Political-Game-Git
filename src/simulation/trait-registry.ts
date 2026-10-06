@@ -12,6 +12,10 @@ import { JOB_TRAIT_DECISION_DECLARATIONS } from "./traits/jobs-decisions";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
+import {
+  FACET_AFFECTIONATE_DECISIONS,
+  FACET_AFFECTIONATE_EFFECTS,
+} from "./traits/effects/facet-affectionate";
 
 /**
  * The packs and decisions this build loads.
@@ -35,6 +39,9 @@ const DECISIONS = [
   ...JOB_TRAIT_DECISION_DECLARATIONS,
 ];
 
+/** Effect readers are separate packs so each trait can be added independently. */
+const EFFECT_PACKS = [FACET_AFFECTIONATE_EFFECTS] as const;
+
 let cached: TraitRegistry | null = null;
 
 /**
@@ -43,7 +50,10 @@ let cached: TraitRegistry | null = null;
  * which is this plus whatever that life has installed.
  */
 export function loadedTraitRegistry(): TraitRegistry {
-  cached ??= loadTraitPacks(compiledTraitPacks(), DECISIONS);
+  cached ??= loadTraitPacks(
+    [...compiledTraitPacks(), ...EFFECT_PACKS],
+    DECISIONS,
+  );
   return cached;
 }
 
@@ -72,7 +82,7 @@ export function traitRegistryFor(world: World): TraitRegistry {
   if (known) return known;
   const installed = installedTraitPacks(contentPacks);
   const loaded = loadTraitPacks(
-    [...compiledTraitPacks(), ...installed.packs],
+    [...compiledTraitPacks(), ...EFFECT_PACKS, ...installed.packs],
     DECISIONS,
   );
   const registry: TraitRegistry = {
