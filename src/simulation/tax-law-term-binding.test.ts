@@ -1,7 +1,10 @@
 import { money } from "./resources";
 import { makeIsoDate } from "./dates";
 import { describe, expect, it } from "vitest";
-import { bindTaxLawTerms } from "./tax-law-term-binding";
+import {
+  bindTaxLawTerms,
+  TAX_TERM_QUESTION_BINDINGS,
+} from "./tax-law-term-binding";
 import { TAX_LAW_TERM_KEYS, TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import { currentLifeCutoff } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
@@ -17,8 +20,13 @@ const id = (value: string) => value as EntityId;
  * earned bases. Numeric queries use production adopted-text reading. The
  * existing typed proposal and policy join supplies dynamic record identities.
  */
-function fixture() {
-  const jurisdiction = stateJurisdictionForKey("US-AK")!;
+function fixture(
+  questionKeyOverride = questionKey,
+  instrument: "wage-income" | "selective-excise" = "selective-excise",
+) {
+  const jurisdiction = stateJurisdictionForKey(
+    instrument === "wage-income" ? "US-AL" : "US-AK",
+  )!;
   const date = makeIsoDate("2026-10-01");
   const terms: TaxTerms = {
     seriesKey: "tax:binding-test",
@@ -45,7 +53,10 @@ function fixture() {
     sponsorPersonId: id("sponsor"),
     jurisdictionId: jurisdiction.id,
     publicOrganizationId: id("recipient"),
-    power: taxPowerEvidenceFor("US-AK"),
+    power: taxPowerEvidenceFor(
+      instrument === "wage-income" ? "US-AL" : "US-AK",
+      { instrument, asOf: date },
+    ),
     gameProfileRef: null,
     terms,
     levyProvisionId: id("levy"),
@@ -56,7 +67,7 @@ function fixture() {
     jurisdictions: { [jurisdiction.id]: jurisdiction },
     policyCatalog: {
       propositions: {
-        question: { id: id("question"), stableKey: questionKey },
+        question: { id: id("question"), stableKey: questionKeyOverride },
       },
     },
     history: {
@@ -116,7 +127,7 @@ function fixture() {
             segmentKey: null,
           },
           lawTerms: TAX_NUMERIC_LAW_TERMS.map((entry) => ({
-            questionKey,
+            questionKey: questionKeyOverride,
             key: entry.key,
             unit: entry.unit,
             value: terms[entry.field],
@@ -154,7 +165,7 @@ function fixture() {
   const law = lawInForce(world, jurisdiction.id, id("question"))!;
   const input = {
     law,
-    questionKey,
+    questionKey: questionKeyOverride,
     proposalId: proposal.id,
     onDate: world.currentDate,
     cutoff: currentLifeCutoff(world),
@@ -196,6 +207,31 @@ describe("adopted tax term consumer", () => {
     });
     expect(bindTaxLawTerms(f.world, f.input)).toEqual(result);
     expect(JSON.stringify(f.world)).toBe(before);
+  });
+
+  it("binds sourced state wage-income authority through the same generic table", () => {
+    const f = fixture("us-tax-terms:state.income-tax-terms", "wage-income");
+    const result = bindTaxLawTerms(f.world, f.input);
+    expect(result.kind).toBe("available");
+    if (result.kind === "available") {
+      expect(result.terms).toEqual(f.terms);
+      expect(result.publicGovernmentIdentity).toEqual({
+        kind: "jurisdiction",
+        jurisdictionId: f.proposal.jurisdictionId,
+      });
+    }
+  });
+
+  it("keeps unsupported tax instruments unavailable across all question levels", () => {
+    expect(TAX_TERM_QUESTION_BINDINGS).toHaveLength(16);
+    expect(
+      new Set(TAX_TERM_QUESTION_BINDINGS.map((row) => row.questionKey)).size,
+    ).toBe(16);
+    const f = fixture("us-tax-terms:state.sales-tax-terms", "selective-excise");
+    expectUnavailable(
+      bindTaxLawTerms(f.world, f.input),
+      "acquired legal-power binding is unsupported",
+    );
   });
 
   it("refuses an absent operative policy and historical numeric signature", () => {
