@@ -5,6 +5,7 @@ import { patienceEffects } from "./patience";
 import { facetHostileEffects } from "./facet-hostile";
 import { facetHumbleEffects } from "./facet-humble";
 import { facetOpenMindedEffects } from "./facet-open-minded";
+import { facetForgivingEffects } from "./facet-forgiving";
 import { facetProudEffects } from "./facet-proud";
 import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetBluntEffects } from "./facet-blunt";
@@ -55,6 +56,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetTenderHeartedEffects,
     ...facetZealousEffects,
     ...selfConfidenceEffects,
+    ...facetForgivingEffects,
     ...bondLoyaltyEffects,
   ];
 }
