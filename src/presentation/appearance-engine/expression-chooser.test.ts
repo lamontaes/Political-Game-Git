@@ -222,6 +222,29 @@ function recorded(
   });
 }
 
+function personalEvent(
+  world: World,
+  personId: EntityId,
+  tags: readonly string[],
+  sequenceOffset = 100,
+): World {
+  const template = world.history.events[0]!;
+  const event: HistoricalEvent = {
+    ...template,
+    id: `event:resting-face-${personId}-${sequenceOffset}` as EntityId,
+    stableKey: `resting-face:${personId}:${sequenceOffset}`,
+    sequence: world.history.nextSequence + sequenceOffset,
+    occurredAt: world.currentDate,
+    involvedEntityIds: [personId],
+    participants: [],
+    tags,
+  };
+  return {
+    ...world,
+    history: { ...world.history, events: [...world.history.events, event] },
+  };
+}
+
 function eventOf(world: World, turn: ConversationExchangeTurn) {
   return world.history.events.find((event) => event.id === turn.eventId)!;
 }
@@ -418,15 +441,28 @@ describe("the face a temperament rests in", () => {
     ).toBe("concerned");
   });
 
-  it("rests a guarded person neutral or skeptical, by their seed", () => {
+  it("rests a guarded person according to their most recent recognized event", () => {
     const guarded = recorded(base, A, "personality-v1:facet-defensive", 1);
-    const rests = new Set(
-      Array.from(
-        { length: 40 },
-        (_, n) => faceTemperament(guarded, A, `seed-${n}`).rest,
-      ),
+    const smiling = personalEvent(guarded, A, [
+      "conversation.outcome.reassured",
+    ]);
+    const concerned = personalEvent(
+      smiling,
+      A,
+      ["life.answer:running-worry"],
+      101,
     );
-    expect([...rests].sort()).toEqual(["neutral", "skeptical"]);
+    expect(faceTemperament(smiling, A, "any-seed").rest).toBe("smile");
+    expect(faceTemperament(concerned, A, "same-seed").rest).toBe("concerned");
+    expect(faceTemperament(concerned, A, "another-seed").rest).toBe(
+      "concerned",
+    );
+  });
+
+  it("keeps an unrecognized latest event at neutral for a guarded person", () => {
+    const guarded = recorded(base, A, "personality-v1:facet-defensive", 1);
+    const world = personalEvent(guarded, A, ["life.conversation"], 101);
+    expect(faceTemperament(world, A, A).rest).toBe("neutral");
   });
 
   it("shows hostility sooner in the quick-tempered and later in the calm", () => {

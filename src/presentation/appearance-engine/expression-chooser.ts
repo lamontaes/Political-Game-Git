@@ -11,7 +11,6 @@ import {
 import { standingTone, type ReplyTone } from "../reply-meaning";
 import type { ConversationExchangeTurn } from "../scene-conversation";
 import { SMALL_TALK_BANKS } from "../small-talk-english";
-import { stableHash } from "../../simulation/ids";
 import type { FaceExpression } from "./pack";
 
 /**
@@ -178,11 +177,30 @@ export interface FaceTemperament {
   readonly temper: "quick" | "calm" | null;
 }
 
-function draw(seed: string, question: string): number {
-  return (
-    Number.parseInt(stableHash(`${seed}:${question}`).slice(0, 8), 16) /
-    0x100000000
-  );
+/** A person's most recent recorded event, in the order the record establishes. */
+function latestPersonalEvent(
+  world: World,
+  personId: EntityId,
+): HistoricalEvent | null {
+  let latest: HistoricalEvent | null = null;
+  for (const event of world.history.events) {
+    if (
+      event.occurredAt > world.currentDate ||
+      (!event.involvedEntityIds.includes(personId) &&
+        !event.participants.some(
+          (participant) => participant.personId === personId,
+        ))
+    )
+      continue;
+    if (
+      !latest ||
+      event.occurredAt > latest.occurredAt ||
+      (event.occurredAt === latest.occurredAt &&
+        event.sequence > latest.sequence)
+    )
+      latest = event;
+  }
+  return latest;
 }
 
 /**
@@ -192,7 +210,7 @@ function draw(seed: string, question: string): number {
 export function faceTemperament(
   world: World,
   personId: EntityId,
-  seed: string,
+  _seed: string,
 ): FaceTemperament {
   const q = (key: string) => recordedQuality(world, personId, key);
   const leans = (value: number | null) => value !== null && value > 0;
@@ -224,11 +242,14 @@ export function faceTemperament(
 
   // A person can be recorded as more than one; the most guarded reading
   // wins, since the face shows the wall before what is behind it.
-  if (guarded)
+  if (guarded) {
+    const event = latestPersonalEvent(world, personId);
+    const eventFace = event ? speakerFace(lineTone(world, event)) : null;
     return {
-      rest: draw(seed, "face:guarded") < 0.5 ? "neutral" : "skeptical",
+      rest: eventFace ?? "neutral",
       temper,
     };
+  }
   if (anxious) return { rest: "concerned", temper };
   if (warm) return { rest: "smile", temper };
   return { rest: "neutral", temper };
