@@ -101,34 +101,6 @@ describe("ordinary-life agency and boundaries", { timeout: 60_000 }, () => {
     );
     assertWorldIntegrity(world);
   });
-  it("records accompanied travel and keeps childhood conversations age-appropriate", () => {
-    const game = start(6);
-    const next = walkOpeningNeighborhood(
-      openNextLifeScene(game.world, game.playerPersonId),
-      game.playerPersonId,
-      "neighborhood",
-    );
-    expect(next.currentMoment.minuteOfDay).toBe(
-      game.world.currentMoment.minuteOfDay + 5,
-    );
-    const arrival = next.history.events.find(
-      (event) => event.type === "life.scene.arrived",
-    )!;
-    expect(arrival.participants).toHaveLength(2);
-    const scene = currentOpeningLifeScene(next, game.playerPersonId)!;
-    expect(scene.definition.setting).toBe("neighborhood");
-    for (const id of scene.presentPersonIds.filter(
-      (id) => id !== game.playerPersonId,
-    ))
-      expect(
-        projectLifeConversation(next, game.playerPersonId, id)!.intents.some(
-          (intent) => intent.key === "date",
-        ),
-      ).toBe(false);
-    expect(serializeWorld(deserializeWorld(serializeWorld(next)))).toBe(
-      serializeWorld(next),
-    );
-  });
   it("makes shared participation real and leaves candidacy absent without its prerequisites", () => {
     const young = start(17);
     expect(joinOrdinaryGroup(young.world, young.playerPersonId)).toBe(

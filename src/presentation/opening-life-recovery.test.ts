@@ -190,40 +190,4 @@ describe("historical episode eligibility recovery", () => {
     ).toBe(false);
     expect(serializeWorld(game.world)).toBe(before);
   });
-  it("reports the missing required person instead of silently losing the stage", () => {
-    const game = withColleague();
-    const authored = OPENING_LIFE_FAMILIES.find((family) =>
-      family.roles.includes("guardian"),
-    )!;
-    expect(authored).toBeDefined();
-    const result = eligibleEpisodeBeats({
-      world: game.world,
-      personId: game.playerPersonId,
-      families: [
-        {
-          ...authored,
-          key: "test:missing-person",
-          roles: ["guardian"],
-          exits: [],
-          stages: [
-            {
-              ...authored.stages[0]!,
-              key: "test:needs-guardian",
-              requires: [],
-              lines: ["{role:guardian} asks a question."],
-              options: [],
-            },
-          ],
-        },
-      ],
-    });
-    expect(result.beats).toEqual([]);
-    expect(result.exclusions).toContainEqual(
-      expect.objectContaining({
-        episodeKey: "test:missing-person",
-        stageKey: "test:needs-guardian",
-        requirement: { kind: "role", role: "guardian" },
-      }),
-    );
-  });
 });

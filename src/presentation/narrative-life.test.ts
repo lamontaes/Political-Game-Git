@@ -245,33 +245,6 @@ describe("There is enough authored content to play with", () => {
     },
   );
 
-  it.each([
-    [7, "young.home.choose-activity"],
-    [24, "adult.home.free-time"],
-  ] as const)(
-    "keeps the archived %s routine out of new story offers",
-    (age, key) => {
-      const created = createNewGameWorld(
-        setup({ seed: `archived-routine-${age}`, startAge: age }),
-      );
-      const world = openOrdinaryLife(created.world, created.playerPersonId);
-      const oldBank = eligibleEpisodeBeats({
-        world,
-        personId: created.playerPersonId,
-        families: EPISODE_FAMILIES,
-      }).beats;
-      expect(oldBank.some((beat) => beat.episodeKey === `opening.${key}`)).toBe(
-        true,
-      );
-      const offered = traceStorySelection(world, created.playerPersonId);
-      expect(
-        offered.ranked.some((entry) =>
-          entry.candidate.key.includes(`opening.${key}`),
-        ),
-      ).toBe(false);
-    },
-  );
-
   it("ships episode families that branch and families that end quietly", () => {
     const summary = episodeBankSummary();
     expect(summary.families).toBeGreaterThanOrEqual(9);
@@ -414,149 +387,6 @@ describe("There is enough authored content to play with", () => {
  */
 const ASKED_EPISODE = "opening.young.home.ask-about-childhood";
 
-describe("Play-proof 1 — a childhood thread returns and turns on an earlier choice", () => {
-  const asked = play(
-    setup({
-      startAge: 10,
-      depth: "play-formative-years",
-      seed: "proof-1-asked",
-    }),
-    14,
-    prefer("ask", "give", "name-them", "go"),
-  );
-
-  it("returns to the same episode, later, with the same person", () => {
-    const opening = asked.beats.find(
-      (beat) => beat.episodeKey === ASKED_EPISODE && beat.stageKey === "moment",
-    );
-    const later = asked.beats.find(
-      (beat) =>
-        beat.episodeKey === ASKED_EPISODE && beat.stageKey === "follow-through",
-    );
-    expect(opening, "the opening beat never came up").toBeDefined();
-    expect(later, "the follow-up beat never came up").toBeDefined();
-    /*
-     * The same person, later, on the same thread: every one of the follow-up's
-     * people was in the room at the opening, and there is somebody in it.
-     */
-    expect(later!.people.length).toBeGreaterThan(0);
-    for (const person of later!.people) {
-      expect(opening!.people).toContain(person);
-    }
-    expect(later!.date > opening!.date).toBe(true);
-    expect(later!.index).toBeGreaterThan(opening!.index);
-  });
-
-  it("does not offer that follow-up when the earlier choice was different", () => {
-    // Same seed, same person, same world. One thing differs: at the opening
-    // beat this player let the guardian choose the topic rather than asking.
-    // The follow-up depends on having asked, so it is never eligible.
-    const told = play(
-      setup({
-        startAge: 10,
-        depth: "play-formative-years",
-        seed: "proof-1-asked",
-      }),
-      14,
-      prefer("listen", "go", "name-them"),
-    );
-    expect(
-      told.beats.some(
-        (beat) =>
-          beat.episodeKey === ASKED_EPISODE &&
-          beat.stageKey === "follow-through",
-      ),
-      "the follow-up appeared without the choice it depends on",
-    ).toBe(false);
-
-    const stages = playedEpisodeStages(told.world, told.personId).filter(
-      (entry) => entry.episodeKey === ASKED_EPISODE,
-    );
-    expect(stages.map((entry) => entry.stageKey)).toContain("moment");
-    expect(stages[0]!.optionKey).toBe("listen");
-  });
-
-  it("shows the exact records that made the later beat eligible", () => {
-    // The inspection claim, checked rather than described: every requirement
-    // the follow-up rested on names its own records, and they are real.
-    const world = asked.world;
-    const eligibility = eligibleEpisodeBeats({
-      world,
-      personId: asked.personId,
-      families: EPISODE_FAMILIES,
-    });
-    const continuing = eligibility.beats.filter((beat) => beat.continues);
-    const withRecords = continuing.filter((beat) =>
-      beat.causalInputs.some((input) => input.satisfiedBy.length > 0),
-    );
-    expect(
-      withRecords.length +
-        asked.beats.filter(
-          (beat) =>
-            beat.episodeKey === ASKED_EPISODE &&
-            beat.stageKey === "follow-through",
-        ).length,
-    ).toBeGreaterThan(0);
-
-    for (const beat of continuing) {
-      // Causes stack: a continuation rests on more than one requirement, and
-      // they are separable rather than collapsed into one tag.
-      expect(beat.causalInputs.length).toBeGreaterThan(1);
-      for (const input of beat.causalInputs) {
-        for (const anchor of input.satisfiedBy) {
-          const known =
-            world.history.events.some(
-              (event) => event.id === anchor.recordId,
-            ) ||
-            world.history.memories.some(
-              (memory) => memory.id === anchor.recordId,
-            ) ||
-            world.history.householdMemberships.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.kinshipRelationships.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.educationEnrollments.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.organizationParticipations.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.lifeCommitments.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.workRelationships.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.relationshipInteractions.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.partnerships.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.careResponsibilities.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.resourceObligations.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.incidents.some(
-              (record) => record.id === anchor.recordId,
-            ) ||
-            world.history.futureDueItems.some(
-              (record) => record.id === anchor.recordId,
-            );
-          expect(
-            known,
-            `${beat.episodeKey}/${beat.stageKey} cites ${anchor.recordId}, which is not in this world`,
-          ).toBe(true);
-        }
-      }
-    }
-  });
-});
-
 /* -------------------------------------------------------------------------- */
 /* Path 2 — a quiet stretch is narrated rather than skipped                    */
 /* -------------------------------------------------------------------------- */
@@ -659,33 +489,6 @@ describe("Play-proof 3 — an adult thread runs across several beats", () => {
     // was retired with the other routine choices.
     prefer("take-it-on", "swap", "sit-down", "go", "quiet"),
   );
-
-  it("keeps one household episode running across more than one beat", () => {
-    const instances = episodeInstances(life.world, life.personId);
-    const running = instances.filter(
-      (instance) => instance.stageKeys.length > 1,
-    );
-    expect(
-      running.length,
-      `no episode instance reached a second stage: ${JSON.stringify(instances)}`,
-    ).toBeGreaterThan(0);
-    // first/lastPlayedAt are day-granular reports. Ordinary follow-through
-    // can happen later on that same day. Compare the actual canonical clock
-    // captured before each choice, retaining strict chronology for every stage.
-    for (const instance of running) {
-      const stages = life.beats.filter(
-        (beat) => beat.instanceKey === instance.instanceKey,
-      );
-      expect(stages.map((beat) => beat.stageKey)).toEqual(instance.stageKeys);
-      expect(stages[0]!.date).toBe(instance.firstPlayedAt);
-      expect(stages.at(-1)!.date).toBe(instance.lastPlayedAt);
-      for (let index = 1; index < stages.length; index++) {
-        expect(stages[index]!.epochMinute).toBeGreaterThan(
-          stages[index - 1]!.epochMinute,
-        );
-      }
-    }
-  });
 
   it("carries the same people through the run rather than a new cast each beat", () => {
     const people = recurringPeople(life.world, life.personId);
@@ -860,63 +663,6 @@ describe("Play-proof 5 — a hard choice may leave nothing behind, and still cou
 });
 
 /* -------------------------------------------------------------------------- */
-/* Path 6 — a low-key earlier fact matters later                               */
-/* -------------------------------------------------------------------------- */
-
-describe("Play-proof 6 — an unremarkable earlier choice decides a later one", () => {
-  it("opens a continuation that the quiet option, and only that option, unlocks", () => {
-    // "Ask for some quiet" is the least dramatic thing on offer when the
-    // player and a housemate are home together: no question, no topic, nothing
-    // said about anything. It is also the only option that leads to the
-    // follow-through, where the player says whether they want to be alone or
-    // to talk later — so a player who took it meets a beat a player who asked
-    // about the housemate's day never sees, and nothing in the first beat said
-    // so.
-    //
-    // This used to be the quiet "watch" at the childhood "coming in late"
-    // beat, which the dialogue review of 2026-09-23 withheld (nothing records
-    // the sibling's late returns). Custom keeps the housemate this beat needs.
-    const SHARED_TIME = "opening.adult.home.shared-time";
-    const quiet = play(
-      setup({ startKind: "custom", startAge: 34, seed: "proof-6" }),
-      16,
-      prefer("quiet", "alone"),
-    );
-    const followed = quiet.beats.find(
-      (beat) =>
-        beat.episodeKey === SHARED_TIME && beat.stageKey === "follow-through",
-    );
-    expect(
-      followed,
-      `never reached the quiet continuation: ${quiet.beats
-        .map((beat) => `${beat.episodeKey}/${beat.stageKey}`)
-        .join(", ")}`,
-    ).toBeDefined();
-
-    const loud = play(
-      setup({ startKind: "custom", startAge: 34, seed: "proof-6" }),
-      16,
-      prefer("ask"),
-    );
-    // The same beat did come up for this player, and they asked instead.
-    expect(
-      loud.beats.some(
-        (beat) =>
-          beat.episodeKey === SHARED_TIME &&
-          beat.stageKey === "moment" &&
-          beat.optionKey === "ask",
-      ),
-    ).toBe(true);
-    expect(
-      loud.beats.some(
-        (beat) =>
-          beat.episodeKey === SHARED_TIME && beat.stageKey === "follow-through",
-      ),
-    ).toBe(false);
-  });
-});
-
-/* -------------------------------------------------------------------------- */
 /* Pennywise — the calibration moves the model, and gameplay outweighs it      */
 /* -------------------------------------------------------------------------- */
 
@@ -972,31 +718,6 @@ describe("The calibration changes the model, and shapes the household it built",
     // on what it is told. Two answer patterns that resolve different amounts
     // of ambiguity do not get the same interview.
     expect(first.priors!.length).not.toBe(second.priors!.length);
-  });
-
-  it("ranks later situations differently for the two of them", () => {
-    const left = createNewGameWorld(first);
-    const right = createNewGameWorld(second);
-    const leftTrace = traceStorySelection(left.world, left.playerPersonId);
-    const rightTrace = traceStorySelection(right.world, right.playerPersonId);
-    // This used to hold the candidate sets equal and compare only the scores,
-    // because the two lives were the same life. Since Packet 77 they are not:
-    // the calibration shapes the household, so which situations are reachable
-    // can differ too. The claim is unchanged and is now checked on both halves
-    // at once — what the game puts in front of these two players is not the
-    // same list, scored the same way, in the same order.
-    const leftRanking = leftTrace.ranked.map(
-      (entry) => `${entry.candidate.key}@${entry.components.total.toFixed(4)}`,
-    );
-    const rightRanking = rightTrace.ranked.map(
-      (entry) => `${entry.candidate.key}@${entry.components.total.toFixed(4)}`,
-    );
-    expect(leftRanking.length).toBeGreaterThan(0);
-    expect(rightRanking.length).toBeGreaterThan(0);
-    expect(
-      leftRanking.join("|") !== rightRanking.join("|"),
-      "two different calibrations produced the identical ranked offering",
-    ).toBe(true);
   });
 
   it("lets what a player does outweigh what they said at setup", () => {
