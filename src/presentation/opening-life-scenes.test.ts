@@ -1,25 +1,16 @@
-import {
-  activeOrdinaryGoal,
-  completeOrdinaryGoal,
-  chooseOrdinaryLifeGoal,
-} from "../simulation/life-personality";
-import type { LifeTalkIntent } from "./life-conversation";
 import { describe, expect, it } from "vitest";
 import {
   assertWorldIntegrity,
   serializeWorld,
   deserializeWorld,
-  recordWorldEvent,
-  type EntityId,
-  type World,
 } from "../simulation";
 import {
   isArchivedRoutineOpeningSceneKey,
-  openingLifeSceneAtStage,
+  OPENING_LIFE_FOLLOWUPS,
   OPENING_LIFE_SCENES,
 } from "../simulation/opening-life-content";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { schoolStageToday } from "../simulation/school-stages";
+
 import {
   openNextLifeScene,
   currentOpeningLifeScene,
@@ -28,10 +19,6 @@ import {
   availableOptionalLifeActivities,
   openOptionalLifeActivity,
 } from "./life-scene-flow";
-import {
-  commitLifeConversation,
-  projectLifeConversation,
-} from "./life-conversation";
 
 function start(seed: string, startAge = 6) {
   return createNewGameWorld({
@@ -40,49 +27,6 @@ function start(seed: string, startAge = 6) {
     household: "shares-a-home",
     seed,
     startAge,
-  });
-}
-
-function previouslyOpenedRoutineScene(
-  world: World,
-  personId: EntityId,
-  key: string,
-  stageKey: "moment" | "follow-through",
-): World {
-  const archived = OPENING_LIFE_SCENES.find((scene) => scene.key === key)!;
-  const definition = openingLifeSceneAtStage(archived, stageKey)!;
-  const jurisdictionId = world.people[personId]!.homeJurisdictionId;
-  return recordWorldEvent(world, {
-    stableKey: `test:previously-opened:${key}:${stageKey}`,
-    type: "life.scene.opened",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId,
-    involvedEntityIds: [personId],
-    participants: [
-      {
-        personId,
-        role: "focus:subject",
-        detail: "Present in the authored scene",
-      },
-    ],
-    personFactConstraints: [],
-    visibility: "private",
-    tags: [
-      "opening-life-v1",
-      `family:${key}`,
-      `opening-stage:${stageKey}`,
-      `moment:${JSON.stringify(world.currentMoment)}`,
-    ],
-    summary: definition.premise,
-    context: {
-      location: { jurisdictionId, label: "Home", setting: "home" },
-      socialContext: null,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
   });
 }
 
@@ -105,66 +49,6 @@ describe("OPENING-LIFE1 canonical scenes", () => {
       expect(
         openOptionalLifeActivity(game.world, game.playerPersonId, activity),
       ).toBe(game.world);
-    },
-  );
-
-  it.each([
-    [6, "young.home.choose-activity", "draw", "keep"],
-    [24, "adult.home.free-time", "read", "more"],
-  ] as const)(
-    "answers a previously open %s-year-old %s scene and its saved follow-through",
-    (age, key, firstChoice, followThroughChoice) => {
-      const game = start(`saved-routine-${age}`, age);
-      let world = deserializeWorld(
-        serializeWorld(
-          previouslyOpenedRoutineScene(
-            game.world,
-            game.playerPersonId,
-            key,
-            "moment",
-          ),
-        ),
-      );
-      const opened = currentOpeningLifeScene(world, game.playerPersonId)!;
-      expect(opened.definition.key).toBe(key);
-      expect(opened.prose).toBe(opened.definition.premise);
-      expect(openNextLifeScene(world, game.playerPersonId)).toBe(world);
-      world = chooseOpeningLifeScene(
-        world,
-        game.playerPersonId,
-        opened.eventId,
-        firstChoice,
-      );
-      expect(currentOpeningLifeScene(world, game.playerPersonId)).toBeNull();
-      // The retired scene's moment is never offered again; a save that opened
-      // it is offered only its own follow-through.
-      expect(
-        availableOpeningLifeScenes(world, game.playerPersonId)
-          .filter((entry) => entry.definition.key === key)
-          .map((entry) => entry.beat.stageKey),
-      ).toEqual(["follow-through"]);
-
-      world = deserializeWorld(
-        serializeWorld(
-          previouslyOpenedRoutineScene(
-            world,
-            game.playerPersonId,
-            key,
-            "follow-through",
-          ),
-        ),
-      );
-      const continuation = currentOpeningLifeScene(world, game.playerPersonId)!;
-      expect(continuation.stageKey).toBe("follow-through");
-      expect(continuation.definition.key).toBe(key);
-      world = chooseOpeningLifeScene(
-        world,
-        game.playerPersonId,
-        continuation.eventId,
-        followThroughChoice,
-      );
-      expect(currentOpeningLifeScene(world, game.playerPersonId)).toBeNull();
-      assertWorldIntegrity(world);
     },
   );
   it("sustains distinct home moments, with zero-write reads and saved choices", () => {
@@ -206,219 +90,14 @@ describe("OPENING-LIFE1 canonical scenes", () => {
     ).toBe(resolved);
     expect(openNextLifeScene(world, game.playerPersonId)).toBe(world);
   });
-
-  it("keeps selected A/B/A replies separate and answers the preceding question", () => {
-    const game = start("talk-pair");
-    let world = openNextLifeScene(game.world, game.playerPersonId);
-    const scene = currentOpeningLifeScene(world, game.playerPersonId)!;
-    const [a, b] = scene.presentPersonIds.filter(
-      (id) => id !== game.playerPersonId,
-    );
-    expect(a).toBeTruthy();
-    expect(b).toBeTruthy();
-    function speak(personId: string, intent: "activity" | "share" | "explain") {
-      const view = projectLifeConversation(
-        world,
-        game.playerPersonId,
-        personId,
-      )!;
-      const before = serializeWorld(world);
-      expect(view).not.toBeNull();
-      expect(serializeWorld(world)).toBe(before);
-      world = commitLifeConversation(world, {
-        playerPersonId: game.playerPersonId,
-        personId,
-        intent,
-        revision: view.revision,
-      });
-    }
-    speak(a!, "activity");
-    speak(b!, "share");
-    expect(
-      projectLifeConversation(world, game.playerPersonId, a!)!.transcript,
-    ).toHaveLength(1);
-    expect(
-      projectLifeConversation(world, game.playerPersonId, b!)!.transcript,
-    ).toHaveLength(1);
-    speak(a!, "explain");
-    const av = projectLifeConversation(world, game.playerPersonId, a!)!;
-    const bv = projectLifeConversation(world, game.playerPersonId, b!)!;
-    expect(av.transcript).toHaveLength(2);
-    expect(av.transcript[1]!.reply).toMatch(
-      /try something|spend time|already enjoy/,
-    );
-    expect(bv.transcript).toHaveLength(1);
-    const restored = deserializeWorld(serializeWorld(world));
-    expect(projectLifeConversation(restored, game.playerPersonId, a!)).toEqual(
-      av,
-    );
-    expect(projectLifeConversation(restored, game.playerPersonId, b!)).toEqual(
-      bv,
-    );
-    assertWorldIntegrity(world);
-  });
-
-  it("keeps home presence while not confusing school enrollment with presence", () => {
-    const game = start("presence");
-    const playerEnrollment = game.world.history.educationEnrollments.find(
-      (entry) => entry.personId === game.playerPersonId,
-    )!;
-    const schoolmates = game.world.history.educationEnrollments
-      .filter(
-        (entry) =>
-          entry.personId !== game.playerPersonId &&
-          entry.organizationId === playerEnrollment.organizationId,
-      )
-      .map((entry) => entry.personId);
-    expect(schoolmates.length).toBeGreaterThan(0);
-    for (const personId of schoolmates)
-      expect(
-        projectLifeConversation(game.world, game.playerPersonId, personId),
-      ).toBeNull();
-
-    const peopleAtHome = game.world.history.householdMemberships
-      .filter((entry) => entry.personId !== game.playerPersonId)
-      .map((entry) => entry.personId);
-    expect(peopleAtHome.length).toBeGreaterThan(0);
-    for (const personId of peopleAtHome)
-      expect(
-        projectLifeConversation(game.world, game.playerPersonId, personId),
-      ).not.toBeNull();
-  });
 });
 
-describe("ordinary conversation follow-through", () => {
-  it("answers an activity suggestion and preserves consent across a follow-up question", () => {
-    let accepted = false;
-    let declined = false;
-    for (let n = 0; n < 12 && (!accepted || !declined); n++) {
-      const game = start(`follow-through-${n}`, 10);
-      let world = openNextLifeScene(
-        chooseOrdinaryLifeGoal(game.world, game.playerPersonId, "connection"),
-        game.playerPersonId,
-      );
-      const personId = currentOpeningLifeScene(
-        world,
-        game.playerPersonId,
-      )!.presentPersonIds.find((id) => id !== game.playerPersonId)!;
-      function speak(intent: LifeTalkIntent) {
-        const view = projectLifeConversation(
-          world,
-          game.playerPersonId,
-          personId,
-        )!;
-        world = commitLifeConversation(world, {
-          playerPersonId: game.playerPersonId,
-          personId,
-          intent,
-          revision: view.revision,
-        });
-        return projectLifeConversation(world, game.playerPersonId, personId)!;
-      }
-      const asked = speak("activity");
-      expect(asked.intents.some((intent) => intent.key === "suggestGame")).toBe(
-        true,
-      );
-      const proposed = speak("suggestGame");
-      expect(activeOrdinaryGoal(world, game.playerPersonId, "connection")).toBe(
-        true,
-      );
-      expect(() =>
-        completeOrdinaryGoal(
-          world,
-          game.playerPersonId,
-          "connection",
-          proposed.transcript.at(-1)!.eventId,
-        ),
-      ).toThrow("performed personal action");
-      const agreed = proposed.intents.some(
-        (intent) => intent.key === "spendTime",
-      );
-      const explained = speak("explain");
-      expect(
-        explained.intents.some((intent) => intent.key === "spendTime"),
-      ).toBe(agreed);
-      // Saying no takes work: a refusal gives the person's own reason.
-      const answer = proposed.transcript.at(-1)!.reply;
-      if (!agreed)
-        expect(answer).toMatch(
-          /time to myself|on my own|something new|something different|game we both know|usual games/,
-        );
-      if (agreed) {
-        accepted = true;
-        expect(explained.transcript.at(-1)!.reply).toContain(
-          "enjoy spending time",
-        );
-        const before = world.currentMoment.minuteOfDay;
-        const after = speak("spendTime");
-        expect(world.currentMoment.minuteOfDay - before).toBe(30);
-        expect(
-          activeOrdinaryGoal(world, game.playerPersonId, "connection"),
-        ).toBe(false);
-        expect(after.intents.some((intent) => intent.key === "spendTime")).toBe(
-          false,
-        );
-        expect(
-          projectLifeConversation(
-            deserializeWorld(serializeWorld(world)),
-            game.playerPersonId,
-            personId,
-          ),
-        ).toEqual(after);
-      } else {
-        declined = true;
-        expect(explained.transcript.at(-1)!.reply).toContain(
-          "isn't what I feel like",
-        );
-      }
-      assertWorldIntegrity(world);
-    }
-    expect(accepted).toBe(true);
-    expect(declined).toBe(true);
+describe("the authored opening-scene bank is gone", () => {
+  it("offers no authored opening scene and still opens a life", () => {
+    const game = start("en1-no-authored-scenes", 34);
+    expect(OPENING_LIFE_SCENES).toHaveLength(0);
+    expect(Object.keys(OPENING_LIFE_FOLLOWUPS)).toHaveLength(0);
+    expect(game.world.personOrder).toContain(game.playerPersonId);
+    expect(() => assertWorldIntegrity(game.world)).not.toThrow();
   });
-});
-
-describe("supported school situation breadth", () => {
-  it.each([5, 6, 7])(
-    "plays the available authored school moments at age %i",
-    (age) => {
-      // A five-year-old born after the cutoff waits for the fall, with no
-      // school yet, so take the first seed whose child is already in school.
-      let game = start(`school-breadth-${age}`, age);
-      for (
-        let n = 1;
-        schoolStageToday(game.world, game.playerPersonId) === "before";
-        n++
-      )
-        game = start(`school-breadth-${age}-${n}`, age);
-      let world = game.world;
-      const expected = availableOpeningLifeScenes(world, game.playerPersonId)
-        .filter((entry) => entry.definition.setting === "school")
-        .map((entry) => entry.definition.key);
-      expect(expected.length).toBeGreaterThan(4);
-      const played: string[] = [];
-      const stages = new Set<string>();
-      for (let i = 0; i < expected.length * 2; i++) {
-        world = openNextLifeScene(world, game.playerPersonId, "school");
-        const scene = currentOpeningLifeScene(world, game.playerPersonId)!;
-        if (!scene) break;
-        const identity = `${scene.definition.key}/${scene.stageKey}`;
-        expect(stages.has(identity)).toBe(false);
-        stages.add(identity);
-        expect(scene.definition.setting).toBe("school");
-        expect(world.people[scene.counterpartPersonId!]).toBeDefined();
-        if (scene.stageKey === "moment") played.push(scene.definition.key);
-        world = chooseOpeningLifeScene(
-          world,
-          game.playerPersonId,
-          scene.eventId,
-          scene.choices[i % scene.choices.length]!.key,
-        );
-        world = deserializeWorld(serializeWorld(world));
-      }
-      expect([...played].sort()).toEqual([...expected].sort());
-      expect(new Set(played).size).toBe(played.length);
-      assertWorldIntegrity(world);
-    },
-  );
 });
