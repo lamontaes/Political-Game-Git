@@ -163,6 +163,14 @@ export interface EngineRecipeOptions {
    * job (src/presentation/work-uniform.ts). It replaces the outfit.
    */
   readonly uniform?: string;
+  /** A nonuniform outfit already allocated to this person by room staging. */
+  readonly stagedOutfit?: string;
+  /**
+   * Nonuniform outfits already worn by other people in this room. Scene cast
+   * staging uses this to keep two people from arriving in the same clothes;
+   * an actual work uniform remains shared by design.
+   */
+  readonly occupiedOutfits?: ReadonlySet<string>;
   /**
    * They are reading or working at a desk, so someone who wears glasses only
    * to read has them on.
@@ -190,15 +198,28 @@ function outfitFor(
   seed: string,
   chosen: string | undefined,
   wear: Exclude<OutfitTag, "uniform"> | undefined,
+  occupied: ReadonlySet<string> = new Set(),
 ): PackOutfit {
   const choice = pack.outfits.find((outfit) => outfit.id === chosen);
   const wanted = wear ?? "casual";
-  if (choice && (!wear || choice.tags.includes(wear))) return choice;
+  if (
+    choice &&
+    !occupied.has(choice.id) &&
+    (!wear || choice.tags.includes(wear))
+  )
+    return choice;
   const kind = pack.outfits.filter(
     (outfit) =>
-      outfit.tags.includes(wanted) && !outfit.tags.includes("uniform"),
+      outfit.tags.includes(wanted) &&
+      !outfit.tags.includes("uniform") &&
+      !occupied.has(outfit.id),
   );
-  if (kind.length === 0) return choice ?? pack.outfits[0]!;
+  if (kind.length === 0) {
+    const available = pack.outfits.filter(
+      (outfit) => !outfit.tags.includes("uniform") && !occupied.has(outfit.id),
+    );
+    return available[0] ?? choice ?? pack.outfits[0]!;
+  }
   return kind[Math.floor(draw(seed, `outfit:${wanted}`) * kind.length)]!;
 }
 
@@ -221,7 +242,14 @@ export function engineRecipeFor(
     items[Math.floor(draw(seed, question) * items.length)]!;
   const outfit =
     pack.outfits.find((o) => o.id === options.uniform) ??
-    outfitFor(pack, seed, choice?.outfit, options.wear);
+    pack.outfits.find((o) => o.id === options.stagedOutfit) ??
+    outfitFor(
+      pack,
+      seed,
+      choice?.outfit,
+      options.wear,
+      options.occupiedOutfits,
+    );
   const age =
     Number(onDate.slice(0, 4)) - Number(String(person.birthDate).slice(0, 4));
   const shade =

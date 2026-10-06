@@ -14,6 +14,7 @@ import { peopleAtWorkAt } from "../simulation/living-world/work-schedules";
 import { playerTown } from "../simulation/living-world/town-residents";
 import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
 import type { IsoDate, World } from "../simulation";
+import { observerPlace } from "./observer-world";
 
 const LEXINGTON = "2146027";
 
@@ -40,6 +41,42 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
   ).game!;
   const world = game.world;
   const player = game.playerPersonId;
+
+  it("gives a generated room cast distinct nonuniform outfits in a place drawn from all 56", () => {
+    const seed = "bg-06-room-cast-20261006";
+    const place = observerPlace(seed);
+    const generated = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+        startAge: 34,
+        questionnaire: "skipped",
+      }),
+    ).game!;
+    const cast = Object.values(generated.world.people)
+      .filter(
+        (person) => person.id !== generated.playerPersonId && person.appearance,
+      )
+      .slice(0, 2)
+      .map((person) => ({ personId: person.id }));
+    const room = placeBackdropPeople(
+      generated.world,
+      generated.playerPersonId,
+      "council-chamber",
+      generated.world.currentMoment,
+      cast,
+      { rosterOnly: true },
+    );
+    const outfits = room.map((person) => person.engine.outfit);
+
+    expect(place.key, `seed ${seed}`).toBeTruthy();
+    expect(room, `${place.key} seed ${seed}`).toHaveLength(cast.length);
+    expect(new Set(outfits).size, `${place.key} seed ${seed}`).toBe(
+      outfits.length,
+    );
+    expect(room.every((person) => person.engine.outfit.length > 0)).toBe(true);
+  });
 
   it("marks spots only on places that have a picture, inside the picture", () => {
     for (const [place, stage] of Object.entries(staging.places)) {

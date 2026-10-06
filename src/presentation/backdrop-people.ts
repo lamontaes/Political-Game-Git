@@ -499,6 +499,7 @@ export function placeBackdropPeople(
   ];
   const placed: BackdropPerson[] = [];
   const overflow: BackdropOverflowPerson[] = [];
+  const occupiedOutfits = new Set<string>();
   for (const { worker, onShift, spot } of assigned) {
     const record = world.people[worker.personId];
     if (!record) continue;
@@ -513,14 +514,15 @@ export function placeBackdropPeople(
       unplaced("no-spot");
       continue;
     }
+    const uniform = onShift
+      ? workUniform(world, worker.personId, "business")
+      : undefined;
     const recipe = engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
       wear,
       // On shift, a uniformed job wears its uniform (work-uniform.ts reads
       // "business" as dressed for work). Someone who came for the scene
       // wears what they wear.
-      ...(onShift
-        ? { uniform: workUniform(world, worker.personId, "business") }
-        : {}),
+      ...(uniform ? { uniform } : { occupiedOutfits }),
       pose: spotPose(
         spot,
         sceneActivity({
@@ -539,6 +541,7 @@ export function placeBackdropPeople(
       unplaced("missing-art");
       continue;
     }
+    if (!uniform) occupiedOutfits.add(recipe.outfit);
     const resolved = posedPieces(
       PEOPLE_PACK.presentations[recipe.presentation],
       recipe,
