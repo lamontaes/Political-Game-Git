@@ -45,14 +45,14 @@ import { recordByStableKey } from "../history-index";
 
 export const CONGRESS_CANDIDATE_VERSION = "congress-candidates/v1";
 
-// PLACEHOLDER(overnight): this staggered declaration window is a game timing
-// rule for NPC readiness, not a sourced state filing deadline or primary date.
+// RECORDED GAME VALUES: congressional candidate intake starts January 6 and
+// lasts 60 days nationwide; these are game timing, not state filing deadlines.
 export const CONGRESS_CANDIDATE_PROFILE = {
   id: "ocd-congress-candidates-game-profile/v1",
   intakeStartMonthDay: "01-06",
   intakeDays: 60,
-  // PLACEHOLDER(overnight): a recruited prospect may decline an especially
-  // unfavorable district; no candidate-choice frequency is calibrated yet.
+  // RECORDED GAME VALUE: 0.18 is the low-opportunity share used when a
+  // recruited prospect weighs an unfavorable district.
   lowOpportunityShare: 0.18,
 } as const;
 

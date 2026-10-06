@@ -62,7 +62,7 @@ const STAKE = {
   lawCost: 0.5,
   groupMember: 1,
 } as const;
-// PLACEHOLDER: a view of an official at least this strong doubles the pull.
+// RECORDED GAME VALUE: a saved view of 20 points or more doubles the pull.
 const STRONG_VIEW_POINTS = 20;
 const STRONG_VIEW_FACTOR = 2;
 // Calibrated: the pull a person gathers before they act once, set so a

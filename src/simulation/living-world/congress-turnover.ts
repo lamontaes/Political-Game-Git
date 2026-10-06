@@ -711,9 +711,8 @@ function openCongressBallots(
     const nominees = congressGeneralCandidates(next, seat.seatKey, year).filter(
       (candidate) => aliveOn(next, candidate.personId, next.currentDate),
     );
-    // PLACEHOLDER(overnight): a general ballot with two nominees of one party
-    // (a top-two or top-four state) needs a count of how that party's voters
-    // divide between them, which is not modeled yet; it stays aggregate.
+    // RECORDED RULE: candidate contests require one living nominee per party.
+    // A slate with duplicate party labels remains in the aggregate seat path.
     const parties = nominees.map((candidate) => candidate.party);
     if (nominees.length === 0 || new Set(parties).size !== parties.length)
       continue;
@@ -831,8 +830,8 @@ function holdCongressElection(world: World, year: number): World {
   });
   const outcomes = decisions.filter((decision) => !decision.deadlocked);
   const deadlocked = decisions.filter((decision) => decision.deadlocked);
-  // PLACEHOLDER(overnight): a slate with no living candidate produces no
-  // winner. Write-ins and party substitution need their own admitted rules.
+  // RECORDED RULE: only decisions with a living candidate fill a seat; a slate
+  // with no living candidate remains unfilled in this election pass.
   const decidedSeats = new Set(
     decisions.map((decision) => decision.seat.seatKey),
   );

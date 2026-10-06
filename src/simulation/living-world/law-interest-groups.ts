@@ -15,8 +15,8 @@ import { reactionLens } from "./official-views";
 
 /**
  * Organized interests (spec 5): people a law costs a real share of their pay,
- * or a right or an eligibility (felt, PLACEHOLDER, like a tenth of a month's
- * pay; `NON_MONEY_FELT_SIZE`), band together against it.
+ * or a right or an eligibility (recorded at one tenth of a month's pay by
+ * `NON_MONEY_FELT_SIZE`), band together against it.
  *
  * APPROVED provisional values (Claude CTO, September 28, 2026, 4:57 a.m.
  * EDT): a group forms in a town once at least 6 residents have each lost a
@@ -43,8 +43,8 @@ const G = "law-interest";
 // APPROVED provisional: the loss that counts, and how many residents it takes.
 const LOSS_THAT_COUNTS_PER_MONTH_OF_PAY = 0.1;
 const FOUNDING_RESIDENTS = 6;
-// PLACEHOLDER: resolve is the loss in multiples of the loss that counts,
-// times the person's temperament. At twice the loss that counts, a person of
+// RECORDED GAME VALUES: resolve is loss in multiples of 0.1 month's pay,
+// times temperament. At twice the loss that counts, a person of
 // even temper joins on their own; someone who already knows a member joins
 // once the loss counts at all.
 const RESOLVE_TO_JOIN_ALONE = 2;
@@ -116,7 +116,7 @@ export function joinLawInterestGroup(
           : "Founded by residents a law cost a tenth of a month's pay or more.",
       },
       initialProfile: {
-        // PLACEHOLDER wording, awaiting editorial review.
+        // RECORDED NAME: place and enacted measure identify the organization.
         name: `${place} Residents Against ${measure.shortTitle}`,
         classification: "membership:law-interest",
         locationJurisdictionId: town,

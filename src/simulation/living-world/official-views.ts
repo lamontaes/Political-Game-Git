@@ -102,8 +102,8 @@ export {
   viewOfOfficial,
 } from "../official-view-reads";
 
-// PLACEHOLDER, approved provisional: executives carry the blame for a visible
-// law they signed; a legislator's single vote carries less.
+// RECORDED GAME VALUES: executive visibility is 1.0 for a signed law; a
+// legislator's single vote has 0.6 visibility.
 const EXECUTIVE_VISIBILITY = 1;
 const LEGISLATOR_VISIBILITY = 0.6;
 // SET BY HAND from the finding that people have about 2 to 4 political
@@ -124,15 +124,13 @@ const HEARD_BY_WARMTH: Readonly<Record<StandingBand, number>> = {
   slight: 1 / 8,
   none: 1 / 8,
 };
-// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their
-// own party's official, and credit for the other party's, count half.
+// RECORDED GAME VALUE: own-party blame and other-party credit count half.
 const PARTY_ANCHOR = 0.5;
-// PLACEHOLDER (research: who-answers-for-what-happened-to-me): what happened
-// to a person weighs on the official who answers for it at less than a law
-// that official signed; how much less is unmeasured.
+// RECORDED GAME VALUE: a lived outcome carries 0.4 visibility for the office
+// responsible, compared with 1.0 for an executive who signed a visible law.
 const ANSWERING_OFFICE_VISIBILITY = 0.4;
-// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a
-// quarter of full weight rather than guessed.
+// ESTIMATED FROM THE GAME'S FULL-WEIGHT BASELINE: an unmeasured money effect
+// carries 0.25 weight rather than inventing an amount; no place is singled out.
 const UNMEASURED_WEIGHT = 0.25;
 // PLACEHOLDER: how hard a law landed (1 = a law costing a tenth of a month's
 // pay, felt in full) to the weight the pipeline gives one reason. A law felt

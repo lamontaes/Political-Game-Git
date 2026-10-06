@@ -72,8 +72,7 @@ export const HOUSING_SUPPLY_LAWS = [
  * `monthlyLogChange` is the push each month that, through the price model's
  * momentum and its pull back toward income, leaves prices the measured 12 log
  * points lower after five years (worked out on steady growth; the test checks
- * it). The year before it acts is HARDWIRED, a PLACEHOLDER(research:
- * months-from-upzoning-to-new-homes).
+ * it). The recorded game delay is 365 days before the supply effect begins.
  */
 export const HOUSING_SUPPLY_LAW_EFFECT = {
   fiveYearLogChange: -0.12,

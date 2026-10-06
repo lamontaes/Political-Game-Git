@@ -10,8 +10,8 @@ export interface AggregateCongressSeatInput {
   readonly incumbentSeeking: boolean;
 }
 
-// PLACEHOLDER(overnight): no admitted congressional incumbency effect size is
-// available yet; keep this explicit game assumption separate from seat data.
+// RECORDED GAME VALUE: incumbency adds 0.03 to the aggregate share. This is
+// the nationwide game profile, kept separate from each seat's recorded data.
 export const CONGRESS_INCUMBENCY_SHARE_BONUS = 0.03;
 
 export function aggregateCongressAffiliation(

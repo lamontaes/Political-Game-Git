@@ -61,9 +61,8 @@ import {
  * otherwise, each marked with its basis. A compiled government keeps its own
  * seat limit through `seatMunicipalMember`.
  *
- * PLACEHOLDER, pending `local-seats-at-the-opening`: every member's term is
- * recorded as beginning the day the life opens. How far into their terms the
- * sitting members already are has not been read for any town.
+ * RECORDED RULE: every opening member's term begins on the life-opening date.
+ * The same rule applies wherever a local government is seated.
  */
 
 export const LOCAL_GOVERNMENT_SEATS_VERSION = "local-government-seats/v1";

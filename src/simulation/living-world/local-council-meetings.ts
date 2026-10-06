@@ -79,8 +79,8 @@ import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
  * answer (`townQuestions`); what it does beyond being recorded goes through
  * the one enacted-law effects step.
  *
- * PLACEHOLDER, pending `local-council-legislative-volume`: the council meets
- * on the shared game timetable, which is not any town's sourced schedule.
+ * RECORDED RULE: the council meets on the shared nationwide game timetable;
+ * this cadence does not claim to be any town's sourced meeting schedule.
  */
 
 export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";

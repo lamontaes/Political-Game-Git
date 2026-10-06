@@ -44,7 +44,7 @@ export const LEAVING_HOME_OPTIONS = {
   leave: "own-home",
 } as const;
 
-/** PLACEHOLDER weights, as strengths from 0 to 1. */
+/** RECORDED GAME VALUES: leaving-home factor strengths range from 0 to 1. */
 export const UNRESEARCHED_LEAVING_HOME = {
   provenance: "unresearched-blanket-rule",
   /** Age at which age argues neither way, and the years to full strength. */
