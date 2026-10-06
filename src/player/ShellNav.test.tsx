@@ -121,7 +121,7 @@ describe("ShellNav portrait hub", () => {
     const html = render(sub);
     expect(html).toContain('data-level="submenu"');
     expect(html).toMatch(
-      /data-testid="nav-submenu-back" style="--fan-x:0px;--fan-y:-140px/,
+      /data-testid="nav-submenu-back" style="--fan-x:0px;--fan-y:-150px/,
     );
     expect(html).toContain('data-testid="nav-finances"');
   });
