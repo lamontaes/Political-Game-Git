@@ -43,7 +43,7 @@ A single-date contribution to natural filing is now demonstrated. Passage, failu
 
 ## Targeted two-state calendar proof — not whole-world chronological acceptance.
 
-This follow-on uses the ordinary opening-life world, seed `session53-one-date-ms`, but dispatches only Mississippi and West Virginia state bill-season rows plus due items whose entities are those states' filed bills. Other jurisdiction due rows remain scheduled and pending. It calls the existing registered future-transition handlers and records each selected row's terminal due state; it does not change filing, vote, committee, or passage writers. Command: `node --import tsx /tmp/session53-target-states-throughput.mts`.
+This targeted proof uses the ordinary opening-life world, seed `session53-one-date-ms`, but dispatches only Mississippi and West Virginia state bill-season rows plus due items whose entities are those states' filed bills. Other jurisdiction due rows remain scheduled and pending. It calls the existing registered future-transition handlers and records each selected row's terminal due state; it does not change filing, vote, committee, or passage writers. Command: `node --import tsx /tmp/session53-target-states-throughput.mts`.
 
 - Source base HEAD: `f88508186b78f526ecf89a420b5fb584171e039a`, with the same four candidate source/test edits active.
 - Open/setup: 5.54 seconds; 9,389 people; 364 existing principle rows.
@@ -57,7 +57,144 @@ This follow-on uses the ordinary opening-life world, seed `session53-one-date-ms
 
 All five bills were referred Feb. 18, received committee hearings Feb. 28, and were not reported on Mar. 1. Their recorded terminal outcome is `failed-in-committee`; no bill produced an enactment or downstream law consequence. The longer cutoff reached April 15 because the next state bill-season row was inside the bound; the two targeted states filed no additional bills there. No unrelated state queue was consumed. No daily loop, heap increase, fixed bill count, or dice were used.
 
-This answers the two-state filing/committee question only. It is deliberately not the whole-world chronological acceptance run. The CTO subsequently required a separate nationwide calendar-only run through one full regular session with all jurisdiction rows in date order and per-state/chamber counts. That acceptance run remains outstanding.
+This answers the two-state filing/committee question only. It is deliberately not the whole-world chronological acceptance run. The CTO subsequently required a separate nationwide calendar-only run through one full regular session with all jurisdiction rows in date order and per-state/chamber counts. The complete all-due first-session run is recorded below; it supersedes this paragraph’s then-outstanding status.
+
+## Nationwide all-due chronological first-session acceptance
+
+The completed acceptance run used the ordinary opening world and the canonical `resolveFutureDueItemsThrough` resolver with `composeWorldTimeHandlers()`. At each iteration it advanced directly to the next scheduled due date and resolved **all due items** through that date in `(dueAt, sequence)` order. This is a bounded future-calendar traversal, not a daily clock loop.
+
+- Exact source HEAD: `598fa88c347a517493f20e153348442bd991b491` (candidate branch; base/current-main composition `f88508186b78f526ecf89a420b5fb584171e039a`).
+- Seed/place: `session53-nationwide-2026-2027`, observer place `session53-random-state`, key `2825740`; opening Jan. 5, 2026.
+- Full first-session bound: through Apr. 30, 2026. This covers the actual filing, committee, floor, enrollment, executive decision, and enactment paths for the bills produced in the session; no due item inside the bound remained scheduled at cutoff.
+- Opening/setup 5.336 s; full run 180.939 s. Default Node heap, no heap-size override, no daily loop.
+- **2,312 due rows processed in 75 chronological date batches; 0 unresolved due rows inside cutoff.**
+- 85 bills filed; 338 committee actions (referral/hearing/report/not-reported, counted in the chamber of action); 114 chamber referrals/admissions; 45 floor passage actions; 71 terminal non-enactments; 14 enacted; 0 vetoes. Filing and final disposition are unique-bill counts attributed to originating chamber, while committee/floor totals count dated chamber actions, including both chambers.
+- The run covers all 50 state jurisdictions and federal Congress; DC and the five territory jurisdiction entries are also included below. Four territories lack a canonical legislative pack; PR has a generic state pack but no recorded bill intake. D.C. has no state legislative pack, and this opening had no DC council intake due row. Report these as no recorded filing/unmeasured institution coverage, not as a successful zero-throughput simulation for those governments.
+
+| Jurisdiction | Chamber | Filed (origin) | Committee actions | Referrals | Floor passages | Failed (origin) | Enacted (origin) |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Alabama | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Alabama | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Alaska | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Alaska | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Arizona | House of Representatives | 2 | 6 | 2 | 2 | 2 | 0 |
+| Arizona | Senate | 0 | 6 | 2 | 0 | 0 | 0 |
+| Arkansas | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Arkansas | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| California | Assembly | 1 | 3 | 1 | 1 | 0 | 1 |
+| California | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
+| Colorado | House of Representatives | 1 | 3 | 1 | 1 | 1 | 0 |
+| Colorado | Senate | 0 | 3 | 1 | 0 | 0 | 0 |
+| Connecticut | House of Representatives | 1 | 3 | 1 | 1 | 0 | 1 |
+| Connecticut | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
+| Delaware | House of Representatives | 1 | 3 | 1 | 1 | 1 | 0 |
+| Delaware | Senate | 0 | 3 | 1 | 0 | 0 | 0 |
+| Florida | House of Representatives | 1 | 3 | 1 | 0 | 1 | 0 |
+| Florida | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Georgia | House of Representatives | 1 | 3 | 1 | 0 | 1 | 0 |
+| Georgia | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Hawaii | House of Representatives | 2 | 6 | 2 | 2 | 0 | 2 |
+| Hawaii | Senate | 0 | 6 | 2 | 2 | 0 | 0 |
+| Idaho | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Idaho | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Illinois | House of Representatives | 3 | 9 | 3 | 3 | 0 | 3 |
+| Illinois | Senate | 0 | 9 | 3 | 3 | 0 | 0 |
+| Indiana | House of Representatives | 3 | 9 | 3 | 0 | 3 | 0 |
+| Indiana | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Iowa | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Iowa | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Kansas | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Kansas | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Kentucky | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Kentucky | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Louisiana | House of Representatives | 3 | 9 | 3 | 3 | 3 | 0 |
+| Louisiana | Senate | 0 | 9 | 3 | 0 | 0 | 0 |
+| Maine | House of Representatives | 3 | 9 | 3 | 0 | 3 | 0 |
+| Maine | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Maryland | House of Delegates | 1 | 3 | 1 | 1 | 1 | 0 |
+| Maryland | Senate | 0 | 3 | 1 | 0 | 0 | 0 |
+| Massachusetts | House of Representatives | 2 | 6 | 2 | 2 | 0 | 2 |
+| Massachusetts | Senate | 0 | 6 | 2 | 2 | 0 | 0 |
+| Michigan | House of Representatives | 1 | 3 | 1 | 0 | 1 | 0 |
+| Michigan | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Minnesota | House of Representatives | 1 | 3 | 1 | 0 | 1 | 0 |
+| Minnesota | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Mississippi | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Mississippi | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Missouri | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Missouri | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Montana | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
+| Montana | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Nebraska | Legislature | 2 | 6 | 2 | 0 | 2 | 0 |
+| Nevada | Assembly | 0 | 0 | 0 | 0 | 0 | 0 |
+| Nevada | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| New Hampshire | House of Representatives | 2 | 6 | 2 | 2 | 2 | 0 |
+| New Hampshire | Senate | 0 | 6 | 2 | 0 | 0 | 0 |
+| New Jersey | Assembly | 0 | 0 | 0 | 0 | 0 | 0 |
+| New Jersey | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| New Mexico | House of Representatives | 2 | 2 | 2 | 0 | 2 | 0 |
+| New Mexico | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| New York | Assembly | 1 | 3 | 1 | 1 | 0 | 1 |
+| New York | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
+| North Carolina | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| North Carolina | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| North Dakota | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
+| North Dakota | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Ohio | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Ohio | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Oklahoma | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Oklahoma | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Oregon | House of Representatives | 1 | 3 | 1 | 1 | 0 | 1 |
+| Oregon | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
+| Pennsylvania | House of Representatives | 3 | 9 | 3 | 3 | 3 | 0 |
+| Pennsylvania | Senate | 0 | 9 | 3 | 0 | 0 | 0 |
+| Rhode Island | House of Representatives | 2 | 6 | 2 | 2 | 2 | 0 |
+| Rhode Island | Senate | 0 | 6 | 2 | 0 | 0 | 0 |
+| South Carolina | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| South Carolina | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| South Dakota | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| South Dakota | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Tennessee | House of Representatives | 3 | 9 | 3 | 0 | 3 | 0 |
+| Tennessee | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Texas | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
+| Texas | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Utah | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Utah | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Vermont | House of Representatives | 1 | 3 | 1 | 1 | 0 | 1 |
+| Vermont | Senate | 0 | 3 | 1 | 1 | 0 | 0 |
+| Virginia | House of Delegates | 2 | 6 | 2 | 2 | 0 | 2 |
+| Virginia | Senate | 0 | 6 | 2 | 2 | 0 | 0 |
+| Washington | House of Representatives | 2 | 6 | 2 | 2 | 2 | 0 |
+| Washington | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| West Virginia | House of Delegates | 3 | 9 | 3 | 0 | 3 | 0 |
+| West Virginia | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Wisconsin | Assembly | 2 | 6 | 2 | 0 | 2 | 0 |
+| Wisconsin | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Wyoming | House of Representatives | 2 | 6 | 2 | 0 | 2 | 0 |
+| Wyoming | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| District of Columbia | *No legislative pack* | — | — | — | — | — | — |
+| Puerto Rico | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
+| Puerto Rico | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+| Guam | *No legislative pack* | — | — | — | — | — | — |
+| U.S. Virgin Islands | *No legislative pack* | — | — | — | — | — | — |
+| American Samoa | *No legislative pack* | — | — | — | — | — | — |
+| Northern Mariana Islands | *No legislative pack* | — | — | — | — | — | — |
+| United States | House of Representatives | 0 | 0 | 0 | 0 | 0 | 0 |
+| United States | Senate | 0 | 0 | 0 | 0 | 0 | 0 |
+
+The table’s `failed` and `enacted` values are bills attributed to their originating chamber; chamber actions are recorded where performed. The single-chamber Nebraska Legislature is listed under its actual unified institution. Federal House and Senate each filed zero bills in this run. DC council activity was not generated by an opening due row, so the missing DC pack remains an institution-coverage gap for b29, not evidence that its council votes bills down.
+
+Representative outcomes from the saved bill records: California AB 12 (`legislative-measure_698081622022ef68`) and Illinois HB 16 (`legislative-measure_83db18f3e16e86bd`) passed both chambers, were signed and enacted Apr. 17, with effective date Jan. 1, 2027; each record includes introduction, committee, floor, enrollment, presentation, signature and enactment dates. Those enactment records establish that laws pass after the opening President's term only if the presidency changes during this bounded span; this four-month run alone does not establish post-first-term persistence. The report records effective dates, but it does not record downstream law-effect application by Apr. 30 because those effective dates are in 2027; it makes no claim about an already-applied policy consequence.
+
+Machine-readable report with per-bill IDs/actions/enactments and every jurisdiction/chamber row: `/tmp/session53-all-due-first-session.json`.
+
+## Nationwide legislative-calendar-only compact run (diagnostic, not acceptance)
+
+A separate narrower dispatcher selected only state bill-season rows, Congress/DC legislative rows, and due rows attached to legislative measures and their executive matters. It processed 1,254 selected rows through May 22, 2027 in 64 date batches (requested cutoff June 30, 2027) in 98.806 seconds. Its origin-chamber-only rollup was initially mistaken for per-chamber action counts; the count from its action log is 521 committee actions and 51 floor passage actions, with 154 filings, 140 failed, and 14 enacted. This is retained as a compact diagnostic only; it is **not** substituted for the all-due first-session acceptance above.
+
+## Preserved broader failed run
+
+Before the bounded session acceptance, a broad all-transition run was requested through Apr. 15, 2027 on the same source head and seed. It stopped at Sep. 11, 2026 after 194 date batches, 85 measures, 604 legislative actions, RSS 4,243,042,304 bytes, elapsed 718,229 ms; exit 134 with V8 heap OOM at about 770,843 ms (heap near 3.8 GB). It produced no final counts or processed-row counter. Full evidence remains at `/tmp/session53-nationwide-calendar-attempt-oom.txt`. That failed longer run remains preserved and was not restarted. The accepted run above uses the new Apr. 30, 2026 session cutoff because the full regular-session bill lifecycle settled inside it, and it stops at the first-session horizon rather than running a year.
 
 ## Nationwide legislative-calendar-only diagnostic — not whole-world chronological acceptance.
 
