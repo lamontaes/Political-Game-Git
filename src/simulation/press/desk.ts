@@ -48,6 +48,7 @@ import {
 import { openPersonalLifeMatter } from "./matters";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
+import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
@@ -2079,9 +2080,12 @@ function chooseReporter(
         assignedReporter(world, other.id) === role.personId &&
         other.subjectPersonIds.some((id) => lead.subjectPersonIds.includes(id)),
     );
+  const contactHistory = (role: ReporterRoleRecord) =>
+    reporterContactCount(world, role.personId, lead.subjectPersonIds);
   return [...current].sort(
     (left, right) =>
       Number(right.beats.includes(beat)) - Number(left.beats.includes(beat)) ||
+      contactHistory(right) - contactHistory(left) ||
       Number(familiar(right)) - Number(familiar(left)) ||
       load(left) - load(right) ||
       left.personId.localeCompare(right.personId),
