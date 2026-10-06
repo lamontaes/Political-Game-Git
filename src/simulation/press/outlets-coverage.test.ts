@@ -16,7 +16,11 @@ import {
   ensurePressDeskSchedule,
 } from "./desk";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { ensurePressHomeCoverage, mediaOutlets } from "./outlets";
+import {
+  ensurePressExposureCoverage,
+  ensurePressHomeCoverage,
+  mediaOutlets,
+} from "./outlets";
 import { advanceWorld, recordWorldEvent } from "../world";
 
 /**
@@ -39,6 +43,56 @@ function opening(placeKey: string, seed: string) {
 }
 
 describe("press coverage", () => {
+  it("opens a state paper after the controlled person attends an out-of-state event", () => {
+    const game = opening("3918000", "press-coverage-attendance");
+    const kentucky = stateJurisdictionForKey("US-KY")!;
+    let world = ensureStateJurisdictionForKey(game.world, "US-KY");
+    world = recordWorldEvent(world, {
+      stableKey: "press-coverage-attendance:kentucky-event",
+      type: "civic.public-event-attended",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: kentucky.id,
+      involvedEntityIds: [game.playerPersonId],
+      participants: [
+        {
+          personId: game.playerPersonId,
+          role: "presence:attendee",
+          detail: null,
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "Attended a public event in Kentucky.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const before = mediaOutlets(world).filter(
+      (outlet) => outlet.scope === "state",
+    );
+    const after = mediaOutlets(ensurePressExposureCoverage(world)).filter(
+      (outlet) => outlet.scope === "state",
+    );
+
+    expect(
+      before.some((outlet) =>
+        outlet.primaryJurisdictionIds.includes(kentucky.id),
+      ),
+    ).toBe(false);
+    expect(
+      after.some((outlet) =>
+        outlet.primaryJurisdictionIds.includes(kentucky.id),
+      ),
+    ).toBe(true);
+  }, 120_000);
+
   it("covers San Juan with its own local and commonwealth press, with no city government on record", () => {
     const game = opening("7276770", "press-coverage-san-juan");
     const home = game.world.people[game.playerPersonId]!.homeJurisdictionId;

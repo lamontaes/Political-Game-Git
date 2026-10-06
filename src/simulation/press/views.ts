@@ -10,7 +10,6 @@ import {
 } from "./desk";
 import { campaignPersonalUseAvailability } from "./matters";
 import {
-  ensurePressStateCoverage,
   mediaOutlets,
   reporterIsCurrent,
   reporterRoles,
@@ -441,31 +440,10 @@ export function pressAnswerStance(
 }
 
 /**
- * State politics is exposed when the controlled person took part in a public
- * event inside a state that has no state newsroom yet.
+ * State politics is exposed when the controlled person attended a public event
+ * inside a state that has no state newsroom yet.
  */
-export function ensurePressExposureCoverage(world: World): World {
-  if (world.control.kind !== "person") return world;
-  const personId = world.control.personId;
-  const covered = new Set(
-    mediaOutlets(world)
-      .filter((outlet) => outlet.scope === "state")
-      .flatMap((outlet) => outlet.primaryJurisdictionIds),
-  );
-  const exposed = new Set<EntityId>();
-  for (const event of world.history.events) {
-    if (event.visibility !== "public" || !event.jurisdictionId) continue;
-    if (!event.participants.some((entry) => entry.personId === personId))
-      continue;
-    const state = stateOfJurisdiction(world, event.jurisdictionId);
-    if (state && !covered.has(state)) exposed.add(state);
-  }
-  let next = world;
-  for (const state of [...exposed].sort()) {
-    next = ensurePressStateCoverage(next, state);
-  }
-  return next;
-}
+export { ensurePressExposureCoverage } from "./outlets";
 
 /** Stories published by an outlet, newest first, for a reporter byline list. */
 export function storiesByReporter(
