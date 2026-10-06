@@ -82,7 +82,9 @@ test("generated manifests use Prettier-clean output for empty and populated regi
   ]) {
     const manifest = renderLawConsequenceManifest(keys);
     assert.equal(
-      await prettier.format(manifest, { filepath: "law-consequence-module-manifest.ts" }),
+      await prettier.format(manifest, {
+        filepath: "law-consequence-module-manifest.ts",
+      }),
       manifest,
     );
   }
