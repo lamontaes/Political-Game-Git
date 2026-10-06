@@ -1,0 +1,266 @@
+{
+  "codeHead": "892fcf7602f77c47031b2b6b787a85abaf122ee1",
+  "base": "62f8ab85140d46100691626339dba874901108d9",
+  "state": "dependent preparation; not separate main PRs",
+  "traits": [
+    {
+      "trait": "T9-facet-humble",
+      "commit": "c55abb8331d19fbbabca8fb6c87a9e55745bb655",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-humble-generated-proof",
+        "worldId": "world_baff60fc854530f2",
+        "date": "2026-01-05",
+        "place": "Memphis, Tennessee",
+        "person": "Morgan Schmidt",
+        "personId": "person_8fa5c570b873c941",
+        "before": "yea",
+        "after": "present-not-voting",
+        "decisionId": "decision_c81dd9a84bdaff67",
+        "peer": "Micah Pena",
+        "peerId": "person_3d6c258d92dd0e65",
+        "traceId": "decision-trace_46ae211053960c88",
+        "tendencyRecordIds": ["personality-tendency_1cf5df13da51250e"]
+      }
+    },
+    {
+      "trait": "T9-facet-self-conscious",
+      "commit": "5542d92d889eb77f9b6708490a3c9c667a0318b7",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-self-conscious-generated-proof",
+        "worldId": "world_77101eab00eefa4c",
+        "date": "2026-01-05",
+        "place": "Lowes Island, Virginia",
+        "person": "Eden Gregory",
+        "personId": "person_3b6d0661268978e8",
+        "before": "yea",
+        "after": "present-not-voting",
+        "decisionId": "decision_9a952c76bab1e4e3"
+      }
+    },
+    {
+      "trait": "T9-facet-approval-seeking",
+      "commit": "c00755052e299dbe98839ca177bb59201a20a583",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-approval-seeking-generated-proof",
+        "worldId": "world_4b225ccfdcd0ebc2",
+        "date": "2026-01-05",
+        "place": "Princeville, Hawaii",
+        "person": "Sandra Poole",
+        "personId": "person_e9d3ca3de155912c",
+        "before": "yea",
+        "after": "present-not-voting",
+        "decisionId": "decision_517c1bc7ab8f2ed2",
+        "peer": "Tiffany Vazquez",
+        "peerId": "person_1ef8de26595e0618",
+        "traceId": "decision-trace_39ad40506da7bd46",
+        "tendencyRecordIds": ["personality-tendency_f98dbf8176544077"]
+      }
+    },
+    {
+      "trait": "T9-facet-smug",
+      "commit": "bff0ada6f502edc1e82c60f38ce4912b8292b1b5",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-smug-generated-proof",
+        "worldId": "world_7999d970d0dc4f32",
+        "date": "2026-01-05",
+        "place": "Kagman, Northern Mariana Islands",
+        "person": "Patricia Woodard",
+        "personId": "person_b3948b446b6e0f1c",
+        "before": "present-not-voting",
+        "after": "yea",
+        "decisionId": "decision_1fbe37de50319a7a"
+      }
+    },
+    {
+      "trait": "T9-facet-entitled",
+      "commit": "5825339064214bb20223e4003578f472bfb6d6eb",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-entitled-generated-proof",
+        "worldId": "world_b963cd29d6146806",
+        "date": "2026-01-05",
+        "place": "Litchfield Park, Arizona",
+        "person": "Dawn McKee",
+        "personId": "person_d847536d971e02e1",
+        "before": "present-not-voting",
+        "after": "yea",
+        "decisionId": "decision_a62b237b56b127fa",
+        "peer": "Tiffany Garza",
+        "peerId": "person_760b21fc78466105",
+        "traceId": "decision-trace_98a280a57671315a",
+        "tendencyRecordIds": ["personality-tendency_b986807e93a62987"]
+      }
+    },
+    {
+      "trait": "T9-facet-assertive",
+      "commit": "d0673a000fd60ee26cf9ab3c5d2e63f1a4d5d73a",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-assertive-generated-proof",
+        "worldId": "world_484e11c94b50852d",
+        "date": "2026-01-05",
+        "place": "Burlington Flats, New York",
+        "person": "Morgan Moreno",
+        "personId": "person_8475429a3f0455cd",
+        "before": "present-not-voting",
+        "after": "yea",
+        "decisionId": "decision_fc04c8e40e8d6138"
+      }
+    },
+    {
+      "trait": "T9-facet-deferential",
+      "commit": "71dbc780077dfc69a0de194df8ad39c835dd8654",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-deferential-generated-proof",
+        "worldId": "world_1e109b10d98b447b",
+        "date": "2026-01-05",
+        "place": "Fostoria, Ohio",
+        "person": "Dorothy Bennett",
+        "personId": "person_8eb9b39169d1f453",
+        "before": "yea",
+        "after": "present-not-voting",
+        "decisionId": "decision_547b357ce6475ba2",
+        "peer": "River Coleman",
+        "peerId": "person_e9902d589d7898eb",
+        "traceId": "decision-trace_24eb5afb789cf43a",
+        "tendencyRecordIds": ["personality-tendency_430726aabafe656b"]
+      }
+    },
+    {
+      "trait": "T9-facet-friendly",
+      "commit": "d454d531451d0910861e4e245c9b690bbbe995bf",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-friendly-generated-proof",
+        "worldId": "world_3c9a20861ad27699",
+        "date": "2026-01-05",
+        "place": "Topstone, Connecticut",
+        "person": "Virginia Griffith",
+        "personId": "person_61f8fb457d9d82a5",
+        "before": "present-not-voting",
+        "after": "yea",
+        "decisionId": "decision_2973c6ba261ecc2d"
+      }
+    },
+    {
+      "trait": "T9-facet-polite",
+      "commit": "87f6b255282a22a214cf3696868b4d12d289c871",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-polite-generated-proof",
+        "worldId": "world_51e0bcacfff484ba",
+        "date": "2026-01-05",
+        "place": "Briceville, Tennessee",
+        "person": "Isabel Pruitt",
+        "personId": "person_bc6955ba19fee6a1",
+        "before": "yea",
+        "after": "present-not-voting",
+        "decisionId": "decision_6680a63eb6d649d0",
+        "peer": "Melissa Harrington",
+        "peerId": "person_4d9ec0764a3ecac5",
+        "traceId": "decision-trace_37dc62b5c031c6d6",
+        "tendencyRecordIds": ["personality-tendency_189fe6361de20b21"]
+      }
+    },
+    {
+      "trait": "T9-facet-informal",
+      "commit": "19e7031dc4cf7ee7095ccede9f0a14cd65f735a3",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-informal-generated-proof",
+        "worldId": "world_c1e64fb6f551744c",
+        "date": "2026-01-05",
+        "place": "Church Creek, Maryland",
+        "person": "Brianna York",
+        "personId": "person_6ea60fbcec25b470",
+        "before": "present-not-voting",
+        "after": "yea",
+        "decisionId": "decision_acae342aa716beda"
+      }
+    },
+    {
+      "trait": "T9-facet-sassy",
+      "commit": "ca0146ef78fb7fa065b2bce7ea81f12037cd7671",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-sassy-generated-proof",
+        "worldId": "world_b67fe40ce7127ac2",
+        "date": "2026-01-05",
+        "place": "Estes Park, Colorado",
+        "person": "Beverly Nunez",
+        "personId": "person_e2529b6df308f375",
+        "before": "present-not-voting",
+        "after": "yea",
+        "decisionId": "decision_5d884fd8448f9032",
+        "peer": "Kimberly Montoya",
+        "peerId": "person_ea5982e902003ed1",
+        "traceId": "decision-trace_6fbcc1790a906bd0",
+        "tendencyRecordIds": ["personality-tendency_ad74022cbe964abf"]
+      }
+    },
+    {
+      "trait": "T9-facet-mischievous",
+      "commit": "27ffec52dbb412a0ec6d53ad99ebdbd4ef658194",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-mischievous-generated-proof:world:0",
+        "selectionSeed": "session132-facet-mischievous-generated-proof",
+        "place": "Barrigada, Guam",
+        "worldId": "world_c176fb56a0696ca5",
+        "person": "Ariana Roth",
+        "personId": "person_67f1ee24daa0e5eb",
+        "before": null,
+        "after": "town-hall",
+        "beforeReason": "campaign:organizer-undecided",
+        "afterReason": "campaign:offered"
+      }
+    },
+    {
+      "trait": "T9-facet-dramatic",
+      "commit": "892fcf7602f77c47031b2b6b787a85abaf122ee1",
+      "testsPassed": 7,
+      "testsTotal": 7,
+      "proof": {
+        "seed": "session132-facet-dramatic-generated-proof",
+        "worldId": "world_07ff2001ce4edae4",
+        "date": "2026-01-05",
+        "place": "Umatac, Guam",
+        "person": "Manuel Garcia",
+        "personId": "person_e44d6c6c676a6377",
+        "before": "present-not-voting",
+        "after": "yea",
+        "decisionId": "decision_f6fec6fbadde6f1d",
+        "peer": "Anya Alexander",
+        "peerId": "person_a2d3b9d32b31f9d7",
+        "traceId": "decision-trace_cfcb514d704f1988",
+        "tendencyRecordIds": ["personality-tendency_cb8777457f812af0"]
+      }
+    }
+  ],
+  "familyValidation": {
+    "command": "npx vitest run src/simulation/traits/effects/facet-proud.test.ts src/simulation/traits/effects/facet-humble.test.ts src/simulation/traits/effects/facet-self-conscious.test.ts src/simulation/traits/effects/facet-approval-seeking.test.ts src/simulation/traits/effects/facet-smug.test.ts src/simulation/traits/effects/facet-entitled.test.ts src/simulation/traits/effects/facet-assertive.test.ts src/simulation/traits/effects/facet-deferential.test.ts src/simulation/traits/effects/facet-friendly.test.ts src/simulation/traits/effects/facet-polite.test.ts src/simulation/traits/effects/facet-informal.test.ts src/simulation/traits/effects/facet-sassy.test.ts src/simulation/traits/effects/facet-mischievous.test.ts src/simulation/traits/effects/facet-dramatic.test.ts src/simulation/personality-trait-registry.test.ts src/simulation/governing/member-vote-decision.test.ts src/simulation/legislative-member-decisions.test.ts src/simulation/campaign-life-activities.test.ts src/simulation/press-interview-producers.test.ts --reporter=verbose",
+    "filesPassed": 19,
+    "filesTotal": 19,
+    "testsPassed": 119,
+    "testsTotal": 119,
+    "durationSeconds": 109.39,
+    "codeHead": "892fcf7602f77c47031b2b6b787a85abaf122ee1"
+  }
+}
