@@ -1,7 +1,7 @@
 {
   "id": "public-programs-2026",
   "asOf": "2026-09-28",
-  "method": "All values come from web search result snippets of the named pages. WebFetch and curl to ssa.gov, cms.gov, govinfo.gov, federalregister.gov, macpac.gov, kff.org, fns.usda.gov, aspe.hhs.gov and congress.gov were refused by the session egress proxy (403 policy denial), so no page was opened in full. Status SNIPPET = official source, snippet only; SECONDARY = non-government source, calibration only; UNKNOWN = not verified, never zero.",
+  "method": "All values come from web search result snippets of the named pages. WebFetch and curl to ssa.gov, cms.gov, govinfo.gov, federalregister.gov, macpac.gov, kff.org, fns.usda.gov, aspe.hhs.gov and congress.gov were refused by the session egress proxy (403 policy denial), so no page was opened in full. Status SNIPPET means official source, snippet only; SECONDARY means non-government source, calibration only; an unread value is not verified and never means zero.",
   "sources": [
     {
       "key": "ssa-cola-2026",
@@ -316,7 +316,7 @@
       "kind": "official"
     }
   ],
-  "scope": "Federal parameters for Social Security, Medicare, Medicaid, SNAP, SSI, the ACA marketplace, the poverty guidelines and the UI financing basics in effect during 2026, plus Pub. L. 119-21 changes and dates. Per-place: Medicaid expansion, FMAP where verified, nutrition program type, SSI availability. Per-state FY2026 FMAPs, non-expansion parent limits, SNAP error rates and territory Medicaid caps are UNKNOWN.",
+  "scope": "Federal parameters for Social Security, Medicare, Medicaid, SNAP, SSI, the ACA marketplace, the poverty guidelines and the UI financing basics in effect during 2026, plus Pub. L. 119-21 changes and dates. Per-place coverage includes Medicaid expansion, verified FMAP values, nutrition program type and SSI availability. This corpus does not supply per-state FY2026 FMAPs, non-expansion parent limits, SNAP error rates or territory Medicaid caps.",
   "federal": {
     "socialSecurity": {
       "colaEffectiveJanuary2026Pct": {
@@ -435,7 +435,7 @@
         "value": 50,
         "source": "ssa-1960-delay",
         "status": "SNIPPET",
-        "note": "Delayed credits do not raise the spouse benefit; early claiming reduces it (spouse reduction schedule UNKNOWN here)."
+        "note": "Delayed credits do not raise the spouse benefit; early claiming reduces it. This corpus records the 50 percent full-retirement-age value and does not model the early-claiming reduction schedule."
       },
       "survivor": {
         "widowAtFraPct": {
@@ -647,7 +647,7 @@
         "value": 50,
         "source": "crs-r43847",
         "status": "SNIPPET",
-        "note": "10 states at the 50% floor in FY2026; which ones is UNKNOWN here"
+        "note": "CRS records 10 states at the 50 percent floor in FY2026. This national aggregate does not identify them, so no state inherits the floor from this row."
       },
       "fmapHighestFy2026": {
         "value": {
@@ -665,7 +665,7 @@
       "nonExpansionParentLimits": {
         "value": null,
         "status": "UNKNOWN",
-        "question": "KFF 'Medicaid Income Eligibility Limits for Parents' 2026 by state; only tertiary sites seen (TX ~17-18% FPL, AL ~18% FPL), not recorded as values"
+        "question": "KFF 'Medicaid Income Eligibility Limits for Parents' 2026 by state. Tertiary references to Texas and Alabama were excluded because they do not meet this corpus's source standard."
       },
       "pl119_21": {
         "workRequirement": {
@@ -706,7 +706,7 @@
             ],
             "source": "crs-r48633",
             "status": "SNIPPET",
-            "note": "Other exemptions (veterans with disability ratings, inmates recently released, people in treatment, under-21 former foster youth) UNKNOWN here"
+            "note": "The cited CRS snippet establishes only the exemptions listed in value; consumers must not infer additional exemptions from this row."
           }
         },
         "sixMonthRedeterminations": {
@@ -743,7 +743,7 @@
           },
           "source": "ccf-provider-tax",
           "status": "SECONDARY",
-          "note": "Start date conflict: summaries say both 'FY2028' and 'beginning 10/01/2028'; UNKNOWN which (research question: first fiscal year of the 5.5% threshold)"
+          "note": "The summaries conflict between FY2028 and October 1, 2028. This row records both readings and must not select an operative date until primary evidence resolves them."
         },
         "emergencyMedicaidFmapLimit": {
           "value": "Emergency Medicaid for noncitizens matched at regular FMAP, not the 90% expansion rate, from 10/01/2026",
@@ -914,7 +914,7 @@
           },
           "source": "crs-r48755",
           "status": "SNIPPET",
-          "note": "exact implementation date per USDA memo UNKNOWN"
+          "note": "The cited summary establishes the policy but not an exact USDA implementation date; consumers use the recorded effective-period description rather than inventing a day."
         },
         "snapEd": {
           "value": "Federal SNAP-Ed funding ends after FY2025",
@@ -2018,7 +2018,7 @@
         },
         "source": "cbpp-cnmi",
         "status": "SECONDARY",
-        "note": "held at $12 million for many years; later increase amount UNKNOWN"
+        "note": "The cited source establishes that the block grant was held at $12 million for many years. This row records $12 million and does not apply an unevidenced later increase."
       },
       "ssi": {
         "value": true,
@@ -2499,7 +2499,7 @@
         "value": 76,
         "source": "crs-r47821",
         "status": "SNIPPET",
-        "note": "through FY2027 under P.L. 117-328 sec. 5101; 0.12 point cut from 01/01/2026 if no asset verification program (whether it applies is UNKNOWN)"
+        "note": "P.L. 117-328 section 5101 establishes 76 percent through FY2027 and a 0.12-point cut from January 1, 2026, for failure to operate an asset-verification program. This row retains 76 percent because the cited evidence does not establish that the condition applies."
       },
       "medicaidCapFy2026": {
         "value": null,

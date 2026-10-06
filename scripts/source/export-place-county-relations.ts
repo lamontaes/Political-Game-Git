@@ -19,7 +19,11 @@ import {
   PLACE_COUNTY_COMPILER_VERSION,
   PLACE_COUNTY_CORPUS_AS_OF,
 } from "../../src/source/domains/place-county-relations/index";
-import type { PlaceCountyPartRecord } from "../../src/source/domains/place-county-relations/index";
+import type {
+  PlaceCountyPartRecord,
+  PlaceRelationRecord,
+  PlaceDistrictPopulationRecord,
+} from "../../src/source/domains/place-county-relations/index";
 import type { NormalizedCorpus } from "../../src/source/core/index";
 import { NATIONAL_COUNTIES_ROWS } from "../../src/simulation/national-counties.generated";
 import { REPO_ROOT, domainDataDir } from "./registry";
@@ -37,9 +41,16 @@ const RETIRED_2020_COUNTY_STATE_FIPS = "09";
 
 export function renderPlaceCountyModule(): string {
   const dir = domainDataDir("place-county-relations");
-  const records = JSON.parse(
+  const allRecords = JSON.parse(
     readFileSync(resolve(dir, "corpus.json"), "utf-8"),
-  ) as PlaceCountyPartRecord[];
+  ) as PlaceRelationRecord[];
+  const records = allRecords.filter(
+    (record): record is PlaceCountyPartRecord => !("relationKind" in record),
+  );
+  const districtRecords = allRecords.filter(
+    (record): record is PlaceDistrictPopulationRecord =>
+      "relationKind" in record,
+  );
   const manifest = JSON.parse(
     readFileSync(resolve(dir, "corpus-manifest.json"), "utf-8"),
   ) as NormalizedCorpus;
@@ -122,6 +133,9 @@ export function renderPlaceCountyModule(): string {
     "",
     "/** One JSON string, parsed once on first use. */",
     `export const PLACE_COUNTY_RELATIONS_ROWS: string = ${JSON.stringify(JSON.stringify(rows))};`,
+    "",
+    "/** [placeGeoid,chamber,boundaryVintage,districtGeoid,partPopulationCount,placePopulationCount]. Same compiled relation corpus. */",
+    `export const PLACE_DISTRICT_POPULATION_ROWS: string = ${JSON.stringify(JSON.stringify(districtRecords.map((record) => [record.placeGeoid, record.chamber, record.boundaryVintage, record.districtGeoid, record.partPopulationCount, record.placePopulationCount])))};`,
     "",
   ].join("\n");
 }

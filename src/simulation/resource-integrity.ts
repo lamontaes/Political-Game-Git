@@ -1,3 +1,4 @@
+import { CURRENCY_CODE } from "./currency-code";
 import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
@@ -38,8 +39,6 @@ import type {
   ResourcePositionOwner,
   World,
 } from "./types";
-
-const CURRENCY_CODE = /^[A-Z]{3}$/;
 
 export function resourceHousingHistoryRecords(world: World): readonly {
   readonly sequence: number;

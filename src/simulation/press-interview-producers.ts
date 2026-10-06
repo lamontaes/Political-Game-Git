@@ -1,4 +1,6 @@
 import { eventById } from "./event-index";
+import { registeredTraitConsiderations } from "./trait-readings";
+import { traitRegistryFor } from "./trait-registry";
 import {
   assertNpcAutonomousApplication,
   evaluateDecision,
@@ -567,6 +569,14 @@ export function producePressRequestResponse(
           : []),
     ],
     considerations: [
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        reporterPersonId,
+        `${input.stableKey}:decision`,
+        "press.reporter-request-response",
+        sourcePersonId,
+      ),
       {
         stableKey: "press:eligible-request",
         optionKey:
@@ -762,6 +772,14 @@ export function producePressAdviserResponse(
         ]
       : [],
     considerations: [
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        input.adviserPersonId,
+        `${input.stableKey}:decision`,
+        "press.adviser-assignment-response",
+        sourcePersonId,
+      ),
       {
         stableKey: "press:current-colleague-assignment",
         optionKey: "accept",

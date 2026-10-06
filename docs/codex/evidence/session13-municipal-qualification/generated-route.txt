@@ -1,0 +1,162 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- node --import tsx docs/codex/evidence/session13-municipal-qualification/generated-route.ts
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+{
+  "seed": "session13-east-providence-estimate",
+  "place": "East Providence, Rhode Island",
+  "key": "4422960",
+  "world": "world_3e918c9c65718358",
+  "player": "person_a08001a103bd9441",
+  "date": "2026-01-05",
+  "offices": [
+    {
+      "officeKey": "us-ri-legislature-profile-v1:house",
+      "title": "Seat in the Rhode Island House of Representatives",
+      "governmentLevel": "State government",
+      "provider": "Rhode Island Legislature",
+      "eligible": true,
+      "eligibility": "You can run for this office.",
+      "electionDate": "2026-11-03",
+      "timing": "The next election is November 3, 2026.",
+      "connections": [],
+      "gaps": [
+        "The game does not have this office's rules for who may stand, so it will not say whether you qualify. What it has for this chamber is how a measure moves through it, which is a different thing.",
+        "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.",
+        "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership."
+      ]
+    },
+    {
+      "officeKey": "us-ri-legislature-profile-v1:senate",
+      "title": "Seat in the Rhode Island Senate",
+      "governmentLevel": "State government",
+      "provider": "Rhode Island Legislature",
+      "eligible": true,
+      "eligibility": "You can run for this office.",
+      "electionDate": "2026-11-03",
+      "timing": "The next election is November 3, 2026.",
+      "connections": [],
+      "gaps": [
+        "The game does not have this office's rules for who may stand, so it will not say whether you qualify. What it has for this chamber is how a measure moves through it, which is a different thing.",
+        "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.",
+        "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership."
+      ]
+    },
+    {
+      "officeKey": "local-government-194033-governing-body",
+      "title": "Council member",
+      "governmentLevel": "Local government",
+      "provider": "City of East Providence",
+      "eligible": true,
+      "eligibility": "You can run for this office. You must be at least 21 to run for this office. This age is estimated from similar elected offices in Rhode Island; this municipality's own age rule is unconfirmed.",
+      "electionDate": "2026-11-03",
+      "timing": "The next election is November 3, 2026.",
+      "connections": [],
+      "gaps": [
+        "The town's form of government has not been read, so whether its seats are at large or by ward, and whether a mayor is elected separately, is not known.",
+        "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town."
+      ]
+    },
+    {
+      "officeKey": "local-government-194033-chief-executive",
+      "title": "Mayor",
+      "governmentLevel": "Local government",
+      "provider": "City of East Providence",
+      "eligible": true,
+      "eligibility": "You can run for this office. You must be at least 21 to run for this office. This age is estimated from similar elected offices in Rhode Island; this municipality's own age rule is unconfirmed.",
+      "electionDate": "2026-11-03",
+      "timing": "The next election is November 3, 2026.",
+      "connections": [],
+      "gaps": [
+        "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town's mayor."
+      ]
+    }
+  ]
+}
+{
+  "seed": "session13-municipal-estimate-random-town",
+  "place": "Rocky Mount, Virginia",
+  "key": "5168496",
+  "world": "world_4763791235b23208",
+  "player": "person_f3b12ec540d53e17",
+  "date": "2026-01-05",
+  "offices": [
+    {
+      "officeKey": "us-va-legislature-profile-v1:house",
+      "title": "Seat in the Virginia House of Delegates",
+      "governmentLevel": "State government",
+      "provider": "Virginia Legislature",
+      "eligible": true,
+      "eligibility": "You can run for this office.",
+      "electionDate": "2027-11-02",
+      "timing": "The next election is November 2, 2027.",
+      "connections": [],
+      "gaps": [
+        "The game does not have this office's rules for who may stand, so it will not say whether you qualify. What it has for this chamber is how a measure moves through it, which is a different thing.",
+        "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.",
+        "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership."
+      ]
+    },
+    {
+      "officeKey": "us-va-legislature-profile-v1:senate",
+      "title": "Seat in the Virginia Senate",
+      "governmentLevel": "State government",
+      "provider": "Virginia Legislature",
+      "eligible": true,
+      "eligibility": "You can run for this office.",
+      "electionDate": "2027-11-02",
+      "timing": "The next election is November 2, 2027.",
+      "connections": [],
+      "gaps": [
+        "The game does not have this office's rules for who may stand, so it will not say whether you qualify. What it has for this chamber is how a measure moves through it, which is a different thing.",
+        "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.",
+        "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership."
+      ]
+    },
+    {
+      "officeKey": "local-government-136030-governing-body",
+      "title": "Council member",
+      "governmentLevel": "Local government",
+      "provider": "Town of Rocky Mount",
+      "eligible": true,
+      "eligibility": "You can run for this office. You must be at least 21 to run for this office. This age is estimated from similar elected offices in Virginia; this municipality's own age rule is unconfirmed.",
+      "electionDate": "2027-11-02",
+      "timing": "The next election is November 2, 2027.",
+      "connections": [],
+      "gaps": [
+        "The town's form of government has not been read, so whether its seats are at large or by ward, and whether a mayor is elected separately, is not known.",
+        "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town."
+      ]
+    },
+    {
+      "officeKey": "local-government-136030-chief-executive",
+      "title": "Mayor",
+      "governmentLevel": "Local government",
+      "provider": "Town of Rocky Mount",
+      "eligible": true,
+      "eligibility": "You can run for this office. You must be at least 21 to run for this office. This age is estimated from similar elected offices in Virginia; this municipality's own age rule is unconfirmed.",
+      "electionDate": "2027-11-02",
+      "timing": "The next election is November 2, 2027.",
+      "connections": [],
+      "gaps": [
+        "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town's mayor."
+      ]
+    },
+    {
+      "officeKey": "local-government-136008-governing-body",
+      "title": "Commissioner",
+      "governmentLevel": "Local government",
+      "provider": "Franklin County",
+      "eligible": false,
+      "eligibility": "The requirements for this county office have not been established.",
+      "electionDate": null,
+      "timing": "The next election date is not known.",
+      "connections": [],
+      "gaps": [
+        "This county's district boundaries, seat phases and selection procedure have not been recorded in this candidacy pack.",
+        "This county's nomination and filing procedure must be read before a campaign can use its calendar."
+      ]
+    }
+  ]
+}

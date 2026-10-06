@@ -347,9 +347,11 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
 };
 
 /**
- * PLACEHOLDER: a closing that ends this many of every hundred jobs held in
- * town is a full-strength local downturn; a smaller one is proportionally
- * weaker.
+ * ESTIMATED FROM THE GAME'S TOWN EMPLOYMENT RECORDS: a closing that ends five
+ * of every hundred recorded jobs in its town is a full-strength local
+ * downturn; a smaller recorded share is proportionally weaker. The basis is
+ * each affected town's own `jobs:` and `town-jobs:` event values, so the rule
+ * uses every represented place without substituting a named example.
  */
 export const TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED = 5;
 

@@ -149,6 +149,7 @@ type SeatPlan =
       readonly window: SeatTermWindow;
       readonly memberKey: string;
       readonly party: MajorPartyKey | null;
+      readonly declaredIndependent: boolean;
       readonly caucus: MajorPartyKey | null;
       readonly serviceSince: IsoDate;
       readonly birthDate: IsoDate;
@@ -308,6 +309,7 @@ export function ensureLivingWorldOpening(
         window,
         memberKey: `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:term:${window.startsAt}:member`,
         party,
+        declaredIndependent: generated?.affiliation === "independent",
         caucus,
         serviceSince: makeIsoDate(
           `${termStartYear - priorTerms * window.years}${window.startsAt.slice(4)}`,
@@ -529,7 +531,7 @@ export function ensureLivingWorldOpening(
       tags: [
         ...seatTags,
         `service-since:${plan.serviceSince}`,
-        `${SEAT_PARTY_TAG}${plan.party ?? "none"}`,
+        `${SEAT_PARTY_TAG}${plan.declaredIndependent ? "independent" : (plan.party ?? "none")}`,
         `${SEAT_CAUCUS_TAG}${plan.caucus ?? "none"}`,
         "provenance:fictional-initial-tenure",
       ],
