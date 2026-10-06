@@ -2,7 +2,7 @@
 id: session13-election-night-recorded-room
 impact: minor
 section: Added
-title: Election-night packets require recorded room presence
+title: Election-night attendance follows the recorded room
 ---
 
-The council election-night reader can provide a room packet only for a same-day saved result and actual current recorded home presence. It includes only recorded people admitted by the existing witness reader, preserves the presence and result source identities, and refuses a returned result. Missing precinct counts remain explicitly unavailable. This is a consumer packet; it does not create attendance or complete the player scene.
+Council election-night attendance uses only people actually recorded in the current room. Having worked for a campaign or appearing in its result does not place someone there. Returning from the result closes this view. Precinct reporting and the played scene remain unfinished.
