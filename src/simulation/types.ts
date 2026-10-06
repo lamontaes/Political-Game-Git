@@ -3835,8 +3835,18 @@ export interface ElectionContestResultRecord {
   readonly resolvedAt: IsoDate;
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
+  /** Absent for legacy/manual results without saved precinct ballot evidence. */
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly outcomeEventId: EntityId;
   readonly provenance: ElectionContestProvenance;
+}
+
+export interface ElectionPrecinctTally {
+  readonly townId: EntityId;
+  readonly mapId: EntityId;
+  readonly precinctKey: string;
+  readonly ballotsCast: number;
+  readonly tallies: readonly CandidateTally[];
 }
 
 export interface ScheduleElectionContestInput {
@@ -3854,6 +3864,7 @@ export interface ResolveElectionContestInput {
   readonly resolvedAt?: string;
   readonly winnerPersonId?: EntityId;
   readonly tallies?: readonly CandidateTally[];
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly provenance?: ElectionContestProvenance;
 }
 

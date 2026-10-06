@@ -1,0 +1,6 @@
+[storage-guard] OVERRIDDEN for build: CTO6009033958 verified CLOUD exemption; same count result composition full typing
+
+> political-life-rpg@0.4.0 typecheck
+> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts
+
+typecheck-test-imports: 800 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 83, src/presentation 534, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).

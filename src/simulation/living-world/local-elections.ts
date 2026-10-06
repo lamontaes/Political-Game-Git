@@ -1140,7 +1140,7 @@ function countVotes(
   seat: number,
   candidates: readonly EntityId[],
   electionDate: IsoDate,
-): CandidateTally[] | null {
+): ReturnType<typeof countRecordedVoterBallots> {
   const plan = councilWardPlan(unit);
   const map = townWardMap(world, unit);
   const ward = map && isWardSeat(plan, seat) ? seatWard(map, seat) : null;
@@ -1158,7 +1158,7 @@ function countVotes(
           },
         }),
   });
-  return result ? [...result.tallies] : null;
+  return result;
 }
 
 export function localElectionCountHandler(
@@ -1184,7 +1184,11 @@ export function localElectionCountHandler(
   const holder = holderOf(sittingLocalOfficers(world, unit), seat);
   const living = contest.candidatePersonIds.filter((id) => alive(world, id));
   const field = living.length > 0 ? living : contest.candidatePersonIds;
-  const counted = countVotes(
+  // A current-day count can create today's estimated map. Never backdate it
+  // for a late historical count whose precinct membership was not saved.
+  if (contest.electionDate === world.currentDate)
+    world = establishVotingPrecinctMembership(world, town);
+  const count = countVotes(
     world,
     unit,
     town,
@@ -1192,6 +1196,7 @@ export function localElectionCountHandler(
     field,
     contest.electionDate,
   );
+  const counted = count?.tallies;
   if (!counted || counted.length === 0)
     return {
       world,
@@ -1270,6 +1275,23 @@ export function localElectionCountHandler(
     resolvedAt: world.currentDate,
     winnerPersonId: winner,
     tallies,
+    ...(count?.byPrecinct
+      ? {
+          precinctTallies: count.byPrecinct.map((row) => ({
+            ...row,
+            tallies: [
+              ...row.tallies,
+              ...contest.candidatePersonIds
+                .filter((id) => !field.includes(id))
+                .map((candidatePersonId) => ({
+                  candidatePersonId,
+                  votes: 0,
+                  voteShare: 0,
+                })),
+            ],
+          })),
+        }
+      : {}),
     provenance: {
       method: "simulated",
       sourceEntityIds: [due.id, contest.id],

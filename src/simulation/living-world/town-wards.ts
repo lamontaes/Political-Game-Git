@@ -809,6 +809,28 @@ export function votingPrecinctOfPerson(
     : null;
 }
 
+/** Dated canonical home join; never guesses a precinct for an old save. */
+export function votingPrecinctForResident(
+  world: World,
+  personId: EntityId,
+  asOf: IsoDate = world.currentDate,
+): ReturnType<typeof votingPrecinctOfPerson> {
+  const townId = primaryPrecinctHome(world, personId, asOf);
+  return townId ? votingPrecinctOfPerson(world, townId, personId, asOf) : null;
+}
+
+/** Latest saved plan on the count date, including its canonical event ID. */
+export function votingPrecinctMapForTown(
+  world: World,
+  townId: EntityId,
+  asOf: IsoDate = world.currentDate,
+): { readonly mapId: EntityId; readonly plan: VotingPrecinctPlan } | null {
+  const snapshot = savedPrecinctSnapshot(world, townId, asOf);
+  return snapshot
+    ? { mapId: snapshot.map.id, plan: snapshot.record.plan }
+    : null;
+}
+
 function writePrecinctEvent(
   world: World,
   townId: EntityId,
