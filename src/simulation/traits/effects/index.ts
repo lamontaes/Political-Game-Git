@@ -11,6 +11,7 @@ import { facetBluntEffects } from "./facet-blunt";
 import { facetBrazenEffects } from "./facet-brazen";
 import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
+import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetDefensiveEffects } from "./facet-defensive";
 import { facetCruelEffects } from "./facet-cruel";
 import { facetEnviousEffects } from "./facet-envious";
@@ -34,6 +35,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
     ...facetSelfConsciousEffects,
     ...facetHostileEffects,
+    ...facetWorkCenteredEffects,
     ...facetHumbleEffects,
     ...patienceEffects,
     ...initialTrustEffects,
