@@ -1733,6 +1733,15 @@ export function introduceMeasure(
     ...(input.governmentInstrument
       ? { governmentInstrument: input.governmentInstrument }
       : {}),
+    ...(input.executiveAuthorityJurisdictionKey
+      ? {
+          executiveAuthorityJurisdictionKey:
+            input.executiveAuthorityJurisdictionKey,
+        }
+      : {}),
+    ...(input.executiveAuthorityChecks?.length
+      ? { executiveAuthorityChecks: input.executiveAuthorityChecks }
+      : {}),
     ...(input.delegatedFromMeasureId
       ? { delegatedFromMeasureId: input.delegatedFromMeasureId }
       : {}),

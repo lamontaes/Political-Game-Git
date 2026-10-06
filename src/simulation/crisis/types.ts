@@ -232,6 +232,24 @@ export interface DisasterResponseRecord extends CrisisRecordBase {
   readonly decidedBy: "player" | "npc-rule" | "institution" | "lapse";
   readonly reason: string;
   readonly programs: readonly string[];
+  /** The active state emergency used to guide this federal-assistance request. */
+  readonly emergencyDeclarationId?: EntityId;
+}
+
+/** An executive declaration's filed term, renewal, lapse or termination. */
+export interface EmergencyDeclarationRecord extends CrisisRecordBase {
+  readonly kind: "executive-emergency-declaration";
+  readonly declarationId: EntityId;
+  readonly operation: "declared" | "extended" | "terminated";
+  readonly stateUsps: string;
+  readonly jurisdictionId: EntityId;
+  readonly officeKey: string;
+  readonly actorPersonId: EntityId;
+  readonly executiveOrderMeasureId: EntityId;
+  readonly sourceEventId: EntityId;
+  readonly subject: string;
+  readonly activeUntil: IsoDate | null;
+  readonly reason: string;
 }
 
 export interface RepairProgressRecord extends CrisisRecordBase {
@@ -341,6 +359,7 @@ export type CrisisRecord =
   | DisasterDamageRecord
   | DisasterAssessmentRecord
   | DisasterResponseRecord
+  | EmergencyDeclarationRecord
   | RepairProgressRecord
   | MortalityWindowRecord
   | MortalityCalibrationRecord

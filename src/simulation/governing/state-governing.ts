@@ -128,11 +128,13 @@ import {
 import { publicPartyOf } from "./chamber-votes";
 import { decideExecutiveActionAuthority } from "../executive-action-authority";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
+import { crisisRecords } from "../crisis/records";
 import { legislatureProfilePackId } from "../legislature-game-profile";
 import {
   delegatedRegulationAuthority,
   issueDelegatedRegulation,
 } from "../executive-regulation-issuance";
+import { recordExecutiveEmergency } from "../executive-emergencies";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -960,8 +962,7 @@ function optionsFor(
             label: "Send it back for more work",
             effect:
               "Return the proposed rule because its delegating statute and term range are not recorded.",
-            tradeoff:
-              "No delegated term changes until its legal authority is recorded.",
+            tradeoff: "No delegated term changes until its legal authority is recorded.",
             personId: null,
             assessment: null,
           },
@@ -1600,6 +1601,37 @@ export function openExecutiveOrderMatter(
     titleSubject: input.subject,
     subjectKey: input.subjectKey ?? input.subject,
     sourceEventId: input.sourceEventId,
+  });
+}
+
+/** Put a recorded crisis on the same executive inbox as other desk matters. */
+export function openEmergencyMatter(
+  world: World,
+  officeKey: string,
+  input: {
+    readonly instance: string;
+    readonly episodeId: EntityId;
+  },
+): World {
+  const office = governingOfficeByKey(world, officeKey);
+  if (!office || !authorityJurisdictionForOffice(world, office)) return world;
+  const episode = crisisRecords(world).find(
+    (record) =>
+      record.kind === "hazard-episode" && record.id === input.episodeId,
+  );
+  if (
+    !episode ||
+    episode.kind !== "hazard-episode" ||
+    episode.stateUsps !== office.stateUsps ||
+    !episode.eventId
+  )
+    return world;
+  return openMatter(world, office, {
+    family: "emergency",
+    instance: input.instance,
+    titleSubject: `${episode.magnitude} ${episode.family} emergency`,
+    subjectKey: `${episode.family}:${episode.magnitude}`,
+    sourceEventId: episode.eventId,
   });
 }
 
@@ -2586,7 +2618,9 @@ function applyConsequence(
       return input ? issueDelegatedRegulation(world, input) : world;
     }
     case "emergency":
-      return world;
+      return option.key === "emergency:declare"
+        ? recordExecutiveEmergency(world, office, matter)
+        : world;
     case "chief-of-staff": {
       if (!office.organizationId) return world;
       if (!option.personId || !world.people[option.personId]) return world;
