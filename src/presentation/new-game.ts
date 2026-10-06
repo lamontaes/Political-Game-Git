@@ -41,7 +41,9 @@ import type {
   SetupQuestionnairePath,
   QuestionnaireSelectionVersion,
   World,
+  PlaySettings,
 } from "../simulation";
+import { initialPlaySettings } from "../simulation/play-settings";
 import {
   buildProductionWorld,
   FAMILY_BIRTHDAYS_V1,
@@ -137,6 +139,12 @@ export type OpeningDataVersion =
   "playtest65-v1" | "playtest65-v2" | "playtest65-v3";
 
 export interface NewGameSetup {
+  /** Optional on old descriptors; it does not participate in world identity. */
+  readonly playSettings?: Partial<
+    Pick<PlaySettings, "challenge" | "notes" | "saves">
+  > & {
+    readonly premises?: Partial<PlaySettings["premises"]>;
+  };
   readonly startKind?: NewGameStartKind;
   readonly placeKey: string;
   readonly startAge: number;
@@ -303,6 +311,7 @@ export const MAXIMUM_START_AGE = 70;
 export const LEGISLATIVE_OFFICE_MINIMUM_AGE = 21;
 
 export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
+  playSettings: initialPlaySettings({}),
   startKind: "normal",
   // Compatibility default for old callers and encoded replays. A fresh
   // creator uses an empty placeKey (`freshNewGameSetup`); gameplay helpers
@@ -645,7 +654,14 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       : { ok: true as const, world: office.world };
   if (!agency.ok) throw new Error(agency.reason);
   return {
-    world: agency.world,
+    world: {
+      ...agency.world,
+      playSettings: initialPlaySettings({
+        ...setup.playSettings,
+        familyMoney: setup.playSettings?.premises?.familyMoney,
+        press: setup.playSettings?.premises?.press,
+      }),
+    },
     playerPersonId: built.playerPersonId,
     place,
     setup,
