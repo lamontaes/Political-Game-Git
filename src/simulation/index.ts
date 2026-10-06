@@ -209,6 +209,7 @@ export * from "./legislation-scenarios";
 export * from "./legislative-politics";
 export * from "./legislative-member-decisions";
 export * from "./legislature-rules";
+export * from "./minority-party-procedure";
 export * from "./measure-numbering";
 export * from "./legislature-rule-packs";
 export * from "./legislature-game-profile";
