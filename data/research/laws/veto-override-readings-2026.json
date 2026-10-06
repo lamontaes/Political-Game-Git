@@ -152,6 +152,7 @@
       "name": "Indiana",
       "numerator": 1,
       "denominatorParts": 2,
+      "rounding": "strictly-greater-than-fraction",
       "readBasis": "all the members elected to that House",
       "countedAgainst": "members-elected",
       "locator": "Article 5, section 14(a)(2)(B)",
