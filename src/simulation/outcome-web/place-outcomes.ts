@@ -1,6 +1,14 @@
 import { addDays, makeIsoDate } from "../dates";
+import { createStableId } from "../ids";
+import { factsForPerson } from "../people";
+import { lawInForce } from "../governing/law-in-force";
+import {
+  LW26_ENVIRONMENT_LANDING_ROWS,
+  landEnvironmentPlaceOutcomes,
+} from "../law-consequences/modules/lw26-environment-landings";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
+import { homeStateKey } from "../state-jurisdiction-id";
 import type {
   EntityId,
   FutureDueItem,
@@ -27,6 +35,70 @@ export * from "./place-outcome-store";
 
 export const PLACE_OUTCOMES_VERSION = "place-outcomes-v1" as const;
 export const PLACE_OUTCOMES_TRANSITION_KEY = "crisis:place-outcomes" as const;
+
+function landEnvironmentMeasures(world: World, month: IsoDate): World {
+  const records =
+    (world.placeOutcomes?.months ?? []).find((entry) => entry.month === month)
+      ?.records ?? [];
+  const residents = new Map<EntityId, Set<EntityId>>();
+  const residenceJurisdictionByPerson = new Map<EntityId, EntityId>();
+  for (const person of Object.values(world.people)) {
+    const home = factsForPerson(person)
+      .filter(
+        (fact) =>
+          fact.kind === "residence" &&
+          fact.occurredAt < firstOfNextMonth(month) &&
+          (fact.endedAt === null || fact.endedAt >= month),
+      )
+      .sort((left, right) =>
+        right.occurredAt.localeCompare(left.occurredAt),
+      )[0];
+    if (!home || home.kind !== "residence") continue;
+    residenceJurisdictionByPerson.set(person.id, home.jurisdictionId);
+    for (const jurisdictionId of [
+      home.jurisdictionId,
+      stateJurisdictionForKey(homeStateKey(world, person.id) ?? "")?.id,
+    ]) {
+      if (!jurisdictionId) continue;
+      const people = residents.get(jurisdictionId) ?? new Set<EntityId>();
+      people.add(person.id);
+      residents.set(jurisdictionId, people);
+    }
+  }
+  const laws = new Map<string, Map<EntityId, EntityId>>();
+  for (const row of LW26_ENVIRONMENT_LANDING_ROWS) {
+    const proposition = Object.values(
+      world.policyCatalog?.propositions ?? {},
+    ).find((candidate) => candidate.stableKey === row.lawKey);
+    if (!proposition) continue;
+    for (const record of records) {
+      if (record.measure !== row.measure) continue;
+      const law = lawInForce(
+        world,
+        record.jurisdictionId,
+        proposition.id,
+        month,
+      );
+      if (!law) continue;
+      const byPlace = laws.get(row.lawKey) ?? new Map<EntityId, EntityId>();
+      byPlace.set(record.jurisdictionId, law.measureId);
+      laws.set(row.lawKey, byPlace);
+    }
+  }
+  return landEnvironmentPlaceOutcomes({
+    world,
+    month,
+    records,
+    residentsByJurisdiction: new Map(
+      [...residents].map(([jurisdictionId, people]) => [
+        jurisdictionId,
+        [...people].sort(),
+      ]),
+    ),
+    residenceJurisdictionByPerson,
+    inForceLawMeasures: laws,
+  });
+}
 
 function firstOfMonth(date: IsoDate): IsoDate {
   return makeIsoDate(`${date.slice(0, 7)}-01`);
@@ -166,6 +238,10 @@ export function placeOutcomesForMonth(
       for (const local of locals.get(placeKey) ?? []) {
         const own = outcomeFactor(world, local.jurisdictionId, measure, month);
         localRecords.push({
+          id: createStableId(
+            "place-outcome",
+            `${world.id}:${month}:${measure}:${local.localKey}`,
+          ),
           measure,
           placeKey: local.localKey,
           jurisdictionId: local.jurisdictionId,
@@ -200,6 +276,10 @@ export function placeOutcomesForMonth(
         rest * valueOf(reading),
       );
       records.push({
+        id: createStableId(
+          "place-outcome",
+          `${world.id}:${month}:${measure}:${placeKey}`,
+        ),
         measure,
         placeKey,
         jurisdictionId,
@@ -258,8 +338,12 @@ export function ensurePlaceOutcomes(world: World): World {
       ],
     },
   };
+  const landed = landEnvironmentMeasures(
+    opened,
+    firstOfMonth(makeIsoDate(world.currentDate)),
+  );
   const dueAt = firstOfNextMonth(makeIsoDate(world.currentDate));
-  return scheduleFutureDueItem(opened, {
+  return scheduleFutureDueItem(landed, {
     stableKey: `${PLACE_OUTCOMES_VERSION}:pass:${dueAt.slice(0, 7)}`,
     dueAt,
     transitionKey: PLACE_OUTCOMES_TRANSITION_KEY,
@@ -291,6 +375,7 @@ export function placeOutcomesHandler(
           ],
         },
       };
+  next = landEnvironmentMeasures(next, month);
   const following = firstOfNextMonth(addDays(month, 1));
   next = scheduleFutureDueItem(next, {
     stableKey: `${PLACE_OUTCOMES_VERSION}:pass:${following.slice(0, 7)}`,
