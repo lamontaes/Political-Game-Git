@@ -1041,54 +1041,6 @@
   align-items: flex-start;
   padding: clamp(2rem, 6vh, 4rem) clamp(1.5rem, 4vw, 4rem);
 }
-.title-tableau--art .game-title {
-  width: min(24rem, 100%);
-  padding: 0;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  backdrop-filter: none;
-  box-shadow: none;
-  color: var(--pg-ivory);
-  text-shadow: 0 2px 8px rgb(255 250 240 / 35%);
-}
-.title-tableau--art .game-title h1 {
-  color: var(--pg-ivory);
-  font:
-    500 clamp(1.9rem, 2.7vw, 3rem)/1.05 Georgia,
-    serif;
-  margin: 0 0 1.2rem;
-}
-.title-tableau--art .game-title-actions {
-  gap: 0.15rem;
-}
-.title-tableau--art .game-title-actions button {
-  position: relative;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--pg-ivory);
-  padding: 0.55rem 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  text-shadow: 0 2px 6px rgb(255 250 240 / 35%);
-}
-.title-tableau--art .game-title-actions button small {
-  text-transform: none;
-  letter-spacing: normal;
-  color: inherit;
-}
-.title-tableau--art
-  .game-title-actions
-  button:is(:hover, :focus-visible):not(:disabled) {
-  color: var(--pg-brass);
-  box-shadow: inset 2px 0 currentColor;
-  background: linear-gradient(90deg, rgb(176 138 62 / 26%), transparent);
-}
-.title-tableau--art .game-title-actions button:disabled {
-  opacity: 0.65;
-}
-
 /* Existing light-page hints need the shell’s dark-surface contrast token. */
 .pg-workspace .game-note,
 .pg-workspace .game-hint {
@@ -1173,43 +1125,6 @@
   box-shadow: none;
 }
 
-/* Private writing uses the existing workspace, with labels above controls. */
-.pg-private-journal {
-  display: grid;
-  gap: 0.85rem;
-}
-.pg-private-journal label {
-  display: grid;
-  gap: 0.35rem;
-  min-width: 0;
-}
-.pg-private-journal input,
-.pg-private-journal textarea,
-.pg-private-journal .pg-select {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 0.55rem 0.7rem;
-  border: 1px solid var(--run-a-line);
-  border-radius: 0.3rem;
-  background: var(--kit12-glass);
-  color: var(--run-a-ink);
-  font: inherit;
-}
-.pg-private-journal textarea {
-  min-height: 5rem;
-  resize: vertical;
-}
-.pg-private-journal fieldset {
-  display: grid;
-  gap: 0.75rem;
-  min-width: 0;
-  margin: 0;
-  padding: 0.9rem;
-  border: 1px solid var(--run-a-line);
-}
-.pg-private-journal button {
-  justify-self: start;
-}
 .pg-workspace .game-band {
   color: var(--text-2);
 }
@@ -3032,19 +2947,6 @@
   color: var(--text-strong);
 }
 
-.pg-game .pg-people-search-entry .pg-search-icon {
-  flex: none;
-  border: 0;
-  padding: 0.25rem;
-  background: transparent;
-  box-shadow: none;
-  color: var(--text-3);
-  font: 400 1.25rem/1 var(--ui);
-  cursor: pointer;
-}
-.pg-game .pg-people-search-entry .pg-search-icon:hover {
-  color: var(--text-strong);
-}
 .pg-people-search-entry input::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }

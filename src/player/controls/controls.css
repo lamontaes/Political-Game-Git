@@ -374,102 +374,14 @@ body:where(.pg-game) button:focus-visible {
   flex: none;
 }
 
-/* Personal option A: structure only; shared controls and theme own the skin. */
-.pg-split-record-pages {
-  display: flex;
-  gap: 1.25rem;
-  border-bottom: 1px solid var(--pg-control-line);
-  padding-bottom: 0.75rem;
-}
-.pg-split-record-pages [aria-current="page"] {
-  border-bottom: 2px solid var(--pg-control-accent);
-}
-.pg-split-record-grid {
-  display: grid;
-  grid-template-columns: minmax(6.5rem, 30%) minmax(0, 1fr);
-  align-items: start;
-  gap: 1.5rem;
-  padding: 1.5rem 0;
-}
-.pg-split-record-figure {
-  min-width: 0;
-  border: 1px solid var(--pg-control-line);
-  background: color-mix(in srgb, var(--pg-control-bg-flat) 25%, transparent);
-  border-radius: var(--pg-control-radius);
-}
-.pg-split-record-figure > figure {
-  width: min(100%, max(6.5rem, calc((100dvh - 25rem) / 2)));
-  margin-inline: auto !important;
-}
-.pg-split-record-figure > button {
-  display: block;
-  margin: 0.5rem auto;
-  max-width: 100%;
-}
-.pg-split-record-facts {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-.pg-split-record-facts h2 {
-  margin-top: 0;
-}
-.pg-split-record-current {
-  border-left: 3px solid var(--pg-control-accent);
-  background: color-mix(in srgb, var(--pg-control-bg-flat) 20%, transparent);
-  padding: 0.75rem 1rem;
-  margin: 1rem 0;
-}
-.pg-split-record-current h3 {
-  margin: 0.5rem 0;
-}
-.pg-split-record-current p {
-  margin: 0.4rem 0;
-}
-.pg-split-record-identity dt {
-  font-weight: 600;
-}
-.pg-split-record-identity dd {
-  margin: 0.3rem 0 0.75rem;
-}
-.pg-split-record-family {
-  list-style: none;
-  padding: 0;
-}
-.pg-split-record-family li {
-  margin-bottom: 0.65rem;
-}
-.pg-split-record-family small {
-  display: block;
-}
-.pg-split-record-footer {
-  display: flex;
-  justify-content: flex-end;
-  border-top: 1px solid var(--pg-control-line);
-  padding-top: 1rem;
-}
-.pg-split-record-history {
-  padding: 1rem 0;
-  overflow-wrap: anywhere;
-}
-.pg-contact-dialog:has(.pg-split-record-grid) {
-  width: min(45rem, calc(100vw - 2rem));
-  backdrop-filter: var(--kit12-blur);
-}
-@media (max-width: 600px) {
-  .pg-split-record-grid {
-    gap: 0.85rem;
-    padding: 1rem 0;
-  }
-  .pg-split-record-current {
-    padding: 0.5rem;
-  }
-}
-
 /* Approved Kit 13, consolidated into the existing theme. */
 /* Letterpress actions; text actions and the title list keep their own roles. */
 .pg-game.pg-game .ui-action,
 .pg-game.pg-game .pg-talk-return,
-.pg-game.pg-game .front-door .game-creator button,
+.pg-game.pg-game
+  .front-door
+  .game-creator
+  button:not(.creator-summary, .pg-search-icon),
 .pg-game.pg-game .front-door .game-saves button,
 .pg-game.pg-game .game-setup > button,
 .pg-game.pg-game .creator-navigation > button {
@@ -508,7 +420,10 @@ body:where(.pg-game) button:focus-visible {
 
 .pg-game.pg-game .ui-action:hover:not(:disabled),
 .pg-game.pg-game .pg-talk-return:hover:not(:disabled),
-.pg-game.pg-game .front-door .game-creator button:hover:not(:disabled),
+.pg-game.pg-game
+  .front-door
+  .game-creator
+  button:not(.creator-summary, .pg-search-icon):hover:not(:disabled),
 .pg-game.pg-game .front-door .game-saves button:hover:not(:disabled),
 .pg-game.pg-game .game-setup > button:hover:not(:disabled) {
   border-color: #85817a;
@@ -519,7 +434,10 @@ body:where(.pg-game) button:focus-visible {
 .pg-game.pg-game .ui-action:active:not(:disabled),
 .pg-game.pg-game .pg-talk-return:active:not(:disabled),
 .pg-game.pg-game .front-door .game-saves button:active:not(:disabled),
-.pg-game.pg-game .front-door .game-creator button:active:not(:disabled) {
+.pg-game.pg-game
+  .front-door
+  .game-creator
+  button:not(.creator-summary, .pg-search-icon):active:not(:disabled) {
   box-shadow: inset 0 1px 3px rgb(0 0 0 / 36%);
 }
 
@@ -551,15 +469,17 @@ body:where(.pg-game) button:focus-visible {
   text-shadow: var(--kit12-hover-glow);
 }
 
-.pg-game.pg-game .front-door .game-title button {
+.pg-game.pg-game .front-door .game-title:not(.game-creator) button {
   border-color: transparent;
   background: transparent;
   box-shadow: none;
 }
 
-.pg-game.pg-game .front-door .game-title button:hover:not(:disabled) {
+.pg-game.pg-game
+  .front-door
+  .game-title:not(.game-creator)
+  button:hover:not(:disabled) {
   text-shadow: 0 0 3px rgb(242 237 228 / 22%);
-  transform: scale(1.01);
 }
 
 /* The selected surface is short; no strip or underline behind all tabs. */
@@ -848,5 +768,111 @@ body:where(.pg-game) button:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .pg-game.pg-game :is(.ui-action, .pg-select, .game-creator button) {
     transition: none;
+  }
+}
+
+/* Flat search affordances shared by People and Creator. */
+.pg-game.pg-game .pg-search-icon {
+  flex: none;
+  border: 0;
+  padding: 0.25rem;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-3);
+  font: 400 1.25rem/1 var(--ui);
+  cursor: pointer;
+}
+.pg-game.pg-game .pg-search-icon:hover {
+  color: var(--text-strong);
+}
+
+/* Personal option A: structure only; shared controls and theme own the skin. */
+.pg-split-record-pages {
+  display: flex;
+  gap: 1.25rem;
+  border-bottom: 1px solid var(--pg-control-line);
+  padding-bottom: 0.75rem;
+}
+.pg-split-record-pages [aria-current="page"] {
+  border-bottom: 2px solid var(--pg-control-accent);
+}
+.pg-split-record-grid {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 30%) minmax(0, 1fr);
+  align-items: start;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+}
+.pg-split-record-figure {
+  min-width: 0;
+  border: 1px solid var(--pg-control-line);
+  background: color-mix(in srgb, var(--pg-control-bg-flat) 25%, transparent);
+  border-radius: var(--pg-control-radius);
+}
+.pg-split-record-figure > figure {
+  width: min(100%, max(6.5rem, calc((100dvh - 25rem) / 2)));
+  margin-inline: auto !important;
+}
+.pg-split-record-figure > button {
+  display: block;
+  margin: 0.5rem auto;
+  max-width: 100%;
+}
+.pg-split-record-facts {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.pg-split-record-facts h2 {
+  margin-top: 0;
+}
+.pg-split-record-current {
+  border-left: 3px solid var(--pg-control-accent);
+  background: color-mix(in srgb, var(--pg-control-bg-flat) 20%, transparent);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+}
+.pg-split-record-current h3 {
+  margin: 0.5rem 0;
+}
+.pg-split-record-current p {
+  margin: 0.4rem 0;
+}
+.pg-split-record-identity dt {
+  font-weight: 600;
+}
+.pg-split-record-identity dd {
+  margin: 0.3rem 0 0.75rem;
+}
+.pg-split-record-family {
+  list-style: none;
+  padding: 0;
+}
+.pg-split-record-family li {
+  margin-bottom: 0.65rem;
+}
+.pg-split-record-family small {
+  display: block;
+}
+.pg-split-record-footer {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--pg-control-line);
+  padding-top: 1rem;
+}
+.pg-split-record-history {
+  padding: 1rem 0;
+  overflow-wrap: anywhere;
+}
+.pg-contact-dialog:has(.pg-split-record-grid) {
+  width: min(45rem, calc(100vw - 2rem));
+  backdrop-filter: var(--kit12-blur);
+}
+@media (max-width: 600px) {
+  .pg-split-record-grid {
+    gap: 0.85rem;
+    padding: 1rem 0;
+  }
+  .pg-split-record-current {
+    padding: 0.5rem;
   }
 }
