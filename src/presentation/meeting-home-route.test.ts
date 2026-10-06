@@ -176,6 +176,14 @@ describe("recorded local meeting return and activity ownership", () => {
     });
     expect(meetingHomeRoute(moved, player).kind).toBe("unavailable");
   });
+  it("never tells the player what the record lacks when there is no way home", () => {
+    const initial = start("2309585");
+    const offer = meetingHomeRoute(initial.world, initial.player);
+    expect(offer.kind).toBe("unavailable");
+    expect(offer.kind === "unavailable" ? offer.reason : "").toBe(
+      "There is no way home from here yet.",
+    );
+  });
   it("does not teleport through a blocking commitment", () => {
     const { world, player } = attended("2007600");
     const blocked = createScheduledActivity(world, {
