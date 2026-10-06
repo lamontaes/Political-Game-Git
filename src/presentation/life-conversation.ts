@@ -64,7 +64,10 @@ import {
   playedSceneEnglishPacket,
 } from "./scene-conversation";
 import type { StorySceneSnapshot } from "./story-scene-resolver";
-import { composePlayedSceneLine } from "./small-talk-english";
+import {
+  composePlayedSceneLine,
+  PLAYED_SCENE_ENGLISH_VERSION,
+} from "./small-talk-english";
 import { evaluateReplyMeaning } from "./reply-meaning";
 import { conversationStanding } from "./conversation-consequences";
 import { recordDurableDecisionTrace } from "../simulation/decisions";
@@ -1209,7 +1212,7 @@ export function commitPlayedSceneTurn(
       surface: "dialogue" as const,
       momentKey: key,
       worldSeed: next.seed,
-      bankVersion: "1",
+      bankVersion: PLAYED_SCENE_ENGLISH_VERSION,
       stage: "current",
       sourceRecordIds: [presence.id, trace.id],
       facts: { reason: { text: reason, sourceRecordIds: [trace.id] } },

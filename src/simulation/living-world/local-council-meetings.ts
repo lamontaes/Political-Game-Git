@@ -14,27 +14,23 @@ import {
   lawJurisdiction,
   type CouncilRules,
 } from "./local-council-binding";
-import { addDays } from "../dates";
 import { fileMemberAgendaBills } from "../governing/member-agenda";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { scheduledActivityState } from "../time-work";
 import { mayAnswerQuestion } from "../governing/question-authority";
 import {
   governmentUnit,
   type GovernmentUnitIdentity,
 } from "../government-units";
-import {
-  introduceMeasure,
-  measurePosition,
-  placeMeasureOnCalendar,
-} from "../legislation";
+import { measurePosition, measureActions } from "../legislation";
 import { chamberByKey } from "../legislature-rules";
 import { rulePackById } from "../legislature-rule-packs";
-import { nextMeasureNumbering } from "../measure-numbering";
 import { completeCouncilPassage } from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import {
   homeLocalGovernmentUnits,
   localGovernmentDisplayName,
+  localGovernmentJurisdiction,
 } from "../nationwide-world/local-governments";
 import { boardGoverningBodyRules } from "../nationwide-world/township-governing-body-rules";
 import type {
@@ -62,9 +58,9 @@ import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
  * member other than the player introduces an ordinance, and every ordinance
  * introduced at an earlier meeting is put to a roll call of the sitting
  * members and adopted or rejected. The first meeting is the public meeting
- * the opening posts on the local calendar: its agenda item, opening the
- * meeting room one extra evening each week, is on the council's agenda as an
- * ordinance, so that meeting ends with the council's vote.
+ * the opening posts on the local calendar. Its agenda reads the body's
+ * actual pending measures; routine business does not introduce a measure
+ * or promise a vote.
  *
  * A council whose charter is compiled into a rule pack that the engine can
  * run moves its ordinances through that pack's own readings and thresholds
@@ -88,7 +84,7 @@ const V = LOCAL_COUNCIL_MEETINGS_VERSION;
 
 export const LOCAL_COUNCIL_MEETING = "civic:local-council-meeting" as const;
 
-/** The ordinance the posted public meeting takes up, for one town. */
+/** Legacy saved key; new agendas never introduce or select a measure by it. */
 export function postedMeetingOrdinanceKey(town: EntityId): string {
   return `${V}:${town}:posted-meeting-ordinance`;
 }
@@ -172,51 +168,6 @@ export function townQuestions(
         proposition !== undefined &&
         mayAnswerQuestion(world, town, proposition.id),
     );
-}
-
-function introduce(
-  world: World,
-  unit: GovernmentUnitIdentity,
-  town: EntityId,
-  rules: CouncilRules,
-  input: {
-    readonly stableKey?: string;
-    readonly sponsorPersonId: EntityId;
-    readonly shortTitle: string;
-    readonly summary: string;
-    readonly proposition: PolicyPropositionDefinition | null;
-    readonly answer: "yes" | "no";
-  },
-): World {
-  const pack = rulePackById(rules.packId);
-  const law = lawJurisdiction(world, unit, town);
-  const numbering = nextMeasureNumbering(law.world, {
-    jurisdictionId: law.jurisdictionId,
-    originChamber: chamberByKey(pack, "council"),
-    rulePackId: rules.packId,
-  });
-  return introduceMeasure(law.world, {
-    stableKey:
-      input.stableKey ??
-      `${V}:${unit.id}:${numbering.numberingSession.key}:${numbering.designation}`,
-    jurisdictionId: law.jurisdictionId,
-    rulePackId: rules.packId,
-    ...numbering,
-    shortTitle: input.shortTitle,
-    summary: input.summary,
-    origin: "member-introduction",
-    subjectClass: "general-policy",
-    originChamberKey: "council",
-    sponsorPersonId: input.sponsorPersonId,
-    ...(input.proposition
-      ? {
-          propositionIds: [input.proposition.id],
-          propositionAnswers: [
-            { propositionId: input.proposition.id, answer: input.answer },
-          ],
-        }
-      : {}),
-  });
 }
 
 /**
@@ -377,6 +328,81 @@ function seatedCouncil(
   return null;
 }
 
+/** Pure read of the existing body and measure replay; no filing or attendance. */
+export function recordedCouncilAgenda(world: World, playerPersonId: EntityId) {
+  const council = seatedCouncil(world, playerPersonId);
+  if (!council)
+    return {
+      bodyId: null,
+      jurisdictionId: null,
+      items: [],
+      summary: "No council agenda is recorded.",
+    };
+  const { unit, town, rules } = council;
+  const jurisdictionId = localGovernmentJurisdiction(unit)?.id ?? town;
+  const items = councilMeasures(world, rules, jurisdictionId).flatMap(
+    (measure) => {
+      if (
+        measure.sequence >= world.history.nextSequence ||
+        measure.introducedAt > world.currentDate
+      )
+        return [];
+      const actions = measureActions(world, measure.id).filter((action) => {
+        const event = world.history.events.find(
+          (row) => row.id === action.eventId,
+        );
+        return (
+          action.sequence < world.history.nextSequence &&
+          action.occurredAt <= world.currentDate &&
+          !!event &&
+          event.recordedAt <= world.currentDate &&
+          event.sequence < world.history.nextSequence
+        );
+      });
+      const position = measurePosition(
+        {
+          ...world,
+          history: { ...world.history, legislativeActions: actions },
+        },
+        measure.id,
+      );
+      if (
+        position.terminal ||
+        !["awaiting-referral", "awaiting-floor", "on-floor"].includes(
+          position.phase,
+        )
+      )
+        return [];
+      return [
+        {
+          measureId: measure.id,
+          designation: measure.designation,
+          shortTitle: measure.shortTitle,
+          summary: measure.summary,
+          sponsorPersonId: measure.sponsorPersonId,
+          phase: position.phase,
+          floorStageKey: position.floorStageKey,
+          earliestNextFloorDate: position.earliestNextFloorDate,
+          sourceRecordIds: [
+            measure.id,
+            ...actions.flatMap((action) => [action.id, action.eventId]),
+          ],
+        },
+      ];
+    },
+  );
+  return {
+    bodyId: unit.id,
+    jurisdictionId,
+    items,
+    summary: items.length
+      ? items
+          .map((item) => `${item.designation}: ${item.shortTitle}`)
+          .join("; ")
+      : "Routine business.",
+  };
+}
+
 /**
  * Put the town council's regular meetings on the calendar, the first
  * after the opening on its shared timetable. Unchanged where the town
@@ -403,8 +429,8 @@ export function ensureLocalCouncilMeetings(
 
 /**
  * The public meeting posted on the local calendar today, for tomorrow
- * evening, is a meeting of the town council: its agenda item goes before the
- * council as an ordinance, and the council meets that day to vote on it.
+ * evening, schedules the town council without introducing an ordinance.
+ * The body moves only its actual pending measures through its existing rules.
  * Unchanged when no meeting was posted today or the town is not seated.
  */
 export function ensurePostedMeetingOnCouncilAgenda(
@@ -417,37 +443,15 @@ export function ensurePostedMeetingOnCouncilAgenda(
   if (!notice || notice.occurredAt !== world.currentDate) return world;
   const council = seatedCouncil(world, playerPersonId);
   if (!council || notice.jurisdictionId !== council.town) return world;
-  const { unit, town, rules } = council;
-  const key = postedMeetingOrdinanceKey(town);
-  if (
-    (world.history.legislativeMeasures ?? []).some(
-      (measure) => measure.stableKey === key,
-    )
-  )
-    return world;
-  const sponsor = members(world, unit).find(
-    (seat) => seat.personId !== playerPersonId,
+  const { unit, town } = council;
+  const activity = world.history.scheduledActivities.find(
+    (row) =>
+      row.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      row.sourceEntityIds.includes(notice.id),
   );
-  if (!sponsor) return world;
-  let next = introduce(world, unit, town, rules, {
-    stableKey: key,
-    sponsorPersonId: sponsor.personId,
-    shortTitle: "Meeting Room Evening Hours Ordinance",
-    summary:
-      "Opens the public meeting room one extra evening each week. No hours or funding proposal is attached.",
-    proposition: null,
-    answer: "yes",
-  });
-  const measure = next.history.legislativeMeasures!.at(-1)!;
-  next = placeMeasureOnCalendar(next, {
-    stableKey: `${measure.stableKey}:agenda`,
-    measureId: measure.id,
-    rationale: "Posted on the agenda of the public meeting.",
-  });
-  const dueAt = addDays(world.currentDate, 1);
-  const calendar =
-    rulePackById(rules.packId).session.sittingCalendar ??
-    LEGISLATIVE_SESSION_CALENDARS.council;
+  if (!activity) return world;
+  const next = world;
+  const dueAt = scheduledActivityState(world, activity.id).start.date;
   const stableKey = `${V}:${unit.id}:posted-meeting:${dueAt}`;
   if (next.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return next;
@@ -458,8 +462,8 @@ export function ensurePostedMeetingOnCouncilAgenda(
     entityIds: [town, playerPersonId],
     jurisdictionId: town,
     provenance: {
-      kind: "authored",
-      note: `${calendar.id}: the posted public meeting is a meeting of ${unit.name}'s council.`,
+      kind: "simulated",
+      sourceEntityIds: [notice.id],
     },
   });
 }
@@ -473,14 +477,33 @@ export function postedMeetingVote(
   readonly measure: LegislativeMeasureRecord;
   readonly bodyName: string;
 } | null {
-  const measure = (world.history.legislativeMeasures ?? []).find(
-    (row) => row.stableKey === postedMeetingOrdinanceKey(town),
+  const notice = world.history.events.find(
+    (event) =>
+      event.stableKey === `${PUBLIC_MEETING_KEY}:notice` &&
+      event.jurisdictionId === town,
   );
-  if (!measure) return null;
-  const vote = (world.history.legislativeVotes ?? []).find(
-    (row) => row.measureId === measure.id,
+  const player = notice?.participants.find(
+    (actor) => actor.role === "observation:reader",
+  )?.personId;
+  const council = player ? seatedCouncil(world, player) : null;
+  if (!council) return null;
+  const jurisdictionId = localGovernmentJurisdiction(council.unit)?.id ?? town;
+  const eligible = new Map(
+    councilMeasures(world, council.rules, jurisdictionId).map((measure) => [
+      measure.id,
+      measure,
+    ]),
   );
+  const vote = [...(world.history.legislativeVotes ?? [])]
+    .reverse()
+    .find(
+      (row) =>
+        row.sequence < world.history.nextSequence &&
+        row.takenAt === world.currentDate &&
+        eligible.has(row.measureId),
+    );
   if (!vote) return null;
+  const measure = eligible.get(vote.measureId)!;
   const pack = rulePackById(measure.rulePackId);
   return {
     vote,
@@ -489,7 +512,7 @@ export function postedMeetingVote(
   };
 }
 
-/** "The Ely City Council voted 4-1 to adopt ORD 1, which opens ..." */
+/** The actual selected roll call and measure title, without a promised effect. */
 export function postedMeetingVoteSentence(
   world: World,
   town: EntityId,
@@ -503,7 +526,7 @@ export function postedMeetingVoteSentence(
     present === 0
       ? ""
       : `, with ${present} ${present === 1 ? "member" : "members"} answering present`;
-  return `The ${bodyName} voted ${vote.tally.yea}-${vote.tally.nay} ${adopted ? "to adopt" : "against"} ${measure.designation}${abstained}, which would open the room one extra evening each week.`;
+  return `The ${bodyName} voted ${vote.tally.yea}-${vote.tally.nay} ${adopted ? "to adopt" : "against"} ${measure.designation}, ${measure.shortTitle}${abstained}.`;
 }
 
 /** Who chairs a meeting of the town's council: its mayor, or a member. */

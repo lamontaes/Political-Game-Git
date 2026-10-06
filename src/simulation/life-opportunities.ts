@@ -1,4 +1,7 @@
-import { ensurePostedMeetingOnCouncilAgenda } from "./living-world/local-council-meetings";
+import {
+  ensurePostedMeetingOnCouncilAgenda,
+  recordedCouncilAgenda,
+} from "./living-world/local-council-meetings";
 import {
   lifeRequestDetailsTag,
   type LifeRequestDetails,
@@ -140,8 +143,6 @@ export function lifeOpportunityTag(kind: LifeOpportunityKind): string {
 export const OPEN_LIFE_OPPORTUNITY_LIMIT = 4;
 
 export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
-export const PUBLIC_MEETING_AGENDA =
-  "Whether the public meeting room should open for one extra evening each week. No hours or funding proposal is attached.";
 
 /**
  * The public meeting an ordinary week can put in front of somebody.
@@ -322,6 +323,7 @@ export function openOrdinaryLifeRecords(
   );
   if (alreadyOpen) return world;
 
+  const agenda = recordedCouncilAgenda(world, personId);
   let next = recordWorldEvent(world, {
     stableKey: `${PUBLIC_MEETING_KEY}:notice`,
     type: "civic.meeting-notice",
@@ -338,13 +340,17 @@ export function openOrdinaryLifeRecords(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["civic.public-meeting", "provenance:authored opening"],
-    summary: `A public meeting was posted on the local calendar. Agenda: ${PUBLIC_MEETING_AGENDA}`,
+    tags: [
+      "civic.public-meeting",
+      "provenance:authored opening",
+      `civic.meeting-agenda.v1:${JSON.stringify(agenda)}`,
+    ],
+    summary: `A public meeting was posted on the local calendar. Agenda: ${agenda.summary}`,
     context: {
       location: jurisdictionId
         ? { jurisdictionId, label: "Public meeting room", setting: null }
         : null,
-      socialContext: null,
+      socialContext: agenda.summary,
       pressure: null,
       choice: null,
       motivation: null,
@@ -641,19 +647,19 @@ function eligibleOpportunities(
     push({
       kind: "meeting-agenda-item",
       counterpartPersonId: null,
-      write: (current, stableKey) =>
-        writeNotice(current, {
+      write: (current, stableKey) => {
+        const agenda = recordedCouncilAgenda(current, personId);
+        return writeNotice(current, {
           stableKey,
           kind: "meeting-agenda-item",
           personId,
           jurisdictionId,
           type: "civic.meeting-agenda-item",
-          summary:
-            "The posted agenda asks whether the public meeting room should open for an extra evening each week. No hours or funding proposal are attached.",
-          // The player's own reading, addressed to the player (UI FINISH).
-          believed:
-            "You read the posted agenda: it asks whether the public meeting room should open one extra evening each week.",
-        }),
+          agenda,
+          summary: `The posted agenda: ${agenda.summary}`,
+          believed: `You read the posted agenda: ${agenda.summary}`,
+        });
+      },
     });
   }
 
@@ -914,6 +920,7 @@ function writeAsk(world: World, input: AskInput): World {
 }
 
 interface NoticeInput {
+  readonly agenda?: ReturnType<typeof recordedCouncilAgenda>;
   readonly stableKey: string;
   readonly kind: LifeOpportunityKind;
   readonly personId: EntityId;
@@ -939,7 +946,10 @@ function writeNotice(world: World, input: NoticeInput): World {
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: input.jurisdictionId,
-    involvedEntityIds: [input.personId],
+    involvedEntityIds: [
+      input.personId,
+      ...(input.agenda?.items.flatMap((item) => item.sourceRecordIds) ?? []),
+    ],
     participants: [
       {
         personId: input.personId,
@@ -952,7 +962,9 @@ function writeNotice(world: World, input: NoticeInput): World {
     tags: [
       lifeOpportunityTag(input.kind),
       "civic.public-meeting",
-      "text39:evening-opening-v1",
+      ...(input.agenda
+        ? [`civic.meeting-agenda.v1:${JSON.stringify(input.agenda)}`]
+        : []),
     ],
     summary: input.summary,
     context: {
@@ -963,7 +975,7 @@ function writeNotice(world: World, input: NoticeInput): World {
             setting: null,
           }
         : null,
-      socialContext: null,
+      socialContext: input.agenda?.summary ?? null,
       pressure: null,
       choice: null,
       motivation: null,

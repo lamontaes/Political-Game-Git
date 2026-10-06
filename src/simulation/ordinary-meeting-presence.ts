@@ -1,13 +1,11 @@
+import { ensurePeopleTraits } from "./people-traits";
 import { eventById } from "./event-index";
 import {
   ageOnDate,
   compareSimulationMoments,
   simulationMinutesBetween,
 } from "./dates";
-import {
-  PUBLIC_MEETING_AGENDA,
-  PUBLIC_MEETING_KEY,
-} from "./life-opportunities";
+import { PUBLIC_MEETING_KEY } from "./life-opportunities";
 import { personName } from "./people";
 import { recordEventKnowledge } from "./records";
 import { canPersonAccess, scheduledActivityState } from "./time-work";
@@ -20,6 +18,7 @@ import type {
 import { recordWorldEvent } from "./world";
 import {
   localCouncilChair,
+  recordedCouncilAgenda,
   postedMeetingVote,
   postedMeetingVoteSentence,
 } from "./living-world/local-council-meetings";
@@ -30,27 +29,12 @@ export const ORDINARY_MEETING_PRESENCE = "ordinary-meeting-presence-v1";
 
 export type OrdinaryMeetingSpeechChoice = "support" | "oppose" | "ask";
 
-// PLACEHOLDER(overnight): COPY-PENDING exact public-comment wording awaits
-// the English engine. These are choices shown before the writer records one.
+// Retired panel compatibility: new speech comes through the shared English turn writer.
+// No canned public comment is offered or recorded by this legacy path.
 export const ORDINARY_MEETING_SPEECH_CHOICES: readonly {
   readonly key: OrdinaryMeetingSpeechChoice;
   readonly words: string;
-}[] = [
-  {
-    key: "support",
-    words: "I support opening this room one extra evening each week.",
-  },
-  {
-    key: "oppose",
-    words:
-      "I do not support another evening until the hours and funding are clear.",
-  },
-  {
-    key: "ask",
-    words:
-      "What hours are proposed, and how would the extra evening be funded?",
-  },
-];
+}[] = [];
 
 /** An actual public comment is recorded once at the active meeting. Reading
  * the options or agenda writes nothing and spends no time. */
@@ -524,7 +508,10 @@ function writePresence(
       });
     }
   }
-  const agenda = earlierEntry?.context.socialContext ?? PUBLIC_MEETING_AGENDA;
+  const agendaRecord = recordedCouncilAgenda(next, personId);
+  const agenda = earlierEntry?.context.socialContext ?? agendaRecord.summary;
+  // Only this recorded chair is admitted to the opening contribution.
+  next = ensurePeopleTraits(next, [chairId]);
   const recordedVote = postedMeetingVote(next, jurisdictionId);
   const ballots =
     recordedVote?.vote.takenAt === next.currentDate
@@ -604,6 +591,11 @@ function writePresence(
       `arrival:${arrivalId}`,
       `activity:${activityId}`,
       `notice:${notice.id}`,
+      ...(earlierEntry
+        ? earlierEntry.tags.filter((tag) =>
+            tag.startsWith("civic.meeting-agenda.v1:"),
+          )
+        : [`civic.meeting-agenda.v1:${JSON.stringify(agendaRecord)}`]),
       ...(lateArrival ? ["attendance:late-entry"] : []),
       ...(outcome ? [`completion:${outcome.id}`] : []),
       ...attendanceSourceTags,

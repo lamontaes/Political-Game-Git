@@ -17,6 +17,7 @@ import {
 } from "./story-scene-resolver";
 import {
   composePlayedSceneLine,
+  PLAYED_SCENE_ENGLISH_VERSION,
   type PlayedScenePrimitive,
 } from "./small-talk-english";
 import type { GroundedEnglishPacket } from "./grounded-english";
@@ -91,6 +92,87 @@ export interface PlayedSceneExchange {
   }[];
 }
 
+/** Semantic slots come from typed records, never by trimming a prose summary. */
+function playedRecordSpeechFacts(
+  world: World,
+  event: HistoricalEvent,
+  speaker: EntityId,
+  focus: "event" | "meeting-agenda",
+): GroundedEnglishPacket["facts"] {
+  const fact = (text: string, sources: readonly EntityId[] = [event.id]) => ({
+    text,
+    sourceRecordIds: sources,
+  });
+  if (
+    focus === "meeting-agenda" ||
+    event.type === "civic.meeting-agenda-item" ||
+    event.type === "civic.meeting-notice"
+  ) {
+    const tag = event.tags.find((value) =>
+      value.startsWith("civic.meeting-agenda.v1:"),
+    );
+    if (!tag) return {};
+    let raw: unknown;
+    try {
+      raw = JSON.parse(tag.slice("civic.meeting-agenda.v1:".length));
+    } catch {
+      return {};
+    }
+    if (
+      !raw ||
+      typeof raw !== "object" ||
+      !("items" in raw) ||
+      !Array.isArray(raw.items)
+    )
+      return {};
+    if (!("bodyId" in raw) || typeof raw.bodyId !== "string") return {};
+    if (!raw.items.length) return { "speech-kind": fact("meeting-routine") };
+    const items = raw.items.flatMap((item: unknown) => {
+      if (!item || typeof item !== "object" || !("measureId" in item))
+        return [];
+      const measure = world.history.legislativeMeasures?.find(
+        (row) =>
+          row.id === item.measureId &&
+          row.sequence < event.sequence &&
+          row.introducedAt <= event.occurredAt,
+      );
+      return measure ? [measure] : [];
+    });
+    if (items.length !== raw.items.length) return {};
+    return {
+      "speech-kind": fact("meeting-agenda"),
+      "agenda-title": fact(items.map((item) => item.shortTitle).join("; "), [
+        event.id,
+        ...items.map((item) => item.id),
+      ]),
+    };
+  }
+  if (
+    event.type === "civic.meeting-entered" ||
+    event.type === "civic.meeting-attended"
+  ) {
+    const chair = event.participants.find(
+      (person) => person.role === "coordination:chair",
+    );
+    const person = chair && world.people[chair.personId];
+    if (!person) return {};
+    return {
+      "speech-kind": fact("meeting-chair"),
+      "chair-name": fact(personName(person)),
+      "speaker-chair": fact(chair.personId === speaker ? "yes" : "no"),
+    };
+  }
+  if (
+    event.type === "life.education-work-crossroad" &&
+    event.participants.some(
+      (person) =>
+        person.personId === speaker && person.role === "focus:subject",
+    )
+  )
+    return { "speech-kind": fact("education-work-crossroad") };
+  return {};
+}
+
 /** Pure packet seam shared by scene and clerk consumers. Participation or
  * saved knowledge establishes each fact; a date alone never establishes it. */
 export function playedSceneEnglishPacket(
@@ -101,6 +183,7 @@ export function playedSceneEnglishPacket(
   matter: string,
   surface: GroundedEnglishPacket["surface"] = "dialogue",
   knowledgeId: EntityId | null = null,
+  focus: "event" | "meeting-agenda" = "event",
 ): GroundedEnglishPacket | null {
   const event = world.history.events.find(
     (row) =>
@@ -129,19 +212,25 @@ export function playedSceneEnglishPacket(
   )
     return null;
   const basis = knowledge ? [event.id, knowledge.id] : [event.id];
+  const facts = {
+    matter: { text: matter, sourceRecordIds: [event.id] },
+    ...playedRecordSpeechFacts(world, event, speaker, focus),
+  };
   return {
     surface,
     momentKey: `${JSON.stringify(world.currentMoment)}:${world.history.nextSequence}:${sourceEventId}:${speaker}`,
     worldSeed: world.seed,
-    bankVersion: "1",
+    bankVersion: PLAYED_SCENE_ENGLISH_VERSION,
     stage: "current",
     sourceRecordIds: basis,
-    facts: { matter: { text: matter, sourceRecordIds: [event.id] } },
+    facts,
     speaker: { personId: speaker, traits: speakerTraits(world, speaker) },
     viewer: { personId: viewer, traits: speakerTraits(world, viewer) },
-    knowledge: [
-      { personId: speaker, factKey: "matter", sourceRecordIds: basis },
-    ],
+    knowledge: Object.keys(facts).map((factKey) => ({
+      personId: speaker,
+      factKey,
+      sourceRecordIds: basis,
+    })),
   };
 }
 
@@ -212,6 +301,9 @@ export function projectPlayedSceneExchange(
       addresseePersonId,
       presence.id,
       presence.context.socialContext,
+      "dialogue",
+      null,
+      "meeting-agenda",
     );
     if (packet) {
       const line = composePlayedSceneLine(packet, "recorded-observation");

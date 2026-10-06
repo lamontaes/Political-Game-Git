@@ -31,6 +31,8 @@ import {
 import type { GroundedEnglishPacket } from "./grounded-english";
 import type { CompositionContext } from "./english-composition";
 
+export const PLAYED_SCENE_ENGLISH_VERSION = "2";
+
 /** Reusable speech acts; the caller supplies the recorded matter and meaning. */
 export type PlayedScenePrimitive =
   | "recorded-request"
@@ -49,18 +51,146 @@ export function composePlayedSceneLine(
   primitive: PlayedScenePrimitive,
   context: CompositionContext = {},
 ) {
-  const texts: Record<PlayedScenePrimitive, string> = {
-    "recorded-request": "{{matter}}",
-    "recorded-observation": "{{matter}}",
-    "ask-record": "Can we talk about this? {{matter}}",
-    "tell-record": "This is what I know: {{matter}}",
-    "deny-record": "That's not true: {{matter}}",
-    agree: "Go on. I'm listening.",
-    decline: "I'd rather not discuss it.",
-    undecided: "I haven't decided whether to talk about it.",
-    acknowledge: "I heard you.",
-    depart: "I'll leave you to it.",
+  const kind = packet.facts["speech-kind"]?.text;
+  const strengths: Record<string, number> = {
+    subtle: 1,
+    moderate: 2,
+    strong: 3,
+    defining: 4,
   };
+  const cues = [
+    "direct",
+    "confrontational",
+    "reserved",
+    "cautious",
+    "deliberative",
+    "listen",
+    "ask",
+    "dependable",
+  ];
+  const voice = cues
+    .map((cue) => ({ cue, fact: packet.speaker?.traits[`expression:${cue}`] }))
+    .filter(
+      (entry) =>
+        entry.fact?.sourceRecordIds.length && strengths[entry.fact.text],
+    )
+    .sort(
+      (left, right) =>
+        strengths[right.fact!.text]! - strengths[left.fact!.text]!,
+    )[0];
+  const careful =
+    voice &&
+    ["cautious", "deliberative", "listen", "ask", "dependable"].includes(
+      voice.cue,
+    );
+  const brief =
+    voice && ["direct", "confrontational", "reserved"].includes(voice.cue);
+  const textFor = (): string | null => {
+    if (primitive === "depart")
+      return brief ? "I'll go." : "I'll leave you to it.";
+    if (primitive === "agree")
+      return brief ? "Go ahead." : "Tell me what you have in mind.";
+    if (primitive === "acknowledge")
+      return brief ? "Understood." : "I understand what you're saying.";
+    if (primitive === "decline")
+      return brief ? "No, I'd rather stop." : "I'd rather leave it there.";
+    if (primitive === "undecided")
+      return brief ? "I'm undecided." : "I need to think it through.";
+    if (kind === "meeting-chair") {
+      if (primitive === "ask-record")
+        return careful
+          ? "Can we confirm that {{chair-name}} is chairing the meeting?"
+          : brief
+            ? "Is {{chair-name}} the chair?"
+            : "Is {{chair-name}} chairing this meeting?";
+      if (primitive === "tell-record")
+        return careful
+          ? "The chair for this meeting is {{chair-name}}."
+          : brief
+            ? "{{chair-name}} is the chair."
+            : "{{chair-name}} is chairing this meeting.";
+      if (primitive === "deny-record")
+        return careful
+          ? "{{chair-name}} is not chairing this meeting."
+          : brief
+            ? "{{chair-name}} isn't the chair."
+            : "The chair isn't {{chair-name}}.";
+      if (packet.facts["speaker-chair"]?.text === "yes")
+        return brief ? "I'm chairing." : "I'm chairing this meeting.";
+    }
+    if (kind === "meeting-agenda") {
+      if (primitive === "ask-record")
+        return careful
+          ? "What is the council proposing in {{agenda-title}}?"
+          : brief
+            ? "What would {{agenda-title}} do?"
+            : "Are we considering {{agenda-title}}?";
+      if (primitive === "tell-record")
+        return careful
+          ? "The posted agenda includes {{agenda-title}}."
+          : brief
+            ? "{{agenda-title}} is on the agenda."
+            : "We have {{agenda-title}} on the posted agenda.";
+      if (primitive === "deny-record")
+        return careful
+          ? "{{agenda-title}} does not appear on that agenda."
+          : brief
+            ? "{{agenda-title}} isn't on the agenda."
+            : "The posted agenda does not include {{agenda-title}}.";
+      return careful
+        ? "The pending council business includes {{agenda-title}}."
+        : brief
+          ? "{{agenda-title}} is before us."
+          : "{{agenda-title}} is pending council business.";
+    }
+    if (kind === "meeting-routine") {
+      if (primitive === "ask-record")
+        return careful
+          ? "Is the posted agenda all routine business?"
+          : brief
+            ? "Routine business?"
+            : "Is this meeting for routine business?";
+      if (primitive === "tell-record")
+        return careful
+          ? "The posted agenda lists routine business."
+          : brief
+            ? "It's routine business."
+            : "Routine business is on the posted agenda.";
+      if (primitive === "deny-record")
+        return careful
+          ? "This agenda is not limited to routine business."
+          : brief
+            ? "This isn't routine business."
+            : "There's more than routine business on that agenda.";
+      return careful
+        ? "We'll work through the routine business."
+        : brief
+          ? "Routine business today."
+          : "We're handling routine business at this meeting.";
+    }
+    if (kind === "education-work-crossroad") {
+      if (primitive === "ask-record")
+        return careful
+          ? "Would you talk through further study and full-time work with me?"
+          : brief
+            ? "Study or full-time work?"
+            : "Should I keep studying or start full-time work?";
+      if (primitive === "tell-record")
+        return careful
+          ? "My options are further study or full-time work."
+          : brief
+            ? "I can study, or I can work full-time."
+            : "I can continue studying or take full-time work.";
+      if (primitive === "deny-record")
+        return careful
+          ? "Neither further study nor full-time work is an option for me."
+          : brief
+            ? "I can't study or take full-time work."
+            : "I don't have the option of studying or working full-time.";
+    }
+    return null;
+  };
+  const text = textFor();
   const act: ComposedLineBank["act"] =
     primitive === "deny-record"
       ? "lie"
@@ -73,49 +203,40 @@ export function composePlayedSceneLine(
           : "tell";
   const bank: ComposedLineBank = {
     key: `played-scene.${primitive}`,
-    version: "1",
+    version: PLAYED_SCENE_ENGLISH_VERSION,
     surface: packet.surface,
     act,
     parts: {
       core: {
-        variants:
-          primitive === "ask-record" &&
-          packet.speaker?.traits["expression:direct"]
-            ? [
-                {
-                  key: "direct",
-                  kind: "template",
-                  text: "Let's discuss this: {{matter}}",
-                  requiresTraits: [
-                    { holder: "speaker", traitKey: "expression:direct" },
-                  ],
-                },
-              ]
-            : primitive === "ask-record" &&
-                packet.speaker?.traits["expression:listen"]
-              ? [
-                  {
-                    key: "listen",
-                    kind: "template",
-                    text: "I'd like to hear your thoughts on this: {{matter}}",
-                    requiresTraits: [
-                      { holder: "speaker", traitKey: "expression:listen" },
-                    ],
-                  },
-                ]
-              : primitive === "ask-record" &&
-                  packet.speaker?.traits["expression:ask"]
-                ? [
-                    {
-                      key: "question",
-                      kind: "template",
-                      text: "What do you think about this? {{matter}}",
+        variants: text
+          ? [
+              {
+                key: voice ? `voice-${voice.cue}` : "plain",
+                kind: "template",
+                text,
+                ...(kind &&
+                ![
+                  "depart",
+                  "agree",
+                  "acknowledge",
+                  "decline",
+                  "undecided",
+                ].includes(primitive)
+                  ? { requiresFacts: ["speech-kind"] }
+                  : {}),
+                ...(voice
+                  ? {
                       requiresTraits: [
-                        { holder: "speaker", traitKey: "expression:ask" },
+                        {
+                          holder: "speaker",
+                          traitKey: `expression:${voice.cue}`,
+                        },
                       ],
-                    },
-                  ]
-                : [{ key: "plain", kind: "template", text: texts[primitive] }],
+                    }
+                  : {}),
+              },
+            ]
+          : [],
       },
       ...((primitive === "decline" || primitive === "undecided") && {
         reason: {
