@@ -78,7 +78,7 @@ describe("The Senate on the opening card", () => {
   // vacant seat and the card left it out. Places are drawn from all 56;
   // seed s99-b drew a vacant Hawaii seat before the fix.
   const senateCount = (line: string) =>
-    [...line.matchAll(/(\d+) [A-Z]/g)].reduce(
+    [...line.matchAll(/(\d+) [A-Za-z]/g)].reduce(
       (sum, match) => sum + Number(match[1]),
       0,
     );
