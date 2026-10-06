@@ -249,10 +249,15 @@ export function reporterQuestionPacket(
       record.correctsPublicationId === null,
   );
   // Beliefs and published accounts remain fallible; neither unlocks canonical prose.
+  // A published account is asked about by its headline: its body carries the
+  // byline and who declined to comment, which a reporter does not say aloud.
   const subject = belief
     ? { text: belief.believedSummary, sourceRecordIds: [belief.id, event.id] }
     : publication
-      ? { text: publication.body, sourceRecordIds: [publication.id, event.id] }
+      ? {
+          text: publication.headline,
+          sourceRecordIds: [publication.id, event.id],
+        }
       : null;
   const facts: Record<string, GroundedEnglishFact> = subject ? { subject } : {};
 
