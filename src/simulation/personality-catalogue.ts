@@ -234,6 +234,7 @@ const CATALOGUE_EFFECTS: TraitPack["effects"] = [
       },
     ],
   },
+  ...personalityTraitEffects(),
 ];
 
 export function personalityCataloguePack(): TraitPack {
