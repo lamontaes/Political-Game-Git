@@ -1,4 +1,8 @@
 import { recordsByKey } from "./history-index";
+import {
+  activeWorkRelationshipsAt,
+  householdMembershipsAt,
+} from "./life-queries";
 import { settleAllOfficeSalaries } from "./office-salary";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -182,6 +186,22 @@ export function distantHistoricalRoutine(
   if (nearby.has(personId)) return false;
   const home = world.people[personId]?.homeJurisdictionId;
   if (home && historicalPlayerTouchesJurisdiction(world, home)) return false;
+  if (
+    householdMembershipsAt(world, personId).some(
+      ({ location }) =>
+        location &&
+        historicalPlayerTouchesJurisdiction(world, location.jurisdictionId),
+    )
+  )
+    return false;
+  if (
+    activeWorkRelationshipsAt(world, personId).some(
+      ({ role }) =>
+        role.locationJurisdictionId &&
+        historicalPlayerTouchesJurisdiction(world, role.locationJurisdictionId),
+    )
+  )
+    return false;
   const families: readonly (readonly [
     string,
     readonly { readonly personIds: readonly EntityId[] }[],
