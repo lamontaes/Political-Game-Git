@@ -25,7 +25,11 @@ describe("the affectionate trait reader", () => {
       },
     ]);
     expect(leansForDecision(registry, "people.couple-answer")).toHaveLength(1);
-    expect(leansForDecision(registry, "people.couple-stage")).toHaveLength(1);
+    expect(
+      leansForDecision(registry, "people.couple-stage").filter(
+        ({ trait }) => trait === "personality-v1:facet-affectionate",
+      ),
+    ).toHaveLength(1);
   });
 
   it("never invents an opposite effect for an unmarked one-sided trait", () => {

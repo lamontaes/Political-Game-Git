@@ -9,6 +9,7 @@ import type {
   GroundedEnglishFact,
   GroundedEnglishPacket,
 } from "./grounded-english";
+import { conversationRegister } from "./conversation-register";
 import { speakerTraits } from "./speaker-traits";
 import type { SmallTalkLine } from "./small-talk-english";
 
@@ -287,6 +288,7 @@ export function lifeReplyLine(
   const line = composeGroundedLine(packet, bank, {
     relationship: readRelationshipStanding(world, speakerId, playerId),
     recentPartKeys: history.flatMap((event) => linePartsOf(event.tags) ?? []),
+    register: conversationRegister(world, speakerId, playerId),
   });
   if (line.kind !== "rendered")
     throw new Error(
