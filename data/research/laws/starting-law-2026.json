@@ -13910,9 +13910,17 @@
         "US-NE": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Neb. Rev. Stat. §§ 45-919, 45-1024",
-          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
-          "note": "Payday loans are no longer issued after voters' 2020 Initiative 428 capped delayed-deposit fees at 36% APR; installment loans allow 24% interest plus an origination fee (NCLC: about 48% all-in on a $500 six-month loan)."
+          "cite": "Neb. Rev. Stat. §§ 45-902, 45-918, 45-919; Neb. Dep't of Banking & Fin. DDS Interpretive Opinion No. 1 (Dec. 7, 2020)",
+          "source": "https://ndbf.nebraska.gov/sites/default/files/legal/DDS%20Interpretative%20Opinions_1.pdf",
+          "note": "Initiative 428 caps APR at 36% including fees and charges for licensed delayed-deposit transactions only; the 2025 replacement installment-loan rules are separate and permit different principal-tier rates and fees.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NH": {
           "answer": "yes",
