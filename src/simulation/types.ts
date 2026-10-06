@@ -4838,6 +4838,7 @@ export type LegislativeActionKind =
   | "recorded-vote-demanded"
   | "full-reading-demanded"
   | "rules-suspended"
+  | "sine-die-vote-carried"
   | "quorum-not-present"
   | "debate-extended"
   | "transmitted"

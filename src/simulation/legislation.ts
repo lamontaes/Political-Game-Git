@@ -277,6 +277,7 @@ const REGULAR_SESSION_ACTIONS: ReadonlySet<LegislativeActionKind> = new Set([
   "recorded-vote-demanded",
   "full-reading-demanded",
   "rules-suspended",
+  "sine-die-vote-carried",
   "quorum-not-present",
   "debate-extended",
   "transmitted",
@@ -463,6 +464,7 @@ function applyRecordedAction(
     case "recorded-vote-demanded":
     case "full-reading-demanded":
     case "rules-suspended":
+    case "sine-die-vote-carried":
     case "quorum-not-present":
     case "debate-extended": {
       const gate = requirePhase(state, action.kind, ["on-floor"]);
@@ -1330,6 +1332,7 @@ export function recordProceduralMotion(
     "recorded-vote": "recorded-vote-demanded",
     "full-reading": "full-reading-demanded",
     "suspend-rules": "rules-suspended",
+    "sine-die": "sine-die-vote-carried",
   };
   const passed = input.vote.outcome === "passed";
   const kind = passed ? acceptedKind[input.motion] : "procedural-motion-failed";
@@ -1341,6 +1344,7 @@ export function recordProceduralMotion(
     "recorded-vote": "demand a recorded vote",
     "full-reading": "demand the full reading",
     "suspend-rules": "suspend the rules",
+    "sine-die": "adjourn the session sine die",
   };
   return appendAction(world, {
     measure,

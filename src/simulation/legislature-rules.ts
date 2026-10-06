@@ -408,7 +408,8 @@ export type MinorityProcedureMotion =
   | "recommit"
   | "recorded-vote"
   | "full-reading"
-  | "suspend-rules";
+  | "suspend-rules"
+  | "sine-die";
 
 export interface MinorityPartyProcedureRow {
   readonly packId: string;

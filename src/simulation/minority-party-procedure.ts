@@ -31,6 +31,7 @@ const ESTIMATED_MOTIONS: readonly ProceduralMotion[] = [
   "recorded-vote",
   "full-reading",
   "suspend-rules",
+  "sine-die",
 ];
 
 /**

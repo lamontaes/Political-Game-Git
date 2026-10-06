@@ -214,7 +214,12 @@ export function memberVoteConsiderations(
 ): readonly DecisionConsideration[] {
   const considerations = memberConsiderations(world, input);
   const motion = input.question.proceduralMotion;
-  if (motion !== "table" && motion !== "postpone" && motion !== "recommit")
+  if (
+    motion !== "table" &&
+    motion !== "postpone" &&
+    motion !== "recommit" &&
+    motion !== "sine-die"
+  )
     return considerations;
   const billConsiderations = memberConsiderations(world, {
     ...input,

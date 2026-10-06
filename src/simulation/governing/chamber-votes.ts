@@ -797,7 +797,8 @@ function billVoteContext(
         input.nonpartisan ?? false,
         input.question.proceduralMotion === "table" ||
           input.question.proceduralMotion === "postpone" ||
-          input.question.proceduralMotion === "recommit",
+          input.question.proceduralMotion === "recommit" ||
+          input.question.proceduralMotion === "sine-die",
       );
       // A member's own view is worked out only when it is needed: when the
       // member decides, or when an undecided member who trusts them asks how
@@ -1076,6 +1077,7 @@ export function decideProceduralMotion(
     "recorded-vote": "whether to require a recorded vote",
     "full-reading": "whether to require the full reading",
     "suspend-rules": "whether to suspend the rules",
+    "sine-die": "whether to adjourn the session sine die",
   };
   const dispositions = decideChamberVote(world, {
     stableKey: input.stableKey,

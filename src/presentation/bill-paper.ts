@@ -253,6 +253,9 @@ export function projectBillPaper(
       case "died-on-adjournment":
         record.push(`Died when Congress adjourned ${when}.`);
         break;
+      case "sine-die-vote-carried":
+        record.push(`The chamber carried a sine-die motion ${when}.`);
+        break;
       default:
         break;
     }
