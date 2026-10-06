@@ -268,7 +268,6 @@ import {
 import {
   activeView,
   canGoBack,
-  EMPTY_JOURNAL,
   conversationSuspended,
   isPinned,
   type ShellAction,
@@ -4140,17 +4139,8 @@ function renderWorkspace({
           onYearChange={(journalYear) =>
             dispatch({ type: "set-reader-preferences", patch: { journalYear } })
           }
-          journal={shell.journals[session.personId] ?? EMPTY_JOURNAL}
-          onJournalChange={(journal) =>
-            dispatch({
-              type: "set-journal",
-              personId: session.personId,
-              journal,
-            })
-          }
           world={session.world}
           personId={session.personId}
-          onOpenPerson={openPerson}
         />,
       );
 

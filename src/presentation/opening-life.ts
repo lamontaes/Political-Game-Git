@@ -87,11 +87,36 @@ export interface OpeningLifeSession {
   readonly setup: NewGameSetup;
   readonly phase: OpeningLifePhase;
   readonly game: NewGame | null;
+  /** The Creator's already-built record-backed life, before its Begin handoff. */
+  readonly stagedGame?: NewGame;
 }
 
 /** UI-CORE owns the fade. Creating its state does not build a World. */
-export function prepareOpeningLife(setup: NewGameSetup): OpeningLifeSession {
-  return { version: "opening-life-v1", setup, phase: "transition", game: null };
+export function prepareOpeningLife(
+  setup: NewGameSetup,
+  stagedGame?: NewGame,
+): OpeningLifeSession {
+  if (
+    stagedGame &&
+    (stagedGame.world.control.kind !== "observer" ||
+      stagedGame.world.preStartLife?.personId !== stagedGame.playerPersonId ||
+      !stagedGame.world.people[stagedGame.playerPersonId] ||
+      stagedGame.world.currentDate >
+        stagedGame.world.preStartLife.targetStartDate ||
+      stagedGame.setup.seed !== setup.seed ||
+      stagedGame.setup.placeKey !== setup.placeKey ||
+      setup.creatorLifeForks === undefined)
+  )
+    throw new Error(
+      "The staged Creator life must retain its recorded identity and Begin boundary.",
+    );
+  return {
+    version: "opening-life-v1",
+    setup,
+    phase: "transition",
+    game: null,
+    ...(stagedGame ? { stagedGame } : {}),
+  };
 }
 
 export interface OpeningLifeGenerationProgress {
@@ -159,9 +184,10 @@ export function generateOpeningLife(
   // with those checks deferred and the World it hands over is validated once,
   // in full, at the end.
   const historicalGame =
-    session.setup.creatorLifeForks !== undefined
+    session.stagedGame ??
+    (session.setup.creatorLifeForks !== undefined
       ? createPreStartNewGameWorld(session.setup, makeIsoDate("2021-01-01"))
-      : undefined;
+      : undefined);
   let built: OpeningLifeSession | undefined;
   advanceWithWorldIntegrityAtEnd(() => {
     built = buildOpeningLife(session, onProgress, historicalGame);
@@ -310,10 +336,9 @@ export async function generateOpeningLifeWithProgress(
   if (!suppliedGame && session.setup.creatorLifeForks !== undefined) {
     // Creator forks are the explicit new route marker; older replay descriptors
     // omit them and continue to rebuild their original opening byte for byte.
-    const game = createPreStartNewGameWorld(
-      session.setup,
-      makeIsoDate("2021-01-01"),
-    );
+    const game =
+      session.stagedGame ??
+      createPreStartNewGameWorld(session.setup, makeIsoDate("2021-01-01"));
     const prepared = await generateOpeningLifeWithProgress(
       session,
       options,
@@ -839,8 +864,11 @@ export function sameOpeningSetup(
 }
 
 /** Keep one controller per Begin activation; duplicate transition callbacks share it. */
-export function createOpeningLifeController(setup: NewGameSetup) {
-  let current = prepareOpeningLife(setup);
+export function createOpeningLifeController(
+  setup: NewGameSetup,
+  stagedGame?: NewGame,
+) {
+  let current = prepareOpeningLife(setup, stagedGame);
   let progressiveGeneration: Promise<OpeningLifeSession> | null = null;
   return {
     read: (): OpeningLifeSession => current,

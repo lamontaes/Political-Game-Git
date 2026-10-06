@@ -1,9 +1,7 @@
 import {
-  describePersonContext,
   educationEnrollmentHistoryForPerson,
   educationEnrollmentStateAt,
   organizationProfileAt,
-  personName,
   workRelationshipHistoryForPerson,
   workStatusAt,
   type EntityId,
@@ -232,7 +230,7 @@ export function projectLifeSoFarJournal(
   for (const entry of projectWorld39Journal(world, personId).entries) {
     if (
       entry.at > world.currentDate ||
-      (entry.kind === "life" && !entry.id.startsWith("birth:"))
+      lines.some((line) => line.sourceRecordIds.includes(entry.sourceId))
     )
       continue;
     const sourceRecordIds = [entry.sourceId];
@@ -264,60 +262,6 @@ export function projectLifeSoFarJournal(
     const rendered = composeGroundedLine(packet, bank);
     if (rendered.kind === "rendered")
       lines.push({ date: entry.at, text: rendered.text, sourceRecordIds });
-  }
-  const life = buildLifeIntroduction(world, personId);
-  if (!life) return lines;
-  // Relationship labels are canonical, not guessed from a name or portrait.
-  for (const relative of life.household) {
-    if (!relative.relationship) continue;
-    const context = describePersonContext(world, personId, relative.personId);
-    if (!context || !relative.relationship.startsWith("your ")) continue;
-    const sourceRecordIds = [
-      relative.personId,
-      ...context.anchors.map((anchor) => anchor.recordId),
-    ];
-    const facts = {
-      relative: {
-        text: `${relative.relationship.replace(/^your /, "my ")}, ${personName(world.people[relative.personId]!)}`,
-        sourceRecordIds,
-      },
-    };
-    const packet: GroundedEnglishPacket = {
-      surface: "journal",
-      momentKey: `life-journal:family:${personId}:${relative.personId}:${world.currentDate}`,
-      worldSeed: world.seed,
-      bankVersion: "1",
-      stage: "opening",
-      sourceRecordIds,
-      facts,
-      speaker: { personId, traits: speakerTraits(world, personId) },
-      viewer: { personId, traits: speakerTraits(world, personId) },
-      knowledge: [{ personId, factKey: "relative", sourceRecordIds }],
-    };
-    const bank: ComposedLineBank = {
-      key: "life-journal-family",
-      version: "1",
-      surface: "journal",
-      act: "tell",
-      parts: {
-        core: {
-          variants: [
-            {
-              key: "shared-home",
-              kind: "template",
-              text: "I live with {{relative}}.",
-            },
-          ],
-        },
-      },
-    };
-    const rendered = composeGroundedLine(packet, bank);
-    if (rendered.kind === "rendered")
-      lines.push({
-        date: world.currentDate,
-        text: rendered.text,
-        sourceRecordIds,
-      });
   }
   return lines.sort((a, b) => a.date.localeCompare(b.date));
 }

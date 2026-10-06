@@ -90,11 +90,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     sourceId: person.id,
   });
   for (const fact of person.establishedFacts) {
-    if (
-      fact.occurredAt > world.currentDate ||
-      fact.kind === "birth-date" ||
-      fact.kind === "family-relationship"
-    )
+    if (fact.occurredAt > world.currentDate || fact.kind === "birth-date")
       continue;
     const location = fact.jurisdictionId
       ? world.jurisdictions[fact.jurisdictionId]?.name
@@ -110,7 +106,9 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
             ? `You attended ${fact.institution}${fact.field ? `, studying ${fact.field}` : ""}.`
             : fact.kind === "occupation"
               ? `You worked as ${fact.title} at ${fact.employer}.`
-              : null;
+              : fact.kind === "family-relationship"
+                ? livedWorld39Sentence(inOwnVoice(fact.summary, ownName))
+                : null;
     if (text)
       entries.push({
         id: `fact:${fact.id}`,
@@ -248,6 +246,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
         : null;
     if (/^(setup|simulation|information|evidence|world)\./.test(event.type))
       continue;
+    if (isSceneOrStatusEvent(event.type)) continue;
     if (STANDING_STATE_EVENT_TYPES.has(event.type)) continue;
     if (isRoutineSocialOccasion(consequentialEvents, event.id, event.type))
       continue;
@@ -287,6 +286,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     )
       continue;
     const sourceEvent = eventsById.get(memory.eventId);
+    if (sourceEvent && isSceneOrStatusEvent(sourceEvent.type)) continue;
     if (
       sourceEvent &&
       isRoutineSocialOccasion(
@@ -331,6 +331,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (account.source.kind === "direct") continue;
     const source = eventsById.get(account.eventId);
     if (!source || source.occurredAt > world.currentDate) continue;
+    if (isSceneOrStatusEvent(source.type)) continue;
     if (isStandingOfferEvent(source.type)) continue;
     if (isRoutineSocialOccasion(consequentialEvents, source.id, source.type))
       continue;
@@ -505,6 +506,11 @@ const STANDING_STATE_EVENT_TYPES = new Set([
   "work.own-shift-coverage-needed",
   "life.education-work-crossroad",
 ]);
+
+/** Placement and present-state prose belongs to the scene, never a life chapter. */
+function isSceneOrStatusEvent(type: string): boolean {
+  return type.startsWith("life.scene.") || type.startsWith("life.status.");
+}
 
 /**
  * A canonical summary names people in the third person ("Selena McGuire met
