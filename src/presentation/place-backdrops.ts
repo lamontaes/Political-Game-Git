@@ -398,6 +398,8 @@ const LOCATION_PREFIX_PLACE: Readonly<Record<string, string>> = {
   journey: "main-street",
   // The day the court sat on the player's own case (`courtroomLocationKey`).
   "court-case": "county-courtroom",
+  // The day a protest the player organized or attended was held.
+  "protest-held": "rally-stage",
   "judicial-office": "county-courtroom",
   municipal: "council-chamber",
   "municipal-notes": "council-chamber",
