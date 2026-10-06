@@ -81,7 +81,7 @@ function lawTermWorld(target: string): {
     currentDate: TERM_DATE,
     policyCatalog: {
       propositions: {
-        proposition: { stableKey: CLEAN_STANDARD },
+        proposition: { id: "clean-standard-proposition", stableKey: CLEAN_STANDARD },
       },
     },
     publicBudgets: { governments },
@@ -90,6 +90,18 @@ function lawTermWorld(target: string): {
   vi.spyOn(lawReader, "lawInForce").mockImplementation(
     (_world, jurisdictionId) => laws.get(jurisdictionId) ?? null,
   );
+  vi.spyOn(lawReader, "startingLawTerms").mockImplementation((law) => {
+    const state = /^starting-law:US-([A-Z]{2}):/.exec(law.measureId)?.[1];
+    const source = SOURCE_TERM_STATES.find(([key]) => key === state);
+    return source
+      ? [{
+          questionKey: CLEAN_STANDARD,
+          key: "target",
+          value: source[1],
+          unit: "ratio",
+        }]
+      : [];
+  });
   return {
     world,
     targetLaw: laws.get(stateJurisdictionForKey(`US-${target}`)!.id)!,
