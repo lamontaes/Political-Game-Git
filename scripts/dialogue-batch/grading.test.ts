@@ -75,6 +75,10 @@ describe("the grading page's batch file", () => {
       conversation: 1,
     });
     expect(binRule("Okay. What game?")).toBeNull();
+    expect(binRule("It was press.answer-unknown again.")).toBe("program key");
+    expect(binRule("My mother-in-law says hi.")).toBeNull();
+    expect(binRule("We talked school_raise.")).toBe("program key");
+    expect(batch.items[0]!.situation).toContain("January 5, 2026");
     expect(
       binRule(
         "$750,000 may be committed for crisis-response:us-ak from 2025-07-01.",

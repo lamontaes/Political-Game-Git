@@ -11,6 +11,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
+import { proseDate } from "../../src/presentation/prose-dates";
 import type { BatchLine, BatchResult } from "./run";
 
 /** What kind of text an item is (owner, 6:20 p.m. Oct 6). */
@@ -133,7 +134,7 @@ function plainSituation(line: BatchLine): string {
   const who = line.speaker.isPlayer
     ? "You"
     : `${voiceLabel(line)}, ${line.speaker.name} (${line.speaker.age})`;
-  return `${who}, in ${line.world.place}, on ${line.world.date}. You are ${line.world.playerAge}.`;
+  return `${who}, in ${line.world.place}, on ${proseDate(line.world.date)}. You are ${line.world.playerAge}.`;
 }
 
 /**
@@ -161,6 +162,9 @@ export function binRule(reply: string): string | null {
   if (/\b[a-z0-9]+(?:-[a-z0-9]+)+:[a-z-]+\b/.test(reply))
     return "raw record key";
   if (/\b\d{4}-\d{2}-\d{2}\b/.test(reply)) return "raw ISO date";
+  // Program keys: dotted or snake_case identifiers (press.answer-unknown,
+  // school_raise). Hyphenated English like "mother-in-law" stays speech.
+  if (/\b[a-z]+(?:\.[a-z][a-z-]*|_[a-z]+)+\b/.test(reply)) return "program key";
   return null;
 }
 
