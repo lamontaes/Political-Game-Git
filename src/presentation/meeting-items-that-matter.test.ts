@@ -12,6 +12,7 @@ import type { EntityId, World } from "../simulation/types";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLifeRecords } from "../simulation/life-opportunities";
+import { projectCouncilMeetingAgendaNotice } from "./council-meeting-agenda";
 
 const MATTER_SEED = "council-matters:opening-agenda";
 const PROPOSITION_ID = "council-matters:policy-question" as EntityId;
@@ -121,6 +122,37 @@ describe("meetingItemsThatMatter", { timeout: 60_000 }, () => {
     expect(first).toEqual([{ measureId: fixture.measureId, reasons: [] }]);
     expect(second).toEqual(first);
     expect(fixture.world.history).toBe(history);
+  });
+
+  it("marks the recorded reasons and lets this meeting play everything", () => {
+    const fixture = openingMeetingWorld();
+    const relationshipId = "council-agenda-office" as EntityId;
+    const focused = projectCouncilMeetingAgendaNotice(
+      fixture.world,
+      fixture.playerId,
+      relationshipId,
+      fixture.dueItemId,
+    );
+    expect(focused?.selectedDepth).toBe("what-matters");
+    expect(focused?.items).toEqual([
+      {
+        measureId: fixture.measureId,
+        designation: expect.any(String),
+        title: expect.any(String),
+        reasons: [],
+        plays: false,
+      },
+    ]);
+    const wholeMeeting = projectCouncilMeetingAgendaNotice(
+      fixture.world,
+      fixture.playerId,
+      relationshipId,
+      fixture.dueItemId,
+      "everything",
+    );
+    expect(wholeMeeting?.selectedDepth).toBe("everything");
+    expect(wholeMeeting?.items[0]?.plays).toBe(true);
+    expect(fixture.world.history.officeWorkflowPreferences).toBeUndefined();
   });
 
   it("plays an item for each independent recorded reason", () => {

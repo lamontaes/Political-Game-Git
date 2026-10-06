@@ -7,6 +7,7 @@ import {
   deserializeWorld,
   recordOfficeWorkflowPreference,
   currentOfficeWorkflowPreference,
+  officeCouncilMeetingDepth,
   serializeWorld,
 } from "./index";
 import {
@@ -95,6 +96,38 @@ describe("office workflow persistence", () => {
         relationshipId,
       )?.votingMode,
     ).toBe("review-batch");
-    expect(restored.history.officeWorkflowPreferences).toHaveLength(1);
+    expect(
+      officeCouncilMeetingDepth(restored, built.playerPersonId, relationshipId),
+    ).toBe("what-matters");
+    const fullMeeting = recordOfficeWorkflowPreference(restored, {
+      personId: built.playerPersonId,
+      officeRelationshipId: relationshipId,
+      votingMode: "review-batch",
+      caseworkMode: "player-handles-all",
+      meetingDepth: "everything",
+    });
+    expect(fullMeeting.kind).toBe("recorded");
+    if (fullMeeting.kind !== "recorded") throw new Error(fullMeeting.reason);
+    const revisedWorkflow = recordOfficeWorkflowPreference(fullMeeting.world, {
+      personId: built.playerPersonId,
+      officeRelationshipId: relationshipId,
+      votingMode: "handle-individually",
+      caseworkMode: "player-handles-all",
+    });
+    expect(revisedWorkflow.kind).toBe("recorded");
+    if (revisedWorkflow.kind !== "recorded")
+      throw new Error(revisedWorkflow.reason);
+    expect(
+      officeCouncilMeetingDepth(
+        revisedWorkflow.world,
+        built.playerPersonId,
+        relationshipId,
+      ),
+    ).toBe("everything");
+    const reloaded = deserializeWorld(serializeWorld(revisedWorkflow.world));
+    expect(
+      officeCouncilMeetingDepth(reloaded, built.playerPersonId, relationshipId),
+    ).toBe("everything");
+    expect(reloaded.history.officeWorkflowPreferences).toHaveLength(3);
   });
 });
