@@ -1,4 +1,19 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
+import { ensurePeopleTraits } from "../people-traits";
+import { executiveProfileForOfficeKey } from "../executive-authority-game-profile";
+import { rulePackById } from "../legislature-rule-packs";
+import { seatedChamberForPack } from "./chamber-votes";
+import {
+  appointmentCircle,
+  appointmentShortList,
+  chooseAppointee,
+} from "../patronage/appointments";
+import { executiveAppointmentPost } from "./executive-appointment-posts";
+import { executiveAppointmentEligibility } from "./executive-appointment-eligibility";
+import {
+  executiveAppointmentVacancy,
+  recordExecutiveAppointmentNomination,
+} from "./executive-appointments";
 import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
@@ -175,6 +190,7 @@ export type GoverningMatterFamily =
   | "budget"
   | "bill"
   | "program"
+  | "appointment"
   | "clemency";
 
 export interface GoverningOffice {
@@ -709,6 +725,37 @@ function optionsFor(
   event: HistoricalEvent,
 ): readonly GoverningMatterOption[] {
   switch (family) {
+    case "appointment": {
+      const postKey = tagValue(event, "appointment-post:");
+      const post = postKey ? executiveAppointmentPost(postKey) : null;
+      if (!post || !event.jurisdictionId) return [];
+      return event.participants
+        .filter((participant) => participant.role === "focus:candidate")
+        .flatMap(({ personId }) => {
+          const person = world.people[personId];
+          if (
+            !person ||
+            executiveAppointmentEligibility(
+              world,
+              post.officeKey,
+              personId,
+              event.jurisdictionId!,
+            ) !== "meets"
+          )
+            return [];
+          return [
+            {
+              key: `person:${personId}`,
+              label: `Nominate ${personName(person)}`,
+              effect: `Send the nomination for ${post.title} to the confirming body.`,
+              tradeoff:
+                "The nomination gives no appointment or favor until the required confirmation and seating.",
+              personId,
+              assessment: null,
+            },
+          ];
+        });
+    }
     case "chief-of-staff":
       return event.participants
         .filter((participant) => participant.role === "focus:candidate")
@@ -916,6 +963,11 @@ const FAMILY_TEXT: Record<
     readonly ifIgnored: string;
   }
 > = {
+  appointment: {
+    title: (subject) => `Choose a nominee for ${subject}`,
+    ask: "An incumbent's recorded departure has left a named post vacant. Choose someone from the officeholder's actual circle.",
+    ifIgnored: "The seat remains vacant. No nominee is selected for you.",
+  },
   "chief-of-staff": {
     title: () => "Choose a chief of staff",
     ask: "The office needs someone to run it day to day. Three people are available.",
@@ -958,7 +1010,10 @@ const FAMILY_TEXT: Record<
   },
 };
 
-const DEADLINE_DAYS: Record<Exclude<GoverningMatterFamily, "bill">, number> = {
+const DEADLINE_DAYS: Record<
+  Exclude<GoverningMatterFamily, "bill" | "appointment">,
+  number
+> = {
   "chief-of-staff": 21,
   agenda: 30,
   implementation: 30,
@@ -983,7 +1038,11 @@ function matterFromEvent(
   const family = tagValue(event, "matter-family:");
   const officeKey = tagValue(event, "office:");
   const deadline = tagValue(event, "deadline:");
-  if (!isFamily(family) || !officeKey || (!deadline && family !== "bill"))
+  if (
+    !isFamily(family) ||
+    !officeKey ||
+    (!deadline && family !== "bill" && family !== "appointment")
+  )
     return null;
   const holderPersonId = event.participants.find(
     (participant) => participant.role === "agency:officeholder",
@@ -1027,13 +1086,18 @@ function matterFromEvent(
     holderPersonId,
     openedAt: event.occurredAt,
     deadline:
-      family === "bill"
-        ? (executiveWindow?.lastActionDate ?? null)
-        : makeIsoDate(deadline!),
+      family === "appointment"
+        ? null
+        : family === "bill"
+          ? (executiveWindow?.lastActionDate ?? null)
+          : makeIsoDate(deadline!),
     title: text.title(
-      family === "clemency"
-        ? petitionerLabel(world, event)
-        : (measureTitle(world, measureId) ?? subjectLabel(subjectKey)),
+      family === "appointment"
+        ? (executiveAppointmentPost(tagValue(event, "appointment-post:") ?? "")
+            ?.title ?? "the vacant post")
+        : family === "clemency"
+          ? petitionerLabel(world, event)
+          : (measureTitle(world, measureId) ?? subjectLabel(subjectKey)),
     ),
     ask: text.ask,
     ifIgnored:
@@ -1307,6 +1371,7 @@ export function staffRecommendation(
     // Clemency is the officeholder's own power; nobody decides it for them.
     case "chief-of-staff":
     case "clemency":
+    case "appointment":
       return null;
     case "agenda": {
       const priority = currentPriority(world, office);
@@ -1512,6 +1577,73 @@ function matterStableKey(
   return `${STATE_GOVERNING_VERSION}:${office.officeKey}:${office.termId}:${family}:${instance}`;
 }
 
+function appointmentCircleForOffice(
+  world: World,
+  office: GoverningOffice,
+): readonly EntityId[] {
+  const profile = executiveProfileForOfficeKey(office.officeKey);
+  const ref = profile?.pack.presentment.legislativeRulePackId;
+  const colleagues: EntityId[] = [];
+  if (ref?.kind === "known") {
+    const pack = rulePackById(ref.value);
+    for (const chamber of pack.chambers) {
+      const seated = seatedChamberForPack(
+        world,
+        pack.packId,
+        chamber.chamberKey,
+        chamber.name,
+      );
+      for (const member of seated?.body.members ?? [])
+        if (member.personId) colleagues.push(member.personId);
+    }
+  }
+  return appointmentCircle(world, office.holderPersonId, colleagues);
+}
+
+/** A real named vacancy joins the same desk. This neither creates incumbents
+ * nor convenes a confirming body. Leaving it open imposes no invented deadline. */
+export function openExecutiveAppointmentMatter(
+  world: World,
+  vacancyEventId: EntityId,
+): World {
+  const vacancy = executiveAppointmentVacancy(world, vacancyEventId);
+  const post = vacancy ? executiveAppointmentPost(vacancy.postOfficeKey) : null;
+  const office = post
+    ? governingOfficeByKey(world, post.appointerOfficeKey)
+    : null;
+  if (!vacancy || !post || !office) return world;
+  const event = eventById(world, vacancyEventId);
+  if (!event || event.jurisdictionId !== office.jurisdictionId) return world;
+  const prepared = ensurePeopleTraits(world, [office.holderPersonId]);
+  const instance = `vacancy:${vacancyEventId}`;
+  const shortlist = appointmentShortList(prepared, {
+    stableKey: matterStableKey(office, "appointment", instance),
+    appointerPersonId: office.holderPersonId,
+    post,
+    circle: appointmentCircleForOffice(prepared, office),
+    eligible: (personId) =>
+      executiveAppointmentEligibility(
+        prepared,
+        post.officeKey,
+        personId,
+        office.jurisdictionId,
+      ) === "meets",
+  });
+  return openMatter(prepared, office, {
+    family: "appointment",
+    instance,
+    titleSubject: post.title,
+    candidatePersonIds: shortlist.map((candidate) => candidate.personId),
+    sourceEventId: vacancyEventId,
+    extraTags: [
+      `appointment-post:${post.officeKey}`,
+      `appointment-seat:${vacancy.seatOrdinal}`,
+      `appointment-vacancy:${vacancyEventId}`,
+      `appointment-term:${vacancy.incumbentTermEventId}`,
+    ],
+  });
+}
+
 function openMatter(
   world: World,
   office: GoverningOffice,
@@ -1528,9 +1660,11 @@ function openMatter(
     ? executiveBillActionWindow(world, measure)
     : null;
   const deadline =
-    input.family === "bill"
-      ? (executiveWindow?.lastActionDate ?? null)
-      : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
+    input.family === "appointment"
+      ? null
+      : input.family === "bill"
+        ? (executiveWindow?.lastActionDate ?? null)
+        : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
   const text = FAMILY_TEXT[input.family];
   const title = text.title(
     input.titleSubject ??
@@ -1612,13 +1746,13 @@ function openMatter(
       effort: null,
       access: { kind: "private", personIds: [office.holderPersonId] },
       assignedPersonIds: [office.holderPersonId],
-      playerRequirement: "decision",
+      playerRequirement: input.family === "appointment" ? "none" : "decision",
       waitingOnPersonIds: [],
       blocker: null,
       scheduledActivityId: null,
     });
     // A real bill lapses only through an executable, declared legal window.
-    if (input.family === "bill") return next;
+    if (input.family === "bill" || input.family === "appointment") return next;
     return scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
       dueAt: deadline!,
@@ -1628,6 +1762,7 @@ function openMatter(
       provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
     });
   }
+  if (input.family === "appointment") return next;
   if (
     measure &&
     executiveWindow &&
@@ -1943,6 +2078,11 @@ function decisionSummary(
       visibility: matter.family === "bill" ? "public" : "limited",
     };
   switch (matter.family) {
+    case "appointment":
+      return {
+        summary: `${who}, ${office.title}, nominated ${option.personId ? personName(world.people[option.personId]!) : "a candidate"} for ${executiveAppointmentPost(tagValue(matter.openedEvent, "appointment-post:") ?? "")?.title ?? "the vacant post"}.`,
+        visibility: "public",
+      };
     case "chief-of-staff": {
       const hired = option.personId ? world.people[option.personId] : null;
       if (
@@ -2045,6 +2185,14 @@ function applyConsequence(
       : world;
   }
   switch (matter.family) {
+    case "appointment":
+      return option.personId
+        ? recordExecutiveAppointmentNomination(world, {
+            matterEventId: matter.id,
+            governingDecisionEventId: decisionEventId,
+            nomineePersonId: option.personId,
+          })
+        : world;
     // The grant itself is written by the clemency route, which reads this
     // decision on its own clock with every other body's answer.
     case "clemency":
@@ -2306,8 +2454,14 @@ function recordDecision(
         ? [
             {
               personId: option.personId,
-              role: "impact:appointed" as const,
-              detail: "Chief of Staff",
+              role:
+                matter.family === "appointment"
+                  ? ("focus:candidate" as const)
+                  : ("impact:appointed" as const),
+              detail:
+                matter.family === "appointment"
+                  ? "Nominee; confirmation pending"
+                  : "Chief of Staff",
             },
           ]
         : []),
@@ -2402,6 +2556,53 @@ export function decideGoverningMatter(
   if (!option)
     return { ok: false, world, reason: "That choice is not available." };
   let next = world;
+  if (matter.family === "appointment") {
+    const vacancyId = tagValue(
+      matter.openedEvent,
+      "appointment-vacancy:",
+    ) as EntityId | null;
+    const vacancy = vacancyId
+      ? executiveAppointmentVacancy(world, vacancyId)
+      : null;
+    const office = governingOfficeByKey(world, matter.officeKey);
+    const post = vacancy
+      ? executiveAppointmentPost(vacancy.postOfficeKey)
+      : null;
+    if (
+      !vacancy ||
+      !office ||
+      !post ||
+      post.appointerOfficeKey !== office.officeKey ||
+      !option.personId
+    )
+      return {
+        ok: false,
+        world,
+        reason: "This named vacancy no longer belongs to the office.",
+      };
+    const choice = chooseAppointee(world, {
+      stableKey: matter.stableKey,
+      appointerPersonId: matter.holderPersonId,
+      post,
+      circle: appointmentCircleForOffice(world, office),
+      eligible: (personId) =>
+        executiveAppointmentEligibility(
+          world,
+          post.officeKey,
+          personId,
+          office.jurisdictionId,
+        ) === "meets",
+      playerChoice: { personId: option.personId, matterEventId: matter.id },
+    });
+    if (!choice)
+      return {
+        ok: false,
+        world,
+        reason:
+          "This candidate is no longer on the eligible appointment shortlist.",
+      };
+    next = choice.world;
+  }
   if (matter.family === "bill" && matter.measureId) {
     const measure = world.history.legislativeMeasures?.find(
       (m) => m.id === matter.measureId,

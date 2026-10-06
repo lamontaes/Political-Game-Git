@@ -1,4 +1,9 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
+import {
+  EXECUTIVE_APPOINTMENT_TERM_EXPIRY,
+  recordExecutiveAppointmentVacancy,
+} from "./executive-appointments";
+import { openExecutiveAppointmentMatter } from "./state-governing";
 import { crisisRecords } from "../crisis/records";
 import { crisisOfficeContinuityNotices } from "../crisis/notices";
 import { applyStateLegislatureTurnover } from "../nationwide-world/state-legislature-turnover";
@@ -1959,8 +1964,36 @@ export function officeContinuityRulings(
     .reverse();
 }
 
+export function executiveAppointmentTermExpiryHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const termId = due.entityIds[0];
+  if (!termId)
+    return resolved(
+      world,
+      "No recorded incumbent term belongs to this expiry.",
+    );
+  const vacant = recordExecutiveAppointmentVacancy(world, {
+    incumbentTermEventId: termId,
+    cause: "term-expired",
+    causeEventId: termId,
+  });
+  if (vacant === world)
+    return resolved(
+      world,
+      "The incumbent term has not expired or the seat has already changed.",
+    );
+  const vacancy = vacant.history.events.at(-1)!;
+  return resolved(
+    openExecutiveAppointmentMatter(vacant, vacancy.id),
+    "The recorded term expired; its named vacancy is on the current executive's desk.",
+  );
+}
+
 export function officeContinuityHandlers() {
   return [
+    [EXECUTIVE_APPOINTMENT_TERM_EXPIRY, executiveAppointmentTermExpiryHandler],
     [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
     [SENATE_APPOINTMENT, senateAppointmentHandler],
     [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],

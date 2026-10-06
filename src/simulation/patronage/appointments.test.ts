@@ -2,14 +2,130 @@ import { describe, expect, test } from "vitest";
 import { createPortabilityFixture } from "../portability-fixture";
 import { recordRelationshipInteraction } from "../records";
 import { readRelationshipStanding } from "../relationship-standing";
+import { recordWorldEvent } from "../world";
 import type { EntityId, World } from "../types";
 import {
   APPOINTMENTS_VERSION,
+  appointmentShortList,
   chooseAppointee,
   recordPassedOver,
 } from "./appointments";
 
 const POST = { officeKey: "fixture-council-seat", title: "council member" };
+
+function playerMatter(
+  world: World,
+  appointer: EntityId,
+  candidates: EntityId[],
+) {
+  const controlled: World = {
+    ...world,
+    control: { kind: "person", personId: appointer },
+  };
+  return recordWorldEvent(controlled, {
+    stableKey: "fixture:appointment-matter",
+    type: "governing.matter-opened",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: world.people[appointer]!.homeJurisdictionId,
+    involvedEntityIds: [appointer, ...candidates],
+    participants: [
+      { personId: appointer, role: "agency:officeholder", detail: null },
+      ...candidates.map((personId) => ({
+        personId,
+        role: "focus:candidate" as const,
+        detail: null,
+      })),
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: ["matter-family:appointment", `appointment-post:${POST.officeKey}`],
+    summary: "The officeholder has an appointment choice.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+describe("recorded player appointment instructions", () => {
+  test("the player can choose another eligible person without fabricated preferences", () => {
+    const { world, appointer, helper, stranger } = fixture();
+    const before = playerMatter(
+      helped(world, helper, appointer, "player-help", "major"),
+      appointer,
+      [helper, stranger],
+    );
+    const input = {
+      stableKey: "fixture:player-choice",
+      appointerPersonId: appointer,
+      post: POST,
+      circle: [helper, stranger],
+      eligible: () => true,
+      playerChoice: {
+        personId: stranger,
+        matterEventId: before.history.events.at(-1)!.id,
+      },
+    };
+    const history = JSON.stringify(before.history);
+    expect(
+      appointmentShortList(before, input).map((row) => row.personId),
+    ).toContain(stranger);
+    expect(JSON.stringify(before.history)).toBe(history);
+    const choice = chooseAppointee(before, input)!;
+    expect(choice.personId).toBe(stranger);
+    const trace = choice.world.history.decisionTraces.find(
+      (row) => row.id === choice.decisionTraceId,
+    )!;
+    expect(trace.context.randomness).toBe("none");
+    expect(trace.context.constraints[0]?.kind).toBe("player:recorded-choice");
+    expect(trace.context.constraints[0]?.sourceRefs).toContainEqual({
+      kind: "historical-event",
+      eventId: input.playerChoice.matterEventId,
+    });
+    const replay = chooseAppointee(choice.world, input)!;
+    expect(replay.decisionTraceId).toBe(choice.decisionTraceId);
+    expect(replay.world.history.decisionTraces).toHaveLength(
+      choice.world.history.decisionTraces.length,
+    );
+  });
+
+  test("foreign, closed, or newly ineligible choices do not write a trace", () => {
+    const { world, appointer, helper, stranger } = fixture();
+    const before = playerMatter(world, appointer, [helper]);
+    const matter = before.history.events.at(-1)!;
+    const input = {
+      stableKey: "fixture:invalid-choice",
+      appointerPersonId: appointer,
+      post: POST,
+      circle: [helper, stranger],
+      eligible: () => true,
+      playerChoice: { personId: stranger, matterEventId: matter.id },
+    };
+    expect(chooseAppointee(before, input)).toBeNull();
+    const offered = {
+      ...input,
+      playerChoice: { personId: helper, matterEventId: matter.id },
+    };
+    expect(
+      chooseAppointee(before, { ...offered, eligible: () => false }),
+    ).toBeNull();
+    const closed = recordWorldEvent(before, {
+      ...matter,
+      stableKey: "fixture:appointment-decided",
+      type: "governing.matter-decided",
+      tags: [`matter:${matter.id}`],
+    });
+    expect(chooseAppointee(closed, offered)).toBeNull();
+    expect(closed.history.decisionTraces).toHaveLength(
+      before.history.decisionTraces.length,
+    );
+  });
+});
 
 /** One person helped another; the helper holds the commitment. */
 function helped(

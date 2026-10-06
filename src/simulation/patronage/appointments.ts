@@ -70,6 +70,12 @@ export interface ChooseAppointeeInput {
   readonly circle: readonly EntityId[];
   /** The post's own legal rules: age, residence, offices that bar it. */
   readonly eligible: (personId: EntityId) => boolean;
+  /** Validated instruction from the current controlled executive's actual open
+   * appointment matter. The domain command rechecks the vacancy and authority. */
+  readonly playerChoice?: {
+    readonly personId: EntityId;
+    readonly matterEventId: EntityId;
+  };
 }
 
 export interface AppointeeChoice {
@@ -123,7 +129,7 @@ export function appointmentCircle(
   return [...circle].filter((id) => world.people[id]).sort();
 }
 
-interface Scored {
+export interface AppointmentCandidate {
   readonly personId: EntityId;
   readonly considerations: readonly DecisionConsideration[];
   readonly score: number;
@@ -196,7 +202,7 @@ function considerationsFor(
   appointerPersonId: EntityId,
   candidateId: EntityId,
   keyPrefix: string,
-): Scored {
+): AppointmentCandidate {
   const optionKey = `person:${candidateId}`;
   const name = personName(world.people[candidateId]!);
   const rows: DecisionConsideration[] = [];
@@ -400,22 +406,67 @@ export function followingOf(world: World, personId: EntityId): number {
   return debtors.size;
 }
 
+/** Read the existing appointment ranking without selecting an appointee or
+ * writing history. The vacancy producer prepares actor traits before offering
+ * this same shortlist to the player. */
+export function appointmentShortList(
+  world: World,
+  input: ChooseAppointeeInput,
+): readonly AppointmentCandidate[] {
+  const keyPrefix = `${APPOINTMENTS_VERSION}:${input.stableKey}`;
+  return input.circle
+    .filter((id) => id !== input.appointerPersonId && input.eligible(id))
+    .map((id) =>
+      considerationsFor(world, input.appointerPersonId, id, keyPrefix),
+    )
+    .sort((a, b) => b.score - a.score || a.personId.localeCompare(b.personId))
+    .slice(0, APPOINTMENT_SHORT_LIST);
+}
+
 /**
  * The appointer picks someone from their circle.
  *
  * Returns null when nobody in the circle is eligible; the caller then says so
  * and falls back to its own documented route rather than inventing a tie.
- * The controlled character's appointments are never decided here.
+ * The controlled character chooses explicitly through the actual desk matter.
  */
 export function chooseAppointee(
   world: World,
   input: ChooseAppointeeInput,
 ): AppointeeChoice | null {
-  if (
+  const controlled =
     world.control.kind === "person" &&
-    world.control.personId === input.appointerPersonId
-  )
-    return null;
+    world.control.personId === input.appointerPersonId;
+  if (controlled !== (input.playerChoice !== undefined)) return null;
+  if (input.playerChoice) {
+    const matter = world.history.events.find(
+      (event) => event.id === input.playerChoice!.matterEventId,
+    );
+    if (
+      !matter ||
+      matter.type !== "governing.matter-opened" ||
+      matter.occurredAt > world.currentDate ||
+      matter.recordedAt > world.currentDate ||
+      !matter.tags.includes("matter-family:appointment") ||
+      !matter.tags.includes(`appointment-post:${input.post.officeKey}`) ||
+      !matter.participants.some(
+        (participant) =>
+          participant.role === "agency:officeholder" &&
+          participant.personId === input.appointerPersonId,
+      ) ||
+      !matter.participants.some(
+        (participant) =>
+          participant.role === "focus:candidate" &&
+          participant.personId === input.playerChoice!.personId,
+      ) ||
+      world.history.events.some(
+        (event) =>
+          event.type === "governing.matter-decided" &&
+          event.tags.includes(`matter:${matter.id}`),
+      )
+    )
+      return null;
+  }
   const candidates = input.circle.filter(
     (id) => id !== input.appointerPersonId && input.eligible(id),
   );
@@ -423,12 +474,11 @@ export function chooseAppointee(
 
   let next = ensurePeopleTraits(world, [input.appointerPersonId]);
   const keyPrefix = `${APPOINTMENTS_VERSION}:${input.stableKey}`;
-  const scored = candidates
-    .map((id) =>
-      considerationsFor(next, input.appointerPersonId, id, keyPrefix),
-    )
-    .sort((a, b) => b.score - a.score || a.personId.localeCompare(b.personId));
-  const shortList = scored.slice(0, APPOINTMENT_SHORT_LIST);
+  const shortList = appointmentShortList(next, {
+    ...input,
+    circle: candidates,
+    eligible: () => true,
+  });
   // The engine needs two options; with one person in the circle the other
   // option is to name nobody from it.
   const options = shortList.map((entry) => ({
@@ -442,6 +492,23 @@ export function chooseAppointee(
       label: "Look further",
       description: "Look beyond the people the appointer knows.",
     });
+  const instruction = input.playerChoice;
+  const selectedKey = instruction ? `person:${instruction.personId}` : null;
+  if (instruction && !options.some((option) => option.key === selectedKey))
+    return null;
+  const prior = world.history.decisionTraces.find(
+    (trace) => trace.stableKey === `${keyPrefix}:choose:trace`,
+  );
+  if (
+    prior &&
+    (prior.context.actorPersonId !== input.appointerPersonId ||
+      prior.context.subject.key !== input.post.officeKey ||
+      (selectedKey !== null && prior.selectedOptionKey !== selectedKey) ||
+      !shortList.some(
+        (entry) => prior.selectedOptionKey === `person:${entry.personId}`,
+      ))
+  )
+    return null;
   const evaluation = evaluateDecision(next, {
     stableKey: `${keyPrefix}:choose`,
     decisionType: "appointment.choose-appointee",
@@ -453,18 +520,36 @@ export function chooseAppointee(
       entityId: null,
     },
     options,
-    constraints: [],
+    constraints: instruction
+      ? options
+          .filter((option) => option.key !== selectedKey)
+          .map((option) => ({
+            stableKey: `${keyPrefix}:player-instruction:${option.key}`,
+            optionKey: option.key,
+            kind: "player:recorded-choice",
+            explanation:
+              "The controlled executive explicitly chose another nominee.",
+            sourceRefs: [
+              {
+                kind: "historical-event" as const,
+                eventId: instruction.matterEventId,
+              },
+            ],
+          }))
+      : [],
     considerations: shortList.flatMap((entry) => entry.considerations),
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return null;
-  const selected = evaluation.selectedOptionKey;
+  const selected = prior?.selectedOptionKey ?? evaluation.selectedOptionKey;
   if (!selected || !selected.startsWith("person:")) return null;
   const personId = selected.slice("person:".length) as EntityId;
-  next = recordDurableDecisionTrace(next, evaluation);
-  const decisionTraceId = next.history.decisionTraces.at(-1)!.id;
+  if (!prior) next = recordDurableDecisionTrace(next, evaluation);
+  const decisionTraceId = next.history.decisionTraces.find(
+    (trace) => trace.stableKey === `${evaluation.context.stableKey}:trace`,
+  )!.id;
   const chosen = shortList.find((entry) => entry.personId === personId)!;
   const reasons = [...chosen.considerations]
     .filter((row) => row.direction === "supports")
