@@ -379,6 +379,259 @@ describe("recorded nominations use the member vote survivor", () => {
     );
   });
 
+  it("admits only the saved executive nomination, appointer trace and causal vacancy", () => {
+    const postOfficeKey = "us-ak-personnel-board";
+    const seatOrdinal = 1;
+    const jurisdictionId = world.jurisdictionOrder[0]!;
+    let source = recordWorldEvent(world, {
+      stableKey: "G7:appointment-incumbent-term",
+      type: "world.office-tenure",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [presidentId],
+      participants: [
+        {
+          personId: presidentId,
+          role: "focus:subject",
+          detail: "Former holder",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        `appointment-post:${postOfficeKey}`,
+        `appointment-seat:${seatOrdinal}`,
+        `term-end:${world.currentDate}`,
+      ],
+      summary: "A recorded incumbent term reaches its end date.",
+      context,
+    });
+    const incumbentTermEventId = source.history.events.at(-1)!.id;
+    source = recordWorldEvent(source, {
+      stableKey: "G7:appointment-vacancy",
+      type: "world.office-vacancy",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [presidentId],
+      participants: [
+        {
+          personId: presidentId,
+          role: "focus:subject",
+          detail: "Former holder",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        `office:${postOfficeKey}:seat:${seatOrdinal}`,
+        `appointment-post:${postOfficeKey}`,
+        `appointment-seat:${seatOrdinal}`,
+        `appointment-term:${incumbentTermEventId}`,
+        "vacancy-cause:term-expired",
+        `source-event:${incumbentTermEventId}`,
+      ],
+      summary: "The recorded incumbent term expired.",
+      context,
+    });
+    const vacancyEventId = source.history.events.at(-1)!.id;
+    source = recordWorldEvent(source, {
+      stableKey: "G7:appointment-matter",
+      type: "governing.matter-opened",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [presidentId],
+      participants: [
+        {
+          personId: presidentId,
+          role: "agency:officeholder",
+          detail: "Governor",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`office:${postOfficeKey}`, "matter-family:appointment"],
+      summary: "The Governor considers a recorded appointment.",
+      context,
+    });
+    const matter = source.history.events.at(-1)!;
+    const decisionContext: Parameters<typeof decisions.evaluateDecision>[1] = {
+      stableKey: `appointments-v1:${matter.stableKey}:choose`,
+      decisionType: "appointment.choose-appointee",
+      actorPersonId: presidentId,
+      cutoff: {
+        asOfDate: source.currentDate,
+        historySequenceExclusive: source.history.nextSequence,
+      },
+      subject: {
+        kind: "context:appointment",
+        key: postOfficeKey,
+        entityId: null,
+      },
+      options: [
+        {
+          key: `person:${nomineeId}`,
+          label: "Nominee",
+          description: "Select.",
+        },
+        {
+          key: `person:${presidentId}`,
+          label: "Other",
+          description: "Do not select.",
+        },
+      ],
+      constraints: [
+        {
+          stableKey: "G7:other-option-unavailable",
+          optionKey: `person:${presidentId}`,
+          kind: "fixture",
+          explanation: "The fixture leaves the actual nominee available.",
+          sourceRefs: [{ kind: "historical-event", eventId: matter.id }],
+        },
+      ],
+      considerations: [],
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    };
+    const evaluation = decisions.evaluateDecision(source, decisionContext);
+    source = decisions.recordDurableDecisionTrace(source, evaluation);
+    const appointmentDecisionTraceId = source.history.decisionTraces.at(-1)!.id;
+    source = recordWorldEvent(source, {
+      stableKey: "G7:appointment-matter-decision",
+      type: "governing.matter-decided",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [presidentId, nomineeId],
+      participants: [
+        { personId: presidentId, role: "agency:decider", detail: "Governor" },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`matter:${matter.id}`, `choice:person:${nomineeId}`],
+      summary: "The Governor selected the nominee.",
+      context,
+    });
+    const decision = source.history.events.at(-1)!;
+    source = recordWorldEvent(source, {
+      stableKey: "G7:executive-appointment-nomination",
+      type: "executive.appointment-nominated",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [presidentId, nomineeId],
+      participants: [
+        { personId: presidentId, role: "agency:appointer", detail: "Governor" },
+        { personId: nomineeId, role: "agency:nominee", detail: "Board member" },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        `appointment-post:${postOfficeKey}`,
+        `appointment-seat:${seatOrdinal}`,
+        `appointment-vacancy:${vacancyEventId}`,
+        `appointment-term:${incumbentTermEventId}`,
+        `appointment-decision:${appointmentDecisionTraceId}`,
+        `appointment-matter:${matter.id}`,
+        `source-event:${decision.id}`,
+      ],
+      summary: "The Governor nominated the selected person.",
+      context,
+    });
+    const nominationEventId = source.history.events.at(-1)!.id;
+    const members = [
+      ...seatedCongressChamber(source, "house")!.body.members,
+      ...seatedCongressChamber(source, "senate")!.body.members,
+    ];
+    const input = {
+      kind: "nomination" as const,
+      nominationKind: "executive-appointment" as const,
+      stableKey: "G7:executive-appointment-confirmation",
+      nominationEventId,
+      nomineeId,
+      officeKey: postOfficeKey,
+      postOfficeKey,
+      seatOrdinal,
+      appointerId: presidentId,
+      jurisdictionId,
+      vacancyEventId,
+      incumbentTermEventId,
+      appointmentDecisionTraceId,
+      members,
+      considerationsByMember: new Map(),
+    };
+    const ballots = decideChamberVote(source, input);
+    expect(ballots).toHaveLength(members.length);
+    const reloaded = deserializeWorld(serializeWorld(source));
+    expect(decideChamberVote(reloaded, input)).toEqual(ballots);
+
+    expect(() =>
+      decideChamberVote(source, { ...input, appointerId: nomineeId }),
+    ).toThrow(/actual dated nomination/);
+    expect(() =>
+      decideChamberVote(source, {
+        ...input,
+        jurisdictionId: "G7:other-jurisdiction" as EntityId,
+      }),
+    ).toThrow(/actual dated nomination/);
+    expect(() =>
+      decideChamberVote(source, {
+        ...input,
+        appointmentDecisionTraceId: "G7:other-trace" as EntityId,
+      }),
+    ).toThrow(/actual dated nomination/);
+    expect(() =>
+      decideChamberVote(source, {
+        ...input,
+        incumbentTermEventId: "G7:other-incumbent-term" as EntityId,
+      }),
+    ).toThrow(/actual dated nomination/);
+
+    const withoutCause = {
+      ...source,
+      history: {
+        ...source.history,
+        events: source.history.events.map((event) =>
+          event.id === vacancyEventId
+            ? {
+                ...event,
+                tags: event.tags.filter(
+                  (tag) => !tag.startsWith("vacancy-cause:"),
+                ),
+              }
+            : event,
+        ),
+      },
+    };
+    expect(() => decideChamberVote(withoutCause, input)).toThrow(
+      /causal vacancy/,
+    );
+    const withoutDecisionLink = {
+      ...source,
+      history: {
+        ...source.history,
+        events: source.history.events.map((event) =>
+          event.id === nominationEventId
+            ? {
+                ...event,
+                tags: event.tags.map((tag) =>
+                  tag.startsWith("source-event:")
+                    ? "source-event:G7:unrelated-decision"
+                    : tag,
+                ),
+              }
+            : event,
+        ),
+      },
+    };
+    expect(() => decideChamberVote(withoutDecisionLink, input)).toThrow(
+      /actual dated nomination/,
+    );
+  });
+
   it("keeps an all-withheld native Chief Justice roll pending across reload and repeat", () => {
     const evaluate = decisions.evaluateDecision;
     const spy = vi
