@@ -5,6 +5,10 @@ import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { fillCreator, enterLife, openShellMenu, goTo } from "./support/creator";
 import { join } from "node:path";
 
+if (process.env.PG_CHROMIUM_PATH) {
+  test.use({ launchOptions: { executablePath: process.env.PG_CHROMIUM_PATH } });
+}
+
 const seed = "session12-all-place-removal-oct6";
 const place = drawRandomPlace(seed, (entry) => entry.scope === "locality");
 const state = lifePlaceStateIdentities().find(
