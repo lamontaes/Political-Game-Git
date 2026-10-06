@@ -5,6 +5,7 @@ import {
   municipalExecutivePowerProfileByKey,
 } from "./executive-authority-game-profile";
 import { executiveRulePackForJurisdiction } from "./executive-authority-rule-packs";
+import { assertExecutiveAuthorityPackIntegrity } from "./executive-authority-rules";
 import { SeededRng } from "./rng";
 import { STATES } from "./state-reference";
 import { searchLifePlaces } from "./life-places";
@@ -31,6 +32,9 @@ describe("executive game-profile coverage", () => {
       );
       expect(profile.pack.jurisdictionKey).toBe(profile.jurisdictionKey);
       expect(profile.pack.unresolvedGaps.length).toBeGreaterThanOrEqual(0);
+      expect(() =>
+        assertExecutiveAuthorityPackIntegrity(profile.pack),
+      ).not.toThrow();
       if (profile.basis === "estimated") {
         expect(profile.estimated).toBe(true);
         expect(profile.estimatedFields.length).toBeGreaterThan(0);
