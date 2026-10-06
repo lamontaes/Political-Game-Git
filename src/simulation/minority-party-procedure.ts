@@ -14,13 +14,13 @@ export type ProceduralMotion = MinorityProcedureMotion;
 export type MinorityPartyProcedureRules = MinorityPartyProcedureRow;
 
 const PROFILE_SOURCE: RuleSourceRef = {
-  authority: "game-profile",
+  authority: "research-reference",
   citation: "minority-party-procedure-profile/v1",
-  sourceTitle: "Our Civic Duty minority-party procedure profile",
+  sourceTitle: "B12 comparable-chamber estimate",
   sourceUrl: null,
   retrievedAt: null,
-  verification: "game-profile",
-  note: "A disclosed game-profile estimate used until a chamber's motion, debate and attendance rules have been entered from its own instruments. It is not a claim about an unread body's law.",
+  verification: "partial",
+  note: "An estimated shared rule used until this chamber's motion, debate and attendance rules have been entered from its own instruments. It is not a claim about an unread body's law.",
 };
 
 const ESTIMATED_MOTIONS: readonly ProceduralMotion[] = [
