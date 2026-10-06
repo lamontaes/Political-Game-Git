@@ -36,6 +36,7 @@ import { facetZealousEffects } from "./facet-zealous";
 import { initialTrustEffects } from "./initial-trust";
 import { methodRevisionEffects } from "./method-revision";
 import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
+import { facetSincereEffects } from "./facet-sincere";
 import { patienceEffects } from "./patience";
 import { selfConfidenceEffects } from "./self-confidence";
 import { uncertainOutlookEffects } from "./uncertain-outlook";
@@ -47,6 +48,7 @@ import { voluntaryEffortEffects } from "./voluntary-effort";
  */
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
+    ...facetSincereEffects,
     ...actionDespiteFearEffects,
     ...bondLoyaltyEffects,
     ...concernForDistressEffects,
