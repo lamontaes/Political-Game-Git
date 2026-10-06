@@ -1,4 +1,3 @@
-import { tallyDispositions } from "../legislation";
 import {
   constitutionalActions,
   constitutionalPosition,
@@ -25,6 +24,8 @@ import {
 } from "../policy-provisions";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { isEligibleVoterIn } from "../issue-record";
+import { lawInForce } from "../governing/law-in-force";
+import { livedOutcomeVoteConsiderations } from "../legislative-member-decisions";
 import {
   constitutionalMemberConsiderations,
   memberBallot,
@@ -734,15 +735,36 @@ export function recordStatePolicyProposalVotes(
   const extra = rejectionReasons(
     votersJustRejected(world, measure.jurisdictionKey.slice(3), delta),
   );
-  return recordStateProposalVotes(world, measure, (at, personId) =>
-    constitutionalMemberConsiderations(
+  const currentLaw = lawInForce(
+    world,
+    measure.jurisdictionId,
+    delta.propositionId,
+  );
+  const proposedAnswer = delta.stance === "adopt" ? "yes" : "no";
+  return recordStateProposalVotes(world, measure, (at, personId) => [
+    ...constitutionalMemberConsiderations(
       at,
       personId,
       delta.propositionId,
-      delta.stance === "adopt" ? "yes" : "no",
+      proposedAnswer,
       extra,
     ),
-  );
+    ...(currentLaw
+      ? livedOutcomeVoteConsiderations({
+          world: at,
+          officialId: personId,
+          lawMeasureId: currentLaw.measureId,
+          currentAnswer: currentLaw.answer,
+          proposedAnswer,
+          groupAnswer: proposedAnswer,
+          subjectQuestion:
+            world.policyCatalog.propositions[delta.propositionId]?.question ??
+            null,
+          proposalLabel: "proposal",
+          keySuffix: `constitutional:${measure.id}`,
+        })
+      : []),
+  ]);
 }
 
 /** An actual saved governor term-limit proposal, with the caller's unchanged cause. */
@@ -853,11 +875,6 @@ function recordStateProposalVotes(
           ]),
       ),
     });
-    const tally = tallyDispositions(dispositions);
-    const present = tally.yea + tally.nay + tally.presentNotVoting;
-    // Dated vacancies and absent members cannot become an authenticated vote.
-    // Leave the existing proposal in consideration for a later actual quorum.
-    if (present <= seated.seats / 2) return next;
     const reasonCounts = new Map<string, number>();
     for (const disposition of dispositions) {
       if (disposition.reason)
