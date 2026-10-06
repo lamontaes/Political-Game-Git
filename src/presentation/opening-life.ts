@@ -1011,7 +1011,10 @@ function establishOpeningLocation(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["playtest65:initial-placement"],
+    tags: [
+      "playtest65:initial-placement",
+      `moment:${JSON.stringify(world.currentMoment)}`,
+    ],
     summary: "You are at home.",
     context: {
       location: {
