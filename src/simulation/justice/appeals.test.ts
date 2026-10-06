@@ -160,13 +160,24 @@ describe("appellate review uses the recorded legal bounds", () => {
     expect(result!.votes.length).toBeGreaterThan(0);
   });
 
-  it("does not offer an appeal from an acquittal", () => {
+  it("does not offer an appeal from an acquittal or an ungrounded eviction record", () => {
     const { world, base } = fixture();
     expect(
       appealJudgment(world, {
         ...base,
         stableKey: "b13-p4:acquittal",
         judgment: { kind: "acquittal", outcomeKey: "acquittal" },
+      }),
+    ).toBeNull();
+    expect(
+      appealJudgment(world, {
+        ...base,
+        stableKey: "b13-p4:eviction",
+        judgment: {
+          kind: "eviction",
+          outcomeKey: "eviction-ordered",
+          withinLaw: true,
+        },
       }),
     ).toBeNull();
   });
