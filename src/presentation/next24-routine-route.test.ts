@@ -38,6 +38,18 @@ function life(seed = "next24-routine-route") {
 }
 
 describe("NEXT24 combined private-citizen routine route", () => {
+  it("does not repeat the clock in routine outcome notices", () => {
+    const { world, personId } = life("next24-no-clock-toast");
+    const advanced = advanceWorldMinutes(
+      world,
+      60,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(describeRoutineOutcome(world, advanced, personId)).not.toContain(
+      "It is now",
+    );
+  });
+
   it("makes exact elapsed duration readable without changing the World", () => {
     expect(formatRoutineElapsedMinutes(0)).toBe("0 minutes");
     expect(formatRoutineElapsedMinutes(60)).toBe("1 hour");
