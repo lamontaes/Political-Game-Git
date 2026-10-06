@@ -4,7 +4,7 @@ import { projectPersonDossier } from "./person-dossier";
 import { recordWorldEvent } from "../simulation/world";
 import { makeIsoDate } from "../simulation/dates";
 import { createStableId } from "../simulation/ids";
-import { serializeWorld } from "../simulation/serialization";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { createLightweightPerson } from "../simulation/people";
 import { recordFavor } from "../simulation/favors";
 import type { OccupationFact, World } from "../simulation/types";
@@ -57,6 +57,82 @@ describe("a dossier's own recorded history", () => {
     ]);
     expect(full.reminders[0]?.text).not.toContain("kindness");
     expect(none.reminders).toEqual([]);
+  });
+
+  it("looks back at favors exchanged directly with the person", () => {
+    const game = recordedLife();
+    const player = game.world.people[game.playerPersonId]!;
+    const other = createLightweightPerson({
+      worldId: game.world.id,
+      worldSeed: game.world.seed,
+      index: 900002,
+      currentDate: game.world.currentDate,
+      homeJurisdictionId: player.homeJurisdictionId,
+    });
+    let world: World = {
+      ...game.world,
+      people: { ...game.world.people, [other.id]: other },
+      personOrder: [...game.world.personOrder, other.id],
+    };
+    world = recordWorldEvent(world, {
+      stableKey: "dossier:favor-event",
+      type: "life.favor-given",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: player.homeJurisdictionId,
+      involvedEntityIds: [game.playerPersonId, other.id],
+      participants: [
+        { personId: game.playerPersonId, role: "agency:actor", detail: null },
+        { personId: other.id, role: "impact:recipient", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [],
+      summary: "Maya Reed helped Avery Stone move house.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    world = recordFavor(world, {
+      stableKey: "dossier:favor",
+      giverPersonId: game.playerPersonId,
+      receiverPersonId: other.id,
+      kind: "personal:help",
+      description: "helped them move house",
+      givenAt: world.currentDate,
+      eventId: world.history.events.at(-1)!.id,
+      subject: { kind: "none" },
+      motive: "kindness",
+      weight: "moderate",
+      audience: "private",
+      witnessPersonIds: [],
+      inReturnForFavorId: null,
+      undertakingId: null,
+    });
+    const dossier = projectPersonDossier(world, game.playerPersonId, other.id)!;
+    expect(dossier.sharedHistory).toContainEqual(
+      expect.objectContaining({
+        id: world.history.favors!.at(-1)!.id,
+        date: world.currentDate,
+        summary: "You helped them move house.",
+      }),
+    );
+    expect(
+      projectPersonDossier(world, other.id, game.playerPersonId)!.sharedHistory,
+    ).toContainEqual(
+      expect.objectContaining({
+        summary: `${player.givenName} ${player.familyName} helped them move house.`,
+      }),
+    );
+    const restored = deserializeWorld(serializeWorld(world));
+    expect(
+      projectPersonDossier(restored, game.playerPersonId, other.id),
+    ).toEqual(dossier);
   });
 
   it("shows public votes involving the person, even when they are not a tenure focus", () => {
