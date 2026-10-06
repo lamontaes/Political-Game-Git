@@ -1,0 +1,150 @@
+{
+  "seed": "session23-actual-joint-confirmation",
+  "worldId": "world_705902d4912703d8",
+  "date": "2026-02-08",
+  "postOfficeKey": "us-ak-personnel-board",
+  "nomineeId": "person_5507cef85f595250",
+  "formerTermId": "event_4abd139ce0f6ddd8",
+  "vacancyEventId": "event_59033c2696404fb7",
+  "nominationEventId": "event_7408281c8bdb5753",
+  "confirmationDueItemId": "future-due-item_4f5b6acf9ebdb385",
+  "confirmationDueAt": "2026-02-08",
+  "rollCallEventId": "event_71a13ed0cbf8a1c0",
+  "privateMemberEvidenceId": "evidence-artifact_5ed1444da081e74e",
+  "memberEvidenceCutoff": {
+    "asOfDate": "2026-02-08",
+    "historySequenceExclusive": 424
+  },
+  "actualYesEvaluationCount": 31,
+  "actualYesSourceRefs": [
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_80ee2396d10aaa4f"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_80ee2496d10aac02"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_80ee2596d10aadb5"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_80ee1e96d10aa1d0"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_80ee1f96d10aa383"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_80ee2096d10aa536"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_80ee2196d10aa6e9"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_80ee2a96d10ab634"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_80ee2b96d10ab7e7"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50f845351fb5cd"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50f745351fb41a"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50f645351fb267"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50f545351fb0b4"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50f445351faf01"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50f345351fad4e"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50f245351fab9b"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50f145351fa9e8"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50f045351fa835"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f50ef45351fa682"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f545e45352298f6"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f545f4535229aa9"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f545c4535229590"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f545d4535229743"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f54624535229fc2"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f5463453522a175"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f54604535229c5c"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f54614535229e0f"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f5466453522a68e"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f5467453522a841"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f5764453524d8ff"
+    },
+    {
+      "kind": "relationship-interaction",
+      "interactionId": "relationship_1f5763453524d74c"
+    }
+  ],
+  "tenureEventId": "event_92d22e0859dbf4b3",
+  "yeas": 31,
+  "eligibleMembers": 60,
+  "requiredVotes": 31,
+  "method": "Controlled authored resignation, acquaintance and member relationship fixtures; actual existing writers, dated clock, one callback vote and one private artifact. Not natural election, new-game browser or played hearing."
+}

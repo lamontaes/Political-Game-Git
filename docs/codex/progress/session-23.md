@@ -69,12 +69,26 @@ interval and seating writers. Nine focused tests pass; explicit changed
 source/test roots, changed lint/format/zero-dice pass. Portable source hashes
 and retained failed fixture receipts are in `judicial-checks.json`. The unchanged Court integration file has two passes and one failure: no
 nomination record at the associate death-route assertion after ordinary time.
-Clean main-baseline reproduction and the actual chief-justice-act regression
-are pending. No final Part 3 claim.
+The same unchanged test independently fails on clean main
+`f88508186b78f526ecf89a420b5fb584171e039a`. The actual chief-justice-act regression
+passes with the next candidate composition (129 focused tests pass). No final Part 3 claim.
 
-Next: compose Session 21's exact 83bb21714d137f7ebe94201878c80568843af9a8
-callback and retain its actual member evaluations without re-evaluation. Continue
-other actual appointment callers and the additive scene adapter. Still required for Part 3: other appointment domains, cabinet depth,
+Session 21's exact `83bb21714d137f7ebe94201878c80568843af9a8` callback is now
+composed as an open candidate dependency. CTO 6015461961 authorized the
+existing private artifact writer; 21 confirmed the member-scoped boundary in 6015538526. The actual single vote callback feeds one private artifact, and the
+public roll call keeps only ballots, the recorded roster and its artifact ID.
+The additive reader validates actual linkage/cutoff/source identity and returns
+only the requested voting member's rows, with no knowledge grant or second
+chooser. 129 focused tests pass; after the final source-validation refinement,
+the three affected confirmation tests, source/test types and lint pass.
+Portable evidence is in `private-vote-checks.json` and
+`controlled-private-vote-records.json`. No new-game/browser/played hearing
+proof or final Part3 configured/release gate is claimed.
+
+Next: CTO merge order 6015461961 requires current-main composition and conflict
+resolution for #2448 (dollar budget), then #2458 (vetoes), then #2452 (one inbox),
+preserving all published work. Finish their affected checks and actual main
+landing before resuming remaining Part3 appointment callers and scene adapter. Still required for Part 3: other appointment domains, cabinet depth,
 additive scene packet, new-game desk screenshot and saved follow-through,
 final checks and one ready PR. Session 13's citizenship reader remains an open
 dependency; no transition may be written to qualify an appointment.

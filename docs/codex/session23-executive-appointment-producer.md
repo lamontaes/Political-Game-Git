@@ -196,6 +196,47 @@ explicit changed source/test type check pass; portable hashes and retained
 failed fixture receipts are in
 `session23-appointment-producer-proof/judicial-checks.json`. The unchanged Court integration file finished with two passes and one failed
 associate death-route assertion: no nomination record was present after
-`passOrdinaryDays`. A clean main-baseline reproduction is pending. The mistaken
+`passOrdinaryDays`. The same unchanged assertion independently fails on clean main
+`f88508186b78f526ecf89a420b5fb584171e039a`; no producer cause is established by
+these whole-route timings. The mistaken
 `chief-justice-vacancy.test.ts` filename matched no file; the actual separate
 chief regression is `chief-justice-act.test.ts` and has not run yet.
+
+## Exact member evaluation receipt
+
+The candidate composition now includes Session 21's exact
+`83bb21714d137f7ebe94201878c80568843af9a8` callback. It remains an open dependency,
+not an assertion that the callback is on main. CTO 6015461961 authorized the
+existing private artifact writer, and Session 21 confirmed its required reader
+boundary in 6015538526.
+
+At the existing single `decideChamberVote` call, the optional callback captures
+the actual `ChamberVoteMemberEvaluation` rows, including null evaluations. New
+`executive-appointment-vote-evidence.ts` saves a versioned packet through
+`recordEvidenceArtifact`, with private access, the actual nomination event,
+original cutoff, full ephemeral context and unchanged source snapshots/refs.
+The generic writer binds event/incident IDs; member identities therefore stay
+inside the exact packet rather than being placed in its related entity list.
+No extra event, chooser, durable decision trace, discovery, knowledge or public
+reasoning prose is created. One public confirmation event keeps the actual
+ballot rows, public recorded roster tags and the private artifact reference.
+
+`executiveAppointmentVoteEvidence(world, artifactId, memberPersonId)` validates
+kind/version, the actual nomination, original cutoff, artifact sources, the
+single linked public roll call, and exact recorded roster/ballot identity. It
+returns only that actual member's rows; an appointer or nominee who is not a
+voting member receives null. Append-backed mind sources must remain valid for
+that member at the original cutoff. Biography values have no append history;
+their original snapshots remain frozen instead of being reconstructed from
+today's person. This pure reader grants no knowledge. Generic evidence readers
+are not substitutes for this member-scoped API.
+
+The controlled confirmation case retains all 60 actual callback rows, 31
+actual yes evaluations and their relationship source IDs. Quiet member
+responses retain null evaluations. Save/reload preserves the private packet,
+nonmembers receive no rows, and seating/threshold/funding/favor assertions are
+unchanged. The composition ran 129 focused tests successfully; the final
+source-validation refinement reran the three affected confirmation tests,
+which pass. Final changed source/test types and lint pass. Portable commands,
+source hashes, actual IDs and retained failed receipts are in `private-vote-checks.json`
+and `controlled-private-vote-records.json`. No browser or played hearing claim.

@@ -1,3 +1,6 @@
+import { currentHistoricalCutoff } from "../queries";
+import { recordExecutiveAppointmentVoteEvidence } from "./executive-appointment-vote-evidence";
+import type { ChamberVoteMemberEvaluation } from "./chamber-votes";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
@@ -292,25 +295,30 @@ export function confirmExecutiveAppointment(
     );
   // Decide once over the combined body. A controlled member without an actual
   // ballot remains absent through the existing vote consumer.
-  const dispositions = decideChamberVote(world, {
-    kind: "nomination",
-    nominationKind: "executive-appointment",
-    stableKey: attemptKey,
-    nominationEventId,
-    nomineeId,
-    officeKey: post.officeKey,
-    postOfficeKey: post.officeKey,
-    appointerId,
-    jurisdictionId: office.jurisdictionId,
-    seatOrdinal: vacancy.seatOrdinal,
-    vacancyEventId: vacancy.vacancyEventId,
-    incumbentTermEventId: vacancy.incumbentTermEventId,
-    appointmentDecisionTraceId: traceId,
-    members,
-    playerPersonId:
-      world.control.kind === "person" ? world.control.personId : null,
-    considerationsByMember,
-  });
+  const memberEvaluations: ChamberVoteMemberEvaluation[] = [];
+  const dispositions = decideChamberVote(
+    world,
+    {
+      kind: "nomination",
+      nominationKind: "executive-appointment",
+      stableKey: attemptKey,
+      nominationEventId,
+      nomineeId,
+      officeKey: post.officeKey,
+      postOfficeKey: post.officeKey,
+      appointerId,
+      jurisdictionId: office.jurisdictionId,
+      seatOrdinal: vacancy.seatOrdinal,
+      vacancyEventId: vacancy.vacancyEventId,
+      incumbentTermEventId: vacancy.incumbentTermEventId,
+      appointmentDecisionTraceId: traceId,
+      members,
+      playerPersonId:
+        world.control.kind === "person" ? world.control.personId : null,
+      considerationsByMember,
+    },
+    { onMemberEvaluation: (row) => memberEvaluations.push(row) },
+  );
   const yeas = dispositions.filter((row) => row.disposition === "yea").length;
   const nays = dispositions.filter((row) => row.disposition === "nay").length;
   const denominator =
@@ -318,13 +326,21 @@ export function confirmExecutiveAppointment(
   const requiredVotes = Math.floor(denominator / 2) + 1;
   const confirmed = yeas >= requiredVotes;
   const pending = yeas + nays === 0;
-  let next = recordWorldEvent(world, {
+  const evidence = recordExecutiveAppointmentVoteEvidence(world, {
+    version: 1,
+    nominationEventId,
+    attemptKey,
+    cutoff: currentHistoricalCutoff(world),
+    members: memberEvaluations,
+  });
+  let next = recordWorldEvent(evidence.world, {
     stableKey: attemptKey,
     type: "executive.appointment-confirmation",
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: office.jurisdictionId,
     involvedEntityIds: [
+      evidence.evidenceArtifactId,
       nomineeId,
       ...dispositions.flatMap((row) => (row.personId ? [row.personId] : [])),
     ],
@@ -348,6 +364,11 @@ export function confirmExecutiveAppointment(
       `appointment-post:${post.officeKey}`,
       `appointment-seat:${vacancy.seatOrdinal}`,
       `source-event:${nomination.id}`,
+      `member-evidence:${evidence.evidenceArtifactId}`,
+      ...dispositions.map(
+        (row) =>
+          `confirmation-member:${row.memberKey}|${row.personId ?? "vacant"}`,
+      ),
       `appointment-vacancy:${vacancy.vacancyEventId}`,
       `eligible-members:${eligibleMembers}`,
       `denominator:${denominator}`,

@@ -1,3 +1,10 @@
+import type { ExecutiveAppointmentVoteEvidence } from "./executive-appointment-vote-evidence";
+import type { EntityId } from "../types";
+import {
+  executiveAppointmentVoteEvidence,
+  recordExecutiveAppointmentVoteEvidence,
+} from "./executive-appointment-vote-evidence";
+import { hasPersonDiscoveredEvidence } from "../evidence";
 import { writeFileSync } from "node:fs";
 import { currentHistoricalCutoff } from "../queries";
 import {
@@ -212,7 +219,51 @@ describe("executive appointment confirmation caller", () => {
     expect(result.world.history.resourcePositions).toEqual(
       fixture.world.history.resourcePositions,
     );
+    const evidenceId = rollCall.tags
+      .find((tag) => tag.startsWith("member-evidence:"))!
+      .slice("member-evidence:".length) as EntityId;
+    const artifact = result.world.history.evidenceArtifacts.find(
+      (row) => row.id === evidenceId,
+    )!;
+    const privatePacket = JSON.parse(
+      artifact.description!,
+    ) as ExecutiveAppointmentVoteEvidence;
+    expect(privatePacket.members).toHaveLength(60);
+    expect(
+      privatePacket.members.every(
+        (row) => row.evaluation === null && row.sourceRefs.length === 0,
+      ),
+    ).toBe(true);
+    expect(result.world.history.evidenceDiscoveries).toEqual(
+      fixture.world.history.evidenceDiscoveries,
+    );
+    expect(
+      hasPersonDiscoveredEvidence(
+        result.world,
+        fixture.nomineeId,
+        evidenceId,
+        currentHistoricalCutoff(result.world),
+      ),
+    ).toBe(false);
+    expect(result.world.history.decisionTraces).toEqual(
+      fixture.world.history.decisionTraces,
+    );
     const restored = deserializeWorld(serializeWorld(result.world));
+    const memberId = privatePacket.members[0]!.disposition.personId!;
+    expect(
+      executiveAppointmentVoteEvidence(restored, evidenceId, memberId)?.members,
+    ).toEqual(
+      privatePacket.members.filter(
+        (row) => row.disposition.personId === memberId,
+      ),
+    );
+    expect(
+      executiveAppointmentVoteEvidence(restored, evidenceId, fixture.nomineeId),
+    ).toBeNull();
+    expect(
+      recordExecutiveAppointmentVoteEvidence(restored, privatePacket).world,
+    ).toBe(restored);
+
     expect(
       confirmExecutiveAppointment(restored, fixture.nomination.id),
     ).toMatchObject({
@@ -293,7 +344,75 @@ describe("executive appointment confirmation caller", () => {
     )!;
     expect(rollCall.tags).toContain("yeas:31");
     expect(rollCall.tags).toContain("required-votes:31");
+    const evidenceId = rollCall.tags
+      .find((tag) => tag.startsWith("member-evidence:"))!
+      .slice("member-evidence:".length) as EntityId;
+    const artifact = result.world.history.evidenceArtifacts.find(
+      (row) => row.id === evidenceId,
+    )!;
+    const privatePacket = JSON.parse(
+      artifact.description!,
+    ) as ExecutiveAppointmentVoteEvidence;
+    expect(privatePacket.members).toHaveLength(60);
+    const actualYesEvaluations = privatePacket.members.filter(
+      (row) => row.disposition.disposition === "yea",
+    );
+    expect(actualYesEvaluations).toHaveLength(31);
+    for (const row of actualYesEvaluations) {
+      expect(row.evaluation?.selectedOptionKey).toBe("vote-yea");
+      expect(row.evaluation?.context.actorPersonId).toBe(
+        row.disposition.personId,
+      );
+      expect(row.evaluation?.context.retention).toBe("ephemeral");
+      expect(
+        row.sourceRefs.some((ref) => ref.kind === "relationship-interaction"),
+      ).toBe(true);
+      expect(row.sourceRefs).toEqual(
+        row.evaluation!.sourceSnapshots.map((snapshot) => snapshot.reference),
+      );
+    }
+    expect(
+      rollCall.participants.every(
+        (row) => !row.detail?.includes("sourceSnapshots"),
+      ),
+    ).toBe(true);
+    expect(result.world.history.evidenceDiscoveries).toEqual(
+      world.history.evidenceDiscoveries,
+    );
+    const memberId = actualYesEvaluations[0]!.disposition.personId!;
+    const inspected = executiveAppointmentVoteEvidence(
+      deserializeWorld(serializeWorld(result.world)),
+      evidenceId,
+      memberId,
+    )!;
+    expect(inspected.members).toHaveLength(1);
+    expect(inspected.members[0]).toEqual(actualYesEvaluations[0]);
+    expect(inspected.rollCallEventId).toBe(rollCall.id);
+    expect(
+      executiveAppointmentVoteEvidence(
+        result.world,
+        evidenceId,
+        fixture.nomineeId,
+      ),
+    ).toBeNull();
+    expect(() =>
+      recordExecutiveAppointmentVoteEvidence(result.world, {
+        ...privatePacket,
+        members: privatePacket.members.map((row, index) =>
+          index
+            ? row
+            : {
+                ...row,
+                disposition: {
+                  ...row.disposition,
+                  memberKey: "replaced-member",
+                },
+              },
+        ),
+      }),
+    ).toThrow();
     const tenure = latestExecutiveAppointmentSeat(result.world, POST, 1)!;
+
     expect(tenure.id).toBe(result.tenureEventId);
     expect(tenure.participants[0]!.personId).toBe(fixture.nomineeId);
     expect(tenure.tags).toContain(`source-event:${rollCall.id}`);
@@ -323,6 +442,12 @@ describe("executive appointment confirmation caller", () => {
       confirmationDueItemId: due.id,
       confirmationDueAt: due.dueAt,
       rollCallEventId: rollCall.id,
+      privateMemberEvidenceId: evidenceId,
+      memberEvidenceCutoff: privatePacket.cutoff,
+      actualYesEvaluationCount: actualYesEvaluations.length,
+      actualYesSourceRefs: actualYesEvaluations.flatMap(
+        (row) => row.sourceRefs,
+      ),
       tenureEventId: tenure.id,
       yeas: 31,
       eligibleMembers: 60,
