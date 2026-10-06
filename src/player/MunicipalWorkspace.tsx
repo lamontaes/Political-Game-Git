@@ -34,7 +34,6 @@ import {
   saveProjectedOrdinanceBallot,
   takeProjectedOrdinanceVote,
   takeProjectedOverrideVote,
-  actOnProjectedCouncilMeasure,
   type OwnOrdinanceBallot,
 } from "../presentation/municipal-governing";
 import {
@@ -652,38 +651,7 @@ export function MunicipalWorkspace({
                               to sign it or return it to the council.
                             </p>
                             {ordinance.playerIsExecutive ? (
-                              <>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    act(
-                                      actOnProjectedCouncilMeasure(
-                                        world,
-                                        governing.governmentKey,
-                                        ordinance.measureId,
-                                        "sign",
-                                      ),
-                                    )
-                                  }
-                                >
-                                  Sign it
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    act(
-                                      actOnProjectedCouncilMeasure(
-                                        world,
-                                        governing.governmentKey,
-                                        ordinance.measureId,
-                                        "return",
-                                      ),
-                                    )
-                                  }
-                                >
-                                  Return it unsigned
-                                </button>
-                              </>
+                              <p>Decide this act in Your office.</p>
                             ) : null}
                           </div>
                         ) : null}

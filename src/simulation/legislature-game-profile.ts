@@ -140,11 +140,50 @@ interface VetoWindowRow {
   readonly usps: string;
   readonly inSessionDays: number | null;
   readonly afterAdjournmentDays: number | null;
+  readonly table: {
+    readonly duringSession: string;
+    readonly afterSessionBecomesLawUnlessVetoed: string;
+    readonly afterSessionDiesUnlessSigned: string;
+  };
 }
 
 const VETO_WINDOW_ROWS: readonly VetoWindowRow[] = (
   vetoWindowTable as { readonly rows: readonly VetoWindowRow[] }
 ).rows;
+
+/** Table 3.16 excludes Sundays except cells marked footnote (q). */
+export function vetoWindowDayBasisFor(
+  stateJurisdictionKey: string,
+  afterAdjournment: boolean,
+) {
+  const cellFor = (row: VetoWindowRow) =>
+    afterAdjournment
+      ? row.table.afterSessionBecomesLawUnlessVetoed ||
+        row.table.afterSessionDiesUnlessSigned
+      : row.table.duringSession;
+  const row = VETO_WINDOW_ROWS.find(
+    (candidate) => candidate.usps === stateJurisdictionKey.replace(/^US-/, ""),
+  );
+  const cell = row ? cellFor(row) : "";
+  const observations = VETO_WINDOW_ROWS.map(cellFor).filter(Boolean);
+  const calendarCount = observations.filter((value) =>
+    value.includes("(q)"),
+  ).length;
+  const basis = cell
+    ? cell.includes("(q)")
+      ? ("CALENDAR" as const)
+      : ("SUNDAYS_EXCEPTED" as const)
+    : calendarCount > observations.length / 2
+      ? ("CALENDAR" as const)
+      : ("SUNDAYS_EXCEPTED" as const);
+  return knownRule(
+    basis,
+    profileSource(
+      "Veto action day counting",
+      `${VETO_WINDOW_SOURCE.citation} says days exclude Sundays unless footnote (q) applies. ${cell ? `This row's recorded cell is ${cell}.` : "This row has no cell; the day basis is ESTIMATED from the most common basis among the table's recorded cells."}`,
+    ),
+  );
+}
 
 /** Where The Council of State Governments' table gives a state's windows. */
 export const VETO_WINDOW_SOURCE = {
@@ -770,9 +809,17 @@ function buildLegislatureProfilePack(
         profile.vetoWindowDaysInSession,
         overrideSource,
       ),
+      actionWindowDayBasisInSession: vetoWindowDayBasisFor(
+        stateJurisdictionKey,
+        false,
+      ),
       actionWindowDaysAfterAdjournment: knownRule(
         profile.vetoWindowDaysAfterAdjournment,
         overrideSource,
+      ),
+      actionWindowDayBasisAfterAdjournment: vetoWindowDayBasisFor(
+        stateJurisdictionKey,
+        true,
       ),
       inactionOutcomeInSession: knownRule(
         "becomes-law-without-signature",
