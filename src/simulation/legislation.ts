@@ -1382,15 +1382,6 @@ export function recordProceduralMotion(
   const passed = input.vote.outcome === "passed";
   const kind = passed ? acceptedKind[input.motion] : "procedural-motion-failed";
   const chamber = chamberByKey(pack, input.chamberKey);
-  const motionText: Record<MinorityProcedureMotion, string> = {
-    table: "lay the measure on the table",
-    postpone: "postpone the measure",
-    recommit: "send the measure back to committee",
-    "recorded-vote": "demand a recorded vote",
-    "full-reading": "demand the full reading",
-    "suspend-rules": "suspend the rules",
-    "sine-die": "adjourn the session sine die",
-  };
   return appendAction(world, {
     measure,
     kind,
@@ -1400,7 +1391,7 @@ export function recordProceduralMotion(
     floorStageKey: position.floorStageKey,
     actorLabel: input.actorLabel,
     rationale: input.rationale,
-    summary: `${chamber.name} ${passed ? "agreed to" : "rejected"} a motion to ${motionText[input.motion]} (${input.vote.tally.yea}-${input.vote.tally.nay}).`,
+    summary: `${chamber.name}: ${input.motion} ${passed ? "carried" : "failed"} ${input.vote.tally.yea}-${input.vote.tally.nay}`,
     eventType: "legislation.procedural-motion",
     tags: ["legislation.procedure"],
     vote: input.vote,

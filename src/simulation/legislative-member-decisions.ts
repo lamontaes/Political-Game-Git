@@ -238,9 +238,7 @@ export function memberVoteConsiderations(
         ...reason,
         stableKey: `member:procedural-motion:${motion}:${reason.stableKey}`,
         optionKey: wantsBill ? "vote-nay" : "vote-yea",
-        explanation: wantsBill
-          ? "The member wants the measure to advance, so their view weighs against delaying it."
-          : "The member opposes the measure, so their view weighs in favor of delaying it.",
+        explanation: reason.explanation,
       },
     ];
   });

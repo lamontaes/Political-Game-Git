@@ -1337,15 +1337,6 @@ export function decideProceduralMotion(
     throw new Error(
       `The ${chamber.name} has no recorded members for this vote.`,
     );
-  const questionLabel: Record<MinorityProcedureMotion, string> = {
-    table: "whether to table the measure",
-    postpone: "whether to postpone the measure",
-    recommit: "whether to recommit the measure",
-    "recorded-vote": "whether to require a recorded vote",
-    "full-reading": "whether to require the full reading",
-    "suspend-rules": "whether to suspend the rules",
-    "sine-die": "whether to adjourn the session sine die",
-  };
   const dispositions = decideChamberVote(world, {
     stableKey: input.stableKey,
     members: seated.body.members,
@@ -1360,7 +1351,7 @@ export function decideProceduralMotion(
         amendmentStableKey: null,
         provisionKey: null,
       },
-      questionLabel: questionLabel[input.motion],
+      questionLabel: input.motion,
       proceduralMotion: input.motion,
     },
     contested: true,
@@ -1580,9 +1571,7 @@ function partyCue(
         direction: "supports",
         importance: "strong",
         confidence: "high",
-        explanation: invertForDelay
-          ? "The member is carrying this measure, which weighs against delaying it."
-          : "The member is carrying this bill.",
+        explanation: "The member is carrying this bill.",
         sourceRefs: [],
       },
     ];
@@ -1595,9 +1584,7 @@ function partyCue(
         direction: "supports",
         importance: "strong",
         confidence: "high",
-        explanation: invertForDelay
-          ? "The member put their name on this measure, which weighs against delaying it."
-          : "The member put their name on this bill.",
+        explanation: "The member put their name on this bill.",
         sourceRefs: [],
       },
     ];
@@ -1622,13 +1609,9 @@ function partyCue(
       direction: "supports",
       importance: same ? "moderate" : "slight",
       confidence: "medium",
-      explanation: invertForDelay
-        ? supportsMotion
-          ? "The member's party is on the other side of this measure, which weighs in favor of delaying it."
-          : "The member's party is carrying this measure, which weighs against delaying it."
-        : supportsMotion
-          ? "The bill is carried by a member of the member's own party."
-          : "The bill is carried by a member of the other party.",
+      explanation: same
+        ? "The bill is carried by a member of the member's own party."
+        : "The bill is carried by a member of the other party.",
       sourceRefs: [],
     },
   ];
