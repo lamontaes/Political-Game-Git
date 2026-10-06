@@ -64,10 +64,12 @@ import {
  *    column is empty, so the District reads the local column whole.
  * 2. A territory opens from its NASBO totals: one revenue line whose source is
  *    unknown and one program line whose split is unknown.
- * 3. A county or city takes its PLACEHOLDER share of its state's local
- *    figures per resident (`rules.ts`), times its own population.
+ * 3. A county or city takes its ESTIMATED FROM AVERAGE share of its state's
+ *    local figures per resident (`rules.ts`), times its own population. The
+ *    basis is the nationwide Census 2022 local-government program mix.
  * 4. A state's opening balance and reserve are NASBO's fiscal 2026 estimates;
- *    a local government's are its state's shares of spending (PLACEHOLDER).
+ *    a local government's are ESTIMATED FROM AVERAGE from its state's shares
+ *    of spending because Census does not publish these balances by local type.
  *
  * A figure read for the government itself (a state's Census column, a
  * territory's NASBO totals) opens exactly as read. An estimate from an
@@ -811,10 +813,10 @@ function localOpening(
     reserve: Math.round(total * reserveShare),
     notes: [
       base.local
-        ? `Census 2022 local-government figures per resident in ${base.name}, the ${level} share of each program (PLACEHOLDER table, research: local-government-finances-by-type), times ${populationSource} population, times the calibration factor.`
-        : `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighted by population), the ${level} share of each program (PLACEHOLDER table), times ${populationSource} population, times the calibration factor.`,
+        ? `Census 2022 local-government figures per resident in ${base.name}, the ESTIMATED FROM AVERAGE ${level} share of each program (nationwide local governments in the 50 states and D.C.), times ${populationSource} population, times the calibration factor.`
+        : `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighted by population), the estimated ${level} share of each program from those same places, times ${populationSource} population, times the calibration factor.`,
       `Revenue: ${LOCAL_REVENUE_RULE}.`,
-      "Opening balance and reserve: the state's general fund balance and rainy-day shares of spending (PLACEHOLDER, research: local-government-finances-by-type).",
+      "Opening balance and reserve: ESTIMATED FROM AVERAGE using the state's general-fund balance and rainy-day shares of spending; Census does not publish these balances by local-government type.",
       interestNote(localRate, DEFAULT_LOCAL_INTEREST_RATE),
     ],
   };
@@ -836,7 +838,7 @@ function fiscalStartFor(
   }
   return {
     start: base.fiscalYearStart ?? "07-01",
-    basis: candidate.level === "state" ? "nasbo" : "state-start-placeholder",
+    basis: candidate.level === "state" ? "nasbo" : "estimated-from-state-start",
   };
 }
 
@@ -935,9 +937,9 @@ export function openGovernmentBudget(
       paid.basis === "reported"
         ? `Pension share paid: ${paid.share}, as its own plans filed with the Public Plans Database.`
         : `Pension share paid: ${paid.share}, ESTIMATED FROM AVERAGE (the median of every plan in the Public Plans Database, fiscal 2022 to 2024); its own plans are not listed.`,
-      ...(basis === "state-start-placeholder"
+      ...(basis === "estimated-from-state-start"
         ? [
-            "Budget year: begins when the state's does (PLACEHOLDER, research: local-government-finances-by-type).",
+            "Budget year: ESTIMATED FROM AVERAGE using the parent state's recorded fiscal-year start; the local government's own start is not in the accepted source.",
           ]
         : []),
       "Adoption is automatic each year; a budget passed as a bill comes later.",

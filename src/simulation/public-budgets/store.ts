@@ -324,7 +324,10 @@ export interface PublicBudgetGovernment extends PublicGovernmentIdentityCarrier 
   /** "07-01". */
   readonly fiscalYearStart: string;
   readonly fiscalYearStartBasis:
-    "nasbo" | "city-rule-pack" | "state-start-placeholder";
+    | "nasbo"
+    | "city-rule-pack"
+    | "estimated-from-state-start"
+    | "state-start-placeholder";
   readonly budgetCycle: "annual" | "biennial" | null;
   /** How each opening amount was reached, placeholders named. */
   readonly openingNotes: readonly string[];

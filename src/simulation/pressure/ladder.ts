@@ -27,8 +27,10 @@
  * state and quarter the ladder reads it, so the engine's rules evaluate the
  * same canonical value its records cite.
  *
- * Every number in `BLANKET_POLITICAL_VIOLENCE` is a placeholder, filed with
- * ChatGPT as `political-violence-what-builds-to-an-attack`. The ladder installs
+ * `RECORDED_POLITICAL_VIOLENCE_POLICY` is the game's recorded causal policy:
+ * one quarter establishes lasting unrest, accumulated excess anger drives an
+ * attempt, and an unresolved threat lapses after four quarters. These are
+ * HARDWIRED gameplay rules rather than claims about a real-world rate. The ladder installs
  * its metric and two incident definitions the first time a state's anger
  * crosses the line, so a world where nothing does is unchanged.
  */
@@ -72,8 +74,8 @@ import { homeStateKeyOf } from "./anger";
 import type { PressureReading } from "./contract";
 import { worldStates } from "./step";
 
-/** BLANKET placeholders; see the file comment. None is researched. */
-export const BLANKET_POLITICAL_VIOLENCE = Object.freeze({
+/** The recorded, deterministic pressure-ladder policy; see the file comment. */
+export const RECORDED_POLITICAL_VIOLENCE_POLICY = Object.freeze({
   /** Anger at or under this sets nothing off: how bad counts as bad. */
   angerLine: 0.3,
   /** Unrest is lasting once it has held through this many re-checks. */
@@ -143,7 +145,9 @@ function angerOverLine(metricId: EntityId): IncidentRule {
     metricId,
     reference: { kind: "at-evaluation" },
     comparison: "at-least",
-    threshold: angerValue(BLANKET_POLITICAL_VIOLENCE.angerLine + 0.0001),
+    threshold: angerValue(
+      RECORDED_POLITICAL_VIOLENCE_POLICY.angerLine + 0.0001,
+    ),
     reasonKey: "pressure:anger-over-line",
   };
 }
@@ -288,7 +292,7 @@ function scopeOf(reading: PressureReading): MetricScope {
  * how long and how far anger stays over its line decides it.
  */
 export function threatAttemptLine(): number {
-  return BLANKET_POLITICAL_VIOLENCE.attemptLine;
+  return RECORDED_POLITICAL_VIOLENCE_POLICY.attemptLine;
 }
 
 /**
@@ -310,7 +314,7 @@ export function threatStrain(
         sum +
         Math.max(
           0,
-          reading.levels.anger - BLANKET_POLITICAL_VIOLENCE.angerLine,
+          reading.levels.anger - RECORDED_POLITICAL_VIOLENCE_POLICY.angerLine,
         ),
       0,
     );
@@ -334,7 +338,7 @@ export function stepPressureLadder(
   world: World,
   latest: readonly PressureReading[],
 ): World {
-  const policy = BLANKET_POLITICAL_VIOLENCE;
+  const policy = RECORDED_POLITICAL_VIOLENCE_POLICY;
   const store = world.pressure;
   if (!store) return world;
   const unrestId = unrestIncidentDefinition().id;

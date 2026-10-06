@@ -266,7 +266,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects: "Pressure passing when nothing keeps feeding it.",
     status: "built",
     rule: "BLANKET: every pressure loses 25 percent of its level every quarter.",
-    where: "src/simulation/pressure/step.ts BLANKET_FADE_PER_QUARTER",
+    where: "src/simulation/pressure/step.ts RECORDED_PRESSURE_FADE_PER_QUARTER",
   },
   {
     key: "state-flows",

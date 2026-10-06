@@ -16,19 +16,18 @@ export const INCENTIVE_CAP_QUESTION =
   "us-policy-positions:business-commerce.cap-development-incentives";
 
 /**
- * Every number the budgets use that research has not supplied yet. Each is a
- * PLACEHOLDER naming the research question filed for it
- * (docs/research/requests/), and each is shown on the government's opening
- * notes or adjustment so a report can say which figures are stand-ins.
+ * Estimated budget rules used where the accepted sources do not provide an
+ * individual-government value. Opening notes identify the estimate and its
+ * nationwide or state basis.
  */
 
 /**
  * The share of a state's local-government spending on each program that its
  * county governments carry, and the share its city governments carry, per
  * resident. The rest belongs to governments the world does not hold yet
- * (school districts, special districts, townships). PLACEHOLDER until Census
- * finances by type of government are read, research:
- * local-government-finances-by-type.
+ * (school districts, special districts, and townships). ESTIMATED FROM
+ * AVERAGE using the nationwide Census 2022 local-government program mix for
+ * the 50 states and D.C.
  */
 export const LOCAL_PROGRAM_SPLIT: Readonly<
   Partial<

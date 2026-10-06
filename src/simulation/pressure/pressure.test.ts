@@ -23,8 +23,8 @@ import { addDays } from "../dates";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import type { World } from "../types";
 import {
-  BLANKET_BASE_OUTFLOW_PCT_PER_YEAR,
-  BLANKET_FADE_PER_QUARTER,
+  ESTIMATED_AVERAGE_BASE_OUTFLOW_PCT_PER_YEAR,
+  RECORDED_PRESSURE_FADE_PER_QUARTER,
   BLANKET_HAZARD_PRESSURE,
   PRESSURE_SEAMS,
   assertPressureIntegrity,
@@ -134,7 +134,7 @@ describe("the pressure layer", { timeout: LONG }, () => {
 
     const second = quarters(first, 1);
     expect(latestReadings(second).get("US-AZ")!.levels.leave).toBeCloseTo(
-      BLANKET_HAZARD_PRESSURE.major * (1 - BLANKET_FADE_PER_QUARTER),
+      BLANKET_HAZARD_PRESSURE.major * (1 - RECORDED_PRESSURE_FADE_PER_QUARTER),
     );
 
     // The year closes: Arizona sends more of its people out than any other
@@ -145,7 +145,9 @@ describe("the pressure layer", { timeout: LONG }, () => {
     expect(flows).toHaveLength(worldStates(year).length);
     const fromArizona = flows.find((flow) => flow.fromStateKey === "US-AZ")!;
     const fromOregon = flows.find((flow) => flow.fromStateKey === "US-OR")!;
-    expect(fromOregon.outflowSharePct).toBe(BLANKET_BASE_OUTFLOW_PCT_PER_YEAR);
+    expect(fromOregon.outflowSharePct).toBe(
+      ESTIMATED_AVERAGE_BASE_OUTFLOW_PCT_PER_YEAR,
+    );
     expect(fromArizona.outflowSharePct).toBeGreaterThan(
       fromOregon.outflowSharePct,
     );
@@ -185,7 +187,7 @@ describe("the pressure layer", { timeout: LONG }, () => {
     const arizona = latestReadings(later).get("US-AZ")!;
     expect(arizona.contributions).toEqual([]);
     expect(arizona.levels.leave).toBeCloseTo(
-      BLANKET_HAZARD_PRESSURE.major * (1 - BLANKET_FADE_PER_QUARTER),
+      BLANKET_HAZARD_PRESSURE.major * (1 - RECORDED_PRESSURE_FADE_PER_QUARTER),
     );
   });
 
