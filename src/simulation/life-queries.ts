@@ -594,9 +594,7 @@ interface HouseholdPersonProjection {
   readonly rows: readonly {
     readonly membership: HouseholdMembership;
     readonly household: Household | undefined;
-    readonly states: readonly HouseholdMembershipStateRecord[];
     readonly stateGroup: readonly HouseholdMembershipStateRecord[];
-    readonly locations: readonly HouseholdLocationRecord[];
     readonly locationGroup: readonly HouseholdLocationRecord[];
   }[];
   sourceRevision: object;
@@ -609,9 +607,8 @@ interface HouseholdPersonProjection {
 
 // Join a person's recorded membership histories once per contributing revision.
 // Cutoff queries only choose available rows; public history readers remain intact.
-const HOUSEHOLD_PROJECTION_LIMIT = 32768;
-let HOUSEHOLD_PROJECTIONS = new WeakMap<object, HouseholdPersonProjection>();
-let householdProjectionCount = 0;
+const HOUSEHOLD_PROJECTION_LIMIT = 16;
+const HOUSEHOLD_PROJECTIONS = new Map<object, HouseholdPersonProjection>();
 let householdProjectionRun: string | undefined;
 let householdProjectionMonth: string | undefined;
 
@@ -621,8 +618,7 @@ function scopeHouseholdProjections(world: World): void {
     householdProjectionRun !== world.id ||
     householdProjectionMonth !== month
   ) {
-    HOUSEHOLD_PROJECTIONS = new WeakMap();
-    householdProjectionCount = 0;
+    HOUSEHOLD_PROJECTIONS.clear();
     householdProjectionRun = world.id;
     householdProjectionMonth = month;
   }
@@ -662,11 +658,15 @@ function householdSourceRevision(history: World["history"]): object {
 function lastHouseholdRowAt<
   T extends { readonly sequence: number; readonly effectiveAt: string },
 >(rows: readonly T[], cutoff: HistoricalCutoff): T | undefined {
-  for (let at = rows.length - 1; at >= 0; at -= 1) {
-    const row = rows[at]!;
-    if (available(row.sequence, row.effectiveAt, cutoff)) return row;
+  let latest: T | undefined;
+  for (const row of rows) {
+    if (
+      available(row.sequence, row.effectiveAt, cutoff) &&
+      (!latest || byEffectiveDateThenSequence(row, latest) >= 0)
+    )
+      latest = row;
   }
-  return undefined;
+  return latest;
 }
 
 export function householdMembershipsAt(
@@ -685,13 +685,6 @@ export function householdMembershipsAt(
   if (memberships.length === 0) return NO_HOUSEHOLD_MEMBERSHIPS;
   // Group identities change only when that person's rows change. Unrelated
   // appends keep those immutable groups and their joined projection intact.
-  if (
-    householdProjectionCount >= HOUSEHOLD_PROJECTION_LIMIT &&
-    !HOUSEHOLD_PROJECTIONS.has(memberships)
-  ) {
-    HOUSEHOLD_PROJECTIONS = new WeakMap();
-    householdProjectionCount = 0;
-  }
   let person = HOUSEHOLD_PROJECTIONS.get(memberships);
   const sourceRevision = householdSourceRevision(history);
   if (person && person.sourceRevision !== sourceRevision) {
@@ -723,7 +716,6 @@ export function householdMembershipsAt(
         "membershipId",
         membership.id,
       );
-      const states = [...stateGroup].sort(byEffectiveDateThenSequence);
       const household = recordById(history.households, membership.householdId);
       const locationGroup = household
         ? recordsByStringField(
@@ -732,16 +724,14 @@ export function householdMembershipsAt(
             household.id,
           )
         : [];
-      const locations = [...locationGroup].sort(byEffectiveDateThenSequence);
       maximum = Math.max(maximum, membership.sequence);
-      for (const row of states) maximum = Math.max(maximum, row.sequence);
-      for (const row of locations) maximum = Math.max(maximum, row.sequence);
+      for (const row of stateGroup) maximum = Math.max(maximum, row.sequence);
+      for (const row of locationGroup)
+        maximum = Math.max(maximum, row.sequence);
       return {
         membership,
         household,
-        states,
         stateGroup,
-        locations,
         locationGroup,
       };
     });
@@ -754,9 +744,14 @@ export function householdMembershipsAt(
       currentResultKey: undefined,
       currentResult: undefined,
     };
-    if (!HOUSEHOLD_PROJECTIONS.has(memberships)) householdProjectionCount += 1;
-    HOUSEHOLD_PROJECTIONS.set(memberships, person);
-  }
+    if (
+      HOUSEHOLD_PROJECTIONS.size >= HOUSEHOLD_PROJECTION_LIMIT &&
+      !HOUSEHOLD_PROJECTIONS.has(memberships)
+    ) {
+      HOUSEHOLD_PROJECTIONS.delete(HOUSEHOLD_PROJECTIONS.keys().next().value!);
+    }
+  } else HOUSEHOLD_PROJECTIONS.delete(memberships);
+  HOUSEHOLD_PROJECTIONS.set(memberships, person);
   const key = `${cutoff.asOfDate}|${Math.min(cutoff.historySequenceExclusive, person.sequenceCeiling)}`;
   if (person.currentResultKey === key) return person.currentResult!;
   if (person.resultKey === key) return person.result!;
@@ -764,13 +759,13 @@ export function householdMembershipsAt(
   for (const row of person.rows) {
     const { membership, household } = row;
     if (!available(membership.sequence, membership.startedAt, cutoff)) continue;
-    const state = lastHouseholdRowAt(row.states, cutoff);
+    const state = lastHouseholdRowAt(row.stateGroup, cutoff);
     if (!state || state.status !== "resident" || !household) continue;
     result.push({
       membership,
       household,
       state,
-      location: lastHouseholdRowAt(row.locations, cutoff) ?? null,
+      location: lastHouseholdRowAt(row.locationGroup, cutoff) ?? null,
     });
   }
   // Protect the current complete view from historical validation reads. Keep
