@@ -1039,13 +1039,33 @@
       "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
       "answers": {
         "US-AK": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://health.alaska.gov/media/qfph4aef/alaska-community-engagement-requirements-modeling-feb-2026.pdf",
+          "note": "Alaska adult Medicaid expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-AL": {
           "answer": "no"
         },
         "US-AR": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://humanservices.arkansas.gov/divisions-shared-services/county-operations/medicaid-quick-reference-chart/",
+          "note": "Arkansas adult Medicaid expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-AS": {
           "answer": "no",
@@ -1053,22 +1073,82 @@
           "note": "American Samoa runs Medicaid under a waiver that pays for care in proportion to residents under 200 percent of the poverty level with no individual enrollment, so it has not expanded to the adult group (MACPAC, February 2021)."
         },
         "US-AZ": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://epm.azahcccs.gov/EligibilityPolicyManual/Policy/Chapter_400_AHCCCS_Medical_Assistance_Programs/MA0401.htm",
+          "note": "Arizona AHCCCS adult-group threshold is 133% of the federal poverty level; the official policy manual is the basis used here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.dhcs.ca.gov/individuals/Pages/AffordableCareActLinks.aspx",
+          "note": "California adult Medicaid expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-CO": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.healthfirstcolorado.gov/will-health-first-colorado-still-cover-my-medical-bills-before-im-officially-enrolled/",
+          "note": "Colorado Health First adult group income limit is up to 133% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://portal.ct.gov/dss/knowledge-base/articles/healthcare-coverage/husky-d",
+          "note": "Connecticut HUSKY D adult limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dhcf.dc.gov/page/medicaid-income-limits",
+          "note": "District adult expansion limit is 133% FPL plus the 5 percentage-point MAGI disregard, effective January 1, 2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-DE": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dhss.delaware.gov/dmma/home/medicaid-engage/",
+          "note": "Delaware adult expansion limit is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-FL": {
           "answer": "no"
@@ -1079,50 +1159,188 @@
         },
         "US-GU": {
           "answer": "yes",
-          "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
-          "note": "Guam covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+          "source": "https://www.medicaid.gov/medicaid-spa/2021-05-13/108316",
+          "note": "CMS-approved Guam SPA GU-21-0002 states that, effective January 1, 2021, 138% of Guam local poverty is equivalent to 150% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 150,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-HI": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://humanservices.hawaii.gov/aca/",
+          "note": "Hawaii adult expansion coverage is for income under 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-IA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://hhs.iowa.gov/medicaid/plans-programs/iowa-health-wellness-plan",
+          "note": "Iowa Wellness Plan threshold for adults 19–64 is 133% of the federal poverty level; current eligibility standard effective April 1, 2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-ID": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://healthandwelfare.idaho.gov/services-programs/medicaid-health/medicaid-expansion",
+          "note": "Idaho adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-IL": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://hfs.illinois.gov/info/fedresctr/medicaidfedpolicychfs.html",
+          "note": "Illinois adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-IN": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://secure.in.gov/fssa/hip/about-hip/frequently-asked-questions/",
+          "note": "Indiana HIP adult eligibility threshold is effectively 138% FPL; the agency FAQ states the program threshold.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-KS": {
           "answer": "no"
         },
         "US-KY": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://kynect.ky.gov/benefits/s/medicaid-kchip-program?language=en_US",
+          "note": "Kentucky adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-LA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://ldh.la.gov/assets/medicaid/Rulemaking/FinalRules/May2016FinalRules.pdf",
+          "note": "Louisiana adult expansion threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://budget.digital.mass.gov/summary/fy26/enacted/health-and-human-services/health-and-human-services/40000940/",
+          "note": "Massachusetts enacted FY2026 budget specifies coverage through 133% of the federal poverty level; no higher numerical threshold is asserted.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MD": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://regs.maryland.gov/us/md/exec/comar/10.09.24/index.full.html",
+          "note": "Maryland adult group threshold: 133% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-ME": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.legislature.maine.gov/legis/statutes/22/title22sec3174-G.html",
+          "note": "MaineCare adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MI": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.michigan.gov/healthymiplan",
+          "note": "Healthy Michigan Plan adult income limit: 133% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MN": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.revisor.mn.gov/statutes/cite/256B.056",
+          "note": "Minnesota adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://oa.mo.gov/sites/default/files/FY26_DSS_Programs_Book.pdf",
+          "note": "Missouri adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MP": {
           "answer": "no",
@@ -1133,57 +1351,215 @@
           "answer": "no"
         },
         "US-MT": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.dphhs.mt.gov/medicaidchanges/faqs",
+          "note": "Montana current agency guidance reports the adult expansion limit as approximately 138% FPL; the statutory base is 133% with applicable MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NC": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://medicaid.ncdhhs.gov/north-carolina-expands-medicaid",
+          "note": "North Carolina expansion adults ages 19–64 are covered up to 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-ND": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.hhs.nd.gov/healthcare/medicaid-expansion",
+          "note": "North Dakota expansion coverage income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NE": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dhhs.ne.gov/Pages/Medicaid-Expansion.aspx",
+          "note": "Nebraska expansion coverage income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NH": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.medicaid.gov/renew-info/NH",
+          "note": "CMS reports New Hampshire adult group coverage through 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://njfamilycare.dhs.state.nj.us/who_eligbl.aspx",
+          "note": "New Jersey adult Medicaid eligibility limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NM": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.srca.nm.gov/parts/title08/08.296.0500.html",
+          "note": "New Mexico adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NV": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://prod.dss.nv.gov/programs/Medicaid/general-medical-information/",
+          "note": "Nevada adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.health.ny.gov/health_care/medicaid/publications/adm/13adm3",
+          "note": "New York adult group threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-OH": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://content.govdelivery.com/accounts/OHMEDICAID/bulletins/426e8bb",
+          "note": "Ohio Medicaid agency September 2026 guidance gives the adult expansion threshold as 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-OK": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://oklahoma.gov/ohca/about/medicaid-expansion/expansion.html",
+          "note": "Oklahoma adult expansion threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://healthcare.oregon.gov/marketplace/blog/pages/financial-help-explained.aspx",
+          "note": "Oregon Health Plan adult expansion limit: 138% FPL; Oregon also has a separate Bridge program through 200% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-PA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.pa.gov/agencies/dhs/resources/medicaid/medicaid-general-eligibility",
+          "note": "Pennsylvania adult expansion threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-PR": {
           "answer": "yes",
-          "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
-          "note": "Puerto Rico covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+          "source": "https://www.medicaid.gov/medicaid/spa/downloads/PR-23-0001.pdf",
+          "note": "Puerto Rico SPA specifies 133% of local poverty plus the 5-point disregard; the SPA defines local poverty as 85% of federal poverty, so the equivalent is 1.38 × 0.85 = 117.3% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 117.3,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://eohhs.ri.gov/consumer/adults/medicaid-adults",
+          "note": "Rhode Island adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-SC": {
           "answer": "no"
         },
         "US-SD": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dss.sd.gov/medicaid/HR1.aspx",
+          "note": "South Dakota expansion adult income limit: 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-TN": {
           "answer": "no"
@@ -1192,28 +1568,87 @@
           "answer": "no"
         },
         "US-UT": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://medicaid.utah.gov/expansion/",
+          "note": "Utah adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-VA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.dmas.virginia.gov/for-applicants/populations-served/for-adults/adults-aged-19-64/",
+          "note": "Virginia adult expansion eligibility limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-VI": {
           "answer": "yes",
-          "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
-          "note": "The U.S. Virgin Islands covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+          "source": "https://www.medicaid.gov/State-resource-center/Medicaid-State-Plan-Amendments/Downloads/VI/VI-13-010.pdf",
+          "note": "The territory adult-group threshold is 133 percent of the Virgin Islands poverty level; territory threshold, not FPL.",
+          "cite": "CMS-approved U.S. Virgin Islands Medicaid SPA VI-13-010",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-local-poverty-level"
+            }
+          ]
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dvha.vermont.gov/medicaid-changes",
+          "note": "Vermont adult expansion eligibility limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.hca.wa.gov/free-or-low-cost-health-care/i-help-others-apply-and-access-apple-health/health-care-adults",
+          "note": "Washington adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
           "note": "Covers adults to 100% of poverty without adopting the expansion."
         },
         "US-WV": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dhhr.wv.gov/bms/BMSPUB/Documents/Guide%20to%20Medicaid%202023.pdf",
+          "note": "West Virginia adult expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-WY": {
           "answer": "no"
@@ -1226,7 +1661,18 @@
       "answers": {
         "US": {
           "answer": "yes",
-          "operativeAt": "2025-11-01"
+          "operativeAt": "2025-11-01",
+          "cite": "P.L. 119-21, §10101",
+          "source": "https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf",
+          "note": "Federal SNAP general work standard: at least 80 hours per month under P.L. 119-21 §10101; program coverage and exemptions are not reduced to a single numeric term here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         }
       }
     },
@@ -2333,7 +2779,69 @@
               "unit": "ratio"
             }
           ],
-          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control."
+          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control.",
+          "constructionSource": "https://olis.oregonlegislature.gov/liz/2023R1/Downloads/MeasureDocument/SB611/Enrolled",
+          "constructionQuote": "The first certificate of occupancy for the dwelling unit was issued less than 15 years from the date of the notice of the rent increase.",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2026 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "The allowable rent increase percentage for the previous year, 2026, was 9.5%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.095,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2027 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "For 2027, the maximum allowable rent increase percentage for tenancies subject to ORS 90.324(b) is 10%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.1,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -6410,7 +6918,17 @@
       "answers": {
         "US": {
           "answer": "yes",
-          "operativeAt": "2027-01-01"
+          "operativeAt": "2027-01-01",
+          "source": "https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf",
+          "note": "P.L. 119-21 §71119 establishes 80 hours per month or a qualifying earnings alternative; federal start date remains the existing January 1, 2027.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-AK": {
           "answer": "no",
@@ -6469,7 +6987,17 @@
         },
         "US-GA": {
           "answer": "yes",
-          "operativeAt": "2023-07-01"
+          "operativeAt": "2023-07-01",
+          "source": "https://pathways.georgia.gov/eligibility",
+          "note": "Georgia Pathways requires 80 qualifying hours per month; existing operative date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-GU": {
           "answer": "no",
@@ -6487,8 +7015,16 @@
           "before": {
             "answer": "no"
           },
-          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
-          "note": "Starts the federal work requirement early, on 12/1/2026, by state plan amendment; none was in force on 1/1/2026."
+          "source": "https://hhs.iowa.gov/medicaid/plans-programs/iowa-health-wellness-plan/ihawp-community-engagement-requirements",
+          "note": "Iowa HHS sets 80 hours per month; an alternative qualifying amount may also satisfy the rule; existing prospective date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-ID": {
           "answer": "no",
@@ -6566,8 +7102,16 @@
           "before": {
             "answer": "no"
           },
-          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
-          "note": "Starts the federal work requirement early, on 7/1/2026, by state plan amendment; none was in force on 1/1/2026."
+          "source": "https://www.dphhs.mt.gov/medicaidchanges/faqs",
+          "note": "Montana requires 80 hours per month or an alternative $580 monthly qualifying earnings amount; existing operative date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-NC": {
           "answer": "no",
@@ -6585,8 +7129,16 @@
           "before": {
             "answer": "no"
           },
-          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
-          "note": "Starts the federal work requirement early, on 5/1/2026, by state plan amendment; none was in force on 1/1/2026."
+          "source": "https://dhhs.ne.gov/Pages/WorkRequirements.aspx",
+          "note": "Nebraska requires 80 hours per month, with listed earnings and half-time education alternatives; existing operative date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-NH": {
           "answer": "no",

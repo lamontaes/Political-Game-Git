@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { observerPlace, observerSetup } from "./observer-world";
 import { projectGovernmentBrowser } from "./politics-government";
@@ -98,9 +98,9 @@ describe("recorded representatives on the opening legislature card", () => {
         "state-legislative-chamber-bicameral",
         people,
       );
-      expect(staged.map((person) => person.personId).sort()).toEqual(
-        people.map((person) => person.personId).sort(),
-      );
+      expect(
+        [...staged, ...staged.overflow].map((person) => person.personId).sort(),
+      ).toEqual(people.map((person) => person.personId).sort());
       for (const person of staged)
         expect(person.title).toBe(
           people.find((record) => record.personId === person.personId)!.title,
@@ -121,11 +121,13 @@ describe("recorded representatives on the opening legislature card", () => {
       expect(openingFamilyPeople(JSON.parse(before), playerPersonId)).toEqual(
         family,
       );
+      mkdirSync("test-results/team8", { recursive: true });
       writeFileSync(
         `test-results/team8/${seed}-family.json`,
         JSON.stringify({ game, family, seed, placeKey: place.key }),
       );
       expect(JSON.stringify(world)).toBe(before);
+      mkdirSync("test-results/team8", { recursive: true });
       writeFileSync(
         `test-results/team8/${seed}.json`,
         JSON.stringify({

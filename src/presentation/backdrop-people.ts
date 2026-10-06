@@ -4,13 +4,15 @@ import { playerTown } from "../simulation/living-world/town-residents";
 import { personName } from "../simulation/people";
 import type { EntityId, SimulationMoment, World } from "../simulation/types";
 import {
+  isSeatedPose,
   mirrorToFace,
+  posedPieces,
   type BodyPose,
   type BodyView,
   type EngineRecipe,
 } from "./appearance-engine/pack";
 import {
-  chooseBodyPose,
+  sceneActivity,
   type SceneActivity,
 } from "./appearance-engine/pose-chooser";
 import { engineRecipeFor } from "./appearance-engine/recipe";
@@ -65,7 +67,7 @@ export interface BackdropPerson {
 /** How a person at a spot is posed. */
 export type SpotPose = "stand" | "sit" | "podium" | "lean";
 /** Which way a person at a spot faces: the camera, or a side of the picture. */
-export type SpotFacing = "viewer" | "left" | "right";
+export type SpotFacing = "viewer" | "left" | "right" | "away";
 
 export interface StagingSpot {
   /** The foot point, in percent of the picture (a seated person's too). */
@@ -145,8 +147,6 @@ export const BACKDROP_ASPECT = 1672 / 941;
 export const BACKDROP_FOCUS_Y = 0.62;
 /** An adult's height in meters, for sizing on the floor line. */
 const STANDING_METERS = 1.7;
-/** Engine figures are about 2.55 times as tall as they are wide. */
-const FIGURE_HEIGHT_TO_WIDTH = 2.55;
 /**
  * The row of the figure canvas the painted feet stand on (a few rows above
  * its bottom edge), as a share of the canvas: the feet, not the canvas
@@ -167,15 +167,38 @@ export function backdropStaging(place: string): PlaceStaging | null {
  * canvas with its feet on the same row), so a seat is placed by its foot
  * point just as a standing spot is.
  */
-export function spotFigure(stage: PlaceStaging, spot: StagingSpot): SpotFigure {
+export function spotFigure(
+  stage: PlaceStaging,
+  spot: StagingSpot,
+  engine?: EngineRecipe,
+): SpotFigure {
   const meters =
     (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
     stage.metersPercent;
   const heightPercent = STANDING_METERS * meters * (spot.y - stage.horizonY);
-  const widthPercent = heightPercent / FIGURE_HEIGHT_TO_WIDTH / BACKDROP_ASPECT;
+  const widthPercent =
+    (heightPercent * (PEOPLE_PACK.canvas.width / PEOPLE_PACK.canvas.height)) /
+    BACKDROP_ASPECT;
+  const body = engine
+    ? posedPieces(
+        PEOPLE_PACK.presentations[engine.presentation],
+        engine,
+        peoplePackFileAvailable,
+      ).body
+    : undefined;
+  const seatRow =
+    body && "seatRow" in body ? (body.seatRow as number) : undefined;
+  const topPercent =
+    spot.pose === "sit" && spot.seatY !== undefined && seatRow !== undefined
+      ? spot.seatY - (heightPercent * seatRow) / PEOPLE_PACK.canvas.height
+      : spot.y -
+        heightPercent *
+          (body
+            ? body.anchors.feet / PEOPLE_PACK.canvas.height
+            : FEET_OF_CANVAS);
   return {
     leftPercent: spot.x - widthPercent / 2,
-    topPercent: spot.y - heightPercent * FEET_OF_CANVAS,
+    topPercent,
     widthPercent,
     heightPercent,
     clipBelowPercent: spot.clipBelowY ?? null,
@@ -206,18 +229,40 @@ export function backdropHeroSpot(
  * on the open floor, waiting (arms folded or a hand on the hip, never stiff);
  * leaning on a wall, the same; behind a counter, standing to serve.
  */
-export function spotPose(spot: StagingSpot, seed: string): BodyPose {
+export function spotPose(
+  spot: StagingSpot,
+  activity?: SceneActivity,
+): BodyPose {
+  if (spot.pose === "podium") return "podium";
   const seated = spot.pose === "sit";
-  const activity: SceneActivity =
-    spot.pose === "podium"
-      ? "speech"
-      : seated && spot.group !== undefined
-        ? "desk"
-        : !seated && spot.clipBelowY !== undefined
-          ? "idle"
-          : "waiting";
-  return chooseBodyPose({ activity, seated, seed });
+  switch (activity ?? (seated && spot.group ? "desk" : "idle")) {
+    case "speaking":
+    case "speech":
+      return seated ? "seated-leaning" : "explaining";
+    case "listening":
+      return seated ? "seated-listening" : "arms-folded";
+    case "desk":
+      return seated ? "seated-writing" : "standing";
+    case "meeting":
+      return seated ? "seated-hands-folded" : "standing";
+    case "waiting":
+    case "idle":
+      return seated ? "seated" : "standing";
+  }
 }
+
+/** People present who need another measured spot or compatible artwork. */
+export interface BackdropOverflowPerson {
+  readonly personId: EntityId;
+  readonly name: string;
+  readonly title: string;
+  readonly reason: "no-spot" | "missing-art";
+}
+
+/** Array compatibility keeps existing room consumers on the same assignment path. */
+export type BackdropPeople = readonly BackdropPerson[] & {
+  readonly overflow: readonly BackdropOverflowPerson[];
+};
 
 /** Turned toward a side of the picture: three quarters, not front on. */
 export function spotView(spot: StagingSpot): BodyView {
@@ -233,7 +278,7 @@ export function spotView(spot: StagingSpot): BodyView {
  * people in a conversation): they come first, because the scene is about
  * them. Seats on a raised floor or around one table (a dais, a bench) go to
  * them first, then the open floor. The people on shift at the place fill
- * what is left. More people than spots: the rest are out of view.
+ * what is left. More people than spots: the rest are listed in overflow. Rear-facing seats wait for matching artwork.
  */
 export function placeBackdropPeople(
   world: World,
@@ -247,10 +292,11 @@ export function placeBackdropPeople(
   options: {
     /** The scene's people stand on the open floor instead of taking seats. */
     readonly standing?: boolean;
+    readonly speakerId?: EntityId | null;
   } = {},
-): readonly BackdropPerson[] {
+): BackdropPeople {
   const stage = backdropStaging(place);
-  if (!stage) return [];
+  // Missing staging still reports the scene's actual people below.
   const workplace = selectedWorkplaceForPerson(world, playerId);
   const selected = workplace?.place === place ? workplace : null;
   const town = selected?.jurisdictionId ?? playerTown(world, playerId);
@@ -260,7 +306,7 @@ export function placeBackdropPeople(
       .map((person) => person.personId)
       .filter((id) => id !== playerId && world.people[id]),
   );
-  const workers = (town ? peopleAtWorkAt(world, town, place, moment) : [])
+  const onShift = (town ? peopleAtWorkAt(world, town, place, moment) : [])
     .filter((worker) => worker.personId !== playerId)
     .filter(
       (worker) =>
@@ -274,15 +320,24 @@ export function placeBackdropPeople(
           moment.date <= world.currentDate ? moment.date : world.currentDate,
         historySequenceExclusive: world.history.nextSequence,
       }),
-    )
-    .filter((worker) => !presentIds.has(worker.personId));
+    );
+  const shiftByPerson = new Map(
+    onShift.map((worker) => [worker.personId, worker]),
+  );
+  const workers = onShift.filter((worker) => !presentIds.has(worker.personId));
   // The scene's own people take the raised or grouped seats first (the
   // dais, the bench), then the open floor. Counter jobs take the spots behind
   // a counter first; everyone else the open floor, and whoever is left over
   // takes what remains. Nobody placed here takes the lectern: a speech is the
   // scene's to give.
   const counterJob = (title: string) => COUNTER_TITLE.test(title);
-  const usable = stage.spots.filter((spot) => spot.pose !== "podium");
+  const usable = (stage?.spots ?? []).filter(
+    (spot) =>
+      spot.facing !== "away" &&
+      !(spot.pose === "podium" && spot.audience === "away") &&
+      (!options.standing || spot.pose === "stand") &&
+      (spot.pose !== "podium" || options.speakerId !== undefined),
+  );
   const principal = options.standing
     ? usable.filter((spot) => spot.pose === "stand")
     : usable.filter(
@@ -297,18 +352,51 @@ export function placeBackdropPeople(
   const presentTitle = new Map(
     present.map((person) => [person.personId, person.title ?? ""]),
   );
-  const inScene = [...presentIds].map((personId) => ({
-    worker: { personId, title: presentTitle.get(personId) ?? "" },
-    onShift: false,
-    spot: take(principal) ?? take(usable),
+  // A named counter belongs to staff. Scene roster order must not put a
+  // customer behind it or make the cashier lose it to an earlier attendee.
+  const isCounterSpot = (spot: StagingSpot) =>
+    spot.group === "counter" && spot.clipBelowY !== undefined;
+  const visitorSpots = usable.filter((spot) => !isCounterSpot(spot));
+  const sceneCounterJob = (personId: EntityId) =>
+    counterJob(presentTitle.get(personId) ?? "") ||
+    counterJob(shiftByPerson.get(personId)?.title ?? "");
+  const sceneIds = [...presentIds].sort(
+    (a, b) => Number(sceneCounterJob(b)) - Number(sceneCounterJob(a)),
+  );
+  const inScene = sceneIds.map((personId) => ({
+    worker: {
+      personId,
+      title:
+        presentTitle.get(personId) || shiftByPerson.get(personId)?.title || "",
+    },
+    onShift: shiftByPerson.has(personId),
+    spot:
+      (personId === options.speakerId
+        ? take(usable.filter((spot) => spot.pose === "podium"))
+        : undefined) ??
+      (sceneCounterJob(personId)
+        ? take(usable.filter(isCounterSpot))
+        : undefined) ??
+      take(
+        principal.filter(
+          (spot) => spot.pose !== "podium" && !isCounterSpot(spot),
+        ),
+      ) ??
+      take(visitorSpots.filter((spot) => spot.pose !== "podium")),
   }));
   // Everyone on shift keeps the order the spots had before: behind a counter
   // or on the open floor, in the picture's own order.
   const behind = usable.filter(
-    (spot) => !taken.has(spot) && spot.clipBelowY !== undefined,
+    (spot) =>
+      !taken.has(spot) &&
+      spot.pose !== "podium" &&
+      spot.clipBelowY !== undefined,
   );
   const open = usable.filter(
-    (spot) => !taken.has(spot) && spot.clipBelowY === undefined,
+    (spot) =>
+      !taken.has(spot) &&
+      spot.pose !== "podium" &&
+      spot.clipBelowY === undefined,
   );
   const assigned = [
     ...inScene,
@@ -324,11 +412,21 @@ export function placeBackdropPeople(
     })),
   ];
   const placed: BackdropPerson[] = [];
+  const overflow: BackdropOverflowPerson[] = [];
   for (const { worker, onShift, spot } of assigned) {
-    if (!spot) continue;
     const record = world.people[worker.personId];
     if (!record) continue;
-    const seed = record.appearance?.seed ?? record.id;
+    const unplaced = (reason: BackdropOverflowPerson["reason"]) =>
+      overflow.push({
+        personId: record.id,
+        name: personName(record),
+        title: worker.title,
+        reason,
+      });
+    if (!spot || !stage) {
+      unplaced("no-spot");
+      continue;
+    }
     const recipe = engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
       wear,
       // On shift, a uniformed job wears its uniform (work-uniform.ts reads
@@ -337,10 +435,36 @@ export function placeBackdropPeople(
       ...(onShift
         ? { uniform: workUniform(world, worker.personId, "business") }
         : {}),
-      pose: spotPose(spot, seed),
+      pose: spotPose(
+        spot,
+        sceneActivity({
+          personId: record.id,
+          speakerId: options.speakerId ?? null,
+          anchorType:
+            spot.pose === "podium"
+              ? "podium"
+              : (spot.group ?? spot.pose ?? "stand"),
+          seated: spot.pose === "sit",
+        }),
+      ),
       view: spotView(spot),
     });
-    if (!recipe) continue;
+    if (!recipe) {
+      unplaced("missing-art");
+      continue;
+    }
+    const resolved = posedPieces(
+      PEOPLE_PACK.presentations[recipe.presentation],
+      recipe,
+      peoplePackFileAvailable,
+    );
+    if (
+      (spot.pose === "sit" && !isSeatedPose(resolved.pose)) ||
+      resolved.view !== spotView(spot)
+    ) {
+      unplaced("missing-art");
+      continue;
+    }
     // Turned toward the side the spot faces: mirrored when the painting
     // turns the other way.
     const engine =
@@ -360,11 +484,14 @@ export function placeBackdropPeople(
       personId: worker.personId,
       name: personName(record),
       title: worker.title,
-      ...spotFigure(stage, spot),
+      ...spotFigure(stage, spot, engine),
       depth: spotDepth(spot),
       engine,
     });
   }
   // Farthest first, so nearer people are drawn over them.
-  return placed.sort((a, b) => a.depth - b.depth);
+  return Object.assign(
+    placed.sort((a, b) => a.depth - b.depth),
+    { overflow },
+  );
 }

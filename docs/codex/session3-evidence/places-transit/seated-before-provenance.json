@@ -1,0 +1,44 @@
+{
+  "expectedIdentity": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "d2f67a6bd84ae14611a0f98389a3d290339db227",
+    "branch": "codex/session3-contacts-people",
+    "dirty": true,
+    "sourceDigest": "97b0e56d8604df346ba4f651356bc99f436897d8aaf0ca8b848c99ab4f74ea99"
+  },
+  "served": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "d2f67a6bd84ae14611a0f98389a3d290339db227",
+    "branch": "codex/session3-contacts-people",
+    "dirty": true,
+    "sourceDigest": "97b0e56d8604df346ba4f651356bc99f436897d8aaf0ca8b848c99ab4f74ea99",
+    "pid": 13452,
+    "runId": "session3-seated-before"
+  },
+  "baseURL": "http://127.0.0.1:4329",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:4329",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": "off",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+        "screen": {
+          "width": 1920,
+          "height": 1080
+        },
+        "deviceScaleFactor": 1,
+        "isMobile": false,
+        "hasTouch": false,
+        "defaultBrowserType": "chromium"
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}
