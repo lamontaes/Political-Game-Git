@@ -96,7 +96,10 @@ describe("Quiet time is silent, not padded", () => {
     // does not: an ordinary life has gaps with nothing to say, and they say
     // nothing.
     const created = createNewGameWorld(setup({ seed: "p1-quiet" }));
-    const { steps } = quietSteps(created.world, created.playerPersonId, 8);
+    // Relatives and new acquaintances now get in touch often enough (BG-69)
+    // that a stretch of eight gaps can all have something to say, so the
+    // stretch is a longer one.
+    const { steps } = quietSteps(created.world, created.playerPersonId, 24);
     expect(steps.some((step) => step.narration.sentences.length === 0)).toBe(
       true,
     );

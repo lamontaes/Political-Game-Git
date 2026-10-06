@@ -420,14 +420,18 @@ export function PersonCard({
                 <FactList facts={dossier.reminders} testId="dossier-reminder" />
               </div>
             ) : null}
-            <p
-              className="pg-person-card-read"
-              data-testid={
-                expanded ? "dossier-last-interaction" : "quick-last-interaction"
-              }
-            >
-              {dossier.lastInteraction}
-            </p>
+            {dossier.lastInteraction === null ? null : (
+              <p
+                className="pg-person-card-read"
+                data-testid={
+                  expanded
+                    ? "dossier-last-interaction"
+                    : "quick-last-interaction"
+                }
+              >
+                {dossier.lastInteraction}
+              </p>
+            )}
             {!expanded || dossier.strain === null ? null : (
               <p
                 className="pg-person-card-read"
@@ -661,7 +665,13 @@ export function PersonCard({
           </button>
         ) : null}
       </footer>
-      <p className="sr-only" id={`person-talk-reason-${dossier.personId}`}>
+      <p
+        className="sr-only"
+        id={`person-talk-reason-${dossier.personId}`}
+        {...(talkUnavailable
+          ? { "data-testid": "dossier-talk-unavailable" }
+          : {})}
+      >
         {talkUnavailable ??
           "Starts the established conversation with this person."}
       </p>
@@ -694,11 +704,6 @@ export function PersonCard({
             ))}
           </ul>
         </details>
-      ) : null}
-      {talkUnavailable ? (
-        <p className="sr-only" data-testid="dossier-talk-unavailable">
-          {talkUnavailable}
-        </p>
       ) : null}
     </aside>
   );

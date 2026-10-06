@@ -8,6 +8,11 @@ import { serializeWorld } from "../simulation/serialization";
 import { createLightweightPerson } from "../simulation/people";
 import { recordFavor } from "../simulation/favors";
 import type { OccupationFact, World } from "../simulation/types";
+import {
+  observerPlace,
+  observerSetup,
+  openObserverWorld,
+} from "./observer-world";
 
 function recordedLife() {
   const game = createNewGameWorld({
@@ -128,6 +133,51 @@ describe("a dossier's own recorded history", () => {
         entry.summary.includes("household savings"),
       ),
     ).toBe(false);
+  });
+});
+
+describe("conversation context in a freshly generated world", () => {
+  it("describes a housemate as family and gives an observer no player conversation claim", () => {
+    const seed = "bg-10-random-new-game";
+    const place = observerPlace(seed);
+    const opened = openObserverWorld({
+      ...observerSetup(seed, place.key),
+      household: "shares-a-home",
+    });
+    const anchor = opened.anchorPersonId;
+    const familyGame = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed: `${seed}:family`,
+      startAge: 10,
+      depth: "summarize-earlier-life",
+      household: "shares-a-home",
+    });
+    const housemateId = familyGame.world.personOrder.find(
+      (personId) =>
+        personId !== familyGame.playerPersonId &&
+        projectPersonDossier(
+          familyGame.world,
+          familyGame.playerPersonId,
+          personId,
+        )?.details.some((fact) => fact.key === "household"),
+    );
+    expect(housemateId, `fresh random place ${place.key}`).toBeDefined();
+
+    expect(
+      projectPersonDossier(
+        familyGame.world,
+        familyGame.playerPersonId,
+        housemateId!,
+      )!.lastInteraction,
+    ).toMatch(/^You live together\./);
+
+    const strangerId = opened.world.personOrder.find(
+      (personId) => personId !== anchor,
+    )!;
+    expect(
+      projectPersonDossier(opened.world, anchor, strangerId)!.lastInteraction,
+    ).toBeNull();
   });
 });
 
