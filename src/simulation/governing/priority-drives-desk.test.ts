@@ -127,11 +127,15 @@ describe("executive priority drives delegated drafting", () => {
         principleAnswers: [],
       },
     );
-    expect(
-      npcDecision.history.legislativeMeasures?.some(
-        (measure) => measure.governmentInstrument === "executive-order",
-      ),
-    ).toBe(true);
+    const npcMeasure = npcDecision.history.legislativeMeasures?.find(
+      (measure) => measure.governmentInstrument === "executive-order",
+    );
+    expect(npcMeasure).toBeDefined();
+    const npcMatter = governingMatters(npcDecision, office.officeKey).find(
+      (matter) =>
+        matter.family === "executive-order" && matter.status === "decided",
+    );
+    expect(npcMatter?.decision?.tags).toContain("decided-by:officeholder");
     console.info(
       "Priority desk proof",
       JSON.stringify({
@@ -143,6 +147,10 @@ describe("executive priority drives delegated drafting", () => {
         priority,
         draftsBefore: drafts.map((draft) => draft.subjectKey),
         draftsAfter: ordered.map((draft) => draft.subjectKey),
+        npcConditionEventId: conditionSource,
+        npcOrderMatterId: npcMatter?.id,
+        npcOrderDecisionId: npcMatter?.decision?.id,
+        npcMeasureId: npcMeasure?.id,
       }),
     );
   });
