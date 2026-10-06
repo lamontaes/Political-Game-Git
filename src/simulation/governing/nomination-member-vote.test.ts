@@ -34,20 +34,24 @@ import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../nationwide-world/state-executi
 import { stateJurisdictionForKey } from "../life-places";
 import { personName } from "../people";
 import { createProductionPolicyCatalog } from "../production-catalog";
+import { recordRelationshipInteraction } from "../records";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {
   createWorld,
   recordWorldEvent,
   writeWithWorldIntegrityOnce,
 } from "../world";
-import type { EntityId, World } from "../types";
+import type { DecisionConsideration, EntityId, World } from "../types";
 import {
   CHIEF_JUSTICE_NOMINATED_EVENT,
   CHIEF_JUSTICE_CONFIRMATION,
   CHIEF_JUSTICE_VACANCY_VERSION,
   confirmChiefJustice,
 } from "./chief-justice-vacancy";
-import { decideChamberVote } from "./chamber-votes";
+import {
+  decideChamberVote,
+  type ChamberVoteMemberEvaluation,
+} from "./chamber-votes";
 import { seatedCongressChamber } from "./congress-chambers";
 import {
   briefSenateOnNominee,
@@ -563,6 +567,76 @@ describe("recorded nominations use the member vote survivor", () => {
       members,
       considerationsByMember: new Map(),
     };
+    const evidenceMember = members.find((member) => member.personId !== null)!;
+    const evidenceWorld = recordRelationshipInteraction(source, {
+      stableKey: "G7:member-nominee-support-interaction",
+      personIds: [evidenceMember.personId!, nomineeId],
+      eventId: null,
+      occurredAt: source.currentDate,
+      kind: "experience:appointment-support",
+      change: "strengthened",
+      significance: "major",
+      summary: "The nominee stood by the member during a difficult vote.",
+      tags: ["appointment:relationship-support"],
+    });
+    const interaction = evidenceWorld.history.relationshipInteractions.at(-1)!;
+    const actualReason: DecisionConsideration = {
+      stableKey: "member:nominee:relationship",
+      optionKey: "vote-yea",
+      sourceType: "context:relationship",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: "A recorded relationship supports this nominee.",
+      sourceRefs: [
+        { kind: "relationship-interaction", interactionId: interaction.id },
+      ],
+    };
+    const evidenceInput = {
+      ...input,
+      stableKey: `${input.stableKey}:evidence`,
+      members: [evidenceMember],
+      only: new Set([evidenceMember.memberKey]),
+      considerationsByMember: new Map([
+        [evidenceMember.memberKey, [actualReason]],
+      ]),
+    };
+    const observed: ChamberVoteMemberEvaluation[] = [];
+    const evaluateSpy = vi.spyOn(decisions, "evaluateDecision");
+    const evidenceBallots = decideChamberVote(evidenceWorld, evidenceInput, {
+      onMemberEvaluation: (row) => observed.push(row),
+    });
+    expect(evaluateSpy).toHaveBeenCalledTimes(1);
+    expect(evidenceBallots).toEqual([
+      {
+        memberKey: evidenceMember.memberKey,
+        personId: evidenceMember.personId,
+        disposition: "yea",
+        reason: "member:nominee",
+      },
+    ]);
+    expect(observed).toHaveLength(1);
+    expect(observed[0]!.evaluation?.selectedOptionKey).toBe("vote-yea");
+    expect(observed[0]!.evaluation?.context.considerations).toContainEqual(
+      actualReason,
+    );
+    expect(observed[0]!.sourceRefs).toContainEqual({
+      kind: "relationship-interaction",
+      interactionId: interaction.id,
+    });
+    expect(observed[0]!.evaluation?.sourceSnapshots).toContainEqual(
+      expect.objectContaining({
+        reference: {
+          kind: "relationship-interaction",
+          interactionId: interaction.id,
+        },
+        content: interaction.summary,
+      }),
+    );
+    expect(decideChamberVote(evidenceWorld, evidenceInput)).toEqual(
+      evidenceBallots,
+    );
+
     const ballots = decideChamberVote(source, input);
     expect(ballots).toHaveLength(members.length);
     const reloaded = deserializeWorld(serializeWorld(source));

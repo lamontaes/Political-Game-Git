@@ -48,10 +48,12 @@ import { currentHistoricalCutoff } from "../queries";
 import { FEDERAL_VACANCY_EVENT } from "../federal-tenures";
 import type {
   DecisionConsideration,
+  DecisionEvaluation,
   DecisionSubject,
   EntityId,
   LegislativeMemberDisposition,
   LegislativeVoteDisposition,
+  MindSourceReference,
   World,
 } from "../types";
 
@@ -286,6 +288,20 @@ interface ChamberVoteContext {
     readonly views: readonly DecisionConsideration[];
     readonly cues: readonly DecisionConsideration[];
   };
+}
+
+/** The exact ephemeral member evaluation used to make one chamber ballot.
+ * A null evaluation means the member was absent, vacant, or had no reason. */
+export interface ChamberVoteMemberEvaluation {
+  readonly disposition: LegislativeVoteDisposition;
+  readonly evaluation: DecisionEvaluation | null;
+  readonly sourceRefs: readonly MindSourceReference[];
+}
+
+/** Optional evidence receiver for domain roll-call writers. The ordinary
+ * disposition API and all existing callers retain their current shape. */
+export interface ChamberVoteOptions {
+  readonly onMemberEvaluation?: (row: ChamberVoteMemberEvaluation) => void;
 }
 
 /** The saved state body, including actual active seat and institution sources. */
@@ -1034,6 +1050,7 @@ function billVoteContext(
 export function decideChamberVote(
   world: World,
   input: ChamberVoteInput,
+  options: ChamberVoteOptions = {},
 ): readonly LegislativeVoteDisposition[] {
   const cutoff = currentHistoricalCutoff(world);
   const context =
@@ -1087,9 +1104,14 @@ export function decideChamberVote(
   // A member with a view of their own decides from it and the cues, decided
   // once and only when asked for: a named few (`only`) decide exactly as in a
   // full count without every other member's ballot being worked out.
-  const byView = new Map<SeatedMember, LegislativeVoteDisposition>();
+  const byView = new Map<SeatedMember, ChamberVoteMemberEvaluation>();
   const decideByView = (row: (typeof first)[number]) => {
-    if (row.settled) return row.settled;
+    if (row.settled)
+      return {
+        disposition: row.settled,
+        evaluation: null,
+        sourceRefs: [],
+      } satisfies ChamberVoteMemberEvaluation;
     if (!row.views || row.views.length === 0) return null;
     let settled = byView.get(row.member);
     if (!settled) {
@@ -1133,31 +1155,40 @@ export function decideChamberVote(
     if (row.member.personId === null || !colleagues.has(row.member.personId))
       continue;
     if (!hasViews(row)) continue;
-    const disposition = decideByView(row)?.disposition;
+    const disposition = decideByView(row)?.disposition.disposition;
     if (disposition === "yea" || disposition === "nay")
       decidedByView.set(row.member.personId, disposition);
   }
   return deciding.map((row) => {
     const settled = decideByView(row);
-    if (settled) return settled;
-    const personId = row.member.personId!;
-    return decideMember(row.member, [
-      ...(row.cues ?? []),
-      ...(committee ? [committee] : []),
-      ...trustedColleagueCues(trusted.get(personId), decidedByView),
-    ]);
+    const decision =
+      settled ??
+      (() => {
+        const personId = row.member.personId!;
+        return decideMember(row.member, [
+          ...(row.cues ?? []),
+          ...(committee ? [committee] : []),
+          ...trustedColleagueCues(trusted.get(personId), decidedByView),
+        ]);
+      })();
+    options.onMemberEvaluation?.(decision);
+    return decision.disposition;
   });
 
   function decideMember(
     member: SeatedMember,
     considerations: readonly DecisionConsideration[],
-  ): LegislativeVoteDisposition {
+  ): ChamberVoteMemberEvaluation {
     if (considerations.length === 0)
       return {
-        memberKey: member.memberKey,
-        personId: member.personId,
-        disposition: "present-not-voting",
-        reason: "member:no-reason",
+        disposition: {
+          memberKey: member.memberKey,
+          personId: member.personId,
+          disposition: "present-not-voting",
+          reason: "member:no-reason",
+        },
+        evaluation: null,
+        sourceRefs: [],
       };
     const { evaluation, disposition } = decideMemberVote(world, {
       stableKey: `${input.stableKey}:${member.memberKey}:decision`,
@@ -1180,19 +1211,25 @@ export function decideChamberVote(
           Math.abs(considerationScore(r)) - Math.abs(considerationScore(l)),
       )[0];
     return {
-      memberKey: member.memberKey,
-      personId: member.personId,
-      disposition,
-      reason: decisive
-        ? decisive.sourceType === "belief:formed-position" &&
-          decisive.sourceRefs[0]?.kind === "private-belief"
-          ? `member:private-belief:${decisive.sourceRefs[0].beliefId}`
-          : KEPT_REASON_PREFIXES.some((prefix) =>
-                decisive.stableKey.startsWith(prefix),
-              )
-            ? decisive.stableKey
-            : decisive.stableKey.split(":").slice(0, 2).join(":")
-        : "member:no-reason",
+      disposition: {
+        memberKey: member.memberKey,
+        personId: member.personId,
+        disposition,
+        reason: decisive
+          ? decisive.sourceType === "belief:formed-position" &&
+            decisive.sourceRefs[0]?.kind === "private-belief"
+            ? `member:private-belief:${decisive.sourceRefs[0].beliefId}`
+            : KEPT_REASON_PREFIXES.some((prefix) =>
+                  decisive.stableKey.startsWith(prefix),
+                )
+              ? decisive.stableKey
+              : decisive.stableKey.split(":").slice(0, 2).join(":")
+          : "member:no-reason",
+      },
+      evaluation,
+      sourceRefs: evaluation.sourceSnapshots.map(
+        (snapshot) => snapshot.reference,
+      ),
     };
   }
 }
