@@ -5,9 +5,22 @@ import type { LifePlace } from "../simulation/life-places";
 import reviewedCrosswalks from "./generated/economic-context-crosswalks.generated.json";
 
 const crosswalks: Readonly<Record<string, BrowserEconomicGeographyBinding>> =
-  reviewedCrosswalks as Readonly<
-    Record<string, BrowserEconomicGeographyBinding>
-  >;
+  Object.fromEntries(
+    Object.entries(reviewedCrosswalks).map(([geoid, rawBinding]) => {
+      const binding = rawBinding as unknown as BrowserEconomicGeographyBinding;
+      return [
+        geoid,
+        {
+          bindingKey: binding.bindingKey,
+          placeKey: binding.placeKey,
+          placeLabel: binding.placeLabel,
+          beaAreas: binding.beaAreas,
+          lausAreaCodes: binding.lausAreaCodes,
+          hudFipsCodes: binding.hudFipsCodes,
+        },
+      ];
+    }),
+  );
 
 /**
  * Reviewed provider crosswalks take precedence over the shared Census-derived
