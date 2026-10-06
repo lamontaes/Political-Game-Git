@@ -149,11 +149,18 @@ function SurfaceContent({
               <li
                 key={line.id}
                 className={
-                  line.passed ? "bs-row bs-row--yes" : "bs-row bs-row--no"
+                  line.passed
+                    ? "bs-row bs-row--passed"
+                    : "bs-row bs-row--failed"
                 }
               >
                 <span className="bs-row-name">{line.designation}</span>
-                <span className="bs-row-value">{line.result}</span>
+                <span
+                  className="bs-row-value"
+                  style={{ color: line.passed ? "#7fd6a0" : "#f08a7e" }}
+                >
+                  {line.result}
+                </span>
                 <span className="bs-row-note">{line.title}</span>
               </li>
             ))}

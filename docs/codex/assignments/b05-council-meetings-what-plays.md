@@ -37,7 +37,7 @@ Your council meets on its own recorded schedule (monthly in many small towns, tw
 5. **Summary in words.** After the meeting, the journal and minutes read the `local.council-meeting-held` event: each quiet item in one line through `composeGroundedLine` (what it does, the tally, the player's vote). No new summary writer.
 6. **Replace the placeholder cadence (required, not optional).** The meeting interval is a data row per place: read from the place's recorded charter or council rules where the source data has it; otherwise the median interval of read places in the same government type and population band, marked estimated. No fixed 14-day constant anywhere (owner: nothing pinned to a number).
 
-Replaces: any ordinary-meeting path that plays every agenda line, once Session 4's scene replaces `OrdinaryMeetingPanel.tsx` (coordinate; do not delete the panel in this PR unless Session 4 has landed).
+Replaces: any ordinary-meeting path that plays every agenda line, once Session 4's scene replaces `OrdinaryMeetingPanel.tsx` (do not delete the panel in this PR unless Session 4's scene has landed; Others may touch this file; work anyway; whoever merges second rebases; message the owning session directly with specific questions and keep building).
 
 ## Must not build
 

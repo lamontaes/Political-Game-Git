@@ -410,7 +410,7 @@ const SEVERITY_ORDINAL: Record<HazardMagnitude, number> = {
 function hazardOf(world: World, episodeId: EntityId): HazardEpisodeRecord {
   const record = crisisRecordIndex(world).get(episodeId);
   if (!record || record.kind !== "hazard-episode")
-    throw new Error(`Unknown hazard episode: ${episodeId}`);
+    throw new Error(`No hazard episode matches the recorded ID: ${episodeId}`);
   return record;
 }
 

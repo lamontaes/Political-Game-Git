@@ -30,6 +30,7 @@ import {
 } from "./state-legislative-term-limits";
 import { lawInForce } from "../governing/law-in-force";
 import { lawEffectStamp } from "../law-effect-stamp";
+import { applyStateElectionLawLandings } from "../law-consequences/modules/election-state-landings";
 import { clampShare, logit, logistic } from "../world-setup/deterministic-math";
 import {
   isStateLegislativeSeatDue,
@@ -70,6 +71,7 @@ import {
 import {
   hasStableKey,
   recordByStableKey,
+  recordsByKey,
   recordsWithFieldValue,
   withHistoryAppendTransaction,
 } from "../history-index";
@@ -473,6 +475,12 @@ function prepareStateIntake(
           immediateReaction: null,
         },
       });
+      if (stamp) {
+        next = applyStateElectionLawLandings(
+          next,
+          next.history.events[next.history.events.length - 1]!.id,
+        );
+      }
     }
     const office = pack.offices.find(
       (candidate) => candidate.officeKey === row.officeKey,
@@ -1425,6 +1433,20 @@ export interface StateLegislatureWake {
   readonly dueAt: IsoDate;
 }
 
+/** All prefixes preserve the original startsWith(`${packId}|`) test exactly. */
+function stateWakeEventPackKeys(event: HistoricalEvent): readonly string[] {
+  const seatKey = tagValue(event, "seat:");
+  if (!seatKey) return [];
+  const keys: string[] = [];
+  for (
+    let at = seatKey.indexOf("|");
+    at >= 0;
+    at = seatKey.indexOf("|", at + 1)
+  )
+    keys.push(seatKey.slice(0, at));
+  return keys;
+}
+
 /** Exact calendar boundaries, not a substitute for any election decision. */
 export function stateLegislatureWakePlan(
   world: World,
@@ -1437,6 +1459,12 @@ export function stateLegislatureWakePlan(
   const usps = pack.jurisdictionKey.replace(/^US-/, "");
   const rule = stateLegislativeElectionRule(usps);
   const seats = stateLegislativeSeats(world, packId);
+  const filedEvents = recordsByKey(
+    world.history.events,
+    "state-legislature:wake-events-by-pack:v1",
+    stateWakeEventPackKeys,
+    packId,
+  );
   const wakes = new Map<string, StateLegislatureWake>();
   const add = (
     electionDay: IsoDate,
@@ -1473,7 +1501,7 @@ export function stateLegislatureWakePlan(
     if (plan.known && plan.primaryDate < electionDay)
       add(electionDay, "nomination", plan.primaryDate);
     // Actual filed fields and primary results may pin a date different from a later law.
-    for (const event of world.history.events) {
+    for (const event of filedEvents) {
       const seatKey = tagValue(event, "seat:");
       if (
         !seatKey?.startsWith(`${packId}|`) ||

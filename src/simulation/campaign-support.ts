@@ -4,7 +4,7 @@ import {
   isAdversePublicStep,
   priorAdverseFindings,
   repeatOffenseMultiplier,
-  UNRESEARCHED_FINDING_EFFECTS,
+  FINDING_EFFECTS_ESTIMATE,
 } from "./press/findings";
 import type { ProceedingStepRecord } from "./press/records";
 import {
@@ -347,7 +347,7 @@ export function applyFindingSupportLoss(
       stableKeyBase: `${step.stableKey}:finding-support:${campaign.id}:${respondentId}`,
       loserPersonId: respondentId,
       lossBasisPoints: Math.round(
-        UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome] *
+        FINDING_EFFECTS_ESTIMATE.supportLossBasisPoints[outcome] *
           repeatOffenseMultiplier(
             priorAdverseFindings(next, respondentId, step).length,
             "support-loss",

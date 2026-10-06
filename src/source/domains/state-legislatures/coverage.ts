@@ -152,7 +152,7 @@ export function renderCoverageMarkdown(report: CoverageReport): string {
     `- States with complete chamber identity (name, seats and election known for every chamber): **${report.statesWithCompleteChamberIdentity}**`,
   );
   lines.push(
-    `- States carrying at least one UNKNOWN seat count or election fact: **${report.statesWithAnyUnknownSeatOrElection}**`,
+    `- States carrying at least one unresolved seat count or election fact: **${report.statesWithAnyUnknownSeatOrElection}**`,
   );
   lines.push(
     `- States with nothing compiled, each carrying a gap saying why: **${report.statesWithNoCompiledFact}**`,
@@ -161,7 +161,7 @@ export function renderCoverageMarkdown(report: CoverageReport): string {
     `- Distinct source artifacts cited: **${report.distinctSourceArtifacts}**`,
   );
   lines.push(
-    `- States with a registered legislative rule pack (fields may remain UNKNOWN): **${report.proceduralPackStates.length}** (${report.proceduralPackStates.join(", ")})`,
+    `- States with a registered legislative rule pack (fields may remain unresolved): **${report.proceduralPackStates.length}** (${report.proceduralPackStates.join(", ")})`,
   );
   lines.push(
     `- States with identity here but no rule pack: **${report.identityOnlyStates.length}**`,

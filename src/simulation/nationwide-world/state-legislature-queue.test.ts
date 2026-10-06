@@ -11,6 +11,8 @@ import {
 } from "../future-transitions";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { recordWorldEvent } from "../world";
+import { stateSlateKey } from "./state-legislature-candidates";
+import { stateLegislativeSeats } from "./state-legislature-opening";
 import type { IsoDate, World } from "../types";
 import {
   applyStateLegislatureTurnover,
@@ -291,5 +293,78 @@ describe("saved state legislative dated queue producer", () => {
       }),
     ).toThrow();
     expect(() => stateLegislatureWakeHandler(queued, item)).toThrow(/due date/);
+  });
+  it("keeps filed-date plan parity across append, replacement, old reads and reload", () => {
+    const seats = stateLegislativeSeats(original, packId);
+    const seatKey = `${packId}|${seats[0]!.officeKey}|${seats[0]!.ordinal}`;
+    const base = stateLegislatureWakePlan(original, packId, 2022);
+    const template = original.history.events[0]!;
+    const filed = recordWorldEvent(original, {
+      ...template,
+      stableKey: `${stateSlateKey(seatKey, 2022)}:primary`,
+      type: "test.recorded-field",
+      occurredAt: original.currentDate,
+      recordedAt: original.currentDate,
+      tags: [
+        `seat:${seatKey}`,
+        "primary-date:2022-05-17",
+        "runoff-date:2022-06-07",
+      ],
+    });
+    const plan = stateLegislatureWakePlan(filed, packId, 2022);
+    for (const dueAt of ["2022-05-17", "2022-06-07"])
+      expect(
+        plan.some(
+          (wake) => wake.stage === "nomination" && wake.dueAt === dueAt,
+        ),
+      ).toBe(true);
+    expect(stateLegislatureWakePlan(original, packId, 2022)).toEqual(base);
+    expect(
+      stateLegislatureWakePlan(
+        deserializeWorld(serializeWorld(filed)),
+        packId,
+        2022,
+      ),
+    ).toEqual(plan);
+    const row = filed.history.events.at(-1)!;
+    const replaced = {
+      ...filed,
+      history: {
+        ...filed.history,
+        events: filed.history.events.map((event) =>
+          event === row
+            ? {
+                ...event,
+                tags: [
+                  `seat:${seatKey}`,
+                  "primary-date:2022-05-18",
+                  "runoff-date:2022-06-07",
+                ],
+              }
+            : event,
+        ),
+      },
+    };
+    const replacement = stateLegislatureWakePlan(replaced, packId, 2022);
+    expect(
+      replacement.some(
+        (wake) => wake.stage === "nomination" && wake.dueAt === "2022-05-18",
+      ),
+    ).toBe(true);
+    expect(
+      replacement.some(
+        (wake) => wake.stage === "nomination" && wake.dueAt === "2022-05-17",
+      ),
+    ).toBe(false);
+    expect(stateLegislatureWakePlan(filed, packId, 2022)).toEqual(plan);
+    const unrelated = recordWorldEvent(filed, {
+      ...template,
+      stableKey: "test:irrelevant-field-key",
+      type: "test.recorded-field",
+      occurredAt: original.currentDate,
+      recordedAt: original.currentDate,
+      tags: [`seat:${seatKey}`, "primary-date:2022-05-19"],
+    });
+    expect(stateLegislatureWakePlan(unrelated, packId, 2022)).toEqual(plan);
   });
 });
