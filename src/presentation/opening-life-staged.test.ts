@@ -4,9 +4,19 @@ import { drawRandomPlace } from "../../tests/support/random-place";
 import {
   createOpeningLifeController,
   generateOpeningLifeWithProgress,
+  advancePreStartHistory,
   prepareOpeningLife,
 } from "./opening-life";
-import { DEFAULT_NEW_GAME_SETUP, type NewGame } from "./new-game";
+import {
+  DEFAULT_NEW_GAME_SETUP,
+  type NewGame,
+  createPreStartNewGameWorld,
+  applyPreStartCreatorLifeForks,
+  finishPreStartNewGameWorld,
+} from "./new-game";
+import { addDays } from "../simulation/dates";
+import { projectCreatorLifeForkMoments } from "../simulation/creator-life-forks";
+import { serializeWorld, deserializeWorld } from "../simulation";
 import { projectLifeStartStory } from "./life-start-story";
 
 it("retains the Creator's actual staged World and person without rebuilding", () => {
@@ -48,6 +58,74 @@ it("retains the Creator's actual staged World and person without rebuilding", ()
     prepareOpeningLife(setup, { ...game, world: fixture.world }),
   ).toThrow("recorded identity");
 });
+
+it(
+  "consumes recorded choices once on the same staged life through Begin and save/reload",
+  { timeout: 60000 },
+  async () => {
+    const seed = "session7-staged-begin-save";
+    const place = drawRandomPlace(seed);
+    const target = place.context.initialMoment.date;
+    const setup = {
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 38,
+      creatorLifeForks: [],
+    };
+    const checkpoints: string[] = [];
+    const game = createPreStartNewGameWorld(
+      setup,
+      addDays(target, -1),
+      (world, personId) => {
+        checkpoints.push(world.id);
+        expect(world.preStartLife?.personId).toBe(personId);
+        expect(world.currentDate).toBe(addDays(target, -1));
+      },
+    );
+    expect(checkpoints.length).toBeGreaterThan(0);
+    expect(checkpoints.every((id) => id === game.world.id)).toBe(true);
+    const choices = projectCreatorLifeForkMoments(
+      game.world,
+      game.playerPersonId,
+    ).map((moment) => ({ forkKey: moment.key, optionKey: "pursue" }));
+    expect(choices.length).toBeGreaterThan(0);
+    const answered = applyPreStartCreatorLifeForks(game, choices);
+    expect(applyPreStartCreatorLifeForks(answered, choices).world).toBe(
+      answered.world,
+    );
+    expect(answered.world.currentMoment).toBe(game.world.currentMoment);
+    expect(answered.playerPersonId).toBe(game.playerPersonId);
+    expect(prepareOpeningLife(answered.setup, answered).stagedGame).toBe(
+      answered,
+    );
+    const advanced = await advancePreStartHistory(
+      answered.world,
+      answered.playerPersonId,
+      { yieldControl: async () => {} },
+    );
+    const finished = finishPreStartNewGameWorld({
+      ...answered,
+      world: advanced,
+    });
+    expect(finished.world.id).toBe(game.world.id);
+    expect(finished.world.history).toBe(advanced.history);
+    expect(finished.playerPersonId).toBe(game.playerPersonId);
+    const restored = deserializeWorld(serializeWorld(finished.world));
+    expect(restored.id).toBe(game.world.id);
+    expect(restored.currentMoment).toEqual(finished.world.currentMoment);
+    expect(restored.control).toEqual({
+      kind: "person",
+      personId: game.playerPersonId,
+    });
+    const decisions = (world: typeof restored) =>
+      world.history.decisionTraces.filter(
+        (trace) => trace.context.decisionType === "people.creator-life-fork",
+      );
+    expect(decisions(restored)).toEqual(decisions(answered.world));
+    expect(decisions(restored)).toHaveLength(choices.length);
+  },
+);
 
 it("surfaces the staged life chapters before institution preparation or final assembly", async () => {
   const seed = "session7-staged-progress";

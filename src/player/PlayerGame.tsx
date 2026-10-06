@@ -165,7 +165,14 @@ import {
   type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
-import { type NewGameSetup } from "../presentation/new-game";
+import {
+  type NewGameSetup,
+  type NewGame,
+  applyPreStartCreatorLifeForks,
+  createPreStartNewGameWorld,
+  worldSeedFor,
+} from "../presentation/new-game";
+import { makeIsoDate } from "../simulation/dates";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
@@ -387,6 +394,7 @@ type Screen =
   | {
       readonly kind: "transition";
       readonly setup: NewGameSetup;
+      readonly stagedGame?: NewGame;
     }
   | { readonly kind: "playing" };
 
@@ -459,6 +467,10 @@ export function PlayerGame() {
     [],
   );
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
+  const [creatorStagedGame, setCreatorStagedGame] = useState<NewGame>();
+  const [creatorLifePreparation, setCreatorLifePreparation] =
+    useState<NewGameSetup>();
+  const stagedCreatorLives = useRef(new Map<string, NewGame>());
   const [session, setSession] = useState<Session | null>(null);
   /*
    * GOVERNING time/continuity: a World change computed from an older World
@@ -956,10 +968,17 @@ export function PlayerGame() {
     );
   }
 
-  function beginLife(setup: NewGameSetup) {
+  function beginLife(setup: NewGameSetup, stagedGame?: NewGame) {
+    const answeredGame = stagedGame
+      ? applyPreStartCreatorLifeForks(
+          { ...stagedGame, setup },
+          setup.creatorLifeForks ?? [],
+        )
+      : undefined;
     setScreen({
       kind: "transition",
       setup,
+      ...(answeredGame ? { stagedGame: answeredGame } : {}),
     });
   }
 
@@ -975,6 +994,7 @@ export function PlayerGame() {
                 const game = (
                   await createOpeningLifeController(
                     screen.setup,
+                    screen.stagedGame,
                   ).finishTransitionWithProgress({
                     signal,
                     deadlineAt,
@@ -1013,28 +1033,85 @@ export function PlayerGame() {
     return (
       <AmbientTableau recent={saves[0] ?? null} still>
         {() => (
-          <SetupScreen
-            seed={sessionSeed.seed}
-            seedOrigin={sessionSeed.origin}
-            previewMode={previewMode}
-            initialSetup={screen.draft}
-            questionnaireComplete={screen.questionnaireComplete}
-            onBack={() => setScreen({ kind: "title" })}
-            onBegin={(setup, appearance, questionsFinished) => {
-              pendingAppearance.current = appearance;
-              setProblem(null);
-              // The calibration runs before the world is built, because its
-              // answers are part of the setup the world is built from — not
-              // because the world reads them. It never does: they go into the
-              // world's non-diegetic corner and nowhere near a generator.
-              if (!questionsFinished && questionnaireScreenFor(setup)) {
-                setScreen({ kind: "questionnaire", setup });
-                return;
-              }
-              beginLife(endQuestionnaireEarly(setup));
-            }}
-            problem={problem}
-          />
+          <>
+            <SetupScreen
+              seed={sessionSeed.seed}
+              seedOrigin={sessionSeed.origin}
+              previewMode={previewMode}
+              initialSetup={screen.draft}
+              questionnaireComplete={screen.questionnaireComplete}
+              stagedGame={creatorStagedGame}
+              onRequestRecordedLife={(setup) => {
+                const existing = stagedCreatorLives.current.get(
+                  worldSeedFor(setup),
+                );
+                if (existing) setCreatorStagedGame(existing);
+                else setCreatorLifePreparation(setup);
+              }}
+              onBack={() => setScreen({ kind: "title" })}
+              onBegin={(setup, appearance, questionsFinished, stagedGame) => {
+                pendingAppearance.current = appearance;
+                setProblem(null);
+                // The calibration runs before the world is built, because its
+                // answers are part of the setup the world is built from — not
+                // because the world reads them. It never does: they go into the
+                // world's non-diegetic corner and nowhere near a generator.
+                if (!questionsFinished && questionnaireScreenFor(setup)) {
+                  setScreen({ kind: "questionnaire", setup });
+                  return;
+                }
+                beginLife(endQuestionnaireEarly(setup), stagedGame);
+              }}
+              problem={problem}
+            />
+            {creatorLifePreparation && (
+              <LifeStartTransition
+                onReturn={() => setCreatorLifePreparation(undefined)}
+                onPrepare={async (report, signal, deadlineAt) => {
+                  const checkPreparation = () => {
+                    if (signal.aborted) throw signal.reason;
+                    if (performance.now() >= deadlineAt)
+                      throw new DOMException(
+                        "The two-minute limit was reached.",
+                        "TimeoutError",
+                      );
+                  };
+                  const setup = creatorLifePreparation;
+                  const key = worldSeedFor(setup);
+                  let game = stagedCreatorLives.current.get(key);
+                  if (!game) {
+                    report({
+                      label: "Preparing your life",
+                      completed: 0,
+                      total: 0,
+                    });
+                    await new Promise<void>((resolve) =>
+                      window.requestAnimationFrame(() => resolve()),
+                    );
+                    checkPreparation();
+                    game = createPreStartNewGameWorld(
+                      setup,
+                      makeIsoDate("2021-01-01"),
+                      (world, playerPersonId) => {
+                        checkPreparation();
+                        report({
+                          label: "Writing your life",
+                          completed: 0,
+                          total: 0,
+                          world,
+                          playerPersonId,
+                        });
+                      },
+                    );
+                    checkPreparation();
+                    stagedCreatorLives.current.set(key, game);
+                  }
+                  setCreatorStagedGame(game);
+                  setCreatorLifePreparation(undefined);
+                }}
+              />
+            )}
+          </>
         )}
       </AmbientTableau>
     );
