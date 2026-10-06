@@ -1,10 +1,10 @@
 {
   "session": 21,
   "sourceHead": "af8c098372379836cc22a0b487d10f79e2049a32",
-  "scope": "19 cause-not-recorded links only; research, no new coefficients or production implementation",
+  "scope": "18 retained cause-not-recorded links only; research, no new coefficients or production implementation",
   "coverage": {
-    "completed": 19,
-    "total": 19
+    "completed": 18,
+    "total": 18
   },
   "packets": [
     {
@@ -266,7 +266,7 @@
     },
     {
       "session": 21,
-      "scope": "Last 9 of 19 cause-not-recorded links, positions 11\u201319 in filtered file order; research only",
+      "scope": "8 retained links from original positions 11\u201319; polling-distance-to-turnout retired under CTO6007229957; research only",
       "sourceHead": "af8c098372379836cc22a0b487d10f79e2049a32",
       "checkedAt": "2026-10-05",
       "skillsRead": [
@@ -448,33 +448,6 @@
           "implementation": "NOT RUN; research only; no production edits or new coefficients"
         },
         {
-          "position": 17,
-          "key": "polling-distance-to-turnout",
-          "cause": "voting.polling-place-distance-miles",
-          "result": "voting.turnout-pct",
-          "catalogStatus": "cause-not-recorded",
-          "primarySource": {
-            "url": "https://swlb2.aeaweb.org/articles?id=10.1257/app.20180306",
-            "title": "Cantoni (2020), A Precinct Too Far: Turnout and Voting Costs",
-            "openedAndRead": true
-          },
-          "measurement": {
-            "definition": "Distance from voter location to assigned polling location, contrasting units across precinct boundaries.",
-            "units": "Miles; reported one standard deviation is 0.245 mile."
-          },
-          "recordedProducerOrSourceData": "Election-specific voter residence and assigned polling-site locations/precinct geography could supply person-level distance (proposed record design, not a verified statewide dataset).",
-          "sourceHorizon": "Four elections in nine municipalities in Massachusetts and Minnesota.",
-          "sourceRange": null,
-          "researchGaps": [
-            "Exact road-versus-straight-line distance construction not verified from abstract. No statewide mean or 56-place baseline found. Per-mile extrapolation is not directly measured."
-          ],
-          "findings": [
-            "Primary abstract gives 2\u20135 percent fewer ballots for 0.245-mile increase; this is study heterogeneity, not a confidence interval. Non-presidential high-minority effects three times larger."
-          ],
-          "additionalSources": [],
-          "implementation": "NOT RUN; research only; no production edits or new coefficients"
-        },
-        {
           "position": 18,
           "key": "newspaper-closure-to-engagement",
           "cause": "press.local-newspaper",
@@ -544,10 +517,17 @@
       }
     ],
     "catalogKeyCoverage": {
-      "matched": 19,
-      "total": 19,
+      "matched": 18,
+      "total": 18,
       "duplicateKeys": 0
     },
-    "sourceHeadPreserved": "af8c098372379836cc22a0b487d10f79e2049a32"
+    "sourceHeadPreserved": "af8c098372379836cc22a0b487d10f79e2049a32",
+    "retiredKeys": [
+      {
+        "key": "polling-distance-to-turnout",
+        "ruling": "CTO6007229957",
+        "reason": "Distance to polls dropped; production deletion owned by Session20."
+      }
+    ]
   }
 }
