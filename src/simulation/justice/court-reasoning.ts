@@ -61,7 +61,17 @@ export const PRETRIAL_HOLD = "court:hold-before-trial" as const;
 /** Offenses with violence against a person. */
 const VIOLENT_OFFENSES = new Set(["crime:assault", "crime:robbery"]);
 /** Offenses that abuse a public office or a campaign's trust. */
-const PUBLIC_TRUST_OFFENSES = new Set(["campaign-funds-personal-use"]);
+const PUBLIC_TRUST_OFFENSES = new Set([
+  "campaign-funds-personal-use",
+  "honest-services-contract-steering",
+  "public-bribery",
+  "public-kickback",
+  "protected-job-patronage",
+  "public-funds-embezzlement",
+  "theft-of-public-money",
+  "extortion-under-color-of-official-right",
+  "unreported-official-gift",
+]);
 
 /** The case as every decider in it sees it. */
 export interface CourtCase {
