@@ -1,7 +1,7 @@
 ---
 id: ow-20-contact-dialog-removed
 impact: minor
-section: Player
+section: Changed
 title: Contact dialog, ask-to-meet and ask-out controls removed
 ---
 
