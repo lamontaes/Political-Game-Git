@@ -65,6 +65,7 @@ import type {
   JobApplicationStepRecord,
   JobOpeningRecord,
 } from "./job-market-types";
+import type { CitizenshipStatusRecord } from "./citizenship-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -657,6 +658,8 @@ export interface PersonFactConstraint {
 }
 
 interface PersonCore {
+  /** Private canonical status history; absent on old saves, never auto-inferred on read. */
+  readonly citizenshipStatuses?: readonly CitizenshipStatusRecord[];
   readonly id: EntityId;
   readonly generationKey: string;
   readonly generatorVersion?: string;

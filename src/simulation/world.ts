@@ -1,3 +1,5 @@
+import { initializePersonCitizenship } from "./citizenship-creation";
+import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
 import {
@@ -523,7 +525,9 @@ export function createWorld(input: CreateWorldInput): World {
   );
   validateControl(control, new Set(input.people.map((person) => person.id)));
   const jurisdictions = input.jurisdictions.map(cloneJurisdiction);
-  const people = input.people.map(clonePerson);
+  const people = input.people.map((person) =>
+    clonePerson(initializePersonCitizenship(person, seed, currentDate)),
+  );
 
   if (input.setupPriors) assertSetupPriorIntegrity(input.setupPriors);
 
@@ -1732,6 +1736,7 @@ function validateInitialEntities(
       throw new Error(`Materialized person is missing details: ${person.id}`);
     }
 
+    assertPersonCitizenshipIntegrity(person, currentDate);
     const facts = [
       ...person.establishedFacts,
       ...(person.detailLevel === "materialized"
@@ -4506,6 +4511,21 @@ function clonePerson(person: Person): Person {
   const core = {
     ...person,
     establishedFacts: person.establishedFacts.map(cloneFact),
+    ...(person.citizenshipStatuses
+      ? {
+          citizenshipStatuses: person.citizenshipStatuses.map((record) => ({
+            ...record,
+            provenance: {
+              ...record.provenance,
+              countyGeoids: [...record.provenance.countyGeoids],
+              sourceArtifactSha256s: [
+                ...record.provenance.sourceArtifactSha256s,
+              ],
+              sourceEntityIds: [...record.provenance.sourceEntityIds],
+            },
+          })),
+        }
+      : {}),
   };
 
   if (person.detailLevel === "lightweight") {

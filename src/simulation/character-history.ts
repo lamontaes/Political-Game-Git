@@ -1,3 +1,4 @@
+import { initializePersonCitizenship } from "./citizenship-creation";
 import { carryPeopleReadIndexesAfterAppend } from "./history-index";
 import { adultLifeSituations } from "./adult-situations";
 import {
@@ -651,7 +652,7 @@ function buildCharacterHistoryContextPerson(
     ),
     establishedFacts: facts,
   };
-  return person;
+  return initializePersonCitizenship(person, world.seed, world.currentDate);
 }
 
 export function createCharacterHistoryContextPerson(

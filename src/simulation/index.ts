@@ -1,3 +1,5 @@
+export * from "./citizenship";
+export type * from "./citizenship-types";
 export * from "./dates";
 export * from "./canonical-json";
 export * from "./character-history";
