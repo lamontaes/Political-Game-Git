@@ -39,7 +39,7 @@ import {
   crimeIncidents,
   localCrimeFigures,
   sampleMonthlyCrime,
-  UNRESEARCHED_LOCAL_CRIME,
+  LOCAL_CRIME_RATES,
 } from "./index";
 import { arrestReferral, ensureCrimeProduction, offenseOf } from "./producer";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
@@ -103,10 +103,8 @@ function openCrimeSmallWorld(seed: string) {
 
 describe("ordinary local crime", () => {
   it("every rate is marked as an unresearched placeholder", () => {
-    expect(UNRESEARCHED_LOCAL_CRIME.provenance).toBe(
-      "unresearched-blanket-rule",
-    );
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+    expect(LOCAL_CRIME_RATES.provenance).toBe("estimated-from-average");
+    for (const rule of LOCAL_CRIME_RATES.offenses) {
       for (const share of [rule.reportedShare, rule.arrestShare]) {
         expect(share).toBeGreaterThan(0);
         expect(share).toBeLessThan(1);
