@@ -34,6 +34,25 @@ function fixturePacket(texts: readonly string[]): GroundedEnglishPacket {
     })),
   };
 }
+/** The spoken topic a reporter packet carries, as reporterQuestionPacket adds it. */
+function withTopic(
+  packet: GroundedEnglishPacket,
+  text: string,
+): GroundedEnglishPacket {
+  const topic = { text, sourceRecordIds: ["fixture:topic"] };
+  return {
+    ...packet,
+    facts: { ...packet.facts, topic },
+    knowledge: [
+      ...packet.knowledge,
+      {
+        personId: packet.speaker!.personId,
+        factKey: "topic",
+        sourceRecordIds: topic.sourceRecordIds,
+      },
+    ],
+  };
+}
 function composePressAnswer(
   input: Omit<Parameters<typeof renderPressAnswer>[0], "grounding">,
 ) {
@@ -86,11 +105,16 @@ describe("ordinary press structured statements", () => {
     const question = composeReporterQuestion({
       subjectSummary: "The council published the hearing notice.",
       terms: "on-record",
-      grounding: fixturePacket(["The council published the hearing notice."]),
+      grounding: withTopic(
+        fixturePacket(["The council published the hearing notice."]),
+        "what's happening in Fayette County",
+      ),
     });
     expect(question.ok).toBe(true);
     if (!question.ok) return;
-    expect(question.statement).toBe("What's your side of it?");
+    expect(question.statement).toBe(
+      "What's your take on what's happening in Fayette County?",
+    );
     expect(question.statement).not.toContain("Reported by");
     expect(question.statement).not.toContain("declined to comment");
   });

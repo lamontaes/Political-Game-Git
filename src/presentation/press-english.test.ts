@@ -106,7 +106,9 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
     terms: "on-record",
     grounding: packet,
   });
-  expect(question.ok && question.statement).toBe("What's your side of it?");
+  expect(question.ok && question.statement).toBe(
+    `What's your take on what's happening in ${world.jurisdictions[event.jurisdictionId!]!.name}?`,
+  );
   expect(serializeWorld(world)).toBe(before);
   expect(
     reporterQuestionPacket(

@@ -28,9 +28,9 @@ export const PRESS_BANKS: Readonly<Record<string, ComposedLineBank>> = {
       core: {
         variants: [
           {
-            key: "your-side",
+            key: "your-take",
             kind: "template",
-            text: "What's your side of it?",
+            text: "What's your take on {{topic}}?",
             requiresFacts: ["subject"],
           },
         ],
@@ -254,6 +254,8 @@ export function reporterQuestionPacket(
       ? { text: publication.body, sourceRecordIds: [publication.id, event.id] }
       : null;
   const facts: Record<string, GroundedEnglishFact> = subject ? { subject } : {};
+  const topic = subject ? spokenTopic(world, event) : null;
+  if (topic) facts.topic = topic;
 
   return {
     surface: "dialogue",
@@ -316,4 +318,40 @@ export function composePressLine(
     bank,
   );
   return result.kind === "rendered" ? result : null;
+}
+
+/**
+ * What a reporter calls the development in speech, from its records: the
+ * measure ("the vote on the Farm Act" when a recorded vote is behind it), or
+ * else the place it happened ("what's happening in Allegany County"). Never
+ * the summary line itself.
+ */
+function spokenTopic(
+  world: World,
+  event: World["history"]["events"][number],
+): GroundedEnglishFact | null {
+  const action = (world.history.legislativeActions ?? []).find(
+    (row) => row.eventId === event.id,
+  );
+  const measure = action
+    ? (world.history.legislativeMeasures ?? []).find(
+        (row) => row.id === action.measureId,
+      )
+    : undefined;
+  if (action && measure)
+    return {
+      text: action.voteId
+        ? `the vote on ${measure.shortTitle}`
+        : measure.shortTitle,
+      sourceRecordIds: [measure.id, action.id],
+    };
+  const place = event.jurisdictionId
+    ? world.jurisdictions[event.jurisdictionId]
+    : undefined;
+  return place
+    ? {
+        text: `what's happening in ${place.name}`,
+        sourceRecordIds: [event.id, place.id],
+      }
+    : null;
 }

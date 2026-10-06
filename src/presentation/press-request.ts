@@ -180,10 +180,12 @@ export function composeReporterQuestion(input: {
           known.factKey === key,
       ),
   );
+  // A question names the thing it is about, in speech, from the record.
+  const topic = input.grounding.facts.topic?.text;
   const line = composePressLine(
     input.grounding,
-    knowsSubject ? "reporter-known-topic" : "reporter-unknown-topic",
-    knowsSubject ? { subject } : {},
+    knowsSubject && topic ? "reporter-known-topic" : "reporter-unknown-topic",
+    knowsSubject && topic ? { subject, topic } : {},
   );
   return line
     ? { ok: true, statement: line.text }
