@@ -5,7 +5,14 @@ import { majorPartyOf } from "./statewide-electorate";
 import { readRelationshipStanding } from "./relationship-standing";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { campaignById } from "./campaign-queries";
+import { recordedDistrictMembership } from "./district-residence";
+import { isEligibleVoterIn } from "./issue-record";
 import { personName } from "./people";
+import { requireElectionContest } from "./election-contests";
+import {
+  composeGroundedLine,
+  type ComposedLineBank,
+} from "../presentation/english-composition";
 import { recordWorldEvent } from "./world";
 import type { DecisionConsideration, EntityId, IsoDate, World } from "./types";
 
@@ -23,6 +30,142 @@ export interface AskToSignResult {
   readonly eventId: EntityId;
   readonly decision: "sign" | "decline";
   readonly alreadyAsked: false;
+}
+
+export type ClerkPetitionInvalidReason =
+  "ineligible-voter" | "wrong-district" | "duplicate-signature";
+
+export interface ClerkPetitionSignatureReview {
+  readonly eventId: EntityId;
+  readonly signerPersonId: EntityId;
+  readonly valid: boolean;
+  readonly reasons: readonly ClerkPetitionInvalidReason[];
+  readonly lines: readonly string[];
+}
+
+export interface ClerkPetitionVerification {
+  readonly validCount: number;
+  readonly invalidCount: number;
+  readonly signatures: readonly ClerkPetitionSignatureReview[];
+  readonly lines: readonly string[];
+}
+
+const CLERK_REASON_TEXT: Readonly<Record<ClerkPetitionInvalidReason, string>> =
+  {
+    "ineligible-voter":
+      "The signer was not eligible to vote on the filing date.",
+    "wrong-district": "The signer did not live in the contested district.",
+    "duplicate-signature": "Only the signer's first signature can be counted.",
+  };
+
+function clerkReasonLine(
+  world: World,
+  campaignId: EntityId,
+  eventId: EntityId,
+  reason: ClerkPetitionInvalidReason,
+): string {
+  const bank: ComposedLineBank = {
+    key: `candidate-petition.clerk.${reason}`,
+    version: "1",
+    surface: "journal",
+    act: "tell",
+    parts: {
+      core: {
+        variants: [
+          { key: "recorded-reason", kind: "verbatim", factKey: "reason" },
+        ],
+      },
+    },
+  };
+  const composed = composeGroundedLine(
+    {
+      surface: "journal",
+      momentKey: `candidate-petition:${campaignId}:${eventId}:${reason}`,
+      worldSeed: world.seed,
+      bankVersion: bank.version,
+      stage: "adult",
+      sourceRecordIds: [eventId],
+      facts: {
+        reason: { text: CLERK_REASON_TEXT[reason], sourceRecordIds: [eventId] },
+      },
+      knowledge: [],
+    },
+    bank,
+  );
+  if (composed.kind !== "rendered") {
+    throw new Error("The clerk could not compose a recorded petition reason.");
+  }
+  return composed.text;
+}
+
+/**
+ * The clerk's filing-day read of the signatures the campaign collected.
+ * The campaign's running count remains every signed event; only this read
+ * applies voter, district, and first-signature rules.
+ */
+export function clerkVerifyPetition(
+  world: World,
+  campaignId: EntityId,
+  filingDate: IsoDate,
+): ClerkPetitionVerification {
+  const campaign = campaignById(world, campaignId);
+  if (!campaign) throw new Error(`Campaign not found: ${campaignId}`);
+  const date = makeIsoDate(filingDate);
+  const contest = requireElectionContest(world, campaign.contestId);
+  const binding = contest.office.districtBinding ?? null;
+  const seen = new Set<EntityId>();
+
+  const signatures = petitionSignaturesForCampaign(world, campaignId)
+    .filter((event) => event.occurredAt <= date)
+    .sort((left, right) => left.sequence - right.sequence)
+    .flatMap((event): ClerkPetitionSignatureReview[] => {
+      const signer = event.participants.find(
+        (participant) => participant.role === "agency:signer",
+      )?.personId;
+      if (!signer) return [];
+      const reasons: ClerkPetitionInvalidReason[] = [];
+      if (!isEligibleVoterIn(world, signer, campaign.jurisdictionId, date)) {
+        reasons.push("ineligible-voter");
+      }
+      if (binding) {
+        const membership = recordedDistrictMembership(
+          world,
+          signer,
+          binding.chamber,
+          date,
+        );
+        if (
+          !membership ||
+          membership.binding.vintage !== binding.vintage ||
+          membership.binding.chamber !== binding.chamber ||
+          membership.binding.geoid !== binding.geoid
+        ) {
+          reasons.push("wrong-district");
+        }
+      }
+      if (seen.has(signer)) reasons.push("duplicate-signature");
+      else seen.add(signer);
+      const lines = reasons.map((reason) =>
+        clerkReasonLine(world, campaignId, event.id, reason),
+      );
+      return [
+        {
+          eventId: event.id,
+          signerPersonId: signer,
+          valid: reasons.length === 0,
+          reasons,
+          lines,
+        },
+      ];
+    });
+  const validCount = signatures.filter((signature) => signature.valid).length;
+  const invalidCount = signatures.length - validCount;
+  return {
+    validCount,
+    invalidCount,
+    signatures,
+    lines: signatures.flatMap((signature) => signature.lines),
+  };
 }
 
 /** The event log's first ask for each signer, in recorded order. */

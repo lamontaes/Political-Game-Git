@@ -243,6 +243,7 @@ import {
   recordSupportShift,
 } from "./campaign-support";
 import { moneyText } from "./money-text";
+import { clerkVerifyPetition } from "./candidate-petitions";
 
 /**
  * Standing for office.
@@ -305,6 +306,13 @@ export interface FileCampaignInput {
   readonly advertisingVendorName: string;
   readonly staffPersonIds: readonly EntityId[];
   readonly treasuryCurrency: CurrencyCode;
+  /** Clerk-approved petition submitted by a prefiling campaign record. */
+  readonly petitionFiling?: {
+    readonly campaignId: EntityId;
+    readonly requiredSignatures: number;
+    readonly feeInLieuOfSignatures: boolean;
+    readonly feePaid: boolean;
+  };
 }
 
 export interface FiledCampaignResult {
@@ -631,6 +639,29 @@ export function fileCampaign(
     throw new Error(
       eligibility.blocks[0]?.reason ?? "This character cannot file here.",
     );
+  }
+  if (input.petitionFiling) {
+    const filing = input.petitionFiling;
+    if (
+      !Number.isSafeInteger(filing.requiredSignatures) ||
+      filing.requiredSignatures < 0
+    ) {
+      throw new Error("Required petition signatures must be a whole count.");
+    }
+    const feePasses = filing.feeInLieuOfSignatures && filing.feePaid;
+    if (!feePasses) {
+      const verification = clerkVerifyPetition(
+        inputWorld,
+        filing.campaignId,
+        inputWorld.currentDate,
+      );
+      const shortfall = filing.requiredSignatures - verification.validCount;
+      if (shortfall > 0) {
+        throw new Error(
+          `The clerk counted ${verification.validCount} valid signatures. This petition is ${shortfall} ${shortfall === 1 ? "signature" : "signatures"} short.`,
+        );
+      }
+    }
   }
 
   // A numbered chamber seat needs a Gazetteer identity at filing. This sits

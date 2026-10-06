@@ -5,10 +5,13 @@ import { campaigns } from "./campaign-queries";
 import { addDays } from "./dates";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import {
+  CANDIDATE_PETITION_ASKED_TAG,
   askToSign,
+  clerkVerifyPetition,
   petitionAskedPersonIds,
   petitionSignaturesForCampaign,
 } from "./candidate-petitions";
+import { recordWorldEvent } from "./world";
 import type { EntityId, World } from "./types";
 
 function petitionFixture(seed: string) {
@@ -21,6 +24,37 @@ function firstOther(world: World, candidateId: EntityId): EntityId {
   const personId = world.personOrder.find((id) => id !== candidateId);
   if (!personId) throw new Error("No petition signer in the fixture.");
   return personId;
+}
+
+function signedEvent(
+  world: World,
+  campaignId: EntityId,
+  signerPersonId: EntityId,
+  suffix: string,
+): World {
+  return recordWorldEvent(world, {
+    stableKey: `fixture:petition-signature:${suffix}`,
+    type: "campaign.petition-signed",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: campaigns(world)[0]!.jurisdictionId,
+    involvedEntityIds: [campaignId, signerPersonId],
+    participants: [
+      { personId: signerPersonId, role: "agency:signer", detail: null },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [CANDIDATE_PETITION_ASKED_TAG, `campaign:${campaignId}`],
+    summary: "A fixture signer signed the candidate petition.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: "sign",
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
 }
 
 describe("candidate petition asks", () => {
@@ -87,5 +121,69 @@ describe("candidate petition asks", () => {
     expect(result.world.history.events.at(-1)?.type).toBe(
       "campaign.petition-declined",
     );
+  });
+
+  it("keeps an ineligible signer in the player count but gives the clerk a grounded reason", () => {
+    const fixture = petitionFixture("petition-clerk-ineligible");
+    const signerId = firstOther(fixture.world, fixture.candidateId);
+    const signer = fixture.world.people[signerId]!;
+    const ineligible: World = {
+      ...fixture.world,
+      people: {
+        ...fixture.world.people,
+        [signerId]: { ...signer, birthDate: fixture.world.currentDate },
+      },
+    };
+    const signed = signedEvent(
+      ineligible,
+      fixture.campaign.id,
+      signerId,
+      "ineligible",
+    );
+
+    expect(
+      petitionSignaturesForCampaign(signed, fixture.campaign.id),
+    ).toHaveLength(1);
+    expect(
+      clerkVerifyPetition(signed, fixture.campaign.id, signed.currentDate),
+    ).toMatchObject({
+      validCount: 0,
+      invalidCount: 1,
+      signatures: [
+        {
+          signerPersonId: signerId,
+          valid: false,
+          reasons: expect.arrayContaining(["ineligible-voter"]),
+          lines: expect.arrayContaining([
+            "The signer was not eligible to vote on the filing date.",
+          ]),
+        },
+      ],
+    });
+  });
+
+  it("rejects a second signed event from the same person", () => {
+    const fixture = petitionFixture("petition-clerk-duplicate");
+    const signerId = firstOther(fixture.world, fixture.candidateId);
+    const once = signedEvent(
+      fixture.world,
+      fixture.campaign.id,
+      signerId,
+      "first",
+    );
+    const twice = signedEvent(once, fixture.campaign.id, signerId, "second");
+    const verification = clerkVerifyPetition(
+      twice,
+      fixture.campaign.id,
+      twice.currentDate,
+    );
+
+    expect(verification.signatures[1]).toMatchObject({
+      valid: false,
+      reasons: expect.arrayContaining(["duplicate-signature"]),
+      lines: expect.arrayContaining([
+        "Only the signer's first signature can be counted.",
+      ]),
+    });
   });
 });
