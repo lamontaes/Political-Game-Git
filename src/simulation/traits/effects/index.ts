@@ -4,6 +4,7 @@ import { facetSelfConsciousEffects } from "./facet-self-conscious";
 import { patienceEffects } from "./patience";
 import { facetHostileEffects } from "./facet-hostile";
 import { facetHumbleEffects } from "./facet-humble";
+import { actionDespiteFearEffects } from "./action-despite-fear";
 import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetProudEffects } from "./facet-proud";
 import { facetArgumentativeEffects } from "./facet-argumentative";
@@ -47,6 +48,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetDefensiveEffects,
     ...facetCruelEffects,
     ...facetEnviousEffects,
+    ...actionDespiteFearEffects,
     ...facetGentleEffects,
     ...facetMeticulousEffects,
     ...facetNurturingEffects,
