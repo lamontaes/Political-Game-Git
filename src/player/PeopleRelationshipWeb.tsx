@@ -10,7 +10,6 @@ import {
   type RelationshipEdgeKind,
 } from "../presentation/relationship-web";
 import {
-  CATEGORY_LABELS,
   filterDirectory,
   projectPeopleDirectory,
 } from "../presentation/people-directory";
@@ -86,18 +85,12 @@ export function PeopleRelationshipWeb({
     layout.edges.some((edge) => edge.kind === kind),
   );
 
-  let caption: string;
+  let caption = "";
   if (selectedNode && connection) {
-    caption =
-      connection.edges.length > 0
-        ? `How you know ${selectedNode.name} — ${connection.edges
-            .map((edge) => edge.label)
-            .join("; ")}.`
-        : `No record connects you directly to ${selectedNode.name}. Their lines show the people you know who are connected to them.`;
-  } else if (category !== "all") {
-    caption = `${CATEGORY_LABELS[category]} are shown in full color; everyone else is dimmed.`;
-  } else {
-    caption = "Choose a face to see how you know them.";
+    caption = [
+      selectedNode.name,
+      ...connection.edges.map((edge) => edge.label),
+    ].join(" \u00b7 ");
   }
 
   return (
@@ -178,10 +171,8 @@ export function PeopleRelationshipWeb({
         {caption}
       </p>
       {layout.hiddenCount > 0 ? (
-        <p className="game-note" data-testid="people-web-hidden">
-          {layout.hiddenCount === 1
-            ? "1 more person does not fit in the web."
-            : `${layout.hiddenCount} more people do not fit in the web.`}{" "}
+        <p data-testid="people-web-hidden">
+          {`+${layout.hiddenCount}`}{" "}
           {onShowList ? (
             <button
               type="button"
@@ -189,7 +180,7 @@ export function PeopleRelationshipWeb({
               data-testid="people-web-show-list"
               onClick={onShowList}
             >
-              See everyone in the list
+              List
             </button>
           ) : null}
         </p>

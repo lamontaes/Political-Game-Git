@@ -654,17 +654,13 @@ export function PeopleWorkspace({
             data-testid="people-web-expand"
             onClick={() => setWebExpanded((value) => !value)}
           >
-            {webExpanded
-              ? "Show the nearby connections"
-              : "Show everyone you know"}
+            {webExpanded ? "Nearby" : "Everyone"}
           </button>
         </>
       ) : null}
 
       {shown.length === 0 ? (
-        <p className="game-note" data-testid="people-empty">
-          Nobody here matches that. This life may simply not have met them yet.
-        </p>
+        <p data-testid="people-empty" />
       ) : (
         <ul
           className="pg-people-list"
@@ -713,11 +709,8 @@ export function PeopleWorkspace({
       )}
 
       {category === "all" && directory.notYetMet.length > 0 ? (
-        <p className="game-note" data-testid="people-not-yet-met-note">
-          {directory.notYetMet.length === 1
-            ? "1 person you work or organize with is somebody you have not met yet."
-            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
-          They are under Work and Politics.
+        <p data-testid="people-not-yet-met-note">
+          {directory.notYetMet.length}
         </p>
       ) : null}
       {notYetMet.length > 0 ? (
