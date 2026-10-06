@@ -20696,8 +20696,17 @@
         "US-GA": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
-          "note": "Georgia pays teachers on the State Board of Education's state salary schedule (O.C.G.A. § 20-2-212); NEA's 2024-25 benchmark report lists Georgia among states with state minimum salaries or salary schedules (statute page not fetched)."
+          "cite": "O.C.G.A. § 20-2-212; Ga. Comp. R. & Regs. 160-5-2-.05(1)(r), (4)(l)",
+          "source": "https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/239/District/ac3cfa9f-19ec-447b-ba38-289628ce0cf3/SalaryScheduleReport-FY2027.pdf",
+          "note": "The FY2027 state salary schedule, Initial Amendment 3 published August 13, 2026, is for ten-month employment. Its lowest annual schedule cell is $41,717 (T1 and BT4); other certification/degree schedules have higher minima, including $43,592 for professional T4 entry with 0–2 creditable years. State rules call the prescribed schedule a minimum; charter and strategic-waiver exceptions remain.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4171700,
+              "unit": "minor"
+            }
+          ]
         },
         "US-GU": {
           "answer": "yes",
@@ -20891,14 +20900,30 @@
           "preempts": true,
           "cite": "N.J.S.A. 18A:29-5",
           "source": "https://pub.njleg.gov/statutes/STATUTES-TEXT.zip",
-          "note": "$18,500 statutory minimum for a full-time teacher, unchanged since 1985 and far below actual pay."
+          "note": "The enforceable statutory minimum is $18,500 annually for a full-time teacher; it has not changed since 1985 and is far below typical actual pay.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 1850000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-NM": {
           "answer": "yes",
           "preempts": true,
           "cite": "NMSA 1978 § 22-10A-7(G)",
           "source": "https://www.nmlegis.gov/Sessions/22%20Regular/final/SB0001.pdf",
-          "note": "$50,000 minimum for a level one (starting) teacher since Senate Bill 1 of 2022, with higher tiers for level two and three."
+          "note": "The enforceable minimum for a level-one starting teacher is $50,000 annually under the 2022 statutory schedule; level-two and level-three minima are higher.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 5000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-NV": {
           "answer": "no",
@@ -20953,7 +20978,15 @@
           "preempts": true,
           "cite": "24 P.S. § 11-1142.1",
           "source": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1949&SessInd=0&ActNum=0014.",
-          "note": "$18,500 statutory minimum for a full-time teacher since the 1988-89 school term, far below actual pay."
+          "note": "The enforceable statutory minimum is $18,500 annually for a full-time teacher; it has applied since the 1988–89 school term and is far below typical actual pay.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 1850000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-PR": {
           "answer": "yes",
