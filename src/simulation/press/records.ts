@@ -122,17 +122,152 @@ export function sourceTermsAttributable(terms: SourceTerms): boolean {
 }
 
 /** ALIVE44 chunk 4 first families. */
-export const MISCONDUCT_FAMILIES = ["M1", "M2", "M4", "M7"] as const;
+export const MISCONDUCT_FAMILIES = [
+  "M1",
+  "M2",
+  "M4",
+  "M7",
+  "M8",
+  "M9",
+  "M10",
+  "M11",
+  "M12",
+  "M13",
+] as const;
 export type MisconductFamily = (typeof MISCONDUCT_FAMILIES)[number];
+
+/** Statute families identify the duty under review; place-specific law remains
+ * a research-backed input to later case decisions, never a universal rule. */
+export interface MisconductFamilyRow {
+  readonly label: string;
+  readonly dutyReference: string;
+  readonly dutySources: readonly string[];
+  readonly offenseKey: string;
+  readonly actArtifactKinds: readonly `${string}:${string}`[];
+}
+
+export const MISCONDUCT_FAMILY_ROWS: Readonly<
+  Record<MisconductFamily, MisconductFamilyRow>
+> = {
+  M1: {
+    label: "Campaign funds used for personal purposes",
+    dutyReference:
+      "Federal: 52 U.S.C. § 30114(b), conversion of campaign funds to personal use; state campaign-finance law for the place.",
+    dutySources: [
+      "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title52-section30114",
+    ],
+    offenseKey: "campaign-funds-personal-use",
+    actArtifactKinds: ["record:campaign-ledger-entry"],
+  },
+  M2: {
+    label: "Undisclosed conflict of interest",
+    dutyReference:
+      "State: public-official conflict-of-interest and disclosure statutes for the place; federal honest-services law only where its elements apply.",
+    dutySources: [
+      "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title18-section1346",
+    ],
+    offenseKey: "undisclosed-public-conflict",
+    actArtifactKinds: ["record:legislative-vote"],
+  },
+  M4: {
+    label: "Money given for an official's promised action",
+    dutyReference:
+      "Federal: 18 U.S.C. §§ 201(b), 666(a)(2), bribery of a public official or agent when statutory elements apply; state bribery law for the place.",
+    dutySources: [
+      "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title18-section201",
+      "https://uscode.house.gov/view.xhtml?req=%28title%3A18+section%3A666+edition%3Aprelim%29",
+    ],
+    offenseKey: "public-bribery",
+    actArtifactKinds: [
+      "record:private-correspondence",
+      "record:campaign-ledger-entry",
+    ],
+  },
+  M7: {
+    label: "Public funds spent outside their authorized purpose",
+    dutyReference:
+      "Federal: 18 U.S.C. § 641, theft or conversion of public money when its elements apply; state public-funds misuse law for the place.",
+    dutySources: [
+      "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title18-section641",
+    ],
+    offenseKey: "theft-of-public-money",
+    actArtifactKinds: ["record:public-budget-ledger"],
+  },
+  M8: {
+    label: "Public contract steered to a favored business",
+    dutyReference:
+      "Federal: 18 U.S.C. §§ 1343 and 1346, honest-services fraud when its elements apply; state public-procurement and conflict-of-interest law for the place.",
+    dutySources: [
+      "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title18-section1343",
+      "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title18-section1346",
+    ],
+    offenseKey: "honest-services-contract-steering",
+    actArtifactKinds: ["record:contract-award"],
+  },
+  M9: {
+    label: "Kickback received for an official act",
+    dutyReference:
+      "Federal: 18 U.S.C. §§ 201(b), 666(a)(1)(B), bribery or kickbacks when statutory elements apply; state bribery law for the place.",
+    dutySources: [
+      "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title18-section201",
+      "https://uscode.house.gov/view.xhtml?req=%28title%3A18+section%3A666+edition%3Aprelim%29",
+    ],
+    offenseKey: "public-kickback",
+    actArtifactKinds: ["record:private-correspondence", "record:vendor-ledger"],
+  },
+  M10: {
+    label: "Protected public job given as a personal favor",
+    dutyReference:
+      "Federal: 18 U.S.C. § 666(a)(1)(B), bribery involving an agent of a covered organization when its elements apply; state civil-service and official-misconduct law for the place.",
+    dutySources: [
+      "https://uscode.house.gov/view.xhtml?req=%28title%3A18+section%3A666+edition%3Aprelim%29",
+    ],
+    offenseKey: "protected-job-patronage",
+    actArtifactKinds: ["record:appointment", "record:payroll-posting"],
+  },
+  M11: {
+    label: "Public money taken for personal use",
+    dutyReference:
+      "Federal: 18 U.S.C. § 641, theft or conversion of public money; state theft and public-funds misappropriation law for the place.",
+    dutySources: [
+      "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title18-section641",
+    ],
+    offenseKey: "public-funds-embezzlement",
+    actArtifactKinds: ["record:public-budget-ledger"],
+  },
+  M12: {
+    label: "Official demands money in exchange for government action",
+    dutyReference:
+      "Federal: 18 U.S.C. § 1951, Hobbs Act extortion under color of official right when its elements apply; state official-extortion law for the place.",
+    dutySources: [
+      "https://uscode.house.gov/quicksearch/get.plx?section=1951&title=18",
+    ],
+    offenseKey: "extortion-under-color-of-official-right",
+    actArtifactKinds: [
+      "record:private-correspondence",
+      "record:payment-ledger",
+    ],
+  },
+  M13: {
+    label: "Gift to an official not reported as required",
+    dutyReference:
+      "Federal: 18 U.S.C. § 201(c), unlawful gratuities when its elements apply; state public-official gift and disclosure law for the place.",
+    dutySources: [
+      "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title18-section201",
+    ],
+    offenseKey: "unreported-official-gift",
+    actArtifactKinds: ["record:gift-record", "record:disclosure-filing"],
+  },
+};
 
 export const MISCONDUCT_FAMILY_LABELS: Readonly<
   Record<MisconductFamily, string>
-> = {
-  M1: "Campaign funds used for personal purposes",
-  M2: "Undisclosed conflict of interest",
-  M4: "Money given for an official's promised action",
-  M7: "Public funds spent outside their authorized purpose",
-};
+> = Object.fromEntries(
+  MISCONDUCT_FAMILIES.map((family) => [
+    family,
+    MISCONDUCT_FAMILY_ROWS[family].label,
+  ]),
+) as Record<MisconductFamily, string>;
 
 export const EVIDENCE_BEARINGS = [
   "supports",
