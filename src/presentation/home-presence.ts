@@ -1,4 +1,5 @@
 import { recordWorldEvent, type EntityId, type World } from "../simulation";
+import { hasStableKey } from "../simulation/history-index";
 import { whereaboutsAt } from "../simulation/living-world/work-schedules";
 import { openingLifeLocation } from "./life-scene-flow";
 import { householdResidentIds } from "./play-scene-context";
@@ -24,8 +25,7 @@ export function recordHomePresence(world: World, personId: EntityId): World {
   const person = world.people[personId];
   if (!person) return world;
   const stableKey = `${VERSION}:${personId}:${JSON.stringify(world.currentMoment)}`;
-  const recent = world.history.events.slice(-40);
-  if (recent.some((event) => event.stableKey === stableKey)) return world;
+  if (hasStableKey(world.history.events, stableKey)) return world;
   // Only a player at home: a recorded trip or shift elsewhere keeps its own record.
   const location = openingLifeLocation(world, personId);
   if (location && location.setting !== "home") return world;
