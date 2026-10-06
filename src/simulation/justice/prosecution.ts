@@ -43,7 +43,7 @@ import {
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
 import {
-  bailMinorUnits,
+  newChargeBailAmount,
   recordedChargeBailMinorUnits,
   PRETRIAL_VERSION,
   pretrialLawAt,
@@ -780,15 +780,21 @@ export function advanceProsecutions(
       next = followUp(next, referral, referral, PROSECUTION_CHARGED_EVENT, {
         extraTags: (() => {
           const courtId = savedTrialCourtForCase(next, courtCase);
-          const amount = bailMinorUnits(next, {
-            venueJurisdictionId: courtCase.venueJurisdictionId,
-            offenseKey: courtCase.offenseKey,
-          });
+          const amount = courtId
+            ? newChargeBailAmount(next, {
+                venueJurisdictionId: courtCase.venueJurisdictionId,
+                offenseKey: courtCase.offenseKey,
+                courtId,
+              })
+            : null;
           return courtId
             ? [
                 `justice.court:${courtId}`,
                 ...(amount !== null
-                  ? [`justice.cash-bail-amount:${amount}`]
+                  ? [
+                      `justice.cash-bail-amount:${amount.amount}`,
+                      ...amount.provenanceTags,
+                    ]
                   : []),
               ]
             : [];
