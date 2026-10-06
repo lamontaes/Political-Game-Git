@@ -18,12 +18,15 @@ function setup({
   channel = "stable",
   updateInfo = { version: "0.3.0", channel: "stable" },
   downloadError = null,
+  installChoice = 0,
+  closes = true,
 } = {}) {
   const state = {
     downloads: 0,
     prompts: 0,
     notices: [],
     installOnQuit: false,
+    installs: 0,
   };
   const updater = {
     async checkForUpdates() {
@@ -35,6 +38,9 @@ function setup({
     },
     setAutoInstallOnAppQuit(value) {
       state.installOnQuit = value;
+    },
+    quitAndInstall() {
+      state.installs += 1;
     },
   };
   return {
@@ -49,10 +55,10 @@ function setup({
       loadUpdater: async () => updater,
       ask: async () => {
         state.prompts += 1;
-        return 0;
+        return installChoice;
       },
       notify: async (...notice) => state.notices.push(notice),
-      closeAllWindows: async () => true,
+      closeAllWindows: async () => closes,
     },
   };
 }
@@ -91,14 +97,30 @@ test("stable config requires HTTPS, direct distribution and signing material", (
   );
 });
 
-test("stable channel downloads without prompting and installs only on quit", async () => {
+test("stable install requires a player confirmation and stays off auto-install", async () => {
   const { deps, state } = setup();
 
-  assert.equal(await runUpdateCheck(deps), "stable-downloaded-for-next-quit");
+  assert.equal(await runUpdateCheck(deps), "stable-installing");
   assert.equal(state.downloads, 1);
-  assert.equal(state.prompts, 0);
-  assert.equal(state.installOnQuit, true);
-  assert.match(state.notices[0][0], /Version 0\.3\.0 is ready/);
+  assert.equal(state.prompts, 1);
+  assert.equal(state.installOnQuit, false);
+  assert.equal(state.installs, 1);
+});
+
+test("stable deferral never arms installation on quit", async () => {
+  const { deps, state } = setup({ installChoice: 1 });
+  assert.equal(await runUpdateCheck(deps), "stable-player-deferred");
+  assert.equal(state.downloads, 1);
+  assert.equal(state.installs, 0);
+  assert.equal(state.installOnQuit, false);
+  assert.match(state.notices[0][0], /ready when you are/);
+});
+
+test("stable install confirmation cannot interrupt a window that will not close", async () => {
+  const { deps, state } = setup({ closes: false });
+  assert.equal(await runUpdateCheck(deps), "stable-install-blocked");
+  assert.equal(state.installs, 0);
+  assert.equal(state.installOnQuit, false);
 });
 
 test("stable download failure keeps the current install and reports the error", async () => {
