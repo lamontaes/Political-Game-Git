@@ -26,6 +26,7 @@ import {
   consequentialSocialEventIds,
   isRoutineSocialOccasion,
 } from "./journal-significance";
+import { composeCouncilMeetingLines } from "./meeting-summary";
 
 export interface World39BiographyEntry {
   readonly id: string;
@@ -236,7 +237,18 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
         row.source.kind === "direct" &&
         row.accuracy === "accurate",
     );
-    if (!participated && !directKnowledge) continue;
+    const meetingLines = composeCouncilMeetingLines(
+      world,
+      event,
+      personId,
+      "journal",
+    );
+    const hasOwnMeetingVote = (world.history.legislativeVotes ?? []).some(
+      (vote) =>
+        meetingLines.some((line) => line.voteId === vote.id) &&
+        vote.dispositions.some((row) => row.personId === personId),
+    );
+    if (!participated && !directKnowledge && !hasOwnMeetingVote) continue;
     // Somebody something happened to (a crime's victim) knows it in their own
     // words; the event's summary is the public log's ("Police in Fairbanks
     // took a report of an assault"), which reads as a town notice.
@@ -259,6 +271,19 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       playSettingsOf(world).personalLifeDepiction,
     );
     if (crimeLine === null) continue;
+    if (meetingLines.length > 0) {
+      covered.add(event.id);
+      for (const line of meetingLines)
+        entries.push({
+          id: `event:${event.id}:${line.voteId}`,
+          at: event.occurredAt,
+          sequence: event.sequence,
+          kind: "event",
+          text: line.text,
+          sourceId: event.id,
+        });
+      continue;
+    }
     const text = livedWorld39Sentence(
       crimeLine ??
         (event.type === "life.conversation"
