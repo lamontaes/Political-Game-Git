@@ -319,6 +319,11 @@ describe("Identity belongs to the saved world", () => {
       (record) => record.measureId === scenario.measureId,
     );
     expect(amendments).toHaveLength(3);
+    expect(amendments.map((record) => record.authorMotive)).toEqual([
+      "record",
+      "record",
+      "record",
+    ]);
     expect(new Set(amendments.map((record) => record.stableKey)).size).toBe(3);
     expect(new Set(amendments.map((record) => record.id)).size).toBe(3);
   });

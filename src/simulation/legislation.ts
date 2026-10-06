@@ -2310,7 +2310,7 @@ export interface OfferAmendmentInput {
    * never enters the bill.
    */
   readonly proposedSections?: readonly LegislativeProposedSection[];
-  /** Why a computer-run member offered it. */
+  /** Why the author offered it, when the author chooses to keep that motive on record. */
   readonly authorMotive?: LegislativeAmendmentMotive;
 }
 

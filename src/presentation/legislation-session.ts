@@ -339,6 +339,9 @@ export function applyLegislativeStep(
         description:
           "Narrow the pilot so it starts in the counties already served.",
         offeredByLabel: "Floor sponsor",
+        // This player action is a messaging amendment: its purpose is to put
+        // the other side's vote on the record, whether the amendment passes.
+        authorMotive: "record",
         dispositions,
         presentMembers: presentFor(scenario, body.members, dispositions),
         electedMembers: body.members.length,
