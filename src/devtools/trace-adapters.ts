@@ -1,3 +1,7 @@
+import {
+  decisionConsiderationScore,
+  compareDecisionOptionScores,
+} from "../simulation/decision-scores";
 import type {
   AppraisalRecord,
   CampaignCommitmentRecord,
@@ -1464,6 +1468,56 @@ function relationshipInteractionNode(
  * snapshots of whatever each consideration actually cited. Collapsing them
  * would lose the distinction between what was available and what was used.
  */
+/** Read-only projection: saved ranks stay separate from today's score calculation. */
+export function projectDecisionTraceDetails(record: DecisionTraceRecord) {
+  const options = record.context.options.map((option) => {
+    const components = record.context.considerations
+      .filter((item) => item.optionKey === option.key)
+      .map((consideration) => ({
+        consideration,
+        importanceWeight: decisionConsiderationScore({
+          ...consideration,
+          confidence: "low",
+          direction: "supports",
+        }),
+        confidenceWeight: decisionConsiderationScore({
+          ...consideration,
+          importance: "slight",
+          direction: "supports",
+        }),
+        contribution: decisionConsiderationScore(consideration),
+      }));
+    return {
+      optionKey: option.key,
+      components,
+      sum: components.reduce((sum, item) => sum + item.contribution, 0),
+      tiedWith: record.context.options
+        .filter(
+          (other) =>
+            other.key !== option.key &&
+            record.optionEvaluations.find((row) => row.optionKey === option.key)
+              ?.available === true &&
+            record.optionEvaluations.find((row) => row.optionKey === other.key)
+              ?.available === true &&
+            compareDecisionOptionScores(
+              record.context,
+              option.key,
+              other.key,
+            ) === 0,
+        )
+        .map((other) => other.key),
+    };
+  });
+  return {
+    saved: record,
+    currentCodeCalculation: {
+      label: "CURRENT-CODE CALCULATION — not a historically stored total",
+      note: "Weights, sums and ties use the current shared decision-scores calculator on saved considerations and peer estimates. Saved availability and ranks are shown separately.",
+      options,
+    },
+  };
+}
+
 function decisionTraceNode(record: DecisionTraceRecord): TraceNode {
   const considerationLinks = record.context.considerations.flatMap(
     (consideration, index) =>
@@ -1533,7 +1587,7 @@ function decisionTraceNode(record: DecisionTraceRecord): TraceNode {
     ],
     unrecordedLinks,
     developmentSummary: `decision-trace type=${record.context.decisionType} outcome=${record.outcomeKind} selected=${record.selectedOptionKey ?? "none"} cutoffSequence=${record.context.cutoff.historySequenceExclusive}`,
-    recordText: null,
+    recordText: JSON.stringify(projectDecisionTraceDetails(record), null, 2),
   });
 }
 

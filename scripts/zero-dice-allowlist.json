@@ -490,20 +490,6 @@
       "kind": "roll",
       "build": "Build 21",
       "count": 1,
-      "code": "confidenceRoll < 300_000"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": ": confidenceRoll < 750_000"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
       "code": "counterRoll < shares.deEscalate - shift"
     },
     {

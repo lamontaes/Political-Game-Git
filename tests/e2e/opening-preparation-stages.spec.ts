@@ -20,6 +20,7 @@ type Fixture = {
   cancel: () => void;
   hasPublishedGame: () => boolean;
 };
+type PaintedFrame = Fixture["evidence"]["painted"][number];
 declare global {
   interface Window {
     openingPreparationFixture: Fixture;
@@ -82,7 +83,11 @@ test("a fresh random life paints actual preparation stages and counts", async ({
   expect(evidence.error).toBeNull();
   expect(evidence.status).toBe("complete");
   expect(evidence.world!.people).toBeGreaterThan(0);
-  const stages = [...new Set(evidence.reports.map((step) => step.label))];
+  const stages = [
+    ...new Set(
+      evidence.reports.map((step: OpeningLifeGenerationProgress) => step.label),
+    ),
+  ];
   expect(stages).toEqual([
     "Preparing your life",
     "Preparing government",
@@ -96,13 +101,15 @@ test("a fresh random life paints actual preparation stages and counts", async ({
   for (const stage of stages) {
     expect(
       evidence.painted.some(
-        (frame) => frame.requested === stage && frame.visible === stage,
+        (frame: PaintedFrame) =>
+          frame.requested === stage && frame.visible === stage,
       ),
     ).toBe(true);
   }
   expect(
-    evidence.painted.find((frame) => frame.requested === "Preparing courts")!
-      .value,
+    evidence.painted.find(
+      (frame: PaintedFrame) => frame.requested === "Preparing courts",
+    )!.value,
   ).toBeNull();
   await expect(page.getByRole("status")).not.toContainText("%");
   await page.screenshot({ path: info.outputPath("preparation-stage.png") });

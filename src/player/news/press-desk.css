@@ -11,7 +11,8 @@
 
 .pg-press-desk > h3 {
   margin: 0;
-  font-family: var(--pg-font-display, Georgia, serif);
+  font-family: var(--name);
+  font-weight: 800;
   font-size: 1.1rem;
 }
 
@@ -19,12 +20,13 @@
   display: grid;
   gap: var(--pg-space-2, 0.5rem);
   padding-top: var(--pg-space-2, 0.5rem);
-  border-top: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
+  border-top: 1px solid var(--pg-hairline);
 }
 
 .pg-press-desk-group > h4 {
   margin: 0;
-  font-family: var(--pg-font-display, Georgia, serif);
+  font-family: var(--name);
+  font-weight: 800;
   font-size: 0.98rem;
   letter-spacing: 0.01em;
 }
@@ -51,9 +53,9 @@
   display: grid;
   gap: var(--pg-space-2, 0.5rem);
   padding: var(--pg-space-3, 0.75rem);
-  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
-  border-radius: var(--pg-radius, 3px);
-  background: var(--kit12-glass);
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
+  background: transparent;
 }
 
 .pg-press-desk-card blockquote,
@@ -61,7 +63,8 @@
   margin: 0;
   padding-left: var(--pg-space-3, 0.75rem);
   border-left: 2px solid var(--pg-brass-dim, rgba(194, 155, 72, 0.45));
-  font-family: var(--pg-font-display, Georgia, serif);
+  font-family: var(--speech);
+  font-weight: 500;
 }
 
 .pg-press-desk-answers {
@@ -69,8 +72,8 @@
   gap: var(--pg-space-1, 0.25rem);
   margin: 0;
   padding: var(--pg-space-2, 0.5rem);
-  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
-  border-radius: var(--pg-radius, 3px);
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
 }
 
 .pg-press-desk-answers label {
