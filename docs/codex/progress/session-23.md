@@ -11,12 +11,15 @@ main f88508186b78f526ecf89a420b5fb584171e039a. One projection reads existing
 canonical governing matters and kernel work; the separate workspace is removed.
 Bill intake routes to the actual governing desk and the older kernel cannot
 record a second disposition for a bound bill. Existing kernel actions and draft
-guards remain. Focused tests and changed-test typecheck are running; browser
-proof is pending.
+guards remain. Fifty-five focused checks and five final inbox cases passed; configured
+typecheck and explicit changed-test roots passed. Both browser routes passed
+at 31579543c in 4.1 minutes. A final header correction avoids stating that a
+legacy-only office has no chief when no governing chief reading exists; the
+exact-head rerun of that correction is next.
 
 Next: check changed files, commit, and run the new inbox and retained keyboard
 routes at the exact head:
-`NODE_OPTIONS='--import=tsx' PG_RUN_ID=session23-p6-one-inbox-new-game PLAYWRIGHT_PORT=4193 OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npx --no-install playwright test tests/e2e/session23-executive-inbox.spec.ts tests/e2e/executive-work.spec.ts --config=/tmp/session23-playwright.config.ts --project=chromium --workers=1`
+`NODE_OPTIONS='--import=tsx' PG_RUN_ID=session23-p6-one-inbox-final PLAYWRIGHT_PORT=4193 OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npx --no-install playwright test tests/e2e/session23-executive-inbox.spec.ts tests/e2e/executive-work.spec.ts --config=/tmp/session23-playwright.config.ts --project=chromium --workers=1`
 Publish one Part 6 PR with actual record IDs and screenshot once checked.
 
 The canonical three-year speed baseline exhausted actual main's 4096 MB

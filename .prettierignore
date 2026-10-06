@@ -140,3 +140,6 @@ data/research/district-lines-2026/lines-2026.json
 # snapshots) as it was captured. Reformatting would change the evidence.
 docs/codex/effect-batches/
 docs/codex/law-audit/
+
+# Retained byte-identical new-game desk capture.
+docs/codex/session23-inbox-proof/new-game-executive-inbox.png

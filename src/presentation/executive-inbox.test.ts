@@ -178,6 +178,16 @@ describe("one canonical executive inbox", () => {
     const inbox = projectExecutiveInbox(world, personId)!;
     const item = inbox.significant.find((record) => record.kind === "work")!;
     expect(item).toBeDefined();
+    expect(inbox.hasChiefOfStaffReading).toBe(false);
+    expect(
+      renderToStaticMarkup(
+        createElement(GoverningBriefing, {
+          world,
+          personId,
+          onWorldChange: () => {},
+        }),
+      ),
+    ).not.toContain("No chief of staff yet.");
     expect(serializeWorld(world)).toBe(before);
     const next = executiveNextStep(world, item.id, kernel.row.id);
     expect(next.ok).toBe(true);

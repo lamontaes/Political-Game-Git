@@ -118,7 +118,9 @@ export function GoverningBriefing({
           {briefing.termLine}{" "}
           {briefing.chiefOfStaff
             ? `Chief of staff: ${briefing.chiefOfStaff.name}.`
-            : "No chief of staff yet."}
+            : briefing.hasChiefOfStaffReading
+              ? "No chief of staff yet."
+              : null}
         </p>
         {briefing.calendarNote ? (
           <details className="game-campaign-detail">

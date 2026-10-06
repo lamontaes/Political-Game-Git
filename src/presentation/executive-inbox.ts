@@ -125,6 +125,7 @@ export function projectExecutiveInbox(world: World, personId: EntityId) {
         : ""),
     calendarNote: briefing?.calendarNote ?? null,
     chiefOfStaff: briefing?.chiefOfStaff ?? null,
+    hasChiefOfStaffReading: briefing !== null,
     significant: items.slice(0, BRIEFING_SIGNIFICANT_LIMIT),
     more: items.slice(BRIEFING_SIGNIFICANT_LIMIT),
     recent: [...(briefing?.recent ?? []), ...recentWork],

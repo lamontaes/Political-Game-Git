@@ -1,0 +1,81 @@
+{
+  "randomPlace": "South Burlington, Vermont",
+  "randomPlaceKey": "5066175",
+  "proofKind": "Authored mayor seat in an ordinary new life; no natural election proof",
+  "seed": "setup-v3:7dbe348271e3fe6c:{\"v\":3,\"seed\":\"session23-part6-one-inbox-new-game-2026-10-06\",\"placeKey\":\"5066175\",\"startAge\":40,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Ray\",\"familyName\":\"Walton\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+  "worldId": "world_8677ba46dc67483f",
+  "date": "2026-01-05",
+  "currentMoment": {
+    "date": "2026-01-05",
+    "minuteOfDay": 550,
+    "timeZone": "America/New_York",
+    "utcOffsetMinutes": -300
+  },
+  "personId": "person_1f99297b796508e3",
+  "officeKey": "program-office:local:gus2025%3A176549",
+  "organizationId": "organization_88f9796e7a88c2fd",
+  "jurisdictionId": "jurisdiction_bf2f76a511410e11",
+  "termId": "organization-participation_da459b6c4d1e0f28",
+  "matters": [
+    {
+      "id": "event_65cad920773e0396",
+      "family": "chief-of-staff",
+      "status": "open",
+      "openedEventId": "event_65cad920773e0396",
+      "workItemId": "work-item_05917804f74318ca"
+    },
+    {
+      "id": "event_9026cd4ed5b4babf",
+      "family": "agenda",
+      "status": "decided",
+      "openedEventId": "event_9026cd4ed5b4babf",
+      "workItemId": "work-item_4267d3d6c7c28185"
+    },
+    {
+      "id": "event_95f6ca564d9e96d0",
+      "family": "budget",
+      "status": "open",
+      "openedEventId": "event_95f6ca564d9e96d0",
+      "workItemId": "work-item_c7a4c9e333a8fb9e"
+    },
+    {
+      "id": "event_7df59105ef12d2d5",
+      "family": "implementation",
+      "status": "open",
+      "openedEventId": "event_7df59105ef12d2d5",
+      "workItemId": "work-item_5fe4908f456816eb"
+    }
+  ],
+  "records": [
+    {
+      "id": "event_65cad920773e0396",
+      "date": "2026-01-05",
+      "type": "governing.matter-opened",
+      "summary": "Mayor of City of South Burlington: Choose a chief of staff."
+    },
+    {
+      "id": "event_9026cd4ed5b4babf",
+      "date": "2026-01-05",
+      "type": "governing.matter-opened",
+      "summary": "Mayor of City of South Burlington: Set the first priority."
+    },
+    {
+      "id": "event_95f6ca564d9e96d0",
+      "date": "2026-01-05",
+      "type": "governing.matter-opened",
+      "summary": "Mayor of City of South Burlington: Set the budget request."
+    },
+    {
+      "id": "event_cc5e21f105fea429",
+      "date": "2026-01-05",
+      "type": "governing.matter-decided",
+      "summary": "Ray Walton, Mayor of City of South Burlington, made reporting and oversight the office's first priority."
+    },
+    {
+      "id": "event_7df59105ef12d2d5",
+      "date": "2026-01-05",
+      "type": "governing.matter-opened",
+      "summary": "Mayor of City of South Burlington: Direct the agencies on reporting and oversight."
+    }
+  ]
+}
