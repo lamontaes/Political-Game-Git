@@ -219,6 +219,11 @@ export function PersonCard({
   const presentNow = presentPersonIds
     ? presentPersonIds.includes(dossier.personId)
     : dossier.presentNow;
+  const rightNow =
+    dossier.rightNow ??
+    (presentNow
+      ? "Here in the room with you."
+      : "Away from your current location.");
   const facts = dossier.details;
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
@@ -352,16 +357,20 @@ export function PersonCard({
               <p className="pg-right-now" data-testid="person-card-deceased">
                 No longer living.
               </p>
-            ) : isYou || !expanded ? null : presentNow ? (
-              <p className="pg-right-now" data-testid="person-card-present">
-                Here in the room with you.
-              </p>
-            ) : (
+            ) : isYou || !expanded ? null : (
               <p
-                className="pg-person-card-note"
-                data-testid="person-card-presence-note"
+                className={
+                  presentNow || dossier.rightNow
+                    ? "pg-right-now"
+                    : "pg-person-card-note"
+                }
+                data-testid={
+                  presentNow || dossier.rightNow
+                    ? "person-card-present"
+                    : "person-card-presence-note"
+                }
               >
-                Away from your current location.
+                {rightNow}
               </p>
             )}
           </div>

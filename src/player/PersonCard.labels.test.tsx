@@ -140,3 +140,40 @@ it("retains another person's recorded relationship and makes no time or knowledg
   expect(html).toContain('data-person-id="person-other"');
   expect(JSON.stringify({ world, entry })).toBe(before);
 });
+
+it("uses the recorded room for a person standing there and keeps their job and pay", () => {
+  const entry = {
+    ...dossier("person-other" as EntityId),
+    presentNow: true,
+    rightNow: "Standing in the county clerk's office with you.",
+    details: [
+      {
+        key: "occupation",
+        attribution: "record" as const,
+        text: "Records clerk at the county clerk's office · $44,720 a year.",
+      },
+    ],
+  };
+  const html = renderToStaticMarkup(
+    <PersonCard
+      world={world}
+      playerId={selfId}
+      dossier={entry}
+      pinned={false}
+      expanded
+      mode="workspace"
+      presentPersonIds={[]}
+      onTogglePin={() => {}}
+      onOpenLink={() => {}}
+      talkUnavailable={null}
+    />,
+  );
+
+  expect(html).toContain(
+    "Standing in the county clerk&#x27;s office with you.",
+  );
+  expect(html).toContain(
+    "Records clerk at the county clerk&#x27;s office · $44,720 a year.",
+  );
+  expect(html).not.toContain("Away from your current location.");
+});
