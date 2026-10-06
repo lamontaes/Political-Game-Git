@@ -123,7 +123,8 @@
       "control_plate": {
         "path": "art/pose-control-plates/standing-neutral__front.svg",
         "hash": "69c8870f679da7d5cf8294e1f7df8949f4392358fb64af1e1bc541e1f7a8be56"
-      }
+      },
+      "slot_kinds": ["stand"]
     },
     {
       "pose_family_id": "standing-conversational",
@@ -246,7 +247,8 @@
       "control_plate": {
         "path": "art/pose-control-plates/standing-conversational__front.svg",
         "hash": "b74a4fe1f7e8e48fcff95252c86703501081c24c1fbf12134ea3b38fe525504b"
-      }
+      },
+      "slot_kinds": ["stand"]
     },
     {
       "pose_family_id": "seated-guest-neutral",
@@ -373,7 +375,8 @@
       "control_plate": {
         "path": "art/pose-control-plates/seated-guest-neutral__front.svg",
         "hash": "b2cb6bc24b0359955b1e057e36c68f42d3e4731c0acca78f329aedcac928a0ae"
-      }
+      },
+      "slot_kinds": ["sit"]
     },
     {
       "pose_family_id": "seated-guest-three-quarter-right",
@@ -500,7 +503,8 @@
       "control_plate": {
         "path": "art/pose-control-plates/seated-guest-three-quarter-right__three-quarter-right.svg",
         "hash": "67ca29c3f8400b2fafb2884895335b6cb8f20132589302cb98fdc431ad825ee3"
-      }
+      },
+      "slot_kinds": ["sit"]
     },
     {
       "pose_family_id": "seated-at-desk",
@@ -626,7 +630,8 @@
       "control_plate": {
         "path": "art/pose-control-plates/seated-at-desk__front.svg",
         "hash": "b631158e29b92647ecb3d2012f13321978249b7bec63fa28ae373f9f32ddc083"
-      }
+      },
+      "slot_kinds": ["sit"]
     },
     {
       "pose_family_id": "standing-podium-or-lectern",
@@ -749,7 +754,8 @@
       "control_plate": {
         "path": "art/pose-control-plates/standing-podium-or-lectern__front.svg",
         "hash": "04526e9465029c7257916792ba6da6a64c4daf2076aa3ea4da0897feec0f354e"
-      }
+      },
+      "slot_kinds": ["podium"]
     },
     {
       "pose_family_id": "standing-listening",
@@ -872,7 +878,8 @@
       "control_plate": {
         "path": "art/pose-control-plates/standing-listening__front.svg",
         "hash": "b3975a3477b8dc38d75b59f556db89bb9b298d525563f00acb37b1cca4ea3023"
-      }
+      },
+      "slot_kinds": ["stand"]
     }
   ],
   "facing_convention": "Facings name the direction the figure is turned, and the direction is fixed by the project's own prior usage rather than asserted here: art/qa/p71/source_intake_dispositions.json calls ocd_body_adult_fem_seated_guest_three_quarter_v1 'three-quarter right' and ocd_body_adult_fem_seated_conversational_left_v1 'three-quarter left', and those two plates are mirror images of each other. Any new plate is labelled by matching one of those two, not by reasoning about left and right from scratch. The wave-a turned seated crops match the 'right' one."

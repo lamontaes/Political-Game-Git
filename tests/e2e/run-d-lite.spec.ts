@@ -163,7 +163,7 @@ test("derives truthful work groups and advances staff work during player activit
 
   await needsYou.getByRole("button", { name: "Delegate to Collins" }).click();
   await expect(page.getByTestId("work-feedback")).toContainText(
-    "Collins now owns the meeting brief",
+    "Collins is now responsible for the meeting brief",
   );
   await expect(needsYou).not.toContainText("Prepare community meeting brief");
   await expect(staff).toContainText("Prepare community meeting brief");

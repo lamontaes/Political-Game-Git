@@ -1,4 +1,7 @@
-import type { LawEffectStampedRecord } from "./law-effect-stamp";
+import {
+  cloneTermResolution,
+  type LawEffectStampedRecord,
+} from "./law-effect-stamp";
 import { createStableId } from "./ids";
 import { appendedList, hasStableKey, stableKeysOf } from "./history-index";
 import type {
@@ -461,6 +464,9 @@ export function appendHistoricalEvent(
             ...(stamp.sourceRecordIds === undefined
               ? {}
               : { sourceRecordIds: [...stamp.sourceRecordIds] }),
+            ...(stamp.termResolution === undefined
+              ? {}
+              : { termResolution: cloneTermResolution(stamp.termResolution) }),
           })),
         }),
   };

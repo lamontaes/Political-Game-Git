@@ -2,7 +2,7 @@ import {
   stateBillNumberingStyle,
   stateChamberStyle,
 } from "./bill-numbering-styles";
-import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
+import { isCongressRulePack } from "./congress-rule-pack";
 import billIntroductionTable from "../../data/research/laws/bill-introductions-2022.json" with { type: "json" };
 import { rulePackById } from "./legislature-rule-packs";
 import { isFederalDistrictUsps } from "./state-reference";
@@ -192,7 +192,7 @@ function schemeFor(
       firstNumberOf: FROM_ONE,
     };
   }
-  if (pack.packId === US_CONGRESS_PACK_ID) {
+  if (isCongressRulePack(pack.packId)) {
     return {
       kind: "congress",
       template: plainTemplate,

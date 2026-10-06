@@ -551,7 +551,7 @@ function RepresentedBy({
           <li key={row.key} data-testid={`government-represented-${row.key}`}>
             <span className="pg-government-entry-title">{row.office}</span>
             <span className="pg-government-seat">
-              {row.district ?? "District not recorded"}
+              {row.district ?? "See the district note below"}
             </span>
             {row.holders.map((holder) => (
               <SeatHolder

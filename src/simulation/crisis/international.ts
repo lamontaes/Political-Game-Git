@@ -25,7 +25,6 @@ import {
   type CrisisOptionKey,
   type CrisisOptionsRecord,
   type IntelligenceAssessmentRecord,
-  type IntelligenceConfidence,
   type InternationalCrisisRecord,
   type TensionLevel,
   type WarPowersRecord,
@@ -149,7 +148,9 @@ function event(
 function crisisOf(world: World, crisisId: EntityId): InternationalCrisisRecord {
   const record = crisisRecords(world).find((r) => r.id === crisisId);
   if (!record || record.kind !== "international-crisis")
-    throw new Error(`Unknown international crisis: ${crisisId}`);
+    throw new Error(
+      `No international crisis matches the recorded ID: ${crisisId}`,
+    );
   return record;
 }
 
@@ -260,34 +261,18 @@ function assessAndAdvise(
 ): World {
   const crisis = crisisOf(world, crisisId);
   const state = internationalCrisisState(world, crisisId);
-  const confidenceRoll = roll(world, [crisisId, cycle, "confidence"]);
-  const confidence: IntelligenceConfidence =
-    confidenceRoll < 300_000
-      ? "low"
-      : confidenceRoll < 750_000
-        ? "moderate"
-        : "high";
+  // Advisers consume recorded intelligence. A crisis declaration is not
+  // evidence of a foreign actor's intent or of our confidence in it.
+  const assessment = state.assessments
+    .filter(
+      (record) =>
+        record.effectiveAt <= world.currentDate &&
+        record.sequence < world.history.nextSequence,
+    )
+    .at(-1);
+  const confidence = assessment?.confidence;
+  const assessedIntent = assessment?.assessedIntent;
   const tensionRank = TENSIONS.indexOf(state.tension);
-  const intentRoll =
-    roll(world, [crisisId, cycle, "intent"]) + tensionRank * 150_000;
-  const assessedIntent =
-    intentRoll < 500_000
-      ? "probing"
-      : intentRoll < 850_000
-        ? "coercive"
-        : "preparing-force";
-  let next = appendCrisisRecord(world, {
-    kind: "intelligence-assessment",
-    stableKey: `${crisis.stableKey}:assessment:${cycle}`,
-    effectiveAt: world.currentDate,
-    causalParentIds: [crisisId],
-    visibility: "limited",
-    eventId: null,
-    crisisId,
-    confidence,
-    assessedIntent,
-    cycle,
-  });
   const recommended: CrisisOptionKey =
     assessedIntent === "preparing-force" &&
     confidence === "high" &&
@@ -296,13 +281,11 @@ function assessAndAdvise(
       : tensionRank >= 2 || assessedIntent === "coercive"
         ? "economic"
         : "diplomatic";
-  next = appendCrisisRecord(next, {
+  const next = appendCrisisRecord(world, {
     kind: "crisis-options",
     stableKey: `${crisis.stableKey}:options:${cycle}`,
     effectiveAt: world.currentDate,
-    causalParentIds: [
-      crisisRecordId(next, `${crisis.stableKey}:assessment:${cycle}`),
-    ],
+    causalParentIds: [assessment?.id ?? crisisId],
     visibility: "limited",
     eventId: null,
     crisisId,
@@ -879,7 +862,8 @@ export function recordViolenceAttempt(
   input: RecordViolenceAttemptInput,
 ): World {
   const target = world.people[input.targetPersonId];
-  if (!target) throw new Error("Unknown attempt target.");
+  if (!target)
+    throw new Error("The attempt target does not match a recorded person.");
   if (
     !isPersonAliveAt(world, target.id, {
       asOfDate: world.currentDate,

@@ -1,6 +1,10 @@
-import { municipalGovernmentByKey } from "./municipal-government";
+import {
+  municipalGovernmentByKey,
+  municipalGovernments,
+} from "./municipal-government";
 import { lifePlaceByKey } from "./life-places";
 import {
+  allGovernmentUnits,
   governmentUnit,
   governmentUnitJurisdictionId,
 } from "./government-units";
@@ -49,6 +53,93 @@ export function publicGovernmentOrganizationKey(
   return identity.kind === "jurisdiction"
     ? `public-government:${identity.jurisdictionId}`
     : `public-government:local:${encodeURIComponent(identity.governmentKey)}`;
+}
+
+/** Compiled government identities, never geographic proximity, join old account keys. */
+let accountKeys: Map<EntityId, Set<string>> | undefined;
+function compiledAccountKeys(): Map<EntityId, Set<string>> {
+  if (accountKeys) return accountKeys;
+  const keys = new Map<EntityId, Set<string>>();
+  const add = (jurisdictionId: EntityId, governmentKey: string) => {
+    const entries = keys.get(jurisdictionId) ?? new Set<string>();
+    entries.add(`public-government:local:${encodeURIComponent(governmentKey)}`);
+    keys.set(jurisdictionId, entries);
+  };
+  for (const unit of allGovernmentUnits()) {
+    if (
+      !unit.functionalActive ||
+      !["county", "municipality", "township"].includes(unit.unitType)
+    )
+      continue;
+    const municipal =
+      unit.unitType === "municipality"
+        ? municipalGovernmentByKey(unit.id)
+        : null;
+    add(governmentUnitJurisdictionId(unit), municipal?.key ?? unit.id);
+  }
+  for (const municipal of municipalGovernments()) {
+    const place = municipal.placeGeoid
+      ? lifePlaceByKey(municipal.placeGeoid)
+      : null;
+    if (place) add(place.context.jurisdiction.id, municipal.key);
+  }
+  accountKeys = keys;
+  return keys;
+}
+
+/** Resolve a legacy geographic key only when the compiled crosswalk names one government. */
+export function canonicalPublicGovernmentAccountKey(
+  identity: PublicGovernmentIdentity,
+): string {
+  if (identity.kind === "local-government") {
+    const unit = governmentUnit(identity.governmentKey);
+    const municipal =
+      unit?.unitType === "municipality"
+        ? municipalGovernmentByKey(unit.id)
+        : null;
+    return publicGovernmentOrganizationKey({
+      ...identity,
+      governmentKey: municipal?.key ?? identity.governmentKey,
+    });
+  }
+  const keys = compiledAccountKeys().get(identity.jurisdictionId);
+  return keys?.size === 1
+    ? [...keys][0]!
+    : publicGovernmentOrganizationKey(identity);
+}
+
+/** Old stable keys remain saved verbatim; only their account lookup key is migrated. */
+export function canonicalSavedPublicGovernmentAccountKey(
+  stableKey: string,
+): string | null {
+  const prefix = "public-government:";
+  if (!stableKey.startsWith(prefix)) return null;
+  const local = `${prefix}local:`;
+  if (stableKey.startsWith(local)) {
+    try {
+      const governmentKey = decodeURIComponent(stableKey.slice(local.length));
+      const unit = governmentUnit(governmentKey);
+      const municipal = municipalGovernmentByKey(governmentKey);
+      const jurisdictionId = unit
+        ? governmentUnitJurisdictionId(unit)
+        : municipal?.placeGeoid
+          ? lifePlaceByKey(municipal.placeGeoid)?.context.jurisdiction.id
+          : null;
+      return jurisdictionId
+        ? canonicalPublicGovernmentAccountKey({
+            kind: "local-government",
+            governmentKey,
+            jurisdictionId,
+          })
+        : stableKey;
+    } catch {
+      return null;
+    }
+  }
+  return canonicalPublicGovernmentAccountKey({
+    kind: "jurisdiction",
+    jurisdictionId: stableKey.slice(prefix.length) as EntityId,
+  });
 }
 
 /** Stable comparison key for records and scoped program readers. */
