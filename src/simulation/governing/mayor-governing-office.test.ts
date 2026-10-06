@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { advanceWorld } from "../world";
+import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../../tests/support/random-place";
 import { localGoverningBodiesForJurisdiction } from "../candidacy";
@@ -17,6 +19,7 @@ import {
   governingMatters,
   governingOfficeForPerson,
   synchronizeMunicipalGoverningOffices,
+  stateGoverningHandlers,
 } from "./state-governing";
 
 const seed = "session23-part1-ordinary-mayor-2026-10-06";
@@ -146,6 +149,31 @@ describe("a mayor joins the shared governing desk", () => {
           })),
       }),
     );
+  });
+
+  it("opens municipal matters on the canonical date boundary for an observer", () => {
+    const fixture = mayorFixture();
+    const observer = {
+      ...fixture.world,
+      control: { kind: "observer" as const },
+    };
+    const office = governingOfficeForPerson(observer, fixture.personId)!;
+    expect(governingMatters(observer, office.officeKey)).toHaveLength(0);
+    const moved = advanceWorld(observer, {
+      days: 1,
+      transitionHandlers: createFutureTransitionHandlerRegistry(
+        stateGoverningHandlers(),
+      ),
+    });
+    expect(moved.currentDate).not.toBe(observer.currentDate);
+    expect(
+      governingMatters(moved, office.officeKey).map((m) => m.family),
+    ).toEqual(expect.arrayContaining(["agenda", "budget"]));
+    expect(
+      governingMatters(moved, office.officeKey).every(
+        (m) => m.workItemId === null,
+      ),
+    ).toBe(true);
   });
 
   it("uses the NPC path and removes authority when the canonical mayor seat ends", () => {
