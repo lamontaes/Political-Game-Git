@@ -27,7 +27,8 @@ import { measureActions } from "../simulation/legislation";
 import { councilSitsOnAuthoredCalendar } from "../simulation/municipal-seat-identity";
 import { nextMeasureNumbering } from "../simulation/measure-numbering";
 import {
-  introduceProjectedOrdinance,
+  introduceProjectedProposal,
+  proposeProjectedOrdinance,
   municipalMeasureNumberingInput,
   placeProjectedOrdinanceOnAgenda,
   previewAuthoredCouncilBallots,
@@ -36,6 +37,7 @@ import {
   takeProjectedOverrideVote,
   type OwnOrdinanceBallot,
 } from "../presentation/municipal-governing";
+import { projectMunicipalOrdinancePaper } from "../presentation/municipal-ordinance-paper";
 import {
   createAuthoredMunicipalPublicSession,
   municipalWorkspaceFor,
@@ -116,6 +118,7 @@ export function MunicipalWorkspace({
   const [userOverride, setUserOverride] = useState(false);
   const [selectedSeriesKey, setSelectedSeriesKey] = useState("");
   const [ordinanceTitle, setOrdinanceTitle] = useState("");
+  const [ordinanceText, setOrdinanceText] = useState("");
   const [ballots, setBallots] = useState<Record<string, OwnOrdinanceBallot>>(
     {},
   );
@@ -385,49 +388,136 @@ export function MunicipalWorkspace({
               ) : null}
               {governing.ordinanceIntroduction.ok ? (
                 <form
+                  data-testid="municipal-ordinance-proposal-form"
                   onSubmit={(event) => {
                     event.preventDefault();
                     const title = ordinanceTitle.trim();
-                    if (!title) return;
-                    const numberingInput = municipalMeasureNumberingInput(
+                    const operativeText = ordinanceText.trim();
+                    if (!title || !operativeText) return;
+                    const result = proposeProjectedOrdinance(
                       world,
                       governing.governmentKey,
+                      title,
+                      operativeText,
                     );
-                    if (!numberingInput) return;
-                    const numbering = nextMeasureNumbering(
-                      world,
-                      numberingInput,
-                    );
-                    act(
-                      introduceProjectedOrdinance(
-                        world,
-                        governing.governmentKey,
-                        numbering.designation,
-                        title,
-                        numbering.numberingSession,
-                      ),
-                    );
-                    setOrdinanceTitle("");
+                    if (result.ok) {
+                      onWorldChange(result.world);
+                      setMessage(
+                        "Saved to the bill paper. The council has not introduced it.",
+                      );
+                      setOrdinanceTitle("");
+                      setOrdinanceText("");
+                    } else setMessage(result.reason);
                   }}
                 >
+                  <h4>Write a proposal on the bill paper</h4>
                   <label>
-                    Title of a new {governing.measureNoun}
+                    Proposed title
                     <input
                       type="text"
                       value={ordinanceTitle}
                       onChange={(event) =>
                         setOrdinanceTitle(event.target.value)
                       }
-                      data-testid="municipal-ordinance-title"
+                      data-testid="municipal-proposal-title"
                     />
                   </label>
-                  <button type="submit" disabled={!ordinanceTitle.trim()}>
-                    Introduce {governing.measureNoun}
+                  <label>
+                    What the ordinance would do
+                    <textarea
+                      value={ordinanceText}
+                      onChange={(event) => setOrdinanceText(event.target.value)}
+                      rows={5}
+                      data-testid="municipal-proposal-text"
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    disabled={!ordinanceTitle.trim() || !ordinanceText.trim()}
+                    data-testid="propose-municipal-ordinance"
+                  >
+                    Propose on the bill paper
                   </button>
                 </form>
-              ) : (
+              ) : null}
+              {governing.proposals.length > 0 ? (
+                <section data-testid="municipal-proposals">
+                  <h4>Proposals on the bill paper</h4>
+                  {governing.proposals.map((proposal) => {
+                    const paper = projectMunicipalOrdinancePaper(
+                      world,
+                      proposal.id,
+                    );
+                    if (!paper) return null;
+                    return (
+                      <article
+                        key={paper.proposalId}
+                        className="measure-paper bill-paper"
+                        data-testid="municipal-proposal-paper"
+                        data-proposal-id={paper.proposalId}
+                      >
+                        <p className="measure-paper-stamp">{paper.stamp}</p>
+                        <div className="bill-paper-masthead">
+                          <p>
+                            {paper.governmentName}
+                            {paper.bodyName ? (
+                              <>
+                                <br />
+                                {paper.bodyName}
+                              </>
+                            ) : null}
+                          </p>
+                          <p className="bill-paper-designation">
+                            {paper.designation ?? "ORDINANCE PROPOSAL"}
+                          </p>
+                        </div>
+                        <p className="bill-paper-chamber">{paper.title}</p>
+                        <p className="bill-paper-introduction">
+                          {paper.sponsor} proposed this draft {paper.proposedAt}
+                          .
+                        </p>
+                        <section className="measure-section">
+                          <h3>WHAT IT WOULD DO.</h3>
+                          <p>{paper.operativeText}</p>
+                        </section>
+                        {!paper.designation &&
+                        governing.ordinanceIntroduction.ok ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const numberingInput =
+                                municipalMeasureNumberingInput(
+                                  world,
+                                  governing.governmentKey,
+                                );
+                              if (!numberingInput) return;
+                              const numbering = nextMeasureNumbering(
+                                world,
+                                numberingInput,
+                              );
+                              act(
+                                introduceProjectedProposal(
+                                  world,
+                                  governing.governmentKey,
+                                  proposal.id,
+                                  numbering.designation,
+                                  numbering.numberingSession,
+                                ),
+                              );
+                            }}
+                          >
+                            Introduce this proposal
+                          </button>
+                        ) : null}
+                      </article>
+                    );
+                  })}
+                </section>
+              ) : null}
+              {!governing.ordinanceIntroduction.ok &&
+              governing.proposals.length === 0 ? (
                 <p>{governing.ordinanceIntroduction.reason}</p>
-              )}
+              ) : null}
               {governing.ordinances.length === 0 ? (
                 <p>
                   No {governing.measureNoun} is before the council in this save.
