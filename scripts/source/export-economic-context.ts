@@ -1,5 +1,5 @@
 /**
- * Build the browser-sized Lexington economic context from the locked corpora.
+ * Build the browser-sized economic context from the locked corpora.
  * The output contains observations only; it is not canonical World state.
  */
 import { readFileSync } from "node:fs";
@@ -9,6 +9,7 @@ import type {
   CompiledCorpus,
   NormalizedCorpus,
 } from "../../src/source/core/index";
+import type { EntityId } from "../../src/simulation/types";
 import { toCanonicalJson, writeText } from "../../src/source/core/index";
 import type { BeaObservationRecord } from "../../src/source/domains/bea-regional/index";
 import type { LausObservationRecord } from "../../src/source/domains/bls-laus/index";
@@ -18,10 +19,41 @@ import {
   type EconomicContextCorpora,
   type EconomicContextObservation,
 } from "../../src/source/adapters/economic-context";
-import { authoredScenarioContext } from "../../src/simulation/demo-jurisdiction-context";
-const LEXINGTON_PLACEHOLDER_ID =
-  authoredScenarioContext("foundation").jurisdiction.id;
+import reviewedCrosswalks from "../../src/presentation/generated/economic-context-crosswalks.generated.json" with { type: "json" };
 import { REPO_ROOT } from "./registry";
+
+interface ExportBinding {
+  readonly bindingKey: string;
+  readonly archiveBindingKey: string;
+  readonly archivePlaceKey: string;
+  readonly jurisdictionId: string;
+  readonly placeKey: string;
+  readonly placeLabel: string;
+  readonly outputFile: string;
+  readonly beaAreas: readonly {
+    readonly geographyLevel: "county" | "msa" | "state";
+    readonly geoFips: string;
+    readonly relationship:
+      "same-jurisdiction" | "containing-state" | "containing-metro";
+  }[];
+  readonly lausAreaCodes: readonly {
+    readonly areaCode: string;
+    readonly relationship:
+      "same-jurisdiction" | "containing-state" | "containing-metro";
+  }[];
+  readonly hudFipsCodes: readonly {
+    readonly hudFipsCode: string;
+    readonly relationship: "same-jurisdiction" | "containing-hud-area";
+  }[];
+}
+
+const exportBindings = Object.values(reviewedCrosswalks) as ExportBinding[];
+if (exportBindings.length !== 1) {
+  throw new Error(
+    "Economic context export requires exactly one generated export binding.",
+  );
+}
+const binding = exportBindings[0]!;
 
 function readCorpus<T>(domain: string): CompiledCorpus<T> {
   const directory = resolve(REPO_ROOT, "data/source", domain);
@@ -62,33 +94,10 @@ const corpora: EconomicContextCorpora = {
 };
 
 const model = buildEconomicContextReadModel(corpora, {
-  bindingKey: "economic-context.lexington-ky.v1",
-  jurisdictionId: LEXINGTON_PLACEHOLDER_ID,
-  placeKey: "lexington-fayette",
-  placeLabel: "Lexington, Kentucky",
-  beaAreas: [
-    {
-      geographyLevel: "county",
-      geoFips: "21067",
-      relationship: "same-jurisdiction",
-    },
-    {
-      geographyLevel: "msa",
-      geoFips: "30460",
-      relationship: "containing-metro",
-    },
-    {
-      geographyLevel: "state",
-      geoFips: "21000",
-      relationship: "containing-state",
-    },
-  ],
-  lausAreaCodes: [
-    { areaCode: "ST2100000000000", relationship: "containing-state" },
-  ],
-  hudFipsCodes: [
-    { hudFipsCode: "2106799999", relationship: "same-jurisdiction" },
-  ],
+  ...binding,
+  jurisdictionId: binding.jurisdictionId as EntityId,
+  bindingKey: binding.archiveBindingKey,
+  placeKey: binding.archivePlaceKey,
 });
 
 function latestKnown(
@@ -110,13 +119,38 @@ function latestKnown(
 const selected = [
   latestKnown(
     (item) =>
-      item.detailKey === "CAINC1:3" && item.geography.providerCode === "21067",
+      item.detailKey === "CAINC1:3" &&
+      binding.beaAreas.some(
+        (area) =>
+          area.geographyLevel === item.geography.level &&
+          area.geoFips === item.geography.providerCode &&
+          area.relationship === "same-jurisdiction",
+      ),
   ),
-  latestKnown((item) => item.kind === "laus" && item.detailKey.endsWith(":03")),
-  latestKnown((item) => item.sourceSeriesKey === "hud.fmr.2-bedroom"),
   latestKnown(
     (item) =>
-      item.detailKey === "MARPP:1" && item.geography.providerCode === "30460",
+      item.kind === "laus" &&
+      item.detailKey.endsWith(":03") &&
+      binding.lausAreaCodes.some(
+        (area) => area.areaCode === item.geography.providerCode,
+      ),
+  ),
+  latestKnown(
+    (item) =>
+      item.sourceSeriesKey === "hud.fmr.2-bedroom" &&
+      binding.hudFipsCodes.some(
+        (area) => area.hudFipsCode === item.geography.providerCode,
+      ),
+  ),
+  latestKnown(
+    (item) =>
+      item.detailKey === "MARPP:1" &&
+      binding.beaAreas.some(
+        (area) =>
+          area.geographyLevel === item.geography.level &&
+          area.geoFips === item.geography.providerCode &&
+          area.relationship === "containing-metro",
+      ),
   ),
 ];
 
@@ -152,7 +186,7 @@ const output = {
 
 const DEFAULT_OUTPUT = resolve(
   REPO_ROOT,
-  "src/presentation/generated/economic-context-lexington.json",
+  `src/presentation/generated/${binding.outputFile}`,
 );
 
 export function exportEconomicContext(outputPath: string = DEFAULT_OUTPUT): {

@@ -1,8 +1,12 @@
 {
   "2146027": {
     "bindingKey": "economic-context.lexington-ky.v2",
+    "archiveBindingKey": "economic-context.lexington-ky.v1",
+    "archivePlaceKey": "lexington-fayette",
+    "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
     "placeKey": "2146027",
     "placeLabel": "Lexington, Kentucky",
+    "outputFile": "economic-context-lexington.json",
     "beaAreas": [
       {
         "geographyLevel": "county",
