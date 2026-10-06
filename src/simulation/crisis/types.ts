@@ -1,6 +1,7 @@
 import type { EntityId, EventVisibility, IsoDate } from "../types";
 import type { MortalityCalibrationCategory } from "./mortality-table";
 import type { LawEffectStampedRecord } from "../law-effect-stamp";
+import type { ModeledFinalEnactedLawTerm } from "../governing/final-law-term-query";
 
 /**
  * CRISIS canonical records.
@@ -111,6 +112,8 @@ export interface HealthCoverageRecord
   readonly householdSize: number;
   readonly monthlyIncomeMinor: number;
   readonly monthlyWorkHours: number | null;
+  /** Dev/Observer-only provenance for a modeled income limit; never player copy. */
+  readonly modeledIncomeLimit?: ModeledFinalEnactedLawTerm;
   /** Legacy save field; new coverage records use the neutral multiplier. */
   readonly hazardMultiplierMicros: number;
   readonly hazardFrom: IsoDate | null;

@@ -86,6 +86,36 @@ function openWorld(seed: string, usps: string): World {
     birthDate: addDays(date, -Math.round(60.4 * 365.25)),
     homeJurisdictionId: small.jurisdictionId,
   });
+  // The numeric law fallback ranks same-level state peers using the current
+  // game's government size and form. This focused fixture gives it the same
+  // inputs an opened public-budget world carries.
+  const governments = Object.entries(STATES)
+    .filter(([, state]) => state.jurisdictionKind === "state")
+    .flatMap(([usps, _state], index) => {
+      const jurisdiction = stateJurisdictionForKey(`US-${usps}`);
+      return jurisdiction
+        ? [
+            {
+              key: `US-${usps}`,
+              stateKey: `US-${usps}`,
+              jurisdictionId: jurisdiction.id,
+              lawJurisdictionId: jurisdiction.id,
+              level: "state" as const,
+              population: 1_000_000 + index * 100_000,
+              publicGovernmentIdentity: {
+                kind: "jurisdiction" as const,
+                jurisdictionId: jurisdiction.id,
+              },
+            },
+          ]
+        : [];
+    });
+  world = {
+    ...world,
+    publicBudgets: {
+      governments,
+    } as unknown as NonNullable<World["publicBudgets"]>,
+  };
   const provenance = {
     kind: "authored",
     note: "Coverage test: one-person household with no recorded job.",
@@ -488,7 +518,15 @@ describe("Medicaid expansion coverage reaches named people", () => {
         expect(decision.monthlyWorkHours!).toBeLessThan(
           MEDICAID_EXPANSION_RULES.requiredHoursPerMonth,
         );
-      expect(lostToHours.length).toBeGreaterThan(0);
+      expect(
+        lostToHours,
+        JSON.stringify(underRequirement.map(({ row, decision }) => ({
+          personId: row.personId,
+          reasonKey: decision.reasonKey,
+          incomeLimit: decision.incomeLimitPercentOfPovertyLine,
+          stateKey: decision.stateKey,
+        }))),
+      ).not.toHaveLength(0);
 
       // A repeal enacted in play ends everyone's coverage at the next pass,
       // and with it the lower hazard.

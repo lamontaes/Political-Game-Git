@@ -37,6 +37,10 @@ import programs from "../../../data/research/money/public-programs-2026.json" wi
 import { ageOnDate, isoDateFromParts, yearOf } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import type { LawInForce } from "../governing/law-in-force";
+import {
+  readOrEstimateFinalEnactedLawTerm,
+  type ModeledFinalEnactedLawTerm,
+} from "../governing/final-law-term-query";
 import { readEligibilityLawsInForce } from "../enacted-eligibility";
 import { COVERAGE_QUESTION_KEYS } from "../law-consequences/coverage-eligibility-rows";
 import { lawEffectStamp } from "../law-effect-stamp";
@@ -132,6 +136,9 @@ export interface CoverageDecision {
   readonly monthlyIncomeMinor: number;
   readonly monthlyWorkHours: number | null;
   readonly expansion: LawInForce | null;
+  readonly incomeLimitPercentOfPovertyLine: number | null;
+  /** Dev/Observer-only evidence; never copied into player-facing basis text. */
+  readonly modeledIncomeLimit?: ModeledFinalEnactedLawTerm;
 }
 
 interface PassCache {
@@ -180,6 +187,7 @@ function decide(
     monthlyIncomeMinor: 0,
     monthlyWorkHours: null,
     expansion: null,
+    incomeLimitPercentOfPovertyLine: null,
   });
   const age = ageOnDate(person.birthDate, onDate);
   if (
@@ -202,6 +210,29 @@ function decide(
   if (!expansion) return outside("outside:law-unrecorded", stateKey);
   if (expansion.answer !== "yes")
     return outside("outside:no-expansion", stateKey);
+  const jurisdiction = stateJurisdictionForKey(stateKey);
+  const incomeLimitDate = onDate > world.currentDate ? world.currentDate : onDate;
+  const incomeLimit = jurisdiction
+    ? readOrEstimateFinalEnactedLawTerm(world, expansion, {
+        questionKey: COVERAGE_QUESTION_KEYS.expansion,
+        termKey: "income-limit",
+        unit: "share-of-federal-poverty-level",
+        jurisdictionId: jurisdiction.id,
+        onDate: incomeLimitDate,
+        ...(incomeLimitDate <= cutoff.asOfDate ? { cutoff } : {}),
+      })
+    : { kind: "unsupported" as const, reason: "No state jurisdiction." };
+  if (incomeLimit.kind === "unsupported")
+    return {
+      covered: false,
+      reasonKey: "outside:income-limit-unmodeled",
+      stateKey,
+      householdSize: 1,
+      monthlyIncomeMinor: 0,
+      monthlyWorkHours: null,
+      expansion,
+      incomeLimitPercentOfPovertyLine: null,
+    };
   const members = peopleInHouseholdAt(
     world,
     household.household.id,
@@ -222,13 +253,17 @@ function decide(
   );
   const limit =
     (annualPovertyLineMinor(stateKey, members.length, onDate) *
-      MEDICAID_EXPANSION_RULES.incomeLimitPercentOfPovertyLine) /
+      incomeLimit.value) /
     100;
   const facts = {
     stateKey,
     householdSize: members.length,
     monthlyIncomeMinor,
     expansion,
+    incomeLimitPercentOfPovertyLine: incomeLimit.value,
+    ...(incomeLimit.kind === "modeled"
+      ? { modeledIncomeLimit: incomeLimit }
+      : {}),
   };
   if (monthlyIncomeMinor * 12 > limit)
     return {
@@ -332,11 +367,15 @@ function basisFor(decision: CoverageDecision): string {
   const income = `household of ${decision.householdSize}, recorded pay ${spokenDollars(decision.monthlyIncomeMinor)} a month`;
   switch (decision.reasonKey) {
     case "covered":
-      return `Covered by Medicaid expansion in ${decision.stateKey}: ${income}, at or under ${MEDICAID_EXPANSION_RULES.incomeLimitPercentOfPovertyLine}% of the poverty line.`;
+      return decision.modeledIncomeLimit
+        ? `Covered by Medicaid expansion in ${decision.stateKey}: ${income}, within the applicable income limit.`
+        : `Covered by Medicaid expansion in ${decision.stateKey}: ${income}, at or under ${decision.incomeLimitPercentOfPovertyLine}% of the poverty line.`;
     case "lost:work-requirement":
       return `Lost Medicaid under the work requirement in ${decision.stateKey}: ${decision.monthlyWorkHours} hours of work a month, under the ${MEDICAID_EXPANSION_RULES.requiredHoursPerMonth} required, and no exemption.`;
     case "outside:income":
-      return `Earns too much for Medicaid expansion: ${income}, over ${MEDICAID_EXPANSION_RULES.incomeLimitPercentOfPovertyLine}% of the poverty line.`;
+      return decision.modeledIncomeLimit
+        ? `Earns too much for Medicaid expansion: ${income}, over the applicable income limit.`
+        : `Earns too much for Medicaid expansion: ${income}, over ${decision.incomeLimitPercentOfPovertyLine}% of the poverty line.`;
     case "outside:no-expansion":
       return `The law in force in ${decision.stateKey} no longer expands Medicaid.`;
     case "outside:age":
@@ -353,6 +392,7 @@ export function coverageDecisionIsKnown(decision: CoverageDecision): boolean {
     "outside:no-household",
     "outside:income-unrecorded",
     "outside:law-unrecorded",
+    "outside:income-limit-unmodeled",
   ].includes(decision.reasonKey);
 }
 
@@ -477,6 +517,9 @@ export function recordHealthCoverageForSubjects(
       householdSize: decision.householdSize,
       monthlyIncomeMinor: decision.monthlyIncomeMinor,
       monthlyWorkHours: decision.monthlyWorkHours,
+      ...(decision.modeledIncomeLimit
+        ? { modeledIncomeLimit: decision.modeledIncomeLimit }
+        : {}),
       // Compatibility fields: coverage is enrollment, not a personal hazard.
       hazardMultiplierMicros: MULTIPLIER_ONE,
       hazardFrom: null,

@@ -504,6 +504,17 @@ export function startingLawTerms(
   return active.length === 1 ? active[0]!.lawTerms : [];
 }
 
+/** Whether starting numeric terms are statewide or explicitly workplace-scoped. */
+export function startingLawTermScope(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): "statewide" | "regional" | null {
+  const row = selectedStartingLawRow(law, questionKey, onDate);
+  if (!row) return null;
+  return row.regionalTerms === undefined ? "statewide" : "regional";
+}
+
 export function startingLawCategories(
   law: LawInForce,
   questionKey: string,
