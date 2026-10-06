@@ -172,7 +172,8 @@ async function checkForUpdates() {
         const { response } = await dialog.showMessageBox({
           type: "question",
           buttons: [...buttons],
-          cancelId: buttons.length - 1,
+          defaultId: Math.max(0, buttons.indexOf("Later")),
+          cancelId: Math.max(0, buttons.indexOf("Later")),
           message,
           detail,
         });
