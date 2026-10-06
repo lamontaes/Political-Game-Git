@@ -2548,8 +2548,16 @@
         "US-IA": {
           "answer": "yes",
           "cite": "Iowa Code §§ 256C.2, 256C.3(1)",
-          "source": "https://www.legis.iowa.gov/docs/code/256C.3.pdf",
-          "note": "The Statewide Voluntary Preschool Program is open to every four-year-old resident and funded for each child enrolled, though each school district chooses to take part."
+          "source": "https://www.legis.iowa.gov/docs/code/2026/256C.3.pdf",
+          "note": "The Statewide Voluntary Preschool Program is open to every Iowa resident who is four years old by September 15 and funded for each child enrolled, though each school district chooses to take part. Minimum instruction is ten hours weekly. Funding follows a formula based on eligible enrollment and state cost, not one fixed statewide dollar amount.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "eligible-ages",
+              "value": 4,
+              "unit": "years"
+            }
+          ]
         },
         "US-ID": {
           "answer": "no",
@@ -2697,7 +2705,18 @@
           "note": "Early Childhood Education grants serve children found eligible through a unified state process, not every family. State law does not bar cities or counties from funding preschool."
         },
         "US-OK": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Oklahoma Admin. Code 210:15-11-2; 70 O.S. § 1-114",
+          "source": "https://www.oklahoma.gov/education/services/standards-learning/early-childhood-education/four-year-old-pre-k.html",
+          "note": "Public four-year-old pre-K is voluntary and open to children who are four on or before September 1. No fixed universal per-child funding amount was verified.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "eligible-ages",
+              "value": 4,
+              "unit": "years"
+            }
+          ]
         },
         "US-OR": {
           "answer": "no",
@@ -2765,10 +2784,29 @@
           "operativeAt": "2012-03-07",
           "cite": "V.I. Code tit. 17, § 231",
           "source": "https://law.justia.com/codes/virgin-islands/title-17/chapter-20/231/",
-          "note": "The Department of Education must run a territory-wide voluntary pre-kindergarten program for four-year-olds, aimed at all children who are four, with selection criteria left to Commissioner rules; the section was added March 7, 2012."
+          "note": "The Department of Education must run a territory-wide voluntary pre-kindergarten program for four-year-olds, aimed at all children who are four, with selection criteria left to Commissioner rules; the section was added March 7, 2012.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "eligible-ages",
+              "value": 4,
+              "unit": "years"
+            }
+          ]
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "16 V.S.A. § 829",
+          "source": "https://education.vermont.gov/learning/universal-prekindergarten-act-166/funding",
+          "note": "Act 166 supports eligible children ages three, four, and five who are not yet in kindergarten for ten hours weekly over 35 weeks. The official 2026–27 tuition rate is $4,106 for a prequalified external public/private program; this is a program tuition rate, not an unconditional family payment.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "funding",
+              "value": 410600,
+              "unit": "minor"
+            }
+          ]
         },
         "US-WA": {
           "answer": "no",
@@ -2784,9 +2822,17 @@
         },
         "US-WV": {
           "answer": "yes",
-          "cite": "W. Va. Code § 18-5-44(d), (e)",
+          "cite": "W. Va. Code § 18-5-44(b), (d)-(f), (q)",
           "source": "https://code.wvlegislature.gov/18-5-44/",
-          "note": "County boards must provide early childhood education programs for all children who are four before the school-year cutoff date, open to every child."
+          "note": "County boards must provide early childhood programs for children who turn four before July 1. The statute sets minimum instruction of 1,500 minutes weekly and 48,000 annually, with county waivers available; no fixed per-child funding amount is specified here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.universal-preschool",
+              "key": "eligible-ages",
+              "value": 4,
+              "unit": "years"
+            }
+          ]
         },
         "US-WY": {
           "answer": "no",
@@ -20542,8 +20588,16 @@
         "US-IL": {
           "answer": "yes",
           "cite": "105 ILCS 5/24-8",
-          "source": "https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=010500050K24-8",
-          "note": "School boards must pay full-time teachers at least $40,000 for 2023-24, raised each year by the consumer price index (in force on 1/1/2026)."
+          "source": "https://cgfa.ilga.gov/Upload/Certification%20of%20Teacher%20Min%20Salary%20Rate%202026-2027%20School%20Year.pdf",
+          "note": "The certified statewide minimum for a full-time teacher is $43,543 for the 2026–27 school year under the statutory CPI adjustment.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4354300,
+              "unit": "minor"
+            }
+          ]
         },
         "US-IN": {
           "answer": "no",
