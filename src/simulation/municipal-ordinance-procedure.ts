@@ -34,8 +34,6 @@ import { scheduleFutureDueItem } from "./future-transitions";
 import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
-import { recordEventKnowledge } from "./records";
-import { ensureOfficeholderPrinciples } from "./governing/officeholder-principles";
 import {
   BILL_SIGN,
   BILL_RETURN,
