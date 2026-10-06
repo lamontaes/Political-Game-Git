@@ -54,6 +54,9 @@ import {
   recordWorldEvent,
 } from "./world";
 import { composeWorldTimeHandlers } from "./campaigns";
+import { recordsWithFieldValue } from "./history-index";
+import { STATE_LEGISLATURE_OPENING_VERSION } from "./nationwide-world/state-legislature-opening";
+import { reconcileStateLegislatureQueue } from "./nationwide-world/state-legislature-queue";
 
 export interface CreateScheduledActivityInput {
   readonly stableKey: string;
@@ -1606,7 +1609,7 @@ function advanceCanonicalMinutes(
       // Resolving due items moves the date to each due day; the continuity
       // producers must still see the whole span this boundary crossed.
       const crossedFrom = world.currentDate;
-      world = resolveFutureDueItemsThrough(
+      world = resolveFutureDueItemsWithStateLegislatureQueue(
         world,
         transition.at.date,
         transitionHandlers,
@@ -2004,10 +2007,42 @@ function setCurrentMomentWithDue(
   if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
   const crossedFrom = world.currentDate;
   return setCurrentMoment(
-    resolveFutureDueItemsThrough(world, moment.date, transitionHandlers),
+    resolveFutureDueItemsWithStateLegislatureQueue(
+      world,
+      moment.date,
+      transitionHandlers,
+    ),
     moment,
     crossedFrom,
   );
+}
+
+function resolveFutureDueItemsWithStateLegislatureQueue(
+  world: World,
+  throughDate: World["currentDate"],
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  const packs = new Set<string>();
+  for (const opening of recordsWithFieldValue(
+    world.history.events,
+    "type",
+    "world.state-legislature-opening",
+  )) {
+    if (!opening.tags.includes(STATE_LEGISLATURE_OPENING_VERSION)) continue;
+    for (const tag of opening.tags) {
+      if (tag.startsWith("pack:")) packs.add(tag.slice("pack:".length));
+    }
+  }
+  const throughYear = Number(throughDate.slice(0, 4)) + 4;
+  let prepared = world;
+  for (const packId of packs) {
+    prepared = reconcileStateLegislatureQueue(
+      prepared,
+      packId,
+      throughYear,
+    );
+  }
+  return resolveFutureDueItemsThrough(prepared, throughDate, transitionHandlers);
 }
 
 function setCurrentMoment(
