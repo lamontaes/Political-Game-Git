@@ -89,7 +89,12 @@ describe("coverage kind reuses the existing saved-record writer", () => {
           for (const id of catalog.propositionOrder) {
             const proposition = propositions[id]!;
             const row = COVERAGE_ELIGIBILITY_ROWS[proposition.stableKey];
-            if (row) propositions[id] = { ...proposition, consequences: [row] };
+            // This fixture installs only the coverage handler, so its catalog must
+            // expose only coverage consequences while retaining every question.
+            propositions[id] = {
+              ...proposition,
+              consequences: row ? [row] : [],
+            };
           }
           return { ...catalog, propositions };
         })(),

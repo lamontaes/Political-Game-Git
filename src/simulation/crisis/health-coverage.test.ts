@@ -31,7 +31,12 @@ import type {
   World,
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
-import { advanceWorld, createWorld, createWorldId } from "../world";
+import {
+  advanceWorld,
+  createWorld,
+  createWorldId,
+  recordWorldEvent,
+} from "../world";
 import { ensureCrisisMortality } from "./mortality";
 import { annualPovertyLineMinor } from "../household-pay";
 import { MULTIPLIER_ONE } from "./hazard";
@@ -281,7 +286,30 @@ describe("coverage consequence law stamps", () => {
         kind: "resident:fixture",
         provenance,
       });
-      const cause = world.history.householdMemberships.at(-1)!.id;
+      // Full saves require a causal parent from the validated crisis families.
+      // Record the authored review request through the existing event writer.
+      world = recordWorldEvent(world, {
+        stableKey: "stamp:coverage-review",
+        type: "coverage.review-request",
+        occurredAt: date,
+        recordedAt: date,
+        jurisdictionId: place.context.jurisdiction.id,
+        involvedEntityIds: [person.id],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [],
+        summary: "Authored fixture requests a coverage review.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const cause = world.history.events.at(-1)!.id;
       const before = JSON.stringify(world);
       const covered = recordHealthCoverage(world, date, cause);
       expect(JSON.stringify(world)).toBe(before);
