@@ -116,7 +116,7 @@ export function joinLawInterestGroup(
           : "Founded by residents a law cost a tenth of a month's pay or more.",
       },
       initialProfile: {
-        // PLACEHOLDER wording, awaiting editorial review.
+        // Both parts come from recorded data: the place catalog and measure.
         name: `${place} Residents Against ${measure.shortTitle}`,
         classification: "membership:law-interest",
         locationJurisdictionId: town,

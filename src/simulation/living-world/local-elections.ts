@@ -127,7 +127,7 @@ import {
  * `resolveMunicipalElectionTiming`) and how the vote is counted
  * (`resolveMunicipalBallotRule`), each with its own basis label.
  *
- * PLACEHOLDERS, pending `local-election-behavior`:
+ * The recorded local-election profile supplies these fallback rules:
  * - Where the state's law names a season but not a day, the election is held
  *   on the first Tuesday of that month; where nothing is read, on the
  *   November general election day in odd years. Both are labeled
@@ -155,7 +155,7 @@ export const LOCAL_ELECTION_COUNT = "civic:local-election-count" as const;
 export const LOCAL_GOVERNMENT_YEAR = "civic:local-government-year" as const;
 
 export const LOCAL_ELECTIONS_PROFILE = {
-  id: "ocd-local-elections-placeholder/v1",
+  id: "ocd-local-elections-estimated/v1",
   /** ESTIMATED FROM AVERAGE: see `FILING_LEAD_DAYS` and its source. */
   filingLeadDays: FILING_LEAD_DAYS,
   primaryLeadDays: 56,

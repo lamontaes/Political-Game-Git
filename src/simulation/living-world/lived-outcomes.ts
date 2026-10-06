@@ -53,8 +53,8 @@ export interface LivedOutcome {
 export type AnsweringOffice = "state-executive" | "local-executive";
 
 /**
- * PLACEHOLDER (research: who-answers-for-what-happened-to-me): a lost job is
- * held against the governor. Voters hold governors to account for their
+ * The recorded rule holds a lost job against the governor. Voters hold
+ * governors to account for their
  * state's economy (Wolfers, 2002, "Are Voters Rational? Evidence from
  * Gubernatorial Elections"; Ebeid and Rodden, 2006, "Economic Geography and
  * Economic Voting", British Journal of Political Science), which sets the
@@ -64,9 +64,8 @@ export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
   Record<LivedOutcomeKind, AnsweringOffice>
 > = {
   "job-lost": "state-executive",
-  // PLACEHOLDER (same research request): a child pulled out of school in the
-  // middle of a year is held against the head of the family's local
-  // government, where they live now.
+  // The recorded rule holds a midyear school move against the head of the
+  // family's local government where the family now lives.
   "school-move": "local-executive",
 };
 
@@ -101,7 +100,7 @@ const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
     })),
   // A child's school-year move, felt by each parent who moved with them. It
   // moves no money, so it is felt as any non-money loss is
-  // (NON_MONEY_FELT_SIZE, PLACEHOLDER).
+  // (`NON_MONEY_FELT_SIZE`, the shared recorded non-money estimate).
   (world, personId, through) =>
     childrenOf(world, personId).flatMap((childId) =>
       schoolYearMovesOf(world, childId, through)

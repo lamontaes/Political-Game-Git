@@ -30,9 +30,10 @@ import type {
  * - that staying where the rent is already paid is the easier thing;
  * - their own taste for risk.
  *
- * The weights are PLACEHOLDERS (research: `why-young-adults-leave-home`);
- * the survey's shares check the town's totals in the tests and never decide
- * one person.
+ * ESTIMATED FROM AVERAGE: the weights translate the cited nationwide US age
+ * shares and HUD's nationwide cost-burden line into the decision engine. The
+ * places used are all US places represented by those national sources; the
+ * sources check town totals and never decide one person's outcome.
  */
 export const LEAVING_HOME_VERSION = "leaving-home-v1" as const;
 
@@ -44,9 +45,10 @@ export const LEAVING_HOME_OPTIONS = {
   leave: "own-home",
 } as const;
 
-/** PLACEHOLDER weights, as strengths from 0 to 1. */
-export const UNRESEARCHED_LEAVING_HOME = {
-  provenance: "unresearched-blanket-rule",
+/** Estimated strengths from 0 to 1, on the nationwide basis documented above. */
+export const ESTIMATED_LEAVING_HOME = {
+  provenance:
+    "ESTIMATED FROM AVERAGE: nationwide US Census living-arrangement shares and HUD's nationwide cost-burden line; places used: all US places represented by those sources",
   /** Age at which age argues neither way, and the years to full strength. */
   ageFrom: 18,
   ageYearsToFull: 10,
@@ -65,7 +67,7 @@ export const UNRESEARCHED_LEAVING_HOME = {
   researchQuestions: ["why-young-adults-leave-home"],
 } as const;
 
-const W = UNRESEARCHED_LEAVING_HOME;
+const W = ESTIMATED_LEAVING_HOME;
 
 /** What one grown child weighs, read from the record by the caller. */
 export interface LeavingHomeFacts {

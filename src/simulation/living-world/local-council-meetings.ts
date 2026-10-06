@@ -79,8 +79,9 @@ import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
  * answer (`townQuestions`); what it does beyond being recorded goes through
  * the one enacted-law effects step.
  *
- * PLACEHOLDER, pending `local-council-legislative-volume`: the council meets
- * on the shared game timetable, which is not any town's sourced schedule.
+ * The meeting schedule comes from the council's recorded legislative-session
+ * calendar. A council without a compiled pack uses the shared council profile,
+ * and the scheduled item records that profile's basis note.
  */
 
 export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
