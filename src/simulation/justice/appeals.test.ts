@@ -25,11 +25,7 @@ import {
 } from "./jail-terms";
 import type { CourtCase } from "./court-reasoning";
 import type { EntityId } from "../types";
-import {
-  appealJudgment,
-  appealSavedSentence,
-  type AppealInput,
-} from "./appeals";
+import { appealSavedSentence } from "./appeals";
 
 const SEED = "b13-p4-appeal-bounds-20261006";
 let opened: ReturnType<typeof openObserverWorld> | null = null;
@@ -222,7 +218,7 @@ function fixture(sentenceTerm: "below-minimum" | "in-range" = "in-range") {
   });
   const sentenceEventId = world.history.events.at(-1)!.id;
   const judgmentEventId = world.history.events.at(-1)!.id;
-  const base: Omit<AppealInput, "stableKey" | "judgment"> = {
+  const base = {
     caseKey: referral.stableKey,
     judgmentEventId,
     appellantPersonId: appellant,
@@ -270,24 +266,51 @@ describe("appellate review uses the recorded legal bounds", () => {
     expect(result!.votes.length).toBeGreaterThan(0);
   });
 
-  it("does not offer an appeal from an acquittal or an ungrounded eviction record", () => {
+  it("does not accept an acquittal or an ungrounded eviction as a sentence", () => {
     const { world, base } = fixture();
+    const noAppeal = (
+      stableKey: string,
+      type: "justice.case-ended" | "housing.evicted",
+    ) =>
+      recordWorldEvent(world, {
+        stableKey,
+        type,
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: base.venueJurisdictionId,
+        involvedEntityIds: [base.appellantPersonId],
+        participants: [
+          {
+            personId: base.appellantPersonId,
+            role: "focus:defendant",
+            detail: null,
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [`case:${base.caseKey}`],
+        summary: "A recorded result without an appealable sentence.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    const acquittal = noAppeal("b13-p4:acquittal", "justice.case-ended");
+    const eviction = noAppeal("b13-p4:eviction", "housing.evicted");
     expect(
-      appealJudgment(world, {
-        ...base,
-        stableKey: "b13-p4:acquittal",
-        judgment: { kind: "acquittal", outcomeKey: "acquittal" },
+      appealSavedSentence(acquittal, {
+        stableKey: "b13-p4:no-acquittal-appeal",
+        sentenceEventId: acquittal.history.events.at(-1)!.id,
       }),
     ).toBeNull();
     expect(
-      appealJudgment(world, {
-        ...base,
-        stableKey: "b13-p4:eviction",
-        judgment: {
-          kind: "eviction",
-          outcomeKey: "eviction-ordered",
-          withinLaw: true,
-        },
+      appealSavedSentence(eviction, {
+        stableKey: "b13-p4:unsupported-eviction-appeal",
+        sentenceEventId: eviction.history.events.at(-1)!.id,
       }),
     ).toBeNull();
   });
