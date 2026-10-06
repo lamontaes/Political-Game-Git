@@ -42,6 +42,23 @@ it("loads tax questions without assigning any rates or replacing existing questi
         what: "assess-enacted-tax-base",
         amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
       });
+    } else if (/^state\.(income|sales|property|payroll)-tax-terms$/.test(row.key)) {
+      expect(row.consequences).toHaveLength(1);
+      expect(row.consequences![0]).toMatchObject({
+        kind: "tax",
+        when: "assessment",
+        who: {
+          selector: "recorded-tax-base-payer",
+          predicates: [
+            { capability: "has-operative-typed-tax-policy", parameters: {} },
+          ],
+        },
+        what: "assess-enacted-tax-base",
+        amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+      });
+      expect(row.consequences![0].id).toBe(
+        `tax:state:${row.key.split(".")[1].split("-")[0]}:recorded-base`,
+      );
     } else expect(row.consequences).toBeUndefined();
     expect(row.principles).toBeUndefined();
   }
