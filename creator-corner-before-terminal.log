@@ -1,0 +1,48 @@
+[storage-guard] OVERRIDDEN for e2e-capture: Bounded Creator-only control capture: one 1920x1080 spec, no World generation, expected under 20 MiB; measured 27 GiB free.
+[WebServer] (node:44815) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 1 test using 1 worker
+
+(node:45002) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › test-results/session2/creator-confirmation-baseline.spec.ts:9:1 › measures the remaining Creator questions confirmation
+[chromium] › test-results/session2/creator-confirmation-baseline.spec.ts:9:1 › measures the remaining Creator questions confirmation
+{"seed":"session2-creator-confirmation-baseline","place":"Valle Crucis, North Carolina","placeKey":"3769600","remainingConfirmation":"CONTINUE TO QUESTIONS","nextRest":"url(\"http://127.0.0.1:4297/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))","nextPressed":"url(\"http://127.0.0.1:4297/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))"}
+
+  1) [chromium] › test-results/session2/creator-confirmation-baseline.spec.ts:9:1 › measures the remaining Creator questions confirmation 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "primary-corner.svg"
+    Received string:    "url(\"http://127.0.0.1:4297/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))"
+
+      28 |  console.log(JSON.stringify({seed,place:place.displayName,placeKey:place.key,remainingConfirmation:confirmation,nextRest:rest,nextPressed:pressed}));
+      29 |  expect(rest).not.toContain('primary-corner.svg');
+    > 30 |  expect(pressed).toContain('primary-corner.svg');
+         |                  ^
+      31 |
+      32 | });
+      33 |
+        at /workspace/Political-Game-Git/test-results/session2/creator-confirmation-baseline.spec.ts:30:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/runs/session2-creator-chevron-baseline/results/creator-confirmation-basel-8c688-ator-questions-confirmation-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/runs/session2-creator-chevron-baseline/results/creator-confirmation-basel-8c688-ator-questions-confirmation-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/runs/session2-creator-chevron-baseline/results/creator-confirmation-basel-8c688-ator-questions-confirmation-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/runs/session2-creator-chevron-baseline/results/creator-confirmation-basel-8c688-ator-questions-confirmation-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [chromium] › test-results/session2/creator-confirmation-baseline.spec.ts:9:1 › measures the remaining Creator questions confirmation 

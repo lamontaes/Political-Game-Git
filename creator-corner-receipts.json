@@ -1,0 +1,83 @@
+{
+  "head": "58846079bede5caffb533d83193f622977408b55",
+  "tree": "bf9375be6fcf4b69371169015d022410d2be15d8",
+  "base": "d8dcd3ade2fc7aa477cd38dcfdac3caed17a6ce2",
+  "cleanAfter": true,
+  "before": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "d8dcd3ade2fc7aa477cd38dcfdac3caed17a6ce2",
+    "branch": "codex/session2-creator-confirmation",
+    "dirty": false,
+    "sourceDigest": "0953678f4f96981d0506dc9e88f3cc4748d3b33573022c649388f157f101c014",
+    "pid": 44815,
+    "runId": "session2-creator-chevron-baseline"
+  },
+  "after": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "58846079bede5caffb533d83193f622977408b55",
+    "branch": "codex/session2-creator-confirmation",
+    "dirty": false,
+    "sourceDigest": "c7b5b71503f4e38968e20a642f93bf154f66fd97b72684893cce216ce74eb529",
+    "pid": 45633,
+    "runId": "session2-creator-activation-after"
+  },
+  "browser": {
+    "exit": 0,
+    "passed": 1,
+    "states": [
+      "rest",
+      "hover",
+      "pointerHeld",
+      "released",
+      "keyboardHeld"
+    ],
+    "keyboardRelease": "normal Next opens place stage"
+  },
+  "typing": {
+    "exit": 0,
+    "unresolvedImports": 0,
+    "testsOutsideFullTyping": 800
+  },
+  "style": {
+    "eslint": 0,
+    "prettier": 0,
+    "zeroDice": 0,
+    "diff": 0
+  },
+  "release": {
+    "exit": 1,
+    "inherited": "Medicaid declaration id/filename mismatch"
+  },
+  "storage": "Documented reasoned override, 27 GiB measured free; not a normal storage gate PASS.",
+  "limits": "Creator controls only, no World generation, no art changes, no new layout acceptance.",
+  "images": {
+    "beforeRest": {
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "09af426265ae33d3354ae07821d1eb2baea153b71d3fb9a5245c5cb96f13eedd"
+    },
+    "beforeHeld": {
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "62c5cb1ddcdbe113549cb0b17c659c2f93e26c4bdca230a5a0cd64dc1798243c"
+    },
+    "afterRest": {
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "0e5161560bdd7474051e5012eda940703912c7369318344d6d0493610a8f7f68"
+    },
+    "afterHeld": {
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "8eeb3b9be368b34f3378194410ea12816d6f605ebb2cb2e32294d510a2f6f893"
+    }
+  }
+}

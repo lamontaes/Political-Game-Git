@@ -1,0 +1,16 @@
+[storage-guard] OVERRIDDEN for e2e-capture: Bounded Creator-only control capture: one 1920x1080 spec, no World generation, expected under 20 MiB; measured 27 GiB free.
+[WebServer] (node:45633) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 1 test using 1 worker
+
+(node:45820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/creator-static-chevron.spec.ts:13:1 › Creator primary corner appears only while the static Next button is activated
+[chromium] › tests/e2e/creator-static-chevron.spec.ts:13:1 › Creator primary corner appears only while the static Next button is activated
+{"seed":"session2-creator-confirmation-baseline","place":"Valle Crucis, North Carolina","placeKey":"3769600","states":{"rest":"url(\"http://127.0.0.1:4297/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))","hover":"url(\"http://127.0.0.1:4297/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))","pointerHeld":"url(\"http://127.0.0.1:4297/ui/kit13/primary-corner.svg\"), url(\"http://127.0.0.1:4297/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))","released":"url(\"http://127.0.0.1:4297/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))","keyboardHeld":"url(\"http://127.0.0.1:4297/ui/kit13/primary-corner.svg\"), url(\"http://127.0.0.1:4297/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))"}}
+
+  1 passed (59.0s)
