@@ -47,6 +47,7 @@ import {
   sortedUnique,
 } from "./shared";
 import { generatedStateOversightBody } from "./generated-state-oversight";
+import { evaluateMisconductKnowerDecision } from "./knower-decisions";
 import { stateOfJurisdiction } from "./outlets";
 import {
   STATE_LEGISLATIVE_ETHICS_PROCEDURES,
@@ -865,57 +866,66 @@ export function pressLedgerReviewHandler(
       discovery,
     );
   }
-  const evaluation = evaluateDecision(next, {
-    stableKey: `${dueItem.stableKey}:decision`,
-    decisionType: "press.bookkeeper-concern",
-    actorPersonId: bookkeeper,
-    cutoff: currentHistoricalCutoff(next),
-    subject: {
-      kind: "context:ledger-entry",
-      key: occurrence.stableKey,
-      entityId: discovery.id,
+  next = recordWorldEvent(next, {
+    stableKey: `${dueItem.stableKey}:reviewed`,
+    type: "press.misconduct-record-reviewed",
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: occurrence.jurisdictionId,
+    involvedEntityIds: sortedUnique([bookkeeper, actor]),
+    participants: [
+      {
+        personId: bookkeeper,
+        role: "agency:record-reviewer",
+        detail: "Reviewed a campaign ledger entry",
+      },
+      {
+        personId: actor,
+        role: "focus:subject",
+        detail: "Named in the ledger entry",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [PRESS_CONTRACT_VERSION, `misconduct:${occurrence.family}`],
+    summary: `${personName(next.people[bookkeeper]!)} reviewed the ledger entry for a recorded act.`,
+    context: {
+      location: null,
+      socialContext: MISCONDUCT_FAMILY_LABELS[occurrence.family],
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
     },
-    options: [
-      {
-        key: "raise-internally",
-        label: "Raise it with the candidate",
-        description: "Ask about the entry privately.",
-      },
-      {
-        key: "say-nothing",
-        label: "Say nothing",
-        description: "Leave the entry alone.",
-      },
-    ],
-    constraints: [],
-    considerations: [
-      {
-        stableKey: "press:bookkeeping-duty",
-        optionKey: "raise-internally",
-        sourceType: "context:professional-role",
-        direction: "supports",
-        importance: "moderate",
-        confidence: "high",
-        explanation:
-          "The entry is a payment to the candidate recorded against campaign money.",
-        sourceRefs: [],
-      },
-      {
-        stableKey: "press:employment-dependence",
-        optionKey: "say-nothing",
-        sourceType: "context:professional-role",
-        direction: "supports",
-        importance: "moderate",
-        confidence: "medium",
-        explanation: "The bookkeeper works for the candidate.",
-        sourceRefs: [],
-      },
-    ],
-    perceptionIds: [],
-    randomness: "close-choices",
-    retention: "durable",
   });
-  if (!isSelectedDecision(evaluation)) {
+  const reviewEvent = next.history.events.at(-1)!;
+  for (const personId of [bookkeeper, actor]) {
+    next = recordEventKnowledge(next, {
+      stableKey: `${reviewEvent.stableKey}:known:${personId}`,
+      personId,
+      eventId: reviewEvent.id,
+      learnedAt: next.currentDate,
+      believedSummary: reviewEvent.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+  }
+  const decision = evaluateMisconductKnowerDecision(next, {
+    stableKey: `${dueItem.stableKey}:decision`,
+    knowerPersonId: bookkeeper,
+    actorPersonId: actor,
+    occurrenceId: occurrence.id,
+    occurrenceEventId: occurrence.occurrenceEventId,
+    occasion: "record-reviewed",
+    occasionEventId: reviewEvent.id,
+  });
+  next = decision.world;
+  const evaluation = decision.evaluation;
+  if (
+    evaluation.outcomeKind !== "selected" ||
+    evaluation.selectedOptionKey === null
+  ) {
     return {
       world: next,
       status: "blocked",
@@ -925,7 +935,7 @@ export function pressLedgerReviewHandler(
     };
   }
   next = recordDurableDecisionTrace(next, evaluation);
-  if (evaluation.selectedOptionKey !== "raise-internally") {
+  if (evaluation.selectedOptionKey !== "talk") {
     return done("press:bookkeeper-stayed-silent", next, discovery.id);
   }
   const opened = openMatter(next, {

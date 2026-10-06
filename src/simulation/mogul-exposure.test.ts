@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { createScenarioWorld } from "./demo";
 import { makeIsoDate } from "./dates";
@@ -87,5 +88,17 @@ describe("mogul exposure considerations", () => {
           item.optionKey === "go-public" || item.optionKey === "let-it-go",
       ),
     ).toBe(true);
+  });
+});
+
+describe("mogul exposure decision path", () => {
+  it("does not use close-choice randomness", () => {
+    const source = readFileSync(
+      new URL("./moguls.ts", import.meta.url),
+      "utf8",
+    );
+    const start = source.indexOf("function reviewAcceptedDeals");
+    expect(start).toBeGreaterThanOrEqual(0);
+    expect(source.slice(start)).not.toContain('randomness: "close-choices"');
   });
 });
