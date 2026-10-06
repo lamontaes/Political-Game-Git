@@ -21,5 +21,23 @@
     "test": "src/education/named-colleges.test.ts",
     "result": "5 passed",
     "productionTypeScript": "npx tsc -b tsconfig.app.json --pretty false passed"
-  }
+  },
+  "hotbedApplication": {
+    "accepted": true,
+    "institutionId": "ipeds-unit:139658",
+    "name": "Emory University",
+    "kind": "political-hotbed",
+    "campusId": null,
+    "profileClassification": "service:college",
+    "profileProvenanceAsOf": "2026-01-05",
+    "seed": "b30-p1-random-place-hotbed-proof",
+    "place": {
+      "key": "lexington-fayette",
+      "displayName": "Lexington, Kentucky",
+      "scope": "locality"
+    },
+    "scenario": "A new game used a seeded draw from accepted locality life places. Applying to Emory from the shipped IPEDS directory saved the hotbed kind on the canonical college organization profile."
+  },
+  "hotbedSources": "data/research/places/political-hotbeds.json",
+  "sourceCoverageNote": "The Chronicle cohort is centered on 2024 Gaza encampments; FIRE measures speech climate and tolerance, not activism frequency. The source set is a candidate list with this limitation recorded, not a claim of balanced ideology or complete national coverage."
 }

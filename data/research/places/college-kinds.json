@@ -1269,7 +1269,7 @@
     {
       "id": "ipeds-unit:110662",
       "state": "CA",
-      "kind": "regional-public",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -3549,13 +3549,13 @@
     {
       "id": "ipeds-unit:131469",
       "state": "DC",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
       "id": "ipeds-unit:131496",
       "state": "DC",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -4497,7 +4497,7 @@
     {
       "id": "ipeds-unit:139658",
       "state": "GA",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -5589,7 +5589,7 @@
     {
       "id": "ipeds-unit:147767",
       "state": "IL",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -8367,7 +8367,7 @@
     {
       "id": "ipeds-unit:165662",
       "state": "MA",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -8775,7 +8775,7 @@
     {
       "id": "ipeds-unit:168148",
       "state": "MA",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -9177,7 +9177,7 @@
     {
       "id": "ipeds-unit:171100",
       "state": "MI",
-      "kind": "regional-public",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -11889,7 +11889,7 @@
     {
       "id": "ipeds-unit:189097",
       "state": "NY",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -12645,7 +12645,7 @@
     {
       "id": "ipeds-unit:193654",
       "state": "NY",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -12675,7 +12675,7 @@
     {
       "id": "ipeds-unit:193900",
       "state": "NY",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -12819,7 +12819,7 @@
     {
       "id": "ipeds-unit:194824",
       "state": "NY",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -12837,7 +12837,7 @@
     {
       "id": "ipeds-unit:195030",
       "state": "NY",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -15723,7 +15723,7 @@
     {
       "id": "ipeds-unit:209807",
       "state": "OR",
-      "kind": "regional-public",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -16893,7 +16893,7 @@
     {
       "id": "ipeds-unit:216287",
       "state": "PA",
-      "kind": "private",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -19857,7 +19857,7 @@
     {
       "id": "ipeds-unit:233921",
       "state": "VA",
-      "kind": "regional-public",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -20007,7 +20007,7 @@
     {
       "id": "ipeds-unit:235167",
       "state": "WA",
-      "kind": "regional-public",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {
@@ -21333,7 +21333,7 @@
     {
       "id": "ipeds-unit:243780",
       "state": "IN",
-      "kind": "regional-public",
+      "kind": "political-hotbed",
       "sourceYear": "2025-26"
     },
     {

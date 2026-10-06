@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import kindsText from "../../data/research/places/college-kinds.json?raw";
 import overridesText from "../../data/research/places/college-kind-overrides.json?raw";
 import campusManifestText from "../../art/campuses/manifest.json?raw";
+import hotbedsText from "../../data/research/places/political-hotbeds.json?raw";
 import { collegePlaceFor } from "./college-places";
 import type { EducationInstitution } from "./types";
 
@@ -15,6 +16,10 @@ const overrides = JSON.parse(overridesText) as {
   readonly ivyLeague: readonly string[];
   readonly flagships: readonly string[];
   readonly politicalHotbeds: readonly string[];
+};
+const hotbeds = JSON.parse(hotbedsText) as {
+  readonly campuses: readonly { id: string; name: string; evidence: string }[];
+  readonly sources: readonly { id: string; url: string }[];
 };
 
 function institution(
@@ -60,12 +65,33 @@ describe("IPEDS college places", () => {
     }
   });
 
-  it("keeps the hotbed selection as source rows and resolves a painted DC college", () => {
+  it("keeps 25 sourced hotbeds tied to IPEDS identities and resolves a painted DC college", () => {
+    expect(hotbeds.campuses).toHaveLength(25);
+    expect(new Set(hotbeds.campuses.map((row) => row.id)).size).toBe(25);
+    expect(hotbeds.sources.length).toBeGreaterThanOrEqual(2);
+    expect(
+      hotbeds.campuses.every((row) =>
+        hotbeds.sources.some((source) => source.id === row.evidence),
+      ),
+    ).toBe(true);
+    expect(
+      hotbeds.campuses.every((row) =>
+        kinds.institutions.some(
+          (kindRow) => kindRow.id === `ipeds-unit:${row.id}`,
+        ),
+      ),
+    ).toBe(true);
+    expect(overrides.politicalHotbeds).toEqual(
+      hotbeds.campuses.map((row) => row.id).sort(),
+    );
     for (const id of overrides.politicalHotbeds) {
       expect(
-        kinds.institutions.find((row) => row.id === `ipeds-unit:${id}`)?.kind,
-      ).toBe("political-hotbed");
+        kinds.institutions.some((row) => row.id === `ipeds-unit:${id}`),
+      ).toBe(true);
     }
+    expect(collegePlaceFor(institution("ipeds-unit:139658"))?.kind).toBe(
+      "political-hotbed",
+    );
     expect(collegePlaceFor(institution("ipeds-unit:131496"))).toMatchObject({
       campus: "dc",
       kind: "private",

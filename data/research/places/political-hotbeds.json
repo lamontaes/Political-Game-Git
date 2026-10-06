@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "methodology": "Political-hotbed is a sourced selection of campuses with documented, consequential political speech or protest activity. This 25-campus candidate set combines 23 campuses explicitly discussed in The Chronicle's 2024 report on student encampments, plus Georgetown University and Rensselaer Polytechnic Institute, which FIRE identifies among schools repeatedly performing poorly in its multi-year political-speech controversy rankings. The Chronicle cohort is concentrated on one 2024 issue and is not a balanced measure of ideology or a claim that these campuses have higher activism than unlisted campuses. FIRE's survey measures speech climate and political tolerance, not activism frequency. Revisit as more cross-ideological event data is sourced.",
+  "sources": [
+    {
+      "id": "chronicle-2024-campus-encampments",
+      "title": "How Colleges Have Responded to Student Encampments",
+      "publisher": "The Chronicle of Higher Education",
+      "published": "2024-05-01",
+      "url": "https://www.chronicle.com/article/how-colleges-have-responded-to-student-encampments",
+      "scope": "50 encampments beginning April 19–26, 2024; names listed below are explicitly discussed in its report."
+    },
+    {
+      "id": "fire-2025-recurring-speech-controversies",
+      "title": "2025 College Free Speech Rankings",
+      "publisher": "Foundation for Individual Rights and Expression",
+      "published": "2024-09",
+      "url": "https://www.thefire.org/research-learn/2025-college-free-speech-rankings",
+      "scope": "FIRE describes Georgetown and Rensselaer Polytechnic Institute among schools that have consistently performed poorly and received lifetime censorship awards; this is political speech-climate evidence, not an activism-rate measure."
+    }
+  ],
+  "campuses": [
+    {
+      "id": "110635",
+      "name": "University of California-Berkeley",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "110662",
+      "name": "University of California-Los Angeles",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "131469",
+      "name": "George Washington University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "131496",
+      "name": "Georgetown University",
+      "evidence": "fire-2025-recurring-speech-controversies"
+    },
+    {
+      "id": "134130",
+      "name": "University of Florida",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "139658",
+      "name": "Emory University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "147767",
+      "name": "Northwestern University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "151351",
+      "name": "Indiana University-Bloomington",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "165662",
+      "name": "Emerson College",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "166027",
+      "name": "Harvard University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "168148",
+      "name": "Tufts University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "171100",
+      "name": "Michigan State University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "189097",
+      "name": "Barnard College",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "190150",
+      "name": "Columbia University in the City of New York",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "190415",
+      "name": "Cornell University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "193654",
+      "name": "The New School",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "193900",
+      "name": "New York University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "194824",
+      "name": "Rensselaer Polytechnic Institute",
+      "evidence": "fire-2025-recurring-speech-controversies"
+    },
+    {
+      "id": "195030",
+      "name": "University of Rochester",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "209807",
+      "name": "Portland State University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "216287",
+      "name": "Swarthmore College",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "217156",
+      "name": "Brown University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "233921",
+      "name": "Virginia Polytechnic Institute and State University",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "235167",
+      "name": "The Evergreen State College",
+      "evidence": "chronicle-2024-campus-encampments"
+    },
+    {
+      "id": "243780",
+      "name": "Purdue University-Main Campus",
+      "evidence": "chronicle-2024-campus-encampments"
+    }
+  ]
+}
