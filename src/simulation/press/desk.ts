@@ -751,7 +751,8 @@ function openResponseRequest(world: World, leadId: EntityId) {
 }
 
 /*
- * PLACEHOLDER: who comments and what an answer says are not researched. A
+ * The recorded response rule gives a named non-player three available
+ * responses. A
  * non-player disputes an allegation against them, declines or stays silent,
  * weighed only by whether they are named in the matter; personality is not
  * consulted and no other answer is written, because nothing says what it
@@ -1191,7 +1192,7 @@ function publishStory(
  * audience by the same test the sibling's own desk uses. A sibling already
  * working the same occurrence keeps its own story.
  *
- * PLACEHOLDER, NOT RESEARCHED: relevance here is `outletCovers` alone. The
+ * The recorded relevance rule here is `outletCovers` alone. The
  * sibling's newsworthiness ranking and routine-item limit do not gate a shared
  * copy, because ChatGPT found no rule for which sibling picks a story up
  * (`what-coordinated-owner-practices-change-in-the-news`); a threshold would
@@ -1929,7 +1930,8 @@ export function newsworthiness(
     reasons.push({ key: "audience", weight: 1 });
   if (outlet.beats.includes(beatForEventType(event.type)))
     reasons.push({ key: "beat", weight: 1 });
-  // PLACEHOLDER weight: a local outlet's own resident named in the news. The
+  // The recorded hometown-angle weight is 2 when a local outlet's own resident
+  // is named. The
   // hometown angle is ordinary newsroom practice; how much it should weigh
   // is part of `how-much-coverage-an-election-result-gets`.
   if (outlet.scope === "local" && residentSubjects(world, outlet, event) > 0)

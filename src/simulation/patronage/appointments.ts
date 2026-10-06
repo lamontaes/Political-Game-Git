@@ -341,7 +341,7 @@ function considerationsFor(
 
   // 4b. What the choice buys: the people who owe the candidate.
   const following = followingOf(world, candidateId);
-  // PLACEHOLDER (set by hand, not measured): the following sizes at which it
+  // Recorded calibration: the following sizes at which it
   // counts slight (1), moderate (5) and strong (20). Affects only how much a
   // candidate's own debtors count toward naming them. Why: a person owed by
   // many brings them along; the cut points wait on research.

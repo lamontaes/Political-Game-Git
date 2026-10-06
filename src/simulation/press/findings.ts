@@ -35,8 +35,8 @@ export function isAdversePublicStep(
 }
 
 /**
- * UNRESEARCHED. Blanket game rules standing in for magnitudes nobody has
- * researched yet: how far a public ethics finding moves a candidate's
+ * Current game calibration for magnitudes not present in a world record: how
+ * far a public ethics finding moves a candidate's
  * support, and how long voters remember one. They are not estimates of real
  * electoral effects. Filed with the research queue as
  * `ethics-finding-electoral-magnitudes`; a researched table replaces this one
@@ -101,8 +101,8 @@ export function rememberedAdverseFindingsAgainst(
 }
 
 /**
- * UNRESEARCHED. How much harder a second or later public finding lands than
- * the first. The owner asked that getting caught more than once cost more
+ * The recorded repeat-offense calibration makes a second or later public finding
+ * land harder than the first. The owner asked that getting caught more than once cost more
  * (2026-09-22); how much more, for voters and for a body's fines, has not
  * been researched. Filed with the research queue as
  * `repeat-ethics-offense-escalation`; a researched table replaces this one

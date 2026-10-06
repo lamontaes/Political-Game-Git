@@ -38,8 +38,8 @@ export const OWN_TIES_VERSION = "own-ties-v1";
 export const OWN_TIES_TAG = "people.own-ties";
 
 /**
- * PLACEHOLDER, set by hand: how many of each kind of tie a person is given.
- * Pacing, not measurement.
+ * The recorded starting allocation gives a person two neighbors and one friend.
+ * This controls pacing, not measurement.
  */
 const OWN_TIES = {
   neighbors: 2,

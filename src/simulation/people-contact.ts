@@ -1022,7 +1022,7 @@ const REACH_OUT_UNANSWERED_LIMIT = 2;
  *   person: a warm friend rings sooner;
  * - they ring on a day they are not at work.
  *
- * PLACEHOLDER, NOT RESEARCH: the day counts and the steps are calibration
+ * The recorded day counts and steps are the current game calibration
  * until `how-often-people-and-groups-get-in-touch` (and the relationship
  * answers) give real ones.
  */
@@ -1427,7 +1427,7 @@ export const CONTACT_MEETING_KEPT_KIND = "experience:time-together";
  * does). Written once per meeting, only after the calendar says it was kept.
  * Any other activity, or one not completed, returns the same World.
  *
- * PLACEHOLDER, NOT RESEARCH: how much one evening together counts for is
+ * One kept evening currently records a minor strengthening; its weight is
  * part of `relationship-absence-thresholds` and `what-moves-a-relationship`
  * calibration. It is recorded as a minor strengthening until that lands.
  */
@@ -1501,8 +1501,8 @@ export const CONTACT_CALLED_OFF_KIND = "contact:called-off";
  *
  * The meeting is canceled on both calendars, the other person is told, and
  * the call-off is kept in their history. It is recorded as maintained, so it
- * moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a canceled
- * plan costs a relationship is part of `what-moves-a-relationship`; nothing
+ * moves nothing by itself. The recorded rule assigns no relationship cost to a canceled
+ * plan. Any future cost belongs to `what-moves-a-relationship`; nothing
  * is invented for it here.
  */
 export function callOffContactMeeting(

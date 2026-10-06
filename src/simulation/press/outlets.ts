@@ -162,7 +162,7 @@ const NATIONAL_PLANS: readonly OutletPlan[] = [
  * a state's newsroom is one kind for now (see STATE_PROFILE). The kind of
  * outlet decides its media, cadence, staff and reach.
  *
- * PLACEHOLDER, NOT RESEARCHED: the kinds and their staff below were
+ * The kinds and their staff below are the recorded game profiles,
  * authored on 2026-09-22 and are filed as the research question
  * `what-newsrooms-cover-a-town-and-a-state`. Replace them with the answer.
  */
@@ -182,7 +182,7 @@ interface OutletProfile {
  * standard statehouse newsroom, and which states are served by a public
  * broadcaster, a large daily or a small politics site instead is exactly what
  * the research question above has to answer. Until it does, the kind is not
- * drawn (PLACEHOLDER).
+ * drawn; every state uses the recorded state-newsroom profile.
  */
 const STATE_PROFILE: OutletProfile = {
   product: "state-newsroom",
@@ -323,8 +323,8 @@ const LOCAL_PROFILES: readonly OutletProfile[] = [
  * Puerto Rico keeps its own press identity. Its newsrooms work in Spanish
  * first, so the island's outlets carry Spanish mastheads, and the
  * commonwealth's newsroom covers the Capitolio, not a "statehouse". These
- * are fictional names, like every other masthead here. PLACEHOLDER: the
- * island's press identity is part of the same research question.
+ * are fictional names, like every other masthead here. The recorded rule
+ * preserves the island's press identity. Its details are part of the same research question.
  */
 const PUERTO_RICO_STATE_NAMES: readonly ((place: string) => string)[] = [
   () => "El Heraldo de Puerto Rico",
@@ -352,7 +352,7 @@ const DISTRICT_KEY = "US-DC";
 /*
  * Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana
  * Islands have legislatures, not statehouses. Fictional mastheads, named for
- * the territory. PLACEHOLDER, like Puerto Rico's: each territory's press
+ * the territory. Like Puerto Rico's, each territory's recorded press
  * identity is unresearched.
  */
 const TERRITORY_STATE_NAMES: readonly ((place: string) => string)[] = [

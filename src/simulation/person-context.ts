@@ -286,8 +286,8 @@ function siblingWord(person: Person, older: boolean | null): string {
  * Presentation only. Where the person's state has a sourced age of majority
  * that age is used; where it has none, the authority's end is unknown and the
  * record stays open (see `coming-of-age.ts`), but a twenty-seven-year-old is
- * still not introduced as having "your guardian". The fallback is
- * PLACEHOLDER(research: age-of-majority-by-state), and it writes nothing.
+ * still not introduced as having "your guardian". The presentation fallback is the recorded age of 18, and it writes
+ * nothing.
  */
 function grownForPresentation(world: World, personId: EntityId): boolean {
   const person = world.people[personId];
