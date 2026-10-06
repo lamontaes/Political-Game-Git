@@ -20,6 +20,7 @@ function setup({
   downloadError = null,
   installChoice = 1,
   closes = true,
+  retentionError = null,
 } = {}) {
   const state = {
     downloads: 0,
@@ -27,6 +28,7 @@ function setup({
     notices: [],
     installOnQuit: false,
     installs: 0,
+    retained: 0,
   };
   const updater = {
     async checkForUpdates() {
@@ -41,6 +43,10 @@ function setup({
     },
     quitAndInstall() {
       state.installs += 1;
+    },
+    prepareUpdateRetention() {
+      state.retained += 1;
+      if (retentionError) throw retentionError;
     },
   };
   return {
@@ -105,6 +111,7 @@ test("stable install requires a player confirmation and stays off auto-install",
   assert.equal(state.prompts, 1);
   assert.equal(state.installOnQuit, false);
   assert.equal(state.installs, 1);
+  assert.equal(state.retained, 1);
 });
 
 test("stable deferral never arms installation on quit", async () => {
@@ -121,6 +128,14 @@ test("stable install confirmation cannot interrupt a window that will not close"
   assert.equal(await runUpdateCheck(deps), "stable-install-blocked");
   assert.equal(state.installs, 0);
   assert.equal(state.installOnQuit, false);
+});
+
+test("stable install stops if it cannot preserve a fallback", async () => {
+  const { deps, state } = setup({ retentionError: new Error("copy failed") });
+  assert.equal(await runUpdateCheck(deps), "stable-retention-failed");
+  assert.equal(state.installs, 0);
+  assert.equal(state.installOnQuit, false);
+  assert.equal(state.retained, 1);
 });
 
 test("stable download failure keeps the current install and reports the error", async () => {
