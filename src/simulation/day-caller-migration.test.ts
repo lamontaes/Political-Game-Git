@@ -1,9 +1,6 @@
+import { LEXINGTON_DEMO_CONTEXT } from "../../tests/fixtures/authored-scenario";
 import { describe, expect, it } from "vitest";
-import {
-  createDemoWorld,
-  advanceDemoWorld,
-  LEXINGTON_DEMO_CONTEXT,
-} from "./demo";
+import { createDemoWorld, advanceDemoWorld } from "./demo";
 import { advanceFormativeInterval } from "./character-history";
 import { waitThenContinue } from "./people-continuation";
 import {

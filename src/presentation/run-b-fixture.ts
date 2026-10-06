@@ -1,3 +1,4 @@
+import { AUTHORED_SCENARIO_SCENE_KEYS } from "../simulation/demo-jurisdiction-context";
 import type { EntityId } from "../simulation";
 import {
   createRunAFixture,
@@ -62,7 +63,7 @@ export function createRunBFixture(seedInput?: string): RunBFixture {
     npcB.personId,
   ] as const;
   const roomContext: ConversationRoomContext = {
-    sceneKey: "run-b:lexington-office:occupied",
+    sceneKey: AUTHORED_SCENARIO_SCENE_KEYS.runBOccupied,
     roles: {
       "briefing-lead": runA.scenePerson.personId,
       "referral-verifier": npcBPersonId,
@@ -79,7 +80,7 @@ export function createRunBFixture(seedInput?: string): RunBFixture {
     privateUnavailableReason: `Private isn't possible while ${npcBName} remains within plausible earshot.`,
   };
   const privateCapableRoomContext: ConversationRoomContext = {
-    sceneKey: "run-b:lexington-office:private-capable",
+    sceneKey: AUTHORED_SCENARIO_SCENE_KEYS.runBPrivate,
     roles: {
       "briefing-lead": runA.scenePerson.personId,
       "referral-verifier": npcBPersonId,

@@ -79,9 +79,9 @@ describe("What a life is allowed to reach", () => {
   it("does not borrow a nearby legislature for a place that has none", () => {
     // Lexington-Fayette has no accepted rule pack. A character living there
     // must not be handed Kentucky's procedure with the name swapped.
-    const moved = moveHouseTo(start().world, "lexington-fayette");
+    const moved = moveHouseTo(start().world, "2146027");
     const capabilities = resolvePlayerCapabilities(moved);
-    expect(capabilities.homePlace?.key).toBe("lexington-fayette");
+    expect(capabilities.homePlace?.key).toBe("2146027");
     expect(capabilities.workPlace?.key).toBe("kentucky");
     expect(capabilities.legislativeScenarioKey).toBe("kentucky");
   });

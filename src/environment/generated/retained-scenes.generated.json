@@ -1,0 +1,260 @@
+[
+  {
+    "environment_id": "environment:council-staff-office:prompt30-fixture:v1",
+    "scene_id": "office-council-staff-fixture",
+    "family_id": "council-staff-office",
+    "label": "Council staff office (development fixture)",
+    "presentation_status": "development-fixture",
+    "fidelity_tier": "F4",
+    "coordinate_system": "plate-normalized",
+    "units": "plate-percent",
+    "plate": {
+      "width": 1024,
+      "height": 572
+    },
+    "camera_policy": {
+      "minimum_aspect_ratio": 1.5,
+      "maximum_aspect_ratio": 2.4,
+      "horizontal_focus": 0.5,
+      "vertical_focus": 0.75
+    },
+    "safe_area": {
+      "x": 86,
+      "y": 112,
+      "width": 850,
+      "height": 421
+    },
+    "essential_content_area": {
+      "x": 185,
+      "y": 165,
+      "width": 730,
+      "height": 353.75
+    },
+    "ui_safe_zones": [
+      {
+        "id": "lower-shell",
+        "edge": "bottom-left",
+        "width": 620,
+        "height": 120
+      },
+      {
+        "id": "navigation-flyout",
+        "edge": "top-left",
+        "width": 320,
+        "height": 300
+      }
+    ],
+    "raster": {
+      "asset_id": "env_lexington_council_staff_office_prompt30_v1",
+      "tiers": [
+        {
+          "width": 1024,
+          "height": 572,
+          "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
+          "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43",
+          "derivation": "native-master"
+        },
+        {
+          "width": 2048,
+          "height": 1144,
+          "path": "art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png",
+          "hash": "66678f0e91c52ca86f851ae4ba73d1a736a56be9cb7875512ab6bd1235de07f0",
+          "derivation": "upscaled-development-fixture",
+          "native_detail_width": 1024
+        }
+      ]
+    },
+    "floor_calibration": {
+      "near": {
+        "floor_y_percent": 100,
+        "scale": 1.05
+      },
+      "far": {
+        "floor_y_percent": 60,
+        "scale": 0.8
+      }
+    },
+    "standard_body_width_percent": 19.48,
+    "anchors": [
+      {
+        "id": "primary-desk-chair",
+        "type": "seated-person",
+        "kind": "seat",
+        "x_percent": 77.2,
+        "z_order": 2,
+        "footprint_percent": 30,
+        "hitbox_percent": {
+          "x_percent": 35,
+          "y_percent": 5,
+          "width_percent": 55,
+          "height_percent": 50
+        },
+        "allowed_pose_families": ["seated-at-desk"],
+        "permitted_facings": ["front"],
+        "seat_contact": {
+          "seat_plane_y_percent": 70.8,
+          "seat_front_x_percent": 77.2,
+          "seat_width_percent": 11.13,
+          "floor_y_percent": 90.01,
+          "seat_z_order": 1,
+          "backrest_z_order": 0
+        }
+      },
+      {
+        "id": "left-guest-chair",
+        "type": "seated-person",
+        "kind": "seat",
+        "x_percent": 29.2,
+        "z_order": 3,
+        "footprint_percent": 26,
+        "hitbox_percent": {
+          "x_percent": 5,
+          "y_percent": 2,
+          "width_percent": 90,
+          "height_percent": 50
+        },
+        "allowed_pose_families": ["seated-guest-neutral", "seated-at-desk"],
+        "permitted_facings": ["front"],
+        "seat_contact": {
+          "seat_plane_y_percent": 62.93,
+          "seat_front_x_percent": 29.2,
+          "seat_width_percent": 7.57,
+          "floor_y_percent": 75.17,
+          "seat_z_order": 1,
+          "backrest_z_order": 0
+        }
+      },
+      {
+        "id": "doorway-standing",
+        "type": "standing-person",
+        "kind": "floor-standing",
+        "x_percent": 47,
+        "z_order": 1,
+        "footprint_percent": 20,
+        "allowed_pose_families": ["standing-neutral"],
+        "permitted_facings": ["front"],
+        "floor_contact": {
+          "floor_y_percent": 68,
+          "max_foot_spread_percent": 7
+        }
+      },
+      {
+        "id": "near-desk-standing",
+        "type": "standing-person",
+        "kind": "floor-standing",
+        "x_percent": 62,
+        "z_order": 2,
+        "footprint_percent": 24,
+        "allowed_pose_families": ["standing-neutral"],
+        "permitted_facings": ["front"],
+        "floor_contact": {
+          "floor_y_percent": 82,
+          "max_foot_spread_percent": 9
+        }
+      }
+    ],
+    "foreground_occlusion_objects": [
+      {
+        "id": "desk-front",
+        "type": "furniture-foreground",
+        "asset_id": "env_lexington_council_staff_office_prompt30_foreground_mask_v1",
+        "z_order": 4,
+        "region_percent": {
+          "x_percent": 42,
+          "y_percent": 62,
+          "width_percent": 58,
+          "height_percent": 38
+        }
+      },
+      {
+        "id": "guest-chair-near-arm",
+        "type": "furniture-foreground",
+        "z_order": 5,
+        "region_percent": {
+          "x_percent": 18,
+          "y_percent": 66,
+          "width_percent": 22,
+          "height_percent": 26
+        }
+      }
+    ],
+    "surface_slots": [
+      {
+        "slot_id": "desk-working-document",
+        "kind": "desk-document",
+        "rect_percent": {
+          "x_percent": 67,
+          "y_percent": 55.5,
+          "width_percent": 6,
+          "height_percent": 7.5
+        },
+        "z_order": 9,
+        "allowed_content_classes": [
+          "document-body",
+          "bill-title",
+          "bill-number"
+        ],
+        "information_access": "institutional-working",
+        "fallback_decoration": "a clean paper stack on the blotter"
+      },
+      {
+        "slot_id": "wall-district-map-slot",
+        "kind": "large-wall-map",
+        "rect_percent": {
+          "x_percent": 58.6,
+          "y_percent": 21,
+          "width_percent": 12.9,
+          "height_percent": 21.5
+        },
+        "z_order": 1,
+        "allowed_content_classes": [
+          "map-label",
+          "jurisdiction-seal",
+          "jurisdiction-name"
+        ],
+        "civic_symbol_policy": "canonical-source-only",
+        "information_access": "public-record",
+        "fallback_decoration": "a generic municipal street grid with no labels"
+      },
+      {
+        "slot_id": "monitor-primary-widescreen",
+        "kind": "monitor-or-screen",
+        "rect_percent": {
+          "x_percent": 58.2,
+          "y_percent": 41.5,
+          "width_percent": 7.5,
+          "height_percent": 16
+        },
+        "z_order": 2,
+        "allowed_content_classes": [
+          "document-body",
+          "agenda",
+          "election-result"
+        ],
+        "information_access": "institutional-working",
+        "fallback_decoration": "a dark desktop with no windows open"
+      },
+      {
+        "slot_id": "monitor-secondary-portrait",
+        "kind": "monitor-or-screen",
+        "rect_percent": {
+          "x_percent": 68.1,
+          "y_percent": 38,
+          "width_percent": 5.4,
+          "height_percent": 18
+        },
+        "z_order": 2,
+        "allowed_content_classes": ["document-body", "agenda"],
+        "information_access": "institutional-working",
+        "fallback_decoration": "a dark desktop with no windows open"
+      }
+    ],
+    "explicit_unknowns": [
+      "Every anchor, contact, occluder region and surface slot in this scene is a visual estimate read off fixture art. None of it is plan-derived, and none of it should be copied into a production scene.",
+      "The prompt30 plate's real detail is 1024x572. The 2048x1144 runtime file is a 2x resample of that same source and is registered as an upscale so the runtime reports its shortfall honestly.",
+      "The guest chair's near arm has no authored alpha mask yet, so its occluder region is declared for footprint and debug purposes without a raster.",
+      "The corkboard pin above the desk was promoted by the geometry inspection and is declared ambient decor here instead: at 4.5% of plate width it is roughly 46 pixels across at 1080p, below the width a runtime component needs to be legible. This is a repository judgment about a number the inspection did not rule on, and it is reversible.",
+      "The authored B01 guest raster carries 16% of plate height between its measured pelvis and its soles, while this scene puts 21% between the guest seat plane and the guest floor line. Placing the pelvis on the seat therefore leaves the guest's feet about 5% of plate height above the floor. The measurement and the scene are both recorded as found; the figure is not stretched to close the gap, and no seated body drawn for this room exists yet."
+    ]
+  }
+]

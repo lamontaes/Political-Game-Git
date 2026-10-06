@@ -93,12 +93,10 @@ export interface OpenLegislativeBargainingInput {
   /**
    * Which bill on the player's docket the sitting is about.
    *
-   * Omitted, this opens the single authored sitting exactly as accepted — the
-   * legacy path below is unchanged, and the Kentucky transit brief still gates
-   * it. Supplied, the sitting is about that docket bill instead, and its
-   * content comes from the program family the bill was compiled from rather
-   * than from the authored transit brief. Either way the authority checks, the
-   * fail-closed refusals and the write boundary are the same ones.
+   * Required for entry. The selected recorded docket bill supplies the
+   * bargaining content; omission refuses before any world writer runs.
+   * Supplied keys still pass the existing seat, session, measure and docket
+   * validation. No first bill or authored sitting is selected implicitly.
    */
   readonly docketKey?: string;
 }
@@ -112,6 +110,14 @@ export function openLegislativeBargaining(
     throw new Error(
       "The bargaining route can only be opened for the controlled character.",
     );
+  }
+  const docketKey = input.docketKey ?? null;
+  if (docketKey === null) {
+    return {
+      kind: "unavailable",
+      reason:
+        "Choose a recorded bill from your docket before opening the members' room.",
+    };
   }
   // Voting membership is not the office capability. Staff legitimately hold
   // the office and its bill; only a seat the canonical winner chain actually
@@ -144,7 +150,6 @@ export function openLegislativeBargaining(
       reason:
         "This institution has no supplied deliberation brief or recorded member decisions for this bill. Its supported procedural actions remain available in the office.",
     };
-  const docketKey = input.docketKey ?? null;
   if (docketKey === null && !bargainingBriefSupports(scenarioKey)) {
     return {
       kind: "unavailable",

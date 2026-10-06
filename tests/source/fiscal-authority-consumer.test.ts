@@ -133,7 +133,7 @@ function wonKentuckySeat(): { world: World; personId: EntityId } {
     // cross-jurisdiction refusal this fixture exists for.
     seed: "p85c-owner-0",
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     questionnaire: "skipped",
   });
   const life = {

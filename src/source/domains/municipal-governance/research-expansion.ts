@@ -1,3 +1,4 @@
+import aliases from "./research-aliases.generated.json" with { type: "json" };
 /** Complete attributed report coverage beside the structured declarations.
  * Research observations remain separate cells. They grant no legal capability,
  * and a heading never creates a Census place or government-unit crosswalk.
@@ -25,18 +26,7 @@ function slug(name: string): string {
     .replace(/^-|-$/g, "");
 }
 // These are report-title aliases inside this research library, not geographic joins.
-const ALIASES: Readonly<Record<string, string>> = {
-  "us-hi-city-and-county-of-honolulu": "us-hi-honolulu",
-  "us-ak-anchorage-municipality": "us-ak-anchorage",
-  "us-ak-juneau-city-and-borough": "us-ak-juneau",
-  "us-ak-fairbanks-city": "us-ak-fairbanks",
-  "us-ak-north-pole-city": "us-ak-north-pole",
-  "us-in-indianapolis-marion-county": "us-in-indianapolis-marion",
-  "us-la-baton-rouge-east-baton-rouge-parish": "us-la-baton-rouge",
-  "us-ky-louisville-jefferson-county-metro": "louisville-jefferson-metro",
-  "us-ky-lexington-fayette-urban-county-government":
-    "lexington-fayette-urban-county",
-};
+const ALIASES: Readonly<Record<string, string>> = aliases;
 
 export function includeExistingResearch(
   base: readonly ResearchGovernment[],

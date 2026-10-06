@@ -1,0 +1,16 @@
+[
+  {
+    "placeGeoid": "2146027",
+    "chamber": "state-lower",
+    "membership": "split",
+    "districtGeoid": null,
+    "note": "Lexington-Fayette is split across Kentucky house districts; whole-place membership is refused."
+  },
+  {
+    "placeGeoid": "0200065",
+    "chamber": "state-lower",
+    "membership": "whole-place",
+    "districtGeoid": "02037",
+    "note": "Adak city lies wholly in Alaska State House District 37 in the 2024 SLDL–place relationship file."
+  }
+]

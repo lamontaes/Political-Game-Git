@@ -12,7 +12,7 @@ describe("opening jurisdiction identity", () => {
       prepareOpeningLife({
         ...DEFAULT_NEW_GAME_SETUP,
         seed: "state-residence-identity",
-        placeKey: "lexington-fayette",
+        placeKey: "2146027",
         startKind: "custom",
       }),
     ).game!;
@@ -80,7 +80,7 @@ describe("opening jurisdiction identity", () => {
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "state-without-holder",
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       startKind: "custom",
     });
     const before = serializeWorld(game.world);

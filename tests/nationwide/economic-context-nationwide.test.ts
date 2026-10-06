@@ -3,7 +3,6 @@ import { readFileSync } from "node:fs";
 import {
   economicContextBindingForPlace,
   economicContextUnavailableReason,
-  LEXINGTON_ECONOMIC_BINDING,
 } from "../../src/presentation/economic-context-bindings";
 import { NATIONAL_PLACES_ROWS } from "../../src/simulation/national-places.generated";
 
@@ -28,15 +27,20 @@ const manifest = JSON.parse(
 };
 
 describe("economic context reaches the whole country", () => {
-  it("keeps the reviewed crosswalk ahead of a derived one", () => {
-    const lexington = economicContextBindingForPlace("lexington-fayette");
-    expect(lexington).toBe(LEXINGTON_ECONOMIC_BINDING);
-    // The reviewed row says Lexington IS its county, which is true of a
-    // consolidated city-county and of almost nowhere else.
+  it("uses the same Census relation for a consolidated locality", () => {
+    const binding = economicContextBindingForPlace("2146027");
+    expect(binding?.placeKey).toBe("2146027");
     expect(
-      lexington?.beaAreas.find((area) => area.geographyLevel === "county")
+      binding?.beaAreas.find((area) => area.geographyLevel === "county")
+        ?.geoFips,
+    ).toBe("21067");
+    expect(
+      binding?.beaAreas.find((area) => area.geographyLevel === "county")
         ?.relationship,
-    ).toBe("same-jurisdiction");
+    ).toBe("containing-county");
+    expect(
+      binding?.beaAreas.some((area) => area.geographyLevel === "msa"),
+    ).toBe(false);
   });
 
   it("does not tell an ordinary town that it is its county", () => {

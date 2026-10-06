@@ -209,13 +209,13 @@ describe(
 
     it("sets nothing where the state bars cities, until a state law lets them", () => {
       const { world: game, opened } = omahaGame();
-      const lexington = town("lexington-fayette");
+      const lexington = town("2146027");
       const kentucky = stateJurisdictionForKey("US-KY")!.id;
       const effectiveAt = addDays(opened, 30);
       const locatedGame = ensureJurisdiction(
         ensureJurisdiction(
           game,
-          lifePlaceByKey("lexington-fayette")!.context.jurisdiction,
+          lifePlaceByKey("2146027")!.context.jurisdiction,
         ),
         stateJurisdictionForKey("US-KY")!,
       );

@@ -50,7 +50,7 @@ const rising: MacroGrowthDrivers = {
 };
 
 function started(): World {
-  const world = smallWorld({ place: "lexington-fayette", seed: SEED }).world;
+  const world = smallWorld({ place: "2146027", seed: SEED }).world;
   const latents = { cycle: 0, cost: 0, housing: 0, credit: 0 };
   return ensureMacroEconomyStarted(world, {
     contractVersion: "crunch46-macro-start/v1",

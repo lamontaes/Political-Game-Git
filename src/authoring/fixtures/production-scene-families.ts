@@ -14,11 +14,9 @@
  * because none of them asserts whose home it is. That is a fact about the
  * World, and the World says it at runtime.
  *
- * Two of the six are `jurisdiction-specific`, and both say so. The Lexington
- * staff office is painted with Lexington's own street map on the wall, and the
- * executive suite's left window frames a real capitol dome. Pretending either
- * is generic would be a hero asset in reusable clothing, and the validator
- * refuses the combination outright.
+ * The executive suite is jurisdiction-specific: its left window frames a
+ * real capitol dome. Its bindings must account for that view. The retained
+ * fixed-map office is archived as scenario data rather than a reusable family.
  */
 
 import type { PhysicalSceneFamily } from "../semantic-context";
@@ -271,46 +269,8 @@ export const EXECUTIVE_PRIVATE_OFFICE_01: PhysicalSceneFamily = {
   note: "37C records the window as a declared visual mismatch outside jurisdictions with a classical capitol dome. It is masked or accepted per binding; it is never quietly reused.",
 };
 
-/**
- * The Lexington municipal council staff office.
- *
- * The one room in the library that is a real place, and it stays one. Its wall
- * map is Lexington and Fayette County, which is exactly why the map is a
- * dynamic surface: the plate can serve another city only if the map can be
- * replaced, and if it cannot be replaced the room is not reusable and should
- * not pretend to be.
- */
-export const COUNCIL_STAFF_OFFICE_LEXINGTON_01: PhysicalSceneFamily = {
-  familyId: "COUNCIL_STAFF_OFFICE_LEXINGTON_01",
-  label: "Lexington council staff office",
-  environmentTags: ["institutional", "interior", "municipal", "office"],
-  accessClass: "role-restricted",
-  lifeStageSuitability: ["young-adulthood", "adulthood", "later-life"],
-  supportsStanding: true,
-  supportsSeated: true,
-  requiredSurfaceSlots: ["wall-district-map-slot"],
-  roleEligibilityTags: ["council-staff", "council-member", "constituent"],
-  architectureScope: "jurisdiction-specific",
-  jurisdictionScope: "lexington-fayette-placeholder",
-  semanticUses: [
-    {
-      useId: "staff-working-day",
-      description: "A staffer at their own desk, working.",
-      lifeStages: ["young-adulthood", "adulthood"],
-    },
-    {
-      useId: "constituent-meeting",
-      description:
-        "A constituent in the guest chair. Who they are comes from the World.",
-      lifeStages: ["young-adulthood", "adulthood", "later-life"],
-    },
-  ],
-  note: "Lexington content remains an explicit placeholder until sourced snapshots exist, per the repository's standing rule. The two stacked wall certificates are 3.8% by 5.9% of plate and stay ambient paper shapes.",
-};
-
 export const PRODUCTION_SCENE_FAMILIES: readonly PhysicalSceneFamily[] = [
   CIVIC_COMMUNITY_MEETING_HALL_01,
-  COUNCIL_STAFF_OFFICE_LEXINGTON_01,
   EXECUTIVE_PRIVATE_OFFICE_01,
   HOME_APARTMENT_ORDINARY_02,
   HOME_APARTMENT_SETTLED_03,

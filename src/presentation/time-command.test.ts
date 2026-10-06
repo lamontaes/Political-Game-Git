@@ -47,7 +47,7 @@ function adultLife(seed = "governing-time-command") {
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     gender: "male",
     pronouns: "he-him",
     questionnaire: "skipped",
@@ -141,7 +141,7 @@ describe("the canonical time command", () => {
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "named-time-stop",
       startAge: 34,
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       questionnaire: "skipped",
     });
     const world = built.world;

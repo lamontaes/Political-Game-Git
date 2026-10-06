@@ -190,7 +190,7 @@ describe("a generated population's names agree with its genders", () => {
   function adultStart(seed: string) {
     return buildProductionWorld({
       seed,
-      place: requireLifePlace("lexington-fayette"),
+      place: requireLifePlace("2146027"),
       age: 22,
       givenName: null,
       familyName: null,

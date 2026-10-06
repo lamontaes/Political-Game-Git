@@ -88,7 +88,7 @@ describe("which people are created under which recipe", () => {
   it("creates a life a player starts — and their household — under v2", () => {
     const built = buildProductionWorld({
       seed: "appearance-recipe-v2-production-proof",
-      place: requireLifePlace("lexington-fayette"),
+      place: requireLifePlace("2146027"),
       age: 34,
       givenName: null,
       familyName: null,

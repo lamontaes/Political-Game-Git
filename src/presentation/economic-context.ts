@@ -1,15 +1,6 @@
-import lexingtonEconomicContext from "./generated/economic-context-lexington.json" with { type: "json" };
+import { GENERATED_ECONOMIC_CONTEXTS } from "./generated/economic-context-catalog.generated";
 
-/**
- * The generated economic contexts this build carries, by place key.
- *
- * One entry today. It is a registry rather than a single module-level constant
- * because everything below used to name Lexington twice over: once by picking
- * three Lexington-specific provider series keys out of the file, and again by
- * writing "Fayette County", "Kentucky" and "Lexington-Fayette" into the
- * sentences. A second city's generated file is now one import and one line
- * here, and its sentences come out naming that city.
- */
+/** Shared reader for locked authored economic contexts; normal play uses the nationwide provider. */
 
 export interface PlayerEconomicContextLine {
   readonly key: string;
@@ -66,7 +57,7 @@ interface GeneratedEconomicContext {
 }
 
 const GENERATED_CONTEXTS: readonly GeneratedEconomicContext[] = [
-  lexingtonEconomicContext as unknown as GeneratedEconomicContext,
+  ...(GENERATED_ECONOMIC_CONTEXTS as unknown as readonly GeneratedEconomicContext[]),
 ];
 
 const CONTEXTS_BY_PLACE = new Map(

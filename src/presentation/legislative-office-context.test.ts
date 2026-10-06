@@ -20,7 +20,7 @@ function wonSeat() {
     ...DEFAULT_NEW_GAME_SETUP,
     seed: "p85c-owner-0",
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     gender: "male",
     pronouns: "he-him",
     questionnaire: "skipped",

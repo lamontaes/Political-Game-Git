@@ -29,11 +29,7 @@ import { validateSldPlaceRelationCorpus } from "./validate";
 import type { PlaceDistrictRelationRecord, RelationChamber } from "./types";
 
 export type { PlaceDistrictRelationRecord, RelationChamber } from "./types";
-export {
-  ADAK_PLACE_GEOID,
-  LEXINGTON_FAYETTE_PLACE_GEOID,
-  OFFICIAL_PLACE_RELATION_VECTORS,
-} from "./identity";
+export { OFFICIAL_PLACE_RELATION_VECTORS } from "./identity";
 export { EXPECTED_RELATION_RECORD_COUNT } from "./validate";
 export { parseSldPlaceRelations } from "./parse";
 export { normalizeSldPlaceRelations } from "./normalize";

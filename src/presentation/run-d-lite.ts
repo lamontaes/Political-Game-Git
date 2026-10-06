@@ -1,3 +1,4 @@
+import { AUTHORED_SCENARIO_SCENE_KEYS } from "../simulation/demo-jurisdiction-context";
 import {
   addDays,
   assertWorldIntegrity,
@@ -133,7 +134,7 @@ export function createRunDLiteFixture(seedInput?: string): RunDLiteFixture {
     participantPersonIds: [playerPersonId, reedPersonId],
     responsiblePersonId: playerPersonId,
     location: {
-      locationKey: "lexington-legislative-office",
+      locationKey: AUTHORED_SCENARIO_SCENE_KEYS.runDOfficeVenue,
       label: "Legislative Office",
       jurisdictionId,
     },
@@ -154,7 +155,7 @@ export function createRunDLiteFixture(seedInput?: string): RunDLiteFixture {
     participantPersonIds: [playerPersonId],
     responsiblePersonId: playerPersonId,
     location: {
-      locationKey: "lexington-legislative-office",
+      locationKey: AUTHORED_SCENARIO_SCENE_KEYS.runDOfficeVenue,
       label: "Legislative Office",
       jurisdictionId,
     },

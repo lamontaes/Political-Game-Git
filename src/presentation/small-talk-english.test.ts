@@ -15,7 +15,7 @@ function adultAtHome(seed: string) {
   const { world, playerPersonId } = createNewGameWorld({
     startKind: "custom",
     seed,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     startAge: 34,
     depth: "summarize-earlier-life",
     startingLife: "ordinary-life",

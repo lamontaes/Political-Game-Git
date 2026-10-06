@@ -56,13 +56,13 @@ function unsupportedLocality(): LifePlace {
 
 describe("a locality reaches its own state, and no other", () => {
   it("resolves governing state identities without adding municipal or UI capabilities", () => {
-    const before = requireLifePlace("lexington-fayette").capabilities;
+    const before = structuredClone(requireLifePlace("2146027").capabilities);
     for (const pack of candidacyPacks()) {
       const state = stateJurisdictionForKey(pack.jurisdictionKey);
       expect(state).not.toBeNull();
       expect(state!.kind).toBe("state-placeholder");
       expect(state!.id).not.toBe(
-        requireLifePlace("lexington-fayette").context.jurisdiction.id,
+        requireLifePlace("2146027").context.jurisdiction.id,
       );
       expect(stateJurisdictionForKey(pack.jurisdictionKey)).toStrictEqual(
         state,
@@ -72,11 +72,11 @@ describe("a locality reaches its own state, and no other", () => {
       requireLifePlace("kentucky").context.jurisdiction,
     );
     expect(stateJurisdictionForKey("unknown")).toBeNull();
-    expect(requireLifePlace("lexington-fayette").capabilities).toBe(before);
+    expect(requireLifePlace("2146027").capabilities).toStrictEqual(before);
     expect(before.legislativeScenarioKey).toBeNull();
   });
   it("gives a Lexington life Kentucky's state offices", () => {
-    const lexington = requireLifePlace("lexington-fayette");
+    const lexington = requireLifePlace("2146027");
     expect(lexington.scope).toBe("locality");
     expect(lexington.stateJurisdictionKey).toBe("US-KY");
     // The city itself still declares nothing. That has not changed.
@@ -133,7 +133,7 @@ describe("a locality reaches its own state, and no other", () => {
       localityIn("Chicago", "Chicago, Illinois"),
       localityIn("Anchorage", "Anchorage, Kentucky"),
       localityIn("Omaha", "Omaha, Illinois"),
-      requireLifePlace("lexington-fayette"),
+      requireLifePlace("2146027"),
     ];
     for (const place of probes) {
       const authority = candidacyAuthority(place.context.jurisdiction.id);
@@ -145,7 +145,7 @@ describe("a locality reaches its own state, and no other", () => {
   it("keeps local office missingness separate from state office missingness", () => {
     // A Kentucky city: the state answers, the city still does not.
     const lexington = candidacyAuthority(
-      requireLifePlace("lexington-fayette").context.jurisdiction.id,
+      requireLifePlace("2146027").context.jurisdiction.id,
     );
     expect(lexington.pack).not.toBeNull();
     expect(lexington.localOfficesUnsourced).toBe(true);

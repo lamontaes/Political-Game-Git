@@ -34,7 +34,7 @@ function filedLife(seed = "p85c-owner-clock") {
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     gender: "male",
     pronouns: "he-him",
     questionnaire: "skipped",
@@ -128,7 +128,7 @@ describe("every adult story route carries the world's pending election", () => {
 describe("a state office does not move its winner's home", () => {
   it("seats the Lexington winner in Kentucky and opens that legislature after reload", () => {
     const life = filedLife("p85c-owner-0");
-    const residence = requireLifePlace("lexington-fayette");
+    const residence = requireLifePlace("2146027");
     const state = requireLifePlace("kentucky");
     const earlier = life.world.history;
     let world = spendAnAfternoon(life.world, life.personId, "fundraising");
@@ -193,7 +193,7 @@ describe("a state office does not move its winner's home", () => {
     const capabilities = resolvePlayerCapabilities(world);
     expect(capabilities.legislation).toBe(true);
     expect(capabilities.legislativeScenarioKey).toBe("kentucky");
-    expect(capabilities.homePlace?.key).toBe("lexington-fayette");
+    expect(capabilities.homePlace?.key).toBe("2146027");
     const opened = openLegislativeWork(world, {
       playerPersonId: life.personId,
       scenarioKey: capabilities.legislativeScenarioKey!,

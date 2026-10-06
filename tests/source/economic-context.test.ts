@@ -1,3 +1,4 @@
+import { LEXINGTON_PLACEHOLDER_ID } from "../fixtures/authored-scenario";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -17,10 +18,7 @@ import type {
   EconomicContextCorpora,
   EconomicContextGeographyBinding,
 } from "../../src/source/adapters/economic-context";
-import {
-  createDemoWorld,
-  LEXINGTON_PLACEHOLDER_ID,
-} from "../../src/simulation/index";
+import { createDemoWorld } from "../../src/simulation/index";
 
 const REPO = resolve(import.meta.dirname, "../..");
 

@@ -207,7 +207,7 @@ describe.skipIf(needsRepair)("MODULAR45 corrected people generation", () => {
     const setup = {
       startKind: "custom",
       seed: "m45-adopt",
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       startAge: 30,
       depth: "play-formative-years",
       startingLife: "ordinary-life",
@@ -322,7 +322,7 @@ describe("appearance lifecycle interface for PEOPLE", () => {
         startKind: "custom",
         seed: "m45-family",
         appearanceCatalogGeneration: G,
-        placeKey: "lexington-fayette",
+        placeKey: "2146027",
         startAge: 40,
         depth: "play-formative-years",
         startingLife: "ordinary-life",

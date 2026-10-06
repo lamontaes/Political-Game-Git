@@ -341,7 +341,7 @@ export const COUNCIL_STAFF_OFFICE_SURFACES: SceneDynamicSurfaceAuthoring = {
       slotId: "wall-district-map-slot",
       contentClasses: ["map-label", "jurisdiction-seal", "jurisdiction-name"],
       emptyStateDecor: "wall-artwork",
-      note: "Currently painted as Lexington and Fayette County. Replaceable, or the plate serves exactly one city.",
+      note: "Painted with a fixed jurisdiction map. It is retained fixture evidence and cannot stand for another place.",
     },
     {
       slotId: "monitor-primary-widescreen",

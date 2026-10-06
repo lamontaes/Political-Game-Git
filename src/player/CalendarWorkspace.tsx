@@ -118,11 +118,11 @@ export function CalendarWorkspace({
     >
       <header className="planning-workspace-header">
         <div>
-          <p>Office week · Lexington time</p>
+          <p>Office week · local time</p>
           <h2 id="calendar-workspace-title">Calendar</h2>
           <span>
             Current time {formatMinute(projection.currentMoment.minuteOfDay)} ·
-            Lexington time
+            Local time
           </span>
         </div>
         <div className="planning-header-actions">

@@ -1,0 +1,51 @@
+{
+  "defaultSeed": "lexington-foundation",
+  "contexts": {
+    "foundation": {
+      "jurisdiction": {
+        "id": "jurisdiction_a4a6991ef3dd5879",
+        "slug": "us-ky-lexington-fayette-placeholder",
+        "name": "Lexington-Fayette, Kentucky",
+        "kind": "consolidated-city-county-placeholder",
+        "parentName": "Kentucky",
+        "provenance": {
+          "asOf": null,
+          "source": null,
+          "jurisdiction": "jurisdiction_a4a6991ef3dd5879",
+          "status": "placeholder"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/New_York",
+        "utcOffsetMinutes": -300
+      },
+      "creationSummary": "Seeded demonstration world created with a Lexington-Fayette placeholder.",
+      "goalScope": "Lexington-Fayette placeholder",
+      "householdLocationLabel": "Synthetic Lexington-area location"
+    }
+  },
+  "sceneKeys": {
+    "runBOccupied": "run-b:lexington-office:occupied",
+    "runBPrivate": "run-b:lexington-office:private-capable",
+    "runCTransit": "run-c:lexington-office:transit-provision",
+    "runDOfficeVenue": "lexington-legislative-office"
+  },
+  "retainedPlaces": [
+    {
+      "key": "lexington-fayette",
+      "scope": "locality",
+      "stateJurisdictionKey": "US-KY",
+      "displayName": "Lexington, Kentucky",
+      "formalName": "Lexington-Fayette, Kentucky",
+      "withinName": "Kentucky",
+      "contextKey": "foundation",
+      "capabilities": {
+        "legislativeScenarioKey": null,
+        "candidacyPackId": null
+      },
+      "sourceGeoid": "2146027"
+    }
+  ]
+}

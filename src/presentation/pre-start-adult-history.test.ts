@@ -214,7 +214,7 @@ describe("five-place prior-date source coverage", () => {
   const cases = [
     ["kentucky", 10],
     ["3260600", 22],
-    ["lexington-fayette", 35],
+    ["2146027", 35],
     ["0203000", 52],
     ["1319000", 70],
   ] as const;

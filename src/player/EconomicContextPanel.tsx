@@ -11,7 +11,6 @@ import {
   type EconomicGraphPoint,
   type EconomicGraphRecordClass,
 } from "../presentation/economic-graphs";
-export { LEXINGTON_ECONOMIC_BINDING } from "../presentation/economic-context-bindings";
 import { proseDate } from "../presentation/prose-dates";
 import {
   carriedLocalFigureLine,

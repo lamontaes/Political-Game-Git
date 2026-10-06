@@ -7,8 +7,8 @@ import type { LifePlace } from "../simulation/life-places";
  * Which provider geographies stand behind the place a player lives in.
  *
  * A binding is never inferred from a display name, from state membership, or
- * from a nearby geography. It comes from one of two places, in this order: an
- * exact reviewed crosswalk written out below, or the Census place-to-county
+ * from a nearby geography. It comes from the
+ * sourced Census place-to-county
  * relation the game already carries, which is a sourced statement about which
  * county areas a place lies in and not a guess about which one is close.
  *
@@ -31,47 +31,9 @@ import type { LifePlace } from "../simulation/life-places";
  *
  * ## What is deliberately not derived
  *
- * Metropolitan areas. A town's containing MSA is a real relation and the
- * corpus carries 387 of them, but the game holds no sourced place-to-MSA
- * crosswalk, and picking one from a county would be exactly the inference this
- * module refuses. Lexington keeps its reviewed MSA row because somebody read
- * it; nowhere else gets one until a crosswalk is accepted.
+ * Metropolitan areas require an accepted place-to-MSA crosswalk. A county
+ * does not establish that relation, so no containing metro is inferred.
  */
-export const LEXINGTON_ECONOMIC_BINDING: BrowserEconomicGeographyBinding = {
-  bindingKey: "economic-context.lexington-ky.v2",
-  placeKey: "lexington-fayette",
-  placeLabel: "Lexington, Kentucky",
-  beaAreas: [
-    {
-      geographyLevel: "county",
-      geoFips: "21067",
-      relationship: "same-jurisdiction",
-    },
-    {
-      geographyLevel: "msa",
-      geoFips: "30460",
-      relationship: "containing-metro",
-    },
-    {
-      geographyLevel: "state",
-      geoFips: "21000",
-      relationship: "containing-state",
-    },
-  ],
-  lausAreaCodes: [
-    { areaCode: "ST2100000000000", relationship: "containing-state" },
-  ],
-  hudFipsCodes: [
-    { hudFipsCode: "2106799999", relationship: "same-jurisdiction" },
-  ],
-};
-
-/** Reviewed crosswalks, which always win over a derived one. */
-const REVIEWED_BINDINGS_BY_PLACE = new Map<
-  string,
-  BrowserEconomicGeographyBinding
->([[LEXINGTON_ECONOMIC_BINDING.placeKey, LEXINGTON_ECONOMIC_BINDING]]);
-
 /**
  * The state FIPS prefix of a Census GEOID.
  *
@@ -152,8 +114,6 @@ function deriveBinding(
 export function economicContextBindingForPlace(
   placeKey: string,
 ): BrowserEconomicGeographyBinding | null {
-  const reviewed = REVIEWED_BINDINGS_BY_PLACE.get(placeKey);
-  if (reviewed) return reviewed;
   const place = lifePlaceByKey(placeKey);
   return place ? deriveBinding(place) : null;
 }

@@ -92,7 +92,7 @@ function worldWith(laws: readonly ReturnType<typeof ordinance>[]): World {
   } as unknown as World;
 }
 
-const lexington = lifePlaceByKey("lexington-fayette")!.context.jurisdiction.id;
+const lexington = lifePlaceByKey("2146027")!.context.jurisdiction.id;
 const columbus = lifePlaceByKey("3918000")!.context.jurisdiction.id;
 const indianapolis = lifePlaceByKey("1836003")!.context.jurisdiction.id;
 

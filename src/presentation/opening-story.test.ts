@@ -34,7 +34,7 @@ function opening(placeKey: string, startAge: number) {
   return { world, personId: game.playerPersonId };
 }
 
-const LEXINGTON = opening("lexington-fayette", 34);
+const LEXINGTON = opening("2146027", 34);
 const MINNEAPOLIS = opening("2743000", 12);
 const NEBRASKA = opening("nebraska", 40);
 const ALL = [LEXINGTON, MINNEAPOLIS, NEBRASKA];

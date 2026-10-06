@@ -160,7 +160,7 @@ describe("incidents occur from recorded causes, never a draw", () => {
 describe("old saves written while incidents were drawn", () => {
   it("opens a real old save whose catalog names the drawn mode", async () => {
     const fixture = await import(
-      "../simulation/crisis/fixtures/dormant-annual-check-save.json",
+      "../../tests/fixtures/retained-worlds/dormant-annual-check-save.json",
       { with: { type: "json" } }
     );
     const text = JSON.stringify(fixture.default);

@@ -18,7 +18,9 @@ import {
   type EconomicContextCorpora,
   type EconomicContextObservation,
 } from "../../src/source/adapters/economic-context";
-import { LEXINGTON_PLACEHOLDER_ID } from "../../src/simulation/index";
+import { authoredScenarioContext } from "../../src/simulation/demo-jurisdiction-context";
+const LEXINGTON_PLACEHOLDER_ID =
+  authoredScenarioContext("foundation").jurisdiction.id;
 import { REPO_ROOT } from "./registry";
 
 function readCorpus<T>(domain: string): CompiledCorpus<T> {

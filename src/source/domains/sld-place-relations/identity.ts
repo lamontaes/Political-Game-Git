@@ -1,3 +1,4 @@
+import vectors from "./official-vectors.generated.json" with { type: "json" };
 /**
  * Official identifiers used as oracles against the relationship compiler.
  *
@@ -31,27 +32,5 @@ export interface PlaceRelationVector {
   readonly note: string;
 }
 
-/**
- * Lexington-Fayette, Kentucky. A merged city-county that the 2024 SLDL file
- * intersects with more than one house district. Used as the split oracle.
- */
-export const LEXINGTON_FAYETTE_PLACE_GEOID = "2146027";
-/** Adak city, Alaska. Wholly inside House District 37 / Senate District S. */
-export const ADAK_PLACE_GEOID = "0200065";
-
-export const OFFICIAL_PLACE_RELATION_VECTORS: readonly PlaceRelationVector[] = [
-  {
-    placeGeoid: LEXINGTON_FAYETTE_PLACE_GEOID,
-    chamber: "state-lower",
-    membership: "split",
-    districtGeoid: null,
-    note: "Lexington-Fayette is split across Kentucky house districts; whole-place membership is refused.",
-  },
-  {
-    placeGeoid: ADAK_PLACE_GEOID,
-    chamber: "state-lower",
-    membership: "whole-place",
-    districtGeoid: "02037",
-    note: "Adak city lies wholly in Alaska State House District 37 in the 2024 SLDL–place relationship file.",
-  },
-];
+export const OFFICIAL_PLACE_RELATION_VECTORS =
+  vectors as readonly PlaceRelationVector[];

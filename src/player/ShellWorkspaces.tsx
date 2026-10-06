@@ -21,7 +21,6 @@ import {
   economicContextUnavailableReason,
 } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
-import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -1637,9 +1636,6 @@ export function PersonalFinancesWorkspace({
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
   const economicJurisdictionId = homeId ?? undefined;
-  const economicLines = economicPlace
-    ? playerEconomicContextLines(economicPlace.key, world.currentDate)
-    : [];
   const economicBinding = economicPlace
     ? economicContextBindingForPlace(economicPlace.key)
     : null;
@@ -1690,22 +1686,9 @@ export function PersonalFinancesWorkspace({
           {proseDate(world.currentDate)}
         </p>
         {/*
-          The compact lines come from a generated file committed per place, and
-          only Lexington has one. Saying "no supported economic observations
-          are available for this place" was true of that file and false of the
-          screen: the panel below now fetches real figures for the same town
-          from the shipped corpus, so the sentence contradicted the numbers
-          printed underneath it. Where the panel can speak, it speaks; where
-          nothing can, the panel's own reason says why.
-        */}
-        {economicLines.length
-          ? economicLines.map((line) => <p key={line.key}>{line.text}</p>)
-          : null}
-        {/*
           The binding registry decides whether this place has one, not a
           comparison against one named city. Most places now derive one from
-          the county areas the Census records them in; a reviewed crosswalk
-          still wins where somebody read one.
+          the county areas the Census records them in; no nearby metro is inferred.
 
           When there is none, the reason is said. Rendering null here meant
           that every town in America showed a "Money and property" section with

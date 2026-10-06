@@ -26,7 +26,7 @@ import { buildProductionWorld } from "./production-world";
 import { projectBudgetEconomy } from "./budget-economy";
 
 function productionWorld(
-  placeKey: "lexington-fayette" | "kentucky",
+  placeKey: "2146027" | "kentucky",
   startingLife: "ordinary-life" | "legislative-office" = "ordinary-life",
 ): World {
   return buildProductionWorld({
@@ -49,7 +49,7 @@ function seatedFiscalReader(): {
     ...DEFAULT_NEW_GAME_SETUP,
     seed: "recovery25-budget:seated-reader",
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     gender: "female",
     pronouns: "she-her",
     questionnaire: "skipped",
@@ -119,7 +119,7 @@ function fiscalState(
 
 describe("Budget/economy read model", () => {
   it("resolves only the exact supported place and preserves the simulation date", () => {
-    const world = productionWorld("lexington-fayette");
+    const world = productionWorld("2146027");
     const before = JSON.stringify(world);
     const result = projectBudgetEconomy(world, world.jurisdictionOrder[0]!);
 
@@ -128,7 +128,7 @@ describe("Budget/economy read model", () => {
       simulationDate: world.currentDate,
       economicBinding: {
         bindingKey: "economic-context.lexington-ky.v2",
-        placeKey: "lexington-fayette",
+        placeKey: "2146027",
       },
       fiscalAvailability: { status: "unavailable" },
     });
@@ -230,7 +230,7 @@ describe("Budget/economy read model", () => {
   });
 
   it("reprojects the same public reading after a save round trip", () => {
-    const world = productionWorld("lexington-fayette");
+    const world = productionWorld("2146027");
     const jurisdictionId = world.jurisdictionOrder[0]!;
     expect(
       projectBudgetEconomy(

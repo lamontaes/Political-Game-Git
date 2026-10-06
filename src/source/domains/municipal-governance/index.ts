@@ -165,7 +165,7 @@ export function compileMunicipalFixture(
       coverage: {
         isCompleteUniverse: false,
         universeDescription:
-          "Three Kentucky pilot governments (Lexington-Fayette Urban County, Louisville-Jefferson County Metro, Bowling Green), chosen to exercise the schema across consolidated and non-consolidated forms. It is not a census of Kentucky local governments and must never be read as one.",
+          "Three authored pilot governments, chosen to exercise the schema across consolidated and non-consolidated forms. It is not a census of Kentucky local governments and must never be read as one.",
         boundedSampleReason:
           "Audit fixture only. This research fixture does not claim independently verified law; production provisions have separate locked evidence.",
       },

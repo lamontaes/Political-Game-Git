@@ -192,7 +192,7 @@ describe("what the game will and will not offer", () => {
     // owner play hit: a Kentuckian told nobody had written down the offices
     // where they live. Lexington still declares no council of its own; the
     // state above it declares a General Assembly, and that is what is offered.
-    const life = adultLife("offer-lexington", "lexington-fayette");
+    const life = adultLife("offer-lexington", "2146027");
     const view = projectCampaign(life.world, life.personId);
     expect(view.phase).not.toBe("unavailable");
     expect(view.officeTitle).not.toBeNull();

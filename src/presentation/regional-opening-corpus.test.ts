@@ -49,7 +49,7 @@ describe("an authored place that is also a corpus place", () => {
     // Lexington is authored, and its jurisdiction slug is its own rather than
     // `us-place-2146027`. Matching on the slug alone threw away the GEOID the
     // place already carries and answered by state at best.
-    const authored = lifePlaceByKey("lexington-fayette");
+    const authored = lifePlaceByKey("2146027");
     expect(authored?.sourceGeoid).toBe("2146027");
     const jurisdiction = authored!.context.jurisdiction;
     expect(jurisdiction.slug).not.toMatch(/^us-place-/);

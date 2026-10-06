@@ -15,7 +15,8 @@ import {
   serializeWorld,
   deserializeWorld,
 } from "../simulation";
-import { LEXINGTON_DEMO_CONTEXT } from "../simulation/demo";
+import { authoredScenarioContext } from "../simulation/demo-jurisdiction-context";
+const foundationContext = authoredScenarioContext("foundation");
 import type { World } from "../simulation";
 const key = "edu-path7-diagnostic-v1";
 function initial() {
@@ -23,9 +24,9 @@ function initial() {
   if (save) return deserializeWorld(save);
   const d = createDemoWorld("edu-browser", {
     context: {
-      ...LEXINGTON_DEMO_CONTEXT,
+      ...foundationContext,
       initialMoment: {
-        ...LEXINGTON_DEMO_CONTEXT.initialMoment,
+        ...foundationContext.initialMoment,
         date: makeIsoDate("2026-01-05"),
       },
     },

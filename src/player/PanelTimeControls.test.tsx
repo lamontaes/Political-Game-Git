@@ -41,7 +41,7 @@ import {
  * are proved against the runner itself in time-command-runner.test.ts.
  */
 
-function adultLife(placeKey = "lexington-fayette"): {
+function adultLife(placeKey = "2146027"): {
   readonly world: World;
   readonly personId: EntityId;
 } {

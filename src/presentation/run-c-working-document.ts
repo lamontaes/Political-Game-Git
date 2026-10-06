@@ -1,3 +1,4 @@
+import { AUTHORED_SCENARIO_SCENE_KEYS } from "../simulation/demo-jurisdiction-context";
 import {
   assertWorldIntegrity,
   createExactQuantity,
@@ -256,7 +257,7 @@ export function createRunCFixture(seedInput?: string): RunCFixture {
     runB.roomContext.physicallyPresentPersonIds;
   const legislativeRoomContext: RunBFixture["roomContext"] = {
     ...runB.roomContext,
-    sceneKey: "run-c:lexington-office:transit-provision",
+    sceneKey: AUTHORED_SCENARIO_SCENE_KEYS.runCTransit,
     eligibleAddresseePersonIds: [collinsPersonId],
     normalHearingPersonIds: runB.roomContext.normalHearingPersonIds,
     physicallyPresentPersonIds,
@@ -450,8 +451,7 @@ export function createRunCLegislativeConversationProgress(
       preparedOperationId: prepared.policyOperationId,
       preparedEstimateId: prepared.policyEstimateId,
       analysisKnowledgeId: collinsKnowledge.id,
-      targetScopeLabel:
-        "Lexington transit-pilot eligible-rider segment for the twelve-month pilot period",
+      targetScopeLabel: `${fixtureJurisdictionName(world, fixture.roomContext.jurisdictionId)} transit-pilot eligible-rider segment for the twelve-month pilot period`,
     },
     phase: "opening",
     latestProposition: null,
@@ -773,7 +773,7 @@ function createDocumentDefinition(
     stableKey: RUN_C_DOCUMENT_STABLE_KEY,
     title: "Working Draft — Transit Access Pilot",
     statusLabel: "Office working draft · not introduced",
-    jurisdictionLabel: "Lexington synthetic development fixture",
+    jurisdictionLabel: `${fixtureJurisdictionName(world, input.jurisdictionId)} synthetic development fixture`,
     quantitativeProvisionId,
     amountSelectionId,
     preparedByPersonId: input.collinsPersonId,
@@ -820,7 +820,7 @@ function createVariant(input: {
       simpleProvision(
         2,
         "Pilot establishment and eligibility",
-        "The proposed pilot would support Lexington residents whose access to fixed-route transit is limited by household cost or mobility barriers, under eligibility standards stated in a later administering instrument.",
+        "The proposed pilot would support local residents whose access to fixed-route transit is limited by household cost or mobility barriers, under eligibility standards stated in a later administering instrument.",
       ),
       {
         id: input.quantitativeProvisionId,
@@ -901,8 +901,7 @@ function projectKnownAnalysis(
     qualification:
       "Projection under the fixture assumptions. This is not an appropriation, enactment, or guarantee of implementation.",
     modeledChange: `${formatMoneyMinorUnits(consequence.estimatedChange.money.minorUnits)} in modeled added outlays`,
-    scopeLabel:
-      "Lexington · transit pilot eligible-rider scope · twelve-month pilot period",
+    scopeLabel: `${fixtureJurisdictionName(world, fixture.roomContext.jurisdictionId)} · transit pilot eligible-rider scope · twelve-month pilot period`,
     knowledgeId: knowledge.id,
   };
 }
@@ -1045,4 +1044,14 @@ export function runCOperationForVariant(
   );
   if (!operation) throw new Error("Run C policy operation is missing.");
   return operation;
+}
+
+function fixtureJurisdictionName(
+  world: World,
+  jurisdictionId: EntityId,
+): string {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  if (!jurisdiction)
+    throw new Error("Fixture jurisdiction is missing from the World.");
+  return jurisdiction.name;
 }

@@ -54,7 +54,7 @@ describe("PLAYTEST65 canonical opening", () => {
       prepareOpeningLife({
         ...DEFAULT_NEW_GAME_SETUP,
         seed: "playtest65-w-opening",
-        placeKey: "lexington-fayette",
+        placeKey: "2146027",
         household: "lives-alone",
         startKind: "custom",
       }),
@@ -67,7 +67,7 @@ describe("PLAYTEST65 canonical opening", () => {
     )!.sceneContext!;
     expect(localContext).toMatchObject({
       jurisdictionId: world.people[playerPersonId]!.homeJurisdictionId,
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       stateJurisdictionKey: "US-KY",
       asOf: world.currentDate,
     });
@@ -118,7 +118,7 @@ describe("PLAYTEST65 canonical opening", () => {
     const setup = {
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "playtest65-w-opening",
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       household: "lives-alone" as const,
       startKind: "custom" as const,
     };

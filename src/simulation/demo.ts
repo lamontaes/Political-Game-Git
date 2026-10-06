@@ -5,14 +5,14 @@ import {
   simulationMinutesBetween,
 } from "./dates";
 import {
-  LEXINGTON_DEMO_CONTEXT,
+  authoredScenarioContext,
+  DEFAULT_AUTHORED_SCENARIO_SEED,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
 
 export {
   DEMO_START_DATE,
-  LEXINGTON_DEMO_CONTEXT,
-  LEXINGTON_PLACEHOLDER_ID,
+  authoredScenarioContext,
 } from "./demo-jurisdiction-context";
 export type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
 import { createStableId } from "./ids";
@@ -73,7 +73,7 @@ import {
 import { advanceWorldMinutes } from "./time-work";
 import { composeWorldTimeHandlers } from "./campaigns";
 
-export const DEFAULT_DEMO_SEED = "lexington-foundation";
+export const DEFAULT_DEMO_SEED = DEFAULT_AUTHORED_SCENARIO_SEED;
 
 const COMMUNITY_TOPICS = [
   "access to neighborhood services",
@@ -99,15 +99,17 @@ export interface CreateDemoWorldOptions extends CreateScenarioWorldOptions {
 
 /**
  * Developer and test fixture entry point: omitted context builds the
- * Lexington-Fayette, Kentucky scenario. That is an explicit scenario, not a
+ * authored foundation scenario. That is an explicit scenario, not a
  * default for play; shipped code and tools name their place.
  */
 export function createDemoWorld(
   seedInput = DEFAULT_DEMO_SEED,
   options?: CreateDemoWorldOptions,
 ): World {
-  const { context = LEXINGTON_DEMO_CONTEXT, ...generationOptions } =
-    options ?? {};
+  const {
+    context = authoredScenarioContext("foundation"),
+    ...generationOptions
+  } = options ?? {};
   return createScenarioWorld(seedInput, context, {
     ...generationOptions,
     generatorVersion:

@@ -38,11 +38,7 @@ function open(placeKey: string, age: number, alone = false) {
 }
 describe("PLAYTEST65 real opening and practical-life readers", () => {
   it("keeps an adult living alone oriented, supports real remote contact, and preserves a local return", () => {
-    const { world, playerPersonId: player } = open(
-      "lexington-fayette",
-      34,
-      true,
-    );
+    const { world, playerPersonId: player } = open("2146027", 34, true);
     const saved = serializeWorld(world);
     const opening = projectOpeningWorldSnapshot(world, player);
     expect(opening.life.household.household).toEqual([]);
@@ -141,7 +137,7 @@ describe("PLAYTEST65 real opening and practical-life readers", () => {
   });
   it.each([
     ["1150000", 34],
-    ["lexington-fayette", 7],
+    ["2146027", 7],
   ] as const)("keeps %s age %s read-only and age appropriate", (place, age) => {
     const { world, playerPersonId } = open(place, age);
     const before = serializeWorld(world);

@@ -57,7 +57,7 @@ describe("the player root's World change guard", () => {
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "crunch47-advance-then-stale-write",
       startAge: 34,
-      placeKey: "lexington-fayette",
+      placeKey: "2146027",
       gender: "male",
       pronouns: "he-him",
       questionnaire: "skipped",

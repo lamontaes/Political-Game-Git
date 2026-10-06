@@ -1,3 +1,4 @@
+import { LEXINGTON_DEMO_CONTEXT } from "../../tests/fixtures/authored-scenario";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { createExplicitGeographyLife } from "../presentation/new-game-geography";
 import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
@@ -47,7 +48,7 @@ import {
 } from "./index";
 import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
-import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+
 import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
   canonicalSupportBasisPoints,
@@ -273,8 +274,8 @@ describe("candidacy coverage is stated, never assumed", () => {
     // Lexington declares no office of its OWN — no source describes its
     // council — which is still true and still separate from the Kentucky seats
     // a resident here can stand for through the state above.
-    const lexington = lifePlaces().find(
-      (place) => place.key === "lexington-fayette",
+    const lexington = lifePlaceByJurisdictionId(
+      LEXINGTON_DEMO_CONTEXT.jurisdiction.id,
     )!;
     expect(lexington.capabilities.candidacyPackId).toBeNull();
 

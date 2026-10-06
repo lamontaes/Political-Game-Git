@@ -58,7 +58,7 @@ function filedLife(seed: string) {
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: "2146027",
     gender: "male",
     pronouns: "he-him",
     questionnaire: "skipped",
@@ -160,7 +160,7 @@ function talk(
 
 describe("proof A — win, govern, bargain, from the production route", () => {
   it("carries a Lexington winner into real bargaining in their own world", () => {
-    const residence = requireLifePlace("lexington-fayette");
+    const residence = requireLifePlace("2146027");
     const state = requireLifePlace("kentucky");
     const seatWorld = wonAndOnTheFloor();
 

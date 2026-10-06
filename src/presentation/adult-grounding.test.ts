@@ -20,7 +20,7 @@ import { ageOnDate, requireLifePlace } from "../simulation";
 function adultInLexington(seed: string, gender: "male" | "female" = "male") {
   return buildProductionWorld({
     seed,
-    place: requireLifePlace("lexington-fayette"),
+    place: requireLifePlace("2146027"),
     age: 34,
     givenName: null,
     familyName: null,
@@ -34,7 +34,7 @@ function adultInLexington(seed: string, gender: "male" | "female" = "male") {
 function adultAt(seed: string, age: number) {
   return buildProductionWorld({
     seed,
-    place: requireLifePlace("lexington-fayette"),
+    place: requireLifePlace("2146027"),
     age,
     givenName: null,
     familyName: null,

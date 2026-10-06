@@ -1,9 +1,9 @@
+import { LEXINGTON_PLACEHOLDER_ID } from "../../tests/fixtures/authored-scenario";
 import { describe, expect, it } from "vitest";
 import { recordsByStringField } from "./history-index";
 import { makeIsoDate } from "./dates";
 
 import {
-  LEXINGTON_PLACEHOLDER_ID,
   activeCareResponsibilitiesAt,
   activePartnershipsAt,
   activeWorkRelationshipsAt,

@@ -39,7 +39,7 @@ function slotsFor(sceneId: string) {
 
 describe("the production scene families", () => {
   it("validates every family", () => {
-    expect(PRODUCTION_SCENE_FAMILIES).toHaveLength(6);
+    expect(PRODUCTION_SCENE_FAMILIES).toHaveLength(5);
     for (const family of PRODUCTION_SCENE_FAMILIES) {
       const result = validatePhysicalSceneFamily(family);
       expect(result.findings, family.familyId).toEqual([]);
@@ -51,11 +51,9 @@ describe("the production scene families", () => {
     const scoped = PRODUCTION_SCENE_FAMILIES.filter(
       (family) => family.architectureScope === "jurisdiction-specific",
     );
-    // Exactly two rooms carry a real place in their pixels: the office painted
-    // with one city's street map, and the suite whose window frames a real
-    // capitol. Both name the scope they are stuck in.
+    // The retained suite frames a real capitol; its scope stays explicit.
+    // The retired fixed-map office is preserved as data, outside production families.
     expect(scoped.map((family) => family.familyId)).toEqual([
-      "COUNCIL_STAFF_OFFICE_LEXINGTON_01",
       "EXECUTIVE_PRIVATE_OFFICE_01",
     ]);
     for (const family of scoped) {

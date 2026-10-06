@@ -31,7 +31,7 @@ function fixture(key: string) {
 
 describe("orientation locality names from actual jurisdiction parents", () => {
   it.each([
-    ["lexington-fayette", "Lexington"],
+    ["2146027", "Lexington"],
     ["4752006", "Nashville"],
     ["5645050", "Laramie"],
   ])(
@@ -55,7 +55,7 @@ describe("orientation locality names from actual jurisdiction parents", () => {
   );
 
   it("does not infer a parent for an unknown-parent jurisdiction", () => {
-    const { world, id } = fixture("lexington-fayette");
+    const { world, id } = fixture("2146027");
     const unknownParent = {
       ...world,
       jurisdictions: {

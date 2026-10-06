@@ -18,7 +18,7 @@ import { ENGINE_PEOPLE29_CHARACTER_LIBRARY as library } from "./engine-people29-
 const setup = {
   startKind: "custom",
   seed: "talk-pair",
-  placeKey: "lexington-fayette",
+  placeKey: "2146027",
   startAge: 6,
   depth: "play-formative-years",
   startingLife: "ordinary-life",

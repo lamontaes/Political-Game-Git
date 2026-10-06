@@ -1,10 +1,12 @@
+import {
+  LEXINGTON_DEMO_CONTEXT,
+  LEXINGTON_PLACEHOLDER_ID,
+} from "../../tests/fixtures/authored-scenario";
 import { createHash } from "node:crypto";
 
 import { describe, expect, it, vi } from "vitest";
 
 import {
-  LEXINGTON_DEMO_CONTEXT,
-  LEXINGTON_PLACEHOLDER_ID,
   PORTABILITY_CONTEXT,
   PORTABILITY_FIXTURE_SEED,
   PORTABILITY_JURISDICTION_ID,

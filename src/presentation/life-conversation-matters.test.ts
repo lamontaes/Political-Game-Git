@@ -25,7 +25,7 @@ import { resolveOpeningPlaySceneContext } from "./play-scene-context";
 const setup = {
   startKind: "custom",
   seed: "matter-talk",
-  placeKey: "lexington-fayette",
+  placeKey: "2146027",
   startAge: 6,
   depth: "play-formative-years",
   startingLife: "ordinary-life",

@@ -69,7 +69,7 @@ const POLICE_OVERSIGHT = id(
 );
 
 const town = (key: string) => lifePlaceByKey(key)!.context.jurisdiction.id;
-const lexington = town("lexington-fayette");
+const lexington = town("2146027");
 const columbus = town("3918000");
 const indianapolis = town("1836003");
 const memphis = searchLifePlaces("Memphis", 5, {

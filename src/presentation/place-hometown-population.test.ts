@@ -30,7 +30,7 @@ describe("Hometown population is joined only for matching sourced geography", ()
   });
 
   it("does not print a county headcount as Lexington city population", async () => {
-    const lexington = lifePlaceByKey("lexington-fayette")!;
+    const lexington = lifePlaceByKey("2146027")!;
     expect(hometownCountyEquivalentGeoid(lexington)).toBeNull();
     const facts = await queryHometownPopulationFacts(lexington, {
       fetchJson: localFetchJson,

@@ -314,10 +314,7 @@ describe("NATIONWIDE local governments at the opening", () => {
   });
 
   it("a compiled government keeps its own install path and is not duplicated", () => {
-    const { world, playerPersonId } = openAt(
-      "lexington-fayette",
-      "local-lexington",
-    ).game;
+    const { world, playerPersonId } = openAt("2146027", "local-lexington").game;
     const status = homeLocalGovernmentStatus(world, playerPersonId);
     for (const government of status.governments.filter(
       (g) => g.compiledGovernmentKey !== null,
