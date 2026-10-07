@@ -221,7 +221,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-sincere",
   "personality-v1:facet-manipulative",
   "personality-v1:facet-fair-minded",
-  "personality-v1:facet-arbitrary",
   "personality-v1:facet-fickle",
   "personality-v1:facet-mediating",
   "personality-v1:facet-vindictive",
