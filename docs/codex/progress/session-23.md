@@ -71,3 +71,9 @@ its remaining actor, comment, review, emergency and successor producers. Do not
 substitute a second engine or presumed vacancy. The mandatory three-year main
 speed baseline exhausted its original 4096 MB heap before year 1; the twenty
 percent comparison remains unverified and must not be repeated or weakened.
+
+## 2026-10-07 pool continuation: b03-p3
+
+WIP is on `session23-b03-p3-rebuild`, based on current main `f737adeb1`. The shared voter-count loop can group its already-decided ballots by a supplied precinct reader, preserve the same contest winner and totals, and save the precinct rows on `ElectionContestResultRecord`. The local council count keeps its ward admission before precinct grouping. Focused election and local-count tests pass, including national election record equality.
+
+Resume after the merger sessions land p2 PR #2362: import its published saved membership reader into the local count and remove the temporary reader seam if its final API differs. Until then, b03-p3 has no production precinct IDs to group. Typecheck has current-main failures in crime/press tests and `local-government-seats.ts`; release check fails on current-main `bg-35-unsupported-meeting-order.md`; direct main load stops at Node's CSS loader. No p3 PR is ready yet.

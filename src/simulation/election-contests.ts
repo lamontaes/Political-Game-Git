@@ -10,6 +10,7 @@ import { createStableId } from "./ids";
 import { personName } from "./people";
 import type {
   CandidateTally,
+  PrecinctCandidateTally,
   DecisionContext,
   PrivateBeliefRecord,
   CancelElectionContestInput,
@@ -150,9 +151,11 @@ export function scheduleElectionContest(
 export function evaluateDeterministicContestOutcome(
   world: World,
   contest: ElectionContestRecord,
+  precinctOfVoter?: (personId: EntityId) => string | null,
 ): {
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
+  readonly precinctTallies: readonly PrecinctCandidateTally[] | null;
 } | null {
   assertNotPresidentialOffice(contest.office.officeKey);
   if (contest.candidatePersonIds.length === 0) {
@@ -165,6 +168,7 @@ export function evaluateDeterministicContestOutcome(
     jurisdictionId: contest.jurisdictionId,
     electionDate: contest.electionDate,
     candidatePersonIds: contest.candidatePersonIds,
+    ...(precinctOfVoter ? { precinctOfVoter } : {}),
   });
 }
 
@@ -175,6 +179,8 @@ export interface RecordedVoterCountInput {
   readonly candidatePersonIds: readonly EntityId[];
   /** Additional legal admission, e.g. a primary party ballot. Null is unread. */
   readonly admitVoter?: (personId: EntityId) => boolean | null;
+  /** Saved membership lookup. Null means the count cannot be fully grouped. */
+  readonly precinctOfVoter?: (personId: EntityId) => string | null;
 }
 
 /** Evaluate actual saved candidate views through the one decision function.
@@ -186,6 +192,7 @@ export function countRecordedVoterBallots(
 ): {
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
+  readonly precinctTallies: readonly PrecinctCandidateTally[] | null;
 } | null {
   const candidates = new Set<string>(input.candidatePersonIds);
   if (
@@ -292,6 +299,7 @@ export function countRecordedVoterBallots(
   }
   if (contexts.size === 0) return null;
   const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
+  const precinctVotes = new Map<string, Map<EntityId, number>>();
   for (const [voterId, context] of contexts) {
     if (
       !isEligibleVoterIn(
@@ -321,6 +329,19 @@ export function countRecordedVoterBallots(
         (candidateId) => candidateId === evaluation.selectedOptionKey,
       );
       if (!id) return null;
+      let precinctKey: string | null = null;
+      if (input.precinctOfVoter) {
+        precinctKey = input.precinctOfVoter(voterId);
+        if (!precinctKey) return null;
+        let byCandidate = precinctVotes.get(precinctKey);
+        if (!byCandidate) {
+          byCandidate = new Map(
+            input.candidatePersonIds.map((candidateId) => [candidateId, 0]),
+          );
+          precinctVotes.set(precinctKey, byCandidate);
+        }
+        byCandidate.set(id, byCandidate.get(id)! + 1);
+      }
       votes.set(id, votes.get(id)! + 1);
     }
   }
@@ -335,7 +356,38 @@ export function countRecordedVoterBallots(
     .sort((a, b) => b.votes - a.votes);
   if (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
     return null;
-  return { winnerPersonId: tallies[0]!.candidatePersonId, tallies };
+  const precinctTallies = input.precinctOfVoter
+    ? [...precinctVotes.entries()]
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([precinctKey, byCandidate]) => {
+          const precinctTotal = [...byCandidate.values()].reduce(
+            (sum, count) => sum + count,
+            0,
+          );
+          return {
+            precinctKey,
+            ballotsCast: precinctTotal,
+            tallies: input.candidatePersonIds.map((candidatePersonId) => {
+              const candidateVotes = byCandidate.get(candidatePersonId)!;
+              return {
+                candidatePersonId,
+                votes: candidateVotes,
+                voteShare: candidateVotes / precinctTotal,
+              };
+            }),
+          };
+        })
+    : null;
+  if (
+    precinctTallies &&
+    precinctTallies.reduce((sum, row) => sum + row.ballotsCast, 0) !== total
+  )
+    return null;
+  return {
+    winnerPersonId: tallies[0]!.candidatePersonId,
+    tallies,
+    precinctTallies,
+  };
 }
 
 export function resolveElectionContest(
@@ -384,6 +436,7 @@ export function resolveElectionContest(
 
   let winnerPersonId: EntityId;
   let tallies: readonly CandidateTally[];
+  let precinctTallies: readonly PrecinctCandidateTally[] | undefined;
 
   if (hasWinner && hasTallies) {
     if (!contest.candidatePersonIds.includes(input.winnerPersonId!)) {
@@ -407,11 +460,28 @@ export function resolveElectionContest(
       votes: t.votes,
       voteShare: t.voteShare,
     }));
+    if (input.precinctTallies) {
+      validatePrecinctTallies(
+        input.precinctTallies,
+        contest.candidatePersonIds,
+        tallies,
+      );
+      precinctTallies = input.precinctTallies.map((row) => ({
+        precinctKey: row.precinctKey,
+        ballotsCast: row.ballotsCast,
+        tallies: row.tallies.map((tally) => ({ ...tally })),
+      }));
+    }
   } else {
-    const outcome = evaluateDeterministicContestOutcome(world, contest);
+    const outcome = evaluateDeterministicContestOutcome(
+      world,
+      contest,
+      input.precinctOfVoter,
+    );
     if (!outcome) return world;
     winnerPersonId = outcome.winnerPersonId;
     tallies = outcome.tallies;
+    precinctTallies = outcome.precinctTallies ?? undefined;
   }
 
   const winner = world.people[winnerPersonId];
@@ -502,6 +572,7 @@ export function resolveElectionContest(
     resolvedAt,
     winnerPersonId,
     tallies,
+    ...(precinctTallies ? { precinctTallies } : {}),
     outcomeEventId: outcomeEvent.id,
     provenance: cloneElectionContestProvenance(provenance),
   };
@@ -554,6 +625,7 @@ export function cancelElectionContest(
 export function electionContestTransitionHandler(
   world: World,
   dueItem: FutureDueItem,
+  precinctOfVoter?: (personId: EntityId) => string | null,
 ): FutureTransitionHandlerResult {
   if (dueItem.transitionKey !== ELECTION_CONTEST_TRANSITION_KEY) {
     throw new Error(
@@ -584,6 +656,7 @@ export function electionContestTransitionHandler(
     stableKey: `${dueItem.stableKey}:result`,
     contestId: contest.id,
     resolvedAt: dueItem.dueAt,
+    ...(precinctOfVoter ? { precinctOfVoter } : {}),
     provenance: {
       method: "simulated",
       sourceEntityIds: [dueItem.id, contest.id],
@@ -1038,6 +1111,46 @@ function validateTallies(
     ) {
       throw new Error(`Invalid vote share: ${tally.voteShare}`);
     }
+  }
+}
+
+function validatePrecinctTallies(
+  precinctTallies: readonly PrecinctCandidateTally[],
+  candidatePersonIds: readonly EntityId[],
+  contestTallies: readonly CandidateTally[],
+): void {
+  const precinctKeys = new Set<string>();
+  const votesByCandidate = new Map(
+    candidatePersonIds.map((personId) => [personId, 0]),
+  );
+  for (const row of precinctTallies) {
+    if (!row.precinctKey || precinctKeys.has(row.precinctKey))
+      throw new Error(
+        "Precinct tallies require distinct, recorded precinct keys.",
+      );
+    precinctKeys.add(row.precinctKey);
+    if (!Number.isSafeInteger(row.ballotsCast) || row.ballotsCast < 0)
+      throw new Error(
+        `Invalid precinct ballots-cast count: ${row.ballotsCast}`,
+      );
+    validateTallies(row.tallies, candidatePersonIds);
+    const precinctVotes = row.tallies.reduce(
+      (sum, tally) => sum + tally.votes,
+      0,
+    );
+    if (precinctVotes !== row.ballotsCast)
+      throw new Error(
+        "Precinct ballots cast must equal its candidate tallies.",
+      );
+    for (const tally of row.tallies)
+      votesByCandidate.set(
+        tally.candidatePersonId,
+        votesByCandidate.get(tally.candidatePersonId)! + tally.votes,
+      );
+  }
+  for (const tally of contestTallies) {
+    if (votesByCandidate.get(tally.candidatePersonId) !== tally.votes)
+      throw new Error("Precinct tallies must sum to the contest-wide count.");
   }
 }
 

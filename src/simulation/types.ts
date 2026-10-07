@@ -3850,6 +3850,13 @@ export interface CandidateTally {
   readonly voteShare: number;
 }
 
+/** One recorded precinct's contribution to the same contest-wide count. */
+export interface PrecinctCandidateTally {
+  readonly precinctKey: string;
+  readonly ballotsCast: number;
+  readonly tallies: readonly CandidateTally[];
+}
+
 export interface ElectionContestResultRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -3858,6 +3865,7 @@ export interface ElectionContestResultRecord {
   readonly resolvedAt: IsoDate;
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
+  readonly precinctTallies?: readonly PrecinctCandidateTally[];
   readonly outcomeEventId: EntityId;
   readonly provenance: ElectionContestProvenance;
 }
@@ -3877,6 +3885,9 @@ export interface ResolveElectionContestInput {
   readonly resolvedAt?: string;
   readonly winnerPersonId?: EntityId;
   readonly tallies?: readonly CandidateTally[];
+  readonly precinctTallies?: readonly PrecinctCandidateTally[];
+  /** Saved membership lookup used by the shared deterministic count. */
+  readonly precinctOfVoter?: (personId: EntityId) => string | null;
   readonly provenance?: ElectionContestProvenance;
 }
 

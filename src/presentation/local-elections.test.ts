@@ -612,6 +612,21 @@ describe("A112 town counts use saved support without a seed draw", () => {
         expect(result).not.toBeNull();
         expect(result.tallies).toHaveLength(3);
         expect(result.tallies.map((row) => row.votes)).toEqual([3, 1, 0]);
+        const grouped = localElectionCountHandler(
+          atVote,
+          due,
+          (personId) => `precinct:${atVote.personOrder.indexOf(personId)}`,
+        );
+        expect(grouped.status).toBe("resolved");
+        const groupedResult = electionContestResult(grouped.world, contest.id)!;
+        expect(groupedResult.winnerPersonId).toBe(result.winnerPersonId);
+        expect(groupedResult.tallies).toEqual(result.tallies);
+        expect(
+          groupedResult.precinctTallies?.reduce(
+            (sum, row) => sum + row.ballotsCast,
+            0,
+          ),
+        ).toBe(result.tallies.reduce((sum, row) => sum + row.votes, 0));
         return {
           tallies: result.tallies.map((row) => ({
             candidateIndex: contest.candidatePersonIds.indexOf(
