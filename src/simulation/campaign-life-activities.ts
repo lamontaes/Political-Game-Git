@@ -1,7 +1,9 @@
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { eventById } from "./event-index";
 import { modelCampaignFieldReach } from "./campaign-contact-calibration";
+import { circulateCandidatePetition } from "./candidate-petitions";
 import { wasRefused } from "./scheduled-activity-answer";
+import { onShiftAt, workSchedulesFor } from "./living-world/work-schedules";
 import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
   CAMPAIGN_LIFE_CATALOG,
@@ -30,6 +32,7 @@ import {
   campaigns,
 } from "./campaign-queries";
 import { recordSupportShift } from "./campaign-support";
+import { currentCampaignRoutine } from "./campaign-routine";
 import {
   candidacyAuthority,
   candidacyEligibility,
@@ -50,6 +53,9 @@ import {
   simulationMomentAtLocalTime,
 } from "./dates";
 import { evaluateDecision } from "./decisions";
+import { evaluateCampaignHelpDecision } from "./campaign-help-decision";
+import { registeredTraitConsiderations } from "./trait-readings";
+import { traitRegistryFor } from "./trait-registry";
 import {
   electionContestStatus,
   requireElectionContest,
@@ -1414,19 +1420,11 @@ function supportRequestDecision(
       sourceRefs: [{ kind: "historical-event", eventId: finding.step.eventId }],
     });
   }
-  const evaluation = evaluateDecision(world, {
+  const evaluation = evaluateCampaignHelpDecision(world, {
     stableKey: decisionKey,
     decisionType: "campaign.support-request",
     actorPersonId: record.hostPersonId,
-    cutoff: {
-      asOfDate: world.currentDate,
-      historySequenceExclusive: world.history.nextSequence,
-    },
-    subject: {
-      kind: "context:life",
-      key: "campaign-support-request",
-      entityId: null,
-    },
+    subjectKey: "campaign-support-request",
     options: [
       {
         key: "grant",
@@ -1444,11 +1442,17 @@ function supportRequestDecision(
         description: "Leave it for the chapter to take up later.",
       },
     ],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "close-choices",
-    retention: "ephemeral",
+    considerations: [
+      ...considerations,
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        record.hostPersonId,
+        decisionKey,
+        "campaign.support-request",
+        record.subjectPersonId,
+      ),
+    ],
   });
   return evaluation.selectedOptionKey === "grant"
     ? "granted"
@@ -1664,6 +1668,20 @@ export function recordCampaignLifeAttendance(
     next = shift.world;
     supportStateIds = shift.stateIds;
   }
+  const petitionRoutine = openCampaign
+    ? currentCampaignRoutine(next, openCampaign.id)?.blocks.some(
+        (block) => block.work === "petition",
+      ) === true
+    : false;
+  if (openCampaign && petitionRoutine && FIELD_FORMS.includes(record.form)) {
+    next = circulateCandidatePetition(next, {
+      campaignId: openCampaign.id,
+      circulatorPersonId: personId,
+      stableKey: `${record.stableKey}:petition-circulation`,
+      minutes,
+      at: completedAt,
+    });
+  }
 
   let guidanceKnowledgeId: EntityId | null = null;
   if (guidance) {
@@ -1830,7 +1848,15 @@ export function recordCampaignLifeAttendance(
     fieldReach: openCampaign
       ? modelCampaignFieldReach(
           record.form,
-          minutes * new Set(activity.participantPersonIds).size,
+          minutes *
+            new Set([
+              ...activity.participantPersonIds,
+              ...activeStaffPersonIds(world, openCampaign).filter((staffId) =>
+                workSchedulesFor(world, staffId, activityState.start.date).some(
+                  (schedule) => onShiftAt(schedule, activityState.start),
+                ),
+              ),
+            ]).size,
         )
       : null,
     relationshipInteractionIds,
@@ -2253,7 +2279,19 @@ export function campaignLifeOutreachTransitionHandler(
     },
     options,
     constraints: [],
-    considerations,
+    considerations: [
+      ...considerations,
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        hostId,
+        `${dueItem.stableKey}:decision`,
+        "campaign.organizer-outreach",
+        subjectId,
+      ).filter((reason) =>
+        options.some((option) => option.key === reason.optionKey),
+      ),
+    ],
     perceptionIds: [],
     randomness: "none",
     retention: "ephemeral",

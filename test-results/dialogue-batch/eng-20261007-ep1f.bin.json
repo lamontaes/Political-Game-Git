@@ -1,0 +1,139 @@
+[
+  {
+    "item": {
+      "situation": "From your school, Riley McDonald (14), in Point Pleasant, West Virginia, on January 5, 2026. You are 17.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "From your school: Me too. I've been meaning to make time to learn something.",
+      "part": "life-reply.tell-shared-plan:core:core",
+      "parts": [
+        "life-reply.tell-shared-plan:core:core",
+        "life-reply.tell-shared-plan:reason:continuation"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "tell-plan",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Point Pleasant, West Virginia",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1f:1"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "From your school, Malcolm Hoffman (13), in Collings Lakes, New Jersey, on January 5, 2026. You are 6.",
+      "prior": "",
+      "reply": "From your school: What is left to do?",
+      "part": "subject-reply.school_raise:core:even-0-core-0",
+      "parts": [
+        "subject-reply.school_raise:core:even-0-core-0"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-raise",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Collings Lakes, New Jersey",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1f:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "From your school, Riley McDonald (14), in Point Pleasant, West Virginia, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "From your school: What did you want to ask?",
+      "part": "subject-reply.neighborhood_mention:core:even-0-core-2",
+      "parts": [
+        "subject-reply.neighborhood_mention:core:even-0-core-2"
+      ],
+      "composer": "composeSubjectReply (neighborhood) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "neighborhood-mention",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Point Pleasant, West Virginia",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1f:1"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your dad, Bobby Carr (72), in Mongmong-Toto-Maite, Guam, on February 3, 2026. You are 35.",
+      "prior": "",
+      "reply": "Your dad: I can’t make it.",
+      "part": "everyday.social-decline-reply:core:core",
+      "parts": [
+        "everyday.social-decline-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Mongmong-Toto-Maite, Guam",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1f:2"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  },
+  {
+    "item": {
+      "situation": "From your school, Malcolm Hoffman (13), in Collings Lakes, New Jersey, on January 5, 2026. You are 6.",
+      "prior": "You: Mention something in the news",
+      "reply": "From your school: No, I didn't know about that. Go on.",
+      "part": "small-talk.matter-uninformed:core:didnt-know",
+      "parts": [
+        "small-talk.matter-uninformed:core:didnt-know",
+        "small-talk.matter-uninformed:closer:go-on"
+      ],
+      "composer": "matterUninformedLine in small-talk-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "share-news",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "matter-uninformed",
+        "belief": null,
+        "place": "Collings Lakes, New Jersey",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1f:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  }
+]

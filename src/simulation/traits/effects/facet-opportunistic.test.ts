@@ -115,7 +115,7 @@ describe("facet-opportunistic effect reader", () => {
         ],
         considerations,
         constraints: [],
-        preferences: [],
+        perceptionIds: [],
         randomness: "none",
         retention: "ephemeral",
         cutoff: {

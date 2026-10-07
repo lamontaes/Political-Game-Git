@@ -77,7 +77,6 @@ for (const viewport of [
     ).toBeVisible();
     await chooseStateThenTown(page, "Kentucky", "Lexingto", /Lexington/i);
     await page.getByTestId("creator-continue-place").click();
-    await page.getByTestId("whoareyou-answer").click();
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
     await expectNoCurrentVersion(page);

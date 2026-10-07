@@ -40,7 +40,11 @@ import {
   advanceStoppingForOfferDeadlines,
   offerDeadlines,
 } from "./offer-deadlines";
-import { capQuietStretch, nextKnownCalendarItem } from "./quiet-stretch";
+import {
+  capQuietStretch,
+  nextKnownCalendarItem,
+  type KnownCalendarItem,
+} from "./quiet-stretch";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import {
   describeRoutineOutcome,
@@ -120,7 +124,7 @@ export interface TimeCommandPreview {
   readonly targetDate: IsoDate;
   readonly days: number;
   /** Why this target: the pacing length, or the calendar item that caps it. */
-  readonly cappedBy: { readonly title: string; readonly date: IsoDate } | null;
+  readonly cappedBy: KnownCalendarItem | null;
 }
 
 function morningAfter(world: World, days: number): SimulationMoment {

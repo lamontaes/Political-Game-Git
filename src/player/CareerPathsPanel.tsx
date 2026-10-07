@@ -26,7 +26,7 @@ import { InlineDayControl } from "./controls/InlineDayControl";
 import { nationalMedianWageSentence } from "../presentation/career-wage";
 import { proseDate } from "../presentation/prose-dates";
 import { addDays } from "../simulation/dates";
-import { JOB_MARKET_PLACEHOLDER } from "../simulation/job-market";
+import { JOB_MARKET_TIMING_ESTIMATE as JOB_MARKET_TIMING } from "../simulation/job-market";
 export function CareerPathsPanel({
   world,
   onWorldChange,
@@ -133,7 +133,7 @@ export function CareerPathsPanel({
         const calledBack = expectedStart !== r.startedAt;
         const beginBy = addDays(
           expectedStart,
-          JOB_MARKET_PLACEHOLDER.missedStartGraceDays,
+          JOB_MARKET_TIMING.missedStartGraceDays,
         );
         return (
           <article key={r.id}>
@@ -141,8 +141,8 @@ export function CareerPathsPanel({
             <p>
               {accepted
                 ? startReached
-                  ? `${calledBack ? "The employer called when you did not come in, and still wants you." : "You accepted this offer."} Begin work by ${proseDate(beginBy)}, or they may withdraw it.`
-                  : `You accepted this offer. Work begins ${proseDate(expectedStart)}.`
+                  ? `${calledBack ? "Accepted · employer called" : "Accepted"} · Begin by ${proseDate(beginBy)}`
+                  : `Accepted · Starts ${proseDate(expectedStart)}`
                 : status === "expected"
                   ? "Offer awaiting your response"
                   : status === "ended"
@@ -182,7 +182,7 @@ export function CareerPathsPanel({
                   label="Wait one day"
                   testid="career-paths-wait-day"
                   onOutcome={setNotice}
-                  unavailableNote="Waiting a day is not offered here: this panel is open outside the play shell, which owns the one clock."
+                  unavailableNote="Unavailable here"
                 />
                 {accepted ? (
                   <button onClick={() => act(startCareerWork(world, r.id, p))}>

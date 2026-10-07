@@ -425,7 +425,7 @@ function nominationSummary(
   if (isAllParty(method))
     return rows.length === 1
       ? `One candidate filed for ${title}, so the primary sent them on alone.`
-      : `${rows.length} candidates of every party met in one primary for ${title}.`;
+      : `${rows.length} ${rows.length === 1 ? "candidate" : "candidates"} of every party met in one primary for ${title}.`;
   if (runoffParties.length)
     return `No ${runoffParties.join(" or ")} candidate for ${title} won enough of the primary vote, so the top two meet in a runoff.`;
   return contested.size
