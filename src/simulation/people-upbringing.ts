@@ -325,6 +325,10 @@ interface FamilyCohortIndex {
   readonly date: IsoDate;
   readonly validUntil: IsoDate;
   readonly inputs: readonly unknown[];
+  /** The people order this index was built over, to recognize appended people. */
+  readonly personOrder: readonly EntityId[];
+  /** Every household any membership row names, to recognize a new household. */
+  readonly householdIds: ReadonlySet<EntityId>;
   readonly estimate: ReturnType<typeof recordedFamilyEstimates>;
   readonly byPerson: ReadonlyMap<EntityId, RecordedFamilySample>;
   readonly exact: Map<string, RecordedFamilySample[]>;
@@ -464,6 +468,16 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     prior.inputs.every((value, index) => value === inputs[index])
   )
     return prior;
+  // A day's new people (each with a household of their own) change the people
+  // and household tables but not the families already sampled, so carry the
+  // index forward instead of reading every household again.
+  const extended = prior
+    ? extendFamilyCohortIndex(prior, world, inputs)
+    : undefined;
+  if (extended) {
+    FAMILY_COHORTS.set(key, extended);
+    return extended;
+  }
   const estimate = recordedFamilyEstimates(world);
   // One immutable build can encounter the same person in both ordered loops.
   // Keep this map local: it must not retain contexts across snapshots or dates.
@@ -596,6 +610,10 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     date: world.currentDate,
     validUntil,
     inputs,
+    personOrder: world.personOrder,
+    householdIds: new Set(
+      world.history.householdMemberships.map((row) => row.householdId),
+    ),
     estimate,
     byPerson: new Map(estimate.samples.map((row) => [row.personId, row])),
     exact,
@@ -603,6 +621,128 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   };
   FAMILY_COHORTS.set(key, result);
   return result;
+}
+
+/** How many leading records `next` shares, by identity, with all of `prior`; null if it does not extend it. */
+function appendedFrom(
+  prior: readonly unknown[],
+  next: readonly unknown[],
+): number | null {
+  if (next === prior) return prior.length;
+  if (next.length < prior.length) return null;
+  for (let at = 0; at < prior.length; at += 1)
+    if (next[at] !== prior[at]) return null;
+  return prior.length;
+}
+
+/**
+ * The family index for a world that only appended new people, each in a
+ * household no earlier record names, to the world the index was built over.
+ *
+ * Nothing already sampled can change then: the kinship history, pay and work
+ * tables are the same records, every earlier person is the same object, and no
+ * appended membership, state or location touches an earlier person or
+ * household. So the samples, cohorts, pay and place groups stand, and only the
+ * household samples gain the new households, in membership order, exactly as a
+ * full build would list them. Anything else returns undefined and is rebuilt.
+ */
+function extendFamilyCohortIndex(
+  prior: FamilyCohortIndex,
+  world: World,
+  inputs: readonly unknown[],
+): FamilyCohortIndex | undefined {
+  if (prior.date !== world.currentDate) return undefined;
+  // Pay, work and (by the cache key) kinship records are the same records.
+  for (let at = 4; at < inputs.length; at += 1)
+    if (prior.inputs[at] !== inputs[at]) return undefined;
+  const priorPeople = prior.inputs[0] as World["people"];
+  const order = world.personOrder;
+  if (appendedFrom(prior.personOrder, order) === null) return undefined;
+  for (const id of prior.personOrder)
+    if (world.people[id] !== priorPeople[id]) return undefined;
+  const newPeople = new Set<EntityId>();
+  for (let at = prior.personOrder.length; at < order.length; at += 1) {
+    const id = order[at]!;
+    if (id in priorPeople || !world.people[id]) return undefined;
+    newPeople.add(id);
+  }
+  const memberships = world.history.householdMemberships;
+  const states = world.history.householdMembershipStates;
+  const locations = world.history.householdLocations;
+  const fromMemberships = appendedFrom(
+    prior.inputs[1] as typeof memberships,
+    memberships,
+  );
+  const fromStates = appendedFrom(prior.inputs[2] as typeof states, states);
+  const fromLocations = appendedFrom(
+    prior.inputs[3] as typeof locations,
+    locations,
+  );
+  if (fromMemberships === null || fromStates === null || fromLocations === null)
+    return undefined;
+  const newHouseholds = new Set<EntityId>();
+  const newMemberships = new Set<EntityId>();
+  for (let at = fromMemberships; at < memberships.length; at += 1) {
+    const row = memberships[at]!;
+    if (!newPeople.has(row.personId) || prior.householdIds.has(row.householdId))
+      return undefined;
+    newHouseholds.add(row.householdId);
+    newMemberships.add(row.id);
+  }
+  for (let at = fromStates; at < states.length; at += 1)
+    if (!newMemberships.has(states[at]!.membershipId)) return undefined;
+  for (let at = fromLocations; at < locations.length; at += 1)
+    if (!newHouseholds.has(locations[at]!.householdId)) return undefined;
+
+  let validUntil = prior.validUntil;
+  for (const rows of [
+    memberships,
+    states,
+    locations,
+  ] as readonly (readonly object[])[]) {
+    const next = nextRecordDate(rows, world.currentDate);
+    if (next && next > world.currentDate && next < validUntil)
+      validUntil = next;
+  }
+  const seenHouseholds = new Set<EntityId>();
+  const householdSamples = [...prior.householdSamples];
+  const householdsByPlace = new Map(prior.householdsByPlace);
+  for (let at = fromMemberships; at < memberships.length; at += 1) {
+    const membership = memberships[at]!;
+    const { household, members } = selectedHouseholdMembers(
+      world,
+      membership.personId,
+    );
+    const adultMembers = members.filter(
+      (id) => eighteenthBirthday(world.people[id]!) <= world.currentDate,
+    );
+    const householdId = household?.household.id;
+    if (!householdId || seenHouseholds.has(householdId) || !adultMembers.length)
+      continue;
+    seenHouseholds.add(householdId);
+    const row = {
+      personId: membership.personId,
+      placeId:
+        household?.location?.jurisdictionId ??
+        world.people[membership.personId]!.homeJurisdictionId,
+      adultIds: adultMembers,
+      childCount: members.length - adultMembers.length,
+    };
+    householdSamples.push(row);
+    householdsByPlace.set(row.placeId, [
+      ...(householdsByPlace.get(row.placeId) ?? []),
+      row,
+    ]);
+  }
+  return {
+    ...prior,
+    validUntil,
+    inputs,
+    personOrder: order,
+    householdIds: new Set([...prior.householdIds, ...newHouseholds]),
+    householdSamples,
+    householdsByPlace,
+  };
 }
 function childhoodFamilyContext(
   world: World,

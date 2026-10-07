@@ -39,7 +39,7 @@ import {
   referForProsecution,
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_DECLINED_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_ESTIMATE,
 } from "./prosecution";
 import { prosecutionTimingFor } from "./prosecution-timing";
 import { PROSECUTION_STAGE_TRANSITION_KEY } from "./prosecution-transitions";
@@ -156,10 +156,7 @@ describe("a saved prosecution stage owns its due item", () => {
       );
       expect(item.entityIds).toEqual([subjectId]);
       expect(item.dueAt).toBe(
-        addDays(
-          isolated.currentDate,
-          UNRESEARCHED_PROSECUTION.chargeDecisionDays,
-        ),
+        addDays(isolated.currentDate, PROSECUTION_ESTIMATE.chargeDecisionDays),
       );
       let legacy: World | undefined;
       let calls = 0;

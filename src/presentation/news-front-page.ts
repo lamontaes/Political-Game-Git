@@ -1,6 +1,11 @@
 import type { EntityId, IsoDate, World } from "../simulation";
 import type { NewsMode } from "./shell-navigation";
 import { projectPublicInformationPanel } from "./public-information-adapters";
+import { newsHabitOf } from "../simulation/living-world/news-habits";
+import { mediaOutlets } from "../simulation/press/outlets";
+import { mediaOutletKey } from "../simulation/press/records";
+import type { MediaOutletRecord } from "../simulation/press/records";
+import { recordedScale } from "../simulation/press/desk";
 
 /**
  * News as a reading experience (OCD-UI-005, UI DECISION FOLLOW-THROUGH).
@@ -25,6 +30,8 @@ export interface NewsStory {
   readonly publishedAt: IsoDate;
   readonly place: string | null;
   readonly national: boolean;
+  readonly scale: number;
+  readonly scaleTag: string | null;
   readonly people: readonly {
     readonly personId: EntityId;
     readonly label: string;
@@ -54,6 +61,18 @@ export interface NewsFrontPageModel {
   readonly empty: string | null;
 }
 
+/** Keep exactly the saved publications the supplied reader habit reaches. */
+export function filterNewsItemsToHabit<
+  T extends { readonly outletKey: string },
+>(
+  items: readonly T[],
+  followedOutletKeys: ReadonlySet<string> | null,
+): readonly T[] {
+  return followedOutletKeys
+    ? items.filter((item) => followedOutletKeys.has(item.outletKey))
+    : items;
+}
+
 const MASTHEAD_STYLES = 4;
 
 function styleFor(outletKey: string): number {
@@ -62,6 +81,21 @@ function styleFor(outletKey: string): number {
     hash = (hash * 31 + outletKey.charCodeAt(index)) >>> 0;
   }
   return hash % MASTHEAD_STYLES;
+}
+
+function scaleValue(tag: string): number {
+  const value = tag.split(":")[1];
+  return value === "minor"
+    ? 1
+    : value === "notable"
+      ? 2
+      : value === "moderate"
+        ? 2
+        : value === "major"
+          ? 3
+          : value === "catastrophic"
+            ? 4
+            : 0;
 }
 
 /**
@@ -119,37 +153,64 @@ export function projectNewsFrontPage(
   world: World,
   mode: NewsMode,
   outletKey: string | null,
+  personId?: EntityId | null,
 ): NewsFrontPageModel {
   const panel = projectPublicInformationPanel(world);
-  const mastheads: NewsMasthead[] = panel.outlets.map((outlet) => ({
+  const habit = personId ? newsHabitOf(world, personId) : null;
+  const followed = habit ? new Set(habit.outletKeys) : null;
+  const outletsByKey = new Map<string, MediaOutletRecord>(
+    mediaOutlets(world).map((outlet) => [mediaOutletKey(outlet.id), outlet]),
+  );
+  const mastheads: NewsMasthead[] = filterNewsItemsToHabit(
+    panel.outlets,
+    followed,
+  ).map((outlet) => ({
     outletKey: outlet.outletKey,
     outletName: outlet.outletName,
     storyCount: outlet.storyCount,
     style: styleFor(outlet.outletKey),
   }));
   const lawsOf = storyLawReader(world);
-  const stories: NewsStory[] = panel.items.map((item) => ({
-    id: item.publicationId,
-    sourceEventId: item.sourceEventId,
-    sourceRecordIds: item.sourceRecordIds,
-    headline: item.headline,
-    readerHeadline: item.readerHeadline,
-    body: item.body,
-    outletKey: item.outletKey,
-    outletName: item.outletName,
-    publishedAt: item.publicationTime,
-    place: item.jurisdictionName,
-    national:
-      item.jurisdictionId === null ||
-      world.jurisdictions[item.jurisdictionId]?.kind === "federal",
-    people: item.people.map((person) => ({
-      personId: person.personId,
-      label: person.label,
-    })),
-    laws: lawsOf(item.publicationId, item.sourceEventId),
-  }));
+  const stories: NewsStory[] = filterNewsItemsToHabit(
+    panel.items,
+    followed,
+  ).map((item) => {
+    const event = world.history.events.find(
+      (candidate) => candidate.id === item.sourceEventId,
+    );
+    const scaleTag =
+      event?.tags
+        .filter(
+          (tag) =>
+            tag.startsWith("importance:") || tag.startsWith("magnitude:"),
+        )
+        .sort((left, right) => scaleValue(right) - scaleValue(left))[0] ?? null;
+    return {
+      id: item.publicationId,
+      sourceEventId: item.sourceEventId,
+      sourceRecordIds: item.sourceRecordIds,
+      headline: item.headline,
+      readerHeadline: item.readerHeadline,
+      body: item.body,
+      outletKey: item.outletKey,
+      outletName: item.outletName,
+      publishedAt: item.publicationTime,
+      place: item.jurisdictionName,
+      national: outletsByKey.get(item.outletKey)?.scope === "national",
+      scale: event ? recordedScale(event) : 0,
+      scaleTag,
+      people: item.people.map((person) => ({
+        personId: person.personId,
+        label: person.label,
+      })),
+      laws: lawsOf(item.publicationId, item.sourceEventId),
+    };
+  });
   const byRecency = (left: NewsStory, right: NewsStory) =>
-    right.publishedAt.localeCompare(left.publishedAt);
+    (habit
+      ? outletRank(outletsByKey.get(left.outletKey)?.scope) -
+        outletRank(outletsByKey.get(right.outletKey)?.scope)
+      : 0) || right.publishedAt.localeCompare(left.publishedAt);
 
   const outlet =
     mode === "publication"
@@ -178,12 +239,23 @@ export function projectNewsFrontPage(
   };
 }
 
+function outletRank(scope: string | undefined): number {
+  return scope === "national"
+    ? 0
+    : scope === "state"
+      ? 1
+      : scope === "regional"
+        ? 2
+        : 3;
+}
+
 /** Article detail uses the same publication and access-filtered entity links as its headline. */
 export function projectNewsArticle(
   world: World,
   publicationId: EntityId,
+  personId?: EntityId | null,
 ): NewsStory | null {
-  const page = projectNewsFrontPage(world, "front", null);
+  const page = projectNewsFrontPage(world, "front", null, personId);
   return (
     [page.lead, ...page.stories].find((item) => item?.id === publicationId) ??
     null
