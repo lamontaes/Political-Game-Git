@@ -4629,9 +4629,22 @@ function renderWorkspace({
       ) {
         sections.push({
           key: "office",
-          title: "Your office",
+          title:
+            governingOfficeForPerson(session.world, session.personId)?.title ??
+            "",
           body: (
             <>
+              <nav className="pg-tabs governing-top-tabs" aria-label="Calendar">
+                <a className="pg-tab" href="#governing-people">
+                  People
+                </a>
+                <a className="pg-tab" href="#governing-calendar">
+                  Calendar
+                </a>
+                <a className="pg-tab" href="#governing-money">
+                  Money
+                </a>
+              </nav>
               <GoverningBriefing
                 world={session.world}
                 personId={session.personId}

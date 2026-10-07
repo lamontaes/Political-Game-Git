@@ -11,7 +11,6 @@ import {
   type BriefingMatter,
 } from "../presentation/governing-briefing";
 import { proseDate } from "../presentation/prose-dates";
-import { GuideTermText } from "./GuideTerm";
 import { BUDGET_DOLLARS } from "../simulation/governing/executive-budget-requests";
 import {
   ExecutiveBudgetRequestEditor,
@@ -35,8 +34,12 @@ export function GoverningBriefing({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [problem, setProblem] = useState<string | null>(null);
+  const [selectedMatterId, setSelectedMatterId] = useState<string | null>(null);
   const briefing = projectGoverningBriefing(world, personId);
   if (!briefing) return null;
+  const matters = [...briefing.significant, ...briefing.more];
+  const selectedMatter =
+    matters.find((matter) => matter.id === selectedMatterId) ?? matters[0];
 
   const commit = (result: GoverningActionResult) => {
     if (result.ok) {
@@ -64,35 +67,53 @@ export function GoverningBriefing({
   );
 
   return (
-    <section className="governing-briefing" data-testid="governing-briefing">
+    <section
+      id="governing-calendar"
+      className="governing-briefing"
+      data-testid="governing-briefing"
+    >
       <header>
         <h3>{briefing.officeTitle}</h3>
         <dl className="game-note" data-testid="governing-office-facts">
-          <dt>Term ends</dt>
-          <dd
-            data-testid="governing-term-ends"
-            data-problem={briefing.termEndsAt ? undefined : "no-term-end"}
-          >
-            {briefing.termEndsAt ? proseDate(briefing.termEndsAt) : "—"}
-          </dd>
-          <dt>Chief of staff</dt>
-          <dd
-            data-testid="governing-chief-of-staff"
-            data-problem={briefing.chiefOfStaff ? undefined : "no-chief"}
-          >
-            {briefing.chiefOfStaff ? briefing.chiefOfStaff.name : "—"}
-          </dd>
+          {briefing.termEndsAt ? (
+            <dd data-testid="governing-term-ends">
+              {proseDate(briefing.termEndsAt)}
+            </dd>
+          ) : null}
+          {briefing.chiefOfStaff ? (
+            <dd data-testid="governing-chief-of-staff">
+              {briefing.chiefOfStaff.name}
+            </dd>
+          ) : null}
         </dl>
       </header>
 
       <ExecutiveBudgetRequestHistory world={world} personId={personId} />
-      <h4>Needs you</h4>
-      {briefing.significant.length === 0 ? (
+      {matters.length === 0 ? (
         <p data-testid="governing-nothing-open" data-problem="nothing-open" />
       ) : (
-        <ul className="governing-matters" data-testid="governing-significant">
-          {briefing.significant.map(card)}
-        </ul>
+        <div className="governing-matter-browser">
+          <nav
+            className="governing-matter-list"
+            data-testid="governing-matter-list"
+            aria-label="Calendar"
+          >
+            {matters.map((matter) => (
+              <button
+                key={matter.id}
+                type="button"
+                className="pg-tab"
+                aria-pressed={selectedMatter?.id === matter.id}
+                onClick={() => setSelectedMatterId(matter.id)}
+              >
+                {matter.title}
+              </button>
+            ))}
+          </nav>
+          <ul className="governing-matters" data-testid="governing-significant">
+            {selectedMatter ? card(selectedMatter) : null}
+          </ul>
+        </div>
       )}
       {problem ? (
         <p
@@ -104,23 +125,15 @@ export function GoverningBriefing({
       ) : null}
 
       {briefing.more.length > 0 ? (
-        <details data-testid="governing-more">
-          <summary>{`${briefing.more.length} more matters`}</summary>
-          <ul className="governing-matters">{briefing.more.map(card)}</ul>
-        </details>
+        <span data-testid="governing-more" data-count={briefing.more.length} />
       ) : null}
 
       {briefing.recent.length > 0 ? (
-        <>
-          <h4>What came of it</h4>
-          <ul data-testid="governing-recent">
-            {briefing.recent.map((entry, index) => (
-              <li key={`${entry.date}:${index}`}>
-                <small>{entry.date}</small> {entry.text}
-              </li>
-            ))}
-          </ul>
-        </>
+        <ul data-testid="governing-recent">
+          {briefing.recent.map((entry, index) => (
+            <li key={`${entry.date}:${index}`}>{entry.date}</li>
+          ))}
+        </ul>
       ) : null}
     </section>
   );
@@ -140,9 +153,6 @@ function MatterCard({
   return (
     <li className="governing-matter" data-testid="governing-matter">
       <h5>{matter.title}</h5>
-      <p>
-        <GuideTermText text={matter.ask} />
-      </p>
       <p
         className="game-note"
         data-testid="governing-deadline"
@@ -173,7 +183,6 @@ function MatterCard({
               onClick={() => onDecide(option.key)}
             >
               {option.label}
-              <small>{option.effect}</small>
             </button>
           ))}
         {matter.canDelegate ? (
@@ -183,24 +192,11 @@ function MatterCard({
             data-testid="governing-delegate"
             onClick={onDelegate}
           >
-            Let your chief of staff handle it
+            Continue
           </button>
         ) : null}
       </div>
       {budgetEditor}
-      <details>
-        <summary>Tradeoffs and what happens if you wait</summary>
-        <ul>
-          {matter.options.map((option) => (
-            <li key={option.key}>
-              <strong>{option.label}:</strong> {option.tradeoff}
-            </li>
-          ))}
-        </ul>
-        <p data-testid="governing-if-ignored">
-          <GuideTermText text={matter.ifIgnored} />
-        </p>
-      </details>
     </li>
   );
 }

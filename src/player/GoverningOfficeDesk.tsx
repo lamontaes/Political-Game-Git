@@ -67,7 +67,6 @@ export function GoverningOfficeDesk({
 
   return (
     <section className="governing-office-desk" data-testid="office-desk">
-      <h4>What this office is answerable for</h4>
       {desk.programsReason ? (
         <p
           className="game-note"
@@ -75,14 +74,17 @@ export function GoverningOfficeDesk({
           data-problem={desk.programsReason}
         />
       ) : (
-        <ul className="office-desk-list" data-testid="office-programs">
+        <ul
+          id="governing-money"
+          className="office-desk-list"
+          data-testid="office-programs"
+        >
           {desk.programs.map((program) => (
             <ProgramCard key={program.programKey} program={program} />
           ))}
         </ul>
       )}
 
-      <h4>Who works here</h4>
       {desk.staffReason ? (
         <p
           className="game-note"
@@ -90,7 +92,11 @@ export function GoverningOfficeDesk({
           data-problem={desk.staffReason}
         />
       ) : (
-        <ul className="office-desk-list" data-testid="office-staff">
+        <ul
+          id="governing-people"
+          className="office-desk-list"
+          data-testid="office-staff"
+        >
           {desk.staff.map((member) => (
             <li key={member.personId} data-testid="office-staff-member">
               <strong>{member.name}</strong>
@@ -118,7 +124,6 @@ export function GoverningOfficeDesk({
         />
       ) : null}
 
-      <h4>Your measures</h4>
       {desk.measuresReason ? (
         <p
           className="game-note"
@@ -147,7 +152,6 @@ export function GoverningOfficeDesk({
 
       <ExecutiveBillResults world={world} personId={personId} />
 
-      <h4>Casework</h4>
       {casework ? (
         <div className="office-desk-casework">
           {/*
@@ -155,12 +159,9 @@ export function GoverningOfficeDesk({
             name is carried by aria-labelledby rather than the association
             alone.
           */}
-          <label id="office-casework-label" htmlFor="office-casework-mode">
-            How this office handles constituent requests
-          </label>
           <GameSelect
             id="office-casework-mode"
-            aria-labelledby="office-casework-label"
+            aria-label="People"
             data-testid="office-casework-mode"
             value={casework.mode ?? ""}
             onChange={(event) => {
@@ -175,14 +176,9 @@ export function GoverningOfficeDesk({
                 );
             }}
           >
-            {casework.mode === null ? (
-              <option value="" disabled>
-                Not chosen yet
-              </option>
-            ) : null}
             {CASEWORK_CHOICES.map((choice) => (
               <option key={choice.mode} value={choice.mode}>
-                {choice.label}
+                {choice.mode}
               </option>
             ))}
           </GameSelect>
@@ -228,7 +224,7 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
         name in the World, and the program's record key is not a name, so the
         heading says as much rather than titling the panel with an identifier.
       */}
-      <h5>{program.serviceLabel ?? "A program with no recorded name"}</h5>
+      {program.serviceLabel ? <h5>{program.serviceLabel}</h5> : null}
       {program.serviceLabel ? null : (
         <p
           className="game-note"
@@ -245,9 +241,7 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
         >
           <dt>{program.capacity.unitLabel}</dt>
           <dd>{`${program.capacity.inService} / ${program.capacity.total}`}</dd>
-          <dt>Monthly cost</dt>
           <dd>{program.capacity.monthlyNeed}</dd>
-          <dt>Restoration cost</dt>
           <dd
             data-problem={
               program.capacity.restorationCost ? undefined : "not-established"
@@ -257,7 +251,6 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
           </dd>
           {program.monthsCovered ? (
             <>
-              <dt>Months paid for</dt>
               <dd>{program.monthsCovered}</dd>
             </>
           ) : null}
@@ -282,7 +275,6 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
         ))
       )}
 
-      <h6>Committed</h6>
       {program.commitments.length === 0 ? (
         <p
           className="game-note"
@@ -307,7 +299,7 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
                 <span>{commitment.decidedByName}</span>
               </span>
               <details>
-                <summary>Payments</summary>
+                <summary>Money</summary>
                 <ul>
                   {commitment.payments.map((payment, index) => (
                     <li
@@ -335,14 +327,11 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
       )}
 
       {program.outturnLines.length > 0 ? (
-        <>
-          <h6>What the work came to</h6>
-          <ul data-testid="office-program-outturn">
-            {program.outturnLines.map((line, index) => (
-              <li key={`${index}-${line}`}>{line}</li>
-            ))}
-          </ul>
-        </>
+        <ul data-testid="office-program-outturn">
+          {program.outturnLines.map((line, index) => (
+            <li key={`${index}-${line}`}>{line}</li>
+          ))}
+        </ul>
       ) : null}
     </li>
   );
@@ -359,7 +348,6 @@ function Appropriation({
       data-testid="office-program-appropriation"
       data-authority={appropriation.authority.status}
     >
-      <h6>Put to this office</h6>
       <p>{appropriation.amount}</p>
       <p className="game-note">
         <time dateTime={appropriation.availableFrom}>

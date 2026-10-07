@@ -81,9 +81,8 @@ export function ExecutiveBudgetRequestEditor({
   };
   return (
     <details data-testid="executive-budget-editor">
-      <summary>Prepare a dollar request</summary>
-      <label>
-        Period begins{" "}
+      <summary>Money</summary>
+      <label aria-label="Calendar">
         <input
           aria-label="Budget request begins"
           type="date"
@@ -91,8 +90,7 @@ export function ExecutiveBudgetRequestEditor({
           onChange={(event) => setStartsOn(event.target.value)}
         />
       </label>
-      <label>
-        Period ends{" "}
+      <label aria-label="Calendar">
         <input
           aria-label="Budget request ends"
           type="date"
@@ -106,23 +104,21 @@ export function ExecutiveBudgetRequestEditor({
         data-basis={period ? "fiscal-year" : undefined}
         data-problem={period ? undefined : "no-fiscal-calendar"}
       />
-      <label>
-        Program family{" "}
+      <label aria-label="Money">
         <select
           aria-label="Budget program family"
           value={family}
           onChange={(event) => setFamily(event.target.value)}
         >
-          <option value="">Choose a program family</option>
+          <option value=""></option>
           {PROGRAM_FAMILIES.map((entry) => (
             <option key={entry.familyKey} value={entry.familyKey}>
-              {entry.title}
+              {entry.familyKey}
             </option>
           ))}
         </select>
       </label>
-      <label>
-        Requested dollars{" "}
+      <label aria-label="Money">
         <input
           aria-label="Requested dollars"
           inputMode="decimal"
@@ -135,7 +131,7 @@ export function ExecutiveBudgetRequestEditor({
         className="ui-action ui-action--quiet"
         onClick={addLine}
       >
-        Add or replace amount
+        Continue
       </button>
       <ul>
         {lines.map((line) => (
@@ -149,14 +145,14 @@ export function ExecutiveBudgetRequestEditor({
                 )
               }
             >
-              Remove {programFamilyTitle(line.familyKey)}
+              Back
             </button>
           </li>
         ))}
       </ul>
       {baseline ? (
         <details>
-          <summary>Current modeled budget totals</summary>
+          <summary>Money</summary>
           <p data-testid="budget-baseline-period">
             {proseDate(baseline.startsOn)}–{proseDate(baseline.endsOn)}
           </p>
@@ -187,7 +183,7 @@ export function ExecutiveBudgetRequestEditor({
         disabled={!lines.length}
         onClick={submit}
       >
-        Send dollar request
+        Continue
       </button>
     </details>
   );
@@ -202,18 +198,11 @@ export function ExecutiveBudgetRequestComparison({
 }) {
   return (
     <section data-testid="executive-budget-comparison">
-      <h4>Requested and appropriated</h4>
       <p data-testid="budget-request-period">
         {proseDate(request.startsOn)}–{proseDate(request.endsOn)}
       </p>
       <table>
-        <thead>
-          <tr>
-            <th>Program family</th>
-            <th>Requested</th>
-            <th>Enacted authorizations</th>
-          </tr>
-        </thead>
+        <thead />
         <tbody>
           {request.lines.map((line) => {
             const appropriations = enactedFamilyAppropriations(

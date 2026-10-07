@@ -8131,6 +8131,61 @@ body:where(.pg-game) .game-campaign-tallies {
   margin: var(--pg-space-4) 0;
 }
 
+.governing-matter-browser {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.34fr) minmax(0, 1fr);
+  gap: var(--pg-space-3);
+  min-width: 0;
+}
+
+.governing-matter-list {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+}
+
+.governing-matter-list .pg-tab {
+  justify-content: flex-start;
+  min-height: 2.75rem;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.governing-matter-list .pg-tab[aria-pressed="true"] {
+  color: var(--pg-brass);
+  box-shadow: inset 2px 0 0 var(--pg-brass);
+}
+
+.governing-matter-browser > .governing-matters {
+  min-width: 0;
+  padding: var(--pg-space-3);
+  border: 1px solid var(--pg-brass-dim);
+  background: var(--kit12-glass);
+  backdrop-filter: var(--kit12-blur);
+  -webkit-backdrop-filter: var(--kit12-blur);
+}
+
+.governing-matter-browser .governing-matter {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+@media (max-width: 48rem) {
+  .governing-matter-browser {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .governing-matter-list {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .governing-matter-list .pg-tab {
+    flex: 0 0 auto;
+  }
+}
+
 .office-work {
   display: grid;
   gap: var(--pg-space-3);

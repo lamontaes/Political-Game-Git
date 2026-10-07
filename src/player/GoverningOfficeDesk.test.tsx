@@ -157,8 +157,7 @@ describe("GoverningOfficeDesk", () => {
     );
 
     expect(html).toContain('data-testid="office-program-unnamed"');
-    expect(html).toContain("<h5>A program with no recorded name</h5>");
-    expect(html).not.toContain("<h5>transit:state-bus</h5>");
+    expect(html).not.toContain("transit:state-bus");
     expect(html).toContain('data-problem="no-capacity-record"');
   }, 120_000);
 });
