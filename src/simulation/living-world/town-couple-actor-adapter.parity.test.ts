@@ -11,6 +11,7 @@ import { deserializeWorld, serializeWorldPayload } from "../serialization";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { createLifeMindCatalog, LIFE_MIND_IDS } from "../life-mind-content";
 import { createMindProvenance, recordPersonalValue } from "../mind";
+import { recordRelationshipInteraction } from "../records";
 import type { EntityId, World } from "../types";
 import { evaluateTownCoupleActors } from "./town-couple-actor-adapter";
 
@@ -35,6 +36,74 @@ function emptyEvidence() {
 }
 
 describe("A136 composed town caller and shared stage contract", () => {
+  it("does not treat a private person's preference for solitude as breakup evidence", () => {
+    const initial = peerFixture();
+    const pair = [initial.personOrder[0]!, initial.personOrder[1]!] as const;
+    let world = initial;
+    for (const personId of pair)
+      world = recordPersonalValue(world, {
+        stableKey: `a136-private-connection:${personId}`,
+        personId,
+        valueId: LIFE_MIND_IDS.connection,
+        recordedAt: world.currentDate,
+        orientation: "rejects",
+        strength: "moderate",
+        salience: "high",
+        qualification: null,
+        provenance: createMindProvenance("authored"),
+        supersedesValueId: null,
+      });
+
+    const result = evaluateTownCoupleActors(world, {
+      stableKey: "a136-private-connection:existing-couple",
+      personIds: pair,
+      stage: "dating",
+      startedAt: world.currentDate,
+    });
+
+    for (const actor of [result.first, result.second])
+      expect(actor.context.considerations).toEqual([]);
+    expect(
+      result.admittedOptions.some(
+        (option) => option.key === "break-up" || option.key === "separate",
+      ),
+    ).toBe(false);
+  });
+
+  it("still allows a person to end a relationship over recorded unresolved conflict", () => {
+    const initial = peerFixture();
+    const pair = [initial.personOrder[0]!, initial.personOrder[1]!] as const;
+    const world = recordRelationshipInteraction(initial, {
+      stableKey: "a136-private-connection:actual-conflict",
+      personIds: pair,
+      eventId: null,
+      occurredAt: initial.currentDate,
+      kind: "conflict:relationship",
+      change: "strained",
+      significance: "major",
+      summary: "A significant disagreement went unresolved.",
+      tags: [],
+    });
+    const result = evaluateTownCoupleActors(world, {
+      stableKey: "a136-private-connection:conflicted-couple",
+      personIds: pair,
+      stage: "dating",
+      startedAt: world.currentDate,
+    });
+
+    expect(result.first.context.considerations).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          optionKey: "break-up",
+          explanation: "Something between them is unsettled.",
+        }),
+      ]),
+    );
+    expect(result.admittedOptions.map((option) => option.key)).toContain(
+      "break-up",
+    );
+  });
+
   it("evaluates distinct real actors without adding missing romantic evidence or writes", () => {
     const { world, personIds } = emptyEvidence();
     const history = JSON.stringify(world.history);
@@ -206,7 +275,7 @@ it("uses existing actual saved peer decisions for an actor with unseparated reas
   expect(JSON.stringify(world)).toBe(before);
 });
 
-it("retains equal ranks when actual current-game peer means still tie", () => {
+it("uses saved privacy preferences without treating them as breakup decisions", () => {
   const initial = peerFixture();
   const [actor, partner, donorA, donorB] = initial.personOrder;
   if (!actor || !partner || !donorA || !donorB)
@@ -223,24 +292,11 @@ it("retains equal ranks when actual current-game peer means still tie", () => {
     stage: "dating",
     startedAt: null,
   });
-  expect(result.first.selectedOptionKey).toBeNull();
-  expect(result.second.selectedOptionKey).toBeNull();
-  expect(result.admittedOptions).toEqual([]);
-  const estimates = result.first.context.peerEstimates!;
-  expect(estimates).toHaveLength(result.first.context.options.length);
-  const stay = estimates.find((row) => row.optionKey === "stay")!;
-  const leave = estimates.find((row) => row.optionKey === "break-up")!;
-  expect(stay.mean).toBe(leave.mean);
+  expect(result.first.selectedOptionKey).toBe("stay");
+  expect(result.second.selectedOptionKey).toBe("stay");
   expect(
-    [stay, leave].every((row) => row.count === 2 && row.standardDeviation > 0),
-  ).toBe(true);
-  const ranked = result.first.optionEvaluations.filter(
-    (row) => row.finalRank === 1,
-  );
-  expect(ranked.map((row) => row.optionKey).sort()).toEqual([
-    "break-up",
-    "stay",
-  ]);
+    result.admittedOptions.some((option) => option.key === "break-up"),
+  ).toBe(false);
 });
 
 it("records real town actor evaluations for later peer reads and replays after Save/Continue", () => {
