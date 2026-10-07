@@ -178,7 +178,7 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
   addBank(
     "winning-and-losing",
     results,
-    readWinningLosingBank(world),
+    readWinningLosingBank(world, playerId),
     "readWinningLosingBank in bank-english.ts",
     "no race in this world is decided yet",
   );

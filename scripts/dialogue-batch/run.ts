@@ -1299,11 +1299,16 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     const built = buildWorld(options.seed, index, age);
     let { world } = built;
     let advancedDays = 0;
-    if (index === newsIndex && options.newsDays > 0) {
+    // Every world is played at least two days, so the meeting posted on the
+    // first day is held and its roll call recorded (golden path); the news
+    // world is played the full stretch.
+    const days =
+      index === newsIndex ? options.newsDays : Math.min(2, options.newsDays);
+    if (days > 0) {
       const moved = advanceDays(
         world,
         built.playerId,
-        options.newsDays,
+        days,
         `${options.seed}-${index}`,
         random,
       );
