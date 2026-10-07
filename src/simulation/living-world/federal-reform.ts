@@ -752,7 +752,7 @@ export function advanceFederalAmendment(
 }
 
 /** One state legislature acts on a proposed amendment. */
-export function federalReformStateActionHandler(
+export function constitutionalStateActionHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
@@ -767,9 +767,12 @@ export function federalReformStateActionHandler(
   );
 }
 
+/** @deprecated Use the shared constitutional state-action handler. */
+export const federalReformStateActionHandler = constitutionalStateActionHandler;
+
 export function federalReformHandlers() {
   return [
     [FEDERAL_REFORM_REVIEW, federalReformReviewHandler],
-    [FEDERAL_REFORM_STATE_ACTION, federalReformStateActionHandler],
+    [FEDERAL_REFORM_STATE_ACTION, constitutionalStateActionHandler],
   ] as const;
 }

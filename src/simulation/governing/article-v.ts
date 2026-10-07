@@ -2,7 +2,6 @@ import {
   ARTICLE_V_CONVENTION_BODY,
   ARTICLE_V_STATE_KEYS,
   constitutionalPosition,
-  recordArticleVRatification,
   constitutionalActions,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
@@ -851,6 +850,6 @@ export function articleVHandlers() {
   return [
     [ARTICLE_V_REVIEW, articleVReviewHandler],
     [ARTICLE_V_CONVENTION, articleVConventionHandler],
-    [ARTICLE_V_STATE_ACTION, articleVStateActionHandler],
+    [ARTICLE_V_STATE_ACTION, constitutionalStateActionHandler],
   ] as const;
 }

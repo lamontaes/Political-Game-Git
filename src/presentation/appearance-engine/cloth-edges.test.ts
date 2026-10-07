@@ -39,6 +39,22 @@ describe("cloth perimeter membership", () => {
     },
   );
 
+  it("gives an overlapping cuff edge to the mask with stronger coverage", () => {
+    const layer = createRaster(5, 5);
+    const cuff = createRaster(5, 5);
+    const skin = createRaster(5, 5);
+    const center = (2 * 5 + 2) * 4 + 3;
+    cuff.data[center] = 255;
+    layer.data[center + 4] = 18;
+    cuff.data[center + 4] = 96;
+    skin.data[center + 4] = 64;
+
+    expect(clothEdgeMask(layer, cuff, skin, []).data[center + 4]).toBe(255);
+
+    skin.data[center + 4] = 128;
+    expect(clothEdgeMask(layer, cuff, skin, []).data[center + 4]).toBe(96);
+  });
+
   it("preserves fully painted unassigned fabric, including white cuffs", () => {
     const layer = createRaster(3, 3);
     const mask = createRaster(3, 3);

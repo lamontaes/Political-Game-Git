@@ -9,15 +9,7 @@ import {
   censusRegionStates,
 } from "./census-regions";
 import type { CensusRegion } from "./census-regions";
-import {
-  clampShare,
-  logistic,
-  logit,
-  openUniform,
-  roundTo,
-  standardNormal,
-} from "./deterministic-math";
-import { worldSetupRng } from "./conditions";
+import { clampShare, logistic, logit, roundTo } from "./deterministic-math";
 import { CRUNCH46_POLICY } from "./policy";
 import type {
   GeneratedPresidency,
@@ -124,39 +116,18 @@ export function zeroPoliticalLatents(regime: StartingRegime): PoliticalLatents {
   };
 }
 
-/** Shared national, Census-region and state effects: never independent flips. */
+/**
+ * Opening politics comes directly from the certified office baselines.
+ *
+ * Regime remains part of the saved contract for the other opening conditions,
+ * but it does not invent a political swing before anybody in the world has
+ * acted.
+ */
 export function drawPoliticalLatents(
-  world: World,
+  _world: World,
   regime: StartingRegime,
 ): PoliticalLatents {
-  const policy = CRUNCH46_POLICY.political;
-  const national =
-    policy.nationalSwingSd[regime] *
-    standardNormal(worldSetupRng(world, "politics:national"));
-  const regionSwingPp = Object.fromEntries(
-    CENSUS_REGION_ORDER.map((region) => [
-      region,
-      roundTo(
-        policy.censusRegionResidualSd[regime] *
-          standardNormal(worldSetupRng(world, `politics:region:${region}`)),
-      ),
-    ]),
-  ) as Record<CensusRegion, number>;
-  const stateSwingPp = Object.fromEntries(
-    censusRegionStates().map((usps) => [
-      usps,
-      roundTo(
-        policy.stateResidualSd[regime] *
-          standardNormal(worldSetupRng(world, `politics:state:${usps}`)),
-      ),
-    ]),
-  );
-  return {
-    regime,
-    nationalSwingPp: roundTo(national),
-    regionSwingPp,
-    stateSwingPp,
-  };
+  return zeroPoliticalLatents(regime);
 }
 
 export function sharedSwing(
@@ -170,16 +141,6 @@ export function sharedSwing(
   );
 }
 
-function zeroed(latents: PoliticalLatents): boolean {
-  return (
-    latents.nationalSwingPp === 0 &&
-    CENSUS_REGION_ORDER.every(
-      (region) => latents.regionSwingPp[region] === 0,
-    ) &&
-    Object.values(latents.stateSwingPp).every((value) => value === 0)
-  );
-}
-
 /** Section 13: logit of the baseline, plus swing / 25, then back to a share. */
 export function applySwing(baselineShare: number, swingPp: number): number {
   const policy = CRUNCH46_POLICY.political;
@@ -190,16 +151,13 @@ export function applySwing(baselineShare: number, swingPp: number): number {
 }
 
 function decide(
-  world: World,
-  key: string,
+  _world: World,
+  _key: string,
   share: number,
-): "democratic" | "republican" {
+): "democratic" | "republican" | "unresolved" {
   if (share > 0.5) return "democratic";
   if (share < 0.5) return "republican";
-  // An exact tie is a mathematical boundary, resolved by an authored even draw.
-  return openUniform(worldSetupRng(world, `tie:${key}`)) < 0.5
-    ? "democratic"
-    : "republican";
+  return "unresolved";
 }
 
 /**
@@ -216,7 +174,6 @@ export function generateContest(
   latents: PoliticalLatents,
   row: CalibrationRow,
 ): GeneratedSeatCondition {
-  const policy = CRUNCH46_POLICY.political;
   const reference = row.referenceAffiliation;
   const caucus = (affiliation: string) =>
     MAJOR.has(affiliation)
@@ -252,14 +209,7 @@ export function generateContest(
   const baselineShare = row.democraticTwoPartyShare;
   // Rounded before use, so a later reader recomputing from the saved record
   // lands on exactly the saved share.
-  const residual = zeroed(latents)
-    ? 0
-    : roundTo(
-        policy.seatResidualSd[latents.regime] *
-          standardNormal(
-            worldSetupRng(world, `politics:seat:${row.contestKey}`),
-          ),
-      );
+  const residual = 0;
   const generated = applySwing(
     baselineShare,
     sharedSwing(latents, row.stateUsps) + residual,

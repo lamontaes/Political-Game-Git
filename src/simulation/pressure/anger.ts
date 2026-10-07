@@ -14,7 +14,7 @@
  * Not read, and why, is in `PRESSURE_SEAMS`: displacement (the migration lane
  * owns it), polarization (nothing measures it), and scandal.
  *
- * Every number marked BLANKET is a placeholder, filed with ChatGPT as
+ * Every number marked ESTIMATED FROM AVERAGE is filed with ChatGPT as
  * `political-violence-what-builds-to-an-attack`.
  */
 
@@ -25,11 +25,19 @@ import { macroReleasesAt } from "../macro-economy/readers";
 import type { IsoDate, World } from "../types";
 import type { PressureContribution } from "./contract";
 
+/** Where the anger sizes below come from. */
+export const ANGER_ESTIMATE_PROVENANCE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "game anger scale (0 to 1); sizes follow the hazard magnitude order and the one-point unemployment change until `political-violence-what-builds-to-an-attack` is answered",
+} as const;
+
 /**
- * BLANKET: anger in the struck state when a disaster decision is judged a
- * failure, by the disaster's magnitude. Not researched.
+ * ESTIMATED FROM AVERAGE: anger in the struck state when a disaster decision is judged a
+ * failure, by the disaster's magnitude.
  */
-export const BLANKET_FAILED_HANDLING_ANGER: Readonly<
+export const FAILED_HANDLING_ANGER_ESTIMATE: Readonly<
   Record<HazardMagnitude, number>
 > = {
   minor: 0.02,
@@ -39,13 +47,13 @@ export const BLANKET_FAILED_HANDLING_ANGER: Readonly<
 };
 
 /**
- * BLANKET: anger in every state per percentage point that national
- * unemployment rose over the quarter. A fall adds nothing. Not researched.
+ * ESTIMATED FROM AVERAGE: anger in every state per percentage point that national
+ * unemployment rose over the quarter. A fall adds nothing.
  */
-export const BLANKET_UNEMPLOYMENT_RISE_ANGER = 0.1;
+export const UNEMPLOYMENT_RISE_ANGER_ESTIMATE = 0.1;
 
-/** BLANKET: what an attack adds in the target's state. Not researched. */
-export const BLANKET_ATTACK_PRESSURE = { anger: 0.2, fear: 0.2 } as const;
+/** ESTIMATED FROM AVERAGE: what an attack adds in the target's state. */
+export const ATTACK_PRESSURE_ESTIMATE = { anger: 0.2, fear: 0.2 } as const;
 
 import { homeStateKey as homeStateKeyOf } from "../state-jurisdiction-id";
 export { homeStateKeyOf };
@@ -83,7 +91,7 @@ export function angerCausesInPeriod(
       add(`US-${episode.stateUsps}`, {
         causeKey: `failed-handling:${record.stage}`,
         kind: "anger",
-        amount: BLANKET_FAILED_HANDLING_ANGER[episode.magnitude],
+        amount: FAILED_HANDLING_ANGER_ESTIMATE[episode.magnitude],
         sourceId: record.id,
       });
     } else if (
@@ -96,7 +104,7 @@ export function angerCausesInPeriod(
         add(stateKey, {
           causeKey: `attack:${record.outcome}`,
           kind,
-          amount: BLANKET_ATTACK_PRESSURE[kind],
+          amount: ATTACK_PRESSURE_ESTIMATE[kind],
           sourceId: record.id,
         });
     }
@@ -118,7 +126,7 @@ export function angerCausesInPeriod(
   const rise = latest && prior ? latest.value! - prior.value! : 0;
   if (latest && rise > 0) {
     const amount =
-      Math.round(rise * BLANKET_UNEMPLOYMENT_RISE_ANGER * 10000) / 10000;
+      Math.round(rise * UNEMPLOYMENT_RISE_ANGER_ESTIMATE * 10000) / 10000;
     for (const stateKey of stateKeys)
       add(stateKey, {
         causeKey: "unemployment-rise:national",

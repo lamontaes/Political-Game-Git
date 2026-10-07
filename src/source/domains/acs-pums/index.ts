@@ -247,7 +247,7 @@ export function compileAcsPums(
       coverage: {
         isCompleteUniverse: false,
         universeDescription:
-          "Sampled housing units and persons from the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata Sample for Wyoming. PUMS is a weighted sample supporting estimates at the public use microdata area level; it is not an enumeration, and it is not national — the national product (csv_pus.zip) is roughly a gigabyte, is not retrieved here, and is not claimed.",
+          "Housing units and persons represented in the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata for Wyoming. The published person and housing weights support estimates at the public use microdata area level; these records are not an enumeration or a national corpus. The national product (csv_pus.zip) is roughly a gigabyte, is not retrieved here, and is not claimed.",
         boundedSampleReason: `Two bounds, both stated. Geographically, this is Wyoming's complete 1-year product, not the nation's. Within it, the corpus compiles a QA slice of ${QA_SLICE_HOUSING_UNITS} housing units and ${QA_SLICE_GROUP_QUARTERS} group-quarters records, with every person in them: ${HOUSING_SLICE_PREDICATE} ${PERSON_SLICE_PREDICATE} Both parents are committed whole and hashed, so the slice is re-cuttable and checkable by anyone. ${UNPROJECTED_VARIABLE_NOTE}`,
       },
     },

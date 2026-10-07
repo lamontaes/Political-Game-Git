@@ -24,7 +24,11 @@ import {
   stateKeyForJurisdiction,
 } from "../life-places";
 import { organizationProfileAt } from "../life-queries";
-import { standingServiceProgram } from "../law-consequences/service-delivered-data";
+import {
+  isCountyServiceProgram,
+  standingServiceProgram,
+} from "../law-consequences/service-delivered-data";
+import { organizationServesCounty } from "../county-service-authority";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   STATE_TRANSIT_VARIANT_KEY,
@@ -1331,7 +1335,20 @@ export function eligibleStandingOperator(
     const rank = profile
       ? program.operatorClassifications.indexOf(profile.classification)
       : -1;
-    if (rank < 0 || !inPlace(profile!.locationJurisdictionId)) continue;
+    if (rank < 0) continue;
+    // A county's own service is run by an organization in that county; the
+    // same-state reach below is for a state's programs.
+    if (isCountyServiceProgram(programKey)) {
+      if (
+        !organizationServesCounty(
+          world,
+          organization.id,
+          programKey,
+          jurisdictionId,
+        )
+      )
+        continue;
+    } else if (!inPlace(profile!.locationJurisdictionId)) continue;
     const candidate = {
       rank,
       formedAt: organization.formedAt,
