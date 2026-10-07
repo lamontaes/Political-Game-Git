@@ -96,11 +96,6 @@ export function CivilPersonnelPanel({
       style={{ maxWidth: "100%", overflowWrap: "anywhere" }}
     >
       <h2>Public employment questions</h2>
-      <p>
-        Prepare questions about recruitment or your employment. Hiring,
-        personnel decisions and formal review require the applicable authority
-        and procedure.
-      </p>
       <label>
         Employer you know
         <GameSelect
