@@ -21,6 +21,7 @@ import {
 import { chooseBodyPose, chooseBodyView, sceneActivity } from "./pose-chooser";
 import poseByTraitData from "../../../data/content/pose-by-trait.json" with { type: "json" };
 import { loadedTraitRegistry } from "../../simulation/trait-registry";
+import { observedTraitValues } from "../../simulation/people-traits";
 import type { Raster } from "./raster";
 import type * as Runtime from "./runtime";
 
@@ -627,9 +628,21 @@ describe("a conversation in a room", async () => {
       );
     const quiet = standing();
     expect(quiet.length).toBeGreaterThanOrEqual(2);
-    // Nobody talking: nobody posed.
-    for (const person of quiet)
-      expect(person.engine!.pose ?? "standing").toBe("standing");
+    // With companions present, idle poses still follow each person's recorded
+    // traits; the scene must use the same weighted choice as the pose reader.
+    for (const person of quiet) {
+      const record = world.people[person.personId]!;
+      expect(person.engine!.pose ?? "standing").toBe(
+        chooseBodyPose({
+          activity: "idle",
+          seated: false,
+          seed: record.appearance?.seed ?? record.id,
+          traits: observedTraitValues(world, person.personId),
+          hasCompanion: true,
+          presentation: person.engine!.presentation,
+        }),
+      );
+    }
 
     const speakerId = quiet[0]!.personId;
     const talking = planLifeScenePeople(

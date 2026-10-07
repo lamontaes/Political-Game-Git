@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import poseByTraitData from "../../../data/content/pose-by-trait.json" with { type: "json" };
+import { lifePlaceStateIdentities } from "../../simulation/life-places";
 import { loadedTraitRegistry } from "../../simulation/trait-registry";
 import { BODY_POSES, isSeatedPose } from "./pack";
 import { chooseBodyPose } from "./pose-chooser";
@@ -22,6 +23,22 @@ describe("recorded trait pose choices", () => {
         traits: [{ qualifiedKey: "people-mind-v1:sociability", value: -2 }],
       }),
     ).toBe("arms-folded");
+  });
+
+  it("uses the shared recorded-trait path across all 56 place identities", () => {
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    for (const place of places) {
+      expect(
+        chooseBodyPose({
+          activity: "idle",
+          seated: false,
+          seed: place.jurisdictionKey,
+          hasCompanion: true,
+          traits: [{ qualifiedKey: "people-mind-v1:sociability", value: 2 }],
+        }),
+      ).toBe("hand-on-hip");
+    }
   });
 
   it("uses present company when activity is otherwise idle", () => {
