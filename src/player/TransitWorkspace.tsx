@@ -17,8 +17,7 @@ import { money } from "../simulation/resources";
 import type { EntityId, World, WorldMetricValue } from "../simulation/types";
 
 function serviceUnits(value: WorldMetricValue | null) {
-  if (!value || value.kind !== "quantity")
-    return "No delivered service recorded";
+  if (!value || value.kind !== "quantity") return "—";
   const q = value.quantity;
   // Recorded hours are paid cents over the contract price, so they convert
   // back exactly; the shared wording then gets "1 hour" and partial hours right.
@@ -29,13 +28,6 @@ function serviceUnits(value: WorldMetricValue | null) {
     : `${q.numerator}/${q.denominator} vehicle-service hours`;
 }
 const usd = (minorUnits: number) => dollarsText(money(minorUnits, "USD"));
-/** Plain meanings for the canonical due states; unknown states show as recorded. */
-const PERIOD_STATE: Readonly<Record<string, string>> = {
-  scheduled: "Scheduled. Payment and delivery are checked on the due date.",
-  resolved: "Delivered and paid.",
-  blocked: "Not delivered. Nothing was paid.",
-  cancelled: "Canceled before delivery. Nothing was paid.",
-};
 
 /** Feature-local Politics leaf. The canonical World remains owned by PlayerGame. */
 export function TransitWorkspace({
@@ -67,28 +59,24 @@ export function TransitWorkspace({
   return (
     <section className="transit-workspace">
       {view.office.kind === "unavailable" ? (
-        <p role="status">{view.office.reason}</p>
+        <p role="status" data-reason={view.office.reason} />
       ) : (
         <form
           onSubmit={(e) => {
             e.preventDefault();
             if (!window) {
-              setFeedback("Choose the service period before filing.");
+              setFeedback("choose-service-period");
               return;
             }
             if (!/^\d+(?:\.\d{1,2})?$/.test(amount)) {
-              setFeedback(
-                "Enter dollars and cents without an exponent or extra decimal places.",
-              );
+              setFeedback("invalid-amount");
               return;
             }
             const [dollars, decimal = ""] = amount.split(".");
             const cents =
               Number(dollars) * 100 + Number(decimal.padEnd(2, "0"));
             if (!Number.isSafeInteger(cents)) {
-              setFeedback(
-                "Enter an exact dollar amount with no more than two decimal places.",
-              );
+              setFeedback("invalid-amount");
               return;
             }
             try {
@@ -98,9 +86,7 @@ export function TransitWorkspace({
                 serviceWindow: window,
               });
               onWorldChange(filed.world);
-              setFeedback(
-                `${filed.bill.designation} was filed. Continue through its ordinary legislative steps.`,
-              );
+              setFeedback(`filed:${filed.bill.designation}`);
             } catch (error) {
               setFeedback((error as Error).message);
             }
@@ -138,17 +124,18 @@ export function TransitWorkspace({
             />
           </label>
           <h4>3. Commitment: file it</h4>
-          <p>
-            Filing starts the ordinary legislative steps; nothing is spent until
-            the appropriation is enacted, effective and paid from collected
-            public cash.
-          </p>
           <button type="submit">File transit appropriation</button>
         </form>
       )}
-      {feedback && <p role="status">{feedback}</p>}
+      {feedback && (
+        <p
+          role="status"
+          data-testid="transit-feedback"
+          data-reason={feedback}
+        />
+      )}
       {view.bills.length === 0 && (
-        <p>No transit service appropriation has been filed in this life.</p>
+        <p data-testid="transit-none" data-problem="none-filed" />
       )}
       {view.bills.map(
         ({
@@ -183,16 +170,16 @@ export function TransitWorkspace({
                 Open legislative record
               </button>
               {funding.kind === "unavailable" ? (
-                <p role="status">{funding.reason}</p>
+                <p role="status" data-reason={funding.reason} />
               ) : (
-                <p>
-                  Operative appropriation:{" "}
+                <p data-testid="transit-appropriation">
                   {(funding.mandate.amount.minorUnits / 100).toLocaleString(
                     "en-US",
                     { style: "currency", currency: "USD" },
-                  )}
-                  . Available through {funding.mandate.endsAt}. Cash is checked
-                  at settlement.
+                  )}{" "}
+                  <time dateTime={funding.mandate.endsAt}>
+                    {funding.mandate.endsAt}
+                  </time>
                 </p>
               )}
               {funding.kind === "available" && (
@@ -200,11 +187,7 @@ export function TransitWorkspace({
               )}
               {cashShort && (
                 <div className="transit-cash-guidance" role="note">
-                  <p>
-                    Public cash comes only from taxes that have actually been
-                    collected. A request made now would be refused when its
-                    first period comes due.
-                  </p>
+                  <p data-problem="cash-short" />
                   {onOpenTaxWork && (
                     <button type="button" onClick={onOpenTaxWork}>
                       Open taxes and public receipts
@@ -233,15 +216,19 @@ export function TransitWorkspace({
                   {periods.map((p) => (
                     <li key={p.due.id} data-state={p.state.status}>
                       <p>
-                        Period ending {p.due.dueAt}:{" "}
-                        {PERIOD_STATE[p.state.status] ?? p.state.status}
+                        <time dateTime={p.due.dueAt}>{p.due.dueAt}</time>{" "}
+                        <span data-testid="transit-period-state">
+                          {p.state.status}
+                        </span>
                       </p>
-                      <p>
-                        Contract units if paid: {serviceUnits(p.forecast)}.
-                        Delivered: {serviceUnits(p.delivered)}.
-                      </p>
+                      <dl>
+                        <dt>If paid</dt>
+                        <dd>{serviceUnits(p.forecast)}</dd>
+                        <dt>Delivered</dt>
+                        <dd>{serviceUnits(p.delivered)}</dd>
+                      </dl>
                       {p.state.status !== "resolved" && p.state.context && (
-                        <p>{p.state.context}</p>
+                        <p data-reason={p.state.context} />
                       )}
                     </li>
                   ))}
@@ -268,22 +255,28 @@ export function TransitWorkspace({
                   aria-label="What this appropriation has done"
                 >
                   <h4>What changed</h4>
-                  <p>
-                    {paidMinorUnits > 0
-                      ? `${serviceHoursText(paidMinorUnits)} of added ${funding.kind === "available" ? funding.mandate.serviceWindow : ""} contract service delivered, paid with ${usd(paidMinorUnits)} from the public account.`
-                      : "No service has been delivered or paid under this appropriation."}
-                  </p>
-                  <p>
-                    Public account cash now:{" "}
-                    {publicCashMinorUnits === null
-                      ? "no recorded balance"
-                      : usd(publicCashMinorUnits)}
-                    .
-                  </p>
-                  <p>
-                    Not modeled: ridership, travel times, access or public
-                    approval. This record does not claim them.
-                  </p>
+                  <dl>
+                    <dt>Delivered</dt>
+                    <dd data-problem={paidMinorUnits > 0 ? undefined : "none"}>
+                      {paidMinorUnits > 0
+                        ? serviceHoursText(paidMinorUnits)
+                        : "—"}
+                    </dd>
+                    <dt>Paid</dt>
+                    <dd>{usd(paidMinorUnits)}</dd>
+                    <dt>Public account</dt>
+                    <dd
+                      data-problem={
+                        publicCashMinorUnits === null
+                          ? "no-balance-on-record"
+                          : undefined
+                      }
+                    >
+                      {publicCashMinorUnits === null
+                        ? "—"
+                        : usd(publicCashMinorUnits)}
+                    </dd>
+                  </dl>
                 </section>
               )}
             </article>
@@ -299,7 +292,7 @@ export function TransitWorkspace({
                 {event.occurredAt}: {event.summary}
               </p>
               {published ? (
-                <p>Published in Civic Ledger.</p>
+                <p data-published="true" />
               ) : (
                 <button
                   onClick={() =>

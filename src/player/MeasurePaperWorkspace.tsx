@@ -80,11 +80,6 @@ export function MeasurePaperWorkspace({
   const finalVote = votes.find((vote) => vote.purpose === "floor-stage");
   const proposedText =
     proposalVariant === "capped" ? facts.cappedText : facts.requestedText;
-  const proposedAmount =
-    proposalVariant === "capped"
-      ? facts.cappedAmountLabel
-      : facts.requestedAmountLabel;
-
   return (
     <section
       className="measure-paper-workspace"
@@ -93,26 +88,14 @@ export function MeasurePaperWorkspace({
       data-section-in-bill={sectionInBill ? "true" : "false"}
       data-measure-phase={position.phase}
       data-proposal-variant={proposalVariant}
-      aria-label={`${facts.designation}, as it now reads`}
+      aria-label={facts.designation}
     >
       <header className="measure-paper-header">
         <div>
-          <p className="measure-eyebrow">
-            {facts.chamberName}
-            {position.phase === "on-floor"
-              ? " · on the floor"
-              : position.terminal
-                ? " · finished"
-                : " · moving on"}
-          </p>
+          <p className="measure-eyebrow">{facts.chamberName}</p>
           <h2>
             {facts.designation} — {facts.shortTitle}
           </h2>
-          <p className="measure-standing" data-testid="measure-standing">
-            {position.phase === "on-floor"
-              ? `Open until ${facts.nextStepLabel}`
-              : "Settled"}
-          </p>
         </div>
         <button
           ref={closeRef}
@@ -120,7 +103,7 @@ export function MeasurePaperWorkspace({
           className="measure-close"
           onClick={onClose}
         >
-          Back to the room
+          Back
         </button>
       </header>
 
@@ -134,9 +117,6 @@ export function MeasurePaperWorkspace({
       ) : null}
 
       <article className="measure-paper" data-testid="measure-paper">
-        <p className="measure-paper-stamp">
-          AS IT NOW READS · NOT ENACTED · NOT IN EFFECT
-        </p>
         {provisions.map((provision) => (
           <section
             key={provision.id}
@@ -145,34 +125,29 @@ export function MeasurePaperWorkspace({
             data-beneficiary={provision.beneficiary.kind}
           >
             <h3>
-              Section {provision.sectionNumber}. {provision.heading}
+              {provision.sectionNumber}. {provision.heading}
             </h3>
             <p>{provision.text}</p>
             <p className="measure-section-reach">
               {provision.beneficiary.kind === "particularized"
-                ? `For: ${provision.beneficiary.beneficiaryLabel}${
+                ? `${provision.beneficiary.beneficiaryLabel}${
                     provision.beneficiary.placeLabel
                       ? `, ${provision.beneficiary.placeLabel}`
                       : ""
-                  } · Stated ground: ${provision.beneficiary.statedGround}`
-                : `Reaches: ${provision.beneficiary.appliesToLabel}`}
+                  } · ${provision.beneficiary.statedGround}`
+                : provision.beneficiary.appliesToLabel}
             </p>
           </section>
         ))}
       </article>
 
-      <nav
-        className="measure-actions"
-        aria-label="What you can do with the bill"
-      >
+      <nav className="measure-actions" aria-label={facts.designation}>
         <button
           type="button"
           data-testid="open-proposal"
           onClick={() => onOpenPanel("proposal")}
         >
-          {sectionInBill
-            ? `Read ${facts.requestedSectionLabel} as adopted`
-            : `Read the proposed ${facts.requestedSectionLabel}`}
+          Continue
         </button>
         <button
           type="button"
@@ -186,7 +161,7 @@ export function MeasurePaperWorkspace({
           data-testid="open-record"
           onClick={() => onOpenPanel("record")}
         >
-          What has happened so far
+          Continue
         </button>
       </nav>
 
@@ -194,19 +169,19 @@ export function MeasurePaperWorkspace({
         <aside
           className="measure-panel"
           data-testid="proposal-panel"
-          aria-label="Proposed section"
+          aria-label={facts.requestedHeading}
         >
           <h3>
             {facts.requestedSectionLabel}. {facts.requestedHeading}
           </h3>
           <p className="measure-panel-note">
-            {sectionInBill ? "Adopted" : "Preview only"}
+            {sectionInBill ? "Adopted" : null}
           </p>
           {!sectionInBill ? (
             <div
               className="measure-variant-choice"
               role="radiogroup"
-              aria-label="Which version to offer"
+              aria-label={facts.designation}
             >
               <button
                 type="button"
@@ -215,7 +190,7 @@ export function MeasurePaperWorkspace({
                 data-testid="variant-as-asked"
                 onClick={() => onChooseVariant("as-asked")}
               >
-                {facts.requestedAmountLabel} — as asked
+                {facts.requestedAmountLabel}
               </button>
               <button
                 type="button"
@@ -224,7 +199,7 @@ export function MeasurePaperWorkspace({
                 data-testid="variant-capped"
                 onClick={() => onChooseVariant("capped")}
               >
-                {facts.cappedAmountLabel} — capped
+                {facts.cappedAmountLabel}
               </button>
             </div>
           ) : null}
@@ -237,8 +212,8 @@ export function MeasurePaperWorkspace({
               : proposedText}
           </p>
           <p className="measure-section-reach">
-            For: {facts.requestedBeneficiaryLabel}, {facts.requestedPlaceLabel}{" "}
-            · Stated ground: {facts.requestedStatedGround}
+            {facts.requestedBeneficiaryLabel}, {facts.requestedPlaceLabel} ·{" "}
+            {facts.requestedStatedGround}
           </p>
           {!sectionInBill && position.phase === "on-floor" ? (
             <button
@@ -247,7 +222,7 @@ export function MeasurePaperWorkspace({
               data-testid="offer-amendment"
               onClick={onOfferAmendment}
             >
-              Offer it to the {facts.chamberName} at {proposedAmount}
+              Continue
             </button>
           ) : null}
           <button
@@ -255,7 +230,7 @@ export function MeasurePaperWorkspace({
             data-testid="close-panel"
             onClick={() => onOpenPanel("none")}
           >
-            Close
+            Back
           </button>
         </aside>
       ) : null}
@@ -266,7 +241,6 @@ export function MeasurePaperWorkspace({
           data-testid="fiscal-note-panel"
           aria-label="Fiscal note"
         >
-          <h3>Fiscal note</h3>
           {noteRead ? (
             <>
               <p data-testid="fiscal-note-body">
@@ -278,24 +252,18 @@ export function MeasurePaperWorkspace({
                 }
               </p>
               <p className="measure-panel-note">
-                Prepared by {personName(world.people[facts.analystPersonId]!)}
+                {personName(world.people[facts.analystPersonId]!)}
               </p>
             </>
           ) : (
             <>
-              <p
-                className="measure-panel-note"
-                data-testid="fiscal-note-unread"
-              >
-                Unread
-              </p>
               <button
                 type="button"
                 className="measure-primary-action"
                 data-testid="read-fiscal-note"
                 onClick={onReadFiscalNote}
               >
-                Read it
+                Continue
               </button>
             </>
           )}
@@ -304,7 +272,7 @@ export function MeasurePaperWorkspace({
             data-testid="close-panel"
             onClick={() => onOpenPanel("none")}
           >
-            Close
+            Back
           </button>
         </aside>
       ) : null}
@@ -313,9 +281,8 @@ export function MeasurePaperWorkspace({
         <aside
           className="measure-panel"
           data-testid="record-panel"
-          aria-label="What has happened so far"
+          aria-label={facts.designation}
         >
-          <h3>What has happened so far</h3>
           <ul data-testid="record-amendments">
             {amendments.length === 0
               ? null
@@ -328,7 +295,6 @@ export function MeasurePaperWorkspace({
                   </li>
                 ))}
           </ul>
-          <h4>What people have said</h4>
           <ul data-testid="record-commitments">
             {commitmentsKnownTo(world, seat.playerPersonId, seat.measureId)
               .length === 0
@@ -350,7 +316,7 @@ export function MeasurePaperWorkspace({
                       </span>
                       {commitment.conditions.map((condition) => (
                         <span key={condition.key} className="measure-condition">
-                          Condition: {condition.description}
+                          {condition.description}
                         </span>
                       ))}
                     </li>
@@ -359,7 +325,6 @@ export function MeasurePaperWorkspace({
           </ul>
           {negotiations.length > 0 ? (
             <>
-              <h4>What was asked for</h4>
               <ul data-testid="record-negotiations">
                 {negotiations.map((negotiation) => (
                   <li key={negotiation.id}>{negotiation.request}</li>
@@ -372,7 +337,7 @@ export function MeasurePaperWorkspace({
             data-testid="close-panel"
             onClick={() => onOpenPanel("none")}
           >
-            Close
+            Back
           </button>
         </aside>
       ) : null}
@@ -406,7 +371,7 @@ export function MeasurePaperWorkspace({
             data-testid="call-the-vote"
             onClick={onTakeFloorVote}
           >
-            Call the vote on {facts.designation}
+            Continue
           </button>
         ) : null}
       </footer>
