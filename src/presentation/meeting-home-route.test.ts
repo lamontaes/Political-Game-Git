@@ -176,6 +176,82 @@ describe("recorded local meeting return and activity ownership", () => {
     });
     expect(meetingHomeRoute(moved, player).kind).toBe("unavailable");
   });
+  it("uses the recorded home endpoint without a separate home-scene event", () => {
+    const { world, player, meeting } = start("2309585");
+    const withoutMeeting = cancelScheduledActivity(world, meeting.id);
+    const withJourney = createScheduledActivity(withoutMeeting, {
+      stableKey: "test:meeting-home-route:outward-journey",
+      title: "Meeting trip",
+      summary: "Recorded meeting travel.",
+      kind: "travel",
+      start: world.currentMoment,
+      end: addSimulationMinutes(world.currentMoment, 20),
+      participantPersonIds: [player],
+      responsiblePersonId: player,
+      location: {
+        locationKey: "ordinary-life:to-meeting-room",
+        label: meeting.location.label,
+        jurisdictionId: meeting.location.jurisdictionId,
+      },
+      sourceEntityIds: [meeting.id],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [player] },
+    });
+    const journey = withJourney.history.scheduledActivities.at(-1)!;
+    const withoutJourney = cancelScheduledActivity(withJourney, journey.id);
+    const arrived = recordWorldEvent(withoutJourney, {
+      stableKey: "test:meeting-home-route:meeting-arrival",
+      type: "life.scene.arrived",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: meeting.location.jurisdictionId!,
+      involvedEntityIds: [player, meeting.id, journey.id],
+      participants: [
+        { personId: player, role: "presence:participant", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [
+        "route:ordinary-life:to-meeting-room",
+        "place:ordinary-life:meeting-room",
+        "travel:late-meeting",
+        "duration-minutes:20",
+      ],
+      summary: "At the meeting room.",
+      context: {
+        location: {
+          jurisdictionId: meeting.location.jurisdictionId!,
+          label: meeting.location.label,
+          setting: "civic",
+        },
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const withoutHomeScene = {
+      ...arrived,
+      history: {
+        ...arrived.history,
+        events: arrived.history.events.filter(
+          (event) =>
+            !(
+              event.sequence < arrived.history.events.at(-1)!.sequence &&
+              event.context.location?.setting === "home" &&
+              event.participants.some((entry) => entry.personId === player)
+            ),
+        ),
+      },
+    };
+
+    const offer = meetingHomeRoute(withoutHomeScene, player);
+    expect(offer, JSON.stringify(offer)).toMatchObject({
+      kind: "available",
+      route: { destination: { key: "home", setting: "home" } },
+    });
+  });
   it("does not teleport through a blocking commitment", () => {
     const { world, player } = attended("2007600");
     const blocked = createScheduledActivity(world, {

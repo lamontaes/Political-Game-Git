@@ -128,15 +128,20 @@ describe("the wait control on a career offer", () => {
     );
   });
 
-  it("says where waiting a day lands before the player presses it", () => {
+  it("keeps timing explanation copy off the record-only Work screen", () => {
     const markup = withRunner(stubRunner(false), panel);
-    const target = previewTimeCommand(sought.world, life.personId, {
-      kind: "days",
-      days: 1,
-    })!;
-    expect(markup).toContain(skipToLabel(target.target));
-    expect(markup).toContain(PROTECTED_STOP_NOTE);
-    expect(markup).toContain('aria-describedby="career-paths-wait-day-target"');
+    expect(markup).not.toContain(
+      skipToLabel(
+        previewTimeCommand(sought.world, life.personId, {
+          kind: "days",
+          days: 1,
+        })!.target,
+      ),
+    );
+    expect(markup).not.toContain(PROTECTED_STOP_NOTE);
+    expect(markup).not.toContain(
+      'aria-describedby="career-paths-wait-day-target"',
+    );
   });
 
   it("is busy and disabled while a command is running", () => {
@@ -147,14 +152,16 @@ describe("the wait control on a career offer", () => {
     expect(markup).toMatch(
       /data-testid="career-paths-wait-day"[^>]*aria-busy="true"/,
     );
-    expect(markup).toContain("Time is passing…");
+    expect(markup).not.toContain("Time is passing…");
   });
 
   it("is absent with its reason where the shell's clock is not mounted", () => {
     const markup = withRunner(null, panel);
     expect(markup).not.toContain('data-testid="career-paths-wait-day"');
-    expect(markup).toContain('data-testid="career-paths-wait-day-unavailable"');
-    expect(markup).toContain("owns the one clock");
+    expect(markup).not.toContain(
+      'data-testid="career-paths-wait-day-unavailable"',
+    );
+    expect(markup).not.toContain("Unavailable here");
   });
 });
 

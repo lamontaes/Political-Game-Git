@@ -1,23 +1,70 @@
-/* Politics hub (UI DECISION FOLLOW-THROUGH): tab strip and Government browser. */
-
+/* Politics navigation uses compact, single-row Kit 13 tabs. */
 .pg-politics-tabs {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.25rem;
   margin: 0 0 0.9rem;
 }
 
 .pg-politics-tab-list,
 .pg-politics-sub-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
+  flex-wrap: nowrap;
+  gap: 0.2rem;
+  min-width: 0;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.pg-politics-tab-list > li,
+.pg-politics-sub-list > li {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 .pg-politics-tab,
-.pg-politics-sub,
+.pg-politics-sub {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--text-strong);
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.pg-politics-sub {
+  padding-block: 0.25rem;
+  font-size: 0.76rem;
+}
+
+.pg-politics-tab:hover,
+.pg-politics-sub:hover {
+  border-color: var(--pg-hairline);
+}
+
+.pg-politics-tab[aria-current="page"],
+.pg-politics-sub[aria-current="page"] {
+  border-color: var(--pg-hairline);
+  background: var(--glass-bottom);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.07);
+  font-weight: 600;
+}
+
+.pg-politics-tab:focus-visible,
+.pg-politics-sub:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
 .pg-government-scopes button,
 .pg-government-places button {
   border: 1px solid var(--pg-hairline);
@@ -30,22 +77,13 @@
   cursor: pointer;
 }
 
-.pg-politics-sub {
-  font-size: 0.8rem;
-  padding: 0.25rem 0.6rem;
-}
-
-.pg-politics-tab[aria-current="page"],
-.pg-politics-sub[aria-current="page"],
 .pg-government-scopes button[aria-pressed="true"],
 .pg-government-places button[aria-pressed="true"] {
   border-color: var(--pg-brass, #c29b48);
-  background: transparent;
+  background: var(--glass-bottom);
   font-weight: 600;
 }
 
-.pg-politics-tab:focus-visible,
-.pg-politics-sub:focus-visible,
 .pg-government button:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
@@ -245,30 +283,6 @@
 .pg-government-record:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
-}
-
-/*
- * Phone widths: the tab strip is one row that scrolls sideways instead of one
- * tab per line. Buttons stay in tab order; focusing one scrolls it into view.
- */
-@media (max-width: 640px) {
-  .pg-politics-tab-list {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    scrollbar-width: thin;
-    padding-bottom: 0.2rem;
-  }
-
-  .pg-politics-tab-list > li {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-  }
-
-  .pg-politics-tab {
-    white-space: nowrap;
-  }
 }
 
 /* Public services, under Issues and budget. */

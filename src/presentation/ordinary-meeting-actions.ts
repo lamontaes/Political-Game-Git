@@ -1,3 +1,4 @@
+import { everydayText } from "./everyday-english";
 import {
   addSimulationMinutes,
   advanceWorldMinutes,
@@ -118,7 +119,10 @@ export function planOrdinaryMeetingAttendance(
       "choice:attend",
       `journey:${journey.id}`,
     ],
-    summary: "You plan to go to the posted public meeting.",
+    summary: everydayText(world, personId, "meeting-plan", [
+      activityId,
+      journey.id,
+    ]),
     context: {
       location: openingLifeLocation(world, personId),
       socialContext: null,
@@ -220,7 +224,13 @@ export function arriveAtOrdinaryMeeting(
         "place:ordinary-life:meeting-room",
         `duration-minutes:${minutes}`,
       ],
-      summary: `You traveled ${minutes} minutes and arrived at the public meeting after it began.`,
+      summary: everydayText(
+        arrived,
+        personId,
+        "meeting-late-arrival",
+        [activityId, journey.id],
+        { minutes: { text: String(minutes), sourceRecordIds: [journey.id] } },
+      ),
       context: {
         location: {
           jurisdictionId: activity.location.jurisdictionId,
@@ -343,9 +353,12 @@ export function goBrieflyToOrdinaryMeeting(
       "attendance:brief",
       "attendance:not-completed",
     ],
-    summary: lateEntry
-      ? "You heard part of the discussion and left after a short visit. You did not stay for the outcome."
-      : "You heard the opening discussion and left after a short visit. You did not stay for the outcome.",
+    summary: everydayText(
+      spent,
+      personId,
+      lateEntry ? "meeting-brief-late" : "meeting-brief-opening",
+      [activityId, scene.eventId],
+    ),
     context: {
       location: {
         jurisdictionId: scene.location.jurisdictionId,
@@ -426,7 +439,10 @@ export function leaveOrdinaryMeeting(
       `activity:${activityId}`,
       "attendance:not-completed",
     ],
-    summary: "You left without staying through the posted public meeting.",
+    summary: everydayText(cancelled, personId, "meeting-left", [
+      activityId,
+      scene.eventId,
+    ]),
     context: {
       location: {
         jurisdictionId: scene.location.jurisdictionId,

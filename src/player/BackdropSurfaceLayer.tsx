@@ -149,11 +149,18 @@ function SurfaceContent({
               <li
                 key={line.id}
                 className={
-                  line.passed ? "bs-row bs-row--yes" : "bs-row bs-row--no"
+                  line.passed
+                    ? "bs-row bs-row--passed"
+                    : "bs-row bs-row--failed"
                 }
               >
                 <span className="bs-row-name">{line.designation}</span>
-                <span className="bs-row-value">{line.result}</span>
+                <span
+                  className="bs-row-value"
+                  style={{ color: line.passed ? "#7fd6a0" : "#f08a7e" }}
+                >
+                  {line.result}
+                </span>
                 <span className="bs-row-note">{line.title}</span>
               </li>
             ))}
@@ -221,7 +228,6 @@ function SurfaceContent({
       )
         return (
           <div className="bs-board bs-bills" data-testid="backdrop-bills">
-            <strong className="bs-board-heading">{content.heading}</strong>
             {content.place ? (
               <span className="bs-board-sub">{content.place}</span>
             ) : null}
@@ -237,10 +243,9 @@ function SurfaceContent({
         );
       return (
         <div
-          className={`bs-sheet bs-sheet--${slot.finish}`}
+          className={`bs-sheet bs-sheet--${slot.finish}${slot.id === "office-green-poster" ? " bs-sheet--office-green-bills" : ""}`}
           data-testid="backdrop-bills"
         >
-          <strong className="bs-sheet-heading">{content.heading}</strong>
           {content.place ? (
             <span className="bs-sheet-place">{content.place}</span>
           ) : null}

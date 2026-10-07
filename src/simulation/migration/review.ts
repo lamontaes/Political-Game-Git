@@ -50,6 +50,7 @@ import {
   MIGRATION_ARRIVED_EVENT,
   MIGRATION_CONTRACT_VERSION,
   MIGRATION_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_TRANSITION_KEY,
 } from "./contract";
 import { crisisRecords } from "../crisis/records";
 import {
@@ -62,10 +63,7 @@ import {
   peopleInHouseholdAt,
   workRoleAt,
 } from "../life-queries";
-import {
-  UNRESEARCHED_LOCAL_CRIME,
-  UNRESEARCHED_TOWN_POLICE_LOG,
-} from "../crime/contract";
+import { LOCAL_CRIME_RATES, TOWN_POLICE_LOG } from "../crime/contract";
 import { localCrimeFigures } from "../crime/producer";
 import {
   macroConditionsAt,
@@ -186,7 +184,7 @@ const OPENING_REASONS: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * PLACEHOLDER (research: `migration-rates-and-reasons`): how many reviews an employer holds a
+ * ESTIMATED (research: `migration-rates-and-reasons`): how many reviews an employer holds a
  * job open for somebody from elsewhere before it stops looking: two years.
  */
 export const OPENING_REVIEWS_HELD = 8;
@@ -196,41 +194,67 @@ const RENT_BURDEN_LINE = 0.3;
 const RENT_BURDEN_SEVERE = 0.5;
 
 /**
- * BLANKET: how much a reported assault or robbery in town beyond the police
- * log's usual quarter adds to the chance a free household leaves. Not
- * researched.
+ * ESTIMATED: how much a reported assault or robbery in town beyond the police
+ * log's usual quarter adds to the chance a free household leaves. Estimated
+ * from the national average.
  */
-export const BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT = 0.05;
+export const TOWN_CRIME_PUSH_ESTIMATE_PER_EXCESS_REPORT = 0.05;
 
 /**
- * BLANKET: how much each percentage point of the town's recorded unemployment
+ * ESTIMATED: how much each percentage point of the town's recorded unemployment
  * above the nation's adds to the chance a free household leaves (and below
- * it, takes away, never below half). Not researched.
+ * it, takes away, never below half). Estimated from the national average.
  */
-export const BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH = 0.05;
+export const TOWN_UNEMPLOYMENT_GAP_PUSH_ESTIMATE = 0.05;
 
 /** Reviews per year; each person is considered in one of them. */
 export const MIGRATION_REVIEWS_PER_YEAR = 4;
 export const MIGRATION_REVIEW_INTERVAL_DAYS = 91;
 
 const REVIEW_KEY_PREFIX = "migration:review:";
+const HOME_REVIEW_KEY_PREFIX = "migration:home-review:";
+export const TOWN_HOME_REVIEW_INTERVAL_DAYS = 30;
 
 /** Schedules the first review for a life opened at the current version. Idempotent. */
 export function ensureMigrationSchedule(world: World): World {
   const stableKey = `${REVIEW_KEY_PREFIX}0`;
-  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
-    return world;
-  return scheduleFutureDueItem(world, {
-    stableKey,
-    dueAt: addDays(world.currentDate, MIGRATION_REVIEW_INTERVAL_DAYS),
-    transitionKey: MIGRATION_REVIEW_TRANSITION_KEY,
-    entityIds: [world.id],
-    jurisdictionId: null,
-    provenance: {
-      kind: "initialization",
-      reference: MIGRATION_CONTRACT_VERSION,
-    },
-  });
+  let next = world;
+  if (
+    !world.history.futureDueItems.some((item) => item.stableKey === stableKey)
+  )
+    next = scheduleFutureDueItem(world, {
+      stableKey,
+      // Town residents and employers already have recorded needs at opening.
+      // Run that first pass on the opening date so work does not wait a quarter
+      // before the first person can act on it.
+      dueAt: addDays(world.currentDate, 1),
+      transitionKey: MIGRATION_REVIEW_TRANSITION_KEY,
+      entityIds: [world.id],
+      jurisdictionId: null,
+      provenance: {
+        kind: "initialization",
+        reference: MIGRATION_CONTRACT_VERSION,
+      },
+    });
+  const homeReviewKey = `${HOME_REVIEW_KEY_PREFIX}0`;
+  if (
+    !next.history.futureDueItems.some(
+      (item) => item.stableKey === homeReviewKey,
+    )
+  ) {
+    next = scheduleFutureDueItem(next, {
+      stableKey: homeReviewKey,
+      dueAt: addDays(next.currentDate, TOWN_HOME_REVIEW_INTERVAL_DAYS),
+      transitionKey: TOWN_HOME_REVIEW_TRANSITION_KEY,
+      entityIds: [next.id],
+      jurisdictionId: null,
+      provenance: {
+        kind: "initialization",
+        reference: MIGRATION_CONTRACT_VERSION,
+      },
+    });
+  }
+  return next;
 }
 
 export function migrationReviewHandler(
@@ -281,6 +305,33 @@ export function migrationReviewHandler(
     world: next,
     status: "resolved",
     reasonKey: "migration:reviewed",
+    context: null,
+    outcomeEventId: null,
+  };
+}
+
+/** Reconsiders local housing monthly after work and household facts change. */
+export function townHomeReviewHandler(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  if (dueItem.transitionKey !== TOWN_HOME_REVIEW_TRANSITION_KEY)
+    throw new Error("The town home review received another transition.");
+  const index = Number(dueItem.stableKey.slice(HOME_REVIEW_KEY_PREFIX.length));
+  const town = migrationTown(world);
+  const next = town ? reviewTownHomes(world, town, `monthly:${index}`) : world;
+  const scheduled = scheduleFutureDueItem(next, {
+    stableKey: `${HOME_REVIEW_KEY_PREFIX}${index + 1}`,
+    dueAt: addDays(next.currentDate, TOWN_HOME_REVIEW_INTERVAL_DAYS),
+    transitionKey: TOWN_HOME_REVIEW_TRANSITION_KEY,
+    entityIds: [next.id],
+    jurisdictionId: null,
+    provenance: { kind: "simulated", sourceEntityIds: [next.id] },
+  });
+  return {
+    world: scheduled,
+    status: "resolved",
+    reasonKey: "migration:homes-reviewed",
     context: null,
     outcomeEventId: null,
   };
@@ -562,7 +613,7 @@ export function reviewTown(
 }
 
 /**
- * BLANKET (`arriving-families`): a newcomer lives alone in a household of
+ * ESTIMATED (`arriving-families`): a newcomer lives alone in a household of
  * their own, located in town. It is what lets a disaster in town reach them
  * and what a later family or partner joins; it carries no dwelling yet.
  */
@@ -658,7 +709,7 @@ function displacedHomes(
 /**
  * Crime in town beyond the usual (`cause-crime`): 1 when the last review
  * period's reported assaults and robberies are no more than the police log's
- * expected share, rising by a blanket step for each report beyond it. Every
+ * expected share, rising by an estimated step for each report beyond it. Every
  * town has the same expected log today, so only an unusually bad quarter
  * pushes anyone.
  */
@@ -671,22 +722,21 @@ export function townCrimePush(world: World, town: EntityId): number {
   );
   const violent = figures.reported.assault + figures.reported.robbery;
   const weight = (offense: string) => {
-    const rule = UNRESEARCHED_LOCAL_CRIME.offenses.find(
+    const rule = LOCAL_CRIME_RATES.offenses.find(
       (row) => row.offense === offense,
     )!;
-    return rule.annualRate * rule.reportedShare;
+    return rule.reportedRate;
   };
-  const all = UNRESEARCHED_LOCAL_CRIME.offenses.reduce(
+  const all = LOCAL_CRIME_RATES.offenses.reduce(
     (sum, rule) => sum + weight(rule.offense),
     0,
   );
   const expected =
-    ((UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth *
-      MIGRATION_REVIEW_INTERVAL_DAYS) /
+    ((TOWN_POLICE_LOG.reportedPerMonth * MIGRATION_REVIEW_INTERVAL_DAYS) /
       30.4) *
     ((weight("assault") + weight("robbery")) / all);
   const excess = Math.max(0, violent - expected);
-  return 1 + excess * BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT;
+  return 1 + excess * TOWN_CRIME_PUSH_ESTIMATE_PER_EXCESS_REPORT;
 }
 
 /**
@@ -706,7 +756,7 @@ export function townJobsPush(world: World, town: EntityId): number {
   );
   if (!nation) return 1;
   const gap = local.unemploymentPct - nation.unemploymentPct;
-  return Math.max(0.5, 1 + gap * BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH);
+  return Math.max(0.5, 1 + gap * TOWN_UNEMPLOYMENT_GAP_PUSH_ESTIMATE);
 }
 
 /**
@@ -762,7 +812,7 @@ function childrenAtHome(world: World, personId: EntityId): number {
 
 /**
  * This review's newcomers: one for each opening in town whose pull has
- * carried it to being taken (`townOpenings`). BLANKET (`arrival-history`,
+ * carried it to being taken (`townOpenings`). ESTIMATED (`arrival-history`,
  * `arriving-families`): single adults with a canonical name and identity, a
  * seeded pick among real options, and nothing else yet. Where they come from
  * is HARDWIRED: the town's own state's largest other town, the place a

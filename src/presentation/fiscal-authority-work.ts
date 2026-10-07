@@ -166,7 +166,9 @@ export function openFiscalAuthorityWork(
     (item) => item.stableKey === stableKey,
   );
   if (!workItem)
-    throw new Error("Fiscal authority Work item was not recorded.");
+    throw new Error(
+      "The fiscal-authority work writer produced no matching item.",
+    );
   return {
     kind: "opened",
     world: next,

@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../dates";
 import { fileMemberAgendaBills } from "./member-agenda";
 import { MEMBER_AGENDA_LEVEL_SETTINGS } from "./member-agenda-settings";
 import { currentPresidentOf } from "../crisis/offices";
@@ -23,6 +23,9 @@ import {
   scheduleCongressSitting,
   withSittingSeating,
 } from "./congress-chambers";
+import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
+import { legislativeSittingHandler } from "./legislative-sittings";
+import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import {
   applyInstitutionStep,
   recordGovernorDecisionOnMeasure,
@@ -184,6 +187,24 @@ function scheduleNextIntake(world: World): World {
   });
 }
 
+function scheduleOpeningIntake(world: World): World {
+  const dueAt = addDays(world.currentDate, 1);
+  const stableKey = `${CONGRESS_LAWMAKING_VERSION}:intake:${dueAt}`;
+  if (hasStableKey(world.history.futureDueItems, stableKey)) return world;
+  const next = ensureNationalElectionJurisdiction(world);
+  return scheduleFutureDueItem(next, {
+    stableKey,
+    dueAt,
+    transitionKey: CONGRESS_INTAKE_TRANSITION,
+    entityIds: [NATIONAL_ELECTION_JURISDICTION.id],
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    provenance: {
+      kind: "authored",
+      note: `${CONGRESS_LAWMAKING_PROFILE.id}: members of Congress file opening bills after a new world begins.`,
+    },
+  });
+}
+
 /**
  * Called whenever the canonical clock moves. Keeps Congress's next filing day
  * on the calendar once the save has a seated Congress. Only writes a future
@@ -192,6 +213,12 @@ function scheduleNextIntake(world: World): World {
 export function applyCongressLawmaking(before: IsoDate, world: World): World {
   if (world.currentDate <= before) return world;
   if (!livingWorldEstablished(world)) return world;
+  if (
+    !world.history.futureDueItems.some((item) =>
+      item.stableKey.startsWith(`${CONGRESS_LAWMAKING_VERSION}:intake:`),
+    )
+  )
+    return scheduleOpeningIntake(world);
   return scheduleNextIntake(world);
 }
 
@@ -199,6 +226,11 @@ export function congressIntakeHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
+  const existingCongressMeasureIds = new Set(
+    (world.history.legislativeMeasures ?? [])
+      .filter(isCongressMeasure)
+      .map((measure) => measure.id),
+  );
   let next = world;
   for (const chamberKey of ["house", "senate"] as const)
     next = fileMemberAgendaBills(next, {
@@ -206,12 +238,16 @@ export function congressIntakeHandler(
       chamberKey,
       intakeKey: due.dueAt,
     });
+  const filedBills = (next.history.legislativeMeasures ?? []).filter(
+    (measure) =>
+      isCongressMeasure(measure) && !existingCongressMeasureIds.has(measure.id),
+  ).length;
   next = scheduleNextIntake(next);
   return {
     world: next,
     status: "resolved",
-    reasonKey: null,
-    context: "Members of Congress filed their bills.",
+    reasonKey: `congress-intake:filed-bills-${filedBills}`,
+    context: null,
     outcomeEventId: null,
   };
 }
@@ -230,18 +266,33 @@ export function congressSittingHandler(
     (measure) =>
       isCongressMeasure(measure) && !measurePosition(next, measure.id).terminal,
   );
+  const sittingRules = open[0]
+    ? legislativeRulePackForWorld(world, open[0].rulePackId)
+    : US_CONGRESS_RULE_PACK;
   withSittingSeating(world, () => {
-    for (const measure of open) {
-      const result = applyInstitutionStep(next, measure.id, (w, m) =>
-        presidentDesk(w, m),
-      );
-      if (result.kind === "applied" || result.kind === "executive") {
-        next = result.world;
-        steps += 1;
-      } else if (result.kind === "wait-until" && result.world) {
-        next = result.world;
-      }
-    }
+    next = legislativeSittingHandler(world, {
+      chambers: sittingRules.chambers,
+      session: sittingRules.session,
+      measureIds: open.map((measure) => measure.id),
+      eligible: (current, measureId) =>
+        (current.history.legislativeMeasures ?? []).some(
+          (measure) =>
+            measure.id === measureId &&
+            isCongressMeasure(measure) &&
+            !measurePosition(current, measureId).terminal,
+        ),
+      takeStep: (current, measureId) =>
+        applyInstitutionStep(current, measureId, (w, m) => presidentDesk(w, m)),
+      applyResult: (current, _measureId, result) => {
+        if (result.kind === "applied" || result.kind === "executive") {
+          steps += 1;
+          return result.world;
+        }
+        return result.kind === "wait-until" && result.world
+          ? result.world
+          : current;
+      },
+    });
   });
   const stillOpen = (next.history.legislativeMeasures ?? []).some(
     (measure) =>

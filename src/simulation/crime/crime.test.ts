@@ -47,15 +47,19 @@ import { referForProsecution } from "../justice/prosecution";
 
 const LONG = 900_000;
 
-/** Charlottesville, Virginia; Kentucky is deliberately not the test place. */
-const VIRGINIA_TOWN = "5114968";
-
 function open(seed: string) {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  const place =
+    places[parseInt(stableHash(seed).slice(0, 8), 16) % places.length]!;
+  console.info(
+    JSON.stringify({ fixture: "crime-opening-life", seed, place: place.usps }),
+  );
   return generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
       seed,
-      placeKey: VIRGINIA_TOWN,
+      placeKey: place.key,
       startAge: 30,
       depth: "summarize-earlier-life",
     }),
