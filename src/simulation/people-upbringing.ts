@@ -238,25 +238,69 @@ export interface ChildhoodFamilyContext {
   readonly source: UpbringingSource;
 }
 
-function selectedHouseholdMembers(world: World, personId: EntityId) {
+interface HouseholdContextCache {
+  readonly memberships: Map<
+    EntityId,
+    ReturnType<typeof householdMembershipsAt>
+  >;
+  readonly members: Map<EntityId, readonly EntityId[]>;
+}
+
+function membershipRows(
+  world: World,
+  personId: EntityId,
+  cache?: HouseholdContextCache,
+) {
+  if (!cache) return householdMembershipsAt(world, personId);
+  let rows = cache.memberships.get(personId);
+  if (!rows) {
+    rows = householdMembershipsAt(world, personId);
+    cache.memberships.set(personId, rows);
+  }
+  return rows;
+}
+
+function householdMembers(
+  world: World,
+  householdId: EntityId,
+  cache?: HouseholdContextCache,
+) {
+  if (!cache) return peopleInHouseholdAt(world, householdId);
+  let members = cache.members.get(householdId);
+  if (!members) {
+    members = peopleInHouseholdAt(world, householdId);
+    cache.members.set(householdId, members);
+  }
+  return members;
+}
+
+function selectedHouseholdMembers(
+  world: World,
+  personId: EntityId,
+  cache?: HouseholdContextCache,
+) {
   const parents = recordedParents(world, personId);
   const parentHousehold = parents
-    .map((id) => householdMembershipsAt(world, id)[0])
+    .map((id) => membershipRows(world, id, cache)[0])
     .find(Boolean);
   const household =
-    parentHousehold ?? householdMembershipsAt(world, personId)[0];
+    parentHousehold ?? membershipRows(world, personId, cache)[0];
   const members = household
-    ? peopleInHouseholdAt(world, household.household.id)
+    ? householdMembers(world, household.household.id, cache)
     : [];
   return { parents, parentHousehold, household, members };
 }
 
-function householdContext(world: World, personId: EntityId) {
+function householdContext(
+  world: World,
+  personId: EntityId,
+  cache?: HouseholdContextCache,
+) {
   const { parents, parentHousehold, household, members } =
-    selectedHouseholdMembers(world, personId);
+    selectedHouseholdMembers(world, personId, cache);
   const kinds = household
     ? members.flatMap((id) =>
-        householdMembershipsAt(world, id)
+        membershipRows(world, id, cache)
           .filter((row) => row.household.id === household.household.id)
           .map((row) => row.state.kind),
       )
@@ -337,6 +381,8 @@ interface FamilyCohortIndex {
   readonly paidPeopleByState: Map<string, EntityId[]>;
   readonly paidPeople: readonly EntityId[];
   readonly estimatedMonthlyPay: ReadonlyMap<EntityId, number>;
+  /** Pay inferred from a live paid job is tenure-sensitive every calendar day. */
+  readonly hasTenureEstimatedPay: boolean;
   readonly householdsByPlace: ReadonlyMap<
     EntityId,
     FamilyCohortIndex["householdSamples"]
@@ -347,8 +393,13 @@ interface FamilyCohortIndex {
     adultIds: readonly EntityId[];
     childCount: number;
   }[];
+  readonly contextByPerson: ReadonlyMap<EntityId, FamilyContextRead>;
 }
-const FAMILY_COHORTS = new WeakMap<object, FamilyCohortIndex>();
+// A few immutable sibling snapshots are commonly revisited while an action is
+// being assembled. Keep a small bounded set per kinship history, rather than
+// evicting the earlier exact dependency set whenever a sibling World is read.
+const FAMILY_COHORT_VARIANTS = 4;
+const FAMILY_COHORTS = new WeakMap<object, FamilyCohortIndex[]>();
 // Keep dependency tokens across irrelevant appends; revised/unknown prefixes
 // build new tokens. Every extension copies before changing a handed-out index.
 type CompensationFlows = readonly World["history"]["resourceFlows"][number][];
@@ -446,7 +497,7 @@ function nextRecordDate(
 function cohortKey(row: FamilyContextRead): string {
   return JSON.stringify([row.placeId, row.householdType, row.incomeBand]);
 }
-function familyCohortIndex(world: World): FamilyCohortIndex {
+function familyCohortIndex(world: World, reuse = true): FamilyCohortIndex {
   const key = world.history.kinshipRelationships;
   const [payFlows, payTerms] = compensationDependencies(world);
   const inputs = [
@@ -460,32 +511,53 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     world.history.workStatuses,
     world.history.workRoles,
   ];
-  const prior = FAMILY_COHORTS.get(key);
-  if (
-    prior &&
-    prior.date <= world.currentDate &&
-    world.currentDate < prior.validUntil &&
-    prior.inputs.every((value, index) => value === inputs[index])
-  )
-    return prior;
-  // A day's new people (each with a household of their own) change the people
-  // and household tables but not the families already sampled, so carry the
-  // index forward instead of reading every household again.
-  const extended = prior
-    ? extendFamilyCohortIndex(prior, world, inputs)
-    : undefined;
-  if (extended) {
-    FAMILY_COHORTS.set(key, extended);
-    return extended;
+  const variants = reuse ? (FAMILY_COHORTS.get(key) ?? []) : [];
+  const priorAt = reuse
+    ? variants.findIndex(
+        (prior) =>
+          prior.date <= world.currentDate &&
+          world.currentDate < prior.validUntil &&
+          // An unrecorded paid-work estimate interpolates continuously by tenure;
+          // reuse is exact on the same date only while that estimate is present.
+          (!prior.hasTenureEstimatedPay || prior.date === world.currentDate) &&
+          prior.inputs.every((value, index) => value === inputs[index]),
+      )
+    : -1;
+  if (priorAt >= 0) {
+    const [prior] = variants.splice(priorAt, 1);
+    variants.push(prior!);
+    FAMILY_COHORTS.set(key, variants);
+    return prior!;
+  }
+  // A same-day append of new people in new households leaves earlier family
+  // samples intact; extend whichever cached snapshot this world extends.
+  if (reuse) {
+    for (let at = variants.length - 1; at >= 0; at -= 1) {
+      const extended = extendFamilyCohortIndex(variants[at]!, world, inputs);
+      if (!extended) continue;
+      variants.push(extended);
+      if (variants.length > FAMILY_COHORT_VARIANTS) variants.shift();
+      FAMILY_COHORTS.set(key, variants);
+      return extended;
+    }
   }
   const estimate = recordedFamilyEstimates(world);
+  // The age-18 date comes from the per-revision cache above.
+  const eighteenthBirthdayOf = (personId: EntityId): IsoDate | undefined => {
+    const person = world.people[personId];
+    return person ? eighteenthBirthday(person) : undefined;
+  };
   // One immutable build can encounter the same person in both ordered loops.
   // Keep this map local: it must not retain contexts across snapshots or dates.
   const contexts = new Map<EntityId, FamilyContextRead>();
+  const householdCache: HouseholdContextCache = {
+    memberships: new Map(),
+    members: new Map(),
+  };
   const contextFor = (personId: EntityId): FamilyContextRead => {
     const prior = contexts.get(personId);
     if (prior) return prior;
-    const context = householdContext(world, personId);
+    const context = householdContext(world, personId, householdCache);
     contexts.set(personId, context);
     return context;
   };
@@ -524,6 +596,10 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   for (const relationship of world.history.kinshipRelationships)
     for (const id of relationship.personIds)
       consider(world.people[id]?.birthDate);
+  // The household sample's adult/child split changes on each member's 18th
+  // birthday, including people who have no kinship row yet.
+  for (const membership of world.history.householdMemberships)
+    consider(eighteenthBirthdayOf(membership.personId));
   const estimatedMonthlyPay = new Map(
     recordedMonthlyPayByPerson(world, world.currentDate),
   );
@@ -533,6 +609,7 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
       work.compensation === "paid" ? [work.personId] : [],
     ),
   );
+  let hasTenureEstimatedPay = false;
   for (const id of paidWorkPeople) {
     if (!orderedPeople.has(id) || estimatedMonthlyPay.has(id)) continue;
     let monthly = 0;
@@ -553,7 +630,10 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
             52) /
           12;
     }
-    if (monthly > 0) estimatedMonthlyPay.set(id, monthly);
+    if (monthly > 0) {
+      estimatedMonthlyPay.set(id, monthly);
+      hasTenureEstimatedPay = true;
+    }
   }
   const paidPeople = [...estimatedMonthlyPay.keys()].sort();
   const paidPeopleByPlace = new Map<EntityId, EntityId[]>();
@@ -577,9 +657,10 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     const { household, members } = selectedHouseholdMembers(
       world,
       membership.personId,
+      householdCache,
     );
     const adultMembers = members.filter(
-      (id) => eighteenthBirthday(world.people[id]!) <= world.currentDate,
+      (id) => eighteenthBirthdayOf(id)! <= world.currentDate,
     );
     const householdId = household?.household.id;
     if (!householdId || seenHouseholds.has(householdId) || !adultMembers.length)
@@ -615,11 +696,17 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
       world.history.householdMemberships.map((row) => row.householdId),
     ),
     estimate,
+    hasTenureEstimatedPay,
+    contextByPerson: contexts,
     byPerson: new Map(estimate.samples.map((row) => [row.personId, row])),
     exact,
     places,
   };
-  FAMILY_COHORTS.set(key, result);
+  if (reuse) {
+    variants.push(result);
+    if (variants.length > FAMILY_COHORT_VARIANTS) variants.shift();
+    FAMILY_COHORTS.set(key, variants);
+  }
   return result;
 }
 
@@ -747,9 +834,10 @@ function extendFamilyCohortIndex(
 function childhoodFamilyContext(
   world: World,
   personId: EntityId,
+  index: FamilyCohortIndex = familyCohortIndex(world),
 ): ChildhoodFamilyContext {
-  const own = householdContext(world, personId);
-  const index = familyCohortIndex(world);
+  const own =
+    index.contextByPerson.get(personId) ?? householdContext(world, personId);
   const exact = index.exact.get(cohortKey(own));
   const place = index.places.get(own.placeId);
   // Selected existing-code empty-cohort fallback: reuse saved family patterns,
@@ -968,10 +1056,29 @@ export function upbringingFor(
   return result;
 }
 
-function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
+/**
+ * Cold-reference read used by parity tests and diagnostics. It bypasses both
+ * the per-World result memo and the shared family-cohort index cache.
+ */
+export function upbringingForUncached(
+  world: World,
+  personId: EntityId,
+): PersonUpbringing {
+  return readUpbringing(world, personId, true);
+}
+
+function readUpbringing(
+  world: World,
+  personId: EntityId,
+  uncachedFamilyIndex = false,
+): PersonUpbringing {
   const person = world.people[personId];
   if (!person) throw new Error(`No person ${personId} exists.`);
-  const familyContext = childhoodFamilyContext(world, personId);
+  const familyContext = childhoodFamilyContext(
+    world,
+    personId,
+    uncachedFamilyIndex ? familyCohortIndex(world, false) : undefined,
+  );
   const parents = familyContext.parentIds;
   const parentDied = recordedChildhoodParentDeath(world, personId, parents);
   const earlyMoney = familyMoneyFor(world, personId, "early-childhood");
