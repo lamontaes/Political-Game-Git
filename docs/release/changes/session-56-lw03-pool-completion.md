@@ -1,8 +1,6 @@
 ---
 id: session-56-lw03-pool-completion
 impact: none
-section: Changed
-title: Mark existing federal tax terms work complete
 ---
 
 Documentation only: mark the federal tax-term consequence work complete in the
