@@ -3,6 +3,8 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { stateCandidacyPack } from "./candidacy-packs";
 import { composeWorldTimeHandlers } from "./campaigns";
+import { ARTICLE_V_REVIEW } from "./governing/article-v";
+import { FEDERAL_REFORM_REVIEW } from "./living-world/federal-reform";
 import {
   futureDueItemStateAt,
   resolveFutureDueItemsThrough,
@@ -35,10 +37,14 @@ it("dispatches a saved legislature wake through the ordinary world registry with
     first.dueAt,
     STATE_LEGISLATURE_QUEUE_HANDLERS,
   );
+  const worldHandlers = composeWorldTimeHandlers();
+  expect(worldHandlers.get(FEDERAL_REFORM_REVIEW)).toBe(
+    worldHandlers.get(ARTICLE_V_REVIEW),
+  );
   const actual = resolveFutureDueItemsThrough(
     loaded,
     first.dueAt,
-    composeWorldTimeHandlers(),
+    worldHandlers,
   );
   expect(actual.history).toEqual(expected.history);
   expect(
@@ -51,7 +57,7 @@ it("dispatches a saved legislature wake through the ordinary world registry with
   const again = resolveFutureDueItemsThrough(
     reloaded,
     first.dueAt,
-    composeWorldTimeHandlers(),
+    worldHandlers,
   );
   expect(again.history).toEqual(reloaded.history);
 });
