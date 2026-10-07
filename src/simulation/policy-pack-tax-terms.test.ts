@@ -90,6 +90,25 @@ it("loads tax questions without assigning any rates or replacing existing questi
       expect(row.consequences![0]!.evidence.sourceIds).toContain(
         "src/simulation/state-tax-authority.ts",
       );
+    } else if (row.key === "state.income-tax-terms") {
+      expect(row.consequences).toHaveLength(1);
+      expect(row.consequences![0]).toMatchObject({
+        kind: "tax",
+        when: "assessment",
+        who: { selector: "recorded-tax-base-payer" },
+        what: "attribute-saved-statutory-tax",
+        attributes: {
+          level: "state-statute",
+          taxKey: "{authority}:wage-income-tax",
+        },
+        evidence: {
+          sourceIds: expect.arrayContaining([
+            "src/simulation/state-income-tax-law.ts",
+            "src/simulation/law-consequences/statutory-wage-tax-rows.ts",
+            "src/simulation/law-consequences/tax.ts",
+          ]),
+        },
+      });
     } else expect(row.consequences).toBeUndefined();
     expect(row.principles).toBeUndefined();
   }
