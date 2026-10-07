@@ -409,12 +409,7 @@ function posedFor(
   return {
     // At a desk or table: anyone who wears glasses to read has them on.
     reading: activity === "desk",
-    expression: conversationExpression(
-      world,
-      personId,
-      record.appearance?.seed ?? record.id,
-      turns,
-    ),
+    expression: conversationExpression(world, personId, turns),
     pose: chooseBodyPose({
       activity,
       seated,
