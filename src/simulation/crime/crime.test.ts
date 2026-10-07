@@ -39,7 +39,7 @@ import {
   crimeIncidents,
   localCrimeFigures,
   sampleMonthlyCrime,
-  LOCAL_CRIME_RATES,
+  UNRESEARCHED_LOCAL_CRIME,
 } from "./index";
 import { arrestReferral, ensureCrimeProduction, offenseOf } from "./producer";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
@@ -47,15 +47,19 @@ import { referForProsecution } from "../justice/prosecution";
 
 const LONG = 900_000;
 
-/** Charlottesville, Virginia; Kentucky is deliberately not the test place. */
-const VIRGINIA_TOWN = "5114968";
-
 function open(seed: string) {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  const place =
+    places[parseInt(stableHash(seed).slice(0, 8), 16) % places.length]!;
+  console.info(
+    JSON.stringify({ fixture: "crime-opening-life", seed, place: place.usps }),
+  );
   return generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
       seed,
-      placeKey: VIRGINIA_TOWN,
+      placeKey: place.key,
       startAge: 30,
       depth: "summarize-earlier-life",
     }),
@@ -103,8 +107,10 @@ function openCrimeSmallWorld(seed: string) {
 
 describe("ordinary local crime", () => {
   it("every rate is marked as an unresearched placeholder", () => {
-    expect(LOCAL_CRIME_RATES.provenance).toBe("estimated-from-average");
-    for (const rule of LOCAL_CRIME_RATES.offenses) {
+    expect(UNRESEARCHED_LOCAL_CRIME.provenance).toBe(
+      "unresearched-blanket-rule",
+    );
+    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
       for (const share of [rule.reportedShare, rule.arrestShare]) {
         expect(share).toBeGreaterThan(0);
         expect(share).toBeLessThan(1);

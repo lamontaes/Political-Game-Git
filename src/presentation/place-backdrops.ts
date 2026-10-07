@@ -19,6 +19,8 @@ import {
 } from "./campus-backdrops";
 import { backdropUrl } from "./backdrop-urls";
 import { openingWorkLocation } from "./opening-work-location";
+import { townWorkplaceFor } from "../simulation/living-world/town-employment";
+import { WORKPLACE_PLACE } from "../simulation/living-world/work-schedules";
 import type {
   DwellingClassification,
   EntityId,
@@ -217,6 +219,37 @@ export function homePlaceFor(
   }
 }
 
+/** Every home picture, the shared interior for each kind of dwelling first. */
+const HOME_PLACES = [
+  "suburban-house",
+  "small-apartment",
+  "rowhouse",
+  "large-house",
+  "rural-farmhouse",
+  "mobile-home",
+] as const;
+
+/**
+ * The home pictures to try for a person, in order: their dwelling's own kind,
+ * then the shared house interior, then every other home. A build that lacks
+ * one still paints a home, never a blank (OW-17).
+ */
+export function homePlacesForPerson(
+  world: World,
+  personId: EntityId,
+): readonly string[] {
+  const own = homePlaceForPerson(world, personId);
+  return [own, ...HOME_PLACES.filter((place) => place !== own)];
+}
+
+/** The recorded building type of the person's current dwelling, if any. */
+export function homeDwellingKind(
+  world: World,
+  personId: EntityId,
+): DwellingClassification | null {
+  return currentDwelling(world, personId)?.classification ?? null;
+}
+
 /** The person's current home picture. */
 export function homePlaceForPerson(world: World, personId: EntityId): string {
   const dwelling = currentDwelling(world, personId);
@@ -248,7 +281,9 @@ function currentDwelling(world: World, personId: EntityId) {
  */
 export function workplacePlaceFor(
   classification: OccupationClassification | null,
+  employerPlace: string | null = null,
 ): string {
+  if (employerPlace && hasBackdrop(employerPlace)) return employerPlace;
   if (!classification) return "office";
   const onet = /^custom:onet-(\d\d)/.exec(classification);
   if (onet) return ONET_MAJOR_GROUP_PLACE[onet[1]!] ?? "office";
@@ -344,7 +379,19 @@ export function workplacePlaceForPerson(
   if (arrival?.context.location?.setting === "work")
     return selectedWorkplaceForPerson(world, personId)?.place ?? null;
   const [work] = activeWorkRelationshipsAt(world, personId);
-  return work ? workplacePlaceFor(work.role.occupationClassification) : null;
+  if (!work) return null;
+  const organizationId = work.relationship.organizationId;
+  const organization = organizationId
+    ? world.history.organizations.find((entry) => entry.id === organizationId)
+    : null;
+  const profile = organizationId
+    ? organizationProfileAt(world, organizationId)
+    : null;
+  const workplace = organization
+    ? townWorkplaceFor(organization.stableKey, profile?.classification ?? null)
+    : null;
+  const employerPlace = workplace ? WORKPLACE_PLACE[workplace.key] : null;
+  return workplacePlaceFor(work.role.occupationClassification, employerPlace);
 }
 
 /**
@@ -436,6 +483,10 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
 
 const LOCATION_PREFIX_PLACE: Readonly<Record<string, string>> = {
   journey: "main-street",
+  // The day the court sat on the player's own case (`courtroomLocationKey`).
+  "court-case": "county-courtroom",
+  // The day a protest the player organized or attended was held.
+  "protest-held": "rally-stage",
   "judicial-office": "county-courtroom",
   municipal: "council-chamber",
   "municipal-notes": "council-chamber",

@@ -1476,7 +1476,7 @@ export function campaignWeeklyEvaluationHandler(
     .filter(
       (personId) => world.people[personId] && !isDeceased(world, personId),
     )
-    // Nobody campaigns from jail (UNRESEARCHED_JAIL_EFFECTS); they stay on
+    // Nobody campaigns from jail (JAIL_EFFECTS_ESTIMATE); they stay on
     // the ballot and their support stands where it was.
     .filter((personId) => !jailTermOn(world, personId, weekStart))
     .sort();

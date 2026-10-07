@@ -85,5 +85,57 @@ export function assertEnactedDutyIntegrity(
     if (findings.has(pair)) fail(record, "repeats a finding for one body.");
     findings.add(pair);
     if (!record.reason.trim()) fail(record, "gives no reason.");
+    if (record.evidenceRecordId) {
+      const programs = world.history.publicProgramRecords ?? [];
+      const evidence = programs.find(
+        (candidate) =>
+          candidate.kind === "capacity-outturn" &&
+          candidate.id === record.evidenceRecordId,
+      );
+      const outturn = evidence?.kind === "capacity-outturn" ? evidence : null;
+      const installment =
+        outturn &&
+        programs.find(
+          (candidate) =>
+            candidate.kind === "installment" &&
+            candidate.id === outturn.installmentId &&
+            candidate.commitmentId === outturn.commitmentId &&
+            candidate.status === "posted",
+        );
+      const commitment =
+        outturn &&
+        programs.find(
+          (candidate) =>
+            candidate.kind === "commitment" &&
+            candidate.id === outturn.commitmentId &&
+            candidate.recipientOrganizationId === record.organizationId,
+        );
+      const validCommitment =
+        commitment?.kind === "commitment" ? commitment : null;
+      const appropriation =
+        validCommitment &&
+        programs.find(
+          (candidate) =>
+            candidate.kind === "appropriation" &&
+            candidate.id === validCommitment.appropriationId &&
+            candidate.sourceMeasureId === duty!.measureId,
+        );
+      const evidenceEvent = outturn && eventById(world, outturn.eventId);
+      if (
+        record.outcome !== "complied" ||
+        record.basis !== "recorded-service" ||
+        !installment ||
+        !appropriation ||
+        !evidenceEvent ||
+        evidenceEvent.occurredAt > duty!.complyBy ||
+        evidenceEvent.occurredAt < duty!.operativeAt
+      )
+        fail(
+          record,
+          "does not link a qualifying service outturn to this duty.",
+        );
+    } else if (record.basis === "recorded-service") {
+      fail(record, "claims recorded service without its outturn.");
+    }
   }
 }

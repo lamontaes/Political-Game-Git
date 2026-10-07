@@ -37,3 +37,23 @@ describe("the dialogue batch", () => {
     },
   );
 });
+
+describe("the dialogue batch reaches a press interview answer", () => {
+  it(
+    "arranges a real exchange and words the player's answer with the answer banks",
+    { timeout: 300_000 },
+    () => {
+      const result = runDialogueBatch({
+        seed: "dh1-quick",
+        ages: [34],
+        newsDays: 10,
+        max: 40,
+      });
+      const answer = result.lines.find((line) => line.id === "press-answer");
+      expect(answer?.composer).toBe(
+        "composePressLine (answer-unknown) in press-english.ts",
+      );
+      expect(answer?.line.trim()).not.toBe("");
+    },
+  );
+});

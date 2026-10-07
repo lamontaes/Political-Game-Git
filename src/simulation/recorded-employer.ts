@@ -11,11 +11,11 @@ import type { EntityId, OccupationClassification, World } from "./types";
 export const LOCAL_BUSINESS_ESTIMATE = {
   researchQuestionId: "businesses-owners-and-wealth",
   currency: "USD",
-  provenance: "estimated-from-average",
-  estimated: true,
-  estimatedFrom:
-    "game estimate of about 16 dollars an hour full time, used only where no published wage covers the occupation and area",
-  /** ESTIMATED FROM AVERAGE: a worker's monthly pay where no published wage covers. */
+  provenance: "designed",
+  estimated: false,
+  rationale:
+    "designed game fallback: reads an occupation and area with no published wage and balances it at about 16 dollars an hour full time, so a worker is never paid nothing where the record is silent",
+  /** DESIGNED fallback: a worker's monthly pay where no published wage covers. */
   monthlyWageMinor: 280_000,
 } as const;
 

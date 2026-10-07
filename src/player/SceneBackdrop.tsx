@@ -294,10 +294,7 @@ export function SceneBackdrop({
           };
         })
       : [];
-  const headroom = figureHeadroom(
-    figuresAt(covering.yOffset),
-    covering.viewport.height,
-  );
+  const headroom = figureHeadroom(figuresAt(covering.yOffset));
   const transform = {
     ...covering,
     xOffset:
@@ -677,14 +674,6 @@ export function SceneBackdrop({
                         onSelectPerson(person.personId, person.engine),
                       "aria-haspopup": "menu" as const,
                       "aria-expanded": chosen,
-                      /*
-                       * The accessible name is the presence line the room
-                       * already computes — "Beth Mathis, your housemate" —
-                       * so somebody using a screen reader hears who they are
-                       * about to choose and how this life knows them, which is
-                       * exactly what the rail used to say.
-                       */
-                      "aria-label": person.presence,
                     }
                   : {})}
                 className={`scene-person-token${onSelectPerson ? " scene-person-token--selectable" : ""}${chosen ? " scene-person-token--chosen" : ""}`}
