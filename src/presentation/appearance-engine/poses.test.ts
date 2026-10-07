@@ -525,6 +525,25 @@ describe("turned views", () => {
     expect(engineRecipeKey(turned)).toContain("three-quarter");
   });
 
+  it("falls side and back views through three-quarter before front", () => {
+    expect(posedPieces(pack, { ...turned, view: "side" }).view).toBe(
+      "three-quarter",
+    );
+    expect(posedPieces(pack, { ...turned, view: "back" }).view).toBe(
+      "three-quarter",
+    );
+  });
+
+  it("mirrors three-quarter art to honor an explicit facing", () => {
+    const towardLeft = posedPieces(pack, { ...turned, facing: "left" });
+    const towardRight = posedPieces(pack, { ...turned, facing: "right" });
+    expect([towardLeft.toward, towardLeft.mirrored]).toEqual(["left", false]);
+    expect([towardRight.toward, towardRight.mirrored]).toEqual(["right", true]);
+    expect(engineRecipeKey({ ...turned, facing: "right" })).toContain(
+      "facing:right",
+    );
+  });
+
   it("turns a listener toward the speaker and leaves everyone else facing front", () => {
     expect(chooseBodyView("listening")).toBe("three-quarter");
     for (const activity of [
