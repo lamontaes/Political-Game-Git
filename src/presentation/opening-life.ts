@@ -480,7 +480,7 @@ function* completeOpeningLifeSteps(
           "opening",
         )
       : withOfficeSalaries;
-// The opening SNAP baseline reads recorded household pay. Settle it only
+  // The opening SNAP baseline reads recorded household pay. Settle it only
   // after opening wages exist so the first eligibility review sees real income.
   const withOutcomes = ensurePlaceOutcomes(withEmployerCash);
   const world = ensureHealthCoveragePass(
