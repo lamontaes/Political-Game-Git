@@ -61,6 +61,16 @@ describe("causes for untraced strings", () => {
     expect(causeOf("Hoodie and jeans", "engine-appearance-outfit").id).toBe(
       "appearance-option-label",
     );
+    expect(
+      causeOf(
+        "Violent crimes per 100,000 people",
+        "place-condition-crime.violent",
+      ).id,
+    ).toBe("condition-name");
+    expect(causeOf("357 per 100,000 people", "place-condition-now").id).toBe(
+      "condition-value",
+    );
+    expect(causeOf("Here: Egan, South Dakota").id).toBe("here-place");
   });
 
   it("leaves a string no rule fits unexplained", () => {

@@ -25,6 +25,18 @@ export const CAUSE_RULES: readonly CauseRule[] = [
       "the initials of the room television's station name, drawn as its corner logo (src/player/RoomMedia.tsx)",
   },
   {
+    id: "condition-value",
+    testid: /^place-condition-now$/,
+    cause:
+      "a recorded condition value written with its unit from the outcome data",
+  },
+  {
+    id: "condition-name",
+    testid: /^place-condition-/,
+    cause:
+      "a place condition's name read from the outcome data (data/research/outcome-web/place-outcome-bases-2024.json)",
+  },
+  {
     id: "appearance-option-label",
     testid: /^engine-appearance-/,
     cause:
@@ -59,6 +71,11 @@ export const CAUSE_RULES: readonly CauseRule[] = [
     id: "activity-and-kind",
     pattern: /^.+ \((?:personal|professional)\)$/,
     cause: "an activity name and its kind from the record",
+  },
+  {
+    id: "here-place",
+    pattern: /^Here: .+$/,
+    cause: "a fixed word and the place name from the record",
   },
   {
     id: "initials",
