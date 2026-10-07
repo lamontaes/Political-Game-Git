@@ -151,8 +151,7 @@ describe("Autauga County's ordinary member agenda", () => {
         .at(-1),
     ).toMatchObject({
       status: "resolved",
-      context:
-        "The local council reached its quarterly game-profile agenda date.",
+      context: "The local council reached its shared timetable agenda date.",
     });
     const measure = (world.history.legislativeMeasures ?? []).find(
       (entry) =>
