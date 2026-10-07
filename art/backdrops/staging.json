@@ -976,9 +976,20 @@
           "group": "bench-rear",
           "role": "general",
           "id": "city-hall-exterior:spot:7"
+        },
+        {
+          "x": 79,
+          "y": 61,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 61,
+          "seatY": 58,
+          "group": "bench-rear",
+          "role": "general",
+          "id": "city-hall-exterior:spot:8"
         }
       ],
-      "measuredFrom": "entrance doors 2.03 m foot 56.7 top 48.2 and five steps plus 0.9 m handrails give about 4.3% per meter at the steps' foot y 62 (0.54); benches, back about 0.85 m, foot 67-68 top 60 (0.65, weighted most: people read too small against the benches at 0.57); lamp post about 4 m foot 69.5 top 37 (0.52); the top landing is its own floor, scaled from the doors; rear left bench foot point estimated from the native midday image and calibrated against the existing near-bench foot and cushion contacts",
+      "measuredFrom": "entrance doors 2.03 m foot 56.7 top 48.2 and five steps plus 0.9 m handrails give about 4.3% per meter at the steps' foot y 62 (0.54); benches, back about 0.85 m, foot 67-68 top 60 (0.65, weighted most: people read too small against the benches at 0.57); lamp post about 4 m foot 69.5 top 37 (0.52); the top landing is its own floor, scaled from the doors; rear plaza bench foot points estimated from the native midday image and calibrated against the existing near-bench foot and cushion contacts",
       "surfaceSlots": [
         {
           "surfaceId": "city-hall-exterior-name-panel",
