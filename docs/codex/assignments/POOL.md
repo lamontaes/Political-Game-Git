@@ -20,7 +20,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | LW-04                                  | Budget and taxes: laws with no running effect                                                                                                                                                                                                     | law-batches.md LW-04        | open (stale claim: /root/lw04_law_owner)     | /root/lw04_law_owner      |
 | LW-05                                  | Budget and taxes: laws with no running effect                                                                                                                                                                                                     | law-batches.md LW-05        | open (stale claim: S17)                      | S17                       |
 | LW-06                                  | Budget and taxes: laws with no running effect                                                                                                                                                                                                     | law-batches.md LW-06        | open (stale claim: S18)                      | S18                       |
-| LW-07                                  | Budget and taxes: laws with no running effect                                                                                                                                                                                                     | law-batches.md LW-07        | open (stale claim: S19)                      | S19                       |
+| LW-07                                  | Budget and taxes: laws with no running effect                                                                                                                                                                                                     | law-batches.md LW-07        | open (needs source)                          |                           |
 | LW-08                                  | Mixed areas: Education; Business, commerce and economic development; Civil, fami: laws with no running effect                                                                                                                                     | law-batches.md LW-08        | claimed S26 (active 7:49 a.m.)               | S26                       |
 | LW-09                                  | Mixed areas: Technology, privacy and cybersecurity; Immigration, citizenship and: laws with no running effect                                                                                                                                     | law-batches.md LW-09        | open (stale claim: S29)                      | S29                       |
 | LW-10                                  | Mixed areas: Federal justice, rights and constitutional institutions; Federal ad: laws with no running effect                                                                                                                                     | law-batches.md LW-10        | open (stale claim: S42)                      | S42                       |
@@ -495,26 +495,26 @@ Engine and speed work.
 
 Take these after the order above, or any time a session is free. Every row is one PR.
 
-| item  | what                                                                                                                    | doc           | status     | claimer      |
-| ----- | ----------------------------------------------------------------------------------------------------------------------- | ------------- | ---------- | ------------ |
-| BG-01 | Jagged white outline on cut-out figure edges (also the white fringe on the creator figure)                              | BUGS.md BG-01 | open       |              |
-| BG-02 | Hair covers the face on some people                                                                                     | BUGS.md BG-02 | open       |              |
-| BG-03 | Hood or collar strip drawn over the hair                                                                                | BUGS.md BG-03 | done #2567 |              |
-| BG-04 | Cuffs discolor (skin tone bleeds onto sleeves and cuffs)                                                                | BUGS.md BG-04 | done       | PR #2864     |
-| BG-05 | Heads and hair are cut off at the top of scenes                                                                         | BUGS.md BG-05 | done #186  |              |
-| BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | open       |              |
-| BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | open       |              |
-| BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done       | #2961        |
-| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open       |              |
-| BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done       | merged #2875 |
-| BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | open       |              |
-| BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done       | merged #2861 |
-| BG-13 | Date shows twice (status card and Observing bar)                                                                        | BUGS.md BG-13 | done #2874 |              |
-| BG-14 | Deaths run about 15 times too high: 4 in one day in a 10,555-person town                                                | BUGS.md BG-14 | done       | merged #2634 |
-| BG-15 | Every Texas district gets exactly 2 candidates (a formula, not emergence)                                               | BUGS.md BG-15 | open       |              |
-| BG-16 | '1 people entered the race' (plural not matched to count)                                                               | BUGS.md BG-16 | open       |              |
-| BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done       | #2872        |
-| BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done       | #844         |
+| item  | what                                                                                                                    | doc           | status      | claimer      |
+| ----- | ----------------------------------------------------------------------------------------------------------------------- | ------------- | ----------- | ------------ |
+| BG-01 | Jagged white outline on cut-out figure edges (also the white fringe on the creator figure)                              | BUGS.md BG-01 | done #3194  |              |
+| BG-02 | Hair covers the face on some people                                                                                     | BUGS.md BG-02 | open        |              |
+| BG-03 | Hood or collar strip drawn over the hair                                                                                | BUGS.md BG-03 | done #2567  |              |
+| BG-04 | Cuffs discolor (skin tone bleeds onto sleeves and cuffs)                                                                | BUGS.md BG-04 | done        | PR #2864     |
+| BG-05 | Heads and hair are cut off at the top of scenes                                                                         | BUGS.md BG-05 | done #186   |              |
+| BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | ready #3263 |              |
+| BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | open        |              |
+| BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done        | #2961        |
+| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open        |              |
+| BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done        | merged #2875 |
+| BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | open        |              |
+| BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done        | merged #2861 |
+| BG-13 | Date shows twice (status card and Observing bar)                                                                        | BUGS.md BG-13 | done #2874  |              |
+| BG-14 | Deaths run about 15 times too high: 4 in one day in a 10,555-person town                                                | BUGS.md BG-14 | done        | merged #2634 |
+| BG-15 | Every Texas district gets exactly 2 candidates (a formula, not emergence)                                               | BUGS.md BG-15 | open        |              |
+| BG-16 | '1 people entered the race' (plural not matched to count)                                                               | BUGS.md BG-16 | open        |              |
+| BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done        | #2872        |
+| BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done        | #844         |
 
 | BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | open | |
 | BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | open | |
@@ -591,7 +591,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1180 | Review existing capitol surfaces: KY through OH | PR #1180 (codex/sept29-team7-scenes-09) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1181 | Review existing capitol surfaces: OK through WY | PR #1181 (codex/sept29-team7-scenes-10) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1187 | Trace Team 7 scene and newspaper why-chains | PR #1187 (codex/team7-bedrock-numbers) | open: draft: finish it or close it as superseded | |
-| RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | open: stacked on codex/team-9-bill-number-research: retarget to main; draft: finish it or close it as superseded | |
+| RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | ready #1188 | |
 | RS-1203 | Review remaining canonical scene spots | PR #1203 (codex/sept29-team7-remaining-spots) | open: draft: finish it or close it as superseded | |
 | RS-1220 | Preserve fresh monthly speed baseline and scoped caller evidence | PR #1220 (codex/team-4-monthly-speed-next) | done (superseded by M10; no active allocation) | |
 | RS-1222 | List exact regional picture admissions for existing-bank reconciliation | PR #1222 (codex/team-8-regional-picture-gaps) | done (superseded by regional-opening #281 and place-id research #451; closed Oct 7) | Session 45 |
@@ -609,7 +609,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
 | RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #1306 (codex/team1-consequence-inputs) | open: draft: finish it or close it as superseded | |
 | RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | ready #3271 | |
-| RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | open: draft: finish it or close it as superseded | |
+| RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | ready #1332 | |
 | RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | open: draft: finish it or close it as superseded | |
 | RS-1406 | Deliver the private monthly money call-cost diagnostic | PR #1406 (codex/team7-c9-owned-call-cost-diagnostic) | done (superseded by current-main obligation route; diagnostic depended on closed PR #1353) | |
 | RS-1415 | Preserve native lease renewal proof and save validation blocker | PR #1415 (codex/team-4-m10-native-renewal-entry) | open: draft: finish it or close it as superseded | |

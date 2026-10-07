@@ -1,0 +1,1308 @@
+{
+  "schemaVersion": 1,
+  "scope": "County governing-body election timing by state: the calendar profile for any county derives from its state row unless a county-specific profile exists in county-election-calendar-profiles.json. Filing admission and district assignment are not part of this table.",
+  "readOn": "2026-10-06",
+  "readBy": "CO-1",
+  "statusMeaning": {
+    "SOURCED": "The rule was read from statute text or an official government page; any field marked termStartEstimated is the one exception.",
+    "ESTIMATED FROM AVERAGE": "The state's rule rests on county pages, news or the common pattern; the unread parts are named in the note."
+  },
+  "weekdayNumbers": "0 Sunday through 6 Saturday",
+  "states": [
+    {
+      "stateUsps": "AK",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 3,
+        "stagger": "staggered",
+        "cycleYears": 1,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 10,
+          "weekday": 2,
+          "ordinal": 1
+        },
+        "termStart": {
+          "month": 10,
+          "weekday": 1,
+          "ordinal": 2
+        },
+        "partisan": "nonpartisan"
+      },
+      "status": "SOURCED",
+      "citation": "AS 29.20 and borough codes: assembly members elected annually the first Tuesday of October for three-year terms; the term starts the first Monday after certification",
+      "sourceUrls": [
+        "https://www.hainesalaska.gov/media/50691",
+        "https://www.akleg.gov/pdf/21/SB0196A.pdf"
+      ],
+      "termStartEstimated": true,
+      "note": "Alaska has boroughs, not counties; the census areas outside a borough hold no county election. Term start estimated as the second Monday of October."
+    },
+    {
+      "stateUsps": "AL",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "daysAfterElection": 7
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Ala. Code \u00a7 11-3-1 (commission of probate judge and four commissioners, four-year terms); a commissioner's term runs from the seventh day after the general election",
+      "sourceUrls": [
+        "https://us.vlex.com/vid/ala-code--11-657519965",
+        "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2025RS/PSSKVRE-1.pdf"
+      ],
+      "note": "The seven-days-after-election start rests on the 2025 bill text found; older text started terms the first Monday after the second Tuesday in January. Local acts change individual counties."
+    },
+    {
+      "stateUsps": "AR",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 2,
+        "stagger": "concurrent",
+        "cycleYears": 2,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Ark. Const. amend. 55 and Ark. Code \u00a7 14-14-902: justices of the peace (quorum court) are elected every even-numbered year for two-year terms",
+      "sourceUrls": [
+        "https://uaex.uada.edu/business-communities/ced-blog/posts/2026/february/what-is-a-justice-of-the-peace-in-arkansas.aspx",
+        "https://en.wikipedia.org/wiki/County_government_in_Arkansas"
+      ],
+      "termStartEstimated": true,
+      "note": "Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "AZ",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "A.R.S. \u00a7 11-211: supervisors are elected at the general election at which the President is elected and take office January 1",
+      "sourceUrls": [
+        "https://law.justia.com/codes/arizona/2011/title11/section11-211",
+        "https://www.azleg.gov/ars/11/00211.htm"
+      ]
+    },
+    {
+      "stateUsps": "CA",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 6,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "nonpartisan"
+      },
+      "status": "SOURCED",
+      "citation": "Cal. Gov. Code \u00a7 25000 and Elections Code: five supervisors, four-year terms, no more than three elected at one election; contests are decided at the June statewide primary unless runoff to November",
+      "sourceUrls": [
+        "https://california.public.law/codes/government_code_section_25000",
+        "https://oag.ca.gov/system/files/opinions/pdfs/80-708.pdf"
+      ],
+      "termStartEstimated": true,
+      "note": "A runoff, where no candidate has a majority, is held at the November general election; this table carries the June date. Terms start the first Monday after January 1 (estimated)."
+    },
+    {
+      "stateUsps": "CO",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 2,
+          "ordinal": 2
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "C.R.S. \u00a7 30-10-306: commissioners serve four-year terms and take office the second Tuesday in January; two or three are elected in the presidential year, the rest in the midterm",
+      "sourceUrls": [
+        "https://ccionline.org/download/2021_handbook/2021-Chapter-2-The-Board-of-County-Commissioners.pdf",
+        "https://colorado.public.law/statutes/crs_30-10-306.5"
+      ]
+    },
+    {
+      "stateUsps": "CT",
+      "countyGovernment": "none",
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "Connecticut abolished county government in 1960; no county body holds an election",
+      "sourceUrls": [],
+      "note": "No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass."
+    },
+    {
+      "stateUsps": "DE",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Del. Code Title 9: Levy Court and County Council members serve four-year terms elected at the November general election of even-numbered years; New Castle districts 1-6 and 7-12 and the President are staggered across 2024 and 2026",
+      "sourceUrls": [
+        "https://law.justia.com/codes/delaware/title-9/chapter-41/subchapter-i/section-4103/",
+        "https://legis.delaware.gov/SessionLaws/Chapter?id=17169"
+      ],
+      "termStartEstimated": true,
+      "note": "Sussex and Kent staggering is estimated from New Castle. Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "FL",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "daysAfterElection": 14
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Fla. Stat. \u00a7 124.01: four-year staggered terms with about half elected every two years; a commissioner's term begins the second Tuesday after the election",
+      "sourceUrls": [
+        "https://www.flsenate.gov/Laws/Statutes/2024/Chapter124/All"
+      ],
+      "note": "Primary is in August; the table carries the general election date."
+    },
+    {
+      "stateUsps": "GA",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "O.C.G.A. Title 36 ch. 5 and local acts: commissioners are elected at the November general election for four-year terms; successors are chosen at the election immediately preceding the end of the term",
+      "sourceUrls": [
+        "https://www.legis.ga.gov/api/legislation/document/20152016/149557",
+        "https://www.thomson-mcduffie.gov/bc-commissioners"
+      ],
+      "termStartEstimated": true,
+      "note": "Georgia sets county commission structure by local act; staggering, party label and term start vary by county and are estimated here."
+    },
+    {
+      "stateUsps": "HI",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 2,
+        "stagger": "concurrent",
+        "cycleYears": 2,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 12,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "nonpartisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "Hawaii county charters: council members are elected in even-numbered years on a nonpartisan ballot; Hawaii, Maui and Kauai councils serve two-year terms and Honolulu serves staggered four-year terms",
+      "sourceUrls": [
+        "https://en.wikipedia.org/wiki/Honolulu_City_Council",
+        "https://civilbeat.org/2022/06/civil-beat-guide-2022-is-a-big-year-for-politics-and-elections-in-hawaii/"
+      ],
+      "termStartEstimated": true,
+      "note": "Primary is in August. Honolulu's four-year staggered council is a charter exception to carry as a county row; term start estimated."
+    },
+    {
+      "stateUsps": "IA",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Iowa Code \u00a7 331.201: supervisors serve four-year terms staggered so no more than a bare majority is elected at one general election",
+      "sourceUrls": ["https://www.legis.iowa.gov/docs/code/2023/331.201.pdf"],
+      "termStartEstimated": true,
+      "note": "Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "ID",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "Idaho Code \u00a7\u00a7 31-702 to 31-705: three commissioners elected by district; terms are staggered; the board organizes the second Monday in January",
+      "sourceUrls": [
+        "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH7/SECT31-704/",
+        "https://law.justia.com/codes/idaho/title-31/chapter-7/"
+      ],
+      "termStartEstimated": true,
+      "note": "Term start estimated as the first Monday in January; the statute text itself was not retrieved."
+    },
+    {
+      "stateUsps": "IL",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 12,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "55 ILCS 5/2-3009 and 5/2-3003: county board members serve staggered four-year terms (two-year terms at the start of a cycle) and terms start the first Monday of the month after the election",
+      "sourceUrls": [
+        "https://www.ilga.gov/legislation/94/SB/PDF/09400SB0489.pdf",
+        "https://ilga.gov/legislation/94/HB/09400HB3621lv.htm"
+      ],
+      "note": "Cook County and charter counties differ; the table carries the general rule."
+    },
+    {
+      "stateUsps": "IN",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "Ind. Code \u00a7 36-2-2: three commissioners, four-year staggered terms, elected at the general election",
+      "sourceUrls": [
+        "https://knoxcounty.in.gov/knox-county-commissioners",
+        "https://www.vigocounty.in.gov/commissioners/"
+      ],
+      "termStartEstimated": true,
+      "note": "Statute text not retrieved; county pages state the four-year staggered general-election rule. Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "KS",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 2
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "K.S.A. 19-202: four-year terms from the second Monday of January after the election; staggered so no more than a simple majority is elected at one general election",
+      "sourceUrls": [
+        "https://www.kslegislature.gov/li/b2023_24/statute/019_000_0000_chapter/019_002_0000_article/019_002_0002_section/019_002_0002_k/"
+      ]
+    },
+    {
+      "stateUsps": "KY",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "KRS 67.050 and Ky. Const. \u00a7 144: magistrates sit on the fiscal court for four-year terms and are elected at the midterm general election",
+      "sourceUrls": [
+        "https://en.wikipedia.org/wiki/List_of_current_members_of_the_Kentucky_Fiscal_Courts",
+        "https://christiancountyky.gov/county-magistrates"
+      ],
+      "termStartEstimated": true,
+      "note": "Term start estimated as the first Monday in January."
+    },
+    {
+      "stateUsps": "LA",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [3],
+        "election": {
+          "month": 11,
+          "weekday": 6,
+          "ordinal": 3
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 2
+        },
+        "partisan": "nonpartisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "La. R.S. 33:1236 and 18:402: police jury and parish council members serve four-year terms elected in odd-numbered years; the exact date is set by the Secretary of State calendar each cycle",
+      "sourceUrls": [
+        "https://legis.la.gov/Legis/Law.aspx?d=81132",
+        "https://www.sos.la.gov/media/byfpyc5f/elections-calendar-2027.pdf"
+      ],
+      "termStartEstimated": true,
+      "note": "Louisiana dates are adjusted each cycle for holidays; DeSoto Parish keeps its published 2027 dates and refuses a later cycle. Other parishes use the third Saturday of November as an estimate."
+    },
+    {
+      "stateUsps": "MA",
+      "countyGovernment": "partial",
+      "status": "SOURCED",
+      "citation": "Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government",
+      "sourceUrls": [
+        "https://www.sec.state.ma.us/divisions/cis/government/gov-county.htm",
+        "https://boston.com/news/wickedpedia/2023/12/12/massachusetts-county-governments-abolished/"
+      ],
+      "note": "Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated."
+    },
+    {
+      "stateUsps": "MD",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 12,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Md. Const. art. XVII and county charters: county officers are elected in gubernatorial-year general elections for four-year terms (Cecil County staggers with presidential years)",
+      "sourceUrls": [
+        "https://conduitstreet.mdcounties.org/2014/11/05/2014-county-general-elections-calculating-turnover/",
+        "https://mgaleg.maryland.gov/2017RS/fnotes/bil_0008/hb0348.pdf"
+      ],
+      "termStartEstimated": true,
+      "note": "Term start estimated as the first Monday in December."
+    },
+    {
+      "stateUsps": "ME",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "30-A M.R.S. \u00a7 62: county commissioners are elected on the Tuesday after the first Monday in November of even-numbered years for four-year terms",
+      "sourceUrls": [
+        "https://legislature.maine.gov/statutes/30-A/title30-Asec62.html"
+      ],
+      "termStartEstimated": true,
+      "note": "Primary is in June. Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "MI",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "MCL 46.402 and 2021 PA 122: county commissioners serve four-year terms beginning with the term after the November 2024 election (two-year terms before)",
+      "sourceUrls": [
+        "https://hercules-milenia.legislature.mi.gov/documents/2019-2020/billanalysis/House/htm/2019-HLA-4937-0E767BB5.htm",
+        "https://www.legislature.mi.gov/documents/mcl/pdf/mcl-46-402-amended.pdf"
+      ],
+      "termStartEstimated": true,
+      "note": "Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "MN",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "nonpartisan"
+      },
+      "status": "SOURCED",
+      "citation": "Minn. Stat. ch. 375: four-year staggered terms, commissioners take office the first Monday in January after election",
+      "sourceUrls": [
+        "https://www.revisor.mn.gov/statutes/2025/cite/375.01",
+        "https://morrisoncountymn.gov/311/County-Board"
+      ]
+    },
+    {
+      "stateUsps": "MO",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "RSMo 49.010 and 49.020: the presiding commissioner is elected in the 1882-cycle year (2022, 2026) and associate commissioners in the 1996-cycle year (2024), four-year terms, taking office January 1",
+      "sourceUrls": [
+        "https://senate.mo.gov/95info/bills/HB256.htm",
+        "https://law.justia.com/codes/missouri/2005/t06/c049.html"
+      ],
+      "note": "First-class charter counties differ."
+    },
+    {
+      "stateUsps": "MS",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [3],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "Miss. Code \u00a7 19-3-3 and \u00a7 23-15-: five supervisors elected by district for four-year terms in the November general election of odd-numbered years before a presidential year",
+      "sourceUrls": [
+        "https://leakecountyms.org/board-of-supervisors/",
+        "https://legiscan.com/MS/text/HB289/2025"
+      ],
+      "termStartEstimated": true,
+      "note": "Statute text not retrieved; term start estimated as the first Monday in January."
+    },
+    {
+      "stateUsps": "MT",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 6,
+        "stagger": "staggered",
+        "cycleYears": 2,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "MCA 7-4-2105: county commissioners serve six-year terms taking office January 1; staggered so one or two seats are elected every even-numbered year",
+      "sourceUrls": [
+        "https://archive.legmt.gov/bills/MCA_toc/7_4_21.htm",
+        "https://lincolncountymt.us/commissioners-home/"
+      ]
+    },
+    {
+      "stateUsps": "NC",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 12,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "N.C.G.S. \u00a7 153A-58 and local acts: commissioners are elected in November of even-numbered years; most counties use four-year staggered terms (91 of 100) and terms start the first Monday in December",
+      "sourceUrls": [
+        "https://www.ncacc.org/research-and-publications/research/county-elections/",
+        "https://ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_153A/Article_4.html"
+      ]
+    },
+    {
+      "stateUsps": "ND",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "nonpartisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "N.D.C.C. \u00a7\u00a7 11-11-03, 11-02-07: commissioners serve four-year staggered terms",
+      "sourceUrls": [
+        "https://www.burleigh.gov/commission",
+        "https://attorneygeneral.nd.gov/wp-content/uploads/2023/03/81-134.pdf"
+      ],
+      "termStartEstimated": true,
+      "note": "Election month and nonpartisan ballot rest on a county page; term start estimated as the first Monday in January."
+    },
+    {
+      "stateUsps": "NE",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 4,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Neb. Rev. Stat. \u00a7\u00a7 32-528 and 32-529: commissioners and supervisors serve four-year terms, staggered by district",
+      "sourceUrls": [
+        "https://ebench-dev.greeninfo.org/state/nebraska/statute/32-528",
+        "https://ebench-dev.greeninfo.org/state/nebraska/statute/32-529"
+      ],
+      "termStartEstimated": true,
+      "note": "Term start estimated as the first Thursday after the first Monday in January."
+    },
+    {
+      "stateUsps": "NH",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 2,
+        "stagger": "staggered",
+        "cycleYears": 2,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 12,
+          "weekday": 3,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "RSA ch. 28: three county commissioners in staggered two- and four-year terms, elected at the November general election of even-numbered years",
+      "sourceUrls": ["https://www.belknapcounty.gov/node/11"],
+      "termStartEstimated": true,
+      "note": "Term start estimated as the first Wednesday in December. Terms are mixed two and four years; the table carries two."
+    },
+    {
+      "stateUsps": "NJ",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 3,
+        "stagger": "staggered",
+        "cycleYears": 1,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "N.J.S.A. 40:20: county commissioners (formerly freeholders) serve three-year staggered terms elected at the November general election every year; counties may adopt four-year terms",
+      "sourceUrls": [
+        "https://en.wikipedia.org/wiki/Board_of_County_Commissioners_(New_Jersey)",
+        "https://www.morriscountynj.gov/Departments/Board-of-County-Commissioners"
+      ],
+      "termStartEstimated": true,
+      "note": "Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "NM",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "NMSA 4-38-6: four-year terms, staggered so no more than two of three or three of five expire in one year; terms begin January 1",
+      "sourceUrls": [
+        "https://www.nmlegis.gov/Sessions/23%20Regular/bills/house/HB0399.HTML"
+      ]
+    },
+    {
+      "stateUsps": "NV",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "NRS ch. 244: commissioners elected at the general election in alternating groups of two and three every four years",
+      "sourceUrls": ["https://www.leg.state.nv.us/NRS/NRS-244.html"],
+      "termStartEstimated": true,
+      "note": "Term start estimated as the first Monday in January."
+    },
+    {
+      "stateUsps": "NY",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 2,
+        "stagger": "concurrent",
+        "cycleYears": 2,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "N.Y. Election Law (2023 amendments) moved town and county elections to even-numbered years; county legislature terms are set by each county (two or four years)",
+      "sourceUrls": [
+        "https://en.wikipedia.org/wiki/Westchester_County_Board_of_Legislators",
+        "https://ecode360.com/9664405"
+      ],
+      "termStartEstimated": true,
+      "note": "Term length varies by county; two years is estimated and a county charter row overrides it."
+    },
+    {
+      "stateUsps": "OH",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "ORC 305.01: one commissioner elected in 1974 and every fourth year, two in 1972 and every fourth year, four-year terms beginning January 1, 2 and 3",
+      "sourceUrls": ["https://codes.ohio.gov/ohio-revised-code/section-305.01"]
+    },
+    {
+      "stateUsps": "OK",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "19 O.S. \u00a7 131: districts 1 and 3 elected in November 1990 and every fourth year, district 2 in 1996 and every fourth year; terms begin the first business day in January",
+      "sourceUrls": [
+        "https://law.justia.com/codes/oklahoma/title-19/section-19-131/"
+      ]
+    },
+    {
+      "stateUsps": "OR",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "nonpartisan"
+      },
+      "status": "SOURCED",
+      "citation": "ORS ch. 204: four-year terms, positions numbered 1-3, successors take office the first Monday in January",
+      "sourceUrls": ["https://law.justia.com/codes/oregon/2009/204.html"],
+      "note": "Primary is in May; most seats are decided there when one candidate wins a majority. The table carries the November date."
+    },
+    {
+      "stateUsps": "PA",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [1],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "Pennsylvania County Code (16 P.S. \u00a7 401 et seq.): three commissioners elected at the municipal election in odd-numbered years before a presidential election for four-year terms",
+      "sourceUrls": [
+        "https://www.dauphincounty.gov/government/publicly-elected-officials/commissioners",
+        "https://www.mychesco.com/a/tag/chester-county-commissioners"
+      ],
+      "termStartEstimated": true,
+      "note": "Statute text not retrieved; county pages state the rule. Term start estimated as the first Monday in January."
+    },
+    {
+      "stateUsps": "RI",
+      "countyGovernment": "none",
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "Rhode Island has no county government; its five counties are geographic and judicial districts",
+      "sourceUrls": [],
+      "note": "No county governing body and no county election."
+    },
+    {
+      "stateUsps": "SC",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 2,
+        "stagger": "concurrent",
+        "cycleYears": 2,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "S.C. Code \u00a7 4-9-90 and 4-9-610: council members are elected at the general election for two-year terms, or four-year staggered terms where a county adopts them by referendum",
+      "sourceUrls": [
+        "https://www.scstatehouse.gov/sess122_2017-2018/bills/775.htm"
+      ],
+      "termStartEstimated": true,
+      "note": "Many counties moved to four-year staggered terms; two years is estimated and a county charter row overrides it."
+    },
+    {
+      "stateUsps": "SD",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "SDCL \u00a7 7-8-1 and 7-8-: four-year terms; even-numbered districts are elected in presidential years and the others in gubernatorial years",
+      "sourceUrls": [
+        "https://mylrc.sdlegislature.gov/api/Documents/77182.pdf",
+        "https://www.pennco.org/government/board_of_commissioners/faqs.php"
+      ],
+      "termStartEstimated": true,
+      "note": "Primary is in June. Term start estimated as the first Monday in January."
+    },
+    {
+      "stateUsps": "TN",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [2],
+        "election": {
+          "month": 8,
+          "weekday": 4,
+          "ordinal": 1
+        },
+        "termStart": {
+          "month": 9,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Tenn. Code Ann. \u00a7 5-5-101: county legislative bodies are elected on the first Thursday in August of 2026 and every fourth year, terms starting September 1",
+      "sourceUrls": [
+        "https://www.ctas.tennessee.edu/eli/membership-clb",
+        "https://www.ctas.tennessee.edu/eli/dates-regular-elections"
+      ],
+      "note": "Matches the Loudon County profile; every Tennessee county follows the same rule."
+    },
+    {
+      "stateUsps": "TX",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Tex. Const. art. V, \u00a7 18: four commissioners precincts, four-year terms staggered so two seats are elected every two years (precincts 2 and 4 in gubernatorial years, 1 and 3 in presidential years)",
+      "sourceUrls": [
+        "https://texapedia.info/commissioners-court/",
+        "https://capitol.texas.gov/tlodocs/83R/billtext/html/HJ00145I.htm"
+      ],
+      "termStartEstimated": true,
+      "note": "Primary is in March; large counties with eight precincts differ. Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "UT",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Utah Code \u00a7 17-16-6 and 17-52a-: county commissioners are elected at the general election every four years, staggered, and take office at noon the first Monday in January",
+      "sourceUrls": ["https://le.utah.gov/~2014/bills/hbillenr/HB0099.htm"]
+    },
+    {
+      "stateUsps": "VA",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [3],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "varies"
+      },
+      "status": "SOURCED",
+      "citation": "Va. Code \u00a7 24.2-218: supervisors are elected at the November general election in 1995 and every four years thereafter for four-year terms; \u00a7 24.2-219 allows biennial staggered elections",
+      "sourceUrls": [
+        "https://law.lis.virginia.gov/vacode/title24.2/chapter2/section24.2-218/",
+        "https://vacode.org/downloads/2026/code-html/24.2-218.html"
+      ],
+      "termStartEstimated": true,
+      "note": "Party label varies by locality. Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "VT",
+      "countyGovernment": "judicial-officers-only",
+      "status": "SOURCED",
+      "citation": "Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists",
+      "sourceUrls": [
+        "https://vtassistantjudges.org/what-we-do/",
+        "https://vtdigger.org/2026/07/28/vermont-government-offices-explained"
+      ],
+      "note": "Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1."
+    },
+    {
+      "stateUsps": "WA",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [1, 3],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "ESTIMATED FROM AVERAGE",
+      "citation": "RCW ch. 36.32: commissioners serve four-year overlapping terms elected at the November general election of odd-numbered years",
+      "sourceUrls": [
+        "https://app.leg.wa.gov/RCW/default.aspx?cite=36.32",
+        "https://www.kitsap.gov/BOC_p/Pages/About-the-Board.aspx"
+      ],
+      "termStartEstimated": true,
+      "note": "Odd-year timing and the January 1 start were not retrieved from the statute text. Primary is in August; charter counties differ."
+    },
+    {
+      "stateUsps": "WI",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 2,
+        "stagger": "concurrent",
+        "cycleYears": 2,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 4,
+          "weekday": 2,
+          "ordinal": 1
+        },
+        "termStart": {
+          "month": 4,
+          "weekday": 2,
+          "ordinal": 3
+        },
+        "partisan": "nonpartisan"
+      },
+      "status": "SOURCED",
+      "citation": "Wis. Stat. \u00a7 59.10(1)(b): supervisors serve two-year terms, are elected the first Tuesday in April and take office the third Tuesday in April; Milwaukee County serves four-year terms",
+      "sourceUrls": [
+        "https://docs.legis.wisconsin.gov/2023/statutes/statutes/59/iii/10/3/b"
+      ],
+      "note": "Milwaukee County's four-year term is a charter exception."
+    },
+    {
+      "stateUsps": "WV",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 6,
+        "stagger": "staggered",
+        "cycleYears": 2,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "W. Va. Const. art. IX and W. Va. Code \u00a7 7-1-1: three commissioners serve six-year staggered terms with one term expiring every two years",
+      "sourceUrls": [
+        "https://wirtcounty.wv.gov/countygovernmentagencies/Pages/countycommission.aspx",
+        "https://www.shepherdstownchronicle.com/opinions/columns/2024/06/07/how-long-should-the-terms-of-county-commissioners-be/"
+      ],
+      "termStartEstimated": true,
+      "note": "Primary is in May. Term start estimated as January 1."
+    },
+    {
+      "stateUsps": "WY",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 4,
+        "electionYearResidues": [0, 2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 1,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "W.S. 18-3-501: commissioners are elected at the general election; two seats in the midterm cycle and one in the presidential cycle, four-year terms",
+      "sourceUrls": [
+        "https://hscounty.com/government/commissioners",
+        "https://www.plattecountywyoming.com/directory/Commissioners"
+      ],
+      "termStartEstimated": true,
+      "note": "Term start estimated as the first Monday in January."
+    }
+  ]
+}
