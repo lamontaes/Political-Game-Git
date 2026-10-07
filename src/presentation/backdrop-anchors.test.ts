@@ -47,6 +47,16 @@ describe("people anchors on every place picture", () => {
     expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
   });
 
+  it("anchors all three police station waiting benches", () => {
+    const seats = STAGES["police-station"]!.spots.filter(
+      (spot) => spot.group === "waiting-bench",
+    );
+    expect(seats).toHaveLength(3);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(3);
+    expect(seats.every((spot) => spot.role === "audience")).toBe(true);
+    expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
+  });
+
   it("anchors all county commission dais and pew seats", () => {
     const seats = STAGES["county-commission"]!.spots.filter(
       (spot) => spot.pose === "sit",
