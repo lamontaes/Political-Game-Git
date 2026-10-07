@@ -4,6 +4,7 @@ import {
   createNewGameWorld,
 } from "../presentation/new-game";
 import {
+  ageOnDate,
   canonicalJson,
   createCharacterHistoryContextPeople,
   createCharacterHistoryContextPerson,
@@ -15,6 +16,7 @@ import {
   SeededRng,
   stableHash,
 } from ".";
+import { householdMembershipsAt } from "./life-queries";
 import type { CharacterHistoryContextPersonInput } from ".";
 import type { EntityId } from "./types";
 
@@ -180,4 +182,54 @@ describe("BG-14: generated family mortality dates", () => {
       deaths.length,
     );
   });
+
+  it("does not keep relatives over 100 alive as members of an adult player's childhood home in all 56 places", () => {
+    const states = lifePlaceStateIdentities();
+    expect(states).toHaveLength(56);
+
+    for (const [index, state] of states.entries()) {
+      const place = searchLifePlaces("", 1, {
+        stateJurisdictionKey: state.jurisdictionKey,
+        scope: "locality",
+      })[0]!;
+      const game = createNewGameWorld({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: `bg-14-family-age-${index}`,
+        placeKey: place.key,
+        startAge: index % 2 === 0 ? 52 : 70,
+        questionnaire: "skipped",
+      });
+      const player = game.world.people[game.playerPersonId]!;
+      const deceased = new Set(
+        game.world.history.personDeaths.map(({ personId }) => personId),
+      );
+      const relatives = game.world.history.kinshipRelationships
+        .filter(
+          (row) =>
+            (row.kind === "lineal:parent-child" ||
+              row.kind === "lineal:grandparent-grandchild") &&
+            row.personIds.includes(player.id),
+        )
+        .flatMap((row) => row.personIds.filter((id) => id !== player.id));
+
+      for (const relativeId of relatives) {
+        const relative = game.world.people[relativeId]!;
+        if (ageOnDate(relative.birthDate, game.world.currentDate) > 100)
+          expect(
+            deceased.has(relativeId),
+            `${relative.givenName} in ${state.jurisdictionKey}`,
+          ).toBe(true);
+      }
+      const parentId = relatives.find((id) =>
+        game.world.history.kinshipRelationships.some(
+          (row) =>
+            row.kind === "lineal:parent-child" &&
+            row.personIds.includes(player.id) &&
+            row.personIds.includes(id),
+        ),
+      );
+      expect(parentId).toBeDefined();
+      expect(householdMembershipsAt(game.world, parentId!)).toHaveLength(0);
+    }
+  }, 240_000);
 });

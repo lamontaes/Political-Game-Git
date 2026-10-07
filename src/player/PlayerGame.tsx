@@ -145,6 +145,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { DIAGNOSTICS } from "./diagnostics-profile";
+import { TimeCommandDevOverlay } from "./TimeCommandDevOverlay";
 
 import {
   BrowserSaveStore,
@@ -2568,6 +2570,9 @@ function PlayingScreen({
             data-scene-id={sceneId ?? ""}
             data-scene-purpose={playScene.purpose}
           >
+            {import.meta.env.DEV && DIAGNOSTICS ? (
+              <TimeCommandDevOverlay />
+            ) : null}
             <InvokerFocusReturn
               personId={conversation ? null : returnFocusTo}
               prefer={returnFocusPrefer}
