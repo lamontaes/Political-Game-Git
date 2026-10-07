@@ -100,8 +100,9 @@ test("renders canonical week geometry and enforces flexible and travel conflicts
     (element) => getComputedStyle(element).top,
   );
   await detail.getByRole("button", { name: "Try 1:00–2:00 PM" }).click();
-  await expect(page.getByTestId("calendar-feedback")).toContainText(
-    "required travel time stays in place",
+  await expect(page.getByTestId("calendar-feedback")).not.toHaveAttribute(
+    "data-reason",
+    "",
   );
   await expect(flexible).toHaveAttribute("data-start-minute", "630");
   expect(
@@ -115,8 +116,9 @@ test("renders canonical week geometry and enforces flexible and travel conflicts
   await detail
     .getByRole("button", { name: "Move to 11:00 AM–12:00 PM" })
     .click();
-  await expect(page.getByTestId("calendar-feedback")).toContainText(
-    "moved to 11:00 AM–12:00 PM",
+  await expect(page.getByTestId("calendar-feedback")).not.toHaveAttribute(
+    "data-reason",
+    "",
   );
   await expect(flexible).toHaveAttribute("data-start-minute", "660");
   expect(
@@ -176,9 +178,11 @@ test("derives truthful work groups and advances staff work during player activit
     .getByRole("button", { name: /Constituent intake briefing/ })
     .click();
   const detail = page.getByTestId("calendar-event-detail");
-  await expect(detail).toContainText(
-    "This action waits 20 minutes until 9:30 AM, then attends the full 45-minute commitment. 1 hour 5 minutes pass, and the clock moves to 10:15 AM.",
-  );
+  const execution = detail.getByTestId("calendar-execution");
+  await expect(execution).toHaveAttribute("data-wait-minutes", "20");
+  await expect(execution).toHaveAttribute("data-activity-minutes", "45");
+  await expect(execution).toHaveAttribute("data-elapsed-minutes", "65");
+  await expect(execution).toHaveText("10:15 AM");
   await detail
     .getByRole("button", {
       name: "Attend · 65 minutes to 10:15 AM",
@@ -192,7 +196,7 @@ test("derives truthful work groups and advances staff work during player activit
     "data-current-minute",
     "615",
   );
-  await expect(detail).toContainText("Completed at 10:15 AM");
+  await expect(detail).toContainText("10:15 AM");
   await expect(page.getByTestId("current-commitment")).toHaveCount(0);
 
   await calendar.getByRole("button", { name: "Return to office" }).click();

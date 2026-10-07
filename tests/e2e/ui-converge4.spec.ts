@@ -229,7 +229,9 @@ test("normal county selection preserves unspecified town and exact saved jurisdi
   expect(player).toBeDefined();
   await expect(page.getByTestId("play-screen")).toContainText("Fayette County");
   await goTo(page, "nav-municipal");
-  await expect(page.getByTestId("municipal-missing-home-link")).toHaveText("Your town: not supported");
+  await expect(page.getByTestId("municipal-missing-home-link")).toHaveText(
+    "Your town: not supported",
+  );
   await save(page);
   expect(await savedWorld(page)).toEqual(initial);
   await continueSaved(page);
