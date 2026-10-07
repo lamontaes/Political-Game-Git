@@ -41,6 +41,7 @@ import {
 import type { OathForm, OathSwornOn } from "./oath-of-office";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, World } from "./types";
+import { ensurePressHomeCoverage } from "./press/outlets";
 
 export const OFFICE_TRANSITION_SERVICE_ATTENDED =
   "election.transition-service-attended";
@@ -586,7 +587,7 @@ export function takeOathOfOffice(
       `The term does not begin until ${input.startsAt}; there is no oath to take yet.`,
     );
   const summary = `Sworn in as ${input.officeTitle}.`;
-  return recordWorldEvent(world, {
+  const sworn = recordWorldEvent(world, {
     stableKey: oathKey(input.personId, input.contestId),
     type: OFFICE_OATH_TAKEN,
     occurredAt: makeIsoDate(world.currentDate),
@@ -619,4 +620,5 @@ export function takeOathOfOffice(
       immediateReaction: null,
     },
   });
+  return ensurePressHomeCoverage(sworn);
 }

@@ -1,3 +1,4 @@
+import { observerInspectorCheckpoint } from "./observer-inspector-entry";
 import {
   NATIVE_SAVE_EVENT,
   NATIVE_SESSION_QUERY_EVENT,
@@ -5,6 +6,7 @@ import {
   type NativeSessionQuery,
 } from "./native-session-bridge";
 
+import { MeetingStopActions } from "./MeetingStopActions";
 import { SetupScreen } from "./SetupScreen";
 import { QuestionnaireScreenView } from "./QuestionnaireScreenView";
 import { SavesScreen } from "./SavesScreen";
@@ -40,12 +42,14 @@ import {
   SavedAppearanceControls,
 } from "./SavedAppearance";
 import { createOpeningLifeController } from "../presentation/opening-life";
+import { openSavedPlayedLife } from "../presentation/open-saved-played-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
 import {
   describeTimeCommandPreview,
+  quietStretchRefusal,
   previewTimeCommand,
 } from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
@@ -57,12 +61,10 @@ import {
   skipToLabel,
   stoppedEarlyLabel,
 } from "../presentation/time-target-label";
-import { routineOutcomeAfterClock } from "../presentation/routine-outcome";
 import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
-  describeTimeCommandReport,
   TimeCommandProvider,
   useTimeCommandRunner,
 } from "./time-command-runner";
@@ -90,6 +92,9 @@ import { PlaceConditionsPanel } from "./PlaceConditions";
 import { MoneyLawsPanel } from "./MoneyLaws";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
+import { economyVisibilityFor } from "../presentation/economy-visibility";
+import { playerOfficeScope } from "../simulation/governing/office-consequence";
+import { resolveActiveMemberSeat } from "../presentation/legislative-member-seat";
 import {
   ISSUE_WITHHELD,
   politicsIssueAccess,
@@ -112,7 +117,6 @@ import { LifePathsPanel } from "./LifePathsPanel";
 /* PEOPLE/PRESS seam mounts (CRUNCH47 B1/B2). */
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { ContactsPanel } from "./ContactsPanel";
-import { ContactDialog } from "./ContactDialog";
 import { PressSourceDesk } from "./PressSourceDesk";
 import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
@@ -129,7 +133,6 @@ import {
   ROOM_TELEVISION_SLOT_ID,
 } from "../presentation/room-media";
 import { CampaignLifePanel } from "./CampaignLifePanel";
-import { CandidateGuidancePanel } from "./CandidateGuidancePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -162,9 +165,21 @@ import {
   type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
-import { type NewGameSetup } from "../presentation/new-game";
+import {
+  createPreStartNewGameWorld,
+  finishPreStartNewGameWorld,
+  type NewGame,
+  type NewGameSetup,
+} from "../presentation/new-game";
+import { olderOneSaveSlots } from "../presentation/one-save-slots";
+import { playSettingsOf } from "../simulation/play-settings";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
+import {
+  beginHistoricalPastMode,
+  endHistoricalPastMode,
+} from "../simulation/historical-past-mode";
+import { advanceWorld } from "../simulation/world";
 import {
   answerQuestionnaire,
   endQuestionnaireEarly,
@@ -172,17 +187,14 @@ import {
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
-import { projectDayRhythm } from "../presentation/day-rhythm";
 import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import {
+  resolveCurrentPlaySceneContext,
   resolvePlaySceneContext,
-  resolveOpeningPlaySceneContext,
 } from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
-  artPreviewBanner,
-  artPreviewIsShowingCandidateArt,
   artPreviewLibraries,
   artPreviewMode,
   previewDatabaseName,
@@ -195,16 +207,22 @@ import {
   electionNightLocationKey,
 } from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
+import {
+  protestLocationKey,
+  protestPresentPeople,
+} from "../presentation/protest-presence";
+import {
+  courtroomLocationKey,
+  courtroomPresentPeople,
+} from "../presentation/courtroom-presence";
 import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
-import { ordinaryMeetingEntry } from "../simulation/ordinary-meeting-presence";
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
 import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
   SCENE_REGISTRY,
 } from "../presentation/scene-registry";
-import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
   AmbientTableau,
   TitleScreen,
@@ -214,8 +232,16 @@ import {
   readReplaySeed,
   resolveSessionSeed,
 } from "../presentation/session-seed";
-import { readReplaySetup } from "../presentation/new-game-identity";
-import { ageOnDate, personName } from "../simulation";
+import {
+  readReplaySetup,
+  worldSeedFor,
+} from "../presentation/new-game-identity";
+import {
+  addDays,
+  ageOnDate,
+  personName,
+  requireLifePlace,
+} from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
   openLegislativeWork,
@@ -265,7 +291,6 @@ import {
 import {
   activeView,
   canGoBack,
-  EMPTY_JOURNAL,
   conversationSuspended,
   isPinned,
   type ShellAction,
@@ -278,8 +303,6 @@ import { useShell } from "./useShell";
 
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
-import { WorldRecapPanel } from "./WorldRecapPanel";
-import { MorningThoughtPanel } from "./MorningThoughtPanel";
 import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
@@ -296,6 +319,7 @@ import {
   leavePartyChapter,
 } from "../simulation";
 import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
+import { tagRuntimeWorld } from "../presentation/runtime-text-origin";
 import { attendChapterMeeting } from "../presentation/party-chapter-actions";
 import { FullDossier, QuickDossier } from "./ShellDossier";
 import type { PersonCardAnchor } from "./PersonCard";
@@ -307,13 +331,13 @@ import {
   PatchNotesWorkspace,
   PeopleWorkspace,
   PersonalWorkspace,
+  PersonalFinancesWorkspace,
   WorkWorkspace,
   WorkspaceFrame,
 } from "./ShellWorkspaces";
 import { GuideWorkspace } from "./GuideWorkspace";
 import { GuideHelpProvider } from "./GuideTerm";
 import { GuideHighlighter } from "./GuideHighlighter";
-import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
   RETURN_TO_TITLE_REQUEST_EVENT,
@@ -333,6 +357,13 @@ import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
 
 /* The map carries its geometry; it loads only when a player opens it. */
 const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
+const ObserverInspectorRoute = import.meta.env.DEV
+  ? lazy(() =>
+      import("../ui/ObserverDevRoute").then((module) => ({
+        default: module.ObserverDevRoute,
+      })),
+    )
+  : () => null;
 
 /*
  * The map recomputes pinned-seat highlights whenever its focus object changes,
@@ -371,6 +402,7 @@ type Screen =
       readonly kind: "setup";
       readonly draft?: NewGameSetup;
       readonly questionnaireComplete?: boolean;
+      readonly stagedGame?: NewGame;
     }
   /**
    * The calibration, between choosing a life and starting one.
@@ -387,6 +419,7 @@ type Screen =
   | {
       readonly kind: "transition";
       readonly setup: NewGameSetup;
+      readonly stagedGame?: NewGame;
     }
   | { readonly kind: "playing" };
 
@@ -481,6 +514,9 @@ export function PlayerGame() {
   const [saves, setSaves] = useState<readonly BrowserWorldSummary[]>([]);
   const [notice, setNotice] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
+  /** The state a new life is being made in, so the backdrop is its own (OW-4). */
+  const [setupState, setSetupState] = useState<string | null>(null);
+  const [setupTown, setSetupTown] = useState(false);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
   const savesUnavailable = store === null;
   const [saveListing, setSaveListing] = useState<SaveListingState>(
@@ -612,9 +648,12 @@ export function PlayerGame() {
       // A world being observed, or a played life that ended before anything
       // followed it, has nobody whose week could be opened: loading such a
       // save must not write new work for the retired or dead character.
-      world: shellReadOnly(prepared)
-        ? prepared
-        : openOrdinaryLife(prepared, personId),
+      world:
+        saveId !== null
+          ? openSavedPlayedLife(prepared, personId)
+          : shellReadOnly(prepared)
+            ? prepared
+            : openOrdinaryLife(prepared, personId),
       personId,
       unsavedSeed: seed,
       saveId,
@@ -654,9 +693,17 @@ export function PlayerGame() {
     saveInFlight.current = true;
     setNotice("Saving…");
     const worldToSave = observerCheckpoint ?? session.world;
+    const oneSave = playSettingsOf(worldToSave).saves === "one-save";
+    const shelfBeforeWrite = oneSave ? await store.list() : null;
+    const existingLifeSlot =
+      shelfBeforeWrite?.saves.find((entry) => entry.worldId === worldToSave.id)
+        ?.saveId ?? null;
     // A slot of its own, so keeping this life never lands on top of another
     // save of the same world.
-    const saveId = session.saveId ?? store.newSaveId(worldToSave);
+    const saveId =
+      session.saveId ??
+      (oneSave ? existingLifeSlot : null) ??
+      store.newSaveId(worldToSave);
     try {
       // Persist presentation references first: a newly visible world slot must
       // already have its pins, even if the player reloads immediately afterward.
@@ -667,6 +714,14 @@ export function PlayerGame() {
         // player looking for the wrong problem.
         setProblem(outcome.reason);
         return false;
+      }
+      if (oneSave && shelfBeforeWrite) {
+        const olderSlots = olderOneSaveSlots(
+          shelfBeforeWrite.saves,
+          worldToSave.id,
+          saveId,
+        );
+        for (const olderSlot of olderSlots) await store.remove(olderSlot);
       }
       setSession((current) =>
         current?.world.id === worldToSave.id
@@ -949,16 +1004,22 @@ export function PlayerGame() {
     );
   }
 
-  function beginLife(setup: NewGameSetup) {
+  function beginLife(setup: NewGameSetup, stagedGame?: NewGame) {
     setScreen({
       kind: "transition",
       setup,
+      ...(stagedGame ? { stagedGame } : {}),
     });
   }
 
   if (screen.kind === "transition") {
     return (
-      <AmbientTableau recent={saves[0] ?? null} still>
+      <AmbientTableau
+        recent={saves[0] ?? null}
+        chosenState={setupState}
+        chosenTown={setupTown}
+        still
+      >
         {() => (
           <LifeStartTransition
             onPrepare={async (report, signal) => {
@@ -967,6 +1028,7 @@ export function PlayerGame() {
                 const game = (
                   await createOpeningLifeController(
                     screen.setup,
+                    screen.stagedGame,
                   ).finishTransitionWithProgress({
                     signal,
                     onProgress: report,
@@ -1001,7 +1063,12 @@ export function PlayerGame() {
 
   if (screen.kind === "setup") {
     return (
-      <AmbientTableau recent={saves[0] ?? null} still>
+      <AmbientTableau
+        recent={saves[0] ?? null}
+        chosenState={setupState}
+        chosenTown={setupTown}
+        still
+      >
         {() => (
           <SetupScreen
             seed={sessionSeed.seed}
@@ -1009,8 +1076,34 @@ export function PlayerGame() {
             previewMode={previewMode}
             initialSetup={screen.draft}
             questionnaireComplete={screen.questionnaireComplete}
+            stagedGame={screen.stagedGame}
+            onRequestRecordedLife={(setup) => {
+              try {
+                const place = requireLifePlace(setup.placeKey);
+                const staged = createPreStartNewGameWorld(
+                  setup,
+                  addDays(place.context.initialMoment.date, -1),
+                );
+                const identity = worldSeedFor(setup);
+                setScreen((current) => {
+                  if (current.kind !== "setup") return current;
+                  if (
+                    current.stagedGame &&
+                    worldSeedFor(current.stagedGame.setup) === identity
+                  )
+                    return current;
+                  return { ...current, stagedGame: staged };
+                });
+              } catch (error) {
+                setProblem(
+                  error instanceof Error
+                    ? error.message
+                    : "Your recorded life could not be prepared.",
+                );
+              }
+            }}
             onBack={() => setScreen({ kind: "title" })}
-            onBegin={(setup, appearance, questionsFinished) => {
+            onBegin={(setup, appearance, questionsFinished, stagedGame) => {
               pendingAppearance.current = appearance;
               setProblem(null);
               // The calibration runs before the world is built, because its
@@ -1021,9 +1114,39 @@ export function PlayerGame() {
                 setScreen({ kind: "questionnaire", setup });
                 return;
               }
-              beginLife(endQuestionnaireEarly(setup));
+              const completedSetup = endQuestionnaireEarly(setup);
+              if (stagedGame) {
+                try {
+                  const answered = stagedGame;
+                  const preStart = answered.world.preStartLife;
+                  if (!preStart)
+                    throw new Error("The staged character is missing.");
+                  const historical = beginHistoricalPastMode(
+                    answered.world,
+                    answered.playerPersonId,
+                    preStart.targetStartDate,
+                  );
+                  const atBoundary = advanceWorld(historical, 1);
+                  const closed = endHistoricalPastMode(atBoundary);
+                  const begun = finishPreStartNewGameWorld({
+                    ...answered,
+                    world: closed,
+                  });
+                  beginLife(completedSetup, begun);
+                } catch (error) {
+                  setProblem(
+                    error instanceof Error
+                      ? error.message
+                      : "Your recorded life could not reach Begin.",
+                  );
+                }
+                return;
+              }
+              beginLife(completedSetup);
             }}
             problem={problem}
+            onStateChange={setSetupState}
+            onTownChange={setSetupTown}
           />
         )}
       </AmbientTableau>
@@ -1245,6 +1368,15 @@ function PlayingScreen({
    * through the last life played; that lens is never committed or saved.
    */
   const observing = isObserving(storedSession.world);
+  const latestInspectorWorld = useRef(storedSession.world);
+  latestInspectorWorld.current = storedSession.world;
+  const [inspectorWorld, setInspectorWorld] = useState<World | null>(null);
+  const admittedInspector = inspectorWorld
+    ? observerInspectorCheckpoint(storedSession.world, inspectorWorld)
+    : null;
+  useEffect(() => {
+    if (!admittedInspector) setInspectorWorld(null);
+  }, [admittedInspector]);
   const observerRunner = useMemo(
     () => new ObserverRunController(storedSession.world),
     [storedSession.world.id],
@@ -1278,6 +1410,10 @@ function PlayingScreen({
     () => resolvePlayerCapabilities(session.world),
     [session.world],
   );
+  // Only a running text audit listens; in play this does nothing.
+  useEffect(() => {
+    tagRuntimeWorld(session.world);
+  }, [session.world]);
   /*
    * Every writer below computes from `session.world` as rendered, so that is
    * the base each change is committed against.
@@ -1307,38 +1443,13 @@ function PlayingScreen({
     () => artPreviewLibraries(previewMode),
     [previewMode],
   );
-  const previewBanner = artPreviewBanner(previewMode);
-  const previewShowsCandidateArt = artPreviewIsShowingCandidateArt(previewMode);
 
   /*
    * One shell for the whole life: what is open, how the player got there, and
    * which references they have kept. It owns navigation and nothing else — the
    * gameplay writers below are still the only things that change the world.
    */
-  const [shell, dispatch, shellRecordReady] = useShell(
-    session.world,
-    session.saveId,
-    shellStore,
-  );
-  /* Saved interface progress frames the existing Today and recap readers. */
-  const dayRhythm = useMemo(
-    () =>
-      shellRecordReady
-        ? projectDayRhythm(
-            session.world,
-            session.personId,
-            shell.progress,
-            shell.preferences,
-          )
-        : { summary: null, morningThought: null },
-    [
-      session.world,
-      session.personId,
-      shell.progress,
-      shell.preferences,
-      shellRecordReady,
-    ],
-  );
+  const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
   /*
    * The world introduction follows a new, not-yet-saved life until it is
    * finished or skipped. Loaded lives never see it pushed at them; it stays
@@ -1390,6 +1501,11 @@ function PlayingScreen({
    * said in the HUD so the player reads where time actually stopped and why.
    */
   const [passOutcome, setPassOutcome] = useState<string | null>(null);
+  useEffect(() => {
+    if (passOutcome === null) return;
+    const timeout = window.setTimeout(() => setPassOutcome(null), 6000);
+    return () => window.clearTimeout(timeout);
+  }, [passOutcome]);
   /*
    * Where the clicked scene person stands, kept with that person. A card
    * reached any other way, or for somebody else, has no anchor and uses the
@@ -1451,7 +1567,7 @@ function PlayingScreen({
           return;
         }
         // The corner shows the new date; the notice is for what else happened.
-        const news = routineOutcomeAfterClock(report.outcome);
+        const news = report.outcome.trim() || null;
         setPassOutcome(
           report.stoppedEarly && report.target
             ? `${stoppedEarlyLabel(report.target)}${news ? ` ${news}` : ""}`
@@ -1461,21 +1577,6 @@ function PlayingScreen({
     },
     [crisisStop, submitTime, session.world, session.personId, dispatch],
   );
-  const passUntilNeeded = useCallback(() => {
-    crisisStop.watch();
-    submitTime({ kind: "quiet-stretch" }, (report) => {
-      setPassOutcome(describeTimeCommandReport(report));
-      if (
-        report.status === "accepted" &&
-        report.reached &&
-        acceptedOfferStarts(session.world, session.personId).some(
-          (entry) => entry.startOn === report.reached?.date,
-        )
-      ) {
-        dispatch({ type: "go-to-surface", surface: "work", section: "jobs" });
-      }
-    });
-  }, [crisisStop, submitTime, session.world, session.personId, dispatch]);
   const passTargets = useMemo(() => {
     if (observing) return undefined;
     const day = previewTimeCommand(session.world, session.personId, {
@@ -1493,6 +1594,10 @@ function PlayingScreen({
       ? {
           day: skipToLabel(day.target),
           week: skipToLabel(week.target),
+          untilNeededReason: quietStretchRefusal(
+            session.world,
+            session.personId,
+          ),
           untilNeeded: untilNeeded
             ? describeTimeCommandPreview(untilNeeded)
             : null,
@@ -1552,9 +1657,10 @@ function PlayingScreen({
         })),
       };
     if (!continuingLifeShown)
-      return resolveOpeningPlaySceneContext(
+      return resolveCurrentPlaySceneContext(
         session.world,
         session.personId,
+        projectedMoment.scene,
         undefined,
         sceneVisuals,
       );
@@ -1601,6 +1707,19 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  /*
+   * A person card stays until the next scene. When the scene or the day
+   * moves on, the room and the people in it are not the ones the card was
+   * opened over, so it closes instead of following the player across
+   * screens; acting from the card within the same scene leaves it open.
+   */
+  const cardMomentKey = `${playScene.sceneId ?? ""}|${session.world.currentDate}`;
+  const cardMomentRef = useRef(cardMomentKey);
+  useEffect(() => {
+    if (cardMomentRef.current === cardMomentKey) return;
+    cardMomentRef.current = cardMomentKey;
+    dispatch({ type: "close-quick-dossier" });
+  }, [cardMomentKey, dispatch]);
   // A place picture fills any screen whose room has no picture of its own:
   // no room at all, or a room whose plate was retired (the public meeting).
   const sceneHasPlate = useMemo(() => {
@@ -1617,9 +1736,18 @@ function PlayingScreen({
             // Election night wins over the home screen, never over an
             // activity in progress.
             (playScene.purpose !== "activity"
-              ? electionNightLocationKey(session.world, session.personId)
+              ? (electionNightLocationKey(session.world, session.personId) ??
+                courtroomLocationKey(session.world, session.personId) ??
+                protestLocationKey(session.world, session.personId))
               : null) ??
-              (playScene.purpose === "home" ? "home" : playScene.locationKey),
+              // An unspecified moment resolves to the home room above it in
+              // play-scene-context, so its place picture is home too; without
+              // this a person whose last recorded place had no plate (a shift
+              // the day before) woke to a blank screen.
+              (playScene.purpose === "home" ||
+              playScene.purpose === "unspecified"
+                ? "home"
+                : playScene.locationKey),
           ),
     [
       sceneHasPlate,
@@ -1638,11 +1766,35 @@ function PlayingScreen({
             session.personId,
             placeBackdrop.place,
             session.world.currentMoment,
-            // The scene's own people (a meeting's seated officers) first.
-            playScene.presentPeople,
+            // The scene's own people (a meeting's seated officers) first; on
+            // a day the court sat, the people the records name in the room;
+            // on a protest day, its recorded organizer and attendees.
+            placeBackdrop.place === "county-courtroom"
+              ? [
+                  ...playScene.presentPeople,
+                  ...courtroomPresentPeople(session.world, session.personId),
+                ]
+              : placeBackdrop.place === "rally-stage"
+                ? [
+                    ...playScene.presentPeople,
+                    ...protestPresentPeople(session.world, session.personId),
+                  ]
+                : playScene.presentPeople,
+            {
+              speakerId:
+                conversation && conversation.addressee !== "everyone"
+                  ? conversation.addressee
+                  : null,
+            },
           )
         : [],
-    [placeBackdrop, session.world, session.personId, playScene.presentPeople],
+    [
+      placeBackdrop,
+      session.world,
+      session.personId,
+      playScene.presentPeople,
+      conversation,
+    ],
   );
   const roomMedia = useMemo(
     () => projectRoomMedia(session.world, session.personId),
@@ -1852,15 +2004,8 @@ function PlayingScreen({
    * could not tell anybody whether what they were hunting for was behind it.
    * The hint is now built from what the Work surface will actually mount.
    */
-  const holdsOffice =
-    !capabilities.formativeYears &&
-    (judicialOfficeContexts(session.world).length > 0 ||
-      resolveExecutiveOffice(session.world) !== null ||
-      // A governorship is a held office recorded against the office itself,
-      // not an executive employment relationship, so it has to be asked for
-      // by name or the menu sends an officeholder to Campaigns.
-      governingOfficeForPerson(session.world, session.personId) !== null ||
-      capabilities.legislation);
+  const officeScope = playerOfficeScope(session.world, session.personId);
+  const holdsOffice = !capabilities.formativeYears && officeScope.length > 0;
   const workHint = capabilities.formativeYears
     ? "School, and anything waiting on you"
     : [
@@ -2080,14 +2225,14 @@ function PlayingScreen({
         presentNow: moment.scene.presentPeople.some(
           (person) => person.personId === personId,
         ),
-        rightNow:
-          moment.scene.presentPeople.find(
-            (person) => person.personId === personId,
-          ) === undefined
-            ? null
-            : "Here in the room with you.",
+        presentRoom: playScene.placeLabel,
       }),
-    [session.world, session.personId, moment.scene.presentPeople],
+    [
+      session.world,
+      session.personId,
+      moment.scene.presentPeople,
+      playScene.placeLabel,
+    ],
   );
 
   /**
@@ -2190,32 +2335,6 @@ function PlayingScreen({
    * Asked once, and kept: the same answer drives the Talk control AND the
    * sentence beside it, so the two cannot disagree.
    */
-  const talkingInTheRoom = conversation !== null && view.surface === "scene";
-  const meeting = useMemo(
-    () =>
-      view.surface === "scene" &&
-      !readOnly &&
-      !showOrientation &&
-      !conversation &&
-      (projectOrdinaryMeetingScene(session.world, session.personId) !== null ||
-        session.world.history.scheduledActivities.some(
-          (activity) =>
-            activity.location.locationKey === "ordinary-life:meeting-room" &&
-            ordinaryMeetingEntry(
-              session.world,
-              session.personId,
-              activity.id,
-            ) !== null,
-        )),
-    [
-      view.surface,
-      readOnly,
-      showOrientation,
-      conversation,
-      session.world,
-      session.personId,
-    ],
-  );
   const inspectTalkEntry = selectedDossier
     ? openConversationWith(
         session.world,
@@ -2256,22 +2375,6 @@ function PlayingScreen({
     [session.world, session.personId, dispatch, readOnly],
   );
 
-  /*
-   * Contact on a person card opens its own screen over whatever is open, for
-   * that one person, and closing it leaves everything as it was. Presentation
-   * only: not saved, and opening it changes nothing in the world.
-   */
-  const [contactPersonId, setContactPersonId] = useState<EntityId | null>(null);
-  const openContact = useCallback(
-    (personId: EntityId) => {
-      if (!readOnly) setContactPersonId(personId);
-    },
-    [readOnly],
-  );
-  useEffect(() => {
-    if (readOnly) setContactPersonId(null);
-  }, [readOnly]);
-
   /* A conversation cannot go on once nobody is played. */
   useEffect(() => {
     if (readOnly) dispatch({ type: "end-conversation" });
@@ -2303,8 +2406,6 @@ function PlayingScreen({
     pauseAndKeep({
       pins: shell.pins,
       preferences: shell.preferences,
-      journal: shell.legacyJournal,
-      journals: shell.journals,
       personWardrobes: shell.personWardrobes,
       progress: shell.progress,
     });
@@ -2358,8 +2459,6 @@ function PlayingScreen({
         {
           pins: shell.pins,
           preferences: shell.preferences,
-          journal: shell.legacyJournal,
-          journals: shell.journals,
           personWardrobes: shell.personWardrobes,
           progress: shell.progress,
         },
@@ -2404,13 +2503,13 @@ function PlayingScreen({
     shell,
     dispatch,
     capabilities,
+    holdsOffice,
     assignment,
     floorNote,
     onWorldChange,
     openEntity,
     dossierFor,
     talkTo,
-    openContact,
     presentPersonIds,
     openTheBill,
     goToTheFloor,
@@ -2483,29 +2582,6 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
-            {previewBanner ? (
-              /*
-               * Said out loud, on the screen, for as long as the mode is on.
-               * A preview that looked like the game would be worse than no
-               * preview: somebody would screenshot unreleased art as if it had
-               * been approved. `role="status"` so it is announced rather than
-               * only seen.
-               *
-               * `data-candidate-art` carries the state the sentence describes,
-               * so a test can ask whether the bank is actually being drawn
-               * without pinning the wording. It reads "false" in every
-               * checkout a machine can make, because the bank is owner-private
-               * and absent from all of them.
-               */
-              <p
-                className="art-preview-banner"
-                role="status"
-                data-testid="art-preview-banner"
-                data-candidate-art={previewShowsCandidateArt ? "true" : "false"}
-              >
-                {previewBanner}
-              </p>
-            ) : null}
             <SceneBackdrop
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
@@ -2563,32 +2639,6 @@ function PlayingScreen({
                 });
               }}
             >
-              {view.surface === "scene" &&
-              !readOnly &&
-              !showOrientation &&
-              !conversation ? (
-                <>
-                  <OrdinaryMeetingPanel
-                    world={session.world}
-                    personId={session.personId}
-                    onWorldChange={onWorldChange}
-                    onOpenEntity={openEntity}
-                    onOutcome={setPassOutcome}
-                  />
-                </>
-              ) : null}
-              {view.surface === "scene" &&
-              !readOnly &&
-              !showOrientation &&
-              !conversation ? (
-                <CandidateGuidancePanel
-                  world={session.world}
-                  personId={session.personId}
-                  onWorldChange={onWorldChange}
-                  onOpenEntity={openEntity}
-                  onOutcome={setPassOutcome}
-                />
-              ) : null}
               {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
                   key={`${session.world.id}:${session.personId}`}
@@ -2705,11 +2755,6 @@ function PlayingScreen({
                   ? {}
                   : { onTalk: () => talkTo(selectedDossier.personId) })}
                 onMeet={() => dispatch({ type: "go-to-scene" })}
-                {...(readOnly
-                  ? {}
-                  : {
-                      onContact: () => openContact(selectedDossier.personId),
-                    })}
                 onTravel={() => {
                   if (readOnly) return;
                   const next = travelTowardsPerson(
@@ -2718,9 +2763,7 @@ function PlayingScreen({
                     selectedDossier.personId,
                     {
                       presentPersonIds,
-                      handlers: interruptionHandlers(
-                        shell.preferences.interruptions,
-                      ),
+                      handlers: interruptionHandlers(),
                     },
                   );
                   if (next !== session.world) {
@@ -2739,17 +2782,6 @@ function PlayingScreen({
                       ? inspectTalkEntry.reason
                       : null
                 }
-              />
-            ) : null}
-
-            {contactPersonId !== null && !readOnly ? (
-              <ContactDialog
-                key={contactPersonId}
-                world={session.world}
-                playerPersonId={session.personId}
-                personId={contactPersonId}
-                onWorldChange={onWorldChange}
-                onClose={() => setContactPersonId(null)}
               />
             ) : null}
 
@@ -2791,9 +2823,17 @@ function PlayingScreen({
                 data-testid="observing-label"
               >
                 <strong>Observing</strong>
-                <span>Nobody is being played. You can look, not act.</span>
+                <span>You can look, not act.</span>
                 <ObserverClock
                   runner={observerRunner}
+                  onOpenInspector={(pausedWorld) => {
+                    setInspectorWorld(
+                      observerInspectorCheckpoint(
+                        latestInspectorWorld.current,
+                        pausedWorld,
+                      ),
+                    );
+                  }}
                   onOpenRecord={() =>
                     dispatch({
                       type: "go-to-surface",
@@ -2847,7 +2887,20 @@ function PlayingScreen({
               </button>
             ) : null}
 
-            {workspace}
+            {admittedInspector ? (
+              <WorkspaceFrame
+                title="Developer inspector"
+                testid="observer-inspector-workspace"
+                canGoBack
+                onBack={() => setInspectorWorld(null)}
+                onClose={() => setInspectorWorld(null)}
+              >
+                <Suspense fallback={<p>Opening Observer inspector…</p>}>
+                  <ObserverInspectorRoute initialWorld={admittedInspector} />
+                </Suspense>
+              </WorkspaceFrame>
+            ) : null}
+            <div hidden={admittedInspector !== null}>{workspace}</div>
 
             <div className="life-hud" data-testid="life-hud">
               {notice ? (
@@ -2879,6 +2932,14 @@ function PlayingScreen({
                     ✕
                   </button>
                 </p>
+              ) : null}
+              {!shellReadOnly(session.world) ? (
+                <MeetingStopActions
+                  world={session.world}
+                  personId={session.personId}
+                  runner={timeRunner}
+                  onReport={(report) => setPassOutcome(report.outcome)}
+                />
               ) : null}
               {crisisStop.stop ? (
                 <p
@@ -2916,62 +2977,18 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
-              {/*
-                The recap and the morning note are for a life already under
-                way: neither opens over the first orientation tour. Nor do they
-                stand in the room while somebody is being spoken to there: the
-                conversation is the one surface in front of the people, and at
-                720 px tall a note beside it leaves the box no room for its
-                replies. Meeting controls and a selected person's dossier
-                also take the foreground. Both notes return undismissed when
-                that panel closes.
-              */}
-              {!showOrientation &&
-              !talkingInTheRoom &&
-              !meeting &&
-              !selectedDossier &&
-              dayRhythm.summary ? (
-                <WorldRecapPanel
-                  summary={dayRhythm.summary}
-                  onDismiss={(throughSequence, throughMoment) =>
-                    dispatch({
-                      type: "acknowledge-recap",
-                      throughSequence,
-                      throughMoment,
-                    })
-                  }
-                  onOpenNews={() =>
-                    dispatch({ type: "go-to-surface", surface: "news" })
-                  }
-                  onOpenPerson={(personId) =>
-                    dispatch({ type: "open-quick-dossier", personId })
-                  }
-                />
-              ) : null}
-              {!showOrientation &&
-              !talkingInTheRoom &&
-              !meeting &&
-              !selectedDossier &&
-              !dayRhythm.summary &&
-              dayRhythm.morningThought ? (
-                <MorningThoughtPanel
-                  thought={dayRhythm.morningThought}
-                  onDismiss={(date) =>
-                    dispatch({ type: "acknowledge-morning-thought", date })
-                  }
-                  onOpenToday={() =>
-                    dispatch({ type: "go-to-surface", surface: "calendar" })
-                  }
-                />
-              ) : null}
               {session.unsavedSeed !== null ? (
-                <p className="sr-only" data-testid="unsaved-note">
-                  This life has not been saved yet.
-                </p>
+                <p
+                  className="sr-only"
+                  data-testid="unsaved-note"
+                  data-problem="unsaved"
+                />
               ) : null}
-              <p className="sr-only" role="status">
-                {shell.announcement}
-              </p>
+              <p
+                className="sr-only"
+                role="status"
+                data-announcement={shell.announcement}
+              />
             </div>
 
             {scenePeople
@@ -2999,6 +3016,7 @@ function PlayingScreen({
                   ) : null
                 }
                 dateLabel={moment.dateLabel}
+                currentMoment={session.world.currentMoment}
                 placeName={moment.placeName}
                 destinations={destinations}
                 canSave={!savesUnavailable}
@@ -3010,8 +3028,6 @@ function PlayingScreen({
                   const shellState = {
                     pins: shell.pins,
                     preferences: shell.preferences,
-                    journal: shell.legacyJournal,
-                    journals: shell.journals,
                     personWardrobes: shell.personWardrobes,
                     progress: shell.progress,
                   };
@@ -3023,7 +3039,6 @@ function PlayingScreen({
                   ? {}
                   : {
                       onPassDays: passDays,
-                      onPassUntilNeeded: passUntilNeeded,
                       passTargets,
                     })}
                 passing={timeRunner.pending}
@@ -3036,8 +3051,6 @@ function PlayingScreen({
               dispatch={dispatch}
               onOpen={openEntity}
             />
-
-            <PlayerVersion />
 
             {floorSeat ? (
               <div
@@ -3082,13 +3095,13 @@ function renderWorkspace({
   shell,
   dispatch,
   capabilities,
+  holdsOffice,
   assignment,
   floorNote,
   onWorldChange,
   openEntity,
   dossierFor,
   talkTo,
-  openContact,
   presentPersonIds,
   openTheBill,
   goToTheFloor,
@@ -3105,6 +3118,7 @@ function renderWorkspace({
   readonly shell: ShellState;
   readonly dispatch: (action: ShellAction) => void;
   readonly capabilities: ReturnType<typeof resolvePlayerCapabilities>;
+  readonly holdsOffice: boolean;
   readonly assignment: LegislativeAssignment | null;
   readonly floorNote: string | null;
   readonly onWorldChange: (world: World) => void;
@@ -3115,7 +3129,6 @@ function renderWorkspace({
     subject?: ConversationSubjectKey,
   ) => void;
   /** Contact on a person: its own screen over whatever is open. */
-  readonly openContact: (personId: EntityId) => void;
   /** Who the current scene puts in the room with the player. */
   readonly presentPersonIds: readonly EntityId[];
   readonly openTheBill: () => void;
@@ -3321,20 +3334,48 @@ function renderWorkspace({
         dispatch({ type: "go-to-subroute", surface: "government" });
       else if (tab === "parties")
         dispatch({ type: "go-to-subroute", surface: "parties" });
-      else dispatch({ type: "go-to-subroute", surface: "politics" });
+      else
+        dispatch({
+          type: "go-to-subroute",
+          surface: hasBudget ? "politics" : access.transit ? "transit" : "tax",
+        });
     };
     /*
      * Transit and tax configuration are an office's tools: offered only to a
      * life whose office can use them or that has such a record to follow.
      */
-    const access =
-      active === "issues"
-        ? politicsIssueAccess(session.world, session.personId)
-        : null;
+    const access = politicsIssueAccess(session.world, session.personId);
+    const issuesPlace = issuesPlaceForSelection(
+      session.world,
+      session.personId,
+      {
+        place: shell.preferences.politicsPlace,
+        scope: shell.preferences.governmentScope,
+      },
+    );
+    const homeBudgetPlace = issuesPlaceForSelection(
+      session.world,
+      session.personId,
+      {
+        place: "home",
+        scope: "local",
+      },
+    );
+    const economyVisibility = economyVisibilityFor(
+      playerOfficeScope(session.world, session.personId),
+      homeBudgetPlace.jurisdictionId,
+      homeBudgetPlace.jurisdictionId
+        ? session.world.jurisdictions[homeBudgetPlace.jurisdictionId]?.kind
+        : null,
+    );
+    const hasBudget =
+      issuesPlace.jurisdictionId !== null &&
+      economyVisibility.lookItUpFor(issuesPlace.jurisdictionId) !== "none";
+    const hasIssues = hasBudget || access.transit || access.tax;
     const subItems =
       active === "issues"
         ? [
-            { key: "budget", label: "Budget and constitution" },
+            ...(hasBudget ? [{ key: "budget", label: "Budget" }] : []),
             { key: "conditions", label: "Conditions" },
             ...(access?.transit || section === "transit"
               ? [{ key: "transit", label: "Transit" }]
@@ -3354,9 +3395,22 @@ function renderWorkspace({
       <PoliticsTabs
         active={active}
         onSelect={goTo}
-        hidden={
-          capabilities.formativeYears || readOnly ? ["office", "campaigns"] : []
-        }
+        hidden={[
+          ...(!holdsOffice ||
+          readOnly ||
+          (capabilities.legislation &&
+            resolveActiveMemberSeat(session.world, session.personId).kind !==
+              "seated")
+            ? ["office" as const]
+            : []),
+          ...(capabilities.formativeYears || readOnly
+            ? ["campaigns" as const]
+            : []),
+          ...(projectPartyChapters(session.world, session.personId).length === 0
+            ? ["parties" as const]
+            : []),
+          ...(!hasIssues ? ["issues" as const] : []),
+        ]}
         subItems={subItems.map((item) => ({
           ...item,
           current: item.key === section,
@@ -3463,9 +3517,6 @@ function renderWorkspace({
             togglePin({ kind: "person", id: dossier.personId })
           }
           onTalk={() => talkTo(dossier.personId)}
-          {...(readOnly
-            ? {}
-            : { onContact: () => openContact(dossier.personId) })}
           onMeet={() => dispatch({ type: "go-to-scene" })}
           talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
           onOpenLink={openEntity}
@@ -3695,90 +3746,120 @@ function renderWorkspace({
         view.section === "finances" ? "Money and property" : "Who you are",
         "personal-workspace",
         <>
-          {view.section !== "finances" && (
-            <PersonalRoutinePanel
-              world={session.world}
-              personId={session.personId}
-              onWorldChange={onWorldChange}
-              onOpenEntity={openEntity}
-              onTogglePin={togglePin}
-              isPinned={pinnedRef}
-            />
-          )}
-          <PersonalWorkspace
-            world={session.world}
-            personId={session.personId}
-            {...(view.section ? { section: view.section } : {})}
-            onOpenPerson={openPerson}
-          />
-          {view.section === "finances" && (
-            <MoneyLawsPanel
-              world={session.world}
-              personId={session.personId}
-              onOpenMeasure={(measureId) =>
-                openEntity({ kind: "measure", id: measureId })
-              }
-            />
-          )}
-          <HomePurchasePanel
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-          />
-          {view.section !== "finances" && (
+          {view.section === "finances" ? (
             <>
-              <PersonalGoalsPanel
+              <PersonalFinancesWorkspace
+                world={session.world}
+                personId={session.personId}
+              />
+              <MoneyLawsPanel
+                world={session.world}
+                personId={session.personId}
+                onOpenMeasure={(measureId) =>
+                  openEntity({ kind: "measure", id: measureId })
+                }
+              />
+              <HomePurchasePanel
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
-                onOpportunity={(opportunity) => {
-                  if (opportunity.kind === "talk" && opportunity.personId) {
-                    talkTo(
-                      opportunity.personId,
-                      (opportunity.subject ?? undefined) as
-                        ConversationSubjectKey | undefined,
-                    );
-                  } else if (opportunity.kind === "read-news") {
-                    dispatch({ type: "go-to-surface", surface: "news" });
-                  } else {
-                    dispatch({
-                      type: "go-to-surface",
-                      surface: "work",
-                      section: "campaign",
-                    });
-                  }
-                }}
               />
-              <CrisisNoticesPanel
-                world={session.world}
-                personId={session.personId}
-                onWorldChange={onWorldChange}
-                scope="personal"
-              />
-            </>
-          )}
-          <details data-testid="personal-life-choices">
-            <summary>Your day and choices</summary>
-            {/*
+              <details data-testid="personal-life-choices">
+                <summary>Your day and choices</summary>
+                {/*
               Childhood is part of the day, not a place to go, so it mounts
               inside this existing section rather than on a surface of its own.
               It draws nothing outside the formative years; the producer gates
               that, and no age logic is decided here.
             */}
-            <ChildhoodMomentPanel
+                <ChildhoodMomentPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                />
+                <LifeScenePanel
+                  world={session.world}
+                  playerPersonId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onTalkTo={(personId) => talkTo(personId)}
+                  transitionHandlers={createCampaignElectionTransitionRegistry()}
+                  variant="workspace"
+                />
+              </details>
+            </>
+          ) : (
+            <PersonalWorkspace
               world={session.world}
               personId={session.personId}
-              onWorldChange={onWorldChange}
-            />
-            <LifeScenePanel
-              world={session.world}
-              playerPersonId={session.personId}
-              onWorldChange={onWorldChange}
-              onTalkTo={(personId) => talkTo(personId)}
-              transitionHandlers={createCampaignElectionTransitionRegistry()}
-              variant="workspace"
-            />
-          </details>
+              onOpenPerson={openPerson}
+            >
+              <PersonalRoutinePanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+                onOpenEntity={openEntity}
+                onTogglePin={togglePin}
+                isPinned={pinnedRef}
+              />
+              <HomePurchasePanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+              />
+              <>
+                <PersonalGoalsPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onOpportunity={(opportunity) => {
+                    if (opportunity.kind === "talk" && opportunity.personId) {
+                      talkTo(
+                        opportunity.personId,
+                        (opportunity.subject ?? undefined) as
+                          ConversationSubjectKey | undefined,
+                      );
+                    } else if (opportunity.kind === "read-news") {
+                      dispatch({ type: "go-to-surface", surface: "news" });
+                    } else {
+                      dispatch({
+                        type: "go-to-surface",
+                        surface: "work",
+                        section: "campaign",
+                      });
+                    }
+                  }}
+                />
+                <CrisisNoticesPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  scope="personal"
+                />
+              </>
+              <details data-testid="personal-life-choices">
+                <summary>Your day and choices</summary>
+                {/*
+              Childhood is part of the day, not a place to go, so it mounts
+              inside this existing section rather than on a surface of its own.
+              It draws nothing outside the formative years; the producer gates
+              that, and no age logic is decided here.
+            */}
+                <ChildhoodMomentPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                />
+                <LifeScenePanel
+                  world={session.world}
+                  playerPersonId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onTalkTo={(personId) => talkTo(personId)}
+                  transitionHandlers={createCampaignElectionTransitionRegistry()}
+                  variant="workspace"
+                />
+              </details>
+            </PersonalWorkspace>
+          )}
         </>,
       );
 
@@ -3856,6 +3937,7 @@ function renderWorkspace({
         "news-workspace",
         <NewsDesk
           world={session.world}
+          personId={session.personId}
           context={
             view.section === "news-around"
               ? "around"
@@ -3901,6 +3983,7 @@ function renderWorkspace({
                 world={session.world}
                 personId={session.personId}
                 onOpenPerson={openPerson}
+                onWorldChange={onWorldChange}
               />
             </>
           }
@@ -4008,6 +4091,21 @@ function renderWorkspace({
           scope: shell.preferences.governmentScope,
         },
       );
+      const homeBudgetPlace = issuesPlaceForSelection(
+        session.world,
+        session.personId,
+        {
+          place: "home",
+          scope: "local",
+        },
+      );
+      const economyVisibility = economyVisibilityFor(
+        playerOfficeScope(session.world, session.personId),
+        homeBudgetPlace.jurisdictionId,
+        homeBudgetPlace.jurisdictionId
+          ? session.world.jurisdictions[homeBudgetPlace.jurisdictionId]?.kind
+          : null,
+      );
       return frame(
         "Politics",
         "politics-workspace",
@@ -4041,6 +4139,12 @@ function renderWorkspace({
               world={session.world}
               jurisdictionId={issuesPlace.jurisdictionId}
               personId={session.personId}
+              economyVisibility={economyVisibility}
+              lookItUp={
+                issuesPlace.jurisdictionId
+                  ? economyVisibility.lookItUpFor(issuesPlace.jurisdictionId)
+                  : "none"
+              }
               onWorldChange={onWorldChange}
             />
           ) : null}
@@ -4141,17 +4245,8 @@ function renderWorkspace({
           onYearChange={(journalYear) =>
             dispatch({ type: "set-reader-preferences", patch: { journalYear } })
           }
-          journal={shell.journals[session.personId] ?? EMPTY_JOURNAL}
-          onJournalChange={(journal) =>
-            dispatch({
-              type: "set-journal",
-              personId: session.personId,
-              journal,
-            })
-          }
           world={session.world}
           personId={session.personId}
-          onOpenPerson={openPerson}
         />,
       );
 
@@ -4331,8 +4426,7 @@ function renderWorkspace({
             ) : null}
             {assignmentIsOther ? (
               <p className="game-note" data-testid="other-measure-open">
-                Also open, and not the one you are working on:{" "}
-                {assignmentName ?? "another measure"}.
+                Also open: {assignmentName ?? "another measure"}
               </p>
             ) : null}
             <button
@@ -4742,6 +4836,7 @@ function renderWorkspace({
           {half === "office" ? politicsTabs("office") : null}
           {half === "campaign" ? politicsTabs("campaigns") : null}
           <WorkLayout
+            showIntro={half !== "jobs"}
             roleSentence={role.sentence}
             pending={
               half === "office" ? null : (
@@ -5030,10 +5125,7 @@ function JournalView({
 
       <h3>What has happened</h3>
       {chapters.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
+        <p data-testid="journal-empty" />
       ) : (
         <ol data-testid="journal-entries">
           {chapters.chapters.map((chapter) => (
@@ -5293,11 +5385,13 @@ interface WorkSection {
  * and it reads nothing and changes nothing.
  */
 function WorkLayout({
+  showIntro = true,
   roleSentence,
   pending,
   sections,
   timeControl,
 }: {
+  readonly showIntro?: boolean;
   readonly roleSentence: string;
   /** What is waiting on the character, said right after who they are. */
   readonly pending: ReactNode;
@@ -5311,11 +5405,15 @@ function WorkLayout({
   };
   return (
     <div className="pg-work" data-testid="work-layout">
-      <p className="game-scene" data-testid="work-role">
-        {roleSentence}
-      </p>
-      {pending}
-      {sections.length > 1 ? (
+      {showIntro ? (
+        <>
+          <p className="game-scene" data-testid="work-role">
+            {roleSentence}
+          </p>
+          {pending}
+        </>
+      ) : null}
+      {showIntro && sections.length > 1 ? (
         <nav className="pg-work-jump" aria-label="On this page">
           {sections.map((section) => (
             <button

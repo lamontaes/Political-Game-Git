@@ -8,7 +8,9 @@
  * program's own pages (`state-paid-leave-premiums-2026.json`). A law enacted
  * in play governs over the program a place began with:
  * 1. a "no" ends the premium where a program was collecting;
- * 2. a "yes" where there was none starts one.
+ * 2. a "yes" where there was none starts one;
+ * 3. final adopted rate (basis points) and cap (dollars/year) govern pay.
+ *    Missing terms retain the existing sourced or labeled estimate.
  *
  * Game rules, labeled:
  * - A program the place began with collects from the date its own pages give,
@@ -19,8 +21,9 @@
  * - A premium that was not read (Rhode Island's pages refuse the container;
  *   Virginia sets its rate in 2027), or a program adopted in play, is
  *   ESTIMATED FROM AVERAGE: the average employee share of the programs read,
- *   moved by the world's seed within half a standard deviation of the spread
- *   between them, on wages up to the Social Security wage base ($184,500 in
+ *   ranked by sourced Census region and household-income distance with the
+ *   approved reciprocal-rank estimation rule, on wages up to the Social
+ *   Security wage base ($184,500 in
  *   2026), the cap most of the read programs use.
  * - Only the employee's share is withheld here. The employer's share, and the
  *   small-employer exemptions most programs give it, need the employer's full
@@ -28,8 +31,9 @@
  */
 import premiums from "../../data/research/money/state-paid-leave-premiums-2026.json" with { type: "json" };
 import { lawInForce, lawInForceAtStart } from "./governing/law-in-force";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
-import { SeededRng } from "./rng";
+import { rankedPaidLeaveEstimate } from "./paid-leave-estimates";
 import type { EntityId, IsoDate, World } from "./types";
 
 export const PAID_LEAVE_QUESTION =
@@ -100,14 +104,51 @@ export function paidLeavePremium(
       return collecting
         ? { kind: "ended", lawMeasureIds: [law.measureId] }
         : { kind: "none" };
-    if (!began)
-      return {
-        ...estimatedPremium(world, stateKey),
-        lawMeasureIds: [law.measureId],
-      };
-    if (!collecting) return { kind: "none" };
+    if (began && !collecting) return { kind: "none" };
+    const fallback =
+      (began ? readPremium(place) : null) ?? estimatedPremium(world, stateKey);
+    const rate = readFinalEnactedLawTerm(world, law, {
+      questionKey: PAID_LEAVE_QUESTION,
+      termKey: "rate",
+      unit: "basis-points",
+      onDate: paidAt,
+    });
+    const cap = readFinalEnactedLawTerm(world, law, {
+      questionKey: PAID_LEAVE_QUESTION,
+      termKey: "cap",
+      unit: "dollars/year",
+      onDate: paidAt,
+    });
+    // Convert the bill's own units once for the existing integer calculator.
+    // Missing/invalid terms preserve the existing read or labeled estimate.
+    const ratePerMillion = rate ? Math.round(rate.value * 100) : null;
+    const capMinor = cap ? Math.round(cap.value * 100) : null;
+    const validRate =
+      rate !== null &&
+      ratePerMillion !== null &&
+      Number.isSafeInteger(ratePerMillion) &&
+      rate.value >= 0 &&
+      rate.value <= 10_000 &&
+      Math.abs(ratePerMillion / 100 - rate.value) < 1e-9;
+    const validCap =
+      cap !== null &&
+      capMinor !== null &&
+      Number.isSafeInteger(capMinor) &&
+      cap.value >= 0 &&
+      Math.abs(capMinor / 100 - cap.value) < 1e-9;
+    const { estimatedFromAverage, ...read } = fallback;
     return {
-      ...(readPremium(place) ?? estimatedPremium(world, stateKey)),
+      ...read,
+      sourceUrl: validRate ? null : fallback.sourceUrl,
+      employeeRatePerMillion: validRate
+        ? ratePerMillion
+        : fallback.employeeRatePerMillion,
+      annualWageCapMinor: validCap ? capMinor : fallback.annualWageCapMinor,
+      ...(estimatedFromAverage && (!validRate || !validCap)
+        ? {
+            estimatedFromAverage: `ESTIMATED FROM AVERAGE: ${!validRate ? "employee premium rate" : "annual covered-wage cap"} retained from the existing ranked program fallback; ${!validRate && validCap ? "the annual cap is the bill’s own value." : validRate ? "the employee rate is the bill’s own value." : "neither term is an adopted numeric value."}`,
+          }
+        : {}),
       lawMeasureIds: [law.measureId],
     };
   }
@@ -146,45 +187,22 @@ function readPremium(
   };
 }
 
-let average: {
-  readonly mean: number;
-  readonly deviation: number;
-  readonly count: number;
-} | null = null;
-
-/** The average employee share of the programs read, in percent of wages. */
-function averageEmployeeShare() {
-  if (average) return average;
-  const shares = Object.values(PLACES).flatMap((place) =>
-    place.status === "read" && place.employeePercent !== null
-      ? [place.employeePercent]
-      : [],
-  );
-  const mean = shares.reduce((sum, share) => sum + share, 0) / shares.length;
-  const deviation = Math.sqrt(
-    shares.reduce((sum, share) => sum + (share - mean) ** 2, 0) / shares.length,
-  );
-  average = { mean, deviation, count: shares.length };
-  return average;
-}
-
 function estimatedPremium(
-  world: World,
+  _world: World,
   stateKey: string,
 ): Extract<PaidLeavePremium, { kind: "premium" }> {
-  const { mean, deviation, count } = averageEmployeeShare();
-  const draw = new SeededRng(world.seed)
-    .fork(`state-paid-leave-estimate:${stateKey}`)
-    .next();
-  const percent = Math.max(0, mean + (draw - 0.5) * deviation);
+  const { percent, references, method } = rankedPaidLeaveEstimate(
+    stateKey,
+    "employee-premium",
+  );
   return {
     kind: "premium",
     employeeRatePerMillion: Math.round(percent * 10_000),
     annualWageCapMinor: COMMON_WAGE_CAP_DOLLARS * 100,
     sourceUrl: null,
     estimatedFromAverage:
-      `ESTIMATED FROM AVERAGE: the average employee premium of the ${count} state paid leave programs read, ` +
-      `${mean.toFixed(3)}% of wages, moved to ${percent.toFixed(3)}% by the world's seed within half the spread between them, ` +
+      `ESTIMATED FROM AVERAGE: the average employee premium of the ${references.length} state paid leave programs read, ` +
+      `${percent.toFixed(3)}% of wages using ${method}, ` +
       `on wages up to $${COMMON_WAGE_CAP_DOLLARS.toLocaleString("en-US")} a year, the cap most of them use. ` +
       "Source: each program's 2026 premium page (state-paid-leave-premiums-2026.json).",
   };

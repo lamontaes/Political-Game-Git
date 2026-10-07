@@ -1,4 +1,6 @@
 import type { PolicyPack } from "./policy-packs";
+import { CURRICULUM_STANDARDS_ROW } from "./law-consequences/modules/lw08-curriculum/data";
+import { LW08_LIBRARY_MATERIALS_ROW } from "./law-consequences/modules/lw08-library-materials/data";
 
 /**
  * Positions a person in the United States can hold, and a bill can be about.
@@ -641,7 +643,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         { key: "reserved-subjects", value: "state-reserved-subjects" },
       ],
       issue: "us-state-and-local:government-operations.state-local-powers",
-      name: "Broaden local authority",
+      name: "Broaden local government power",
       question:
         "Should localities be free to act on matters the state has not expressly reserved to itself?",
       tags: ["home-rule", "contested"],
@@ -922,6 +924,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Set curriculum at the state level",
       question:
         "Should the state set curriculum standards that every district must follow?",
+      consequences: [CURRICULUM_STANDARDS_ROW],
       tags: ["contested"],
       principles: [
         {
@@ -2151,6 +2154,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       parameters: [
         { key: "duration", value: "weeks-of-paid-leave" },
         { key: "replacement", value: "share-of-covered-weekly-wages" },
+        {
+          key: "rate",
+          value: "employee-premium-basis-points-of-covered-wages",
+        },
+        { key: "cap", value: "annual-covered-wage-cap-dollars-per-year" },
       ],
       issue: "us-state-and-local:labor-workforce.leave-policy",
       name: "Paid family and medical leave",
@@ -2766,6 +2774,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Local control of library materials",
       question:
         "Should decisions about which materials a library carries rest with local boards?",
+      consequences: [LW08_LIBRARY_MATERIALS_ROW],
       tags: ["contested"],
       principles: [
         {
@@ -3127,7 +3136,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         { key: "coverage", value: "covered-council-districts" },
       ],
       issue: "us-state-and-local:government-operations.redistricting",
-      name: "Independent ward commission",
+      name: "Independent district commission",
       question:
         "Should the city's council districts be drawn by an independent commission rather than by the council?",
       tags: ["contested"],
@@ -3161,6 +3170,229 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
           principle: "fiscal-restraint",
           bearing: "against",
           weight: 0.35,
+        },
+      ],
+    },
+    // Seven laws the outcome web already has researched effects for
+    // (data/research/outcome-web/links.json) but no question asked about, so
+    // nobody could pass them and no effect could run. Each question's key is
+    // the one its links read as `law:us-policy-positions:<key>`; each place's
+    // law on it is in data/research/laws/starting-law-2026.json; the reason
+    // behind each bearing is in
+    // docs/codex/effect-batches/claude-new-questions/ideology.json.
+    {
+      key: "justice-public-safety.stand-your-ground",
+      issue:
+        "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
+      name: "Stand your ground",
+      question:
+        "Should a person who fears death or serious harm in a public place be free to use deadly force without first trying to retreat?",
+      tags: ["contested"],
+      principles: [
+        {
+          principle: "personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "tradition",
+          bearing: "consistent-with",
+          weight: 0.4,
+        },
+        {
+          principle: "public-safety",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "against",
+          weight: 0.55,
+        },
+      ],
+    },
+    {
+      key: "justice-public-safety.child-access-prevention",
+      issue: "us-state-and-local:justice-public-safety.firearms",
+      name: "Responsibility for unsecured guns near children",
+      question:
+        "Should a gun owner be held responsible when a child can get at an unsecured gun, even if no one is hurt?",
+      tags: ["contested"],
+      principles: [
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.5,
+        },
+      ],
+    },
+    {
+      key: "justice-public-safety.raise-handgun-purchase-age",
+      issue: "us-state-and-local:justice-public-safety.firearms",
+      name: "Handgun buyers must be 21",
+      question:
+        "Should a person have to be 21 to buy a handgun, from any seller?",
+      tags: ["contested"],
+      principles: [
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "against",
+          weight: 0.5,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.4,
+        },
+      ],
+    },
+    {
+      key: "government-operations.same-day-voter-registration",
+      issue: "us-state-and-local:government-operations.election-rules",
+      name: "Same-day voter registration",
+      question:
+        "Should a person be able to register to vote and cast a ballot on the same day, even after the regular registration deadline?",
+      tags: ["contested"],
+      principles: [
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.5,
+        },
+        {
+          principle: "transparency",
+          bearing: "against",
+          weight: 0.5,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.4,
+        },
+      ],
+    },
+    {
+      key: "government-operations.all-mail-voting",
+      issue: "us-state-and-local:government-operations.election-administration",
+      name: "Ballots mailed to every voter",
+      question:
+        "Should every registered voter be mailed a ballot automatically for each election?",
+      tags: ["contested"],
+      principles: [
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.4,
+        },
+        {
+          principle: "tradition",
+          bearing: "against",
+          weight: 0.55,
+        },
+        {
+          principle: "transparency",
+          bearing: "against",
+          weight: 0.5,
+        },
+      ],
+    },
+    {
+      key: "justice-public-safety.partner-with-federal-immigration-enforcement",
+      issue: "us-state-and-local:justice-public-safety.policing",
+      name: "Local police partner with federal immigration enforcement",
+      question:
+        "Should local police and sheriffs sign 287(g) agreements with federal immigration authorities to help enforce immigration law?",
+      tags: ["contested"],
+      principles: [
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "equal-treatment",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "personal-liberty",
+          bearing: "against",
+          weight: 0.6,
+        },
+        {
+          principle: "limited-government",
+          bearing: "against",
+          weight: 0.45,
+        },
+      ],
+    },
+    {
+      key: "environment-energy.clean-air-plan-for-polluted-counties",
+      issue: "us-state-and-local:environment-energy.air-quality",
+      name: "Clean-air plan for counties that fail federal standards",
+      question:
+        "Should the state enforce a clean-up plan, with emission limits on polluters, in counties that fail the federal soot and dust standards?",
+      tags: ["contested"],
+      principles: [
+        {
+          principle: "environmental-stewardship",
+          bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "public-safety",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.45,
+        },
+        {
+          principle: "property-rights",
+          bearing: "against",
+          weight: 0.55,
+        },
+        {
+          principle: "market-competition",
+          bearing: "against",
+          weight: 0.5,
+        },
+        {
+          principle: "fiscal-restraint",
+          bearing: "against",
+          weight: 0.5,
         },
       ],
     },

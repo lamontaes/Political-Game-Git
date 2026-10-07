@@ -1,7 +1,7 @@
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { municipalRecognitionEventId } from "../simulation/municipal-public-work";
 import type { EntityId, World } from "../simulation/types";
-import bindings from "./municipal-venue-bindings.json";
+import bindings from "./municipal-venue-bindings.json" with { type: "json" };
 
 /** Source-backed candidate only: ENV still verifies current completed presence,
  * participant/access, released art and compositor compatibility. No view grants

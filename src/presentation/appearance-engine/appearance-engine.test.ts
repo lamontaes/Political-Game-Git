@@ -118,6 +118,40 @@ describe("skin recolor", () => {
     for (let k = 1; k < lums.length; k += 1)
       expect(lums[k]).toBeLessThan(lums[k - 1]!);
   });
+
+  it("keeps cloth-colored cuff overlap unchanged across every skin tone", () => {
+    const outfit = createRaster(3, 1);
+    const skin = createRaster(3, 1);
+    const cuff = createRaster(3, 1);
+    fill(outfit, 0, 0, 2, 0, SKIN);
+    skin.data[3] = 255;
+    skin.data[7] = 96;
+    cuff.data[7] = 128;
+    cuff.data[11] = 255;
+
+    for (const ramp of SKIN_RAMPS) {
+      const recolored = recolorSkin(
+        outfit,
+        ramp,
+        measureSkinLuminance(outfit),
+        skin,
+        [cuff],
+      );
+      expect(Array.from(recolored.data.slice(4, 8))).toEqual([...SKIN]);
+      expect(Array.from(recolored.data.slice(8, 12))).toEqual([...SKIN]);
+      expect(Array.from(recolored.data.slice(0, 4))).not.toEqual([...SKIN]);
+
+      const withoutSkinMask = recolorSkin(
+        outfit,
+        ramp,
+        measureSkinLuminance(outfit),
+        undefined,
+        [cuff],
+      );
+      expect(Array.from(withoutSkinMask.data.slice(4, 8))).toEqual([...SKIN]);
+      expect(Array.from(withoutSkinMask.data.slice(8, 12))).toEqual([...SKIN]);
+    }
+  });
 });
 
 describe("assembly", () => {
@@ -266,6 +300,29 @@ describe("collars sit in front of the neck", () => {
       Array.from(out.data.slice((y * 60 + x) * 4, (y * 60 + x) * 4 + 3));
     expect(px(30, anchors.neck.row + 1)).toEqual([40, 50, 90]); // collar in front of the neck
     expect(px(30, anchors.neck.row - 2)).not.toEqual([40, 50, 90]); // the head wins above the neck row
+  });
+
+  it("keeps front hair over a high collar while the collar still covers the neck", () => {
+    const body = figure(5, 25);
+    const anchors = measureBodyAnchors(body);
+    const head = createRaster(60, 100);
+    fill(head, 22, 5, 37, 30, SKIN);
+    const shirt = createRaster(60, 100);
+    const hair = createRaster(60, 100);
+    const COLLAR: Rgba = [40, 50, 90, 255];
+    const HAIR: Rgba = [70, 35, 20, 255];
+    fill(shirt, 20, anchors.neck.row, 39, 60, COLLAR);
+    fill(hair, 22, anchors.neck.row, 24, anchors.neck.row + 2, HAIR);
+    const out = assemblePerson(anchors, [
+      { slot: "body", raster: body },
+      { slot: "top", raster: shirt },
+      { slot: "head", raster: head },
+      { slot: "front-hair", raster: hair },
+    ]);
+    const px = (x: number, y: number) =>
+      Array.from(out.data.slice((y * 60 + x) * 4, (y * 60 + x) * 4 + 3));
+    expect(px(23, anchors.neck.row + 1)).toEqual([70, 35, 20]);
+    expect(px(30, anchors.neck.row + 1)).toEqual([40, 50, 90]);
   });
 
   it("lets an outfit replace separate top, bottoms, shoes and dress", () => {
@@ -708,4 +765,11 @@ describe("the people engine in the game", () => {
         }
     expect(clipped).toEqual([]);
   }, 120_000);
+});
+
+describe("resource currency startup", () => {
+  it("creates a validated money amount after the appearance suite initializes", async () => {
+    const { money } = await import("../../simulation/resources");
+    expect(money(125, "USD")).toEqual({ minorUnits: 125, currency: "USD" });
+  });
 });

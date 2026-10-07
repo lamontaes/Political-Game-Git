@@ -1,7 +1,16 @@
 /// <reference types="node" />
 import { createHash } from "node:crypto";
 import { writeFileSync } from "node:fs";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest";
+import * as decisions from "../decisions";
 import { addDays } from "../dates";
 import { createDemoWorld } from "../demo";
 import { FEDERAL_TENURE_EVENT } from "../federal-tenures";
@@ -267,6 +276,7 @@ afterAll(() => {
       JSON.stringify(receipts, null, 2),
     );
 });
+afterEach(() => vi.restoreAllMocks());
 
 describe("Associate Justice requires recorded Senate consent", () => {
   it.each(CHIEF_EXECUTIVE_JURISDICTIONS)(
@@ -404,4 +414,40 @@ describe("Associate Justice requires recorded Senate consent", () => {
       });
     },
   );
+  it("keeps an all-withheld associate nomination pending without vacating the lower bench", () => {
+    const evaluate = decisions.evaluateDecision;
+    vi.spyOn(decisions, "evaluateDecision").mockImplementation(
+      (inputWorld, decision) => {
+        const actual = evaluate(inputWorld, decision);
+        return decision.subject.kind === "context:supreme-court-nomination"
+          ? { ...actual, outcomeKind: "undecided", selectedOptionKey: null }
+          : actual;
+      },
+    );
+    const { world, due } = scheduled(senate);
+    const output = advanceWorld(world, 1, handlers);
+    const vote = output.history.events.find(
+      (event) => event.type === SUPREME_COURT_VOTE_EVENT,
+    )!;
+    expect(vote).toBeDefined();
+    expect(vote.tags).toContain("outcome:pending");
+    expect(vote.tags).toContain("yeas:0");
+    expect(vote.tags).toContain("nays:0");
+    expect(dueState(output, due.id)?.status).toBe("blocked");
+    expect(seatHolderAt(output, seatId)).toBeNull();
+    expect(seatHolderAt(output, lowerSeatId)?.personId).toBe(nomineeId);
+    const continued = deserializeWorld(serializeWorld(output));
+    expect(seatHolderAt(continued, lowerSeatId)?.personId).toBe(nomineeId);
+    const repeated = advanceWorld(continued, 1, handlers);
+    expect(
+      repeated.history.events.filter(
+        (event) => event.type === SUPREME_COURT_VOTE_EVENT,
+      ),
+    ).toEqual([vote]);
+    expect(seatHolderAt(repeated, seatId)).toBeNull();
+    expect(seatHolderAt(repeated, lowerSeatId)?.personId).toBe(nomineeId);
+    expect(repeated.history.futureDueItems).toEqual(
+      continued.history.futureDueItems,
+    );
+  });
 });

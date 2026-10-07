@@ -1,0 +1,44 @@
+{
+  "approval": "Audit00d 2026-10-01 11:50:10 UTC; coordinator delegated exact assertion contract",
+  "baseHead": "4c9fff2f5772ce43441117a9916402b78503bdd4",
+  "composedMain": "81a950745174018598e87923da30469f86f6f0a8",
+  "sourceFile": "src/simulation/public-budgets/public-budgets.test.ts",
+  "testedBlob": "2c002393fba9c61d77edad8ced83793fe036b579",
+  "command": "VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run test -- npx vitest run src/simulation/public-budgets/public-budgets.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-budget-carry-admitted-final.json",
+  "exitCode": 0,
+  "passed": 29,
+  "failed": 0,
+  "notRun": 0,
+  "durationSeconds": 12.41,
+  "dispatchedCasesPassed": 12,
+  "dispatchedCasesTotal": 12,
+  "originalTolerance": 131100615.513,
+  "toleranceChanged": false,
+  "separateCarryChecksRetained": true,
+  "formulaIncludes": [
+    "recurring expected revenue",
+    "pension contributions",
+    "interest",
+    "net reserve deposits including saved/drawn law reactions",
+    "annual law spending"
+  ],
+  "productionChanged": false,
+  "controlledFixtureOnly": true,
+  "notRunBeyondScope": [
+    "full suite",
+    "browser",
+    "populated national behavior",
+    "year benchmark",
+    "new Save/Continue"
+  ],
+  "originalRawSha256": {
+    "team6-budget-carry-admitted-final.json": "7421367016cbff065a7c4721ae286da6180728881bf4ec9c40a9bc0c1934414d",
+    "team6-budget-carry-admitted-final.log": "2206b2224c791514a83b7c3a73138fe5dadcfa5932bdee795f4787f606fec482"
+  },
+  "scopedTypes": {
+    "roots": 1,
+    "traversedFiles": 737,
+    "ownedDiagnostics": 0
+  },
+  "lint": "PASS"
+}

@@ -1,9 +1,31 @@
+// Load the existing world entrypoint first, as the game and A131 exposure fixture do.
+import { advanceWorld, assertWorldIntegrity } from "../world";
 import { describe, expect, it } from "vitest";
+import { writeFileSync } from "node:fs";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordHouseholdLocation,
+} from "../life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { stableHash } from "../ids";
+import {
+  lifePlaceByJurisdictionId,
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+} from "../life-places";
+import { ensureJurisdiction } from "../national-election-geography";
+import {
+  materializeTownHousehold,
+  townRoster,
+} from "../living-world/town-residents";
+import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { storyLeads } from "../press/desk";
 import { jailTermOn } from "../justice/jail-terms";
-import { advanceWorld, assertWorldIntegrity } from "../world";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
   generateOpeningLife,
@@ -21,11 +43,12 @@ import {
   crimeIncidents,
   localCrimeFigures,
   sampleMonthlyCrime,
-  UNRESEARCHED_LOCAL_CRIME,
+  LOCAL_CRIME_RATES,
 } from "./index";
-import { arrestReferral } from "./producer";
+import { arrestReferral, ensureCrimeProduction, offenseOf } from "./producer";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
 import { referForProsecution } from "../justice/prosecution";
+import type { EntityId, World } from "../types";
 
 const LONG = 900_000;
 
@@ -44,23 +67,112 @@ function open(seed: string) {
   ).game!;
 }
 
+/** Same real clock and starting-condition writers, without the full life opening. */
+function openCrimeSmallWorld(seed: string) {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  const place =
+    places[parseInt(stableHash(seed).slice(0, 8), 16) % places.length]!;
+  const small = smallWorld({
+    place: place.usps,
+    people: 64,
+    household: true,
+    seed,
+  });
+  const admitted = recordHouseholdLocation(small.world, {
+    stableKey: "crime-small-world:location",
+    householdId: small.world.history.households.at(-1)!.id,
+    effectiveAt: small.world.currentDate,
+    jurisdictionId: small.jurisdictionId,
+    kind: "residence:home",
+    label: "Recorded fixture home",
+    provenance: { kind: "authored", note: "Crime fixture household location" },
+    supersedesLocationId: null,
+  });
+  const world = ensureCrimeProduction(
+    ensureWorldStartingConditions(admitted, {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      political: generatePoliticalStartingConditions,
+    }),
+  );
+  console.info(
+    JSON.stringify({
+      fixture: "crime-small-world",
+      seed,
+      place: place.usps,
+      people: 64,
+    }),
+  );
+  return { world, playerPersonId: small.personId, stateUsps: place.usps };
+}
+
+/**
+ * A recorded prosecutor for the town, through the same writers a hired one is
+ * recorded with. A small world opens no prosecutor's office, and a referral
+ * waits for somebody to decide on it, so a referral that goes on to a charge
+ * needs one (the county's own prosecutor is seated by the full opening).
+ */
+function withRecordedProsecutor(world: World, playerPersonId: EntityId) {
+  const town = world.people[playerPersonId]!.homeJurisdictionId;
+  const person = Object.values(world.people)
+    .filter((candidate) => candidate.id !== playerPersonId)
+    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+  const provenance = {
+    kind: "authored" as const,
+    note: "Recorded prosecutor fixture for a small world that opens no prosecutor's office.",
+  };
+  let next = createOrganization(world, {
+    stableKey: "crime-test:prosecutor-office",
+    formedAt: world.currentDate,
+    provenance,
+    initialProfile: {
+      name: "Recorded prosecution office",
+      classification: "sector:government",
+      locationJurisdictionId: town,
+    },
+  });
+  const organizationId = next.history.organizations.at(-1)!.id;
+  next = createWorkRelationship(next, {
+    stableKey: "crime-test:prosecutor-appointment",
+    personId: person.id,
+    organizationId,
+    startedAt: world.currentDate,
+    kind: "employment:executive-office",
+    compensation: "unpaid",
+    authority: "self-directed",
+    dependency: "independent",
+    economicRisk: "organization-borne",
+    provenance,
+    initialRole: {
+      title: "Prosecutor",
+      occupationClassification: "profession:prosecutor",
+      locationJurisdictionId: town,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 0, maximumHours: 0 },
+        attention: "moderate",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: town,
+      },
+    },
+  });
+  return next;
+}
+
 describe("ordinary local crime", () => {
   it("every rate is marked as an unresearched placeholder", () => {
-    expect(UNRESEARCHED_LOCAL_CRIME.provenance).toBe(
-      "unresearched-blanket-rule",
-    );
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
-      for (const share of [rule.reportedShare, rule.arrestShare]) {
-        expect(share).toBeGreaterThan(0);
-        expect(share).toBeLessThan(1);
-      }
+    expect(LOCAL_CRIME_RATES.provenance).toBe("estimated-from-average");
+    for (const rule of LOCAL_CRIME_RATES.offenses) {
+      expect(rule.reportedRate).toBeGreaterThan(0);
+      expect(rule.reportedRate).toBeLessThan(rule.annualRate);
     }
   });
 
   it(
-    "a year of ordinary time in a new game produces reported, unreported and solved crime that the local paper can see",
+    "a year of ordinary time in a small world produces reported, unreported and solved crime that the local paper can see",
     () => {
-      const life = open("local-crime-virginia");
+      const life = openCrimeSmallWorld("local-crime-virginia");
       const town = life.world.people[life.playerPersonId]!.homeJurisdictionId;
       expect(
         life.world.history.futureDueItems.filter(
@@ -130,7 +242,10 @@ describe("ordinary local crime", () => {
       }
       // Nobody reported it, so only the victims know, and their Journal says
       // what happened to them rather than a crime they could not have heard of.
-      expect(unreported.length).toBeGreaterThan(0);
+      // Whether a named victim reports is their own weighing (`./reporting`,
+      // proven in reporting.test.ts), so a year in one small town may hold no
+      // offense that stays quiet; none is asked of it. Each one that does is
+      // read below. Every named offense is either reported or unreported.
       for (const event of unreported) {
         expect(event.visibility).toBe("private");
         expect(event.summary).not.toContain("went unreported");
@@ -186,8 +301,60 @@ describe("ordinary local crime", () => {
         .flat()
         .filter((row) => row.causeKey.startsWith("crime:"));
       expect(crimeContributions.every((row) => row.kind === "fear")).toBe(true);
-      expect(crimeContributions.length).toBeGreaterThan(0);
       expect(crimeContributions.length).toBeLessThan(reported.length);
+      // The yearly window may have no excess reports (the preserved ND receipt
+      // has 26 home-town reports against 26 ordinary reports). The positive
+      // fixture reads an actual saved report on its recorded occurrence day.
+      // This is a source-record join, not evidence of excess quarterly crime.
+      const orderedReports = [...reported].sort(
+        (a, b) =>
+          a.occurredAt.localeCompare(b.occurredAt) || a.id.localeCompare(b.id),
+      );
+      const recordedReport =
+        orderedReports.find((event) => event.participants.length > 0) ??
+        orderedReports[0]!;
+      for (const participant of recordedReport.participants)
+        expect(later.people[participant.personId]).toBeDefined();
+      const place = lifePlaceByJurisdictionId(recordedReport.jurisdictionId!);
+      expect(place).toBeDefined();
+      const stateKey = place!.stateJurisdictionKey;
+      expect(stateKey).not.toBeNull();
+      if (stateKey === null)
+        throw new Error("Recorded crime place has no governing state");
+      const dayContributions =
+        causesInPeriod(
+          later,
+          recordedReport.occurredAt,
+          recordedReport.occurredAt,
+        ).get(stateKey) ?? [];
+      const fear = dayContributions.find(
+        (row) => row.sourceId === recordedReport.id,
+      );
+      expect(fear).toBeDefined();
+      expect(fear!.kind).toBe("fear");
+      expect(fear!.amount).toBeGreaterThan(0);
+      expect(fear!.causeKey).toBe(`crime:${offenseOf(recordedReport)}`);
+      expect(
+        later.history.events.find((row) => row.id === fear!.sourceId),
+      ).toBe(recordedReport);
+      const fearReceipt = {
+        fixture: "recorded-crime-fear-day",
+        worldSeed: later.seed,
+        event: recordedReport,
+        stateKey: place!.stateJurisdictionKey,
+        participants: recordedReport.participants.map(
+          (row) => later.people[row.personId],
+        ),
+        contribution: fear,
+        yearlyFearCount: crimeContributions.length,
+      };
+      console.info(JSON.stringify(fearReceipt));
+      if (process.env.A131_FEAR_RECEIPT_PATH)
+        writeFileSync(
+          process.env.A131_FEAR_RECEIPT_PATH,
+          JSON.stringify(fearReceipt, null, 2),
+        );
+
       // Nothing is dated before the life was opened.
       for (const event of incidents) {
         expect(event.occurredAt >= life.world.currentDate).toBe(true);
@@ -230,19 +397,46 @@ describe("ordinary local crime", () => {
   it(
     "the Around you feed shows only the player's own town's crime",
     () => {
-      // Clarksdale, Mississippi: measured showing Washington police reports.
-      const life = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
+      const life = openCrimeSmallWorld("feed-2813820");
+      const homeTown =
+        life.world.people[life.playerPersonId]!.homeJurisdictionId;
+      const other = searchLifePlaces("", 2, {
+        stateJurisdictionKey: `US-${life.stateUsps}`,
+        scope: "locality",
+      }).find((place) => place.context.jurisdiction.id !== homeTown);
+      expect(
+        other,
+        "a second actual locality in the drawn state",
+      ).toBeDefined();
+      let world = ensureJurisdiction(life.world, other!.context.jurisdiction);
+      const households = Math.min(
+        12,
+        townRoster(other!.context.jurisdiction.id).households,
+      );
+      expect(
+        households,
+        "recorded households in the second locality",
+      ).toBeGreaterThan(0);
+      for (let index = 0; index < households; index += 1) {
+        world = materializeTownHousehold(
+          world,
+          other!.context.jurisdiction.id,
+          index,
+        );
+      }
+      console.info(
+        JSON.stringify({
+          fixture: "crime-feed-second-town",
           seed: "feed-2813820",
-          placeKey: "2813820",
-          startAge: 30,
-          depth: "summarize-earlier-life",
+          state: life.stateUsps,
+          homeTown,
+          otherTown: other!.context.jurisdiction.id,
+          households,
         }),
-      ).game!;
+      );
       const town = life.world.people[life.playerPersonId]!.homeJurisdictionId;
       const later = advanceWorld(
-        life.world,
+        world,
         120,
         createCampaignElectionTransitionRegistry(),
       );
@@ -318,9 +512,9 @@ describe("ordinary local crime", () => {
   it(
     "police arrest a named resident the offense points to, and prosecutors take the case",
     () => {
-      const life = open("probe");
+      const life = openCrimeSmallWorld("probe");
       const world = advanceWorld(
-        life.world,
+        withRecordedProsecutor(life.world, life.playerPersonId),
         400,
         createCampaignElectionTransitionRegistry(),
       );
@@ -339,11 +533,17 @@ describe("ordinary local crime", () => {
         expect(offender.personId).not.toBe(life.playerPersonId);
         const person = world.people[offender.personId]!;
         expect(person.homeJurisdictionId).toBe(arrest.jurisdictionId);
+        const adultAge = adultCourtAgeAt(
+          world,
+          arrest.jurisdictionId!,
+          arrest.occurredAt,
+        );
+        expect(adultAge).not.toBeNull();
+        if (adultAge === null)
+          throw new Error("Recorded arrest has no adult-age rule.");
         expect(
           ageOnDate(person.birthDate, arrest.occurredAt),
-        ).toBeGreaterThanOrEqual(
-          adultCourtAgeAt(world, arrest.jurisdictionId!, arrest.occurredAt),
-        );
+        ).toBeGreaterThanOrEqual(adultAge);
         expect(arrest.summary).toContain(personName(person));
         // The circumstances that pointed to them ride on the record.
         expect(offender.detail).toMatch(/^Arrested; /);

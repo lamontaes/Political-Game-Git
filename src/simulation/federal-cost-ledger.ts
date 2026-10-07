@@ -5,7 +5,8 @@ import type { EntityId, IsoDate, World } from "./types";
 import { measureAnswersAt } from "./vote-bundle";
 
 /** A paid installment, not an appropriation ceiling or a forecast. */
-export interface FederalProgramCost {
+export interface PublicProgramCost {
+  readonly jurisdictionId: EntityId;
   readonly transferId: EntityId;
   readonly sourceMeasureId: EntityId;
   readonly programKey: string;
@@ -22,11 +23,10 @@ export interface FederalProgramCost {
  * Read that paid base; never replace it with an annual estimate or a draw.
  * A mixed-subject bill remains unassigned rather than charging every question.
  */
-export function federalProgramCostsForMonth(
+export function publicProgramCostsForMonth(
   world: World,
   month: IsoDate,
-): readonly FederalProgramCost[] {
-  const nation = NATIONAL_ELECTION_JURISDICTION.id;
+): readonly PublicProgramCost[] {
   const records = new Map(
     (world.history.publicProgramRecords ?? []).map((r) => [r.id, r]),
   );
@@ -47,7 +47,7 @@ export function federalProgramCostsForMonth(
       )
       .filter((r) => r !== null),
   );
-  const result: FederalProgramCost[] = [];
+  const result: PublicProgramCost[] = [];
   for (const transfer of world.history.resourceTransferOutcomes ?? []) {
     if (
       transfer.status !== "completed" ||
@@ -57,29 +57,28 @@ export function federalProgramCostsForMonth(
     )
       continue;
     const flow = flows.get(transfer.resourceFlowId);
-    if (
-      flow?.jurisdictionId !== nation ||
-      flow.basisReference.kind !== "public-program"
-    )
-      continue;
+    if (!flow || flow.basisReference.kind !== "public-program") continue;
     const commitment = records.get(flow.basisReference.commitmentId);
     if (
       commitment?.kind !== "commitment" ||
-      commitment.jurisdictionId !== nation
+      commitment.jurisdictionId !== flow.jurisdictionId
     )
       continue;
     const appropriation = records.get(commitment.appropriationId);
     if (
       appropriation?.kind !== "appropriation" ||
-      appropriation.jurisdictionId !== nation ||
+      appropriation.jurisdictionId !== commitment.jurisdictionId ||
       !appropriation.sourceMeasureId
     )
       continue;
     const measure = measures.get(appropriation.sourceMeasureId);
     if (
-      measure?.jurisdictionId !== nation ||
+      measure?.jurisdictionId !== appropriation.jurisdictionId ||
       flow.source.kind !== "organization" ||
-      flow.source.organizationId !== appropriation.accountOrganizationId
+      flow.source.organizationId !== appropriation.accountOrganizationId ||
+      flow.recipient.kind !== "organization" ||
+      flow.recipient.organizationId !== commitment.recipientOrganizationId ||
+      commitment.programKey !== appropriation.programKey
     )
       continue;
     // The paid flow must be the saved installment of this exact commitment.
@@ -87,23 +86,28 @@ export function federalProgramCostsForMonth(
     if (
       !posted ||
       posted.commitmentId !== commitment.id ||
-      posted.installmentIndex !== flow.basisReference.installmentIndex
+      posted.installmentIndex !== flow.basisReference.installmentIndex ||
+      posted.jurisdictionId !== appropriation.jurisdictionId ||
+      posted.programKey !== appropriation.programKey ||
+      transfer.occurredAt < appropriation.availableFrom ||
+      transfer.occurredAt > appropriation.availableThrough
     )
       continue;
     const answers = measureAnswersAt(world, measure.id, transfer.sequence)
       .map((answer) => world.policyCatalog?.propositions[answer.propositionId])
-      .filter((p) => p?.stableKey.startsWith("us-federal-positions:"));
+      .filter((p) => p !== undefined);
     const proposition = answers.length === 1 ? answers[0] : undefined;
     const governing = proposition
       ? lawInForce(
           world,
-          nation,
+          appropriation.jurisdictionId,
           proposition.id,
           transfer.occurredAt,
           "enacted-only",
         )
       : null;
     const sourceRecordIds = [
+      measure.id,
       appropriation.id,
       commitment.id,
       posted.id,
@@ -115,12 +119,13 @@ export function federalProgramCostsForMonth(
         ? lawEffectStamp(governing, {
             effectKind: "government-program-payment",
             questionKey: proposition.stableKey,
-            jurisdictionId: nation,
+            jurisdictionId: appropriation.jurisdictionId,
             appliedAt: transfer.occurredAt,
             sourceRecordIds,
           })
         : null;
     result.push({
+      jurisdictionId: appropriation.jurisdictionId,
       transferId: transfer.id,
       sourceMeasureId: measure.id,
       programKey: commitment.programKey,
@@ -132,4 +137,15 @@ export function federalProgramCostsForMonth(
     });
   }
   return result;
+}
+
+/** Compatibility entry point; every government uses the same paid-chain reader. */
+export type FederalProgramCost = PublicProgramCost;
+export function federalProgramCostsForMonth(
+  world: World,
+  month: IsoDate,
+): readonly FederalProgramCost[] {
+  return publicProgramCostsForMonth(world, month).filter(
+    (cost) => cost.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id,
+  );
 }

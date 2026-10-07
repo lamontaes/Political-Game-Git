@@ -191,8 +191,6 @@ describe("what federal laws change in the outcome web", () => {
     const zeros = [
       "immigration-to-crime",
       "federal-mandatory-minimums-to-crime",
-      "housing-vouchers-to-graduation",
-      "housing-vouchers-to-crime",
       "top-income-tax-rate-to-poverty",
       "student-loan-forgiveness-to-poverty",
     ].map(link);
@@ -203,6 +201,32 @@ describe("what federal laws change in the outcome web", () => {
         evidence: "about-zero",
       });
       expect(outcomeLinkStatus(row)).toBe("about-zero");
+      for (const place of STATES)
+        expect(
+          outcomeFactor(world, place.id, row.to, world.currentDate).causes.map(
+            (cause) => cause.key,
+          ),
+          `${place.name}: ${row.key}`,
+        ).not.toContain(row.key);
+    }
+  });
+
+  it("leaves vouchers' effects on schooling and arrests as evidence gaps, not zeros, and they move nothing", () => {
+    // The Chicago lottery's schooling and arrest estimates were mostly
+    // insignificant, which is not a measured zero (CTO gap list A164).
+    const gaps = [
+      "housing-vouchers-to-graduation",
+      "housing-vouchers-to-crime",
+    ].map(link);
+    for (const row of gaps) {
+      expect(row, row?.key).toMatchObject({
+        size: null,
+        evidence: "to-confirm",
+      });
+      expect(outcomeLinkStatus(row)).not.toBe("built");
+      expect((row as unknown as { notes?: string }).notes, row.key).toMatch(
+        /^Evidence gap, not a measured zero/,
+      );
       for (const place of STATES)
         expect(
           outcomeFactor(world, place.id, row.to, world.currentDate).causes.map(

@@ -31,6 +31,15 @@ import { recordFiledProvision } from "../simulation/legislative-politics";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import type { World } from "../simulation/types";
 
+type SerializedTaxPins = {
+  history: {
+    legislativeDraftLineages: Array<{
+      familyVersion: string;
+      parameters: Array<Record<string, unknown>>;
+    }>;
+  };
+};
+
 function filed(chamber = "house") {
   const member = suppliedLegislativeSeat("US-AK", chamber);
   const beforeWorld = advanceWorld(
@@ -49,6 +58,54 @@ function filed(chamber = "house") {
 describe("F pinned ordinary revenue identity and explicit S input contract", () => {
   it("reaches the canonical tax measure and offers only its bill-bound revenue sitting, never the appropriation sitting's decisions", () => {
     const result = filed();
+    const measure = result.world.history.legislativeMeasures!.find(
+      (row) => row.id === result.measureId,
+    )!;
+    const question = Object.values(
+      result.world.policyCatalog.propositions,
+    ).find((row) => row.stableKey === "us-tax-terms:state.excise-tax-terms")!;
+    expect(measure.propositionIds).toEqual([question.id]);
+    expect(measure.propositionAnswers).toEqual([
+      { propositionId: question.id, answer: "yes" },
+    ]);
+    const proposal = result.world.history.taxProposals!.find(
+      (row) => row.measureId === result.measureId,
+    )!;
+    const levy = result.world.history.legislativeProvisions!.find(
+      (row) => row.id === proposal.levyProvisionId,
+    )!;
+    expect(levy.lawTerms).toEqual([
+      {
+        questionKey: question.stableKey,
+        key: "tax.rate-numerator",
+        value: 5,
+        unit: "count",
+      },
+      {
+        questionKey: question.stableKey,
+        key: "tax.rate-denominator",
+        value: 100,
+        unit: "count",
+      },
+      {
+        questionKey: question.stableKey,
+        key: "tax.occurrence-allowance",
+        value: 100,
+        unit: "minor",
+      },
+      {
+        questionKey: question.stableKey,
+        key: "tax.effective-delay",
+        value: 90,
+        unit: "days",
+      },
+      {
+        questionKey: question.stableKey,
+        key: "tax.collection-lag",
+        value: 2,
+        unit: "days",
+      },
+    ]);
     const input = {
       measureId: result.measureId,
       playerPersonId: result.personId,
@@ -189,11 +246,11 @@ describe("F pinned ordinary revenue identity and explicit S input contract", () 
   it("refuses tampered compiler/source/terms pins on import", () => {
     const result = filed();
     for (const alter of [
-      (world: World) => {
+      (world: SerializedTaxPins) => {
         world.history.legislativeDraftLineages![0]!.familyVersion =
           "false-version";
       },
-      (world: World) => {
+      (world: SerializedTaxPins) => {
         world.history.legislativeDraftLineages![0]!.parameters[0] = {
           ...world.history.legislativeDraftLineages![0]!.parameters[0]!,
           value: "false-source",
@@ -201,7 +258,7 @@ describe("F pinned ordinary revenue identity and explicit S input contract", () 
       },
     ]) {
       const snapshot = JSON.parse(serializeWorld(result.world)) as {
-        world: World;
+        world: SerializedTaxPins;
         snapshotId: string;
       };
       alter(snapshot.world);
@@ -213,7 +270,10 @@ describe("F pinned ordinary revenue identity and explicit S input contract", () 
         /Tax draft identity/,
       );
       expect(
-        readFiledTaxContentIdentity(snapshot.world, result.measureId).kind,
+        readFiledTaxContentIdentity(
+          snapshot.world as unknown as World,
+          result.measureId,
+        ).kind,
       ).toBe("unavailable");
     }
   });

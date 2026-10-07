@@ -1,5 +1,5 @@
 import { runtimeArtMetadata } from "../presentation/runtime-art";
-import bundledManifest from "../../art/manifest/asset_manifest.json";
+import bundledManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
 import { repositoryVisualUrls } from "../presentation/visual-integration";
 import { artPreviewMode } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";

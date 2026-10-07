@@ -1,3 +1,17 @@
+import {
+  CHIEF_JUSTICE_VACANCY_VERSION,
+  CHIEF_JUSTICE_NOMINATION,
+  CHIEF_JUSTICE_CONFIRMATION,
+  CHIEF_JUSTICE_NOMINATED_EVENT,
+  CHIEF_JUSTICE_VACANCY_PROFILE,
+} from "./supreme-court-appointment-profile";
+export {
+  CHIEF_JUSTICE_VACANCY_VERSION,
+  CHIEF_JUSTICE_NOMINATION,
+  CHIEF_JUSTICE_CONFIRMATION,
+  CHIEF_JUSTICE_NOMINATED_EVENT,
+  CHIEF_JUSTICE_VACANCY_PROFILE,
+} from "./supreme-court-appointment-profile";
 import { addDays, makeIsoDate } from "../dates";
 import { currentPresidentOf } from "../crisis/offices";
 import {
@@ -25,7 +39,6 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import {
-  SUPREME_COURT_APPOINTMENT_PROFILE,
   SUPREME_COURT_VOTE_EVENT,
   associateJusticeSeatsHeldBy,
   briefSenateOnNominee,
@@ -56,23 +69,6 @@ import {
  * Still not modeled: a vacancy with no sitting President waits, and the game
  * does not yet reopen the nomination when a President takes office.
  */
-export const CHIEF_JUSTICE_VACANCY_VERSION =
-  "governing-chief-justice-vacancy-v1";
-export const CHIEF_JUSTICE_NOMINATION =
-  "governing:chief-justice-nomination" as const;
-export const CHIEF_JUSTICE_CONFIRMATION =
-  "governing:chief-justice-confirmation" as const;
-export const CHIEF_JUSTICE_NOMINATED_EVENT =
-  "governing.chief-justice-nominated" as const;
-
-export const CHIEF_JUSTICE_VACANCY_PROFILE = {
-  id: "ocd-chief-justice-vacancy-game-profile/v1",
-  daysFromVacancyToNomination:
-    SUPREME_COURT_APPOINTMENT_PROFILE.daysFromVacancyToNomination,
-  daysFromNominationToConfirmation:
-    SUPREME_COURT_APPOINTMENT_PROFILE.daysFromNominationToVote,
-} as const;
-
 const ADULT_AGE = 18;
 
 const CHIEF_JUSTICE_TITLE = "Chief Justice of the United States";
@@ -362,7 +358,7 @@ export function confirmChiefJustice(
     return resolved(world, "The office of Chief Justice is already filled.");
   const nominee = world.people[nomineeId];
   const president = currentPresidentOf(world);
-  const nominatedBy = world.history.events
+  const nomination = world.history.events
     .filter(
       (event) =>
         event.type === CHIEF_JUSTICE_NOMINATED_EVENT &&
@@ -371,8 +367,10 @@ export function confirmChiefJustice(
           (row) => row.role === "focus:subject" && row.personId === nomineeId,
         ),
     )
-    .at(-1)
-    ?.participants.find((row) => row.role === "focus:actor")?.personId;
+    .at(-1);
+  const nominatedBy = nomination?.participants.find(
+    (row) => row.role === "focus:actor",
+  )?.personId;
   if (
     !nominee ||
     isDead(world, nomineeId) ||
@@ -394,6 +392,8 @@ export function confirmChiefJustice(
     stableKey: due.stableKey,
     nomineeId,
     presidentId: president.personId,
+    nominationEventId: nomination!.id,
+    officeKey: "us-chief-justice",
   });
   if (!vote)
     return pending(
@@ -409,6 +409,15 @@ export function confirmChiefJustice(
     vote,
     tags: ["office:us-chief-justice", `vacancy:${vacancyDate}`],
   }).world;
+  if (vote.yeas + vote.nays === 0)
+    return {
+      world: next,
+      status: "blocked",
+      reasonKey: "governing:senate-no-decision",
+      context:
+        "The Senate recorded no yes or no vote; the Chief Justice nomination remains pending.",
+      outcomeEventId: next.history.events.at(-1)!.id,
+    };
   if (!vote.confirmed)
     return resolved(
       scheduleNomination(next, vacancyDate, president.personId),

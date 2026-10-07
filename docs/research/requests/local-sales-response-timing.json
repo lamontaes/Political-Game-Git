@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-10-01T10:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "town economy",
+  "notes": [
+    "Under the CTO's A71 ruling of 10/1, local-serving sales respond to the town's pay with Moretti's long-run elasticity, 0.335, and the response builds over time instead of landing in full each quarter. It builds on the outcome web's half-life shape (acuteWeight), with half the gap closing in TOWN_FINANCE_POLICY.business.localDemandHalfLifeDays, set by hand at 1,095 days.",
+    "Moretti measures the response over census decades (1980 to 1990 and 1990 to 2000), so the full response is a ten-year one; how fast it arrives within those ten years is not measured there."
+  ],
+  "priority": "P2",
+  "question": "After a lasting change in a town's tradable employment or payroll, how fast do its local-serving businesses' sales or jobs follow: what share of the long-run response arrives in the first year, by three years, and by ten?",
+  "questionId": "local-sales-response-timing",
+  "relatedQuestionIds": ["local-sales-response-to-town-pay"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "Moretti, Local Multipliers, AER Papers and Proceedings 100(2), 2010",
+      "whatItDidNotSettle": "Ten-year changes only; no path within the decade."
+    },
+    {
+      "source": "Nguyen and Soh, Employment Multipliers over the Business Cycle, World Bank Policy Research Working Paper 8105, 2017",
+      "whatItDidNotSettle": "Reports year-by-year county offsets of job changes, not the build-up of local-serving sales toward a long-run elasticity; not converted."
+    }
+  ],
+  "title": "How fast a town's local sales catch up with its pay",
+  "usableAnswer": "The share of the long-run local-serving response realized at one, three and ten years after a lasting local payroll change (or a half-life), from a named study using county or metro panels, so the half-life can be read as data rather than set by hand.",
+  "whyItMatters": "It decides whether a plant closing or a raise shows on main street within a season or over years, which is what a player watching the town after their law sees."
+}

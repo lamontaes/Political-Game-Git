@@ -1,0 +1,87 @@
+[
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-ND",
+    "name": "Anika Terry",
+    "personId": "person_5a1142e471747aec",
+    "referralId": "event_accf9e5369718b01",
+    "trialAt": "2026-07-04",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-MA",
+    "name": "Anika Terry",
+    "personId": "person_5a1142e471747aec",
+    "referralId": "event_acd2895369739d29",
+    "trialAt": "2026-07-04",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-HI",
+    "name": "Anika Terry",
+    "personId": "person_5a1142e471747aec",
+    "referralId": "event_acc84d53696ae2b0",
+    "trialAt": "2026-07-04",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-IA",
+    "name": "Anika Terry",
+    "personId": "person_5a1142e471747aec",
+    "referralId": "event_acc571536968ea05",
+    "trialAt": "2026-07-04",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-CA",
+    "name": "Anika Terry",
+    "personId": "person_5a1142e471747aec",
+    "referralId": "event_acd955536979637b",
+    "trialAt": "2026-07-04",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true
+  }
+]

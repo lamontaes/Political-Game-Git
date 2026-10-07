@@ -352,22 +352,60 @@ describe("player President shares the executive desk and legal window", () => {
         );
         expect(presidentDesk(reopened, measure)).toBe(reopened);
       }
+      const actualRulePack = procedures.legislativeRulePackForWorld;
       const basis = vi
         .spyOn(procedures, "legislativeRulePackForWorld")
-        .mockReturnValue({
-          ...US_CONGRESS_RULE_PACK,
-          executive: {
-            ...US_CONGRESS_RULE_PACK.executive,
-            actionWindowDayBasisInSession: {
-              kind: "unknown",
-              note: "Test of an unsupported day basis.",
+        .mockImplementation((world, packId) => {
+          const pack = actualRulePack(world, packId);
+          if (packId !== US_CONGRESS_PACK_ID) return pack;
+          return {
+            ...pack,
+            executive: {
+              ...pack.executive,
+              actionWindowDayBasisInSession: {
+                kind: "unknown",
+                note: "Test of an unsupported day basis.",
+              },
             },
-          },
+          };
         });
       try {
         expect(
           executive.executiveBillActionWindow(restored, measure),
         ).toBeNull();
+        // Missing legal data does not invent a ten-day desk deadline.
+        const unknown = presidentDesk(fixture.world, measure);
+        const unsupported = governingMatters(unknown, "us-president").find(
+          (entry) => entry.measureId === measure.id,
+        )!;
+        expect(unsupported.deadline).toBeNull();
+        expect(
+          unsupported.openedEvent.tags.some((tag) =>
+            tag.startsWith("deadline:"),
+          ),
+        ).toBe(false);
+        expect(
+          unknown.history.futureDueItems.some(
+            (item) =>
+              item.transitionKey === GOVERNING_DEADLINE &&
+              item.entityIds.includes(unsupported.id),
+          ),
+        ).toBe(false);
+        const briefing = projectGoverningBriefing(unknown, president.personId)!;
+        const shown = [...briefing.significant, ...briefing.more].find(
+          (entry) => entry.id === unsupported.id,
+        )!;
+        expect(shown.deadline).toBeNull();
+        expect(shown.daysLeft).toBeNull();
+        const continuedUnknown = deserializeWorld(serializeWorld(unknown));
+        expect(
+          governingMatterById(continuedUnknown, unsupported.id)?.deadline,
+        ).toBeNull();
+        expect(presidentDesk(continuedUnknown, measure)).toBe(continuedUnknown);
+        // Previously saved fallback dates are not promoted to legal authority.
+        expect(governingMatterById(restored, matter.id)?.deadline).toBeNull();
+        expect(governingDeadlineHandler(late, due).world).toBe(late);
+        expect(late.history.executiveDispositions ?? []).toHaveLength(0);
       } finally {
         basis.mockRestore();
       }

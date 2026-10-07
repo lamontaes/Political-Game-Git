@@ -1,7 +1,9 @@
 import {
+  officialOpinionSubject,
   partyOpinionSubject,
   privateBeliefSubjectId,
   requirePartyQuestion,
+  type OfficialOpinionSubject,
   type PartyOpinionSubject,
 } from "./political-opinion-subjects";
 import {
@@ -52,7 +54,7 @@ export interface PoliticalBeliefFormationInput {
   readonly stableKey: string;
   readonly personId: EntityId;
   readonly propositionId?: EntityId;
-  readonly subject?: PartyOpinionSubject;
+  readonly subject?: PoliticalOpinionSubject;
   readonly cutoff?: HistoricalCutoff;
   readonly perceptionIds?: readonly EntityId[];
   readonly factors?: readonly PoliticalBeliefFormationFactor[];
@@ -71,10 +73,14 @@ export interface PoliticalBeliefDimensions {
   readonly flexibility: PoliticalFlexibility;
 }
 
+/** A belief subject that is not a policy proposition. */
+export type PoliticalOpinionSubject =
+  PartyOpinionSubject | OfficialOpinionSubject;
+
 export interface PoliticalBeliefFormationProposal {
   readonly personId: EntityId;
   readonly propositionId: EntityId | null;
-  readonly subject?: PartyOpinionSubject;
+  readonly subject?: PoliticalOpinionSubject;
   readonly outcome: PoliticalBeliefFormationOutcome;
   readonly beliefDimensions: PoliticalBeliefDimensions | null;
   readonly evaluation: DecisionEvaluation;
@@ -96,13 +102,9 @@ export function evaluatePoliticalBeliefFormation(
 ): PoliticalBeliefFormationProposal {
   const person = world.people[input.personId];
   if (!person) throw new Error(`Missing person: ${input.personId}`);
-  if (input.subject && input.subject.kind !== "party-question")
-    throw new Error("Invalid political opinion subject kind.");
-  const subject = input.subject
-    ? partyOpinionSubject(input.subject.key)
-    : undefined;
+  const subject = canonicalSubject(world, input);
   if (subject && input.propositionId !== undefined)
-    throw new Error("A party subject is not a policy proposition.");
+    throw new Error("A party or official subject is not a policy proposition.");
   if (
     !subject &&
     (!input.propositionId ||
@@ -112,15 +114,16 @@ export function evaluatePoliticalBeliefFormation(
   }
   const propositionId = subject ? null : input.propositionId!;
   const subjectId = privateBeliefSubjectId({ propositionId, subject });
-  const outcomes: readonly PoliticalBeliefFormationOutcome[] = subject
-    ? [
-        "no-opinion",
-        "defer",
-        ...requirePartyQuestion(subject.key).options.map(
-          (option) => `option:${option.key}` as const,
-        ),
-      ]
-    : OUTCOMES;
+  const outcomes: readonly PoliticalBeliefFormationOutcome[] =
+    subject?.kind === "party-question"
+      ? [
+          "no-opinion",
+          "defer",
+          ...requirePartyQuestion(subject.key).options.map(
+            (option) => `option:${option.key}` as const,
+          ),
+        ]
+      : OUTCOMES;
   const cutoff = input.cutoff ?? {
     asOfDate: world.currentDate,
     historySequenceExclusive: world.history.nextSequence,
@@ -173,17 +176,7 @@ export function evaluatePoliticalBeliefFormation(
     decisionType: "political-belief-formation",
     actorPersonId: input.personId,
     cutoff,
-    subject: subject
-      ? {
-          kind: "domain:party-question",
-          key: `party-question:${subject.key}`,
-          entityId: null,
-        }
-      : {
-          kind: "domain:policy-proposition",
-          key: `proposition:${propositionId}`,
-          entityId: propositionId,
-        },
+    subject: decisionSubjectFor(subject, propositionId),
     options: outcomes.map((outcome) => ({
       key: outcome,
       label: outcome.replaceAll("-", " "),
@@ -220,6 +213,49 @@ export function evaluatePoliticalBeliefFormation(
     outcome: politicalOutcome,
     beliefDimensions,
     evaluation,
+  };
+}
+
+/** The subject as the pipeline records it, refused when it names nothing. */
+function canonicalSubject(
+  world: World,
+  input: PoliticalBeliefFormationInput,
+): PoliticalOpinionSubject | undefined {
+  if (!input.subject) return undefined;
+  if (input.subject.kind === "party-question")
+    return partyOpinionSubject(input.subject.key);
+  if (input.subject.kind === "official") {
+    if (
+      !world.people[input.subject.personId] ||
+      input.subject.personId === input.personId
+    )
+      throw new Error("A view of an official names another person.");
+    return officialOpinionSubject(input.subject.personId);
+  }
+  throw new Error("Invalid political opinion subject kind.");
+}
+
+/** The decision trace's subject for a belief's subject. */
+function decisionSubjectFor(
+  subject: PoliticalOpinionSubject | undefined,
+  propositionId: EntityId | null,
+) {
+  if (subject?.kind === "party-question")
+    return {
+      kind: "domain:party-question" as const,
+      key: `party-question:${subject.key}`,
+      entityId: null,
+    };
+  if (subject?.kind === "official")
+    return {
+      kind: "entity:official" as const,
+      key: `official:${subject.personId}`,
+      entityId: subject.personId,
+    };
+  return {
+    kind: "domain:policy-proposition" as const,
+    key: `proposition:${propositionId}`,
+    entityId: propositionId,
   };
 }
 
@@ -279,17 +315,10 @@ export function applyNpcPoliticalBeliefFormation(
 ): World {
   assertNpcAutonomousApplication(world, proposal.personId);
   const subjectId = privateBeliefSubjectId(proposal);
-  const expectedSubject = proposal.subject
-    ? {
-        kind: "domain:party-question",
-        key: `party-question:${proposal.subject.key}`,
-        entityId: null,
-      }
-    : {
-        kind: "domain:policy-proposition",
-        key: `proposition:${proposal.propositionId}`,
-        entityId: proposal.propositionId,
-      };
+  const expectedSubject = decisionSubjectFor(
+    proposal.subject,
+    proposal.propositionId,
+  );
   if (
     proposal.evaluation.context.actorPersonId !== proposal.personId ||
     proposal.evaluation.context.subject.entityId !== expectedSubject.entityId ||
@@ -344,12 +373,14 @@ export function applyNpcPoliticalBeliefFormation(
     personId: proposal.personId,
     propositionId: proposal.propositionId,
     formedAt: proposal.evaluation.context.cutoff.asOfDate,
-    ...(proposal.subject
+    ...(proposal.subject?.kind === "party-question"
       ? {
           subject: proposal.subject,
           optionKey: proposal.outcome.slice("option:".length),
         }
-      : {}),
+      : proposal.subject
+        ? { subject: proposal.subject }
+        : {}),
     position: positionForOutcome(proposal.outcome),
     ...beliefDimensions,
     rationale: `Autonomous proposal selected ${proposal.outcome}; see durable decision trace.`,

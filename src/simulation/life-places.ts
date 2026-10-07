@@ -1007,39 +1007,12 @@ function findStateJurisdiction(key: string): Jurisdiction | null {
  * moment two jurisdictions share one, and says nothing about identity.
  *
  * A new state jurisdiction does not belong here. It takes the corpus form.
+ * The readers live in `state-jurisdiction-id.ts`, a leaf, and are re-exported.
  */
-const AUTHORED_STATE_JURISDICTION_SLUGS: Readonly<Record<string, string>> = {
-  "us-ky-commonwealth-placeholder": "US-KY",
-  "us-ne-state-placeholder": "US-NE",
-  "us-ak-state-placeholder": "US-AK",
-};
-
-/** The corpus form: `state-us-ky-placeholder`. */
-const CORPUS_STATE_SLUG = /^state-(us-[a-z]{2})-placeholder$/;
-
-/**
- * The state key a jurisdiction slug names, or null if the slug does not name a
- * state. A slug this module does not recognize is not a state by default:
- * unknown is unknown, never a guess at the nearest state.
- */
-export function stateKeyForJurisdictionSlug(slug: string): string | null {
-  const authored = AUTHORED_STATE_JURISDICTION_SLUGS[slug];
-  if (authored) return authored;
-  const corpus = CORPUS_STATE_SLUG.exec(slug);
-  if (!corpus) return null;
-  const key = corpus[1]!.toUpperCase();
-  return STATES[key.slice(3)] ? key : null;
-}
-
-/**
- * The state key a jurisdiction record belongs to, whichever path minted it.
- * A locality is not its state, so a city record answers null.
- */
-export function stateKeyForJurisdiction(
-  jurisdiction: Pick<Jurisdiction, "slug">,
-): string | null {
-  return stateKeyForJurisdictionSlug(jurisdiction.slug);
-}
+export {
+  stateKeyForJurisdiction,
+  stateKeyForJurisdictionSlug,
+} from "./state-jurisdiction-id";
 
 export function lifePlaceByKey(key: string): LifePlace | null {
   return acceptedLifePlaceProvider.byKey(key);

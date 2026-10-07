@@ -1,0 +1,26 @@
+{
+  "filedAt": "2026-10-01T06:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "justice and public safety",
+  "notes": [
+    "Audit gap A107. src/simulation/justice/prosecution.ts sets every case's timing by hand (UNRESEARCHED_PROSECUTION): 60 days from referral to the decision to charge, and 120 days from the charge to a plea or trial (and from a mistrial to a retrial), the same in every place. This question asks only for the timing; sentence ranges stay with criminal-sentence-consequences."
+  ],
+  "priority": "P2",
+  "question": "How long does a criminal case take, from arrest or referral to the charging decision, and from the charge to its disposition by plea, dismissal or trial, for felonies and misdemeanors, in each state? How much longer is it for a defendant held in jail versus released, and for a case that goes to trial versus one that ends in a plea?",
+  "questionId": "criminal-time-to-disposition",
+  "relatedQuestionIds": [
+    "criminal-sentence-consequences",
+    "bail-schedules-by-state"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "The game's prosecution rules (src/simulation/justice/prosecution.ts, UNRESEARCHED_PROSECUTION)",
+      "whatItDidNotSettle": "Hand-set national day counts with no source; no difference by state, charge level, custody or how the case ends."
+    }
+  ],
+  "title": "How long a criminal case takes, by state",
+  "usableAnswer": "Median and middle-half days (a) from arrest to filing or the charging decision and (b) from filing to disposition, split by felony or misdemeanor, by custody (detained or released) and by how the case ended (plea, dismissal, trial), with the year. Name the dataset for each: Bureau of Justice Statistics State Court Processing Statistics (Felony Defendants in Large Urban Counties) for the national felony baseline, and the National Center for State Courts' Court Statistics Project or a state judiciary's annual report (time-to-disposition / CourTools Measure 3) for the state figures. Cover all 56 places where a source exists, and say where none does.",
+  "whyItMatters": "How long a case runs decides how long a defendant held on bail sits in jail, when a trial lands against an election or a session, and what a speedy-trial or bail law changes. Hand-set national days make every place's courts identical and give a court-reform law nothing real to move."
+}

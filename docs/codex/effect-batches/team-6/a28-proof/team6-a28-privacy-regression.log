@@ -1,0 +1,49 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/federal-data-privacy-law.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-a28-privacy-regression.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/federal-data-privacy-law.test.ts (4 tests | 1 failed) 82ms
+     ✓ keeps a read-only cost stable across repeated reads and reloading 37ms
+     × does not change a recorded law's compliance cost when only the seed changes 20ms
+     ✓ stamps the controlling federal law at the consequence's application place 8ms
+     ✓ does not stamp an absent, future or repealed compliance duty 15ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/federal-data-privacy-law.test.ts > federal privacy compliance cost attribution > does not change a recorded law's compliance cost when only the seed changes
+AssertionError: expected { share: 0.0018672662544995547, …(2) } to deeply equal { share: 0.0019369796683313327, …(2) }
+
+- Expected
++ Received
+
+@@ -15,7 +15,7 @@
+      },
+    ],
+    "lawMeasureIds": [
+      "measure_privacy_fixture",
+    ],
+-   "share": 0.0019369796683313327,
++   "share": 0.0018672662544995547,
+  }
+
+ ❯ src/simulation/federal-data-privacy-law.test.ts:101:9
+     99|       expect(
+    100|         dataPrivacyCostOn(comparison, comparison.currentDate, place),
+    101|       ).toEqual(expected);
+       |         ^
+    102|     }
+    103|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  08:27:07
+   Duration  10.64s (transform 8.44s, setup 19ms, import 10.42s, tests 82ms, environment 1ms)
+
+JSON report written to /tmp/team6-a28-privacy-regression.json

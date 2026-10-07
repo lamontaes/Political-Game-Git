@@ -1,11 +1,9 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
-import { passOrdinaryDays } from "../../presentation/ordinary-life";
-import { searchLifePlaces } from "../index";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { advanceWorld } from "../world";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { ensureMacroEconomyStarted } from "./producer";
+import { startValuesFromLatents } from "./kernel";
 import {
   createResourceFlow,
   money,
@@ -18,35 +16,88 @@ import {
 import type { EntityId, World } from "../types";
 import { createOrganization } from "../life";
 import { recordWorldEvent } from "../world";
-import {
-  CHANGE_AUTHORED_IMPULSES,
-  UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS,
-} from "./policy";
+import { CHANGE_AUTHORED_IMPULSES } from "./policy";
 import { macroScopeForJurisdiction } from "./readers";
+import {
+  recordWorldMetricState,
+  worldMetricDefinitionByStableKey,
+} from "../world-metrics";
+import { monthStart, monthEnd, monthKeyOf } from "./store";
+import { simulationMomentOnLocalDate } from "../dates";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
+import { SeededRng, pickDistinct } from "../rng";
+
+// Controlled aggregate-income fixture, not a simulation policy or coverage claim.
+const TEST_PERSONAL_INCOME_MINOR = 5_000_000_000;
 
 const SLOW = 900_000;
 let opening: World;
 let home: EntityId;
 let playerId: EntityId;
 
-// An Oregon life: the reader is jurisdiction-neutral, so the test says so.
+// The consumer needs saved transfers and the canonical monthly macro clock,
+// not an unrelated age-40 generated biography or the ordinary-life UI loop.
+const registry = createCampaignElectionTransitionRegistry();
+const passOrdinaryDays = (world: World, days: number) =>
+  advanceWorld(world, days, registry);
 beforeAll(() => {
-  const place = searchLifePlaces("", 1, {
-    stateJurisdictionKey: "US-OR",
-    scope: "locality",
-  })[0]!;
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed: "public-money-origins",
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped" as const,
-    }),
-  ).game!;
-  opening = game.world;
-  playerId = game.playerPersonId;
-  home = opening.people[playerId]!.homeJurisdictionId;
+  const place = pickDistinct(
+    new SeededRng("public-money-origins"),
+    lifePlaceStateIdentities(),
+    1,
+  )[0]!;
+  const small = smallWorld({
+    place: place.jurisdictionKey,
+    seed: "public-money-origins",
+    date: "2026-01-31",
+  });
+  opening = small.world;
+  playerId = small.personId;
+  home = stateJurisdictionForKey(place.jurisdictionKey)!.id;
+  const latents = { cycle: 0, cost: 0, housing: 0, credit: 0 };
+  opening = ensureMacroEconomyStarted(opening, {
+    contractVersion: "crunch46-macro-start/v1",
+    policyVersion: "crunch46-provisional-v1",
+    regime: "near-reference",
+    volatilityScale: 0,
+    latents,
+    initial: startValuesFromLatents("near-reference", latents),
+    effectiveDate: opening.currentDate,
+  });
+  // Anchor this controlled integration fixture at month end: the canonical
+  // writer cannot admit a completed month's aggregate income before then.
+  const month = monthKeyOf(opening.currentDate);
+  opening = {
+    ...opening,
+    currentDate: monthEnd(month),
+    currentMoment: simulationMomentOnLocalDate(
+      opening.currentMoment,
+      monthEnd(month),
+    ),
+  };
+  opening = recordWorldMetricState(opening, {
+    stableKey: "public-money-test:personal-income",
+    metricId: worldMetricDefinitionByStableKey(
+      opening,
+      "income.aggregate-personal",
+    ).id,
+    scope: { jurisdictionId: home, segmentKey: null },
+    referencePeriod: {
+      kind: "interval",
+      startsAt: monthStart(month),
+      endsAt: monthEnd(month),
+    },
+    value: { kind: "money", money: money(TEST_PERSONAL_INCOME_MINOR, "USD") },
+    recordedAt: opening.currentDate,
+    provenance: {
+      kind: "authored",
+      note: "Controlled monthly personal-income total; not ordinary producer coverage.",
+    },
+    supersedesStateId: null,
+  });
 }, SLOW);
 
 /**
@@ -150,7 +201,7 @@ const national = (w: World) =>
 
 describe("realized public money reaches the economy", { timeout: SLOW }, () => {
   it("public spending paid lifts that place's own growth, not the nation's", () => {
-    const amount = UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS / 2;
+    const amount = TEST_PERSONAL_INCOME_MINOR / 2;
     const plain = passOrdinaryDays(opening, 40);
     const spent = passOrdinaryDays(
       realizedPublicMoney(opening, "spending", amount),
@@ -177,11 +228,7 @@ describe("realized public money reaches the economy", { timeout: SLOW }, () => {
 
   it("tax collected takes demand out; it is never a windfall", () => {
     const taxed = passOrdinaryDays(
-      realizedPublicMoney(
-        opening,
-        "taxes",
-        UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS * 3,
-      ),
+      realizedPublicMoney(opening, "taxes", TEST_PERSONAL_INCOME_MINOR * 3),
       40,
     );
     const shock = taxed.macroEconomy!.shocks.find(
@@ -210,18 +257,18 @@ describe("realized public money reaches the economy", { timeout: SLOW }, () => {
     );
     expect(shocks).toHaveLength(1);
     expect(shocks[0]!.intensity).toBeCloseTo(
-      3_000_000_00 / UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS,
+      3_000_000_00 / TEST_PERSONAL_INCOME_MINOR,
       6,
     );
   });
 
-  it("ignores amounts too small to register", () => {
+  it("retains small positive recorded income shares", () => {
     const tiny = passOrdinaryDays(
       realizedPublicMoney(opening, "taxes", 1_000),
       40,
     );
     expect(
       tiny.macroEconomy!.shocks.some((s) => s.kind === "tax-collections-paid"),
-    ).toBe(false);
+    ).toBe(true);
   });
 });

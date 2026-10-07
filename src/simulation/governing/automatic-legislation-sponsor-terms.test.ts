@@ -1,3 +1,6 @@
+import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
+import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
+import { governorOfficeForJurisdiction } from "./state-governing";
 import { beforeAll, describe, expect, it } from "vitest";
 import { createWorld, assertWorldIntegrity } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
@@ -5,14 +8,8 @@ import {
   createLegislativeScenario,
   type LegislativeScenario,
 } from "../legislation-scenarios";
-import {
-  introduceMeasure,
-  availableMeasureSteps,
-  measurePosition,
-  recordEnactment,
-} from "../legislation";
+import { introduceMeasure } from "../legislation";
 import { recordFiledProvision } from "../legislative-politics";
-import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { stateJurisdictionForKey } from "../life-places";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { serializeWorld, deserializeWorld } from "../serialization";
@@ -81,30 +78,15 @@ function file(
 }
 
 function enact(start: World, measureId: EntityId): World {
-  let next = start;
-  const context = {
-    ...scenario,
+  const office = governorOfficeForJurisdiction(
+    start,
+    scenario.pack.jurisdictionKey,
+  )!;
+  return enactThroughDesk(
+    { ...start, control: { kind: "person", personId: office.holderPersonId } },
     measureId,
-    governorAction: "signed" as const,
-    governorRationale: "Explicit favorable decision in a controlled test.",
-  };
-  for (let guard = 0; guard < 40; guard += 1) {
-    if (measurePosition(next, measureId).phase === "awaiting-enactment")
-      return recordEnactment(next, {
-        stableKey: `${measureId}:law`,
-        measureId,
-        effectiveAt: next.currentDate,
-      });
-    const step = availableMeasureSteps(next, measureId).find(
-      (key) => key !== "offer-amendment",
-    );
-    if (!step)
-      throw new Error(
-        `No canonical next step at ${measurePosition(next, measureId).phase}`,
-      );
-    next = applyLegislativeStep(context, next, step).world;
-  }
-  throw new Error("Controlled bill did not reach enactment.");
+    { context: scenario },
+  );
 }
 
 function strength(start: World, amount: number, oppose = false): World {
@@ -185,6 +167,11 @@ beforeAll(() => {
     jurisdictions: [...jurisdictions.values()],
     policyCatalog: catalog,
   });
+  world = ensureStateExecutiveIncumbent(
+    world,
+    scenario.playerPersonId,
+    scenario.pack.jurisdictionKey.slice(3),
+  );
   const baseline = file(world, "term-proof:baseline", 60);
   baselineId = baseline.measureId;
   world = enact(baseline.world, baselineId);

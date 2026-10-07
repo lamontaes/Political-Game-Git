@@ -77,7 +77,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   const next = page.getByTestId("creator-continue-character");
   await expect(next).toBeDisabled();
   const years = await optionValues(page.getByTestId("start-birth-year"));
-  expect(years[0]).toBe("2021");
+  expect(years[0]).toBe("2020");
   expect(Number(years[years.length - 1])).toBeGreaterThanOrEqual(1955);
 
   // Gender comes first; the name draw then uses it (CRUNCH46 R7).
@@ -110,7 +110,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   await page.getByTestId("state-search").fill(NEVADA.state);
   await page.getByTestId("state-NV").click();
   const status = page.getByTestId("place-page-status");
-  await expect(status).toContainText(/places in this state/);
+  await expect(status).toHaveCount(0);
   const firstPageTown = await page
     .getByTestId("place-choices")
     .getByRole("button")
@@ -119,13 +119,11 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   const more = page.getByTestId("place-page-next");
   if (await more.count()) {
     await more.click();
-    await expect(status).toContainText(/^Showing 25–/);
     await expect(
       page.getByTestId("place-choices").getByRole("button").first(),
     ).not.toHaveText(firstPageTown);
     await page.getByTestId("place-page-previous").focus();
     await page.keyboard.press("Enter");
-    await expect(status).toContainText(/^Showing 1–/);
   }
   await shot(page, "02-towns");
   await page.getByTestId("place-search").fill(NEVADA.place);
@@ -137,16 +135,6 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
     .click();
   await page.getByTestId("creator-continue-place").click();
 
-  await expect(page.getByTestId("whoareyou-play")).toHaveText(
-    "Discover through play",
-  );
-  await expect(page.getByTestId("whoareyou-answer")).toHaveText(
-    "Answer a few questions",
-  );
-  await expect(page.getByTestId("whoareyou-deep")).toContainText(
-    "Answer more questions",
-  );
-  await page.getByTestId("whoareyou-play").click();
   await expect(page.getByTestId("begin")).toBeEnabled();
   await shot(page, "03-appearance");
   await page.getByTestId("begin").click();

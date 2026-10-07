@@ -9,7 +9,6 @@ import {
   recordPersonDeath,
   type EntityId,
   type IsoDate,
-  type Person,
   type World,
 } from "../simulation";
 import {
@@ -28,12 +27,7 @@ import {
   beginHealthEpisode,
   crisisRecords,
   deathSentence,
-  drawDeathCause,
-  firstThresholdDay,
   latestHealthState,
-  personMortalityThreshold,
-  thresholdUnits,
-  type DeathCauseGroup,
 } from "../simulation/crisis";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { BEREAVEMENT_NOTICE_EVENT } from "../simulation/people-bereavement";
@@ -41,10 +35,11 @@ import { knownHealthNotices } from "./crisis-shell";
 import { deathNewsBetween } from "./death-news";
 import { composeConnectiveNarration } from "./life-narration";
 import { projectWorld39Journal } from "./world39-journal";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { requireLocalityInState } from "./new-game-geography";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { stableHash } from "../simulation/ids";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { ensureCrisisMortality } from "../simulation/crisis";
 import { projectObserverPerson } from "./observer-world";
-import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
 import { continueAs, projectLifeContinuation } from "./people-continuation";
 import { proseDate } from "./prose-dates";
@@ -53,26 +48,28 @@ import { letStoryTimePass, nextQuietMoment } from "./life-story";
 /**
  * A death has a cause (playtest: George Norris, Frostburg, Maryland, died at
  * 31 with no cause and no warning, and the quiet stretch ran seven weeks past
- * it). Not Kentucky: the fixture life is in Hagerstown, Maryland.
+ * it). The life is a small world in one place drawn from all 56 by the seed.
  */
+const PLACE_SEED = "death-has-a-cause-1";
+const STATES = lifePlaceStateIdentities();
+const STATE =
+  STATES[
+    Number(BigInt(`0x${stableHash(PLACE_SEED)}`) % BigInt(STATES.length))
+  ]!;
 
-const SLOW = 600_000;
+const SLOW = 60_000;
 
 function daysBetweenDates(from: IsoDate, to: IsoDate): number {
   return Math.round((Date.parse(to) - Date.parse(from)) / 864e5);
 }
 
-function hagerstownLife(seed: string) {
-  const home = requireLocalityInState("US-MD", "Hagerstown");
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      startAge: 31,
-      placeKey: home.key,
-    }),
-  ).game!;
-  return { world: game.world, playerId: game.playerPersonId };
+/** A played life in the drawn place, with ordinary mortality running. */
+function smallLife(seed: string) {
+  const small = smallWorld({ place: STATE.usps, people: 4, seed });
+  return {
+    world: ensureCrisisMortality(small.world),
+    playerId: small.personId,
+  };
 }
 
 function nextWindow(world: World): IsoDate {
@@ -97,47 +94,39 @@ interface Candidate {
   readonly key: string;
   readonly personId: EntityId;
   readonly birthDate: IsoDate;
-  /** The hazard death day, computed from the threshold model alone. */
-  readonly diesOn: IsoDate;
-  readonly leadDays: number;
 }
 
 /**
- * A person the hazard model kills within a year of first exposure, found by
- * trying stable keys before the person exists. The death day comes only from
- * the threshold and the hazard, never from the cause code.
+ * A 31-year-old who will exist in the world. Ruling 29: nobody's death is
+ * drawn, so a young person dies within a year only when a recorded condition
+ * drives their strain (`withCondition`).
  */
-function findHazardDeath(
-  world: World,
-  want: DeathCauseGroup,
-  label: string,
-): Candidate {
-  const window = nextWindow(world);
-  const birthDate = birthDateFor31(window);
-  for (let i = 0; i < 400_000; i += 1) {
-    const key = `test:md-kin:${label}:${i}`;
-    const personId = characterHistoryContextPersonId(world, key);
-    const diesOn = firstThresholdDay(
-      {
-        birthDate,
-        category: "equal-mixture",
-        exposureStart: window,
-        multipliers: [],
-      },
-      thresholdUnits(personMortalityThreshold(world, personId)),
-      window,
-      addDays(window, 330),
-    );
-    if (!diesOn || diesOn <= addDays(window, 1)) continue;
-    const stub: World = {
-      ...world,
-      people: { ...world.people, [personId]: { birthDate } as Person },
-    };
-    const draw = drawDeathCause(stub, personId, diesOn);
-    if (draw.group !== want) continue;
-    return { key, personId, birthDate, diesOn, leadDays: draw.leadDays };
-  }
-  throw new Error(`No ${want} death found.`);
+function kin(world: World, label: string): Candidate {
+  const key = `test:md-kin:${label}`;
+  return {
+    key,
+    personId: characterHistoryContextPersonId(world, key),
+    birthDate: birthDateFor31(nextWindow(world)),
+  };
+}
+
+/**
+ * A test-only recorded condition heavy enough that the person's strain
+ * crosses within months. Not clinical data.
+ */
+function withCondition(world: World, personId: EntityId): World {
+  return beginHealthEpisode(world, {
+    stableKey: `test-condition:${personId}`,
+    personId,
+    severity: "chronic",
+    initialLimitation: "none",
+    origin: { kind: "authored", note: "Test fixture condition only." },
+    causalParentIds: [],
+    hazard: {
+      micros: 400_000_000,
+      basis: "Test fixture only; not clinical data.",
+    },
+  });
 }
 
 /** Adds the candidate as the played character's sibling, in their town. */
@@ -179,6 +168,29 @@ function passUntil(world: World, date: IsoDate): World {
   return current;
 }
 
+/** Passes ordinary days until the person's serious episode has begun. */
+function passUntilIll(world: World, personId: EntityId): World {
+  let current = world;
+  for (
+    let i = 0;
+    i < 240 && fatalEpisodes(current, personId).length === 0;
+    i += 1
+  )
+    current = passOrdinaryDays(current, 5);
+  return current;
+}
+
+/** The day a serious episode ends in death, which its own key carries. */
+function diesOnOf(world: World, personId: EntityId): IsoDate {
+  const episode = fatalEpisodes(world, personId)[0];
+  if (!episode) throw new Error("No serious episode has begun.");
+  return episode.stableKey.slice(-10) as IsoDate;
+}
+
+function oldSaveSibling(world: World): Candidate {
+  return kin(world, "old-save");
+}
+
 function deathOf(world: World, personId: EntityId) {
   return world.history.personDeaths.find((d) => d.personId === personId);
 }
@@ -192,21 +204,39 @@ function fatalEpisodes(world: World, personId: EntityId) {
   );
 }
 
-describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
+describe(`a death has a cause (${STATE.name}, ${STATE.usps}, seed ${PLACE_SEED})`, () => {
   it(
-    "a 31-year-old's illness begins months ahead, the family is told, and the death keeps its day",
+    "a 31-year-old's illness begins when their recorded strain crosses, the family is told, and the death keeps its day",
     () => {
-      const { world, playerId } = hagerstownLife("md-death-course");
-      const candidate = findHazardDeath(world, "illness-with-course", "course");
-      const start = addSibling(world, playerId, candidate);
+      const { world, playerId } = smallLife("death-course");
+      const sibling = kin(world, "course");
+      const start = withCondition(
+        addSibling(world, playerId, sibling),
+        sibling.personId,
+      );
+      const ill = passUntilIll(start, sibling.personId);
+      const diesOn = diesOnOf(ill, sibling.personId);
+      const candidateDiesOn = { ...sibling, diesOn };
 
       // The day before the death: ill, known to the sibling, still alive.
-      const eve = passUntil(start, addDays(candidate.diesOn, -1));
+      const eve = passUntil(ill, addDays(diesOn, -1));
+      const candidate = candidateDiesOn;
       expect(deathOf(eve, candidate.personId)).toBeUndefined();
       const episodes = fatalEpisodes(eve, candidate.personId);
       expect(episodes).toHaveLength(1);
       const episode = episodes[0]!;
       expect(episode.effectiveAt < candidate.diesOn).toBe(true);
+      // It cites the recorded condition that drove the strain.
+      expect(
+        episode.causalParentIds.some((id) =>
+          crisisRecords(eve).some(
+            (record) =>
+              record.id === id &&
+              record.kind === "health-episode" &&
+              record.stableKey.includes("test-condition"),
+          ),
+        ),
+      ).toBe(true);
       expect(episode.kind === "health-episode" && episode.origin.kind).toBe(
         "authored",
       );
@@ -222,17 +252,14 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
       expect(known.map((notice) => notice.personId)).toContain(
         candidate.personId,
       );
-      // Nothing but the hazard day is pending for them: at most one death item
-      // (none when the day opens a window, which writes it directly), on it.
+      // Nothing but the episode's last day is pending for them: one death
+      // item, on it.
       const deathItems = eve.history.futureDueItems.filter(
         (item) =>
           item.transitionKey === MORTALITY_DEATH_KEY &&
           item.entityIds.includes(candidate.personId),
       );
-      expect(deathItems.length).toBeLessThanOrEqual(1);
-      expect(deathItems.every((item) => item.dueAt === candidate.diesOn)).toBe(
-        true,
-      );
+      expect(deathItems.map((item) => item.dueAt)).toEqual([candidate.diesOn]);
       expect(
         eve.history.futureDueItems.filter(
           (item) =>
@@ -244,7 +271,10 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
       const after = passOrdinaryDays(eve, 2);
       const death = deathOf(after, candidate.personId)!;
       expect(death.diedAt).toBe(candidate.diesOn);
-      expect(ageOnDate(candidate.birthDate, death.diedAt)).toBe(31);
+      // Young: 31 at first exposure, and dead within months of it.
+      expect(ageOnDate(candidate.birthDate, death.diedAt)).toBeLessThanOrEqual(
+        32,
+      );
       expect(death.causeKey).toBe(DEATH_CAUSE_ILLNESS_WITH_COURSE);
       expect(death.sourceEntityIds).toContain(episode.id);
       expect(latestHealthState(after, episode.id)?.state).toBe("deceased");
@@ -263,22 +293,37 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
   it(
     "a sibling's death in a multi-week stretch reaches the player once, with relation, name, cause and date",
     () => {
-      const { world, playerId } = hagerstownLife("md-death-notice");
-      const candidate = findHazardDeath(world, "illness-with-course", "notice");
-      const stranger = findHazardDeath(world, "injury", "stranger");
-      let start = addSibling(world, playerId, candidate);
+      const { world, playerId } = smallLife("death-notice");
+      const sibling = kin(world, "notice");
+      const strangerAt = kin(world, "stranger");
+      let start = addSibling(world, playerId, sibling);
       // Somebody in the same town with no tie to the player.
       start = createCharacterHistoryContextPerson(start, {
-        stableKey: stranger.key,
+        stableKey: strangerAt.key,
         givenName: "Casey",
         familyName: "Morrow",
-        birthDate: stranger.birthDate,
+        birthDate: strangerAt.birthDate,
         homeJurisdictionId: world.people[playerId]!.homeJurisdictionId,
       });
+      start = withCondition(
+        withCondition(start, sibling.personId),
+        strangerAt.personId,
+      );
+      // The same birth day and the same recorded condition: one onset day.
+      const ill = passUntilIll(start, sibling.personId);
+      const candidate_ = {
+        ...sibling,
+        diesOn: diesOnOf(ill, sibling.personId),
+      };
+      const stranger = {
+        ...strangerAt,
+        diesOn: diesOnOf(ill, strangerAt.personId),
+      };
+      expect(candidate_.diesOn > addDays(ill.currentDate, 20)).toBe(true);
       // Up to shortly before the death, then one long quiet stretch across it.
-      let current = passUntil(start, addDays(candidate.diesOn, -20));
+      let current = passUntil(ill, addDays(candidate_.diesOn, -20));
       const stretchFrom = current;
-      while (!deathOf(current, candidate.personId))
+      while (!deathOf(current, candidate_.personId))
         current = letStoryTimePass(current, playerId);
       expect(
         daysBetweenDates(stretchFrom.currentDate, current.currentDate),
@@ -291,7 +336,9 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
       );
       expect(deathOf(current, stranger.personId)).toBeDefined();
 
-      const expected = `Your younger sibling, Dana Keller, died after a serious illness on ${proseDate(candidate.diesOn)}.`;
+      const younger =
+        current.people[playerId]!.birthDate < candidate_.birthDate;
+      const expected = `Your ${younger ? "younger" : "older"} sibling, Dana Keller, died after a serious illness on ${proseDate(candidate_.diesOn)}.`;
       const told = (w: World) =>
         w.history.events.filter(
           (event) =>
@@ -303,7 +350,7 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
         );
       // Exactly one notice, for the sibling, dated the day of the death.
       expect(told(current)).toHaveLength(1);
-      expect(told(current)[0]!.occurredAt).toBe(candidate.diesOn);
+      expect(told(current)[0]!.occurredAt).toBe(candidate_.diesOn);
       expect(
         told(current)[0]!.involvedEntityIds.includes(stranger.personId),
       ).toBe(false);
@@ -342,8 +389,8 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
   it(
     "a death already in a save is not announced after the fact",
     () => {
-      const { world, playerId } = hagerstownLife("md-death-no-flood");
-      const candidate = findHazardDeath(world, "injury", "old-save");
+      const { world, playerId } = smallLife("death-no-flood");
+      const candidate = oldSaveSibling(world);
       const withSibling = addSibling(world, playerId, candidate);
       // Recorded the way a save from before notices held it: the death, and no
       // family notice.
@@ -379,45 +426,21 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
     SLOW,
   );
 
-  it(
-    "sudden illness and injury deaths happen on the hazard day, with a cause and no illness first",
-    () => {
-      const { world, playerId } = hagerstownLife("md-death-sudden");
-      const sudden = findHazardDeath(world, "sudden-illness", "sudden");
-      const injury = findHazardDeath(world, "injury", "injury");
-      const start = addSibling(
-        addSibling(world, playerId, sudden),
-        playerId,
-        injury,
-      );
-      const last =
-        sudden.diesOn > injury.diesOn ? sudden.diesOn : injury.diesOn;
-      const after = passUntil(start, addDays(last, 1));
-      for (const [candidate, key] of [
-        [sudden, DEATH_CAUSE_SUDDEN_ILLNESS],
-        [injury, DEATH_CAUSE_INJURY],
-      ] as const) {
-        const death = deathOf(after, candidate.personId)!;
-        expect(death.diedAt).toBe(candidate.diesOn);
-        expect(ageOnDate(candidate.birthDate, death.diedAt)).toBe(31);
-        expect(death.causeKey).toBe(key);
-        expect(fatalEpisodes(after, candidate.personId)).toEqual([]);
-      }
-      expect(
-        deathSentence("Dana Keller", DEATH_CAUSE_INJURY, "May 1, 2027"),
-      ).toBe("Dana Keller died in an accident on May 1, 2027.");
-      expect(
-        deathSentence("Dana Keller", DEATH_CAUSE_SUDDEN_ILLNESS, "May 1, 2027"),
-      ).toBe("Dana Keller died suddenly of an illness on May 1, 2027.");
-      assertWorldIntegrity(deserializeWorld(serializeWorld(after)));
-    },
-    SLOW,
-  );
+  it("still says an older save's sudden-illness and injury deaths as they were written", () => {
+    // Ruling 29 writes every K1 death after a serious episode; these keys
+    // remain only in saves from before it.
+    expect(
+      deathSentence("Dana Keller", DEATH_CAUSE_INJURY, "May 1, 2027"),
+    ).toBe("Dana Keller died in an accident on May 1, 2027.");
+    expect(
+      deathSentence("Dana Keller", DEATH_CAUSE_SUDDEN_ILLNESS, "May 1, 2027"),
+    ).toBe("Dana Keller died suddenly of an illness on May 1, 2027.");
+  });
 
   it(
     "a long quiet stretch ends on the day the played character dies, and says how",
     () => {
-      const { world, playerId } = hagerstownLife("md-death-stop");
+      const { world, playerId } = smallLife("death-stop");
       // A test-only hazard on the played character so the death falls inside
       // the stretches below. The stop is what is under test, not the hazard.
       let current = beginHealthEpisode(world, {
@@ -456,10 +479,7 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
       const reopened = deserializeWorld(serializeWorld(current));
       assertWorldIntegrity(reopened);
       expect(reopened.currentDate).toBe(death!.diedAt);
-      expect([
-        DEATH_CAUSE_SUDDEN_ILLNESS,
-        DEATH_CAUSE_INJURY,
-      ] as string[]).toContain(death!.causeKey);
+      expect(death!.causeKey).toBe(DEATH_CAUSE_ILLNESS_WITH_COURSE);
       const view = projectLifeContinuation(current, playerId)!;
       expect(view.heading).toBe(
         deathSentence(
@@ -490,7 +510,7 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
   it(
     "an old save's causeless death still loads and reads plainly as died",
     () => {
-      const { world, playerId } = hagerstownLife("md-death-legacy");
+      const { world, playerId } = smallLife("death-legacy");
       const dead = recordPersonDeath(world, {
         stableKey: "test:legacy-death",
         personId: playerId,

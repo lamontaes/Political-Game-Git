@@ -102,3 +102,55 @@ These transfers establish one writer per named surface. They do not establish co
 - Claude X5's scope now includes outcome-web measure readers for already-saved facts and approved starting outcome data, one measure per PR, in addition to effect sizing. Missing producers stay explicit; no new producers, link shapes, draw logic or arithmetic rules are authorized. Core files still require CTO approval. This supersedes the earlier size-data-only boundary.
 
 These are ownership grants, not tests, endpoint completion or merge approval.
+
+## Closed caller transfers, October 1, 1:12 a.m. Eastern
+
+- Team 1 owns only the existing numberingSession pass-through input and forward call in municipal-public-work.ts introduceMunicipalOrdinance and municipal-governing.ts introduceProjectedOrdinance, plus the already-released numbering caller/UI hunks. Preserve all other ordinance and executive behavior.
+- Team 1 additionally owns tests/e2e/rules-council-ordinance.spec.ts savedRecord/read/replacement fixture hunks. Use the existing BrowserSaveStore inspection and canonical writer for the actual save ID; raw IndexedDB chunk rows are not World payloads. Production serialization, assertions and timeouts remain unchanged. Audit supplied the reader contract; candidate browser acceptance is pending.
+- Team 7 owns only the adjacent null guard in src/presentation/childhood.ts playChildhoodMoment, extending its caregiverChoice decision-return ownership. An unresolved caregiver choice returns the original World before chooseFormativeOption. Preserve selected paths and existing no-caregiver/single-option bypasses. The actual local presentation file was clean at ad75e8e377881724246022b8345476de4f1356e4; no broader presentation or clock grant.
+- Team 3 owns only life.ts paid-work coverage imports and post-commit hooks in singular/batch work creation and actual activation. Audit and Team 4 released those hunks; generic append/index helpers remain protected. Coverage records must read the committed work and dated facts. The missing-workplace nullable contract still awaits CTO acceptance.
+- Audit owns diagnosis of the remaining C9 clock/verification cost. The instrumented schedule/monthly calls totaled 197.429 milliseconds, and salary refresh was not observed. This grants no serializer/history optimization or repeat of the unchanged diagnostic. Team 7 continues its separate C8 caller.
+
+Team 9 now owns only electedExecutiveTermTransitionHandler's actual-entry post-active-write hook/import in src/simulation/executive-work-entry.ts and settleStateExecutiveQualification's late-entry post-active-write hook/import in src/simulation/nationwide-world/state-executive-terms.ts. Team 2 verified both clean at 439d1261bb699909ba7599953a858f2d93691595, identical to main a88eb1286a5415566fa2c6a5dc927a00caf40188. Preserve qualification/alive/status guards, expiry, governing-transition scheduling and the historical late-entry event. Asked-holder identity and weekly fallback remain. Audit retains opening/load integration.
+
+These entries record ownership, not runtime acceptance or merge approval.
+
+## CTO check-ins 17 and 18: October 1
+
+These grants supersede earlier held entries only for the named surfaces. They do not establish merge or runtime acceptance.
+
+- Team 3 preserves every paid job and its evidence even when its workplace is null. The existing pay consumer reads the canonical federal floor in that case and does not infer state or local authority. Stronger applicable state floors remain independent. Coordinator owns the federal and state starting-law numeric data; corrected federal placement is published at 905cb5fbb0011563c9aab189d870de8b81aff02b. Audit owns the terminal opening proof.
+- Team 8 received and returned the narrow permit type imports, optional history arrays, world enumeration and integrity call. The permit application candidate was published at 0540910533ca6799b76f8ae5ffa3ca54baf4eb52. This grant does not authorize unrelated shared schema changes or imply actual permit issuance.
+- Team 2 owns only the type import and bill-specific Omit annotation in governing/amendment-authors.ts needed by the approved nomination union. Team 1 verified those hunks clean at 881a6bb6fa1a9f0b7289521413e9ca292d0ee5df and identical to main b0affa. Runtime, proposal and author logic remain protected.
+- Team 6 owns assertPublicGovernmentIdentity's optional HistoricalCutoff argument and only its municipal organization/profile visibility reader plus required imports. Use the corrected proposed patch at 1e089b47d54a498ed2d1e821815bd4d07d253d1f. Only the historical evidence reader forwards its cutoff; the current account writer retains current validation. No alias, account creation or frozen-recipient rewrite is granted.
+- Team 2 owns the approved current-delivery-receipt callback. Read newly saved outturn IDs and source-linked completed matters, reuse existing follow-up logic once, and cover both immediate and delayed delivery. Preserve the blocked due record. No polling interval or new review date is authorized.
+- Team 2 owns the appointment initialization-cycle repair: move the existing appointment constants/profile unchanged to a dependency-free leaf, preserve original exports, and keep nomination work separate. No new appointment duration or behavior is authorized.
+- Audit owns the one general clock's completion path for scheduled activities of all people, including children without a guardian participating. Standby Claude Team 5 consumes that path for preschool attendance. No second clock is authorized.
+- Standby Claude Team 5 supplies sourced crisis-response standing-authority data rows; Team 6 owns integration through the existing appropriation path. Libraries remain unsupported tonight because the required institutions are absent. This is not permission to invent amounts or a new funding engine.
+- Team 8 owns the bounded crisis record-parent lookup repair admitting existing resourceFlowTerms, with missing and non-earlier parent rejection preserved. Team 4 supplied its exact failing renewal fixture and retains rent source ownership.
+
+The active coordinator document is 00c. Completion requires the full rebuild docket, every effects-map link running or explicitly unsupported with a reason, passing multi-year behavior checks, and all checks green on final main. CTO heartbeat silence after 60 minutes narrows work to existing rulings; after 120 minutes finish and publish the current piece, then stop for renewed CTO or owner direction. The coordinator never merges.
+
+## October 1, 8:03 a.m. Eastern: A102 narrow transfer
+
+Team 4 released only town-rent.ts evictionCaseFacts counsel/judge binding, trialJudge court/seat/tenure lookup where required, and its judgment consumer to Team 9. Release head: f417d5f2183bc5ec3e2cfa263629321d0528463e. File blob: 0d9e1df512cb9233c76ca6de7be38e5f84fda9cc. Team 4 reported no staged, dirty or unpublished overlap. Lease, price, payment and other eviction logic remain protected.
+
+Audit returned the existing court/seat/holder contract. Team 9 may preserve those actual identities and leave judgment pending without an actual judge or venue. A statute or tenant answer does not establish a lawyer. A new civil-representation record requires CTO disposition; no such schema is granted here. This is an ownership transfer, not proof of implementation.
+
+Team 4 additionally confirmed the adjacent rentEvent judgment-only input and actual court, seat, tenure and judge provenance additions are clean and released at the same f417d5f2183bc5ec3e2cfa263629321d0528463e head. Team 9 owns only those additions. Other event branches, filing, payment and lease behavior stay protected.
+
+## A8 weekly-pay clock handoff
+
+Team 3 published the saved-work/flow wrapper at 5131c40cb818d10e3f7b999d6656a15f04740adb and reported its focused parity test passed. Audit owns the dated adapter and default composer. Team 3 clean-released only job-market.ts beginWork's post-createWorkCompensation hook before addStep, payWeekly's returned-world scheduling hook, and life.ts recordWorkStatus's post-coverage scheduling hook for actually activated work, plus required imports. Preserve existing-flow early return, stable keys, amounts, dates, coverage and status validation. Team 3 retains period arithmetic, pay terms and the common payment writer.
+
+No generic resource creation hook is transferred. Opening and later hires both require clock proof. The unchanged clock-only prerequisite previously failed; the held presentation caller retirement must not be applied until it passes. Wrapper parity is not clock integration completion.
+
+## A102 reference-channel clarification
+
+Team 4 confirmed that its judgment-only rentEvent release at f417d5f2183bc5ec3e2cfa263629321d0528463e includes provenance tags for actual court, seat and tenure records. Audit identified existing court and seat tag conventions. Historical filing IDs are also saved records, not canonical entities. Team 9 keeps the actual judge person as an entity and participant, validates the dated assignment before writing, and preserves base tags and nonjudgment branches. No registry, shared guard or civil-case schema expansion is granted. Tags preserve evidence; they do not establish authority.
+
+## October 1: starting-law reader dependency handoff
+
+Coordinator released the already-published starting-term reader hunks from 8f3957b1bcd161cb95c597b97fd306b6a1b277cb to Team 1. Scope: automatic-legislation.ts startingLawTerms import, nullable provision ID and dated reader; law-in-force.ts dated starting-row and term helpers; starting-law-terms.test.ts. Preserve newer compiler work. This is not a whole-file transfer. Coordinator will not concurrently edit these reader hunks.
+
+The extraction excludes handlers, registry, resource writers, canonical JSON and new HistoricalCutoff schema. Team 1 tests its exact composition. No composition pass, numeric increment or merge approval is implied.

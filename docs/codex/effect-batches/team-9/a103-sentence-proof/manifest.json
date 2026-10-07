@@ -1,0 +1,54 @@
+{
+  "nativeCourtSource": "8d34d240e8bb0eb076b2d18740f080a3dca75ba6",
+  "readerCorrectionSource": "f58ce2b5e3c84f9addddc5c75b073e39604710c0",
+  "mainComposition": "98e1c61b6bcfdcad104032ae1ed6ed8f6fc86aa8",
+  "dependencies": [
+    "A10 #1574 cc763a1e30e07558ca904a3f2272b6a4c129cf91",
+    "A100 #1598 762e197c52035ba69e217518039ff48d1bb16c3b",
+    "root saved-stage hook 912450fd0542b7d686dbc499ae0a6cd8c6fe3f67"
+  ],
+  "nativeCourtResult": {
+    "passed": 13,
+    "failed": 0,
+    "seconds": 222.07,
+    "timeoutMs": 30000,
+    "workers": 1
+  },
+  "notRun": [
+    "native enacted-law plus sourced-range fixture",
+    "year/full-suite/browser/nationwide/final-main proof",
+    "requested nonexistent justice/jail-absence.test.ts in historical life run"
+  ],
+  "preservedFailures": {
+    "initial": {
+      "passed": 2,
+      "failed": 5
+    },
+    "provenance": {
+      "passed": 5,
+      "failed": 2
+    },
+    "lifeClemency": {
+      "passed": 10,
+      "failed": 3
+    }
+  },
+  "noHelpers": "Owner no-helper instruction overrides skill reviewer request.",
+  "focusedReaderResult": {
+    "passed": 57,
+    "failed": 0,
+    "skipped": 22,
+    "seconds": 61.49,
+    "timeoutMs": 30000,
+    "workers": 1
+  },
+  "strictTypes": {
+    "roots": 12,
+    "files": 1568,
+    "diagnostics": 0
+  },
+  "commands": {
+    "court": "OCD_STORAGE_STATE_DIR=/tmp/team9-storage VITE_CONFIG_NATIVE_IGNORE_WARNING=true A103_PROOF_PATH=/tmp/team9-a103-retirement-proof.json G12_CLEMENCY_PROOF_PATH=/tmp/team9-a103-retirement-clemency-proof.json node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/justice/sentencing-term.test.ts src/simulation/justice/clemency-clock.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team9-a103-retirement-tests.json",
+    "floor": "OCD_STORAGE_STATE_DIR=/tmp/team9-storage VITE_CONFIG_NATIVE_IGNORE_WARNING=true node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/justice/sentencing-term.test.ts src/simulation/law-consequences/legal-outcome.test.ts -t \"reads all 56 base robbery|enforces recorded months and preserves sourced bounds after repeal\" --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team9-a103-floor-tests.json"
+  }
+}

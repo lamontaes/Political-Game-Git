@@ -1,10 +1,15 @@
 import { personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
-import { municipalSeats } from "../simulation/municipal-public-work";
+import { localGovernmentGameProfileKey } from "../simulation/local-ordinance-game-profile";
+import {
+  municipalOrganizationKey,
+  municipalSeats,
+} from "../simulation/municipal-public-work";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "../simulation/life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
 import { governmentUnitsForPlace } from "../simulation/government-units";
 import { localGoverningBodyName } from "../simulation/nationwide-world/local-governing-body-names";
 import type { GovernmentUnitIdentity } from "../simulation/government-units";
@@ -203,16 +208,25 @@ function localGoverningBodyMembers(
   unit: GovernmentUnitIdentity,
   roleKind: "leader:municipal-member" | "leader:municipal-mayor",
 ): readonly EntityId[] {
-  const organization = world.history.organizations.find(
-    (entry) => entry.stableKey === localGovernmentOrganizationKey(unit),
+  // A seat is recorded either in the government the listing names or, once
+  // the town's ordinary council is seated, in that council's own government,
+  // which an unread town keys by the same unit.
+  const keys = new Set([
+    localGovernmentOrganizationKey(unit),
+    municipalOrganizationKey(localGovernmentGameProfileKey(unit)),
+  ]);
+  const organizationIds = new Set(
+    world.history.organizations
+      .filter((entry) => keys.has(entry.stableKey))
+      .map((entry) => entry.id),
   );
-  if (!organization) return [];
+  if (!organizationIds.size) return [];
   return [
     ...new Set(
       world.history.organizationParticipations
         .filter(
           (participation) =>
-            participation.organizationId === organization.id &&
+            organizationIds.has(participation.organizationId) &&
             participation.startedAt <= world.currentDate &&
             world.people[participation.personId] !== undefined,
         )
@@ -1209,8 +1223,12 @@ export function issuesPlaceForSelection(
       note = `No state public finance record is kept for ${ref.label}; showing the place itself.`;
     }
   } else if (selection.scope === "federal") {
-    note =
-      "Federal public finances are not part of this game yet; showing the place selected in Government.";
+    if (world.jurisdictions[NATIONAL_ELECTION_JURISDICTION.id]) {
+      jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
+      label = `${prefix}: United States`;
+    } else {
+      note = "No federal public finance record is kept in this save.";
+    }
   }
   if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) {
     return {

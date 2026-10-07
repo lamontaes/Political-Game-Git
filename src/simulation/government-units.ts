@@ -23,6 +23,9 @@ import {
   PLACE_COUNTY_RELATIONS_ROWS,
 } from "./place-county-relations.generated";
 import { createStableId } from "./ids";
+import countyReadings from "../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
+import acsPlaces from "../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import { NATIONAL_COUNTIES_ROWS } from "./national-counties.generated";
 import type { EntityId } from "./types";
 
 export { GOVERNMENT_UNITS_META, PLACE_COUNTY_RELATIONS_META };
@@ -45,6 +48,48 @@ export interface GovernmentUnitIdentity {
   readonly publisherPlaceCode: string | null;
   readonly functionalActive: boolean;
   readonly asOf: typeof GOVERNMENT_UNITS_META.asOf;
+}
+
+/** Existing municipio identities, read without loading a playable world. */
+const municipalCodes = countyReadings.municipalCodes as Readonly<
+  Record<string, { readonly stateFips: string }>
+>;
+const municipioPopulation = acsPlaces.puertoRicoMunicipios as Readonly<
+  Record<string, number>
+>;
+let municipioCounties: ReadonlyMap<string, string> | null = null;
+
+/** The county corpus and municipal code establish identity, never powers. */
+export function municipioUnit(
+  countyGeoid: string,
+): GovernmentUnitIdentity | null {
+  const usps = Object.keys(municipalCodes).find((key) =>
+    countyGeoid.startsWith(municipalCodes[key]!.stateFips),
+  );
+  if (!usps || municipioPopulation[countyGeoid] === undefined) return null;
+  municipioCounties ??= new Map(
+    (
+      JSON.parse(NATIONAL_COUNTIES_ROWS) as readonly (readonly [
+        string,
+        string,
+        string,
+      ])[]
+    ).map(([geoid, name]) => [geoid, name]),
+  );
+  const name = municipioCounties.get(countyGeoid);
+  if (name === undefined) return null;
+  return {
+    id: `municipio:${countyGeoid}`,
+    publisherId: `municipio:${countyGeoid}`,
+    name,
+    unitType: "county",
+    stateUsps: usps,
+    countyGeoid,
+    placeGeoid: null,
+    publisherPlaceCode: null,
+    functionalActive: true,
+    asOf: "2025-06-30",
+  };
 }
 
 /** The canonical jurisdiction ID of a catalog local-government unit. */
@@ -126,9 +171,14 @@ function load(): Index {
   return index;
 }
 
-/** One government by its `gus2025:<PID6>` id, or null. */
+/** One catalog government or municipio by its saved identity, or null. */
 export function governmentUnit(id: string): GovernmentUnitIdentity | null {
-  return load().byId.get(id) ?? null;
+  return (
+    load().byId.get(id) ??
+    (id.startsWith("municipio:")
+      ? municipioUnit(id.slice("municipio:".length))
+      : null)
+  );
 }
 
 /** The municipal government(s) of a Census place; empty for a statistical place. */
@@ -169,22 +219,41 @@ export interface CountyGovernmentShare {
 
 let partsByPlace: ReadonlyMap<
   string,
-  readonly (readonly [string, number])[]
+  readonly (readonly [county: string, land: number, population: number])[]
 > | null = null;
 
 function loadPlaceCountyParts(): ReadonlyMap<
   string,
-  readonly (readonly [string, number])[]
+  readonly (readonly [county: string, land: number, population: number])[]
 > {
   if (partsByPlace) return partsByPlace;
-  const map = new Map<string, [string, number][]>();
-  for (const [place, county, land] of JSON.parse(
+  const map = new Map<string, [string, number, number][]>();
+  for (const [place, county, land, population] of JSON.parse(
     PLACE_COUNTY_RELATIONS_ROWS,
-  ) as [string, string, number][]) {
-    push(map, place, [county, land]);
+  ) as [string, string, number, number][]) {
+    push(map, place, [county, land, population]);
   }
   partsByPlace = map;
   return partsByPlace;
+}
+
+/**
+ * County-area population shares from the existing Census county-part table.
+ * Counts describe April 1, 2020 boundaries; applying their proportions to a
+ * newer city total does not establish subsequent migration or boundary changes.
+ * A single county contains the whole city. Multi-county zero totals yield null
+ * shares; an absent place yields no allocation. This establishes no authority.
+ */
+export function countyPopulationSharesForPlace(
+  placeGeoid: string,
+): readonly (readonly [countyGeoid: string, share: number | null])[] {
+  const parts = loadPlaceCountyParts().get(placeGeoid) ?? [];
+  if (parts.length === 1) return [[parts[0]![0], 1]];
+  const total = parts.reduce((sum, [, , population]) => sum + population, 0);
+  return parts.map(([county, , population]) => [
+    county,
+    total > 0 ? population / total : null,
+  ]);
 }
 
 /**

@@ -21,6 +21,13 @@ import {
 } from "../legislative-politics";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { stateJurisdictionForKey } from "../life-places";
+import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
+import {
+  governorOfficeForJurisdiction,
+  governingMatters,
+  decideGoverningMatter,
+} from "./state-governing";
+import { BILL_SIGN } from "./governor-bill-decision";
 
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../nationwide-world/state-executive-candidacy-packs";
@@ -35,6 +42,7 @@ const termKey = "covered-offense-minimum-months";
 let scenario: LegislativeScenario;
 let world: World;
 let baselineId: EntityId;
+let beforeOfficeWorld: World;
 
 let questionId: EntityId;
 let jurisdictionId: EntityId;
@@ -79,12 +87,7 @@ function file(
 
 function enact(start: World, measureId: EntityId): World {
   let next = start;
-  const context = {
-    ...scenario,
-    measureId,
-    governorAction: "signed" as const,
-    governorRationale: "Explicit favorable decision in a controlled test.",
-  };
+  const context = { ...scenario, measureId };
   for (let guard = 0; guard < 40; guard += 1) {
     if (measurePosition(next, measureId).phase === "awaiting-enactment")
       return recordEnactment(next, {
@@ -92,6 +95,38 @@ function enact(start: World, measureId: EntityId): World {
         measureId,
         effectiveAt: next.currentDate,
       });
+    if (measurePosition(next, measureId).phase === "awaiting-executive") {
+      const office = governorOfficeForJurisdiction(
+        next,
+        scenario.pack.jurisdictionKey,
+      );
+      expect(
+        office,
+        "A real recorded office is required for the controlled signature",
+      ).not.toBeNull();
+      next = applyLegislativeStep(
+        context,
+        next,
+        "await-executive-decision",
+      ).world;
+      const matter = governingMatters(next, office!.officeKey).find(
+        (row) => row.measureId === measureId && row.status === "open",
+      );
+      expect(matter).toBeDefined();
+      const decision = decideGoverningMatter(
+        {
+          ...next,
+          control: { kind: "person", personId: office!.holderPersonId },
+        },
+        matter!.id,
+        BILL_SIGN,
+      );
+      expect(decision.ok, decision.ok ? "" : decision.reason).toBe(true);
+      // The recorded player-required decision work belongs to this governor.
+      next = decision.world;
+      expect(measurePosition(next, measureId).phase).toBe("awaiting-enactment");
+      continue;
+    }
     const step = availableMeasureSteps(next, measureId).find(
       (key) => key !== "offer-amendment",
     );
@@ -132,12 +167,82 @@ beforeAll(() => {
     jurisdictions: [...jurisdictions.values()],
     policyCatalog: catalog,
   });
+  beforeOfficeWorld = world;
+  world = ensureStateExecutiveIncumbent(
+    world,
+    scenario.playerPersonId,
+    scenario.pack.jurisdictionKey.slice(3),
+  );
+  expect(
+    governorOfficeForJurisdiction(world, scenario.pack.jurisdictionKey),
+  ).not.toBeNull();
   const baseline = file(world, "term-proof:baseline", 60);
   baselineId = baseline.measureId;
   world = enact(baseline.world, baselineId);
 }, 30000);
 
 describe("final enacted terms and sponsor requests", () => {
+  it("keeps a vacant executive desk pending despite the scenario's authored ending", () => {
+    const filed = file(beforeOfficeWorld, "term-proof:vacant-desk", 60);
+    const context = {
+      ...scenario,
+      measureId: filed.measureId,
+      governorAction: "signed" as const,
+      governorRationale: "An authored scenario is not an actual governor.",
+    };
+    let next = filed.world;
+    for (
+      let guard = 0;
+      guard < 40 &&
+      measurePosition(next, filed.measureId).phase !== "awaiting-executive";
+      guard += 1
+    ) {
+      const step = availableMeasureSteps(next, filed.measureId).find(
+        (key) => key !== "offer-amendment",
+      );
+      expect(step).toBeDefined();
+      next = applyLegislativeStep(context, next, step!).world;
+    }
+    expect(measurePosition(next, filed.measureId).phase).toBe(
+      "awaiting-executive",
+    );
+    expect(
+      governorOfficeForJurisdiction(next, scenario.pack.jurisdictionKey),
+    ).toBeNull();
+    expect(
+      applyLegislativeStep(context, next, "await-executive-decision").world,
+    ).toBe(next);
+    expect(next.history.executiveDispositions ?? []).toHaveLength(0);
+    assertWorldIntegrity(next);
+  });
+  it("records the actual officeholder's controlled decision before enactment", () => {
+    const office = governorOfficeForJurisdiction(
+      world,
+      scenario.pack.jurisdictionKey,
+    )!;
+    const matter = governingMatters(world, office.officeKey).find(
+      (row) => row.measureId === baselineId,
+    )!;
+    expect(matter.status).toBe("decided");
+    const decided = world.history.events.find(
+      (event) =>
+        event.tags.includes(`matter:${matter.id}`) &&
+        event.tags.includes(`choice:${BILL_SIGN}`),
+    )!;
+    expect(
+      decided.participants.some(
+        (participant) =>
+          participant.personId === office.holderPersonId &&
+          participant.role === "agency:decider",
+      ),
+    ).toBe(true);
+    expect(
+      world.history.executiveDispositions!.find(
+        (row) => row.measureId === baselineId,
+      )!.action,
+    ).toBe("signed");
+    assertWorldIntegrity(world);
+  });
   it.each(CHIEF_EXECUTIVE_JURISDICTIONS)(
     "reads the same adopted term for an observer in %s",
     (code) => {

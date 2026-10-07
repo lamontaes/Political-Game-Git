@@ -200,6 +200,58 @@ const STATES: Readonly<Record<string, string>> = {
 const stateName = (usps: string) => STATES[usps] ?? null;
 
 describe("world orientation reader", () => {
+  it("keeps declared Independents separate from unaffiliated members", () => {
+    const source = orientation();
+    const senate = source.congress!.senate;
+    const original = senate.seats[0]!;
+    const seats = [
+      {
+        ...original,
+        seatKey: "independent-seat",
+        occupant: {
+          kind: "member" as const,
+          member: holder("declared", "Declared Member", "Senator", null, {
+            declaredAffiliation: "independent",
+          }),
+        },
+      },
+      {
+        ...original,
+        seatKey: "unaffiliated-seat",
+        occupant: {
+          kind: "member" as const,
+          member: holder(
+            "unaffiliated",
+            "Unaffiliated Member",
+            "Senator",
+            null,
+          ),
+        },
+      },
+    ];
+    const input = {
+      ...source,
+      congress: { ...source.congress!, senate: chamber("us-senate", seats) },
+    };
+    const view = projectOrientationView(input, stateName).steps[1]!
+      .chambers[0]!;
+    expect(
+      view.parties.map(({ label, members, noParty }) => ({
+        label,
+        members,
+        noParty,
+      })),
+    ).toEqual([
+      { label: "Independent", members: 1, noParty: false },
+      { label: "No party", members: 1, noParty: true },
+    ]);
+    expect(view.roster[0]!.person!.party).toBe("Independent");
+    expect(view.roster[1]!.person!.party).toBeNull();
+    expect(view.parties.reduce((sum, entry) => sum + entry.members, 0)).toBe(
+      view.members,
+    );
+  });
+
   it("orders the four steps as White House, Congress, state, locality", () => {
     const view = projectOrientationView(orientation(), stateName);
     expect(view.steps.map((step) => step.key)).toEqual([

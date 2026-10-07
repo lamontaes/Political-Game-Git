@@ -1,0 +1,327 @@
+{
+  "source": "canonical",
+  "phases": [
+    {
+      "label": "deserialize-world",
+      "durationMs": 775.89149
+    },
+    {
+      "label": "actual-council-opening",
+      "durationMs": 728.7578909999975
+    },
+    {
+      "label": "serialize-world",
+      "durationMs": 425.0677000000014
+    },
+    {
+      "label": "canonical-small-world-opening",
+      "durationMs": 317.4540969999962
+    },
+    {
+      "label": "executive-deadline-handler",
+      "durationMs": 233.3384589999987
+    },
+    {
+      "label": "record-council-readings",
+      "durationMs": 148.20232300000134
+    },
+    {
+      "label": "actual-mayor-opening",
+      "durationMs": 146.41201999999976
+    },
+    {
+      "label": "authored-held-principles",
+      "durationMs": 106.97644600000422
+    },
+    {
+      "label": "expected-executive-evaluation",
+      "durationMs": 9.0023849999925
+    },
+    {
+      "label": "question-authority",
+      "durationMs": 7.365667999996731
+    }
+  ],
+  "worlds": [
+    {
+      "state": "US-AL",
+      "seed": "G6-mayor-parity:US-AL",
+      "checksum": "cbc49e51363d9d4af7ae3b5ee484cd344f1df624bba7c1b37ebc2c1e0790e0ba"
+    },
+    {
+      "state": "US-AK",
+      "seed": "G6-mayor-parity:US-AK",
+      "checksum": "d62bbca0e979731122ff3dcf5d195ab9c9ce1e3cdb04fc8c9dde92ab9f75dc02"
+    },
+    {
+      "state": "US-AS",
+      "seed": "G6-mayor-parity:US-AS",
+      "checksum": "069158e8d60bd152c302f53faf999cb40180f13caec287cf646eb799b04e38c6"
+    },
+    {
+      "state": "US-AZ",
+      "seed": "G6-mayor-parity:US-AZ",
+      "checksum": "3477fa1709c3193d5de2dc6f7d7d68884a417648faaec6a2b7eca1c2ed048926"
+    },
+    {
+      "state": "US-AR",
+      "seed": "G6-mayor-parity:US-AR",
+      "checksum": "025c96b2276fed524c6896ab9522d961c9cac8e980cd2efbba988423f343f137"
+    },
+    {
+      "state": "US-CA",
+      "seed": "G6-mayor-parity:US-CA",
+      "checksum": "ac2b1e289721cf28cf92d5e6c1612c44398e07ddb5243039be42d89451f010f5"
+    },
+    {
+      "state": "US-CO",
+      "seed": "G6-mayor-parity:US-CO",
+      "checksum": "fd8886ef5b18e8ebd33e96273a325e0c4e487acfc9c98413ad7797bd6dc85393"
+    },
+    {
+      "state": "US-CT",
+      "seed": "G6-mayor-parity:US-CT",
+      "checksum": "a30868fca49c640c3ec5f789f083df7a9a42b9a071726e848028549a337fbae6"
+    },
+    {
+      "state": "US-DE",
+      "seed": "G6-mayor-parity:US-DE",
+      "checksum": "ea93ad32d0946d99f8167485edb73e6151ca3050427b48ec2f1625a84f99500c"
+    },
+    {
+      "state": "US-DC",
+      "seed": "G6-mayor-parity:US-DC",
+      "checksum": "3eb28d1163988d345844cc7a16b817990d6cbb208a03d4f4441a87feb06b11fd"
+    },
+    {
+      "state": "US-FL",
+      "seed": "G6-mayor-parity:US-FL",
+      "checksum": "7e8e24aca9108c4fb7d72e57db0cfa598365eb6ead69b323207e2c7afa0654a8"
+    },
+    {
+      "state": "US-GA",
+      "seed": "G6-mayor-parity:US-GA",
+      "checksum": "551b51e5b85b5bce6b2c27abe4b670b3e23931725afcc0740b4b40037dfc5437"
+    },
+    {
+      "state": "US-GU",
+      "seed": "G6-mayor-parity:US-GU",
+      "checksum": "5960b3e18f9b1be673c1ecd33aa60891bbac924be76dfe972248f5ebfd364bbe"
+    },
+    {
+      "state": "US-HI",
+      "seed": "G6-mayor-parity:US-HI",
+      "checksum": "16132654279fba5771c675d3992ab9558705ff8f0e5150e30ea6d968974e1a53"
+    },
+    {
+      "state": "US-ID",
+      "seed": "G6-mayor-parity:US-ID",
+      "checksum": "7764a49882bd7cc38969c9a6dc836bbcf7d34392b5e3dd8068ebf2bdd6439ac1"
+    },
+    {
+      "state": "US-IL",
+      "seed": "G6-mayor-parity:US-IL",
+      "checksum": "6b9ae2e1e2166013d1a4ddc2c048a9bf0261a9f136b09611960111461f9409d2"
+    },
+    {
+      "state": "US-IN",
+      "seed": "G6-mayor-parity:US-IN",
+      "checksum": "ebd107f3760e40350e3238bbab070bef55fb7a57d5921055fcea64f9ed1249a5"
+    },
+    {
+      "state": "US-IA",
+      "seed": "G6-mayor-parity:US-IA",
+      "checksum": "0739496b0c5215e75938e374991b3a75b232599ead2e3489c9c5f36f658c6719"
+    },
+    {
+      "state": "US-KS",
+      "seed": "G6-mayor-parity:US-KS",
+      "checksum": "a0bf220337a874ae62cc1d1441e403ce4d025a90d7c8f4de4383152e32b38e99"
+    },
+    {
+      "state": "US-KY",
+      "seed": "G6-mayor-parity:US-KY",
+      "checksum": "a2f9b784ede5ae91912a03cd337d7d8bf5421bd8abdec92c14fa1487f6d48f1a"
+    },
+    {
+      "state": "US-LA",
+      "seed": "G6-mayor-parity:US-LA",
+      "checksum": "a7f6eaa94db71fd36a8575bf3cc33856ab596c39fc7ecd7bd3cbf43f1eb622c3"
+    },
+    {
+      "state": "US-ME",
+      "seed": "G6-mayor-parity:US-ME",
+      "checksum": "d9e1c2f9b799cb17cdd2d4642be6528807ed6e35fa2ff28eee92a3cc5cec7839"
+    },
+    {
+      "state": "US-MD",
+      "seed": "G6-mayor-parity:US-MD",
+      "checksum": "1621c618a72304c74f60449d4bc77826c40cfc01c25143ded1bbf49e44690c15"
+    },
+    {
+      "state": "US-MA",
+      "seed": "G6-mayor-parity:US-MA",
+      "checksum": "3bb2a2004bd29fc00cf3d8239b06458d715f78e2875611f9f1d20fd14e7670f3"
+    },
+    {
+      "state": "US-MI",
+      "seed": "G6-mayor-parity:US-MI",
+      "checksum": "712b5dba00a0b64815b2077e508fe612855fd5f9cf57ab3548735518e9b984f6"
+    },
+    {
+      "state": "US-MN",
+      "seed": "G6-mayor-parity:US-MN",
+      "checksum": "d65f280ee4aad9e26f8c2b9c9bfa783141509c23718e2340da713f3afe1d4023"
+    },
+    {
+      "state": "US-MS",
+      "seed": "G6-mayor-parity:US-MS",
+      "checksum": "14929de9f464700560432e9a52af764c983df0c2931b06242a9cdd03cc509113"
+    },
+    {
+      "state": "US-MO",
+      "seed": "G6-mayor-parity:US-MO",
+      "checksum": "9aac2ef291e3100073cb5d5bfb8a8e136ffe554a762b1442369e9772cb732f3f"
+    },
+    {
+      "state": "US-MT",
+      "seed": "G6-mayor-parity:US-MT",
+      "checksum": "0c714b1d940bda83062ecc041b684a3deb22274f68fff282e602786b0a1cf5b1"
+    },
+    {
+      "state": "US-NE",
+      "seed": "G6-mayor-parity:US-NE",
+      "checksum": "b2257b268a37cd250faec3c1b23a62b63c5145159699217747486c24fefb5e8c"
+    },
+    {
+      "state": "US-NV",
+      "seed": "G6-mayor-parity:US-NV",
+      "checksum": "13f8a7d6a97ede4e251f34e27dc25758292efb9360404e816d40a61dc80aed97"
+    },
+    {
+      "state": "US-NH",
+      "seed": "G6-mayor-parity:US-NH",
+      "checksum": "b252c34bc727b02918f5e4d76b1f4ba85e3297e5e10099f822dee285b8fc9725"
+    },
+    {
+      "state": "US-NJ",
+      "seed": "G6-mayor-parity:US-NJ",
+      "checksum": "6931d94cdfcaf06b2c720c757a5b41f4587b7745226df3da794946868cc67fe5"
+    },
+    {
+      "state": "US-NM",
+      "seed": "G6-mayor-parity:US-NM",
+      "checksum": "9f29e63b617ecb7962012cddc2fa7b2d9e0768cd259da356a44be1dd914b0870"
+    },
+    {
+      "state": "US-NY",
+      "seed": "G6-mayor-parity:US-NY",
+      "checksum": "3bf29e858a0830af1b1d0506a3026674ec4c96e14e13e2efa4ec5d96cd72ab41"
+    },
+    {
+      "state": "US-NC",
+      "seed": "G6-mayor-parity:US-NC",
+      "checksum": "699f720bc946085a9ec83eea1ef4e8403099e1bf17b732af64ec20e92ec96ac2"
+    },
+    {
+      "state": "US-ND",
+      "seed": "G6-mayor-parity:US-ND",
+      "checksum": "ac914b19f94f7ac08078e7fc4c1215e835943b5e74ba4edeb3b1cee51f88c2a9"
+    },
+    {
+      "state": "US-MP",
+      "seed": "G6-mayor-parity:US-MP",
+      "checksum": "12774c9f6b5c45f469d8ec7b98143f5b4727e5f6d928c7ec735c823dda3085d3"
+    },
+    {
+      "state": "US-OH",
+      "seed": "G6-mayor-parity:US-OH",
+      "checksum": "e524947734926cd264c4fc5fbf705935191341b0f8ad571a7479959795af7e51"
+    },
+    {
+      "state": "US-OK",
+      "seed": "G6-mayor-parity:US-OK",
+      "checksum": "6bf0b68a266959fb22102de28371c6457c4b3657b8f830240c5e1bf7c08e4eab"
+    },
+    {
+      "state": "US-OR",
+      "seed": "G6-mayor-parity:US-OR",
+      "checksum": "674f80050e772e2585546bcc5c4d0507a60baf8941a438a57d3f0489752de767"
+    },
+    {
+      "state": "US-PA",
+      "seed": "G6-mayor-parity:US-PA",
+      "checksum": "ed72ac732b60b2f6c4ae0ac2f994e926da3ca7c9cd6aea8925e4a079eb78c9a1"
+    },
+    {
+      "state": "US-PR",
+      "seed": "G6-mayor-parity:US-PR",
+      "checksum": "b66295dc83b01ebd1160aaa3c6c1654102ea5ebc776afcde3956041e5d416c7d"
+    },
+    {
+      "state": "US-RI",
+      "seed": "G6-mayor-parity:US-RI",
+      "checksum": "70986fd3ebb73e93a790ae4289627a301e0333badeeca80260f208b66f8e7520"
+    },
+    {
+      "state": "US-SC",
+      "seed": "G6-mayor-parity:US-SC",
+      "checksum": "8ef0a3d8fc5051cca7eec76f81c4d6ae65ba9ef5c11e86a4af4567299f25f392"
+    },
+    {
+      "state": "US-SD",
+      "seed": "G6-mayor-parity:US-SD",
+      "checksum": "f4f277b40c20e22ab04dc31115b946dfd4810bce212b30d3c4a278019044c1ee"
+    },
+    {
+      "state": "US-TN",
+      "seed": "G6-mayor-parity:US-TN",
+      "checksum": "2f8408c50168cdb277d930b5f43b2c90ecf8b94470642f98281042093aaa2b55"
+    },
+    {
+      "state": "US-TX",
+      "seed": "G6-mayor-parity:US-TX",
+      "checksum": "d3dc34491395c511f0fa5ba9e409e138775dda9def662788fbf486994c3b3b4a"
+    },
+    {
+      "state": "US-VI",
+      "seed": "G6-mayor-parity:US-VI",
+      "checksum": "4e9e0579f0721665b4b39117269fa1b474dce5b3d595bff11c56023eed669ab5"
+    },
+    {
+      "state": "US-UT",
+      "seed": "G6-mayor-parity:US-UT",
+      "checksum": "8d604aad164107971093f369046458d0a40115d51ca36c59bcb5d3bbcde293d5"
+    },
+    {
+      "state": "US-VT",
+      "seed": "G6-mayor-parity:US-VT",
+      "checksum": "990415c5fb1e6a37140a82186c5db4f9c24350a8d40fea5878f126ad7b4e2e29"
+    },
+    {
+      "state": "US-VA",
+      "seed": "G6-mayor-parity:US-VA",
+      "checksum": "ab7e3286533998f7d3745e0017f99797744749dabb62435887dd8db4a0fe2aaf"
+    },
+    {
+      "state": "US-WA",
+      "seed": "G6-mayor-parity:US-WA",
+      "checksum": "013b0b4d21d0adf107503620351358f343210d5061a26af3b0ae933f74b0fd48"
+    },
+    {
+      "state": "US-WV",
+      "seed": "G6-mayor-parity:US-WV",
+      "checksum": "fe72b1391d70d3e756eee8defe5df71786b7f9f199165aab52c79db751b9358c"
+    },
+    {
+      "state": "US-WI",
+      "seed": "G6-mayor-parity:US-WI",
+      "checksum": "0e01abe21f18862a748c7287d7c6be79f3ce819ae0190e9d49238dc648c27b77"
+    },
+    {
+      "state": "US-WY",
+      "seed": "G6-mayor-parity:US-WY",
+      "checksum": "9735a617937df42e88db452b398396a3b0a93aff9c36ecd9e79a0949a39876ef"
+    }
+  ]
+}

@@ -1,9 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 
-import {
-  assignLegacyJournal,
-  type BrowserShellStateStore,
-} from "../presentation/browser-shell-state";
+import type { BrowserShellStateStore } from "../presentation/browser-shell-state";
 import { shellRefIsResolvable } from "../presentation/person-dossier";
 import {
   INITIAL_SHELL_STATE,
@@ -13,7 +10,6 @@ import {
   type ShellState,
 } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
-import { controlledLineage } from "../simulation/people-continuation";
 
 /**
  * The shell's state, kept and kept up.
@@ -33,7 +29,7 @@ export function useShell(
    *
    * This hook used to construct `new BrowserShellStateStore()` with no
    * arguments, which meant the default database — and this hook is the writer
-   * that actually persists pins, preferences, the journal and wardrobe
+   * that actually persists pins, preferences and wardrobe
    * choices. So while the development art preview was carefully given its own
    * database everywhere else, the one writer that matters kept writing
    * candidate wardrobe choices into the ordinary player's save. Namespacing a
@@ -46,7 +42,7 @@ export function useShell(
    * persistence it means.
    */
   store: BrowserShellStateStore,
-): readonly [ShellState, (action: ShellAction) => void, boolean] {
+): readonly [ShellState, (action: ShellAction) => void] {
   const [state, dispatch] = useReducer(shellReducer, INITIAL_SHELL_STATE);
   /*
    * The RECORD this session has finished reading — the slot AND the database.
@@ -82,15 +78,8 @@ export function useShell(
        * they pressed save.
        */
       if (stored) {
-        // A slot-wide notebook belongs to whoever was played first here.
-        const { journals, legacyJournal } = assignLegacyJournal(
-          stored,
-          controlledLineage(worldRef.current)[0] ?? null,
-        );
         dispatch({
           type: "restore",
-          journals,
-          legacyJournal,
           personWardrobes: stored.personWardrobes ?? {},
           pins: stored.pins,
           preferences: stored.preferences,
@@ -113,8 +102,6 @@ export function useShell(
     if (saveId === null || recordKey === null) return;
     if (loadedRecord !== recordKey) return;
     void store.write(saveId, {
-      journal: state.legacyJournal,
-      journals: state.journals,
       personWardrobes: state.personWardrobes,
       pins: state.pins,
       preferences: state.preferences,
@@ -127,8 +114,6 @@ export function useShell(
     store,
     state.pins,
     state.preferences,
-    state.journals,
-    state.legacyJournal,
     state.personWardrobes,
     state.progress,
   ]);
@@ -172,9 +157,5 @@ export function useShell(
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  return [
-    state,
-    dispatch,
-    recordKey === null || loadedRecord === recordKey,
-  ] as const;
+  return [state, dispatch] as const;
 }

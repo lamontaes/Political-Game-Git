@@ -1,0 +1,14 @@
+{
+  "source": "855c453dc0435ea439da5437737805749297c1ff",
+  "main": "740f52f41f72a781b372352d927346d7c51c04fe",
+  "command": "npx vitest run src/simulation/justice/clemency-clock.test.ts src/simulation/justice/sentencing-term.test.ts src/simulation/law-consequences/legal-outcome.test.ts --maxWorkers=2",
+  "passed": 73,
+  "failed": 7,
+  "seconds": 94.25,
+  "exitCode": 1,
+  "failure": "No saved sentencing event: sentence-term ND/IA and legal-outcome IA/LA/TX/CT/ND",
+  "scopedStatic": "14 changed paths eslint0, prettier0, diff-check0",
+  "officialGate": "NOT RUN",
+  "notRun": ["browser", "whole suite", "whole app types", "nationwide acceptance"],
+  "originalFailures": "preserved; no assertion weakened"
+}
