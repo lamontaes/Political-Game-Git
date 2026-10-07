@@ -4,8 +4,12 @@ import {
   readMeetingBank,
   readMinutesBank,
   readLegislationBank,
+  readNoticesBank,
   type EnglishBank,
 } from "./bank-english";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { governmentUnitJurisdictionId } from "../simulation/government-units";
+import type { EntityId, World } from "../simulation";
 import { createOpeningLifeController } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
 import { placeFor, rng } from "../../scripts/playtest/mass-play/driver";
@@ -134,10 +138,59 @@ describe("generated world", () => {
     for (const reading of [
       readMeetingBank(world, game.playerPersonId),
       readMinutesBank(world, game.playerPersonId),
+      readNoticesBank(world, game.playerPersonId),
     ]) {
       if (typeof reading === "string")
         expect(reading.length).toBeGreaterThan(10);
       else for (const line of reading) expect(line.text).not.toContain("{");
+    }
+
+    const home = homeLocalGovernmentUnits(world, game.playerPersonId);
+    const unit = [...home.municipal, ...home.counties, ...home.townships][0];
+    expect(unit).toBeDefined();
+    const jurisdictionId = governmentUnitJurisdictionId(unit!);
+    const measureId = "notice-test:measure" as EntityId;
+    const withNoticeRecords = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeMeasures: [
+          {
+            id: measureId,
+            jurisdictionId,
+            designation: "ORD 1",
+            shortTitle: "Test measure",
+            introducedAt: world.currentDate,
+          },
+        ],
+        legislativeActions: [
+          {
+            id: "notice-test:hearing" as EntityId,
+            measureId,
+            kind: "committee-hearing-held",
+            occurredAt: world.currentDate,
+          },
+        ],
+        electionContests: [
+          {
+            id: "notice-test:election" as EntityId,
+            jurisdictionId,
+            scheduledAt: world.currentDate,
+            electionDate: world.currentDate,
+            office: { title: "Council member" },
+          },
+        ],
+      },
+    } as unknown as World;
+    const notices = readNoticesBank(withNoticeRecords, game.playerPersonId);
+    expect(typeof notices).not.toBe("string");
+    if (typeof notices !== "string") {
+      expect(notices.map((line) => line.partKey)).toEqual([
+        "notice.hearing.public-hearing",
+        "notice.ordinance.council-ordinances",
+        "notice.election.notice-of-election",
+      ]);
+      expect(notices.every((line) => !line.text.includes("{"))).toBe(true);
     }
   }, 240000);
 });

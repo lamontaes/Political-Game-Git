@@ -51,6 +51,7 @@ export type MediaResourceTier = (typeof MEDIA_RESOURCE_TIERS)[number];
 
 export const MEDIA_CADENCES = ["continuous", "daily", "periodic"] as const;
 export type MediaCadence = (typeof MEDIA_CADENCES)[number];
+export type EditorialStandard = "gentler" | "realistic" | "tougher";
 export type ReporterTemperament = "low" | "medium" | "high";
 
 /** ALIVE44 R1–R8. */
@@ -287,7 +288,7 @@ export const PROCEDURE_KEYS = [
   "fec-enforcement",
   "ky-legislative-ethics",
   "simulated-inquiry",
-  // A body generated per state from an UNRESEARCHED range, for campaign money
+  // A body generated per state from the recorded regulator range, for campaign money
   // and for legislators whose state's own body has not been read
   // (`generated-state-oversight.ts`).
   "generated-state-oversight",
@@ -380,6 +381,8 @@ export interface MediaOutletRecord extends PressRecordBase {
   readonly resourceTier: MediaResourceTier;
   readonly cadence: MediaCadence;
   readonly acceptsDeepBackground: boolean;
+  /** The outlet's recorded threshold, fixed when it is founded. */
+  readonly editorialStandard?: EditorialStandard;
   readonly establishedAt: IsoDate;
   readonly policyVersion: typeof PRESS_POLICY_VERSION;
   readonly provenanceNote: string;
