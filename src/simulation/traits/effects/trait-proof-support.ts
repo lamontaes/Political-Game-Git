@@ -13,7 +13,7 @@ import {
   loadedTraitRegistry,
 } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
-import type { EntityId, World } from "../../types";
+import type { DecisionConsideration, EntityId, World } from "../../types";
 
 /** One person's choice with and without a recorded tendency. */
 export interface TraitProof {
@@ -93,6 +93,7 @@ export function proveTraitDifference(
   traitId: string,
   decisionId: string,
   seed: string,
+  baselineConsiderations: readonly DecisionConsideration[] = [],
 ): TraitProof {
   const place = randomPlace(seed);
   const game = createNewGameWorld({
@@ -110,13 +111,16 @@ export function proveTraitDifference(
     ({ id }) => id === decisionId,
   )!;
   const decide = (world: World) => {
-    const considerations = registeredTraitConsiderations(
-      world,
-      loadedTraitRegistry(),
-      personId,
-      `proof:${decisionId}`,
-      decisionId,
-    );
+    const considerations = [
+      ...baselineConsiderations,
+      ...registeredTraitConsiderations(
+        world,
+        loadedTraitRegistry(),
+        personId,
+        `proof:${decisionId}`,
+        decisionId,
+      ),
+    ];
     const evaluation = evaluateDecision(world, {
       stableKey: `proof:${decisionId}:${personId}:${considerations.length}:${considerations[0]?.optionKey ?? "none"}`,
       decisionType: decisionId,
@@ -139,7 +143,9 @@ export function proveTraitDifference(
     });
     return {
       choice: evaluation.selectedOptionKey,
-      reason: considerations[0]?.explanation ?? null,
+      reason:
+        considerations.find((row) => row.stableKey.includes(traitId))
+          ?.explanation ?? null,
     };
   };
   return {

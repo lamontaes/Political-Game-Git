@@ -11,6 +11,7 @@ import { facetAssertiveEffects } from "./facet-assertive";
 import { facetBluntEffects } from "./facet-blunt";
 import { facetBrazenEffects } from "./facet-brazen";
 import { facetCalmEffects } from "./facet-calm";
+import { facetCharmingEffects } from "./facet-charming";
 import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
 import { facetCompetitiveEffects } from "./facet-competitive";
@@ -74,6 +75,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetBluntEffects,
     ...facetBrazenEffects,
     ...facetCalmEffects,
+    ...facetCharmingEffects,
     ...facetCockyEffects,
     ...facetComfortingEffects,
     ...facetCompetitiveEffects,
