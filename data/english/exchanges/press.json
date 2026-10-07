@@ -1,0 +1,82 @@
+{
+  "schema": "english-exchanges/1",
+  "register": "press",
+  "shippable": false,
+  "source": {
+    "document": "White House press briefing transcripts, 2024 (U.S. government works)",
+    "license": "public domain (17 U.S.C. 105)",
+    "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/"
+  },
+  "counts": {
+    "documents": 23,
+    "questionReplyPairs": 857,
+    "questionFormShare": {
+      "other": 0.531,
+      "yes-no": 0.368,
+      "wh": 0.102
+    },
+    "replyOpenerShareByForm": {
+      "yes-no": {
+        "other": 0.568,
+        "so": 0.216,
+        "yes": 0.057,
+        "look": 0.054,
+        "well": 0.035,
+        "no": 0.029,
+        "i think": 0.025,
+        "sorry": 0.01,
+        "i don't know": 0.003,
+        "again": 0.003
+      },
+      "wh": {
+        "other": 0.586,
+        "so": 0.172,
+        "well": 0.126,
+        "yes": 0.046,
+        "look": 0.034,
+        "no": 0.023,
+        "i think": 0.011
+      },
+      "other": {
+        "other": 0.549,
+        "so": 0.209,
+        "yes": 0.077,
+        "look": 0.064,
+        "well": 0.033,
+        "again": 0.022,
+        "no": 0.02,
+        "i think": 0.015,
+        "absolutely": 0.007,
+        "thanks": 0.002,
+        "sorry": 0.002
+      }
+    },
+    "medianReplyWordsByForm": {
+      "yes-no": 38,
+      "wh": 35,
+      "other": 38
+    },
+    "shareRepliesUnder10WordsByForm": {
+      "yes-no": 0.187,
+      "wh": 0.172,
+      "other": 0.176
+    },
+    "bankPartOpensReply": {
+      "press.reaction.all-right": 9,
+      "press.take-question.go-ahead": 7,
+      "press.opener.so-a-couple-of-things": 5,
+      "press.deflect.im-not-going-to-get-into-hypotheticals": 4,
+      "press.take-question.say-that-one-more-time": 3,
+      "press.opener.so-look-a-couple-of-things": 3,
+      "press.reaction.no-not-at-all": 2,
+      "press.deflect.im-not-going-to-get-ahead-of-the-president": 1,
+      "press.reaction.no-no-no": 1,
+      "press.deflect.im-not-going-to-get-into-hypotheticals-from-here": 1,
+      "press.deflect.dont-have-anything-to-share-with-you-at-this-time": 1,
+      "press.deflect.i-dont-have-anything-beyond-that": 1,
+      "press.reaction.yeah-yeah": 1,
+      "press.reporter-question.thank-you": 1,
+      "press.stance.our-policy-has-not-changed": 1
+    }
+  }
+}

@@ -7,9 +7,15 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { isProgramBookkeepingPublication } from "../simulation/public-information";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { LIVING_WORLD_SCENARIO_PROFILE } from "../simulation/living-world/contract";
 import { projectPublicMatters } from "../simulation/living-world/developments";
+import {
+  municipalGovernmentForLifePlace,
+  primaryReading,
+} from "../simulation/municipal-government";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   planStateChambers,
@@ -43,10 +49,39 @@ export interface OpeningYearView {
   readonly lines: readonly string[];
   /** Up to two of the newest real headlines in this world. */
   readonly headlines: readonly string[];
+  /** Record values under a label: the form of the home place's government. */
+  readonly facts: readonly { readonly label: string; readonly value: string }[];
 }
 
 function percent(value: number): string {
   return `${(Math.round(value * 10) / 10).toFixed(1)}%`;
+}
+
+/** The recognition of a local government is a record, not a news item. */
+function isGovernmentRecognition(
+  world: World,
+  publication: { readonly sourceEventId: EntityId },
+): boolean {
+  return (
+    world.history.events.find((event) => event.id === publication.sourceEventId)
+      ?.type === "municipal.government-recognized"
+  );
+}
+
+/** The home place's government, as a label and the value its record holds. */
+function homeGovernmentFacts(
+  home: EntityId | null | undefined,
+): OpeningYearView["facts"] {
+  const place = home ? lifePlaceByJurisdictionId(home) : null;
+  const government = place ? municipalGovernmentForLifePlace(place) : null;
+  if (!government) return [];
+  const reading = primaryReading(government);
+  return [
+    {
+      label: "Local government",
+      value: reading.bodyName ?? government.displayName,
+    },
+  ];
 }
 
 export function projectOpeningYear(
@@ -83,7 +118,11 @@ export function projectOpeningYear(
     const parties = [
       ...chamber.parties
         .filter((party) => party.members > 0)
-        .map((party) => `${party.members} ${party.label}`),
+        .map((party) =>
+          party.noParty || party.label === "Independent"
+            ? `${party.members} ${party.members === 1 ? "independent" : "independents"}`
+            : `${party.members} ${party.label}`,
+        ),
       ...empty,
     ];
     if (parties.length > 0)
@@ -101,7 +140,9 @@ export function projectOpeningYear(
     .filter(
       (publication) =>
         publication.publishedAt <= world.currentDate &&
-        publication.correctsPublicationId === null,
+        publication.correctsPublicationId === null &&
+        !isProgramBookkeepingPublication(world, publication) &&
+        !isGovernmentRecognition(world, publication),
     )
     .sort(
       (left, right) =>
@@ -110,7 +151,12 @@ export function projectOpeningYear(
     )
     .slice(0, 2)
     .map((publication) => publication.headline);
-  return { year: world.currentDate.slice(0, 4), lines, headlines };
+  return {
+    year: world.currentDate.slice(0, 4),
+    lines,
+    headlines,
+    facts: homeGovernmentFacts(home),
+  };
 }
 
 /* -------------------------------------------------------------------------- */
@@ -149,13 +195,17 @@ export function projectOpeningLegislature(
                 (known) => known.key === member.party,
               )?.name ??
               member.party ??
-              "No party";
+              "";
             counts.set(party, (counts.get(party) ?? 0) + 1);
           }
         if (counts.size === 0) return [];
         const parties = [...counts]
           .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-          .map(([party, count]) => `${count} ${party}`);
+          .map(([party, count]) =>
+            party === ""
+              ? `${count} ${count === 1 ? "independent" : "independents"}`
+              : `${count} ${party}`,
+          );
         return [`${plan.chamberName}: ${parties.join(", ")}.`];
       })
     : [];
@@ -210,6 +260,21 @@ export function projectOpeningTown(
     .filter((matter) => matter.family === "local-matter" && !matter.concluded)
     .map((matter) => matter.summary);
   return { officials, matters };
+}
+
+/**
+ * The room the town step stands in (OW-11): the council chamber where the
+ * person's place records a town government with a holder, else the county
+ * commission room. Read from the place's own government records.
+ */
+export function openingLocalChamber(
+  world: World,
+  personId: EntityId,
+): "council-chamber" | "county-commission" {
+  const view = projectGovernmentBrowser(world, personId, { scope: "local" });
+  return view.localGovernments.some((entry) => entry.holderName)
+    ? "council-chamber"
+    : "county-commission";
 }
 
 /* -------------------------------------------------------------------------- */

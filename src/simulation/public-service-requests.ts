@@ -31,12 +31,17 @@ import {
 } from "./time-work";
 import { recordWorldEvent } from "./world";
 import { standingCrisisAuthority } from "./crisis-standing-appropriations";
+import {
+  residentOfCounty,
+  standingCountyAuthority,
+} from "./county-service-authority";
 import type { StandingProgramAuthority } from "./law-consequence-types";
 import {
   SERVICE_RECIPIENT_KIND,
   PUBLIC_SERVICE_ATTENDANCE,
   SERVICE_REQUEST_FORMS,
   standingServiceProgram,
+  isCountyServiceProgram,
   type ServiceRequestForm,
 } from "./law-consequences/service-delivered-data";
 import type {
@@ -167,7 +172,8 @@ export function serviceAuthorityForCommitment(
     return null;
   const program = standingServiceProgram(appropriation.programKey);
   const standing = program
-    ? standingCrisisAuthority(world, appropriation.id, onDate)
+    ? (standingCrisisAuthority(world, appropriation.id, onDate) ??
+      standingCountyAuthority(world, appropriation.id, onDate))
     : null;
   if (!program || !standing) return null;
   return {
@@ -203,9 +209,13 @@ export function livesInServiceArea(
   world: World,
   personId: EntityId,
   jurisdictionId: EntityId,
+  programKey?: string,
 ): boolean {
   const person = world.people[personId];
   if (!person) return false;
+  // A county's service reaches the county's own residents, not the state's.
+  if (programKey && isCountyServiceProgram(programKey))
+    return residentOfCounty(world, personId, programKey);
   if (person.homeJurisdictionId === jurisdictionId) return true;
   const served = world.jurisdictions[jurisdictionId];
   const servedState = served ? stateKeyForJurisdiction(served) : null;
@@ -307,7 +317,14 @@ export function requestPublicService(
     return unsupported(
       "The operator has not been paid for operating service yet.",
     );
-  if (!livesInServiceArea(world, person.id, commitment.jurisdictionId))
+  if (
+    !livesInServiceArea(
+      world,
+      person.id,
+      commitment.jurisdictionId,
+      commitment.programKey,
+    )
+  )
     return unsupported(
       "This person's recorded home is outside the service area.",
     );

@@ -20,6 +20,7 @@ import {
   recordEnactment,
   measurePosition,
 } from "../legislation";
+import { recordFiledProvision } from "../legislative-politics";
 import type { World } from "../types";
 import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
@@ -35,7 +36,10 @@ import {
 import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
 import { createProductionPolicyCatalog } from "../production-catalog";
-import { applyLawConsequences } from "../enacted-law-effects";
+import {
+  applyEnactedLawEffects,
+  applyLawConsequences,
+} from "../enacted-law-effects";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { STATES } from "../state-reference";
 import {
@@ -51,6 +55,7 @@ import {
 } from "../crisis/health-coverage";
 import { healthCoveragePassHandler } from "../crisis/health-coverage-pass";
 import {
+  COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS,
   COVERAGE_ELIGIBILITY_ROWS,
   COVERAGE_ELIGIBILITY_REGISTRATION,
   resolveCoverageEligibility,
@@ -303,6 +308,28 @@ function enactCoverageRule(
     const measure = world.history.legislativeMeasures?.at(-1);
     if (!measure)
       throw new Error("Canonical introduction did not write a measure.");
+    world = recordFiledProvision(world, {
+      stableKey: tag + ":income-limit",
+      measureId: measure.id,
+      provisionKey: "coverage-income-limit",
+      sectionNumber: 1,
+      heading: "Adult coverage income limit",
+      text: "Controlled fixture term for the enacted-authority test.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "adult Medicaid eligibility",
+      },
+      applicationScope: { jurisdictionId: state.id, segmentKey: null },
+      lawTerms: [
+        {
+          questionKey,
+          key: "income-limit",
+          value: 138,
+          unit: "share-of-federal-poverty-level",
+          scope: { kind: "statewide" },
+        },
+      ],
+    });
     for (const chamber of pack.chambers) {
       const seats = authoredScenarioSeatCount(pack, chamber.chamberKey);
       const body = seatBodyForPack(
@@ -480,11 +507,24 @@ describe("coverage kind canonical enacted authority", () => {
     const enactment = world.history.legislativeEnactments?.at(-1);
     if (!enactment)
       throw new Error("Canonical enactment did not write a record.");
+    const beforeCoverage = healthCoverageRecords(world).length;
+    expect(beforeCoverage).toBe(0);
+    const effective = applyEnactedLawEffects(world, enactment.measureId);
+    expect(healthCoverageRecords(effective)).toHaveLength(beforeCoverage + 1);
+    const appliedCoverage =
+      healthCoverageRecords(effective).slice(beforeCoverage);
+    expect(appliedCoverage).toHaveLength(1);
+    expect(appliedCoverage[0]).toMatchObject({
+      personId: person.id,
+      lawEffectStamps: [
+        expect.objectContaining({
+          governingLawKey: enactment.measureId,
+          appliedAt: world.currentDate,
+        }),
+      ],
+    });
     // Actual effective-law activity, not a fictional renewal/application.
-    const row = {
-      ...COVERAGE_ELIGIBILITY_ROWS[questionKey]!,
-      when: "effective" as const,
-    };
+    const row = COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS[questionKey]!;
     const context = {
       onDate: world.currentDate,
       activity: "effective" as const,

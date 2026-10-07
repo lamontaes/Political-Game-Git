@@ -37,6 +37,7 @@ import {
   estimatedMonthlyHouseholdLivingCosts,
 } from "./living-costs-data";
 import { townLeases } from "./living-world/town-rent";
+import { recordSalesTaxBases } from "./sales-tax-bases";
 import { recordWorldEvent } from "./world";
 import { drawnLinkSize } from "./outcome-web";
 import type {
@@ -182,20 +183,19 @@ export function estimatedHouseholdLivingCostsAt(
 
 /**
  * Actual active housing contracts of the person's primary household on a date.
- * Amounts retain their recorded currency/cadence; they are not an invented share.
+ * Amounts retain their recorded currency/cadence; an empty list means there is
+ * no contract to report, not an unknown amount or a zero-dollar estimate.
  */
 export function recordedHouseholdHousingBillsAt(
   world: World,
   personId: EntityId,
   asOfDate: IsoDate,
-):
-  | readonly {
-      flow: ResourceFlow;
-      terms: NonNullable<ReturnType<typeof resourceFlowTermsAt>>;
-    }[]
-  | null {
+): readonly {
+  flow: ResourceFlow;
+  terms: NonNullable<ReturnType<typeof resourceFlowTermsAt>>;
+}[] {
   const householdId = primaryHouseholdId(world, personId, asOfDate);
-  if (!householdId) return null;
+  if (!householdId) return [];
   const cutoff = {
     asOfDate,
     historySequenceExclusive: world.history.nextSequence,
@@ -250,8 +250,7 @@ export function recordedHouseholdHousingBillsAt(
     });
     return terms?.status === "active" ? [{ flow, terms }] : [];
   });
-  // No recorded contract means an unknown housing bill, never a $900 estimate or zero.
-  return bills.length ? bills : null;
+  return bills;
 }
 
 const livingCostsProvenance = {
@@ -589,10 +588,17 @@ function settleMonth(
     note: `Food and bills for ${monthName(dueOn)}.`,
     provenance: periodTerms.provenance,
   });
+  const taxed = recordSalesTaxBases(next, {
+    personId,
+    householdId: primaryHouseholdId(next, personId),
+    settledOn: dueOn,
+    paid: transferredAmount,
+    sourceKey: `${flow.stableKey}:${dueOn}`,
+  });
   return status === "completed"
-    ? next
+    ? taxed
     : recordFirstShortfall(
-        next,
+        taxed,
         personId,
         monthly.minorUnits,
         transferredAmount.minorUnits,

@@ -2,11 +2,15 @@ import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { campaigns } from "./campaign-queries";
+import { electionContestById } from "./election-contests";
+import { establishDistrictResidence } from "./district-residence";
 import { addDays } from "./dates";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import {
   askToSign,
+  circulateCandidatePetition,
   petitionAskedPersonIds,
+  petitionEventsForCampaign,
   petitionSignaturesForCampaign,
 } from "./candidate-petitions";
 import type { EntityId, World } from "./types";
@@ -14,7 +18,27 @@ import type { EntityId, World } from "./types";
 function petitionFixture(seed: string) {
   const small = smallWorld({ place: "US-KY", people: 6, seed });
   const world = fileForOffice(small.world, small.personId);
-  return { world, campaign: campaigns(world)[0]!, candidateId: small.personId };
+  const campaign = campaigns(world)[0]!;
+  const binding = electionContestById(world, campaign.contestId)?.office
+    .districtBinding;
+  let residents = world;
+  if (binding) {
+    for (const personId of world.personOrder) {
+      const result = establishDistrictResidence(residents, {
+        personId,
+        binding,
+        startedOn: world.currentDate,
+        provenance: {
+          method: "authored",
+          sourceEventId: null,
+          note: "Candidate petition fixture district residence.",
+        },
+      });
+      if (result.kind === "refused") throw new Error(result.reason);
+      residents = result.world;
+    }
+  }
+  return { world: residents, campaign, candidateId: small.personId };
 }
 
 function firstOther(world: World, candidateId: EntityId): EntityId {
@@ -24,6 +48,25 @@ function firstOther(world: World, candidateId: EntityId): EntityId {
 }
 
 describe("candidate petition asks", () => {
+  it("turns a completed shift into deterministic, non-duplicated asks", () => {
+    const fixture = petitionFixture("petition-background-shift");
+    const input = {
+      campaignId: fixture.campaign.id,
+      circulatorPersonId: fixture.candidateId,
+      stableKey: "petition-background-shift:monday",
+      minutes: 120,
+      at: fixture.world.currentDate,
+    } as const;
+    const first = circulateCandidatePetition(fixture.world, input);
+    const asked = petitionAskedPersonIds(first, fixture.campaign.id);
+    expect(asked.size).toBeGreaterThan(0);
+    expect(petitionEventsForCampaign(first, fixture.campaign.id)).toHaveLength(
+      asked.size,
+    );
+    expect(circulateCandidatePetition(first, input)).toBe(first);
+    expect(petitionAskedPersonIds(first, fixture.campaign.id)).toEqual(asked);
+  });
+
   it("records a deterministic dated decision with signer and circulator participants", () => {
     const fixture = petitionFixture("petition-same-world");
     const signerId = firstOther(fixture.world, fixture.candidateId);

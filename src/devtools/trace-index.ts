@@ -9,7 +9,10 @@ import {
   type TraceNode,
   type TraceRecordClass,
 } from "./trace-model";
-import { defaultTraceSourceRegistry } from "./trace-adapters";
+import {
+  BUILT_IN_TRACE_SOURCES,
+  defaultTraceSourceRegistry,
+} from "./trace-adapters";
 import type { TraceSource, TraceSourceRegistry } from "./trace-sources";
 
 const TRACE_LINK_KIND_SET: ReadonlySet<string> = new Set(TRACE_LINK_KINDS);
@@ -21,16 +24,27 @@ const TRACE_TRUTH_ORIGIN_SET: ReadonlySet<string> = new Set(
 );
 
 /**
- * A private, throwaway copy of the world for one collector to read.
+ * A private, throwaway copy of the world for extension code to read.
  *
  * A registered source is extension code: a later packet, or in a test a
- * deliberately hostile one. It is handed this snapshot, never the world the
+ * deliberately hostile one. It is handed its own snapshot, never the world the
  * caller holds, so nothing it does — assigning a field, pushing to an array —
  * can reach the canonical state the rest of the program runs on. The snapshot
  * is discarded the moment the collector returns.
  */
 function snapshotWorldForCollector(world: World): World {
   return structuredClone(world);
+}
+
+const builtInCollectors = new Set(
+  BUILT_IN_TRACE_SOURCES.map((source) => source.collect),
+);
+
+/** Built-in readers share one private snapshot whose records cannot change. */
+function freezeSnapshot(value: unknown): void {
+  if (!value || typeof value !== "object" || Object.isFrozen(value)) return;
+  Object.freeze(value);
+  for (const child of Object.values(value)) freezeSnapshot(child);
 }
 
 /**
@@ -164,8 +178,20 @@ export function buildTraceIndex(
   const identity = traceIdentityOf(world);
 
   const byId = new Map<EntityId, TraceNode>();
+  let builtInSnapshot: World | undefined;
   for (const source of registry.sources) {
-    const snapshot = snapshotWorldForCollector(world);
+    let snapshot: World;
+    if (builtInCollectors.has(source.collect)) {
+      if (!builtInSnapshot) {
+        builtInSnapshot = snapshotWorldForCollector(world);
+        freezeSnapshot(builtInSnapshot);
+      }
+      snapshot = builtInSnapshot;
+    } else {
+      // Extension code retains its own mutable disposable snapshot. It cannot
+      // change canonical state or any other collector's input.
+      snapshot = snapshotWorldForCollector(world);
+    }
     for (const node of source.collect(snapshot)) {
       assertWellFormedCollectedNode(node, source);
       if (byId.has(node.id)) {

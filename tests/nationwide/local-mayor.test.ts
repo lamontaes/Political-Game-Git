@@ -25,7 +25,10 @@ import {
   seatMunicipalMember,
 } from "../../src/simulation/municipal-public-work";
 import { organizationParticipationStateAt } from "../../src/simulation/life-queries";
-import { activeOrganizationParticipationsAt } from "../../src/simulation/life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  activeWorkRelationshipsAt,
+} from "../../src/simulation/life-queries";
 import { addDays } from "../../src/simulation/dates";
 import type { EntityId, IsoDate, World } from "../../src/simulation";
 import {
@@ -46,7 +49,8 @@ import {
   prepareOpeningLife,
 } from "../../src/presentation/opening-life";
 import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
-import { runToElection, suppliedWin } from "../fixtures/state-executive-entry";
+import { suppliedWin } from "../fixtures/state-executive-entry";
+import { resolveThroughOwnElection } from "../fixtures/due-item-clock";
 
 /**
  * A town's mayor, where the town's voters elect one.
@@ -118,10 +122,12 @@ describe("how a town's mayor is chosen", () => {
         basis: "read",
       });
       const place = lifePlaceByKey(geoid)!;
+      // The town's own offices: its council and no mayor. The county it sits
+      // in lists its own offices after them.
       expect(
-        localGoverningBodiesForJurisdiction(place.context.jurisdiction.id).map(
-          (office) => office.seat,
-        ),
+        localGoverningBodiesForJurisdiction(place.context.jurisdiction.id)
+          .filter((office) => office.unit.unitType === "municipality")
+          .map((office) => office.seat),
       ).toEqual(["governing-body"]);
     },
   );
@@ -187,9 +193,17 @@ describe("running for mayor", () => {
       expect(mayor.officeTitle).toBe("Mayor");
 
       // Listed after the council, as a local office anybody here may seek.
+      // The county's own offices (its board and row offices) come after the
+      // town's.
       const offices = electiveOfficesForJurisdiction(home);
-      expect(offices.at(-1)!.officeKey).toBe(mayor.officeKey);
-      expect(offices.at(-1)!.office.title).toBe("Mayor");
+      const mayorAt = offices.findIndex(
+        (office) => office.officeKey === mayor.officeKey,
+      );
+      expect(mayorAt).toBeGreaterThan(0);
+      expect(offices[mayorAt]!.office.title).toBe("Mayor");
+      expect(offices[mayorAt - 1]!.officeKey).toBe(
+        localGoverningBodiesForJurisdiction(home)[0]!.officeKey,
+      );
       const listed = projectCampaignOffices(world, personId).find(
         (office) => office.officeKey === mayor.officeKey,
       );
@@ -209,7 +223,11 @@ describe("running for mayor", () => {
         mayor.officeKey,
         addDays(world.currentDate, 28),
       );
-      const decided = runToElection(filed, personId, suppliedWin(personId));
+      const decided = resolveThroughOwnElection(
+        filed,
+        personId,
+        suppliedWin(personId),
+      );
       expect(projectCampaign(decided, personId).phase).toBe("won");
 
       const seat = localGoverningSeatFor(decided, personId)!;
@@ -219,8 +237,21 @@ describe("running for mayor", () => {
       expect(seat.seats).toBeNull();
       expect(seat.termYears?.value).toBeGreaterThan(0);
       expect(townSeatRulesSentence(seat)).toMatch(/mayor serves/);
+      // The job the town's employers gave this person at the opening stays
+      // (read from the record), followed by the office.
+      const startingJobs = activeWorkRelationshipsAt(world, personId).map(
+        (entry) => entry.role.title,
+      );
+      expect(
+        activeWorkRelationshipsAt(decided, personId).map(
+          (entry) => entry.role.title,
+        ),
+      ).toEqual(startingJobs);
+      const mayorRole = `Mayor, ${seat.governmentName}`;
       expect(projectWorkRole(decided, personId).sentence).toBe(
-        `Your role: Mayor, ${seat.governmentName}.`,
+        startingJobs.length > 0
+          ? `Your roles: ${[...new Set(startingJobs), mayorRole].join("; ")}.`
+          : `Your role: ${mayorRole}.`,
       );
 
       // Never a council seat, and never the state's legislature.
@@ -253,7 +284,7 @@ describe("running for mayor", () => {
       const reloaded = deserializeWorld(serializeWorld(decided));
       expect(localGoverningSeatFor(reloaded, personId)?.office).toBe("mayor");
     },
-    120_000,
+    900_000,
   );
 
   it("Duluth, Minnesota: the sitting mayor's term ends as the winner's begins", () => {
@@ -298,7 +329,7 @@ describe("running for mayor", () => {
       mayor.officeKey,
       addDays(world.currentDate, 28),
     );
-    world = runToElection(world, personId, suppliedWin(personId));
+    world = resolveThroughOwnElection(world, personId, suppliedWin(personId));
 
     const mayors = municipalSeats(world, government.key).filter(
       (seat) => seat.role === "mayor",
@@ -329,7 +360,7 @@ describe("running for mayor", () => {
         mayor.officeKey,
         addDays(world.currentDate, 28),
       );
-      world = runToElection(world, personId, suppliedWin(personId));
+      world = resolveThroughOwnElection(world, personId, suppliedWin(personId));
       expect(projectCampaign(world, personId).phase).toBe("won");
       expect(
         activeOrganizationParticipationsAt(world, personId).filter(

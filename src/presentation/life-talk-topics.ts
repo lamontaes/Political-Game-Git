@@ -1,3 +1,7 @@
+import { lifeReplyLine, type LifeReplyKey } from "./life-reply-english";
+import type { ComposedPart } from "./english-composition";
+import type { GroundedEnglishFact } from "./grounded-english";
+import { latestGoalStatesForPerson } from "../simulation/queries";
 import {
   daysBetween,
   personName,
@@ -181,6 +185,7 @@ function listenerStance(
 
 export interface TellAnswer {
   readonly reply: string;
+  readonly parts: readonly ComposedPart[];
   /** Whether the listener took it in, which is when they come to know it. */
   readonly heard: boolean;
   /** How far the listener believes it, from how far they rely on the teller. */
@@ -195,8 +200,7 @@ export interface TellAnswer {
  * have made the same plan. Nothing here is scored or remembered beyond what
  * the conversation writes.
  *
- * PLACEHOLDER: the answers themselves are interim, pending the research
- * question `listener-response-to-being-told`.
+ * Words are assembled by the same English composer as other ordinary replies.
  */
 export function tellAnswer(
   world: World,
@@ -211,54 +215,65 @@ export function tellAnswer(
     (standing.readings.trust.band === "marked" ||
       standing.readings.trust.band === "strong");
   const confidence = trustMarked ? "high" : "medium";
-  if (activeOrdinaryGoal(world, listenerId, "privacy")) {
-    return {
-      reply: "Can it wait? I need a little quiet right now.",
-      heard: false,
-      confidence,
-    };
-  }
-  const stance = listenerStance(world, listenerId, playerPersonId);
-
-  if (topic.kind === "plan") {
-    if (activeOrdinaryGoal(world, listenerId, topic.goal))
-      return {
-        reply: "Me too. I've been meaning to do the same.",
-        heard: true,
-        confidence,
-      };
-    if (stance === "guarded")
-      return { reply: "All right.", heard: true, confidence };
-    return {
-      reply: options.parentOfYoungPlayer
-        ? "That sounds like a good idea."
-        : stance === "warm"
-          ? "That sounds good. I hope you find the time."
-          : "Good luck with it.",
-      heard: true,
-      confidence,
-    };
-  }
-
-  const other = world.people[topic.otherPersonId]!;
-  const knowsThem =
-    relationshipHistory(world, listenerId, topic.otherPersonId).length > 0;
-  const opener = knowsThem ? `${other.givenName}? ` : "";
-  if (stance === "guarded")
-    return { reply: `${opener}All right.`, heard: true, confidence };
-  if (stance === "warm")
-    return {
-      reply: options.parentOfYoungPlayer
-        ? `${opener}Thank you for telling me. How did that feel?`
-        : `${opener}I'm glad you told me. How did it go?`,
-      heard: true,
-      confidence,
-    };
-  return {
-    reply: `${opener}Thanks for telling me.`,
-    heard: true,
-    confidence,
+  const facts: Record<string, GroundedEnglishFact> = {};
+  const answer = (key: LifeReplyKey, heard = true): TellAnswer => {
+    const line = lifeReplyLine(
+      world,
+      listenerId,
+      playerPersonId,
+      [],
+      key,
+      facts,
+    );
+    return { reply: line.text, parts: line.parts, heard, confidence };
   };
+  if (activeOrdinaryGoal(world, listenerId, "privacy"))
+    return answer("tell-privacy", false);
+  const stance = listenerStance(world, listenerId, playerPersonId);
+  if (topic.kind === "plan") {
+    const goal = latestGoalStatesForPerson(world, listenerId).find(
+      (record) =>
+        record.goalKey === `opening-life:${topic.goal}` &&
+        record.status === "active",
+    );
+    if (goal) {
+      facts.plan = {
+        text: lowerFirst(goal.objective)
+          .replace(/\byou know\b/g, "I know")
+          .replace(/\byourself\b/g, "myself"),
+        sourceRecordIds: [goal.id],
+      };
+      return answer("tell-shared-plan");
+    }
+    return answer(
+      stance === "guarded"
+        ? "tell-guarded"
+        : options.parentOfYoungPlayer
+          ? "tell-parent-plan"
+          : stance === "warm"
+            ? "tell-warm-plan"
+            : "tell-plain-plan",
+    );
+  }
+  const relationships = relationshipHistory(
+    world,
+    listenerId,
+    topic.otherPersonId,
+  );
+  if (relationships.length > 0)
+    facts["known-person"] = {
+      text: world.people[topic.otherPersonId]!.givenName,
+      sourceRecordIds: relationships.map((record) => record.id),
+    };
+  return answer(
+    stance === "guarded"
+      ? "tell-guarded"
+      : stance === "warm"
+        ? options.parentOfYoungPlayer
+          ? "tell-parent-experience"
+          : "tell-warm-experience"
+        : "tell-plain-experience",
+  );
 }
 
 /** What the listener comes away believing, in their own terms. */

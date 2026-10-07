@@ -1880,7 +1880,7 @@ const GOVERNMENTS: readonly ResearchGovernment[] = [
         "Cambridge municipal elections",
         "City of Cambridge, Massachusetts",
         "https://www.cambridgema.gov/departments/electioncommission/cambridgemunicipalelections",
-        "A charter adopted by the voters in 2025 under which nine City Councillors are elected at large for two-year terms by proportional representation and then elect one of themselves as Mayor.",
+        "A charter adopted by the voters in 2025 under which nine City Council members are elected at large for two-year terms by proportional representation and then elect one of themselves as Mayor.",
       ),
       site(
         "cambridge-clerk",
@@ -1906,11 +1906,11 @@ const GOVERNMENTS: readonly ResearchGovernment[] = [
         districtSeats: null,
         atLargeSeats: 9,
         wardSeats: null,
-        note: "Nine Councillors elected at large by proportional representation.",
+        note: "Nine Council members elected at large by proportional representation.",
       },
       presidingOffice: "Mayor",
       executiveSelection:
-        "After taking office the nine Councillors elect one of themselves as Mayor.",
+        "After taking office the nine Council members elect one of themselves as Mayor.",
       sourceKey: "cambridge-elections",
     },
     separation: "EXECUTIVE_AND_LEGISLATIVE_FUSED_IN_BODY",
@@ -1926,7 +1926,11 @@ const GOVERNMENTS: readonly ResearchGovernment[] = [
     },
     partisanship: null,
     terms: [
-      { seatClass: "councillor", years: 2, sourceKey: "cambridge-elections" },
+      {
+        seatClass: "councilmember",
+        years: 2,
+        sourceKey: "cambridge-elections",
+      },
     ],
     powers: [
       {
