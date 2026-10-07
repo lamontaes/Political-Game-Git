@@ -202,6 +202,11 @@ export function congressIntakeHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
+  const existingCongressMeasureIds = new Set(
+    (world.history.legislativeMeasures ?? [])
+      .filter(isCongressMeasure)
+      .map((measure) => measure.id),
+  );
   let next = world;
   for (const chamberKey of ["house", "senate"] as const)
     next = fileMemberAgendaBills(next, {
@@ -209,12 +214,16 @@ export function congressIntakeHandler(
       chamberKey,
       intakeKey: due.dueAt,
     });
+  const filedBills = (next.history.legislativeMeasures ?? []).filter(
+    (measure) =>
+      isCongressMeasure(measure) && !existingCongressMeasureIds.has(measure.id),
+  ).length;
   next = scheduleNextIntake(next);
   return {
     world: next,
     status: "resolved",
-    reasonKey: null,
-    context: "Members of Congress filed their bills.",
+    reasonKey: `congress-intake:filed-bills-${filedBills}`,
+    context: null,
     outcomeEventId: null,
   };
 }
