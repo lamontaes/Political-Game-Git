@@ -105,10 +105,8 @@ describe("ordinary local crime", () => {
   it("every rate is marked as an unresearched placeholder", () => {
     expect(LOCAL_CRIME_RATES.provenance).toBe("estimated-from-average");
     for (const rule of LOCAL_CRIME_RATES.offenses) {
-      for (const share of [rule.reportedShare, rule.arrestShare]) {
-        expect(share).toBeGreaterThan(0);
-        expect(share).toBeLessThan(1);
-      }
+      expect(rule.reportedRate).toBeGreaterThan(0);
+      expect(rule.reportedRate).toBeLessThan(rule.annualRate);
     }
   });
 
