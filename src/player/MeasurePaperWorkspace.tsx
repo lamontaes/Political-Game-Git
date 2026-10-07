@@ -129,9 +129,8 @@ export function MeasurePaperWorkspace({
           className="measure-message"
           role="status"
           data-testid="measure-message"
-        >
-          {message}
-        </p>
+          data-reason={message}
+        />
       ) : null}
 
       <article className="measure-paper" data-testid="measure-paper">
@@ -324,9 +323,7 @@ export function MeasurePaperWorkspace({
                   <li key={amendment.id}>
                     {amendment.description}{" "}
                     <strong>
-                      {amendment.status === "adopted"
-                        ? "Adopted."
-                        : "Rejected."}
+                      {amendment.status === "adopted" ? "Adopted" : "Rejected"}
                     </strong>
                   </li>
                 ))}
@@ -390,11 +387,12 @@ export function MeasurePaperWorkspace({
               {memberAccounts.map((account) => (
                 <li key={account.personId}>
                   <strong>
-                    {personName(world.people[account.personId]!)} voted{" "}
-                    {account.disposition === "present-not-voting"
-                      ? "present"
-                      : account.disposition}
-                    .
+                    {personName(world.people[account.personId]!)}{" "}
+                    <span data-disposition={account.disposition}>
+                      {account.disposition === "present-not-voting"
+                        ? "present"
+                        : account.disposition}
+                    </span>
                   </strong>{" "}
                   {account.account}
                 </li>

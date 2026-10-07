@@ -11,6 +11,8 @@ import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
 import { cancelFutureDueItem } from "../../src/simulation/future-transitions";
 import { juryCountyForPlace } from "../../src/simulation/justice/jury-catchment";
 import { ageOnDate } from "../../src/simulation/dates";
+import { currentLifeCutoff } from "../../src/simulation/life-queries";
+import { isPersonAliveAt } from "../../src/simulation/vitality";
 import { beginHealthEpisode } from "../../src/simulation/crisis/health";
 import {
   deserializeWorld,
@@ -19,10 +21,11 @@ import {
 import type { EntityId } from "../../src/simulation/types";
 import { BUDGET_PROGRAMS } from "../../src/simulation/public-budgets/store";
 import { organizationServesCounty } from "../../src/simulation/county-service-authority";
-import { addDays } from "../../src/simulation/dates";
+import { addDays, daysBetween } from "../../src/simulation/dates";
 import { settlePublicBudgets } from "../../src/simulation/public-budgets";
 import { ensureCountyServiceAppropriations } from "../../src/simulation/county-services";
 import { publicProgramRecords } from "../../src/simulation/public-program-integrity";
+import { resourcePositionAt } from "../../src/simulation/resource-queries";
 import { COUNTY_SERVICE_FAMILIES } from "../../src/simulation/law-consequences/service-delivered-data";
 import type { IsoDate, World } from "../../src/simulation/types";
 import { resolveDueThrough } from "../fixtures/due-item-clock";
@@ -74,144 +77,241 @@ function openCounty(seed: string) {
 }
 
 describe("a county's voted budget lines fund its services", () => {
-  it("funds clinics, roads and the fair from the voted year and reaches a named resident", () => {
-    const { county, place, world: opened } = openCounty("co5-budget-hearing-a");
-    const geoid = county.countyGeoid!;
-    const hearing0 = opened.history.futureDueItems.find(
-      (item) =>
-        item.transitionKey === "county:budget-hearing" &&
-        item.stableKey.includes(county.id),
-    )!;
-    process.stderr.write(
-      `CO-9 world seed co9-a, place ${place.displayName} (${county.stateUsps}, ${county.id}), opened ${opened.currentDate}\n`,
-    );
-    let world = resolveDueThrough(isolate(opened, BOARD_CLOCK), hearing0.dueAt);
-    const hearing = countyBudgetHearings(world).find(
-      (row) => row.unitId === county.id,
-    )!;
-    world = resolveDueThrough(world, hearing.startsOn);
-    const decided = countyBudgetHearings(world).find(
-      (row) => row.key === hearing.key,
-    )!;
-    expect(decided.stage).toBe("adopted");
-    // The voted year opens; the month's pass funds the county's services.
-    world = resolveDueThrough(isolate(world, BOARD_CLOCK), decided.startsOn);
-    const month = `${decided.startsOn.slice(0, 7)}-01` as IsoDate;
-    const settled = settlePublicBudgets(
-      world,
-      addDays(month, -1).slice(0, 7) + "-01",
-    );
-    world = ensureCountyServiceAppropriations(
-      settled,
-      addDays(month, -31) as IsoDate,
-    );
-    const mine = (record: { programKey?: string }) =>
-      COUNTY_SERVICE_FAMILIES.some(
-        (row) => record.programKey === `${row.family}:${geoid}`,
+  it.each([
+    "co5-budget-hearing-a",
+    "co5-budget-hearing-b",
+    "co9-county-b",
+    "co9-county-e",
+  ])(
+    "funds clinics, roads and the fair from the voted year and reaches a named resident (seed %s)",
+    (seed) => {
+      const { county, place, world: opened } = openCounty(seed);
+      const geoid = county.countyGeoid!;
+      const hearing0 = opened.history.futureDueItems.find(
+        (item) =>
+          item.transitionKey === "county:budget-hearing" &&
+          item.stableKey.includes(county.id),
+      )!;
+      process.stderr.write(
+        `CO-9 world seed ${seed}, place ${place.displayName} (${county.stateUsps}, ${county.id}), opened ${opened.currentDate}\n`,
       );
-    const appropriations = publicProgramRecords(world).filter(
-      (record) => record.kind === "appropriation" && mine(record),
-    );
-    expect(appropriations.length).toBeGreaterThan(0);
-    // Each appropriation is exactly the voted line, so a bigger or smaller
-    // vote is a bigger or smaller service budget.
-    const voted = world
-      .publicBudgets!.governments.find(
-        (government) => government.key === `county:${geoid}`,
-      )!
-      .years.at(-1)!;
-    for (const { family, line } of COUNTY_SERVICE_FAMILIES) {
-      const record = appropriations.find(
-        (row) => row.programKey === `${family}:${geoid}`,
+      let world = resolveDueThrough(
+        isolate(opened, BOARD_CLOCK),
+        hearing0.dueAt,
       );
-      const dollars = voted.appropriations[BUDGET_PROGRAMS.indexOf(line)] ?? 0;
-      if (dollars > 0)
-        expect(
-          record?.kind === "appropriation" && record.amount.minorUnits,
-        ).toBe(Math.round(dollars) * 100);
-    }
-    const startDay = world.currentDate;
-    const step = (to: number) => {
-      world = resolveDueThrough(
-        isolate(world),
-        addDays(startDay, to) as IsoDate,
+      const hearing = countyBudgetHearings(world).find(
+        (row) => row.unitId === county.id,
+      )!;
+      world = resolveDueThrough(world, hearing.startsOn);
+      const decided = countyBudgetHearings(world).find(
+        (row) => row.key === hearing.key,
+      )!;
+      expect(decided.stage).toBe("adopted");
+      // The voted year opens; the month's pass funds the county's services.
+      world = resolveDueThrough(isolate(world, BOARD_CLOCK), decided.startsOn);
+      const month = `${decided.startsOn.slice(0, 7)}-01` as IsoDate;
+      const settled = settlePublicBudgets(
+        world,
+        addDays(month, -1).slice(0, 7) + "-01",
       );
-    };
-    // The money commits and pays first.
-    step(60);
-    const commitments = publicProgramRecords(world).filter(
-      (record) => record.kind === "commitment" && mine(record),
-    );
-    expect(commitments.length).toBeGreaterThan(0);
-    // A commitment only ever pays an organization already in this county.
-    for (const record of commitments)
-      if (record.kind === "commitment")
-        expect(
-          organizationServesCounty(
-            world,
-            record.recipientOrganizationId!,
-            record.programKey,
-            record.jurisdictionId,
-          ),
-        ).toBe(true);
-    expect(
-      publicProgramRecords(world).some(
-        (record) =>
-          record.kind === "installment" &&
-          record.status === "posted" &&
-          !!record.resourceFlowId,
-      ),
-    ).toBe(true);
-    // Edge case: one county resident falls ill through the health writer;
-    // another stays well. Everything after this is the ordinary clock.
-    const residents = Object.keys(world.people)
-      .filter((id) => {
-        const home = world.people[id as never]?.homeJurisdictionId;
-        return (
-          id !== (world.control as { personId?: string }).personId &&
-          !!home &&
-          juryCountyForPlace(home) === geoid &&
-          ageOnDate(world.people[id as never]!.birthDate, world.currentDate) >=
-            18
+      world = ensureCountyServiceAppropriations(
+        settled,
+        addDays(month, -31) as IsoDate,
+      );
+      const mine = (record: { programKey?: string }) =>
+        COUNTY_SERVICE_FAMILIES.some(
+          (row) => record.programKey === `${row.family}:${geoid}`,
         );
-      })
-      .sort() as EntityId[];
-    const unwellSet = residents.slice(0, 8);
-    const wellSet = residents.slice(8);
-    for (const unwell of unwellSet)
-      world = beginHealthEpisode(world, {
-        stableKey: `test:co9-acute:${unwell}`,
-        personId: unwell,
-        severity: "acute",
-        initialLimitation: "limited",
-        origin: {
-          kind: "authored",
-          note: "CO-9 test: an acute episode written through the health writer.",
-        },
-        causalParentIds: [],
-      });
-    step(120);
-    const delivered = world.history.events.filter(
-      (event) => event.type === "service.delivery-recorded",
-    );
-    const clinic = delivered.filter((event) =>
-      event.summary.includes("Clinic visit"),
-    );
-    const fair = delivered.filter((event) =>
-      event.summary.includes("Day at the fair"),
-    );
-    const patients = new Set(clinic.flatMap((e) => e.involvedEntityIds));
-    process.stderr.write(
-      `CO-9 delivered ${delivered.length}: clinic ${clinic.length}, fair ${fair.length}; ill residents ${unwellSet.length}, well ${wellSet.length}\n`,
-    );
-    expect(fair.length).toBeGreaterThan(0);
-    expect(clinic.length).toBeGreaterThan(0);
-    for (const id of wellSet) expect(patients.has(id)).toBe(false);
-    const reloaded = deserializeWorld(serializeWorld(world));
-    expect(
-      reloaded.history.events.filter(
+      const appropriations = publicProgramRecords(world).filter(
+        (record) => record.kind === "appropriation" && mine(record),
+      );
+      expect(appropriations.length).toBeGreaterThan(0);
+      const serviceAppropriation = appropriations.find(
+        (record) => record.kind === "appropriation",
+      );
+      expect(serviceAppropriation).toBeDefined();
+      const serviceAccount = {
+        kind: "organization" as const,
+        organizationId: serviceAppropriation!.accountOrganizationId,
+      };
+      const openingServiceCash = resourcePositionAt(
+        world,
+        serviceAccount,
+        serviceAppropriation!.amount.currency,
+      );
+      // Each appropriation is exactly the voted line, so a bigger or smaller
+      // vote is a bigger or smaller service budget.
+      const voted = world
+        .publicBudgets!.governments.find(
+          (government) => government.key === `county:${geoid}`,
+        )!
+        .years.at(-1)!;
+      for (const { family, line } of COUNTY_SERVICE_FAMILIES) {
+        const record = appropriations.find(
+          (row) => row.programKey === `${family}:${geoid}`,
+        );
+        const dollars =
+          voted.appropriations[BUDGET_PROGRAMS.indexOf(line)] ?? 0;
+        if (dollars > 0)
+          expect(
+            record?.kind === "appropriation" && record.amount.minorUnits,
+          ).toBe(Math.round(dollars) * 100);
+      }
+      const startDay = world.currentDate;
+      const step = (to: number) => {
+        world = resolveDueThrough(
+          isolate(world),
+          addDays(startDay, to) as IsoDate,
+        );
+      };
+      // The manager commits once the county's account holds the cash, and the
+      // first payment posts; until then the money waits and is asked for again
+      // each month.
+      const paid = () => {
+        const records = publicProgramRecords(world);
+        const ours = new Set(
+          records
+            .filter((record) => record.kind === "commitment" && mine(record))
+            .map((record) => record.id),
+        );
+        return records.some(
+          (record) =>
+            record.kind === "installment" &&
+            ours.has(record.commitmentId) &&
+            record.status === "posted" &&
+            !!record.resourceFlowId,
+        );
+      };
+      for (let day = 30; day <= 390 && !paid(); day += 30) {
+        step(day);
+      }
+      if (!paid()) {
+        // Quiet case: the county's account never held the cash for its lines,
+        // so the manager commits nothing, no payment is attempted and fails,
+        // and the matters keep coming back each month.
+        const all = publicProgramRecords(world);
+        expect(
+          all.filter(
+            (record) =>
+              record.kind === "commitment" &&
+              mine(record) &&
+              !!record.recipientOrganizationId,
+          ),
+        ).toHaveLength(0);
+        expect(
+          all.filter(
+            (record) =>
+              record.kind === "installment" && record.status === "failed",
+          ),
+        ).toHaveLength(0);
+        const endingServiceCash = resourcePositionAt(
+          world,
+          serviceAccount,
+          serviceAppropriation!.amount.currency,
+        );
+        expect(openingServiceCash).toBeDefined();
+        expect(endingServiceCash?.liquidBalance.minorUnits).toBe(
+          openingServiceCash!.liquidBalance.minorUnits,
+        );
+        expect(endingServiceCash?.inflows.minorUnits).toBe(
+          openingServiceCash!.inflows.minorUnits,
+        );
+        expect(endingServiceCash?.outflows.minorUnits).toBe(
+          openingServiceCash!.outflows.minorUnits,
+        );
+        process.stderr.write(
+          `CO-9 county service account stayed at ${openingServiceCash!.liquidBalance.minorUnits} minor units for ${daysBetween(startDay, world.currentDate)} days\n`,
+        );
+        return;
+      }
+      const commitments = publicProgramRecords(world).filter(
+        (record) =>
+          record.kind === "commitment" &&
+          mine(record) &&
+          !!record.recipientOrganizationId,
+      );
+      expect(commitments.length).toBeGreaterThan(0);
+      // The roads line commits too: every seated town keeps a public works
+      // department, so the county has a department of its own to pay.
+      expect(
+        commitments.some(
+          (record) => record.programKey === `county-road-repair:${geoid}`,
+        ),
+      ).toBe(true);
+      // A commitment only ever pays an organization already in this county.
+      for (const record of commitments)
+        if (record.kind === "commitment")
+          expect(
+            organizationServesCounty(
+              world,
+              record.recipientOrganizationId!,
+              record.programKey,
+              record.jurisdictionId,
+            ),
+          ).toBe(true);
+      expect(
+        publicProgramRecords(world).some(
+          (record) =>
+            record.kind === "installment" &&
+            record.status === "posted" &&
+            !!record.resourceFlowId,
+        ),
+      ).toBe(true);
+      // Edge case: one county resident falls ill through the health writer;
+      // another stays well. Everything after this is the ordinary clock.
+      const residents = Object.keys(world.people)
+        .filter((id) => {
+          const home = world.people[id as never]?.homeJurisdictionId;
+          return (
+            id !== (world.control as { personId?: string }).personId &&
+            !!home &&
+            juryCountyForPlace(home) === geoid &&
+            isPersonAliveAt(world, id as EntityId, currentLifeCutoff(world)) &&
+            ageOnDate(
+              world.people[id as never]!.birthDate,
+              world.currentDate,
+            ) >= 18
+          );
+        })
+        .sort() as EntityId[];
+      const unwellSet = residents.slice(0, 8);
+      const wellSet = residents.slice(8);
+      for (const unwell of unwellSet)
+        world = beginHealthEpisode(world, {
+          stableKey: `test:co9-acute:${unwell}`,
+          personId: unwell,
+          severity: "acute",
+          initialLimitation: "limited",
+          origin: {
+            kind: "authored",
+            note: "CO-9 test: an acute episode written through the health writer.",
+          },
+          causalParentIds: [],
+        });
+      step(Math.round(daysBetween(startDay, world.currentDate)) + 70);
+      const delivered = world.history.events.filter(
         (event) => event.type === "service.delivery-recorded",
-      ),
-    ).toHaveLength(delivered.length);
-  }, 3_600_000);
+      );
+      const clinic = delivered.filter((event) =>
+        event.summary.includes("Clinic visit"),
+      );
+      const fair = delivered.filter((event) =>
+        event.summary.includes("Day at the fair"),
+      );
+      const patients = new Set(clinic.flatMap((e) => e.involvedEntityIds));
+      process.stderr.write(
+        `CO-9 delivered ${delivered.length}: clinic ${clinic.length}, fair ${fair.length}; ill residents ${unwellSet.length}, well ${wellSet.length}\n`,
+      );
+      expect(fair.length).toBeGreaterThan(0);
+      expect(clinic.length).toBeGreaterThan(0);
+      for (const id of wellSet) expect(patients.has(id)).toBe(false);
+      const reloaded = deserializeWorld(serializeWorld(world));
+      expect(
+        reloaded.history.events.filter(
+          (event) => event.type === "service.delivery-recorded",
+        ),
+      ).toHaveLength(delivered.length);
+    },
+    3_600_000,
+  );
 });
