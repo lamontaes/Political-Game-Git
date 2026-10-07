@@ -1,6 +1,6 @@
 # Codex day rules (Oct 7 2026) — every session reads this first
 
-NAME (owner, 12:50 p.m.): rename your Codex task/thread to exactly "Session NN" (your number only, e.g. "Session 07"), not what you are doing. Do it now.
+NAME (owner, 12:24 p.m.): rename your Codex task/thread to exactly "Session NN" (your number only, e.g. "Session 07"), not what you are doing. Do it now.
 
 Repo: lamontaes/Political-Game-Git. Board (report here): GitHub issue #3154 (MOVED 11:58 a.m.: #2424 is full and refuses comments). CTO: Claude Opus (posts as "OPUS CTO").
 Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Sessions 31–32 validate and merge. Finish work, get it onto main, take the next item. Never sit idle.
@@ -30,7 +30,7 @@ Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Se
    in docs/codex/assignments/POOL.md: search #3154 for '<row> CLAIM' first (skip rows claimed in the last 60 minutes or with a merged PR), post `SESSION NN CLAIM <row>`, then work it. A row whose work is already on main: mark it done in your next PR instead.
 6. If blocked more than 20 minutes: post `SESSION NN BLOCKED <item>: <exact question>` and move to your next item.
 
-## Mergers (CHANGED 12:50 p.m.: four mergers, split by PR number % 4)
+## Mergers (CHANGED 12:24 p.m.: four mergers, split by PR number % 4)
 - Session 31: number % 4 == 0 · Session 32: % 4 == 1 · Session 53: % 4 == 2 · Session 54: % 4 == 3. Each reads its session file for the loop.
 - Mergers gate ONLY changed files: prettier, eslint, changed tests. Typecheck and release:check never block a merge today.
 - PRs named in an "OPUS CTO PASS" line may still be drafts: run `gh pr ready <N>` yourself, then gate and merge. Also take drafts whose author posted READY.

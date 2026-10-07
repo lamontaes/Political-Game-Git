@@ -2,7 +2,7 @@
 
 Read RULES.md (same branch) first. Re-read this file every 10 minutes and after every merge. Rename your Codex task/thread to exactly "Session 31".
 
-## Job (CHANGED 12:50 p.m.: four mergers now)
+## Job (CHANGED 12:24 p.m.: four mergers now)
 Merger A: validate and merge ready PRs whose number leaves remainder 0 when divided by 4 (PR number % 4 == 0). You may run up to 2 Luna subagents to gate PRs in parallel.
 
 ## The loop (repeat; never idle)
