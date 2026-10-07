@@ -37,6 +37,57 @@ FORMULAS = [
     ("clause", r"Except as provided in", "Except as provided in {provision},"),
     ("clause", r"Subject to the availability of appropriations", "Subject to the availability of appropriations,"),
     ("clause", r"If any provision of this Act.{0,80}?is held to be unconstitutional", "If any provision of this Act is held to be unconstitutional, the remainder of this Act shall not be affected."),
+    ("clause", r"The table of contents for this Act is as follows:", "The table of contents for this Act is as follows:"),
+    ("clause", r"In general\.--", "In general.--"),
+    ("clause", r"Definitions\.--In this", "Definitions.--In this {scope}:"),
+    ("clause", r"Rule of construction\.--", "Rule of construction.--"),
+    ("clause", r"Effective date\.--", "Effective date.--"),
+    ("clause", r"Authorization of appropriations\.--", "Authorization of appropriations.--"),
+    ("clause", r"The term ``[^']+'' means", "The term {name} means {subject}."),
+    ("clause", r"The term ``[^']+'' has the meaning given (?:the|such) term in", "The term {name} has the meaning given the term in {provision}."),
+    ("clause", r"for each of fiscal years \d{4} through \d{4}", "{amount} for each of fiscal years {period}."),
+    ("clause", r"such sums as may be necessary", "There are authorized to be appropriated such sums as may be necessary to carry out this {scope}."),
+    ("clause", r"in consultation with the", "{official}, in consultation with {committees}, shall {duty}."),
+    ("clause", r"shall promulgate regulations", "The {official} shall promulgate regulations to carry out this {scope}."),
+    ("clause", r"may not be used to", "None of the funds made available under this {scope} may be used to {conduct}."),
+    ("clause", r"publicly available", "The {official} shall make the report publicly available on the website of {subject}."),
+    ("clause", r"The amendment made by this section shall take effect", "The amendment made by this section shall take effect on {period}."),
+    ("clause", r"by striking ``[^']+'' each place it appears", "{provision} is amended by striking {oldText} each place it appears and inserting {newText}."),
+    ("clause", r"by redesignating ", "{provision} is amended by redesignating {oldText} as {newText}."),
+    ("clause", r"by inserting before ", "{provision} is amended by inserting before {anchor} the following:"),
+    ("clause", r"in the matter preceding ", "in the matter preceding {anchor}, by striking {oldText} and inserting {newText}."),
+    ("clause", r"Not later than \d+ (?:days|year|years) after", "Not later than {period} after {subject}, the {official} shall {duty}."),
+    ("clause", r"and annually thereafter", "Not later than {period} after the date of enactment of this Act, and annually thereafter, the {official} shall submit a report."),
+    ("clause", r"to the Committee on [A-Z][a-z]+", "to the Committee on {subject} of the {committees}."),
+    ("clause", r"the following new paragraph:", "{provision} is amended by adding at the end the following new paragraph:"),
+    ("clause", r"the following new subsection:", "{provision} is amended by adding at the end the following new subsection:"),
+    ("clause", r"the following new section:", "{provision} is amended by inserting after {anchor} the following new section:"),
+    ("clause", r"Congress makes the following findings:", "Congress makes the following findings:"),
+    ("long-title", r"To make [^,]+, and for other purposes\.", "To make {purpose}, and for other purposes."),
+    ("long-title", r"To expand [^,]+, and for other purposes\.", "To expand {program}, and for other purposes."),
+    ("long-title", r"To ensure [^,]+, and for other purposes\.", "To ensure {purpose}, and for other purposes."),
+    ("long-title", r"To protect [^,]+, and for other purposes\.", "To protect {subject}, and for other purposes."),
+    ("long-title", r"To modify [^,]+, and for other purposes\.", "To modify {provision}, and for other purposes."),
+    ("long-title", r"To extend [^,]+, and for other purposes\.", "To extend {program}, and for other purposes."),
+    ("long-title", r"To reauthorize [^,]+, and for other purposes\.", "To reauthorize {program}, and for other purposes."),
+    ("long-title", r"To clarify [^,]+, and for other purposes\.", "To clarify {provision}, and for other purposes."),
+    ("long-title", r"To increase [^,]+, and for other purposes\.", "To increase {subject}, and for other purposes."),
+    ("long-title", r"To strengthen [^,]+, and for other purposes\.", "To strengthen {program}, and for other purposes."),
+    ("long-title", r"To promote [^,]+, and for other purposes\.", "To promote {purpose}, and for other purposes."),
+    ("long-title", r"To support [^,]+, and for other purposes\.", "To support {program}, and for other purposes."),
+    ("long-title", r"To reduce [^,]+, and for other purposes\.", "To reduce {subject}, and for other purposes."),
+    ("long-title", r"To exempt [^,]+, and for other purposes\.", "To exempt {subject}, and for other purposes."),
+    ("long-title", r"To create [^,]+, and for other purposes\.", "To create {program}, and for other purposes."),
+    ("long-title", r"Expressing the sense of the (?:House of Representatives|Senate|Congress) that", "Expressing the sense of the {committees} that {view}."),
+    ("long-title", r"Recognizing [^,.]+", "Recognizing {subject}."),
+    ("long-title", r"Supporting the designation of", "Supporting the designation of {name}."),
+    ("short-title", r"This section may be cited as the ``[^']+''\.", "This section may be cited as the {act}."),
+    ("short-title", r"This title may be cited as the ``[^']+''\.", "This title may be cited as the {act}."),
+    ("short-title", r"Short title\.--", "Short title.--"),
+    ("enacting-clause", r"Resolved, That", "Resolved, That {view}."),
+    ("enacting-clause", r"Resolved by the House of Representatives \(the Senate concurring\),", "Resolved by the House of Representatives (the Senate concurring),"),
+    ("enacting-clause", r"Whereas ", "Whereas {view};"),
+    ("enacting-clause", r"Now, therefore, be it", "Now, therefore, be it"),
 ]
 
 def text_of(path):
@@ -45,6 +96,12 @@ def text_of(path):
     return re.sub(r"\s+", " ", t)
 
 def bill_date(t):
+    # The chamber line ("Passed the House of Representatives <date>." or the
+    # date under "IN THE SENATE OF THE UNITED STATES") dates the version; the
+    # first date in the text can be a future effective date in the bill itself.
+    m = re.search(r"(?:Passed the (?:House of Representatives|Senate)|IN THE (?:HOUSE OF REPRESENTATIVES|SENATE OF THE UNITED STATES)) (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (20\d\d)", t)
+    if m:
+        return datetime.date(int(m.group(3)), MONTHS[m.group(1)], int(m.group(2))).isoformat()
     m = re.search(r"(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (20\d\d)", t)
     if not m:
         return None

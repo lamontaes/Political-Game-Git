@@ -74,7 +74,6 @@ test("a creator control keeps the front-door hover, not the old green form", asy
   await page.getByTestId("creator-continue-character").click();
   await chooseStateThenTown(page, "Kentucky", "Lexingto", /Lexington/i);
   await page.getByTestId("creator-continue-place").click();
-  await page.getByTestId("whoareyou-play").click();
   const begin = page.getByTestId("begin");
   await expect(begin).toBeEnabled();
   await begin.hover();

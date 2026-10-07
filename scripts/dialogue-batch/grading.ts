@@ -23,12 +23,16 @@ export const TEXT_KINDS = [
   "news",
   "journal",
   "press",
+  "hearing",
+  "meeting",
+  "minutes",
   "notices-and-screens",
 ] as const;
 export type TextKind = (typeof TEXT_KINDS)[number];
 
 export interface GradingCell {
-  readonly register: "everyday" | "family" | "workplace" | "press" | "meeting";
+  readonly register:
+    "everyday" | "family" | "workplace" | "press" | "meeting" | "court";
   readonly kind: string;
   readonly relationship:
     | "stranger"
@@ -66,6 +70,18 @@ export interface GradingBatch {
   readonly at: string;
   readonly head: string;
   readonly status: "open";
+  /** Batch variety rule (CTO 7:55 p.m. Oct 6): the numbers, at the top. */
+  readonly variety: {
+    readonly items: number;
+    readonly places: number;
+    readonly kinds: Readonly<Record<string, number>>;
+    readonly distinctSituationRelationship: number;
+  };
+  /** Kinds with no output, each with why. */
+  readonly absent: readonly {
+    readonly kind: string;
+    readonly reason: string;
+  }[];
   readonly items: readonly GradingItem[];
 }
 
@@ -88,7 +104,7 @@ const BOSS = /\b(boss|manager|supervisor)\b/i;
 function relationshipOf(line: BatchLine): GradingCell["relationship"] {
   if (line.speaker.isPlayer) return "self";
   const relation = line.speaker.relation;
-  if (!relation) return "stranger";
+  if (!relation || relation === "judge") return "stranger";
   if (FAMILY.test(relation)) return "family";
   if (BOSS.test(relation)) return "boss";
   if (FRIEND.test(relation)) return "friend";
@@ -96,6 +112,10 @@ function relationshipOf(line: BatchLine): GradingCell["relationship"] {
 }
 
 function textKindOf(line: BatchLine): TextKind {
+  const read = /^text-(.+)-\d+$/.exec(line.id)?.[1];
+  if (read && (TEXT_KINDS as readonly string[]).includes(read))
+    return read as TextKind;
+  if (line.id.startsWith("judge-")) return "judges";
   return line.id.startsWith("press-") ? "press" : "conversation";
 }
 
@@ -107,6 +127,8 @@ function exchangeKindOf(id: string): string {
   if (id.startsWith("remember")) return "remembered-topic";
   if (id.startsWith("matter")) return "share-news";
   if (id === "press-answer") return "interview";
+  if (id.startsWith("judge-sentence")) return "sentence";
+  if (id.startsWith("text-")) return id.replace(/-\d+$/, "").slice(5);
   if (id.startsWith("press")) return "interview-question";
   if (id.endsWith("decline")) return "decline";
   return id;
@@ -121,9 +143,20 @@ function ageBandOf(age: number): string {
 }
 
 /** How the owner reads a speaker's label: "You", "Your mom", "A neighbor". */
+const KIND_VOICE: Readonly<Record<string, string>> = {
+  news: "Newspaper",
+  journal: "Your journal",
+  legislation: "Bill text",
+  "winning-and-losing": "Results",
+  meeting: "Agenda",
+};
+
 function voiceLabel(line: BatchLine): string {
+  const read = /^text-(.+)-\d+$/.exec(line.id)?.[1];
+  if (read) return KIND_VOICE[read] ?? "Screen";
   if (line.speaker.isPlayer) return "You";
   if (line.id.startsWith("press-")) return "Reporter";
+  if (line.id.startsWith("judge-")) return "Judge";
   const relation = line.speaker.relation;
   if (!relation) return "Someone in town";
   return relation[0]!.toUpperCase() + relation.slice(1);
@@ -131,6 +164,11 @@ function voiceLabel(line: BatchLine): string {
 
 /** Plain words: who, how old, where. No record ids or engine terms. */
 function plainSituation(line: BatchLine): string {
+  if (line.id.startsWith("text-"))
+    return `${line.situation} In ${line.world.place}, on ${proseDate(line.world.date)}.`;
+  // A judge's line needs the case it decides, which the batch line words.
+  if (line.id.startsWith("judge-"))
+    return `${line.situation} In ${line.world.place}, on ${proseDate(line.world.date)}.`;
   const who = line.speaker.isPlayer
     ? "You"
     : `${voiceLabel(line)}, ${line.speaker.name} (${line.speaker.age})`;
@@ -174,6 +212,13 @@ export function toGradingBatch(
 ): { batch: GradingBatch; bin: readonly BinnedExchange[] } {
   const items: GradingItem[] = [];
   const bin: BinnedExchange[] = [];
+  const pairs = new Set<string>();
+  // Conversation repeats when the exchange and the relationship repeat; a
+  // read text (news, journal, a judge's reasons) repeats when its words do.
+  const pairOf = (item: Omit<GradingItem, "i">) =>
+    item.kind === "conversation" || item.kind === "press"
+      ? `${item.kind}|${item.cell.kind}|${item.cell.relationship}`
+      : `${item.kind}|${item.situation}|${item.reply}`;
   const worldIndex = new Map(
     result.worlds.map((world) => [world.place, world.index]),
   );
@@ -191,11 +236,13 @@ export function toGradingBatch(
       composer: line.composer,
       kind: textKindOf(line),
       cell: {
-        register: line.id.startsWith("press-")
-          ? "press"
-          : relationshipOf(line) === "family"
-            ? "family"
-            : "everyday",
+        register: line.id.startsWith("judge-")
+          ? "court"
+          : line.id.startsWith("press-")
+            ? "press"
+            : relationshipOf(line) === "family"
+              ? "family"
+              : "everyday",
         kind: exchangeKindOf(line.id),
         relationship: relationshipOf(line),
         trait: traitKeys[0] ?? null,
@@ -208,10 +255,26 @@ export function toGradingBatch(
       },
       seed: `${result.seed}:${worldIndex.get(line.world.place) ?? 0}`,
     };
-    const rule = binRule(`${line.line}`);
+    const rule =
+      binRule(`${line.line}`) ??
+      (pairs.has(pairOf(item))
+        ? "repeats a situation and relationship already in the batch"
+        : null);
     if (rule) bin.push({ item, rule });
-    else items.push({ i: items.length, ...item });
+    else {
+      pairs.add(pairOf(item));
+      items.push({ i: items.length, ...item });
+    }
   }
+  const kinds: Record<string, number> = {};
+  for (const kind of TEXT_KINDS)
+    kinds[kind] = items.filter((item) => item.kind === kind).length;
+  const absent = TEXT_KINDS.filter((kind) => kinds[kind] === 0).map((kind) => ({
+    kind,
+    reason:
+      result.absent?.find((row) => row.kind === kind)?.reason ??
+      "no situation in the batch reaches this kind yet",
+  }));
   return {
     batch: {
       id: run.id,
@@ -219,6 +282,13 @@ export function toGradingBatch(
       at: run.at.toISOString(),
       head: run.head,
       status: "open",
+      variety: {
+        items: items.length,
+        places: new Set(items.map((item) => item.cell.place)).size,
+        kinds,
+        distinctSituationRelationship: pairs.size,
+      },
+      absent,
       items,
     },
     bin,

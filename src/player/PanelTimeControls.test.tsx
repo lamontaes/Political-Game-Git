@@ -154,7 +154,7 @@ describe("the wait control on a career offer", () => {
     const markup = withRunner(null, panel);
     expect(markup).not.toContain('data-testid="career-paths-wait-day"');
     expect(markup).toContain('data-testid="career-paths-wait-day-unavailable"');
-    expect(markup).toContain("owns the one clock");
+    expect(markup).toContain("Unavailable here");
   });
 });
 
