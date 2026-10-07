@@ -134,7 +134,6 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { applyLawConsequences } from "../enacted-law-effects";
-import { readFinalEnactedLawTerm } from "../governing/automatic-legislation";
 import { homePriceLevel } from "./housing-market";
 import type { TownHomeKind } from "./town-homes";
 import {
