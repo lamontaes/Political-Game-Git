@@ -27,13 +27,11 @@ export function CareerPathsPanel({
   readonly onWorldChange: (w: World) => void;
 }) {
   const [selected, setSelected] = useState(CAREER_PROVIDERS[0]!.id),
-    [notice, setNotice] = useState(""),
     [query, setQuery] = useState(""),
     [wide, setWide] = useState(false);
   const p = CAREER_PROVIDERS.find((p) => p.id === selected)!;
   const path = lifePathDefinition(p.pathId);
   const act = (r: LifePathResult) => {
-    setNotice(r.message);
     if (r.ok) onWorldChange(r.world);
   };
   if (world.control.kind !== "person") return null;
@@ -135,8 +133,9 @@ export function CareerPathsPanel({
                   personId={actor}
                   label="Wait one day"
                   testid="career-paths-wait-day"
-                  onOutcome={setNotice}
-                  unavailableNote="Unavailable here"
+                  onOutcome={() => {}}
+                  unavailableNote=""
+                  showContext={false}
                 />
                 {accepted ? (
                   <button onClick={() => act(startCareerWork(world, r.id, p))}>
@@ -170,17 +169,12 @@ export function CareerPathsPanel({
                     ].includes(e.type) && e.involvedEntityIds.includes(r.id),
                 )
                 .map((e) => (
-                  <li key={e.id}>
-                    {e.occurredAt}: {e.summary}
-                  </li>
+                  <li key={e.id}>{e.occurredAt}</li>
                 ))}
             </ul>
           </article>
         );
       })}
-      <p role="status" style={{ whiteSpace: "pre-line" }}>
-        {notice}
-      </p>
     </section>
   );
 }

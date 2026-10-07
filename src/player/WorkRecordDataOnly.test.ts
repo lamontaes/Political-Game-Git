@@ -28,6 +28,10 @@ describe("the work screen carries no authored sentence", () => {
         "Starts ",
         "Handled by",
         "office colleague",
+        "item.summary",
+        "e.summary",
+        "state.blocker",
+        "work-feedback",
       ]) {
         expect(text).not.toContain(helper);
       }

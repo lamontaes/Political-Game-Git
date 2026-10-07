@@ -11,7 +11,6 @@ interface WorkPendingWorkspaceProps {
   readonly world: World;
   readonly fixture: RunDLiteFixture;
   readonly projection: RunDLiteProjection;
-  readonly feedback: string | null;
   readonly onClose: () => void;
   readonly onDelegate: () => void;
   readonly onOpenDocument: () => void;
@@ -45,7 +44,6 @@ export function WorkPendingWorkspace({
   world,
   fixture,
   projection,
-  feedback,
   onClose,
   onDelegate,
   onOpenDocument,
@@ -70,12 +68,6 @@ export function WorkPendingWorkspace({
         </button>
       </header>
 
-      {feedback ? (
-        <p className="work-feedback" role="status" data-testid="work-feedback">
-          {feedback}
-        </p>
-      ) : null}
-
       <div className="work-groups">
         {GROUPS.map((group) => {
           const entries = projection.work.filter(
@@ -99,11 +91,9 @@ export function WorkPendingWorkspace({
                       <article key={item.id} className="work-entry">
                         <div className="work-entry-copy">
                           <h4>{item.title}</h4>
-                          <p>{item.summary}</p>
                           <span>
                             {ownerLabel(world, state.assignedPersonIds)}
                           </span>
-                          {state.blocker ? <em>{state.blocker}</em> : null}
                         </div>
                         <div className="work-entry-actions">
                           {item.id === fixture.dLite.delegableWorkItemId &&
