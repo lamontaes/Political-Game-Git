@@ -12,6 +12,8 @@ import { personName } from "./people";
 import { latestPersonalValue } from "./queries";
 import { recordRelationshipInteraction } from "./records";
 import { readRelationshipStanding } from "./relationship-standing";
+import { registeredTraitConsiderations } from "./trait-readings";
+import { traitRegistryFor } from "./trait-registry";
 import type {
   DecisionConsideration,
   EntityId,
@@ -260,6 +262,28 @@ export function romanticConsiderations(
   return considerations;
 }
 
+/** Shared relationship evidence plus the actor's registered decision traits. */
+export function romanticDecisionConsiderations(
+  world: World,
+  stableKey: string,
+  actorPersonId: EntityId,
+  otherPersonId: EntityId,
+  decisionId:
+    "people.date-answer" | "people.couple-answer" | "people.couple-stage",
+): DecisionConsideration[] {
+  return [
+    ...romanticConsiderations(world, stableKey, actorPersonId, otherPersonId),
+    ...registeredTraitConsiderations(
+      world,
+      traitRegistryFor(world),
+      actorPersonId,
+      stableKey,
+      decisionId,
+      otherPersonId,
+    ),
+  ];
+}
+
 /** Why this person cannot ask the other to be a couple now, or null. */
 export function coupleAskRefusal(
   world: World,
@@ -328,7 +352,13 @@ export function askToBeACouple(
       },
     ],
     constraints: [],
-    considerations: romanticConsiderations(world, key, otherPersonId, personId),
+    considerations: romanticDecisionConsiderations(
+      world,
+      key,
+      otherPersonId,
+      personId,
+      "people.couple-answer",
+    ),
     perceptionIds: [],
     randomness: "close-choices",
     retention: "ephemeral",

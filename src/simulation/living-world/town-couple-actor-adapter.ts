@@ -1,4 +1,7 @@
-import { romanticConsiderations } from "../couples";
+import {
+  romanticConsiderations,
+  romanticDecisionConsiderations,
+} from "../couples";
 import {
   coupleStageConsent,
   coupleStageOptions,
@@ -59,11 +62,12 @@ export function evaluateTownCoupleActors(
           rngVersion: previous.rngVersion,
         };
     }
-    const considerations = romanticConsiderations(
+    const considerations = romanticDecisionConsiderations(
       next,
       input.stableKey,
       actorPersonId,
       otherPersonId,
+      "people.couple-stage",
     )
       // A preference for privacy can weigh on starting a relationship, but
       // cannot by itself establish a reason to end an existing one. Friction
@@ -201,11 +205,12 @@ export function evaluateTownDateProposal(
     (row) => `date:${row.id}` === evaluation.selectedOptionKey,
   )?.id;
   if (!recipient) return null;
-  const considerations = romanticConsiderations(
+  const considerations = romanticDecisionConsiderations(
     world,
     `${stableKey}:answer`,
     recipient,
     askerId,
+    "people.date-answer",
   );
   if (considerations.length === 0) return null;
   const answer = evaluateDecision(world, {
