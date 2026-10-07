@@ -3485,12 +3485,13 @@ export function generateQuickCharacterHistory(
   // stream every other generated name goes through, so they are the same
   // schools in every save of this world.
   const homeJurisdiction = world.jurisdictions[input.jurisdictionId];
+  const homeTown = residentNameForJurisdiction(
+    homeJurisdiction?.name ?? "",
+    homeJurisdiction?.parentName ?? null,
+  );
   const schoolNames = generateSchoolNames(
     rng.fork("schools"),
-    residentNameForJurisdiction(
-      homeJurisdiction?.name ?? "",
-      homeJurisdiction?.parentName ?? null,
-    ),
+    homeTown,
     input.schoolNameVersion,
     {
       state: stateUsps(
@@ -3695,9 +3696,12 @@ export function generateQuickCharacterHistory(
           formedAt: age(0),
           provenance: generated,
           initialProfile: {
-            name: input.preStartDates
-              ? `${homeJurisdiction!.name} Market`
-              : "Neighborhood Market",
+            // The town's own name, never "Town, State": a store sign
+            // carries the place it stands in, not its postal address.
+            name:
+              homeTown.length > 0
+                ? `${homeTown} Market`
+                : "Neighborhood Market",
             classification: "enterprise:retail",
             locationJurisdictionId: input.jurisdictionId,
           },

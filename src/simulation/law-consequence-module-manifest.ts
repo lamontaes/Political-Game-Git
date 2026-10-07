@@ -4,10 +4,12 @@ import type { PublicProgramCapacityOutturnReceiverRegistration } from "./public-
 import * as lawConsequenceElectionLocalLandingsRegistrations from "./law-consequences/modules/election-local-landings";
 import * as lawConsequenceElectionStateLandingsRegistrations from "./law-consequences/modules/election-state-landings";
 import * as lawConsequenceElectionWardLandingsRegistrations from "./law-consequences/modules/election-ward-landings";
+import * as lawConsequenceFederalJusticeRightsRegistrations from "./law-consequences/modules/federal-justice-rights";
 import * as lawConsequenceGovernmentOperationsRegistrations from "./law-consequences/modules/government-operations";
 import * as lawConsequenceJusticePretrialLandingsRegistrations from "./law-consequences/modules/justice-pretrial-landings";
 import * as lawConsequenceJusticeSentencingLandingsRegistrations from "./law-consequences/modules/justice-sentencing-landings";
 import * as lawConsequenceLw08CurriculumRegistrations from "./law-consequences/modules/lw08-curriculum";
+import * as lawConsequenceLw08LibraryMaterialsRegistrations from "./law-consequences/modules/lw08-library-materials";
 
 interface GeneratedLawConsequenceModule {
   readonly registrations: readonly AnyLawConsequenceKindRegistration[];
@@ -19,20 +21,24 @@ const GENERATED_LAW_CONSEQUENCE_MODULES: readonly GeneratedLawConsequenceModule[
     lawConsequenceElectionLocalLandingsRegistrations,
     lawConsequenceElectionStateLandingsRegistrations,
     lawConsequenceElectionWardLandingsRegistrations,
+    lawConsequenceFederalJusticeRightsRegistrations,
     lawConsequenceGovernmentOperationsRegistrations,
     lawConsequenceJusticePretrialLandingsRegistrations,
     lawConsequenceJusticeSentencingLandingsRegistrations,
     lawConsequenceLw08CurriculumRegistrations,
+    lawConsequenceLw08LibraryMaterialsRegistrations,
   ];
 
 export const LAW_CONSEQUENCE_MODULE_KEYS = [
   "election-local-landings",
   "election-state-landings",
   "election-ward-landings",
+  "federal-justice-rights",
   "government-operations",
   "justice-pretrial-landings",
   "justice-sentencing-landings",
   "lw08-curriculum",
+  "lw08-library-materials",
 ] as const;
 
 export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =

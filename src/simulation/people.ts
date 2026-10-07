@@ -670,7 +670,9 @@ export function createStartingPerson(input: StartingPersonInput): Person {
       establishedFacts,
     },
     input.worldSeed,
-    input.currentDate,
+    // Recorded when the person enters the World, which for a life built into
+    // a prior-year World is that earlier date, not the later start date.
+    input.initialResidenceDate ?? input.currentDate,
   );
 }
 
