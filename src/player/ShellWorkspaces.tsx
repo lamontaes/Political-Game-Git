@@ -705,14 +705,6 @@ export function PeopleWorkspace({
         </ul>
       )}
 
-      {category === "all" && directory.notYetMet.length > 0 ? (
-        <p className="game-note" data-testid="people-not-yet-met-note">
-          {directory.notYetMet.length === 1
-            ? "1 person you work or organize with is somebody you have not met yet."
-            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
-          They are under Work and Politics.
-        </p>
-      ) : null}
       {notYetMet.length > 0 ? (
         <section
           className="pg-people-not-yet-met"
