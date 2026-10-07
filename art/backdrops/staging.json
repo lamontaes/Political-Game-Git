@@ -134,6 +134,72 @@
           "clipBelowY": 48.4,
           "role": "counsel",
           "id": "appellate-courtroom:spot:10"
+        },
+        {
+          "x": 20,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 56,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "appellate-courtroom:spot:11"
+        },
+        {
+          "x": 20,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 67,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "appellate-courtroom:spot:12"
+        },
+        {
+          "x": 20,
+          "y": 86,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 86,
+          "seatY": 78,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "appellate-courtroom:spot:13"
+        },
+        {
+          "x": 80,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 56,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "appellate-courtroom:spot:14"
+        },
+        {
+          "x": 80,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 67,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "appellate-courtroom:spot:15"
+        },
+        {
+          "x": 80,
+          "y": 86,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 86,
+          "seatY": 78,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "appellate-courtroom:spot:16"
         }
       ],
       "measuredFrom": "lectern 1.15 m foot 61.3 top 41.8 (0.62, used); pew end post about 0.95 m foot 80.5 top 57.3 gives 0.51, but the painted furniture reads large and people looked small at that scale; bench floor from the judges' high-back chairs: 0.65 m wide (6.5% of the width), back top 1.1 m above the hidden floor at y 21.5, so that floor is at y 41 behind the bench front (top 29.5)",
@@ -1698,7 +1764,7 @@
           "facing": "right",
           "depth": 46,
           "clipBelowY": 41.6,
-          "seatY": 40.0,
+          "seatY": 40,
           "group": "jury",
           "floor": "jury-box",
           "role": "jury",
@@ -1756,6 +1822,215 @@
           "group": "counsel",
           "role": "counsel",
           "id": "county-courtroom:spot:13"
+        },
+        {
+          "x": 20,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 58,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "county-courtroom:spot:14"
+        },
+        {
+          "x": 20,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 69,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "county-courtroom:spot:15"
+        },
+        {
+          "x": 20,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 80,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "county-courtroom:spot:16"
+        },
+        {
+          "x": 80,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 58,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "county-courtroom:spot:17"
+        },
+        {
+          "x": 80,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 69,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "county-courtroom:spot:18"
+        },
+        {
+          "x": 80,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 80,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "county-courtroom:spot:19"
+        },
+        {
+          "x": 3.5,
+          "y": 43,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 43,
+          "clipBelowY": 41.6,
+          "seatY": 37,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:20"
+        },
+        {
+          "x": 6.3,
+          "y": 43,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 43,
+          "clipBelowY": 41.6,
+          "seatY": 37,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:21"
+        },
+        {
+          "x": 9,
+          "y": 43,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 43,
+          "clipBelowY": 41.6,
+          "seatY": 37,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:22"
+        },
+        {
+          "x": 11.7,
+          "y": 43,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 43,
+          "clipBelowY": 41.6,
+          "seatY": 37,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:23"
+        },
+        {
+          "x": 14.5,
+          "y": 43,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 43,
+          "clipBelowY": 41.6,
+          "seatY": 37,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:24"
+        },
+        {
+          "x": 17.2,
+          "y": 43,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 43,
+          "clipBelowY": 41.6,
+          "seatY": 37,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:25"
+        },
+        {
+          "x": 6.6,
+          "y": 47,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 47,
+          "clipBelowY": 41.6,
+          "seatY": 41,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:26"
+        },
+        {
+          "x": 12.3,
+          "y": 47,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 47,
+          "clipBelowY": 41.6,
+          "seatY": 41,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:27"
+        },
+        {
+          "x": 15.1,
+          "y": 47,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 47,
+          "clipBelowY": 41.6,
+          "seatY": 41,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:28"
+        },
+        {
+          "x": 17.6,
+          "y": 47,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 47,
+          "clipBelowY": 41.6,
+          "seatY": 41,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:29"
+        },
+        {
+          "x": 20.3,
+          "y": 47,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 47,
+          "clipBelowY": 41.6,
+          "seatY": 41,
+          "group": "jury",
+          "floor": "jury-box",
+          "role": "jury",
+          "id": "county-courtroom:spot:30"
         }
       ],
       "measuredFrom": "main floor: gate post of the bar ~1.05 m foot 71.6 top 51.7; front pew end 0.95 m foot 84 top 58.5; near pew end 0.95 m foot 94.5 top 65.3; counsel chair back ~1.05 m foot 55 top 43. Raised floors from their own chairs: judge's high-back chair 0.7 m wide (5.3% of width) back top 16.9, bench top 23.2; witness chair 0.6 m wide (3.3%) back top 26.9, box top 29.4; nearest juror chair 0.6 m wide (3.6%) back top 34.6, seat 40, box rail 41.6",
@@ -1951,7 +2226,7 @@
       "horizonY": 21,
       "metersPercent": 0.47,
       "floors": {
-        "stage": 1.0
+        "stage": 1
       },
       "spots": [
         {
@@ -2311,7 +2586,7 @@
       "horizonY": 47.5,
       "metersPercent": 1.15,
       "floors": {
-        "porch": 3.0
+        "porch": 3
       },
       "spots": [
         {
@@ -6952,7 +7227,7 @@
     },
     "state-capitol-mp": {
       "horizonY": 63,
-      "metersPercent": 1.0,
+      "metersPercent": 1,
       "spots": [
         {
           "x": 26,
@@ -9607,6 +9882,72 @@
           "clipBelowY": 48.4,
           "role": "counsel",
           "id": "supreme-courtroom:spot:16"
+        },
+        {
+          "x": 20,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 58,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "supreme-courtroom:spot:17"
+        },
+        {
+          "x": 20,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 69,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "supreme-courtroom:spot:18"
+        },
+        {
+          "x": 20,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 80,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "supreme-courtroom:spot:19"
+        },
+        {
+          "x": 80,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 58,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "supreme-courtroom:spot:20"
+        },
+        {
+          "x": 80,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 69,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "supreme-courtroom:spot:21"
+        },
+        {
+          "x": 80,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 80,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "supreme-courtroom:spot:22"
         }
       ],
       "measuredFrom": "gallery pew ends 0.75 m at two depths (x38 foot 80.4 top 57.3; x34.5 foot 92 top 62.7) 0.74 and 0.76 m at 0.6; lectern 1.15 m (foot 61.5 top 38.5) 0.57; horizon where the bench's top ledge is seen nearly edge-on; justices' high-back chairs (0.7 m wide spans 92 px = 9.8 percent of the height, back 1.2 m, top 23.5) put the bench floor at y 40.3 (hidden behind the bench front), 1.19",
