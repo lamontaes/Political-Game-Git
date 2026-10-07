@@ -38,7 +38,9 @@ describe("actual county identity reaches the shared candidacy reader", () => {
       place.context.jurisdiction.id,
     );
     expect(offices[0]!.unit.id).toBe(units.municipal[0]!.id);
-    const county = offices.filter((row) => row.unit.unitType === "county");
+    const county = offices.filter(
+      (row) => row.unit.unitType === "county" && row.seat === "governing-body",
+    );
     expect(county.map((row) => row.unit.id)).toEqual(
       units.counties.map((row) => row.id),
     );

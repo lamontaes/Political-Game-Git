@@ -111,8 +111,23 @@ export function localGoverningBodyIdentity(
 export function localChiefExecutiveIdentity(
   unit: GovernmentUnitIdentity,
 ): LocalGoverningBodyIdentity | null {
-  const rules = localChiefExecutiveRules(unit);
-  if (!rules?.directlyElected.value) return null;
+  // A county's executive comes from its structure record
+  // (`county-governing-body-rules.ts`): its own reading where it has one,
+  // else its state's. A state where only some counties elect one gives none
+  // until the record says which.
+  const county =
+    unit.unitType === "county" ? countyGoverningBodyRules(unit) : null;
+  const rules =
+    unit.unitType === "county" ? null : localChiefExecutiveRules(unit);
+  const title =
+    unit.unitType === "county"
+      ? county?.executive.kind === "elected"
+        ? county.executive.title
+        : null
+      : rules?.directlyElected.value
+        ? rules.title.value
+        : null;
+  if (!title) return null;
   const officeKey = `${OFFICE_PREFIX}${unit.publisherId}${CHIEF_SUFFIX}`;
   const governmentName = displayName(unit);
   return {
@@ -122,7 +137,7 @@ export function localChiefExecutiveIdentity(
     candidacyPackId: `${officeKey}:candidacy`,
     governmentName,
     bodyName: governmentName,
-    officeTitle: rules.title.value,
+    officeTitle: title,
   };
 }
 
@@ -172,13 +187,17 @@ export function localGoverningBodyCandidacyPack(
 ): CandidacyPack {
   const mayor = identity.seat === "chief-executive";
   const county = identity.unit.unitType === "county";
-  const estimate = county
-    ? null
-    : municipalMinimumAgeEstimate(
-        `US-${identity.unit.stateUsps}`,
-        identity.officeKey,
-        similarOffices,
-      );
+  // A county board's age stays unread; a county's executive takes the same
+  // disclosed estimate a town's mayor does, from the state's other elected
+  // offices, so a resident can stand for it.
+  const estimate =
+    county && identity.seat === "governing-body"
+      ? null
+      : municipalMinimumAgeEstimate(
+          `US-${identity.unit.stateUsps}`,
+          identity.officeKey,
+          similarOffices,
+        );
   const form = county
     ? "This county's district boundaries, seat phases and selection procedure have not been recorded in this candidacy pack."
     : mayor

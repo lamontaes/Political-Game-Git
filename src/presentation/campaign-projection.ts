@@ -1111,8 +1111,11 @@ function latestReading(
 export function countyCandidacyUnavailableReason(
   officeKey: string,
 ): string | null {
-  return localGoverningBodyIdentityForOfficeKey(officeKey)?.unit.unitType ===
-    "county"
+  const office = localGoverningBodyIdentityForOfficeKey(officeKey);
+  // A county's executive carries the disclosed age estimate and county
+  // residence, so it is not refused; a county board seat stays unavailable
+  // until its own requirements are read.
+  return office?.unit.unitType === "county" && office.seat === "governing-body"
     ? "The requirements for this county office have not been established."
     : null;
 }
