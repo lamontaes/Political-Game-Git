@@ -1,3 +1,5 @@
+import { initializePersonCitizenship } from "./citizenship-creation";
+import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
 import {
@@ -143,6 +145,7 @@ import {
 } from "./future-transitions";
 import {
   appendHistoricalEvent,
+  appendMemoryRecord,
   createHistoryStore,
   eventsInvolving,
 } from "./history";
@@ -382,6 +385,7 @@ export interface CreateWorldInput {
   readonly incidentCatalog?: IncidentCatalog;
   readonly vitalityCatalog?: VitalityCatalog;
   readonly control?: ControlState;
+  readonly preStartLife?: World["preStartLife"];
   /**
    * The player's setup answers, if there were any. Passed in rather than
    * written afterwards so a world is never briefly missing the calibration it
@@ -517,14 +521,19 @@ export function createWorld(input: CreateWorldInput): World {
     input.jurisdictions,
     input.people,
     policyCatalog,
+    undefined,
+    input.preStartLife,
   );
   validateControl(control, new Set(input.people.map((person) => person.id)));
   const jurisdictions = input.jurisdictions.map(cloneJurisdiction);
-  const people = input.people.map(clonePerson);
+  const people = input.people.map((person) =>
+    clonePerson(initializePersonCitizenship(person, seed, currentDate)),
+  );
 
   if (input.setupPriors) assertSetupPriorIntegrity(input.setupPriors);
 
   const world: World = {
+    ...(input.preStartLife ? { preStartLife: input.preStartLife } : {}),
     schemaVersion: 15,
     generatorVersion: LINEAGE_GENERATOR_VERSION[lineage],
     id: worldId,
@@ -779,6 +788,17 @@ function validateWorldIntegrity(
     assertProductionCatalogBoundary(world);
   const startedAt = makeIsoDate(world.startedAt);
   const currentDate = makeIsoDate(world.currentDate);
+  if (world.preStartLife) {
+    const target = makeIsoDate(world.preStartLife.targetStartDate);
+    if (
+      !world.people[world.preStartLife.personId] ||
+      target <= startedAt ||
+      currentDate > target
+    )
+      throw new Error(
+        "The pre-start life must name a person and a future Begin boundary.",
+      );
+  }
   assertSimulationMoment(world.currentMoment);
   if (world.currentMoment.date !== currentDate) {
     throw new Error(
@@ -819,6 +839,7 @@ function validateWorldIntegrity(
         jurisdictionIds: new Set(world.jurisdictionOrder),
         personIds: new Set(world.personOrder),
       },
+      world.preStartLife,
     );
   } else if (!sameInitialEntities) {
     const jurisdictions = orderedRecords(
@@ -834,6 +855,8 @@ function validateWorldIntegrity(
       jurisdictions,
       people,
       world.policyCatalog,
+      undefined,
+      world.preStartLife,
     );
   }
   if (!previous || previous.mindCatalog !== world.mindCatalog)
@@ -1379,14 +1402,47 @@ export function recordWorldEvent(
     }
   }
 
-  return {
-    ...world,
-    history: appendHistoricalEvent(world.history, world.id, {
-      ...input,
-      occurredAt,
-      recordedAt,
-    }),
-  };
+  const history = appendHistoricalEvent(world.history, world.id, {
+    ...input,
+    occurredAt,
+    recordedAt,
+  });
+  const event = history.events.at(-1)!;
+  const memoryWorthy = new Set([
+    "work.job-ended",
+    "life.couple-formed",
+    "life.couple-ended",
+    "life.started-dating",
+    "life.household-move",
+    "life.moved-into-home",
+    "life.left-home",
+    "life.death-learned",
+    "law.effect-reached-town",
+  ]).has(event.type);
+  let nextHistory = history;
+  if (memoryWorthy) {
+    const involvedPeople =
+      event.type === "life.death-learned"
+        ? event.participants
+            .filter((participant) => participant.role === "focus:told")
+            .map((participant) => participant.personId)
+        : event.involvedEntityIds;
+    for (const personId of involvedPeople) {
+      if (!world.people[personId]) continue;
+      nextHistory = appendMemoryRecord(nextHistory, world.id, {
+        stableKey: `event-memory:${event.id}:${personId}`,
+        personId,
+        eventId: event.id,
+        formedAt: occurredAt,
+        rememberedSummary: event.summary,
+        interpretation: event.summary,
+        strength: "moderate",
+        relevanceTags: [event.type],
+        supersedesMemoryId: null,
+      });
+    }
+  }
+  return { ...world, history: nextHistory };
 }
 
 /** Compatibility day entry; the canonical minute clock owns completion. */
@@ -1580,6 +1636,7 @@ function validateInitialEntities(
     readonly jurisdictionIds: ReadonlySet<EntityId>;
     readonly personIds: ReadonlySet<EntityId>;
   },
+  preStartLife?: World["preStartLife"],
 ): void {
   const entityIds = new Set<EntityId>([worldId]);
   const jurisdictionIds =
@@ -1631,7 +1688,13 @@ function validateInitialEntities(
     assertNonEmptyString(person.givenName, "Person given name");
     assertNonEmptyString(person.familyName, "Person family name");
     const birthDate = makeIsoDate(person.birthDate);
-    if (birthDate > currentDate) {
+    if (
+      birthDate > currentDate &&
+      !(
+        preStartLife?.personId === person.id &&
+        birthDate <= preStartLife.targetStartDate
+      )
+    ) {
       throw new Error(
         `Person birth date is after the world start date: ${person.id}`,
       );
@@ -1707,6 +1770,7 @@ function validateInitialEntities(
       throw new Error(`Materialized person is missing details: ${person.id}`);
     }
 
+    assertPersonCitizenshipIntegrity(person, currentDate);
     const facts = [
       ...person.establishedFacts,
       ...(person.detailLevel === "materialized"
@@ -2066,6 +2130,7 @@ function validateHistoryIntegrity(
         ...(history.officeVoteInstructions ?? []),
         ...(history.officeBriefingInspections ?? []),
         ...(history.chamberRuleChanges ?? []),
+        ...(history.legislativeProposals ?? []),
         ...(history.sessionAdjournments ?? []),
         ...(history.itemVetoes ?? []),
         ...(history.favors ?? []),
@@ -2144,6 +2209,10 @@ function validateHistoryIntegrity(
   assertSequenceOrdered(
     history.legislativeMeasures ?? [],
     "legislative measure",
+  );
+  assertSequenceOrdered(
+    history.legislativeProposals ?? [],
+    "legislative proposal",
   );
   assertSequenceOrdered(history.legislativeActions ?? [], "legislative action");
   assertSequenceOrdered(history.committeeReferrals ?? [], "committee referral");
@@ -2259,6 +2328,37 @@ function validateHistoryIntegrity(
   for (const entry of childhoodRecordEntries(world))
     assertUniqueId(ids, entry.id);
   assertChildhoodRecordIntegrity(world);
+  for (const proposal of history.legislativeProposals ?? []) {
+    assertUniqueId(ids, proposal.id);
+    if (!world.people[proposal.sponsorPersonId]) {
+      throw new Error(
+        `Legislative proposal names a missing sponsor: ${proposal.id}`,
+      );
+    }
+    if (!world.jurisdictions[proposal.jurisdictionId]) {
+      throw new Error(
+        `Legislative proposal names a missing jurisdiction: ${proposal.id}`,
+      );
+    }
+    if (
+      proposal.id !==
+      createStableId(
+        "legislative-proposal",
+        `${world.id}:${proposal.stableKey}`,
+      )
+    ) {
+      throw new Error(
+        `Legislative proposal ID does not match its stable key: ${proposal.id}`,
+      );
+    }
+    if (
+      !proposal.title.trim() ||
+      !proposal.operativeText.trim() ||
+      proposal.proposedAt > world.currentDate
+    ) {
+      throw new Error(`Legislative proposal is incomplete: ${proposal.id}`);
+    }
+  }
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
@@ -2282,9 +2382,13 @@ function validateHistoryIntegrity(
       );
     }
   }
-  const workRelationshipIds = new Set(
-    history.workRelationships.map((record) => record.id),
-  );
+  // An office is a work relationship, or a council seat, which is an
+  // organization participation (`living-world/council-seat-office.ts`).
+  const officeIds = new Set([
+    ...history.workRelationships.map((record) => record.id),
+    ...history.organizationParticipations.map((record) => record.id),
+    ...Object.keys(world.judiciary?.seats ?? {}),
+  ]);
   for (const record of history.officeWorkflowPreferences ?? []) {
     assertUniqueId(ids, record.id);
     if (!world.people[record.personId]) {
@@ -2292,7 +2396,7 @@ function validateHistoryIntegrity(
         `Office workflow preference names a missing person: ${record.id}`,
       );
     }
-    if (!workRelationshipIds.has(record.officeRelationshipId)) {
+    if (!officeIds.has(record.officeRelationshipId)) {
       throw new Error(
         `Office workflow preference names a missing office: ${record.id}`,
       );
@@ -2316,7 +2420,7 @@ function validateHistoryIntegrity(
         `Office vote instruction names a missing person: ${record.id}`,
       );
     }
-    if (!workRelationshipIds.has(record.officeRelationshipId)) {
+    if (!officeIds.has(record.officeRelationshipId)) {
       throw new Error(
         `Office vote instruction names a missing office: ${record.id}`,
       );
@@ -2391,6 +2495,10 @@ function validateHistoryIntegrity(
   assertUniqueStableKeys(
     history.legislativeMeasures ?? [],
     "legislative measure",
+  );
+  assertUniqueStableKeys(
+    history.legislativeProposals ?? [],
+    "legislative proposal",
   );
   assertUniqueStableKeys(
     history.legislativeActions ?? [],
@@ -4441,6 +4549,21 @@ function clonePerson(person: Person): Person {
   const core = {
     ...person,
     establishedFacts: person.establishedFacts.map(cloneFact),
+    ...(person.citizenshipStatuses
+      ? {
+          citizenshipStatuses: person.citizenshipStatuses.map((record) => ({
+            ...record,
+            provenance: {
+              ...record.provenance,
+              countyGeoids: [...record.provenance.countyGeoids],
+              sourceArtifactSha256s: [
+                ...record.provenance.sourceArtifactSha256s,
+              ],
+              sourceEntityIds: [...record.provenance.sourceEntityIds],
+            },
+          })),
+        }
+      : {}),
   };
 
   if (person.detailLevel === "lightweight") {

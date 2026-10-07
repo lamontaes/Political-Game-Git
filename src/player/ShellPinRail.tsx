@@ -236,15 +236,7 @@ export function ShellPinRail({
                   </span>
                   <strong>{label ?? "Unavailable reference"}</strong>
                   {pin.size === "expanded" ? (
-                    <small>
-                      {pin.ref.kind === "person"
-                        ? "Saved reference. It says nothing about where they are."
-                        : pin.ref.kind === "government"
-                          ? "Saved reference. Opening it inspects this government; it does not move you or make you a resident."
-                          : pin.ref.kind === "organization"
-                            ? "Saved reference. Opening it shows this group; it does not take you there or make you a member."
-                            : "Saved reference."}
-                    </small>
+                    <small data-saved-reference={pin.ref.kind} />
                   ) : null}
                 </span>
               ) : null}

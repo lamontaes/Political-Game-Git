@@ -1,4 +1,14 @@
 import type { PolicyPack } from "./policy-packs";
+import { CURRICULUM_STANDARDS_ROW } from "./law-consequences/modules/lw08-curriculum/data";
+import { LW08_LIBRARY_MATERIALS_ROW } from "./law-consequences/modules/lw08-library-materials/data";
+import {
+  GOVERNMENT_OPERATIONS_LAW_ROWS,
+  GOVERNMENT_OPERATIONS_QUESTION_KEYS,
+} from "./law-consequences/government-operations-rows";
+import {
+  juvenileJurisdictionRow,
+  minimumCustodyRow,
+} from "./law-consequences/legal-outcome";
 
 /**
  * Positions a person in the United States can hold, and a bill can be about.
@@ -455,6 +465,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.require-photo-id-to-vote",
+      consequences: [
+        GOVERNMENT_OPERATIONS_LAW_ROWS[
+          GOVERNMENT_OPERATIONS_QUESTION_KEYS.photoId
+        ]!,
+      ],
       parameters: [
         { key: "required", value: "yes-or-no" },
         { key: "accepted-documents", value: "document-categories" },
@@ -641,7 +656,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         { key: "reserved-subjects", value: "state-reserved-subjects" },
       ],
       issue: "us-state-and-local:government-operations.state-local-powers",
-      name: "Broaden local authority",
+      name: "Broaden local government power",
       question:
         "Should localities be free to act on matters the state has not expressly reserved to itself?",
       tags: ["home-rule", "contested"],
@@ -922,6 +937,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Set curriculum at the state level",
       question:
         "Should the state set curriculum standards that every district must follow?",
+      consequences: [CURRICULUM_STANDARDS_ROW],
       tags: ["contested"],
       principles: [
         {
@@ -1270,6 +1286,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the law set minimum sentences that a judge may not go below?",
       tags: ["contested"],
+      consequences: [minimumCustodyRow],
       principles: [
         {
           principle: "public-safety",
@@ -1387,6 +1404,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should older teenagers be handled in juvenile rather than adult court?",
       parameters: [{ key: "age", value: "upper-age-of-juvenile-jurisdiction" }],
+      consequences: [juvenileJurisdictionRow],
       principles: [
         {
           principle: "equal-opportunity",
@@ -2771,6 +2789,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Local control of library materials",
       question:
         "Should decisions about which materials a library carries rest with local boards?",
+      consequences: [LW08_LIBRARY_MATERIALS_ROW],
       tags: ["contested"],
       principles: [
         {
@@ -3132,7 +3151,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         { key: "coverage", value: "covered-council-districts" },
       ],
       issue: "us-state-and-local:government-operations.redistricting",
-      name: "Independent ward commission",
+      name: "Independent district commission",
       question:
         "Should the city's council districts be drawn by an independent commission rather than by the council?",
       tags: ["contested"],
@@ -3264,6 +3283,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.same-day-voter-registration",
+      consequences: [
+        GOVERNMENT_OPERATIONS_LAW_ROWS[
+          GOVERNMENT_OPERATIONS_QUESTION_KEYS.sameDayRegistration
+        ]!,
+      ],
       issue: "us-state-and-local:government-operations.election-rules",
       name: "Same-day voter registration",
       question:

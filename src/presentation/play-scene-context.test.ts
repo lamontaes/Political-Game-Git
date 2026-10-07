@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  ageOnDate,
   deserializeWorld,
   eligibleEpisodeBeats,
   EPISODE_FAMILIES,
   householdMembershipsAt,
   kinshipRelationshipsAt,
   peopleInHouseholdAt,
+  personName,
   serializeWorld,
   type EntityId,
   type EpisodeBeat,
@@ -22,12 +24,16 @@ import { projectStoryMoment, type StoryScene } from "./life-story";
 import { DOMESTIC_SCENE_IDS } from "./scene-registry";
 import {
   householdResidentIds,
+  resolveCurrentPlaySceneContext,
   resolveOpeningPlaySceneContext,
   resolvePlaySceneContext,
 } from "./play-scene-context";
-import { currentOpeningLifeScene, openNextLifeScene } from "./life-scene-flow";
 import { resolveLifeScene } from "./life-scene";
 import { sceneVenueForLocationKey } from "./scene-venues";
+import { recordSchoolPresence } from "../../tests/support/school-presence-fixture";
+import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
+import { passOrdinaryDays } from "./ordinary-life";
+import { observerPlace } from "./observer-world";
 
 function childSetup(overrides: Partial<NewGameSetup> = {}): NewGameSetup {
   return {
@@ -49,30 +55,37 @@ function childSetup(overrides: Partial<NewGameSetup> = {}): NewGameSetup {
 /**
  * A school episode beat with a classmate physically present.
  *
- * This used to be the corridor beat ("blamed"). The dialogue review of
- * 2026-09-23 withheld it, because choosing it created the incident it
- * described, so ordinary play no longer offers it. What these tests prove is
- * the scene context of a school beat — no apartment behind it, the classmate
- * in it, the same after a reload — so they read the first school-set beat a
- * six-year-old in the same generated life is actually offered, with a
- * classmate in the room.
+ * Ordinary play offers no such beat now: the corridor beat ("blamed") is
+ * withheld (dialogue review of 2026-09-23), and the school beats still offered
+ * bind nobody and put nobody in the room. What these tests prove is the scene
+ * context of a school beat — no apartment behind it, the classmate in it, the
+ * same after a reload — so they take the first school-set beat a six-year-old
+ * in the generated life is actually offered and record one real classmate from
+ * the same school as physically present, as the scene writer would.
  */
 function schoolBeat(world: World, personId: EntityId): EpisodeBeat {
-  const beat = eligibleEpisodeBeats({
+  const offered = eligibleEpisodeBeats({
     world,
     personId,
     families: EPISODE_FAMILIES,
-  }).beats.find(
-    (entry) =>
-      entry.sceneSetting === "school" &&
-      entry.bindings.some(
-        (binding) =>
-          binding.role === "school-peer" &&
-          entry.physicallyPresentPersonIds.includes(binding.personId),
-      ),
-  );
-  if (!beat) throw new Error("No school beat with a classmate was offered.");
-  return beat;
+  }).beats.find((entry) => entry.sceneSetting === "school");
+  if (!offered) throw new Error("No school beat was offered.");
+  const classmateId = recordSchoolPresence(world, personId, 1).classmateIds[0];
+  if (!classmateId) throw new Error("The school has no classmate on record.");
+  return {
+    ...offered,
+    bindings: [
+      {
+        role: "school-peer",
+        personId: classmateId,
+        personName: personName(world.people[classmateId]!),
+        age: ageOnDate(world.people[classmateId]!.birthDate, world.currentDate),
+        basis: "Attends the same school on the education record.",
+        anchors: [],
+      },
+    ],
+    physicallyPresentPersonIds: [classmateId],
+  };
 }
 
 /** A child at the age the school beats with a classmate are offered. */
@@ -143,19 +156,61 @@ function nonresidentParentLife(): {
 }
 
 describe("The foreground owns opening presence", () => {
-  it("does not introduce household residents without a current presence record", () => {
+  it("moves from the opening workplace to the next ordinary day's room", () => {
+    const seed = "bg-12-current-room";
+    const place = observerPlace(seed);
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+        startKind: "custom",
+        startAge: 34,
+        household: "shares-a-home",
+      }),
+    ).game!;
+    const opening = resolveOpeningPlaySceneContext(
+      game.world,
+      game.playerPersonId,
+    );
+    const next = passOrdinaryDays(game.world, 1);
+    const ordinary = projectStoryMoment(next, game.playerPersonId).scene;
+    const current = resolveCurrentPlaySceneContext(
+      next,
+      game.playerPersonId,
+      ordinary,
+    );
+
+    expect(opening.purpose, `seed ${seed}, place ${place.key}`).toBe(
+      "activity",
+    );
+    expect(next.currentDate).not.toBe(game.world.currentDate);
+    // Main now shows only recorded home presence, so the ordinary day may
+    // legitimately have no bound room or visitors. What must hold is that the
+    // opening workplace is no longer the live room and the people shown are
+    // exactly the ordinary day's.
+    expect(current.purpose).not.toBe("activity");
+    expect(current.locationKey).not.toBe(opening.locationKey);
+    expect(current.placeLabel).not.toBe(opening.placeLabel);
+    expect(current.presentPeople).toEqual(ordinary.presentPeople);
+  }, 180_000);
+
+  it("a new life opens with the household members who are home now, and nobody else", () => {
     const { world, playerPersonId } = createNewGameWorld(childSetup());
     const before = serializeWorld(world);
     const context = resolveOpeningPlaySceneContext(world, playerPersonId);
     expect(context.purpose).toBe("home");
     expect(DOMESTIC_SCENE_IDS).toContain(context.sceneId);
-    expect(
-      context.presentPeople.map((person) => person.personId).sort(),
-    ).toEqual([]);
+    const household = householdMembershipsAt(world, playerPersonId).flatMap(
+      (entry) => peopleInHouseholdAt(world, entry.household.id),
+    );
+    expect(context.presentPeople.length).toBeGreaterThan(0);
+    for (const person of context.presentPeople)
+      expect(household).toContain(person.personId);
     expect(serializeWorld(world)).toBe(before);
   });
 
-  it("reads the actual school opening and its named participants without moving time", () => {
+  it("reads recorded school presence and its named classmates without moving time", () => {
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       startKind: "custom",
@@ -163,20 +218,18 @@ describe("The foreground owns opening presence", () => {
       seed: "repair6-lunchbox",
       startAge: 6,
     });
-    const world = openNextLifeScene(game.world, game.playerPersonId, "school");
-    const opening = currentOpeningLifeScene(world, game.playerPersonId)!;
-    expect(opening.definition.setting).toBe("school");
+    const { world, classmateIds } = recordSchoolPresence(
+      game.world,
+      game.playerPersonId,
+    );
+    expect(classmateIds.length).toBeGreaterThan(0);
     const before = serializeWorld(world);
     const context = resolveOpeningPlaySceneContext(world, game.playerPersonId);
     expect(context.purpose).toBe("school");
     expect(context.sceneId).toBeNull();
     expect(
       context.presentPeople.map((person) => person.personId).sort(),
-    ).toEqual(
-      opening.presentPersonIds
-        .filter((id) => id !== game.playerPersonId)
-        .sort(),
-    );
+    ).toEqual([...classmateIds].sort());
     const reloaded = deserializeWorld(before);
     expect(
       resolveOpeningPlaySceneContext(reloaded, game.playerPersonId),

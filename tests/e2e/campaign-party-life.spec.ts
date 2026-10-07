@@ -205,7 +205,7 @@ test("party work, a week's plan and the other side's public activity", async ({
   if (doneOrBlocked === "blocked") {
     // A refusal is the plain calendar reason, never a silent no-op.
     await expect(page.getByTestId("campaign-week-message")).toHaveText(
-      "Something already on the calendar has to happen first.",
+      "Calendar conflict",
     );
   }
   test.info().annotations.push({

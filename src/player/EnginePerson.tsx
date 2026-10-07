@@ -49,10 +49,13 @@ export function EngineFigure({
   recipe,
   className,
   testId = "engine-figure",
+  canvas = false,
 }: {
   readonly recipe: EngineRecipe;
   readonly className?: string;
   readonly testId?: string;
+  /** Preserve the measured full canvas when a room positions its contact rows. */
+  readonly canvas?: boolean;
 }) {
   const image = useEnginePersonImage(recipe);
   if (!image) return null;
@@ -69,14 +72,25 @@ export function EngineFigure({
       data-engine-recipe={engineRecipeKey(recipe)}
       style={
         {
-          position: "absolute",
-          height: `${(image.height / figure) * 100}%`,
-          width: "auto",
-          maxWidth: "none",
-          bottom: `${(-(image.height - 1 - feet) / figure) * 100}%`,
-          left: "50%",
-          transform: `translateX(${(-neck.centerX / image.width) * 100}%)`,
-          pointerEvents: "none",
+          ...(canvas
+            ? {
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                left: 0,
+                top: 0,
+                pointerEvents: "none",
+              }
+            : {
+                position: "absolute",
+                height: `${(image.height / figure) * 100}%`,
+                width: "auto",
+                maxWidth: "none",
+                bottom: `${(-(image.height - 1 - feet) / figure) * 100}%`,
+                left: "50%",
+                transform: `translateX(${(-neck.centerX / image.width) * 100}%)`,
+                pointerEvents: "none",
+              }),
         } satisfies CSSProperties
       }
     />

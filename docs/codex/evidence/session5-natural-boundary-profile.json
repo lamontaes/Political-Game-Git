@@ -1,0 +1,234 @@
+{
+  "phase": "P1",
+  "piece": "Natural month-boundary diagnosis and exact wake-reader repair",
+  "measuredSource": "04e3eb7b5813be7fd481940c3b196bd6c73ee783",
+  "originalBrowserSource": "139ed9935bfaa970d59cbfb373068b65b0d2411c",
+  "seed": "session23-part1-ordinary-mayor-2026-10-06",
+  "placeKey": "4422960",
+  "startAge": 40,
+  "worldId": "world_d1988232a2168591",
+  "playerPersonId": "person_294d73df91ab1ba7",
+  "execution": {
+    "handle": 76719,
+    "pid": 37666,
+    "exit": 0,
+    "heapSettingMiB": 4096,
+    "finalDate": "2026-02-01",
+    "finalPeople": 14945
+  },
+  "boundary": {
+    "from": {
+      "date": "2026-01-31",
+      "minuteOfDay": 930,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "to": {
+      "date": "2026-02-01",
+      "minuteOfDay": 420,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "canonicalActionMs": 12839.278997000001,
+    "instrumentedElapsedMs": 13035.491206000006,
+    "sampledTotalMs": 13428.967,
+    "selfCpu": [
+      {
+        "file": "simulation/nationwide-world/state-legislature-turnover.ts",
+        "function": "stateLegislatureWakePlan",
+        "sampledMs": 2778.831,
+        "shareOfAllSampledTime": 0.20692812782993658
+      },
+      {
+        "file": "simulation/governing/chamber-votes.ts",
+        "function": "",
+        "sampledMs": 2364.891,
+        "shareOfAllSampledTime": 0.176103716689452
+      },
+      {
+        "file": "node:inspector",
+        "function": "post",
+        "sampledMs": 589.004,
+        "shareOfAllSampledTime": 0.043860707975527824
+      },
+      {
+        "file": "simulation/governing/chamber-votes.ts",
+        "function": "stateConstitutionalRoster",
+        "sampledMs": 464.213,
+        "shareOfAllSampledTime": 0.03456803490543986
+      },
+      {
+        "file": "simulation/people-upbringing.ts",
+        "function": "familyCohortIndex",
+        "sampledMs": 431.649,
+        "shareOfAllSampledTime": 0.03214312761361317
+      },
+      {
+        "file": "simulation/nationwide-world/state-legislature-queue.ts",
+        "function": "",
+        "sampledMs": 374.046,
+        "shareOfAllSampledTime": 0.027853668863733153
+      },
+      {
+        "file": "simulation/history-index.ts",
+        "function": "recordsByStringField",
+        "sampledMs": 349.169,
+        "shareOfAllSampledTime": 0.026001180880107905
+      },
+      {
+        "file": "",
+        "function": "(garbage collector)",
+        "sampledMs": 337.853,
+        "shareOfAllSampledTime": 0.025158524851539212
+      }
+    ],
+    "growthBodyBytes": 10027894,
+    "growth": [
+      {
+        "family": "organizations",
+        "rows": 2,
+        "bodyBytes": 495
+      },
+      {
+        "family": "organizationProfiles",
+        "rows": 2,
+        "bodyBytes": 924
+      },
+      {
+        "family": "organizationParticipations",
+        "rows": 24,
+        "bodyBytes": 11113
+      },
+      {
+        "family": "organizationParticipationStates",
+        "rows": 24,
+        "bodyBytes": 12457
+      },
+      {
+        "family": "households",
+        "rows": 130,
+        "bodyBytes": 51457
+      },
+      {
+        "family": "householdLocations",
+        "rows": 130,
+        "bodyBytes": 71812
+      },
+      {
+        "family": "householdMemberships",
+        "rows": 130,
+        "bodyBytes": 59722
+      },
+      {
+        "family": "householdMembershipStates",
+        "rows": 130,
+        "bodyBytes": 71812
+      },
+      {
+        "family": "resourceFlows",
+        "rows": 55,
+        "bodyBytes": 38989
+      },
+      {
+        "family": "resourceFlowTerms",
+        "rows": 55,
+        "bodyBytes": 31025
+      },
+      {
+        "family": "resourceTransferOutcomes",
+        "rows": 59,
+        "bodyBytes": 34802
+      },
+      {
+        "family": "resourceObligations",
+        "rows": 55,
+        "bodyBytes": 24365
+      },
+      {
+        "family": "resourceObligationStates",
+        "rows": 55,
+        "bodyBytes": 21340
+      },
+      {
+        "family": "futureDueItems",
+        "rows": 96,
+        "bodyBytes": 52316
+      },
+      {
+        "family": "futureDueItemStates",
+        "rows": 192,
+        "bodyBytes": 74708
+      },
+      {
+        "family": "events",
+        "rows": 475,
+        "bodyBytes": 467235
+      },
+      {
+        "family": "principles",
+        "rows": 7358,
+        "bodyBytes": 6847087
+      },
+      {
+        "family": "personalityTendencies",
+        "rows": 784,
+        "bodyBytes": 417125
+      },
+      {
+        "family": "decisionTraces",
+        "rows": 123,
+        "bodyBytes": 337641
+      },
+      {
+        "family": "districtResidenceIntervals",
+        "rows": 121,
+        "bodyBytes": 63646
+      },
+      {
+        "family": "debtStandings",
+        "rows": 2,
+        "bodyBytes": 728
+      },
+      {
+        "family": "publications",
+        "rows": 1,
+        "bodyBytes": 580
+      },
+      {
+        "family": "debtCharges",
+        "rows": 4,
+        "bodyBytes": 1464
+      },
+      {
+        "family": "loanRepaymentAllocations",
+        "rows": 4,
+        "bodyBytes": 2044
+      },
+      {
+        "family": "constitutionalMeasures",
+        "rows": 42,
+        "bodyBytes": 59964
+      },
+      {
+        "family": "constitutionalActions",
+        "rows": 84,
+        "bodyBytes": 1273043
+      }
+    ]
+  },
+  "cause": {
+    "file": "src/simulation/nationwide-world/state-legislature-turnover.ts",
+    "function": "stateLegislatureWakePlan",
+    "calls": 49,
+    "description": "The queue plan rescans every event once for each election year and affected pack to find recorded primary/runoff dates.",
+    "repair": "Use existing append-aware recordsByKey grouping, preserving all seat-tag prefixes and original event order; unchanged recorded calendar/writers."
+  },
+  "limits": [
+    "New same-seed/place/age canonical filing/outreach/Day route; original randomized name and exact retained World unavailable",
+    "Original browser trace performClick20709ms/navigationWait9218ms is distinct, not a baseline/candidate comparison",
+    "CPU self samples aggregated by function across stacks; denominator all sampled time including Inspector/GC; inclusive timings overlap",
+    "Inspector overhead retained; no per-handler wall-clock wrapper injected into canonical dispatch",
+    "Append body bytes exclude containers; meaningful principles, actions, decisions and priced financial rows are retained",
+    "Historical annual/save/reload acceptance remains failed at34dcc8b; no annual/reload launched"
+  ]
+}

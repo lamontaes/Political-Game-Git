@@ -1,7 +1,7 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
-import { makeIsoDate, addDays } from "../dates";
+import { makeIsoDate, addDays, ageOnDate } from "../dates";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
   buildOpeningCourtCatalog,
@@ -33,6 +33,8 @@ import {
 import { seatsForChamber } from "../legislature-game-profile";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { recordGovernorDecisionOnMeasure } from "../governing/legislative-clock";
+import { lawInForce } from "../governing/law-in-force";
+import { applyLawConsequences } from "../enacted-law-effects";
 import { assertWorldIntegrity } from "../world";
 import { createLawConsequenceRegistry } from "../law-consequence-registry";
 import { personName } from "../people";
@@ -62,6 +64,9 @@ import {
   legalOutcomeRegistration,
   assertLegalOutcomeConsequenceIntegrity,
   minimumCustodyRow,
+  juvenileJurisdictionRow,
+  readJuvenileJurisdictionTerm,
+  JUVENILE_JURISDICTION_QUESTION,
 } from "./legal-outcome";
 
 import { prosecutionTimingFor } from "../justice/prosecution-timing";
@@ -320,6 +325,19 @@ describe("recorded floors reach saved sentences", () => {
         ),
       });
       expect(event, `${seed}, person ${personId}`).toBeDefined();
+      const sharedStepOutcome =
+        sentenced.history.legalOutcomeConsequences?.find(
+          (record) => record.sentenceEventId === event!.id,
+        );
+      expect(sharedStepOutcome).toMatchObject({
+        subjectPersonId: personId,
+        jurisdictionId: venue,
+        minimumMonths: 120,
+        effectKind: "minimum-custody-months",
+      });
+      expect(sharedStepOutcome?.lawEffectStamps[0]?.governingLawKey).toBe(
+        measured.id,
+      );
       const months = Number(
         event!.tags
           .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
@@ -367,10 +385,9 @@ describe("recorded floors reach saved sentences", () => {
       );
       expect(resolved).toHaveLength(1);
       const applied = legalOutcomeRegistration.apply(sentenced, resolved[0]!);
+      expect(applied).toBe(sentenced);
       expect(applied.history.events).toBe(sentenced.history.events);
-      expect(applied.history.nextSequence).toBe(
-        sentenced.history.nextSequence + 1,
-      );
+      expect(applied.history.nextSequence).toBe(sentenced.history.nextSequence);
       assertLegalOutcomeConsequenceIntegrity(applied);
       const reloaded = deserializeWorld(serializeWorld(applied));
       assertLegalOutcomeConsequenceIntegrity(reloaded);
@@ -387,8 +404,12 @@ describe("recorded floors reach saved sentences", () => {
       expect(saved).toEqual(event);
       expect(saved).not.toHaveProperty("lawEffectStamps");
       const consequence = reloaded.history.legalOutcomeConsequences!.find(
-        (record) => record.sentenceEventId === event!.id,
+        (record) =>
+          record.effectKind === "minimum-custody-months" &&
+          record.sentenceEventId === event!.id,
       )!;
+      if (consequence.effectKind !== "minimum-custody-months")
+        throw new Error("Expected saved minimum-custody consequence.");
       expect(consequence.subjectPersonId).toBe(personId);
       expect(consequence.minimumMonths).toBe(120);
       expect(consequence.effectKind).toBe("minimum-custody-months");
@@ -417,6 +438,89 @@ describe("recorded floors reach saved sentences", () => {
     },
     120_000,
   );
+});
+
+describe("juvenile jurisdiction through the shared case-stage dispatcher", () => {
+  it("records the charged person under the operative age ceiling and law", () => {
+    const place = "US-AK";
+    const opening = smallWorld({
+      place,
+      people: 40,
+      seed: "juvenile-age-shared-dispatch",
+      date: makeIsoDate("2027-01-05"),
+      offices: ["governor", "state-legislature"],
+    });
+    const world = opening.world;
+    const jurisdictionId = stateJurisdictionForKey(place)!.id;
+    const proposition = Object.values(world.policyCatalog.propositions).find(
+      (entry) => entry.stableKey === JUVENILE_JURISDICTION_QUESTION,
+    )!;
+    const law = lawInForce(
+      world,
+      jurisdictionId,
+      proposition.id,
+      world.currentDate,
+    )!;
+    const term = readJuvenileJurisdictionTerm(
+      world,
+      law,
+      JUVENILE_JURISDICTION_QUESTION,
+      world.currentDate,
+    )!;
+    const defendantId = Object.values(world.people).find(
+      (person) =>
+        ageOnDate(person.birthDate, world.currentDate) >= term.value + 1,
+    )!.id;
+    expect(proposition.consequences).toContainEqual(juvenileJurisdictionRow);
+    const event = {
+      id: "event_juvenile_shared_charge" as EntityId,
+      stableKey: "test:juvenile-shared-charge",
+      sequence: world.history.nextSequence,
+      type: "justice.charged",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [defendantId],
+      participants: [{ role: "focus:defendant", personId: defendantId }],
+      tags: [],
+    } as unknown as World["history"]["events"][number];
+    const saved: World = {
+      ...world,
+      history: {
+        ...world.history,
+        events: [...world.history.events, event],
+        nextSequence: world.history.nextSequence + 1,
+        legalOutcomeConsequences: [],
+      },
+    };
+    const after = applyLawConsequences(saved, {
+      onDate: event.occurredAt,
+      activity: "case-stage",
+      activityId: event.id,
+      subjectIds: [defendantId],
+      questionKey: JUVENILE_JURISDICTION_QUESTION,
+    });
+    const records = after.history.legalOutcomeConsequences ?? [];
+    expect(records).toHaveLength(1);
+    const record = records[0]!;
+    expect(record.effectKind).toBe("juvenile-jurisdiction-ceiling");
+    if (record.effectKind !== "juvenile-jurisdiction-ceiling")
+      throw new Error("Expected juvenile jurisdiction consequence.");
+    expect(record.caseStageEventId).toBe(event.id);
+    expect(record.subjectPersonId).toBe(defendantId);
+    expect(record.juvenileCourtAgeCeiling).toBe(term.value);
+    expect(record.lawEffectStamps[0]!.governingLawKey).toBe(law.measureId);
+    expect(
+      applyLawConsequences(after, {
+        onDate: event.occurredAt,
+        activity: "case-stage",
+        activityId: event.id,
+        subjectIds: [defendantId],
+        questionKey: JUVENILE_JURISDICTION_QUESTION,
+      }),
+    ).toBe(after);
+    assertLegalOutcomeConsequenceIntegrity(after);
+  });
 });
 
 // Authored fixture terms exercise the mechanism; they are not 2026 legal values.
@@ -461,6 +565,7 @@ function fixture(place: string, floor: number | null = 120) {
         [propositionId]: {
           id: propositionId,
           stableKey: MINIMUM_CUSTODY_QUESTION,
+          consequences: [minimumCustodyRow],
           parameters: [
             {
               key: "coverage",
@@ -532,6 +637,65 @@ function fixture(place: string, floor: number | null = 120) {
 }
 
 describe("recorded custody floors through the existing sentence writer", () => {
+  it("records the named defendant through the shared case-stage dispatcher", () => {
+    const { world, courtCase, measure } = fixture(places[0]!);
+    const event = {
+      id: "event_shared_step_sentence" as EntityId,
+      type: PROSECUTION_SENTENCED_EVENT,
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: courtCase.venueJurisdictionId,
+      participants: [
+        { role: "focus:defendant", personId: courtCase.defendantId },
+      ],
+      tags: ["justice.offense:crime:robbery", `${SENTENCE_MONTHS_TAG}120`],
+    } as unknown as World["history"]["events"][number];
+    const saved = {
+      ...world,
+      people: {
+        [courtCase.defendantId]: {
+          id: courtCase.defendantId,
+          homeJurisdictionId: courtCase.venueJurisdictionId,
+        },
+      },
+      history: {
+        ...world.history,
+        events: [event],
+        nextSequence: 4,
+        legalOutcomeConsequences: [],
+      },
+    } as unknown as World;
+    const before = saved.history.legalOutcomeConsequences?.length ?? 0;
+    const after = applyLawConsequences(saved, {
+      onDate: event.occurredAt,
+      activity: "case-stage",
+      activityId: event.id,
+      subjectIds: [courtCase.defendantId],
+    });
+    const consequences = after.history.legalOutcomeConsequences ?? [];
+
+    expect(before).toBe(0);
+    expect(consequences).toHaveLength(1);
+    expect(consequences[0]).toMatchObject({
+      sentenceEventId: event.id,
+      subjectPersonId: courtCase.defendantId,
+      jurisdictionId: courtCase.venueJurisdictionId,
+      minimumMonths: 120,
+      sourceRecordIds: expect.arrayContaining([measure.id]),
+    });
+    expect(consequences[0]!.lawEffectStamps[0]!.governingLawKey).toBe(
+      measure.id,
+    );
+    expect(
+      applyLawConsequences(after, {
+        onDate: event.occurredAt,
+        activity: "case-stage",
+        activityId: event.id,
+        subjectIds: [courtCase.defendantId],
+      }),
+    ).toBe(after);
+  });
+
   it("validates the exported row against the shared registry contract", () => {
     const registry = createLawConsequenceRegistry([legalOutcomeRegistration]);
     expect(

@@ -4,10 +4,8 @@ import {
   GROW_DEFENSE_SPENDING_QUESTION,
 } from "../federal-defense-spending";
 import {
-  DEBT_LIMIT_CUTS_QUESTION,
-  INCREASE_FOREIGN_AID_QUESTION,
+  federalOutlayLawLineChangesAt,
   federalLawInForceAt,
-  federalLawAmountAt,
   recordedFederalAnnualSpendingBefore,
 } from "../federal-outlay-laws";
 import { lawInForce } from "../governing/law-in-force";
@@ -35,8 +33,8 @@ import {
  * deficit raises the next month's interest, and a law that saves money
  * lowers it.
  *
- * A federal law moves a line through `FEDERAL_LAW_EFFECTS`, read from the
- * law in force on the first of each month. The represented people's own
+ * The treasury reads each federal law's own terms on the first of each month.
+ * The represented people's own
  * federal withholding reaches the shared government account/monthly cash
  * settlement separately; top-rate receipts have no second treasury-share row.
  * This legacy forecast reader is not a producer of actual cash receipts.
@@ -86,76 +84,7 @@ export interface FederalLawEffect {
   } | null;
 }
 
-const DEBT_LIMIT_CUT_LINES = FEDERAL_OUTLAYS.filter(
-  (key) => key !== "nationalDefense" && key !== "netInterest",
-);
-
 export const FEDERAL_LAW_EFFECTS: readonly FederalLawEffect[] = [
-  {
-    questionKey: INCREASE_FOREIGN_AID_QUESTION,
-    line: { kind: "outlay", key: "internationalAffairs" },
-    toYes: null,
-    toNo: null,
-    timing: "month",
-    basis:
-      "Final adopted annual foreign-aid appropriation against the complete saved preceding International Affairs spending year.",
-    shareOn: (world, month) => {
-      const aid = federalLawAmountAt(
-        world,
-        INCREASE_FOREIGN_AID_QUESTION,
-        "appropriation",
-        month,
-      );
-      const base = aid.law
-        ? recordedFederalAnnualSpendingBefore(
-            world,
-            FEDERAL_OUTLAYS.indexOf("internationalAffairs"),
-            aid.law.operativeAt,
-          )
-        : null;
-      return !aid.law || aid.amount === null || base === null
-        ? null
-        : {
-            share: aid.amount / base - 1,
-            measureId: aid.law.measureId,
-            monthlyBase: base / 12,
-          };
-    },
-  },
-  ...DEBT_LIMIT_CUT_LINES.map((key): FederalLawEffect => ({
-    questionKey: DEBT_LIMIT_CUTS_QUESTION,
-    line: { kind: "outlay", key },
-    toYes: null,
-    toNo: null,
-    timing: "month",
-    basis:
-      "Final adopted annual offset allocated proportionally over the complete saved preceding eligible outlay categories, excluding defense and net interest.",
-    shareOn: (world, month) => {
-      const cut = federalLawAmountAt(
-        world,
-        DEBT_LIMIT_CUTS_QUESTION,
-        "offset",
-        month,
-      );
-      if (!cut.law || cut.amount === null) return null;
-      const bases = DEBT_LIMIT_CUT_LINES.map((line) =>
-        recordedFederalAnnualSpendingBefore(
-          world,
-          FEDERAL_OUTLAYS.indexOf(line),
-          cut.law!.operativeAt,
-          true,
-        ),
-      );
-      if (bases.some((base) => base === null)) return null;
-      const total = bases.reduce<number>((sum, base) => sum + base!, 0);
-      if (total === 0) return null;
-      return {
-        share: -Math.min(1, cut.amount / total),
-        measureId: cut.law.measureId,
-        monthlyBase: bases[DEBT_LIMIT_CUT_LINES.indexOf(key)]! / 12,
-      };
-    },
-  })),
   {
     questionKey: GROW_DEFENSE_SPENDING_QUESTION,
     line: { kind: "outlay", key: "nationalDefense" },
@@ -321,6 +250,7 @@ export function settleFederalTreasuryMonth(
   const laws: FederalTreasuryMonth["laws"][number][] = [];
   const debtBefore = federalDebtHeldByPublic(treasury);
   const programCosts = federalProgramCostsForMonth(world, month);
+  const adoptedOutlayChanges = federalOutlayLawLineChangesAt(world, month);
   const line = (kind: FederalLine["kind"], key: string, base: number) => {
     let amount = base;
     let movedByLaw = false;
@@ -378,14 +308,51 @@ export function settleFederalTreasuryMonth(
     const paidMinorUnits = programCosts
       .filter((cost) => federalProgramLine(cost.programKey) === key)
       .reduce((sum, cost) => sum + cost.amountMinorUnits, 0);
+    const forecast = line(
+      "outlay",
+      key,
+      key === "netInterest"
+        ? (debtBefore * treasury.interestRate) / 12
+        : OUTLAYS[key] / 12,
+    );
+    const adopted = adoptedOutlayChanges.filter(
+      (change) => change.lineIndex === FEDERAL_OUTLAYS.indexOf(key),
+    );
+    for (const change of adopted) {
+      const amount = Math.round(change.amount);
+      const proposition = Object.values(
+        world.policyCatalog?.propositions ?? {},
+      ).find((row) => row.stableKey === change.questionKey);
+      const governingLaw = proposition
+        ? lawInForce(
+            world,
+            NATIONAL_ELECTION_JURISDICTION.id,
+            proposition.id,
+            month,
+            "enacted-only",
+          )
+        : null;
+      const stamp =
+        governingLaw?.measureId === change.measureId
+          ? lawEffectStamp(governingLaw, {
+              effectKind: "government-outlay-change",
+              questionKey: change.questionKey,
+              jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+              appliedAt: month,
+              sourceRecordIds: [change.measureId],
+            })
+          : null;
+      laws.push({
+        questionKey: change.questionKey,
+        measureId: change.measureId,
+        line: key,
+        amount,
+        ...(stamp ? { lawEffectStamps: [stamp] } : {}),
+      });
+    }
     return Math.round(
-      line(
-        "outlay",
-        key,
-        key === "netInterest"
-          ? (debtBefore * treasury.interestRate) / 12
-          : OUTLAYS[key] / 12,
-      ) +
+      (adopted[0]?.monthlyBase ?? forecast) +
+        adopted.reduce((sum, change) => sum + change.amount, 0) +
         paidMinorUnits / 100,
     );
   });

@@ -602,66 +602,6 @@
   transform: rotate(-24deg);
 }
 
-.person-nameplate {
-  position: absolute;
-  z-index: 8;
-  top: 1%;
-  left: 50%;
-  width: max-content;
-  max-width: 14rem;
-  transform: translate(-50%, -112%);
-  border: 1px solid rgb(111 85 42 / 60%);
-  border-radius: 3px;
-  padding: 0.42rem 0.65rem;
-  color: var(--text-strong);
-  background: var(--kit12-glass);
-  box-shadow: 0 6px 17px rgb(46 30 12 / 18%);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    opacity 140ms ease,
-    visibility 0s linear 140ms;
-}
-
-.person-nameplate::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  transform: translateX(-50%) rotate(45deg);
-  border-right: 1px solid rgb(111 85 42 / 60%);
-  border-bottom: 1px solid rgb(111 85 42 / 60%);
-  background: var(--kit12-glass);
-}
-
-.scene-person:not([data-label-suppressed="true"]):hover .person-nameplate,
-.scene-person:not([data-label-suppressed="true"]):focus-visible
-  .person-nameplate {
-  opacity: 1;
-  visibility: visible;
-  transition-delay: 0s;
-}
-
-.person-nameplate strong,
-.person-nameplate small {
-  display: block;
-}
-
-.person-nameplate strong {
-  font-size: 0.86rem;
-}
-
-.person-nameplate small {
-  margin-top: 0.12rem;
-  color: var(--run-a-muted);
-  font-family: var(--name);
-  font-size: 0.62rem;
-  font-weight: 500;
-}
-
 .office-desk {
   position: absolute;
   z-index: 4;
@@ -3280,7 +3220,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .context-pin,
-  .person-nameplate,
   .nav-cluster,
   .nav-cluster-button,
   .civic-seal,
@@ -4289,12 +4228,6 @@
   text-transform: uppercase;
 }
 
-.measure-standing {
-  margin: 0;
-  color: var(--text-strong);
-  font-size: 0.7rem;
-}
-
 .measure-close,
 .measure-actions button,
 .measure-panel button,
@@ -4492,13 +4425,6 @@
   border: 1px dashed rgb(111 85 42 / 50%);
   border-radius: 0.3rem;
   background: rgb(38 26 14 / 24%);
-}
-
-.scene-person[data-unillustrated="true"]:not([data-label-suppressed="true"])
-  .person-nameplate {
-  opacity: 1;
-  visibility: visible;
-  transition-delay: 0s;
 }
 
 .scene-person[data-unillustrated="true"][data-addressed="true"] {
@@ -4762,10 +4688,11 @@
   width: 2.6rem;
   height: 2.6rem;
   border-radius: 50%;
-  border: 1px solid #b4b4a8;
-  background: #eceade;
-  color: #32291b;
-  font-weight: 700;
+  border: 1px solid var(--pg-hairline);
+  background: var(--glass-bottom);
+  color: var(--text-1);
+  font-family: var(--ui);
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
@@ -5005,9 +4932,6 @@
 
 .game-search input {
   padding: 0.55rem 0.7rem;
-  border: 1px solid #b4b4a8;
-  border-radius: 0.42rem;
-  background: var(--kit12-glass);
   color: var(--text-strong);
   font: inherit;
   font-weight: 400;
@@ -5880,9 +5804,8 @@
 /* Title tableau                                                              */
 /*                                                                            */
 /* The title screen paints a room behind itself when there is a truthful one  */
-/* to paint. Every rule below is written so that the no-art case is not a     */
-/* degraded version of the art case: with `data-has-plate="false"` the page   */
-/* is the pale sheet it has always been, and the panel below adds nothing.    */
+/* to paint. The front-door layer gives both art and no-art cases the same    */
+/* Kit 13 glass menu, while this layer holds the illustrated room beneath it. */
 /* -------------------------------------------------------------------------- */
 
 .title-tableau {
@@ -5894,10 +5817,10 @@
 
 /*
  * When a room is actually painted, the layer behind the stages is a deep
- * neutral rather than the pale page — so if a frame ever slips between an
+ * neutral — so if a frame ever slips between an
  * outgoing room being removed and an incoming one painting, what shows is dark,
- * not the white flash the transition must never produce. The no-art case is
- * untouched and stays the pale sheet it has always been.
+ * not the white flash the transition must never produce. The front-door CSS
+ * gives the no-art case the same dark glass ground.
  */
 .title-tableau[data-has-plate="true"] {
   background: var(--kit12-glass);
@@ -6079,15 +6002,9 @@
   /* Controls belong on the left of the scene (Task C/R), so the room keeps the
      larger, open side of the frame. */
   justify-content: flex-start;
-  /* Fixed height, not min-height: an owner composition (shell.css's accepted
-     R1 title grouping) overrides this rule's own padding with its own
-     viewport-relative clamp(), so the padding this rule's max-height budget
-     assumed does not always hold. With min-height, a taller actual padding
-     let the panel's own max-height:calc(100dvh - Nrem) still fit inside the
-     panel but push this container — and the whole page — past the viewport.
-     A fixed height plus overflow:hidden keeps the composition honest
-     regardless of which padding rule wins: the panel's own overflow-y:auto
-     is the one and only scroll region, never the page. */
+  /* The front-door layer supplies natural height and page scrolling when a
+     short viewport cannot fit the menu. The menu itself stays at its natural
+     height. */
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -6100,9 +6017,6 @@
   max-width: none;
   margin: 0;
   padding: 1.5rem 1.35rem 1.6rem;
-  background: var(--kit12-glass);
-  backdrop-filter: blur(6px);
-  border-radius: 1rem;
   box-shadow: 0 1.4rem 3rem rgb(46 30 12 / 15%);
 }
 
@@ -7763,6 +7677,20 @@ body:where(.pg-game) .game-campaign-tallies {
   border-color: #b4642f;
 }
 
+.life-hud-note--outcome {
+  animation: life-hud-outcome-fade 6s ease-out forwards;
+}
+
+@keyframes life-hud-outcome-fade {
+  0%,
+  83% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* --- Secondary systems, opened over the room --------------------------- */
 
 /* A dimmed room behind the panel: the scene is still there, focus is on the
@@ -8129,6 +8057,61 @@ body:where(.pg-game) .game-campaign-tallies {
   margin: var(--pg-space-4) 0;
 }
 
+.governing-matter-browser {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.34fr) minmax(0, 1fr);
+  gap: var(--pg-space-3);
+  min-width: 0;
+}
+
+.governing-matter-list {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+}
+
+.governing-matter-list .pg-tab {
+  justify-content: flex-start;
+  min-height: 2.75rem;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.governing-matter-list .pg-tab[aria-pressed="true"] {
+  color: var(--pg-brass);
+  box-shadow: inset 2px 0 0 var(--pg-brass);
+}
+
+.governing-matter-browser > .governing-matters {
+  min-width: 0;
+  padding: var(--pg-space-3);
+  border: 1px solid var(--pg-brass-dim);
+  background: var(--kit12-glass);
+  backdrop-filter: var(--kit12-blur);
+  -webkit-backdrop-filter: var(--kit12-blur);
+}
+
+.governing-matter-browser .governing-matter {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+@media (max-width: 48rem) {
+  .governing-matter-browser {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .governing-matter-list {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .governing-matter-list .pg-tab {
+    flex: 0 0 auto;
+  }
+}
+
 .office-work {
   display: grid;
   gap: var(--pg-space-3);
@@ -8166,8 +8149,8 @@ body:where(.pg-game) .game-campaign-tallies {
   gap: var(--pg-space-1);
   padding: var(--pg-space-3);
   border: 1px solid var(--pg-hairline);
-  border-radius: var(--pg-radius);
-  background: var(--pg-glass);
+  border-radius: 2px;
+  background: transparent;
 }
 
 .governing-matter h5,
@@ -8312,4 +8295,39 @@ body:where(.pg-game) .game-campaign-tallies {
   font-family: var(--speech);
   font-size: 0.7rem;
   line-height: 1.5;
+}
+
+.time-command-dev-overlay {
+  position: fixed;
+  z-index: 10000;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: grid;
+  gap: 0.3rem;
+  max-width: min(22rem, calc(100vw - 1.5rem));
+  padding: 0.55rem 0.7rem;
+  border: 1px solid rgba(226, 205, 161, 0.45);
+  border-radius: 0.35rem;
+  background: rgba(20, 23, 26, 0.92);
+  color: #f3eee2;
+  font:
+    0.7rem/1.35 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  pointer-events: none;
+}
+
+.time-command-dev-overlay ol {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.time-command-dev-overlay li {
+  display: grid;
+  grid-template-columns: minmax(5rem, 1fr) auto auto;
+  gap: 0.65rem;
 }

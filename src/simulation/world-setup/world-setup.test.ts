@@ -266,27 +266,51 @@ describe("political starting conditions", () => {
     expect(flipsAt(-7.5)).toBeGreaterThan(0);
   });
 
-  it("uses shared effects: a whole region moves together, not independent coin flips", () => {
-    const seats = generatePoliticalStartingConditions(
-      seedWorld("shared-effects"),
-      "major",
-    ).seats.filter((seat) => seat.baselineKind === "certified-two-party");
-    // Within each state, generated shift in logit space shares one component.
-    const byState = new Map<string, number[]>();
-    for (const seat of seats) {
-      const state = seat.seatKey.replace(/^us-(house|senate):/, "").slice(0, 2);
-      const shift =
-        Math.log(seat.generatedShare! / (1 - seat.generatedShare!)) -
-        Math.log(seat.baselineShare! / (1 - seat.baselineShare!)) -
-        seat.seatResidualPp! / 25;
-      byState.set(state, [...(byState.get(state) ?? []), shift]);
-    }
-    for (const shifts of byState.values()) {
-      for (const shift of shifts) expect(shift).toBeCloseTo(shifts[0]!, 2);
+  it("uses certified baselines without inventing opening political swings", () => {
+    for (const regime of CRUNCH46_POLICY.regimes.order) {
+      const latents = drawPoliticalLatents(
+        seedWorld(`baseline-${regime}`),
+        regime,
+      );
+      expect(latents).toEqual(zeroPoliticalLatents(regime));
+      const seats = generatePoliticalStartingConditions(
+        seedWorld(`baseline-${regime}`),
+        regime,
+      ).seats;
+      for (const seat of seats) {
+        expect(seat.seatResidualPp).toBe(
+          seat.baselineKind === "certified-two-party" ? 0 : null,
+        );
+        expect(seat.generatedShare).toBe(seat.baselineShare);
+      }
     }
   });
 
-  it("across many seeds: recognizable starts are common, departures possible, nothing capped", () => {
+  it("leaves an exact certified tie unresolved", () => {
+    const tied = generateContest(
+      seedWorld("tie-does-not-decide"),
+      zeroPoliticalLatents("near-reference"),
+      {
+        office: "us-house",
+        contestKey: "us-house:tied-diagnostic",
+        stateUsps: "DC",
+        referenceDate: "2026-01-01",
+        referenceAffiliation: null,
+        observedContestType: "diagnostic",
+        totalVotes: 2,
+        twoPartyMargin: 0,
+        democraticTwoPartyShare: 0.5,
+        sourceRef: "diagnostic",
+        uncertaintyReason: null,
+      },
+    );
+
+    expect(tied.generatedShare).toBe(0.5);
+    expect(tied.affiliation).toBe("unresolved");
+    expect(tied.caucus).toBe("unresolved");
+  });
+
+  it("keeps certified opening politics identical across seeds and regimes", () => {
     const summary: Record<
       string,
       { houseD: number[]; flips: number[]; presidents: Record<string, number> }
@@ -347,9 +371,9 @@ describe("political starting conditions", () => {
         ),
       ),
     );
-    expect(Math.abs(median(near.houseD) - referenceHouseD)).toBeLessThan(30);
+    expect(median(near.houseD)).toBe(referenceHouseD);
     const all = Object.values(summary).flatMap((bucket) => bucket.flips);
-    expect(Math.max(...all)).toBeGreaterThan(median(near.flips));
+    expect(Math.max(...all)).toBe(0);
   });
 
   it("replays exactly from the same seed", () => {

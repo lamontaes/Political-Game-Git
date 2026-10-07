@@ -9,6 +9,7 @@ import {
 } from "../simulation/executive-governing-kernel-bank";
 import { workItemState } from "../simulation/time-work";
 import type { World, EntityId } from "../simulation/types";
+import type { ExecutiveKernelId } from "../simulation/executive-governing-kernels";
 
 export type ExecutiveStatementKind = "instruction" | "sign" | "veto";
 
@@ -23,7 +24,7 @@ export interface ExecutiveRecordedStatement {
 }
 
 export interface ExecutiveWorkPractice {
-  readonly id: string;
+  readonly id: ExecutiveKernelId;
   readonly title: string;
   readonly facts: readonly ExecutiveWorkFact[];
   readonly complete: boolean;

@@ -1,4 +1,11 @@
-import type { EntityId, World } from "../simulation";
+import {
+  currentLifeCutoff,
+  kinshipRelationshipsAt,
+  recordedWorkOverlapIntervals,
+  workRelationshipHistoryForPerson,
+} from "../simulation/life-queries";
+import { recordsByKey } from "../simulation/history-index";
+import type { EntityId, IsoDate, World } from "../simulation";
 import {
   activeSceneBinding,
   familyOfSubject,
@@ -267,4 +274,95 @@ export function openConversationSessionStart(
     )
     .sort((left, right) => left.sequence - right.sequence);
   return turns[0]?.sequence ?? null;
+}
+
+export type RecognitionReason =
+  | {
+      readonly kind: "family";
+      readonly relationshipKind: string;
+      readonly sourceRecordIds: readonly EntityId[];
+    }
+  | {
+      readonly kind: "past-work";
+      readonly organizationId: EntityId;
+      readonly startedAt: IsoDate;
+      readonly endedAt: IsoDate | null;
+      readonly sourceRecordIds: readonly EntityId[];
+    }
+  | {
+      readonly kind: "shared-event";
+      readonly occurredAt: IsoDate;
+      readonly sourceRecordIds: readonly EntityId[];
+    };
+
+/** Historical recognition is evidence, never friendship, attendance or law knowledge.
+ * The same query works for any recorded pair, including a clerk and a parent. */
+export function recognizes(
+  world: World,
+  aId: EntityId,
+  bId: EntityId,
+  asOf: IsoDate = world.currentDate,
+): readonly RecognitionReason[] {
+  if (
+    aId === bId ||
+    !world.people[aId] ||
+    !world.people[bId] ||
+    asOf > world.currentDate
+  )
+    return [];
+  const cutoff = { ...currentLifeCutoff(world), asOfDate: asOf };
+  const reasons: RecognitionReason[] = [];
+  for (const family of kinshipRelationshipsAt(world, aId, cutoff)) {
+    if (family.personIds.includes(bId))
+      reasons.push({
+        kind: "family",
+        relationshipKind: family.kind,
+        sourceRecordIds: [family.id],
+      });
+  }
+  const leftWork = workRelationshipHistoryForPerson(world, aId, cutoff);
+  const rightWork = workRelationshipHistoryForPerson(world, bId, cutoff);
+  for (const left of leftWork) {
+    if (!left.organizationId) continue;
+    for (const right of rightWork) {
+      for (const interval of recordedWorkOverlapIntervals(
+        world,
+        left,
+        right,
+        cutoff,
+      )) {
+        reasons.push({
+          kind: "past-work",
+          organizationId: left.organizationId,
+          ...interval,
+        });
+      }
+    }
+  }
+  for (const event of recordsByKey(
+    world.history.events,
+    "scene-recognition:participants",
+    (row) => row.participants.map((person) => person.personId),
+    aId,
+  )) {
+    if (
+      event.sequence >= cutoff.historySequenceExclusive ||
+      event.occurredAt > asOf ||
+      event.recordedAt > asOf
+    )
+      continue;
+    const actualRole = (id: EntityId) =>
+      event.participants.some(
+        (person) =>
+          person.personId === id &&
+          /^(?:presence:participant|agency:|coordination:)/.test(person.role),
+      );
+    if (actualRole(aId) && actualRole(bId))
+      reasons.push({
+        kind: "shared-event",
+        occurredAt: event.occurredAt,
+        sourceRecordIds: [event.id],
+      });
+  }
+  return reasons;
 }

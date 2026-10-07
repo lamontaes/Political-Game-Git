@@ -19,8 +19,7 @@ import type { NewGameSetup } from "../src/presentation/new-game";
  * A string comparison of two database names is not this proof, and the earlier
  * conclusion drawn from one — that observing a separate world database showed
  * the preview was contained — was wrong. A life is kept in TWO object stores:
- * the world in one and the shell's own per-slot state in the other. Pins, the
- * journal and the wardrobe CHOICE are shell state, and for a while the preview
+ * the world in one and the shell's own per-slot state in the other. Pins and the wardrobe CHOICE are shell state, and for a while the preview
  * namespaced the first store and not the second, so a candidate outfit picked
  * in the preview was written into the ordinary database under the ordinary
  * slot id.
@@ -146,7 +145,7 @@ class FakeIndexedDb {
   }
 }
 
-/** What an ordinary player has after a while: pins, a journal and an outfit. */
+/** What an ordinary player has after a while: pins and an outfit. */
 function ordinaryShellState(): StoredShellState {
   return {
     pins: [
@@ -154,19 +153,6 @@ function ordinaryShellState(): StoredShellState {
       { key: refKey(BOB), ref: BOB, size: "tiny" },
     ],
     preferences: DEFAULT_PREFERENCES,
-    journal: {
-      ambition: "Be some use to the people on this street.",
-      notes: [
-        {
-          id: "note-ordinary",
-          title: "What I decided",
-          body: "Written in an ordinary game, on production art.",
-          group: "decisions",
-          personId: null,
-          eventKey: null,
-        },
-      ],
-    },
     personWardrobes: {
       "person-alice": {
         personId: "person-alice",
@@ -181,7 +167,6 @@ function previewShellState(): StoredShellState {
   return {
     pins: [],
     preferences: DEFAULT_PREFERENCES,
-    journal: { ambition: "", notes: [] },
     personWardrobes: {
       "person-alice": {
         personId: "person-alice",
@@ -211,7 +196,7 @@ const PRODUCTION_DB = previewDatabaseName("production");
 const PREVIEW_DB = previewDatabaseName("candidate-review");
 
 describe("an ordinary save survives everything the preview does", () => {
-  it("keeps the interface store's pins, journal and wardrobe intact", async () => {
+  it("keeps the interface store's pins and wardrobe intact", async () => {
     const idb = new FakeIndexedDb();
 
     // An ordinary life, saved the ordinary way.
@@ -238,9 +223,6 @@ describe("an ordinary save survives everything the preview does", () => {
     expect(after!.pins.map((pin) => pin.key)).toStrictEqual(
       seeded.pins.map((pin) => pin.key),
     );
-    expect(after!.journal.notes).toHaveLength(1);
-    expect(after!.journal.notes[0]?.title).toBe("What I decided");
-    expect(after!.journal.ambition).toBe(seeded.journal.ambition);
 
     // And the preview's own record is there, separately, holding its own choice.
     const preview = await previewShell.read(SLOT);
@@ -300,11 +282,10 @@ describe("an ordinary save survives everything the preview does", () => {
     await leakingPreviewShell.write(SLOT, previewShellState());
 
     const after = await ordinaryShell.read(SLOT);
-    // The ordinary player's outfit, pins and journal are gone.
+    // The ordinary player's outfit and pins are gone.
     expect(after!.personWardrobes["person-alice"]?.families.top).toBe(
       "candidate-choice",
     );
     expect(after!.pins).toHaveLength(0);
-    expect(after!.journal.notes).toHaveLength(0);
   });
 });

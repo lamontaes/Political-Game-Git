@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { contactBases } from "../simulation/people-contact";
+import { contactBases } from "../simulation/relationship-contact";
 import {
   ensurePeopleTraits,
   observedTraitLabels,

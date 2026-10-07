@@ -91,6 +91,7 @@ type AuthorityWorld = Pick<World, "policyCatalog" | "jurisdictions"> &
 
 interface CatalogCell {
   readonly may: string;
+  readonly status?: string;
 }
 
 const QUESTIONS = questionPowers.questions as unknown as Readonly<
@@ -303,7 +304,7 @@ export function questionAuthority(
     own.every(
       (level) =>
         (level === "county" || level === "city") &&
-        cells?.[level]?.may === "UNKNOWN",
+        leftToStateLaw(cells?.[level]),
     )
       ? homeRuleVerdict(world, jurisdictionId, onDate, cutoff)
       : null;
@@ -325,6 +326,19 @@ export function questionAuthority(
           ? `Whether ${own.join(" and ")} governments hold the ${dial} dial is not settled.`
           : `The powers catalog withholds the ${dial} dial from ${own.join(" and ")} governments.`,
   };
+}
+
+/**
+ * A local cell the catalog leaves to the state's own law: UNKNOWN, or a
+ * labeled estimate (game profile) of "varies by state".
+ */
+function leftToStateLaw(
+  cell: { readonly may: string; readonly status?: string } | undefined,
+): boolean {
+  return (
+    cell?.may === "UNKNOWN" ||
+    (cell?.may === "varies by state" && cell.status === "game-profile")
+  );
 }
 
 /** The state question on home rule: may localities act unless barred? */
