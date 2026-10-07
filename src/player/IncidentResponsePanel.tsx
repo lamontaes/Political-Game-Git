@@ -61,24 +61,18 @@ export function IncidentResponsePanel({
     try {
       const next = fn();
       onWorldChange(next);
-      setMessage("Recorded.");
+      setMessage("recorded");
     } catch (e) {
-      setMessage(e instanceof Error ? e.message : "Action unavailable.");
+      setMessage(e instanceof Error ? e.message : "action-unavailable");
     }
   }
   return (
-    <section aria-label="Incident response">
-      <h2>Incident response</h2>
-      <p>
-        Review known reports, arrange response work and follow through on
-        existing commitments.
-      </p>
+    <section data-testid="incident-response">
       {!view.reports.length && !view.awaiting.length && (
-        <p>No incident reports are known to this character.</p>
+        <p data-problem="no-known-reports" />
       )}
       {view.awaiting.map((item) => (
         <article key={item.onsetEventId}>
-          <h3>Known incident</h3>
           <p>{item.summary}</p>
           <button
             type="button"
@@ -88,17 +82,17 @@ export function IncidentResponsePanel({
               )
             }
           >
-            Record this known incident for office review
+            Continue
           </button>
         </article>
       ))}
-      <label>
-        Staff member{" "}
+      <label aria-label="People">
         <GameSelect
+          aria-label="People"
           value={staffId}
           onChange={(e) => setStaffId(e.target.value as EntityId)}
         >
-          <option value="">Select a staff member</option>
+          <option value=""></option>
           {candidates.map((id) => (
             <option key={id} value={id}>
               {world.people[id]!.givenName} {world.people[id]!.familyName}
@@ -108,7 +102,6 @@ export function IncidentResponsePanel({
       </label>
       {view.publicOnsets.map((onset) => (
         <article key={`public:${onset.id}`}>
-          <h3>Already-public occurrence</h3>
           <p>{onset.summary}</p>
           <button
             type="button"
@@ -118,13 +111,12 @@ export function IncidentResponsePanel({
               )
             }
           >
-            Record the already-public occurrence
+            Continue
           </button>
         </article>
       ))}
       {view.reports.map((report) => (
         <article key={report.id}>
-          <h3>Available report</h3>
           <p>{report.summary}</p>
           <button
             onClick={() =>
@@ -138,14 +130,14 @@ export function IncidentResponsePanel({
               )
             }
           >
-            Commission response briefing
+            Continue
           </button>
           <button
             onClick={() =>
               act(() => decideIncidentResponse(world, report.id, "defer", null))
             }
           >
-            Defer response briefing
+            Back
           </button>
           <button
             disabled={!staffId}
@@ -159,7 +151,7 @@ export function IncidentResponsePanel({
               )
             }
           >
-            Request information
+            Continue
           </button>
         </article>
       ))}
@@ -177,7 +169,7 @@ export function IncidentResponsePanel({
                 act(() => requestIncidentResources(world, report.id, f.id))
               }
             >
-              Request existing allocation
+              Continue
             </button>
           )),
       )}
@@ -191,20 +183,20 @@ export function IncidentResponsePanel({
                 act(() => decideIncidentResourceRequest(world, e.id, true))
               }
             >
-              Authorize requested allocation
+              Continue
             </button>
             <button
               onClick={() =>
                 act(() => decideIncidentResourceRequest(world, e.id, false))
               }
             >
-              Decline requested allocation
+              Back
             </button>
           </article>
         ))}
       {view.work.map((item) => (
         <article key={item.id}>
-          <h3>{item.title}</h3>
+          <p>{item.title}</p>
           <p>{workItemState(world, item.id)?.status}</p>
           <button
             disabled={
@@ -212,7 +204,7 @@ export function IncidentResponsePanel({
             }
             onClick={() => act(() => arrangeIncidentBriefing(world, item.id))}
           >
-            Arrange briefing
+            Continue
           </button>
         </article>
       ))}
@@ -228,14 +220,13 @@ export function IncidentResponsePanel({
             key={a.id}
             onClick={() => act(() => attendIncidentBriefing(world, a.id))}
           >
-            Attend response briefing
+            Continue
           </button>
         ))}
       {view.history
         .filter((e) => e.type === "incident.response.follow-up")
         .map((e) => (
           <article key={e.id}>
-            <h3>Follow-up</h3>
             <p>{e.summary}</p>
             {world.history.resourceFlows
               .filter(
@@ -250,12 +241,12 @@ export function IncidentResponsePanel({
                     act(() => deliverIncidentResources(world, e.id, f.id))
                   }
                 >
-                  Deliver existing allocation
+                  Continue
                 </button>
               ))}
           </article>
         ))}
-      <p role="status">{message}</p>
+      <p role="status" data-reason={message || undefined} />
     </section>
   );
 }
