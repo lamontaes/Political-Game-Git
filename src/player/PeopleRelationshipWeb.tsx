@@ -86,7 +86,7 @@ export function PeopleRelationshipWeb({
     layout.edges.some((edge) => edge.kind === kind),
   );
 
-  let caption: string;
+  let caption = "";
   if (selectedNode && connection) {
     caption =
       connection.edges.length > 0
@@ -96,8 +96,6 @@ export function PeopleRelationshipWeb({
         : `No record connects you directly to ${selectedNode.name}. Their lines show the people you know who are connected to them.`;
   } else if (category !== "all") {
     caption = `${CATEGORY_LABELS[category]} are shown in full color; everyone else is dimmed.`;
-  } else {
-    caption = "Choose a face to see how you know them.";
   }
 
   return (
