@@ -9,7 +9,7 @@
 
 ## Current pool item: AU-01
 
-- Branch `session-55-au-01` based on refreshed `origin/main` `1f9f620cd`; ready PR #3461 at `9490a07fb`.
+- Branch `session-55-au-01` based on refreshed `origin/main` `1f9f620cd`; ready PR #3461, current head `ede7430f5`.
 - Replaced direct Congress-ID behavior checks with federal pack registry/jurisdiction fields.
 - Extracted shared constitutional proposal-rollcall recording and routed federal term-limit and Article V Congress proposal votes through it; state Article V already shares its handler and proposal writer.
 - D.C. Council signing now forwards item-veto selections through the shared veto engine. The D.C. Mayor authority comes from the existing D.C. Code research row; other council packs stay unsupported when authority is unknown.
