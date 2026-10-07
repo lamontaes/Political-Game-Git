@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { expect, test, type Page } from "./fixtures";
+import { expect, test, type Locator, type Page } from "./fixtures";
 import {
   chooseCreatorLocation,
   completeCharacterStep,
@@ -43,7 +43,7 @@ import {
  * listed under `notReached` with the reason, never skipped silently.
  */
 
-const PLACES = 4;
+const PLACES = Number(process.env.AUDIT_PLACES ?? 4);
 const DESTINATIONS = [
   "nav-news",
   "elsewhere-people",
@@ -75,13 +75,26 @@ test.describe.configure({ mode: "serial" });
 test.use({
   viewport: { width: 1280, height: 800 },
   // A host without Chrome points this at another Chromium build.
-  launchOptions: process.env.PW_CHROMIUM_PATH
-    ? { executablePath: process.env.PW_CHROMIUM_PATH }
-    : {},
+  launchOptions: {
+    ...(process.env.PW_CHROMIUM_PATH
+      ? { executablePath: process.env.PW_CHROMIUM_PATH }
+      : {}),
+    // Software rendering of the scene art can starve the page on a small host.
+    args: process.env.PW_CHROMIUM_NO_GPU ? ["--disable-gpu"] : [],
+  },
 });
 
+/** Enabled and present now; a missing control is not waited for. */
+async function isReady(locator: Locator): Promise<boolean> {
+  return (await locator.count()) > 0 && (await locator.isEnabled());
+}
+
 async function capture(page: Page, place: string, screen: string) {
+  const started = Date.now();
   const items = await page.evaluate(readScreenText);
+  console.log(
+    `[audit] ${screen}: ${items.length} strings in ${Date.now() - started} ms`,
+  );
   for (const item of items)
     rendered.push({ text: item.text, kind: item.kind, screen, place });
   reached.push({ place, screen });
@@ -145,11 +158,7 @@ for (let draw = 0; draw < PLACES; draw += 1) {
     // The steps after the place change as the creator is trimmed, so read
     // whichever stage is showing until Begin is enabled.
     const begin = page.getByTestId("begin");
-    for (
-      let step = 0;
-      step < 6 && !(await begin.isEnabled().catch(() => false));
-      step += 1
-    ) {
+    for (let step = 0; step < 6 && !(await isReady(begin)); step += 1) {
       const stage = await page
         .locator('[data-testid^="creator-stage-"]')
         .first()
@@ -186,7 +195,7 @@ for (let draw = 0; draw < PLACES; draw += 1) {
         const key = (await intro.getAttribute("data-step")) ?? `${screen}`;
         await capture(page, label, `opening:${key}`);
         const next = page.getByTestId("orientation-next");
-        if (!(await next.isEnabled().catch(() => false))) break;
+        if (!(await isReady(next))) break;
         await next.click();
         await expect
           .poll(async () =>
