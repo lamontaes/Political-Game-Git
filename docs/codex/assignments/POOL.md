@@ -678,7 +678,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2255 | List loading dependencies in the strict Node project | PR #2255 (codex/session5-node-loading-dependencies) | open: draft: finish it or close it as superseded | |
 | RS-2259 | P1: Clerk filing evidence and saved council result scene consumers | PR #2259 (codex/session13-clerk-night-shared) | open: #2259 closed under no-player-text rule; a new compliant implementation is needed | |
 | RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | done #2264 | Session 35 |
-| RS-2266 | Record sourced government law amounts | PR #2266 (codex/session18-government-operations-amounts) | open: draft: finish it or close it as superseded | |
+| RS-2266 | Record sourced government law amounts | PR #3575 (codex/session35-rs2266) | open: draft pending final memory-safe gate | Session 35 |
 | RS-2275 | Record acting presidency during official incapacity | PR #2275 (session25/p1-presidential-health) | open: sent back: failed its own changed checks: tests | |
 | RS-2277 | Forward shared inclusionary term provenance into lease stamps | PR #2277 (codex/session21-inclusionary-provenance) | open: draft: finish it or close it as superseded | |
 | RS-2291 | P1: Split starting law data by area | PR #2291 (codex/session19-starting-law-area-split) | open: sent back: failed its own changed checks: tests; rebase on main (conflicts) | |
