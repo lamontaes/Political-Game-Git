@@ -75,10 +75,7 @@ import {
 import { travelTowardsPerson } from "../presentation/person-contact";
 import { interruptionHandlers } from "../presentation/interruption-policy";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
-import {
-  localGoverningSeatFor,
-  townSeatRulesSentence,
-} from "../presentation/local-governing-seat";
+import { localGoverningSeatFor } from "../presentation/local-governing-seat";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { personPronouns } from "../simulation/person-identity";
@@ -4742,19 +4739,11 @@ function renderWorkspace({
             <div data-testid="town-seat">
               <p>
                 {townSeat.office === "mayor"
-                  ? `You have been ${townSeat.mayorTitle}, ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`
-                  : `You sit on the ${townSeat.bodyName} of ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`}
+                  ? townSeat.mayorTitle
+                  : townSeat.bodyName}
               </p>
-              {townSeatRulesSentence(townSeat) ? (
-                <p data-testid="town-seat-rules">
-                  {townSeatRulesSentence(townSeat)}
-                </p>
-              ) : null}
-              <p className="game-note">
-                {townSeat.hasCityScreen
-                  ? "Its meetings and business are under Government, in Local meetings and records."
-                  : "The game has not read this town's charter yet, so its meetings, votes and powers are not established here. The seat is yours all the same."}
-              </p>
+              <p>{townSeat.governmentName}</p>
+              <p>{proseDate(townSeat.since)}</p>
             </div>
           ),
         });
