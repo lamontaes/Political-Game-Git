@@ -161,6 +161,10 @@ const FIELD_BY_MATRIX_NAME: Readonly<
   professional_qualification: "PROFESSIONAL_QUALIFICATION",
   "Selection Mechanism": "SELECTION_MECHANISM",
   selection_type: "SELECTION_MECHANISM",
+  "Filing Fee": "FILING_FEE",
+  filing_fee: "FILING_FEE",
+  "Petition Signatures": "PETITION_SIGNATURES",
+  petition_signatures: "PETITION_SIGNATURES",
 };
 
 function repoRoot(): string {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import {
   decideGoverningMatter,
   delegateGoverningMatter,
@@ -11,6 +11,11 @@ import {
   type BriefingMatter,
 } from "../presentation/governing-briefing";
 import { GuideTermText } from "./GuideTerm";
+import { BUDGET_DOLLARS } from "../simulation/governing/executive-budget-requests";
+import {
+  ExecutiveBudgetRequestEditor,
+  ExecutiveBudgetRequestHistory,
+} from "./ExecutiveBudgetRequest";
 
 /**
  * GOVERNING: the office briefing inside Work. A few matters that need the
@@ -44,6 +49,16 @@ export function GoverningBriefing({
       matter={matter}
       onDecide={(key) => commit(decideGoverningMatter(world, matter.id, key))}
       onDelegate={() => commit(delegateGoverningMatter(world, matter.id))}
+      budgetEditor={
+        matter.options.some((option) => option.key === BUDGET_DOLLARS) ? (
+          <ExecutiveBudgetRequestEditor
+            world={world}
+            personId={personId}
+            matterId={matter.id}
+            onCommit={commit}
+          />
+        ) : null
+      }
     />
   );
 
@@ -65,6 +80,7 @@ export function GoverningBriefing({
         ) : null}
       </header>
 
+      <ExecutiveBudgetRequestHistory world={world} personId={personId} />
       <h4>Needs you</h4>
       {briefing.significant.length === 0 ? (
         <p className="game-note" data-testid="governing-nothing-open">
@@ -108,10 +124,12 @@ function MatterCard({
   matter,
   onDecide,
   onDelegate,
+  budgetEditor,
 }: {
   readonly matter: BriefingMatter;
   readonly onDecide: (optionKey: string) => void;
   readonly onDelegate: () => void;
+  readonly budgetEditor: ReactNode;
 }) {
   return (
     <li className="governing-matter" data-testid="governing-matter">
@@ -133,19 +151,21 @@ function MatterCard({
         </p>
       ) : null}
       <div className="game-choices">
-        {matter.options.map((option) => (
-          <button
-            key={option.key}
-            type="button"
-            className="ui-action ui-action--choice"
-            data-testid="governing-option"
-            data-option={option.key}
-            onClick={() => onDecide(option.key)}
-          >
-            {option.label}
-            <small>{option.effect}</small>
-          </button>
-        ))}
+        {matter.options
+          .filter((option) => option.key !== BUDGET_DOLLARS)
+          .map((option) => (
+            <button
+              key={option.key}
+              type="button"
+              className="ui-action ui-action--choice"
+              data-testid="governing-option"
+              data-option={option.key}
+              onClick={() => onDecide(option.key)}
+            >
+              {option.label}
+              <small>{option.effect}</small>
+            </button>
+          ))}
         {matter.canDelegate ? (
           <button
             type="button"
@@ -158,6 +178,7 @@ function MatterCard({
           </button>
         ) : null}
       </div>
+      {budgetEditor}
       <details>
         <summary>Tradeoffs and what happens if you wait</summary>
         <ul>

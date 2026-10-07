@@ -3,6 +3,7 @@ import { useState } from "react";
 import { isoDateFromParts } from "../simulation";
 import {
   applyFullBirthday,
+  birthYearChoiceLabel,
   birthYearChoices,
   birthYearForSetup,
   creatorStartDate,
@@ -190,7 +191,7 @@ export function CreatorBirthdayFields({
           >
             {years.map((value) => (
               <option key={value} value={value}>
-                {value}
+                {birthYearChoiceLabel(value, month, day, startDate)}
               </option>
             ))}
           </GameSelect>
@@ -214,10 +215,10 @@ export function CreatorBirthdayFields({
       </div>
       <p className="game-hint" data-testid="creator-derived-age">
         {yearChosen && month !== null && day !== null
-          ? `You begin at age ${setup.startAge}, on ${world39Date(startDate)}.`
+          ? `${setup.startAge} \u00b7 ${world39Date(startDate)}`
           : ageRange
-            ? `Age ${ageRange.minimum === ageRange.maximum ? ageRange.minimum : `${ageRange.minimum}–${ageRange.maximum}`} on ${world39Date(startDate)}. Next fills the remaining birthday fields.`
-            : `Play begins on ${world39Date(startDate)}. Next fills any blank birthday fields.`}
+            ? `${ageRange.minimum === ageRange.maximum ? ageRange.minimum : `${ageRange.minimum}–${ageRange.maximum}`} · ${world39Date(startDate)}`
+            : world39Date(startDate)}
       </p>
       {problem ? (
         <p role="alert" data-testid="creator-birthday-problem">

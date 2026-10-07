@@ -325,8 +325,8 @@ async function assertVisiblePerson(page, expected) {
     await page.getByTestId("play-screen").isVisible(),
   );
   check(
-    "surface: review/production banner boundary",
-    (await page.getByTestId("art-preview-banner").count()) === (review ? 1 : 0),
+    "surface: no preview banner in any build (OW-6)",
+    (await page.getByTestId("art-preview-banner").count()) === 0,
   );
   await page.getByTestId("shell-nav-cluster").click();
   // Personal holds several destinations, so the flyout shows its group button.
@@ -427,8 +427,6 @@ if (nativeSessionChecks) {
     .first()
     .click();
   await page.getByTestId("creator-continue-place").click();
-  await page.getByTestId("creator-stage-whoareyou").waitFor();
-  await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   const gate = page.getByTestId("introduction-continue");
   try {
@@ -450,18 +448,10 @@ if (nativeSessionChecks) {
     await page.getByTestId("orientation-skip").click();
     await orientation.waitFor({ state: "hidden" });
   }
-  if (process.env.OCD_EXPECT_ART_PREVIEW === "1") {
-    await page.getByTestId("art-preview-banner").waitFor({ timeout: 10000 });
-    check(
-      "art-review: labeled candidate banner is on the installed play screen",
-      (await page.getByTestId("art-preview-banner").count()) === 1,
-    );
-  } else {
-    check(
-      "production: candidate banner is absent",
-      (await page.getByTestId("art-preview-banner").count()) === 0,
-    );
-  }
+  check(
+    "no preview banner in any build (OW-6)",
+    (await page.getByTestId("art-preview-banner").count()) === 0,
+  );
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }

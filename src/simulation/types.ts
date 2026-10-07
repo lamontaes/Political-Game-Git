@@ -7,6 +7,7 @@ import type {
 } from "./permit-types";
 import type {
   LawAmountUnit,
+  LawTermApplicability,
   LawTermScope,
   RentalPriceRule,
   LawConsequenceRow,
@@ -28,6 +29,7 @@ import type {
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import type { JudiciaryState } from "./judiciary/types";
+import type { MinorityProcedureMotion } from "./legislature-rules";
 
 import type { AppearanceMaterial } from "./appearance-material";
 import type { MediaOutletKey, PressRecord } from "./press/records";
@@ -65,6 +67,7 @@ import type {
   JobApplicationStepRecord,
   JobOpeningRecord,
 } from "./job-market-types";
+import type { CitizenshipStatusRecord } from "./citizenship-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -657,6 +660,8 @@ export interface PersonFactConstraint {
 }
 
 interface PersonCore {
+  /** Private canonical status history; absent on old saves, never auto-inferred on read. */
+  readonly citizenshipStatuses?: readonly CitizenshipStatusRecord[];
   readonly id: EntityId;
   readonly generationKey: string;
   readonly generatorVersion?: string;
@@ -935,8 +940,12 @@ export type LawExposureChannel =
   | "tax-payment"
   | "benefit"
   | "job-rule"
+  | "election-rule"
   | "business-rule"
   | "public-service"
+  | "court-rule"
+  | "sentence-rule"
+  | "voting-rule"
   | "rent";
 
 /**
@@ -1420,6 +1429,18 @@ export interface OrganizationProfileRecord {
   readonly locationJurisdictionId: EntityId | null;
   /** Source-backed legal employer identity; not a funder or public account. */
   readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+  /** Source-backed IPEDS identity attached by the education organization writer. */
+  readonly collegePlace?: {
+    readonly institutionId: string;
+    readonly kind:
+      | "flagship"
+      | "ivy-league"
+      | "political-hotbed"
+      | "regional-public"
+      | "private"
+      | "community";
+    readonly campusId: string | null;
+  };
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
   /**
@@ -4523,7 +4544,37 @@ export type ChildhoodRecordEntry =
       readonly kind: "no-school-on-record";
       readonly toJurisdictionId: EntityId;
       readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /** A controlled person's recorded formative faith choice. */
+      readonly kind: "faith-choice";
+      readonly congregationId: EntityId | null;
+      readonly situationKey: string;
+      readonly optionKey: string;
     });
+
+export type CampaignAskOutcome = "gave" | "declined" | "deferred";
+export interface CampaignAsk {
+  readonly id: EntityId;
+  readonly candidateId: EntityId;
+  readonly residentId: EntityId;
+  readonly askedOn: IsoDate;
+  readonly amountMinorUnits: number;
+  readonly outcome: CampaignAskOutcome;
+  readonly reasonBeliefId: EntityId | null;
+}
+
+export interface CampaignPurchaseRecord {
+  readonly id: EntityId;
+  readonly campaignId: EntityId;
+  readonly purchasedOn: IsoDate;
+  readonly item:
+    "yard-sign" | "palm-card" | "postage" | "print-ad" | "filing-fee";
+  readonly units: number;
+  readonly unitPriceMinorUnits: number;
+  readonly totalMinorUnits: number;
+  readonly flowId: EntityId;
+}
 
 export interface HistoryStore {
   /** Childhood entries, one record per person, read with `childhoodRecord`. */
@@ -4635,6 +4686,8 @@ export interface HistoryStore {
   readonly campaignActions?: readonly CampaignActionRecord[];
   readonly campaignActionResults?: readonly CampaignActionResultRecord[];
   readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
+  readonly campaignAsks?: readonly CampaignAsk[];
+  readonly campaignPurchases?: readonly CampaignPurchaseRecord[];
   /** CRUNCH46 CAMPAIGN; optional so pre-CRUNCH46 snapshots stay readable. */
   readonly campaignLifeActivities?: readonly CampaignLifeActivityRecord[];
   readonly campaignLifeOutcomes?: readonly CampaignLifeOutcomeRecord[];
@@ -4849,6 +4902,16 @@ export type LegislativeActionKind =
   | "amendment-rejected"
   | "floor-stage-passed"
   | "floor-stage-failed"
+  | "procedural-motion-failed"
+  | "tabled"
+  | "postponed"
+  | "recommitted"
+  | "recorded-vote-demanded"
+  | "full-reading-demanded"
+  | "rules-suspended"
+  | "sine-die-vote-carried"
+  | "quorum-not-present"
+  | "debate-extended"
   | "transmitted"
   | "concurred"
   | "concurrence-failed"
@@ -4879,6 +4942,8 @@ export interface LegislativeActionRecord {
   readonly chamberKey: string | null;
   readonly committeeKey: string | null;
   readonly floorStageKey: string | null;
+  readonly proceduralMotion?: MinorityProcedureMotion;
+  readonly resumeAt?: IsoDate | null;
   /** The actor or body responsible, in plain language. */
   readonly actorLabel: string;
   /** Why this happened, in plain language, for the player-facing record. */
@@ -5008,7 +5073,8 @@ export type LegislativeVotePurpose =
   | "floor-stage"
   | "amendment"
   | "concurrence"
-  | "veto-override";
+  | "veto-override"
+  | "procedural-motion";
 
 /**
  * How a single member disposed of a question. Legislative voting is a record of
@@ -5311,6 +5377,8 @@ export interface LegislativeProvisionRecord {
     readonly unit: LawAmountUnit;
     /** Missing legacy scope is unknown, never an implicit statewide rule. */
     readonly scope?: LawTermScope;
+    /** Missing legacy applicability is unknown, never an implicit region. */
+    readonly applicability?: LawTermApplicability;
     readonly rentalPriceRule?: RentalPriceRule;
   }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
@@ -5784,26 +5852,14 @@ export interface SetupPriorStore {
   readonly answers: readonly SetupAnswerRecord[];
 }
 
-export type ChallengeIntensity = "quiet" | "standard" | "relentless";
-export type NotebookNotesSetting = "full" | "light" | "none";
 export type SaveMode = "free" | "one-save";
-export type FamilyMoneyPremise = "comfortable" | "ordinary" | "tight";
-export type PressPremise = "gentler" | "realistic" | "tougher";
 export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
 
 /** Player-facing choices kept on the World; absent legacy data means defaults. */
 export interface PlaySettings {
-  readonly challenge: ChallengeIntensity;
-  readonly notes: NotebookNotesSetting;
   readonly saves: SaveMode;
   /** Changes how recorded personal-life events are worded, never world facts. */
   readonly personalLifeDepiction: PersonalLifeDepiction;
-  readonly premises: {
-    readonly familyMoney: FamilyMoneyPremise;
-    readonly press: PressPremise;
-    /** Placeholder for the unresolved ongoing-cost choice; currently standard. */
-    readonly ongoingMoneyCosts: "standard";
-  };
 }
 
 export interface World {
