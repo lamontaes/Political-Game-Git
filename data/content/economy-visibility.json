@@ -1,0 +1,77 @@
+{
+  "resident": {
+    "lookItUp": "full",
+    "mount": [
+      "personal-money",
+      "home-town-conditions",
+      "local-paper-budget-stories",
+      "public-budget"
+    ],
+    "jurisdiction": "home-town"
+  },
+  "town": {
+    "lookItUp": "full",
+    "mount": ["public-budget", "fiscal-notes"],
+    "jurisdiction": "office"
+  },
+  "county": {
+    "lookItUp": "full",
+    "mount": ["public-budget", "fiscal-notes"],
+    "jurisdiction": "office"
+  },
+  "mayor": {
+    "lookItUp": "full",
+    "mount": [
+      "public-budget",
+      "fiscal-notes",
+      "program-lines",
+      "account-history"
+    ],
+    "jurisdiction": "office"
+  },
+  "county-executive": {
+    "lookItUp": "full",
+    "mount": [
+      "public-budget",
+      "fiscal-notes",
+      "program-lines",
+      "account-history"
+    ],
+    "jurisdiction": "office"
+  },
+  "state-legislature": {
+    "lookItUp": "full",
+    "mount": ["public-budget", "state-bill-fiscal-notes"],
+    "jurisdiction": "state"
+  },
+  "state-executive": {
+    "lookItUp": "full",
+    "mount": [
+      "public-budget",
+      "fiscal-notes",
+      "program-lines",
+      "account-history"
+    ],
+    "jurisdiction": "office"
+  },
+  "governor": {
+    "lookItUp": "full",
+    "mount": ["public-budget", "state-macro-series"],
+    "jurisdiction": "state"
+  },
+  "congress": {
+    "lookItUp": "full",
+    "mount": ["federal-budget-categories", "national-macro-series"],
+    "jurisdiction": "federal"
+  },
+  "federal-executive": {
+    "lookItUp": "full",
+    "mount": ["federal-budget-categories", "national-macro-series"],
+    "jurisdiction": "federal"
+  },
+  "judicial": {
+    "lookItUp": "full",
+    "mount": [],
+    "jurisdiction": "none"
+  }
+}

@@ -1,3 +1,5 @@
+export * from "./citizenship";
+export type * from "./citizenship-types";
 export * from "./dates";
 export * from "./after-office-endorsements";
 export * from "./canonical-json";
