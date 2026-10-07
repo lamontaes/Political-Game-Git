@@ -1,0 +1,24 @@
+{
+  "batch": "LW-10",
+  "status": "partial-with-unsupported-outcome-recorded",
+  "runtimeActivation": false,
+  "consequencePathsOnMain": [
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums"
+  ],
+  "pendingTermQuestionKeys": [
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums"
+  ],
+  "entries": [
+    {
+      "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+      "candidateEffect": "covered-congressional-stock-transaction-prohibition",
+      "evidenceStatus": "coverage-needs-research-and-transaction-records-absent",
+      "source": "src/simulation/law-consequences/modules/federal-justice-rights/index.ts; data/research/laws/catalog-terms-batch-04.json; data/research/outcome-web/links.json#congress-stock-ban-to-member-returns",
+      "blockers": [
+        "The federal-justice-rights module intentionally gives the stock-ban proposition no consequence row because the world has no recorded member stock transactions or complete covered-person and asset rule.",
+        "The checked-in terms batch marks covered persons, assets and transactions as needs-research; the source link for member returns has no effect size.",
+        "Without recorded covered trades, a generic permission record would not prove that a named member or person made a prohibited trade."
+      ]
+    }
+  ]
+}
