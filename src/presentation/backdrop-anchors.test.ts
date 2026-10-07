@@ -38,6 +38,15 @@ function floorOf(spot: StagingSpot): string {
 }
 
 describe("people anchors on every place picture", () => {
+  it("anchors each visible barbershop barber chair", () => {
+    const seats = STAGES["barbershop"]!.spots.filter(
+      (spot) => spot.group === "barber-chair",
+    );
+    expect(seats).toHaveLength(3);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(3);
+    expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
+  });
+
   it("anchors all county commission dais and pew seats", () => {
     const seats = STAGES["county-commission"]!.spots.filter(
       (spot) => spot.pose === "sit",
