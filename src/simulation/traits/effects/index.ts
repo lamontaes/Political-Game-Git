@@ -51,6 +51,7 @@ import { facetSlowToWarmUpEffects } from "./facet-slow-to-warm-up";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTactfulEffects } from "./facet-tactful";
+import { facetTeasingEffects } from "./facet-teasing";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetZealousEffects } from "./facet-zealous";
@@ -119,6 +120,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetStudiousEffects,
     ...facetSupportiveEffects,
     ...facetTactfulEffects,
+    ...facetTeasingEffects,
     ...facetTenderHeartedEffects,
     ...facetWorkCenteredEffects,
     ...facetZealousEffects,
