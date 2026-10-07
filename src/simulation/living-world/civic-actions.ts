@@ -98,6 +98,7 @@ export interface RecordCivicMessageInput {
   readonly propositionId: EntityId;
   readonly stance: CivicMessageStance;
   readonly channel: CivicMessageChannel;
+  readonly reason?: CivicStake["reason"];
 }
 
 const MESSAGE_CHANNELS: readonly CivicMessageChannel[] = [
@@ -162,6 +163,12 @@ export function recordCivicMessage(
         ? `message-stake:belief:${belief.id}`
         : "message-stake:declared-position",
       `message-salience:${salience}`,
+      ...(input.reason
+        ? [
+            `reason:${input.reason.kind}`,
+            ...input.reason.sourceRecordIds.map((id) => `source-record:${id}`),
+          ]
+        : []),
     ],
     summary: "A resident sent an elected official a civic message.",
     context: {
@@ -574,7 +581,22 @@ export function reviewTownCivicActions(
           // Background contact defaults to mail; player-authored messages may
           // select any of the three channels through this same writer.
           channel: "letter",
+          reason: stake.reason,
         });
+        const contact = recordByStableKey(
+          next.history.events,
+          `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:contacted:${personId}`,
+        );
+        if (contact) {
+          next = openOfficeCaseForContact(
+            next,
+            contact,
+            officialId,
+            officers.some((officer) => officer.personId === officialId) ||
+              governor?.personId === officialId,
+            officeRelationshipForContact(next, officialId, officers),
+          );
+        }
       } else {
         // Preserve the existing contact count when no saved issue view can
         // support a truthful topic and position. This event is not read as
@@ -590,6 +612,7 @@ export function reviewTownCivicActions(
           stake.reason,
           officers.some((officer) => officer.personId === officialId) ||
             governor?.personId === officialId,
+          officeRelationshipForContact(next, officialId, officers),
         );
       }
     }
@@ -597,6 +620,25 @@ export function reviewTownCivicActions(
       next = record(next, town, reviewKey, "attended", personId, null, meeting);
   }
   return next;
+}
+
+/** The exact office identity used by workflow preferences for this contact. */
+function officeRelationshipForContact(
+  world: World,
+  officialId: EntityId,
+  officers: ReturnType<typeof sittingLocalOfficers>,
+): EntityId | null {
+  const councilSeat = officers.find(
+    (officer) => officer.personId === officialId,
+  );
+  if (councilSeat) return councilSeat.participationId;
+
+  const executiveOffices = activeWorkRelationshipsAt(world, officialId)
+    .map(({ relationship }) => relationship)
+    .filter(
+      (relationship) => relationship.kind === "employment:executive-office",
+    );
+  return executiveOffices.length === 1 ? executiveOffices[0]!.id : null;
 }
 
 interface QuarterMeeting {
@@ -658,6 +700,7 @@ function record(
   meeting: QuarterMeeting | null = null,
   reason: CivicStake["reason"] | null = null,
   officialHoldsOffice = false,
+  officeRelationshipId: EntityId | null = null,
 ): World {
   const today = world.currentDate;
   if (action === "attended" && !meeting) return world;
@@ -720,18 +763,40 @@ function record(
       immediateReaction: null,
     },
   });
-  if (action !== "contacted" || !officialId || !reason || !officialHoldsOffice)
-    return next;
+  if (action !== "contacted" || !officialId || !reason) return next;
 
   const contact = recordByStableKey(next.history.events, contactStableKey);
   if (!contact) return next;
-  return recordWorldEvent(next, {
-    stableKey: `office-case-opened:${contact.id}`,
+  return openOfficeCaseForContact(
+    next,
+    contact,
+    officialId,
+    officialHoldsOffice,
+    officeRelationshipId,
+  );
+}
+
+function openOfficeCaseForContact(
+  world: World,
+  contact: World["history"]["events"][number],
+  officialId: EntityId,
+  officialHoldsOffice: boolean,
+  officeRelationshipId: EntityId | null,
+): World {
+  if (!officialHoldsOffice) return world;
+  const personId = contact.participants.find(
+    (participant) => participant.role === "focus:subject",
+  )?.personId;
+  if (!personId) return world;
+  const stableKey = `office-case-opened:${contact.id}`;
+  if (recordByStableKey(world.history.events, stableKey)) return world;
+  return recordWorldEvent(world, {
+    stableKey,
     type: OFFICE_CASE_OPENED_EVENT,
     occurredAt: contact.occurredAt,
-    recordedAt: today,
-    jurisdictionId: town,
-    involvedEntityIds: [personId, officialId],
+    recordedAt: world.currentDate,
+    jurisdictionId: contact.jurisdictionId,
+    involvedEntityIds: contact.involvedEntityIds,
     participants: [
       { personId, role: "focus:subject", detail: null },
       { personId: officialId, role: "focus:object", detail: null },
@@ -741,6 +806,9 @@ function record(
     tags: [
       "office.case",
       `contact:${contact.id}`,
+      ...(officeRelationshipId
+        ? [`office-relationship:${officeRelationshipId}`]
+        : []),
       ...contact.tags.filter(
         (tag) => tag.startsWith("reason:") || tag.startsWith("source-record:"),
       ),
