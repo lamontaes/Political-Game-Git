@@ -278,7 +278,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | AU-09 | Opening money from records | pool-audit-repairs.md AU-09 | open | |
 | AU-10 | Businesses and banks from books | pool-audit-repairs.md AU-10 | open | |
 | AU-11 | Opening politics and town elections without swings | pool-audit-repairs.md AU-11 | open | |
-| AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | open | |
+| AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | done (#3494) | S55 |
 | AU-13 | Hazards and crime from causes | pool-audit-repairs.md AU-13 | open | |
 | AU-14 | Scenes point at real things | pool-audit-repairs.md AU-14 | open | |
 | AU-15 | English engine as the voice (unverified: check first) | pool-audit-repairs.md AU-15 | open | |

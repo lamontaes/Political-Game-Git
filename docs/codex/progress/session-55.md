@@ -11,9 +11,9 @@
 
 ## Current item: Session 55 AU-12 — A149
 
-- AU-12(a): `homePosition` now returns unknown when a town resident has no recorded roster household/address position; the FNV person-ID stand-in is removed. Focused coverage confirms a known town alone does not place someone in a ward.
+- AU-12(a): `homePosition` now returns unknown when a town resident has no recorded roster household/address position; the FNV person-ID stand-in is removed. Focused coverage confirms a known town alone does not place someone in a ward. PR #3494 is open and mergeable.
 - AU-12(b): current `completeStudyPeriod` records credits and only writes the credential after the required credits are met; a student who reaches the maximum timeframe short of credits ends without the credential.
 - AU-12(c): current ACS PUMS donor selection allocates households by exact integer WGTP with largest remainder; no seeded donor draw remains.
 - Focused `town-wards-address.test.ts`: 3/3 passed. Changed-file ESLint and Prettier passed. `npm run typecheck` remains red on the six existing Crime/Press errors listed in the Session 55 Drive check-in; none are in AU-12 files.
-- Next: open the AU-12 PR, then continue with AU-13. AU-10 source gaps and the stale AU-11 citations are recorded in Drive `00j CODEX DAY`.
+- Next: continue with AU-13. AU-10 source gaps and the stale AU-11 citations are recorded in Drive `00j CODEX DAY`.
 - Older current-main checks above remain historical: typecheck errors are in Press/Crime; release check flags `bg-44-refresh.md` filename/ID; Node load check stops at existing `src/styles.css` import.
