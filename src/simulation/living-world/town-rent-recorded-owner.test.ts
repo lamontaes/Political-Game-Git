@@ -15,7 +15,6 @@ import type { HousingTenureHolder } from "../types";
 const seed = "team4-a56-recorded-owners-main";
 const places = Object.keys(STATES);
 const sample = new SeededRng(seed);
-const missingRentPlace = sample.pick(places);
 const place = sample.pick(places);
 const provenance = {
   kind: "authored" as const,
@@ -85,20 +84,28 @@ function homeWorld(selectedPlace = place) {
 }
 
 describe("A56 leases follow saved title and retain their identities", () => {
-  it("preserves a sampled home without a HUD rent row instead of inventing a lease or landlord", () => {
-    const fixture = homeWorld(missingRentPlace);
-    expect(
-      hudRentRowFor(fixture.small.jurisdictionId),
-      `${missingRentPlace} seed=${seed}`,
-    ).toBeNull();
+  it("uses a published same-territory average and records its estimated rent", () => {
+    const fixture = homeWorld("AS");
+    const row = hudRentRowFor(fixture.small.jurisdictionId)!;
+    expect(row).toMatchObject({ area: "state:AS", estimated: true });
+    expect(row.estimateBasis).toContain("ESTIMATED FROM AVERAGE");
     fixture.own(
       { kind: "person", personId: fixture.world.personOrder[2]! },
       "fixture:a56:owner-without-rent",
     );
-    expect(startTownLeases(fixture.world, fixture.world.currentDate)).toBe(
-      fixture.world,
+    const leased = startTownLeases(fixture.world, fixture.world.currentDate);
+    const lease = townLeases(leased).find(
+      (entry) => entry.tenureId === fixture.tenureId,
     );
-    expect(townLeases(fixture.world)).toHaveLength(0);
+    expect(lease).toBeDefined();
+    expect(lease!.flow.recipient).toEqual({
+      kind: "person",
+      personId: fixture.world.personOrder[2],
+    });
+    expect(lease!.flow.provenance).toMatchObject({
+      kind: "authored",
+      note: expect.stringContaining(row.estimateBasis!),
+    });
   });
   it("uses the recorded person owner and preserves landlord, bedrooms, obligation, flow and transfers on repeat and canonical reload", () => {
     const fixture = homeWorld();

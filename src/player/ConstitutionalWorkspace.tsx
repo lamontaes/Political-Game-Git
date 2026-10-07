@@ -15,6 +15,7 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { BudgetEconomyWorkspace } from "./BudgetEconomyWorkspace";
+import type { EconomyVisibility } from "../presentation/economy-visibility";
 import "./constitutional-workspace.css";
 
 /**
@@ -334,11 +335,15 @@ export function PoliticsWorkspace({
   personId,
   jurisdictionId,
   onWorldChange,
+  economyVisibility,
+  lookItUp,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly onWorldChange: (world: World) => void;
+  readonly economyVisibility?: EconomyVisibility;
+  readonly lookItUp?: "full" | "summary" | "none";
 }) {
   const [tab, setTab] = useState<"budget" | "constitution">("budget");
   return (
@@ -360,7 +365,12 @@ export function PoliticsWorkspace({
         </button>
       </nav>
       {tab === "budget" ? (
-        <BudgetEconomyWorkspace world={world} jurisdictionId={jurisdictionId} />
+        <BudgetEconomyWorkspace
+          world={world}
+          jurisdictionId={jurisdictionId}
+          visible={economyVisibility?.mount}
+          lookItUp={lookItUp}
+        />
       ) : (
         <ConstitutionalWorkspace
           world={world}

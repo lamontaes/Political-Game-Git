@@ -434,7 +434,8 @@ export type MinorityProcedureMotion =
   | "recommit"
   | "recorded-vote"
   | "full-reading"
-  | "suspend-rules";
+  | "suspend-rules"
+  | "sine-die";
 
 /** Complete per-chamber delay, debate, and attendance rules. */
 export interface MinorityPartyProcedureRow {

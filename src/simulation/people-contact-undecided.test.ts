@@ -14,7 +14,7 @@ import {
   CONTACT_ACCEPTED_EVENT,
   CONTACT_DECLINED_EVENT,
   CONTACT_COUNTERED_EVENT,
-} from "./people-contact";
+} from "./relationship-contact";
 import {
   resolveFutureDueItemsThrough,
   futureDueItemStateAt,

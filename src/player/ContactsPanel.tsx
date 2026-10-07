@@ -2,10 +2,7 @@ import { useId, useMemo, useState } from "react";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   answerMeeting,
-  askOnADate,
-  askedNote,
   askToBeTogether,
-  askToMeet,
   breakUp,
   goMeetSomebodyNew,
   meetingNewOptions,
@@ -120,9 +117,7 @@ export function ContactsPanel({
         onWorldChange={onWorldChange}
       />
       {!contactEntry && view.contacts.length === 0 ? (
-        <p data-testid="contacts-empty">
-          There is nobody you have a way of reaching yet.
-        </p>
+        <p data-testid="contacts-empty" data-problem="no-contacts" />
       ) : (
         <ul className="pg-contacts-list">
           {shown.map((contact) => (
@@ -132,43 +127,12 @@ export function ContactsPanel({
               focused={focused}
               earliest={view.earliestMeetingOn}
               latest={view.latestMeetingOn}
-              askOn={dayFor(`ask:${contact.personId}`)}
               offerOn={dayFor(`offer:${contact.personId}`)}
               onDayChange={(which, on) =>
                 setDays((current) => ({
                   ...current,
                   [`${which}:${contact.personId}`]: on,
                 }))
-              }
-              onAsk={(on) =>
-                run(
-                  () =>
-                    askToMeet(world, {
-                      personId,
-                      otherPersonId: contact.personId,
-                      on,
-                    }),
-                  askedNote(world, {
-                    otherPersonId: contact.personId,
-                    on,
-                    date: false,
-                  }),
-                )
-              }
-              onAskOut={(on) =>
-                run(
-                  () =>
-                    askOnADate(world, {
-                      personId,
-                      otherPersonId: contact.personId,
-                      on,
-                    }),
-                  askedNote(world, {
-                    otherPersonId: contact.personId,
-                    on,
-                    date: true,
-                  }),
-                )
               }
               onCouple={(kind) => {
                 try {
@@ -258,11 +222,8 @@ function ContactRow({
   focused,
   earliest,
   latest,
-  askOn,
   offerOn,
   onDayChange,
-  onAsk,
-  onAskOut,
   onCouple,
   onAnswer,
   onOfferAnotherDay,
@@ -271,11 +232,8 @@ function ContactRow({
   readonly focused: boolean;
   readonly earliest: IsoDate;
   readonly latest: IsoDate;
-  readonly askOn: IsoDate;
   readonly offerOn: IsoDate;
   readonly onDayChange: (which: "ask" | "offer", on: IsoDate) => void;
-  readonly onAsk: (on: IsoDate) => void;
-  readonly onAskOut: (on: IsoDate) => void;
   readonly onCouple: (kind: "ask-to-be-a-couple" | "end-couple") => void;
   readonly onAnswer: (eventId: EntityId, answer: "accept" | "decline") => void;
   readonly onOfferAnotherDay: (eventId: EntityId, on: IsoDate) => void;
@@ -283,10 +241,6 @@ function ContactRow({
   /* The contact screen's copy of a row carries its own ids. */
   const tid = (base: string) =>
     focused ? base.replace(/^contact-/, "contact-focus-") : base;
-  const ask = contact.actions.find((action) => action.kind === "ask-to-meet");
-  const askOut = contact.actions.find(
-    (action) => action.kind === "ask-on-a-date",
-  );
   const couple = contact.actions.find(
     (action) =>
       action.kind === "ask-to-be-a-couple" || action.kind === "end-couple",
@@ -409,53 +363,6 @@ function ContactRow({
             </button>
           </div>
         </div>
-      ) : null}
-
-      {ask?.available ? (
-        <div className="pg-contact-actions pg-contact-ask">
-          {/*
-            The player's question is when. The days that can be picked are
-            the input's own min and max; nothing on screen recites the rule.
-          */}
-          <label className="pg-contact-day">
-            <span>When?</span>
-            <input
-              type="date"
-              min={earliest}
-              max={latest}
-              value={askOn}
-              data-testid={tid(`contact-ask-day-${contact.personId}`)}
-              onChange={(event) =>
-                onDayChange("ask", event.target.value as IsoDate)
-              }
-            />
-          </label>
-          <button
-            type="button"
-            className="ui-action ui-action--primary"
-            data-testid={tid(`contact-ask-${contact.personId}`)}
-            onClick={() => onAsk(askOn)}
-          >
-            {ask.label}
-          </button>
-          {askOut?.available ? (
-            <button
-              type="button"
-              className="ui-action"
-              data-testid={tid(`contact-ask-out-${contact.personId}`)}
-              onClick={() => onAskOut(askOn)}
-            >
-              {askOut.label}
-            </button>
-          ) : null}
-        </div>
-      ) : ask ? (
-        <p
-          className="pg-contact-line"
-          data-testid={tid(`contact-ask-unavailable-${contact.personId}`)}
-        >
-          {ask.unavailableReason}
-        </p>
       ) : null}
 
       {/* Becoming a couple is asked in person and answered at once. */}

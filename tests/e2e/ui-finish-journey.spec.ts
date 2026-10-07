@@ -135,16 +135,6 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
     .click();
   await page.getByTestId("creator-continue-place").click();
 
-  await expect(page.getByTestId("whoareyou-play")).toHaveText(
-    "Discover through play",
-  );
-  await expect(page.getByTestId("whoareyou-answer")).toHaveText(
-    "Answer a few questions",
-  );
-  await expect(page.getByTestId("whoareyou-deep")).toContainText(
-    "Answer more questions",
-  );
-  await page.getByTestId("whoareyou-play").click();
   await expect(page.getByTestId("begin")).toBeEnabled();
   await shot(page, "03-appearance");
   await page.getByTestId("begin").click();

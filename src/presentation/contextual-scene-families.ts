@@ -13,7 +13,7 @@ import {
   answerContact,
   counterWithNewDay,
   openProposal,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import {
   stateCampaignStand,
   type LiveQuestion,
