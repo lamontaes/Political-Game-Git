@@ -53,7 +53,11 @@ import {
   localGoverningBodyIdentityForOfficeKey,
 } from "../nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
-import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
+import {
+  localGoverningBodyRules,
+  localGoverningBodySeatKind,
+  localGoverningBodySeatLabel,
+} from "../nationwide-world/local-governing-body-rules";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import {
   FILING_LEAD_DAYS,
@@ -580,7 +584,7 @@ function seatLabelFor(
 ): string {
   return seat === 0
     ? office.officeTitle
-    : `${office.officeTitle}, seat ${seat}`;
+    : localGoverningBodySeatLabel(office.unit, office.officeTitle, seat);
 }
 
 /**
@@ -610,11 +614,11 @@ function seatsOf(
   return seats;
 }
 
-/** The seat in a sentence: "seat 3 on the Ely City Council", "the mayor's office". */
+/** The seat in a sentence: "district seat 3 on the Ely City Council". */
 function seatPhrase(office: LocalGoverningBodyIdentity, seat: number): string {
   return seat === 0
     ? `the ${office.officeTitle.toLowerCase()}'s office`
-    : `seat ${seat} on the ${office.bodyName}`;
+    : `${localGoverningBodySeatKind(office.unit, seat)} seat ${seat} on the ${office.bodyName}`;
 }
 
 function holderOf(

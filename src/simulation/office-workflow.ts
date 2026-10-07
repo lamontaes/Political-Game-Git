@@ -16,6 +16,7 @@ import {
 } from "./legislation";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { councilSeatOffice } from "./living-world/council-seat-office";
+import { seatHolderAt } from "./judiciary/courts";
 import type {
   EntityId,
   OfficeBriefingInspectionRecord,
@@ -26,6 +27,8 @@ import type {
   OfficeVoteInstructionRecord,
   OfficeVotingWorkflowMode,
   OfficeWorkflowPreferenceRecord,
+  JudicialCaseKind,
+  JudicialCaseworkMode,
   World,
 } from "./types";
 import { assertWorldIntegrity } from "./world";
@@ -45,6 +48,15 @@ const CASEWORK_MODES: readonly OfficeCaseworkWorkflowMode[] = [
 const MEETING_DEPTHS: readonly OfficeMeetingDepth[] = [
   "what-matters",
   "everything",
+];
+const JUDICIAL_CASE_KINDS: readonly JudicialCaseKind[] = [
+  "criminal",
+  "civil",
+  "law-review",
+];
+const JUDICIAL_CASEWORK_MODES: readonly JudicialCaseworkMode[] = [
+  "player-handles",
+  "decide-as-usual",
 ];
 
 const INSTRUCTION_DISPOSITIONS: readonly OfficeVoteInstructionDisposition[] = [
@@ -161,6 +173,9 @@ export interface RecordOfficeWorkflowPreferenceInput {
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
   readonly meetingDepth?: OfficeMeetingDepth;
+  readonly judicialCaseworkModes?: Partial<
+    Record<JudicialCaseKind, JudicialCaseworkMode>
+  >;
 }
 
 export function recordOfficeWorkflowPreference(
@@ -181,7 +196,15 @@ export function recordOfficeWorkflowPreference(
   const councilSeat = relationship
     ? null
     : councilSeatOffice(world, input.personId, input.officeRelationshipId);
-  if (!relationship && !councilSeat) {
+  const judicialSeatHolder =
+    relationship || councilSeat
+      ? null
+      : seatHolderAt(world, input.officeRelationshipId);
+  if (
+    !relationship &&
+    !councilSeat &&
+    judicialSeatHolder?.personId !== input.personId
+  ) {
     return refused(world, "No office relationship matches this preference.");
   }
   if (relationship && relationship.personId !== input.personId) {
@@ -201,6 +224,19 @@ export function recordOfficeWorkflowPreference(
   if (!CASEWORK_MODES.includes(input.caseworkMode)) {
     return refused(world, "That casework workflow is not a supported choice.");
   }
+  if (
+    input.judicialCaseworkModes &&
+    Object.entries(input.judicialCaseworkModes).some(
+      ([kind, mode]) =>
+        !JUDICIAL_CASE_KINDS.includes(kind as JudicialCaseKind) ||
+        !JUDICIAL_CASEWORK_MODES.includes(mode as JudicialCaseworkMode),
+    )
+  ) {
+    return refused(
+      world,
+      "That judicial casework workflow is not a supported choice.",
+    );
+  }
   const meetingDepth = input.meetingDepth ?? "what-matters";
   if (!MEETING_DEPTHS.includes(meetingDepth)) {
     return refused(world, "office-workflow:unsupported-meeting-depth");
@@ -214,6 +250,8 @@ export function recordOfficeWorkflowPreference(
     current &&
     current.votingMode === input.votingMode &&
     current.caseworkMode === input.caseworkMode &&
+    JSON.stringify(current.judicialCaseworkModes ?? {}) ===
+      JSON.stringify(input.judicialCaseworkModes ?? {}) &&
     (current.meetingDepth ?? "what-matters") === meetingDepth
   ) {
     return { kind: "recorded", world };
@@ -230,6 +268,9 @@ export function recordOfficeWorkflowPreference(
     officeRelationshipId: input.officeRelationshipId,
     votingMode: input.votingMode,
     caseworkMode: input.caseworkMode,
+    ...(input.judicialCaseworkModes
+      ? { judicialCaseworkModes: input.judicialCaseworkModes }
+      : {}),
     meetingDepth,
     recordedAt: makeIsoDate(world.currentDate),
     supersedesPreferenceId: current?.id ?? null,
@@ -244,6 +285,29 @@ export function recordOfficeWorkflowPreference(
   };
   assertWorldIntegrity(next);
   return { kind: "recorded", world: next };
+}
+
+/** The controlled judge holds a case unless their saved seat policy delegates it. */
+export function playerHandlesJudicialCase(
+  world: World,
+  personId: EntityId,
+  caseKind: JudicialCaseKind,
+): boolean {
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    return false;
+  const seats = Object.values(world.judiciary?.seats ?? {}).filter(
+    (seat) => seatHolderAt(world, seat.seatId)?.personId === personId,
+  );
+  if (seats.length === 0) return true;
+  const delegated = seats.every(
+    (seat) =>
+      currentOfficeWorkflowPreference(world, personId, seat.seatId as EntityId)
+        ?.judicialCaseworkModes?.[caseKind] === "decide-as-usual",
+  );
+  if (delegated) return false;
+  // The first shipped defaults let the player hear criminal cases and law
+  // reviews; eviction cases continue in the background.
+  return caseKind !== "civil";
 }
 
 export interface RecordOfficeVoteInstructionInput {
