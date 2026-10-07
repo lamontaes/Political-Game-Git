@@ -1,3 +1,23 @@
+# Session 56 progress — Oct 7
+
+## Done
+
+- Workplace rooms now route by the employer's recorded business kind. PR #3373
+  merged as main commit `8c3255f61`.
+- Pool row LW-03 was already implemented on main in PR #2476, commit
+  `493b16f2`. The tax terms pack defines federal income, sales, payroll and
+  corporate tax consequence rows; it sends them through the existing `tax`
+  registry handler. `policy-pack-tax-terms.test.ts` verifies the four rows,
+  their handler registration and that the federal question cannot be selected
+  at state level across all 56 jurisdictions. `tax-law-term-binding.test.ts`
+  verifies unsupported or unbound law terms do not create tax effects.
+
+## Next
+
+- Check the next open pool row against main and recent claims before beginning.
+
+---
+
 # Session 56 progress
 
 Updated 2026-10-06. Working tree: `session-56/b32-part-2-unified-sittings`, based on current `main` at `e591ffc`.

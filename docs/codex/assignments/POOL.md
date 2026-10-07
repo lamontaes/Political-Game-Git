@@ -16,7 +16,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | LW-00  | Folder-loaded kind registry (data-driven registration point) — claimed S20 — prerequisite for new-kind batches                                                                                                                                    | law-batches.md LW-00 | done (main commit 4993ad3)                   | S27                      |
 | LW-01  | Government operations and elections: laws with no running effect; Ownership rule: data rows + one kind-module file per new kind only; core files are Session 20 (consequences, registry, landing) and Session 19 (lawInForce); see law-batches.md | law-batches.md LW-01 | claimed                                      | S10                      |
 | LW-02  | Justice and public safety: laws with no running effect                                                                                                                                                                                            | law-batches.md LW-02 | ready #3261                                  | S21                      |
-| LW-03  | Federal taxation and revenue: laws with no running effect                                                                                                                                                                                         | law-batches.md LW-03 | open (stale claim: /root/lw03_law_owner)     | /root/lw03_law_owner     |
+| LW-03  | Federal taxation and revenue: laws with no running effect                                                                                                                                                                                         | law-batches.md LW-03 | done (#2476 merged; verified on main)        | S56                      |
 | LW-04  | Budget and taxes: laws with no running effect                                                                                                                                                                                                     | law-batches.md LW-04 | open (stale claim: /root/lw04_law_owner)     | /root/lw04_law_owner     |
 | LW-05  | Budget and taxes: laws with no running effect                                                                                                                                                                                                     | law-batches.md LW-05 | open (stale claim: S17)                      | S17                      |
 | LW-06  | Budget and taxes: laws with no running effect                                                                                                                                                                                                     | law-batches.md LW-06 | open (stale claim: S18)                      | S18                      |
@@ -349,15 +349,15 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-crisis-2 | Replace about 20 placeholders in simulation / crisis / 2 with recorded or estimated-and-marked values | placeholders.md | done | #2616 |
 | PH-simulation-governing-1 | Replace about 22 placeholders in simulation / governing / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-governing-2 | Replace about 23 placeholders in simulation / governing / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-judiciary | Replace about 12 placeholders in simulation / judiciary with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-judiciary | Replace about 12 placeholders in simulation / judiciary with recorded or estimated-and-marked values | placeholders.md | done #2618 | Session 37 |
 | PH-simulation-justice | Replace about 25 placeholders in simulation / justice with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-1 | Replace about 18 placeholders in simulation / living / world / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-2 | Replace about 18 placeholders in simulation / living / world / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-3 | Replace about 18 placeholders in simulation / living / world / 3 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-4 | Replace about 19 placeholders in simulation / living / world / 4 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-macro-economy-1 | Replace about 15 placeholders in simulation / macro / economy / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-macro-economy-1 | Replace about 15 placeholders in simulation / macro / economy / 1 with recorded or estimated-and-marked values | placeholders.md | done #2620 | |
 | PH-simulation-macro-economy-2 | Replace about 15 placeholders in simulation / macro / economy / 2 with recorded or estimated-and-marked values | placeholders.md | done #2620 | Session 37 |
-| PH-simulation-migration | Replace about 24 placeholders in simulation / migration with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-migration | Replace about 24 placeholders in simulation / migration with recorded or estimated-and-marked values | placeholders.md | done #2805 | Session 37 |
 | PH-simulation-misc | Replace about 9 placeholders in simulation / misc with recorded or estimated-and-marked values | placeholders.md | done | #2621 |
 | PH-simulation-nationwide-world-1 | Replace about 15 placeholders in simulation / nationwide / world / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-nationwide-world-2 | Replace about 16 placeholders in simulation / nationwide / world / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -527,7 +527,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | done #2637 | |
 | BG-23 | Creator: only 6 faces for a man | BUGS.md BG-23 | open | |
 | BG-24 | Creator 'Who are you?' questions are terrible (club-trip registration and similar) | BUGS.md BG-24 | done #87 | |
-| BG-25 | Opening cards ('In the year 2026', 1 of 8) are a non-approved UI; card text hard to read over the Capitol; '2 No party' should read '2 independents'; ghost figure under card 4; hidden newspaper masthead | BUGS.md BG-25 | open | |
+| BG-25 | Opening cards ('In the year 2026', 1 of 8) are a non-approved UI; card text hard to read over the Capitol; '2 No party' should read '2 independents'; ghost figure under card 4; hidden newspaper masthead | BUGS.md BG-25 | ready #3397 | Session 34 |
 | BG-26 | Life story has a 38-year hole, every event is 'In December', no parents/siblings/spouse/children, unexplained school transfer | BUGS.md BG-26 | done #818, #3095 | |
 | BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | open | |
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
@@ -535,7 +535,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | open | |
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | open | |
-| BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | open | |
+| BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | done #1853 | |
 | BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | open | |
 | BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | open | |
 | BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | open | |
@@ -553,7 +553,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | open | |
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
-| BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | open | |
+| BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | ready #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | open | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | open | |
@@ -597,7 +597,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1180 | Review existing capitol surfaces: KY through OH | PR #1180 (codex/sept29-team7-scenes-09) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1181 | Review existing capitol surfaces: OK through WY | PR #1181 (codex/sept29-team7-scenes-10) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1187 | Trace Team 7 scene and newspaper why-chains | PR #1187 (codex/team7-bedrock-numbers) | open: draft: finish it or close it as superseded | |
-| RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | ready #1188 | |
+| RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | done #1188 | |
 | RS-1203 | Review remaining canonical scene spots | PR #1203 (codex/sept29-team7-remaining-spots) | open: draft: finish it or close it as superseded | |
 | RS-1220 | Preserve fresh monthly speed baseline and scoped caller evidence | PR #1220 (codex/team-4-monthly-speed-next) | done (superseded by M10; no active allocation) | |
 | RS-1222 | List exact regional picture admissions for existing-bank reconciliation | PR #1222 (codex/team-8-regional-picture-gaps) | done (superseded by regional-opening #281 and place-id research #451; closed Oct 7) | Session 45 |
@@ -616,7 +616,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #1306 (codex/team1-consequence-inputs) | open: draft: finish it or close it as superseded | |
 | RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | ready #3271 | |
 | RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | ready #1332 | |
-| RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | open: draft: finish it or close it as superseded | |
+| RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | done #1358 (implementation merged; verified on current main) | |
 | RS-1406 | Deliver the private monthly money call-cost diagnostic | PR #1406 (codex/team7-c9-owned-call-cost-diagnostic) | done (superseded by current-main obligation route; diagnostic depended on closed PR #1353) | |
 | RS-1415 | Preserve native lease renewal proof and save validation blocker | PR #1415 (codex/team-4-m10-native-renewal-entry) | open: draft: finish it or close it as superseded | |
 | RS-1430 | Prepare scheduled rent proof and preserve runtime budget blocker | PR #1430 (codex/team-4-m10-scheduled-rent-entry) | open: draft: finish it or close it as superseded | |
@@ -901,7 +901,7 @@ open: rebase on main (conflicts) | |
 | RS-2703 | PH-simulation-crisis-1: cloud task | PR #2703 (cloud/ph-simulation-crisis-1-8f3f60) | open: rebase on main (conflicts) | |
 | RS-2704 | PH-simulation-justice: cloud task | PR #2704 (cloud/ph-simulation-justice-8ef1b5) | open: rebase on main (conflicts) | |
 | RS-2705 | PH-simulation-living-world-1: cloud task | PR #2705 (cloud/ph-simulation-living-world-1-2e2b58) | open: rebase on main (conflicts) | |
-| RS-2706 | PH-simulation-migration: cloud task | PR #2706 (cloud/ph-simulation-migration-200514) | open: rebase on main (conflicts) | |
+| RS-2706 | PH-simulation-migration: cloud task | PR #2706 (cloud/ph-simulation-migration-200514) | closed: superseded by #2805 | |
 | RS-2707 | PH-simulation-nationwide-world-2: cloud task | PR #2707 (cloud/ph-simulation-nationwide-world-2-4f818b) | open: rebase on main (conflicts) | |
 | RS-2708 | PH-simulation-pressure-1: cloud task | PR #2708 (cloud/ph-simulation-pressure-1-c33a9f) | open: rebase on main (conflicts) | |
 | RS-2709 | PH-simulation-pressure-2: cloud task | PR #2709 (cloud/ph-simulation-pressure-2-8b6d01) | open: rebase on main (conflicts) | |
