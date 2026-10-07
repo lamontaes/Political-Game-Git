@@ -556,7 +556,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | unsupported: no sourced sitting trigger or nonsitting action contract | |
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | done #2477 | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
-| BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
+| BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | unsupported: nationwide governor qualification rules are not source-admitted; current corpus covers only MN, MO, NE, NV, and OH | |
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | ready #3459 | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | open | |
@@ -675,7 +675,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | done #2295 | Session 35 |
 | RS-2243 | Repair A52 fixture for recorded household bills and separate rent | PR #2243 (codex/session21-a52-rent-repair) | open: draft: finish it or close it as superseded | |
 | RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2255 | List loading dependencies in the strict Node project | PR #2255 (codex/session5-node-loading-dependencies) | open: draft: finish it or close it as superseded | |
+| RS-2255 | List loading dependencies in the strict Node project | PR #3568 (session35/rs2255-deps) | ready #3568 | Session 35 |
 | RS-2259 | P1: Clerk filing evidence and saved council result scene consumers | PR #2259 (codex/session13-clerk-night-shared) | open: #2259 closed under no-player-text rule; a new compliant implementation is needed | |
 | RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | done #2264 | Session 35 |
 | RS-2266 | Record sourced government law amounts | PR #3575 (codex/session35-rs2266) | open: draft pending final memory-safe gate | Session 35 |
