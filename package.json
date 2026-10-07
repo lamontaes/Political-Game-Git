@@ -112,7 +112,6 @@
     "audit:runtime-text": "playwright test tests/e2e/runtime-text-audit.spec.ts --project=chromium --workers=1 --retries=0",
     "audit:runtime-text:guard": "AUDIT_GUARD=1 npm run audit:runtime-text",
     "audit:runtime-text:score": "node --import tsx scripts/runtime-text/score.ts",
-    "audit:runtime-text:baseline": "AUDIT_WRITE_BASELINE=1 npm run audit:runtime-text",
     "audit:scan": "node --import tsx scripts/audit/autoscan.ts",
     "unwired-laws": "node --import tsx scripts/unwired-laws/run.ts",
     "release:preview": "node --import tsx scripts/release/index.ts preview",

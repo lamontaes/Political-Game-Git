@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { ClassifiedText } from "../scripts/runtime-text/classify";
 import { causeOf, UNEXPLAINED } from "../scripts/runtime-text/causes";
-import { evaluateGuard } from "../scripts/runtime-text/guard";
+import { evaluateGuard, measure, union } from "../scripts/runtime-text/guard";
 import {
   buildLiteralIndex,
   resolveJoined,
@@ -16,13 +16,15 @@ function row(
   origin: ClassifiedText["origin"],
   text: string,
   cause: string | null = null,
+  where: { file: string; line: number } | null = null,
+  bank: string | null = null,
 ): ClassifiedText {
   return {
     text,
     origin,
-    file: null,
-    line: null,
-    bank: null,
+    file: where?.file ?? null,
+    line: where?.line ?? null,
+    bank,
     alsoRecordValue: false,
     recordShare: 0,
     count: 1,
@@ -67,37 +69,49 @@ describe("causes for untraced strings", () => {
 });
 
 describe("the golden-path guard", () => {
+  const nav = { file: "src/player/Nav.tsx", line: 10 };
+  const pin = { file: "src/player/People.tsx", line: 44 };
   const baseline = {
     place: "a place",
     seed: "s",
-    fixedText: 2,
-    engine: 1,
+    fixedLocations: ["src/player/Nav.tsx:10", "src/player/People.tsx:44"],
+    engineBanks: ["opening:core"],
     unexplained: ["CAB"],
   };
   const same = [
-    row("literal", "Calendar"),
-    row("literal-template", "Pin Ana"),
-    row("engine", "She waved."),
+    row("literal", "Calendar", null, nav),
+    row("literal-template", "Pin Ana", null, pin),
+    row("engine", "She waved.", null, null, "opening:core"),
     row("unresolved", "CAB", UNEXPLAINED),
     row("unresolved", "FM", "initials"),
   ];
 
-  it("passes when nothing rose", () => {
+  it("passes when no new line prints fixed text", () => {
     expect(evaluateGuard(same, baseline).failures).toEqual([]);
   });
 
-  it("fails when fixed text rises", () => {
-    const more = [...same, row("literal-joined", "Jobs, and study")];
-    expect(evaluateGuard(more, baseline).failures[0]).toMatch(
-      /Fixed text rose/,
-    );
+  it("passes when a line stops printing or prints more strings", () => {
+    const fewer = [row("literal", "Calendar", null, nav), same[2]!, same[3]!];
+    const more = [...same, row("literal", "Calendars", null, nav)];
+    expect(evaluateGuard(fewer, baseline).failures).toEqual([]);
+    expect(evaluateGuard(more, baseline).failures).toEqual([]);
   });
 
-  it("fails when the engine writes less", () => {
-    const less = same.filter((item) => item.origin !== "engine");
-    expect(evaluateGuard(less, baseline).failures[0]).toMatch(
-      /engine strings fell/,
-    );
+  it("fails when a new source line prints fixed text", () => {
+    const added = [
+      ...same,
+      row("literal-joined", "Jobs, and study", null, {
+        file: "src/player/Jobs.tsx",
+        line: 7,
+      }),
+    ];
+    const { failures } = evaluateGuard(added, baseline);
+    expect(failures[0]).toMatch(/src\/player\/Jobs\.tsx:7/);
+  });
+
+  it("fails when an engine bank goes silent", () => {
+    const silent = same.filter((item) => item.origin !== "engine");
+    expect(evaluateGuard(silent, baseline).failures[0]).toMatch(/opening:core/);
   });
 
   it("fails on a new untraced string with no cause", () => {
@@ -108,6 +122,19 @@ describe("the golden-path guard", () => {
   it("accepts an untraced string once a rule explains it", () => {
     const explained = [...same, row("unresolved", "MH", "initials")];
     expect(evaluateGuard(explained, baseline).failures).toEqual([]);
+  });
+
+  it("keeps every line and bank any run saw when a baseline is merged", () => {
+    const a = measure([row("literal", "A", null, nav)]);
+    const b = measure([
+      row("literal", "B", null, pin),
+      row("engine", "x", null, null, "other:core"),
+    ]);
+    expect(union([a, b])).toEqual({
+      fixedLocations: ["src/player/Nav.tsx:10", "src/player/People.tsx:44"],
+      engineBanks: ["other:core"],
+      unexplained: [],
+    });
   });
 });
 

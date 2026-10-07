@@ -19,7 +19,6 @@ import {
 } from "../../scripts/runtime-text/classify";
 import {
   evaluateGuard,
-  measure,
   type GuardBaseline,
 } from "../../scripts/runtime-text/guard";
 import { buildLiteralIndex } from "../../scripts/runtime-text/literal-index";
@@ -49,12 +48,11 @@ import {
  */
 
 // The guard runs one fixed life and compares it with the recorded baseline
-// (data/runtime-text/baseline.json); AUDIT_WRITE_BASELINE=1 records a new one.
+// (data/runtime-text/baseline.json). A new baseline is written from saved runs
+// with `npm run audit:runtime-text:score -- <run>... --write-baseline`.
 const GUARD = process.env.AUDIT_GUARD === "1";
-const WRITE_BASELINE = process.env.AUDIT_WRITE_BASELINE === "1";
 const BASELINE_FILE = join(process.cwd(), "data/runtime-text/baseline.json");
-const PLACES =
-  GUARD || WRITE_BASELINE ? 1 : Number(process.env.AUDIT_PLACES ?? 4);
+const PLACES = GUARD ? 1 : Number(process.env.AUDIT_PLACES ?? 4);
 const DESTINATIONS = [
   "nav-news",
   "elsewhere-people",
@@ -351,21 +349,13 @@ test.afterAll(() => {
     ),
   );
   console.log(`runtime-text audit written to ${file}`);
-  if (WRITE_BASELINE) {
-    const now = measure(rows);
-    mkdirSync(join(process.cwd(), "data/runtime-text"), { recursive: true });
-    writeFileSync(
-      BASELINE_FILE,
-      `${JSON.stringify({ place: places[0]!.place, seed: places[0]!.seed, ...now }, null, 2)}\n`,
-    );
-    console.log(`runtime-text baseline written to ${BASELINE_FILE}`);
-  } else if (GUARD) {
+  if (GUARD) {
     const baseline = JSON.parse(
       readFileSync(BASELINE_FILE, "utf8"),
     ) as GuardBaseline;
     const { failures, now } = evaluateGuard(rows, baseline);
     console.log(
-      `runtime-text guard: ${JSON.stringify({ ...now, unexplained: now.unexplained.length })}`,
+      `runtime-text guard: ${JSON.stringify({ lines: now.fixedLocations.length, banks: now.engineBanks.length, unexplained: now.unexplained.length })}`,
     );
     if (failures.length > 0) throw new Error(failures.join("\n"));
   }
