@@ -920,9 +920,10 @@ function recordedChildhoodParentDeath(
 
 /**
  * How disrupted a childhood was, from 0 (no move during a school year) toward
- * 1 (ever more of them): moves / (moves + K). PLACEHOLDER: K = 2 until the
- * research on how many school-year moves a child takes in stride is read.
- * Every reader weighs by this number; nothing flips at a count.
+ * 1 (ever more of them): moves / (moves + K). K = 2 is an explicit game-scale
+ * estimate: one move contributes one third and two moves one half. It is not
+ * a claim about a researched school-year-mobility threshold. Every reader
+ * weighs by this number; nothing flips at a count.
  */
 const DISRUPTION_K = 2;
 function disruptionFromMoves(moves: number): number {

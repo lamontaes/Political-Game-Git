@@ -6,9 +6,9 @@
  * RESEARCH") supplies the content: goal families, what a step looks like,
  * what blocks one, and when a goal is set aside. It approves no prevalence
  * weights, per-family selection probabilities or maximum goal counts, and
- * none are chosen here. Every number below is PROVISIONAL pacing that no
- * study measured; it lives here, in one place, so it can be replaced rather
- * than tuned in the code that reads it.
+ * none are chosen here. The pacing numbers below are marked estimates, not
+ * measured population rates, and live here so their assumptions stay visible
+ * instead of being tuned in the code that reads them.
  *
  * This file imports nothing, so a reader can name these keys without loading
  * the pursuit machinery.

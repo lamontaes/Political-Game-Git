@@ -13,15 +13,19 @@ import {
 import type { EntityId, IsoDate, World } from "./types";
 
 /**
- * UNRESEARCHED. How far a governor's record on the economy moves their
- * starting position when they run again. A blanket game rule, not an estimate
- * of retrospective voting; filed with the research queue as
- * `record-in-office-electoral-magnitudes`. Starting weights are drawn from
- * 850 to 1150 in `campaigns.ts`, so the cap is half that spread.
+ * ESTIMATED FROM RECORDED CAMPAIGN WEIGHTS. How far a governor's record on
+ * the economy moves their starting position when they run again. The
+ * comparison range is the 850–1150 starting-weight range in `campaigns.ts`:
+ * one unemployment point is one fifth of that range, and the cap is half the
+ * range. This is a game-scale estimate, not a measured retrospective-voting
+ * effect.
  */
-export const UNRESEARCHED_RECORD_IN_OFFICE = {
-  version: "record-in-office-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const ESTIMATED_RECORD_IN_OFFICE = {
+  version: "record-in-office-estimated-v1",
+  provenance: "estimated-from-recorded-campaign-weights",
+  estimated: true,
+  estimatedFrom:
+    "the 850–1150 generated-contest starting-weight range in campaigns.ts",
   /** Weight per percentage point the unemployment rate fell in office. */
   weightPerUnemploymentPoint: 60,
   maxAbsoluteWeight: 150,
@@ -79,7 +83,7 @@ export function recordInOffice(
   const atStart = unemploymentOn(world, office.jurisdictionId, since);
   const now = unemploymentOn(world, office.jurisdictionId, asOf);
   if (atStart === null || now === null) return null;
-  const rule = UNRESEARCHED_RECORD_IN_OFFICE;
+  const rule = ESTIMATED_RECORD_IN_OFFICE;
   const raw = Math.round((atStart - now) * rule.weightPerUnemploymentPoint);
   return {
     officeTitle: office.title,
@@ -102,7 +106,8 @@ export function recordInOffice(
  * handled a disaster starts ahead or behind for it. Where the contest's
  * jurisdiction is given, its voters also weigh the candidate's votes and
  * signatures question by question against their own views
- * (`issue-record.ts`). All are UNRESEARCHED blanket rules
+ * (`issue-record.ts`). The record-in-office adjustment is an explicit game
+ * estimate; the other adjustments retain their own provenance
  * (`press/findings.ts`, above, `crisis/handling-reactions.ts`,
  * `issue-record.ts`).
  */

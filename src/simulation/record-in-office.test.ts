@@ -15,7 +15,7 @@ import {
 import {
   recordInOffice,
   startingSupportAdjustment,
-  UNRESEARCHED_RECORD_IN_OFFICE,
+  ESTIMATED_RECORD_IN_OFFICE,
 } from "./record-in-office";
 import type { World } from "./types";
 
@@ -43,6 +43,14 @@ beforeAll(() => {
 }, SLOW);
 
 describe("a governor's record on the economy", { timeout: SLOW }, () => {
+  it("marks its campaign-scale calibration as an estimate", () => {
+    expect(ESTIMATED_RECORD_IN_OFFICE).toMatchObject({
+      estimated: true,
+      provenance: "estimated-from-recorded-campaign-weights",
+      estimatedFrom: expect.stringContaining("campaigns.ts"),
+    });
+  });
+
   it("is judged on unemployment from the start of the term to now", () => {
     const office = currentGoverningOffices(later).find(
       (candidate) => candidate.termStartedAt !== null,
@@ -58,12 +66,12 @@ describe("a governor's record on the economy", { timeout: SLOW }, () => {
       ) ?? macroConditionsAt(later, "national", later.currentDate)!;
     expect(record.unemploymentNowPct).toBe(now.unemploymentPct);
     const expected = Math.max(
-      -UNRESEARCHED_RECORD_IN_OFFICE.maxAbsoluteWeight,
+      -ESTIMATED_RECORD_IN_OFFICE.maxAbsoluteWeight,
       Math.min(
-        UNRESEARCHED_RECORD_IN_OFFICE.maxAbsoluteWeight,
+        ESTIMATED_RECORD_IN_OFFICE.maxAbsoluteWeight,
         Math.round(
           (record.unemploymentAtStartPct - record.unemploymentNowPct) *
-            UNRESEARCHED_RECORD_IN_OFFICE.weightPerUnemploymentPoint,
+            ESTIMATED_RECORD_IN_OFFICE.weightPerUnemploymentPoint,
         ),
       ),
     );
