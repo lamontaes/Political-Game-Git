@@ -22,6 +22,10 @@ import {
 import { openingLifeLocation } from "./life-scene-flow";
 import { resolveOpeningPlaySceneContext } from "./play-scene-context";
 import { projectToday } from "./day-overview";
+import {
+  placeForLocationKey,
+  workplacePlaceForPerson,
+} from "./place-backdrops";
 
 // These are the three distinct random place draws logged by the day-mount proof.
 const places = ["3220700", "2537385", "3556810"];
@@ -77,6 +81,11 @@ describe.each(places)(
         // The room is the pictured workplace of the player's own shift, and
         // the people in it are the colleagues the recorded shifts put there.
         expect(context.locationKey).toBe(`work:${shift.workRelationshipId}`);
+        const workplace = workplacePlaceForPerson(world, viewer);
+        expect(workplace).not.toBe("office");
+        expect(placeForLocationKey(world, viewer, context.locationKey)).toBe(
+          workplace,
+        );
         expect(context.placeLabel).toBe(location!.context.location!.label);
         const town = jobs.find(
           (job) => job.relationship.id === shift.workRelationshipId,
