@@ -3,6 +3,7 @@ import { makeIsoDate } from "./dates";
 import type { FutureDueItem, FutureTransitionHandlerResult } from "./types";
 import {
   PROPERTY_ASSESSMENT_TRANSITION_KEY,
+  isTypedPropertyTax,
   schedulePropertyAssessmentDay,
 } from "./property-tax-schedule";
 import { effectiveTaxPolicy } from "./tax-policy";
@@ -23,6 +24,8 @@ import {
 import { money } from "./resources";
 import { recordTaxBase } from "./tax-policy";
 import type { EntityId, World } from "./types";
+import { placeStateKey } from "./state-jurisdiction-id";
+import type { TaxProposalRecord } from "./tax-types";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 export const PROPERTY_BASE_KEY = "tax-base:property-value";
@@ -44,6 +47,26 @@ export function placeInGovernment(
   );
 }
 
+/** Whether a typed property or payroll tax of any level reaches a place: a
+ * city or county by its own bounds, a state's by the state the place lies in. */
+export function taxReachesPlace(
+  world: World,
+  proposal: TaxProposalRecord,
+  placeJurisdictionId: EntityId,
+): boolean {
+  const identity = proposal.publicGovernmentIdentity;
+  if (identity?.kind === "local-government")
+    return placeInGovernment(
+      placeJurisdictionId,
+      identity.governmentKey,
+      identity.jurisdictionId,
+    );
+  return (
+    proposal.power?.level === "STATE" &&
+    placeStateKey(world, placeJurisdictionId) === proposal.power.jurisdictionKey
+  );
+}
+
 /**
  * Records one property tax base for each household home this local tax reaches,
  * on the day the owner or renter is assessed. An owner's base is the home's
@@ -58,13 +81,7 @@ export function recordPropertyTaxBases(
   const proposal = world.history.taxProposals?.find(
     (row) => row.id === proposalId,
   );
-  const identity = proposal?.publicGovernmentIdentity;
-  if (
-    !proposal ||
-    identity?.kind !== "local-government" ||
-    proposal.terms.instrument !== "property"
-  )
-    return world;
+  if (!proposal || !isTypedPropertyTax(proposal)) return world;
   const year = world.currentDate.slice(0, 4);
   const h = world.history;
   const flows = new Map(h.resourceFlows.map((flow) => [flow.id, flow]));
@@ -112,14 +129,7 @@ export function recordPropertyTaxBases(
     if (!dwelling || tenure.holder.kind !== "household") continue;
     const householdId = tenure.holder.householdId;
     const payerId = payers.get(tenure.id) ?? residentPayer(householdId);
-    if (
-      !payerId ||
-      !placeInGovernment(
-        dwelling.jurisdictionId,
-        identity.governmentKey,
-        identity.jurisdictionId,
-      )
-    )
+    if (!payerId || !taxReachesPlace(world, proposal, dwelling.jurisdictionId))
       continue;
     const owner = tenure.kind.startsWith("ownership");
     const rent = h.resourceObligations

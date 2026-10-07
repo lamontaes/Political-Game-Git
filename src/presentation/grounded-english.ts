@@ -1,3 +1,4 @@
+import { tagEngineText } from "./runtime-text-origin";
 import { stableHash } from "../simulation/ids";
 import type { EntityId } from "../simulation/types";
 
@@ -178,6 +179,7 @@ export function renderGroundedEnglish(
       .sourceRecordIds)
       sourceRecordIds.add(id);
 
+  tagEngineText(text, { bank: bank.key, variant: variant.key });
   return {
     kind: "rendered",
     text,

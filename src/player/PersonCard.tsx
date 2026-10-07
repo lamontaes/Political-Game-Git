@@ -127,7 +127,6 @@ export function PersonCard({
   onTogglePin,
   onOpenPerson,
   onTalk,
-  onContact,
   onMeet,
   onTravel,
   onFullRecord,
@@ -150,7 +149,6 @@ export function PersonCard({
   readonly onTogglePin: () => void;
   readonly onOpenPerson?: (personId: EntityId) => void;
   readonly onTalk?: () => void;
-  readonly onContact?: () => void;
   readonly onMeet?: () => void;
   readonly onTravel?: () => void;
   /** The full record page, with appearance controls for your own character. */
@@ -362,7 +360,12 @@ export function PersonCard({
               </p>
             ) : isYou || !expanded ? null : presentNow ? (
               <p className="pg-right-now" data-testid="person-card-present">
-                Here in the room with you.
+                <span className="pg-right-now-label">Present</span>
+                {dossier.presentRoom ? (
+                  <span data-testid="person-card-present-room">
+                    {dossier.presentRoom}
+                  </span>
+                ) : null}
               </p>
             ) : (
               <p
@@ -631,16 +634,6 @@ export function PersonCard({
             onClick={onMeet}
           >
             Meet
-          </button>
-        ) : null}
-        {reachable && contact.contact.available && onContact ? (
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="person-contact"
-            onClick={onContact}
-          >
-            Contact
           </button>
         ) : null}
         {onFullRecord ? (
