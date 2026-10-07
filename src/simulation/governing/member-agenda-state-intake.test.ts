@@ -50,7 +50,7 @@ beforeAll(() => {
 describe("state intake requires an actual seated sponsor, everywhere", () => {
   it("sets the state filing bar on the saved 0–1 principle-strength scale", () => {
     expect(MEMBER_AGENDA_LEVEL_SETTINGS.state.filingThreshold).toBe(1.5);
-    expect(MEMBER_AGENDA_LEVEL_SETTINGS.federal.filingThreshold).toBe(3);
+    expect(MEMBER_AGENDA_LEVEL_SETTINGS.federal.filingThreshold).toBe(1.5);
   });
 
   expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);

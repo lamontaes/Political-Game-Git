@@ -198,24 +198,16 @@ export function homePosition(
       }
     }
   }
-  let inTown = world.people[personId]!.homeJurisdictionId === town;
   for (const row of memberships) {
     if (row.household.stableKey.startsWith(prefix)) {
       const index = Number(row.household.stableKey.slice(prefix.length));
       if (Number.isInteger(index)) return index;
     }
-    if (row.location?.jurisdictionId === town) inTown = true;
   }
-  if (!inTown) return null;
-  // Without a recorded roster dwelling, a household the roster did not
-  // write keeps the legacy position from its own id: a
-  // stand-in address, not a choice anyone makes.
-  let hash = 2166136261;
-  for (const char of personId) {
-    hash ^= char.charCodeAt(0);
-    hash = Math.imul(hash, 16777619) >>> 0;
-  }
-  return hash % households;
+  // A home-jurisdiction label places someone in the town, but it does not
+  // identify a household position in the ward map. Leave the ward unknown
+  // until a roster household or recorded address supplies that position.
+  return null;
 }
 
 /** The ward holding household `position` under `map`, from 1. */

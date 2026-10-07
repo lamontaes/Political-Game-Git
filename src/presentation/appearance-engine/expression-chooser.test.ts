@@ -118,6 +118,10 @@ function turnWith(
     sequence: world.history.nextSequence + serial,
     occurredAt: world.currentDate,
     tags,
+    participants: [
+      { personId: speaker, role: "focus:respondent", detail: null },
+      { personId: listener, role: "focus:subject", detail: null },
+    ],
   };
   const written = interactions.map(
     (interaction, index): RelationshipInteraction => ({
@@ -301,7 +305,7 @@ describe("faces in a conversation", () => {
     world: World,
     person: EntityId,
     turns: readonly ConversationExchangeTurn[],
-  ) => conversationExpression(world, person, person, turns);
+  ) => conversationExpression(world, person, turns);
 
   it("shows the speaker's tone on the speaker's face", () => {
     const expected: Partial<Record<LineTone, string>> = {
@@ -395,7 +399,7 @@ describe("faces in a conversation", () => {
 
 describe("the face a temperament rests in", () => {
   it("rests neutral with an ordinary temper when nothing is recorded", () => {
-    expect(faceTemperament(base, A, A)).toEqual({
+    expect(faceTemperament(base, A)).toEqual({
       rest: "neutral",
       temper: null,
     });
@@ -403,30 +407,31 @@ describe("the face a temperament rests in", () => {
 
   it("rests a warm person smiling and an anxious one concerned", () => {
     expect(
-      faceTemperament(
-        recorded(base, A, "personality-v1:playful-manner", 1),
-        A,
-        A,
-      ).rest,
+      faceTemperament(recorded(base, A, "personality-v1:playful-manner", 1), A)
+        .rest,
     ).toBe("smile");
     expect(
       faceTemperament(
         recorded(base, A, "personality-v1:self-confidence", -1),
         A,
-        A,
       ).rest,
     ).toBe("concerned");
   });
 
-  it("rests a guarded person neutral or skeptical, by their seed", () => {
+  it("rests a guarded person neutrally when no event records an expression", () => {
     const guarded = recorded(base, A, "personality-v1:facet-defensive", 1);
-    const rests = new Set(
-      Array.from(
-        { length: 40 },
-        (_, n) => faceTemperament(guarded, A, `seed-${n}`).rest,
-      ),
-    );
-    expect([...rests].sort()).toEqual(["neutral", "skeptical"]);
+    expect(
+      Array.from({ length: 40 }, () => faceTemperament(guarded, A).rest),
+    ).toEqual(Array.from({ length: 40 }, () => "neutral"));
+  });
+
+  it("uses the latest recorded turn's face, then returns to neutral when the next record is plain", () => {
+    const guarded = recorded(base, A, "personality-v1:facet-defensive", 1);
+    const recent = turnWith(guarded, ["life.talk:suggestGame"]);
+    expect(faceTemperament(recent.world, A).rest).toBe("laugh");
+
+    const plain = turnWith(recent.world, ["life.conversation"]);
+    expect(faceTemperament(plain.world, A).rest).toBe("neutral");
   });
 
   it("shows hostility sooner in the quick-tempered and later in the calm", () => {
@@ -440,9 +445,7 @@ describe("the face a temperament rests in", () => {
       ),
       joke,
     );
-    expect(conversationExpression(quick.world, B, B, [quick.turn])).toBe(
-      "angry",
-    );
+    expect(conversationExpression(quick.world, B, [quick.turn])).toBe("angry");
     const threat = turnWith(
       standing(recorded(base, B, "personality-v1:facet-calm", 1), B, A, "worn"),
       [],
@@ -455,7 +458,7 @@ describe("the face a temperament rests in", () => {
         },
       ],
     );
-    expect(conversationExpression(threat.world, B, B, [threat.turn])).toBe(
+    expect(conversationExpression(threat.world, B, [threat.turn])).toBe(
       "skeptical",
     );
   });
