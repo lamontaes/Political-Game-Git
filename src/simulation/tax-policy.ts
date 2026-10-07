@@ -1356,7 +1356,7 @@ export function taxCollectionTransition(
           lawEffectStamps: assessment.lawEffectStamps
             .map((stamp) => ({
               ...stamp,
-              effectKind: "tax-collection",
+              effectKind: "tax-collection" as const,
               appliedAt: world.currentDate,
               sourceRecordIds: [
                 ...(stamp.sourceRecordIds ?? []),
