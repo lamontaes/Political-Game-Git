@@ -102,7 +102,6 @@ export function recordedRoomPresence(world: World, personId: EntityId) {
   return { eventId: event.id, location: event.context.location!, personIds };
 }
 
-
 /**
  * With no scene or arrival recorded for this moment, a person who is at home
  * (no recorded activity, no shift, no recorded absence) is in the household's
