@@ -582,7 +582,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1161 | One Sentinel front page from seven recorded stories                              | PR #1161 (codex/sept29-team7-newspaper-kit) | done: superseded by C7; art preserved for later owner review  |            |
 
 | RS-1167 | Add second Team 7 scene measurement review batch | PR #1167 (codex/sept29-team7-scenes-02) | open: draft: finish it or close it as superseded | |
-| RS-1170 | Add third Team 7 scene measurement review batch | PR #1170 (codex/sept29-team7-scenes-03) | open: draft: finish it or close it as superseded | |
+| RS-1170 | Add third Team 7 scene measurement review batch | PR #1170 (codex/sept29-team7-scenes-03) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1171 | Add fourth Team 7 scene measurement review batch | PR #1171 (codex/sept29-team7-scenes-04) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1172 | Add fifth Team 7 scene measurement review batch | PR #1172 (codex/sept29-team7-scenes-05) | open: draft: finish it or close it as superseded | |
 | RS-1176 | Add sixth Team 7 scene preview geometry review batch | PR #1176 (codex/sept29-team7-scenes-06) | done #1176: closed as superseded by C7 engine rebuild; art preserved | |
