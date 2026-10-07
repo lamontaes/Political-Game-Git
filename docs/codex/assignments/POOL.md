@@ -604,7 +604,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1233 | Add regional home exteriors and corrected street candidates | PR #1233 (codex/team7-regional-exteriors) | done (superseded by C7; art preserved for later owner review) | |
 | RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | open: draft: finish it or close it as superseded | |
 | RS-1257 | Import 61 approved picture and kids-sheet sources | PR #1257 (codex/team7-law-place-import) | done (superseded by C7; approved sources preserved for later owner review) | S35 |
-| RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #1275 (codex/team2-government-about-zero-audit) | open: draft: finish it or close it as superseded | |
+| RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
 | RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
 | RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #1306 (codex/team1-consequence-inputs) | open: draft: finish it or close it as superseded | |
