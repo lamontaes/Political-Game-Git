@@ -232,6 +232,31 @@ describe("the rendered scene recipe selection producer", () => {
         .onSelectPerson,
     ).toBe(onSelectPerson);
   });
+  it("allows an employer-selected place picture to replace production office art", () => {
+    fixture.painted = true;
+    const nodes = collect(() =>
+      SceneBackdrop({
+        sceneId: null,
+        placeBackdrop: {
+          place: "construction-site",
+          variant: "midday",
+          url: "construction-site.png",
+        },
+        preferPlaceBackdrop: true,
+        children: null,
+      }),
+    );
+    expect(
+      nodes.some(
+        (node) => node.props["data-testid"] === "scene-place-backdrop",
+      ),
+    ).toBe(true);
+    expect(
+      nodes.some(
+        (node) => node.props["data-testid"] === "scene-environment-art",
+      ),
+    ).toBe(false);
+  });
   it("a legacy one-argument callback still receives the actual selected person", () => {
     let selected: string | undefined;
     const callback = (id: string) => {

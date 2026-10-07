@@ -47,8 +47,11 @@ export interface OpeningYearView {
   readonly year: string;
   /** Plain sentences: who leads, how Congress divides, the economy. */
   readonly lines: readonly string[];
-  /** Up to two of the newest real headlines in this world. */
-  readonly headlines: readonly string[];
+  /** Up to two real headlines with the outlet named on the publication record. */
+  readonly publications: readonly {
+    readonly outletName: string;
+    readonly headline: string;
+  }[];
   /** Record values under a label: the form of the home place's government. */
   readonly facts: readonly { readonly label: string; readonly value: string }[];
 }
@@ -136,7 +139,7 @@ export function projectOpeningYear(
     lines.push(
       `Across the country, ${percent(start.unemploymentPct)} of people looking for work cannot find it, and prices are ${percent(start.inflation12mPct)} higher than a year ago.`,
     );
-  const headlines = [...(world.history.publications ?? [])]
+  const publications = [...(world.history.publications ?? [])]
     .filter(
       (publication) =>
         publication.publishedAt <= world.currentDate &&
@@ -150,11 +153,14 @@ export function projectOpeningYear(
         right.sequence - left.sequence,
     )
     .slice(0, 2)
-    .map((publication) => publication.headline);
+    .map((publication) => ({
+      outletName: publication.outletName,
+      headline: publication.headline,
+    }));
   return {
     year: world.currentDate.slice(0, 4),
     lines,
-    headlines,
+    publications,
     facts: homeGovernmentFacts(home),
   };
 }

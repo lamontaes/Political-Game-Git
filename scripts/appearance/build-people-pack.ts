@@ -65,6 +65,7 @@ import {
   isSkinPixel,
   measureSkinLuminance,
 } from "../../src/presentation/appearance-engine/skin";
+import { cleanPaintedLayer } from "../../src/presentation/appearance-engine/white-matte";
 
 const [bodiesDir, appearanceDir, outArg] = process.argv.slice(2);
 if (!bodiesDir || !appearanceDir)
@@ -85,7 +86,11 @@ const read = (path: string): Raster => {
   const png = PNG.sync.read(readFileSync(path));
   const data = new Uint8ClampedArray(png.width * (png.height + HEADROOM) * 4);
   data.set(png.data, png.width * HEADROOM * 4);
-  return { width: png.width, height: png.height + HEADROOM, data };
+  return cleanPaintedLayer({
+    width: png.width,
+    height: png.height + HEADROOM,
+    data,
+  });
 };
 const write = (raster: Raster, file: string): string => {
   const png = new PNG({ width: raster.width, height: raster.height });

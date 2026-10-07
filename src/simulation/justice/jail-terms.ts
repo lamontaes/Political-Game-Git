@@ -55,7 +55,7 @@ export interface Sentence {
   readonly sentencedEventId: EntityId;
   readonly kind: SentenceKind;
   readonly from: IsoDate;
-  /** When it ends: as handed down, or the day clemency ended it early. */
+  /** When it ends: as handed down, or when clemency or reversal ended it early. */
   readonly until: IsoDate | null;
   readonly months: number | null;
   readonly life: boolean;
@@ -100,6 +100,17 @@ export function sentencesOf(
   world: World,
   personId: EntityId,
 ): readonly Sentence[] {
+  const reversals = new Map<string, IsoDate>();
+  for (const event of eventsOfType(world, "justice.appeal-decided")) {
+    if (!event.tags.includes("outcome:reverse")) continue;
+    for (const tag of event.tags) {
+      if (!tag.startsWith("judgment:")) continue;
+      const sentenceId = tag.slice("judgment:".length);
+      const prior = reversals.get(sentenceId);
+      if (!prior || event.occurredAt < prior)
+        reversals.set(sentenceId, event.occurredAt);
+    }
+  }
   const grants = new Map<string, HistoricalEvent>();
   for (const event of eventsOfType(world, CLEMENCY_GRANTED_EVENT))
     if (event.participants.some((entry) => entry.personId === personId))
@@ -132,12 +143,20 @@ export function sentencesOf(
       (handedDown === null || grant.occurredAt < handedDown)
         ? grant.occurredAt
         : null;
+    const reversedOn = reversals.get(event.id);
+    let until = endedEarly ?? handedDown;
+    if (
+      reversedOn &&
+      reversedOn >= event.occurredAt &&
+      (until === null || reversedOn < until)
+    )
+      until = reversedOn;
     return [
       {
         sentencedEventId: event.id,
         kind,
         from: event.occurredAt,
-        until: endedEarly ?? handedDown,
+        until,
         months,
         life,
         clemency:
