@@ -33,6 +33,7 @@ export function InlineDayControl({
   testid,
   onOutcome,
   unavailableNote,
+  showContext = true,
 }: {
   readonly world: World;
   readonly personId: EntityId;
@@ -44,10 +45,14 @@ export function InlineDayControl({
   readonly onOutcome: (outcome: string) => void;
   /** What a player reads where the shell's clock is not mounted. */
   readonly unavailableNote: string;
+  /** Hide authored timing/explanation copy on record-only screens. */
+  readonly showContext?: boolean;
 }) {
   const runner = useSharedTimeCommand();
   if (!runner)
-    return <p data-testid={`${testid}-unavailable`}>{unavailableNote}</p>;
+    return showContext ? (
+      <p data-testid={`${testid}-unavailable`}>{unavailableNote}</p>
+    ) : null;
   const preview = previewTimeCommand(world, personId, { kind: "days", days });
   const targetId = `${testid}-target`;
   return (
@@ -57,7 +62,7 @@ export function InlineDayControl({
         data-testid={testid}
         aria-disabled={runner.pending || undefined}
         aria-busy={runner.pending}
-        aria-describedby={targetId}
+        aria-describedby={showContext ? targetId : undefined}
         onClick={() =>
           runner.submit({ kind: "days", days }, (report) =>
             onOutcome(describeTimeCommandReport(report)),
@@ -66,11 +71,13 @@ export function InlineDayControl({
       >
         {label}
       </button>
-      <p id={targetId}>
-        {runner.pending
-          ? "Time is passing…"
-          : `${preview ? `${skipToLabel(preview.target)}. ` : ""}${PROTECTED_STOP_NOTE}`}
-      </p>
+      {showContext ? (
+        <p id={targetId}>
+          {runner.pending
+            ? "Time is passing…"
+            : `${preview ? `${skipToLabel(preview.target)}. ` : ""}${PROTECTED_STOP_NOTE}`}
+        </p>
+      ) : null}
     </>
   );
 }

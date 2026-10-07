@@ -69,8 +69,9 @@ test("current-source transit component enacts two choices and preserves unpaid c
       name: "Transit service",
       exact: true,
     });
-    await expect(workspace).toContainText(
-      "No transit service appropriation has been filed",
+    await expect(workspace.getByTestId("transit-none")).toHaveAttribute(
+      "data-problem",
+      "none-filed",
     );
     await expect(
       workspace.getByLabel("Total amount provided (USD)"),
@@ -199,12 +200,11 @@ test("current-source transit component enacts two choices and preserves unpaid c
     });
     const cash = page.getByTestId("transit-cash-snapshot");
     await expect(cash).toHaveAttribute("data-state", "account-missing");
-    await expect(cash).toContainText(
+    await expect(cash.getByTestId("transit-cash-periods")).toHaveText(
       index
-        ? "First period: $300.12. Second period: $300.13."
-        : "First period: $200.05. Second period: $200.05.",
+        ? "First period$300.12Second period$300.13"
+        : "First period$200.05Second period$200.05",
     );
-    await expect(cash).toContainText("reserves no money");
     await expect(request).toBeVisible();
     if (index) {
       await request.focus();
@@ -232,9 +232,7 @@ test("current-source transit component enacts two choices and preserves unpaid c
       await publish.focus();
       await page.keyboard.press("Enter");
     }
-    await expect(
-      transit.getByText("Published in Civic Ledger.", { exact: true }),
-    ).toHaveCount(1);
+    await expect(transit.locator("[data-published]")).toHaveCount(1);
     await page.screenshot({
       path: shotPath(`a39-t-${window}-unfunded-cancelled.png`),
       fullPage: true,
@@ -245,9 +243,7 @@ test("current-source transit component enacts two choices and preserves unpaid c
     await openTransit();
     await expect(transit).toContainText("blocked");
     await expect(transit).toContainText("cancelled");
-    await expect(
-      transit.getByText("Published in Civic Ledger.", { exact: true }),
-    ).toHaveCount(1);
+    await expect(transit.locator("[data-published]")).toHaveCount(1);
     const canonical = await page.evaluate(async (saveId) => {
       const repositoryPath = "/src/presentation/browser-world-repository.ts";
       const servicePath = "/src/presentation/transit-work.ts";
