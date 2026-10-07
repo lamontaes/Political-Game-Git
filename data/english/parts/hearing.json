@@ -1,0 +1,1077 @@
+{
+  "schema": "english-parts/1",
+  "register": "hearing",
+  "description": "Sourced hearing-room parts: how members and witnesses thank, take a question, agree, confirm, apologize, run the clock and yield, mined from congressional hearing transcripts (public domain). hearingsUsing counts how many of the 40 hearings read contain the turn as one of a speaker's first three sentences.",
+  "slots": {},
+  "maxWords": 12,
+  "mining": {
+    "tool": "scripts/english-mining/mine-hearings.py",
+    "read": "40 House and Senate hearings held from March 2020 to December 2025, drawn at random from the govinfo CHRG 2025 sitemap"
+  },
+  "parts": [
+    {
+      "key": "hearing.thanks.thank-you",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "hearingsUsing": 32,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-very-much",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you very much.",
+      "hearingsUsing": 25,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-so-much",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you so much.",
+      "hearingsUsing": 17,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-sir",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you, sir.",
+      "hearingsUsing": 12,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.thanks.well-thank-you",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Well, thank you.",
+      "hearingsUsing": 11,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-mr-chairman",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you, Mr. Chairman.",
+      "hearingsUsing": 28,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-madam-chair",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you, Madam Chair.",
+      "hearingsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60447",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60447"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-chairman",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you, Chairman.",
+      "hearingsUsing": 13,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-senator",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you, Senator.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-12",
+        "granule": "CHRG-119shrg59971",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg59971"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-chair",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you, Chair.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60318",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60318"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-all",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you all.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-07-07",
+        "granule": "CHRG-119hhrg61782",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61782"
+      }
+    },
+    {
+      "key": "hearing.thanks.thanks-mr-chairman",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thanks, Mr. Chairman.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-23",
+        "granule": "CHRG-119hhrg61463",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61463"
+      }
+    },
+    {
+      "key": "hearing.thanks.oh-thank-you",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Oh, thank you.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2024-10-07",
+        "granule": "CHRG-119hhrg60687",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60687"
+      }
+    },
+    {
+      "key": "hearing.thanks.i-thank-you",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "I thank you.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-29",
+        "granule": "CHRG-119hhrg60289",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60289"
+      }
+    },
+    {
+      "key": "hearing.thanks.i-thank-the-gentleman",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "I thank the gentleman.",
+      "hearingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-29",
+        "granule": "CHRG-119hhrg60289",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60289"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-for-that",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you for that.",
+      "hearingsUsing": 17,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.thanks.thank-you-for-that-answer",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you for that answer.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.answer.thank-you-for-the-question",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Thank you for the question.",
+      "hearingsUsing": 20,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg58997",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58997"
+      }
+    },
+    {
+      "key": "hearing.answer.thank-you-for-that-question",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Thank you for that question.",
+      "hearingsUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59389",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59389"
+      }
+    },
+    {
+      "key": "hearing.answer.thank-you-for-your-question",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Thank you for your question.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.answer.thank-you-for-the-question-sir",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Thank you for the question, sir.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-06-18",
+        "granule": "CHRG-119hhrg61166",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61166"
+      }
+    },
+    {
+      "key": "hearing.answer.thank-you-for-the-question-senator",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Thank you for the question, Senator.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2020-03-30",
+        "granule": "CHRG-119shrg61325",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61325"
+      }
+    },
+    {
+      "key": "hearing.answer.senator-thank-you-for-that-question",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Senator, thank you for that question.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2020-03-30",
+        "granule": "CHRG-119shrg61325",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61325"
+      }
+    },
+    {
+      "key": "hearing.answer.thank-you-for-that-question-senator",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Thank you for that question, Senator.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2020-03-30",
+        "granule": "CHRG-119shrg61325",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61325"
+      }
+    },
+    {
+      "key": "hearing.answer.that-is-a-great-question",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "That is a great question.",
+      "hearingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.answer.yes-thank-you-for-that",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Yes, thank you for that.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.answer.yes-thank-you",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Yes, thank you.",
+      "hearingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.agree.i-agree",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "I agree.",
+      "hearingsUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.agree.i-completely-agree",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "I completely agree.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg58997",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58997"
+      }
+    },
+    {
+      "key": "hearing.agree.i-couldnt-agree-more",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "I couldn't agree more.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2024-03-22",
+        "granule": "CHRG-119hhrg61678",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61678"
+      }
+    },
+    {
+      "key": "hearing.agree.i-appreciate-that",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "I appreciate that.",
+      "hearingsUsing": 12,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59389",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59389"
+      }
+    },
+    {
+      "key": "hearing.agree.i-appreciate-it",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "I appreciate it.",
+      "hearingsUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.agree.appreciate-that",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "Appreciate that.",
+      "hearingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-06-25",
+        "granule": "CHRG-119hhrg60838",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60838"
+      }
+    },
+    {
+      "key": "hearing.agree.i-appreciate-that-very-much",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "I appreciate that very much.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2024-03-22",
+        "granule": "CHRG-119hhrg61678",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61678"
+      }
+    },
+    {
+      "key": "hearing.agree.very-good",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "Very good.",
+      "hearingsUsing": 14,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.agree.that-is-great",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "That is great.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2024-03-22",
+        "granule": "CHRG-119hhrg61678",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61678"
+      }
+    },
+    {
+      "key": "hearing.agree.that-would-be-great",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "That would be great.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2024-10-07",
+        "granule": "CHRG-119hhrg60687",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60687"
+      }
+    },
+    {
+      "key": "hearing.agree.i-understand",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "I understand.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-06-25",
+        "granule": "CHRG-119hhrg60838",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60838"
+      }
+    },
+    {
+      "key": "hearing.agree.i-got-you",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "I got you.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-07-07",
+        "granule": "CHRG-119hhrg61782",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61782"
+      }
+    },
+    {
+      "key": "hearing.agree.i-know",
+      "move": "agree",
+      "kind": "spoken",
+      "text": "I know.",
+      "hearingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-07-07",
+        "granule": "CHRG-119hhrg61782",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61782"
+      }
+    },
+    {
+      "key": "hearing.confirm.yes-sir",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "Yes, sir.",
+      "hearingsUsing": 18,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg58997",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58997"
+      }
+    },
+    {
+      "key": "hearing.confirm.yes-maam",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "Yes, ma'am.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.confirm.yes-senator",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "Yes, Senator.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2020-03-30",
+        "granule": "CHRG-119shrg61325",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61325"
+      }
+    },
+    {
+      "key": "hearing.confirm.no-sir",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "No, sir.",
+      "hearingsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60447",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60447"
+      }
+    },
+    {
+      "key": "hearing.confirm.no-senator",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "No, Senator.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2020-03-30",
+        "granule": "CHRG-119shrg61325",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61325"
+      }
+    },
+    {
+      "key": "hearing.confirm.that-is-correct",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "That is correct.",
+      "hearingsUsing": 10,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59389",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59389"
+      }
+    },
+    {
+      "key": "hearing.confirm.that-is-correct-sir",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "That is correct, sir.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.confirm.yes-that-is-correct",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "Yes, that is correct.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-12-02",
+        "granule": "CHRG-119hhrg63435",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg63435"
+      }
+    },
+    {
+      "key": "hearing.confirm.that-is-right",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "That is right.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-08-13",
+        "granule": "CHRG-119hhrg61503",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61503"
+      }
+    },
+    {
+      "key": "hearing.confirm.yes-absolutely",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "Yes, absolutely.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-23",
+        "granule": "CHRG-119hhrg61463",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61463"
+      }
+    },
+    {
+      "key": "hearing.confirm.absolutely-yes",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "Absolutely, yes.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-29",
+        "granule": "CHRG-119hhrg60289",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60289"
+      }
+    },
+    {
+      "key": "hearing.confirm.absolutely-senator",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "Absolutely, Senator.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2020-03-30",
+        "granule": "CHRG-119shrg61325",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61325"
+      }
+    },
+    {
+      "key": "hearing.confirm.of-course",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "Of course.",
+      "hearingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.confirm.i-do",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "I do.",
+      "hearingsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg61487",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61487"
+      }
+    },
+    {
+      "key": "hearing.confirm.yes-i-do",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "Yes, I do.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-29",
+        "granule": "CHRG-119hhrg60289",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60289"
+      }
+    },
+    {
+      "key": "hearing.confirm.it-does",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "It does.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-11-19",
+        "granule": "CHRG-119hhrg62607",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg62607"
+      }
+    },
+    {
+      "key": "hearing.confirm.it-is",
+      "move": "confirm",
+      "kind": "spoken",
+      "text": "It is.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg62496",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg62496"
+      }
+    },
+    {
+      "key": "hearing.repair.i-am-sorry",
+      "move": "repair",
+      "kind": "spoken",
+      "text": "I am sorry.",
+      "hearingsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.repair.excuse-me",
+      "move": "repair",
+      "kind": "spoken",
+      "text": "Excuse me.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.repair.i-apologize",
+      "move": "repair",
+      "kind": "spoken",
+      "text": "I apologize.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60447",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60447"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.without-objection-so-ordered",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "Without objection, so ordered.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg58997",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58997"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.without-objection",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "Without objection.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.the-gentleman-yields-back",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "The gentleman yields back.",
+      "hearingsUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.the-gentlelady-yields-back",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "The gentlelady yields back.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59389",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59389"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.the-gentlewoman-yields-back",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "The gentlewoman yields back.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.the-gentleman-yields",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "The gentleman yields.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60447",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60447"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.the-gentlemans-time-has-expired",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "The gentleman's time has expired.",
+      "hearingsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg59987",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59987"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.good-morning",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "Good morning.",
+      "hearingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg58997",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58997"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.good-afternoon",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "Good afternoon.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-11-19",
+        "granule": "CHRG-119hhrg62607",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg62607"
+      }
+    },
+    {
+      "key": "hearing.chair-procedure.all-right",
+      "move": "chair-procedure",
+      "kind": "spoken",
+      "text": "All right.",
+      "hearingsUsing": 21,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.time.i-yield-back",
+      "move": "time",
+      "kind": "spoken",
+      "text": "I yield back.",
+      "hearingsUsing": 17,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.time.i-yield-back-mr-chairman",
+      "move": "time",
+      "kind": "spoken",
+      "text": "I yield back, Mr. Chairman.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.time.mr-chairman-i-yield-back",
+      "move": "time",
+      "kind": "spoken",
+      "text": "Mr. Chairman, I yield back.",
+      "hearingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-06-18",
+        "granule": "CHRG-119hhrg61166",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61166"
+      }
+    },
+    {
+      "key": "hearing.time.i-yield",
+      "move": "time",
+      "kind": "spoken",
+      "text": "I yield.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg58997",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58997"
+      }
+    },
+    {
+      "key": "hearing.time.my-time-has-expired",
+      "move": "time",
+      "kind": "spoken",
+      "text": "My time has expired.",
+      "hearingsUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      }
+    },
+    {
+      "key": "hearing.time.my-time-is-up",
+      "move": "time",
+      "kind": "spoken",
+      "text": "My time is up.",
+      "hearingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60447",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60447"
+      }
+    }
+  ]
+}

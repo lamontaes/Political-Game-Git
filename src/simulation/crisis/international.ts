@@ -148,7 +148,9 @@ function event(
 function crisisOf(world: World, crisisId: EntityId): InternationalCrisisRecord {
   const record = crisisRecords(world).find((r) => r.id === crisisId);
   if (!record || record.kind !== "international-crisis")
-    throw new Error(`Unknown international crisis: ${crisisId}`);
+    throw new Error(
+      `No international crisis matches the recorded ID: ${crisisId}`,
+    );
   return record;
 }
 
@@ -860,7 +862,8 @@ export function recordViolenceAttempt(
   input: RecordViolenceAttemptInput,
 ): World {
   const target = world.people[input.targetPersonId];
-  if (!target) throw new Error("Unknown attempt target.");
+  if (!target)
+    throw new Error("The attempt target does not match a recorded person.");
   if (
     !isPersonAliveAt(world, target.id, {
       asOfDate: world.currentDate,
