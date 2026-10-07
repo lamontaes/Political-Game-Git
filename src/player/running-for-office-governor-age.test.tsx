@@ -25,6 +25,10 @@ import type { EntityId, World } from "../simulation";
 import {
   stateExecutiveCandidacyPacks,
 } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  standInQualification,
+  standInQualificationEligibilitySentence,
+} from "../simulation/office-qualification-profile";
 
 /**
  * Regional playtest lives in Lake Charles, Louisiana and Indianapolis,
