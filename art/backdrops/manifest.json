@@ -1533,10 +1533,10 @@
       "file": "oval-office__midday.jpg",
       "width": 1672,
       "height": 940,
-      "sha256": "9e417afc97487f3fccb7530efb5cd8676164f4565ce925eef8d45f477599373c",
-      "sourceFile": "art/generated/candidates/oct6-firefly/oval-office__midday-v2.png",
-      "sourceSha256": "e10a21b5802a3e28e4b9a92261bfb6101d5da3e1b729dac7a7a5b812faff1e8c",
-      "approval": "submitted for owner review in this PR",
+      "sha256": "64574b2551bd6c89c9c479295bf669551c9ca98cbcc10578893b6fab40f0e032",
+      "sourceFile": "firefly:urn:aaid:sc:US:2e6b3578-3344-4324-8b50-d38f38493c04 (oval-office-resolute__midday, Oct 7 2026, edit of the previous oval-office__midday)",
+      "sourceSha256": "d09edef0a3081a597bc0fed1cefbaa2fa7fc17e9250b9749b64002084de57b78",
+      "approval": "owner request Oct 7 2026 5:05 p.m. (Resolute Desk)",
       "tags": ["kind:oval-office", "uses:shared-location"]
     },
     {
@@ -1545,10 +1545,10 @@
       "file": "oval-office__morning.jpg",
       "width": 1672,
       "height": 940,
-      "sha256": "f05a76dd60e15fc17292af9264581c9886ddef9c71594ddeb526befe7af65959",
-      "sourceFile": "art/generated/candidates/oct6-firefly/oval-office__morning-v2.png",
-      "sourceSha256": "21e228c3d431d0172b11c01802d29c1440d48f3b5838305e8d6079cab2e50174",
-      "approval": "submitted for owner review in this PR",
+      "sha256": "ca8b7a66dde1fa9d280f04e97d817fde288e72af8244ffaad172f85bd38f68d1",
+      "sourceFile": "firefly:urn:aaid:sc:US:08715f94-b8d2-40a9-8cbc-575a3f141ced (oval-office-resolute__morning, Oct 7 2026, edit of the previous oval-office__midday)",
+      "sourceSha256": "492504b8a4c022e542bcf6ddd27298e4cf00a1c9a6b7c5f4be17079acaa8c212",
+      "approval": "owner request Oct 7 2026 5:05 p.m. (Resolute Desk)",
       "tags": ["kind:oval-office", "uses:shared-location"]
     },
     {
@@ -1557,10 +1557,10 @@
       "file": "oval-office__night.jpg",
       "width": 1672,
       "height": 940,
-      "sha256": "5a9185bda6d7059a66df942f43dfcf92c6c1394c958dfb127977f061000b1a17",
-      "sourceFile": "art/generated/candidates/oct6-firefly/oval-office__night-v2.png",
-      "sourceSha256": "b927d7ca021f88e4bc58c1f91064db3b27afe1cd840eddc7113f42f2f866b2db",
-      "approval": "submitted for owner review in this PR",
+      "sha256": "e03a386e155c2584be24dcd06b083b346f638e20ea5a17e00f768be6d8e4adfd",
+      "sourceFile": "firefly:urn:aaid:sc:US:d608f88f-437a-43ee-9817-fb4093746569 (oval-office-resolute__night, Oct 7 2026, edit of the previous oval-office__midday)",
+      "sourceSha256": "9891db58174534dd9eb4b7e659dbdcdce608d5ec878ff1f156d27bc71a59a4a6",
+      "approval": "owner request Oct 7 2026 5:05 p.m. (Resolute Desk)",
       "tags": ["kind:oval-office", "uses:shared-location"]
     },
     {
@@ -1569,10 +1569,10 @@
       "file": "oval-office__rain.jpg",
       "width": 1672,
       "height": 940,
-      "sha256": "c2d2c848de4a648473cf7b07dd85fbcfe16bf731c101bf28d856f79b0d8262e9",
-      "sourceFile": "art/generated/candidates/oct6-firefly/oval-office__rain-v2.png",
-      "sourceSha256": "df64d1e7c7b2f090e6a7695ea11113c3c701309d000052a87fd0fb7911b4d7a4",
-      "approval": "submitted for owner review in this PR",
+      "sha256": "682d21003b0abd3dbf10f645a50cb851f60a6d4cbe609e8063f96d3687746891",
+      "sourceFile": "firefly:urn:aaid:sc:US:4a62e96f-d9bf-4d91-9fa0-994692356e04 (oval-office-resolute__rain, Oct 7 2026, edit of the previous oval-office__midday)",
+      "sourceSha256": "9d29aaeffedb4fea2a40dfdf8ef3ad25623c3d4a25326baefd811397066dc3b0",
+      "approval": "owner request Oct 7 2026 5:05 p.m. (Resolute Desk)",
       "tags": ["kind:oval-office", "uses:shared-location"]
     },
     {
