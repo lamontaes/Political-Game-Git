@@ -52,7 +52,6 @@ export function World39News({
               data-record-id={item.recordId}
             >
               <h5>{item.headline}</h5>
-              <p>{item.sentence}</p>
             </article>
           ))}
         </section>
@@ -74,9 +73,6 @@ export function World39News({
                   {world39Date(law.enactedOn)}
                 </time>
               </p>
-              {law.sentences.map((sentence) => (
-                <p key={sentence}>{sentence}</p>
-              ))}
             </article>
           ))}
         </section>
@@ -94,7 +90,6 @@ export function World39News({
               data-direction={effect.direction}
             >
               <h5>{effect.headline}</h5>
-              <p>{effect.sentence}</p>
             </article>
           ))}
         </section>

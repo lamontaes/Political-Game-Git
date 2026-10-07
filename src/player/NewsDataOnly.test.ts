@@ -30,3 +30,12 @@ describe("the public-information article shows record values only", () => {
     expect(text).not.toContain("fullDefinition");
   });
 });
+
+describe("the Around you reader shows record facts without authored summaries", () => {
+  it("does not render standing, law-effect or law-reach sentences", () => {
+    const text = readFileSync("src/player/World39News.tsx", "utf8");
+    expect(text).not.toContain("{item.sentence}");
+    expect(text).not.toContain("law.sentences.map");
+    expect(text).not.toContain("{effect.sentence}");
+  });
+});
