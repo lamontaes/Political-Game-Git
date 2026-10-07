@@ -21,7 +21,8 @@ Current main marks LW-09 and LW-10 done with unsupported effects recorded. This 
 - `data/research/laws/catalog-terms-batch-04.json` leaves student-loan cap and eligibility bounds unresolved.
 - Current main marks LW-10 done in `docs/codex/assignments/POOL.md`. Merged [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) supplies its mandatory-minimum row. The stock-trading link remains unsized because the source measures descriptive returns and the game has no member holdings for the effect to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
 - LW-11 remains claimed by S20 in the current pool, which marks LW-12 open with a stale S43 claim (`docs/codex/assignments/POOL.md`). Merged [PR #2495](https://github.com/lamontaes/Political-Game-Git/pull/2495) lands the legislative-term-limit effect; its map lists redistricting, automatic registration, and local-authority effects as unsupported (`data/law-consequences/election-state-landings.json`).
-- Current branch `session-56-lw09-readiness` is based on `origin/main` `b2c83b7`. Next step: verify current LW-12 status, then inspect its three remaining consequence paths and person records before making changes.
+- The readiness correction is open for review in [PR #3485](https://github.com/lamontaes/Political-Game-Git/pull/3485); it is mergeable and remains unmerged.
+- Current branch `session-56-lw09-readiness` is based on current `origin/main` `588637e`. Next step: verify current LW-12 status, then inspect its three remaining consequence paths and person records before making changes.
 
 ---
 
