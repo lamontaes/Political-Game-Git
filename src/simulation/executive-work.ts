@@ -1,5 +1,13 @@
 import { eventById } from "./event-index";
 import { activeLifePathWorkers } from "./life-paths2-workers";
+import {
+  executiveDesk,
+  governingMatters,
+  governingOfficeForPerson,
+  openMunicipalBillMatter,
+} from "./governing/state-governing";
+import { legislativeBlueprintForMeasure } from "./governing/legislative-clock";
+import { measurePosition } from "./legislation";
 /** Explicit executive consumer actions. Every successful action uses the 92H
  * compiler and canonical record writers; no serialized workflow engine. */
 import {
@@ -319,6 +327,23 @@ export function actOnExecutiveWork(
   if (!bound.ok) return refused(world, bound.reason);
   if (!bound.step) return { ok: true, world };
   const step = bound.step;
+  if (step.kind === "executive-disposition") {
+    const office = governingOfficeForPerson(world, bound.office.personId);
+    if (
+      office &&
+      governingMatters(world, office.officeKey).some(
+        (matter) =>
+          matter.holderPersonId === office.holderPersonId &&
+          matter.measureId === step.input.measureId &&
+          (office.termStartedAt === null ||
+            matter.openedAt >= office.termStartedAt),
+      )
+    )
+      return refused(
+        world,
+        "This bill's disposition belongs to its governing desk matter.",
+      );
+  }
   try {
     if (
       step.kind === "executive-disposition" &&
@@ -761,16 +786,39 @@ export function spendExecutiveWorkTime(
 export function synchronizeExecutiveInbox(world: World): World {
   const nextWorld = synchronizeElectedExecutiveOffices(world);
   const office = resolveExecutiveOffice(nextWorld);
-  if (!office) return nextWorld;
+  const governing =
+    nextWorld.control.kind === "person"
+      ? governingOfficeForPerson(nextWorld, nextWorld.control.personId)
+      : null;
+  if (!office && !governing) return nextWorld;
   let next = nextWorld;
   for (const action of world.history.legislativeActions ?? []) {
     if (!["presented-to-executive", "signed", "vetoed"].includes(action.kind))
       continue;
     const measure = world.history.legislativeMeasures?.find(
       (m) =>
-        m.id === action.measureId && m.jurisdictionId === office.jurisdictionId,
+        m.id === action.measureId &&
+        m.jurisdictionId ===
+          (governing?.jurisdictionId ?? office!.jurisdictionId),
     );
     if (!measure) continue;
+    if (governing) {
+      if (measurePosition(next, measure.id).phase === "awaiting-executive")
+        next =
+          governing.programOffice?.kind === "municipal"
+            ? openMunicipalBillMatter(
+                next,
+                measure,
+                governing.programOffice.governmentKey,
+              )
+            : executiveDesk(
+                next,
+                measure,
+                legislativeBlueprintForMeasure(next, measure),
+              );
+      continue;
+    }
+    if (!office) continue;
     const authority = office.pack.presentment.legislativeRulePackId;
     if (authority.kind !== "known" || authority.value !== measure.rulePackId)
       continue;

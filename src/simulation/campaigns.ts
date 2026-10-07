@@ -1,4 +1,7 @@
-import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import {
+  carryForwardLeftoverFunds,
+  recordCampaignFundraiserReceipts,
+} from "./campaign-money-sources";
 import { addCampaignHelper } from "./campaign-helpers";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
@@ -44,8 +47,16 @@ import { enactedDutyHandlers } from "./enacted-duties";
 import { officeContinuityHandlers } from "./governing/office-continuity";
 import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
 import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
-import { federalReformHandlers } from "./living-world/federal-reform";
-import { articleVHandlers } from "./governing/article-v";
+import {
+  FEDERAL_REFORM_REVIEW,
+  federalReformHandlers,
+  federalReformReviewHandler,
+} from "./living-world/federal-reform";
+import {
+  ARTICLE_V_REVIEW,
+  articleVHandlers,
+  articleVReviewHandler,
+} from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
@@ -311,6 +322,8 @@ export interface FileCampaignInput {
   readonly advertisingVendorName: string;
   readonly staffPersonIds: readonly EntityId[];
   readonly treasuryCurrency: CurrencyCode;
+  /** Explicitly opt into a completed campaign's permitted keep-for-next-race balance. */
+  readonly carryForwardFromCampaignId?: EntityId | null;
 }
 
 export interface FiledCampaignResult {
@@ -929,6 +942,13 @@ export function fileCampaign(
   // A town seat the town's own election already has on its ballot is decided
   // in this campaign's election instead.
   world = withdrawTownRaceForCampaign(world, campaignRecord.contestId);
+  if (input.carryForwardFromCampaignId) {
+    world = carryForwardLeftoverFunds(
+      world,
+      input.carryForwardFromCampaignId,
+      campaignRecord.id,
+    );
+  }
   return { world, campaign: campaignRecord };
 }
 
@@ -2354,6 +2374,16 @@ function endCampaignStaff(
   return next;
 }
 
+/** Both federal amendment routes enter through one clock-handler function. */
+function federalAmendmentReviewHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return due.transitionKey === ARTICLE_V_REVIEW
+    ? articleVReviewHandler(world, due)
+    : federalReformReviewHandler(world, due);
+}
+
 export function composeWorldTimeHandlers(
   additional?: FutureTransitionHandlerRegistry,
 ): FutureTransitionHandlerRegistry {
@@ -2387,6 +2417,8 @@ export function composeWorldTimeHandlers(
         // A legislature and voters changing the governor's term limit.
         ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
+        [FEDERAL_REFORM_REVIEW, federalAmendmentReviewHandler],
+        [ARTICLE_V_REVIEW, federalAmendmentReviewHandler],
         ...federalReformHandlers(),
         ...articleVHandlers(),
         ...presidentialTurnoverHandlers(),
