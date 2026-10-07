@@ -3,6 +3,7 @@ import { projectPersonDossier } from "../../src/presentation/person-dossier";
 import { projectPartyAndCommunityWork } from "../../src/presentation/campaign-life-surface";
 import { declineCalendarActivity } from "../../src/presentation/calendar-time-control";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
+import { askOnADate, dateAction } from "../support/contact-fixtures";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -13,8 +14,6 @@ import {
   passOrdinaryDays,
 } from "../../src/presentation/ordinary-life";
 import {
-  askedNote,
-  askOnADate,
   goMeetSomebodyNew,
   meetingNewOptions,
   projectContacts,
@@ -27,8 +26,7 @@ import {
   CONTACT_LOCATION_KEY,
 } from "../../src/simulation/relationship-contact";
 import { introducedPeople } from "../../src/simulation/social-introductions";
-import { addDays, ageOnDate } from "../../src/simulation/dates";
-import { proseWeekdayDate } from "../../src/presentation/prose-dates";
+import { ageOnDate } from "../../src/simulation/dates";
 import type { EntityId, World } from "../../src/simulation";
 
 /**
@@ -78,11 +76,6 @@ describe("a child is not offered adult meetings or party work", () => {
         expect(
           contact.basis.some((entry) => entry.startsWith("public organizer")),
         ).toBe(false);
-        const other = world.people[contact.personId]!;
-        const adult = ageOnDate(other.birthDate, world.currentDate) >= 18;
-        const ask = contact.actions.find((a) => a.kind === "ask-to-meet");
-        if (adult && !contact.basis.includes("family") && !contact.livesWithYou)
-          expect(ask?.available).toBe(false);
       }
     }, 300_000);
   }
@@ -114,22 +107,9 @@ describe("asking somebody out, and calling it off", () => {
     // Ask on successive days until somebody says yes to an evening.
     let meeting = undefined as ReturnType<typeof meetingWith>;
     for (let day = 0; day < 20 && !meeting; day += 1) {
-      const ask = projectContacts(world, playerId)
-        .contacts.find((entry) => entry.personId === otherId)
-        ?.actions.find((entry) => entry.kind === "ask-on-a-date");
+      const ask = dateAction(world, playerId, otherId);
       if (ask?.available) {
         const on = projectContacts(world, playerId).earliestMeetingOn;
-        const note = askedNote(world, {
-          otherPersonId: otherId,
-          on,
-          date: true,
-        });
-        const given = world.people[otherId]!.givenName;
-        expect(note).toMatch(
-          new RegExp(
-            `^You asked ${given} to go out on .+\\. ${given} will answer by .+\\.$`,
-          ),
-        );
         world = askOnADate(world, {
           personId: playerId,
           otherPersonId: otherId,
@@ -196,9 +176,7 @@ describe("an answer of another day reaches the person who asked", () => {
     const { world: opened, playerId } = openLife("1759000", "p:3", 18);
     let world = opened;
     const asked = projectContacts(world, playerId).contacts.filter(
-      (contact) =>
-        contact.actions.find((entry) => entry.kind === "ask-on-a-date")
-          ?.available,
+      (contact) => dateAction(world, playerId, contact.personId)?.available,
     );
     for (const contact of asked) {
       world = askOnADate(world, {
@@ -222,26 +200,5 @@ describe("an answer of another day reaches the person who asked", () => {
           ?.available,
       ).toBe(true);
     }
-  }, 300_000);
-});
-
-describe("the note after asking names the evening, then the answer day", () => {
-  // Buffalo: "You asked Justin out on Thursday, January 31, 2041. Justin will
-  // answer by Wednesday, January 30, 2041." read as asking on Thursday.
-  it("puts the asked-for evening after the answer day, and says which is which", () => {
-    const { world, playerId } = openLife("3260600", "note:reno", 26);
-    const other = projectContacts(world, playerId).contacts.find(
-      (contact) => !contact.livesWithYou,
-    )!;
-    const on = addDays(world.currentDate, 10);
-    const note = askedNote(world, {
-      otherPersonId: other.personId,
-      on,
-      date: true,
-    });
-    const given = world.people[other.personId]!.givenName;
-    expect(note).toBe(
-      `You asked ${given} to go out on ${proseWeekdayDate(on)}. ${given} will answer by ${proseWeekdayDate(addDays(world.currentDate, 1))}.`,
-    );
   }, 300_000);
 });

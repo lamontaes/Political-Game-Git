@@ -10,7 +10,6 @@ import {
   passOrdinaryDays,
 } from "../../src/presentation/ordinary-life";
 import {
-  askOnADate,
   askToBeTogether,
   breakUp,
   goMeetSomebodyNew,
@@ -21,6 +20,7 @@ import {
   performVenueActivity,
   venueActivities,
 } from "../../src/presentation/venue-activity";
+import { askOnADate, dateAction } from "../support/contact-fixtures";
 import {
   COUPLE_KIND,
   coupleAskRefusal,
@@ -58,6 +58,7 @@ function action(
   otherId: EntityId,
   kind: string,
 ) {
+  if (kind === "ask-on-a-date") return dateAction(world, playerId, otherId);
   return projectContacts(world, playerId)
     .contacts.find((entry) => entry.personId === otherId)
     ?.actions.find((entry) => entry.kind === kind);
@@ -233,9 +234,8 @@ describe("two people become a couple", () => {
       const playerId = game.playerPersonId;
       const world = openOrdinaryLife(game.world, playerId);
       for (const entry of projectContacts(world, playerId).contacts) {
-        const dateOffered = entry.actions.some(
-          (item) => item.kind === "ask-on-a-date",
-        );
+        const dateOffered =
+          dateAction(world, playerId, entry.personId) !== undefined;
         if (startAge < 18) expect(dateOffered).toBe(false);
         if (entry.relationshipLabel && KIN.test(entry.relationshipLabel)) {
           kinSeen += 1;

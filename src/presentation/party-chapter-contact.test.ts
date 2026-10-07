@@ -13,7 +13,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectPartyChapters } from "./party-chapter-surface";
 import { joinPartyChapter } from "../simulation/living-world/party-chapters";
-import { askToMeet } from "./people-contacts";
+import { askToMeet } from "../../tests/support/contact-fixtures";
 
 describe("public chapter contact before membership", () => {
   const game = generateOpeningLife(
@@ -33,10 +33,7 @@ describe("public chapter contact before membership", () => {
       expect(chapter.contact?.channels.map((row) => row.kind)).toEqual([
         "through-group",
       ]);
-      expect(
-        chapter.contact?.actions.find((row) => row.kind === "ask-to-meet")
-          ?.available,
-      ).toBe(true);
+      expect(chapter.contact).toBeTruthy();
       expect(chapter.member).toBe(false);
       expect(chapter.meetings).toEqual([]);
     }
@@ -56,9 +53,8 @@ describe("public chapter contact before membership", () => {
         ?.direction,
     ).toBe("you-asked");
     expect(
-      projectPartyChapters(requested, player)[0]!.contact?.actions[0]!
-        .available,
-    ).toBe(false);
+      projectPartyChapters(requested, player)[0]!.contact?.actions,
+    ).toEqual([]);
     const proposal = contactProposals(requested, player).find(
       (row) => row.toPersonId === chapter.organizer!.personId,
     )!;

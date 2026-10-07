@@ -9,7 +9,8 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
-import { askToMeet, projectContacts } from "../presentation/people-contacts";
+import { projectContacts } from "../presentation/people-contacts";
+import { askToMeet } from "../../tests/support/contact-fixtures";
 import { projectChildhoodMoment } from "../presentation/childhood";
 import { projectDisclosure } from "../presentation/press-disclosure";
 import type { EntityId, World } from "../simulation";
@@ -144,7 +145,6 @@ describe("Getting in touch", () => {
     const view = projectContacts(adult.world, adult.personId);
     const html = contacts(adult);
     const first = view.contacts[0]!;
-    const ask = first.actions.find((action) => action.kind === "ask-to-meet")!;
     /*
      * The playtest: a sentence stating the window, and a caption reciting it
      * again, read as the game's rules rather than the character's question.
@@ -154,7 +154,6 @@ describe("Getting in touch", () => {
     expect(html).not.toContain("A meeting can be arranged");
     expect(html).not.toContain(`A day between ${view.earliestMeetingSpoken}`);
     // The meeting question and its date picker are gone from the screen.
-    expect(ask).toBeTruthy();
     expect(html).not.toContain(`data-testid="contact-ask-${first.personId}"`);
     expect(html).not.toContain("<span>When?</span>");
     expect(html).not.toContain(
@@ -185,10 +184,9 @@ describe("Getting in touch", () => {
       (contact) => contact.outstanding?.direction === "you-asked",
     );
     expect(waiting).toBeTruthy();
-    const ask = waiting!.actions.find(
-      (action) => action.kind === "ask-to-meet",
-    )!;
-    expect(ask.available).toBe(false);
+    expect(
+      waiting!.actions.some((action) => action.kind === "ask-to-meet"),
+    ).toBe(false);
     const html = contacts(asked);
     // No ask control and no ask line, whether or not one is outstanding.
     expect(html).not.toContain(
