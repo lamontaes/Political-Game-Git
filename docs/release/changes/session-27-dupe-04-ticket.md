@@ -1,6 +1,6 @@
 ---
 id: session-27-dupe-04-ticket
 impact: none
-section: Changed
-title: Track law outcome map consolidation
 ---
+
+Source cleanup is tracked separately; no player-facing behavior changes.
