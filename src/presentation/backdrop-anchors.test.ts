@@ -71,6 +71,30 @@ describe("people anchors on every place picture", () => {
     expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(6);
   });
 
+  it("anchors the council chamber dais, side table, and visible audience chairs", () => {
+    const seats = STAGES["council-chamber"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    const dais = seats.filter((spot) => spot.group === "dais");
+    const audience = seats.filter((spot) => spot.role === "audience");
+    expect(seats).toHaveLength(81);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(81);
+    expect(dais).toHaveLength(7);
+    expect(audience).toHaveLength(74);
+    expect(
+      audience.filter((spot) => spot.group === "public-comment-table"),
+    ).toHaveLength(2);
+    expect(audience.every((spot) => spot.facing === "away")).toBe(true);
+    const visiblePerRow = [5, 6, 6, 6, 5, 4, 4];
+    for (let row = 1; row <= visiblePerRow.length; row += 1)
+      for (const side of ["left", "right"])
+        expect(
+          audience.filter(
+            (spot) => spot.group === `audience-row-${row}-${side}`,
+          ),
+        ).toHaveLength(visiblePerRow[row - 1]!);
+  });
+
   it("anchors every county party office meeting chair and desk chair", () => {
     const spots = STAGES["county-party-office"]!.spots;
     const tableSeats = spots.filter((spot) => spot.group === "table");
