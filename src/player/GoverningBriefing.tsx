@@ -129,14 +129,20 @@ export function GoverningBriefing({
             Return
           </button>
         )}
-        <p className="game-note">
-          {briefing.termLine}{" "}
-          {briefing.chiefOfStaff
-            ? `Chief of staff: ${briefing.chiefOfStaff.name}.`
-            : briefing.hasChiefOfStaffReading
-              ? "No chief of staff yet."
-              : null}
-        </p>
+        <dl className="game-note">
+          {briefing.termEnds ? (
+            <>
+              <dt>Term ends</dt>
+              <dd>{briefing.termEnds}</dd>
+            </>
+          ) : null}
+          {briefing.chiefOfStaff ? (
+            <>
+              <dt>Chief of staff</dt>
+              <dd>{briefing.chiefOfStaff.name}</dd>
+            </>
+          ) : null}
+        </dl>
         {briefing.calendarNote ? (
           <details className="game-campaign-detail">
             <summary>About this office's rules</summary>

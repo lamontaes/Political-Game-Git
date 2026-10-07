@@ -118,11 +118,9 @@ export function projectExecutiveInbox(world: World, personId: EntityId) {
   return {
     officeTitle:
       briefing?.officeTitle ?? (work?.available ? work.officeTitle : ""),
-    termLine:
-      briefing?.termLine ??
-      (work?.available
-        ? `Your term runs until ${americanDate(work.endsAt)}.`
-        : ""),
+    termEnds:
+      briefing?.termEnds ??
+      (work?.available ? americanDate(work.endsAt) : null),
     calendarNote: briefing?.calendarNote ?? null,
     chiefOfStaff: briefing?.chiefOfStaff ?? null,
     hasChiefOfStaffReading: briefing !== null,
