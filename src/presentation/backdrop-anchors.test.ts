@@ -257,7 +257,6 @@ describe("people anchors on every place picture", () => {
     expect(new Set(seats.map((spot) => spot.id)).size).toBe(6);
     expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(4);
   });
-  });
 
   it("anchors both Pennsylvania capitol walkway benches", () => {
     const seats = STAGES["state-capitol-pa"]!.spots.filter((spot) =>
