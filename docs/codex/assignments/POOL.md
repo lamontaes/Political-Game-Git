@@ -542,7 +542,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | open | |
 | BG-38 | 'Until needed' stops at 7 a.m. first and needs two presses to reach an evening event | BUGS.md BG-38 | open | |
 | BG-39 | A week later the scene is still the meeting room at 7 a.m. with the same people | BUGS.md BG-39 | open | |
-| BG-40 | 'Paid $193.46' with no payee | BUGS.md BG-40 | open | |
+| BG-40 | 'Paid $193.46' with no payee | BUGS.md BG-40 | done #2778 | Session 34 |
 | BG-41 | 'Back in the room.' debug text shows in the page | BUGS.md BG-41 | open | |
 | BG-42 | First-paycheck block: opening employer cash unset (Session 8) | BUGS.md BG-42 | done #2287 | |
 | BG-43 | Pay-stub test is red | BUGS.md BG-43 | open | |
