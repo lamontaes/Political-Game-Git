@@ -36,7 +36,10 @@ import {
 import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
 import { createProductionPolicyCatalog } from "../production-catalog";
-import { applyLawConsequences } from "../enacted-law-effects";
+import {
+  applyEnactedLawEffects,
+  applyLawConsequences,
+} from "../enacted-law-effects";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { STATES } from "../state-reference";
 import {
@@ -52,6 +55,7 @@ import {
 } from "../crisis/health-coverage";
 import { healthCoveragePassHandler } from "../crisis/health-coverage-pass";
 import {
+  COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS,
   COVERAGE_ELIGIBILITY_ROWS,
   COVERAGE_ELIGIBILITY_REGISTRATION,
   resolveCoverageEligibility,
@@ -503,11 +507,24 @@ describe("coverage kind canonical enacted authority", () => {
     const enactment = world.history.legislativeEnactments?.at(-1);
     if (!enactment)
       throw new Error("Canonical enactment did not write a record.");
+    const beforeCoverage = healthCoverageRecords(world).length;
+    expect(beforeCoverage).toBe(0);
+    const effective = applyEnactedLawEffects(world, enactment.measureId);
+    expect(healthCoverageRecords(effective)).toHaveLength(beforeCoverage + 1);
+    const appliedCoverage =
+      healthCoverageRecords(effective).slice(beforeCoverage);
+    expect(appliedCoverage).toHaveLength(1);
+    expect(appliedCoverage[0]).toMatchObject({
+      personId: person.id,
+      lawEffectStamps: [
+        expect.objectContaining({
+          governingLawKey: enactment.measureId,
+          appliedAt: world.currentDate,
+        }),
+      ],
+    });
     // Actual effective-law activity, not a fictional renewal/application.
-    const row = {
-      ...COVERAGE_ELIGIBILITY_ROWS[questionKey]!,
-      when: "effective" as const,
-    };
+    const row = COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS[questionKey]!;
     const context = {
       onDate: world.currentDate,
       activity: "effective" as const,
