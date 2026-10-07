@@ -2,14 +2,13 @@
 
 ## Completed
 
-- Pool b04-p1 merged as PR #3407 (`343136ee0`); the pool row is marked done.
-- LW-06 was already implemented on main: #3307 records source blockers and keeps unsupported outcomes inactive; city sales remains the supported path. Marked done in POOL.md.
-- LW-09 and LW-10 were already covered by main (#2479 readiness blockers; #2516 federal justice landing with unsupported stock-trading effect held inactive). Marked done in POOL.md.
-- Session 55 item 1 VIEWS is on `session-55-views`, merged current main through `4f2cbe369`. It adds side/back to the shared view set, side/back → three-quarter → front fallback, and explicit left/right facing through raster mirroring.
-- The focused pose suite passed 20/20 before the latest merge; the post-merge Vitest invocation stalled during Vite config loading. Prettier and ESLint passed on changed source/tests before the latest merge.
-- Full-screen new-game screenshots on main and branch are saved in `docs/evidence/session-55/`, each at the randomly drawn place Lingle, Wyoming.
+- b04-p1 merged as PR #3407.
+- VIEWS remains in ready PR #3420 (`session-55-views`); screenshot/browser-run setup blockers are documented in that PR.
+- AU-01 is ready in PR #3461 on `session-55-au-01`, head `df9b4e7de`, based on `1f9f620cd`. Shared federal proposal rollcall recording, pack-based Congress lookup, and sourced D.C. appropriation item veto are in place. Focused rollcall, D.C. veto, federal term-limit, proposal-writer and municipal-veto tests pass. Prettier/ESLint/diff-check pass. Typecheck has six unrelated Crime/Press test errors; release check has inherited `bg-44-refresh.md` filename/ID mismatch. Full item-veto suite's three date-fixture failures reproduce on clean main.
+- AU-02 through AU-07 are implemented on main; documentation closeout PRs #3466, #3471, #3474, #3475, #3476 and #3478 are ready.
+- AU-08 is implemented on main: vacant public-body pay uses recorded employer pay or a sourced occupation median (#1807); town labor turnover reads worker goals and employer books rather than hire-date shortcuts (#1994); payroll transfer outcomes cap payment at dated payer cash (`caf0f176c`), with full, partial and blocked cash tests. POOL marks AU-08 done.
 
-## Current item: Session 55 VIEWS
+## Current pool item: AU-09
 
-- Next: push `session-55-views` and open a SCREEN PR with both Lingle captures in its body; CTO pose-art branch `cto/poses-oct7` is absent. Continue with the next unclaimed pool row after LW-06.
-- Current-main typecheck errors are in Press/Crime; release check flags `bg-44-refresh.md` filename/ID; Node load check stops at existing `src/styles.css` import.
+- AU-08 closeout branch `session-55-au-08` is based on current `origin/main` `cd78ae562`.
+- Next: inspect opening public cash balances and public-employee account links against recorded government books.
