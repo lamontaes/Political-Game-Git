@@ -22,6 +22,7 @@ describe("play settings", () => {
     expect(playSettingsOf({ ...world, playSettings: undefined })).toEqual({
       saves: "free",
       challengeIntensity: "standard",
+      notesVisibility: "full",
       personalLifeDepiction: "full",
     });
     const legacy = {
@@ -33,6 +34,7 @@ describe("play settings", () => {
     expect(playSettingsOf({ ...world, playSettings: legacy })).toEqual({
       saves: "free",
       challengeIntensity: "standard",
+      notesVisibility: "full",
       personalLifeDepiction: "full",
     });
     expect(
@@ -70,5 +72,16 @@ describe("play settings", () => {
       tags: expect.arrayContaining(["challenge"]),
     });
     expect(setPlaySetting(quiet, "challenge", "quiet")).toBe(quiet);
+  });
+
+  it("stores the notebook visibility setting without reading legacy notes fields", () => {
+    const world = newLife("settings-notes-seed").world;
+    const light = setPlaySetting(world, "notes", "light");
+    expect(playSettingsOf(light).notesVisibility).toBe("light");
+    expect(light.history.events.at(-1)).toMatchObject({
+      type: "player.setting.changed",
+      tags: expect.arrayContaining(["notes"]),
+    });
+    expect(setPlaySetting(light, "notes", "light")).toBe(light);
   });
 });
