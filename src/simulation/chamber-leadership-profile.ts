@@ -118,7 +118,9 @@ export function chamberLeadershipProfileFor(input: {
     return {
       jurisdictionKey: input.jurisdictionKey,
       chamberKey: input.chamberKey,
-      assignmentAuthority: senate ? "party-caucuses" : "committee-on-committees",
+      assignmentAuthority: senate
+        ? "party-caucuses"
+        : "committee-on-committees",
       chairSelectionAuthority: "majority-caucus",
       posts: [
         {
@@ -177,11 +179,11 @@ export function chamberLeadershipProfileFor(input: {
   return {
     jurisdictionKey: input.jurisdictionKey,
     chamberKey: input.chamberKey,
-      assignmentAuthority: council
-        ? authority
-        : input.chamberKey === "senate"
-          ? "senate-president"
-          : "speaker",
+    assignmentAuthority: council
+      ? authority
+      : input.chamberKey === "senate"
+        ? "senate-president"
+        : "speaker",
     chairSelectionAuthority: council
       ? "council-vote"
       : "estimated-majority-authority",
