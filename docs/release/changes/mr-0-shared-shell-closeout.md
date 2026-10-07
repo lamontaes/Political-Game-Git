@@ -2,7 +2,7 @@
 id: mr-0-shared-shell-closeout
 impact: patch
 section: Fixed
-title: Record shared shell copy completion
+title: Shared shell shows recorded values
 ---
 
-Records the shared shell copy reset as complete after its implementation merged.
+Shared shell surfaces show recorded values and control names without authored explanations.
