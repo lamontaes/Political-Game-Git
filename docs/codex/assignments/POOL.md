@@ -517,7 +517,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-13 | Date shows twice (status card and Observing bar)                                                                        | BUGS.md BG-13 | done #2874             |              |
 | BG-14 | Deaths run about 15 times too high: 4 in one day in a 10,555-person town                                                | BUGS.md BG-14 | done                   | merged #2634 |
 | BG-15 | Every Texas district gets exactly 2 candidates (a formula, not emergence)                                               | BUGS.md BG-15 | open                   |              |
-| BG-16 | '1 people entered the race' (plural not matched to count)                                                               | BUGS.md BG-16 | open                   |              |
+| BG-16 | '1 people entered the race' (plural not matched to count)                                                               | BUGS.md BG-16 | done #2761             |              |
 | BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done                   | #2872        |
 | BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done                   | #844         |
 
