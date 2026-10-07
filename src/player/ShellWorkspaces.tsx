@@ -739,7 +739,6 @@ export function PeopleWorkspace({
           </section>
         </>
       ) : null}
-      ) : null}
     </>
   );
 }
