@@ -5,6 +5,7 @@ import {
   GOVERNMENT_OPERATIONS_LAW_ROWS,
   GOVERNMENT_OPERATIONS_QUESTION_KEYS,
 } from "./law-consequences/government-operations-rows";
+import { minimumCustodyRow } from "./law-consequences/legal-outcome";
 
 /**
  * Positions a person in the United States can hold, and a bill can be about.
@@ -1282,6 +1283,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the law set minimum sentences that a judge may not go below?",
       tags: ["contested"],
+      consequences: [minimumCustodyRow],
       principles: [
         {
           principle: "public-safety",
