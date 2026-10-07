@@ -1,10 +1,10 @@
-# Session 56 progress: T3 and T4 in review; T6 ready for review
+# Session 56 progress: T3 and T6 in review; T4 merged
 
-Current main marks LW-09 and LW-10 done with unsupported effects recorded. T3 and T4 have separate open pull requests. T5 source audit found worker quitting, employee appeal, and commissioner settlement already use the registered job-trait reader. T6 adds registered trait considerations to pretrial detention, sentencing, and the clemency ruling. T6 pool claim S42 is stale; live availability remains unverified because the assignment board fetch failed. The Drive check-in remains blocked by the earlier automatic review rejection.
+Current main marks LW-09 and LW-10 done with unsupported effects recorded. T3 and T6 have separate open pull requests, and T4 has merged. T5 source audit found worker quitting, employee appeal, and commissioner settlement already use the registered job-trait reader. T6 adds registered trait considerations to pretrial detention, sentencing, and the clemency ruling. T6 pool claim S42 is stale; live availability remains unverified because the assignment board fetch failed. The Drive check-in remains blocked by the earlier automatic review rejection.
 
 ## Current handoffs
 
-- T3 implementation is in open PR #3522; T4 implementation is in open PR #3529.
+- T3 implementation is in open PR #3522. T4 merged in PR #3529.
 - T5 source audit found all named task paths already call `jobTraitConsiderations`, which delegates to the registered trait reader; no source gap was found for the pool item.
 - T6 focused proof run: 3 files, 5 tests passed, including random-world choice proofs and actual detention, sentence, and clemency producer traces.
 - The broader `clemency-decision.test.ts` file failed 6 generated-state cases on both this worktree and unmodified `main` with identical failures: four cases produce no sentencing event and two reject the fixture plea. This baseline issue is separate from the T6 changes.
@@ -30,7 +30,7 @@ Current main marks LW-09 and LW-10 done with unsupported effects recorded. T3 an
 - Current main marks LW-10 done in `docs/codex/assignments/POOL.md`. Merged [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) supplies its mandatory-minimum row. The stock-trading link remains unsized because the source measures descriptive returns and the game has no member holdings for the effect to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
 - LW-11 remains claimed by S20 in the current pool, which marks LW-12 open with a stale S43 claim (`docs/codex/assignments/POOL.md`). Merged [PR #2495](https://github.com/lamontaes/Political-Game-Git/pull/2495) lands the legislative-term-limit effect; its map lists redistricting, automatic registration, and local-authority effects as unsupported (`data/law-consequences/election-state-landings.json`).
 - The readiness correction is open for review in [PR #3485](https://github.com/lamontaes/Political-Game-Git/pull/3485); it is mergeable and remains unmerged.
-- Current branch `session-56-t6` is based on `origin/main` `e605cb472`. The T6 focused random-world proofs are in `src/simulation/traits/effects/facet-cruel-court.proof.test.ts`; actual court and clemency producer trace checks are in `src/simulation/justice/court-trait-producers.test.ts`.
+- Current branch `session-56-t6` is based on `origin/main` `c8365c50c`. The T6 focused random-world proofs are in `src/simulation/traits/effects/facet-cruel-court.proof.test.ts`; actual court and clemency producer trace checks are in `src/simulation/justice/court-trait-producers.test.ts`.
 
 ---
 
