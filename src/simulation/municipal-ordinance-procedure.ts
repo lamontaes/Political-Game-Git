@@ -1225,7 +1225,7 @@ export function councilReadingDueHandler(
     return {
       world,
       status: "blocked",
-      reasonKey: null,
+      reasonKey: "council:no-seated-councilors",
       context: "No seated councilors can decide the scheduled reading.",
       outcomeEventId: null,
     };
@@ -1266,7 +1266,7 @@ export function councilReadingDueHandler(
     return {
       world,
       status: "blocked",
-      reasonKey: null,
+      reasonKey: "council:reading-refused",
       context: taken.reason,
       outcomeEventId: null,
     };

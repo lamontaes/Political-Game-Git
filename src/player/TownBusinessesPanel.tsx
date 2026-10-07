@@ -18,8 +18,7 @@ export function TownBusinessesPanel({
         {businesses.map((business) => (
           <li key={business.organizationId}>
             <strong>{business.name}</strong>
-            {business.ownerLine && <> · {business.ownerLine}</>}.{" "}
-            {business.staffLine}
+            {business.ownerLine && <> · {business.ownerLine}</>}
           </li>
         ))}
       </ol>

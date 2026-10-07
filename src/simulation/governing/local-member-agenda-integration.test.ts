@@ -329,8 +329,7 @@ describe("ordinary local member fiscal agenda", () => {
         .at(-1),
     ).toMatchObject({
       status: "resolved",
-      context:
-        "The local council reached its quarterly game-profile agenda date.",
+      context: "The local council reached its shared timetable agenda date.",
     });
 
     const measure = (afterIntake.history.legislativeMeasures ?? []).find(
