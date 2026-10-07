@@ -1,0 +1,19 @@
+# Session 55 — People on stage (owner-approved story mockups, Oct 7)
+
+Read RULES.md first. Rename this task to exactly "Session 55". Re-read this file every check-in.
+Mockups the owner approved (direction, not menu art): docket Decide card "Story presentation".
+Everything here is the SHARED people engine: every person, every scene, all 56 places. Never a fix for one screen.
+
+## Goal
+People in every scene look alive: large, turned toward who they are with, posed by what they are doing and who they are (personality and mood), with front, three-quarter, side and back views; the player is on stage in their own scenes.
+
+## Items (one PR each, in order)
+1. VIEWS: src/presentation/appearance-engine/pack.ts:265 `BODY_VIEWS = ["front","three-quarter"]` → add "side" and "back"; posedPieces (~547) already falls back view→front; extend the fallback so a missing back/side painting falls back to three-quarter, then front. Mirror three-quarter and side horizontally to face the other way (one `facing: "left"|"right"` field on the recipe, flipped at draw time; no second painting).
+2. NEW POSES INTO THE PACK: the CTO delivers cut pose art (folder art/people-engine/v2-poses/ on branch cto/poses-oct7, same layout as v1: body-<presentation>-<build>-<pose>[-<view>].png plus outfit layers). Add each pose to the BodyPose union and the manifest; poses: pointing, shrug, thinking, laughing, hands-clasped, hands-behind-back, phone-call, waving, handshake, arms-wide, hand-on-heart, head-in-hand, fist-raised, hands-on-hips, fidgeting, walking, holding-folder, holding-cup, clapping, slumped, angry, checking-phone, weight-shift, stern (+ three-quarter, side and back sets as delivered). A pose whose outfit layers are not delivered yet stays unused by the chooser (pack availability check), never drawn bare.
+3. POSE CHOOSER FROM THE PERSON: src/presentation/appearance-engine/pose-chooser.ts — today "idle" = plain standing and only `guarded` changes anything. Replace with: activity (speaking, listening, waiting, walking, working, celebrating, grieving, arguing, phoning, greeting) × the person's strongest recorded traits and current mood (from their records: recent events, relationship to who they face) → pose, through ONE data table data/content/pose-by-trait.json (trait or mood → preferred poses per activity, e.g. confident→hands-on-hips, shy→hands-clasped, jovial→laughing, anxious→fidgeting, stern→stern, warm→waving/handshake). Deterministic from the person's seed (no dice). Every one of the 97 traits either maps to poses or is listed in the file as "no visible pose" with a reason.
+4. FACING AND STAGING: in placeBackdropPeople (src/presentation/backdrop-people.ts) people in the same conversation or meeting turn toward each other (three-quarter, facing left/right), a speaker faces the room, people leaving or watching something use back view, people passing use side view. Conversation partners stand at 55–65% of screen height in the middle ground, not in the corners.
+5. THE PLAYER ON STAGE: the controlled person is drawn in every scene they are present in (today they never are): in conversation, three-quarter from behind beside the person they talk to; in a room, among the people present.
+6. FULL ROOMS: a scene draws the people actually present (whereabouts), not only the conversation partner: coworkers on shift doing their job, seated members in a chamber, staff in an office. Overflow beyond drawn spots is listed, never an empty room when people are present.
+
+## Endpoint
+In 3 random places (one territory), a new game's first scene, a chamber card and a council meeting show people large, turned to each other, in different poses that match their traits (proof: per-person pose + the trait that chose it, in the PR), the player on stage, and full rooms. Screenshots main vs branch in each PR. SCREEN items: READY, the CTO checks shots.

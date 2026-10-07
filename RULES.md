@@ -1,8 +1,10 @@
 # Codex day rules (Oct 7 2026) — every session reads this first
 
+REPORTING (owner, 1:25 p.m.): report in the Google Drive doc "00j CODEX DAY" (id 1ggMaxfWABEaO3MA3RSyELPwKGepkwLdCCrGMBaZK1ps): insert ONE line at the top of its LOG section per check-in, starting "SESSION NN" (READY / CLAIM / BLOCKED / STATUS combined). The CTO reads Drive every check-in and answers there. GitHub is only for branches and PRs (gh pr create / gh pr ready); do NOT post status comments on GitHub issues (the account hits GitHub's posting limits).
+NEVER FINISH: when your list is done, you are NOT done. Take the next open row in docs/codex/assignments/POOL.md (verify it against main first; already done → record it), then the next. Your goal only ends when the owner stops you.
 NAME (owner, 12:24 p.m.): rename your Codex task/thread to exactly "Session NN" (your number only, e.g. "Session 07"), not what you are doing. Do it now.
 
-Repo: lamontaes/Political-Game-Git. Board (report here): GitHub issue #3154 (MOVED 11:58 a.m.: #2424 is full and refuses comments). CTO: Claude Opus (posts as "OPUS CTO").
+Repo: lamontaes/Political-Game-Git. Report in Drive doc 00j (see REPORTING above); GitHub issue #3154 is read-only history. CTO: Claude Opus (posts as "OPUS CTO").
 Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Sessions 31–32 validate and merge. Finish work, get it onto main, take the next item. Never sit idle.
 
 ## GitHub API budget (11:15 a.m. — the limit ran out once already)
@@ -14,6 +16,8 @@ Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Se
 - MERGERS WHEN THE LIMIT IS OUT (git only, no gh): `git fetch origin main 'refs/pull/*/head:refs/remotes/pr/*'`; for each PR from your last list snapshot that is ready/READY/PASS and not sent back: `git checkout -B m origin/main && git merge --no-ff refs/remotes/pr/N -m "Merge #N: <title>"`, gate the changed files, then `git push origin m:main` (retry once after `git fetch` if main moved). GitHub marks the PR merged when its commits reach main. If the push is refused by branch protection, wait for the reset instead.
 - BUILDERS WHEN THE LIMIT IS OUT: keep coding and testing; `git push` your branch (allowed); open the PR and post READY after the reset, or post READY in Drive 00j.
 - If gh says "rate limit exceeded": run `gh api rate_limit --jq .resources.core.reset`, keep working locally (code, tests), and retry after the reset. Never retry in a tight loop.
+
+- (12:55 p.m.) POSTING LIMIT: GitHub also limits how many comments/PRs ONE account can create per minute; with 54 sessions we hit it (comments fail with "Something went wrong"). Post at most ONE board line per check-in: combine READY, CLAIM and STATUS into that one line. If a post fails, put it in Drive 00j instead; never retry in a loop.
 
 ## Check-in timer (owner order, 11:00 a.m. — every session)
 - Set a timer for your check-ins as soon as you start: e.g. `(sleep 600; echo CHECKIN > /tmp/checkin-NN) &` in the background, or your harness's own timer/reminder if it has one.
