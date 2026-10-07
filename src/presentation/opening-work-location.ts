@@ -1,3 +1,4 @@
+import { householdMembersAtHome } from "../simulation/living-world/home-presence";
 import {
   activeWorkRelationshipsAt,
   currentLifeCutoff,
@@ -44,6 +45,9 @@ export function recordOpeningWorkLocation(
     ? organizationProfileAt(world, organizationId, currentLifeCutoff(world))
     : null;
   const label = shift ? (profile?.name ?? work!.role.title) : "Home";
+  // Off shift, the player is home, and the household members the world has at
+  // home at this moment are in the room with them.
+  const housemates = shift ? [] : householdMembersAtHome(world, personId);
   const reason = shift
     ? `You are at ${label} for your scheduled shift.`
     : "You are home; your work schedule has no shift at this hour.";
@@ -57,10 +61,15 @@ export function recordOpeningWorkLocation(
       world.people[personId]!.homeJurisdictionId,
     involvedEntityIds: [
       personId,
+      ...housemates,
       ...jobs.map((job) => job.relationship.id),
       ...(organizationId ? [organizationId] : []),
     ],
-    participants: [{ personId, role: "presence:participant", detail: reason }],
+    participants: [personId, ...housemates].map((id) => ({
+      personId: id,
+      role: "presence:participant",
+      detail: id === personId ? reason : "At home when play begins",
+    })),
     personFactConstraints: [],
     visibility: "private",
     tags: [
@@ -68,7 +77,7 @@ export function recordOpeningWorkLocation(
       `moment:${JSON.stringify(world.currentMoment)}`,
       ...(shift
         ? [`work:${shift.workRelationshipId}`, `place:${shift.place}`]
-        : ["place:home"]),
+        : ["place:home", "playtest65:initial-placement"]),
     ],
     summary: reason,
     context: {
