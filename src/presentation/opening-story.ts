@@ -222,6 +222,21 @@ export function projectOpeningTown(
   return { officials, matters };
 }
 
+/**
+ * The room the town step stands in (OW-11): the council chamber where the
+ * person's place records a town government with a holder, else the county
+ * commission room. Read from the place's own government records.
+ */
+export function openingLocalChamber(
+  world: World,
+  personId: EntityId,
+): "council-chamber" | "county-commission" {
+  const view = projectGovernmentBrowser(world, personId, { scope: "local" });
+  return view.localGovernments.some((entry) => entry.holderName)
+    ? "council-chamber"
+    : "county-commission";
+}
+
 /* -------------------------------------------------------------------------- */
 /* Your family and your household                                              */
 /* -------------------------------------------------------------------------- */

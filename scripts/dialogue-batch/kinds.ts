@@ -13,6 +13,14 @@ import { journalInFirstPerson } from "../../src/presentation/journal-first-perso
 import { projectJournalView } from "../../src/presentation/journal-views";
 import { projectNewsFrontPage } from "../../src/presentation/news-front-page";
 import { projectOrdinaryMeetingScene } from "../../src/presentation/ordinary-meeting-scene";
+import {
+  readHearingBank,
+  readLegislationBank,
+  readMeetingBank,
+  readMinutesBank,
+  readWinningLosingBank,
+  type BankReading,
+} from "../../src/presentation/bank-english";
 import { ownElectionResultSentence } from "../../src/presentation/own-election";
 
 export interface KindText {
@@ -36,10 +44,8 @@ export interface KindReading {
 
 /** Kinds no producer in the game writes yet. */
 export const KINDS_WITHOUT_PRODUCER: Readonly<Record<string, string>> = {
-  hearing: "no producer writes committee hearing text yet",
-  minutes: "no producer writes meeting minutes yet",
   "notices-and-screens":
-    "no producer writes notices or letters to the player from the world yet",
+    "no output, because no notices bank or composer exists yet",
 };
 
 const PER_KIND = 3;
@@ -119,7 +125,33 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
       partKey: `legislation:measure:${measure.id}`,
     });
   }
-  add("legislation", bills, "no Congress measure with printed text is filed");
+  // When the game's own reader finds nothing, the merged English banks fill
+  // the kind from real records, or say which record is missing.
+  const addBank = (
+    kind: string,
+    found: readonly KindText[],
+    reading: BankReading,
+    composer: string,
+    why: string,
+  ) => {
+    if (found.length > 0) return add(kind, found, why);
+    if (typeof reading === "string")
+      return absent.push({ kind, reason: `${why}; ${reading}` });
+    texts.push(
+      ...reading.slice(0, PER_KIND).map((line) => ({
+        ...line,
+        composer,
+        partKey: `bank:${line.partKey}`,
+      })),
+    );
+  };
+  addBank(
+    "legislation",
+    bills,
+    readLegislationBank(world),
+    "readLegislationBank in bank-english.ts",
+    "no Congress measure with printed text is filed",
+  );
 
   const results: KindText[] = [];
   for (const contest of world.history.electionContests ?? []) {
@@ -143,10 +175,16 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
       partKey: `results:contest:${contest.id}`,
     });
   }
-  add("winning-and-losing", results, "no race in this world is decided yet");
+  addBank(
+    "winning-and-losing",
+    results,
+    readWinningLosingBank(world),
+    "readWinningLosingBank in bank-english.ts",
+    "no race in this world is decided yet",
+  );
 
   const meeting = projectOrdinaryMeetingScene(world, playerId);
-  add(
+  addBank(
     "meeting",
     meeting?.agendaText
       ? [
@@ -160,8 +198,21 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
           },
         ]
       : [],
+    readMeetingBank(world, playerId),
+    "readMeetingBank in bank-english.ts",
     "the player is not at a meeting",
   );
+  for (const [kind, reading, composer] of [
+    ["minutes", readMinutesBank(world, playerId), "readMinutesBank"],
+    ["hearing", readHearingBank(world, playerId), "readHearingBank"],
+  ] as const)
+    addBank(
+      kind,
+      [],
+      reading,
+      `${composer} in bank-english.ts`,
+      `no ${kind} producer writes in the game yet`,
+    );
 
   for (const [kind, reason] of Object.entries(KINDS_WITHOUT_PRODUCER))
     absent.push({ kind, reason });
