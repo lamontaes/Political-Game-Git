@@ -44,6 +44,7 @@ import { facetProudEffects } from "./facet-proud";
 import { facetRestlessEffects } from "./facet-restless";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
 import { facetSkepticalEffects } from "./facet-skeptical";
+import { facetSmugEffects } from "./facet-smug";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
@@ -107,6 +108,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetRestlessEffects,
     ...facetSelfConsciousEffects,
     ...facetSkepticalEffects,
+    ...facetSmugEffects,
     ...facetStudiousEffects,
     ...facetSupportiveEffects,
     ...facetTenderHeartedEffects,

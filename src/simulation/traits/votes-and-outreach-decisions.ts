@@ -39,4 +39,9 @@ export const VOTES_AND_OUTREACH_DECISIONS: readonly DecisionDeclaration[] = [
     scope: "life:ordinary",
     options: ["accept", "decline"],
   },
+  {
+    id: "press.subject-response",
+    scope: "life:ordinary",
+    options: ["dispute", "decline", "no-response"],
+  },
 ];
