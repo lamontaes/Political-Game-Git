@@ -8,8 +8,12 @@
  * manifest. Rerun it whenever new art is accepted; the game reads only the
  * pack.
  *
- * Usage: node --import tsx scripts/appearance/build-people-pack.ts <bodiesDir> <peopleAppearanceDir> [outDir]
+ * Usage: node --import tsx scripts/appearance/build-people-pack.ts <bodiesDir> <peopleAppearanceDir> [outDir] [ownershipDescriptor] [ownershipSourceRoot] [ownershipCandidateRoot]
  */
+import {
+  applyPinnedRegionOwnership,
+  loadPinnedRegionOwnership,
+} from "./garment-region-ownership";
 import {
   existsSync,
   mkdirSync,
@@ -65,11 +69,23 @@ import {
   isSkinPixel,
   measureSkinLuminance,
 } from "../../src/presentation/appearance-engine/skin";
+import { cleanPaintedLayer } from "../../src/presentation/appearance-engine/white-matte";
 
-const [bodiesDir, appearanceDir, outArg] = process.argv.slice(2);
+const [
+  bodiesDir,
+  appearanceDir,
+  outArg,
+  ownershipFile,
+  ownershipSourceRoot,
+  ownershipCandidateRoot,
+] = process.argv.slice(2);
+const ownership = loadPinnedRegionOwnership(ownershipFile, {
+  ...(ownershipSourceRoot ? { source: ownershipSourceRoot } : {}),
+  ...(ownershipCandidateRoot ? { candidate: ownershipCandidateRoot } : {}),
+});
 if (!bodiesDir || !appearanceDir)
   throw new Error(
-    "usage: build-people-pack <bodiesDir> <appearanceDir> [outDir]",
+    "usage: build-people-pack <bodiesDir> <appearanceDir> [outDir] [ownershipDescriptor] [ownershipSourceRoot] [ownershipCandidateRoot]",
   );
 const outDir = outArg ?? "art/people-engine/v1";
 mkdirSync(outDir, { recursive: true });
@@ -85,7 +101,11 @@ const read = (path: string): Raster => {
   const png = PNG.sync.read(readFileSync(path));
   const data = new Uint8ClampedArray(png.width * (png.height + HEADROOM) * 4);
   data.set(png.data, png.width * HEADROOM * 4);
-  return { width: png.width, height: png.height + HEADROOM, data };
+  return cleanPaintedLayer({
+    width: png.width,
+    height: png.height + HEADROOM,
+    data,
+  });
 };
 const write = (raster: Raster, file: string): string => {
   const png = new PNG({ width: raster.width, height: raster.height });
@@ -506,25 +526,47 @@ function dressedBody(
     if (skin) usedSkin!.data[p * 4 + 3] = 255;
   });
   const halfSkin = usedSkin ? halve(usedSkin) : null;
+  const classified = outfitRegions(
+    halfLayer,
+    Object.fromEntries(
+      Object.entries(spec.parts).map(([part, [hue]]) => [
+        part,
+        typeof hue === "string" ? [hue] : hue,
+      ]),
+    ),
+    halfSkin
+      ? Uint8Array.from({ length: halfSkin.width * halfSkin.height }, (_, p) =>
+          halfSkin.data[p * 4 + 3]! ? 1 : 0,
+        )
+      : null,
+    anchors.feet - Math.round((anchors.feet - anchors.top) * 0.08),
+  );
+  // Context comes from the builder call, never from the override packet.
+  const tail = stem.slice(`outfit-${sex}-${spec.id}-${build}`.length);
+  const view = tail.endsWith("-three-quarter") ? "three-quarter" : "front";
+  const poseSuffix = view === "three-quarter" ? tail.slice(0, -14) : tail;
+  const applied = applyPinnedRegionOwnership(ownership, {
+    context: {
+      stem,
+      presentation: sex,
+      build,
+      outfit: spec.id,
+      pose: poseSuffix.startsWith("-") ? poseSuffix.slice(1) : "standing",
+      view,
+    },
+    source: halfLayer,
+    regions: classified,
+    skin: halfSkin,
+  });
   const regions = Object.fromEntries(
-    Object.entries(
-      outfitRegions(
-        halfLayer,
-        Object.fromEntries(
-          Object.entries(spec.parts).map(([part, [hue]]) => [
-            part,
-            typeof hue === "string" ? [hue] : hue,
-          ]),
-        ),
-        halfSkin
-          ? Uint8Array.from(
-              { length: halfSkin.width * halfSkin.height },
-              (_, p) => (halfSkin.data[p * 4 + 3]! ? 1 : 0),
-            )
-          : null,
-        anchors.feet - Math.round((anchors.feet - anchors.top) * 0.08),
-      ),
-    ).map(([part, mask]) => [part, write(mask, `${stem}-${part}.png`)]),
+    Object.entries(applied.regions).map(([part, mask]) => {
+      const file = `${stem}-${part}.png`;
+      if (part === "bottom" && applied.encodedBottom) {
+        writeFileSync(join(outDir, file), applied.encodedBottom);
+        return [part, file];
+      }
+      return [part, write(mask, file)];
+    }),
   );
   console.log(stem, JSON.stringify(offset), garment.clothPixels);
   return {
