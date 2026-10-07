@@ -216,7 +216,7 @@ export async function chooseStartAge(page: Page, age: number): Promise<void> {
     String(2026 - age - (notYet ? 1 : 0)),
   );
   await expect(page.getByTestId("creator-derived-age")).toContainText(
-    `age ${age},`,
+    `${age} \u00b7`,
   );
 }
 

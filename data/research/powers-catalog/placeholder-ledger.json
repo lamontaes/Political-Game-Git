@@ -3,21 +3,21 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 368,
+    "markers": 301,
     "byKind": {
-      "unresearched": 114,
-      "placeholder": 210,
-      "blanket": 53
+      "unresearched": 99,
+      "placeholder": 179,
+      "blanket": 30
     },
     "byPath": {
-      "other": 225,
-      "law": 87,
+      "other": 165,
+      "law": 86,
       "government": 48,
-      "money": 8
+      "money": 2
     },
-    "withoutQuestion": 223,
+    "withoutQuestion": 191,
     "questionNotFiled": 4,
-    "moneyOrLawQuestions": 40
+    "moneyOrLawQuestions": 39
   },
   "markers": [
     {
@@ -147,17 +147,8 @@
       "researchQuestionFiled": false
     },
     {
-      "file": "src/presentation/people-directory.ts",
-      "line": 87,
-      "text": "* PLACEHOLDER, NOT RESEARCH: filed as `how-many-colleagues-a-person-knows`.",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "how-many-colleagues-a-person-knows",
-      "researchQuestionFiled": true
-    },
-    {
       "file": "src/presentation/place-backdrops.ts",
-      "line": 102,
+      "line": 107,
       "text": "* PLACEHOLDER(wave2): sunrise and sunset by month, in local minutes, for about",
       "kinds": ["placeholder"],
       "path": "other",
@@ -166,7 +157,7 @@
     },
     {
       "file": "src/presentation/place-backdrops.ts",
-      "line": 136,
+      "line": 141,
       "text": "* PLACEHOLDER(wave2): about one day in five is rainy, the same for every",
       "kinds": ["placeholder"],
       "path": "other",
@@ -201,26 +192,8 @@
       "researchQuestionFiled": false
     },
     {
-      "file": "src/simulation/age-of-majority.ts",
-      "line": 36,
-      "text": "* PLACEHOLDER(research: age-of-majority-by-state). A presentation threshold",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "age-of-majority-by-state",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/age-of-majority.ts",
-      "line": 42,
-      "text": "export const GROWN_UP_PRESENTATION_AGE_PLACEHOLDER = 18;",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "age-of-majority-by-state",
-      "researchQuestionFiled": true
-    },
-    {
       "file": "src/simulation/campaign-compliance.ts",
-      "line": 579,
+      "line": 582,
       "text": "export const UNRESEARCHED_CAMPAIGN_FILING_RULE = {",
       "kinds": ["unresearched"],
       "path": "law",
@@ -229,7 +202,7 @@
     },
     {
       "file": "src/simulation/campaign-compliance.ts",
-      "line": 580,
+      "line": 583,
       "text": "version: \"campaign-filing-unresearched-v1\",",
       "kinds": ["unresearched"],
       "path": "law",
@@ -238,7 +211,7 @@
     },
     {
       "file": "src/simulation/campaign-compliance.ts",
-      "line": 588,
+      "line": 591,
       "text": "export const UNRESEARCHED_CAMPAIGN_FILING_PACK_ID =",
       "kinds": ["unresearched"],
       "path": "law",
@@ -247,7 +220,7 @@
     },
     {
       "file": "src/simulation/campaign-compliance.ts",
-      "line": 589,
+      "line": 592,
       "text": "UNRESEARCHED_CAMPAIGN_FILING_RULE.version;",
       "kinds": ["unresearched"],
       "path": "law",
@@ -256,7 +229,7 @@
     },
     {
       "file": "src/simulation/campaign-compliance.ts",
-      "line": 596,
+      "line": 599,
       "text": "export function unresearchedStatementDeadlineDays(",
       "kinds": ["unresearched"],
       "path": "law",
@@ -265,7 +238,7 @@
     },
     {
       "file": "src/simulation/campaign-compliance.ts",
-      "line": 600,
+      "line": 603,
       "text": "return UNRESEARCHED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays;",
       "kinds": ["unresearched"],
       "path": "law",
@@ -274,7 +247,7 @@
     },
     {
       "file": "src/simulation/campaign-compliance.ts",
-      "line": 644,
+      "line": 647,
       "text": "withinDays: unresearchedStatementDeadlineDays(stateKey),",
       "kinds": ["unresearched"],
       "path": "law",
@@ -283,7 +256,7 @@
     },
     {
       "file": "src/simulation/campaign-compliance.ts",
-      "line": 645,
+      "line": 648,
       "text": "rulePackId: UNRESEARCHED_CAMPAIGN_FILING_PACK_ID,",
       "kinds": ["unresearched"],
       "path": "law",
@@ -418,7 +391,7 @@
     },
     {
       "file": "src/simulation/crisis/condition-pack.ts",
-      "line": 208,
+      "line": 211,
       "text": "? `${CONDITION_PACK_KEY}: ${condition.label}, ${grade.key}, recorded at age ${Math.floor(age)}, multiplies mortality strain by ${weight.toFixed(2)} (PLACEHOLDER",
       "kinds": ["placeholder"],
       "path": "other",
@@ -603,15 +576,6 @@
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "dc-council-legislative-volume",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/degree-levels.ts",
-      "line": 21,
-      "text": "*   PLACEHOLDER(research: who-gets-into-college-and-what-it-costs). Until",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-gets-into-college-and-what-it-costs",
       "researchQuestionFiled": true
     },
     {
@@ -904,7 +868,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 182,
+      "line": 181,
       "text": "* PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`):",
       "kinds": ["placeholder"],
       "path": "law",
@@ -913,7 +877,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 1348,
+      "line": 1347,
       "text": "// PLACEHOLDER (governor-succession.ts): the next officer in line serves",
       "kinds": ["placeholder"],
       "path": "law",
@@ -922,7 +886,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 1381,
+      "line": 1380,
       "text": "// PLACEHOLDER: how this office is filled is not compiled. The sentence",
       "kinds": ["placeholder"],
       "path": "law",
@@ -931,7 +895,7 @@
     },
     {
       "file": "src/simulation/governing/office-continuity.ts",
-      "line": 1396,
+      "line": 1395,
       "text": "* PLACEHOLDER (filed as `vice-presidential-vacancy-nomination-and-confirmation`):",
       "kinds": ["placeholder"],
       "path": "law",
@@ -976,26 +940,8 @@
     },
     {
       "file": "src/simulation/home-purchase.ts",
-      "line": 17,
-      "text": "import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from \"./age-of-majority\";",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": "age-of-majority-by-state",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/home-purchase.ts",
       "line": 151,
       "text": "// PLACEHOLDER(research: age-of-majority-by-state). Leaving home to buy one",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": "age-of-majority-by-state",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/home-purchase.ts",
-      "line": 156,
-      "text": "GROWN_UP_PRESENTATION_AGE_PLACEHOLDER",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "age-of-majority-by-state",
@@ -1075,36 +1021,9 @@
     },
     {
       "file": "src/simulation/issue-record.ts",
-      "line": 398,
+      "line": 412,
       "text": "const rule = UNRESEARCHED_ISSUE_RECORD;",
       "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/justice/clemency-reasoning.ts",
-      "line": 44,
-      "text": "* PLACEHOLDER (hand-set): how near the end of a term counts as \"leaving",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/justice/clemency-reasoning.ts",
-      "line": 49,
-      "text": "export const CLEMENCY_CALENDAR_PLACEHOLDER = {",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/justice/clemency-reasoning.ts",
-      "line": 212,
-      "text": "const windows = CLEMENCY_CALENDAR_PLACEHOLDER;",
-      "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
@@ -1138,7 +1057,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 124,
+      "line": 126,
       "text": "* PLACEHOLDER. Every number here is set by hand and filed with the research",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1147,7 +1066,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 129,
+      "line": 131,
       "text": "export const UNRESEARCHED_PROSECUTION = {",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1156,7 +1075,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 131,
+      "line": 133,
       "text": "provenance: \"unresearched-blanket-rule\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1165,7 +1084,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 150,
+      "line": 152,
       "text": "* UNRESEARCHED. What a jail sentence does, filed with the research queue as",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1174,7 +1093,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 155,
+      "line": 157,
       "text": "export const UNRESEARCHED_JAIL_EFFECTS = {",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1183,7 +1102,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 156,
+      "line": 158,
       "text": "version: \"jail-effects-unresearched-v1\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1192,7 +1111,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 157,
+      "line": 159,
       "text": "provenance: \"unresearched-blanket-rule\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1201,7 +1120,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 313,
+      "line": 315,
       "text": "return `${UNRESEARCHED_PROSECUTION.version}:referral:${stableKey}`;",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1210,7 +1129,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 360,
+      "line": 362,
       "text": "UNRESEARCHED_PROSECUTION.version,",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1219,7 +1138,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 472,
+      "line": 474,
       "text": "UNRESEARCHED_PROSECUTION.version,",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1228,7 +1147,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 580,
+      "line": 582,
       "text": "if (!UNRESEARCHED_JAIL_EFFECTS.removedFromOffice) return world;",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1237,7 +1156,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 767,
+      "line": 769,
       "text": "const rule = UNRESEARCHED_PROSECUTION;",
       "kinds": ["unresearched"],
       "path": "other",
@@ -1462,7 +1381,7 @@
     },
     {
       "file": "src/simulation/living-world/congress-candidates.ts",
-      "line": 48,
+      "line": 49,
       "text": "// PLACEHOLDER(overnight): this staggered declaration window is a game timing",
       "kinds": ["placeholder"],
       "path": "government",
@@ -1471,7 +1390,7 @@
     },
     {
       "file": "src/simulation/living-world/congress-candidates.ts",
-      "line": 54,
+      "line": 55,
       "text": "// PLACEHOLDER(overnight): a recruited prospect may decline an especially",
       "kinds": ["placeholder"],
       "path": "government",
@@ -1678,7 +1597,7 @@
     },
     {
       "file": "src/simulation/living-world/local-council-meetings.ts",
-      "line": 77,
+      "line": 78,
       "text": "* PLACEHOLDER, pending `local-council-legislative-volume`: the council meets",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1701,87 +1620,6 @@
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "local-seats-at-the-opening",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 105,
-      "text": "// PLACEHOLDER, approved provisional: executives carry the blame for a visible",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-answers-for-what-happened-to-me",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 127,
-      "text": "// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-answers-for-what-happened-to-me",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 130,
-      "text": "// PLACEHOLDER (research: who-answers-for-what-happened-to-me): what happened",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-answers-for-what-happened-to-me",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 134,
-      "text": "// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-answers-for-what-happened-to-me",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 137,
-      "text": "// PLACEHOLDER: how hard a law landed (1 = a law costing a tenth of a month's",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-answers-for-what-happened-to-me",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 147,
-      "text": "// PLACEHOLDER: and to how much the view matters to the person.",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-answers-for-what-happened-to-me",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 159,
-      "text": "// PLACEHOLDER: an old save's reflection rows, in the points they were kept",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-answers-for-what-happened-to-me",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 838,
-      "text": "// PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-answers-for-what-happened-to-me",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/living-world/official-views.ts",
-      "line": 854,
-      "text": "// PLACEHOLDER multipliers.",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "who-answers-for-what-happened-to-me",
       "researchQuestionFiled": true
     },
     {
@@ -1884,126 +1722,9 @@
       "researchQuestionFiled": true
     },
     {
-      "file": "src/simulation/local-economy.ts",
-      "line": 4,
-      "text": "LOCAL_BUSINESS_PLACEHOLDER,",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/local-economy.ts",
-      "line": 8,
-      "text": "LOCAL_BUSINESS_PLACEHOLDER,",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/local-economy.ts",
-      "line": 358,
-      "text": "const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/local-economy.ts",
-      "line": 368,
-      "text": ": `ESTIMATED local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`),",
-      "kinds": ["placeholder"],
-      "path": "money",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/measure-numbering.ts",
-      "line": 96,
-      "text": "* week of January meets ORD 1. PLACEHOLDER, pending",
-      "kinds": ["placeholder"],
-      "path": "law",
-      "researchQuestionId": "local-council-legislative-volume",
-      "researchQuestionFiled": true
-    },
-    {
       "file": "src/simulation/moguls.ts",
-      "line": 82,
-      "text": "* UNRESEARCHED. Every rate in the mogul offer loop. Filed as",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": "corrupt-opportunity-approaches",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/moguls.ts",
-      "line": 87,
-      "text": "export const UNRESEARCHED_MOGUL_OFFERS = {",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": "corrupt-opportunity-approaches",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/moguls.ts",
-      "line": 88,
+      "line": 91,
       "text": "version: \"mogul-offers-unresearched-v1\",",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": "corrupt-opportunity-approaches",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/moguls.ts",
-      "line": 89,
-      "text": "provenance: \"unresearched-blanket-rule\",",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": "corrupt-opportunity-approaches",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/moguls.ts",
-      "line": 276,
-      "text": "UNRESEARCHED_MOGUL_OFFERS.offerStandsDays,",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": "corrupt-opportunity-approaches",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/moguls.ts",
-      "line": 317,
-      "text": "? addDays(acceptedAt, UNRESEARCHED_MOGUL_OFFERS.deliveryWindowDays)",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": "corrupt-opportunity-approaches",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/moguls.ts",
-      "line": 360,
-      "text": "const rule = UNRESEARCHED_MOGUL_OFFERS;",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": "corrupt-opportunity-approaches",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/moguls.ts",
-      "line": 514,
-      "text": "addDays(last, UNRESEARCHED_MOGUL_OFFERS.reconsiderDays) > next.currentDate",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": "corrupt-opportunity-approaches",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/moguls.ts",
-      "line": 554,
-      "text": "if (amount < UNRESEARCHED_MOGUL_OFFERS.minimumOfferMinorUnits) return world;",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
@@ -2254,7 +1975,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-candidates.ts",
-      "line": 70,
+      "line": 71,
       "text": "// PLACEHOLDER(overnight): this staggered fictional prospect window and the",
       "kinds": ["placeholder"],
       "path": "government",
@@ -2461,7 +2182,7 @@
     },
     {
       "file": "src/simulation/people-contact.ts",
-      "line": 1025,
+      "line": 1033,
       "text": "* PLACEHOLDER, NOT RESEARCH: the day counts and the steps are calibration",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2470,7 +2191,7 @@
     },
     {
       "file": "src/simulation/people-contact.ts",
-      "line": 1430,
+      "line": 1449,
       "text": "* PLACEHOLDER, NOT RESEARCH: how much one evening together counts for is",
       "kinds": ["placeholder"],
       "path": "other",
@@ -2479,30 +2200,12 @@
     },
     {
       "file": "src/simulation/people-contact.ts",
-      "line": 1504,
+      "line": 1523,
       "text": "* moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a canceled",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/people-goal-pursuit-content.ts",
-      "line": 71,
-      "text": "export const GOAL_PURSUIT_PLACEHOLDER = {",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "npc-private-goal-pursuit",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/people-goal-review.ts",
-      "line": 40,
-      "text": "GOAL_PURSUIT_PLACEHOLDER as PACE,",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "npc-private-goal-pursuit",
-      "researchQuestionFiled": true
     },
     {
       "file": "src/simulation/people-own-ties.ts",
@@ -2524,26 +2227,8 @@
     },
     {
       "file": "src/simulation/person-context.ts",
-      "line": 3,
-      "text": "GROWN_UP_PRESENTATION_AGE_PLACEHOLDER,",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "age-of-majority-by-state",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/person-context.ts",
       "line": 290,
       "text": "* PLACEHOLDER(research: age-of-majority-by-state), and it writes nothing.",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "age-of-majority-by-state",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/person-context.ts",
-      "line": 297,
-      "text": "GROWN_UP_PRESENTATION_AGE_PLACEHOLDER;",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "age-of-majority-by-state",
@@ -2731,154 +2416,10 @@
     },
     {
       "file": "src/simulation/press/spending-reports.ts",
-      "line": 22,
+      "line": 29,
       "text": "version: \"campaign-spending-reports-unresearched-v1\",",
       "kinds": ["unresearched"],
       "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 20,
-      "text": "* BLANKET: how much one declared hazard episode adds to the pressure to leave",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 21,
-      "text": "* its state, and to fear there, by magnitude. Not researched; filed as",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 24,
-      "text": "export const BLANKET_HAZARD_PRESSURE: Readonly<",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 34,
-      "text": "* BLANKET: pressure per unit of tax rate change. A one-point rise (0.01) adds",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 36,
-      "text": "* arrive. Not researched.",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 38,
-      "text": "export const BLANKET_TAX_RATE_PRESSURE = 5;",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 41,
-      "text": "* BLANKET: how much one reported offense beyond a town's ordinary police log",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 44,
-      "text": "* counting it here too would count it twice. Not researched; filed as",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 47,
-      "text": "export const BLANKET_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> = {",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 55,
-      "text": "* BLANKET: pressure per percentage point a state's recorded unemployment sits",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 56,
-      "text": "* above the nation's, to leave; below it, to arrive. Not researched.",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 58,
-      "text": "export const BLANKET_UNEMPLOYMENT_GAP_PRESSURE = 0.02;",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 78,
-      "text": "const amount = BLANKET_HAZARD_PRESSURE[record.magnitude];",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 114,
-      "text": "amount: Math.abs(change) * BLANKET_TAX_RATE_PRESSURE,",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 149,
-      "text": "amount: BLANKET_CRIME_PRESSURE[offense],",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/causes.ts",
-      "line": 181,
-      "text": "amount: Math.abs(gap) * BLANKET_UNEMPLOYMENT_GAP_PRESSURE,",
-      "kinds": ["blanket"],
-      "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
     },
@@ -2893,7 +2434,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 124,
+      "line": 137,
       "text": "rule: \"BLANKET: each hazard episode declared in the quarter adds pressure to leave that state, scaled by its magnitude, and fear.\",",
       "kinds": ["blanket"],
       "path": "other",
@@ -2902,7 +2443,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 131,
+      "line": 144,
       "text": "rule: \"BLANKET: a new or higher state tax taking effect in the quarter adds pressure to leave, scaled by the rate change; a lower one adds pull to arrive.\",",
       "kinds": ["blanket"],
       "path": "other",
@@ -2911,7 +2452,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 138,
+      "line": 151,
       "text": "rule: \"BLANKET: each reported offense in the quarter beyond the town's ordinary police log adds fear to its state, double for assault and robbery. Pressure to l",
       "kinds": ["blanket"],
       "path": "other",
@@ -2920,7 +2461,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 153,
+      "line": 166,
       "text": "rule: \"BLANKET: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to the pressure to leave,",
       "kinds": ["blanket"],
       "path": "other",
@@ -2929,16 +2470,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 155,
-      "text": "\"src/simulation/pressure/causes.ts BLANKET_UNEMPLOYMENT_GAP_PRESSURE\",",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/contract.ts",
-      "line": 168,
+      "line": 181,
       "text": "rule: \"BLANKET: each reported assault or robbery in town beyond the police log's usual quarter adds 5 percent to the town's push, which a resident with a record",
       "kinds": ["blanket"],
       "path": "other",
@@ -2947,7 +2479,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 240,
+      "line": 253,
       "text": "rule: \"BLANKET: each disaster decision judged a failure adds anger in the struck state, scaled by the disaster's magnitude.\",",
       "kinds": ["blanket"],
       "path": "other",
@@ -2956,7 +2488,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 247,
+      "line": 260,
       "text": "rule: \"BLANKET: a rise in the published national unemployment rate over the quarter adds anger in every state alike, because unemployment is recorded nationally",
       "kinds": ["blanket"],
       "path": "other",
@@ -2965,7 +2497,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 268,
+      "line": 281,
       "text": "rule: \"BLANKET: every pressure loses 25 percent of its level every quarter.\",",
       "kinds": ["blanket"],
       "path": "other",
@@ -2974,16 +2506,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 269,
-      "text": "where: \"src/simulation/pressure/step.ts BLANKET_FADE_PER_QUARTER\",",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/contract.ts",
-      "line": 276,
+      "line": 289,
       "text": "rule: \"BLANKET: a state loses a base share of its people a year, raised by its pressure to leave. Movers spread over the other states in proportion to each one'",
       "kinds": ["blanket"],
       "path": "other",
@@ -2992,7 +2515,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 305,
+      "line": 318,
       "text": "rule: \"BLANKET: anger over its line in a state gives a chance of a public unrest event each quarter, rising with how far over the line it is. Unrest is recorded",
       "kinds": ["blanket"],
       "path": "other",
@@ -3001,7 +2524,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 320,
+      "line": 333,
       "text": "rule: \"BLANKET: unrest this quarter and in an earlier recent quarter gives a chance of a threat against the state's governor, a member of Congress from it, or a",
       "kinds": ["blanket"],
       "path": "other",
@@ -3010,7 +2533,7 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 328,
+      "line": 341,
       "text": "rule: \"BLANKET: an open threat, while anger there stays over its line, gives a chance of an attempt through the existing attempt writer, which can injure or kil",
       "kinds": ["blanket"],
       "path": "other",
@@ -3019,98 +2542,8 @@
     },
     {
       "file": "src/simulation/pressure/contract.ts",
-      "line": 336,
+      "line": 349,
       "text": "rule: \"BLANKET: an open development's reports, the rise in national unemployment since it was reported and the average anger across states make its friction. Ov",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/flows.ts",
-      "line": 11,
-      "text": "* BLANKET: the share of a state's people who move to another state in a year",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/flows.ts",
-      "line": 12,
-      "text": "* with no pressure at all. Not researched; filed as",
-      "kinds": ["unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/flows.ts",
-      "line": 15,
-      "text": "export const BLANKET_BASE_OUTFLOW_PCT_PER_YEAR = 2;",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/flows.ts",
-      "line": 17,
-      "text": "/** BLANKET: the lowest pull a state can have, so no state is never chosen. */",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/flows.ts",
-      "line": 18,
-      "text": "export const BLANKET_MIN_PULL = 0.1;",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/flows.ts",
-      "line": 45,
-      "text": "BLANKET_MIN_PULL,",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/flows.ts",
-      "line": 108,
-      "text": "BLANKET_BASE_OUTFLOW_PCT_PER_YEAR * pushOf(readings.get(origin)),",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/step.ts",
-      "line": 29,
-      "text": "/** BLANKET: the share of every pressure lost each quarter. Not researched. */",
-      "kinds": ["blanket", "unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/step.ts",
-      "line": 30,
-      "text": "export const BLANKET_FADE_PER_QUARTER = 0.25;",
-      "kinds": ["blanket"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/pressure/step.ts",
-      "line": 106,
-      "text": "(before?.[kind] ?? 0) * (1 - BLANKET_FADE_PER_QUARTER) +",
       "kinds": ["blanket"],
       "path": "other",
       "researchQuestionId": null,
@@ -3225,33 +2658,6 @@
       "researchQuestionFiled": false
     },
     {
-      "file": "src/simulation/recorded-employer.ts",
-      "line": 11,
-      "text": "export const LOCAL_BUSINESS_PLACEHOLDER = {",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/recorded-employer.ts",
-      "line": 14,
-      "text": "/** PLACEHOLDER: a worker's monthly pay where no published wage covers. */",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/recorded-employer.ts",
-      "line": 68,
-      "text": "monthlyMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "businesses-owners-and-wealth",
-      "researchQuestionFiled": true
-    },
-    {
       "file": "src/simulation/relationship-absence.ts",
       "line": 113,
       "text": "* PLACEHOLDER (research: `relationship-absence-thresholds`). DEPTH2 says",
@@ -3295,15 +2701,6 @@
       "path": "other",
       "researchQuestionId": "relationship-apart-reasons",
       "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/school-stages.ts",
-      "line": 53,
-      "text": "* PLACEHOLDER, NOT RESEARCHED — the same calendar a summarized childhood uses",
-      "kinds": ["placeholder", "unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/standing-committee.ts",
