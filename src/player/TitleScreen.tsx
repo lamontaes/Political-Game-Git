@@ -18,10 +18,13 @@ import {
 import {
   civicTitlePictures,
   pictureForChosenState,
+  pictureForChosenTown,
   rotationForSave,
   type TitlePicture,
 } from "../presentation/title-civic-rotation";
 import { titlePictureHero } from "../presentation/title-picture-hero";
+import { middayBackdropUrl } from "../presentation/place-backdrops";
+import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import backdropManifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { backdropUrl } from "../presentation/backdrop-urls";
 import {
@@ -154,6 +157,7 @@ export function AmbientTableau({
   recent = null,
   still = false,
   chosenState = null,
+  chosenTown = false,
   children,
 }: {
   readonly resolved?: TitlePresentation | null;
@@ -184,6 +188,8 @@ export function AmbientTableau({
    * creator has one, the backdrop is that place's own, never the White House.
    */
   readonly chosenState?: string | null;
+  /** A town is chosen too: its own main street or city hall leads instead. */
+  readonly chosenTown?: boolean;
   readonly children: (roomDescription: string) => ReactNode;
 }) {
   const pictures = useMemo(() => titlePictures(), []);
@@ -195,7 +201,10 @@ export function AmbientTableau({
       pictures,
     );
     if (chosenState) {
-      const own = pictureForChosenState(pictures, chosenState);
+      const own =
+        (chosenTown
+          ? pictureForChosenTown(STAGED_PLACES, middayBackdropUrl)
+          : null) ?? pictureForChosenState(pictures, chosenState);
       const placeFree = ambient.filter(
         (room) => room.sceneId !== "picture:white-house-exterior",
       );
@@ -222,7 +231,7 @@ export function AmbientTableau({
       label: tableau.label,
     };
     return [first, ...ambient.filter((room) => room.sceneId !== first.sceneId)];
-  }, [resolved, recent, pictures, chosenState]);
+  }, [resolved, recent, pictures, chosenState, chosenTown]);
 
   /**
    * The returning player in front of their place. Only on the title itself:
@@ -343,6 +352,9 @@ function titlePictures(): readonly TitlePicture[] {
       ]
     : pictures;
 }
+
+/** Places the staging table can put people in. */
+const STAGED_PLACES: ReadonlySet<string> = new Set(Object.keys(staging.places));
 
 /** What the wrapper paints when there is no art and no save: nothing at all. */
 const TYPOGRAPHIC_ONLY: TitlePresentation = {

@@ -513,6 +513,7 @@ export function PlayerGame() {
   const [problem, setProblem] = useState<string | null>(null);
   /** The state a new life is being made in, so the backdrop is its own (OW-4). */
   const [setupState, setSetupState] = useState<string | null>(null);
+  const [setupTown, setSetupTown] = useState(false);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
   const savesUnavailable = store === null;
   const [saveListing, setSaveListing] = useState<SaveListingState>(
@@ -1010,7 +1011,12 @@ export function PlayerGame() {
 
   if (screen.kind === "transition") {
     return (
-      <AmbientTableau recent={saves[0] ?? null} chosenState={setupState} still>
+      <AmbientTableau
+        recent={saves[0] ?? null}
+        chosenState={setupState}
+        chosenTown={setupTown}
+        still
+      >
         {() => (
           <LifeStartTransition
             onPrepare={async (report, signal) => {
@@ -1054,7 +1060,12 @@ export function PlayerGame() {
 
   if (screen.kind === "setup") {
     return (
-      <AmbientTableau recent={saves[0] ?? null} chosenState={setupState} still>
+      <AmbientTableau
+        recent={saves[0] ?? null}
+        chosenState={setupState}
+        chosenTown={setupTown}
+        still
+      >
         {() => (
           <SetupScreen
             seed={sessionSeed.seed}
@@ -1135,6 +1146,7 @@ export function PlayerGame() {
             }}
             problem={problem}
             onStateChange={setSetupState}
+            onTownChange={setSetupTown}
           />
         )}
       </AmbientTableau>

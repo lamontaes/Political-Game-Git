@@ -15,6 +15,7 @@ import {
   isHomePlace,
   rolePlaceCandidates,
   pictureForChosenState,
+  pictureForChosenTown,
   rotationForSave,
   type BackdropManifestRow,
 } from "./title-civic-rotation";
@@ -322,5 +323,19 @@ describe("OW-4: the creator's backdrop follows the chosen state", () => {
 
   it("returns nothing for a state the build has no capitol for", () => {
     expect(pictureForChosenState(PICTURES, "ZZ")).toBeNull();
+  });
+});
+
+describe("OW-4: once a town is chosen, its own street leads", () => {
+  const url = (place: string) => `/art/backdrops/${place}.png`;
+
+  it("takes main street, then city hall, only where staged and painted", () => {
+    const both = new Set(["main-street", "city-hall-exterior"]);
+    expect(pictureForChosenTown(both, url)?.place).toBe("main-street");
+    expect(
+      pictureForChosenTown(both, (p) => (p === "main-street" ? null : url(p)))
+        ?.place,
+    ).toBe("city-hall-exterior");
+    expect(pictureForChosenTown(new Set(), url)).toBeNull();
   });
 });
