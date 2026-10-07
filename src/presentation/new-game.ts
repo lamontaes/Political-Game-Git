@@ -69,11 +69,6 @@ import {
 } from "../simulation/person-appearance";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
 import type { WorldOpeningVersion } from "../simulation/world-setup/types";
-import {
-  creatorLifeForkChoicesValid,
-  recordCreatorLifeForks,
-  type CreatorLifeForkChoice,
-} from "../simulation/creator-life-forks";
 
 /**
  * Starting a life.
@@ -149,7 +144,6 @@ export type OpeningDataVersion =
 export interface NewGameSetup {
   /** Optional on old descriptors; it does not participate in world identity. */
   readonly playSettings?: Partial<Pick<PlaySettings, "saves">>;
-  readonly creatorLifeForks?: readonly CreatorLifeForkChoice[];
   readonly startKind?: NewGameStartKind;
   readonly placeKey: string;
   readonly startAge: number;
@@ -567,20 +561,6 @@ export function createPreStartNewGameWorld(
 }
 
 /** Begin changes control only; the World and its money/history remain authoritative. */
-/** Apply answers to the staged life; loading must receive this same World. */
-export function applyPreStartCreatorLifeForks(
-  game: NewGame,
-  choices: readonly CreatorLifeForkChoice[],
-): NewGame {
-  if (game.world.preStartLife?.personId !== game.playerPersonId)
-    throw new Error("Creator answers require the staged character's World.");
-  return {
-    ...game,
-    setup: { ...game.setup, creatorLifeForks: choices },
-    world: recordCreatorLifeForks(game.world, game.playerPersonId, choices),
-  };
-}
-
 export function finishPreStartNewGameWorld(game: NewGame): NewGame {
   if (game.world.pastMode)
     throw new Error(
@@ -605,11 +585,6 @@ function buildNewGameWorld(
   preStartYear?: ProductionWorldInput["preStartYear"],
   onCharacterCheckpoint?: ProductionWorldInput["onCharacterCheckpoint"],
 ): NewGame {
-  if (
-    setup.creatorLifeForks !== undefined &&
-    !creatorLifeForkChoicesValid(setup.creatorLifeForks)
-  )
-    throw new Error("Invalid life choices.");
   const problems = newGameSetupProblems(setup);
   if (problems.length > 0) {
     throw new Error(problems[0]!.message);
@@ -632,9 +607,6 @@ function productionWorldInputForSetup(
   const place = requireLifePlace(setup.placeKey);
   const priors = setupPriorStoreFor(setup);
   return {
-    ...(setup.creatorLifeForks === undefined
-      ? {}
-      : { creatorLifeForks: setup.creatorLifeForks }),
     // The build seed, not the world's identity: the calibration is allowed to
     // change what the generator draws, and never which world this is.
     seed: buildSeedFor(setup),

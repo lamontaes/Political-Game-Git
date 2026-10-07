@@ -43,7 +43,6 @@ import {
 } from "../presentation/place-start-summary";
 import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
-import { projectCreatorLifeForkMoments } from "../simulation/creator-life-forks";
 import {
   setupForArtPreview,
   type ArtPreviewMode,
@@ -99,19 +98,12 @@ import {
  * are the generator's to decide after Begin (Task E). Only a custom start
  * carries the extra "background" step where those are set by hand.
  */
-const NORMAL_CREATOR_STEPS = [
-  "route",
-  "character",
-  "place",
-  "whoAreYou",
-  "begin",
-] as const;
+const NORMAL_CREATOR_STEPS = ["route", "character", "place", "begin"] as const;
 const CUSTOM_CREATOR_STEPS = [
   "route",
   "character",
   "place",
   "background",
-  "whoAreYou",
   "begin",
 ] as const;
 
@@ -270,7 +262,6 @@ export function SetupScreen({
     ...committed,
     questionnaire: "skipped",
     priors: [],
-    creatorLifeForks: [],
   };
   const stageIdentity = worldSeedFor(stagedSetup);
   const matchingStagedGame =
@@ -280,7 +271,7 @@ export function SetupScreen({
   const requestedLife = useRef<string | null>(null);
   useEffect(() => {
     if (
-      current !== "whoAreYou" ||
+      current !== "begin" ||
       matchingStagedGame ||
       !onRequestRecordedLife ||
       requestedLife.current === stageIdentity
@@ -295,12 +286,6 @@ export function SetupScreen({
     onRequestRecordedLife,
     stagedSetup,
   ]);
-  const recordedMoments = matchingStagedGame
-    ? projectCreatorLifeForkMoments(
-        matchingStagedGame.world,
-        matchingStagedGame.playerPersonId,
-      )
-    : [];
 
   const problems = newGameSetupProblems(committed);
   /*
@@ -377,11 +362,6 @@ export function SetupScreen({
                 : "Everyday life",
         ].join(" · ")
       : "",
-    whoAreYou: setup.creatorLifeForks?.length
-      ? "Your life so far"
-      : setup.questionnaire === "skipped"
-        ? "Discover through play"
-        : "Your life so far",
   };
   const onReady = currentIndex >= steps.indexOf("begin");
 
@@ -800,7 +780,7 @@ export function SetupScreen({
                               ? "ordinary-life"
                               : now.startingLife,
                         }));
-                        advanceTo(custom ? "background" : "whoAreYou");
+                        advanceTo(custom ? "background" : "begin");
                       }}
                     >
                       {candidate.displayName}
@@ -1063,91 +1043,6 @@ export function SetupScreen({
         </section>
       ) : null}
 
-      {isCurrent("whoAreYou") ? (
-        <section data-testid="creator-stage-whoareyou">
-          <h2>Your life so far</h2>
-          <div className="game-choices" data-testid="whoareyou-choices">
-            {recordedMoments.map((fork) => (
-              <fieldset key={fork.key}>
-                <legend>{fork.occurredAt}</legend>
-                <p>{fork.prompt}</p>
-                {fork.options.map((option) => (
-                  <button
-                    key={option.key}
-                    type="button"
-                    data-testid={`creator-fork-${fork.key}-${option.key}`}
-                    aria-pressed={
-                      setup.creatorLifeForks?.some(
-                        (choice) =>
-                          choice.forkKey === fork.key &&
-                          choice.optionKey === option.key,
-                      ) ?? false
-                    }
-                    onClick={() =>
-                      setSetup((now) => ({
-                        ...now,
-                        questionnaire: "skipped",
-                        priors: [],
-                        creatorLifeForks: [
-                          ...(now.creatorLifeForks ?? []).filter(
-                            (choice) => choice.forkKey !== fork.key,
-                          ),
-                          { forkKey: fork.key, optionKey: option.key },
-                        ],
-                      }))
-                    }
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </fieldset>
-            ))}
-            <button
-              type="button"
-              data-testid="whoareyou-answer"
-              disabled={
-                recordedMoments.length === 0 ||
-                recordedMoments.some(
-                  (moment) =>
-                    !setup.creatorLifeForks?.some(
-                      (choice) => choice.forkKey === moment.key,
-                    ),
-                )
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "skipped",
-                  priors: [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Continue
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-play"
-              className={
-                setup.questionnaire === "skipped" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "skipped",
-                  priors: [],
-                  creatorLifeForks: [],
-                }));
-                advanceTo("begin");
-              }}
-              disabled={Boolean(onRequestRecordedLife && !matchingStagedGame)}
-            >
-              Begin this life
-            </button>
-          </div>
-        </section>
-      ) : null}
-
       {problems.length > 0 && onReady ? (
         <p className="game-problem" data-testid="setup-problem">
           {problems[0]!.message}
@@ -1187,7 +1082,7 @@ export function SetupScreen({
             type="button"
             className="game-creator-next creator-primary-action"
             data-testid="creator-continue-background"
-            onClick={() => advanceTo("whoAreYou")}
+            onClick={() => advanceTo("begin")}
           >
             Next
           </button>
@@ -1203,8 +1098,9 @@ export function SetupScreen({
           setup={committed}
           mode={previewMode}
           beginSlot={beginSlot}
+          waiting={Boolean(onRequestRecordedLife && !matchingStagedGame)}
           onBegin={(appearance) =>
-            onBegin(committed, appearance, true, matchingStagedGame)
+            onBegin(stagedSetup, appearance, true, matchingStagedGame)
           }
         />
       ) : null}
