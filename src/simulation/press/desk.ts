@@ -11,6 +11,7 @@ import {
 } from "../future-transitions";
 import { personName } from "../people";
 import { correctPublication, publishPublicEvent } from "../public-information";
+import { PUBLIC_PROGRAM_EVENT_PREFIX } from "../public-program-integrity";
 import {
   PRESS_STORY_EVENT_TYPE,
   PRESS_STORY_LEAD_TAG,
@@ -114,6 +115,8 @@ export const PRESS_DESK_INTERVALS = {
 const RESPONSE_REQUESTED_EVENT = "press.response-requested";
 export const SUBJECT_RESPONDED_EVENT = "press.subject-responded";
 const EXCLUDED_PREFIXES = [
+  // A program's note to the books is not copy; its record keeps the fields.
+  PUBLIC_PROGRAM_EVENT_PREFIX,
   "press.",
   "setup.",
   "simulation.",
