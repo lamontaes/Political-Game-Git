@@ -20,6 +20,12 @@ describe("the work screen carries no authored sentence", () => {
         "Follow up with",
         "Nothing here right now.",
         "Return to office",
+        "Meets the listed entry requirements",
+        "No matching work is listed.",
+        "nationalMedianWageSentence",
+        "Offer awaiting your response",
+        "Engagement ended",
+        "Starts ",
       ]) {
         expect(text).not.toContain(helper);
       }
