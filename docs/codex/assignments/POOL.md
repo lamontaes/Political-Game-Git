@@ -48,7 +48,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b04-p4 | What you have left, in your words                                                                                                                                                                                                                 | b04-*.md part 4      | open (stale claim: S31)                      | S31                      |
 | b04-p5 | Nothing else resets or is added                                                                                                                                                                                                                   | b04-*.md part 5      | open (stale claim: S31)                      | S31                      |
 | b05-p1 | Which items matter                                                                                                                                                                                                                                | b05-*.md part 1      | done                                         | S51                      |
-| b05-p2 | Agenda before the meeting                                                                                                                                                                                                                         | b05-*.md part 2      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
+| b05-p2 | Agenda before the meeting                                                                                                                                                                                                                         | b05-*.md part 2      | blocked (RULES)                              | S50 (+S8 paycheck parts) |
 | b05-p3 | Play only those items                                                                                                                                                                                                                             | b05-*.md part 3      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
 | b05-p4 | Quiet items follow the office's voting mode                                                                                                                                                                                                       | b05-*.md part 4      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
 | b05-p5 | Summary in words                                                                                                                                                                                                                                  | b05-*.md part 5      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
@@ -362,7 +362,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-nationwide-world-1 | Replace about 15 placeholders in simulation / nationwide / world / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-nationwide-world-2 | Replace about 16 placeholders in simulation / nationwide / world / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-press | Replace about 29 placeholders in simulation / press with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-pressure-1 | Replace about 17 placeholders in simulation / pressure / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-pressure-1 | Replace about 17 placeholders in simulation / pressure / 1 with recorded or estimated-and-marked values | placeholders.md | done #2810 | Session 37 |
 | PH-simulation-pressure-2 | Replace about 17 placeholders in simulation / pressure / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-public-budgets | Replace about 14 placeholders in simulation / public / budgets with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-1 | Replace about 20 placeholders in simulation / root / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -536,9 +536,9 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | open | |
 | BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | done #1853 | |
-| BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | open | |
+| BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | done #7eec528 | |
 | BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | open | |
-| BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | open | |
+| BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | ready #3415 | |
 | BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | open | |
 | BG-38 | 'Until needed' stops at 7 a.m. first and needs two presses to reach an evening event | BUGS.md BG-38 | open | |
 | BG-39 | A week later the scene is still the meeting room at 7 a.m. with the same people | BUGS.md BG-39 | open | |
@@ -553,7 +553,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | open | |
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
-| BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | open | |
+| BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | ready #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | open | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | open | |
