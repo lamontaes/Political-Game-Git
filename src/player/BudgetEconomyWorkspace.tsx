@@ -194,12 +194,9 @@ export function BudgetEconomyWorkspace({
       {lookItUp === "summary" ? (
         <section aria-label="Budget summary" data-testid="budget-summary">
           <h4>Budget summary</h4>
-          {model.federalBudget?.status === "available" ? (
-            <p>
-              {model.federalBudget.month
-                ? `Federal categories last settled ${proseDate(model.federalBudget.month)}.`
-                : "Federal budget categories are available; no month has settled yet."}
-            </p>
+          {model.federalBudget?.status === "available" &&
+          model.federalBudget.month ? (
+            <p>{proseDate(model.federalBudget.month)}</p>
           ) : model.fiscalAvailability.status === "available" ? (
             <p>
               {model.fiscalAvailability.graphCount} recorded fiscal graphs are
