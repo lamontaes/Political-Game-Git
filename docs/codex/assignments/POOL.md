@@ -615,7 +615,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
 | RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
-| RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #1306 (codex/team1-consequence-inputs) | open: draft: finish it or close it as superseded | |
+| RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #3297 (session-35/rs-1306-fresh) | ready #3297 | |
 | RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | ready #3271 | |
 | RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | ready #1332 | |
 | RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | done #1358 (implementation merged; verified on current main) | |
