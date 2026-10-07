@@ -385,7 +385,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-source-domains-1 | Replace about 20 placeholders in source / domains / 1 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
 | PH-source-domains-2 | Replace about 20 placeholders in source / domains / 2 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
 | PH-source-domains-3 | Replace about 20 placeholders in source / domains / 3 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
-| PH-source-misc | Replace about 4 placeholders in source / misc with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-source-misc | Replace about 4 placeholders in source / misc with recorded or estimated-and-marked values | placeholders.md | done #2626 | Session 37 |
 | PH-src-environment-1 | Replace about 19 placeholders in src / environment / 1 with recorded or estimated-and-marked values | placeholders.md | done #2627 | Session 37 |
 | PH-src-environment-2 | Replace about 19 placeholders in src / environment / 2 with recorded or estimated-and-marked values | placeholders.md | done #2857 | Session 52 |
 | PH-src-misc | Replace about 19 placeholders in src / misc with recorded or estimated-and-marked values | placeholders.md | done #3331 | Session 37 |
