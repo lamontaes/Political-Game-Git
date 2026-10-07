@@ -90,7 +90,7 @@ describe("the meticulous trait reader", () => {
     expect(considerations).toMatchObject([
       {
         optionKey: "seek",
-        explanation: expect.stringContaining("So they "),
+        explanation: "Meticulous",
       },
     ]);
     expect(evaluation.selectedOptionKey).toBe("seek");

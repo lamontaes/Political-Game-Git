@@ -1,5 +1,4 @@
 import { latestPersonalityTendency } from "./queries";
-import { composeTraitReason, traitReasonKey } from "./traits/reason-english";
 import {
   isOneSided,
   leansForDecision,
@@ -206,14 +205,7 @@ export function registeredTraitConsiderations(
         direction: "supports",
         importance: importanceOf(trait, reading.value),
         confidence: "medium",
-        explanation:
-          lean.explanation ??
-          composeTraitReason({
-            key: traitReasonKey(lean, decisionId),
-            poleLabel: trait.poles[lean.pole].label,
-            poleMeaning: trait.poles[lean.pole].description,
-            aboutSubject,
-          }),
+        explanation: lean.explanation ?? trait.poles[lean.pole].label,
         sourceRefs: [ref],
       } satisfies DecisionConsideration,
     ];

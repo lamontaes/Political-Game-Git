@@ -86,7 +86,7 @@ describe("facet-opportunistic effect reader", () => {
       expect.arrayContaining([
         expect.objectContaining({
           optionKey: "seek",
-          explanation: expect.stringContaining("So they "),
+          explanation: "Opportunistic",
         }),
       ]),
     );

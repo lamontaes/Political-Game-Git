@@ -84,7 +84,7 @@ describe("the zealous trait reader", () => {
     expect(zealous).toEqual([
       expect.objectContaining({
         optionKey: "seek",
-        explanation: expect.stringContaining("So they "),
+        explanation: "Zealous",
       }),
     ]);
     expect(comparison).toEqual([]);
