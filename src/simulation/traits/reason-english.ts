@@ -70,8 +70,13 @@ export function composeTraitReason(input: {
   const clause =
     OPTION_CLAUSES[`${decision}|${option}`] ?? `choose "${option}"`;
   const label = input.poleLabel.trim();
-  const meaning = sentence(input.poleMeaning);
+  // A pole whose recorded meaning only restates its label ("Leans outgoing.")
+  // adds nothing, so the reason goes straight from the label to the choice.
+  const restates = /^leans\b/i.test(input.poleMeaning.trim());
+  const meaning = restates ? "" : ` ${sentence(input.poleMeaning)}`;
+  const joiner = restates ? "," : ":";
+  const tail = restates ? ` so they ${clause}.` : ` So they ${clause}.`;
   return input.aboutSubject
-    ? `From their dealings, they read this person as ${label.toLowerCase()}: ${meaning} So they ${clause}.`
-    : `${label}: ${meaning} So they ${clause}.`;
+    ? `From their dealings, they read this person as ${label.toLowerCase()}${joiner}${meaning}${tail}`
+    : `${label}${joiner}${meaning}${tail}`;
 }
