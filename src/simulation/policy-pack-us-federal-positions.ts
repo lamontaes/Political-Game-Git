@@ -1,4 +1,5 @@
 import type { PolicyPack } from "./policy-packs";
+import { FEDERAL_MANDATORY_MINIMUM_ROW } from "./law-consequences/modules/federal-justice-rights";
 
 /**
  * Positions on federal questions: one for each field of federal government,
@@ -40,10 +41,22 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:fiscal-restraint",
           bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "us-policy-positions:limited-government",
+          bearing: "consistent-with",
+          weight: 0.65,
         },
         {
           principle: "us-policy-positions:collective-provision",
           bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:public-safety",
+          bearing: "against",
+          weight: 0.45,
         },
       ],
     },
@@ -61,10 +74,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:collective-provision",
           bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:property-rights",
+          bearing: "against",
+          weight: 0.75,
         },
         {
           principle: "us-policy-positions:limited-government",
           bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:market-competition",
+          bearing: "against",
+          weight: 0.6,
         },
       ],
     },
@@ -82,10 +112,32 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:worker-protection",
           bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "us-policy-positions:equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.6,
         },
         {
           principle: "us-policy-positions:market-competition",
           bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:property-rights",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "us-policy-positions:limited-government",
+          bearing: "against",
+          weight: 0.6,
         },
       ],
     },
@@ -102,10 +154,22 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:public-safety",
           bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "us-policy-positions:worker-protection",
+          bearing: "consistent-with",
+          weight: 0.5,
         },
         {
           principle: "us-policy-positions:fiscal-restraint",
           bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:collective-provision",
+          bearing: "against",
+          weight: 0.55,
         },
       ],
     },
@@ -124,10 +188,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:collective-provision",
           bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "us-policy-positions:public-safety",
+          bearing: "consistent-with",
+          weight: 0.5,
         },
         {
           principle: "us-policy-positions:fiscal-restraint",
           bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:limited-government",
+          bearing: "against",
+          weight: 0.65,
         },
       ],
     },
@@ -145,10 +226,22 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:worker-protection",
           bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:public-safety",
+          bearing: "consistent-with",
+          weight: 0.55,
         },
         {
           principle: "us-policy-positions:market-competition",
           bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "us-policy-positions:property-rights",
+          bearing: "against",
+          weight: 0.55,
         },
       ],
     },
@@ -166,8 +259,33 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:equal-opportunity",
           bearing: "consistent-with",
+          weight: 0.85,
         },
-        { principle: "us-policy-positions:tradition", bearing: "against" },
+        {
+          principle: "us-policy-positions:personal-liberty",
+          bearing: "consistent-with",
+          weight: 0.7,
+        },
+        {
+          principle: "us-policy-positions:market-competition",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "us-policy-positions:tradition",
+          bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "us-policy-positions:worker-protection",
+          bearing: "against",
+          weight: 0.55,
+        },
+        {
+          principle: "us-policy-positions:public-safety",
+          bearing: "against",
+          weight: 0.45,
+        },
       ],
     },
     {
@@ -185,10 +303,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:collective-provision",
           bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:worker-protection",
+          bearing: "consistent-with",
+          weight: 0.6,
+        },
+        {
+          principle: "us-policy-positions:equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.6,
         },
         {
           principle: "us-policy-positions:market-competition",
           bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:property-rights",
+          bearing: "against",
+          weight: 0.7,
         },
       ],
     },
@@ -207,10 +342,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:fiscal-restraint",
           bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:limited-government",
+          bearing: "consistent-with",
+          weight: 0.45,
         },
         {
           principle: "us-policy-positions:worker-protection",
           bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "us-policy-positions:equal-opportunity",
+          bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "us-policy-positions:collective-provision",
+          bearing: "against",
+          weight: 0.8,
         },
       ],
     },
@@ -228,10 +380,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:equal-opportunity",
           bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "us-policy-positions:collective-provision",
+          bearing: "consistent-with",
+          weight: 0.7,
         },
         {
           principle: "us-policy-positions:fiscal-restraint",
           bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:equal-treatment",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "us-policy-positions:property-rights",
+          bearing: "against",
+          weight: 0.5,
         },
       ],
     },
@@ -249,10 +418,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:worker-protection",
           bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "us-policy-positions:equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.7,
         },
         {
           principle: "us-policy-positions:market-competition",
           bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:property-rights",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "us-policy-positions:limited-government",
+          bearing: "against",
+          weight: 0.6,
         },
       ],
     },
@@ -271,10 +457,22 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:collective-provision",
           bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "us-policy-positions:equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.85,
         },
         {
           principle: "us-policy-positions:fiscal-restraint",
           bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:limited-government",
+          bearing: "against",
+          weight: 0.6,
         },
       ],
     },
@@ -292,10 +490,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:environmental-stewardship",
           bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:collective-provision",
+          bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "us-policy-positions:equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "us-policy-positions:fiscal-restraint",
+          bearing: "against",
+          weight: 0.8,
         },
         {
           principle: "us-policy-positions:limited-government",
           bearing: "against",
+          weight: 0.65,
         },
       ],
     },
@@ -313,10 +528,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:environmental-stewardship",
           bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "us-policy-positions:public-safety",
+          bearing: "consistent-with",
+          weight: 0.65,
         },
         {
           principle: "us-policy-positions:property-rights",
           bearing: "against",
+          weight: 0.75,
+        },
+        {
+          principle: "us-policy-positions:market-competition",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "us-policy-positions:limited-government",
+          bearing: "against",
+          weight: 0.7,
         },
       ],
     },
@@ -334,10 +566,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:fiscal-restraint",
           bearing: "consistent-with",
+          weight: 0.9,
+        },
+        {
+          principle: "us-policy-positions:market-competition",
+          bearing: "consistent-with",
+          weight: 0.75,
         },
         {
           principle: "us-policy-positions:collective-provision",
           bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:worker-protection",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "us-policy-positions:tradition",
+          bearing: "against",
+          weight: 0.45,
         },
       ],
     },
@@ -356,10 +605,27 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:local-control",
           bearing: "consistent-with",
+          weight: 0.75,
+        },
+        {
+          principle: "us-policy-positions:fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.8,
         },
         {
           principle: "us-policy-positions:collective-provision",
           bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "us-policy-positions:equal-opportunity",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "us-policy-positions:public-safety",
+          bearing: "against",
+          weight: 0.6,
         },
       ],
     },
@@ -373,13 +639,34 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
       name: "Reduce mandatory minimum sentences",
       question:
         "Should federal mandatory minimum prison sentences be shortened?",
+      consequences: [FEDERAL_MANDATORY_MINIMUM_ROW],
       tags: ["contested"],
       principles: [
         {
           principle: "us-policy-positions:personal-liberty",
           bearing: "consistent-with",
+          weight: 0.9,
         },
-        { principle: "us-policy-positions:public-safety", bearing: "against" },
+        {
+          principle: "us-policy-positions:equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:fiscal-restraint",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "us-policy-positions:public-safety",
+          bearing: "against",
+          weight: 0.9,
+        },
+        {
+          principle: "us-policy-positions:tradition",
+          bearing: "against",
+          weight: 0.45,
+        },
       ],
     },
     {
@@ -397,10 +684,22 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:transparency",
           bearing: "consistent-with",
+          weight: 0.95,
+        },
+        {
+          principle: "us-policy-positions:equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.75,
         },
         {
           principle: "us-policy-positions:personal-liberty",
           bearing: "against",
+          weight: 0.7,
+        },
+        {
+          principle: "us-policy-positions:property-rights",
+          bearing: "against",
+          weight: 0.65,
         },
       ],
     },
@@ -419,8 +718,33 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:personal-liberty",
           bearing: "consistent-with",
+          weight: 0.9,
         },
-        { principle: "us-policy-positions:local-control", bearing: "against" },
+        {
+          principle: "us-policy-positions:equal-treatment",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "us-policy-positions:transparency",
+          bearing: "consistent-with",
+          weight: 0.55,
+        },
+        {
+          principle: "us-policy-positions:local-control",
+          bearing: "against",
+          weight: 0.85,
+        },
+        {
+          principle: "us-policy-positions:market-competition",
+          bearing: "against",
+          weight: 0.65,
+        },
+        {
+          principle: "us-policy-positions:limited-government",
+          bearing: "against",
+          weight: 0.6,
+        },
       ],
     },
     {
@@ -437,8 +761,28 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
         {
           principle: "us-policy-positions:equal-treatment",
           bearing: "consistent-with",
+          weight: 0.95,
         },
-        { principle: "us-policy-positions:tradition", bearing: "against" },
+        {
+          principle: "us-policy-positions:equal-opportunity",
+          bearing: "consistent-with",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:local-control",
+          bearing: "consistent-with",
+          weight: 0.65,
+        },
+        {
+          principle: "us-policy-positions:tradition",
+          bearing: "against",
+          weight: 0.8,
+        },
+        {
+          principle: "us-policy-positions:limited-government",
+          bearing: "against",
+          weight: 0.45,
+        },
       ],
     },
   ],

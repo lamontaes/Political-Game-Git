@@ -1,0 +1,7 @@
+{
+  "unchangedWorldArgument": true,
+  "unchangedAuthorityAndDecisionInputs": true,
+  "existingInputVariablePassed": true,
+  "existingDecider": "decideCouncilVote",
+  "newContract": false
+}

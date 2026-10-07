@@ -1,0 +1,17 @@
+{
+  "seed": "session3-kit13-20261005",
+  "place": "1971040",
+  "days": 30,
+  "head": "203d4be05dca287af5d75088d6c110a8503a11e6",
+  "date": "2026-02-04",
+  "fingerprint": "8bf587b6f03840239e81d3e4d2e9076bebb7c9e165b88a6eb21132ccfa6d8dab",
+  "from": "2026-01-05",
+  "status": "PASS",
+  "peopleCount": 15624,
+  "decisionCount": 6216,
+  "eventCount": 17710,
+  "receiptSha256": "30ea8822e5e2e4fc88b234b4c34965ce5534b0917b5ccd3dff65382781e9af69",
+  "receiptPath": "test-results/session3-month/opening.json",
+  "yearTimingOwner": "Session 5",
+  "speedComparison": "Not established"
+}

@@ -1,18 +1,8 @@
-/**
- * The federal income tax a paycheck withholds under the law in force, where
- * a law enacted in play answered "should the top federal income tax rate go
- * up?".
- *
- * A yes raises the top bracket from 37% to 39.6%, the top rate in law for tax
- * years 2013 through 2017 (Revenue Procedure 2016-55 for 2017) before the Tax
- * Cuts and Jobs Act lowered it, and the rate the Treasury's fiscal year 2025
- * revenue proposals asked to restore. The law answers the rate, so the
- * bracket's 2026 threshold stays where it is. A later no puts the 37% rate
- * back. A rate change applies to a whole tax year, so a paycheck reads the
- * law in force on January 1 of the year it is paid, as the state income tax
- * laws are read (`state-income-tax-law.ts`).
- */
+/** The adopted top-bracket rate reaches the existing federal withholding table.
+ * The tax-year boundary and other brackets retain their starting law. A missing
+ * or conflicting adopted rate is unsupported, never the old 39.6% example. */
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import {
   FEDERAL_INCOME_TAX_2026,
   type FilingStatus,
@@ -23,12 +13,6 @@ import type { EntityId, IsoDate, World } from "./types";
 
 export const RAISE_TOP_FEDERAL_RATE_QUESTION =
   "us-federal-positions:tax.raise-top-income-tax-rate";
-
-/** The raised top rate, 39.6%, in basis points. */
-export const RAISED_TOP_RATE_BASIS_POINTS = 3960;
-
-export const RAISED_TOP_RATE_SOURCE =
-  "https://www.irs.gov/pub/irs-drop/rp-16-55.pdf";
 
 export interface FederalIncomeTaxUnderLaw {
   readonly schedule: IncomeTaxSchedule | null;
@@ -79,13 +63,27 @@ export function federalIncomeTaxUnderLaw(
   );
   if (!law || law.origin !== "enacted")
     return { schedule: begun, governingLaw: null, lawMeasureIds: [] };
+  const rate =
+    law.answer === "yes"
+      ? readFinalEnactedLawTerm(world, law, {
+          questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
+          termKey: "rate",
+          unit: "ratio",
+          onDate: `${paidAt.slice(0, 4)}-01-01` as IsoDate,
+        })
+      : null;
+  const supported =
+    rate &&
+    rate.value >= 0 &&
+    rate.value <= 1 &&
+    Number.isSafeInteger(Math.round(rate.value * 10_000)) &&
+    Math.round(rate.value * 10_000) / 10_000 === rate.value;
   return {
     schedule:
       law.answer === "yes"
-        ? {
-            ...withTopRate(begun, RAISED_TOP_RATE_BASIS_POINTS),
-            sourceUrl: RAISED_TOP_RATE_SOURCE,
-          }
+        ? supported
+          ? withTopRate(begun, Math.round(rate.value * 10_000))
+          : null
         : begun,
     lawMeasureIds: [law.measureId],
     governingLaw: law,

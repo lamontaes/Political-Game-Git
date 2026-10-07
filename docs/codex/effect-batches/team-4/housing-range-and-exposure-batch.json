@@ -1,0 +1,74 @@
+{
+  "schema": "team-effect-batch/v1",
+  "team": 4,
+  "sourceHead": "5885a2dc882394f5b5cad6009b36bde74324a0b0",
+  "sharedFilesWriter": "coordinator only",
+  "numberVerificationRequestedFrom": "Team9",
+  "links": [
+    {
+      "key": "right-to-counsel-to-evictions",
+      "operation": "merge-fields",
+      "size": -0.62,
+      "range": [-0.78, -0.45],
+      "rangeKind": "cross-source represented-tenant effect estimates; NOT a confidence interval",
+      "source": "Cassidy and Currie 2022, NBER w29836; NYC Office of Civil Justice FY2019 (existing source attribution; primary interval verification requested)",
+      "why": [
+        "A covered tenant can receive legal representation in an eviction proceeding.",
+        "Counsel can identify defenses, enforce procedure and negotiate a lawful resolution.",
+        "The court applies the facts, defenses and governing law to the possession claim.",
+        "Possession orders therefore differ where a viable defense or settlement changes the case.",
+        "Bedrock: a legal rule enforced by the judge and decisions by tenant, attorney and landlord; no percentage chooses a person\u2019s outcome."
+      ],
+      "conditions": [
+        "Representation must actually be available and the tenant must satisfy the enacted eligibility terms.",
+        "Case merits, tenant participation, attorney capacity and landlord settlement decisions determine the individual result.",
+        "The source interval describes covered represented tenants, not every renter or every case nationwide.",
+        "Recorded-case housing.eviction producers must count the saved decisions and must never apply this aggregate check again."
+      ],
+      "reverseOnRepeal": "Repeal ends future entitlement according to the actual transition rule. It does not reverse completed settlements or possession orders, and removing counsel is not assumed to increase evictions by the same percentage.",
+      "who": "Eligible tenants actually facing a filed eviction claim, their household, landlord and legal services provider.",
+      "lagWhy": "Representation affects the pending case when provided. The existing six-month aggregate lag is a calibration gap, not evidence that every case waits six months.",
+      "aboutZero": false,
+      "applyAfterVerification": true
+    }
+  ],
+  "blockedActivations": [
+    {
+      "key": "new-apartments-to-nearby-rent",
+      "citedEstimateRange": [-0.07, -0.05],
+      "source": "Asquith, Mast and Reed 2023, Review of Economics and Statistics (existing map attribution)",
+      "estimateUnit": "relative nearby rent change around a large newly completed building",
+      "confidenceInterval": "MISSING; request exact estimate and CI table/page from Team9",
+      "engineCauseUnit": "new permitted apartment units in buildings of five or more units per year per 10,000 residents",
+      "blocker": "Study neighborhood exposure is not the engine\u2019s permit-unit delta. Need a completed-building neighborhood exposure reader before setting size.",
+      "why": [
+        "New occupied apartments provide additional housing options.",
+        "Some households move into the new units instead of competing for the previous rental stock.",
+        "Nearby landlords face fewer competing bids for their existing units.",
+        "Landlords choose asking rents and tenants choose affordable housing from their own budgets and alternatives.",
+        "Bedrock: households need dwellings; additional available dwellings change the options that people can choose."
+      ],
+      "conditions": [
+        "The completed project and the observed renter must share the study\u2019s neighborhood exposure.",
+        "Permit issuance alone is not an available or occupied dwelling.",
+        "Local demand, vacancy, project size, completion and absorption determine applicability.",
+        "Do not spread a neighborhood treatment to every household in a state."
+      ],
+      "reverseOnRepeal": "Repealing permitting permission changes future construction options. Existing completed homes remain available; no immediate reverse rent shock is justified.",
+      "who": "Renters and landlords near completed large apartment developments within the study exposure definition.",
+      "lagWhy": "The effect requires completion and lease-market response. Existing twelve-month lag is unverified for each project and place.",
+      "aboutZero": false,
+      "apply": false
+    }
+  ],
+  "productionClaimsNeeded": [
+    "src/simulation/outcome-web/index.ts: neighborhood/completed-building exposure adapter only, pending coordinator allocation"
+  ],
+  "actualWiring": {
+    "cannabisBudgetZeroOpeningBase": "implemented in month.ts; focused saved consequence and fiscal rollover proof passed",
+    "stampSource": "205c598a5adb7f77eeed69af8f3745e5cbe64ce1; identical to merged b2d0bf43794ce9ccb497b4c3eb4e2c678eb70d71",
+    "fullLawRecordsComplete": 0,
+    "totalLaws": 10,
+    "nationwideAudit": "NOT RUN"
+  }
+}

@@ -24,16 +24,17 @@ import {
   municipalSeats,
 } from "../municipal-public-work";
 import {
-  COUNCIL_ACT_HANDLERS,
+  councilActHandlers,
   COUNCIL_READING_DUE,
 } from "../municipal-ordinance-procedure";
+import { countyGoverningBodyRules } from "../nationwide-world/county-governing-body-rules";
 import { ensureHomeLocalGovernments } from "../nationwide-world/local-governments";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { IsoDate, World } from "../types";
 import { advanceWorld } from "../world";
 import {
-  LOCAL_MEMBER_AGENDA_HANDLERS,
+  localMemberAgendaHandlers,
   LOCAL_MEMBER_AGENDA_INTAKE,
   LOCAL_MEMBER_AGENDA_VERSION,
   scheduleLocalMemberAgendaIntakes,
@@ -44,8 +45,8 @@ const place = requireLifePlace("county:01001");
 const packId = `${county.id}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
 const scope = localFiscalGameAuthorityForRulePackId(packId)!;
 const handlers = createFutureTransitionHandlerRegistry([
-  ...LOCAL_MEMBER_AGENDA_HANDLERS,
-  ...COUNCIL_ACT_HANDLERS,
+  ...localMemberAgendaHandlers(),
+  ...councilActHandlers(),
 ]);
 
 function nextQuarterStart(date: IsoDate): IsoDate {
@@ -71,7 +72,7 @@ function openedCounty(): World {
   const seats = municipalSeats(world, county.id).filter(
     (seat) => seat.role === "member" || seat.role === "presiding-member",
   );
-  expect(seats).toHaveLength(5);
+  expect(seats).toHaveLength(countyGoverningBodyRules(county)!.seats);
   // Save one sponsor's reasons for filing. Other members decide their ballots
   // from their own generated principles; the test supplies no vote or result.
   const sponsor = seats[1]!;
@@ -105,7 +106,7 @@ function openedCounty(): World {
 }
 
 describe("Autauga County's ordinary member agenda", () => {
-  it("moves its quarterly fiscal intake through a recorded board decision", () => {
+  it("moves its quarterly intake without invented amounts through a recorded board decision", () => {
     expect(scope.authority.level).toBe("county");
     expect(scope.jurisdictionId).toBe(governmentUnitJurisdictionId(county));
     expect(place.context.jurisdiction.id).toBe(scope.jurisdictionId);
@@ -150,8 +151,7 @@ describe("Autauga County's ordinary member agenda", () => {
         .at(-1),
     ).toMatchObject({
       status: "resolved",
-      context:
-        "The local council reached its quarterly game-profile agenda date.",
+      context: "The local council reached its shared timetable agenda date.",
     });
     const measure = (world.history.legislativeMeasures ?? []).find(
       (entry) =>
@@ -161,26 +161,39 @@ describe("Autauga County's ordinary member agenda", () => {
     );
     expect(measure).toMatchObject({
       origin: "member-introduction",
-      subjectClass: "appropriation",
+      subjectClass: "general-policy",
       jurisdictionId: scope.jurisdictionId,
       rulePackId: packId,
     });
     if (!measure) return;
-    const amount = currentMeasureProvisions(world, measure.id).find(
-      (provision) => provision.provisionKey === "amount-provided",
-    );
-    expect(amount?.operativeEffect).toEqual({
-      kind: "public-program-appropriation",
-    });
-    expect(amount?.fiscalExposureMinorUnits).toBeGreaterThan(0);
+    // These opening worlds have no verified current-law numeric reference.
+    expect(currentMeasureProvisions(world, measure.id)).toEqual([]);
     expect(
       world.history.legislativeDraftLineages?.find(
         (lineage) => lineage.measureId === measure.id,
       ),
-    ).toMatchObject({
-      variantKey: "local-fix-it-first-v1",
-      authorityKey: scope.authority.authorityKey,
+    ).toBeUndefined();
+    expect(measure.summary).toContain("No numeric terms are requested");
+    const motive = world.history.events.find(
+      (event) => event.stableKey === `${measure.stableKey}:motive`,
+    );
+    expect(motive).toMatchObject({
+      type: "legislation.sponsor-motive",
+      involvedEntityIds: expect.arrayContaining([
+        measure.id,
+        measure.sponsorPersonId,
+      ]),
     });
+    const reasons = motive!.tags
+      .filter((tag) => tag.startsWith("reason:principle-record:"))
+      .map((tag) => tag.slice("reason:principle-record:".length));
+    expect(reasons.length).toBeGreaterThan(0);
+    for (const id of reasons)
+      expect(
+        world.history.principles.find((row) => row.id === id),
+      ).toMatchObject({
+        personId: measure.sponsorPersonId,
+      });
 
     const reading = world.history.futureDueItems.find(
       (item) =>

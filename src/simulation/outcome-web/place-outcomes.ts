@@ -8,21 +8,19 @@ import type {
   IsoDate,
   World,
 } from "../types";
-import { SeededRng } from "../rng";
-import { standardNormal } from "../world-setup/deterministic-math";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
-import { outcomeFactor } from ".";
+import { outcomeFactor, outcomeRangeViolations } from ".";
+import { settleSnapParticipationForMonth } from "../crisis/snap-participation-producer";
+import { recordMonthlyServiceReceipts } from "../monthly-service-receipts";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
-  driftsInLogs,
   localOutcomeKey,
   localWeights,
   PLACE_OUTCOME_BASES,
   PLACE_OUTCOME_MEASURES,
   placeOutcomeKey,
   placeOutcomeValue,
-  type PlaceOutcomeDrift,
   type PlaceOutcomeRecord,
   type PlaceOutcomeShare,
 } from "./place-outcome-store";
@@ -44,46 +42,6 @@ function firstOfNextMonth(date: IsoDate): IsoDate {
       ? `${year + 1}-01-01`
       : `${year}-${String(month + 1).padStart(2, "0")}-01`,
   );
-}
-
-function logit(pct: number): number {
-  const p = pct / 100;
-  return Math.log(p / (1 - p));
-}
-
-function fromLogit(value: number): number {
-  return 100 / (1 + Math.exp(-value));
-}
-
-/**
- * One month's move in a measure's underlying level for every place, in
- * log-odds: a national part every place shares, a part of the place's own,
- * and now and then a society-wide wave (national, so every place feels it).
- * A world with no seed (a fixture) does not drift.
- */
-function driftSteps(
-  world: World,
-  measure: string,
-  month: IsoDate,
-  drift: PlaceOutcomeDrift,
-): (placeKey: string) => number {
-  if (!world.seed) return () => 0;
-  const rng = new SeededRng(world.seed).fork(
-    `${PLACE_OUTCOMES_VERSION}:drift:${measure}:${month}`,
-  );
-  const sd = drift.monthlySdLogit;
-  const national =
-    standardNormal(rng.fork("national")) * sd * Math.sqrt(drift.nationalShare);
-  const wave =
-    rng.fork("wave").next() < drift.waveMonthlyChance
-      ? standardNormal(rng.fork("wave-size")) * drift.waveSdLogit
-      : 0;
-  return (placeKey) =>
-    national +
-    wave +
-    standardNormal(rng.fork(`place:${placeKey}`)) *
-      sd *
-      Math.sqrt(1 - drift.nationalShare);
 }
 
 interface LocalPlace {
@@ -139,17 +97,22 @@ export function localOutcomePlaces(
 /**
  * Each place outcome for every place with a base, for the month starting
  * `month`. The place's underlying level carries on from its last record
- * (the 2024 base in its first month) and drifts; nothing pulls it back to
- * the base. Laws and conditions then act on it through the outcome web's
- * multiplier, and the links that moved it are kept. `measures` narrows the
- * pass to some outcomes (a test of one measure over a century); play records
- * them all.
+ * (the 2024 base in its first month) and does not move on its own: no dice,
+ * no monthly noise, no society-wide wave. A place's value changes only when
+ * the outcome web's multiplier does, that is when a law, a condition or a
+ * dated, recorded crisis that a built link names changes, and the links that
+ * moved it are kept. Nothing pulls a place back to its base either, so a
+ * cause that has ended leaves the place wherever the web last put it.
+ * `measures` narrows the pass to some outcomes (a test of one measure over a
+ * century); play records them all.
  *
  * A city or county keeping its own outcomes (`localOutcomePlaces`) gets its
  * own record: its state's level, moved by the web as read in that place, so
- * its own ordinances act there. PLACEHOLDER: a city starts at its state's
- * level and shares its drift, until city-level bases are read. The state's
- * record then weighs those places in by residents.
+ * its own ordinances act there. ESTIMATED FROM THE CONTAINING PLACE: a city or
+ * county without its own recorded base starts at its containing state's
+ * recorded 2024 level. The basis place is therefore the state identified by
+ * that local jurisdiction's Gazetteer relationship, and the state's record
+ * weighs all represented local places by their recorded residents.
  */
 export function placeOutcomesForMonth(
   world: World,
@@ -170,8 +133,7 @@ export function placeOutcomesForMonth(
   const locals = localOutcomePlaces(world, month);
   for (const measure of measures) {
     const definition = PLACE_OUTCOME_BASES[measure]!;
-    const drift = definition.drift ?? DEFAULT_PLACE_OUTCOME_DRIFT;
-    const step = driftSteps(world, measure, month, drift);
+    const bounds = definition.drift ?? DEFAULT_PLACE_OUTCOME_DRIFT;
     for (const [placeKey, base] of Object.entries(definition.places)) {
       const jurisdictionId = stateJurisdictionForKey(placeKey)?.id;
       if (!jurisdictionId) continue;
@@ -187,15 +149,11 @@ export function placeOutcomesForMonth(
         : replaced
           ? (base * (replaced.structural ?? replaced.base)) / replaced.base
           : base;
-      const moved =
-        definition.scale === "level"
-          ? before + step(placeKey)
-          : driftsInLogs(definition)
-            ? before * Math.exp(step(placeKey))
-            : fromLogit(logit(before) + step(placeKey));
+      // The level carries over unchanged; only a carried-over index ratio can
+      // land outside the measure's plausible range, so it is held inside it.
       const structural =
         last || replaced
-          ? Math.min(drift.maxPct, Math.max(drift.minPct, moved))
+          ? Math.min(bounds.maxPct, Math.max(bounds.minPct, before))
           : base;
       const reading = outcomeFactor(world, jurisdictionId, measure, month);
       // A level measure adds each cause's excess over 1; the others multiply.
@@ -223,6 +181,7 @@ export function placeOutcomesForMonth(
           multiplier: own.multiplier,
           value: Math.round(valueOf(own) * 100) / 100,
           causes: movedBy(own.causes),
+          rangeViolations: outcomeRangeViolations(own),
         });
         if (local.weight !== null) {
           shares.push({
@@ -254,6 +213,7 @@ export function placeOutcomesForMonth(
         multiplier,
         value: Math.round(value * 100) / 100,
         causes: movedBy(reading.causes),
+        rangeViolations: outcomeRangeViolations(reading),
         ...(shares.length
           ? {
               places: shares,
@@ -288,7 +248,7 @@ export function ensurePlaceOutcomes(world: World): World {
     return world;
   // The opening month is recorded now, so a new game already knows where
   // every place stands.
-  const opened: World = {
+  let opened: World = {
     ...world,
     placeOutcomes: {
       months: [
@@ -302,6 +262,9 @@ export function ensurePlaceOutcomes(world: World): World {
       ],
     },
   };
+  const openingDate = makeIsoDate(world.currentDate);
+  opened = settleSnapParticipationForMonth(opened, openingDate, world.id, true);
+  opened = settleSnapParticipationForMonth(opened, openingDate, world.id);
   const dueAt = firstOfNextMonth(makeIsoDate(world.currentDate));
   return scheduleFutureDueItem(opened, {
     stableKey: `${PLACE_OUTCOMES_VERSION}:pass:${dueAt.slice(0, 7)}`,
@@ -335,6 +298,10 @@ export function placeOutcomesHandler(
           ],
         },
       };
+  if (!already) {
+    next = settleSnapParticipationForMonth(next, month, dueItem.id);
+    next = recordMonthlyServiceReceipts(next, dueItem.dueAt);
+  }
   const following = firstOfNextMonth(addDays(month, 1));
   next = scheduleFutureDueItem(next, {
     stableKey: `${PLACE_OUTCOMES_VERSION}:pass:${following.slice(0, 7)}`,

@@ -1,0 +1,9 @@
+{
+  "head": "ee4344f33a1136456051380e22f04f2dd0b389de",
+  "roots": [
+    "scripts/engine-proof/day-adapter.test.ts"
+  ],
+  "files": 870,
+  "diagnostics": 0,
+  "sourceMode": "exact committed Git objects; no dirty source reads"
+}

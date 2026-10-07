@@ -12,9 +12,10 @@ import {
   enterLifePath,
   performLifePathSession,
   scheduleLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "./life-paths2";
 import {
+  assessPaychecksTaxes,
   residenceStateKey,
   statutoryTaxBalances,
   taxAt,
@@ -60,7 +61,7 @@ function workOneShift(world: World): World {
   const activityId = scheduled.world.history.scheduledActivities.at(-1)!.id;
   const worked = performLifePathSession(scheduled.world, activityId);
   expect(worked.ok, worked.message).toBe(true);
-  return advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+  return advanceWorld(worked.world, 1, lifePaths2Handlers());
 }
 
 describe("a paycheck in Ely, Nevada", () => {
@@ -153,9 +154,56 @@ describe("a paycheck in Ely, Nevada", () => {
     expect(reloaded.history.statutoryTaxPayments).toEqual(
       paid.history.statutoryTaxPayments,
     );
-    const later = advanceWorld(reloaded, 7, LIFE_PATHS2_HANDLERS);
-    expect(later.history.statutoryTaxLiabilities).toHaveLength(rows.length);
-    expect(cash(later, start.personId)).toBeLessThanOrEqual(7_200 - 651);
+    const later = advanceWorld(reloaded, 7, lifePaths2Handlers());
+    // Later paydays can add their own liabilities; the original paycheck
+    // must keep exactly its saved allocations and payments after Continue.
+    const originalLiabilityIds = new Set(rows.map((row) => row.id));
+    const originalPayments = (paid.history.statutoryTaxPayments ?? []).filter(
+      (row) => originalLiabilityIds.has(row.liabilityId),
+    );
+    expect(
+      later.history.statutoryTaxLiabilities!.filter(
+        (row) => row.sourceOutcomeId === pay.id,
+      ),
+    ).toEqual(rows);
+    expect(
+      later.history.statutoryTaxPayments!.filter((row) =>
+        originalLiabilityIds.has(row.liabilityId),
+      ),
+    ).toEqual(originalPayments);
+    const repeated = assessPaychecksTaxes(later, [pay.id]);
+    expect(repeated.history.statutoryTaxLiabilities).toEqual(
+      later.history.statutoryTaxLiabilities,
+    );
+    expect(repeated.history.statutoryTaxPayments).toEqual(
+      later.history.statutoryTaxPayments,
+    );
+    expect(repeated.history.resourceTransferOutcomes).toEqual(
+      later.history.resourceTransferOutcomes,
+    );
+    expect(cash(repeated, start.personId)).toBe(cash(later, start.personId));
+    const flows = new Map(
+      later.history.resourceFlows.map((flow) => [flow.id, flow]),
+    );
+    const laterCashDelta = later.history.resourceTransferOutcomes
+      .slice(paid.history.resourceTransferOutcomes.length)
+      .reduce((delta, outcome) => {
+        const flow = flows.get(outcome.resourceFlowId)!;
+        if (outcome.transferredAmount.currency !== money(0, "USD").currency)
+          return delta;
+        const incoming =
+          flow.recipient.kind === "person" &&
+          flow.recipient.personId === start.personId;
+        const outgoing =
+          flow.source.kind === "person" &&
+          flow.source.personId === start.personId;
+        return (
+          delta +
+          (Number(incoming) - Number(outgoing)) *
+            outcome.transferredAmount.minorUnits
+        );
+      }, 0);
+    expect(cash(later, start.personId)).toBe(7_200 - 651 + laterCashDelta);
   });
 });
 

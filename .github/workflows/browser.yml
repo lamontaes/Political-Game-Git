@@ -21,9 +21,8 @@ name: Browser proofs
 # the reasoning for either choice is in docs/decisions/DECISION-LOG.md.
 
 on:
-  pull_request:
-  push:
-    branches: [main, "codex/**"]
+  # Owner rule (Oct 1, 2026): the full browser suite runs only when started by hand.
+  workflow_dispatch:
 
 permissions:
   contents: read

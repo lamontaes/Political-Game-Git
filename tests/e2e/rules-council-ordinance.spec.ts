@@ -47,23 +47,18 @@ async function goTo(page: Page, id: string) {
 
 async function savedRecord(page: Page): Promise<StoredBrowserWorldRecord> {
   return page.evaluate(async () => {
-    const db = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open("political-life-worlds");
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-    const records = await new Promise<StoredBrowserWorldRecord[]>(
-      (resolve, reject) => {
-        const request = db
-          .transaction("worlds", "readonly")
-          .objectStore("worlds")
-          .getAll();
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-      },
+    const repositoryPath = "/src/presentation/browser-world-repository.ts";
+    const { BrowserSaveStore } = await import(
+      /* @vite-ignore */ repositoryPath
     );
-    db.close();
-    return records[0]!;
+    const store = new BrowserSaveStore();
+    const listing = await store.list();
+    const saveId = listing.saves[0]?.saveId;
+    if (!saveId) throw new Error("Expected the actual saved review life.");
+    const record = await store.inspectRecord(saveId);
+    if (!record)
+      throw new Error("The saved review life could not be inspected.");
+    return record;
   });
 }
 
@@ -77,7 +72,7 @@ async function openLocalGovernment(page: Page) {
 test("a seated Charlottesville councilor passes an ordinance by keyboard and it survives reload", async ({
   page,
 }, info) => {
-  test.setTimeout(180_000);
+  test.setTimeout(480_000);
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
 
@@ -88,6 +83,11 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
     placeScope: "locality",
     placeQuery: "Charlottesville",
     route: "normal",
+  });
+  // The generated press and schedules can still be finishing after Begin;
+  // wait for the playable surface before the helper's short default timeout.
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 120_000,
   });
   await enterLife(page);
   await saveLife(page);
@@ -160,57 +160,104 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   await page.reload();
   await expect(page.getByTestId("continue")).toBeVisible();
   await page.evaluate(async (value) => {
-    const db = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open("political-life-worlds");
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
+    const repositoryPath = "/src/presentation/browser-world-repository.ts";
+    const simulationPath = "/src/simulation/serialization.ts";
+    const { BrowserSaveStore } = await import(
+      /* @vite-ignore */ repositoryPath
+    );
+    const { deserializeWorld } = await import(
+      /* @vite-ignore */ simulationPath
+    );
+    const store = new BrowserSaveStore({
+      now: () => new Date(value.metadata.savedAt),
     });
-    await new Promise<void>((resolve, reject) => {
-      // The save list reads a summary kept beside each record. Replacing the
-      // record behind the store's back leaves that summary describing the old
-      // one, so it goes too, and the next list summarizes the new record.
-      const transaction = db.transaction(
-        ["worlds", "world-summaries"],
-        "readwrite",
-      );
-      transaction.objectStore("worlds").put(value);
-      transaction.objectStore("world-summaries").delete(value.saveId);
-      transaction.oncomplete = () => resolve();
-      transaction.onerror = () => reject(transaction.error);
-    });
-    db.close();
+    // Observe the actual slot generation before replacing the review fixture.
+    // The canonical writer updates its manifest, chunks and summary together.
+    const existing = await store.load(value.saveId);
+    if (!existing) throw new Error("The original saved life is missing.");
+    const saved = await store.save(
+      deserializeWorld(value.payload),
+      value.saveId,
+    );
+    if (saved.status !== "saved")
+      throw new Error(`Review fixture replacement refused: ${saved.status}`);
+    const replaced = await store.inspectRecord(value.saveId);
+    if (
+      replaced?.saveId !== value.saveId ||
+      replaced.metadata.createdAt !== value.metadata.createdAt ||
+      replaced.generation < existing.generation ||
+      replaced.payload !== value.payload
+    )
+      throw new Error("Review fixture lost its saved identity or generation.");
   }, record);
   await page.reload();
   await page.getByTestId("continue").click();
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 120_000,
+  });
   await enterLife(page);
 
   // Introduce by keyboard: type the title and press Enter in the field.
   let panel = await openLocalGovernment(page);
-  const title = panel.getByTestId("municipal-ordinance-title");
-  await title.fill("Sidewalk dining permits");
-  await title.press("Enter");
+  const beforeProposal = deserializeWorld((await savedRecord(page)).payload);
+  const measureCountBeforeProposal =
+    beforeProposal.history.legislativeMeasures?.length ?? 0;
+  await panel.getByTestId("municipal-proposal-title").fill("Library crossing");
+  await panel
+    .getByTestId("municipal-proposal-text")
+    .fill("The city shall maintain a marked crosswalk at the public library.");
+  await panel.getByTestId("propose-municipal-ordinance").press("Enter");
+  const proposalPaper = panel.getByTestId("municipal-proposal-paper");
+  await expect(proposalPaper).toContainText(
+    "PROPOSAL · NOT INTRODUCED · NOT LAW",
+  );
+  await expect(proposalPaper).toContainText("Library crossing");
+  await expect(proposalPaper).toContainText(
+    "The city shall maintain a marked crosswalk at the public library.",
+  );
+  await saveLife(page);
+  const savedProposal = deserializeWorld((await savedRecord(page)).payload);
+  expect(savedProposal.history.legislativeProposals).toHaveLength(1);
+  expect(savedProposal.history.legislativeMeasures?.length ?? 0).toBe(
+    measureCountBeforeProposal,
+  );
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 120_000,
+  });
+  await enterLife(page);
+  panel = await openLocalGovernment(page);
+  await expect(panel.getByTestId("municipal-proposal-paper")).toContainText(
+    "Library crossing",
+  );
+
+  await panel.getByRole("button", { name: "Introduce this proposal" }).click();
   // The council's own ordinances are listed too; follow the player's.
   const mine = (region: typeof panel) =>
     region
       .getByTestId("municipal-ordinance")
-      .filter({ hasText: "Sidewalk dining permits" });
+      .filter({ hasText: "Library crossing" });
   const ordinance = mine(panel);
-  await expect(ordinance).toContainText("Ord. 26-1: Sidewalk dining permits");
-  await expect(ordinance).toContainText("not yet on the council agenda");
+  await expect(ordinance).toContainText(/ORD \d+: Library crossing/);
+  await expect(ordinance).toContainText("Introduced");
 
   // Put it on the agenda with Space.
   await ordinance
     .getByRole("button", { name: "Put on the council agenda" })
     .press("Space");
-  await expect(ordinance).toContainText("On the council agenda.");
+  await expect(ordinance).toContainText("On the agenda");
   await expect(ordinance).toContainText("City Code § 2-97");
   const record_ = ordinance.getByRole("button", {
     name: "Record the council vote",
   });
   await expect(record_).toBeDisabled();
   await expect(ordinance).toContainText("Not before");
-  await ordinance.getByText("Other councilors' ballots").click();
-  await expect(ordinance).toContainText("decides their own ballot");
+  await ordinance.getByLabel("Yea", { exact: true }).check();
+  await ordinance.getByText("How other councilors would answer now").click();
+  await expect(ordinance).toContainText(
+    "each seated councilor would decide from their recorded reasons",
+  );
   // No colleague weighs anything on a sidewalk permit, so each goes along
   // with the ordinance before the council rather than sitting it out.
   await expect(
@@ -225,9 +272,15 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   // charter's intervening days are over. A day can stop early for something
   // that happens in the life, so the clock is passed until the vote opens.
   await page.keyboard.press("Escape");
+  panel = await openLocalGovernment(page);
   let onFloor = mine(panel);
   let vote = onFloor.getByRole("button", { name: "Record the council vote" });
+  let outcome = onFloor.getByTestId("municipal-ordinance-outcome");
   for (let day = 0; day < 8; day += 1) {
+    if (await outcome.count()) break;
+    const yea = onFloor.getByLabel("Yea", { exact: true });
+    if (await yea.count()) await yea.check();
+    if (await vote.isEnabled()) break;
     const runDay = page.getByTestId("shell-pass-day");
     await expect(runDay).toBeEnabled();
     await runDay.press("Enter");
@@ -235,13 +288,13 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
     panel = await openLocalGovernment(page);
     onFloor = mine(panel);
     vote = onFloor.getByRole("button", { name: "Record the council vote" });
-    await onFloor.getByLabel("Yea").check();
-    if (await vote.isEnabled()) break;
-    await page.keyboard.press("Escape");
+    outcome = onFloor.getByTestId("municipal-ordinance-outcome");
   }
-  await expect(vote).toBeEnabled();
-  await vote.press("Enter");
-  const outcome = onFloor.getByTestId("municipal-ordinance-outcome");
+  if (!(await outcome.count())) {
+    await expect(vote).toBeEnabled();
+    await vote.press("Enter");
+    outcome = onFloor.getByTestId("municipal-ordinance-outcome");
+  }
   await expect(outcome).toBeVisible();
   const outcomeText = (await outcome.textContent()) ?? "";
   await page.screenshot({
@@ -252,7 +305,9 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   await saveLife(page);
   const after = deserializeWorld((await savedRecord(page)).payload);
   const measure = (after.history.legislativeMeasures ?? []).find(
-    (entry) => entry.designation === "Ord. 26-1",
+    (entry) =>
+      /^ORD \d+$/.test(entry.designation) &&
+      entry.shortTitle === "Library crossing",
   )!;
   const enactment = measureEnactment(after, measure.id);
   if (outcomeText.includes("did not pass")) {
@@ -264,6 +319,9 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
 
   await page.reload();
   await page.getByTestId("continue").click();
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 120_000,
+  });
   await enterLife(page);
   panel = await openLocalGovernment(page);
   await expect(

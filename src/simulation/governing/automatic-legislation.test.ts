@@ -10,7 +10,10 @@ import {
 } from "../legislation";
 import { stateJurisdictionForKey } from "../life-places";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
-import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
+import {
+  US_STATE_USPS,
+  CHIEF_EXECUTIVE_JURISDICTIONS,
+} from "../nationwide-world/state-executive-candidacy-packs";
 import { createLightweightPerson } from "../people";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { chamberByKey } from "../legislature-rules";
@@ -25,15 +28,12 @@ import {
 function fixtureWorld() {
   const seed = "automatic-law-cooldown-fixture";
   const currentDate = makeIsoDate("2026-01-05");
-  const stateJurisdictions = US_STATE_USPS.map((usps) => {
+  const stateJurisdictions = CHIEF_EXECUTIVE_JURISDICTIONS.map((usps) => {
     const jurisdiction = stateJurisdictionForKey(`US-${usps}`);
     if (!jurisdiction) throw new Error(`Missing state identity for ${usps}.`);
     return jurisdiction;
   });
-  const extraJurisdictions = ["US-PR", "US-DC"]
-    .map((key) => stateJurisdictionForKey(key))
-    .filter((jurisdiction) => jurisdiction !== null);
-  const jurisdictions = [...stateJurisdictions, ...extraJurisdictions];
+  const jurisdictions = stateJurisdictions;
   const homeJurisdiction = stateJurisdictionForKey("US-KY")!;
   const person = createLightweightPerson({
     worldId: createWorldId(seed),
@@ -42,18 +42,25 @@ function fixtureWorld() {
     currentDate,
     homeJurisdictionId: homeJurisdiction.id,
   });
+  const anotherMember = createLightweightPerson({
+    worldId: createWorldId(seed),
+    worldSeed: seed,
+    index: 1,
+    currentDate,
+    homeJurisdictionId: homeJurisdiction.id,
+  });
   return createWorld({
     seed,
     currentDate,
     policyCatalog: createProductionPolicyCatalog(),
     jurisdictions,
-    people: [person],
+    people: [person, anotherMember],
     control: { kind: "person", personId: person.id },
   });
 }
 
 describe("automatic legislation producer guards", () => {
-  it("resolves state transit game profiles only for the 50 saved states", () => {
+  it("resolves all 56 saved jurisdictions without inventing missing numeric law terms", () => {
     const world = fixtureWorld();
     const proposition = Object.values(world.policyCatalog.propositions).find(
       (entry) =>
@@ -78,6 +85,7 @@ describe("automatic legislation producer guards", () => {
       });
       const draft = compileAutomaticLawDraft({
         world,
+        sponsorPersonId: world.personOrder[0]!,
         jurisdictionId: jurisdiction.id,
         propositionId: proposition!.id,
         answer: "yes",
@@ -85,10 +93,12 @@ describe("automatic legislation producer guards", () => {
         intakeKey: `all-state-draft:${usps}`,
         context: context!,
       });
-      expect(draft, `${usps} draft`).not.toBeNull();
-      expect(draft?.rulePackId).toBe(context?.rulePackId);
+      expect(
+        draft,
+        `${usps} has no saved current amount or reference`,
+      ).toBeNull();
     }
-    for (const key of ["US-PR", "US-DC"]) {
+    for (const key of ["US-PR", "US-DC", "US-GU", "US-VI", "US-AS", "US-MP"]) {
       const jurisdiction = stateJurisdictionForKey(key);
       if (jurisdiction)
         expect(
@@ -129,6 +139,7 @@ describe("automatic legislation producer guards", () => {
     const cooldownInput = {
       jurisdictionId: measure.jurisdictionId,
       propositionId,
+      sponsorPersonId,
       stableKeyPrefix: "legislative-intake/v1:",
     } as const;
     expect(automaticLawQuestionOnCooldown(world, cooldownInput)).toBe(false);
@@ -163,6 +174,14 @@ describe("automatic legislation producer guards", () => {
     if (!terminalAction) throw new Error("Missing terminal vote action.");
     const terminalAt = terminalAction.occurredAt;
     expect(automaticLawQuestionOnCooldown(world, cooldownInput)).toBe(true);
+    expect(
+      automaticLawQuestionOnCooldown(world, {
+        ...cooldownInput,
+        sponsorPersonId: world.personOrder.find(
+          (personId) => personId !== sponsorPersonId,
+        )!,
+      }),
+    ).toBe(false);
     expect(
       automaticLawQuestionOnCooldown(world, {
         ...cooldownInput,

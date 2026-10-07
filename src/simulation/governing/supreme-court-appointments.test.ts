@@ -15,7 +15,8 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import { lifePlaces } from "../life-places";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { SeededRng } from "../rng";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
+import { recordWorldEvent } from "../world";
 import { recordPersonDeath } from "../vitality";
 import {
   applyOfficeContinuityNotices,
@@ -49,6 +50,45 @@ function associateSeats(world: World) {
   return seatsForCourt(world, "us-supreme-court").filter(
     (seat) => !seat.linkedOfficeId,
   );
+}
+
+/** Explicit nomination fixture: the direct vote tests previously had no source event. */
+function recordedNomination(
+  world: World,
+  presidentId: EntityId,
+  nomineeId: EntityId,
+) {
+  const officeKey = associateSeats(world)[0]!.seatId;
+  const next = recordWorldEvent(world, {
+    stableKey: `b27:test-nomination:${nomineeId}`,
+    type: SUPREME_COURT_NOMINATED_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [presidentId, nomineeId],
+    participants: [
+      { personId: presidentId, role: "focus:actor", detail: "President" },
+      { personId: nomineeId, role: "focus:subject", detail: "Fixture nominee" },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [`judicial-seat:${officeKey}`],
+    summary:
+      "The fixture President names an existing judge for the direct vote test.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return {
+    world: next,
+    nominationEventId: next.history.events.at(-1)!.id,
+    officeKey,
+  };
 }
 
 describe("Build 27 step 1: every Supreme Court seat is filled by nomination and a Senate vote", () => {
@@ -154,10 +194,17 @@ describe("Build 27 step 1: every Supreme Court seat is filled by nomination and 
     const president = currentPresidentOf(world)!;
     const pool = supremeCourtNomineePool(world, "associate");
     const nominee = pool.find((c) => c.bench === "federal-appeals")!;
-    const vote = senateConfirmationVote(world, {
+    const nomination = recordedNomination(
+      world,
+      president.personId,
+      nominee.personId,
+    );
+    const vote = senateConfirmationVote(nomination.world, {
       stableKey: "b27:vote-fixture",
       nomineeId: nominee.personId,
       presidentId: president.personId,
+      nominationEventId: nomination.nominationEventId,
+      officeKey: nomination.officeKey,
     })!;
     const presidentParty = publicPartyOf(world, president.personId);
     const senate = seatedCongressChamber(world, "senate")!.body.members;
@@ -218,10 +265,17 @@ describe("Build 27 step 1: every Supreme Court seat is filled by nomination and 
               .at(-1)?.id ?? null,
         })),
       );
-    const vote = senateConfirmationVote(briefed, {
+    const nomination = recordedNomination(
+      briefed,
+      president.personId,
+      nominee.personId,
+    );
+    const vote = senateConfirmationVote(nomination.world, {
       stableKey: "b27:views-fixture",
       nomineeId: nominee.personId,
       presidentId: president.personId,
+      nominationEventId: nomination.nominationEventId,
+      officeKey: nomination.officeKey,
     })!;
     const ballot = vote.ballots.find((b) => b.personId === senator.personId)!;
     expect(ballot).toMatchObject({

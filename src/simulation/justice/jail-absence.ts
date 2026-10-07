@@ -22,10 +22,12 @@ import {
  * keeps the seat is the law's answer at sentencing (`recordOfficeConsequence`),
  * so an office never goes on leave here.
  *
- * PLACEHOLDER (hand-set): the employer holds the job through the term. No
- * employer in the game is a person who decides yet, so whether one lets a
- * worker go while they are away, or takes them back after, is not decided
- * here; the leave is only the fact that they were not there.
+ * ESTIMATED FROM AVERAGE: the employer holds the job through the term. The
+ * federal and state rule is that employment is at will, so a real employer may
+ * let a worker go, but no employer in the game is a person who decides this
+ * yet, so the leave is only the fact that the worker was not there. Whether
+ * one lets a worker go while they are away, or takes them back after, is not
+ * decided here.
  */
 
 export const JAIL_ABSENCE_VERSION = "justice-jail-absence-v1";
@@ -127,7 +129,7 @@ function settleJailTerms(world: World): World {
           (row) => row.stableKey === `${key}:away`,
         );
         if (!away) {
-          if (term.until <= next.currentDate) continue;
+          if (term.until !== null && term.until <= next.currentDate) continue;
           if (status.status !== "active") continue;
           next = recordWorkStatus(next, {
             stableKey: `${key}:away`,
@@ -141,7 +143,11 @@ function settleJailTerms(world: World): World {
             },
             supersedesStatusId: status.id,
           });
-        } else if (term.until <= next.currentDate && status.id === away.id) {
+        } else if (
+          term.until !== null &&
+          term.until <= next.currentDate &&
+          status.id === away.id
+        ) {
           next = recordWorkStatus(next, {
             stableKey: `${key}:back`,
             workRelationshipId: work.id,

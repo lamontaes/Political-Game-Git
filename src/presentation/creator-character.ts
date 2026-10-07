@@ -40,27 +40,6 @@ export function creatorCharacterMissing(
   return missing;
 }
 
-const MISSING_WORDS: Readonly<Record<CreatorCharacterMissing, string>> = {
-  gender: "a gender",
-  name: "a first and last name",
-  birthday: "a full birthday (month, day and year)",
-};
-
-/** One plain sentence naming what is left, or null when nothing is. */
-export function creatorCharacterHint(
-  missing: readonly CreatorCharacterMissing[],
-): string | null {
-  if (missing.length === 0) return null;
-  const words = missing.map((key) => MISSING_WORDS[key]);
-  const list =
-    words.length === 1
-      ? words[0]
-      : words.length === 2
-        ? `${words[0]} and ${words[1]}`
-        : `${words.slice(0, -1).join(", ")}, and ${words.at(-1)}`;
-  return `To continue, choose ${list}.`;
-}
-
 /** The whole date of birth the fields describe, or null when incomplete. */
 export function creatorBirthDate(setup: NewGameSetup): IsoDate | null {
   if (setup.birthMonth === undefined || setup.birthDay === undefined) {

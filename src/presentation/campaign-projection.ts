@@ -1,3 +1,4 @@
+import { nextCountyElection } from "../simulation/nationwide-world/county-election-calendar";
 import { electionSpeechWords } from "./election-speech-english";
 import {
   legacyLegislativeSeat,
@@ -18,6 +19,8 @@ import {
   ageOnDate,
   campaignActionResult,
   campaignActions,
+  askToHelp,
+  campaignHelperCandidates,
   campaignForCandidate,
   campaignResultsFor,
   campaignState,
@@ -62,9 +65,21 @@ import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  AskToHelpResult,
+  CampaignAsk,
   World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
+import {
+  campaignManagerCandidates,
+  campaignManagerOffer,
+  offerCampaignManager,
+} from "../simulation/campaign-managers";
+import {
+  askCampaignDonor,
+  campaignAsks,
+  campaignDonorCandidates,
+} from "../simulation/campaign-donors";
 import { personPronouns } from "../simulation/person-identity";
 import { municipalSeatChoiceByKey } from "../simulation/municipal-seat-identity";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
@@ -259,6 +274,34 @@ export function displayedSharePercents(
   return adjusted.map((value) => (value / scale).toFixed(decimals));
 }
 
+function campaignAskReason(
+  world: World,
+  campaign: CampaignRecord,
+  asks: readonly CampaignAsk[],
+  askIndex: number,
+): string | null {
+  const ask = asks[askIndex]!;
+  const ordinal = asks
+    .slice(0, askIndex + 1)
+    .filter((row) => row.residentId === ask.residentId).length;
+  const key = `${campaign.stableKey}:donor-ask:${ask.residentId}:${ordinal}`;
+  const trace = world.history.decisionTraces.find(
+    (row) => row.context.stableKey === key,
+  );
+  if (!trace) return null;
+  const optionKey = trace.selectedOptionKey;
+  const blocker = trace.context.constraints.find(
+    (row) => row.optionKey === optionKey,
+  );
+  if (blocker) return blocker.explanation;
+  return (
+    trace.context.considerations
+      .filter((row) => row.optionKey === optionKey)
+      .map((row) => row.explanation)
+      .join(" ") || null
+  );
+}
+
 export interface CampaignView {
   readonly phase: "unavailable" | "can-file" | CampaignStatus;
   /** Said plainly when there is nothing to offer. Never an empty screen. */
@@ -280,6 +323,30 @@ export interface CampaignView {
   readonly daysLeft: number | null;
   readonly treasury: MoneyAmount;
   readonly offers: readonly CampaignActionOffer[];
+  readonly donors: readonly {
+    personId: EntityId;
+    name: string;
+    outcome: string;
+    amountMinorUnits: number;
+    reasonBeliefId: EntityId | null;
+    reason: string | null;
+  }[];
+  readonly donorCandidates: readonly { personId: EntityId; name: string }[];
+  readonly managerCandidates: readonly {
+    personId: EntityId;
+    name: string;
+    affordable: boolean;
+    monthlySalary: MoneyAmount;
+    totalCost: MoneyAmount;
+  }[];
+  readonly helpers: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
+  readonly helperCandidates: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
   readonly sessions: readonly CampaignSessionRecord[];
   readonly reading: CampaignReading | null;
   readonly tallies: readonly CampaignTallyLine[];
@@ -528,6 +595,58 @@ export function projectCampaign(
     treasury,
     offers:
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
+    donors: campaignAsks(world, campaign.id).map((ask, index, asks) => ({
+      personId: ask.residentId,
+      name: world.people[ask.residentId]
+        ? personName(world.people[ask.residentId]!)
+        : "Unknown",
+      outcome: ask.outcome,
+      amountMinorUnits: ask.amountMinorUnits,
+      reasonBeliefId: ask.reasonBeliefId,
+      reason: campaignAskReason(world, campaign, asks, index),
+    })),
+    donorCandidates:
+      state.status === "active"
+        ? campaignDonorCandidates(world, campaign.id).map((personId) => ({
+            personId,
+            name: world.people[personId]
+              ? personName(world.people[personId]!)
+              : "Unknown",
+          }))
+        : [],
+    managerCandidates:
+      state.status === "active"
+        ? campaignManagerCandidates(world, campaign.id).flatMap((candidate) => {
+            const offer = campaignManagerOffer(
+              world,
+              campaign.id,
+              candidate.personId,
+            );
+            const person = world.people[candidate.personId];
+            return offer && person
+              ? [
+                  {
+                    personId: candidate.personId,
+                    name: personName(person),
+                    affordable: offer.affordable,
+                    monthlySalary: offer.salary,
+                    totalCost: offer.totalCost,
+                  },
+                ]
+              : [];
+          })
+        : [],
+    helpers: campaign.staffWorkRelationshipIds.flatMap((workId) => {
+      const relationship = world.history.workRelationships.find(
+        (row) => row.id === workId,
+      );
+      const helper = relationship ? world.people[relationship.personId] : null;
+      return helper ? [{ personId: helper.id, name: personName(helper) }] : [];
+    }),
+    helperCandidates:
+      state.status === "active"
+        ? campaignHelperCandidates(world, campaign.id)
+        : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
     // A speech already given stays on the record; one not given is offered
@@ -582,6 +701,31 @@ export function projectCampaign(
           ? `${candidateName} lost${resultMargin(result, personId)}.`
           : null,
   };
+}
+
+export function askCampaignDonorForContribution(
+  world: World,
+  campaignId: EntityId,
+  personId: EntityId,
+  amountMinorUnits = 10_000,
+) {
+  return askCampaignDonor(world, { campaignId, personId, amountMinorUnits });
+}
+
+export function offerCampaignManagerJob(
+  world: World,
+  campaignId: EntityId,
+  personId: EntityId,
+) {
+  return offerCampaignManager(world, campaignId, personId);
+}
+
+export function askCampaignHelper(
+  world: World,
+  campaignId: EntityId,
+  personId: EntityId,
+): AskToHelpResult {
+  return askToHelp(world, { campaignId, personId });
 }
 
 /**
@@ -732,6 +876,11 @@ function notYetFiled(
     daysLeft: null,
     treasury: emptyTreasury,
     offers: [] as readonly CampaignActionOffer[],
+    managerCandidates: [] as const,
+    donors: [] as const,
+    donorCandidates: [] as const,
+    helpers: [] as const,
+    helperCandidates: [] as const,
     sessions: [] as readonly CampaignSessionRecord[],
     reading: null,
     tallies: [] as readonly CampaignTallyLine[],
@@ -772,7 +921,9 @@ function offersFor(
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
     const unavailable = jailed
-      ? `You are in jail until ${proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.`
+      ? jailed.until === null
+        ? "You are serving life imprisonment. Your name stays on the ballot, but you cannot campaign."
+        : `You are in jail until ${proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.`
       : closed
         ? "Election day has arrived. There is nothing left to do but wait for the count."
         : kind === "advertising" && treasury.minorUnits <= 0
@@ -956,6 +1107,39 @@ function latestReading(
  * day where the state's municipal election law puts it there, and otherwise
  * on the short placeholder schedule until the town's calendar is read.
  */
+/** County identity and calendar do not establish qualification or district domicile. */
+export function countyCandidacyUnavailableReason(
+  officeKey: string,
+): string | null {
+  const office = localGoverningBodyIdentityForOfficeKey(officeKey);
+  // A county's executive and its row offices carry the disclosed age estimate
+  // and county residence, so they are not refused; a county board seat stays
+  // unavailable until its own requirements are read.
+  return office?.unit.unitType === "county" && office.seat === "governing-body"
+    ? "The requirements for this county office have not been established."
+    : null;
+}
+
+/** A missing county calendar remains unknown for read-only consumers. */
+export function availableCampaignElectionDate(
+  world: World,
+  jurisdictionId: EntityId,
+  officeKey: string,
+  districtBinding: DistrictSeatBinding | null = null,
+): IsoDate | null {
+  const local = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (local?.unit.unitType === "county") {
+    const read = nextCountyElection(local.unit, world.currentDate);
+    return read.status === "read" ? read.dates.electionDate : null;
+  }
+  return campaignElectionDate(
+    world,
+    jurisdictionId,
+    officeKey,
+    districtBinding,
+  );
+}
+
 export function campaignElectionDate(
   world: World,
   jurisdictionId: EntityId,
@@ -965,6 +1149,12 @@ export function campaignElectionDate(
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
   const town = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (town?.unit.unitType === "county") {
+    const read = nextCountyElection(town.unit, world.currentDate);
+    if (read.status === "unknown")
+      throw new Error("The county election calendar has not been read.");
+    return read.dates.electionDate;
+  }
   if (town) {
     // The state's municipal election law where it fixes the day; otherwise
     // the marked placeholder in town-election-calendar.ts.
@@ -1024,16 +1214,20 @@ export function fileForOffice(
   if (!option) {
     throw new Error("There is no office here the game has read the rules for.");
   }
+  // Refuse new admission before generating opponents or writing a candidate.
+  // Existing recorded campaigns are not changed by this filing preflight.
+  const countyRefusal = countyCandidacyUnavailableReason(option.officeKey);
+  if (countyRefusal) throw new Error(countyRefusal);
   const stableKey = `candidacy:${personId}:${world.currentDate}`;
+  const electionDate =
+    authoredElectionDate ??
+    campaignElectionDate(world, jurisdictionId, officeKey, districtBinding);
   const opponents = ensureCampaignOpponents(world, {
     stableKey,
     jurisdictionId,
     count: 1,
     excludePersonIds: [personId],
   });
-  const electionDate =
-    authoredElectionDate ??
-    campaignElectionDate(world, jurisdictionId, officeKey, districtBinding);
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,
@@ -1048,8 +1242,9 @@ export function fileForOffice(
     // want a seat in, rather than the game's own description of the seat. A
     // mayor sits in no body, so the committee is named for the office.
     committeeName:
-      localGoverningBodyIdentityForOfficeKey(option.officeKey)?.seat ===
-      "chief-executive"
+      localGoverningBodyIdentityForOfficeKey(option.officeKey)?.seat !==
+        "governing-body" &&
+      localGoverningBodyIdentityForOfficeKey(option.officeKey) !== null
         ? `${person.familyName} for ${option.office.title}`
         : `${person.familyName} for the ${option.chamberName}`,
     donorPoolName: "People who might give",

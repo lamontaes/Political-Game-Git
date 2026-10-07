@@ -1,16 +1,46 @@
-import { assessPaycheckTaxes } from "./statutory-tax";
+import {
+  settleTownCompensations,
+  type TownCompensationPeriod,
+} from "./living-world/town-pay";
+import {
+  growingIndex,
+  recordById,
+  type GrowingIndexKind,
+} from "./history-index";
 import { addDays, daysBetween } from "./dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
-import { currentLifeCutoff, workStatusAt } from "./life-queries";
-import { officePayInForce } from "./office-pay";
 import {
-  createWorkCompensation,
+  currentLifeCutoff,
+  workStatusAt,
+  workRoleAt,
+  workRelationshipHistoryForPerson,
+} from "./life-queries";
+import { recordedWorkAnnualPay } from "./recorded-work-pay";
+import { officePayInForce, paidOfficeOf } from "./office-pay";
+import { stateJurisdictionForKey } from "./life-places";
+import { publicTaxAccountForIdentity } from "./tax-policy";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import { advanceWithWorldIntegrityAtEnd } from "./world";
+import {
+  townJobRate,
+  townMinimumHourlyAt,
+  townPayPercentile,
+  weeklyHoursOf,
+} from "./living-world/town-pay";
+import {
+  createResourceFlow,
+  createResourceFlows,
   money,
-  recordResourceFlowTerms,
-  resolveWorkCompensationPeriod,
+  type CreateResourceFlowInput,
 } from "./resources";
-import { resourceFlowTermsHistory } from "./resource-queries";
-import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  World,
+  WorkRelationship,
+  ResourceFlow,
+  ResourceTransferOutcome,
+} from "./types";
 
 /**
  * Pay for holding a public office.
@@ -26,20 +56,6 @@ import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
  * and ordinary jobs from a generated past are not touched.
  */
 
-/**
- * PLACEHOLDER(research: what-public-officials-are-paid). A governor, a state
- * legislator, a judge and a member of Congress are paid the published salary
- * (`office-pay.ts`). Every other office, and a state whose tables give no single annual figure, is paid this
- * one national annual figure: nobody has researched it, and it is the same for
- * a judge, a mayor and a civil servant in every state. Replace it; do not tune
- * it.
- */
-export const OFFICE_SALARY_PLACEHOLDER = {
-  annualMinor: 6_000_000,
-  currency: "USD",
-  researchQuestionId: "what-public-officials-are-paid",
-} as const;
-
 /** The work kinds that are public offices. */
 export const PAID_OFFICE_KINDS: readonly string[] = [
   "employment:executive-office",
@@ -51,24 +67,109 @@ export const PAID_OFFICE_KINDS: readonly string[] = [
   "employment:congress-member",
 ];
 
+const OFFICE_WORK: GrowingIndexKind<WorkRelationship[]> = {
+  create: () => [],
+  add: (works, record) => {
+    const work = record as WorkRelationship;
+    if (
+      work.organizationId &&
+      PAID_OFFICE_KINDS.includes(work.kind) &&
+      (work.compensation === "paid" || work.compensation === "mixed")
+    )
+      works.push(work);
+  },
+};
+const WORK_PAY_FLOWS: GrowingIndexKind<Map<EntityId, ResourceFlow>> = {
+  create: () => new Map(),
+  add: (flows, record) => {
+    const flow = record as ResourceFlow;
+    if (
+      flow.basisReference.kind === "work" &&
+      !flows.has(flow.basisReference.workRelationshipId)
+    )
+      flows.set(flow.basisReference.workRelationshipId, flow);
+  },
+};
+const OFFICE_PAY_FLOWS: GrowingIndexKind<ResourceFlow[]> = {
+  create: () => [],
+  add: (flows, record) => {
+    const flow = record as ResourceFlow;
+    if (
+      flow.basisReference.kind === "work" &&
+      flow.stableKey.startsWith("office-salary:")
+    )
+      flows.push(flow);
+  },
+};
+
+// Every recorded outcome closes its period, regardless of payment status.
+const LAST_RECORDED_PERIOD: GrowingIndexKind<Map<EntityId, IsoDate>> = {
+  create: () => new Map(),
+  add: (periods, record) => {
+    const outcome = record as ResourceTransferOutcome;
+    const latest = periods.get(outcome.resourceFlowId);
+    if (latest === undefined || outcome.periodStartsAt > latest)
+      periods.set(outcome.resourceFlowId, outcome.periodStartsAt);
+  },
+};
+
+/** Opening prepares reads only; dated payment and eligibility stay on the clock. */
+function prepareOfficeSalaryReads(world: World): World {
+  growingIndex(OFFICE_WORK, world.history.workRelationships);
+  growingIndex(WORK_PAY_FLOWS, world.history.resourceFlows);
+  growingIndex(OFFICE_PAY_FLOWS, world.history.resourceFlows);
+  growingIndex(LAST_RECORDED_PERIOD, world.history.resourceTransferOutcomes);
+  return world;
+}
+
 const WEEK_DAYS = 7;
-const CATCH_UP_LIMIT_WEEKS = 520;
 
 /**
  * The annual pay for an office on a date: what the state's pay law says if one
- * is in force, else the state's published figure, else the placeholder.
+ * is in force, else the state's published figure, else comparable recorded pay or the recorded occupation’s published wage.
  */
 function annualPay(
   world: World,
   work: WorkRelationship,
   onDate: IsoDate,
-): { readonly annualMinor: number; readonly note: string } {
+): { readonly annualMinor: number; readonly note: string } | null {
   const inForce = officePayInForce(world, work, onDate);
   if (inForce?.law)
     return {
       annualMinor: inForce.annualDollars * 100,
       note: `${inForce.law.designation} set this office's salary to $${inForce.annualDollars.toLocaleString("en-US")} a year.`,
     };
+  const role = workRoleAt(world, work.id, {
+    ...currentLifeCutoff(world),
+    asOfDate: onDate,
+  });
+  if (!inForce) {
+    const recorded = recordedWorkAnnualPay(world, {
+      occupation: role?.occupationClassification ?? null,
+      workKind: work.kind,
+      jurisdictionId: role?.locationJurisdictionId ?? null,
+      weeklyHours: role ? weeklyHoursOf(role) : 0,
+      onDate,
+      excludeWorkId: work.id,
+    });
+    if (recorded) return recorded;
+    if (!role?.locationJurisdictionId) return null;
+    const tenure = Math.max(0, daysBetween(work.startedAt, onDate) / 365.25);
+    // Use the existing tenure mechanism's central position, with no person draw.
+    // Credential sizing remains the separate A40 contract, not an invented step.
+    const rate = townJobRate(
+      role.occupationClassification,
+      role.locationJurisdictionId,
+      townPayPercentile(tenure),
+      townMinimumHourlyAt(world, role.locationJurisdictionId, onDate),
+    );
+    const hours = weeklyHoursOf(role);
+    if (!rate || hours <= 0) return null;
+    return {
+      annualMinor: Math.round(rate.hourlyMinor * hours * 52),
+      note: `Recorded ${hours} hours a week at $${(rate.hourlyMinor / 100).toFixed(2)} an hour; SOC ${rate.soc}, OEWS area ${rate.area}, ${Math.round(rate.percentile)}th percentile from recorded tenure.`,
+    };
+  }
   return inForce
     ? {
         annualMinor: inForce.annualDollars * 100,
@@ -76,10 +177,7 @@ function annualPay(
           inForce.estimatedBecause ??
           `Salary for this office, published (The Book of the States 2023; Congressional Research Service 97-1011 for Congress).`,
       }
-    : {
-        annualMinor: OFFICE_SALARY_PLACEHOLDER.annualMinor,
-        note: `Placeholder office salary pending research question ${OFFICE_SALARY_PLACEHOLDER.researchQuestionId}.`,
-      };
+    : null;
 }
 
 function weeklyMinor(annualMinor: number): number {
@@ -100,16 +198,190 @@ function isActiveOn(world: World, workId: EntityId, date: IsoDate): boolean {
 }
 
 /**
+ * Open missing office salary agreements at the actual current date only.
+ * This creates no payment and leaves every existing agreement unchanged.
+ * Opening and monthly scheduling callers share the settlement writer's
+ * eligibility and amount calculation; old saves are never backdated.
+ */
+export function initializeOfficeSalaryFlows(
+  world: World,
+  personId: EntityId,
+): World {
+  let next = world;
+  for (const work of workRelationshipHistoryForPerson(world, personId)) {
+    if (work.personId !== personId || !work.organizationId) continue;
+    if (!PAID_OFFICE_KINDS.includes(work.kind)) continue;
+    if (work.compensation !== "paid" && work.compensation !== "mixed") continue;
+    next = initializeOneSalaryFlow(next, work);
+  }
+  return next;
+}
+
+function initializeOneSalaryFlow(world: World, work: WorkRelationship): World {
+  if (
+    world.history.resourceFlows.some(
+      (flow) =>
+        flow.basisReference.kind === "work" &&
+        flow.basisReference.workRelationshipId === work.id,
+    ) ||
+    !isActiveOn(world, work.id, world.currentDate)
+  )
+    return world;
+  const pay = annualPay(world, work, world.currentDate);
+  if (!pay) return world;
+  const next = ensureLifePathPersonalPosition(
+    world,
+    work.personId,
+    money(0, "USD").currency,
+  );
+  return createResourceFlow(next, officeSalaryInput(next, work, pay));
+}
+
+/** The office's actual saved public account pays when its ownership is recorded. */
+function officeSalaryInput(
+  world: World,
+  work: WorkRelationship,
+  pay: { annualMinor: number; note: string },
+  accounts?: Map<EntityId, EntityId | null>,
+): CreateResourceFlowInput {
+  const held = paidOfficeOf(world, work);
+  const jurisdiction =
+    held?.state === "US"
+      ? NATIONAL_ELECTION_JURISDICTION
+      : held
+        ? stateJurisdictionForKey(`US-${held.state}`)
+        : null;
+  let accountId = jurisdiction ? accounts?.get(jurisdiction.id) : undefined;
+  if (jurisdiction && accountId === undefined) {
+    accountId =
+      publicTaxAccountForIdentity(world, {
+        kind: "jurisdiction",
+        jurisdictionId: jurisdiction.id,
+      })?.organizationId ?? null;
+    accounts?.set(jurisdiction.id, accountId);
+  }
+  return {
+    stableKey: salaryKey(work),
+    source: {
+      kind: "organization",
+      organizationId: accountId ?? work.organizationId!,
+    },
+    recipient: { kind: "person", personId: work.personId },
+    startsAt: world.currentDate,
+    amount: money(weeklyMinor(pay.annualMinor), "USD"),
+    cadenceKind: "schedule:weekly",
+    basisKind: "compensation:work",
+    basisReference: { kind: "work", workRelationshipId: work.id },
+    restrictionKind: null,
+    jurisdictionId: jurisdiction?.id ?? null,
+    provenance: { kind: "authored", note: pay.note },
+  };
+}
+
+/** All actually recorded paid offices, including NPCs, share the existing salary agreement writer. */
+export function initializeAllOfficeSalaryFlows(world: World): World {
+  const existing = growingIndex(WORK_PAY_FLOWS, world.history.resourceFlows);
+  const missing = growingIndex(
+    OFFICE_WORK,
+    world.history.workRelationships,
+  ).filter(
+    (work) =>
+      !existing.has(work.id) &&
+      paidOfficeOf(world, work) &&
+      isActiveOn(world, work.id, world.currentDate),
+  );
+  if (missing.length === 0) return prepareOfficeSalaryReads(world);
+  return advanceWithWorldIntegrityAtEnd(() => {
+    let next = world;
+    const inputs: CreateResourceFlowInput[] = [];
+    const accounts = new Map<EntityId, EntityId | null>();
+    for (const work of missing) {
+      const pay = annualPay(world, work, world.currentDate);
+      if (!pay) continue;
+      next = ensureLifePathPersonalPosition(
+        next,
+        work.personId,
+        money(0, "USD").currency,
+      );
+      inputs.push(officeSalaryInput(next, work, pay, accounts));
+    }
+    return prepareOfficeSalaryReads(createResourceFlows(next, inputs));
+  }, world);
+}
+
+/** Calendar adapter only; every transfer still uses settleTownCompensations. */
+export function settleAllOfficeSalaries(world: World): World {
+  return advanceWithWorldIntegrityAtEnd(() => {
+    const next = initializeAllOfficeSalaryFlows(world);
+    const periods: TownCompensationPeriod[] = [];
+    for (const flow of growingIndex(
+      OFFICE_PAY_FLOWS,
+      next.history.resourceFlows,
+    )) {
+      if (flow.basisReference.kind !== "work") continue;
+      const work = recordById(
+        next.history.workRelationships,
+        flow.basisReference.workRelationshipId,
+      );
+      if (!work) continue;
+      periods.push(...dueOfficePeriods(next, work, flow));
+    }
+    return periods.length ? settleTownCompensations(next, periods) : next;
+  }, world);
+}
+
+/** Read each flow's latest recorded period before the one common batch settlement. */
+function dueOfficePeriods(
+  world: World,
+  work: WorkRelationship,
+  flow: ResourceFlow,
+): TownCompensationPeriod[] {
+  const lastPeriod = growingIndex(
+    LAST_RECORDED_PERIOD,
+    world.history.resourceTransferOutcomes,
+  ).get(flow.id);
+  const paidWeeks =
+    lastPeriod === undefined
+      ? 0
+      : Math.max(0, daysBetween(flow.startsAt, lastPeriod) / WEEK_DAYS + 1);
+  const periods: TownCompensationPeriod[] = [];
+  const weeksDue = Math.floor(
+    daysBetween(flow.startsAt, world.currentDate) / WEEK_DAYS,
+  );
+  for (let week = paidWeeks + 1; week <= weeksDue; week += 1) {
+    const periodStartsAt = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
+    const dueOn = addDays(flow.startsAt, week * WEEK_DAYS);
+    if (!isActiveOn(world, work.id, addDays(dueOn, -1))) break;
+    if (
+      !paidOfficeOf(world, work, {
+        asOfDate: periodStartsAt,
+        historySequenceExclusive: world.history.nextSequence,
+      })
+    )
+      continue;
+    periods.push({
+      stableKey: `${flow.stableKey}:${periodStartsAt}`,
+      payFlowId: flow.id,
+      activityId: flow.id,
+      periodStartsAt,
+      periodEndsAt: addDays(dueOn, -1),
+      onDate: dueOn,
+      note: "Salary for the week.",
+      provenance: flow.provenance,
+    });
+  }
+  return periods;
+}
+
+/**
  * Pays every whole week of office salary that has come due, and stops.
  *
  * Idempotent: each week is keyed by the day it began and resumes after the
  * last one paid, so a second call or a reload writes nothing new.
  */
 export function settleOfficeSalaries(world: World, personId: EntityId): World {
-  if (world.control.kind !== "person" || world.control.personId !== personId)
-    return world;
   let next = world;
-  for (const work of world.history.workRelationships) {
+  for (const work of workRelationshipHistoryForPerson(world, personId)) {
     if (work.personId !== personId || !work.organizationId) continue;
     if (!PAID_OFFICE_KINDS.includes(work.kind)) continue;
     if (work.compensation !== "paid" && work.compensation !== "mixed") continue;
@@ -119,113 +391,16 @@ export function settleOfficeSalaries(world: World, personId: EntityId): World {
 }
 
 function settleOne(world: World, work: WorkRelationship): World {
-  const existing = world.history.resourceFlows.find(
-    (flow) =>
-      flow.basisReference.kind === "work" &&
-      flow.basisReference.workRelationshipId === work.id,
-  );
+  const existing = growingIndex(
+    WORK_PAY_FLOWS,
+    world.history.resourceFlows,
+  ).get(work.id);
   // Pay terms somebody else recorded are theirs; this only fills the gap.
   if (existing && existing.stableKey !== salaryKey(work)) return world;
   let next = world;
-  if (!existing) {
-    if (!isActiveOn(world, work.id, world.currentDate)) return world;
-    next = ensureLifePathPersonalPosition(
-      next,
-      work.personId,
-      money(0, OFFICE_SALARY_PLACEHOLDER.currency).currency,
-    );
-    const pay = annualPay(world, work, world.currentDate);
-    return createWorkCompensation(next, {
-      stableKey: salaryKey(work),
-      workRelationshipId: work.id,
-      startsAt: next.currentDate,
-      amount: money(
-        weeklyMinor(pay.annualMinor),
-        OFFICE_SALARY_PLACEHOLDER.currency,
-      ),
-      cadenceKind: "schedule:weekly",
-      restrictionKind: null,
-      jurisdictionId: null,
-      provenance: {
-        kind: "authored",
-        note: pay.note,
-      },
-    });
-  }
+  if (!existing) return initializeOneSalaryFlow(world, work);
   const flow = existing;
-  let paidWeeks = 0;
-  for (const outcome of next.history.resourceTransferOutcomes) {
-    if (outcome.resourceFlowId !== flow.id) continue;
-    const week =
-      daysBetween(flow.startsAt, outcome.periodStartsAt) / WEEK_DAYS + 1;
-    if (week > paidWeeks) paidWeeks = week;
-  }
-  for (
-    let week = paidWeeks + 1;
-    week <= paidWeeks + CATCH_UP_LIMIT_WEEKS;
-    week += 1
-  ) {
-    const periodStartsAt = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
-    const dueOn = addDays(flow.startsAt, week * WEEK_DAYS);
-    if (dueOn > next.currentDate) break;
-    // A week that ends after the office did is not paid, and nothing later is.
-    if (!isActiveOn(next, work.id, addDays(dueOn, -1))) break;
-    next = raiseToPayInForce(next, work, flow.id, periodStartsAt);
-    next = resolveWorkCompensationPeriod(next, {
-      stableKey: `${flow.stableKey}:${periodStartsAt}`,
-      workRelationshipId: work.id,
-      periodStartsAt,
-      periodEndsAt: addDays(dueOn, -1),
-      occurredAt: dueOn,
-      status: "completed",
-      reasonKind: null,
-      note: "Salary for the week.",
-      provenance: flow.provenance,
-    });
-    next = assessPaycheckTaxes(
-      next,
-      next.history.resourceTransferOutcomes.at(-1)!.id,
-    );
-  }
+  for (const period of dueOfficePeriods(next, work, flow))
+    next = settleTownCompensations(next, [period]);
   return next;
-}
-
-/**
- * Moves a salary to what a state's pay law sets, from the first week that
- * begins on or after the day the law is operative. The change is recorded as
- * new terms that name the law, so an earlier week keeps the pay it was paid
- * at. A salary no law has touched keeps the terms it was created with.
- */
-function raiseToPayInForce(
-  world: World,
-  work: WorkRelationship,
-  flowId: EntityId,
-  weekStartsAt: IsoDate,
-): World {
-  const inForce = officePayInForce(world, work, weekStartsAt);
-  if (!inForce?.law) return world;
-  const current = resourceFlowTermsHistory(world, flowId).at(-1);
-  if (!current || current.status !== "active") return world;
-  const weekly = weeklyMinor(inForce.annualDollars * 100);
-  if (current.amount.minorUnits === weekly) return world;
-  const enactment = (world.history.legislativeEnactments ?? []).find(
-    (row) => row.measureId === inForce.law!.measureId,
-  );
-  return recordResourceFlowTerms(world, {
-    stableKey: `${salaryKey(work)}:pay-law:${inForce.law.measureId}:${weekStartsAt}`,
-    resourceFlowId: flowId,
-    effectiveAt:
-      weekStartsAt > current.effectiveAt ? weekStartsAt : current.effectiveAt,
-    status: "active",
-    amount: money(weekly, current.amount.currency),
-    cadenceKind: current.cadenceKind,
-    reason: `${inForce.law.designation} set this office's salary to $${inForce.annualDollars.toLocaleString("en-US")} a year.`,
-    provenance: enactment
-      ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
-      : {
-          kind: "authored",
-          note: `${inForce.law.designation} set this office's salary.`,
-        },
-    supersedesTermsId: current.id,
-  });
 }

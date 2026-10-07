@@ -1,3 +1,23 @@
+import type { HistoricalPastMode } from "./historical-past-mode";
+import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
+import type { LawScheduleTerm } from "./law-structured-terms";
+import type {
+  PermitApplicationRecord,
+  PermitStatusRecord,
+} from "./permit-types";
+import type {
+  LawAmountUnit,
+  LawTermApplicability,
+  LawTermScope,
+  RentalPriceRule,
+  LawConsequenceRow,
+  ResolvedHourlyLawPayConsequence,
+  ResolvedSavedHourlyPayConsequence,
+} from "./law-consequence-types";
+import type {
+  LawEffectStamp,
+  LawEffectStampedRecord,
+} from "./law-effect-stamp";
 import type { CrisisRecord } from "./crisis/types";
 import type {
   CampaignLifeActivityRecord,
@@ -9,6 +29,7 @@ import type {
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import type { JudiciaryState } from "./judiciary/types";
+import type { MinorityProcedureMotion } from "./legislature-rules";
 
 import type { AppearanceMaterial } from "./appearance-material";
 import type { MediaOutletKey, PressRecord } from "./press/records";
@@ -21,7 +42,10 @@ import type {
   ConstitutionalActionRecord,
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
-import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
+import type {
+  RuleChangeProvisionRecord,
+  RuleChangeConsequenceBindingRecord,
+} from "./enacted-rule-changes";
 import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
@@ -43,6 +67,7 @@ import type {
   JobApplicationStepRecord,
   JobOpeningRecord,
 } from "./job-market-types";
+import type { CitizenshipStatusRecord } from "./citizenship-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -75,6 +100,7 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "childhood-entry"
   | "judicial-philosophy"
   | "judicial-professional-qualification"
   | "judicial-retention-contest"
@@ -85,7 +111,9 @@ export type EntityKind =
   | "constitutional-action"
   | "crisis-record"
   | "constitutional-rule-version"
+  | "legislative-proposal"
   | "rule-change-provision"
+  | "rule-change-consequence-binding"
   | "tax-proposal"
   | "tax-policy"
   | "tax-base"
@@ -96,6 +124,8 @@ export type EntityKind =
   | "loan-terms"
   | "debt-charge"
   | "debt-standing"
+  | "loan-repayment-allocation"
+  | "loan-discharge"
   | "law-exposure"
   | "official-view"
   | "job-opening"
@@ -215,6 +245,8 @@ export type EntityKind =
   | "resource-obligation"
   | "resource-obligation-state"
   | "resource-position"
+  | "earned-law-pay-assessment"
+  | "work-pay-coverage"
   | "resource-transfer-outcome"
   | "scheduled-activity"
   | "scheduled-activity-state"
@@ -308,6 +340,8 @@ export interface PolicyIssueDefinition {
 export interface PropositionParameter {
   readonly key: string;
   readonly value: string;
+  /** Closed modeled choices; omission leaves categorical terms unsupported. */
+  readonly allowedValues?: readonly string[];
 }
 
 /**
@@ -337,6 +371,7 @@ export interface PropositionPrincipleBearing {
 }
 
 export interface PolicyPropositionDefinition {
+  readonly consequences?: readonly LawConsequenceRow[];
   readonly id: EntityId;
   readonly stableKey: string;
   readonly issueId: EntityId;
@@ -625,6 +660,8 @@ export interface PersonFactConstraint {
 }
 
 interface PersonCore {
+  /** Private canonical status history; absent on old saves, never auto-inferred on read. */
+  readonly citizenshipStatuses?: readonly CitizenshipStatusRecord[];
   readonly id: EntityId;
   readonly generationKey: string;
   readonly generatorVersion?: string;
@@ -692,7 +729,7 @@ export interface EventContext {
   readonly immediateReaction: string | null;
 }
 
-export interface HistoricalEvent {
+export interface HistoricalEvent extends LawEffectStampedRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -903,8 +940,12 @@ export type LawExposureChannel =
   | "tax-payment"
   | "benefit"
   | "job-rule"
+  | "election-rule"
   | "business-rule"
   | "public-service"
+  | "court-rule"
+  | "sentence-rule"
+  | "voting-rule"
   | "rent";
 
 /**
@@ -925,10 +966,11 @@ export interface LawExposureRecord {
   readonly sectionKey: string | null;
   readonly channel: LawExposureChannel;
   /**
-   * Their own money or service, a family member's, or something a person
-   * they know told them it did to them ("friend").
+   * Their own money or service, a family member's, something a person they
+   * know told them it did to them ("friend"), or a published story about what
+   * it did that they read ("news": heard from the news).
    */
-  readonly relation: "own" | "family" | "friend";
+  readonly relation: "own" | "family" | "friend" | "news";
   /** For a family or friend exposure, whose paycheck, bill or service it was. */
   readonly viaPersonId: EntityId | null;
   /** Whether the law cost them or paid them; "none" for a non-money effect. */
@@ -943,8 +985,23 @@ export interface LawExposureRecord {
    * landed on them.
    */
   readonly monthlyPay: MoneyAmount | null;
-  /** The record showing the effect happened (a tax collection, a paycheck). */
+  /**
+   * The record showing the effect happened (a tax collection, a paycheck);
+   * for a news exposure, the reader's knowledge of the story.
+   */
   readonly sourceRecordId: EntityId;
+  /** For a news exposure: the story it came from, record by record. */
+  readonly news?: LawExposureNewsProvenance;
+}
+
+/** Where a news exposure came from (`recordStoryHeardExposure`). */
+export interface LawExposureNewsProvenance {
+  /** The reader's knowledge of the story (EventKnowledgeRecord). */
+  readonly knowledgeId: EntityId;
+  readonly publicationId: EntityId;
+  readonly storyLeadId: EntityId;
+  /** The law-effect event the story reported. */
+  readonly basisEventId: EntityId;
 }
 
 /** Why a person's view of an official moved (spec 5, "Reasons for a view"). */
@@ -955,10 +1012,12 @@ export interface OfficialViewReason {
 }
 
 /**
- * One reflection on one official: what the official did about a law that
- * reached this person, how far it moved the person's view of them, and why.
- * A person's standing view of an official is the sum of these rows; nothing
- * fades on its own (no passive decay).
+ * One reflection on one official, as saves from before A158 kept it: what the
+ * official did about a law that reached this person, how far it moved the
+ * person's view of them, and why. Nothing writes these any more; a view of an
+ * official is now a private belief whose subject is the official. Old rows
+ * still load and are read for a person who has formed no saved view of that
+ * official since (`official-view-reads.ts`).
  */
 export interface OfficialViewRecord {
   readonly id: EntityId;
@@ -975,12 +1034,26 @@ export interface OfficialViewRecord {
   readonly reasons: readonly OfficialViewReason[];
 }
 
+/**
+ * What a private belief is about, when it is not a policy proposition: a
+ * party question, or one official (what a person thinks of them).
+ */
+export type PrivateBeliefSubject =
+  | { readonly kind: "party-question"; readonly key: string }
+  | { readonly kind: "official"; readonly personId: EntityId };
+
 export interface PrivateBeliefRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId: EntityId | null;
+  /**
+   * Absent on legacy policy beliefs. Party questions and officials have no
+   * proposition.
+   */
+  readonly subject?: PrivateBeliefSubject;
+  readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
   readonly conviction: BeliefConviction;
@@ -1354,6 +1427,20 @@ export interface OrganizationProfileRecord {
   readonly name: string;
   readonly classification: OrganizationClassification;
   readonly locationJurisdictionId: EntityId | null;
+  /** Source-backed legal employer identity; not a funder or public account. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+  /** Source-backed IPEDS identity attached by the education organization writer. */
+  readonly collegePlace?: {
+    readonly institutionId: string;
+    readonly kind:
+      | "flagship"
+      | "ivy-league"
+      | "political-hotbed"
+      | "regional-public"
+      | "private"
+      | "community";
+    readonly campusId: string | null;
+  };
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
   /**
@@ -2076,8 +2163,7 @@ export type IncidentSemanticKey = `${string}:${string}`;
  * with no draw and no actor. It is the mode for conditions that last, where
  * the design sets how bad counts as bad but never the chance of an outcome.
  */
-export type IncidentOccurrenceMode =
-  "probabilistic" | "actor-initiated" | "condition";
+export type IncidentOccurrenceMode = "actor-initiated" | "condition";
 export type IncidentStatus = "active" | "resolved";
 export type IncidentRuleComparison = "at-least" | "at-most";
 
@@ -2287,6 +2373,10 @@ export interface IncidentLikelihoodModifierEvaluation {
   readonly sourceEntityIds: readonly EntityId[];
 }
 
+/**
+ * A draw an old save recorded before incidents stopped being drawn (A134).
+ * Read as recorded; nothing writes one now.
+ */
 export interface IncidentRngResult {
   readonly key: string;
   readonly draw: number;
@@ -3136,7 +3226,7 @@ export interface ResourceFlow {
 
 export type ResourceFlowStatus = "expected" | "active" | "ended";
 
-export interface ResourceFlowTermsRecord {
+export interface ResourceFlowTermsRecord extends LawEffectStampedRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -3157,7 +3247,36 @@ export type ResourceOutcomeReasonNamespace =
 export type ResourceOutcomeReasonKind =
   `${ResourceOutcomeReasonNamespace}:${string}`;
 
-export interface ResourceTransferOutcome {
+/** Later legal determination of actual completed work; never revised earned terms.
+ * Team 3 owns writing this append-only record from saved work and resolved law.
+ * A transfer must independently validate every join before using assessed gross.
+ */
+export interface EarnedLawPayAssessmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly personId: EntityId;
+  readonly organizationId: EntityId;
+  readonly workRelationshipId: EntityId;
+  readonly resourceFlowId: EntityId;
+  readonly earnedTermsId: EntityId;
+  readonly completionEventId: EntityId;
+  readonly scheduledActivityId: EntityId;
+  readonly scheduledActivityStateId: EntityId;
+  readonly earnedCutoff: HistoricalCutoff;
+  readonly periodStartsAt: IsoDate;
+  readonly periodEndsAt: IsoDate;
+  readonly workedMinutes: number;
+  readonly contractualGross: MoneyAmount;
+  readonly assessedGross: MoneyAmount;
+  readonly resolvedConsequence:
+    ResolvedHourlyLawPayConsequence | ResolvedSavedHourlyPayConsequence;
+  readonly lawEffectStamps: readonly LawEffectStamp[];
+}
+
+export interface ResourceTransferOutcome extends LawEffectStampedRecord {
+  readonly earnedLawPayAssessmentId?: EntityId;
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -3241,6 +3360,8 @@ export interface LoanTermsRecord {
   readonly kind: HouseholdLoanKind;
   readonly lenderKind: LenderKind;
   readonly annualRateBasisPoints: number;
+  /** Legacy draft credit only. New credits use LoanDischargeRecord. */
+  readonly principalReduction?: MoneyAmount;
   /** "capped" when a rate cap in force held the rate below the market. */
   readonly rateBasis: "written" | "capped";
   /** The measure whose cap applied, when `rateBasis` is "capped". */
@@ -3248,12 +3369,40 @@ export interface LoanTermsRecord {
   readonly repayment: LoanRepayment;
   /** Null: this loan's contract states no late fee. */
   readonly lateFee: MoneyAmount | null;
-  /** Consecutive missed payments after which the loan is in default. */
-  readonly missedPaymentsToDefault: number;
-  /** Consecutive missed payments after which it goes to collections. */
-  readonly missedPaymentsToCollections: number;
+  /** Recorded missed-payment threshold; null leaves automatic default unrecorded. */
+  readonly missedPaymentsToDefault: number | null;
+  /** Recorded missed-payment threshold; null leaves automatic collections unrecorded. */
+  readonly missedPaymentsToCollections: number | null;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesTermsId: EntityId | null;
+}
+
+/** Cash allocation links the actual repayment; unknown old-save components stay null. */
+export interface LoanRepaymentAllocationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly occurredAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly resourceTransferOutcomeId: EntityId;
+  readonly fees: MoneyAmount | null;
+  readonly interest: MoneyAmount | null;
+  readonly principal: MoneyAmount | null;
+  readonly unsupportedReason: "missing-prior-repayment-allocation" | null;
+}
+
+/** Forgiveness changes owed components without pretending that cash was paid. */
+export interface LoanDischargeRecord extends LawEffectStampedRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly effectiveAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly principal: MoneyAmount;
+  readonly interest: MoneyAmount;
+  readonly provenance: LifeRecordProvenance;
 }
 
 /** Interest or a fee added to a debt's balance for one month. */
@@ -3491,6 +3640,28 @@ export interface DecisionConsideration {
   readonly sourceRefs: readonly MindSourceReference[];
 }
 
+/** One actual saved donor for a current-game decision estimate. */
+export interface DecisionPeerSample {
+  readonly personId: EntityId;
+  readonly decisionTraceId: EntityId;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly value: number;
+}
+
+/** Exact numeric estimates are provenance, not rounded importance weights. */
+export interface DecisionPeerEstimate {
+  readonly label: "ESTIMATED: averaged from this game's similar decision makers";
+  readonly decisionType: string;
+  readonly subjectKind: DecisionSubject["kind"];
+  readonly optionKey: string;
+  readonly cutoff: HistoricalCutoff;
+  readonly mean: number;
+  readonly standardDeviation: number;
+  readonly count: number;
+  readonly samples: readonly DecisionPeerSample[];
+}
+
 export interface DecisionContext {
   readonly stableKey: string;
   readonly decisionType: string;
@@ -3500,6 +3671,9 @@ export interface DecisionContext {
   readonly options: readonly DecisionOption[];
   readonly constraints: readonly DecisionConstraint[];
   readonly considerations: readonly DecisionConsideration[];
+  /** Canonical current-game peer scores used only when the actor has no
+   * separated choice. Donor traces are not actor-owned mind references. */
+  readonly peerEstimates?: readonly DecisionPeerEstimate[];
   readonly perceptionIds: readonly EntityId[];
   readonly randomness: DecisionRandomnessPolicy;
   readonly retention: DecisionTraceRetention;
@@ -3525,7 +3699,8 @@ export interface DecisionSourceSnapshot {
   readonly content: string;
 }
 
-export type DecisionOutcomeKind = "selected" | "no-available-option";
+export type DecisionOutcomeKind =
+  "selected" | "no-available-option" | "undecided";
 
 export interface DecisionEvaluation {
   readonly decisionId: EntityId;
@@ -3957,9 +4132,28 @@ export interface PublicProgramCapacityRecord extends PublicProgramRecordBase {
   readonly basis: PublicProgramBasis;
 }
 
+/** Explicit payable input; no enrollment count or budget forecast is a paid base. */
+export interface FederalStateProgramPaymentClaim {
+  readonly stableKey: string;
+  readonly recipientJurisdictionId: EntityId;
+  readonly dueAt: IsoDate;
+  readonly periodStartsAt: IsoDate;
+  readonly periodEndsAt: IsoDate;
+  readonly amountTerm: {
+    readonly questionKey: string;
+    readonly termKey: string;
+    readonly unit: "minor" | "ratio";
+  };
+  /** Actual completed state-paid program outcomes eligible under this claim. */
+  readonly eligibleExpenditureIds: readonly EntityId[];
+  /** Admitted provider classes for binding future actual state-paid installments. */
+  readonly eligibleProviderClassifications?: readonly OrganizationProfileRecord["classification"][];
+}
+
 /** Spending authority on an existing public account. Not cash. */
 export interface PublicProgramAppropriationRecord extends PublicProgramRecordBase {
   readonly kind: "appropriation";
+  readonly statePaymentClaims?: readonly FederalStateProgramPaymentClaim[];
   readonly accountOrganizationId: EntityId;
   readonly amount: MoneyAmount;
   readonly availableFrom: IsoDate;
@@ -3972,6 +4166,13 @@ export interface PublicProgramAppropriationRecord extends PublicProgramRecordBas
 /** One office's decision to commit part of an appropriation, including $0. */
 export interface PublicProgramCommitmentRecord extends PublicProgramRecordBase {
   readonly kind: "commitment";
+  readonly federalStatePayment?: {
+    readonly claimKey: string;
+    readonly eligibleExpenditureIds: readonly EntityId[];
+    readonly sourceRecordIds: readonly EntityId[];
+    readonly periodStartsAt: IsoDate;
+    readonly periodEndsAt: IsoDate;
+  };
   readonly appropriationId: EntityId;
   readonly alternativeKey: string;
   readonly alternativeTitle: string;
@@ -4271,12 +4472,122 @@ export type PersonnelRecord =
   | PersonnelReinstatementOfferRecord
   | PersonnelOfferResponseRecord;
 
+/** A saved legal permission for an actual subject; absence conveys no permission. */
+export interface LawPermissionRecord extends LawEffectStampedRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly subject: {
+    readonly kind: "person" | "organization";
+    readonly id: EntityId;
+  };
+  readonly permissionKey: string;
+  readonly status: "permitted" | "prohibited";
+  readonly effectiveAt: IsoDate;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly lawEffectStamps: readonly [LawEffectStamp];
+}
+
+/** Append-only attribution of a sentence already written by the court. */
+export interface LegalOutcomeConsequenceRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly sentenceEventId: EntityId;
+  readonly subjectPersonId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly appliedAt: IsoDate;
+  readonly effectKind: "minimum-custody-months";
+  readonly minimumMonths: number;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly lawEffectStamps: readonly [LawEffectStamp];
+}
+
+/**
+ * One dated entry in a person's childhood record (`childhood-record.ts`).
+ * Append-only, written only while the person is under 18, and each entry
+ * cites the record that produced it.
+ */
+interface ChildhoodRecordEntryBase {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly effectiveAt: IsoDate;
+  /** The record this entry was read from, such as the birth or move event. */
+  readonly sourceRecordId: EntityId;
+}
+
+export type ChildhoodRecordEntry =
+  | (ChildhoodRecordEntryBase & {
+      readonly kind: "birth";
+      readonly jurisdictionId: EntityId;
+      readonly birthDate: IsoDate;
+    })
+  | (ChildhoodRecordEntryBase & {
+      readonly kind: "school-year-move";
+      readonly fromJurisdictionId: EntityId;
+      readonly toJurisdictionId: EntityId;
+      /** The calendar year the school year began in. */
+      readonly schoolYear: number;
+      /** 0 for kindergarten through 12. */
+      readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /**
+       * A pupil moved somewhere the World holds no school for their grade,
+       * so nobody enrolled them; the move is the source.
+       */
+      readonly kind: "no-school-on-record";
+      readonly toJurisdictionId: EntityId;
+      readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /** A controlled person's recorded formative faith choice. */
+      readonly kind: "faith-choice";
+      readonly congregationId: EntityId | null;
+      readonly situationKey: string;
+      readonly optionKey: string;
+    });
+
+export type CampaignAskOutcome = "gave" | "declined" | "deferred";
+export interface CampaignAsk {
+  readonly id: EntityId;
+  readonly candidateId: EntityId;
+  readonly residentId: EntityId;
+  readonly askedOn: IsoDate;
+  readonly amountMinorUnits: number;
+  readonly outcome: CampaignAskOutcome;
+  readonly reasonBeliefId: EntityId | null;
+}
+
+export interface CampaignPurchaseRecord {
+  readonly id: EntityId;
+  readonly campaignId: EntityId;
+  readonly purchasedOn: IsoDate;
+  readonly item:
+    "yard-sign" | "palm-card" | "postage" | "print-ad" | "filing-fee";
+  readonly units: number;
+  readonly unitPriceMinorUnits: number;
+  readonly totalMinorUnits: number;
+  readonly flowId: EntityId;
+}
+
 export interface HistoryStore {
+  /** Childhood entries, one record per person, read with `childhoodRecord`. */
+  readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
+  readonly permitApplications?: readonly PermitApplicationRecord[];
+  readonly permitStatuses?: readonly PermitStatusRecord[];
+  readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
   readonly constitutionalRuleVersions?: readonly ConstitutionalRuleVersionRecord[];
   /** Rule changes filed on ordinary bills; see `enacted-rule-changes.ts`. */
   readonly ruleChangeProvisions?: readonly RuleChangeProvisionRecord[];
+  readonly ruleChangeConsequenceBindings?: readonly RuleChangeConsequenceBindingRecord[];
   /** Optional, preserving pre-tax snapshots without fabricating money/history. */
   readonly taxProposals?: readonly TaxProposalRecord[];
   readonly taxPolicies?: readonly TaxPolicyRecord[];
@@ -4289,6 +4600,8 @@ export interface HistoryStore {
   readonly loanTerms?: readonly LoanTermsRecord[];
   readonly debtCharges?: readonly DebtChargeRecord[];
   readonly debtStandings?: readonly DebtStandingRecord[];
+  readonly loanRepaymentAllocations?: readonly LoanRepaymentAllocationRecord[];
+  readonly loanDischarges?: readonly LoanDischargeRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];
   /** Optional: credit or blame for officials; see `living-world/official-views.ts`. */
@@ -4324,6 +4637,9 @@ export interface HistoryStore {
   readonly resourceFlows: readonly ResourceFlow[];
   readonly resourceFlowTerms: readonly ResourceFlowTermsRecord[];
   readonly resourceTransferOutcomes: readonly ResourceTransferOutcome[];
+  /** Absent in saves made before earned-law assessments were recorded. */
+  readonly earnedLawPayAssessments?: readonly EarnedLawPayAssessmentRecord[];
+  readonly workPayCoverageDeterminations?: readonly WorkPayCoverageDeterminationRecord[];
   readonly resourceObligations: readonly ResourceObligation[];
   readonly resourceObligationStates: readonly ResourceObligationStateRecord[];
   readonly dwellings: readonly Dwelling[];
@@ -4370,6 +4686,8 @@ export interface HistoryStore {
   readonly campaignActions?: readonly CampaignActionRecord[];
   readonly campaignActionResults?: readonly CampaignActionResultRecord[];
   readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
+  readonly campaignAsks?: readonly CampaignAsk[];
+  readonly campaignPurchases?: readonly CampaignPurchaseRecord[];
   /** CRUNCH46 CAMPAIGN; optional so pre-CRUNCH46 snapshots stay readable. */
   readonly campaignLifeActivities?: readonly CampaignLifeActivityRecord[];
   readonly campaignLifeOutcomes?: readonly CampaignLifeOutcomeRecord[];
@@ -4385,6 +4703,8 @@ export interface HistoryStore {
   /** CRISIS severe-event records; absent in Worlds written before them. */
   readonly crisisRecords?: readonly CrisisRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
+  /** Separate from filed measures: a proposal has not entered the chamber. */
+  readonly legislativeProposals?: readonly LegislativeProposalRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];
   readonly committeeActions?: readonly CommitteeActionRecord[];
@@ -4443,6 +4763,8 @@ export interface HistoryStore {
   readonly publicProgramRecords?: readonly PublicProgramRecord[];
   /** Duties and who-qualifies rules an enacted law sets, and what each covered body did. */
   readonly enactedDutyRecords?: readonly EnactedDutyRecord[];
+  /** Optional so older saves do not acquire inferred permission decisions. */
+  readonly lawPermissionRecords?: readonly LawPermissionRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -4494,6 +4816,19 @@ export interface LegislativeMeasureNumberingSession {
   readonly fullDesignation: string;
 }
 
+/** A member's saved ordinance draft before any chamber has received it. */
+export interface LegislativeProposalRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly governmentKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly sponsorPersonId: EntityId;
+  readonly title: string;
+  readonly operativeText: string;
+  readonly proposedAt: IsoDate;
+}
+
 export interface LegislativeMeasureRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -4510,6 +4845,8 @@ export interface LegislativeMeasureRecord {
    */
   readonly numberingSession?: LegislativeMeasureNumberingSession;
   readonly shortTitle: string;
+  /** Omitted on existing measures, which are statutes by default. */
+  readonly governmentInstrument?: "statute" | "regulation" | "executive-order";
   readonly summary: string;
   readonly origin: LegislativeMeasureOrigin;
   readonly subjectClass: LegislativeSubjectClass;
@@ -4565,6 +4902,16 @@ export type LegislativeActionKind =
   | "amendment-rejected"
   | "floor-stage-passed"
   | "floor-stage-failed"
+  | "procedural-motion-failed"
+  | "tabled"
+  | "postponed"
+  | "recommitted"
+  | "recorded-vote-demanded"
+  | "full-reading-demanded"
+  | "rules-suspended"
+  | "sine-die-vote-carried"
+  | "quorum-not-present"
+  | "debate-extended"
   | "transmitted"
   | "concurred"
   | "concurrence-failed"
@@ -4595,6 +4942,8 @@ export interface LegislativeActionRecord {
   readonly chamberKey: string | null;
   readonly committeeKey: string | null;
   readonly floorStageKey: string | null;
+  readonly proceduralMotion?: MinorityProcedureMotion;
+  readonly resumeAt?: IsoDate | null;
   /** The actor or body responsible, in plain language. */
   readonly actorLabel: string;
   /** Why this happened, in plain language, for the player-facing record. */
@@ -4724,7 +5073,8 @@ export type LegislativeVotePurpose =
   | "floor-stage"
   | "amendment"
   | "concurrence"
-  | "veto-override";
+  | "veto-override"
+  | "procedural-motion";
 
 /**
  * How a single member disposed of a question. Legislative voting is a record of
@@ -4827,6 +5177,10 @@ export interface LegislativeEnactmentRecord {
    * saves may carry null and retain their original game-interval reading.
    */
   readonly effectiveAt: IsoDate | null;
+  /** Publication is recorded separately from filing and taking effect. */
+  readonly publishedAt?: IsoDate | null;
+  /** An instrument ceases to govern after this date; null means no expiry. */
+  readonly expiresAt?: IsoDate | null;
   /** New records distinguish source dates from game defaults. */
   readonly effectiveDateBasis?: "source-default" | "game-default";
   /** A new game's fallback stays fixed when future profiles change. */
@@ -5007,6 +5361,26 @@ export type LegislativeProvisionEffectIntent =
   | { readonly kind: "public-program-appropriation" };
 
 export interface LegislativeProvisionRecord {
+  /** This version's explicit schedules; omission clears a revised schedule. */
+  readonly lawSchedules?: readonly LawScheduleTerm[];
+  /** This version's explicit categories; omission clears a revised rule. */
+  readonly lawCategories?: readonly {
+    readonly questionKey: string;
+    readonly key: string;
+    readonly values: readonly string[];
+  }[];
+  /** This version's explicit numeric rules; omission clears a revised rule. */
+  readonly lawTerms?: readonly {
+    readonly questionKey: string;
+    readonly key: string;
+    readonly value: number;
+    readonly unit: LawAmountUnit;
+    /** Missing legacy scope is unknown, never an implicit statewide rule. */
+    readonly scope?: LawTermScope;
+    /** Missing legacy applicability is unknown, never an implicit region. */
+    readonly applicability?: LawTermApplicability;
+    readonly rentalPriceRule?: RentalPriceRule;
+  }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
   readonly id: EntityId;
@@ -5371,6 +5745,7 @@ export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
   | "adult.eviction-case"
+  | "adult.crime-report"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"
@@ -5477,7 +5852,19 @@ export interface SetupPriorStore {
   readonly answers: readonly SetupAnswerRecord[];
 }
 
+export type SaveMode = "free" | "one-save";
+export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
+
+/** Player-facing choices kept on the World; absent legacy data means defaults. */
+export interface PlaySettings {
+  readonly saves: SaveMode;
+  /** Changes how recorded personal-life events are worded, never world facts. */
+  readonly personalLifeDepiction: PersonalLifeDepiction;
+}
+
 export interface World {
+  /** Loading-only routine summary mode; removed at the recorded Begin boundary. */
+  readonly pastMode?: HistoricalPastMode;
   /** Saved courts and seated judges; absent in lives created before courts opened. */
   readonly judiciary?: JudiciaryState;
   /** Immutable validated definitions accepted for this life; absent in legacy saves. */
@@ -5501,7 +5888,14 @@ export interface World {
   readonly incidentCatalog: IncidentCatalog;
   readonly vitalityCatalog: VitalityCatalog;
   readonly control: ControlState;
+  /** The prospective player acts as a resident until the recorded Begin date. */
+  readonly preStartLife?: {
+    readonly personId: EntityId;
+    readonly targetStartDate: IsoDate;
+  };
   readonly history: HistoryStore;
+  /** Optional so worlds saved before player settings remain readable. */
+  readonly playSettings?: PlaySettings;
   /**
    * What the player answered at setup, kept beside the world rather than in
    * it.

@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { recordsByKey, recordsByStringField } from "../history-index";
 import type { CharacterHistoryTransition } from "../character-history";
@@ -52,7 +53,7 @@ export interface StateExecutiveOffice {
   readonly displayName: string;
   /** The same stable key an ordinary elected term's office body uses. */
   readonly organizationStableKey: string;
-  readonly authorityPackId: string | null;
+  readonly authorityPackId: string;
   readonly sources: readonly string[];
 }
 
@@ -63,24 +64,20 @@ export function stateExecutiveOffice(
   if (!identity) return null;
   const jurisdiction = chiefExecutiveJurisdiction(identity.stateUsps);
   if (!jurisdiction) return null;
-  const pack = identity.executivePackId
-    ? executiveRulePackForJurisdiction(identity.jurisdictionKey)
-    : null;
+  const pack = executiveRulePackForJurisdiction(identity.jurisdictionKey);
   return {
     stateUsps: identity.stateUsps,
     jurisdictionKey: identity.jurisdictionKey,
     jurisdictionId: jurisdiction.id,
     officeKey: identity.officeKey,
     displayName: identity.displayName,
-    organizationStableKey: identity.executivePackId
-      ? `executive-office:${identity.executivePackId}`
-      : `executive-office:${identity.officeKey}`,
+    organizationStableKey: `executive-office:${identity.executivePackId}`,
     authorityPackId: identity.executivePackId,
     sources: [
       isDistrictOfColumbia(identity.stateUsps)
         ? DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE
         : STATE_GOVERNMENT_STRUCTURE_SOURCE,
-      ...(pack?.office.source.sourceUrl ? [pack.office.source.sourceUrl] : []),
+      ...(pack.office.source.sourceUrl ? [pack.office.source.sourceUrl] : []),
     ],
   };
 }
@@ -300,7 +297,11 @@ export function ensureStateExecutiveIncumbent(
       input: {
         stableKey: holderKey,
         ...drawGeneratedPersonName(rng),
-        birthDate: makeIsoDate(`${anchorYear - rng.integer(45, 70)}-01-01`),
+        birthDate: inventedPersonBirthDate(rng, {
+          role: "executive-officeholder-at-opening",
+          referenceDate: makeIsoDate(`${anchorYear}-01-01`),
+          placement: { monthDay: "01-01" },
+        }),
         homeJurisdictionId: office.jurisdictionId,
       },
     },
@@ -431,9 +432,11 @@ function seatOpeningGovernorElect(
         input: {
           stableKey: holderKey,
           ...drawGeneratedPersonName(rng),
-          birthDate: makeIsoDate(
-            `${Number(termEnds.slice(0, 4)) - rng.integer(45, 70)}-01-01`,
-          ),
+          birthDate: inventedPersonBirthDate(rng, {
+            role: "executive-officeholder-at-opening",
+            referenceDate: termEnds,
+            placement: { monthDay: "01-01" },
+          }),
           homeJurisdictionId: office.jurisdictionId,
         },
       },

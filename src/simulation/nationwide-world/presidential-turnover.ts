@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { decideAnotherTerm } from "../careers/another-term";
 import {
   characterHistoryContextPersonId,
@@ -52,16 +53,12 @@ import type {
   NationalUnitResult,
   PresidentialTicket,
 } from "../national-election-types";
+import { nationalMoodDemocraticShift } from "../national-mood";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
-import {
-  CENSUS_REGION_ORDER,
-  censusRegionOf,
-} from "../world-setup/census-regions";
 import { politicalStartingConditions } from "../world-setup/conditions";
-import { roundTo, standardNormal } from "../world-setup/deterministic-math";
-import { CRUNCH46_POLICY } from "../world-setup/policy";
+import { roundTo } from "../world-setup/deterministic-math";
 import { applySwing, calibrationRow } from "../world-setup/political-start";
 import { recordWorldEvent } from "../world";
 import {
@@ -151,7 +148,6 @@ export const PRESIDENTIAL_TURNOVER_PROFILE = {
   /** The nominating field closes this many days before election day. */
   fieldClosesDaysBefore: 60,
   /** Age range of a newly drawn nominee, inclusive of the minimum. */
-  nomineeAge: { minimum: 45, maximumExclusive: 70 },
 } as const;
 
 /** U.S. Const. art. II, § 1, cl. 5. */
@@ -191,10 +187,6 @@ function cycleKey(cycle: number): string {
 function cycleForDue(due: FutureDueItem): number | null {
   const match = /^presidential-turnover\/v1:(\d{4}):/.exec(due.stableKey);
   return match ? Number(match[1]) : null;
-}
-
-function pad(value: number): string {
-  return value.toString().padStart(2, "0");
 }
 
 function done(world: World, context: string): FutureTransitionHandlerResult {
@@ -428,7 +420,8 @@ interface Nominee {
   readonly state: string;
 }
 
-function drawNominee(
+/** A party's nominee, a person invented for the cycle (exported for A161's test). */
+export function drawNominee(
   world: World,
   cycle: number,
   stableKey: string,
@@ -438,10 +431,6 @@ function drawNominee(
   const rng = new SeededRng(world.seed).fork(stableKey);
   const state = drawState(rng.fork("state"), excludeState);
   const jurisdiction = nationalUnitJurisdiction(cycle, state);
-  const age = rng.integer(
-    PRESIDENTIAL_TURNOVER_PROFILE.nomineeAge.minimum,
-    PRESIDENTIAL_TURNOVER_PROFILE.nomineeAge.maximumExclusive,
-  );
   let next = ensureJurisdiction(world, jurisdiction);
   next = createCharacterHistoryContextPeople(next, [
     {
@@ -452,9 +441,10 @@ function drawNominee(
       ),
       // Born before the election's field closes, so the minimum age holds on
       // election day and at the oath.
-      birthDate: makeIsoDate(
-        `${cycle - age - 1}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-      ),
+      birthDate: inventedPersonBirthDate(rng, {
+        role: "presidential-nominee",
+        referenceDate: makeIsoDate(`${cycle}-01-01`),
+      }),
       homeJurisdictionId: jurisdiction.id,
       birthplaceJurisdictionId: jurisdiction.id,
     },
@@ -737,23 +727,14 @@ export function presidentialElectionDayHandler(
   if (!found) return done(world, "No presidential election is registered.");
   const { cycle, election } = found;
   const key = cycleKey(cycle);
-  const political = politicalStartingConditions(world);
-  const regime = political?.regime ?? "near-reference";
-  const policy = CRUNCH46_POLICY.political;
-  const rng = new SeededRng(world.seed).fork(`${key}:swing`);
-  const national =
-    policy.nationalSwingSd[regime] * standardNormal(rng.fork("national"));
-  const regional = Object.fromEntries(
-    CENSUS_REGION_ORDER.map((region) => [
-      region,
-      policy.censusRegionResidualSd[regime] *
-        standardNormal(rng.fork(`region:${region}`)),
-    ]),
-  );
+  const rules = nationalElectionRules(cycle);
+  // The same national mood every other race reads, in points of the
+  // two-party vote (zero in a presidential year by its own measured rule).
+  const mood = nationalMoodDemocraticShift(world, rules.electionDate);
   const [democratic, republican] = election.tickets;
   const stateResults = new Map<string, { share: number; total: number }>();
   let next = world;
-  for (const unit of nationalElectionRules(cycle).units) {
+  for (const unit of rules.units) {
     if (
       nationalRecords(next, election.id).some(
         (record) =>
@@ -763,28 +744,25 @@ export function presidentialElectionDayHandler(
       continue;
     if (!stateResults.has(unit.state)) {
       const row = calibrationRow(`us-president:${unit.state}`);
-      const swing =
-        national +
-        (unit.state === "DC"
-          ? 0
-          : (regional[censusRegionOf(unit.state)] ?? 0)) +
-        policy.stateResidualSd[regime] *
-          standardNormal(rng.fork(`state:${unit.state}`));
       stateResults.set(unit.state, {
-        share: roundTo(applySwing(row?.democraticTwoPartyShare ?? 0.5, swing)),
+        share: roundTo(
+          applySwing(row?.democraticTwoPartyShare ?? 0.5, mood * 100),
+        ),
         total: row?.totalVotes ?? 0,
       });
     }
     const { share, total } = stateResults.get(unit.state)!;
     const democraticVotes = Math.round(total * share);
+    const republicanVotes = total - democraticVotes;
+    // The counted votes decide. An exact tie is not broken here: the state's
+    // result is recorded without a winner, so its electors are not appointed
+    // and the count waits, as it would on the state's own recount or lot.
     const winner =
-      share > 0.5
+      democraticVotes > republicanVotes
         ? democratic!.presidentPersonId
-        : share < 0.5
+        : democraticVotes < republicanVotes
           ? republican!.presidentPersonId
-          : rng.fork(`tie:${unit.state}`).integer(0, 2) === 0
-            ? democratic!.presidentPersonId
-            : republican!.presidentPersonId;
+          : null;
     next = appendNationalRecord(next, {
       kind: "unit-result",
       stableKey: `${key}:unit:${unit.key}`,
@@ -797,7 +775,7 @@ export function presidentialElectionDayHandler(
         },
         {
           candidatePersonId: republican!.presidentPersonId,
-          votes: total - democraticVotes,
+          votes: republicanVotes,
         },
       ],
       sourceContestResultId: null,
@@ -806,13 +784,13 @@ export function presidentialElectionDayHandler(
         method: "simulated",
         sourceEntityIds: [election.id],
         note: unit.countsPopular
-          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's certified 2024 two-party share moved by this cycle's drawn swing. Placeholder, not research.`
+          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's certified 2024 two-party share moved by the national mood. PLACEHOLDER: the economy's effect on the vote awaits an approved rule, so until then each state repeats its 2024 share outside a midterm shift.`
           : `${PRESIDENTIAL_TURNOVER_PROFILE.id}: district electors follow their state's result; district presidential results are not modeled.`,
       },
     });
   }
   const carried = new Map<EntityId, number>();
-  for (const unit of nationalElectionRules(cycle).units) {
+  for (const unit of rules.units) {
     const result = nationalRecords(next, election.id).find(
       (record): record is NationalUnitResult =>
         record.kind === "unit-result" && record.unitKey === unit.key,
@@ -1124,12 +1102,14 @@ export function presidentialTermPlanHandler(
   return done(next, `The ${cycle} winners' terms were dated.`);
 }
 
-export const PRESIDENTIAL_TURNOVER_HANDLERS = [
-  [PRESIDENTIAL_FIELD_CLOSE, presidentialFieldCloseHandler],
-  [PRESIDENTIAL_ELECTION_DAY, presidentialElectionDayHandler],
-  [PRESIDENTIAL_ELECTORS_MEET, presidentialElectorsMeetHandler],
-  [PRESIDENTIAL_TERM_PLAN, presidentialTermPlanHandler],
-] as const;
+export function presidentialTurnoverHandlers() {
+  return [
+    [PRESIDENTIAL_FIELD_CLOSE, presidentialFieldCloseHandler],
+    [PRESIDENTIAL_ELECTION_DAY, presidentialElectionDayHandler],
+    [PRESIDENTIAL_ELECTORS_MEET, presidentialElectorsMeetHandler],
+    [PRESIDENTIAL_TERM_PLAN, presidentialTermPlanHandler],
+  ] as const;
+}
 
 /** Noon on January 20 has passed: a living winner takes the oath. */
 function swearInWinners(world: World): World {

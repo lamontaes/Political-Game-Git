@@ -1,5 +1,5 @@
 import { ageOnDate } from "./dates";
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { createPartnership, recordPartnershipState } from "./life";
 import { LIFE_MIND_IDS } from "./life-mind-content";
 import {
@@ -292,7 +292,7 @@ export function coupleAskRefusal(
 
 export interface CoupleAnswer {
   readonly world: World;
-  readonly accepted: boolean;
+  readonly accepted: boolean | null;
 }
 
 /**
@@ -333,6 +333,9 @@ export function askToBeACouple(
     randomness: "close-choices",
     retention: "ephemeral",
   });
+  if (!isSelectedDecision(evaluation)) {
+    return { world, accepted: null };
+  }
   // Somebody already with another person does not become a second couple;
   // what weighs on their answer is in `romanticConsiderations`, and this is
   // the one outcome it cannot be.

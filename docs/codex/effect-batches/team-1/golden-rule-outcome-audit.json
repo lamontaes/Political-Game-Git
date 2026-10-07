@@ -1,0 +1,259 @@
+{
+  "rule": "CTO1:03 Sept30: simulate mechanisms, never select outcome levels; research ranges calibrate.",
+  "inspectedMain": "80dba335a62f77d6a45c38919105991658ccf1de",
+  "scope": "Team1 current privacy and budget source, selected retained federal modules and held federal source. Not a whole repository clearance. Transferred nonfederal modules require their current owners audit.",
+  "drawnOutcomeFindings": [
+    {
+      "kind": "drawn-outcome-cost-share",
+      "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+      "path": "src/simulation/federal-data-privacy-law.ts",
+      "function": "drawnDataPrivacyCostShare",
+      "sourceHead": "ab5f48837c954440fa04601de08265c6288cc0d5",
+      "pr": 1261,
+      "status": "merged; rebuild assigned Team8",
+      "mechanism": "Seeded triangular cost share [.001,.006] times recorded firm production expenses",
+      "repair": "Team8 replaces share draw with law requirements times each actual firm data-intensity/work base; range becomes calibration only. Preserve saved cost, cash accounting and canonical stamps. Team1 consumes resulting saved cost for affordability, only after shared-hunk release."
+    },
+    {
+      "kind": "drawn-outcome-unit-price",
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "path": "src/simulation/governing/disaster-cost-sharing.ts",
+      "function": "disasterRepairUnitCents",
+      "sourceHead": "0d64e106a5c49645bc6904952c514e30d5919b96",
+      "pr": 1131,
+      "status": "HELD, absent current main",
+      "mechanism": "Episode-seeded unit cost = researched mean times random cost spread",
+      "repair": "Existing damaged physical units times actual supplier/contract unit prices, then the law recorded federal/state share; retain earlier paid historical amounts. No equivalent-project guessed price."
+    }
+  ],
+  "additionalFixedOutcomeGaps": [
+    {
+      "kind": "fixed-outcome-or-unwritten-law-amount",
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "path": "src/simulation/federal-outlay-laws.ts",
+      "function": "federalOutlayChangeAt/federalAidFactor",
+      "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+      "status": "inherited main mechanism; not introduced by1276 stamps",
+      "mechanism": "Fixed $150B yearly cut and universal aid share selected by yes/no",
+      "repair": "Saved enacted spending restrictions by program, applied to actual program commitments/payments; recorded debt limit changes authority, never manufactures receipts."
+    },
+    {
+      "kind": "fixed-outcome-or-unwritten-law-amount",
+      "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "path": "src/simulation/federal-outlay-laws.ts",
+      "function": "federalOutlayChangeAt",
+      "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+      "status": "inherited main mechanism; not introduced by1276 stamps",
+      "mechanism": "Fixed historical median aid increment selected by yes/no",
+      "repair": "Saved appropriation, eligibility and term constrain actual aid commitments and posted transfers; authorization is not expenditure."
+    },
+    {
+      "kind": "fixed-outcome-or-unwritten-law-amount",
+      "questionKey": "us-federal-positions:defense.grow-defense-spending",
+      "path": "src/simulation/federal-defense-spending.ts",
+      "function": "defenseBuildUpShare",
+      "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+      "status": "inherited main mechanism; not introduced by1276 stamps",
+      "mechanism": "Fixed 6.94% historical mean compounds spending for up to five years",
+      "repair": "Saved appropriation constrains procurement orders; delivered units times actual contract prices determine paid costs, contracts determine local earnings."
+    },
+    {
+      "kind": "fixed-outcome-or-unwritten-law-amount",
+      "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "path": "src/simulation/federal-farm-subsidy-law.ts",
+      "function": "farmPaymentsCutAt",
+      "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+      "status": "inherited main mechanism; not introduced by1276 stamps",
+      "mechanism": "Fixed21% historical median cut selected by yes/no",
+      "repair": "Saved program coverage/cap applied to actual eligible recipients and recorded benefits; no blanket21% substitute."
+    },
+    {
+      "kind": "fixed-outcome-or-unwritten-law-amount",
+      "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+      "path": "src/simulation/federal-passenger-rail.ts",
+      "function": "railExpansionPct",
+      "sourceHead": "80dba335a62f77d6a45c38919105991658ccf1de",
+      "status": "inherited main mechanism; not introduced by1276 stamps",
+      "mechanism": "Plan projection62.5% riders imposed over a fixed15year path",
+      "repair": "Appropriation funds actual route commitments and service; journeys respond to actual service, fares and resident destinations, projection calibrates aggregate only."
+    }
+  ],
+  "openAttributionOnlyPR": {
+    "pr": 1276,
+    "head": "4e306b27e5df5fa3c512fbc1fe4a148cb1f343d8",
+    "note": "Adds stamps only; does not repair legacy expense/rider mechanisms."
+  },
+  "laws": [
+    {
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "owner": "Team1",
+      "costMechanism": "Saved enacted spending restrictions by program, applied to actual program commitments/payments; recorded debt limit changes authority, never manufactures receipts.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "owner": "coordinator",
+      "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "owner": "Team1",
+      "costMechanism": "Actual covered loan principal, balances, repayment schedule and written rate cap determine interest/compliance cost.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:defense.grow-defense-spending",
+      "owner": "Team1",
+      "costMechanism": "Saved appropriation constrains procurement orders; delivered units times actual contract prices determine paid costs, contracts determine local earnings.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "owner": "Team1",
+      "costMechanism": "Saved appropriation, eligibility and term constrain actual aid commitments and posted transfers; authorization is not expenditure.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:trade.raise-tariffs",
+      "owner": "Team1",
+      "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+      "owner": "Team1",
+      "costMechanism": "Actual eligible applications processed/admissions/service use times recorded processing/service costs; population is not a drawn admission outcome.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "owner": "Team1",
+      "costMechanism": "Actual qualifying prescriptions purchased times negotiated transaction price; no aggregate cost percent substitutes for drug purchases.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+      "owner": "coordinator",
+      "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:education.forgive-student-loans",
+      "owner": "Team1",
+      "costMechanism": "Sum min(written eligible forgiveness cap, actual qualifying loan balances), with recorded federal program/borrower eligibility.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "owner": "coordinator",
+      "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "owner": "Team1",
+      "costMechanism": "Written law terms applied to actual covered income, transactions, recipients or services; exact source and consumer require inspection.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+      "owner": "Team1",
+      "costMechanism": "Appropriation funds actual route commitments and service; journeys respond to actual service, fares and resident destinations, projection calibrates aggregate only.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "owner": "Team1",
+      "costMechanism": "Actual covered generating units/emissions and compliance investments at transaction prices; written limit determines required changes.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "owner": "Team1",
+      "costMechanism": "Saved program coverage/cap applied to actual eligible recipients and recorded benefits; no blanket21% substitute.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "owner": "Team1",
+      "costMechanism": "Existing damaged physical units times actual supplier/contract unit prices, then the law recorded federal/state share; retain earlier paid historical amounts. No equivalent-project guessed price.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "owner": "Team1",
+      "costMechanism": "Actual eligible federal custody/person sentence durations and occupied custody days times recorded operating costs; retrospective history preserved.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+      "owner": "Team1",
+      "costMechanism": "Actual covered member holdings/trades and disclosure/enforcement work; no stock-return effect from a ban alone.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+      "owner": "Team8 privacy amount rebuild;Team1 saved-cost consumer",
+      "costMechanism": "Team8 replaces share draw with law requirements times each actual firm data-intensity/work base; range becomes calibration only. Preserve saved cost, cash accounting and canonical stamps. Team1 consumes resulting saved cost for affordability, only after shared-hunk release.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    },
+    {
+      "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+      "owner": "Team1",
+      "costMechanism": "Actual DC governmental functions transferred and services delivered, financed by the enacted allocation; no per-resident cost pick.",
+      "usableTermsAndBaseVerified": false,
+      "newCostWriterExecuted": false,
+      "status": "NO complete cost claim; missing typed terms/current-world base are not treated as zero cost"
+    }
+  ],
+  "executedChecks": [
+    "Source inspected at listed exact Git refs",
+    "Two selected explicit drawn cost formulas located",
+    "20 canonical law keys unique"
+  ],
+  "NOT_RUN": [
+    "Golden-rule cost repair runtime tests",
+    "New law terms producers",
+    "Nationwide cost proof"
+  ],
+  "remainingCostBatch": "One PR will hold mechanisms and exact missing-input findings; no stand-in amounts or silent-legislature completion."
+}

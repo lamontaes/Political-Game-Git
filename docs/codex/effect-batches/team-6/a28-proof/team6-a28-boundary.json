@@ -1,0 +1,70 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 3,
+  "numPassedTests": 3,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790845651150,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate reads unambiguous SRIA bands, including 500 employees",
+          "status": "passed",
+          "title": "reads unambiguous SRIA bands, including 500 employees",
+          "duration": 2.723137000000861,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate leaves exactly 100 employees unresolved between the overlapping printed bands",
+          "status": "passed",
+          "title": "leaves exactly 100 employees unresolved between the overlapping printed bands",
+          "duration": 0.25834000000031665,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate does not turn an absent, zero or invalid count into a cost",
+          "status": "passed",
+          "title": "does not turn an absent, zero or invalid count into a cost",
+          "duration": 0.3406639999993786,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790845664599,
+      "endTime": 1790845664602.3406,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/privacy-initial-compliance-estimate.test.ts"
+    }
+  ]
+}

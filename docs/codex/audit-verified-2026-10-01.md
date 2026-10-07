@@ -1,0 +1,513 @@
+# Audit items verified against main — October 1, 2026, 11:20 a.m.
+
+Checked item by item against main 44918cd48 (code, not PR claims): 11 done, 38 partly, 100 not started, of the 149 items in audit-gaps-2026-10-01.md.
+
+## Rules (owner, Oct 1)
+
+1. Every PR names its audit IDs in the title.
+2. Work order inside each team: items with a non-dice drift flag first (old path still live, second copy, built but unused), then partly, then not started.
+3. Extend or replace the existing system and delete the old path in the same PR. Never add a second module beside the old one.
+4. No research, data, schema or query PR merges without the PR that uses it in play, READY beside it.
+5. An item is done only when the bad pattern is gone from production code and the replacement is called in play. The CTO re-runs this check.
+
+## Audit/Systems (0 of 25 done)
+
+- **A124** [partly] — STILL ROLLS DICE Remove the -1/0/+1 roll on close decisions; a true tie stays 'undecided'.
+  - Next: After A125's 16 remaining caller files handle undecided, land open #1405: in decisions.ts evaluateDecision delete the close-choices block (:193-206) and return outcomeKind 'undecided' (selectedOptionKey null) when the top two available base scores are equal; prove in decisions.test.ts with an exact two-option tie (undecided) and a one-point lead (selected), identical across two seeds.
+  - Now: src/simulation/decisions.ts:193-206 still adds optionRng.integer(-1, 2) to every option within CLOSE_CHOICE_WINDOW when randomness is 'close-choices'
+- **A163** [partly] Give each link a status and mark the provisional and to-confirm ones; a null link should say why it is not wired.
+  - Next: Land open #1528: add `status` and `unsupportedReason` to each row of data/research/outcome-web/links.json and have outcome-web/index.ts throw at load when a null-size link lacks unsupportedReason or a stored status disagrees with outcomeLinkStatus; prove in outcome-web/waiting-reasons.test.ts.
+  - Now: data/research/outcome-web/links.json: all 50 null-size links now carry a why-not sentence in `notes` (e.g. police-to-low-level-arrests 'Unsupported until measured...') from #1434/#1472, but 0 of 222 rows have a status or unsupportedReason field
+- **A110** [not-started] — STILL ROLLS DICE Count every race one way, from an electorate (population x turnout, party lean, the player's support).
+  - Next: Land open #1532 or: in election-contests.ts evaluateDeterministicContestOutcome replace the draw at :191-205 with an 'unresolved' result when statewideContestOutcome (:229) returns null, and give local contests a town electorate (population x turnout x lean) through the same countedByParty path; prove in election-contests.test.ts that a contest with no electorate stays unresolved and a town contest's tallies match across two seeds.
+  - Now: src/simulation/election-contests.ts:191-199 evaluateDeterministicContestOutcome still draws rng.integer(1000, 10000) votes per candidate when no seat or statewide electorate counts the race
+- **A111** [not-started] — STILL ROLLS DICE Remove election-night swings, starting-support rolls, campaign-effect rolls and noisy polls.
+  - Next: Land open #1542 or, in campaigns.ts: recordInitialSupport weight = 850 + startingSupportAdjustment (drop :460 draw); requestedGainBasisPoints swing fixed at 100 (:1168); recordCampaignObservation observed = trueBasisPoints rounded (:1227-1231); evaluateCampaignAwareOutcome share = latestSupportState with no swing (:1652-1655); prove in campaigns.test.ts that two seeds give identical support, poll memo and result.
+  - Now: src/simulation/campaigns.ts:460 recordInitialSupport still adds rng.integer(0, 301) to 850
+- **A112** [not-started] — STILL ROLLS DICE Town elections should come from residents' views and turnout, not drawn turnout, support, candidate counts and dates.
+  - Next: In living-world/local-elections.ts countVotes (:1060) replace the turnout draw (:1081) with the town's prior recorded turnout (P.turnout midpoint when none) and set base = 1 (:1087) so townSupportFromViews x townSupportFromFavors decide; prove in src/presentation/local-elections.test.ts with a 3-candidate town whose tallies match across two seeds. Candidate selection (:1012-1016) follows in the next PR.
+  - Now: src/simulation/living-world/local-elections.ts:758-760 scheduleYear draws the month and day; :1012-1014 localElectionFilingHandler draws how many file (pick) and :1016 drawTownResident draws who runs
+- **A113** [not-started] — STILL ROLLS DICE The presidency should be decided by national mood and recorded conditions, not random national/regional/state swings and coin-flip ties.
+  - Next: In nationwide-world/presidential-turnover.ts presidentialElectionDayHandler (:732) replace the three standardNormal swings with the national-mood.ts reading plus recorded macro conditions and record an exact tie as unresolved instead of :785; prove in src/presentation/presidential-elections.test.ts that two seeds give the same winner and margins.
+  - Now: src/simulation/nationwide-world/presidential-turnover.ts:745-772 presidentialElectionDayHandler adds standardNormal national, regional and state swings; :785 coin-flip tie
+- **A114** [not-started] — STILL ROLLS DICE Party nominations should come from recorded support, not a drawn 'campaign pull'.
+  - Next: In nominations/party-nominations.ts pullOf (:111) replace the draw with the entrant's latestSupportState among the party's voters times recorded incumbency/endorsement weights; prove in nominations/nomination-rules.test.ts that two seeds nominate the same person.
+  - Now: src/simulation/nominations/party-nominations.ts:122-127 pullOf still draws a campaign multiplier between NOMINATION_PULL.campaignLow and campaignHigh (placeholder id :53); 0 commits since baseline
+- **A115** [not-started] — STILL ROLLS DICE Opening political leans, seat parties, regime and economy should start from certified records, not random swings.
+  - Next: In world-setup/political-start.ts drawPoliticalLatents (:128) set the national/region/state/seat residuals to zero so leans equal the certified baselines, and record an exact tie as unresolved instead of :200; prove in world-setup/world-setup.test.ts that two seeds open with identical leans and seat parties. Regime/macro (conditions.ts:60, :189) next.
+  - Now: src/simulation/world-setup/political-start.ts:135-150 drawPoliticalLatents adds standardNormal national/region/state swings, :200 coin-flip tie, :259 per-seat swing
+- **A117** [not-started] Midterm results, name recognition and patronage loyalty should come from what voters experienced, not a fixed 3.6-point penalty, an authored curve and household-wide debt weights.
+  - Next: In national-mood.ts (:41) replace the fixed 3.6-point shift with the president's party's support computed from recorded voter contacts/experiences (latestSupportState) and keep 3.6 only as an expectation in national-mood.test.ts; patronage weights and recognition follow under E2.
+  - Now: src/simulation/national-mood.ts:25 MIDTERM_PENALTY_POINTS = 3.6 applied at :41
+- **A12** [not-started] Fold the six separate office turnover routines into one office lifecycle with each office's legal rules as data.
+  - Next: After A2 lands: extract the shared vacancy/term-end step from nationwide-world/presidential-turnover.ts and state-legislature-turnover.ts into one function in governing/office-continuity.ts that reads each office's term rules as data, and call it once from applyDateBoundary (time-work.ts:2029); prove with scripts/engine-proof/parity.test.ts that each crossed term date acts exactly once.
+  - Now: src/simulation/time-work.ts:2053-2059 applyPresidentialTurnover, applyGovernorTurnover, applyCongressTurnover, applyStateLegislatureTurnover (plus applyConstitutionalReform :2051 and applyCrisisOfficeContinuity :2044) are still separate links in applyDateBoundary (:2029)
+- **A126** [not-started] Break exact ties by the person's records, not alphabetical option names.
+  - Next: As part of #1405: in decisions.ts evaluateDecision return 'undecided' when the top two scores are equal instead of the localeCompare at :219; prove in decisions.test.ts that options keyed 'a'/'b' and 'b'/'a' with equal scores both come back undecided.
+  - Now: src/simulation/decisions.ts:214-220 ranked sort still breaks equal scores with left.option.key.localeCompare(right.option.key)
+- **A127** [not-started] — STILL ROLLS DICE Stop drawing effect sizes; use the central estimate and treat research ranges as checks (owner ruled).
+  - Next: Land open #1421: make drawnLinkSize (outcome-web/index.ts:653) return the central size (own.size ?? link.size) with no rng, and update its callers outcomeFactor (:714), teacher-salary-floor.ts:69 and tuition-freeze.ts:55; prove in outcome-web/outcome-web.test.ts that two seeds give identical outcomeFactor for a ranged link.
+  - Now: src/simulation/outcome-web/index.ts:653-674 drawnLinkSize still averages two seeded uniforms within the link's range or DEFAULT_SPREAD; :714 outcomeFactor calls it for every built link
+- **A128** [not-started] — STILL ROLLS DICE Delete the unjustified default spreads (±25/50/100%) used when research gave no range.
+  - Next: Delete DEFAULT_SPREAD (outcome-web/index.ts:638) in the same PR as A127 (#1421); prove in outcome-web/outcome-web.test.ts that a link without a range uses exactly its central size.
+  - Now: src/simulation/outcome-web/index.ts:638-644 DEFAULT_SPREAD unchanged and read at :664
+- **A130** [not-started] — STILL ROLLS DICE Who dies and of what should come from recorded health, hazards and crime, not a lottery; delete the dormant second death engine.
+  - Next: Delete the dormant engine first: remove mortalityTransitionHandler (vitality.ts:377) and mortalityRngForPlan (vitality-integrity.ts:193) plus its integrity check (:422), and put the owner question 'how is a natural death produced without dice' on the docket; prove in crisis/crisis-health-mortality.test.ts that deaths still come only from crisis/mortality.ts.
+  - Now: src/simulation/crisis/mortality.ts:91 personMortalityThreshold still forks a seeded threshold (used at :265 and character-history.ts:1144); crisis/death-causes.ts:133 drawDeathCause draws
+- **A131** [not-started] — STILL ROLLS DICE Crime victims and whether crimes are reported should come from recorded causes, not monthly dice.
+  - Next: Design-first item (with the crime offenders model). First bounded step: in crime/producer.ts sampleMonthlyCrime (:138) set `reported` (:174) from the recorded victim-offender tie and victim's prior police contact (crime/causes.ts) instead of a draw; prove in crime/crime.test.ts that the same offense is reported identically across two seeds.
+  - Now: src/simulation/crime/producer.ts:164-165 sampleMonthlyCrime draws whether and on which day; :174 reported = rng.next() < reportedShare; :226-283 Poisson count and weighted offense pick
+- **A132** [not-started] — STILL ROLLS DICE Disasters, their footprint and damage should come from hazard records and housing stock, not Poisson counts, alphabetical places and damage rolls; one damage result per home.
+  - Next: In crisis/disaster.ts applyDamage (:352) compute one damage level per dwelling (:393) and have each household read its dwelling's level instead of calling homeLevel again (:402); prove in src/presentation/crisis-disaster.test.ts that a household and its dwelling always match. FEMA replay for sampleMonthlyHazards follows.
+  - Now: src/simulation/crisis/hazard-producer.ts:312-321 sampleMonthlyHazards Poisson count from a seeded stream; :339 footprint = [...jurisdictionIds].sort().slice(0, width) (alphabetical)
+- **A133** [not-started] — STILL ROLLS DICE International crises and violence should not be decided by escalation, ally, kill and injury rolls; missing anger data must not count as calm.
+  - Next: In pressure/ladder.ts stepPressureLadder (:436) keep the unrest open with no stage written when `reading` is missing (only `reading.levels.anger <= angerLine` calms it); prove in pressure/pressure.test.ts that an unrest with no anger reading stays active.
+  - Now: src/simulation/pressure/ladder.ts:436 stepPressureLadder still resolves unrest as 'calmed' when `!reading`
+- **A134** [not-started] — STILL ROLLS DICE Remove the probability mode from incidents in real game producers.
+  - Next: Convert the three probabilistic definitions in incident-catalog.ts (:82, :95, :128) to 'condition' triggers, then delete evaluateProbability (incidents.ts:792) and 'probabilistic' from types.ts:2107; prove in incident-response.test.ts that no catalog definition is probabilistic and the three fire on their conditions.
+  - Now: src/simulation/incident-catalog.ts:82, :95, :128 still declare occurrenceMode 'probabilistic'
+- **A135** [not-started] — STILL ROLLS DICE Who moves away, where they go and how many arrive should come from jobs, rent and family, not blanket 4% rolls.
+  - Next: In migration/review.ts reviewTown (:273) replace the leaveChance draw (:326-328) with departures only for residents with a recorded cause (job loss, eviction, kin elsewhere) and send them to that cause's recorded place instead of chooseDestination; keep 4% as an expectation in migration/migration.test.ts.
+  - Now: src/simulation/migration/review.ts:106 BLANKET_DEPARTURE_CHANCE_PER_YEAR = 0.04 (used :263); reviewTown :326-328 leaveChance draw; chooseDestination :706 draws the destination (:342, :374, :754)
+- **A151** [not-started] Opening population sampling from survey households needs a deterministic allocation.
+  - Next: Low priority: add a guard in tests/source/acs-pums-donor-bridge.test.ts that fails if selectAcsPumsHouseholdDonor gains a non-test importer; replace the draw with largest-remainder weight allocation in the PR that first wires it.
+  - Now: src/source/adapters/acs-pums-character-history.ts:235 selectAcsPumsHouseholdDonor / :292 SeededRng weighted donor draw unchanged
+- **A166** [not-started] Review the 334 declared assumption markers in production code.
+  - Next: Audit/Systems: add data/research/assumption-markers.json mapping each of the 334 file:line markers from the audit's codex-declared-assumptions.json to an owning rebuild step or 'acceptable', plus a tests/release check that rescans PLACEHOLDER/UNRESEARCHED/SET BY HAND markers and fails on an unmapped one.
+  - Now: No marker-to-step mapping exists in the repo: grep for A166/'declared-assumptions' finds only docs/codex/audit-gaps-2026-10-01.md; markers such as campaign-recognition.ts:16 and crime/contract.ts:4 are untagged
+- **A167** [not-started] Cities that cross counties should be split by population, not assigned to the first county.
+  - Next: In outcome-web/place-outcome-store.ts localWeights (:249) split each multi-county city's residents across countyGeoidsForPlace by Census place-in-county population weights; prove in outcome-web/place-outcomes.test.ts with a two-county city whose county shares sum to its population.
+  - Now: src/simulation/outcome-web/place-outcome-store.ts:245-247 'PLACEHOLDER: a city across several counties is placed whole in its largest' in localWeights (:249); 0 commits since baseline
+- **A2** [not-started] Run the daily steps once when the date changes, not again at every finished task or activity inside the same day.
+  - Next: Land open #1446: in time-work.ts setCurrentMoment (:2015) skip applyDateBoundary when moment.date equals crossedFrom, keeping noon inaugurations as saved due items; prove in scripts/engine-proof/parity.test.ts that finishing two activities in one day runs the daily chain zero extra times.
+  - Now: src/simulation/time-work.ts:2006 setCurrentMomentWithDue still calls setCurrentMoment on a same-date move
+- **A63** [not-started] — STILL ROLLS DICE The national economy and every place's measures should move from recorded causes, not monthly random noise, era jumps and price shocks.
+  - Next: Make drawInnovations (macro-economy/kernel.ts:113) return zero innovations and driftSteps (outcome-web/place-outcomes.ts:64) return zero drift, so changes come only from the effects map and dated crises; prove in macro-economy/macro-economy.test.ts and outcome-web/place-outcomes-century.test.ts that two seeds give identical 10-year paths.
+  - Now: src/simulation/macro-economy/kernel.ts:113-117 drawInnovations draws standardNormal growth/unemployment/inflation each month
+- **A64** [not-started] Real payments should not be turned into economy shocks with a made-up $50 million saturation, and every bank failure should not count as a full credit shock.
+  - Next: In macro-economy/sources.ts PUBLIC_MONEY_ORIGIN_READER (:235) size each payment shock as its share of the state's recorded monthly personal income instead of the $50 million saturation (policy.ts:244), and size TOWN_FINANCE_ORIGIN_READER's bank failure (:336) by the failed bank's deposits over town deposits; prove in macro-economy/macro-economy.test.ts.
+  - Now: src/simulation/macro-economy/policy.ts:244 UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS = $50 million, divided into payments at sources.ts:295-297 (PUBLIC_MONEY_ORIGIN_READER :235)
+
+## Team 1 (2 of 15 done)
+
+- **A72** [done] — BUILT BUT UNUSED IN PLAY Use one bill filer for every body, with cosponsors, tie-breaks and refile rules as settings.
+  - Drift: data/research/legislature/member-bill-limits-2026.json (#1564/#1566) is read only by member-bill-limits-research.test.ts; fileMemberAgendaBills enforces no per-member introduction limit.
+  - Now: src/simulation/governing/council-lawmaking.ts:1-155 no longer contains councilFilings (only principles, decideCouncilVote, undoesOwnLaw); removed in 39242bd0d (#1449).
+- **A76** [partly] Use one bill-title template and one support/repeal rule instead of copies per body.
+  - Next: Add titleTemplate (for example '{name} Ordinance', '{name} Act of {year}') to the rule-pack type and packs, render shortTitle from pack.titleTemplate in member-agenda.ts, and delete ordinanceTitle and dcCouncilActTitle. Prove in governing/member-agenda-council.test.ts that DC and town titles match today's strings.
+  - Now: governing/member-agenda.ts:840-846 one writer now composes titles and repeal wording for every body (three branches).
+- **A77** [partly] Move every bill with one driver (Congress, states, councils, DC, towns and the player's session).
+  - Next: Add readingIntervalDays and quorum to the town-council-profile.ts pack, then make local-council-meetings.ts moveOrdinances call applyInstitutionStep(world, measureId, onExecutiveDesk) without recordedFloorVote so the clock itself asks decideCouncilVote. Prove in governing/local-law-clock-parity.test.ts that a town ordinance passes through the same step kinds as a state bill.
+  - Now: municipal-ordinance-procedure.ts:522 recordCouncilReadingVote now records council floor votes through applyInstitutionStep(..., {recordedFloorVote}) (#1392); called from local-council-meetings.ts:401 and dc-council-sittings.ts:198.
+- **A87** [partly] — STILL ROLLS DICE Amendment ballots and each state's ratification date should come from voters and legislatures, not dice.
+  - Next: Add one helper nextStateSittingDay(world, stateKey, from) that reads the state's rule-pack regular-session window (the same data legislation-world.ts regularSessionActionRefusal reads) and call it from article-v.ts scheduleStateActions (:451) and federal-reform.ts proposeAndVote (:557). Prove in governing/article-v.test.ts that each state's action lands on its first session day and that neither file imports SeededRng.
+  - Now: living-world/constitutional-reform.ts has no SeededRng; state amendment ballots are counted from recorded views (recordedBallotTally :1031, constitutionalReformBallotHandler :1082) (#1420).
+- **A11** [not-started] Replace seven hand-set legislative calendars with one calendar row per body, read from data.
+  - Next: Add a sittingCalendar field (weekdays or daysBetween) to the rule-pack type in legislature-rules.ts, fill it in congress-rule-pack.ts (Tue/Thu) and the DC/town council packs (14 days), and make congress-chambers.ts SITTING_WEEKDAYS and dc-council-sittings.ts DC_COUNCIL_SITTING_PROFILE read pack.sittingCalendar. Prove in governing/governing-season-cadence.test.ts that changing the pack value moves the next sitting.
+  - Now: governing/governing-calendar.ts:20 STATE_GOVERNING_CALENDAR; governing/legislative-clock.ts:131 LEGISLATIVE_CADENCE_PROFILE (used :600, :666, :1104); governing/member-agenda.ts:100 LOCAL_AGENDA_DEFAULT_QUARTERS.
+- **A20** [not-started] Move bill wording families and the question-to-bill mapping table into data, without separate per-level branches.
+  - Next: Move legislation-transit-families.ts into data/content/legislation-families/transit.json with a JSON loader in legislation-program-families.ts validated against legislation-content-contracts.ts. Prove with a parity test (like legislation-service-families.test.ts) that programFamilies() output is unchanged.
+  - Now: legislation-program-families.ts:30-36 builds the bank from TypeScript object literals in the 8 legislation-*-families.ts files.
+- **A74** [not-started] — STILL ROLLS DICE The player's legislative work should open on a bill the office actually filed, not a drawn bill with a drawn sponsor.
+  - Next: In presentation/legislation-world.ts, replace seatedOfficeMember's draw with the player's own seat member, and the opening-measure draw with the latest non-terminal measure that member filed through fileMemberAgendaBills; return no session when none exists. Prove in a legislation-world test that a member with no filed bill is offered no session.
+  - Now: presentation/legislation-world.ts:263-265 opening measure = SeededRng(...).integer(0, eligible.length).
+- **A78** [not-started] The player's legislative session should use the right committee, allow NPC amendments and let bills die at session end like the clock does.
+  - Next: In presentation/legislation-session.ts request-referral, call the same referral choice the clock uses (export a referralCommittee(world, measure, chamberKey) from legislative-clock.ts wrapping congressReferralCommittee at :689) instead of committees[0]. Prove in a legislation-session test that a Congress tax bill the player files goes to the same committee the clock would pick.
+  - Now: presentation/legislation-session.ts:177-178 request-referral still uses chamber.committees[0]!; the clock picks congressReferralCommittee first (governing/legislative-clock.ts:689-692).
+- **A82** [not-started] NPC councils should be able to override a veto, with each body's override window as data.
+  - Next: Split the memberAuthority check out of overrideCouncilVeto (as recordCouncilReadingVote does) and call it from dc-council-sittings.ts moveActs for each vetoed act inside overrideDeadline (municipal-ordinance-procedure.ts:1028) with decideCouncilVote dispositions; move OVERRIDE_WINDOW_DAYS into the municipal rule pack. Prove in a DC council test that a vetoed act with two-thirds support is reenacted with no player action.
+  - Now: municipal-ordinance-procedure.ts:716-718 OVERRIDE_WINDOW_DAYS lists only us-dc-washington.
+- **A83** [not-started] Compute a law's effective date once and have every reader use it.
+  - Next: Export effectiveAtFor(world, measure, resolvedAt) from governing/law-in-force.ts (the logic now at :210-232 plus the pack's enactment.defaultEffectiveRule) and have recordEnactment in legislation.ts always store it as effectiveAt; then replace the `effectiveAt ?? addDays(...)` fallbacks in minimum-wage.ts:139, public-budgets/fiscal.ts:145 and member-agenda.ts:157 with enactment.effectiveAt. Prove in governing/law-in-force.test.ts that a town-profile ordinance takes effect on adoption and a state act on its statute date.
+  - Now: living-world/local-council-meetings.ts:347 writes effectiveAt = adoption + ORDINANCE_EFFECTIVE_AFTER_DAYS (30), while that council's own pack says 'on adoption' (town-council-profile.ts:222); municipal-ordinance-procedure.ts:805 and :860 also add the 30 days.
+- **A85** [not-started] Amendments, riders and item vetoes should work for every body, not only state legislatures and Congress.
+  - Next: Before recordCouncilReadingVote in living-world/local-council-meetings.ts moveOrdinances (:353-401), call offerPlannedAmendment with the council chamber's seated members (as legislative-clock.ts does for chambers). Prove in governing/member-agenda-council.test.ts that an NPC councilor amends an ordinance before its second reading.
+  - Now: governing/amendment-authors.ts offerPlannedAmendment is imported only by governing/legislative-clock.ts:70.
+- **A86** [not-started] Use one constitutional-amendment process for Article V, federal reform and state amendments.
+  - Next: Extract proposeAmendment(world, {body, ruleDelta, members}) from constitutional-reform.ts proposeAndVoteUnchecked (:962), which records the measure and the decideChamberVote roll calls, and call it from article-v.ts propose (:480) and federal-reform.ts proposeAndVote (:489). Prove in governing/constitutional-chamber-vote.test.ts that all three record the same measure and roll-call shape.
+  - Now: Three pipelines remain: governing/article-v.ts:480 propose + :870 articleVStateActionHandler; living-world/federal-reform.ts:489 proposeAndVote + :574 federalReformStateActionHandler; living-world/constitutional-reform.ts:948 proposeAndVote + :1082 constitutionalReformBallotHandler.
+- **A88** [not-started] — STILL ROLLS DICE Recall petitions and votes should count real signatures and ballots.
+  - Next: Replace recallYesShare at recall.ts:598 with a count of eligible residents' recorded views of the officeholder, using the same tally as living-world/local-elections.ts localElectionCountHandler (:1111), and replace recallPetitionQualifies with a signature count of opposed residents against the threshold. Prove in a recall test that flipping residents' views flips the outcome and that recall.ts no longer imports SeededRng.
+  - Now: recall.ts:417-421 recallPetitionQualifies is a keyed draw (integer(0,1000) < qualifyPermille); recall.ts:425-428 recallYesShare is a keyed draw, used by recallElectionHandler at :598.
+- **A89** [not-started] Congress should be a rule pack like the 50 states, not special-cased inside state code.
+  - Next: Add seatRollSource to the rule-pack type in legislature-rules.ts, set it in congress-rule-pack.ts, and replace the three US_CONGRESS_PACK_ID branches in governing/chamber-votes.ts with a switch on pack.seatRollSource. Prove in governing/member-agenda-congress-parity.test.ts that Congress and a state chamber resolve seats through the same call.
+  - Now: 40 US_CONGRESS_PACK_ID/isCongressMeasure lines across 12 src/simulation files, unchanged from the 7fe0435c1 snapshot (51 across 17 files counting src/presentation).
+- **A84** [done] Use one bill-numbering system.
+  - Now: nextDcCouncilDesignation and nextOrdinanceDesignation no longer exist in src (removed in 02fd451d5, #1411).
+
+## Team 2 (2 of 13 done)
+
+- **A79** [partly] — OLD PATH STILL LIVE Use one member-vote function (chambers, councils, constitutional votes, Senate confirmations, bargaining) and one weight table.
+  - Next: Replace the evaluateDecision call in termLimitBallot (federal-reform.ts:395-410) with decideChamberVote({kind: 'constitutional', ...}) passing termLimitConsiderations as extra considerations, then do the same for memberBallot. Prove in governing/governor-constitutional-vote.test.ts that each member's forecast ballot equals their recorded roll-call ballot.
+  - Drift: memberBallot and termLimitBallot still decide proposal forecasts with their own evaluateDecision calls beside decideChamberVote.
+  - Now: decideChamberVote (governing/chamber-votes.ts:693) now serves councils (council-lawmaking.ts:92, municipal-ordinance-procedure.ts:345), Senate confirmations (supreme-court-appointments.ts:493, :527), Article V roll calls (article-v.ts:423) and state amendment roll calls (constitutional-reform.ts:914); the weight() copies in chamber-votes, legislative-member-decisions, federal-reform and joint-assembly were replaced by considerationScore (#1557).
+- **A80** [partly] Presidents, mayors and town councils should decide bills the way governors do, and the player President gets a desk.
+  - Next: In living-world/local-council-meetings.ts afterAdoption, branch on pack.executive.presentmentRequired: when true, present and decide through evaluateGovernorBill as municipal-ordinance-procedure.ts:987 does; when false, write a recorded 'not presented under this profile' action. Prove in governing/local-member-agenda-integration.test.ts.
+  - Now: presentation/legislation-session.ts:475-481 the player's await-executive-decision now goes through state-governing.ts executiveDesk (9295d4c3d, #1478); governing/congress-lawmaking.ts:116 and municipal-ordinance-procedure.ts:987/:1215 use evaluateGovernorBill.
+- **A108** [not-started] Charlottesville and DC charter rules should be rule-pack data, not code branches naming the city.
+  - Next: Move the DC rows (:676, :716) and the Charlottesville §2-98 dates (:1341, :1364) into council-action rows read through municipalRulePackFor by government key. Prove with the existing municipal-ordinance-procedure tests that DC and Charlottesville behave the same and that no city key literal remains in the file.
+  - Now: municipal-ordinance-procedure.ts:676 'us-dc-washington' reading row; :716-718 DC override window; :1341 CVILLE_2_98_AMENDED_ON; :1364 governmentKey !== 'us-va-charlottesville'.
+- **A109** [not-started] Maine/Nebraska electors, the California slug, DC's census region and the DC/territory test should be data columns.
+  - Next: Add electorAllocation and jurisdictionKind columns to the place data that life-places.ts loads, and read them in national-election-rules.ts:116 and governing/question-authority.ts:149. Prove in a national-election-rules test that Maine and Nebraska split their electors with no USPS literal in the code.
+  - Now: national-election-rules.ts:116 `state === "ME" || state === "NE"`; constitutional-process.ts:184 ['california', 'us-ca'] slug.
+- **A120** [not-started] A governor's Senate appointment should not always take exactly 10 days.
+  - Next: Open an appointment matter on the governor's desk (state-governing.ts openMatter, new 'appointment' family) due at the statute's deadline and record the appointment on the day the governor's evaluateDecision selects a candidate. Prove in governing/senate-selection.test.ts that the appointment day varies with the governor's decision and never passes the deadline.
+  - Now: nationwide-world/senate-vacancy-law.ts:58 SENATE_APPOINTMENT_PLACEHOLDER_DAYS = 10.
+- **A144** [not-started] — STILL ROLLS DICE Which legislative district a person belongs to should not be drawn.
+  - Next: Replace the pick in district-residence.ts with the crossing district holding the largest population share of the home Census place (from the place-relation file splitHomeDistricts already reads), ties by district id. Prove in a district-residence test that the assignment is the largest-share district.
+  - Now: district-residence.ts:838-840 new SeededRng(...).pick(crossing); provenance note 'Placed by seed among the N districts' (:847).
+- **A149** [not-started] — STILL ROLLS DICE The player's ward should come from their recorded home, not a hash of their id.
+  - Next: In living-world/town-wards.ts, read the player's current dwelling from living-world/town-homes.ts (current tenure) and use its roster index before the hash fallback. Prove in a town-wards test that the player's ward follows their recorded home and changes when they move.
+  - Now: living-world/town-wards.ts:183-190 FNV hash of personId % households for any household the roster did not write (including the player's).
+- **A92** [not-started] — STILL ROLLS DICE Chief-of-staff advice, first-year priorities, budget options and NPC governing choices should come from records, not dice.
+  - Next: Route staffRecommendation (state-governing.ts:1039) through evaluateDecision with the chief's principles as considerations and randomness 'none', and when nothing decides, leave the matter open instead of the :2441 pick. Prove in governing/recorded-governing-action.test.ts that an NPC governor with no chief of staff leaves the agenda matter open.
+  - Now: governing/state-governing.ts:1052-1060 the chief's agenda recommendation is rng.pick(real); :1448-1452 first-year agenda spliced by rng.
+- **A93** [not-started] — STILL ROLLS DICE Staff candidates should not get scripted careers picked at random, and no evidence should not count as steady.
+  - Next: In governing/staff-evidence.ts drop the CAREERS draw and set steadiness to null when posts.length === 0; make the steadiest sort at state-governing.ts:2430 skip null. Prove in governing/staff-evidence.test.ts that a candidate with no record has unknown steadiness.
+  - Now: governing/staff-evidence.ts:169-172 picks a scripted career with CAREERS[rng.integer(...)].
+- **A94** [not-started] — STILL ROLLS DICE Committee seats should come from recorded appointments, not a shuffle.
+  - Next: Replace seatingOrder's shuffle with a sort by seniority (seat-tenure start), then member key. Prove in governing/committee-assignment.test.ts that the longest-serving member chooses first.
+  - Now: governing/committee-assignment.ts:106-118 seatingOrder shuffles the chamber with SeededRng.
+- **A97** [not-started] A body should not be marked as having obeyed a law just because someone works there.
+  - Next: In enacted-duties.ts replace hasWorkers with a check for the duty's own receipt (a saved filing/report event or service-delivered stamp for that body and Act), else 'compliance-unknown'. Prove in the enacted-duties test that a staffed body with no filing is unknown.
+  - Now: enacted-duties.ts:394 hasWorkers; :456-463 outcome is 'complied' whenever any worker is on record, else 'compliance-unknown'; no filing, report or service record is read.
+- **A81** [done] Executive deadlines should come from each body's rules, and a lapsed bill should be recorded.
+  - Now: governing/state-governing.ts:829-838 DEADLINE_DAYS now excludes 'bill'; :1264-1269 a bill's deadline is executiveBillActionWindow (governor-bill-decision.ts:334-381, from the pack's actionWindowDaysInSession).
+- **A96** [done] The Vice-President nominee should not be a random pick when the President's choice comes back empty.
+  - Now: governing/office-continuity.ts:1570-1580 returns 'government:vice-president-no-nominee' and keeps the office vacant when the President has not chosen; no pool pick remains (#1485).
+
+## Team 3 (0 of 11 done)
+
+- **A37** [partly] — OLD PATH STILL LIVE Have one payroll: retire the remaining separate pay writers.
+  - Next: Have office-salary.ts settleOne build period inputs and pass them to living-world/town-pay.ts settleTownCompensations (:1387), deleting its CATCH_UP_LIMIT_WEEKS loop. Prove in an office-salary test that an officeholder's paycheck has the same withholding and law-dispatch records as a town worker's.
+  - Drift: office-salary.ts settleOne and local-economy.ts settleFlows still pay beside the shared town payroll.
+  - Now: Town payroll is shared (living-world/town-pay.ts:1387 settleTownCompensations; shifts via #1364).
+- **A39** [partly] — BUILT BUT UNUSED IN PLAY, OLD PATH STILL LIVE A minimum-wage bill must carry its own number: no $15 federal placeholder, no average state raise, no 9.23% California city premium.
+  - Next: In minimum-wage.ts's federal and state enacted-raise readers (:150-160, :220-230), call readFinalEnactedLawTerm(world, law, {questionKey, hourly term}) and give no raise when it returns null; delete FEDERAL_RAISE_PLACEHOLDER, STATE_RAISE_TERM and CITY_PREMIUM_RATIO. Prove in a minimum-wage test that a bill without an hourly term changes nothing and one with $17 sets $17.
+  - Drift: The final-term reader exists and is used by price-cost and institution-rule, but enacted minimum-wage raises still use the three fallbacks.
+  - Drift: data/research/money/minimum-wage-dated-matrix-2026.json (#1482) is read only by minimum-wage-dated-matrix.test.ts.
+  - Now: minimum-wage.ts:95 FEDERAL_RAISE_PLACEHOLDER (used :157), :58 STATE_RAISE_TERM (used :225-226), :81 CITY_PREMIUM_RATIO (used :435) are unchanged.
+- **A8** [partly] — OLD PATH STILL LIVE Pay a job once per clock press, not through two callers.
+  - Next: Delete the settleJobPay call at presentation/ordinary-life.ts:426 so pay settles only from the simulation path (job-market.ts:2156 / town-pay.ts paydayHandler :514). Prove in an ordinary-life test that one clock press writes exactly one transfer outcome per pay period.
+  - Drift: The presentation-layer settleJobPay call remains alongside the simulation call.
+  - Now: presentation/ordinary-life.ts:426 still calls settleJobPay; simulation job-market.ts:2156 also calls it. Pay writes through the shared payroll (#1319, #1334). #1543 (named A8) changed docs only.
+- **A38** [not-started] — BUILT BUT UNUSED IN PLAY Use one minimum-wage and pay-floor rule instead of four copies with different scope rules.
+  - Next: Register a pay kind in law-consequence-registry.ts whose apply calls the existing town-pay.ts applyLawPayConsequence (:854), give the minimum-wage question a pay row (when 'payroll'), and remove raiseTownPayToMinimum from settleTownCompensations. Prove in a town-pay test that a passed state minimum raises a worker with the 'law.pay-compensation' stamp written by the registry.
+  - Drift: living-world/town-pay.ts:854 applyLawPayConsequence (pay adapter from #1305) has no production caller.
+  - Drift: earnedLawPayAssessments (#1563) is declared in types.ts:4454 and history.ts:333 but never written or read.
+  - Now: Four copies remain: job-market.ts:1932 raiseWeeklyPayToMinimum, life-paths2.ts:752 raiseShiftPayToMinimum, living-world/town-pay.ts:1014 raiseTownPayToMinimum, office-salary.ts:228 raiseToPayInForce.
+- **A40** [not-started] — STILL ROLLS DICE Set a worker's wage level from tenure and recorded schooling, not a ±15-percentile dice roll.
+  - Next: Change townPayPercentile(tenureYears, draw) to take recorded credentials (hasLifePathCredential) for a fixed step and remove the SeededRng at town-pay.ts:719. Prove in a town-pay test that two workers with the same tenure differ only by recorded schooling.
+  - Now: living-world/town-pay.ts:238-240 townPayPercentile adds (draw*2-1)*15; :719-731 the draw is new SeededRng(world.seed)...; more draws at :425 and :771.
+- **A41** [not-started] Read wages one way, not as a drawn percentile, a fixed 50th percentile, a $21.64 public-clerk wage and a $60,000 office default.
+  - Next: In office-salary.ts annualPay, before falling back to OFFICE_SALARY_PLACEHOLDER, read civil-service, executive-staff and agency-director pay through living-world/town-pay.ts townJobRate with the role's SOC code (the existing OEWS reader). Prove in an office-salary test that a civil servant in two states gets different sourced pay.
+  - Now: job-market.ts:167-173 PUBLIC_BODY_ROLE_PLACEHOLDER hourlyMinor 2164; office-salary.ts:37-41 OFFICE_SALARY_PLACEHOLDER 6_000_000, used at :80 for every office outside governor, legislator, judge and Congress (office-pay.ts paidOfficeOf).
+- **A43** [not-started] — STILL ROLLS DICE A teacher salary floor should use the bill's dollar floor and apply to starting laws too.
+  - Next: Make teacher-salary-floor.ts read the floor with readFinalEnactedLawTerm (annual dollars) and drop the origin check so starting-law floors apply; no term means no floor. Prove in a teacher-salary-floor test that a 2026 starting floor applies and a passed bill's amount is used exactly.
+  - Now: teacher-salary-floor.ts:69 the floor amount is drawnLinkSize (outcome-web/index.ts:653-675).
+- **A44** [not-started] The fairness-law 2.7% average should be a check, not a pay cut applied to every matching man.
+  - Next: Replace payAtHire's blanket UNCOVERED_PAY_SHARE cut with a rule on employer offers in the pay path (a covered worker may not be offered less while the law is in force) and move 0.027 into a calibration test. Prove in a fairness-pay test that uncovered workers are no longer cut by a fixed share.
+  - Now: fairness-pay-law.ts:38 FAIRNESS_LAW_PAY_GAIN 0.027 and :41 UNCOVERED_PAY_SHARE, applied at hire through payAtHire (job-market.ts:34, life-paths2.ts:68, living-world/town-pay.ts:736). PR #1260 still open.
+- **A60** [not-started] Employers should pay only from cash they have, with a recorded partial or blocked payment otherwise.
+  - Next: Review and land #1402, checking that it caps transfers in settleTownCompensations (town-pay.ts:1387) at the employer's recorded cash and writes 'partial'/'missed' with an employer-cash reason. Prove with its town-pay test.
+  - Now: living-world/town-pay.ts:1539-1545 'partial'/'missed' only for unpaid sick days; no employer balance check before transfers.
+- **A69** [not-started] Budget layoffs should not skip the player, and an unknown school record should not pass a credential check.
+  - Next: In public-budgets/staffing.ts remove the playerPersonId filter in layOff (:295) and treat a missing school record as not qualified when a credential is required (:372-376). Prove in public-budgets/public-budgets.test.ts that a funded cut can lay off the player and an unschooled resident is not hired as a teacher.
+  - Now: public-budgets/staffing.ts:291-295 layOff filters out playerPersonId (HARDWIRED); :369 excludes the player from hires.
+- **A70** [not-started] Layoffs, quits and hires should come from employers' needs and people's decisions, not fixed rankings (newest out, youngest quit).
+  - Next: Replace the :288 quit ordering with each worker's own evaluateDecision quit choice (pay against the town wage, tenure, household needs, randomness 'none'). Prove in a town-labor-market test that a low-paid older worker can quit before a well-paid younger one.
+  - Now: living-world/town-labor-market.ts:262 HARDWIRED last hired first let go; :288 HARDWIRED youngest quit first; :384 HARDWIRED shortest-unemployed called back first.
+
+## Team 4 (0 of 8 done)
+
+- **A57** [partly] — OLD PATH STILL LIVE Housing laws should act through the town's own housing market, not fixed uplifts (rents +5.1%, prices -0.146%/month, 15% set-aside, one cap for every place).
+  - Next: In living-world/town-rent.ts renewal (:1637-1649), skip renewedMarketRent's fixed cap when the stabilization law carries a final term (readFinalEnactedLawTerm), leaving the price-cost dispatch at :1694 as the only cap. Prove in law-consequences/price-cost-renewal.test.ts that a 3% bill caps at 3%.
+  - Drift: The fixed 5%+CPI/10% cap still caps renewals under any stabilization law before the bill's own cap is applied.
+  - Now: A rent cap's own number from the passed bill applies on renewal through the price-cost kind (living-world/town-rent.ts:1694; #1322, #1346).
+- **A52** [partly] Living costs should be real household bills, not a fixed $1,500 per adult with a $900 housing share.
+  - Next: Replace monthlyPerAdultMinor - housingShareMinor at cost-of-living.ts:151 with BLS Consumer Expenditure non-housing spending by region and household size (the #1380 data). Prove in a cost-of-living test that a Midwest couple's bills differ from a West couple's.
+  - Now: Housing is paid only through real leases and mortgages (#1328).
+- **A56** [partly] — STILL ROLLS DICE Who the landlord is and how many bedrooms a home has should not be rolled at each lease.
+  - Next: Replace the :1226 draw with the dwelling's recorded owner from living-world/town-homes.ts where one exists, else assign kinds across the town's homes by cumulative LANDLORD_SHARES on the dwelling's roster index (no seed). Prove in a town-rent test that a home's first landlord does not change with the world seed.
+  - Now: living-world/town-rent.ts:1213-1214 bedrooms = previous?.bedrooms ?? bedroomsForHousehold(household.length) (#1490).
+- **A21** [not-started] — STILL ROLLS DICE A tuition freeze should limit each school's tuition decision, not apply a drawn growth factor to the state budget; the July 1 start is hard-wired.
+  - Next: Add a price-cost row for the tuition-freeze question acting on each public college's tuition charge (law-consequences/price-cost.ts) using the bill's term, then remove tuitionFreezeFactor from public-budgets/month.ts:46 and delete tuition-freeze.ts. Prove in public-budgets/tuition-freeze.test.ts that a frozen school's charge stays flat.
+  - Now: public-budgets/tuition-freeze.ts:55 drawnLinkSize for tuition growth; :76-77 HARDWIRED '07-01'; :113 counts enacted freezes only; read as a budget factor by public-budgets/month.ts:46.
+- **A53** [not-started] Service mortgages through the shared loan servicer with real terms, not a private player-only loop with no interest and a fixed $50,000/$1,200.
+  - Next: Give a new purchase a rate and term in homePurchaseTerms and open it with household-loans.ts openHouseholdLoan (:163), then drop the settleMortgages call at life-opportunities.ts:454. Prove in a home-purchase test that interest accrues and the loan amortizes.
+  - Now: home-purchase.ts:78-83 HOME_PURCHASE_PLACEHOLDER down 5_000_000 / monthly 120_000, no interest.
+- **A54** [not-started] A home's purchase price should follow the same modeled home-price level as rents, not consumer prices.
+  - Next: In home-purchase.ts homePurchaseTerms, replace the priceIndex factor with homePriceLevel(world, town, date) from living-world/housing-market.ts:214. Prove in a home-purchase test that an upzoning law that lowers rents also lowers the purchase price.
+  - Now: home-purchase.ts:118-123 scales the county median by now.priceIndex / first.priceIndex (consumer prices); living-world/housing-market.ts:214 homePriceLevel is not read.
+- **A58** [not-started] Retire the old fixed-revenue business engine; business money should come from real sales and never be marked fully paid by default.
+  - Next: Point job-market.ts adultStartEmployer at living-world/town-finances.ts businesses and remove the refreshLocalEconomy call at life-opportunities.ts:451. Prove in a job-market test that an adult's first employer is a town-finances business with booked revenue.
+  - Now: local-economy.ts:128-137 LOCAL_BUSINESS_KINDS fixed monthlyRevenueMinor 6_000_000; :698 every flow 'completed'.
+- **A59** [not-started] — STILL ROLLS DICE Businesses should close or open from their books and owners' decisions, not quarterly dice.
+  - Next: In reviewTownGroupsOf, close a group only when its recorded membership (or, for businesses, its books) stays below the threshold for two reviews, and found one when unaffiliated adults who want one reach founding size. Prove in a town-businesses test that results do not change with the world seed.
+  - Now: living-world/town-businesses.ts:635-638 a group closes when rng < closingPerYear/4 (doubled when small); :685 a new one is founded when rng < expected.
+
+## Team 5 (0 of 18 done)
+
+- **A158** [partly] — OLD PATH STILL LIVE One way for people to form opinions.
+  - Next: Route officialViewReflectionHandler (living-world/official-views.ts:98) through evaluatePoliticalBeliefFormation with the law exposure as a factor, so a resident's view of an official is a saved belief; prove in src/presentation/official-view-talk.test.ts that the shown standing equals the saved pipeline view.
+  - Drift: official-views.ts remains a separate opinion route outside the belief pipeline
+  - Now: #1374 party bodies, #1399 item veto, #1410 reflection and #1439 amendment authors read saved views from the one pipeline (political-belief-formation.ts)
+- **A18** [not-started] — OLD PATH STILL LIVE Remove the transit special case inside the shared law entry point.
+  - Next: Delete the isPinnedTransitMeasure branches in enacted-law-effects.ts (:276, :370, :621) so pinned transit goes through applyFamilyAppropriations and the service-delivered kind like other programs; prove in src/presentation/enacted-law-effects.test.ts that a pinned transit law yields one authority and delivered rider service.
+  - Drift: the pinned-transit branch still runs although transit service rows exist in the shared kind
+  - Now: src/simulation/enacted-law-effects.ts:276, :370, :621 still branch on isPinnedTransitMeasure (:308)
+- **A136** [partly] — STILL ROLLS DICE Break-ups, moving in, marriages, births and dating should come from couples' decisions, not quarterly rolls; the player should not follow different rules.
+  - Next: In living-world/town-families.ts reviewTownFamilies replace the 'child' roll at :757 with a birth only when the couple has a recorded family plan from people-family-plan.ts; prove in tests/nationwide/town-families.test.ts that a couple without a plan never has a child and one with a plan does on its date.
+  - Now: #1387 keeps unanswered couple requests distinct from rejection
+- **A137** [not-started] — STILL ROLLS DICE A person's childhood (including a parent's death, illness, law trouble) should not be drawn by percent.
+  - Next: In people-upbringing.ts replace drawMoney (:75) with the recorded parents' household income band when parents exist, else 'unknown' that prose omits; prove in people-upbringing.test.ts that two seeds give the same upbringing for the same parents.
+  - Now: src/simulation/people-upbringing.ts:75-80 drawMoney (15/20/65 percent table) still called at :132-133; 0 commits since baseline
+- **A138** [not-started] — STILL ROLLS DICE Personality traits and life tendencies should come from upbringing records, not a lottery.
+  - Next: In people-traits.ts (:438-454) derive traits only from upbringingTraitTendencies and give middle values otherwise; prove in people-traits.test.ts that two seeds give identical traits for the same upbringing.
+  - Now: src/simulation/people-traits.ts:315 spread pick; :438-479 trait count, choice, magnitude and sign drawn
+- **A139** [not-started] The 48/48/4 gender split is unmarked and wrong.
+  - Next: Replace the split at person-identity.ts:208 with cited constants (ACS sex ratio; Pew non-binary share) labelled with their sources; prove in a person-identity test that a large sample matches those shares within rounding.
+  - Now: src/simulation/person-identity.ts:208 still `roll < 48 ? 'female' : roll < 96 ? 'male' : 'nonbinary'`, uncited (0 commits)
+- **A140** [not-started] — STILL ROLLS DICE School term dates should be one calendar per school, not drawn per child.
+  - Next: In school-stages.ts onCalendar (:109) key the term date on the school (district) and year instead of the person, so classmates share one calendar; prove in src/presentation/school-stages.test.ts that two classmates get the same start and end.
+  - Now: src/simulation/school-stages.ts:66-67 spreadDays 25/27 and onCalendar (:109) draws integer(0, spreadDays) per person at :122
+- **A141** [not-started] Finishing paid study time should not by itself grant a degree.
+  - Next: Add a recorded progress requirement (credits earned) to the enrollment record and make completeStudyPeriod (education-study-progression.ts:557) refuse completion until it is met; prove in education-study-progression.test.ts.
+  - Now: src/simulation/education-study-progression.ts:557 completeStudyPeriod (called :803) still completes study from paid elapsed time (0 commits)
+- **A142** [not-started] Relationship fading uses unsupported cutoffs and treats every gap as neglect.
+  - Next: In relationship-absence.ts label each cutoff (:78-84) a stand-in with research key relationship-absence-thresholds, and skip fading when the absence has a recorded reason (move, hospital stay, incarceration); prove in relationship-absence.test.ts.
+  - Now: src/simulation/relationship-absence.ts:78-84 RHYTHMS_BEFORE_LESS_CURRENT 3, LESS_CURRENT_FLOOR_DAYS 60, SINGLE_MEETING_RHYTHM_DAYS 90, LESS_CURRENT_SPANS_BEFORE_DORMANT 4 unchanged
+- **A146** [not-started] — STILL ROLLS DICE Which life scene comes next should follow recent events, not a hash.
+  - Next: In presentation/life-scene-flow.ts openNextLifeScene (:305) pick the scene tied to the most recent recorded event, else the first in order, instead of stableHash at :362; prove in src/presentation/life-scene.test.ts.
+  - Now: src/presentation/life-scene-flow.ts:362 openNextLifeScene (:305) still picks with stableHash
+- **A147** [not-started] — STILL ROLLS DICE Childhood scene pacing (how many days are skipped) should not be drawn.
+  - Next: In presentation/formative-context.ts formativeStepDays (:387) step to the next meaningful saved event (or the player's time choice) instead of the drawn anchor count; prove in src/presentation/formative-context.test.ts that two seeds pace identically.
+  - Now: src/presentation/formative-context.ts:397-401 formativeStepDays (:387) still draws the anchor count from a formative-pacing-v2 seed
+- **A148** [not-started] — STILL ROLLS DICE The player's opening family and town households' work status and housing should not be drawn levels.
+  - Next: First bounded step: in presentation/production-world.ts (:1199) ask in setup whether the other parent is living, nonresident or deceased (the player's fact) instead of the pick; prove in src/presentation/production-world.test.ts that no setup produces 'deceased' without the player's answer.
+  - Now: src/presentation/production-world.ts:918 family shape pick and :1199 other parent 'deceased' by pick; creator-full-birthday.ts:204 birthday pick
+- **A156** [not-started] The opening meeting notice is authored and makes the player responsible without a decision.
+  - Next: In life-opportunities.ts openOrdinaryLifeRecords (:305) create the notice from the council's posted meeting via ensurePostedMeetingOnCouncilAgenda (already imported at :1), or mark it provenance 'authored opening'; prove in life-opportunities.test.ts.
+  - Now: src/simulation/life-opportunities.ts:305 openOrdinaryLifeRecords still writes the 'civic.meeting-notice' with authored text (:161-166) and no organizer decision (0 commits)
+- **A157** [not-started] A resident's civic attendance event should point to a real meeting.
+  - Next: In living-world/civic-actions.ts record (:210) require a scheduled meeting record from local-council-meetings and attach its id to the event, skipping attendance when none is scheduled; prove in tests/nationwide/town-civic-actions.test.ts.
+  - Now: src/simulation/living-world/civic-actions.ts:245 record() still writes 'A resident attended a public meeting...' with no meeting reference (0 commits)
+- **A159** [not-started] Officials' standing and interest groups use placeholder weights and react only to money.
+  - Next: In living-world/law-interest-groups.ts count recorded rights/eligibility losses (law exposures with no amount) toward resolve alongside LOSS_THAT_COUNTS_PER_MONTH_OF_PAY (:36); prove in a law-interest-groups test that a rights loss can found a group. Weights fold into A158/N2.
+  - Now: src/simulation/living-world/official-views.ts:65-66 visibility placeholders and :386-387 temperament multipliers
+- **A161** [not-started] Make every invented person the same way: one age-window table and one birth-date helper.
+  - Next: Add one helper (inventedPersonBirthDate with a single age-window table) and switch governing/office-continuity.ts:740 and nationwide-world/presidential-turnover.ts:441 to it first; prove in a shared test that both produce ages inside the table's window.
+  - Now: No shared person-maker; inline age windows remain at governing/office-continuity.ts:740, nationwide-world/presidential-turnover.ts:441, campaigns.ts:550, press-reach.ts:194, state-legislature-opening.ts:657, living-world/opening.ts:285, living-world/party-chapters.ts:186
+- **A35** [not-started] When a law reaches a person, starting laws and passed laws should leave the same kind of record; the 28-day pay window is an assumption.
+  - Next: In law-exposure.ts recordLawExposure (:52) accept a starting-law id from lawInForce (origin 'starting') as well as an enacted measure; prove in law-exposure.test.ts that a starting minimum-wage law and an enacted one leave the same record shape.
+  - Now: src/simulation/law-exposure.ts:52-59 recordLawExposure still throws 'Only an enacted law can reach a person.'; monthlyPay (:196) keeps the 28-day window (0 commits)
+- **A65** [not-started] — STILL ROLLS DICE Central bank board members' views on inflation should come from their records, not a dice roll that decides rate votes.
+  - Next: Replace drawInflationLean (central-bank.ts:238) with a view formed through evaluatePoliticalBeliefFormation from the member's recorded price-stability principle (undecided when none); prove in macro-economy/central-bank.test.ts that two seeds seat identical leans.
+  - Now: src/simulation/macro-economy/central-bank.ts:238 drawInflationLean still draws; used at :387 ensureCentralBankSeated and :716 (0 commits)
+
+## Standby Claude Team 5 (3 of 8 done)
+
+- **A71** [partly] — BUILT BUT UNUSED IN PLAY Replace unmarked or placeholder money constants: 4% default borrowing rate, credit table, town finance elasticities and credit line.
+  - Next: After the CTO ruling, read town-business-a71-2026.json answers into TOWN_FINANCE_POLICY.business in living-world/town-finances.ts (creditLineDaysOfRevenue 48.7 sourced; keep localDemandElasticity as a labeled fallback if its answer is unsupported). Prove in a town-finances test that the policy values equal the research file's.
+  - Drift: data/research/money/town-business-a71-2026.json (#1558) is imported by no src file; its 'about' says nothing reads it until the CTO rules on swapping.
+  - Now: public-budgets/rules.ts:254-264 DEFAULT_STATE/LOCAL_INTEREST_RATE now Census interest over debt (#1464).
+- **A107** [partly] Bail amounts and prosecution timing are national stand-ins awaiting research.
+  - Next: Answer criminal-time-to-disposition with a per-state table under data/research/justice/ and have prosecution.ts read chargeDecisionDays and resolveAfterDays by courtCase.stateKey (national median only where unread, labeled ESTIMATED). Prove in a prosecution test that two states schedule pleas on different days.
+  - Now: Research queued: docs/research/requests/bail-schedules-by-state.json and criminal-time-to-disposition.json (#1445).
+- **A165** [partly] Replace the most consequential hand-set numbers (office pay $60k, local business revenue, migration 4%, disaster tables, macro policy, campaign ranges).
+  - Next: Answer docs/research/requests/migration-rates-and-reasons.json (ACS county-to-county flows by age) as a data file and read it in migration/review.ts in place of BLANKET_DEPARTURE_CHANCE_PER_YEAR and BLANKET_ARRIVALS_PER_RESIDENT_PER_YEAR. Prove in a migration test that departure chances differ by age.
+  - Now: Gone: 4% default borrowing (public-budgets/rules.ts:254-264 now Census, #1464), $900 housing share (#1328), opening budget draw (#1373), 1.2x pension (#1457).
+- **A118** [not-started] — STILL ROLLS DICE A town's election rules, council size, terms, qualification ages and filing deadlines should be read, not chosen by hash or a blanket 28 days.
+  - Next: In typical-council-size.ts and the municipal-ballot-rules.ts stablePick fallbacks, return the modal national row labeled 'estimated' instead of a hashed pick. Prove in a municipal-ballot-rules test that two towns with no charter read get the same modal rule.
+  - Now: municipal-ballot-rules.ts:121 stablePick (used :137, :207, :226, :636, :674); nationwide-world/typical-council-size.ts:92-97 hashed point in the national share table.
+- **A160** [not-started] Make the English engine the voice for all prose by converting authored line banks into its parts.
+  - Next: Convert one beat type in presentation/legislative-dialogue-motifs.ts into English-engine parts (following presentation/speech-registers.ts and refusal-english.ts) rendered from its fact packet. Prove with a grounding test that every rendered line cites a fact in its packet.
+  - Now: presentation/legislative-dialogue-motifs.ts is unchanged since 2026-09-08 (an authored line bank chosen by stableHash); no rebuild step converts line banks.
+- **A162** [done] Wire or drop the effects-map links that are named and cited but have no size.
+  - Now: data/research/outcome-web/links.json: 222 links, 135 sized, 37 zero, 50 null.
+- **A164** [done] Four 'about zero' links are not backed by a measured zero (housing vouchers on graduation and crime, Congress stock trading, library removals).
+  - Now: links.json rows housing-vouchers-to-graduation, housing-vouchers-to-crime, congress-stock-ban-to-member-returns and library-materials-to-reading are now size null, evidence 'to-confirm', notes 'Evidence gap, not a measured zero ...' (322321db4, #1443).
+- **A23** [done] A government's opening pension debt should come from plan data, not 1.2 times its spending.
+  - Now: public-budgets/rules.ts:61 is now a comment only (no 1.2).
+
+## Team 6 (2 of 18 done)
+
+- **A22** [partly] — SECOND COPY OF A SYSTEM A newly adopted state income tax should use the rates in the bill, not other states' average collections or a drawn rate scale.
+  - Next: In state-income-tax-law.ts stateIncomeTaxUnderLaw (:87) read the enacted brackets and deduction with readFinalEnactedLawTerm (governing/final-law-term-query.ts:57) when the enacted measure carries them, using estimatedSchedule only when it does not; prove in state-income-tax-law.test.ts with a bill that carries a 4% flat rate.
+  - Drift: estimatedSchedule re-implements the #1369 reciprocal-rank peer estimator (state-income-tax-law.ts:234) instead of reusing income-tax-withholding.ts:210; same copy in office-pay.ts:170 and paid-leave-estimates.ts:77
+  - Now: src/simulation/state-income-tax-law.ts:18-23, :243-300 estimatedSchedule: the seed draw is gone (#1481); a new/reshaped tax is a reciprocal-rank average of same-shape states (:234)
+- **A28** [partly] — BUILT BUT UNUSED IN PLAY Federal laws should carry their own bill terms: no fixed 39.6% top rate, 2023 debt-deal cut, median aid rise, historical defense growth, rail ridership projection or drawn privacy cost.
+  - Next: Start the appropriation path with defense: in federal-defense-spending.ts replace the historical growth ramp with the enacted appropriation's amount read by readFinalEnactedLawTerm and settle it on the federal account row; prove in tests/nationwide/federal-defense-spending-law.test.ts that a bill's amount becomes the same outlay.
+  - Drift: federal-data-privacy-law.ts:265 dataPrivacyCostOn (legacy API, always share 0) and :30 DATA_PRIVACY_COST_RANGE have no non-test reader after the conversion
+  - Now: src/simulation/federal-data-privacy-law.ts:1-7, :108 dataPrivacyInitialCostOn: the drawn privacy share is replaced by a sourced one-time CCPA SRIA per-firm cost, charged once in living-world/town-finances.ts:1016 (#1501/#1518/#1523); it is a sourced estimate, not the bill's own terms
+- **A33** [partly] — BUILT BUT UNUSED IN PLAY Feed the one tax engine automatically from recorded paychecks, sales and home values; retire the per-question tax factors.
+  - Next: In living-world/town-pay.ts payroll (next to the payroll dispatch at :1472) record each paycheck's wages with recordTaxBase and dispatch applyLawConsequences({activity: 'assessment', activityId: base.id, subjectIds: [recipientId]}), and add one kind 'tax' row to the adopt-income-tax proposition; prove in law-consequences/tax.test.ts that a town paycheck under an enacted levy creates exactly one assessment.
+  - Drift: the registered tax kind has no consequence rows and no 'assessment' dispatch, so it never runs in play
+  - Now: src/simulation/law-consequences/tax.ts:56-204 tax kind (resolveTaxConsequences/applyTaxConsequence -> tax-policy.ts assessTaxBase) is registered in law-consequence-registry.ts:1 (#1552/#1556); #1562 registers tax-term questions
+- **A45** [partly] — SECOND COPY OF A SYSTEM Paid-leave premium and benefit rates should come from the law, not a draw around other states' averages.
+  - Next: In state-paid-leave-law.ts (the `!began` branch at :104) read the enacted premium rate with readFinalEnactedLawTerm and use rankedPaidLeaveEstimate only when the bill has none; same for the benefit rate in paid-leave-benefits.ts; prove in state-paid-leave-law.test.ts with a bill carrying a 0.9% premium.
+  - Drift: new module paid-leave-estimates.ts duplicates the #1369 ranked-similar-states estimator (paid-leave-estimates.ts:77) instead of reusing it
+  - Now: src/simulation/state-paid-leave-law.ts and paid-leave-benefits.ts no longer draw (#1491); both call the new paid-leave-estimates.ts:42 rankedPaidLeaveEstimate
+- **A47** [partly] — OLD PATH STILL LIVE Keep one cash account per government (federal included); budgets become a view of real payments; retire the separate federal treasury and fixed tallies.
+  - Next: Land open #1440: delete the `federal:` settleFederalTreasuryMonth line (public-budgets/index.ts:211-216) and the openFederalTreasury call (:102), moving any remaining reader to store.federalGovernment; prove in public-budgets/federal-account.test.ts that the federal balance equals recorded receipts minus outlays.
+  - Drift: settleFederalTreasuryMonth and FEDERAL_LAW_EFFECTS (federal-treasury.ts:128, :289) still run every month beside the federal account row
+  - Now: src/simulation/public-budgets/index.ts:201-203 settles the federal row through settleGovernmentMonth (#1327/#1383/#1400)
+- **A42** [done] — SECOND COPY OF A SYSTEM An office with no published salary should not get a pay drawn from other states' range.
+  - Drift: re-implements the #1369 reciprocal-rank estimator inline (office-pay.ts:170) instead of sharing income-tax-withholding.ts:210
+  - Now: src/simulation/office-pay.ts:128-183 estimatedStatePay: ranked-similar-states estimate with no seed (#1476); used by officePayInForce :287-291 (called from office-salary.ts -> life-opportunities.ts)
+- **A16** [partly] Turn the ~45 pieces of code that each handle one named law into data rows of the shared engine, in the audit's order.
+  - Next: Next in the audit order is cannabis (F12): finish #1287 by making cannabis a tax-kind row read by settleGovernmentMonth (public-budgets/month.ts:823) and deleting cannabis-sales-tax.ts; prove in public-budgets/cannabis-sales-revenue.test.ts (same work as A31).
+  - Now: #1459 deleted public-budgets/age-verification-cost.ts and consumer-privacy-cost.ts and their two SPENDING_QUESTION_EFFECTS rows (rules.ts now 8 tax + 2 spending rows)
+- **A17** [partly] Remove the 12 budget files that each exist for one law.
+  - Next: Delete public-budgets/parks-dedication.ts: its only reader is outcome-web/index.ts:219 parksLawAddedPct (import :11); read the parks row from SPENDING_QUESTION_EFFECTS (or the state's recorded parks spending) there instead; prove in outcome-web/outcome-web.test.ts and public-budgets/public-budgets.test.ts that a parks dedication law moves the same measures.
+  - Now: #1459 deleted public-budgets/age-verification-cost.ts and consumer-privacy-cost.ts (their .test.ts files remain as no-invoice proofs)
+- **A32** [partly] Stop applying one state's fiscal note (Oklahoma, California, Utah, Virginia) to every state's revenue or cost.
+  - Next: Convert the 'exempt-groceries-from-sales-tax' row in public-budgets/rules.ts to the state's own base (its recorded grocery sales share times its own sales-tax rate from statutory-tax schedules) and delete the row; prove in public-budgets/tax-laws.test.ts that two states with different rates lose different amounts.
+  - Now: #1459 removed the Colorado/Virginia privacy row and the Utah age-verification row from SPENDING_QUESTION_EFFECTS
+- **A51** [partly] Counties and cities should be covered by tax and spending laws instead of silently getting 'no effect'.
+  - Next: Give each SPENDING_QUESTION_EFFECTS row in public-budgets/rules.ts a `levels` field (as TAX_QUESTION_EFFECTS already has) and replace month.ts:678's `level !== "state"` return with a levels check against the law in force for the county/city jurisdiction; prove in public-budgets/public-budgets.test.ts with a county law that changes county spending.
+  - Now: #1383 local budgets settle from canonical recorded cash
+- **A129** [not-started] Keep one cause-and-effect system; fold the second engine into the effects map.
+  - Next: In policy-semantics.ts replace the causal-effects.ts activation lookup with activations emitted from the matching OUTCOME_LINKS rows (data/research/outcome-web/links.json) for the same cause, then drop that import; prove in a policy-semantics test that a law's projected effects equal its outcome-web links.
+  - Now: src/simulation/causal-effects.ts is still imported by non-test policy-semantics.ts, incidents.ts, incident-response.ts, transit-service.ts, macro-economy/cycle.ts and world.ts
+- **A24** [not-started] Statehood aid should come from admission conditions and real program spending, not a private reading and frozen 2024 dollars.
+  - Next: Express the statehood aid change as a spending-row change tied to the state's recorded Medicaid spending inside settleGovernmentMonth, then delete statehood-funds.ts; prove with a converted public-budgets/statehood-funds.test.ts.
+  - Now: src/simulation/public-budgets/statehood-funds.ts unchanged (0 commits); state-only gate at :71; read by public-budgets/month.ts:45
+- **A29** [not-started] Size each federal money law once, not two or three ways (top tax rate per paycheck and as a treasury share; debt limit and foreign aid three ways).
+  - Next: After A47: delete the top-rate row from FEDERAL_LAW_EFFECTS (federal-treasury.ts:128) so top-rate receipts come only from recorded paychecks through federal-top-income-tax-law.ts; prove in public-budgets/federal-treasury.test.ts that enacting the top rate changes receipts exactly once.
+  - Now: src/simulation/public-budgets/federal-treasury.ts:128 FEDERAL_LAW_EFFECTS still sizes federal laws as treasury shares (read :300) alongside the per-paycheck top rate (federal-top-income-tax-law.ts:28) and federal-outlay-laws.ts:36-39
+- **A31** [not-started] Cannabis revenue should come from sales under the law's own tax rate, not a ten-state $40.70-per-resident average, and not three arithmetic branches.
+  - Next: Finish #1287: make cannabis a tax-kind row whose base is recorded cannabis purchases times the enacted rate, delete the constants in cannabis-sales-tax.ts and the three branches at month.ts:977-1016; keep $40.70 as an expectation in public-budgets/cannabis-sales-revenue.test.ts.
+  - Now: src/simulation/public-budgets/cannabis-sales-tax.ts:13 CANNABIS_TAX_PER_RESIDENT = 40.7 and :21 CANNABIS_FIRST_SALE_LAG_MONTHS = 11 unchanged
+- **A49** [not-started] Governments' opening cash is made up ($1 billion federal, $100 million per state, $5 million per town).
+  - Next: In world-setup/conditions.ts drawPublicCashOpeningProfile (:40) open each public account from the researched opening balances already in public-budgets/opening.ts (NASBO/Census) instead of the constants; prove in public-budgets/opening-money-no-draw.test.ts that California and Wyoming open with different cash.
+  - Now: src/simulation/world-setup/conditions.ts:40-51 drawPublicCashOpeningProfile still fixes $1 billion federal, $100 million per state, $5 million per local; called at :266 in ensureWorldStartingConditions
+- **A50** [not-started] Public employees' pay (police, teachers) should come out of their government's account.
+  - Next: In living-world/town-pay.ts payroll transfer, when the employer's classification is sector:*-government-office, pay from the public-government organization (tax-policy.ts:76 publicOrganizationKey) instead of the employer; prove in tests/nationwide/town-pay.test.ts that a teacher's paycheck lowers the town's public cash.
+  - Now: Public employers are still ordinary town organizations: living-world/town-employment.ts:772-823 (sector:local-government-office, employment:public-safety) have no public-account link
+- **A61** [not-started] — STILL ROLLS DICE A town bank's balance-sheet ratios should not be drawn from a pool.
+  - Next: In living-world/town-finances.ts openBankBooks (:556) replace drawBankShape with the state's median small bank (median cushion and otherAssets over FDIC_SMALL_BANK_SHAPES[state], national median when fewer than 5); prove in tests/nationwide/town-finances.test.ts that two seeds open identical bank books.
+  - Now: src/simulation/living-world/town-finances.ts:565-569 openBankBooks still calls drawBankShape (:252) with a seeded draw
+- **A30** [done] Compute a law's per-resident cost once instead of three copies of the same arithmetic.
+  - Now: #1459 deleted the two stamp-only copies (public-budgets/age-verification-cost.ts, consumer-privacy-cost.ts) and their calls in settleGovernmentMonth
+
+## Team 7 (1 of 15 done)
+
+- **A3** [partly] — OLD PATH STILL LIVE Have one way to move time: the whole-day clock should become a thin call to the minute clock everyone plays on.
+  - Next: Land open #1510: switch demo.ts:663, people-continuation.ts:871 and character-history.ts:2297 to advanceWorldMinutes(world, days*1440, handlers) (time-work.ts:1112) and delete advanceWorldUnchecked (world.ts:1406); prove with scripts/engine-proof/parity.test.ts that a 30-day run matches.
+  - Drift: advanceWorldUnchecked still resolves due items on its own for three callers
+  - Now: src/simulation/world.ts:1386-1440 advanceWorld/advanceWorldUnchecked still exist with their own resolveFutureDueItemsThrough (:1415), though they share applyDateBoundary (:1427, #1324)
+- **A4** [partly] — OLD PATH STILL LIVE Give every way of moving time the same complete list of scheduled jobs, so nothing runs only on some buttons.
+  - Next: Land open #1358: make the default registry for advanceWorld (world.ts:1389) and advanceWorldMinutes (time-work.ts:1115) createCampaignElectionTransitionRegistry() (loaded lazily to avoid the init cycle); prove in scripts/engine-proof/parity.test.ts that a demo advance resolves a due payday.
+  - Drift: advanceWorld and the minute-clock entry points still default to an empty handler list
+  - Now: #1317 gave ordinary time and hearing waits one complete list; the second unwrapped committee-hearing registration is gone from presentation/legislation-session.ts
+- **A5** [partly] — OLD PATH STILL LIVE Settle the player's mortgage, living costs and office salary on the shared monthly clock so Day and Week never skip them.
+  - Next: Land open #1353: schedule the three settlers as first-of-month due items and remove the calls at life-opportunities.ts:452-455; prove in life-opportunities.test.ts that 31 Calendar Day presses charge exactly one mortgage payment.
+  - Drift: the three player settlers still run only inside refreshLifeOpportunities, so Day/Week presses skip them
+  - Now: #1336/#1338 create the living-cost and office-salary agreements on the day play starts
+- **A125** [partly] — STILL ROLLS DICE Teach each decision caller to handle 'undecided' before the roll is removed.
+  - Next: Next caller group, press: in press/matters.ts (:674, :799, :1387, :1491), press/desk.ts (:380, :783) and press/responses.ts (:283) leave the matter pending when !isSelectedDecision(evaluation); prove in a press test with a forced tie that no response is written.
+  - Now: Since 7fe0435c1: #1427 employee appeals, #1436 commissioner settlement, #1442/#1453 mogul approach and offer, #1461 reinstatement now honor 'undecided' (isSelectedDecision); 11 caller groups done in all
+- **A116** [not-started] Use one term-limit engine and one eligibility check for NPCs and the player; no invented age-21 candidacy rule.
+  - Next: In candidacy.ts (:769) return eligibility 'unknown' when no age rule is read instead of using GAME_ADULT_CANDIDACY_AGE, and delete the constant (candidacy-packs.ts:77, campaign-life-activities.ts:1238); prove in src/presentation/playtest-candidacy-drawn-minimum-age.test.ts.
+  - Now: src/simulation/candidacy-packs.ts:77 GAME_ADULT_CANDIDACY_AGE = 21 still used at candidacy.ts:769 and campaign-life-activities.ts:1238
+- **A119** [not-started] — STILL ROLLS DICE Invented candidates' years of residence should not be drawn (it decides whether they qualify).
+  - Next: In state-legislature-candidates.ts recordFictionalResidence (:221) give invented candidates exactly the chamber's required residency years (or record 'unknown'); prove in a new tests/nationwide/state-legislature-candidates.test.ts that every invented candidate meets the rule on intake.
+  - Now: src/simulation/nationwide-world/state-legislature-candidates.ts:234-235 recordFictionalResidence (:221) still draws state and district years (0 commits)
+- **A122** [not-started] — STILL ROLLS DICE Volunteer contacts, field-work effects and campaign outreach dates should not be drawn.
+  - Next: In campaign-life-activities.ts recordCampaignLifeAttendance (:1613) count each volunteer's recorded contacts (no coin at :1709, effect 100 at :1818), and in ensureCampaignLifeOutreach (:2170) use a fixed weekly cadence (:2200, :2285); prove in src/presentation/calendar-campaign-life.test.ts that two seeds give identical contacts and dates.
+  - Now: src/simulation/campaign-life-activities.ts:1708-1709 recordCampaignLifeAttendance coin flip; :1816-1818 60-140% field-work swing
+- **A123** [not-started] — STILL ROLLS DICE A rival campaign's message, spending and support shifts should come from its records, not draws.
+  - Next: In campaign-opponents.ts ensureOpponent (:288) set emphasis from the opponent's recorded issue positions, and in writeMessaging (:808) spend by a fixed rule from its recorded treasury with swing 100; prove in campaign-opponents.test.ts that two seeds give the same rival spend and support.
+  - Now: src/simulation/campaign-opponents.ts:393-395 ensureOpponent picks emphasis; :820 writeMessaging draws spend; :832 and :957 SWING_RANGE draws (0 commits)
+- **A143** [not-started] — STILL ROLLS DICE Whether an NPC accepts session work should not be a random pick.
+  - Next: In life-paths2.ts recruitLifePathPerson (:1306) leave the session offer pending (as #1349 did for job offers) instead of the pick at :1402; prove in life-paths2.test.ts that an unanswered offer stays pending.
+  - Now: src/simulation/life-paths2.ts:1400-1407 recruitLifePathPerson (:1306) still picks accepted/refused/negotiated with a work-response-v1 seed (0 commits)
+- **A6** [not-started] Start the death and goal-review schedules on every time path, not only when the player's day buttons run.
+  - Next: Seed ensureCrisisMortality and ensurePeopleGoalReview once at world opening (in world-setup/conditions.ts ensureWorldStartingConditions, :253) so advanceWorld-only routes get them; prove in scripts/engine-proof/parity.test.ts that an advanceWorld-only 400-day run schedules deaths and goal reviews.
+  - Now: ensureCrisisMortality is still seeded only by src/presentation/opening-life.ts:484 and ordinary-life.ts:527; ensurePeopleGoalReview only by ordinary-life.ts:526
+- **A66** [not-started] — STILL ROLLS DICE Campaign money should come from named donors' decisions, not drawn amounts or a faceless supporters account; campaign bills should be real purchases.
+  - Next: E4 first step: in campaigns.ts actionMoney (:1297) set fundraising receipts to the sum of gifts decided by named donors from campaign-money-sources.ts (each donor's recorded capacity), deleting the 85,000-175,000 range; prove in campaigns.test.ts that a fundraiser with no willing donor raises $0.
+  - Now: src/simulation/campaigns.ts:1320-1323 actionMoney fundraising draw 85,000-175,000; campaign-opponents.ts:93 FUNDRAISING_RANGE drawn at :752 writeFundraising
+- **A7** [not-started] Honor the player's interruption preferences instead of ignoring them.
+  - Next: In presentation/interruption-policy.ts interruptionHandlers (:69) filter the returned handlers by the saved preferences (or remove the unused parameter and its callers); prove in src/presentation/interruption-policy.test.ts that a muted category does not interrupt.
+  - Now: src/presentation/interruption-policy.ts:71 still `void preferences;` (0 commits)
+- **A9** [not-started] Use one kind of monthly trigger (first-of-month due items) instead of also counting month starts inside the daily chain.
+  - Next: Make speech retelling a first-of-month due item like crisis:public-budgets (schedule it from speech-retelling.ts and drop applySpeechRetelling from time-work.ts applyDateBoundary); prove in a speech-retelling test that crossing three month starts in one advance retells three times.
+  - Now: src/simulation/speech-retelling.ts:295 applySpeechRetelling still counts monthStartsCrossed (:311) inside applyDateBoundary (time-work.ts:2029) (0 commits)
+- **A90** [not-started] Spending after enactment should not depend on a handler being on a hand-kept list.
+  - Next: Call openProgramMattersForAllOffices (state-governing.ts:1578) for new appropriations inside applyEnactedLawEffects right after appropriationFromEnactedMeasure (enacted-law-effects.ts:272), then drop the wrappers at state-governing.ts:3025 and campaigns.ts:2228; prove in a governing test that a council-enacted appropriation opens its program matter.
+  - Now: src/simulation/governing/state-governing.ts:2967 withProgramMatters still wraps handlers by list membership: stateGoverningHandlers (:3025) and campaigns.ts:2228
+- **A121** [done] Party chapter outreach dates should not be drawn.
+  - Now: src/simulation/living-world/party-chapters.ts:233 first outreach and :551-554 next outreach now use nextMeetingDate (:367) on the chapter's weekly meeting profile; the firstDelayDays/afterInvitationDays draws were removed (#1448)
+
+## Team 8 (0 of 6 done)
+
+- **A145** [partly] — STILL ROLLS DICE Newsroom layoffs and outlet acquisitions should come from owners' books and decisions, not likelihood rolls.
+  - Next: In press/ownership.ts layoff (:495-530), choose the reporter with the shortest tenure instead of rng.integer, and apply a practice (:343) only when the outlet's recorded books show losses for the trigger period. Prove in a press ownership test that results do not change with the world seed.
+  - Now: Purchases pay through the financial engine (#1361).
+- **A152** [partly] The press should only read: move fines, restitution, support loss and referrals to the engines that own them.
+  - Next: Move restitutionConsequence (press/finding-consequences.ts:393) into the institution that issued the finding and have the press read the recorded order; land #1409 for the payer-cash part. Prove in a finding-consequences test that the press module writes no matter.restitution-ordered event.
+  - Now: #1350 stopped weekly press reads from creating newsrooms; #1495 news reads canonical coverage stamps.
+- **A153** [not-started] Asking for a reporter should not create a newsroom and a job.
+  - Next: In press-reach.ts, return a 'no reporter available' result when no existing reporter work role is found (remove the creation branch at :182-218) and show that in the caller. Prove in a press-reach test that asking in a town without a newsroom creates no person or organization.
+  - Now: press-reach.ts:182-218 creates a civic reporter (generatePersonIdentity, createCharacterHistoryContextPerson) and a newsroom (createOrganization) when none exists.
+- **A154** [not-started] Press capacity should come from reporters' assignments, not a 1/3/8 tier label.
+  - Next: Derive capacity in press/records.ts from the outlet's active reporter work roles and their weekly hours instead of the tier map. Prove in a press records test that an outlet that loses a reporter covers fewer stories.
+  - Now: press/records.ts:55 capacity by tier { small: 1, standard: 3, major: 8 }.
+- **A27** [not-started] Health coverage applies a whole-population death-rate study to each covered person and uses a 15th-of-month pass that is not a benefit rule.
+  - Next: Split crisis/health-coverage.ts so the monthly pass only records eligibility and enrollment, and apply the mortality study through the medicaid-expansion-to-mortality outcome-web link at place level as a check. Prove in a health-coverage test that a covered individual's hazard is no longer multiplied by 0.906.
+  - Now: crisis/health-coverage.ts:18-23 applies the 9.4% population mortality finding to each covered person's hazard (applied at :545-570); :74-82 the monthly pass runs on the 15th.
+- **A34** [not-started] Label the Law Effects screen's 'without this law' number as a model estimate, not an observed effect.
+  - Next: Change the sentence at presentation/law-effects-here.ts:135 to say the comparison is the game's model estimate, and update the expectation in src/player/World39News.laws.test.tsx:78.
+  - Now: presentation/law-effects-here.ts:135 'Here it stands at X. Without that change it would stand at Y.' with no model-estimate label; file unchanged since 2026-09-29.
+
+## Team 9 (1 of 9 done)
+
+- **A10** [partly] — OLD PATH STILL LIVE Move criminal prosecutions and pardons off the newspaper's weekly sweep onto their own dated schedule.
+  - Next: Delete advanceClemency(advanceProsecutions(world)) from pressWeeklyHandler (press/transitions.ts:54), keeping recoverOverdueProsecutions for load. Prove in a prosecution-transitions test that a case reaches its plea date with no press week, and that a press week alone advances nothing.
+  - Drift: The weekly press sweep still advances every prosecution and clemency petition beside the new dated handlers.
+  - Now: justice/prosecution-transitions.ts:95 advances a case on its own saved stage due date (#1357); justice/clemency-transitions.ts:14 schedules petitions (#1389); both registered in campaigns.ts:1, :63.
+- **A103** [partly] — BUILT BUT UNUSED IN PLAY A mandatory-minimum law should set the actual sentence length; other sentences should not be fixed midpoints.
+  - Next: In justice/prosecution.ts termMonths/sentenceMonthsForCase, read sentencing-ranges-2026.json by the case's state and offense, and have the sentencing judge choose within that range through evaluateDecision (randomness 'none') instead of the midpoint. Prove in a prosecution test that the same offense gets different terms in two states with different ranges.
+  - Drift: data/research/justice/sentencing-ranges-2026.json (#1544/#1555) is imported by no src file; its own 'about' says nothing reads it until the wiring is ruled on.
+  - Now: justice/prosecution.ts:242-243 sentenceMonthsForCase raises the term to the enacted floor (#1313, #1378).
+- **A100** [not-started] Use one 'which court' function with a federal branch, so federal laws and crimes get federal courts.
+  - Next: Add courtFor(world, jurisdictionId, level, caseKind) in src/simulation/judiciary (selecting from world.judiciary.courts, with a federal branch for national laws and federal crimes) and make reviewingCourt, sentencingJudge and trialJudge call it; then remove the national skip at judicial-review.ts:371. Prove in a judicial-review test that a national law goes to the federal court, or stays pending when none is seated.
+  - Now: Three separate court finders: judiciary/judicial-review.ts:113 reviewingCourt (state highest court), justice/court-reasoning.ts:427 sentencingJudge (state general trial), living-world/town-rent.ts:2037 trialJudge; none has a federal branch.
+- **A101** [not-started] Court challenges should need a real claimant, forum and filing, not appear automatically from a table.
+  - Next: Gate awaitingReview rows on a recorded challenge: a filing event by a person or organization with a recorded harm (for example a law-effect stamp naming them). Prove in a judicial-review test that a law nobody is affected by is never reviewed.
+  - Now: judiciary/judicial-review.ts:34 imports judicial-review-precedents-2026.json; awaitingReview (:364-388) schedules a ruling the day before any matching law takes effect, with no claimant or filing; applyJudicialReview :405.
+- **A102** [not-started] Build civil cases on shared court records: evictions should have a real lawyer and a real judge.
+  - Next: In living-world/town-rent.ts, keep the eviction filing pending when trialJudge returns null instead of deciding as 'the court', and record counsel only when a resident with a lawyer work role is assigned. Prove in a town-rent test that with no seated judge no eviction judgment is written.
+  - Now: living-world/town-rent.ts:2112 an NPC tenant's lawyer = tenantAnswers && law !== null (no lawyer person); :2117-2126 bespoke 'eviction-counsel-representation' stamp.
+- **A104** [not-started] Charging and plea decisions should come from real prosecutors and defendants, not stand-in rules and alphabetical ties.
+  - Next: Seat the county prosecutor as a person and replace prosecutorsCharge at justice/prosecution.ts:685 with that person's evaluateDecision (evidence, caseload, principles) whose tie or missing officeholder leaves the referral pending. Prove in a prosecution test that an unseated prosecutor's office leaves the case pending.
+  - Now: justice/prosecution.ts:206-216 prosecutorsCharge is a 'PLACEHOLDER (a stand-in for unseated prosecutors)' rule, used at :685.
+- **A105** [not-started] A jury smaller than the law requires should not return a verdict.
+  - Next: Read the required panel size from legal data (12 for felonies where unread, labeled) in empanelJury and return a pending trial from holdTrial when jurors.length is short. Prove in a prosecution test that a 7-person pool produces no verdict.
+  - Now: justice/prosecution.ts:609 only a zero-person jury is blocked; justice/court-reasoning.ts:263 fills up to 12 from the pool and a smaller panel still deliberates.
+- **A25** [not-started] Juvenile court age should come from each state's real jurisdiction and transfer rules, not 'yes means 18, no means 17'.
+  - Next: Add a juvenile-jurisdiction row to law-consequences/legal-outcome.ts reading a sourced per-state table (age and transfer list), and make adultCourtAgeAt read it. Prove in a juvenile-court test that two states with different 2026 ages differ with no law passed.
+  - Now: justice/juvenile-court.ts:25-26 ADULT_COURT_AGE constants 18/17; :38-40 answer 'no' gives 17, otherwise 18.
+- **A98** [done] A pardon board with no seated members should not produce a 'board vote'.
+  - Now: justice/clemency.ts:1013-1017 a non-executive board step with no saved members returns the petition unanswered (#1506).
+
+## Coordinator (0 of 3 done)
+
+- **A13** [partly] — BUILT BUT UNUSED IN PLAY, OLD PATH STILL LIVE, SECOND COPY OF A SYSTEM Run every law through one shared law engine: each law says who it reaches, what changes and how much, with one handler per kind of effect.
+  - Next: Give the tax questions a tax row (kind 'tax', when 'assessment', who.selector 'recorded-tax-base-payer') and replace the direct assessTaxBase calls in presentation/tax-work.ts:158/:191 with applyLawConsequences(world, {activity: 'assessment', activityId: base.id, subjectIds: [personId], onDate}). Prove in tax-kind-contract.test.ts that a declared occurrence under an enacted levy is assessed only through the registry.
+  - Drift: law-consequences/tax.ts resolves nothing in play: no tax rows and no 'assessment' dispatch.
+  - Drift: The only production tax assessment (presentation/tax-work.ts:158, :191) bypasses the tax kind.
+  - Drift: TAX_TERMS_POLICY_PACK (policy-pack-tax-terms.ts, #1562) loads 'Set ... tax terms' questions into the catalog (policy-pack-registry.ts:71) but they carry no consequence rows, and TAX_LAW_TERM_KEYS is read nowhere else.
+  - Drift: Those tax-term questions sit beside the existing tax positions (policy-pack-us-policy-positions.ts:146 fiscal.adopt-income-tax, policy-pack-us-federal-positions.ts:63 tax.raise-top-income-tax-rate) instead of extending them; possible duplicate question family.
+  - Drift: earnedLawPayAssessments (#1563) is declared in types.ts:4454 and history.ts:333 but never written or read.
+  - Now: law-consequence-registry.ts:14-24 registers 6 kinds (legal outcome, coverage, tax, price-cost, service, institution rule); pay and right-permission are comments (#1367 and #1333 still OPEN).
+- **A15** [partly] — OLD PATH STILL LIVE Make laws already on the books at the start use the same path as laws passed in play.
+  - Next: Rebase and land #1309, then turn federal-farm-subsidy-law.ts into a row of the shared service-delivered kind so its origin check at :51 can be deleted. Prove in governing/federal-law-reach.test.ts that a 2026 starting-law farm subsidy applies with no law passed in play.
+  - Drift: Five readers still ignore starting laws by checking law.origin === 'enacted'.
+  - Now: Registered kinds resolve through lawInForce including starting-law rows; applyLawConsequences is documented as 'Shared dispatch for starting and enacted laws' (enacted-law-effects.ts:843).
+- **A19** [partly] — OLD PATH STILL LIVE Keep one registry of law-effect stamp kinds instead of a made-up label in each reader.
+  - Next: Type LawEffectContext.effectKind in law-effect-stamp.ts as LawConsequenceKind | LegacyEffectKind, where LegacyEffectKind is a closed union in law-consequence-types.ts listing today's bespoke labels, so new labels fail tsc. Prove with tsc and a law-consequence-types test that lists the legacy labels to retire.
+  - Drift: Old readers still pass bespoke stamp labels; nothing restricts effectKind to the registered kinds.
+  - Now: law-effect-stamp.ts:23-24 LawEffectContext.effectKind is a plain string.

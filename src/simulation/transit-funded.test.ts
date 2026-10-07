@@ -1,3 +1,6 @@
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { createNewGameWorld } from "../presentation/new-game";
+import { explicitNewGameSetup } from "../presentation/new-game-geography";
 import { expect, it } from "vitest";
 import {
   enactedTaxFixture,
@@ -82,6 +85,25 @@ it("uses F's actual collected receipt for one paid physical service period, then
   });
   expect(world.history.policyRealizations).toHaveLength(1);
   expect(world.history.effectActivations).toHaveLength(1);
+  const completed = world.history.policyRealizations.at(-1)!.consequences[0]!;
+  const operation = world.history.policyOperations.find(
+    (item) => item.id === completed.operationId,
+  )!;
+  const delivered = world.history.metricStates.at(-1)!;
+  expect(delivered.value).toEqual(completed.realizedChange);
+  expect(delivered.metricId).toBe(operation.targetMetricId);
+  expect(delivered.scope).toEqual(operation.targetScope);
+  expect(delivered.referencePeriod).toEqual(operation.targetReferencePeriod);
+  expect(delivered.referencePeriod.kind).toBe("point");
+  expect(delivered.provenance).toMatchObject({
+    kind: "simulated",
+    sourceEntityIds: expect.arrayContaining([completed.effectActivationId]),
+  });
+  const loadedDelivery = deserializeWorld(
+    serializeWorld(world),
+  ).history.metricStates.at(-1)!;
+  expect(loadedDelivery).toEqual(delivered);
+
   expect(world.history.metricStates.at(-1)!.value).toMatchObject({
     kind: "quantity",
     quantity: {
@@ -399,4 +421,27 @@ it("the shared legislative hearing clock settles the existing transit due item w
     ),
   ).toEqual(payments);
   assertWorldIntegrity(deserializeWorld(serializeWorld(world)));
+});
+
+it("opens a random-place new game with native transit records still absent until delivery", () => {
+  const seed = "a129-native-transit-new-game";
+  const place = drawRandomPlace(seed);
+  const game = createNewGameWorld(
+    explicitNewGameSetup({
+      seed,
+      placeKey: place.key,
+      startAge: 30,
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+    }),
+  );
+  expect(
+    game.world.history.metricStates.filter(
+      (record) =>
+        game.world.metricCatalog.definitions[record.metricId]?.stableKey ===
+        "transit.additional-vehicle-service-hours",
+    ),
+  ).toHaveLength(0);
+  const saved = serializeWorld(game.world);
+  expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
 });

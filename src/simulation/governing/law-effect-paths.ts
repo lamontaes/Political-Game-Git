@@ -18,18 +18,17 @@ import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legis
 import {
   LAW_QUESTION_MEASURES,
   OUTCOME_LINKS,
-  outcomeLinksFedByQuestion,
   outcomeLinkStatus,
 } from "../outcome-web";
+import { policyOutcomeLinks } from "../policy-semantics";
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
-import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
+import { CANNABIS_TAX_EFFECT } from "../public-budgets/rules";
 import { MILEAGE_FEE_QUESTION } from "../public-budgets/road-usage-charge";
 import {
   SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
 } from "../public-budgets/rules";
-import { TUITION_FREEZE_QUESTION } from "../public-budgets/tuition-freeze";
 import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
   GRADUATED_STATE_INCOME_TAX_QUESTION,
@@ -194,9 +193,9 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
   // bill's clause figures, priced per hour) is written as a public program
   // appropriation when the act takes effect; the state's transit service
   // program then pays for the hours and returns service to use. The size is
-  // the bill's own term, not a fixed rate. PLACEHOLDER: the ridership that
-  // service draws is Build 3's transit link, and the hour price is a game
-  // profile until a sourced price is read.
+  // the bill's own term, not a fixed rate. The ridership that service draws
+  // is Build 3's transit link, and the hour price is marked ESTIMATED FROM
+  // AVERAGE in data/content/legislation-families/transit.json.
   {
     questionKey: STATE_TRANSIT_SERVICE_QUESTION,
     kind: "state-spending",
@@ -215,19 +214,14 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/federal-outlay-laws.ts",
   },
   {
-    questionKey: CANNABIS_SALES_QUESTION,
+    questionKey: CANNABIS_TAX_EFFECT.questionKey,
     kind: "state-revenue",
-    via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+    via: "src/simulation/public-budgets/rules.ts",
   },
   {
     questionKey: MILEAGE_FEE_QUESTION,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/road-usage-charge.ts",
-  },
-  {
-    questionKey: TUITION_FREEZE_QUESTION,
-    kind: "state-revenue",
-    via: "src/simulation/public-budgets/tuition-freeze.ts",
   },
 ];
 
@@ -273,7 +267,7 @@ export function lawEffectPaths(): readonly LawEffectPath[] {
   // A question whose bill term sets a measure the web reads acts through the
   // links from that measure (`LAW_QUESTION_MEASURES`).
   const viaMeasure = Object.keys(LAW_QUESTION_MEASURES).flatMap((questionKey) =>
-    outcomeLinksFedByQuestion(questionKey)
+    policyOutcomeLinks(questionKey)
       .filter(
         (link) =>
           !link.from.startsWith(LAW_CAUSE_PREFIX) &&

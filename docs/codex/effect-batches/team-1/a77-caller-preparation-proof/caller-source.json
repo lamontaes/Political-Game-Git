@@ -1,0 +1,26 @@
+{
+  "baseMain": "730f90034c67c3593d2b74b4892a2b32f68a7fd4",
+  "testPreparationHead": "f1b8201c44d6325c3c21acd2baa39a8bccc7a5a7",
+  "sourceSha256": {
+    "src/simulation/living-world/local-council-meetings.ts": "b4854d3047484570d77e208e42a86c47ed7a9aeac4a8bb1a1532aa45b0353992",
+    "src/simulation/governing/local-law-clock-parity.test.ts": "2c36d3e4d79a22d02918a1ecc25bf27df58b881ba99a5b097a9fbc1ee0e207c7"
+  },
+  "inputType": "Parameters<typeof decideCouncilVote>[1]",
+  "types": {
+    "roots": 2,
+    "scopedDiagnostics": 0,
+    "importedDiagnostics": 0
+  },
+  "argumentParity": {
+    "unchangedWorldArgument": true,
+    "unchangedAuthorityAndDecisionInputs": true,
+    "existingInputVariablePassed": true,
+    "existingDecider": "decideCouncilVote",
+    "newContract": false
+  },
+  "nativeAfterInputExtraction": "NOT RUN; preceding candidate/main failure receipts remain source-bound to their earlier heads.",
+  "initialParserAttempt": "Git subprocess EPERM; exact baseline then supplied through shell and compared without subprocess.",
+  "noNewRosterContract": true,
+  "noNewBuilder": true,
+  "commonClockReplacement": "NOT IMPLEMENTED; Audit authority binding pending"
+}

@@ -24,29 +24,19 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
  * death and council writers supply the public record instead. The owning
  * opening caller can drop this compatibility entry after its current PR merges.
  */
-export function ensureOpeningPriorLocalRecords(
-  world: World,
-  _personId: EntityId,
-): World {
+export function ensureOpeningPriorLocalRecords(world: World): World {
   return world;
 }
 
 /** No ready-made news is seeded into a new life. */
-export function ensureLivingWorldDevelopments(
-  world: World,
-  _playerPersonId: EntityId,
-): World {
+export function ensureLivingWorldDevelopments(world: World): World {
   return world;
 }
 
 /** Retired synthetic proposals accept no comments. Public meeting comments
  * use the ordinary-meeting writer and its recorded agenda and audience.
  */
-export function submitPublicComment(
-  world: World,
-  _personId: EntityId,
-  _matterId: string,
-): World {
+export function submitPublicComment(world: World): World {
   return world;
 }
 

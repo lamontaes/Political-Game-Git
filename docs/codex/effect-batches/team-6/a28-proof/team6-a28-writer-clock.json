@@ -1,0 +1,164 @@
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790847777131,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution keeps a read-only cost stable across repeated reads and reloading",
+          "status": "passed",
+          "title": "keeps a read-only cost stable across repeated reads and reloading",
+          "duration": 52.112240000000384,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution does not change a recorded law's compliance cost when only the seed changes",
+          "status": "passed",
+          "title": "does not change a recorded law's compliance cost when only the seed changes",
+          "duration": 12.016444000000774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution retains the controlling measure without inventing a recurring expense or stamp",
+          "status": "passed",
+          "title": "retains the controlling measure without inventing a recurring expense or stamp",
+          "duration": 10.85082599999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution does not stamp an absent, future or repealed compliance duty",
+          "status": "passed",
+          "title": "does not stamp an absent, future or repealed compliance duty",
+          "duration": 21.380887999999686,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790847791273,
+      "endTime": 1790847791369.3809,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/federal-data-privacy-law.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate reads unambiguous SRIA bands, including 500 employees",
+          "status": "passed",
+          "title": "reads unambiguous SRIA bands, including 500 employees",
+          "duration": 3.74900499999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate uses the explicit CTO 100/500 convention without inventing a SUSB quote",
+          "status": "passed",
+          "title": "uses the explicit CTO 100/500 convention without inventing a SUSB quote",
+          "duration": 0.3461219999990135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate does not turn an absent, zero or invalid count into a cost",
+          "status": "passed",
+          "title": "does not turn an absent, zero or invalid count into a cost",
+          "duration": 0.20171399999890127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790847791212,
+      "endTime": 1790847791216.2017,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/privacy-initial-compliance-estimate.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through the saved business writer"
+          ],
+          "fullName": "one initial privacy expense through the saved business writer uses only above-threshold saved private firms with actual paid employees",
+          "status": "passed",
+          "title": "uses only above-threshold saved private firms with actual paid employees",
+          "duration": 6.38423899999907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through the saved business writer"
+          ],
+          "fullName": "one initial privacy expense through the saved business writer subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "status": "passed",
+          "title": "subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "duration": 96.3771510000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through the saved business writer"
+          ],
+          "fullName": "one initial privacy expense through the saved business writer a prospective repeal stops new expense and preserves the completed occurrence",
+          "status": "passed",
+          "title": "a prospective repeal stops new expense and preserves the completed occurrence",
+          "duration": 21.800391000000673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790847802321,
+      "endTime": 1790847802445.8003,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/privacy-initial-compliance-writer.test.ts"
+    }
+  ]
+}

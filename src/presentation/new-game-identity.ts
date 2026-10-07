@@ -35,7 +35,7 @@ import type {
   SetupAnswerRecord,
   SetupQuestionnairePath,
 } from "../simulation";
-import type { NewGameSetup } from "./new-game";
+import type { NewGameOtherParent, NewGameSetup } from "./new-game";
 import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
   LEGACY_APPEARANCE_RECIPE_VERSION,
@@ -118,6 +118,9 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
     depth: setup.depth,
     startingLife: setup.startingLife,
     household: setup.household,
+    ...(setup.familyShape === undefined
+      ? {}
+      : { familyShape: setup.familyShape }),
     // Absent and blank are the same choice — "generate one" — and must encode
     // identically, or the same game would get two identities.
     givenName: setup.givenName?.trim() || null,
@@ -231,6 +234,11 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    // The player's own fact about the other parent travels with the replay
+    // but stays out of the world half, preserving earlier replay identities.
+    ...(setup.otherParent === undefined
+      ? {}
+      : { otherParent: setup.otherParent }),
     ...(setup.questionnaireSelectionVersion === undefined
       ? {}
       : { questionnaireSelectionVersion: setup.questionnaireSelectionVersion }),
@@ -335,6 +343,14 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       record.startingLife !== "state-agency-director") ||
     (record.household !== "lives-alone" &&
       record.household !== "shares-a-home") ||
+    (record.otherParent !== undefined &&
+      record.otherParent !== "living" &&
+      record.otherParent !== "nonresident" &&
+      record.otherParent !== "deceased") ||
+    (record.familyShape !== undefined &&
+      record.familyShape !== "one-parent" &&
+      record.familyShape !== "two-parents" &&
+      record.familyShape !== "guardian") ||
     (record.givenName !== null && typeof record.givenName !== "string") ||
     (record.familyName !== null && typeof record.familyName !== "string")
   ) {
@@ -519,6 +535,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     depth: record.depth,
     startingLife: record.startingLife,
     household: record.household,
+    ...(record.familyShape === undefined
+      ? {}
+      : { familyShape: record.familyShape as NewGameSetup["familyShape"] }),
+    ...(record.otherParent === undefined
+      ? {}
+      : { otherParent: record.otherParent as NewGameOtherParent }),
     givenName: record.givenName as string | null,
     familyName: record.familyName as string | null,
     ...(gender === undefined

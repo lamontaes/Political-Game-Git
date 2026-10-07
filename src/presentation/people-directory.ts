@@ -84,12 +84,22 @@ export interface PeopleDirectory {
  * The most people a workplace or group can hold, besides you, before being in
  * it stops meaning you know them all.
  *
- * PLACEHOLDER, NOT RESEARCH: filed as `how-many-colleagues-a-person-knows`.
+ * ESTIMATED FROM AVERAGE: 20, near the size of a close team or classroom, where
+ * everyone sees everyone daily; no survey gives the exact cutoff. Filed as
+ * `how-many-colleagues-a-person-knows`.
  * Below it, sharing a workplace is still enough to know somebody, as before.
  * Above it — a legislative chamber, a large employer — a colleague is somebody
  * you know once the two of you have something on the record.
  */
 export const EVERYBODY_KNOWS_EVERYBODY_LIMIT = 20;
+
+/** Where the limit above comes from. */
+export const EVERYBODY_KNOWS_LIMIT_PROVENANCE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "game estimate near the size of a close team or classroom where everyone sees everyone daily",
+} as const;
 
 function addCategory(
   into: Map<EntityId, Set<PersonCategory>>,

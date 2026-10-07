@@ -174,6 +174,8 @@ export function politicalReflectionTransitionHandler(
     propositionId: subject.propositionId,
     factors,
     beliefDimensionsByOutcome: REFLECTION_DIMENSIONS,
+    // No dice: only the person's saved facts decide, and a tie stays undecided.
+    randomness: "none",
   });
   const next = applyNpcPoliticalBeliefFormation(world, proposal);
   return done(

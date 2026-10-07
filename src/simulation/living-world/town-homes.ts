@@ -43,7 +43,6 @@
 
 import { ageOnDate, addDays } from "../dates";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { SeededRng } from "../rng";
 import {
   createDwelling,
   createHousingTenure,
@@ -61,8 +60,9 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
-import { TOWN_RESIDENTS_VERSION, townRoster } from "./town-residents";
-import { townWorkplaceWeights } from "./town-employment";
+import { TOWN_RESIDENTS_VERSION } from "./town-residents";
+import { startTownJobPay } from "./town-pay";
+import { ensureOpeningMortgages } from "./opening-mortgages";
 import { homePurchaseTerms } from "../home-purchase";
 import {
   householdHousingFacts,
@@ -83,8 +83,6 @@ export const TOWN_HOME_KINDS = {
 } as const satisfies Record<string, DwellingClassification>;
 
 export type TownHomeKind = keyof typeof TOWN_HOME_KINDS;
-
-const KINDS = Object.keys(TOWN_HOME_KINDS) as TownHomeKind[];
 
 const KIND_LABEL: Readonly<Record<TownHomeKind, string>> = {
   "small-apartment": "an apartment",
@@ -108,67 +106,6 @@ export const TOWN_TENURE_KINDS = {
   mortgaged: "ownership:mortgaged",
 } as const satisfies Record<string, HousingTenureKind>;
 
-/** GAME ASSUMPTION: shares of each kind of home, by the town's population. */
-export const TOWN_HOME_SHARES: readonly (readonly [
-  number,
-  Readonly<Record<TownHomeKind, number>>,
-])[] = [
-  [
-    250_000,
-    {
-      "small-apartment": 0.34,
-      rowhouse: 0.1,
-      "suburban-house": 0.44,
-      "large-house": 0.08,
-      "mobile-home": 0.02,
-      "rural-farmhouse": 0.02,
-    },
-  ],
-  [
-    50_000,
-    {
-      "small-apartment": 0.26,
-      rowhouse: 0.05,
-      "suburban-house": 0.52,
-      "large-house": 0.09,
-      "mobile-home": 0.05,
-      "rural-farmhouse": 0.03,
-    },
-  ],
-  [
-    10_000,
-    {
-      "small-apartment": 0.18,
-      rowhouse: 0.03,
-      "suburban-house": 0.55,
-      "large-house": 0.09,
-      "mobile-home": 0.1,
-      "rural-farmhouse": 0.05,
-    },
-  ],
-  [
-    0,
-    {
-      "small-apartment": 0.08,
-      rowhouse: 0.01,
-      "suburban-house": 0.52,
-      "large-house": 0.07,
-      "mobile-home": 0.16,
-      "rural-farmhouse": 0.16,
-    },
-  ],
-];
-
-/** GAME ASSUMPTION: the chance a household owns a home of each kind. */
-export const TOWN_OWNERSHIP_BY_KIND: Readonly<Record<TownHomeKind, number>> = {
-  "small-apartment": 0.12,
-  rowhouse: 0.5,
-  "suburban-house": 0.75,
-  "large-house": 0.88,
-  "mobile-home": 0.7,
-  "rural-farmhouse": 0.85,
-};
-
 /** GAME ASSUMPTION: chances per quarter of a move within town. */
 /**
  * What makes a household decide to move. A household reconsiders its home
@@ -183,12 +120,14 @@ export const TOWN_OWNERSHIP_BY_KIND: Readonly<Record<TownHomeKind, number>> = {
  *   cost-burdened, HUD's definition; one who crosses it moves to a smaller,
  *   cheaper home.
  * - `downsizeFromAge`: an owner this age or older, left alone in a house,
- *   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:
- *   when-older-owners-sell).
+ *   sells and rents an apartment. ESTIMATED FROM AVERAGE: 65 is the game's
+ *   recorded retirement-age proxy. Basis: the nationwide United States
+ *   retirement convention; places used: all supported U.S. jurisdictions.
  * - `evictionOnRecordDays`: a household evicted within this many days rents
  *   rather than buys. A credit report may carry a civil judgment for seven
  *   years (15 U.S.C. 1681c(a)(2)); that a lender refuses for the whole
- *   period is HARDWIRED, a PLACEHOLDER(research: mortgage-after-eviction).
+ *   period supplies the estimate. Basis: the federal rule; places used: all
+ *   supported U.S. jurisdictions.
  */
 export const TOWN_HOME_DECISIONS = {
   buyAtPayOfPayment: 1 / 0.28,
@@ -196,6 +135,22 @@ export const TOWN_HOME_DECISIONS = {
   downsizeFromAge: 65,
   evictionOnRecordDays: 7 * 365,
 } as const;
+
+/**
+ * What a home of each kind costs against a suburban house, for the monthly
+ * payment `homePurchaseTerms` records for the town. ESTIMATED FROM AVERAGE:
+ * the factors preserve the recorded ordering and relative prices used by the
+ * nationwide town model. Basis: the game's six home kinds; places used: all
+ * supported U.S. jurisdictions until a town records its own price mix.
+ */
+export const TOWN_HOME_PRICE_FACTOR: Readonly<Record<TownHomeKind, number>> = {
+  "small-apartment": 0.6,
+  rowhouse: 0.8,
+  "suburban-house": 1,
+  "large-house": 1.6,
+  "mobile-home": 0.35,
+  "rural-farmhouse": 1,
+};
 
 /** Why a household moved, in the words its event records. */
 export const TOWN_HOME_REASONS = {
@@ -211,27 +166,40 @@ export const TOWN_HOME_REASONS = {
  * Where a household with no home goes, decided from its record: a house it
  * buys when it has work, its pay carries the payments and no recent eviction
  * bars a loan (`mayBorrow`), otherwise a rented
- * apartment for one or two people and a rowhouse for more. HARDWIRED, a
- * PLACEHOLDER(research: first-home-by-household-size).
+ * apartment for one or two people and a rowhouse for more. ESTIMATED FROM
+ * AVERAGE: one-bedroom-scale homes fit one or two residents and the larger
+ * recorded rowhouse fits larger households. Basis: the game's household-size
+ * and home-kind records; places used: all supported U.S. jurisdictions.
  */
 export function homeForNewHousehold(
   household: { readonly members: readonly { readonly age: number }[] },
   working: boolean,
   payMinor: number | null,
-  paymentMinor: number,
+  paymentMinor: number | null,
   mayBorrow = true,
+  farm = false,
 ): { readonly kind: TownHomeKind; readonly tenure: HousingTenureKind } {
   const head = Math.max(0, ...household.members.map((member) => member.age));
-  if (
+  const carries = (kind: TownHomeKind) =>
     mayBorrow &&
     working &&
+    paymentMinor !== null &&
     payMinor !== null &&
-    payMinor >= paymentMinor * TOWN_HOME_DECISIONS.buyAtPayOfPayment
-  )
-    return {
-      kind: household.members.length >= 5 ? "large-house" : "suburban-house",
-      tenure: head < 60 ? TOWN_TENURE_KINDS.mortgaged : TOWN_TENURE_KINDS.owned,
-    };
+    payMinor >=
+      paymentMinor *
+        TOWN_HOME_PRICE_FACTOR[kind] *
+        TOWN_HOME_DECISIONS.buyAtPayOfPayment;
+  const tenure =
+    head < 60 ? TOWN_TENURE_KINDS.mortgaged : TOWN_TENURE_KINDS.owned;
+  // A farm household buys the farmhouse its pay carries; a big one the large
+  // house; anyone else the house; and a household whose pay carries only the
+  // cheapest home buys that.
+  if (farm && carries("rural-farmhouse"))
+    return { kind: "rural-farmhouse", tenure };
+  if (household.members.length >= 5 && carries("large-house"))
+    return { kind: "large-house", tenure };
+  if (carries("suburban-house")) return { kind: "suburban-house", tenure };
+  if (carries("mobile-home")) return { kind: "mobile-home", tenure };
   return {
     kind: household.members.length <= 2 ? "small-apartment" : "rowhouse",
     tenure: TOWN_TENURE_KINDS.rented,
@@ -241,21 +209,8 @@ export function homeForNewHousehold(
 /** The quarterly review's interval (`migration/review.ts`), in days. */
 const REVIEW_INTERVAL_DAYS = 91;
 
-/** How long a household stays before it moves again by choice. */
-const SETTLED_DAYS = 365;
-
-/** Share of the county's jobs on farms, which weighs toward farmhouses. */
-const FARM_SHARE = new Map<EntityId, number>();
-function farmShare(town: EntityId): number {
-  const known = FARM_SHARE.get(town);
-  if (known !== undefined) return known;
-  const weights = townWorkplaceWeights(town);
-  let total = 0;
-  for (const value of weights.values()) total += value;
-  const share = total > 0 ? (weights.get("farm") ?? 0) / total : 0;
-  FARM_SHARE.set(town, share);
-  return share;
-}
+/** Let a household's recorded home begin before it reconsiders its next move. */
+const SETTLED_DAYS = 1;
 
 interface Household {
   readonly id: EntityId;
@@ -265,72 +220,6 @@ interface Household {
 
 function headAge(household: Household): number {
   return Math.max(0, ...household.members.map((member) => member.age));
-}
-
-/** The kind of home a household would choose, weighed and drawn. */
-export function chooseTownHomeKind(
-  town: EntityId,
-  household: Household,
-  rng: SeededRng,
-  options: { readonly houseOnly?: boolean; readonly smaller?: boolean } = {},
-): TownHomeKind {
-  const population = townRoster(town).population;
-  const shares =
-    TOWN_HOME_SHARES.find(([floor]) => population >= floor)?.[1] ??
-    TOWN_HOME_SHARES.at(-1)![1];
-  const farm = Math.min(3, Math.max(0.3, farmShare(town) / 0.02));
-  const adults = household.members.filter((member) => member.age >= 18);
-  const children = household.members.length - adults.length;
-  const head = headAge(household);
-  const weights = KINDS.map((kind) => {
-    let weight = shares[kind];
-    if (kind === "rural-farmhouse") weight *= farm;
-    if (adults.length <= 1 && children === 0 && head < 35) {
-      if (kind === "small-apartment") weight *= 2.5;
-      if (kind === "large-house") weight *= 0.3;
-    }
-    if (children > 0) {
-      if (kind === "small-apartment") weight *= 0.5;
-      if (kind === "large-house") weight *= 1.5;
-    }
-    if (options.houseOnly && kind === "small-apartment") weight = 0;
-    if (
-      options.smaller &&
-      (kind === "large-house" || kind === "rural-farmhouse")
-    )
-      weight = 0;
-    return weight;
-  });
-  const total = weights.reduce((sum, value) => sum + value, 0);
-  let point = rng.next() * total;
-  for (let index = 0; index < KINDS.length; index += 1) {
-    point -= weights[index]!;
-    if (point < 0) return KINDS[index]!;
-  }
-  return "suburban-house";
-}
-
-/** Rented, owned outright or owned with a mortgage. */
-function chooseTenure(
-  kind: TownHomeKind,
-  head: number,
-  rng: SeededRng,
-): HousingTenureKind {
-  const ageFactor =
-    head < 25
-      ? 0.3
-      : head < 35
-        ? 0.65
-        : head < 45
-          ? 0.9
-          : head < 65
-            ? 1.05
-            : 1.1;
-  const own = Math.min(0.97, TOWN_OWNERSHIP_BY_KIND[kind] * ageFactor);
-  if (rng.fork("own").next() >= own) return TOWN_TENURE_KINDS.rented;
-  return head < 60 && rng.fork("mortgage").next() < 0.7
-    ? TOWN_TENURE_KINDS.mortgaged
-    : TOWN_TENURE_KINDS.owned;
 }
 
 const KIND_OF_CLASSIFICATION = new Map<string, TownHomeKind>(
@@ -362,6 +251,8 @@ interface HomesView {
   /** Town homes with nobody in them, by kind, oldest first. */
   readonly vacant: ReadonlyMap<TownHomeKind, readonly EntityId[]>;
   readonly working: ReadonlySet<EntityId>;
+  /** Working people whose employer is a farm. */
+  readonly farmWorkers: ReadonlySet<EntityId>;
 }
 
 function latestBy<T extends { readonly effectiveAt: IsoDate }>(
@@ -476,12 +367,24 @@ function readHomes(world: World, town: EntityId): HomesView {
     (row) => row.workRelationshipId,
     today,
   );
+  const farmEmployers = new Set(
+    h.organizations
+      .filter((row) => row.stableKey.includes(":employer:farm:"))
+      .map((row) => row.id),
+  );
   const working = new Set<EntityId>();
+  const farmWorkers = new Set<EntityId>();
   for (const relationship of h.workRelationships)
-    if (workLatest.get(relationship.id)?.status === "active")
+    if (workLatest.get(relationship.id)?.status === "active") {
       working.add(relationship.personId);
+      if (
+        relationship.organizationId &&
+        farmEmployers.has(relationship.organizationId)
+      )
+        farmWorkers.add(relationship.personId);
+    }
 
-  return { households, homeOf, everHoused, vacant, working };
+  return { households, homeOf, everHoused, vacant, working, farmWorkers };
 }
 
 /** The household the player lives in, if any. */
@@ -584,16 +487,18 @@ function enterHome(
   });
 }
 
-function householdRng(world: World, key: string) {
-  return new SeededRng(world.seed).fork(key);
-}
-
 /**
  * Gives every written household in town a home, once, at the opening. The
  * homes were there before the story started, so no move is recorded.
  */
 export function ensureTownHomes(world: World, town: EntityId): World {
+  // A household is in the home its pay carries. The opening's jobs have no pay
+  // on record until the first payday, so the pay they will start at is read
+  // from a copy that is thrown away: no flow is written here.
+  const priced = startTownJobPay(world, null, world.currentDate);
   const view = readHomes(world, town);
+  const factsNow = householdHousingFacts(priced, world.currentDate);
+  const paymentMinor = homePurchaseTerms(world, town, null).monthlyPaymentMinor;
   const writer: Writer = {
     world,
     town,
@@ -608,21 +513,26 @@ export function ensureTownHomes(world: World, town: EntityId): World {
   for (const household of view.households) {
     if (view.homeOf.has(household.id) || view.everHoused.has(household.id))
       continue;
-    const rng = householdRng(
-      world,
-      `${TOWN_HOMES_VERSION}:home:${household.id}`,
+    // The homes were there before the story: each household is in the home
+    // its recorded pay carries, against the town's own payment.
+    const found = homeForNewHousehold(
+      household,
+      household.members.some((member) => view.working.has(member.id)),
+      factsNow.get(household.id)?.payMinor ?? null,
+      paymentMinor,
+      true,
+      household.members.some((member) => view.farmWorkers.has(member.id)),
     );
-    const kind = chooseTownHomeKind(town, household, rng.fork("kind"));
     enterHome(
       writer,
       household.id,
       household.id,
-      kind,
-      chooseTenure(kind, headAge(household), rng.fork("tenure")),
+      found.kind,
+      found.tenure,
       provenance,
     );
   }
-  return writer.world;
+  return ensureOpeningMortgages(writer.world, town);
 }
 
 /** One quarterly turn of the town's homes, on the world's current date. */
@@ -651,7 +561,7 @@ export function reviewTownHomes(
     world,
     addDays(today, -REVIEW_INTERVAL_DAYS),
   );
-  const paymentMinor = homePurchaseTerms(world, town).monthlyPaymentMinor;
+  const paymentMinor = homePurchaseTerms(world, town, null).monthlyPaymentMinor;
   const player = playerHouseholdId(world, view);
   const writer: Writer = {
     world,
@@ -734,7 +644,6 @@ export function reviewTownHomes(
 
   for (const household of view.households) {
     const key = `household:${household.id}`;
-    const rng = householdRng(world, `${prefix}${key}`);
     const home = view.homeOf.get(household.id);
     const head = headAge(household);
     const adults = household.members.filter((member) => member.age >= 18);
@@ -744,15 +653,20 @@ export function reviewTownHomes(
     // A household in town with no home finds one.
     if (!home) {
       // A written household that never had a home was always there: the
-      // town's opening housing stock, drawn from its mix until that mix is
-      // sourced.
+      // town's opening housing stock, placed by what its pay carries.
       const quiet =
         household.stableKey.startsWith(`${TOWN_RESIDENTS_VERSION}:`) &&
         !view.everHoused.has(household.id);
       if (quiet) {
-        const kind = chooseTownHomeKind(town, household, rng.fork("kind"));
-        const tenure = chooseTenure(kind, head, rng.fork("tenure"));
-        enterHome(writer, key, household.id, kind, tenure, {
+        const placed = homeForNewHousehold(
+          household,
+          adults.some((adult) => view.working.has(adult.id)),
+          factsNow.get(household.id)?.payMinor ?? null,
+          paymentMinor,
+          true,
+          adults.some((adult) => view.farmWorkers.has(adult.id)),
+        );
+        enterHome(writer, key, household.id, placed.kind, placed.tenure, {
           kind: "generated",
           generatorKey: TOWN_HOMES_VERSION,
         });
@@ -779,6 +693,7 @@ export function reviewTownHomes(
             row.occurredAt >
             addDays(today, -TOWN_HOME_DECISIONS.evictionOnRecordDays),
         ),
+        adults.some((adult) => view.farmWorkers.has(adult.id)),
       );
       const provenance = event(
         key,
@@ -810,6 +725,7 @@ export function reviewTownHomes(
     const canBuy = (row: HouseholdHousingFacts) =>
       anyWork &&
       row.payMinor !== null &&
+      paymentMinor !== null &&
       row.payMinor >= paymentMinor * TOWN_HOME_DECISIONS.buyAtPayOfPayment;
     // Unknown pay is not zero: a household whose pay is not on record is
     // never read as burdened.

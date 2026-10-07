@@ -121,18 +121,23 @@ function requestsOn(
 
 function termLine(
   kind: SentenceKind,
-  months: number,
+  months: number | null,
   from: IsoDate,
-  until: IsoDate,
+  until: IsoDate | null,
   cutShort: boolean,
 ): string {
   const what =
-    kind === "jail"
-      ? `${months} months in jail`
-      : `${months} months of probation`;
-  const ends = cutShort
-    ? `cut short by clemency on ${proseDate(until)}`
-    : `until ${proseDate(until)}`;
+    months === null
+      ? "life imprisonment"
+      : kind === "jail"
+        ? `${months} months in jail`
+        : `${months} months of probation`;
+  const ends =
+    until === null
+      ? "with no fixed end date"
+      : cutShort
+        ? `cut short by clemency on ${proseDate(until)}`
+        : `until ${proseDate(until)}`;
   return `${what}, from ${proseDate(from)} ${ends}.`;
 }
 
@@ -170,7 +175,7 @@ export function projectLegalRecord(
       ),
       servingNow:
         sentence.from <= world.currentDate &&
-        world.currentDate < sentence.until,
+        (sentence.until === null || world.currentDate < sentence.until),
       requests: requestsOn(world, personId, sentence.sentencedEventId),
       canAskForClemency: asked.ok,
       whyNoRequest: asked.ok ? null : asked.reason,

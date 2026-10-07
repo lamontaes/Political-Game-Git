@@ -1,0 +1,16 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/privacy-initial-compliance-estimate.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-a28-boundary.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/privacy-initial-compliance-estimate.test.ts (3 tests) 5ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  09:07:31
+   Duration  13.41s (transform 10.86s, setup 19ms, import 13.28s, tests 5ms, environment 0ms)
+
+JSON report written to /tmp/team6-a28-boundary.json

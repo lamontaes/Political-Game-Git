@@ -7,7 +7,6 @@ import {
   EVIDENCE_BEARINGS,
   LEAD_ROUTES,
   MATTER_RESPONSES,
-  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
   MEDIA_BEATS,
   MEDIA_CADENCES,
   MEDIA_MEDIUMS,
@@ -15,6 +14,7 @@ import {
   MEDIA_RESOURCE_TIERS,
   MEDIA_SCOPES,
   MISCONDUCT_FAMILIES,
+  PERSONAL_LIFE_MATTER_FAMILY,
   OUTLET_OWNERSHIP_BASES,
   PRESS_POLICY_VERSION,
   PROCEDURE_KEYS,
@@ -26,8 +26,8 @@ import {
   mediaOutletKey,
   sourceTermsAttributable,
   sourceTermsPubliclyUsable,
-  type MediaOutletRecord,
   type PressRecord,
+  type MatterFamily,
   type ReporterRoleRecord,
   type StoryDecision,
 } from "./records";
@@ -371,13 +371,37 @@ export function validatePressRecords(
             );
           }
           active.add(lead.id);
-          const outlet = byId.get(lead.outletId) as MediaOutletRecord;
+          const work = world.history.workItems.find(
+            (item) =>
+              item.focus.kind === "other" &&
+              item.focus.targetKey === "press.story-reporting" &&
+              item.focus.sourceEntityId === lead.id,
+          );
           if (
-            active.size > MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier]
+            !work &&
+            record.decision === "assigned" &&
+            record.reasonKey.startsWith("press:estimated-work:")
           ) {
             throw new Error(
-              `Outlet exceeds its authored assignment capacity: ${record.id}`,
+              `Estimated story assignment requires its reporting work: ${record.id}`,
             );
+          }
+          if (work) {
+            const initial = world.history.workItemStates.find(
+              (state) => state.workItemId === work.id,
+            );
+            if (
+              !work.effort ||
+              work.sequence >= record.sequence ||
+              !initial ||
+              initial.sequence >= record.sequence ||
+              record.reporterPersonId === null ||
+              !initial.assignedPersonIds.includes(record.reporterPersonId)
+            ) {
+              throw new Error(
+                `Story assignment lacks its earlier recorded reporting work: ${record.id}`,
+              );
+            }
           }
         } else {
           active.delete(lead.id);
@@ -515,12 +539,50 @@ export function validatePressRecords(
         break;
       }
       case "matter": {
-        member(MISCONDUCT_FAMILIES, record.family, "misconduct family");
+        member(
+          [
+            ...MISCONDUCT_FAMILIES,
+            PERSONAL_LIFE_MATTER_FAMILY,
+          ] as readonly MatterFamily[],
+          record.family,
+          "matter family",
+        );
         if (record.subjectPersonIds.length === 0) {
           throw new Error(`A matter needs its subjects: ${record.id}`);
         }
         for (const id of record.subjectPersonIds) person(id, "matter subject");
         earlier(record.originEventId, seq, "matter origin");
+        if (record.family === PERSONAL_LIFE_MATTER_FAMILY) {
+          const sourceEvent = eventById(world, record.originEventId);
+          const publicClaim = world.history.claims.some(
+            (claim) =>
+              claim.eventId === record.originEventId &&
+              claim.audience === "public" &&
+              claim.sequence < seq,
+          );
+          if (
+            record.personalEventId !== record.originEventId ||
+            !sourceEvent ||
+            (sourceEvent.visibility !== "public" && !publicClaim) ||
+            (!["crime.arrest-made", "life.couple-ended"].includes(
+              sourceEvent.type,
+            ) &&
+              !publicClaim)
+          ) {
+            throw new Error(
+              `A personal-life matter needs an on-record personal event: ${record.id}`,
+            );
+          }
+          if (record.occurrenceId !== null) {
+            throw new Error(
+              `A personal-life matter cannot cite a financial occurrence: ${record.id}`,
+            );
+          }
+        } else if (record.personalEventId) {
+          throw new Error(
+            `A misconduct matter cannot cite a personal event: ${record.id}`,
+          );
+        }
         if (record.occurrenceId) {
           const occurrence = prior(
             record.occurrenceId,

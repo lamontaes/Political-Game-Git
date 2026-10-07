@@ -3,7 +3,7 @@ import {
   economicContextPlaceKeys,
   playerEconomicContextLines,
 } from "./economic-context";
-import lexington from "./generated/economic-context-lexington.json";
+import lexington from "./generated/economic-context-lexington.json" with { type: "json" };
 
 describe("player economic context projection", () => {
   it("provides dated, bounded Lexington context on a normal-player seam", () => {

@@ -1,9 +1,8 @@
 .kit41-creator {
   padding: 1.1rem;
   background: transparent;
-  color: #433313;
-  border: 1px solid #a68a54;
-  border-radius: 0.6rem;
+  color: var(--text-strong);
+  border: 0;
   max-height: 76vh;
   overflow: auto;
 }
@@ -49,14 +48,8 @@
  * figure's new height pushed Back to 933.8px in a 900px window. `100%` is the
  * room the frame actually has, measured by the frame.
  */
-.title-tableau--art.front-door
-  .game-title.game-creator.game-creator--appearance {
-  width: min(1120px, calc(100vw - 64px));
-  max-width: none;
-  max-height: 100%;
-  padding: 18px;
-  overflow: auto;
-  background: transparent;
+.creator-begin-slot {
+  display: contents;
 }
 .title-tableau--art.front-door .game-creator--appearance .creator-summary {
   display: inline-flex;
@@ -93,7 +86,7 @@
   height: 2.6rem;
   margin: 0.2rem 0 0;
   padding: 0;
-  background: #efe6d8;
+  background: var(--glass-bottom);
   box-shadow: 0 -10px 18px -10px rgb(46 30 12 / 52%);
   justify-content: flex-start;
 }
@@ -131,7 +124,7 @@
   position: sticky;
   bottom: 0;
   padding: 0.65rem 0;
-  background: #efe6d8;
+  background: var(--glass-bottom);
   box-shadow: 0 -10px 18px -10px rgb(46 30 12 / 52%);
   z-index: 2;
 }
@@ -278,12 +271,19 @@
   }
 }
 
-/* The figure and choices share a bounded body; action rows never overlay it. */
-.title-tableau--art.front-door .game-title.game-creator--appearance {
+/*
+ * One setup panel (OW-3): every creator step uses the same size and the same
+ * bottom button row, so moving between steps never resizes the panel. The
+ * figure and choices share a bounded body; action rows never overlay it.
+ */
+.title-tableau--art.front-door .game-title.game-creator {
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
+}
+.title-tableau--art.front-door .game-creator > .creator-navigation {
+  margin-top: auto;
 }
 .title-tableau--art.front-door .game-creator--appearance .kit41-creator {
   display: flex;
@@ -294,14 +294,14 @@
 .title-tableau--art.front-door .kit41-creator-layout {
   min-height: 0;
   flex: 1;
-  overflow: hidden;
+  overflow: visible;
   padding-bottom: 0;
   grid-template-columns: minmax(230px, 35%) minmax(0, 1fr);
 }
 .title-tableau--art.front-door .kit41-creator-layout > div:last-child {
-  overflow-y: auto;
+  overflow-y: visible;
   min-height: 0;
-  padding: 0 10px 16px 0;
+  padding: 0;
 }
 .title-tableau--art.front-door .kit41-creator-preview {
   position: relative;
@@ -332,6 +332,7 @@
   flex-shrink: 0;
   margin-top: 8px;
   box-shadow: none;
+  background: transparent;
 }
 .appearance-arrow-choice {
   display: grid;
@@ -356,9 +357,9 @@
   display: contents;
 }
 .title-tableau--art.front-door .game-creator--appearance > .creator-summaries {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   flex-shrink: 0;
   margin-bottom: 10px;
 }
@@ -368,7 +369,8 @@
   > .creator-summary {
   margin: 0;
   min-height: 0;
-  width: 100%;
+  width: auto;
+  flex: 0 1 auto;
   padding: 6px 9px;
   font-size: 12px;
 }
@@ -431,7 +433,7 @@
   display: inline-block;
   max-width: 42rem;
   padding: 0.6rem 0.8rem;
-  background: rgb(239 230 216 / 92%);
+  background: var(--glass-bottom);
   border-radius: 0.4rem;
 }
 
@@ -444,14 +446,25 @@
 }
 .engine-appearance-controls {
   display: grid;
-  gap: 0.5rem;
-  max-width: 22rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem 1rem;
+  max-width: none;
 }
 .engine-appearance-row {
   display: grid;
-  grid-template-columns: 6.5rem 2rem 1fr 2rem;
+  grid-template-columns: 2rem minmax(0, 1fr) 2rem;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.engine-appearance-label {
+  grid-column: 1 / -1;
+  font: 500 0.875rem var(--ui);
+}
+.title-tableau--art.front-door .game-creator .engine-appearance-row button,
+.title-tableau--art.front-door .game-creator .engine-appearance-randomize {
+  min-height: 2rem;
+  padding: 0.2rem 0.4rem;
 }
 .engine-appearance-value {
   display: inline-flex;
@@ -499,12 +512,66 @@
 .engine-appearance-value {
   min-height: 2rem;
   padding: 0.2rem 0.5rem;
-  color: #433313;
+  color: var(--text-strong);
   opacity: 1;
-  background: rgb(239 230 216 / 92%);
+  background: var(--glass-bottom);
   border-radius: 0.35rem;
 }
 .engine-appearance-label {
-  color: #433313;
-  text-shadow: 0 1px 3px rgb(255 250 240 / 32%);
+  color: var(--text-strong);
+  text-shadow: 0 0 1px rgb(0 0 0 / 60%);
+}
+
+/* Appearance completion uses the same kit12 actions as Back and Next. */
+.title-tableau--art.front-door
+  .game-creator
+  .kit41-creator
+  .game-setup-actions
+  button {
+  min-height: 2.75rem;
+  color: var(--gold);
+  font: 600 0.875rem var(--ui);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.title-tableau--art.front-door
+  .game-creator
+  .kit41-creator
+  .game-setup-actions
+  button[data-testid="begin"] {
+  color: var(--text-strong);
+}
+.title-tableau--art.front-door
+  .game-creator
+  .kit41-creator
+  .game-setup-actions
+  button:disabled {
+  color: var(--text-3);
+  background: transparent;
+  box-shadow: none;
+}
+
+/* One setup panel: the appearance step keeps the panel's own width and its
+   Back and Begin row, with the figure above a single column of choices. */
+.title-tableau--art.front-door .kit41-creator-layout,
+.kit41-creator-layout {
+  grid-template-columns: 1fr;
+}
+.kit41-creator .creator-appearance-tools {
+  position: static;
+  box-shadow: none;
+  background: transparent;
+  padding: 0.4rem 0;
+}
+.kit41-creator .creator-appearance-tools button {
+  min-width: 0;
+}
+.title-tableau--art.front-door .kit41-creator-preview {
+  height: 190px;
+}
+.title-tableau--art.front-door .game-creator--appearance > .creator-summaries {
+  display: none;
+}
+.kit41-creator .creator-appearance-tools button {
+  padding-block: 0.3rem;
 }

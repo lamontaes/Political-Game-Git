@@ -1,0 +1,142 @@
+[
+  {
+    "direction": "a",
+    "state": "rest",
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "hub",
+        "x": 32,
+        "y": 952,
+        "width": 102,
+        "height": 102
+      },
+      {
+        "class": "clock",
+        "x": 168,
+        "y": 1024.40625,
+        "width": 227,
+        "height": 31.59375
+      },
+      {
+        "class": "sheet-frame a-card",
+        "x": 168,
+        "y": 751.203125,
+        "width": 510,
+        "height": 228.796875
+      }
+    ],
+    "summedSurfaceFraction": 0.0647483543113426,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  },
+  {
+    "direction": "a",
+    "state": "open",
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "hub",
+        "x": 21,
+        "y": 936,
+        "width": 124,
+        "height": 124
+      },
+      {
+        "class": "clock",
+        "x": 168,
+        "y": 1024.40625,
+        "width": 227,
+        "height": 31.59375
+      },
+      {
+        "class": "sheet-frame a-card",
+        "x": 412,
+        "y": 753.203125,
+        "width": 480,
+        "height": 228.796875
+      },
+      {
+        "class": "ui-action ui-action--primary",
+        "x": 30,
+        "y": 770,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "ui-action",
+        "x": 154,
+        "y": 806,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "ui-action",
+        "x": 244,
+        "y": 875,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "ui-action",
+        "x": 262,
+        "y": 943,
+        "width": 128,
+        "height": 46
+      }
+    ],
+    "summedSurfaceFraction": 0.0751940013744213,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  },
+  {
+    "direction": "b",
+    "state": "rest",
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "sheet-frame b-card",
+        "x": 22,
+        "y": 816.828125,
+        "width": 600,
+        "height": 241.171875
+      }
+    ],
+    "summedSurfaceFraction": 0.06978352864583333,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  },
+  {
+    "direction": "b",
+    "state": "open",
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "sheet-frame b-card",
+        "x": 22,
+        "y": 779.828125,
+        "width": 720,
+        "height": 278.171875
+      }
+    ],
+    "summedSurfaceFraction": 0.09658745659722222,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  }
+]
