@@ -4,7 +4,7 @@ import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
 import { recordWorldEvent } from "../world";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { pickDistinct, SeededRng } from "../rng";
-import type { EntityId, World } from "../types";
+import type { EntityId, EventType, World } from "../types";
 import {
   jailTermOn,
   sentencesOf,
@@ -29,7 +29,7 @@ function event(
   world: World,
   key: string,
   personId: EntityId,
-  type: string,
+  type: EventType,
   tags: readonly string[],
 ): World {
   return recordWorldEvent(world, {
