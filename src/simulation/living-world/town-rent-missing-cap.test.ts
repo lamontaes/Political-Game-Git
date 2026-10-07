@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { STATES } from "../state-reference";
-import { SeededRng } from "../rng";
 import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
 import { createHousehold, startHouseholdMembership } from "../life";
 import {
@@ -24,18 +23,18 @@ import {
 
 const seed = "team4-a57-missing-numeric-cap";
 const places = Object.keys(STATES);
-const place = new SeededRng(seed).pick(places);
 const provenance = {
   kind: "authored" as const,
   note: "Controlled small-world lease fixture; no actual statutory eligibility claimed.",
 };
 afterEach(() => vi.restoreAllMocks());
 
-function leaseWorld(restricted: boolean) {
+function leaseWorld(restricted: boolean, place: string) {
   expect(places).toHaveLength(56);
+  const worldSeed = `${seed}:${place}`;
   const small = smallWorld({
     place,
-    seed,
+    seed: worldSeed,
     date: "2026-01-01",
     laws: [RENT_LAW_KEYS.rentStabilization],
   });
@@ -127,7 +126,7 @@ function leaseWorld(restricted: boolean) {
     provenance,
   });
   const lease = townLeases(world).find((row) => row.dwellingId === dwellingId)!;
-  expect(lease, `${place} seed=${seed}`).toBeDefined();
+  expect(lease, `${place} seed=${worldSeed}`).toBeDefined();
   expect(lease.flow.recipient).toEqual({
     kind: "person",
     personId: world.personOrder[2],
@@ -138,52 +137,61 @@ function leaseWorld(restricted: boolean) {
     currentDate: day,
     currentMoment: simulationMomentOnLocalDate(world.currentMoment, day),
   };
-  return { world, lease, day };
+  return { world, lease, day, worldSeed };
 }
 
 describe("a rent restriction without its numeric term", () => {
-  it("preserves saved rent, landlord, transfers and renewal identity across repeat and canonical reload", () => {
-    const { world, lease, day } = leaseWorld(true);
-    const before = resourceFlowTermsAt(world, lease.flow.id)!;
-    const changed = renewTownLeases(world, day);
-    expect(changed).toBe(world);
-    expect(resourceFlowTermsAt(changed, lease.flow.id)).toEqual(before);
-    expect(changed.history.resourceTransferOutcomes).toEqual(
-      world.history.resourceTransferOutcomes,
-    );
-    expect(
-      changed.history.resourceFlowTerms.some(
-        (row) => row.stableKey === `${lease.flow.stableKey}:renewal:1`,
-      ),
-    ).toBe(false);
-    expect(renewTownLeases(changed, day)).toBe(changed);
-    const reopened = deserializeWorld(serializeWorld(changed));
-    expect(renewTownLeases(reopened, day)).toBe(reopened);
-    expect(townLeases(reopened)[0]!.flow.recipient).toEqual(
-      lease.flow.recipient,
-    );
+  it("preserves saved rent, landlord, transfers and renewal identity across all 56 places", () => {
+    for (const place of places) {
+      const { world, lease, day } = leaseWorld(true, place);
+      const before = resourceFlowTermsAt(world, lease.flow.id)!;
+      const changed = renewTownLeases(world, day);
+      expect(changed, place).toBe(world);
+      expect(resourceFlowTermsAt(changed, lease.flow.id), place).toEqual(
+        before,
+      );
+      expect(changed.history.resourceTransferOutcomes, place).toEqual(
+        world.history.resourceTransferOutcomes,
+      );
+      expect(
+        changed.history.resourceFlowTerms.some(
+          (row) => row.stableKey === `${lease.flow.stableKey}:renewal:1`,
+        ),
+        place,
+      ).toBe(false);
+      expect(renewTownLeases(changed, day), place).toBe(changed);
+      const reopened = deserializeWorld(serializeWorld(changed));
+      expect(renewTownLeases(reopened, day), place).toBe(reopened);
+      expect(townLeases(reopened)[0]!.flow.recipient, place).toEqual(
+        lease.flow.recipient,
+      );
+    }
     console.info(
-      `A57 unresolved cap: place=${place}, seed=${seed}, rentMinor=${before.amount.minorUnits}; no renewal or transfer written.`,
+      `A57 unresolved-cap behavior checked in ${places.length} places.`,
     );
   });
 
-  it("still renews an unrestricted lease at its saved market level, once", () => {
-    const { world, lease, day } = leaseWorld(false);
-    const old = resourceFlowTermsAt(world, lease.flow.id)!;
-    const changed = renewTownLeases(world, day);
-    expect(resourceFlowTermsAt(changed, lease.flow.id)!.amount.minorUnits).toBe(
-      Math.round((old.amount.minorUnits * 1.4) / 100) * 100,
-    );
-    expect(
-      changed.history.resourceFlowTerms.filter(
-        (row) => row.stableKey === `${lease.flow.stableKey}:renewal:1`,
-      ),
-    ).toHaveLength(1);
-    expect(renewTownLeases(changed, day)).toBe(changed);
-    expect(changed.history.resourceTransferOutcomes).toEqual(
-      world.history.resourceTransferOutcomes,
-    );
-    const reopened = deserializeWorld(serializeWorld(changed));
-    expect(renewTownLeases(reopened, day)).toBe(reopened);
+  it("still renews unrestricted leases at their saved market level in all 56 places", () => {
+    for (const place of places) {
+      const { world, lease, day } = leaseWorld(false, place);
+      const old = resourceFlowTermsAt(world, lease.flow.id)!;
+      const changed = renewTownLeases(world, day);
+      expect(
+        resourceFlowTermsAt(changed, lease.flow.id)!.amount.minorUnits,
+        place,
+      ).toBe(Math.round((old.amount.minorUnits * 1.4) / 100) * 100);
+      expect(
+        changed.history.resourceFlowTerms.filter(
+          (row) => row.stableKey === `${lease.flow.stableKey}:renewal:1`,
+        ),
+        place,
+      ).toHaveLength(1);
+      expect(renewTownLeases(changed, day), place).toBe(changed);
+      expect(changed.history.resourceTransferOutcomes, place).toEqual(
+        world.history.resourceTransferOutcomes,
+      );
+      const reopened = deserializeWorld(serializeWorld(changed));
+      expect(renewTownLeases(reopened, day), place).toBe(reopened);
+    }
   });
 });
