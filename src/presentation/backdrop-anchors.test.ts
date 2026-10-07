@@ -207,6 +207,23 @@ describe("people anchors on every place picture", () => {
     ]);
   });
 
+  it("anchors both Pennsylvania capitol walkway benches", () => {
+    const seats = STAGES["state-capitol-pa"]!.spots.filter((spot) =>
+      spot.group?.startsWith("walk-bench-"),
+    );
+    expect(seats).toHaveLength(2);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(2);
+    expect(
+      seats.find((spot) => spot.group === "walk-bench-right"),
+    ).toMatchObject({
+      x: 60,
+      y: 88.4,
+      seatY: 86.6,
+      facing: "left",
+      pose: "sit",
+    });
+  });
+
   it("anchors union hall pews along both sides of the aisle", () => {
     const spots = STAGES["union-hall"]!.spots;
     const seats = spots.filter((spot) => spot.pose === "sit");
