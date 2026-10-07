@@ -2,11 +2,19 @@
   "batch": "LW-06",
   "status": "unsupported-consequences-recorded",
   "runtimeActivation": false,
-  "supportedQuestionKeys": [
-    "us-tax-terms:county.payroll-tax-terms",
-    "us-tax-terms:city.sales-tax-terms"
-  ],
+  "supportedQuestionKeys": ["us-tax-terms:city.sales-tax-terms"],
   "entries": [
+    {
+      "questionKey": "us-tax-terms:county.payroll-tax-terms",
+      "candidateEffect": "county-payroll-tax-assessment",
+      "evidenceStatus": "county-payroll-tax-power-is-game-profile-no",
+      "source": "data/research/powers-catalog/catalog.json; src/simulation/policy-pack-tax-terms.ts; src/simulation/payroll-tax-bases.ts",
+      "blockers": [
+        "The checked-in powers catalog marks county payroll tax as may=no in its game profile and says state or federal law sets this tax.",
+        "Because the county has no supported decision authority, the policy-pack builder omits this county payroll question and does not load a consequence row.",
+        "The shared local payroll producer can assess a saved local tax only when an operative supported proposal exists; a producer alone does not establish county taxing authority."
+      ]
+    },
     {
       "questionKey": "us-tax-terms:county.corporate-tax-terms",
       "candidateEffect": "county-corporate-income-tax-incidence",

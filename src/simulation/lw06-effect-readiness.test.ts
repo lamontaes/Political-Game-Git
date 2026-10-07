@@ -1,14 +1,16 @@
 import { describe, expect, it } from "vitest";
 import readiness from "../../data/research/laws/lw06-effect-readiness.json";
+import powers from "../../data/research/powers-catalog/catalog.json";
 import { TAX_TERM_QUESTION_ROWS } from "./policy-pack-tax-terms";
 
 const LW06_UNSUPPORTED_QUESTIONS = [
+  "us-tax-terms:county.payroll-tax-terms",
   "us-tax-terms:county.corporate-tax-terms",
   "us-tax-terms:city.income-tax-terms",
 ] as const;
 
 describe("LW-06 effect readiness", () => {
-  it("records unsupported outcomes with sources and concrete blockers", () => {
+  it("records unsupported outcomes with concrete blockers and keeps them inactive", () => {
     expect(readiness.batch).toBe("LW-06");
     expect(readiness.status).toBe("unsupported-consequences-recorded");
     expect(readiness.runtimeActivation).toBe(false);
@@ -25,9 +27,18 @@ describe("LW-06 effect readiness", () => {
     }
   });
 
-  it("retains county payroll and city sales assessment paths", () => {
+  it("records the county payroll authority rule that excludes its question", () => {
+    const payroll = powers.dials.find((dial) => dial.id === "payroll-tax");
+    expect(payroll?.levels.county.may).toBe("no");
+    expect(
+      TAX_TERM_QUESTION_ROWS.some(
+        (candidate) => candidate.key === "county.payroll-tax-terms",
+      ),
+    ).toBe(false);
+  });
+
+  it("retains the city sales assessment path", () => {
     expect(readiness.supportedQuestionKeys).toEqual([
-      "us-tax-terms:county.payroll-tax-terms",
       "us-tax-terms:city.sales-tax-terms",
     ]);
     for (const questionKey of readiness.supportedQuestionKeys) {
