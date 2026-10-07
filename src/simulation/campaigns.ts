@@ -41,8 +41,11 @@ import { enactedDutyHandlers } from "./enacted-duties";
 import { officeContinuityHandlers } from "./governing/office-continuity";
 import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
 import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
-import { federalReformHandlers } from "./living-world/federal-reform";
-import { articleVHandlers } from "./governing/article-v";
+import {
+  federalReformHandlers,
+  federalReformReviewHandler,
+} from "./living-world/federal-reform";
+import { ARTICLE_V_REVIEW, articleVHandlers } from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
@@ -2385,6 +2388,8 @@ export function composeWorldTimeHandlers(
         ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
         ...federalReformHandlers(),
+        // Legacy yearly keys route through the same amendment review.
+        [ARTICLE_V_REVIEW, federalReformReviewHandler],
         ...articleVHandlers(),
         ...presidentialTurnoverHandlers(),
         // Voters recalling a town official: petition, then recall election.

@@ -7,7 +7,7 @@ import {
   recordArticleVRatification,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
-import { addDays, makeIsoDate } from "../dates";
+import { makeIsoDate } from "../dates";
 import {
   FEDERAL_JURISDICTION_KEY,
   describeRuleChangeValue,
@@ -15,9 +15,11 @@ import {
 } from "../enacted-rule-changes";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
+  ARTICLE_V_REVIEW,
   CONSTITUTIONAL_BAR,
   congressVoters,
   constitutionalMemberConsiderations,
+  reviewArticleV,
   type Voter,
 } from "../governing/article-v";
 import {
@@ -49,8 +51,12 @@ import {
   presidentialTermLimitAt,
   presidentialTermsCounted,
 } from "../nationwide-world/presidential-turnover";
-import { SeededRng } from "../rng";
-import { proposeAmendment } from "./constitutional-reform";
+import {
+  AMENDMENT_REVIEW_MONTH_DAY,
+  handleAmendmentStateAction,
+  proposeAmendment,
+  proposeAndVoteAmendment,
+} from "../governing/constitutional-amendments";
 import type {
   DecisionConsideration,
   EntityId,
@@ -111,7 +117,7 @@ export const FEDERAL_REFORM_STATE_ACTION =
 export const FEDERAL_REFORM_PROFILE = {
   id: "ocd-federal-reform-placeholder/v1",
   /** Month and day of each year's review; Congress convenes in January. */
-  reviewMonthDay: "03-01",
+  reviewMonthDay: AMENDMENT_REVIEW_MONTH_DAY,
   /** A President who has served this many terms is a cause to restore a limit. */
   longTenureTerms: 3,
   /** The limit a restoring proposal sets. */
@@ -181,15 +187,21 @@ function scheduleNextReview(world: World, after: IsoDate): World {
  * calendar. Only writes future due items; never a past record.
  */
 export function applyFederalReform(before: IsoDate, world: World): World {
-  if (world.currentDate <= before || !hasPresidency(world)) return world;
+  if (
+    world.currentDate <= before ||
+    (!hasPresidency(world) && !seatedCongressChamber(world, "senate"))
+  )
+    return world;
   const year = Number(world.currentDate.slice(0, 4));
-  const scheduled = world.history.futureDueItems.some(
-    (due) =>
-      due.transitionKey === FEDERAL_REFORM_REVIEW &&
-      (due.stableKey === reviewKey(year + 1) ||
-        (due.stableKey === reviewKey(year) &&
-          reviewDateFor(year) > world.currentDate)),
-  );
+  const scheduled = world.history.futureDueItems.some((due) => {
+    if (
+      due.transitionKey !== FEDERAL_REFORM_REVIEW &&
+      due.transitionKey !== ARTICLE_V_REVIEW
+    )
+      return false;
+    const dueYear = Number(due.dueAt.slice(0, 4));
+    return dueYear <= year + 1 && due.dueAt > world.currentDate;
+  });
   return scheduled ? world : scheduleNextReview(world, world.currentDate);
 }
 
@@ -279,7 +291,9 @@ function done(world: World, context: string): FutureTransitionHandlerResult {
 }
 
 function yearForDue(due: FutureDueItem): number | null {
-  const match = /^federal-reform\/v1:US:(\d{4})(?::|$)/.exec(due.stableKey);
+  const match = /^(?:federal-reform|article-v)\/v1:US:(\d{4})(?::|$)/.exec(
+    due.stableKey,
+  );
   return match ? Number(match[1]) : null;
 }
 
@@ -291,28 +305,44 @@ export function federalReformReviewHandler(
   const year = yearForDue(due);
   if (year === null) return done(world, "No year matches this review.");
   let next = scheduleNextReview(world, world.currentDate);
-  if (hasOpenReform(next))
-    return done(next, "An amendment on this is already pending.");
-  const cause = federalReformCause(next);
-  if (!cause) return done(next, "No cause for an amendment is on the record.");
-  const route = constitutionalProposalRuleForWorld(next, {
-    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-    processKind: "federal-amendment",
-  });
-  if (!route.available) return done(next, route.reason);
-  const house = congressVoters(next, "house");
-  const senate = congressVoters(next, "senate");
-  if (house.length === 0 || senate.length === 0)
-    return done(next, "Congress is not seated in this world.");
-  next = ensureOfficeholderPrinciples(next, [
-    ...house.map((voter) => voter.personId),
-    ...senate.map((voter) => voter.personId),
-  ]);
-  // Save the proposal before members decide on it. A rejection is an action,
-  // recorded by the same constitutional rollcall writer as an approval.
+  let context: string;
+  if (hasOpenReform(next)) {
+    context = "An amendment on this is already pending.";
+  } else {
+    const cause = federalReformCause(next);
+    if (!cause) {
+      context = "No cause for an amendment is on the record.";
+    } else {
+      const route = constitutionalProposalRuleForWorld(next, {
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        processKind: "federal-amendment",
+      });
+      if (!route.available) {
+        context = route.reason;
+      } else {
+        const house = congressVoters(next, "house");
+        const senate = congressVoters(next, "senate");
+        if (house.length === 0 || senate.length === 0) {
+          context = "Congress is not seated in this world.";
+        } else {
+          next = ensureOfficeholderPrinciples(next, [
+            ...house.map((voter) => voter.personId),
+            ...senate.map((voter) => voter.personId),
+          ]);
+          // Save the proposal before members decide on it. A rejection is an
+          // action, recorded by the same rollcall writer as an approval.
+          next = advanceFederalAmendment(next, year, cause);
+          context = `Congress considered an amendment on the President's term limit because ${cause.reason}.`;
+        }
+      }
+    }
+  }
+  const articleVReview = reviewArticleV(next, year);
   return done(
-    proposeAndVote(next, year, cause),
-    `Congress considered an amendment on the President's term limit because ${cause.reason}.`,
+    articleVReview.world,
+    articleVReview.proposed
+      ? "Congress voted on a proposed amendment."
+      : context,
   );
 }
 
@@ -337,7 +367,12 @@ export function termLimitCount(
   }[];
   readonly carries: boolean;
 } {
-  const next = proposeTermLimitMeasure(world, year, cause);
+  const alreadyProposed = world.history.constitutionalMeasures?.some(
+    (row) => row.stableKey === measureKey(year),
+  );
+  const next = alreadyProposed
+    ? world
+    : proposeAmendment(world, termLimitProposal(world, year, cause));
   const measure = next.history.constitutionalMeasures!.find(
     (row) => row.stableKey === measureKey(year),
   )!;
@@ -652,17 +687,13 @@ export function termLimitConsiderations(
 }
 
 /** Proposes the amendment, records both houses, and dates each state's action. */
-function proposeTermLimitMeasure(
+function termLimitProposal(
   world: World,
   year: number,
   cause: FederalReformCause,
-): World {
+): Parameters<typeof proposeAndVoteAmendment>[1]["proposal"] {
   const key = measureKey(year);
-  const existing = world.history.constitutionalMeasures?.find(
-    (row) => row.stableKey === key,
-  );
-  if (existing) return world;
-  return proposeAmendment(world, {
+  return {
     stableKey: key,
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     jurisdictionKey: FEDERAL_JURISDICTION_KEY,
@@ -686,11 +717,11 @@ function proposeTermLimitMeasure(
           ? { appliesTo: "immediately", countsPriorService: true }
           : { appliesTo: "terms-beginning-after", countsPriorService: false },
     },
-  });
+  };
 }
 
 /** Save the actual proposal, decide through the shared engine, and record its votes. */
-export function proposeAndVote(
+export function advanceFederalAmendment(
   world: World,
   year: number,
   cause: FederalReformCause,
@@ -703,51 +734,45 @@ export function proposeAndVote(
     constitutionalPosition(world, existing.id).phase !== "consideration"
   )
     return world;
-  const count = termLimitCount(world, year, cause);
-  let next = count.world;
-  const measureId = count.measureId;
-  const key = measureKey(year);
-  // A repeated callback cannot append another rollcall or schedule another action.
-  if (constitutionalPosition(next, measureId).phase !== "consideration")
-    return next;
-  for (const house of count.houses) {
-    const dispositions: LegislativeVoteDisposition[] = house.rows.map(
-      (row) => ({
-        memberKey: row.voter.memberKey,
-        personId: row.voter.personId,
-        disposition: row.ballot,
-        ...(row.ballot === "absent" ? {} : { reason: row.reason }),
-      }),
-    );
-    next = recordConstitutionalProposalVote(
-      next,
-      measureId,
-      house.bodyKey,
-      dispositions,
-      house.rows.length,
-      {
-        method: "member-decisions",
-        note: "Each member voted by their party, their relationship with the President and the bar of amending the Constitution.",
-        sourceEntityIds: [],
-      },
-    );
-    if (constitutionalPosition(next, measureId).phase === "rejected")
-      return next;
-  }
   const [low, high] = FEDERAL_REFORM_PROFILE.stateActionDays;
-  const spread = new SeededRng(next.seed).fork(key);
-  for (const stateKey of ARTICLE_V_STATE_KEYS) {
-    const days = spread.fork(`state:${stateKey}:day`).integer(low, high);
-    next = scheduleFutureDueItem(next, {
-      stableKey: `${key}:state:${stateKey}`,
-      dueAt: addDays(next.currentDate, days),
+  return proposeAndVoteAmendment(world, {
+    proposal: termLimitProposal(world, year, cause),
+    recordProposalVotes: (started, measureId) => {
+      const count = termLimitCount(started, year, cause);
+      let next = count.world;
+      for (const house of count.houses) {
+        const dispositions: LegislativeVoteDisposition[] = house.rows.map(
+          (row) => ({
+            memberKey: row.voter.memberKey,
+            personId: row.voter.personId,
+            disposition: row.ballot,
+            ...(row.ballot === "absent" ? {} : { reason: row.reason }),
+          }),
+        );
+        next = recordConstitutionalProposalVote(
+          next,
+          measureId,
+          house.bodyKey,
+          dispositions,
+          house.rows.length,
+          {
+            method: "member-decisions",
+            note: "Each member voted by their party, their relationship with the President and the bar of amending the Constitution.",
+            sourceEntityIds: [],
+          },
+        );
+        if (constitutionalPosition(next, measureId).phase === "rejected") break;
+      }
+      return next;
+    },
+    stateSchedule: {
       transitionKey: FEDERAL_REFORM_STATE_ACTION,
-      entityIds: [NATIONAL_ELECTION_JURISDICTION.id],
       jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-      provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
-    });
-  }
-  return next;
+      minimumDays: low,
+      maximumDays: high,
+      provenanceNote: PLACEHOLDER_NOTE,
+    },
+  });
 }
 
 /** One state legislature acts on a proposed amendment. */
@@ -755,36 +780,14 @@ export function constitutionalStateActionHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  const match = /^(.+):state:(US-[A-Z]{2})$/.exec(due.stableKey);
-  const measure = match
-    ? (world.history.constitutionalMeasures ?? []).find(
-        (candidate) => candidate.stableKey === match[1],
-      )
-    : undefined;
-  if (!match || !measure || measure.processKind !== "federal-amendment")
-    return done(world, "No amendment matches this state action.");
-  const stateKey = match[2]!;
-  const position = constitutionalPosition(world, measure.id);
-  if (position.phase !== "ratification")
-    return done(world, "The amendment is no longer before the states.");
-  const next = recordArticleVStateMemberVote(world, measure.id, stateKey);
-  if (!next)
-    return done(
-      world,
-      "The state action remains pending: its actual chambers, quorum or sourced ratification admission are unavailable.",
-    );
-  const approved = constitutionalPosition(
-    next,
-    measure.id,
-  ).ratifiedStates.includes(stateKey);
-  const after = constitutionalPosition(next, measure.id);
-  return done(
-    next,
-    after.phase === "operative" || after.phase === "ratified"
-      ? `${stateKey.slice(3)} ratified ${measure.designation}, the ${after.ratifiedStates.length}th state; it is now part of the Constitution.`
-      : approved
-        ? `${stateKey.slice(3)} ratified ${measure.designation}.`
-        : `${stateKey.slice(3)} declined to ratify ${measure.designation}.`,
+  return handleAmendmentStateAction(
+    world,
+    due,
+    recordArticleVStateMemberVote,
+    (started, measureId) =>
+      started.history.constitutionalMeasures
+        ?.find((measure) => measure.id === measureId)
+        ?.stableKey.startsWith(`${FEDERAL_REFORM_VERSION}:`) === true,
   );
 }
 

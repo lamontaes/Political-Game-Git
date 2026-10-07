@@ -17,6 +17,7 @@ import {
 import { daysBetween, makeIsoDate } from "../dates";
 import { lifePlaces, stateJurisdictionForKey } from "../life-places";
 import { congressSeats } from "../living-world/congress-seats";
+import { FEDERAL_REFORM_REVIEW } from "../living-world/federal-reform";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { stateCandidacyPack } from "../candidacy-packs";
 import {
@@ -28,6 +29,7 @@ import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
 import {
   ARTICLE_V_PROFILE,
+  ARTICLE_V_REVIEW,
   CONVENTION_APPLICATION_EVENT,
   CONVENTION_CALL_EVENT,
   CONVENTION_RESCISSION_EVENT,
@@ -179,6 +181,16 @@ describe("Build 27 step 5: amending the Constitution on any subject", () => {
     ].map((member) => member.personId!);
     world = favor(world, [...everyone, ...seatedLegislators(world)], question);
     const reviewDay = nextReview(world);
+    const annualReviews = world.history.futureDueItems.filter(
+      (due) =>
+        due.dueAt === reviewDay &&
+        [FEDERAL_REFORM_REVIEW, ARTICLE_V_REVIEW].includes(
+          due.transitionKey as
+            typeof FEDERAL_REFORM_REVIEW | typeof ARTICLE_V_REVIEW,
+        ),
+    );
+    expect(annualReviews).toHaveLength(1);
+    expect(annualReviews[0]!.transitionKey).toBe(FEDERAL_REFORM_REVIEW);
     world = passTo(world, reviewDay);
     const measure = world.history.constitutionalMeasures!.find(
       (row) =>

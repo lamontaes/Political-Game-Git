@@ -8,7 +8,6 @@ import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyFederalReform } from "./living-world/federal-reform";
-import { applyArticleV } from "./governing/article-v";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
 import {
@@ -2082,10 +2081,7 @@ export function applyDateBoundary(
           applyOfficeLifecycle(crossedFrom, moved, (afterTerms) =>
             applyCongressLawmaking(
               crossedFrom,
-              applyFederalReform(
-                crossedFrom,
-                applyArticleV(crossedFrom, afterTerms),
-              ),
+              applyFederalReform(crossedFrom, afterTerms),
             ),
           ),
         ),
