@@ -1,4 +1,7 @@
-import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import {
+  carryForwardLeftoverFunds,
+  recordCampaignFundraiserReceipts,
+} from "./campaign-money-sources";
 import { addCampaignHelper } from "./campaign-helpers";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
@@ -18,10 +21,13 @@ import {
 import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
+  townHomeReviewHandler,
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
+import { circulateCandidatePetition } from "./candidate-petitions";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
@@ -308,6 +314,8 @@ export interface FileCampaignInput {
   readonly advertisingVendorName: string;
   readonly staffPersonIds: readonly EntityId[];
   readonly treasuryCurrency: CurrencyCode;
+  /** Explicitly opt into a completed campaign's permitted keep-for-next-race balance. */
+  readonly carryForwardFromCampaignId?: EntityId | null;
 }
 
 export interface FiledCampaignResult {
@@ -926,6 +934,13 @@ export function fileCampaign(
   // A town seat the town's own election already has on its ballot is decided
   // in this campaign's election instead.
   world = withdrawTownRaceForCampaign(world, campaignRecord.contestId);
+  if (input.carryForwardFromCampaignId) {
+    world = carryForwardLeftoverFunds(
+      world,
+      input.carryForwardFromCampaignId,
+      campaignRecord.id,
+    );
+  }
   return { world, campaign: campaignRecord };
 }
 
@@ -2433,6 +2448,7 @@ export function composeWorldTimeHandlers(
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
+        [TOWN_HOME_REVIEW_TRANSITION_KEY, townHomeReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
         ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
@@ -2609,7 +2625,7 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       try {
         return scheduleCampaignAction(world, {
           campaignId: campaign.id,
-          kind: block.work,
+          kind: block.work === "petition" ? "outreach" : block.work,
           plan: {
             start: slot.start,
             end: slot.end,
@@ -2643,11 +2659,29 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       if (!activity || !routineIdOfActivity(world, activity.sourceEntityIds))
         return world;
       const action = campaignActionForActivity(world, activityId);
-      if (!action || campaignActionResult(world, action.id)) return world;
+      if (!action) return world;
       const campaign = campaignById(world, action.campaignId);
       if (!campaign || campaignState(world, campaign.id).status !== "active")
         return world;
-      return recordCampaignActionOutcome(world, campaign, action);
+      const timing = scheduledActivityState(world, activity.id);
+      const routineEventId = activity.sourceEntityIds.find((id) =>
+        Boolean(routineIdOfActivity(world, [id])),
+      );
+      const block = routineEventId
+        ? campaignRoutineBlockAt(world, routineEventId, timing.start)
+        : null;
+      const completed = campaignActionResult(world, action.id)
+        ? world
+        : recordCampaignActionOutcome(world, campaign, action);
+      return block?.work === "petition"
+        ? circulateCandidatePetition(completed, {
+            campaignId: campaign.id,
+            circulatorPersonId: campaign.candidatePersonId,
+            stableKey: `${action.stableKey}:petition-circulation`,
+            minutes: simulationMinutesBetween(timing.start, timing.end),
+            at: timing.end.date,
+          })
+        : completed;
     },
   };
 }
