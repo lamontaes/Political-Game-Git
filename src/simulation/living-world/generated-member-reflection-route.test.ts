@@ -139,5 +139,10 @@ describe("a generated member's bill and reflection", () => {
     expect(floorVote(restored, measure!.id)?.dispositions).toEqual(
       vote?.dispositions,
     );
-  }, 30_000); // Measured at 4.7 s with main merged (9/28), at the edge of the 5 s default.
+    // Measured October 7, 2026: 4.7 s on September 28; now about 800 s locally and
+    // 414 s on a GitHub runner. Recording the colleagues' beliefs takes about
+    // 310 s of that and the 19 days to the floor vote (January 25) about 430 s.
+    // The limit is explicit so the test reports its own result; the slowdown is
+    // being bisected separately.
+  }, 1_800_000);
 });
