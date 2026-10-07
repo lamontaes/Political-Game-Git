@@ -121,9 +121,7 @@ describe("the people in each title picture", () => {
       });
       for (const near of standing)
         for (const far of standing)
-          if (
-            spotOf(picture.place, near).y > spotOf(picture.place, far).y
-          )
+          if (spotOf(picture.place, near).y > spotOf(picture.place, far).y)
             expect(near.heightPercent).toBeGreaterThan(far.heightPercent);
     }
   });

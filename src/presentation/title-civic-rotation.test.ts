@@ -104,11 +104,10 @@ describe("the title rotation", () => {
       ).toBe(true);
     }
     for (const place of shown) expect(isNationalPlace(place), place).toBe(true);
-    const local = ROWS.map((row) => row.place).filter(
-      (place) =>
-        /^state-|^county-|city-hall|council|clerk|town-hall|public-meeting|township|school-board|governor|mayor|campaign-storefront/.test(
-          place,
-        ),
+    const local = ROWS.map((row) => row.place).filter((place) =>
+      /^state-|^county-|city-hall|council|clerk|town-hall|public-meeting|township|school-board|governor|mayor|campaign-storefront/.test(
+        place,
+      ),
     );
     // 50 states, D.C. and five territories, each with its own capitol.
     expect(
@@ -170,10 +169,12 @@ describe("the title rotation", () => {
     // Each place is met by day before it is met at night.
     for (const place of NATIONAL) {
       const day = CYCLE.findIndex(
-        (room) => room.picture?.place === place && room.picture.variant === "midday",
+        (room) =>
+          room.picture?.place === place && room.picture.variant === "midday",
       );
       const night = CYCLE.findIndex(
-        (room) => room.picture?.place === place && room.picture.variant === "night",
+        (room) =>
+          room.picture?.place === place && room.picture.variant === "night",
       );
       expect(day, place).toBeLessThan(night);
     }
@@ -245,7 +246,9 @@ describe("a saved character's first picture", () => {
     expect(rest).not.toContain(first);
     // The courtroom at night stays in its turn.
     expect(
-      rest.some((p) => p.place === "supreme-courtroom" && p.variant === "night"),
+      rest.some(
+        (p) => p.place === "supreme-courtroom" && p.variant === "night",
+      ),
     ).toBe(true);
   });
 });

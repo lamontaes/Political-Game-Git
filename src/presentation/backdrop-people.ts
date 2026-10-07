@@ -339,8 +339,7 @@ export function turnedToSpot(
   recipe: EngineRecipe,
   view: BodyView,
 ): EngineRecipe {
-  return (spot.facing === "left" || spot.facing === "right") &&
-    view !== "front"
+  return (spot.facing === "left" || spot.facing === "right") && view !== "front"
     ? {
         ...recipe,
         mirrored: mirrorToFace(

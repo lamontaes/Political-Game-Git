@@ -156,12 +156,11 @@ function heroRecipe(
   if (!look) return null;
   // Drawn afresh for the spot: the saved pose, turn and mirroring are the
   // save's, not this place's.
-  const {
-    pose: _savedPose,
-    view: _savedView,
-    mirrored: _savedMirror,
-    ...base
-  } = look;
+  const base = Object.fromEntries(
+    Object.entries(look).filter(
+      ([key]) => key !== "pose" && key !== "view" && key !== "mirrored",
+    ),
+  ) as typeof look;
   const robe =
     hero.roleKind === "judge" || spot.role === "judge"
       ? PEOPLE_PACK.presentations[look.presentation].outfits.find(
@@ -214,7 +213,9 @@ export function titleScenePeople(
       personId: seed,
       speakerId,
       anchorType:
-        spot.pose === "podium" ? "podium" : (spot.group ?? spot.pose ?? "stand"),
+        spot.pose === "podium"
+          ? "podium"
+          : (spot.group ?? spot.pose ?? "stand"),
       seated,
     });
     const pose: BodyPose =

@@ -288,7 +288,9 @@ export function rolePlaceCandidates(
       case "president":
         return ["oval-office"];
       case "member-of-congress":
-        return [role.chamber === "senate" ? "us-senate-floor" : "us-house-floor"];
+        return [
+          role.chamber === "senate" ? "us-senate-floor" : "us-house-floor",
+        ];
       case "judge":
         return role.court === "supreme" ? ["supreme-courtroom"] : [];
       case "candidate":
