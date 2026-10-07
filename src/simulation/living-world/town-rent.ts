@@ -1774,7 +1774,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const renewal = renewedMarketRent(
         old,
         homePrices,
-        prices,
+        homePrices,
         finalCap === null &&
           rule !== null &&
           landlordKindOf(next, lease.flow.recipient) !== "public",
