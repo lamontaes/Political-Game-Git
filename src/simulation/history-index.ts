@@ -739,6 +739,7 @@ export function carryPeopleReadIndexesAfterAppend(
   previous: World,
   next: World,
 ): void {
+  if (previous.people !== next.people) recordPeopleAppend(previous, next);
   const prior = PEOPLE_READ_INDEXES.get(previous.people);
   if (!prior || previous.people === next.people) return;
   const added = next.personOrder.slice(previous.personOrder.length);
@@ -752,4 +753,45 @@ export function carryPeopleReadIndexesAfterAppend(
     });
   }
   PEOPLE_READ_INDEXES.set(next.people, indexes);
+}
+
+/**
+ * Where a person table came from, by append only. Each table an append writer
+ * produced points at the table it copied unchanged, so a reader holding an
+ * older table can prove the newer one keeps every earlier person (the same
+ * object) and every earlier place in the iteration order, without comparing
+ * them one by one. The tokens hold no table, so no earlier table stays alive.
+ */
+interface PeopleAppendToken {
+  readonly parent: PeopleAppendToken | null;
+}
+const PEOPLE_APPEND_TOKENS = new WeakMap<World["people"], PeopleAppendToken>();
+
+function recordPeopleAppend(previous: World, next: World): void {
+  let parent = PEOPLE_APPEND_TOKENS.get(previous.people);
+  if (!parent) {
+    parent = { parent: null };
+    PEOPLE_APPEND_TOKENS.set(previous.people, parent);
+  }
+  PEOPLE_APPEND_TOKENS.set(next.people, { parent });
+}
+
+/**
+ * Whether `later` was made from `earlier` only by appending people through
+ * `carryPeopleReadIndexesAfterAppend`'s writers. False means unknown, never
+ * "changed": the caller compares the tables itself.
+ */
+export function peopleTableAppendedFrom(
+  earlier: World["people"],
+  later: World["people"],
+): boolean {
+  const target = PEOPLE_APPEND_TOKENS.get(earlier);
+  if (!target || earlier === later) return false;
+  for (
+    let token = PEOPLE_APPEND_TOKENS.get(later)?.parent ?? null;
+    token;
+    token = token.parent
+  )
+    if (token === target) return true;
+  return false;
 }
