@@ -1,7 +1,7 @@
 import table from "../../data/content/economy-visibility.json";
 import type {
-  PlayerOfficeLevel,
-  PlayerOfficeScopeEntry,
+  PlayerOfficeScopeLevel as PlayerOfficeLevel,
+  playerOfficeScope,
 } from "../simulation/governing/office-consequence";
 import type { EntityId } from "../simulation/types";
 import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
@@ -38,7 +38,7 @@ export interface EconomyVisibility {
 
 /** Union the public projections and exact jurisdictions available to offices. */
 export function economyVisibilityFor(
-  offices: readonly PlayerOfficeScopeEntry[],
+  offices: ReturnType<typeof playerOfficeScope>,
   residentJurisdictionId?: EntityId | null,
   residentJurisdictionKind?: string | null,
 ): EconomyVisibility {
@@ -62,6 +62,7 @@ export function economyVisibilityFor(
       row.jurisdiction === "federal"
         ? NATIONAL_ELECTION_JURISDICTION.id
         : office.jurisdictionId;
+    if (!jurisdictionId) continue;
     const old = jurisdictions.get(jurisdictionId);
     jurisdictions.set(jurisdictionId, mostOpen(old, row.lookItUp));
   }

@@ -16,7 +16,10 @@ export type LawConsequenceKind =
   | "right-permission"
   | "service-delivered"
   | "legal-outcome"
-  | "institution-rule";
+  | "institution-rule"
+  | "public-library-service"
+  | "parks-service-spending"
+  | "government-operations";
 
 /** Existing bespoke stamp labels awaiting migration; new kinds use LawConsequenceKind. */
 export type LegacyEffectKind =
@@ -236,6 +239,9 @@ export type LawTermResolutionProvenance =
       readonly unit: LawAmountUnit;
       /** Date the governing law term was read for this consequence. */
       readonly requestedAt: IsoDate;
+      /** Exact measure/provision/source identity of the primary law term. */
+      readonly lawMeasureId: EntityId;
+      readonly sourceRecordIds: readonly EntityId[];
       readonly scope?: LawTermScope;
       readonly applicability?: LawTermApplicability;
     }
@@ -418,6 +424,11 @@ export interface LawConsequenceRow {
     key: string;
     type: "boolean" | "decision";
   };
+  /**
+   * A statute can leave a bounded term for an implementing agency to set.
+   * Only rows carrying this explicit delegation may support a regulation.
+   */
+  delegations?: readonly LawDelegationTerm[];
   conditions: LawConsequencePredicate[];
   lag: { days: number; sourceIds: string[] };
   onRepeal:
@@ -430,6 +441,15 @@ export interface LawConsequenceRow {
     uncertainty: string;
   };
   onward?: LawConsequenceRow[];
+}
+
+export interface LawDelegationTerm {
+  readonly key: string;
+  readonly questionKey: string;
+  readonly minimum: number | null;
+  readonly maximum: number | null;
+  readonly unit: LawAmountUnit | null;
+  readonly sourceIds: readonly string[];
 }
 export interface LawConsequenceContext {
   completedShift?: { eventId: EntityId; termsId: EntityId };

@@ -44,12 +44,22 @@ describe("play settings", () => {
       challenge: "standard",
       notes: "full",
       saves: "free",
+      personalLifeDepiction: "full",
       premises: {
         familyMoney: "ordinary",
         press: "realistic",
         ongoingMoneyCosts: "standard",
       },
     });
+    expect(
+      playSettingsOf({
+        ...world,
+        playSettings: {
+          ...world.playSettings!,
+          personalLifeDepiction: undefined as never,
+        },
+      }).personalLifeDepiction,
+    ).toBe("full");
   });
 
   it("records only changed in-game settings as private events", () => {
@@ -63,5 +73,20 @@ describe("play settings", () => {
     expect(event?.visibility).toBe("private");
     expect(event?.tags).toContain("challenge");
     expect(setPlaySetting(changed, "challenge", "relentless")).toBe(changed);
+  });
+
+  it("records personal-life depiction as wording-only player preference", () => {
+    const world = newLife("settings-personal-life-seed").world;
+    const softened = setPlaySetting(world, "personalLifeDepiction", "softened");
+
+    expect(softened.playSettings?.personalLifeDepiction).toBe("softened");
+    expect(softened.people).toBe(world.people);
+    expect(softened.history.events.at(-1)).toMatchObject({
+      type: "player.setting.changed",
+      tags: expect.arrayContaining(["personalLifeDepiction"]),
+    });
+    expect(setPlaySetting(softened, "personalLifeDepiction", "softened")).toBe(
+      softened,
+    );
   });
 });

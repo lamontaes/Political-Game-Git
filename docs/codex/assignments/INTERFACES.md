@@ -69,16 +69,17 @@ Situation-row shape: there is no single exported "situation row" on main. Neares
 
 ## 5. Sessions 6-7: life records and journal
 
-| Name                            | File:line                                                                                                         | What it does                        | If not merged |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ------------- |
-| `ensurePeopleTraits`            | src/simulation/people-traits.ts:372                                                                               | Gives every person traits.          | On main.      |
-| `personTraits` / `personTrait`  | people-traits.ts:163 / :142                                                                                       | Read traits.                        | On main.      |
-| `upbringingFor`                 | src/simulation/people-upbringing.ts:798                                                                           | A person's upbringing.              | On main.      |
-| character history               | src/simulation/character-history.ts: `establishPreStartAdultHistory` :1280, `establishPreStartChildHistory` :1601 | Builds pre-start history.           | On main.      |
-| `appendHistoricalEvent`         | src/simulation/history.ts:416                                                                                     | The one history writer.             | On main.      |
-| `recordEventKnowledge`          | src/simulation/records.ts:154                                                                                     | Records who knows an event.         | On main.      |
-| `recordRelationshipInteraction` | records.ts:233                                                                                                    | Records a relationship interaction. | On main.      |
-| `projectLifeSoFarEnglish`       | src/presentation/life-so-far-english.ts:25                                                                        | Journal prose composer.             | On main.      |
+| Name                            | File:line                                                                                                         | What it does                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | If not merged       |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `ensurePeopleTraits`            | src/simulation/people-traits.ts:372                                                                               | Gives every person traits.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | On main.            |
+| `personTraits` / `personTrait`  | people-traits.ts:163 / :142                                                                                       | Read traits.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | On main.            |
+| `upbringingFor`                 | src/simulation/people-upbringing.ts:798                                                                           | A person's upbringing.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | On main.            |
+| `currentFaithForPerson`         | src/simulation/faith-record.ts                                                                                    | Current faith from personal congregation history, a recorded formative faith choice, or dated household attribution. Recorded person-held parental/guardian/custody authority leads; the existing dated care share follows, then earlier active membership start date breaks a supported tie. Equal unsupported care weights retain both congregations with no primary. A faith choice is an additive kind in the existing childhood record, bound to the player's actual dated formative event; personal participation or a later choice supersedes upbringing by effective date/sequence. No inferred faith for legacy records without a source. | Session 6 PR #2440. |
+| character history               | src/simulation/character-history.ts: `establishPreStartAdultHistory` :1280, `establishPreStartChildHistory` :1601 | Builds pre-start history.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | On main.            |
+| `appendHistoricalEvent`         | src/simulation/history.ts:416                                                                                     | The one history writer.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | On main.            |
+| `recordEventKnowledge`          | src/simulation/records.ts:154                                                                                     | Records who knows an event.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | On main.            |
+| `recordRelationshipInteraction` | records.ts:233                                                                                                    | Records a relationship interaction.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | On main.            |
+| `projectLifeSoFarEnglish`       | src/presentation/life-so-far-english.ts:25                                                                        | Journal prose composer.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | On main.            |
 
 ## 6. Session 22: campaign scenes (Session 24 shares opponents)
 
@@ -115,6 +116,86 @@ Situation-row shape: there is no single exported "situation row" on main. Neares
 | `recordedPayStubs`                | src/simulation/resource-income.ts:43                                             | A person's recorded pay stubs.             | On main.                                     |
 | `assessPaycheckTaxes`             | src/simulation/statutory-tax.ts:92                                               | Withholding on a paycheck.                 | On main.                                     |
 
+### LW-28 receiving contract (Session 20 → Session 41)
+
+Put each handler at `src/simulation/law-consequences/modules/<module-key>/index.ts`
+and export `registrations: readonly AnyLawConsequenceKindRegistration[]` (or
+the narrower `LawConsequenceKindRegistration<T>[]`). The synchronous registry
+reads the checked-in pure TypeScript manifest at
+`src/simulation/law-consequence-module-manifest.ts`; Session 20 is its sole
+writer and adds reviewed module exports there. Do not use host filesystem or
+presentation/Vite discovery in simulation. Duplicate kind owners fail registry
+creation. `LawConsequenceKind` remains a closed union: introducing a new kind
+also needs a shared type-union edit. The current union admits
+`public-library-service` and `parks-service-spending`. Session 41 owns those
+modules and scoped effect adapters. Its candidate module is
+`src/simulation/law-consequences/modules/civil-family-services/index.ts`,
+exporting `registrations: readonly LawConsequenceKindRegistration<ResolvedLawConsequence>[]`;
+it is not in the manifest until that source is available on this branch. The
+sole-writer admission hunk is:
+
+```ts
+import { registrations as civilFamilyServiceRegistrations } from "./law-consequences/modules/civil-family-services";
+
+export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =
+  [...civilFamilyServiceRegistrations];
+```
+
+The manifest is generated from every folder under
+`src/simulation/law-consequences/modules/` that contains `index.ts`. Module
+owners add their own module folder and run
+`npm run generate:law-consequence-modules` in that same PR. The generated
+`LAW_CONSEQUENCE_MODULE_KEYS` list and static imports are checked by
+`npm run check:law-consequence-modules`; `npm run typecheck` runs that check as
+well. A folder without `index.ts`, stale manifest, or unlisted folder fails.
+Generator filesystem access stays under `scripts/law-consequence-modules/`,
+outside simulation runtime. Browser, Vitest, Node, profile, and source replay
+consume only the checked-in static TypeScript imports.
+
+In `apply`,
+call the canonical domain writer and pass the ID of the actual saved effect
+record to `recordLawExposure` with the affected person, canonical `measureId`,
+channel, direction, and supported amount. For a non-money effect use direction
+`none` with null amount and cadence. This saves an idempotent named-person
+exposure and schedules the normal official reflection. Aggregate reports and
+catalog rows do not count as a landing. Session 19's `lawInForce` remains
+unchanged.
+
+For the LW-28 parks landing, the law-linked saved effect is a
+`PublicProgramCapacityOutturnRecord` whose `commitmentId` resolves to the
+`PublicProgramCommitmentRecord`, then its `appropriationId` resolves to the
+`PublicProgramAppropriationRecord.sourceMeasureId`. Use the actual outturn ID
+as the exposure source and the appropriation's source measure as attribution;
+the current receipt/outturn date is the effect cutoff. Session 41 owns the
+person residence and area-wide consumer. The public-program writer must invoke
+the consequence receiver only after it has saved this actual outturn, passing
+that outturn identity and law attribution; do not dispatch from a budget amount
+or invent resident service hours. The typed receiver route is
+`applyLawConsequences(world, context, registrations)` with
+`context.activity: "service"`, `activityId: outturn.id`,
+`onDate: outturnEvent.occurredAt`,
+`governingLawId: appropriation.sourceMeasureId`, the parking law's
+`questionKey`, and `subjectIds` restricted by Session 41's actual household
+residence at that same event cutoff. The parks resolver must be outturn-specific:
+Session 41's current candidate delegates to `resolveLawServiceConsequence`,
+which looks up a completed scheduled activity by `activityId` and therefore
+cannot consume a capacity-outturn ID. Resolution must carry `outturn.id` in
+`sourceRecordIds` and the resolved person's own ID as `subject.id`; apply uses
+those to write the named-person exposure against the canonical measure. Dispatch
+for every law-linked saved outturn, including `restoredUnits: 0`; retain its
+actual cause identity. Only positive capacity deltas may create downstream
+resident state changes. A zero delta preserves the caused zero record and
+creates no downstream state change. No-funding, closed, and unknown conditions
+must remain marked estimated where applicable; never turn unknown into zero.
+The outturn links to `outturn.eventId` for its effect date. The writer call site is
+`recordCapacityOutturn` in `src/simulation/governing/public-program.ts` and its
+owning hunk must be coordinated with that file's current owner before editing.
+
+The `abortion-access` landing is not registered here: it needs an actual
+recorded pregnancy decision and person-level result from the family/births
+producer, per CTO ruling #6013162583. Aggregate birth and infant-death outcome
+links do not supply that evidence.
+
 ## 9. Session 19: law data
 
 | Name                   | File:line                                                                                                                                                                                                  | What it does                                                                                                                                         | If not merged                                                  |
@@ -133,3 +214,29 @@ Situation-row shape: there is no single exported "situation row" on main. Neares
 ## Not verified
 
 Param types of `memberVoteConsiderations`; the single situation-row type; any campaign staff seam; line numbers inside open PRs (names only).
+
+### Public program capacity outturn receiver seam (Session 20)
+
+`src/simulation/public-program-capacity-outturn.ts` exports
+`PublicProgramCapacityOutturnReceiverRegistration` and
+`applyPublicProgramCapacityOutturnReceivers(before, after, commitment, installment, registrations)`.
+Each registration is `{ key, receive }`, with
+`receive(world: World, context: PublicProgramCapacityOutturnContext): World`.
+The immutable context carries the saved `outturn`, its linked saved
+`commitment`, `installment`, and `appropriation`, `eventDate` from the
+outturn's canonical event `occurredAt`, and nullable `sourceMeasureId` from
+the appropriation. The receiver is called only when `recordCapacityOutturn`
+actually appended a new saved outturn, at both canonical writer call sites,
+in checked-in manifest order. Receivers are pure deterministic reducers and
+must not use dice or write a competing public-program record. The saved
+outturn is passed through unchanged when `restoredUnits` is `0` or `null`;
+zero creates no downstream capacity delta, and `null` remains unknown.
+The installment and delivery handlers accept an optional per-call registration
+list for explicit composition and focused tests; ordinary simulation dispatch
+uses the generated static list. No mutable registration singleton is used.
+
+Register receivers by exporting
+`publicProgramCapacityOutturnReceivers` from the owning law-consequence
+module's `index.ts`. The generated static module manifest gathers them. Module
+folders must not import `governing/public-program`; use this standalone typed
+contract to avoid a runtime cycle.

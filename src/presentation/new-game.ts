@@ -46,6 +46,9 @@ import type {
 import { initialPlaySettings } from "../simulation/play-settings";
 import {
   buildProductionWorld,
+  buildPreStartCharacterWorld,
+  finalizePreStartPlayer,
+  type ProductionWorldInput,
   FAMILY_BIRTHDAYS_V1,
   PARENT_PARTNERS_V1,
   ADULT_START_WORK_V1,
@@ -66,6 +69,11 @@ import {
 } from "../simulation/person-appearance";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
 import type { WorldOpeningVersion } from "../simulation/world-setup/types";
+import {
+  creatorLifeForkChoicesValid,
+  recordCreatorLifeForks,
+  type CreatorLifeForkChoice,
+} from "../simulation/creator-life-forks";
 
 /**
  * Starting a life.
@@ -145,6 +153,7 @@ export interface NewGameSetup {
   > & {
     readonly premises?: Partial<PlaySettings["premises"]>;
   };
+  readonly creatorLifeForks?: readonly CreatorLifeForkChoice[];
   readonly startKind?: NewGameStartKind;
   readonly placeKey: string;
   readonly startAge: number;
@@ -540,16 +549,100 @@ export function otherParentQuestionApplies(setup: NewGameSetup): boolean {
 }
 
 export function createNewGameWorld(setup: NewGameSetup): NewGame {
+  return buildNewGameWorld(setup);
+}
+
+/** Reuse Creator input mapping while admitting the resident before the past clock runs. */
+export function createPreStartNewGameWorld(
+  setup: NewGameSetup,
+  priorYearStartDate: IsoDate,
+  onCharacterCheckpoint?: ProductionWorldInput["onCharacterCheckpoint"],
+): NewGame {
+  return buildNewGameWorld(
+    setup,
+    {
+      version: "pre-start-world-year-v1",
+      targetStartDate: requireLifePlace(setup.placeKey).context.initialMoment
+        .date,
+      priorYearStartDate,
+    },
+    onCharacterCheckpoint,
+  );
+}
+
+/** Begin changes control only; the World and its money/history remain authoritative. */
+/** Apply answers to the staged life; loading must receive this same World. */
+export function applyPreStartCreatorLifeForks(
+  game: NewGame,
+  choices: readonly CreatorLifeForkChoice[],
+): NewGame {
+  if (game.world.preStartLife?.personId !== game.playerPersonId)
+    throw new Error("Creator answers require the staged character's World.");
+  return {
+    ...game,
+    setup: { ...game.setup, creatorLifeForks: choices },
+    world: recordCreatorLifeForks(game.world, game.playerPersonId, choices),
+  };
+}
+
+export function finishPreStartNewGameWorld(game: NewGame): NewGame {
+  if (game.world.pastMode)
+    throw new Error(
+      "Close the historical past at its recorded boundary before Begin.",
+    );
+  const preStartLife = game.world.preStartLife;
+  if (!preStartLife || preStartLife.personId !== game.playerPersonId)
+    throw new Error("The game has no pre-start character to hand over.");
+  const built = finalizePreStartPlayer(game.world, {
+    ...productionWorldInputForSetup(game.setup),
+    preStartYear: {
+      version: "pre-start-world-year-v1",
+      targetStartDate: preStartLife.targetStartDate,
+      priorYearStartDate: game.world.startedAt,
+    },
+  });
+  return { ...game, world: built.world };
+}
+
+function buildNewGameWorld(
+  setup: NewGameSetup,
+  preStartYear?: ProductionWorldInput["preStartYear"],
+  onCharacterCheckpoint?: ProductionWorldInput["onCharacterCheckpoint"],
+): NewGame {
+  if (
+    setup.creatorLifeForks !== undefined &&
+    !creatorLifeForkChoicesValid(setup.creatorLifeForks)
+  )
+    throw new Error("Invalid life choices.");
   const problems = newGameSetupProblems(setup);
   if (problems.length > 0) {
     throw new Error(problems[0]!.message);
   }
   const place = requireLifePlace(setup.placeKey);
+  const input = productionWorldInputForSetup(setup);
+  const built = preStartYear
+    ? buildPreStartCharacterWorld({
+        ...input,
+        preStartYear,
+        onCharacterCheckpoint,
+      })
+    : buildProductionWorld(input);
+  return finishNewGameConstruction(setup, place, built);
+}
+
+function productionWorldInputForSetup(
+  setup: NewGameSetup,
+): ProductionWorldInput {
+  const place = requireLifePlace(setup.placeKey);
   const priors = setupPriorStoreFor(setup);
-  const built = buildProductionWorld({
+  return {
+    ...(setup.creatorLifeForks === undefined
+      ? {}
+      : { creatorLifeForks: setup.creatorLifeForks }),
     // The build seed, not the world's identity: the calibration is allowed to
     // change what the generator draws, and never which world this is.
     seed: buildSeedFor(setup),
+    familyMoneyPremise: setup.playSettings?.premises?.familyMoney ?? "ordinary",
     familyStructureSeed: worldSeedFor(setup),
     ...(setup.familyShape === undefined
       ? {}
@@ -626,7 +719,14 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
-  });
+  };
+}
+
+function finishNewGameConstruction(
+  setup: NewGameSetup,
+  place: LifePlace,
+  built: ReturnType<typeof buildProductionWorld>,
+): NewGame {
   // A town split across several districts gets its resident placed in one of
   // them (GAME PROFILE placeholder, see `assignSplitHomeDistricts`). Current
   // openings only: a legacy replay descriptor rebuilds the bytes it always did.

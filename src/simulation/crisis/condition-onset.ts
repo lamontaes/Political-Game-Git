@@ -1,15 +1,95 @@
 import { addDays, daysBetween } from "../dates";
-import type { FutureTransitionHandler } from "../types";
+import type {
+  EntityId,
+  FutureTransitionHandler,
+  IsoDate,
+  World,
+} from "../types";
 import { isPersonAliveAt } from "../vitality";
 import {
   CONDITION_PACK_ORIGIN,
+  CONDITION_PACK,
   conditionHazard,
   conditionOfOnsetItem,
   conditionOnsetDay,
   onsetCauseFactor,
 } from "./condition-pack";
 import { beginHealthEpisode } from "./health";
-import { conditionStrainInput } from "./mortality";
+import { conditionStrainInput, mortalityCalibrationOf } from "./mortality";
+import { activeHealthEpisodes } from "./health-queries";
+
+/** Dated biography uses the same strain crossing and episode writer as the live handler. */
+export function recordEarlierConditionOnsets(
+  world: World,
+  personId: EntityId,
+  sourceId: EntityId,
+): World {
+  if (world.preStartLife?.personId !== personId)
+    throw new Error(
+      "Earlier conditions require the admitted pre-start resident.",
+    );
+  const person = world.people[personId]!;
+  const coverage = (world.history.crisisRecords ?? [])
+    .filter(
+      (row) =>
+        row.kind === "health-coverage" &&
+        row.personId === personId &&
+        row.effectiveAt < world.currentDate,
+    )
+    .filter((row) => row.kind === "health-coverage");
+  let next = world;
+  for (const condition of CONDITION_PACK) {
+    if (
+      activeHealthEpisodes(next, personId).some(
+        (episode) => episode.conditionKey === condition.key,
+      )
+    )
+      continue;
+    const day = conditionOnsetDay(
+      {
+        key: condition.key,
+        birthDate: person.birthDate,
+        category: mortalityCalibrationOf(world, personId),
+        exposureStart: person.birthDate,
+        coverage,
+      },
+      person.birthDate,
+      world.currentDate,
+    );
+    if (day === null) continue;
+    const pushedBy = coverage.filter((row) => row.effectiveAt <= day).at(-1);
+    next = recordConditionOnset(next, personId, condition.key, day, [
+      sourceId,
+      ...(pushedBy && onsetCauseFactor(pushedBy) !== 1 ? [pushedBy.id] : []),
+    ]);
+  }
+  return next;
+}
+
+function recordConditionOnset(
+  world: World,
+  personId: EntityId,
+  key: string,
+  onsetAt: IsoDate,
+  causalParentIds: readonly EntityId[],
+): World {
+  return beginHealthEpisode(world, {
+    stableKey: `condition:${key}:${personId}:${onsetAt}`,
+    personId,
+    onsetAt,
+    severity: "chronic",
+    initialLimitation: "none",
+    origin: CONDITION_PACK_ORIGIN,
+    conditionKey: key,
+    causalParentIds,
+    hazard: conditionHazard(
+      world.seed,
+      personId,
+      key,
+      daysBetween(world.people[personId]!.birthDate, onsetAt) / 365.25,
+    ),
+  });
+}
 
 /**
  * Begins a chronic condition on the day its own strain crossed the threshold
@@ -53,24 +133,10 @@ export const conditionOnsetHandler: FutureTransitionHandler = (world, item) => {
   const pushedBy = strain.coverage
     .filter((record) => record.effectiveAt <= today)
     .at(-1);
-  const next = beginHealthEpisode(world, {
-    stableKey: `condition:${key}:${personId}:${today}`,
-    personId,
-    severity: "chronic",
-    initialLimitation: "none",
-    origin: CONDITION_PACK_ORIGIN,
-    conditionKey: key,
-    causalParentIds: [
-      item.id,
-      ...(pushedBy && onsetCauseFactor(pushedBy) !== 1 ? [pushedBy.id] : []),
-    ],
-    hazard: conditionHazard(
-      world.seed,
-      personId,
-      key,
-      daysBetween(strain.birthDate, today) / 365.25,
-    ),
-  });
+  const next = recordConditionOnset(world, personId, key, today, [
+    item.id,
+    ...(pushedBy && onsetCauseFactor(pushedBy) !== 1 ? [pushedBy.id] : []),
+  ]);
   const began = next.history.events.find(
     (event) =>
       event.stableKey ===

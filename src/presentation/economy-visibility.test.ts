@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import { ECONOMY_VISIBILITY, economyVisibilityFor } from "./economy-visibility";
-import type { PlayerOfficeScopeEntry } from "../simulation/governing/office-consequence";
+import type { playerOfficeScope } from "../simulation/governing/office-consequence";
 
 describe("economy visibility", () => {
   it("uses the data table to union two offices and their jurisdictions", () => {
-    const offices: PlayerOfficeScopeEntry[] = [
+    const offices: ReturnType<typeof playerOfficeScope> = [
       {
         officeKey: "mayor:town-a",
         title: "Mayor",

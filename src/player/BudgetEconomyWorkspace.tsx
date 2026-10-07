@@ -7,6 +7,7 @@ import type { EntityId, World } from "../simulation";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { EconomicContextPanel, EconomicGraph } from "./EconomicContextPanel";
 import { MacroConditionsPanel } from "./MacroConditionsPanel";
+import { ExecutiveBudgetRequestHistory } from "./ExecutiveBudgetRequest";
 import { ModeledAccountHistory } from "./ModeledAccountHistory";
 import "./budget-economy-workspace.css";
 
@@ -104,7 +105,10 @@ export function BudgetEconomyWorkspace({
       ) : null}
 
       {canSee("program-lines") && lookItUp === "full" && model.programLines ? (
-        <section aria-label="Public budget program lines" data-testid="budget-program-lines">
+        <section
+          aria-label="Public budget program lines"
+          data-testid="budget-program-lines"
+        >
           <h4>Program lines</h4>
           <p>
             {model.programLines.month
@@ -114,7 +118,10 @@ export function BudgetEconomyWorkspace({
           <ul>
             {model.programLines.lines.map((line) => (
               <li key={line.category}>
-                {line.label}: {line.amount === null ? "No recorded amount" : formatFederalAmount(line.amount)}
+                {line.label}:{" "}
+                {line.amount === null
+                  ? "No recorded amount"
+                  : formatFederalAmount(line.amount)}
               </li>
             ))}
           </ul>
@@ -179,6 +186,10 @@ export function BudgetEconomyWorkspace({
         </section>
       ) : null}
 
+      <ExecutiveBudgetRequestHistory
+        world={world}
+        jurisdictionId={jurisdictionId}
+      />
       {canSee("account-history") && lookItUp === "full" ? (
         <ModeledAccountHistory history={modeledAccount} />
       ) : null}

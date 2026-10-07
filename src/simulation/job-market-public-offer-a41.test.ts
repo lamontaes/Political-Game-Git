@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import {
   openWeeklyListings,
-  PUBLIC_BODY_ROLE_PLACEHOLDER,
+  PUBLIC_BODY_ROLE_PROFILE,
   townEmployerRoles,
 } from "./job-market";
 import { createWorkRelationship, recordWorkStatus } from "./life";
@@ -28,7 +28,7 @@ const places = pickDistinct(
   lifePlaceStateIdentities(),
   56,
 );
-const role = PUBLIC_BODY_ROLE_PLACEHOLDER;
+const role = PUBLIC_BODY_ROLE_PROFILE;
 const offeredHours =
   (role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2;
 const provenance = {

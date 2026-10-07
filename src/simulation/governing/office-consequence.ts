@@ -23,7 +23,6 @@ import { seatTermWindow } from "../living-world/congress-seats";
 import { stateJurisdictionForKey } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type { CongressSeat } from "../living-world/congress-seats";
-import { publicOfficesHeldBy } from "../crisis/offices";
 
 /** The tags a seat record carries, so the congress projection reads it. */
 function congressSeatVacancyTags(
@@ -380,6 +379,66 @@ export const OFFICE_EMPLOYMENT_KINDS: readonly string[] = [
   "employment:judicial-office",
 ];
 
+export type PlayerOfficeScopeLevel =
+  | "congress"
+  | "county"
+  | "town"
+  | "state-legislature"
+  | "state-executive"
+  | "federal-executive"
+  | "judicial";
+
+function jurisdictionOfficeLevel(
+  world: World,
+  jurisdictionId: EntityId | null,
+): "county" | "town" | "state" | "federal" | null {
+  if (jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id) return "federal";
+  const kind = jurisdictionId
+    ? world.jurisdictions[jurisdictionId]?.kind
+    : undefined;
+  if (!kind) return null;
+  if (kind === "state-placeholder" || kind === "state") return "state";
+  if (kind.startsWith("territory")) return "state";
+  if (kind === "county") return "county";
+  if (["municipality", "city", "town", "borough"].includes(kind)) return "town";
+  return null;
+}
+
+function workOfficeLevel(
+  world: World,
+  kind: string,
+  officeKey: string,
+  jurisdictionId: EntityId | null,
+): PlayerOfficeScopeLevel | null {
+  if (kind === "employment:judicial-office") return "judicial";
+  const jurisdictionLevel = jurisdictionOfficeLevel(world, jurisdictionId);
+  if (kind === "employment:legislative-member") {
+    if (officeKey.startsWith("us-house:") || officeKey.startsWith("us-senate:"))
+      return "congress";
+    if (jurisdictionLevel === "state") return "state-legislature";
+    if (jurisdictionLevel === "county") return "county";
+    if (jurisdictionLevel === "town") return "town";
+    return null;
+  }
+  if (
+    kind === "employment:executive-office" ||
+    kind === "employment:state-agency-director"
+  ) {
+    if (jurisdictionLevel === "federal") return "federal-executive";
+    if (jurisdictionLevel === "state") return "state-executive";
+    if (jurisdictionLevel === "county") return "county";
+    if (jurisdictionLevel === "town") return "town";
+    return null;
+  }
+  if (kind.startsWith("office:")) {
+    if (jurisdictionLevel === "county") return "county";
+    if (jurisdictionLevel === "town") return "town";
+    if (jurisdictionLevel === "state") return "state-executive";
+    if (jurisdictionLevel === "federal") return "federal-executive";
+  }
+  return null;
+}
+
 /**
  * Every office `personId` holds today, by the key `recordOfficeConsequence`
  * accepts: a state executive office, a seat in Congress, or a recorded office
@@ -421,146 +480,89 @@ export function officesHeldBy(
   return held;
 }
 
-export type PlayerOfficeLevel =
-  | "town"
-  | "county"
-  | "state-legislature"
-  | "state-executive"
-  | "congress"
-  | "federal-executive"
-  | "judicial";
-
-export interface PlayerOfficeScopeEntry {
-  readonly officeKey: string;
-  readonly title: string;
-  readonly jurisdictionId: EntityId;
-  readonly level: PlayerOfficeLevel;
-}
-
 /**
- * All of a player's current public offices with their institutional scope.
- * This is a read composed from the existing office and seat readers; it does
- * not maintain a second office store. Offices without a known jurisdiction
- * are omitted instead of borrowing a nearby government's identity.
+ * The jurisdiction and government level for every current office a person
+ * holds. This is a read-only projection over the same governing, Congress,
+ * and work records used by `officesHeldBy`.
  */
 export function playerOfficeScope(
   world: World,
   personId: EntityId,
-): readonly PlayerOfficeScopeEntry[] {
-  const result = new Map<string, PlayerOfficeScopeEntry>();
-  for (const office of currentGoverningOffices(world)) {
-    if (office.holderPersonId !== personId) continue;
-    const municipal = office.programOffice?.kind === "municipal";
-    result.set(office.officeKey, {
-      officeKey: office.officeKey,
-      title: office.title,
-      jurisdictionId: office.jurisdictionId,
-      level: municipal ? "town" : "state-executive",
-    });
-  }
-
+): readonly {
+  readonly officeKey: string;
+  readonly title: string;
+  readonly jurisdictionId: EntityId | null;
+  readonly level: PlayerOfficeScopeLevel;
+}[] {
+  const scopes: {
+    officeKey: string;
+    title: string;
+    jurisdictionId: EntityId | null;
+    level: PlayerOfficeScopeLevel;
+  }[] = [];
+  for (const office of currentGoverningOffices(world))
+    if (office.holderPersonId === personId) {
+      const jurisdictionLevel = jurisdictionOfficeLevel(
+        world,
+        office.jurisdictionId,
+      );
+      const level: PlayerOfficeScopeLevel =
+        office.programOffice?.kind === "municipal"
+          ? jurisdictionLevel === "county"
+            ? "county"
+            : "town"
+          : office.programOffice?.kind === "federal-executive"
+            ? "federal-executive"
+            : "state-executive";
+      scopes.push({
+        officeKey: office.officeKey,
+        title: office.title,
+        jurisdictionId: office.jurisdictionId,
+        level,
+      });
+    }
   const congress = projectCongress(world);
-  for (const chamber of congress ? [congress.house, congress.senate] : []) {
-    for (const seat of chamber.seats) {
+  for (const chamber of congress ? [congress.house, congress.senate] : [])
+    for (const seat of chamber.seats)
       if (
-        seat.occupant.kind !== "member" ||
-        seat.occupant.member.personId !== personId
-      )
-        continue;
-      const seatKey = seat.seatKey;
-      const state = seatKey.match(/(?:^|:)([A-Z]{2})(?:-|:)/)?.[1];
-      const jurisdiction = state
-        ? stateJurisdictionForKey(`US-${state}`)
-        : null;
-      if (!jurisdiction) continue;
-      result.set(seatKey, {
-        officeKey: seatKey,
-        title: seat.occupant.member.title,
-        jurisdictionId: jurisdiction.id,
-        level: "congress",
-      });
-    }
-  }
-
-  for (const office of officesHeldBy(world, personId)) {
-    if (result.has(office.officeKey)) continue;
-    if (
-      office.officeKey === "us-president" ||
-      office.officeKey === "us-vice-president"
-    ) {
-      result.set(office.officeKey, {
-        ...office,
-        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-        level: "federal-executive",
-      });
-    } else if (
-      /supreme-court|justice/i.test(`${office.officeKey} ${office.title}`)
-    ) {
-      result.set(office.officeKey, {
-        ...office,
-        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-        level: "judicial",
-      });
-    }
-  }
-  for (const office of publicOfficesHeldBy(world, personId)) {
-    if (result.has(office.officeKey)) continue;
-    if (/^us-(?:president|vice-president)$/.test(office.officeKey)) {
-      result.set(office.officeKey, {
-        officeKey: office.officeKey,
-        title: office.title,
-        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-        level: "federal-executive",
-      });
-    } else if (
-      /supreme-court|justice/i.test(`${office.officeKey} ${office.title}`)
-    ) {
-      result.set(office.officeKey, {
-        officeKey: office.officeKey,
-        title: office.title,
-        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-        level: "judicial",
-      });
-    }
-  }
+        seat.occupant.kind === "member" &&
+        seat.occupant.member.personId === personId
+      ) {
+        const known = congressSeats().find(
+          (candidate) => candidate.seatKey === seat.seatKey,
+        );
+        scopes.push({
+          officeKey: seat.seatKey,
+          title: known ? congressSeatTitle(known) : seat.seatKey,
+          jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+          level: "congress",
+        });
+      }
   for (const entry of activeWorkRelationshipsAt(world, personId)) {
     const title = entry.role.title;
     const officeKey = entry.relationship.stableKey;
-    const jurisdictionId = entry.role.locationJurisdictionId;
-    const jurisdiction = jurisdictionId
-      ? world.jurisdictions[jurisdictionId]
-      : null;
+    if (!title || !officeKey) continue;
     if (
-      !title ||
-      !officeKey ||
-      !jurisdictionId ||
-      !jurisdiction ||
-      !(
-        OFFICE_EMPLOYMENT_KINDS.includes(entry.relationship.kind) ||
-        entry.relationship.kind.startsWith("office:")
-      ) ||
-      result.has(officeKey)
-    )
-      continue;
-    const level: PlayerOfficeLevel =
-      entry.relationship.kind === "employment:judicial-office" ||
-      /judge|justice/i.test(title)
-        ? "judicial"
-        : entry.relationship.kind === "employment:legislative-member" &&
-            jurisdiction.kind === "state"
-          ? "state-legislature"
-          : jurisdiction.kind === "county"
-            ? "county"
-            : jurisdiction.kind === "state"
-              ? "state-executive"
-              : jurisdiction.kind === "federal"
-                ? "federal-executive"
-                : "town";
-    result.set(officeKey, { officeKey, title, jurisdictionId, level });
+      OFFICE_EMPLOYMENT_KINDS.includes(entry.relationship.kind) ||
+      entry.relationship.kind.startsWith("office:")
+    ) {
+      const jurisdictionId = entry.role.locationJurisdictionId;
+      const level = workOfficeLevel(
+        world,
+        entry.relationship.kind,
+        officeKey,
+        jurisdictionId,
+      );
+      if (!level) continue;
+      scopes.push({
+        officeKey,
+        title,
+        jurisdictionId,
+        level,
+      });
+    }
   }
-  return [...result.values()].sort((a, b) =>
-    a.officeKey.localeCompare(b.officeKey),
-  );
+  return scopes;
 }
 
 /** Everything recorded about one office, newest first. */

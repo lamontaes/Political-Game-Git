@@ -427,6 +427,29 @@ export interface ConferenceRule {
   readonly adoptionThresholdLabel: string;
 }
 
+/** Procedural tools a member may use against a pending measure. */
+export type MinorityProcedureMotion =
+  | "table"
+  | "postpone"
+  | "recommit"
+  | "recorded-vote"
+  | "full-reading"
+  | "suspend-rules";
+
+/** Complete per-chamber delay, debate, and attendance rules. */
+export interface MinorityPartyProcedureRow {
+  readonly packId: string;
+  readonly chamberKey: string;
+  readonly motions: RuleValue<readonly MinorityProcedureMotion[]>;
+  readonly motionBar: RuleValue<VoteThresholdRule>;
+  readonly suspendRulesBar: RuleValue<VoteThresholdRule>;
+  readonly unlimitedDebate: RuleValue<boolean>;
+  readonly clotureBar: RuleValue<VoteThresholdRule>;
+  readonly quorum: RuleValue<VoteThresholdRule>;
+  readonly mayCompelAttendance: RuleValue<boolean>;
+  readonly absencePenalty: RuleValue<"chamber-prescribed" | "none">;
+}
+
 /**
  * Where a veto is reconsidered. Alaska uses one joint sitting of both houses.
  *
@@ -613,6 +636,8 @@ export interface LegislativeRulePack {
   readonly basis: "researched" | "game-profile";
   readonly structure: LegislatureStructure;
   readonly chambers: readonly ChamberRule[];
+  /** Per-chamber delay and attendance data; omitted only by legacy packs. */
+  readonly minorityPartyProcedureRows?: readonly MinorityPartyProcedureRow[];
   /**
    * The chambers in their declared order.
    *

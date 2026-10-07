@@ -68,7 +68,9 @@ export function newsHabitOf(world: World, personId: EntityId): NewsHabit {
   const followedJurisdictions = new Set<EntityId>([
     person.homeJurisdictionId,
     ...(homeState ? [homeState.id] : []),
-    ...officeScopes.map((office) => office.jurisdictionId),
+    ...officeScopes.flatMap((office) =>
+      office.jurisdictionId ? [office.jurisdictionId] : [],
+    ),
   ]);
   const outletKeys = mediaOutlets(world)
     .filter(

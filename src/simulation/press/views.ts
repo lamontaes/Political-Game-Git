@@ -355,6 +355,22 @@ export function speakerBelief(
   personId: EntityId,
 ): "believes-true" | "believes-false" {
   const matter = requirePressRecord(world, "matter", matterId);
+  if (matter.family === "personal-life") {
+    const source = matter.personalEventId
+      ? eventById(world, matter.personalEventId)
+      : null;
+    const knows =
+      source?.participants.some(
+        (participant) => participant.personId === personId,
+      ) ||
+      world.history.knowledge.some(
+        (record) =>
+          record.personId === personId &&
+          record.eventId === matter.personalEventId &&
+          record.learnedAt <= world.currentDate,
+      );
+    return knows ? "believes-true" : "believes-false";
+  }
   if (!matter.occurrenceId) return "believes-false";
   const occurrence = requirePressRecord(
     world,
@@ -415,7 +431,8 @@ export function pressAnswerStance(
   const occurrence = matter.occurrenceId
     ? requirePressRecord(world, "financial-occurrence", matter.occurrenceId)
     : null;
-  const worldTruth = matter.occurrenceId ? "true" : "false";
+  const worldTruth =
+    matter.family === "personal-life" || matter.occurrenceId ? "true" : "false";
   const asserted =
     choice === "decline"
       ? "none"
@@ -433,7 +450,11 @@ export function pressAnswerStance(
       asserted,
       speakerBelief: choice === "decline" ? "not-applicable" : belief,
       intent: choice === "decline" ? "evade" : matches ? "truthful" : "deceive",
-      beliefEvidenceIds: occurrence ? [occurrence.occurrenceEventId] : [],
+      beliefEvidenceIds: occurrence
+        ? [occurrence.occurrenceEventId]
+        : matter.personalEventId
+          ? [matter.personalEventId]
+          : [],
     },
     worldTruth,
   };

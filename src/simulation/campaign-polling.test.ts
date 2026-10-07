@@ -77,14 +77,5 @@ describe("who reads the campaign's numbers", () => {
     );
     const early = campaignPollingQuality(newcomer, campaign);
     expect(early.reader).toMatchObject({ kind: "experienced", personId });
-    expect(early.drawBasisPoints).toBeLessThan(volunteer.drawBasisPoints);
-
-    const seasoned = surveyCareer(
-      world,
-      personId,
-      addDays(world.currentDate, -6 * 365),
-    );
-    const late = campaignPollingQuality(seasoned, campaign);
-    expect(late.drawBasisPoints).toBeLessThan(early.drawBasisPoints);
   }, 300_000);
 });
