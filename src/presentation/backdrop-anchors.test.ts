@@ -46,7 +46,9 @@ describe("people anchors on every place picture", () => {
     expect(new Set(seats.map((spot) => spot.id)).size).toBe(50);
     expect(seats.filter((spot) => spot.group === "dais")).toHaveLength(7);
     expect(seats.filter((spot) => spot.group === "audience")).toHaveLength(40);
-    expect(seats.filter((spot) => spot.group === "public-table")).toHaveLength(3);
+    expect(seats.filter((spot) => spot.group === "public-table")).toHaveLength(
+      3,
+    );
     expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(43);
   });
 
