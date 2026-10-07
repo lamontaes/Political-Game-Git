@@ -123,7 +123,6 @@ import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
-import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
 import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
@@ -223,6 +222,7 @@ import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-sc
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
 import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
+  PRODUCTION_OFFICE_SCENE_ID,
   SCENE_REGISTRY,
 } from "../presentation/scene-registry";
 import {
@@ -1726,7 +1726,11 @@ function PlayingScreen({
   // no room at all, or a room whose plate was retired (the public meeting).
   const sceneHasPlate = useMemo(() => {
     const raster = sceneId ? SCENE_REGISTRY.scenes.get(sceneId)?.raster : null;
-    return Boolean(raster && sceneVisuals.has(raster.assetId));
+    return Boolean(
+      sceneId !== PRODUCTION_OFFICE_SCENE_ID &&
+      raster &&
+      sceneVisuals.has(raster.assetId),
+    );
   }, [sceneId, sceneVisuals]);
   const placeBackdrop = useMemo(
     () =>
@@ -1742,17 +1746,20 @@ function PlayingScreen({
                 courtroomLocationKey(session.world, session.personId) ??
                 protestLocationKey(session.world, session.personId))
               : null) ??
-              // An unspecified moment resolves to the home room above it in
-              // play-scene-context, so its place picture is home too; without
-              // this a person whose last recorded place had no plate (a shift
-              // the day before) woke to a blank screen.
-              (playScene.purpose === "home" ||
-              playScene.purpose === "unspecified"
-                ? "home"
-                : playScene.locationKey),
+              (sceneId === PRODUCTION_OFFICE_SCENE_ID
+                ? "workplace"
+                : // An unspecified moment resolves to the home room above it in
+                  // play-scene-context, so its place picture is home too; without
+                  // this a person whose last recorded place had no plate (a shift
+                  // the day before) woke to a blank screen.
+                  playScene.purpose === "home" ||
+                    playScene.purpose === "unspecified"
+                  ? "home"
+                  : playScene.locationKey),
           ),
     [
       sceneHasPlate,
+      sceneId,
       session.world,
       session.personId,
       playScene.purpose,
@@ -2590,6 +2597,9 @@ function PlayingScreen({
             <SceneBackdrop
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
+              preferPlaceBackdrop={
+                sceneId === PRODUCTION_OFFICE_SCENE_ID && placeBackdrop !== null
+              }
               placePeople={placePeople}
               placeSurfaces={placeSurfaces}
               readableSurfaces={readableSurfaces}
@@ -4642,20 +4652,13 @@ function renderWorkspace({
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
+                handlers={createCampaignElectionTransitionRegistry()}
               />
               <GoverningOfficeDesk
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
               />
-              {executive ? (
-                <ExecutiveWorkWorkspace
-                  world={session.world}
-                  onWorldChange={onWorldChange}
-                  handlers={createCampaignElectionTransitionRegistry()}
-                  placement="inline"
-                />
-              ) : null}
             </>
           ),
         });
