@@ -1,7 +1,10 @@
 import { personName, type EntityId, type World } from "../simulation";
 import { projectOpeningFamily } from "./opening-story";
 import { projectGovernmentBrowser } from "./politics-government";
-import type { OrientationPerson } from "./world-orientation";
+import type {
+  OrientationChamber,
+  OrientationPerson,
+} from "./world-orientation";
 import { placeBackdropPeople } from "./backdrop-people";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
@@ -20,6 +23,74 @@ export function openingFamilyPeople(
   personId: EntityId,
 ): readonly OrientationPerson[] {
   return projectOpeningFamily(world, personId).parents.flatMap((member) => {
+    const person = world.people[member.personId];
+    if (!person) return [];
+    const name = personName(person);
+    return [
+      {
+        personId: person.id,
+        name,
+        title: member.introduction.startsWith(`${name}, `)
+          ? member.introduction.slice(name.length + 2)
+          : member.introduction,
+        party: null,
+        facts: [],
+      },
+    ];
+  });
+}
+
+/**
+ * The members on a chamber's floor (OW-15), read from its seat roster: the
+ * player's own members first, then the rest of the home state's delegation,
+ * then every other member in seat order, up to the number the room can hold.
+ */
+export function chamberFloorPeople(
+  chamber: OrientationChamber | null | undefined,
+  options: {
+    readonly first?: readonly OrientationPerson[];
+    readonly homeUsps?: string | null;
+    readonly limit: number;
+  },
+): readonly OrientationPerson[] {
+  const members = (chamber?.roster ?? []).flatMap((row) =>
+    row.person ? [{ row, person: row.person }] : [],
+  );
+  const home = options.homeUsps
+    ? (row: { readonly seatKey: string }) =>
+        row.seatKey.includes(`:${options.homeUsps}-`) ||
+        row.seatKey.includes(`:${options.homeUsps}:`)
+    : () => false;
+  const ordered = [
+    ...(options.first ?? []).filter((person) =>
+      members.some((member) => member.person.personId === person.personId),
+    ),
+    ...members.filter(({ row }) => home(row)).map(({ person }) => person),
+    ...members.filter(({ row }) => !home(row)).map(({ person }) => person),
+  ];
+  const seen = new Set<EntityId>();
+  return ordered
+    .filter((person) => {
+      if (seen.has(person.personId)) return false;
+      seen.add(person.personId);
+      return true;
+    })
+    .slice(0, options.limit);
+}
+
+/**
+ * Who is home with you on your life's card (OW-15 presence rule): everyone
+ * the household record says lives with you, parents and roommates alike.
+ */
+export function openingHouseholdPeople(
+  world: World,
+  personId: EntityId,
+): readonly OrientationPerson[] {
+  const family = projectOpeningFamily(world, personId);
+  return [
+    ...family.parents.filter((member) => member.livesWithYou && !member.died),
+    ...family.household.filter((member) => !member.died),
+  ].flatMap((member) => {
     const person = world.people[member.personId];
     if (!person) return [];
     const name = personName(person);

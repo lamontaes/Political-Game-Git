@@ -49,6 +49,8 @@ import {
   openingLegislaturePeople,
   openingFamilyPeople,
   openingTourStagedPeople,
+  chamberFloorPeople,
+  openingHouseholdPeople,
 } from "../presentation/opening-tour-people";
 import {
   homePlacesForPerson,
@@ -366,10 +368,36 @@ export function WorldOrientationPanel({
   // the room's own scale and in a natural stance, like people in any other
   // painted place.
   const sceneStage = useRef<HTMLDivElement>(null);
+  // OW-15: a chamber floor holds its members from the seat roster, and your
+  // life's home holds the people the household record says live there.
+  const floorRoster = useMemo(() => {
+    const floor =
+      step?.key === "year"
+        ? "us-senate"
+        : step?.key === "congress"
+          ? "us-house"
+          : null;
+    if (!floor || backdrop.kind !== "place") return null;
+    const chamber = steps
+      .flatMap((candidate) => candidate.chambers)
+      .find((candidate) => candidate.chamberKey === floor);
+    return chamberFloorPeople(chamber, {
+      first: cast.map((actor) => actor.person),
+      homeUsps: homeStateUsps,
+      limit: backdropStaging(backdrop.place)?.spots.length ?? 0,
+    });
+  }, [step?.key, steps, backdrop, cast, homeStateUsps]);
+  const householdRoster = useMemo(
+    () =>
+      step?.key === "your-life" && world && personId
+        ? openingHouseholdPeople(world, personId)
+        : null,
+    [step?.key, world, personId],
+  );
   const sceneRoster =
     step?.key === "executive" || step?.key === "legislature"
       ? (step?.people ?? [])
-      : cast.map((actor) => actor.person);
+      : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
   const measuredPlace =
     backdrop.kind === "place" &&
     !(step?.key === "executive" && establishingPlate) &&
