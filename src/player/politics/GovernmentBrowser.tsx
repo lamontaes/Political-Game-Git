@@ -365,7 +365,6 @@ function SeatHolder({
           world={world}
           personId={personId}
           className="pg-opening-roster-figure"
-          wear="formal"
         />
         {button}
       </div>

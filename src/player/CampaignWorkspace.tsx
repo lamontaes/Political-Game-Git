@@ -9,6 +9,8 @@ import {
   fileForOffice,
   giveElectionSpeech,
   askCampaignHelper,
+  offerCampaignManagerJob,
+  askCampaignDonorForContribution,
   groupCampaignSessions,
   projectCampaign,
   spendAnAfternoon,
@@ -172,6 +174,7 @@ export function CampaignWorkspace({
   }, [world, view.campaignId]);
   const [problem, setProblem] = useState<string | null>(null);
   const [helperNotice, setHelperNotice] = useState<string | null>(null);
+  const [donorAskDollars, setDonorAskDollars] = useState(100);
   const [selectedGeography, setSelectedGeography] = useState<string | null>(
     null,
   );
@@ -292,7 +295,7 @@ export function CampaignWorkspace({
           : spendAnAfternoon(world, personId, kind),
       (next) => {
         if (next === world) {
-          setProblem("Something already on the calendar has to happen first.");
+          setProblem("Calendar conflict");
           return;
         }
         setSelectedSpending(null);
@@ -365,10 +368,6 @@ export function CampaignWorkspace({
           data-testid="campaign-office-browser"
         >
           <h3>Offices you could run for</h3>
-          <p>
-            Looking at an office, or selecting one, does not start a campaign or
-            spend money.
-          </p>
           {[...new Set(offices.map((office) => office.governmentLevel))].map(
             (level) => (
               <fieldset key={level}>
@@ -426,7 +425,7 @@ export function CampaignWorkspace({
                               ? office.eligibility
                               : status.reasons.length > 0
                                 ? status.reasons.join(" ")
-                                : "You can't file for this office right now."}
+                                : "Not available"}
                           </span>
                           <span className="game-campaign-office-line">
                             {hasElection
@@ -477,7 +476,7 @@ export function CampaignWorkspace({
           <p>
             {unavailable.reasons.length > 0
               ? unavailable.reasons.join(" ")
-              : "There is no office here you can file for right now."}
+              : "No office open"}
           </p>
         </div>
       ) : null}
@@ -486,8 +485,8 @@ export function CampaignWorkspace({
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
-              ? `There is an election for ${runForPhrase(selectedOffice.title)}${view.placeName ? ` in ${view.placeName}` : ""}.`
-              : "Choose one of the offices above to see whether you can file for it."}
+              ? `Election: ${selectedOffice.title}${view.placeName ? ` · ${view.placeName}` : ""}`
+              : "Choose an office"}
           </p>
           {needsDistrict && selectedOffice ? (
             <DistrictResidencePanel
@@ -749,10 +748,134 @@ export function CampaignWorkspace({
                     ))}
                   </fieldset>
                 ) : null}
-                <p className="game-hint">
-                  Changing the plan does not use any time. The work happens when
-                  you choose it below.
-                </p>
+              </section>
+            ) : null}
+
+            {planning.slots.includes("immediate") ? (
+              <section
+                aria-labelledby="campaign-donors-title"
+                data-testid="campaign-donors"
+              >
+                <h3 id="campaign-donors-title">People who gave</h3>
+                <label>
+                  Ask each person for $
+                  <input
+                    aria-label="Contribution ask in dollars"
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={donorAskDollars}
+                    onChange={(event) =>
+                      setDonorAskDollars(Number(event.target.value))
+                    }
+                  />
+                </label>
+                {view.donors.length ? (
+                  <ul>
+                    {view.donors.map((donor, index) => (
+                      <li key={`${donor.personId}-${index}`}>
+                        {donor.name}: {donor.outcome}
+                        {donor.outcome === "gave"
+                          ? ` ${displayMoney({ minorUnits: donor.amountMinorUnits, currency: view.treasury.currency })}`
+                          : ""}
+                        {donor.reason
+                          ? ` — ${donor.reason}`
+                          : donor.reasonBeliefId
+                            ? " — based on their view of you"
+                            : ""}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No one has been asked to give yet.</p>
+                )}
+                {view.donorCandidates.length ? (
+                  <ul aria-label="People you know who could give">
+                    {view.donorCandidates.map((donor) => (
+                      <li key={donor.personId}>
+                        <button
+                          type="button"
+                          data-testid={`ask-campaign-donor-${donor.personId}`}
+                          onClick={() => {
+                            try {
+                              const result = askCampaignDonorForContribution(
+                                world,
+                                view.campaignId!,
+                                donor.personId,
+                                Math.max(1, Math.floor(donorAskDollars * 100)),
+                              );
+                              onWorldChange(result.world);
+                              setHelperNotice(
+                                `${donor.name} ${result.ask.outcome === "gave" ? `gave ${displayMoney({ minorUnits: result.ask.amountMinorUnits, currency: view.treasury.currency })}` : result.ask.outcome}: ${result.reasons.join(" ") || result.view}. Recorded means: ${result.meansMinorUnits ?? "unknown"}; contribution limit: ${result.limit.minorUnits} ${view.treasury.currency}${result.limit.estimated ? " (estimated)" : ""}.`,
+                              );
+                              setProblem(null);
+                            } catch (error) {
+                              setProblem(
+                                error instanceof Error
+                                  ? error.message
+                                  : String(error),
+                              );
+                            }
+                          }}
+                        >
+                          Ask {donor.name} for ${donorAskDollars}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </section>
+            ) : null}
+
+            {planning.slots.includes("immediate") &&
+            view.managerCandidates.length ? (
+              <section
+                aria-labelledby="campaign-manager-title"
+                data-testid="campaign-manager-offers"
+              >
+                <h3 id="campaign-manager-title">Campaign manager</h3>
+                <ul>
+                  {view.managerCandidates.map((candidate) => (
+                    <li key={candidate.personId}>
+                      <span>
+                        {candidate.name} has campaign experience. Estimated pay
+                        is {displayMoney(candidate.monthlySalary)} a month;{" "}
+                        {displayMoney(candidate.totalCost)} through election
+                        day.
+                      </span>
+                      {candidate.affordable ? (
+                        <button
+                          type="button"
+                          data-testid={`offer-campaign-manager-${candidate.personId}`}
+                          onClick={() => {
+                            try {
+                              const result = offerCampaignManagerJob(
+                                world,
+                                view.campaignId!,
+                                candidate.personId,
+                              );
+                              onWorldChange(result.world);
+                              setHelperNotice(
+                                `${candidate.name} ${result.accepted ? "accepted the manager job" : "declined the manager job"}. ${result.reasons.join(" ")}`,
+                              );
+                              setProblem(null);
+                            } catch (error) {
+                              setProblem(
+                                error instanceof Error
+                                  ? error.message
+                                  : String(error),
+                              );
+                            }
+                          }}
+                        >
+                          Offer manager job to {candidate.name}
+                        </button>
+                      ) : (
+                        <span>Treasury short</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
               </section>
             ) : null}
 
@@ -766,7 +889,7 @@ export function CampaignWorkspace({
                 <p>
                   {view.helpers.length
                     ? view.helpers.map((helper) => helper.name).join(", ")
-                    : "You are running this campaign alone."}
+                    : "None"}
                 </p>
                 {view.helperCandidates.length ? (
                   <ul aria-label="People you know who could help">

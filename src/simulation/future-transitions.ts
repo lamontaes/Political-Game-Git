@@ -388,11 +388,38 @@ export function setDeepTransitionInputGuard(enabled: boolean): void {
 /** Every object this guard has frozen, with everything beneath it. */
 const deeplyFrozen = new WeakSet<object>();
 
+/**
+ * A long history list is a copy of the one before it with records added, and
+ * every record the old list held was frozen with it. Following the list the
+ * way the read indexes do visits only the added records, where walking the
+ * copy visited all of them for every due item.
+ */
+const FREEZE_ENTRIES: GrowingIndexKind<object> = {
+  create: () => ({}),
+  add: (_index, entry) => freezeDeeply(entry),
+};
+const LONG_LIST = 64;
+
 function freezeDeeply(value: unknown): void {
   if (typeof value !== "object" || value === null) return;
   if (deeplyFrozen.has(value)) return;
   deeplyFrozen.add(value);
-  for (const child of Object.values(value)) freezeDeeply(child);
+  if (Array.isArray(value) && value.length >= LONG_LIST)
+    growingIndex(FREEZE_ENTRIES, value);
+  else {
+    // A plain walk: this runs over every person for each due item, so it
+    // skips the copy of the values and the call for what is already frozen.
+    const fields = value as Record<string, unknown>;
+    for (const key in fields) {
+      const child = fields[key];
+      if (
+        typeof child === "object" &&
+        child !== null &&
+        !deeplyFrozen.has(child)
+      )
+        freezeDeeply(child);
+    }
+  }
   Object.freeze(value);
 }
 

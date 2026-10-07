@@ -152,7 +152,7 @@ describe("Money and property says what new laws did to money", () => {
       ]);
       const laws = projectMoneyLaws(drawn, PLAYER)!;
       expect(laws.placeName).toBe(home.name);
-      expect(laws.empty).toBeNull();
+      expect(laws.empty).toBe(false);
       expect(laws.town.map((line) => line.text)).toEqual([
         `The Raise the Wage Act (H.R. 3) added $388.80 a month to the pay of 3 people in ${home.name}.`,
       ]);
@@ -190,8 +190,6 @@ describe("Money and property says what new laws did to money", () => {
     );
 
     const { world: quiet } = world("money-laws-3", []);
-    expect(projectMoneyLaws(quiet, PLAYER)!.empty).toBe(
-      `No new law has reached anyone's money in ${home.name} yet.`,
-    );
+    expect(projectMoneyLaws(quiet, PLAYER)!.empty).toBe(true);
   });
 });

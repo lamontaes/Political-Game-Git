@@ -13,7 +13,7 @@ export interface TownBusinessLine {
   readonly organizationId: EntityId;
   readonly name: string;
   readonly ownerLine: string | null;
-  readonly staffLine: string;
+  readonly otherStaff: number;
 }
 
 /**
@@ -43,12 +43,7 @@ export function projectTownBusinesses(
       ownerLine: ownerPerson
         ? `${ownerPerson.givenName} ${ownerPerson.familyName}, ${(ownerTitle ?? "owner").toLowerCase()}`
         : null,
-      staffLine:
-        staff === 0
-          ? "No one else works there."
-          : staff === 1
-            ? "One other person works there."
-            : `${staff} other people work there.`,
+      otherStaff: staff,
     };
   });
 }

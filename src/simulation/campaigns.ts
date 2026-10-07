@@ -8,6 +8,8 @@ import {
 } from "./household-loans";
 import { paydayHandlers } from "./living-world/town-pay";
 import { rentDayHandlers } from "./living-world/town-rent";
+import { propertyTaxHandlers } from "./property-tax-bases";
+import { countyBudgetHearingHandlers } from "./living-world/county-budget-hearings";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -69,6 +71,7 @@ import { lifePaths2Handlers } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import { seatCountyRowOfficerWinner } from "./living-world/local-government-seats";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
   localElectionHandlers,
@@ -137,7 +140,7 @@ import {
   recordWorkStatus,
 } from "./life";
 import { lifeTransitionHandlers } from "./life-callbacks";
-import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_CONTACT_HANDLERS } from "./relationship-contact";
 import { STATE_LEGISLATURE_QUEUE_HANDLERS } from "./nationwide-world/state-legislature-queue";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { peopleFamilyHandlers } from "./people-family-plan";
@@ -1925,6 +1928,19 @@ function seatOnLocalGoverningBody(
   winnerPersonId: EntityId,
 ): World {
   const unit = office.unit;
+  if (office.seat === "row-office" && office.rowOffice) {
+    const next = seatCountyRowOfficerWinner(world, {
+      unit,
+      office: office.rowOffice,
+      title: office.officeTitle,
+      winnerPersonId,
+      effectiveAt,
+      contestId: contest.id,
+      outcomeEventId,
+    });
+    assertWorldIntegrity(next);
+    return next;
+  }
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
   const compiled = municipalWorkspaceGovernmentForUnit(unit);
@@ -2421,6 +2437,10 @@ export function composeWorldTimeHandlers(
         ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
         ...rentDayHandlers(),
+        // PROPERTY TAX: a local property tax assesses homes on its day.
+        ...propertyTaxHandlers(),
+        // COUNTY BUDGET: a county board hears and votes its yearly levy.
+        ...countyBudgetHearingHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...campaignLifeHandlers(),
       ]),

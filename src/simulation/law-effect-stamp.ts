@@ -1,4 +1,5 @@
 import { makeIsoDate } from "./dates";
+import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import type { LawInForce } from "./governing/law-in-force";
 import type {
   LawConsequenceKind,
@@ -198,16 +199,23 @@ export function isLawTermResolutionProvenance(
   )
     return false;
   if (row.kind === "source")
-    return Object.keys(row).every((key) =>
-      [
-        "kind",
-        "termKey",
-        "value",
-        "unit",
-        "requestedAt",
-        "scope",
-        "applicability",
-      ].includes(key),
+    return (
+      Object.keys(row).every((key) =>
+        [
+          "kind",
+          "termKey",
+          "value",
+          "unit",
+          "requestedAt",
+          "lawMeasureId",
+          "sourceRecordIds",
+          "scope",
+          "applicability",
+        ].includes(key),
+      ) &&
+      nonempty(row.lawMeasureId) &&
+      Array.isArray(row.sourceRecordIds) &&
+      row.sourceRecordIds.every(nonempty)
     );
   if (
     row.kind !== "modeled" ||
@@ -321,7 +329,11 @@ function validSubject(row: Record<string, unknown>): boolean {
       validDate(row.appliedAt) &&
       row.appliedAt <= ref.availableThrough &&
       !!basis &&
-      basis.kind === "sourced" &&
+      // A county's line rests on its board's vote, written as that budget's
+      // own note; a standing program's basis is a cited source.
+      (basis.kind === "sourced" ||
+        (typeof ref.programKey === "string" &&
+          isCountyServiceProgram(ref.programKey))) &&
       nonempty(basis.note) &&
       Array.isArray(row.sourceRecordIds) &&
       row.sourceRecordIds.includes(ref.appropriationId)

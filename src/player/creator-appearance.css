@@ -48,13 +48,8 @@
  * figure's new height pushed Back to 933.8px in a 900px window. `100%` is the
  * room the frame actually has, measured by the frame.
  */
-.title-tableau--art.front-door
-  .game-title.game-creator.game-creator--appearance {
-  width: min(1120px, calc(100vw - 64px));
-  max-width: none;
-  max-height: 100%;
-  padding: 18px;
-  overflow: auto;
+.creator-begin-slot {
+  display: contents;
 }
 .title-tableau--art.front-door .game-creator--appearance .creator-summary {
   display: inline-flex;
@@ -276,12 +271,19 @@
   }
 }
 
-/* The figure and choices share a bounded body; action rows never overlay it. */
-.title-tableau--art.front-door .game-title.game-creator--appearance {
+/*
+ * One setup panel (OW-3): every creator step uses the same size and the same
+ * bottom button row, so moving between steps never resizes the panel. The
+ * figure and choices share a bounded body; action rows never overlay it.
+ */
+.title-tableau--art.front-door .game-title.game-creator {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: visible;
+}
+.title-tableau--art.front-door .game-creator > .creator-navigation {
+  margin-top: auto;
 }
 .title-tableau--art.front-door .game-creator--appearance .kit41-creator {
   display: flex;
@@ -547,4 +549,29 @@
   color: var(--text-3);
   background: transparent;
   box-shadow: none;
+}
+
+/* One setup panel: the appearance step keeps the panel's own width and its
+   Back and Begin row, with the figure above a single column of choices. */
+.title-tableau--art.front-door .kit41-creator-layout,
+.kit41-creator-layout {
+  grid-template-columns: 1fr;
+}
+.kit41-creator .creator-appearance-tools {
+  position: static;
+  box-shadow: none;
+  background: transparent;
+  padding: 0.4rem 0;
+}
+.kit41-creator .creator-appearance-tools button {
+  min-width: 0;
+}
+.title-tableau--art.front-door .kit41-creator-preview {
+  height: 190px;
+}
+.title-tableau--art.front-door .game-creator--appearance > .creator-summaries {
+  display: none;
+}
+.kit41-creator .creator-appearance-tools button {
+  padding-block: 0.3rem;
 }

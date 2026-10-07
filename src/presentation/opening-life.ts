@@ -1,3 +1,5 @@
+import { addDays } from "../simulation/dates";
+import { prepareStateLegislatureQueue } from "../simulation/nationwide-world/state-legislature-queue";
 import { initializeAllOfficeSalaryFlows } from "../simulation/office-salary";
 import { initializeWorkPayCoverage } from "../simulation/pay-coverage";
 import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
@@ -13,6 +15,7 @@ import type { NationwideStateLegislatureOpeningChunk } from "../simulation/natio
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
 import { ensureCountyCouncilOpening } from "../simulation/municipal-council-opening";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { ensureCountyBudgetHearings } from "../simulation/living-world/county-budget-hearings";
 import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
 import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
 import {
@@ -49,7 +52,10 @@ import {
   startTownJobPay,
 } from "../simulation/living-world/town-pay";
 import { ensureEmployerCashPositions } from "../simulation/opening-employer-cash";
-import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
+import {
+  ensureRentDaySchedule,
+  startTownLeases,
+} from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
@@ -88,6 +94,8 @@ export interface OpeningLifeGenerationProgress {
   readonly label: string;
   readonly completed: number;
   readonly total: number;
+  readonly world?: World;
+  readonly playerPersonId?: EntityId;
 }
 
 export interface OpeningLifeGenerationOptions {
@@ -238,8 +246,21 @@ interface OpeningPreparationStep {
   readonly world?: World;
 }
 
-function openingStage(label: string, world?: World): OpeningPreparationStep {
-  return { progress: { label, completed: 0, total: 0 }, world };
+function openingStage(
+  label: string,
+  world?: World,
+  playerPersonId?: EntityId,
+): OpeningPreparationStep {
+  return {
+    progress: {
+      label,
+      completed: 0,
+      total: 0,
+      ...(world ? { world } : {}),
+      ...(playerPersonId ? { playerPersonId } : {}),
+    },
+    world,
+  };
 }
 
 /** Both paths run the same preparation steps in the same order. */
@@ -460,6 +481,25 @@ function* completeOpeningLifeSteps(
         )
       : withOfficeSalaries;
   const world = initializeWorkPayCoverage(withEmployerCash);
+  const recovered = recoverOverdueProsecutions(world);
+  // Opening owns the one-time catch-up. The canonical clock and registry
+  // owners consume these saved wakes; this builder never dispatches them.
+  const queued = prewarmNationwide
+    ? prepareStateLegislatureQueue(
+        recovered,
+        addDays(recovered.currentDate, -1),
+        Math.max(
+          Number(recovered.currentDate.slice(0, 4)) + 4,
+          Number(
+            (
+              recovered.preStartLife?.targetStartDate ?? recovered.currentDate
+            ).slice(0, 4),
+          ) + 1,
+        ),
+      )
+    : recovered;
+  if (prewarmNationwide)
+    yield openingStage("Finalizing your life", queued, game.playerPersonId);
   return {
     ...session,
     phase: "world",
@@ -477,7 +517,7 @@ function* completeOpeningLifeSteps(
       // not die. Starting it here costs the clock's hot path nothing, and the
       // version gate keeps a legacy replay byte-identical: those saves still
       // start it on their first ordinary-day pass, as before.
-      world: recoverOverdueProsecutions(world),
+      world: queued,
     },
   };
 }
@@ -550,12 +590,20 @@ function* openedWorld(
   );
   // Payday starts with the same opening, so a watched world's jobs pay too,
   // and so does rent day, so its renters pay their landlords.
-  const opened = ensureRentDaySchedule(
-    ensurePaydaySchedule(
-      ensureMigrationSchedule(
-        ensureLocalCouncilMeetings(
-          ensureLocalElectionCalendar(seated, playerPersonId),
-          playerPersonId,
+  const playerHouseholdId = householdMembershipsAt(seated, playerPersonId).find(
+    (row) => row.state.residenceRole === "primary",
+  )?.household.id;
+  const withPlayerLease = playerHouseholdId
+    ? startTownLeases(seated, seated.currentDate, playerHouseholdId)
+    : seated;
+  const opened = ensureCountyBudgetHearings(
+    ensureRentDaySchedule(
+      ensurePaydaySchedule(
+        ensureMigrationSchedule(
+          ensureLocalCouncilMeetings(
+            ensureLocalElectionCalendar(withPlayerLease, playerPersonId),
+            playerPersonId,
+          ),
         ),
       ),
     ),
@@ -710,7 +758,10 @@ function establishOpeningLocation(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["playtest65:initial-placement"],
+    tags: [
+      "playtest65:initial-placement",
+      `moment:${JSON.stringify(world.currentMoment)}`,
+    ],
     summary: "You are at home.",
     context: {
       location: {
