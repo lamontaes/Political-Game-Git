@@ -23,6 +23,7 @@ import {
 } from "../../src/simulation/serialization";
 import { SeededRng } from "../../src/simulation/rng";
 import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
+import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
 import { advanceWorld } from "../../src/simulation/world";
 import { personName } from "../../src/simulation/people";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
