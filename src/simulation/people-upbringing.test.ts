@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { contactBases } from "./people-contact";
+import { contactBases } from "./relationship-contact";
 import { ageOnDate } from "./dates";
 import {
   ensurePeopleTraits,

@@ -65,7 +65,6 @@ export function economicObservationGraphs(
     context,
     "per-capita-income",
     "Income per person",
-    "Income per person in this area, year by year. It is not anyone's own cash.",
     (item) =>
       item.sourceSeriesKey === SERIES.perCapitaIncome &&
       item.geography.relationship === "same-jurisdiction",
@@ -75,7 +74,6 @@ export function economicObservationGraphs(
     context,
     "unemployment-rate",
     "Unemployment rate",
-    "The share of people looking for work who have none. It is not the chance that you lose your job.",
     (item) =>
       item.sourceProduct === "bls-laus" && item.sourceSeriesKey.endsWith("003"),
   );
@@ -84,7 +82,6 @@ export function economicObservationGraphs(
     context,
     "metro-price-parity",
     "Regional price parity",
-    "Prices here compared with the national average, which is 100.",
     (item) => item.sourceSeriesKey === SERIES.metroPriceParity,
   );
   addObservationGraph(
@@ -92,7 +89,6 @@ export function economicObservationGraphs(
     context,
     "two-bedroom-fmr",
     "Two-bedroom rent",
-    "A typical two-bedroom rent here, not an offer or a signed lease.",
     (item) => item.sourceSeriesKey === SERIES.twoBedroomFmr,
   );
 
@@ -123,7 +119,6 @@ function addObservationGraph(
   context: BrowserEconomicContextResult,
   graphKey: string,
   title: string,
-  description: string,
   predicate: (observation: BrowserEconomicObservation) => boolean,
 ): void {
   const observations = context.observations.filter(predicate);
@@ -143,7 +138,7 @@ function addObservationGraph(
   output.push({
     graphKey,
     title,
-    description,
+    description: "",
     kind: "line",
     unit: first.unit,
     geography: {

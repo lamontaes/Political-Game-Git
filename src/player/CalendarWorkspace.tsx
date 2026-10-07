@@ -72,22 +72,6 @@ function formatResultingMoment(
   return `${formatted.weekday}, ${formatted.day} at ${formatMinute(minuteOfDay)}`;
 }
 
-function executionPhrase(
-  entry: RunDAgendaEntry,
-  activityMinutes: number,
-): string {
-  if (entry.activity.kind === "flexible") {
-    return `works the full ${activityMinutes}-minute block`;
-  }
-  if (entry.activity.kind === "travel") {
-    return `travels for the full ${activityMinutes}-minute interval`;
-  }
-  if (entry.activity.kind === "tentative") {
-    return `begins the full ${activityMinutes}-minute hold`;
-  }
-  return `attends the full ${activityMinutes}-minute commitment`;
-}
-
 export function CalendarWorkspace({
   fixture,
   projection,
@@ -323,26 +307,23 @@ function CalendarDetail({
           <button type="button" onClick={onInvalidReschedule}>
             Try 1:00–2:00 PM
           </button>
-          <small>
-            The second option reaches the off-site meeting without its required
-            20-minute travel interval.
-          </small>
+          <small data-problem="misses-travel-interval" />
         </div>
       ) : null}
       {execution?.canPerform ? (
         <div className="calendar-detail-actions">
-          <p>
-            {execution.waitMinutes > 0
-              ? `This action waits ${describeInterval(execution.waitMinutes)} until ${formatMinute(entry.state.start.minuteOfDay)}, then ${executionPhrase(entry, execution.activityMinutes)}.`
-              : `This action ${executionPhrase(entry, execution.activityMinutes)}.`}{" "}
-            {describeInterval(execution.totalElapsedMinutes)} pass, and the
-            clock moves to{" "}
+          <p
+            data-testid="calendar-execution"
+            data-wait-minutes={execution.waitMinutes}
+            data-activity-minutes={execution.activityMinutes}
+            data-elapsed-minutes={execution.totalElapsedMinutes}
+            data-kind={entry.activity.kind}
+          >
             {formatResultingMoment(
               execution.resultingMoment.date,
               execution.resultingMoment.minuteOfDay,
               currentDate,
             )}
-            .
           </p>
           <button
             type="button"
@@ -363,11 +344,7 @@ function CalendarDetail({
           className="calendar-detail-actions"
           data-testid="calendar-execution-blocked"
         >
-          <p>
-            {execution.verb} is not available yet. Complete{" "}
-            {blockingTitles.join(", ")} first. Checking this leaves canonical
-            time unchanged.
-          </p>
+          <p data-problem="blocked-by-earlier">{blockingTitles.join(", ")}</p>
           <button
             type="button"
             onClick={() => onPerformActivity(entry.activity.id)}
@@ -378,7 +355,7 @@ function CalendarDetail({
       ) : null}
       {entry.state.status === "completed" ? (
         <p className="calendar-result calendar-result--success">
-          Completed at {formatMinute(entry.state.end.minuteOfDay)}.
+          {formatMinute(entry.state.end.minuteOfDay)}
         </p>
       ) : null}
       {feedback ? (
@@ -386,9 +363,8 @@ function CalendarDetail({
           className="calendar-result"
           role="status"
           data-testid="calendar-feedback"
-        >
-          {feedback}
-        </p>
+          data-reason={feedback}
+        />
       ) : null}
     </aside>
   );

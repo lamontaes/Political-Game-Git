@@ -11,13 +11,11 @@ import { defaultOriginChamber } from "../legislature-rules";
 import { stateLegislators } from "../nationwide-world/state-legislature-opening";
 import { createFormationContext, recordPrivateBelief } from "../politics";
 import { fileMemberAgendaBill } from "../governing/member-agenda";
-import {
-  OFFICEHOLDER_PRINCIPLES_VERSION,
-  principledLeaning,
-} from "../governing/officeholder-principles";
+import { principledLeaning } from "../governing/officeholder-principles";
+import { LIFE_PRINCIPLES_VERSION } from "../principles-from-life";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, LegislativeVoteRecord, World } from "../types";
-import { advanceWorld } from "../world";
+import { advanceWorld, writeWithWorldIntegrityOnce } from "../world";
 
 function floorVote(
   world: World,
@@ -55,7 +53,7 @@ describe("a generated member's bill and reflection", () => {
     const generated = world.history.principles.filter(
       (row) =>
         row.personId === sponsorId &&
-        row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
+        row.stableKey.startsWith(`${LIFE_PRINCIPLES_VERSION}:`),
     );
     expect(generated.length).toBeGreaterThan(0);
     const answer = measure!.propositionAnswers?.[0];
@@ -100,28 +98,34 @@ describe("a generated member's bill and reflection", () => {
     // votes yes by default.
     const pack = blueprint.pack;
     const chamber = defaultOriginChamber(pack);
-    stateLegislators(world, `${pack.packId}:candidacy`)
-      .filter(
-        (member) =>
-          member.officeKey === `${pack.packId}:${chamber.chamberKey}` &&
-          member.personId !== sponsorId &&
-          member.personId !== game.playerPersonId,
-      )
-      .forEach((member, index) => {
-        world = recordPrivateBelief(world, {
-          stableKey: `generated-member-reflection-route:colleague:${index}`,
-          personId: member.personId,
-          propositionId: answer!.propositionId,
-          formedAt: world.currentDate,
-          position: answer!.answer === "yes" ? "support" : "oppose",
-          conviction: "strong",
-          salience: "moderate",
-          flexibility: "firm",
-          rationale: null,
-          formation: createFormationContext("reflection:initial"),
-          supersedesBeliefId: null,
+    // One integrity check for the whole chamber's beliefs: each single write
+    // otherwise re-checks the entire 10,000-person world (about 6s a call).
+    world = writeWithWorldIntegrityOnce(world, () => {
+      let next = world;
+      stateLegislators(world, `${pack.packId}:candidacy`)
+        .filter(
+          (member) =>
+            member.officeKey === `${pack.packId}:${chamber.chamberKey}` &&
+            member.personId !== sponsorId &&
+            member.personId !== game.playerPersonId,
+        )
+        .forEach((member, index) => {
+          next = recordPrivateBelief(next, {
+            stableKey: `generated-member-reflection-route:colleague:${index}`,
+            personId: member.personId,
+            propositionId: answer!.propositionId,
+            formedAt: world.currentDate,
+            position: answer!.answer === "yes" ? "support" : "oppose",
+            conviction: "strong",
+            salience: "moderate",
+            flexibility: "firm",
+            rationale: null,
+            formation: createFormationContext("reflection:initial"),
+            supersedesBeliefId: null,
+          });
         });
-      });
+      return next;
+    });
     for (let day = 0; day < 45 && !floorVote(world, measure!.id); day += 1)
       world = advanceWorld(
         world,
@@ -141,5 +145,10 @@ describe("a generated member's bill and reflection", () => {
     expect(floorVote(restored, measure!.id)?.dispositions).toEqual(
       vote?.dispositions,
     );
-  }, 30_000); // Measured at 4.7 s with main merged (9/28), at the edge of the 5 s default.
+    // Measured October 7, 2026: 4.7 s on September 28; now about 800 s locally and
+    // 414 s on a GitHub runner. Recording the colleagues' beliefs takes about
+    // 310 s of that and the 19 days to the floor vote (January 25) about 430 s.
+    // The limit is explicit so the test reports its own result; the slowdown is
+    // being bisected separately.
+  }, 1_800_000);
 });

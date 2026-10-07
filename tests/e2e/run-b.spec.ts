@@ -471,9 +471,7 @@ test("keeps transcript, collapse, and close controls time-neutral", async ({
 
   await strip.getByRole("button", { name: "View history" }).click();
   await expect(strip).toHaveAttribute("data-conversation-mode", "history");
-  await expect(page.getByTestId("conversation-transcript")).toContainText(
-    "No substantive turns yet",
-  );
+  await expect(page.getByTestId("conversation-no-turns")).toBeAttached();
   await expect(
     strip.getByRole("button", { name: "Back to conversation" }),
   ).toBeVisible();
