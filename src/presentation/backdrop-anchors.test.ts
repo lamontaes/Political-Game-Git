@@ -25,7 +25,7 @@ const STAGES = staging.places as unknown as Readonly<
   Record<string, PlaceStaging>
 >;
 const POSES = new Set(["stand", "sit", "podium", "lean"]);
-const FACINGS = new Set(["viewer", "left", "right"]);
+const FACINGS = new Set(["viewer", "left", "right", "away"]);
 const AUDIENCES = new Set(["viewer", "left", "right", "away"]);
 /** Places whose picture is a whole building or street from outside. */
 const EXTERIOR =
@@ -38,6 +38,18 @@ function floorOf(spot: StagingSpot): string {
 }
 
 describe("people anchors on every place picture", () => {
+  it("anchors every visible council chamber seat", () => {
+    const seats = STAGES["council-chamber"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(50);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(50);
+    expect(seats.filter((spot) => spot.group === "dais")).toHaveLength(7);
+    expect(seats.filter((spot) => spot.group === "audience")).toHaveLength(40);
+    expect(seats.filter((spot) => spot.group === "public-table")).toHaveLength(3);
+    expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(43);
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
