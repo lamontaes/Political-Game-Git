@@ -37,6 +37,7 @@ import { SceneChapterTransition } from "./SceneChapterTransition";
 import { introPlacementTrace } from "../presentation/intro-placement-trace";
 import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
 import {
+  openingLocalChamber,
   projectOpeningFamily,
   projectOpeningLegislature,
   projectOpeningTown,
@@ -50,13 +51,10 @@ import {
   openingTourStagedPeople,
 } from "../presentation/opening-tour-people";
 import {
-  capitolPlaceFor,
+  homePlacesForPerson,
   middayBackdropUrl,
 } from "../presentation/place-backdrops";
-import {
-  PLAYTEST65_WHITE_HOUSE_LAYOUT,
-  OPENING_INFORMATION_PLATES,
-} from "../presentation/playtest65-visual-layout";
+import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
 import {
   OPENING_REGIONAL_CANDIDATES,
   openingHomeRegionPreviews,
@@ -315,6 +313,14 @@ export function WorldOrientationPanel({
   // The state step's own scene picker, distinct from the locality plate the
   // caller supplies as `regionalPlate`: this one the player can page through.
   const regionScene = regionalPlates[regionIndex] ?? null;
+  const localChamber = useMemo(
+    () => (world && personId ? openingLocalChamber(world, personId) : null),
+    [world, personId],
+  );
+  const homePlaces = useMemo(
+    () => (world && personId ? homePlacesForPerson(world, personId) : []),
+    [world, personId],
+  );
   const backdropFor = (key: string): OrientationBackdrop =>
     orientationBackdrop(key, {
       whiteHouse: plate,
@@ -322,6 +328,8 @@ export function WorldOrientationPanel({
         regionalPlate?.kind === "plate" ? regionalPlate.plate : null,
       regionScene,
       homeStateUsps,
+      localChamber,
+      homePlaces,
     });
   const backdrop = backdropFor(step?.key ?? "");
   const nextStep = steps[index + 1];
@@ -372,7 +380,9 @@ export function WorldOrientationPanel({
     () =>
       measuredPlace && world && personId
         ? openingTourStagedPeople(world, personId, measuredPlace, sceneRoster, {
-            furniture: true,
+            // The family stands together in its home; offices seat people.
+            furniture: step?.key !== "parents",
+            faceRoom: step?.key === "parents",
             memberIds: new Set(
               (chapter?.actors ?? [])
                 .filter(
@@ -384,7 +394,7 @@ export function WorldOrientationPanel({
             ),
           })
         : [],
-    [measuredPlace, world, personId, sceneRoster, chapter],
+    [measuredPlace, world, personId, sceneRoster, chapter, step?.key],
   );
   const sceneStaged = measuredPlace !== null && sceneRoster.length > 0;
   const layout =
@@ -449,6 +459,7 @@ export function WorldOrientationPanel({
                 people={scenePeople}
                 stageRef={sceneStage}
                 overflowLabel="More illustrated people"
+                nameTags={step.key === "parents"}
                 onSelectPerson={(id) => {
                   const selected = sceneRoster.find(
                     (person) => person.personId === id,
@@ -866,6 +877,10 @@ export function orientationBackdrop(
     readonly regionScene: EstablishingRaster | null;
     /** The home state's postal code, for the right capitol. */
     readonly homeStateUsps?: string | null;
+    /** The town's own meeting room, from its government records. */
+    readonly localChamber?: string | null;
+    /** The household's home pictures, its own kind first. */
+    readonly homePlaces?: readonly string[];
   },
 ): OrientationBackdrop {
   const place = (name: string | null | undefined): OrientationBackdrop => {
@@ -882,45 +897,31 @@ export function orientationBackdrop(
     return sources.whiteHouse
       ? { kind: "white-house", raster: sources.whiteHouse }
       : place("oval-office");
-  if (stepKey === "year") return place("us-capitol-exterior");
-  if (stepKey === "congress") return place("us-capitol-exterior");
+  // OW-11: each step stands inside the room where its people work.
+  if (stepKey === "year") return place("us-senate-floor");
+  if (stepKey === "congress") return place("us-house-floor");
   if (stepKey === "legislature")
     return place(
       sources.homeStateUsps === "NE"
         ? "state-legislative-chamber-unicameral"
         : "state-legislative-chamber-bicameral",
     );
+  // The family stands in the home the household record says it lives in:
+  // one composition, the home's picture with the family on its own spots.
   if (stepKey === "parents") {
-    if (sources.regionalPlate)
-      return { kind: "region", plate: sources.regionalPlate };
-    if (sources.regionScene)
-      return { kind: "region-preview", raster: sources.regionScene };
-    return { kind: "neutral" };
+    const home = (sources.homePlaces ?? []).find((name) =>
+      middayBackdropUrl(name),
+    );
+    return place(home);
   }
-  // The street of your town, not a home: the play screen's own room decides
-  // what your home looks like, and the two must never disagree.
-  if (stepKey === "your-life") return place("main-street");
-  if (stepKey === "state") {
-    if (sources.regionalPlate)
-      return { kind: "region", plate: sources.regionalPlate };
-    if (sources.regionScene)
-      return { kind: "region-preview", raster: sources.regionScene };
-    return place(capitolPlaceFor(sources.homeStateUsps ?? null));
-  }
-  if (stepKey === "locality") {
-    const information = OPENING_INFORMATION_PLATES.locality;
-    const civic = information
-      ? candidateEstablishingPlate(
-          information.assetId,
-          information.previewRaster,
-        )
-      : null;
-    if (civic && information)
-      return { kind: "civic", raster: civic, caption: information.caption };
-    if (sources.regionalPlate)
-      return { kind: "region", plate: sources.regionalPlate };
-    return place("city-hall-exterior");
-  }
+  // Your life opens in your own home, the same picture the play screen's
+  // room reads from the dwelling record.
+  if (stepKey === "your-life")
+    return place(
+      (sources.homePlaces ?? []).find((name) => middayBackdropUrl(name)),
+    );
+  if (stepKey === "state") return place("governor-office");
+  if (stepKey === "locality") return place(sources.localChamber);
   return { kind: "neutral" };
 }
 
