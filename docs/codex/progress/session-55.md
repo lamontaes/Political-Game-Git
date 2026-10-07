@@ -9,6 +9,11 @@
 - The focused pose suite passed 20/20 before the latest merge; the post-merge Vitest invocation stalled during Vite config loading. Prettier and ESLint passed on changed source/tests before the latest merge.
 - Full-screen new-game screenshots on main and branch are saved in `docs/evidence/session-55/`, each at the randomly drawn place Lingle, Wyoming.
 
+## AU-01 proposal and veto routing (PR #3461)
+
+- PR #3461 shares constitutional proposal rollcall recording across federal and state paths and routes D.C. Council item vetoes through the shared veto engine.
+- This branch carries the current-main AU-12 notes below; the PR source changes remain under review on this branch.
+
 ## Current item: Session 55 AU-12 — A149
 
 - AU-12(a): `homePosition` now returns unknown when a town resident has no recorded roster household/address position; the FNV person-ID stand-in is removed. Focused coverage confirms a known town alone does not place someone in a ward. PR #3494 is open and mergeable.
