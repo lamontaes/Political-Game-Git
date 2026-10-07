@@ -122,7 +122,12 @@ export function WorldOrientationPanel({
     readonly key: string;
     /** Plain sentences read from the World, shown under the summary. */
     readonly lines?: readonly string[];
-    /** Real headlines of the day, for the year's screen. */
+    /** Real headlines with the publication's recorded masthead. */
+    readonly publications?: readonly {
+      readonly outletName: string;
+      readonly headline: string;
+    }[];
+    /** Real headlines from the town, for its screen. */
     readonly headlines?: readonly string[];
     /** Record values under a label, for the year's screen. */
     readonly facts?: readonly {
@@ -235,10 +240,10 @@ export function WorldOrientationPanel({
         ? [
             {
               key: "year",
-              title: `In the year ${year.year}`,
-              summary: "The country, as your life begins.",
+              title: year.year,
+              summary: "",
               lines: year.lines,
-              headlines: year.headlines,
+              publications: year.publications,
               facts: year.facts,
               people: [],
               chambers: [],
@@ -652,9 +657,12 @@ export function WorldOrientationPanel({
                 <span data-corner="bottom-left" />
                 <span data-corner="bottom-right" />
               </span>
-              <p className="pg-orientation-kicker">
-                {index + 1} of {steps.length} · {view.dateLabel}
-              </p>
+              <progress
+                className="pg-orientation-progress"
+                data-testid="orientation-progress"
+                max={steps.length}
+                value={index + 1}
+              />
               <h2
                 id={`pg-orientation-title-${step.key}`}
                 ref={heading}
@@ -664,7 +672,7 @@ export function WorldOrientationPanel({
               >
                 {step.title}
               </h2>
-              {step.key !== "state" ? (
+              {step.key !== "state" && step.summary ? (
                 <p className="pg-orientation-summary">{step.summary}</p>
               ) : null}
 
@@ -771,6 +779,25 @@ export function WorldOrientationPanel({
                       </div>
                     ))}
                   </dl>
+                ) : null}
+
+                {step.publications && step.publications.length > 0 ? (
+                  <section
+                    className="pg-orientation-publications"
+                    data-testid="orientation-publications"
+                  >
+                    {step.publications.map((publication, publicationIndex) => (
+                      <article
+                        className="pg-orientation-publication"
+                        key={`${publication.outletName}:${publicationIndex}`}
+                      >
+                        <h3 className="pg-orientation-masthead">
+                          {publication.outletName}
+                        </h3>
+                        <p>{publication.headline}</p>
+                      </article>
+                    ))}
+                  </section>
                 ) : null}
 
                 {step.headlines && step.headlines.length > 0 ? (
@@ -1235,9 +1262,6 @@ function ChamberBlock({
         </label>
         <p className="pg-orientation-roster-note">
           {`All ${stateOptions.find(([usps]) => usps === state)?.[1] ?? "the"} members, in seat order.`}
-          {chamber.chamberKey === "us-house" && state === homeStateUsps
-            ? " The one who represents your home is under Government, in Represented by."
-            : null}
         </p>
         <ul>
           {rows.map((row) => (
