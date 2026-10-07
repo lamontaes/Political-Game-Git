@@ -33,4 +33,11 @@ describe("controlled scene presence", () => {
       recorded,
     );
   });
+
+  it("keeps the recorded scene when the controlled person's record is absent", () => {
+    const recorded = [companion];
+    expect(scenePeopleWithControlledPerson(recorded, null, true)).toBe(
+      recorded,
+    );
+  });
 });

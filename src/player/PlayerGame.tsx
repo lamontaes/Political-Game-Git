@@ -1715,14 +1715,18 @@ function PlayingScreen({
   const sceneId = playScene.sceneId;
   const controlledPersonPresent =
     !observing && playScene.controlledPersonPresent;
+  const controlledPerson = session.world.people[session.personId];
   const controlledPersonName =
-    session.world.people[session.personId]?.name ?? "You";
-  const controlledScenePerson = {
-    personId: session.personId,
-    name: controlledPersonName,
-    relationship: null,
-    introduction: controlledPersonName,
-  };
+    controlledPerson === undefined ? null : personName(controlledPerson);
+  const controlledScenePerson =
+    controlledPersonName === null
+      ? null
+      : {
+          personId: session.personId,
+          name: controlledPersonName,
+          relationship: null,
+          introduction: controlledPersonName,
+        };
   const recordedScenePeople = useMemo(
     () =>
       scenePeopleWithControlledPerson(

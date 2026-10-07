@@ -5,10 +5,11 @@ export function scenePeopleWithControlledPerson<
   P extends T,
 >(
   people: readonly T[],
-  controlledPerson: P,
+  controlledPerson: P | null,
   recordedPresent: boolean,
 ): readonly (T | P)[] {
   if (
+    !controlledPerson ||
     !recordedPresent ||
     people.some((person) => person.personId === controlledPerson.personId)
   )
