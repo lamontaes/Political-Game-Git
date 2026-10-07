@@ -1780,7 +1780,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
         if (stamp) lawEffectStamps = [stamp];
         const uncapped = renewal.uncappedMinor;
         const designation = measureDesignation(next, rule!.measureId);
-        reason = `${marketRentRenewalReason(homePrices, row.estimateBasis)} Rent stabilization under ${designation} held the increase to ${(cap * 100).toFixed(1)}% (the landlord sought ${dollarsOf(uncapped)}).`;
+        reason = `${marketRentRenewalReason(homePrices, row.estimateBasis ?? undefined)} Rent stabilization under ${designation} held the increase to ${(cap * 100).toFixed(1)}% (the landlord sought ${dollarsOf(uncapped)}).`;
         const enactment = next.history.legislativeEnactments?.find(
           (row) => row.measureId === rule!.measureId,
         );
@@ -1789,7 +1789,11 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
             kind: "simulated-event",
             eventId: enactment.outcomeEventId,
           };
-      } else reason = marketRentRenewalReason(homePrices, row.estimateBasis);
+      } else
+        reason = marketRentRenewalReason(
+          homePrices,
+          row.estimateBasis ?? undefined,
+        );
     }
     if (amount === old && lease.regime !== "market") continue;
     next = recordResourceFlowTerms(next, {
