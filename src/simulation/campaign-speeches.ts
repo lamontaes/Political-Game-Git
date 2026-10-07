@@ -5,6 +5,8 @@ import {
 import { personName } from "./people";
 import { addDays } from "./dates";
 import { recordWorldEvent } from "./world";
+import { recordRelationshipInteraction } from "./records";
+import { campaignForContest } from "./campaign-queries";
 import { LIFE_MIND_IDS } from "./life-mind-content";
 import { parentsOf } from "./people-family";
 import { latestPersonalValue } from "./queries";
@@ -239,9 +241,38 @@ export function recordElectionSpeech(
   });
   // Steps 5 and 6: the people who were there each take it their own way,
   // and each keeps a memory of it as strong as it mattered to them.
-  const speech = electionSpeechGiven(spoken, contestId, personId)!;
+  let thanked = spoken;
+  if (!won && moves.some((move) => move.move === "thanks")) {
+    const campaign = campaignForContest(thanked, contestId);
+    if (campaign?.candidatePersonId === personId) {
+      const witnesses = new Set(witnessIds);
+      const helpers = campaign.staffWorkRelationshipIds.flatMap((workId) => {
+        const work = thanked.history.workRelationships.find(
+          (row) => row.id === workId,
+        );
+        return work && witnesses.has(work.personId) ? [work.personId] : [];
+      });
+      const speechRecord = electionSpeechGiven(thanked, contestId, personId)!;
+      for (const helperPersonId of helpers) {
+        thanked = recordRelationshipInteraction(thanked, {
+          stableKey: `${speechRecord.stableKey}:thanks-helper:${helperPersonId}`,
+          personIds: [personId, helperPersonId],
+          eventId: speechRecord.id,
+          occurredAt: speechRecord.occurredAt,
+          kind: "support:campaign-thanked",
+          change: "strengthened",
+          significance: "minor",
+          // Reuse the recorded speech summary; the interaction adds no new
+          // player-facing sentence.
+          summary: speechRecord.summary,
+          tags: ["campaign:thank-to-helper"],
+        });
+      }
+    }
+  }
+  const speech = electionSpeechGiven(thanked, contestId, personId)!;
   const received = recordSpeechReception(
-    spoken,
+    thanked,
     speech,
     personId,
     witnessIds,
