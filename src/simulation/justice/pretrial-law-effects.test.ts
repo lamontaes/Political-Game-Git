@@ -3,8 +3,11 @@ import { appendFileSync } from "node:fs";
 
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { personName } from "../people";
+import { createOrganization, createWorkRelationship } from "../life";
+import type { EntityId, World } from "../types";
 import { addDays } from "../dates";
 import { isLawEffectStamp } from "../law-effect-stamp";
+import type { LawEffectStamp } from "../law-effect-stamp";
 import type { LawEffectStampedRecord } from "../law-effect-stamp";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
 import { SeededRng, pickDistinct } from "../rng";
@@ -17,6 +20,61 @@ import {
   PROSECUTION_ESTIMATE,
   PROSECUTION_CHARGED_EVENT,
 } from "./prosecution";
+
+function seatProsecutor(
+  world: World,
+  defendantId: EntityId,
+  jurisdictionId: World["people"][string]["homeJurisdictionId"],
+): World {
+  const person = Object.values(world.people).find(
+    (candidate) =>
+      candidate.id !== defendantId &&
+      (world.control.kind !== "person" ||
+        candidate.id !== world.control.personId),
+  );
+  if (!person) throw new Error("No resident can be seated as prosecutor.");
+  const provenance = {
+    kind: "authored" as const,
+    note: "Controlled recorded prosecutor appointment fixture; no opening official is invented.",
+  };
+  let next = createOrganization(world, {
+    stableKey: "fixture:prosecutor:office",
+    formedAt: world.currentDate,
+    provenance,
+    initialProfile: {
+      name: "Recorded prosecution office",
+      classification: "sector:government",
+      locationJurisdictionId: jurisdictionId,
+    },
+  });
+  const organizationId = next.history.organizations.at(-1)!.id;
+  next = createWorkRelationship(next, {
+    stableKey: "fixture:prosecutor:appointment",
+    personId: person.id,
+    organizationId,
+    startedAt: world.currentDate,
+    kind: "employment:executive-office",
+    compensation: "unpaid",
+    authority: "self-directed",
+    dependency: "independent",
+    economicRisk: "organization-borne",
+    provenance,
+    initialRole: {
+      title: "Prosecutor",
+      occupationClassification: "profession:prosecutor",
+      locationJurisdictionId: jurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 0, maximumHours: 0 },
+        attention: "moderate",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: jurisdictionId,
+      },
+    },
+  });
+  return next;
+}
 
 describe("saved pretrial law attribution", () => {
   const baseSeed = "team9-pretrial-stamp-20260930-five";
@@ -36,13 +94,14 @@ describe("saved pretrial law attribution", () => {
             stateJurisdictionKey: state.jurisdictionKey,
             scope: "state",
           })[0]!;
-      // This is a controlled referral writer proof, not a natural opening.
-      // Keep the sampled place, production catalog and actual saved person;
-      // unrelated town populations are not inputs to this case.
       const fixture = smallWorld({ place: place.key, seed, people: 6 });
-      const game = { world: fixture.world, playerPersonId: fixture.personId };
-      const subjectId = game.playerPersonId;
-      const jurisdictionId = game.world.people[subjectId]!.homeJurisdictionId;
+      const subjectId = fixture.personId;
+      const jurisdictionId =
+        fixture.world.people[subjectId]!.homeJurisdictionId;
+      const game = {
+        world: seatProsecutor(fixture.world, subjectId, jurisdictionId),
+        playerPersonId: subjectId,
+      };
       const referral = referForProsecution(game.world, {
         stableKey: "team9-stamp-case",
         subjectPersonId: subjectId,
@@ -50,8 +109,8 @@ describe("saved pretrial law attribution", () => {
         offenseKey: "crime:robbery",
         referredBy: { kind: "police", label: "police", personId: null },
         basisEventIds: [],
-        evidence: "testimony",
-        standingFindings: 0,
+        evidence: "documentary",
+        standingFindings: 6,
       });
       // An authored historical referral is due today. Keep canonical time
       // untouched: this focused writer fixture does not advance every other
@@ -148,7 +207,10 @@ describe("saved pretrial law attribution", () => {
       const savedEvent = reloaded.history.events.find(
         (event) => event.id === events[0]!.id,
       )!;
-      const historicalStamp = { ...stamp, effectKind: savedEvent.type };
+      const historicalStamp = {
+        ...stamp,
+        effectKind: savedEvent.type as LawEffectStamp["effectKind"],
+      };
       const legacyWorld = {
         ...reloaded,
         history: {

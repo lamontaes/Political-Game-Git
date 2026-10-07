@@ -47,7 +47,7 @@ function build(
   const law = lawInForce(world, jurisdiction.id, proposition.id, DATE)!;
   const type = options.type ?? RELEASED;
   const stamp = lawEffectStamp(law, {
-    effectKind: type,
+    effectKind: "legal-outcome",
     questionKey: QUESTION_KEY,
     jurisdictionId: jurisdiction.id,
     appliedAt: DATE,
@@ -55,7 +55,7 @@ function build(
   world = recordWorldEvent(world, {
     ...(options.stamped === false || !stamp
       ? {}
-      : { lawEffectStamps: [stamp] }),
+      : { lawEffectStamps: [{ ...stamp, effectKind: type }] }),
     stableKey: "fixture:pretrial",
     type,
     occurredAt: DATE,
