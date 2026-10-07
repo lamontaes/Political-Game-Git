@@ -356,7 +356,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-living-world-3 | Replace about 18 placeholders in simulation / living / world / 3 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-4 | Replace about 19 placeholders in simulation / living / world / 4 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-macro-economy-1 | Replace about 15 placeholders in simulation / macro / economy / 1 with recorded or estimated-and-marked values | placeholders.md | done #2620 | |
-| PH-simulation-macro-economy-2 | Replace about 15 placeholders in simulation / macro / economy / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-macro-economy-2 | Replace about 15 placeholders in simulation / macro / economy / 2 with recorded or estimated-and-marked values | placeholders.md | done #2620 | Session 37 |
 | PH-simulation-migration | Replace about 24 placeholders in simulation / migration with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-misc | Replace about 9 placeholders in simulation / misc with recorded or estimated-and-marked values | placeholders.md | done | #2621 |
 | PH-simulation-nationwide-world-1 | Replace about 15 placeholders in simulation / nationwide / world / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -500,26 +500,26 @@ Engine and speed work.
 
 Take these after the order above, or any time a session is free. Every row is one PR.
 
-| item  | what                                                                                                                    | doc           | status      | claimer      |
-| ----- | ----------------------------------------------------------------------------------------------------------------------- | ------------- | ----------- | ------------ |
-| BG-01 | Jagged white outline on cut-out figure edges (also the white fringe on the creator figure)                              | BUGS.md BG-01 | done #3194  |              |
-| BG-02 | Hair covers the face on some people                                                                                     | BUGS.md BG-02 | open        |              |
-| BG-03 | Hood or collar strip drawn over the hair                                                                                | BUGS.md BG-03 | done #2567  |              |
-| BG-04 | Cuffs discolor (skin tone bleeds onto sleeves and cuffs)                                                                | BUGS.md BG-04 | done        | PR #2864     |
-| BG-05 | Heads and hair are cut off at the top of scenes                                                                         | BUGS.md BG-05 | done #186   |              |
-| BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | ready #3263 |              |
-| BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | open        |              |
-| BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done        | #2961        |
-| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open        |              |
-| BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done        | merged #2875 |
-| BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878  |              |
-| BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done        | merged #2861 |
-| BG-13 | Date shows twice (status card and Observing bar)                                                                        | BUGS.md BG-13 | done #2874  |              |
-| BG-14 | Deaths run about 15 times too high: 4 in one day in a 10,555-person town                                                | BUGS.md BG-14 | done        | merged #2634 |
-| BG-15 | Every Texas district gets exactly 2 candidates (a formula, not emergence)                                               | BUGS.md BG-15 | open        |              |
-| BG-16 | '1 people entered the race' (plural not matched to count)                                                               | BUGS.md BG-16 | open        |              |
-| BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done        | #2872        |
-| BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done        | #844         |
+| item  | what                                                                                                                    | doc           | status                 | claimer      |
+| ----- | ----------------------------------------------------------------------------------------------------------------------- | ------------- | ---------------------- | ------------ |
+| BG-01 | Jagged white outline on cut-out figure edges (also the white fringe on the creator figure)                              | BUGS.md BG-01 | done #3194             |              |
+| BG-02 | Hair covers the face on some people                                                                                     | BUGS.md BG-02 | open                   |              |
+| BG-03 | Hood or collar strip drawn over the hair                                                                                | BUGS.md BG-03 | done #2567             |              |
+| BG-04 | Cuffs discolor (skin tone bleeds onto sleeves and cuffs)                                                                | BUGS.md BG-04 | done                   | PR #2864     |
+| BG-05 | Heads and hair are cut off at the top of scenes                                                                         | BUGS.md BG-05 | done #186; ready #2675 |              |
+| BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | ready #3263            |              |
+| BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | open                   |              |
+| BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done                   | #2961        |
+| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open                   |              |
+| BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done                   | merged #2875 |
+| BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878             |              |
+| BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done                   | merged #2861 |
+| BG-13 | Date shows twice (status card and Observing bar)                                                                        | BUGS.md BG-13 | done #2874             |              |
+| BG-14 | Deaths run about 15 times too high: 4 in one day in a 10,555-person town                                                | BUGS.md BG-14 | done                   | merged #2634 |
+| BG-15 | Every Texas district gets exactly 2 candidates (a formula, not emergence)                                               | BUGS.md BG-15 | open                   |              |
+| BG-16 | '1 people entered the race' (plural not matched to count)                                                               | BUGS.md BG-16 | open                   |              |
+| BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done                   | #2872        |
+| BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done                   | #844         |
 
 | BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | open | |
 | BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | open | |
