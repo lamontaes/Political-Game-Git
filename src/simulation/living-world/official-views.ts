@@ -57,6 +57,11 @@ import type {
 } from "../types";
 import { affiliationAt } from "./party-evolution";
 import { newsHabitOf } from "./news-habits";
+import {
+  PRESS_STORY_EVENT_TYPE,
+  PRESS_STORY_LEAD_TAG,
+} from "../public-information-integrity";
+import { pressRecordsOfKind } from "../press/store";
 
 /**
  * People credit or blame the officials behind a law that reached them
@@ -102,6 +107,169 @@ export {
   townSupportFromViews,
   viewOfOfficial,
 } from "../official-view-reads";
+
+/** A reader updates their view of officials whose recorded acts a story reports. */
+export function recordStoryHeardOfficialViews(
+  world: World,
+  knowledgeId: EntityId,
+): World {
+  const knowledge = world.history.knowledge.find(
+    (row) => row.id === knowledgeId,
+  );
+  if (!knowledge || knowledge.source.kind !== "media") return world;
+  const publicationId = knowledge.source.reference;
+  const story = world.history.events.find(
+    (row) => row.id === knowledge.eventId,
+  );
+  if (!story || story.type !== PRESS_STORY_EVENT_TYPE) return world;
+  const publication = world.history.publications?.find(
+    (row) =>
+      row.id === publicationId &&
+      row.sourceEventId === story.id &&
+      row.kind === "press-story",
+  );
+  if (!publication || knowledge.learnedAt < publication.publishedAt)
+    return world;
+  const leadTags = story.tags.filter((tag) =>
+    tag.startsWith(PRESS_STORY_LEAD_TAG),
+  );
+  if (leadTags.length !== 1) return world;
+  const leadId = leadTags[0]!.slice(PRESS_STORY_LEAD_TAG.length);
+  const lead = pressRecordsOfKind(world, "story-lead").find(
+    (row) => row.id === leadId,
+  );
+  if (!lead) return world;
+
+  let next = world;
+  for (const basisEventId of lead.basisEventIds) {
+    const basisEvent = next.history.events.find(
+      (row) => row.id === basisEventId,
+    );
+    if (
+      !basisEvent ||
+      basisEvent.sequence >= knowledge.sequence ||
+      basisEvent.recordedAt > knowledge.learnedAt
+    )
+      continue;
+    for (const act of officialActsInEvent(next, basisEventId, knowledge)) {
+      if (act.officialId === knowledge.personId) continue;
+      const prior = [...next.history.privateBeliefs]
+        .filter(
+          (belief) =>
+            belief.personId === knowledge.personId &&
+            belief.propositionId === act.propositionId &&
+            !belief.subject &&
+            belief.formedAt <= knowledge.learnedAt &&
+            belief.sequence < knowledge.sequence,
+        )
+        .sort((a, b) => b.sequence - a.sequence)[0];
+      if (
+        !prior ||
+        (prior.position !== "support" && prior.position !== "oppose")
+      )
+        continue;
+      const favors = prior.position === act.stance ? "support" : "opposition";
+      const confidenceWeight = { low: 1 / 3, medium: 2 / 3, high: 1 }[
+        knowledge.confidence
+      ];
+      const felt = confidenceWeight * reactionLens(next, knowledge.personId);
+      const importance = IMPORTANCE_FROM.find(([from]) => felt >= from)![1];
+      const factor: PoliticalBeliefFormationFactor = {
+        stableKey: `story-official-act:${knowledge.id}:${basisEventId}:${act.officialId}:${act.propositionId}`,
+        favors,
+        sourceType: "information:published-official-act",
+        importance,
+        confidence: knowledge.confidence,
+        explanation:
+          "A story reports an official act on a question the person already has a view about.",
+        sourceRefs: [
+          { kind: "historical-event", eventId: basisEventId },
+          { kind: "event-knowledge", knowledgeId: knowledge.id },
+        ],
+      };
+      const stableKey = `${V}:story:${knowledge.id}:${basisEventId}:${act.officialId}:${act.propositionId}`;
+      next = formViewFromFactor(
+        next,
+        knowledge.personId,
+        act.officialId,
+        { factor, felt },
+        stableKey,
+        "This reported act runs against the view of this official the person already held.",
+      );
+    }
+  }
+  return next;
+}
+
+function officialActsInEvent(
+  world: World,
+  eventId: EntityId,
+  knowledge: World["history"]["knowledge"][number],
+): {
+  officialId: EntityId;
+  propositionId: EntityId;
+  stance: "support" | "oppose";
+}[] {
+  const acts: {
+    officialId: EntityId;
+    propositionId: EntityId;
+    stance: "support" | "oppose";
+  }[] = [];
+  for (const position of world.history.publicPositions ?? []) {
+    if (
+      position.sourceEventId === eventId &&
+      position.sequence < knowledge.sequence &&
+      position.statedAt <= knowledge.learnedAt &&
+      (position.stance === "support" || position.stance === "oppose")
+    )
+      acts.push({
+        officialId: position.personId,
+        propositionId: position.propositionId,
+        stance: position.stance,
+      });
+  }
+  for (const action of world.history.legislativeActions ?? []) {
+    if (
+      action.eventId !== eventId ||
+      action.sequence >= knowledge.sequence ||
+      action.occurredAt > knowledge.learnedAt ||
+      action.voteId === null
+    )
+      continue;
+    const vote = world.history.legislativeVotes?.find(
+      (row) => row.id === action.voteId,
+    );
+    const measure = world.history.legislativeMeasures?.find(
+      (row) => row.id === action.measureId,
+    );
+    if (
+      !vote ||
+      vote.sequence >= knowledge.sequence ||
+      vote.takenAt > knowledge.learnedAt ||
+      !measure
+    )
+      continue;
+    for (const disposition of vote.dispositions) {
+      if (
+        !disposition.personId ||
+        (disposition.disposition !== "yea" && disposition.disposition !== "nay")
+      )
+        continue;
+      for (const answer of measure.propositionAnswers ?? []) {
+        if (!(measure.propositionIds ?? []).includes(answer.propositionId))
+          continue;
+        const yes =
+          (disposition.disposition === "yea") === (answer.answer === "yes");
+        acts.push({
+          officialId: disposition.personId,
+          propositionId: answer.propositionId,
+          stance: yes ? "support" : "oppose",
+        });
+      }
+    }
+  }
+  return acts;
+}
 
 // DESIGNED (game weight, no survey ratio): reads the signer's office on the
 // law's enactment record. Balances an executive, who signs alone and so carries
@@ -479,7 +647,6 @@ export function tellViewToHearers(
   const favors = held.position === "support" ? "support" : "opposition";
   let next = world;
   for (const hearerId of hearersOfPerson(world, input.holderId)) {
-    if (hearerId === input.officialId) continue;
     const key = `${input.stableKey}:told:${hearerId}`;
     if (next.history.knowledge.some((row) => row.stableKey === key)) continue;
     next = recordEventKnowledge(next, {
@@ -497,7 +664,10 @@ export function tellViewToHearers(
         claimId: null,
       },
     });
-    if (next.control.kind === "person" && next.control.personId === hearerId)
+    if (
+      hearerId === input.officialId ||
+      (next.control.kind === "person" && next.control.personId === hearerId)
+    )
       continue;
     const knowledge = next.history.knowledge.find(
       (row) => row.stableKey === key,

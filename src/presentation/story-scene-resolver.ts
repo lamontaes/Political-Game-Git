@@ -29,6 +29,8 @@ import type { OrdinaryMeetingAction } from "./ordinary-meeting-scene";
 import type { OrdinaryMeetingSpeechChoice } from "../simulation/ordinary-meeting-presence";
 import { recordedRoomPresence } from "./recorded-room-presence";
 import { openingWorkLocation } from "./opening-work-location";
+import { viewOfOfficial } from "../simulation/official-view-reads";
+import type { PrivateBeliefRecord } from "../simulation/types";
 import {
   sceneBindingsFor,
   type BoundScene,
@@ -53,6 +55,11 @@ export interface StorySceneSituation {
     readonly stateId: EntityId;
     readonly sourceRecordIds: readonly EntityId[];
   } | null;
+  /** Private scene input, not a statement heard by the viewer or display data. */
+  readonly presentOfficialViews: readonly {
+    readonly holderId: EntityId;
+    readonly belief: PrivateBeliefRecord;
+  }[];
   readonly quiet: boolean;
 }
 
@@ -77,6 +84,7 @@ export function readStorySceneSituation(
     location: null,
     pendingRequests: [],
     currentActivity: null,
+    presentOfficialViews: [],
     quiet: true,
   });
   if (
@@ -206,6 +214,14 @@ export function readStorySceneSituation(
     location: { ...location, sourceRecordIds: [event.id] },
     pendingRequests,
     currentActivity,
+    presentOfficialViews:
+      presence?.eventId === event.id
+        ? presence.personIds.flatMap((holderId) => {
+            if (holderId === viewer) return [];
+            const belief = viewOfOfficial(world, holderId, viewer).belief;
+            return belief ? [{ holderId, belief }] : [];
+          })
+        : [],
     quiet: pendingRequests.length === 0 && currentActivity === null,
   };
 }
