@@ -512,7 +512,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | done #3263        |              |
 | BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | done #2860        |              |
 | BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done              | #2961        |
-| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | ready #3256       |              |
+| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | done #3256        |              |
 | BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done              | merged #2875 |
 | BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878        |              |
 | BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done              | merged #2861 |
@@ -571,7 +571,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | open | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
-| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | ready #3418 | Session 52 |
+| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | ready #3553 | Session 44 |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
 
 ## Rescue: every open PR from the Codex sessions and earlier (added Oct 6, 3:40 p.m.)
