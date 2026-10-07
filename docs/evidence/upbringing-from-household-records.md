@@ -1,42 +1,48 @@
 # Records-based upbringing for summarized lives: watched runs
 
-HOLD: needs CTO design call. On main every adult with a summarized earlier life reads the same sociability, conflict and risk, so everyone gets the opening goal "learning". With this proposal the traits and goals spread across all three places, as shown below.
+HOLD: needs CTO design call. On main every adult with a summarized earlier life reads the same sociability, conflict and risk, so everyone gets the opening goal "learning". With this proposal the traits and goals spread across all three places, lives-barebones step 4a passes again, and lasting-favor now gives the right counts.
 
-On main every adult reads sociability 0, conflict 0 and risk 0, and so every adult gets the opening goal "learning".
+## What the three places show
 
-## Newfields, New Hampshire (seed records-a, place key 3351300, 10232 adults)
+### Newfields, New Hampshire (seed records-a, place key 3351300, 10232 adults)
 
 - Goal mix before: {'learning': 10232}; after: {'connection': 1558, 'learning': 5383, 'privacy': 3291}
 - sociability before: 0: 10232; after: -1: 3291, 0: 5383, 1: 1558
-- conflict before: 0: 10232; after: -1: 1732, 0: 5555, 1: 2945
-- risk before: 0: 10232; after: -1: 2531, 0: 6307, 1: 1394
+- conflict before: 0: 10232; after: -1: 1813, 0: 5570, 1: 2849
+- risk before: 0: 10232; after: -1: 2708, 0: 2349, 1: 5175
 
-## Aua, American Samoa (seed records-b, place key territory:AS:aua, 10237 adults)
+### Aua, American Samoa (seed records-b, place key territory:AS:aua, 10237 adults)
 
 - Goal mix before: {'learning': 10237}; after: {'privacy': 3846, 'connection': 1385, 'learning': 5006}
 - sociability before: 0: 10237; after: -1: 3846, 0: 5006, 1: 1385
-- conflict before: 0: 10237; after: -1: 2038, 0: 5557, 1: 2642
-- risk before: 0: 10237; after: -1: 3049, 0: 5429, 1: 1759
+- conflict before: 0: 10237; after: -1: 2194, 0: 5514, 1: 2529
+- risk before: 0: 10237; after: -1: 3318, 0: 2243, 1: 4676
 
-## Andover, Massachusetts (seed records-c, place key 2501430, 10262 adults)
+### Andover, Massachusetts (seed records-c, place key 2501430, 10262 adults)
 
 - Goal mix before: {'learning': 10262}; after: {'learning': 4320, 'connection': 1158, 'privacy': 4784}
 - sociability before: 0: 10262; after: -1: 4784, 0: 4320, 1: 1158
-- conflict before: 0: 10262; after: -1: 2843, 0: 5154, 1: 2265
-- risk before: 0: 10262; after: -1: 4149, 0: 5269, 1: 844
+- conflict before: 0: 10262; after: -1: 2972, 0: 5213, 1: 2077
+- risk before: 0: 10262; after: -1: 4466, 0: 3460, 1: 2336
+
+## The tests that stayed red, and why
+
+**lives-barebones step 4a (now passes).** The fixture's worker lives with a spouse, and the first version counted that spouse as the worker's childhood caregiver. Two caregivers read as a well-watched childhood, which gave the worker a cautious risk of -1, and a cautious worker does not look for a job elsewhere. Childhood caregivers now come only from recorded parents or the saved family pattern, never from the household an adult lives in today. With that, the worker's risk is 0 and the offer is made.
+
+**lasting-favor (now answers correctly, still times out).** Before, every neighbor said yes to every ask (80 of 80) because the reliability score added the raw count of caregivers (1 or 2), which is never negative, so everyone read as very reliable. Reliability now centers on about one and a quarter caregivers per child. In Billings, Montana the counts are 70 yes before any favor, 80 after a life-changing favor and 70 after a slight one, which is what the test means. The test still fails its own 30 second limit because the 8 neighbors take 539 seconds. Each ask answers on a fresh copy of the world, the answer seeds that person's traits, and seeding reads the upbringing, which rebuilds the whole-world family index (34 rebuilds in about 10 answers, around 3 seconds each). The index cache holds one entry and misses because the household record lists differ by identity between the copies. That is a speed-budget problem from #2051, not from this proposal. A fix is to key the cache by record counts instead of list identity, or to seed everyone's traits once when the world opens. I did not make either, because it changes how every upbringing read is cached.
+
+**reaching-out-goals (still red).** In that scenario's six lives, the people who ring are the player's kin. The records give every one of them no siblings and a secure household, so the sociability lean works out to exactly zero and everyone keeps the goal "learning". The test needs someone who rings to be pursuing connection, which needs a real difference in the records among these people. Parents' occupations and wages (so pay varies within the cast) or a county education share would supply it; neither is read yet. I did not add an effect nobody has researched.
 
 ## What the proposal does
 
 Method: three places drawn at random from all 56, each world opened at age 30 with the summarized earlier life, adults only. Before is main; after is this branch. Reproduce with `UPBRINGING_EVIDENCE_OUT=out.json npx vitest run src/simulation/people-upbringing-records.test.ts`.
 
-On main the cause is that `readUpbringing` returns no schooling and no first job for a summarized life.
+`recordedLeanFrom` (src/simulation/people-upbringing.ts) adds smooth, unrounded leans to the person's upbringing. `upbringingCoreValueFrom` adds the lean only where no recorded schooling, caregiving or first job speaks to that trait, and still rounds once at the end. Reliability now centers caregivers per child. No dice, no named place. Weights and offsets are PLACEHOLDERS tuned so the three traits spread in these worlds.
 
-`recordedLeanFrom` (src/simulation/people-upbringing.ts) adds smooth, unrounded leans to `PersonUpbringing.recordedLean`. `upbringingCoreValueFrom` adds the lean only where no recorded schooling, caregiving or first job speaks to that trait, and still rounds once at the end. No dice, no named place. Weights and offsets are PLACEHOLDERS tuned so the three traits center near zero in these worlds.
-
-Inputs: siblings, congregation count, latest household money band, caregivers per child, school-year-move disruption and a parent's death in childhood.
+Inputs: siblings, congregation count, latest household money band, childhood caregivers per child, school-year moves and a parent's death in childhood.
 
 ## Missing links for the design call
 
-- No county education share is in the world data, so schooling is not yet read from it; the lean uses household records only.
-- Congregation count and school-year moves are almost always zero in summarized worlds (10,217 of 10,232 in Newfields have no congregation), so in practice siblings, household pay and caregivers per child carry the spread.
-- Still red after this change: lasting-favor (80 yes before and after) and reaching-out-goals (0 connection callers). tests/lives-barebones.test.ts step 4a goes red (no recorded employer offer), a knock-on of the changed traits. people-traits (A138) and upbringing-read-reuse were already red on main.
+- No county education share is in the world data, so schooling is not read from it.
+- Congregation count and school-year moves are almost always zero in summarized worlds, so siblings, household pay and caregivers per child carry the spread.
+- Still red on main and unrelated to this change: people-traits (A138) and upbringing-read-reuse.

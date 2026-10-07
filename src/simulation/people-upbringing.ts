@@ -932,7 +932,7 @@ function recordedLeanFrom(
   const siblings = family.estimatedSiblingCount ?? 0;
   const congregations = family.congregationIds.length;
   const level = money.at(-1)?.level ?? "strained";
-  const capacity = Math.min(family.caregiverCapacity ?? 1, 2) / 2;
+  const capacity = Math.min(childhoodCaregiverCapacity(family), 2) / 2;
   const unsupervised = 1 - capacity;
   const died = parentDied ? 1 : 0;
   return {
@@ -949,7 +949,7 @@ function recordedLeanFrom(
       0.5 * disruption +
       0.4 * died -
       0.55,
-    risk: 2.4 * unsupervised + 0.3 * died - 1.25,
+    risk: 3 * unsupervised + 0.3 * died - 1.4,
     source: {
       kind: "game-profile",
       key: "recorded-household-upbringing-lean",
@@ -958,6 +958,24 @@ function recordedLeanFrom(
   };
 }
 
+const CARE_CENTER = 1.25;
+
+/**
+ * Caregivers a child had, from childhood records only: the recorded parents,
+ * else the saved family pattern's parents per child. The household an adult
+ * lives in today (a spouse, a roommate) did not raise them, so it never counts
+ * here; with neither, one caregiver is assumed.
+ */
+function childhoodCaregiverCapacity(family?: ChildhoodFamilyContext): number {
+  if (!family) return 1;
+  if (family.parentIds.length) return family.parentIds.length;
+  if (
+    family.estimatedParentCount !== null &&
+    family.estimatedSiblingCount !== null
+  )
+    return family.estimatedParentCount / (family.estimatedSiblingCount + 1);
+  return 1;
+}
 const RECORDED_CARE: ReadonlySet<CaregivingClimate> = new Set([
   "protective-reliable",
   "consistent-firm",
@@ -1372,7 +1390,13 @@ export function upbringingCoreValueFrom(
       score += 1;
   } else if (trait === "reliability") {
     if (upbringing.caregiving === "estimated-care")
-      score += upbringing.familyContext?.caregiverCapacity ?? 0;
+      // Caregivers per child, centered on the household that has just enough
+      // (about one and a quarter adults per child), so a thin household leans
+      // less reliable and a full one more. PLACEHOLDER center until read.
+      score +=
+        1.5 *
+        ((upbringing.familyContext?.caregiverCapacity ?? CARE_CENTER) -
+          CARE_CENTER);
     if (
       upbringing.caregiving === "consistent-firm" ||
       upbringing.firstJob === "reliable-supervision"
