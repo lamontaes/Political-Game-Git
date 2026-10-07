@@ -31,10 +31,10 @@ import { recordsWithFieldValue } from "./history-index";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { activeLegislativeTermEvidence } from "./legislative-office-terms";
 import { localSeatHolder } from "./living-world/local-elections";
+import { recordWorldEvent } from "./world";
 import { governmentUnitJurisdictionId } from "./government-units";
 import { sittingCountyRowOfficers } from "./living-world/local-government-seats";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
-import { recordWorldEvent } from "./world";
 
 export const ELECTION_CONTEST_TRANSITION_KEY =
   "election:contest-resolution" as const;
@@ -177,6 +177,128 @@ export interface RecordedVoterCountInput {
   readonly admitVoter?: (personId: EntityId) => boolean | null;
 }
 
+export const PLAYER_ELECTION_BALLOT_EVENT = "election.player-ballot" as const;
+
+/** Save the controlled resident's explicit choice for a contest. */
+export function recordPlayerElectionBallot(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly jurisdictionId: EntityId;
+    readonly candidatePersonIds: readonly EntityId[];
+    readonly candidatePersonId: EntityId | null;
+    readonly electionDate: IsoDate;
+  },
+): World {
+  if (world.control.kind !== "person")
+    throw new Error("A player ballot requires a controlled person.");
+  const personId = world.control.personId;
+  if (
+    new Set(input.candidatePersonIds).size !==
+      input.candidatePersonIds.length ||
+    input.candidatePersonIds.length === 0 ||
+    input.candidatePersonIds.some((id) => !world.people[id]) ||
+    (input.candidatePersonId !== null &&
+      !input.candidatePersonIds.includes(input.candidatePersonId))
+  )
+    throw new Error(
+      "A player ballot must name an option on this contest's ballot.",
+    );
+  if (
+    input.electionDate < world.currentDate ||
+    !isEligibleVoterIn(
+      world,
+      personId,
+      input.jurisdictionId,
+      input.electionDate,
+    )
+  )
+    throw new Error(
+      "The controlled person is not eligible to vote in this contest.",
+    );
+  const choice = input.candidatePersonId ?? "abstain";
+  if (
+    recordedPlayerElectionBallot(
+      world,
+      input.stableKey,
+      personId,
+      input.electionDate,
+      input.jurisdictionId,
+    ) === choice
+  )
+    return world;
+  return recordWorldEvent(world, {
+    stableKey: `${PLAYER_ELECTION_BALLOT_EVENT}:${input.stableKey}:${personId}:${world.history.nextSequence}`,
+    type: PLAYER_ELECTION_BALLOT_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: input.jurisdictionId,
+    involvedEntityIds: [
+      ...new Set([
+        personId,
+        ...(input.candidatePersonId ? [input.candidatePersonId] : []),
+      ]),
+    ],
+    participants: [
+      { personId, role: "focus:subject", detail: null },
+      ...(input.candidatePersonId
+        ? [
+            {
+              personId: input.candidatePersonId,
+              role: "focus:object" as const,
+              detail: null,
+            },
+          ]
+        : []),
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: [`contest:${input.stableKey}`, `election-date:${input.electionDate}`],
+    summary: input.candidatePersonId
+      ? personName(world.people[input.candidatePersonId]!)
+      : choice,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: choice,
+    },
+  });
+}
+
+export function recordedPlayerElectionBallot(
+  world: World,
+  stableKey: string,
+  personId: EntityId,
+  through: IsoDate,
+  jurisdictionId?: EntityId,
+): string | null {
+  let latest: World["history"]["events"][number] | null = null;
+  for (const event of recordsWithFieldValue(
+    world.history.events,
+    "type",
+    PLAYER_ELECTION_BALLOT_EVENT,
+  )) {
+    if (
+      event.participants.find((row) => row.role === "focus:subject")
+        ?.personId !== personId ||
+      !event.tags.includes(`contest:${stableKey}`) ||
+      !event.tags.includes(`election-date:${through}`) ||
+      (jurisdictionId !== undefined &&
+        event.jurisdictionId !== jurisdictionId) ||
+      event.occurredAt > through ||
+      event.recordedAt > through ||
+      event.sequence >= world.history.nextSequence
+    )
+      continue;
+    if (!latest || event.sequence > latest.sequence) latest = event;
+  }
+  const ballot = latest?.context.immediateReaction;
+  return typeof ballot === "string" ? ballot : null;
+}
+
 /** Evaluate actual saved candidate views through the one decision function.
  * A missing consideration is omitted, never estimated from party shares.
  */
@@ -306,6 +428,22 @@ export function countRecordedVoterBallots(
       input.admitVoter?.(voterId) ?? (input.admitVoter ? null : true);
     if (admission === null) return null;
     if (!admission) continue;
+    if (world.control.kind === "person" && voterId === world.control.personId) {
+      const ballot = recordedPlayerElectionBallot(
+        world,
+        input.stableKey,
+        voterId,
+        input.electionDate,
+        input.jurisdictionId,
+      );
+      if (ballot === "abstain") continue;
+      if (ballot !== null) {
+        const candidate = input.candidatePersonIds.find((id) => id === ballot);
+        if (!candidate) return null;
+        votes.set(candidate, votes.get(candidate)! + 1);
+        continue;
+      }
+    }
     if (
       context.options.length < 2 ||
       context.randomness !== "none" ||
