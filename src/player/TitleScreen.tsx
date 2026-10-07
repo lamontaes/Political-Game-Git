@@ -332,8 +332,8 @@ const TYPOGRAPHIC_ONLY: TitlePresentation = {
   scene: null,
   heroAnchorId: null,
   heroName: null,
-  description: "The title screen.",
-  reasons: ["No banked tableau is available."],
+  description: "",
+  reasons: ["no-banked-tableau"],
 };
 
 /**
@@ -452,7 +452,6 @@ export function TitleScreen({
 }) {
   const recent = saves[0];
   const setAside = damaged?.length ?? 0;
-  const reading = saveListing === "loading";
   const unread = saveListing === "failed";
   const outdated = saveListing === "outdated";
 
@@ -482,7 +481,6 @@ export function TitleScreen({
         {onWatch ? (
           <button type="button" data-testid="watch-world" onClick={onWatch}>
             Watch the world
-            <small>Nobody played. It runs on its own.</small>
           </button>
         ) : null}
         <button
@@ -495,51 +493,31 @@ export function TitleScreen({
           {recent ? (
             <small>
               {recent.observing
-                ? "Watching the world"
+                ? ""
                 : `${recent.playerName}, ${recent.playerAge}`}
               {!recent.observing && recent.playerRole
                 ? ` \u00b7 ${recent.playerRole.title}`
                 : ""}
               {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
             </small>
-          ) : reading ? (
-            <small data-testid="continue-reading">
-              Opening your saved lives…
-            </small>
           ) : setAside > 0 ? (
-            // A disabled button with no reason is the same silence one layer
-            // down, so it says why it cannot be pressed and where to go.
-            <small data-testid="continue-set-aside">
-              {setAside === 1
-                ? "Your saved game needs attention"
-                : "Your saved games need attention"}
-            </small>
+            <small data-testid="continue-set-aside">{setAside}</small>
           ) : null}
         </button>
         <button
           type="button"
           data-testid="open-saves"
+          data-listing={saveListing}
           onClick={onOpenSaves}
           disabled={savesUnavailable}
         >
           Saved games
-          <small>
-            {reading
-              ? "Opening…"
-              : outdated && saves.length === 0
-                ? "Reload the page to open them"
-                : unread && saves.length === 0
-                  ? "Could not be read just now"
-                  : saves.length > 0
-                    ? setAside > 0
-                      ? `${saves.length} saved \u00b7 ${setAside} needs attention`
-                      : `${saves.length} saved`
-                    : setAside > 0
-                      ? setAside === 1
-                        ? "1 saved game needs attention"
-                        : `${setAside} saved games need attention`
-                      : "None yet \u00b7 import one"}
-          </small>
+          {saves.length > 0 || setAside > 0 ? (
+            <small>
+              {saves.length}
+              {setAside > 0 ? ` \u00b7 ${setAside}` : ""}
+            </small>
+          ) : null}
         </button>
         <button
           type="button"
@@ -563,30 +541,15 @@ export function TitleScreen({
           </button>
         ) : null}
       </div>
-      {savesUnavailable ? (
-        <p className="game-note">
-          This browser will not let the game store anything, so a game played
-          here will not still be here later.
-        </p>
-      ) : null}
-      {unread ? (
-        <p className="game-problem" data-testid="saves-unread">
-          Your saved lives could not be read just now. Nothing was deleted.{" "}
-          {onRetrySaves ? (
-            <button type="button" onClick={onRetrySaves}>
-              Try again
-            </button>
-          ) : null}
-        </p>
+      {unread && onRetrySaves ? (
+        <button type="button" data-testid="saves-unread" onClick={onRetrySaves}>
+          Try again
+        </button>
       ) : null}
       {outdated ? (
-        <p className="game-problem" data-testid="saves-outdated">
-          This page is an older copy of the game than the one that kept your
-          saved lives. Reload the page to open them. Nothing was deleted.{" "}
-          <button type="button" onClick={reloadPage}>
-            Reload
-          </button>
-        </p>
+        <button type="button" data-testid="saves-outdated" onClick={reloadPage}>
+          Reload
+        </button>
       ) : null}
       {problem ? <p className="game-problem">{problem}</p> : null}
     </main>

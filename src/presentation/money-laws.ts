@@ -86,6 +86,12 @@ const TOWN_WORDS: Record<
     cost: (who) => `kept ${who} in jail while waiting for trial`,
     none: (who) => `changed how ${who} waited for trial`,
   },
+  "sentence-rule": {
+    gain: (who) => `changed the jail term set for ${who}`,
+    cost: (who) =>
+      `set a jail term for ${who} that the judge could not go below`,
+    none: (who) => `changed the sentencing rules for ${who}`,
+  },
   rent: {
     gain: (who, sum) => `lowered the rent of ${who} by ${sum}`,
     cost: (who, sum) => `raised the rent of ${who} by ${sum}`,

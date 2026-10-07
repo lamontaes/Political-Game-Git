@@ -7,6 +7,7 @@ import type {
 } from "./permit-types";
 import type {
   LawAmountUnit,
+  LawTermApplicability,
   LawTermScope,
   RentalPriceRule,
   LawConsequenceRow,
@@ -28,6 +29,7 @@ import type {
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import type { JudiciaryState } from "./judiciary/types";
+import type { MinorityProcedureMotion } from "./legislature-rules";
 
 import type { AppearanceMaterial } from "./appearance-material";
 import type { MediaOutletKey, PressRecord } from "./press/records";
@@ -939,6 +941,7 @@ export type LawExposureChannel =
   | "business-rule"
   | "public-service"
   | "court-rule"
+  | "sentence-rule"
   | "rent";
 
 /**
@@ -4883,6 +4886,16 @@ export type LegislativeActionKind =
   | "amendment-rejected"
   | "floor-stage-passed"
   | "floor-stage-failed"
+  | "procedural-motion-failed"
+  | "tabled"
+  | "postponed"
+  | "recommitted"
+  | "recorded-vote-demanded"
+  | "full-reading-demanded"
+  | "rules-suspended"
+  | "sine-die-vote-carried"
+  | "quorum-not-present"
+  | "debate-extended"
   | "transmitted"
   | "concurred"
   | "concurrence-failed"
@@ -4913,6 +4926,8 @@ export interface LegislativeActionRecord {
   readonly chamberKey: string | null;
   readonly committeeKey: string | null;
   readonly floorStageKey: string | null;
+  readonly proceduralMotion?: MinorityProcedureMotion;
+  readonly resumeAt?: IsoDate | null;
   /** The actor or body responsible, in plain language. */
   readonly actorLabel: string;
   /** Why this happened, in plain language, for the player-facing record. */
@@ -5042,7 +5057,8 @@ export type LegislativeVotePurpose =
   | "floor-stage"
   | "amendment"
   | "concurrence"
-  | "veto-override";
+  | "veto-override"
+  | "procedural-motion";
 
 /**
  * How a single member disposed of a question. Legislative voting is a record of
@@ -5345,6 +5361,8 @@ export interface LegislativeProvisionRecord {
     readonly unit: LawAmountUnit;
     /** Missing legacy scope is unknown, never an implicit statewide rule. */
     readonly scope?: LawTermScope;
+    /** Missing legacy applicability is unknown, never an implicit region. */
+    readonly applicability?: LawTermApplicability;
     readonly rentalPriceRule?: RentalPriceRule;
   }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
