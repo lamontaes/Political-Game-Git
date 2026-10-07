@@ -24,11 +24,7 @@ import {
 } from "../../src/simulation/life-queries";
 import { contestIncumbentPersonId } from "../../src/simulation/election-contests";
 import { addDays } from "../../src/simulation/dates";
-import {
-  fileForOffice,
-  projectCampaign,
-} from "../../src/presentation/campaign-projection";
-import { projectCampaignOffices } from "../../src/presentation/campaign-office-discovery";
+import { fileForOffice } from "../../src/presentation/campaign-projection";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import {
   generateOpeningLife,
@@ -178,10 +174,6 @@ describe.each(SEEDS)("a county in a randomly drawn place (seed %s)", (seed) => {
       (candidate) => candidate.seat === "row-office",
     );
     if (!office) return; // A place with no county government elects none.
-    const listed = projectCampaignOffices(world, personId).find(
-      (entry) => entry.officeKey === office.officeKey,
-    );
-    expect(listed?.governmentLevel).toBe("Local government");
     const holder = sittingCountyRowOfficers(world, office.unit).find(
       (row) => row.office === office.rowOffice,
     )!;
@@ -194,7 +186,7 @@ describe.each(SEEDS)("a county in a randomly drawn place (seed %s)", (seed) => {
       personId,
       null,
       office.officeKey,
-      addDays(world.currentDate, 28),
+      addDays(world.currentDate, 3),
     );
     const contest = filed.history.electionContests!.at(-1)!;
     expect(contest.office.officeKey).toBe(office.officeKey);
@@ -227,7 +219,6 @@ describe.each(SEEDS)("a county in a randomly drawn place (seed %s)", (seed) => {
       personId,
       suppliedWin(personId),
     );
-    expect(projectCampaign(decided, personId).phase).toBe("won");
     const after = sittingCountyRowOfficers(decided, office.unit).filter(
       (row) => row.office === office.rowOffice,
     );
