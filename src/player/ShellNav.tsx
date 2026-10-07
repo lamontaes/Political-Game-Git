@@ -687,13 +687,12 @@ export function ShellNav({
           data-testid="leave-confirm"
         >
           <p className="pg-nav-heading" id="pg-nav-confirm-title">
-            Save before returning to the title?
+            Return to title
           </p>
-          <p className="pg-nav-confirm-copy">
-            {unsaved
-              ? ""
-              : "Save your latest progress before returning. Earlier autosaves will remain available."}
-          </p>
+          <p
+            className="pg-nav-confirm-copy"
+            data-reason={unsaved ? undefined : "autosaves-kept"}
+          />
           <button
             type="button"
             className="ui-action ui-action--primary"
@@ -727,10 +726,7 @@ export function ShellNav({
           </button>
           {leaveProblem ? <p role="alert">{leaveProblem}</p> : null}
           {!canSave ? (
-            <p role="alert">
-              Saving is unavailable. You can stay in this life or return without
-              saving.
-            </p>
+            <p role="alert" data-problem="saving-unavailable" />
           ) : null}
         </div>
       ) : null}

@@ -266,8 +266,8 @@ test("normal activity completion replaces household presence without a second cl
     .first()
     .press("Enter");
   await expect(page.getByTestId("day-opening")).toHaveCount(0);
-  await expect(page.getByTestId("calendar-workspace")).toContainText(
-    "You have finished",
+  await expect(page.getByTestId("venue-activity-completed")).toContainText(
+    "Finished",
   );
   await page.getByTestId("calendar-workspace-close").click();
   await expect(page.getByTestId("activity-aftermath")).toBeVisible();

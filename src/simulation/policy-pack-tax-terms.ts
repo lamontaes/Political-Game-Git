@@ -72,6 +72,14 @@ function localTaxQuestion(levelKey: string, familyKey: string): boolean {
   );
 }
 
+/** The state's own sales, property and payroll questions: read through the
+ * shared binder against the powers catalog's state row. */
+function stateTaxQuestion(levelKey: string, familyKey: string): boolean {
+  return (
+    levelKey === "state" && ["property", "sales", "payroll"].includes(familyKey)
+  );
+}
+
 function taxTermConsequenceRow(
   levelKey: string,
   familyKey: string,
@@ -82,7 +90,8 @@ function taxTermConsequenceRow(
   const federalTerm =
     (levelKey === "federal" &&
       FEDERAL_TAX_TERM_CONSEQUENCE_FAMILIES.has(familyKey)) ||
-    localTaxQuestion(levelKey, familyKey);
+    localTaxQuestion(levelKey, familyKey) ||
+    stateTaxQuestion(levelKey, familyKey);
   const excise = familyKey === "excise";
   if (!federalTerm && !excise) return undefined;
   return {
@@ -113,6 +122,9 @@ function taxTermConsequenceRow(
         ...(federalTerm ? ["src/simulation/tax-law-term-binding.ts"] : []),
         ...(localTaxQuestion(levelKey, familyKey)
           ? ["src/simulation/local-tax-authority.ts"]
+          : []),
+        ...(stateTaxQuestion(levelKey, familyKey)
+          ? ["src/simulation/state-tax-authority.ts"]
           : []),
         federalTerm
           ? "src/simulation/law-consequences/tax.ts"
