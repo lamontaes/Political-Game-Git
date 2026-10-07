@@ -1,8 +1,8 @@
 # A game day takes about 40 times longer than it did on September 26
 
-A game day now takes about 2 seconds, and a payday day takes 8 to 10. On September 26 a game day took about 0.05 seconds. The speed rule allows a game year to get 20% slower, not 4,000%. The first-month-friend test already fails on time: its 30 days cost 133 seconds in plain Node and over 500 on a busy machine, against a 300 second limit.
+A game day now takes about 2 seconds, or 8 to 10 on a payday. On September 26 it took about 0.05. The speed rule allows a game year to get 20% slower, not 4,000%. The first-month-friend test already fails on time: 30 days cost 133 seconds in plain Node and 1,022 under the test runner, against a 300 second limit.
 
-Most of the cost is one thing: each day the state legislature queue wakes and rebuilds the same family index to seed traits. Two draft pull requests aim at it. The CTO decides the order they land in.
+Most of the cost is one thing: each day the state legislature queue wakes and rebuilds the same family index to seed traits. Two drafts aim at it, but reuse alone did not help when measured: each day adds about 150 new people, which changes the tables the index depends on. The CTO decides what goes first.
 
 ## Where the time goes
 
@@ -29,9 +29,17 @@ Both places held about 10,300 people (10,277 and 10,299), so the world size does
 - Days get slower as a month goes on. In the 30-day plain-Node run, days 1 to 10 took 27 seconds, days 11 to 20 took 40 seconds, and days 21 to 30 took 65 seconds. That is why the 10-day profile's average (2.9 seconds a day) understates a month.
 - `recordPrivateBelief` did not show up on these ordinary days. It was not measured on a day with political writes.
 
+## Why the family index is rebuilt so often
+
+Measured on seed 1 (the January life above), counting the family index calls over the ten days: 1,565 calls, of which 445 were rebuilds. In 407 of those rebuilds, the people table and the household tables had changed since the last build. Each day the wake adds about 150 new people (fictional candidates, each with a residence background) and about 120 state legislative candidate slates, in many small batches, and each batch changes the tables the index is keyed on. A rebuild costs about 19 milliseconds (8.3 seconds over 445 rebuilds). This is measured for seed 1 only.
+
+Pull request #2461 reuses an index while its tables are unchanged. Merged onto main locally, it gives the same world (the saved-world hash matched on both seeds) and no speedup: 25.9 seconds became 26.4 seconds on seed 1, and 26.9 seconds became 26.6 seconds on seed 2. So reuse across unchanged snapshots does not help, because the tables change between nearly every call. A fix has to extend the index when people are appended, or batch the people created in a day, and either one changes the order people are written in, so it needs a parity check against the saved world, not only a speed check.
+
+Pull request #2454 does not merge onto main cleanly (conflicts in `time-work.ts` and `office-continuity.ts`; its base is older), so its effect was not measured here.
+
 ## What happens next
 
-- Draft #2454 (dispatch state legislative intake through its saved calendar, so quiet days skip it) and draft #2461 (reuse the family index across snapshots) both aim at the intake row. Neither has landed. The first needs the second's help to meet its speed target, and the CTO's ordering rule blocks that. The CTO decides the order. M2 (a builder) is also caching the same index.
+- Draft #2454 (dispatch state legislative intake through its saved calendar, so quiet days skip it) and draft #2461 (reuse the family index across snapshots) both aim at the intake row. Neither has landed. #2461 alone gave no speedup in the local composition above, and #2454 needs rebasing. The CTO decides what goes first. M2 (a builder) is also caching the same index.
 - Open for a builder after those land: the 5.5% table copy and the payday cost. Neither is worth building before the intake cost is down.
 - First-month-friend and the couples tests wait on this. Their premise fix is separate and ready.
 
