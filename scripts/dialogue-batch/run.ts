@@ -24,6 +24,7 @@
 import { execSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { gradingBatchId, toGradingBatch, writeCoverageLedger } from "./grading";
+import { readKinds } from "./kinds";
 import { batchStats, statsSummary, type BatchStat } from "./stats";
 import { LIFE_TALK_INTENTS } from "../../src/presentation/life-conversation";
 import { dirname } from "node:path";
@@ -187,6 +188,11 @@ export interface BatchResult {
   readonly worlds: readonly BatchWorldSummary[];
   readonly lines: readonly BatchLine[];
   readonly skipped: readonly BatchSkip[];
+  /** Kinds of text no world produced, each with why. */
+  readonly absent?: readonly {
+    readonly kind: string;
+    readonly reason: string;
+  }[];
   /** The lines measured against the everyday register card. */
   readonly stats: readonly BatchStat[];
 }
@@ -1382,11 +1388,62 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     }
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
+  // The other kinds of text, read from the game's own producers: up to three
+  // each across the worlds, and a reason for every kind none produced.
+  const perKind = new Map<string, number>();
+  const why = new Map<string, string[]>();
+  for (const ctx of contexts) {
+    const reading = readKinds(ctx.world, ctx.playerId);
+    for (const text of reading.texts) {
+      // The same wording with other figures or places counts once.
+      const shape = text.text
+        .replace(ctx.place, "@")
+        .replace(
+          /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g,
+          "#",
+        )
+        .replace(/[\d$,.]+/g, "#");
+      if ((perKind.get(text.kind) ?? 0) >= 3 || seenText.has(shape)) continue;
+      seenText.add(shape);
+      perKind.set(text.kind, (perKind.get(text.kind) ?? 0) + 1);
+      lines.push({
+        id: `text-${text.kind}-${perKind.get(text.kind)}`,
+        axis: "place",
+        composer: text.composer,
+        situation: text.situation,
+        speaker: speakerOf(
+          ctx,
+          personOf(ctx.world, ctx.playerId, ctx.playerId, null),
+        ),
+        line: text.text,
+        parts: [text.partKey],
+        world: {
+          place: ctx.place,
+          player: ctx.playerName,
+          playerAge: ctx.playerAge,
+          date: ctx.world.currentDate,
+        },
+        harness: [],
+      });
+    }
+    for (const row of reading.absent)
+      why.set(row.kind, [
+        ...(why.get(row.kind) ?? []),
+        `${ctx.place}: ${row.reason}`,
+      ]);
+  }
+  const absent = [...why]
+    .filter(([kind]) => !perKind.has(kind))
+    .map(([kind, reasons]) => ({
+      kind,
+      reason: [...new Set(reasons)].join("; "),
+    }));
   return {
     seed: options.seed,
     worlds: summaries,
     lines,
     skipped,
+    absent,
     stats: batchStats(lines),
   };
 }

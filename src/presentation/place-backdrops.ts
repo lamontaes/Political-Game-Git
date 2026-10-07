@@ -217,6 +217,37 @@ export function homePlaceFor(
   }
 }
 
+/** Every home picture, the shared interior for each kind of dwelling first. */
+const HOME_PLACES = [
+  "suburban-house",
+  "small-apartment",
+  "rowhouse",
+  "large-house",
+  "rural-farmhouse",
+  "mobile-home",
+] as const;
+
+/**
+ * The home pictures to try for a person, in order: their dwelling's own kind,
+ * then the shared house interior, then every other home. A build that lacks
+ * one still paints a home, never a blank (OW-17).
+ */
+export function homePlacesForPerson(
+  world: World,
+  personId: EntityId,
+): readonly string[] {
+  const own = homePlaceForPerson(world, personId);
+  return [own, ...HOME_PLACES.filter((place) => place !== own)];
+}
+
+/** The recorded building type of the person's current dwelling, if any. */
+export function homeDwellingKind(
+  world: World,
+  personId: EntityId,
+): DwellingClassification | null {
+  return currentDwelling(world, personId)?.classification ?? null;
+}
+
 /** The person's current home picture. */
 export function homePlaceForPerson(world: World, personId: EntityId): string {
   const dwelling = currentDwelling(world, personId);

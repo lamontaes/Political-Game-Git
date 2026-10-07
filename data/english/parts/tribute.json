@@ -1,0 +1,591 @@
+{
+  "schema": "english-parts/1",
+  "register": "tribute",
+  "description": "How members of Congress honor, congratulate and remember people and places in the Extensions of Remarks: openers, praise and closers. Each part is a shape found in at least two remarks.",
+  "slots": {
+    "chair": "How the presiding officer is addressed, such as Madam Speaker.",
+    "honoree": "The person, group or place being honored.",
+    "occasion": "What is being marked, such as a retirement or an anniversary.",
+    "achievement": "What the honoree did, as a phrase.",
+    "cause": "What the honoree has worked for.",
+    "community": "Who benefited, such as the people of a town.",
+    "quality": "A quality being praised, such as hard work.",
+    "place": "Where the honoree was born.",
+    "school": "The school the honoree finished.",
+    "service": "The armed service branch.",
+    "family": "The honoree's surviving family.",
+    "action": "What colleagues are asked to do, as a phrase.",
+    "vote": "The roll call vote missed.",
+    "position": "yea or nay.",
+    "district": "The member's district.",
+    "number": "A roll call number.",
+    "role": "What the honoree is, such as public servant."
+  },
+  "maxWords": 16,
+  "mining": {
+    "tool": "scripts/english-mining/mine-tributes.py",
+    "rule": "A shape is kept when its wording appears in at least two separate Extensions of Remarks."
+  },
+  "parts": [
+    {
+      "key": "tribute.opener.i-rise-today-to-honor",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise today to honor {honoree}.",
+      "remarksUsing": 139,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgE489-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgE489-3"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-today-to-recognize",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise today to recognize {honoree}.",
+      "remarksUsing": 216,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE493-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE493-2"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-today-to-congratulate-on",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise today to congratulate {honoree} on {occasion}.",
+      "remarksUsing": 22,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE504",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE504"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-today-to-celebrate",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise today to celebrate {occasion}.",
+      "remarksUsing": 22,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE498",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE498"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-today-to-commemorate",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise today to commemorate {occasion}.",
+      "remarksUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-25",
+        "granule": "CREC-2025-06-25-pt1-PgE620-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-25/CREC-2025-06-25-pt1-PgE620-3"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-today-to-pay-tribute-to",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise today to pay tribute to {honoree}.",
+      "remarksUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgE490",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgE490"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-today-in-honor-of",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise today in honor of {honoree}.",
+      "remarksUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgE532-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgE532-5"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-today-in-recognition-of",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise today in recognition of {occasion}.",
+      "remarksUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-07-10",
+        "granule": "CREC-2025-07-10-pt1-PgE651-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-10/CREC-2025-07-10-pt1-PgE651-2"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-to-honor",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise to honor {honoree}.",
+      "remarksUsing": 13,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE493-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE493-5"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-to-recognize",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise to recognize {honoree}.",
+      "remarksUsing": 20,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgE523-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgE523-2"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-to-congratulate",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise to congratulate {honoree}.",
+      "remarksUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgE543",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgE543"
+      }
+    },
+    {
+      "key": "tribute.opener.i-rise-today-with-a-heavy-heart-to-remember",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I rise today with a heavy heart to remember {honoree}.",
+      "remarksUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-12",
+        "granule": "CREC-2025-06-12-pt1-PgE570-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-12/CREC-2025-06-12-pt1-PgE570-5"
+      }
+    },
+    {
+      "key": "tribute.opener.it-is-with-great-pleasure-that-i-recognize",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, it is with great pleasure that I recognize {honoree}.",
+      "remarksUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE507",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE507"
+      }
+    },
+    {
+      "key": "tribute.opener.it-is-my-honor-to-recognize",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, it is my honor to recognize {honoree}.",
+      "remarksUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-23",
+        "granule": "CREC-2025-06-23-pt1-PgE603-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-23/CREC-2025-06-23-pt1-PgE603-3"
+      }
+    },
+    {
+      "key": "tribute.opener.i-was-unable-to-be-present-for",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, I was unable to be present for {vote}.",
+      "remarksUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgE523",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgE523"
+      }
+    },
+    {
+      "key": "tribute.opener.had-i-been-present-i-would-have-voted-on",
+      "move": "opener",
+      "kind": "written",
+      "text": "{chair}, had I been present, I would have voted {position} on {vote}.",
+      "remarksUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgE521-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgE521-3"
+      }
+    },
+    {
+      "key": "tribute.praise.throughout-s-career-has",
+      "move": "praise",
+      "kind": "written",
+      "text": "Throughout {honoree}'s career, {honoree} has {achievement}.",
+      "remarksUsing": 25,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgE517-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgE517-3"
+      }
+    },
+    {
+      "key": "tribute.praise.s-commitment-to-has-made-a-lasting-difference",
+      "move": "praise",
+      "kind": "written",
+      "text": "{honoree}'s commitment to {cause} has made a lasting difference.",
+      "remarksUsing": 19,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgE490-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgE490-2"
+      }
+    },
+    {
+      "key": "tribute.praise.has-made-a-lasting-impact-on",
+      "move": "praise",
+      "kind": "written",
+      "text": "{honoree} has made a lasting impact on {community}.",
+      "remarksUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE506-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE506-5"
+      }
+    },
+    {
+      "key": "tribute.praise.is-a-testament-to-s",
+      "move": "praise",
+      "kind": "written",
+      "text": "{achievement} is a testament to {honoree}'s {quality}.",
+      "remarksUsing": 60,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE493-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE493-4"
+      }
+    },
+    {
+      "key": "tribute.praise.went-above-and-beyond-for",
+      "move": "praise",
+      "kind": "written",
+      "text": "{honoree} went above and beyond for {community}.",
+      "remarksUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgE515-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgE515-4"
+      }
+    },
+    {
+      "key": "tribute.praise.we-are-deeply-grateful-for-s-service",
+      "move": "praise",
+      "kind": "written",
+      "text": "We are deeply grateful for {honoree}'s service.",
+      "remarksUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgE489-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgE489-4"
+      }
+    },
+    {
+      "key": "tribute.praise.was-born-in",
+      "move": "praise",
+      "kind": "written",
+      "text": "{honoree} was born in {place}.",
+      "remarksUsing": 33,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE494-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE494-4"
+      }
+    },
+    {
+      "key": "tribute.praise.graduated-from",
+      "move": "praise",
+      "kind": "written",
+      "text": "{honoree} graduated from {school}.",
+      "remarksUsing": 28,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE493-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE493-3"
+      }
+    },
+    {
+      "key": "tribute.praise.served-in-the",
+      "move": "praise",
+      "kind": "written",
+      "text": "{honoree} served in the {service}.",
+      "remarksUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE500-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE500-3"
+      }
+    },
+    {
+      "key": "tribute.praise.is-survived-by",
+      "move": "praise",
+      "kind": "written",
+      "text": "{honoree} is survived by {family}.",
+      "remarksUsing": 18,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE500-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE500-3"
+      }
+    },
+    {
+      "key": "tribute.praise.will-be-deeply-missed",
+      "move": "praise",
+      "kind": "written",
+      "text": "{honoree} will be deeply missed.",
+      "remarksUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE493-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE493-5"
+      }
+    },
+    {
+      "key": "tribute.praise.leaves-behind-a-legacy-of",
+      "move": "praise",
+      "kind": "written",
+      "text": "{honoree} leaves behind a legacy of {quality}.",
+      "remarksUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgE554-7",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgE554-7"
+      }
+    },
+    {
+      "key": "tribute.praise.i-offer-my-deepest-condolences-to",
+      "move": "praise",
+      "kind": "written",
+      "text": "I offer my deepest condolences to {family}.",
+      "remarksUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-06",
+        "granule": "CREC-2025-06-06-pt1-PgE539",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-06/CREC-2025-06-06-pt1-PgE539"
+      }
+    },
+    {
+      "key": "tribute.closer.i-ask-my-colleagues-to-join-me-in",
+      "move": "closer",
+      "kind": "written",
+      "text": "{chair}, I ask my colleagues to join me in {action}.",
+      "remarksUsing": 90,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgE489-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgE489-4"
+      }
+    },
+    {
+      "key": "tribute.closer.please-join-me-in",
+      "move": "closer",
+      "kind": "written",
+      "text": "{chair}, please join me in {action}.",
+      "remarksUsing": 17,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE507-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE507-2"
+      }
+    },
+    {
+      "key": "tribute.closer.i-urge-my-colleagues-to-join-me-in",
+      "move": "closer",
+      "kind": "written",
+      "text": "{chair}, I urge my colleagues to join me in {action}.",
+      "remarksUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgE522-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgE522-4"
+      }
+    },
+    {
+      "key": "tribute.closer.i-wish-the-best-in",
+      "move": "closer",
+      "kind": "written",
+      "text": "I wish {honoree} the best in {occasion}.",
+      "remarksUsing": 14,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgE514",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgE514"
+      }
+    },
+    {
+      "key": "tribute.closer.i-wish-continued-success",
+      "move": "closer",
+      "kind": "written",
+      "text": "I wish {honoree} continued success.",
+      "remarksUsing": 20,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE498-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE498-2"
+      }
+    },
+    {
+      "key": "tribute.closer.congratulations-to-on",
+      "move": "closer",
+      "kind": "written",
+      "text": "Congratulations to {honoree} on {occasion}.",
+      "remarksUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE504",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE504"
+      }
+    },
+    {
+      "key": "tribute.closer.i-am-proud-to-represent-in-congress",
+      "move": "closer",
+      "kind": "written",
+      "text": "I am proud to represent {honoree} in Congress.",
+      "remarksUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE505-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE505-3"
+      }
+    },
+    {
+      "key": "tribute.closer.it-is-my-privilege-to-recognize",
+      "move": "closer",
+      "kind": "written",
+      "text": "It is my privilege to recognize {honoree}.",
+      "remarksUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-13",
+        "granule": "CREC-2025-06-13-pt1-PgE576-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-13/CREC-2025-06-13-pt1-PgE576-2"
+      }
+    },
+    {
+      "key": "tribute.closer.i-thank-for-s-service",
+      "move": "closer",
+      "kind": "written",
+      "text": "I thank {honoree} for {honoree}'s service.",
+      "remarksUsing": 12,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgE504-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgE504-5"
+      }
+    },
+    {
+      "key": "tribute.closer.happy-birthday-to",
+      "move": "closer",
+      "kind": "written",
+      "text": "Happy birthday to {honoree}.",
+      "remarksUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-12",
+        "granule": "CREC-2025-06-12-pt1-PgE565",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-12/CREC-2025-06-12-pt1-PgE565"
+      }
+    },
+    {
+      "key": "tribute.closer.happy-retirement",
+      "move": "closer",
+      "kind": "written",
+      "text": "Happy retirement, {honoree}.",
+      "remarksUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Extensions of Remarks",
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgE543",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgE543"
+      }
+    }
+  ]
+}
