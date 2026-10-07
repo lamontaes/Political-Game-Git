@@ -9,9 +9,10 @@
 
 ## Current pool item: AU-01
 
-- Branch `session-55-au-01` from `origin/main` `4f2cbe369`.
+- Branch `session-55-au-01` based on refreshed `origin/main` `1f9f620cd`; ready PR #3461 at `9490a07fb`.
 - Replaced direct Congress-ID behavior checks with federal pack registry/jurisdiction fields.
 - Extracted shared constitutional proposal-rollcall recording and routed federal term-limit and Article V Congress proposal votes through it; state Article V already shares its handler and proposal writer.
 - D.C. Council signing now forwards item-veto selections through the shared veto engine. The D.C. Mayor authority comes from the existing D.C. Code research row; other council packs stay unsupported when authority is unknown.
 - Focused checks pass: shared rollcall helper (1), proposal writer (25), federal term-limit rollcall (1), D.C. item-veto lookup (1), municipal veto overrides (3). Full item-veto suite has 3 date-fixture failures reproduced on clean main. Typecheck is still running; earlier result showed only unrelated current-main errors after the fixed test typing issue. Release check reports inherited `bg-44-refresh.md` ID/filename mismatch.
-- Next: finish typecheck/format/lint gates, publish AU-01, then continue to AU-02.
+- Prettier/ESLint/diff-check pass. Focused checks pass for shared rollcall (1), proposal writer (25, before rebase), federal term-limit rollcall (1), D.C. item-veto lookup (1), and municipal veto override (3, before rebase). Full item-veto suite has 3 date-fixture failures reproduced on clean main. Typecheck reports unrelated current-main Crime/Press errors; release check reports inherited `bg-44-refresh.md` ID/filename mismatch.
+- Next: take AU-02 on a fresh branch from current main.
