@@ -86,6 +86,15 @@ describe("people anchors on every place picture", () => {
       ).toHaveLength(14);
   });
 
+  it("anchors all four suburban house dining chairs", () => {
+    const seats = STAGES["suburban-house"]!.spots.filter(
+      (spot) => spot.group === "dining-table",
+    );
+    expect(seats).toHaveLength(4);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
+    expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
+  });
+
   it("anchors visible hotel ballroom banquet chairs", () => {
     const spots = STAGES["hotel-ballroom"]!.spots;
     const seats = spots.filter((spot) => spot.pose === "sit");

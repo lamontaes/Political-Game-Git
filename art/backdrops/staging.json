@@ -13646,9 +13646,42 @@
           "group": "home",
           "role": "general",
           "id": "suburban-house:spot:11"
+        },
+        {
+          "x": 80.5,
+          "y": 52,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "dining-table",
+          "role": "general",
+          "id": "suburban-house:spot:12"
+        },
+        {
+          "x": 71.8,
+          "y": 46.5,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 46.5,
+          "seatY": 40.8,
+          "group": "dining-table",
+          "role": "general",
+          "id": "suburban-house:spot:13"
+        },
+        {
+          "x": 80.5,
+          "y": 46.5,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 46.5,
+          "seatY": 40.8,
+          "group": "dining-table",
+          "role": "general",
+          "id": "suburban-house:spot:14"
         }
       ],
-      "measuredFrom": "sliding door 2.03 m (foot 49.5 top 23.5) 0.65; dining table 0.75 m (foot 51.5 top 41.5) 0.62; dining chair back 0.9 m (foot 51.5 top 38.5) 0.67; counter stool 0.75 m (foot 69.5 top 50) 0.66; coffee table 0.45 m (foot 58.5 top 49.5) 0.70; horizon chosen where these agree (all table and counter tops are seen from above)",
+      "measuredFrom": "sliding door 2.03 m (foot 49.5 top 23.5) 0.65; dining table 0.75 m (foot 51.5 top 41.5) 0.62; dining chair back 0.9 m (foot 51.5 top 38.5) 0.67; counter stool 0.75 m (foot 69.5 top 50) 0.66; coffee table 0.45 m (foot 58.5 top 49.5) 0.70; horizon chosen where these agree (all table and counter tops are seen from above); three additional dining chair foot and cushion placements estimated from the native midday painting at about 1-2 percentage point uncertainty",
       "surfaceSlots": [
         {
           "surfaceId": "suburban-house-tv",
