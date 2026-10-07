@@ -16,6 +16,7 @@ test("a random new-life first paycheck is visible in Money and property", async 
     const lifePath = "/src/simulation/life-paths2.ts";
     const incomePath = "/src/simulation/resource-income.ts";
     const worldPath = "/src/simulation/world.ts";
+    const campaignsPath = "/src/simulation/campaigns.ts";
     const storePath = "/src/presentation/browser-world-repository.ts";
     const { explicitNewGameSetup } = await import(
       /* @vite-ignore */ geographyPath
@@ -27,9 +28,12 @@ test("a random new-life first paycheck is visible in Money and property", async 
       enterLifePath,
       scheduleLifePathSession,
       performLifePathSession,
-      lifePaths2Handlers,
     } = await import(/* @vite-ignore */ lifePath);
     const { recordedPayStubs } = await import(/* @vite-ignore */ incomePath);
+    const { composeWorldTimeHandlers } = await import(
+      /* @vite-ignore */ campaignsPath
+    );
+    const handlers = composeWorldTimeHandlers();
     const { advanceWorld } = await import(/* @vite-ignore */ worldPath);
     const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
     // Run the same opening pipeline as a playable random new life before
@@ -56,9 +60,10 @@ test("a random new-life first paycheck is visible in Money and property", async 
     const worked = performLifePathSession(
       scheduled.world,
       scheduled.world.history.scheduledActivities.at(-1).id,
+      handlers,
     );
     if (!worked.ok) throw new Error(worked.message);
-    const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
+    const paid = advanceWorld(worked.world, 1, handlers);
     const stubs = recordedPayStubs(paid, game.playerPersonId);
     if (stubs.length !== 1)
       throw new Error("Payday fixture did not record one canonical paycheck.");
