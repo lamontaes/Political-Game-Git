@@ -29,11 +29,11 @@ describe("the Jobs screen names the pay floor and the law behind it", () => {
     const { world, opened, effectiveAt } = nashvilleWithFederalRaise(45);
     const personId = (world.control as { personId: EntityId }).personId;
     expect(payFloorSentence(world, personId)).toBe(
-      `The lowest legal pay here is $7.25 an hour. Federal law set it on ${proseDate(makeIsoDate("2009-07-24"))}.`,
+      `Minimum wage: $7.25 an hour · Federal law · Since: ${proseDate(makeIsoDate("2009-07-24"))}`,
     );
     const after = payFloorSentence(onDate(world, effectiveAt), personId);
     expect(after).toBe(
-      `The lowest legal pay here is $15.00 an hour. Federal law set it from $7.25 an hour on ${proseDate(effectiveAt)}.`,
+      `Minimum wage: $15.00 an hour · Federal law · Was $7.25 an hour · Since: ${proseDate(effectiveAt)}`,
     );
     expect(opened < effectiveAt).toBe(true);
   });

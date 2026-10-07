@@ -21,6 +21,7 @@ import type {
   OfficeBriefingInspectionRecord,
   OfficeBriefingItemKind,
   OfficeCaseworkWorkflowMode,
+  OfficeMeetingDepth,
   OfficeVoteInstructionDisposition,
   OfficeVoteInstructionRecord,
   OfficeVotingWorkflowMode,
@@ -39,6 +40,11 @@ const CASEWORK_MODES: readonly OfficeCaseworkWorkflowMode[] = [
   "player-handles-all",
   "staff-routine-player-exceptions",
   "staff-handles-and-briefs",
+];
+
+const MEETING_DEPTHS: readonly OfficeMeetingDepth[] = [
+  "what-matters",
+  "everything",
 ];
 
 const INSTRUCTION_DISPOSITIONS: readonly OfficeVoteInstructionDisposition[] = [
@@ -154,6 +160,7 @@ export interface RecordOfficeWorkflowPreferenceInput {
   /** Null only for an office that casts no votes; a legislative or council seat needs one. */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  readonly meetingDepth?: OfficeMeetingDepth;
 }
 
 export function recordOfficeWorkflowPreference(
@@ -194,6 +201,10 @@ export function recordOfficeWorkflowPreference(
   if (!CASEWORK_MODES.includes(input.caseworkMode)) {
     return refused(world, "That casework workflow is not a supported choice.");
   }
+  const meetingDepth = input.meetingDepth ?? "what-matters";
+  if (!MEETING_DEPTHS.includes(meetingDepth)) {
+    return refused(world, "office-workflow:unsupported-meeting-depth");
+  }
   const current = currentOfficeWorkflowPreference(
     world,
     input.personId,
@@ -202,7 +213,8 @@ export function recordOfficeWorkflowPreference(
   if (
     current &&
     current.votingMode === input.votingMode &&
-    current.caseworkMode === input.caseworkMode
+    current.caseworkMode === input.caseworkMode &&
+    (current.meetingDepth ?? "what-matters") === meetingDepth
   ) {
     return { kind: "recorded", world };
   }
@@ -218,6 +230,7 @@ export function recordOfficeWorkflowPreference(
     officeRelationshipId: input.officeRelationshipId,
     votingMode: input.votingMode,
     caseworkMode: input.caseworkMode,
+    meetingDepth,
     recordedAt: makeIsoDate(world.currentDate),
     supersedesPreferenceId: current?.id ?? null,
   };

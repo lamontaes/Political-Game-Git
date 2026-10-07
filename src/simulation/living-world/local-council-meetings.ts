@@ -1,8 +1,11 @@
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { applyInstitutionStep } from "../governing/legislative-clock";
+import { mayAnswerQuestion } from "../governing/question-authority";
 import { legislativeSittingHandler } from "../governing/legislative-sittings";
 import { legislativeRulePackForWorld } from "../legislative-procedure-world";
+import { chamberByKey } from "../legislature-rules";
+import { rulePackById } from "../legislature-rule-packs";
 import {
   councilRules,
   lawJurisdiction,
@@ -11,7 +14,6 @@ import {
 import { addDays } from "../dates";
 import { fileMemberAgendaBills } from "../governing/member-agenda";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { mayAnswerQuestion } from "../governing/question-authority";
 import {
   governmentUnit,
   type GovernmentUnitIdentity,
@@ -21,8 +23,6 @@ import {
   measurePosition,
   placeMeasureOnCalendar,
 } from "../legislation";
-import { chamberByKey } from "../legislature-rules";
-import { rulePackById } from "../legislature-rule-packs";
 import { nextMeasureNumbering } from "../measure-numbering";
 import { completeCouncilPassage } from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
@@ -98,6 +98,32 @@ export interface CouncilMeetingAgendaItem {
   readonly measure: LegislativeMeasureRecord;
   /** Every saved fact that makes this item matter; an empty list means quiet. */
   readonly reasons: readonly CouncilMeetingMatterReason[];
+}
+
+export interface CouncilItemsPlayResult {
+  /** The Session 4 scene consumer receives these actual agenda items later. */
+  readonly pendingItems: readonly CouncilMeetingAgendaItem[];
+  /** Quiet measures stay on the shared office-workflow path. */
+  readonly quietItems: readonly LegislativeMeasureRecord[];
+  /** The stub deliberately creates no spoken beats or ballots. */
+  readonly playedMeasureIds: readonly EntityId[];
+}
+
+/**
+ * Pending-input seam for Session 4's council situation. Until its consumer
+ * lands, matter-bearing agenda items remain pending and only quiet items flow
+ * through the existing office workflow.
+ */
+export function playCouncilItems(
+  items: readonly CouncilMeetingAgendaItem[],
+): CouncilItemsPlayResult {
+  return {
+    pendingItems: items.filter((item) => item.reasons.length > 0),
+    quietItems: items
+      .filter((item) => item.reasons.length === 0)
+      .map((item) => item.measure),
+    playedMeasureIds: [],
+  };
 }
 
 /**
@@ -672,16 +698,18 @@ export function localCouncilMeetingHandler(
   const votesBefore = (world.history.legislativeVotes ?? []).length;
   // A member's quiet items follow the voting workflow they chose, before the
   // roll call reads their ballots.
-  const settled = player
-    ? settleQuietCouncilItems(world, {
-        unit,
-        town,
-        playerId: player,
-        quiet: meetingItemsThatMatter(world, player, due.id)
-          .filter((item) => item.reasons.length === 0)
-          .map((item) => item.measure),
-      })
-    : world;
+  const councilItems = player
+    ? playCouncilItems(meetingItemsThatMatter(world, player, due.id))
+    : null;
+  const settled =
+    player && councilItems
+      ? settleQuietCouncilItems(world, {
+          unit,
+          town,
+          playerId: player,
+          quiet: councilItems.quietItems,
+        })
+      : world;
   let next = moveOrdinances(settled, unit, town, rules, player);
   next = fileOrdinances(next, unit, town, rules, player);
   const votes = (next.history.legislativeVotes ?? []).slice(votesBefore);

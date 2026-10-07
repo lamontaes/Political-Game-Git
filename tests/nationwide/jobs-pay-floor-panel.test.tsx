@@ -17,7 +17,7 @@ describe("the Jobs panel keeps legal-pay narration out of the listings", () => {
     );
     expect(before).toContain('data-testid="job-listings"');
     expect(before).not.toContain('data-testid="job-pay-floor"');
-    expect(before).not.toContain("The lowest legal pay here");
+    expect(before).not.toContain("Minimum wage:");
     const after = renderToStaticMarkup(
       <JobListingsPanel
         world={onDate(world, effectiveAt)}
@@ -25,7 +25,7 @@ describe("the Jobs panel keeps legal-pay narration out of the listings", () => {
       />,
     );
     expect(after).toContain('data-testid="job-listings"');
-    expect(after).not.toContain("The lowest legal pay here");
+    expect(after).not.toContain("Minimum wage:");
     expect(after).not.toContain("About this kind of work");
   });
 });
