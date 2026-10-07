@@ -210,7 +210,7 @@ describe("people anchors on every place picture", () => {
         // Inside the picture, and below eye level: on a floor, never in the sky.
         expect(spot.x).toBeGreaterThan(0);
         expect(spot.x).toBeLessThan(100);
-        expect(spot.y).toBeGreaterThan(stage.horizonY);
+        expect(spot.y).toBeGreaterThan(spot.floorHorizonY ?? stage.horizonY);
         expect(spot.y).toBeLessThanOrEqual(100);
         expect(POSES.has(spot.pose ?? "stand")).toBe(true);
         expect(FACINGS.has(spot.facing ?? "viewer")).toBe(true);
@@ -326,6 +326,22 @@ describe("people anchors on every place picture", () => {
       expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(
         expectedMembers + expectedGallery,
       );
+    }
+  });
+
+  it("anchors each rally-stage bleacher tier to its local floor geometry", () => {
+    const seats = STAGES["rally-stage"]!.spots.filter((spot) =>
+      spot.group?.startsWith("bleacher-row-"),
+    );
+    expect(seats).toHaveLength(6);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(6);
+    expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
+    expect(seats.every((spot) => spot.facing === "left")).toBe(true);
+    expect(seats.every((spot) => spot.floorHorizonY !== undefined)).toBe(true);
+    expect(seats.every((spot) => spot.floorMetersPercent === 0.86)).toBe(true);
+    for (const seat of seats) {
+      const figure = spotFigure(STAGES["rally-stage"]!, seat);
+      expect(figure.heightPercent).toBeCloseTo(16.8, 0);
     }
   });
 });
