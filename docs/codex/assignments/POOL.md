@@ -349,7 +349,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-crisis-2 | Replace about 20 placeholders in simulation / crisis / 2 with recorded or estimated-and-marked values | placeholders.md | done | #2616 |
 | PH-simulation-governing-1 | Replace about 22 placeholders in simulation / governing / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-governing-2 | Replace about 23 placeholders in simulation / governing / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-judiciary | Replace about 12 placeholders in simulation / judiciary with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-judiciary | Replace about 12 placeholders in simulation / judiciary with recorded or estimated-and-marked values | placeholders.md | done #2618 | Session 37 |
 | PH-simulation-justice | Replace about 25 placeholders in simulation / justice with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-1 | Replace about 18 placeholders in simulation / living / world / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-2 | Replace about 18 placeholders in simulation / living / world / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
