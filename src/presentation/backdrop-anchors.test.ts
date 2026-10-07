@@ -79,6 +79,19 @@ describe("people anchors on every place picture", () => {
     expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
   });
 
+  it("anchors the visible public library reading table chairs", () => {
+    const seats = STAGES["public-library"]!.spots.filter(
+      (spot) => spot.pose === "sit" && spot.group?.startsWith("table"),
+    );
+    expect(seats).toHaveLength(14);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(14);
+    expect(seats.filter((spot) => spot.group === "table-west")).toHaveLength(5);
+    expect(seats.filter((spot) => spot.group === "table-center")).toHaveLength(
+      7,
+    );
+    expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(12);
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
