@@ -11,10 +11,8 @@ import { defaultOriginChamber } from "../legislature-rules";
 import { stateLegislators } from "../nationwide-world/state-legislature-opening";
 import { createFormationContext, recordPrivateBelief } from "../politics";
 import { fileMemberAgendaBill } from "../governing/member-agenda";
-import {
-  OFFICEHOLDER_PRINCIPLES_VERSION,
-  principledLeaning,
-} from "../governing/officeholder-principles";
+import { principledLeaning } from "../governing/officeholder-principles";
+import { LIFE_PRINCIPLES_VERSION } from "../principles-from-life";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, LegislativeVoteRecord, World } from "../types";
 import { advanceWorld } from "../world";
@@ -55,7 +53,7 @@ describe("a generated member's bill and reflection", () => {
     const generated = world.history.principles.filter(
       (row) =>
         row.personId === sponsorId &&
-        row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
+        row.stableKey.startsWith(`${LIFE_PRINCIPLES_VERSION}:`),
     );
     expect(generated.length).toBeGreaterThan(0);
     const answer = measure!.propositionAnswers?.[0];
