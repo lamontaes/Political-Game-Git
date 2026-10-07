@@ -375,7 +375,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-root-6 | Replace about 20 placeholders in simulation / root / 6 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-7 | Replace about 20 placeholders in simulation / root / 7 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-8 | Replace about 20 placeholders in simulation / root / 8 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-root-9 | Replace about 20 placeholders in simulation / root / 9 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-root-9 | Replace about 20 placeholders in simulation / root / 9 with recorded or estimated-and-marked values | placeholders.md | ready #3348 | |
 | PH-simulation-root-10 | Replace about 20 placeholders in simulation / root / 10 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-11 | Replace about 20 placeholders in simulation / root / 11 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-12 | Replace about 20 placeholders in simulation / root / 12 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -385,7 +385,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-source-domains-1 | Replace about 20 placeholders in source / domains / 1 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
 | PH-source-domains-2 | Replace about 20 placeholders in source / domains / 2 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
 | PH-source-domains-3 | Replace about 20 placeholders in source / domains / 3 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
-| PH-source-misc | Replace about 4 placeholders in source / misc with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-source-misc | Replace about 4 placeholders in source / misc with recorded or estimated-and-marked values | placeholders.md | done #2626 | Session 37 |
 | PH-src-environment-1 | Replace about 19 placeholders in src / environment / 1 with recorded or estimated-and-marked values | placeholders.md | done #2627 | Session 37 |
 | PH-src-environment-2 | Replace about 19 placeholders in src / environment / 2 with recorded or estimated-and-marked values | placeholders.md | done #2857 | Session 52 |
 | PH-src-misc | Replace about 19 placeholders in src / misc with recorded or estimated-and-marked values | placeholders.md | done #3331 | Session 37 |
@@ -512,7 +512,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | done #3263        |              |
 | BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | done #2860        |              |
 | BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done              | #2961        |
-| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open              |              |
+| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | ready #3256      |              |
 | BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done              | merged #2875 |
 | BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878        |              |
 | BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done              | merged #2861 |
