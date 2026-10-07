@@ -99,9 +99,9 @@ export const STRAIN_THRESHOLD =
 const STRAIN_THRESHOLD_UNITS = thresholdUnits(STRAIN_THRESHOLD);
 
 /**
- * Windows open on the first day of each calendar quarter. Deaths inside a
- * window are still scheduled on their exact day; the quarter only bounds how
- * far ahead a pending death item can exist.
+ * Windows after the opening open on the first day of each calendar quarter.
+ * The opening window starts on the world's current day, so a watched world
+ * immediately has a partial-quarter mortality window.
  */
 function firstOfNextQuarter(date: IsoDate): IsoDate {
   const year = Number(date.slice(0, 4));
@@ -401,9 +401,9 @@ function windowStableKey(start: IsoDate): string {
 }
 
 /**
- * Starts the model for this World if it is not already running. Existing
- * saves begin exposure at their next quarter boundary; earlier history is not
- * reinterpreted.
+ * Starts the model for this World if it is not already running. Exposure
+ * begins at opening, using each person's age-specific hazard from that day;
+ * earlier history is not reinterpreted.
  */
 export function ensureCrisisMortality(world: World): World {
   if (
@@ -412,7 +412,7 @@ export function ensureCrisisMortality(world: World): World {
     )
   )
     return world;
-  const start = firstOfNextQuarter(world.currentDate);
+  const start = world.currentDate;
   const next = scheduleFutureDueItem(world, {
     stableKey: `${windowStableKey(start)}:due`,
     dueAt: start,

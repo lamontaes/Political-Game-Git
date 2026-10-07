@@ -62,6 +62,7 @@ import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
 import { ensurePublicBudgets } from "../simulation/public-budgets";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
+import { ensureHealthCoveragePass } from "../simulation/crisis/health-coverage";
 import {
   ensureMacroEconomyStarted,
   macroStartForHistory,
@@ -480,7 +481,10 @@ function* completeOpeningLifeSteps(
           "opening",
         )
       : withOfficeSalaries;
-  const world = initializeWorkPayCoverage(withEmployerCash);
+  const world = ensureHealthCoveragePass(
+    initializeWorkPayCoverage(withEmployerCash),
+    game.playerPersonId,
+  );
   const recovered = recoverOverdueProsecutions(world);
   // Opening owns the one-time catch-up. The canonical clock and registry
   // owners consume these saved wakes; this builder never dispatches them.
