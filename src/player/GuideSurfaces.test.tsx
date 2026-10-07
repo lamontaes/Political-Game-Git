@@ -104,7 +104,7 @@ describe("the Guide workspace", () => {
       />,
     );
     expect(markup).toContain('data-guide-entry="presentment"');
-    expect(markup).toContain('data-testid="guide-entry-explanation"');
+    expect(markup).not.toContain('data-testid="guide-entry-explanation"');
     expect(markup).toContain('data-testid="guide-related-veto"');
     expect(markup).toContain('data-testid="guide-entry-learned"');
   });

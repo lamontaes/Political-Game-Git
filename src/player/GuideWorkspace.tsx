@@ -77,9 +77,11 @@ export function GuideWorkspace({
       <div className="pg-guide-body">
         <section className="pg-guide-results" aria-label="Terms">
           {results.length === 0 ? (
-            <p className="game-note" data-testid="guide-no-results">
-              No term in the Guide matches that.
-            </p>
+            <p
+              className="game-note"
+              data-testid="guide-no-results"
+              data-problem="no-match"
+            />
           ) : (
             <ul data-testid="guide-results">
               {results.map(({ entry, matched }) => {
@@ -100,14 +102,11 @@ export function GuideWorkspace({
                       }}
                     >
                       <span className="pg-guide-result-term">{entry.term}</span>
-                      <span className="pg-guide-result-line">
-                        {entry.shortDefinition}
-                      </span>
                       {learned ? (
                         <span className="pg-guide-result-learned">Learned</span>
                       ) : null}
                       {matched === "definition" ? (
-                        <span className="sr-only"> Matched: explanation</span>
+                        <span className="sr-only" data-matched="definition" />
                       ) : null}
                     </button>
                   </li>
@@ -127,15 +126,6 @@ export function GuideWorkspace({
             data-guide-entry={selected.semanticKey}
           >
             <h3 id="guide-entry-term">{selected.term}</h3>
-            <p className="pg-guide-entry-short" data-testid="guide-entry-short">
-              {selected.shortDefinition}
-            </p>
-            <p data-testid="guide-entry-explanation">{selected.explanation}</p>
-            {selected.contextNote ? (
-              <p className="game-note" data-testid="guide-entry-context">
-                {selected.contextNote}
-              </p>
-            ) : null}
             <button
               type="button"
               className="ui-action ui-action--rail"

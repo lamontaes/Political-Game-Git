@@ -41,7 +41,10 @@ async function pointAt(page: Page, words: string, within: string) {
   );
 }
 
-test("a civic word is underlined, explains itself on hover, and Got it clears it", async ({
+// MR-16 removed the authored definitions from the Guide entry and the hover
+// card, so there is no sentence or definition to rest on. Parked, not deleted,
+// until the CTO decides what the underline explains.
+test.fixme("a civic word is underlined, explains itself on hover, and Got it clears it", async ({
   page,
 }, info) => {
   test.setTimeout(240_000);

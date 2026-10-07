@@ -97,7 +97,6 @@ export function GuideTerm(props: GuideTermProps) {
   const returnFocus = useRef(false);
   const timer = useRef<number | null>(null);
   const popoverId = useId();
-  const definitionId = useId();
   const text = children ?? label ?? entry?.term ?? null;
 
   useEffect(() => {
@@ -226,12 +225,6 @@ export function GuideTerm(props: GuideTermProps) {
         }}
       >
         <p className="pg-guide-popover-term">{entry.term}</p>
-        <p className="pg-guide-popover-definition" id={definitionId}>
-          <GuideTermText
-            text={entry.shortDefinition}
-            except={entry.semanticKey}
-          />
-        </p>
         <div className="pg-guide-popover-actions">
           <button
             type="button"
@@ -276,7 +269,6 @@ export function GuideTerm(props: GuideTermProps) {
         data-testid={`guide-term-${entry.semanticKey}`}
         aria-expanded={open !== "closed"}
         aria-controls={open === "closed" ? undefined : popoverId}
-        aria-describedby={open === "closed" ? undefined : definitionId}
         onFocus={() => {
           if (open === "closed") setOpen("hover");
         }}
