@@ -1,20 +1,17 @@
-# Session 13 — Traits batch 1
+# Session 13 — Act kinds on every decision option (general trait system, part 1)
 
-Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
+Read RULES.md first. Rename this task to exactly "Session 13". Report in Drive 00j. OWNER DECISION (Oct 7, 1:50 p.m.): traits stop being hand-wired one decision at a time. ONE general system: every option of every decision is labeled by the kind of act it is; every trait says once which kinds of act it pulls toward or away from; the engine applies every trait to every decision; reasons are written by the English engine from facts, never stored sentences. Do NOT open new per-decision trait PRs (facet-*.ts files with a `decision:` and an `explanation:`).
 
-## Goal
-Wire these personality traits into real decisions people make in live play: playful-manner, facet-entitled, facet-tactful, facet-imaginative, facet-self-serving, facet-arbitrary, facet-hot-headed, facet-brooding, facet-nostalgic.
+## Where it lives today (read on main)
+- src/simulation/decisions.ts:66 `evaluateDecision` — options have key/label/description; no act kinds.
+- src/simulation/trait-packs.ts:190 `TraitLeanRow.explanation: string` (hand-written), :437–585 leans registered per decision id; src/simulation/trait-readings.ts turns leans into considerations.
+- src/simulation/traits/effects/*.ts — ~100 leans hand-mapped to ~16 decisions (25 on contact.answer, 14 on career.consider-another-term, 15 on press answers).
+- src/presentation/life-conversation.ts:1109 shows `row.explanation` to the player (hand-written text on screen).
 
-## Milestones
-1. One trait per PR: effects file in src/simulation/traits/effects/, removed from NOT_YET_CONNECTED_TRAITS, generate:trait-effects + check:trait-effects pass.
-2. Each PR has a same-person proof: same person, trait high vs low, different choice, in a seeded random place.
-3. Prefer everyday decisions (work, friends, family, money, conflict, voting), not only 'run again'.
-4. Pace: at least 2 traits ready per hour.
+## Items
+1. data/content/act-kinds.json: the vocabulary of kinds of act (about 20–30, e.g. confronting, cooperating, conceding, risky, cautious, honest, deceptive, generous, self-serving, social, withdrawing, rule-following, rule-bending, loyal, independent, public, private, caring, punishing, ambitious, content, novel, routine). Each kind: id + one-line meaning for developers (not player text).
+2. Add `actKinds: readonly string[]` to the decision option type (decisions.ts); assert every option has at least one kind from the vocabulary.
+3. Label every option of every decision type that calls evaluateDecision (grep all callers; list them in the PR) — one PR per area (contact/people, press, campaign, career/jobs, legislation, courts, money, family). Test: every option in every registered decision has ≥1 valid kind.
 
 ## Endpoint
-All 9 traits wired (none left in NOT_YET_CONNECTED_TRAITS from this list), each with its proof, final #2424 line listing them.
-
-## CTO instructions and findings (do these)
-- CTO FINDING (verified by a 93-day run): only 1 of 15 trait-declared decisions ever runs in live play (incumbents running again). Never run: contact.answer (30 leans), labor.worker-quit, court.plea, court.jury-vote, clemency.petition, press.reporter-request-response, campaign.support-request, legislation.member-vote, people.couple-stage. A trait wired only to one of those changes nothing a player sees. For each trait, wire it to a decision that runs in live play (check the saved world's decision traces), and if the decision it belongs to never runs, make that decision run in live play in the same PR (or post SESSION NN BLOCKED naming it). The live press desk records press.subject-response (press/desk.ts ~789) with no traits — feeding press traits into it counts.
-
-When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+No decision option in the codebase lacks act kinds; the test enforces it.

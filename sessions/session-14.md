@@ -1,20 +1,17 @@
-# Session 14 — Traits batch 2
+# Session 14 — Traits pull toward kinds of act (general trait system, part 2)
 
-Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
+Read RULES.md first. Rename this task to exactly "Session 14". Report in Drive 00j. OWNER DECISION (Oct 7, 1:50 p.m.): traits stop being hand-wired one decision at a time. ONE general system: every option of every decision is labeled by the kind of act it is; every trait says once which kinds of act it pulls toward or away from; the engine applies every trait to every decision; reasons are written by the English engine from facts, never stored sentences. Do NOT open new per-decision trait PRs (facet-*.ts files with a `decision:` and an `explanation:`).
 
-## Goal
-Wire these personality traits into real decisions people make in live play: truthfulness, facet-shy, facet-sassy, facet-cynical, facet-sincere, facet-fickle, facet-sensitive, facet-closeness-seeking, facet-teasing.
+## Where it lives today (read on main)
+- src/simulation/decisions.ts:66 `evaluateDecision` — options have key/label/description; no act kinds.
+- src/simulation/trait-packs.ts:190 `TraitLeanRow.explanation: string` (hand-written), :437–585 leans registered per decision id; src/simulation/trait-readings.ts turns leans into considerations.
+- src/simulation/traits/effects/*.ts — ~100 leans hand-mapped to ~16 decisions (25 on contact.answer, 14 on career.consider-another-term, 15 on press answers).
+- src/presentation/life-conversation.ts:1109 shows `row.explanation` to the player (hand-written text on screen).
 
-## Milestones
-1. One trait per PR: effects file in src/simulation/traits/effects/, removed from NOT_YET_CONNECTED_TRAITS, generate:trait-effects + check:trait-effects pass.
-2. Each PR has a same-person proof: same person, trait high vs low, different choice, in a seeded random place.
-3. Prefer everyday decisions (work, friends, family, money, conflict, voting), not only 'run again'.
-4. Pace: at least 2 traits ready per hour.
+## Items
+1. data/content/trait-act-pulls.json: for every one of the 97 personality traits (personality-trait-registry), which act kinds the high pole pulls toward and which it pulls away from (and the low pole the reverse where meaningful), with a strength word from the engine's one ordinal importance table. Every trait listed; a trait with no act it shapes says so with a developer reason.
+2. In evaluateDecision (or trait-readings.ts, the one place leans become considerations): for each option, for each act kind on it, add the person's trait pulls as considerations. Applies to EVERY decision automatically. Deterministic, no dice; the person's other considerations still decide.
+3. Proof test: in 3 random places, the same seeded person with a trait high vs low chooses differently in at least 3 different decision types (e.g. an invitation, a job offer, a vote).
 
 ## Endpoint
-All 9 traits wired (none left in NOT_YET_CONNECTED_TRAITS from this list), each with its proof, final #2424 line listing them.
-
-## CTO instructions and findings (do these)
-- CTO FINDING (verified by a 93-day run): only 1 of 15 trait-declared decisions ever runs in live play (incumbents running again). Never run: contact.answer (30 leans), labor.worker-quit, court.plea, court.jury-vote, clemency.petition, press.reporter-request-response, campaign.support-request, legislation.member-vote, people.couple-stage. A trait wired only to one of those changes nothing a player sees. For each trait, wire it to a decision that runs in live play (check the saved world's decision traces), and if the decision it belongs to never runs, make that decision run in live play in the same PR (or post SESSION NN BLOCKED naming it). The live press desk records press.subject-response (press/desk.ts ~789) with no traits — feeding press traits into it counts.
-
-When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+Every trait reaches every decision whose options carry its act kinds; proof across decision types posted.

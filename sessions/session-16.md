@@ -1,20 +1,17 @@
-# Session 16 — Traits batch 4
+# Session 16 — Personality you can see across a life (general trait system, part 4)
 
-Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
+Read RULES.md first. Rename this task to exactly "Session 16". Report in Drive 00j. OWNER DECISION (Oct 7, 1:50 p.m.): traits stop being hand-wired one decision at a time. ONE general system: every option of every decision is labeled by the kind of act it is; every trait says once which kinds of act it pulls toward or away from; the engine applies every trait to every decision; reasons are written by the English engine from facts, never stored sentences. Do NOT open new per-decision trait PRs (facet-*.ts files with a `decision:` and an `explanation:`).
 
-## Goal
-Wire these personality traits into real decisions people make in live play: facet-smug, facet-charming, facet-dramatic, facet-observant, facet-fair-minded, facet-vindictive, facet-light-hearted, facet-devoted.
+## Where it lives today (read on main)
+- src/simulation/decisions.ts:66 `evaluateDecision` — options have key/label/description; no act kinds.
+- src/simulation/trait-packs.ts:190 `TraitLeanRow.explanation: string` (hand-written), :437–585 leans registered per decision id; src/simulation/trait-readings.ts turns leans into considerations.
+- src/simulation/traits/effects/*.ts — ~100 leans hand-mapped to ~16 decisions (25 on contact.answer, 14 on career.consider-another-term, 15 on press answers).
+- src/presentation/life-conversation.ts:1109 shows `row.explanation` to the player (hand-written text on screen).
 
-## Milestones
-1. One trait per PR: effects file in src/simulation/traits/effects/, removed from NOT_YET_CONNECTED_TRAITS, generate:trait-effects + check:trait-effects pass.
-2. Each PR has a same-person proof: same person, trait high vs low, different choice, in a seeded random place.
-3. Prefer everyday decisions (work, friends, family, money, conflict, voting), not only 'run again'.
-4. Pace: at least 2 traits ready per hour.
+## Items
+1. A 30-day watch in 3 random places (one territory): per person in the focus circle, count decisions where a trait changed the choice, by decision type. Post the table here. Today almost all of it is invitations and press answers; the goal is every decision type.
+2. Find decision types that still never feel a trait (their options lack act kinds, or no trait pulls their kinds) and fix them through Sessions 13/14's data — never a per-decision lean.
+3. Hold reviews: help the mergers by reviewing open facet PRs: each open per-decision trait PR is either converted into the table (comment the conversion) or closed with "superseded by the general trait system".
 
 ## Endpoint
-All 8 traits wired (none left in NOT_YET_CONNECTED_TRAITS from this list), each with its proof, final #2424 line listing them.
-
-## CTO instructions and findings (do these)
-- CTO FINDING (verified by a 93-day run): only 1 of 15 trait-declared decisions ever runs in live play (incumbents running again). Never run: contact.answer (30 leans), labor.worker-quit, court.plea, court.jury-vote, clemency.petition, press.reporter-request-response, campaign.support-request, legislation.member-vote, people.couple-stage. A trait wired only to one of those changes nothing a player sees. For each trait, wire it to a decision that runs in live play (check the saved world's decision traces), and if the decision it belongs to never runs, make that decision run in live play in the same PR (or post SESSION NN BLOCKED naming it). The live press desk records press.subject-response (press/desk.ts ~789) with no traits — feeding press traits into it counts.
-
-When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+In the watch, traits change choices in every decision type that runs; no open per-decision trait PRs remain.
