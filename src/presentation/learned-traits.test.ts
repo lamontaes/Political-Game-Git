@@ -11,7 +11,7 @@ import { learnedTraits, strongestLearnedTraits } from "./learned-traits";
 import { learnedTraitWhere } from "./person-card-english";
 import { createOpeningLifeController } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
-import { contactBases } from "../simulation/people-contact";
+import { contactBases } from "../simulation/relationship-contact";
 import { projectPlayerConversation } from "./player-conversation";
 import { commitConversationTurn } from "./run-b-conversation";
 import { DEFAULT_INTERRUPTIONS } from "./shell-navigation";
