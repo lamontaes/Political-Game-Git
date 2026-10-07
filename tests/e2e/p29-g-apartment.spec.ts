@@ -5,6 +5,68 @@ import {
   startLife,
   enterLife,
 } from "./support/creator";
+import { drawRandomPlace } from "../support/random-place";
+
+test("a new game in a random place keeps every room figure's crown in frame", async ({
+  page,
+}, info) => {
+  const seed = "bg-05-room-crown-proof";
+  const place = drawRandomPlace(seed);
+  await page.setViewportSize({ width: 1200, height: 720 });
+  await page.goto("/");
+  const [town, ...stateParts] = place.displayName.split(", ");
+  await startLife(page, {
+    age: 34,
+    place: town,
+    state: stateParts.join(", "),
+    route: "custom",
+    household: "shares-a-home",
+  });
+  const orientation = page.getByTestId("world-orientation");
+  await expect(orientation).toBeVisible({ timeout: 60_000 });
+  await page.getByTestId("orientation-skip").click();
+  await expect(orientation).toBeHidden();
+  await expect(page.getByTestId("play-screen")).toBeVisible();
+
+  const scene = page.getByTestId("scene-backdrop");
+  await expect(scene).toHaveAttribute("data-has-plate", "true");
+  const figures = page.locator('[data-testid^="scene-person-"]');
+  await expect(figures.first()).toBeVisible();
+  const geometry = await figures.evaluateAll((tokens) =>
+    tokens.map((token) => {
+      const box = token.getBoundingClientRect();
+      return {
+        id: token.getAttribute("data-testid"),
+        pose: token.getAttribute("data-pose-id"),
+        top: box.top,
+        artTops: Array.from(token.querySelectorAll("img")).map(
+          (image) => image.getBoundingClientRect().top,
+        ),
+      };
+    }),
+  );
+  for (const figure of geometry) {
+    expect(figure.top, `${figure.id} (${figure.pose})`).toBeGreaterThanOrEqual(
+      0,
+    );
+    for (const top of figure.artTops)
+      expect(top, `${figure.id} art (${figure.pose})`).toBeGreaterThanOrEqual(
+        0,
+      );
+  }
+  await page.screenshot({ path: info.outputPath("random-place-room.png") });
+  console.log(
+    JSON.stringify({
+      bug: "BG-05",
+      seed,
+      place: place.displayName,
+      placeKey: place.key,
+      sceneId: await scene.getAttribute("data-scene-id"),
+      headroom: await scene.getAttribute("data-headroom"),
+      figures: geometry,
+    }),
+  );
+});
 
 for (const room of [
   {
