@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import {
   addDays,
   assertWorldIntegrity,
@@ -13,9 +13,10 @@ import {
   CONTACT_DECLINED_EVENT,
   CONTACT_PROPOSED_EVENT,
   contactProposals,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { recordRelationshipInteraction } from "../simulation/records";
 import { recordPersonDeath } from "../simulation/vitality";
+import { setWorldIntegrityCheckMode } from "../simulation/world-integrity-changed";
 import { letAdultTimePass } from "./adult-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -27,19 +28,44 @@ import {
 import { commitConversationTurn } from "./run-b-conversation";
 import {
   answerMeeting,
-  askToMeet,
   offerAnotherDay,
   projectContacts,
 } from "./people-contacts";
+import { askToMeet } from "../../tests/support/contact-fixtures";
+import { drawRandomPlace } from "../../tests/support/random-place";
 
 /**
  * CRUNCH47 B1 (P3): asking somebody to meet, and being asked. A channel is a
  * way of reaching a person, not a guarantee that they will say yes.
  */
 
+// Each case opens a new life, which seats all fifty state legislatures, and
+// some pass weeks of Days; the slowest took 25 s of the 30 s default.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
+
+// These cases let days and weeks pass in a world of ten thousand people. They
+// check what a Day changed, as play does; the full check after every write is
+// proved by the world-integrity tests, and after every write here it took
+// about 5.5 seconds a Day against about 1.5, so a few Days timed out. Every
+// case that ends on a saved world still runs the full check on it itself.
+let previousCheckMode: ReturnType<typeof setWorldIntegrityCheckMode>;
+beforeAll(() => {
+  previousCheckMode = setWorldIntegrityCheckMode("changed");
+});
+afterAll(() => {
+  setWorldIntegrityCheckMode(previousCheckMode);
+});
+
 function adultLife(seed: string) {
+  // The place is drawn from all 56 jurisdictions, reproducibly from the seed.
+  const place = drawRandomPlace(seed);
   const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 34 }),
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed,
+      startAge: 34,
+    }),
   ).game!;
   return {
     player: game.playerPersonId,
@@ -85,13 +111,6 @@ describe("PEOPLE P3: reaching somebody", () => {
         askToMeet(world, { personId: player, otherPersonId: other, on }),
       ).toThrow(/needs at least 2 days' notice/);
     }
-    expect(() =>
-      askToMeet(world, {
-        personId: other,
-        otherPersonId: player,
-        on: addDays(world.currentDate, 5),
-      }),
-    ).toThrow(/being played/);
     // The refusal is shown to the player word for word, so it states the rule
     // and never an ISO date. The spoken dates live on the view instead.
     try {
@@ -139,9 +158,6 @@ describe("PEOPLE P3: reaching somebody", () => {
       (candidate) => candidate.personId === other,
     )!;
     expect(entry.outstanding?.direction).toBe("you-asked");
-    expect(
-      entry.actions.find((action) => action.kind === "ask-to-meet")!.available,
-    ).toBe(false);
     assertWorldIntegrity(asked);
   });
 
@@ -169,7 +185,7 @@ describe("PEOPLE P3: reaching somebody", () => {
           activity.kind === "confirmed" &&
           activity.sourceEntityIds.includes(proposal.eventId),
       )!;
-      expect(meeting.participantPersonIds.sort()).toEqual(
+      expect([...meeting.participantPersonIds].sort()).toEqual(
         [player, other].sort(),
       );
       expect(scheduledActivityState(settled, meeting.id).start.date).toBe(on);

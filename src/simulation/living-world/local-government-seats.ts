@@ -513,6 +513,8 @@ export function ensureCountyGovernmentSeatsForUnit(
       `seats:${rules.seats}`,
       `seats-basis:${rules.basis}`,
       `mayor:${hasChief ? "elected" : "not-elected"}`,
+      `executive-basis:${rules.executive.basis}`,
+      `executive-status:${rules.executive.status}`,
     ],
     summary: `The ${rules.bodyName} of ${name} is seated with ${members} of ${rules.seats} members${
       hasChief && seated.some((row) => row.mayor)
