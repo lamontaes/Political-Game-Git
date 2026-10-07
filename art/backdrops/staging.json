@@ -972,7 +972,7 @@
           "pose": "sit",
           "facing": "viewer",
           "depth": 61,
-          "seatY": 58.0,
+          "seatY": 58,
           "group": "bench-rear",
           "role": "general",
           "id": "city-hall-exterior:spot:7"
@@ -4146,9 +4146,33 @@
           "group": "table",
           "role": "general",
           "id": "county-party-office:spot:8"
+        },
+        {
+          "x": 50,
+          "y": 52.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 52.5,
+          "clipBelowY": 43.8,
+          "seatY": 47,
+          "group": "table",
+          "role": "general",
+          "id": "county-party-office:spot:9"
+        },
+        {
+          "x": 65,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "clipBelowY": 43.8,
+          "seatY": 49.7,
+          "group": "table",
+          "role": "general",
+          "id": "county-party-office:spot:10"
         }
       ],
-      "measuredFrom": "front door 2.03 m foot 52.5 top 23 (1.00); meeting chair back 0.9 m foot 57 top 42.5 (0.85); front desk 0.75 m foot 87 top 60 (0.73); kept staged 38 / 0.85",
+      "measuredFrom": "front door 2.03 m foot 52.5 top 23 (1.00); meeting chair back 0.9 m foot 57 top 42.5 (0.85); front desk 0.75 m foot 87 top 60 (0.73); kept staged 38 / 0.85; two far-side conference-chair seat and foot points visually estimated from the native midday painting (approximately ±2 percentage points), clipped at the tabletop edge",
       "surfaceSlots": [
         {
           "surfaceId": "county-party-office-corkboard",
@@ -8195,7 +8219,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:23"
@@ -8206,7 +8230,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:24"
@@ -8217,7 +8241,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:25"
@@ -8228,7 +8252,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:26"
@@ -8239,7 +8263,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:27"
@@ -8250,7 +8274,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:28"
@@ -8261,7 +8285,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:29"
@@ -8272,7 +8296,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:30"
@@ -8283,7 +8307,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:31"
@@ -8294,7 +8318,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:32"
@@ -8305,7 +8329,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:33"
@@ -8316,7 +8340,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:34"
@@ -8327,7 +8351,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:35"
@@ -8338,7 +8362,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:36"
@@ -8811,7 +8835,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:79"
@@ -8822,7 +8846,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:80"
@@ -8833,7 +8857,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:81"
@@ -8844,7 +8868,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:82"
@@ -8855,7 +8879,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:83"
@@ -8866,7 +8890,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:84"
@@ -8877,7 +8901,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:85"
@@ -8888,7 +8912,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:86"
@@ -8899,7 +8923,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:87"
@@ -8910,7 +8934,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:88"
@@ -8921,7 +8945,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:89"
@@ -8932,7 +8956,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:90"
@@ -8943,7 +8967,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:91"
@@ -8954,7 +8978,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:92"
@@ -9119,7 +9143,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:107"
@@ -9130,7 +9154,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:108"
@@ -9141,7 +9165,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:109"
@@ -9152,7 +9176,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:110"
@@ -9163,7 +9187,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:111"
@@ -9174,7 +9198,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:112"
@@ -9185,7 +9209,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:113"
@@ -9196,7 +9220,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:114"
@@ -9207,7 +9231,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:115"
@@ -9218,7 +9242,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:116"
@@ -9229,7 +9253,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:117"
@@ -9240,7 +9264,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:118"
@@ -9251,7 +9275,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:119"
@@ -9262,7 +9286,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:120"
