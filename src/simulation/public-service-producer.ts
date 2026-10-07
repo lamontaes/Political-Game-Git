@@ -35,6 +35,7 @@ import {
   activeHealthEpisodes,
   latestHealthState,
 } from "./crisis/health-queries";
+import { SUBSTANCE_USE_DISORDER_KEY } from "./crisis/condition-pack";
 import { publicProgramRecords } from "./public-program-integrity";
 import {
   livesInServiceArea,
@@ -507,6 +508,46 @@ function needConsiderations(
           "Someone at home looks after them.",
           [lifeRef("care-responsibility", care.id)],
           "social:family",
+        ),
+      );
+    }
+    return out;
+  }
+
+  if (form.need === "substance-use") {
+    // Asked for from the person's own private health record. The record is
+    // the pack's starting value, with no event behind it, so it is cited by
+    // its crisis record id in the consideration key rather than a source ref.
+    const own = activeHealthEpisodes(world, personId).find(
+      (episode) =>
+        episode.conditionKey === SUBSTANCE_USE_DISORDER_KEY &&
+        episode.origin.kind === "condition-pack",
+    );
+    if (!own) return out;
+    out.push(
+      consideration(
+        personId,
+        `substance-use:${own.id}`,
+        "ask",
+        "moderate",
+        "high",
+        "Lives with a substance use disorder.",
+        [],
+        "context:health",
+      ),
+    );
+    for (const { relationship, role } of work) {
+      const weekly = role.timeDemand.expectedWeekly?.maximumHours ?? null;
+      out.push(
+        consideration(
+          personId,
+          `work-hours:${relationship.id}`,
+          "wait",
+          weekly !== null && weekly >= 40 ? "moderate" : "slight",
+          "high",
+          `Hours already go to work as ${role.title}.`,
+          [lifeRef("work-role", role.id)],
+          "context:work",
         ),
       );
     }

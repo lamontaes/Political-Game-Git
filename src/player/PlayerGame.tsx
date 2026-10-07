@@ -65,7 +65,6 @@ import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
-  describeTimeCommandReport,
   TimeCommandProvider,
   useTimeCommandRunner,
 } from "./time-command-runner";
@@ -134,7 +133,6 @@ import {
   ROOM_TELEVISION_SLOT_ID,
 } from "../presentation/room-media";
 import { CampaignLifePanel } from "./CampaignLifePanel";
-import { CandidateGuidancePanel } from "./CandidateGuidancePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -168,14 +166,13 @@ import {
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
-  applyPreStartCreatorLifeForks,
   createPreStartNewGameWorld,
   finishPreStartNewGameWorld,
   type NewGame,
   type NewGameSetup,
 } from "../presentation/new-game";
 import { olderOneSaveSlots } from "../presentation/one-save-slots";
-import { playSettingsOf, setPlaySetting } from "../simulation/play-settings";
+import { playSettingsOf } from "../simulation/play-settings";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
@@ -193,13 +190,11 @@ import { projectToday, projectWorkRole } from "../presentation/day-overview";
 import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import {
+  resolveCurrentPlaySceneContext,
   resolvePlaySceneContext,
-  resolveOpeningPlaySceneContext,
 } from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
-  artPreviewBanner,
-  artPreviewIsShowingCandidateArt,
   artPreviewLibraries,
   artPreviewMode,
   previewDatabaseName,
@@ -212,6 +207,14 @@ import {
   electionNightLocationKey,
 } from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
+import {
+  protestLocationKey,
+  protestPresentPeople,
+} from "../presentation/protest-presence";
+import {
+  courtroomLocationKey,
+  courtroomPresentPeople,
+} from "../presentation/courtroom-presence";
 import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
@@ -220,7 +223,6 @@ import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
   SCENE_REGISTRY,
 } from "../presentation/scene-registry";
-import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
   AmbientTableau,
   TitleScreen,
@@ -343,11 +345,7 @@ import {
 } from "./return-to-title-bridge";
 import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
-import {
-  ObserverClock,
-  ObserverRecordWorkspace,
-  ObserverInspectorWorkspace,
-} from "./ObserverWorkspace";
+import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
 import { ObserverRunController } from "./observer-run-controller";
 import {
   observerSetup,
@@ -358,6 +356,13 @@ import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
 
 /* The map carries its geometry; it loads only when a player opens it. */
 const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
+const ObserverInspectorRoute = import.meta.env.DEV
+  ? lazy(() =>
+      import("../ui/ObserverDevRoute").then((module) => ({
+        default: module.ObserverDevRoute,
+      })),
+    )
+  : () => null;
 
 /*
  * The map recomputes pinned-seat highlights whenever its focus object changes,
@@ -508,6 +513,9 @@ export function PlayerGame() {
   const [saves, setSaves] = useState<readonly BrowserWorldSummary[]>([]);
   const [notice, setNotice] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
+  /** The state a new life is being made in, so the backdrop is its own (OW-4). */
+  const [setupState, setSetupState] = useState<string | null>(null);
+  const [setupTown, setSetupTown] = useState(false);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
   const savesUnavailable = store === null;
   const [saveListing, setSaveListing] = useState<SaveListingState>(
@@ -1005,7 +1013,12 @@ export function PlayerGame() {
 
   if (screen.kind === "transition") {
     return (
-      <AmbientTableau recent={saves[0] ?? null} still>
+      <AmbientTableau
+        recent={saves[0] ?? null}
+        chosenState={setupState}
+        chosenTown={setupTown}
+        still
+      >
         {() => (
           <LifeStartTransition
             onPrepare={async (report, signal) => {
@@ -1049,7 +1062,12 @@ export function PlayerGame() {
 
   if (screen.kind === "setup") {
     return (
-      <AmbientTableau recent={saves[0] ?? null} still>
+      <AmbientTableau
+        recent={saves[0] ?? null}
+        chosenState={setupState}
+        chosenTown={setupTown}
+        still
+      >
         {() => (
           <SetupScreen
             seed={sessionSeed.seed}
@@ -1098,10 +1116,7 @@ export function PlayerGame() {
               const completedSetup = endQuestionnaireEarly(setup);
               if (stagedGame) {
                 try {
-                  const answered = applyPreStartCreatorLifeForks(
-                    stagedGame,
-                    completedSetup.creatorLifeForks ?? [],
-                  );
+                  const answered = stagedGame;
                   const preStart = answered.world.preStartLife;
                   if (!preStart)
                     throw new Error("The staged character is missing.");
@@ -1129,6 +1144,8 @@ export function PlayerGame() {
               beginLife(completedSetup);
             }}
             problem={problem}
+            onStateChange={setSetupState}
+            onTownChange={setSetupTown}
           />
         )}
       </AmbientTableau>
@@ -1421,8 +1438,6 @@ function PlayingScreen({
     () => artPreviewLibraries(previewMode),
     [previewMode],
   );
-  const previewBanner = artPreviewBanner(previewMode);
-  const previewShowsCandidateArt = artPreviewIsShowingCandidateArt(previewMode);
 
   /*
    * One shell for the whole life: what is open, how the player got there, and
@@ -1557,21 +1572,6 @@ function PlayingScreen({
     },
     [crisisStop, submitTime, session.world, session.personId, dispatch],
   );
-  const passUntilNeeded = useCallback(() => {
-    crisisStop.watch();
-    submitTime({ kind: "quiet-stretch" }, (report) => {
-      setPassOutcome(describeTimeCommandReport(report));
-      if (
-        report.status === "accepted" &&
-        report.reached &&
-        acceptedOfferStarts(session.world, session.personId).some(
-          (entry) => entry.startOn === report.reached?.date,
-        )
-      ) {
-        dispatch({ type: "go-to-surface", surface: "work", section: "jobs" });
-      }
-    });
-  }, [crisisStop, submitTime, session.world, session.personId, dispatch]);
   const passTargets = useMemo(() => {
     if (observing) return undefined;
     const day = previewTimeCommand(session.world, session.personId, {
@@ -1652,9 +1652,10 @@ function PlayingScreen({
         })),
       };
     if (!continuingLifeShown)
-      return resolveOpeningPlaySceneContext(
+      return resolveCurrentPlaySceneContext(
         session.world,
         session.personId,
+        projectedMoment.scene,
         undefined,
         sceneVisuals,
       );
@@ -1701,6 +1702,19 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  /*
+   * A person card stays until the next scene. When the scene or the day
+   * moves on, the room and the people in it are not the ones the card was
+   * opened over, so it closes instead of following the player across
+   * screens; acting from the card within the same scene leaves it open.
+   */
+  const cardMomentKey = `${playScene.sceneId ?? ""}|${session.world.currentDate}`;
+  const cardMomentRef = useRef(cardMomentKey);
+  useEffect(() => {
+    if (cardMomentRef.current === cardMomentKey) return;
+    cardMomentRef.current = cardMomentKey;
+    dispatch({ type: "close-quick-dossier" });
+  }, [cardMomentKey, dispatch]);
   // A place picture fills any screen whose room has no picture of its own:
   // no room at all, or a room whose plate was retired (the public meeting).
   const sceneHasPlate = useMemo(() => {
@@ -1717,7 +1731,9 @@ function PlayingScreen({
             // Election night wins over the home screen, never over an
             // activity in progress.
             (playScene.purpose !== "activity"
-              ? electionNightLocationKey(session.world, session.personId)
+              ? (electionNightLocationKey(session.world, session.personId) ??
+                courtroomLocationKey(session.world, session.personId) ??
+                protestLocationKey(session.world, session.personId))
               : null) ??
               // An unspecified moment resolves to the home room above it in
               // play-scene-context, so its place picture is home too; without
@@ -1745,8 +1761,20 @@ function PlayingScreen({
             session.personId,
             placeBackdrop.place,
             session.world.currentMoment,
-            // The scene's own people (a meeting's seated officers) first.
-            playScene.presentPeople,
+            // The scene's own people (a meeting's seated officers) first; on
+            // a day the court sat, the people the records name in the room;
+            // on a protest day, its recorded organizer and attendees.
+            placeBackdrop.place === "county-courtroom"
+              ? [
+                  ...playScene.presentPeople,
+                  ...courtroomPresentPeople(session.world, session.personId),
+                ]
+              : placeBackdrop.place === "rally-stage"
+                ? [
+                    ...playScene.presentPeople,
+                    ...protestPresentPeople(session.world, session.personId),
+                  ]
+                : playScene.presentPeople,
             {
               speakerId:
                 conversation && conversation.addressee !== "everyone"
@@ -2573,29 +2601,6 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
-            {previewBanner ? (
-              /*
-               * Said out loud, on the screen, for as long as the mode is on.
-               * A preview that looked like the game would be worse than no
-               * preview: somebody would screenshot unreleased art as if it had
-               * been approved. `role="status"` so it is announced rather than
-               * only seen.
-               *
-               * `data-candidate-art` carries the state the sentence describes,
-               * so a test can ask whether the bank is actually being drawn
-               * without pinning the wording. It reads "false" in every
-               * checkout a machine can make, because the bank is owner-private
-               * and absent from all of them.
-               */
-              <p
-                className="art-preview-banner"
-                role="status"
-                data-testid="art-preview-banner"
-                data-candidate-art={previewShowsCandidateArt ? "true" : "false"}
-              >
-                {previewBanner}
-              </p>
-            ) : null}
             <SceneBackdrop
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
@@ -2653,32 +2658,6 @@ function PlayingScreen({
                 });
               }}
             >
-              {view.surface === "scene" &&
-              !readOnly &&
-              !showOrientation &&
-              !conversation ? (
-                <>
-                  <OrdinaryMeetingPanel
-                    world={session.world}
-                    personId={session.personId}
-                    onWorldChange={onWorldChange}
-                    onOpenEntity={openEntity}
-                    onOutcome={setPassOutcome}
-                  />
-                </>
-              ) : null}
-              {view.surface === "scene" &&
-              !readOnly &&
-              !showOrientation &&
-              !conversation ? (
-                <CandidateGuidancePanel
-                  world={session.world}
-                  personId={session.personId}
-                  onWorldChange={onWorldChange}
-                  onOpenEntity={openEntity}
-                  onOutcome={setPassOutcome}
-                />
-              ) : null}
               {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
                   key={`${session.world.id}:${session.personId}`}
@@ -2879,7 +2858,7 @@ function PlayingScreen({
                 data-testid="observing-label"
               >
                 <strong>Observing</strong>
-                <span>Nobody is being played. You can look, not act.</span>
+                <span>You can look, not act.</span>
                 <ObserverClock
                   runner={observerRunner}
                   onOpenInspector={(pausedWorld) => {
@@ -2951,7 +2930,9 @@ function PlayingScreen({
                 onBack={() => setInspectorWorld(null)}
                 onClose={() => setInspectorWorld(null)}
               >
-                <ObserverInspectorWorkspace world={admittedInspector} />
+                <Suspense fallback={<p>Opening Observer inspector…</p>}>
+                  <ObserverInspectorRoute initialWorld={admittedInspector} />
+                </Suspense>
               </WorkspaceFrame>
             ) : null}
             <div hidden={admittedInspector !== null}>{workspace}</div>
@@ -3032,13 +3013,17 @@ function PlayingScreen({
                 </p>
               ) : null}
               {session.unsavedSeed !== null ? (
-                <p className="sr-only" data-testid="unsaved-note">
-                  This life has not been saved yet.
-                </p>
+                <p
+                  className="sr-only"
+                  data-testid="unsaved-note"
+                  data-problem="unsaved"
+                />
               ) : null}
-              <p className="sr-only" role="status">
-                {shell.announcement}
-              </p>
+              <p
+                className="sr-only"
+                role="status"
+                data-announcement={shell.announcement}
+              />
             </div>
 
             {scenePeople
@@ -3089,7 +3074,6 @@ function PlayingScreen({
                   ? {}
                   : {
                       onPassDays: passDays,
-                      onPassUntilNeeded: passUntilNeeded,
                       passTargets,
                     })}
                 passing={timeRunner.pending}
@@ -4310,25 +4294,6 @@ function renderWorkspace({
           <OptionsWorkspace
             state={shell}
             dispatch={dispatch}
-            playSettings={playSettingsOf(session.world)}
-            onSetPlaySetting={(key, value) => {
-              if (key === "challenge")
-                onWorldChange(
-                  setPlaySetting(
-                    session.world,
-                    key,
-                    value as "quiet" | "standard" | "relentless",
-                  ),
-                );
-              else
-                onWorldChange(
-                  setPlaySetting(
-                    session.world,
-                    key,
-                    value as "full" | "light" | "none",
-                  ),
-                );
-            }}
             onOpenPatchNotes={() =>
               dispatch({ type: "go-to-surface", surface: "patch-notes" })
             }
@@ -4465,8 +4430,7 @@ function renderWorkspace({
             ) : null}
             {assignmentIsOther ? (
               <p className="game-note" data-testid="other-measure-open">
-                Also open, and not the one you are working on:{" "}
-                {assignmentName ?? "another measure"}.
+                Also open: {assignmentName ?? "another measure"}
               </p>
             ) : null}
             <button
@@ -5165,10 +5129,7 @@ function JournalView({
 
       <h3>What has happened</h3>
       {chapters.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
+        <p data-testid="journal-empty" />
       ) : (
         <ol data-testid="journal-entries">
           {chapters.chapters.map((chapter) => (

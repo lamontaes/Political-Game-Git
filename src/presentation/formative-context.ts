@@ -249,7 +249,7 @@ export function formativeEligibilityProvider(
         if (!inHousehold) {
           return blocked(
             "context:no-household",
-            "This happens at home, and this character's household is not recorded.",
+            "This happens at home, and this character has no household membership.",
           );
         }
       }
@@ -317,7 +317,11 @@ export function formativeEligibilityProvider(
   };
 }
 
-/** PLACEHOLDER, pacing only: how long a baby is still "a new child". */
+/**
+ * ESTIMATED FROM SIMILAR HOUSEHOLDS: two years. The basis is the game's birth
+ * records across all represented places and the recorded premise that the
+ * household is still adjusting to a recent birth.
+ */
 const NEW_CHILD_YEARS = 2;
 
 const UNRECORDED_FORMATIVE_PREMISES: Partial<Record<LifeSituationKey, string>> =

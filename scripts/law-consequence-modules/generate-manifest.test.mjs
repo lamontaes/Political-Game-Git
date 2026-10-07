@@ -3,13 +3,34 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import prettier from "prettier";
+import { format, resolveConfig } from "prettier";
 import {
   checkLawConsequenceManifest,
   discoverLawConsequenceModules,
   renderLawConsequenceManifest,
   writeLawConsequenceManifest,
 } from "./generate-manifest.mjs";
+
+test("empty, single and multiple module manifests satisfy the formatter", async () => {
+  const options = await resolveConfig(import.meta.filename);
+  for (const keys of [
+    [],
+    ["a"],
+    ["a", "b"],
+    ["election-state-landings"],
+    ["election-local-landings", "election-state-landings"],
+    [
+      "long-election-local-landings-module",
+      "long-election-state-landings-module",
+    ],
+  ]) {
+    const rendered = renderLawConsequenceManifest(keys);
+    assert.equal(
+      rendered,
+      await format(rendered, { ...options, parser: "typescript" }),
+    );
+  }
+});
 
 test("checked-in manifest lists exactly the module folders", () => {
   const keys = discoverLawConsequenceModules();
@@ -71,21 +92,5 @@ test("module directories without an index are rejected instead of silently omitt
     );
   } finally {
     rmSync(root, { recursive: true, force: true });
-  }
-});
-
-test("generated manifests use Prettier-clean output for empty and populated registries", async () => {
-  for (const keys of [
-    [],
-    ["civil-family-services"],
-    ["civil-family-services", "government-operations"],
-  ]) {
-    const manifest = renderLawConsequenceManifest(keys);
-    assert.equal(
-      await prettier.format(manifest, {
-        filepath: "law-consequence-module-manifest.ts",
-      }),
-      manifest,
-    );
   }
 });
