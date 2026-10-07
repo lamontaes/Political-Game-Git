@@ -17,6 +17,10 @@ import {
 import { currentLifeCutoff } from "../simulation/life-queries";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { householdIdFor } from "./person-dossier";
+import {
+  heardOfficialViews,
+  type HeardOfficialView,
+} from "../simulation/heard-official-views";
 
 /**
  * Everybody this life actually has, sorted into the categories a player thinks
@@ -70,6 +74,10 @@ export interface DirectoryPerson {
 }
 
 export interface PeopleDirectory {
+  /** Statements about this player they actually heard; never private standing. */
+  readonly heardViews: readonly (HeardOfficialView & {
+    readonly holderName: string;
+  })[];
   readonly people: readonly DirectoryPerson[];
   readonly counts: Readonly<Record<PersonCategory | "all", number>>;
   /**
@@ -299,7 +307,11 @@ export function projectPeopleDirectory(
   }
   notYetMet.sort((left, right) => left.name.localeCompare(right.name));
 
-  return { people, counts, notYetMet };
+  const heardViews = heardOfficialViews(world, playerId).map((view) => ({
+    ...view,
+    holderName: personName(world.people[view.holderId]!),
+  }));
+  return { people, counts, notYetMet, heardViews };
 }
 
 /** Filters the directory the way the screen's controls do, and nowhere else. */

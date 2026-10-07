@@ -1,6 +1,7 @@
 import {
   campaignById,
   campaignState,
+  campaigns,
   requireCampaign,
 } from "./campaign-queries";
 import { evaluateCampaignHelpDecision } from "./campaign-help-decision";
@@ -13,6 +14,7 @@ import { workSchedulesFor } from "./living-world/work-schedules";
 import { personName } from "./people";
 import { recordWorldEvent } from "./world";
 import { recordRelationshipInteraction } from "./records";
+import { speechReactionForWitness } from "./speech-reception";
 import type {
   DecisionConsideration,
   EntityId,
@@ -39,6 +41,197 @@ export interface AskToHelpResult {
   readonly reasonBeliefId: EntityId | null;
   readonly reasons: readonly string[];
   readonly eventId: EntityId;
+}
+
+/** The candidate's recorded history and the person's own relationship with them. */
+export function helperAskConsiderations(
+  world: World,
+  personId: EntityId,
+  candidateId: EntityId,
+): readonly DecisionConsideration[] {
+  const stableKey = `campaign-helper-ask:${candidateId}:${personId}:${world.currentDate}:${world.history.nextSequence}`;
+  const considerations: DecisionConsideration[] = [];
+  const view = viewOfOfficial(world, personId, candidateId);
+  if (view.belief) {
+    const importance =
+      view.belief.salience === "central"
+        ? "decisive"
+        : view.belief.salience === "high"
+          ? "strong"
+          : view.belief.salience === "moderate"
+            ? "moderate"
+            : "slight";
+    considerations.push({
+      stableKey: `${stableKey}:candidate-view:${view.belief.id}`,
+      optionKey: view.belief.position === "support" ? "help" : "decline",
+      sourceType: "mind:political-belief",
+      direction: "supports",
+      importance,
+      confidence: "high",
+      explanation:
+        view.belief.position === "support"
+          ? "They have a favorable view of the candidate."
+          : "They have reservations about the candidate.",
+      sourceRefs: [{ kind: "private-belief", beliefId: view.belief.id }],
+    });
+  }
+
+  const familyTie = kinshipRelationshipsAt(world, personId).find((tie) =>
+    tie.personIds.includes(candidateId),
+  );
+  if (familyTie) {
+    considerations.push({
+      stableKey: `${stableKey}:family:${familyTie.id}`,
+      optionKey: "help",
+      sourceType: "context:family-relationship",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: `They are family (${familyTie.kind.replace(/^.*:/, "").replaceAll("-", " ")}).`,
+      sourceRefs: [],
+    });
+  }
+
+  const standing = readRelationshipStanding(world, personId, candidateId);
+  const warmth = standing.readings.warmth;
+  if (warmth.band !== "none") {
+    const interactionId = warmth.basis.at(-1);
+    considerations.push({
+      stableKey: `${stableKey}:warmth:${interactionId ?? "recorded"}`,
+      optionKey: warmth.adverse ? "decline" : "help",
+      sourceType: "social:relationship",
+      direction: "supports",
+      importance:
+        warmth.band === "strong"
+          ? "strong"
+          : warmth.band === "marked"
+            ? "moderate"
+            : "slight",
+      confidence: "high",
+      explanation: warmth.adverse
+        ? "Their relationship has been strained."
+        : "Their relationship has been warm.",
+      sourceRefs: interactionId
+        ? [{ kind: "relationship-interaction", interactionId }]
+        : [],
+    });
+  }
+
+  const scheduledHours = workSchedulesFor(world, personId).reduce(
+    (sum, schedule) => sum + schedule.weeklyHours,
+    0,
+  );
+  const freeHours = Math.max(0, 168 - scheduledHours);
+  considerations.push({
+    stableKey: `${stableKey}:available-hours`,
+    optionKey: freeHours >= 96 ? "help" : "decline",
+    sourceType: "context:work-schedule",
+    direction: "supports",
+    importance:
+      freeHours >= 120 ? "strong" : freeHours >= 72 ? "moderate" : "slight",
+    confidence: "medium",
+    explanation:
+      freeHours >= 96
+        ? "Their work schedule leaves room for campaign work."
+        : "Their work schedule leaves little free time for campaign work.",
+    sourceRefs: [],
+  });
+  considerations.push(
+    ...traitConsiderations(world, personId, `${stableKey}:traits`, [
+      {
+        trait: "sociability",
+        pole: "high",
+        optionKey: "help",
+        explanation: "They are outgoing and comfortable working with people.",
+      },
+      {
+        trait: "reliability",
+        pole: "high",
+        optionKey: "help",
+        explanation: "They tend to follow through on commitments.",
+      },
+      {
+        trait: "risk",
+        pole: "high",
+        optionKey: "help",
+        explanation: "They are willing to take on a new commitment.",
+      },
+    ]),
+  );
+
+  const lastCampaign = campaigns(world)
+    .filter((campaign) => campaign.candidatePersonId === candidateId)
+    .map((campaign) => ({ campaign, state: campaignState(world, campaign.id) }))
+    .filter(({ state }) => state.status === "won" || state.status === "lost")
+    .sort((left, right) => left.campaign.sequence - right.campaign.sequence)
+    .at(-1);
+  if (lastCampaign) {
+    considerations.push({
+      stableKey: `${stableKey}:last-race:${lastCampaign.campaign.id}`,
+      optionKey: lastCampaign.state.status === "won" ? "help" : "decline",
+      sourceType: "context:campaign-result",
+      direction: "supports",
+      importance: "slight",
+      confidence: "high",
+      explanation: lastCampaign.state.reason ?? lastCampaign.state.status,
+      sourceRefs: [],
+    });
+  }
+
+  const concession = world.history.events
+    .filter(
+      (event) =>
+        event.type === "campaign.concession" &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === candidateId &&
+            participant.role === "focus:subject",
+        ),
+    )
+    .sort(
+      (left, right) =>
+        left.occurredAt.localeCompare(right.occurredAt) ||
+        left.sequence - right.sequence,
+    )
+    .at(-1);
+  if (concession) {
+    const reaction = speechReactionForWitness(world, concession, personId);
+    if (reaction) {
+      considerations.push({
+        stableKey: `${stableKey}:concession-reaction:${concession.id}`,
+        optionKey: reaction === "stayed-quiet" ? "decline" : "help",
+        sourceType: "context:concession-reaction",
+        direction: "supports",
+        importance: reaction === "cheered" ? "moderate" : "slight",
+        confidence: "high",
+        explanation: reaction,
+        sourceRefs: [{ kind: "historical-event", eventId: concession.id }],
+      });
+    }
+
+    const thanks = world.history.relationshipInteractions.find(
+      (interaction) =>
+        interaction.kind === "support:campaign-thanked" &&
+        interaction.eventId === concession.id &&
+        interaction.personIds.includes(candidateId) &&
+        interaction.personIds.includes(personId),
+    );
+    if (thanks) {
+      considerations.push({
+        stableKey: `${stableKey}:thanked:${thanks.id}`,
+        optionKey: "help",
+        sourceType: "social:relationship",
+        direction: "supports",
+        importance: "moderate",
+        confidence: "high",
+        explanation: thanks.summary,
+        sourceRefs: [
+          { kind: "relationship-interaction", interactionId: thanks.id },
+        ],
+      });
+    }
+  }
+  return considerations;
 }
 
 /** Ask a person the candidate knows to volunteer for the active campaign. */
@@ -90,121 +283,15 @@ export function askToHelp(
   // Trait facts are lazily established by the canonical PEOPLE writer before
   // they influence a consequential personal choice.
   const world = ensurePeopleTraits(inputWorld, [input.personId]);
+  const considerations = helperAskConsiderations(
+    world,
+    input.personId,
+    campaign.candidatePersonId,
+  );
   const view = viewOfOfficial(
     world,
     input.personId,
     campaign.candidatePersonId,
-  );
-  const considerations: DecisionConsideration[] = [];
-  if (view.belief) {
-    const importance =
-      view.belief.salience === "central"
-        ? "decisive"
-        : view.belief.salience === "high"
-          ? "strong"
-          : view.belief.salience === "moderate"
-            ? "moderate"
-            : "slight";
-    considerations.push({
-      stableKey: `${stableKey}:candidate-view:${view.belief.id}`,
-      optionKey: view.belief.position === "support" ? "help" : "decline",
-      sourceType: "mind:political-belief",
-      direction: "supports",
-      importance,
-      confidence: "high",
-      explanation:
-        view.belief.position === "support"
-          ? "They have a favorable view of the candidate."
-          : "They have reservations about the candidate.",
-      sourceRefs: [{ kind: "private-belief", beliefId: view.belief.id }],
-    });
-  }
-
-  const familyTie = kinshipRelationshipsAt(world, input.personId).find((tie) =>
-    tie.personIds.includes(campaign.candidatePersonId),
-  );
-  if (familyTie) {
-    considerations.push({
-      stableKey: `${stableKey}:family:${familyTie.id}`,
-      optionKey: "help",
-      sourceType: "context:family-relationship",
-      direction: "supports",
-      importance: "strong",
-      confidence: "high",
-      explanation: `They are family (${familyTie.kind.replace(/^.*:/, "").replaceAll("-", " ")}).`,
-      sourceRefs: [],
-    });
-  }
-
-  const standing = readRelationshipStanding(
-    world,
-    input.personId,
-    campaign.candidatePersonId,
-  );
-  const warmth = standing.readings.warmth;
-  if (warmth.band !== "none") {
-    const interactionId = warmth.basis.at(-1);
-    considerations.push({
-      stableKey: `${stableKey}:warmth:${interactionId ?? "recorded"}`,
-      optionKey: warmth.adverse ? "decline" : "help",
-      sourceType: "social:relationship",
-      direction: "supports",
-      importance:
-        warmth.band === "strong"
-          ? "strong"
-          : warmth.band === "marked"
-            ? "moderate"
-            : "slight",
-      confidence: "high",
-      explanation: warmth.adverse
-        ? "Their relationship has been strained."
-        : "Their relationship has been warm.",
-      sourceRefs: interactionId
-        ? [{ kind: "relationship-interaction", interactionId }]
-        : [],
-    });
-  }
-
-  const scheduledHours = workSchedulesFor(world, input.personId).reduce(
-    (sum, schedule) => sum + schedule.weeklyHours,
-    0,
-  );
-  const freeHours = Math.max(0, 168 - scheduledHours);
-  considerations.push({
-    stableKey: `${stableKey}:available-hours`,
-    optionKey: freeHours >= 96 ? "help" : "decline",
-    sourceType: "context:work-schedule",
-    direction: "supports",
-    importance:
-      freeHours >= 120 ? "strong" : freeHours >= 72 ? "moderate" : "slight",
-    confidence: "medium",
-    explanation:
-      freeHours >= 96
-        ? "Their work schedule leaves room for campaign work."
-        : "Their work schedule leaves little free time for campaign work.",
-    sourceRefs: [],
-  });
-  considerations.push(
-    ...traitConsiderations(world, input.personId, `${stableKey}:traits`, [
-      {
-        trait: "sociability",
-        pole: "high",
-        optionKey: "help",
-        explanation: "They are outgoing and comfortable working with people.",
-      },
-      {
-        trait: "reliability",
-        pole: "high",
-        optionKey: "help",
-        explanation: "They tend to follow through on commitments.",
-      },
-      {
-        trait: "risk",
-        pole: "high",
-        optionKey: "help",
-        explanation: "They are willing to take on a new commitment.",
-      },
-    ]),
   );
   const evaluation = evaluateCampaignHelpDecision(world, {
     stableKey,

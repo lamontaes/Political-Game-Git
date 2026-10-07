@@ -12,6 +12,7 @@ import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetAssertiveEffects } from "./facet-assertive";
 import { facetBluntEffects } from "./facet-blunt";
 import { facetBrazenEffects } from "./facet-brazen";
+import { facetBroodingEffects } from "./facet-brooding";
 import { facetCalmEffects } from "./facet-calm";
 import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
@@ -40,6 +41,7 @@ import { facetIndependentEffects } from "./facet-independent";
 import { facetInformalEffects } from "./facet-informal";
 import { facetIntimacyGuardedEffects } from "./facet-intimacy-guarded";
 import { facetInventiveEffects } from "./facet-inventive";
+import { facetManipulativeEffects } from "./facet-manipulative";
 import { facetMeticulousEffects } from "./facet-meticulous";
 import { facetMischievousEffects } from "./facet-mischievous";
 import { facetNurturingEffects } from "./facet-nurturing";
@@ -60,6 +62,7 @@ import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTactfulEffects } from "./facet-tactful";
 import { facetTeasingEffects } from "./facet-teasing";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
+import { facetThrillSeekingEffects } from "./facet-thrill-seeking";
 import { facetVindictiveEffects } from "./facet-vindictive";
 import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetZealousEffects } from "./facet-zealous";
@@ -67,6 +70,7 @@ import { initialTrustEffects } from "./initial-trust";
 import { methodRevisionEffects } from "./method-revision";
 import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
 import { patienceEffects } from "./patience";
+import { playfulMannerEffects } from "./playful-manner";
 import { selfConfidenceEffects } from "./self-confidence";
 import { uncertainOutlookEffects } from "./uncertain-outlook";
 import { voluntaryEffortEffects } from "./voluntary-effort";
@@ -89,6 +93,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetAssertiveEffects,
     ...facetBluntEffects,
     ...facetBrazenEffects,
+    ...facetBroodingEffects,
     ...facetCalmEffects,
     ...facetCockyEffects,
     ...facetComfortingEffects,
@@ -117,6 +122,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetInformalEffects,
     ...facetIntimacyGuardedEffects,
     ...facetInventiveEffects,
+    ...facetManipulativeEffects,
     ...facetMeticulousEffects,
     ...facetMischievousEffects,
     ...facetNurturingEffects,
@@ -137,6 +143,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetTactfulEffects,
     ...facetTeasingEffects,
     ...facetTenderHeartedEffects,
+    ...facetThrillSeekingEffects,
     ...facetVindictiveEffects,
     ...facetWorkCenteredEffects,
     ...facetZealousEffects,
@@ -144,6 +151,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...methodRevisionEffects,
     ...outwardEmotionalDisplayEffects,
     ...patienceEffects,
+    ...playfulMannerEffects,
     ...selfConfidenceEffects,
     ...uncertainOutlookEffects,
     ...voluntaryEffortEffects,
