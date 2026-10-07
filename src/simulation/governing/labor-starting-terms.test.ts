@@ -12,10 +12,15 @@ import { drawRandomPlace } from "../../../tests/support/random-place";
 import { stateJurisdictionForKey } from "../life-places";
 import { lawInForce } from "./law-in-force";
 import { serializeWorld, deserializeWorld } from "../serialization";
+import { lifePlaceStateIdentities } from "../life-places";
 
 const questionKey = "us-policy-positions:labor-workforce.paid-family-leave";
-const law = (operativeAt: string, place = "US-NJ"): LawInForce => ({
-  answer: "yes",
+const law = (
+  operativeAt: string,
+  place = "US-NJ",
+  answer: "yes" | "no" = "yes",
+): LawInForce => ({
+  answer,
   origin: "in-force-at-start",
   measureId: `starting-law:${place}:${questionKey}` as EntityId,
   operativeAt: makeIsoDate(operativeAt),
@@ -84,41 +89,69 @@ describe("sourced annual family-leave terms", () => {
         })),
       }) + "\n",
     );
-  });
-  it.each<[string, [string, number, string][]]>([
-    ["US-CA", [["rate", 130, "basis-points"]]],
-    [
-      "US-CT",
+  }, 120_000);
+  it("checks supported family-leave amounts across all 56 jurisdictions", () => {
+    const expected = new Map<string, [string, number, string][]>([
+      ["US-CA", [["rate", 130, "basis-points"]]],
       [
-        ["rate", 50, "basis-points"],
-        ["cap", 184500, "dollars/year"],
+        "US-CT",
+        [
+          ["rate", 50, "basis-points"],
+          ["cap", 184500, "dollars/year"],
+        ],
       ],
-    ],
-    [
-      "US-OR",
+      ["US-DC", [["rate", 0, "basis-points"]]],
+      ["US-DE", [["replacement", 0.8, "ratio"]]],
       [
-        ["rate", 60, "basis-points"],
-        ["cap", 184500, "dollars/year"],
+        "US-NJ",
+        [
+          ["rate", 23, "basis-points"],
+          ["cap", 171100, "dollars/year"],
+          ["replacement", 0.85, "ratio"],
+        ],
       ],
-    ],
-    [
-      "US-NY",
       [
-        ["rate", 43.2, "basis-points"],
-        ["replacement", 0.67, "ratio"],
+        "US-NY",
+        [
+          ["rate", 43.2, "basis-points"],
+          ["replacement", 0.67, "ratio"],
+        ],
       ],
-    ],
-    ["US-DE", [["replacement", 0.8, "ratio"]]],
-  ])("reads only supported 2026 monetary fields for %s", (place, fields) => {
-    const terms = startingLawTerms(
-      law("2026-01-01", place),
-      questionKey,
-      makeIsoDate("2026-06-01"),
-    );
-    expect(terms.map(({ key, value, unit }) => [key, value, unit])).toEqual(
-      fields,
-    );
-    expect(terms.some(({ key }) => key === "duration")).toBe(false);
+      [
+        "US-OR",
+        [
+          ["rate", 60, "basis-points"],
+          ["cap", 184500, "dollars/year"],
+        ],
+      ],
+    ]);
+    const jurisdictions = lifePlaceStateIdentities();
+    expect(jurisdictions).toHaveLength(56);
+    expect(
+      new Set(jurisdictions.map(({ jurisdictionKey }) => jurisdictionKey)),
+    ).toHaveProperty("size", 56);
+
+    for (const { jurisdictionKey } of jurisdictions) {
+      const expectedFields = expected.get(jurisdictionKey) ?? [];
+      const operativeAt = expected.has(jurisdictionKey)
+        ? jurisdictionKey === "US-DC"
+          ? "2026-10-01"
+          : "2026-01-01"
+        : "2000-01-01";
+      const terms = startingLawTerms(
+        law(
+          operativeAt,
+          jurisdictionKey,
+          expected.has(jurisdictionKey) ? "yes" : "no",
+        ),
+        questionKey,
+        makeIsoDate("2026-10-01"),
+      );
+      expect(terms.map(({ key, value, unit }) => [key, value, unit])).toEqual(
+        expectedFields,
+      );
+      expect(terms.some(({ key }) => key === "duration")).toBe(false);
+    }
   });
 
   it("distinguishes sourced employer-only funding from an unknown employee rate", () => {
