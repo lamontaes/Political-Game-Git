@@ -25,7 +25,7 @@ import {
 import { resourceFlowTermsAt } from "./resource-queries";
 import { recordWorldEvent } from "./world";
 import {
-  JOB_MARKET_PLACEHOLDER,
+  JOB_MARKET_TIMING_ESTIMATE,
   JOB_TIMING,
   holdsWork,
   leaveFirstJobFor,
@@ -550,7 +550,7 @@ function endOffer(
  */
 export function settleCareerOffers(w: World, personId: EntityId): World {
   let n = w;
-  const grace = JOB_MARKET_PLACEHOLDER.missedStartGraceDays;
+  const grace = JOB_MARKET_TIMING_ESTIMATE.missedStartGraceDays;
   for (const r of w.history.workRelationships) {
     if (r.personId !== personId || !r.stableKey.startsWith("career-path7:"))
       continue;
@@ -595,7 +595,7 @@ export function settleCareerOffers(w: World, personId: EntityId): World {
         someoneKnownWorksAt(n, personId, r.organizationId)) ||
         !othersWaitingAt(n, personId, r.organizationId));
     if (callsBack) {
-      const { minimum, maximum } = JOB_MARKET_PLACEHOLDER.followUpStartDays;
+      const { minimum, maximum } = JOB_MARKET_TIMING_ESTIMATE.followUpStartDays;
       // The long end when the person has a job to leave first.
       const startAt = addDays(
         n.currentDate,

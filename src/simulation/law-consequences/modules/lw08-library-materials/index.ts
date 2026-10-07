@@ -268,7 +268,11 @@ export function applyLw08LibraryMaterialsConsequence(
     occurredAt: canonical.effectiveAt,
     recordedAt: world.currentDate,
     jurisdictionId: canonical.jurisdictionId,
-    involvedEntityIds: [...canonical.sourceRecordIds],
+    involvedEntityIds: [
+      canonical.activityId,
+      resolved.subject.id,
+      canonical.jurisdictionId,
+    ],
     participants: [
       {
         personId: resolved.subject.id,

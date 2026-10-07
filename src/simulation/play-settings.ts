@@ -1,25 +1,14 @@
 import { recordWorldEvent } from "./world";
 import type {
-  ChallengeIntensity,
-  FamilyMoneyPremise,
-  NotebookNotesSetting,
   PersonalLifeDepiction,
   PlaySettings,
-  PressPremise,
   SaveMode,
   World,
 } from "./types";
 
 export const DEFAULT_PLAY_SETTINGS: PlaySettings = {
-  challenge: "standard",
-  notes: "full",
   saves: "free",
   personalLifeDepiction: "full",
-  premises: {
-    familyMoney: "ordinary",
-    press: "realistic",
-    ongoingMoneyCosts: "standard",
-  },
 };
 
 /** One-save remains hidden from new players until the owner enables the option. */
@@ -28,9 +17,10 @@ export const ONE_SAVE_OFFERED = false;
 export function playSettingsOf(world: World): PlaySettings {
   const saved = world.playSettings;
   if (!saved) return DEFAULT_PLAY_SETTINGS;
+  // Lives saved before OW-1 also carry retired difficulty fields; they are
+  // dropped here so nothing can read them.
   return {
-    ...DEFAULT_PLAY_SETTINGS,
-    ...saved,
+    saves: saved.saves ?? DEFAULT_PLAY_SETTINGS.saves,
     personalLifeDepiction:
       saved.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
@@ -40,23 +30,8 @@ export function playSettingsOf(world: World): PlaySettings {
 /** Record one player-visible option change as a private, non-canonical event. */
 export function setPlaySetting(
   world: World,
-  key: "challenge",
-  value: ChallengeIntensity,
-): World;
-export function setPlaySetting(
-  world: World,
-  key: "notes",
-  value: NotebookNotesSetting,
-): World;
-export function setPlaySetting(
-  world: World,
   key: "personalLifeDepiction",
   value: PersonalLifeDepiction,
-): World;
-export function setPlaySetting(
-  world: World,
-  key: "challenge" | "notes" | "personalLifeDepiction",
-  value: ChallengeIntensity | NotebookNotesSetting | PersonalLifeDepiction,
 ): World {
   const current = playSettingsOf(world);
   if (current[key] === value) return world;
@@ -88,25 +63,13 @@ export function setPlaySetting(
 }
 
 export function initialPlaySettings(input: {
-  readonly challenge?: ChallengeIntensity;
-  readonly notes?: NotebookNotesSetting;
   readonly saves?: SaveMode;
   readonly personalLifeDepiction?: PersonalLifeDepiction;
-  readonly familyMoney?: FamilyMoneyPremise;
-  readonly press?: PressPremise;
 }): PlaySettings {
   return {
-    challenge: input.challenge ?? DEFAULT_PLAY_SETTINGS.challenge,
-    notes: input.notes ?? DEFAULT_PLAY_SETTINGS.notes,
     saves: input.saves ?? DEFAULT_PLAY_SETTINGS.saves,
     personalLifeDepiction:
       input.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
-    premises: {
-      familyMoney:
-        input.familyMoney ?? DEFAULT_PLAY_SETTINGS.premises.familyMoney,
-      press: input.press ?? DEFAULT_PLAY_SETTINGS.premises.press,
-      ongoingMoneyCosts: "standard",
-    },
   };
 }

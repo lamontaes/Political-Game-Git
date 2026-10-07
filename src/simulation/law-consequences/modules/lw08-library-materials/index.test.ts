@@ -15,21 +15,68 @@ import {
   LW08_LIBRARY_MATERIALS_ROW,
   resolveLw08LibraryMaterialsConsequences,
 } from "./index";
-import type { EntityId, World } from "../../../types";
+import { addDays } from "../../../dates";
+import { stableHash } from "../../../ids";
+import type { EntityId, Person, World } from "../../../types";
 
 const LIBRARY_FUNDING_QUESTION =
   "us-policy-positions:civil-family-community.fund-public-libraries";
 
+/** A place from all 56, named by its seed. */
+const SEED = "lw08-library-materials";
+function drawPlace(): string {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  return places[parseInt(stableHash(SEED).slice(0, 8), 16) % places.length]!
+    .jurisdictionKey;
+}
+
+/** Authored fixture: the person's recorded home is in the served place. */
+function homeIn(world: World, personId: EntityId, jurisdictionId: EntityId) {
+  const person = world.people[personId]!;
+  const move = <T extends { kind: string; endedAt?: unknown }>(fact: T): T =>
+    fact.kind === "residence" && fact.endedAt === null
+      ? { ...fact, jurisdictionId }
+      : fact;
+  const moved = {
+    ...person,
+    homeJurisdictionId: jurisdictionId,
+    establishedFacts: person.establishedFacts.map(move),
+    ...(person.detailLevel === "materialized"
+      ? {
+          details: {
+            ...person.details,
+            generatedFacts: person.details.generatedFacts.map(move),
+          },
+        }
+      : {}),
+  } as Person;
+  return { ...world, people: { ...world.people, [personId]: moved } };
+}
+
+/** Authored fixture: the enacting steps take days, so the appropriation window stays open for them. */
+function withOpenAppropriation(world: World): World {
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      publicProgramRecords: (world.history.publicProgramRecords ?? []).map(
+        (record) =>
+          record.kind === "appropriation"
+            ? { ...record, availableThrough: addDays(world.currentDate, 60) }
+            : record,
+      ),
+    },
+  };
+}
+
 function fixture(complete: boolean) {
-  const funded = fundedServiceFixture(
-    lifePlaceStateIdentities()[0]!.jurisdictionKey,
-    LIBRARY_FUNDING_QUESTION,
-  );
+  const funded = fundedServiceFixture(drawPlace(), LIBRARY_FUNDING_QUESTION);
   const proposition = Object.values(
     funded.world.policyCatalog.propositions,
   ).find((entry) => entry.stableKey === LW08_LIBRARY_MATERIALS_QUESTION)!;
   let world: World = {
-    ...funded.world,
+    ...homeIn(funded.world, funded.personId, funded.jurisdiction.id),
     policyCatalog: {
       ...funded.world.policyCatalog,
       propositions: {
@@ -47,6 +94,8 @@ function fixture(complete: boolean) {
     "yes",
     LW08_LIBRARY_MATERIALS_QUESTION,
   );
+  world = withOpenAppropriation(world);
+  assertWorldIntegrity(world);
   const start = addSimulationMinutes(world.currentMoment, 30);
   const request = requestPublicService(world, {
     personId: funded.personId,
