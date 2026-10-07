@@ -79,10 +79,8 @@ export function MacroConditionsPanel({
     return (
       <section
         className="pg-macro-conditions"
-        aria-labelledby="pg-macro-conditions-title"
         data-testid="pg-macro-conditions-unavailable"
       >
-        <h4 id="pg-macro-conditions-title">This world&rsquo;s economy</h4>
         <p data-problem="no-world-economic-history" />
       </section>
     );
@@ -90,12 +88,7 @@ export function MacroConditionsPanel({
   const open = model.series.find((series) => series.key === openKey) ?? null;
   const openGraph = model.graphs.find((graph) => graph.graphKey === openKey);
   return (
-    <section
-      className="pg-macro-conditions"
-      aria-labelledby="pg-macro-conditions-title"
-      data-testid="pg-macro-conditions"
-    >
-      <h4 id="pg-macro-conditions-title">This world&rsquo;s economy</h4>
+    <section className="pg-macro-conditions" data-testid="pg-macro-conditions">
       {model.startingConditions ? (
         <dl className="pg-macro-conditions-start" data-basis="starting">
           <dt>Date</dt>
@@ -141,9 +134,6 @@ export function MacroConditionsPanel({
           <EconomicGraph graph={openGraph} />
           <SeriesTable series={open} />
         </div>
-      ) : null}
-      {model.localNote ? (
-        <p className="pg-macro-conditions-local">{model.localNote}</p>
       ) : null}
     </section>
   );

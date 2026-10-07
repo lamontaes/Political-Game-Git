@@ -14,13 +14,9 @@ import {
 export { LEXINGTON_ECONOMIC_BINDING } from "../presentation/economic-context-bindings";
 import { proseDate } from "../presentation/prose-dates";
 import {
-  carriedLocalFigureLine,
-  carriedLocalFigures,
   periodInWords,
   placeInWords,
 } from "../presentation/local-economy-carried";
-import type { CarriedLocalFigure } from "../presentation/local-economy-carried";
-import type { World } from "../simulation";
 import { averageTwoBedroomRent } from "../presentation/rent-estimate";
 import "./economic-context-panel.css";
 
@@ -44,13 +40,6 @@ interface EconomicContextPanelProps {
    * information and are shown either way.
    */
   readonly diagnostics?: boolean;
-  /**
-   * The world and the home jurisdiction, when the caller has them: after the
-   * last real edition the panel then also shows where the world's own economy
-   * has taken the town's rent, income and unemployment.
-   */
-  readonly world?: World;
-  readonly jurisdictionId?: string;
 }
 
 type LoadState =
@@ -67,8 +56,6 @@ export function EconomicContextPanel({
   provider = DEFAULT_PROVIDER,
   fiscalGraphs = [],
   diagnostics = false,
-  world,
-  jurisdictionId,
 }: EconomicContextPanelProps) {
   const [state, setState] = useState<LoadState>({ status: "loading" });
 
@@ -106,14 +93,19 @@ export function EconomicContextPanel({
      */
     if (diagnostics)
       return (
-        <section className="economic-context-panel" role="status">
-          <p data-problem="load-failed" data-detail={state.message} />
-        </section>
+        <section
+          className="economic-context-panel"
+          role="status"
+          data-problem="load-failed"
+          data-detail={state.message}
+        />
       );
     return (
-      <section className="economic-context-panel" role="status">
-        <p data-problem="figures-unavailable" />
-      </section>
+      <section
+        className="economic-context-panel"
+        role="status"
+        data-problem="figures-unavailable"
+      />
     );
   }
   return (
@@ -122,11 +114,6 @@ export function EconomicContextPanel({
       fiscalGraphs={fiscalGraphs}
       diagnostics={diagnostics}
       stateFips={stateFipsOf(binding)}
-      carried={
-        world && jurisdictionId
-          ? carriedLocalFigures(world, jurisdictionId, state.context)
-          : []
-      }
     />
   );
 }
@@ -135,13 +122,11 @@ export function EconomicContextView({
   context,
   fiscalGraphs = [],
   diagnostics = false,
-  carried = [],
   stateFips = null,
 }: {
   readonly context: BrowserEconomicContextResult;
   readonly fiscalGraphs?: readonly EconomicGraphModel[];
   readonly diagnostics?: boolean;
-  readonly carried?: readonly CarriedLocalFigure[];
   /** Where to average a rent from when the place has no figure of its own. */
   readonly stateFips?: string | null;
 }) {
@@ -186,7 +171,6 @@ export function EconomicContextView({
     >
       <header className="economic-context-header">
         <div>
-          <p className="economic-context-kicker">How the place is doing</p>
           <h2 id="economic-context-title">{context.placeLabel}</h2>
         </div>
         <span>{proseDate(context.simulationDate)}</span>
@@ -218,22 +202,6 @@ export function EconomicContextView({
             </li>
           ))}
         </ul>
-      ) : null}
-
-      {carried.length > 0 ? (
-        <section
-          className="economic-carried"
-          aria-label="Where things stand now"
-          data-testid="economic-carried"
-        >
-          <h3>Where things stand now</h3>
-          <p className="game-note" data-basis="carried-forward" />
-          <ul>
-            {carried.map((figure) => (
-              <li key={figure.key}>{carriedLocalFigureLine(figure)}</li>
-            ))}
-          </ul>
-        </section>
       ) : null}
 
       {graphs.length > 0 ? (
@@ -325,7 +293,6 @@ export function EconomicGraph({
     <figure className="economic-graph" data-graph-kind={graph.kind}>
       <figcaption>
         <strong>{graph.title}</strong>
-        {graph.description && <span>{graph.description}</span>}
         {/*
           Ordinary play names the place and the unit. The provider's level
           vocabulary, its footnote mark and the day the figure reached the
@@ -596,11 +563,11 @@ function EstimatedRent({ stateFips }: { readonly stateFips: string }) {
         <span data-basis="ESTIMATED FROM AVERAGE">State average</span>
       </figcaption>
       <p className="economic-graph-latest">
-        {`About ${new Intl.NumberFormat("en-US", {
+        {`${new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
           maximumFractionDigits: 0,
-        }).format(rent)} per month`}
+        }).format(rent)} USD per month`}
       </p>
     </figure>
   );

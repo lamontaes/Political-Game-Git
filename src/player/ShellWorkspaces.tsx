@@ -1651,7 +1651,6 @@ export function PersonalFinancesWorkspace({
   );
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
-  const economicJurisdictionId = homeId ?? undefined;
   const economicLines = economicPlace
     ? playerEconomicContextLines(economicPlace.key, world.currentDate)
     : [];
@@ -1730,8 +1729,6 @@ export function PersonalFinancesWorkspace({
             binding={economicBinding}
             simulationDate={world.currentDate}
             diagnostics={DIAGNOSTICS}
-            world={world}
-            jurisdictionId={economicJurisdictionId}
           />
         ) : economicPlace ? (
           <p

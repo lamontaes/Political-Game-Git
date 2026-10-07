@@ -14,9 +14,50 @@ const FILES = [
   "src/player/MoneyLaws.tsx",
   "src/player/BudgetEconomyWorkspace.tsx",
   "src/player/MacroConditionsPanel.tsx",
-  "src/player/HomePurchasePanel.tsx",
-  "src/player/TownBusinessesPanel.tsx",
+  "src/player/ModeledAccountHistory.tsx",
 ];
+
+const REMOVED_COPY = [
+  [
+    "src/player/EconomicContextPanel.tsx",
+    [
+      "Economic context unavailable",
+      "Figures unavailable",
+      "How the place is doing",
+      "Where things stand now",
+      "About ",
+      "carriedLocalFigureLine",
+      "Figures held until published:",
+      "Figures: none",
+    ],
+  ],
+  [
+    "src/player/BudgetEconomyWorkspace.tsx",
+    [
+      "Latest settled month:",
+      "exact fiscal",
+      "recorded fiscal graphs are available",
+      "model.fiscalAvailability.reason",
+    ],
+  ],
+  [
+    "src/player/MacroConditionsPanel.tsx",
+    [
+      "This world&rsquo;s economy",
+      "This life began before the world kept its own economic history",
+      "No published value",
+    ],
+  ],
+  [
+    "src/player/ModeledAccountHistory.tsx",
+    [
+      "The game&rsquo;s modeled public receipts account",
+      "Coverage:",
+      "Transfers: none",
+      "Recorded transfers, in the order they happened",
+    ],
+  ],
+] as const;
 
 function code(file: string): string {
   return readFileSync(file, "utf8")
@@ -32,20 +73,20 @@ describe("Money screens show record data only", () => {
     expect(text.match(/>\s*[A-Z][a-z]+ [a-z ,']{25,}/g) ?? []).toEqual([]);
   });
 
+  it.each(REMOVED_COPY)(
+    "%s excludes authored Money-screen helper copy",
+    (file, phrases) => {
+      const text = code(file);
+      for (const phrase of phrases) expect(text).not.toContain(phrase);
+    },
+  );
+
   it("renders account history with recorded amounts and statuses", () => {
     const text = code("src/player/ModeledAccountHistory.tsx");
     expect(text).not.toContain("No money has moved through this account yet.");
     expect(text).not.toContain("Transfers: none");
     expect(text).not.toContain("nothing moved (");
     expect(text).not.toContain("attempted (");
-  });
-
-  it("does not render unavailable-state or section helper headings", () => {
-    const context = code("src/player/EconomicContextPanel.tsx");
-    const laws = code("src/player/MoneyLaws.tsx");
-    expect(context).not.toContain("Economic context unavailable");
-    expect(context).not.toContain("Figures unavailable");
-    expect(laws).not.toContain("What new laws did to money");
   });
 
   it("does not render modeled-account explanation or no-account prose", () => {
@@ -85,6 +126,20 @@ describe("Money screens show record data only", () => {
     );
     expect(recorded).not.toContain("Coverage:");
     expect(recorded).not.toContain("Each row keeps its recorded");
+
+    const withheld = renderToStaticMarkup(
+      createElement(ModeledAccountHistory, {
+        history: {
+          ...recordedHistory,
+          balance: {
+            status: "withheld",
+            reason: "The recorded ledger position and this history disagree.",
+          },
+        } as unknown as ModeledAccountHistoryModel,
+      }),
+    );
+    expect(withheld).toContain('data-testid="modeled-account-balance"');
+    expect(withheld).not.toContain("recorded ledger position");
   });
 
   it("keeps request dates and record fields without helper sentences", () => {
