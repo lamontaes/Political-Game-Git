@@ -2,7 +2,9 @@ import {
   STATES,
   nonvotingHouseMemberTitle,
 } from "../simulation/state-reference";
-import { homeStateUsps, stateExecutiveOffice } from "../simulation";
+import { stateExecutiveOffice } from "../simulation";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { factsForPerson } from "../simulation/people";
 import { makeIsoDate, recordWorldEvent, SeededRng } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 
@@ -24,8 +26,15 @@ interface PriorOffice {
 }
 
 function homeOptions(usps: string | null): readonly PriorOffice[] {
-  const state = usps ? STATES[usps] : undefined;
-  if (!usps || !state) return [];
+  const reference = usps ? STATES[usps] : undefined;
+  if (!usps || !reference) return [];
+  const state = {
+    ...reference,
+    name:
+      reference.jurisdictionKind === "federal-district"
+        ? `the ${reference.name}`
+        : reference.name,
+  };
   const executive = stateExecutiveOffice(usps)?.displayName ?? null;
   const executiveTitle = executive
     ? executive.includes(state.name)
@@ -73,6 +82,24 @@ const JUDICIAL_OPTIONS: readonly PriorOffice[] = [
   },
 ];
 
+/**
+ * The state a career was built in: where the person was born and raised, not
+ * the capital they moved to for the office they hold now.
+ */
+function politicalHomeUsps(world: World, personId: EntityId): string | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  const birthplace = factsForPerson(person).find(
+    (fact) => fact.kind === "birthplace",
+  );
+  const key = lifePlaceByJurisdictionId(
+    birthplace?.kind === "birthplace"
+      ? birthplace.jurisdictionId
+      : person.homeJurisdictionId,
+  )?.stateJurisdictionKey;
+  return key && /^US-[A-Z]{2}$/.test(key) ? key.slice(3) : null;
+}
+
 /** Records the prior service, ending the day the current office began. */
 export function recordPriorOfficeService(
   world: World,
@@ -87,7 +114,7 @@ export function recordPriorOfficeService(
   const options =
     input.officeKey === "us-chief-justice"
       ? JUDICIAL_OPTIONS
-      : homeOptions(homeStateUsps(world, input.personId));
+      : homeOptions(politicalHomeUsps(world, input.personId));
   if (options.length === 0) return world;
   const rng = new SeededRng(world.seed).fork(input.stableKey);
   const office = rng.pick(options);
