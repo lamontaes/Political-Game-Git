@@ -9,7 +9,6 @@ import {
   enterLifePath,
   performLifePathSession,
   scheduleLifePathSession,
-  lifePaths2Handlers,
 } from "../../src/simulation/life-paths2";
 import { recordedPayStubs } from "../../src/simulation/resource-income";
 import { resourcePositionAt } from "../../src/simulation/resource-queries";
@@ -23,6 +22,7 @@ import {
   deserializeWorld,
 } from "../../src/simulation/serialization";
 import { SeededRng } from "../../src/simulation/rng";
+import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
 import { advanceWorld } from "../../src/simulation/world";
 import { personName } from "../../src/simulation/people";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
@@ -68,13 +68,15 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
       entered.world.history.workRelationships.at(-1)!.id,
     );
     expect(scheduled.ok, scheduled.message).toBe(true);
+    const handlers = composeWorldTimeHandlers();
     const worked = performLifePathSession(
       scheduled.world,
       scheduled.world.history.scheduledActivities.at(-1)!.id,
+      handlers,
     );
     expect(worked.ok, worked.message).toBe(true);
     const before = worked.world;
-    const paid = advanceWorld(before, 1, lifePaths2Handlers());
+    const paid = advanceWorld(before, 1, handlers);
     const saved = serializeWorld(paid);
     const stubs = recordedPayStubs(paid, personId);
     expect(stubs).toHaveLength(1);
