@@ -349,7 +349,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-crisis-2 | Replace about 20 placeholders in simulation / crisis / 2 with recorded or estimated-and-marked values | placeholders.md | done | #2616 |
 | PH-simulation-governing-1 | Replace about 22 placeholders in simulation / governing / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-governing-2 | Replace about 23 placeholders in simulation / governing / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-judiciary | Replace about 12 placeholders in simulation / judiciary with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-judiciary | Replace about 12 placeholders in simulation / judiciary with recorded or estimated-and-marked values | placeholders.md | done #2618 | Session 37 |
 | PH-simulation-justice | Replace about 25 placeholders in simulation / justice with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-1 | Replace about 18 placeholders in simulation / living / world / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-2 | Replace about 18 placeholders in simulation / living / world / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -535,7 +535,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | open | |
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | open | |
-| BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | open | |
+| BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | done #1853 | |
 | BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | open | |
 | BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | open | |
 | BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | open | |
