@@ -542,8 +542,7 @@ function RepresentedBy({
     >
       <h3 id="pg-government-represented">Represented by · your districts</h3>
       <p className="pg-government-entry-detail">
-        Where your home, {homeLabel}, is represented. This follows where you
-        live, not where you are now or the place you are browsing.
+        Where your home, {homeLabel}, is represented.
       </p>
       <ul>
         {rows.map((row) => (
