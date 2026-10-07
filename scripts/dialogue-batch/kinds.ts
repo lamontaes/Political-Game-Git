@@ -7,6 +7,7 @@
  * A development tool. Read-only: it never advances time or writes records.
  */
 import type { EntityId, World } from "../../src/simulation";
+import { spokenDate } from "../../src/simulation/dates";
 import { electionContestResult } from "../../src/simulation";
 import { projectBillPaper } from "../../src/presentation/bill-paper";
 import { projectJournalView } from "../../src/presentation/journal-views";
@@ -83,10 +84,10 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     entries
       .slice(-PER_KIND)
       .reverse()
-      .map((entry) => ({
+      .map((entry, index) => ({
         kind: "journal",
         composer: "projectJournalView in journal-views.ts",
-        situation: `An entry in the player's journal (${entry.kind}).`,
+        situation: `The player's journal, ${["the latest", "the one before", "the third-latest"][index] ?? "an"} entry, dated ${spokenDate(entry.at)}.`,
         text: entry.text,
         partKey: `journal:entry:${entry.sourceId}`,
       })),
