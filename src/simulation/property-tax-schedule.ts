@@ -1,4 +1,5 @@
 import { scheduleFutureDueItem } from "./future-transitions";
+import type { TaxProposalRecord } from "./tax-types";
 import type { EntityId, IsoDate, World } from "./types";
 
 export const PROPERTY_ASSESSMENT_TRANSITION_KEY =
@@ -25,4 +26,13 @@ export function schedulePropertyAssessmentDay(
     jurisdictionId,
     provenance: { kind: "simulated", sourceEntityIds: [proposalId] },
   });
+}
+
+/** A typed property tax this module assesses: a local government's or a state's. */
+export function isTypedPropertyTax(proposal: TaxProposalRecord): boolean {
+  return (
+    proposal.terms.instrument === "property" &&
+    (proposal.publicGovernmentIdentity?.kind === "local-government" ||
+      proposal.power?.level === "STATE")
+  );
 }

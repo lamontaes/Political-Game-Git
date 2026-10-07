@@ -825,7 +825,7 @@
       "shippable": true,
       "source": {
         "document": "Congressional bill text",
-        "date": "2030-09-30",
+        "date": "2025-09-20",
         "granule": "BILLS-119hr2483enr",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr2483enr"
       }
@@ -1077,7 +1077,7 @@
       "shippable": true,
       "source": {
         "document": "Congressional bill text",
-        "date": "2034-03-30",
+        "date": "2025-01-21",
         "granule": "BILLS-119hr187eh",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr187eh"
       }
@@ -1189,7 +1189,7 @@
       "shippable": true,
       "source": {
         "document": "Congressional bill text",
-        "date": "2034-03-30",
+        "date": "2025-01-21",
         "granule": "BILLS-119hr187eh",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr187eh"
       }
@@ -1203,7 +1203,7 @@
       "shippable": true,
       "source": {
         "document": "Congressional bill text",
-        "date": "2034-03-30",
+        "date": "2025-01-21",
         "granule": "BILLS-119hr187eh",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr187eh"
       }

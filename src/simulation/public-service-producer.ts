@@ -37,6 +37,7 @@ import {
 } from "./crisis/health-queries";
 import { SUBSTANCE_USE_DISORDER_KEY } from "./crisis/condition-pack";
 import { publicProgramRecords } from "./public-program-integrity";
+import { residentOfCounty } from "./county-service-authority";
 import {
   livesInServiceArea,
   requestPublicService,
@@ -55,6 +56,7 @@ import { writeWithWorldIntegrityOnce } from "./world";
 import {
   PUBLIC_SERVICE_ATTENDANCE,
   SERVICE_REQUEST_FORMS,
+  isCountyServiceProgram,
   type ServiceRequestForm,
 } from "./law-consequences/service-delivered-data";
 import type {
@@ -179,8 +181,18 @@ export function produceResidentServiceRequests(
       preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
     });
     const end = addSimulationMinutes(start, form.visit.minutes);
-    for (const personId of residentsOf(world, commitment.jurisdictionId)) {
+    const countyService = isCountyServiceProgram(commitment.programKey);
+    for (const personId of residentsOf(
+      world,
+      commitment.jurisdictionId,
+      commitment.programKey,
+    )) {
       if (records.dead.has(personId)) continue;
+      if (
+        countyService &&
+        !residentOfCounty(world, personId, commitment.programKey)
+      )
+        continue;
       if (
         !form.forChild &&
         scheduledConflictExists(current, [personId], start, end)
@@ -279,7 +291,11 @@ export function produceResidentServiceRequests(
 }
 
 /** Adults whose recorded home is in the served place, in id order. */
-function residentsOf(world: World, jurisdictionId: EntityId): EntityId[] {
+function residentsOf(
+  world: World,
+  jurisdictionId: EntityId,
+  programKey?: string,
+): EntityId[] {
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   return (Object.keys(world.people) as EntityId[])
@@ -288,7 +304,7 @@ function residentsOf(world: World, jurisdictionId: EntityId): EntityId[] {
         id !== controlled &&
         ageOnDate(world.people[id]!.birthDate, world.currentDate) >=
           ADULT_AGE &&
-        livesInServiceArea(world, id, jurisdictionId),
+        livesInServiceArea(world, id, jurisdictionId, programKey),
     )
     .sort();
 }
@@ -454,6 +470,45 @@ function needConsiderations(
       (place ? stateKeyForJurisdiction(place) : null);
     return !!servedState && state === servedState;
   };
+
+  if (form.need === "clinic") {
+    // A county clinic is asked for from the person's own health record: any
+    // episode still open. The episode names no condition, so it is weighed as
+    // being unwell, never as a diagnosis. Hours already given to work weigh
+    // against going.
+    for (const episode of activeHealthEpisodes(world, personId)) {
+      if (!episode.eventId) continue;
+      out.push(
+        consideration(
+          personId,
+          `health:${episode.id}`,
+          "ask",
+          "moderate",
+          "high",
+          "Is unwell and could use the clinic.",
+          [{ kind: "historical-event", eventId: episode.eventId }],
+          "context:health",
+        ),
+      );
+    }
+    if (out.length === 0) return out;
+    for (const { relationship, role } of work) {
+      const weekly = role.timeDemand.expectedWeekly?.maximumHours ?? null;
+      out.push(
+        consideration(
+          personId,
+          `work-hours:${relationship.id}`,
+          "wait",
+          weekly !== null && weekly >= 40 ? "moderate" : "slight",
+          "high",
+          `Hours already go to work as ${role.title}.`,
+          [lifeRef("work-role", role.id)],
+          "context:work",
+        ),
+      );
+    }
+    return out;
+  }
 
   if (form.need === "on-call") {
     // A crisis team is asked for from the person's own health record: an
@@ -802,7 +857,12 @@ export function serviceAttendanceHandler(
     );
   if (
     !commitment ||
-    !livesInServiceArea(world, personId, commitment.jurisdictionId)
+    !livesInServiceArea(
+      world,
+      personId,
+      commitment.jurisdictionId,
+      commitment.programKey,
+    )
   )
     return done(
       cancelScheduledActivity(world, activity.id),

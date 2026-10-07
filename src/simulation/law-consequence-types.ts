@@ -8,50 +8,74 @@ import type {
 } from "./types";
 import type { CensusRegion } from "./world-setup/census-regions";
 
+/**
+ * The one registry of labels that may be persisted on a law-effect stamp.
+ * Registration-backed consequence handlers and older bespoke writers both
+ * read their label type from this inventory; adding a free-text label at a
+ * writer is therefore a type error.
+ */
+export const LAW_EFFECT_KIND_REGISTRY = {
+  consequences: [
+    "pay",
+    "tax",
+    "price-cost",
+    "coverage-eligibility",
+    "right-permission",
+    "service-delivered",
+    "legal-outcome",
+    "institution-rule",
+    "government-operations",
+    "curriculum-application",
+    "business-incentive",
+    "snap-participation",
+    "public-library-service",
+    "parks-service-spending",
+  ],
+  legacy: [
+    "business-compliance-cost",
+    "cannabis-selective-tax-revenue",
+    "congress-voting-seat-tenure",
+    "election.state-legislative-candidacy-intent",
+    "eviction-counsel-representation",
+    "federal-income-tax-withholding",
+    "government-outlay-change",
+    "government-program-payment",
+    "health-coverage",
+    "housing-permit-units",
+    "inclusionary-affordable-rent",
+    "justice.held-before-trial",
+    "justice.released-before-trial",
+    "law.pay-compensation",
+    "local.officeholder-retired",
+    "local.wards-drawn",
+    "minimum-custody-months",
+    "minimum-wage-compensation",
+    "paid-leave-benefit",
+    "paid-leave-budget-cost",
+    "public-program-appropriation",
+    "rent-stabilization-renewal",
+    "state-revenue-loss",
+    "state-spending",
+    "tax-assessment",
+    "tax-collection",
+    "tax-policy",
+    "teacher-pay",
+    "work-compensation-payment",
+  ],
+} as const;
+
 export type LawConsequenceKind =
-  | "pay"
-  | "tax"
-  | "price-cost"
-  | "coverage-eligibility"
-  | "right-permission"
-  | "service-delivered"
-  | "legal-outcome"
-  | "institution-rule"
-  | "public-library-service"
-  | "parks-service-spending"
-  | "government-operations";
+  (typeof LAW_EFFECT_KIND_REGISTRY.consequences)[number];
 
 /** Existing bespoke stamp labels awaiting migration; new kinds use LawConsequenceKind. */
-export type LegacyEffectKind =
-  | "business-compliance-cost"
-  | "cannabis-selective-tax-revenue"
-  | "congress-voting-seat-tenure"
-  | "election.state-legislative-candidacy-intent"
-  | "eviction-counsel-representation"
-  | "federal-income-tax-withholding"
-  | "government-outlay-change"
-  | "government-program-payment"
-  | "health-coverage"
-  | "housing-permit-units"
-  | "inclusionary-affordable-rent"
-  | "justice.held-before-trial"
-  | "justice.released-before-trial"
-  | "law.pay-compensation"
-  | "local.officeholder-retired"
-  | "local.wards-drawn"
-  | "minimum-custody-months"
-  | "minimum-wage-compensation"
-  | "paid-leave-benefit"
-  | "paid-leave-budget-cost"
-  | "public-program-appropriation"
-  | "rent-stabilization-renewal"
-  | "state-revenue-loss"
-  | "state-spending"
-  | "tax-assessment"
-  | "tax-collection"
-  | "tax-policy"
-  | "teacher-pay"
-  | "work-compensation-payment";
+export type LegacyEffectKind = (typeof LAW_EFFECT_KIND_REGISTRY.legacy)[number];
+
+export type LawEffectKind = LawConsequenceKind | LegacyEffectKind;
+
+export const LAW_EFFECT_KINDS: readonly LawEffectKind[] = [
+  ...LAW_EFFECT_KIND_REGISTRY.consequences,
+  ...LAW_EFFECT_KIND_REGISTRY.legacy,
+];
 
 /** Units are checked by the evaluator before a handler can write a record. */
 export const LAW_AMOUNT_UNITS = [
@@ -74,6 +98,7 @@ export const LAW_AMOUNT_UNITS = [
   "tonnes-co2-equivalent",
   "fluid-ounces",
   "litres",
+  "usd-per-award",
 ] as const;
 export type LawAmountUnit = (typeof LAW_AMOUNT_UNITS)[number];
 

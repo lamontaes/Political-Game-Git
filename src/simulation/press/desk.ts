@@ -10,6 +10,8 @@ import {
   scheduleFutureDueItem,
 } from "../future-transitions";
 import { personName } from "../people";
+import { traitRegistryFor } from "../trait-registry";
+import { registeredTraitConsiderations } from "../trait-readings";
 import { correctPublication, publishPublicEvent } from "../public-information";
 import { PUBLIC_PROGRAM_EVENT_PREFIX } from "../public-program-integrity";
 import {
@@ -57,6 +59,7 @@ import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
+  ensurePressExposureCoverage,
   mediaOutlets,
   reporterIsCurrent,
   reporterRoles,
@@ -827,7 +830,7 @@ function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
           optionKey: matter && !involved ? "dispute" : "decline",
           sourceType: "context:own-knowledge",
           direction: "supports",
-          importance: "moderate",
+          importance: matter && !involved ? "moderate" : "slight",
           confidence: "high",
           explanation:
             matter && !involved
@@ -835,6 +838,13 @@ function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
               : "Saying nothing on the record avoids committing to an account.",
           sourceRefs: [],
         },
+        ...registeredTraitConsiderations(
+          next,
+          traitRegistryFor(next),
+          personId,
+          `${lead.stableKey}:npc-response:${personId}`,
+          "press.subject-response",
+        ),
       ],
       perceptionIds: [],
       randomness: "close-choices",
@@ -1549,6 +1559,12 @@ export function pressDeskSweepHandler(
   if (dueItem.transitionKey !== PRESS_DESK_SWEEP_TRANSITION_KEY) {
     throw new Error("The desk sweep handler received another transition.");
   }
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
   // Only the opening sweep reads the archive. Later sweeps retain the
   // incremental frontier so older records are not rescanned every week.
   const frontier =
