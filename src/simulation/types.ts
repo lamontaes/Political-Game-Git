@@ -4498,20 +4498,29 @@ export interface LawPermissionRecord extends LawEffectStampedRecord {
 }
 
 /** Append-only attribution of a sentence already written by the court. */
-export interface LegalOutcomeConsequenceRecord {
+interface LegalOutcomeConsequenceRecordBase {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
   readonly recordedAt: IsoDate;
-  readonly sentenceEventId: EntityId;
   readonly subjectPersonId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly appliedAt: IsoDate;
-  readonly effectKind: "minimum-custody-months";
-  readonly minimumMonths: number;
   readonly sourceRecordIds: readonly EntityId[];
   readonly lawEffectStamps: readonly [LawEffectStamp];
 }
+
+export type LegalOutcomeConsequenceRecord =
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "minimum-custody-months";
+      readonly sentenceEventId: EntityId;
+      readonly minimumMonths: number;
+    })
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "juvenile-jurisdiction-ceiling";
+      readonly caseStageEventId: EntityId;
+      readonly juvenileCourtAgeCeiling: number;
+    });
 
 /**
  * One dated entry in a person's childhood record (`childhood-record.ts`).
@@ -5882,6 +5891,7 @@ export interface SetupPriorStore {
 }
 
 export type SaveMode = "free" | "one-save";
+export type NotesVisibility = "full" | "light" | "none";
 export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
 export type ChallengeIntensity = "quiet" | "standard" | "relentless";
 
@@ -5890,6 +5900,8 @@ export interface PlaySettings {
   readonly saves: SaveMode;
   /** Reorders eligible life situations without changing events or outcomes. */
   readonly challengeIntensity: ChallengeIntensity;
+  /** Controls when player-known reminders appear on person cards. */
+  readonly notesVisibility: NotesVisibility;
   /** New-game-only outlet standard, copied to outlets when they are founded. */
   readonly pressPremise: EditorialStandard;
   /** Changes how recorded personal-life events are worded, never world facts. */

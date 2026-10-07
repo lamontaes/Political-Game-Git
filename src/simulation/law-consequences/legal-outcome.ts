@@ -10,6 +10,7 @@ import { createStableId } from "../ids";
 import type {
   LawConsequenceKindRegistration,
   LawConsequenceRow,
+  ResolvedLawConsequence,
 } from "../law-consequence-types";
 import type {
   EntityId,
@@ -23,9 +24,14 @@ import {
   SENTENCE_MONTHS_TAG,
   SENTENCE_LIFE_TAG,
 } from "../justice/jail-terms";
+import { ageOnDate } from "../dates";
+
+const PROSECUTION_CHARGED_EVENT = "justice.charged";
 
 export const MINIMUM_CUSTODY_QUESTION =
   "us-policy-positions:justice-public-safety.mandatory-minimum-sentences";
+export const JUVENILE_JURISDICTION_QUESTION =
+  "us-policy-positions:justice-public-safety.raise-juvenile-court-age";
 
 /** Terms describe the rule; they never supply an invented sentence length. */
 export const minimumCustodyRow: LawConsequenceRow = {
@@ -175,39 +181,85 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
   kind: "legal-outcome",
   owner: "Team9",
   selectors: ["court.saved-defendant"],
-  actions: ["minimum-custody-months"],
+  actions: ["minimum-custody-months", "juvenile-jurisdiction-ceiling"],
   predicates: ["court.covered-offense"],
-  units: ["months"],
+  units: ["months", "years"],
   resolve(world, row, context) {
     if (
       row.kind !== "legal-outcome" ||
       row.who.selector !== "court.saved-defendant" ||
       row.who.predicates.length !== 0 ||
-      row.conditions.length !== 1 ||
-      row.conditions[0]?.capability !== "court.covered-offense" ||
-      row.what !== "minimum-custody-months" ||
       context.activity !== "case-stage" ||
       !context.questionKey
+    )
+      return [];
+    const minimumCustody = row.what === "minimum-custody-months";
+    const juvenileAge = row.what === "juvenile-jurisdiction-ceiling";
+    if (
+      (!minimumCustody && !juvenileAge) ||
+      (minimumCustody &&
+        (row.conditions.length !== 1 ||
+          row.conditions[0]?.capability !== "court.covered-offense")) ||
+      (juvenileAge &&
+        (row.conditions.length !== 0 ||
+          context.questionKey !== JUVENILE_JURISDICTION_QUESTION))
     )
       return [];
     const event = world.history.events.find(
       (entry) => entry.id === context.activityId,
     );
-    if (
-      !event ||
-      event.type !== PROSECUTION_SENTENCED_EVENT ||
-      event.occurredAt !== context.onDate
-    )
-      return [];
+    if (!event || event.occurredAt !== context.onDate) return [];
     const personId = event.participants.find(
       (entry) => entry.role === "focus:defendant",
     )?.personId;
     if (!personId || !context.subjectIds.includes(personId)) return [];
+    const venueJurisdictionId = event.jurisdictionId;
+    if (!venueJurisdictionId) return [];
+    if (juvenileAge) {
+      if (event.type !== PROSECUTION_CHARGED_EVENT) return [];
+      const proposition = Object.values(world.policyCatalog.propositions).find(
+        (candidate) => candidate.stableKey === JUVENILE_JURISDICTION_QUESTION,
+      );
+      if (!proposition) return [];
+      const law = lawInForce(
+        world,
+        venueJurisdictionId,
+        proposition.id,
+        context.onDate,
+      );
+      if (!law) return [];
+      const term = readJuvenileJurisdictionTerm(
+        world,
+        law,
+        context.questionKey,
+        context.onDate,
+      );
+      const person = world.people[personId];
+      if (
+        !term ||
+        !person ||
+        ageOnDate(person.birthDate, event.occurredAt) < term.value + 1
+      )
+        return [];
+      return [
+        {
+          row,
+          law,
+          questionKey: context.questionKey,
+          jurisdictionId: venueJurisdictionId,
+          subject: { kind: "person", id: personId },
+          activityId: event.id,
+          effectiveAt: event.occurredAt,
+          sourceRecordIds: [...new Set([event.id, ...term.sourceRecordIds])],
+          value: { type: "amount", value: term.value, unit: "years" },
+        },
+      ];
+    }
+    if (event.type !== PROSECUTION_SENTENCED_EVENT) return [];
     const offenseKey = event.tags
       .find((tag) => tag.startsWith("justice.offense:"))
       ?.slice("justice.offense:".length);
-    const venueJurisdictionId = event.jurisdictionId;
-    if (!offenseKey || !venueJurisdictionId) return [];
+    if (!offenseKey) return [];
     const floor = custodyFloorAt(
       world,
       { venueJurisdictionId, offenseKey },
@@ -231,6 +283,11 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
     ];
   },
   apply(world, resolved) {
+    if (
+      resolved.row.kind === "legal-outcome" &&
+      resolved.row.what === "juvenile-jurisdiction-ceiling"
+    )
+      return applyJuvenileJurisdictionOutcome(world, resolved);
     if (
       resolved.row.kind !== "legal-outcome" ||
       resolved.row.what !== "minimum-custody-months" ||
@@ -284,7 +341,10 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
     const prior = world.history.legalOutcomeConsequences ?? [];
     const existing = prior.find((record) => record.stableKey === stableKey);
     if (existing) {
-      if (existing.minimumMonths !== resolved.value.value)
+      if (
+        existing.effectKind !== "minimum-custody-months" ||
+        existing.minimumMonths !== resolved.value.value
+      )
         throw new Error("Conflicting minimum for the same saved sentence.");
       return world;
     }
@@ -313,29 +373,136 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
   },
 };
 
+function applyJuvenileJurisdictionOutcome(
+  world: World,
+  resolved: ResolvedLawConsequence,
+): World {
+  if (
+    resolved.row.kind !== "legal-outcome" ||
+    resolved.row.what !== "juvenile-jurisdiction-ceiling" ||
+    resolved.value.type !== "amount" ||
+    resolved.value.unit !== "years" ||
+    !Number.isSafeInteger(resolved.value.value) ||
+    resolved.value.value < 0 ||
+    resolved.subject.kind !== "person" ||
+    resolved.effectiveAt !== world.currentDate ||
+    resolved.law.operativeAt > resolved.effectiveAt
+  )
+    return world;
+  const event = world.history.events.find(
+    (entry) => entry.id === resolved.activityId,
+  );
+  const person = world.people[resolved.subject.id];
+  if (
+    !event ||
+    event.type !== PROSECUTION_CHARGED_EVENT ||
+    event.jurisdictionId !== resolved.jurisdictionId ||
+    event.occurredAt !== resolved.effectiveAt ||
+    !person ||
+    ageOnDate(person.birthDate, event.occurredAt) < resolved.value.value + 1 ||
+    !event.participants.some(
+      (entry) =>
+        entry.role === "focus:defendant" &&
+        entry.personId === resolved.subject.id,
+    )
+  )
+    return world;
+  const stamp = lawEffectStamp(resolved.law, {
+    effectKind: "legal-outcome",
+    questionKey: resolved.questionKey,
+    jurisdictionId: resolved.jurisdictionId,
+    appliedAt: event.occurredAt,
+    sourceRecordIds: resolved.sourceRecordIds,
+  });
+  if (!stamp) return world;
+  const stableKey = `legal-outcome/v1:${JSON.stringify([
+    event.id,
+    resolved.subject.id,
+    resolved.row.id,
+    resolved.questionKey,
+    resolved.law.measureId,
+  ])}`;
+  const prior = world.history.legalOutcomeConsequences ?? [];
+  const existing = prior.find((record) => record.stableKey === stableKey);
+  if (existing) {
+    if (
+      existing.effectKind !== "juvenile-jurisdiction-ceiling" ||
+      existing.juvenileCourtAgeCeiling !== resolved.value.value
+    )
+      throw new Error("Conflicting juvenile court age for the same charge.");
+    return world;
+  }
+  const record: LegalOutcomeConsequenceRecord = {
+    id: createStableId("decision", `${world.id}:${stableKey}`),
+    stableKey,
+    sequence: world.history.nextSequence,
+    recordedAt: world.currentDate,
+    caseStageEventId: event.id,
+    subjectPersonId: resolved.subject.id,
+    jurisdictionId: resolved.jurisdictionId,
+    appliedAt: event.occurredAt,
+    effectKind: "juvenile-jurisdiction-ceiling",
+    juvenileCourtAgeCeiling: resolved.value.value,
+    sourceRecordIds: [...resolved.sourceRecordIds],
+    lawEffectStamps: [stamp],
+  };
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      legalOutcomeConsequences: appendedList(prior, [record]),
+    },
+  };
+}
+
 /** Shared world integrity can call this without creating or changing a sentence. */
 export function assertLegalOutcomeConsequenceIntegrity(world: World): void {
   const keys = new Set<string>();
   const ids = new Set<EntityId>();
   for (const record of world.history.legalOutcomeConsequences ?? []) {
     const event = world.history.events.find(
-      (entry) => entry.id === record.sentenceEventId,
+      (entry) =>
+        entry.id ===
+        (record.effectKind === "minimum-custody-months"
+          ? record.sentenceEventId
+          : record.caseStageEventId),
     );
     const stamp = record.lawEffectStamps?.[0];
-    const months = Number(
-      event?.tags
-        .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
-        ?.slice(SENTENCE_MONTHS_TAG.length),
-    );
+    const validOutcome =
+      record.effectKind === "minimum-custody-months"
+        ? (() => {
+            const months = Number(
+              event?.tags
+                .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
+                ?.slice(SENTENCE_MONTHS_TAG.length),
+            );
+            return (
+              event?.type === PROSECUTION_SENTENCED_EVENT &&
+              Number.isSafeInteger(record.minimumMonths) &&
+              record.minimumMonths >= 0 &&
+              (event.tags.includes(SENTENCE_LIFE_TAG) ||
+                (Number.isFinite(months) && months >= record.minimumMonths))
+            );
+          })()
+        : (() => {
+            const person = world.people[record.subjectPersonId];
+            return (
+              event?.type === PROSECUTION_CHARGED_EVENT &&
+              Number.isSafeInteger(record.juvenileCourtAgeCeiling) &&
+              record.juvenileCourtAgeCeiling >= 0 &&
+              !!person &&
+              ageOnDate(person.birthDate, event.occurredAt) >=
+                record.juvenileCourtAgeCeiling + 1
+            );
+          })();
     if (
       keys.has(record.stableKey) ||
       ids.has(record.id) ||
       !Number.isSafeInteger(record.sequence) ||
       record.sequence >= world.history.nextSequence ||
-      !Number.isSafeInteger(record.minimumMonths) ||
-      record.minimumMonths < 0 ||
       !event ||
-      event.type !== PROSECUTION_SENTENCED_EVENT ||
+      !validOutcome ||
       event.sequence >= record.sequence ||
       event.jurisdictionId !== record.jurisdictionId ||
       event.occurredAt !== record.appliedAt ||
@@ -345,8 +512,6 @@ export function assertLegalOutcomeConsequenceIntegrity(world: World): void {
         (p) =>
           p.role === "focus:defendant" && p.personId === record.subjectPersonId,
       ) ||
-      (!event.tags.includes(SENTENCE_LIFE_TAG) &&
-        (!Number.isFinite(months) || months < record.minimumMonths)) ||
       record.lawEffectStamps?.length !== 1 ||
       !isLawEffectStamp(stamp) ||
       stamp.appliedAt !== record.appliedAt ||
