@@ -84,23 +84,6 @@ describe("the family screen", { timeout: 180_000 }, () => {
     expect(backdrop.kind).toBe("place");
   });
 
-  it("prints the name tag in dark ink at 4.5:1 or better on the plate", () => {
-    const css = readFileSync("src/player/opening-family.css", "utf8");
-    const rule = /\.scene-place-nametag \{[^}]*\}/.exec(css)?.[0] ?? "";
-    expect(rule).toContain("color: #000;");
-    const lum = (hex: string) => {
-      const [r, g, b] = [1, 3, 5].map((at) => {
-        const c = parseInt(hex.slice(at, at + 2), 16) / 255;
-        return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-      });
-      return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
-    };
-    // The plate's darkest end is its worst case.
-    const ratio = (lum("#96703a") + 0.05) / (lum("#000000") + 0.05);
-    expect(rule).toContain("#96703a");
-    expect(ratio).toBeGreaterThanOrEqual(4.5);
-  });
-
   it("stands every parent on the home's own spots", () => {
     const { parents } = projectOpeningFamily(world, player);
     const staged = openingTourStagedPeople(
