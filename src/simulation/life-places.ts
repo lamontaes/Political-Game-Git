@@ -1054,6 +1054,11 @@ export function seatOfGovernmentPlace(
   if (!row) return null;
   const place = lifePlaceByKey(row[1]);
   if (!place) return null;
+  if (
+    jurisdictionKey !== "US-FEDERAL" &&
+    place.stateJurisdictionKey !== jurisdictionKey
+  )
+    return null;
   return { jurisdictionKey: row[0], place, matchStatus: row[2] };
 }
 
