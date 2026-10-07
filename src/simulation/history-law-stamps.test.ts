@@ -13,7 +13,7 @@ it("preserves event law attribution through the canonical writer and Save/Contin
     version: "law-effect-stamp/v1",
     governingLawKey: "starting-law:US:test.event-law" as EntityId,
     source: "in-force-at-start",
-    effectKind: "test.recorded-event",
+    effectKind: "legal-outcome",
     questionKey: "test.event-law",
     jurisdictionId: person.homeJurisdictionId,
     operativeAt: initial.currentDate,
