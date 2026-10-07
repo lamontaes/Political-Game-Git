@@ -573,7 +573,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 
 | item    | what it is                                                                       | doc and part                                | status                                                        | claimer    |
 | ------- | -------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------- | ---------- |
-| RS-1139 | Team 7: September 29 preview inventory and shared art tags                       | PR #1139 (codex/sept29-team7-art-review)    | open: draft: finish it or close it as superseded              |            |
+| RS-1139 | Team 7: September 29 preview inventory and shared art tags                       | PR #1139 (codex/sept29-team7-art-review)    | done (superseded by C7; art preserved for later owner review) | S50        |
 | RS-1140 | Team 7: children pose sheets for review                                          | PR #1140 (codex/sept29-team7-kids)          | done (superseded by C7; art preserved for later owner review) | S50        |
 | RS-1141 | Revise illustrated TV candidates with distinct station palettes                  | PR #1141 (codex/sept29-team7-tv)            | done (superseded by C7; art preserved for later owner review) | S50        |
 | RS-1142 | Team 7: newspaper front pages for review                                         | PR #1142 (codex/sept29-team7-newspapers)    | done (superseded by C7; art preserved for later owner review) | S50        |
@@ -585,7 +585,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1170 | Add third Team 7 scene measurement review batch | PR #1170 (codex/sept29-team7-scenes-03) | open: draft: finish it or close it as superseded | |
 | RS-1171 | Add fourth Team 7 scene measurement review batch | PR #1171 (codex/sept29-team7-scenes-04) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1172 | Add fifth Team 7 scene measurement review batch | PR #1172 (codex/sept29-team7-scenes-05) | open: draft: finish it or close it as superseded | |
-| RS-1176 | Add sixth Team 7 scene preview geometry review batch | PR #1176 (codex/sept29-team7-scenes-06) | open: draft: finish it or close it as superseded | |
+| RS-1176 | Add sixth Team 7 scene preview geometry review batch | PR #1176 (codex/sept29-team7-scenes-06) | done #1176: closed as superseded by C7 engine rebuild; art preserved | |
 | RS-1178 | Add final Team 7 supplied scene preview review batch | PR #1178 (codex/sept29-team7-scenes-07) | open: draft: finish it or close it as superseded | |
 | RS-1179 | Review existing capitol surfaces: AK through KS | PR #1179 (codex/sept29-team7-scenes-08) | ready #3187 | Session 45 |
 | RS-1180 | Review existing capitol surfaces: KY through OH | PR #1180 (codex/sept29-team7-scenes-09) | done (superseded by C7; art preserved for later owner review) | S50 |
