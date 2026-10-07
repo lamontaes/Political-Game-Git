@@ -746,7 +746,7 @@ export function assessPartyInitiative(
       sourceRefs: [],
     },
   ];
-  const leave = allies.length >= 2 ? "split" : "found";
+  const leave = allies.length >= 1 ? "split" : "found";
   considerations.push(
     {
       stableKey: "repeated-dispute",
