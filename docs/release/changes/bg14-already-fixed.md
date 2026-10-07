@@ -1,6 +1,8 @@
 ---
 id: bg14-already-fixed
-impact: none
+impact: patch
+section: Fixed
+title: BG-14 is recorded as already fixed
 ---
 
-The BG-14 mortality correction was already present on main in PR #2634. This update records that status in the assignment pool.
+The mortality correction was already present on main before this assignment status update.
