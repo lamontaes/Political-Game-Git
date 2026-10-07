@@ -163,7 +163,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b22-p3 | Coverage follows the player | b22-_.md part 3 | claimed | S48 |
 | b22-p4 | Big stories become national from their own records | b22-_.md part 4 | claimed | S48 |
 | b22-p5 | News screens show what reaches you | b22-_.md part 5 | claimed | S48 |
-| b22-p6 | Reach for people only where it matters | b22-_.md part 6 | claimed | S48 |
+| b22-p6 | Reach for people only where it matters | b22-_.md part 6 | blocked (gate) | S48 |
 | b24-p1 | Pipeline first (small set) | b24-_.md part 1 | open (stale claim: S11) | S11 |
 | b24-p2 | One tag vocabulary | b24-_.md part 2 | open (stale claim: S11) | S11 |
 | b24-p3 | One slot contract | b24-_.md part 3 | open (stale claim: S11) | S11 |

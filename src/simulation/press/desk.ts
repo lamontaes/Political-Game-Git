@@ -53,6 +53,28 @@ import { openPersonalLifeMatter } from "./matters";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
 import { reporterContactCount } from "./reporter-history";
+import { newsHabitOf } from "../living-world/news-habits";
+import { playerOfficeScope } from "../governing/office-consequence";
+
+/** Whether this person is individually modeled as a reader of this outlet. */
+export function hasModeledOutletAudience(
+  world: World,
+  personId: EntityId,
+  outletKey: string,
+): boolean {
+  const person = world.people[personId];
+  if (!person || !newsHabitOf(world, personId).outletKeys.includes(outletKey))
+    return false;
+  const controlled =
+    world.control.kind === "person"
+      ? world.people[world.control.personId]
+      : undefined;
+  const modeledLocal =
+    controlled !== undefined &&
+    person.homeJurisdictionId === controlled.homeJurisdictionId;
+  const modeledOfficial = playerOfficeScope(world, personId).length > 0;
+  return modeledLocal || modeledOfficial;
+}
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
@@ -1320,6 +1342,8 @@ function recordProfessionalReaders(
   }
   let next = world;
   for (const personId of [...readers].sort()) {
+    if (!hasModeledOutletAudience(world, personId, publication.outletKey))
+      continue;
     next = recordEventKnowledge(next, {
       stableKey: `${publication.stableKey}:read:${personId}`,
       personId,
