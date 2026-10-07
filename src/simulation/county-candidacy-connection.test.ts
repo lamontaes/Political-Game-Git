@@ -16,8 +16,17 @@ describe("actual county identity reaches the shared candidacy reader", () => {
     const offices = localGoverningBodiesForJurisdiction(
       place.context.jurisdiction.id,
     );
-    expect(offices).toHaveLength(units.counties.length);
-    const office = offices.find((row) => row.unit.countyGeoid === "22031")!;
+    // One governing body per county, then the county's row offices.
+    expect(offices.filter((row) => row.seat === "governing-body")).toHaveLength(
+      units.counties.length,
+    );
+    expect(
+      offices.filter((row) => row.seat === "chief-executive"),
+    ).toHaveLength(0);
+    const office = offices.find(
+      (row) =>
+        row.unit.countyGeoid === "22031" && row.seat === "governing-body",
+    )!;
     expect(office).toBeDefined();
     expect(office.unit.id).toBe("gus2025:127794");
     expect(office.unit.unitType).toBe("county");
@@ -38,7 +47,9 @@ describe("actual county identity reaches the shared candidacy reader", () => {
       place.context.jurisdiction.id,
     );
     expect(offices[0]!.unit.id).toBe(units.municipal[0]!.id);
-    const county = offices.filter((row) => row.unit.unitType === "county");
+    const county = offices.filter(
+      (row) => row.unit.unitType === "county" && row.seat === "governing-body",
+    );
     expect(county.map((row) => row.unit.id)).toEqual(
       units.counties.map((row) => row.id),
     );

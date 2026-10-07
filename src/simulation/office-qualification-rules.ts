@@ -519,12 +519,13 @@ export interface QualificationAssessmentInput {
   readonly stateResidenceSince: IsoDate | null;
   /**
    * Since when the World's records show this person a United States citizen:
-   * their birth date, when they were born in a state, the District of
-   * Columbia or a territory whose births confer citizenship. Absent or null
-   * when nothing recorded shows it; a citizenship or elector requirement then
-   * stays unevaluated.
+   * a recorded naturalization date, a marked estimated citizenship-at-birth
+   * date, or legacy positive birthplace evidence. Null never invents a date.
+   * Status can establish citizenship without establishing its duration.
    */
   readonly citizenSince?: IsoDate | null;
+  /** Canonical citizenship only; null remains unknown, never noncitizen. */
+  readonly citizenStatus?: boolean | null;
   /** Earliest active residence in this exact district, or null when unproved. */
   readonly districtResidenceSince: IsoDate | null;
   /**
@@ -681,21 +682,38 @@ export function assessOfficeQualifications(
       continue;
     }
 
-    // Citizenship the World records: a birth in a place whose births confer
-    // it. A citizenship term counts from that date.
+    if (
+      (row.field === "US_CITIZENSHIP" || row.field === "ELECTOR_REQUIREMENT") &&
+      input.citizenStatus === false
+    ) {
+      assessments.push({
+        field: row.field,
+        verdict: "fails",
+        reason:
+          "This office requires United States citizenship, and this character is not a United States citizen.",
+        source: row,
+      });
+      continue;
+    }
+
+    // A citizenship duration needs an actual or marked estimated start date.
+    // Status alone can establish citizenship, never an invented oath date.
     if (
       row.field === "US_CITIZENSHIP" &&
-      (input.citizenSince ?? null) !== null
+      ((input.citizenSince ?? null) !== null ||
+        (input.citizenStatus === true && durationMonths(row) === null))
     ) {
       const term = durationMonths(row);
-      const held = completedMonthsBetween(input.citizenSince!, input.onDate);
-      const meets = term === null || held >= term.months;
+      const held = input.citizenSince
+        ? completedMonthsBetween(input.citizenSince, input.onDate)
+        : null;
+      const meets = term === null || (held !== null && held >= term.months);
       assessments.push({
         field: row.field,
         verdict: meets ? "meets" : "fails",
         reason: meets
-          ? `A United States citizen by birth.`
-          : `This office requires ${requirementPhrase(row)}, and this character has been a citizen ${residedLabel(held)}.`,
+          ? `A United States citizen.`
+          : `This office requires ${requirementPhrase(row)}, and this character has been a citizen ${residedLabel(held!)}.`,
         source: row,
       });
       continue;
@@ -709,7 +727,7 @@ export function assessOfficeQualifications(
     // when, is a record of its own (modular election law).
     if (
       row.field === "ELECTOR_REQUIREMENT" &&
-      (input.citizenSince ?? null) !== null
+      ((input.citizenSince ?? null) !== null || input.citizenStatus === true)
     ) {
       const age = ageOnDate(input.person.birthDate, input.onDate);
       const residentEnough =
@@ -746,10 +764,8 @@ export function assessOfficeQualifications(
     /*
      * Everything else is read and reported, and deliberately not decided.
      *
-     * The world models no bar admission and no naturalization date, so a
-     * professional requirement, or a citizenship or elector requirement for
-     * somebody not born a citizen, has nothing to test against. Saying "meets"
-     * would hand out an eligibility the game never checked.
+     * Professional admission or a missing citizenship duration stays
+     * unevaluated. Citizenship status never supplies a missing oath date.
      */
     // Worded for the player: the requirement, and that nothing shows this
     // character meets it. Why nothing can (no such record is kept) stays in

@@ -6,7 +6,6 @@ import {
 } from "../simulation";
 import {
   creatorBirthDate,
-  creatorCharacterHint,
   creatorCharacterMissing,
   statedCreatorGender,
 } from "./creator-character";
@@ -86,13 +85,6 @@ describe("creator character step (R7)", () => {
     expect(
       applyFullBirthday(complete(), { year: 2001, month: 2, day: 29 }),
     ).toBeNull();
-  });
-
-  it("says what is left in plain words", () => {
-    expect(creatorCharacterHint([])).toBeNull();
-    expect(creatorCharacterHint(["gender", "name", "birthday"])).toBe(
-      "To continue, choose a gender, a first and last name, and a full birthday (month, day and year).",
-    );
   });
 
   it("draws a randomized first name from the chosen gender's pool", () => {

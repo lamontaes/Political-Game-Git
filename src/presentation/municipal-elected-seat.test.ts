@@ -78,7 +78,7 @@ describe("an elected municipal council member", () => {
             office.officeKey,
             addDays(opening.currentDate, 28),
           ),
-        ).toThrow("Choose a recorded at-large or ward seat");
+        ).toThrow("Choose a recorded at-large or district seat");
         expect(() =>
           fileForOffice(
             opening,

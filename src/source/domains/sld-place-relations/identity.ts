@@ -45,7 +45,7 @@ export const OFFICIAL_PLACE_RELATION_VECTORS: readonly PlaceRelationVector[] = [
     chamber: "state-lower",
     membership: "split",
     districtGeoid: null,
-    note: "Lexington-Fayette is split across Kentucky house districts; whole-place membership is refused.",
+    note: "The official 2024 SLDL relationship rows intersect this place with multiple lower-chamber districts, so whole-place membership is refused.",
   },
   {
     placeGeoid: ADAK_PLACE_GEOID,

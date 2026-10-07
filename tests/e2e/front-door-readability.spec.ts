@@ -276,14 +276,10 @@ test.describe("The front door stays compact and readable over the room", () => {
     expect(contrast(small.color, panel.backgroundColor)).toBeGreaterThan(4.5);
   });
 
-  test("holds the version stamp legible in the corner", async ({ page }) => {
+  test("omits the current version stamp from the title", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await freshBrowser(page);
-    const version = await computed(page, "shell-version");
-    expect(relativeLuminance(version.color)).toBeGreaterThan(0.35);
-    await expect(page.getByTestId("shell-version")).toHaveText(
-      /^v\d+\.\d+\.\d+$/,
-    );
+    await expect(page.getByTestId("shell-version")).toHaveCount(0);
   });
 
   test("stays readable when the viewer asked for less motion", async ({

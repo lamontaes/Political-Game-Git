@@ -42,6 +42,7 @@ const CONTEXTS: readonly { key: NewsContext; label: string }[] = [
  */
 export function NewsDesk({
   world,
+  personId,
   context,
   onContextChange,
   mode,
@@ -56,6 +57,7 @@ export function NewsDesk({
   press,
 }: {
   readonly world: World;
+  readonly personId: EntityId;
   readonly context: NewsContext;
   readonly onContextChange: (context: NewsContext) => void;
   readonly mode: NewsMode;
@@ -71,7 +73,7 @@ export function NewsDesk({
   readonly directory: ReactNode;
   readonly press: ReactNode;
 }) {
-  const page = projectNewsFrontPage(world, mode, outletKey);
+  const page = projectNewsFrontPage(world, mode, outletKey, personId);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [readNotice, setReadNotice] = useState<string | null>(null);
   const runner = useSharedTimeCommand();
@@ -80,7 +82,7 @@ export function NewsDesk({
     addSimulationMinutes(world.currentMoment, TRANSIT_REPORT_READ_MINUTES),
   );
   const selected = selectedId
-    ? projectNewsArticle(world, selectedId as EntityId)
+    ? projectNewsArticle(world, selectedId as EntityId, personId)
     : null;
   const openArticle = (story: NewsStory) => {
     setReadNotice(null);

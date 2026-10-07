@@ -78,7 +78,7 @@ function validatePaths(
         add(
           findings,
           "judicial/unknown-atomic-mechanism",
-          `${record.recordId} uses unknown mechanism ${stage.mechanism}.`,
+          `${record.recordId} uses unrecognized mechanism ${stage.mechanism}.`,
           record.recordId,
         );
       }

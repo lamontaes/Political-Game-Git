@@ -80,6 +80,16 @@ const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
  */
 export type RecordedPayBasis = "compensation" | "work";
 
+/** Annualizes a recorded compensation amount using the shared pay cadence. */
+export function annualizedRecordedPayMinor(
+  amountMinor: number,
+  cadenceKind: string,
+): number | null {
+  const match = /(weekly|biweekly|semimonthly|monthly)/.exec(cadenceKind);
+  const perYear = match ? PERIODS_PER_YEAR[match[1]!] : undefined;
+  return perYear ? amountMinor * perYear : null;
+}
+
 // Coverage writes only crisis history. Reuse the pay index while its
 // immutable source arrays and review date remain unchanged.
 const MONTHLY_PAY_CACHE = new WeakMap<
@@ -136,14 +146,13 @@ export function recordedMonthlyPayByPerson(
   const byPerson = new Map<EntityId, number>();
   for (const [flowId, row] of latest) {
     if (row.status !== "active") continue;
-    const match = /(weekly|biweekly|semimonthly|monthly)/.exec(row.cadenceKind);
-    const perYear = match ? PERIODS_PER_YEAR[match[1]!] : undefined;
-    if (!perYear) continue;
-    const personId = recipients.get(flowId)!;
-    byPerson.set(
-      personId,
-      (byPerson.get(personId) ?? 0) + (row.amount.minorUnits * perYear) / 12,
+    const annualMinor = annualizedRecordedPayMinor(
+      row.amount.minorUnits,
+      row.cadenceKind,
     );
+    if (annualMinor === null) continue;
+    const personId = recipients.get(flowId)!;
+    byPerson.set(personId, (byPerson.get(personId) ?? 0) + annualMinor / 12);
   }
   if (basis === "compensation")
     MONTHLY_PAY_CACHE.set(world.history.resourceFlowTerms, {

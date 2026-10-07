@@ -121,15 +121,14 @@ async function launch() {
       })))
     : await app.firstWindow();
   const foreign = [];
-  if (nativeSessionChecks) {
-    // Electron's will-prevent-unload handler owns this decision. Playwright's
-    // automatic dialog dismissal can race the already-approved native close.
-    page.on("dialog", (dialog) => {
-      if (dialog.type() !== "beforeunload")
-        throw new Error(`Unexpected browser dialog: ${dialog.type()}`);
-      console.log("Native before-unload decision remains with the host.");
-    });
-  }
+  // Electron's will-prevent-unload handler owns this decision in standalone
+  // clients as well as the hub. Playwright's automatic dismissal can race a
+  // native close, even after the saved identity has been proven durable.
+  page.on("dialog", (dialog) => {
+    if (dialog.type() !== "beforeunload")
+      throw new Error(`Unexpected browser dialog: ${dialog.type()}`);
+    console.log("Native before-unload decision remains with the host.");
+  });
   page.on("request", (request) => {
     if (!isPackagedRenderRequest(request.url())) foreign.push(request.url());
   });
@@ -326,8 +325,8 @@ async function assertVisiblePerson(page, expected) {
     await page.getByTestId("play-screen").isVisible(),
   );
   check(
-    "surface: review/production banner boundary",
-    (await page.getByTestId("art-preview-banner").count()) === (review ? 1 : 0),
+    "surface: no preview banner in any build (OW-6)",
+    (await page.getByTestId("art-preview-banner").count()) === 0,
   );
   await page.getByTestId("shell-nav-cluster").click();
   // Personal holds several destinations, so the flyout shows its group button.
@@ -389,6 +388,21 @@ async function assertVisiblePerson(page, expected) {
   return proof;
 }
 
+// ---- Native title: real game-frame Quit must exit the application ----------
+if (nativeSessionChecks) {
+  const { app, page } = await launch();
+  await page.getByTestId("quit").waitFor();
+  // Click the title's requestNativeQuit consumer in the managed app://game
+  // frame. A closed browser window is insufficient: observe application exit.
+  const closed = app.waitForEvent("close", { timeout: 30000 });
+  await page.getByTestId("quit").click();
+  await closed;
+  check(
+    "native: title Quit exits the desktop app through its game frame",
+    true,
+  );
+}
+
 // ---- Session 1: launch, create, keep --------------------------------------
 {
   const { app, page, foreign } = await launch();
@@ -413,8 +427,6 @@ async function assertVisiblePerson(page, expected) {
     .first()
     .click();
   await page.getByTestId("creator-continue-place").click();
-  await page.getByTestId("creator-stage-whoareyou").waitFor();
-  await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   const gate = page.getByTestId("introduction-continue");
   try {
@@ -436,18 +448,10 @@ async function assertVisiblePerson(page, expected) {
     await page.getByTestId("orientation-skip").click();
     await orientation.waitFor({ state: "hidden" });
   }
-  if (process.env.OCD_EXPECT_ART_PREVIEW === "1") {
-    await page.getByTestId("art-preview-banner").waitFor({ timeout: 10000 });
-    check(
-      "art-review: labeled candidate banner is on the installed play screen",
-      (await page.getByTestId("art-preview-banner").count()) === 1,
-    );
-  } else {
-    check(
-      "production: candidate banner is absent",
-      (await page.getByTestId("art-preview-banner").count()) === 0,
-    );
-  }
+  check(
+    "no preview banner in any build (OW-6)",
+    (await page.getByTestId("art-preview-banner").count()) === 0,
+  );
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
@@ -468,7 +472,9 @@ async function assertVisiblePerson(page, expected) {
   await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
   const records = await readSavedRecords(page, databaseName);
   if (records.worlds.length !== 1)
-    throw new Error("Expected exactly one persisted kept life.");
+    throw new Error(
+      `Expected exactly one persisted kept life. Found ${records.worlds.length} live save slots in ${databaseName}.`,
+    );
   identity = savedIdentity(records.worlds[0]);
   savedInterface = records.interfaces;
   check(

@@ -1,0 +1,47 @@
+{
+  "expectedIdentity": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "d516a3d67c36242d33b5bc9e03f3ca936331f1cc",
+    "branch": "codex/session23-p5-veto-results-and-items",
+    "dirty": false,
+    "sourceDigest": "316e46b7b3292230d5192d507299f2589af43d5bdcd939c46da1c939a9eb7552"
+  },
+  "served": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "d516a3d67c36242d33b5bc9e03f3ca936331f1cc",
+    "branch": "codex/session23-p5-veto-results-and-items",
+    "dirty": false,
+    "sourceDigest": "316e46b7b3292230d5192d507299f2589af43d5bdcd939c46da1c939a9eb7552",
+    "pid": 42877,
+    "runId": "session23-p5-veto-overrides"
+  },
+  "baseURL": "http://127.0.0.1:4173",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:4173",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": "off",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+        "screen": {
+          "width": 1920,
+          "height": 1080
+        },
+        "deviceScaleFactor": 1,
+        "isMobile": false,
+        "hasTouch": false,
+        "defaultBrowserType": "chromium",
+        "launchOptions": {
+          "executablePath": "/usr/bin/chromium"
+        }
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}

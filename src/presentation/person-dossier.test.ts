@@ -6,18 +6,155 @@ import { makeIsoDate } from "../simulation/dates";
 import { createStableId } from "../simulation/ids";
 import { serializeWorld } from "../simulation/serialization";
 import { createLightweightPerson } from "../simulation/people";
+import { recordFavor } from "../simulation/favors";
+import { householdLocationAt, householdMembershipsAt } from "../simulation";
+import { createOrganization, createWorkRelationship } from "../simulation/life";
+import { createWorkCompensation } from "../simulation/resources";
 import type { OccupationFact, World } from "../simulation/types";
+import {
+  observerPlace,
+  observerSetup,
+  openObserverWorld,
+} from "./observer-world";
 
-function recordedLife() {
+function recordedLife(startAge = 8) {
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     seed: "dossier-record-access",
-    startAge: 8,
+    startAge,
   });
   return game;
 }
 
 describe("a dossier's own recorded history", () => {
+  it("shows the person's recorded home and household on their own record and while observing", () => {
+    const game = recordedLife();
+    const membership = householdMembershipsAt(
+      game.world,
+      game.playerPersonId,
+    )[0];
+    expect(membership).toBeDefined();
+    const location = householdLocationAt(game.world, membership!.household.id);
+    expect(location).toBeDefined();
+
+    for (const world of [
+      game.world,
+      {
+        ...game.world,
+        control: { kind: "observer" as const },
+      } as World,
+    ]) {
+      const dossier = projectPersonDossier(
+        world,
+        game.playerPersonId,
+        game.playerPersonId,
+      )!;
+      const details = dossier.details.map((fact) => fact.text);
+      expect(details).toContain(membership!.household.label);
+      expect(details).toContain(location!.label);
+    }
+  });
+
+  it("shows recorded current work and pay only on the person's own record or while observing", () => {
+    const game = recordedLife(40);
+    const person = game.world.people[game.playerPersonId]!;
+    let world = createOrganization(game.world, {
+      stableKey: "dossier-current-work:employer",
+      formedAt: game.world.currentDate,
+      provenance: { kind: "authored", note: "Dossier test employer." },
+      initialProfile: {
+        name: "Dossier Test Employer",
+        classification: "custom:dossier-test-employer",
+        locationJurisdictionId: person.homeJurisdictionId,
+      },
+    });
+    world = createWorkRelationship(world, {
+      stableKey: "dossier-current-work:relationship",
+      personId: person.id,
+      organizationId: world.history.organizations.at(-1)!.id,
+      startedAt: world.currentDate,
+      kind: "employment:dossier-test",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance: { kind: "authored", note: "Dossier test employment." },
+      initialRole: {
+        title: "Records clerk",
+        occupationClassification: null,
+        locationJurisdictionId: person.homeJurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 30, maximumHours: 40 },
+          attention: "moderate",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: person.homeJurisdictionId,
+        },
+      },
+    });
+    const work = world.history.workRelationships.at(-1)!;
+    world = createWorkCompensation(world, {
+      stableKey: "dossier-current-work:pay",
+      workRelationshipId: work.id,
+      startsAt: world.currentDate,
+      amount: { minorUnits: 42_500, currency: "USD" },
+      cadenceKind: "schedule:weekly",
+      restrictionKind: null,
+      jurisdictionId: person.homeJurisdictionId,
+      provenance: { kind: "authored", note: "Dossier test pay." },
+    });
+
+    const owner = projectPersonDossier(world, person.id, person.id)!;
+    expect(owner.details.map((fact) => fact.text)).toContain(
+      "Records clerk · Dossier Test Employer",
+    );
+    expect(owner.details.map((fact) => fact.text)).toContain("$425 weekly");
+
+    const strangerId = world.personOrder.find((id) => id !== person.id)!;
+    const stranger = projectPersonDossier(world, strangerId, person.id)!;
+    expect(stranger.details.map((fact) => fact.text)).not.toContain(
+      "Records clerk · Dossier Test Employer",
+    );
+    expect(stranger.details.map((fact) => fact.text)).not.toContain(
+      "$425 weekly",
+    );
+  });
+
+  it("shows only recorded, player-known reminders according to the notes setting", () => {
+    const game = recordedLife();
+    const otherPersonId = game.world.personOrder.find(
+      (personId) => personId !== game.playerPersonId,
+    )!;
+    const sourceEventId = game.world.history.events[0]!.id;
+    const world = recordFavor(game.world, {
+      stableKey: "dossier:known-favor",
+      giverPersonId: otherPersonId,
+      receiverPersonId: game.playerPersonId,
+      kind: "personal:help",
+      description: "carried the groceries home",
+      givenAt: game.world.currentDate,
+      eventId: sourceEventId,
+      subject: { kind: "none" },
+      motive: "kindness",
+      weight: "great",
+      audience: "private",
+      witnessPersonIds: [],
+      inReturnForFavorId: null,
+      undertakingId: null,
+    });
+    const full = projectPersonDossier(
+      world,
+      game.playerPersonId,
+      otherPersonId,
+    )!;
+
+    expect(full.reminders.map((reminder) => reminder.text)).toEqual([
+      expect.stringContaining("carried the groceries home"),
+    ]);
+    expect(full.reminders[0]?.text).not.toContain("kindness");
+  });
+
   it("shows public votes involving the person, even when they are not a tenure focus", () => {
     const game = recordedLife();
     const world = recordWorldEvent(game.world, {
@@ -55,6 +192,42 @@ describe("a dossier's own recorded history", () => {
     expect(serializeWorld(world)).toBe(before);
   });
 
+  it("does not put a board's public meeting in an individual's career when the person is not a participant", () => {
+    const game = recordedLife();
+    const world = recordWorldEvent(game.world, {
+      stableKey: "dossier:unrelated-board-meeting",
+      type: "local.town-board-session",
+      occurredAt: game.world.currentDate,
+      recordedAt: game.world.currentDate,
+      jurisdictionId:
+        game.world.people[game.playerPersonId]!.homeJurisdictionId,
+      involvedEntityIds: [game.playerPersonId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "The town board reviewed the annual budget.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const event = world.history.events.at(-1)!;
+    const dossier = projectPersonDossier(
+      world,
+      game.playerPersonId,
+      game.playerPersonId,
+    )!;
+
+    expect(
+      dossier.publicCareer.some((entry) => entry.eventId === event.id),
+    ).toBe(false);
+  });
+
   it("withholds private events from the public record", () => {
     const game = recordedLife();
     const world = recordWorldEvent(game.world, {
@@ -87,6 +260,51 @@ describe("a dossier's own recorded history", () => {
         entry.summary.includes("household savings"),
       ),
     ).toBe(false);
+  });
+});
+
+describe("conversation context in a freshly generated world", () => {
+  it("describes a housemate as family and gives an observer no player conversation claim", () => {
+    const seed = "bg-10-random-new-game";
+    const place = observerPlace(seed);
+    const opened = openObserverWorld({
+      ...observerSetup(seed, place.key),
+      household: "shares-a-home",
+    });
+    const anchor = opened.anchorPersonId;
+    const familyGame = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed: `${seed}:family`,
+      startAge: 10,
+      depth: "summarize-earlier-life",
+      household: "shares-a-home",
+    });
+    const housemateId = familyGame.world.personOrder.find(
+      (personId) =>
+        personId !== familyGame.playerPersonId &&
+        projectPersonDossier(
+          familyGame.world,
+          familyGame.playerPersonId,
+          personId,
+        )?.details.some((fact) => fact.key === "household"),
+    );
+    expect(housemateId, `fresh random place ${place.key}`).toBeDefined();
+
+    expect(
+      projectPersonDossier(
+        familyGame.world,
+        familyGame.playerPersonId,
+        housemateId!,
+      )!.lastInteraction,
+    ).toMatch(/^You live together\./);
+
+    const strangerId = opened.world.personOrder.find(
+      (personId) => personId !== anchor,
+    )!;
+    expect(
+      projectPersonDossier(opened.world, anchor, strangerId)!.lastInteraction,
+    ).toBeNull();
   });
 });
 
