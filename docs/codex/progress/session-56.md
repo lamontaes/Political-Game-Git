@@ -1,6 +1,6 @@
-# Session 56 corrects LW-09 readiness and moves to LW-12
+# Session 56 update: T3 in review and T4 underway
 
-Current main marks LW-09 and LW-10 done with unsupported effects recorded. This branch corrects a stale LW-09 student-debt readiness claim about named loan and discharge records. LW-12 is the next pool row marked open.
+Current main marks LW-09 and LW-10 done with unsupported effects recorded. The LW-09 readiness correction remains open for review. T3 wires recorded traits into individual campaign donation and candidate-run decisions; its pull request is open and mergeable. T4 now adds registered trait considerations to couple answers, date answers, and town couple-stage decisions. Focused generated-world proofs and producer checks pass. Its T4 pool claim is stale S40, while live availability remains unverified because the assignment board fetch failed. The Drive check-in remains blocked by the earlier automatic review rejection.
 
 ## Done
 
@@ -14,7 +14,7 @@ Current main marks LW-09 and LW-10 done with unsupported effects recorded. This 
   four rows and the 56-jurisdiction state-level restriction in
   `src/simulation/policy-pack-tax-terms.test.ts`.
 
-## Next
+## LW-12 audit notes
 
 - `data/research/laws/lw09-effect-readiness.json` now recognizes named federal loan and noncash discharge writers and records the missing law-consequence binding.
 - The federal loan writer is in `src/simulation/student-debt.ts`; the noncash discharge writer is in `src/simulation/household-loans.ts`.
@@ -22,7 +22,7 @@ Current main marks LW-09 and LW-10 done with unsupported effects recorded. This 
 - Current main marks LW-10 done in `docs/codex/assignments/POOL.md`. Merged [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) supplies its mandatory-minimum row. The stock-trading link remains unsized because the source measures descriptive returns and the game has no member holdings for the effect to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
 - LW-11 remains claimed by S20 in the current pool, which marks LW-12 open with a stale S43 claim (`docs/codex/assignments/POOL.md`). Merged [PR #2495](https://github.com/lamontaes/Political-Game-Git/pull/2495) lands the legislative-term-limit effect; its map lists redistricting, automatic registration, and local-authority effects as unsupported (`data/law-consequences/election-state-landings.json`).
 - The readiness correction is open for review in [PR #3485](https://github.com/lamontaes/Political-Game-Git/pull/3485); it is mergeable and remains unmerged.
-- Current branch `session-56-lw09-readiness` is based on current `origin/main` `588637e`. Next step: verify current LW-12 status, then inspect its three remaining consequence paths and person records before making changes.
+- Current branch `session-56-t4` is based on `origin/main` `65d021f80`. T4 random-world choice proofs are in `src/simulation/traits/effects/facet-affectionate-couple.proof.test.ts`; the town-stage producer trace is in `src/simulation/living-world/town-couple-actor-adapter.traits.test.ts`. The answer producer assertion is in `src/simulation/couple-undecided.test.ts`. T3 remains in separate PR #3522.
 
 ---
 
@@ -50,7 +50,7 @@ Updated October 6, 2026. Working tree: `session-56/b32-part-2-unified-sittings`,
 - Shared sequencer unit tests: 2 passed.
 - Expanded integration tests for generated-world sittings spent more than eight minutes in fixture setup without an assertion result and were stopped.
 
-## Next
+## LW-12 audit notes
 
 1. The b32-p2 and b32-p3 review PRs are open: #2528 and #2531. Do not merge.
 2. Refresh `docs/codex/assignments/POOL.md` and the newest Fable map; pick the next open item by priority, and verify no recent claim or duplicate scope before edits.
