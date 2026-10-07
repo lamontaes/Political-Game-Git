@@ -438,11 +438,7 @@ export function municipalActionAuthority(
     ) &&
     reading.evidence !== "enacted-text"
   ) {
-    return refuse(
-      input.action,
-      "evidence",
-      "An attributed report does not establish operative office authority. A scoped enacted reading is required for this action.",
-    );
+    return refuse(input.action, "evidence", "Enacted text required");
   }
   const standing = municipalStanding(world, input);
   const isMember =

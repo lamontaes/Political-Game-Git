@@ -847,7 +847,9 @@ export function MunicipalWorkspace({
                   >
                     <h3>{"Recall"}</h3>
                     {recall.unavailable ? (
-                      <p>{recall.unavailable}</p>
+                      <p data-testid="municipal-recall-unavailable">
+                        {recall.unavailableValue ?? "Not available"}
+                      </p>
                     ) : (
                       <>
                         <p>{recall.rule}</p>

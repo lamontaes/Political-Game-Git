@@ -65,7 +65,7 @@ export function GuideWorkspace({
   return (
     <div className="pg-guide" data-testid="guide-workspace">
       <label className="pg-field">
-        <span>Find a term</span>
+        <span>Search</span>
         <input
           type="search"
           value={query}
