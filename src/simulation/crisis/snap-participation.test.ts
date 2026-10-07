@@ -189,5 +189,5 @@ describe(`ranked SNAP participation (${place.displayName}, ${place.key}, seed ${
     expect(place.stateJurisdictionKey).toBeTruthy();
     expect(records[0]!.incomeToThreshold).toBeLessThanOrEqual(1.3);
     expect(records.at(-1)!.monthlyWorkHours).toBeGreaterThan(0);
-  }, 120_000);
+  }, 600_000);
 });

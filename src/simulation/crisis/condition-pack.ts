@@ -48,6 +48,8 @@ interface PackCondition {
   readonly infant?: boolean;
   /** A condition of childhood: held at its one band's ages only. */
   readonly childhood?: boolean;
+  /** A condition that takes no severity grade or age factor. */
+  readonly ungraded?: boolean;
   readonly prevalence: readonly PrevalenceBand[];
   readonly bySex?: { readonly male: number; readonly female: number };
   readonly mortalityWeight: { readonly value: number; readonly status: string };
@@ -166,7 +168,8 @@ export function conditionGrade(
   key: string,
 ): SeverityGrade | null {
   const condition = packCondition(key);
-  if (condition?.infant || condition?.childhood) return null;
+  if (condition?.infant || condition?.childhood || condition?.ungraded)
+    return null;
   const place = selectionPlace(seed, personId, `${key}:severity`);
   let below = 0;
   for (const grade of SEVERITY_GRADES) {
@@ -208,6 +211,25 @@ export function conditionHazard(
       ? `${CONDITION_PACK_KEY}: ${condition.label}, ${grade.key}, recorded at age ${Math.floor(age)}, multiplies mortality strain by ${weight.toFixed(2)} (PLACEHOLDER).`
       : `${CONDITION_PACK_KEY}: ${condition.label} multiplies mortality strain by ${weight} (${condition.mortalityWeight.status}).`,
   };
+}
+
+/** The pack condition behind a person's recorded need for substance use services. */
+export const SUBSTANCE_USE_DISORDER_KEY = "substance-use-disorder" as const;
+
+/**
+ * Whether the person's own health record holds this pack condition now. A
+ * pure read of the record; it advances nothing and invents nothing, and a
+ * person the model has not yet exposed holds none.
+ */
+export function holdsPackCondition(
+  world: World,
+  personId: EntityId,
+  key: string,
+): boolean {
+  return activeHealthEpisodes(world, personId).some(
+    (episode) =>
+      episode.conditionKey === key && episode.origin.kind === "condition-pack",
+  );
 }
 
 /** The health-episode stable key a pack condition is recorded under. */

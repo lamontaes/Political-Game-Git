@@ -32,6 +32,12 @@ import {
   recordPressAdviserResponse,
   recordPressRequest,
 } from "./press-interview-producers";
+import {
+  placeForLocationKey,
+  pressVenuePlace,
+} from "../presentation/place-backdrops";
+import { ensurePressMediaOpening, mediaOutlets } from "./press/outlets";
+import { appendPressRecord } from "./press/store";
 import type { EntityId, World } from "./types";
 
 const PROVENANCE = {
@@ -203,14 +209,20 @@ function producerFixture(seed: string): ProducerFixture {
   };
 }
 
-function acceptedArrangement(seed: string) {
+function acceptedArrangement(
+  seed: string,
+  options: {
+    readonly channel?: "written" | "spoken";
+    readonly locationKey?: string;
+  } = {},
+) {
   const fixture = producerFixture(seed);
   const request = recordPressRequest(fixture.world, {
     stableKey: `${seed}:request`,
     reporterPersonId: fixture.reporterPersonId,
     reporterWorkRoleId: fixture.reporterWorkRoleId,
     jurisdictionId: fixture.jurisdictionId,
-    channel: "written",
+    channel: options.channel ?? "written",
     terms: "on-record",
     backgroundAttribution: null,
     pitch: "Discuss the completed hearing and the work that remains.",
@@ -235,7 +247,10 @@ function acceptedArrangement(seed: string) {
     adviserResponseEventId: adviserResponse.responseEventId,
     start,
     end: addSimulationMinutes(start, 30),
-    location: { locationKey: "office-press-room", label: "Office press room" },
+    location: {
+      locationKey: options.locationKey ?? "office-press-room",
+      label: "Office press room",
+    },
     preparationMinutes: 30,
   });
   return { ...fixture, ...request, ...arranged };
@@ -440,5 +455,108 @@ describe("normal press request, eligibility and adviser producers", () => {
       }),
     ).toThrow(/arranged, published interview/u);
     expect(ready.history.publications ?? []).toHaveLength(0);
+  });
+});
+
+describe("where an arranged press exchange is held", () => {
+  function seatReporterAt(
+    world: World,
+    reporterPersonId: EntityId,
+    outlet: { readonly id: EntityId; readonly organizationId: EntityId },
+  ): World {
+    const jurisdictionId = world.jurisdictionOrder[0]!;
+    const hired = createWorkRelationship(world, {
+      stableKey: `place-test:${outlet.id}:work`,
+      personId: reporterPersonId,
+      organizationId: outlet.organizationId,
+      startedAt: world.currentDate,
+      kind: "employment:news-reporting",
+      compensation: "paid",
+      authority: "self-directed",
+      dependency: "partly-dependent",
+      economicRisk: "organization-borne",
+      provenance: PROVENANCE,
+      initialRole: {
+        title: "Civic affairs reporter",
+        occupationClassification: JOURNALISM_OCCUPATION_CLASSIFICATION,
+        locationJurisdictionId: jurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 30, maximumHours: 45 },
+          attention: "high",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: jurisdictionId,
+        },
+      },
+    });
+    return appendPressRecord(hired, "reporter-role", {
+      stableKey: `place-test:${outlet.id}`,
+      outletId: outlet.id,
+      personId: reporterPersonId,
+      workRelationshipId: hired.history.workRelationships.at(-1)!.id,
+      workRoleId: hired.history.workRoles.at(-1)!.id,
+      title: "Civic affairs reporter",
+      beats: ["general-assignment"],
+      geographyJurisdictionIds: [],
+      startedAt: world.currentDate,
+      persistence: "medium",
+      conflict: "medium",
+    }).world;
+  }
+
+  it("follows the reporter's own outlet and the arranged channel, and says nothing about an unarranged key", () => {
+    const key = "press-planned:place-test";
+    const spoken = acceptedArrangement("press-place-spoken", {
+      channel: "spoken",
+      locationKey: key,
+    });
+    const opened = ensurePressMediaOpening(spoken.world, spoken.playerPersonId);
+    const outlets = mediaOutlets(opened);
+    const broadcaster = outlets.find((o) => o.mediums.includes("broadcast"))!;
+    const print = outlets.find(
+      (o) => o.mediums.includes("text") && !o.mediums.includes("broadcast"),
+    )!;
+    const placeAt = (
+      world: World,
+      outlet: typeof broadcaster | null,
+      k = key,
+    ) =>
+      placeForLocationKey(
+        outlet ? seatReporterAt(world, spoken.reporterPersonId, outlet) : world,
+        spoken.playerPersonId,
+        k,
+      );
+    expect(placeAt(opened, broadcaster)).toBe("tv-studio");
+    expect(pressVenuePlace("spoken", ["audio", "digital"])).toBe("radio-booth");
+    expect(pressVenuePlace("written", ["audio", "digital"])).toBe("newsroom");
+    expect(placeAt(opened, print)).toBe("newsroom");
+    // A journalism role with no outlet record still works from a newsroom.
+    expect(placeAt(opened, null)).toBe("newsroom");
+    // Nothing arranged under this key, so no place is claimed.
+    expect(placeAt(opened, broadcaster, "press-planned:nothing")).toBeNull();
+
+    const written = acceptedArrangement("press-place-written", {
+      channel: "written",
+      locationKey: key,
+    });
+    const writtenOpened = ensurePressMediaOpening(
+      written.world,
+      written.playerPersonId,
+    );
+    // A written exchange never goes to a studio, whatever the outlet.
+    expect(
+      placeForLocationKey(
+        seatReporterAt(
+          writtenOpened,
+          written.reporterPersonId,
+          mediaOutlets(writtenOpened).find((o) =>
+            o.mediums.includes("broadcast"),
+          )!,
+        ),
+        written.playerPersonId,
+        key,
+      ),
+    ).toBe("newsroom");
   });
 });

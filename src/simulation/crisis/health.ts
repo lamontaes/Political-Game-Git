@@ -118,7 +118,7 @@ export function visibilityForAccess(access: HealthAccess): EventVisibility {
 function episodeRecord(world: World, episodeId: EntityId): HealthEpisodeRecord {
   const record = crisisRecordIndex(world).get(episodeId);
   if (!record || record.kind !== "health-episode")
-    throw new Error(`Unknown health episode: ${episodeId}`);
+    throw new Error(`No health episode matches the recorded ID: ${episodeId}`);
   return record;
 }
 

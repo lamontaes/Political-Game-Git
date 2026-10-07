@@ -16,19 +16,13 @@ export const INCENTIVE_CAP_QUESTION =
   "us-policy-positions:business-commerce.cap-development-incentives";
 
 /**
- * Every number the budgets use that research has not supplied yet. Each is a
- * PLACEHOLDER naming the research question filed for it
- * (docs/research/requests/), and each is shown on the government's opening
- * notes or adjustment so a report can say which figures are stand-ins.
- */
-
-/**
  * The share of a state's local-government spending on each program that its
  * county governments carry, and the share its city governments carry, per
  * resident. The rest belongs to governments the world does not hold yet
- * (school districts, special districts, townships). PLACEHOLDER until Census
- * finances by type of government are read, research:
- * local-government-finances-by-type.
+ * (school districts, special districts, townships). ESTIMATED FROM AVERAGE:
+ * these national program shares apply to the 50 states and D.C. represented
+ * in the game's Census 2022 local-government column; a government's opening
+ * note identifies the estimate and its own population basis.
  */
 export const LOCAL_PROGRAM_SPLIT: Readonly<
   Partial<
@@ -52,19 +46,21 @@ export const LOCAL_PROGRAM_SPLIT: Readonly<
 };
 
 /**
- * How a county's or city's revenue splits by source: its state's local mix,
- * scaled to the government's own spending. PLACEHOLDER, research:
- * local-government-finances-by-type.
+ * How a county's or city's revenue splits by source. ESTIMATED FROM AVERAGE:
+ * use its state's recorded Census 2022 local-government mix and scale it to
+ * this government's spending. Where Census has no place row, opening.ts uses
+ * the population-weighted mix of the 50 states and D.C.
  */
 export const LOCAL_REVENUE_RULE =
-  "local revenue by source follows the state's local mix, scaled to this government's spending (PLACEHOLDER, research: local-government-finances-by-type)";
+  "ESTIMATED FROM AVERAGE: local revenue by source follows its state's Census 2022 local-government mix, scaled to this government's spending; where Census has no place row, it uses the population-weighted mix of the 50 states and D.C.";
 
 /**
- * Pension opening. The assumed return and the amortization period for the
- * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state. The
- * liability's size against spending is measured (`openingLiabilityToSpending`
- * in `opening.ts`), and each government's normal cost and benefits paid
- * are its own plans' (`pensionFlows`).
+ * Pension opening. ESTIMATED FROM AVERAGE: a 7% assumed return and 30-year
+ * amortization apply across governments whose plans appear in the game's
+ * 50-state-and-D.C. Public Plans Database extracts. The liability's size
+ * against spending is measured (`openingLiabilityToSpending` in `opening.ts`),
+ * and each government's normal cost and benefits paid are its own plans'
+ * (`pensionFlows`).
  */
 export const PENSION = {
   assumedReturn: 0.07,
@@ -72,9 +68,10 @@ export const PENSION = {
 } as const;
 
 /**
- * How each source moves with the economy: one to one with nominal output
- * (real output times prices). PLACEHOLDER, research:
- * tax-revenue-response-to-economy.
+ * How each source moves with the economy. ESTIMATED FROM AVERAGE across the
+ * 50 states and D.C.: own-source revenue moves one to one with nominal output
+ * (real output times prices), while recorded intergovernmental aid remains at
+ * its adopted amount.
  */
 export const ECONOMY_ELASTICITY: Readonly<Record<BudgetSource, number>> = {
   individualIncomeTax: 1,
