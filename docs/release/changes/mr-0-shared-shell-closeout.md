@@ -5,4 +5,4 @@ section: Fixed
 title: Record shared shell copy completion
 ---
 
-Records the shared shell copy reset as complete after merged PR #3131.
+Records the shared shell copy reset as complete after its implementation merged.
