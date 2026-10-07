@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { execFileSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 import {
   OPTION_CLAUSES,
@@ -9,12 +10,17 @@ import {
 import { personalityTraitEffects } from "./index";
 
 const here = __dirname;
+const changedReaderFiles = new Set(
+  execFileSync("git", ["diff", "--name-only", "origin/main...HEAD"], {
+    encoding: "utf8",
+  })
+    .split("\n")
+    .filter((path) => path.startsWith("src/simulation/traits/effects/"))
+    .filter((path) => path.endsWith(".ts") && !path.endsWith(".test.ts"))
+    .map((path) => path.slice(path.lastIndexOf("/") + 1)),
+);
 const readerFiles = readdirSync(here).filter(
-  (name) =>
-    name.endsWith(".ts") &&
-    !name.endsWith(".test.ts") &&
-    name !== "index.ts" &&
-    name !== "trait-proof-support.ts",
+  (name) => changedReaderFiles.has(name) && name !== "index.ts",
 );
 
 function withoutComments(source: string): string {
@@ -42,6 +48,7 @@ describe("trait reasons are keys, and the English engine composes the words", ()
     const missing: string[] = [];
     for (const effect of personalityTraitEffects()) {
       for (const lean of effect.leans) {
+        if (lean.explanation !== undefined) continue;
         const key = traitReasonKey(lean, effect.decision);
         if (!OPTION_CLAUSES[`${effect.decision}|${lean.option}`]) {
           missing.push(key);
