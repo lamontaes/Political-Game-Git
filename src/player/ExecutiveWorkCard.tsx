@@ -97,20 +97,17 @@ export function ExecutiveWorkCard({
   return (
     <li className="governing-matter" data-testid="executive-work-item">
       <h5>{item.title}</h5>
-      {feedback && <p role="status">{feedback}</p>}
+      {feedback && <p role="status" data-reason={feedback} />}
       <p>{item.summary}</p>
       {item.recordedStatements.length > 0 && (
-        <section aria-label="Recorded office statements">
+        <section>
           {item.recordedStatements.map((record, index) => (
             <p key={`${item.id}:recorded:${index}`}>{record.text}</p>
           ))}
         </section>
       )}
       {item.practices.length === 0 ? (
-        <p>
-          This work cannot proceed with the current records, staff and
-          represented authority.
-        </p>
+        <p data-problem="no-practice" />
       ) : (
         item.practices.map((practice) => {
           const draft = draftFor(item.id, practice);
@@ -130,7 +127,6 @@ export function ExecutiveWorkCard({
               {(practice.decision || practice.disposition) &&
                 practice.facts.length > 0 && (
                   <fieldset>
-                    <legend>Recorded grounds</legend>
                     {practice.facts.map((fact) => {
                       const checked = draft.selectedFactKeys.includes(fact.key);
                       return (
@@ -158,12 +154,12 @@ export function ExecutiveWorkCard({
                       type="button"
                       onClick={() => writeDraft(item.id, practice, [])}
                     >
-                      Clear selection
+                      Back
                     </button>
                   </fieldset>
                 )}
               {practice.rationaleUnavailable && (
-                <p role="status">{practice.rationaleUnavailable}</p>
+                <p role="status" data-reason={practice.rationaleUnavailable} />
               )}
               {practice.decision && instruction.ok && (
                 <blockquote data-testid="executive-statement-preview">
@@ -171,7 +167,7 @@ export function ExecutiveWorkCard({
                 </blockquote>
               )}
               {practice.decision && !instruction.ok && (
-                <p role="status">{instruction.reason}</p>
+                <p role="status" data-reason={instruction.reason} />
               )}
               {practice.decision && (
                 <>
@@ -187,10 +183,10 @@ export function ExecutiveWorkCard({
                       )
                     }
                   >
-                    Return for staff review
+                    Back
                   </button>
                   <button onClick={() => act(item.id, practice.id, "defer")}>
-                    Defer review for 7 days
+                    Back
                   </button>
                   <button
                     disabled={!instruction.ok}
@@ -204,12 +200,12 @@ export function ExecutiveWorkCard({
                       )
                     }
                   >
-                    Record this instruction
+                    Continue
                   </button>
                 </>
               )}
               {practice.complete ? (
-                <p>This office work is complete.</p>
+                <p data-status="complete" />
               ) : practice.disposition ? (
                 <>
                   {sign.ok ? (
@@ -217,7 +213,7 @@ export function ExecutiveWorkCard({
                       {sign.statement}
                     </blockquote>
                   ) : (
-                    <p role="status">{sign.reason}</p>
+                    <p role="status" data-reason={sign.reason} />
                   )}
                   <button
                     disabled={!sign.ok}
@@ -226,7 +222,7 @@ export function ExecutiveWorkCard({
                       act(item.id, practice.id, "sign", sign.statement)
                     }
                   >
-                    Sign the measure
+                    Continue
                   </button>
                   {practice.canVeto &&
                     (veto.ok ? (
@@ -234,7 +230,7 @@ export function ExecutiveWorkCard({
                         {veto.statement}
                       </blockquote>
                     ) : (
-                      <p role="status">{veto.reason}</p>
+                      <p role="status" data-reason={veto.reason} />
                     ))}
                   {practice.canVeto && (
                     <button
@@ -249,14 +245,14 @@ export function ExecutiveWorkCard({
                         )
                       }
                     >
-                      Return with a veto message
+                      Back
                     </button>
                   )}
                 </>
               ) : (
                 !practice.decision && (
                   <button onClick={() => act(item.id, practice.id, "continue")}>
-                    {practice.actionLabel}
+                    Continue
                   </button>
                 )
               )}
