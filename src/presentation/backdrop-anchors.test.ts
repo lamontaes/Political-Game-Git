@@ -60,6 +60,14 @@ describe("people anchors on every place picture", () => {
     expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(6);
   });
 
+  it("anchors each visible chair in the hospital waiting alcove", () => {
+    const seats = STAGES["hospital-hallway"]!.spots.filter(
+      (spot) => spot.group === "waiting" && spot.role === "audience",
+    );
+    expect(seats).toHaveLength(4);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
@@ -104,6 +112,24 @@ describe("people anchors on every place picture", () => {
       expect(
         pews.filter((spot) => spot.group === `pew-row-${row}`),
       ).toHaveLength(2);
+  });
+
+  it("anchors the visible convention hall audience chairs", () => {
+    const spots = STAGES["convention-hall"]!.spots;
+    const seats = spots.filter(
+      (spot) => spot.pose === "sit" && spot.role === "audience",
+    );
+    expect(seats).toHaveLength(164);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(164);
+    expect(seats.every((spot) => spot.facing === "away")).toBe(true);
+    for (let row = 1; row <= 10; row += 1) {
+      const expectedPerSide = [4, 5, 6, 7, 8, 9, 10, 11, 11, 11][row - 1];
+      for (const side of ["left", "right"]) {
+        expect(
+          seats.filter((spot) => spot.group === `audience-row-${row}-${side}`),
+        ).toHaveLength(expectedPerSide);
+      }
+    }
   });
 
   it("anchors the visible election-night banquet chairs", () => {
