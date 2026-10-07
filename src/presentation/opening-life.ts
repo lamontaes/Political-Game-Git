@@ -455,8 +455,7 @@ function* completeOpeningLifeSteps(
   const withHazards = ensureHazardProduction(withDevelopment);
   const withCrime = ensureCrimeProduction(withHazards);
   const withEpidemics = ensureEpidemicProduction(withCrime);
-  const withOutcomes = ensurePlaceOutcomes(withEpidemics);
-  const withBudgets = ensurePublicBudgets(withOutcomes);
+  const withBudgets = ensurePublicBudgets(withEpidemics);
   const withMortality = ensureOpeningMortality(
     withBudgets,
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
@@ -480,7 +479,10 @@ function* completeOpeningLifeSteps(
           "opening",
         )
       : withOfficeSalaries;
-  const world = initializeWorkPayCoverage(withEmployerCash);
+  // The opening SNAP baseline reads recorded household pay. Settle it only
+  // after opening wages exist so the first eligibility review sees real income.
+  const withOutcomes = ensurePlaceOutcomes(withEmployerCash);
+  const world = initializeWorkPayCoverage(withOutcomes);
   const recovered = recoverOverdueProsecutions(world);
   // Opening owns the one-time catch-up. The canonical clock and registry
   // owners consume these saved wakes; this builder never dispatches them.
