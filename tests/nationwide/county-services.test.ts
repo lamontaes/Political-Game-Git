@@ -76,7 +76,12 @@ function openCounty(seed: string) {
 }
 
 describe("a county's voted budget lines fund its services", () => {
-  it.each(["co5-budget-hearing-a", "co9-county-b", "co9-county-e"])(
+  it.each([
+    "co5-budget-hearing-a",
+    "co5-budget-hearing-b",
+    "co9-county-b",
+    "co9-county-e",
+  ])(
     "funds clinics, roads and the fair from the voted year and reaches a named resident (seed %s)",
     (seed) => {
       const { county, place, world: opened } = openCounty(seed);
