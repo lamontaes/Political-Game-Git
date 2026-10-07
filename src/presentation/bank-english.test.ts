@@ -3,6 +3,7 @@ import {
   composeFromBank,
   readMeetingBank,
   readMinutesBank,
+  readNoticesBank,
   type EnglishBank,
 } from "./bank-english";
 import { createOpeningLifeController } from "./opening-life";
@@ -84,6 +85,7 @@ describe("generated world", () => {
     for (const reading of [
       readMeetingBank(world, game.playerPersonId),
       readMinutesBank(world, game.playerPersonId),
+      readNoticesBank(world, game.playerPersonId),
     ]) {
       if (typeof reading === "string")
         expect(reading.length).toBeGreaterThan(10);
