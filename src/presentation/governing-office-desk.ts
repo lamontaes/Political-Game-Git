@@ -256,7 +256,7 @@ function commitmentView(
       return {
         id: record.id,
         alternativeTitle: record.alternativeTitle,
-        decidedByName: decidedBy ? personName(decidedBy) : "No current record",
+        decidedByName: decidedBy ? personName(decidedBy) : "",
         authority: record.authority,
         decidedOnLine: `Committed ${proseDate(record.recordedAt)}.`,
         recordedAt: record.recordedAt,

@@ -148,6 +148,7 @@ describe("GoverningOfficeDesk", () => {
     expect(html).toContain('data-testid="office-program-uncommitted"');
     expect(html).toContain('data-testid="office-program-no-options"');
     expect(html).not.toContain('data-testid="office-program-commitment"');
+    expect(html).not.toContain("No current record");
   }, 120_000);
 
   it("never titles a program with its record key when nothing names the service", () => {
