@@ -366,7 +366,12 @@ export function PersonCard({
               </p>
             ) : isYou || !expanded ? null : presentNow ? (
               <p className="pg-right-now" data-testid="person-card-present">
-                Here in the room with you.
+                <span className="pg-right-now-label">Present</span>
+                {dossier.presentRoom ? (
+                  <span data-testid="person-card-present-room">
+                    {dossier.presentRoom}
+                  </span>
+                ) : null}
               </p>
             ) : (
               <p

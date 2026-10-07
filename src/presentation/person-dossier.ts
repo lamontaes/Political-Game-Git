@@ -90,11 +90,11 @@ export interface PersonDossier {
   /** True only when this moment's scene puts them in the room. */
   readonly presentNow: boolean;
   /**
-   * What they are doing this minute, which is a different kind of claim from
-   * who they are — so it sits beside the identity rather than joining the
-   * lasting details, and is absent when nothing establishes it.
+   * The room this moment's scene puts them in, shown as the value of the
+   * presence label. It is a different kind of claim from who they are, so it
+   * sits beside the identity, and is null when the scene names no room.
    */
-  readonly rightNow: string | null;
+  readonly presentRoom: string | null;
   readonly details: readonly DossierFact[];
   /** Player-known, outstanding reminders about this person. */
   readonly reminders: readonly DossierFact[];
@@ -439,7 +439,7 @@ export function projectPersonDossier(
   personId: EntityId,
   options: {
     readonly presentNow?: boolean;
-    readonly rightNow?: string | null;
+    readonly presentRoom?: string | null;
   } = {},
 ): PersonDossier | null {
   const subject = world.people[personId];
@@ -503,7 +503,7 @@ export function projectPersonDossier(
       })),
     age: ageOnDate(subject.birthDate, world.currentDate),
     presentNow: options.presentNow ?? false,
-    rightNow: options.rightNow ?? null,
+    presentRoom: options.presentRoom ?? null,
     details,
     reminders,
     lastInteraction: describeInteraction(world, playerId, personId),
