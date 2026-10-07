@@ -734,20 +734,17 @@ export function installMunicipalGovernment(
     participants: [],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["municipal", `government:${input.governmentKey}`],
-    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "a body the record does not name"}, ${
-      reading.evidence === "enacted-text"
-        ? `read from its own enacted law as of ${reading.asOf}`
-        : reading.evidence === "game-profile"
-          ? "under a disclosed fictional game profile; the Census catalog identifies the unit but does not establish its procedure"
-          : `read from a research transcription of official municipal pages as of ${reading.asOf}`
-    }.${
-      selectedProcedure.ok &&
-      selectedProcedure.evidence === "game-profile" &&
-      reading.evidence !== "game-profile"
-        ? ` Its ordinance procedure uses the separate ${selectedProcedure.pack.packId} game profile.`
-        : ""
-    }`,
+    // The summary is read aloud (press questions, news), so it says only who
+    // governs. Where the reading came from is kept in the tags, never spoken.
+    tags: [
+      "municipal",
+      `government:${input.governmentKey}`,
+      `evidence:${reading.evidence}`,
+      ...(selectedProcedure.ok
+        ? [`procedure-evidence:${selectedProcedure.evidence}`]
+        : []),
+    ],
+    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "its local government"}.`,
     context: {
       location: {
         jurisdictionId,

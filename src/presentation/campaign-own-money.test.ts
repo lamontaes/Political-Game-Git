@@ -166,9 +166,7 @@ describe("a candidate's own money", () => {
         onWorldChange: () => undefined,
       }),
     );
-    expect(html).toContain(
-      "None of your own money can go into the campaign yet.",
-    );
+    expect(html).toContain("Own money: not on record");
     expect(html).not.toContain("<button");
     expect(() =>
       contributeOwnMoneyToCampaign(race.world, race.personId, 50_000),

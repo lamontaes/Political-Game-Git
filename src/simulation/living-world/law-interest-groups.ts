@@ -15,7 +15,7 @@ import {
 } from "../official-view-reads";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { onShiftAt, workSchedulesFor } from "./work-schedules";
-import groupActionRows from "../../../data/research/elections/shared-cause-group-actions.json";
+import groupActionRows from "../../../data/research/elections/shared-cause-group-actions.json" with { type: "json" };
 import { eventById } from "../event-index";
 import { municipalGovernmentForLifePlace } from "../municipal-government";
 import { petitionRule, startCitizenPetition } from "../recall";

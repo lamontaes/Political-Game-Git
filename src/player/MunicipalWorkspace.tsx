@@ -269,7 +269,9 @@ export function MunicipalWorkspace({
       </header>
       {directory}
       {!view ? (
-        <p data-testid="municipal-missing-home-link" />
+        <p data-testid="municipal-missing-home-link">
+          {"Your town: not supported"}
+        </p>
       ) : (
         <>
           <p className="municipal-current" data-testid="municipal-current">

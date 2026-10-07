@@ -65,7 +65,6 @@ import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
-  describeTimeCommandReport,
   TimeCommandProvider,
   useTimeCommandRunner,
 } from "./time-command-runner";
@@ -320,6 +319,7 @@ import {
   leavePartyChapter,
 } from "../simulation";
 import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
+import { tagRuntimeWorld } from "../presentation/runtime-text-origin";
 import { attendChapterMeeting } from "../presentation/party-chapter-actions";
 import { FullDossier, QuickDossier } from "./ShellDossier";
 import type { PersonCardAnchor } from "./PersonCard";
@@ -514,6 +514,9 @@ export function PlayerGame() {
   const [saves, setSaves] = useState<readonly BrowserWorldSummary[]>([]);
   const [notice, setNotice] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
+  /** The state a new life is being made in, so the backdrop is its own (OW-4). */
+  const [setupState, setSetupState] = useState<string | null>(null);
+  const [setupTown, setSetupTown] = useState(false);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
   const savesUnavailable = store === null;
   const [saveListing, setSaveListing] = useState<SaveListingState>(
@@ -1011,7 +1014,12 @@ export function PlayerGame() {
 
   if (screen.kind === "transition") {
     return (
-      <AmbientTableau recent={saves[0] ?? null} still>
+      <AmbientTableau
+        recent={saves[0] ?? null}
+        chosenState={setupState}
+        chosenTown={setupTown}
+        still
+      >
         {() => (
           <LifeStartTransition
             onPrepare={async (report, signal) => {
@@ -1055,7 +1063,12 @@ export function PlayerGame() {
 
   if (screen.kind === "setup") {
     return (
-      <AmbientTableau recent={saves[0] ?? null} still>
+      <AmbientTableau
+        recent={saves[0] ?? null}
+        chosenState={setupState}
+        chosenTown={setupTown}
+        still
+      >
         {() => (
           <SetupScreen
             seed={sessionSeed.seed}
@@ -1132,6 +1145,8 @@ export function PlayerGame() {
               beginLife(completedSetup);
             }}
             problem={problem}
+            onStateChange={setSetupState}
+            onTownChange={setSetupTown}
           />
         )}
       </AmbientTableau>
@@ -1395,6 +1410,10 @@ function PlayingScreen({
     () => resolvePlayerCapabilities(session.world),
     [session.world],
   );
+  // Only a running text audit listens; in play this does nothing.
+  useEffect(() => {
+    tagRuntimeWorld(session.world);
+  }, [session.world]);
   /*
    * Every writer below computes from `session.world` as rendered, so that is
    * the base each change is committed against.
@@ -1558,21 +1577,6 @@ function PlayingScreen({
     },
     [crisisStop, submitTime, session.world, session.personId, dispatch],
   );
-  const passUntilNeeded = useCallback(() => {
-    crisisStop.watch();
-    submitTime({ kind: "quiet-stretch" }, (report) => {
-      setPassOutcome(describeTimeCommandReport(report));
-      if (
-        report.status === "accepted" &&
-        report.reached &&
-        acceptedOfferStarts(session.world, session.personId).some(
-          (entry) => entry.startOn === report.reached?.date,
-        )
-      ) {
-        dispatch({ type: "go-to-surface", surface: "work", section: "jobs" });
-      }
-    });
-  }, [crisisStop, submitTime, session.world, session.personId, dispatch]);
   const passTargets = useMemo(() => {
     if (observing) return undefined;
     const day = previewTimeCommand(session.world, session.personId, {
@@ -1703,6 +1707,19 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  /*
+   * A person card stays until the next scene. When the scene or the day
+   * moves on, the room and the people in it are not the ones the card was
+   * opened over, so it closes instead of following the player across
+   * screens; acting from the card within the same scene leaves it open.
+   */
+  const cardMomentKey = `${playScene.sceneId ?? ""}|${session.world.currentDate}`;
+  const cardMomentRef = useRef(cardMomentKey);
+  useEffect(() => {
+    if (cardMomentRef.current === cardMomentKey) return;
+    cardMomentRef.current = cardMomentKey;
+    dispatch({ type: "close-quick-dossier" });
+  }, [cardMomentKey, dispatch]);
   // A place picture fills any screen whose room has no picture of its own:
   // no room at all, or a room whose plate was retired (the public meeting).
   const sceneHasPlate = useMemo(() => {
@@ -2215,14 +2232,14 @@ function PlayingScreen({
         presentNow: moment.scene.presentPeople.some(
           (person) => person.personId === personId,
         ),
-        rightNow:
-          moment.scene.presentPeople.find(
-            (person) => person.personId === personId,
-          ) === undefined
-            ? null
-            : "Here in the room with you.",
+        presentRoom: playScene.placeLabel,
       }),
-    [session.world, session.personId, moment.scene.presentPeople],
+    [
+      session.world,
+      session.personId,
+      moment.scene.presentPeople,
+      playScene.placeLabel,
+    ],
   );
 
   /**
@@ -3062,7 +3079,6 @@ function PlayingScreen({
                   ? {}
                   : {
                       onPassDays: passDays,
-                      onPassUntilNeeded: passUntilNeeded,
                       passTargets,
                     })}
                 passing={timeRunner.pending}
@@ -4419,8 +4435,7 @@ function renderWorkspace({
             ) : null}
             {assignmentIsOther ? (
               <p className="game-note" data-testid="other-measure-open">
-                Also open, and not the one you are working on:{" "}
-                {assignmentName ?? "another measure"}.
+                Also open: {assignmentName ?? "another measure"}
               </p>
             ) : null}
             <button
