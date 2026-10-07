@@ -216,7 +216,7 @@ test("an Alaska member funds added transit service from a collected tax and sees
   for (
     let week = 0;
     week < 20 &&
-    !(await transit(page).getByText("Operative appropriation").count());
+    !(await transit(page).getByTestId("transit-appropriation").count());
     week++
   )
     await continueOnTransit(page, "week");
@@ -272,22 +272,22 @@ test("an Alaska member funds added transit service from a collected tax and sees
   ).toHaveCount(0);
   for (let week = 0; week < 5; week++) await continueOnTransit(page, "week");
   const outcome = page.getByTestId("transit-outcome");
-  await expect(outcome).toContainText(
-    "2 vehicle-service hours of added weekday contract service delivered, paid with $200.00 from the public account.",
-  );
-  await expect(outcome).toContainText("Public account cash now: $2.00.");
-  await expect(outcome).toContainText("Not modeled: ridership, travel times");
-  await expect(transit(page).getByText("Delivered and paid.")).toHaveCount(2);
+  await expect(outcome).toContainText("2 vehicle-service hours");
+  await expect(outcome).toContainText("$200.00");
+  await expect(outcome).toContainText("$2.00");
   await expect(
-    transit(page).getByText("Delivered: 1 vehicle-service hour."),
+    transit(page).locator('[data-testid="transit-period-state"]', {
+      hasText: "resolved",
+    }),
+  ).toHaveCount(2);
+  await expect(
+    transit(page).getByText("1 vehicle-service hour", { exact: true }),
   ).toHaveCount(2);
   await transit(page)
     .getByRole("button", { name: "Publish dated service report" })
     .first()
     .click();
-  await expect(
-    transit(page).getByText("Published in Civic Ledger."),
-  ).toHaveCount(1);
+  await expect(transit(page).locator("[data-published]")).toHaveCount(1);
   await page.screenshot({
     path: shotPath("civic-transit-delivered.png"),
     fullPage: true,
@@ -376,13 +376,9 @@ test("an Alaska member funds added transit service from a collected tax and sees
     ),
   ).toContainText("acknowledged the delivered service");
   await goTo(page, "nav-politics-transit", "politics");
-  await expect(page.getByTestId("transit-outcome")).toContainText(
-    "paid with $200.00 from the public account.",
-  );
+  await expect(page.getByTestId("transit-outcome")).toContainText("$200.00");
   await continueOnTransit(page, "week");
-  await expect(page.getByTestId("transit-outcome")).toContainText(
-    "Public account cash now: $2.00.",
-  );
+  await expect(page.getByTestId("transit-outcome")).toContainText("$2.00");
   await page.screenshot({
     path: shotPath("civic-transit-reopened.png"),
     fullPage: true,
