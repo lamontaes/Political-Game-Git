@@ -1,5 +1,6 @@
 import { futureDueItemStateAt } from "../future-transitions";
 import { recordByStableKey } from "../history-index";
+import { openConstituentCaseForContact } from "../constituent-cases";
 import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 import { addDays, ageOnDate, daysBetween } from "../dates";
 import { currentGovernorOf } from "../crisis/offices";
@@ -69,7 +70,7 @@ export const CIVIC_ACTION_EVENTS = {
   attended: "life.attended-public-meeting",
 } as const;
 
-export const OFFICE_CASE_OPENED_EVENT = "office.case-opened";
+export { OFFICE_CASE_OPENED_EVENT } from "../constituent-cases";
 
 export type CivicMessageChannel = "letter" | "call" | "email";
 export type CivicMessageStance = "yes" | "no";
@@ -137,7 +138,7 @@ export function recordCivicMessage(
         ? latestBelief
         : null;
   const salience = belief?.salience ?? "low";
-  return recordWorldEvent(world, {
+  const next = recordWorldEvent(world, {
     stableKey: input.stableKey,
     type: CIVIC_ACTION_EVENTS.contacted,
     occurredAt: world.currentDate,
@@ -175,6 +176,8 @@ export function recordCivicMessage(
       immediateReaction: null,
     },
   });
+  const contact = recordByStableKey(next.history.events, input.stableKey);
+  return contact ? openConstituentCaseForContact(next, contact) : next;
 }
 
 /** Read saved civic messages for one issue in one jurisdiction. */
@@ -588,8 +591,6 @@ export function reviewTownCivicActions(
           officialId,
           null,
           stake.reason,
-          officers.some((officer) => officer.personId === officialId) ||
-            governor?.personId === officialId,
         );
       }
     }
@@ -657,10 +658,10 @@ function record(
   officialId: EntityId | null,
   meeting: QuarterMeeting | null = null,
   reason: CivicStake["reason"] | null = null,
-  officialHoldsOffice = false,
 ): World {
   const today = world.currentDate;
   if (action === "attended" && !meeting) return world;
+  if (action === "contacted" && officialId === personId) return world;
   const ids = officialId ? [personId, officialId] : [personId];
   if (meeting) ids.push(meeting.item.id);
   const contactStableKey = `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`;
@@ -720,34 +721,9 @@ function record(
       immediateReaction: null,
     },
   });
-  if (action !== "contacted" || !officialId || !reason || !officialHoldsOffice)
-    return next;
-
+  if (action !== "contacted") return next;
   const contact = recordByStableKey(next.history.events, contactStableKey);
-  if (!contact) return next;
-  return recordWorldEvent(next, {
-    stableKey: `office-case-opened:${contact.id}`,
-    type: OFFICE_CASE_OPENED_EVENT,
-    occurredAt: contact.occurredAt,
-    recordedAt: today,
-    jurisdictionId: town,
-    involvedEntityIds: [personId, officialId],
-    participants: [
-      { personId, role: "focus:subject", detail: null },
-      { personId: officialId, role: "focus:object", detail: null },
-    ],
-    personFactConstraints: [],
-    visibility: "limited",
-    tags: [
-      "office.case",
-      `contact:${contact.id}`,
-      ...contact.tags.filter(
-        (tag) => tag.startsWith("reason:") || tag.startsWith("source-record:"),
-      ),
-    ],
-    summary: contact.summary,
-    context: contact.context,
-  });
+  return contact ? openConstituentCaseForContact(next, contact) : next;
 }
 
 /** How many of each civic action a town's residents took. */
