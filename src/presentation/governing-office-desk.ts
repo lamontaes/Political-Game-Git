@@ -123,30 +123,7 @@ export interface GoverningOfficeDesk {
   readonly caseworkNote: string | null;
 }
 
-export const CASEWORK_CHOICES: readonly {
-  readonly mode: OfficeCaseworkWorkflowMode;
-  readonly label: string;
-  readonly detail: string;
-}[] = [
-  {
-    mode: "player-handles-all",
-    label: "Handle casework yourself",
-    detail:
-      "Every constituent request reaches you. Staff may gather the facts; they do not answer for you.",
-  },
-  {
-    mode: "staff-routine-player-exceptions",
-    label: "Staff handle the routine, you take the exceptions",
-    detail:
-      "Routine requests are worked by staff. Anything unusual stops and waits for you.",
-  },
-  {
-    mode: "staff-handles-and-briefs",
-    label: "Staff handle it and brief you",
-    detail:
-      "Staff work the caseload and tell you what happened. You keep the record, not the decision.",
-  },
-];
+export { OFFICE_CASEWORK_CHOICES as CASEWORK_CHOICES } from "./office-casework-choices";
 
 function assignmentOf(classification: string | null): string | null {
   if (!classification) return null;
