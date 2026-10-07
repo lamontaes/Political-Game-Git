@@ -212,3 +212,9 @@ it("renders the talk refusal and the first-contact line as trace fields, not tex
   expect(text).toContain("data-reason={talkUnavailable}");
   expect(text).toContain("dossier.neverSpoken");
 });
+
+it("keeps no hidden screen-reader sentence on the card", () => {
+  const text = readFileSync(join(__dirname, "PersonCard.tsx"), "utf8");
+  expect(text.match(/className="sr-only"[^>]*>\s*\{/g) ?? []).toEqual([]);
+  expect(text).not.toMatch(/aria-describedby=\{`person-\w+-reason-/);
+});
