@@ -7883,7 +7883,8 @@
           "facing": "right",
           "depth": 85,
           "seatY": 76,
-          "role": "general",
+          "group": "waiting-bench",
+          "role": "audience",
           "id": "police-station:spot:2"
         },
         {
@@ -7934,9 +7935,31 @@
           "clipBelowY": 53.5,
           "role": "general",
           "id": "police-station:spot:7"
+        },
+        {
+          "x": 9,
+          "y": 62,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 62,
+          "seatY": 58,
+          "group": "waiting-bench",
+          "role": "audience",
+          "id": "police-station:spot:8"
+        },
+        {
+          "x": 23,
+          "y": 74,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 74,
+          "seatY": 63,
+          "group": "waiting-bench",
+          "role": "audience",
+          "id": "police-station:spot:9"
         }
       ],
-      "measuredFrom": "glass counter about 1.1 m foot 66.4 top 55 (0.75); lobby bench 0.45 m seat",
+      "measuredFrom": "glass counter about 1.1 m foot 66.4 top 55 (0.75); lobby bench 0.45 m seat; two additional waiting-bench foot points visually estimated from the native midday painting with approximately 2 percentage point placement uncertainty",
       "surfaceSlots": []
     },
     "polling-place": {
