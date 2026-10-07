@@ -248,7 +248,7 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
       firstJob: "none",
     });
     expect(read.familyContext?.source.note).toContain(
-      "ESTIMATED FROM GAME FAMILIES",
+      "ESTIMATED FROM RECORDS AND PUBLIC DATA",
     );
     expect(read.familyContext?.placeId).toBe(
       world.people[personId]!.homeJurisdictionId,
