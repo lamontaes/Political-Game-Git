@@ -396,11 +396,14 @@ describe("The production world is not a renamed fixture", () => {
       const enrollments = child.world.history.educationEnrollments.filter(
         (enrollment) => enrollment.personId === child.playerPersonId,
       );
-      expect(enrollments.length, `${earlierLifeGenerationVersion}`).toBe(1);
-      expect(enrollments[0]!.programKind).toBe("schooling:general");
-      // Still in school: its latest state is a current one, not a finished one.
+      expect(enrollments.length, `${earlierLifeGenerationVersion}`).toBe(2);
+      const current = enrollments.find(
+        (enrollment) => enrollment.programKind === "schooling:general",
+      );
+      expect(current).toBeDefined();
+      // Still in school: its current enrollment is not a finished one.
       expect(["expected", "active"]).toContain(
-        educationEnrollmentStateAt(child.world, enrollments[0]!.id)?.status,
+        educationEnrollmentStateAt(child.world, current!.id)?.status,
       );
     }
   });

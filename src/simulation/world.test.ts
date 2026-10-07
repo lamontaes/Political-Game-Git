@@ -155,6 +155,25 @@ describe("world actions and canonical history", () => {
       }),
     ).toThrow(/before it occurred/i);
   });
+
+  it("writes a direct memory for each person involved in a major life event", () => {
+    const world = createDemoWorld("event-memory");
+    const personId = world.personOrder[1] as EntityId;
+    const event = recordWorldEvent(world, {
+      ...testEvent(world, "life:household-move"),
+      type: "life.household-move",
+      involvedEntityIds: [personId],
+      summary: "The household moved to another home.",
+    });
+    expect(event.history.memories).toContainEqual(
+      expect.objectContaining({
+        stableKey: expect.stringContaining(`:${personId}`),
+        personId,
+        eventId: event.history.events.at(-1)?.id,
+        rememberedSummary: "The household moved to another home.",
+      }),
+    );
+  });
 });
 
 describe("progressive person detail", () => {
