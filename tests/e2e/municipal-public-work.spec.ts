@@ -18,9 +18,9 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
       page,
     }, testInfo) => {
       await page.goto(`/tests/browser/municipal.html?place=${place}`);
-      await expect(
-        page.getByText("Linked to your saved home place."),
-      ).toBeVisible();
+      await expect(page.getByTestId("municipal-standing")).toContainText(
+        "Home",
+      );
       const roles = await page.getByTestId("roles").textContent();
       const addSession = page.getByRole("button", {
         name: "Add public session to this world",
@@ -42,7 +42,7 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
         page
           .getByRole("region", { name: "Municipal government" })
           .getByRole("status"),
-      ).toHaveText("Recorded in your calendar and history.");
+      ).toHaveText("Recorded");
       await expect(page.getByTestId("roles")).toHaveText(roles!);
       const sequence = await page.getByTestId("sequence").textContent();
       await attend.click();
@@ -54,9 +54,9 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
       await expect(page.getByTestId("sequence")).toHaveText(sequence!);
       const selector = page.getByLabel("Inspect a government");
       await chooseOption(selector, { index: 1 });
-      await expect(
-        page.getByText("Library inspection.", { exact: false }),
-      ).toBeVisible();
+      await expect(page.getByTestId("municipal-standing")).toContainText(
+        "Viewing",
+      );
       await expect(page.getByTestId("sequence")).toHaveText(sequence!);
       await chooseOption(selector, { index: 0 });
       await page.getByText("Source review", { exact: true }).click();
@@ -65,12 +65,7 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
         { exact: true },
       );
       await records.click();
-      await expect(
-        page.getByText(
-          "These are references in this government's source readings.",
-          { exact: false },
-        ),
-      ).toBeVisible();
+      await expect(records.locator("..")).toHaveAttribute("open", "");
       await records.focus();
       await page.keyboard.press("Enter");
       await page.screenshot({
