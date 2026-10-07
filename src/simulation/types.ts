@@ -67,6 +67,7 @@ import type {
   JobApplicationStepRecord,
   JobOpeningRecord,
 } from "./job-market-types";
+import type { CitizenshipStatusRecord } from "./citizenship-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -659,6 +660,8 @@ export interface PersonFactConstraint {
 }
 
 interface PersonCore {
+  /** Private canonical status history; absent on old saves, never auto-inferred on read. */
+  readonly citizenshipStatuses?: readonly CitizenshipStatusRecord[];
   readonly id: EntityId;
   readonly generationKey: string;
   readonly generatorVersion?: string;
@@ -942,6 +945,7 @@ export type LawExposureChannel =
   | "public-service"
   | "court-rule"
   | "sentence-rule"
+  | "voting-rule"
   | "rent";
 
 /**
@@ -1425,6 +1429,18 @@ export interface OrganizationProfileRecord {
   readonly locationJurisdictionId: EntityId | null;
   /** Source-backed legal employer identity; not a funder or public account. */
   readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+  /** Source-backed IPEDS identity attached by the education organization writer. */
+  readonly collegePlace?: {
+    readonly institutionId: string;
+    readonly kind:
+      | "flagship"
+      | "ivy-league"
+      | "political-hotbed"
+      | "regional-public"
+      | "private"
+      | "community";
+    readonly campusId: string | null;
+  };
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
   /**

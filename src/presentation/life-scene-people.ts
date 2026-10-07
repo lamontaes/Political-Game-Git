@@ -1,4 +1,3 @@
-import { workUniform } from "./work-uniform";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import type { SceneSeatContact } from "../environment/environment-scene-spec";
 import {
@@ -11,10 +10,7 @@ import {
 } from "./appearance-engine/pack";
 import { conversationExpression } from "./appearance-engine/expression-chooser";
 import type { ConversationExchangeTurn } from "./scene-conversation";
-import { officesHeldBy } from "../simulation/governing/office-consequence";
-import { isMarriedNow } from "./appearance-engine/marital-status";
-import { placeWear } from "./dress-code";
-import { engineRecipeFor } from "./appearance-engine/recipe";
+import { dayClothing, personDayRecipe } from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackAvailable,
@@ -716,19 +712,12 @@ export function planLifeScenePeople(
 
   // Allocate clothes once for the cast, before trying each person at several
   // anchors. Anchor trials may change pose, never what that person wears.
-  const sceneWear = placeWear(sceneId, world.currentDate);
   const occupiedOutfits = new Set<string>();
   const stagedOutfits = new Map<string, string>();
   for (const person of people) {
     const record = world.people[person.personId];
-    const uniform = record
-      ? workUniform(world, person.personId, sceneWear)
-      : undefined;
-    if (!record || uniform) continue;
-    const recipe = engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
-      wear: sceneWear,
-      occupiedOutfits,
-    });
+    if (!record || dayClothing(world, record.id).uniform) continue;
+    const recipe = personDayRecipe(world, record, { occupiedOutfits });
     if (!recipe) continue;
     stagedOutfits.set(person.personId, recipe.outfit);
     occupiedOutfits.add(recipe.outfit);
@@ -787,15 +776,10 @@ export function planLifeScenePeople(
       record &&
       !savedWardrobes?.artPreview &&
       peoplePackAvailable()
-        ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
-            wear: sceneWear,
+        ? personDayRecipe(world, record, {
             ...(stagedOutfits.has(person.personId)
               ? { stagedOutfit: stagedOutfits.get(person.personId)! }
               : {}),
-            officeholder: () =>
-              officesHeldBy(world, person.personId).length > 0,
-            married: () => isMarriedNow(world, person.personId),
-            uniform: workUniform(world, person.personId, sceneWear),
             ...posedFor(
               world,
               person.personId,

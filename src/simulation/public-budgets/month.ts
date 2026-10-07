@@ -16,6 +16,7 @@ import { recordById } from "../history-index";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
 import { governmentUnit } from "../government-units";
+import { adoptedCountyLevy } from "../county-budget-record";
 import { municipalGovernmentByKey } from "../municipal-government";
 import type { EntityId, IsoDate, ResourceFlow, World } from "../types";
 import {
@@ -97,6 +98,7 @@ const PENSION_PROGRAM = BUDGET_PROGRAMS.indexOf("pensionContribution");
 const STATE_AID = BUDGET_SOURCES.indexOf("intergovernmental");
 const LOCAL_AID = BUDGET_PROGRAMS.indexOf("localAid");
 const SALES_TAX = BUDGET_SOURCES.indexOf("generalSalesTax");
+const PROPERTY_TAX = BUDGET_SOURCES.indexOf("propertyTax");
 const SELECTIVE_TAX = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
 
 /**
@@ -1573,6 +1575,22 @@ export function decideLawMoneyReaction(
 }
 
 /**
+ * What the books would adopt for the next year at today's projection: the
+ * county board's budget hearing starts from it (CO-5). Reads only.
+ */
+export function proposeNextYearBudget(
+  world: World,
+  government: PublicBudgetGovernment,
+  state: PublicBudgetGovernment | null,
+): AdoptedBudget {
+  const prior = government.years.at(-1)!;
+  const rows = government.months.filter(
+    (row) => row.month >= prior.startsOn && row.month <= prior.endsOn,
+  );
+  return adoptNextYear(world, government, prior, rows, [], state);
+}
+
+/**
  * The government's own modeled adoption for the next year (automatic; a
  * budget passed as a bill comes later). It expects to collect what it
  * collected last year at today's economy, and a county or city expects its
@@ -1698,6 +1716,11 @@ function adoptNextYear(
       (prior.expectedRevenue[STATE_AID]! * stateLocalAidAtAdoption) /
         priorAidBase,
     );
+  // A county board that voted this year's levy at its budget hearing expects
+  // exactly that levy as its property tax (CO-5).
+  const votedLevy = adoptedCountyLevy(world, government.key, year.fiscalYear);
+  if (votedLevy !== null)
+    expectedRevenue[PROPERTY_TAX] = votedLevy.adoptedPropertyTaxLevy!;
   const pensionRequired = actuarialContribution(
     government.pension,
     pensionFlows(government).normalCostShare,
@@ -1878,7 +1901,8 @@ function adoptNextYear(
     startsOn: year.startsOn,
     endsOn: year.endsOn,
     adoptedOn: startsOn,
-    basis: "automatic",
+    basis: votedLevy !== null ? "board-vote" : "automatic",
+    ...(votedLevy !== null ? { hearingKey: votedLevy.key } : {}),
     expectedRevenue,
     appropriations,
     reserveDeposit,

@@ -18,7 +18,7 @@ import { MIGRATION_MOVED_EVENT } from "./migration/contract";
 import { recordPersonDeath } from "./vitality";
 import { recordRelationshipInteraction } from "./records";
 import { deriveRelationshipSummary } from "./queries";
-import { lapseStaleProposals, proposeContact } from "./people-contact";
+import { lapseStaleProposals, proposeContact } from "./relationship-contact";
 import { readRelationshipAbsence } from "./relationship-absence";
 import {
   describeRelationshipStanding,

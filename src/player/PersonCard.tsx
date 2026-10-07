@@ -13,7 +13,6 @@ import type { ShellRef } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
 import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
-import type { PersonSceneAppearance } from "../presentation/person-scene-appearance";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { projectPersonContact } from "../presentation/person-contact";
 import {
@@ -128,14 +127,12 @@ export function PersonCard({
   onTogglePin,
   onOpenPerson,
   onTalk,
-  onContact,
   onMeet,
   onTravel,
   onFullRecord,
   talkUnavailable,
   onOpenLink,
   anchor = null,
-  sceneAppearance,
 }: {
   readonly world: World;
   readonly playerId: EntityId;
@@ -145,7 +142,6 @@ export function PersonCard({
   readonly mode: "overlay" | "workspace";
   /** The clicked scene person, when the card was opened from the room. */
   readonly anchor?: PersonCardAnchor | null;
-  readonly sceneAppearance?: PersonSceneAppearance;
   /** Who the room says is here. Presence is the room's answer, not a pin's. */
   readonly presentPersonIds?: readonly EntityId[];
   readonly onClose?: () => void;
@@ -153,7 +149,6 @@ export function PersonCard({
   readonly onTogglePin: () => void;
   readonly onOpenPerson?: (personId: EntityId) => void;
   readonly onTalk?: () => void;
-  readonly onContact?: () => void;
   readonly onMeet?: () => void;
   readonly onTravel?: () => void;
   /** The full record page, with appearance controls for your own character. */
@@ -320,7 +315,6 @@ export function PersonCard({
             world={world}
             personId={dossier.personId}
             size="large"
-            sceneAppearance={sceneAppearance}
           />
           <div className="pg-person-card-titles">
             <h2 data-testid="dossier-name">{dossier.name}</h2>
@@ -366,7 +360,12 @@ export function PersonCard({
               </p>
             ) : isYou || !expanded ? null : presentNow ? (
               <p className="pg-right-now" data-testid="person-card-present">
-                Here in the room with you.
+                <span className="pg-right-now-label">Present</span>
+                {dossier.presentRoom ? (
+                  <span data-testid="person-card-present-room">
+                    {dossier.presentRoom}
+                  </span>
+                ) : null}
               </p>
             ) : (
               <p
@@ -406,7 +405,6 @@ export function PersonCard({
             world={world}
             personId={dossier.personId}
             className="pg-record-figure"
-            sceneAppearance={sceneAppearance}
           />
         ) : null}
         <div className="pg-person-card-reading">
@@ -636,16 +634,6 @@ export function PersonCard({
             onClick={onMeet}
           >
             Meet
-          </button>
-        ) : null}
-        {reachable && contact.contact.available && onContact ? (
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="person-contact"
-            onClick={onContact}
-          >
-            Contact
           </button>
         ) : null}
         {onFullRecord ? (

@@ -28,6 +28,7 @@ import type {
   RuleFieldKey,
 } from "../simulation";
 
+import { recordPriorOfficeService } from "./opening-prior-service";
 import {
   OPENING_FEDERAL_GEOGRAPHY_VERSION,
   prepareOpeningFederalGeography,
@@ -156,6 +157,15 @@ export function establishOpeningOfficeholders(
       personId: playerPersonId,
       transitions,
     }).world;
+    // Current openings give the officeholder the career that led here.
+    if (separatedGeography)
+      next = recordPriorOfficeService(next, {
+        stableKey: `${termKey}:prior-service`,
+        personId,
+        officeKey: office.key,
+        startedAt,
+        tag: VERSION,
+      });
     next = recordWorldEvent(next, {
       stableKey: termKey,
       type: "world.office-tenure",
