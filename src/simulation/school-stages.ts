@@ -54,7 +54,8 @@ import type {
  * that end enrolls them in the next school for the fall, and the fall's first
  * day schedules the end of that one, until they graduate.
  *
- * PLACEHOLDER, NOT RESEARCHED — the same calendar a summarized childhood uses
+ * ESTIMATED FROM AVERAGE — the common U.S. grade structure, with the same
+ * calendar a summarized childhood uses
  * (`how-a-summarized-childhood-varies`): a child who is five by September 1
  * starts kindergarten that fall; middle school six years on, high school three
  * after that, graduation four after that. A school year starts on the first

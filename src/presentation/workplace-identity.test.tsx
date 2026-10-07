@@ -23,6 +23,7 @@ import {
   selectedWorkplaceForPerson,
 } from "./place-backdrops";
 import { placeBackdropPeople } from "./backdrop-people";
+import { campusRecords } from "./campus-backdrops";
 import { SceneBackdrop } from "../player/SceneBackdrop";
 
 const seed = "team9-workplace-identity";
@@ -148,6 +149,76 @@ describe("selected workplace identity", { timeout: 60_000 }, () => {
           state: drawn.usps,
         }),
       );
+  });
+
+  it("checks exact campus identity and recorded location through the room picker (edge fixture)", () => {
+    const record =
+      campusRecords()[
+        Array.from(seed).reduce((n, c) => n + c.charCodeAt(0), 0) %
+          campusRecords().length
+      ]!;
+    const campusPlace = searchLifePlaces("", 1, {
+      stateJurisdictionKey: `US-${record.state.toUpperCase()}`,
+      scope: "locality",
+    })[0]!;
+    const selected = selectedWorkplaceForPerson(world, viewer)!;
+    // Explicit identity/location edge fixture; not generated college attendance evidence.
+    const fixture: World = {
+      ...world,
+      history: {
+        ...world.history,
+        organizationProfiles: world.history.organizationProfiles.map(
+          (profile) =>
+            profile.organizationId === selected.organizationId
+              ? {
+                  ...profile,
+                  name: record.name,
+                  locationJurisdictionId: campusPlace.context.jurisdiction.id,
+                }
+              : profile,
+        ),
+        events: world.history.events.map((event) =>
+          event.id === selected.arrivalId
+            ? {
+                ...event,
+                tags: event.tags.map((tag) =>
+                  tag.startsWith("place:") ? "place:college-quad" : tag,
+                ),
+              }
+            : event,
+        ),
+      },
+    };
+    const key = resolveOpeningPlaySceneContext(fixture, viewer).locationKey;
+    expect(backdropForLocation(fixture, viewer, key)?.url).toContain(
+      record.file,
+    );
+    const unknown: World = {
+      ...fixture,
+      history: {
+        ...fixture.history,
+        organizationProfiles: fixture.history.organizationProfiles.map(
+          (profile) =>
+            profile.organizationId === selected.organizationId
+              ? { ...profile, name: "Unregistered college fixture" }
+              : profile,
+        ),
+      },
+    };
+    expect(backdropForLocation(unknown, viewer, key)).toBeNull();
+    const wrongState: World = {
+      ...fixture,
+      history: {
+        ...fixture.history,
+        organizationProfiles: fixture.history.organizationProfiles.map(
+          (profile) =>
+            profile.organizationId === selected.organizationId
+              ? { ...profile, locationJurisdictionId: null }
+              : profile,
+        ),
+      },
+    };
+    expect(backdropForLocation(wrongState, viewer, key)).toBeNull();
   });
 
   it("renders the generated worker's selected party room with its actual empty peer roster", () => {

@@ -1489,6 +1489,8 @@ function entityExists(world: World, id: EntityId): boolean {
     !!world.policyCatalog.principles[id] ||
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
+    (world.history.jobApplications?.some((record) => record.id === id) ??
+      false) ||
     lifeEntityExists(world, id) ||
     resourceHousingEntityExists(world, id) ||
     legislationEntityExists(world, id) ||

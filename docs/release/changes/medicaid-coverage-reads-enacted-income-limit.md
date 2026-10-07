@@ -1,5 +1,5 @@
 ---
-id: medicaid-coverage-enacted-income-limit
+id: medicaid-coverage-reads-enacted-income-limit
 impact: patch
 section: Fixed
 title: Medicaid eligibility follows its enacted income limit

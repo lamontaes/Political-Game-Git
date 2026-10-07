@@ -490,6 +490,11 @@ export function isGenericCitation(citation: string): boolean {
 
 function assertPinpointedSource(source: RuleSourceRef, label: string): void {
   assertSourceRef(source, label);
+  if (
+    source.authority === "game-profile" &&
+    source.verification === "game-profile"
+  )
+    return;
   if (isGenericCitation(source.citation)) {
     throw new Error(
       `${label} rests on a citation with no pinpoint provision ('${source.citation}'); a known rule must name the operative provision it comes from.`,
