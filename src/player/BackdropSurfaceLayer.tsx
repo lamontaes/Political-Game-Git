@@ -243,7 +243,7 @@ function SurfaceContent({
         );
       return (
         <div
-          className={`bs-sheet bs-sheet--${slot.finish}`}
+          className={`bs-sheet bs-sheet--${slot.finish}${slot.id === "office-green-poster" ? " bs-sheet--office-green-bills" : ""}`}
           data-testid="backdrop-bills"
         >
           {content.place ? (
