@@ -1629,6 +1629,19 @@ function chooseLandlord(
  * to rent stabilization's cap when it covers the home. The cap reads the
  * general price level's rise (`prices`). Whole dollars, in cents.
  */
+/** The saved market-rent reason names the observed local price driver. */
+export function marketRentRenewalReason(
+  homePriceLevelChange: number,
+  estimateBasis?: string,
+): string {
+  if (!Number.isFinite(homePriceLevelChange) || homePriceLevelChange <= 0)
+    throw new Error(
+      "Market rent renewal requires a positive price-level change",
+    );
+  const reason = `The local housing-market level changed rent by ${((homePriceLevelChange - 1) * 100).toFixed(1)}% over the renewal year.`;
+  return estimateBasis ? `${reason} ${estimateBasis}` : reason;
+}
+
 export function renewedMarketRent(
   oldMinor: number,
   homePrices: number,
@@ -1767,7 +1780,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
         if (stamp) lawEffectStamps = [stamp];
         const uncapped = renewal.uncappedMinor;
         const designation = measureDesignation(next, rule!.measureId);
-        reason = `Rent stabilization under ${designation} held the increase to ${(cap * 100).toFixed(1)}% (the landlord sought ${dollarsOf(uncapped)}).`;
+        reason = `${marketRentRenewalReason(homePrices, row.estimateBasis ?? undefined)} Rent stabilization under ${designation} held the increase to ${(cap * 100).toFixed(1)}% (the landlord sought ${dollarsOf(uncapped)}).`;
         const enactment = next.history.legislativeEnactments?.find(
           (row) => row.measureId === rule!.measureId,
         );
@@ -1776,7 +1789,11 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
             kind: "simulated-event",
             eventId: enactment.outcomeEventId,
           };
-      } else reason = "The landlord renewed the lease at this year's rent.";
+      } else
+        reason = marketRentRenewalReason(
+          homePrices,
+          row.estimateBasis ?? undefined,
+        );
     }
     if (amount === old && lease.regime !== "market") continue;
     next = recordResourceFlowTerms(next, {
