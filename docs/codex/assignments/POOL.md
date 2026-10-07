@@ -928,7 +928,7 @@ open: rebase on main (conflicts) | |
 | RS-2746 | b18-p3: certified ballot referrals and named voter tally | PR #2746 (session-110/b18-p3) | open: draft: finish it or close it as superseded | |
 | RS-2748 | A120: PROGRESS continuity regression follows its saved appointment date | PR #2748 (session132/a120-continuity-test-window) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2750 | b18-p4: recorded shared-cause founder and member decisions | PR #2750 (session-110/b18-p4) | open: draft: finish it or close it as superseded | |
-| RS-2751 | b24-p5: venue producer inventory (wiring and dynamic gaps retained) | PR #2751 (codex/session127-b24-p5) | open: draft: finish it or close it as superseded | |
+| RS-2751 | b24-p5: venue producer inventory (wiring and dynamic gaps retained) | PR #2751 (codex/session127-b24-p5) | ready #2751 | S40 |
 | RS-2755 | b18-p5: cloud task — PROGRESS named protest attendance | PR #2755 (session-110/b18-p5) | open: draft: finish it or close it as superseded | |
 | RS-2756 | b24-p7: native art coverage and shrink-only allow-list (handoff) | PR #2756 (codex/session127-b24-p7) | open: draft: finish it or close it as superseded | |
 | RS-2765 | LW-13: council term-limit bar lands on the named member | PR #2765 (claude/oct6-builder-l2-6lqmv7) | open: mergeable: needs a changed-file check | |
