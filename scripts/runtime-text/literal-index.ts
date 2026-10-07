@@ -213,6 +213,7 @@ export function resolveLiteral(
     line: number;
     via: "template";
     id: string;
+    fixed: number;
   }[] = [];
   for (const template of index.templates) {
     let from = 0;
@@ -235,9 +236,12 @@ export function resolveLiteral(
         line: template.line,
         via: "template",
         id: template.fragments.join("~"),
+        fixed,
       });
   }
-  return hits;
+  // The template with the most fixed words is the likeliest writer; a loose
+  // template with a few short words fits almost anything and ranks last.
+  return hits.sort((a, b) => b.fixed - a.fixed);
 }
 
 const JOINERS = [", ", " · ", " — ", " - "];
