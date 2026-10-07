@@ -549,7 +549,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | open | |
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | open | |
-| BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
+| BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | unsupported: 42 of 52 lack verified qualification/date rules; see governor-qualifications-in-every-state | |
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | open | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | open | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | open | |
