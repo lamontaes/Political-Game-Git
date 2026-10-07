@@ -19,7 +19,10 @@ import {
   sceneActivity,
   type SceneActivity,
 } from "./appearance-engine/pose-chooser";
-import { personDayRecipe, roomDayOutfitExclusions } from "./day-clothing";
+import {
+  personDayRecipeWithOutfitExclusions,
+  roomDayOutfitExclusions,
+} from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackFileAvailable,
@@ -516,7 +519,7 @@ export function placeBackdropPeople(
     // drawing for that view or pose), any other free spot the role accepts,
     // front-facing first, rather than leaving them out of the room.
     const tryAt = (at: StagingSpot, view: BodyView = spotView(at)) => {
-      const recipe = personDayRecipe(world, record, {
+      const recipe = personDayRecipeWithOutfitExclusions(world, record, {
         pose: spotPose(
           at,
           sceneActivity({
