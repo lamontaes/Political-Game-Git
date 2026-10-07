@@ -167,7 +167,6 @@ import {
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
-  applyPreStartCreatorLifeForks,
   createPreStartNewGameWorld,
   finishPreStartNewGameWorld,
   type NewGame,
@@ -1101,10 +1100,7 @@ export function PlayerGame() {
               const completedSetup = endQuestionnaireEarly(setup);
               if (stagedGame) {
                 try {
-                  const answered = applyPreStartCreatorLifeForks(
-                    stagedGame,
-                    completedSetup.creatorLifeForks ?? [],
-                  );
+                  const answered = stagedGame;
                   const preStart = answered.world.preStartLife;
                   if (!preStart)
                     throw new Error("The staged character is missing.");

@@ -94,7 +94,6 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   await expect(townChoice).toContainText(place.displayName);
   await townChoice.click();
   await page.getByTestId("creator-continue-place").click();
-  await page.getByTestId("whoareyou-play").click();
   await expect(page.getByTestId("creator-engine-figure")).toBeVisible({
     timeout: 30_000,
   });
