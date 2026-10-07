@@ -215,7 +215,6 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
 export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:playful-manner",
   "personality-v1:truthfulness",
-  "personality-v1:facet-approval-seeking",
   "personality-v1:facet-smug",
   "personality-v1:facet-shy",
   "personality-v1:facet-charming",
@@ -227,7 +226,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-sincere",
   "personality-v1:facet-manipulative",
   "personality-v1:facet-fair-minded",
-  "personality-v1:facet-arbitrary",
   "personality-v1:facet-fickle",
   "personality-v1:facet-mediating",
   "personality-v1:facet-vindictive",
@@ -236,7 +234,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-light-hearted",
   "personality-v1:facet-brooding",
   "personality-v1:facet-closeness-seeking",
-  "personality-v1:facet-intimacy-guarded",
   "personality-v1:facet-devoted",
   "personality-v1:facet-teasing",
 ] as const;
