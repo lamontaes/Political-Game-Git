@@ -20,6 +20,8 @@ describe("Options after the morning-note presentation is retired", () => {
           dispatch={dispatch}
           challengeIntensity="standard"
           onChangeChallengeIntensity={() => {}}
+          notesVisibility="full"
+          onChangeNotesVisibility={() => {}}
           onOpenPatchNotes={() => {}}
         />,
       );
@@ -34,6 +36,9 @@ describe("Options after the morning-note presentation is retired", () => {
           `data-testid="option-challenge-${option.value}"`,
         );
       }
+      expect(markup).toContain("Notes");
+      for (const value of ["full", "light", "none"])
+        expect(markup).toContain(`data-testid="option-notes-${value}"`);
       expect(markup).toContain("People default view");
       expect(markup).toContain("Default pin size");
       expect(markup).not.toContain("reduced-motion");

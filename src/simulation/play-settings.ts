@@ -1,7 +1,9 @@
 import { recordWorldEvent } from "./world";
 import playSettingsContent from "../../data/content/play-settings.json" with { type: "json" };
+import notesVisibilityContent from "../../data/content/notes-visibility.json" with { type: "json" };
 import type {
   ChallengeIntensity,
+  NotesVisibility,
   PersonalLifeDepiction,
   PlaySettings,
   SaveMode,
@@ -11,6 +13,7 @@ import type {
 export const DEFAULT_PLAY_SETTINGS: PlaySettings = {
   saves: "free",
   challengeIntensity: "standard",
+  notesVisibility: "full",
   personalLifeDepiction: "full",
 };
 
@@ -24,6 +27,12 @@ export const CHALLENGE_INTENSITY_OPTIONS = playSettingsContent
   readonly value: ChallengeIntensity;
   readonly label: string;
 }[];
+export const NOTES_VISIBILITY_LABEL = notesVisibilityContent.label;
+export const NOTES_VISIBILITY_OPTIONS =
+  notesVisibilityContent.options as readonly {
+    readonly value: NotesVisibility;
+    readonly label: string;
+  }[];
 
 export function playSettingsOf(world: World): PlaySettings {
   const saved = world.playSettings;
@@ -34,6 +43,8 @@ export function playSettingsOf(world: World): PlaySettings {
     saves: saved.saves ?? DEFAULT_PLAY_SETTINGS.saves,
     challengeIntensity:
       saved.challengeIntensity ?? DEFAULT_PLAY_SETTINGS.challengeIntensity,
+    notesVisibility:
+      saved.notesVisibility ?? DEFAULT_PLAY_SETTINGS.notesVisibility,
     personalLifeDepiction:
       saved.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
@@ -53,11 +64,21 @@ export function setPlaySetting(
 ): World;
 export function setPlaySetting(
   world: World,
-  key: "personalLifeDepiction" | "challenge",
-  value: PersonalLifeDepiction | ChallengeIntensity,
+  key: "notes",
+  value: NotesVisibility,
+): World;
+export function setPlaySetting(
+  world: World,
+  key: "personalLifeDepiction" | "challenge" | "notes",
+  value: PersonalLifeDepiction | ChallengeIntensity | NotesVisibility,
 ): World {
   const current = playSettingsOf(world);
-  const storedKey = key === "challenge" ? "challengeIntensity" : key;
+  const storedKey =
+    key === "challenge"
+      ? "challengeIntensity"
+      : key === "notes"
+        ? "notesVisibility"
+        : key;
   if (current[storedKey] === value) return world;
   const next = {
     ...world,
@@ -92,12 +113,14 @@ export function setPlaySetting(
 export function initialPlaySettings(input: {
   readonly saves?: SaveMode;
   readonly challenge?: ChallengeIntensity;
+  readonly notes?: NotesVisibility;
   readonly personalLifeDepiction?: PersonalLifeDepiction;
 }): PlaySettings {
   return {
     saves: input.saves ?? DEFAULT_PLAY_SETTINGS.saves,
     challengeIntensity:
       input.challenge ?? DEFAULT_PLAY_SETTINGS.challengeIntensity,
+    notesVisibility: input.notes ?? DEFAULT_PLAY_SETTINGS.notesVisibility,
     personalLifeDepiction:
       input.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
