@@ -1708,12 +1708,12 @@ function PlayingScreen({
 
   const sceneId = playScene.sceneId;
   /*
-   * A person card is attached to the moment it was opened in. When the scene
-   * or the world's clock moves on, the room and the people in it are not the
-   * ones the card was opened over, so it closes instead of following the
-   * player across screens. The first run only records where it opened.
+   * A person card stays until the next scene. When the scene or the day
+   * moves on, the room and the people in it are not the ones the card was
+   * opened over, so it closes instead of following the player across
+   * screens; acting from the card within the same scene leaves it open.
    */
-  const cardMomentKey = `${playScene.sceneId ?? ""}|${session.world.currentDate}|${session.world.currentMoment?.minuteOfDay ?? ""}`;
+  const cardMomentKey = `${playScene.sceneId ?? ""}|${session.world.currentDate}`;
   const cardMomentRef = useRef(cardMomentKey);
   useEffect(() => {
     if (cardMomentRef.current === cardMomentKey) return;

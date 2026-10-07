@@ -35,6 +35,10 @@ test("a person card closes when the day moves on", async ({ page }) => {
   await person.click();
   await expect(page.getByTestId("quick-dossier")).toBeVisible();
 
+  // Acting from the card inside the same scene leaves it where it is.
+  await page.getByTestId("quick-dossier-pin").click();
+  await expect(page.getByTestId("quick-dossier")).toBeVisible();
+
   await page.getByTestId("shell-pass-day").click();
   await expect(page.getByTestId("quick-dossier")).toHaveCount(0);
 });
