@@ -1,3 +1,4 @@
+import type { GroundedEnglishPerson } from "./grounded-english";
 import type { EntityId } from "../simulation";
 import {
   composeGroundedLine,
@@ -40,6 +41,8 @@ export interface CostObjectionFacts {
 }
 
 export interface CostObjectionInput {
+  readonly speakerTraits: GroundedEnglishPerson["traits"];
+  readonly listenerTraits: GroundedEnglishPerson["traits"];
   readonly worldSeed: string;
   /** Stable for this turn, so the same state words the same line. */
   readonly momentKey: string;
@@ -161,8 +164,14 @@ export function costObjectionPacket(
     stage: "adult",
     sourceRecordIds: [input.speakerPersonId, input.listenerPersonId],
     facts,
-    speaker: { personId: input.speakerPersonId, traits: {} },
-    viewer: { personId: input.listenerPersonId, traits: {} },
+    speaker: {
+      personId: input.speakerPersonId,
+      traits: input.speakerTraits,
+    },
+    viewer: {
+      personId: input.listenerPersonId,
+      traits: input.listenerTraits,
+    },
     // The speaker read the bill and is in the room: they know each of these
     // from the same records that establish them.
     knowledge: Object.entries(facts).map(([factKey, fact]) => ({

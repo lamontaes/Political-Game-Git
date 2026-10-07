@@ -2,7 +2,12 @@ import {
   createLawConsequenceRegistry,
   LAW_CONSEQUENCE_REGISTRATIONS,
 } from "./law-consequence-registry";
+import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import { validateLawConsequences } from "./law-consequence-validation";
+import { MissingLawConsequenceTerm } from "./law-consequence-integrity-gap";
+import { createStableId } from "./ids";
+import { recordById } from "./history-index";
+import { recordWorldEvent } from "./world";
 import type {
   LawConsequenceContext,
   AnyLawConsequenceKindRegistration,
@@ -281,7 +286,10 @@ export function applyEnactedLawEffects(
     onDate: next.currentDate,
     activity: "effective",
     activityId: enactment.id,
-    subjectIds: [],
+    // Consequence resolvers apply their own row predicates and jurisdiction
+    // checks. Give them the recorded people they can evaluate on the law's
+    // effective date instead of suppressing every subject-filtered row.
+    subjectIds: [...next.personOrder],
     governingLawId: measureId,
   });
 }
@@ -794,7 +802,12 @@ export function applyLawConsequences(
   context: LawConsequenceContext,
   registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
 ): World {
-  const registry = createLawConsequenceRegistry(registrations);
+  const registry = createLawConsequenceRegistry([
+    ...LAW_CONSEQUENCE_REGISTRATIONS,
+    ...registrations.filter(
+      (entry) => !LAW_CONSEQUENCE_REGISTRATIONS.includes(entry),
+    ),
+  ]);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {
     const proposition = world.policyCatalog.propositions[id];
@@ -804,11 +817,12 @@ export function applyLawConsequences(
       (context.questionKey && proposition.stableKey !== context.questionKey)
     )
       continue;
-    const rows = proposition.consequences ?? [];
+    const rows = (proposition.consequences ?? []).filter(
+      (row) => row.when === context.activity,
+    );
     const errors = validateLawConsequences(rows, registry.capabilities);
     if (errors.length) throw new Error(errors.join("; "));
     for (const row of rows) {
-      if (row.when !== context.activity) continue;
       if (row.onward?.length)
         throw new Error(
           `Consequence ${row.id}: missing saved-parent onward dispatch capability`,
@@ -818,10 +832,53 @@ export function applyLawConsequences(
         throw new Error(
           `Consequence ${row.id}: missing kind capability '${row.kind}'`,
         );
-      const resolved = registration.resolve(next, row, {
-        ...context,
-        questionKey: proposition.stableKey,
-      });
+      let resolved;
+      try {
+        resolved = registration.resolve(next, row, {
+          ...context,
+          questionKey: proposition.stableKey,
+        });
+      } catch (error) {
+        if (!(error instanceof MissingLawConsequenceTerm)) throw error;
+        const stableKey = `law-term-gap:${error.law.measureId}:${row.id}:${error.personId}:${error.termKey}:${context.activityId}:${context.onDate}`;
+        if (
+          !recordById(
+            next.history.events,
+            createStableId("event", `${next.id}:${stableKey}`),
+          )
+        ) {
+          next = recordWorldEvent(next, {
+            stableKey,
+            type: "law.consequence-integrity-gap",
+            occurredAt: context.onDate,
+            recordedAt: next.currentDate,
+            jurisdictionId: error.jurisdictionId,
+            involvedEntityIds: [error.personId],
+            participants: [],
+            personFactConstraints: [],
+            visibility: "private",
+            tags: [
+              "law:missing-final-term",
+              error.questionKey,
+              error.law.measureId,
+              error.rowId,
+              `term:${error.termKey}`,
+              `unit:${error.unit}`,
+            ],
+            summary:
+              "The pay adjustment could not be calculated because its saved law has no matching numeric term.",
+            context: {
+              location: null,
+              socialContext: null,
+              pressure: null,
+              choice: null,
+              motivation: null,
+              immediateReaction: null,
+            },
+          });
+        }
+        continue;
+      }
       for (const input of resolved) {
         if (
           input.row.id !== row.id ||
@@ -887,6 +944,21 @@ export function applyLawConsequences(
           next = registration.apply(next, input);
           continue;
         }
+        if (
+          authority.kind === "enacted-hourly-pay-rule" ||
+          authority.kind === "enacted-annual-office-pay-rule"
+        ) {
+          if (
+            row.kind !== "pay" ||
+            context.activity !== "payroll" ||
+            context.standingAppropriationId ||
+            (context.governingLawId &&
+              authority.measureId !== context.governingLawId)
+          )
+            continue;
+          next = registration.apply(next, input);
+          continue;
+        }
         if (context.governingLawId || context.origin === "enacted") continue;
         if (
           context.standingAppropriationId &&
@@ -901,8 +973,12 @@ export function applyLawConsequences(
           row.kind !== "service-delivered" ||
           context.activity !== "service" ||
           saved?.kind !== "appropriation" ||
-          saved.sourceMeasureId != null ||
-          saved.basis.kind !== "sourced" ||
+          // A county's service line carries its board's measure, and the
+          // board's vote is its basis; a standing program has a sourced one.
+          (isCountyServiceProgram(saved.programKey)
+            ? saved.sourceMeasureId == null
+            : saved.sourceMeasureId != null ||
+              saved.basis.kind !== "sourced") ||
           !saved.basis.note.trim() ||
           saved.recordedAt > context.onDate ||
           authority.programKey !== saved.programKey ||

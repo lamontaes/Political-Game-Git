@@ -41,7 +41,7 @@ import {
   strainCrossingDay,
   OFFICIAL_FUNERAL_EVENT_TYPES,
   publicOfficesHeldBy,
-  UNRESEARCHED_OFFICIAL_FUNERAL,
+  ESTIMATED_OFFICIAL_FUNERAL,
 } from "./index";
 
 const REGISTRY = createCrisisTransitionRegistry();
@@ -126,6 +126,17 @@ function seatPresident(world: World, personId: EntityId, since: string): World {
 }
 
 describe("CRISIS K1 ordinary mortality in the World", () => {
+  it("schedules the opening window in a newly created playable world", () => {
+    const world = createDemoWorld("crisis-opening-window");
+    expect(
+      world.history.futureDueItems.some(
+        (item) =>
+          item.transitionKey === "crisis:mortality-window" &&
+          item.dueAt === world.currentDate,
+      ),
+    ).toBe(true);
+  });
+
   it(
     "is composed into the production time registry",
     () => {
@@ -213,7 +224,7 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
   );
 
   it(
-    "starts an older save at its next quarter boundary without rewriting history",
+    "starts an older save at opening without rewriting history",
     () => {
       const legacy = bareWorld("crisis-legacy");
       expect(legacy.history.crisisRecords).toBeUndefined();
@@ -222,9 +233,7 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
       expect(ensureCrisisMortality(started)).toBe(started);
       const due = started.history.futureDueItems.at(-1)!;
       expect(due.transitionKey).toBe("crisis:mortality-window");
-      expect(due.dueAt > legacy.currentDate).toBe(true);
-      expect(due.dueAt.endsWith("-01")).toBe(true);
-      expect(["01", "04", "07", "10"]).toContain(due.dueAt.slice(5, 7));
+      expect(due.dueAt).toBe(legacy.currentDate);
       expect(started.history.events).toEqual(legacy.history.events);
     },
     SLOW,
@@ -371,6 +380,23 @@ describe("CRISIS K2 health, disclosure, recovery and death", () => {
         e.tags.includes("crisis.health"),
       );
       expect(events.map((e) => e.visibility)).toEqual(["private"]);
+      const patientKnowledge = ill.history.knowledge.filter(
+        (k) => k.personId === patient,
+      );
+      expect(patientKnowledge).toHaveLength(1);
+      expect(patientKnowledge[0]).toMatchObject({
+        eventId: episode.eventId,
+        learnedAt: world.currentDate,
+        believedSummary: events[0]!.summary,
+        accuracy: "accurate",
+        confidence: "high",
+        source: { kind: "direct" },
+      });
+      const reopened = deserializeWorld(serializeWorld(ill));
+      expect(reopened.history.knowledge).toEqual(ill.history.knowledge);
+      expect(reopened.currentDate).toBe(world.currentDate);
+      expect(reopened.id).toBe(world.id);
+      expect(() => assertWorldIntegrity(reopened)).not.toThrow();
       expect(
         crisisEnvelopesBetween(
           ill,
@@ -682,7 +708,7 @@ describe("CRISIS K3 continuity notices for GOVERNING", () => {
       expect(funeral).toBeDefined();
       expect(funeral.visibility).toBe("public");
       expect(funeral.occurredAt).toBe(
-        addDays(death.diedAt, UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral),
+        addDays(death.diedAt, ESTIMATED_OFFICIAL_FUNERAL.daysToFuneral),
       );
       expect(funeral.summary).toMatch(
         /^The funeral of .+, who died while serving as President of the United States, was held/,

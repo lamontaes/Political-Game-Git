@@ -17,6 +17,7 @@ import {
 import { principledLeaning } from "./governing/officeholder-principles";
 import { recordFiledProvision } from "./legislative-politics";
 import { recordWorldEvent } from "./world";
+import { periodsPerYear } from "./law-effects-noticed";
 
 function stateOf(world: World, jurisdictionId: EntityId | null) {
   if (!jurisdictionId) return null;
@@ -28,7 +29,7 @@ function stateOf(world: World, jurisdictionId: EntityId | null) {
   );
 }
 
-/** The state's recorded public-teacher median, normalized to the existing 40-hour pay year. */
+/** The state's median annual pay from its actual public-teacher agreements. */
 export function recordedTeacherSalaryMedian(
   world: World,
   jurisdictionId: EntityId,
@@ -75,16 +76,13 @@ export function recordedTeacherSalaryMedian(
         terms.cadenceKind,
       );
     if (!cadence) continue;
-    // These are the same calendar conversions used by town-pay, not a wage estimate.
-    const periods = { weekly: 52, biweekly: 26, semimonthly: 24, monthly: 12 }[
-      cadence[1] as "weekly" | "biweekly" | "semimonthly" | "monthly"
-    ];
+    const periods = periodsPerYear(terms.cadenceKind);
     const hours =
       (role.timeDemand.expectedWeekly.minimumHours +
         role.timeDemand.expectedWeekly.maximumHours) /
       2;
-    if (!(hours > 0)) continue;
-    const minor = Math.round((terms.amount.minorUnits * periods * 40) / hours);
+    if (!Number.isFinite(hours) || !(hours > 0) || periods === null) continue;
+    const minor = Math.round(terms.amount.minorUnits * periods);
     if (!Number.isSafeInteger(minor)) continue;
     salaries.push({
       minor,

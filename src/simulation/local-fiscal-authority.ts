@@ -3,7 +3,15 @@
  * unit fixes identity and footprint; no real tax power, rate, public cash or
  * program is inferred from it. Exact saved source restrictions still win.
  */
+import { canonicalJson } from "./canonical-json";
 import { draftLineageComponents } from "./legislation-draft-lineage";
+import {
+  LOCAL_TAX_INSTRUMENT_BY_FAMILY,
+  localTaxAuthority,
+  localTaxGovernment,
+  localTaxPowerEvidenceFor,
+} from "./local-tax-authority";
+import { taxLevyText } from "./tax-policy";
 import { currentMeasureProvisions } from "./legislative-politics";
 import {
   type LocalFiscalEffectKind,
@@ -51,7 +59,37 @@ interface PropositionContract {
   readonly issueKey: string;
   readonly effectKind: LocalFiscalEffectKind;
   readonly tag: string;
+  /** The council level the question is for, when the question names one. */
+  readonly level?: "county" | "municipality";
+  /** A tax question is filed with its typed tax proposal; no drafter writes it. */
+  readonly filing?: "typed-proposal";
 }
+
+/** The issue each local tax-terms question is filed under. */
+const LOCAL_TAX_ISSUE_BY_FAMILY: Readonly<Record<string, string>> = {
+  property: "us-state-and-local:fiscal.property-tax",
+  sales: "us-state-and-local:fiscal.sales-tax",
+  payroll: "us-state-and-local:fiscal.income-tax",
+  corporate: "us-state-and-local:fiscal.income-tax",
+};
+
+/** One contract per local tax question. Whether the state lets this level levy
+ * the tax is answered by the shared lookup at each admission, not here. */
+const LOCAL_TAX_CONTRACTS: readonly PropositionContract[] = (
+  [
+    ["city", "municipality"],
+    ["county", "county"],
+  ] as const
+).flatMap(([questionLevel, level]) =>
+  Object.keys(LOCAL_TAX_INSTRUMENT_BY_FAMILY).map((family) => ({
+    propositionKey: `us-tax-terms:${questionLevel}.${family}-tax-terms`,
+    issueKey: LOCAL_TAX_ISSUE_BY_FAMILY[family]!,
+    effectKind: "tax-policy" as const,
+    tag: "local-fiscal-effect:tax-policy",
+    level,
+    filing: "typed-proposal" as const,
+  })),
+);
 
 /** Exact approved content mapping, never inferred from a broad issue's level. */
 const PROPOSITION_CONTRACTS: readonly PropositionContract[] = [
@@ -63,6 +101,7 @@ const PROPOSITION_CONTRACTS: readonly PropositionContract[] = [
     effectKind: "public-program-appropriation",
     tag: "local-fiscal-effect:public-program-appropriation",
   },
+  ...LOCAL_TAX_CONTRACTS,
 ];
 
 function refused(reason: string): LocalFiscalAuthorityRefused {
@@ -133,6 +172,7 @@ export function localFiscalAuthorityFor(
   world: World,
   governmentKey: string,
   propositionKey: string,
+  route: "draft" | "typed-proposal" = "draft",
 ): LocalFiscalAuthorityResult {
   const government = municipalGovernmentByKey(governmentKey);
   if (!government)
@@ -170,6 +210,28 @@ export function localFiscalAuthorityFor(
     return refused(
       "This proposition has no approved exact local fiscal effect mapping.",
     );
+  const contract = PROPOSITION_CONTRACTS.find(
+    (entry) => entry.propositionKey === propositionKey,
+  );
+  if (contract?.filing === "typed-proposal" && route !== "typed-proposal")
+    return refused(
+      "A local tax measure is filed with its typed tax proposal, not drafted from the question.",
+    );
+  if (contract?.level && contract.level !== scope.authority.level)
+    return refused("This tax question is for the other level of government.");
+  const taxFamily = /^us-tax-terms:(?:city|county)\.([a-z]+)-tax-terms$/.exec(
+    propositionKey,
+  )?.[1];
+  if (effectKind === "tax-policy" && taxFamily) {
+    const place = localTaxGovernment(governmentKey);
+    const instrument = LOCAL_TAX_INSTRUMENT_BY_FAMILY[taxFamily];
+    const answer =
+      place && instrument ? localTaxAuthority({ ...place, instrument }) : null;
+    if (!answer?.permits)
+      return refused(
+        `The state does not let this level of local government levy this tax (${answer?.status ?? "unknown"}).`,
+      );
+  }
   const issue = world.policyCatalog.issues[proposition.issueId];
   if (!issue?.levels?.includes(scope.authority.level))
     return refused(
@@ -238,6 +300,7 @@ export function admitLocalFiscalMeasure(
     withSponsorControl,
     governmentKey,
     proposition.stableKey,
+    "typed-proposal",
   );
   if (!authority.ok) return authority;
   if (
@@ -266,18 +329,29 @@ export function admitLocalFiscalMeasure(
     )
   )
     return refused("The local fiscal sponsor is not seated on this council.");
+  const taxRefusal =
+    authority.effectKind === "tax-policy"
+      ? savedTaxProposalRefusal(
+          world,
+          governmentKey,
+          measure.id,
+          proposition.stableKey,
+        )
+      : undefined;
+  if (taxRefusal) return refused(taxRefusal);
   const lineages = draftLineageComponents(world, measure.id);
   if (
-    lineages.length !== 1 ||
-    lineages[0]?.authorityKey !== authority.authority.authorityKey ||
-    lineages[0]?.authorityMeasureId !== undefined ||
-    lineages[0]?.componentKey !== undefined ||
-    lineages[0]?.familyKey !== "appropriations" ||
-    lineages[0]?.familyVersion !== "v3" ||
-    lineages[0]?.variantKey !== "local-fix-it-first-v1"
+    authority.effectKind !== "tax-policy" &&
+    (lineages.length !== 1 ||
+      lineages[0]?.authorityKey !== authority.authority.authorityKey ||
+      lineages[0]?.authorityMeasureId !== undefined ||
+      lineages[0]?.componentKey !== undefined ||
+      lineages[0]?.familyKey !== "appropriations" ||
+      lineages[0]?.familyVersion !== "v3" ||
+      lineages[0]?.variantKey !== "local-fix-it-first-v1")
   )
     return refused(
-      "The saved fiscal draft lineage does not name this local authority and full family version.",
+      "The saved fiscal draft lineage does not name this local government and full family version.",
     );
   const provisions = currentMeasureProvisions(world, measure.id);
   const fiscalClauses = provisions.filter(
@@ -332,4 +406,47 @@ export function admitLocalFiscalMeasure(
       "An appropriation needs a preceding authority clause and a positive recorded amount.",
     );
   return authority;
+}
+
+/** A local tax law is admitted from its saved typed proposal: the same
+ * government, the tax this question names, the lookup's own authority evidence
+ * and the exact levy text. No draft lineage stands in for those facts. */
+function savedTaxProposalRefusal(
+  world: World,
+  governmentKey: string,
+  measureId: EntityId,
+  propositionKey: string,
+): string | undefined {
+  const proposal = (world.history.taxProposals ?? []).find(
+    (row) => row.measureId === measureId,
+  );
+  if (!proposal)
+    return "A local tax measure needs its saved typed tax proposal.";
+  const identity = proposal.publicGovernmentIdentity;
+  const place = localTaxGovernment(governmentKey);
+  const family = /^us-tax-terms:(?:city|county)\.([a-z]+)-tax-terms$/.exec(
+    propositionKey,
+  )?.[1];
+  const instrument = family
+    ? LOCAL_TAX_INSTRUMENT_BY_FAMILY[family]
+    : undefined;
+  if (
+    identity?.kind !== "local-government" ||
+    identity.governmentKey !== governmentKey ||
+    !place ||
+    !instrument ||
+    proposal.terms.instrument !== instrument ||
+    !proposal.power ||
+    canonicalJson(proposal.power) !==
+      canonicalJson(
+        localTaxPowerEvidenceFor({ ...place, governmentKey, instrument }),
+      )
+  )
+    return "The saved tax proposal does not match this local government's tax question.";
+  const levy = currentMeasureProvisions(world, measureId).find(
+    (row) => row.provisionKey === "tax-levy",
+  );
+  return levy?.text === taxLevyText(proposal.terms)
+    ? undefined
+    : "The filed levy text no longer matches the saved tax proposal.";
 }

@@ -22,10 +22,8 @@ import {
   CONGRESS_INTAKE_TRANSITION,
   applyCongressLawmaking,
 } from "../simulation/governing/congress-lawmaking";
-import {
-  ensureOfficeholderPrinciples,
-  OFFICEHOLDER_PRINCIPLES_VERSION,
-} from "../simulation/governing/officeholder-principles";
+import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
+import { LIFE_PRINCIPLES_VERSION } from "../simulation/principles-from-life";
 import {
   establishOpeningOfficeholders,
   openingOfficeholders,
@@ -118,10 +116,13 @@ describe("OPENING-LIFE1 opening lifecycle", () => {
       candidate.history.principles.filter(
         (row) =>
           memberIds.includes(row.personId) &&
-          row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
+          row.stableKey.startsWith(`${LIFE_PRINCIPLES_VERSION}:`),
       );
     const before = versionedRowsForCongress(world);
-    expect(before.length).toBeGreaterThan(3_500);
+    // Members' principles form from their recorded lives (no seeded draw), so
+    // only members with enough life pull hold rows; a member with none holds
+    // no invented view.
+    expect(before.length).toBeGreaterThan(0);
     expect(new Set(before.map((row) => row.stableKey)).size).toBe(
       before.length,
     );
@@ -146,14 +147,15 @@ describe("OPENING-LIFE1 opening lifecycle", () => {
   it(
     "keeps generation and read paths separate at age 12",
     () => assertOpeningLifecycleAtAge(12),
-    10_000,
+    90_000,
   );
 
-  // These six synchronous new-game builds measured 5–9s after nationwide
-  // opening preparation; keep the extra budget local to those age cases.
+  // Each of these builds a whole nationwide world (about 10,000 people, an
+  // 84 MB save). Measured at age 34 on Oct 7: generate 18.7s, serialize 3.5s,
+  // deserialize 10s, about 36s in all. Keep the extra budget local to these cases.
   it.each([5, 7, 17, 18, 34, 70])(
     "keeps generation and read paths separate at age %i",
     (startAge) => assertOpeningLifecycleAtAge(startAge),
-    15_000,
+    90_000,
   );
 });

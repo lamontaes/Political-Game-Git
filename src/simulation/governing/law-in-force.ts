@@ -7,7 +7,11 @@ import {
   stateRuleBasis,
 } from "../enacted-rule-changes";
 import { type PropositionAnswer } from "../issue-record";
-import { lawLevelRank, type LawLevel } from "../law-hierarchy";
+import {
+  lawLevelForInstrument,
+  lawLevelRank,
+  type LawLevel,
+} from "../law-hierarchy";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -139,8 +143,12 @@ export function lawInForce(
         enactment.resolvedAt > cutoff.asOfDate)
     )
       continue;
-    const level = chain.get(measure.jurisdictionId);
-    if (!level) continue;
+    const baseLevel = chain.get(measure.jurisdictionId);
+    if (!baseLevel) continue;
+    const level = lawLevelForInstrument(
+      baseLevel,
+      measure.governmentInstrument ?? "statute",
+    );
     // The law as enacted, sections an amendment or a rider put in included.
     const answer =
       measureAnswersAt(world, measure.id, enactment.sequence).find(
@@ -164,6 +172,13 @@ export function lawInForce(
     if (!operative) continue;
     const { operativeAt, operativeBasis } = operative;
     if (operativeAt > onDate) continue;
+    if (
+      measure.governmentInstrument &&
+      measure.governmentInstrument !== "statute" &&
+      (!enactment.publishedAt || enactment.publishedAt > onDate)
+    )
+      continue;
+    if (enactment.expiresAt && enactment.expiresAt < onDate) continue;
     // Struck down by a court before this day: on the record, and governing
     // nothing (judiciary/judicial-review.ts).
     if (struckDownBy(world, enactment.id, propositionId, onDate, cutoff))
@@ -343,7 +358,14 @@ export interface StartingLawScope {
   }[];
 }
 
-interface StartingLawRow {
+export interface StartingLawRow {
+  /** Exact recorded workplace identities; no name or county-containment guess. */
+  readonly regionalTerms?: readonly {
+    readonly workplaceKeys: readonly string[];
+    readonly operativeAt: string;
+    readonly lawTerms: NonNullable<LegislativeProvisionRecord["lawTerms"]>;
+    readonly source: string;
+  }[];
   readonly scopeEvidence?: StartingLawScope;
   readonly phases?: readonly (Omit<StartingLawRow, "phases" | "before"> & {
     readonly operativeAt: string;
@@ -478,8 +500,34 @@ export function startingLawTerms(
   law: LawInForce,
   questionKey: string,
   onDate: IsoDate,
+  workplaceKey?: string,
 ): NonNullable<LegislativeProvisionRecord["lawTerms"]> {
-  return selectedStartingLawRow(law, questionKey, onDate)?.lawTerms ?? [];
+  const row = selectedStartingLawRow(law, questionKey, onDate);
+  if (!row?.regionalTerms) return row?.lawTerms ?? [];
+  if (!workplaceKey) return [];
+  const matches = row.regionalTerms.filter(
+    (region) =>
+      region.workplaceKeys.includes(workplaceKey) &&
+      region.operativeAt <= onDate,
+  );
+  const latest = matches.reduce<string | null>(
+    (date, region) =>
+      date === null || region.operativeAt > date ? region.operativeAt : date,
+    null,
+  );
+  const active = matches.filter((region) => region.operativeAt === latest);
+  return active.length === 1 ? active[0]!.lawTerms : [];
+}
+
+/** Whether starting numeric terms are statewide or explicitly workplace-scoped. */
+export function startingLawTermScope(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): "statewide" | "regional" | null {
+  const row = selectedStartingLawRow(law, questionKey, onDate);
+  if (!row) return null;
+  return row.regionalTerms === undefined ? "statewide" : "regional";
 }
 
 export function startingLawCategories(
@@ -675,12 +723,25 @@ export function lawInForceAtStart(
   onDate: IsoDate,
 ): PropositionAnswer | null {
   return (
-    startingLawCandidate(
-      world,
-      governingChain(jurisdictionId),
-      propositionId,
-      onDate,
-    )?.answer ?? null
+    startingLawInForce(world, jurisdictionId, propositionId, onDate)?.answer ??
+    null
+  );
+}
+
+/** The canonical starting law, for readers that also need its adopted terms. */
+export function startingLawInForce(
+  world: World,
+  jurisdictionId: EntityId,
+  propositionId: EntityId,
+  onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
+): LawInForce | null {
+  return startingLawCandidate(
+    world,
+    governingChain(jurisdictionId),
+    propositionId,
+    onDate,
+    cutoff,
   );
 }
 

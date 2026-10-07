@@ -1,33 +1,211 @@
-<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="kit12.css"><style>
-* { box-sizing: border-box; margin: 0; }
-body { width: 1440px; height: 900px; position: relative; overflow: hidden; background: #333 center/cover no-repeat; }
-.panel { position: absolute; }
-.ring { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(var(--glass-top), var(--glass-bottom)); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  border: 1.5px solid var(--brass); box-shadow: 0 0 0 1px var(--iron), inset 0 0 0 1px var(--iron), 0 3px 6px rgba(0,0,0,.5); }
-.ring svg { width: 18px; height: 18px; fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.ring.cur { box-shadow: 0 0 0 1px var(--iron), inset 0 0 0 1px var(--iron), 0 0 0 3px rgba(214,189,132,.35), 0 3px 6px rgba(0,0,0,.5); }
-.radial { position: absolute; left: 24px; bottom: 108px; display: flex; gap: 8px; }
-.me { left: 24px; bottom: 26px; display: flex; gap: 11px; align-items: center; padding: 7px 18px 7px 7px; }
-.me .bust { width: 54px; height: 54px; background-image: url('bust-vp.png'); } .me .name { font-size: 16px; }
-.chat { left: 50%; transform: translateX(-50%); bottom: 26px; width: 640px; padding: 13px 18px 13px; }
-.who { display: flex; gap: 12px; align-items: center; }
-.chat .speech { margin: 10px 0 8px; }
-.bust.pres { background-image: url('bust-president.png'); }
-.h2 { font: 800 22px var(--name); letter-spacing: .05em; }
-.acts { margin-top: 12px; }
-.tabs { display: flex; gap: 22px; border-bottom: 1px solid rgba(214,189,132,.28); margin: 10px 0 12px; }
-.tab { font: 600 12px var(--ui); letter-spacing: .13em; text-transform: uppercase; color: var(--text-3); padding: 0 0 7px; border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tab.on { color: var(--text); border-bottom-color: var(--gold); }
-.row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid rgba(214,189,132,.15); }
-.row .k { font: 600 10.5px var(--ui); letter-spacing: .13em; text-transform: uppercase; color: var(--gold); }
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="kit12.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        width: 1440px;
+        height: 900px;
+        position: relative;
+        overflow: hidden;
+        background: #333 center/cover no-repeat;
+      }
+      .panel {
+        position: absolute;
+      }
+      .ring {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(var(--glass-top), var(--glass-bottom));
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        border: 1.5px solid var(--brass);
+        box-shadow:
+          0 0 0 1px var(--iron),
+          inset 0 0 0 1px var(--iron),
+          0 3px 6px rgba(0, 0, 0, 0.5);
+      }
+      .ring svg {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: var(--gold);
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .ring.cur {
+        box-shadow:
+          0 0 0 1px var(--iron),
+          inset 0 0 0 1px var(--iron),
+          0 0 0 3px rgba(214, 189, 132, 0.35),
+          0 3px 6px rgba(0, 0, 0, 0.5);
+      }
+      .radial {
+        position: absolute;
+        left: 24px;
+        bottom: 108px;
+        display: flex;
+        gap: 8px;
+      }
+      .me {
+        left: 24px;
+        bottom: 26px;
+        display: flex;
+        gap: 11px;
+        align-items: center;
+        padding: 7px 18px 7px 7px;
+      }
+      .me .bust {
+        width: 54px;
+        height: 54px;
+        background-image: url("bust-vp.png");
+      }
+      .me .name {
+        font-size: 16px;
+      }
+      .chat {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 26px;
+        width: 640px;
+        padding: 13px 18px 13px;
+      }
+      .who {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .chat .speech {
+        margin: 10px 0 8px;
+      }
+      .bust.pres {
+        background-image: url("bust-president.png");
+      }
+      .h2 {
+        font: 800 22px var(--name);
+        letter-spacing: 0.05em;
+      }
+      .acts {
+        margin-top: 12px;
+      }
+      .tabs {
+        display: flex;
+        gap: 22px;
+        border-bottom: 1px solid rgba(214, 189, 132, 0.28);
+        margin: 10px 0 12px;
+      }
+      .tab {
+        font: 600 12px var(--ui);
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        padding: 0 0 7px;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+      }
+      .tab.on {
+        color: var(--text);
+        border-bottom-color: var(--gold);
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 6px 0;
+        border-bottom: 1px solid rgba(214, 189, 132, 0.15);
+      }
+      .row .k {
+        font: 600 10.5px var(--ui);
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
 
-.menu { left: 56px; top: 50%; transform: translateY(-50%); width: 360px; padding: 26px 28px 22px; }
-.title { font: 800 30px/1.1 var(--name); letter-spacing: .07em; }
-.sub { font: 500 14.5px var(--speech); color: var(--text-2); margin: 6px 0 18px; }
-.item { display: block; padding: 9px 0; border-top: 1px solid rgba(214,189,132,.16); }
-.item b { display: block; font: 700 15px var(--name); letter-spacing: .1em; text-transform: uppercase; }
-.item span { display: block; font: 400 13px var(--ui); color: var(--text-2); margin-top: 2px; }
-.item.on b { color: #fff; } .item.on { box-shadow: inset 3px 0 0 var(--brass); padding-left: 12px; margin-left: -14px; }
-.item.dim { opacity: .4; }
-.hero { position: absolute; right: 150px; bottom: 30px; width: 300px; height: 474px; background: url('fig-president.png') bottom/contain no-repeat; filter: drop-shadow(0 8px 10px rgba(0,0,0,.35)); }
- body { background-image: url("county-courthouse__morning.jpg"); }</style></head><body><div class="hero"></div><div class="panel menu"><div class="title">Our Civic Duty</div><div class="sub">A life in American government.</div><div class="item on"><b>New game</b><span>Begin a life in a real place.</span></div><div class="item hover"><b>Watch the world</b><span>Nobody plays. The country runs on its own.</span></div><div class="item dim"><b>Continue</b><span>No life saved yet.</span></div><div class="item"><b>Saved games</b><span>Open a saved life, or import one.</span></div><div class="item"><b>Options</b></div><div class="item"><b>Patch notes</b></div></div></body></html>
+      .menu {
+        left: 56px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 360px;
+        padding: 26px 28px 22px;
+      }
+      .title {
+        font: 800 30px/1.1 var(--name);
+        letter-spacing: 0.07em;
+      }
+      .sub {
+        font: 500 14.5px var(--speech);
+        color: var(--text-2);
+        margin: 6px 0 18px;
+      }
+      .item {
+        display: block;
+        padding: 9px 0;
+        border-top: 1px solid rgba(214, 189, 132, 0.16);
+      }
+      .item b {
+        display: block;
+        font: 700 15px var(--name);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .item span {
+        display: block;
+        font: 400 13px var(--ui);
+        color: var(--text-2);
+        margin-top: 2px;
+      }
+      .item.on b {
+        color: #fff;
+      }
+      .item.on {
+        box-shadow: inset 3px 0 0 var(--brass);
+        padding-left: 12px;
+        margin-left: -14px;
+      }
+      .item.dim {
+        opacity: 0.4;
+      }
+      .hero {
+        position: absolute;
+        right: 150px;
+        bottom: 30px;
+        width: 300px;
+        height: 474px;
+        background: url("fig-president.png") bottom/contain no-repeat;
+        filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.35));
+      }
+      body {
+        background-image: url("county-courthouse__morning.jpg");
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hero"></div>
+    <div class="panel menu">
+      <div class="title">Our Civic Duty</div>
+      <div class="sub">A life in American government.</div>
+      <div class="item on">
+        <b>New game</b><span>Begin a life in a real place.</span>
+      </div>
+      <div class="item hover">
+        <b>Watch the world</b
+        ><span>Nobody plays. The country runs on its own.</span>
+      </div>
+      <div class="item dim"><b>Continue</b><span>No life saved yet.</span></div>
+      <div class="item">
+        <b>Saved games</b><span>Open a saved life, or import one.</span>
+      </div>
+      <div class="item"><b>Options</b></div>
+      <div class="item"><b>Patch notes</b></div>
+    </div>
+  </body>
+</html>

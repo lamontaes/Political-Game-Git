@@ -32,10 +32,12 @@ import { OpeningStatePopulation } from "./OpeningStatePopulation";
 import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PlacePeopleLayer } from "./PlacePeopleLayer";
-import { placeBackdropPeople } from "../presentation/backdrop-people";
+import { backdropStaging } from "../presentation/backdrop-people";
 import { SceneChapterTransition } from "./SceneChapterTransition";
+import { introPlacementTrace } from "../presentation/intro-placement-trace";
 import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
 import {
+  openingLocalChamber,
   projectOpeningFamily,
   projectOpeningLegislature,
   projectOpeningTown,
@@ -49,13 +51,10 @@ import {
   openingTourStagedPeople,
 } from "../presentation/opening-tour-people";
 import {
-  capitolPlaceFor,
+  homePlacesForPerson,
   middayBackdropUrl,
 } from "../presentation/place-backdrops";
-import {
-  PLAYTEST65_WHITE_HOUSE_LAYOUT,
-  OPENING_INFORMATION_PLATES,
-} from "../presentation/playtest65-visual-layout";
+import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
 import {
   OPENING_REGIONAL_CANDIDATES,
   openingHomeRegionPreviews,
@@ -122,15 +121,20 @@ export function WorldOrientationPanel({
     readonly lines?: readonly string[];
     /** Real headlines of the day, for the year's screen. */
     readonly headlines?: readonly string[];
+    /** Record values under a label, for the year's screen. */
+    readonly facts?: readonly {
+      readonly label: string;
+      readonly value: string;
+    }[];
     /** The heading over them, when it is not the day's news. */
     readonly headlinesTitle?: string;
     /** Parents and guardians, for the family screen. */
     readonly family?: readonly OpeningFamilyMember[];
   })[] = useMemo(() => {
     const order = ["executive", "state", "congress", "locality"];
-    const ordered = [...view.steps].sort(
-      (a, b) => order.indexOf(a.key) - order.indexOf(b.key),
-    );
+    const ordered = view.steps
+      .filter((step) => step.key !== "locality")
+      .sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
     if (!snapshot) return ordered;
     const officials = [snapshot.president, snapshot.vicePresident].flatMap(
       (holder) => {
@@ -232,6 +236,7 @@ export function WorldOrientationPanel({
               summary: "The country, as your life begins.",
               lines: year.lines,
               headlines: year.headlines,
+              facts: year.facts,
               people: [],
               chambers: [],
             },
@@ -285,8 +290,8 @@ export function WorldOrientationPanel({
     closed.current = true;
     onClose();
   };
-  const step = steps[Math.min(index, steps.length - 1)]!;
-  const chapter = living?.chapters.find((entry) => entry.key === step.key);
+  const step = steps[Math.min(index, steps.length - 1)];
+  const chapter = living?.chapters.find((entry) => entry.key === step?.key);
   const last = index >= steps.length - 1;
   const regionalContext =
     snapshot?.beats.find(
@@ -314,6 +319,14 @@ export function WorldOrientationPanel({
   // The state step's own scene picker, distinct from the locality plate the
   // caller supplies as `regionalPlate`: this one the player can page through.
   const regionScene = regionalPlates[regionIndex] ?? null;
+  const localChamber = useMemo(
+    () => (world && personId ? openingLocalChamber(world, personId) : null),
+    [world, personId],
+  );
+  const homePlaces = useMemo(
+    () => (world && personId ? homePlacesForPerson(world, personId) : []),
+    [world, personId],
+  );
   const backdropFor = (key: string): OrientationBackdrop =>
     orientationBackdrop(key, {
       whiteHouse: plate,
@@ -321,21 +334,23 @@ export function WorldOrientationPanel({
         regionalPlate?.kind === "plate" ? regionalPlate.plate : null,
       regionScene,
       homeStateUsps,
+      localChamber,
+      homePlaces,
     });
-  const backdrop = backdropFor(step.key);
+  const backdrop = backdropFor(step?.key ?? "");
   const nextStep = steps[index + 1];
   const nextPlateUrl = nextStep ? backdropUrl(backdropFor(nextStep.key)) : null;
   const chapterCast =
-    step.key === "parents" && world
+    step?.key === "parents" && world
       ? step.people.map((person) => ({
           slotKey: `parent:${person.personId}`,
           person,
         }))
-      : step.key !== "executive" && step.key !== "your-life" && world
+      : step?.key !== "executive" && step?.key !== "your-life" && world
         ? (chapter?.actors ?? [])
         : [];
   const cast =
-    step.key === "state" && world
+    step?.key === "state" && world
       ? [
           ...chapterCast,
           ...step.people
@@ -351,50 +366,49 @@ export function WorldOrientationPanel({
             })),
         ]
       : chapterCast;
-  const executiveWithoutPlate = step.key === "executive" && !plate;
+  const executiveWithoutPlate = step?.key === "executive" && !plate;
   // In the painted Oval Office the President and Vice President stand in
   // front of the desk on the room's measured spots, facing each other, at
   // the room's own scale and in a natural stance, like people in any other
   // painted place.
-  const officeStage = useRef<HTMLDivElement>(null);
-  const officePlace =
-    executiveWithoutPlate &&
-    !establishingPlate &&
+  const sceneStage = useRef<HTMLDivElement>(null);
+  const sceneRoster =
+    step?.key === "executive" || step?.key === "legislature"
+      ? (step?.people ?? [])
+      : cast.map((actor) => actor.person);
+  const measuredPlace =
     backdrop.kind === "place" &&
-    world &&
-    personId
+    !(step?.key === "executive" && establishingPlate) &&
+    backdropStaging(backdrop.place)
       ? backdrop.place
       : null;
-  const officePeople = useMemo(
+  const scenePeople = useMemo(
     () =>
-      officePlace && world && personId
-        ? placeBackdropPeople(
-            world,
-            personId,
-            officePlace,
-            world.currentMoment,
-            step.people,
-            { standing: true },
-          )
+      measuredPlace && world && personId
+        ? openingTourStagedPeople(world, personId, measuredPlace, sceneRoster, {
+            // The family stands together in its home; offices seat people.
+            furniture: step?.key !== "parents",
+            faceRoom: step?.key === "parents",
+            memberIds: new Set(
+              (chapter?.actors ?? [])
+                .filter(
+                  (actor) =>
+                    actor.role === "state-legislator" ||
+                    actor.role === "congress-member",
+                )
+                .map((actor) => actor.person.personId),
+            ),
+          })
         : [],
-    [officePlace, world, personId, step.people],
+    [measuredPlace, world, personId, sceneRoster, chapter, step?.key],
   );
-  const officeStaged = officePlace !== null && officePeople.length > 0;
-  const legislatureStage = useRef<HTMLDivElement>(null);
-  const legislaturePeople = useMemo(
-    () =>
-      step.key === "legislature" &&
-      backdrop.kind === "place" &&
-      world &&
-      personId
-        ? openingTourStagedPeople(world, personId, backdrop.place, step.people)
-        : [],
-    [step.key, backdrop, world, personId, step.people],
-  );
+  const sceneStaged = measuredPlace !== null && sceneRoster.length > 0;
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
       ? "centered"
       : "scene";
+
+  if (!step) return null;
 
   return (
     <section
@@ -404,6 +418,9 @@ export function WorldOrientationPanel({
       aria-labelledby={`pg-orientation-title-${step.key}`}
       data-testid="world-orientation"
       data-step={step.key}
+      data-placement-trace={JSON.stringify(
+        introPlacementTrace(scenePeople, chapter?.actors ?? []),
+      )}
       onKeyDown={(event) => {
         if (event.key !== "Escape") return;
         event.stopPropagation();
@@ -430,23 +447,37 @@ export function WorldOrientationPanel({
               : undefined
           }
         >
-          {officeStaged ? (
+          {sceneStaged ? (
             <div
-              ref={officeStage}
+              ref={sceneStage}
               className="pg-orientation-backdrop pg-orientation-staged"
-              data-testid="opening-office-staged"
+              data-testid={
+                step.key === "executive"
+                  ? "opening-office-staged"
+                  : step.key === "legislature"
+                    ? "opening-legislature-staged"
+                    : "opening-cast-staged"
+              }
+              aria-label="Illustration of recorded people in their selected roles"
             >
               <SceneBackdrop backdrop={backdrop} />
               <PlacePeopleLayer
-                people={officePeople}
-                stageRef={officeStage}
-                nameplates
+                people={scenePeople}
+                stageRef={sceneStage}
+                overflowLabel="More illustrated people"
+                nameTags={step.key === "parents"}
+                onSelectPerson={(id) => {
+                  const selected = sceneRoster.find(
+                    (person) => person.personId === id,
+                  );
+                  if (selected) onOpenPerson(selected.personId);
+                }}
               />
             </div>
           ) : step.key === "executive" && !plate && !establishingPlate ? (
             <SceneBackdrop backdrop={backdrop} />
           ) : null}
-          {officeStaged ? null : step.key === "executive" ? (
+          {sceneStaged ? null : step.key === "executive" ? (
             <div
               className="pg-white-house-presentation"
               data-has-plate={Boolean(plate)}
@@ -476,13 +507,18 @@ export function WorldOrientationPanel({
                   ) : null)}
                 <div className="pg-opening-officials">
                   {step.people.map((person, position) => (
-                    <article
+                    <button
                       key={person.personId}
+                      type="button"
                       className={
                         position === 0
-                          ? "pg-opening-president"
-                          : "pg-opening-vice-president"
+                          ? "pg-opening-person-trigger pg-opening-president"
+                          : "pg-opening-person-trigger pg-opening-vice-president"
                       }
+                      aria-label={`Open person card for ${person.name}`}
+                      title={`Open person card for ${person.name}`}
+                      data-testid={`opening-official-${person.personId}`}
+                      onClick={() => onOpenPerson(person.personId)}
                     >
                       {renderFigure?.(person.personId) ??
                         (world ? (
@@ -490,40 +526,19 @@ export function WorldOrientationPanel({
                             world={world}
                             personId={person.personId}
                             className="pg-opening-figure"
-                            wear="formal"
                           />
                         ) : null)}
-                    </article>
+                    </button>
                   ))}
                 </div>
               </div>
-            </div>
-          ) : step.key === "legislature" && legislaturePeople.length > 0 ? (
-            <div
-              ref={legislatureStage}
-              className="pg-orientation-backdrop pg-orientation-staged"
-              data-testid="opening-legislature-staged"
-              aria-label="Illustration of your recorded state representatives"
-            >
-              <SceneBackdrop backdrop={backdrop} />
-              <PlacePeopleLayer
-                people={legislaturePeople}
-                stageRef={legislatureStage}
-                nameplates
-                onSelectPerson={(id) => {
-                  const person = step.people.find(
-                    (entry) => entry.personId === id,
-                  );
-                  if (person) onOpenPerson(person.personId);
-                }}
-              />
             </div>
           ) : step.key === "locality" ? null : (
             <SceneBackdrop backdrop={backdrop} />
           )}
           <div className="pg-orientation-scrim" aria-hidden="true" />
 
-          {cast.length > 0 && world ? (
+          {!sceneStaged && cast.length > 0 && world ? (
             <div
               className={`pg-orientation-cast${step.key === "state" ? " pg-orientation-state-cast" : ""}`}
               data-testid={
@@ -555,7 +570,6 @@ export function WorldOrientationPanel({
                     world={world}
                     personId={actor.person.personId}
                     className="pg-orientation-cast-figure"
-                    wear="formal"
                   />
                   {step.key === "congress" ? (
                     <PersonButton
@@ -575,216 +589,227 @@ export function WorldOrientationPanel({
           ) : null}
 
           <div className="pg-orientation-copy">
-            <p className="pg-orientation-kicker">
-              {index + 1} of {steps.length} · {view.dateLabel}
-            </p>
-            <h2
-              id={`pg-orientation-title-${step.key}`}
-              ref={heading}
-              tabIndex={-1}
-              className="pg-orientation-title"
-              data-testid={`orientation-step-${step.key}`}
-            >
-              {step.title}
-            </h2>
-            {step.key !== "state" ? (
-              <p className="pg-orientation-summary">{step.summary}</p>
-            ) : null}
-
-            <div className="pg-orientation-reading">
-              {step.key === "executive" && step.people.length > 0 ? (
-                <div className="pg-opening-official-labels">
-                  {step.people.map((person) => (
-                    <PersonButton
-                      key={person.personId}
-                      person={person}
-                      onOpenPerson={onOpenPerson}
-                      compact
-                    />
-                  ))}
-                </div>
+            <div className="pg-orientation-panel pg-glass-panel">
+              <span className="pg-orientation-corners" aria-hidden="true">
+                <span data-corner="top-left" />
+                <span data-corner="top-right" />
+                <span data-corner="bottom-left" />
+                <span data-corner="bottom-right" />
+              </span>
+              <p className="pg-orientation-kicker">
+                {index + 1} of {steps.length} · {view.dateLabel}
+              </p>
+              <h2
+                id={`pg-orientation-title-${step.key}`}
+                ref={heading}
+                tabIndex={-1}
+                className="pg-orientation-title"
+                data-testid={`orientation-step-${step.key}`}
+              >
+                {step.title}
+              </h2>
+              {step.key !== "state" ? (
+                <p className="pg-orientation-summary">{step.summary}</p>
               ) : null}
 
-              {step.key === "state" ? (
-                <div className="pg-regional-state-information">
-                  <div className="pg-regional-card-body pg-state-overview">
-                    <section>
-                      <h3>
-                        {homeStateUsps === "DC"
-                          ? "Your District government"
-                          : isTerritoryUsps(homeStateUsps)
-                            ? "Your territory's government"
-                            : "Your state government"}
-                      </h3>
-                      <p>{step.summary}</p>
-                      {step.people.length > 0 ? (
-                        <ul className="pg-orientation-people">
-                          {step.people.map((person) => (
-                            <li key={`${person.personId}:${person.title}`}>
-                              <PersonButton
-                                person={person}
-                                onOpenPerson={onOpenPerson}
-                              />
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </section>
-                    <OpeningStatePopulation
-                      stateUsps={homeStateUsps}
-                      asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
-                    />
-                    {isTerritoryUsps(homeStateUsps) ? null : (
-                      <OpeningStateVoting
+              <div className="pg-orientation-reading">
+                {step.key === "state" ? (
+                  <div className="pg-regional-state-information">
+                    <div className="pg-regional-card-body pg-state-overview">
+                      <section>
+                        <h3>
+                          {homeStateUsps === "DC"
+                            ? "Your District government"
+                            : isTerritoryUsps(homeStateUsps)
+                              ? "Your territory's government"
+                              : "Your state government"}
+                        </h3>
+                        <p>{step.summary}</p>
+                        {step.people.length > 0 ? (
+                          <ul className="pg-orientation-people">
+                            {step.people.map((person) => (
+                              <li key={`${person.personId}:${person.title}`}>
+                                <PersonButton
+                                  person={person}
+                                  onOpenPerson={onOpenPerson}
+                                />
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null}
+                      </section>
+                      <OpeningStatePopulation
                         stateUsps={homeStateUsps}
                         asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
                       />
-                    )}
+                      {isTerritoryUsps(homeStateUsps) ? null : (
+                        <OpeningStateVoting
+                          stateUsps={homeStateUsps}
+                          asOf={
+                            world?.currentDate ?? regionalContext?.asOf ?? ""
+                          }
+                        />
+                      )}
+                    </div>
+                    {backdrop.kind === "region-preview" &&
+                    regionalPlates.length > 1 ? (
+                      <nav
+                        className="pg-regional-scene-navigation"
+                        aria-label="Regional views"
+                      >
+                        <button
+                          type="button"
+                          className="ui-action"
+                          onClick={() =>
+                            setChosenRegion(
+                              regionalPlates[
+                                (regionIndex + regionalPlates.length - 1) %
+                                  regionalPlates.length
+                              ]!.assetId,
+                            )
+                          }
+                        >
+                          Previous view
+                        </button>
+                        <span>
+                          View {regionIndex + 1} of {regionalPlates.length}
+                        </span>
+                        <button
+                          type="button"
+                          className="ui-action"
+                          onClick={() =>
+                            setChosenRegion(
+                              regionalPlates[
+                                (regionIndex + 1) % regionalPlates.length
+                              ]!.assetId,
+                            )
+                          }
+                        >
+                          Next view
+                        </button>
+                      </nav>
+                    ) : null}
                   </div>
-                  {backdrop.kind === "region-preview" &&
-                  regionalPlates.length > 1 ? (
-                    <nav
-                      className="pg-regional-scene-navigation"
-                      aria-label="Regional views"
-                    >
-                      <button
-                        type="button"
-                        className="ui-action"
-                        onClick={() =>
-                          setChosenRegion(
-                            regionalPlates[
-                              (regionIndex + regionalPlates.length - 1) %
-                                regionalPlates.length
-                            ]!.assetId,
-                          )
-                        }
-                      >
-                        Previous view
-                      </button>
-                      <span>
-                        View {regionIndex + 1} of {regionalPlates.length}
-                      </span>
-                      <button
-                        type="button"
-                        className="ui-action"
-                        onClick={() =>
-                          setChosenRegion(
-                            regionalPlates[
-                              (regionIndex + 1) % regionalPlates.length
-                            ]!.assetId,
-                          )
-                        }
-                      >
-                        Next view
-                      </button>
-                    </nav>
-                  ) : null}
-                </div>
-              ) : null}
+                ) : null}
 
-              {step.lines && step.lines.length > 0 ? (
-                <ul
-                  className="pg-orientation-lines"
-                  data-testid={`orientation-lines-${step.key}`}
-                >
-                  {step.lines.map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
-              ) : null}
-
-              {step.headlines && step.headlines.length > 0 ? (
-                <section
-                  className="pg-orientation-headlines"
-                  data-testid="orientation-headlines"
-                >
-                  <h3>{step.headlinesTitle ?? "In the news"}</h3>
-                  <ul>
-                    {step.headlines.map((headline) => (
-                      <li key={headline}>{headline}</li>
+                {step.lines && step.lines.length > 0 ? (
+                  <ul
+                    className="pg-orientation-lines"
+                    data-testid={`orientation-lines-${step.key}`}
+                  >
+                    {step.lines.map((line) => (
+                      <li key={line}>{line}</li>
                     ))}
                   </ul>
-                </section>
-              ) : null}
+                ) : null}
 
-              {step.family && step.family.length > 0 ? (
-                <ul
-                  className="pg-opening-household"
-                  data-testid="orientation-family"
-                >
-                  {step.family.map((member) => (
-                    <li key={member.personId}>
-                      <button
-                        type="button"
-                        className="ui-action"
-                        onClick={() => onOpenPerson(member.personId)}
-                      >
-                        {member.introduction}
-                      </button>
-                      <span className="pg-opening-family-detail">
-                        {familyDetail(member)}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
+                {step.facts && step.facts.length > 0 ? (
+                  <dl
+                    className="pg-orientation-facts"
+                    data-testid="orientation-facts"
+                  >
+                    {step.facts.map((fact) => (
+                      <div key={fact.label}>
+                        <dt>{fact.label}</dt>
+                        <dd>{fact.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : null}
 
-              {step.chambers.map((chamber) => (
-                <ChamberBlock
-                  key={chamber.chamberKey}
-                  chamber={chamber}
-                  homeStateUsps={homeStateUsps}
-                  world={world}
-                  onOpenPerson={onOpenPerson}
-                />
-              ))}
+                {step.headlines && step.headlines.length > 0 ? (
+                  <section
+                    className="pg-orientation-headlines"
+                    data-testid="orientation-headlines"
+                  >
+                    <h3>{step.headlinesTitle ?? "In the news"}</h3>
+                    <ul>
+                      {step.headlines.map((headline) => (
+                        <li key={headline}>{headline}</li>
+                      ))}
+                    </ul>
+                  </section>
+                ) : null}
 
-              {step.people.length > 0 &&
-              step.key !== "parents" &&
-              step.key !== "executive" &&
-              step.key !== "state" ? (
-                <ul className="pg-orientation-people">
-                  {step.people.map((person) => (
-                    <li key={`${person.personId}:${person.title}`}>
-                      <PersonButton
-                        person={person}
-                        onOpenPerson={onOpenPerson}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-
-              {step.key === "your-life" && snapshot ? (
-                <>
-                  <ul className="pg-opening-household">
-                    {snapshot.life.household.household.map((person) => {
-                      const known = householdDetail.get(person.personId);
-                      return (
-                        <li key={person.personId}>
-                          <button
-                            type="button"
-                            className="ui-action"
-                            onClick={() => onOpenPerson(person.personId)}
-                          >
-                            {person.introduction}
-                          </button>
-                          {known?.work ? (
-                            <span className="pg-opening-family-detail">
-                              {`Works as ${known.work}.`}
-                            </span>
-                          ) : null}
-                        </li>
-                      );
-                    })}
+                {step.family && step.family.length > 0 ? (
+                  <ul
+                    className="pg-opening-household"
+                    data-testid="orientation-family"
+                  >
+                    {step.family.map((member) => (
+                      <li key={member.personId}>
+                        <button
+                          type="button"
+                          className="ui-action"
+                          onClick={() => onOpenPerson(member.personId)}
+                        >
+                          {member.introduction}
+                        </button>
+                        <span className="pg-opening-family-detail">
+                          {familyDetail(member)}
+                        </span>
+                      </li>
+                    ))}
                   </ul>
-                  <p className="pg-orientation-summary">
-                    {snapshot.startingLocation
-                      ? `Begin at ${snapshot.startingLocation.label}.`
-                      : "Continue into your life."}
-                  </p>
-                </>
-              ) : null}
+                ) : null}
+
+                {step.chambers.map((chamber) => (
+                  <ChamberBlock
+                    key={chamber.chamberKey}
+                    chamber={chamber}
+                    homeStateUsps={homeStateUsps}
+                    world={world}
+                    onOpenPerson={onOpenPerson}
+                  />
+                ))}
+
+                {step.people.length > 0 &&
+                step.key !== "parents" &&
+                step.key !== "executive" &&
+                step.key !== "state" ? (
+                  <ul className="pg-orientation-people">
+                    {step.people.map((person) => (
+                      <li key={`${person.personId}:${person.title}`}>
+                        <PersonButton
+                          person={person}
+                          onOpenPerson={onOpenPerson}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+
+                {step.key === "your-life" && snapshot ? (
+                  <>
+                    <ul className="pg-opening-household">
+                      {snapshot.life.household.household.map((person) => {
+                        const known = householdDetail.get(person.personId);
+                        return (
+                          <li key={person.personId}>
+                            <button
+                              type="button"
+                              className="ui-action"
+                              onClick={() => onOpenPerson(person.personId)}
+                            >
+                              {person.introduction}
+                            </button>
+                            {known?.work ? (
+                              <span className="pg-opening-family-detail">
+                                {`Works as ${known.work}.`}
+                              </span>
+                            ) : null}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <p className="pg-orientation-summary">
+                      {snapshot.startingLocation
+                        ? `Begin at ${snapshot.startingLocation.label}.`
+                        : "Continue into your life."}
+                    </p>
+                  </>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
@@ -872,6 +897,10 @@ export function orientationBackdrop(
     readonly regionScene: EstablishingRaster | null;
     /** The home state's postal code, for the right capitol. */
     readonly homeStateUsps?: string | null;
+    /** The town's own meeting room, from its government records. */
+    readonly localChamber?: string | null;
+    /** The household's home pictures, its own kind first. */
+    readonly homePlaces?: readonly string[];
   },
 ): OrientationBackdrop {
   const place = (name: string | null | undefined): OrientationBackdrop => {
@@ -888,45 +917,31 @@ export function orientationBackdrop(
     return sources.whiteHouse
       ? { kind: "white-house", raster: sources.whiteHouse }
       : place("oval-office");
-  if (stepKey === "year") return place("us-capitol-exterior");
-  if (stepKey === "congress") return place("us-capitol-exterior");
+  // OW-11: each step stands inside the room where its people work.
+  if (stepKey === "year") return place("us-senate-floor");
+  if (stepKey === "congress") return place("us-house-floor");
   if (stepKey === "legislature")
     return place(
       sources.homeStateUsps === "NE"
         ? "state-legislative-chamber-unicameral"
         : "state-legislative-chamber-bicameral",
     );
+  // The family stands in the home the household record says it lives in:
+  // one composition, the home's picture with the family on its own spots.
   if (stepKey === "parents") {
-    if (sources.regionalPlate)
-      return { kind: "region", plate: sources.regionalPlate };
-    if (sources.regionScene)
-      return { kind: "region-preview", raster: sources.regionScene };
-    return { kind: "neutral" };
+    const home = (sources.homePlaces ?? []).find((name) =>
+      middayBackdropUrl(name),
+    );
+    return place(home);
   }
-  // The street of your town, not a home: the play screen's own room decides
-  // what your home looks like, and the two must never disagree.
-  if (stepKey === "your-life") return place("main-street");
-  if (stepKey === "state") {
-    if (sources.regionalPlate)
-      return { kind: "region", plate: sources.regionalPlate };
-    if (sources.regionScene)
-      return { kind: "region-preview", raster: sources.regionScene };
-    return place(capitolPlaceFor(sources.homeStateUsps ?? null));
-  }
-  if (stepKey === "locality") {
-    const information = OPENING_INFORMATION_PLATES.locality;
-    const civic = information
-      ? candidateEstablishingPlate(
-          information.assetId,
-          information.previewRaster,
-        )
-      : null;
-    if (civic && information)
-      return { kind: "civic", raster: civic, caption: information.caption };
-    if (sources.regionalPlate)
-      return { kind: "region", plate: sources.regionalPlate };
-    return place("city-hall-exterior");
-  }
+  // Your life opens in your own home, the same picture the play screen's
+  // room reads from the dwelling record.
+  if (stepKey === "your-life")
+    return place(
+      (sources.homePlaces ?? []).find((name) => middayBackdropUrl(name)),
+    );
+  if (stepKey === "state") return place("governor-office");
+  if (stepKey === "locality") return place(sources.localChamber);
   return { kind: "neutral" };
 }
 
@@ -1034,13 +1049,13 @@ function SceneBackdrop({
  */
 const SCENE_CAPTION: Readonly<Record<RegionalSceneKind, string>> = {
   "open-landscape": "Typical countryside near here.",
-  street: "A street of the kind common near here.",
-  shoreline: "Shoreline of the kind found near here.",
+  street: "A street from this area's regional illustration collection.",
+  shoreline: "A shoreline from this area's regional illustration collection.",
 };
 
 const SCENE_ALT: Readonly<Record<RegionalSceneKind, string>> = {
   "open-landscape": "Illustrated landscape typical of this area",
-  street: "Illustrated street of a kind common in this area",
+  street: "Illustrated street from this area's regional collection",
   shoreline: "Illustrated shoreline typical of this area",
 };
 
@@ -1112,7 +1127,7 @@ function ChamberBlock({
       >
         {counted.map((entry) => (
           <span
-            key={entry.partyOrganizationId ?? "none"}
+            key={entry.partyOrganizationId ?? entry.label}
             data-series={entry.noParty ? "none" : entry.slot}
             data-no-party={entry.noParty ? "true" : undefined}
             style={{ flexGrow: entry.members }}
@@ -1128,7 +1143,7 @@ function ChamberBlock({
       <ul className="pg-orientation-legend">
         {counted.map((entry) => (
           <li
-            key={entry.partyOrganizationId ?? "none"}
+            key={entry.partyOrganizationId ?? entry.label}
             data-series={entry.noParty ? "none" : entry.slot}
             data-no-party={entry.noParty ? "true" : undefined}
           >
@@ -1179,7 +1194,6 @@ function ChamberBlock({
                       world={world}
                       personId={row.person.personId}
                       className="pg-opening-roster-figure"
-                      wear="formal"
                     />
                   ) : null}
                   <PersonButton

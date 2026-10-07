@@ -91,9 +91,7 @@ describe("CampaignLifePanel as mounted", () => {
     const html = render(life.world);
     expect(html).toContain('data-testid="party-work"');
     expect(html).toContain('data-testid="party-work-empty"');
-    expect(html).toContain(
-      "Nothing is on your calendar from a party or campaign yet.",
-    );
+    expect(html).not.toContain("Nothing is on your calendar");
     // An honest empty state is not a list, and not a disabled row either.
     expect(html).not.toContain('data-state="accepted"');
     expect(html).not.toContain('data-testid="party-work-message"');

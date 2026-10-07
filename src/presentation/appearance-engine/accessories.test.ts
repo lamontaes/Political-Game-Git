@@ -233,17 +233,17 @@ describe("who wears jewelry", () => {
     ).toEqual(["ring-band"]);
   });
 
-  it("marks the watch and ring shares as placeholders, since a portrait shows no wrist", async () => {
+  it("records sources or marked estimates for every appearance share", async () => {
     const { readFileSync } = await import("node:fs");
     const source = readFileSync(
       new URL("./face-extras.ts", import.meta.url),
       "utf8",
     );
-    expect(
-      source.match(/PLACEHOLDER\(accessories\)/g)?.length,
-    ).toBeGreaterThanOrEqual(2);
-    // The British beard survey standing in for American men is marked too.
-    expect(source).toMatch(/PLACEHOLDER\(facial-hair\)/);
+    expect(source).not.toMatch(/PLACEHOLDER/);
+    expect(source).toMatch(/YouGov, 4\/11\/2018, 9,460 U\.S\. adults/);
+    expect(source.match(/ESTIMATED FROM A SIMILAR POPULATION/g)).toHaveLength(
+      2,
+    );
   });
 });
 

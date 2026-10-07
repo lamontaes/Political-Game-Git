@@ -5,18 +5,30 @@ import {
   cancelFutureDueItem,
   futureDueItemStateAt,
 } from "./future-transitions";
-import { createOrganization, createWorkRelationship } from "./life";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordWorkRole,
+} from "./life";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "./national-election-geography";
 import {
   initializeOfficeSalaryFlows,
+  initializeAllOfficeSalaryFlows,
   settleOfficeSalaries,
+  settleAllOfficeSalaries,
 } from "./office-salary";
 import { settleTownCompensations } from "./living-world/town-pay";
+import { workRoleAt } from "./life-queries";
+import { requireLifePlace, stateJurisdictionForKey } from "./life-places";
 import { resourceFlowTermsAt, resourcePositionAt } from "./resource-queries";
-import { createResourcePosition, money } from "./resources";
+import {
+  createResourcePosition,
+  money,
+  recordResourceTransferOutcomes,
+} from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
@@ -102,7 +114,7 @@ it("A37 preserves recorded employer cash over two office pay periods", () => {
     ),
   ).toBe(serializeWorld(office));
 });
-function officeFixture(placeKey: string) {
+function officeFixture(placeKey: string, governor = false) {
   const seed = `office-payroll:${placeKey}`;
   // These are authored office-period controls, not opening-population tests.
   const game = smallWorld({ place: placeKey, seed });
@@ -113,7 +125,10 @@ function officeFixture(placeKey: string) {
   let world = ensureNationalElectionJurisdiction(opened);
   // Explicit authored review work, through the canonical saved-work writers.
   // This is not an election or an ordinary appointment proof.
-  const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
+  const state = requireLifePlace(placeKey).stateJurisdictionKey!;
+  const jurisdictionId = governor
+    ? stateJurisdictionForKey(state)!.id
+    : NATIONAL_ELECTION_JURISDICTION.id;
   const provenance = {
     kind: "authored" as const,
     note: "A37 fictional office-work payroll comparison.",
@@ -134,7 +149,9 @@ function officeFixture(placeKey: string) {
     personId,
     organizationId,
     startedAt: world.currentDate,
-    kind: "employment:congress-member",
+    kind: governor
+      ? "employment:executive-office"
+      : "employment:congress-member",
     compensation: "paid",
     authority: "directs-others",
     dependency: "independent",
@@ -142,7 +159,9 @@ function officeFixture(placeKey: string) {
     provenance,
     initialRole: {
       title: "Review member of Congress",
-      occupationClassification: "service:us-congress",
+      occupationClassification: governor
+        ? `service:${state.toLowerCase()}-governor`
+        : "service:us-congress",
       locationJurisdictionId: jurisdictionId,
       timeDemand: {
         expectedWeekly: { minimumHours: 35, maximumHours: 45 },
@@ -168,7 +187,7 @@ function officeFixture(placeKey: string) {
     withoutPay.history.resourceTransferOutcomes,
   );
   expect(initializeOfficeSalaryFlows(world, personId)).toBe(world);
-  return { world, work, flow, personId, seed, placeKey };
+  return { world, withoutPay, work, flow, personId, seed, placeKey };
 }
 
 function atControlledDate(world: World, date: IsoDate): World {
@@ -201,6 +220,18 @@ it.each(sampled)(
   "A37 preserves an actual saved review-office period through the one payroll in %s",
   (placeKey) => {
     const f = officeFixture(placeKey);
+    const pay = resourceFlowTermsAt(f.world, f.flow.id)!.amount;
+    // This is recorded fixture funding, not an inferred runtime government balance.
+    f.world = createResourcePosition(f.world, {
+      stableKey: `fixture:a37:sampled-cash:${f.flow.id}`,
+      owner: f.flow.source,
+      openedAt: f.world.currentDate,
+      openingBalance: money(pay.minorUnits * 2, pay.currency),
+      provenance: {
+        kind: "authored",
+        note: "Controlled saved government cash for the sampled office period and payroll costs; not an observed treasury balance.",
+      },
+    });
     const firstDue = addDays(f.flow.startsAt, 7);
     expect(
       settleOfficeSalaries(
@@ -271,3 +302,144 @@ it.each(sampled)(
     });
   },
 );
+
+it("settles an overdue office period by its start role after a later nonoffice role and Save/Continue", () => {
+  const f = officeFixture(sampled[0]!, true);
+  const pay = resourceFlowTermsAt(f.world, f.flow.id)!.amount;
+  let world = createResourcePosition(f.world, {
+    stableKey: "overdue-office:funding",
+    owner: f.flow.source,
+    openedAt: f.world.currentDate,
+    openingBalance: money(pay.minorUnits * 3, pay.currency),
+    provenance: {
+      kind: "authored",
+      note: "Controlled funding from three saved weekly agreements.",
+    },
+  });
+  const role = workRoleAt(world, f.work.id)!;
+  world = atControlledDate(world, addDays(f.flow.startsAt, 7));
+  world = recordWorkRole(world, {
+    stableKey: "overdue-office:later-nonoffice",
+    workRelationshipId: f.work.id,
+    effectiveAt: world.currentDate,
+    title: "Recorded nonoffice work",
+    occupationClassification: null,
+    locationJurisdictionId: role.locationJurisdictionId,
+    timeDemand: role.timeDemand,
+    supersedesRoleId: role.id,
+    provenance: f.flow.provenance,
+  });
+  const before = atControlledDate(world, addDays(f.flow.startsAt, 14));
+  const paid = settleAllOfficeSalaries(before);
+  const outcomes = paid.history.resourceTransferOutcomes.filter(
+    (row) => row.resourceFlowId === f.flow.id,
+  );
+  expect(outcomes).toHaveLength(1);
+  expect(outcomes[0]!.periodStartsAt).toBe(f.flow.startsAt);
+  expect(outcomes[0]!.transferredAmount).toEqual(pay);
+  expect(
+    resourcePositionAt(paid, f.flow.source, pay.currency)!.liquidBalance
+      .minorUnits,
+  ).toBe(pay.minorUnits * 2);
+  expect(settleAllOfficeSalaries(paid)).toBe(paid);
+  const reloaded = deserializeWorld(serializeWorld(before));
+  expect(serializeWorld(settleAllOfficeSalaries(reloaded))).toBe(
+    serializeWorld(paid),
+  );
+});
+
+it("resumes after out-of-order partial and blocked periods without changing held saves", () => {
+  const f = officeFixture(sampled[0]!);
+  // Both opening initializer paths prepare reads without creating payment facts.
+  expect(serializeWorld(initializeAllOfficeSalaryFlows(f.withoutPay))).toBe(
+    serializeWorld(f.world),
+  );
+  const pay = resourceFlowTermsAt(f.world, f.flow.id)!.amount;
+  const funded = createResourcePosition(f.world, {
+    stableKey: "office-period-index:funding",
+    owner: f.flow.source,
+    openedAt: f.world.currentDate,
+    openingBalance: money(pay.minorUnits * 5, pay.currency),
+    provenance: {
+      kind: "authored",
+      note: "Controlled cash for saved partial, blocked and subsequent office periods.",
+    },
+  });
+  const held = initializeAllOfficeSalaryFlows(
+    atControlledDate(funded, addDays(f.flow.startsAt, 21)),
+  );
+  const heldSave = serializeWorld(held);
+  const withBlocked = recordResourceTransferOutcomes(held, [
+    {
+      stableKey: `${f.flow.stableKey}:${addDays(f.flow.startsAt, 7)}`,
+      resourceFlowId: f.flow.id,
+      periodStartsAt: addDays(f.flow.startsAt, 7),
+      periodEndsAt: addDays(f.flow.startsAt, 13),
+      occurredAt: addDays(f.flow.startsAt, 14),
+      status: "blocked",
+      attemptedAmount: pay,
+      transferredAmount: money(0, pay.currency),
+      reasonKind: "capacity:fixture-blocked",
+      note: "Recorded blocked second week.",
+      provenance: f.flow.provenance,
+    },
+  ]);
+  // Prepare the appended prefix, then record an earlier period later in history.
+  initializeAllOfficeSalaryFlows(withBlocked);
+  const recorded = recordResourceTransferOutcomes(withBlocked, [
+    {
+      stableKey: `${f.flow.stableKey}:${f.flow.startsAt}`,
+      resourceFlowId: f.flow.id,
+      periodStartsAt: f.flow.startsAt,
+      periodEndsAt: addDays(f.flow.startsAt, 6),
+      occurredAt: addDays(f.flow.startsAt, 7),
+      status: "partial",
+      attemptedAmount: pay,
+      transferredAmount: money(Math.floor(pay.minorUnits / 2), pay.currency),
+      reasonKind: "capacity:fixture-partial",
+      note: "Recorded partial first week, appended after the second week.",
+      provenance: f.flow.provenance,
+    },
+  ]);
+  const thirdStart = addDays(f.flow.startsAt, 14);
+  const shared = settleTownCompensations(recorded, [
+    {
+      stableKey: `${f.flow.stableKey}:${thirdStart}`,
+      payFlowId: f.flow.id,
+      activityId: f.flow.id,
+      periodStartsAt: thirdStart,
+      periodEndsAt: addDays(f.flow.startsAt, 20),
+      onDate: addDays(f.flow.startsAt, 21),
+      note: "Salary for the week.",
+      provenance: f.flow.provenance,
+    },
+  ]);
+  const resumed = settleAllOfficeSalaries(recorded);
+  expect(serializeWorld(resumed)).toBe(serializeWorld(shared));
+  expect(
+    resumed.history.resourceTransferOutcomes
+      .filter((row) => row.resourceFlowId === f.flow.id)
+      .map((row) => row.status),
+  ).toEqual(["blocked", "partial", "completed"]);
+  expect(settleAllOfficeSalaries(resumed)).toBe(resumed);
+  expect(serializeWorld(settleAllOfficeSalaries(withBlocked))).toBe(
+    serializeWorld(
+      settleAllOfficeSalaries(deserializeWorld(serializeWorld(withBlocked))),
+    ),
+  );
+  expect(
+    serializeWorld(
+      settleAllOfficeSalaries(deserializeWorld(serializeWorld(recorded))),
+    ),
+  ).toBe(serializeWorld(resumed));
+  const heldSettled = settleAllOfficeSalaries(held);
+  expect(
+    heldSettled.history.resourceTransferOutcomes.filter(
+      (row) => row.resourceFlowId === f.flow.id,
+    ),
+  ).toHaveLength(3);
+  expect(serializeWorld(held)).toBe(heldSave);
+  expect(serializeWorld(heldSettled)).toBe(
+    serializeWorld(settleAllOfficeSalaries(deserializeWorld(heldSave))),
+  );
+});

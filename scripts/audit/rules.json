@@ -4609,7 +4609,7 @@
         },
         {
           "kind": "present",
-          "file": "src/simulation/public-budgets/pension-share.ts",
+          "file": "src/simulation/public-budgets/opening.ts",
           "pattern": "export function openingLiabilityToSpending",
           "why": "the measured liability-to-spending lookup exists (pension-share.ts:136)"
         },

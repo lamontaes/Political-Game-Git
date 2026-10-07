@@ -29,6 +29,7 @@ import {
   dispositionsFromCounts,
 } from "../../src/simulation/legislation-scenarios";
 import { chamberByKey } from "../../src/simulation/legislature-rules";
+import { recordFiledProvision } from "../../src/simulation/legislative-politics";
 
 import { advanceWorld } from "../../src/simulation/world";
 import type { EntityId, World } from "../../src/simulation";
@@ -46,7 +47,7 @@ export interface RaiseBill {
   readonly designation: string;
   readonly answer: "yes" | "no";
   readonly effectiveInDays: number;
-  /** A dollar figure the bill files itself; without one the average term applies. */
+  /** An explicit authored bill amount; omission supplies no numeric floor. */
   readonly cents?: number;
 }
 
@@ -104,7 +105,7 @@ export function omahaWithRaiseBills(bills: readonly RaiseBill[]) {
       (measure) => measure.stableKey === `${key}:measure`,
     )!.id;
     measures.push(measureId);
-    if (bill.cents !== undefined)
+    if (bill.cents !== undefined) {
       world = fileRuleChangeProvision(world, {
         stableKey: `${key}:floor`,
         measureId,
@@ -112,6 +113,32 @@ export function omahaWithRaiseBills(bills: readonly RaiseBill[]) {
         field: "labor.minimumWage.hourlyCents",
         value: bill.cents,
       });
+      world = recordFiledProvision(world, {
+        stableKey: `${key}:numeric-floor`,
+        measureId,
+        provisionKey: "hourly-floor",
+        sectionNumber: 1,
+        heading: "Hourly minimum",
+        text: `The hourly minimum is ${bill.cents} cents.`,
+        beneficiary: {
+          kind: "general-application",
+          appliesToLabel: "Covered workers",
+        },
+        applicationScope: {
+          jurisdictionId: template.jurisdictionId,
+          segmentKey: null,
+        },
+        answers: { propositionId: proposition.id, answer: bill.answer },
+        lawTerms: [
+          {
+            questionKey: QUESTION_KEY,
+            key: "target",
+            value: bill.cents,
+            unit: "minor/hour",
+          },
+        ],
+      });
+    }
     world = referMeasure(world, {
       stableKey: `${key}:referral`,
       measureId,

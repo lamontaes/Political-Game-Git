@@ -1,3 +1,4 @@
+import { MINIMUM_WAGE_PAY_ROWS } from "./law-consequences/pay-rows";
 import {
   RENT_STABILIZATION_QUESTION,
   RENT_STABILIZATION_ROW,
@@ -9,8 +10,16 @@ import {
   TUITION_FREEZE_ROW,
 } from "./law-consequences/tuition-freeze-row";
 import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
-import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
+import {
+  COVERAGE_ELIGIBILITY_ROWS,
+  COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS,
+} from "./law-consequences/coverage-eligibility-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
+import { DEVELOPMENT_INCENTIVE_AWARD_ROW } from "./law-consequences/modules/lw08-development-incentive-cap/rows";
+import {
+  SNAP_PARTICIPATION_ROW,
+  SNAP_WORK_REQUIREMENT_QUESTION,
+} from "./law-consequences/modules/snap-participation/rows";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -47,14 +56,31 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
     ...US_POLICY_POSITIONS_PACK,
     propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
       const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
-      const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
+      const coverage = [
+        COVERAGE_ELIGIBILITY_ROWS[key],
+        COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS[key],
+      ].filter((consequence) => consequence !== undefined);
+      const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;
-      if (!coverage && service.length === 0 && !rent && !tuition) return row;
+      const snap = key === SNAP_WORK_REQUIREMENT_QUESTION;
+      const developmentIncentive =
+        key ===
+        "us-policy-positions:business-commerce.cap-development-incentives";
+      if (
+        coverage.length === 0 &&
+        !pay &&
+        service.length === 0 &&
+        !rent &&
+        !tuition &&
+        !snap &&
+        !developmentIncentive
+      )
+        return row;
       return {
         ...row,
         ...(rent
@@ -70,7 +96,10 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(row.consequences ?? []),
           ...(rent ? [RENT_STABILIZATION_ROW] : []),
           ...(tuition ? [TUITION_FREEZE_ROW] : []),
-          ...(coverage ? [coverage] : []),
+          ...(snap ? [SNAP_PARTICIPATION_ROW] : []),
+          ...(developmentIncentive ? [DEVELOPMENT_INCENTIVE_AWARD_ROW] : []),
+          ...coverage,
+          ...(pay ? [pay] : []),
           ...service,
         ],
       };
@@ -88,13 +117,21 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
     ...US_FEDERAL_POSITIONS_PACK,
     propositions: US_FEDERAL_POSITIONS_PACK.propositions?.map((row) => {
       const key = `${US_FEDERAL_POSITIONS_PACK.pack}:${row.key}`;
+      const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
       ];
-      return service.length === 0
+      return service.length === 0 && !pay
         ? row
-        : { ...row, consequences: [...(row.consequences ?? []), ...service] };
+        : {
+            ...row,
+            consequences: [
+              ...(row.consequences ?? []),
+              ...(pay ? [pay] : []),
+              ...service,
+            ],
+          };
     }),
   },
   TAX_TERMS_POLICY_PACK,

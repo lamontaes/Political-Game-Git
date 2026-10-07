@@ -266,7 +266,7 @@ function stateOf(record: MacroMonthRecord): MacroMonthlyState {
   };
 }
 
-function startState(start: MacroStartingConditions): MacroMonthlyState {
+export function startState(start: MacroStartingConditions): MacroMonthlyState {
   return {
     growthPct: start.initial.realGrowthAnnualPct,
     unemploymentPct: start.initial.unemploymentPct,

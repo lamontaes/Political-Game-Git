@@ -142,3 +142,23 @@ describe("what is not a state stays not a state", () => {
     expect(stateJurisdictionForKey("US-ZZ")).toBe(null);
   });
 });
+
+it("keeps repeated recognized and unknown slug reads independent across all recorded states", () => {
+  const unknowns = [
+    "",
+    "state-us-zz-placeholder",
+    "state-us-ca-placeholder-extra",
+    "locality-us-ca",
+  ];
+  for (const usps of Object.keys(STATES)) {
+    const key = `US-${usps}`;
+    const jurisdiction = stateJurisdictionForKey(key);
+    if (!jurisdiction) continue;
+    for (const unknown of unknowns) {
+      expect(stateKeyForJurisdictionSlug(unknown)).toBeNull();
+      expect(stateKeyForJurisdictionSlug(jurisdiction.slug)).toBe(key);
+      expect(stateKeyForJurisdictionSlug(unknown)).toBeNull();
+      expect(stateKeyForJurisdictionSlug(jurisdiction.slug)).toBe(key);
+    }
+  }
+});

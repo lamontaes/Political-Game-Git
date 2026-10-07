@@ -1,28 +1,142 @@
-<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="kit12.css"><style>
-* { box-sizing: border-box; margin: 0; }
-body { width: 1440px; height: 900px; position: relative; overflow: hidden; background: #444 url('sharp-bg.jpg') center/cover; }
-.panel { position: absolute; }
-.chat { left: 50%; transform: translateX(-50%); bottom: 26px; width: 640px; padding: 13px 18px 12px; }
-.who { display: flex; gap: 12px; align-items: center; }
-.chat .speech { margin: 10px 0 8px; }
-.chat .lie { margin-top: 9px; }
-.me { left: 24px; bottom: 26px; display: flex; gap: 11px; align-items: center; padding: 7px 18px 7px 7px; }
-.me .bust { width: 54px; height: 54px; }
-.me .name { font-size: 16px; }
-.journal { right: 24px; bottom: 26px; width: 300px; padding: 10px 14px; }
-.journal .prose { margin-top: 5px; }
-.money { right: 24px; top: 24px; width: 290px; padding: 10px 14px 11px; }
-.l { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(214,189,132,.16); }
-.l b { font-weight: 500; }
-.money .acts { margin-top: 9px; }
-</style></head><body>
-<div class="panel money"><div class="label">Your money · October</div>
-  <div class="l"><span>Pay in</span><b>$4,100</b></div><div class="l"><span>Rent</span><b>$1,620</b></div><div class="l"><span>Groceries</span><b>$486</b></div>
-  <div class="acts"><span class="action primary">Continue</span><span class="action">Details</span></div></div>
-<div class="panel chat"><span class="lie-scales"><svg viewBox="0 0 24 24"><path d="M12 4.2v14.8M8 19h8M4.6 6.8h14.8"/><circle cx="12" cy="4.6" r=".9"/><path d="M4.6 6.8l-2.3 5.1h4.6zM19.4 6.8l-2.3 5.1h4.6z"/><path d="M2.3 11.9c.6 1.2 1.3 1.8 2.3 1.8s1.7-.6 2.3-1.8M17.1 11.9c.6 1.2 1.3 1.8 2.3 1.8s1.7-.6 2.3-1.8"/></svg></span><div class="who"><div class="bust" style="background-image:url('bust-president.png')"></div><div><div class="name">Rep. Marcus Hale</div><div class="role">Chair, House Finance Committee</div></div></div>
-  <div class="speech">“The seat on Finance is yours if you vote with us. Think about what your district gets out of it.”</div>
-  <div class="replies"><div class="reply">I'll read the bill first.</div><div class="reply">What's in it for my district?</div><div class="reply">Who else has signed on?</div></div>
-  </div>
-<div class="panel me"><div class="bust" style="background-image:url('bust-vp.png')"></div><div><div class="name">Lauren Ramsey</div><div class="when">Thursday, October 1, 2026<br>9:40 AM</div></div></div>
-<div class="panel journal"><div class="label">Journal</div><p class="prose">I met Marcus Hale on the courthouse steps. He wants my vote on the budget and won't say what it costs.</p></div>
-</body></html>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="kit12.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        width: 1440px;
+        height: 900px;
+        position: relative;
+        overflow: hidden;
+        background: #444 url("sharp-bg.jpg") center/cover;
+      }
+      .panel {
+        position: absolute;
+      }
+      .chat {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 26px;
+        width: 640px;
+        padding: 13px 18px 12px;
+      }
+      .who {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .chat .speech {
+        margin: 10px 0 8px;
+      }
+      .chat .lie {
+        margin-top: 9px;
+      }
+      .me {
+        left: 24px;
+        bottom: 26px;
+        display: flex;
+        gap: 11px;
+        align-items: center;
+        padding: 7px 18px 7px 7px;
+      }
+      .me .bust {
+        width: 54px;
+        height: 54px;
+      }
+      .me .name {
+        font-size: 16px;
+      }
+      .journal {
+        right: 24px;
+        bottom: 26px;
+        width: 300px;
+        padding: 10px 14px;
+      }
+      .journal .prose {
+        margin-top: 5px;
+      }
+      .money {
+        right: 24px;
+        top: 24px;
+        width: 290px;
+        padding: 10px 14px 11px;
+      }
+      .l {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0;
+        border-bottom: 1px solid rgba(214, 189, 132, 0.16);
+      }
+      .l b {
+        font-weight: 500;
+      }
+      .money .acts {
+        margin-top: 9px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel money">
+      <div class="label">Your money · October</div>
+      <div class="l"><span>Pay in</span><b>$4,100</b></div>
+      <div class="l"><span>Rent</span><b>$1,620</b></div>
+      <div class="l"><span>Groceries</span><b>$486</b></div>
+      <div class="acts">
+        <span class="action primary">Continue</span
+        ><span class="action">Details</span>
+      </div>
+    </div>
+    <div class="panel chat">
+      <span class="lie-scales"
+        ><svg viewBox="0 0 24 24">
+          <path d="M12 4.2v14.8M8 19h8M4.6 6.8h14.8" />
+          <circle cx="12" cy="4.6" r=".9" />
+          <path d="M4.6 6.8l-2.3 5.1h4.6zM19.4 6.8l-2.3 5.1h4.6z" />
+          <path
+            d="M2.3 11.9c.6 1.2 1.3 1.8 2.3 1.8s1.7-.6 2.3-1.8M17.1 11.9c.6 1.2 1.3 1.8 2.3 1.8s1.7-.6 2.3-1.8"
+          /></svg
+      ></span>
+      <div class="who">
+        <div
+          class="bust"
+          style="background-image: url(&quot;bust-president.png&quot;)"
+        ></div>
+        <div>
+          <div class="name">Rep. Marcus Hale</div>
+          <div class="role">Chair, House Finance Committee</div>
+        </div>
+      </div>
+      <div class="speech">
+        “The seat on Finance is yours if you vote with us. Think about what your
+        district gets out of it.”
+      </div>
+      <div class="replies">
+        <div class="reply">I'll read the bill first.</div>
+        <div class="reply">What's in it for my district?</div>
+        <div class="reply">Who else has signed on?</div>
+      </div>
+    </div>
+    <div class="panel me">
+      <div
+        class="bust"
+        style="background-image: url(&quot;bust-vp.png&quot;)"
+      ></div>
+      <div>
+        <div class="name">Lauren Ramsey</div>
+        <div class="when">Thursday, October 1, 2026<br />9:40 AM</div>
+      </div>
+    </div>
+    <div class="panel journal">
+      <div class="label">Journal</div>
+      <p class="prose">
+        I met Marcus Hale on the courthouse steps. He wants my vote on the
+        budget and won't say what it costs.
+      </p>
+    </div>
+  </body>
+</html>
