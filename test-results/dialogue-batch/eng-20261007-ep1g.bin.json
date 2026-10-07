@@ -1,0 +1,167 @@
+[
+  {
+    "item": {
+      "situation": "Your grandmother, Miranda Pittman (101), in James Town, Wyoming, on January 5, 2026. You are 34.",
+      "prior": "You: Say hello",
+      "reply": "Your grandmother: Hi, Rene.",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "James Town, Wyoming",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1g:1"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your mom, Clara Stevens (54), in Granger, Wyoming, on January 14, 2026. You are 20.",
+      "prior": "You: Talk about an earlier conversation",
+      "reply": "Your mom: I remember you bringing up “3 people entered the race for U.S. Representative for California's 48th congressional district.” What happened after that?",
+      "part": "life-reply.remembered-topic:core:core",
+      "parts": [
+        "life-reply.remembered-topic:core:core",
+        "life-reply.remembered-topic:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (remembered-topic) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "remembered-topic",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "remember-news-topic",
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1g:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your mom, Frances Strickland (91), in Frederiksted, U.S. Virgin Islands, on January 5, 2026. You are 55.",
+      "prior": "",
+      "reply": "Your mom: If you want to, go ahead.",
+      "part": "life-reply.running-open-agree-even:core:core",
+      "parts": [
+        "life-reply.running-open-agree-even:core:core"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-open",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Frederiksted, U.S. Virgin Islands",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1g:2"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your mom, Betty Martinez (102), in Isle of Palms, South Carolina, on January 5, 2026. You are 70.",
+      "prior": "",
+      "reply": "Your mom: Nothing yet. Just go in with your eyes open.",
+      "part": "life-reply.running-worry-none:core:core",
+      "parts": [
+        "life-reply.running-worry-none:core:core",
+        "life-reply.running-worry-none:reason:continuation"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-worry",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Isle of Palms, South Carolina",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1g:3"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your mom, Frances Strickland (91), in Frederiksted, U.S. Virgin Islands, on January 5, 2026. You are 55.",
+      "prior": "",
+      "reply": "Your mom: I can’t make it.",
+      "part": "everyday.social-decline-reply:core:core",
+      "parts": [
+        "everyday.social-decline-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Frederiksted, U.S. Virgin Islands",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1g:2"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your mom, Clara Stevens (54), in Granger, Wyoming, on January 14, 2026. You are 20.",
+      "prior": "You: Mention something in the news",
+      "reply": "Your mom: That's news to me. Go on.",
+      "part": "small-talk.matter-uninformed:core:news-to-me",
+      "parts": [
+        "small-talk.matter-uninformed:core:news-to-me",
+        "small-talk.matter-uninformed:closer:go-on"
+      ],
+      "composer": "matterUninformedLine in small-talk-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "share-news",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "matter-uninformed",
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1g:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  }
+]
