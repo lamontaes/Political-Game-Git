@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import campusManifest from "../../art/campuses/manifest.json" with { type: "json" };
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
+import placeKinds from "../../data/content/place-kinds.json" with { type: "json" };
 import {
   backdropPlaces,
   capitolPlaceFor,
@@ -71,6 +72,13 @@ describe("place backdrops", () => {
       backdropPlaces().filter((place) => !ownCapitol.test(place)),
     ).toHaveLength(61);
     for (const place of backdropPlaces()) expect(hasBackdrop(place)).toBe(true);
+  });
+
+  it("tags every backdrop kind and shared-location use", () => {
+    for (const record of manifest.backdrops) {
+      expect(record.tags).toContain(`kind:${record.place}`);
+      expect(record.tags).toContain("uses:shared-location");
+    }
   });
 
   it("shows every state, D.C. and each territory its own capitol", () => {
@@ -191,6 +199,32 @@ describe("place backdrops", () => {
       ].map((kind) => workplacePlaceFor(kind as never)),
     ];
     for (const place of named) expect(hasBackdrop(place)).toBe(true);
+  });
+
+  it("lets the recorded employer kind choose the shared workplace room first", () => {
+    expect(workplacePlaceFor("occupation:cashier", "grocery")).toBe("store");
+    expect(workplacePlaceFor("trade:automotive-mechanic", "auto-repair")).toBe(
+      "construction-site",
+    );
+    expect(workplacePlaceFor("occupation:cashier", "diner")).toBe("diner");
+    expect(workplacePlaceFor("occupation:cashier", "salon")).toBe("barbershop");
+    expect(
+      workplacePlaceFor("custom:onet-43-9061-00", null, "unlisted-employer"),
+    ).not.toBe("office");
+  });
+
+  it("routes each recorded business kind through its tagged room or shared fallback", () => {
+    for (const [kind, tags] of Object.entries(placeKinds.businessKinds)) {
+      const place = workplacePlaceFor(null, kind);
+      expect(hasBackdrop(place), kind).toBe(true);
+      const roomTags = manifest.backdrops.find(
+        (record) => record.place === place && record.variant === "midday",
+      )?.tags;
+      expect(
+        tags.some((tag) => roomTags?.includes(tag)),
+        kind,
+      ).toBe(true);
+    }
   });
 
   it("gives the posted public meeting its room picture", () => {
