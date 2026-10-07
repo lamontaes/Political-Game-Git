@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { annualPovertyLineMinor } from "./household-pay";
+import {
+  annualizedRecordedPayMinor,
+  annualPovertyLineMinor,
+} from "./household-pay";
 import {
   lifePlaceByKey,
   lifePlaces,
@@ -70,5 +73,21 @@ describe("one home-state reader and one poverty line, all 56 places", () => {
     expect(annualPovertyLineMinor("US-OH", 3, day)).toBe(
       annualPovertyLineMinor("US-GU", 3, day),
     );
+  });
+});
+
+describe("recorded pay uses one annual cadence reader", () => {
+  it.each([
+    ["schedule:weekly", 100, 5200],
+    ["schedule:biweekly", 100, 2600],
+    ["schedule:semimonthly", 100, 2400],
+    ["schedule:monthly", 100, 1200],
+    ["work:monthly-salary", 100, 1200],
+  ])("annualizes %s pay", (cadence, amount, annual) => {
+    expect(annualizedRecordedPayMinor(amount, cadence)).toBe(annual);
+  });
+
+  it("leaves an unsupported cadence unknown", () => {
+    expect(annualizedRecordedPayMinor(100, "schedule:one-time")).toBeNull();
   });
 });
