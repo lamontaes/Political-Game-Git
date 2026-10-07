@@ -145,4 +145,16 @@ describe("what the zero-dice guard reads as a roll, a share or a place case", ()
     expect(kinds('  KY: { name: "Kentucky", seats: 6 },')).toEqual([]);
     expect(kinds('const note = "roll < 3 in case of KY";')).toEqual([]);
   });
+
+  it("scans a large serialized string without losing code after it", () => {
+    const serializedRows = '\\"00000\\",'.repeat(120_000);
+    const source = `const generatedRows = "${serializedRows}"; if (rng.next() < 0.3) act();`;
+    expect(kinds(source)).toEqual(["roll"]);
+  });
+
+  it("handles a long escaped quote run without recursive regex backtracking", () => {
+    const escapedQuotes = '\\"'.repeat(120_000);
+    const source = `const generatedRows = "${escapedQuotes} if (rng.next() < 0.3) act();`;
+    expect(kinds(source)).toEqual(["roll"]);
+  });
 });

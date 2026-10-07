@@ -40,3 +40,22 @@ export interface PlaceCountyPartRecord {
   readonly publisherPartFlag: PublisherPartFlag;
   readonly evidence: Evidence;
 }
+
+/** Population of a Census place's blocks inside one catalog district. */
+export interface PlaceDistrictPopulationRecord {
+  readonly relationKind: "legislative-district";
+  readonly recordId: string;
+  readonly placeGeoid: string;
+  readonly stateFips: string;
+  readonly chamber: "congressional" | "state-lower" | "state-upper";
+  readonly districtGeoid: string;
+  readonly boundaryVintage: string;
+  readonly populationAsOf: "2020-04-01";
+  readonly partPopulationCount: number;
+  /** Sum of all district parts for this place, chamber and boundary vintage. */
+  readonly placePopulationCount: number;
+  readonly evidence: Evidence;
+}
+
+export type PlaceRelationRecord =
+  PlaceCountyPartRecord | PlaceDistrictPopulationRecord;

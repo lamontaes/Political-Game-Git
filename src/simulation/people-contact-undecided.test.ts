@@ -14,7 +14,7 @@ import {
   CONTACT_ACCEPTED_EVENT,
   CONTACT_DECLINED_EVENT,
   CONTACT_COUNTERED_EVENT,
-} from "./people-contact";
+} from "./relationship-contact";
 import {
   resolveFutureDueItemsThrough,
   futureDueItemStateAt,
@@ -61,6 +61,9 @@ function request() {
 }
 
 function forceAnswer(selected: boolean) {
+  vi.spyOn(decisions, "recordDurableDecisionTrace").mockImplementation(
+    (world) => world,
+  );
   return vi
     .spyOn(decisions, "evaluateDecision")
     .mockImplementation(

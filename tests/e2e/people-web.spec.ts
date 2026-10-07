@@ -168,7 +168,7 @@ async function provePeopleWebRoute(
     await page.keyboard.press("Enter");
   } else {
     if (!isPlayer) {
-      await expect(page.getByTestId("dossier-talk-unavailable")).toBeVisible();
+      await expect(page.getByTestId("dossier-talk-unavailable")).toHaveCount(1);
     }
     await page.getByTestId("person-workspace-back").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();

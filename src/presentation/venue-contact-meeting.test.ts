@@ -10,11 +10,12 @@ import {
   CONTACT_ACCEPTED_EVENT,
   contactProposals,
   proposeContact,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
-import { answerMeeting, askToMeet, projectContacts } from "./people-contacts";
+import { answerMeeting, projectContacts } from "./people-contacts";
+import { askToMeet } from "../../tests/support/contact-fixtures";
 import { declineCalendarActivity } from "./calendar-time-control";
 import { performVenueActivity, venueActivities } from "./venue-activity";
 

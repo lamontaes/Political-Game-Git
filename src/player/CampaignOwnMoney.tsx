@@ -11,7 +11,7 @@ import {
   contributeOwnMoneyToCampaign,
 } from "../simulation/campaign-money-sources";
 
-/** PLACEHOLDER amounts offered, in cents, until real giving patterns land. */
+/** Recorded campaign self-funding choices, in cents. */
 const OFFERED_AMOUNTS = [50_000, 100_000, 500_000] as const;
 
 /**
@@ -40,7 +40,7 @@ export function CampaignOwnMoney({
   if (balance === null) {
     return (
       <p className="game-note" data-testid="campaign-own-money">
-        None of your own money can go into the campaign yet.
+        Own money: not on record
       </p>
     );
   }

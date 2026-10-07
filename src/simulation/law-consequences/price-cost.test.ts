@@ -190,6 +190,17 @@ describe("the shared price-cost handler reuses saved flow terms", () => {
       console.log(
         `M10 controlled record-native proof ${placeKey}, seed=${SEED}:${placeKey}, ${personName(changed.people[personId]!)}: ${terms.amount.minorUnits} USD cents, activity ${context.activityId}. No operative numeric law admitted.`,
       );
+      // The price change names the person who pays it, the law, and the
+      // monthly amount it moved.
+      const exposures = (changed.history.lawExposures ?? []).filter(
+        (entry) => entry.relation === "own" && entry.personId === personId,
+      );
+      expect(exposures).toHaveLength(1);
+      expect(exposures[0]).toMatchObject({
+        measureId: law.measureId,
+        sourceRecordId: terms.id,
+        cadence: "monthly",
+      });
       expect(applyPriceCostConsequence(changed, resolved)).toBe(changed);
       const reopened = deserializeWorld(serializeWorld(changed));
       expect(resourceFlowTermsAt(reopened, flow.id)).toEqual(terms);

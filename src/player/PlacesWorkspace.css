@@ -18,6 +18,8 @@
 }
 
 .places-workspace-header h2 {
+  font: 800 1.25rem var(--name);
+  color: var(--gold);
   margin: 0.15rem 0 0;
 }
 
@@ -39,8 +41,8 @@
   display: grid;
   gap: 0.5rem;
   padding: 0.75rem;
-  border: 1px solid rgb(111 85 42 / 28%);
-  border-radius: 0.5rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
 }
 
 .places-offer-title {
