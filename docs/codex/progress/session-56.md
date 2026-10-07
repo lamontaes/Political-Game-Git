@@ -1,6 +1,6 @@
-# Session 56 moves to LW-10 after blocking LW-09
+# Session 56 corrects LW-09 readiness and moves to LW-12
 
-LW-09 is blocked by missing sized effects and source-backed law terms. Its student-debt readiness record now recognizes existing named loan and discharge writers while documenting the missing law-term binding. LW-10 source review is underway; its stock-trading effect still lacks a supported size and member holdings for the effect to change.
+Current main marks LW-09 and LW-10 done with unsupported effects recorded. This branch corrects a stale LW-09 student-debt readiness claim about named loan and discharge records. LW-12 is the next pool row marked open.
 
 ## Done
 
@@ -16,9 +16,12 @@ LW-09 is blocked by missing sized effects and source-backed law terms. Its stude
 
 ## Next
 
-- LW-09 remains blocked on age-verification, immigration-admission, and disaster-reimbursement effects, which remain unsized or lack a canonical person record (`data/research/laws/lw09-effect-readiness.json`). The student-loan record writer and noncash discharge writer are in `src/simulation/student-debt.ts` and `src/simulation/household-loans.ts`; no law consequence binds sourced cap and eligibility terms to them. Commit `654c08608` contains the readiness correction and regression test.
-- LW-10 is the current row on branch `session-56-lw09`, rebased on current `origin/main` `03593b1d7`. [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) provides the mandatory-minimum consequence row. The stock-trading effect remains unsized, and its source record says no member holdings exist for it to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
-- Exact next command: `rg -n 'member-market-returns|congress-stock-ban-to-member-returns|ban-congressional-stock-trading' data/research/outcome-web/links.json src/simulation` in `/workspace/Political-Game-Git`, then trace any matching runtime consumers before opening an LW-10 work branch.
+- `data/research/laws/lw09-effect-readiness.json` now recognizes named federal loan and noncash discharge writers and records the missing law-consequence binding.
+- The federal loan writer is in `src/simulation/student-debt.ts`; the noncash discharge writer is in `src/simulation/household-loans.ts`.
+- `data/research/laws/catalog-terms-batch-04.json` leaves student-loan cap and eligibility bounds unresolved.
+- Current main marks LW-10 done in `docs/codex/assignments/POOL.md`. Merged [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) supplies its mandatory-minimum row. The stock-trading link remains unsized because the source measures descriptive returns and the game has no member holdings for the effect to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
+- LW-11 remains claimed by S20 in the current pool, which marks LW-12 open with a stale S43 claim (`docs/codex/assignments/POOL.md`). Merged [PR #2495](https://github.com/lamontaes/Political-Game-Git/pull/2495) lands the legislative-term-limit effect; its map lists redistricting, automatic registration, and local-authority effects as unsupported (`data/law-consequences/election-state-landings.json`).
+- Current branch `session-56-lw09-readiness` is based on `origin/main` `b2c83b7`. Next step: verify current LW-12 status, then inspect its three remaining consequence paths and person records before making changes.
 
 ---
 
@@ -54,7 +57,7 @@ Updated October 6, 2026. Working tree: `session-56/b32-part-2-unified-sittings`,
 
 Exact next command after restart: `git status --short --branch` in `/workspace/Political-Game-Git`.
 
-## Oct 7 continuation
+## Oct 7 continuation (archived and superseded by the current LW-12 status above)
 
 - PR #3373 merged workplace room selection as main commit `8c3255f61`.
 - PR #3399 marks LW-03 done because its federal tax-term rows already merged
