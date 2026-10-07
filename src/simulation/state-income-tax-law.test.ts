@@ -172,7 +172,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
       const f = smallWorld({
         place: jurisdictionKey,
         seed: `${TERM_SEED}:${jurisdictionKey}`,
-        date: "2025-12-18",
+        date: "2025-12-28",
         people: 3,
         offices: ["governor"],
         laws: [ADOPT_STATE_INCOME_TAX_QUESTION],
@@ -272,7 +272,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
             "Authored favorable votes for the numeric terms fixture.",
         },
       });
-      // The canonical procedure spends fourteen days before enactment. Start
+      // The canonical procedure advances four days before enactment. Start
       // before the tax year rather than backdating the law or its occurrence.
       expect(world.currentDate).toBe("2026-01-01");
       // Keep the actual signer in control while their required desk work is open.
