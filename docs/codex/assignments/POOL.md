@@ -373,7 +373,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-root-6 | Replace about 20 placeholders in simulation / root / 6 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-7 | Replace about 20 placeholders in simulation / root / 7 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-8 | Replace about 20 placeholders in simulation / root / 8 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-root-9 | Replace about 20 placeholders in simulation / root / 9 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-root-9 | Replace about 20 placeholders in simulation / root / 9 with recorded or estimated-and-marked values | placeholders.md | ready #3348 | |
 | PH-simulation-root-10 | Replace about 20 placeholders in simulation / root / 10 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-11 | Replace about 20 placeholders in simulation / root / 11 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-12 | Replace about 20 placeholders in simulation / root / 12 with recorded or estimated-and-marked values | placeholders.md | open | |
