@@ -43,14 +43,13 @@ export function PlacePeopleLayer({
       {overflow.length > 0 ? (
         <details
           data-testid="scene-place-overflow"
+          className="pg-glass-panel"
           style={{
             position: "absolute",
             bottom: "1rem",
             maxHeight: "50%",
             overflowY: "auto",
             padding: "0.5rem",
-            color: "#f0e8d8",
-            background: "rgba(18, 20, 22, 0.9)",
             right: "1rem",
             zIndex: 1,
           }}

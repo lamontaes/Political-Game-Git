@@ -28,7 +28,6 @@ import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
 import { favorRecords, favorStandingBetween } from "../simulation/favors";
-import { playSettingsOf } from "../simulation/play-settings";
 
 /**
  * What the player makes of somebody, read from the records they can see.
@@ -99,7 +98,6 @@ export interface PersonDossier {
   readonly details: readonly DossierFact[];
   /** Player-known, outstanding reminders about this person. */
   readonly reminders: readonly DossierFact[];
-  readonly notesMode: "full" | "light" | "none";
   readonly lastInteraction: string | null;
   /** True when no conversation is on record; the card shows no line then. */
   readonly neverSpoken?: boolean;
@@ -448,9 +446,7 @@ export function projectPersonDossier(
   if (!subject) return null;
   const context = describePersonContext(world, playerId, personId);
   const details = buildDetails(world, playerId, personId);
-  const notesMode = playSettingsOf(world).notes;
-  const reminders =
-    notesMode === "none" ? [] : buildReminders(world, playerId, personId);
+  const reminders = buildReminders(world, playerId, personId);
 
   return {
     personId,
@@ -510,7 +506,6 @@ export function projectPersonDossier(
     rightNow: options.rightNow ?? null,
     details,
     reminders,
-    notesMode,
     lastInteraction: describeInteraction(world, playerId, personId),
     neverSpoken:
       personId !== playerId &&

@@ -1,8 +1,6 @@
 ---
 id: co3-county-structure-data
 impact: none
-section: Added
-title: County structure and elected executive recorded for every state
 ---
 
 Adds the form of county government and whether voters elect an executive for
