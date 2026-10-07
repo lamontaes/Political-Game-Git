@@ -1,6 +1,11 @@
 import { addDays, ageOnDate, daysBetween } from "./dates";
-import { evaluateDecision, isSelectedDecision } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { eventById } from "./event-index";
+import { observerAnchorPersonId } from "./people-continuation";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeEducationEnrollmentsAt,
@@ -19,6 +24,7 @@ import {
   introducersFor,
   jobOpening,
   latestApplicationStep,
+  openWeeklyListings,
   openJobListings,
   expectedStart,
   residentApplicationBlocked,
@@ -32,12 +38,11 @@ import { createMindProvenance, recordGoalState } from "./mind";
 import { personName } from "./people";
 import {
   GOAL_BLOCKER_REASONS,
-  GOAL_PURSUIT_PLACEHOLDER as PACE,
+  GOAL_PURSUIT_ESTIMATE as PACE,
   GOAL_PURSUIT_VERSION,
   GOAL_REVIEW_TRANSITION_KEY,
   LIVELIHOOD_GOAL_DOMAIN,
   LIVELIHOOD_GOAL_KEY,
-  PRIVACY_GOAL_KEY,
   CONNECTION_GOAL_KEY,
   TEACHING_CLASSIFICATION_PREFIXES,
   pursuitFamilyOf,
@@ -53,12 +58,15 @@ import {
 import { ensureOwnTies } from "./people-own-ties";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { recordEventKnowledge } from "./records";
-import { recordRelationshipMoment } from "./relationship-integration";
-import { readRelationshipStanding } from "./relationship-standing";
-import { recordWorldEvent, writeWithWorldIntegrityOnce } from "./world";
+import {
+  CONTACT_DECLINED_EVENT,
+  CONTACT_MINIMUM_NOTICE_DAYS,
+  contactProposals,
+  proposeContact,
+} from "./relationship-contact";
+import { writeWithWorldIntegrityOnce } from "./world";
 import type {
   DecisionConsideration,
-  DecisionImportance,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerRegistry,
@@ -92,9 +100,18 @@ import type {
 
 const REVIEW_KEY_PREFIX = "people-goal-review:";
 
-/** Schedules the first weekly review for a played life. Idempotent. */
+function goalReviewAnchor(world: World): EntityId | null {
+  return (
+    world.preStartLife?.personId ??
+    (world.control.kind === "person"
+      ? world.control.personId
+      : observerAnchorPersonId(world))
+  );
+}
+
+/** Schedules the weekly review around a played or observed life. Idempotent. */
 export function ensurePeopleGoalReview(world: World): World {
-  if (world.control.kind !== "person") return world;
+  if (!goalReviewAnchor(world)) return world;
   if (
     world.history.futureDueItems.some(
       (item) => item.transitionKey === GOAL_REVIEW_TRANSITION_KEY,
@@ -120,7 +137,7 @@ export function peopleGoalReviewHandler(
     throw new Error("The goal review received another transition.");
   }
   const index = Number(dueItem.stableKey.slice(REVIEW_KEY_PREFIX.length));
-  const reviewed = reviewPeopleGoals(world);
+  const reviewed = reviewPeopleGoals(world, { openingReview: index === 0 });
   const next = scheduleFutureDueItem(reviewed.world, {
     stableKey: `${REVIEW_KEY_PREFIX}${index + 1}`,
     dueAt: reviewed.nextReviewAt,
@@ -161,14 +178,13 @@ function adultAlive(world: World, personId: EntityId, dead: Set<EntityId>) {
 }
 
 /**
- * Everybody the played life can run into: residents written out in the
- * played person's town, and anybody connected to the played person by home,
- * family or a recorded interaction. Sorted, so the week's order is the same
- * on every load. The played person is never reviewed; their goals are theirs.
+ * Everybody the anchor person can run into: residents written out in their
+ * town, and anybody connected by home, family or a recorded interaction.
+ * Sorted, so the week's order is the same on every load.
  */
 export function pursuitCandidates(world: World): readonly EntityId[] {
-  if (world.control.kind !== "person") return [];
-  const anchorId = world.control.personId;
+  const anchorId = goalReviewAnchor(world);
+  if (!anchorId) return [];
   const anchor = world.people[anchorId];
   if (!anchor) return [];
   const dead = new Set(
@@ -180,7 +196,9 @@ export function pursuitCandidates(world: World): readonly EntityId[] {
   return (Object.keys(world.people) as EntityId[])
     .filter(
       (id) =>
-        id !== anchorId &&
+        (id !== anchorId ||
+          world.preStartLife?.personId === id ||
+          world.control.kind !== "person") &&
         adultAlive(world, id, dead) &&
         (world.people[id]!.homeJurisdictionId === anchor.homeJurisdictionId ||
           connected.has(id)),
@@ -249,19 +267,28 @@ export interface GoalReviewResult {
  * most pressing first, until one of them takes a step. A goal that cannot is
  * blocked for its recorded reason. At most one step per person.
  */
-export function reviewPeopleGoals(world: World): GoalReviewResult {
+export function reviewPeopleGoals(
+  world: World,
+  options: { readonly openingReview?: boolean } = {},
+): GoalReviewResult {
   // A cold review initializes several histories for each candidate. Batch the
   // canonical writers, then validate their complete result before returning it.
   let nextReviewAt = addDays(world.currentDate, PACE.reviewIntervalDays);
   const reviewedWorld = writeWithWorldIntegrityOnce(world, () => {
-    const result = reviewPeopleGoalsUnchecked(world);
+    const result = reviewPeopleGoalsUnchecked(
+      world,
+      options.openingReview ?? false,
+    );
     nextReviewAt = result.nextReviewAt;
     return result.world;
   });
   return { world: reviewedWorld, nextReviewAt };
 }
 
-function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
+function reviewPeopleGoalsUnchecked(
+  world: World,
+  openingReview: boolean,
+): GoalReviewResult {
   const weekOn = addDays(world.currentDate, PACE.reviewIntervalDays);
   let nextReviewAt = weekOn;
   const soonest = (date: IsoDate | null) => {
@@ -276,8 +303,8 @@ function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
   // person is given (`life-personality.ts`). They resolve here, once, the first
   // time the played life reaches them. Residents the played life has no tie
   // to stay light: they act only on circumstances, such as losing work.
-  if (next.control.kind === "person") {
-    const anchorId = next.control.personId;
+  const anchorId = goalReviewAnchor(next);
+  if (anchorId) {
     const tied = new Set([
       ...connectedTo(next, anchorId),
       ...coworkersOf(next, anchorId),
@@ -300,7 +327,7 @@ function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
   }
   for (const personId of candidates) {
     try {
-      next = formLivelihoodGoal(next, personId);
+      next = formLivelihoodGoal(next, personId, openingReview);
     } catch {
       // A circumstance that cannot be read writes nothing; the week goes on.
     }
@@ -386,14 +413,17 @@ function paidWork(world: World, personId: EntityId) {
  * other paid work and is not studying, starts looking for work. Their own
  * circumstance is the only reason; nobody is assigned a search.
  */
-function formLivelihoodGoal(world: World, personId: EntityId): World {
+function formLivelihoodGoal(
+  world: World,
+  personId: EntityId,
+  openingReview: boolean,
+): World {
   const person = world.people[personId]!;
   const age = ageOnDate(person.birthDate, world.currentDate);
   if (age < PACE.workingAge.minimum || age > PACE.workingAge.maximum) {
     return world;
   }
   const work = paidWork(world, personId);
-  if (work.length === 0) return world;
   const cutoff = currentLifeCutoff(world);
   let ended: {
     statusId: EntityId;
@@ -419,7 +449,11 @@ function formLivelihoodGoal(world: World, personId: EntityId): World {
       };
     }
   }
-  if (!ended) return world;
+  // At opening, an unemployed working-age adult has the same reason to look
+  // for paid work as somebody whose work just ended. Their current recorded
+  // circumstances, not a demographic guess, start the goal.
+  const openingSearch = openingReview && work.length === 0;
+  if (!ended && !openingSearch) return world;
   if (activeEducationEnrollmentsAt(world, personId, cutoff).length > 0) {
     return world;
   }
@@ -430,16 +464,20 @@ function formLivelihoodGoal(world: World, personId: EntityId): World {
   );
   // One search per ending: a search already begun after this ending, active
   // or finished, is the answer to it.
-  if (searches.some((record) => record.createdAt >= ended!.effectiveAt)) {
+  if (
+    ended &&
+    searches.some((record) => record.createdAt >= ended.effectiveAt)
+  ) {
     return world;
   }
   if (searches.some((record) => record.status === "active")) return world;
   const goalKey =
     searches.length === 0
       ? LIVELIHOOD_GOAL_KEY
-      : `${LIVELIHOOD_GOAL_KEY}:${ended.effectiveAt}`;
+      : `${LIVELIHOOD_GOAL_KEY}:${ended?.effectiveAt ?? world.currentDate}`;
+  const circumstanceKey = ended?.statusId ?? "opening-unemployed";
   return recordGoalState(world, {
-    stableKey: `${GOAL_PURSUIT_VERSION}:livelihood:${personId}:${ended.statusId}`,
+    stableKey: `${GOAL_PURSUIT_VERSION}:livelihood:${personId}:${circumstanceKey}`,
     personId,
     goalKey,
     recordedAt: world.currentDate,
@@ -452,13 +490,17 @@ function formLivelihoodGoal(world: World, personId: EntityId): World {
     deadline: null,
     outcome: null,
     provenance: createMindProvenance("reflection", {
-      note: `Their work ended on ${ended.effectiveAt}: ${ended.reason}`,
-      sourceRefs: [
-        {
-          kind: "life-history",
-          reference: { family: "work-status", recordId: ended.statusId },
-        },
-      ],
+      note: ended
+        ? `Their work ended on ${ended.effectiveAt}: ${ended.reason}`
+        : "They are an unemployed working-age adult at opening.",
+      sourceRefs: ended
+        ? [
+            {
+              kind: "life-history",
+              reference: { family: "work-status", recordId: ended.statusId },
+            },
+          ]
+        : [],
     }),
     replacesGoalId: null,
     supersedesGoalStateId: null,
@@ -517,6 +559,7 @@ function pursueLivelihood(world: World, goal: GoalStateRecord): PursuitOutcome {
         decided.world,
         application.id,
         decided.accept,
+        decided.world.history.decisionTraces.at(-1)?.id,
       );
       if (!answered.ok) continue;
       next = answered.world;
@@ -558,6 +601,10 @@ function pursueLivelihood(world: World, goal: GoalStateRecord): PursuitOutcome {
   }
 
   // Nothing waiting on an answer: look at what is actually listed.
+  // Employer listings are shared facts in the town. A resident's weekly goal
+  // review makes the town's recorded openings available without relying on
+  // the player's job-market screen to have been opened first.
+  next = openWeeklyListings(next, personId);
   const listed = openJobListings(next, personId);
   if (listed.length === 0) return blocked(next, goal, "no-listed-opening");
   const open = listed.filter(
@@ -633,7 +680,11 @@ function decideOnOffer(
       asOfDate: withTraits.currentDate,
       historySequenceExclusive: withTraits.history.nextSequence,
     },
-    subject: { kind: "context:life", key: "job-offer", entityId: null },
+    subject: {
+      kind: "context:life",
+      key: "job-offer",
+      entityId: applicationId,
+    },
     options: [
       { key: "accept", label: "Take it", description: "Accept the offer." },
       {
@@ -646,10 +697,12 @@ function decideOnOffer(
     considerations,
     perceptionIds: [],
     randomness: "none",
-    retention: "ephemeral",
+    retention: "durable",
   });
   return {
-    world: withTraits,
+    world: isSelectedDecision(evaluation)
+      ? recordDurableDecisionTrace(withTraits, evaluation)
+      : withTraits,
     accept:
       evaluation.outcomeKind === "selected" &&
       evaluation.selectedOptionKey !== null
@@ -661,10 +714,6 @@ function decideOnOffer(
 /* -------------------------------------------------------------------------- */
 /* Connection and learning: a call to somebody they actually know             */
 /* -------------------------------------------------------------------------- */
-
-const CALL_EVENT = "life.goal-call";
-const CALL_DECLINED_EVENT = "life.goal-call-declined";
-const CALL_TAG = "goal-call.v1";
 
 interface KnownPerson {
   readonly personId: EntityId;
@@ -747,16 +796,18 @@ function coworkersOf(world: World, personId: EntityId): readonly EntityId[] {
 }
 
 function callsBetween(world: World, from: EntityId, to: EntityId) {
-  return world.history.events.filter(
-    (event) =>
-      (event.type === CALL_EVENT || event.type === CALL_DECLINED_EVENT) &&
-      event.tags.includes(CALL_TAG) &&
-      event.participants.some(
-        (entry) =>
-          entry.personId === from && entry.role === "agency:participant",
-      ) &&
-      event.involvedEntityIds.includes(to),
-  );
+  return contactProposals(world, from)
+    .filter(
+      (proposal) =>
+        proposal.fromPersonId === from && proposal.toPersonId === to,
+    )
+    .flatMap((proposal) => {
+      const answer = world.history.events.find((event) =>
+        event.tags.includes(`contact.proposal:${proposal.eventId}`),
+      );
+      const event = answer ?? eventById(world, proposal.eventId);
+      return event ? [event] : [];
+    });
 }
 
 function lastStepAt(world: World, goal: GoalStateRecord): IsoDate | null {
@@ -794,7 +845,8 @@ function pursueCall(
   goal: GoalStateRecord,
   purpose: "connection" | "learning",
 ): PursuitOutcome {
-  if (world.control.kind !== "person") return { kind: "waiting", world };
+  const anchorId = goalReviewAnchor(world);
+  if (!anchorId) return { kind: "waiting", world };
   const personId = goal.personId;
   const last = lastStepAt(world, goal);
   if (
@@ -803,12 +855,12 @@ function pursueCall(
   ) {
     return { kind: "waiting", world };
   }
-  const known = peopleTheyKnow(world, personId, world.control.personId);
+  const known = peopleTheyKnow(world, personId, anchorId);
   const reachable = known.filter((entry) => {
     if (purpose === "learning" && !teaches(world, entry.personId)) return false;
     const calls = callsBetween(world, personId, entry.personId);
     const declines = calls.filter(
-      (event) => event.type === CALL_DECLINED_EVENT,
+      (event) => event.type === CONTACT_DECLINED_EVENT,
     ).length;
     if (declines >= PACE.declinesBeforeTheyStopCalling) return false;
     const lastCall = calls.at(-1)?.occurredAt;
@@ -836,7 +888,7 @@ function pursueCall(
       (a.lastContactOn ?? "").localeCompare(b.lastContactOn ?? "") ||
       a.personId.localeCompare(b.personId),
   )[0]!;
-  const call = placeCall(withTraits, personId, target.personId, purpose);
+  const call = placeCall(withTraits, personId, target.personId, goal);
   if (call.eventId === null) return { kind: "waiting", world: call.world };
   return {
     kind: "step",
@@ -1018,209 +1070,22 @@ function decidesToAct(
   );
 }
 
-const BAND_IMPORTANCE: Readonly<Record<string, DecisionImportance>> = {
-  slight: "slight",
-  marked: "moderate",
-  strong: "strong",
-};
-
-/**
- * Whether the person called picks up and talks, decided from their side:
- * how they stand with the caller, their own goals, and who they are.
- */
-function answerCall(
-  world: World,
-  callerId: EntityId,
-  calledId: EntityId,
-  key: string,
-): { world: World; talk: boolean | null } {
-  const withTraits = ensurePeopleTraits(world, [calledId]);
-  const considerations: DecisionConsideration[] = [
-    {
-      stableKey: `${key}:known`,
-      optionKey: "talk",
-      sourceType: "context:known-caller",
-      direction: "supports",
-      importance: "slight",
-      confidence: "medium",
-      explanation: "It is somebody they know.",
-      sourceRefs: [],
-    },
-  ];
-  const standing = readRelationshipStanding(withTraits, calledId, callerId);
-  const warmth = standing.readings.warmth;
-  if (warmth.band !== "none") {
-    considerations.push({
-      stableKey: `${key}:warmth`,
-      optionKey: warmth.adverse ? "not-now" : "talk",
-      sourceType: "social:warmth",
-      direction: "supports",
-      importance: BAND_IMPORTANCE[warmth.band] ?? "slight",
-      confidence: "high",
-      explanation: warmth.adverse
-        ? "They have not much wanted this person's company."
-        : "They are glad of this person's company.",
-      sourceRefs: warmth.basis.slice(-2).map((interactionId) => ({
-        kind: "relationship-interaction" as const,
-        interactionId,
-      })),
-    });
-  }
-  const tension = standing.readings.tension;
-  if (tension.band !== "none") {
-    considerations.push({
-      stableKey: `${key}:tension`,
-      optionKey: "not-now",
-      sourceType: "social:tension",
-      direction: "supports",
-      importance: BAND_IMPORTANCE[tension.band] ?? "slight",
-      confidence: "high",
-      explanation: "Something between them has not been settled.",
-      sourceRefs: tension.basis.slice(-2).map((interactionId) => ({
-        kind: "relationship-interaction" as const,
-        interactionId,
-      })),
-    });
-  }
-  considerations.push(
-    ...goalConsiderations(withTraits, calledId, key, [
-      {
-        optionKey: "not-now",
-        goalKey: PRIVACY_GOAL_KEY,
-        direction: "supports",
-        explanation: "They have been keeping time for themselves.",
-      },
-      {
-        optionKey: "talk",
-        goalKey: CONNECTION_GOAL_KEY,
-        direction: "supports",
-        explanation: "They have been meaning to keep up with people.",
-      },
-    ]),
-    ...traitConsiderations(withTraits, calledId, key, [
-      {
-        optionKey: "talk",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They are glad of a call.",
-      },
-      {
-        optionKey: "not-now",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They let calls go.",
-      },
-    ]),
-  );
-  const evaluation = evaluateDecision(withTraits, {
-    stableKey: `${key}:answer`,
-    decisionType: "people.call-answer",
-    actorPersonId: calledId,
-    cutoff: {
-      asOfDate: withTraits.currentDate,
-      historySequenceExclusive: withTraits.history.nextSequence,
-    },
-    subject: { kind: "context:life", key: "call", entityId: null },
-    options: [
-      { key: "talk", label: "Talk", description: "Pick up and talk." },
-      {
-        key: "not-now",
-        label: "Not now",
-        description: "Say it is not a good time.",
-      },
-    ],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
-  });
-  return {
-    world: withTraits,
-    talk: isSelectedDecision(evaluation)
-      ? evaluation.selectedOptionKey === "talk"
-      : null,
-  };
-}
-
 function placeCall(
   world: World,
   callerId: EntityId,
   calledId: EntityId,
-  purpose: "connection" | "learning",
+  goal: GoalStateRecord,
 ): { world: World; eventId: EntityId | null } {
   const key = `goal-call:${callerId}:${calledId}:${world.currentDate}`;
-  const caller = world.people[callerId]!;
-  const called = world.people[calledId]!;
-  const callerName = personName(caller);
-  const calledName = personName(called);
-  const answered = answerCall(world, callerId, calledId, key);
-  if (answered.talk === null) return { world: answered.world, eventId: null };
-  const about =
-    purpose === "learning" ? "to ask about learning something" : "to catch up";
-  if (!answered.talk) {
-    const next = recordWorldEvent(answered.world, {
-      stableKey: `${key}:declined`,
-      type: CALL_DECLINED_EVENT,
-      occurredAt: world.currentDate,
-      recordedAt: world.currentDate,
-      jurisdictionId: caller.homeJurisdictionId,
-      involvedEntityIds: [callerId, calledId],
-      participants: [
-        { personId: callerId, role: "agency:participant", detail: "Called" },
-        { personId: calledId, role: "focus:asked-of", detail: "Was called" },
-      ],
-      personFactConstraints: [],
-      visibility: "private",
-      tags: [CALL_TAG, `goal-call.purpose:${purpose}`],
-      summary: `${callerName} called ${calledName} ${about}; ${called.givenName} said it was not a good time.`,
-      context: {
-        location: null,
-        socialContext: "A phone call.",
-        pressure: null,
-        choice: null,
-        motivation: about,
-        immediateReaction: null,
-      },
-    });
-    return { world: next, eventId: next.history.events.at(-1)!.id };
-  }
-  const moment = recordRelationshipMoment(answered.world, {
+  const proposed = proposeContact(world, {
     stableKey: key,
-    personIds: [callerId, calledId],
-    occurredAt: world.currentDate,
-    eventType: CALL_EVENT,
-    jurisdictionId: caller.homeJurisdictionId,
-    visibility: "private",
-    interactionKind:
-      purpose === "learning"
-        ? "contact:asked-about-learning"
-        : "contact:catch-up-call",
-    // Routine contact keeps a relationship up and builds nothing by itself.
-    change: "maintained",
-    significance: "minor",
-    summary:
-      purpose === "learning"
-        ? `${callerName} called ${calledName} to ask about learning something.`
-        : `${callerName} called ${calledName} to catch up.`,
-    tags: [CALL_TAG, `goal-call.purpose:${purpose}`],
-    context: {
-      location: null,
-      socialContext: "A phone call.",
-      pressure: null,
-      choice: null,
-      motivation: about,
-      immediateReaction: null,
-    },
-    subjective: [],
-    timeUse: null,
+    fromPersonId: callerId,
+    toPersonId: calledId,
+    on: addDays(world.currentDate, CONTACT_MINIMUM_NOTICE_DAYS),
+    purpose: goal.objective,
   });
-  return { world: moment.world, eventId: moment.eventId };
+  return { world: proposed.world, eventId: proposed.proposal.eventId };
 }
-
-/* -------------------------------------------------------------------------- */
-/* Shared                                                                     */
-/* -------------------------------------------------------------------------- */
 
 function stepTaken(
   world: World,
@@ -1245,8 +1110,8 @@ function tellHousehold(
   eventId: EntityId,
   said: string | null,
 ): World {
-  if (!said || world.control.kind !== "person") return world;
-  const anchorId = world.control.personId;
+  const anchorId = goalReviewAnchor(world);
+  if (!said || !anchorId || anchorId === personId) return world;
   if (!connectedByHomeOrFamily(world, anchorId, personId)) return world;
   return recordEventKnowledge(world, {
     stableKey: `goal-told:${eventId}:${anchorId}`,

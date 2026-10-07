@@ -72,6 +72,7 @@ import {
 } from "./world";
 import { advanceWorldMinutes } from "./time-work";
 import { composeWorldTimeHandlers } from "./campaigns";
+import { ensureCrisisMortality } from "./crisis/mortality";
 
 export const DEFAULT_DEMO_SEED = "lexington-foundation";
 
@@ -83,6 +84,8 @@ const COMMUNITY_TOPICS = [
 ] as const;
 
 export interface CreateScenarioWorldOptions {
+  /** Supply the final fixture catalog before any law-dependent records are written. */
+  readonly policyCatalog?: World["policyCatalog"];
   readonly generatorVersion?: string;
   readonly corpusVersion?: string;
   readonly profile?: PersonGenerationProfile;
@@ -152,6 +155,7 @@ export function createScenarioWorld(
     currentMoment: context.initialMoment,
     jurisdictions: [jurisdiction],
     people,
+    policyCatalog: options?.policyCatalog,
   });
 
   world = recordWorldEvent(world, {
@@ -646,7 +650,7 @@ export function createScenarioWorld(
     provenance: lifeProvenance,
   });
 
-  return world;
+  return ensureCrisisMortality(world);
 }
 
 /**

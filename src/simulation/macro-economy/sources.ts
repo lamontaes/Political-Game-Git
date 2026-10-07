@@ -6,10 +6,7 @@ import {
 import { addDays, makeIsoDate } from "../dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import type { MacroShockKind } from "./policy";
-import {
-  worldMetricDefinitionByStableKey,
-  worldMetricStateForPeriodAt,
-} from "../world-metrics";
+import { worldMetricStateForPeriodAt } from "../world-metrics";
 import { monthEnd, monthKeyOf, monthStart } from "./store";
 import type { MacroScopeKey } from "./types";
 import { MACRO_ECONOMY_CONTRACT_VERSION } from "./types";
@@ -238,6 +235,12 @@ const TAX_COLLECTION_BASES: ReadonlySet<string> = new Set([
 export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
   key: "realized-public-money",
   origins: (world, throughDate) => {
+    const incomeDefinition = world.metricCatalog.definitionOrder
+      .map((id) => world.metricCatalog.definitions[id])
+      .find(
+        (definition) => definition?.stableKey === "income.aggregate-personal",
+      );
+    if (!incomeDefinition) return [];
     const flows = new Map(
       world.history.resourceFlows.map((flow) => [flow.id, flow]),
     );
@@ -299,8 +302,7 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
       .flatMap(([key, group]): readonly MacroShockOrigin[] => {
         const income = worldMetricStateForPeriodAt(
           world,
-          worldMetricDefinitionByStableKey(world, "income.aggregate-personal")
-            .id,
+          incomeDefinition.id,
           { jurisdictionId: group.jurisdictionId, segmentKey: null },
           {
             kind: "interval",
@@ -345,9 +347,11 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
 };
 
 /**
- * PLACEHOLDER: a closing that ends this many of every hundred jobs held in
- * town is a full-strength local downturn; a smaller one is proportionally
- * weaker.
+ * ESTIMATED FROM THE GAME'S TOWN EMPLOYMENT RECORDS: a closing that ends five
+ * of every hundred recorded jobs in its town is a full-strength local
+ * downturn; a smaller recorded share is proportionally weaker. The basis is
+ * each affected town's own `jobs:` and `town-jobs:` event values, so the rule
+ * uses every represented place without substituting a named example.
  */
 export const TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED = 5;
 

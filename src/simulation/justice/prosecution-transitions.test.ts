@@ -1,6 +1,21 @@
-import { afterAll, describe, expect, it } from "vitest";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordWorkStatus,
+} from "../life";
+import { createProsecutionTransitionRegistry } from "./prosecution-transitions";
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import * as decisions from "../decisions";
+import * as courtReasoning from "./court-reasoning";
+import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { writeFileSync } from "node:fs";
 import { smallWorld } from "../../../tests/fixtures/small-world";
+import { recordEvidenceArtifact } from "../evidence";
 import { SeededRng, pickDistinct } from "../rng";
 import { lifePlaceStateIdentities } from "../life-places";
 import { addDays } from "../dates";
@@ -15,19 +30,79 @@ import {
   futureDueItemStateAt,
   scheduleFutureDueItem,
 } from "../future-transitions";
-import { assertWorldIntegrity } from "../world";
+import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { personName } from "../people";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
 import {
   advanceProsecutions,
   enterPlea,
   referForProsecution,
   PROSECUTION_CHARGED_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_DECLINED_EVENT,
+  PROSECUTION_ESTIMATE,
 } from "./prosecution";
 import { prosecutionTimingFor } from "./prosecution-timing";
 import { PROSECUTION_STAGE_TRANSITION_KEY } from "./prosecution-transitions";
+
+function seatedProsecutor(
+  world: World,
+  defendantId: EntityId,
+  jurisdictionId: World["people"][string]["homeJurisdictionId"],
+) {
+  const person = Object.values(world.people).find(
+    (person) =>
+      person.id !== defendantId &&
+      (world.control.kind !== "person" || person.id !== world.control.personId),
+  )!;
+  expect(person).toBeDefined();
+  const provenance = {
+    kind: "authored" as const,
+    note: "Controlled recorded prosecutor appointment fixture; no opening official is invented.",
+  };
+  let next = createOrganization(world, {
+    stableKey: "a104:fixture:office",
+    formedAt: world.currentDate,
+    provenance,
+    initialProfile: {
+      name: "Recorded prosecution office",
+      classification: "sector:government",
+      locationJurisdictionId: jurisdictionId,
+    },
+  });
+  const organizationId = next.history.organizations.at(-1)!.id;
+  next = createWorkRelationship(next, {
+    stableKey: "a104:fixture:appointment",
+    personId: person.id,
+    organizationId,
+    startedAt: world.currentDate,
+    kind: "employment:executive-office",
+    compensation: "unpaid",
+    authority: "self-directed",
+    dependency: "independent",
+    economicRisk: "organization-borne",
+    provenance,
+    initialRole: {
+      title: "Prosecutor",
+      occupationClassification: "profession:prosecutor",
+      locationJurisdictionId: jurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 0, maximumHours: 0 },
+        attention: "moderate",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: jurisdictionId,
+      },
+    },
+  });
+  return {
+    world: next,
+    personId: person.id,
+    workRelationship: next.history.workRelationships.at(-1)!,
+  };
+}
+afterEach(() => vi.restoreAllMocks());
 
 const receipts: unknown[] = [];
 afterAll(() => {
@@ -50,8 +125,49 @@ describe("a saved prosecution stage owns its due item", () => {
       // state, no opening life, so only the court clock has anything due.
       const small = smallWorld({ place: state.jurisdictionKey, seed });
       const place = small.place;
-      const isolated = small.world;
+      const isolated = seatedProsecutor(
+        small.world,
+        small.personId,
+        small.jurisdictionId,
+      ).world;
       const subjectId = small.personId;
+      const evidenceWorld = recordWorldEvent(isolated, {
+        stableKey: "g12-clock-evidence-source",
+        type: "fixture.prosecution-evidence",
+        occurredAt: isolated.currentDate,
+        recordedAt: isolated.currentDate,
+        jurisdictionId: small.jurisdictionId,
+        involvedEntityIds: [subjectId],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["fixture:recorded-evidence"],
+        summary: "Controlled evidence source for the charging proof.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const evidenceSource = evidenceWorld.history.events.at(-1)!;
+      const evidenceWithArtifact = recordEvidenceArtifact(evidenceWorld, {
+        stableKey: "g12-clock-evidence-artifact",
+        evidenceKind: "record:campaign-ledger-entry",
+        createdAt: evidenceWorld.currentDate,
+        recordedAt: evidenceWorld.currentDate,
+        relatedEntityIds: [evidenceSource.id],
+        access: "restricted",
+        description: "Controlled campaign ledger entry supporting the case.",
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [evidenceSource.id],
+        },
+      });
+      const evidenceArtifactId =
+        evidenceWithArtifact.history.evidenceArtifacts.at(-1)!.id;
       const input = {
         stableKey: "g12-clock-case",
         subjectPersonId: subjectId,
@@ -59,14 +175,15 @@ describe("a saved prosecution stage owns its due item", () => {
         offenseKey: "crime:robbery",
         evidence: "documentary" as const,
         standingFindings: 6,
-        basisEventIds: [],
+        basisEventIds: [evidenceSource.id],
+        basisRecordIds: [evidenceArtifactId],
         referredBy: {
           kind: "police" as const,
           label: "police",
           personId: null,
         },
       };
-      const referral = referForProsecution(isolated, input);
+      const referral = referForProsecution(evidenceWithArtifact, input);
       expect(referForProsecution(referral.world, input).world).toBe(
         referral.world,
       );
@@ -78,10 +195,7 @@ describe("a saved prosecution stage owns its due item", () => {
       );
       expect(item.entityIds).toEqual([subjectId]);
       expect(item.dueAt).toBe(
-        addDays(
-          isolated.currentDate,
-          UNRESEARCHED_PROSECUTION.chargeDecisionDays,
-        ),
+        addDays(isolated.currentDate, PROSECUTION_ESTIMATE.chargeDecisionDays),
       );
       let legacy: World | undefined;
       let calls = 0;
@@ -157,6 +271,13 @@ describe("a saved prosecution stage owns its due item", () => {
         `${seed}: ${personName(charged.people[subjectId]!)}`,
       ).toHaveLength(1);
       expect(events[0]!.occurredAt).toBe(item.dueAt);
+      expect(events[0]!.involvedEntityIds).toContain(evidenceArtifactId);
+      expect(events[0]!.tags).toContain(
+        `justice.basis-record:${evidenceArtifactId}`,
+      );
+      console.info(
+        `WATCHED CHARGE CHAIN — ${place.key}: recorded evidence ${evidenceSource.id} supports artifact ${evidenceArtifactId}; referral ${referral.referralId} names ${personName(charged.people[subjectId]!)}; justice.charged ${events[0]!.id} records the person and artifact.`,
+      );
       expect(
         enterPlea(charged, {
           personId: subjectId,
@@ -210,4 +331,194 @@ describe("a saved prosecution stage owns its due item", () => {
       });
     },
   );
+});
+
+describe("A104 an unseated prosecutor leaves the saved case pending", () => {
+  const seed = "overflow8-a104-recorded-prosecutor";
+  const place = drawRandomPlace(seed);
+  function referralFixture(seated: boolean) {
+    const fixture = smallWorld({ seed, place: place.key });
+    const appointment = seated
+      ? seatedProsecutor(
+          fixture.world,
+          fixture.personId,
+          fixture.jurisdictionId,
+        )
+      : null;
+    const world = appointment?.world ?? fixture.world;
+    const referral = referForProsecution(world, {
+      stableKey: "a104:saved-referral",
+      subjectPersonId: fixture.personId,
+      jurisdictionId: fixture.jurisdictionId,
+      offenseKey: "crime:robbery",
+      evidence: "documentary",
+      standingFindings: 0,
+      basisEventIds: [],
+      basisRecordIds: [],
+      referredBy: {
+        kind: "police",
+        label: "recorded police referral",
+        personId: null,
+      },
+    });
+    const due = referral.world.history.futureDueItems.find(
+      (item) => item.transitionKey === PROSECUTION_STAGE_TRANSITION_KEY,
+    )!;
+    return { fixture, appointment, referral, due };
+  }
+  function review(built: ReturnType<typeof referralFixture>) {
+    return resolveFutureDueItemsThrough(
+      deserializeWorld(serializeWorld(built.referral.world)),
+      built.due.dueAt,
+      createProsecutionTransitionRegistry(),
+    );
+  }
+  it("does not charge or decline when there is no prosecutor", () => {
+    const built = referralFixture(false);
+    const world = review(built);
+    expect(
+      world.history.events.filter(
+        (event) =>
+          event.type === PROSECUTION_CHARGED_EVENT ||
+          event.type === PROSECUTION_DECLINED_EVENT,
+      ),
+    ).toHaveLength(0);
+    expect(
+      world.history.decisionTraces.filter(
+        (trace) => trace.context.decisionType === "justice.charge",
+      ),
+    ).toHaveLength(0);
+    expect(
+      serializeWorld(advanceProsecutions(world, built.referral.referralId)),
+    ).toBe(serializeWorld(world));
+  });
+  it("records the seated prosecutor's actual decision and preserves it through save/reopen", () => {
+    const built = referralFixture(true);
+    const world = review(built);
+    const trace = world.history.decisionTraces.find(
+      (trace) => trace.context.decisionType === "justice.charge",
+    )!;
+    expect(trace).toBeDefined();
+    expect(trace.context.actorPersonId).toBe(built.appointment!.personId);
+    expect(decisions.isSelectedDecision(trace)).toBe(true);
+    const outcome = world.history.events.find(
+      (event) =>
+        event.type === PROSECUTION_CHARGED_EVENT ||
+        event.type === PROSECUTION_DECLINED_EVENT,
+    )!;
+    expect(
+      outcome.participants.some(
+        (participant) =>
+          participant.role === "agency:decided" &&
+          participant.personId === built.appointment!.personId,
+      ),
+    ).toBe(true);
+    expect(outcome.context.motivation).toBeTruthy();
+    expect(
+      serializeWorld(
+        advanceProsecutions(
+          deserializeWorld(serializeWorld(world)),
+          built.referral.referralId,
+        ),
+      ),
+    ).toBe(serializeWorld(world));
+  });
+  it("does not substitute an ended or wrong-venue appointment", () => {
+    const built = referralFixture(true);
+    const work = built.appointment!.workRelationship;
+    const prior = built.referral.world.history.workStatuses.find(
+      (status) => status.workRelationshipId === work.id,
+    )!;
+    const ended = recordWorkStatus(built.referral.world, {
+      stableKey: "a104:fixture:ended",
+      workRelationshipId: work.id,
+      effectiveAt: built.referral.world.currentDate,
+      status: "ended",
+      reason: "Controlled vacancy fixture",
+      provenance: { kind: "authored", note: "Recorded office vacancy." },
+      supersedesStatusId: prior.id,
+    });
+    const world = review({
+      ...built,
+      referral: { ...built.referral, world: ended },
+    });
+    expect(
+      world.history.events.some(
+        (event) =>
+          event.type === PROSECUTION_CHARGED_EVENT ||
+          event.type === PROSECUTION_DECLINED_EVENT,
+      ),
+    ).toBe(false);
+    const foreign = referralFixture(false);
+    const wrong = seatedProsecutor(
+      foreign.referral.world,
+      foreign.fixture.personId,
+      foreign.fixture.stateJurisdictionId,
+    );
+    if (
+      foreign.fixture.stateJurisdictionId !== foreign.fixture.jurisdictionId
+    ) {
+      expect(
+        review({
+          ...foreign,
+          referral: { ...foreign.referral, world: wrong.world },
+        }).history.events.some(
+          (event) =>
+            event.type === PROSECUTION_CHARGED_EVENT ||
+            event.type === PROSECUTION_DECLINED_EVENT,
+        ),
+      ).toBe(false);
+    }
+  });
+  it("keeps a tied charging decision pending instead of choosing the first option", () => {
+    const original = courtReasoning.jurorConsiderations;
+    vi.spyOn(courtReasoning, "jurorConsiderations").mockImplementation(
+      (...args) =>
+        original(...args)
+          .slice(0, 2)
+          .map((reason) => ({
+            ...reason,
+            importance: "moderate",
+            confidence: "high",
+          })),
+    );
+    const built = referralFixture(true);
+    const world = review(built);
+    expect(
+      world.history.decisionTraces.find(
+        (trace) => trace.context.decisionType === "justice.charge",
+      )!.outcomeKind,
+    ).toBe("undecided");
+    expect(
+      world.history.events.some(
+        (event) =>
+          event.type === PROSECUTION_CHARGED_EVENT ||
+          event.type === PROSECUTION_DECLINED_EVENT,
+      ),
+    ).toBe(false);
+    expect(
+      serializeWorld(advanceProsecutions(world, built.referral.referralId)),
+    ).toBe(serializeWorld(world));
+  });
+  it("opens an actual random-place new game", () => {
+    const opened = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+      }),
+    );
+    expect(opened.game).not.toBeNull();
+    receipts.push({
+      seed,
+      place: place.key,
+      name: place.displayName,
+      randomOpening: true,
+      playerPersonId: opened.game!.playerPersonId,
+    });
+    expect(
+      opened.game!.world.people[opened.game!.playerPersonId]!
+        .homeJurisdictionId,
+    ).toBe(place.context.jurisdiction.id);
+  });
 });

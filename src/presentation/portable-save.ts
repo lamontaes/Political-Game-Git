@@ -27,10 +27,10 @@ import {
  * installed copy.
  *
  * The life is two persistence paths: the canonical World, and the shell's
- * interface state (pins, private journal, wardrobe preferences) when that
+ * interface state (pins and wardrobe preferences) when that
  * store exists. Exporting only the World would silently drop the interface.
  * The interface store is created by the same additive IndexedDB migration
- * the UI-bearing shell uses. An included pins/journal/wardrobe payload is
+ * the UI-bearing shell uses. An included pins/wardrobe payload is
  * written there, or the import is refused and rolled back — never reported
  * complete after a silent drop.
  *
@@ -111,7 +111,7 @@ export function readPortableInterfaceState(
     return null;
   }
   if (!Array.isArray(value.pins)) return null;
-  if (value.journal !== undefined && !isRecord(value.journal)) return null;
+  if (value.journals !== undefined && !isRecord(value.journals)) return null;
   if (value.preferences !== undefined && !isRecord(value.preferences)) {
     return null;
   }
@@ -348,7 +348,7 @@ export async function importPortableSave(
     readonly databaseName?: string;
     readonly existingSaveIds?: () => Promise<readonly EntityId[]>;
     /**
-     * `world-only` skips included pins/journal/wardrobe on purpose and says
+     * `world-only` skips included pins/wardrobe on purpose and says
      * so. The default writes included interface state or rolls the slot back.
      */
     readonly interfacePolicy?: "transfer" | "world-only";
@@ -495,7 +495,7 @@ export async function readOptionalInterface(
       return {
         status: "unavailable",
         reason:
-          "This build has no durable interface store. Pins and private notes were not stored with this life.",
+          "This build has no durable interface store. Pins were not stored with this life.",
       };
     }
     const raw = await new Promise<unknown>((resolve, reject) => {
@@ -544,8 +544,7 @@ async function writeOptionalInterface(
     if (!database.objectStoreNames.contains(INTERFACE_STORE_NAME)) {
       return {
         ok: false,
-        reason:
-          "This build cannot store pins and private notes. Existing saves are unchanged.",
+        reason: "This build cannot store pins. Existing saves are unchanged.",
       };
     }
     const writeFailed = "The interface state could not be stored.";

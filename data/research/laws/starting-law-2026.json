@@ -4,7 +4,7 @@
   "asOf": "2026-09-28",
   "defaultOperativeAt": "2000-01-01",
   "effectiveDates": {
-    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the place's constitution or code, or, where marked estimated, taken from the most common rule among places like it (ESTIMATED FROM AVERAGE). A rule that counts from a session's end reads it from sessionEnds, one table for every place: the day the legislature published as its adjournment for a year whose session has ended (adjourned, read 9/29/2026 for 2026), else the latest day its law lets the regular session run, estimated where the law sets no calendar limit. A rule that counts from final passage uses the date the game records for the act (Illinois). Acts that name their own date, emergency clauses, appropriation acts and special sessions are not modeled here.",
+    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the place's constitution or code, or, where marked estimated, taken from the most common rule among places like it (ESTIMATED FROM AVERAGE). A rule that counts from a session's end reads it from the shared state-session-calendars-2026.json table: the day the legislature published as its adjournment for a year whose session has ended (adjourned, read 9/29/2026 for 2026), else the latest day its law lets the regular session run, estimated where the law sets no calendar limit. A rule that counts from final passage uses the date the game records for the act (Illinois). Acts that name their own date, emergency clauses, appropriation acts and special sessions are not modeled here.",
     "rules": {
       "US-AK": {
         "rule": {
@@ -560,477 +560,6 @@
         "source": "https://law.justia.com/codes/wyoming/title-8/chapter-1/section-8-1-108/",
         "note": "Every law takes effect ninety days after the session adjourns unless it names another date; the game uses the ninetieth day, inferred from the text. Most acts name July 1."
       }
-    },
-    "sessionEnds": {
-      "US-AL": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "Its rule was not read in days after a session, so its session end was not read either.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-09"],
-            "sourceUrl": "https://www.legislature.state.al.us/",
-            "quote": "2026 Regular Session adjourned on April 9th, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-AR": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 59
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 4,
-              "weekday": 3,
-              "nth": 2
-            },
-            "lastDayAfterStart": 29
-          }
-        ],
-        "cite": "Ark. Const. art. 5, §§ 5, 17",
-        "source": "https://codes.findlaw.com/ar/arkansas-constitution-of-1874/ar-const-art-5-sect-17/",
-        "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-29"],
-            "sourceUrl": "https://www.arkleg.state.ar.us/",
-            "quote": "The Fiscal Session of the 95th General Assembly convened on Wednesday, April 8, 2026 and adjourned sine die on Wednesday, April 29, 2026.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-AS": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 44
-          },
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 7,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 44
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 44
-          },
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 7,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 44
-          }
-        ],
-        "cite": "Rev. Const. of American Samoa art. II, § 8",
-        "source": "https://asbar.org/revised-constitution-of-american-samoa/",
-        "note": "Two regular sessions a year, opening on the second Monday in January and in July, each to last 45 days. Whether those are calendar days was not read; the game counts calendar days."
-      },
-      "US-AZ": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Ariz. Const. art. 4, pt. 2, § 3",
-        "source": "https://www.azleg.gov/const/4/3.p2.htm",
-        "note": "Sets only the opening day; no limit on length (2025 ran 169 days).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-06-13"],
-            "sourceUrl": "https://www.azleg.gov/alispdfs/57leg/2R/House/SummaryComplete.pdf",
-            "quote": "Adjourned Sine Die: June 13, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-DC": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "The Council meets year-round; this date only anchors the estimated rule."
-      },
-      "US-FL": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 3,
-              "weekday": 1,
-              "nth": 1,
-              "plusDays": 1
-            },
-            "lastDayAfterStart": 59
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 1,
-              "plusDays": 8
-            },
-            "lastDayAfterStart": 59
-          }
-        ],
-        "cite": "Fla. Const. art. III, § 3(b), (d)",
-        "source": "https://www.flsenate.gov/Laws/Constitution",
-        "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-03-13"],
-            "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2026/2026-sj-bound-vII.pdf",
-            "quote": "On motion by Senator Passidomo, the Senate adjourned sine die at 3:14 p.m.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-HI": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "Its rule was not read in days after a session, so its session end was not read either.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-05-08"],
-            "sourceUrl": "https://www.capitol.hawaii.gov/sessions/session2026/OrderOfTheDay/SOD_05-08-26_.HTM",
-            "quote": "INFORMING THE HOUSE AND GOVERNOR THAT THE SENATE IS READY TO ADJOURN SINE DIE.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-ID": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Idaho Const. art. III, § 8(1)",
-        "source": "https://legislature.idaho.gov/statutesrules/idconst/ArtIII/Sect8/",
-        "note": "Sets only the opening day; no limit on length was found.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-02"],
-            "sourceUrl": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/sinedie.pdf",
-            "quote": "adjourned Sine Die on April 02, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-KS": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "Its rule was not read in days after a session, so its session end was not read either.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-10"],
-            "sourceUrl": "https://www.kslegislature.gov/b2025_26/bills/download/?apn=b2025_26/year2/ready_for_publication/journal/daily_journal_house_20260410135117.pdf",
-            "quote": "The Legislature having adjourned sine die on April 10, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-KY": {
-        "oddYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 3,
-              "day": 30
-            }
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 4,
-              "day": 15
-            }
-          }
-        ],
-        "cite": "Ky. Const. § 42",
-        "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
-        "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-15"],
-            "sourceUrl": "https://apps.legislature.ky.gov/record/26rs/record.html",
-            "quote": "Adjourned Wednesday, April 15, 2026, Sine Die.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-ME": {
-        "oddYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 6,
-              "weekday": 3,
-              "nth": 3
-            }
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 4,
-              "weekday": 3,
-              "nth": 3
-            }
-          }
-        ],
-        "cite": "3 M.R.S. § 2 (required by Me. Const. art. IV, pt. 3, § 1)",
-        "source": "https://legislature.maine.gov/statutes/3/title3sec2.html",
-        "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-29"],
-            "sourceUrl": "https://legislature.maine.gov/house/",
-            "quote": "The Second Regular Session of the 132nd Legislature adjourned SINE DIE on Wednesday, April 29, 2026 at 8:32 PM.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-MI": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Mich. Const. art. IV, § 13",
-        "source": "https://legislature.mi.gov/doc.aspx?mcl-Article-IV-13",
-        "note": "The session adjourns on a day set by concurrent resolution; its sessions customarily run into December, later than this estimate."
-      },
-      "US-MO": {
-        "oddYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 5,
-              "day": 30
-            }
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 5,
-              "day": 30
-            }
-          }
-        ],
-        "cite": "Mo. Const. art. III, § 20(a)",
-        "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2020(a)",
-        "note": "The regular session adjourns on May 30 each year."
-      },
-      "US-NC": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "N.C. Const. art. II, § 11(1)",
-        "source": "https://www.ncleg.gov/Laws/Constitution/Article2",
-        "note": "The session adjourns by resolution; no end date or limit on length."
-      },
-      "US-NE": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Neb. Const. art. III, § 10",
-        "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
-        "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-17"],
-            "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Journal/r2day60.pdf",
-            "quote": "Senator Hansen moved that the One Hundred Ninth Legislature, Second Session, 2026 Session of the Nebraska Legislature, having finished all business before it, now at 2:57 p.m., adjourn sine die.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-NM": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 2,
-              "nth": 3
-            },
-            "lastDayAfterStart": 60
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 2,
-              "nth": 3
-            },
-            "lastDayAfterStart": 30
-          }
-        ],
-        "cite": "N.M. Const. art. IV, § 5(A)",
-        "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-5/",
-        "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-02-19"],
-            "sourceUrl": "https://www.nmlegis.gov/Publications/Session_Dates.pdf",
-            "quote": "2026 ... February 19 Session ends (noon)",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-OK": {
-        "oddYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 5,
-              "weekday": 5,
-              "nth": -1
-            }
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 5,
-              "weekday": 5,
-              "nth": -1
-            }
-          }
-        ],
-        "cite": "Okla. Const. art. V, § 26",
-        "source": "https://law.justia.com/constitution/oklahoma/V-26.html",
-        "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-05-14"],
-            "sourceUrl": "https://oksenate.gov/sites/default/files/2026-08/sj20260514.pdf",
-            "quote": "Pursuant to the Howard declaration, the Senate adjourned sine die at 4:15 p.m.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-TX": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 2,
-              "nth": 2
-            },
-            "lastDayAfterStart": 139
-          }
-        ],
-        "evenYear": [],
-        "cite": "Tex. Const. art. III, § 24(b); Tex. Gov't Code § 301.001",
-        "source": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.3.htm",
-        "note": "The regular session opens on the second Tuesday in January of odd years and may not exceed 140 days (2025: January 14 to June 2). Even years hold no regular session."
-      },
-      "US-UT": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 3,
-              "plusDays": 1
-            },
-            "lastDayAfterStart": 45
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 3,
-              "plusDays": 1
-            },
-            "lastDayAfterStart": 45
-          }
-        ],
-        "cite": "Utah Const. art. VI, § 16(1); Utah Code § 36-3-201",
-        "source": "https://le.utah.gov/xcode/ArticleVI/UC_AVI_1800010118000101.pdf",
-        "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-03-06"],
-            "sourceUrl": "https://le.utah.gov/",
-            "quote": "2026 General Session January 20, 2026 to March 6, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-WA": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 104
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 59
-          }
-        ],
-        "cite": "Wash. Const. art. II, § 12(1); RCW 44.04.010",
-        "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=44.04.010",
-        "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-03-12"],
-            "sourceUrl": "https://leg.wa.gov/",
-            "quote": "The 2026 Regular Session adjourned sine die on March 12",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-WY": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Wyo. Const. art. 3, § 6",
-        "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
-        "note": "The limit is 40 legislative working days a year, which are not calendar days.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-03-11"],
-            "sourceUrl": "https://wyoleg.gov/MediaRoomDocs/2026%20End%20of%20Session%20Release_03.11.26.pdf",
-            "quote": "The Wyoming Legislature concluded the 2026 Budget Session and adjourned sine die on Wednesday at the State Capitol in Cheyenne",
-            "readAt": "2026-09-29"
-          }
-        }
-      }
     }
   },
   "questions": {
@@ -1039,13 +568,33 @@
       "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
       "answers": {
         "US-AK": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://health.alaska.gov/media/qfph4aef/alaska-community-engagement-requirements-modeling-feb-2026.pdf",
+          "note": "Alaska adult Medicaid expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-AL": {
           "answer": "no"
         },
         "US-AR": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://humanservices.arkansas.gov/divisions-shared-services/county-operations/medicaid-quick-reference-chart/",
+          "note": "Arkansas adult Medicaid expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-AS": {
           "answer": "no",
@@ -1053,22 +602,82 @@
           "note": "American Samoa runs Medicaid under a waiver that pays for care in proportion to residents under 200 percent of the poverty level with no individual enrollment, so it has not expanded to the adult group (MACPAC, February 2021)."
         },
         "US-AZ": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://epm.azahcccs.gov/EligibilityPolicyManual/Policy/Chapter_400_AHCCCS_Medical_Assistance_Programs/MA0401.htm",
+          "note": "Arizona AHCCCS adult-group threshold is 133% of the federal poverty level; the official policy manual is the basis used here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.dhcs.ca.gov/individuals/Pages/AffordableCareActLinks.aspx",
+          "note": "California adult Medicaid expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-CO": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.healthfirstcolorado.gov/will-health-first-colorado-still-cover-my-medical-bills-before-im-officially-enrolled/",
+          "note": "Colorado Health First adult group income limit is up to 133% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://portal.ct.gov/dss/knowledge-base/articles/healthcare-coverage/husky-d",
+          "note": "Connecticut HUSKY D adult limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dhcf.dc.gov/page/medicaid-income-limits",
+          "note": "District adult expansion limit is 133% FPL plus the 5 percentage-point MAGI disregard, effective January 1, 2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-DE": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dhss.delaware.gov/dmma/home/medicaid-engage/",
+          "note": "Delaware adult expansion limit is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-FL": {
           "answer": "no"
@@ -1079,50 +688,188 @@
         },
         "US-GU": {
           "answer": "yes",
-          "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
-          "note": "Guam covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+          "source": "https://www.medicaid.gov/medicaid-spa/2021-05-13/108316",
+          "note": "CMS-approved Guam SPA GU-21-0002 states that, effective January 1, 2021, 138% of Guam local poverty is equivalent to 150% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 150,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-HI": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://humanservices.hawaii.gov/aca/",
+          "note": "Hawaii adult expansion coverage is for income under 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-IA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://hhs.iowa.gov/medicaid/plans-programs/iowa-health-wellness-plan",
+          "note": "Iowa Wellness Plan threshold for adults 19–64 is 133% of the federal poverty level; current eligibility standard effective April 1, 2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-ID": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://healthandwelfare.idaho.gov/services-programs/medicaid-health/medicaid-expansion",
+          "note": "Idaho adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-IL": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://hfs.illinois.gov/info/fedresctr/medicaidfedpolicychfs.html",
+          "note": "Illinois adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-IN": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://secure.in.gov/fssa/hip/about-hip/frequently-asked-questions/",
+          "note": "Indiana HIP adult eligibility threshold is effectively 138% FPL; the agency FAQ states the program threshold.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-KS": {
           "answer": "no"
         },
         "US-KY": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://kynect.ky.gov/benefits/s/medicaid-kchip-program?language=en_US",
+          "note": "Kentucky adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-LA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://ldh.la.gov/assets/medicaid/Rulemaking/FinalRules/May2016FinalRules.pdf",
+          "note": "Louisiana adult expansion threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://budget.digital.mass.gov/summary/fy26/enacted/health-and-human-services/health-and-human-services/40000940/",
+          "note": "Massachusetts enacted FY2026 budget specifies coverage through 133% of the federal poverty level; no higher numerical threshold is asserted.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MD": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://regs.maryland.gov/us/md/exec/comar/10.09.24/index.full.html",
+          "note": "Maryland adult group threshold: 133% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-ME": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.legislature.maine.gov/legis/statutes/22/title22sec3174-G.html",
+          "note": "MaineCare adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MI": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.michigan.gov/healthymiplan",
+          "note": "Healthy Michigan Plan adult income limit: 133% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MN": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.revisor.mn.gov/statutes/cite/256B.056",
+          "note": "Minnesota adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://oa.mo.gov/sites/default/files/FY26_DSS_Programs_Book.pdf",
+          "note": "Missouri adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-MP": {
           "answer": "no",
@@ -1133,57 +880,215 @@
           "answer": "no"
         },
         "US-MT": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.dphhs.mt.gov/medicaidchanges/faqs",
+          "note": "Montana current agency guidance reports the adult expansion limit as approximately 138% FPL; the statutory base is 133% with applicable MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NC": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://medicaid.ncdhhs.gov/north-carolina-expands-medicaid",
+          "note": "North Carolina expansion adults ages 19–64 are covered up to 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-ND": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.hhs.nd.gov/healthcare/medicaid-expansion",
+          "note": "North Dakota expansion coverage income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NE": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dhhs.ne.gov/Pages/Medicaid-Expansion.aspx",
+          "note": "Nebraska expansion coverage income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NH": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.medicaid.gov/renew-info/NH",
+          "note": "CMS reports New Hampshire adult group coverage through 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://njfamilycare.dhs.state.nj.us/who_eligbl.aspx",
+          "note": "New Jersey adult Medicaid eligibility limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NM": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.srca.nm.gov/parts/title08/08.296.0500.html",
+          "note": "New Mexico adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NV": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://prod.dss.nv.gov/programs/Medicaid/general-medical-information/",
+          "note": "Nevada adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.health.ny.gov/health_care/medicaid/publications/adm/13adm3",
+          "note": "New York adult group threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-OH": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://content.govdelivery.com/accounts/OHMEDICAID/bulletins/426e8bb",
+          "note": "Ohio Medicaid agency September 2026 guidance gives the adult expansion threshold as 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-OK": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://oklahoma.gov/ohca/about/medicaid-expansion/expansion.html",
+          "note": "Oklahoma adult expansion threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://healthcare.oregon.gov/marketplace/blog/pages/financial-help-explained.aspx",
+          "note": "Oregon Health Plan adult expansion limit: 138% FPL; Oregon also has a separate Bridge program through 200% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-PA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.pa.gov/agencies/dhs/resources/medicaid/medicaid-general-eligibility",
+          "note": "Pennsylvania adult expansion threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-PR": {
           "answer": "yes",
-          "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
-          "note": "Puerto Rico covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+          "source": "https://www.medicaid.gov/medicaid/spa/downloads/PR-23-0001.pdf",
+          "note": "Puerto Rico SPA specifies 133% of local poverty plus the 5-point disregard; the SPA defines local poverty as 85% of federal poverty, so the equivalent is 1.38 × 0.85 = 117.3% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 117.3,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://eohhs.ri.gov/consumer/adults/medicaid-adults",
+          "note": "Rhode Island adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-SC": {
           "answer": "no"
         },
         "US-SD": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dss.sd.gov/medicaid/HR1.aspx",
+          "note": "South Dakota expansion adult income limit: 138% FPL.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-TN": {
           "answer": "no"
@@ -1192,28 +1097,87 @@
           "answer": "no"
         },
         "US-UT": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://medicaid.utah.gov/expansion/",
+          "note": "Utah adult expansion income limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-VA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.dmas.virginia.gov/for-applicants/populations-served/for-adults/adults-aged-19-64/",
+          "note": "Virginia adult expansion eligibility limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-VI": {
           "answer": "yes",
-          "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
-          "note": "The U.S. Virgin Islands covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+          "source": "https://www.medicaid.gov/State-resource-center/Medicaid-State-Plan-Amendments/Downloads/VI/VI-13-010.pdf",
+          "note": "The territory adult-group threshold is 133 percent of the Virgin Islands poverty level; territory threshold, not FPL.",
+          "cite": "CMS-approved U.S. Virgin Islands Medicaid SPA VI-13-010",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 133,
+              "unit": "share-of-local-poverty-level"
+            }
+          ]
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dvha.vermont.gov/medicaid-changes",
+          "note": "Vermont adult expansion eligibility limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://www.hca.wa.gov/free-or-low-cost-health-care/i-help-others-apply-and-access-apple-health/health-care-adults",
+          "note": "Washington adult threshold is 133% FPL plus the 5 percentage-point MAGI disregard.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
           "note": "Covers adults to 100% of poverty without adopting the expansion."
         },
         "US-WV": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://dhhr.wv.gov/bms/BMSPUB/Documents/Guide%20to%20Medicaid%202023.pdf",
+          "note": "West Virginia adult expansion limit: 138% of the federal poverty level.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 138,
+              "unit": "share-of-federal-poverty-level"
+            }
+          ]
         },
         "US-WY": {
           "answer": "no"
@@ -1226,7 +1190,18 @@
       "answers": {
         "US": {
           "answer": "yes",
-          "operativeAt": "2025-11-01"
+          "operativeAt": "2025-11-01",
+          "cite": "P.L. 119-21, §10101",
+          "source": "https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf",
+          "note": "Federal SNAP general work standard: at least 80 hours per month under P.L. 119-21 §10101; program coverage and exemptions are not reduced to a single numeric term here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         }
       }
     },
@@ -1438,20 +1413,104 @@
           "answer": "no"
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://edd.ca.gov/en/payroll_taxes/rates_and_withholding/",
+              "quote": "The SDI withholding rate for 2026 is 1.3 percent. Effective January 1, 2024, all wages are subject to SDI contributions.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 130,
+                  "unit": "basis-points"
+                }
+              ],
+              "note": "Joint employee SDI contribution funds disability and family leave; not a separate additional family-leave deduction. Uncapped wages cannot be represented by a finite dollars/year scalar. Income-dependent replacement is not a universal scalar. Duration compound-unit admission remains unsupported."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-CO": {
           "answer": "yes"
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://www.ctpaidleave.org/how-ct-paid-leave-works/contributions",
+              "quote": "The CT Paid Leave Board of Directors has voted to maintain the contribution rate at 0.5% for 2026. Employers deduct 0.5% from an employee's pay. Employees contribute until they reach the Social Security contribution limit. SSA 2026 COLA Fact Sheet: Maximum Taxable Earnings, Social Security (OASDI only), 2026: $184,500.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 50,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 184500,
+                  "unit": "dollars/year"
+                }
+              ],
+              "note": "Annual covered-wage cap joins the CT source-stated Social Security contribution limit to the SSA 2026 OASDI base; each employer applies that limit as described by CT. Tiered replacement and duration are not admitted as universal scalars.",
+              "capSource": "https://www.ssa.gov/news/en/cola/factsheets/2026.html"
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-10-01",
+              "source": "https://dcpaidfamilyleave.dc.gov/program-updates/",
+              "quote": "These updates take effect October 1, 2026. Employer contributions: No change. Leave remains fully employer-funded with no payroll deductions from workers.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 0,
+                  "unit": "basis-points"
+                }
+              ],
+              "note": "Sourced zero employee deduction is not a zero employer tax. Sliding-scale replacement and unknown wage cap are not collapsed to scalar amounts; duration admission remains unsupported."
+            }
+          ]
         },
         "US-DE": {
           "answer": "yes",
-          "operativeAt": "2026-01-01"
+          "operativeAt": "2026-01-01",
+          "source": "https://laborfiles.delaware.gov/main/pfl/FAQs/DDOL41583_HowPaidLeaveWorks_FAQs_v1.pdf",
+          "quote": "The employee can receive 80% of their weekly wages, up to $900 per week. Employers can require their employees to pay up to 50% of the cost of the program through payroll deductions.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "replacement",
+              "value": 0.8,
+              "unit": "ratio"
+            }
+          ],
+          "note": "Optional employee contribution share is not a universal 0.4% rate. Coverage-specific premiums and FICA wage base require their exact bindings; no inferred cap. Replacement is subject to the source weekly benefit maximum. Duration compound-unit admission remains unsupported.",
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-FL": {
           "answer": "no"
@@ -1539,7 +1598,42 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "operativeBasis": "source-stated-calendar-year",
+              "source": "https://nj.gov/labor/myleavebenefits/employer/",
+              "quote": "For 2026, workers contribute 0.23% on the first $171,100 (wage cap) in covered wages earned during this calendar year. Claimants are paid 85% of their average weekly wage up to the maximum weekly benefit rate set for that calendar year.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 23,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 171100,
+                  "unit": "dollars/year"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "replacement",
+                  "value": 0.85,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "Family Leave Insurance employee share only; distinct from Temporary Disability Insurance. Replacement is subject to the sourced weekly benefit maximum; duration is not admitted as a scalar. This 2026 monetary phase does not assert a 2000 enactment date."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-NM": {
           "answer": "no"
@@ -1548,7 +1642,35 @@
           "answer": "no"
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://paidfamilyleave.ny.gov/2026",
+              "quote": "For 2026, employees will contribute 0.432% of their gross wages per pay period, with a maximum annual contribution of $411.91. Employees taking Paid Family Leave receive 67% of their average weekly wage, up to a cap of 67% of the current New York State Average Weekly Wage.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 43.2,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "replacement",
+                  "value": 0.67,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The $411.91 annual contribution maximum is not an annual covered-wage cap. No derived wage-cap scalar admitted. Replacement is subject to the source weekly benefit cap. Duration compound-unit admission remains unsupported."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-OH": {
           "answer": "no"
@@ -1557,7 +1679,35 @@
           "answer": "no"
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://paidleave.oregon.gov/employers-overview/",
+              "quote": "The total contribution rate for 2026 is 1% of gross wages up to $184,500. Large employers (25 or more employees on average) pay 40% of the total 1% contribution rate and employees pay 60% of the 1% contribution rate.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 60,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 184500,
+                  "unit": "dollars/year"
+                }
+              ],
+              "note": "Employee share is 60% of the stated 1% total contribution, not the total or employer share. Employer coverage/exemptions remain separate. Tiered replacement not collapsed to a scalar. Duration compound-unit admission remains unsupported."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-PA": {
           "answer": "no"
@@ -1620,7 +1770,18 @@
       "note": "D.C. allows possession but a congressional rider bars sales.",
       "answers": {
         "US-AK": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Alaska Stat. § 17.38.020",
+          "source": "https://www.elections.alaska.gov/petitions-and-ballot-measures/petition-status/petition_id/13psum/",
+          "note": "Adult-use retail is limited to people 21 or older under the voter-approved measure effective 2/24/2015.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-AL": {
           "answer": "no"
@@ -1634,23 +1795,96 @@
           "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
         },
         "US-AZ": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "A.R.S. §§ 36-2852(A), 42-5452",
+          "source": "https://www.azleg.gov/ars/42/05452.htm",
+          "note": "Adult-use purchasers must be 21 or older. A 16% excise tax applies to adult-use retail sales; separate transaction privilege taxes remain outside this rate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.16,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Cal. Bus. & Prof. Code § 26140; Rev. & Tax. Code § 34011.2",
+          "source": "https://www.cdtfa.ca.gov/lawguides/vol3/ctl/ctl-34011-2.html",
+          "note": "Adult-use purchasers must be 21 or older. Under the 2026 California Department of Tax and Fee Administration code revision, the 15% cannabis excise tax applies to gross receipts from retail sales; a temporary 19% rate applied only from 7/1/2025 through 9/30/2025. Beginning in fiscal year 2028-29, the department must adjust the rate every two years to replace revenue from the former weight-based cultivation tax, capped at 19% and rounded to the nearest quarter point. The future adjusted rate is not yet known.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CO": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Colo. Rev. Stat. § 39-28.8-202; Colo. Const. art. XVIII, § 16",
+          "source": "https://www.leg.colorado.gov/bills/SB17B-001",
+          "note": "Adult-use retail is limited to people 21 or older. The 15% retail marijuana sales tax excludes the separate 15% cultivation-transfer excise and local taxes.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Conn. Pub. Act 21-1, § 1; Conn. Gen. Stat. § 12-330ll",
+          "source": "https://cga.ct.gov/2022/sup/chap_420h.htm",
+          "note": "Adult-use purchasers must be 21 or older. As of 1/1/2026, the excise tax is based on THC content and product type, so there is no single retail-sales share to record.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-DC": {
           "answer": "no",
           "note": "Possession legal; sales barred by Congress."
         },
         "US-DE": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "4 Del. C. § 1382",
+          "source": "https://delcode.delaware.gov/title4/c013/sc08/index.html",
+          "note": "A 15% excise tax applies to adult-use retail sales, with medical marijuana excluded. The tax is on retail sales and does not combine ordinary or local sales taxes.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-FL": {
           "answer": "no"
@@ -1663,7 +1897,15 @@
           "operativeAt": "2019-04-04",
           "cite": "11 GCA § 8108 (Guam Cannabis Industry Act of 2019)",
           "source": "https://col.guamcourts.gov/sites/default/files/11gc008_Q.pdf",
-          "note": "Guam law makes it lawful for a registered retail cannabis store to sell cannabis to adults 21 and older (P.L. 35-005, enacted April 4, 2019)."
+          "note": "Guam law makes it lawful for a registered retail cannabis store to sell cannabis to adults 21 and older (P.L. 35-005, enacted April 4, 2019).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-HI": {
           "answer": "no"
@@ -1675,7 +1917,18 @@
           "answer": "no"
         },
         "US-IL": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "410 ILCS 705/1-10 (definition of Purchaser)",
+          "source": "https://ilga.gov/Documents/legislation/ilcs/documents/041007050K1-10.htm",
+          "note": "Adult-use purchases are limited to people 21 or older; this term records the purchaser-age floor, not product-dependent cannabis excise rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-IN": {
           "answer": "no"
@@ -1690,35 +1943,138 @@
           "answer": "no"
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Mass. Gen. Laws ch. 64N, § 2",
+          "source": "https://www.mass.gov/info-details/mass-general-laws-c64n-ss-2",
+          "note": "Adult-use retail sales are subject to a 10.75% excise tax. The base excludes sales to another marijuana establishment; ordinary sales and local option taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1075,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MD": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Md. Code, Tax-Gen. § 11-104(k)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/laws/StatuteText?article=gtg&section=11-104",
+          "note": "A 12% tax applies to adult-use cannabis retail sales beginning 7/1/2025. Medical and licensed business-to-business sales retain their statutory exemptions.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.12,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-ME": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Me. Rev. Stat. tit. 28-B, § 504(4); tit. 36, § 1811(5)",
+          "source": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+          "note": "Retail purchasers must be 21 or older. The adult-use retail sales tax is 14% on sales beginning 1/1/2026; cultivation transfers have separate weight-based excise rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.14,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MI": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Mich. Comp. Laws § 333.27955; Michigan Regulation and Taxation of Marihuana Act, § 5",
+          "source": "https://www.michigan.gov/cra/sections/adult-use/michigan-regulation-and-taxation-of-marihuana-act",
+          "note": "The act permits adult-use sales only to people at least 21 years old. A 10% retail excise tax applies; a separate 24% wholesale tax began 1/1/2026 and has a different tax base.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MN": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Minn. Stat. § 295.81",
+          "source": "https://www.revisor.mn.gov/statutes/cite/295.81",
+          "note": "A 15% tax applies to taxable cannabis gross receipts, including taxable hemp products, beginning 7/1/2025. Statutory exemptions and ordinary sales taxes remain separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Mo. Const. art. XIV, § 2.6(1)",
+          "source": "https://health.mo.gov/business-professionals/cannabis-regulation/general-faqs",
+          "note": "The adult-use retail cannabis tax is 6%; the medical rate is 4%, and general and local taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.06,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MP": {
           "answer": "yes",
           "operativeAt": "2018-09-21",
           "cite": "4 CMC § 53025 (Taulamwaar Sensible CNMI Cannabis Act of 2018)",
           "source": "https://cnmilaw.gov/docs/cmc_section/T4/53025.pdf",
-          "note": "A marijuana retailer holding a Commission retail license may sell marijuana items to adults 21 and older (P.L. 20-66, enacted September 21, 2018)."
+          "note": "A marijuana retailer holding a Commission retail license may sell marijuana items to adults 21 and older (P.L. 20-66, enacted September 21, 2018); adult-use retail sales also carry a 15% surtax, separate from first-sale and medical rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MS": {
           "answer": "no"
         },
         "US-MT": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Montana adult-use cannabis tax",
+          "source": "https://revenue.mt.gov/taxes/miscellaneous-taxes-and-fees/cannabis/",
+          "note": "Adult-use retail sales are taxed at 20% of retail value; medical sales and county option taxes have separate rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NC": {
           "answer": "no"
@@ -1733,25 +2089,91 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "N.J.S.A. 24:6I-31 et seq. (CREAMM Act)",
+          "source": "https://pub.njleg.gov/bills/2020/AL21/16_.HTM",
+          "note": "Adult-use purchases are limited to people 21 or older. The cultivation social-equity fee is weight-based, not a retail-sales share.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-NM": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "N.M. Stat. Ann. § 7-42-3",
+          "source": "https://www.tax.newmexico.gov/businesses/cannabis-excise-tax/",
+          "note": "The adult-use cannabis excise tax is 13% of price paid from 7/1/2025 through 6/30/2026; medical exemptions and gross-receipts tax are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.13,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NV": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Nev. Rev. Stat. § 372A.290",
+          "source": "https://www.leg.state.nv.us/nrs/NRS-372A.html",
+          "note": "Adult-use retail cannabis is subject to a 10% excise tax; wholesale transfers have a separate tax and tax base.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "N.Y. Tax Law § 493(b)",
+          "source": "https://www.nysenate.gov/legislation/laws/TAX/493",
+          "note": "The state retail cannabis tax is 9% of retail sale or transfer price. The separate 4% local retail tax and wholesale tax are excluded.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.09,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-OH": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Ohio Rev. Code § 3780.22 (version effective 1/1/2026)",
+          "source": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/37/3780/3780.22/6-30-2025/3780.22-6-30-2025.pdf",
+          "note": "Adult-use cannabis retail sales are taxed at 10% of the retail price under the version in force 1/1/2026; ordinary taxes are separate. This section was replaced 3/20/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-OK": {
           "answer": "no"
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Or. Rev. Stat. § 475C.674",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors475c.html",
+          "note": "Recreational cannabis retail sales carry a 17% state tax; medical exemptions and local option taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.17,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-PA": {
           "answer": "no"
@@ -1763,7 +2185,18 @@
           "note": "Puerto Rico allows dispensaries to sell cannabis only to licensed medical patients, and the law prohibits recreational use."
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "R.I. Gen. Laws § 44-70-2",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-70/44-70-2.htm",
+          "note": "A 10% cannabis tax applies to consumer sales to someone other than a cannabis establishment. Medical sales are exempt; general sales and local taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-SC": {
           "answer": "no"
@@ -1782,10 +2215,50 @@
         },
         "US-VA": {
           "answer": "yes",
-          "operativeAt": "2027-01-01",
           "before": {
             "answer": "no"
-          }
+          },
+          "operativeAt": "2027-07-01",
+          "cite": "2026 Va. Acts, Sp. Sess. I, ch. 1, item 4-14; Va. Code §§ 4.1-1004, 4.1-1104",
+          "source": "https://budget.lis.virginia.gov/item/2026/2/HB30/Chapter/4/4-14/",
+          "note": "HB 30 starts adult-use retail sales July 1, 2027. Purchasers must be 21 or older. The state retail excise tax is 6% through June 30, 2029; it becomes 8% July 1, 2029. The tax is on taxable marijuana sales, in addition to ordinary sales tax and authorized local tax; medical patient sales, inter-establishment sales, industrial hemp and hemp products are excluded.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.06,
+              "unit": "ratio"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2029-07-01",
+              "cite": "2026 Va. Acts, Sp. Sess. I, ch. 1, item 4-14; Va. Code §§ 4.1-1004, 4.1-1104",
+              "source": "https://budget.lis.virginia.gov/item/2026/2/HB30/Chapter/4/4-14/",
+              "note": "The state retail excise tax increases from 6% to 8% July 1, 2029; the 21-year-old purchase floor and taxable-sales scope continue.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "key": "minimum-age",
+                  "value": 21,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "key": "tax-rate",
+                  "value": 0.08,
+                  "unit": "ratio"
+                }
+              ]
+            }
+          ]
         },
         "US-VI": {
           "answer": "yes",
@@ -1793,10 +2266,32 @@
           "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "32 V.S.A. § 7902",
+          "source": "https://legislature.vermont.gov/statutes/section/32/207/07902",
+          "note": "A 14% excise tax applies to adult-use retail cannabis sales price; registered medical dispensary sales are exempt, and ordinary sales taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.14,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Wash. Rev. Code § 69.50.535",
+          "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=69.50.535",
+          "note": "Adult-use retail sales carry a 37% state cannabis excise tax. Qualified medical exemptions and ordinary sales taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.37,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no"
@@ -2333,7 +2828,69 @@
               "unit": "ratio"
             }
           ],
-          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control."
+          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control.",
+          "constructionSource": "https://olis.oregonlegislature.gov/liz/2023R1/Downloads/MeasureDocument/SB611/Enrolled",
+          "constructionQuote": "The first certificate of occupancy for the dwelling unit was issued less than 15 years from the date of the notice of the rent increase.",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2026 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "The allowable rent increase percentage for the previous year, 2026, was 9.5%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.095,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2027 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "For 2027, the maximum allowable rent increase percentage for tenancies subject to ORS 90.324(b) is 10%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.1,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -2438,7 +2995,67 @@
               "unit": "ratio"
             }
           ],
-          "note": "Cap is the lesser of 7% plus CPI or 10% over 12 months (9.683% for 2026); RCW 59.18.710(1)(a): first certificate of occupancy issued 12 or less years before notice is exempt; expires 2040-07-01; RCW 35.21.830 still preempts local rent control."
+          "note": "Cap is the lesser of 7% plus CPI or 10% over 12 months (9.683% for 2026); RCW 59.18.710(1)(a): first certificate of occupancy issued 12 or less years before notice is exempt; expires 2040-07-01; RCW 35.21.830 still preempts local rent control.",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "preempts": false,
+              "cite": "RCW 59.18.700; Washington Department of Commerce 2026 maximum annual rent increase",
+              "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+              "sourceQuote": "Maximum annual rent increase percent through 12/31/2026: 9.683%",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 12,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.09683,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The announced calendar-year maximum replaces the statutory ceiling scalar. The sourced 12-year construction exemption remains; RCW 59.18.710 contains additional property and landlord exemptions not established by a tenancy regime alone."
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "preempts": false,
+              "cite": "RCW 59.18.700; Washington Department of Commerce 2027 maximum annual rent increase",
+              "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+              "sourceQuote": "Maximum annual rent increase percent through 12/31/2027: 10%",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 12,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.1,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The announced calendar-year maximum replaces the statutory ceiling scalar. The sourced 12-year construction exemption remains; RCW 59.18.710 contains additional property and landlord exemptions not established by a tenancy regime alone."
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
@@ -3973,7 +4590,7 @@
         },
         "US-NY": {
           "answer": "yes",
-          "wageTermsStatus": "Unbound regional scope; no universal state amount.",
+          "wageTermsStatus": "Partially bound exact county workplace identities; unresolved locality/metro-boundary joins remain explicit.",
           "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY",
           "scopeEvidence": {
             "kind": "unresolved-regional",
@@ -3994,7 +4611,29 @@
                 "operativeAt": "2026-01-01"
               }
             ]
-          }
+          },
+          "regionalTerms": [
+            {
+              "workplaceKeys": ["county:36059", "county:36103", "county:36119"],
+              "operativeAt": "2026-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1700,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://dol.ny.gov/minimum-wage-0",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/1",
+              "tier": "long-island-and-westchester",
+              "geographyEvidence": {
+                "source": "https://www.nysenate.gov/legislation/laws/LAB/652",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            }
+          ]
         },
         "US-OH": {
           "answer": "yes",
@@ -4052,7 +4691,7 @@
         },
         "US-OR": {
           "answer": "yes",
-          "wageTermsStatus": "Unbound regional scope; no universal state amount.",
+          "wageTermsStatus": "Partially bound exact county workplace identities; unresolved locality/metro-boundary joins remain explicit.",
           "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR",
           "scopeEvidence": {
             "kind": "unresolved-regional",
@@ -4088,7 +4727,159 @@
                 "operativeAt": "2026-07-01"
               }
             ]
-          }
+          },
+          "regionalTerms": [
+            {
+              "workplaceKeys": [
+                "county:41003",
+                "county:41007",
+                "county:41009",
+                "county:41017",
+                "county:41027",
+                "county:41029",
+                "county:41033",
+                "county:41039",
+                "county:41041",
+                "county:41043",
+                "county:41047",
+                "county:41053",
+                "county:41057",
+                "county:41065",
+                "county:41071"
+              ],
+              "operativeAt": "2025-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1505,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/1",
+              "tier": "standard",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            },
+            {
+              "workplaceKeys": [
+                "county:41001",
+                "county:41011",
+                "county:41013",
+                "county:41015",
+                "county:41019",
+                "county:41021",
+                "county:41023",
+                "county:41025",
+                "county:41031",
+                "county:41035",
+                "county:41037",
+                "county:41045",
+                "county:41049",
+                "county:41055",
+                "county:41059",
+                "county:41061",
+                "county:41063",
+                "county:41069"
+              ],
+              "operativeAt": "2025-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1405,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/2",
+              "tier": "nonurban",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            },
+            {
+              "workplaceKeys": [
+                "county:41003",
+                "county:41007",
+                "county:41009",
+                "county:41017",
+                "county:41027",
+                "county:41029",
+                "county:41033",
+                "county:41039",
+                "county:41041",
+                "county:41043",
+                "county:41047",
+                "county:41053",
+                "county:41057",
+                "county:41065",
+                "county:41071"
+              ],
+              "operativeAt": "2026-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1555,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/4",
+              "tier": "standard",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            },
+            {
+              "workplaceKeys": [
+                "county:41001",
+                "county:41011",
+                "county:41013",
+                "county:41015",
+                "county:41019",
+                "county:41021",
+                "county:41023",
+                "county:41025",
+                "county:41031",
+                "county:41035",
+                "county:41037",
+                "county:41045",
+                "county:41049",
+                "county:41055",
+                "county:41059",
+                "county:41061",
+                "county:41063",
+                "county:41069"
+              ],
+              "operativeAt": "2026-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1455,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/5",
+              "tier": "nonurban",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -6176,7 +6967,17 @@
       "answers": {
         "US": {
           "answer": "yes",
-          "operativeAt": "2027-01-01"
+          "operativeAt": "2027-01-01",
+          "source": "https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf",
+          "note": "P.L. 119-21 §71119 establishes 80 hours per month or a qualifying earnings alternative; federal start date remains the existing January 1, 2027.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-AK": {
           "answer": "no",
@@ -6235,7 +7036,17 @@
         },
         "US-GA": {
           "answer": "yes",
-          "operativeAt": "2023-07-01"
+          "operativeAt": "2023-07-01",
+          "source": "https://pathways.georgia.gov/eligibility",
+          "note": "Georgia Pathways requires 80 qualifying hours per month; existing operative date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-GU": {
           "answer": "no",
@@ -6253,8 +7064,16 @@
           "before": {
             "answer": "no"
           },
-          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
-          "note": "Starts the federal work requirement early, on 12/1/2026, by state plan amendment; none was in force on 1/1/2026."
+          "source": "https://hhs.iowa.gov/medicaid/plans-programs/iowa-health-wellness-plan/ihawp-community-engagement-requirements",
+          "note": "Iowa HHS sets 80 hours per month; an alternative qualifying amount may also satisfy the rule; existing prospective date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-ID": {
           "answer": "no",
@@ -6332,8 +7151,16 @@
           "before": {
             "answer": "no"
           },
-          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
-          "note": "Starts the federal work requirement early, on 7/1/2026, by state plan amendment; none was in force on 1/1/2026."
+          "source": "https://www.dphhs.mt.gov/medicaidchanges/faqs",
+          "note": "Montana requires 80 hours per month or an alternative $580 monthly qualifying earnings amount; existing operative date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-NC": {
           "answer": "no",
@@ -6351,8 +7178,16 @@
           "before": {
             "answer": "no"
           },
-          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
-          "note": "Starts the federal work requirement early, on 5/1/2026, by state plan amendment; none was in force on 1/1/2026."
+          "source": "https://dhhs.ne.gov/Pages/WorkRequirements.aspx",
+          "note": "Nebraska requires 80 hours per month, with listed earnings and half-time education alternatives; existing operative date retained.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-NH": {
           "answer": "no",
@@ -12410,8 +13245,17 @@
         },
         "US-AS": {
           "answer": "yes",
-          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
-          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+          "note": "Ordinary juvenile delinquency jurisdiction covers offenses committed before age 18; the upper included age is 17. Felony transfer and direct adult-charging exceptions apply, including offenses from age 14 and specified serious/repeat cases.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ],
+          "cite": "A.S.C.A. §§ 45.0103(2), (3), (9), 45.0115(c)",
+          "source": "https://asbar.org/code-annotated/45-0103-definitions/"
         },
         "US-AZ": {
           "answer": "yes",
@@ -13065,8 +13909,17 @@
         },
         "US-VI": {
           "answer": "yes",
-          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
-          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+          "note": "Ordinary juvenile jurisdiction covers persons under 18; the upper included age is 17. Adult-transfer rules apply, but the full current offense-specific transfer list and retained-jurisdiction ceiling were not verified here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ],
+          "cite": "5 V.I.C. § 2502(7); V.I. Rules of Family Division Proc. R. 1(f)(2), 17",
+          "source": "https://supreme.vicourts.org/UserFiles/Servers/Server_12810860/File/Promolugation%20Orders/PROM%202019-0009%20Prom%20Order%20Family%20Rules%20Full.pdf"
         },
         "US-VT": {
           "answer": "yes",
@@ -13193,8 +14046,25 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Colo. Rev. Stat. § 5-3.1-105",
-          "source": "https://leg.colorado.gov/sites/default/files/initiatives/2017-2018%2520%2523126.pdf",
-          "note": "Voter-approved Proposition 111 (2018) caps payday loans at 36% APR including all charges; NCLC notes another consumer-credit option still allows about 78% on a six-month $500 installment loan."
+          "source": "https://leg.colorado.gov/sites/default/files/images/olls/crs2023-title-05.pdf",
+          "note": "Effective 2/1/2019, deferred-deposit and payday loans are capped at 36% APR; this does not establish the cap for other consumer loan products. NCLC reports a separate installment-credit option may still cost about 78% on a six-month $500 loan.",
+          "operativeAt": "2019-02-01",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "deferred-deposit-loan-lender",
+                "productClass": "deferred-deposit-payday-loan",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["all-authorized-charges"],
+                "exceptionSetKey": "none"
+              }
+            }
+          ]
         },
         "US-CT": {
           "answer": "yes",
@@ -13263,8 +14133,16 @@
           "operativeAt": "2021-03-23",
           "preempts": true,
           "cite": "815 ILCS 123/15-5-5",
-          "source": "https://en.wikipedia.org/wiki/Payday_loans_in_the_United_States",
-          "note": "The Predatory Loan Prevention Act caps every consumer loan from a non-bank lender at 36% APR, counting all fees the way the Military Lending Act does."
+          "source": "https://www.ilga.gov/legislation/ilcs/documents/081501230K15-5-5.htm",
+          "note": "The 36% APR cap applies to covered lenders for loans made or renewed on or after 3/23/2021. Banks, savings banks, savings and loan associations, credit unions, insurance companies, and pawn transactions are statutory exceptions; APR uses the Act’s calculation.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-IN": {
           "answer": "no",
@@ -13328,7 +14206,23 @@
           "preempts": true,
           "cite": "Minn. Stat. §§ 47.60, 47.601",
           "source": "https://www.revisor.mn.gov/statutes/cite/47.601",
-          "note": "A 2023 law ended 220% payday loans on 1/1/2024: small and short-term loans are capped at 36% APR, with loans up to a 50% all-in APR allowed only with ability-to-repay underwriting."
+          "note": "For nonbank consumer short-term loans of $1,300 or less meeting Minn. Stat. § 47.601's repayment test, the statutory maximum APR is 50%; rates above 36% require § 47.603 underwriting. This product-specific cap does not establish a general consumer-loan cap.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.5,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "nonbank-lender",
+                "productClass": "short-term-loan-up-to-1300-repayment-test",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "ability-to-repay-underwriting-required-above-36-percent"
+              }
+            }
+          ]
         },
         "US-MO": {
           "answer": "no",
@@ -13343,7 +14237,15 @@
           "operativeAt": "2007-09-20",
           "cite": "4 CMC § 60151(2)",
           "source": "https://cnmilaw.gov/docs/cmc_section/T4/60151.pdf",
-          "note": "Licensed finance companies may not charge an annual percentage rate above 34 percent, points and fees aside, and usury is a crime; the cap took effect September 20, 2007."
+          "note": "Licensed finance companies may not charge an annual percentage rate above 34 percent, points and fees aside, and usury is a crime; the cap took effect September 20, 2007.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.34,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MS": {
           "answer": "no",
@@ -13375,16 +14277,48 @@
         "US-NE": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Neb. Rev. Stat. §§ 45-919, 45-1024",
-          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
-          "note": "Payday loans are no longer issued after voters' 2020 Initiative 428 capped delayed-deposit fees at 36% APR; installment loans allow 24% interest plus an origination fee (NCLC: about 48% all-in on a $500 six-month loan)."
+          "cite": "Neb. Rev. Stat. §§ 45-902, 45-918, 45-919; Neb. Dep't of Banking & Fin. DDS Interpretive Opinion No. 1 (Dec. 7, 2020)",
+          "source": "https://ndbf.nebraska.gov/sites/default/files/legal/DDS%20Interpretative%20Opinions_1.pdf",
+          "note": "Initiative 428 caps APR at 36% including fees and charges for licensed delayed-deposit transactions only; the 2025 replacement installment-loan rules are separate and permit different principal-tier rates and fees.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "licensed-small-loan-lender",
+                "productClass": "small-loan-excluding-payday-and-title",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
+              }
+            }
+          ]
         },
         "US-NH": {
           "answer": "yes",
           "preempts": true,
           "cite": "N.H. Rev. Stat. Ann. § 399-A:16(I)",
-          "source": "https://www.gencourt.state.nh.us/rsa/html/XXXVI/399-A/399-A-16.htm",
-          "note": "Small loans are capped at 36% APR and payday loans are not issued, though vehicle title loans are licensed separately at higher rates."
+          "source": "https://gc.nh.gov/rsa/html/XXXVI/399-A/399-A-16.htm",
+          "note": "For small loans other than payday or title loans, the statutory APR cap is 36%. Its formula excludes one application fee and one participation or membership fee per borrower per year, each up to $100. The separate payday-loan section also sets a 36% APR cap; this term reflects only the small-loan rule in §399-A:16(I).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "licensed-small-loan-lender",
+                "productClass": "small-loan-excluding-payday-and-title",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
+              }
+            }
+          ]
         },
         "US-NJ": {
           "answer": "yes",
@@ -13443,9 +14377,10 @@
           "note": "Payday loans are not made, and consumer discount loans are limited to discount interest and small fees (NCLC: 27% maximum on a $500 six-month loan)."
         },
         "US-PR": {
-          "answer": "yes",
-          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
-          "note": "Tried: Ley 4-1985 (bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/4-1985.pdf) lets the Junta Financiera set maximum rates or leave them to free competition and names no cap itself; Ley 106-1965 (bvirtualogp.pr.gov) was tried, and ocif.pr.gov/interes-aplicable and /leyes-reglamentos-y-cartas-circulares list no current Junta Financiera rate regulation."
+          "answer": "no",
+          "cite": "Puerto Rico OCIF Regulation 5782, arts. 2-4, 7, 11, 17; OCIF 2024 Regulations-in-Force Inventory",
+          "source": "https://docs.pr.gov/files/OCIF/LEYES-REGLAMENTOS-CARTAS-CIRCULARES/Reglamentos/Regl.%205782%20Tasas%20Inter%C3%A9s%20Pr%C3%A9stamos%20Personales%20Peque%C3%B1os.pdf",
+          "note": "For cash advances of $5,000 or less to natural persons under Law 106-1965, repaid in substantially equal monthly installments, Regulation 5782 article 4 fixes no maximum annual interest rate and allows rates set by free competition; article 17 repeals the former maximum-rate rule. Separately regulated banks, credit unions, pawnshops, and bona fide credit sales are excluded. The 2024 OCIF inventory lists the regulation as in force; this finding does not establish that every consumer credit product has no separate limit."
         },
         "US-RI": {
           "answer": "no",
@@ -13465,9 +14400,25 @@
           "answer": "yes",
           "operativeAt": "2016-11-16",
           "preempts": true,
-          "cite": "S.D. Codified Laws § 54-4-44",
+          "cite": "S.D. Codified Laws §§ 54-4-44 through 54-4-44.4",
           "source": "https://sdlegislature.gov/api/Statutes/54-4-44.html?all=true",
-          "note": "Voter-approved Initiated Measure 21 caps every licensed lender's loans at 36% a year including all fees and add-on products; loans above the cap are void."
+          "note": "The 36% annual finance-charge cap applies to lenders licensed under chapter 54-4. It includes ancillary products and services and charges incident to credit; statutory exceptions include late/check/attorney fees, certain vehicle-purchase loan fees, and qualifying business lending.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "licensed-small-loan-lender",
+                "productClass": "small-loan-excluding-payday-and-title",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
+              }
+            }
+          ]
         },
         "US-TN": {
           "answer": "no",
@@ -17657,8 +18608,36 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Iowa Code § 257.11B",
-          "source": "https://www.edchoice.org/school-choice/programs/education-savings-account-program/",
-          "note": "Universal education savings accounts (Students First) since 2023, plus a tax-credit scholarship."
+          "source": "https://www.legis.iowa.gov/docs/code/257.11B.pdf",
+          "note": "Students First ESA: $7,988 (798800 USD minor units) per approved pupil for the 2025-26 school budget year, July 1, 2025 through June 30, 2026; not a monthly or calendar-year payment. Eligible pupils are Iowa residents in K-12 attending an accredited nonpublic school located in Iowa full-time, regardless of family income; an approved application is required each school year. The existing tax-credit scholarship answer is preserved; this award term describes Students First only.",
+          "operativeAt": "2025-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "quote": "257.11B(2)(a)(3): For school budget years beginning on or after July 1, 2025, resident pupils eligible to enroll in kindergarten through grade twelve who attend a nonpublic school are eligible. 257.11B(4): Each payment equals the regular program state cost per pupil for the same school budget year.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 798800,
+              "unit": "minor"
+            }
+          ],
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "preempts": true,
+              "operativeAt": "2026-07-01",
+              "source": "https://www.legis.iowa.gov/docs/code/257.11B.pdf",
+              "note": "Annual applications and a same-school-budget-year award are required. The 2025-26 amount is not carried into a later school year."
+            }
+          ],
+          "awardSource": "https://drive.google.com/uc?id=1jRZY13wU6vWnWw5s4ZbEHN0n5B714v9K&export=download",
+          "awardSourceField": "Iowa Department of Management, Aid and Levy, Tax Certification, and Program Summary FY2026: Aid&Levy F214/G214 labels L729 FY26 Regular Program State Cost Per Pupil; Data_AidAndLevy GN1=L729, GN2=7988 (also GN3/GN4=7988). Linked by https://dom.iowa.gov/local-government/school-resources.",
+          "eligibilitySource": "https://educate.iowa.gov/press-release/2025-04-15/iowa-department-education-announces-opening-2025-26-students-first-education-savings-account",
+          "eligibilitySourceDate": "2025-04-15"
         },
         "US-ID": {
           "answer": "yes",
@@ -18007,7 +18986,15 @@
           "preempts": true,
           "cite": "Fla. Stat. § 501.1736 (ch. 2024-42, HB 3)",
           "source": "https://www.flsenate.gov/Laws/Statutes/2025/501.1736",
-          "note": "The law bars accounts for children under 14 and requires parental consent for ages 14 and 15; a federal judge enjoined it on 6/3/2025, but the Eleventh Circuit stayed that injunction on 11/25/2025, so it was enforceable on 1/1/2026 (the statute text does not itself spell out an age-verification method)."
+          "note": "The law bars accounts for children under 14 and requires parental consent for ages 14 and 15; a federal judge enjoined it on 6/3/2025, but the Eleventh Circuit stayed that injunction on 11/25/2025, so it was enforceable on 1/1/2026 (the statute text does not itself spell out an age-verification method).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "key": "minimum-age",
+              "value": 14,
+              "unit": "years"
+            }
+          ]
         },
         "US-GA": {
           "answer": "no",
@@ -19133,7 +20120,7 @@
           "preempts": false,
           "cite": "Colo. Rev. Stat. § 29-20-104 (as amended by HB21-1117)",
           "source": "https://leg.colorado.gov/bills/hb21-1117",
-          "note": "HB21-1117 confirmed local authority to require new affordable units, exempting such rules from the rent-control ban if they offer alternatives to on-site units; before then rental inclusionary rules were preempted."
+          "note": "HB21-1117 confirmed local governments' power to require new affordable units, exempting such rules from the rent-control ban if they offer alternatives to on-site units; before then rental inclusionary rules were preempted."
         },
         "US-CT": {
           "answer": "no",
@@ -20039,9 +21026,22 @@
         "US-ME": {
           "answer": "yes",
           "preempts": true,
-          "cite": "20-A M.R.S. § 13407",
+          "operativeAt": "2022-07-01",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "cite": "20-A M.R.S. § 13407(3)",
           "source": "https://legislature.maine.gov/statutes/20-A/title20-Asec13407.html",
-          "note": "$40,000 minimum salary for certified teachers since the 2022-23 school year."
+          "note": "$40,000 minimum salary for certified teachers and career and technical education teachers for the school year starting after June 30, 2022, and each subsequent school year, in force on 1/1/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-MI": {
           "answer": "no",

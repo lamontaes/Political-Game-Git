@@ -14,6 +14,8 @@ import {
   eligibleBackdropRow,
   isHomePlace,
   rolePlaceCandidates,
+  pictureForChosenState,
+  pictureForChosenTown,
   rotationForSave,
   type BackdropManifestRow,
 } from "./title-civic-rotation";
@@ -300,5 +302,37 @@ describe("the saved character in front of their place", () => {
         "city-hall-exterior",
       ),
     ).toBeNull();
+  });
+});
+
+describe("OW-4: the creator's backdrop follows the chosen state", () => {
+  const capitols = PICTURES.filter((picture) =>
+    /^state-capitol-[a-z]{2}$/.test(picture.place),
+  );
+
+  it("paints the chosen state's own capitol, never the White House", () => {
+    expect(capitols.length).toBeGreaterThan(0);
+    // A place drawn from every capitol the build paints, named in the message.
+    const index = Math.floor(Math.random() * capitols.length);
+    const capitol = capitols[index]!;
+    const usps = capitol.place.slice(-2).toUpperCase();
+    const chosen = pictureForChosenState(PICTURES, usps);
+    expect(chosen?.place, `state ${usps}`).toBe(capitol.place);
+    expect(chosen?.kind).not.toBe("white-house");
+  });
+
+  it("returns nothing for a state the build has no capitol for", () => {
+    expect(pictureForChosenState(PICTURES, "ZZ")).toBeNull();
+  });
+});
+
+describe("OW-4/OW-19: once a town is chosen, its city hall leads", () => {
+  const url = (place: string) => `/art/backdrops/${place}.png`;
+
+  it("takes city hall only where staged and painted, never the main street", () => {
+    const both = new Set(["main-street", "city-hall-exterior"]);
+    expect(pictureForChosenTown(both, url)?.place).toBe("city-hall-exterior");
+    expect(pictureForChosenTown(new Set(["main-street"]), url)).toBeNull();
+    expect(pictureForChosenTown(new Set(), url)).toBeNull();
   });
 });

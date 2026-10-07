@@ -1,4 +1,3 @@
-import { projectLivesRecord } from "../presentation/lives-record";
 import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
   dollars,
@@ -25,11 +24,6 @@ import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
-import { PrivateJournalEditor } from "./PrivateJournalEditor";
-import type {
-  PrivateJournal,
-  ShellSection,
-} from "../presentation/shell-navigation";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
@@ -48,14 +42,9 @@ import {
   type CalendarEntry,
   type CalendarHorizon,
 } from "../presentation/player-calendar";
-import { projectLifeRecord } from "../presentation/life-record";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
-import { projectOpeningLife } from "../presentation/opening-life";
 import { projectPersonalRecord } from "../presentation/personal-record";
-import {
-  CANONICAL_VERSION,
-  PATCH_NOTE_SECTIONS,
-} from "../presentation/release-identity";
+import { PATCH_NOTE_SECTIONS } from "../presentation/release-identity";
 import type {
   PinSize,
   PeopleView,
@@ -73,6 +62,7 @@ import { pathForRelationship } from "../simulation/life-paths2";
 import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
+import { HeardOfficialViewsList } from "./HeardOfficialViewsList";
 import {
   authorizeCalendarSimulation,
   declineCalendarActivity,
@@ -113,7 +103,6 @@ import {
   workItemOccasionHasPassed,
   workPendingEntriesFor,
   type EntityId,
-  type MoneyAmount,
   type World,
 } from "../simulation";
 
@@ -311,7 +300,7 @@ export function WorkspaceFrame({
   return (
     <section
       ref={frame}
-      className="pg-workspace civic-glass"
+      className="pg-workspace pg-glass-panel"
       data-closing={closing || undefined}
       style={
         shown
@@ -390,7 +379,7 @@ export function WorkspaceFrame({
             data-testid={`${testid}-close`}
             onClick={close}
           >
-            <span aria-hidden="true">✕</span>
+            <span aria-hidden="true">×</span>
           </button>
         </div>
       </header>
@@ -472,6 +461,20 @@ export function PeopleWorkspace({
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
 }) {
+  const searchRef = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const blurOutsideSearch = (event: PointerEvent) => {
+      const search = searchRef.current;
+      if (!search?.open || search.contains(event.target as Node)) return;
+      const input = search.querySelector("input");
+      input?.blur();
+      if (!input?.value.trim()) search.open = false;
+    };
+    document.addEventListener("pointerdown", blurOutsideSearch, true);
+    return () => {
+      document.removeEventListener("pointerdown", blurOutsideSearch, true);
+    };
+  }, []);
   const directory = useMemo(
     () => projectPeopleDirectory(world, personId),
     [world, personId],
@@ -508,17 +511,78 @@ export function PeopleWorkspace({
   return (
     <>
       <div className="pg-people-controls">
-        <label className="pg-field">
-          <span>Find somebody</span>
-          <input
-            type="search"
-            value={state.peopleQuery}
-            data-testid="people-search"
-            onChange={(event) =>
-              dispatch({ type: "set-people-query", query: event.target.value })
+        <details
+          ref={searchRef}
+          className="pg-people-search"
+          onBlur={(event) => {
+            if (
+              !event.currentTarget.contains(event.relatedTarget) &&
+              !event.currentTarget.querySelector("input")?.value.trim()
+            ) {
+              event.currentTarget.open = false;
             }
-          />
-        </label>
+          }}
+          onToggle={(event) => {
+            if (event.currentTarget.open) {
+              event.currentTarget.querySelector("input")?.focus();
+            }
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Escape" && event.currentTarget.open) {
+              event.stopPropagation();
+              event.currentTarget.open = false;
+              event.currentTarget.querySelector("summary")?.focus();
+            }
+          }}
+        >
+          <summary>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="10" cy="10" r="6" />
+              <path d="M 14.5 14.5 L 21 21" />
+            </svg>
+            Find somebody
+          </summary>
+          <div className="pg-field pg-people-search-entry">
+            <input
+              type="search"
+              aria-label="Find somebody"
+              value={state.peopleQuery}
+              data-testid="people-search"
+              onChange={(event) =>
+                dispatch({
+                  type: "set-people-query",
+                  query: event.target.value,
+                })
+              }
+            />
+            {state.peopleQuery ? (
+              <button
+                type="button"
+                className="pg-search-icon"
+                aria-label="Clear search"
+                onClick={() => {
+                  dispatch({ type: "set-people-query", query: "" });
+                  searchRef.current?.querySelector("input")?.focus();
+                }}
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className="pg-search-icon"
+              aria-label="Return to people"
+              onClick={() => {
+                if (searchRef.current) {
+                  searchRef.current.open = false;
+                  searchRef.current.querySelector("summary")?.focus();
+                }
+              }}
+            >
+              <span aria-hidden="true">↵</span>
+            </button>
+          </div>
+        </details>
         <div
           className="pg-people-web-toolbar"
           role="group"
@@ -593,10 +657,13 @@ export function PeopleWorkspace({
         </>
       ) : null}
 
+      <HeardOfficialViewsList
+        views={directory.heardViews}
+        onSelectPerson={selectPerson}
+      />
+
       {shown.length === 0 ? (
-        <p className="game-note" data-testid="people-empty">
-          Nobody here matches that. This life may simply not have met them yet.
-        </p>
+        <p className="game-note" data-testid="people-empty" />
       ) : (
         <ul
           className="pg-people-list"
@@ -719,7 +786,8 @@ function CalendarEntryRow({
         <span className="pg-calendar-copy">
           <strong>{entry.title}</strong>
           <small>
-            {calendarKindLabel(entry.kind)} · {entry.ownershipNote}
+            {calendarKindLabel(entry.kind)}
+            {entry.group === "chamber" ? " · Chamber agenda" : ""}
           </small>
         </span>
       </button>
@@ -966,10 +1034,12 @@ export function CalendarWorkspaceSurface({
               {outcome}
             </p>
           ) : null}
-          {calendar.note ? (
-            <p className="game-note" data-testid="calendar-note">
-              {calendar.note}
-            </p>
+          {calendar.empty || calendar.chamberOnly ? (
+            <p
+              className="game-note"
+              data-testid="calendar-note"
+              data-problem={calendar.empty ? "calendar-empty" : "chamber-only"}
+            />
           ) : null}
           <div data-testid="calendar-upcoming">
             <h3 className="pg-calendar-heading">
@@ -989,7 +1059,7 @@ export function CalendarWorkspaceSurface({
             {liveDays.filter(
               (day) => !selectedDate || day.date === selectedDate,
             ).length === 0 ? (
-              <p className="game-note">Nothing upcoming or ongoing.</p>
+              <p className="game-note" data-problem="nothing-upcoming" />
             ) : (
               renderDays(
                 liveDays.filter(
@@ -1005,9 +1075,7 @@ export function CalendarWorkspaceSurface({
       {tab === "history" ? (
         <div data-testid="calendar-history">
           {historyDays.length === 0 ? (
-            <p className="game-note">
-              Nothing has happened on this calendar yet.
-            </p>
+            <p className="game-note" data-problem="nothing-happened" />
           ) : (
             renderDays(historyDays, "history")
           )}
@@ -1016,11 +1084,7 @@ export function CalendarWorkspaceSurface({
 
       {tab === "interruptions" ? (
         <div className="pg-interruptions" data-testid="calendar-interruptions">
-          <p className="game-note">
-            What a day or week skip stops for. Reading or changing this moves no
-            time. A preference here never spends money, casts a vote or commits
-            you to anything; it only decides where a skip pauses.
-          </p>
+          <p className="game-note" data-note="skip-stops" />
           <InterruptionChecklist
             interruptions={interruptions}
             onChange={onInterruptionChange}
@@ -1062,18 +1126,28 @@ function CalendarEntryDetail({
       <dt>What</dt>
       <dd>
         {entry.title} · {entry.kindLabel}
-        {entry.summary ? <span> {entry.summary}</span> : null}
       </dd>
-      <dt>How it was arranged</dt>
-      <dd data-testid="calendar-event-arrangement">
-        {entry.arrangementNote ? `${entry.arrangementNote} ` : ""}
-        {entry.ownershipNote}
+      <dt>On</dt>
+      <dd data-testid="calendar-event-arrangement" data-group={entry.group}>
+        {entry.group === "chamber" ? "Chamber agenda" : "Your calendar"}
       </dd>
+      {entry.inCharge ? (
+        <>
+          <dt>In charge</dt>
+          <dd data-testid="calendar-event-in-charge">{entry.inCharge}</dd>
+        </>
+      ) : null}
+      {entry.cameThrough.length > 0 ? (
+        <>
+          <dt>Through</dt>
+          <dd data-testid="calendar-event-through">
+            {entry.cameThrough.join(", ")}
+          </dd>
+        </>
+      ) : null}
       <dt>Who is going</dt>
       <dd data-testid="calendar-event-attendees">
-        {entry.attendeeNames.length > 0
-          ? entry.attendeeNames.join(", ")
-          : "Nobody is listed yet."}
+        {entry.attendeeNames.length > 0 ? entry.attendeeNames.join(", ") : null}
       </dd>
       <dt>Where</dt>
       <dd>{entry.locationLabel}</dd>
@@ -1161,8 +1235,8 @@ function CalendarEventActions({
       ? venue.refusal
       : venue?.journey
         ? venue.journey.alreadyCompleted
-          ? `The journey to ${selected.locationLabel} is complete. Attend begins here.`
-          : `Includes the trip to ${selected.locationLabel}, ${describeInterval(venue.journey.journeyMinutes)}. ${venue.journey.costDisclosure}`
+          ? null
+          : `${selected.locationLabel}, ${describeInterval(venue.journey.journeyMinutes)}`
         : null;
   const busy = runner.pending || undefined;
   const meetingScene = projectOrdinaryMeetingScene(world, personId);
@@ -1223,8 +1297,7 @@ function CalendarEventActions({
             );
             onApplyNow({
               world: planned,
-              outcome:
-                "You plan to attend the posted public meeting. Day or Week will take the scheduled trip when it is time to leave.",
+              outcome: selected.title,
             });
           }}
         >
@@ -1235,7 +1308,7 @@ function CalendarEventActions({
           personId,
           selected.activityId,
         ) ? (
-        <p role="status">You plan to attend this meeting.</p>
+        <p role="status" data-planned="true" />
       ) : null}
       {skip ? (
         <button
@@ -1367,9 +1440,11 @@ export function CommitmentSurface({
   );
   if (!entry) {
     return (
-      <p className="game-note" data-testid="commitment-missing">
-        This world does not hold that commitment, or it is not yours to see.
-      </p>
+      <p
+        className="game-note"
+        data-testid="commitment-missing"
+        data-problem="commitment-not-held"
+      />
     );
   }
   return (
@@ -1379,21 +1454,33 @@ export function CommitmentSurface({
         {formatMinute(entry.start.minuteOfDay)} –{" "}
         {formatMinute(entry.end.minuteOfDay)}
       </p>
-      {entry.arrangementNote ? (
-        <p data-testid="commitment-arrangement">{entry.arrangementNote}</p>
-      ) : null}
       <p className="pg-kicker" data-testid="commitment-kind">
         {entry.kindLabel}
       </p>
-      <p data-testid="commitment-ownership">{entry.ownershipNote}</p>
-      <p>{entry.summary}</p>
-      <p className="game-note">Where: {entry.locationLabel}</p>
+      <dl data-testid="commitment-ownership" data-group={entry.group}>
+        {entry.inCharge ? (
+          <>
+            <dt>In charge</dt>
+            <dd data-testid="commitment-arrangement">{entry.inCharge}</dd>
+          </>
+        ) : null}
+        {entry.cameThrough.length > 0 ? (
+          <>
+            <dt>Through</dt>
+            <dd>{entry.cameThrough.join(", ")}</dd>
+          </>
+        ) : null}
+        <dt>Where</dt>
+        <dd>{entry.locationLabel}</dd>
+      </dl>
       {/* The player is not "with" themself: only the others are named. */}
       {entry.attendeeNames.filter((name) => name !== "You").length > 0 ? (
-        <p className="game-note" data-testid="commitment-participants">
-          With {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
-          .
-        </p>
+        <dl className="game-note" data-testid="commitment-participants">
+          <dt>With</dt>
+          <dd>
+            {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
+          </dd>
+        </dl>
       ) : null}
     </div>
   );
@@ -1430,9 +1517,11 @@ export function MeasureSurface({
 
   if (!briefing || !measure) {
     return (
-      <p className="game-note" data-testid="measure-missing">
-        This world does not hold that measure.
-      </p>
+      <p
+        className="game-note"
+        data-testid="measure-missing"
+        data-problem="no-such-measure"
+      />
     );
   }
 
@@ -1448,21 +1537,16 @@ export function MeasureSurface({
       <p className="game-band" data-testid="measure-chamber">
         {briefing.legislatureName}
       </p>
-      <p data-testid="measure-sponsor">
-        {briefing.sponsorName
-          ? `Filed by ${briefing.sponsorName}.`
-          : "No sponsor is on the record."}
+      <p
+        data-testid="measure-sponsor"
+        data-problem={briefing.sponsorName ? undefined : "no-sponsor"}
+      >
+        {briefing.sponsorName}
       </p>
-      <p data-testid="measure-your-role">
-        {yours
-          ? "You filed it."
-          : "You did not file it. Your part in it is whatever the chamber gives you."}
-      </p>
+      <p data-testid="measure-your-role" data-filed={yours ? "yes" : "no"} />
       <p>{briefing.summary}</p>
       {briefing.questions.length > 0 ? (
-        <p data-testid="measure-questions">
-          {`${briefing.questions.length === 1 ? "The question it bears on" : "The questions it bears on"}: ${briefing.questions.join(" ")}`}
-        </p>
+        <p data-testid="measure-questions">{briefing.questions.join(" ")}</p>
       ) : null}
       <p data-testid="measure-standing">{briefing.whereItStands}</p>
       {briefing.outcomeNote ? (
@@ -1558,49 +1642,19 @@ function BillPaperView({ paper }: { readonly paper: BillPaper }) {
 
 /* ---------------------------------------------------------------- personal */
 
-function formatMoney(amount: MoneyAmount): string {
-  return dollars(amount);
-}
+export { PersonalWorkspace } from "./PersonalRecordWorkspace";
 
-export function PersonalWorkspace({
+export function PersonalFinancesWorkspace({
   world,
   personId,
-  section,
-  onOpenPerson,
 }: {
   readonly world: World;
   readonly personId: EntityId;
-  /** Which half of this record the player asked for, when they said. */
-  readonly section?: ShellSection;
-  readonly onOpenPerson: (id: EntityId) => void;
 }) {
   const record = useMemo(
     () => projectPersonalRecord(world, personId),
     [world, personId],
   );
-  const intro = useMemo(
-    () => projectOpeningLife(world, personId),
-    [world, personId],
-  );
-  const history = useMemo(
-    () => projectLifeRecord(world, personId),
-    [world, personId],
-  );
-  const lives = useMemo(
-    () => projectLivesRecord(world, personId),
-    [world, personId],
-  );
-  const goals = world.history.goalStates.filter(
-    (goal) =>
-      goal.personId === personId &&
-      !world.history.goalStates.some(
-        (newer) => newer.supersedesGoalStateId === goal.id,
-      ),
-  );
-  if (!record) {
-    return <p className="game-note">This world has no record of you.</p>;
-  }
-
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
   const economicJurisdictionId = homeId ?? undefined;
@@ -1610,205 +1664,29 @@ export function PersonalWorkspace({
   const economicBinding = economicPlace
     ? economicContextBindingForPlace(economicPlace.key)
     : null;
-
-  /*
-   * "Money and property" asked for the money, so put the money in front of
-   * them. The section is focusable and moved into view when that is the
-   * destination they chose, and left alone when it is not — so the identity
-   * route still opens at the top, on the person, where it should.
-   */
-  const finances = useRef<HTMLElement>(null);
-  useEffect(() => {
-    if (section !== "finances") return;
-    const node = finances.current;
-    if (!node) return;
-    node.scrollIntoView({ block: "start", behavior: "auto" });
-    node.focus({ preventScroll: true });
-  }, [section]);
-
-  /*
-   * Who you are, then what you have, then the wider place.
-   *
-   * This record used to open on regional economic observations and a chart,
-   * with the player's own name and age below them. The owner asked "Who am I?"
-   * and got labor statistics, which is the wrong answer to that question no
-   * matter how good the statistics are. The context is kept — it is real,
-   * sourced and worth reading — but it belongs after the person, framed as
-   * being about the place rather than about them.
-   */
+  if (!record) return null;
   return (
     <>
-      <header className="pg-personal-identity">
-        <h3 data-testid="personal-name">{record.identity.name}</h3>
-        <p className="game-band" data-testid="personal-age">
-          {record.identity.age}
-          {record.identity.placeName ? ` · ${record.identity.placeName}` : ""}
-        </p>
-      </header>
-
-      <details className="pg-personal-section" data-testid="life-introduction">
-        <summary>Household and world notes</summary>
-        <p>{intro.context}</p>
-        {intro.household.sentences.map((text) => (
-          <p key={text}>{text}</p>
-        ))}
-        {intro.household.grounding.length > 0 ? (
-          <div data-testid="life-grounding">
-            {intro.household.grounding.map((fact) => (
-              <p key={fact.basis} data-grounding={fact.kind}>
-                {fact.text}
-              </p>
-            ))}
-          </div>
-        ) : null}
-      </details>
-
-      <section className="pg-personal-section">
-        <h3>Appearance</h3>
-        <button
-          type="button"
-          className="ui-action"
-          data-testid="personal-appearance"
-          onClick={() => onOpenPerson(personId)}
-        >
-          Appearance and wardrobe
-        </button>
-        <p className="game-note">Change only your own saved appearance.</p>
-      </section>
-
-      {record.household.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Household</h3>
-          <ul data-testid="personal-household">
-            {record.household.map((member) => (
-              <li key={member.personId}>
-                <button
-                  type="button"
-                  className="pg-inline-link"
-                  data-testid={`personal-household-${member.personId}`}
-                  onClick={() => onOpenPerson(member.personId)}
-                >
-                  {member.name}
-                </button>
-                {member.relationship ? `, ${member.relationship}` : ""}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {lives.upbringing.length > 0 ? (
-        <section className="pg-personal-section" aria-label="How you grew up">
-          <h3>How you grew up</h3>
-          <ul data-testid="personal-upbringing">
-            {lives.upbringing.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-          {lives.leanings.length > 0 ? (
-            <p data-testid="personal-leanings">
-              What it left you with: {lives.leanings.join(", ").toLowerCase()}.
-            </p>
-          ) : null}
-        </section>
-      ) : null}
-
-      {lives.around.length > 0 ? (
-        <section className="pg-personal-section" aria-label="Around you">
-          <h3>Around you this past year</h3>
-          <ul data-testid="personal-around">
-            {lives.around.map((line) => (
-              <li key={line.key} data-kind={line.kind}>
-                <time dateTime={line.at}>{proseDate(line.at)}</time> ·{" "}
-                {line.sentence}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {record.education.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Education</h3>
-          <ul data-testid="personal-education">
-            {record.education.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {record.work.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Work</h3>
-          <ul data-testid="personal-work">
-            {record.work.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      <section className="pg-personal-section" aria-label="Your history">
-        <h3>History</h3>
-        <div className="pg-personal-chronology">
-          {history.chapters.length ? (
-            history.chapters.map((chapter) => (
-              <section key={chapter.key}>
-                <h4>{chapter.heading}</h4>
-                {chapter.entries.map((entry) => (
-                  <p key={entry.key}>
-                    <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
-                    {entry.sentence}
-                  </p>
-                ))}
-              </section>
-            ))
-          ) : (
-            <p>No remembered milestones are recorded yet.</p>
-          )}
-        </div>
-      </section>
-      <section className="pg-personal-section" aria-label="Your goals">
-        <h3>Goals</h3>
-        {goals.length ? (
-          goals.map((goal) => <p key={goal.id}>{goal.objective}</p>)
-        ) : (
-          <p>No personal goals are recorded yet.</p>
-        )}
-      </section>
-
-      {/*
-        Three kinds of money, kept apart because the world keeps them apart.
-        A committee's treasury is the committee's; presenting it beside a
-        personal balance as one figure would be a false statement about who owns
-        what, and in the campaign case a legally false one.
-      */}
       <section
         className="pg-personal-section"
-        ref={finances}
         tabIndex={-1}
         aria-label="Money and property"
         data-testid="personal-finances"
-        data-landed={section === "finances" ? "true" : undefined}
       >
         <h3>Money and property</h3>
         <ul className="pg-purses" data-testid="personal-purses">
           {record.purses.map((purse) => (
             <li key={purse.kind} data-purse={purse.kind}>
               <strong>{purse.label}</strong>
-              <small>{purse.ownerNote}</small>
               {purse.balance ? (
                 <span data-testid={`purse-balance-${purse.kind}`}>
-                  {formatMoney(purse.balance)}
+                  {dollars(purse.balance)}
                 </span>
               ) : (
                 <span
                   className="game-note"
                   data-testid={`purse-absent-${purse.kind}`}
-                >
-                  {purse.absence}
-                </span>
+                />
               )}
             </li>
           ))}
@@ -1826,7 +1704,7 @@ export function PersonalWorkspace({
       >
         <h3>The place you live</h3>
         <p className="game-note">
-          {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
+          {economicPlace?.displayName ?? "Home jurisdiction on this life"} ·{" "}
           {proseDate(world.currentDate)}
         </p>
         {/*
@@ -1902,128 +1780,22 @@ export function WorkWorkspace({
   return (
     <>
       {pending.length === 0 ? (
-        <p className="game-note" data-testid="work-empty">
-          Nothing is waiting on you at the moment.
-        </p>
-      ) : (
+        <p
+          className="game-note"
+          data-testid="work-empty"
+          data-problem="nothing-waiting"
+        />
+      ) : needsYou.length > 0 ? (
         <section className="pg-personal-section">
           <h3>Waiting on you</h3>
-          {needsYou.length === 0 ? (
-            <p className="game-note">
-              Nothing needs a decision from you right now.
-            </p>
-          ) : (
-            <ul data-testid="work-pending">
-              {needsYou.map((entry) => (
-                <li key={entry.item.id}>{entry.item.title}</li>
-              ))}
-            </ul>
-          )}
+          <ul data-testid="work-pending">
+            {needsYou.map((entry) => (
+              <li key={entry.item.id}>{entry.item.title}</li>
+            ))}
+          </ul>
         </section>
-      )}
+      ) : null}
       {children}
-    </>
-  );
-}
-
-/* ----------------------------------------------------------------- journal */
-
-export function JournalWorkspace({
-  journal,
-  onJournalChange,
-  world,
-  personId,
-  onOpenPerson,
-}: {
-  readonly journal: PrivateJournal;
-  readonly onJournalChange: (journal: PrivateJournal) => void;
-  readonly world: World;
-  readonly personId: EntityId;
-  readonly onOpenPerson: (id: EntityId) => void;
-}) {
-  const record = useMemo(
-    () => projectLifeRecord(world, personId),
-    [world, personId],
-  );
-
-  return (
-    <>
-      <PrivateJournalEditor
-        journal={journal}
-        onChange={onJournalChange}
-        people={record.people}
-        events={record.chapters.flatMap((chapter) => chapter.entries)}
-        onOpenPerson={onOpenPerson}
-      />
-      <p className="game-note">{record.summary}</p>
-
-      <h3>What has happened</h3>
-      {record.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
-      ) : (
-        <ol data-testid="journal-entries">
-          {record.chapters.map((chapter) => (
-            <li key={chapter.key}>
-              <strong>{chapter.heading}</strong>
-              <ul>
-                {chapter.entries.map((entry) => (
-                  <li
-                    key={entry.key}
-                    id={`journal-entry-${encodeURIComponent(entry.key)}`}
-                  >
-                    {entry.sentence}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-      )}
-
-      {/*
-        People are linked by the id the record already carries. No name is
-        parsed out of a sentence to find a link: a reference exists because the
-        record established it, or it does not exist at all.
-      */}
-      {record.people.length > 0 ? (
-        <>
-          <h3>People</h3>
-          <ul data-testid="journal-people">
-            {record.people.map((person) => (
-              <li key={person.personId}>
-                <button
-                  type="button"
-                  className="pg-inline-link"
-                  data-testid={`journal-person-${person.personId}`}
-                  onClick={() => onOpenPerson(person.personId)}
-                >
-                  {person.name}
-                </button>
-                <span> {person.sentence.slice(person.name.length)}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : null}
-
-      {record.open.length > 0 ? (
-        <>
-          <h3>Still open</h3>
-          <ul data-testid="journal-open">
-            {record.open.map((entry) => (
-              <li
-                key={entry.key}
-                id={`journal-entry-${encodeURIComponent(entry.key)}`}
-              >
-                {entry.sentence}
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : null}
     </>
   );
 }
@@ -2050,9 +1822,6 @@ export function PatchNotesWorkspace() {
   const withheld = PATCH_NOTE_SECTIONS.length - released.length;
   return (
     <>
-      <p className="game-band" data-testid="patch-notes-version">
-        Version {CANONICAL_VERSION}
-      </p>
       {/*
         The build stamp is a revision, which is a fact about where this bundle
         came from rather than anything in the game. It stays readable on a
@@ -2082,7 +1851,7 @@ export function PatchNotesWorkspace() {
               ? `Version ${section.version}`
               : "Version not stated"}
             {" · "}
-            {section.releasedOn ?? "Release date not recorded"}
+            {section.releasedOn ?? "This note does not include a release date"}
           </p>
           {section.paragraphs.map((paragraph, index) => (
             <p key={`${section.id}-${index}`}>{paragraph}</p>
@@ -2126,7 +1895,6 @@ export function OptionsWorkspace({
       </section>
       <section className="pg-personal-section">
         <h3>People</h3>
-        <p className="game-note">How the People screen opens.</p>
         <div role="group" aria-label="People default view">
           {(
             [
@@ -2151,7 +1919,6 @@ export function OptionsWorkspace({
 
       <section className="pg-personal-section">
         <h3>Pins</h3>
-        <p className="game-note">The size a new pin is created at.</p>
         <div role="group" aria-label="Default pin size">
           {(
             [
@@ -2174,43 +1941,9 @@ export function OptionsWorkspace({
         </div>
       </section>
 
-      <section className="pg-personal-section">
-        <h3>Daily notes</h3>
-        <p className="game-note">
-          A morning note reads your current plans and decisions. You can turn it
-          off here; the day remains available in Calendar.
-        </p>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.preferences.morningThoughts}
-            data-testid="option-morning-thoughts"
-            onChange={(event) =>
-              dispatch({
-                type: "set-morning-thoughts",
-                enabled: event.currentTarget.checked,
-              })
-            }
-          />{" "}
-          Show morning note
-        </label>
-      </section>
-
-      <section className="pg-personal-section">
-        <h3>Motion</h3>
-        <p className="game-note">
-          Motion follows your system&rsquo;s reduced-motion setting, so nothing
-          here has to be switched on to make it stop.
-        </p>
-      </section>
-
       {onOpenPatchNotes ? (
         <section className="pg-personal-section">
           <h3>This build</h3>
-          <p className="game-note">
-            Version {CANONICAL_VERSION}. What changed is read from the build
-            itself.
-          </p>
           <button
             type="button"
             className="ui-action ui-action--subtle"

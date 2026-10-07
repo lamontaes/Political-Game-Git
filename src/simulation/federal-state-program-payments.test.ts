@@ -1,6 +1,6 @@
 import { programOperatorOrganization } from "./governing/program-governing";
 import { organizationProfileAt } from "./life-queries";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
   generateOpeningLife,
@@ -319,6 +319,13 @@ function withClaim(f: ReturnType<typeof fixture>, patch: object) {
     },
   };
 }
+
+// Every case shares the same canonical adopted authority. Build it in the
+// existing suite-setup lifecycle instead of charging only the first cash test.
+// The project hook limit and every case's 30-second limit stay unchanged.
+beforeAll(() => {
+  enacted();
+});
 
 describe("explicit saved federal state payment claims", () => {
   for (const [unit, amount] of [

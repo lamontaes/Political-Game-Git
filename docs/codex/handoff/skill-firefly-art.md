@@ -28,12 +28,14 @@ Record every run in cto-notes/TALLY.md.
 
 **Refs without uploading (Sept 28):** the repo is public, so the Firefly page can fetch any committed image at
 `https://raw.githubusercontent.com/lamontaes/Political-Game-Git/main/<path>` (CORS allowed). Use this for backdrops and pack art already on main. Local http servers are blocked by the page.
+
 - **Dropped items:** "no generate button" in `__genStatus.ok` means the item was lost. firefly-helpers.js now ends with a wrapper that retries Generate 4× at 20 s; inject it after the helpers.
 - **Solo repaints (overlapping figures):** edit the three-figure sheet to "erase the two on the left... ONE person only"; only about half succeed, so check each with `python3 cto-notes/firefly/poses/qa_solo.py <sex> <build> <original> <solo...>` (one figure inside that build's cutting window, same place), save passes as outfits/raw/<s>-<outfit>-<pose>@<build>.png, and register the build in cut_poses.py SOLO.
 - **Hard legs:** "redraw only the legs of the man on the right as an exact copy of the middle man's legs" fixed the fuller man's ankle-on-knee when describing the pose did not.
 
 ## Places library (Sept 28 night)
-- **Real landmarks from photos** (capitols, universities): `cto-notes/firefly/universities/fetch_landmarks.py` searches Wikimedia Commons per landmark (landmarks.tsv), keeps 3 photos with license; review the lm/ contact sheet by eye, then fetch a clean 1600px link per pick with a *fresh* API call each time (a reused failed response gave several schools the wrong photo). Queue with two refs: an existing painted place for **style only** (`college-quad__midday.jpg`; a capitol ref leaked a dome) and the photo.
+
+- **Real landmarks from photos** (capitols, universities): `cto-notes/firefly/universities/fetch_landmarks.py` searches Wikimedia Commons per landmark (landmarks.tsv), keeps 3 photos with license; review the lm/ contact sheet by eye, then fetch a clean 1600px link per pick with a _fresh_ API call each time (a reused failed response gave several schools the wrong photo). Queue with two refs: an existing painted place for **style only** (`college-quad__midday.jpg`; a capitol ref leaked a dome) and the photo.
 - **Generic places**: "Paint a new background scene... Use the reference only for its art style; the place itself is completely different...", blank signs/screens as live surfaces.
 - **Keep good mistakes** (Lamontae): a wrong-but-good picture becomes the place it really shows (Brown, Cornell, Montana State, Washington State) or a generic one with markings removed. Reject only real defects.
 - **Every kept place needs**: tags for every place it can serve (region, climate, kind, quality), and morning/night/rain/winter variants (edit of the midday: "keep everything, change only the light/weather"; warm places stay green in winter).

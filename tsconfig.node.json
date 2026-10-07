@@ -10,6 +10,7 @@
     "strict": true,
     "resolveJsonModule": true,
     "noEmit": true,
+    "jsx": "react-jsx",
     "types": ["node", "vite/client"]
   },
   "include": [
@@ -22,6 +23,7 @@
     "scripts/prose-corpus/**/*.ts",
     "scripts/prose-eval/**/*.ts",
     "scripts/release/**/*.ts",
+    "scripts/runtime-text/**/*.ts",
     "scripts/source/**/*.ts",
     "scripts/unwired-laws/**/*.ts",
     "src/authoring/**/*.ts",
@@ -39,6 +41,8 @@
     "src/simulation/**/*.ts",
     "src/source/**/*.ts",
     "tests/e2e/**/*.ts",
+    "tests/e2e/support/opening-preparation-fixture.tsx",
+    "src/player/LifeStartTransition.tsx",
     "tests/support/random-place.ts",
     "tests/support/recorded-civic-journalist.ts",
     "tests/fixtures/**/*.ts",

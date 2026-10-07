@@ -20,6 +20,7 @@ import { makeIsoDate } from "../dates";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import type { World, EntityId, ResourceFlowBasisKind } from "../types";
 import { PUBLIC_MONEY_ORIGIN_READER } from "./sources";
+import { createProductionWorldMetricCatalog } from "../production-catalog";
 
 const seed = "team4-a64-exact-income-20261002";
 const catalog = lifePlaceStateIdentities();
@@ -185,6 +186,24 @@ describe.each(places)("A64 recorded income in $jurisdictionKey", (place) => {
         through,
       )[0]!.intensity,
     ).toBe(0.1);
+  });
+  it(`preserves completed payments when the production catalog has no personal-income definition (seed ${seed})`, () => {
+    const f = fixture();
+    const world = {
+      ...f.world,
+      metricCatalog: createProductionWorldMetricCatalog(),
+    };
+    const before = serializeWorld(world);
+    expect(world.history.resourceTransferOutcomes.at(-1)?.status).toBe(
+      "completed",
+    );
+    expect(PUBLIC_MONEY_ORIGIN_READER.origins(world, through)).toEqual([]);
+    const loaded = deserializeWorld(before);
+    expect(PUBLIC_MONEY_ORIGIN_READER.origins(loaded, through)).toEqual([]);
+    expect(serializeWorld(world)).toBe(before);
+    expect(loaded.history.resourceTransferOutcomes).toEqual(
+      world.history.resourceTransferOutcomes,
+    );
   });
   it(`aggregates actual paid receipts by channel and retains small shares (seed ${seed})`, () => {
     const f = fixture(1);

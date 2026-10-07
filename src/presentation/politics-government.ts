@@ -9,6 +9,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "../simulation/life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
 import { governmentUnitsForPlace } from "../simulation/government-units";
 import { localGoverningBodyName } from "../simulation/nationwide-world/local-governing-body-names";
 import type { GovernmentUnitIdentity } from "../simulation/government-units";
@@ -1222,8 +1223,12 @@ export function issuesPlaceForSelection(
       note = `No state public finance record is kept for ${ref.label}; showing the place itself.`;
     }
   } else if (selection.scope === "federal") {
-    note =
-      "Federal public finances are not part of this game yet; showing the place selected in Government.";
+    if (world.jurisdictions[NATIONAL_ELECTION_JURISDICTION.id]) {
+      jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
+      label = `${prefix}: United States`;
+    } else {
+      note = "No federal public finance record is kept in this save.";
+    }
   }
   if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) {
     return {

@@ -1,3 +1,4 @@
+import { tagEngineText } from "./runtime-text-origin";
 import type { EntityId } from "../simulation/types";
 import type {
   RelationshipDimension,
@@ -296,10 +297,14 @@ export function composeGroundedLine(
     for (const id of conditionSources(chosen, context)) sourceRecordIds.add(id);
   }
 
+  const composed = sentenceStart(
+    parts.map((part) => part.text.trim()).join(" "),
+  );
+  tagEngineText(composed, { bank: bank.key });
   return {
     kind: "rendered",
     act: bank.act,
-    text: sentenceStart(parts.map((part) => part.text.trim()).join(" ")),
+    text: composed,
     parts,
     sourceRecordIds: [...sourceRecordIds],
   };

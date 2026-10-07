@@ -16,8 +16,10 @@ import {
   municipalGovernments,
 } from "../municipal-government";
 import {
-  assertPublicGovernmentIdentity,
+  canonicalPublicGovernmentAccountKey,
   publicGovernmentOrganizationKey,
+  canonicalSavedPublicGovernmentAccountKey,
+  assertPublicGovernmentIdentity,
 } from "../public-government-identity";
 import { ensureLocalGovernmentOrganization } from "../nationwide-world/local-governments";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
@@ -215,7 +217,12 @@ export function selectLocalOpeningAccount(
       identity,
       cutoff,
     );
-    if (!evidence || evidence.organizationId !== organization.id)
+    if (
+      !evidence ||
+      evidence.organizationId !== organization.id ||
+      canonicalSavedPublicGovernmentAccountKey(organization.stableKey) !==
+        canonicalPublicGovernmentAccountKey(identity)
+    )
       unsupportedSaved = true;
     else matches.push({ identity, sourceRecordIds: evidence.sourceRecordIds });
   }

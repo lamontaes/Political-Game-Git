@@ -58,7 +58,7 @@ export function compileCivilServiceLabor(
       coverage: {
         isCompleteUniverse: true,
         universeDescription:
-          "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial and unsupported facts remain UNKNOWN.",
+          "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial; a field without retrieved authority remains UNRESOLVED with its recorded reason and evidence.",
         boundedSampleReason: null,
       },
     },

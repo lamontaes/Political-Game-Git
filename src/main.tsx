@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { initializeRuntimeArt } from "./presentation/runtime-art";
 import { setDeepTransitionInputGuard } from "./simulation/future-transitions";
 import "./styles.css";
+import "./player/kit12.css";
 import "./player/player.css";
 import "./player/shell.css";
 import "./player/docket.css";
@@ -20,10 +21,12 @@ if (!rootElement) {
 }
 
 rootElement.textContent = "Loading your game…";
+rootElement.classList.add("pg-bootstrap");
 
 initializeRuntimeArt(import.meta.env.VITE_RUNTIME_CONTENT === "1")
   .then(async () => {
     const { App } = await import("./App");
+    rootElement.classList.remove("pg-bootstrap");
     createRoot(rootElement).render(
       <StrictMode>
         <App />
