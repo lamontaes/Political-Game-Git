@@ -210,7 +210,6 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
 export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:playful-manner",
   "personality-v1:truthfulness",
-  "personality-v1:facet-approval-seeking",
   "personality-v1:facet-smug",
   "personality-v1:facet-entitled",
   "personality-v1:facet-shy",
