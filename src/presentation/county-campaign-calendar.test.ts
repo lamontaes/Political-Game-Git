@@ -85,6 +85,11 @@ describe("county calendar reaches existing campaign readers", () => {
     ).toBe(
       campaignElectionDate(world, person.homeJurisdictionId, city.officeKey),
     );
+    expect(
+      projectCampaignOffices(world, person.id).find(
+        (o) => o.officeKey === city.officeKey,
+      )?.timing,
+    ).toMatch(/^Next election: .+ \(estimated\)$/);
     expect(serializeWorldPayload(world)).toEqual(before);
   });
 });
