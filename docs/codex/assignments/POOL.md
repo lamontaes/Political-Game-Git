@@ -551,7 +551,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
 | BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | open | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
-| BG-49 | State legislators are silently skipped | BUGS.md BG-49 | open | |
+| BG-49 | State legislators are silently skipped | BUGS.md BG-49 | unsupported: no sourced sitting trigger or nonsitting action contract | |
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | open | |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
