@@ -11,6 +11,8 @@ import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
 import { cancelFutureDueItem } from "../../src/simulation/future-transitions";
 import { juryCountyForPlace } from "../../src/simulation/justice/jury-catchment";
 import { ageOnDate } from "../../src/simulation/dates";
+import { currentLifeCutoff } from "../../src/simulation/life-queries";
+import { isPersonAliveAt } from "../../src/simulation/vitality";
 import { beginHealthEpisode } from "../../src/simulation/crisis/health";
 import {
   deserializeWorld,
@@ -74,7 +76,7 @@ function openCounty(seed: string) {
 }
 
 describe("a county's voted budget lines fund its services", () => {
-  it.each(["co5-budget-hearing-a", "co9-county-b"])(
+  it.each(["co5-budget-hearing-a", "co9-county-b", "co9-county-e"])(
     "funds clinics, roads and the fair from the voted year and reaches a named resident (seed %s)",
     (seed) => {
       const { county, place, world: opened } = openCounty(seed);
@@ -227,6 +229,7 @@ describe("a county's voted budget lines fund its services", () => {
             id !== (world.control as { personId?: string }).personId &&
             !!home &&
             juryCountyForPlace(home) === geoid &&
+            isPersonAliveAt(world, id as EntityId, currentLifeCutoff(world)) &&
             ageOnDate(
               world.people[id as never]!.birthDate,
               world.currentDate,
