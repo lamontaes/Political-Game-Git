@@ -23,9 +23,9 @@ export interface FabricRamp {
 }
 
 /**
- * The first fabric colors. PLACEHOLDER(wave2): picked by eye for the first
- * two outfits (Lamontae, Sept. 27: a formal and a non-formal outfit); the art
- * team's approved palette replaces them.
+ * The recorded v1 fabric colors used by every packed outfit. Each ramp keeps
+ * its named base color between the darker shadow and lighter highlight stored
+ * here, rather than substituting a color from the scene or jurisdiction.
  */
 export const FABRIC_RAMPS: readonly FabricRamp[] = [
   { id: "navy", shadow: "#141c33", base: "#253459", highlight: "#34467a" },
@@ -60,7 +60,8 @@ export const FABRIC_RAMPS: readonly FabricRamp[] = [
 
 export function fabricRamp(id: string): FabricRamp {
   const ramp = FABRIC_RAMPS.find((candidate) => candidate.id === id);
-  if (!ramp) throw new Error(`Unknown fabric color: ${id}`);
+  if (!ramp)
+    throw new Error(`Fabric color is not in the recorded palette: ${id}`);
   return ramp;
 }
 

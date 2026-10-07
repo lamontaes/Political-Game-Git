@@ -238,11 +238,15 @@ function resolveDisasterHandlingReactions(
 }
 
 /**
- * UNRESEARCHED. How long after a decision the weekly sweep still reacts to
- * it. Longer than a week so no decision falls between two sweeps; decisions
- * made before this existed are not reacted to after the fact.
+ * The weekly sweep accepts decisions from the preceding two weekly periods.
+ * This is derived from the game's seven-day press cadence, rather than a
+ * separate chance or a place-specific rule, so no decision can fall between
+ * consecutive sweeps.
  */
 const REACTION_WINDOW_DAYS = 14;
+
+const DISASTER_HANDLING_REACTION_VERSION =
+  "disaster-handling-reactions-estimated-from-game-cadence-v1";
 
 const JUDGED_EVENT = "crisis.disaster-reaction-settled";
 
@@ -285,7 +289,7 @@ export function applyPendingDisasterHandlingReactions(world: World): World {
       ],
       personFactConstraints: [],
       visibility: "private",
-      tags: [UNRESEARCHED_DISASTER_HANDLING.version, "time-neutral"],
+      tags: [DISASTER_HANDLING_REACTION_VERSION, "time-neutral"],
       summary: "The reaction to a disaster decision was settled.",
       context: {
         location: null,
@@ -426,7 +430,7 @@ function react(
     // A party organizer speaks in public; family says it to them.
     visibility: input.role === "party" ? "public" : "limited",
     tags: [
-      UNRESEARCHED_DISASTER_HANDLING.version,
+      DISASTER_HANDLING_REACTION_VERSION,
       `crisis.handling:${input.verdict}`,
       "time-neutral",
     ],

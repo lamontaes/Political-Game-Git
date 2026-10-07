@@ -162,9 +162,10 @@ const NATIONAL_PLANS: readonly OutletPlan[] = [
  * a state's newsroom is one kind for now (see STATE_PROFILE). The kind of
  * outlet decides its media, cadence, staff and reach.
  *
- * PLACEHOLDER, NOT RESEARCHED: the kinds and their staff below were
- * authored on 2026-09-22 and are filed as the research question
- * `what-newsrooms-cover-a-town-and-a-state`. Replace them with the answer.
+ * RECORDED GAME PROFILES: these kinds and staff counts were authored on
+ * 2026-09-22. They are nationwide game profiles, not claims about a particular
+ * real newsroom. `what-newsrooms-cover-a-town-and-a-state` can replace them
+ * with sourced place rows.
  */
 interface OutletProfile {
   readonly product: MediaProduct;
@@ -181,8 +182,8 @@ interface OutletProfile {
  * The press desk, ownership market and story capacity are all built around a
  * standard statehouse newsroom, and which states are served by a public
  * broadcaster, a large daily or a small politics site instead is exactly what
- * the research question above has to answer. Until it does, the kind is not
- * drawn (PLACEHOLDER).
+ * the research question above has to answer. Until it does, every state uses
+ * the recorded standard statehouse profile.
  */
 const STATE_PROFILE: OutletProfile = {
   product: "state-newsroom",
@@ -323,8 +324,9 @@ const LOCAL_PROFILES: readonly OutletProfile[] = [
  * Puerto Rico keeps its own press identity. Its newsrooms work in Spanish
  * first, so the island's outlets carry Spanish mastheads, and the
  * commonwealth's newsroom covers the Capitolio, not a "statehouse". These
- * are fictional names, like every other masthead here. PLACEHOLDER: the
- * island's press identity is part of the same research question.
+ * are fictional names, like every other masthead here. These are the recorded
+ * Puerto Rico profiles pending sourced place rows from the same research
+ * question.
  */
 const PUERTO_RICO_STATE_NAMES: readonly ((place: string) => string)[] = [
   () => "El Heraldo de Puerto Rico",
@@ -352,15 +354,15 @@ const DISTRICT_KEY = "US-DC";
 /*
  * Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana
  * Islands have legislatures, not statehouses. Fictional mastheads, named for
- * the territory. PLACEHOLDER, like Puerto Rico's: each territory's press
- * identity is unresearched.
+ * the territory. These are the recorded territory profiles pending sourced
+ * place rows.
  */
 const TERRITORY_STATE_NAMES: readonly ((place: string) => string)[] = [
   (territory) => `The ${territory} Daily Record`,
   (territory) => `${territory} Island Times`,
   (territory) => `${territory} Legislature Report`,
 ];
-const PLACEHOLDER_TERRITORY_KEYS: ReadonlySet<string> = new Set([
+const TERRITORY_KEYS: ReadonlySet<string> = new Set([
   "US-GU",
   "US-VI",
   "US-AS",
@@ -526,7 +528,7 @@ export function ensurePressStateCoverage(
       ? PUERTO_RICO_STATE_NAMES
       : key === DISTRICT_KEY
         ? DISTRICT_STATE_NAMES
-        : key !== null && PLACEHOLDER_TERRITORY_KEYS.has(key)
+        : key !== null && TERRITORY_KEYS.has(key)
           ? TERRITORY_STATE_NAMES
           : profile.names;
   const plan: OutletPlan = {

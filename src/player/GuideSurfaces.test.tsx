@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
@@ -128,5 +130,18 @@ describe("the Guide workspace", () => {
       />,
     );
     expect(markup).not.toMatch(/https?:\/\//);
+  });
+});
+
+describe("the guide screen carries no authored sentence", () => {
+  it("has no sentence literal in its file", () => {
+    const text = readFileSync(join(__dirname, "GuideWorkspace.tsx"), "utf8")
+      .split("\n")
+      .filter((line) => !/^\s*(\/\/|\*|\/\*)/.test(line))
+      .join("\n");
+    expect(text.match(/"[A-Z][^"]{25,}[.?!]"/g) ?? []).toEqual([]);
+    expect(
+      text.match(/^\s*[A-Z][a-z]+ [a-z ,'&;]{20,}[.?!]?$/gm) ?? [],
+    ).toEqual([]);
   });
 });
