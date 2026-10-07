@@ -36,7 +36,6 @@ test("UI36 non-Kentucky journey: quiet room, one card, conversation, News and re
     { place: "Aurora", state: "Colorado", age: 34 },
     false,
   );
-  await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await expect(page.getByTestId("scene-backdrop-plate")).toBeVisible();

@@ -29,7 +29,7 @@ export const PROPERTY_BASE_KEY = "tax-base:property-value";
 
 /** Whether a dwelling's place lies in the government's jurisdiction: the town
  * itself for a city, any place with a part in the county for a county. */
-function dwellingInGovernment(
+export function placeInGovernment(
   dwellingJurisdictionId: EntityId,
   governmentKey: string,
   governmentJurisdictionId: EntityId,
@@ -114,7 +114,7 @@ export function recordPropertyTaxBases(
     const payerId = payers.get(tenure.id) ?? residentPayer(householdId);
     if (
       !payerId ||
-      !dwellingInGovernment(
+      !placeInGovernment(
         dwelling.jurisdictionId,
         identity.governmentKey,
         identity.jurisdictionId,

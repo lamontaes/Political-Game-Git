@@ -14,6 +14,7 @@
     {
       "key": "winning-losing.carried.the-motion-was-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The motion was agreed to.",
       "timesRecorded": 62,
       "shippable": true,
@@ -27,6 +28,7 @@
     {
       "key": "winning-losing.carried.the-yeas-and-nays-were-ordered",
       "move": "carried",
+      "kind": "spoken",
       "text": "The yeas and nays were ordered.",
       "timesRecorded": 62,
       "shippable": true,
@@ -40,6 +42,7 @@
     {
       "key": "winning-losing.carried.the-bill-was-ordered-to-be-engrossed-and-read-a-third-time-and-was-read-the-third-time",
       "move": "carried",
+      "kind": "spoken",
       "text": "The bill was ordered to be engrossed and read a third time, and was read the third time.",
       "timesRecorded": 23,
       "shippable": true,
@@ -53,6 +56,7 @@
     {
       "key": "winning-losing.carried.the-motion-is-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The motion is agreed to.",
       "timesRecorded": 17,
       "shippable": true,
@@ -66,6 +70,7 @@
     {
       "key": "winning-losing.carried.a-recorded-vote-was-ordered",
       "move": "carried",
+      "kind": "spoken",
       "text": "A recorded vote was ordered.",
       "timesRecorded": 13,
       "shippable": true,
@@ -79,6 +84,7 @@
     {
       "key": "winning-losing.carried.the-amendment-was-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The amendment was agreed to.",
       "timesRecorded": 12,
       "shippable": true,
@@ -92,6 +98,7 @@
     {
       "key": "winning-losing.carried.the-resolution-was-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The resolution was agreed to.",
       "timesRecorded": 10,
       "shippable": true,
@@ -105,6 +112,7 @@
     {
       "key": "winning-losing.carried.the-yeas-and-nays-are-ordered",
       "move": "carried",
+      "kind": "spoken",
       "text": "The yeas and nays are ordered.",
       "timesRecorded": 8,
       "shippable": true,
@@ -118,6 +126,7 @@
     {
       "key": "winning-losing.carried.the-resolutions-were-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The resolutions were agreed to.",
       "timesRecorded": 6,
       "shippable": true,
@@ -131,6 +140,7 @@
     {
       "key": "winning-losing.carried.the-committee-reported-amendment-in-the-nature-of-a-substitute-was-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The committee-reported amendment, in the nature of a substitute, was agreed to.",
       "timesRecorded": 11,
       "shippable": true,
@@ -144,6 +154,7 @@
     {
       "key": "winning-losing.carried.the-joint-resolution-was-ordered-to-be-engrossed-for-a-third-reading-and-was-read-the-third-time",
       "move": "carried",
+      "kind": "spoken",
       "text": "The joint resolution was ordered to be engrossed for a third reading and was read the third time.",
       "timesRecorded": 5,
       "shippable": true,
@@ -157,6 +168,7 @@
     {
       "key": "winning-losing.carried.under-the-rule-the-previous-question-is-ordered",
       "move": "carried",
+      "kind": "spoken",
       "text": "Under the rule, the previous question is ordered.",
       "timesRecorded": 4,
       "shippable": true,
@@ -170,6 +182,7 @@
     {
       "key": "winning-losing.carried.the-amendments-were-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The amendments were agreed to.",
       "timesRecorded": 3,
       "shippable": true,
@@ -183,6 +196,7 @@
     {
       "key": "winning-losing.carried.the-previous-question-was-ordered",
       "move": "carried",
+      "kind": "spoken",
       "text": "The previous question was ordered.",
       "timesRecorded": 2,
       "shippable": true,
@@ -196,6 +210,7 @@
     {
       "key": "winning-losing.carried.without-objection-the-previous-question-is-ordered-on-the-resolution",
       "move": "carried",
+      "kind": "spoken",
       "text": "Without objection, the previous question is ordered on the resolution.",
       "timesRecorded": 2,
       "shippable": true,
@@ -209,6 +224,7 @@
     {
       "key": "winning-losing.carried.the-concurrent-resolution-was-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The concurrent resolution was agreed to.",
       "timesRecorded": 2,
       "shippable": true,
@@ -222,6 +238,7 @@
     {
       "key": "winning-losing.carried.the-joint-resolution-was-ordered-to-a-third-reading-and-was-read-the-third-time",
       "move": "carried",
+      "kind": "spoken",
       "text": "The joint resolution was ordered to a third reading and was read the third time.",
       "timesRecorded": 2,
       "shippable": true,
@@ -235,6 +252,7 @@
     {
       "key": "winning-losing.carried.the-joint-resolution-was-ordered-to-be-engrossed-for-a-third-reading-and-was-read-a-third-time",
       "move": "carried",
+      "kind": "spoken",
       "text": "The joint resolution was ordered to be engrossed for a third reading and was read a third time.",
       "timesRecorded": 1,
       "shippable": true,
@@ -248,6 +266,7 @@
     {
       "key": "winning-losing.carried.the-preamble-as-amended-was-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The preamble, as amended, was agreed to.",
       "timesRecorded": 1,
       "shippable": true,
@@ -261,6 +280,7 @@
     {
       "key": "winning-losing.carried.the-amendment-was-ordered-to-be-engrossed-and-the-bill-to-be-read-a-third-time",
       "move": "carried",
+      "kind": "spoken",
       "text": "The amendment was ordered to be engrossed and the bill to be read a third time.",
       "timesRecorded": 1,
       "shippable": true,
@@ -274,6 +294,7 @@
     {
       "key": "winning-losing.carried.the-bill-as-amended-is-passed",
       "move": "carried",
+      "kind": "spoken",
       "text": "The bill, as amended, is passed.",
       "timesRecorded": 1,
       "shippable": true,
@@ -287,6 +308,7 @@
     {
       "key": "winning-losing.carried.without-objection-the-previous-question-is-ordered",
       "move": "carried",
+      "kind": "spoken",
       "text": "Without objection, the previous question is ordered.",
       "timesRecorded": 1,
       "shippable": true,
@@ -300,6 +322,7 @@
     {
       "key": "winning-losing.carried.the-joint-resolution-was-ordered-to-be-read-a-third-time-and-was-read-the-third-time",
       "move": "carried",
+      "kind": "spoken",
       "text": "The joint resolution was ordered to be read a third time, and was read the third time.",
       "timesRecorded": 1,
       "shippable": true,
@@ -313,6 +336,7 @@
     {
       "key": "winning-losing.carried.on-this-vote-the-yeas-are-n-the-nays-are-n-and-the-motion-is-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "On this vote, the yeas are {n}, the nays are {n}, and the motion is agreed to.",
       "timesRecorded": 1,
       "shippable": true,
@@ -326,6 +350,7 @@
     {
       "key": "winning-losing.carried.the-committee-reported-amendment-was-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The committee-reported amendment was agreed to.",
       "timesRecorded": 1,
       "shippable": true,
@@ -339,6 +364,7 @@
     {
       "key": "winning-losing.carried.the-bill-was-ordered-to-be-engrossed-for-a-third-reading-and-was-read-the-third-time",
       "move": "carried",
+      "kind": "spoken",
       "text": "The bill was ordered to be engrossed for a third reading and was read the third time.",
       "timesRecorded": 1,
       "shippable": true,
@@ -352,6 +378,7 @@
     {
       "key": "winning-losing.carried.the-committee-reported-amendments-were-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The committee-reported amendments were agreed to.",
       "timesRecorded": 1,
       "shippable": true,
@@ -365,6 +392,7 @@
     {
       "key": "winning-losing.carried.the-bill-was-passed-as-follows",
       "move": "carried",
+      "kind": "spoken",
       "text": "The bill was passed, as follows:",
       "timesRecorded": 1,
       "shippable": true,
@@ -378,6 +406,7 @@
     {
       "key": "winning-losing.carried.the-bills-were-ordered-to-a-third-reading-and-were-read-the-third-time-en-bloc",
       "move": "carried",
+      "kind": "spoken",
       "text": "The bills were ordered to a third reading and were read the third time en bloc.",
       "timesRecorded": 1,
       "shippable": true,
@@ -391,6 +420,7 @@
     {
       "key": "winning-losing.carried.the-committee-reported-amendment-in-the-nature-of-a-substitute-as-amended-was-agreed-to",
       "move": "carried",
+      "kind": "spoken",
       "text": "The committee-reported amendment, in the nature of a substitute, as amended, was agreed to.",
       "timesRecorded": 1,
       "shippable": true,
@@ -404,6 +434,7 @@
     {
       "key": "winning-losing.count.on-this-vote-the-yeas-are-n-the-nays-are-n",
       "move": "count",
+      "kind": "spoken",
       "text": "On this vote, the yeas are {n}, the nays are {n}.",
       "timesRecorded": 26,
       "shippable": true,
@@ -417,6 +448,7 @@
     {
       "key": "winning-losing.count.the-yeas-are-n-the-nays-are-n",
       "move": "count",
+      "kind": "spoken",
       "text": "The yeas are {n}, the nays are {n}.",
       "timesRecorded": 2,
       "shippable": true,
@@ -430,6 +462,7 @@
     {
       "key": "winning-losing.count.on-this-vote-the-yeas-are-n-and-the-nays-are-n",
       "move": "count",
+      "kind": "spoken",
       "text": "On this vote, the yeas are {n}, and the nays are {n}.",
       "timesRecorded": 1,
       "shippable": true,
@@ -443,6 +476,7 @@
     {
       "key": "winning-losing.lost.the-motion-was-rejected",
       "move": "lost",
+      "kind": "spoken",
       "text": "The motion was rejected.",
       "timesRecorded": 6,
       "shippable": true,
@@ -456,6 +490,7 @@
     {
       "key": "winning-losing.lost.the-amendment-was-rejected",
       "move": "lost",
+      "kind": "spoken",
       "text": "The amendment was rejected.",
       "timesRecorded": 1,
       "shippable": true,
