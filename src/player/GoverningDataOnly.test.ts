@@ -7,6 +7,8 @@ const FILES = [
   "src/player/ExecutiveBudgetRequest.tsx",
   "src/player/OfficeStaffHiring.tsx",
   "src/player/ExecutiveBillResults.tsx",
+  "src/player/IncidentResponsePanel.tsx",
+  "src/player/ExecutiveWorkCard.tsx",
 ];
 
 /** Text between tags that reads as a sentence: a capital, 25+ characters, a stop. */
