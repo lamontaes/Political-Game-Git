@@ -5,10 +5,12 @@ import { createWorld, advanceWorld, assertWorldIntegrity } from "./world";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
   ARTICLE_V_STATE_KEYS,
+  constitutionalActions,
   constitutionalPosition,
   constitutionalProposalRuleAt,
   proposeConstitutionalMeasure,
   recordConstitutionalProposalVote,
+  recordConstitutionalProposalRollcalls,
   recordArticleVRatification,
   recordCaliforniaRatification,
   recordCarsonCharterEnactment,
@@ -140,6 +142,31 @@ function date(w: World, d: string) {
 }
 
 describe("S30-K constitutional process", () => {
+  it("records shared proposal rollcalls in order and stops after rejection", () => {
+    const world = proposal(setup("US"));
+    const measureId = id(world);
+    const next = recordConstitutionalProposalRollcalls(world, measureId, [
+      {
+        bodyKey: "house",
+        dispositions: votes(435, 200),
+        eligibleMembers: 435,
+        provenance: AUTHORED,
+      },
+      {
+        bodyKey: "senate",
+        dispositions: votes(100, 67),
+        eligibleMembers: 100,
+        provenance: AUTHORED,
+      },
+    ]);
+    expect(constitutionalPosition(next, measureId).phase).toBe("rejected");
+    expect(
+      constitutionalActions(next, measureId).flatMap((action) =>
+        action.detail.kind === "proposal-vote" ? [action.detail.bodyKey] : [],
+      ),
+    ).toEqual(["house"]);
+  });
+
   it("only writes the controlled person's position and does not infer a proposing seat", () => {
     const demo = createDemoWorld("constitutional-person-role-proof");
     const ca = setup();
