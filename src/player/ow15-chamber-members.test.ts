@@ -47,7 +47,9 @@ describe("chambers seat their members", { timeout: 300_000 }, () => {
         const chamber = view.steps
           .flatMap((step) => step.chambers)
           .find((candidate) => candidate.chamberKey === chamberKey);
-        const limit = backdropStaging(room)!.spots.length;
+        const limit = backdropStaging(room)!.spots.filter(
+          (spot) => (spot.role ?? "general") === "general",
+        ).length;
         const members = chamberFloorPeople(chamber, { homeUsps: usps, limit });
         expect(members.length, chamberKey).toBe(limit);
         const staged = openingTourStagedPeople(
@@ -55,12 +57,14 @@ describe("chambers seat their members", { timeout: 300_000 }, () => {
           playerPersonId,
           room,
           members,
-          { furniture: true },
+          { furniture: true, faceRoom: true },
         );
         console.info(
           `${place.displayName}, seed ${seed}, ${world.currentDate}: ${room} stages ${staged.length} of ${members.length} members (overflow ${staged.overflow.length})`,
         );
-        expect(staged.length, room).toBeGreaterThan(1);
+        // Every open-floor spot but at most one is filled; before OW-15 the
+        // floor held one standing figure.
+        expect(staged.length, room).toBeGreaterThanOrEqual(limit - 1);
       }
       const living = projectOpeningFamily(world, playerPersonId);
       const expected = [

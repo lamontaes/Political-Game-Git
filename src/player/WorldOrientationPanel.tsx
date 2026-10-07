@@ -384,7 +384,11 @@ export function WorldOrientationPanel({
     return chamberFloorPeople(chamber, {
       first: cast.map((actor) => actor.person),
       homeUsps: homeStateUsps,
-      limit: backdropStaging(backdrop.place)?.spots.length ?? 0,
+      // The open floor's spots; the dais and the chair wait for their roles.
+      limit:
+        backdropStaging(backdrop.place)?.spots.filter(
+          (spot) => (spot.role ?? "general") === "general",
+        ).length ?? 0,
     });
   }, [step?.key, steps, backdrop, cast, homeStateUsps]);
   const householdRoster = useMemo(
@@ -409,8 +413,14 @@ export function WorldOrientationPanel({
       measuredPlace && world && personId
         ? openingTourStagedPeople(world, personId, measuredPlace, sceneRoster, {
             // The family stands together in its home; offices seat people.
-            furniture: step?.key !== "parents",
-            faceRoom: step?.key === "parents",
+            furniture: step?.key !== "parents" && step?.key !== "your-life",
+            // Rooms with people the player should see face them: the family,
+            // the household, and the members on each chamber floor (OW-15).
+            faceRoom:
+              step?.key === "parents" ||
+              step?.key === "your-life" ||
+              step?.key === "year" ||
+              step?.key === "congress",
             memberIds: new Set(
               (chapter?.actors ?? [])
                 .filter(

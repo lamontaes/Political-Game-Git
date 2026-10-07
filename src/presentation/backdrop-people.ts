@@ -559,7 +559,8 @@ export function placeBackdropPeople(
       // clothes have no turned drawing.
       for (const [candidate, view] of [
         ...alternatives.map((at) => [at, spotView(at)] as const),
-        ...alternatives
+        // Their own spot first: it is already theirs, so it is not free.
+        ...[spot, ...alternatives]
           .filter((at) => options.faceRoom && spotView(at) !== "front")
           .map((at) => [at, "front" as const] as const),
       ]) {
