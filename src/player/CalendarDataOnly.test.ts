@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 const FILES = [
   "src/player/CalendarWorkspace.tsx",
   "src/player/UX39CalendarGrid.tsx",
+  "src/player/VenueActivityPanel.tsx",
 ];
 const JSX_SENTENCE = />\s*[A-Z][^<>{}]{25,}[.?!]\s*</;
 const STRING_SENTENCE = /["`][A-Z][^"`]{25,}[.?!]["`]/;
