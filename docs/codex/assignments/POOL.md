@@ -159,7 +159,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b15-p6 | Opposition research | b15-_.md part 6 | open (stale claim: S43) | S43 |
 | b15-p7 | Hearings as scenes | b15-_.md part 7 | open (stale claim: S43) | S43 |
 | b22-p1 | One office-scope reader | b22-_.md part 1 | claimed | S48 |
-| b22-p2 | Visibility table, data not code | b22-_.md part 2 | claimed | S48 |
+| b22-p2 | Visibility table, data not code | b22-_.md part 2 | done (#2385) | S48 |
 | b22-p3 | Coverage follows the player | b22-_.md part 3 | claimed | S48 |
 | b22-p4 | Big stories become national from their own records | b22-_.md part 4 | claimed | S48 |
 | b22-p5 | News screens show what reaches you | b22-_.md part 5 | claimed | S48 |
@@ -772,7 +772,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2501 | B07 P1: form official views from published vote stories | PR #2501 (session29-b07-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2503 | b30-p1: Add IPEDS college place identities | PR #2503 (codex/session54-b30-p1) | open: sent back: failed its own changed checks: tests | |
 | RS-2504 | LW-17: Add person-level justice law landings | PR #2504 (session31/lw17-person-landings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2509 | b22-p2: add office-scoped economy visibility | PR #2509 (session48/b22-p2-economy-visibility) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2509 | b22-p2: add office-scoped economy visibility | PR #2509 (session48/b22-p2-economy-visibility) | closed: superseded by current-main implementation (#2385) | |
 | RS-2511 | b22-p3: connect press coverage to player travel and office | PR #2511 (session48/b22-p3-press-coverage-hooks) | open: sent back: failed its own changed checks: tests; draft: finish it or close it as superseded | |
 | RS-2512 | b22-p4: tag government and court news scale | PR #2512 (session48/b22-p4-news-scale) | open: sent back: failed its own changed checks: prettier tests; draft: finish it or close it as superseded | |
 | RS-2513 | b27-p2: One shared household price table | PR #2513 (codex/session7-b27-p2) | open: draft: finish it or close it as superseded | |
