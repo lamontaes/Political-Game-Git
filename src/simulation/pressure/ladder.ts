@@ -27,8 +27,8 @@
  * state and quarter the ladder reads it, so the engine's rules evaluate the
  * same canonical value its records cite.
  *
- * Every number in `BLANKET_POLITICAL_VIOLENCE` is a placeholder, filed with
- * ChatGPT as `political-violence-what-builds-to-an-attack`. The ladder installs
+ * Every number in `POLITICAL_VIOLENCE_ESTIMATE` is ESTIMATED FROM AVERAGE,
+ * filed with ChatGPT as `political-violence-what-builds-to-an-attack`. The ladder installs
  * its metric and two incident definitions the first time a state's anger
  * crosses the line, so a world where nothing does is unchanged.
  */
@@ -71,9 +71,45 @@ import {
 import { homeStateKeyOf } from "./anger";
 import type { PressureReading } from "./contract";
 import { worldStates } from "./step";
+import { PROTEST_HELD, protests } from "../living-world/protests";
+import { recordsWithFieldValue } from "../history-index";
 
-/** BLANKET placeholders; see the file comment. None is researched. */
-export const BLANKET_POLITICAL_VIOLENCE = Object.freeze({
+/** Named local causes for a local ladder consumer. This does not convert
+ * turnout into state anger or change the statewide ladder's units. */
+export function localProtestCauses(world: World, jurisdictionId: EntityId) {
+  const plans = new Map(protests(world).map((plan) => [plan.stableKey, plan]));
+  return recordsWithFieldValue(world.history.events, "type", PROTEST_HELD)
+    .filter((event) => event.jurisdictionId === jurisdictionId)
+    .flatMap((event) => {
+      const key = event.tags
+        .find((tag) => tag.startsWith("protest:"))
+        ?.slice(8);
+      const plan = key ? plans.get(key) : undefined;
+      if (!plan) return [];
+      return [
+        {
+          causeKey: `protest:${plan.stableKey}`,
+          jurisdictionId,
+          sourceEventId: event.id,
+          propositionId: plan.propositionId,
+          stance: plan.stance,
+          attendeePersonIds: event.participants.map((row) => row.personId),
+          turnout: event.participants.length,
+        },
+      ];
+    });
+}
+
+/**
+ * ESTIMATED FROM AVERAGE; see the file comment. The anger index is a game
+ * scale from 0 to 1 that no published survey measures, so these sizes are
+ * estimates pending the research request, not a researched table.
+ */
+export const POLITICAL_VIOLENCE_ESTIMATE = Object.freeze({
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "game anger scale (0 to 1); sizes ordered by the hazard magnitude scale until `political-violence-what-builds-to-an-attack` is answered",
   /** Anger at or under this sets nothing off: how bad counts as bad. */
   angerLine: 0.3,
   /** Unrest is lasting once it has held through this many re-checks. */
@@ -143,7 +179,7 @@ function angerOverLine(metricId: EntityId): IncidentRule {
     metricId,
     reference: { kind: "at-evaluation" },
     comparison: "at-least",
-    threshold: angerValue(BLANKET_POLITICAL_VIOLENCE.angerLine + 0.0001),
+    threshold: angerValue(POLITICAL_VIOLENCE_ESTIMATE.angerLine + 0.0001),
     reasonKey: "pressure:anger-over-line",
   };
 }
@@ -288,7 +324,7 @@ function scopeOf(reading: PressureReading): MetricScope {
  * how long and how far anger stays over its line decides it.
  */
 export function threatAttemptLine(): number {
-  return BLANKET_POLITICAL_VIOLENCE.attemptLine;
+  return POLITICAL_VIOLENCE_ESTIMATE.attemptLine;
 }
 
 /**
@@ -310,7 +346,7 @@ export function threatStrain(
         sum +
         Math.max(
           0,
-          reading.levels.anger - BLANKET_POLITICAL_VIOLENCE.angerLine,
+          reading.levels.anger - POLITICAL_VIOLENCE_ESTIMATE.angerLine,
         ),
       0,
     );
@@ -334,7 +370,7 @@ export function stepPressureLadder(
   world: World,
   latest: readonly PressureReading[],
 ): World {
-  const policy = BLANKET_POLITICAL_VIOLENCE;
+  const policy = POLITICAL_VIOLENCE_ESTIMATE;
   const store = world.pressure;
   if (!store) return world;
   const unrestId = unrestIncidentDefinition().id;

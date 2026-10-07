@@ -1,3 +1,4 @@
+import { everydayText } from "./everyday-english";
 import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
 import {
   cancelScheduledActivity,
@@ -13,7 +14,6 @@ import { personName } from "../simulation/people";
 import { recordRelationshipInteraction } from "../simulation/records";
 import { CHOSEN_TAG } from "../simulation/scheduled-activity-answer";
 import { recordWorldEvent } from "../simulation/world";
-import { SOCIAL_INVITATION_REPLIES } from "./social-invitation-language";
 import { recordSpokenExchange } from "./spoken-exchange";
 import type {
   EntityId,
@@ -121,6 +121,14 @@ export function declineSocialInvitation(
   const activity = world.history.scheduledActivities.find(
     (entry) => entry.id === input.activityId,
   )!;
+  const statement = everydayText(
+    world,
+    input.personId,
+    "social-decline-reply",
+    [activity.id, invitation.invitationEventId],
+    {},
+    invitation.counterpartPersonId ?? input.personId,
+  );
   let next = recordWorldEvent(world, {
     stableKey: `social-invitation:decline:${input.activityId}`,
     type: "life.social-invitation-declined",
@@ -151,12 +159,12 @@ export function declineSocialInvitation(
       `invitation:${invitation.invitationEventId}`,
       `activity:${activity.id}`,
     ],
-    summary: SOCIAL_INVITATION_REPLIES.decline.statement,
+    summary: statement,
     context: {
       location: null,
       socialContext: null,
       pressure: null,
-      choice: SOCIAL_INVITATION_REPLIES.decline.statement,
+      choice: statement,
       motivation: null,
       immediateReaction: null,
     },
@@ -166,7 +174,7 @@ export function declineSocialInvitation(
     input.personId,
     invitation.counterpartPersonId,
     `social-invitation:decline:${input.activityId}`,
-    SOCIAL_INVITATION_REPLIES.decline.statement,
+    statement,
   );
   return cancelScheduledActivity(next, activity.id);
 }
@@ -247,7 +255,7 @@ export function bookSocialOccasionTrip(
   return createScheduledActivity(world, {
     stableKey,
     title: `Trip to ${label}`,
-    summary: "A short local trip. There is no fare.",
+    summary: everydayText(world, personId, "social-trip", [occasion.id]),
     kind: "travel",
     start:
       compareSimulationMoments(leaveAt, world.currentMoment) < 0
@@ -287,6 +295,14 @@ export function acceptSocialInvitation(
     (entry) => entry.id === input.activityId,
   )!;
   const asker = askerName(world, invitation);
+  const statement = everydayText(
+    world,
+    input.personId,
+    "social-accept-reply",
+    [activity.id, invitation.invitationEventId],
+    {},
+    invitation.counterpartPersonId ?? input.personId,
+  );
   let next = recordWorldEvent(world, {
     stableKey: `social-invitation:accept:${input.activityId}`,
     type: "life.social-invitation-accepted",
@@ -315,14 +331,25 @@ export function acceptSocialInvitation(
       `invitation:${invitation.invitationEventId}`,
       `activity:${activity.id}`,
     ],
-    summary: asker
-      ? `You told ${asker} you would come.`
-      : "You said you would come.",
+    summary: everydayText(
+      world,
+      input.personId,
+      asker ? "social-accept-known" : "social-accept",
+      [activity.id, invitation.invitationEventId],
+      asker
+        ? {
+            host: {
+              text: asker,
+              sourceRecordIds: [invitation.invitationEventId],
+            },
+          }
+        : {},
+    ),
     context: {
       location: null,
       socialContext: null,
       pressure: null,
-      choice: SOCIAL_INVITATION_REPLIES.accept.statement,
+      choice: statement,
       motivation: null,
       immediateReaction: null,
     },
@@ -332,7 +359,7 @@ export function acceptSocialInvitation(
     input.personId,
     invitation.counterpartPersonId,
     `social-invitation:accept:${input.activityId}`,
-    SOCIAL_INVITATION_REPLIES.accept.statement,
+    statement,
   );
   return confirmInvitation(next, input.personId, invitation);
 }
@@ -435,7 +462,12 @@ export function recordSocialOccasionAttendance(
     personFactConstraints: [],
     visibility: "private",
     tags: ["adult.weekend-invitation", `activity:${activity.id}`],
-    summary: `You spent the afternoon at ${personName(asker)}'s.`,
+    summary: everydayText(world, personId, "social-attended", [activity.id], {
+      host: {
+        text: personName(asker),
+        sourceRecordIds: [asker.id, activity.id],
+      },
+    }),
     context: {
       location: {
         jurisdictionId: activity.location.jurisdictionId,
@@ -457,7 +489,9 @@ export function recordSocialOccasionAttendance(
     kind: "contact:neighbourhood",
     change: "strengthened",
     significance: "minor",
-    summary: "Spent an afternoon together at home.",
+    summary: everydayText(next, personId, "social-time-together", [
+      next.history.events.at(-1)!.id,
+    ]),
     tags: ["adult.weekend-invitation"],
   });
 }

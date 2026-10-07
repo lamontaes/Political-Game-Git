@@ -1,7 +1,7 @@
 import { livesInJuryCatchment } from "./jury-catchment";
 import { ageOnDate } from "../dates";
 import { evaluateDecision } from "../decisions";
-import { lawInForce } from "../governing/law-in-force";
+import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { officesHeldBy } from "../governing/office-consequence";
 import {
   ensureOfficeholderPrinciples,
@@ -61,7 +61,17 @@ export const PRETRIAL_HOLD = "court:hold-before-trial" as const;
 /** Offenses with violence against a person. */
 const VIOLENT_OFFENSES = new Set(["crime:assault", "crime:robbery"]);
 /** Offenses that abuse a public office or a campaign's trust. */
-const PUBLIC_TRUST_OFFENSES = new Set(["campaign-funds-personal-use"]);
+const PUBLIC_TRUST_OFFENSES = new Set([
+  "campaign-funds-personal-use",
+  "honest-services-contract-steering",
+  "public-bribery",
+  "public-kickback",
+  "protected-job-patronage",
+  "public-funds-embezzlement",
+  "theft-of-public-money",
+  "extortion-under-color-of-official-right",
+  "unreported-official-gift",
+]);
 
 /** The case as every decider in it sees it. */
 export interface CourtCase {
@@ -255,10 +265,20 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
  * jury statute draws its panels by lot. The draw picks who sits; it decides
  * nothing any of them does.
  */
-/** Existing blanket panel target; jurisdiction-specific legal sizes are unread. */
-export const UNRESEARCHED_JURY_PANEL = {
+/**
+ * ESTIMATED FROM AVERAGE: the most common legal size of a felony jury. Twelve
+ * is the federal rule (Fed. R. Crim. P. 23(b)) and the rule in most states;
+ * the Constitution allows as few as six (Williams v. Florida, 399 U.S. 78
+ * (1970)) and forbids five (Ballew v. Georgia, 435 U.S. 223 (1978)), and a
+ * few states seat six or eight for some offenses. Each state's own size is
+ * not read yet, so every place starts from the common rule.
+ */
+export const JURY_PANEL_ESTIMATE = {
   size: 12,
-  provenance: "unresearched-existing-panel-size",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "Fed. R. Crim. P. 23(b) and the common state felony rule of twelve; floor of six from Williams v. Florida, 399 U.S. 78 (1970) and Ballew v. Georgia, 435 U.S. 223 (1978)",
 } as const;
 
 export function empanelJury(
@@ -272,7 +292,7 @@ export function empanelJury(
   );
   const drawn: EntityId[] = [];
   const remaining = [...pool];
-  while (drawn.length < UNRESEARCHED_JURY_PANEL.size && remaining.length > 0)
+  while (drawn.length < JURY_PANEL_ESTIMATE.size && remaining.length > 0)
     drawn.push(remaining.splice(rng.integer(0, remaining.length), 1)[0]!);
   return drawn;
 }
@@ -487,14 +507,17 @@ const MANDATORY_MINIMUM_QUESTION =
  * yes binds those cases and leaves every other case to the judge. The term's
  * length stays the court's usual one until each state's minimums are read.
  */
-export function mandatoryJailUnderLaw(
+export function mandatoryMinimumBindingAt(
   world: World,
   courtCase: CourtCase,
   floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
-): string | null {
+): { readonly text: string; readonly law: LawInForce } | null {
   if (floor)
     return floor.months > 0
-      ? `The law requires at least ${floor.months} months in custody for this offense.`
+      ? {
+          text: `The law requires at least ${floor.months} months in custody for this offense.`,
+          law: floor.law,
+        }
       : null;
   if (!courtCase.venueJurisdictionId) return null;
   const violent = VIOLENT_OFFENSES.has(courtCase.offenseKey);
@@ -504,9 +527,20 @@ export function mandatoryJailUnderLaw(
   if (!propositionId) return null;
   const law = lawInForce(world, courtCase.venueJurisdictionId, propositionId);
   if (law?.answer !== "yes") return null;
-  return violent
-    ? "The law here sets a jail term for a violent offense that a judge may not go below."
-    : "The law here sets a jail term for someone sentenced before that a judge may not go below.";
+  return {
+    law,
+    text: violent
+      ? "The law here sets a jail term for a violent offense that a judge may not go below."
+      : "The law here sets a jail term for someone sentenced before that a judge may not go below.",
+  };
+}
+
+export function mandatoryJailUnderLaw(
+  world: World,
+  courtCase: CourtCase,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
+): string | null {
+  return mandatoryMinimumBindingAt(world, courtCase, floor)?.text ?? null;
 }
 
 /** The judge's own view of fixed minimum sentences, when they hold one. */

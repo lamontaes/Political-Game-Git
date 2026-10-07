@@ -41,7 +41,7 @@ import {
   strainCrossingDay,
   OFFICIAL_FUNERAL_EVENT_TYPES,
   publicOfficesHeldBy,
-  UNRESEARCHED_OFFICIAL_FUNERAL,
+  ESTIMATED_OFFICIAL_FUNERAL,
 } from "./index";
 
 const REGISTRY = createCrisisTransitionRegistry();
@@ -371,6 +371,23 @@ describe("CRISIS K2 health, disclosure, recovery and death", () => {
         e.tags.includes("crisis.health"),
       );
       expect(events.map((e) => e.visibility)).toEqual(["private"]);
+      const patientKnowledge = ill.history.knowledge.filter(
+        (k) => k.personId === patient,
+      );
+      expect(patientKnowledge).toHaveLength(1);
+      expect(patientKnowledge[0]).toMatchObject({
+        eventId: episode.eventId,
+        learnedAt: world.currentDate,
+        believedSummary: events[0]!.summary,
+        accuracy: "accurate",
+        confidence: "high",
+        source: { kind: "direct" },
+      });
+      const reopened = deserializeWorld(serializeWorld(ill));
+      expect(reopened.history.knowledge).toEqual(ill.history.knowledge);
+      expect(reopened.currentDate).toBe(world.currentDate);
+      expect(reopened.id).toBe(world.id);
+      expect(() => assertWorldIntegrity(reopened)).not.toThrow();
       expect(
         crisisEnvelopesBetween(
           ill,
@@ -682,7 +699,7 @@ describe("CRISIS K3 continuity notices for GOVERNING", () => {
       expect(funeral).toBeDefined();
       expect(funeral.visibility).toBe("public");
       expect(funeral.occurredAt).toBe(
-        addDays(death.diedAt, UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral),
+        addDays(death.diedAt, ESTIMATED_OFFICIAL_FUNERAL.daysToFuneral),
       );
       expect(funeral.summary).toMatch(
         /^The funeral of .+, who died while serving as President of the United States, was held/,

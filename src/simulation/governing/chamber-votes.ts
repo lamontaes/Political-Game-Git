@@ -53,6 +53,9 @@ import { personName } from "../people";
 import { readRelationshipStanding } from "../relationship-standing";
 import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
+import { PEOPLE_MIND_VERSION } from "../people-trait-definitions";
+import { readTrait } from "../trait-readings";
+import { traitRegistryFor } from "../trait-registry";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -61,6 +64,7 @@ import type {
   IsoDate,
   LegislativeMemberDisposition,
   LegislativeVoteDisposition,
+  MindSourceReference,
   World,
 } from "../types";
 
@@ -191,6 +195,8 @@ const PUBLIC_PARTIES = new WeakMap<World, Map<EntityId, string | null>>();
 
 interface ChamberVoteCommonInput {
   readonly stableKey: string;
+  /** Actual vote writers may retain the evaluations; previews only read them. */
+  readonly onDecision?: (evaluation: DecisionEvaluation) => void;
   readonly members: readonly SeatedMember[];
   /**
    * Decide only these members (by member key). The whole chamber still names
@@ -201,6 +207,18 @@ interface ChamberVoteCommonInput {
   readonly playerPersonId?: EntityId | null;
   /** The player's own ballot, when they cast one. */
   readonly playerBallot?: LegislativeMemberDisposition | null;
+}
+
+/** The exact ephemeral evaluation used to produce one member's ballot. */
+export interface ChamberVoteMemberEvaluation {
+  readonly disposition: LegislativeVoteDisposition;
+  readonly evaluation: DecisionEvaluation | null;
+  readonly sourceRefs: readonly MindSourceReference[];
+}
+
+/** Optional evidence receiver for the domain roll-call writer. */
+export interface ChamberVoteOptions {
+  readonly onMemberEvaluation?: (row: ChamberVoteMemberEvaluation) => void;
 }
 
 export interface ChamberBillVoteInput extends ChamberVoteCommonInput {
@@ -799,7 +817,8 @@ function billVoteContext(
         input.nonpartisan ?? false,
         input.question.proceduralMotion === "table" ||
           input.question.proceduralMotion === "postpone" ||
-          input.question.proceduralMotion === "recommit",
+          input.question.proceduralMotion === "recommit" ||
+          input.question.proceduralMotion === "sine-die",
       );
       // A member's own view is worked out only when it is needed: when the
       // member decides, or when an undecided member who trusts them asks how
@@ -808,13 +827,17 @@ function billVoteContext(
       let views: readonly DecisionConsideration[] | undefined;
       const viewsOf = (): readonly DecisionConsideration[] =>
         (views ??= [
-          ...memberVoteConsiderations(world, {
-            stableKey: `${input.stableKey}:${member.memberKey}`,
+          ...weighRecordedPolicyBeliefs(
+            world,
             personId,
-            question: input.question,
-          }).filter(
-            (consideration) =>
-              consideration.stableKey !== "member:nothing-decisive",
+            memberVoteConsiderations(world, {
+              stableKey: `${input.stableKey}:${member.memberKey}`,
+              personId,
+              question: input.question,
+            }).filter(
+              (consideration) =>
+                consideration.stableKey !== "member:nothing-decisive",
+            ),
           ),
           // GAME ASSUMPTION (Build 25): a member's principles are what they are
           // known to stand for, so a colleague predicting the vote reads them;
@@ -853,6 +876,7 @@ function billVoteContext(
 export function decideChamberVote(
   world: World,
   input: ChamberVoteInput,
+  options: ChamberVoteOptions = {},
 ): readonly LegislativeVoteDisposition[] {
   const cutoff = currentHistoricalCutoff(world);
   const context =
@@ -906,9 +930,14 @@ export function decideChamberVote(
   // A member with a view of their own decides from it and the cues, decided
   // once and only when asked for: a named few (`only`) decide exactly as in a
   // full count without every other member's ballot being worked out.
-  const byView = new Map<SeatedMember, LegislativeVoteDisposition>();
+  const byView = new Map<SeatedMember, ChamberVoteMemberEvaluation>();
   const decideByView = (row: (typeof first)[number]) => {
-    if (row.settled) return row.settled;
+    if (row.settled)
+      return {
+        disposition: row.settled,
+        evaluation: null,
+        sourceRefs: [],
+      } satisfies ChamberVoteMemberEvaluation;
     if (!row.views || row.views.length === 0) return null;
     let settled = byView.get(row.member);
     if (!settled) {
@@ -952,31 +981,40 @@ export function decideChamberVote(
     if (row.member.personId === null || !colleagues.has(row.member.personId))
       continue;
     if (!hasViews(row)) continue;
-    const disposition = decideByView(row)?.disposition;
+    const disposition = decideByView(row)?.disposition.disposition;
     if (disposition === "yea" || disposition === "nay")
       decidedByView.set(row.member.personId, disposition);
   }
   return deciding.map((row) => {
     const settled = decideByView(row);
-    if (settled) return settled;
-    const personId = row.member.personId!;
-    return decideMember(row.member, [
-      ...(row.cues ?? []),
-      ...(committee ? [committee] : []),
-      ...trustedColleagueCues(trusted.get(personId), decidedByView),
-    ]);
+    const decision =
+      settled ??
+      (() => {
+        const personId = row.member.personId!;
+        return decideMember(row.member, [
+          ...(row.cues ?? []),
+          ...(committee ? [committee] : []),
+          ...trustedColleagueCues(trusted.get(personId), decidedByView),
+        ]);
+      })();
+    options.onMemberEvaluation?.(decision);
+    return decision.disposition;
   });
 
   function decideMember(
     member: SeatedMember,
     considerations: readonly DecisionConsideration[],
-  ): LegislativeVoteDisposition {
+  ): ChamberVoteMemberEvaluation {
     if (considerations.length === 0)
       return {
-        memberKey: member.memberKey,
-        personId: member.personId,
-        disposition: "present-not-voting",
-        reason: "member:no-reason",
+        disposition: {
+          memberKey: member.memberKey,
+          personId: member.personId,
+          disposition: "present-not-voting",
+          reason: "member:no-reason",
+        },
+        evaluation: null,
+        sourceRefs: [],
       };
     const { evaluation, disposition } = decideMemberVote(world, {
       stableKey: `${input.stableKey}:${member.memberKey}:decision`,
@@ -991,29 +1029,101 @@ export function decideChamberVote(
       randomness: "none",
       retention: "ephemeral",
     });
+    input.onDecision?.(evaluation);
     const selected = evaluation.selectedOptionKey ?? "withhold";
-    const decisive = considerations
+    const decisive = evaluation.context.considerations
       .filter((consideration) => consideration.optionKey === selected)
       .sort(
         (l, r) =>
           Math.abs(considerationScore(r)) - Math.abs(considerationScore(l)),
       )[0];
     return {
-      memberKey: member.memberKey,
-      personId: member.personId,
-      disposition,
-      reason: decisive
-        ? decisive.sourceType === "belief:formed-position" &&
-          decisive.sourceRefs[0]?.kind === "private-belief"
-          ? `member:private-belief:${decisive.sourceRefs[0].beliefId}`
-          : KEPT_REASON_PREFIXES.some((prefix) =>
-                decisive.stableKey.startsWith(prefix),
-              )
-            ? decisive.stableKey
-            : decisive.stableKey.split(":").slice(0, 2).join(":")
-        : "member:no-reason",
+      disposition: {
+        memberKey: member.memberKey,
+        personId: member.personId,
+        disposition,
+        reason: decisive
+          ? decisive.sourceType === "belief:formed-position" &&
+            decisive.sourceRefs[0]?.kind === "private-belief"
+            ? `member:private-belief:${decisive.sourceRefs[0].beliefId}`
+            : KEPT_REASON_PREFIXES.some((prefix) =>
+                  decisive.stableKey.startsWith(prefix),
+                )
+              ? decisive.stableKey
+              : decisive.stableKey.split(":").slice(0, 2).join(":")
+          : "member:no-reason",
+      },
+      evaluation,
+      sourceRefs: evaluation.sourceSnapshots.map(
+        (snapshot) => snapshot.reference,
+      ),
     };
   }
+}
+
+const MEMBER_BELIEF_IMPORTANCE = [
+  "slight",
+  "moderate",
+  "strong",
+  "decisive",
+] as const;
+
+/**
+ * A member's recorded deliberation changes the weight of their own recorded
+ * policy belief; it never supplies a side to vote for. The low pole (thinks it
+ * through) strengthens that belief by the recorded magnitude, while the high
+ * pole (acts on impulse) weakens it by the same amount. Unrecorded and
+ * balanced traits leave the established vote reasons exactly as they are.
+ */
+function weighRecordedPolicyBeliefs(
+  world: World,
+  personId: EntityId,
+  considerations: readonly DecisionConsideration[],
+): readonly DecisionConsideration[] {
+  const trait = traitRegistryFor(world).traits.get(
+    `${PEOPLE_MIND_VERSION}:deliberation`,
+  );
+  if (!trait) return considerations;
+  const reading = readTrait(world, personId, trait);
+  if (reading.state !== "recorded" || reading.value === 0)
+    return considerations;
+
+  const direction = reading.value < 0 ? 1 : -1;
+  const steps = Math.abs(reading.value);
+  return considerations.map((consideration) => {
+    if (
+      consideration.sourceType !== "belief:formed-position" ||
+      !consideration.sourceRefs.some(
+        (reference) => reference.kind === "private-belief",
+      )
+    )
+      return consideration;
+    const current = MEMBER_BELIEF_IMPORTANCE.indexOf(
+      consideration.importance as (typeof MEMBER_BELIEF_IMPORTANCE)[number],
+    );
+    if (current < 0) return consideration;
+    const next = Math.max(
+      0,
+      Math.min(
+        MEMBER_BELIEF_IMPORTANCE.length - 1,
+        current + direction * steps,
+      ),
+    );
+    if (next === current) return consideration;
+    return {
+      ...consideration,
+      importance: MEMBER_BELIEF_IMPORTANCE[next]!,
+      explanation:
+        consideration.explanation +
+        (direction > 0
+          ? " Their recorded deliberation gives this considered view more weight."
+          : " Their recorded impulsiveness gives this considered view less weight."),
+      sourceRefs: [
+        ...consideration.sourceRefs,
+        { kind: "personality-tendency", tendencyRecordId: reading.recordId },
+      ],
+    };
+  });
 }
 
 export interface DecideProceduralMotionInput {
@@ -1138,7 +1248,7 @@ export function decideQuorumAttendance(
           amendmentStableKey: null,
           provisionKey: null,
         },
-        questionLabel: "Whether to take up this measure today",
+        questionLabel: "quorum-attendance",
       },
     }).flatMap((reason) => {
       if (reason.optionKey !== "vote-yea" && reason.optionKey !== "vote-nay")
@@ -1149,9 +1259,7 @@ export function decideQuorumAttendance(
           ...reason,
           stableKey: `member:quorum-attendance:${reason.stableKey}`,
           optionKey: favorsMeasure ? "stay" : "walk-out",
-          explanation: favorsMeasure
-            ? "The member wants this measure considered, which weighs in favor of attending."
-            : "The member opposes this measure, which weighs in favor of staying away.",
+          explanation: reason.explanation,
         },
       ];
     });
@@ -1167,8 +1275,7 @@ export function decideQuorumAttendance(
             direction: "supports",
             importance: "slight",
             confidence: "medium",
-            explanation:
-              "This chamber can compel attendance and prescribes a penalty for absence.",
+            explanation: "trace:chamber-compels-attendance-with-penalty",
             sourceRefs: [],
           }
         : null;
@@ -1199,13 +1306,13 @@ export function decideQuorumAttendance(
       options: [
         {
           key: "stay",
-          label: "Attend the sitting",
-          description: "Be present when the chamber considers the measure.",
+          label: "stay",
+          description: "stay",
         },
         {
           key: "walk-out",
-          label: "Stay away",
-          description: "Withhold a quorum for the chamber's business.",
+          label: "walk-out",
+          description: "walk-out",
         },
       ],
       constraints: [],
@@ -1287,7 +1394,7 @@ export function decideFloorHold(
         amendmentStableKey: null,
         provisionKey: null,
       },
-      questionLabel: "Whether debate on this measure should continue",
+      questionLabel: "debate-extended",
     },
   }).flatMap((reason) => {
     if (reason.optionKey !== "vote-yea" && reason.optionKey !== "vote-nay")
@@ -1298,9 +1405,7 @@ export function decideFloorHold(
         ...reason,
         stableKey: `member:floor-hold:${reason.stableKey}`,
         optionKey: supportsMeasure ? "release-floor" : "hold-floor",
-        explanation: supportsMeasure
-          ? "The member wants this measure to advance, which weighs against holding the floor."
-          : "The member opposes this measure, which weighs in favor of holding the floor.",
+        explanation: reason.explanation,
       },
     ];
   });
@@ -1337,13 +1442,13 @@ export function decideFloorHold(
     options: [
       {
         key: "hold-floor",
-        label: "Hold the floor",
-        description: "Keep debate open for another sitting day.",
+        label: "hold-floor",
+        description: "hold-floor",
       },
       {
         key: "release-floor",
-        label: "Let the floor go",
-        description: "Allow the chamber to proceed to the next question.",
+        label: "release-floor",
+        description: "release-floor",
       },
     ],
     constraints: [],
@@ -1369,7 +1474,7 @@ export function decideFloorHold(
           rationale:
             evaluation.context.considerations.find(
               (reason) => reason.optionKey === "hold-floor",
-            )?.explanation ?? "The member chose to hold the floor.",
+            )?.explanation ?? "hold-floor",
           resumeAt: input.resumeAt,
         })
       : world,
@@ -1420,14 +1525,6 @@ export function decideProceduralMotion(
     throw new Error(
       `The ${chamber.name} has no recorded members for this vote.`,
     );
-  const questionLabel: Record<MinorityProcedureMotion, string> = {
-    table: "whether to table the measure",
-    postpone: "whether to postpone the measure",
-    recommit: "whether to recommit the measure",
-    "recorded-vote": "whether to require a recorded vote",
-    "full-reading": "whether to require the full reading",
-    "suspend-rules": "whether to suspend the rules",
-  };
   const dispositions = decideChamberVote(world, {
     stableKey: input.stableKey,
     members: seated.body.members,
@@ -1442,7 +1539,7 @@ export function decideProceduralMotion(
         amendmentStableKey: null,
         provisionKey: null,
       },
-      questionLabel: questionLabel[input.motion],
+      questionLabel: input.motion,
       proceduralMotion: input.motion,
     },
     contested: true,
@@ -1465,7 +1562,7 @@ export function decideProceduralMotion(
     dispositions,
     provenance: {
       method: "member-decisions",
-      note: "Each seated member decided the procedural motion from their own bill view and recorded cues.",
+      note: "trace:procedural-motion-member-decisions",
       sourceEntityIds: [measure.id],
     },
   });
@@ -1662,9 +1759,7 @@ function partyCue(
         direction: "supports",
         importance: "strong",
         confidence: "high",
-        explanation: invertForDelay
-          ? "The member is carrying this measure, which weighs against delaying it."
-          : "The member is carrying this bill.",
+        explanation: "The member is carrying this bill.",
         sourceRefs: [],
       },
     ];
@@ -1677,9 +1772,7 @@ function partyCue(
         direction: "supports",
         importance: "strong",
         confidence: "high",
-        explanation: invertForDelay
-          ? "The member put their name on this measure, which weighs against delaying it."
-          : "The member put their name on this bill.",
+        explanation: "The member put their name on this bill.",
         sourceRefs: [],
       },
     ];
@@ -1704,13 +1797,9 @@ function partyCue(
       direction: "supports",
       importance: same ? "moderate" : "slight",
       confidence: "medium",
-      explanation: invertForDelay
-        ? supportsMotion
-          ? "The member's party is on the other side of this measure, which weighs in favor of delaying it."
-          : "The member's party is carrying this measure, which weighs against delaying it."
-        : supportsMotion
-          ? "The bill is carried by a member of the member's own party."
-          : "The bill is carried by a member of the other party.",
+      explanation: same
+        ? "The bill is carried by a member of the member's own party."
+        : "The bill is carried by a member of the other party.",
       sourceRefs: [],
     },
   ];

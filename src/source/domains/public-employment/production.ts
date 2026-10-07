@@ -110,7 +110,7 @@ export function parseEmploymentPublisher(
       !FUNCTION_LABELS[functionCode]
     )
       throw new SourceParseError(
-        `ASPEP line ${index + 1}: unknown identity/function code.`,
+        `ASPEP line ${index + 1}: unrecognized identity/function code.`,
       );
     if (
       row.slice(14, 17).trim() ||
@@ -271,9 +271,9 @@ export function compileEmploymentProduction(
       coverage: {
         isCompleteUniverse: false,
         universeDescription:
-          "2025 ASPEP individual-government sample observations; Census Bureau source data, not a reviewed individual-unit time series.",
+          "2025 ASPEP individual-government sample observations from Census Bureau source data. The publisher has not validated these as individual-unit time series.",
         boundedSampleReason:
-          "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. Annual survey sample, not census universe. Reported/imputed flags retained; FTE unavailable. Census has not reviewed individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See locked publisher disclaimer.",
+          "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. This is an annual survey sample rather than the census universe. Reported/imputed flags are retained; FTE is unavailable. The publisher has not validated individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See the locked publisher disclaimer.",
       },
     },
     records,

@@ -798,7 +798,12 @@ export function applyLawConsequences(
   context: LawConsequenceContext,
   registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
 ): World {
-  const registry = createLawConsequenceRegistry(registrations);
+  const registry = createLawConsequenceRegistry([
+    ...LAW_CONSEQUENCE_REGISTRATIONS,
+    ...registrations.filter(
+      (entry) => !LAW_CONSEQUENCE_REGISTRATIONS.includes(entry),
+    ),
+  ]);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {
     const proposition = world.policyCatalog.propositions[id];
@@ -808,11 +813,12 @@ export function applyLawConsequences(
       (context.questionKey && proposition.stableKey !== context.questionKey)
     )
       continue;
-    const rows = proposition.consequences ?? [];
+    const rows = (proposition.consequences ?? []).filter(
+      (row) => row.when === context.activity,
+    );
     const errors = validateLawConsequences(rows, registry.capabilities);
     if (errors.length) throw new Error(errors.join("; "));
     for (const row of rows) {
-      if (row.when !== context.activity) continue;
       if (row.onward?.length)
         throw new Error(
           `Consequence ${row.id}: missing saved-parent onward dispatch capability`,

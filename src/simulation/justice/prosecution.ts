@@ -1,3 +1,8 @@
+import { applyPretrialLawLandings } from "../law-consequences/modules/justice-pretrial-landings";
+import {
+  applySentencingLawLandings,
+  applyVotingRightLanding,
+} from "../law-consequences/modules/justice-sentencing-landings";
 import { juryCountyForPlace, summonJuryResidents } from "./jury-catchment";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { custodyFloorAt } from "../law-consequences/legal-outcome";
@@ -50,6 +55,8 @@ import {
 import { ensureOpeningJudiciary } from "../judiciary/opening";
 import { personName } from "../people";
 import { ensurePeopleTraits } from "../people-traits";
+import { favorStandingBetween } from "../favors";
+import { sentencingRangeForCase } from "./sentencing-ranges";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -57,7 +64,7 @@ import {
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
 import {
-  bailMinorUnits,
+  newChargeBailAmount,
   recordedChargeBailMinorUnits,
   PRETRIAL_VERSION,
   pretrialLawAt,
@@ -73,6 +80,7 @@ import {
   evaluateDetention,
   evaluatePlea,
   evaluateSentence,
+  mandatoryMinimumBindingAt,
   prepareJudge,
   prepareJurors,
   sentencingJudge,
@@ -80,7 +88,7 @@ import {
   CONVICT,
   PLEA,
   PRETRIAL_HOLD,
-  UNRESEARCHED_JURY_PANEL,
+  JURY_PANEL_ESTIMATE,
   SENTENCE_JAIL,
   type CourtCase,
   type EvidenceStrength,
@@ -98,6 +106,7 @@ import {
   SENTENCE_LIFE_TAG,
   type SentenceKind,
 } from "./jail-terms";
+import { recordVotingRightForSentence } from "./voting-standing";
 
 export {
   jailTermOn,
@@ -191,6 +200,16 @@ export interface ProsecutionReferralInput {
 
 const OFFENSE_LABELS: Readonly<Record<string, string>> = {
   "campaign-funds-personal-use": "taking campaign money for personal use",
+  "public-bribery": "bribery of a public official",
+  "public-kickback": "a kickback involving a covered public program",
+  "protected-job-patronage": "bribery involving a protected public job",
+  "public-funds-embezzlement": "embezzlement of public funds",
+  "theft-of-public-money": "theft of public money",
+  "extortion-under-color-of-official-right":
+    "extortion under color of official right",
+  "honest-services-contract-steering":
+    "honest-services fraud involving a steered contract",
+  "unreported-official-gift": "an unlawful gratuity to a public official",
   // Local crime (`src/simulation/crime`), keyed `crime:<offense>`.
   "crime:assault": "assault",
   "crime:robbery": "robbery",
@@ -242,31 +261,6 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
     event.tags.find((tag) => tag.startsWith(prefix))?.slice(prefix.length) ??
     null
   );
-}
-
-/** What a regulator knows about a finding when it decides whether to refer. */
-export interface FindingForReferral {
-  /** Findings now standing against the person, this one included. */
-  readonly standingFindings: number;
-  /** Whether the person publicly denied what the finding established. */
-  readonly deniedIt: boolean;
-}
-
-/**
- * Whether a regulator sends a finding to prosecutors. The law refers a
- * knowing and willful violation (52 U.S.C. § 30109(a)(5)(C), and the state
- * ethics codes that follow it), and the record shows one in two ways: the
- * person had already been found at fault for the same thing, so they knew the
- * rule; or they denied what the finding established, and concealment is
- * evidence of willfulness (Spies v. United States, 317 U.S. 492, 499 (1943)).
- * A first finding the person never denied is settled by the finding itself.
- *
- * PLACEHOLDER (a stand-in for an unseated body, like the boards in
- * `clemency.ts`): the commissioners are not people in the world yet, so the
- * legal standard answers for them. Pure.
- */
-export function regulatorRefers(finding: FindingForReferral): boolean {
-  return finding.standingFindings >= 2 || finding.deniedIt;
 }
 
 /** A saved active prosecutor role must explicitly cover this case's venue. */
@@ -532,13 +526,16 @@ function recordFollowUp(
     ...event,
     lawEffectStamps: [stamp],
   };
-  return {
-    ...recorded,
-    history: {
-      ...recorded.history,
-      events: [...recorded.history.events.slice(0, -1), stampedEvent],
+  return applyPretrialLawLandings(
+    {
+      ...recorded,
+      history: {
+        ...recorded.history,
+        events: [...recorded.history.events.slice(0, -1), stampedEvent],
+      },
     },
-  };
+    stampedEvent.id,
+  );
 }
 
 /** Run consequence rows only after the court has saved its actual stage. */
@@ -691,11 +688,11 @@ function holdTrial(
   let next = summonJuryResidents(
     world,
     courtCase.venueJurisdictionId,
-    UNRESEARCHED_JURY_PANEL.size,
+    JURY_PANEL_ESTIMATE.size,
     (candidate) => juryPool(candidate, courtCase),
   );
   const jurors = empanelJury(next, courtCase, trialNumber);
-  if (jurors.length < UNRESEARCHED_JURY_PANEL.size)
+  if (jurors.length < JURY_PANEL_ESTIMATE.size)
     return {
       world: next,
       verdict: "pending",
@@ -880,29 +877,67 @@ export function advanceProsecutions(
           ],
           constraints: [],
           // Reuse the court's recorded evidence and actor-trait scales. No new weights.
-          considerations: jurorConsiderations(
-            prepared,
-            courtCase,
-            prosecutor.personId,
-            decisionKey,
-            null,
-            null,
-          ).map((reason) => ({
-            ...reason,
-            ...(reason.sourceType === "context:burden-of-proof"
-              ? {
-                  explanation:
-                    "The charging standard asks whether admissible evidence can obtain and sustain a conviction.",
-                }
-              : {}),
-            ...(reason.sourceType === "context:evidence"
-              ? {
-                  sourceRefs: [
-                    { kind: "historical-event" as const, eventId: receipt!.id },
-                  ],
-                }
-              : {}),
-          })),
+          considerations: [
+            ...jurorConsiderations(
+              prepared,
+              courtCase,
+              prosecutor.personId,
+              decisionKey,
+              null,
+              null,
+            ).map((reason) => ({
+              ...reason,
+              ...(reason.sourceType === "context:burden-of-proof"
+                ? {
+                    explanation:
+                      "The charging standard asks whether admissible evidence can obtain and sustain a conviction.",
+                  }
+                : {}),
+              ...(reason.sourceType === "context:evidence"
+                ? {
+                    sourceRefs: [
+                      {
+                        kind: "historical-event" as const,
+                        eventId: receipt!.id,
+                      },
+                    ],
+                  }
+                : {}),
+            })),
+            ...(sentencingRangeForCase(courtCase)
+              ? [
+                  {
+                    stableKey: `${decisionKey}:offense-range`,
+                    optionKey: CONVICT,
+                    sourceType: "context:offense-range" as const,
+                    direction: "supports" as const,
+                    importance: "slight" as const,
+                    confidence: "high" as const,
+                    explanation: `The statute allows a sentence up to ${sentencingRangeForCase(courtCase)!.maxMonths} months if convicted.`,
+                    sourceRefs: [],
+                  },
+                ]
+              : []),
+            ...(favorStandingBetween(
+              prepared,
+              prosecutor.personId,
+              courtCase.defendantId,
+            ).receiverDebt === "none"
+              ? []
+              : [
+                  {
+                    stableKey: `${decisionKey}:personal-obligation`,
+                    optionKey: ACQUIT,
+                    sourceType: "context:relationship" as const,
+                    direction: "supports" as const,
+                    importance: "slight" as const,
+                    confidence: "medium" as const,
+                    explanation:
+                      "They have a personal obligation to the person under review.",
+                    sourceRefs: [],
+                  },
+                ]),
+          ],
           perceptionIds: [],
           randomness: "none",
           retention: "durable",
@@ -922,15 +957,21 @@ export function advanceProsecutions(
       next = followUp(next, referral, referral, PROSECUTION_CHARGED_EVENT, {
         extraTags: (() => {
           const courtId = savedTrialCourtForCase(next, courtCase);
-          const amount = bailMinorUnits(next, {
-            venueJurisdictionId: courtCase.venueJurisdictionId,
-            offenseKey: courtCase.offenseKey,
-          });
+          const amount = courtId
+            ? newChargeBailAmount(next, {
+                venueJurisdictionId: courtCase.venueJurisdictionId,
+                offenseKey: courtCase.offenseKey,
+                courtId,
+              })
+            : null;
           return courtId
             ? [
                 `justice.court:${courtId}`,
                 ...(amount !== null
-                  ? [`justice.cash-bail-amount:${amount}`]
+                  ? [
+                      `justice.cash-bail-amount:${amount.amount}`,
+                      ...amount.provenanceTags,
+                    ]
                   : []),
               ]
             : [];
@@ -1009,7 +1050,7 @@ export function advanceProsecutions(
         : null;
       const juryTags = [
         `justice.jury-panel-size:${trial.jurors}`,
-        `justice.jury-panel-basis:${UNRESEARCHED_JURY_PANEL.provenance}`,
+        `justice.jury-panel-basis:${JURY_PANEL_ESTIMATE.provenance}`,
         ...(juryCounty
           ? [
               `justice.jury-catchment:${juryCounty}`,
@@ -1107,8 +1148,28 @@ export function advanceProsecutions(
       PROSECUTION_SENTENCED_EVENT,
       referral,
     ).at(-1)!;
-    if (kind === "jail")
+    if (kind === "jail") {
       next = removeFromOffice(next, subjectId, savedSentence);
+      // The judge's saved decision says whether the minimum law bound it.
+      const binding = sentence.context.constraints.some(
+        (constraint) => constraint.kind === "law:mandatory-minimum",
+      )
+        ? mandatoryMinimumBindingAt(next, courtCase, floor)
+        : null;
+      if (binding)
+        next = applySentencingLawLandings(
+          next,
+          savedSentence.id,
+          binding.law.measureId,
+        );
+      // A felony term suspends the vote; the state's law decides its return.
+      const withVote = recordVotingRightForSentence(next, savedSentence.id);
+      if (withVote !== next)
+        next = applyVotingRightLanding(
+          withVote,
+          withVote.history.events.at(-1)!.id,
+        );
+    }
     next = considerClemencyAfterSentence(next, savedSentence.id);
   }
   return next;
