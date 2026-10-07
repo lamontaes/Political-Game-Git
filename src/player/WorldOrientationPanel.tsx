@@ -509,7 +509,6 @@ export function WorldOrientationPanel({
                             world={world}
                             personId={person.personId}
                             className="pg-opening-figure"
-                            wear="formal"
                           />
                         ) : null)}
                     </button>
@@ -554,7 +553,6 @@ export function WorldOrientationPanel({
                     world={world}
                     personId={actor.person.personId}
                     className="pg-orientation-cast-figure"
-                    wear="formal"
                   />
                   {step.key === "congress" ? (
                     <PersonButton
@@ -1175,7 +1173,6 @@ function ChamberBlock({
                       world={world}
                       personId={row.person.personId}
                       className="pg-opening-roster-figure"
-                      wear="formal"
                     />
                   ) : null}
                   <PersonButton
