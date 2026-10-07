@@ -25,7 +25,7 @@ const STAGES = staging.places as unknown as Readonly<
   Record<string, PlaceStaging>
 >;
 const POSES = new Set(["stand", "sit", "podium", "lean"]);
-const FACINGS = new Set(["viewer", "left", "right"]);
+const FACINGS = new Set(["viewer", "left", "right", "away"]);
 const AUDIENCES = new Set(["viewer", "left", "right", "away"]);
 /** Places whose picture is a whole building or street from outside. */
 const EXTERIOR =
@@ -121,5 +121,26 @@ describe("people anchors on every place picture", () => {
           expect(spotDepth(near)).toBeGreaterThanOrEqual(spotDepth(far));
       }
     }
+  });
+  it("anchors all visible courtroom pew and jury seats", () => {
+    const rooms = [
+      ["appellate-courtroom", 13, 10],
+      ["county-courtroom", 24, 10],
+      ["supreme-courtroom", 19, 10],
+    ] as const;
+    for (const [place, expectedSeats, expectedAway] of rooms) {
+      const seats = STAGES[place]!.spots.filter((spot) => spot.pose === "sit");
+      expect(seats).toHaveLength(expectedSeats);
+      expect(new Set(seats.map((spot) => spot.id)).size).toBe(expectedSeats);
+      expect(
+        seats.filter((spot) => spot.group === "spectator-pew"),
+      ).toHaveLength(6);
+      expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(
+        expectedAway,
+      );
+    }
+    expect(
+      STAGES["county-courtroom"]!.spots.filter((spot) => spot.group === "jury"),
+    ).toHaveLength(12);
   });
 });
