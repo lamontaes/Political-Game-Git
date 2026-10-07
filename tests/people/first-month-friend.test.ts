@@ -9,17 +9,17 @@ import {
   passOrdinaryDays,
 } from "../../src/presentation/ordinary-life";
 import {
-  askToMeet,
   goMeetSomebodyNew,
   meetingNewOptions,
   projectContacts,
 } from "../../src/presentation/people-contacts";
+import { askToMeet, meetAvailable } from "../support/contact-fixtures";
 import {
   performVenueActivity,
   venueActivities,
 } from "../../src/presentation/venue-activity";
 import { joinOrdinaryGroup } from "../../src/presentation/ordinary-community";
-import { CONTACT_LOCATION_KEY } from "../../src/simulation/people-contact";
+import { CONTACT_LOCATION_KEY } from "../../src/simulation/relationship-contact";
 import { readRelationshipStanding } from "../../src/simulation/relationship-standing";
 import { introducedPeople } from "../../src/simulation/social-introductions";
 import type { EntityId, World } from "../../src/simulation";
@@ -101,10 +101,12 @@ describe("a new life makes a friend in its first month", () => {
             const contact = view.contacts.find(
               (entry) => entry.personId === personId,
             );
-            const ask = contact?.actions.find(
-              (action) => action.kind === "ask-to-meet",
-            );
-            if (!contact || !ask?.available || contact.outstanding) continue;
+            if (
+              !contact ||
+              !meetAvailable(world, playerId, personId) ||
+              contact.outstanding
+            )
+              continue;
             world = askToMeet(world, {
               personId: playerId,
               otherPersonId: personId,
@@ -154,8 +156,8 @@ describe("a new life makes a friend in its first month", () => {
     const view = projectContacts(world, playerId);
     const askable = view.contacts.filter(
       (contact) =>
-        contact.actions.find((action) => action.kind === "ask-to-meet")
-          ?.available && !contact.outstanding,
+        meetAvailable(world, playerId, contact.personId) &&
+        !contact.outstanding,
     );
     expect(askable.length).toBeGreaterThan(1);
     for (const contact of askable) {

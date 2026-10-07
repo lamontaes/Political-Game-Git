@@ -9,13 +9,13 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
-import { askToMeet, projectContacts } from "../presentation/people-contacts";
+import { projectContacts } from "../presentation/people-contacts";
+import { askToMeet } from "../../tests/support/contact-fixtures";
 import { projectChildhoodMoment } from "../presentation/childhood";
 import { projectDisclosure } from "../presentation/press-disclosure";
 import type { EntityId, World } from "../simulation";
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { availablePlayerConversations } from "../presentation/player-conversation";
-import { ContactDialog } from "./ContactDialog";
 import { ContactsPanel } from "./ContactsPanel";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { PressSourceDesk } from "./PressSourceDesk";
@@ -145,7 +145,6 @@ describe("Getting in touch", () => {
     const view = projectContacts(adult.world, adult.personId);
     const html = contacts(adult);
     const first = view.contacts[0]!;
-    const ask = first.actions.find((action) => action.kind === "ask-to-meet")!;
     /*
      * The playtest: a sentence stating the window, and a caption reciting it
      * again, read as the game's rules rather than the character's question.
@@ -154,17 +153,12 @@ describe("Getting in touch", () => {
     expect(html).not.toContain('data-testid="contacts-meeting-window"');
     expect(html).not.toContain("A meeting can be arranged");
     expect(html).not.toContain(`A day between ${view.earliestMeetingSpoken}`);
-    if (ask.available) {
-      expect(html).toContain(`data-testid="contact-ask-${first.personId}"`);
-      expect(html).toContain("<span>When?</span>");
-      expect(html).toContain(`min="${view.earliestMeetingOn}"`);
-      expect(html).toContain(`max="${view.latestMeetingOn}"`);
-    } else {
-      expect(html).toContain(
-        `data-testid="contact-ask-unavailable-${first.personId}"`,
-      );
-      expect(html).toContain(ask.unavailableReason!);
-    }
+    // The meeting question and its date picker are gone from the screen.
+    expect(html).not.toContain(`data-testid="contact-ask-${first.personId}"`);
+    expect(html).not.toContain("<span>When?</span>");
+    expect(html).not.toContain(
+      `data-testid="contact-ask-unavailable-${first.personId}"`,
+    );
   });
 
   it("carries no design commentary, and gives each part of a row its own line", () => {
@@ -184,49 +178,23 @@ describe("Getting in touch", () => {
     }
   });
 
-  it("opens one person's contact as its own screen", () => {
-    const first = projectContacts(adult.world, adult.personId).contacts[0]!;
-    const html = renderToStaticMarkup(
-      <ContactDialog
-        world={adult.world}
-        playerPersonId={adult.personId}
-        personId={first.personId}
-        onWorldChange={() => {}}
-        onClose={() => {}}
-      />,
-    );
-    expect(html).toContain('data-testid="contact-dialog"');
-    expect(html).toContain(`>${first.name}</h2>`);
-    expect(html).toContain('data-testid="contact-dialog-close"');
-    // Its own ids, so the People list underneath is never mistaken for it.
-    expect(html).toContain(`data-testid="contact-focus-${first.personId}"`);
-    expect(html).not.toContain(`data-testid="contact-${first.personId}"`);
-    // Only that person.
-    for (const other of projectContacts(adult.world, adult.personId).contacts)
-      if (other.personId !== first.personId)
-        expect(html).not.toContain(`contact-focus-${other.personId}"`);
-  });
-
   it("says whose turn it is once a request is outstanding", () => {
     const view = projectContacts(asked.world, asked.personId);
     const waiting = view.contacts.find(
       (contact) => contact.outstanding?.direction === "you-asked",
     );
     expect(waiting).toBeTruthy();
-    const ask = waiting!.actions.find(
-      (action) => action.kind === "ask-to-meet",
-    )!;
-    expect(ask.available).toBe(false);
+    expect(
+      waiting!.actions.some((action) => action.kind === "ask-to-meet"),
+    ).toBe(false);
     const html = contacts(asked);
-    // No second ask while the first is unanswered; the reason stands in place
-    // of the control.
+    // No ask control and no ask line, whether or not one is outstanding.
     expect(html).not.toContain(
       `data-testid="contact-ask-${waiting!.personId}"`,
     );
-    expect(html).toContain(
+    expect(html).not.toContain(
       `data-testid="contact-ask-unavailable-${waiting!.personId}"`,
     );
-    expect(html).toContain(ask.unavailableReason!);
   });
 });
 
