@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test, type Locator, type Page } from "./fixtures";
 import {
@@ -17,6 +17,10 @@ import {
   type Coverage,
   type RenderedText,
 } from "../../scripts/runtime-text/classify";
+import {
+  evaluateGuard,
+  type GuardBaseline,
+} from "../../scripts/runtime-text/guard";
 import { buildLiteralIndex } from "../../scripts/runtime-text/literal-index";
 import { moduleReport } from "../../scripts/runtime-text/modules";
 import {
@@ -43,7 +47,12 @@ import {
  * listed under `notReached` with the reason, never skipped silently.
  */
 
-const PLACES = Number(process.env.AUDIT_PLACES ?? 4);
+// The guard runs one fixed life and compares it with the recorded baseline
+// (data/runtime-text/baseline.json). A new baseline is written from saved runs
+// with `npm run audit:runtime-text:score -- <run>... --write-baseline`.
+const GUARD = process.env.AUDIT_GUARD === "1";
+const BASELINE_FILE = join(process.cwd(), "data/runtime-text/baseline.json");
+const PLACES = GUARD ? 1 : Number(process.env.AUDIT_PLACES ?? 4);
 const DESTINATIONS = [
   "nav-news",
   "elsewhere-people",
@@ -89,7 +98,13 @@ async function capture(page: Page, place: string, screen: string) {
     `[audit] ${screen}: ${items.length} strings in ${Date.now() - started} ms`,
   );
   for (const item of items)
-    rendered.push({ text: item.text, kind: item.kind, screen, place });
+    rendered.push({
+      text: item.text,
+      kind: item.kind,
+      screen,
+      place,
+      testid: item.testid,
+    });
   reached.push({ place, screen });
 }
 
@@ -324,7 +339,10 @@ test.afterAll(() => {
           bank: row.bank,
           alsoRecordValue: row.alsoRecordValue,
           recordShare: row.recordShare,
+          source: row.source,
           literalCandidates: row.candidates,
+          testid: row.testid,
+          cause: row.cause,
         })),
       },
       null,
@@ -332,4 +350,14 @@ test.afterAll(() => {
     ),
   );
   console.log(`runtime-text audit written to ${file}`);
+  if (GUARD) {
+    const baseline = JSON.parse(
+      readFileSync(BASELINE_FILE, "utf8"),
+    ) as GuardBaseline;
+    const { failures, now } = evaluateGuard(rows, baseline);
+    console.log(
+      `runtime-text guard: ${JSON.stringify({ fixedText: now.fixedSources.length, banks: now.engineBanks.length, unexplained: now.unexplained.length })}`,
+    );
+    if (failures.length > 0) throw new Error(failures.join("\n"));
+  }
 });

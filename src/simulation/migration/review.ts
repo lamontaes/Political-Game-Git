@@ -219,7 +219,10 @@ export function ensureMigrationSchedule(world: World): World {
     return world;
   return scheduleFutureDueItem(world, {
     stableKey,
-    dueAt: addDays(world.currentDate, MIGRATION_REVIEW_INTERVAL_DAYS),
+    // Town residents and employers already have recorded needs at opening.
+    // Run that first pass on the opening date so work does not wait a quarter
+    // before the first person can act on it.
+    dueAt: addDays(world.currentDate, 1),
     transitionKey: MIGRATION_REVIEW_TRANSITION_KEY,
     entityIds: [world.id],
     jurisdictionId: null,
