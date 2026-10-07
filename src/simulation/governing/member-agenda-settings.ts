@@ -3,6 +3,8 @@ import { CATALOG_MEASURE_TITLE, FEDERAL_MEASURE_TITLE } from "../measure-title";
 export const LOCAL_MEMBER_AGENDA_VERSION = "local-member-agenda/v1";
 /** Existing authored filing threshold, unchanged by consolidation. */
 const FILING_THRESHOLD = 3;
+/** State principles use a 0–1 strength scale scored at four points per point. */
+const STATE_FILING_THRESHOLD = 1.5;
 
 /** Existing filing behavior carried as settings while callers consolidate. */
 export const MEMBER_AGENDA_LEVEL_SETTINGS = {
@@ -10,7 +12,7 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     titleTemplate: CATALOG_MEASURE_TITLE,
     governmentLevel: "state",
     intakeVersion: "legislative-intake/v1",
-    filingThreshold: FILING_THRESHOLD,
+    filingThreshold: STATE_FILING_THRESHOLD,
     issuePrefix: null,
     compileBeforeSelection: true,
     mappedCooldownOnly: false,
