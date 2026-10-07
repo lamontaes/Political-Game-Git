@@ -46,6 +46,10 @@ import {
   NEBRASKA_RULE_PACK,
 } from "./legislature-rule-packs";
 import {
+  legislatureForState,
+  legislatureProfilePackId,
+} from "./legislature-game-profile";
+import {
   assertRulePackIntegrity,
   chamberByKey,
   fractionOf,
@@ -500,6 +504,139 @@ describe("Kentucky bicameral path", () => {
     const senateOverride = measureVotes(sustained, scenario.measureId).at(-1)!;
     expect(senateOverride.requiredVotes).toBe(20);
     expect(senateOverride.outcome).toBe("failed");
+  });
+
+  it("saves Indiana exact-half failure and half-plus-one success with the majority label", () => {
+    const indianaPack = legislatureForState("US-IN")!;
+    const indianaScenario: LegislativeScenario = {
+      ...scenario,
+      pack: indianaPack,
+      world: {
+        ...scenario.world,
+        history: {
+          ...scenario.world.history,
+          legislativeMeasures: scenario.world.history.legislativeMeasures!.map(
+            (measure) =>
+              measure.id === scenario.measureId
+                ? {
+                    ...measure,
+                    rulePackId: legislatureProfilePackId("US-IN"),
+                  }
+                : measure,
+          ),
+        },
+      },
+    };
+    let world = toFloor(indianaScenario, indianaScenario.world, "house", 9);
+    world = clearFloor(indianaScenario, world, "house", 60);
+    world = transmitMeasure(world, {
+      stableKey: "indiana-threshold:transmit",
+      measureId: indianaScenario.measureId,
+    });
+    world = toFloor(indianaScenario, world, "senate", 6);
+    world = clearFloor(indianaScenario, world, "senate", 25);
+    world = enrollMeasure(world, {
+      stableKey: "indiana-threshold:enroll",
+      measureId: indianaScenario.measureId,
+    });
+    world = presentMeasureToExecutive(world, {
+      stableKey: "indiana-threshold:present",
+      measureId: indianaScenario.measureId,
+    });
+    world = recordExecutiveAction(world, {
+      stableKey: "indiana-threshold:veto",
+      measureId: indianaScenario.measureId,
+      action: "vetoed",
+      rationale: "The Governor returned the bill with objections.",
+    });
+    expect(
+      indianaPack.chambers.map((chamber) =>
+        chamber.seats.kind === "known" ? chamber.seats.value : null,
+      ),
+    ).toEqual([100, 50]);
+    const forums = (
+      houseYea: number,
+      senateYea: number,
+    ): Parameters<typeof attemptVetoOverride>[1]["forums"] => [
+      {
+        forumKey: "house",
+        electedMembers: 100,
+        dispositions: Array.from({ length: 100 }, (_, index) => ({
+          memberKey: `in-house-${index + 1}`,
+          personId: null,
+          disposition: index < houseYea ? ("yea" as const) : ("nay" as const),
+        })),
+      },
+      {
+        forumKey: "senate",
+        electedMembers: 50,
+        dispositions: Array.from({ length: 50 }, (_, index) => ({
+          memberKey: `in-senate-${index + 1}`,
+          personId: null,
+          disposition: index < senateYea ? ("yea" as const) : ("nay" as const),
+        })),
+      },
+    ];
+
+    const exactHalf = attemptVetoOverride(world, {
+      stableKey: "indiana-threshold:exact-half",
+      measureId: indianaScenario.measureId,
+      forums: forums(50, 25),
+      rationale: "Each chamber supplied exactly half its elected membership.",
+      provenance: AUTHORED,
+    });
+    expect(measurePosition(exactHalf, indianaScenario.measureId).outcome).toBe(
+      "vetoed-and-sustained",
+    );
+    expect(
+      measureVotes(exactHalf, indianaScenario.measureId).slice(-2),
+    ).toMatchObject([
+      {
+        denominatorValue: 100,
+        requiredVotes: 51,
+        tally: { yea: 50 },
+        outcome: "failed",
+        thresholdLabel: "A majority of all the members elected to that House",
+      },
+      {
+        denominatorValue: 50,
+        requiredVotes: 26,
+        tally: { yea: 25 },
+        outcome: "failed",
+        thresholdLabel: "A majority of all the members elected to that House",
+      },
+    ]);
+
+    const halfPlusOne = attemptVetoOverride(world, {
+      stableKey: "indiana-threshold:half-plus-one",
+      measureId: indianaScenario.measureId,
+      forums: forums(51, 26),
+      rationale:
+        "Each chamber supplied one vote over half its elected membership.",
+      provenance: AUTHORED,
+    });
+    expect(measurePosition(halfPlusOne, indianaScenario.measureId).phase).toBe(
+      "awaiting-enactment",
+    );
+    const saved = deserializeWorld(serializeWorld(halfPlusOne));
+    expect(
+      measureVotes(saved, indianaScenario.measureId).slice(-2),
+    ).toMatchObject([
+      {
+        denominatorValue: 100,
+        requiredVotes: 51,
+        tally: { yea: 51 },
+        outcome: "passed",
+        thresholdLabel: "A majority of all the members elected to that House",
+      },
+      {
+        denominatorValue: 50,
+        requiredVotes: 26,
+        tally: { yea: 26 },
+        outcome: "passed",
+        thresholdLabel: "A majority of all the members elected to that House",
+      },
+    ]);
   });
 });
 

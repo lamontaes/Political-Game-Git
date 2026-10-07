@@ -1,0 +1,75 @@
+{
+  "schema": "english-parts/1",
+  "register": "sentencing",
+  "description": "Short judge phrases mined from public sentencing transcripts and court records.",
+  "slots": {},
+  "maxWords": 16,
+  "mining": {
+    "tool": "manual source review",
+    "read": "Federal sentencing transcripts and a published sentencing-hearing transcript; phrases cover explanation, responsibility, and the defendant's opportunity to speak."
+  },
+  "parts": [
+    {
+      "key": "sentencing.no-discretion",
+      "move": "explain-discretion",
+      "kind": "spoken",
+      "text": "I have no discretion in this matter.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "United States District Court sentencing transcript quoted in Richardson v. United States",
+        "url": "https://ecf.ctd.uscourts.gov/cgi-bin/show_public_doc?1999cr0264-2585="
+      }
+    },
+    {
+      "key": "sentencing.difficulty-of-responsibility",
+      "move": "acknowledge-responsibility",
+      "kind": "spoken",
+      "text": "I don't take that responsibility lightly.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "United States District Court sentencing transcript quoted in Richardson v. United States",
+        "url": "https://ecf.ctd.uscourts.gov/cgi-bin/show_public_doc?1999cr0264-2585="
+      }
+    },
+    {
+      "key": "sentencing-hear-defendant",
+      "move": "invite-defendant-statement",
+      "kind": "spoken",
+      "text": "an opportunity to speak also if you desire.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "United States v. Bowden sentencing transcript, Appendix H to DOJ petition",
+        "date": "2006-10-11",
+        "url": "https://www.justice.gov/osg/brief/united-states-v-bowden-petition"
+      }
+    },
+    {
+      "key": "sentencing-firm-and-final",
+      "move": "announce-sentence",
+      "kind": "spoken",
+      "text": "This sentence will be firm and final.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "United States v. Aponte-Lara sentencing transcript quoted in First Circuit opinion",
+        "url": "https://www.ca1.uscourts.gov/sites/ca1/files/opnfiles/09-1964U-01A.pdf"
+      }
+    },
+    {
+      "key": "sentencing-significance-of-decision",
+      "move": "explain-sentence",
+      "kind": "spoken",
+      "text": "The imposition of sentence is one of the most difficult and significant decisions",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "New York sentencing hearing transcript, People v. Trump",
+        "date": "2025-01-10",
+        "url": "https://rollcall.com/factbase/trump/transcript/donald-trump-remarks-sentencing-new-york-fraud-felony-case-january-10-2025"
+      }
+    }
+  ]
+}
