@@ -4,6 +4,6 @@ impact: patch
 section: Changed
 ---
 
-# The Guide lists terms, not written definitions
+# The Guide reads its definitions from one data file
 
-The Guide and the inline term card show the term name, the learned mark and related terms. The authored definitions are no longer printed.
+Guide definitions now live in data/research/glossary/terms.json, one recorded source per term, and the Guide reads that file. Underlined words, the term card and the entry view are unchanged, and the entry now shows its source line.
