@@ -543,7 +543,8 @@ function outfitFiles(
 /**
  * The pieces a recipe draws from, in its pose and view. The pose's fallbacks
  * are tried in order (poseFallbacks), and at each pose the recipe's view and
- * then the front: what a person is doing shows before which way they turn.
+ * then three-quarter for side/back, then front: what a person is doing shows
+ * before which way they turn.
  * A pose and view are drawn only when the pack has the body, the recipe's
  * outfit, face and hair in them for the recipe's build, and `available` has
  * every one of their files (every file, when omitted). Standing in front
@@ -623,6 +624,10 @@ export function posedPieces(
           ? [{ id, placement: accessory.placement, file }]
           : [];
       });
+      const paintedToward = towardOf(pack, pose, view, false);
+      const mirrored = recipe.facing
+        ? paintedToward !== null && paintedToward !== recipe.facing
+        : recipe.mirrored === true;
       return {
         /** Accessories drawn: those worn that this pose and view have. */
         accessories: wornAccessories,
@@ -643,8 +648,8 @@ export function posedPieces(
         view,
         seated: isSeatedPose(pose),
         /** The side of the picture the drawn figure turns toward. */
-        toward: facingOf(pack, pose, view, recipe),
-        mirrored: mirrorForFacing(pack, pose, view, recipe),
+        toward: towardOf(pack, pose, view, mirrored),
+        mirrored,
       };
     }
   // Standing in front has no condition above: the loop always returns.
@@ -708,7 +713,7 @@ export function mirrorToFace(
 ): boolean {
   const { toward } = posedPieces(
     pack,
-    { ...recipe, mirrored: false },
+    { ...recipe, facing: undefined, mirrored: false },
     available,
   );
   if (!toward || towardXPercent === fromXPercent) return false;
@@ -832,7 +837,7 @@ export interface EngineRecipe {
   readonly pose?: BodyPose;
   /** Facing front unless the scene turns them (pose-chooser.ts). */
   readonly view?: BodyView;
-  /** Desired horizontal direction; turned paintings are mirrored at draw time. */
+  /** Turn the resolved painting toward this side, including after a view fallback. */
   readonly facing?: "left" | "right";
   /** Neutral unless the moment shows on their face (expression-chooser.ts). */
   readonly expression?: FaceExpression;
