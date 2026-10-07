@@ -97,6 +97,18 @@ describe("people anchors on every place picture", () => {
       ).toHaveLength(2);
   });
 
+  it("anchors both chairs at the newsroom glass-office desk", () => {
+    const seats = STAGES["newsroom"]!.spots.filter(
+      (spot) => spot.group === "glass-office-desk",
+    );
+    expect(seats).toHaveLength(2);
+    expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
+    expect(seats.every((spot) => spot.facing === "viewer")).toBe(true);
+    expect(seats.map((spot) => spot.x).sort((a, b) => a - b)).toEqual([
+      61, 64.5,
+    ]);
+  });
+
   it.each(PLACES)(
     "%s: every spot is on a floor inside the picture",
     (place) => {
