@@ -2,15 +2,6 @@ import { allGovernmentUnits, governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { primaryReading } from "../municipal-government";
 import type { MunicipalGovernment } from "../municipal-government";
-import {
-  localGoverningBodySeatWordFromComposition,
-  type LocalGoverningBodySeatWord,
-} from "./local-governing-body-seat-word";
-export {
-  localGoverningBodySeatLabel,
-  localGoverningBodySeatWordFromComposition,
-  type LocalGoverningBodySeatWord,
-} from "./local-governing-body-seat-word";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-packs";
 import { isMayorSeatClass } from "./local-chief-executive-rules";
@@ -58,25 +49,6 @@ export interface LocalGoverningBodyRules {
   readonly researchedGovernmentKey: string | null;
   readonly seats: LocalRuleValue | null;
   readonly termYears: LocalRuleValue | null;
-}
-
-/**
- * The recorded structure for a numbered council seat. A compiled reading can
- * distinguish wards, districts, and at-large seats; without that reading the
- * pool's fallback is a district seat. Seat numbering stays stable for ballot
- * and saved-participation readers.
- */
-export function localGoverningBodySeatWord(
-  unit: GovernmentUnitIdentity,
-  seat: number,
-): LocalGoverningBodySeatWord {
-  const government = municipalGovernmentForUnit(unit);
-  const reading = government ? primaryReading(government) : null;
-  return localGoverningBodySeatWordFromComposition(
-    reading?.composition ?? null,
-    seat,
-    reading?.bodySize ?? null,
-  );
 }
 
 /**

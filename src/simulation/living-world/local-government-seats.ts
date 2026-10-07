@@ -17,11 +17,7 @@ import type { GovernmentUnitIdentity } from "../government-units";
 import { boardGoverningBodyRules } from "../nationwide-world/township-governing-body-rules";
 import { localChiefExecutiveRules } from "../nationwide-world/local-chief-executive-rules";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
-import {
-  localGoverningBodySeatLabel,
-  localGoverningBodyRules,
-  localGoverningBodySeatWord,
-} from "../nationwide-world/local-governing-body-rules";
+import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
 import {
   countyElectedRowOffices,
   countyRowOfficeFromRoleKind,
@@ -416,15 +412,9 @@ export function ensureLocalGovernmentSeatsForUnit(
     }
   }
   for (let n = 0; n < openMembers; n += 1) {
-    const seatNumber = sitting.length + n + 1;
-    const personId = draw(slot++, seatNumber);
+    const personId = draw(slot++, sitting.length + n + 1);
     if (!personId) break;
-    const seatWord = localGoverningBodySeatWord(unit, seatNumber);
-    const label = localGoverningBodySeatLabel(
-      identity.officeTitle,
-      seatNumber,
-      seatWord,
-    );
+    const label = `${identity.officeTitle}, seat ${sitting.length + n + 1}`;
     next = seatOne(next, unit, town, personId, false, label);
     seated.push({ personId, mayor: false, seatLabel: label });
   }
@@ -879,4 +869,3 @@ export function ensureLocalGovernmentSeats(
   }
   return next;
 }
-
