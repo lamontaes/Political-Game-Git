@@ -1,26 +1,30 @@
-# Session 56 progress — Oct 7
+# Session 56 moves to LW-10 after blocking LW-09
+
+LW-09 is blocked by missing sized effects and source-backed law terms. Its student-debt readiness record now recognizes existing named loan and discharge writers while documenting the missing law-term binding. LW-10 source review is underway; its stock-trading effect still lacks a supported size and member holdings for the effect to change.
 
 ## Done
 
-- Workplace rooms now route by the employer's recorded business kind. PR #3373
+- Workplace rooms now route by the employer's recorded business kind. [PR #3373](https://github.com/lamontaes/Political-Game-Git/pull/3373)
   merged as main commit `8c3255f61`.
-- Pool row LW-03 was already implemented on main in PR #2476, commit
+- Pool row LW-03 was already implemented on main in [PR #2476](https://github.com/lamontaes/Political-Game-Git/pull/2476), commit
   `493b16f2`. The tax terms pack defines federal income, sales, payroll and
-  corporate tax consequence rows; it sends them through the existing `tax`
-  registry handler. `policy-pack-tax-terms.test.ts` verifies the four rows,
-  their handler registration and that the federal question cannot be selected
-  at state level across all 56 jurisdictions. `tax-law-term-binding.test.ts`
-  verifies unsupported or unbound law terms do not create tax effects.
+  corporate tax consequence rows in `data/research/laws/catalog-terms-batch-03.json`.
+  The law consequence registry routes them through the tax handler in
+  `src/simulation/law-consequence-registry.ts`. Its focused test checks all
+  four rows and the 56-jurisdiction state-level restriction in
+  `src/simulation/policy-pack-tax-terms.test.ts`.
 
 ## Next
 
-- Check the next open pool row against main and recent claims before beginning.
+- LW-09 remains blocked on age-verification, immigration-admission, and disaster-reimbursement effects, which remain unsized or lack a canonical person record (`data/research/laws/lw09-effect-readiness.json`). The student-loan record writer and noncash discharge writer are in `src/simulation/student-debt.ts` and `src/simulation/household-loans.ts`; no law consequence binds sourced cap and eligibility terms to them. Commit `654c08608` contains the readiness correction and regression test.
+- LW-10 is the current row on branch `session-56-lw09`, rebased on current `origin/main` `03593b1d7`. [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) provides the mandatory-minimum consequence row. The stock-trading effect remains unsized, and its source record says no member holdings exist for it to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
+- Exact next command: `rg -n 'member-market-returns|congress-stock-ban-to-member-returns|ban-congressional-stock-trading' data/research/outcome-web/links.json src/simulation` in `/workspace/Political-Game-Git`, then trace any matching runtime consumers before opening an LW-10 work branch.
 
 ---
 
-# Session 56 progress
+# Session 56 progress (archived October 6 snapshot)
 
-Updated 2026-10-06. Working tree: `session-56/b32-part-2-unified-sittings`, based on current `main` at `e591ffc`.
+Updated October 6, 2026. Working tree: `session-56/b32-part-2-unified-sittings`, based on current `main` at `e591ffc`.
 
 ## Done
 
