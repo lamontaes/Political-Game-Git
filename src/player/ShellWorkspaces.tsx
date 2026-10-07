@@ -1052,7 +1052,7 @@ export function CalendarWorkspaceSurface({
             {liveDays.filter(
               (day) => !selectedDate || day.date === selectedDate,
             ).length === 0 ? (
-              <p className="game-note">Nothing upcoming or ongoing.</p>
+              <p className="game-note" data-problem="empty" />
             ) : (
               renderDays(
                 liveDays.filter(
