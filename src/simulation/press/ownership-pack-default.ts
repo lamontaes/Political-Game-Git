@@ -6,7 +6,8 @@ import type { OwnershipPack } from "./ownership-packs";
  * company.
  *
  * FOUNDING SHARES FOR NEWSPAPERS AND LOCAL DIGITAL OUTLETS ARE SOURCED; the
- * rest is placeholder. `foundingWeightByProduct` below reads as percentages
+ * remaining shares are recorded game rules. `foundingWeightByProduct` reads as
+ * percentages
  * from ChatGPT's answer to `media-owners-coordinating-their-outlets` (Medill
  * 2025 news census): 47% of newspapers are independently owned, over 95% are
  * for-profit, and 44% of standalone local digital outlets are nonprofit. Where
@@ -14,10 +15,11 @@ import type { OwnershipPack } from "./ownership-packs";
  * the other eligible owners in the ratio their plain `foundingWeight` already
  * had; that split is ours, not a finding.
  *
- * PLACEHOLDERS, NOT RESEARCH: every other number here is invented to make the
- * system run: the plain founding weights (broadcasters and national
- * publications), review intervals, likelihoods, job-cut shares, asking prices,
- * and which kinds of owner do what. They stay open as
+ * RECORDED GAME RULES: every other number is the value stored in this pack,
+ * not a claim about a real owner or place. The game has no place-specific
+ * sale-price or practice-frequency series. The plain founding weights, review
+ * intervals, practice frequencies, job-cut shares, asking prices, and owner
+ * practices stay open as
  * `what-coordinated-owner-practices-change-in-the-news` (annual rates per owner
  * kind, sharing and must-run mechanics, merger rules, sale prices). Replace
  * them from the answers; do not tune them by feel.
@@ -26,10 +28,10 @@ export const DEFAULT_MEDIA_OWNERSHIP_PACK: OwnershipPack = {
   id: "media-ownership.default",
   provenance: {
     kind: "authored-fiction",
-    note: "Fictional media owners and provisional coordination practices. Names, likelihoods and shares are game-authored, not real companies or measured behavior.",
+    note: "Fictional media owners and recorded game rules for coordination. Names and unmeasured practice values are game-authored, not claims about real companies.",
   },
-  // Placeholder prices, not market research; filed for research as
-  // what-coordinated-owner-practices-change-in-the-news.
+  // Recorded game prices, not market measurements. The filed research question
+  // owns a future sourced replacement.
   askingPriceDollars: {
     small: 150_000,
     standard: 4_000_000,
