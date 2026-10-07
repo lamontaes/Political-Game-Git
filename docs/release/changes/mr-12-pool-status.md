@@ -1,8 +1,8 @@
 ---
 id: mr-12-pool-status
-impact: none
+impact: patch
 section: Fixed
-title: Record the merged MR-12 transit screen
+title: Transit screen shows recorded values
 ---
 
-The MR-12 pool row now points to the transit screen work merged in #3001.
+Transit views retain their values while removing explanatory sentences.
