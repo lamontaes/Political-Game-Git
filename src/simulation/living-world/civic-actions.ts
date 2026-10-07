@@ -650,6 +650,7 @@ function record(
 ): World {
   const today = world.currentDate;
   if (action === "attended" && !meeting) return world;
+  if (action === "contacted" && officialId === personId) return world;
   const ids = officialId ? [personId, officialId] : [personId];
   if (meeting) ids.push(meeting.item.id);
   const contactStableKey = `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`;
