@@ -27,9 +27,9 @@ export function SavedPersonFigure({
   personId,
   libraries: explicitLibraries,
   className,
+  avoidOutfits,
   accessibleLabel,
   showUnavailableText = true,
-  avoidOutfits,
 }: {
   readonly world: World;
   readonly personId: string;
