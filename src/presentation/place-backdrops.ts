@@ -240,6 +240,14 @@ export function homePlacesForPerson(
   return [own, ...HOME_PLACES.filter((place) => place !== own)];
 }
 
+/** The recorded building type of the person's current dwelling, if any. */
+export function homeDwellingKind(
+  world: World,
+  personId: EntityId,
+): DwellingClassification | null {
+  return currentDwelling(world, personId)?.classification ?? null;
+}
+
 /** The person's current home picture. */
 export function homePlaceForPerson(world: World, personId: EntityId): string {
   const dwelling = currentDwelling(world, personId);
