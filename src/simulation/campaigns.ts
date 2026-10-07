@@ -24,6 +24,7 @@ import {
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
+import { circulateCandidatePetition } from "./candidate-petitions";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
@@ -2612,7 +2613,7 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       try {
         return scheduleCampaignAction(world, {
           campaignId: campaign.id,
-          kind: block.work,
+          kind: block.work === "petition" ? "outreach" : block.work,
           plan: {
             start: slot.start,
             end: slot.end,
@@ -2646,11 +2647,29 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       if (!activity || !routineIdOfActivity(world, activity.sourceEntityIds))
         return world;
       const action = campaignActionForActivity(world, activityId);
-      if (!action || campaignActionResult(world, action.id)) return world;
+      if (!action) return world;
       const campaign = campaignById(world, action.campaignId);
       if (!campaign || campaignState(world, campaign.id).status !== "active")
         return world;
-      return recordCampaignActionOutcome(world, campaign, action);
+      const timing = scheduledActivityState(world, activity.id);
+      const routineEventId = activity.sourceEntityIds.find((id) =>
+        Boolean(routineIdOfActivity(world, [id])),
+      );
+      const block = routineEventId
+        ? campaignRoutineBlockAt(world, routineEventId, timing.start)
+        : null;
+      const completed = campaignActionResult(world, action.id)
+        ? world
+        : recordCampaignActionOutcome(world, campaign, action);
+      return block?.work === "petition"
+        ? circulateCandidatePetition(completed, {
+            campaignId: campaign.id,
+            circulatorPersonId: campaign.candidatePersonId,
+            stableKey: `${action.stableKey}:petition-circulation`,
+            minutes: simulationMinutesBetween(timing.start, timing.end),
+            at: timing.end.date,
+          })
+        : completed;
     },
   };
 }
