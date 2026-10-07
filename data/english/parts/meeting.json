@@ -8,7 +8,7 @@
   "maxWords": 16,
   "mining": {
     "tool": "scripts/english-mining/mine-congressional-record.py",
-    "daysRead": "33 Congressional Record days, October 27 to December 18, 2025, House and Senate pages"
+    "daysRead": "63 Congressional Record days, June 2 to December 18, 2025, House and Senate pages"
   },
   "parts": [
     {
@@ -30,9 +30,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4730",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4730"
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2581-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2581-4"
       }
     },
     {
@@ -54,9 +54,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgH2393",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgH2393"
       }
     },
     {
@@ -66,9 +66,21 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-17",
-        "granule": "CREC-2025-12-17-pt1-PgH5956-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5956-3"
+        "date": "2025-06-23",
+        "granule": "CREC-2025-06-23-pt1-PgH2855",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-23/CREC-2025-06-23-pt1-PgH2855"
+      }
+    },
+    {
+      "key": "meeting.closer.i-have-no-additional-speakers-and-i-reserve-the-balance-of-my-time",
+      "move": "closer",
+      "text": "{chair}, I have no additional speakers, and I reserve the balance of my time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-23",
+        "granule": "CREC-2025-06-23-pt1-PgH2843-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-23/CREC-2025-06-23-pt1-PgH2843-4"
       }
     },
     {
@@ -78,9 +90,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4750",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4750"
+        "date": "2025-07-14",
+        "granule": "CREC-2025-07-14-pt1-PgH3225",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-14/CREC-2025-07-14-pt1-PgH3225"
       }
     },
     {
@@ -102,9 +114,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-17",
-        "granule": "CREC-2025-11-17-pt1-PgH4681",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4681"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2551",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2551"
       }
     },
     {
@@ -114,9 +126,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-17",
-        "granule": "CREC-2025-11-17-pt1-PgH4676-4",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4676-4"
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2589-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2589-2"
       }
     },
     {
@@ -138,9 +150,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-19",
-        "granule": "CREC-2025-11-19-pt1-PgH4800",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgH4800"
+        "date": "2025-07-14",
+        "granule": "CREC-2025-07-14-pt1-PgH3209-7",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-14/CREC-2025-07-14-pt1-PgH3209-7"
       }
     },
     {
@@ -186,9 +198,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4718-6",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4718-6"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2549",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2549"
       }
     },
     {
@@ -201,6 +213,18 @@
         "date": "2025-12-09",
         "granule": "CREC-2025-12-09-pt1-PgH5078",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-12-09/CREC-2025-12-09-pt1-PgH5078"
+      }
+    },
+    {
+      "key": "meeting.closer.i-urge-my-colleagues-to-oppose-this-amendment",
+      "move": "closer",
+      "text": "{chair}, I urge my colleagues to oppose this amendment.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-30",
+        "granule": "CREC-2025-06-30-pt1-PgS4037-6",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-30/CREC-2025-06-30-pt1-PgS4037-6"
       }
     },
     {
@@ -228,6 +252,18 @@
       }
     },
     {
+      "key": "meeting.closer.i-urge-support-for-this-bill",
+      "move": "closer",
+      "text": "{chair}, I urge support for this bill.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-07-14",
+        "granule": "CREC-2025-07-14-pt1-PgH3215-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-14/CREC-2025-07-14-pt1-PgH3215-2"
+      }
+    },
+    {
       "key": "meeting.closer.i-urge-support-for-this-bill-and-i-yield-back-the-balance-of-my-time",
       "move": "closer",
       "text": "{chair}, I urge support for this bill, and I yield back the balance of my time.",
@@ -237,6 +273,18 @@
         "date": "2025-12-15",
         "granule": "CREC-2025-12-15-pt1-PgH5862",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-12-15/CREC-2025-12-15-pt1-PgH5862"
+      }
+    },
+    {
+      "key": "meeting.closer.i-urge-support-for-this-legislation",
+      "move": "closer",
+      "text": "{chair}, I urge support for this legislation.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-23",
+        "granule": "CREC-2025-06-23-pt1-PgH2852",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-23/CREC-2025-06-23-pt1-PgH2852"
       }
     },
     {
@@ -306,9 +354,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4609-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4609-2"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
@@ -318,9 +366,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2431-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2431-3"
       }
     },
     {
@@ -330,9 +378,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-16",
-        "granule": "CREC-2025-12-16-pt1-PgH5912-4",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgH5912-4"
+        "date": "2025-06-27",
+        "granule": "CREC-2025-06-27-pt1-PgH3016-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-27/CREC-2025-06-27-pt1-PgH3016-5"
       }
     },
     {
@@ -342,9 +390,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4746",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4746"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2547",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2547"
       }
     },
     {
@@ -354,9 +402,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-16",
-        "granule": "CREC-2025-12-16-pt1-PgS8754",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgS8754"
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgS3159-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgS3159-4"
       }
     },
     {
@@ -390,9 +438,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-10",
-        "granule": "CREC-2025-12-10-pt1-PgH5522",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5522"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
@@ -453,6 +501,18 @@
         "date": "2025-12-17",
         "granule": "CREC-2025-12-17-pt1-PgH5978",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5978"
+      }
+    },
+    {
+      "key": "meeting.opener.i-rise-in-strong-support-of-this-bill",
+      "move": "opener",
+      "text": "{chair}, I rise in strong support of this bill.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
       }
     },
     {
@@ -564,15 +624,27 @@
       }
     },
     {
+      "key": "meeting.opener.i-rise-today-to-honor-the-life-of-a-true-public-servant",
+      "move": "opener",
+      "text": "{chair}, I rise today to honor the life of a true public servant.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-12",
+        "granule": "CREC-2025-06-12-pt1-PgH2660",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-12/CREC-2025-06-12-pt1-PgH2660"
+      }
+    },
+    {
       "key": "meeting.opener.i-rise-today-with-a-heavy-heart",
       "move": "opener",
       "text": "{chair}, I rise today with a heavy heart.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-02",
-        "granule": "CREC-2025-12-02-pt1-PgH4972",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-02/CREC-2025-12-02-pt1-PgH4972"
+        "date": "2025-07-14",
+        "granule": "CREC-2025-07-14-pt1-PgH3207-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-14/CREC-2025-07-14-pt1-PgH3207-2"
       }
     },
     {
@@ -600,6 +672,18 @@
       }
     },
     {
+      "key": "meeting.opener.i-thank-my-colleague-for-yielding-time",
+      "move": "opener",
+      "text": "{chair}, I thank my colleague for yielding time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-07-15",
+        "granule": "CREC-2025-07-15-pt1-PgH3306",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-15/CREC-2025-07-15-pt1-PgH3306"
+      }
+    },
+    {
       "key": "meeting.opener.i-thank-the-chair-for-the-time",
       "move": "opener",
       "text": "{chair}, I thank the chair for the time.",
@@ -609,6 +693,18 @@
         "date": "2025-11-20",
         "granule": "CREC-2025-11-20-pt1-PgH4841-2",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgH4841-2"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-chair-for-yielding-me-time",
+      "move": "opener",
+      "text": "{chair}, I thank the chair for yielding me time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-12",
+        "granule": "CREC-2025-06-12-pt1-PgH2796-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-12/CREC-2025-06-12-pt1-PgH2796-3"
       }
     },
     {
@@ -648,6 +744,30 @@
       }
     },
     {
+      "key": "meeting.opener.i-thank-the-chairman-for-yielding-me-time",
+      "move": "opener",
+      "text": "{chair}, I thank the chairman for yielding me time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgH2483",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgH2483"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-chairman-for-yielding-time",
+      "move": "opener",
+      "text": "{chair}, I thank the chairman for yielding time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
+      }
+    },
+    {
       "key": "meeting.opener.i-thank-the-chairman-for-yielding-to-me",
       "move": "opener",
       "text": "{chair}, I thank the chairman for yielding to me.",
@@ -678,9 +798,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
@@ -708,6 +828,18 @@
       }
     },
     {
+      "key": "meeting.opener.i-thank-the-gentleman-for-yielding-me-time",
+      "move": "opener",
+      "text": "{chair}, I thank the gentleman for yielding me time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-11",
+        "granule": "CREC-2025-06-11-pt1-PgH2625-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-11/CREC-2025-06-11-pt1-PgH2625-5"
+      }
+    },
+    {
       "key": "meeting.opener.i-thank-the-gentleman-for-yielding-the-time",
       "move": "opener",
       "text": "{chair}, I thank the gentleman for yielding the time.",
@@ -726,9 +858,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-15",
-        "granule": "CREC-2025-12-15-pt1-PgH5864",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-15/CREC-2025-12-15-pt1-PgH5864"
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
       }
     },
     {
@@ -750,9 +882,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-12",
+        "granule": "CREC-2025-06-12-pt1-PgH2796-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-12/CREC-2025-06-12-pt1-PgH2796-3"
       }
     },
     {
@@ -774,9 +906,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-16",
-        "granule": "CREC-2025-12-16-pt1-PgH5921",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgH5921"
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
       }
     },
     {
@@ -786,9 +918,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgH2483",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgH2483"
       }
     },
     {
@@ -858,9 +990,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-27",
-        "granule": "CREC-2025-10-27-pt1-PgS7751-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-27/CREC-2025-10-27-pt1-PgS7751-2"
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgS3247-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgS3247-2"
       }
     },
     {
@@ -906,9 +1038,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-27",
-        "granule": "CREC-2025-10-27-pt1-PgS7744-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-27/CREC-2025-10-27-pt1-PgS7744-2"
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgS3155-6",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgS3155-6"
       }
     },
     {
@@ -1002,9 +1134,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-30",
-        "granule": "CREC-2025-10-30-pt1-PgS7851-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-30/CREC-2025-10-30-pt1-PgS7851-2"
+        "date": "2025-06-26",
+        "granule": "CREC-2025-06-26-pt1-PgS3548",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-26/CREC-2025-06-26-pt1-PgS3548"
       }
     },
     {
@@ -1026,9 +1158,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4730",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4730"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
@@ -1038,9 +1170,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4609-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4609-2"
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
       }
     },
     {
@@ -1050,9 +1182,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-16",
-        "granule": "CREC-2025-12-16-pt1-PgH5921",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgH5921"
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgH2483",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgH2483"
       }
     },
     {
@@ -1062,9 +1194,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4762",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4762"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2542",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2542"
       }
     },
     {
@@ -1086,9 +1218,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-10",
-        "granule": "CREC-2025-12-10-pt1-PgH5522",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5522"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
@@ -1134,9 +1266,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-03",
-        "granule": "CREC-2025-12-03-pt1-PgH5011-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03/CREC-2025-12-03-pt1-PgH5011-3"
+        "date": "2025-06-27",
+        "granule": "CREC-2025-06-27-pt1-PgH3016-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-27/CREC-2025-06-27-pt1-PgH3016-5"
       }
     },
     {
@@ -1158,9 +1290,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-29",
-        "granule": "CREC-2025-10-29-pt1-PgS7802",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-29/CREC-2025-10-29-pt1-PgS7802"
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgS3158-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgS3158-3"
       }
     },
     {
@@ -1194,9 +1326,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgH2390-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgH2390-5"
       }
     },
     {
@@ -1218,9 +1350,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-28",
-        "granule": "CREC-2025-10-28-pt1-PgS7779-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-28/CREC-2025-10-28-pt1-PgS7779-2"
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgS3158-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgS3158-2"
       }
     },
     {
@@ -1242,9 +1374,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-02",
-        "granule": "CREC-2025-12-02-pt1-PgH4986",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-02/CREC-2025-12-02-pt1-PgH4986"
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgH2493",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgH2493"
       }
     },
     {
@@ -1290,9 +1422,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-19",
-        "granule": "CREC-2025-11-19-pt1-PgH4806",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgH4806"
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2601",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2601"
       }
     },
     {
@@ -1314,9 +1446,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgH2390-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgH2390-4"
       }
     },
     {
@@ -1350,9 +1482,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4730",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4730"
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
       }
     },
     {
@@ -1362,9 +1494,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-20",
-        "granule": "CREC-2025-11-20-pt1-PgH4841-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgH4841-2"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2542",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2542"
       }
     },
     {
@@ -1374,9 +1506,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-17",
-        "granule": "CREC-2025-11-17-pt1-PgH4692-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4692-2"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2431-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2431-3"
       }
     },
     {
@@ -1398,9 +1530,9 @@
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-17",
-        "granule": "CREC-2025-12-17-pt1-PgH5956-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5956-3"
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2581-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2581-4"
       }
     },
     {
@@ -1416,15 +1548,27 @@
       }
     },
     {
+      "key": "meeting.procedural.may-i-inquire-how-much-time-remains",
+      "move": "procedural",
+      "text": "{chair}, may I inquire how much time remains.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2594",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2594"
+      }
+    },
+    {
       "key": "meeting.procedural.on-that-i-demand-the-yeas-and-nays",
       "move": "procedural",
       "text": "{chair}, on that I demand the yeas and nays.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-17",
-        "granule": "CREC-2025-11-17-pt1-PgH4681",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4681"
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgH2392-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgH2392-2"
       }
     },
     {

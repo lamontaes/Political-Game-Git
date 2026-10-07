@@ -124,9 +124,17 @@ export interface ServiceRequestForm {
    * against hours held by work. `on-call` services (a crisis team) are asked
    * for from the person's own health record, an acute or serious episode,
    * against a saved care record naming someone at home who looks after them.
+   * `substance-use` services (harm reduction) are asked for from the person's
+   * own private health record of a substance use disorder, against hours held
+   * by work.
    */
   readonly need:
-    "travel" | "outdoors" | "reading" | "on-call" | "child-in-household";
+    | "travel"
+    | "outdoors"
+    | "reading"
+    | "on-call"
+    | "child-in-household"
+    | "substance-use";
   /** Recorded-family eligibility and enrollment, supplied only by this row. */
   readonly forChild?: {
     readonly minimumAge: number;
@@ -261,6 +269,16 @@ export const SERVICE_REQUEST_FORMS: Readonly<
       need: "on-call",
       visit: { startMinuteOfDay: 0, minutes: 90 },
     },
+  "us-policy-positions:health-human-services.harm-reduction-services": {
+    asked: "a harm reduction visit",
+    activityTitle: "Harm reduction visit with {operator}",
+    membership: "Enrolled with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "substance-use",
+    // Authored service-day profile: a late-morning drop-in visit, not a
+    // statutory requirement.
+    visit: { startMinuteOfDay: 10 * 60, minutes: 60 },
+  },
 };
 
 /**

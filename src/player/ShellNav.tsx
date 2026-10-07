@@ -501,10 +501,7 @@ export function ShellNav({
                     {playerName}
                   </span>
                   {unsaved ? (
-                    <span
-                      className="pg-nav-unsaved"
-                      title="This life has not been saved yet."
-                    >
+                    <span className="pg-nav-unsaved" data-problem="unsaved">
                       unsaved
                     </span>
                   ) : null}
@@ -781,7 +778,7 @@ export function ShellNav({
           </p>
           <p className="pg-nav-confirm-copy">
             {unsaved
-              ? "This life has not been saved yet."
+              ? ""
               : "Save your latest progress before returning. Earlier autosaves will remain available."}
           </p>
           <button
