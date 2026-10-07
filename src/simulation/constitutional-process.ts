@@ -1,9 +1,12 @@
 import { eventById } from "./event-index";
+import { recordsWithFieldValue } from "./history-index";
+import { citizenPetitions, RECALL_PETITION_CLOSED } from "./recall";
 import { addDays, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
   buildLegislativeVoteRecord,
   measureEnactment,
+  measurePosition,
   requireMeasure,
   tallyDispositions,
 } from "./legislation";
@@ -16,6 +19,7 @@ import type { RuleSourceRef, VoteThresholdRule } from "./legislature-rules";
 import { CONSTITUTIONAL_EVIDENCE } from "./constitutional-sources.generated";
 import type {
   ConstitutionalMeasureRecord,
+  ConstitutionalRuleDelta,
   ConstitutionalActionRecord,
   ConstitutionalActionDetail,
   ConstitutionalRuleVersionRecord,
@@ -372,10 +376,198 @@ export type ProposeConstitutionalMeasureInput = Omit<
   | "sourceSha256"
   | "provenance"
 >;
+export interface OrdinaryBallotMeasureInput {
+  readonly stableKey: string;
+  readonly processKind: "ordinance" | "statute";
+  readonly jurisdictionId: EntityId;
+  readonly governmentKey?: string;
+  readonly designation: string;
+  readonly shortTitle: string;
+  readonly text: string;
+  readonly textVersion: string;
+  readonly propositionId: EntityId;
+  readonly stance: "adopt" | "repeal";
+  readonly source:
+    | { readonly kind: "qualified-petition"; readonly petitionKey: string }
+    | {
+        readonly kind: "council" | "legislature";
+        readonly measureId: EntityId;
+      };
+}
+
+export interface OrdinaryBallotMeasureRecord extends OrdinaryBallotMeasureInput {
+  readonly id: EntityId;
+  readonly referredAt: IsoDate;
+  readonly ordinaryMeasureId: EntityId | null;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly ruleDelta: Extract<
+    ConstitutionalRuleDelta,
+    { kind: "policy-provision" }
+  >;
+}
+
+/** Ordinary proposals use the same entry, with actual certification or institutional passage. */
+function proposeOrdinaryBallotMeasure(
+  world: World,
+  input: OrdinaryBallotMeasureInput,
+): World {
+  if (
+    ![
+      input.stableKey,
+      input.designation,
+      input.shortTitle,
+      input.text,
+      input.textVersion,
+    ].every((value) => value.trim())
+  )
+    throw new Error(
+      "A ballot measure needs its identity, proposition and versioned text.",
+    );
+  if (
+    !world.jurisdictions[input.jurisdictionId] ||
+    !world.policyCatalog.propositions[input.propositionId]
+  )
+    throw new Error(
+      "A ballot measure must name a recorded jurisdiction and proposition.",
+    );
+  if (
+    ordinaryBallotMeasures(world).some(
+      (row) => row.stableKey === input.stableKey,
+    )
+  )
+    throw new Error("This ballot measure is already referred.");
+  let ordinaryMeasureId: EntityId | null = null;
+  let sourceRecordIds: readonly EntityId[];
+  let sourcePersonId: EntityId | null = null;
+  const source = input.source;
+  if (source.kind === "qualified-petition") {
+    const petition = citizenPetitions(world).find(
+      (row) => row.stableKey === source.petitionKey,
+    );
+    if (
+      !petition ||
+      petition.kind === "recall" ||
+      petition.phase !== "awaiting-election" ||
+      petition.jurisdictionId !== input.jurisdictionId ||
+      petition.propositionId !== input.propositionId ||
+      (input.processKind === "ordinance"
+        ? !["local-initiative", "protest-referendum"].includes(petition.kind)
+        : !["state-initiative", "state-referendum"].includes(petition.kind))
+    )
+      throw new Error(
+        "Only this proposition's certified petition may refer it.",
+      );
+    const certification = world.history.events.find(
+      (row) =>
+        row.type === RECALL_PETITION_CLOSED &&
+        row.tags.includes(`petition:${petition.stableKey}`) &&
+        row.tags.includes("outcome:qualified"),
+    );
+    if (!certification)
+      throw new Error("The petition has no recorded certification.");
+    sourceRecordIds = [certification.id];
+    sourcePersonId = petition.petitionerPersonId;
+  } else {
+    const measure = requireMeasure(world, source.measureId);
+    const answer = input.stance === "adopt" ? "yes" : "no";
+    if (
+      measure.jurisdictionId !== input.jurisdictionId ||
+      measurePosition(world, measure.id).phase !== "awaiting-enactment" ||
+      !measure.propositionAnswers?.some(
+        (row) =>
+          row.propositionId === input.propositionId && row.answer === answer,
+      )
+    )
+      throw new Error(
+        "An institutional referral requires this same proposition's actual completed passage.",
+      );
+    ordinaryMeasureId = measure.id;
+    sourceRecordIds = [measure.id];
+    sourcePersonId = measure.sponsorPersonId;
+  }
+  const proposal = {
+    ...input,
+    referredAt: world.currentDate,
+    ordinaryMeasureId,
+    sourceRecordIds,
+    ruleDelta: {
+      kind: "policy-provision" as const,
+      propositionId: input.propositionId,
+      stance: input.stance,
+    },
+  };
+  return recordWorldEvent(world, {
+    stableKey: input.stableKey,
+    type: "civic.ballot-measure-referred",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: input.jurisdictionId,
+    involvedEntityIds: [
+      input.jurisdictionId,
+      ...(sourcePersonId ? [sourcePersonId] : []),
+    ],
+    participants: sourcePersonId
+      ? [
+          {
+            personId: sourcePersonId,
+            role: "agency:referrer",
+            detail: "Recorded source of this proposition referral",
+          },
+        ]
+      : [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [`ballot-proposal:${JSON.stringify(proposal)}`],
+    summary: `${input.designation} was referred to the voters of ${world.jurisdictions[input.jurisdictionId]!.name}.`,
+    context: {
+      location: null,
+      socialContext: "A certified ballot measure",
+      pressure: null,
+      choice: null,
+      motivation: input.text,
+      immediateReaction: null,
+    },
+  });
+}
+
+/** The proposal record comes from the canonical event writer, never a stored field list. */
+export function ordinaryBallotMeasures(
+  world: World,
+): readonly OrdinaryBallotMeasureRecord[] {
+  return recordsWithFieldValue(
+    world.history.events,
+    "type",
+    "civic.ballot-measure-referred",
+  )
+    .filter(
+      (event) =>
+        event.occurredAt <= world.currentDate &&
+        event.recordedAt <= world.currentDate,
+    )
+    .map((event) => {
+      const serialized = event.tags
+        .find((tag) => tag.startsWith("ballot-proposal:"))
+        ?.slice("ballot-proposal:".length);
+      if (!serialized)
+        throw new Error(
+          "A ballot referral must retain its versioned proposal.",
+        );
+      return {
+        ...(JSON.parse(serialized) as Omit<OrdinaryBallotMeasureRecord, "id">),
+        id: event.id,
+      };
+    });
+}
+
 export function proposeConstitutionalMeasure(
   world: World,
-  input: ProposeConstitutionalMeasureInput,
+  input: ProposeConstitutionalMeasureInput | OrdinaryBallotMeasureInput,
 ): World {
+  if ("source" in input) {
+    if (input.processKind !== "ordinance" && input.processKind !== "statute")
+      throw new Error("This ordinary ballot process is not supported.");
+    return proposeOrdinaryBallotMeasure(world, input);
+  }
   if (
     ![
       "federal-amendment",
