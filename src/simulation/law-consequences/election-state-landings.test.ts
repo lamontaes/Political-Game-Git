@@ -139,7 +139,7 @@ describe("state election law landings", () => {
                 ...row,
                 lawEffectStamps: row.lawEffectStamps!.map((stamp) => ({
                   ...stamp,
-                  effectKind: "institution-rule",
+                  effectKind: "institution-rule" as const,
                 })),
               }
             : row,
