@@ -22,9 +22,7 @@ test("Money and property says what new laws did to money, and passes no time", a
   await goTo(page, "nav-finances");
   const panel = page.getByTestId("money-laws");
   await expect(panel).toBeVisible();
-  await expect(panel.getByRole("heading", { level: 3 })).toHaveText(
-    "What new laws did to money",
-  );
+  await expect(panel.getByRole("heading", { level: 3 })).toHaveCount(0);
   await expect(panel.getByTestId("money-laws-none")).toHaveAttribute(
     "data-problem",
     "no-new-law-reached-money",

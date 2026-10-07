@@ -40,6 +40,14 @@ describe("Money screens show record data only", () => {
     expect(text).not.toContain("attempted (");
   });
 
+  it("does not render unavailable-state or section helper headings", () => {
+    const context = code("src/player/EconomicContextPanel.tsx");
+    const laws = code("src/player/MoneyLaws.tsx");
+    expect(context).not.toContain("Economic context unavailable");
+    expect(context).not.toContain("Figures unavailable");
+    expect(laws).not.toContain("What new laws did to money");
+  });
+
   it("does not render modeled-account explanation or no-account prose", () => {
     const noAccount = renderToStaticMarkup(
       createElement(ModeledAccountHistory, {

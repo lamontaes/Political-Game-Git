@@ -107,13 +107,11 @@ export function EconomicContextPanel({
     if (diagnostics)
       return (
         <section className="economic-context-panel" role="status">
-          <h2>Economic context unavailable</h2>
           <p data-problem="load-failed" data-detail={state.message} />
         </section>
       );
     return (
       <section className="economic-context-panel" role="status">
-        <h2>Figures unavailable</h2>
         <p data-problem="figures-unavailable" />
       </section>
     );
