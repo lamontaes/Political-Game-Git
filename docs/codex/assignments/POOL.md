@@ -677,7 +677,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2255 | List loading dependencies in the strict Node project | PR #2255 (codex/session5-node-loading-dependencies) | open: draft: finish it or close it as superseded | |
 | RS-2259 | P1: Clerk filing evidence and saved council result scene consumers | PR #2259 (codex/session13-clerk-night-shared) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | done #2264 (implementation merged; verified on current main) | |
 | RS-2266 | Record sourced government law amounts | PR #2266 (codex/session18-government-operations-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2275 | Record acting presidency during official incapacity | PR #2275 (session25/p1-presidential-health) | open: sent back: failed its own changed checks: tests | |
 | RS-2277 | Forward shared inclusionary term provenance into lease stamps | PR #2277 (codex/session21-inclusionary-provenance) | open: draft: finish it or close it as superseded | |
