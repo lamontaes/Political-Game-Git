@@ -8,12 +8,13 @@
   "maxWords": 16,
   "mining": {
     "tool": "scripts/english-mining/mine-congressional-record.py",
-    "daysRead": "33 Congressional Record days, October 27 to December 18, 2025, House and Senate pages"
+    "daysRead": "63 Congressional Record days, June 2 to December 18, 2025, House and Senate pages"
   },
   "parts": [
     {
       "key": "meeting.closer.i-am-going-to-be-uncharacteristically-brief",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I am going to be uncharacteristically brief.",
       "shippable": true,
       "source": {
@@ -26,18 +27,20 @@
     {
       "key": "meeting.closer.i-am-prepared-to-close",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I am prepared to close.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4730",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4730"
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2581-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2581-4"
       }
     },
     {
       "key": "meeting.closer.i-am-prepared-to-close-and-continue-to-reserve-the-balance-of-my-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I am prepared to close and continue to reserve the balance of my time.",
       "shippable": true,
       "source": {
@@ -50,42 +53,59 @@
     {
       "key": "meeting.closer.i-am-prepared-to-close-and-i-reserve-the-balance-of-my-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I am prepared to close, and I reserve the balance of my time.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgH2393",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgH2393"
       }
     },
     {
       "key": "meeting.closer.i-have-no-additional-speakers",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I have no additional speakers.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-17",
-        "granule": "CREC-2025-12-17-pt1-PgH5956-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5956-3"
+        "date": "2025-06-23",
+        "granule": "CREC-2025-06-23-pt1-PgH2855",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-23/CREC-2025-06-23-pt1-PgH2855"
+      }
+    },
+    {
+      "key": "meeting.closer.i-have-no-additional-speakers-and-i-reserve-the-balance-of-my-time",
+      "move": "closer",
+      "kind": "spoken",
+      "text": "{chair}, I have no additional speakers, and I reserve the balance of my time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-23",
+        "granule": "CREC-2025-06-23-pt1-PgH2843-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-23/CREC-2025-06-23-pt1-PgH2843-4"
       }
     },
     {
       "key": "meeting.closer.i-have-no-further-requests-for-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I have no further requests for time.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4750",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4750"
+        "date": "2025-07-14",
+        "granule": "CREC-2025-07-14-pt1-PgH3225",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-14/CREC-2025-07-14-pt1-PgH3225"
       }
     },
     {
       "key": "meeting.closer.i-have-no-further-requests-for-time-and-i-am-prepared-to-close",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I have no further requests for time, and I am prepared to close.",
       "shippable": true,
       "source": {
@@ -98,30 +118,33 @@
     {
       "key": "meeting.closer.i-have-no-further-speakers",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I have no further speakers.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-17",
-        "granule": "CREC-2025-11-17-pt1-PgH4681",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4681"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2551",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2551"
       }
     },
     {
       "key": "meeting.closer.i-have-no-further-speakers-and-i-am-prepared-to-close",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I have no further speakers, and I am prepared to close.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-17",
-        "granule": "CREC-2025-11-17-pt1-PgH4676-4",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4676-4"
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2589-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2589-2"
       }
     },
     {
       "key": "meeting.closer.i-have-no-further-speakers-and-i-am-ready-to-close",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I have no further speakers, and I am ready to close.",
       "shippable": true,
       "source": {
@@ -134,18 +157,20 @@
     {
       "key": "meeting.closer.i-have-no-further-speakers-and-i-reserve-the-balance-of-my-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I have no further speakers, and I reserve the balance of my time.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-19",
-        "granule": "CREC-2025-11-19-pt1-PgH4800",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgH4800"
+        "date": "2025-07-14",
+        "granule": "CREC-2025-07-14-pt1-PgH3209-7",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-14/CREC-2025-07-14-pt1-PgH3209-7"
       }
     },
     {
       "key": "meeting.closer.i-have-no-more-speakers",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I have no more speakers.",
       "shippable": true,
       "source": {
@@ -158,6 +183,7 @@
     {
       "key": "meeting.closer.i-hope-my-colleagues-will-join-me-in-voting-for-the-motion-to-recommit",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I hope my colleagues will join me in voting for the motion to recommit.",
       "shippable": true,
       "source": {
@@ -170,6 +196,7 @@
     {
       "key": "meeting.closer.i-reserve-the-balance-of-my-time-and-am-prepared-to-close",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I reserve the balance of my time and am prepared to close.",
       "shippable": true,
       "source": {
@@ -182,18 +209,20 @@
     {
       "key": "meeting.closer.i-reserve-the-balance-of-my-time-and-i-am-prepared-to-close",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I reserve the balance of my time, and I am prepared to close.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4718-6",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4718-6"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2549",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2549"
       }
     },
     {
       "key": "meeting.closer.i-support-this-legislation-and-i-urge-my-colleagues-to-do-so-as-well",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I support this legislation, and I urge my colleagues to do so, as well.",
       "shippable": true,
       "source": {
@@ -204,8 +233,22 @@
       }
     },
     {
+      "key": "meeting.closer.i-urge-my-colleagues-to-oppose-this-amendment",
+      "move": "closer",
+      "kind": "spoken",
+      "text": "{chair}, I urge my colleagues to oppose this amendment.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-30",
+        "granule": "CREC-2025-06-30-pt1-PgS4037-6",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-30/CREC-2025-06-30-pt1-PgS4037-6"
+      }
+    },
+    {
       "key": "meeting.closer.i-urge-my-colleagues-to-oppose-this-resolution",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I urge my colleagues to oppose this resolution.",
       "shippable": true,
       "source": {
@@ -218,6 +261,7 @@
     {
       "key": "meeting.closer.i-urge-my-colleagues-to-support-this-legislation",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I urge my colleagues to support this legislation.",
       "shippable": true,
       "source": {
@@ -228,8 +272,22 @@
       }
     },
     {
+      "key": "meeting.closer.i-urge-support-for-this-bill",
+      "move": "closer",
+      "kind": "spoken",
+      "text": "{chair}, I urge support for this bill.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-07-14",
+        "granule": "CREC-2025-07-14-pt1-PgH3215-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-14/CREC-2025-07-14-pt1-PgH3215-2"
+      }
+    },
+    {
       "key": "meeting.closer.i-urge-support-for-this-bill-and-i-yield-back-the-balance-of-my-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I urge support for this bill, and I yield back the balance of my time.",
       "shippable": true,
       "source": {
@@ -240,8 +298,22 @@
       }
     },
     {
+      "key": "meeting.closer.i-urge-support-for-this-legislation",
+      "move": "closer",
+      "kind": "spoken",
+      "text": "{chair}, I urge support for this legislation.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-23",
+        "granule": "CREC-2025-06-23-pt1-PgH2852",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-23/CREC-2025-06-23-pt1-PgH2852"
+      }
+    },
+    {
       "key": "meeting.closer.i-urge-support-for-this-legislation-and-i-yield-back-the-balance-of-my-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I urge support for this legislation, and I yield back the balance of my time.",
       "shippable": true,
       "source": {
@@ -254,6 +326,7 @@
     {
       "key": "meeting.closer.i-urge-support-for-this-policy-and-i-yield-back-the-balance-of-my-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I urge support for this policy, and I yield back the balance of my time.",
       "shippable": true,
       "source": {
@@ -266,6 +339,7 @@
     {
       "key": "meeting.closer.i-will-be-brief",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I will be brief.",
       "shippable": true,
       "source": {
@@ -278,6 +352,7 @@
     {
       "key": "meeting.closer.i-yield-back-all-debate-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I yield back all debate time.",
       "shippable": true,
       "source": {
@@ -290,6 +365,7 @@
     {
       "key": "meeting.closer.i-yield-back-all-remaining-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I yield back all remaining time.",
       "shippable": true,
       "source": {
@@ -302,66 +378,72 @@
     {
       "key": "meeting.closer.i-yield-back-the-balance-of-my-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I yield back the balance of my time.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4609-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4609-2"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
       "key": "meeting.closer.i-yield-myself-the-balance-of-my-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I yield myself the balance of my time.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2431-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2431-3"
       }
     },
     {
       "key": "meeting.closer.i-yield-myself-the-balance-of-my-time-for-closing",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I yield myself the balance of my time for closing.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-16",
-        "granule": "CREC-2025-12-16-pt1-PgH5912-4",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgH5912-4"
+        "date": "2025-06-27",
+        "granule": "CREC-2025-06-27-pt1-PgH3016-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-27/CREC-2025-06-27-pt1-PgH3016-5"
       }
     },
     {
       "key": "meeting.closer.i-yield-myself-the-balance-of-my-time-to-close",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I yield myself the balance of my time to close.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4746",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4746"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2547",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2547"
       }
     },
     {
       "key": "meeting.closer.i-yield-the-floor",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I yield the floor.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-16",
-        "granule": "CREC-2025-12-16-pt1-PgS8754",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgS8754"
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgS3159-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgS3159-4"
       }
     },
     {
       "key": "meeting.closer.i-yield-the-remainder-of-my-time",
       "move": "closer",
+      "kind": "spoken",
       "text": "{chair}, I yield the remainder of my time.",
       "shippable": true,
       "source": {
@@ -374,6 +456,7 @@
     {
       "key": "meeting.opener.i-am-here-today-because-i-oppose-this-resolution",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I am here today because I oppose this resolution.",
       "shippable": true,
       "source": {
@@ -386,18 +469,20 @@
     {
       "key": "meeting.opener.i-rise-in-opposition-to-the-amendment",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise in opposition to the amendment.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-10",
-        "granule": "CREC-2025-12-10-pt1-PgH5522",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5522"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
       "key": "meeting.opener.i-rise-in-opposition-to-this-bill",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise in opposition to this bill.",
       "shippable": true,
       "source": {
@@ -410,6 +495,7 @@
     {
       "key": "meeting.opener.i-rise-in-opposition-to-this-hateful-legislation",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise in opposition to this hateful legislation.",
       "shippable": true,
       "source": {
@@ -422,6 +508,7 @@
     {
       "key": "meeting.opener.i-rise-in-strong-opposition-to-this-bill",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise in strong opposition to this bill.",
       "shippable": true,
       "source": {
@@ -434,6 +521,7 @@
     {
       "key": "meeting.opener.i-rise-in-strong-opposition-to-this-legislation",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise in strong opposition to this legislation.",
       "shippable": true,
       "source": {
@@ -446,6 +534,7 @@
     {
       "key": "meeting.opener.i-rise-in-strong-opposition-to-this-resolution",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise in strong opposition to this resolution.",
       "shippable": true,
       "source": {
@@ -456,8 +545,22 @@
       }
     },
     {
+      "key": "meeting.opener.i-rise-in-strong-support-of-this-bill",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "{chair}, I rise in strong support of this bill.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
+      }
+    },
+    {
       "key": "meeting.opener.i-rise-in-strong-support-of-this-legislation",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise in strong support of this legislation.",
       "shippable": true,
       "source": {
@@ -470,6 +573,7 @@
     {
       "key": "meeting.opener.i-rise-in-support-of-the-resolution",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise in support of the resolution.",
       "shippable": true,
       "source": {
@@ -482,6 +586,7 @@
     {
       "key": "meeting.opener.i-rise-in-support-of-this-bill",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise in support of this bill.",
       "shippable": true,
       "source": {
@@ -494,6 +599,7 @@
     {
       "key": "meeting.opener.i-rise-to-ask-a-point-of-parliamentary-inquiry",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise to ask a point of parliamentary inquiry.",
       "shippable": true,
       "source": {
@@ -506,6 +612,7 @@
     {
       "key": "meeting.opener.i-rise-to-speak-briefly-in-gratitude-today",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise to speak briefly in gratitude today.",
       "shippable": true,
       "source": {
@@ -518,6 +625,7 @@
     {
       "key": "meeting.opener.i-rise-today-in-opposition-to-this-bill",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise today in opposition to this bill.",
       "shippable": true,
       "source": {
@@ -530,6 +638,7 @@
     {
       "key": "meeting.opener.i-rise-today-in-opposition-to-this-continuing-resolution",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise today in opposition to this continuing resolution.",
       "shippable": true,
       "source": {
@@ -542,6 +651,7 @@
     {
       "key": "meeting.opener.i-rise-today-in-strong-opposition-to-this-bill",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise today in strong opposition to this bill.",
       "shippable": true,
       "source": {
@@ -554,6 +664,7 @@
     {
       "key": "meeting.opener.i-rise-today-in-strong-opposition-to-this-resolution",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise today in strong opposition to this resolution.",
       "shippable": true,
       "source": {
@@ -564,20 +675,35 @@
       }
     },
     {
+      "key": "meeting.opener.i-rise-today-to-honor-the-life-of-a-true-public-servant",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "{chair}, I rise today to honor the life of a true public servant.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-12",
+        "granule": "CREC-2025-06-12-pt1-PgH2660",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-12/CREC-2025-06-12-pt1-PgH2660"
+      }
+    },
+    {
       "key": "meeting.opener.i-rise-today-with-a-heavy-heart",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise today with a heavy heart.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-02",
-        "granule": "CREC-2025-12-02-pt1-PgH4972",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-02/CREC-2025-12-02-pt1-PgH4972"
+        "date": "2025-07-14",
+        "granule": "CREC-2025-07-14-pt1-PgH3207-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-14/CREC-2025-07-14-pt1-PgH3207-2"
       }
     },
     {
       "key": "meeting.opener.i-rise-today-with-a-profound-sense-of-loss",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I rise today with a profound sense of loss.",
       "shippable": true,
       "source": {
@@ -590,6 +716,7 @@
     {
       "key": "meeting.opener.i-thank-my-colleague-for-yielding",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank my colleague for yielding.",
       "shippable": true,
       "source": {
@@ -600,8 +727,22 @@
       }
     },
     {
+      "key": "meeting.opener.i-thank-my-colleague-for-yielding-time",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "{chair}, I thank my colleague for yielding time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-07-15",
+        "granule": "CREC-2025-07-15-pt1-PgH3306",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-15/CREC-2025-07-15-pt1-PgH3306"
+      }
+    },
+    {
       "key": "meeting.opener.i-thank-the-chair-for-the-time",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the chair for the time.",
       "shippable": true,
       "source": {
@@ -612,8 +753,22 @@
       }
     },
     {
+      "key": "meeting.opener.i-thank-the-chair-for-yielding-me-time",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "{chair}, I thank the chair for yielding me time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-12",
+        "granule": "CREC-2025-06-12-pt1-PgH2796-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-12/CREC-2025-06-12-pt1-PgH2796-3"
+      }
+    },
+    {
       "key": "meeting.opener.i-thank-the-chairman-for-the-time",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the chairman for the time.",
       "shippable": true,
       "source": {
@@ -626,6 +781,7 @@
     {
       "key": "meeting.opener.i-thank-the-chairman-for-this-time",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the chairman for this time.",
       "shippable": true,
       "source": {
@@ -638,6 +794,7 @@
     {
       "key": "meeting.opener.i-thank-the-chairman-for-yielding",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the chairman for yielding.",
       "shippable": true,
       "source": {
@@ -648,8 +805,35 @@
       }
     },
     {
+      "key": "meeting.opener.i-thank-the-chairman-for-yielding-me-time",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "{chair}, I thank the chairman for yielding me time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgH2483",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgH2483"
+      }
+    },
+    {
+      "key": "meeting.opener.i-thank-the-chairman-for-yielding-time",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "{chair}, I thank the chairman for yielding time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
+      }
+    },
+    {
       "key": "meeting.opener.i-thank-the-chairman-for-yielding-to-me",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the chairman for yielding to me.",
       "shippable": true,
       "source": {
@@ -662,6 +846,7 @@
     {
       "key": "meeting.opener.i-thank-the-gentleman-for-the-time",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the gentleman for the time.",
       "shippable": true,
       "source": {
@@ -674,18 +859,20 @@
     {
       "key": "meeting.opener.i-thank-the-gentleman-for-yielding",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the gentleman for yielding.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
       "key": "meeting.opener.i-thank-the-gentleman-for-yielding-and-for-his-strong-support",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the gentleman for yielding and for his strong support.",
       "shippable": true,
       "source": {
@@ -698,6 +885,7 @@
     {
       "key": "meeting.opener.i-thank-the-gentleman-for-yielding-and-for-your-leadership",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the gentleman for yielding and for your leadership.",
       "shippable": true,
       "source": {
@@ -708,8 +896,22 @@
       }
     },
     {
+      "key": "meeting.opener.i-thank-the-gentleman-for-yielding-me-time",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "{chair}, I thank the gentleman for yielding me time.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-11",
+        "granule": "CREC-2025-06-11-pt1-PgH2625-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-11/CREC-2025-06-11-pt1-PgH2625-5"
+      }
+    },
+    {
       "key": "meeting.opener.i-thank-the-gentleman-for-yielding-the-time",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the gentleman for yielding the time.",
       "shippable": true,
       "source": {
@@ -722,18 +924,20 @@
     {
       "key": "meeting.opener.i-thank-the-gentleman-for-yielding-time",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the gentleman for yielding time.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-15",
-        "granule": "CREC-2025-12-15-pt1-PgH5864",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-15/CREC-2025-12-15-pt1-PgH5864"
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
       }
     },
     {
       "key": "meeting.opener.i-thank-the-gentlemen-for-yielding-to-me",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the gentlemen for yielding to me.",
       "shippable": true,
       "source": {
@@ -746,18 +950,20 @@
     {
       "key": "meeting.opener.i-thank-the-gentlewoman-for-yielding",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the gentlewoman for yielding.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-12",
+        "granule": "CREC-2025-06-12-pt1-PgH2796-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-12/CREC-2025-06-12-pt1-PgH2796-3"
       }
     },
     {
       "key": "meeting.opener.i-thank-the-ranking-member-for-the-time",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the ranking member for the time.",
       "shippable": true,
       "source": {
@@ -770,30 +976,33 @@
     {
       "key": "meeting.opener.i-thank-the-ranking-member-for-yielding",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the ranking member for yielding.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-16",
-        "granule": "CREC-2025-12-16-pt1-PgH5921",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgH5921"
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
       }
     },
     {
       "key": "meeting.opener.i-thank-the-ranking-member-for-yielding-me-time",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the ranking member for yielding me time.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgH2483",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgH2483"
       }
     },
     {
       "key": "meeting.opener.i-thank-the-ranking-member-for-yielding-to-me",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the ranking member for yielding to me.",
       "shippable": true,
       "source": {
@@ -806,6 +1015,7 @@
     {
       "key": "meeting.opener.i-thank-the-vice-chair-of-the-committee-for-yielding",
       "move": "opener",
+      "kind": "spoken",
       "text": "{chair}, I thank the vice chair of the committee for yielding.",
       "shippable": true,
       "source": {
@@ -818,6 +1028,7 @@
     {
       "key": "meeting.procedural.a-point-of-order",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, a point of order.",
       "shippable": true,
       "source": {
@@ -830,6 +1041,7 @@
     {
       "key": "meeting.procedural.how-much-time-is-remaining",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, how much time is remaining?",
       "shippable": true,
       "source": {
@@ -842,6 +1054,7 @@
     {
       "key": "meeting.procedural.i-ask-consent-that-the-reading-of-the-names-be-waived",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask consent that the reading of the names be waived.",
       "shippable": true,
       "source": {
@@ -854,18 +1067,20 @@
     {
       "key": "meeting.procedural.i-ask-for-the-yeas-and-nays",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask for the yeas and nays.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-27",
-        "granule": "CREC-2025-10-27-pt1-PgS7751-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-27/CREC-2025-10-27-pt1-PgS7751-2"
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgS3247-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgS3247-2"
       }
     },
     {
       "key": "meeting.procedural.i-ask-for-the-yeas-and-nays-on-the-amendment",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask for the yeas and nays on the amendment.",
       "shippable": true,
       "source": {
@@ -878,6 +1093,7 @@
     {
       "key": "meeting.procedural.i-ask-that-the-reading-be-dispensed-with",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask that the reading be dispensed with.",
       "shippable": true,
       "source": {
@@ -890,6 +1106,7 @@
     {
       "key": "meeting.procedural.i-ask-that-we-commence-with-the-previously-scheduled-vote",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask that we commence with the previously scheduled vote.",
       "shippable": true,
       "source": {
@@ -902,18 +1119,20 @@
     {
       "key": "meeting.procedural.i-ask-unanimous-consent-that-the-order-for-the-quorum-call-be-rescinded",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask unanimous consent that the order for the quorum call be rescinded.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-27",
-        "granule": "CREC-2025-10-27-pt1-PgS7744-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-27/CREC-2025-10-27-pt1-PgS7744-2"
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgS3155-6",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgS3155-6"
       }
     },
     {
       "key": "meeting.procedural.i-ask-unanimous-consent-that-the-previously-scheduled-recess-begin-immediately",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask unanimous consent that the previously scheduled recess begin immediately.",
       "shippable": true,
       "source": {
@@ -926,6 +1145,7 @@
     {
       "key": "meeting.procedural.i-ask-unanimous-consent-that-the-previously-scheduled-vote-occur-immediately",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask unanimous consent that the previously scheduled vote occur immediately.",
       "shippable": true,
       "source": {
@@ -938,6 +1158,7 @@
     {
       "key": "meeting.procedural.i-ask-unanimous-consent-that-the-rollcall-vote-begin-immediately",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask unanimous consent that the rollcall vote begin immediately.",
       "shippable": true,
       "source": {
@@ -950,6 +1171,7 @@
     {
       "key": "meeting.procedural.i-ask-unanimous-consent-that-the-rollcall-vote-commence-immediately",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask unanimous consent that the rollcall vote commence immediately.",
       "shippable": true,
       "source": {
@@ -962,6 +1184,7 @@
     {
       "key": "meeting.procedural.i-ask-unanimous-consent-to-begin-the-next-vote",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask unanimous consent to begin the next vote.",
       "shippable": true,
       "source": {
@@ -974,6 +1197,7 @@
     {
       "key": "meeting.procedural.i-ask-unanimous-consent-to-resume-legislative-session",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask unanimous consent to resume legislative session.",
       "shippable": true,
       "source": {
@@ -986,6 +1210,7 @@
     {
       "key": "meeting.procedural.i-ask-unanimous-consent-to-use-a-prop",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask unanimous consent to use a prop.",
       "shippable": true,
       "source": {
@@ -998,18 +1223,20 @@
     {
       "key": "meeting.procedural.i-ask-unanimous-consent-to-use-a-prop-during-my-remarks",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I ask unanimous consent to use a prop during my remarks.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-30",
-        "granule": "CREC-2025-10-30-pt1-PgS7851-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-30/CREC-2025-10-30-pt1-PgS7851-2"
+        "date": "2025-06-26",
+        "granule": "CREC-2025-06-26-pt1-PgS3548",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-26/CREC-2025-06-26-pt1-PgS3548"
       }
     },
     {
       "key": "meeting.procedural.i-could-not-make-today-s-vote",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I could not make today's vote.",
       "shippable": true,
       "source": {
@@ -1022,54 +1249,59 @@
     {
       "key": "meeting.procedural.i-demand-a-recorded-vote",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I demand a recorded vote.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4730",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4730"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
       "key": "meeting.procedural.i-have-a-motion-at-the-desk",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I have a motion at the desk.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4609-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4609-2"
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
       }
     },
     {
       "key": "meeting.procedural.i-have-a-motion-to-recommit-at-the-desk",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I have a motion to recommit at the desk.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-16",
-        "granule": "CREC-2025-12-16-pt1-PgH5921",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgH5921"
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgH2483",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgH2483"
       }
     },
     {
       "key": "meeting.procedural.i-have-a-parliamentary-inquiry",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I have a parliamentary inquiry.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4762",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4762"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2542",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2542"
       }
     },
     {
       "key": "meeting.procedural.i-have-a-second-degree-amendment-at-the-desk",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I have a second-degree amendment at the desk.",
       "shippable": true,
       "source": {
@@ -1082,18 +1314,20 @@
     {
       "key": "meeting.procedural.i-have-an-amendment-at-the-desk",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I have an amendment at the desk.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-10",
-        "granule": "CREC-2025-12-10-pt1-PgH5522",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5522"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2441-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2441-2"
       }
     },
     {
       "key": "meeting.procedural.i-know-of-no-further-debate",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I know of no further debate.",
       "shippable": true,
       "source": {
@@ -1106,6 +1340,7 @@
     {
       "key": "meeting.procedural.i-know-of-no-further-debate-on-the-nomination",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I know of no further debate on the nomination.",
       "shippable": true,
       "source": {
@@ -1118,6 +1353,7 @@
     {
       "key": "meeting.procedural.i-missed-a-series-of-votes",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I missed a series of votes.",
       "shippable": true,
       "source": {
@@ -1130,18 +1366,20 @@
     {
       "key": "meeting.procedural.i-missed-a-vote-today",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I missed a vote today.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-03",
-        "granule": "CREC-2025-12-03-pt1-PgH5011-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03/CREC-2025-12-03-pt1-PgH5011-3"
+        "date": "2025-06-27",
+        "granule": "CREC-2025-06-27-pt1-PgH3016-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-27/CREC-2025-06-27-pt1-PgH3016-5"
       }
     },
     {
       "key": "meeting.procedural.i-move-to-proceed-to-executive-session",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I move to proceed to executive session.",
       "shippable": true,
       "source": {
@@ -1154,18 +1392,20 @@
     {
       "key": "meeting.procedural.i-move-to-proceed-to-legislative-session",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I move to proceed to legislative session.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-29",
-        "granule": "CREC-2025-10-29-pt1-PgS7802",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-29/CREC-2025-10-29-pt1-PgS7802"
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgS3158-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgS3158-3"
       }
     },
     {
       "key": "meeting.procedural.i-move-to-take-the-words-down",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I move to take the words down.",
       "shippable": true,
       "source": {
@@ -1178,6 +1418,7 @@
     {
       "key": "meeting.procedural.i-offer-a-privileged-resolution-and-ask-for-its-immediate-consideration",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I offer a privileged resolution and ask for its immediate consideration.",
       "shippable": true,
       "source": {
@@ -1190,18 +1431,20 @@
     {
       "key": "meeting.procedural.i-reserve-the-balance-of-my-time",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I reserve the balance of my time.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgH2390-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgH2390-5"
       }
     },
     {
       "key": "meeting.procedural.i-reserve-the-right-to-object",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I reserve the right to object.",
       "shippable": true,
       "source": {
@@ -1214,18 +1457,20 @@
     {
       "key": "meeting.procedural.i-send-a-cloture-motion-to-the-desk",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I send a cloture motion to the desk.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-10-28",
-        "granule": "CREC-2025-10-28-pt1-PgS7779-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-28/CREC-2025-10-28-pt1-PgS7779-2"
+        "date": "2025-06-02",
+        "granule": "CREC-2025-06-02-pt1-PgS3158-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-02/CREC-2025-06-02-pt1-PgS3158-2"
       }
     },
     {
       "key": "meeting.procedural.i-was-absent-from-the-chamber-today",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I was absent from the chamber today.",
       "shippable": true,
       "source": {
@@ -1238,18 +1483,20 @@
     {
       "key": "meeting.procedural.i-was-necessarily-absent-from-votes-today",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I was necessarily absent from votes today.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-02",
-        "granule": "CREC-2025-12-02-pt1-PgH4986",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-02/CREC-2025-12-02-pt1-PgH4986"
+        "date": "2025-06-05",
+        "granule": "CREC-2025-06-05-pt1-PgH2493",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-05/CREC-2025-06-05-pt1-PgH2493"
       }
     },
     {
       "key": "meeting.procedural.i-was-otherwise-detained-off-the-floor",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I was otherwise detained off the floor.",
       "shippable": true,
       "source": {
@@ -1262,6 +1509,7 @@
     {
       "key": "meeting.procedural.i-was-unable-to-be-present-for-this-vote",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I was unable to be present for this vote.",
       "shippable": true,
       "source": {
@@ -1274,6 +1522,7 @@
     {
       "key": "meeting.procedural.i-was-unavoidably-absent-and-unable-to-vote",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I was unavoidably absent and unable to vote.",
       "shippable": true,
       "source": {
@@ -1286,18 +1535,20 @@
     {
       "key": "meeting.procedural.i-was-unavoidably-detained",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I was unavoidably detained.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-19",
-        "granule": "CREC-2025-11-19-pt1-PgH4806",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgH4806"
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2601",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2601"
       }
     },
     {
       "key": "meeting.procedural.i-withdraw-my-motion-to-proceed",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I withdraw my motion to proceed.",
       "shippable": true,
       "source": {
@@ -1310,18 +1561,20 @@
     {
       "key": "meeting.procedural.i-yield-myself-such-time-as-i-may-consume",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, I yield myself such time as I may consume.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-12",
-        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgH2390-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgH2390-4"
       }
     },
     {
       "key": "meeting.procedural.may-i-ask-for-a-clarification",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, may I ask for a clarification?",
       "shippable": true,
       "source": {
@@ -1334,6 +1587,7 @@
     {
       "key": "meeting.procedural.may-i-inquire-about-how-much-time-is-remaining",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, may I inquire about how much time is remaining.",
       "shippable": true,
       "source": {
@@ -1346,42 +1600,46 @@
     {
       "key": "meeting.procedural.may-i-inquire-as-to-how-much-time-i-have-remaining",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, may I inquire as to how much time I have remaining.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-18",
-        "granule": "CREC-2025-11-18-pt1-PgH4730",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4730"
+        "date": "2025-07-02",
+        "granule": "CREC-2025-07-02-pt1-PgH3059",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-02/CREC-2025-07-02-pt1-PgH3059"
       }
     },
     {
       "key": "meeting.procedural.may-i-inquire-as-to-how-much-time-is-remaining",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, may I inquire as to how much time is remaining.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-20",
-        "granule": "CREC-2025-11-20-pt1-PgH4841-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgH4841-2"
+        "date": "2025-06-09",
+        "granule": "CREC-2025-06-09-pt1-PgH2542",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-09/CREC-2025-06-09-pt1-PgH2542"
       }
     },
     {
       "key": "meeting.procedural.may-i-inquire-as-to-the-time-remaining",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, may I inquire as to the time remaining.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-17",
-        "granule": "CREC-2025-11-17-pt1-PgH4692-2",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4692-2"
+        "date": "2025-06-04",
+        "granule": "CREC-2025-06-04-pt1-PgH2431-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04/CREC-2025-06-04-pt1-PgH2431-3"
       }
     },
     {
       "key": "meeting.procedural.may-i-inquire-how-much-debate-time-remains",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, may I inquire how much debate time remains.",
       "shippable": true,
       "source": {
@@ -1394,18 +1652,20 @@
     {
       "key": "meeting.procedural.may-i-inquire-how-much-time-i-have-remaining",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, may I inquire how much time I have remaining.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-12-17",
-        "granule": "CREC-2025-12-17-pt1-PgH5956-3",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-17/CREC-2025-12-17-pt1-PgH5956-3"
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2581-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2581-4"
       }
     },
     {
       "key": "meeting.procedural.may-i-inquire-how-much-time-is-remaining",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, may I inquire how much time is remaining.",
       "shippable": true,
       "source": {
@@ -1416,20 +1676,35 @@
       }
     },
     {
+      "key": "meeting.procedural.may-i-inquire-how-much-time-remains",
+      "move": "procedural",
+      "kind": "spoken",
+      "text": "{chair}, may I inquire how much time remains.",
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-06-10",
+        "granule": "CREC-2025-06-10-pt1-PgH2594",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-10/CREC-2025-06-10-pt1-PgH2594"
+      }
+    },
+    {
       "key": "meeting.procedural.on-that-i-demand-the-yeas-and-nays",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, on that I demand the yeas and nays.",
       "shippable": true,
       "source": {
         "document": "Congressional Record",
-        "date": "2025-11-17",
-        "granule": "CREC-2025-11-17-pt1-PgH4681",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4681"
+        "date": "2025-06-03",
+        "granule": "CREC-2025-06-03-pt1-PgH2392-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-03/CREC-2025-06-03-pt1-PgH2392-2"
       }
     },
     {
       "key": "meeting.procedural.reserving-the-right-to-object",
       "move": "procedural",
+      "kind": "spoken",
       "text": "{chair}, reserving the right to object.",
       "shippable": true,
       "source": {

@@ -83,10 +83,6 @@ import { drawFamilyShape } from "../simulation/family-shape";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import { parentsOf, recordFamilyAddition } from "../simulation/people-family";
 import { recordEarlierConditionOnsets } from "../simulation/crisis/condition-onset";
-import {
-  recordCreatorLifeForks,
-  type CreatorLifeForkChoice,
-} from "../simulation/creator-life-forks";
 import { historicalWorldInputs } from "../simulation/historical-world-inputs";
 import type {
   CharacterHistoryTransition,
@@ -152,7 +148,6 @@ export type OpeningFamilyShape = "one-parent" | "two-parents" | "guardian";
 export interface ProductionWorldInput {
   /** Observe immutable canonical build checkpoints; never advances the clock. */
   readonly onCharacterCheckpoint?: (world: World, personId: EntityId) => void;
-  readonly creatorLifeForks?: readonly CreatorLifeForkChoice[];
   /** The full world seed, already derived from the player's setup. */
   readonly seed: string;
   /** World identity seed, before calibration; topology is not a shaped age range. */
@@ -184,8 +179,6 @@ export interface ProductionWorldInput {
   readonly otherParent?: OpeningOtherParent;
   /** A stated household fact; absent reuses the current game's family records. */
   readonly familyShape?: OpeningFamilyShape;
-  /** Setup-only family job premise; read while the opening caregivers are hired. */
-  readonly familyMoneyPremise?: "comfortable" | "ordinary" | "tight";
   /**
    * The questionnaire answers, carried into the world's non-diegetic corner.
    *
@@ -446,12 +439,7 @@ export function buildProductionWorld(
   // Complete their employment and home through the existing opening writers.
   if (estimateOpeningFamily)
     world = ensureTownHomes(
-      ensureTownEmployment(
-        world,
-        jurisdiction.id,
-        player.id,
-        input.familyMoneyPremise ?? "ordinary",
-      ),
+      ensureTownEmployment(world, jurisdiction.id, player.id),
       jurisdiction.id,
     );
   // An adult New Game start draws the rest of the family around the parent
@@ -546,11 +534,6 @@ export function buildProductionWorld(
     input.districtHomeJoinVersion,
   );
   assertWorldIntegrity(world);
-  world = recordCreatorLifeForks(
-    world,
-    player.id,
-    input.creatorLifeForks ?? [],
-  );
   return { world, playerPersonId: player.id, player };
 }
 

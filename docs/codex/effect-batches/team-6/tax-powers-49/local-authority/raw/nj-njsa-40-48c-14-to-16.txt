@@ -1,0 +1,59 @@
+40:48C-14.  Definitions;  employer;  payroll
+    As used in this article:
+
+     "Employer"  means any individual, corporation, company, association, society, firm, partnership, joint stock company, trust, estate, or foundation standing in the position of employer in an employer-employee relationship, having one or more employees and having a payroll in excess of $2,500.00 in any  calendar quarter;  other than
+
+    a.  the Government of the United States;
+
+     b.  the State of New Jersey or a county, municipality, school district or special district of the State;
+
+     c.  an interstate agency;  or
+
+     d.  an agency or instrumentality of any organization enumerated in a., b. or  c. above;
+
+     e.  any insurance company formed by authority of another state or foreign country and subject to the provisions of P.L.1950, c. 231 (C. 17:32-15).
+
+      "Payroll"  means an amount equal to the total remuneration paid by employers to employees which is subject to withholding by the employer for Federal income tax purposes for services, other than domestic services in a private residence, if
+
+    (a) The services are performed within the municipality;  or
+
+     (b) The services are performed outside the municipality and the place from which the services are supervised, is in the municipality.
+
+     L.1970, c. 326, s. 14, eff. Dec. 23, 1970.
+
+40:48C-15  Collection of employer payroll tax by municipality.
+	15. a. Any municipality may, by ordinance, impose and collect an employer payroll tax for general municipal purposes of the municipality, or for the purposes set forth in subsection d. of this section, at a rate of up to one percent of the employer's payroll.  Notwithstanding any provision of this section to the contrary, a municipality may, by ordinance, elect to retain up to three percent of employer payroll tax collected annually to pay for costs related to the administration of this article (C.40:48C-14 through 40:48C-18).
+ 
+	b.	A municipality may, by ordinance, adjust the rate of an employer payroll tax imposed and collected pursuant to subsection a. of this section, provided that the rate does not exceed one percent.  Any reduction in an employer payroll tax while the municipality is in receipt of aid provided through the Transitional Aid to Localities program, or any other discretionary aid program for municipalities in fiscal distress, shall be subject to approval by the Department of Community Affairs.
+ 
+	c.	An ordinance adopted pursuant to subsection a. of this section may provide that the employer payroll tax shall not apply to the remuneration paid by employers to employees who are residents of the municipality.
+ 
+	d. (1) If a municipality adopts an ordinance pursuant to subsection a. of this section and the municipality has a median household income of $55,000 or greater according to the most recent American Community Survey five-year estimate by the United States Census Bureau, all employer payroll tax revenues collected by the municipality pursuant to the ordinance shall be deposited into a trust fund to be used exclusively for school purposes, inclusive of charter schools.
+ 
+	(2)	The governing body of the municipality shall, monthly, pay employer payroll tax revenues deposited in the trust fund over to the board secretary or treasurer of school moneys, as appropriate, of the school district coextensive with the municipality or of which the municipality comprises a part, in an amount equal to one-twelfth of the difference in State school aid provided to that school district, pursuant to P.L.2007, c.260 (C.18A:7F-43 et al.) and P.L.2018, c.67 (C.18A:7F-67 et al.), between the current State fiscal year and State fiscal year 2018, for use in lieu of adjustment aid and all other categories of State school aid.
+ 
+	(3)	Any balance remaining in the trust fund shall be reserved for use toward making payments pursuant to paragraph (2) of this subsection in the event the employer payroll tax revenues collected in a year are insufficient to pay the full amount provided for under that paragraph.
+ 
+	L.1970, c.326, s.15; amended 2017, c.35; 2018, c.68, s.1; 2025, c.314, s.1.
+
+40:48C-16  Ordinance; contents.
+	16.	Any ordinance adopted pursuant to this article shall:
+ 
+	a.	Require each employer to report his payroll for the preceding calendar quarter to an officer of the municipality designated therein to receive the same and to collect the tax together with such other related information as shall be required by the ordinance and regulations issued pursuant thereto;
+ 
+	b.	Require the report and payment of the tax imposed for the preceding calendar quarter on or before the last day of April, July, October and January, respectively;
+ 
+	c.	Provide methods for enforcement of, and for the imposition of penalties for failure to report and pay, the tax imposed;
+ 
+	d.	Provide a procedure for claims for refunds and repayment of overpayment of taxes;
+ 
+	e.	Prohibit any employer from deducting or withholding any amount from remuneration payable to an employee on account of the tax imposed by the ordinance;
+ 
+	f.	Provide that information contained in any employer's report or received by the municipality or any of its officers or employees as a result of any investigation, hearing, or verification of a report shall be confidential except for official purposes and shall not be disclosed except in accordance with an order of court or as otherwise provided by law.
+ 
+	g.	Require certain employers to provide additional information to assist in the administration of the local tax, as requested by the municipality. 
+ 
+	Any ordinance adopted pursuant to this article (C.40:48C-14 through 40:48C-18) also may require the payment of interest by an employer on delinquent payroll taxes. Payroll taxes shall be considered delinquent when the amount due to the municipality is not paid by the employer on or before the dates specified in subsection b. of this section.  Any ordinance so adopted may fix the rate of interest to be charged on the delinquent payroll taxes; however, the rate so fixed shall not exceed eight percent per annum on the first $1,500 of the delinquency and 18 percent per annum on any amount in excess of $1,500, to be calculated from the date the tax was payable until the date that actual payment to the municipality is made.
+
+	Amended 2007, c.294, s.1; 2025, c.314, s.2.
+

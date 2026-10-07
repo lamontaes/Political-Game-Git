@@ -5,18 +5,15 @@ import type { MunicipalGovernment } from "../municipal-government";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-packs";
 import { isMayorSeatClass } from "./local-chief-executive-rules";
-import {
-  modalShare,
-  typicalShares,
-  type LocalRuleValue,
-} from "./typical-council-size";
+import { modalShare, type LocalRuleValue } from "./typical-council-size";
+import { typicalShares } from "./typical-council-spread";
 
 export {
   TYPICAL_COUNCIL_SOURCE,
-  localGoverningBodyReadSpread,
   type LocalRuleBasis,
   type LocalRuleValue,
 } from "./typical-council-size";
+export { localGoverningBodyReadSpread } from "./typical-council-spread";
 
 /**
  * How big a town's governing body is and how long its terms run, for every
