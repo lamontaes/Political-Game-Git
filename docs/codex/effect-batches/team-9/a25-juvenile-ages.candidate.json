@@ -1,0 +1,1091 @@
+{
+  "version": "team9-a25-existing-note-extraction-v1",
+  "runtimeAdmission": false,
+  "purpose": "Owned candidate extraction only; no source refresh, no generic boolean-to-age inference, no transfer permission inferred.",
+  "sourceFile": "data/research/laws/starting-law-2026.json",
+  "sourceFileBlob": "efe4f1fabf3b4ca90831c278af5740e0b78d3554",
+  "sourceHead": "265bf5c6eeaa15ba31d8295a566c2a3bf75a9d6c",
+  "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+  "sourceSummary": "OJJDP Statistical Briefing Book, 'Upper age of juvenile court delinquency jurisdiction' (released 10/6/2025; law as of the end of the 2023 sessions), per-state export; checked against primary code pages for TX, WI, LA (changed 4/19/2024), VT, DC, PR and CNMI, fetched 9/28/2026.",
+  "sourceNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+  "counts": {
+    "places": 56,
+    "numericCitedNotes": 54,
+    "unadmittedNumericPlaces": 2,
+    "runtimeAdmitted": 0
+  },
+  "places": {
+    "US-AK": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Alaska",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-AL": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Alabama",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-AR": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Arkansas",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-AS": {
+      "status": "NUMERIC AGE NOT ADMITTED",
+      "juvenileUpperAgeInclusive": null,
+      "generalAdultThresholdDerived": null,
+      "adultThresholdDerivation": null,
+      "source": null,
+      "citation": null,
+      "sourceNote": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404).",
+      "sourceStatus": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      },
+      "estimatePreserved": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read."
+    },
+    "US-AZ": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Arizona",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-CA": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=California",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-CO": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Colorado",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-CT": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Connecticut",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-DC": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/16-2301",
+      "citation": "D.C. Code § 16-2301(3)",
+      "sourceNote": "Through age 17, except that the U.S. Attorney may charge 16- and 17-year-olds as adults for murder, first-degree sexual abuse, first-degree burglary, armed robbery or assault with intent to commit them.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": true,
+        "rawSourceNote": "Through age 17, except that the U.S. Attorney may charge 16- and 17-year-olds as adults for murder, first-degree sexual abuse, first-degree burglary, armed robbery or assault with intent to commit them.",
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-DE": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Delaware",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-FL": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Florida",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-GA": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 16,
+      "generalAdultThresholdDerived": 17,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Georgia",
+      "citation": null,
+      "sourceNote": "Through age 16: OJJDP lists 16 as Georgia's upper age, so 17-year-olds start in adult court; a primary Georgia code page could not be fetched and no 2025 raise-the-age enactment was confirmed.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "no",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-GU": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://col.guamcourts.gov/sites/default/files/19gc005.pdf",
+      "citation": "19 GCA §§ 5102(d), 5103(a)(4)",
+      "sourceNote": "Through age 17: the Family Division has exclusive jurisdiction over any child under 18 who is alleged to have violated Guam law.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-HI": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Hawaii",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-IA": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Iowa",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-ID": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Idaho",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-IL": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Illinois",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-IN": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Indiana",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-KS": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Kansas",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-KY": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Kentucky",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-LA": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 16,
+      "generalAdultThresholdDerived": 17,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://legis.la.gov/Legis/Law.aspx?d=73392",
+      "citation": "La. Ch.C. art. 804(1)(a)",
+      "sourceNote": "Through age 16: Acts 2024, 2nd Ex. Sess., No. 13 returned 17-year-olds to adult court on 4/19/2024, reversing the 2019-2020 raise to 17 (OJJDP's 2023 data still shows 17).",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "no",
+      "effectiveFrom": "2024-04-19",
+      "effectiveFromStatus": "EXPLICIT IN SOURCE RECORD",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-MA": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Massachusetts",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-MD": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Maryland",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-ME": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Maine",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-MI": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Michigan",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-MN": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Minnesota",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-MO": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Missouri",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-MP": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://cnmilaw.gov/docs/cmc_section/T6/5101.pdf",
+      "citation": "6 CMC §§ 5101(m), 5121",
+      "sourceNote": "Through age 17: a \"juvenile\" is anyone under 18 at the time of the act, and the Superior Court's juvenile jurisdiction covers them unless waived under 6 CMC § 5124.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": true,
+        "rawSourceNote": "Through age 17: a \"juvenile\" is anyone under 18 at the time of the act, and the Superior Court's juvenile jurisdiction covers them unless waived under 6 CMC § 5124.",
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-MS": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Mississippi",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-MT": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Montana",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-NC": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=North%20Carolina",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-ND": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=North%20Dakota",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-NE": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Nebraska",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-NH": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Hampshire",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-NJ": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Jersey",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-NM": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Mexico",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-NV": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Nevada",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-NY": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20York",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-OH": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Ohio",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-OK": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Oklahoma",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-OR": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Oregon",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-PA": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Pennsylvania",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-PR": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://www.lexjuris.com/lexlex/lexmenor.htm",
+      "citation": "P.R. Laws Ann. tit. 34, § 2204 (Ley Núm. 88 de 1986, art. 4)",
+      "sourceNote": "Through age 17: the juvenile court hears offenses committed before 18, but first-degree murder (and related charges) by a minor 15 or older is excluded to adult court.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": true,
+        "rawSourceNote": "Through age 17: the juvenile court hears offenses committed before 18, but first-degree murder (and related charges) by a minor 15 or older is excluded to adult court.",
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-RI": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Rhode%20Island",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-SC": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=South%20Carolina",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-SD": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=South%20Dakota",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-TN": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Tennessee",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-TX": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 16,
+      "generalAdultThresholdDerived": 17,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://tcss.legis.texas.gov/resources/FA/htm/FA.51.htm",
+      "citation": "Tex. Fam. Code § 51.02(2)",
+      "sourceNote": "Through age 16: a \"child\" for delinquency is 10 or older and under 17, so 17-year-olds are charged as adults.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "no",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-UT": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Utah",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-VA": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Virginia",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-VI": {
+      "status": "NUMERIC AGE NOT ADMITTED",
+      "juvenileUpperAgeInclusive": null,
+      "generalAdultThresholdDerived": null,
+      "adultThresholdDerivation": null,
+      "source": null,
+      "citation": null,
+      "sourceNote": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "sourceStatus": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      },
+      "estimatePreserved": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read."
+    },
+    "US-VT": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 18,
+      "generalAdultThresholdDerived": 19,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://legislature.vermont.gov/statutes/section/33/052/05201",
+      "citation": "33 V.S.A. § 5201(d)",
+      "sourceNote": "Through age 18: most offenses committed before age 19 originate in the Family Division since 7/1/2024 (2023 Act 125), with a short list of serious offenses at 16 and older starting in the Criminal Division; 2025 Act 4 amends subsection (d) effective 7/1/2027.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": "2024-07-01",
+      "effectiveFromStatus": "EXPLICIT IN SOURCE RECORD",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": true,
+        "rawSourceNote": "Through age 18: most offenses committed before age 19 originate in the Family Division since 7/1/2024 (2023 Act 125), with a short list of serious offenses at 16 and older starting in the Criminal Division; 2025 Act 4 amends subsection (d) effective 7/1/2027.",
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      },
+      "futureChange": {
+        "effectiveAt": "2027-07-01",
+        "sourceText": "2025 Act 4 amends subsection (d) effective 7/1/2027.",
+        "postChangeAge": null,
+        "status": "CHANGE DATE EXTRACTED; POST-CHANGE AGE NOT STATED"
+      }
+    },
+    "US-WA": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Washington",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-WI": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 16,
+      "generalAdultThresholdDerived": 17,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/938/i/02",
+      "citation": "Wis. Stat. § 938.02(1), (10m)",
+      "sourceNote": "Through age 16: for investigating or prosecuting a crime, anyone who has turned 17 is an adult (1995 Wis. Act 77).",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "no",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-WV": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=West%20Virginia",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    },
+    "US-WY": {
+      "status": "EXTRACTED FROM EXISTING CITED NOTE",
+      "juvenileUpperAgeInclusive": 17,
+      "generalAdultThresholdDerived": 18,
+      "adultThresholdDerivation": "inclusive juvenile upper age + 1",
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Wyoming",
+      "citation": null,
+      "sourceNote": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "sourceAnswer": "yes",
+      "effectiveFrom": null,
+      "effectiveFromStatus": "NOT SPECIFIED IN SOURCE NOTE",
+      "transferCoverage": {
+        "status": "INCOMPLETE - NOT RUNTIME ADMITTED",
+        "sourceMentionsException": false,
+        "rawSourceNote": null,
+        "missing": "Complete dated transfer predicates, exact offense/grade, charging or judicial authority and actual saved transfer decision."
+      }
+    }
+  }
+}
