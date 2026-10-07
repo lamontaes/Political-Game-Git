@@ -50,6 +50,7 @@ import {
   openingFamilyPeople,
   openingTourStagedPeople,
   chamberFloorPeople,
+  openingChamberMembers,
   openingHouseholdPeople,
   stateLegislatureFloorPeople,
 } from "../presentation/opening-tour-people";
@@ -416,10 +417,31 @@ export function WorldOrientationPanel({
       return true;
     });
   }, [step?.key, step?.people, world, personId]);
+  // OW-14: show the recorded lawmakers who fit at this room's member desks.
+  const chamberRoster = useMemo(
+    () =>
+      step?.key === "legislature" &&
+      world &&
+      personId &&
+      backdrop.kind === "place"
+        ? openingChamberMembers(
+            world,
+            personId,
+            backdropStaging(backdrop.place)?.spots.filter((spot) =>
+              ["general", "member-at-dais"].includes(spot.role ?? "general"),
+            ).length ?? 0,
+          )
+        : null,
+    [step?.key, world, personId, backdrop],
+  );
   const sceneRoster =
-    step?.key === "executive" || step?.key === "legislature"
-      ? (stateFloorRoster ?? step?.people ?? [])
-      : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
+    step?.key === "legislature"
+      ? chamberRoster?.length
+        ? chamberRoster
+        : (stateFloorRoster ?? step?.people ?? [])
+      : step?.key === "executive"
+        ? (step?.people ?? [])
+        : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
   const measuredPlace =
     backdrop.kind === "place" &&
     !(step?.key === "executive" && establishingPlate) &&
