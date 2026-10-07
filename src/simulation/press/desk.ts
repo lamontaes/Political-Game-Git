@@ -24,6 +24,7 @@ import {
   recordEventKnowledge,
   recordRelationshipInteraction,
 } from "../records";
+import { formOfficialViewFromPublishedStory } from "../living-world/official-views";
 import type {
   DecisionConsideration,
   DecisionConstraint,
@@ -1349,6 +1350,13 @@ function recordProfessionalReaders(
     const knowledge = next.history.knowledge.find(
       (row) => row.stableKey === `${publication.stableKey}:read:${personId}`,
     );
+    if (knowledge)
+      for (const basisEventId of lead.basisEventIds)
+        next = formOfficialViewFromPublishedStory(
+          next,
+          knowledge.id,
+          basisEventId,
+        );
     if (knowledge)
       for (const basisEventId of lead.basisEventIds)
         next = recordStoryHeardExposure(next, {
