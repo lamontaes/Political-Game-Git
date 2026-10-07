@@ -41,7 +41,11 @@ function includeGovernmentOperationsRows(world: World): World {
     if (!proposition) throw new Error(`Missing proposition ${questionKey}`);
     propositions[proposition.id] = {
       ...proposition,
-      consequences: [...(proposition.consequences ?? []), row],
+      consequences: (proposition.consequences ?? []).some(
+        (existing) => existing.id === row.id,
+      )
+        ? proposition.consequences
+        : [...(proposition.consequences ?? []), row],
     };
   }
   return {
@@ -95,6 +99,14 @@ describe("government-operations law consequences", () => {
       givenName: "LW01",
       familyName: "Resident",
     });
+    const photoCatalogRow = photoGame.world.policyCatalog.propositions[
+      Object.values(photoGame.world.policyCatalog.propositions).find(
+        (entry) => entry.stableKey === photoId,
+      )!.id
+    ]!.consequences?.find(
+      (row) => row.id === GOVERNMENT_OPERATIONS_LAW_ROWS[photoId]!.id,
+    );
+    expect(photoCatalogRow).toEqual(GOVERNMENT_OPERATIONS_LAW_ROWS[photoId]);
     const photoWorld = includeGovernmentOperationsRows(photoGame.world);
     const personId = photoGame.playerPersonId;
     const cutoff = {
@@ -178,6 +190,17 @@ describe("government-operations law consequences", () => {
       givenName: "LW01",
       familyName: "Resident",
     });
+    const registrationCatalogRow = Object.values(
+      registrationGame.world.policyCatalog.propositions,
+    )
+      .find((entry) => entry.stableKey === sameDayRegistration)
+      ?.consequences?.find(
+        (row) =>
+          row.id === GOVERNMENT_OPERATIONS_LAW_ROWS[sameDayRegistration]!.id,
+      );
+    expect(registrationCatalogRow).toEqual(
+      GOVERNMENT_OPERATIONS_LAW_ROWS[sameDayRegistration],
+    );
     const registrationWorld = includeGovernmentOperationsRows(
       registrationGame.world,
     );

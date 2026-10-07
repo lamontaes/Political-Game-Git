@@ -286,7 +286,10 @@ export function applyEnactedLawEffects(
     onDate: next.currentDate,
     activity: "effective",
     activityId: enactment.id,
-    subjectIds: [],
+    // Consequence resolvers apply their own row predicates and jurisdiction
+    // checks. Give them the recorded people they can evaluate on the law's
+    // effective date instead of suppressing every subject-filtered row.
+    subjectIds: [...next.personOrder],
     governingLawId: measureId,
   });
 }
