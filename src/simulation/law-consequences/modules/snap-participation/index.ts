@@ -6,6 +6,7 @@ import {
   annualPovertyLineMinor,
   recordedMonthlyPayByPerson,
 } from "../../../household-pay";
+import { foodAidBenefitMinor } from "../../../public-benefit-formulas";
 import {
   householdLocationAt,
   peopleInHouseholdAt,
@@ -17,6 +18,18 @@ import {
 } from "../../../life-places";
 import { readEligibilityLawsInForce } from "../../../enacted-eligibility";
 import { placeOutcomeRecords } from "../../../outcome-web/place-outcome-store";
+import { resourcePositionAt } from "../../../resource-queries";
+import {
+  createResourceFlow,
+  money,
+  recordResourceTransferOutcome,
+} from "../../../resources";
+import { recordLawExposure } from "../../../law-exposure";
+import {
+  ensureTaxPublicAccount,
+  publicOrganizationKey,
+} from "../../../tax-policy";
+import { lawEffectStamp } from "../../../law-effect-stamp";
 import {
   snapParticipationAt,
   recordSnapParticipation,
@@ -284,6 +297,144 @@ export function resolveSnapParticipation(
   return resolved;
 }
 
+interface SnapAllotmentData {
+  readonly maxAllotment48StatesDc: {
+    readonly value: Readonly<Record<string, number>> & {
+      readonly eachAdditional: number;
+    };
+  };
+  readonly minimumBenefit48StatesDc: { readonly value: number };
+  readonly standardDeduction48StatesDc: {
+    readonly value: Readonly<Record<string, number>>;
+  };
+  readonly earnedIncomeDeductionPct: { readonly value: number };
+}
+
+function snapMonthlyFormulaBenefit(
+  stateKey: string,
+  monthlyEarnedIncomeMinor: number,
+  householdSize: number,
+): { readonly amountMinor: number; readonly source: string } | null {
+  const place = (
+    programs.places as Record<string, { snap?: { value?: string } }>
+  )[stateKey];
+  // The captured federal allotment table applies to the 48 states and D.C.;
+  // other allotment schedules remain on their published state-average record.
+  if (!place?.snap?.value?.includes("48-states-and-D.C.")) return null;
+  const rule = programs.federal.snap as unknown as SnapAllotmentData;
+  const allotments = rule.maxAllotment48StatesDc.value;
+  const size = Math.max(1, householdSize);
+  const maxDollars =
+    size <= 8
+      ? allotments[String(size)]
+      : allotments["8"]! + (size - 8) * allotments.eachAdditional;
+  const deductions = rule.standardDeduction48StatesDc.value;
+  const standardDeductionDollars =
+    size <= 3
+      ? deductions["1-3"]!
+      : size <= 5
+        ? deductions[String(size)]!
+        : deductions["6+"]!;
+  const netIncomeMinor = Math.max(
+    0,
+    monthlyEarnedIncomeMinor * (1 - rule.earnedIncomeDeductionPct.value / 100) -
+      standardDeductionDollars * 100,
+  );
+  return {
+    amountMinor: foodAidBenefitMinor(netIncomeMinor, size, {
+      maximumAllotmentMinor: Math.round(maxDollars! * 100),
+      minimumBenefitMinor: Math.round(
+        rule.minimumBenefit48StatesDc.value * 100,
+      ),
+      minimumBenefitMaxHouseholdSize: 2,
+      expectedContributionBasisPoints: 3_000,
+    }),
+    source: "data/research/money/public-programs-2026.json#federal.snap",
+  };
+}
+
+function paySnapHouseholdBenefit(
+  world: World,
+  resolved: ResolvedLawConsequence,
+  householdId: EntityId,
+  people: readonly EntityId[],
+  amountMinor: number,
+): World {
+  if (amountMinor <= 0 || !people.length) return world;
+  const paymentKey = `snap-benefit:${householdId}:${resolved.effectiveAt}`;
+  if (world.history.resourceFlows.some((flow) => flow.stableKey === paymentKey))
+    return world;
+  const jurisdiction = world.jurisdictions[resolved.jurisdictionId];
+  if (!jurisdiction) return world;
+  let next = ensureTaxPublicAccount(world, jurisdiction.id);
+  const account = next.history.organizations.find(
+    (row) => row.stableKey === publicOrganizationKey(jurisdiction.id),
+  );
+  if (!account) return next;
+  const source = { kind: "organization" as const, organizationId: account.id };
+  const held =
+    resourcePositionAt(next, source, money(0, "USD").currency)?.liquidBalance
+      .minorUnits ?? 0;
+  const moved = Math.max(0, Math.min(amountMinor, held));
+  next = createResourceFlow(next, {
+    stableKey: paymentKey,
+    source,
+    recipient: { kind: "household", householdId },
+    startsAt: resolved.effectiveAt,
+    amount: money(amountMinor, "USD"),
+    cadenceKind: "custom:snap-monthly-benefit",
+    basisKind: "support:snap-benefit",
+    basisReference: { kind: "general" },
+    restrictionKind: "unrestricted:snap-benefit",
+    jurisdictionId: jurisdiction.id,
+    provenance: { kind: "generated", generatorKey: "snap-participation" },
+  });
+  const flow = next.history.resourceFlows.at(-1)!;
+  const stamp =
+    moved > 0
+      ? lawEffectStamp(resolved.law, {
+          effectKind: "government-program-payment",
+          questionKey: SNAP_WORK_REQUIREMENT_QUESTION,
+          jurisdictionId: jurisdiction.id,
+          appliedAt: resolved.effectiveAt,
+          sourceRecordIds: [flow.id, account.id, ...people],
+        })
+      : null;
+  next = recordResourceTransferOutcome(next, {
+    stableKey: `${paymentKey}:transfer`,
+    resourceFlowId: flow.id,
+    periodStartsAt: resolved.effectiveAt,
+    periodEndsAt: resolved.effectiveAt,
+    occurredAt: resolved.effectiveAt,
+    attemptedAmount: money(amountMinor, "USD"),
+    transferredAmount: money(moved, "USD"),
+    status:
+      moved === amountMinor ? "completed" : moved === 0 ? "blocked" : "partial",
+    reasonKind: moved === amountMinor ? null : "capacity:insufficient-funds",
+    note: null,
+    provenance: flow.provenance,
+    ...(stamp ? { lawEffectStamps: [stamp] } : {}),
+  });
+  if (!stamp) return next;
+  const share = Math.floor(moved / people.length);
+  let remainder = moved - share * people.length;
+  for (const personId of people) {
+    const personAmount = share + (remainder-- > 0 ? 1 : 0);
+    next = recordLawExposure(next, {
+      stableKey: `${paymentKey}:exposure:${personId}`,
+      personId,
+      measureId: resolved.law.measureId,
+      channel: "benefit",
+      direction: "gain",
+      amount: money(personAmount, "USD"),
+      cadence: "monthly",
+      sourceRecordId: flow.id,
+      includeFamily: false,
+    });
+  }
+  return next;
+}
+
 export function applySnapParticipation(
   world: World,
   resolved: ResolvedLawConsequence,
@@ -332,6 +483,13 @@ export function applySnapParticipation(
       ? monthlyIncome /
         ((line * programs.federal.snap.grossIncomeTestPctFpl.value) / 100)
       : null;
+  const formulaBenefit = stateKey
+    ? snapMonthlyFormulaBenefit(
+        stateKey,
+        monthlyIncome,
+        Math.max(1, personIds.length),
+      )
+    : null;
   const monthlyWorkHours = personIds.reduce(
     (sum, personId) =>
       sum +
@@ -347,15 +505,18 @@ export function applySnapParticipation(
       }, 0),
     0,
   );
-  return recordSnapParticipation(world, {
+  const next = recordSnapParticipation(world, {
     householdId: resolved.subject.id,
     enrolled: resolved.value.value,
-    monthlyBenefitMinor:
-      resolved.value.value && benefit !== undefined
-        ? Math.round(benefit * 100)
-        : null,
+    monthlyBenefitMinor: resolved.value.value
+      ? (formulaBenefit?.amountMinor ??
+        (benefit === undefined ? null : Math.round(benefit * 100)))
+      : null,
     benefitSource: resolved.value.value
-      ? `${benefitData.source.url}#${benefitData.source.table}`
+      ? (formulaBenefit?.source ??
+        (benefit === undefined
+          ? null
+          : `${benefitData.source.url}#${benefitData.source.table}`))
       : null,
     causeId: resolved.law.measureId,
     applicationId: resolved.activityId,
@@ -366,6 +527,24 @@ export function applySnapParticipation(
       : (prior?.monthlyWorkHours ?? null),
     incomeToThreshold: ratio ?? prior?.incomeToThreshold ?? null,
   });
+  const recorded = snapParticipationAt(
+    next,
+    resolved.subject.id,
+    resolved.effectiveAt,
+  );
+  if (
+    !recorded?.enrolled ||
+    recorded.monthlyBenefitMinor === null ||
+    recorded.monthlyBenefitMinor <= 0
+  )
+    return next;
+  return paySnapHouseholdBenefit(
+    next,
+    resolved,
+    resolved.subject.id,
+    personIds,
+    recorded.monthlyBenefitMinor,
+  );
 }
 
 export const registrations: readonly LawConsequenceKindRegistration[] = [

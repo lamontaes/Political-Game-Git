@@ -124,9 +124,12 @@ export interface SnapParticipationRecord extends CrisisRecordBase {
   readonly kind: "snap-participation";
   readonly householdId: EntityId;
   readonly enrolled: boolean;
-  /** USD cents from the published state average, explicitly estimated. */
+  /** USD cents calculated from recorded income or the published state average. */
   readonly monthlyBenefitMinor: number | null;
-  readonly benefitBasis: "ESTIMATED FROM STATE AVERAGE" | null;
+  readonly benefitBasis:
+    | "CALCULATED FROM RECORDED INCOME AND FY2026 SNAP RULE"
+    | "ESTIMATED FROM STATE AVERAGE"
+    | null;
   readonly benefitSource: string | null;
   /** Actual law or outcome cause identity retained even for a zero change. */
   readonly causeId: EntityId;

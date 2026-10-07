@@ -28,6 +28,7 @@ import {
   placeOutcomesHandler,
 } from "../outcome-web/place-outcomes";
 import { snapParticipationRecords } from "./snap-participation";
+import { SNAP_WORK_REQUIREMENT_QUESTION } from "../law-consequences/modules/snap-participation/rows";
 
 const seed = "session52-snap-random-new-game-ending";
 const validStates = new Set(
@@ -49,6 +50,7 @@ describe(`ranked SNAP participation (${place.displayName}, ${place.key}, seed ${
     });
     const personId = game.playerPersonId;
     let world = game.world;
+    const openingDate = world.currentDate;
     const residence = householdMembershipsAt(world, personId).find(
       (membership) => membership.state.residenceRole === "primary",
     );
@@ -174,8 +176,23 @@ describe(`ranked SNAP participation (${place.displayName}, ${place.key}, seed ${
     expect(records.length).toBeGreaterThanOrEqual(2);
     expect(records[0]!.enrolled).toBe(true);
     expect(records[0]!.monthlyBenefitMinor).toBeGreaterThan(0);
-    expect(records[0]!.benefitBasis).toBe("ESTIMATED FROM STATE AVERAGE");
-    expect(records[0]!.benefitSource).toContain("snap-sar-fy23.pdf");
+    expect(records[0]!.benefitBasis).toBe(
+      "CALCULATED FROM RECORDED INCOME AND FY2026 SNAP RULE",
+    );
+    expect(records[0]!.benefitSource).toContain("public-programs-2026.json");
+    const benefitFlowKey = `snap-benefit:${householdId}:${openingDate}`;
+    const benefitFlow = opened.history.resourceFlows.find(
+      (flow) => flow.stableKey === benefitFlowKey,
+    );
+    expect(benefitFlow).toBeDefined();
+    const benefitTransfer = opened.history.resourceTransferOutcomes.find(
+      (outcome) => outcome.stableKey === `${benefitFlowKey}:transfer`,
+    );
+    expect(benefitTransfer?.transferredAmount.minorUnits).toBeGreaterThan(0);
+    expect(benefitTransfer?.lawEffectStamps?.[0]).toMatchObject({
+      questionKey: SNAP_WORK_REQUIREMENT_QUESTION,
+      effectKind: "government-program-payment",
+    });
     expect(records.at(-1)!.enrolled).toBe(false);
     expect(records.at(-1)).toMatchObject({
       householdId,
@@ -189,5 +206,13 @@ describe(`ranked SNAP participation (${place.displayName}, ${place.key}, seed ${
     expect(place.stateJurisdictionKey).toBeTruthy();
     expect(records[0]!.incomeToThreshold).toBeLessThanOrEqual(1.3);
     expect(records.at(-1)!.monthlyWorkHours).toBeGreaterThan(0);
+    expect(
+      opened.history.lawExposures?.some(
+        (exposure) =>
+          exposure.personId === personId &&
+          exposure.sourceRecordId === benefitFlow!.id &&
+          exposure.measureId === records[0]!.causeId,
+      ),
+    ).toBe(true);
   }, 600_000);
 });
