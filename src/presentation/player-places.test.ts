@@ -145,6 +145,9 @@ describe("player-places projection", () => {
       (offer) => offer.activityId === fixture.dLite.meetingActivityId,
     )!;
     expect(meeting.unavailable).toBeNull();
+    expect(meeting.activityMinutes).toBe(75);
+    expect(meeting.tripMinutes).toBe(20);
+    expect(meeting.minutes).toBeGreaterThan(75 + 20);
     expect(meeting.detail).toMatch(/Attending includes the 20-minute trip/);
     expect(meeting.detail).toMatch(/There is no fare\./);
     expect(meeting.durationLabel).toMatch(

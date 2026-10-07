@@ -4,14 +4,17 @@ import type { ReactNode } from "react";
 import { attendMunicipalPublicMeeting } from "../simulation/municipal-public-work";
 import type {
   EntityId,
+  IsoDate,
   FutureTransitionHandlerRegistry,
   World,
 } from "../simulation";
 import {
-  describePlacesOutcome,
+  placesClockOutcome,
   projectPlacesWorkspace,
   type PlacesOfferView,
 } from "../presentation/player-places";
+import { proseDate } from "../presentation/prose-dates";
+import { proseClockTime } from "../presentation/routine-outcome";
 import { labelForRef } from "../presentation/person-dossier";
 import { PinToggle } from "./controls/PinToggle";
 import { useTimeCommand, type TimeCommandReport } from "./time-command-runner";
@@ -121,7 +124,7 @@ export function PlacesWorkspace({
   if (!model) {
     return (
       <div className="places-workspace" data-testid="places-panel">
-        <p>Places are unavailable for this life.</p>
+        <p data-problem="places-unavailable" />
       </div>
     );
   }
@@ -132,19 +135,15 @@ export function PlacesWorkspace({
       const next = run();
       if (next === before) {
         setOutcome(null);
-        setProblem("Nothing changed. No time passed.");
+        setProblem("nothing-changed");
         return;
       }
       setProblem(null);
-      setOutcome(describePlacesOutcome(before, next, personId));
+      setOutcome(placesClockOutcome(before, next, personId));
       onWorldChange(next);
     } catch (error) {
       setOutcome(null);
-      setProblem(
-        error instanceof Error
-          ? error.message
-          : "That action is no longer available.",
-      );
+      setProblem(error instanceof Error ? error.message : "action-unavailable");
     }
   }
 
@@ -154,18 +153,18 @@ export function PlacesWorkspace({
     );
     if (!fresh || fresh.unavailable) {
       setOutcome(null);
-      setProblem(fresh?.unavailable ?? "That offer is no longer available.");
+      setProblem(fresh?.unavailable ?? "offer-unavailable");
       return;
     }
     if (fresh.kind === "inspect") {
       if (!fresh.inspectGovernmentKey) {
         setOutcome(null);
-        setProblem("Inspection is not available from here.");
+        setProblem("inspection-unavailable");
         return;
       }
       onOpenEntity({ kind: "government", id: fresh.inspectGovernmentKey });
       setProblem(null);
-      setOutcome("Opened for inspection. No time passed.");
+      setOutcome(null);
       return;
     }
     if (fresh.walkDestination) {
@@ -193,13 +192,13 @@ export function PlacesWorkspace({
         if (!result.ok) throw new Error(result.reason);
         return {
           world: result.world,
-          outcome: describePlacesOutcome(current, result.world, personId),
+          outcome: placesClockOutcome(current, result.world, personId),
         };
       }, report);
       return;
     }
     setOutcome(null);
-    setProblem("That offer is not supported.");
+    setProblem("offer-unsupported");
   }
 
   /* The calendar entry an offer names, and the government on its inspect row. */
@@ -252,7 +251,7 @@ export function PlacesWorkspace({
       <header className="places-workspace-header">
         <div>
           <p className="places-workspace-kicker">Where you are</p>
-          <h3>Your location and reachable offers</h3>
+          <h3>Places</h3>
         </div>
       </header>
 
@@ -268,23 +267,20 @@ export function PlacesWorkspace({
           <p
             className="places-scene-note"
             data-testid="places-current-scene-note"
-          >
-            There isn’t a view of this place yet.
-          </p>
+            data-problem="no-scene-view"
+          />
         ) : null}
       </section>
 
       {model.completedHere ? (
         <p role="status" data-testid="places-completed-here">
-          You have finished {model.completedHere.title} at{" "}
-          {model.completedHere.locationLabel}.
+          <span>{model.completedHere.title}</span>{" "}
+          <span>{model.completedHere.locationLabel}</span>
         </p>
       ) : null}
 
       {problem ? (
-        <p role="alert" data-testid="places-problem">
-          {problem}
-        </p>
+        <p role="alert" data-testid="places-problem" data-reason={problem} />
       ) : null}
       {outcome ? (
         <p role="status" data-testid="places-outcome">
@@ -295,22 +291,37 @@ export function PlacesWorkspace({
       <section aria-labelledby="places-offers-heading">
         <h3 id="places-offers-heading">Places you can go</h3>
         {model.offers.length === 0 ? (
-          <p data-testid="places-empty">
-            Nothing reachable is recorded from here.
-          </p>
+          <p data-testid="places-empty" data-problem="nothing-reachable" />
         ) : (
           <ul className="places-offer-list">
             {model.offers.map((offer) => (
               <li key={offer.id} data-testid={`places-offer-${offer.id}`}>
                 <div className="places-offer-copy">
                   <p className="places-offer-title">{offer.title}</p>
-                  {offer.detail ? <p>{offer.detail}</p> : null}
                   {offer.companionLabel ? <p>{offer.companionLabel}</p> : null}
-                  {offer.durationLabel ? <p>{offer.durationLabel}</p> : null}
-                  {offer.unavailable ? (
-                    <p data-testid={`places-offer-${offer.id}-reason`}>
-                      {offer.unavailable}
+                  {offer.activityMinutes != null ? (
+                    <p data-testid={`places-offer-${offer.id}-minutes`}>
+                      {offer.activityMinutes} min
                     </p>
+                  ) : null}
+                  {offer.tripMinutes != null ? (
+                    <p data-testid={`places-offer-${offer.id}-trip`}>
+                      Trip {offer.tripMinutes} min
+                    </p>
+                  ) : null}
+                  {offer.startsAt ? (
+                    <p data-testid={`places-offer-${offer.id}-starts`}>
+                      <time dateTime={offer.startsAt.date}>
+                        {proseDate(offer.startsAt.date as IsoDate)}
+                      </time>{" "}
+                      {proseClockTime(offer.startsAt.minuteOfDay)}
+                    </p>
+                  ) : null}
+                  {offer.unavailable ? (
+                    <p
+                      data-testid={`places-offer-${offer.id}-reason`}
+                      data-reason={offer.unavailable}
+                    />
                   ) : null}
                 </div>
                 <div>
@@ -374,7 +385,7 @@ export function PlacesWorkspace({
                       personId,
                       offer.activityId,
                     ) ? (
-                    <span>You plan to attend this meeting.</span>
+                    <span data-planned="true" />
                   ) : null}
                   {offer.declineActivityId ? (
                     <button

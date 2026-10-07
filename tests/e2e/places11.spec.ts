@@ -22,9 +22,9 @@ test("child sees already-home refusal, walks nearby, and reports arrival", async
 
   const home = page.getByTestId("places-offer-walk-home");
   const nearby = page.getByTestId("places-offer-walk-neighborhood");
-  await expect(home.getByTestId("places-offer-walk-home-reason")).toHaveText(
-    "You are already home.",
-  );
+  await expect(
+    home.getByTestId("places-offer-walk-home-reason"),
+  ).toHaveAttribute("data-reason", "You are already home.");
   await expect(
     home.getByTestId("places-offer-walk-home-action"),
   ).toBeDisabled();
@@ -40,7 +40,7 @@ test("child sees already-home refusal, walks nearby, and reports arrival", async
 
   await expect(
     page.getByTestId("places-offer-walk-neighborhood-reason"),
-  ).toHaveText("You are already out in your neighborhood.");
+  ).toHaveAttribute("data-reason", "You are already out in your neighborhood.");
   await expect(page.getByTestId("places-offer-walk-home-action")).toBeEnabled();
 });
 
