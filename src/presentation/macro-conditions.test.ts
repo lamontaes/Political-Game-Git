@@ -125,6 +125,7 @@ describe("Budget & economy macro conditions", { timeout: 1_800_000 }, () => {
     const words = text(html);
     expect(forbiddenPlayerPhrasesIn(words)).toEqual([]);
     expect(words).toMatch(/Unemployment/);
+    expect(words).not.toContain("No value yet");
     expect(words).not.toMatch(/\d{4}-\d{2}-\d{2}/);
     expect(macroPeriodLabel("2026-09")).toBe("September 2026");
     expect(macroPeriodLabel("2026-Q3")).toBe("Q3 2026");
