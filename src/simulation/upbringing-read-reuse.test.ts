@@ -11,17 +11,19 @@ import {
 import {
   createOrganization,
   createWorkRelationships,
+  recordKinship,
   recordWorkStatus,
 } from "./life";
 import * as lifeQueries from "./life-queries";
 import * as childhood from "./childhood-record";
-import { addDays } from "./dates";
+import { addDays, dateAtAge, makeIsoDate } from "./dates";
 import * as dates from "./dates";
 import { ensurePeopleTraits, personTrait } from "./people-traits";
-import { upbringingFor } from "./people-upbringing";
+import { upbringingFor, upbringingForUncached } from "./people-upbringing";
 import * as upbringing from "./people-upbringing";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { recordWorldEvent } from "./world";
+import { passOrdinaryDays } from "../presentation/ordinary-life";
 import type { Person, PersonFact } from "./types";
 
 const seed = "upbringing-read-reuse";
@@ -246,7 +248,7 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
       firstJob: "none",
     });
     expect(read.familyContext?.source.note).toContain(
-      "ESTIMATED FROM GAME FAMILIES",
+      "ESTIMATED FROM RECORDS AND PUBLIC DATA",
     );
     expect(read.familyContext?.placeId).toBe(
       world.people[personId]!.homeJurisdictionId,
@@ -315,6 +317,226 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
     const continued = upbringingFor(restored, personId);
     expect(continued).not.toBe(after);
     expect(continued).toEqual(after);
+  });
+
+  it("reuses an exact dependency variant after reading a relevant sibling snapshot", () => {
+    const { world, personId } = smallWorld({
+      place: place.key,
+      seed,
+      household: true,
+    });
+    const original = upbringingFor(world, personId);
+    const payee = world.personOrder.find((id) => id !== personId)!;
+    const flowWorld = createResourceFlow(world, {
+      stableKey: "cohort:variant:compensation",
+      source: { kind: "person", personId },
+      recipient: { kind: "person", personId: payee },
+      startsAt: world.currentDate,
+      amount: money(100_000, "USD"),
+      cadenceKind: "schedule:monthly",
+      basisKind: "compensation:owner-draw",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance: {
+        kind: "authored",
+        note: "A separate immutable cache variant for this read test.",
+      },
+    });
+    const spy = vi.spyOn(families, "recordedFamilyEstimates");
+    try {
+      upbringingFor(flowWorld, personId);
+      const calls = spy.mock.calls.length;
+      expect(calls).toBeGreaterThan(0);
+      expect(upbringingFor({ ...world }, personId)).toEqual(original);
+      expect(spy.mock.calls).toHaveLength(calls);
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it("matches the uncached family oracle across kinship appends and preserves trait append parity", () => {
+    const first = smallWorld({
+      place: place.key,
+      seed: "cohort-append-oracle",
+      household: true,
+    });
+    const personId = first.personId;
+    expect(upbringingFor(first.world, personId)).toEqual(
+      upbringingForUncached(first.world, personId),
+    );
+    const other = first.world.personOrder.find((id) => id !== personId)!;
+    const appended = recordKinship(first.world, {
+      stableKey: "cohort-append-oracle:parent-child",
+      personIds: [personId, other],
+      establishedAt: first.world.currentDate,
+      kind: "lineal:parent-child",
+      provenance: {
+        kind: "authored",
+        note: "Controlled family cohort append for the uncached oracle.",
+      },
+    });
+    expect(upbringingFor(appended, personId)).toEqual(
+      upbringingForUncached(appended, personId),
+    );
+    const dates = new Map(
+      appended.personOrder.map((id) => [id, appended.people[id]!.birthDate]),
+    );
+    const withCache = ensurePeopleTraits(appended, appended.personOrder, dates);
+    const otherWorld = smallWorld({
+      place: place.key,
+      seed: "cohort-append-oracle",
+      household: true,
+    }).world;
+    const otherAppended = recordKinship(otherWorld, {
+      stableKey: "cohort-append-oracle:parent-child",
+      personIds: [personId, other],
+      establishedAt: otherWorld.currentDate,
+      kind: "lineal:parent-child",
+      provenance: {
+        kind: "authored",
+        note: "Controlled family cohort append for the uncached oracle.",
+      },
+    });
+    const otherDates = new Map(
+      otherAppended.personOrder.map((id) => [
+        id,
+        otherAppended.people[id]!.birthDate,
+      ]),
+    );
+    const withoutWarmCache = ensurePeopleTraits(
+      otherAppended,
+      otherAppended.personOrder,
+      otherDates,
+    );
+    expect(withCache.history.personalityTendencies).toEqual(
+      withoutWarmCache.history.personalityTendencies,
+    );
+    expect(withCache.history.nextSequence).toBe(
+      withoutWarmCache.history.nextSequence,
+    );
+    expect(serializeWorld(passOrdinaryDays(withCache, 1))).toBe(
+      serializeWorld(passOrdinaryDays(withoutWarmCache, 1)),
+    );
+  });
+
+  it("rebuilds the cohort at the next poverty-guideline year", () => {
+    const { world, personId } = fixture();
+    const spy = vi.spyOn(families, "recordedFamilyEstimates");
+    try {
+      upbringingFor(world, personId);
+      const calls = spy.mock.calls.length;
+      const date = makeIsoDate(
+        `${Number(world.currentDate.slice(0, 4)) + 1}-01-01`,
+      );
+      const nextYear = {
+        ...world,
+        currentDate: date,
+        currentMoment: { ...world.currentMoment, date },
+      };
+      expect(upbringingFor(nextYear, personId)).toEqual(
+        upbringingForUncached(nextYear, personId),
+      );
+      expect(spy.mock.calls.length).toBeGreaterThan(calls);
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it("does not reuse estimated paid-work cohorts on a later date", () => {
+    const small = smallWorld({
+      place: place.key,
+      seed: "cohort-tenure-date",
+      household: true,
+    });
+    const provenance = {
+      kind: "authored" as const,
+      note: "Controlled work for date-sensitive estimated pay.",
+    };
+    let world = createOrganization(small.world, {
+      stableKey: "cohort-tenure-date:employer",
+      formedAt: small.world.currentDate,
+      provenance,
+      initialProfile: {
+        name: "Recorded fixture employer",
+        classification: "enterprise:retail",
+        locationJurisdictionId: small.jurisdictionId,
+      },
+    });
+    world = createWorkRelationships(world, [
+      {
+        stableKey: "cohort-tenure-date:work",
+        personId: small.personId,
+        organizationId: world.history.organizations.at(-1)!.id,
+        startedAt: world.currentDate,
+        kind: "employment:staff",
+        compensation: "paid",
+        authority: "directed",
+        dependency: "dependent",
+        economicRisk: "organization-borne",
+        provenance,
+        initialRole: {
+          title: "Recorded clerk",
+          occupationClassification: "occupation:cashier",
+          locationJurisdictionId: small.jurisdictionId,
+          timeDemand: {
+            expectedWeekly: { minimumHours: 32, maximumHours: 40 },
+            attention: "moderate",
+            concurrency: "mostly-exclusive",
+            scheduleRigidity: "rigid",
+            interruptibility: "limited",
+            locationJurisdictionId: small.jurisdictionId,
+          },
+        },
+      },
+    ]);
+    const spy = vi.spyOn(families, "recordedFamilyEstimates");
+    try {
+      upbringingFor(world, small.personId);
+      const calls = spy.mock.calls.length;
+      const date = addDays(world.currentDate, 1);
+      const nextDay = {
+        ...world,
+        currentDate: date,
+        currentMoment: { ...world.currentMoment, date },
+      };
+      upbringingFor(nextDay, small.personId);
+      expect(spy.mock.calls.length).toBeGreaterThan(calls);
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it("invalidates household adult partitions on a member's 18th birthday", () => {
+    const { world, personId } = smallWorld({
+      place: place.key,
+      seed: "cohort-eighteenth-birthday",
+      household: true,
+    });
+    const minorId = world.personOrder.find((id) => id !== personId)!;
+    const birthday = addDays(world.currentDate, 2);
+    const nearAdultBirth = makeIsoDate(
+      `${Number(birthday.slice(0, 4)) - 18}${birthday.slice(4)}`,
+    );
+    const prepared = {
+      ...world,
+      people: {
+        ...world.people,
+        [minorId]: { ...world.people[minorId]!, birthDate: nearAdultBirth },
+      },
+    };
+    const before = upbringingFor(prepared, personId);
+    const date = dateAtAge(nearAdultBirth, 18);
+    expect(date).toBe(birthday);
+    const afterWorld = {
+      ...prepared,
+      currentDate: date,
+      currentMoment: { ...prepared.currentMoment, date },
+    };
+    const after = upbringingFor(afterWorld, personId);
+    expect(after.familyContext?.caregiverPersonIds).toContain(minorId);
+    expect(after).toEqual(upbringingForUncached(afterWorld, personId));
+    expect(upbringingFor(prepared, personId)).toBe(before);
   });
 
   it("keeps each person's reading separate", () => {
