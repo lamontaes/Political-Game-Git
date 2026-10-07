@@ -353,62 +353,6 @@
       "code": "if (jurisdictionKey === \"US-CA\")"
     },
     {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "reportedShare: 0.45,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "arrestShare: 0.4,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "reportedShare: 0.6,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "arrestShare: 0.25,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "reportedShare: 0.5,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "arrestShare: 0.12,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "reportedShare: 0.3,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "arrestShare: 0.1,"
-    },
-    {
       "file": "src/simulation/crisis/disaster.ts",
       "kind": "fixed-share",
       "build": "Build 21",

@@ -433,7 +433,7 @@ export function attachTaxProposal(
     });
     if (canonicalJson(expectedLocal) !== canonicalJson(input.power))
       throw new Error(
-        "The tax power is not a supported local authority contract.",
+        "The tax power is not a supported local government contract.",
       );
   } else {
     const expected = taxPowerEvidenceFor(input.power.jurisdictionKey, {
