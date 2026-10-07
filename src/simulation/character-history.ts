@@ -3013,6 +3013,8 @@ export interface ResolveLifeSituationInput {
   readonly stableKey: string;
   readonly mode: CharacterHistoryMode;
   readonly personId: EntityId;
+  /** Person who made the choice; defaults to the child for ordinary scenes. */
+  readonly decisionMakerPersonId?: EntityId;
   readonly situationKey: LifeSituationKey;
   readonly optionKey: string;
   readonly occurredAt: IsoDate;
@@ -3127,13 +3129,30 @@ export function resolveLifeSituation(
           // and still handed the sentence, because being listed as a
           // participant is what person history reads. Somebody who witnessed
           // nothing is not on the record of it.
-          involvedEntityIds: [input.personId, ...(shared ? [shared] : [])],
+          involvedEntityIds: [
+            ...new Set([
+              input.personId,
+              ...(input.decisionMakerPersonId
+                ? [input.decisionMakerPersonId]
+                : []),
+              ...(shared ? [shared] : []),
+            ]),
+          ],
           participants: [
             {
-              personId: input.personId,
+              personId: input.decisionMakerPersonId ?? input.personId,
               role: "agency:actor",
               detail: option.label,
             },
+            ...(input.decisionMakerPersonId
+              ? [
+                  {
+                    personId: input.personId,
+                    role: "impact:child" as const,
+                    detail: option.memory,
+                  },
+                ]
+              : []),
             ...(shared
               ? [
                   {
