@@ -2,15 +2,16 @@
 
 ## Completed
 
-- VIEWS work remains on `session-55-views` at `c62386676` with focused tests, Prettier, and ESLint passing. Current-main merge is complete; the new-game screenshot attempt is blocked by current browser-run setup issues (native JSON import and server identity/storage configuration). No PR has been opened for this SCREEN item.
+- Pool b04-p1 merged as PR #3407 (`343136ee0`).
+- Session 55 item 1 VIEWS is in ready PR #3420, pushed through commit `39df762f0`. Adds side/back views and facing fallbacks; full-screen new-game captures for random place Lingle, Wyoming are embedded in the PR. Pool rows b04-p1, LW-06, LW-09 and LW-10 are marked done because their implementation/evidence is already on main.
+- CTO art handoff branch `cto/poses-oct7` is absent, so Session 55 item 2 cannot begin yet.
+- Current-main typecheck/release/load failures are documented in PR #3420. Its post-merge Vitest run stalled during Vite config loading.
 
-## Current pool item: b04-p1
+## Current pool item: AU-01
 
-- Working on `session-55-b04-p1` from `origin/main` `832492b67`.
-- Rescued implementation from closed PR #2603 as two commits; resolved current-main fundraiser changes in `campaign-money-sources.ts`.
-- Added an explicit next-race carry test: the losing campaign's committee balance moves to the same candidate's next campaign only when `carryForwardFromCampaignId` is supplied.
-- Both changed campaign test files pass 43/43, including the new transfer test.
-- Prettier and ESLint pass on changed source and tests.
-- The player-facing campaign filing helper does not yet pass a carry choice; `fileCampaign` exposes an explicit `carryForwardFromCampaignId` input for the filing layer. Keep this as the simulation contract for b04-p1; b04-p6 owns the player view.
-- Full typecheck reports current-main Press/Crime errors (`PlaySettings.premises`, missing press exports, and unrelated crime test exports). Release check reports the current-main `bg-44-refresh.md` id/filename mismatch. Load check reaches the existing Node `.css` import failure at `src/styles.css`.
-- Next: commit/push and open a new PR; do not reopen #2603. Continue Session 55 VIEWS screenshot route independently after the pool PR.
+- Branch `session-55-au-01` from `origin/main` `4f2cbe369`.
+- Replaced direct Congress-ID behavior checks with federal pack registry/jurisdiction fields.
+- Extracted shared constitutional proposal-rollcall recording and routed federal term-limit and Article V Congress proposal votes through it; state Article V already shares its handler and proposal writer.
+- D.C. Council signing now forwards item-veto selections through the shared veto engine. The D.C. Mayor authority comes from the existing D.C. Code research row; other council packs stay unsupported when authority is unknown.
+- Focused checks pass: shared rollcall helper (1), proposal writer (25), federal term-limit rollcall (1), D.C. item-veto lookup (1), municipal veto overrides (3). Full item-veto suite has 3 date-fixture failures reproduced on clean main. Typecheck is still running; earlier result showed only unrelated current-main errors after the fixed test typing issue. Release check reports inherited `bg-44-refresh.md` ID/filename mismatch.
+- Next: finish typecheck/format/lint gates, publish AU-01, then continue to AU-02.

@@ -2593,6 +2593,7 @@ function applyConsequence(
                     ? "The executive signed the council act."
                     : "The executive returned the council act with reasons for disapproval."),
                 office.holderPersonId,
+                itemSelection,
               )
             : world;
         }
