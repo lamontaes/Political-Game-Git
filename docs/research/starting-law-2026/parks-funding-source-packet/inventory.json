@@ -1,0 +1,370 @@
+{
+  "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+  "baselineHead": "6e969ab6241b19392c487f5da779b7771e8bc737",
+  "status": "Two supported initial-row additions; remaining thirteen source or representation gaps retained",
+  "rows": [
+    {
+      "placeKey": "US-AL",
+      "inheritedNote": "Forever Wild: a 10 percent levy on offshore gas operations funds recreational land purchases, renewed by voters in 2012 through 2032 (Ala. Const. amend. 543).",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official Forever Wild endpoint tunnel403; inherited 10% levy wording unverified."
+    },
+    {
+      "placeKey": "US-AR",
+      "inheritedNote": "A one-eighth of one percent sales tax funds parks and tourism, dedicated by voters in 1996 (Ark. Const. amend. 75).",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official constitution paths returned GIF/500/404; tax rate is not recipient share."
+    },
+    {
+      "placeKey": "US-AZ",
+      "inheritedNote": "Lottery revenues go to parks and open space, dedicated by voters in 1990.",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Statute endpoints403; Heritage Fund page acquired but statutory current allocation not verified."
+    },
+    {
+      "placeKey": "US-CA",
+      "inheritedNote": "Proposition 117 (1990) dedicates $30 million a year to habitat and related purposes.",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official FGC2787 confirms fixed annual dollar appropriations; no share ratio inferred."
+    },
+    {
+      "placeKey": "US-CO",
+      "inheritedNote": "Lottery proceeds fund Great Outdoors Colorado and state parks, dedicated by voters in 1992 (Colo. Const. art. XXVII).",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official GOCO history says up to half of lottery proceeds; cap and other recipient allocations require constitutional text."
+    },
+    {
+      "placeKey": "US-FL",
+      "inheritedNote": "At least a third of the documentary stamp tax goes to conservation land and parks for 20 years from July 1, 2015 (Fla. Const. art. X, section 28).",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official Constitution X28 says no less than33% net proceeds: minimum and broader conservation coverage cannot silently become exact parks allocation."
+    },
+    {
+      "placeKey": "US-GA",
+      "inheritedNote": "Up to 80 percent of the sales tax on outdoor recreation equipment goes to the Outdoor Stewardship Trust Fund for 10 years from 2018 (Ga. Const. art. III, section IX, para. VI).",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official constitution403; inherited up-to80% conditional allocation not exact share."
+    },
+    {
+      "placeKey": "US-MI",
+      "inheritedNote": "Oil and gas royalties from state land go to the State Parks Endowment Fund until it holds $800 million (Mich. Const. art. IX, sections 35 and 35a).",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official legislature403; DNR page acquired, constitutional cap/royalty waterfall not verified."
+    },
+    {
+      "placeKey": "US-MN",
+      "inheritedNote": "14.25 percent of the 0.375 percent Legacy sales tax goes to the parks and trails fund through June 30, 2034 (Minn. Const. art. XI, section 15).",
+      "primaryVerification": "supported scalar",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Primary text verified; existing date retained."
+    },
+    {
+      "placeKey": "US-MO",
+      "inheritedNote": "A 0.1 percent sales and use tax, half to state parks and half to soil and water, last reauthorized by voters August 4, 2026 (Mo. Const. art. IV, sections 47(a) and 47(b)).",
+      "primaryVerification": "supported scalar",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Primary text verified; existing date retained."
+    },
+    {
+      "placeKey": "US-MT",
+      "inheritedNote": "A share of the 20 percent tax on non-medical marijuana goes to conservation and parks, dedicated by voters in 2020.",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Archived statute has4% residual after HEART stateparks and separate4% trails; current 2026 version and denominator scope need verification."
+    },
+    {
+      "placeKey": "US-NE",
+      "inheritedNote": "49.5 percent of the state lottery goes to the environment trust, which funds parks, dedicated by voters in 1992.",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official current statute44.5% residual lottery differs from inherited49.5%; operativeApril8,2026 requires historical Jan1 version."
+    },
+    {
+      "placeKey": "US-NJ",
+      "inheritedNote": "A share of corporation business tax revenue goes to open space, farmland and historic sites, dedicated by voters in 2014 (N.J. Const. art. VIII, section II, para. 7).",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official constitution dedicates6% corporation tax;78% of account includes recreation, agriculture and historic preservation; parks-specific coverage needs explicit contract."
+    },
+    {
+      "placeKey": "US-OR",
+      "inheritedNote": "15 percent of net lottery proceeds go to the parks and natural resources fund, half to a parks subaccount (Or. Const. art. XV, sections 4(8) and 4a).",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "Official constitution403 and funding path404; inherited15% fund/halfsubaccount not reverified."
+    },
+    {
+      "placeKey": "US-TX",
+      "inheritedNote": "93 percent of the sales tax on sporting goods goes to the Parks and Wildlife Department (Tex. Tax Code section 151.801(c)).",
+      "primaryVerification": "not admitted to production lawTerms",
+      "requiredKey": "share",
+      "existingUnit": "ratio",
+      "denominator": "must be established from primary law; inherited note is not verification",
+      "reason": "All official statute URLs returned app bootstrap, including PDF URL;93% not independently verified."
+    }
+  ],
+  "verifiedPrimary": [
+    {
+      "placeKey": "US-MN",
+      "url": "https://www.revisor.mn.gov/constitution/",
+      "citation": "Minn. Const. art. XI \u00a715",
+      "term": "14.25 percent of receipts from three-eighths of one percent sales/use tax increase, plus penalties/interest less refunds",
+      "shareRatio": 0.1425,
+      "eligiblePrograms": "parks and trails of regional or statewide significance",
+      "period": "July 1, 2009 through June 30, 2034",
+      "caveat": "not 14.25 percent of all sales-tax revenue; funds appropriated by law; do not replace ordinary spending"
+    },
+    {
+      "placeKey": "US-FL",
+      "citation": "Fla. Const. art. X \u00a728",
+      "url": "https://www.leg.state.fl.us/statutes/index.cfm?submenu=3#A10S28",
+      "term": "no less than 33 percent of net documentary-tax revenues after collection/enforcement service charge",
+      "shareRatio": 0.33,
+      "constraint": "not one third; includes broader conservation purposes; minimum fraction not exact allocation",
+      "period": "20 years after July 1, 2015"
+    },
+    {
+      "placeKey": "US-MT",
+      "citation": "Mont. Code Ann. \u00a716-12-111",
+      "url": "https://archive.legmt.gov/bills/mca/title_0160/chapter_0120/part_0010/section_0110/0160-0120-0010-0110.html",
+      "term": "4% of net balance remaining after distribution to HEART account to state park account; separate 4% to trails/recreational facilities",
+      "constraint": "archive text verified; applicable January 1, 2026 version/effective date still needs verification; not 4% of gross retail sales"
+    },
+    {
+      "placeKey": "US-MO",
+      "citation": "Mo. Const. art. IV \u00a747(b)",
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?section=IV++++47(b)&constit=y",
+      "shareRatio": 0.5,
+      "denominator": "additional sales and use taxes under section 47(a)",
+      "recipient": "State Park Sales Tax Fund",
+      "constraint": "subject to legislative appropriation; initial default date preserved"
+    }
+  ],
+  "retrievalFailures": [
+    {
+      "placeKey": "US-OR",
+      "url": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+      "httpStatus": 403
+    }
+  ],
+  "currentSourceDiscrepancies": [
+    {
+      "placeKey": "US-NE",
+      "citation": "Neb. Rev. Stat. \u00a79-812",
+      "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=9-812",
+      "currentText": "44.5 percent of residual lottery money after prizes, operating expenses and initial compulsive-gambling transfer goes to Nebraska Environmental Trust Fund",
+      "inheritedText": "49.5 percent",
+      "operativeDate": "April 8, 2026 shown on current official page",
+      "constraint": "January 1 historical rule must be verified independently; environmental trust eligibility is not automatically parks-only"
+    }
+  ],
+  "retrievalCaveats": [
+    "TX HTTP200 is script application bootstrap without statutory text; not legal verification",
+    "AR HTTP200 42bytes GIF89a is tracking pixel, not constitution PDF",
+    "CO supplied PDF path404",
+    "AZ primary path403"
+  ],
+  "retrievalRounds": [
+    [
+      {
+        "place": "tx",
+        "url": "https://statutes.capitol.texas.gov/Docs/TX/htm/TX.151.htm",
+        "status": 200,
+        "bytes": 250874
+      },
+      {
+        "place": "fl",
+        "url": "https://www.leg.state.fl.us/statutes/index.cfm?submenu=3#A10S28",
+        "status": 200,
+        "bytes": 602247
+      },
+      {
+        "place": "co",
+        "url": "https://leg.colorado.gov/sites/default/files/images/olls/crs2025-title-00.pdf",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "place": "ar",
+        "url": "https://www.arkleg.state.ar.us/Home/FTPDocument?path=%2FAssembly%2F2025%2FSession%2FDocuments%2FArkansasConstitution2025.pdf",
+        "status": 200,
+        "bytes": 42
+      },
+      {
+        "place": "ne",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=9-812",
+        "status": 200,
+        "bytes": 33387
+      },
+      {
+        "place": "az",
+        "url": "https://www.azleg.gov/ars/5/00815.htm",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "place": "mt",
+        "url": "https://archive.legmt.gov/bills/mca/title_0160/chapter_0120/part_0010/section_0110/0160-0120-0010-0110.html",
+        "status": 200,
+        "bytes": 13585
+      }
+    ],
+    [
+      {
+        "key": "or-alt",
+        "url": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "key": "mo",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=IV++++47(a)&constit=y",
+        "status": 200,
+        "bytes": 29778,
+        "type": "text/html; charset=utf-8"
+      },
+      {
+        "key": "nj",
+        "url": "https://www.njleg.state.nj.us/constitution",
+        "status": 200,
+        "bytes": 208558,
+        "type": "text/html; charset=utf-8"
+      },
+      {
+        "key": "mi",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IX-35",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "key": "ga",
+        "url": "https://law.justia.com/constitution/georgia/conart3.html",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "key": "al",
+        "url": "https://law.justia.com/constitution/alabama/CA-245554.html",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "key": "co-alt",
+        "url": "https://leg.colorado.gov/sites/default/files/images/olls/constitution2025.pdf",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "key": "ca",
+        "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=2786.&lawCode=FGC",
+        "status": 200,
+        "bytes": 163912,
+        "type": "text/html; charset=UTF-8"
+      },
+      {
+        "key": "ar-alt",
+        "url": "https://www.arkleg.state.ar.us/ArkansasLaw/Constitution",
+        "error": "HTTP Error 500: Internal Server Error"
+      },
+      {
+        "key": "az-alt",
+        "url": "https://www.azleg.gov/ars/5/00816.htm",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "key": "tx-alt",
+        "url": "https://statutes.capitol.texas.gov/GetStatute.aspx?Code=TX&Value=151.801",
+        "status": 200,
+        "bytes": 250874,
+        "type": "text/html"
+      }
+    ],
+    [
+      {
+        "key": "mo-b",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=IV++++47(b)&constit=y",
+        "status": 200,
+        "bytes": 27777
+      },
+      {
+        "key": "ca-2787",
+        "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=2787.&lawCode=FGC",
+        "status": 200,
+        "bytes": 165907
+      },
+      {
+        "key": "ga-official",
+        "url": "https://sos.ga.gov/sites/default/files/2022-02/Georgia_Constitution.pdf",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "key": "al-official",
+        "url": "https://foreverwildlandtrust.org/about-forever-wild",
+        "error": "<urlopen error Tunnel connection failed: 403 Forbidden>"
+      },
+      {
+        "key": "co-official",
+        "url": "https://goco.org/about",
+        "status": 200,
+        "bytes": 46227
+      },
+      {
+        "key": "ar-official",
+        "url": "https://www.sos.arkansas.gov/uploads/2020_Arkansas_Constitution.pdf",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "key": "or-official",
+        "url": "https://www.oregon.gov/oprd/PRP/Pages/PRP-funding.aspx",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "key": "tx-pdf",
+        "url": "https://statutes.capitol.texas.gov/Docs/TX/pdf/TX.151.pdf",
+        "status": 200,
+        "bytes": 250874
+      },
+      {
+        "key": "mi-official",
+        "url": "https://www.michigan.gov/dnr/about/boards/mnrtf",
+        "status": 200,
+        "bytes": 481127
+      },
+      {
+        "key": "az-official",
+        "url": "https://azstateparks.com/heritage-fund",
+        "status": 200,
+        "bytes": 131750
+      }
+    ]
+  ]
+}
