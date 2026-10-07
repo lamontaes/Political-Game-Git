@@ -97,6 +97,24 @@ describe("people anchors on every place picture", () => {
       ).toHaveLength(2);
   });
 
+  it("anchors the visible convention hall audience chairs", () => {
+    const spots = STAGES["convention-hall"]!.spots;
+    const seats = spots.filter(
+      (spot) => spot.pose === "sit" && spot.role === "audience",
+    );
+    expect(seats).toHaveLength(164);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(164);
+    expect(seats.every((spot) => spot.facing === "away")).toBe(true);
+    for (let row = 1; row <= 10; row += 1) {
+      const expectedPerSide = [4, 5, 6, 7, 8, 9, 10, 11, 11, 11][row - 1];
+      for (const side of ["left", "right"]) {
+        expect(
+          seats.filter((spot) => spot.group === `audience-row-${row}-${side}`),
+        ).toHaveLength(expectedPerSide);
+      }
+    }
+  });
+
   it("anchors the visible election-night banquet chairs", () => {
     const seats = STAGES["election-night-venue"]!.spots.filter(
       (spot) => spot.pose === "sit",
