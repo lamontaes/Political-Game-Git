@@ -1,6 +1,6 @@
 ---
 id: pool-ow-done-oct7
 impact: none
-section: Docs
-title: Pool marks the merged playtest rows done
 ---
+
+The pool status update does not change player-facing behavior.
