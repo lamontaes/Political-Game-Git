@@ -170,11 +170,6 @@ function ScenePerson({
   const addressed =
     conversationAddressee === "everyone" ||
     conversationAddressee === person.personId;
-  const labelSuppressed =
-    conversationAddressee !== null ||
-    (state.selectedPersonId === person.personId &&
-      (state.overlay === "person-actions" || state.overlay === "dossier"));
-
   return (
     <button
       type="button"
@@ -196,22 +191,9 @@ function ScenePerson({
       data-person-id={person.personId}
       data-anchor-id={person.anchorId}
       data-addressed={addressed ? "true" : "false"}
-      data-label-suppressed={labelSuppressed ? "true" : "false"}
       data-unillustrated={visual.asset ? "false" : "true"}
       onClick={() => onSelect(person.personId)}
-    >
-      <span
-        className="person-nameplate"
-        data-testid={
-          person.visualVariant === "primary"
-            ? "scene-person-nameplate"
-            : "scene-person-b-nameplate"
-        }
-      >
-        <strong>{dossier.name}</strong>
-        <small>{dossier.title}</small>
-      </span>
-    </button>
+    ></button>
   );
 }
 

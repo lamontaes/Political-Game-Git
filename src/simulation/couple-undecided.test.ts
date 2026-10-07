@@ -15,6 +15,9 @@ import {
   dateRefusal,
 } from "./couples";
 import { askToBeTogether } from "../presentation/people-contacts";
+import { createMindProvenance, recordPersonalityTendency } from "./mind";
+import { loadedTraitRegistry } from "./trait-registry";
+import { traitDefinitionFromPack } from "./trait-packs";
 
 function eligibleRequest() {
   let world = createDemoWorld("c8-couple-undecided");
@@ -81,6 +84,66 @@ function eligibleRequest() {
 }
 afterEach(() => vi.restoreAllMocks());
 describe("an unanswered couple request reaches the actual contact consumer", () => {
+  it("passes the answerer's recorded affection into the actual decision", () => {
+    const fixture = eligibleRequest();
+    const trait = loadedTraitRegistry().traits.get(
+      "personality-v1:facet-affectionate",
+    )!;
+    const definition = traitDefinitionFromPack(trait);
+    const prepared: World = {
+      ...fixture.world,
+      mindCatalog: {
+        ...fixture.world.mindCatalog,
+        tendencies: {
+          ...fixture.world.mindCatalog.tendencies,
+          [definition.id]: definition,
+        },
+        tendencyOrder: fixture.world.mindCatalog.tendencyOrder.includes(
+          definition.id,
+        )
+          ? fixture.world.mindCatalog.tendencyOrder
+          : [...fixture.world.mindCatalog.tendencyOrder, definition.id],
+      },
+    };
+    const world = recordPersonalityTendency(prepared, {
+      stableKey: `c8:affection:${fixture.pair.otherPersonId}`,
+      personId: fixture.pair.otherPersonId,
+      tendencyId: definition.id,
+      recordedAt: prepared.currentDate,
+      expressionKey: trait.poles.high.key,
+      strength: "strong",
+      confidence: "high",
+      scopeTags: ["life:ordinary", "relationship:choice"],
+      provenance: createMindProvenance("authored", {
+        note: "Focused proof of the answerer's recorded affection.",
+      }),
+      supersedesTendencyId: null,
+    });
+    const evaluate = decisions.evaluateDecision;
+    const spy = vi
+      .spyOn(decisions, "evaluateDecision")
+      .mockImplementation((current: World, context: DecisionContext) =>
+        evaluate(current, context),
+      );
+
+    askToBeTogether(world, fixture.pair);
+
+    expect(spy).toHaveBeenCalledWith(
+      world,
+      expect.objectContaining({
+        decisionType: "people.couple-answer",
+        actorPersonId: fixture.pair.otherPersonId,
+        considerations: expect.arrayContaining([
+          expect.objectContaining({
+            sourceType: "mind:personality",
+            optionKey: "accept",
+            explanation: expect.stringContaining("warmth"),
+          }),
+        ]),
+      }),
+    );
+  });
+
   it.each(["undecided", "no-available-option", "selected-null"] as const)(
     "does not record or say no for %s, including reload and repeat",
     (outcome: "undecided" | "no-available-option" | "selected-null") => {
