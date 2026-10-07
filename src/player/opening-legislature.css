@@ -1,7 +1,80 @@
-/* Keep the illustrative representatives separate from their readable record. */
-.pg-orientation[data-step="legislature"] .pg-orientation-staged {
-  right: 48%;
+/* Keep recorded chamber members and the overflow count visible beside the
+   data panel; the reading area scrolls when its narrower width wraps text. */
+.pg-orientation:is(
+    [data-step="year"],
+    [data-step="congress"],
+    [data-step="legislature"]
+  )
+  .pg-orientation-copy {
+  width: min(20rem, 24cqw);
 }
+
+.pg-orientation-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+.pg-orientation:is(
+    [data-step="year"],
+    [data-step="congress"],
+    [data-step="legislature"]
+  )
+  .pg-orientation-panel
+  > .pg-orientation-reading {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.pg-orientation:is(
+    [data-step="year"],
+    [data-step="congress"],
+    [data-step="legislature"]
+  )
+  .pg-orientation-staged
+  > [data-testid="scene-place-overflow"] {
+  top: 1rem;
+  right: auto;
+  bottom: auto;
+  left: 1rem;
+  z-index: 2;
+  width: max-content;
+  max-width: min(24rem, calc(100% - 2rem));
+  box-sizing: border-box;
+}
+
+.pg-orientation:is(
+    [data-step="year"],
+    [data-step="congress"],
+    [data-step="legislature"]
+  )
+  .pg-orientation-staged
+  > [data-testid="scene-place-overflow"]:not([open]) {
+  max-height: 2.5rem !important;
+}
+
+.pg-orientation:is([data-step="state"], [data-step="legislature"])
+  .pg-orientation-people
+  .pg-orientation-person,
+.pg-orientation:is([data-step="state"], [data-step="legislature"])
+  .pg-orientation-cast
+  .pg-orientation-person {
+  color: #2a2112;
+  background: #eee5d5;
+}
+
+.pg-orientation:is([data-step="state"], [data-step="legislature"])
+  .pg-orientation-people
+  .pg-orientation-person
+  :is(span, small),
+.pg-orientation:is([data-step="state"], [data-step="legislature"])
+  .pg-orientation-cast
+  .pg-orientation-person
+  :is(span, small) {
+  color: #5a4b31;
+}
+
 @media (max-width: 760px) {
   .pg-orientation[data-step="legislature"] .pg-orientation-staged {
     right: 0;

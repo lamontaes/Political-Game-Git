@@ -3,7 +3,6 @@ import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-d
 import {
   CONGRESS_COMMITTEE_BY_DOMAIN,
   isCongressRulePack,
-  US_CONGRESS_PACK_ID,
   US_CONGRESS_RULE_PACK,
 } from "../congress-rule-pack";
 import {
@@ -124,7 +123,7 @@ function seatCongressChamber(
       ? (parties.get(member.partyOrganizationId) ?? null)
       : null;
     members.push({
-      memberKey: `${US_CONGRESS_PACK_ID}:${chamberKey}:${seat.seatKey}`,
+      memberKey: `${US_CONGRESS_RULE_PACK.packId}:${chamberKey}:${seat.seatKey}`,
       name: member.personName,
       personId: member.personId,
       tenureStartedAt: member.startedAt,
@@ -151,7 +150,7 @@ function seatCongressChamber(
  */
 export function congressBlueprint(world: World): LegislativeBlueprint {
   return procedureOnlyBlueprint({
-    scenarioKey: `institution:${US_CONGRESS_PACK_ID}`,
+    scenarioKey: US_CONGRESS_RULE_PACK.institution!.workKey!,
     pack: US_CONGRESS_RULE_PACK,
     context: {
       jurisdiction: NATIONAL_ELECTION_JURISDICTION,
