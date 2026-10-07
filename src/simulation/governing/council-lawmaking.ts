@@ -2,6 +2,7 @@ import { lawInForce } from "./law-in-force";
 import { personName } from "../people";
 import type { EntityId, LegislativeVoteDisposition, World } from "../types";
 import { decideChamberVote, publicPartyOf } from "./chamber-votes";
+import { memberBallotOn, type ChamberQuestion } from "./member-ballots";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 
 /**
@@ -25,7 +26,9 @@ import { ensureOfficeholderPrinciples } from "./officeholder-principles";
  *    the voters of the town (`constituentsConsideration`).
  *
  * The player is never decided for: a player who sits on the council files
- * nothing through this and is recorded absent on a vote they did not cast.
+ * nothing through this and is recorded absent on a vote they did not cast. A
+ * ballot the player did decide before the roll call, by hand or by a standing
+ * instruction (`council-quiet-items.ts`), is read from the saved record.
  */
 
 export const COUNCIL_LAWMAKING_VERSION = "council-lawmaking/v1";
@@ -53,6 +56,19 @@ export const COUNCIL_DEFERENCE_REASON = "member:council-deference";
 export const COUNCIL_PRECEDENT_REASON = "member:council-precedent";
 
 export const COUNCIL_VOTE_NOTE = `${COUNCIL_LAWMAKING_VERSION}: each member decided their own ballot from their principles, their record, the ordinance's sponsor and the town's voters.`;
+
+/**
+ * The question a council's floor roll call puts on one ordinance: the identity
+ * a member's saved ballot is kept under until the meeting takes the vote.
+ */
+export function councilFloorQuestion(measureId: EntityId): ChamberQuestion {
+  return {
+    measureId,
+    purpose: "floor-stage",
+    forumKey: "council",
+    floorStageKey: null,
+  };
+}
 
 export interface CouncilMember {
   readonly personId: EntityId;
@@ -89,14 +105,12 @@ export function decideCouncilVote(
     readonly nonpartisan: boolean;
   },
 ): readonly LegislativeVoteDisposition[] {
+  const question = councilFloorQuestion(input.measureId);
   const decided = decideChamberVote(world, {
     stableKey: input.stableKey,
     question: {
       question: {
-        measureId: input.measureId,
-        purpose: "floor-stage",
-        forumKey: "council",
-        floorStageKey: null,
+        ...question,
         amendmentStableKey: null,
         provisionKey: null,
       },
@@ -109,7 +123,9 @@ export function decideCouncilVote(
       caucusLabel: publicPartyOf(world, member.personId) ?? "No party",
     })),
     playerPersonId: input.playerPersonId,
-    playerBallot: null,
+    playerBallot: input.playerPersonId
+      ? memberBallotOn(world, input.playerPersonId, question)
+      : null,
     constituencyId: input.jurisdictionId,
     executivePersonId: input.executivePersonId,
     nonpartisan: input.nonpartisan,

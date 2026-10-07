@@ -33,6 +33,8 @@ export const TRACE_MODEL_VERSION = "causal-trace-model-v1";
  * class that would make debug data look canonical.
  */
 export type TraceRecordClass =
+  | "life-record"
+  | "civic-record"
   | "canonical-event"
   | "person-fact"
   | "causal-process"
@@ -57,6 +59,8 @@ export type TraceRecordClass =
   | "unknown";
 
 export const TRACE_RECORD_CLASSES: readonly TraceRecordClass[] = [
+  "life-record",
+  "civic-record",
   "canonical-event",
   "person-fact",
   "causal-process",

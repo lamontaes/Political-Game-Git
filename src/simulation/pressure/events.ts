@@ -3,7 +3,7 @@ import { latestReadings } from "./flows";
 import { stepPressureLadder } from "./ladder";
 
 export {
-  BLANKET_POLITICAL_VIOLENCE,
+  POLITICAL_VIOLENCE_ESTIMATE,
   PRESSURE_ANGER_METRIC_STABLE_KEY,
   PRESSURE_LADDER_INCIDENT_STABLE_KEYS,
   THREAT_ATTEMPTED_PHASE,

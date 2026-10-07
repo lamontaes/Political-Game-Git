@@ -1,3 +1,5 @@
+import { addDays } from "../simulation/dates";
+import { prepareStateLegislatureQueue } from "../simulation/nationwide-world/state-legislature-queue";
 import { initializeAllOfficeSalaryFlows } from "../simulation/office-salary";
 import { initializeWorkPayCoverage } from "../simulation/pay-coverage";
 import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
@@ -88,6 +90,8 @@ export interface OpeningLifeGenerationProgress {
   readonly label: string;
   readonly completed: number;
   readonly total: number;
+  readonly world?: World;
+  readonly playerPersonId?: EntityId;
 }
 
 export interface OpeningLifeGenerationOptions {
@@ -158,11 +162,12 @@ export function generateOpeningLife(
 export async function generateOpeningLifeWithProgress(
   session: OpeningLifeSession,
   options: OpeningLifeGenerationOptions = {},
+  suppliedGame?: NewGame,
 ): Promise<OpeningLifeSession> {
   if (session.game) return session;
   throwIfOpeningAborted(options.signal);
   const beginning = await runOpeningPreparationSteps(
-    beginOpeningLifeSteps(session),
+    beginOpeningLifeSteps(session, suppliedGame),
     (start) => start.world,
     options,
   );
@@ -237,8 +242,21 @@ interface OpeningPreparationStep {
   readonly world?: World;
 }
 
-function openingStage(label: string, world?: World): OpeningPreparationStep {
-  return { progress: { label, completed: 0, total: 0 }, world };
+function openingStage(
+  label: string,
+  world?: World,
+  playerPersonId?: EntityId,
+): OpeningPreparationStep {
+  return {
+    progress: {
+      label,
+      completed: 0,
+      total: 0,
+      ...(world ? { world } : {}),
+      ...(playerPersonId ? { playerPersonId } : {}),
+    },
+    world,
+  };
 }
 
 /** Both paths run the same preparation steps in the same order. */
@@ -287,9 +305,10 @@ async function reportOpeningStage(
 
 function* beginOpeningLifeSteps(
   session: OpeningLifeSession,
+  suppliedGame?: NewGame,
 ): Generator<OpeningPreparationStep, OpeningLifeBuildStart, void> {
   yield openingStage("Preparing your life");
-  const game = createNewGameWorld(session.setup);
+  const game = suppliedGame ?? createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
   const conditioned = ensureWorldStartingConditions(game.world, {
@@ -458,6 +477,25 @@ function* completeOpeningLifeSteps(
         )
       : withOfficeSalaries;
   const world = initializeWorkPayCoverage(withEmployerCash);
+  const recovered = recoverOverdueProsecutions(world);
+  // Opening owns the one-time catch-up. The canonical clock and registry
+  // owners consume these saved wakes; this builder never dispatches them.
+  const queued = prewarmNationwide
+    ? prepareStateLegislatureQueue(
+        recovered,
+        addDays(recovered.currentDate, -1),
+        Math.max(
+          Number(recovered.currentDate.slice(0, 4)) + 4,
+          Number(
+            (
+              recovered.preStartLife?.targetStartDate ?? recovered.currentDate
+            ).slice(0, 4),
+          ) + 1,
+        ),
+      )
+    : recovered;
+  if (prewarmNationwide)
+    yield openingStage("Finalizing your life", queued, game.playerPersonId);
   return {
     ...session,
     phase: "world",
@@ -475,7 +513,7 @@ function* completeOpeningLifeSteps(
       // not die. Starting it here costs the clock's hot path nothing, and the
       // version gate keeps a legacy replay byte-identical: those saves still
       // start it on their first ordinary-day pass, as before.
-      world: recoverOverdueProsecutions(world),
+      world: queued,
     },
   };
 }
@@ -626,7 +664,10 @@ export function sameOpeningSetup(
 }
 
 /** Keep one controller per Begin activation; duplicate transition callbacks share it. */
-export function createOpeningLifeController(setup: NewGameSetup) {
+export function createOpeningLifeController(
+  setup: NewGameSetup,
+  suppliedGame?: NewGame,
+) {
   let current = prepareOpeningLife(setup);
   let progressiveGeneration: Promise<OpeningLifeSession> | null = null;
   return {
@@ -644,6 +685,7 @@ export function createOpeningLifeController(setup: NewGameSetup) {
         progressiveGeneration = generateOpeningLifeWithProgress(
           preparing,
           options,
+          suppliedGame,
         )
           .then((next) => {
             if (current === preparing) current = next;
@@ -704,7 +746,10 @@ function establishOpeningLocation(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["playtest65:initial-placement"],
+    tags: [
+      "playtest65:initial-placement",
+      `moment:${JSON.stringify(world.currentMoment)}`,
+    ],
     summary: "You are at home.",
     context: {
       location: {

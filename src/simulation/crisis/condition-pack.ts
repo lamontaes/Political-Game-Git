@@ -13,6 +13,7 @@ import {
 import { annualPovertyLineMinor } from "../household-pay";
 import type { MortalityCalibrationCategory } from "./mortality-table";
 import { appendCrisisRecords, crisisRecordId } from "./records";
+import { activeHealthEpisodes } from "./health-queries";
 import type {
   CrisisRecordInput,
   HealthCoverageRecord,
@@ -47,6 +48,8 @@ interface PackCondition {
   readonly infant?: boolean;
   /** A condition of childhood: held at its one band's ages only. */
   readonly childhood?: boolean;
+  /** A condition that takes no severity grade or age factor. */
+  readonly ungraded?: boolean;
   readonly prevalence: readonly PrevalenceBand[];
   readonly bySex?: { readonly male: number; readonly female: number };
   readonly mortalityWeight: { readonly value: number; readonly status: string };
@@ -165,7 +168,8 @@ export function conditionGrade(
   key: string,
 ): SeverityGrade | null {
   const condition = packCondition(key);
-  if (condition?.infant || condition?.childhood) return null;
+  if (condition?.infant || condition?.childhood || condition?.ungraded)
+    return null;
   const place = selectionPlace(seed, personId, `${key}:severity`);
   let below = 0;
   for (const grade of SEVERITY_GRADES) {
@@ -209,6 +213,25 @@ export function conditionHazard(
   };
 }
 
+/** The pack condition behind a person's recorded need for substance use services. */
+export const SUBSTANCE_USE_DISORDER_KEY = "substance-use-disorder" as const;
+
+/**
+ * Whether the person's own health record holds this pack condition now. A
+ * pure read of the record; it advances nothing and invents nothing, and a
+ * person the model has not yet exposed holds none.
+ */
+export function holdsPackCondition(
+  world: World,
+  personId: EntityId,
+  key: string,
+): boolean {
+  return activeHealthEpisodes(world, personId).some(
+    (episode) =>
+      episode.conditionKey === key && episode.origin.kind === "condition-pack",
+  );
+}
+
 /** The health-episode stable key a pack condition is recorded under. */
 export function conditionEpisodeKey(personId: EntityId, key: string): string {
   return `crisis:health:condition:${CONDITION_PACK_KEY}:${key}:${personId}`;
@@ -239,12 +262,18 @@ export function recordStartingConditions(
     const person = world.people[personId];
     if (!person) continue;
     const age = daysBetween(person.birthDate, date) / 365.25;
+    const held = new Set(
+      activeHealthEpisodes(world, personId).map(
+        (episode) => episode.conditionKey,
+      ),
+    );
     for (const key of startingConditionKeys(
       world.seed,
       personId,
       age,
       category,
     )) {
+      if (held.has(key)) continue;
       const hazard = conditionHazard(world.seed, personId, key, age);
       const stableKey = conditionEpisodeKey(personId, key);
       const id = crisisRecordId(world, stableKey);

@@ -938,7 +938,7 @@ describe("Procedural discipline", () => {
       expect(noQuorum.history.legislativeActions!.at(-1)).toMatchObject({
         kind: "quorum-not-present",
         rationale: expect.stringContaining(
-          `${short} members were present; ${required} were required`,
+          `${short} present, ${required} required`,
         ),
       });
       expect(measureVotes(noQuorum, fixture.measureId).at(-1)).toMatchObject({

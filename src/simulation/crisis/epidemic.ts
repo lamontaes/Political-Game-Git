@@ -1123,7 +1123,7 @@ function reportOutbreaks(
         `epidemic:new-cases:${found.length}`,
         `policy:${EPIDEMIC_VERSION}`,
       ],
-      summary: `An illness is spreading in ${place}: ${found.length} people fell sick this week${schools > 0 ? `, and ${schools === 1 ? "a school has" : `${schools} schools have`} closed` : ""}.`,
+      summary: `An illness is spreading in ${place}: ${found.length} ${found.length === 1 ? "person" : "people"} fell sick this week${schools > 0 ? `, and ${schools === 1 ? "a school has" : `${schools} schools have`} closed` : ""}.`,
       context: { ...EMPTY_CONTEXT, pressure: `${sickNow} sick this week` },
     });
   }

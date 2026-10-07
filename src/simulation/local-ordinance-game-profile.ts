@@ -1,5 +1,4 @@
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
-import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 /**
  * Disclosed, versioned play rules for a general-purpose local government whose
  * own ordinance procedure has not been compiled. The Census unit supplies only
@@ -172,7 +171,7 @@ export function localOrdinanceGameRulePack(
     "A majority of the profile's board is present (game profile).",
     source,
   );
-  return withMinorityPartyProcedureRows({
+  return {
     packId: `${unit.id}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`,
     jurisdictionKey: `US-${unit.stateUsps}`,
     displayName: `${unit.name} (${unit.unitType}) — ${bodyName}`,
@@ -270,7 +269,7 @@ export function localOrdinanceGameRulePack(
     unresolvedGaps: [
       "Actual local charter and ordinance procedure have not been sourced; this is a disclosed game profile.",
     ],
-  });
+  };
 }
 
 export function localOrdinanceGameRulePackById(

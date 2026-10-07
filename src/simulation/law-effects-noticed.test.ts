@@ -10,6 +10,8 @@ function savedPay(
   beforeCadence: string,
   afterAmount: number,
   afterCadence: string,
+  beforeCurrency = "USD",
+  afterCurrency = "USD",
 ): World {
   const personId = "person_notice-control" as EntityId;
   const flowId = "flow_notice-control" as EntityId;
@@ -48,7 +50,7 @@ function savedPay(
           id: "terms_before",
           resourceFlowId: flowId,
           effectiveAt: at,
-          amount: money(beforeAmount, "USD"),
+          amount: money(beforeAmount, beforeCurrency),
           cadenceKind: beforeCadence,
           provenance: { kind: "authored" },
           supersedesTermsId: null,
@@ -57,7 +59,7 @@ function savedPay(
           id: "terms_after",
           resourceFlowId: flowId,
           effectiveAt: at,
-          amount: money(afterAmount, "USD"),
+          amount: money(afterAmount, afterCurrency),
           cadenceKind: afterCadence,
           provenance: { kind: "simulated-event", eventId },
           supersedesTermsId: "terms_before",
@@ -104,5 +106,45 @@ describe("saved law pay changes use both recorded cadences", () => {
   it("does not manufacture an annual amount from an unknown prior cadence", () => {
     const world = savedPay(10000, "pay:per-task", 22000, "pay:biweekly");
     expect(noticeLawPayChanges(world, world.currentDate)).toBe(world);
+  });
+  it.each([
+    ["USD", "EUR"],
+    ["EUR", "USD"],
+  ])(
+    "does not price a law pay difference across %s and %s without a recorded conversion",
+    (beforeCurrency, afterCurrency) => {
+      const world = savedPay(
+        10000,
+        "pay:weekly",
+        22000,
+        "pay:biweekly",
+        beforeCurrency,
+        afterCurrency,
+      );
+      expect(noticeLawPayChanges(world, world.currentDate)).toBe(world);
+    },
+  );
+
+  it("keeps a same-currency non-USD difference and its source terms", () => {
+    const world = savedPay(
+      20000,
+      "pay:monthly",
+      23000,
+      "pay:monthly",
+      "EUR",
+      "EUR",
+    );
+    const noticed = noticeLawPayChanges(world, world.currentDate);
+    expect(noticed.history.lawExposures).toHaveLength(1);
+    expect(noticed.history.lawExposures![0]).toMatchObject({
+      direction: "gain",
+      amount: money(3000, "EUR"),
+      cadence: "monthly",
+      sourceRecordId: "terms_after",
+    });
+    expect(noticed.history.resourceFlowTerms).toBe(
+      world.history.resourceFlowTerms,
+    );
+    expect(noticeLawPayChanges(noticed, noticed.currentDate)).toBe(noticed);
   });
 });
