@@ -158,7 +158,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b15-p5 | Whether they care | b15-_.md part 5 | open (stale claim: S43) | S43 |
 | b15-p6 | Opposition research | b15-_.md part 6 | open (stale claim: S43) | S43 |
 | b15-p7 | Hearings as scenes | b15-_.md part 7 | open (stale claim: S43) | S43 |
-| b22-p1 | One office-scope reader | b22-_.md part 1 | claimed | S48 |
+| b22-p1 | One office-scope reader | b22-_.md part 1 | done (#2506) | S48 |
 | b22-p2 | Visibility table, data not code | b22-_.md part 2 | claimed | S48 |
 | b22-p3 | Coverage follows the player | b22-_.md part 3 | claimed | S48 |
 | b22-p4 | Big stories become national from their own records | b22-_.md part 4 | claimed | S48 |
@@ -710,7 +710,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2372 | Save precinct returns from the canonical voter count | PR #2372 (codex/session13-precinct-results) | open: draft: finish it or close it as superseded | |
 | RS-2374 | Session 30 Part 3: Carry bargaining promises into vote reasons | PR #2374 (codex/session30-vote-bargaining-part-3) | open: draft: finish it or close it as superseded | |
 | RS-2375 | [b12 Part 3] Decide cloture and floor holds by member | PR #2375 (session35/b12-part3) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2381 | b22 part 1: add composed player office scope | PR #2381 (session48/b22-part1-office-scope) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2381 | b22 part 1: add composed player office scope | PR #2381 (session48/b22-part1-office-scope) | closed: superseded by merged #2506 | |
 | RS-2382 | b22 part 2: scale economy views by office | PR #2382 (session48/b22-part2-economy-visibility) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2383 | b22 part 3: materialize press coverage from office and travel | PR #2383 (session48/b22-part3-press-coverage) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2384 | b22 part 4: tag nationally significant state events | PR #2384 (session48/b22-part4-national-scale) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
