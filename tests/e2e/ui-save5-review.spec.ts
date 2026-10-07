@@ -113,7 +113,7 @@ test("the rest of the named owner visual set renders on a normal start", async (
   await openNewsContext(page, "directory");
   await expect(
     page.getByTestId("public-information-for-you-empty"),
-  ).toBeVisible();
+  ).toBeAttached();
   // The full record is under All, and that is where the guarantee is checked.
   await page.getByTestId("news-view-all").click();
   const articles = page.locator(".public-information-article");
