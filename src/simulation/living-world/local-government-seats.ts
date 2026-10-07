@@ -101,6 +101,54 @@ export function localGovernmentSeated(world: World, unitId: string): boolean {
   return world.history.events.some((event) => event.stableKey === key);
 }
 
+/**
+ * Keep an internal trace when a local government's roster cannot supply any
+ * living, eligible officeholder. This is not a public happening: the
+ * information event type is excluded from journal, news, and recap readers.
+ * The dated key leaves later calls free to try again after the roster changes.
+ */
+export function recordLocalGovernmentSeatGap(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  town: EntityId,
+): World {
+  const stableKey = `${localGovernmentSeatsKey(unit.id)}:seat-gap:${world.currentDate}`;
+  if (world.history.events.some((event) => event.stableKey === stableKey))
+    return world;
+  return recordWorldEvent(world, {
+    stableKey,
+    type: "information.local-government-seat-gap",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: town,
+    involvedEntityIds: [town],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      V,
+      "reason:eligible-roster-exhausted",
+      `unit:${unit.id}`,
+      `unit-type:${unit.unitType}`,
+      `state:${unit.stateUsps}`,
+      ...(unit.countyGeoid ? [`county-area:${unit.countyGeoid}`] : []),
+    ],
+    summary: "No eligible officeholder was found in the recorded local roster.",
+    context: {
+      location: {
+        jurisdictionId: town,
+        label: world.jurisdictions[town]?.name ?? null,
+        setting: null,
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
 /** The stable key a seat of a town without a compiled government is kept under. */
 export function localGovernmentSeatKey(
   unit: GovernmentUnitIdentity,
@@ -384,7 +432,11 @@ export function ensureLocalGovernmentSeatsForUnit(
   const members = seated.filter((seat) => !seat.mayor).length;
   // Nobody could be seated, so there is nobody for the record to name; the
   // seats stay open and a later pass fills them.
-  if (seated.length === 0) return next;
+  if (seated.length === 0) {
+    return sitting.length === 0
+      ? recordLocalGovernmentSeatGap(next, unit, town)
+      : next;
+  }
   return recordWorldEvent(next, {
     stableKey: localGovernmentSeatsKey(unit.id),
     type: "local.government-seated",
@@ -505,7 +557,11 @@ export function ensureCountyGovernmentSeatsForUnit(
     sitting.filter((row) => !row.mayor).length;
   // Nobody could be seated, so there is nobody for the record to name; the
   // seats stay open and a later pass fills them.
-  if (seated.length === 0) return next;
+  if (seated.length === 0) {
+    return sitting.length === 0
+      ? recordLocalGovernmentSeatGap(next, unit, town)
+      : next;
+  }
   const name = localGovernmentDisplayName(unit);
   return recordWorldEvent(next, {
     stableKey: localGovernmentSeatsKey(unit.id),
@@ -823,3 +879,4 @@ export function ensureLocalGovernmentSeats(
   }
   return next;
 }
+
