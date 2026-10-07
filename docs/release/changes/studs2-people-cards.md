@@ -1,6 +1,8 @@
 ---
 id: studs2-people-cards
 impact: patch
+section: Changed
+title: Fewer fixed explanation lines on the people screens
 ---
 
 Five fixed explanation sentences are gone from the people screens: the public
