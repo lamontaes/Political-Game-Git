@@ -533,7 +533,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-26 | Life story has a 38-year hole, every event is 'In December', no parents/siblings/spouse/children, unexplained school transfer | BUGS.md BG-26 | done #818, #3095 | |
 | BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | done #2993 | |
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
-| BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | ready #3515 | |
+| BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | unsupported: source gap documented in #3515 | |
 | BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | done #441 | |
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | done #2150, #715 | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | done #2220 | |
@@ -571,7 +571,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | ready #3536 | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
-| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | ready #3553 | Session 44 |
+| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | done #3553 | Session 44 |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
 
 ## Rescue: every open PR from the Codex sessions and earlier (added Oct 6, 3:40 p.m.)
