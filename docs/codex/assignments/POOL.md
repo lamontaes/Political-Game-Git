@@ -614,7 +614,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1406 | Deliver the private monthly money call-cost diagnostic | PR #1406 (codex/team7-c9-owned-call-cost-diagnostic) | done (superseded by current-main obligation route; diagnostic depended on closed PR #1353) | |
 | RS-1415 | Preserve native lease renewal proof and save validation blocker | PR #1415 (codex/team-4-m10-native-renewal-entry) | open: draft: finish it or close it as superseded | |
 | RS-1430 | Prepare scheduled rent proof and preserve runtime budget blocker | PR #1430 (codex/team-4-m10-scheduled-rent-entry) | open: draft: finish it or close it as superseded | |
-| RS-1479 | Remove unavailable reporter search from Press workspace | PR #1479 (codex/team-8-a153-unavailable-action) | open: draft: finish it or close it as superseded | |
+| RS-1479 | Remove unavailable reporter search from Press workspace | PR #1971 (merged: A153 read existing reporters without creating newsroom jobs) | done #1971 | |
 | RS-1488 | Read retained majority-member and NJ/Congress filing predicates | PR #1488 (codex/team1-majority-question-counts) | open: draft: finish it or close it as superseded | |
 | RS-1508 | Retain dated county source intake and actual binding gaps | PR #1508 (codex/team7-county-source-intake-02) | open: draft: finish it or close it as superseded | |
 | RS-1511 | Persist canonical chunked world saves in SQLite | PR #1511 (codex/audit-sqlite-chunked-world-saves) | done #1511 | S50 |
