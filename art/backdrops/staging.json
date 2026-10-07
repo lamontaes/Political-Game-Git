@@ -231,9 +231,20 @@
           "group": "barber-chair",
           "role": "general",
           "id": "barbershop:spot:8"
+        },
+        {
+          "x": 88,
+          "y": 72,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 72,
+          "seatY": 57,
+          "group": "barber-chair",
+          "role": "general",
+          "id": "barbershop:spot:9"
         }
       ],
-      "measuredFrom": "front door 2.0 m foot 59 top 26.6 (0.62); waiting chairs 0.45 m seat",
+      "measuredFrom": "front door 2.0 m foot 59 top 26.6 (0.62); waiting chairs 0.45 m seat; third barber-chair sit point visually estimated from the native midday painting with approximately 2 percentage point placement uncertainty",
       "surfaceSlots": []
     },
     "campaign-storefront": {
