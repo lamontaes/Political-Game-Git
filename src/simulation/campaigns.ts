@@ -21,7 +21,9 @@ import {
 import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
+  townHomeReviewHandler,
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
@@ -2446,6 +2448,7 @@ export function composeWorldTimeHandlers(
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
+        [TOWN_HOME_REVIEW_TRANSITION_KEY, townHomeReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
         ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
