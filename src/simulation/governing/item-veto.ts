@@ -61,13 +61,17 @@ export interface ExecutiveItemVetoSelection {
  */
 export function itemVetoPower(rulePackId: string): ItemVetoPower | null {
   const pack = rulePackById(rulePackId);
-  // A council pack's unknown grant is not the governor's grant for its state.
-  if (
-    pack.executive.lineItemVeto.kind !== "known" ||
-    !pack.executive.lineItemVeto.value
-  )
-    return null;
   const code = pack.jurisdictionKey.replace(/^US-/, "");
+  const knownGrant =
+    pack.executive.lineItemVeto.kind === "known" &&
+    pack.executive.lineItemVeto.value;
+  // D.C.'s pack is the District's Mayor, whose sourced Home Rule Act grant
+  // appears in the item-veto research row. Other council profiles stay unknown.
+  const sourcedDistrictMayorGrant =
+    code === "DC" &&
+    pack.jurisdictionKey === "US-DC" &&
+    pack.executive.titleLabel === "Mayor of the District of Columbia";
+  if (!knownGrant && !sourcedDistrictMayorGrant) return null;
   const row = PLACES.find((candidate) => candidate.code === code);
   if (!row || row.itemVeto !== "yes") return null;
   return {
