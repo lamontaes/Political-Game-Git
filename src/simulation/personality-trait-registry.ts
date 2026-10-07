@@ -235,7 +235,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-closeness-seeking",
   "personality-v1:facet-intimacy-guarded",
   "personality-v1:facet-devoted",
-  "personality-v1:facet-nostalgic",
   "personality-v1:facet-teasing",
 ] as const;
 
