@@ -181,7 +181,7 @@ export function UX39CalendarGrid({
                         className="ux39-calendar-date"
                         aria-current={date === today ? "date" : undefined}
                         aria-pressed={selectedDate === date}
-                        aria-label={`${calendarDisplayDate(date, dateOrder)}${date === today ? " · Today" : ""} · Entries: ${entries.length}`}
+                        aria-label={calendarDisplayDate(date, dateOrder)}
                         tabIndex={
                           date === focusDate ||
                           (!dates.includes(focusDate) && date === dates[0])
