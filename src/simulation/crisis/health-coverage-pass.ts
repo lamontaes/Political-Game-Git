@@ -1,3 +1,4 @@
+import { exposeCoverageChanges } from "./health-coverage-exposure";
 import type { FutureTransitionHandler } from "../types";
 import {
   HEALTH_COVERAGE_KEY,
@@ -16,6 +17,7 @@ export const healthCoveragePassHandler: FutureTransitionHandler = (
   const before = healthCoverageRecords(world).length;
   let next = recordHealthCoverage(world, item.dueAt, item.id);
   const changed = healthCoverageRecords(next).slice(before);
+  next = exposeCoverageChanges(next, changed);
   next = scheduleHealthCoveragePass(next, item.dueAt, next.id);
   const gained = changed.filter((record) => record.covered).length;
   return {

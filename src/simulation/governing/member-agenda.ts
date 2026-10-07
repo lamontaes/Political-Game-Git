@@ -713,6 +713,7 @@ export function fileMemberAgendaBills(
             automaticLawQuestionOnCooldown(next, {
               jurisdictionId: input.jurisdictionId,
               propositionId,
+              sponsorPersonId: sponsor.personId!,
               stableKeyPrefix: `${settings.intakeVersion}:`,
             })
           )
