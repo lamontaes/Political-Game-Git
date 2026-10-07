@@ -5,4 +5,6 @@ section: Changed
 title: Menu reset: Money now shows record data only
 ---
 
-Menu reset: Money now shows record data only. The purse notes, the empty-balance sentences, the economic-context error and empty states, and the unavailable-place reason no longer print hand-written sentences; they carry data codes for the English engine.
+Menu reset: Money now shows record data only. Empty economic states carry data
+codes instead of explanatory sentences, and account history rows show the
+attempted amount, moved amount and recorded status as separate values.
