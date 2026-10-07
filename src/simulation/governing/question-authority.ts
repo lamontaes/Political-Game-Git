@@ -6,7 +6,7 @@ import {
 } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
-import type { EntityId, IsoDate, World } from "../types";
+import type { EntityId, HistoricalCutoff, IsoDate, World } from "../types";
 import { lawInForce } from "./law-in-force";
 
 /**
@@ -91,6 +91,7 @@ type AuthorityWorld = Pick<World, "policyCatalog" | "jurisdictions"> &
 
 interface CatalogCell {
   readonly may: string;
+  readonly status?: string;
 }
 
 const QUESTIONS = questionPowers.questions as unknown as Readonly<
@@ -131,8 +132,6 @@ const ISSUE_LEVEL_REACH: Readonly<Record<string, QuestionReach>> = {
   "school-district": "school-district",
 };
 
-const TERRITORIES = new Set(["PR", "GU", "VI", "AS", "MP"]);
-
 /**
  * Each state-level jurisdiction's column. Built on first use: the places it
  * reads are not ready while modules load.
@@ -140,16 +139,20 @@ const TERRITORIES = new Set(["PR", "GU", "VI", "AS", "MP"]);
 let stateColumns: ReadonlyMap<EntityId, PowersLevel> | null = null;
 function stateColumnOf(jurisdictionId: EntityId): PowersLevel | undefined {
   stateColumns ??= new Map(
-    Object.keys(STATES).flatMap((usps): [EntityId, PowersLevel][] => {
-      const id = stateJurisdictionForKey(`US-${usps}`)?.id;
-      if (!id) return [];
-      return [
-        [
-          id,
-          usps === "DC" ? "dc" : TERRITORIES.has(usps) ? "territory" : "state",
-        ],
-      ];
-    }),
+    Object.entries(STATES).flatMap(
+      ([usps, reference]): [EntityId, PowersLevel][] => {
+        const id = stateJurisdictionForKey(`US-${usps}`)?.id;
+        if (!id) return [];
+        const kind = reference.jurisdictionKind;
+        const column: PowersLevel | undefined =
+          kind === "federal-district"
+            ? "dc"
+            : kind === "state" || kind === "territory"
+              ? kind
+              : undefined;
+        return column ? [[id, column]] : [];
+      },
+    ),
   );
   return stateColumns.get(jurisdictionId);
 }
@@ -247,6 +250,7 @@ export function questionAuthority(
   jurisdictionId: EntityId,
   propositionId: EntityId,
   onDate?: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): QuestionAuthority {
   const levels = jurisdictionPowersLevels(world, jurisdictionId);
   const { reach, dial, stableKey, gate } = questionReach(world, propositionId);
@@ -286,7 +290,7 @@ export function questionAuthority(
       : "no";
   const gated =
     gate && may !== "no" && own.every((l) => l === "county" || l === "city")
-      ? stateGate(world, jurisdictionId, gate, onDate)
+      ? stateGate(world, jurisdictionId, gate, onDate, cutoff)
       : null;
   if (gated)
     return {
@@ -300,9 +304,9 @@ export function questionAuthority(
     own.every(
       (level) =>
         (level === "county" || level === "city") &&
-        cells?.[level]?.may === "UNKNOWN",
+        leftToStateLaw(cells?.[level]),
     )
-      ? homeRuleVerdict(world, jurisdictionId, onDate)
+      ? homeRuleVerdict(world, jurisdictionId, onDate, cutoff)
       : null;
   if (homeRule)
     return {
@@ -324,6 +328,19 @@ export function questionAuthority(
   };
 }
 
+/**
+ * A local cell the catalog leaves to the state's own law: UNKNOWN, or a
+ * labeled estimate (game profile) of "varies by state".
+ */
+function leftToStateLaw(
+  cell: { readonly may: string; readonly status?: string } | undefined,
+): boolean {
+  return (
+    cell?.may === "UNKNOWN" ||
+    (cell?.may === "varies by state" && cell.status === "game-profile")
+  );
+}
+
 /** The state question on home rule: may localities act unless barred? */
 export const HOME_RULE_QUESTION =
   "us-policy-positions:government-operations.broaden-local-authority";
@@ -341,6 +358,7 @@ function homeRuleVerdict(
   world: AuthorityWorld,
   jurisdictionId: EntityId,
   onDate: IsoDate | undefined,
+  cutoff?: HistoricalCutoff,
 ): { readonly may: QuestionAuthorityVerdict; readonly reason: string } | null {
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
@@ -357,6 +375,8 @@ function homeRuleVerdict(
     state.id,
     question.id,
     onDate ?? world.currentDate,
+    "all",
+    cutoff,
   );
   if (!law) return null;
   return law.answer === "yes"
@@ -379,6 +399,7 @@ function stateGate(
   jurisdictionId: EntityId,
   gate: NonNullable<QuestionPowersRow["gate"]>,
   onDate: IsoDate | undefined,
+  cutoff?: HistoricalCutoff,
 ): { readonly may: QuestionAuthorityVerdict; readonly reason: string } | null {
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
@@ -395,6 +416,8 @@ function stateGate(
     state.id,
     question.id,
     onDate ?? world.currentDate,
+    "all",
+    cutoff,
   );
   if (!law) return null;
   if (law.answer === "yes")
@@ -415,9 +438,11 @@ export function mayAnswerQuestion(
   jurisdictionId: EntityId,
   propositionId: EntityId,
   onDate?: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): boolean {
   return (
-    questionAuthority(world, jurisdictionId, propositionId, onDate).may !== "no"
+    questionAuthority(world, jurisdictionId, propositionId, onDate, cutoff)
+      .may !== "no"
   );
 }
 

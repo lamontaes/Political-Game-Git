@@ -1,41 +1,36 @@
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
+import { applyInstitutionStep } from "../governing/legislative-clock";
+import { legislativeSittingHandler } from "../governing/legislative-sittings";
+import { legislativeRulePackForWorld } from "../legislative-procedure-world";
+import {
+  councilRules,
+  lawJurisdiction,
+  type CouncilRules,
+} from "./local-council-binding";
 import { addDays } from "../dates";
 import { fileMemberAgendaBills } from "../governing/member-agenda";
-import { councilBallotPartisanship } from "../governing/body-partisanship";
-import { applyEnactedLawEffects } from "../enacted-law-effects";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { mayAnswerQuestion } from "../governing/question-authority";
-import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "../governing/ordinance-effective-date";
-import { governmentUnit } from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
 import {
-  COUNCIL_VOTE_NOTE,
-  decideCouncilVote,
-  ensureCouncilPrinciples,
-} from "../governing/council-lawmaking";
+  governmentUnit,
+  type GovernmentUnitIdentity,
+} from "../government-units";
 import {
-  enrollMeasure,
   introduceMeasure,
   measurePosition,
   placeMeasureOnCalendar,
-  recordEnactment,
-  takeFloorVote,
 } from "../legislation";
 import { chamberByKey } from "../legislature-rules";
 import { rulePackById } from "../legislature-rule-packs";
 import { nextMeasureNumbering } from "../measure-numbering";
-import { municipalRulePackFor } from "../municipal-government";
-import { recordCouncilReadingVote } from "../municipal-ordinance-procedure";
+import { completeCouncilPassage } from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import {
   homeLocalGovernmentUnits,
   localGovernmentDisplayName,
-  localGovernmentJurisdiction,
 } from "../nationwide-world/local-governments";
-import { municipioUnit } from "../nationwide-world/county-governing-body-rules";
 import { boardGoverningBodyRules } from "../nationwide-world/township-governing-body-rules";
-import { ensureJurisdiction } from "../national-election-geography";
-import { municipalGovernmentForUnit } from "../rule-capability-resolver";
-import { townCouncilProfilePackId } from "../town-council-profile";
 import type {
   EntityId,
   FutureDueItem,
@@ -53,6 +48,8 @@ import {
 import { PUBLIC_MEETING_KEY } from "../life-opportunities";
 import { playerTown } from "./town-residents";
 import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
+import { peopleKnownTo } from "./official-views";
+import { settleQuietCouncilItems } from "./council-quiet-items";
 
 /**
  * The player's town council meets and votes.
@@ -78,8 +75,9 @@ import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
  * answer (`townQuestions`); what it does beyond being recorded goes through
  * the one enacted-law effects step.
  *
- * PLACEHOLDER, pending `local-council-legislative-volume`: the council meets
- * every `daysBetweenMeetings` days, which is not any town's schedule.
+ * DESIGNED, pending `local-council-legislative-volume`: reads the shared
+ * council calendar and balances every town on one timetable; it is not any
+ * town's sourced schedule.
  */
 
 export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
@@ -87,12 +85,126 @@ const V = LOCAL_COUNCIL_MEETINGS_VERSION;
 
 export const LOCAL_COUNCIL_MEETING = "civic:local-council-meeting" as const;
 
-export const LOCAL_COUNCIL_MEETING_PROFILE = {
-  id: "ocd-local-council-meeting-placeholder/v1",
-  daysBetweenMeetings: 14,
-} as const;
+export type CouncilMeetingMatterReason =
+  | "player-sponsored"
+  | "player-amended"
+  | "player-campaign-stand"
+  | "known-person-contacted"
+  | "known-person-will-speak"
+  | "recorded-opposing-stance"
+  | "known-person-reached";
 
-const P = LOCAL_COUNCIL_MEETING_PROFILE;
+export interface CouncilMeetingAgendaItem {
+  readonly measure: LegislativeMeasureRecord;
+  /** Every saved fact that makes this item matter; an empty list means quiet. */
+  readonly reasons: readonly CouncilMeetingMatterReason[];
+}
+
+/**
+ * Reads the agenda for one scheduled council meeting and explains, without an
+ * importance score, which items matter to the player. Later producers attach
+ * contacts, speakers, and reached people to the measure by including its ID in
+ * the event's involved entities; this reader never invents that relationship.
+ */
+export function meetingItemsThatMatter(
+  world: World,
+  playerId: EntityId,
+  meetingDueItemId: EntityId,
+): readonly CouncilMeetingAgendaItem[] {
+  const due = world.history.futureDueItems.find(
+    (item) => item.id === meetingDueItemId,
+  );
+  if (!due?.jurisdictionId || due.transitionKey !== LOCAL_COUNCIL_MEETING)
+    return [];
+
+  const known = new Set(peopleKnownTo(world, playerId));
+  const measures = (world.history.legislativeMeasures ?? []).filter(
+    (measure) =>
+      measure.jurisdictionId === due.jurisdictionId &&
+      !measurePosition(world, measure.id).terminal,
+  );
+
+  return measures.map((measure) => {
+    const reasons = new Set<CouncilMeetingMatterReason>();
+    if (measure.sponsorPersonId === playerId) reasons.add("player-sponsored");
+    if (
+      (world.history.legislativeAmendments ?? []).some(
+        (row) =>
+          row.measureId === measure.id && row.offeredByPersonId === playerId,
+      )
+    )
+      reasons.add("player-amended");
+
+    const propositionIds = new Set(measure.propositionIds ?? []);
+    if (
+      world.history.campaignCommitments.some(
+        (row) =>
+          row.personId === playerId && propositionIds.has(row.propositionId),
+      )
+    )
+      reasons.add("player-campaign-stand");
+
+    const relatedEvents = world.history.events.filter((event) =>
+      event.involvedEntityIds.includes(measure.id),
+    );
+    if (
+      relatedEvents.some(
+        (event) =>
+          event.type === "life.contacted-official" &&
+          event.involvedEntityIds.some((id) => known.has(id)),
+      )
+    )
+      reasons.add("known-person-contacted");
+    if (
+      relatedEvents.some(
+        (event) =>
+          event.type === "life.attended-public-meeting" &&
+          event.involvedEntityIds.some((id) => known.has(id)),
+      )
+    )
+      reasons.add("known-person-will-speak");
+
+    const latestPublicPositions = new Map<
+      string,
+      (typeof world.history.publicPositions)[number]
+    >();
+    for (const position of world.history.publicPositions)
+      if (propositionIds.has(position.propositionId))
+        latestPublicPositions.set(
+          `${position.personId}:${position.propositionId}`,
+          position,
+        );
+    const answers = new Map(
+      (measure.propositionAnswers ?? []).map((row) => [
+        row.propositionId,
+        row.answer,
+      ]),
+    );
+    if (
+      [...latestPublicPositions.values()].some((position) => {
+        if (position.audience !== "public") return false;
+        const answer = answers.get(position.propositionId);
+        return (
+          answer !== undefined &&
+          ((answer === "yes" && position.stance === "oppose") ||
+            (answer === "no" && position.stance === "support"))
+        );
+      })
+    )
+      reasons.add("recorded-opposing-stance");
+
+    if (
+      relatedEvents.some(
+        (event) =>
+          event.tags.includes("legislative-effect") &&
+          event.involvedEntityIds.some((id) => known.has(id)),
+      )
+    )
+      reasons.add("known-person-reached");
+
+    return { measure, reasons: [...reasons] };
+  });
+}
 
 /** The ordinance the posted public meeting takes up, for one town. */
 export function postedMeetingOrdinanceKey(town: EntityId): string {
@@ -102,29 +214,6 @@ export function postedMeetingOrdinanceKey(town: EntityId): string {
 /* -------------------------------------------------------------------------- */
 /* Which rules the council plays under                                         */
 /* -------------------------------------------------------------------------- */
-
-interface CouncilRules {
-  readonly packId: string;
-  /** Set when the town's compiled charter runs the procedure. */
-  readonly governmentKey: string | null;
-}
-
-function councilRules(unit: GovernmentUnitIdentity): CouncilRules | null {
-  const compiled = municipalGovernmentForUnit(unit);
-  if (compiled) {
-    const pack = municipalRulePackFor(compiled);
-    if (pack.ok)
-      return {
-        // The pack the charter resolved to: its sourced pack, or the labeled
-        // game profile where the charter's procedure was not read.
-        packId: pack.pack.packId,
-        governmentKey: compiled.key,
-      };
-  }
-  if (!localGoverningBodyIdentity(unit) && !boardGoverningBodyRules(unit))
-    return null;
-  return { packId: townCouncilProfilePackId(unit), governmentKey: null };
-}
 
 /** The body's name and its government's, for a town council or a county board. */
 function bodyNames(unit: GovernmentUnitIdentity): {
@@ -138,36 +227,6 @@ function bodyNames(unit: GovernmentUnitIdentity): {
     bodyName: boardGoverningBodyRules(unit)?.bodyName ?? "governing body",
     governmentName: localGovernmentDisplayName(unit),
   };
-}
-
-/**
- * Where the body's ordinances are recorded: the town, or the town, township
- * or county a place with no town government lives under (`law-in-force.ts`
- * reads their ordinances for it). That jurisdiction is registered in the
- * world the first time its board acts.
- */
-function lawJurisdiction(
-  world: World,
-  unit: GovernmentUnitIdentity,
-  town: EntityId,
-): { readonly world: World; readonly jurisdictionId: EntityId } {
-  if (unit.unitType === "municipality") return { world, jurisdictionId: town };
-  const county = localGovernmentJurisdiction(unit);
-  if (!county) return { world, jurisdictionId: town };
-  return {
-    world: ensureJurisdiction(world, county),
-    jurisdictionId: county.id,
-  };
-}
-
-/** A government unit by the id a meeting was scheduled under. */
-function unitById(id: string): GovernmentUnitIdentity | null {
-  return (
-    governmentUnit(id) ??
-    (id.startsWith("municipio:")
-      ? municipioUnit(id.slice("municipio:".length))
-      : null)
-  );
 }
 
 function members(world: World, unit: GovernmentUnitIdentity) {
@@ -189,6 +248,11 @@ function scheduleMeeting(
   player: EntityId,
   dueAt: string,
 ): World {
+  const rules = councilRules(unit);
+  const calendar = rules
+    ? (rulePackById(rules.packId).session.sittingCalendar ??
+      LEGISLATIVE_SESSION_CALENDARS.council)
+    : LEGISLATIVE_SESSION_CALENDARS.council;
   const stableKey = meetingKey(unit.id, dueAt);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -200,7 +264,7 @@ function scheduleMeeting(
     jurisdictionId: town,
     provenance: {
       kind: "authored",
-      note: `${P.id}: ${unit.name}'s council meets every ${P.daysBetweenMeetings} days, pending local-council-legislative-volume.`,
+      note: calendar.note,
     },
   });
 }
@@ -226,20 +290,6 @@ export function townQuestions(
         proposition !== undefined &&
         mayAnswerQuestion(world, town, proposition.id),
     );
-}
-
-/** "Short-term rental rules" becomes "Short-Term Rental Rules Ordinance". */
-function ordinanceTitle(questionName: string): string {
-  const words = questionName
-    .replace(/\s+(law|act|ordinance)$/i, "")
-    .split(/\s+/)
-    .map((word, index) =>
-      index > 0 &&
-      /^(a|an|and|as|at|by|for|in|of|on|or|the|to|with)$/i.test(word)
-        ? word.toLowerCase()
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    );
-  return `${words.join(" ")} Ordinance`;
 }
 
 function introduce(
@@ -312,7 +362,6 @@ function fileOrdinances(
       ),
       measures: councilMeasures(law.world, rules, law.jurisdictionId),
       playerPersonId: player,
-      title: ordinanceTitle,
       measureKey: (numbering) =>
         `${V}:${unit.id}:${numbering.numberingSession.key}:${numbering.designation}`,
     },
@@ -331,24 +380,6 @@ function councilMeasures(
   );
 }
 
-/** Adopted under the town profile: enrolled, recorded as law, its effects applied. */
-function afterAdoption(world: World, measure: LegislativeMeasureRecord): World {
-  let next = enrollMeasure(world, {
-    stableKey: `${measure.stableKey}:enrolled`,
-    measureId: measure.id,
-  });
-  if (measurePosition(next, measure.id).phase !== "awaiting-enactment")
-    return next;
-  next = recordEnactment(next, {
-    stableKey: `${measure.stableKey}:enactment`,
-    measureId: measure.id,
-    actDesignation: measure.designation,
-    // ESTIMATED where the charter's rule is unread (`ordinance-effective-date.ts`).
-    effectiveAt: addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
-  });
-  return applyEnactedLawEffects(next, measure.id);
-}
-
 /** Every ordinance a member other than the player carries takes its next step. */
 function moveOrdinances(
   world: World,
@@ -357,70 +388,42 @@ function moveOrdinances(
   rules: CouncilRules,
   player: EntityId | null,
 ): World {
-  let next = world;
   const law = lawJurisdiction(world, unit, town).jurisdictionId;
-  for (const measure of councilMeasures(world, rules, law)) {
-    if (player && measure.sponsorPersonId === player) continue;
-    const phase = measurePosition(next, measure.id).phase;
-    if (phase === "awaiting-referral") {
-      next = placeMeasureOnCalendar(next, {
-        stableKey: `${measure.stableKey}:agenda`,
-        measureId: measure.id,
-        rationale: `Placed on the council's agenda for its next meeting (${P.id}).`,
-      });
-      continue;
-    }
-    if (phase !== "on-floor") continue;
-    // Taken up at a meeting after the one it was introduced at.
-    if (measure.introducedAt >= next.currentDate) continue;
-    const seats = members(next, unit);
-    if (seats.length === 0) continue;
-    const mayor =
-      sittingLocalOfficers(next, unit).find((seat) => seat.mayor)?.personId ??
-      null;
-    next = ensureCouncilPrinciples(next, [
-      ...seats,
-      ...(mayor ? [{ personId: mayor }] : []),
-    ]);
-    const dispositions = decideCouncilVote(next, {
-      stableKey: `${measure.stableKey}:vote:${next.currentDate}`,
-      measureId: measure.id,
-      jurisdictionId: town,
-      members: seats,
-      playerPersonId: player,
-      questionLabel: `Adopt ${measure.designation}`,
-      executivePersonId: mayor,
-      nonpartisan: councilBallotPartisanship(unit).nonpartisan,
-    });
-    const provenance = {
-      method: "member-decisions" as const,
-      note: COUNCIL_VOTE_NOTE,
-      sourceEntityIds: [measure.id],
-    };
-    if (rules.governmentKey) {
-      const result = recordCouncilReadingVote(next, {
-        governmentKey: rules.governmentKey,
-        measureId: measure.id,
-        dispositions,
-        provenance,
-      });
-      // A reading that may not be taken yet waits for a later meeting.
-      if (result.ok) next = result.world;
-      continue;
-    }
-    next = takeFloorVote(next, {
-      stableKey: `${measure.stableKey}:adoption:${next.currentDate}`,
-      measureId: measure.id,
-      dispositions,
-      presentMembers: dispositions.filter((row) => row.disposition !== "absent")
-        .length,
-      electedMembers: seats.length,
-      provenance,
-    });
-    if (measurePosition(next, measure.id).phase !== "failed")
-      next = afterAdoption(next, measure);
-  }
-  return next;
+  const pack = legislativeRulePackForWorld(world, rules.packId);
+  const measures = councilMeasures(world, rules, law);
+  return legislativeSittingHandler(world, {
+    chambers: pack.chambers,
+    session: pack.session,
+    measureIds: measures.map((measure) => measure.id),
+    eligible: (current, measureId) => {
+      const measure = measures.find((row) => row.id === measureId);
+      if (!measure || (player && measure.sponsorPersonId === player))
+        return false;
+      const phase = measurePosition(current, measureId).phase;
+      // A newly introduced ordinance is first taken up at the next meeting.
+      return (
+        (phase === "awaiting-referral" || phase === "on-floor") &&
+        !(phase === "on-floor" && measure.introducedAt >= current.currentDate)
+      );
+    },
+    takeStep: (current, measureId) =>
+      applyInstitutionStep(current, measureId, (unchanged) => unchanged, {
+        localCouncil: {
+          governmentUnitId: unit.id,
+          townJurisdictionId: town,
+          playerPersonId: player,
+        },
+      }),
+    applyResult: (current, measureId, result) => {
+      if (result.kind !== "applied") return current;
+      const measure = measures.find((row) => row.id === measureId);
+      if (!measure) return current;
+      const moved = result.world;
+      return measurePosition(moved, measureId).phase === "awaiting-enrollment"
+        ? completeCouncilPassage(moved, measure, rules.governmentKey)
+        : moved;
+    },
+  });
 }
 
 /* -------------------------------------------------------------------------- */
@@ -463,7 +466,7 @@ function seatedCouncil(
 
 /**
  * Put the town council's regular meetings on the calendar, the first
- * `daysBetweenMeetings` after the opening. Unchanged where the town
+ * after the opening on its shared timetable. Unchanged where the town
  * government is not seated.
  */
 export function ensureLocalCouncilMeetings(
@@ -477,7 +480,11 @@ export function ensureLocalCouncilMeetings(
     council.unit,
     council.town,
     playerPersonId,
-    addDays(world.currentDate, P.daysBetweenMeetings),
+    nextSessionCalendarDate(
+      rulePackById(council.rules.packId).session.sittingCalendar ??
+        LEGISLATIVE_SESSION_CALENDARS.council,
+      world.currentDate,
+    ),
   );
 }
 
@@ -525,6 +532,9 @@ export function ensurePostedMeetingOnCouncilAgenda(
     rationale: "Posted on the agenda of the public meeting.",
   });
   const dueAt = addDays(world.currentDate, 1);
+  const calendar =
+    rulePackById(rules.packId).session.sittingCalendar ??
+    LEGISLATIVE_SESSION_CALENDARS.council;
   const stableKey = `${V}:${unit.id}:posted-meeting:${dueAt}`;
   if (next.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return next;
@@ -536,7 +546,7 @@ export function ensurePostedMeetingOnCouncilAgenda(
     jurisdictionId: town,
     provenance: {
       kind: "authored",
-      note: `${P.id}: the posted public meeting is a meeting of ${unit.name}'s council.`,
+      note: `${calendar.id}: the posted public meeting is a meeting of ${unit.name}'s council.`,
     },
   });
 }
@@ -615,7 +625,7 @@ export function localCouncilMeetingHandler(
   const match = new RegExp(
     `^${V.replace("/", "\\/")}:((?:gus2025|municipio):[^:]+):(meeting|posted-meeting):`,
   ).exec(due.stableKey);
-  const unit = match ? unitById(match[1]!) : null;
+  const unit = match ? governmentUnit(match[1]!) : null;
   const town = due.jurisdictionId;
   const player = due.entityIds[1] ?? null;
   const done = (next: World, context: string) => ({
@@ -651,12 +661,28 @@ export function localCouncilMeetingHandler(
         unit,
         town,
         player,
-        addDays(due.dueAt, P.daysBetweenMeetings),
+        nextSessionCalendarDate(
+          rulePackById(rules.packId).session.sittingCalendar ??
+            LEGISLATIVE_SESSION_CALENDARS.council,
+          due.dueAt,
+        ),
       );
     return done(next, `The ${identity.bodyName} did not meet.`);
   }
   const votesBefore = (world.history.legislativeVotes ?? []).length;
-  let next = moveOrdinances(world, unit, town, rules, player);
+  // A member's quiet items follow the voting workflow they chose, before the
+  // roll call reads their ballots.
+  const settled = player
+    ? settleQuietCouncilItems(world, {
+        unit,
+        town,
+        playerId: player,
+        quiet: meetingItemsThatMatter(world, player, due.id)
+          .filter((item) => item.reasons.length === 0)
+          .map((item) => item.measure),
+      })
+    : world;
+  let next = moveOrdinances(settled, unit, town, rules, player);
   next = fileOrdinances(next, unit, town, rules, player);
   const votes = (next.history.legislativeVotes ?? []).slice(votesBefore);
   const measuresById = new Map(
@@ -702,11 +728,15 @@ export function localCouncilMeetingHandler(
       unit,
       town,
       player,
-      addDays(due.dueAt, P.daysBetweenMeetings),
+      nextSessionCalendarDate(
+        rulePackById(rules.packId).session.sittingCalendar ??
+          LEGISLATIVE_SESSION_CALENDARS.council,
+        due.dueAt,
+      ),
     );
   return done(next, `The ${identity.bodyName} met.`);
 }
 
-export const LOCAL_COUNCIL_MEETING_HANDLERS = [
-  [LOCAL_COUNCIL_MEETING, localCouncilMeetingHandler],
-] as const;
+export function localCouncilMeetingHandlers() {
+  return [[LOCAL_COUNCIL_MEETING, localCouncilMeetingHandler]] as const;
+}

@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "sourceHead": "8d8f532ad674a37d36e314c82b90836f27f3ca5b",
+  "powers": [
+    {
+      "key": "US-CA:STATE:selective-excise",
+      "jurisdictionKey": "US-CA",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "ca-article-xiiia",
+      "sourceSha256": "2671c3229e073205ab2393cf8ce7790266d2f9616a9815c9448ece91515ceac0",
+      "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=XIII%20A",
+      "citations": [
+        "Cal. Const. art. XIII A, §3",
+        "Cal. Const. art. IV, §§1,8(c)(3)"
+      ],
+      "constraints": [
+        "Article XIII A §3 requires two-thirds of elected members of each house for covered changes making any taxpayer pay higher tax; its prohibited new real-property taxes are not permitted by this foundation.",
+        "Article XIII A §3(b) fee exceptions retain actual cost/benefit boundaries and the state proof burden; do not relabel a tax as a fee to avoid the rule.",
+        "Article IV §8(c)(3) makes covered tax levies/current-expense appropriations effective immediately upon enactment; actual operative terms still control, no generic delay.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-MD:STATE:selective-excise",
+      "jurisdictionKey": "US-MD",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "md-declaration",
+      "sourceSha256": "81d62aa2c6ce390e4b34734d0093bb942e3ae88edd03e950daae15a0d8bafb42",
+      "sourceUrl": "https://msa.maryland.gov/msa/mdmanual/43const/html/00dec.html",
+      "citations": [
+        "Md. Declaration of Rights, arts.14,15"
+      ],
+      "constraints": [
+        "Legislative consent is required for any tax/charge; duties and taxes must properly serve good government and community benefit.",
+        "Declaration of Rights art.15 poll-tax and pauper language and property-classification/uniformity clauses are preserved, not replaced with an unrestricted commodity/occupation permission.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-NC:STATE:selective-excise",
+      "jurisdictionKey": "US-NC",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "nc-article-v",
+      "sourceSha256": "ade01da39482278aef7f0d0d4665924815267360f3e6ef26a5a2e0b0a9e26c4b",
+      "sourceUrl": "https://www.ncleg.gov/Laws/Constitution/Article5",
+      "citations": [
+        "N.C. Const. art. V, §§1,2(1),7"
+      ],
+      "constraints": [
+        "Taxation must be just/equitable and solely for public purposes; poll/capitation taxes are forbidden.",
+        "Property classification, local property-tax powers, and conditional income-tax limits in art.V§2 are distinct from this excise foundation. This record does not resolve an unverified constitutional contingency or provide an income rate.",
+        "Treasury withdrawals require appropriations by law; county/city/town withdrawals require legal authority. This state row supplies no local power.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-WI:STATE:selective-excise",
+      "jurisdictionKey": "US-WI",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "wi-constitution",
+      "sourceSha256": "6b9a16b27cf6d3f8bc07d3eae6d43dfec3c86241e5221a87823394a2a18f8d07",
+      "sourceUrl": "https://docs.legis.wisconsin.gov/constitution/wi_unannotated",
+      "citations": [
+        "Wis. Const. art. IV, §§1,17,19; art. VIII, §§1,2,5,8,11"
+      ],
+      "constraints": [
+        "The legislative grant and art.VIII§1 permit privilege/occupation taxes; property-specific uniformity/classification rules and reasonable exemption provisions remain distinct.",
+        "Fiscal bills require recorded yeas/nays and three-fifths elected membership as a quorum under art.VIII§8; that is not a three-fifths passage-vote requirement.",
+        "Any bill may originate in either house under art.IV§19; a law is not in force until published under §17.",
+        "Covered transportation-related taxes/fees enter the transportation fund and retain art.VIII§11 permitted-purpose/legacy-exception limits.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-WV:STATE:selective-excise",
+      "jurisdictionKey": "US-WV",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "wv-constitution",
+      "sourceSha256": "9e5d60f9b87c2f0daea0b58e6c0ffcaeb5e6eefe44c87c39d729d7164f793627",
+      "sourceUrl": "https://www.wvlegislature.gov/wvcode/WV_CON.cfm",
+      "citations": [
+        "W.Va. Const. art. VI, §§1,31,52; art. X, §§1,3,5"
+      ],
+      "constraints": [
+        "Article X§5 taxation serves state debt, free schools and annual expenses, including its actual shortfall obligation; no sampled revenue level is authorized.",
+        "Retain art.X§1 taxation/property limitations and their exceptions; property-specific amounts do not set an excise rate.",
+        "Article VI§52 dedicates covered motor-fuel/vehicle receipts to enumerated highway/road-bond purposes after allowed refunds/administration. Treasury withdrawals require appropriation and an auditor warrant.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-NJ:STATE:selective-excise",
+      "jurisdictionKey": "US-NJ",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-09-15",
+      "sourceArtifactId": "nj-constitution-art-4-sec-1",
+      "sourceSha256": "907a336c914d3a553bd3187d49c5fc3f31f95a1bffd47463014a8e843d856fd5",
+      "sourceUrl": "https://www.njleg.state.nj.us/constitution",
+      "citations": [
+        "N.J. Const. art. IV, §I¶1,§VI¶1,§VII¶9(6); art. VIII, §I¶2,§II¶¶2,4"
+      ],
+      "constraints": [
+        "Revenue bills originate in the General Assembly; the Senate may amend. Tax exemptions require general laws; retain art.IV§VII¶9 restrictions on special taxation legislation.",
+        "Article VIII§II¶2 requires lawful appropriations and its governor-certified annual revenue/appropriation limits. Anticipated revenue is not recorded cash.",
+        "Motor-fuel/petroleum and specified sales-tax amounts retain transportation dedication under art.VIII§II¶4; personal-income property-tax-relief dedication is separate and supplies no excise rate.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    }
+  ],
+  "evidenceScopes": [
+    {
+      "jurisdictionKey": "US-CA",
+      "sourceArtifactId": "ca-article-xiiia",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/ca-article-xiiia.html",
+      "parentSha256": "2671c3229e073205ab2393cf8ce7790266d2f9616a9815c9448ece91515ceac0",
+      "mediaType": "text/html; charset=UTF-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 189145,
+        "retrievedAt": "2026-10-02T11:10:23.262433+00:00",
+        "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=XIII%20A"
+      },
+      "citations": [
+        "Cal. Const. art. XIII A, §3"
+      ],
+      "legalTextQuotes": [
+        "Any change in state statute which results in any taxpayer paying a higher tax must be imposed by an act passed by not less than two-thirds of all members elected to each of the two houses of the Legislature, except that no new ad valorem taxes on real property, or sales or transaction taxes on the sales of real property may be imposed."
+      ],
+      "excerptSha256": "578661ba9add456c8035dbe1e3efbda1cd05ab7298a477c5439e902bb378ae23",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-CA",
+      "sourceArtifactId": "ca-article-iv",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/ca-article-iv.html",
+      "parentSha256": "f494a0704dfe875ed2da417977ebc48ae9238e5249bb4b6ecc1ce7fc7511f276",
+      "mediaType": "text/html; charset=UTF-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 184537,
+        "retrievedAt": "2026-10-02T11:10:23.263370+00:00",
+        "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=IV"
+      },
+      "citations": [
+        "Cal. Const. art. IV, §§1,8(c)(3)"
+      ],
+      "legalTextQuotes": [
+        "The legislative power of this State is vested in the California Legislature which consists of the Senate and Assembly, but the people reserve to themselves the powers of initiative and referendum.",
+        "Statutes calling elections, statutes providing for tax levies or appropriations for the usual current expenses of the State, and urgency statutes shall go into effect immediately upon their enactment."
+      ],
+      "excerptSha256": "ed89ef33d47f7a4647b3e74fc7e8703e086cddafb72f5a0a9cbf88d73377626a",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-MD",
+      "sourceArtifactId": "md-declaration",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/md-declaration.html",
+      "parentSha256": "81d62aa2c6ce390e4b34734d0093bb942e3ae88edd03e950daae15a0d8bafb42",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 22611,
+        "retrievedAt": "2026-10-02T11:10:23.748776+00:00",
+        "url": "https://msa.maryland.gov/msa/mdmanual/43const/html/00dec.html"
+      },
+      "citations": [
+        "Md. Declaration of Rights, arts.14,15"
+      ],
+      "legalTextQuotes": [
+        "That no aid, charge, tax, burthen or fees ought to be rated or levied, under any pretense, without the consent of the Legislature.",
+        "yet fines, duties or taxes may properly and justly be imposed, or laid with a political view for the good government and benefit of the community"
+      ],
+      "excerptSha256": "83eaa320134880194163b5c409df8981c094c3de4416f7be3fc4019a98668590",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-NC",
+      "sourceArtifactId": "nc-article-v",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/nc-article-v.html",
+      "parentSha256": "ade01da39482278aef7f0d0d4665924815267360f3e6ef26a5a2e0b0a9e26c4b",
+      "mediaType": "text/html; charset=utf-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 69179,
+        "retrievedAt": "2026-10-02T11:10:23.767174+00:00",
+        "url": "https://www.ncleg.gov/Laws/Constitution/Article5"
+      },
+      "citations": [
+        "N.C. Const. art. V, §§1,2(1),7"
+      ],
+      "legalTextQuotes": [
+        "No poll or capitation tax shall be levied by the General Assembly or by any county, city or town, or other taxing unit.",
+        "The power of taxation shall be exercised in a just and equitable manner, for public purposes only, and shall never be surrendered, suspended, or contracted away.",
+        "No money shall be drawn from the State treasury but in consequence of appropriations made by law, and an accurate account of the receipts and expenditures of State funds shall be published annually."
+      ],
+      "excerptSha256": "b244d3cff68608f977c3f2255d987ed32733cbc4ef67d5c96e8e460f1aea3745",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-WI",
+      "sourceArtifactId": "wi-constitution",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/wi-constitution.pdf",
+      "parentSha256": "6b9a16b27cf6d3f8bc07d3eae6d43dfec3c86241e5221a87823394a2a18f8d07",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 219927,
+        "retrievedAt": "2026-10-02T11:10:24.227613+00:00",
+        "url": "https://docs.legis.wisconsin.gov/constitution/wi_unannotated"
+      },
+      "citations": [
+        "Wis. Const. art. IV, §§1,17,19; art. VIII, §§1,2,5,8,11"
+      ],
+      "legalTextQuotes": [
+        "The legislative power shall be vested in a senate and assembly.",
+        "Taxes may also be imposed on incomes, privileges and occupations, which taxes may be graduated and progressive, and reasonable exemp- tions may be provided.",
+        "No money shall be paid out of the treasury except in pursuance of an appropriation by law.",
+        "On the pas- sage in either house of the legislature of any law which imposes, continues or renews a tax, or creates a debt or charge, or makes, continues or renews an appropriation of public or trust money, or releases, discharges or commutes a claim or demand of the state, the question shall be taken by yeas and nays, which shall be duly entered on the journal; and three-fifths of all the mem- bers elected to such house shall in all such cases be required to constitute a quorum therein."
+      ],
+      "excerptSha256": "5633c2778d330e1ea70efdf88aa3df16f788e5f2ac10275db14ae215a0a28152",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-WV",
+      "sourceArtifactId": "wv-constitution",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/wv-constitution.html",
+      "parentSha256": "9e5d60f9b87c2f0daea0b58e6c0ffcaeb5e6eefe44c87c39d729d7164f793627",
+      "mediaType": "text/html;charset=UTF-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 240744,
+        "retrievedAt": "2026-10-02T11:10:24.372375+00:00",
+        "url": "https://www.wvlegislature.gov/wvcode/WV_CON.cfm"
+      },
+      "citations": [
+        "W.Va. Const. art. VI, §§1,31,52; art. X, §§1,3,5"
+      ],
+      "legalTextQuotes": [
+        "The legislative power shall be vested in a Senate and House of Delegates.",
+        "The power of taxation of the Legislature shall extend to provisions for the payment of the state debt, and interest thereon, the support of free schools, and the payment of the annual estimated expenses of the state; but whenever any deficiency in the revenue shall exist in any year, it shall, at the regular session thereof held next after the deficiency occurs, levy a tax for the ensuing year, sufficient with the other sources of income, to meet such deficiency, as well as the estimated expenses of such year.",
+        "No money shall be drawn from the treasury but in pursuance of an appropriation made by law, and on a warrant issued thereon by the auditor; nor shall any money or fund be taken for any other purpose than that for which it has been or may be appropriated or provided."
+      ],
+      "excerptSha256": "3b48960f7741f811c19ecb3a36ef60d2ce70e683fd63fa6d60688122baa4209e",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-NJ",
+      "sourceArtifactId": "nj-constitution-art-4-sec-1",
+      "parentLocalPath": "data/source/state-office-qualifications/raw/nj-constitution-art-4-sec-1.html",
+      "parentSha256": "907a336c914d3a553bd3187d49c5fc3f31f95a1bffd47463014a8e843d856fd5",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 208558,
+        "retrievedAt": "2026-09-15T00:56:38.149Z",
+        "url": "https://www.njleg.state.nj.us/constitution"
+      },
+      "citations": [
+        "N.J. Const. art. IV, §I¶1,§VI¶1,§VII¶9(6); art. VIII, §I¶2,§II¶¶2,4"
+      ],
+      "legalTextQuotes": [
+        "The legislative power shall be vested in a Senate and General Assembly.",
+        "All bills for raising revenue shall originate in the General Assembly; but the Senate may propose or concur with amendments, as on other bills.",
+        "Exemption from taxation may be granted only by general laws.",
+        "No money shall be drawn from the State treasury but for appropriations made by law."
+      ],
+      "excerptSha256": "fc4d7d64e61b14e8857da4cb8f66e4b3af2ceded810b9cffd2ab6fa775b6f92b",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    }
+  ],
+  "limits": [
+    "Six additional state foundations, pending CTO source approval and applicable-condition enforcement.",
+    "NJ reuses existing full raw official constitution with NEW taxing-power excerpt scope; no office-qualification corpus/manifest changed.",
+    "WI quotations preserve decoded PDF spacing from the existing PDF.js item convention.",
+    "Index/application shells and unavailable endpoints remain unadmitted retrieval evidence."
+  ]
+}

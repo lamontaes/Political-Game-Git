@@ -84,11 +84,20 @@ export interface TraitDeclaration {
   readonly conferredBy: TraitConferral;
   readonly scale: TraitScale;
   /**
-   * The spread a seeded trait is drawn from, as magnitudes the scale declares,
-   * signed. Required for `seeded` and refused for anything else, because a
-   * trait nobody is born with has nothing to draw.
+   * The magnitudes a seeded trait may start at, signed, as the scale declares
+   * them. An upbringing's lean picks among them (see `registeredTraitLean`);
+   * nothing is drawn. Required for `seeded` and refused for anything else,
+   * because a trait nobody is born with has no starting value.
+   *
+   * `follows` names the catalog traits (qualified keys) whose upbringing
+   * lean this trait takes as well as its own, so a pack's trait can start
+   * from the same upbringing record the catalog reads. Absent, only a lean on
+   * the trait's own key counts.
    */
-  readonly seed: { readonly spread: readonly number[] } | null;
+  readonly seed: {
+    readonly spread: readonly number[];
+    readonly follows?: readonly string[];
+  } | null;
   /** How movable this kind of trait is at all. See `TraitMovability`. */
   readonly movability: TraitMovability;
   /**
@@ -362,6 +371,11 @@ function checkTrait(trait: TraitDeclaration, seen: Set<string>): string | null {
       }
       if (value !== 0 && !allowed.has(Math.abs(value))) {
         return `trait "${trait.key}" seeds the value ${value}, which its scale does not declare`;
+      }
+    }
+    for (const key of trait.seed.follows ?? []) {
+      if (!/^[^:\s]+:[^:\s]+$/.test(key)) {
+        return `trait "${trait.key}" follows "${key}", which is not a qualified trait key`;
       }
     }
   } else if (trait.seed) {

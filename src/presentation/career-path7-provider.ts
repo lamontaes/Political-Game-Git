@@ -1,4 +1,4 @@
-import records from "./generated/career-occupations.json";
+import records from "./generated/career-occupations.json" with { type: "json" };
 import type { CareerProvider } from "../simulation/career-path7";
 const paths: Readonly<Record<string, string>> = {
   "41-2031.00": "shop-assistant",

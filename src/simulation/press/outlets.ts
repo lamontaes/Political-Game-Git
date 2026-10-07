@@ -1,8 +1,8 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "../character-history";
-import { isoDateFromParts } from "../dates";
 import { createOrganization, createWorkRelationship } from "../life";
 import { activeWorkRelationshipsAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -14,7 +14,7 @@ import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executi
 import { drawCanonicalNameForGender, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
-import type { EntityId, IsoDate, World } from "../types";
+import type { EntityId, World } from "../types";
 import {
   isPersonAliveAt,
   personActionAvailabilityAt,
@@ -507,6 +507,34 @@ export function ensurePressHomeCoverage(world: World): World {
   return next;
 }
 
+/** Add state coverage for public events the controlled person attended. */
+export function ensurePressExposureCoverage(world: World): World {
+  if (world.control.kind !== "person") return world;
+  const personId = world.control.personId;
+  const covered = new Set(
+    mediaOutlets(world)
+      .filter((outlet) => outlet.scope === "state")
+      .flatMap((outlet) => outlet.primaryJurisdictionIds),
+  );
+  const exposed = new Set<EntityId>();
+  for (const event of world.history.events) {
+    if (
+      event.visibility !== "public" ||
+      !event.jurisdictionId ||
+      !/attend/i.test(event.type)
+    )
+      continue;
+    if (!event.participants.some((entry) => entry.personId === personId))
+      continue;
+    const state = stateOfJurisdiction(world, event.jurisdictionId);
+    if (state && !covered.has(state)) exposed.add(state);
+  }
+  let next = world;
+  for (const state of [...exposed].sort())
+    next = ensurePressStateCoverage(next, state);
+  return next;
+}
+
 /**
  * The first exposure of a state's politics materializes one state newsroom.
  * Later calls return the World unchanged.
@@ -726,7 +754,11 @@ function hireReporter(
     stableKey: input.slotKey,
     givenName: name.givenName,
     familyName: name.familyName,
-    birthDate: birthDateForAge(world.currentDate, input.rng.integer(26, 64)),
+    birthDate: inventedPersonBirthDate(input.rng, {
+      role: "newsroom-staff",
+      referenceDate: world.currentDate,
+      placement: "reference-day",
+    }),
     homeJurisdictionId: input.homeJurisdictionId,
     identity,
   });
@@ -795,7 +827,13 @@ function hireReporter(
     beats: [...input.beats],
     geographyJurisdictionIds: [...input.geographyJurisdictionIds],
     startedAt: next.currentDate,
+    persistence: temperamentFor(input.rng.fork("persistence")),
+    conflict: temperamentFor(input.rng.fork("conflict")),
   }).world;
+}
+
+function temperamentFor(rng: SeededRng): "low" | "medium" | "high" {
+  return rng.pick(["low", "medium", "high"] as const);
 }
 
 function firstStateJurisdiction(world: World): EntityId {
@@ -805,11 +843,4 @@ function firstStateJurisdiction(world: World): EntityId {
   const fallback = id ?? world.jurisdictionOrder[0];
   if (!fallback) throw new Error("A media outlet needs a jurisdiction.");
   return fallback;
-}
-
-function birthDateForAge(onDate: IsoDate, age: number): IsoDate {
-  const year = Number(onDate.slice(0, 4)) - age;
-  const month = Number(onDate.slice(5, 7));
-  const day = Math.min(Number(onDate.slice(8, 10)), 28);
-  return isoDateFromParts(year, month, day);
 }

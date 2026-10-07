@@ -25,7 +25,7 @@ import {
   performMunicipalMeetingNotes,
 } from "../simulation/municipal-public-work";
 import { municipalVenueForActivity } from "./municipal-venue";
-import bindings from "./municipal-venue-bindings.json";
+import bindings from "./municipal-venue-bindings.json" with { type: "json" };
 import { resolveOpeningPlaySceneContext } from "./play-scene-context";
 import { resolveVenueScene } from "./scene-venues";
 import { prepareMunicipalMeetingNotes } from "./municipal-workspace";

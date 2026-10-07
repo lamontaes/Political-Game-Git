@@ -18,7 +18,6 @@ import { mayAnswerQuestion } from "./question-authority";
 import { ensureCouncilPrinciples } from "./council-lawmaking";
 import { fileMemberAgendaBills } from "./member-agenda";
 import { principledLeaning } from "./officeholder-principles";
-import { dcCouncilActTitle } from "../dc-council-sittings";
 import {
   municipalGovernmentByKey,
   municipalRulePackFor,
@@ -83,7 +82,6 @@ function file(world: World) {
       measures: municipalMeasures(world, DC_GOVERNMENT_KEY),
       playerPersonId:
         world.control.kind === "person" ? world.control.personId : null,
-      title: dcCouncilActTitle,
       measureKey: (numbering) =>
         municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
     },

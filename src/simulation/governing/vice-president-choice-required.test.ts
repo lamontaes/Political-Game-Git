@@ -1,9 +1,5 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { currentPresidentOf } from "../crisis/offices";
 import { simulationMomentOnLocalDate } from "../dates";
 import { currentFederalTenure } from "../federal-tenures";
@@ -38,15 +34,10 @@ const place = searchLifePlaces("", 1, {
 })[0]!;
 
 function vacancy() {
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped",
-    }),
-  ).game!;
+  // The opening's national offices and Congress, not its households or town.
+  const game = {
+    world: smallWorld({ place: place.key, seed, offices: ["congress"] }).world,
+  };
   const vice = currentFederalTenure(game.world, "us-vice-president")!;
   const dead = recordPersonDeath(game.world, {
     stableKey: "a96:supplied-vp-death",

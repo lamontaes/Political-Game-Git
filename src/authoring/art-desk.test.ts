@@ -31,9 +31,9 @@ import {
   TERMINAL_ASSET_REQUEST_STATUSES,
   type AssetRequest,
 } from "./asset-request";
-import reconciliationData from "../../art/requests/art-desk-reconciliation.json";
-import generationBatch from "../../art/requests/art-desk-generation-batch.json";
-import assetRequestDocument from "../../art/requests/asset-requests.json";
+import reconciliationData from "../../art/requests/art-desk-reconciliation.json" with { type: "json" };
+import generationBatch from "../../art/requests/art-desk-generation-batch.json" with { type: "json" };
+import assetRequestDocument from "../../art/requests/asset-requests.json" with { type: "json" };
 
 const reconciliation = reconciliationData as ArtDeskReconciliation;
 

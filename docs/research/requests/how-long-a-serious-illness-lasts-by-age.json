@@ -1,0 +1,39 @@
+{
+  "filedAt": "2026-10-01T21:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "LIVES (slice 10): births, deaths, childhood record",
+  "notes": [
+    "Further sources a researcher may use: MedPAC and CMS hospice length-of-stay reports (time from hospice entry to death); the USRDS Annual Data Report (survival on dialysis by age); published heart failure and COPD survival cohorts. Each answer row names its table.",
+    "Smooth relations only (owner rule, 9/29): a survival curve or a hazard ratio per unit of age or stage, never a fixed 'dies after N days'."
+  ],
+  "priority": "P1",
+  "question": "For U.S. adults and children who are diagnosed with, or first seriously ill from, a life-limiting illness, how long do they live afterward, by age band at diagnosis (under 15, 15-39, 40-54, 55-64, 65-74, 75-84, 85 and over, or the nearest bands the source publishes)? Give it for the illness groups the sources measure (cancer by stage at diagnosis; heart failure; COPD; dementia; stroke; kidney failure), as a median and an interquartile range of survival time, and the share still alive at 1 and 5 years. Separately: how does that time move with severity at diagnosis (stage, or the source's own grade) and with health coverage? Report each figure as a smooth relation (survival curve or hazard ratio), not a cutoff, and say where no evidence exists rather than filling it.",
+  "questionId": "how-long-a-serious-illness-lasts-by-age",
+  "relatedQuestionIds": [
+    "causes-of-death-by-age",
+    "health-episode-producers-without-dice"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Team 5 (LIVES slice step 2), session_018u9RMZ77mZTXMEVEUz7o6f",
+  "sourcesChecked": [
+    {
+      "source": "NCI SEER (SEER*Explorer and the SEER Cancer Statistics Review): relative and cause-specific survival by stage at diagnosis (localized, regional, distant) and by age at diagnosis",
+      "whatItDidNotSettle": "It supports cancer survival as a curve by stage and age band, which is exactly the smooth relation needed for the largest group of deaths after a known illness. It covers cancer only; it gives relative survival, which must be converted to time-to-death; and it does not cover heart failure, COPD, dementia or kidney failure."
+    },
+    {
+      "source": "CDC WONDER, Underlying Cause of Death (NCHS multiple cause of death files), counts by age band, ICD-10 cause and place of death",
+      "whatItDidNotSettle": "It supports how many deaths at each age come from each cause, and so which illness groups matter most at each age and the check on the simulation's total deaths by cause. It records only the death, not the date of diagnosis, so it cannot say how long anyone was ill."
+    },
+    {
+      "source": "SSA 2023 period life table (src/simulation/crisis/ssa-2023-period-life-table.json, read by src/simulation/crisis/mortality-table.ts)",
+      "whatItDidNotSettle": "It supports the check on totals: all-cause probability of death by single year of age and sex. Under the no-dice rule it may check the simulation's death count and never decide one person's death. It has no cause and no illness duration."
+    },
+    {
+      "source": "docs/research/requests/causes-of-death-by-age.json (open)",
+      "whatItDidNotSettle": "It asks for the split of deaths into known illness, sudden illness and injury, and for the diagnosis-to-death interval for the known-illness group overall. It does not ask for survival by illness, stage or coverage, which a death from a recorded health record needs."
+    }
+  ],
+  "title": "How long a serious illness lasts by age, and how often it ends in death",
+  "usableAnswer": "One table per illness group: rows by age band at diagnosis, columns for median survival in months, the interquartile range, and the share alive at 1 and 5 years, each with its source table and marked measured, synthesized or assumed. One short section with the hazard ratio (or the source's equivalent) for stage or severity at diagnosis and for insurance status. One check row: the sum of these illness deaths by age as a share of all deaths at that age in the SSA 2023 period life table and CDC WONDER, so the simulation's totals can be checked without the table deciding any one person.",
+  "whyItMatters": "LIVES slice step 2 needs a death attributed to a recorded cause, a health record, with no draw and no hard threshold. Today every death in play is decided by a seeded draw: the per-person life-table threshold in src/simulation/crisis/mortality.ts:55-63, the drawn cause group in src/simulation/crisis/death-causes.ts:6-20, and the disaster and attack chances in src/simulation/crisis/disaster.ts:476 and src/simulation/crisis/international.ts:900. No health record says when an illness ends a life: HealthCourseStep cannot be 'deceased' (src/simulation/crisis/types.ts:74-78) and no condition pack carries a prognosis. A proposal is with the CTO (question in 00d): a prognosis-limited health state whose remaining days shrink smoothly with severity, age and coverage, with the death written on that day and citing the episode. This request supplies the numbers that curve would need, so it is a sourced relation and not an invented one. No hazard roll and no death curve is written until the CTO rules."
+}

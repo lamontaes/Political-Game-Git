@@ -14,6 +14,7 @@ import {
 } from "../../src/simulation/legislation";
 import { applyEnactedLawEffects } from "../../src/simulation/enacted-law-effects";
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
+import { recordGovernorDecisionOnMeasure } from "../../src/simulation/governing/legislative-clock";
 import { addDays } from "../../src/simulation/dates";
 import {
   TRANSIT_FAMILY_KEY,
@@ -109,6 +110,15 @@ export function transitAppropriationFixture(
     count < 45 && measurePosition(world, measureId).phase !== "enacted";
     count++
   ) {
+    if (measurePosition(world, measureId).phase === "awaiting-executive") {
+      world = recordGovernorDecisionOnMeasure(
+        world,
+        measureId,
+        "signed",
+        "Authored transit fixture: the governor signs the recorded contract act.",
+      );
+      continue;
+    }
     const step = availableMeasureSteps(world, measureId).find(
       (s) => s !== "offer-amendment",
     );
@@ -198,6 +208,15 @@ export function transitTerminationFixture(
     measurePosition(world, measureId).phase !== "awaiting-enactment";
     count++
   ) {
+    if (measurePosition(world, measureId).phase === "awaiting-executive") {
+      world = recordGovernorDecisionOnMeasure(
+        world,
+        measureId,
+        "signed",
+        "Authored transit fixture: the governor signs the terminating act.",
+      );
+      continue;
+    }
     const step = availableMeasureSteps(world, measureId).find(
       (s) => s !== "offer-amendment",
     );

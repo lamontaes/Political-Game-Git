@@ -1,9 +1,14 @@
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createOrganization, recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
 import { personName } from "../people";
-import { currentResourceCutoff, resourcePositionAt } from "../resource-queries";
+import {
+  currentResourceCutoff,
+  resourcePositionAt,
+  resourceFlowTermsAt,
+} from "../resource-queries";
 import { makeCurrencyCode } from "../resources";
 import { recordMediaPurchasePayment } from "./media-purchase-payment";
 import { SeededRng } from "../rng";
@@ -12,6 +17,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   World,
+  CurrencyCode,
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { mediaOutlets, reporterIsCurrent, reporterRoles } from "./outlets";
@@ -52,8 +58,8 @@ import {
  * anything else.
  *
  * NOT MODELED YET, with the blanket rule standing in:
- * - Why an owner decides. There is no media revenue, debt or audience model,
- *   so every decision is the pack's `likelihoodPerReview` draw.
+ * - Acquisitions and other directives still use pack likelihoods. Newsroom
+ *   cuts instead require recorded cash below comparable recorded payroll.
  * - Whether a decision is news. Owner events use the `press.` prefix, which
  *   the desk excludes, so none of them reaches a front page until the owner
  *   of newsworthiness admits them.
@@ -291,8 +297,11 @@ function scheduleOwnerReview(
   row: LoadedOwnershipOwner,
   index: number,
 ): World {
+  const stableKey = `${owner.stableKey}:review:${index}`;
+  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    return world;
   return scheduleFutureDueItem(world, {
-    stableKey: `${owner.stableKey}:review:${index}`,
+    stableKey,
     dueAt: addDays(world.currentDate, row.reviewEveryDays),
     transitionKey: PRESS_OWNER_REVIEW_TRANSITION_KEY,
     entityIds: [owner.organizationId],
@@ -305,8 +314,8 @@ function scheduleOwnerReview(
 }
 
 /**
- * One owner's review. Each practice is drawn independently, in the row's
- * order, and each decision applies to what the owner holds at that moment.
+ * One owner's review, in pack order. Cost cutting reads saved books; other
+ * practices retain their existing draws until their decision writers are built.
  */
 export function pressOwnerReviewHandler(
   world: World,
@@ -340,16 +349,47 @@ export function pressOwnerReviewHandler(
   for (const practiceKey of row.practices) {
     const practice = registry.practices.get(practiceKey);
     if (!practice) continue;
-    const rng = new SeededRng(world.seed).fork(
-      `${dueItem.stableKey}:${practiceKey}`,
+    const practiceKeyForReview = `${dueItem.stableKey}:${practiceKey}`;
+    if (pressRecordByKey(next, "owner-directive", practiceKeyForReview))
+      continue;
+    // No random stream is created or consulted on the payroll-driven path.
+    if (practice.effect === "reduce-newsroom-staff") {
+      const decided = reduceNewsroomStaff(
+        next,
+        owner,
+        practice,
+        practiceKeyForReview,
+        outletsHeldBy(next, owner.id),
+      );
+      next = decided.world;
+      lastEventId = decided.eventId ?? lastEventId;
+      continue;
+    }
+    if (practice.effect === "acquire-outlet") {
+      const decided = acquireOutlet(
+        next,
+        owner,
+        practice,
+        practiceKeyForReview,
+        registry,
+      );
+      next = decided.world;
+      lastEventId = decided.eventId ?? lastEventId;
+      continue;
+    }
+    const review = reviewRecordedPractice(
+      next,
+      owner,
+      practice,
+      practiceKeyForReview,
     );
-    if (rng.next() >= practice.likelihoodPerReview) continue;
+    next = review.world;
+    if (!review.selected) continue;
     const decided = carryOutPractice(
       next,
       owner,
       practice,
       `${dueItem.stableKey}:${practiceKey}`,
-      rng.fork("effect"),
       registry,
     );
     next = decided.world;
@@ -365,12 +405,104 @@ export function pressOwnerReviewHandler(
   };
 }
 
+/** A loaded owner practice is a saved preference, not a probability. */
+function reviewRecordedPractice(
+  world: World,
+  owner: MediaOwnerRecord,
+  practice: OwnershipPracticeRow,
+  stableKey: string,
+): { readonly world: World; readonly selected: boolean } {
+  const actorPersonId = owner.principalPersonId;
+  const held = outletsHeldBy(world, owner.id);
+  if (
+    !actorPersonId ||
+    !world.people[actorPersonId] ||
+    !held.length ||
+    owner.establishedAt > world.currentDate ||
+    (world.control.kind === "person" &&
+      world.control.personId === actorPersonId)
+  )
+    return { world, selected: false };
+  const reviewed = recordWorldEvent(world, {
+    stableKey: `${stableKey}:practice-reviewed`,
+    type: "press.owner.practice-reviewed",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [actorPersonId, owner.organizationId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `press.owner:${owner.id}`,
+      `press.practice:${practice.key}`,
+    ],
+    summary: `${owner.name} reviewed its recorded practice: ${practice.description}`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: `Recorded ownership row ${owner.rowKey} includes practice ${practice.key}.`,
+      immediateReaction: null,
+    },
+  });
+  const evaluation = evaluateDecision(reviewed, {
+    stableKey: `${stableKey}:decision`,
+    decisionType: "media.owner-practice",
+    actorPersonId,
+    cutoff: currentResourceCutoff(reviewed),
+    subject: {
+      kind: "entity:organization",
+      key: owner.organizationId,
+      entityId: owner.organizationId,
+    },
+    options: [
+      {
+        key: "apply",
+        label: "Apply recorded practice",
+        description: practice.description,
+      },
+      {
+        key: "wait",
+        label: "Wait",
+        description: "Keep the current newsroom directives.",
+      },
+    ],
+    constraints: [],
+    considerations: [
+      {
+        stableKey: `${stableKey}:recorded-practice`,
+        optionKey: "apply",
+        sourceType: "domain:media-ownership",
+        direction: "supports",
+        importance: "moderate",
+        confidence: "high",
+        explanation: `The saved owner's practice favors this directive: ${practice.description}`,
+        sourceRefs: [
+          {
+            kind: "historical-event",
+            eventId: reviewed.history.events.at(-1)!.id,
+          },
+        ],
+      },
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  return {
+    world: recordDurableDecisionTrace(reviewed, evaluation),
+    selected: evaluation.selectedOptionKey === "apply",
+  };
+}
+
 function carryOutPractice(
   world: World,
   owner: MediaOwnerRecord,
   practice: OwnershipPracticeRow,
   stableKey: string,
-  rng: SeededRng,
   registry: OwnershipRegistry,
 ): { readonly world: World; readonly eventId: EntityId | null } {
   const held = outletsHeldBy(world, owner.id);
@@ -380,9 +512,9 @@ function carryOutPractice(
   }
   switch (practice.effect) {
     case "reduce-newsroom-staff":
-      return reduceNewsroomStaff(world, owner, practice, stableKey, held, rng);
+      return reduceNewsroomStaff(world, owner, practice, stableKey, held);
     case "acquire-outlet":
-      return acquireOutlet(world, owner, practice, stableKey, rng, registry);
+      return acquireOutlet(world, owner, practice, stableKey, registry);
     case "share-content-across-outlets":
       if (held.length === 0) return { world, eventId: null };
       return recordDirective(world, owner, practice, stableKey, held, true);
@@ -399,6 +531,8 @@ function ownerEvent(
     readonly visibility: "limited" | "public";
     readonly summary: string;
     readonly practice: OwnershipPracticeRow;
+    readonly motivation?: string;
+    readonly sourceRecordIds?: readonly EntityId[];
   },
 ): { readonly world: World; readonly eventId: EntityId } {
   const next = recordWorldEvent(world, {
@@ -408,8 +542,10 @@ function ownerEvent(
     recordedAt: world.currentDate,
     jurisdictionId: null,
     involvedEntityIds: [
-      input.owner.organizationId,
-      ...input.outlets.map((outlet) => outlet.organizationId),
+      ...new Set([
+        input.owner.organizationId,
+        ...input.outlets.map((outlet) => outlet.organizationId),
+      ]),
     ].sort(),
     participants: [],
     personFactConstraints: [],
@@ -419,6 +555,10 @@ function ownerEvent(
       `press.owner:${input.owner.id}`,
       `press.practice:${input.practice.key}`,
       ...input.outlets.map((outlet) => `press.outlet:${outlet.id}`),
+      // Financial records are evidence, not event participants.
+      ...[...new Set(input.sourceRecordIds ?? [])]
+        .sort()
+        .map((id) => `press.payroll-source:${id}`),
     ],
     summary: input.summary,
     context: {
@@ -426,7 +566,7 @@ function ownerEvent(
       socialContext: input.owner.name,
       pressure: null,
       choice: input.practice.effect,
-      motivation: null,
+      motivation: input.motivation ?? null,
       immediateReaction: null,
     },
   });
@@ -481,49 +621,125 @@ function recordDirective(
   return { world: next, eventId: event.eventId };
 }
 
-/**
- * One cost-cutting round across every outlet the owner holds. The cut is a
- * share of the owner's whole newsroom headcount, taken from the outlets with
- * the most staff first, and never below each outlet's kept minimum.
- */
+/** Recorded cash and comparable current payroll, with no inferred revenue. */
+function newsroomPayroll(world: World, outlet: MediaOutletRecord) {
+  const cutoff = currentResourceCutoff(world);
+  const work = world.history.workRelationships.filter(
+    (row) =>
+      row.organizationId === outlet.organizationId &&
+      row.compensation === "paid" &&
+      row.startedAt <= world.currentDate &&
+      workStatusAt(world, row.id, cutoff)?.status === "active",
+  );
+  if (!work.length) return null;
+  const payroll = new Map<EntityId, number>();
+  const sourceIds: EntityId[] = [];
+  let currency: CurrencyCode | null = null;
+  let cadence: string | null = null;
+  let total = 0;
+  for (const job of work) {
+    const flows = world.history.resourceFlows.filter(
+      (flow) =>
+        flow.source.kind === "organization" &&
+        flow.source.organizationId === outlet.organizationId &&
+        flow.recipient.kind === "person" &&
+        flow.recipient.personId === job.personId &&
+        flow.basisReference.kind === "work" &&
+        flow.basisReference.workRelationshipId === job.id &&
+        flow.startsAt <= world.currentDate,
+    );
+    let amount = 0;
+    for (const flow of flows) {
+      const terms = resourceFlowTermsAt(world, flow.id, cutoff);
+      if (!terms || terms.status !== "active") continue;
+      // Different periods or currencies require a recorded common budget; never guess a conversion.
+      if (
+        !/^schedule:(?:town-)?(?:weekly|biweekly(?:-\d)?|semimonthly|monthly)$/.test(
+          terms.cadenceKind,
+        ) ||
+        (currency !== null && currency !== terms.amount.currency) ||
+        (cadence !== null && cadence !== terms.cadenceKind)
+      )
+        return null;
+      currency = terms.amount.currency;
+      cadence = terms.cadenceKind;
+      amount += terms.amount.minorUnits;
+      sourceIds.push(flow.id, terms.id);
+    }
+    if (amount <= 0 || !Number.isSafeInteger(amount)) return null;
+    payroll.set(job.id, amount);
+    total += amount;
+    sourceIds.push(job.id, workStatusAt(world, job.id, cutoff)!.id);
+  }
+  if (!currency || !cadence || !Number.isSafeInteger(total)) return null;
+  const cash = resourcePositionAt(
+    world,
+    { kind: "organization", organizationId: outlet.organizationId },
+    currency,
+    cutoff,
+  );
+  if (!cash) return null;
+  return {
+    payroll,
+    total,
+    currency,
+    cadence,
+    cash: cash.liquidBalance.minorUnits,
+    sourceIds: [
+      ...new Set([...sourceIds, cash.positionId, ...cash.outcomeIds]),
+    ],
+  };
+}
+
+/** End least-senior positions only when recorded cash cannot cover recorded payroll. */
 function reduceNewsroomStaff(
   world: World,
   owner: MediaOwnerRecord,
   practice: OwnershipPracticeRow,
   stableKey: string,
   held: readonly MediaOutletRecord[],
-  rng: SeededRng,
 ): { readonly world: World; readonly eventId: EntityId | null } {
-  // Placeholder fallbacks for a practice that names neither value; see the
-  // research questions named in ownership-pack-default.ts.
-  const share = practice.parameters?.shareOfPositions ?? 0.25;
-  const kept = practice.parameters?.minimumPositionsKept ?? 1;
-  const staff = new Map<EntityId, ReporterRoleRecord[]>(
-    held.map((outlet) => [
-      outlet.id,
-      reporterRoles(world, outlet.id).filter((role) =>
-        reporterIsCurrent(world, role),
-      ),
-    ]),
-  );
-  const total = [...staff.values()].reduce((sum, list) => sum + list.length, 0);
-  let toCut = Math.floor(total * share);
   const cut: ReporterRoleRecord[] = [];
-  while (toCut > 0) {
-    const candidates = held
-      .map((outlet) => ({ outlet, roles: staff.get(outlet.id)! }))
-      .filter(({ roles }) => roles.length > kept)
-      .sort(
-        (left, right) =>
-          right.roles.length - left.roles.length ||
-          left.outlet.sequence - right.outlet.sequence,
-      );
-    const from = candidates[0];
-    if (!from) break;
-    const index = rng.integer(0, from.roles.length);
-    cut.push(from.roles[index]!);
-    from.roles.splice(index, 1);
-    toCut -= 1;
+  const sourceRecordIds: EntityId[] = [];
+  const reasons: string[] = [];
+  for (const outlet of held) {
+    const books = newsroomPayroll(world, outlet);
+    if (!books || books.cash >= books.total) continue;
+    const jobs = new Map(
+      world.history.workRelationships.map((job) => [job.id, job]),
+    );
+    const candidates = reporterRoles(world, outlet.id)
+      .filter(
+        (role) =>
+          reporterIsCurrent(world, role) &&
+          books.payroll.has(role.workRelationshipId),
+      )
+      .sort((a, b) => {
+        const left = jobs.get(a.workRelationshipId)!;
+        const right = jobs.get(b.workRelationshipId)!;
+        return (
+          right.startedAt.localeCompare(left.startedAt) ||
+          right.sequence - left.sequence
+        );
+      });
+    let required = books.total;
+    const fromOutlet: ReporterRoleRecord[] = [];
+    for (const role of candidates) {
+      if (required <= books.cash) break;
+      fromOutlet.push(role);
+      required -= books.payroll.get(role.workRelationshipId)!;
+    }
+    if (!fromOutlet.length) continue;
+    cut.push(...fromOutlet);
+    sourceRecordIds.push(...books.sourceIds);
+    const format = (amount: number) =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: books.currency,
+      }).format(amount / 100);
+    reasons.push(
+      `${outlet.name} had ${format(books.cash)} in recorded cash, less than ${format(books.total)} for its recorded payroll period.`,
+    );
   }
   if (cut.length === 0) return { world, eventId: null };
   const affected = held.filter((outlet) =>
@@ -537,6 +753,8 @@ function reduceNewsroomStaff(
     visibility: "public",
     summary: `${owner.name} eliminated ${cut.length} newsroom ${cut.length === 1 ? "position" : "positions"} across ${affected.length} ${affected.length === 1 ? "outlet" : "outlets"} it owns.`,
     practice,
+    motivation: reasons.join(" "),
+    sourceRecordIds,
   });
   let next = event.world;
   for (const role of cut) {
@@ -547,7 +765,7 @@ function reduceNewsroomStaff(
       workRelationshipId: role.workRelationshipId,
       effectiveAt: next.currentDate,
       status: "ended",
-      reason: `Position eliminated when ${owner.name} cut staff across its outlets.`,
+      reason: `Position eliminated because recorded cash could not cover payroll; least-senior positions were ended first.`,
       provenance: { kind: "simulated-event", eventId: event.eventId },
       supersedesStatusId: status.id,
     });
@@ -598,63 +816,210 @@ function reduceNewsroomStaff(
   return { world: next, eventId: event.eventId };
 }
 
-/** Buys one outlet whose owner sells and which this owner may hold. */
+/** Existing recorded asking terms only; absent valuation leaves the sale pending. */
 function acquireOutlet(
   world: World,
   owner: MediaOwnerRecord,
   practice: OwnershipPracticeRow,
   stableKey: string,
-  rng: SeededRng,
   registry: OwnershipRegistry,
 ): { readonly world: World; readonly eventId: EntityId | null } {
-  const buyer = ownerRowOf(registry, owner);
-  if (!buyer) return { world, eventId: null };
-  const owners = new Map(mediaOwners(world).map((entry) => [entry.id, entry]));
-  const forSale = mediaOutlets(world).flatMap((outlet) => {
+  const pending = { world, eventId: null };
+  const buyerRow = ownerRowOf(registry, owner);
+  const buyerActor = owner.principalPersonId;
+  if (
+    !buyerRow ||
+    !buyerActor ||
+    !world.people[buyerActor] ||
+    owner.establishedAt > world.currentDate ||
+    (world.control.kind === "person" && world.control.personId === buyerActor)
+  )
+    return pending;
+  const cash = resourcePositionAt(
+    world,
+    { kind: "organization", organizationId: owner.organizationId },
+    USD,
+  );
+  if (!cash) return pending;
+  const choices = mediaOutlets(world).flatMap((outlet) => {
     const holding = currentOutletOwnership(world, outlet.id);
-    const seller = holding ? owners.get(holding.ownerId) : undefined;
-    const sellerRow = seller ? ownerRowOf(registry, seller) : null;
-    return holding &&
-      seller &&
-      seller.id !== owner.id &&
-      sellerRow?.sellsOutlets &&
-      ownerMayHold(buyer, outlet)
-      ? [{ outlet, holding, seller }]
-      : [];
+    const seller = holding
+      ? mediaOwners(world).find((entry) => entry.id === holding.ownerId)
+      : undefined;
+    const sellerActor = seller?.principalPersonId;
+    const books = world.townFinances?.businesses[outlet.organizationId];
+    const dollars = registry.askingPriceDollars[outlet.resourceTier];
+    const price = dollars === undefined ? null : dollars * 100;
+    if (
+      !holding ||
+      !seller ||
+      seller.id === owner.id ||
+      !sellerActor ||
+      !world.people[sellerActor] ||
+      sellerActor === buyerActor ||
+      seller.establishedAt > world.currentDate ||
+      (world.control.kind === "person" &&
+        world.control.personId === sellerActor) ||
+      !ownerRowOf(registry, seller)?.sellsOutlets ||
+      !ownerMayHold(buyerRow, outlet) ||
+      !books ||
+      !Number.isFinite(books.lastQuarterNet) ||
+      !Number.isFinite(books.debt) ||
+      (books.lastQuarterNet >= 0 && books.debt <= 0) ||
+      price === null ||
+      !Number.isSafeInteger(price) ||
+      price <= 0 ||
+      cash.liquidBalance.minorUnits < price
+    )
+      return [];
+    return [{ outlet, holding, seller, sellerActor, books, price }];
   });
-  if (forSale.length === 0) return { world, eventId: null };
-  const { outlet, holding, seller } = rng.pick(forSale);
-  const event = ownerEvent(world, {
+  // No saved preference distinguishes equally eligible outlets. Leave the choice pending.
+  if (choices.length !== 1) return pending;
+  const choice = choices[0]!;
+  let next = recordWorldEvent(world, {
+    stableKey: `${stableKey}:books-reviewed`,
+    type: "press.owner.purchase-reviewed",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: choice.outlet.primaryJurisdictionIds[0] ?? null,
+    involvedEntityIds: [
+      buyerActor,
+      choice.sellerActor,
+      owner.organizationId,
+      choice.seller.organizationId,
+      choice.outlet.organizationId,
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `press.outlet:${choice.outlet.id}`,
+      `press.cash-source:${cash.positionId}`,
+    ],
+    summary: `Recorded books and existing asking terms were reviewed for ${choice.outlet.name}.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: `Recorded quarter net ${choice.books.lastQuarterNet}; recorded debt ${choice.books.debt}; asking price ${choice.price} minor units; buyer cash ${cash.liquidBalance.minorUnits} minor units.`,
+      immediateReaction: null,
+    },
+  });
+  const evidence = next.history.events.at(-1)!;
+  const decide = (
+    actorPersonId: EntityId,
+    action: "sell" | "buy",
+    explanation: string,
+  ) => {
+    const evaluation = evaluateDecision(next, {
+      stableKey: `${stableKey}:${action}`,
+      decisionType: `media.${action}`,
+      actorPersonId,
+      cutoff: currentResourceCutoff(next),
+      subject: {
+        kind: "entity:organization",
+        key: choice.outlet.organizationId,
+        entityId: choice.outlet.organizationId,
+      },
+      options: [
+        { key: action, label: action, description: explanation },
+        {
+          key: "wait",
+          label: "Wait",
+          description: "Keep the existing holding and cash.",
+        },
+      ],
+      constraints: [],
+      considerations: [
+        {
+          stableKey: `${stableKey}:${action}:recorded-basis`,
+          optionKey: action,
+          sourceType: "domain:media-ownership",
+          direction: "supports",
+          importance: "strong",
+          confidence: "high",
+          explanation,
+          sourceRefs: [{ kind: "historical-event", eventId: evidence.id }],
+        },
+      ],
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    next = recordDurableDecisionTrace(next, evaluation);
+    return evaluation.selectedOptionKey === action;
+  };
+  if (
+    !decide(
+      choice.sellerActor,
+      "sell",
+      "Recorded outlet losses or debt favor selling at the existing asking terms.",
+    )
+  )
+    return { world: next, eventId: null };
+  if (
+    !decide(
+      buyerActor,
+      "buy",
+      `${practice.description} Actual recorded cash covers the asking terms.`,
+    )
+  )
+    return { world: next, eventId: null };
+  const event = ownerEvent(next, {
     stableKey: `${stableKey}:event`,
     type: "press.owner.acquisition",
     owner,
-    outlets: [outlet],
+    outlets: [choice.outlet],
     visibility: "public",
-    summary: `${owner.name} bought ${outlet.name} from ${seller.name}.`,
+    summary: `${owner.name} bought ${choice.outlet.name} from ${choice.seller.name}.`,
     practice,
+    motivation:
+      "Both recorded principals selected the transaction from recorded books, asking terms and cash.",
+    sourceRecordIds: [
+      cash.positionId,
+      evidence.id,
+      ...next.history.decisionTraces.slice(-2).map((trace) => trace.id),
+    ],
   });
-  const ownership = appendPressRecord(event.world, "outlet-ownership", {
-    stableKey: `${HOLDING_KEY}${outlet.id}:${holding.sequence}`,
-    outletId: outlet.id,
+  const paid = recordMediaPurchasePayment(event.world, {
+    stableKey,
+    buyerOrganizationId: owner.organizationId,
+    decisionMakerPersonId: buyerActor,
+    sellerOrganizationId: choice.seller.organizationId,
+    sellerName: choice.seller.name,
+    outletName: choice.outlet.name,
+    jurisdictionId: choice.outlet.primaryJurisdictionIds[0] ?? null,
+    eventId: event.eventId,
+    priceMinorUnits: choice.price,
+  });
+  if (paid === event.world) return { world: paid, eventId: null };
+  const holding = appendPressRecord(paid, "outlet-ownership", {
+    stableKey: `${HOLDING_KEY}${choice.outlet.id}:${choice.holding.sequence}`,
+    outletId: choice.outlet.id,
     ownerId: owner.id,
     basis: "acquisition",
     effectiveAt: world.currentDate,
     eventId: event.eventId,
-    supersedesOwnershipId: holding.id,
+    supersedesOwnershipId: choice.holding.id,
   });
-  const next = appendPressRecord(ownership.world, "owner-directive", {
-    stableKey,
-    ownerId: owner.id,
-    practiceKey: practice.key,
-    effect: practice.effect,
-    simulated: true,
-    outletIds: [outlet.id],
-    decidedAt: world.currentDate,
+  return {
+    world: appendPressRecord(holding.world, "owner-directive", {
+      stableKey,
+      ownerId: owner.id,
+      practiceKey: practice.key,
+      effect: practice.effect,
+      simulated: true,
+      outletIds: [choice.outlet.id],
+      decidedAt: world.currentDate,
+      eventId: event.eventId,
+      endedWorkRelationshipIds: [],
+      ownershipId: holding.record.id,
+    }).world,
     eventId: event.eventId,
-    endedWorkRelationshipIds: [],
-    ownershipId: ownership.record.id,
-  }).world;
-  return { world: next, eventId: event.eventId };
+  };
 }
 
 /* -------------------------------------------------------------------------- */

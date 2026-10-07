@@ -1,9 +1,21 @@
-import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
+import { settleAllOfficeSalaries } from "../office-salary";
+import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
+import { payPayerAt, payWorkplaceAt } from "../pay-coverage-predicates";
+import {
+  ensureLocalPublicAccount,
+  ensureTaxPublicAccount,
+  publicTaxAccountForIdentity,
+} from "../tax-policy";
+import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
+import { recordPaycheckTaxBases } from "../paycheck-tax-bases";
+import { recordLocalPayrollTaxBases } from "../payroll-tax-bases";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
-import type { ResolvedLawPayConsequence } from "../law-consequence-types";
+import type {
+  ResolvedHourlyLawPayConsequence,
+  ResolvedSavedHourlyPayConsequence,
+} from "../law-consequence-types";
 import { createStableId } from "../ids";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
@@ -15,7 +27,7 @@ import { createStableId } from "../ids";
  * What each job pays. Its occupation's wage in its area, from the BLS May
  * 2025 OEWS tables: the metro or nonmetro area the town's county is in, else
  * the state, else the nation. Each worker sits inside that distribution by
- * tenure (`townPayPercentile`), between the 10th and 90th percentile, never
+ * tenure (`townPayPercentile`), between the 25th and 75th percentile, never
  * everyone at the median. The hourly rate is the annual wage over a
  * 2,080-hour year, never below the minimum wage where the job is: the higher
  * of the federal rate ($7.25 until an Act raises it) and the state's basic
@@ -36,7 +48,7 @@ import { createStableId } from "../ids";
  * A state or federal law that raises the minimum wage raises every town job
  * paid below it, from the first pay period that begins on or after the law
  * takes effect
- * (`raiseTownPayToMinimum`). A period already running that day is paid at the
+ * through the registered pay consequence. A period already running that day is paid at the
  * old rate, because a period's pay is fixed when it begins (labeled game
  * simplification: real pay changes for hours worked from the effective day).
  *
@@ -44,15 +56,25 @@ import { createStableId } from "../ids";
  * last day of each month), each writing all of that day's paychecks.
  */
 
-import { addDays, daysBetween, makeIsoDate } from "../dates";
-import { scheduleFutureDueItem } from "../future-transitions";
 import {
-  enactedRuleChanges,
-  type EnactedRuleChange,
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  simulationMinutesBetween,
+} from "../dates";
+import {
+  cancelFutureDueItem,
+  scheduleFutureDueItem,
+  scheduledFutureDueItemsThrough,
+} from "../future-transitions";
+import {
+  enactedRuleChangeAt,
+  laborLawOfficeKey,
 } from "../enacted-rule-changes";
 import { countyGeoidsForPlace } from "../government-units";
 import {
   growingIndex,
+  withHistoryAppendTransaction,
   hasStableKey,
   recordById,
   recordsWithFieldValue,
@@ -60,19 +82,17 @@ import {
 } from "../history-index";
 import {
   currentLifeCutoff,
+  educationEnrollmentStateAt,
   organizationProfileAt,
   workStatusAt,
   workRoleAt,
 } from "../life-queries";
-import { lifePlaceByJurisdictionId } from "../life-places";
 import {
-  FEDERAL_MINIMUM_HOURLY_MINOR,
-  federalMinimumSchedule,
-  minimumHourlyAt,
-  minimumWageSettingAt,
-  anyMinimumWageQuestionEnacted,
-  startingMinimumHourly,
-} from "../minimum-wage";
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+  stateKeyForJurisdiction,
+} from "../life-places";
+import { minimumHourlyAt, startingMinimumHourly } from "../minimum-wage";
 import {
   menPartneredWithMen,
   payAtHire,
@@ -80,13 +100,20 @@ import {
 } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
-import { resourceFlowTermsAt } from "../resource-queries";
+import {
+  resourceFlowTermsAt,
+  resourceTransferOutcomesForFlow,
+} from "../resource-queries";
+import { createDatedCashPaymentReader } from "../resource-payments";
+import { writeWithWorldIntegrityOnce } from "../world";
+import { hasLifePathCredential } from "../life-paths2";
 import { SeededRng } from "../rng";
 import {
   createResourceFlows,
   money,
   recordResourceFlowTerms,
   recordResourceTransferOutcomes,
+  resourceTransferTermsCutoff,
   type CreateResourceFlowInput,
   type RecordResourceTransferOutcomeInput,
 } from "../resources";
@@ -113,6 +140,7 @@ import {
   type WorkAbsence,
 } from "../crisis/epidemic";
 import type {
+  EarnedLawPayAssessmentRecord,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -214,15 +242,22 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
     place.sourceGeoid && /^\d{7}$/.test(place.sourceGeoid)
       ? place.sourceGeoid
       : null;
+  const countyGeoid =
+    place.scope === "county" &&
+    place.sourceGeoid &&
+    /^\d{5}$/.test(place.sourceGeoid)
+      ? place.sourceGeoid
+      : null;
   const stateFips =
-    geoid?.slice(0, 2) ??
+    (geoid ?? countyGeoid)?.slice(0, 2) ??
     TERRITORY_FIPS[place.stateJurisdictionKey ?? ""] ??
     null;
   // BLS publishes no wages for American Samoa or the Northern Mariana
   // Islands: pay there is UNKNOWN, not the nation's.
   if (!stateFips || NOT_IN_OEWS.has(stateFips)) return [];
   const areas: string[] = [];
-  const county = geoid ? countyGeoidsForPlace(geoid)[0] : undefined;
+  const county =
+    countyGeoid ?? (geoid ? countyGeoidsForPlace(geoid)[0] : undefined);
   const area = county ? countyArea(county) : undefined;
   if (area) areas.push(area);
   areas.push(`S${stateFips}`, "US");
@@ -231,13 +266,17 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
 
 /**
  * GAME ASSUMPTION, labeled: where a worker sits in their occupation's wage
- * distribution. A new hire starts near the 25th percentile and moves toward
- * the 75th over 20 years at the employer; a seeded draw for the person moves
- * that 15 points either way, and the result stays between the 10th and 90th.
+ * distribution. Preserve the existing tenure calibration: a new hire starts
+ * at the 25th percentile and moves toward the 75th over 20 years at the
+ * employer. The retired person draw does not change pay. Recorded credentials
+ * select actual paid peers for an observed hourly mean, never a fixed degree premium.
  */
-export function townPayPercentile(tenureYears: number, draw: number): number {
-  const byTenure = 25 + 50 * Math.min(1, Math.max(0, tenureYears) / 20);
-  return Math.min(90, Math.max(10, byTenure + (draw * 2 - 1) * 15));
+export function townPayPercentile(
+  tenureYears: number,
+  _legacyDraw?: number,
+): number {
+  void _legacyDraw;
+  return 25 + 50 * Math.min(1, Math.max(0, tenureYears) / 20);
 }
 
 /** The annual wage at `percentile` in the cells, or null when BLS withheld it. */
@@ -295,6 +334,19 @@ export function stateMedianAnnualWage(
     if (median !== null && median !== undefined) return median;
   }
   return null;
+}
+
+/**
+ * The national median annual wage for `occupation` (BLS OEWS, May 2025), or
+ * null where BLS publishes none: the average an estimate starts from where a
+ * place has no published wage.
+ */
+export function nationalMedianAnnualWage(occupation: string): number | null {
+  const soc = TOWN_JOB_SOC[occupation];
+  const median = soc
+    ? wageTable().get(soc)?.get("US")?.[PERCENTILE_POINTS.indexOf(50)]
+    : undefined;
+  return median ?? null;
 }
 
 export interface TownJobRate {
@@ -404,7 +456,11 @@ export function townPayPeriod(
   classification: OrganizationClassification | string,
   staff: number,
 ): TownPayPeriod {
-  if (GOVERNMENT_CLASSIFICATIONS.has(classification)) return "biweekly";
+  if (
+    GOVERNMENT_CLASSIFICATIONS.has(classification) ||
+    organizationProfileAt(world, organizationId)?.publicGovernmentIdentity
+  )
+    return "biweekly";
   const overall = TOWN_PAY_PERIOD_SHARES["overall|all private establishments"]!;
   const industry = INDUSTRY_OF[classification];
   const byIndustry = industry
@@ -491,21 +547,66 @@ export function nextPaydayDate(date: IsoDate): IsoDate {
   throw new Error("No payday within a week.");
 }
 
+const OFFICE_CALENDAR_FLOWS: GrowingIndexKind<ResourceFlow[]> = {
+  create: () => [],
+  add: (flows, record) => {
+    const flow = record as ResourceFlow;
+    if (flow.stableKey.startsWith("office-salary:")) flows.push(flow);
+  },
+};
+
+/** The shared clock also visits each saved office flow's weekly due date. */
+export function nextRecordedPaydayDate(world: World): IsoDate {
+  let dueAt = nextPaydayDate(world.currentDate);
+  for (const flow of growingIndex(
+    OFFICE_CALENDAR_FLOWS,
+    world.history.resourceFlows,
+  )) {
+    if (flow.basisReference.kind !== "work") continue;
+    const terms = resourceFlowTermsAt(world, flow.id);
+    if (terms?.status !== "active" || terms.cadenceKind !== "schedule:weekly")
+      continue;
+    const work = recordById(
+      world.history.workRelationships,
+      flow.basisReference.workRelationshipId,
+    );
+    if (!work || workStatusAt(world, work.id)?.status !== "active") continue;
+    const week = Math.max(
+      1,
+      Math.floor(daysBetween(flow.startsAt, world.currentDate) / 7) + 1,
+    );
+    const officeDue = addDays(flow.startsAt, week * 7);
+    if (officeDue < dueAt) dueAt = officeDue;
+  }
+  return dueAt;
+}
+
 // ─── Schedule ───────────────────────────────────────────────────────────
 
-/** Schedules the first payday for a life opened at the current version. Idempotent. */
+/** Refresh the existing clock when recorded office work adds an earlier due date. */
 export function ensurePaydaySchedule(world: World): World {
-  if (
-    world.history.futureDueItems.some((item) =>
-      item.stableKey.startsWith(PAYDAY_KEY_PREFIX),
-    )
-  )
-    return world;
-  return scheduleFutureDueItem(world, {
-    stableKey: `${PAYDAY_KEY_PREFIX}${world.currentDate}`,
-    dueAt: nextPaydayDate(world.currentDate),
+  const dueAt = nextRecordedPaydayDate(world);
+  const pending = scheduledFutureDueItemsThrough(
+    world,
+    world.currentDate,
+    addDays(world.currentDate, 7),
+  ).filter((item) => item.transitionKey === PAYDAY_TRANSITION_KEY);
+  if (pending.some((item) => item.dueAt <= dueAt)) return world;
+  let next = world;
+  for (const item of pending) {
+    next = cancelFutureDueItem(next, {
+      stableKey: `${item.stableKey}:earlier-office:${next.history.nextSequence}`,
+      dueItemId: item.id,
+      effectiveAt: next.currentDate,
+      reasonKey: "payday:earlier-recorded-office-due",
+      context: null,
+    });
+  }
+  return scheduleFutureDueItem(next, {
+    stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}:${dueAt}:${next.history.nextSequence}`,
+    dueAt,
     transitionKey: PAYDAY_TRANSITION_KEY,
-    entityIds: [world.id],
+    entityIds: [next.id],
     jurisdictionId: null,
     provenance: { kind: "initialization", reference: TOWN_PAY_VERSION },
   });
@@ -517,16 +618,21 @@ export function paydayHandler(
 ): FutureTransitionHandlerResult {
   if (dueItem.transitionKey !== PAYDAY_TRANSITION_KEY)
     throw new Error("Payday received another transition.");
-  const since = makeIsoDate(dueItem.stableKey.slice(PAYDAY_KEY_PREFIX.length));
+  const since = makeIsoDate(
+    dueItem.stableKey.slice(
+      PAYDAY_KEY_PREFIX.length,
+      PAYDAY_KEY_PREFIX.length + 10,
+    ),
+  );
   let next = startTownJobPay(world, null, since);
-  next = raiseTownPayToMinimum(next, null);
   next = raiseTeacherPayToFloor(next, null);
+  next = settleAllOfficeSalaries(next);
   // A raise a law made reaches the person it raised.
   next = noticeLawPayChanges(next, since);
   next = payTownPaydays(next, since, null);
   next = scheduleFutureDueItem(next, {
-    stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}`,
-    dueAt: nextPaydayDate(next.currentDate),
+    stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}:${next.history.nextSequence}`,
+    dueAt: nextRecordedPaydayDate(next),
     transitionKey: PAYDAY_TRANSITION_KEY,
     entityIds: [next.id],
     jurisdictionId: null,
@@ -541,9 +647,9 @@ export function paydayHandler(
   };
 }
 
-export const PAYDAY_HANDLERS = [
-  [PAYDAY_TRANSITION_KEY, paydayHandler],
-] as const;
+export function paydayHandlers() {
+  return [[PAYDAY_TRANSITION_KEY, paydayHandler]] as const;
+}
 
 // ─── Pay on record ──────────────────────────────────────────────────────
 
@@ -586,7 +692,7 @@ function latestRoles(world: World): ReadonlyMap<EntityId, WorkRoleRecord> {
 }
 
 /** The hours a week a town job is paid for. */
-function weeklyHoursOf(role: WorkRoleRecord): number {
+export function weeklyHoursOf(role: WorkRoleRecord): number {
   const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
   return (minimumHours + maximumHours) / 2;
 }
@@ -656,11 +762,154 @@ function payNoteOf(cadenceKind: string): PayNote | null {
  * day it started, whichever is later: nobody is paid years of back wages for
  * a job the game wrote before pay existed.
  */
+/** ESTIMATED FROM AVERAGE: actual paid peers at the same workplace and occupation,
+ * sharing the worker's recorded completed credentials. No observed peers means
+ * no adjustment to the existing tenure offer. The input world is frozen before
+ * this initializer writes any offers, so actor order cannot seed its own cohort.
+ */
+export function recordedCredentialHourlyPay(
+  world: World,
+  workId: EntityId,
+  onDate: IsoDate,
+) {
+  if (
+    onDate > world.currentDate ||
+    !world.history.resourceTransferOutcomes.length
+  )
+    return null;
+  const snapshot = { ...world, currentDate: onDate };
+  const target = recordById(world.history.workRelationships, workId);
+  const targetRole = target ? workRoleAt(snapshot, workId) : undefined;
+  if (
+    !target ||
+    target.recordedAt > onDate ||
+    target.startedAt > onDate ||
+    target.compensation !== "paid" ||
+    workStatusAt(snapshot, workId)?.status !== "active" ||
+    !targetRole?.occupationClassification ||
+    !targetRole.locationJurisdictionId
+  )
+    return null;
+  const credentials = world.history.educationEnrollments.filter(
+    (row) =>
+      row.personId === target.personId &&
+      row.startedAt <= onDate &&
+      row.recordedAt <= onDate &&
+      hasLifePathCredential(snapshot, target.personId, row.programKind),
+  );
+  if (!credentials.length) return null;
+  const sources: EntityId[] = credentials.flatMap((row) => {
+    const state = educationEnrollmentStateAt(snapshot, row.id);
+    return state ? [row.id, state.id] : [];
+  });
+  const rates: number[] = [];
+  const countedWork = new Set<EntityId>();
+  for (const flow of world.history.resourceFlows) {
+    if (
+      flow.basisKind !== "compensation:work" ||
+      flow.basisReference.kind !== "work" ||
+      flow.recordedAt > onDate ||
+      flow.startsAt > onDate ||
+      flow.recipient.kind !== "person"
+    )
+      continue;
+    const work = recordById(
+      world.history.workRelationships,
+      flow.basisReference.workRelationshipId,
+    );
+    if (
+      !work ||
+      countedWork.has(work.id) ||
+      work.personId === target.personId ||
+      work.personId !== flow.recipient.personId ||
+      work.startedAt > onDate ||
+      work.recordedAt > onDate ||
+      work.compensation !== "paid"
+    )
+      continue;
+    const status = workStatusAt(snapshot, work.id);
+    const role = workRoleAt(snapshot, work.id);
+    if (
+      status?.status !== "active" ||
+      role?.occupationClassification !== targetRole.occupationClassification ||
+      role.locationJurisdictionId !== targetRole.locationJurisdictionId ||
+      !credentials.every((row) =>
+        hasLifePathCredential(snapshot, work.personId, row.programKind),
+      )
+    )
+      continue;
+    const current = resourceFlowTermsAt(snapshot, flow.id);
+    if (current?.status !== "active" || current.amount.currency !== "USD")
+      continue;
+    const payment = resourceTransferOutcomesForFlow(snapshot, flow.id)
+      .filter(
+        (row) =>
+          row.status === "completed" &&
+          row.transferredAmount.currency === "USD" &&
+          row.transferredAmount.minorUnits > 0,
+      )
+      .at(-1);
+    if (!payment) continue;
+    const paidSnapshot = {
+      ...snapshot,
+      currentDate: payment.occurredAt,
+      history: { ...snapshot.history, nextSequence: payment.sequence + 1 },
+    };
+    const paidRole = workRoleAt(paidSnapshot, work.id);
+    if (
+      !paidRole ||
+      paidRole.occupationClassification !== role.occupationClassification ||
+      paidRole.locationJurisdictionId !== role.locationJurisdictionId ||
+      !credentials.every((row) =>
+        hasLifePathCredential(paidSnapshot, work.personId, row.programKind),
+      )
+    )
+      continue;
+    const terms = resourceFlowTermsAt(snapshot, flow.id, {
+      asOfDate: payment.occurredAt,
+      historySequenceExclusive: payment.sequence + 1,
+    });
+    const note = terms ? payNoteOf(terms.cadenceKind) : null;
+    const hours = weeklyHoursOf(paidRole);
+    if (!note || hours <= 0) continue;
+    rates.push(
+      (payment.transferredAmount.minorUnits * PERIODS_PER_YEAR[note.period]) /
+        (52 * hours),
+    );
+    countedWork.add(work.id);
+    sources.push(
+      work.id,
+      status.id,
+      role.id,
+      paidRole.id,
+      flow.id,
+      terms!.id,
+      payment.id,
+    );
+    for (const enrollment of world.history.educationEnrollments.filter(
+      (row) =>
+        row.personId === work.personId &&
+        row.recordedAt <= onDate &&
+        row.startedAt <= onDate,
+    )) {
+      const state = educationEnrollmentStateAt(paidSnapshot, enrollment.id);
+      if (state?.status === "completed") sources.push(enrollment.id, state.id);
+    }
+  }
+  if (!rates.length) return null;
+  return {
+    hourlyMinor: Math.round(rates.reduce((a, b) => a + b, 0) / rates.length),
+    peerCount: rates.length,
+    sourceRecordIds: [...new Set(sources)],
+  };
+}
+
 export function startTownJobPay(
   world: World,
   exceptPersonId: EntityId | null,
   since: IsoDate,
 ): World {
+  let next = world;
   const paid = new Set<EntityId>();
   for (const flow of world.history.resourceFlows)
     if (flow.basisReference.kind === "work")
@@ -700,11 +949,22 @@ export function startTownJobPay(
       continue;
     const terms = resourceFlowTermsAt(world, flow.id);
     const note = terms ? payNoteOf(terms.cadenceKind) : null;
-    if (note) periods.set(flow.source.organizationId, note.period);
+    if (note) {
+      const employer =
+        flow.basisReference.kind === "work"
+          ? recordById(
+              world.history.workRelationships,
+              flow.basisReference.workRelationshipId,
+            )?.organizationId
+          : null;
+      periods.set(employer ?? flow.source.organizationId, note.period);
+    }
   }
   for (const work of candidates) {
     const role = roles.get(work.id);
     if (!role) continue;
+    const payer = townPaySource(next, work.organizationId!);
+    next = payer.world;
     // A job held before `since` is paid from the period that was running
     // then; a later hire from the day it starts.
     const earliest = addDays(since, -31);
@@ -712,26 +972,38 @@ export function startTownJobPay(
       world.history.organizations.find(
         (organization) => organization.id === work.organizationId,
       )?.formedAt ?? work.startedAt;
-    const startsAt = [work.startedAt, earliest, formedAt].reduce((a, b) =>
-      a > b ? a : b,
+    const payerFormedAt = recordById(
+      next.history.organizations,
+      payer.organizationId,
+    )!.formedAt;
+    const startsAt = [work.startedAt, earliest, formedAt, payerFormedAt].reduce(
+      (a, b) => (a > b ? a : b),
     );
     const tenure = daysBetween(work.startedAt, startsAt) / 365.25;
-    const draw = new SeededRng(world.seed)
-      .fork(`${TOWN_PAY_VERSION}:place:${work.personId}`)
-      .next();
     // The floor on the first day paid; a later rise is recorded as a raise.
     const minimum = townMinimumHourlyAt(
       world,
       role.locationJurisdictionId,
       startsAt,
     );
-    const offered = townJobRate(
+    const baseline = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
-      townPayPercentile(tenure, draw),
+      townPayPercentile(tenure),
       minimum,
     );
-    if (!offered) continue;
+    if (!baseline) continue;
+    const credentialPay = recordedCredentialHourlyPay(world, work.id, startsAt);
+    const offered = credentialPay
+      ? {
+          ...baseline,
+          hourlyMinor: Math.max(
+            credentialPay.hourlyMinor,
+            Math.round((minimum ?? 0) * 100),
+          ),
+          floored: credentialPay.hourlyMinor < Math.round((minimum ?? 0) * 100),
+        }
+      : baseline;
     // A man partnered with a man is hired below the job's rate where no
     // fairness law covers him (`fairness-pay-law.ts`), never below the floor.
     coveredMen ??= menPartneredWithMen(world, world.currentDate);
@@ -780,7 +1052,7 @@ export function startTownJobPay(
     if (perPeriod <= 0) continue;
     inputs.push({
       stableKey: `${PAY_KEY_PREFIX}${work.id}`,
-      source: { kind: "organization", organizationId },
+      source: { kind: "organization", organizationId: payer.organizationId },
       recipient: { kind: "person", personId: work.personId },
       startsAt,
       amount: money(perPeriod, "USD"),
@@ -791,25 +1063,35 @@ export function startTownJobPay(
       jurisdictionId: null,
       provenance: {
         kind: "authored",
-        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${UNCOVERED_PAY_NOTE}` : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
+        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${UNCOVERED_PAY_NOTE}` : ""} for ${weeklyHours} hours a week, paid ${period}; ${credentialPay ? `ESTIMATED FROM AVERAGE of ${credentialPay.peerCount} paid same-occupation/workplace credential peers; source records ${credentialPay.sourceRecordIds.join(", ")}` : `the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages})`}.`,
       },
     });
   }
-  return createResourceFlows(world, inputs);
+  return createResourceFlows(next, inputs);
 }
 
-/** Enacted minimum-wage changes by state postal code, in operative order. */
-function minimumWageLaws(
+/** Resolve the saved legal employer's government account, never its geography. */
+export function townPaySource(
   world: World,
-): ReadonlyMap<string, readonly EnactedRuleChange[]> {
-  const byState = new Map<string, EnactedRuleChange[]>();
-  for (const change of enactedRuleChanges(world)) {
-    if (change.field !== "labor.minimumWage.hourlyCents") continue;
-    const list = byState.get(change.stateUsps) ?? [];
-    list.push(change);
-    byState.set(change.stateUsps, list);
-  }
-  return byState;
+  employerId: EntityId,
+): { readonly world: World; readonly organizationId: EntityId } {
+  const profile = organizationProfileAt(world, employerId);
+  if (!profile)
+    throw new Error("A payroll employer needs its recorded profile.");
+  const identity = profile.publicGovernmentIdentity;
+  // An unbound legacy profile retains its recorded employer; never infer
+  // government ownership from a classification, name or location.
+  if (!identity) return { world, organizationId: employerId };
+  const next =
+    identity.kind === "local-government"
+      ? ensureLocalPublicAccount(world, identity)
+      : ensureTaxPublicAccount(world, identity.jurisdictionId);
+  const account = publicTaxAccountForIdentity(next, identity);
+  if (!account)
+    throw new Error(
+      "The recorded payroll government has no canonical public account.",
+    );
+  return { world: next, organizationId: account.organizationId };
 }
 
 /**
@@ -851,15 +1133,69 @@ const LAST_PERIOD_PAID: GrowingIndexKind<Map<EntityId, IsoDate>> = {
  * was recorded raises pay from the first period after it was recorded.
  */
 /** Applies one resolved legal floor to an actual job's prospective pay terms. */
+export function completedPayShift(
+  world: World,
+  flow: ResourceFlow,
+  shift: NonNullable<ResolvedHourlyLawPayConsequence["completedShift"]>,
+  onDate: IsoDate,
+) {
+  const completion = recordById(world.history.events, shift.eventId);
+  if (
+    !completion ||
+    completion.type !== "life-paths2.work-session" ||
+    completion.occurredAt !== onDate
+  )
+    throw new Error("Completed pay requires its actual work-session event.");
+  const cutoff = resourceTransferTermsCutoff(world, flow, onDate, onDate, {
+    kind: "simulated-event",
+    eventId: completion.id,
+  });
+  const terms = resourceFlowTermsAt(world, flow.id, cutoff);
+  if (!terms || terms.id !== shift.termsId || terms.status !== "active")
+    throw new Error("Completed pay requires its actual earned terms.");
+  const workId =
+    flow.basisReference.kind === "work"
+      ? flow.basisReference.workRelationshipId
+      : null;
+  const activities = completion.involvedEntityIds.flatMap((id) => {
+    const activity = recordById(world.history.scheduledActivities, id);
+    return activity ? [activity] : [];
+  });
+  if (activities.length !== 1)
+    throw new Error("Completed pay requires exactly one saved work activity.");
+  const activity = activities[0]!;
+  const state = recordsWithFieldValue(
+    world.history.scheduledActivityStates,
+    "activityId",
+    activity.id,
+  )
+    .filter((row) => row.sequence < cutoff.historySequenceExclusive)
+    .at(-1);
+  if (
+    !workId ||
+    flow.recipient.kind !== "person" ||
+    activity.sequence >= completion.sequence ||
+    !activity.sourceEntityIds.includes(workId) ||
+    !activity.participantPersonIds.includes(flow.recipient.personId) ||
+    !state ||
+    state.status !== "completed"
+  )
+    throw new Error(
+      "Completed pay must bind the worker and performed activity.",
+    );
+  const minutes = simulationMinutesBetween(state.start, state.end);
+  if (!Number.isSafeInteger(minutes) || minutes <= 0)
+    throw new Error("Completed pay requires a positive actual work interval.");
+  return { completion, cutoff, terms, activity, state, minutes };
+}
+
 export function applyLawPayConsequence(
   world: World,
-  resolved: ResolvedLawPayConsequence,
+  resolved: ResolvedHourlyLawPayConsequence | ResolvedSavedHourlyPayConsequence,
 ): World {
   const refuse = (capability: string): never => {
     throw new Error(`Law pay consequence requires capability: ${capability}`);
   };
-  if (resolved.action !== "raise-hourly-floor")
-    refuse("pay.raise-hourly-floor");
   if (!resolved.rowId.trim() || !resolved.activityId.trim())
     refuse("pay.row-and-activity-identity");
   if (
@@ -871,26 +1207,15 @@ export function applyLawPayConsequence(
     refuse("pay.amount.finite-nonnegative");
   const effectiveAt = makeIsoDate(resolved.effectiveAt);
   if (effectiveAt > world.currentDate) refuse("pay.activity.current-or-past");
-  const question = Object.values(world.policyCatalog.propositions).find(
-    (row) => row.stableKey === resolved.questionKey,
-  );
-  if (!question) refuse("pay.question.canonical");
-  const governing = lawInForce(
-    world,
-    resolved.jurisdictionId,
-    question!.id,
-    effectiveAt,
-  );
-  if (
-    !governing ||
-    governing.measureId !== resolved.law.measureId ||
-    governing.origin !== resolved.law.origin ||
-    governing.operativeAt !== resolved.law.operativeAt ||
-    governing.answer !== resolved.law.answer
-  )
-    refuse("pay.law.operative");
+  let governing: Parameters<typeof lawEffectStamp>[0] = null;
   const work = recordById(world.history.workRelationships, resolved.workId);
   const flow = recordById(world.history.resourceFlows, resolved.payFlowId);
+  const payerId = work
+    ? payPayerAt(world, work.id, {
+        asOfDate: effectiveAt,
+        historySequenceExclusive: world.history.nextSequence,
+      })
+    : null;
   if (!world.people[resolved.personId] || work?.personId !== resolved.personId)
     refuse("pay.worker-and-job.binding");
   if (
@@ -900,13 +1225,39 @@ export function applyLawPayConsequence(
     flow.basisReference.kind !== "work" ||
     flow.basisReference.workRelationshipId !== resolved.workId ||
     flow.source.kind !== "organization" ||
-    flow.source.organizationId !== work!.organizationId
+    flow.source.organizationId !== payerId
   )
     refuse("pay.flow-worker-employer.binding");
-  const cutoff = {
+  const completed = resolved.completedShift
+    ? completedPayShift(world, flow!, resolved.completedShift, effectiveAt)
+    : null;
+  const cutoff = completed?.cutoff ?? {
     asOfDate: effectiveAt,
     historySequenceExclusive: world.history.nextSequence,
   };
+  if (resolved.action === "raise-hourly-floor") {
+    const question = Object.values(world.policyCatalog.propositions).find(
+      (row) => row.stableKey === resolved.questionKey,
+    );
+    if (!question) refuse("pay.question.canonical");
+    const law = lawInForce(
+      world,
+      resolved.jurisdictionId,
+      question!.id,
+      effectiveAt,
+      "all",
+      cutoff,
+    );
+    if (
+      !law ||
+      law.measureId !== resolved.law.measureId ||
+      law.origin !== resolved.law.origin ||
+      law.operativeAt !== resolved.law.operativeAt ||
+      law.answer !== resolved.law.answer
+    )
+      refuse("pay.law.operative");
+    governing = law;
+  }
   const role = workRoleAt(world, resolved.workId, cutoff);
   if (
     !role ||
@@ -914,17 +1265,226 @@ export function applyLawPayConsequence(
     workStatusAt(world, resolved.workId, cutoff)?.status !== "active"
   )
     refuse("pay.job.active-with-recorded-hours");
-  const current = resourceFlowTermsAt(world, flow!.id);
+  if (resolved.action === "raise-saved-rule-hourly-floor") {
+    const authority = resolved.authority;
+    const workplace = payWorkplaceAt(world, work!.id, cutoff);
+    const jurisdiction = workplace.jurisdictionId
+      ? world.jurisdictions[workplace.jurisdictionId]
+      : null;
+    const stateKey =
+      (workplace.jurisdictionId
+        ? lifePlaceByJurisdictionId(workplace.jurisdictionId)
+            ?.stateJurisdictionKey
+        : null) ??
+      (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null);
+    const clause = recordById(
+      world.history.ruleChangeProvisions ?? [],
+      authority.ruleChangeProvisionId,
+    );
+    const enactment = recordById(
+      world.history.legislativeEnactments ?? [],
+      authority.enactmentId,
+    );
+    const change = enactedRuleChangeAt(world, {
+      stateUsps: authority.stateUsps,
+      officeKey: authority.officeKey,
+      field: authority.field,
+      onDate: effectiveAt,
+      cutoff,
+    });
+    if (
+      authority.kind !== "enacted-hourly-pay-rule" ||
+      stateKey !== `US-${authority.stateUsps}` ||
+      authority.officeKey !== laborLawOfficeKey(authority.stateUsps) ||
+      authority.field !== "labor.minimumWage.hourlyCents" ||
+      stateJurisdictionForKey(stateKey!)?.id !== resolved.jurisdictionId ||
+      (resolved.activityId !== work!.id && resolved.activityId !== flow!.id) ||
+      !clause ||
+      resolved.rowId !== `pay:hourly-rule:${clause.id}` ||
+      clause.measureId !== authority.measureId ||
+      clause.stateUsps !== authority.stateUsps ||
+      clause.officeKey !== authority.officeKey ||
+      clause.field !== authority.field ||
+      clause.filedAt > effectiveAt ||
+      !enactment ||
+      enactment.outcome !== "enacted" ||
+      enactment.measureId !== clause.measureId ||
+      enactment.resolvedAt > effectiveAt ||
+      clause.sequence >= enactment.sequence ||
+      !change ||
+      change.instrument !== "statute" ||
+      change.measureId !== clause.measureId ||
+      change.operativeAt !== authority.operativeAt ||
+      change.value !== clause.value ||
+      change.value !== resolved.amount.value ||
+      change.applicability.appliesTo !== authority.applicability.appliesTo ||
+      change.applicability.countsPriorService !==
+        authority.applicability.countsPriorService ||
+      (change.applicability.appliesTo === "terms-beginning-after" &&
+        work!.startedAt < change.operativeAt) ||
+      !resolved.sourceRecordIds.includes(clause.id) ||
+      !resolved.sourceRecordIds.includes(enactment.id)
+    )
+      refuse("pay.hourly-rule.actual-operative-binding");
+    governing = {
+      measureId: change!.measureId,
+      origin: "enacted",
+      operativeAt: change!.operativeAt,
+    };
+  }
+  if (!governing) refuse("pay.law.operative");
+  const current = completed?.terms ?? resourceFlowTermsAt(world, flow!.id);
   if (!current || current.status !== "active") refuse("pay.flow.active-terms");
   if (current!.amount.currency !== resolved.amount.currency)
     refuse("pay.flow.currency-matches-amount");
+  if (completed) {
+    if (current!.cadenceKind !== "work:completed-shift")
+      refuse("pay.completed-shift.hourly-earned-cadence");
+    if (governing!.origin === "enacted") {
+      const enactment = recordsWithFieldValue(
+        world.history.legislativeEnactments ?? [],
+        "measureId",
+        governing!.measureId,
+      ).at(-1);
+      if (!enactment || enactment.sequence >= cutoff.historySequenceExclusive)
+        refuse("pay.completed-shift.authority-at-earned-sequence");
+    }
+    const floor = assessedCompletedHourlyGrossMinor(
+      resolved.amount.value,
+      completed.minutes,
+      current!.amount.minorUnits,
+    );
+    if (floor <= current!.amount.minorUnits) return world;
+    const stableKey = `earned-law-pay:${flow!.id}:${completed.completion.id}:${current!.id}:${resolved.rowId}:${governing!.measureId}`;
+    const id = createStableId(
+      "earned-law-pay-assessment",
+      `${world.id}:${stableKey}`,
+    );
+    const prior = recordsWithFieldValue(
+      world.history.earnedLawPayAssessments ?? [],
+      "stableKey",
+      stableKey,
+    ).at(-1);
+    if (prior) {
+      if (
+        prior.id !== id ||
+        prior.personId !== work!.personId ||
+        prior.organizationId !== work!.organizationId ||
+        prior.workRelationshipId !== work!.id ||
+        prior.resourceFlowId !== flow!.id ||
+        prior.completionEventId !== completed.completion.id ||
+        prior.scheduledActivityId !== completed.activity.id ||
+        prior.scheduledActivityStateId !== completed.state.id ||
+        prior.earnedCutoff.asOfDate !== cutoff.asOfDate ||
+        prior.earnedCutoff.historySequenceExclusive !==
+          cutoff.historySequenceExclusive ||
+        prior.periodStartsAt !== completed.completion.occurredAt ||
+        prior.periodEndsAt !== completed.completion.occurredAt ||
+        prior.contractualGross.minorUnits !== current!.amount.minorUnits ||
+        prior.contractualGross.currency !== current!.amount.currency ||
+        prior.assessedGross.minorUnits !== floor ||
+        prior.assessedGross.currency !== current!.amount.currency ||
+        prior.workedMinutes !== completed.minutes ||
+        prior.earnedTermsId !== current!.id
+      )
+        refuse("pay.completed-shift.assessment-replay-equality");
+      return world;
+    }
+    const sourceRecordIds = [
+      ...new Set([
+        ...resolved.sourceRecordIds,
+        id,
+        resolved.activityId,
+        work!.id,
+        role!.id,
+        flow!.id,
+        current!.id,
+        completed.completion.id,
+        completed.activity.id,
+        completed.state.id,
+      ]),
+    ];
+    const stamp = lawEffectStamp(governing, {
+      effectKind: "pay",
+      questionKey:
+        resolved.action === "raise-hourly-floor" ? resolved.questionKey : null,
+      ...(resolved.action === "raise-saved-rule-hourly-floor"
+        ? {
+            ruleAuthority: {
+              ruleChangeProvisionId: resolved.authority.ruleChangeProvisionId,
+              enactmentId: resolved.authority.enactmentId,
+              field: resolved.authority.field,
+            },
+          }
+        : {}),
+      jurisdictionId: resolved.jurisdictionId,
+      appliedAt: world.currentDate,
+      sourceRecordIds,
+    });
+    if (!stamp) refuse("pay.attribution.canonical");
+    const assessment: EarnedLawPayAssessmentRecord = {
+      id,
+      stableKey,
+      sequence: world.history.nextSequence,
+      recordedAt: world.currentDate,
+      personId: work!.personId,
+      organizationId: work!.organizationId!,
+      workRelationshipId: work!.id,
+      resourceFlowId: flow!.id,
+      earnedTermsId: current!.id,
+      completionEventId: completed.completion.id,
+      scheduledActivityId: completed.activity.id,
+      scheduledActivityStateId: completed.state.id,
+      earnedCutoff: { ...completed.cutoff },
+      periodStartsAt: completed.completion.occurredAt,
+      periodEndsAt: completed.completion.occurredAt,
+      workedMinutes: completed.minutes,
+      contractualGross: { ...current!.amount },
+      assessedGross: money(floor, current!.amount.currency),
+      resolvedConsequence:
+        resolved.action === "raise-hourly-floor"
+          ? {
+              ...resolved,
+              law: { ...resolved.law },
+              amount: { ...resolved.amount },
+              completedShift: { ...resolved.completedShift! },
+              sourceRecordIds: [...resolved.sourceRecordIds],
+            }
+          : {
+              ...resolved,
+              authority: {
+                ...resolved.authority,
+                applicability: { ...resolved.authority.applicability },
+              },
+              amount: { ...resolved.amount },
+              completedShift: { ...resolved.completedShift! },
+              sourceRecordIds: [...resolved.sourceRecordIds],
+            },
+      lawEffectStamps: [stamp!],
+    };
+    return {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: world.history.nextSequence + 1,
+        earnedLawPayAssessments: [
+          ...(world.history.earnedLawPayAssessments ?? []),
+          assessment,
+        ],
+      },
+    };
+  }
   const note = payNoteOf(current!.cadenceKind);
-  if (!note) refuse("pay.cadence.town-pay-period");
+  const weekly = current!.cadenceKind === "schedule:weekly";
+  if (!note && !weekly) refuse("pay.cadence.recorded-pay-period");
   const weeklyHours = weeklyHoursOf(role!);
   if (!Number.isFinite(weeklyHours) || weeklyHours <= 0)
     refuse("pay.job.positive-recorded-hours");
   const amount = Math.round(
-    (resolved.amount.value * weeklyHours * 52) / PERIODS_PER_YEAR[note!.period],
+    weekly
+      ? resolved.amount.value * weeklyHours
+      : (resolved.amount.value * weeklyHours * 52) /
+          PERIODS_PER_YEAR[note!.period],
   );
   if (!Number.isSafeInteger(amount)) refuse("pay.period.amount-safe-integer");
   // A floor cannot cut an existing contractual wage, including after repeal.
@@ -933,7 +1493,9 @@ export function applyLawPayConsequence(
     refuse("pay.terms.prospective");
   if (
     effectiveAt !== flow!.startsAt &&
-    !payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase)
+    (weekly
+      ? daysBetween(flow!.startsAt, effectiveAt) % 7 !== 0
+      : !payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase))
   )
     refuse("pay.period.starts-on-effective-date");
   if (
@@ -952,8 +1514,8 @@ export function applyLawPayConsequence(
   const revision = createStableId(
     "resource-flow-terms",
     `law-pay-revision:${JSON.stringify([
-      resolved.law.measureId,
-      resolved.law.operativeAt,
+      governing!.measureId,
+      governing!.operativeAt,
       [...new Set(resolved.sourceRecordIds)].sort(),
     ])}`,
   );
@@ -961,15 +1523,15 @@ export function applyLawPayConsequence(
   if (hasStableKey(world.history.resourceFlowTerms, stableKey))
     refuse("pay.revision.unique-amount");
   const enactment =
-    resolved.law.origin === "enacted"
+    governing!.origin === "enacted"
       ? recordsWithFieldValue(
           world.history.legislativeEnactments ?? [],
           "measureId",
-          resolved.law.measureId,
+          governing!.measureId,
         ).at(-1)
       : undefined;
   if (
-    resolved.law.origin === "enacted" &&
+    governing!.origin === "enacted" &&
     (!enactment || enactment.resolvedAt > effectiveAt)
   )
     refuse("pay.law.recorded-enactment");
@@ -985,8 +1547,18 @@ export function applyLawPayConsequence(
     ]),
   ];
   const stamp = lawEffectStamp(governing, {
-    effectKind: "law.pay-compensation",
-    questionKey: resolved.questionKey,
+    effectKind: "pay",
+    questionKey:
+      resolved.action === "raise-hourly-floor" ? resolved.questionKey : null,
+    ...(resolved.action === "raise-saved-rule-hourly-floor"
+      ? {
+          ruleAuthority: {
+            ruleChangeProvisionId: resolved.authority.ruleChangeProvisionId,
+            enactmentId: resolved.authority.enactmentId,
+            field: resolved.authority.field,
+          },
+        }
+      : {}),
     jurisdictionId: resolved.jurisdictionId,
     appliedAt: effectiveAt,
     sourceRecordIds,
@@ -1004,146 +1576,11 @@ export function applyLawPayConsequence(
       ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
       : {
           kind: "authored",
-          note: `Starting law ${resolved.law.measureId}; resolved pay row ${resolved.rowId}.`,
+          note: `Starting law ${governing!.measureId}; resolved pay row ${resolved.rowId}.`,
         },
     supersedesTermsId: current!.id,
     lawEffectStamps: [stamp!],
   });
-}
-
-export function raiseTownPayToMinimum(
-  world: World,
-  exceptPersonId: EntityId | null,
-): World {
-  const laws = minimumWageLaws(world);
-  const federalRaised = federalMinimumSchedule(world).some(
-    (step) => step.hourlyMinor > FEDERAL_MINIMUM_HOURLY_MINOR,
-  );
-  // Only a law can move the floor after pay began.
-  if (
-    laws.size === 0 &&
-    !federalRaised &&
-    !anyMinimumWageQuestionEnacted(world)
-  )
-    return world;
-  const recordedOn = new Map<EntityId, IsoDate>();
-  const eventOf = new Map<EntityId, EntityId>();
-  for (const enactment of world.history.legislativeEnactments ?? []) {
-    recordedOn.set(enactment.measureId, enactment.resolvedAt);
-    eventOf.set(enactment.measureId, enactment.outcomeEventId);
-  }
-  const roles = latestRoles(world);
-  const termsByFlow = termsByPayFlow(world);
-  // The day each job ended, if it did: a job that has ended has no pay to raise.
-  const endedOn = growingIndex(JOB_ENDINGS, world.history.workStatuses);
-  const lastPaid = growingIndex(
-    LAST_PERIOD_PAID,
-    world.history.resourceTransferOutcomes,
-  );
-  let next = world;
-  for (const flow of world.history.resourceFlows) {
-    if (
-      !flow.stableKey.startsWith(PAY_KEY_PREFIX) ||
-      flow.basisReference.kind !== "work" ||
-      (flow.recipient.kind === "person" &&
-        flow.recipient.personId === exceptPersonId)
-    )
-      continue;
-    const role = roles.get(flow.basisReference.workRelationshipId);
-    if (!role) continue;
-    let current = termsByFlow.get(flow.id)?.at(-1);
-    const note = current ? payNoteOf(current.cadenceKind) : null;
-    if (!current || current.status !== "active" || !note) continue;
-    const weeklyHours = weeklyHoursOf(role);
-    // The first period that begins after the current terms and the last
-    // paycheck, within one transition's catch-up.
-    const after = [
-      current.effectiveAt,
-      lastPaid.get(flow.id) ?? current.effectiveAt,
-      addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS),
-    ].reduce((a, b) => (a > b ? a : b));
-    for (
-      let day = addDays(after, 1);
-      day <= world.currentDate;
-      day = addDays(day, 1)
-    ) {
-      if (!payPeriodEndingOn(note.period, addDays(day, -1), note.phase))
-        continue;
-      const ended = endedOn.get(flow.basisReference.workRelationshipId);
-      if (ended !== undefined && ended <= day) break;
-      // Only a law enacted in play raises pay after it began: the rate on
-      // file at the start, and the unraised federal rate, set nothing to
-      // raise to. A law counts from the day it was recorded.
-      const setting = minimumWageSettingAt(
-        world,
-        role.locationJurisdictionId ?? null,
-        day,
-      );
-      if (
-        !setting ||
-        setting.measureId === null ||
-        (recordedOn.get(setting.measureId) ?? day) > day
-      )
-        continue;
-      const hourly = setting.hourlyMinor / 100;
-      // The same arithmetic as a new job's pay, so a job hired at the floor
-      // is never "raised" by a cent of rounding.
-      const amount = Math.round(
-        (Math.round(hourly * 100) * weeklyHours * 52) /
-          PERIODS_PER_YEAR[note.period],
-      );
-      if (amount <= current.amount.minorUnits) continue;
-      const setBy = {
-        measureId: setting.measureId,
-        designation: setting.designation ?? "A law",
-      };
-      const event = eventOf.get(setBy.measureId);
-      const rate = `$${hourly.toFixed(2)} an hour`;
-      const which = setting.level === "local" ? "city" : setting.level;
-      const question =
-        setting.level === "federal"
-          ? Object.values(world.policyCatalog.propositions).find(
-              (p) => p.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-            )
-          : undefined;
-      const governing = question
-        ? lawInForce(world, NATIONAL_ELECTION_JURISDICTION.id, question.id, day)
-        : null;
-      const stamp =
-        governing?.measureId === setting.measureId
-          ? lawEffectStamp(governing, {
-              effectKind: "minimum-wage-compensation",
-              questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-              jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-              appliedAt: day,
-              sourceRecordIds: [
-                flow.id,
-                current.id,
-                flow.basisReference.workRelationshipId,
-              ],
-            })
-          : null;
-      next = recordResourceFlowTerms(next, {
-        ...(stamp ? { lawEffectStamps: [stamp] } : {}),
-        stableKey: `${flow.stableKey}:minimum-wage:${day}`,
-        resourceFlowId: flow.id,
-        effectiveAt: day,
-        status: "active",
-        amount: money(amount, current.amount.currency),
-        cadenceKind: current.cadenceKind,
-        reason: `${setBy.designation} raised the ${which} minimum wage to ${rate}.`,
-        provenance: event
-          ? { kind: "simulated-event", eventId: event }
-          : {
-              kind: "authored",
-              note: `${TOWN_PAY_VERSION}: raised to the minimum wage ${setBy.designation} set, ${rate}.`,
-            },
-        supersedesTermsId: current.id,
-      });
-      current = next.history.resourceFlowTerms.at(-1)!;
-    }
-  }
-  return next;
 }
 
 /**
@@ -1182,7 +1619,7 @@ function floorHourlyMinorOf(floor: TeacherSalaryFloor): number {
  * Raises every public school teacher paid below the state's minimum teacher
  * salary (`teacher-salary-floor.ts`), from the first pay period that begins
  * on or after the floor's school year starts and after the last period
- * already paid, as `raiseTownPayToMinimum` does for the minimum wage. Each
+ * already paid. Each
  * raise names its law. A law that ends the floor cuts nobody's pay. Run
  * before paying, so the period is paid at the new rate.
  */
@@ -1216,7 +1653,11 @@ export function raiseTeacherPayToFloor(
     const role = roles.get(flow.basisReference.workRelationshipId);
     if (!role || role.occupationClassification !== TEACHER_FLOOR_OCCUPATION)
       continue;
-    const organizationId = flow.source.organizationId;
+    const organizationId = recordById(
+      world.history.workRelationships,
+      flow.basisReference.workRelationshipId,
+    )?.organizationId;
+    if (!organizationId) continue;
     let current = termsByFlow.get(flow.id)?.at(-1);
     const note = current ? payNoteOf(current.cadenceKind) : null;
     if (!current || current.status !== "active" || !note) continue;
@@ -1424,11 +1865,16 @@ export function settleTownCompensations(
       );
     const workId = flow.basisReference.workRelationshipId;
     const work = recordById(next.history.workRelationships, workId);
+    const payerCutoff = {
+      asOfDate: period.periodStartsAt,
+      historySequenceExclusive: next.history.nextSequence,
+    };
+    const payerId = work ? payPayerAt(next, work.id, payerCutoff) : null;
     if (
       !work ||
       work.personId !== flow.recipient.personId ||
       flow.source.kind !== "organization" ||
-      flow.source.organizationId !== work.organizationId
+      flow.source.organizationId !== payerId
     )
       throw new Error("Pay period must bind the recorded worker and employer.");
     if (period.activityId !== flow.id && period.activityId !== work.id)
@@ -1456,10 +1902,18 @@ export function settleTownCompensations(
         earnedTerms.status !== "active" ||
         period.completedShift.amount.currency !== earnedTerms.amount.currency ||
         !Number.isSafeInteger(period.completedShift.amount.minorUnits) ||
-        period.completedShift.amount.minorUnits < earnedTerms.amount.minorUnits)
+        period.completedShift.amount.minorUnits !==
+          earnedTerms.amount.minorUnits)
     )
       throw new Error(
         "Completed shift pay must bind its saved work and earned terms.",
+      );
+    if (period.completedShift)
+      completedPayShift(
+        next,
+        flow,
+        period.completedShift,
+        period.periodStartsAt,
       );
     const window = {
       startsAt: period.periodStartsAt,
@@ -1474,6 +1928,14 @@ export function settleTownCompensations(
       activity: "payroll",
       activityId: period.activityId,
       subjectIds: [recipientId],
+      ...(period.completedShift
+        ? {
+            completedShift: {
+              eventId: period.completedShift.eventId,
+              termsId: period.completedShift.termsId,
+            },
+          }
+        : {}),
     });
     // A raise takes effect on the first day of a period, and a period is
     // paid at the terms in force the day it began.
@@ -1495,7 +1957,33 @@ export function settleTownCompensations(
       absence && workdays > 0 && !jobPaysSickLeave(world, workId)
         ? Math.min(absence.missedDays, workdays)
         : 0;
-    const gross = period.completedShift?.amount ?? terms.amount;
+    const assessment = completion
+      ? recordsWithFieldValue(
+          next.history.earnedLawPayAssessments ?? [],
+          "resourceFlowId",
+          flow.id,
+        )
+          .filter(
+            (record) =>
+              record.earnedTermsId === earnedTerms?.id &&
+              record.completionEventId === completion.id &&
+              record.workRelationshipId === work.id &&
+              record.periodStartsAt === window.startsAt &&
+              record.periodEndsAt === window.endsAt,
+          )
+          .reduce<EarnedLawPayAssessmentRecord | null>(
+            (highest, record) =>
+              !highest ||
+              record.assessedGross.minorUnits > highest.assessedGross.minorUnits
+                ? record
+                : highest,
+            null,
+          )
+      : null;
+    const gross =
+      assessment?.assessedGross ??
+      period.completedShift?.amount ??
+      terms.amount;
     const amount =
       unpaidDays === 0
         ? gross
@@ -1545,6 +2033,7 @@ export function settleTownCompensations(
             : "missed",
       attemptedAmount: gross,
       transferredAmount: amount,
+      ...(assessment ? { earnedLawPayAssessmentId: assessment.id } : {}),
       reasonKind:
         unpaidDays === 0
           ? null
@@ -1570,11 +2059,64 @@ export function settleTownCompensations(
       money(0, "USD").currency,
     );
   const first = next.history.resourceTransferOutcomes.length;
-  next = recordResourceTransferOutcomes(next, inputs);
+  next = writeWithWorldIntegrityOnce(next, () =>
+    withHistoryAppendTransaction(
+      next,
+      ["resourceTransferOutcomes"],
+      (initial) => {
+        let settled = initial;
+        const assessCash = createDatedCashPaymentReader(initial);
+        // Settle in payday order, reading each prior payment before the next worker.
+        // The shared dated-cash reader also preserves cash spent after an overdue day.
+        for (const input of inputs.sort((a, b) =>
+          a.occurredAt.localeCompare(b.occurredAt),
+        )) {
+          const flow = recordById(
+            settled.history.resourceFlows,
+            input.resourceFlowId,
+          )!;
+          const payment = assessCash(
+            settled,
+            flow.source,
+            input.transferredAmount,
+            makeIsoDate(input.occurredAt),
+          );
+          settled = recordResourceTransferOutcomes(settled, [
+            {
+              ...input,
+              status:
+                payment.availableMinor === null
+                  ? "blocked"
+                  : payment.status === "completed"
+                    ? input.status
+                    : payment.status,
+              transferredAmount: payment.transferredAmount,
+              reasonKind:
+                payment.availableMinor === null
+                  ? "capacity:unrecorded-employer-cash"
+                  : payment.status === "completed"
+                    ? input.reasonKind
+                    : "capacity:insufficient-employer-cash",
+            },
+          ]);
+        }
+        return settled;
+      },
+    ),
+  );
   const ids = next.history.resourceTransferOutcomes
     .slice(first)
     .map((outcome) => outcome.id);
-  next = assessPaychecksTaxes(next, ids);
+  // Keep sequential withholding reads while materializing each payment list once.
+  next = withHistoryAppendTransaction(
+    next,
+    ["resourceFlows", "resourceFlowTerms", "resourceTransferOutcomes"],
+    (initial) => assessPaychecksTaxes(initial, ids),
+  );
+  next = recordPaycheckTaxBases(next, ids);
+  next = recordLocalPayrollTaxBases(next, ids);
+
+  next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the
   // state's account.
   return payPaidLeaveClaims(next, claims);

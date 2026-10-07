@@ -1,3 +1,14 @@
+import {
+  lifePlaceByKey,
+  stateJurisdictionForKey,
+} from "../simulation/life-places";
+import tuitionInput from "../../data/source/education-tuition/tuition-input.json" with { type: "json" };
+import schoolCalendar from "../../data/source/education/school-calendar-terms.json" with { type: "json" };
+import {
+  schoolTuitionQuote,
+  recordSchoolTuitionPriceRevision,
+  type SchoolTuitionInput,
+} from "./tuition-prices";
 import { educationEnrollmentStateAt } from "../simulation/life-queries";
 import { proseDate } from "../presentation/prose-dates";
 import type { EducationInstitution, EducationCapability } from "./types";
@@ -26,6 +37,7 @@ import {
   createEducationEnrollment,
 } from "../simulation/life";
 import { recordEvidenceArtifact } from "../simulation/evidence";
+import { collegePlaceFor } from "./college-places";
 import { recordWorldEvent } from "../simulation/world";
 import {
   parseEducationTerms,
@@ -41,10 +53,52 @@ import {
   stillInGradeSchool,
 } from "../simulation/school-stages";
 import type { IsoDate } from "../simulation/types";
+import { stateJurisdictionOf } from "../simulation/governing/law-in-force";
 const provenance = {
   kind: "authored",
   note: "EDU-PATH7 v1 simulated noncredit opportunity and terms. Source supports only institution/category; admission, schedule, fees and completion below are game-authored, not official institutional policy.",
 } as const;
+const tuitionSource = tuitionInput as unknown as SchoolTuitionInput;
+function degreeTuition(
+  institution: EducationInstitution,
+  capability: EducationCapability,
+  inState = true,
+) {
+  const selector = {
+    institutionId: institution.id,
+    artifactId: "IC2023_AY",
+    field:
+      capability.code === "LEVEL7"
+        ? inState
+          ? "TUITION6"
+          : "TUITION7"
+        : inState
+          ? "TUITION2"
+          : "TUITION3",
+  };
+  const quote = schoolTuitionQuote(tuitionSource, selector);
+  const terms = (
+    schoolCalendar.termsPerAcademicYear as Readonly<Record<string, number>>
+  )[institution.directorySource?.calendarSystem ?? ""];
+  return quote.status === "sourced" &&
+    quote.chargeUnit === "academic-year" &&
+    terms
+    ? { selector, quote, terms }
+    : null;
+}
+function applicantTuition(
+  world: World,
+  institution: EducationInstitution,
+  capability: EducationCapability,
+) {
+  if (world.control.kind !== "person") return null;
+  const home = world.people[world.control.personId]?.homeJurisdictionId;
+  const homeState = home && stateJurisdictionOf(home);
+  const schoolState = stateJurisdictionForKey(`US-${institution.state}`);
+  return homeState && schoolState
+    ? degreeTuition(institution, capability, homeState === schoolState.id)
+    : null;
+}
 /** Only noncredit categories permit broad course content without inventing a major/degree. */
 export function studyDefinition(
   institution: EducationInstitution,
@@ -74,6 +128,8 @@ export function studyDefinition(
     periodsPerYear: 1,
     daysPerPeriod: 49,
     periodCostMinor: 20000,
+    // Noncredit study earns no credits and requires none.
+    creditsRequired: 0,
     tuitionGraceDays: DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
     volunteerSupported: false,
     timeDemand: {
@@ -90,10 +146,9 @@ export function studyDefinition(
 /**
  * A degree at a real college, for the award levels in `degree-levels.ts`.
  *
- * The college and the level come from the directory. Everything else is a
- * PLACEHOLDER(research: who-gets-into-college-and-what-it-costs): length, pace
- * and tuition are copied from the game's own authored degree paths, not
- * invented again here, and the offer carries the directory row as evidence.
+ * The college, award level and term count come from the directory. Tuition
+ * comes from the retained annual source quote. Length and pace keep the
+ * existing authored degree path; the offer saves its source and billing terms.
  */
 export function degreeStudyDefinition(
   institution: EducationInstitution,
@@ -103,7 +158,8 @@ export function degreeStudyDefinition(
   if (!level || capability.kind !== "award") return null;
   const template = lifePathDefinition(level.placeholderTemplateId);
   const academicYears = template.academicYears!;
-  const periodsPerYear = template.periodsPerYear!;
+  const tuition = degreeTuition(institution, capability);
+  const periodsPerYear = tuition?.terms ?? template.periodsPerYear!;
   const daysPerPeriod = template.daysPerPeriod!;
   return {
     id: `edu-path7-${institution.officialId}-${level.code.toLowerCase()}`,
@@ -128,13 +184,16 @@ export function degreeStudyDefinition(
     academicYears,
     periodsPerYear,
     daysPerPeriod,
-    periodCostMinor: template.periodCostMinor!,
+    periodCostMinor: tuition
+      ? Math.floor(tuition.quote.amountMinor / periodsPerYear)
+      : undefined,
+    creditsRequired: template.creditsRequired,
     tuitionGraceDays: DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
     volunteerSupported: false,
     timeDemand: template.timeDemand,
     provenance: {
       kind: "authored",
-      note: `EDU-PATH7 degree. Source supports the institution and the award level; admission, length, schedule and tuition are placeholders copied from ${level.placeholderTemplateId} pending research question ${DEGREE_RESEARCH_QUESTION_ID}.`,
+      note: `EDU-PATH7 degree. Source supports the institution, award level, school terms and annual tuition; admission, length and schedule retain ${level.placeholderTemplateId} pending research question ${DEGREE_RESEARCH_QUESTION_ID}.`,
     },
   };
 }
@@ -148,20 +207,31 @@ export function studyPathFor(
     studyDefinition(institution, capability)
   );
 }
+/** Where the admission decision time and fall term start come from. */
+export const ADMISSION_TIMETABLE_ESTIMATE = {
+  provenance: "designed",
+  estimated: false,
+  rationale:
+    "designed game timetable: reads the date an application was sent and balances a single answer lag (45 days) against a single late-August fall start, so an application sent in the usual season is answered before the term it asks for; no one college's calendar is modeled",
+  researchQuestionId: "when-college-applications-are-decided-and-terms-begin",
+} as const;
+
 /**
  * How long a college takes to answer an application.
  *
- * PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):
- * every application is answered 45 days after it is sent.
+ * DESIGNED (`ADMISSION_TIMETABLE_ESTIMATE`; research:
+ * when-college-applications-are-decided-and-terms-begin): every application
+ * is answered 45 days after it is sent.
  */
 export const ADMISSION_DECISION_DAYS = 45;
 
 /**
  * The day a college's fall term starts.
  *
- * PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):
- * every college starts its fall term on August 25, and a new student starts
- * only in the fall.
+ * DESIGNED (`ADMISSION_TIMETABLE_ESTIMATE`; research:
+ * when-college-applications-are-decided-and-terms-begin): every college
+ * starts its fall term on August 25, and a new student starts only in the
+ * fall.
  */
 export const COLLEGE_FALL_TERM_START = { month: 8, day: 25 } as const;
 
@@ -242,6 +312,11 @@ export function educationOptionReason(
     return GRADE_SCHOOL_REASON;
   if (institution.kind !== "postsecondary" || !canApplyFor(capability))
     return "This college does not take applications for this through the game.";
+  if (
+    capability.kind === "award" &&
+    !applicantTuition(world, institution, capability)
+  )
+    return "This college's tuition or school terms have not been recorded.";
   const path = studyPathFor(institution, capability);
   const already = alreadyStudyingOrOffered(world, institution, capability);
   if (already) return already;
@@ -330,6 +405,21 @@ function event(
     },
   });
 }
+/** Recorded county where saved, otherwise the recorded state where saved. */
+export function educationInstitutionLocation(
+  world: Pick<World, "jurisdictions">,
+  institution: EducationInstitution,
+): EntityId | null {
+  const place = institution.countyGeoid
+    ? lifePlaceByKey(`county:${institution.countyGeoid}`)
+    : null;
+  const state = stateJurisdictionForKey(`US-${institution.state}`);
+  return place && world.jurisdictions[place.context.jurisdiction.id]
+    ? place.context.jurisdiction.id
+    : state && world.jurisdictions[state.id]
+      ? state.id
+      : null;
+}
 export function applyForEducation(
   world: World,
   institution: EducationInstitution,
@@ -345,6 +435,8 @@ export function applyForEducation(
   const actor = world.control.kind === "person" ? world.control.personId : null;
   if (!actor) throw new Error("No person");
   const stableKey = `edu-path7:institution:${institution.id}`;
+  const collegePlace = collegePlaceFor(institution);
+  const state = stateJurisdictionForKey(`US-${institution.state}`);
   let next = world;
   let org = next.history.organizations.find((o) => o.stableKey === stableKey);
   if (!org) {
@@ -352,19 +444,56 @@ export function applyForEducation(
       stableKey,
       formedAt: next.currentDate,
       provenance: {
-        kind: "authored",
-        note: `Save-world representation from ${institution.id}; represented from ${next.currentDate}, not a claim of historical founding. ${institution.evidence.map((e) => `${e.artifactId}:${e.sha256}:${e.member}:${e.row}`).join(";")}`,
+        kind: "source-record",
+        reference: `Save-world representation from ${institution.id}; represented from ${next.currentDate}, not a claim of historical founding. ${institution.evidence.map((e) => `${e.artifactId}:${e.sha256}:${e.member}:${e.row}`).join(";")}`,
+        asOf: next.currentDate,
       },
       initialProfile: {
         name: institution.name,
         classification: "service:college",
-        locationJurisdictionId: null,
+        locationJurisdictionId: educationInstitutionLocation(next, institution),
+        ...(collegePlace
+          ? {
+              collegePlace: {
+                institutionId: collegePlace.id,
+                kind: collegePlace.kind,
+                campusId: collegePlace.campus,
+              },
+            }
+          : {}),
+        ...(institution.directorySource?.primaryPublicControl === "2" &&
+        state &&
+        next.jurisdictions[state.id]
+          ? {
+              publicGovernmentIdentity: {
+                kind: "jurisdiction" as const,
+                jurisdictionId: state.id,
+              },
+            }
+          : {}),
       },
     });
     org = next.history.organizations.at(-1)!;
   }
-  const path = studyPathFor(institution, capability);
+  const basePath = studyPathFor(institution, capability);
   const degree = capability.kind === "award";
+  const tuition = degree
+    ? applicantTuition(next, institution, capability)
+    : null;
+  const path = tuition
+    ? {
+        ...basePath,
+        periodsPerYear: tuition.terms,
+        periodCostMinor: Math.floor(tuition.quote.amountMinor / tuition.terms),
+      }
+    : basePath;
+  if (tuition)
+    next = recordSchoolTuitionPriceRevision(next, {
+      stableKey: `edu-path7:tuition:${org.id}:${next.history.nextSequence}`,
+      organizationId: org.id,
+      source: tuitionSource,
+      selector: tuition.selector,
+    });
   next = event(
     next,
     "application",
@@ -383,8 +512,20 @@ export function applyForEducation(
     funding: "available-personal-cash",
     institutionId: institution.id,
     capabilityCode,
-    sourceEvidence: institution.evidence,
+    sourceEvidence: tuition
+      ? [...institution.evidence, schoolCalendar.sourceEvidence]
+      : institution.evidence,
     path,
+    ...(tuition
+      ? {
+          tuitionBilling: {
+            selector: tuition.selector,
+            priceRecordId: next.history.evidenceArtifacts.at(-1)!.id,
+            annualAmountMinor: tuition.quote.amountMinor,
+            termsPerAcademicYear: tuition.terms,
+          },
+        }
+      : {}),
     ...(decisionAt ? { decisionAt } : {}),
   };
   next = recordEvidenceArtifact(next, {

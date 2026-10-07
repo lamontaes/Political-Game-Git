@@ -1,0 +1,10 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --mode pr --base-ref origin/main
+
+release:check — version 0.4.0, revision 2c73512 (dirty), 1201 pending declaration(s), declaration range 8606cc73442a9dfbc3b35d01b4951695b935c1d3..2c735124372306d957f5dcd31ec9f606fa3908ca (pr). OK.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { scheduledActivityAnswer } from "../scheduled-activity-answer";
 import { ensurePeopleTraits, traitConsiderations } from "../people-traits";
 import { createCharacterHistoryContextPeople } from "../character-history";
@@ -182,9 +183,10 @@ export function ensureHomePartyChapters(
           personRng.fork("name"),
           generatePersonIdentity(personRng.fork("identity")),
         ),
-        birthDate: makeIsoDate(
-          `${Number(date.slice(0, 4)) - personRng.integer(28, 72)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
-        ),
+        birthDate: inventedPersonBirthDate(personRng, {
+          role: "party-chapter-organizer",
+          referenceDate: date,
+        }),
         homeJurisdictionId: player.homeJurisdictionId,
       };
     }),

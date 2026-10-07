@@ -1,3 +1,25 @@
+## October 1, 5:30 a.m. effect integration limits
+
+Shared saved authority now admits both annual office salary and standing service authority in checked composition 714d393f. Eleven authority tests passed under the coordinator; actual city payroll renewal remains Team 3's separate proof. The service consumer still needs a named recipient and eligible operator.
+
+Team 2's congressional term-limit caller now uses the shared vote engine and retains rejected roll calls in ready #1513. State ratification remains a separate unmigrated caller. Team 8's unpaid debt repair preserves obligations when cash is missing; natural collection is not proved. Team 9's missing-body refusal retains a sourced Kansas advisory deadline without inventing board votes.
+
+Research-question filing does not settle A71's numerical assumptions. Privacy cost applicability is now an explicitly estimated CTO rule; it must not be described as enacted national coverage or observed firm data. A61 remains an evidence gap because its actual bank packet is absent.
+
+## October 1, 5:17 a.m. received integration evidence
+
+The common standing-service authority is now on main through #1503. The recipient clinical consumer remains Team 5 work. Team 3 published actual payroll evidence at 37e7c327 for tested source 829d7ca9: 24 cases passed, including actual Ohio office salary callers and five ordinary-worker places. This is team-executed proof, not an independent coordinator rerun. City payroll remains pending.
+
+The privacy expense transfer is closed, enabling Team 6 to replace recurring drawn expense with the approved one-time occurrence path. No qualifying national firm or legal threshold is established, so no actual privacy charge is claimed. The exact-100-employee source overlap remains unresolved in both research and reader; no midpoint or arbitrary band is admitted.
+
+## October 1, 5:01 a.m. integration evidence
+
+No new effect is accepted as complete from a dashboard. Standing appropriations now have a ready shared-dispatch contract in #1503; its 9 passing tests cover authority, payment controls and stamp shape, not a completed recipient service. The actual service consumer and common attendance path remain distinct open work.
+
+The elected-office wage exception is published and its appointed-staff counterexample passes. The same coverage predicate is used by opening and payroll. Team 3 must still prove actual Ohio annual pay and city payroll at the composed head 44e9a2f70239212e2cf20576c515520dd76cb03d.
+
+CTO 4:51 requires one-time privacy compliance costs per applicable saved firm, outstanding unpaid judgments when cash is absent, and flat current services for a missing second biennial budget year. Assigned owners are Teams 6, 8 and 1 respectively. These are authorized mechanisms, not claimed runtime outcomes.
+
 ## October 1, 4:12 a.m. integration evidence
 
 Coordinator dated starting terms at dbc66c17a8285cb8b856796c09239ced96a50023 have 45 focused passes covering 26 places, not nationwide payroll proof. Ohio applicability remains unresolved. Standing authority composition eef98ed6809094d6c4eec6bf62442ef111c436e2 has four focused authority/payment passes; actual service completion belongs to Team 5's #1494 producer, currently under CTO review. Team 1 now builds real session appropriations from adopted government program spending. No completed link or law total is inferred from these candidates.
