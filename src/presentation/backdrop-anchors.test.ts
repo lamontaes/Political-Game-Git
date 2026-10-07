@@ -55,6 +55,34 @@ describe("people anchors on every place picture", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
 
+  it("anchors visible church supper hall table chairs", () => {
+    const spots = STAGES["church-supper-hall"]!.spots;
+    const seats = spots.filter((spot) => spot.pose === "sit");
+    const added = seats.filter((spot) => spot.group?.startsWith("supper-"));
+    expect(seats).toHaveLength(36);
+    expect(added).toHaveLength(34);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(36);
+    expect(added.filter((spot) => spot.facing === "away")).toHaveLength(8);
+    expect(
+      added.filter((spot) => spot.group === "supper-back-left"),
+    ).toHaveLength(5);
+    expect(
+      added.filter((spot) => spot.group === "supper-back-right"),
+    ).toHaveLength(5);
+    expect(
+      added.filter((spot) => spot.group === "supper-middle-left"),
+    ).toHaveLength(6);
+    expect(
+      added.filter((spot) => spot.group === "supper-middle-right"),
+    ).toHaveLength(6);
+    expect(
+      added.filter((spot) => spot.group === "supper-front-left"),
+    ).toHaveLength(6);
+    expect(
+      added.filter((spot) => spot.group === "supper-front-right"),
+    ).toHaveLength(6);
+  });
+
   it.each(PLACES)(
     "%s: every spot is on a floor inside the picture",
     (place) => {
