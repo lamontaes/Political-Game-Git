@@ -1,16 +1,24 @@
 import type { SavedRoleSummary } from "./save-role-summary";
 
 /**
- * WHAT THE TITLE SCREEN SHOWS: THE PLACES OF GOVERNMENT.
+ * WHAT THE TITLE SCREEN SHOWS: THE NATION'S PLACES OF GOVERNMENT.
  *
  * Lamontae, Sept. 27: the title screen is civic, not apartments. Sept. 28: "no
  * other images seem to be wired on the homescreen. and it needs to stop
- * defaulting to the apartment when there is a saved game."
+ * defaulting to the apartment when there is a saved game." Oct. 7: "right now
+ * the home screen is a bunch of state capitals, and I don't want that. No
+ * one's going to be able to recognize those... scenes like the Lincoln
+ * Memorial or the White House at night... some kind of rally or a national
+ * convention."
  *
- * The rotation is every approved civic picture in the owner's place backdrops
- * (art/backdrops), found by the kind of place its name says it is, so a new
- * capitol, chamber or courtroom joins the rotation the day it lands, with no
- * list to update. A home never joins it.
+ * The rotation is every approved national picture in the owner's place
+ * backdrops (art/backdrops), by day and at night, found by what its name says
+ * it is: a federal place (the U.S. Capitol, its two floors, the Supreme Court,
+ * the Oval Office) or a national stage of a campaign (a rally, a convention, a
+ * debate, an election night, a television studio). A new one joins the day it
+ * lands, with no list to update. A state capitol, a town's or a county's own
+ * room and a home never join it: the creator paints a chosen state's capitol
+ * from the same pictures (pictureForChosenState), and play paints the rest.
  *
  * PRESENTATION ONLY, and pure: no World, no clock, no randomness. The screen
  * hands it the manifest rows and a URL lookup and paints what comes back.
@@ -23,7 +31,8 @@ export type CivicBackdropKind =
   | "court"
   | "executive"
   | "city-hall"
-  | "campaign";
+  | "campaign"
+  | "media";
 
 /** The order kinds take their turn in, and the order of the first pass. */
 export const CIVIC_BACKDROP_KINDS: readonly CivicBackdropKind[] = [
@@ -34,6 +43,7 @@ export const CIVIC_BACKDROP_KINDS: readonly CivicBackdropKind[] = [
   "city-hall",
   "executive",
   "campaign",
+  "media",
 ];
 
 /** First match wins. Each rule names a kind of public place, never one file. */
@@ -51,7 +61,29 @@ const KIND_RULES: readonly (readonly [RegExp, CivicBackdropKind])[] = [
     /campaign|party-office|phone-bank|rally-stage|debate-stage|election-night|convention-hall/,
     "campaign",
   ],
+  [/tv-studio/, "media"],
 ];
+
+/**
+ * The places the whole country knows, by name: the federal government's own
+ * (us-, white-house, the Oval Office, the Supreme Court) and the stages a
+ * national campaign is fought on. Everything else is somebody's state, county
+ * or town, and stays out of the title rotation.
+ */
+const NATIONAL_PLACE =
+  /^(us-|white-house|oval-office$|supreme-)|^(rally-stage|convention-hall|debate-stage|election-night-venue|tv-studio)$/;
+
+export function isNationalPlace(place: string): boolean {
+  return NATIONAL_PLACE.test(place);
+}
+
+/**
+ * The light each national place is shown in, in the order a lap meets them:
+ * every place by day, then every place again at night (Oct. 7: "the White
+ * House at night"). Every light of a place shares its staging spots
+ * (art/backdrops/staging.json), so the same people can stand in both.
+ */
+export const TITLE_LIGHTS: readonly string[] = ["midday", "night"];
 
 /**
  * Homes, by name. They are checked first and win over every civic rule, so a
@@ -82,6 +114,8 @@ export interface BackdropManifestRow {
 /** A picture the title may show. */
 export interface TitlePicture {
   readonly place: string;
+  /** The light it is painted in (manifest variant): "midday" or "night". */
+  readonly variant: string;
   readonly kind: CivicBackdropKind;
   readonly url: string;
   /** The place in plain words, for the line a screen reader hears. */
@@ -89,15 +123,26 @@ export interface TitlePicture {
 }
 
 /**
- * A picture is eligible when the owner has not turned it down and this build
- * actually ships its daytime version. The owner approved the first fifty as
- * placeholders and has the capitols in review; both are shown in play today,
- * so both are shown here. A rejected or withdrawn picture never is.
+ * A picture is eligible when the owner has not turned it down and it is one
+ * of the title's lights. The owner approved the first fifty as placeholders;
+ * they are shown in play today, so they are shown here. A rejected or
+ * withdrawn picture never is.
  */
 export function eligibleBackdropRow(row: BackdropManifestRow): boolean {
   return (
-    row.variant === "midday" && !/reject|withdraw/i.test(row.approval ?? "")
+    TITLE_LIGHTS.includes(row.variant) &&
+    !/reject|withdraw/i.test(row.approval ?? "")
   );
+}
+
+/** The id a picture goes by in the rotation: its place, and its light after day. */
+export function titlePictureId(picture: {
+  readonly place: string;
+  readonly variant?: string;
+}): string {
+  return !picture.variant || picture.variant === "midday"
+    ? `picture:${picture.place}`
+    : `picture:${picture.place}:${picture.variant}`;
 }
 
 /** Federal places lead their kind; the rest follow by name. */
@@ -115,28 +160,42 @@ function leadOrder(place: string): number {
   return index === -1 ? LEADS.length : index;
 }
 
-function comparePlaces(left: string, right: string): number {
+function lightOrder(variant: string | undefined): number {
+  const index = TITLE_LIGHTS.indexOf(variant ?? "midday");
+  return index === -1 ? TITLE_LIGHTS.length : index;
+}
+
+/** Day before night, federal places first, then by name. */
+function comparePictures(
+  left: { readonly place: string; readonly variant?: string },
+  right: { readonly place: string; readonly variant?: string },
+): number {
   return (
-    leadOrder(left) - leadOrder(right) ||
-    (left < right ? -1 : left > right ? 1 : 0)
+    lightOrder(left.variant) - lightOrder(right.variant) ||
+    leadOrder(left.place) - leadOrder(right.place) ||
+    (left.place < right.place ? -1 : left.place > right.place ? 1 : 0)
   );
 }
 
 /**
- * Spreads each kind evenly through the whole rotation, so fifty-eight
- * capitols are not a quarter of an hour of capitols in a row. This is a
+ * Spreads each kind evenly through the whole rotation, so five campaign
+ * stages are not a minute and a quarter of campaign stages in a row. This is a
  * smooth weighted round-robin: each kind earns its share of turns (its number
  * of pictures) every step, the kind furthest ahead takes the next turn, and
  * pays back the total. Ties go by the kinds' own order. Stable for a given
  * set of pictures.
  */
 export function interleaveByKind<
-  T extends { readonly kind: CivicBackdropKind; readonly place: string },
+  T extends {
+    readonly kind: CivicBackdropKind;
+    readonly place: string;
+    readonly variant?: string;
+  },
 >(items: readonly T[]): readonly T[] {
   const groups = CIVIC_BACKDROP_KINDS.flatMap((kind) => {
     const members = items
       .filter((item) => item.kind === kind)
-      .sort((a, b) => comparePlaces(a.place, b.place));
+      .sort(comparePictures);
     return members.length > 0
       ? [{ members, weight: members.length, credit: 0, next: 0 }]
       : [];
@@ -178,8 +237,9 @@ export function civicPlaceLabel(place: string): string {
 }
 
 /**
- * Every eligible civic picture, the White House first and then each kind
- * spread through the rest. One picture per place: the daytime one.
+ * Every eligible national picture, the White House by day first and then
+ * each kind spread through the rest, day before night. One picture per place
+ * and light.
  */
 export function civicTitlePictures(
   rows: readonly BackdropManifestRow[],
@@ -188,93 +248,61 @@ export function civicTitlePictures(
   const seen = new Set<string>();
   const pictures: TitlePicture[] = [];
   for (const row of rows) {
-    if (!eligibleBackdropRow(row) || seen.has(row.place)) continue;
+    if (!eligibleBackdropRow(row) || !isNationalPlace(row.place)) continue;
+    const id = titlePictureId(row);
+    if (seen.has(id)) continue;
     const kind = civicBackdropKind(row.place);
     if (!kind) continue;
     const url = urlFor(row.file);
     if (!url) continue;
-    seen.add(row.place);
+    seen.add(id);
     pictures.push({
       place: row.place,
+      variant: row.variant,
       kind,
       url,
       label: civicPlaceLabel(row.place),
     });
   }
-  const whiteHouse = pictures
+  const lead = pictures
     .filter((picture) => picture.kind === "white-house")
-    .sort((a, b) => comparePlaces(a.place, b.place));
-  return [
-    ...whiteHouse,
-    ...interleaveByKind(
-      pictures.filter((picture) => picture.kind !== "white-house"),
-    ),
-  ];
+    .sort(comparePictures)[0];
+  return lead
+    ? [lead, ...interleaveByKind(pictures.filter((p) => p !== lead))]
+    : interleaveByKind(pictures);
 }
 
 /**
- * Where a saved character's role is done, as place backdrops in order of
- * preference: their own room first, then their state's capitol, then the
- * shared capitol pictures. With no role at all, the town's city hall stands in
- * for their home (Lamontae, Sept. 28: never the apartment when a civic scene
- * can be shown). The caller takes the first one it can paint.
+ * Where a saved character's role is done, as national pictures in order of
+ * preference: the federal room their role sits in, when it has one (the Oval
+ * Office, the Senate or House floor, the Supreme Court), else a national stage
+ * that fits what they do (a candidate's rally), else the U.S. Capitol. A
+ * state capitol or a town's own room is never the title's (Lamontae, Oct. 7);
+ * a home never was (Sept. 28). The caller takes the first one it can paint.
  */
 export function rolePlaceCandidates(
   role: SavedRoleSummary | null | undefined,
 ): readonly string[] {
-  if (!role) return ["city-hall-exterior", "council-chamber"];
-  const usps = role.stateUsps?.toLowerCase() ?? null;
-  const capitols = [
-    ...(usps ? [`state-capitol-${usps}`] : []),
-    "state-capitol-dome",
-    "us-capitol-exterior",
-  ];
   const own = ((): readonly string[] => {
-    switch (role.kind) {
+    switch (role?.kind) {
       case "president":
-        return ["oval-office", "white-house-exterior"];
+        return ["oval-office"];
       case "member-of-congress":
-        return role.chamber === "senate"
-          ? ["us-senate-floor", "us-capitol-exterior"]
-          : ["us-house-floor", "us-capitol-exterior"];
-      case "governor":
-        return ["governor-office"];
-      case "state-executive":
-        return [];
-      case "state-legislator":
-        return role.chamber === "unicameral"
-          ? ["state-legislative-chamber-unicameral"]
-          : ["state-legislative-chamber-bicameral"];
-      case "mayor":
-        return ["city-hall-exterior", "council-chamber"];
-      case "council-member":
-        return ["council-chamber", "city-hall-exterior"];
-      case "county-commissioner":
-        return ["county-commission", "county-courthouse"];
+        return [role.chamber === "senate" ? "us-senate-floor" : "us-house-floor"];
       case "judge":
-        return role.court === "supreme"
-          ? ["supreme-courtroom", "appellate-courtroom"]
-          : role.court === "appellate"
-            ? ["appellate-courtroom", "county-courtroom"]
-            : ["county-courtroom", "county-courthouse"];
+        return role.court === "supreme" ? ["supreme-courtroom"] : [];
       case "candidate":
-        return ["campaign-storefront", "county-party-office"];
-      case "public-servant":
-        return role.workplace === "court"
-          ? ["county-courthouse", "county-courtroom"]
-          : role.workplace === "county"
-            ? ["county-commission", "county-courthouse"]
-            : role.workplace === "legislature"
-              ? []
-              : ["city-hall-exterior", "clerk-counter"];
+        return ["rally-stage", "debate-stage"];
+      default:
+        return [];
     }
   })();
-  return [...own, ...capitols];
+  return [...own, "us-capitol-exterior"];
 }
 
 /**
- * The rotation a returning player sees: their role's place first, then every
- * other civic picture in the usual order. A picture the role names that this
+ * The rotation a returning player sees: their role's place by day first, then
+ * every other picture in the usual order. A picture the role names that this
  * build does not have is skipped, never borrowed from another place.
  */
 export function rotationForSave(
@@ -284,7 +312,12 @@ export function rotationForSave(
   readonly first: TitlePicture | null;
   readonly rest: readonly TitlePicture[];
 } {
-  const byPlace = new Map(pictures.map((picture) => [picture.place, picture]));
+  const byPlace = new Map(
+    [...pictures]
+      .sort(comparePictures)
+      .reverse()
+      .map((picture) => [picture.place, picture]),
+  );
   const firstPlace = rolePlaceCandidates(role).find((place) =>
     byPlace.has(place),
   );
@@ -297,15 +330,33 @@ export function rotationForSave(
 
 /**
  * The picture behind a new life once its state is chosen: that state's own
- * capitol when the build paints one (OW-4). Null when it does not, so the
- * caller falls back to its place-free rotation rather than a federal picture.
+ * capitol by day when the build paints one (OW-4), read from the whole
+ * manifest, since no state capitol is in the title rotation. Null when it
+ * does not, so the caller falls back to its rotation rather than a federal
+ * picture.
  */
 export function pictureForChosenState(
-  pictures: readonly TitlePicture[],
+  rows: readonly BackdropManifestRow[],
+  urlFor: (file: string) => string | null,
   usps: string,
 ): TitlePicture | null {
   const place = `state-capitol-${usps.toLowerCase()}`;
-  return pictures.find((picture) => picture.place === place) ?? null;
+  const row = rows.find(
+    (candidate) =>
+      candidate.place === place &&
+      candidate.variant === "midday" &&
+      eligibleBackdropRow(candidate),
+  );
+  const url = row ? urlFor(row.file) : null;
+  return row && url
+    ? {
+        place,
+        variant: row.variant,
+        kind: "capitol",
+        url,
+        label: civicPlaceLabel(place),
+      }
+    : null;
 }
 
 /**
@@ -322,7 +373,13 @@ export function pictureForChosenTown(
   for (const place of TOWN_BACKDROP_ORDER) {
     const url = staged.has(place) ? urlFor(place) : null;
     if (url)
-      return { place, kind: "city-hall", url, label: civicPlaceLabel(place) };
+      return {
+        place,
+        variant: "midday",
+        kind: "city-hall",
+        url,
+        label: civicPlaceLabel(place),
+      };
   }
   return null;
 }

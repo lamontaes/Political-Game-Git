@@ -5,7 +5,7 @@ import {
   type SceneRegistry,
 } from "./scene-registry";
 import type { TitlePicture } from "./title-civic-rotation";
-import type { TitlePictureHero } from "./title-picture-hero";
+import type { TitleScenePerson } from "./title-scene-people";
 
 /**
  * Title tableau primitives.
@@ -119,8 +119,12 @@ export interface TitlePresentation {
    * rotation (title-civic-rotation.ts). Absent for a registered room.
    */
   readonly picture?: TitlePicture | null;
-  /** The returning player, standing in front of that picture. */
-  readonly pictureHero?: TitlePictureHero | null;
+  /**
+   * The people standing, sitting and speaking in that picture, farthest
+   * first (title-scene-people.ts); the returning player among them on the
+   * hero spot when the resolver put them there.
+   */
+  readonly picturePeople?: readonly TitleScenePerson[];
 }
 
 export interface TitlePresentationRequest {

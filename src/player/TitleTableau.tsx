@@ -1,6 +1,8 @@
 import { EngineFigure } from "./EnginePerson";
 import { MaterialImage } from "./ModularCharacter";
 import { scenePlateClips } from "../presentation/scene-occlusion";
+import { figureClip } from "../presentation/backdrop-people";
+import { titlePictureId } from "../presentation/title-civic-rotation";
 import type { PlacedScenePerson } from "../presentation/life-scene-people";
 import type { RuntimeVisualLibrary } from "../presentation/visual-integration";
 import { useMemo, useRef, type CSSProperties, type ReactNode } from "react";
@@ -259,8 +261,9 @@ const PICTURE_CAMERA = {
 
 /**
  * One place picture from the civic rotation, covering the window the same way
- * a registered room does, with the returning player standing in front of it
- * when the resolver put them there. Nothing here chooses the picture.
+ * a registered room does, with its people standing, sitting and speaking at
+ * the picture's own spots (the returning player among them when the resolver
+ * put them there). Nothing here chooses the picture or the people.
  */
 function PictureStage({
   presentation,
@@ -272,7 +275,7 @@ function PictureStage({
   readonly drifting: boolean;
 }) {
   const picture = presentation.picture!;
-  const hero = presentation.pictureHero ?? null;
+  const people = presentation.picturePeople ?? [];
   const viewportRef = useRef<HTMLDivElement>(null);
   const transform = useSceneCoverTransform(
     viewportRef,
@@ -288,11 +291,13 @@ function PictureStage({
           ? "title-tableau-stage-leaving"
           : "title-tableau-stage"
       }
-      data-title-kind={hero ? "hero-in-tableau" : presentation.kind}
-      data-scene-id={`picture:${picture.place}`}
+      data-title-kind={presentation.kind}
+      data-scene-id={titlePictureId(picture)}
       data-place={picture.place}
+      data-light={picture.variant}
       data-civic-kind={picture.kind}
-      data-tableau-id={`picture:${picture.place}`}
+      data-tableau-id={titlePictureId(picture)}
+      data-people={people.length}
       data-drifting={drifting ? "true" : "false"}
       aria-hidden="true"
     >
@@ -322,25 +327,57 @@ function PictureStage({
               objectFit: "cover",
             }}
           />
-          {hero ? (
-            <div
-              data-testid="title-hero"
-              data-person-id={hero.personId}
-              style={{
-                position: "absolute",
-                left: `${hero.leftPercent}%`,
-                top: `${hero.topPercent}%`,
-                width: `${hero.widthPercent}%`,
-                height: `${hero.heightPercent}%`,
-              }}
-            >
-              <EngineFigure
-                recipe={hero.engine}
-                className="title-hero-art title-hero-engine"
-                testId="title-hero-engine"
-              />
-            </div>
-          ) : null}
+          {people.map((person) => {
+            // Behind a desk, bench or lectern only what shows above it is
+            // drawn; behind open furniture a band is cut out of the figure.
+            const { visibleHeightPercent, band } = figureClip(person);
+            return (
+              <div
+                key={person.spotId}
+                data-testid={
+                  person.personId ? "title-hero" : "title-scene-person"
+                }
+                data-person-id={person.personId ?? ""}
+                data-spot-id={person.spotId}
+                data-pose-id={person.engine.pose ?? "standing"}
+                style={{
+                  position: "absolute",
+                  left: `${person.leftPercent}%`,
+                  top: `${person.topPercent}%`,
+                  width: `${person.widthPercent}%`,
+                  height: `${visibleHeightPercent}%`,
+                  overflow: "hidden",
+                  pointerEvents: "none",
+                  ...(band
+                    ? {
+                        clipPath: `polygon(0 0, 100% 0, 100% ${band.from}%, 0 ${band.from}%, 0 ${band.to}%, 100% ${band.to}%, 100% 100%, 0 100%)`,
+                      }
+                    : {}),
+                }}
+              >
+                <span
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    width: "100%",
+                    height: `${(person.heightPercent / visibleHeightPercent) * 100}%`,
+                  }}
+                >
+                  <EngineFigure
+                    canvas
+                    recipe={person.engine}
+                    className="title-scene-person-art"
+                    testId={
+                      person.personId
+                        ? "title-hero-engine"
+                        : "title-scene-person-engine"
+                    }
+                  />
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

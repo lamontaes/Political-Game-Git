@@ -10,6 +10,7 @@ import type { ScenePersonSelectionHandler } from "../presentation/person-scene-a
 import {
   BACKDROP_ASPECT,
   BACKDROP_FOCUS_Y,
+  figureClip,
   type BackdropPerson,
   type BackdropOverflowPerson,
 } from "../presentation/backdrop-people";
@@ -93,24 +94,8 @@ export function PlacePeopleLayer({
           // Open furniture hides only a band (the tabletop's edge); the
           // person's legs show underneath, so the whole figure is drawn and the
           // band is cut out of it.
-          const band =
-            person.clipBelowPercent !== null &&
-            person.clipBandEndPercent !== null
-              ? {
-                  from:
-                    ((person.clipBelowPercent - person.topPercent) /
-                      person.heightPercent) *
-                    100,
-                  to:
-                    ((person.clipBandEndPercent - person.topPercent) /
-                      person.heightPercent) *
-                    100,
-                }
-              : null;
-          const visibleHeight =
-            person.clipBelowPercent === null || band
-              ? person.heightPercent
-              : Math.max(0, person.clipBelowPercent - person.topPercent);
+          const { visibleHeightPercent: visibleHeight, band } =
+            figureClip(person);
           const button = (
             <button
               key={person.personId}
