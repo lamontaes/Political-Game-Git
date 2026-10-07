@@ -714,6 +714,26 @@ export function planLifeScenePeople(
     ).values(),
   ].sort((left, right) => left.personId.localeCompare(right.personId));
 
+  // Allocate clothes once for the cast, before trying each person at several
+  // anchors. Anchor trials may change pose, never what that person wears.
+  const sceneWear = placeWear(sceneId, world.currentDate);
+  const occupiedOutfits = new Set<string>();
+  const stagedOutfits = new Map<string, string>();
+  for (const person of people) {
+    const record = world.people[person.personId];
+    const uniform = record
+      ? workUniform(world, person.personId, sceneWear)
+      : undefined;
+    if (!record || uniform) continue;
+    const recipe = engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
+      wear: sceneWear,
+      occupiedOutfits,
+    });
+    if (!recipe) continue;
+    stagedOutfits.set(person.personId, recipe.outfit);
+    occupiedOutfits.add(recipe.outfit);
+  }
+
   const plateAspect = scene.plate.width / scene.plate.height;
 
   const renderAt = (
@@ -768,15 +788,14 @@ export function planLifeScenePeople(
       !savedWardrobes?.artPreview &&
       peoplePackAvailable()
         ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
-            wear: placeWear(sceneId, world.currentDate),
+            wear: sceneWear,
+            ...(stagedOutfits.has(person.personId)
+              ? { stagedOutfit: stagedOutfits.get(person.personId)! }
+              : {}),
             officeholder: () =>
               officesHeldBy(world, person.personId).length > 0,
             married: () => isMarriedNow(world, person.personId),
-            uniform: workUniform(
-              world,
-              person.personId,
-              placeWear(sceneId, world.currentDate),
-            ),
+            uniform: workUniform(world, person.personId, sceneWear),
             ...posedFor(
               world,
               person.personId,
