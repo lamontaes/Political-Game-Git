@@ -1,4 +1,4 @@
-# Session 56 progress: T3 in review; T4 and T6 also in review
+# Session 56 progress: T3 and T6 in review; T4 merged
 
 Current main marks LW-09 and LW-10 done with unsupported effects recorded. T3 adds registered trait considerations to campaign donations and candidate-run decisions. T4 and T6 add the same reader to couple and court decisions. The LW-09 readiness correction remains open for review. The Drive check-in remains blocked by the earlier automatic review rejection.
 
@@ -25,7 +25,7 @@ Current main marks LW-09 and LW-10 done with unsupported effects recorded. T3 ad
 ## Current handoffs
 
 - T3 implementation is in open PR #3522. Generated-world proof tests are `src/simulation/traits/effects/facet-philanthropic-campaign.proof.test.ts` and `src/simulation/traits/effects/facet-ambitious-candidacy.proof.test.ts`; the candidate producer trace is in `src/simulation/election-candidate-prospect.test.ts`.
-- T4 implementation is in open PR #3529. Its T4 claim is stale S40; live availability remains unverified because the assignment board fetch failed.
+- T4 merged in PR #3529. Its prior T4 claim was stale S40; live availability was unverified because the assignment board fetch failed.
 - T5 source audit found quitting, employee appeals, and commissioner settlements already call the registered job-trait reader; no code gap was found.
 - T6 implementation is in open PR #3535. The broader clemency suite has six generated-state failures on unmodified `main` with identical messages; the focused T6 proof and producer suite passed.
 - Current branch `session-56-t3` is based on `origin/main` `c8365c50c`.
