@@ -10,6 +10,9 @@ Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Se
 - Never poll gh in a loop. Use `git fetch` (not the API) for code and the assignments branch.
 - On each check-in: ONE call for new board lines: `gh api "repos/lamontaes/Political-Game-Git/issues/2424/comments?since=<your last check-in time>&per_page=100"`. No other polling.
 - Mergers: list PRs once per 10 minutes (one `gh pr list --json ...` call), not per PR.
+- (12:35 p.m.) WHY "blocked by GitHub": it is the shared API limit, not a GitHub outage (githubstatus: all operational). 54 sessions share 5,000 API calls an hour; it ran out at 11:14, 11:29 and 12:27. `git fetch` and `git push` do NOT count against it; `gh` commands do.
+- MERGERS WHEN THE LIMIT IS OUT (git only, no gh): `git fetch origin main 'refs/pull/*/head:refs/remotes/pr/*'`; for each PR from your last list snapshot that is ready/READY/PASS and not sent back: `git checkout -B m origin/main && git merge --no-ff refs/remotes/pr/N -m "Merge #N: <title>"`, gate the changed files, then `git push origin m:main` (retry once after `git fetch` if main moved). GitHub marks the PR merged when its commits reach main. If the push is refused by branch protection, wait for the reset instead.
+- BUILDERS WHEN THE LIMIT IS OUT: keep coding and testing; `git push` your branch (allowed); open the PR and post READY after the reset, or post READY in Drive 00j.
 - If gh says "rate limit exceeded": run `gh api rate_limit --jq .resources.core.reset`, keep working locally (code, tests), and retry after the reset. Never retry in a tight loop.
 
 ## Check-in timer (owner order, 11:00 a.m. — every session)
