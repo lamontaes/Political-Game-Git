@@ -316,6 +316,8 @@ export function placeBackdropPeople(
      * no turned drawing (a family standing together at home).
      */
     readonly faceRoom?: boolean;
+    /** Include the controlled person when the recorded scene names them present. */
+    readonly includeViewer?: boolean;
   } = {},
 ): BackdropPeople {
   const stage = backdropStaging(place);
@@ -326,7 +328,9 @@ export function placeBackdropPeople(
   const presentIds = new Set(
     present
       .map((person) => person.personId)
-      .filter((id) => id !== playerId && world.people[id]),
+      .filter(
+        (id) => (options.includeViewer || id !== playerId) && world.people[id],
+      ),
   );
   const onShift = (
     options.rosterOnly
@@ -371,7 +375,7 @@ export function placeBackdropPeople(
   const counterJob = (title: string) => COUNTER_TITLE.test(title);
   const usable = (stage?.spots ?? []).filter(
     (spot) =>
-      spot.facing !== "away" &&
+      (spot.facing !== "away" || options.faceRoom) &&
       !(spot.pose === "podium" && spot.audience === "away") &&
       (!options.standing || spot.pose === "stand") &&
       (spot.pose !== "podium" || options.speakerId !== undefined),
@@ -566,7 +570,8 @@ export function placeBackdropPeople(
       // clothes have no turned drawing.
       for (const [candidate, view] of [
         ...alternatives.map((at) => [at, spotView(at)] as const),
-        ...alternatives
+        // Their own spot first: it is already theirs, so it is not free.
+        ...[spot, ...alternatives]
           .filter((at) => options.faceRoom && spotView(at) !== "front")
           .map((at) => [at, "front" as const] as const),
       ]) {

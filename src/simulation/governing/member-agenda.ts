@@ -111,7 +111,7 @@ export const LOCAL_MEMBER_AGENDA_INTAKE =
  * The questions the state's own law may answer (`question-authority.ts`), in
  * catalog order.
  */
-function stateQuestions(
+export function stateQuestions(
   world: World,
   jurisdictionId: EntityId,
 ): readonly EntityId[] {
@@ -299,7 +299,7 @@ function recordAgendaSupport(
  * not law files nothing, because enacting "no" over no law changes nothing a
  * reader of the law record could see.
  */
-function positionBillAnswer(
+export function positionBillAnswer(
   score: number,
   lawAnswer: "yes" | "no" | null | "closed",
 ): "yes" | "no" | null {
@@ -310,7 +310,7 @@ function positionBillAnswer(
 }
 
 /** A bill still moving in this jurisdiction that answers the question. */
-function pendingBillOn(
+export function pendingBillOn(
   world: World,
   jurisdictionId: EntityId,
   propositionId: EntityId,
