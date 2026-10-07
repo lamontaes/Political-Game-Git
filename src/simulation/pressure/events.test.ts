@@ -16,6 +16,7 @@ import {
   currentGovernorOf,
   decideStateDisasterRequest,
   declareHazardEpisode,
+  recordPoliticalAttackIntent,
 } from "../crisis";
 import { crisisRecords } from "../crisis/records";
 import { addDays } from "../dates";
@@ -25,6 +26,7 @@ import { SeededRng } from "../rng";
 import type { World } from "../types";
 import {
   advanceWithWorldIntegrityAtEnd,
+  recordWorldEvent,
   writeWithWorldIntegrityOnce,
 } from "../world";
 import {
@@ -328,10 +330,92 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     let world: World = seedAnger(game.world, [state.stateKey], anger);
     for (let n = 0; n < 12; n += 1)
       world = holdAnger(world, [state.stateKey], anger);
+    const threat = eventsOf(world, POLITICAL_THREAT_EVENT).at(-1)!;
+    const targetPersonId = threat.participants.find(
+      (row) => row.role === "impact:threatened",
+    )!.personId;
+    const actor = Object.values(world.people).find((person) => {
+      const controlled =
+        world.control.kind === "person" && world.control.personId === person.id;
+      return (
+        person.id !== targetPersonId &&
+        !controlled &&
+        world.history.events.some((event) =>
+          event.involvedEntityIds.includes(person.id),
+        )
+      );
+    })!;
+    const observedThreat = recordWorldEvent(world, {
+      stableKey: `pressure-events-feedback:observed:${threat.id}`,
+      type: "crisis.political-threat-observed",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: threat.jurisdictionId,
+      involvedEntityIds: [actor.id, targetPersonId].sort(),
+      participants: [
+        { personId: actor.id, role: "observation:witness", detail: null },
+        { personId: targetPersonId, role: "impact:threatened", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["crisis", "test:attack-intent-source"],
+      summary: "The named actor observed the saved threat against its target.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    world = observedThreat;
+    const evidenceEventId = world.history.events.at(-1)!.id;
+    const intent = recordPoliticalAttackIntent(world, {
+      stableKey: `pressure-events-feedback:${actor.id}:${threat.id}`,
+      actorPersonId: actor.id,
+      targetPersonId,
+      threatEventId: threat.id,
+      actorStrain: {
+        explanation: "The recorded actor evidence supports strain.",
+        importance: "decisive",
+        confidence: "high",
+        sourceEventIds: [evidenceEventId],
+      },
+      actorMeans: {
+        explanation: "The recorded actor evidence supports means.",
+        importance: "decisive",
+        confidence: "high",
+        sourceEventIds: [evidenceEventId],
+      },
+      targetSecurity: {
+        explanation: "The recorded threat provides slight security evidence.",
+        importance: "slight",
+        confidence: "low",
+        sourceEventIds: [evidenceEventId],
+      },
+      targetExposure: {
+        explanation: "The recorded threat supports exposure.",
+        importance: "decisive",
+        confidence: "high",
+        sourceEventIds: [evidenceEventId],
+      },
+      basis:
+        "The actor weighs their saved circumstances against the target's threat and exposure.",
+    });
+    expect(intent.intentId).not.toBeNull();
+    world = holdAnger(intent.world, [state.stateKey], anger);
     const attempt = crisisRecords(world).find(
       (record) => record.kind === "violence-attempt",
     );
     expect(attempt).toBeDefined();
+    const recordedIntent = crisisRecords(world).find(
+      (record) =>
+        record.kind === "political-attack-intent" &&
+        record.threatEventId === threat.id,
+    );
+    expect(recordedIntent?.eventId).toBeDefined();
+    expect(recordedIntent!.sequence).toBeLessThan(attempt!.sequence);
     const causes = causesInPeriod(
       world,
       attempt!.effectiveAt,
