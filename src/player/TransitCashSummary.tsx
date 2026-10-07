@@ -18,28 +18,26 @@ export function TransitCashSummary({
   return (
     <div data-testid="transit-cash-snapshot" data-state={snapshot.kind}>
       {snapshot.kind === "authority-unavailable" ? (
-        <p role="status">{snapshot.reason}</p>
+        <p role="status" data-reason={snapshot.reason} />
       ) : (
         <>
-          <p>
-            First period: {format(snapshot.firstPeriodAmount)}. Second period:{" "}
-            {format(snapshot.secondPeriodAmount)}.
-          </p>
+          <dl data-testid="transit-cash-periods">
+            <dt>First period</dt>
+            <dd>{format(snapshot.firstPeriodAmount)}</dd>
+            <dt>Second period</dt>
+            <dd>{format(snapshot.secondPeriodAmount)}</dd>
+          </dl>
           {snapshot.kind === "recorded-cash" ? (
-            <p>
-              Recorded public cash on {snapshot.asOf}:{" "}
-              {format(snapshot.recordedLiquidBalance)}.{" "}
-              {snapshot.firstPeriodCash === "sufficient"
-                ? "Enough cash is recorded for the first period."
-                : "The recorded cash does not cover the first period."}
+            <p
+              data-testid="transit-recorded-cash"
+              data-first-period-cash={snapshot.firstPeriodCash}
+            >
+              <time dateTime={snapshot.asOf}>{snapshot.asOf}</time>{" "}
+              {format(snapshot.recordedLiquidBalance)}
             </p>
           ) : (
-            <p role="status">{snapshot.reason}</p>
+            <p role="status" data-reason={snapshot.reason} />
           )}
-          <p>
-            Cash is checked again at settlement. This inspection reserves no
-            money.
-          </p>
         </>
       )}
     </div>
