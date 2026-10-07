@@ -145,6 +145,7 @@ describe("Observer Mode on the title screen", () => {
     );
     expect(markup).toContain('data-testid="watch-world"');
     expect(markup).toContain("Watch the world");
+    expect(markup).not.toMatch(/runs on its own|Nobody play/i);
   });
 
   it("does not present a watched world's resident as a played life", () => {

@@ -6,6 +6,7 @@ import * as lawConsequenceElectionStateLandingsRegistrations from "./law-consequ
 import * as lawConsequenceElectionWardLandingsRegistrations from "./law-consequences/modules/election-ward-landings";
 import * as lawConsequenceGovernmentOperationsRegistrations from "./law-consequences/modules/government-operations";
 import * as lawConsequenceJusticePretrialLandingsRegistrations from "./law-consequences/modules/justice-pretrial-landings";
+import * as lawConsequenceJusticeSentencingLandingsRegistrations from "./law-consequences/modules/justice-sentencing-landings";
 
 interface GeneratedLawConsequenceModule {
   readonly registrations: readonly AnyLawConsequenceKindRegistration[];
@@ -19,6 +20,7 @@ const GENERATED_LAW_CONSEQUENCE_MODULES: readonly GeneratedLawConsequenceModule[
     lawConsequenceElectionWardLandingsRegistrations,
     lawConsequenceGovernmentOperationsRegistrations,
     lawConsequenceJusticePretrialLandingsRegistrations,
+    lawConsequenceJusticeSentencingLandingsRegistrations,
   ];
 
 export const LAW_CONSEQUENCE_MODULE_KEYS = [
@@ -27,6 +29,7 @@ export const LAW_CONSEQUENCE_MODULE_KEYS = [
   "election-ward-landings",
   "government-operations",
   "justice-pretrial-landings",
+  "justice-sentencing-landings",
 ] as const;
 
 export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =

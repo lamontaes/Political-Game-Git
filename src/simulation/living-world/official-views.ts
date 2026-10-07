@@ -35,6 +35,7 @@ import {
   activePartnershipsAt,
   activeWorkRelationshipsAt,
   householdMembershipsAt,
+  kinshipRelationshipsAt,
 } from "../life-queries";
 import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
 import { latestPersonalityTendency } from "../queries";
@@ -102,8 +103,10 @@ export {
   viewOfOfficial,
 } from "../official-view-reads";
 
-// ESTIMATED FROM AVERAGE (game estimate, owner-approved): executives carry the blame for a visible
-// law they signed; a legislator's single vote carries less.
+// DESIGNED (game weight, no survey ratio): reads the signer's office on the
+// law's enactment record. Balances an executive, who signs alone and so carries
+// the blame for a visible law, against a legislator, whose single vote is one
+// of many and carries less.
 const EXECUTIVE_VISIBILITY = 1;
 const LEGISLATOR_VISIBILITY = 0.6;
 // SET BY HAND from the finding that people have about 2 to 4 political
@@ -123,17 +126,21 @@ const HEARD_BY_WARMTH: Readonly<Record<StandingBand, number>> = {
   slight: 1 / 8,
   none: 1 / 8,
 };
-// ESTIMATED FROM AVERAGE (game estimate, owner-approved): partisans are anchored. Blame for their
-// own party's official, and credit for the other party's, count half.
+// DESIGNED (game weight, no survey ratio): reads the person's party and the
+// official's party. Balances partisan anchoring: blame for their own party's
+// official, and credit for the other party's, count half.
 const PARTY_ANCHOR = 0.5;
-// ESTIMATED FROM AVERAGE (research: who-answers-for-what-happened-to-me): what happened
-// to a person weighs on the official who answers for it at less than a law
-// that official signed; how much less is unmeasured.
+// DESIGNED (game weight, no survey ratio): reads the law-exposure record of
+// what happened to the person and the office that answers for it. Balances that
+// office against a law its official signed: what happened to a person weighs on
+// the official who answers for it at less than a law that official signed.
 const ANSWERING_OFFICE_VISIBILITY = 0.4;
-// ESTIMATED FROM AVERAGE: a money effect whose size next to pay is unknown is felt at a
+// DESIGNED (game weight, no survey ratio): reads the law-exposure record's felt
+// size. Balances an effect whose size next to pay is unmeasured: it is felt at a
 // quarter of full weight rather than guessed.
 const UNMEASURED_WEIGHT = 0.25;
-// ESTIMATED FROM AVERAGE: how hard a law landed (1 = a law costing a tenth of a month's
+// DESIGNED (game weight, no survey ratio): reads how hard a law landed on the
+// person's law-exposure record. Balances a heavy law against none (1 = a law costing a tenth of a month's
 // pay, felt in full) to the weight the pipeline gives one reason. A law felt
 // at a tenth of that or more outweighs having no view at all, as a law felt
 // enough to round to a point did in the old rows; less leaves no view.
@@ -143,7 +150,8 @@ const IMPORTANCE_FROM: readonly (readonly [number, DecisionImportance])[] = [
   [0.1, "moderate"],
   [0, "slight"],
 ];
-// ESTIMATED FROM AVERAGE: and to how much the view matters to the person.
+// DESIGNED (game weight, no survey ratio): reads the same felt size. Balances
+// how much the view matters to the person against everything else they weigh.
 const SALIENCE_FROM: readonly (readonly [number, PoliticalSalience])[] = [
   [1, "high"],
   [0.4, "moderate"],
@@ -155,8 +163,9 @@ const SALIENCE_ORDER: readonly PoliticalSalience[] = [
   "high",
   "central",
 ];
-// ESTIMATED FROM AVERAGE: an old save's reflection rows, in the points they were kept
-// in, to the weight they carry as what the person already thought.
+// DESIGNED (game weight, no survey ratio): reads an old save's reflection rows,
+// in the points they were kept in. Balances them against new views: the weight
+// they carry as what the person already thought.
 const LEGACY_POINTS_FOR_STRONG = 20;
 
 interface OfficialAct {
@@ -400,17 +409,141 @@ function hearersOf(
   world: World,
   exposure: LawExposureRecord,
 ): readonly EntityId[] {
+  return hearersOfPerson(world, exposure.personId);
+}
+
+/** The people one person talks politics with: see `hearersOf`. */
+export function hearersOfPerson(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
   const conflict = latestPersonalityTendency(
     world,
-    exposure.personId,
+    personId,
     SYNTHETIC_MIND_IDS.tendencies.conflictApproach,
   )?.expressionKey;
   if (conflict === "conflict-averse") return [];
   // The player can hear it too; they just decide for themselves what it means.
-  const known = new Set(peopleKnownTo(world, exposure.personId));
-  return confidantsOf(world, exposure.personId)
-    .filter((personId) => known.has(personId))
+  const known = new Set(peopleKnownTo(world, personId));
+  return confidantsOf(world, personId)
+    .filter((id) => known.has(id))
     .slice(0, DISCUSSION_PARTNERS);
+}
+
+/** Whether `other` is the person's kin or lives in their household. */
+export function closeKin(
+  world: World,
+  personId: EntityId,
+  other: EntityId,
+): boolean {
+  return (
+    kinshipRelationshipsAt(world, personId).some((kin) =>
+      kin.personIds.includes(other),
+    ) ||
+    householdMembershipsAt(world, personId).some((entry) =>
+      householdMembershipsAt(world, other).some(
+        (theirs) => theirs.household.id === entry.household.id,
+      ),
+    )
+  );
+}
+
+/**
+ * Word of mouth about an official: a person who has just formed a view of
+ * one, from what happened to them or from what they read, tells the people
+ * they talk politics with (`hearersOfPerson`; someone who avoids conflict
+ * tells no one). Each hearer learns it as told by that person. A hearer who is
+ * the teller's kin or housemate, and not the player, weighs it as one reason
+ * through their own temperament and party, with the view they already hold;
+ * a warm tie further out knows what the person thinks and decides nothing yet
+ * (a friend's word alone does not settle a view). What a hearer was told is
+ * not told again: only a view formed first-hand reaches this function, and a
+ * hearer's own view is written without it.
+ */
+export function tellViewToHearers(
+  world: World,
+  input: {
+    readonly holderId: EntityId;
+    readonly officialId: EntityId;
+    /** The holder's dated thinking-over, which the hearers' knowledge names. */
+    readonly eventId: EntityId;
+    readonly stableKey: string;
+  },
+): World {
+  const held = viewOfOfficial(world, input.holderId, input.officialId).belief;
+  if (!held || (held.position !== "support" && held.position !== "oppose"))
+    return world;
+  const holder = world.people[input.holderId];
+  const official = world.people[input.officialId];
+  if (!holder || !official) return world;
+  const favors = held.position === "support" ? "support" : "opposition";
+  let next = world;
+  for (const hearerId of hearersOfPerson(world, input.holderId)) {
+    if (hearerId === input.officialId) continue;
+    const key = `${input.stableKey}:told:${hearerId}`;
+    if (next.history.knowledge.some((row) => row.stableKey === key)) continue;
+    next = recordEventKnowledge(next, {
+      stableKey: key,
+      personId: hearerId,
+      eventId: input.eventId,
+      learnedAt: next.currentDate,
+      // Fields, not a sentence: the English engine composes what is shown.
+      believedSummary: `told-view:${input.holderId}:${input.officialId}:${held.position}`,
+      accuracy: "accurate",
+      confidence: "medium",
+      source: {
+        kind: "told-by",
+        sourcePersonId: input.holderId,
+        claimId: null,
+      },
+    });
+    if (next.control.kind === "person" && next.control.personId === hearerId)
+      continue;
+    const knowledge = next.history.knowledge.find(
+      (row) => row.stableKey === key,
+    )!;
+    if (!closeKin(next, input.holderId, hearerId)) continue;
+    // How much it matters to the hearer follows how much it matters to the
+    // person who told them: a view held centrally is passed on as one.
+    let felt =
+      ((SALIENCE_ORDER.indexOf(held.salience) + 1) / SALIENCE_ORDER.length) *
+      reactionLens(next, hearerId);
+    const mine = affiliationAt(next, hearerId).partyOrganizationId;
+    const theirs = affiliationAt(next, input.officialId).partyOrganizationId;
+    // A relative's word against an official of the hearer's own party, or for
+    // one of the other party, is held at arm's length.
+    if (
+      mine !== null &&
+      theirs !== null &&
+      ((mine === theirs && favors === "opposition") ||
+        (mine !== theirs && favors === "support"))
+    )
+      felt *= PARTY_ANCHOR;
+    if (felt <= 0) continue;
+    next = formViewFromFactor(
+      next,
+      hearerId,
+      input.officialId,
+      {
+        felt,
+        factor: {
+          stableKey: `told-view:${key}`,
+          favors,
+          sourceType: "information:told-view",
+          importance: "strong",
+          confidence: "medium",
+          explanation: `told-view:${favors}`,
+          sourceRefs: [
+            { kind: "historical-event", eventId: input.eventId },
+            { kind: "event-knowledge", knowledgeId: knowledge.id },
+          ],
+        },
+      },
+      `${V}:told:${key}`,
+      "What they were told runs against the view of this official the person already held.",
+    );
+  }
+  return next;
 }
 
 /** The dated event of a person thinking over what a law did to them. */
@@ -613,6 +746,12 @@ function reflectOnLivedOutcome(
     `${V}:lived-outcome:${outcome.sourceRecordId}:${personId}:${officialId}`,
     "What happened to them runs against the view of this official the person already held.",
   );
+  next = tellViewToHearers(next, {
+    holderId: personId,
+    officialId,
+    eventId,
+    stableKey: `${V}:lived-outcome-view:${outcome.sourceRecordId}:${personId}`,
+  });
   return done(next, "reflected");
 }
 
@@ -823,8 +962,9 @@ function felt01(world: World, exposure: LawExposureRecord): number {
 /** How hard an effect landed, 0 to 1, from its size next to pay. */
 function feltFromShare(felt: Exclude<LawExposureFeltSize, null>): number {
   if (felt === "unmeasured") return UNMEASURED_WEIGHT;
-  // ESTIMATED FROM AVERAGE: a law costing a tenth of a month's pay is felt fully; the
-  // square root keeps small amounts noticeable.
+  // DESIGNED (game weight, no survey ratio): reads the exposure's share of
+  // pay. Balances small against large: a law costing a tenth of a month's pay
+  // is felt fully, and the square root keeps small amounts noticeable.
   return Math.min(1, Math.sqrt(felt.share * 10));
 }
 
@@ -839,7 +979,10 @@ export function reactionLens(world: World, personId: EntityId): number {
     personId,
     SYNTHETIC_MIND_IDS.tendencies.responseTempo,
   )?.expressionKey;
-  // ESTIMATED FROM AVERAGE multipliers.
+  // DESIGNED (game weights, no survey ratio): read the person's response-tempo
+  // and conflict-approach tendency records. Balance a reactive or combative
+  // person, who moves further on the same law, against a patient or
+  // conflict-averse one, who moves less.
   if (tempo === "reactive") factor *= 1.5;
   if (tempo === "patient") factor *= 0.75;
   const conflict = latestPersonalityTendency(

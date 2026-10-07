@@ -372,9 +372,8 @@ export function PersonCard({
               <p
                 className="pg-person-card-note"
                 data-testid="person-card-presence-note"
-              >
-                Away from your current location.
-              </p>
+                data-presence="away"
+              />
             )}
           </div>
         </div>
@@ -420,7 +419,7 @@ export function PersonCard({
                 <FactList facts={dossier.reminders} testId="dossier-reminder" />
               </div>
             ) : null}
-            {dossier.lastInteraction === null ? null : (
+            {dossier.lastInteraction === null || dossier.neverSpoken ? null : (
               <p
                 className="pg-person-card-read"
                 data-testid={
@@ -455,8 +454,9 @@ export function PersonCard({
               <p
                 className="pg-person-card-note"
                 data-testid="dossier-facts-empty"
+                data-problem="no-facts-known"
               >
-                You don&rsquo;t know much about {dossier.shortName} yet.
+                {dossier.shortName}
               </p>
             ) : null}
             {!expanded && onExpand && (dossier.details.length > 3 || true) ? (
@@ -615,7 +615,6 @@ export function PersonCard({
             type="button"
             className="ui-action ui-action--primary"
             data-testid="dossier-talk"
-            aria-describedby={`person-talk-reason-${dossier.personId}`}
             onClick={onTalk}
           >
             Talk
@@ -665,16 +664,14 @@ export function PersonCard({
           </button>
         ) : null}
       </footer>
-      <p
-        className="sr-only"
-        id={`person-talk-reason-${dossier.personId}`}
-        {...(talkUnavailable
-          ? { "data-testid": "dossier-talk-unavailable" }
-          : {})}
-      >
-        {talkUnavailable ??
-          "Starts the established conversation with this person."}
-      </p>
+      {talkUnavailable ? (
+        <p
+          className="sr-only"
+          id={`person-talk-reason-${dossier.personId}`}
+          data-testid="dossier-talk-unavailable"
+          data-reason={talkUnavailable}
+        />
+      ) : null}
       {reachable && contact.contact.available && onContact ? (
         <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
           {contact.contact.reason}
@@ -697,7 +694,7 @@ export function PersonCard({
       ) : null}
       {expanded && unavailableReasons.length > 0 ? (
         <details className="pg-person-card-why">
-          <summary>Why some actions are unavailable</summary>
+          <summary>Unavailable</summary>
           <ul data-testid="person-contact-unavailable">
             {unavailableReasons.map((reason) => (
               <li key={reason}>{reason}</li>
