@@ -47,6 +47,17 @@ describe("people anchors on every place picture", () => {
     expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
   });
 
+  it("anchors all six rural farmhouse dining chairs", () => {
+    const seats = STAGES["rural-farmhouse"]!.spots.filter(
+      (spot) => spot.pose === "sit" && spot.group?.startsWith("table"),
+    );
+    expect(seats).toHaveLength(6);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(6);
+    const farSide = seats.filter((spot) => spot.group === "table-far-side");
+    expect(farSide).toHaveLength(2);
+    expect(farSide.every((spot) => spot.facing === "away")).toBe(true);
+  });
+
   it("anchors all county commission dais and pew seats", () => {
     const seats = STAGES["county-commission"]!.spots.filter(
       (spot) => spot.pose === "sit",
@@ -160,14 +171,15 @@ describe("people anchors on every place picture", () => {
     ).toHaveLength(6);
   });
 
-  it("anchors the rear plaza bench at city hall", () => {
+  it("anchors the rear plaza benches at city hall", () => {
     const seats = STAGES["city-hall-exterior"]!.spots.filter(
       (spot) => spot.pose === "sit",
     );
-    expect(seats).toHaveLength(3);
-    expect(new Set(seats.map((spot) => spot.id)).size).toBe(3);
+    expect(seats).toHaveLength(4);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
     expect(seats.filter((spot) => spot.group === "bench-rear")).toMatchObject([
       { x: 21, y: 61, facing: "viewer", seatY: 58 },
+      { x: 79, y: 61, facing: "viewer", seatY: 58 },
     ]);
   });
 
