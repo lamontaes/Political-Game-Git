@@ -109,6 +109,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
   {
+    trait: "personality-v1:facet-sassy",
+    kind: "decision",
+    reader:
+      "press.subject-response — src/simulation/traits/effects/facet-sassy.ts",
+  },
+  {
     trait: "personality-v1:facet-affectionate",
     kind: "decision",
     reader:
@@ -212,7 +218,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-smug",
   "personality-v1:facet-shy",
   "personality-v1:facet-charming",
-  "personality-v1:facet-sassy",
   "personality-v1:facet-dramatic",
   "personality-v1:facet-cynical",
   "personality-v1:facet-daydreaming",

@@ -54,6 +54,7 @@ import { facetPoliteEffects } from "./facet-polite";
 import { facetPracticalEffects } from "./facet-practical";
 import { facetProudEffects } from "./facet-proud";
 import { facetRestlessEffects } from "./facet-restless";
+import { facetSassyEffects } from "./facet-sassy";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
 import { facetSkepticalEffects } from "./facet-skeptical";
 import { facetSlowToWarmUpEffects } from "./facet-slow-to-warm-up";
@@ -134,6 +135,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetPracticalEffects,
     ...facetProudEffects,
     ...facetRestlessEffects,
+    ...facetSassyEffects,
     ...facetSelfConsciousEffects,
     ...facetSkepticalEffects,
     ...facetSlowToWarmUpEffects,
