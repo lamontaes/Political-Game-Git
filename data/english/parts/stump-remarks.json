@@ -1,0 +1,104 @@
+{
+  "schema": "english-parts/1",
+  "register": "stump-remarks",
+  "description": "Short campaign phrases mined from archived U.S. presidential campaign remarks.",
+  "slots": {},
+  "maxWords": 18,
+  "mining": {
+    "tool": "manual source review",
+    "read": "Campaign rally transcripts in the American Presidency Project; retained short appeals, participation cues, and election framing without source-specific people or places."
+  },
+  "parts": [
+    {
+      "key": "stump-remarks.ask-for-vote",
+      "move": "ask-for-vote",
+      "kind": "spoken",
+      "text": "I'm asking for your vote.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Campaign Rally in San Francisco",
+        "date": "2012-10-08",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-campaign-rally-san-francisco"
+      }
+    },
+    {
+      "key": "stump-remarks.ask-for-support",
+      "move": "ask-for-support",
+      "kind": "spoken",
+      "text": "I ask for your support.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Laurel County Rally in London, Kentucky",
+        "date": "1992-10-23",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-laurel-county-rally-london-kentucky"
+      }
+    },
+    {
+      "key": "stump-remarks.ask-to-join",
+      "move": "invite-to-join-campaign",
+      "kind": "spoken",
+      "text": "I ask you to come stand with me.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks in Burgettstown, Pennsylvania",
+        "date": "2004-11-01",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-burgettstown-pennsylvania"
+      }
+    },
+    {
+      "key": "stump-remarks.vote-is-voice",
+      "move": "voting-appeal",
+      "kind": "spoken",
+      "text": "Your vote is your voice, and your voice is your power.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the Vice President at a Campaign Event in Allentown, Pennsylvania",
+        "date": "2024-11-04",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-the-vice-president-campaign-event-allentown-pennsylvania"
+      }
+    },
+    {
+      "key": "stump-remarks.different-path",
+      "move": "present-alternative",
+      "kind": "spoken",
+      "text": "I offer a different path, and I ask for your vote.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the Vice President at a Campaign Event on The Ellipse",
+        "date": "2024-10-29",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-the-vice-president-campaign-event-the-ellipse"
+      }
+    },
+    {
+      "key": "stump-remarks.move-forward",
+      "move": "forward-looking-appeal",
+      "kind": "spoken",
+      "text": "We are not going back, we are moving forward.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Campaign Rally in San Francisco",
+        "date": "2012-10-08",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-campaign-rally-san-francisco"
+      }
+    },
+    {
+      "key": "stump-remarks.win-together",
+      "move": "campaign-team-appeal",
+      "kind": "spoken",
+      "text": "We are going to win together.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Campaign Rally in Butler, Pennsylvania",
+        "date": "2024-10-05",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-campaign-rally-butler-pennsylvania"
+      }
+    }
+  ]
+}
