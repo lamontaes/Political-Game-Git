@@ -532,7 +532,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | open | |
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
 | BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | open | |
-| BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | verified done #441: public-calendar notice gives meeting time and posted agenda, and says attendance is open without claiming a personal ask | |
+| BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | ready #3384 (verified done on main #441: notice includes meeting time/agenda and says attendance is open without a personal ask) | |
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | open | |
 | BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | open | |
