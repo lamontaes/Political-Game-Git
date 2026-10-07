@@ -2227,14 +2227,14 @@ function PlayingScreen({
         presentNow: moment.scene.presentPeople.some(
           (person) => person.personId === personId,
         ),
-        rightNow:
-          moment.scene.presentPeople.find(
-            (person) => person.personId === personId,
-          ) === undefined
-            ? null
-            : "Here in the room with you.",
+        presentRoom: playScene.placeLabel,
       }),
-    [session.world, session.personId, moment.scene.presentPeople],
+    [
+      session.world,
+      session.personId,
+      moment.scene.presentPeople,
+      playScene.placeLabel,
+    ],
   );
 
   /**
