@@ -356,7 +356,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-living-world-3 | Replace about 18 placeholders in simulation / living / world / 3 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-living-world-4 | Replace about 19 placeholders in simulation / living / world / 4 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-macro-economy-1 | Replace about 15 placeholders in simulation / macro / economy / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-macro-economy-2 | Replace about 15 placeholders in simulation / macro / economy / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-macro-economy-2 | Replace about 15 placeholders in simulation / macro / economy / 2 with recorded or estimated-and-marked values | placeholders.md | done #2620 | Session 37 |
 | PH-simulation-migration | Replace about 24 placeholders in simulation / migration with recorded or estimated-and-marked values | placeholders.md | done #2805 | Session 37 |
 | PH-simulation-misc | Replace about 9 placeholders in simulation / misc with recorded or estimated-and-marked values | placeholders.md | done | #2621 |
 | PH-simulation-nationwide-world-1 | Replace about 15 placeholders in simulation / nationwide / world / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
