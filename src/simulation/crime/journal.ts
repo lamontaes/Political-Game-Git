@@ -1,4 +1,8 @@
-import type { EntityId, HistoricalEvent } from "../types";
+import type {
+  EntityId,
+  HistoricalEvent,
+  PersonalLifeDepiction,
+} from "../types";
 import type { CrimeOffense } from "./contract";
 import { CRIME_EVENT_TYPES, offenseOf } from "./producer";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -35,6 +39,7 @@ function town(event: HistoricalEvent): string {
 export function crimeJournalLine(
   event: HistoricalEvent,
   personId: EntityId,
+  depiction: PersonalLifeDepiction = "full",
 ): string | null | undefined {
   const isCrime =
     event.type === CRIME_EVENT_TYPES.reported ||
@@ -46,8 +51,13 @@ export function crimeJournalLine(
     (row) => row.personId === personId && row.role === "impact:crime-victim",
   );
   if (!offense || !victim) return null;
+  if (depiction === "summary-only") return "A personal matter was recorded.";
+  if (event.type === CRIME_EVENT_TYPES.arrest && depiction === "softened")
+    return `Police made an arrest in a case that affected you in ${town(event)}.`;
   if (event.type === CRIME_EVENT_TYPES.arrest)
     return `Police in ${town(event)} made an arrest in ${YOUR_CASE[offense]}.`;
+  if (depiction === "softened")
+    return `Something happened to you in ${town(event)}.`;
   return event.type === CRIME_EVENT_TYPES.reported
     ? `${HAPPENED_TO_YOU[offense]}, and police in ${town(event)} took the report.`
     : `${HAPPENED_TO_YOU[offense]}. No one reported it to police.`;

@@ -35,14 +35,14 @@ import { localGoverningBodyName } from "./local-governing-body-names";
  */
 
 export const LOCAL_GOVERNING_BODY_PROFILE_NOTE =
-  "The game holds that every town with a government of its own elects its governing body. The town's seat count, wards, residence requirements and term are unconfirmed. An estimated minimum age does not settle those requirements.";
+  "The game holds that every town with a government of its own elects its governing body. The town's seat count, districts, residence requirements and term are unconfirmed. An estimated minimum age does not settle those requirements.";
 
 const QUALIFICATION_AT_FILING =
   "The age and residence requirements for this municipal office are unconfirmed.";
 const NO_FILING_PROCEDURE =
   "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town.";
 const NO_FORM =
-  "The town's form of government has not been read, so whether its seats are at large or by ward, and whether a mayor is elected separately, is not known.";
+  "The town's form of government has not been read, so whether its seats are at large or by district, and whether a mayor is elected separately, is not known.";
 
 const MAYOR_FORM =
   "The town elects one mayor. Its charter has not been read, so the mayor's powers and who may stand are not known here.";

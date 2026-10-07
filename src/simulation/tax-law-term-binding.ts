@@ -22,8 +22,14 @@ import {
   effectiveTaxPolicy,
   taxLevyText,
 } from "./tax-policy";
+import {
+  LOCAL_TAX_INSTRUMENT_BY_FAMILY,
+  localTaxAuthority,
+  localTaxGovernment,
+  localTaxPowerEvidenceFor,
+} from "./local-tax-authority";
 import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
-import type { TaxTerms } from "./tax-types";
+import type { TaxPowerEvidence, TaxTerms } from "./tax-types";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -88,9 +94,46 @@ export function bindTaxLawTerms(
     );
   // Vocabulary and accounts do not extend the existing acquired authority.
   const power = proposal.power;
-  const supportedPower = power
-    ? taxPowerEvidenceFor(power.jurisdictionKey)
-    : null;
+  const localQuestion = /^us-tax-terms:(county|city)\.([a-z]+)-tax-terms$/.exec(
+    input.questionKey,
+  );
+  const localInstrument = localQuestion
+    ? LOCAL_TAX_INSTRUMENT_BY_FAMILY[localQuestion[2]!]
+    : undefined;
+  let supportedPower: TaxPowerEvidence | null = null;
+  if (localQuestion) {
+    // One rule for every place: the same lookup answers for any county or
+    // municipality, and says so when its answer is estimated or a refusal.
+    const recorded = proposal.publicGovernmentIdentity;
+    const government =
+      recorded?.kind === "local-government"
+        ? localTaxGovernment(recorded.governmentKey)
+        : null;
+    if (
+      !localInstrument ||
+      !government ||
+      recorded?.kind !== "local-government" ||
+      proposal.terms.instrument !== localInstrument ||
+      government.level !==
+        (localQuestion[1] === "county" ? "COUNTY" : "MUNICIPALITY")
+    )
+      return unavailable(
+        "The saved local government and tax do not match this question.",
+      );
+    const authority = localTaxAuthority({
+      ...government,
+      instrument: localInstrument,
+    });
+    if (!authority.permits)
+      return unavailable(
+        `The state does not let this level of local government levy this tax (${authority.status}).`,
+      );
+    supportedPower = localTaxPowerEvidenceFor({
+      ...government,
+      governmentKey: recorded.governmentKey,
+      instrument: localInstrument,
+    });
+  } else if (power) supportedPower = taxPowerEvidenceFor(power.jurisdictionKey);
   if (
     !power ||
     !supportedPower ||
@@ -100,7 +143,8 @@ export function bindTaxLawTerms(
     proposal.terms.legalBaselineAssumption !==
       "carry-forward-acquired-baseline-in-game" ||
     (proposal.terms.effectiveDelayDays ?? 90) !== 90 ||
-    input.questionKey !== "us-tax-terms:state.excise-tax-terms"
+    (!localQuestion &&
+      input.questionKey !== "us-tax-terms:state.excise-tax-terms")
   )
     return unavailable(
       "This tax family's acquired legal-power binding is unsupported.",
@@ -122,14 +166,16 @@ export function bindTaxLawTerms(
   } catch {
     return unavailable("The saved public-government identity is invalid.");
   }
-  if (identity.kind !== "jurisdiction")
+  if ((identity.kind === "local-government") !== Boolean(localQuestion))
     return unavailable(
-      "Local tax power is not admitted by the existing proposal writer.",
+      "The saved public-government identity does not match this tax question's level.",
     );
-  // Reuse the writer's exact state jurisdiction check; no state/local alias.
+  // Reuse the writer's exact jurisdiction check; no state/local alias.
   if (
     !world.jurisdictions[proposal.jurisdictionId] ||
-    stateJurisdictionForKey(power.jurisdictionKey)?.id !==
+    (localQuestion
+      ? identity.jurisdictionId
+      : stateJurisdictionForKey(power.jurisdictionKey)?.id) !==
       proposal.jurisdictionId
   )
     return unavailable(

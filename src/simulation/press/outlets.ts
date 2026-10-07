@@ -799,7 +799,13 @@ function hireReporter(
     beats: [...input.beats],
     geographyJurisdictionIds: [...input.geographyJurisdictionIds],
     startedAt: next.currentDate,
+    persistence: temperamentFor(input.rng.fork("persistence")),
+    conflict: temperamentFor(input.rng.fork("conflict")),
   }).world;
+}
+
+function temperamentFor(rng: SeededRng): "low" | "medium" | "high" {
+  return rng.pick(["low", "medium", "high"] as const);
 }
 
 function firstStateJurisdiction(world: World): EntityId {

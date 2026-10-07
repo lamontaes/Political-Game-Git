@@ -49,7 +49,7 @@ function SeriesTable({ series }: { readonly series: MacroSeries }) {
             <th scope="row">{macroPeriodLabel(point.period)}</th>
             <td>
               {point.value === null
-                ? `No value — ${point.missingReason ?? "not recorded"}`
+                ? `No published value — ${point.missingReason ?? "the series records a publication gap"}`
                 : formatValue(point.value, series.unit)}
             </td>
           </tr>

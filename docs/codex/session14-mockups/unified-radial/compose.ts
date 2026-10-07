@@ -1,18 +1,6 @@
 import { writeFileSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import {
-  createNewGameWorld,
-  DEFAULT_NEW_GAME_SETUP,
-} from "/workspace/Political-Game-Git/src/presentation/new-game.ts";
-import { drawRandomPlace } from "/workspace/Political-Game-Git/tests/support/random-place.ts";
-import {
-  projectObserverRecord,
-  projectObserverPerson,
-} from "/workspace/Political-Game-Git/src/presentation/observer-world.ts";
-import { projectPersonalRecord } from "/workspace/Political-Game-Git/src/presentation/personal-record.ts";
-import { activeWorkRelationshipsAt } from "/workspace/Political-Game-Git/src/simulation/life-queries.ts";
-import { engineRecipeFor } from "/workspace/Political-Game-Git/src/presentation/appearance-engine/recipe.ts";
-import {
   recipeFiles,
   composeEnginePerson,
 } from "/workspace/Political-Game-Git/src/presentation/appearance-engine/pack.ts";

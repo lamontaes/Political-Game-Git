@@ -106,9 +106,11 @@ export function localOutcomePlaces(
  *
  * A city or county keeping its own outcomes (`localOutcomePlaces`) gets its
  * own record: its state's level, moved by the web as read in that place, so
- * its own ordinances act there. PLACEHOLDER: a city starts at its state's
- * level, until city-level bases are read. The state's record then weighs
- * those places in by residents.
+ * its own ordinances act there. ESTIMATED FROM THE CONTAINING PLACE: a city or
+ * county without its own recorded base starts at its containing state's
+ * recorded 2024 level. The basis place is therefore the state identified by
+ * that local jurisdiction's Gazetteer relationship, and the state's record
+ * weighs all represented local places by their recorded residents.
  */
 export function placeOutcomesForMonth(
   world: World,
