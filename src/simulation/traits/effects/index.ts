@@ -62,6 +62,7 @@ import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTactfulEffects } from "./facet-tactful";
 import { facetTeasingEffects } from "./facet-teasing";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
+import { facetThrillSeekingEffects } from "./facet-thrill-seeking";
 import { facetVindictiveEffects } from "./facet-vindictive";
 import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetZealousEffects } from "./facet-zealous";
@@ -142,6 +143,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetTactfulEffects,
     ...facetTeasingEffects,
     ...facetTenderHeartedEffects,
+    ...facetThrillSeekingEffects,
     ...facetVindictiveEffects,
     ...facetWorkCenteredEffects,
     ...facetZealousEffects,
