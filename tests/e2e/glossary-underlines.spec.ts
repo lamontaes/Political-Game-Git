@@ -1,49 +1,16 @@
-import { expect, test, type Page } from "./fixtures";
+import { expect, test } from "./fixtures";
 
 import { enterLife, goTo, startLife } from "./support/creator";
 
 /*
- * UI 2 orders, September 29, 2026: a civic word in any sentence has a quiet
- * underline, resting on it shows the plain definition, and "Got it" removes
- * the underline everywhere while the Guide keeps the entry.
+ * MR-16 removed the Guide's written definitions, so there is no sentence for a
+ * civic word to sit in and no popover text to rest on. The Guide lists terms
+ * only; opening one shows no explanation and marks no words.
  */
 
-async function markedWords(page: Page): Promise<string[]> {
-  return page.evaluate(() => {
-    const registry = (
-      CSS as unknown as { highlights?: Map<string, Set<Range>> }
-    ).highlights;
-    const marks = registry?.get("pg-guide-term");
-    return marks ? Array.from(marks, (range) => range.toString()) : [];
-  });
-}
-
-async function pointAt(page: Page, words: string, within: string) {
-  return page.evaluate(
-    ([wanted, testId]) => {
-      const scope = document.querySelector(`[data-testid="${testId}"]`);
-      const registry = (
-        CSS as unknown as { highlights?: Map<string, Set<Range>> }
-      ).highlights;
-      for (const range of registry?.get("pg-guide-term") ?? []) {
-        if (range.toString() !== wanted) continue;
-        if (!scope?.contains(range.startContainer)) continue;
-        const rect = range.getClientRects()[0];
-        if (rect)
-          return {
-            x: rect.left + rect.width / 2,
-            y: rect.top + rect.height / 2,
-          };
-      }
-      return null;
-    },
-    [words, within] as const,
-  );
-}
-
-test("a civic word is underlined, explains itself on hover, and Got it clears it", async ({
+test("the Guide lists terms only, with no explanation text or underlined words", async ({
   page,
-}, info) => {
+}) => {
   test.setTimeout(240_000);
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/");
@@ -52,43 +19,14 @@ test("a civic word is underlined, explains itself on hover, and Got it clears it
 
   await goTo(page, "nav-guide");
   await page.getByTestId("guide-result-veto").click();
-  const explanation = page.getByTestId("guide-entry-explanation");
-  await expect(explanation).toContainText("override the veto");
+  await expect(page.getByTestId("guide-entry-explanation")).toHaveCount(0);
 
-  // The phrase in the sentence is marked, and the text itself is unchanged.
-  await expect.poll(() => markedWords(page)).toContain("override the veto");
-  await explanation.scrollIntoViewIfNeeded();
-  const point = await pointAt(
-    page,
-    "override the veto",
-    "guide-entry-explanation",
-  );
-  expect(point).not.toBeNull();
-
-  await page.mouse.move(point!.x, point!.y);
-  const card = page.getByTestId("guide-term-card-veto-override");
-  await expect(card).toBeVisible();
-  await expect(card).toContainText("Veto override");
-  await expect(card).toContainText(
-    "A vote by the legislature that makes a vetoed bill law anyway.",
-  );
-  // The card is a definition, never a citation.
-  await expect(card).not.toContainText(/https?:|\.gov|source/i);
-  await page.screenshot({ path: info.outputPath("glossary-hovered.png") });
-
-  // Moving away closes it; nothing was learned by reading.
-  await page.mouse.move(8, 8);
-  await expect(card).toBeHidden();
-  await page.mouse.move(point!.x, point!.y);
-  await expect(card).toBeVisible();
-
-  await card.getByTestId("guide-term-learned-veto-override").click();
-  await expect(card).toBeHidden();
-  await expect.poll(() => markedWords(page)).not.toContain("override the veto");
-  await expect(explanation).toContainText("override the veto");
-  await page.mouse.move(8, 8);
-  await page.screenshot({ path: info.outputPath("glossary-learned.png") });
-
-  // The Guide still lists the learned term.
+  const marked = await page.evaluate(() => {
+    const registry = (
+      CSS as unknown as { highlights?: Map<string, Set<Range>> }
+    ).highlights;
+    return registry?.get("pg-guide-term")?.size ?? 0;
+  });
+  expect(marked).toBe(0);
   await expect(page.getByTestId("guide-result-veto-override")).toBeVisible();
 });
