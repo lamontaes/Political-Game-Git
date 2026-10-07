@@ -162,7 +162,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b22-p2 | Visibility table, data not code | b22-_.md part 2 | done (#2385) | S48 |
 | b22-p3 | Coverage follows the player | b22-_.md part 3 | claimed | S48 |
 | b22-p4 | Big stories become national from their own records | b22-_.md part 4 | claimed | S48 |
-| b22-p5 | News screens show what reaches you | b22-_.md part 5 | claimed | S48 |
+| b22-p5 | News screens show what reaches you | b22-_.md part 5 | done (#2385) | S48 |
 | b22-p6 | Reach for people only where it matters | b22-_.md part 6 | claimed | S48 |
 | b24-p1 | Pipeline first (small set) | b24-_.md part 1 | open (stale claim: S11) | S11 |
 | b24-p2 | One tag vocabulary | b24-_.md part 2 | open (stale claim: S11) | S11 |
@@ -776,7 +776,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2511 | b22-p3: connect press coverage to player travel and office | PR #2511 (session48/b22-p3-press-coverage-hooks) | open: sent back: failed its own changed checks: tests; draft: finish it or close it as superseded | |
 | RS-2512 | b22-p4: tag government and court news scale | PR #2512 (session48/b22-p4-news-scale) | open: sent back: failed its own changed checks: prettier tests; draft: finish it or close it as superseded | |
 | RS-2513 | b27-p2: One shared household price table | PR #2513 (codex/session7-b27-p2) | open: draft: finish it or close it as superseded | |
-| RS-2515 | b22-p5: scope news readers by person and place | PR #2515 (session48/b22-p5-news-reader-scope) | open: draft: finish it or close it as superseded | |
+| RS-2515 | b22-p5: scope news readers by person and place | PR #2515 (session48/b22-p5-news-reader-scope) | closed: superseded by merged PR #2385 | |
 | RS-2516 | LW-10: attach supported federal justice consequence row | PR #2516 (session40/lw10) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2517 | b31-p5: player-confirmed Mac updates with rolling fallback | PR #2517 (session55/b31-p5) | open: draft: finish it or close it as superseded | |
 | RS-2518 | b27-p1: estimate rent across playable places | PR #2518 (session-51-b27-p1) | open: sent back: failed its own changed checks: tests; draft: finish it or close it as superseded | |
