@@ -28,6 +28,7 @@ import type {
   World,
 } from "../types";
 import { ANOTHER_TERM_DECISION } from "./another-term-decision";
+import { pressRecordsOfKind } from "../press/store";
 
 /**
  * Whether somebody holding an office runs for it again.
@@ -111,6 +112,11 @@ export function decideAnotherTerm(
   };
   const considerations: DecisionConsideration[] = [
     ...input.serving,
+    ...resignationPressureConsiderations(next, {
+      personId: input.personId,
+      keyPrefix: input.stableKey,
+      onDate: input.onDate,
+    }),
     ...lifeWeighsAgainstOffice(next, {
       personId: input.personId,
       keyPrefix: input.stableKey,
@@ -158,6 +164,49 @@ export function decideAnotherTerm(
     decisionTraceId: next.history.decisionTraces.at(-1)!.id,
     reason: weightiestReason(considerations, chosen),
   };
+}
+
+/** Recorded calls from party members and colleagues weigh on the official's
+ * own choice. They inform the choice but never force it. */
+export function resignationPressureConsiderations(
+  world: World,
+  input: { personId: EntityId; keyPrefix: string; onDate: IsoDate },
+): readonly DecisionConsideration[] {
+  const events = new Map(
+    world.history.events.map((event) => [event.id, event]),
+  );
+  return pressRecordsOfKind(world, "matter-response")
+    .filter(
+      (response) =>
+        response.response === "call-for-resignation" &&
+        (response.actorRole === "party" || response.actorRole === "staff") &&
+        response.respondedAt <= input.onDate,
+    )
+    .flatMap((response) => {
+      const event = events.get(response.eventId);
+      if (
+        !event ||
+        event.occurredAt > input.onDate ||
+        !event.participants.some(
+          (participant) =>
+            participant.personId === input.personId &&
+            participant.role === "focus:matter-subject",
+        )
+      )
+        return [];
+      return [
+        {
+          stableKey: `${input.keyPrefix}:resignation-pressure:${response.id}`,
+          optionKey: "step-down",
+          sourceType: "social:colleague-pressure",
+          direction: "supports",
+          importance: "moderate",
+          confidence: "high",
+          explanation: event.summary,
+          sourceRefs: [{ kind: "historical-event", eventId: event.id }],
+        } satisfies DecisionConsideration,
+      ];
+    });
 }
 
 /** The reason that weighed most for the option chosen. */
