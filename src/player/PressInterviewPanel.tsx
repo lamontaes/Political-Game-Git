@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-import { civicGlossaryEntry } from "../presentation/civic-glossary";
-import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
 import type { GroundedEnglishPacket } from "../presentation/grounded-english";
 import { composePressAnswer } from "../presentation/press-request";
 import type {
@@ -30,22 +28,16 @@ export interface PressInterviewPanelProps {
 }
 
 const INTENT_COPY: Readonly<
-  Record<
-    PressResponseIntent,
-    { readonly label: string; readonly detail: string }
-  >
+  Record<PressResponseIntent, { readonly label: string }>
 > = {
   "answer-directly": {
     label: "Answer directly",
-    detail: "Respond to the question as asked.",
   },
   "add-context": {
     label: "Add context",
-    detail: "Answer while making an important limit or distinction explicit.",
   },
   "challenge-premise": {
     label: "Challenge the premise",
-    detail: "State what is unsupported before giving the grounded answer.",
   },
 };
 
@@ -94,37 +86,11 @@ export function PressInterviewPanel({
     followUpQuestion,
     correctingEvidence: linkedCorrection ? [linkedCorrection] : [],
   });
-  const [activeConcept, setActiveConcept] = useState<CivicGlossaryEntry | null>(
-    null,
-  );
   const closeRef = useRef<HTMLButtonElement>(null);
-  const helpCloseRef = useRef<HTMLButtonElement>(null);
-  const helpTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const returnHelpFocusRef = useRef(false);
 
   useEffect(() => {
     closeRef.current?.focus();
   }, []);
-
-  useEffect(() => {
-    if (activeConcept) helpCloseRef.current?.focus();
-    else if (returnHelpFocusRef.current) {
-      returnHelpFocusRef.current = false;
-      helpTriggerRef.current?.focus();
-    }
-  }, [activeConcept]);
-
-  function closeHelp(): void {
-    returnHelpFocusRef.current = true;
-    setActiveConcept(null);
-  }
-
-  function openTermsHelp(trigger: HTMLButtonElement): void {
-    const entry = civicGlossaryEntry(view.terms);
-    if (!entry) return;
-    helpTriggerRef.current = trigger;
-    setActiveConcept(entry);
-  }
 
   const unprepared = view.adviserPersonId === null;
   const preparationReady =
@@ -161,13 +127,12 @@ export function PressInterviewPanel({
         if (event.key !== "Escape") return;
         event.preventDefault();
         event.stopPropagation();
-        if (activeConcept) closeHelp();
-        else onClose();
+        onClose();
       }}
     >
       <header className="public-information-header">
         <div>
-          <p className="public-information-kicker">Arranged press exchange</p>
+          <p className="public-information-kicker">{view.channel}</p>
           <h2 id="press-interview-title">
             {view.channel === "written" ? "Written questions" : "Interview"}
           </h2>
@@ -195,14 +160,7 @@ export function PressInterviewPanel({
       <section aria-labelledby="press-ground-rules-title">
         <h3 id="press-ground-rules-title">Agreed before the exchange</h3>
         <p>{view.pitch}</p>
-        <button
-          type="button"
-          aria-haspopup="dialog"
-          aria-label={`Explain ${termsLabel(view.terms)}`}
-          onClick={(event) => openTermsHelp(event.currentTarget)}
-        >
-          {termsLabel(view.terms)} <span aria-hidden="true">· i</span>
-        </button>
+        <p>{termsLabel(view.terms)}</p>
         {view.backgroundAttribution ? (
           <p>
             Attribution: <strong>{view.backgroundAttribution}</strong>
@@ -225,12 +183,7 @@ export function PressInterviewPanel({
             >
               Review {view.adviserName}&apos;s preparation
             </button>
-          ) : (
-            <p>
-              {view.adviserName} is handling the scheduled preparation work. It
-              will be available after that actual work is ready for review.
-            </p>
-          )}
+          ) : null}
         </section>
       ) : (
         <PreparationBrief view={view} onOpenPerson={onOpenPerson} />
@@ -251,12 +204,6 @@ export function PressInterviewPanel({
               </button>
             ))}
           </div>
-          {mode === "condensed" ? (
-            <p data-testid="condensed-explanation">
-              Condensed play completes the same arranged exchange. It is not a
-              refusal and carries no automatic penalty.
-            </p>
-          ) : null}
 
           <div role="group" aria-label="Response intent">
             {(Object.keys(INTENT_COPY) as PressResponseIntent[]).map(
@@ -268,7 +215,6 @@ export function PressInterviewPanel({
                   onClick={() => setIntent(choice)}
                 >
                   {INTENT_COPY[choice].label}
-                  <small>{INTENT_COPY[choice].detail}</small>
                 </button>
               ),
             )}
@@ -312,9 +258,7 @@ export function PressInterviewPanel({
             <blockquote data-testid="press-answer-preview">
               {answer.statement}
             </blockquote>
-          ) : (
-            <p role="status">{answer.reason}</p>
-          )}
+          ) : null}
           <button
             type="button"
             disabled={!answer.ok}
@@ -341,10 +285,6 @@ export function PressInterviewPanel({
           <blockquote data-testid="press-exact-wording">
             {view.proposedWording}
           </blockquote>
-          <p>
-            This confirms what the source says. It does not grant editorial
-            review or approval of the later story.
-          </p>
           <button
             type="button"
             onClick={() => onConfirmExactWording(view.proposedWording!)}
@@ -362,10 +302,7 @@ export function PressInterviewPanel({
 
       {view.completed && view.publicationId === null ? (
         view.terms === "off-record" ? (
-          <p data-testid="off-record-unpublished">
-            This exchange is complete and remains unpublished under the agreed
-            terms.
-          </p>
+          <p data-testid="off-record-unpublished">{termsLabel(view.terms)}</p>
         ) : (
           <button type="button" onClick={onPublish}>
             Record published report
@@ -387,35 +324,7 @@ export function PressInterviewPanel({
         <section aria-labelledby="press-feedback-title">
           <h3 id="press-feedback-title">Adviser&apos;s reading</h3>
           <p>{view.adviserFeedback}</p>
-          <p>
-            This is {view.adviserName}&apos;s interpretation of an actual story,
-            not a poll result or proof that the interview caused a reaction.
-          </p>
         </section>
-      ) : null}
-
-      {activeConcept ? (
-        <aside
-          className="public-information-help"
-          role="dialog"
-          aria-modal="false"
-          aria-labelledby="press-help-title"
-          data-testid="press-terms-help"
-        >
-          <header>
-            <h3 id="press-help-title">{activeConcept.label}</h3>
-            <button
-              ref={helpCloseRef}
-              type="button"
-              aria-label={`Close ${activeConcept.label} explanation`}
-              onClick={closeHelp}
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </header>
-          <p>{activeConcept.fullDefinition}</p>
-          <p>Reading this explanation does not change the saved agreement.</p>
-        </aside>
       ) : null}
     </section>
   );
@@ -460,10 +369,6 @@ function PreparationBrief({
           <li key={option}>{option}</li>
         ))}
       </ul>
-      <p>
-        These are preparation options, not a promise of favorable coverage or
-        public reception.
-      </p>
     </section>
   );
 }

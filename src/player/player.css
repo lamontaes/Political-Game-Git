@@ -8370,3 +8370,38 @@ body:where(.pg-game) .game-campaign-tallies {
   font-size: 0.7rem;
   line-height: 1.5;
 }
+
+.time-command-dev-overlay {
+  position: fixed;
+  z-index: 10000;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: grid;
+  gap: 0.3rem;
+  max-width: min(22rem, calc(100vw - 1.5rem));
+  padding: 0.55rem 0.7rem;
+  border: 1px solid rgba(226, 205, 161, 0.45);
+  border-radius: 0.35rem;
+  background: rgba(20, 23, 26, 0.92);
+  color: #f3eee2;
+  font:
+    0.7rem/1.35 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  pointer-events: none;
+}
+
+.time-command-dev-overlay ol {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.time-command-dev-overlay li {
+  display: grid;
+  grid-template-columns: minmax(5rem, 1fr) auto auto;
+  gap: 0.65rem;
+}
