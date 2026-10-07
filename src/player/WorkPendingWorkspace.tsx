@@ -153,12 +153,12 @@ export function WorkPendingWorkspace({
 
 function personLabel(world: World, personId: EntityId): string {
   const person = world.people[personId];
-  return person ? personName(person) : "office colleague";
+  return person ? personName(person) : "";
 }
 
 function ownerLabel(world: World, personIds: readonly EntityId[]): string {
-  const names = personIds.map((personId) => personLabel(world, personId));
-  return names.length === 1
-    ? `Handled by ${names[0]}`
-    : `Handled by ${names.join(", ")}`;
+  return personIds
+    .map((personId) => personLabel(world, personId))
+    .filter((name) => name.length > 0)
+    .join(", ");
 }
