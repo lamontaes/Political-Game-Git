@@ -10,7 +10,6 @@ import {
   passOrdinaryDays,
 } from "../../src/presentation/ordinary-life";
 import {
-  askOnADate,
   askToBeTogether,
   breakUp,
   goMeetSomebodyNew,
@@ -21,6 +20,7 @@ import {
   performVenueActivity,
   venueActivities,
 } from "../../src/presentation/venue-activity";
+import { askOnADate, dateAction } from "../support/contact-fixtures";
 import {
   COUPLE_KIND,
   coupleAskRefusal,
@@ -28,7 +28,7 @@ import {
   coupleBetween,
   keptDates,
 } from "../../src/simulation/couples";
-import { CONTACT_LOCATION_KEY } from "../../src/simulation/people-contact";
+import { CONTACT_LOCATION_KEY } from "../../src/simulation/relationship-contact";
 import { describePersonContext } from "../../src/simulation/person-context";
 import { introducedPeople } from "../../src/simulation/social-introductions";
 import { scheduledActivityState } from "../../src/simulation";
@@ -58,6 +58,7 @@ function action(
   otherId: EntityId,
   kind: string,
 ) {
+  if (kind === "ask-on-a-date") return dateAction(world, playerId, otherId);
   return projectContacts(world, playerId)
     .contacts.find((entry) => entry.personId === otherId)
     ?.actions.find((entry) => entry.kind === kind);
@@ -87,7 +88,11 @@ function metSomebody(town: string, placeKey: string) {
     openOrdinaryLife(game.world, playerId),
     playerId,
   );
-  const option = meetingNewOptions(world, playerId)[0]!;
+  // The group just joined, as the test always meant: a grown-up start now
+  // holds a job, so the first option offered may be the people there.
+  const option = meetingNewOptions(world, playerId).find(
+    (candidate) => candidate.setting === "group",
+  )!;
   world = goMeetSomebodyNew(world, {
     personId: playerId,
     setting: option.setting,
@@ -233,9 +238,8 @@ describe("two people become a couple", () => {
       const playerId = game.playerPersonId;
       const world = openOrdinaryLife(game.world, playerId);
       for (const entry of projectContacts(world, playerId).contacts) {
-        const dateOffered = entry.actions.some(
-          (item) => item.kind === "ask-on-a-date",
-        );
+        const dateOffered =
+          dateAction(world, playerId, entry.personId) !== undefined;
         if (startAge < 18) expect(dateOffered).toBe(false);
         if (entry.relationshipLabel && KIN.test(entry.relationshipLabel)) {
           kinSeen += 1;
@@ -266,21 +270,28 @@ describe("somebody who raised you is never somebody to ask out", () => {
       }),
     ).game!;
     const playerId = game.playerPersonId;
-    const opened = openOrdinaryLife(game.world, playerId);
-    const authority = opened.history.childAuthorities.find(
+    const generated = openOrdinaryLife(game.world, playerId);
+    const authority = generated.history.childAuthorities.find(
       (record) =>
         record.childPersonId === playerId && record.holder.kind === "person",
     )!;
     expect(authority).toBeDefined();
     const guardianId = (authority.holder as { personId: EntityId }).personId;
     // The case that was reported: no kinship record joins the two of them.
-    expect(
-      opened.history.kinshipRelationships.some(
-        (kin) =>
-          kin.personIds.includes(playerId) &&
-          kin.personIds.includes(guardianId),
-      ),
-    ).toBe(false);
+    // A generated start now records the guardian's kinship, so the case is
+    // made by taking that one record out; the guardianship is the game's own.
+    const joinsThem = (kin: { readonly personIds: readonly EntityId[] }) =>
+      kin.personIds.includes(playerId) && kin.personIds.includes(guardianId);
+    const opened: World = {
+      ...generated,
+      history: {
+        ...generated.history,
+        kinshipRelationships: generated.history.kinshipRelationships.filter(
+          (kin) => !joinsThem(kin),
+        ),
+      },
+    };
+    expect(opened.history.kinshipRelationships.some(joinsThem)).toBe(false);
     const world: World = {
       ...opened,
       people: {

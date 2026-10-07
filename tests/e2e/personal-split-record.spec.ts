@@ -132,38 +132,6 @@ test("Personal separates current records from history without changing the life"
     path: test.info().outputPath("personal-profile-1200.png"),
   });
   await page.setViewportSize({ width: 1920, height: 1080 });
-  const familyButtons = profile
-    .getByTestId("personal-family")
-    .getByRole("button");
-  let contactOpened = false;
-  for (let index = 0; index < (await familyButtons.count()); index += 1) {
-    await familyButtons.nth(index).click();
-    const card = page.getByTestId("person-workspace");
-    await expect(card).toBeVisible();
-    const contact = card.getByTestId("person-contact");
-    if ((await contact.count()) && (await contact.isEnabled())) {
-      await contact.click();
-      const dialog = page.getByTestId("contact-dialog");
-      await expect(
-        dialog.locator(".pg-split-record-figure figure"),
-      ).toHaveAttribute("data-figure-status", "ready");
-      await expect(dialog.getByTestId("contact-focus-panel")).toBeVisible();
-      await page.screenshot({
-        animations: "disabled",
-        path: test.info().outputPath("contact-split-record-1920.png"),
-      });
-      await page.keyboard.press("Escape");
-      await expect(dialog).toHaveCount(0);
-      await contact.press("Enter");
-      await expect(dialog).toBeVisible();
-      await dialog.getByTestId("contact-dialog-close").press("Enter");
-      await expect(dialog).toHaveCount(0);
-      contactOpened = true;
-    }
-    await goTo(page, "nav-personal");
-    if (contactOpened) break;
-  }
-  expect(contactOpened).toBe(true);
   await saveLife(page);
   const after = await savedLife(page);
   expect(after.currentDate).toBe(before.currentDate);

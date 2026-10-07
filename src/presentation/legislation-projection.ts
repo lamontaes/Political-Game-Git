@@ -152,6 +152,16 @@ const ACTION_HEADLINES: Readonly<Record<LegislativeActionKind, string>> = {
   "amendment-rejected": "Amendment rejected",
   "floor-stage-passed": "Cleared a floor vote",
   "floor-stage-failed": "Failed on the floor",
+  "procedural-motion-failed": "Procedural motion failed",
+  tabled: "Tabled",
+  postponed: "Postponed",
+  recommitted: "Recommitted",
+  "recorded-vote-demanded": "Recorded vote",
+  "full-reading-demanded": "Full reading",
+  "rules-suspended": "Rules suspended",
+  "sine-die-vote-carried": "Sine die carried",
+  "quorum-not-present": "Quorum not present",
+  "debate-extended": "Debate extended",
   transmitted: "Sent to the other chamber",
   concurred: "Changes accepted",
   "concurrence-failed": "Changes rejected",
@@ -322,6 +332,8 @@ function questionLabel(vote: LegislativeVoteRecord): string {
       return "Override the governor's veto";
     case "floor-stage":
       return "Pass the bill";
+    case "procedural-motion":
+      return "Procedural motion";
   }
 }
 
