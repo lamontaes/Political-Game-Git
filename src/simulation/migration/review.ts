@@ -50,6 +50,7 @@ import {
   MIGRATION_ARRIVED_EVENT,
   MIGRATION_CONTRACT_VERSION,
   MIGRATION_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_TRANSITION_KEY,
 } from "./contract";
 import { crisisRecords } from "../crisis/records";
 import {
@@ -211,23 +212,49 @@ export const MIGRATION_REVIEWS_PER_YEAR = 4;
 export const MIGRATION_REVIEW_INTERVAL_DAYS = 91;
 
 const REVIEW_KEY_PREFIX = "migration:review:";
+const HOME_REVIEW_KEY_PREFIX = "migration:home-review:";
+export const TOWN_HOME_REVIEW_INTERVAL_DAYS = 30;
 
 /** Schedules the first review for a life opened at the current version. Idempotent. */
 export function ensureMigrationSchedule(world: World): World {
   const stableKey = `${REVIEW_KEY_PREFIX}0`;
-  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
-    return world;
-  return scheduleFutureDueItem(world, {
-    stableKey,
-    dueAt: addDays(world.currentDate, MIGRATION_REVIEW_INTERVAL_DAYS),
-    transitionKey: MIGRATION_REVIEW_TRANSITION_KEY,
-    entityIds: [world.id],
-    jurisdictionId: null,
-    provenance: {
-      kind: "initialization",
-      reference: MIGRATION_CONTRACT_VERSION,
-    },
-  });
+  let next = world;
+  if (
+    !world.history.futureDueItems.some((item) => item.stableKey === stableKey)
+  )
+    next = scheduleFutureDueItem(world, {
+      stableKey,
+      // Town residents and employers already have recorded needs at opening.
+      // Run that first pass on the opening date so work does not wait a quarter
+      // before the first person can act on it.
+      dueAt: addDays(world.currentDate, 1),
+      transitionKey: MIGRATION_REVIEW_TRANSITION_KEY,
+      entityIds: [world.id],
+      jurisdictionId: null,
+      provenance: {
+        kind: "initialization",
+        reference: MIGRATION_CONTRACT_VERSION,
+      },
+    });
+  const homeReviewKey = `${HOME_REVIEW_KEY_PREFIX}0`;
+  if (
+    !next.history.futureDueItems.some(
+      (item) => item.stableKey === homeReviewKey,
+    )
+  ) {
+    next = scheduleFutureDueItem(next, {
+      stableKey: homeReviewKey,
+      dueAt: addDays(next.currentDate, TOWN_HOME_REVIEW_INTERVAL_DAYS),
+      transitionKey: TOWN_HOME_REVIEW_TRANSITION_KEY,
+      entityIds: [next.id],
+      jurisdictionId: null,
+      provenance: {
+        kind: "initialization",
+        reference: MIGRATION_CONTRACT_VERSION,
+      },
+    });
+  }
+  return next;
 }
 
 export function migrationReviewHandler(
@@ -278,6 +305,33 @@ export function migrationReviewHandler(
     world: next,
     status: "resolved",
     reasonKey: "migration:reviewed",
+    context: null,
+    outcomeEventId: null,
+  };
+}
+
+/** Reconsiders local housing monthly after work and household facts change. */
+export function townHomeReviewHandler(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  if (dueItem.transitionKey !== TOWN_HOME_REVIEW_TRANSITION_KEY)
+    throw new Error("The town home review received another transition.");
+  const index = Number(dueItem.stableKey.slice(HOME_REVIEW_KEY_PREFIX.length));
+  const town = migrationTown(world);
+  const next = town ? reviewTownHomes(world, town, `monthly:${index}`) : world;
+  const scheduled = scheduleFutureDueItem(next, {
+    stableKey: `${HOME_REVIEW_KEY_PREFIX}${index + 1}`,
+    dueAt: addDays(next.currentDate, TOWN_HOME_REVIEW_INTERVAL_DAYS),
+    transitionKey: TOWN_HOME_REVIEW_TRANSITION_KEY,
+    entityIds: [next.id],
+    jurisdictionId: null,
+    provenance: { kind: "simulated", sourceEntityIds: [next.id] },
+  });
+  return {
+    world: scheduled,
+    status: "resolved",
+    reasonKey: "migration:homes-reviewed",
     context: null,
     outcomeEventId: null,
   };
@@ -671,7 +725,7 @@ export function townCrimePush(world: World, town: EntityId): number {
     const rule = LOCAL_CRIME_RATES.offenses.find(
       (row) => row.offense === offense,
     )!;
-    return rule.annualRate * rule.reportedShare;
+    return rule.reportedRate;
   };
   const all = LOCAL_CRIME_RATES.offenses.reduce(
     (sum, rule) => sum + weight(rule.offense),

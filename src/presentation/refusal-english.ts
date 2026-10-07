@@ -91,9 +91,11 @@ const COMPANY_DECLINE: ComposedLineBank = {
           requiresFacts: ["wants-new"],
         },
         {
-          key: "something-different",
+          // Owner grade REWRITE, eng-20261006-1925:3: the old "I'm in the mood
+          // for something different." read awkward.
+          key: "something-else",
           kind: "template",
-          text: "I'm in the mood for something different.",
+          text: "I feel like doing something else.",
           requiresFacts: ["wants-new"],
         },
         {

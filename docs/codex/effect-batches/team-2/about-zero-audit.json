@@ -1,0 +1,139 @@
+{
+  "team": 2,
+  "mapSourceHead": "1fb6894b1afcd655eeca67e7420e7ef7cf8b419a",
+  "auditCount": 3,
+  "measuredNearZeroPointEstimates": 2,
+  "unsupportedUniversalZero": 1,
+  "sourceRead": "Crossref publisher-deposited scholarly abstract text, withDOI and exactquotednumbers; fullpapers notread in thisbatch.",
+  "links": [
+    {
+      "key": "voter-id-to-turnout",
+      "decision": "measured-near-zero-point-estimate-with-uncertainty",
+      "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+      "currentSize": 0,
+      "researchEstimate": {
+        "central": -0.1,
+        "range95": [-3, 2.8],
+        "unit": "percentage points of overall turnout",
+        "study": "Cantoni and Pons, QJE2021, DOI10.1093/qje/qjab019",
+        "coverage": "US nationwide voter panel2008–2018,1.6bobservations",
+        "method": "difference in differences; state/year/voter fixed effects and time-varying controls"
+      },
+      "changes": {
+        "aboutZero": false,
+        "why": [
+          "The statute adds an identification condition to casting a counted ballot.",
+          "The condition can require documents or use of a lawful alternative/cure by an eligible voter.",
+          "Observed aggregate turnout can remain near its previous rate when affected voters satisfy the condition or receive mobilization help.",
+          "The study estimated a small overall effect; it did not erase each voter’s legal requirement.",
+          "The bedrock is a voter’s documentation, actual statutory cure and decision to vote."
+        ],
+        "conditions": [
+          "Study coverage ends2018; later statutory changes and injunctions require current authority research.",
+          "ID acceptance, free-ID access, cure rules and outreach differ by state.",
+          "Published uncertainty includes turnout decreases and increases."
+        ],
+        "reverseOnRepeal": "Repeal removes the extra statutory condition; past uncounted votes do not return. A repeal effect is not automatically the negative of an adoption estimate.",
+        "who": "Eligible voters subject to the actual identification rule; nonwhite relative turnout is a separate reported estimate, not an every-group identical effect.",
+        "lagWhy": "The legal rule acts at an election/cure deadline; the estimate pools elections within the study window, not a measured zero-month delivery lag.",
+        "size": null,
+        "evidence": "researched",
+        "anchor": "Measured point estimate is -0.1 percentage points, with the published uncertainty interval preserved. This does not establish exact neutrality or statistical equivalence."
+      },
+      "runtimeDisposition": "Preserve this researched effect and its uncertainty. Disable exact-zero gating; numeric size is pending actual target-unit normalization. Do not interpret the unavailable size as no effect. No direct voter record or registration reader is inferred.",
+      "nearZeroPointEstimate": true,
+      "measuredEquivalence": false
+    },
+    {
+      "key": "voter-id-to-registration",
+      "decision": "measured-near-zero-point-estimate-with-uncertainty",
+      "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+      "currentSize": 0,
+      "researchEstimate": {
+        "central": -0.1,
+        "range95": [-2.3, 2.1],
+        "unit": "percentage points of overall registration",
+        "study": "Cantoni and Pons, QJE2021, DOI10.1093/qje/qjab019",
+        "coverage": "US nationwide voter panel2008–2018,1.6bobservations"
+      },
+      "changes": {
+        "aboutZero": false,
+        "why": [
+          "A polling-place identification rule does not itself register or unregister a resident.",
+          "Registration changes only through a separate eligible application, cancellation or agency registration action.",
+          "Voters may respond to requirements, but the study measured a small aggregate registration estimate.",
+          "The uncertainty interval permits either direction.",
+          "The bedrock is the resident’s eligibility and an actual legally recognized registration transaction."
+        ],
+        "conditions": [
+          "Registration verification requirements are distinct from polling-place ID.",
+          "An enacted bill that changes both mechanisms must expose both provisions.",
+          "Later laws and administrative changes fall outside the2008–2018 panel."
+        ],
+        "reverseOnRepeal": "Repealing polling-place ID does not manufacture registration transactions or restore separately cancelled registration.",
+        "who": "People eligible to register under their jurisdiction’s actual registration law.",
+        "lagWhy": "A registration effect requires a registration transaction and legal deadline; no measured instantaneous registration writer is established.",
+        "size": null,
+        "evidence": "researched",
+        "anchor": "Measured point estimate is -0.1 percentage points, with the published uncertainty interval preserved. This does not establish exact neutrality or statistical equivalence."
+      },
+      "runtimeDisposition": "Preserve this researched effect and its uncertainty. Disable exact-zero gating; numeric size is pending actual target-unit normalization. Do not interpret the unavailable size as no effect. No direct voter record or registration reader is inferred.",
+      "nearZeroPointEstimate": true,
+      "measuredEquivalence": false
+    },
+    {
+      "key": "term-limits-to-turnout",
+      "decision": "reject-universal-about-zero",
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "currentSize": 0,
+      "researchEstimate": {
+        "central": null,
+        "range": null,
+        "unit": "state legislative election turnout",
+        "studies": [
+          {
+            "doi": "10.1177/153244000700700207",
+            "year": 2007,
+            "coverage": "California state legislative races1976–2004",
+            "finding": "Published abstract says termlimits decrease voterturnout."
+          },
+          {
+            "doi": "10.1177/1532440017718821",
+            "year": 2017,
+            "coverage": "comparative state aggregate and district-level legislative elections",
+            "finding": "Published abstract says termlimits significantlyincreasevotingrates."
+          }
+        ]
+      },
+      "changes": {
+        "size": null,
+        "strength": "weak",
+        "evidence": "contested",
+        "aboutZero": false,
+        "anchor": "California and comparative-state studies report different signed findings. No researched universal near-zero effect or numeric range is established.",
+        "why": [
+          "A binding limit prevents an otherwise eligible incumbent from seeking another term.",
+          "An open seat changes the candidates voters can select.",
+          "Competition and attachment to the departing incumbent can pull participation in different directions.",
+          "The measured turnout response depends on the electorate and election.",
+          "The bedrock is an actual legal candidacy bar and voters’ decisions from the changed candidate set."
+        ],
+        "conditions": [
+          "California’s1976–2004 estimate is not a nationwide zero effect.",
+          "Comparativestate evidence reports an increase; effect sizes and uncertainty still require the fulltables.",
+          "Lifetime, consecutive and service-break rules alter which seats actually open."
+        ],
+        "reverseOnRepeal": "Repeal changes future eligibility; it does not reinstate priorholders or reverse pastturnout.",
+        "who": "Incumbents legally barred and voters in their affected legislative districts.",
+        "lagWhy": "The rule matters at the next applicable candidacy/election; no pooled nationwide zero-month causal response is established."
+      },
+      "runtimeDisposition": "Coordinator may apply the bounded deactivation/correction while Team9 retrieves quantitative signed estimates andCI. This is a missing/contested aggregate estimate, not absent legal term-limit effects."
+    }
+  ],
+  "numericalIntegration": {
+    "coordinatorOwns": "links.json andengineunitconversion",
+    "normalization": "For targetturnout baselineB measuredinpercentagepoints, a relativefactorcoefficient for an absolute effectD isD/B; Bmustbeactualrecordedplacebase>0. Do notdivideDby100 andapplyasrelativefraction. Registrationdenominator/readerunresolved.",
+    "request": "Team9 verify units andcoverage before rangeactivation. Confidenceinterval is samplinguncertainty, not measured placeheterogeneity."
+  },
+  "status": "qualification payload: no exact-zero/equivalence claim for any of the three links; no shared map activation or producer proof"
+}

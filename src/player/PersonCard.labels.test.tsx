@@ -1,7 +1,10 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
-import { expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { EntityId, World } from "../simulation/types";
 import type { PersonDossier } from "../presentation/person-dossier";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
 
 vi.mock("../presentation/relationship-web", () => ({
   projectRelationshipWeb: () => ({ nodes: [], edges: [] }),
@@ -65,7 +68,8 @@ function dossier(personId: EntityId = selfId): PersonDossier {
     publicCareer: [],
     age: 27,
     presentNow: false,
-    rightNow: null,
+    presentRoom: null,
+    reminders: [],
     details: [
       {
         key: "record-fact",
@@ -91,10 +95,23 @@ function dossier(personId: EntityId = selfId): PersonDossier {
     laws: [],
   };
 }
-const render = (entry: PersonDossier, expanded = true) =>
+const render = (
+  entry: PersonDossier,
+  expanded = true,
+  notesVisibility: "full" | "light" | "none" = "full",
+) =>
   renderToStaticMarkup(
     <PersonCard
-      world={world}
+      world={
+        {
+          ...world,
+          playSettings: {
+            saves: "free",
+            notesVisibility,
+            personalLifeDepiction: "full",
+          },
+        } as unknown as World
+      }
       playerId={selfId}
       dossier={entry}
       pinned={false}
@@ -139,6 +156,14 @@ it("removes only the standalone record attribution label, retaining all facts an
   expect(JSON.stringify({ world, entry })).toBe(before);
 });
 
+it("shows the recorded age on compact and expanded person cards", () => {
+  for (const expanded of [false, true]) {
+    const html = render(dossier(), expanded);
+    expect(html).toContain('data-testid="dossier-age"');
+    expect(html).toContain("Age · 27");
+  }
+});
+
 it("omits the self-only You badge in compact and expanded cards without deleting ordinary prose", () => {
   for (const expanded of [false, true]) {
     const html = render(dossier(), expanded);
@@ -158,13 +183,47 @@ it("retains another person's recorded relationship and makes no time or knowledg
   expect(JSON.stringify({ world, entry })).toBe(before);
 });
 
+it("shows known reminders according to the selected notes setting in all 56 places", () => {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  const reminder = {
+    key: "recorded-reminder",
+    attribution: "known" as const,
+    text: "Recorded reminder detail.",
+  };
+
+  for (const place of places) {
+    const entry = {
+      ...dossier(place.jurisdictionKey as EntityId),
+      reminders: [reminder],
+    };
+    const full = render(entry, false, "full");
+    const lightClosed = render(entry, false, "light");
+    const lightOpen = render(entry, true, "light");
+    const none = render(entry, true, "none");
+
+    expect(full, place.usps).toContain(reminder.text);
+    expect(lightClosed, place.usps).not.toContain(reminder.text);
+    expect(lightOpen, place.usps).toContain(reminder.text);
+    expect(none, place.usps).not.toContain(reminder.text);
+    expect(none, place.usps).toContain("A fact you learned.");
+  }
+});
+
 it("recognizes a person whose card was opened from their figure as present in the room", () => {
-  const entry = dossier("person-other" as EntityId);
+  const entry = {
+    ...dossier("person-other" as EntityId),
+    presentRoom: "The room's own name",
+  };
   const before = JSON.stringify({ world, entry });
   const html = renderAnchored(entry);
 
   expect(html).toContain('data-testid="person-card-present"');
-  expect(html).toContain("Here in the room with you.");
+  expect(html).toContain("Present");
+  expect(html).toContain(
+    '<span data-testid="person-card-present-room">The room&#x27;s own name</span>',
+  );
+  expect(html).not.toContain("Here in the room with you.");
   expect(html).not.toContain("Away from your current location.");
   expect(html).toContain("Recorded office fact.");
   expect(JSON.stringify({ world, entry })).toBe(before);
@@ -188,4 +247,31 @@ it("prints a refusal to talk once, not twice, on the card", () => {
   );
   expect(html.split(refusal).length - 1).toBe(1);
   expect(html).toContain('data-testid="dossier-talk-unavailable"');
+});
+
+describe("the personal screens carry no authored sentence", () => {
+  it.each([
+    "PersonCard.tsx",
+    "PersonalGoalsPanel.tsx",
+    "PersonalRoutinePanel.tsx",
+  ])("%s has no sentence literal or helper paragraph", (file) => {
+    const text = readFileSync(join(__dirname, file), "utf8")
+      .split("\n")
+      .filter((line) => !/^\s*(\/\/|\*|\/\*)/.test(line))
+      .join("\n");
+    expect(text.match(/"[A-Z][^"]{25,}[.?!]"/g) ?? []).toEqual([]);
+    expect(text.match(/>\s*[A-Z][a-z]+ [a-z ,'&;]{25,}/g) ?? []).toEqual([]);
+  });
+});
+
+it("renders the talk refusal and the first-contact line as trace fields, not text", () => {
+  const text = readFileSync(join(__dirname, "PersonCard.tsx"), "utf8");
+  expect(text).toContain("data-reason={talkUnavailable}");
+  expect(text).toContain("dossier.neverSpoken");
+});
+
+it("keeps no hidden screen-reader sentence on the card", () => {
+  const text = readFileSync(join(__dirname, "PersonCard.tsx"), "utf8");
+  expect(text.match(/className="sr-only"[^>]*>\s*\{/g) ?? []).toEqual([]);
+  expect(text).not.toMatch(/aria-describedby=\{`person-\w+-reason-/);
 });

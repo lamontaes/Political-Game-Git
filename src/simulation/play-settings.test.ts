@@ -17,39 +17,25 @@ function newLife(seed: string) {
 }
 
 describe("play settings", () => {
-  it("writes settings at Begin without changing world identity or generation", () => {
-    const ordinary = newLife("settings-begin-seed");
-    const quiet = createNewGameWorld({
-      ...DEFAULT_NEW_GAME_SETUP,
-      playSettings: {
-        ...DEFAULT_NEW_GAME_SETUP.playSettings!,
-        challenge: "quiet",
-      },
-      seed: "settings-begin-seed",
-      placeKey: "kentucky",
-      givenName: "Alex",
-      familyName: "Morgan",
-      startAge: 28,
-    });
-
-    expect(ordinary.world.seed).toBe(quiet.world.seed);
-    expect(ordinary.world.personOrder).toEqual(quiet.world.personOrder);
-    expect(ordinary.world.playSettings?.challenge).toBe("standard");
-    expect(quiet.world.playSettings?.challenge).toBe("quiet");
-  });
-
-  it("supplies defaults for old saves without adding a second store", () => {
+  it("keeps no difficulty or premise setting (OW-1)", () => {
     const world = newLife("settings-legacy-seed").world;
     expect(playSettingsOf({ ...world, playSettings: undefined })).toEqual({
-      challenge: "standard",
-      notes: "full",
       saves: "free",
+      challengeIntensity: "standard",
+      notesVisibility: "full",
       personalLifeDepiction: "full",
-      premises: {
-        familyMoney: "ordinary",
-        press: "realistic",
-        ongoingMoneyCosts: "standard",
-      },
+    });
+    const legacy = {
+      ...world.playSettings!,
+      challenge: "relentless",
+      notes: "none",
+      premises: { familyMoney: "tight", press: "tougher" },
+    } as never;
+    expect(playSettingsOf({ ...world, playSettings: legacy })).toEqual({
+      saves: "free",
+      challengeIntensity: "standard",
+      notesVisibility: "full",
+      personalLifeDepiction: "full",
     });
     expect(
       playSettingsOf({
@@ -60,19 +46,6 @@ describe("play settings", () => {
         },
       }).personalLifeDepiction,
     ).toBe("full");
-  });
-
-  it("records only changed in-game settings as private events", () => {
-    const world = newLife("settings-change-seed").world;
-    const changed = setPlaySetting(world, "challenge", "relentless");
-    const event = changed.history.events.at(-1);
-
-    expect(changed.seed).toBe(world.seed);
-    expect(changed.playSettings?.challenge).toBe("relentless");
-    expect(event?.type).toBe("player.setting.changed");
-    expect(event?.visibility).toBe("private");
-    expect(event?.tags).toContain("challenge");
-    expect(setPlaySetting(changed, "challenge", "relentless")).toBe(changed);
   });
 
   it("records personal-life depiction as wording-only player preference", () => {
@@ -88,5 +61,27 @@ describe("play settings", () => {
     expect(setPlaySetting(softened, "personalLifeDepiction", "softened")).toBe(
       softened,
     );
+  });
+
+  it("stores and reads the challenge intensity for the shared situation selector", () => {
+    const world = newLife("settings-challenge-seed").world;
+    const quiet = setPlaySetting(world, "challenge", "quiet");
+    expect(playSettingsOf(quiet).challengeIntensity).toBe("quiet");
+    expect(quiet.history.events.at(-1)).toMatchObject({
+      type: "player.setting.changed",
+      tags: expect.arrayContaining(["challenge"]),
+    });
+    expect(setPlaySetting(quiet, "challenge", "quiet")).toBe(quiet);
+  });
+
+  it("stores the notebook visibility setting without reading legacy notes fields", () => {
+    const world = newLife("settings-notes-seed").world;
+    const light = setPlaySetting(world, "notes", "light");
+    expect(playSettingsOf(light).notesVisibility).toBe("light");
+    expect(light.history.events.at(-1)).toMatchObject({
+      type: "player.setting.changed",
+      tags: expect.arrayContaining(["notes"]),
+    });
+    expect(setPlaySetting(light, "notes", "light")).toBe(light);
   });
 });

@@ -173,10 +173,11 @@ export function PermanentShell({
           className={`next-commitment-status civic-glass${state.navigation !== "closed" ? " next-commitment-status--shell-open" : ""}`}
           aria-label={
             nextCommitment
-              ? `Next commitment: ${nextCommitment.activity.title}, ${nextCommitmentTime}, ${nextCommitment.activity.location.label}. Open in Calendar.`
-              : "No scheduled commitment ahead. Open Calendar."
+              ? `${nextCommitment.activity.title}, ${nextCommitmentTime}, ${nextCommitment.activity.location.label}`
+              : "Calendar"
           }
           data-testid="current-commitment"
+          data-problem={nextCommitment ? undefined : "none-ahead"}
           data-activity-id={nextCommitment?.activity.id}
           onClick={() =>
             nextCommitment

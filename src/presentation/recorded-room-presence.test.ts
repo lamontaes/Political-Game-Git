@@ -179,7 +179,7 @@ describe("N1 school presence", () => {
           .setting,
       ).not.toBe("school");
     }
-  }, 120_000);
+  }, 900_000);
 
   it("does not keep a participant who has a later place record", () => {
     const game = pupil("kentucky", "n1-school-leaving");

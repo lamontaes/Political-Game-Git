@@ -5,6 +5,7 @@ import { smallWorld } from "../../../tests/fixtures/small-world";
 import data from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
+import { scheduledFutureDueItemsThrough } from "../future-transitions";
 import { createCharacterHistoryContextPerson } from "../character-history";
 import { stableHash } from "../ids";
 import {
@@ -36,9 +37,12 @@ import { ensureCrisisMortality } from "./mortality";
 import { annualPovertyLineMinor } from "../household-pay";
 import { MULTIPLIER_ONE } from "./hazard";
 import {
+  ensureHealthCoveragePass,
   healthCoverageRecords,
+  HEALTH_COVERAGE_KEY,
   MEDICAID_EXPANSION_RULES,
   medicaidCoverageDecision,
+  nextHealthCoveragePassAt,
   recordHealthCoverage,
 } from "./health-coverage";
 import { hazardMultipliersOf, strainCrossingDay } from "./mortality";
@@ -379,6 +383,21 @@ describe("coverage consequence law stamps", () => {
 });
 
 describe("Medicaid expansion coverage reaches named people", () => {
+  it("schedules the first monthly coverage review from opening", () => {
+    const { seed, state } = watchedPlace("yes");
+    const opened = openWorld(seed, state.usps);
+    const firstPass = nextHealthCoveragePassAt(opened.currentDate);
+    const scheduled = ensureHealthCoveragePass(opened, opened.id);
+    const passes = scheduledFutureDueItemsThrough(
+      scheduled,
+      scheduled.currentDate,
+      firstPass,
+    ).filter((item) => item.transitionKey === HEALTH_COVERAGE_KEY);
+
+    expect(passes).toHaveLength(1);
+    expect(passes[0]!.dueAt).toBe(firstPass);
+  });
+
   it("does not apply an old covered-person multiplier to individual hazard", () => {
     const { seed, state } = watchedPlace("yes");
     const world = openWorld(seed, state.usps);
