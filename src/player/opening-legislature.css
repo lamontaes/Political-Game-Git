@@ -1,7 +1,4 @@
 /* Keep the illustrative representatives separate from their readable record. */
-.pg-orientation[data-step="legislature"] .pg-orientation-staged {
-  right: 48%;
-}
 @media (max-width: 760px) {
   .pg-orientation[data-step="legislature"] .pg-orientation-staged {
     right: 0;
