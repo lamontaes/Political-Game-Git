@@ -41,6 +41,7 @@ import { facetInformalEffects } from "./facet-informal";
 import { facetIntimacyGuardedEffects } from "./facet-intimacy-guarded";
 import { facetInventiveEffects } from "./facet-inventive";
 import { facetMeticulousEffects } from "./facet-meticulous";
+import { facetMischievousEffects } from "./facet-mischievous";
 import { facetNurturingEffects } from "./facet-nurturing";
 import { facetObservantEffects } from "./facet-observant";
 import { facetOpenMindedEffects } from "./facet-open-minded";
@@ -117,6 +118,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetIntimacyGuardedEffects,
     ...facetInventiveEffects,
     ...facetMeticulousEffects,
+    ...facetMischievousEffects,
     ...facetNurturingEffects,
     ...facetObservantEffects,
     ...facetOpenMindedEffects,
