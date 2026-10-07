@@ -1,0 +1,452 @@
+{
+  "schemaVersion": 1,
+  "readOn": "2026-10-06",
+  "readBy": "Builder H3 (CO-2)",
+  "note": "Which county row offices a county elects, by state. A state with no row for an office takes the common pattern for that office (every county elects one), marked estimated. A row marked read cites the page it was read from; a row marked estimated is the common pattern or general knowledge not yet read from the state's own law and is meant to be upgraded by research, one state at a time, without a code change. Counties in Connecticut and the territories hold no governing function in the game's county list, so they are never asked. County charters can override a state row; none has been read.",
+  "offices": {
+    "sheriff": {
+      "title": "Sheriff",
+      "elected": true,
+      "basis": "estimated",
+      "basisNote": "ESTIMATED FROM AVERAGE: most states elect a sheriff in every county; the exceptions read are listed under states.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sheriffs_in_the_United_States"
+    },
+    "prosecutor": {
+      "title": "District attorney",
+      "elected": true,
+      "basis": "estimated",
+      "basisNote": "ESTIMATED FROM AVERAGE: most states elect local prosecutors; the exceptions read are listed under states.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney"
+    },
+    "clerk": {
+      "title": "County clerk",
+      "elected": true,
+      "basis": "estimated",
+      "basisNote": "ESTIMATED FROM AVERAGE: most states elect a county clerk or clerk of court; which states appoint one has not been read.",
+      "sourceUrl": null
+    },
+    "treasurer": {
+      "title": "County treasurer",
+      "elected": true,
+      "basis": "estimated",
+      "basisNote": "ESTIMATED FROM AVERAGE: most states elect a county treasurer; which states appoint one has not been read.",
+      "sourceUrl": null
+    },
+    "assessor": {
+      "title": "County assessor",
+      "elected": true,
+      "basis": "estimated",
+      "basisNote": "ESTIMATED FROM AVERAGE: many states elect a county assessor and many appoint one; which has not been read state by state.",
+      "sourceUrl": null
+    },
+    "coroner": {
+      "title": "Coroner",
+      "elected": true,
+      "basis": "estimated",
+      "basisNote": "ESTIMATED FROM AVERAGE: where a state has no statewide medical examiner it elects county coroners; the states listed as not electing one are from general knowledge and not yet read.",
+      "sourceUrl": null
+    }
+  },
+  "states": {
+    "AK": {
+      "sheriff": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sheriffs_in_the_United_States",
+        "note": "The office of sheriff does not exist in Alaska by the state constitution."
+      },
+      "prosecutor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
+        "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "CT": {
+      "sheriff": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sheriffs_in_the_United_States",
+        "note": "Connecticut abolished county sheriffs in 2000 (Public Act 00-1)."
+      },
+      "prosecutor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
+        "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "HI": {
+      "sheriff": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sheriffs_in_the_United_States",
+        "note": "Sheriffs are appointed, not elected, in Hawaii."
+      },
+      "prosecutor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a county prosecutor appointed in Hawaii, the attorney general prosecuting in Rhode Island."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "RI": {
+      "sheriff": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sheriffs_in_the_United_States",
+        "note": "Sheriffs are appointed, not elected, in Rhode Island."
+      },
+      "prosecutor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a county prosecutor appointed in Hawaii, the attorney general prosecuting in Rhode Island."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "DE": {
+      "prosecutor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
+        "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "NJ": {
+      "prosecutor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
+        "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "IL": {
+      "prosecutor": {
+        "title": "State's attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "MD": {
+      "prosecutor": {
+        "title": "State's attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "VT": {
+      "prosecutor": {
+        "title": "State's attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "KY": {
+      "prosecutor": {
+        "title": "Commonwealth's attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "VA": {
+      "prosecutor": {
+        "title": "Commonwealth's attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "AZ": {
+      "prosecutor": {
+        "title": "County attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "IA": {
+      "prosecutor": {
+        "title": "County attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "MN": {
+      "prosecutor": {
+        "title": "County attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "NE": {
+      "prosecutor": {
+        "title": "County attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "NH": {
+      "prosecutor": {
+        "title": "County attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "ID": {
+      "prosecutor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
+        "note": "Prosecuting attorney is elected."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
+        "note": "The clerk of the district court is also auditor and recorder and is elected."
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
+        "note": "County assessor is elected."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
+        "note": "County treasurer is elected."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
+        "note": "Sheriff is elected."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
+        "note": "Coroner is elected."
+      }
+    },
+    "MI": {
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "WA": {
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "WV": {
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "MO": {
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "IN": {
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "OH": {
+      "prosecutor": {
+        "title": "County prosecutor",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "WY": {
+      "prosecutor": {
+        "title": "County and prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "SC": {
+      "prosecutor": {
+        "title": "Solicitor",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law",
+        "scope": "judicial-circuit",
+        "note": "One solicitor is elected for each of the state's 16 judicial circuits of two to five counties (District attorney, Wikipedia).",
+        "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
+        "basis": "read",
+        "elected": true
+      }
+    },
+    "GA": {
+      "prosecutor": {
+        "title": "District attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "CO": {
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County clerk and recorder is a constitutional officer elected to a four-year term."
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County assessor is a constitutional officer elected to a four-year term."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County treasurer is a constitutional officer elected to a four-year term."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County sheriff is a constitutional officer elected to a four-year term."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County coroner is a constitutional officer elected to a four-year term."
+      }
+    },
+    "OK": {
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://extension.okstate.edu/fact-sheets/print-publications/agec/duties-and-responsibilities-of-elected-county-officials-agec-802.pdf",
+        "note": "County clerk is one of nine elected county offices."
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://extension.okstate.edu/fact-sheets/print-publications/agec/duties-and-responsibilities-of-elected-county-officials-agec-802.pdf",
+        "note": "County assessor is one of nine elected county offices."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://extension.okstate.edu/fact-sheets/print-publications/agec/duties-and-responsibilities-of-elected-county-officials-agec-802.pdf",
+        "note": "County treasurer is one of nine elected county offices."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://extension.okstate.edu/fact-sheets/print-publications/agec/duties-and-responsibilities-of-elected-county-officials-agec-802.pdf",
+        "note": "County sheriff is one of nine elected county offices."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://extension.okstate.edu/fact-sheets/print-publications/agec/duties-and-responsibilities-of-elected-county-officials-agec-802.pdf",
+        "note": "The nine elected county offices are three commissioners, clerk, assessor, treasurer, sheriff, court clerk and district attorney; a coroner is not among them."
+      },
+      "prosecutor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://extension.okstate.edu/fact-sheets/print-publications/agec/duties-and-responsibilities-of-elected-county-officials-agec-802.pdf",
+        "scope": "judicial-district",
+        "note": "The district attorney is elected for a prosecutorial district, listed among the nine elected county offices."
+      }
+    },
+    "MA": {
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "ME": {
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "NM": {
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "NC": {
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "OR": {
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    }
+  }
+}
