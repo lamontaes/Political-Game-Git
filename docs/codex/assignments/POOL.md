@@ -544,7 +544,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | done #2976 | |
 | BG-45 | Newspaper test red | BUGS.md BG-45 | open | |
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
-| BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | open | |
+| BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | ready #3353 | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | open | |
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
