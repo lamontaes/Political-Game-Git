@@ -1,4 +1,6 @@
 import type { PolicyPack } from "./policy-packs";
+import { CURRICULUM_STANDARDS_ROW } from "./law-consequences/modules/lw08-curriculum/data";
+import { LW08_LIBRARY_MATERIALS_ROW } from "./law-consequences/modules/lw08-library-materials/data";
 
 /**
  * Positions a person in the United States can hold, and a bill can be about.
@@ -922,6 +924,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Set curriculum at the state level",
       question:
         "Should the state set curriculum standards that every district must follow?",
+      consequences: [CURRICULUM_STANDARDS_ROW],
       tags: ["contested"],
       principles: [
         {
@@ -2771,6 +2774,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Local control of library materials",
       question:
         "Should decisions about which materials a library carries rest with local boards?",
+      consequences: [LW08_LIBRARY_MATERIALS_ROW],
       tags: ["contested"],
       principles: [
         {

@@ -246,6 +246,14 @@ export interface ChamberBillVoteInput extends ChamberVoteCommonInput {
    * party is no cue on its votes. A member still carries their own bill.
    */
   readonly nonpartisan?: boolean;
+  /**
+   * Recorded relationship strain with a member's own leadership, supplied by
+   * cross-party bargaining when that deal is relevant to this question.
+   */
+  readonly leaderStrainByMember?: ReadonlyMap<
+    EntityId,
+    readonly DecisionConsideration[]
+  >;
 }
 
 interface ChamberNominationVoteCommonInput extends ChamberVoteCommonInput {
@@ -831,6 +839,7 @@ function billVoteContext(
       let views: readonly DecisionConsideration[] | undefined;
       const viewsOf = (): readonly DecisionConsideration[] =>
         (views ??= [
+          ...(input.leaderStrainByMember?.get(personId) ?? []),
           ...weighRecordedPolicyBeliefs(
             world,
             personId,

@@ -17,7 +17,8 @@ import { projectOpeningWorldSnapshot } from "./opening-world-snapshot";
 import { projectPersonDossier } from "./person-dossier";
 import { projectPracticalActivity } from "./practical-activity";
 import { projectPracticalOpportunities } from "./practical-opportunities";
-import { projectContacts, askToMeet } from "./people-contacts";
+import { projectContacts } from "./people-contacts";
+import { askToMeet } from "../../tests/support/contact-fixtures";
 import { projectPersonContact } from "./person-contact";
 import {
   currentOpeningLifeScene,
