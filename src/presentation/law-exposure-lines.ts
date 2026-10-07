@@ -66,6 +66,11 @@ const CHANNEL_WORDS: Record<
     gain: "let {whom} go home while waiting for trial",
     none: "changed how {whom} waited for trial",
   },
+  "sentence-rule": {
+    cost: "set a jail term for {whom} that the judge could not go below",
+    gain: "changed the jail term set for {whom}",
+    none: "changed the sentencing rules for {whom}",
+  },
   rent: {
     cost: "raised {whose} rent by {amount}",
     gain: "lowered {whose} rent by {amount}",
@@ -108,7 +113,9 @@ export function lawExposureSentence(
     (row) => row.id === exposure.measureId,
   );
   const sourceEvent =
-    exposure.channel === "election-rule" || exposure.channel === "court-rule"
+    exposure.channel === "election-rule" ||
+    exposure.channel === "court-rule" ||
+    exposure.channel === "sentence-rule"
       ? world.history.events.find((row) => row.id === exposure.sourceRecordId)
       : null;
   const recordedTermLimitBar =
@@ -121,8 +128,15 @@ export function lawExposureSentence(
     sourceEvent?.involvedEntityIds.includes(personId) &&
     (sourceEvent.type === "justice.released-before-trial" ||
       sourceEvent.type === "justice.held-before-trial");
+  const recordedSentence =
+    exposure.channel === "sentence-rule" &&
+    sourceEvent?.involvedEntityIds.includes(personId) &&
+    sourceEvent.type === "justice.sentenced";
   const title =
     measure?.shortTitle?.trim() ||
+    (recordedSentence && exposure.measureId.startsWith("starting-law:")
+      ? "mandatory minimum law"
+      : null) ||
     (recordedTermLimitBar && exposure.measureId.startsWith("starting-law:")
       ? "term-limit law"
       : recordedPretrialDecision &&
@@ -141,7 +155,8 @@ export function lawExposureSentence(
   const direction =
     (exposure.amount === null &&
       exposure.channel !== "election-rule" &&
-      exposure.channel !== "court-rule") ||
+      exposure.channel !== "court-rule" &&
+      exposure.channel !== "sentence-rule") ||
     exposure.direction === "none"
       ? "none"
       : exposure.direction;
