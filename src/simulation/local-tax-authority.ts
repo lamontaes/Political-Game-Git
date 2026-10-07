@@ -15,6 +15,9 @@ import { municipalGovernmentByKey } from "./municipal-government";
  * Nothing here names a state; the data does.
  */
 
+/** The opening every new game shares; local authority is read as of then. */
+const LOCAL_TAX_BASELINE_AS_OF = makeIsoDate("2026-01-01");
+
 export type LocalTaxInstrument =
   "property" | "sales" | "payroll" | "corporate-income";
 export type LocalTaxLevel = "COUNTY" | "MUNICIPALITY";
@@ -151,12 +154,16 @@ export function localTaxPowerEvidenceFor(input: {
     level: input.level,
     governmentKey: input.governmentKey,
     instrument: input.instrument,
-    asOf: makeIsoDate(matrix.matrix.asOf),
+    // The rule was researched on the matrix date and is carried back as the
+    // baseline every game opens with (a 2026 opening), like the other acquired
+    // baselines; the research date stays in the citations.
+    asOf: LOCAL_TAX_BASELINE_AS_OF,
     sourceArtifactId: authority.cell,
     sourceSha256: "",
     sourceUrl: matrix.matrix.path,
     citations: [
       authority.cell,
+      `researched ${matrix.matrix.asOf}, carried back to the game's opening baseline`,
       `status ${authority.status}${authority.estimated ? " (estimated from the 92N matrix)" : ""}`,
       `state general rule: ${authority.generalRule.dillonsRule}, ${authority.generalRule.fiscalHomeRuleScope}`,
     ],
