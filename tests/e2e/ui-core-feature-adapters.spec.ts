@@ -93,7 +93,6 @@ test("Custom judicial workplace uses the normal World, Work and save route", asy
   await page.getByTestId("creator-summary-background").click();
   await page.getByTestId("judicial-office-start").click();
   await page.getByTestId("creator-continue-background").click();
-  await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   await enterLife(page);
   await openMoment(page);

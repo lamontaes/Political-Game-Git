@@ -62,10 +62,10 @@ function humanLabel(value: string): string {
 }
 
 const ORDINANCE_PHASE_LABELS: Readonly<Record<string, string>> = {
-  "awaiting-referral": "Introduced; not yet on the council agenda.",
-  "on-floor": "On the council agenda.",
-  "awaiting-executive": "Passed by the council.",
-  "awaiting-override": "Passed by the council and returned without approval.",
+  "awaiting-referral": "Introduced",
+  "on-floor": "On the agenda",
+  "awaiting-executive": "Passed",
+  "awaiting-override": "Passed · returned",
   "awaiting-enactment": "Passed and approved.",
   enacted: "Passed and recorded.",
   failed: "Not passed.",
@@ -189,7 +189,7 @@ export function MunicipalWorkspace({
           className="municipal-search-empty"
           data-testid="municipal-search-empty"
         >
-          {"No supported government matches that search."}
+          {"0 matches"}
         </p>
       ) : null}
       <label>
@@ -234,7 +234,7 @@ export function MunicipalWorkspace({
   }) => {
     if (result.ok) {
       onWorldChange(result.world);
-      setMessage("Recorded in your calendar and history.");
+      setMessage("Recorded");
     } else setMessage(result.reason ?? "No change recorded.");
   };
   const canWork =
@@ -270,9 +270,7 @@ export function MunicipalWorkspace({
       {directory}
       {!view ? (
         <p data-testid="municipal-missing-home-link">
-          {
-            "Your town's own government is not in this build yet, so there is nothing to attend or work on here. The governments the game does support are listed above; reading them changes nothing about where you live."
-          }
+          {"Your town: not supported"}
         </p>
       ) : (
         <>
@@ -320,11 +318,7 @@ export function MunicipalWorkspace({
 
           <section className="municipal-panel" data-testid="municipal-standing">
             <h3>{"Your standing here"}</h3>
-            <p>
-              {view.isHomeGovernment
-                ? "Linked to your saved home place."
-                : "Library inspection. This does not change your residence or grant a role."}
-            </p>
+            <p>{view.isHomeGovernment ? "Home" : "Viewing"}</p>
             <p>{standingLabel}</p>
             {view.standing.seatContext ? (
               <p>
@@ -344,15 +338,10 @@ export function MunicipalWorkspace({
                 <p data-testid="municipal-manager-result">
                   {governing.managerAppointment.summary}
                 </p>
-              ) : (
-                <p>
-                  No manager election is recorded for this government in this
-                  save.
-                </p>
-              )}
+              ) : null}
               <p>
                 {governing.appointment.ok
-                  ? "Your council seat is recorded. Electing a manager also requires the council's recorded votes; this screen cannot supply other members' decisions."
+                  ? "Seat recorded"
                   : governing.appointment.reason}
               </p>
               {managerRule ? (
@@ -361,10 +350,6 @@ export function MunicipalWorkspace({
                   <p>
                     {managerRule.label}, with the body's{" "}
                     <GuideTerm semanticKey="quorum">quorum</GuideTerm> required.
-                  </p>
-                  <p>
-                    Recording a new council election through ordinary play still
-                    needs its member-decision producer.
                   </p>
                 </details>
               ) : null}
@@ -381,9 +366,7 @@ export function MunicipalWorkspace({
               <h3>Council {governing.measureNoun}s</h3>
               {governing.procedureBasis === "game-profile" ? (
                 <p data-testid="municipal-game-procedure-label">
-                  Ordinance procedure uses a fictional game rule profile. The
-                  government record and any retrieved local law remain separate
-                  from these play rules.
+                  Game rule profile
                 </p>
               ) : null}
               {governing.ordinanceIntroduction.ok ? (
@@ -402,9 +385,7 @@ export function MunicipalWorkspace({
                     );
                     if (result.ok) {
                       onWorldChange(result.world);
-                      setMessage(
-                        "Saved to the bill paper. The council has not introduced it.",
-                      );
+                      setMessage("Saved to the bill paper");
                       setOrdinanceTitle("");
                       setOrdinanceText("");
                     } else setMessage(result.reason);
@@ -598,17 +579,12 @@ export function MunicipalWorkspace({
                                 {ordinance.earliestPassageOn}.
                               </p>
                             ) : ordinance.earliestPassageOn && tooEarly ? (
-                              <p>
-                                The next reading may not be taken before{" "}
-                                {ordinance.earliestPassageOn}.
-                              </p>
+                              <p>Next reading: {ordinance.earliestPassageOn}</p>
                             ) : null}
                             {ordinary && ordinance.scheduledReadingOn ? (
                               <p data-testid="municipal-reading-due">
-                                The council reading is scheduled for{" "}
-                                {proseDate(ordinance.scheduledReadingOn)}. The
-                                calendar will record the members' decisions
-                                then.
+                                Council reading:{" "}
+                                {proseDate(ordinance.scheduledReadingOn)}
                               </p>
                             ) : null}
                             {governing.ordinanceVote.ok ? (
@@ -655,13 +631,6 @@ export function MunicipalWorkspace({
                                   <p data-testid="municipal-saved-ballot">
                                     Saved ballot:{" "}
                                     {humanLabel(ordinance.savedBallot)}.
-                                  </p>
-                                ) : null}
-                                {ordinary && ballot === null ? (
-                                  <p>
-                                    Choose a ballot to record your decision. If
-                                    the reading arrives without one, the roll
-                                    call records you absent.
                                   </p>
                                 ) : null}
                                 {preview ? (
@@ -729,7 +698,7 @@ export function MunicipalWorkspace({
                                 ) : null}
                               </>
                             ) : (
-                              <p>Only a seated councilor votes on it.</p>
+                              <p>Councilors only</p>
                             )}
                           </div>
                         ) : null}
@@ -823,8 +792,8 @@ export function MunicipalWorkspace({
                         {ordinance.phase === "failed" ? (
                           <p data-testid="municipal-ordinance-outcome">
                             {ordinance.executiveAction === "returned"
-                              ? `${governing.executiveName.charAt(0).toUpperCase() + governing.executiveName.slice(1)} returned it, and it was not reenacted.`
-                              : "The council did not pass it."}
+                              ? `Returned by ${governing.executiveName}`
+                              : "Not passed"}
                           </p>
                         ) : null}
                       </li>
@@ -837,9 +806,7 @@ export function MunicipalWorkspace({
 
           <section className="municipal-panel" data-testid="municipal-people">
             <h3>{"Known people"}</h3>
-            {knownPeople.length === 0 ? (
-              <p>{"Nobody who holds office here is known to you yet."}</p>
-            ) : (
+            {knownPeople.length === 0 ? null : (
               <ul className="municipal-people-list">
                 {knownPeople.map((person) => (
                   <li
@@ -887,9 +854,7 @@ export function MunicipalWorkspace({
                     ) : (
                       <>
                         <p>{recall.rule}</p>
-                        {recall.targets.length === 0 ? (
-                          <p>{"No seated official here is known to you."}</p>
-                        ) : (
+                        {recall.targets.length === 0 ? null : (
                           <ul className="municipal-people-list">
                             {recall.targets.map((target) => (
                               <li key={target.personId}>
@@ -914,7 +879,7 @@ export function MunicipalWorkspace({
                                           ),
                                         );
                                         setMessage(
-                                          `A petition to recall ${target.name} is now circulating.`,
+                                          `Recall petition: ${target.name}`,
                                         );
                                       }}
                                     >
@@ -945,17 +910,9 @@ export function MunicipalWorkspace({
             data-testid="municipal-activities"
           >
             <h3>{"Public meetings"}</h3>
-            {view.meetings.length === 0 && (
-              <p>{"No public meeting is on the calendar yet."}</p>
-            )}
             {view.isHomeGovernment &&
               view.availableMeetingSeries.length > 0 && (
                 <div className="municipal-authored-session">
-                  <p>
-                    {
-                      "Put a public session on the calendar: a game-authored 90-minute session starting in an hour, or tomorrow if this series already met today. Closed and executive sessions are not offered."
-                    }
-                  </p>
                   <label>
                     {"Public session type"}
                     <GameSelect
@@ -992,11 +949,8 @@ export function MunicipalWorkspace({
                       );
                       if (next !== world) {
                         onWorldChange(next);
-                        setMessage("Public session added to your calendar.");
-                      } else
-                        setMessage(
-                          "A session of this type is already on your calendar.",
-                        );
+                        setMessage("Added");
+                      } else setMessage("Already on your calendar");
                     }}
                   >
                     {"Add public session to this world"}
@@ -1018,11 +972,6 @@ export function MunicipalWorkspace({
                     {proseDate(state!.start.date)}
                     {" · "}
                     {formatMinute(state!.start.minuteOfDay)}
-                  </p>
-                  <p>
-                    {
-                      "Agenda: no published agenda has been attached to this session. Recorded measures appear below."
-                    }
                   </p>
                   <button
                     type="button"
@@ -1089,13 +1038,6 @@ export function MunicipalWorkspace({
                 </article>
               );
             })}
-            {!canWork && (
-              <p>
-                {
-                  "Public attendance grants no office powers. Meeting preparation requires a current role in this government."
-                }
-              </p>
-            )}
           </section>
 
           {view.meetingNotes.length > 0 && (
@@ -1121,9 +1063,7 @@ export function MunicipalWorkspace({
 
           <section className="municipal-panel" data-testid="municipal-measures">
             <h3>{"Measures and history"}</h3>
-            {view.measures.length === 0 ? (
-              <p>{"No municipal measure has been recorded."}</p>
-            ) : (
+            {view.measures.length === 0 ? null : (
               <ul>
                 {view.measures.map((measure) => (
                   <li key={measure.id}>
@@ -1149,21 +1089,15 @@ export function MunicipalWorkspace({
             data-testid="municipal-attendance-history"
           >
             <h3>{"Attendance history"}</h3>
-            {attendanceHistory.length === 0 ? (
-              <p>
-                {
-                  "No public meeting attendance is recorded for this government."
-                }
-              </p>
-            ) : (
-              attendanceHistory.map((event) => (
-                <p key={event.id}>
-                  {event.occurredAt}
-                  {": "}
-                  {event.summary}
-                </p>
-              ))
-            )}
+            {attendanceHistory.length === 0
+              ? null
+              : attendanceHistory.map((event) => (
+                  <p key={event.id}>
+                    {event.occurredAt}
+                    {": "}
+                    {event.summary}
+                  </p>
+                ))}
           </section>
 
           {/*
@@ -1179,11 +1113,6 @@ export function MunicipalWorkspace({
               data-testid="municipal-source-review"
             >
               <summary>{"Source review"}</summary>
-              <p>
-                {
-                  "Publisher observations, research references, and capacity records for this government. These are not the normal gameplay screen."
-                }
-              </p>
               <p>
                 {"Census place: "}
                 {view.government.placeGeoid ?? "Unknown"}
@@ -1230,7 +1159,7 @@ export function MunicipalWorkspace({
                   </p>
                 </details>
               ) : (
-                <p>{"No verified Census government-unit link is available."}</p>
+                <p>{"Census link: none"}</p>
               )}
               {view.government.readings.map((reading) => (
                 <details
@@ -1333,11 +1262,6 @@ export function MunicipalWorkspace({
               ))}
               <details>
                 <summary>{"Cited public records and meeting material"}</summary>
-                <p>
-                  {
-                    "These are references in this government's source readings. They are not attached agendas or notices for an authored session in this world."
-                  }
-                </p>
                 <ul>
                   {view.publicReferences.map((url) => (
                     <li key={url}>
@@ -1349,17 +1273,8 @@ export function MunicipalWorkspace({
                 </ul>
               </details>
               <h4>{"Historical finance and employment"}</h4>
-              <p>
-                {
-                  "These observations do not establish current cash, staffing, or legal powers."
-                }
-              </p>
               {view.capacity.finance.length === 0 && (
-                <p>
-                  {
-                    "No finance observation is available for this exact government ID in the accepted corpus. Missing data is not zero."
-                  }
-                </p>
+                <p>{"Finance: none on file"}</p>
               )}
               {view.capacity.finance.map((row) => (
                 <p key={row.recordId}>
@@ -1382,11 +1297,7 @@ export function MunicipalWorkspace({
                 </p>
               ))}
               {view.capacity.employment.length === 0 && (
-                <p>
-                  {
-                    "No employment observation is available for this exact government ID in the accepted corpus."
-                  }
-                </p>
+                <p>{"Employment: none on file"}</p>
               )}
               {view.capacity.employment.map((row) => (
                 <p key={row.recordId}>
@@ -1401,7 +1312,9 @@ export function MunicipalWorkspace({
                     : "Unknown"}{" "}
                   {"part-time employees; observed "}
                   {proseDate(row.referenceDate)}
-                  {". Full-time equivalent: unknown."}{" "}
+                  {
+                    ". The publisher does not report full-time equivalents, and headcount cannot establish them."
+                  }{" "}
                   {municipalCapacitySourceUrl(row.evidence.artifactId) && (
                     <a
                       href={municipalCapacitySourceUrl(

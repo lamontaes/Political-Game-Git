@@ -1,3 +1,4 @@
+import { speakerTraits } from "./speaker-traits";
 import {
   educationEnrollmentHistoryForPerson,
   educationEnrollmentStateAt,
@@ -78,7 +79,7 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
       stage: "opening",
       sourceRecordIds: group.flatMap((school) => school.sourceRecordIds),
       facts,
-      viewer: { personId, traits: {} },
+      viewer: { personId, traits: speakerTraits(world, personId) },
       knowledge: Object.entries(facts).map(([factKey, fact]) => ({
         personId,
         factKey,
@@ -153,7 +154,7 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
       stage: "opening",
       sourceRecordIds,
       facts,
-      viewer: { personId, traits: {} },
+      viewer: { personId, traits: speakerTraits(world, personId) },
       knowledge: Object.keys(facts).map((factKey) => ({
         personId,
         factKey,
