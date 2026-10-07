@@ -323,8 +323,6 @@ describe(`buying a home in ${BUYER_PLACE.displayName} (${BUYER_PLACE.key}), seed
     expect(shown?.kind).not.toBe("owns");
     if (!shown || shown.kind === "owns")
       throw new Error("Expected the buyer's home purchase quote.");
-    expect(shown.terms).toContain(
-      `$${(terms.priceMinor / 100).toLocaleString("en-US")}`,
-    );
+    expect(shown.price.minorUnits).toBe(terms.priceMinor);
   });
 });
