@@ -53,7 +53,11 @@ import {
   localGoverningBodyIdentityForOfficeKey,
 } from "../nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
-import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
+import {
+  localGoverningBodySeatLabel,
+  localGoverningBodyRules,
+  localGoverningBodySeatWord,
+} from "../nationwide-world/local-governing-body-rules";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import {
   FILING_LEAD_DAYS,
@@ -577,9 +581,9 @@ function seatLabelFor(
   office: LocalGoverningBodyIdentity,
   seat: number,
 ): string {
-  return seat === 0
-    ? office.officeTitle
-    : `${office.officeTitle}, seat ${seat}`;
+  if (seat === 0) return office.officeTitle;
+  const seatWord = localGoverningBodySeatWord(office.unit, seat);
+  return localGoverningBodySeatLabel(office.officeTitle, seat, seatWord);
 }
 
 /**
