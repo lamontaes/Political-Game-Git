@@ -548,6 +548,7 @@ export function PeopleWorkspace({
             );
           })}
         </ul>
+
         <HeardOfficialViewsList
           views={directory.heardViews}
           onSelectPerson={(id) => setSelectedPersonId(id)}
@@ -602,6 +603,7 @@ export function PeopleWorkspace({
         </div>
       </section>
     </div>
+
   );
 }
 

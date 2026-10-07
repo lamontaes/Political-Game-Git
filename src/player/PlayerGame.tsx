@@ -75,10 +75,7 @@ import {
 import { travelTowardsPerson } from "../presentation/person-contact";
 import { interruptionHandlers } from "../presentation/interruption-policy";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
-import {
-  localGoverningSeatFor,
-  townSeatRulesSentence,
-} from "../presentation/local-governing-seat";
+import { localGoverningSeatFor } from "../presentation/local-governing-seat";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { personPronouns } from "../simulation/person-identity";
@@ -571,11 +568,7 @@ export function PlayerGame() {
         null,
       );
     } catch (error) {
-      setProblem(
-        error instanceof Error
-          ? error.message
-          : "That replay address could not be rebuilt.",
-      );
+      setProblem(error instanceof Error ? error.message : null);
     }
     // Runs once: startPlaying only sets state, and the guard above stops a
     // re-render from starting the same replay twice.
@@ -608,9 +601,7 @@ export function PlayerGame() {
         // told this shell has let the slot go so leaving is not refused over
         // something nothing could ever write.
         store.releaseSlot(saveId);
-        setProblem(
-          `${result.reason} This life is still here — keep it again to store it.`,
-        );
+        setProblem(result.reason);
         setSession((current) =>
           current === null || current.saveId !== saveId
             ? current
@@ -735,15 +726,11 @@ export function PlayerGame() {
             }
           : current,
       );
-      setNotice(
-        shellSaved
-          ? "Saved."
-          : "Your life was saved, but your pins and display preferences could not be kept.",
-      );
+      setNotice(shellSaved ? "Saved." : null);
       await refreshSaves();
       return shellSaved;
     } catch {
-      setProblem("This game could not be saved just now.");
+      setProblem(null);
       return false;
     } finally {
       saveInFlight.current = false;
@@ -755,12 +742,12 @@ export function PlayerGame() {
     try {
       const recent = await store.mostRecent();
       if (!recent) {
-        setProblem("There is nothing to continue yet.");
+        setProblem(null);
         return;
       }
       await loadSave(recent.saveId);
     } catch {
-      setProblem("Saved games could not be read.");
+      setProblem(null);
     }
   }
 
@@ -771,18 +758,13 @@ export function PlayerGame() {
       // An observed world opens read-only, seen as the last life played.
       const personId = world ? shellViewpointPersonId(world) : null;
       if (!world || personId === null) {
-        setProblem("That saved game could not be opened.");
+        setProblem(null);
         return;
       }
       startPlaying(world, personId, null, saveId);
       setNotice(null);
     } catch {
-      // Said plainly that nothing was lost: a player who read only "could not
-      // be opened" about the one save of a sixteen-year life had no reason to
-      // believe it was still there.
-      setProblem(
-        "That saved game could not be opened just now. It has been kept, not deleted. Try again, or after the next update.",
-      );
+      setProblem(null);
     }
   }
 
@@ -794,7 +776,7 @@ export function PlayerGame() {
       // The save is still there. Saying so is the point: the store has put its
       // own fence back, so the slot still works, and the player is not left
       // believing something was removed when it was not.
-      setProblem("That saved game could not be removed just now.");
+      setProblem(null);
       await refreshSaves();
       return;
     }
@@ -829,9 +811,7 @@ export function PlayerGame() {
     if (store && !discard) {
       const flushed = await store.flush();
       if (flushed.status === "unsaved") {
-        setProblem(
-          `${flushed.reason} This life is still here — leaving now would lose what is not saved.`,
-        );
+        setProblem(flushed.reason);
         finishReturnToTitle("save-failed");
         await refreshSaves();
         return false;
@@ -861,19 +841,8 @@ export function PlayerGame() {
     if (screen.kind === "playing") return;
     const returnFromOpening = (event: Event) => {
       event.preventDefault();
-      const hasDraft = ["setup", "questionnaire", "transition"].includes(
-        screen.kind,
-      );
-      const leave =
-        !hasDraft ||
-        window.confirm(
-          "Return to the title screen? Your unfinished character setup will be discarded. Your saved lives will be kept.",
-        );
-      if (leave) setScreen({ kind: "title" });
-      reportReturnToTitle(
-        { fromHub: true, leaving: leave },
-        leave ? "title" : "cancelled",
-      );
+      setScreen({ kind: "title" });
+      reportReturnToTitle({ fromHub: true, leaving: true }, "title");
     };
     window.addEventListener(RETURN_TO_TITLE_REQUEST_EVENT, returnFromOpening);
     return () =>
@@ -946,11 +915,7 @@ export function PlayerGame() {
                     null,
                   );
                 } catch (error) {
-                  setProblem(
-                    error instanceof Error
-                      ? error.message
-                      : "The world could not be opened.",
-                  );
+                  setProblem(error instanceof Error ? error.message : "");
                 }
               }}
               onContinue={() => void continueMostRecent()}
@@ -1049,11 +1014,7 @@ export function PlayerGame() {
                 );
               } catch (error) {
                 if (signal.aborted) return;
-                setProblem(
-                  error instanceof Error
-                    ? error.message
-                    : "This life could not be started.",
-                );
+                setProblem(error instanceof Error ? error.message : "");
                 setScreen({ kind: "setup", draft: screen.setup });
               }
             }}
@@ -1097,11 +1058,7 @@ export function PlayerGame() {
                   return { ...current, stagedGame: staged };
                 });
               } catch (error) {
-                setProblem(
-                  error instanceof Error
-                    ? error.message
-                    : "Your recorded life could not be prepared.",
-                );
+                setProblem(error instanceof Error ? error.message : "");
               }
             }}
             onBack={() => setScreen({ kind: "title" })}
@@ -1136,11 +1093,7 @@ export function PlayerGame() {
                   });
                   beginLife(completedSetup, begun);
                 } catch (error) {
-                  setProblem(
-                    error instanceof Error
-                      ? error.message
-                      : "Your recorded life could not reach Begin.",
-                  );
+                  setProblem(error instanceof Error ? error.message : "");
                 }
                 return;
               }
@@ -2316,11 +2269,7 @@ function PlayingScreen({
       setFloorNote(null);
       if (opened.world !== session.world) onWorldChange(opened.world);
     } catch (error) {
-      setFloorNote(
-        error instanceof Error
-          ? error.message
-          : "This work is not available in the current world.",
-      );
+      setFloorNote(error instanceof Error ? error.message : "");
     }
   }
 
@@ -2584,9 +2533,7 @@ function PlayingScreen({
             dispatch({ type: "go-to-scene" });
             return null;
           } catch (error) {
-            return error instanceof Error
-              ? error.message
-              : "This character could not be retired from play.";
+            return error instanceof Error ? error.message : "";
           }
         }}
       />
@@ -2887,7 +2834,6 @@ function PlayingScreen({
                 data-testid="observing-label"
               >
                 <strong>Observing</strong>
-                <span>You can look, not act.</span>
                 <ObserverClock
                   runner={observerRunner}
                   onOpenInspector={(pausedWorld) => {
@@ -4682,9 +4628,22 @@ function renderWorkspace({
       ) {
         sections.push({
           key: "office",
-          title: "Your office",
+          title:
+            governingOfficeForPerson(session.world, session.personId)?.title ??
+            "",
           body: (
             <>
+              <nav className="pg-tabs governing-top-tabs" aria-label="Calendar">
+                <a className="pg-tab" href="#governing-people">
+                  People
+                </a>
+                <a className="pg-tab" href="#governing-calendar">
+                  Calendar
+                </a>
+                <a className="pg-tab" href="#governing-money">
+                  Money
+                </a>
+              </nav>
               <GoverningBriefing
                 world={session.world}
                 personId={session.personId}
@@ -4831,19 +4790,11 @@ function renderWorkspace({
             <div data-testid="town-seat">
               <p>
                 {townSeat.office === "mayor"
-                  ? `You have been ${townSeat.mayorTitle}, ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`
-                  : `You sit on the ${townSeat.bodyName} of ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`}
+                  ? townSeat.mayorTitle
+                  : townSeat.bodyName}
               </p>
-              {townSeatRulesSentence(townSeat) ? (
-                <p data-testid="town-seat-rules">
-                  {townSeatRulesSentence(townSeat)}
-                </p>
-              ) : null}
-              <p className="game-note">
-                {townSeat.hasCityScreen
-                  ? "Its meetings and business are under Government, in Local meetings and records."
-                  : "The game has not read this town's charter yet, so its meetings, votes and powers are not established here. The seat is yours all the same."}
-              </p>
+              <p>{townSeat.governmentName}</p>
+              <p>{proseDate(townSeat.since)}</p>
             </div>
           ),
         });
