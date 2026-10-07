@@ -319,6 +319,7 @@ import {
   leavePartyChapter,
 } from "../simulation";
 import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
+import { tagRuntimeWorld } from "../presentation/runtime-text-origin";
 import { attendChapterMeeting } from "../presentation/party-chapter-actions";
 import { FullDossier, QuickDossier } from "./ShellDossier";
 import type { PersonCardAnchor } from "./PersonCard";
@@ -1409,6 +1410,10 @@ function PlayingScreen({
     () => resolvePlayerCapabilities(session.world),
     [session.world],
   );
+  // Only a running text audit listens; in play this does nothing.
+  useEffect(() => {
+    tagRuntimeWorld(session.world);
+  }, [session.world]);
   /*
    * Every writer below computes from `session.world` as rendered, so that is
    * the base each change is committed against.
@@ -2227,14 +2232,14 @@ function PlayingScreen({
         presentNow: moment.scene.presentPeople.some(
           (person) => person.personId === personId,
         ),
-        rightNow:
-          moment.scene.presentPeople.find(
-            (person) => person.personId === personId,
-          ) === undefined
-            ? null
-            : "Here in the room with you.",
+        presentRoom: playScene.placeLabel,
       }),
-    [session.world, session.personId, moment.scene.presentPeople],
+    [
+      session.world,
+      session.personId,
+      moment.scene.presentPeople,
+      playScene.placeLabel,
+    ],
   );
 
   /**
@@ -4430,8 +4435,7 @@ function renderWorkspace({
             ) : null}
             {assignmentIsOther ? (
               <p className="game-note" data-testid="other-measure-open">
-                Also open, and not the one you are working on:{" "}
-                {assignmentName ?? "another measure"}.
+                Also open: {assignmentName ?? "another measure"}
               </p>
             ) : null}
             <button
