@@ -5,7 +5,6 @@ import {
   officeStaffingView,
   openOfficeStaffSearch,
   personName,
-  staffAssessmentSummary,
   type EntityId,
   type StaffableOffice,
   type World,
@@ -54,7 +53,6 @@ export function OfficeStaffHiring({
 
   return (
     <section data-testid="office-staff-hiring">
-      <h4 className="office-onboarding-subheading">Your office staff</h4>
       {staffing.filled.length > 0 ? (
         <ul className="office-onboarding-staff">
           {staffing.filled.map((holder) => {
@@ -65,18 +63,16 @@ export function OfficeStaffHiring({
                 data-testid="office-staff-filled"
                 data-position-id={holder.positionId}
               >
-                {person ? personName(person) : "A former hire"}, {holder.title}
+                {person ? personName(person) : null} {holder.title}
               </li>
             );
           })}
         </ul>
       ) : (
-        <p data-testid="office-staff-none-hired">
-          Nobody has been hired into this office's positions yet.
-        </p>
+        <p data-testid="office-staff-none-hired" data-problem="no-hire" />
       )}
       {staffing.authorized && staffing.openings.length === 0 ? (
-        <p data-testid="office-staff-all-filled">Every position is filled.</p>
+        <p data-testid="office-staff-all-filled" />
       ) : null}
       {needsSearch ? (
         <button
@@ -85,7 +81,7 @@ export function OfficeStaffHiring({
           data-testid="office-staff-look"
           onClick={lookForStaff}
         >
-          Look for staff
+          Search
         </button>
       ) : null}
       {staffing.openings
@@ -97,16 +93,14 @@ export function OfficeStaffHiring({
             data-testid={`office-staff-opening-${opening.classKey}`}
           >
             <legend>{opening.title}</legend>
-            <p>{opening.duty}</p>
             <ul className="office-onboarding-items">
               {opening.candidates.map((candidate) => {
                 const person = world.people[candidate.personId];
-                const name = person ? personName(person) : "An applicant";
+                const name = person ? personName(person) : "";
                 return (
                   <li key={candidate.personId}>
                     <p>
-                      <strong>{name}</strong>.{" "}
-                      {staffAssessmentSummary(name, candidate.assessment)}
+                      <strong>{name}</strong>
                     </p>
                     <button
                       type="button"
@@ -117,7 +111,7 @@ export function OfficeStaffHiring({
                         hire(opening.positionId, candidate.personId)
                       }
                     >
-                      Hire {name}
+                      {name} Continue
                     </button>
                   </li>
                 );
@@ -126,9 +120,7 @@ export function OfficeStaffHiring({
           </fieldset>
         ))}
       {note ? (
-        <p role="status" data-testid="office-staff-note">
-          {note}
-        </p>
+        <p role="status" data-testid="office-staff-note" data-reason={note} />
       ) : null}
     </section>
   );

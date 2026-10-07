@@ -512,7 +512,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | done #3263        |              |
 | BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | done #2860        |              |
 | BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done              | #2961        |
-| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | ready #3256       |              |
+| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | done #3256        |              |
 | BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done              | merged #2875 |
 | BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878        |              |
 | BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done              | merged #2861 |
@@ -571,7 +571,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | ready #3536 | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
-| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | ready #3418 | Session 52 |
+| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | ready #3553 | Session 44 |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
 
 ## Rescue: every open PR from the Codex sessions and earlier (added Oct 6, 3:40 p.m.)
@@ -614,7 +614,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1257 | Import 61 approved picture and kids-sheet sources | PR #1257 (codex/team7-law-place-import) | done (superseded by C7; approved sources preserved for later owner review) | S35 |
 | RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
-| RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
+| RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #3279 (session-35/rs-1303-rescue) | ready #3279 | Session 35 |
 | RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #3297 (session-35/rs-1306-fresh) | ready #3297 | |
 | RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | ready #3271 | |
 | RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | ready #1332 | |
@@ -622,7 +622,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1406 | Deliver the private monthly money call-cost diagnostic | PR #1406 (codex/team7-c9-owned-call-cost-diagnostic) | done (superseded by current-main obligation route; diagnostic depended on closed PR #1353) | |
 | RS-1415 | Preserve native lease renewal proof and save validation blocker | PR #1415 (codex/team-4-m10-native-renewal-entry) | open: draft: finish it or close it as superseded | |
 | RS-1430 | Prepare scheduled rent proof and preserve runtime budget blocker | PR #1430 (codex/team-4-m10-scheduled-rent-entry) | open: draft: finish it or close it as superseded | |
-| RS-1479 | Remove unavailable reporter search from Press workspace | PR #1479 (codex/team-8-a153-unavailable-action) | open: draft: finish it or close it as superseded | |
+| RS-1479 | Remove unavailable reporter search from Press workspace | PR #1479 (codex/team-8-a153-unavailable-action) | done #1971 (merged implementation; verified on current main) | Session 35 |
 | RS-1488 | Read retained majority-member and NJ/Congress filing predicates | PR #1488 (codex/team1-majority-question-counts) | done (#1488, batch-marked by CTO Oct 7) | |
 | RS-1508 | Retain dated county source intake and actual binding gaps | PR #1508 (codex/team7-county-source-intake-02) | done #1508 | |
 | RS-1511 | Persist canonical chunked world saves in SQLite | PR #1511 (codex/audit-sqlite-chunked-world-saves) | done #1511 | S50 |
@@ -630,7 +630,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1591 | A56: first landlords follow recorded owners and the saved home roster | PR #1680 (merged: first leases follow recorded owners) | done #1680 | S50 | |
 | RS-1647 | A25: extract sourced juvenile ages without runtime admission | PR #1647 (codex/team9-a25-sourced-age-extraction) | done #1647 | |
 | RS-1662 | WIP: People's views weigh what they lived through (slice 10 Lives) | PR #1662 (claude/quirky-brown-rq82i7) | open: draft: finish it or close it as superseded | |
-| RS-1673 | Your Home: preserve rent when the legal cap is unresolved | PR #1673 (codex/team-4-a57-unresolved-cap) | open: draft: finish it or close it as superseded | |
+| RS-1673 | Your Home: preserve rent when the legal cap is unresolved | PR #1673 (codex/team-4-a57-unresolved-cap) | ready #1673 | Session 35 |
 | RS-1696 | A105 Crime & Courts trial step: prove all 56 saved court paths | PR #1696 (codex/team9-a105-all56-trial-proof) | open: draft: finish it or close it as superseded | |
 | RS-1704 | A10 A105 Crime & Courts play script: saved player plea and sentence | PR #1704 (codex/team9-crime-courts-play-script) | open: stacked on codex/team9-a105-all56-trial-proof: retarget to main; draft: finish it or close it as superseded | |
 | RS-1712 | A25: carry cited juvenile age limits into starting-law terms | PR #1712 (codex/a25-starting-age-terms) | done #3364 | |
@@ -982,7 +982,7 @@ open: rebase on main (conflicts) | |
 | MR-5  | Strip every authored sentence, helper line, explanation and developer word from the People screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                 | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
 | MR-6  | Strip every authored sentence, helper line, explanation and developer word from the Contact screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#2923, batch-marked by CTO Oct 7) | Builder L3 (anyone if silent 60 min) |
 | MR-7  | Strip every authored sentence, helper line, explanation and developer word from the Money screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
-| MR-8  | Strip every authored sentence, helper line, explanation and developer word from the Governing screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
+| MR-8  | Strip every authored sentence, helper line, explanation and developer word from the Governing screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #2990                             | Builder L3 (anyone if silent 60 min) |
 | MR-9  | Strip every authored sentence, helper line, explanation and developer word from the Calendar screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.               | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done                                    | #3028                                |
 | MR-10 | Strip every authored sentence, helper line, explanation and developer word from the News screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                   | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2997                              | Session 59                           |
 | MR-11 | Strip every authored sentence, helper line, explanation and developer word from the Places screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                 | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #3213                              | Session 59                           |
