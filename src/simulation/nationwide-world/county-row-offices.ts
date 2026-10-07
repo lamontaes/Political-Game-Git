@@ -70,6 +70,8 @@ interface StateRow {
   readonly basis?: string;
   readonly sourceUrl?: string | null;
   readonly note?: string;
+  /** The regional pattern an estimated row takes. */
+  readonly estimatedFrom?: string;
   readonly scope?: string;
 }
 
@@ -95,8 +97,13 @@ export function countyRowOfficeRule(
     elected: row?.elected ?? fallback.elected,
     basis: read ? "read" : "estimated",
     source: row
-      ? [row.note, row.sourceUrl].filter(Boolean).join(" ") ||
-        fallback.basisNote
+      ? [
+          row.note,
+          row.estimatedFrom ? `ESTIMATED FROM ${row.estimatedFrom}.` : null,
+          row.sourceUrl,
+        ]
+          .filter(Boolean)
+          .join(" ") || fallback.basisNote
       : `${fallback.basisNote}${fallback.sourceUrl ? ` ${fallback.sourceUrl}` : ""}`,
     scope:
       scope === "judicial-circuit" || scope === "judicial-district"

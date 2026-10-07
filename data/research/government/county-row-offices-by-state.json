@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "readOn": "2026-10-06",
   "readBy": "Builder H3 (CO-2)",
-  "note": "Which county row offices a county elects, by state. A state with no row for an office takes the common pattern for that office (every county elects one), marked estimated. A row marked read cites the page it was read from; a row marked estimated is the common pattern or general knowledge not yet read from the state's own law and is meant to be upgraded by research, one state at a time, without a code change. Counties in Connecticut and the territories hold no governing function in the game's county list, so they are never asked. County charters can override a state row; none has been read.",
+  "note": "Which county row offices a county elects, by state. A state with no row for an office takes the common pattern for that office (every county elects one), marked estimated. A row marked read cites the page it was read from; a row marked estimated is the common pattern or general knowledge not yet read from the state's own law and is meant to be upgraded by research, one state at a time, without a code change. Counties in Connecticut and the territories hold no governing function in the game's county list, so they are never asked. County charters can override a state row; none has been read. A row marked estimated carries estimatedFrom, the regional pattern it takes.",
   "offices": {
     "sheriff": {
       "title": "Sheriff",
@@ -68,6 +68,169 @@
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
       }
     },
+    "AL": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.naco.org/sites/default/files/event_attachments/DRAFT_Alabama_012022.pdf",
+        "note": "The sheriff is one of the mandatory elected county offices."
+      },
+      "prosecutor": {
+        "title": "District attorney",
+        "elected": true,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "The district attorney is elected for a judicial circuit; not yet read from the state's law.",
+        "scope": "judicial-circuit"
+      },
+      "clerk": {
+        "title": "Circuit clerk",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.naco.org/sites/default/files/event_attachments/DRAFT_Alabama_012022.pdf",
+        "note": "The clerk of the circuit court is elected by the people."
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "The revenue commissioner and tax collector hold the county's tax money; a separate elected treasurer is not in the list read."
+      },
+      "assessor": {
+        "title": "Tax assessor",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.naco.org/sites/default/files/event_attachments/DRAFT_Alabama_012022.pdf",
+        "note": "Tax assessors and revenue commissioners are elected, six-year terms."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.naco.org/sites/default/files/event_attachments/DRAFT_Alabama_012022.pdf",
+        "note": "The coroner is one of the mandatory elected county offices."
+      }
+    },
+    "AR": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.uaex.uada.edu/business-communities/voter-education/local-offices.aspx",
+        "note": "County sheriff is a listed elected county office."
+      },
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "elected": true,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "The prosecuting attorney is elected for a judicial district; not yet read from the state's law.",
+        "scope": "judicial-district"
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.uaex.uada.edu/business-communities/voter-education/local-offices.aspx",
+        "note": "County clerk is a listed elected county office."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.uaex.uada.edu/business-communities/voter-education/local-offices.aspx",
+        "note": "County treasurer is a listed elected county office."
+      },
+      "assessor": {
+        "title": "Assessor",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.uaex.uada.edu/business-communities/voter-education/local-offices.aspx",
+        "note": "Assessor is a listed elected county office."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.uaex.uada.edu/business-communities/voter-education/local-offices.aspx",
+        "note": "Coroner is a listed elected county office."
+      }
+    },
+    "AZ": {
+      "prosecutor": {
+        "title": "County attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "CA": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ca/government-code/gov-sect-24009/",
+        "note": "The sheriff is elected by the people (Government Code 24009)."
+      },
+      "prosecutor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ca/government-code/gov-sect-24009/",
+        "note": "The district attorney is elected by the people (Government Code 24009)."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ca/government-code/gov-sect-24009/",
+        "note": "The county clerk is elected by the people (Government Code 24009)."
+      },
+      "treasurer": {
+        "title": "Treasurer-tax collector",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ca/government-code/gov-sect-24009/",
+        "note": "The treasurer is elected by the people (Government Code 24009)."
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ca/government-code/gov-sect-24009/",
+        "note": "The assessor is elected by the people (Government Code 24009)."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ca/government-code/gov-sect-24009/",
+        "note": "The coroner is elected by the people (Government Code 24009); many counties combine it with the sheriff."
+      }
+    },
+    "CO": {
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County clerk and recorder is a constitutional officer elected to a four-year term."
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County assessor is a constitutional officer elected to a four-year term."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County treasurer is a constitutional officer elected to a four-year term."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County sheriff is a constitutional officer elected to a four-year term."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
+        "note": "County coroner is a constitutional officer elected to a four-year term."
+      }
+    },
     "CT": {
       "sheriff": {
         "elected": false,
@@ -80,46 +243,6 @@
         "basis": "read",
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
-      },
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
-    "HI": {
-      "sheriff": {
-        "elected": false,
-        "basis": "read",
-        "sourceUrl": "https://en.wikipedia.org/wiki/Sheriffs_in_the_United_States",
-        "note": "Sheriffs are appointed, not elected, in Hawaii."
-      },
-      "prosecutor": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a county prosecutor appointed in Hawaii, the attorney general prosecuting in Rhode Island."
-      },
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
-    "RI": {
-      "sheriff": {
-        "elected": false,
-        "basis": "read",
-        "sourceUrl": "https://en.wikipedia.org/wiki/Sheriffs_in_the_United_States",
-        "note": "Sheriffs are appointed, not elected, in Rhode Island."
-      },
-      "prosecutor": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a county prosecutor appointed in Hawaii, the attorney general prosecuting in Rhode Island."
       },
       "coroner": {
         "elected": false,
@@ -142,102 +265,81 @@
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
       }
     },
-    "NJ": {
+    "FL": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://flsenate.gov/Session/Bill/2017/134/BillText/c2/HTML",
+        "note": "The sheriff is one of five constitutional county officers (Article VIII, section 1(d))."
+      },
       "prosecutor": {
+        "title": "State attorney",
+        "elected": true,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "The state attorney is elected for a judicial circuit; not yet read from the state's law.",
+        "scope": "judicial-circuit"
+      },
+      "clerk": {
+        "title": "Clerk of the circuit court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://flsenate.gov/Session/Bill/2017/134/BillText/c2/HTML",
+        "note": "The clerk of the circuit court is a constitutional county officer, also clerk to the county commission."
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "The clerk of the circuit court is custodian of county funds; no separate elected treasurer."
+      },
+      "assessor": {
+        "title": "Property appraiser",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://flsenate.gov/Session/Bill/2017/134/BillText/c2/HTML",
+        "note": "The property appraiser is a constitutional county officer."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "A medical examiner appointed under state law, not an elected coroner; not yet read."
+      }
+    },
+    "GA": {
+      "prosecutor": {
+        "title": "District attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "HI": {
+      "sheriff": {
         "elected": false,
         "basis": "read",
-        "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
-        "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sheriffs_in_the_United_States",
+        "note": "Sheriffs are appointed, not elected, in Hawaii."
+      },
+      "prosecutor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a county prosecutor appointed in Hawaii, the attorney general prosecuting in Rhode Island."
       },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
-    "IL": {
-      "prosecutor": {
-        "title": "State's attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "MD": {
-      "prosecutor": {
-        "title": "State's attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      },
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
-    "VT": {
-      "prosecutor": {
-        "title": "State's attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      },
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
-    "KY": {
-      "prosecutor": {
-        "title": "Commonwealth's attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "VA": {
-      "prosecutor": {
-        "title": "Commonwealth's attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      },
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
-    "AZ": {
-      "prosecutor": {
-        "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
       }
     },
     "IA": {
       "prosecutor": {
         "title": "County attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "MN": {
-      "prosecutor": {
-        "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "NE": {
-      "prosecutor": {
-        "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "NH": {
-      "prosecutor": {
-        "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      },
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
       }
     },
     "ID": {
@@ -278,27 +380,9 @@
         "note": "Coroner is elected."
       }
     },
-    "MI": {
+    "IL": {
       "prosecutor": {
-        "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "WA": {
-      "prosecutor": {
-        "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "WV": {
-      "prosecutor": {
-        "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "MO": {
-      "prosecutor": {
-        "title": "Prosecuting attorney",
+        "title": "State's attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
       }
     },
@@ -308,65 +392,399 @@
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
       }
     },
-    "OH": {
-      "prosecutor": {
-        "title": "County prosecutor",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "WY": {
-      "prosecutor": {
-        "title": "County and prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "SC": {
-      "prosecutor": {
-        "title": "Solicitor",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law",
-        "scope": "judicial-circuit",
-        "note": "One solicitor is elected for each of the state's 16 judicial circuits of two to five counties (District attorney, Wikipedia).",
-        "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
+    "KS": {
+      "sheriff": {
+        "elected": true,
         "basis": "read",
-        "elected": true
-      }
-    },
-    "GA": {
+        "sourceUrl": "https://www.bourboncountyks.org/contact-us/",
+        "note": "The sheriff is on a Kansas county's published list of elected officials."
+      },
       "prosecutor": {
-        "title": "District attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
-      }
-    },
-    "CO": {
+        "title": "County attorney",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.bourboncountyks.org/contact-us/",
+        "note": "The county attorney is on a Kansas county's published list of elected officials."
+      },
       "clerk": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
-        "note": "County clerk and recorder is a constitutional officer elected to a four-year term."
-      },
-      "assessor": {
-        "elected": true,
-        "basis": "read",
-        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
-        "note": "County assessor is a constitutional officer elected to a four-year term."
+        "sourceUrl": "https://www.bourboncountyks.org/contact-us/",
+        "note": "The county clerk is on a Kansas county's published list of elected officials."
       },
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
-        "note": "County treasurer is a constitutional officer elected to a four-year term."
+        "sourceUrl": "https://www.bourboncountyks.org/contact-us/",
+        "note": "The county treasurer is on a Kansas county's published list of elected officials."
       },
+      "assessor": {
+        "title": "County appraiser",
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Plains and Upper Midwest pattern: sheriff, state's or county attorney, auditor or clerk, treasurer and register of deeds elected by county",
+        "note": "The county appraiser is appointed; not yet read from the state's law."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Plains and Upper Midwest pattern: sheriff, state's or county attorney, auditor or clerk, treasurer and register of deeds elected by county",
+        "note": "Coroners are appointed by the county in most Kansas counties; not yet read from the state's law."
+      }
+    },
+    "KY": {
+      "prosecutor": {
+        "title": "Commonwealth's attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "LA": {
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
-        "note": "County sheriff is a constitutional officer elected to a four-year term."
+        "sourceUrl": "https://house.louisiana.gov/slg/PDF/Chapter%203%20Part%20B%20-%20Constitutional%20Offices.pdf",
+        "note": "The constitution establishes a sheriff in each parish except Orleans (Article V, section 27)."
+      },
+      "prosecutor": {
+        "title": "District attorney",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://house.louisiana.gov/slg/PDF/Chapter%203%20Part%20B%20-%20Constitutional%20Offices.pdf",
+        "note": "The constitution provides a district attorney for each judicial district.",
+        "scope": "judicial-district"
+      },
+      "clerk": {
+        "title": "Clerk of court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://house.louisiana.gov/slg/PDF/Chapter%203%20Part%20B%20-%20Constitutional%20Offices.pdf",
+        "note": "The constitution provides a clerk of the district court in each parish."
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "The parish governing authority keeps its own finance office; no elected treasurer in the constitution's list."
+      },
+      "assessor": {
+        "title": "Assessor",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://house.louisiana.gov/slg/PDF/Chapter%203%20Part%20B%20-%20Constitutional%20Offices.pdf",
+        "note": "The constitution provides an assessor in each parish."
       },
       "coroner": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://washingtoncounty.colorado.gov/elected-officials",
-        "note": "County coroner is a constitutional officer elected to a four-year term."
+        "sourceUrl": "https://house.louisiana.gov/slg/PDF/Chapter%203%20Part%20B%20-%20Constitutional%20Offices.pdf",
+        "note": "The constitution establishes a parish coroner (Article V, section 29)."
+      }
+    },
+    "MA": {
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "MD": {
+      "prosecutor": {
+        "title": "State's attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "ME": {
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "MI": {
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "MN": {
+      "prosecutor": {
+        "title": "County attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "MO": {
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "MS": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.sos.ms.gov/sites/default/files/publications/County%20Offices%20and%20Directory_2026.pdf",
+        "note": "The county sheriff is elected; the Secretary of State's county offices directory lists it."
+      },
+      "prosecutor": {
+        "title": "District attorney",
+        "elected": true,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "The district attorney is elected for a circuit court district; not yet read from the state's law.",
+        "scope": "judicial-district"
+      },
+      "clerk": {
+        "title": "Chancery clerk",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.sos.ms.gov/sites/default/files/publications/County%20Offices%20and%20Directory_2026.pdf",
+        "note": "The chancery clerk, clerk to the board of supervisors, is elected to a four-year term."
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "Mississippi has no elected county treasurer; the chancery clerk and tax collector hold county money."
+      },
+      "assessor": {
+        "title": "Tax assessor",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.sos.ms.gov/sites/default/files/publications/County%20Offices%20and%20Directory_2026.pdf",
+        "note": "The tax assessor and tax collector are elected; one person may hold both."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.sos.ms.gov/sites/default/files/publications/County%20Offices%20and%20Directory_2026.pdf",
+        "note": "The coroner is elected to a four-year term."
+      }
+    },
+    "MT": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://mca.legmt.gov/bills/2009/mca/7/4/7-4-2203.htm",
+        "note": "Montana Code 7-4-2203 lists a county sheriff."
+      },
+      "prosecutor": {
+        "title": "County attorney",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://mca.legmt.gov/bills/2009/mca/7/4/7-4-2203.htm",
+        "note": "Montana Code 7-4-2203 lists a county attorney."
+      },
+      "clerk": {
+        "title": "Clerk and recorder",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://mca.legmt.gov/bills/2009/mca/7/4/7-4-2203.htm",
+        "note": "Montana Code 7-4-2203 lists a county clerk, who is also recorder."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://mca.legmt.gov/bills/2009/mca/7/4/7-4-2203.htm",
+        "note": "Montana Code 7-4-2203 lists a treasurer."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Western states' pattern: sheriff, county attorney, clerk, treasurer, assessor and recorder elected by county",
+        "note": "Montana Code 7-4-2203 lists an assessor, but assessing is done by the state Department of Revenue; not yet read."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://mca.legmt.gov/bills/2009/mca/7/4/7-4-2203.htm",
+        "note": "Montana Code 7-4-2203 lists a coroner."
+      }
+    },
+    "NC": {
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "ND": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
+        "note": "North Dakota Century Code 11-10-02: each county has an elected sheriff."
+      },
+      "prosecutor": {
+        "title": "State's attorney",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
+        "note": "North Dakota Century Code 11-10-02: each county has an elected state's attorney."
+      },
+      "clerk": {
+        "title": "County auditor",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
+        "note": "North Dakota Century Code 11-10-02: each county has a county auditor, who keeps the county's records."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
+        "note": "North Dakota Century Code 11-10-02: each county has a county treasurer."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Plains and Upper Midwest pattern: sheriff, state's or county attorney, auditor or clerk, treasurer and register of deeds elected by county",
+        "note": "A county director of tax equalization is appointed; not yet read."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
+        "note": "North Dakota Century Code 11-10-02: each county has a coroner."
+      }
+    },
+    "NE": {
+      "prosecutor": {
+        "title": "County attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "NH": {
+      "prosecutor": {
+        "title": "County attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "NJ": {
+      "prosecutor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
+        "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "NM": {
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "NV": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
+        "note": "NRS 245.043 sets pay for elected sheriffs."
+      },
+      "prosecutor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
+        "note": "NRS 245.043 sets pay for elected district attorneys."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
+        "note": "NRS 245.043 sets pay for elected county clerks."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
+        "note": "NRS 245.043 sets pay for elected county treasurers."
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
+        "note": "NRS 245.043 sets pay for elected county assessors."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Western states' pattern: sheriff, county attorney, clerk, treasurer, assessor and recorder elected by county",
+        "note": "In most Nevada counties the sheriff is coroner by law; not yet read."
+      }
+    },
+    "NY": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.nysenate.gov/legislation/laws/CNT/400",
+        "note": "County Law 400: there shall be elected a sheriff."
+      },
+      "prosecutor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.nysenate.gov/legislation/laws/CNT/400",
+        "note": "County Law 400: there shall be elected a district attorney."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.nysenate.gov/legislation/laws/CNT/400",
+        "note": "County Law 400: there shall be elected a county clerk."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.nysenate.gov/legislation/laws/CNT/400",
+        "note": "County Law 400: there shall be elected a county treasurer."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Northeastern pattern: sheriff, district attorney, clerk and treasurer elected by county, assessing done by towns",
+        "note": "New York towns and cities assess property, not counties; not yet read."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.nysenate.gov/legislation/laws/CNT/400",
+        "note": "Coroners are elected unless the county replaced the office with an appointed medical examiner."
+      }
+    },
+    "OH": {
+      "prosecutor": {
+        "title": "County prosecutor",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
       }
     },
     "OK": {
@@ -408,44 +826,334 @@
         "note": "The district attorney is elected for a prosecutorial district, listed among the nine elected county offices."
       }
     },
-    "MA": {
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
-    "ME": {
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
-    "NM": {
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
-    "NC": {
-      "coroner": {
-        "elected": false,
-        "basis": "estimated",
-        "sourceUrl": null,
-        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
-      }
-    },
     "OR": {
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "PA": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://buckscounty.gov/221/Row-Officers",
+        "note": "The sheriff is a row officer, elected countywide for four years."
+      },
+      "prosecutor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://buckscounty.gov/221/Row-Officers",
+        "note": "The district attorney is a row officer, elected countywide for four years."
+      },
+      "clerk": {
+        "title": "Prothonotary",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://buckscounty.gov/221/Row-Officers",
+        "note": "The prothonotary is a row officer, elected countywide for four years."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://buckscounty.gov/221/Row-Officers",
+        "note": "The treasurer is a row officer, elected countywide for four years."
+      },
+      "assessor": {
+        "title": "Chief assessor",
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Northeastern pattern: sheriff, district attorney, clerk and treasurer elected by county, assessing done by towns",
+        "note": "Pennsylvania counties appoint a chief assessor; not yet read."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://buckscounty.gov/221/Row-Officers",
+        "note": "The coroner is a row officer, elected countywide for four years."
+      }
+    },
+    "RI": {
+      "sheriff": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sheriffs_in_the_United_States",
+        "note": "Sheriffs are appointed, not elected, in Rhode Island."
+      },
+      "prosecutor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a county prosecutor appointed in Hawaii, the attorney general prosecuting in Rhode Island."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "SC": {
+      "prosecutor": {
+        "title": "Solicitor",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law",
+        "scope": "judicial-circuit",
+        "note": "One solicitor is elected for each of the state's 16 judicial circuits of two to five counties (District attorney, Wikipedia).",
+        "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
+        "basis": "read",
+        "elected": true
+      }
+    },
+    "SD": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
+        "note": "SDCL chapter 7-7: the sheriff is elected every fourth year."
+      },
+      "prosecutor": {
+        "title": "State's attorney",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
+        "note": "SDCL chapter 7-7: the state's attorney is elected every fourth year."
+      },
+      "clerk": {
+        "title": "County auditor",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
+        "note": "SDCL chapter 7-7: the county auditor is elected and keeps the county's records."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
+        "note": "SDCL chapter 7-7: the treasurer is elected every fourth year."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Plains and Upper Midwest pattern: sheriff, state's or county attorney, auditor or clerk, treasurer and register of deeds elected by county",
+        "note": "A director of equalization is appointed; not yet read."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
+        "note": "SDCL chapter 7-7: the coroner is elected every fourth year."
+      }
+    },
+    "TN": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
+        "note": "Article VII, section 1 makes the sheriff an elected county officer."
+      },
+      "prosecutor": {
+        "title": "District attorney general",
+        "elected": true,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "The district attorney general is elected for a judicial district; not a county office under Article VII.",
+        "scope": "judicial-district"
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
+        "note": "Article VII, section 1 makes the county clerk an elected county officer."
+      },
+      "treasurer": {
+        "title": "Trustee",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
+        "note": "Article VII, section 1 makes the trustee an elected county officer."
+      },
+      "assessor": {
+        "title": "Assessor of property",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
+        "note": "Article VII, section 1 makes the assessor of property an elected county officer."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "Tennessee counties use appointed medical examiners; not yet read."
+      }
+    },
+    "TX": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
+        "note": "The constitution requires an elected county sheriff (Article V, section 23)."
+      },
+      "prosecutor": {
+        "title": "District attorney",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
+        "note": "The constitution provides county attorneys and district attorneys (Article V, sections 20 and 21); a district attorney serves a district.",
+        "scope": "judicial-district"
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
+        "note": "The constitution requires an elected county clerk (Article V, section 20)."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
+        "note": "The constitution has the legislature provide for an elected county treasurer (Article XVI)."
+      },
+      "assessor": {
+        "title": "Tax assessor-collector",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
+        "note": "A tax assessor is elected in each county (Article VIII, section 14)."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Southern states' pattern: sheriff, clerk of court and tax officers elected by county, death investigation by a coroner or appointed medical examiner",
+        "note": "In Texas justices of the peace act as coroner and large counties appoint medical examiners; not yet read."
+      }
+    },
+    "UT": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://utahcounty.gov/elected-officials",
+        "note": "The sheriff is among Utah County's elected officials."
+      },
+      "prosecutor": {
+        "title": "County attorney",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://utahcounty.gov/elected-officials",
+        "note": "The county attorney is among Utah County's elected officials."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Western states' pattern: sheriff, county attorney, clerk, treasurer, assessor and recorder elected by county",
+        "note": "Utah elects a county clerk or combined clerk-auditor; not yet read from the state's law."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Western states' pattern: sheriff, county attorney, clerk, treasurer, assessor and recorder elected by county",
+        "note": "Utah elects a county treasurer; not yet read from the state's law."
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://utahcounty.gov/elected-officials",
+        "note": "The assessor is among Utah County's elected officials."
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Western states' pattern: sheriff, county attorney, clerk, treasurer, assessor and recorder elected by county",
+        "note": "Utah's state medical examiner handles death investigation; not yet read."
+      }
+    },
+    "VA": {
+      "prosecutor": {
+        "title": "Commonwealth's attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "VT": {
+      "prosecutor": {
+        "title": "State's attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      }
+    },
+    "WA": {
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "WI": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.wicounties.org/wp-content/uploads/2025/09/1.-Constitutional-Officers.pdf",
+        "note": "The sheriff is a constitutional county officer."
+      },
+      "prosecutor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.wicounties.org/wp-content/uploads/2025/09/1.-Constitutional-Officers.pdf",
+        "note": "The district attorney is a constitutional officer."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.wicounties.org/wp-content/uploads/2025/09/1.-Constitutional-Officers.pdf",
+        "note": "The county clerk is a constitutional county officer."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.wicounties.org/wp-content/uploads/2025/09/1.-Constitutional-Officers.pdf",
+        "note": "The treasurer is a constitutional county officer."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "estimatedFrom": "the Plains and Upper Midwest pattern: sheriff, state's or county attorney, auditor or clerk, treasurer and register of deeds elected by county",
+        "note": "Wisconsin towns and cities assess property, not counties; not yet read."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.wicounties.org/wp-content/uploads/2025/09/1.-Constitutional-Officers.pdf",
+        "note": "The coroner is a constitutional officer, elected except where the county has a medical examiner or 500,000 residents."
+      }
+    },
+    "WV": {
+      "prosecutor": {
+        "title": "Prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      }
+    },
+    "WY": {
+      "prosecutor": {
+        "title": "County and prosecuting attorney",
+        "titleBasis": "estimated: the state's usual title, not yet read from its law"
       }
     }
   }

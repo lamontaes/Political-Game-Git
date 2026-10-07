@@ -1,4 +1,5 @@
 import { afterAll, describe, expect, it } from "vitest";
+import table from "../../data/research/government/county-row-offices-by-state.json" with { type: "json" };
 import {
   electiveOfficesForJurisdiction,
   localGoverningBodiesForJurisdiction,
@@ -79,6 +80,33 @@ describe("the table of county row offices", () => {
       if (rule.basis === "estimated")
         expect(rule.source).toMatch(/ESTIMATED FROM AVERAGE|estimated/i);
     }
+  });
+
+  it("has a row for each of the fifty states, D.C. holding none, each estimate naming its regional pattern", () => {
+    const fifty =
+      "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(
+        " ",
+      );
+    expect(fifty).toHaveLength(50);
+    const states = table.states as Record<string, Record<string, unknown>>;
+    expect(Object.keys(states).sort()).toEqual([...fifty].sort());
+    expect(states["DC"]).toBeUndefined();
+    for (const stateUsps of fifty)
+      for (const office of COUNTY_ROW_OFFICE_KEYS) {
+        const row = states[stateUsps]![office] as
+          { basis?: string; estimatedFrom?: string } | undefined;
+        if (row?.basis === "estimated" && "estimatedFrom" in row)
+          expect(row.estimatedFrom!.length).toBeGreaterThan(10);
+      }
+    for (const stateUsps of ["AL", "TX", "WI", "PA"]) {
+      const sheriff = countyRowOfficeRule(stateUsps, "sheriff");
+      expect(sheriff.basis).toBe("read");
+      expect(sheriff.source).toMatch(/https:/);
+    }
+    expect(countyRowOfficeRule("FL", "treasurer").source).toMatch(
+      /ESTIMATED FROM the Southern/,
+    );
+    expect(countyRowOfficeRule("FL", "treasurer").elected).toBe(false);
   });
 
   it("is one reader for every state: where a state does not elect an office the county has none", () => {
