@@ -1,0 +1,368 @@
+{
+  "question": "us-policy-positions:civil-family-community.restrict-abortion",
+  "definition": "SOURCE PACKET ONLY. Gestational rules and exceptions require a compound contract. No scalar admission or historical enforceability is established.",
+  "summarySource": "T6 inventory 2a2ed6cc6e247fe616a7574e84b4799e32ada60a and captured public sources in retrieval-index.json. Inherited summaries are labeled below. Source Table 2 footnotes: Notes: Table includes only those jurisdictions with policies relevant to this topic in effect. The inclusion of an exception in a policy banning abortion does not ensure there will be a provider available or willing to perform the procedure. The exceptions listed are for abortion bans that are in effect. Gestational duration limits that differ from the overall limit are noted and are in LMP unless otherwise stated. *On August 13, 2026, the United States District Court for the District of Idaho expanded Idaho’s exceptions to include threats to the physical health and general health of the pregnant person. However, a court later narrowed this ruling only to care provided by the physician plaintiff, meaning that only one provider is permitted to provide care under the expanded exceptions. †Maine allows for abortion after viability when a physician deems it necessary. In Illinois, the health of the patient encompasses “all factors that are relevant to the patient’s health and well-being, including, but not limited to, physical, emotional, psychological, and familial health and age.” In both states, the broad nature of the exceptions allows care to be provided later in pregnancy. ‡In Iowa, the rape and incest exceptions require sexual assault survivors to report the incident to law enforcement or a health agency within 45 days and survivors of incest to report the assault within 140 days. ",
+  "answers": {
+    "US-AL": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ala. Code § 26-23H-4",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with exceptions for serious risk to the patient's health and lethal fetal anomaly. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Diagnosis of lethal fetal anomaly = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-AR": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ark. Code § 5-61-304",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with an exception only to save the patient's life. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-AS": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "A.S.C.A. §§ 46.3902, 46.3903",
+      "source": "https://asbar.org/code-annotated/46-3903-authorized-abortions/",
+      "note": "INHERITED SUMMARY: Abortion is a class D felony unless a physician performs it because the patient's life is endangered or continuing the pregnancy would substantially impair her physical or mental health, so it is banned at every stage with those exceptions. SOURCE PACKET: retrieval failed: HTTP Error 403: Forbidden. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-02.",
+      "dateBasis": "not-found"
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ariz. Rev. Stat. § 36-2301.01",
+      "source": "https://www.azleg.gov/ars/36/02301-01.htm",
+      "note": "Reviewed current section 36-2301.01: viable-fetus abortion requires written life-or-health necessity and specified physician, technique and care requirements; medical emergencies exempt this section. Viability is attending-physician judgment of reasonable probability of sustained survival outside the uterus, with or without support. Constitutional and court enforceability remain unverified. SOURCE PACKET ONLY: no scalar admission or historical-date assertion. Artifact abortion-source-20. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-CA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Cal. Health & Safety Code § 123466",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=HSC&sectionNum=123466",
+      "note": "INHERITED SUMMARY: After viability, except to protect the patient's life or health. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-12. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-CT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Conn. Gen. Stat. § 19a-602",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After viability, except to protect the patient's life or health. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-DE": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Del. Code tit. 24, § 1790",
+      "source": "https://delcode.delaware.gov/title24/c017/sc09/index.html",
+      "note": "INHERITED SUMMARY: After viability, except for the patient's life or health or a fatal fetal anomaly. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-07. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X; Diagnosis of lethal fetal anomaly = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-FL": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Fla. Stat. § 390.0111",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After about six weeks (fetal cardiac activity), with listed exceptions; the 2024 Amendment 4 ballot measure fell short of the 60% threshold. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans in the first 18 weeks of pregnancy = 6 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Pregnancy resulting from rape = X (through 15 weeks); Pregnancy resulting from incest = X (through 15 weeks); Diagnosis of lethal fetal anomaly = X (until 3rd trimester). Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-GA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "O.C.G.A. § 16-12-141",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After about six weeks (fetal cardiac activity), with listed exceptions; a September 2024 trial ruling striking it was stayed by the Georgia Supreme Court, and the limit stayed in force. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans in the first 18 weeks of pregnancy = 6 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Pregnancy resulting from rape = X (through 20 weeks since fertilization); Pregnancy resulting from incest = X (through 20 weeks since fertilization); Diagnosis of lethal fetal anomaly = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-GU": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "9 GCA § 31.20",
+      "source": "https://col.guamcourts.gov/sites/default/files/9gc031.pdf",
+      "note": "INHERITED SUMMARY: Guam allows abortion only within 13 weeks (26 weeks for a grave defect, rape or incest, and any time to protect the mother), and the Ninth Circuit struck only the 1990 total ban, not this 1978 limit. SOURCE PACKET: retrieval failed: HTTP Error 502: Bad Gateway. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-06.",
+      "dateBasis": "not-found"
+    },
+    "US-HI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Haw. Rev. Stat. § 453-16",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After viability, except to protect the patient's life or health. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-IA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Iowa Code § 146C.2",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After about six weeks (fetal cardiac activity), with listed exceptions; in force since July 29, 2024. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans in the first 18 weeks of pregnancy = 6 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Pregnancy resulting from rape = X (through 20 weeks since fertilization); Pregnancy resulting from incest = X (through 20 weeks since fertilization); Diagnosis of lethal fetal anomaly = X (through 20 weeks since fertilization). Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-ID": {
+      "answer": "yes",
+      "operativeAt": "2022-08-25",
+      "preempts": true,
+      "cite": "Idaho Code § 18-622",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title18/T18CH6/SECT18-622/",
+      "note": "INHERITED SUMMARY: Banned at all stages, with listed exceptions (life of the patient; reported rape or incest in the first trimester). SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2022-08-25 does not establish a historical effective date. Artifact abortion-source-13. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X; Threat to the physical health of the pregnant person = X; Pregnancy resulting from rape = X (through first trimester); Pregnancy resulting from incest = X (through first trimester). Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "enacted-effective"
+    },
+    "US-IL": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "775 ILCS 55/1-25",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After viability, except to protect the patient's life or health. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-IN": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ind. Code § 16-34-2-1",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with narrow listed exceptions (life and serious health risk, lethal anomaly, rape or incest early in pregnancy). SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X (through 20 weeks since fertilization); Threat to the physical health of the pregnant person = X (through 20 weeks since fertilization); Pregnancy resulting from rape = X (through 10 weeks since fertilization); Pregnancy resulting from incest = X (through 10 weeks since fertilization); Diagnosis of lethal fetal anomaly = X (through 20 weeks since fertilization). Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-KS": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Kan. Stat. § 65-6724",
+      "source": "https://www.ksrevisor.gov/statutes/chapters/ch65/065_067_0024.html",
+      "note": "Reviewed current section 65-6724: subsection (c)(2) applies at 22 or more weeks gestational age; subsection (a) permits life-preservation or substantial and irreversible physical impairment of a major bodily function with physician determinations and referral requirements. Companion definitions and enforceability remain unverified; no age-unit conversion is admitted. SOURCE PACKET ONLY: no scalar admission or historical-date assertion. Artifact abortion-source-23. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = 22 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-KY": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ky. Rev. Stat. § 311.772",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with an exception for life or serious health risk to the patient. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-LA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "La. R.S. 14:87.7",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with exceptions for life, serious health risk and listed medically futile pregnancies. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Diagnosis of lethal fetal anomaly = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-MA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mass. Gen. Laws ch. 112, §§ 12M, 12N",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter112/Section12M",
+      "note": "INHERITED SUMMARY: After 24 weeks, with exceptions for life, health and fatal or grave fetal anomaly. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-15. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = 24 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X; Diagnosis of lethal fetal anomaly = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-ME": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "22 M.R.S. § 1598",
+      "source": "https://legislature.maine.gov/statutes/22/title22sec1598.html",
+      "note": "INHERITED SUMMARY: After viability, unless a physician finds it medically necessary. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-14. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-MO": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mo. Rev. Stat. § 188.030",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=188.030",
+      "note": "INHERITED SUMMARY: After viability, except in a medical emergency or to preserve the patient's life or health; 2024 Amendment 3 ended the total ban, which a Jackson County court blocked again in July 2025 after the state Supreme Court vacated an earlier injunction. A repeal amendment is on the November 2026 ballot. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-17. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-MP": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N. Mar. I. Const. art. I, § 12",
+      "source": "https://cnmilaw.org/cons.php",
+      "note": "INHERITED SUMMARY: Banned at all stages by the constitution, except as provided by law. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-03.",
+      "dateBasis": "not-found"
+    },
+    "US-MS": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Miss. Code § 41-41-45",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with exceptions for the patient's life and reported rape. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X; Pregnancy resulting from rape = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-MT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mont. Code § 50-20-109",
+      "source": "https://leg.mt.gov/bills/mca/title_0500/chapter_0200/part_0010/section_0090/0500-0200-0010-0090.html",
+      "note": "INHERITED SUMMARY: After viability, except to preserve the patient's life or health; the 20-week limit was blocked and 2024 Initiative 128 added an abortion right. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-11. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-NC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.C. Gen. Stat. § 90-21.81B",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_90/GS_90-21.81B.html",
+      "note": "Reviewed current G.S. 90-21.81B: qualified-physician medical emergency; first 12 weeks of pregnancy; after the twelfth through the twentieth week for rape or incest; first 24 weeks for physician-determined life-limiting anomaly. Facility and other Article requirements remain applicable. Medical-emergency and anomaly definitions require companion provisions. SOURCE PACKET ONLY: no scalar admission or historical-date assertion. Artifact abortion-source-25. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans in the first 18 weeks of pregnancy = 12 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Pregnancy resulting from rape = X (through 20 weeks); Pregnancy resulting from incest = X (through 20 weeks); Diagnosis of lethal fetal anomaly = X (through 24 weeks). Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-ND": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.D. Cent. Code § 12.1-19.1-02",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with listed exceptions; a district court struck the ban in September 2024, but the North Dakota Supreme Court reinstated it in November 2025, so it was enforceable on 1/1/2026. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Pregnancy resulting from rape = X (through 6 weeks); Pregnancy resulting from incest = X (through 6 weeks). Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-NE": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Neb. Rev. Stat. § 71-6915",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=71-6915",
+      "note": "INHERITED SUMMARY: After 12 weeks, with listed exceptions; 2024 Initiative 434 wrote the 12-week limit into the constitution. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-16. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans in the first 18 weeks of pregnancy = 12 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Pregnancy resulting from rape = X; Pregnancy resulting from incest = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-NH": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.H. Rev. Stat. § 329:44",
+      "source": "https://www.gencourt.state.nh.us/rsa/html/XXX/329/329-44.htm",
+      "note": "Reviewed current RSA 329:44: prohibits at least 24 weeks probable gestational age except fetal abnormalities incompatible with life or defined medical emergency. Emergency covers endangered life from physical disorder, illness or injury, including pregnancy conditions, or serious risk of substantial and irreversible impairment of a major bodily function. Current page lists January 1, 2022 and May 2022 amendments. SOURCE PACKET ONLY: no scalar admission or historical-date assertion. Artifact abortion-source-21. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = 24 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Diagnosis of lethal fetal anomaly = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability. ADDITIONAL PRIMARY AUTHORITY: captured RSA 329:43 (artifact nh-definitions) defines gestational age as elapsed time since the first day of the last menstrual period; probable gestational age and reasonable medical judgment are separate defined terms. Major bodily function includes immune, cell growth, digestive, bowel, bladder, neurological, brain, respiratory, circulatory, endocrine and reproductive functions. Abortion definition excludes removal of ectopic pregnancy, dead fetus from spontaneous abortion, and acts intended to save fetal life or health. Both definitions and prohibition source histories identify 2021 chapter 91 section 39 effective January 1, 2022. The prohibition additionally lists 2022 chapter 86 section 1 effective May 20, 2022 and chapter 119 section 1 effective May 27, 2022. These are sourced statutory dates, not proof of court enforceability or the full January 1, 2026 historical version. The inventory fallback January 1, 2000 is contradicted as the start of this cited subdivision. No schema, scalar or live-law date is admitted.",
+      "dateBasis": "not-found"
+    },
+    "US-NV": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Nev. Rev. Stat. § 442.250",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-442.html",
+      "note": "INHERITED SUMMARY: After 24 weeks, except to preserve the patient's life or health; the 2024 constitutional amendment needs a second vote in November 2026. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-24. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = 24 weeks (since fertilization). Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-NY": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.Y. Pub. Health Law § 2599-bb",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After 24 weeks or viability, except to protect the patient's life or health. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = 24 weeks or viability (since commencement of pregnancy). Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-OH": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ohio Rev. Code § 2919.201",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-2919.201",
+      "note": "INHERITED SUMMARY: After 20 weeks post-fertilization (about 22 weeks), with exceptions; the six-week ban is blocked after 2023 Issue 1, which allows post-viability limits. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-05. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = 20 weeks (since fertilization). Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-OK": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Okla. Stat. tit. 21, § 861; tit. 63, § 1-731.4",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with an exception to save the patient's life in a medical emergency. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-PA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "18 Pa.C.S. § 3211",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After 24 weeks, except to prevent the patient's death or serious health risk. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = 24 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-RI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "R.I. Gen. Laws § 23-4.13-2",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE23/23-4.13/23-4.13-2.htm",
+      "note": "INHERITED SUMMARY: After viability, except to preserve the patient's life or health. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-19. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-SC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "S.C. Code § 44-41-630",
+      "source": "https://www.scstatehouse.gov/code/t44c041.php",
+      "note": "INHERITED SUMMARY: After about six weeks (fetal cardiac activity), with listed exceptions. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-26. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans in the first 18 weeks of pregnancy = 6 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Pregnancy resulting from rape = X (through 12 weeks since conception); Pregnancy resulting from incest = X (through 12 weeks since conception); Diagnosis of lethal fetal anomaly = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-SD": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "S.D. Codified Laws § 22-17-5.1",
+      "source": "https://sdlegislature.gov/api/Statutes/22-17-5.1.html",
+      "note": "Reviewed current section 22-17-5.1: procurement prohibited unless appropriate and reasonable medical judgment finds abortion necessary to preserve the pregnant female’s life. Source history includes 2026 chapters 99 and 100. Current amended text does not establish the January 1, 2026 version. SOURCE PACKET ONLY: no scalar admission or historical-date assertion. Artifact abortion-source-18. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-TN": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Tenn. Code § 39-15-213",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with listed medical exceptions (life, serious health risk, ectopic and molar pregnancies). SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-TX": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Tex. Health & Safety Code § 170A.002",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: Banned at all stages, with an exception for a life-threatening physical condition or serious risk of major bodily impairment. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-UT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Utah Code § 76-7-302",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After 18 weeks, with listed exceptions; the near-total trigger ban remains enjoined by state courts. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans in the first 18 weeks of pregnancy = 18 weeks. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Diagnosis of lethal fetal anomaly = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-VA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Va. Code § 18.2-74",
+      "source": "https://law.lis.virginia.gov/vacode/title18.2/chapter4/section18.2-74/",
+      "note": "INHERITED SUMMARY: In the third trimester, unless three physicians certify it is needed for the patient's life or health; a constitutional amendment is on the November 2026 ballot. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-10. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = 3rd trimester. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-VI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "14 V.I.C. § 151",
+      "source": "https://en.wikipedia.org/wiki/Abortion_in_the_United_States_Virgin_Islands",
+      "note": "INHERITED SUMMARY: Wikipedia, citing 14 V.I.C. § 151, says abortion is legal on request to 24 weeks and afterward only to protect the life or health of the mother, which is a gestational limit. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-09.",
+      "dateBasis": "not-found"
+    },
+    "US-WA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Rev. Code Wash. § 9.02.110",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=9.02.110",
+      "note": "INHERITED SUMMARY: After viability, except to protect the patient's life or health. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-01. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-WI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Wis. Stat. § 253.107",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/253/107",
+      "note": "INHERITED SUMMARY: After 20 weeks post-fertilization (about 22 weeks), with a medical-emergency exception; the Wisconsin Supreme Court held in July 2025 that the 1849 law does not ban abortion. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-08. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = 20 weeks (since fertilization). Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-WV": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "W. Va. Code § 16-2R-3",
+      "source": "https://code.wvlegislature.gov/16-2R-3/",
+      "note": "INHERITED SUMMARY: Banned at all stages, with exceptions for nonviable pregnancy, ectopic pregnancy, medical emergency and reported rape or incest early in pregnancy. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-04. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Total ban = X. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the physical health of the pregnant person = X; Pregnancy resulting from rape = X (through 8 weeks since fertilization for adults, 14 weeks since fertilization for minors); Pregnancy resulting from incest = X (through 8 weeks since fertilization for adults, 14 weeks since fertilization for minors); Diagnosis of lethal fetal anomaly = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    },
+    "US-WY": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Wyo. Stat. § 35-6-102",
+      "source": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+      "note": "INHERITED SUMMARY: After viability, with a life or health exception; the 2023 total and pill bans were struck by a district court in November 2024 (affirmed January 6, 2026), and a six-week ban signed in March 2026 is after this date. SOURCE PACKET: retrieved, interpretation not independently admitted. Inventory phase 2000-01-01 does not establish a historical effective date. Artifact abortion-source-22. RETRIEVED SECONDARY SOURCE, September 2, 2026: Table 1 source cells: Bans after 18 weeks of pregnancy = Viability. Table 2 source cells: Threat to the life of the pregnant person = X; Threat to the general health of the pregnant person = X. Artifact abortion-source-22. Source footnotes and measurement definitions are preserved in raw/abortion-source-22.txt; X denotes the source table marking, not an executable legal predicate. This later snapshot does not establish January 1, 2026 or fallback-2000 enforceability.",
+      "dateBasis": "not-found"
+    }
+  }
+}

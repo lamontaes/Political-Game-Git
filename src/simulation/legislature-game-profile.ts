@@ -50,6 +50,7 @@ import {
   type LegislativeRulePack,
   type RuleSourceRef,
   type VoteDenominator,
+  type VoteRounding,
   type VoteThresholdRule,
 } from "./legislature-rules";
 import legislatorsTable from "../../data/research/laws/legislators-2023.json" with { type: "json" };
@@ -58,6 +59,7 @@ import { districtIdentityCatalog } from "../districts/catalog";
 import { listDistrictIdentities } from "../districts/query";
 import { seatsByDistrict } from "../districts/members-per-district";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import { STATES } from "./state-reference";
 import {
   VETO_OVERRIDE_SOURCE_READINGS,
@@ -760,7 +762,7 @@ function buildLegislatureProfilePack(
     override.basis === "read" && readingCitation(stateJurisdictionKey) !== null
       ? readingCitation(stateJurisdictionKey)!
       : overrideSource;
-  return {
+  const pack: LegislativeRulePack = {
     packId: legislatureProfilePackId(stateJurisdictionKey),
     jurisdictionKey: stateJurisdictionKey,
     displayName: `${stateName} Legislature`,
@@ -830,15 +832,16 @@ function buildLegislatureProfilePack(
       ),
       override: {
         kind: "each-chamber",
-        threshold: fractionOf(
-          override.numerator,
-          override.denominatorParts,
-          override.countedAgainst,
-          override.readBasis === null
-            ? `${override.numerator} of ${override.denominatorParts} of the members elected to each chamber`
-            : `${override.numerator} of ${override.denominatorParts} of ${override.readBasis}`,
-          overrideThresholdSource,
-        ),
+        threshold: {
+          ...fractionOf(
+            override.numerator,
+            override.denominatorParts,
+            override.countedAgainst,
+            override.label,
+            overrideThresholdSource,
+          ),
+          rounding: override.rounding,
+        },
       },
       source: overrideSource,
     },
@@ -887,6 +890,7 @@ function buildLegislatureProfilePack(
       ...override.unexpressed,
     ],
   };
+  return withMinorityPartyProcedureRows(pack);
 }
 
 /**
@@ -1039,6 +1043,8 @@ export function seatsForChamber(
 export interface OverrideThresholdChoice {
   readonly numerator: number;
   readonly denominatorParts: number;
+  readonly rounding: VoteRounding;
+  readonly label: string;
   readonly countedAgainst: VoteDenominator;
   readonly basis: "read" | "game-profile";
   /** The instrument's own words, where a reading supplied them. */
@@ -1065,9 +1071,9 @@ export interface OverrideThresholdChoice {
  * counts against "members present and voting" or "the membership entitled
  * under the constitution", it records that those are not the same set as
  * anything `VoteDenominator` names and declines to map. This function keeps the
- * read FRACTION, which is what a player feels — a half and two thirds are the
- * difference between a live override and a dead one — carries the instrument's
- * own words forward in `readBasis`, and says in `unexpressed` that the
+ * read fraction and its rounding meaning: one half by itself does not tell us
+ * whether an exact half passes. It carries the instrument's own words forward
+ * in `readBasis`, and says in `unexpressed` that the
  * denominator is the game's nearest rather than the instrument's.
  *
  * And it does not flatten a rule the schema cannot hold. `OverrideForum` in the
@@ -1086,6 +1092,8 @@ export function overrideThresholdFor(
   const fallback: OverrideThresholdChoice = {
     numerator: drawn[0],
     denominatorParts: drawn[1],
+    rounding: "at-least-fraction",
+    label: `${drawn[0]} of ${drawn[1]} of the members elected to each chamber`,
     countedAgainst: "members-elected",
     basis: "game-profile",
     readBasis: null,
@@ -1151,6 +1159,12 @@ export function overrideThresholdFor(
   return {
     numerator: primary.numerator,
     denominatorParts: primary.denominatorParts,
+    rounding: primary.rounding ?? "at-least-fraction",
+    label:
+      primary.rounding === "strictly-greater-than-fraction" &&
+      primary.numerator * 2 === primary.denominatorParts
+        ? `A majority of ${primary.readBasis}`
+        : `${primary.numerator} of ${primary.denominatorParts} of ${primary.readBasis}`,
     countedAgainst: primary.countedAgainst ?? "members-elected",
     basis: "read",
     readBasis: primary.readBasis,

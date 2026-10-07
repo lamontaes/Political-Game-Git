@@ -149,6 +149,10 @@ the canonical version and exist only for throwaway artifacts.
   confirmation), and **signed Mac automatic-update installation is NOT
   VERIFIED**. Do not disable Gatekeeper or remove quarantine broadly.
 
+### Tracked secret scan
+
+Run `npm run secrets:scan` before publishing. The scanner inspects tracked paths and file contents for credentials and signing material; findings report paths and categories without printing values. Build feeds and signing credentials are supplied through environment variables or GitHub Actions secrets, never committed files.
+
 ### Private controller versus public auto-update
 
 The private controller is a developer-only local delivery for the owner's

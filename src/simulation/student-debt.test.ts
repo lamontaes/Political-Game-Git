@@ -24,7 +24,7 @@ import {
   reviseLoanTerms,
 } from "./household-loans";
 import { personName } from "./people";
-import { addDays, ageOnDate } from "./dates";
+import { addDays, ageOnDate, makeIsoDate } from "./dates";
 import { advanceWorld } from "./world";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import {
@@ -45,7 +45,10 @@ import {
   resourcePositionAt,
 } from "./resource-queries";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import { financeRecordedStudentTuition } from "./student-debt";
+import {
+  financeRecordedStudentTuition,
+  studentLoanRateFor,
+} from "./student-debt";
 import type { RecordedStudentFinancingInput } from "./student-debt";
 import {
   recordedStudentAidFacts,
@@ -175,6 +178,23 @@ function advanceLoanMonth(world: ReturnType<typeof fixture>["world"]) {
 }
 
 describe("recorded student tuition financing", () => {
+  it("uses the published award-year federal rate and marks nearest-year estimates", () => {
+    expect(studentLoanRateFor(makeIsoDate("2026-07-01"))).toMatchObject({
+      annualRateBasisPoints: 652,
+      awardYear: "2026-27",
+      publishedWindow: true,
+      estimated: true,
+    });
+    expect(studentLoanRateFor(makeIsoDate("2027-06-30")).publishedWindow).toBe(
+      true,
+    );
+    expect(studentLoanRateFor(makeIsoDate("2027-07-01"))).toMatchObject({
+      annualRateBasisPoints: 652,
+      publishedWindow: false,
+      estimated: true,
+    });
+  });
+
   // Reuses five selections from the all-jurisdiction Team4 proof lane.
   for (const place of ["4752006", "3918000", "1150000", "1571550", "2836000"])
     it(`finances actual shortfall in ${place}, preserves records and repeat identity`, () => {
@@ -183,7 +203,7 @@ describe("recorded student tuition financing", () => {
       const loans = householdLoansOf(next, { kind: "person", personId });
       expect(loans).toHaveLength(1);
       expect(loans[0]!.obligation.principal).toEqual(money(100_000, USD));
-      expect(loans[0]!.terms.annualRateBasisPoints).toBe(600);
+      expect(loans[0]!.terms.annualRateBasisPoints).toBe(652);
       expect(
         resourcePositionAt(next, { kind: "person", personId }, USD)!
           .liquidBalance.minorUnits,
@@ -239,17 +259,21 @@ describe("recorded student tuition financing", () => {
       const actual = monthly.history.resourceTransferOutcomes.find(
         (row) => row.id === allocation.resourceTransferOutcomeId,
       )!;
+      const rate = studentLoanRateFor(funded.currentDate);
+      const expectedMonthlyInterest = Math.round(
+        (100_000 * rate.annualRateBasisPoints) / 10_000 / 12,
+      );
       expect(allocation.unsupportedReason).toBeNull();
       expect(allocation.fees!.minorUnits).toBe(0);
-      expect(allocation.interest!.minorUnits).toBe(500);
+      expect(allocation.interest!.minorUnits).toBe(expectedMonthlyInterest);
       expect(allocation.principal!.minorUnits).toBe(
-        actual.transferredAmount.minorUnits - 500,
+        actual.transferredAmount.minorUnits - expectedMonthlyInterest,
       );
       expect(
         loanBalanceComponentsAt(monthly, debt.id)!.principal.minorUnits,
       ).toBe(100_000 - allocation.principal!.minorUnits);
       expect(outstandingDebtAt(monthly, debt.id)!.minorUnits).toBe(
-        100_000 + 500 - actual.transferredAmount.minorUnits,
+        100_000 + expectedMonthlyInterest - actual.transferredAmount.minorUnits,
       );
       expect(
         recordLoanRepaymentAllocation(
@@ -508,7 +532,7 @@ describe("recorded student tuition financing", () => {
     ).toBeUndefined();
     expect(outstandingDebtAt(repriced, debt.id)).toEqual(money(60_000, USD));
     expect(loanTermsAt(repriced, debt.id, cutoff)!.annualRateBasisPoints).toBe(
-      600,
+      studentLoanRateFor(funded.currentDate).annualRateBasisPoints,
     );
     expect(
       loanTermsAt(repriced, debt.id, repriced.currentDate)!

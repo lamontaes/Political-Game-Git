@@ -41,7 +41,9 @@ export type QualificationField =
   | "TERM_LENGTH"
   | "TERM_LIMIT"
   | "PROFESSIONAL_QUALIFICATION"
-  | "SELECTION_MECHANISM";
+  | "SELECTION_MECHANISM"
+  | "FILING_FEE"
+  | "PETITION_SIGNATURES";
 
 /**
  * How an office is filled.

@@ -85,5 +85,28 @@ test("Government Map opens, remembers its layer and opens people", async ({
     "true",
   );
 
+  // The map follows its own panel width even in a wide browser window.
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await map.evaluate((element) => {
+    element.style.width = "1000px";
+    element.style.maxWidth = "100%";
+  });
+  const mapLayout = await map.locator(".pg-map-body").evaluate((body) => {
+    const canvas = body.querySelector<HTMLElement>(".pg-map-canvas");
+    if (!canvas) throw new Error("The map canvas was not rendered.");
+    return {
+      columns: getComputedStyle(body).gridTemplateColumns.trim().split(/\s+/)
+        .length,
+      mapWidth: body.parentElement?.getBoundingClientRect().width ?? 0,
+      canvasShare:
+        canvas.getBoundingClientRect().width /
+        body.getBoundingClientRect().width,
+    };
+  });
+  expect(mapLayout.mapWidth).toBeGreaterThan(900);
+  expect(mapLayout.mapWidth).toBeLessThanOrEqual(1100);
+  expect(mapLayout.columns).toBe(1);
+  expect(mapLayout.canvasShare).toBeGreaterThan(0.98);
+
   expect(errors).toEqual([]);
 });

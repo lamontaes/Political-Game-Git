@@ -220,7 +220,7 @@ function DocketWorkspaceBody({
           {page.total > 3 ? (
             <div className="docket-filters" data-testid="docket-filters">
               <label className="docket-filter">
-                <span>Kind of bill</span>
+                <span>Form of bill</span>
                 <GameSelect
                   data-testid="docket-filter-instrument"
                   value={query.instrument ?? ""}
@@ -568,7 +568,9 @@ function FiledBillPanel({
             <GuideTerm semanticKey="sponsor">Sponsor</GuideTerm> of record
           </dt>
           <dd data-testid="docket-sponsor">
-            {sponsor ? personName(sponsor) : "Not recorded"}
+            {sponsor
+              ? personName(sponsor)
+              : "No sponsor appears in this bill's record"}
           </dd>
         </div>
         {briefing.questions.length > 0 ? (
@@ -604,9 +606,9 @@ function FiledBillPanel({
           </dd>
         </div>
         <div>
-          <dt>Kind of bill</dt>
+          <dt>Form of bill</dt>
           <dd data-testid="docket-instrument">
-            {bill.instrumentLabel ?? "Not recorded"}
+            {bill.instrumentLabel ?? `Filed from ${bill.variantLabel}`}
           </dd>
         </div>
         <div>
@@ -1782,7 +1784,7 @@ function DraftingTable({
                 <p className="docket-error" data-testid="drafting-no-authority">
                   There is nothing here for this bill to act on yet.{" "}
                   {option.requiresSpendingAuthority
-                    ? "An appropriation has to name a program that is already authorized to spend — pass one first, or choose a different kind of bill."
+                    ? "An appropriation has to name a program that is already authorized to spend — pass one first, or choose a different form of bill."
                     : "It has to name something that already exists."}
                 </p>
               ) : (
@@ -2124,7 +2126,7 @@ function FiscalNoteView({
         {note.status === "draft"
           ? `Proposed start: ${note.operativeAt ?? "not specified"}.`
           : note.status === "enacted"
-            ? `Operative date: ${note.operativeAt ?? "not recorded"}.`
+            ? `Operative date: ${note.operativeAt ?? "the enactment date recorded for this bill"}.`
             : "No enacted operative date has been recorded."}{" "}
         {note.endsOn === null ? "" : `Proposed end: ${note.endsOn}. `}
         This note describes the bill's terms. It is not a record of cash paid or
@@ -2155,7 +2157,7 @@ function FiscalNoteView({
             </p>
             <p>
               {part.forecastMinorUnits === null
-                ? `Cash change for this section: UNKNOWN. Needed: ${part.missingInput ?? "more information"}.`
+                ? `Cash change cannot be calculated from this section. Required input: ${part.missingInput ?? "a quantity for the fiscal calculation"}.`
                 : `Estimated cash change: ${formatMinorUnits(part.forecastMinorUnits, "USD")}.`}
             </p>
           </li>

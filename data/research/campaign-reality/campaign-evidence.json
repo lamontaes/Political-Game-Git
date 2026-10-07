@@ -370,7 +370,7 @@
       "period": "Respondents' most recent election, mostly 2022-2024",
       "sourceId": "brookings-schoolboard-2026-tables",
       "methodologySourceId": "brookings-schoolboard-2026-method",
-      "caveat": "District-weighted, self-reported spending bands among elected members, not all candidates or a mean/median dollar amount. Survey excluded districts with 500 or fewer students and had a 10.0% response rate; weighting does not remove every nonresponse or winner-selection concern. The at-least-$5,000 share sums the six table bands beginning at $5,000."
+      "caveat": "District-weighted, self-reported spending bands among elected officials, not all candidates or a mean/median dollar amount. Survey excluded districts with 500 or fewer students and had a 10.0% response rate; weighting does not remove every nonresponse or winner-selection concern. The at-least-$5,000 share sums the six table bands beginning at $5,000."
     },
     {
       "id": "wa-statewide-record-spending",
