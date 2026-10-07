@@ -264,14 +264,6 @@ export function PlacesWorkspace({
             <span>{` · ${model.current.setting}`}</span>
           ) : null}
         </p>
-        {model.current.sceneNote ? (
-          <p
-            className="places-scene-note"
-            data-testid="places-current-scene-note"
-          >
-            There isn’t a view of this place yet.
-          </p>
-        ) : null}
       </section>
 
       {model.completedHere ? (
