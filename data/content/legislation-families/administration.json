@@ -49,13 +49,13 @@
           "variantKey": "raise-income-limit",
           "instrument": "eligibility-amendment",
           "label": "Raise the income limit",
-          "synopsis": "Qualifies households at a higher share of the published limit. It provides no money, so more qualifying may mean a longer queue.",
+          "synopsis": "Qualifies households at a higher share of the published limit. It provides no money, so more qualifying may mean a longer waiting list.",
           "shortTitle": "Income Limit Amendment",
           "subjectClass": "general-policy",
           "authorizesAppropriation": false,
           "declaredLimits": [
             "It states no amount and provides no money. The program's funding is whatever it already was.",
-            "Qualifying is not receiving. If more households qualify and nothing is appropriated, the queue gets longer."
+            "Qualifying is not receiving. If more households qualify and nothing is appropriated, the waiting list gets longer."
           ],
           "defaults": {
             "limit-share": {
@@ -115,7 +115,7 @@
                 },
                 {
                   "value": "annual-caseload-and-queue",
-                  "label": "That, and how long the queue is",
+                  "label": "That, and how long the waiting list is",
                   "clausePhrase": "The administering agency shall report annually on the number of households qualifying under this Act who did not qualify before it, on how many of them received assistance, and on the number of qualifying households awaiting a determination at the end of the year"
                 }
               ],
@@ -192,14 +192,14 @@
             "sectionNumber": 5,
             "heading": "Priority for households already waiting",
             "beneficiaryLabel": "households that qualified before this Act and are still waiting",
-            "placeLabel": "the households already at the back of the queue",
+            "placeLabel": "the households already at the back of the waiting list",
             "statedGround": "Widening the door without widening the room puts the newly qualified in front of people who have been waiting two winters, and nothing in this bill says otherwise.",
             "segmentKey": "assistance.existing-queue-priority",
             "requestedMinorUnits": 0,
             "cappedMinorUnits": 0,
             "evidence": {
               "kind": "authored-parameter",
-              "note": "An authored request from a fictional member. It reorders a queue rather than asking for money."
+              "note": "An authored request from a fictional member. It reorders a waiting list rather than asking for money."
             },
             "text": "A household that qualified before this Act and whose application is pending shall be determined before a household qualifying only by reason of this Act."
           }

@@ -115,6 +115,7 @@ export interface CreateOrganizationInput {
     readonly classification: OrganizationClassification;
     readonly locationJurisdictionId: EntityId | null;
     readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+    readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
   };
 }
 
@@ -126,6 +127,7 @@ export interface RecordOrganizationProfileInput {
   readonly classification: OrganizationClassification;
   readonly locationJurisdictionId: EntityId | null;
   readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+  readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId;
   /** Present when this profile closes the organization. */
@@ -410,6 +412,9 @@ export function createOrganization(
             ...input.initialProfile.publicGovernmentIdentity,
           },
         }),
+    ...(input.initialProfile.collegePlace === undefined
+      ? {}
+      : { collegePlace: { ...input.initialProfile.collegePlace } }),
     provenance: cloneLifeProvenance(input.provenance),
     supersedesProfileId: null,
   };
@@ -500,6 +505,13 @@ export function recordOrganizationProfile(
     ...(input.publicGovernmentIdentity === undefined
       ? {}
       : { publicGovernmentIdentity: { ...input.publicGovernmentIdentity } }),
+    ...(input.collegePlace === undefined && previous.collegePlace === undefined
+      ? {}
+      : {
+          collegePlace: {
+            ...(input.collegePlace ?? previous.collegePlace!),
+          },
+        }),
     provenance: cloneLifeProvenance(input.provenance),
   };
   return appendOne(world, "organizationProfiles", record);

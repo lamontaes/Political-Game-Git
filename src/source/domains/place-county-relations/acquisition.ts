@@ -26,7 +26,7 @@ import type { DistrictPopulationBlock } from "./normalize";
 import type { PlaceDistrictPopulationRecord } from "./types";
 import { isStateLegislativeGeoid } from "../sld-place-relations/identity";
 import { isCongressionalGeoid } from "../cd-place-relations/identity";
-import districtCatalog from "../../../districts/place-membership.generated.json";
+import districtCatalog from "../../../districts/place-membership.generated.json" with { type: "json" };
 
 const PL_BASE =
   "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171";

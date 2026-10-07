@@ -1,5 +1,3 @@
-import { municipalGovernments, primaryReading } from "../municipal-government";
-
 /**
  * The typical council size and term, on its own so the local ordinance game
  * profile and `localGoverningBodyRules` count one council with one number.
@@ -48,49 +46,6 @@ const COUNCIL_TERM_SHARES: readonly Share[] = [
   { value: 6, percent: 2.8 },
 ];
 
-interface TypicalShares {
-  readonly seats: readonly Share[];
-  readonly termYears: readonly Share[];
-}
-
-let shares: TypicalShares | null = null;
-
-/** The national shares, with the "8 or more" band spread over read sizes. */
-export function typicalShares(): TypicalShares {
-  if (shares) return shares;
-  const readLarge = new Set<number>();
-  for (const government of municipalGovernments()) {
-    const size = primaryReading(government)?.bodySize ?? null;
-    if (size !== null && size >= 8 && size <= 15) readLarge.add(size);
-  }
-  const large = [...readLarge].sort((a, b) => a - b);
-  const band = COUNCIL_SIZE_SHARES.find((share) => share.value === 8)!;
-  const spread = large.length > 0 ? large : [8];
-  shares = {
-    seats: [
-      ...COUNCIL_SIZE_SHARES.filter((share) => share !== band),
-      ...spread.map((value) => ({
-        value,
-        percent: band.percent / spread.length,
-      })),
-    ],
-    termYears: COUNCIL_TERM_SHARES,
-  };
-  return shares;
-}
-
-/** Every value a typical draw can give, for tests and the record. */
-export function localGoverningBodyReadSpread(): {
-  readonly seats: readonly number[];
-  readonly termYears: readonly number[];
-} {
-  const { seats, termYears } = typicalShares();
-  return {
-    seats: seats.map((share) => share.value).sort((a, b) => a - b),
-    termYears: termYears.map((share) => share.value),
-  };
-}
-
 /**
  * The modal value of a share table: the value the largest share of
  * municipalities report, ties going to the smaller value. No draw.
@@ -110,10 +65,18 @@ export function modalShare(table: readonly Share[]): LocalRuleValue | null {
 
 /** The typical council size for a town nothing about which was read. */
 export function typicalCouncilSeats(): number | null {
-  return modalShare(typicalShares().seats)?.value ?? null;
+  return modalShare(COUNCIL_SIZE_SHARES)?.value ?? null;
 }
 
 /** The typical council term, in years, for a town with no read term. */
 export function typicalCouncilTermYears(): number | null {
-  return modalShare(typicalShares().termYears)?.value ?? null;
+  return modalShare(COUNCIL_TERM_SHARES)?.value ?? null;
+}
+
+/** The national share tables, for the spread that reads the inventory. */
+export function typicalCouncilTables(): {
+  readonly seats: readonly Share[];
+  readonly termYears: readonly Share[];
+} {
+  return { seats: COUNCIL_SIZE_SHARES, termYears: COUNCIL_TERM_SHARES };
 }
