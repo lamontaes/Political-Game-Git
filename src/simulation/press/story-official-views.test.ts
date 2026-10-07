@@ -5,6 +5,7 @@ import { governorOfficeForJurisdiction } from "../governing/state-governing";
 import { projectCongress } from "../living-world/congress";
 import { lifePlaceStateIdentities } from "../life-places";
 import { viewOfOfficial } from "../official-view-reads";
+import { recordStoryHeardOfficialViews } from "../living-world/official-views";
 import {
   createFormationContext,
   recordPrivateBelief,
@@ -224,6 +225,9 @@ describe("published official acts inform their actual readers", () => {
       )!;
       expect(trace).toBeDefined();
       expect(formOfficialViewsFromStory(next, setup.knowledge.id)).toBe(next);
+      expect(recordStoryHeardOfficialViews(next, setup.knowledge.id)).toBe(
+        next,
+      );
     }
   }, 30000);
 

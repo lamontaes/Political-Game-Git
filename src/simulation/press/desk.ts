@@ -81,7 +81,6 @@ import {
   reportLawOutcomes,
 } from "./law-effect-news";
 import { recordStoryHeardExposure } from "./story-exposure";
-import { recordStoryHeardOfficialViews } from "../living-world/official-views";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -1345,7 +1344,6 @@ function recordProfessionalReaders(
           knowledgeId: knowledge.id,
           basisEventId,
         });
-    if (knowledge) next = recordStoryHeardOfficialViews(next, knowledge.id);
   }
   if (lead.matterId) {
     next = produceMatterResponses(next, lead.matterId, story);
