@@ -15,7 +15,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--ui);
   color: #fff;
   background: var(--room-tv-bg);
   --room-tv-bg: linear-gradient(160deg, #2c2620, #12100d);
@@ -147,7 +147,7 @@
   padding: 0.25em 0.35em;
   color: #1c1a17;
   background: var(--room-paper-bg);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--speech);
   --room-paper-bg: #f3efe4;
   --room-paper-rule: #1c1a17;
 }
@@ -160,7 +160,6 @@
 .room-paper--look-2 {
   --room-paper-bg: #f6f4ef;
   --room-paper-rule: #23395b;
-  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 .room-paper--look-3 {
@@ -180,7 +179,7 @@
 }
 
 .room-paper--look-1 .room-paper-masthead {
-  font-family: "Old English Text MT", "UnifrakturCook", Georgia, serif;
+  font-family: var(--name);
 }
 
 .room-paper--look-2 .room-paper-masthead {
