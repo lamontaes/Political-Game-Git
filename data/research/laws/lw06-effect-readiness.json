@@ -1,0 +1,33 @@
+{
+  "batch": "LW-06",
+  "status": "unsupported-consequences-recorded",
+  "runtimeActivation": false,
+  "supportedQuestionKeys": [
+    "us-tax-terms:county.payroll-tax-terms",
+    "us-tax-terms:city.sales-tax-terms"
+  ],
+  "entries": [
+    {
+      "questionKey": "us-tax-terms:county.corporate-tax-terms",
+      "candidateEffect": "county-corporate-income-tax-incidence",
+      "evidenceStatus": "no-person-corporate-tax-base-or-recorded-business-ownership",
+      "source": "src/simulation/law-consequences/tax.ts; docs/research/requests/businesses-owners-and-wealth.json; docs/research/outcome-web-2026-09-28.md",
+      "blockers": [
+        "The common tax consequence reader assesses saved payer bases, but no producer maps county corporate tax to a person-level taxable occurrence.",
+        "The business-owner research request says no private business has a recorded owner, balance, revenue or owner income, so the incidence cannot be assigned to named people without inventing ownership.",
+        "The corporate-incidence summary does not provide recorded owners or ownership shares for named local business owners."
+      ]
+    },
+    {
+      "questionKey": "us-tax-terms:city.income-tax-terms",
+      "candidateEffect": "city-personal-income-tax-assessment",
+      "evidenceStatus": "local-income-authority-source-incomplete",
+      "source": "docs/research/requests/local-income-tax-authority-56-places.json; src/fiscal-authority/query.ts; src/simulation/tax-law-term-binding.ts",
+      "blockers": [
+        "The checked-in authority request says the 56-place survey is incomplete; the production fiscal-authority corpus does not currently establish city income-tax authority nationwide.",
+        "A city income-tax consequence must remain inactive unless the saved government and adopted terms pass the shared authority binding.",
+        "No complete record identifies where city income taxes are authorized, their effective dates, rate caps or resident credits."
+      ]
+    }
+  ]
+}
