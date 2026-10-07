@@ -1,6 +1,6 @@
 # POOL.md staleness list (October 7, 2026)
 
-These rows in `POOL.md` still read "open", but the pull request they name is already closed on GitHub. Checked against the live pull request list on October 7, 2026. `POOL.md` itself is unchanged; the CTO refreshes it.
+Ninety-five rows in the work pool still read open, but the pull request each one names is already closed on GitHub, so a builder sent to one of them finds nothing to do. This list was checked against the live pull request list on October 7, 2026. The pool file itself is unchanged; the CTO refreshes it from this list.
 
 - Merged: 21 rows. The work landed; the row should be marked done.
 
