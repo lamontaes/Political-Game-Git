@@ -288,6 +288,20 @@ export interface LegislativeProcedure {
   /** How long the mayor has, and what silence does. */
   readonly mayoralActionWindow: Sourced<MayoralActionWindow>;
   readonly override: Sourced<string>;
+  readonly financialGeneralThresholdUsd?: Sourced<number>;
+  readonly financialLocalRule?: Sourced<{
+    readonly operativeOn: string;
+    readonly fullMembershipAboveUsd: number;
+    readonly delayedAboveUsd: number;
+    readonly minimumInterveningDays: number;
+    readonly ordinaryCitations: readonly string[];
+    readonly ordinaryUnresolved: readonly string[];
+    readonly quorumCitation: string;
+  }>;
+  readonly managerElectionThreshold?: Sourced<VoteThreshold>;
+  readonly overrideWindowDays?: Sourced<number>;
+  readonly congressionalReviewDays?: Sourced<number>;
+  readonly criminalCodeReviewDays?: Sourced<number>;
   readonly effectivePublication: Sourced<string>;
   /** Least time between introduction and passage, and its stated exception. */
   readonly introductionToPassage: Sourced<IntroductionToPassageRule>;

@@ -1,3 +1,4 @@
+import { recordedCivicReporterFixture } from "../../tests/support/recorded-civic-journalist";
 import { describe, expect, it } from "vitest";
 
 import { createNewGameWorld } from "../presentation/new-game";
@@ -11,7 +12,6 @@ import {
   currentJournalists,
   deserializeWorld,
   draftPressResponse,
-  kinshipRelationshipsAt,
   projectEligiblePressReporters,
   projectPitchablePressBases,
   projectPressInterview,
@@ -25,7 +25,6 @@ import {
   seekCivicPressContact,
   serializeWorld,
 } from "./index";
-import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "./press-interviews";
 import { arrangeAcceptedPressInterview } from "./press-interview-producers";
 import type { EntityId, World } from "./types";
 import { recordWorldEvent } from "./world";
@@ -109,145 +108,69 @@ describe("PRESS-REACH13 normal-world reporter prerequisites", () => {
     expect(serializeWorld(created.world)).toBe(before);
   });
 
-  it("generates a new civic reporter instead of re-employing an existing adult, and grants no consent", () => {
+  it("returns unavailable without creating people, jobs, organizations or consent", () => {
     const created = memberWorld("press-reach13-employ");
-    const beforePeople = new Set(created.world.personOrder);
-    const sourceKin = kinshipRelationshipsAt(
-      created.world,
-      created.playerPersonId,
-    );
-    const sourceWorkplaceIds = new Set(
-      activeWorkRelationshipsAt(created.world, created.playerPersonId)
-        .map(({ relationship }) => relationship.organizationId)
-        .filter(
-          (organizationId): organizationId is EntityId =>
-            organizationId !== null,
-        ),
-    );
-    expect(sourceKin.length).toBeGreaterThan(0);
+    const before = serializeWorld(created.world);
     const contact = seekCivicPressContact(created.world);
-    expect(contact.established).toBe(true);
-    expect(contact.reporterPersonId).not.toBe(created.playerPersonId);
-    expect(beforePeople.has(contact.reporterPersonId)).toBe(false);
-    expect(created.world.people[contact.reporterPersonId]).toBeUndefined();
-    expect(contact.world.people[contact.reporterPersonId]).toBeDefined();
-    expect(
-      kinshipRelationshipsAt(contact.world, contact.reporterPersonId),
-    ).toEqual([]);
-    expect(
-      sourceKin.some((relationship) =>
-        relationship.personIds.includes(contact.reporterPersonId),
-      ),
-    ).toBe(false);
-    const reporterOrgs = activeWorkRelationshipsAt(
-      contact.world,
-      contact.reporterPersonId,
-    ).map(({ relationship }) => relationship.organizationId);
-    expect(reporterOrgs).toEqual([contact.organizationId]);
-    expect(
-      reporterOrgs.some(
-        (organizationId) =>
-          organizationId !== null && sourceWorkplaceIds.has(organizationId),
-      ),
-    ).toBe(false);
-    for (const personId of beforePeople) {
-      expect(
-        activeWorkRelationshipsAt(contact.world, personId).some(
-          ({ role }) =>
-            role.occupationClassification ===
-            JOURNALISM_OCCUPATION_CLASSIFICATION,
-        ),
-      ).toBe(false);
-    }
-    expect(
-      contact.world.history.events.some(
-        (event) => event.type === "press.interview-request-answered",
-      ),
-    ).toBe(false);
-    const reused = seekCivicPressContact(contact.world);
-    expect(reused.established).toBe(false);
-    expect(reused.reporterPersonId).toBe(contact.reporterPersonId);
-    expect(reused.world.personOrder).toEqual(contact.world.personOrder);
+    expect(contact.world).toBe(created.world);
+    expect(contact.reporterPersonId).toBeNull();
+    expect(contact.reporterWorkRoleId).toBeNull();
+    expect(contact.organizationId).toBeNull();
+    expect(contact.established).toBe(false);
+    expect(serializeWorld(contact.world)).toBe(before);
+    const loaded = deserializeWorld(before);
+    expect(seekCivicPressContact(loaded).world).toBe(loaded);
+    expect(serializeWorld(loaded)).toBe(before);
   });
 
-  it("does not substitute a dead, incapacitated or expired journalist", () => {
+  it("does not replace a dead, incapacitated or expired recorded journalist", () => {
     const created = memberWorld("press-reach13-refuse-substitution");
-    const first = seekCivicPressContact(created.world);
+    const first = recordedCivicReporterFixture(created.world);
     const deceased = recordPersonDeath(first.world, {
       stableKey: "press-reach13-refuse-substitution:death",
       personId: first.reporterPersonId,
       diedAt: first.world.currentDate,
       causeKey: "cause:external-fixture",
       sourceEntityIds: [first.world.id],
-      summary: "The civic reporter died before a later contact.",
+      summary: "The recorded fixture reporter died.",
       provenance: VITALITY,
     });
-    expect(currentJournalists(deceased, created.playerPersonId)).toEqual([]);
-    const afterDeath = seekCivicPressContact(deceased);
-    expect(afterDeath.established).toBe(true);
-    expect(afterDeath.reporterPersonId).not.toBe(first.reporterPersonId);
-    expect(
-      currentJournalists(afterDeath.world, created.playerPersonId).map(
-        (journalist) => journalist.personId,
-      ),
-    ).toEqual([afterDeath.reporterPersonId]);
-
-    const incapacitated = recordPersonFunctionalCapacity(afterDeath.world, {
+    const incapacitated = recordPersonFunctionalCapacity(first.world, {
       stableKey: "press-reach13-refuse-substitution:capacity",
-      personId: afterDeath.reporterPersonId,
-      effectiveAt: afterDeath.world.currentDate,
+      personId: first.reporterPersonId,
+      effectiveAt: first.world.currentDate,
       status: "incapacitated",
       reasonKey: "capacity:test-incapacitated",
       sourceEntityIds: [],
-      summary: "The civic reporter became unavailable for reporting work.",
+      summary: "The fixture reporter is unavailable.",
       provenance: VITALITY,
     });
-    expect(currentJournalists(incapacitated, created.playerPersonId)).toEqual(
-      [],
-    );
-    const afterIncapacity = seekCivicPressContact(incapacitated);
-    expect(afterIncapacity.reporterPersonId).not.toBe(
-      afterDeath.reporterPersonId,
-    );
-
-    const reporterWork = activeWorkRelationshipsAt(
-      afterIncapacity.world,
-      afterIncapacity.reporterPersonId,
-    ).find(
-      ({ role }) =>
-        role.occupationClassification === JOURNALISM_OCCUPATION_CLASSIFICATION,
-    )!;
-    const expired = recordWorkStatus(afterIncapacity.world, {
+    const job = activeWorkRelationshipsAt(
+      first.world,
+      first.reporterPersonId,
+    )[0]!;
+    const expired = recordWorkStatus(first.world, {
       stableKey: "press-reach13-refuse-substitution:ended",
-      workRelationshipId: reporterWork.relationship.id,
-      effectiveAt: afterIncapacity.world.currentDate,
+      workRelationshipId: job.relationship.id,
+      effectiveAt: first.world.currentDate,
       status: "ended",
-      reason: "The authored civic reporting assignment ended.",
-      provenance: {
-        kind: "authored",
-        note: "PRESS-REACH13 expired-role fixture.",
-      },
-      supersedesStatusId: reporterWork.status.id,
+      reason: "The recorded fixture assignment ended.",
+      provenance: VITALITY,
+      supersedesStatusId: job.status.id,
     });
-    expect(currentJournalists(expired, created.playerPersonId)).toEqual([]);
-    const replacement = seekCivicPressContact(expired);
-    expect(replacement.established).toBe(true);
-    expect(replacement.reporterPersonId).not.toBe(
-      afterIncapacity.reporterPersonId,
-    );
-    expect(
-      activeWorkRelationshipsAt(
-        replacement.world,
-        afterIncapacity.reporterPersonId,
-      ).some(
-        ({ role }) =>
-          role.occupationClassification ===
-          JOURNALISM_OCCUPATION_CLASSIFICATION,
-      ),
-    ).toBe(false);
+    for (const world of [deceased, incapacitated, expired]) {
+      const before = serializeWorld(world);
+      expect(currentJournalists(world, created.playerPersonId)).toEqual([]);
+      const contact = seekCivicPressContact(world);
+      expect(contact.world).toBe(world);
+      expect(contact.reporterPersonId).toBeNull();
+      expect(contact.reporterWorkRoleId).toBeNull();
+      expect(contact.established).toBe(false);
+      expect(serializeWorld(world)).toBe(before);
+    }
   });
 
-  it("uses a generated public basis and a new reporter without an adviser, then survives reload", () => {
+  it("uses a generated public basis and a recorded fixture reporter without an adviser, then survives reload", () => {
     const created = memberWorld("press-reach13-ordinary");
     const beforePeople = new Set(created.world.personOrder);
     const snapshot = projectPressReachSnapshot(created.world);
@@ -258,8 +181,8 @@ describe("PRESS-REACH13 normal-world reporter prerequisites", () => {
     );
     expect(bases.length).toBeGreaterThan(0);
     const basis = bases[0]!;
-    const contact = seekCivicPressContact(created.world);
-    expect(contact.established).toBe(true);
+    const contact = recordedCivicReporterFixture(created.world);
+    expect(contact.established).toBe(false);
     expect(beforePeople.has(contact.reporterPersonId)).toBe(false);
     expect(projectPressReachSnapshot(contact.world).colleagueAdviserCount).toBe(
       0,
@@ -360,7 +283,7 @@ describe("PRESS-REACH13 normal-world reporter prerequisites", () => {
 
   it("runs request → saved response → unprepared arrangement → interview → publication → save/reload", () => {
     const created = memberWorld("press-reach13-loop");
-    const contact = seekCivicPressContact(created.world);
+    const contact = recordedCivicReporterFixture(created.world);
     let world = recordPublicHearing(contact.world, "press-reach13-loop");
     const basisEventId = world.history.events.at(-1)!.id;
     expect(
@@ -470,7 +393,7 @@ describe("PRESS-REACH13 normal-world reporter prerequisites", () => {
 
   it("refuses private bases, deferred assigned work, missing reporter consent and off-record publication", () => {
     const created = memberWorld("press-reach13-refuse");
-    const contact = seekCivicPressContact(created.world);
+    const contact = recordedCivicReporterFixture(created.world);
     const sourcePersonId = created.playerPersonId;
     let world = recordWorldEvent(contact.world, {
       stableKey: "press-reach13-refuse:private",
@@ -570,7 +493,7 @@ describe("PRESS-REACH13 normal-world reporter prerequisites", () => {
 
   it("keeps off-record material off the publication path after an accepted unprepared exchange", () => {
     const created = memberWorld("press-reach13-offrecord");
-    const contact = seekCivicPressContact(created.world);
+    const contact = recordedCivicReporterFixture(created.world);
     let world = recordPublicHearing(contact.world, "press-reach13-offrecord");
     const basisEventId = world.history.events.at(-1)!.id;
     const request = recordPressRequest(world, {

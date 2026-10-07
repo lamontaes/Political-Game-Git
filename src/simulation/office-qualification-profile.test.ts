@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   QUALIFICATION_PROFILE_COVERAGE,
+  modalQualification,
   qualificationRange,
   standInQualification,
   standInRequirementSentence,
@@ -93,36 +94,42 @@ describe("an unread state gets a plausible rule", () => {
     }
   });
 
-  it("does not hand every unread state the same rules", () => {
-    const drawn = new Set(
-      UNREAD.map(
-        (state) =>
-          standInQualification(state, "STATE_RESIDENCE", "UPPER_CHAMBER")!
-            .value,
-      ),
-    );
-    expect(drawn.size).toBeGreaterThan(1);
-  });
-
-  it("varies a state's fields independently, so none is strictest at everything", () => {
-    // Two fields of one state are drawn separately; across a set of states the
-    // pairing of the two must not be constant, or the fields move together.
-    const pairs = new Set(
-      UNREAD.map((state) => {
-        const age = standInQualification(
-          state,
-          "MINIMUM_AGE",
-          "LOWER_CHAMBER",
-        )!;
-        const residence = standInQualification(
-          state,
-          "STATE_RESIDENCE",
-          "LOWER_CHAMBER",
-        )!;
-        return `${age.value}:${residence.value}`;
-      }),
-    );
-    expect(pairs.size).toBeGreaterThan(1);
+  it("gives every unread state the modal enacted value, chosen by no hash", () => {
+    // A118: the value is the one the most read states enacted, ties to the
+    // lower value, the same for every unread place.
+    for (const [field, family] of [
+      ["MINIMUM_AGE", "LOWER_CHAMBER"],
+      ["STATE_RESIDENCE", "UPPER_CHAMBER"],
+    ] as const) {
+      const statesByValue = new Map<number, Set<string>>();
+      for (const row of qualificationRows()) {
+        if (
+          row.field === field &&
+          row.officeFamily === family &&
+          row.sourceState === "KNOWN" &&
+          typeof row.value === "number"
+        )
+          statesByValue.set(
+            row.value,
+            (statesByValue.get(row.value) ?? new Set()).add(row.stateUsps),
+          );
+      }
+      const most = Math.max(
+        ...[...statesByValue.values()].map((states) => states.size),
+      );
+      const mode = Math.min(
+        ...[...statesByValue.entries()]
+          .filter(([, states]) => states.size === most)
+          .map(([value]) => value),
+      );
+      expect(modalQualification(field, family)).toBe(mode);
+      const values = new Set(
+        UNREAD.map(
+          (state) => standInQualification(state, field, family)!.value,
+        ),
+      );
+      expect([...values]).toEqual([mode]);
+    }
   });
 
   it("stays inside the spread real states set", () => {

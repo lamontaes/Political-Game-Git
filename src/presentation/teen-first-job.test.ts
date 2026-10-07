@@ -5,8 +5,13 @@ import {
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation/types";
+import { addDays } from "../simulation/dates";
 import { createOrganization, createWorkRelationship } from "../simulation/life";
-import { LEGACY_FIRST_JOB_WORK_KEY, leaveJob } from "../simulation/job-market";
+import {
+  advanceJobMarket,
+  LEGACY_FIRST_JOB_WORK_KEY,
+  leaveJob,
+} from "../simulation/job-market";
 import {
   activeWorkRelationshipsAt,
   workStatusAt,
@@ -90,6 +95,11 @@ describe("a teenager's first job", () => {
     // 11 hours, the middle of its 8 to 14, at Nevada's minimum wage of
     // $12.00 an hour, the state's rate on file for the day it was taken.
     expect(paid[0]!.transferredAmount.minorUnits).toBe(1_200 * 11);
+    const repeated = advanceJobMarket(later, personId);
+    expect(paymentsFor(repeated, work.id).paid).toEqual(paid);
+    expect(repeated.history.resourceTransferOutcomes).toBe(
+      later.history.resourceTransferOutcomes,
+    );
     assertWorldIntegrity(later);
   });
 
@@ -132,9 +142,15 @@ describe("a teenager's first job", () => {
       },
     });
     const work = legacy.history.workRelationships.at(-1)!;
-    // Sixty days pass: the first settlement finds the unpaid job and starts
-    // its pay on that day, owing nothing for the sixty.
-    const found = passOrdinaryDays(legacy, 60);
+    // The older save has already advanced sixty days without a pay flow.
+    // Its first settlement starts pay now, owing nothing for those days.
+    const loadedOn = addDays(legacy.currentDate, 60);
+    const loaded: World = {
+      ...legacy,
+      currentDate: loadedOn,
+      currentMoment: { ...legacy.currentMoment, date: loadedOn },
+    };
+    const found = advanceJobMarket(loaded, personId);
     const first = paymentsFor(found, work.id);
     expect(first.flow?.startsAt).toBe(found.currentDate);
     expect(first.paid).toHaveLength(0);

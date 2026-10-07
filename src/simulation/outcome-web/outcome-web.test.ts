@@ -3,6 +3,7 @@ import { addDays, makeIsoDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
 import { STATES } from "../state-reference";
+import { createWorld } from "../world";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -11,6 +12,7 @@ import type {
 } from "../types";
 import {
   drawnLinkSize,
+  type OutcomeEvidence,
   LAW_QUESTION_MEASURES,
   OUTCOME_LINKS,
   OUTCOME_WEB_CALIBRATED_AT,
@@ -21,6 +23,7 @@ import {
   outcomeMeasure,
   outcomeWebStatus,
   shapedLinkFactor,
+  validateOutcomeLinkInventory,
 } from ".";
 
 const SHAPES = new Set([
@@ -31,7 +34,7 @@ const SHAPES = new Set([
   "exposure-years",
   "acute-decay",
 ]);
-const EVIDENCE = new Set([
+const EVIDENCE = new Set<OutcomeEvidence>([
   "researched",
   "provisional",
   "contested",
@@ -290,6 +293,29 @@ describe("laws as causes", () => {
     ]);
   });
 
+  it("two seeds yield the same ranged law effect after its saved operative date and lag", () => {
+    const date = makeIsoDate("2027-03-01");
+    const first = outcomeFactor(
+      { ...worldWith(date, "yes", noLimit), seed: "a127:law:first" },
+      noLimit,
+      "births.rate",
+      date,
+    );
+    const second = outcomeFactor(
+      { ...worldWith(date, "yes", noLimit), seed: "a127:law:second" },
+      noLimit,
+      "births.rate",
+      date,
+    );
+    expect(first).toEqual(second);
+    const ranged = OUTCOME_LINKS.find(
+      (candidate) => candidate.key === "abortion-ban-to-births",
+    )!;
+    expect(ranged.range).toBeDefined();
+    expect(first.multiplier).toBe(1 + ranged.size!);
+    expect(first.causes.map((cause) => cause.key)).toEqual([ranged.key]);
+  });
+
   it("a law that says no, or no law at all, leaves births at the base rate", () => {
     for (const answer of ["no", null] as const) {
       const reading = outcomeFactor(
@@ -328,47 +354,66 @@ describe("laws as causes", () => {
   });
 });
 
-describe("sizes are a baseline, not literal numbers", () => {
+describe("recorded central effect sizes", () => {
   const link = OUTCOME_LINKS.find(
     (candidate) => candidate.key === "unemployment-to-poverty",
   )!;
   const place = "place_a" as EntityId;
   const seeded = (seed: string) => ({ seed }) as unknown as World;
 
-  it("each world draws each place's size within the research range, and keeps it", () => {
+  it("each world and place uses the same recorded central size inside the research bounds", () => {
     const [low, high] = link.range!;
-    const sizes = new Set<number>();
+    expect(link.size).toBeGreaterThanOrEqual(low);
+    expect(link.size).toBeLessThanOrEqual(high);
     for (let index = 0; index < 40; index += 1) {
-      const size = drawnLinkSize(seeded(`world-${index}`), link, place);
-      expect(size).toBeGreaterThanOrEqual(low);
-      expect(size).toBeLessThanOrEqual(high);
-      expect(drawnLinkSize(seeded(`world-${index}`), link, place)).toBe(size);
-      sizes.add(size);
+      expect(drawnLinkSize(seeded(`world-${index}`), link, place)).toBe(
+        link.size,
+      );
     }
-    // Different worlds play out differently.
-    expect(sizes.size).toBeGreaterThan(30);
-    // So do different places in one world.
-    expect(drawnLinkSize(seeded("w"), link, "place_b" as EntityId)).not.toBe(
-      drawnLinkSize(seeded("w"), link, place),
+    expect(drawnLinkSize(seeded("w"), link, "place_b" as EntityId)).toBe(
+      link.size,
     );
   });
 
-  it("a link without a researched range spreads by its evidence, and an about-zero link stays zero", () => {
-    const researched = {
-      key: "x",
-      size: 0.1,
-      evidence: "researched" as const,
-    };
-    for (let index = 0; index < 20; index += 1) {
-      const size = drawnLinkSize(seeded(`s${index}`), researched, place);
-      expect(size).toBeGreaterThanOrEqual(0.075);
-      expect(size).toBeLessThanOrEqual(0.125);
+  it.each(Object.keys(STATES))(
+    "uses exact recorded global or place-specific central sizes in seeded small worlds (%s)",
+    (usps) => {
+      const jurisdiction = stateJurisdictionForKey(`US-${usps}`)!;
+      for (const seed of [`a127:${usps}:first`, `a127:${usps}:second`]) {
+        const world = createWorld({
+          seed,
+          currentDate: makeIsoDate(OUTCOME_WEB_CALIBRATED_AT),
+          jurisdictions: [jurisdiction],
+          people: [],
+        });
+        for (const candidate of OUTCOME_LINKS) {
+          const own = candidate.sizeByPlace?.[`US-${usps}`];
+          expect(
+            drawnLinkSize(world, candidate, jurisdiction.id),
+            candidate.key,
+          ).toBe(own?.size ?? candidate.size ?? 0);
+        }
+      }
+    },
+  );
+
+  it("a link without a researched range uses exactly its central size for every evidence label", () => {
+    for (const evidence of EVIDENCE) {
+      for (const size of [-0.1, 0, 0.1]) {
+        const central = {
+          key: "fixture:central-only",
+          size,
+          evidence,
+        } as const;
+        for (let index = 0; index < 20; index += 1) {
+          expect(drawnLinkSize(seeded(`s${index}`), central, place)).toBe(size);
+        }
+      }
     }
     for (const zero of OUTCOME_LINKS.filter(
       (candidate) => candidate.evidence === "about-zero",
     ))
       expect(drawnLinkSize(seeded("w"), zero, place)).toBe(0);
-    // A fixture world with no seed uses the central size.
     expect(drawnLinkSize({} as World, link, place)).toBe(link.size);
   });
 });
@@ -396,6 +441,22 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
       );
     }
   });
+  it("retains deferred groundwater evidence but does not advertise an active consumer", () => {
+    const link = OUTCOME_LINKS.find(
+      (row) => row.key === "groundwater-limits-to-irrigation-pumping",
+    )!;
+    expect(link.consumed).toBe(false);
+    expect(link.range).toEqual([-0.4, -0.21]);
+    expect(link.source).toContain("Deines");
+    expect(outcomeLinkStatus(link)).toBe("built");
+    expect(
+      outcomeWebStatus().find((row) => row.key === link.key)?.consumed,
+    ).toBe(false);
+    expect(outcomeLinksFedByQuestion(link.from.slice("law:".length))).toEqual(
+      [],
+    );
+  });
+
   const places = Object.keys(STATES).flatMap((usps) => {
     const id = stateJurisdictionForKey(`US-${usps}`)?.id;
     return id ? [{ key: `US-${usps}`, id }] : [];
@@ -452,6 +513,32 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
       },
     } as unknown as World;
   }
+
+  it("does not apply a deferred groundwater law in either direction across places", () => {
+    const link = OUTCOME_LINKS.find(
+      (row) => row.key === "groundwater-limits-to-irrigation-pumping",
+    )!;
+    for (const place of places)
+      for (const answer of ["yes", "no"] as const) {
+        const world = enacted(
+          place.id,
+          link.from.slice("law:".length),
+          answer,
+          "2026-07-01",
+        );
+        expect(world.history.legislativeEnactments).toHaveLength(1);
+        const reading = outcomeFactor(
+          world,
+          place.id,
+          link.to,
+          makeIsoDate("2028-07-01"),
+        );
+        expect(reading.multiplier, `${place.key}:${answer}`).toBe(1);
+        expect(reading.causes.some((cause) => cause.key === link.key)).toBe(
+          false,
+        );
+      }
+  });
 
   it("every row is a state law into an outcome the game produces", () => {
     for (const link of rows) {
@@ -558,5 +645,57 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
         );
       }
     }
+  });
+});
+describe("declared outcome-link inventory", () => {
+  it("validates the actual catalog and exposes research evidence separately", () => {
+    expect(() => validateOutcomeLinkInventory(OUTCOME_LINKS)).not.toThrow();
+    const rows = outcomeWebStatus();
+    expect(rows).toHaveLength(OUTCOME_LINKS.length);
+    for (const evidence of ["provisional", "to-confirm"] as const) {
+      const link = OUTCOME_LINKS.find((row) => row.evidence === evidence)!;
+      expect(link).toBeDefined();
+      expect(rows.find((row) => row.key === link.key)!.evidence).toBe(evidence);
+    }
+  });
+
+  it("rejects a declared status that claims a different existing capability", () => {
+    const link = OUTCOME_LINKS.find((row) => row.status === "built")!;
+    expect(() =>
+      validateOutcomeLinkInventory([{ ...link, status: "cause-not-recorded" }]),
+    ).toThrow(link.key);
+  });
+
+  it("requires a missing-size reason even when the existing shape is person-level", () => {
+    const link = OUTCOME_LINKS.find(
+      (row) => row.status === "person-level" && row.size === null,
+    )!;
+    expect(link).toBeDefined();
+    expect(link.unsupportedReason).toBe("size-not-set");
+    expect(outcomeLinkStatus(link)).toBe("person-level");
+    expect(() =>
+      validateOutcomeLinkInventory([{ ...link, unsupportedReason: null }]),
+    ).toThrow(link.key);
+  });
+
+  it("rejects an invented missing-cause reason on a structurally built link", () => {
+    const link = OUTCOME_LINKS.find((row) => row.status === "built")!;
+    expect(() =>
+      validateOutcomeLinkInventory([
+        { ...link, unsupportedReason: "cause-not-recorded" },
+      ]),
+    ).toThrow(link.key);
+  });
+
+  it("keeps an unrecorded coefficient unavailable despite forged built metadata", () => {
+    const link = OUTCOME_LINKS.find((row) => row.status === "size-not-set")!;
+    expect(link).toBeDefined();
+    const forged = {
+      ...link,
+      status: "built" as const,
+      unsupportedReason: null,
+    };
+    expect(outcomeLinkStatus(forged)).toBe("size-not-set");
+    expect(() => validateOutcomeLinkInventory([forged])).toThrow(link.key);
   });
 });

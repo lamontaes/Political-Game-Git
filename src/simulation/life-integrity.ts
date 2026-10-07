@@ -1,6 +1,7 @@
 import { addDays, makeIsoDate } from "./dates";
 import { recordById, type AvailabilityEntry } from "./history-index";
 import { createStableId } from "./ids";
+import { assertPublicGovernmentIdentity } from "./public-government-identity";
 import {
   assessLifeLoadAt,
   careResponsibilityStateHistory,
@@ -260,6 +261,24 @@ export function assertLifeHistoryIntegrity(
       profile.effectiveAt,
       profile.sequence,
     );
+    if (profile.publicGovernmentIdentity !== undefined) {
+      if (profile.provenance.kind !== "source-record") {
+        throw new Error(
+          "A public employer identity requires source-record profile provenance.",
+        );
+      }
+      const identity = profile.publicGovernmentIdentity;
+      if (
+        identity.kind !== "jurisdiction" &&
+        identity.kind !== "local-government"
+      ) {
+        throw new Error("Invalid public employer government identity kind.");
+      }
+      assertPublicGovernmentIdentity(world, identity, {
+        asOfDate: profile.effectiveAt,
+        historySequenceExclusive: profile.sequence,
+      });
+    }
     validateSupersession(
       profile,
       profile.supersedesProfileId,

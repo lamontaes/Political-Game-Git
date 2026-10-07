@@ -1,4 +1,4 @@
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { addDays, ageOnDate } from "./dates";
 import { formatStatutoryDate } from "./legislation-content-contracts";
 import {
@@ -399,7 +399,10 @@ export function hostDecidesToAsk(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  return evaluation.selectedOptionKey === "ask" ? withTraits : null;
+  return isSelectedDecision(evaluation) &&
+    evaluation.selectedOptionKey === "ask"
+    ? withTraits
+    : null;
 }
 
 /**

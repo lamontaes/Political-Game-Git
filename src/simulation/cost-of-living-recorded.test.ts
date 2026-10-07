@@ -1,3 +1,4 @@
+import { householdMembershipsAt } from "./life-queries";
 import { describe, expect, it } from "vitest";
 import {
   createNewGameWorld,
@@ -5,9 +6,9 @@ import {
 } from "../presentation/new-game";
 import {
   recordedHouseholdHousingBillsAt,
+  estimatedHouseholdLivingCostsAt,
   livingCostsFlowFor,
   settleLivingCosts,
-  LIVING_COSTS_PLACEHOLDER,
   initializeLivingCostsFlow,
 } from "./cost-of-living";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
@@ -21,11 +22,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
-import {
-  hudRentRowFor,
-  startTownLeases,
-  townLeases,
-} from "./living-world/town-rent";
+import { hudRentRowFor, townLeases } from "./living-world/town-rent";
 import { lifePlaceByKey } from "./life-places";
 
 const seed = "team4-m12-recorded-bills-20260930";
@@ -60,6 +57,22 @@ while (rentalPlaces.length < 5)
 describe("prospective nonhousing bills preserve actual housing contracts", () => {
   it("covers all 56 jurisdictions", () => expect(places).toHaveLength(56));
   it.each(places)(
+    "has a published or marked estimated HUD rent for %s",
+    (placeKey) => {
+      const place = lifePlaceByKey(placeKey)!;
+      const row = hudRentRowFor(place.context.jurisdiction.id);
+      expect(row, placeKey).not.toBeNull();
+      expect(
+        row!.rents.every((rent) => rent > 0),
+        placeKey,
+      ).toBe(true);
+      if (row!.estimated)
+        expect(row!.estimateBasis, placeKey).toContain(
+          "ESTIMATED FROM AVERAGE",
+        );
+    },
+  );
+  it.each(places)(
     "creates only the marked nonhousing charge in %s, never estimated rent",
     (placeKey) => {
       const game = createNewGameWorld({
@@ -73,16 +86,19 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
       });
       const personId = game.playerPersonId;
       let world = game.world;
+      const householdId = householdMembershipsAt(world, personId).find(
+        (row) => row.state.residenceRole === "primary",
+      )!.household.id;
       if (
         !world.history.resourcePositions.some(
           (position) =>
-            position.owner.kind === "person" &&
-            position.owner.personId === personId,
+            position.owner.kind === "household" &&
+            position.owner.householdId === householdId,
         )
       ) {
         world = createResourcePosition(world, {
           stableKey: `fixture:tracked:${personId}`,
-          owner: { kind: "person", personId },
+          owner: { kind: "household", householdId },
           openedAt: world.currentDate,
           openingBalance: money(100_000, "USD"),
           provenance: {
@@ -102,8 +118,7 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
       expect(flow).toBeDefined();
       expect(flow.startsAt).toBe(world.currentDate);
       expect(resourceFlowTermsAt(changed, flow.id)!.amount.minorUnits).toBe(
-        LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-          LIVING_COSTS_PLACEHOLDER.housingShareMinor,
+        estimatedHouseholdLivingCostsAt(changed, personId)!.monthlyMinor,
       );
       expect(
         changed.history.resourceFlows.slice(0, originalFlows.length),
@@ -112,10 +127,11 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
         world.history.resourceTransferOutcomes,
       );
       expect(settleLivingCosts(changed, personId)).toBe(changed);
-      // This direct opening has no priced housing contract; unknown is not $900 or zero.
+      // This low-level fixture creates no dwelling or tenancy, so there is no
+      // recorded contract to report; the real opening route writes a lease.
       expect(
         recordedHouseholdHousingBillsAt(changed, personId, changed.currentDate),
-      ).toBeNull();
+      ).toEqual([]);
       if (watched.includes(placeKey)) {
         expect(personName(changed.people[personId]!)).toBeTruthy();
         const reopened = deserializeWorld(serializeWorld(changed));
@@ -139,11 +155,21 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
           questionnaire: "skipped",
         }),
       ).game!;
-      const world = startTownLeases(game.world, game.world.currentDate);
+      const world = game.world;
+      const playerHouseholdId = householdMembershipsAt(
+        world,
+        game.playerPersonId,
+      ).find((row) => row.state.residenceRole === "primary")!.household.id;
       const lease = townLeases(world).find(
-        (entry) => entry.regime === "market" && !entry.ended,
+        (entry) =>
+          entry.regime === "market" &&
+          !entry.ended &&
+          entry.householdId === playerHouseholdId,
       )!;
-      expect(lease).toBeDefined();
+      expect(
+        lease,
+        "the opening route records the player's first lease",
+      ).toBeDefined();
       const before = serializeWorld(world);
       const bills = recordedHouseholdHousingBillsAt(
         world,

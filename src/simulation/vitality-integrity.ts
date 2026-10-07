@@ -10,7 +10,6 @@ import { eventById } from "./event-index";
 import { indexOverArrays } from "./history-index";
 import { createStableId } from "./ids";
 import { assertExactQuantity } from "./quantity";
-import { SeededRng } from "./rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -19,7 +18,6 @@ import type {
   LifeEligibilityDecision,
   MortalityCheckPlanRecord,
   MortalityCheckResultRecord,
-  MortalityRngResult,
   Person,
   PersonDeathRecord,
   PersonFunctionalCapacityRecord,
@@ -38,7 +36,6 @@ export const MORTALITY_DEATH_CONTEXT =
 export const MORTALITY_SURVIVAL_CONTEXT =
   "The annual mortality check was survived." as const;
 
-const UINT32_RANGE = 0x1_0000_0000;
 const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
 const CAPACITY_STATUSES: readonly PersonFunctionalCapacityStatus[] = [
   "capable",
@@ -188,36 +185,6 @@ export function personActionAvailabilityAt(
         ],
       }
     : { status: "allowed", reasons: [] };
-}
-
-export function mortalityRngForPlan(
-  world: World,
-  plan: MortalityCheckPlanRecord,
-): MortalityRngResult {
-  const table = world.vitalityCatalog.mortalityTables[plan.mortalityTableId];
-  if (!table)
-    throw new Error(`Missing mortality table: ${plan.mortalityTableId}`);
-  const key = JSON.stringify([
-    "mortality-evaluation-v1",
-    world.seed,
-    plan.personId,
-    table.id,
-    table.stableKey,
-    plan.checkYear,
-    plan.dueAt,
-    plan.age,
-  ]);
-  const draw = new SeededRng("mortality-rng-v1").fork(key).nextUint32();
-  const died =
-    BigInt(draw) * BigInt(plan.annualProbability.denominator) <
-    BigInt(plan.annualProbability.numerator) * BigInt(UINT32_RANGE);
-  return {
-    version: "mortality-rng-v1",
-    key,
-    draw,
-    drawRangeExclusive: 4294967296,
-    died,
-  };
 }
 
 export function assertVitalityIntegrity(
@@ -419,13 +386,8 @@ export function assertVitalityIntegrity(
       throw new Error(`Duplicate mortality result for plan: ${plan.id}`);
     }
     resultByPlan.set(plan.id, result);
-    const expectedRng = mortalityRngForPlan(world, plan);
-    if (
-      JSON.stringify(result.rng) !== JSON.stringify(expectedRng) ||
-      result.outcome !== (expectedRng.died ? "died" : "survived")
-    ) {
-      throw new Error(`Mortality result cannot be reconstructed: ${result.id}`);
-    }
+    // The annual check that wrote this result no longer runs, so its draw is
+    // not re-rolled here: an old save's recorded outcome is read as recorded.
     validateProvenance(
       world,
       result.provenance,

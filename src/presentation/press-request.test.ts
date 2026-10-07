@@ -1,11 +1,51 @@
 import { describe, expect, it } from "vitest";
 import {
-  composePressAnswer,
+  composePressAnswer as renderPressAnswer,
   composePressRequestPitch,
   composeReporterQuestion,
   composeBackgroundAttribution,
   plannedPressArrangementPlace,
 } from "./press-request";
+
+import type { GroundedEnglishPacket } from "./grounded-english";
+// Authored test packets are explicit fixtures, never a production fallback.
+function fixturePacket(texts: readonly string[]): GroundedEnglishPacket {
+  const facts = Object.fromEntries(
+    texts
+      .filter((text) => text.trim())
+      .map((text, i) => [
+        `fixture-${i}`,
+        { text, sourceRecordIds: [`fixture:record:${i}`] },
+      ]),
+  );
+  return {
+    surface: "dialogue",
+    worldSeed: "fixture:press",
+    bankVersion: "1",
+    stage: "press",
+    momentKey: "fixture:press",
+    sourceRecordIds: ["fixture:interview"],
+    speaker: { personId: "fixture:source", traits: {} },
+    facts,
+    knowledge: Object.entries(facts).map(([factKey, fact]) => ({
+      personId: "fixture:source",
+      factKey,
+      sourceRecordIds: fact.sourceRecordIds,
+    })),
+  };
+}
+function composePressAnswer(
+  input: Omit<Parameters<typeof renderPressAnswer>[0], "grounding">,
+) {
+  return renderPressAnswer({
+    ...input,
+    grounding: fixturePacket([
+      ...input.knownFacts,
+      input.primaryQuestion,
+      input.followUpQuestion,
+    ]),
+  });
+}
 
 describe("ordinary press structured statements", () => {
   it("inspects a request pitch without inventing a subject", () => {
@@ -46,13 +86,16 @@ describe("ordinary press structured statements", () => {
     const question = composeReporterQuestion({
       subjectSummary: "The council published the hearing notice.",
       terms: "on-record",
+      grounding: fixturePacket(["The council published the hearing notice."]),
     });
     expect(question.ok).toBe(true);
     if (!question.ok) return;
     expect(question.statement).toContain(
       "The council published the hearing notice.",
     );
-    expect(question.statement).toContain("Asked on the record:");
+    expect(question.statement).toContain(
+      "What is established, and what is still open?",
+    );
   });
 
   it("composes an exact answer from recorded facts before commit", () => {
@@ -80,8 +123,7 @@ describe("ordinary press structured statements", () => {
     });
     expect(empty).toEqual({
       ok: true,
-      statement:
-        "Asked “Did the bill pass?”, the source answers without treating that question as an established fact.",
+      statement: "I can't answer that yet.",
     });
 
     const questionOnly = composePressAnswer({
@@ -107,9 +149,7 @@ describe("ordinary press structured statements", () => {
     });
     expect(unrelated.ok).toBe(true);
     if (!unrelated.ok) return;
-    expect(unrelated.statement).toBe(
-      "The source does not accept that “Did the bill pass?” is established by the record now in hand.",
-    );
+    expect(unrelated.statement).toBe("What makes you ask?");
     expect(unrelated.statement).not.toContain("routine staff meeting");
     expect(unrelated.statement).not.toContain("What is established is");
 
@@ -126,11 +166,30 @@ describe("ordinary press structured statements", () => {
     expect(linked).toEqual({
       ok: true,
       statement:
-        "The source challenges the premise of “Did the bill pass?”, citing the recorded fact: The hearing ended without a final vote.",
+        "The fact I can point to is this: The hearing ended without a final vote.",
     });
     expect(linked.ok && linked.statement).not.toContain(
       "routine staff meeting",
     );
+  });
+
+  it("rejects unsupported wording and does not give an unknowing reporter a topic", () => {
+    expect(
+      renderPressAnswer({
+        intent: "answer-directly",
+        knownFacts: ["The bill passed."],
+        primaryQuestion: "Did it pass?",
+        followUpQuestion: "Did it pass?",
+        grounding: fixturePacket(["Did it pass?"]),
+      }).ok,
+    ).toBe(false);
+    expect(
+      composeReporterQuestion({
+        subjectSummary: "The bill passed.",
+        terms: "on-record",
+        grounding: fixturePacket([]),
+      }),
+    ).toEqual({ ok: true, statement: "What happened?" });
   });
 
   it("composes attribution and arrangement labels from recorded titles and channel", () => {

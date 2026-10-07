@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { DEFAULT_NEW_GAME_SETUP, otherParentQuestionApplies } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectPersonContact } from "./person-contact";
 
@@ -14,13 +14,16 @@ describe("a person who has died is not somebody to reach", () => {
     ["Providence, Rhode Island", "4459000"],
   ] as const) {
     it(`${town}: every action on the card is closed, and says why`, () => {
+      // The parent's death is the player's answer (A148): the first seed
+      // whose family has one parent at home, told the other has died.
+      const setup = Array.from({ length: 40 }, (_, index) => ({
+        ...DEFAULT_NEW_GAME_SETUP,
+        placeKey,
+        seed: `dead:${index}`,
+        startAge: 5,
+      })).find((candidate) => otherParentQuestionApplies(candidate))!;
       const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          placeKey,
-          seed: "dead:0",
-          startAge: 5,
-        }),
+        prepareOpeningLife({ ...setup, otherParent: "deceased" }),
       ).game!;
       const world = game.world;
       const dead = world.history.personDeaths.filter(

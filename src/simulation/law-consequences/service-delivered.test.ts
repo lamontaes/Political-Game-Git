@@ -121,8 +121,12 @@ describe("service kind reuses actual completion and recipient records", () => {
   )(
     "preserves records and saves one named receipt: $state.jurisdictionKey / $key",
     ({ state, key }) => {
-      const f = fixture(state.jurisdictionKey, true, true, key);
+      // The real pre-completion world: the trip is saved, not yet done.
+      const pre = fixture(state.jurisdictionKey, false, true, key);
       const row = SERVICE_DELIVERED_LAW_ROWS[key]![0]!;
+      // Completing the trip once dispatches the service consequence itself.
+      const completed = performScheduledActivity(pre.world, pre.activityId);
+      const f = { ...pre, world: completed };
       const resolved = resolveLawServiceConsequence(f.world, row, context(f));
       expect(resolved, state.jurisdictionKey).toHaveLength(1);
       expect(resolved[0]!.value).toEqual({
@@ -130,32 +134,50 @@ describe("service kind reuses actual completion and recipient records", () => {
         value: 1,
         unit: "hours",
       });
-      const next = applyLawConsequences(f.world, context(f), [
-        SERVICE_DELIVERED_REGISTRATION,
-      ]);
-      expect(next.history.events.length).toBe(
-        f.world.history.events.length + 1,
-      );
-      expect(next.history.events.slice(0, -1)).toEqual(f.world.history.events);
-      expect({
-        ...next.history,
-        events: f.world.history.events,
-        nextSequence: f.world.history.nextSequence,
-      }).toEqual(f.world.history);
-      const receipt = next.history.events.at(-1)!;
-      expect(receipt.participants[0]!.personId).toBe(f.personId);
-      expect(receipt.lawEffectStamps?.[0]).toMatchObject({
+      // Every record saved before completion is unchanged.
+      expect(
+        completed.history.events.slice(0, pre.world.history.events.length),
+      ).toEqual(pre.world.history.events);
+      const receiptKey = `law-service:${f.activityId}:${f.personId}:${row.id}`;
+      const receiptsIn = (world: typeof completed) =>
+        world.history.events.filter(
+          (event) => event.type === "service.delivery-recorded",
+        );
+      const [receipt, ...extra] = receiptsIn(completed);
+      expect(extra).toEqual([]);
+      expect(receipt!.stableKey).toBe(receiptKey);
+      expect(receipt!.participants[0]!.personId).toBe(f.personId);
+      expect(receipt!.involvedEntityIds).toContain(f.activityId);
+      const completion = completed.history.events.find(
+        (event) =>
+          event.id ===
+          [...completed.history.scheduledActivityStates]
+            .reverse()
+            .find((entry) => entry.activityId === f.activityId)!.outcomeEventId,
+      )!;
+      expect(receipt!.occurredAt).toBe(completion.occurredAt);
+      expect(receipt!.lawEffectStamps).toHaveLength(1);
+      expect(receipt!.lawEffectStamps?.[0]).toMatchObject({
         governingLawKey: resolved[0]!.law.measureId,
         questionKey: key,
         jurisdictionId: f.jurisdictionId,
         effectKind: "service-delivered",
+        appliedAt: completion.occurredAt,
       });
-      const restored = deserializeWorld(serializeWorld(next));
+      expect(resolved[0]!.row.id).toBe(row.id);
+      // A repeat dispatch, before and after Save/Continue, adds nothing.
+      expect(
+        applyLawConsequences(completed, context(f), [
+          SERVICE_DELIVERED_REGISTRATION,
+        ]),
+      ).toBe(completed);
+      const restored = deserializeWorld(serializeWorld(completed));
       expect(
         applyLawConsequences(restored, context(f), [
           SERVICE_DELIVERED_REGISTRATION,
         ]),
       ).toBe(restored);
+      expect(receiptsIn(restored)).toEqual([receipt]);
       const repealed = enact(restored, f.jurisdictionId, "no", key);
       expect(
         resolveLawServiceConsequence(repealed, row, {

@@ -1,11 +1,7 @@
 import { makeIsoDate } from "../dates";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import type { EntityId, IsoDate, World } from "../types";
-import {
-  CANNABIS_FIRST_SALE_LAG_MONTHS,
-  CANNABIS_SALES_QUESTION,
-  CANNABIS_TAX_PER_RESIDENT,
-} from "./cannabis-sales-tax";
+import { CANNABIS_TAX_EFFECT, TAX_QUESTION_EFFECTS } from "./rules";
 import type { PublicBudgetGovernment } from "./store";
 import { propositionIdFor } from "./fiscal";
 
@@ -46,8 +42,15 @@ export function cannabisSalesRevenueChange(
     annualRevenueDelta: 0,
     sourceMeasureId: null,
   });
-  if (government.level !== "state") return unchanged("not-state-budget");
-  const propositionId = propositionIdFor(world, CANNABIS_SALES_QUESTION);
+  const effect = TAX_QUESTION_EFFECTS.find(
+    (row) => row.questionKey === CANNABIS_TAX_EFFECT.questionKey,
+  );
+  if (!effect || !(effect.levels ?? ["state"]).includes(government.level))
+    return unchanged("not-state-budget");
+  const propositionId = propositionIdFor(
+    world,
+    CANNABIS_TAX_EFFECT.questionKey,
+  );
   if (!propositionId) return unchanged("question-not-present");
   const began = lawInForceAtStart(
     world,
@@ -64,7 +67,8 @@ export function cannabisSalesRevenueChange(
   );
   if (!current) return unchanged("current-law-not-established");
   if (current.answer === began) return unchanged("same-answer");
-  const annualRevenue = CANNABIS_TAX_PER_RESIDENT * government.population;
+  const annualRevenue =
+    CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount * government.population;
   if (current.answer === "no") {
     return {
       reason: "sales-ended",
@@ -76,7 +80,7 @@ export function cannabisSalesRevenueChange(
     Number(date.slice(0, 4)) * 12 +
     Number(date.slice(5, 7)) -
     1 -
-    CANNABIS_FIRST_SALE_LAG_MONTHS;
+    CANNABIS_TAX_EFFECT.perResidentRevenue.firstSaleLagMonths;
   const retailDate = makeIsoDate(
     `${Math.floor(priorMonth / 12)}-${String((priorMonth % 12) + 1).padStart(2, "0")}-${date.slice(8, 10) > "28" ? "28" : date.slice(8, 10)}`,
   );

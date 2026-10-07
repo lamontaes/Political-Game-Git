@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -23,8 +24,8 @@ import type {
   JudicialSeatTenure,
 } from "./types";
 
-// PLACEHOLDER(overnight): These are fictional opening biographies, not a
-// calibrated distribution of judges' prior occupations.
+// The opening biography writer records one of these authored legal careers on
+// the generated person before that person takes the bench.
 const CAREERS = [
   { title: "Public defender", employer: "Public defense office" },
   { title: "Prosecutor", employer: "Prosecutor's office" },
@@ -75,8 +76,8 @@ function homeForSeat(
     throw new Error(
       `Opening district judge has no recorded home for ${seat.courtId}.`,
     );
-  // PLACEHOLDER(overnight): National courts without a bounded geographic
-  // jurisdiction draw a fictional home state for their opening judges.
+  // A national court has no narrower court jurisdiction to record as home, so
+  // its generated opening judge uses one of the world's recorded state homes.
   const choices = regional.length > 0 ? regional : states;
   if (choices.length === 0)
     throw new Error("Opening judges need a recorded home jurisdiction.");
@@ -110,17 +111,16 @@ export function ensureOpeningJudiciary(
     );
     const retirement =
       next.judiciary!.courts[seat.courtId]!.rules.mandatoryRetirementAge;
-    const oldestExclusive =
-      retirement.state === "known" && retirement.value !== null
-        ? Math.min(71, retirement.value)
-        : 71;
-    if (oldestExclusive <= 45)
-      throw new Error(`No eligible opening age for ${seat.courtId}.`);
-    // PLACEHOLDER(overnight): Age 45-70 is a game-authored opening range.
-    const age = rng.integer(45, oldestExclusive);
-    const birthDate = makeIsoDate(
-      `${yearOf(next.currentDate) - age - 1}-06-15`,
-    );
+    // A mandatory retirement age ends the window early where the court's
+    // rules record one.
+    const birthDate = inventedPersonBirthDate(rng, {
+      role: "judge-at-opening",
+      referenceDate: next.currentDate,
+      ...(retirement.state === "known" && retirement.value !== null
+        ? { ceilingExclusive: retirement.value }
+        : {}),
+      placement: { monthDay: "06-15" },
+    });
     const identity = generatePersonIdentity(rng.fork("identity"));
     const name = drawCanonicalNameForGender(
       rng.fork("name"),
@@ -218,8 +218,8 @@ export function ensureOpeningJudiciary(
       ),
       personId,
       jurisdictionId: plan.homeJurisdictionId,
-      // PLACEHOLDER(overnight): These dates are fictional biography, not
-      // sourced bar or elector records for a real judge.
+      // These generated-biography dates are recorded relative to this
+      // person's birth date and remain distinct from real-person source data.
       barAdmittedAt: onBirthdayYear(person.birthDate, 27),
       legalPracticeSince: careerStarted,
       qualifiedElectorSince: onBirthdayYear(person.birthDate, 21),

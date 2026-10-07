@@ -1,8 +1,8 @@
 import { frameCharacterReview } from "../presentation/character-review-framing";
 import { useMemo, useRef, useState, type CSSProperties } from "react";
 
-import wardrobeReport from "../../art/qa/p95-wave-a-morphology/wave-a-wardrobe-report.json";
-import admissionReport from "../../art/qa/p95-wave-a-morphology/wave-a-admission-report.json";
+import wardrobeReport from "../../art/qa/p95-wave-a-morphology/wave-a-wardrobe-report.json" with { type: "json" };
+import admissionReport from "../../art/qa/p95-wave-a-morphology/wave-a-admission-report.json" with { type: "json" };
 import {
   admittedCandidateBodies,
   composeCandidateReviewSubject,

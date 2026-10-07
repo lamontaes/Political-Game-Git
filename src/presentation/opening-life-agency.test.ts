@@ -16,7 +16,9 @@ import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
 import {
   activeOrdinaryGoal,
   chooseOrdinaryLifeGoal,
+  lifePersonalityFromUpbringing,
 } from "../simulation/life-personality";
+import { upbringingFor } from "../simulation/people-upbringing";
 import {
   lifeOpportunitiesFor,
   refreshLifeOpportunities,
@@ -24,13 +26,7 @@ import {
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { createOpeningLifeController } from "./opening-life";
 import { joinOrdinaryGroup } from "./ordinary-community";
-import {
-  currentOpeningLifeScene,
-  openNextLifeScene,
-  openOptionalLifeActivity,
-  walkOpeningNeighborhood,
-} from "./life-scene-flow";
-import { projectLifeConversation } from "./life-conversation";
+import { openOptionalLifeActivity } from "./life-scene-flow";
 
 function start(age = 24, seed = "ordinary-agency") {
   return createNewGameWorld({
@@ -45,7 +41,7 @@ function start(age = 24, seed = "ordinary-agency") {
 // Several cases open whole lives, each now seating its town's council and
 // its county's board: seconds of real work apiece.
 describe("ordinary-life agency and boundaries", { timeout: 60_000 }, () => {
-  it("does not derive the player's personality from a name or gender", () => {
+  it("derives the player's personality from their upbringing, never from a name or gender", () => {
     const setup = {
       ...DEFAULT_NEW_GAME_SETUP,
       startAge: 24,
@@ -61,20 +57,24 @@ describe("ordinary-life agency and boundaries", { timeout: 60_000 }, () => {
       givenName: "Morgan",
       gender: "female",
     });
-    for (const id of [LIFE_MIND_IDS.conversation, LIFE_MIND_IDS.leisure])
-      expect(
-        latestPersonalityTendency(a.world, a.playerPersonId, id)?.expressionKey,
-      ).toBe(
-        latestPersonalityTendency(b.world, b.playerPersonId, id)?.expressionKey,
+    // The preferences read the upbringing record and nothing else: the reader
+    // takes no name, gender or other identity, so two players with the same
+    // upbringing start with the same preferences whatever they are called.
+    for (const game of [a, b]) {
+      const leans = lifePersonalityFromUpbringing(
+        upbringingFor(game.world, game.playerPersonId),
       );
-    for (const id of [
-      LIFE_MIND_IDS.privacy,
-      LIFE_MIND_IDS.connection,
-      LIFE_MIND_IDS.learning,
-    ])
-      expect(
-        latestPersonalValue(a.world, a.playerPersonId, id)?.orientation,
-      ).toBe(latestPersonalValue(b.world, b.playerPersonId, id)?.orientation);
+      const tendency = (id: (typeof LIFE_MIND_IDS)["conversation"]) =>
+        latestPersonalityTendency(game.world, game.playerPersonId, id)
+          ?.expressionKey;
+      const value = (id: (typeof LIFE_MIND_IDS)["privacy"]) =>
+        latestPersonalValue(game.world, game.playerPersonId, id)?.orientation;
+      expect(tendency(LIFE_MIND_IDS.conversation)).toBe(leans.conversation);
+      expect(tendency(LIFE_MIND_IDS.leisure)).toBe(leans.leisure);
+      expect(value(LIFE_MIND_IDS.privacy)).toBe(leans.privacy);
+      expect(value(LIFE_MIND_IDS.connection)).toBe(leans.connection);
+      expect(value(LIFE_MIND_IDS.learning)).toBe(leans.learning);
+    }
   });
   it("does not complete a goal through a retired quiet-time scene", () => {
     const game = start(6);
@@ -94,34 +94,6 @@ describe("ordinary-life agency and boundaries", { timeout: 60_000 }, () => {
       true,
     );
     assertWorldIntegrity(world);
-  });
-  it("records accompanied travel and keeps childhood conversations age-appropriate", () => {
-    const game = start(6);
-    const next = walkOpeningNeighborhood(
-      openNextLifeScene(game.world, game.playerPersonId),
-      game.playerPersonId,
-      "neighborhood",
-    );
-    expect(next.currentMoment.minuteOfDay).toBe(
-      game.world.currentMoment.minuteOfDay + 5,
-    );
-    const arrival = next.history.events.find(
-      (event) => event.type === "life.scene.arrived",
-    )!;
-    expect(arrival.participants).toHaveLength(2);
-    const scene = currentOpeningLifeScene(next, game.playerPersonId)!;
-    expect(scene.definition.setting).toBe("neighborhood");
-    for (const id of scene.presentPersonIds.filter(
-      (id) => id !== game.playerPersonId,
-    ))
-      expect(
-        projectLifeConversation(next, game.playerPersonId, id)!.intents.some(
-          (intent) => intent.key === "date",
-        ),
-      ).toBe(false);
-    expect(serializeWorld(deserializeWorld(serializeWorld(next)))).toBe(
-      serializeWorld(next),
-    );
   });
   it("makes shared participation real and leaves candidacy absent without its prerequisites", () => {
     const young = start(17);

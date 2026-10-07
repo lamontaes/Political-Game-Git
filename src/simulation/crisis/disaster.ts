@@ -7,6 +7,7 @@ import {
   peopleInHouseholdAt,
 } from "../life-queries";
 import { FLOOD_DAMAGE_OUTCOME, outcomeFactor } from "../outcome-web";
+import { activeDwellingOccupanciesAt } from "../resource-queries";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -225,6 +226,43 @@ export function hazardExposure(
   return { households, dwellings, organizations };
 }
 
+/**
+ * Each household's current home, from its active household occupancy. A
+ * household with more than one active occupancy keeps the latest-started.
+ */
+function householdDwellings(
+  world: World,
+): ReadonlyMap<EntityId, { id: EntityId; jurisdictionId: EntityId }> {
+  const dwellings = new Map(
+    world.history.dwellings.map((dwelling) => [dwelling.id, dwelling]),
+  );
+  const homes = new Map<
+    EntityId,
+    { id: EntityId; jurisdictionId: EntityId; startedAt: IsoDate }
+  >();
+  for (const occupancy of activeDwellingOccupanciesAt(world)) {
+    if (occupancy.occupant.kind !== "household") continue;
+    const dwelling = dwellings.get(occupancy.dwellingId);
+    if (!dwelling) continue;
+    const prior = homes.get(occupancy.occupant.householdId);
+    if (prior && prior.startedAt > occupancy.startedAt) continue;
+    homes.set(occupancy.occupant.householdId, {
+      id: dwelling.id,
+      jurisdictionId: dwelling.jurisdictionId,
+      startedAt: occupancy.startedAt,
+    });
+  }
+  return homes;
+}
+
+/**
+ * One home's damage, settled once per home by applyDamage. Still a seeded
+ * draw against a share by magnitude: a dwelling records no structure type,
+ * year built or flood zone, and a hazard no measured intensity, so nothing on
+ * record can decide it yet (research question
+ * home-damage-from-housing-stock-and-hazard-intensity; the shares are
+ * disaster-damage-casualties-and-declarations).
+ */
 function homeLevel(
   world: World,
   episode: HazardEpisodeRecord,
@@ -389,22 +427,42 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
       ? policy.repairUnits.destroyed
       : policy.repairUnits.damaged;
 
+  // One damage result per home. A dwelling's level is settled once; the
+  // household living in it reads that level, so a household is never spared
+  // in a home the record says was destroyed, or the reverse. A household with
+  // no recorded dwelling is its own home and is settled once on its own key.
+  const dwellingLevels = new Map<EntityId, DisasterDamageLevel | null>();
+  const levelOfDwelling = (dwelling: {
+    id: EntityId;
+    jurisdictionId: EntityId;
+  }): DisasterDamageLevel | null => {
+    if (!dwellingLevels.has(dwelling.id))
+      dwellingLevels.set(
+        dwelling.id,
+        homeLevel(
+          world,
+          episode,
+          `dwelling:${dwelling.id}`,
+          dwelling.jurisdictionId,
+        ),
+      );
+    return dwellingLevels.get(dwelling.id)!;
+  };
+  const dwellingOfHousehold = householdDwellings(world);
   for (const dwelling of exposure.dwellings) {
-    const level = homeLevel(
-      next,
-      episode,
-      `dwelling:${dwelling.id}`,
-      dwelling.jurisdictionId,
-    );
+    const level = levelOfDwelling(dwelling);
     if (level) addDamage("dwelling", dwelling, level, homeUnits(level));
   }
   for (const household of exposure.households) {
-    const level = homeLevel(
-      next,
-      episode,
-      `household:${household.id}`,
-      household.jurisdictionId,
-    );
+    const dwelling = dwellingOfHousehold.get(household.id);
+    const level = dwelling
+      ? levelOfDwelling(dwelling)
+      : homeLevel(
+          world,
+          episode,
+          `household:${household.id}`,
+          household.jurisdictionId,
+        );
     if (!level) continue;
     const damageId = addDamage("household", household, level, homeUnits(level));
     const cutoff = {

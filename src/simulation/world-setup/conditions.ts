@@ -1,7 +1,6 @@
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
-import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
-import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
+import { researchedPublicCashOpeningProfile } from "../public-budgets/opening-cash-profile";
 import { SeededRng } from "../rng";
 import {
   drawLegislativeStartingProcedures,
@@ -29,27 +28,15 @@ import type {
   WorldOpeningVersion,
   PublicCashOpeningProfile,
 } from "./types";
-import {
-  CRUNCH46_WORLD_OPENING_VERSION,
-  PUBLIC_CASH_OPENING_PROFILE_VERSION,
-} from "./types";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "./types";
 
 const KEY = "world-setup:crunch46-v1";
 
-/** A temporary game bank for operative bills, saved once at Begin. */
-export function drawPublicCashOpeningProfile(): PublicCashOpeningProfile {
-  return {
-    contractVersion: PUBLIC_CASH_OPENING_PROFILE_VERSION,
-    federalMinorUnits: 100_000_000_000, // $1 billion
-    stateByJurisdictionId: Object.fromEntries(
-      US_STATE_USPS.map((usps) => {
-        const id = canonicalStateJurisdictionId(`US-${usps}`);
-        if (!id) throw new Error(`Missing state identity for ${usps}.`);
-        return [id, 10_000_000_000]; // $100 million per state
-      }),
-    ),
-    localMinorUnits: 500_000_000, // $5 million per admitted local government
-  };
+/** Saves the budget adapter's researched estimates once at Begin. */
+export function drawPublicCashOpeningProfile(
+  world: World,
+): PublicCashOpeningProfile {
+  return researchedPublicCashOpeningProfile(world);
 }
 
 /** Streams are domain-separated forks of the world seed; UI never draws here. */
@@ -263,7 +250,7 @@ export function ensureWorldStartingConditions(
       stableKey: `${KEY}:opening`,
       openingVersion: options.openingVersion,
       regime,
-      publicCashOpening: drawPublicCashOpeningProfile(),
+      publicCashOpening: drawPublicCashOpeningProfile(world),
     },
     drawMacroStartingConditions(world, regime),
     {

@@ -172,7 +172,7 @@ export function classifyVenueTopology(
   assertReferenceCatalog(c);
   const from = c.venues.find((v) => v.id === fromVenueId);
   const to = c.venues.find((v) => v.id === toVenueId);
-  if (!from || !to) throw new Error("Unknown venue identity");
+  if (!from || !to) throw new Error("Venue identity is not in the catalog");
   if (from.roomId !== null && from.roomId === to.roomId) return "same-room";
   if (from.buildingId === to.buildingId) return "same-building";
   const a = c.buildings.find((b) => b.id === from.buildingId)!;

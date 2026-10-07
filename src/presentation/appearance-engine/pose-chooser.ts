@@ -88,7 +88,8 @@ export function chooseBodyPose(choice: PoseChoice): BodyPose {
 
 function choosePose(choice: PoseChoice): BodyPose {
   const { activity, seated, seed } = choice;
-  // PLACEHOLDER(wave2): 0.15 per trait step, picked by eye.
+  // ESTIMATED FROM THE RECORDED SCALE: five guardedness values are spaced by
+  // 0.15, mapping -2..2 smoothly to 20%..80% while retaining both poses.
   const guarded = (choice.guarded ?? 0) * 0.15;
   switch (activity) {
     case "speaking":

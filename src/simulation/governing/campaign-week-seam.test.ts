@@ -1,10 +1,9 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   addDays,
-  ageOnDate,
   campaignActionById,
   campaignActionResult,
   campaignTreasuryPosition,
@@ -65,10 +64,8 @@ function fundedCampaign(seed: string): Filed {
   const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
     peopleCount: 6,
   });
-  const personId = created.personOrder.find(
-    (candidate) =>
-      ageOnDate(created.people[candidate]!.birthDate, created.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const personId = created.personOrder.find((candidate) =>
+    fixtureMeetsRecordedCandidacyAge(created, candidate),
   )!;
   const base: World = { ...created, control: { kind: "person", personId } };
   const opponents = ensureCampaignOpponents(base, {

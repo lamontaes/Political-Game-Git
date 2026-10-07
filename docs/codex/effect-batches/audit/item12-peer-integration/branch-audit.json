@@ -1,0 +1,145 @@
+{
+  "verifiedFrom": "docs/codex/audit-verified-2026-10-01.json",
+  "engineDoc": "docs/codex/audit-by-engine-2026-10-01.md",
+  "rules": "scripts/audit/item12-pinned-rules.json",
+  "coverage": { "withRules": 2, "total": 2 },
+  "counts": {
+    "verified": { "partly": 1, "not-started": 1 },
+    "scanned": { "done": 2 }
+  },
+  "orderMatchesEngineDoc": true,
+  "orderMismatches": [],
+  "engines": [
+    {
+      "engine": "Clock & decisions",
+      "squads": "Audit/Systems (lead) + Team 7",
+      "items": [
+        {
+          "id": "A124",
+          "seq": 2,
+          "short": "Remove the -1/0/+1 roll on close decisions",
+          "owner": "Audit/Systems",
+          "verified": "partly",
+          "scanned": "done",
+          "after": "after A125 (#1405)",
+          "afterSteps": [{ "id": "A125", "scanned": "partly" }],
+          "afterDone": false,
+          "drift": ["dice"],
+          "covers": "whole",
+          "passed": 5,
+          "checks": [
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/decisions.ts",
+                "pattern": "export function isSelectedDecision",
+                "why": "the selected/undecided split from #1321 exists"
+              },
+              "pass": true,
+              "at": ["src/simulation/decisions.ts:51"]
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/types.ts",
+                "pattern": "\"selected\" \\| \"no-available-option\" \\| \"undecided\"",
+                "why": "the 'undecided' outcome kind exists in the decision type (#1321)"
+              },
+              "pass": true,
+              "at": ["src/simulation/types.ts:3675"]
+            },
+            {
+              "check": {
+                "kind": "absent",
+                "file": "src/simulation/decisions.ts",
+                "pattern": "optionRng\\.integer\\(-1, 2\\)",
+                "why": "the -1/0/+1 close-choice roll (decisions.ts:205)"
+              },
+              "pass": true,
+              "at": []
+            },
+            {
+              "check": {
+                "kind": "absent",
+                "file": "src/simulation/decisions.ts",
+                "pattern": "context\\.randomness === \"close-choices\"",
+                "why": "the close-choices block that holds the roll (decisions.ts:193)"
+              },
+              "pass": true,
+              "at": []
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/decisions.ts",
+                "pattern": "\"undecided\"",
+                "why": "evaluateDecision returns an 'undecided' outcome for a true tie (today only a comment mentions it)"
+              },
+              "pass": true,
+              "at": ["src/simulation/decisions.ts:299"]
+            }
+          ],
+          "step": "2"
+        },
+        {
+          "id": "A126",
+          "seq": 3,
+          "short": "Break exact ties by the person's records",
+          "owner": "Audit/Systems",
+          "verified": "not-started",
+          "scanned": "done",
+          "after": "with A124 (#1405)",
+          "afterSteps": [{ "id": "A124", "scanned": "done" }],
+          "afterDone": true,
+          "drift": [],
+          "covers": "whole",
+          "passed": 2,
+          "checks": [
+            {
+              "check": {
+                "kind": "absent",
+                "file": "src/simulation/decisions.ts",
+                "pattern": "left\\.option\\.key\\.localeCompare\\(right\\.option\\.key\\)",
+                "why": "the alphabetical option-key tie-break in the ranked sort (decisions.ts:219)"
+              },
+              "pass": true,
+              "at": []
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/decisions.ts",
+                "pattern": "\"undecided\"",
+                "why": "evaluateDecision returns the 'undecided' outcome when the top two scores are equal (today only a comment names it)"
+              },
+              "pass": true,
+              "at": ["src/simulation/decisions.ts:299"]
+            }
+          ],
+          "step": "3"
+        }
+      ]
+    },
+    {
+      "engine": "Government",
+      "squads": "Team 1 (lawmaking) + Team 2 (executives, votes, offices) + Team 9 (courts); Coordinator owns the shared law path",
+      "items": []
+    },
+    {
+      "engine": "Financial",
+      "squads": "Team 6 (public money, tax, effects map) + Team 3 (pay, jobs) + Team 4 (prices, housing, business, loans)",
+      "items": []
+    },
+    {
+      "engine": "Elections",
+      "squads": "Cloud C (owner); Audit/Systems finishes its three open drafts first",
+      "items": []
+    },
+    {
+      "engine": "Social",
+      "squads": "Team 5 (people, families, opinions) + Standby Claude Team 5 / X5 (life outcomes, the English engine)",
+      "items": []
+    },
+    { "engine": "Narrative", "squads": "Team 8", "items": [] }
+  ]
+}

@@ -1,6 +1,6 @@
 import { addDays, daysBetween } from "./dates";
 import { requireElectionContest } from "./election-contests";
-import { createStableId, stableHash } from "./ids";
+import { createStableId } from "./ids";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { campaignStateJurisdictionKey } from "./campaign-compliance-rules";
 import { requireCampaign } from "./campaign-queries";
@@ -504,13 +504,16 @@ export interface CampaignContributionAssessment {
 }
 
 /** A recordability gate, not a contribution-limit approval engine. */
-export function assessKentuckyCampaignContribution(
-  input: CampaignContributionInput,
+export function assessCampaignContributionForPack(
+  input: CampaignContributionInput & {
+    readonly pack: CampaignComplianceRulePack;
+  },
 ): CampaignContributionAssessment {
   const refusals: string[] = [];
-  const threshold = kentuckyCampaignCompliancePack(
-    input.onDate,
-  ).itemizationThresholdMinorUnits;
+  const threshold = input.pack.itemizationThresholdMinorUnits;
+  const thresholdKnown =
+    threshold.state === "KNOWN" &&
+    input.onDate >= threshold.source.supportCoverageFrom;
   if (
     !Number.isSafeInteger(input.amountMinorUnits) ||
     input.amountMinorUnits <= 0
@@ -521,16 +524,16 @@ export function assessKentuckyCampaignContribution(
   }
   if (input.currency !== "USD") {
     refusals.push(
-      "The accepted Kentucky pack states amounts in U.S. dollars only.",
+      `The accepted ${input.pack.jurisdictionKey} pack states amounts in U.S. dollars only.`,
     );
   }
-  const requiresItemization =
-    threshold.state === "KNOWN"
-      ? input.amountMinorUnits > threshold.value
-      : null;
-  if (threshold.state !== "KNOWN") {
+  const requiresItemization = thresholdKnown
+    ? input.amountMinorUnits >
+      (threshold as Extract<typeof threshold, { state: "KNOWN" }>).value
+    : null;
+  if (!thresholdKnown) {
     refusals.push(
-      `The itemization threshold is ${threshold.state} on ${input.onDate}; the game will not infer a recordability rule from a later source.`,
+      `The itemization threshold is unavailable on ${input.onDate}; the game will not infer a recordability rule from a later source.`,
     );
   }
   if (input.contributorKind === "unknown") {
@@ -546,7 +549,7 @@ export function assessKentuckyCampaignContribution(
       !input.occupation?.trim())
   ) {
     refusals.push(
-      `A contribution over $${(threshold.state === "KNOWN" ? threshold.value / 100 : 0).toFixed(0)} lacks the contributor details required for itemization.`,
+      `A contribution over $${(thresholdKnown ? (threshold as Extract<typeof threshold, { state: "KNOWN" }>).value / 100 : 0).toFixed(0)} lacks the contributor details required for itemization.`,
     );
   }
   return {
@@ -563,39 +566,41 @@ export function assessKentuckyCampaignContribution(
 }
 
 /**
- * PLACEHOLDER. The first filing a campaign owes where the game has not read
- * the state's campaign-finance law.
+ * ESTIMATED FROM AVERAGE. The first filing a campaign owes where the game has
+ * not read the state's campaign-finance law.
  *
  * Nearly every state asks a new candidate's committee to register with the
  * state (a statement of organization, or the state's own name for it) within
  * days of filing or of first raising money. Until the per-state answer to
- * `campaign-filing-deadlines-by-state` lands, each state without a pack gets
- * a deadline drawn from this national range, stable for that state. It is a
- * placeholder, never another state's law.
+ * `campaign-filing-deadlines-by-state` lands, every place without a pack (all
+ * 56 through this one path) owes it within the national rule's 10 days: the
+ * federal deadline for a principal campaign committee's statement of
+ * organization (52 U.S.C. 30103(a)), which is also the middle of the 5 to 15
+ * days earlier used here. No hash picks it, and it is never another state's
+ * law. The version string is the pack id older saves recorded, so it stays.
  */
 export const UNRESEARCHED_CAMPAIGN_FILING_RULE = {
   version: "campaign-filing-unresearched-v1",
-  provenance: "unresearched-national-range",
-  statementOfOrganizationWithinDays: { min: 5, max: 15 },
+  provenance: "estimated-from-national-rule",
+  statementOfOrganizationWithinDays: 10,
+  source:
+    "ESTIMATED FROM AVERAGE: the federal statement-of-organization deadline, 10 days after a committee is designated (52 U.S.C. 30103(a)). Not a claim about this state's law.",
 } as const;
 
 /** The placeholder rule's pack id, as recorded on a document it governs. */
 export const UNRESEARCHED_CAMPAIGN_FILING_PACK_ID =
   UNRESEARCHED_CAMPAIGN_FILING_RULE.version;
 
-/** The drawn deadline for one state, the same every time it is asked. */
+/**
+ * The estimated deadline for a state with no read rule: the same national
+ * rule for every such state. The key is kept so a read state row can replace
+ * it for that state alone.
+ */
 export function unresearchedStatementDeadlineDays(
   stateJurisdictionKey: string,
 ): number {
-  const { min, max } =
-    UNRESEARCHED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays;
-  const draw = Number.parseInt(
-    stableHash(
-      `${UNRESEARCHED_CAMPAIGN_FILING_RULE.version}:${stateJurisdictionKey}`,
-    ).slice(-8),
-    16,
-  );
-  return min + (draw % (max - min + 1));
+  void stateJurisdictionKey;
+  return UNRESEARCHED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays;
 }
 
 /** Which first statement a campaign owes, under which rule. */

@@ -173,6 +173,12 @@ function chamberFor(
   slots: ReadonlyMap<EntityId | null, number>,
   stateName: (usps: string) => string | null,
 ): OrientationChamber {
+  const independentMembers = chamber.seats.filter(
+    (seat) =>
+      seat.occupant.kind === "member" &&
+      seat.occupant.member.partyOrganizationId === null &&
+      seat.occupant.member.declaredAffiliation === "independent",
+  ).length;
   return {
     chamberKey: chamber.chamberKey,
     title: chamber.chamberKey === "us-senate" ? "Senate" : "House",
@@ -188,12 +194,29 @@ function chamberFor(
         label: entry.partyOrganizationId
           ? (parties.get(entry.partyOrganizationId)?.name ?? "Another party")
           : "No party",
-        members: entry.members,
+        members:
+          entry.partyOrganizationId === null
+            ? entry.members - independentMembers
+            : entry.members,
         slot:
           (entry.partyOrganizationId
             ? slots.get(entry.partyOrganizationId)
             : undefined) ?? slots.size,
       }))
+      .concat(
+        independentMembers > 0
+          ? [
+              {
+                partyOrganizationId: null,
+                noParty: false,
+                label: "Independent",
+                members: independentMembers,
+                slot: slots.size,
+              },
+            ]
+          : [],
+      )
+      .filter((entry) => entry.members > 0)
       .sort(
         (left, right) =>
           right.members - left.members || left.label.localeCompare(right.label),
@@ -390,7 +413,10 @@ function personFor(
     title: holder.title,
     party: holder.partyOrganizationId
       ? (parties.get(holder.partyOrganizationId)?.name ?? null)
-      : null,
+      : "declaredAffiliation" in holder &&
+          holder.declaredAffiliation === "independent"
+        ? "Independent"
+        : null,
     facts,
   };
 }

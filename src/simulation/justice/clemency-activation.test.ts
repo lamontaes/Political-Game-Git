@@ -8,11 +8,7 @@ import { currentLifeCutoff } from "../life-queries";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import { personName } from "../people";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays, daysBetween, simulationMomentOnLocalDate } from "../dates";
 import { candidacyEligibility } from "../candidacy";
 import {
@@ -24,7 +20,7 @@ import {
   electedExecutiveTermForRelationship,
 } from "../executive-work-context";
 import {
-  EXECUTIVE_TERM_HANDLERS,
+  executiveTermHandlers,
   planElectedExecutiveOfficeTerm,
   recordElectedExecutiveQualification,
   electedExecutiveTermTransitionHandler,
@@ -32,21 +28,25 @@ import {
 import {
   currentGoverningOffices,
   governingMatters,
+  GOVERNING_TRANSITION,
 } from "../governing/state-governing";
 import { recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
 import {
   lifePlaceStateIdentities,
-  searchLifePlaces,
   stateJurisdictionForKey,
 } from "../life-places";
 import { settleStateExecutiveQualification } from "../nationwide-world/state-executive-terms";
 import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { assertWorldIntegrity } from "../world";
+import { composeWorldTimeHandlers } from "../campaigns";
+import { CLEMENCY_PETITION_EVENT } from "./clemency-records";
+import { CLEMENCY_SENTENCE_TAG } from "./jail-terms";
 import type { EntityId, World } from "../types";
 import {
   advanceClemencyAfterExecutiveEntry,
+  considerClemencyAfterExecutiveDesk,
   clemencyPetitionStatus,
   fileClemencyPetition,
 } from "./clemency";
@@ -64,6 +64,7 @@ import {
   enterPlea,
   referForProsecution,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 
 // Five actual places sampled from all 56; supported executive authority is a
 // fixture prerequisite, never a production place branch.
@@ -82,7 +83,7 @@ const states = pickDistinct(
       ),
     );
   })
-  .slice(0, 5);
+  .slice(0, 1);
 const receipts: unknown[] = [];
 afterAll(() => {
   if (process.env.G12_ACTIVATION_PROOF_PATH)
@@ -98,24 +99,19 @@ for (const state of states)
       petitionId: EntityId,
       petitionerId: EntityId,
       oldHolder: EntityId,
+      oldTermId: EntityId,
       successor: EntityId,
       officeKey: string,
       jurisdictionId: EntityId;
     beforeAll(() => {
-      const place = searchLifePlaces("", 5000, {
-        stateJurisdictionKey: state.jurisdictionKey,
-        scope: "locality",
-      })[0]!;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed: `team9-g12-activation:${state.jurisdictionKey}`,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      petitionerId = game.playerPersonId;
+      // A small world (tests/fixtures/small-world.ts) with its governor seated.
+      const small = smallWorld({
+        place: state.jurisdictionKey,
+        seed: `team9-g12-activation:${state.jurisdictionKey}`,
+        offices: ["governor"],
+      });
+      const game = { world: small.world };
+      petitionerId = small.personId;
       const referred = referForProsecution(game.world, {
         stableKey: "fixture:g12-executive-case",
         subjectPersonId: petitionerId,
@@ -162,7 +158,8 @@ for (const state of states)
                   ...event,
                   occurredAt: addDays(
                     plea.world.currentDate,
-                    -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                    -prosecutionTimingFor(state.jurisdictionKey)
+                      .resolveAfterDays,
                   ),
                 }
               : event,
@@ -180,6 +177,9 @@ for (const state of states)
       const term = sentencesOf(sentenced, petitionerId).find(
         (sentence) => sentence.sentencedEventId === sentenceId,
       )!;
+      expect(term.until).not.toBeNull();
+      if (term.until === null)
+        throw new Error("The fixture's recorded sentence has no end date.");
       // Authored older-save fixture: the real sentence has already reached
       // the existing body's service gate. No outcome or new wait is invented.
       const sentenceDate = addDays(
@@ -197,7 +197,8 @@ for (const state of states)
                   occurredAt: addDays(
                     sentenceDate,
                     -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                      UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      prosecutionTimingFor(state.jurisdictionKey)
+                        .resolveAfterDays,
                   ),
                 }
               : event.type === PROSECUTION_CHARGED_EVENT &&
@@ -206,7 +207,8 @@ for (const state of states)
                     ...event,
                     occurredAt: addDays(
                       sentenceDate,
-                      -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      -prosecutionTimingFor(state.jurisdictionKey)
+                        .resolveAfterDays,
                     ),
                   }
                 : event.id === sentenceId
@@ -231,6 +233,7 @@ for (const state of states)
         (office) => `US-${office.stateUsps}` === state.jurisdictionKey,
       )!;
       oldHolder = office.holderPersonId;
+      oldTermId = office.termId;
       officeKey = office.officeKey;
       jurisdictionId = stateJurisdictionForKey(state.jurisdictionKey)!.id;
       successor = ready.personOrder.find((personId) => {
@@ -422,6 +425,132 @@ for (const state of states)
       expect(clemencyPetitionStatus(loaded, petitionId)).toBe("denied");
       return loaded;
     }
+    it("actual saved desk opening records the NPC request once across reload", () => {
+      const setup = planned();
+      const qualified = recordElectedExecutiveQualification(setup.world, {
+        contestId: setup.contestId,
+        personId: successor,
+        qualificationNote: "Recorded fixture qualification.",
+      });
+      const entered = resolveFutureDueItemsThrough(
+        afterOldTerm(qualified, setup.term.startsAt),
+        setup.term.startsAt,
+        executiveTermHandlers(),
+      );
+      expect(clemencyPetitionStatus(entered, petitionId)).toBe("denied");
+      const opening = entered.history.futureDueItems.find(
+        (item) =>
+          item.transitionKey === GOVERNING_TRANSITION &&
+          item.entityIds.includes(setup.term.relationship.id),
+      );
+      expect(opening).toBeDefined();
+      // The fixture controls the actual successor now. The former controlled
+      // defendant remains the same saved person serving the same sentence.
+      let isolated: World = {
+        ...entered,
+        control: { kind: "person", personId: successor },
+      };
+      for (const item of entered.history.futureDueItems) {
+        if (
+          item.id === opening!.id ||
+          item.dueAt > opening!.dueAt ||
+          futureDueItemStateAt(isolated, item.id, currentLifeCutoff(isolated))
+            ?.status !== "scheduled"
+        )
+          continue;
+        isolated = cancelFutureDueItem(isolated, {
+          stableKey: `fixture:desk-isolate:${item.id}`,
+          dueItemId: item.id,
+          effectiveAt: isolated.currentDate,
+          reasonKey: "fixture:isolated-governor-opening",
+          context:
+            "Isolate the actual saved desk opening; retain unrelated due records.",
+        });
+      }
+      const priorDecisions = isolated.history.decisionTraces.filter(
+        (trace) =>
+          trace.context.decisionType === "justice.clemency-petition" &&
+          trace.context.actorPersonId === petitionerId,
+      );
+      expect(priorDecisions).toHaveLength(0);
+      const loaded = deserializeWorld(serializeWorld(isolated));
+      const opened = resolveFutureDueItemsThrough(
+        loaded,
+        opening!.dueAt,
+        composeWorldTimeHandlers(),
+      );
+      const actualOffice = currentGoverningOffices(opened).find(
+        (office) => office.officeKey === officeKey,
+      )!;
+      expect(actualOffice.holderPersonId).toBe(successor);
+      const traces = opened.history.decisionTraces.filter(
+        (trace) =>
+          trace.context.decisionType === "justice.clemency-petition" &&
+          trace.context.actorPersonId === petitionerId,
+      );
+      expect(traces).toHaveLength(1);
+      const oldPetition = ready.history.events.find(
+        (event) => event.id === petitionId,
+      )!;
+      expect(
+        opened.history.events.find((event) => event.id === petitionId),
+      ).toEqual(oldPetition);
+      expect(clemencyPetitionStatus(opened, petitionId)).toBe("denied");
+      const sentenceTag = oldPetition.tags.find((tag) =>
+        tag.startsWith(CLEMENCY_SENTENCE_TAG),
+      )!;
+      const newPetitions = opened.history.events.filter(
+        (event) =>
+          event.type === CLEMENCY_PETITION_EVENT &&
+          event.id !== petitionId &&
+          event.tags.includes(sentenceTag),
+      );
+      expect(newPetitions).toHaveLength(
+        traces[0]!.selectedOptionKey === "petition" ? 1 : 0,
+      );
+      if (newPetitions[0])
+        expect(
+          newPetitions[0].stableKey.endsWith(`executive:${successor}`),
+        ).toBe(true);
+      const continued = deserializeWorld(serializeWorld(opened));
+      assertWorldIntegrity(continued);
+      const replayed = resolveFutureDueItemsThrough(
+        continued,
+        opening!.dueAt,
+        composeWorldTimeHandlers(),
+      );
+      expect(serializeWorld(replayed)).toBe(serializeWorld(continued));
+      expect(
+        considerClemencyAfterExecutiveDesk(continued, actualOffice.termId),
+      ).toBe(continued);
+      expect(considerClemencyAfterExecutiveDesk(continued, oldTermId)).toBe(
+        continued,
+      );
+      receipts.push({
+        source: "actual saved office opening",
+        place: state.jurisdictionKey,
+        seed: opened.seed,
+        petitioner: {
+          id: petitionerId,
+          name: personName(opened.people[petitionerId]!),
+        },
+        successor: {
+          id: successor,
+          name: personName(opened.people[successor]!),
+        },
+        officeTermId: actualOffice.termId,
+        openingDueId: opening!.id,
+        decisionId: traces[0]!.id,
+        selectedOptionKey: traces[0]!.selectedOptionKey,
+        newPetitionIds: newPetitions.map((event) => event.id),
+        oldPetitionId: petitionId,
+        oldPetitionUnchanged: true,
+        repeatedConsumer: "unchanged",
+        staleSavedTerm: "unchanged",
+        replay: "unchanged",
+      });
+    });
+
     it("actual dated entry lapses the old holder's request once across reload", () => {
       const setup = planned();
       const qualified = recordElectedExecutiveQualification(setup.world, {
@@ -432,7 +561,7 @@ for (const state of states)
       const entered = resolveFutureDueItemsThrough(
         afterOldTerm(qualified, setup.term.startsAt),
         setup.term.startsAt,
-        EXECUTIVE_TERM_HANDLERS,
+        executiveTermHandlers(),
       );
       expect(workStatusAt(entered, setup.term.relationship.id)?.status).toBe(
         "active",

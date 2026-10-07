@@ -5,11 +5,14 @@ import {
   createDemoWorld,
   createWorldSnapshot,
   deserializeWorld,
+  introduceMeasure,
+  legislativeBlueprint,
   measurePosition,
   recordWorldEvent,
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
+import { COHERENT_APPEARANCE_RECIPE_VERSION } from "../simulation";
 import {
   BROWSER_WORLD_RECORD_KIND,
   BrowserSaveStore,
@@ -29,11 +32,12 @@ import {
 } from "./legislation-world";
 import { createNewGameWorld } from "./new-game";
 import { observeWorld, retireFromPlay } from "./people-continuation";
-import { resolvePlayerCapabilities } from "./player-capabilities";
+import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { openOrdinaryLife } from "./ordinary-life";
 import { openNextLifeScene } from "./life-scene-flow";
 import { projectPlayerConversation } from "./player-conversation";
 import { commitConversationTurn } from "./run-b-conversation";
+import { addSuppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
 
 /**
  * A fake IndexedDB that can be made slow or made to fail.
@@ -1250,8 +1254,8 @@ describe("A bill moved through committee survives leaving", () => {
   /**
    * The same defect, on a second production path.
    *
-   * Opening legislative work and taking a step both write canonical history
-   * and leave `actionSequence` exactly where it was, so under the old contract
+   * Legislative steps can write canonical history while leaving
+   * `actionSequence` exactly where it was, so under the old contract
    * a player could move a measure to referral, through a hearing and out of
    * committee, autosave after each step, and find on reload that none of it
    * happened. That is not a variant of the conversation bug; it is the same
@@ -1277,16 +1281,41 @@ describe("A bill moved through committee survives leaving", () => {
       givenName: null,
       familyName: null,
     });
-    const capabilities = resolvePlayerCapabilities(game.world);
-    const saveId = store.newSaveId(game.world);
-    expect((await store.save(game.world, saveId)).status).toBe("saved");
+    // Supplied seat and legacy office bill: this isolates persistence, not
+    // ordinary election or bill-intake production. A staff job alone cannot
+    // supply a seated sponsor or authorize the opener to fabricate a bill.
+    const seat = addSuppliedLegislativeSeat(
+      game.world,
+      game.playerPersonId,
+      "US-KY",
+      "house",
+    );
+    const blueprint = legislativeBlueprint("kentucky");
+    expect(resolveActiveMemberSeat(seat.world, seat.personId).kind).toBe(
+      "seated",
+    );
+    const ready = introduceMeasure(seat.world, {
+      stableKey: "legislative-work:kentucky:measure",
+      jurisdictionId: seat.jurisdictionId,
+      rulePackId: seat.packId,
+      designation: "HB 1",
+      shortTitle: blueprint.shortTitle,
+      summary: blueprint.summary,
+      origin: "member-introduction",
+      subjectClass: blueprint.subjectClass,
+      originChamberKey: "house",
+      sponsorPersonId: seat.personId,
+    });
+    const saveId = store.newSaveId(ready);
+    expect((await store.save(ready, saveId)).status).toBe("saved");
 
-    const opened = openLegislativeWork(game.world, {
+    const opened = openLegislativeWork(ready, {
       scenarioKey: "kentucky",
       playerPersonId: game.playerPersonId,
-      jurisdictionId: capabilities.legislativeJurisdictionId!,
+      jurisdictionId: seat.jurisdictionId,
     });
-    expect(opened.world.actionSequence).toBe(game.world.actionSequence);
+    expect(opened.assignment.sponsorPersonId).toBe(seat.personId);
+    expect(opened.world.actionSequence).toBe(ready.actionSequence);
     expect((await store.autosave(opened.world, saveId)).status).toBe("saved");
 
     let moved = opened.world;
@@ -1309,7 +1338,7 @@ describe("A bill moved through committee survives leaving", () => {
     }
     // Some steps advance the clock and some only write history. The ones that
     // only write history are the ones the old contract lost, and there is at
-    // least one of them in an ordinary bill's path through committee.
+    // least one of them in this supplied legacy bill's committee path.
     expect(stepsThatDidNotAdvanceTheSequence.length).toBeGreaterThan(0);
     expect((await store.flush()).status).toBe("settled");
 
@@ -1935,12 +1964,36 @@ describe("Read-only developer snapshots", () => {
 });
 
 describe("MORNING23 durable appearance migration", () => {
-  it("migrates two old lives separately and persists pins on save without corrupting original reads", async () => {
-    const unpinned = await import("./fixtures/morning23-old-unpinned.json");
-    const pinned = await import("./fixtures/morning23-old-gen2.json");
+  const freshLives = (): World[] =>
+    [
+      { seed: "morning23-life-a", household: "lives-alone" as const },
+      { seed: "morning23-life-b", household: "shares-a-home" as const },
+    ].map(
+      ({ seed, household }) =>
+        createNewGameWorld({
+          placeKey: "kentucky",
+          startAge: 30,
+          depth: "summarize-earlier-life",
+          startingLife: "ordinary-life",
+          household,
+          seed,
+          givenName: null,
+          familyName: null,
+          appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
+        }).world,
+    );
+
+  it("keeps two fresh lives pinned through save and reload without corrupting original reads", async () => {
+    // Two fresh lives made by today's code, each pinned to a catalog
+    // generation when it was created. No saved file is read.
     const { store, factory } = storeWith();
-    const originals = [unpinned.default, pinned.default].map((f) =>
-      deserializeWorld(f.payload),
+    const originals = freshLives();
+    const firstPerson = (w: World) => w.people[w.personOrder[0]!]!;
+    for (const w of originals)
+      expect(firstPerson(w).appearance?.catalogGeneration).toBe(2);
+    expect(originals[0]!.id).not.toBe(originals[1]!.id);
+    expect(firstPerson(originals[0]!).appearance?.seed).not.toBe(
+      firstPerson(originals[1]!).appearance?.seed,
     );
     const slots = originals.map((w) => store.newSaveId(w));
     for (let i = 0; i < originals.length; i++) {
@@ -1949,7 +2002,7 @@ describe("MORNING23 durable appearance migration", () => {
         ...old,
         control: { kind: "person", personId: old.personOrder[0]! },
       };
-      // Imported old payload enters the same validated record seam as storage.
+      // The world enters the same validated record seam as storage.
       const record = createBrowserWorldRecord(
         world,
         "2026-05-01T10:00:00.000Z",
@@ -1965,6 +2018,65 @@ describe("MORNING23 durable appearance migration", () => {
       expect(
         loaded.people[loaded.personOrder[0]!]!.appearance?.catalogGeneration,
       ).toBe(2);
+      expect(firstPerson(loaded).appearance).toEqual(
+        firstPerson(old).appearance,
+      );
+      expect((await store.save(loaded, slots[i]!)).status).toBe("saved");
+      const stored = factory.records.get(slots[i]!) as { payload: string };
+      expect(deserializeWorld(stored.payload)).toEqual(loaded);
+      expect(await store.load(slots[i]!)).toEqual(loaded);
+    }
+    expect(slots[0]).not.toBe(slots[1]);
+    expect((await store.list()).saves).toHaveLength(2);
+  });
+  it("migrates two unpinned appearance saves separately and persists pins without corrupting original reads", async () => {
+    const { store, factory } = storeWith();
+    // Only the legacy missing-pin shape is authored. All unrelated world
+    // records come from today's constructor and remain validated.
+    const originals = freshLives().map((world): World => ({
+      ...world,
+      people: Object.fromEntries(
+        Object.entries(world.people).map(([id, person]) => {
+          if (!person.appearance) return [id, person];
+          const appearance = { ...person.appearance };
+          delete appearance.catalogGeneration;
+          return [id, { ...person, appearance }];
+        }),
+      ),
+    }));
+    const slots = originals.map((world) => store.newSaveId(world));
+    const firstPerson = (world: World) => world.people[world.personOrder[0]!]!;
+    expect(originals[0]!.id).not.toBe(originals[1]!.id);
+    expect(firstPerson(originals[0]!).appearance?.seed).not.toBe(
+      firstPerson(originals[1]!).appearance?.seed,
+    );
+    for (let i = 0; i < originals.length; i++) {
+      const original = originals[i]!;
+      const world: World = {
+        ...original,
+        control: { kind: "person", personId: original.personOrder[0]! },
+      };
+      expect(firstPerson(world).appearance?.recipeVersion).toBe(
+        COHERENT_APPEARANCE_RECIPE_VERSION,
+      );
+      expect(firstPerson(world).appearance?.catalogGeneration).toBeUndefined();
+      const record = createBrowserWorldRecord(
+        world,
+        "2026-05-01T10:00:00.000Z",
+        "2026-05-01T10:00:00.000Z",
+        slots[i]!,
+      );
+      factory.setRaw(slots[i]!, record);
+      expect(readStoredRecord(record).kind).toBe("healthy");
+      const loaded = (await store.load(slots[i]!))!;
+      expect(
+        (factory.records.get(slots[i]!) as { payload: string }).payload,
+      ).toBe(record.payload);
+      expect(firstPerson(loaded).appearance).toEqual({
+        ...firstPerson(world).appearance,
+        catalogGeneration: 2,
+      });
+      expect(firstPerson(world).appearance?.catalogGeneration).toBeUndefined();
       expect((await store.save(loaded, slots[i]!)).status).toBe("saved");
       const stored = factory.records.get(slots[i]!) as { payload: string };
       expect(deserializeWorld(stored.payload)).toEqual(loaded);

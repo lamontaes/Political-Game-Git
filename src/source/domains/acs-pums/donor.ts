@@ -747,7 +747,7 @@ function compileDonorBytes(
       inputClass: input.inputClass,
       coverage: {
         isCompleteUniverse: false,
-        universeDescription: `Linked housing-unit and person donor records from the ${identity.surveyYear} ACS 1-year PUMS ${identity.stateUsps} state shard. PUMS is a weighted sample at state/PUMA geography; it is not an enumeration and does not identify an exact city, address, school, employer, or real person.`,
+        universeDescription: `Linked housing-unit and person donor records from the ${identity.surveyYear} ACS 1-year PUMS ${identity.stateUsps} state shard. PUMS contains weighted survey responses at state/PUMA geography; it is not an enumeration and does not identify an exact city, address, school, employer, or real person.`,
         boundedSampleReason: input.boundedSampleReason,
       },
     },
@@ -780,7 +780,7 @@ export function compileAcsPumsDonorShard(
       bytes: tableBytes(dictionary),
     },
     boundedSampleReason:
-      "The corpus is one declared state shard of a disclosure-protected survey sample. It preserves every linked person in each included housing record and both published weights; it does not claim a national or exact-city population.",
+      "The corpus is one declared state shard of disclosure-protected survey responses. It preserves every linked person in each included housing record and both published weights; it does not claim a national or exact-city population.",
   }) as AcsPumsDonorCorpus<"production">;
 }
 

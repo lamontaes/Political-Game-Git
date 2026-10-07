@@ -22,6 +22,7 @@ import {
 import {
   measureAnswersAt,
   stancesFromVote,
+  voteReadingsOf,
   voteBundle,
   voteQuestionKind,
 } from "./vote-bundle";
@@ -285,6 +286,26 @@ describe("the public face of a part of a bill", () => {
       cares.support.people + cares.oppose.people + cares.noSettledView,
     ).toBe(cares.eligibleVoters);
     expect(cares.support.people + cares.oppose.people).toBeLessThanOrEqual(3);
+  });
+
+  it("reads a member's stance and local views from the recorded bundle without writing", () => {
+    const setup = billOnTheFloor();
+    const worldWithVote = floor(setup, setup.world, "nay");
+    const vote = byPurpose(worldWithVote, setup.measureId, "floor-stage");
+    const before = serializeWorld(worldWithVote);
+    const readings = voteReadingsOf(worldWithVote, vote.id, setup.memberId);
+
+    expect(readings).toHaveLength(1);
+    expect(readings[0]).toMatchObject({
+      publicFace: {
+        label: "Fund rural transit",
+        propositionId: setup.transitId,
+        answer: "yes",
+      },
+      stance: "against",
+    });
+    expect(readings[0]?.whoCares?.jurisdictionId).toBe(setup.jurisdictionId);
+    expect(serializeWorld(worldWithVote)).toBe(before);
   });
 
   it("gives a part that answers no question only its own heading", () => {
