@@ -522,7 +522,7 @@ export function readMonthFlows(
         stamps.push(
           ...paidLeaveStamps.map((stamp) => ({
             ...stamp,
-            effectKind: "paid-leave-budget-cost",
+            effectKind: "paid-leave-budget-cost" as const,
             sourceRecordIds: [...(stamp.sourceRecordIds ?? []), outcome.id],
           })),
         );
