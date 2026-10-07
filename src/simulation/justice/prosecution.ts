@@ -26,6 +26,7 @@ import {
 import { considerClemencyAfterSentence } from "./clemency";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
+import { recordJusticeChargeReference } from "../public-information";
 import { ensureProsecutionStageSchedule } from "./prosecution-transitions";
 import { countyRowOfficerForJurisdiction } from "./county-offices";
 import { ensureStartingPersonalMoney } from "../starting-money";
@@ -128,14 +129,18 @@ export type { EvidenceStrength } from "./court-reasoning";
  * these decides whether anybody is charged, pleads, is convicted or goes to
  * jail; the people in the case decide that (`court-reasoning.ts`).
  *
- * PLACEHOLDER. Every number here is set by hand and filed with the research
- * queue as `criminal-sentence-consequences`: how long charging, trial and
- * retrial take. Sentence lengths now use the applicable sourced range and
- * the actual judge's recorded term decision; no placeholder midpoint remains.
+ * ESTIMATED FROM AVERAGE. The fallback timings and the hung-jury count are
+ * game estimates, filed with the research queue as
+ * `criminal-sentence-consequences`: how long charging, trial and retrial
+ * take. Sentence lengths use the applicable sourced range and the actual
+ * judge's recorded term decision; no midpoint remains.
  */
-export const UNRESEARCHED_PROSECUTION = {
+export const PROSECUTION_ESTIMATE = {
   version: "prosecution-decided-v3",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "resolve-after days: median of the states read from the National Center for State Courts Effective Criminal Case Management (ECCM) reports, felony filing-to-disposition medians (data/research/justice/time-to-disposition-2026.json, as of 10/1/2026); charge-decision days (60) and two hung juries before dismissal are game estimates with no report series",
   /**
    * ESTIMATED FROM AVERAGE. The labeled fallback only: a case reads its own
    * state's days through `prosecutionTimingFor` (`prosecution-timing.ts`),
@@ -154,14 +159,18 @@ export const UNRESEARCHED_PROSECUTION = {
 } as const;
 
 /**
- * UNRESEARCHED. What a jail sentence does, filed with the research queue as
- * `criminal-sentence-consequences`. Whether an officeholder keeps the office,
- * and whether a jailed candidate stays on the ballot, varies by state and by
- * office; until that is read, one blanket rule applies everywhere.
+ * ESTIMATED FROM AVERAGE. What a jail sentence does, filed with the research
+ * queue as `criminal-sentence-consequences`. Whether an officeholder keeps the
+ * office, and whether a jailed candidate stays on the ballot, varies by state
+ * and by office; until that is read, the common rule (a jailed holder cannot
+ * serve or campaign) applies everywhere.
  */
-export const UNRESEARCHED_JAIL_EFFECTS = {
+export const JAIL_EFFECTS_ESTIMATE = {
   version: "jail-effects-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "the common rule across states that a jailed officeholder cannot serve; state-by-state office rules are not yet read (research request `criminal-sentence-consequences`)",
   /** A jail sentence removes the holder from every office they hold. */
   removedFromOffice: true,
   /** Nobody in jail can campaign; they stay on the ballot. */
@@ -175,6 +184,7 @@ export const PROSECUTION_DECLINED_EVENT = "justice.charges-declined";
 const OFFENSE_TAG = "justice.offense:";
 const EVIDENCE_TAG = "justice.evidence:";
 const STANDING_TAG = "justice.standing-findings:";
+const BASIS_RECORD_TAG = "justice.basis-record:";
 const OUTCOME_TAG = "justice.outcome:";
 
 export type CaseOutcome = "dismissed" | "acquitted" | "plea" | "convicted";
@@ -194,6 +204,8 @@ export interface ProsecutionReferralInput {
   };
   /** The recorded events the case rests on: a finding, a report, an arrest. */
   readonly basisEventIds: readonly EntityId[];
+  /** Recorded evidence artifacts or press-story publications behind the case. */
+  readonly basisRecordIds?: readonly EntityId[];
   readonly evidence: EvidenceStrength;
   /** Findings standing against the person, which lengthen a jail term. */
   readonly standingFindings: number;
@@ -354,7 +366,7 @@ function countyProsecutorForCase(
 }
 
 function referralStableKey(stableKey: string): string {
-  return `${UNRESEARCHED_PROSECUTION.version}:referral:${stableKey}`;
+  return `${PROSECUTION_ESTIMATE.version}:referral:${stableKey}`;
 }
 
 /**
@@ -407,11 +419,12 @@ export function referForProsecution(
     personFactConstraints: [],
     visibility: "private",
     tags: [
-      UNRESEARCHED_PROSECUTION.version,
+      PROSECUTION_ESTIMATE.version,
       `${OFFENSE_TAG}${input.offenseKey}`,
       `${EVIDENCE_TAG}${input.evidence}`,
       `${STANDING_TAG}${input.standingFindings}`,
       `justice.referred-by:${input.referredBy.kind}`,
+      ...(input.basisRecordIds ?? []).map((id) => `${BASIS_RECORD_TAG}${id}`),
       // Events are not entities, so what the case rests on rides as tags.
       ...input.basisEventIds.map((id) => `justice.basis-event:${id}`),
       ...sentencingApplicabilityTags(
@@ -477,6 +490,8 @@ interface FollowUpDetail {
     readonly personId: EntityId;
     readonly role: string;
   } | null;
+  /** Evidence artifacts or press-story publications named by a charge. */
+  readonly basisRecordIds?: readonly EntityId[];
   /** Distinguishes repeats of one type, such as a second mistrial. */
   readonly ordinal?: number;
 }
@@ -500,6 +515,9 @@ function recordFollowUp(
     jurisdictionId: referral.jurisdictionId,
     involvedEntityIds: [
       subjectId,
+      ...(type === PROSECUTION_CHARGED_EVENT
+        ? (detail.basisRecordIds ?? [])
+        : []),
       ...(decidedBy && decidedBy.personId !== subjectId
         ? [decidedBy.personId]
         : []),
@@ -519,10 +537,13 @@ function recordFollowUp(
     personFactConstraints: [],
     visibility: detail.visibility ?? "public",
     tags: [
-      UNRESEARCHED_PROSECUTION.version,
+      PROSECUTION_ESTIMATE.version,
       `${REFERRAL_TAG}${referral.id}`,
       `justice.follows-event:${after.id}`,
       ...referral.tags.filter((tag) => tag.startsWith(OFFENSE_TAG)),
+      ...(type === PROSECUTION_CHARGED_EVENT
+        ? (detail.basisRecordIds ?? []).map((id) => `${BASIS_RECORD_TAG}${id}`)
+        : []),
       ...(detail.extraTags ?? []),
     ],
     summary: detail.summary,
@@ -538,6 +559,14 @@ function recordFollowUp(
       immediateReaction: null,
     },
   });
+  if (type === PROSECUTION_CHARGED_EVENT) {
+    const chargeEvent = recorded.history.events.at(-1)!;
+    let next = recorded;
+    for (const id of detail.basisRecordIds ?? []) {
+      next = recordJusticeChargeReference(next, id, chargeEvent.id);
+    }
+    return next;
+  }
   if (type === PROSECUTION_ENDED_EVENT)
     return refundCashBailAtCaseClose(
       recorded,
@@ -627,7 +656,7 @@ function removeFromOffice(
   personId: EntityId,
   sentenced: HistoricalEvent,
 ): World {
-  if (!UNRESEARCHED_JAIL_EFFECTS.removedFromOffice) return world;
+  if (!JAIL_EFFECTS_ESTIMATE.removedFromOffice) return world;
   let next = world;
   for (const office of officesHeldBy(world, personId)) {
     next = recordOfficeConsequence(next, {
@@ -814,7 +843,7 @@ export function advanceProsecutions(
   world: World,
   referralId?: EntityId,
 ): World {
-  const rule = UNRESEARCHED_PROSECUTION;
+  const rule = PROSECUTION_ESTIMATE;
   let next = world;
   const byReferral = (type: FollowUpType, referral: HistoricalEvent) =>
     eventsOfType(next, type).filter((event) =>
@@ -999,6 +1028,9 @@ export function advanceProsecutions(
       }
       if (decision.selectedOptionKey !== CONVICT) continue;
       next = followUp(next, referral, referral, PROSECUTION_CHARGED_EVENT, {
+        basisRecordIds: referral.tags
+          .filter((tag) => tag.startsWith(BASIS_RECORD_TAG))
+          .map((tag) => tag.slice(BASIS_RECORD_TAG.length) as EntityId),
         extraTags: (() => {
           const courtId = savedTrialCourtForCase(next, courtCase);
           const amount = courtId
