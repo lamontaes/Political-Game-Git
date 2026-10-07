@@ -568,6 +568,14 @@ function beginsWith(
   return true;
 }
 
+/** Whether `records` begins with every record of `prefix`, by identity. */
+export function listExtends(
+  records: readonly unknown[],
+  prefix: readonly unknown[],
+): boolean {
+  return prefix.length <= records.length && beginsWith(records, prefix);
+}
+
 const STABLE_KEYS: GrowingIndexKind<Set<unknown>> = {
   create: () => new Set(),
   add: (keys, record) => {
