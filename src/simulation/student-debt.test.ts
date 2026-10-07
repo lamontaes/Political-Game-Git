@@ -259,17 +259,21 @@ describe("recorded student tuition financing", () => {
       const actual = monthly.history.resourceTransferOutcomes.find(
         (row) => row.id === allocation.resourceTransferOutcomeId,
       )!;
+      const rate = studentLoanRateFor(funded.currentDate);
+      const expectedMonthlyInterest = Math.round(
+        (100_000 * rate.annualRateBasisPoints) / 10_000 / 12,
+      );
       expect(allocation.unsupportedReason).toBeNull();
       expect(allocation.fees!.minorUnits).toBe(0);
-      expect(allocation.interest!.minorUnits).toBe(500);
+      expect(allocation.interest!.minorUnits).toBe(expectedMonthlyInterest);
       expect(allocation.principal!.minorUnits).toBe(
-        actual.transferredAmount.minorUnits - 500,
+        actual.transferredAmount.minorUnits - expectedMonthlyInterest,
       );
       expect(
         loanBalanceComponentsAt(monthly, debt.id)!.principal.minorUnits,
       ).toBe(100_000 - allocation.principal!.minorUnits);
       expect(outstandingDebtAt(monthly, debt.id)!.minorUnits).toBe(
-        100_000 + 500 - actual.transferredAmount.minorUnits,
+        100_000 + expectedMonthlyInterest - actual.transferredAmount.minorUnits,
       );
       expect(
         recordLoanRepaymentAllocation(
@@ -528,7 +532,7 @@ describe("recorded student tuition financing", () => {
     ).toBeUndefined();
     expect(outstandingDebtAt(repriced, debt.id)).toEqual(money(60_000, USD));
     expect(loanTermsAt(repriced, debt.id, cutoff)!.annualRateBasisPoints).toBe(
-      600,
+      studentLoanRateFor(funded.currentDate).annualRateBasisPoints,
     );
     expect(
       loanTermsAt(repriced, debt.id, repriced.currentDate)!
