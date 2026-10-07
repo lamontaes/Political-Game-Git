@@ -332,6 +332,22 @@
   box-shadow: 0.08em 0.12em 0.18em rgba(0, 0, 0, 0.3);
 }
 
+/* Live bills sit on the office's painted green sheet rather than a white overlay. */
+.bs-sheet--office-green-bills {
+  padding: 0.12em 0.16em;
+  color: #173b25;
+  background: transparent;
+  border: 0;
+}
+
+.bs-sheet--office-green-bills .bs-sheet-place {
+  color: #244a31;
+}
+
+.bs-sheet--office-green-bills .bs-sheet-line {
+  color: #173b25;
+}
+
 .bs-sheet-heading {
   font-size: 0.6em;
   border-bottom: 0.06em solid #1c1a17;
