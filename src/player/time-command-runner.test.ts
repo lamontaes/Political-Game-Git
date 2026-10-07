@@ -11,6 +11,8 @@ import { DEFAULT_INTERRUPTIONS } from "../presentation/shell-navigation";
 import type { World } from "../simulation";
 import {
   createTimeCommandCore,
+  recentTimeCommandTimings,
+  subscribeTimeCommandTimings,
   type TimeCommandReport,
   type TimeCommandTarget,
 } from "./time-command-runner";
@@ -76,6 +78,24 @@ describe("the shell's time runner", () => {
     expect(reports[0]!.status).toBe("accepted");
     expect(reports[0]!.target?.minuteOfDay).toBe(7 * 60);
     expect(h.committed[0]!.currentDate > h.life.world.currentDate).toBe(true);
+  });
+
+  it("publishes per-command main-thread timing for developer diagnostics", () => {
+    const h = harness();
+    const changed = vi.fn();
+    const unsubscribe = subscribeTimeCommandTimings(changed);
+    h.core.submit({ kind: "days", days: 1 });
+    h.queue.shift()!();
+    unsubscribe();
+
+    expect(changed).toHaveBeenCalledOnce();
+    expect(recentTimeCommandTimings().at(-1)).toMatchObject({
+      kind: "days",
+      status: "accepted",
+    });
+    expect(recentTimeCommandTimings().at(-1)!.elapsedMs).toBeGreaterThanOrEqual(
+      0,
+    );
   });
 
   it("lets the command refuse a click drawn from an older moment", () => {
