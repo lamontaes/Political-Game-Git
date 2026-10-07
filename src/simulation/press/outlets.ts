@@ -20,7 +20,6 @@ import {
   personActionAvailabilityAt,
 } from "../vitality-integrity";
 import { recordWorldEvent } from "../world";
-import { playSettingsOf } from "../play-settings";
 import {
   PRESS_CONTRACT_VERSION,
   PRESS_POLICY_VERSION,
@@ -692,7 +691,6 @@ function ensureOutlet(
     resourceTier: plan.resourceTier,
     cadence: plan.cadence,
     acceptsDeepBackground: plan.acceptsDeepBackground,
-    editorialStandard: playSettingsOf(world).premises.press,
     establishedAt: world.currentDate,
     policyVersion: PRESS_POLICY_VERSION,
     provenanceNote: PROVENANCE_NOTE,
