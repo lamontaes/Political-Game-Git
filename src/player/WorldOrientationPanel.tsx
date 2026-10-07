@@ -374,7 +374,9 @@ export function WorldOrientationPanel({
     () =>
       measuredPlace && world && personId
         ? openingTourStagedPeople(world, personId, measuredPlace, sceneRoster, {
-            furniture: true,
+            // The family stands together in its home; offices seat people.
+            furniture: step?.key !== "parents",
+            faceRoom: step?.key === "parents",
             memberIds: new Set(
               (chapter?.actors ?? [])
                 .filter(
@@ -386,7 +388,7 @@ export function WorldOrientationPanel({
             ),
           })
         : [],
-    [measuredPlace, world, personId, sceneRoster, chapter],
+    [measuredPlace, world, personId, sceneRoster, chapter, step?.key],
   );
   const sceneStaged = measuredPlace !== null && sceneRoster.length > 0;
   const layout =
@@ -894,16 +896,9 @@ export function orientationBackdrop(
         ? "state-legislative-chamber-unicameral"
         : "state-legislative-chamber-bicameral",
     );
-  if (stepKey === "parents") {
-    // The family stands in the home the household record says it lives in.
-    const home = sources.homePlace ? place(sources.homePlace) : null;
-    if (home && home.kind !== "neutral") return home;
-    if (sources.regionalPlate)
-      return { kind: "region", plate: sources.regionalPlate };
-    if (sources.regionScene)
-      return { kind: "region-preview", raster: sources.regionScene };
-    return { kind: "neutral" };
-  }
+  // The family stands in the home the household record says it lives in:
+  // one composition, the home's picture with the family on its own spots.
+  if (stepKey === "parents") return place(sources.homePlace);
   // The street of your town, not a home: the play screen's own room decides
   // what your home looks like, and the two must never disagree.
   if (stepKey === "your-life") return place("main-street");

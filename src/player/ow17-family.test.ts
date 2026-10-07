@@ -9,6 +9,7 @@ import { dayClothing, personDayRecipe } from "../presentation/day-clothing";
 import { homePlaceForPerson } from "../presentation/place-backdrops";
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
 import { orientationBackdrop } from "./WorldOrientationPanel";
+import { openingTourStagedPeople } from "../presentation/opening-tour-people";
 import { drawRandomPlace } from "../../tests/support/random-place";
 
 /*
@@ -39,6 +40,25 @@ describe("the family screen", { timeout: 180_000 }, () => {
       homePlace: home,
     });
     expect(backdrop).toMatchObject({ kind: "place", place: home });
+  });
+
+  it("stands every parent on the home's own spots", () => {
+    const { parents } = projectOpeningFamily(world, player);
+    const staged = openingTourStagedPeople(
+      world,
+      player,
+      homePlaceForPerson(world, player),
+      parents.map((parent) => ({
+        personId: parent.personId,
+        name: parent.introduction,
+        title: parent.introduction,
+      })) as never,
+      { furniture: false, faceRoom: true },
+    );
+    expect(staged.overflow).toEqual([]);
+    expect(staged.map((person) => person.personId).sort()).toEqual(
+      parents.map((parent) => parent.personId).sort(),
+    );
   });
 
   it("dresses each parent from their own job", () => {

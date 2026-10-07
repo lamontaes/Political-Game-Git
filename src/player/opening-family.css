@@ -7,17 +7,7 @@
 }
 .pg-orientation[data-step="parents"] .pg-orientation-cast-label {
   box-sizing: border-box;
-  min-width: 9rem;
-  font-size: 0.95rem;
-  line-height: 1.25;
-  overflow-wrap: break-word;
-  hyphens: auto;
-  color: #2a1d10;
-  background: rgb(250 246 238 / 97%);
-}
-/* OW-17: the role line under the name reads at full contrast. */
-.pg-orientation[data-step="parents"] .pg-orientation-cast-label span {
-  color: #4a3826;
+  overflow-wrap: anywhere;
 }
 @media (max-width: 760px) {
   .pg-orientation[data-step="parents"] .pg-orientation-cast {
