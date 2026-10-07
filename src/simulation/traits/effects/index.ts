@@ -19,6 +19,8 @@ import { facetCruelEffects } from "./facet-cruel";
 import { facetCuriousEffects } from "./facet-curious";
 import { facetDefensiveEffects } from "./facet-defensive";
 import { facetDeferentialEffects } from "./facet-deferential";
+import { facetDevotedEffects } from "./facet-devoted";
+import { facetDramaticEffects } from "./facet-dramatic";
 import { facetDutyBoundEffects } from "./facet-duty-bound";
 import { facetEnterprisingEffects } from "./facet-enterprising";
 import { facetEntitledEffects } from "./facet-entitled";
@@ -37,6 +39,7 @@ import { facetInformalEffects } from "./facet-informal";
 import { facetInventiveEffects } from "./facet-inventive";
 import { facetMeticulousEffects } from "./facet-meticulous";
 import { facetNurturingEffects } from "./facet-nurturing";
+import { facetObservantEffects } from "./facet-observant";
 import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetOpportunisticEffects } from "./facet-opportunistic";
 import { facetPersistentEffects } from "./facet-persistent";
@@ -87,6 +90,8 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetCuriousEffects,
     ...facetDefensiveEffects,
     ...facetDeferentialEffects,
+    ...facetDevotedEffects,
+    ...facetDramaticEffects,
     ...facetDutyBoundEffects,
     ...facetEnterprisingEffects,
     ...facetEntitledEffects,
@@ -105,6 +110,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetInventiveEffects,
     ...facetMeticulousEffects,
     ...facetNurturingEffects,
+    ...facetObservantEffects,
     ...facetOpenMindedEffects,
     ...facetOpportunisticEffects,
     ...facetPersistentEffects,
