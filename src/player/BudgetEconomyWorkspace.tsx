@@ -74,19 +74,18 @@ export function BudgetEconomyWorkspace({
           data-testid="federal-budget-categories"
         >
           <h4>Federal budget by category</h4>
-          <p>
-            {model.federalBudget.month
-              ? `Latest settled month: ${proseDate(model.federalBudget.month)}`
-              : "No federal budget month has settled in this save yet."}
-          </p>
+          {model.federalBudget.month ? (
+            <p>{`Latest settled month: ${proseDate(model.federalBudget.month)}`}</p>
+          ) : null}
           <h5>Receipts</h5>
           <ul>
             {model.federalBudget.receipts.map((line) => (
               <li key={line.category}>
                 {line.label}:{" "}
                 {line.amount === null
-                  ? "No recorded amount"
+                  ? "ESTIMATED FROM AVERAGE"
                   : formatFederalAmount(line.amount)}
+                {line.estimated ? " (ESTIMATED FROM AVERAGE)" : ""}
               </li>
             ))}
           </ul>
@@ -96,34 +95,34 @@ export function BudgetEconomyWorkspace({
               <li key={line.category}>
                 {line.label}:{" "}
                 {line.amount === null
-                  ? "No recorded amount"
+                  ? "ESTIMATED FROM AVERAGE"
                   : formatFederalAmount(line.amount)}
+                {line.estimated ? " (ESTIMATED FROM AVERAGE)" : ""}
               </li>
             ))}
           </ul>
         </section>
       ) : null}
 
-      {canSee("program-lines") && lookItUp === "full" && model.programLines ? (
+      {canSee("program-lines") &&
+      lookItUp === "full" &&
+      model.programLines?.month ? (
         <section
           aria-label="Public budget program lines"
           data-testid="budget-program-lines"
         >
           <h4>Program lines</h4>
-          <p>
-            {model.programLines.month
-              ? `Latest settled month: ${proseDate(model.programLines.month)}`
-              : "No public budget month has settled in this save yet."}
-          </p>
+          <p>{`Latest settled month: ${proseDate(model.programLines.month)}`}</p>
           <ul>
-            {model.programLines.lines.map((line) => (
-              <li key={line.category}>
-                {line.label}:{" "}
-                {line.amount === null
-                  ? "No recorded amount"
-                  : formatFederalAmount(line.amount)}
-              </li>
-            ))}
+            {model.programLines.lines.flatMap((line) =>
+              line.amount === null
+                ? []
+                : [
+                    <li key={line.category}>
+                      {line.label}: {formatFederalAmount(line.amount)}
+                    </li>,
+                  ],
+            )}
           </ul>
         </section>
       ) : null}

@@ -1,3 +1,4 @@
+import federalFiscalYear from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 
 import {
@@ -80,12 +81,18 @@ describe("Budget/economy read model", () => {
       status: "available",
       month: null,
     });
-    expect(
-      result.federalBudget!.receipts.every((line) => line.amount === null),
-    ).toBe(true);
-    expect(
-      result.federalBudget!.outlays.every((line) => line.amount === null),
-    ).toBe(true);
+    // No month is invented, and no line is blank: each reads a twelfth of the
+    // real fiscal year 2025 total, marked as an estimate.
+    for (const line of [
+      ...result.federalBudget!.receipts,
+      ...result.federalBudget!.outlays,
+    ]) {
+      expect(line.amount, line.category).toBeGreaterThan(0);
+      expect(line.estimated, line.category).toBe(true);
+    }
+    expect(result.federalBudget!.receipts[0]!.amount).toBe(
+      Math.round(federalFiscalYear.receipts.individualIncomeTax / 12),
+    );
     expect(result.programLines).toBeNull();
   });
 

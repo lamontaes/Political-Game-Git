@@ -1,3 +1,4 @@
+import federalFiscalYear from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import { economicContextBindingForPlace } from "./economic-context-bindings";
 import {
   fiscalRecordGraph,
@@ -26,6 +27,12 @@ export interface FederalBudgetCategoryReading {
   readonly category: string;
   readonly label: string;
   readonly amount: number | null;
+  /**
+   * True when no month has settled yet: the amount is a twelfth of the real
+   * fiscal year 2025 total, the same figure the treasury opens its books
+   * from, ESTIMATED FROM AVERAGE.
+   */
+  readonly estimated?: boolean;
 }
 
 export interface PublicProgramReading {
@@ -132,14 +139,30 @@ function projectFederalBudget(
     receipts: FEDERAL_RECEIPTS.map((category, index) => ({
       category,
       label: categoryLabel(category),
-      amount: month?.revenue[index] ?? null,
+      ...monthlyReading(
+        month?.revenue[index],
+        federalFiscalYear.receipts[category],
+      ),
     })),
     outlays: FEDERAL_OUTLAYS.map((category, index) => ({
       category,
       label: categoryLabel(category),
-      amount: month?.spending[index] ?? null,
+      ...monthlyReading(
+        month?.spending[index],
+        federalFiscalYear.outlays[category],
+      ),
     })),
   };
+}
+
+function monthlyReading(
+  settled: number | undefined,
+  yearTotal: number | undefined,
+): Pick<FederalBudgetCategoryReading, "amount" | "estimated"> {
+  if (settled !== undefined) return { amount: settled };
+  return yearTotal === undefined
+    ? { amount: null }
+    : { amount: Math.round(yearTotal / 12), estimated: true };
 }
 
 function categoryLabel(category: string): string {
