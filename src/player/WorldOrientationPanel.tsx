@@ -1,5 +1,4 @@
 import "./world-orientation.css";
-import "./opening-legislature.css";
 import "./opening-family.css";
 import "./opening-official-figures.css";
 import "./opening-state-figures.css";
