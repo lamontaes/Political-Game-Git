@@ -42,6 +42,3 @@ failed to load config from /workspace/session13-federal-reader/vite.config.ts
     '?? scripts/source/__pycache__/compile-place-precinct-population.cpython-312.pyc\n',
   stderr: ''
 }
-
-
-
