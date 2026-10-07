@@ -20,6 +20,14 @@ describe("the news screens print no hand-written sentence", () => {
       expect(text).not.toMatch(/^\s+[A-Z][a-z]+ [a-z][^<>{}\n]{18,}[.?!]\s*$/m);
     });
   }
+
+  it("the Around you overview does not render composed standing or law sentences", () => {
+    const text = readFileSync("src/player/World39News.tsx", "utf8");
+    expect(text).not.toContain("model.standing.map");
+    expect(text).not.toContain("law.sentences.map");
+    expect(text).not.toContain("effect.sentence");
+    expect(text).not.toContain("event.summary");
+  });
 });
 
 describe("the public-information article shows record values only", () => {
