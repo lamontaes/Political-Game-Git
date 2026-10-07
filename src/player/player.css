@@ -4228,12 +4228,6 @@
   text-transform: uppercase;
 }
 
-.measure-standing {
-  margin: 0;
-  color: var(--text-strong);
-  font-size: 0.7rem;
-}
-
 .measure-close,
 .measure-actions button,
 .measure-panel button,

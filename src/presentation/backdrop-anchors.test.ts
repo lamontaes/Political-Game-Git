@@ -38,6 +38,15 @@ function floorOf(spot: StagingSpot): string {
 }
 
 describe("people anchors on every place picture", () => {
+  it("anchors each visible barbershop barber chair", () => {
+    const seats = STAGES["barbershop"]!.spots.filter(
+      (spot) => spot.group === "barber-chair",
+    );
+    expect(seats).toHaveLength(3);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(3);
+    expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
+  });
+
   it("anchors all county commission dais and pew seats", () => {
     const seats = STAGES["county-commission"]!.spots.filter(
       (spot) => spot.pose === "sit",
@@ -61,6 +70,42 @@ describe("people anchors on every place picture", () => {
 
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
+  });
+
+  it("anchors visible hotel ballroom banquet chairs", () => {
+    const spots = STAGES["hotel-ballroom"]!.spots;
+    const seats = spots.filter((spot) => spot.pose === "sit");
+    const ballroom = seats.filter((spot) =>
+      spot.group?.startsWith("ballroom-"),
+    );
+    expect(seats).toHaveLength(54);
+    expect(ballroom).toHaveLength(52);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(54);
+    expect(ballroom.filter((spot) => spot.facing === "away")).toHaveLength(16);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-northwest"),
+    ).toHaveLength(5);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-northeast"),
+    ).toHaveLength(5);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-west-center"),
+    ).toHaveLength(6);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-east-center"),
+    ).toHaveLength(6);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-southwest"),
+    ).toHaveLength(7);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-southeast"),
+    ).toHaveLength(7);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-front-left"),
+    ).toHaveLength(8);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-front-right"),
+    ).toHaveLength(8);
   });
 
   it("anchors visible church supper hall table chairs", () => {
@@ -89,6 +134,17 @@ describe("people anchors on every place picture", () => {
     expect(
       added.filter((spot) => spot.group === "supper-front-right"),
     ).toHaveLength(6);
+  });
+
+  it("anchors the rear plaza bench at city hall", () => {
+    const seats = STAGES["city-hall-exterior"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(3);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(3);
+    expect(seats.filter((spot) => spot.group === "bench-rear")).toMatchObject([
+      { x: 21, y: 61, facing: "viewer", seatY: 58 },
+    ]);
   });
 
   it("anchors union hall pews along both sides of the aisle", () => {
@@ -222,6 +278,30 @@ describe("people anchors on every place picture", () => {
       }
     }
   });
+  it("anchors community room chairs and public meeting room pews", () => {
+    const community = STAGES["community-room"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(community).toHaveLength(8);
+    expect(new Set(community.map((spot) => spot.id)).size).toBe(8);
+    expect(
+      community.filter((spot) => spot.group === "circle-left"),
+    ).toHaveLength(3);
+    expect(
+      community.filter((spot) => spot.group === "circle-right"),
+    ).toHaveLength(3);
+    const meeting = STAGES["public-meeting-room"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(meeting).toHaveLength(10);
+    expect(new Set(meeting.map((spot) => spot.id)).size).toBe(10);
+    expect(
+      meeting.filter((spot) => spot.group === "spectator-pew"),
+    ).toHaveLength(6);
+    expect(meeting.filter((spot) => spot.group === "table")).toHaveLength(4);
+    expect(meeting.filter((spot) => spot.facing === "away")).toHaveLength(6);
+  });
+
   it("anchors visible U.S. chamber desks and balcony seats", () => {
     const rooms = [
       ["us-house-floor", 79, 46, 30],

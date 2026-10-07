@@ -1,5 +1,6 @@
 import { recordWorldEvent } from "./world";
 import type {
+  ChallengeIntensity,
   PersonalLifeDepiction,
   PlaySettings,
   SaveMode,
@@ -8,6 +9,7 @@ import type {
 
 export const DEFAULT_PLAY_SETTINGS: PlaySettings = {
   saves: "free",
+  challengeIntensity: "standard",
   personalLifeDepiction: "full",
 };
 
@@ -21,6 +23,8 @@ export function playSettingsOf(world: World): PlaySettings {
   // dropped here so nothing can read them.
   return {
     saves: saved.saves ?? DEFAULT_PLAY_SETTINGS.saves,
+    challengeIntensity:
+      saved.challengeIntensity ?? DEFAULT_PLAY_SETTINGS.challengeIntensity,
     personalLifeDepiction:
       saved.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
@@ -32,12 +36,26 @@ export function setPlaySetting(
   world: World,
   key: "personalLifeDepiction",
   value: PersonalLifeDepiction,
+): World;
+export function setPlaySetting(
+  world: World,
+  key: "challenge",
+  value: ChallengeIntensity,
+): World;
+export function setPlaySetting(
+  world: World,
+  key: "personalLifeDepiction" | "challenge",
+  value: PersonalLifeDepiction | ChallengeIntensity,
 ): World {
   const current = playSettingsOf(world);
-  if (current[key] === value) return world;
+  const storedKey = key === "challenge" ? "challengeIntensity" : key;
+  if (current[storedKey] === value) return world;
   const next = {
     ...world,
-    playSettings: { ...current, [key]: value },
+    playSettings: {
+      ...current,
+      [storedKey]: value,
+    },
   };
   return recordWorldEvent(next, {
     stableKey: `play-setting:${world.history.nextSequence}:${key}`,
@@ -64,10 +82,13 @@ export function setPlaySetting(
 
 export function initialPlaySettings(input: {
   readonly saves?: SaveMode;
+  readonly challenge?: ChallengeIntensity;
   readonly personalLifeDepiction?: PersonalLifeDepiction;
 }): PlaySettings {
   return {
     saves: input.saves ?? DEFAULT_PLAY_SETTINGS.saves,
+    challengeIntensity:
+      input.challenge ?? DEFAULT_PLAY_SETTINGS.challengeIntensity,
     personalLifeDepiction:
       input.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
