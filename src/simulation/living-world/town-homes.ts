@@ -210,8 +210,8 @@ export function homeForNewHousehold(
 /** The quarterly review's interval (`migration/review.ts`), in days. */
 const REVIEW_INTERVAL_DAYS = 91;
 
-/** How long a household stays before it moves again by choice. */
-const SETTLED_DAYS = 365;
+/** Let a household's recorded home begin before it reconsiders its next move. */
+const SETTLED_DAYS = 1;
 
 interface Household {
   readonly id: EntityId;

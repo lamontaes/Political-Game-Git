@@ -41,8 +41,16 @@
       ]
     },
     "AK": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "anchorage2026Assembly": {
+          "value": "Actual Anchorage notice publishedJan11,2026: April7election; filingJan16at8a.m. throughJan30at5p.m.; district1B/2C/3E/4G/5I/6K each three-year term ending on April2029election certification. Assembly candidates must be qualified municipal/Alaska voters with one year residence in their assembly district before this election; district electorate. Voter registration/update deadlineMarch8. Other boroughs, future cycles, exact saved district/voter facts and office-entry rule remain open. School/service boards are outside this reading.",
+          "url": "https://www.muni.org/Departments/Assembly/Clerk/Elections/Documents/Notices/2026%20Notice%20of%20Vacancy%20for%204-7-26%20Regular%20Election.pdf",
+          "section": "2026notice, page1Assembly/filing/voterdeadline",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -119,8 +127,23 @@
       ]
     },
     "AR": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "primary": {
+          "value": "Official 2026 calendar: preferential primary March 3; general primary March 31; general election November 3; county/municipal general runoff December 1. Specific quorum-court seat phase and runoff threshold not established here.",
+          "url": "https://www.sos.arkansas.gov/uploads/elections/2026_Election_Calendar_Rev._6-2025_.pdf",
+          "section": "pages 1-2, revised June 2025",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "qualifying": {
+          "value": "Partisan filing begins November 3, 2025 at noon and ends November 12, 2025 at noon after holiday extension. Calendar page 5 and current SOS candidate notice agree. FAQ still describes gubernatorial-year filing near end of February: stale/conflicting general guidance retained, not used. County filing is with county clerk. Independent route separate; no common filing window inferred.",
+          "url": "https://www.sos.arkansas.gov/elections/for-candidates",
+          "section": "Candidate Filing Notice; 2026 calendar pages 4-5; FAQ /40 county filing location",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -134,7 +157,18 @@
         "termStart",
         "qualifications",
         "charterExceptions"
-      ]
+      ],
+      "retrievalGaps": [
+        {
+          "url": "https://sbec.arkansas.gov/wp-content/uploads/2025-Running-for-Public-Office-8-13-25-FINAL-small.pdf",
+          "result": "403 Forbidden from official current handbook link; term, qualifications, applicability and current legal provisions not read.",
+          "readOn": "2026-10-01"
+        }
+      ],
+      "conflictingGuidance": {
+        "url": "https://www.sos.arkansas.gov/frequently-asked-questions/40",
+        "value": "FAQ says gubernatorial-year filing near late February; current candidate notice and dated 2026 calendar specify November 2025. Preserve difference; no general recurrence rule admitted."
+      }
     },
     "CA": {
       "status": "partially-inspected",
@@ -178,21 +212,48 @@
       ]
     },
     "CO": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "url": "https://www.larimer.gov/clerk/elections/2026-county-candidate-qualifications",
+          "section": "2026 County Commissioner requirements and additional information, citing ArticleXIV6/10,CRS1-4-205/1-1-201",
+          "readOn": "2026-10-01",
+          "status": "county-official-guidance-read-statutes-not-yet-verified",
+          "value": "Larimer commission four-year term; actual three commissioners. Not a universal county composition."
+        },
+        "stagger": {
+          "url": "https://www.larimer.gov/clerk/elections/2026-county-candidate-qualifications",
+          "section": "2026 County Commissioner requirements and additional information, citing ArticleXIV6/10,CRS1-4-205/1-1-201",
+          "readOn": "2026-10-01",
+          "status": "county-official-guidance-read-statutes-not-yet-verified",
+          "value": "LarimerDistrict1 elected2026;Districts2/3 elected2028. Guide anchors one commission election1982+4n/two1984+4n."
+        },
+        "termStart": {
+          "url": "https://www.larimer.gov/clerk/elections/2026-county-candidate-qualifications",
+          "section": "2026 County Commissioner requirements and additional information, citing ArticleXIV6/10,CRS1-4-205/1-1-201",
+          "readOn": "2026-10-01",
+          "status": "county-official-guidance-read-statutes-not-yet-verified",
+          "value": "Larimer commissioner secondTuesdayJanuary following election; no inferred application to home-rule/citycounties."
+        },
+        "qualifications": {
+          "url": "https://www.larimer.gov/clerk/elections/2026-county-candidate-qualifications",
+          "section": "2026 County Commissioner requirements and additional information, citing ArticleXIV6/10,CRS1-4-205/1-1-201",
+          "readOn": "2026-10-01",
+          "status": "county-official-guidance-read-statutes-not-yet-verified",
+          "value": "Registered elector and commissioner-district residence at least1yr prior election; UScitizen; elector at least18 and fullofficequalifications bytermstart. Actualsavedhome/district proof still missing."
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
-        "term",
         "cycle",
         "dateRule",
         "primary",
         "runoff",
         "qualifying",
-        "stagger",
-        "termStart",
-        "qualifications",
-        "charterExceptions"
+        "charterExceptions",
+        "underlying-statute-validation",
+        "other-county-phase-and-charter-bindings"
       ]
     },
     "CT": {
@@ -206,9 +267,7 @@
           "status": "official-source-inspected-not-production-admitted"
         }
       },
-      "openFields": [
-        "distinctPlanningRegionCouncilSemanticsNotCountyElection"
-      ]
+      "openFields": ["distinctPlanningRegionCouncilSemanticsNotCountyElection"]
     },
     "DE": {
       "status": "partially-inspected",
@@ -293,8 +352,23 @@
       ]
     },
     "GA": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "currentHandbook": {
+          "value": "2026SOS handbook: county domicile12months before election/appointment, qualified voter, state citizenship, age21 with local-ordinance18exception for otherwise-qualified nonjudicial county office. District12month residence is not implied by county rule; handbook annotations distinguish this. Qualifying includes mandatory-training affirmation and fee/pauper route. Four-year term; November Tuesday after first Monday before term expiry, subject to actual local legislation. Actual county seat/district electorate, phase, entry and full disqualifications remain open.",
+          "url": "https://sos.ga.gov/sites/default/files/forms/Qualifications%20Guide%202026_0.pdf",
+          "section": "County Commissioner, PDFpage176/printed180; qualifications1-8",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "2026QualifyingWindow": {
+          "value": "CurrentSOSpage gives March2\u20136,2026general-cycle qualifying period. Actual county office/party route and local filing office must be established separately.",
+          "url": "https://sos.ga.gov/candidate-qualifying-elected-office",
+          "section": "Candidate Qualifying Information",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -317,19 +391,8 @@
           "value": {
             "termYears": 4,
             "termStart": "noon January2 after election",
-            "districts2026": [
-              2,
-              4,
-              6,
-              8
-            ],
-            "districts2028": [
-              1,
-              3,
-              5,
-              7,
-              9
-            ],
+            "districts2026": [2, 4, 6, 8],
+            "districts2028": [1, 3, 5, 7, 9],
             "primary2026": "2026-08-08",
             "general2026": "2026-11-03"
           },
@@ -355,8 +418,30 @@
       ]
     },
     "ID": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryRotation": {
+          "value": "Official current web text: after the 1936 initial two two-year/one four-year arrangement, each biennial election selects one two-year and one four-year commissioner. Four-year term rotates districts 1,2,3. Actual seat phase, office entry and optional county form remain open.",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH7/SECT31-703/",
+          "section": "31-703; official HTML SHA256 ff7fce96788df0d554e78356d2dbb1a922914285d2dde373bf187a649bf96602",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "optionalSevenMember": {
+          "value": "Optional seven-member form petition/resolution specifies terms. Additional seats ordinarily two years with numerical four-year rotation; voter-approved petition/resolution can instead make all members four-year, existing members converting when current terms expire. Actual adopted plan remains unbound.",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH56/SECT31-5602/",
+          "section": "31-5602; official HTML SHA256 a8e2b95af3ea9ce356e4385aee253fee2423129000b94220880d78686ddd0ebf",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "candidateStages": {
+          "value": "Official current web text: age21 at election, U.S. citizenship, county residence one year before election and represented district residence90days before primary. Declaration goes to county clerk with40dollar filing fee. Actual district/electorate and calendar remain open.",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title34/T34CH6/SECT34-617/",
+          "section": "34-617(1)-(4), linked by31-702; official HTML SHA256 6e68ff30ccd3c8837fdca400dee64c0e8b3a2378b543047b459016cbbb9429a5",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -379,8 +464,16 @@
       ]
     },
     "IL": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "divisionTermCycles": {
+          "value": "Official ILGAFTP55ILCS5/2-3009: applicable district-elected boards divide districts by public lot into two groups using2/4/4 and4/4/2terms, or ordinance permits three groups adding4/2/4. At-large boards under2-3002/2-3006 use analogous grouping after reapportionment. Terms begin first Monday of month after election. Actual county applicability, group assignment, current main-code reconciliation, eligibility and filing remain open. Readable official FTP text retained despite main portal403/502; no introduced bill admitted.",
+          "url": "https://www.ilga.gov/ftp/ILCS/Ch%200055/Act%200005/005500050K2-3009.html",
+          "section": "2-3009(a)-(c), officialFTPsourceP.A.86-962;87-924",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -394,11 +487,40 @@
         "termStart",
         "qualifications",
         "charterExceptions"
+      ],
+      "retrievalGaps": [
+        {
+          "url": "https://www.elections.il.gov/ElectionOperations/CandidatePortal.aspx",
+          "readOn": "2026-10-01",
+          "result": "403 Forbidden; indexed 2026 guide link only. No qualification/date facts admitted."
+        }
       ]
     },
     "IN": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "qualifications": {
+          "value": "Commissioner: county residence one year and district residence six months before election. Council: same county requirement and district requirement if applicable. Registered in election district by filing deadline; additional disqualification and CAN-12 rules apply. Guide reflects July 1, 2025 law, current statutes not independently renewed.",
+          "url": "https://www.in.gov/dA/1eada35c3e/2026-Candidate-Guide.FINAL.pdf?language_id=1",
+          "section": "printed pages 80-82; IC 3-8-1-21/22/1/5/33",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "qualifying": {
+          "value": "Democratic/Republican county primary May 5, 2026; CAN-2 and CAN-12 filing January 7 through February 6, 2026 at noon prevailing local time, county election board. Other routes separate.",
+          "url": "https://www.in.gov/dA/1eada35c3e/2026-Candidate-Guide.FINAL.pdf?language_id=1",
+          "section": "printed page 83",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "electorate": {
+          "value": "Commissioner residential district differs from countywide election district except Lake and St. Joseph; actual county plan and saved person district still unbound.",
+          "url": "https://www.in.gov/dA/1eada35c3e/2026-Candidate-Guide.FINAL.pdf?language_id=1",
+          "section": "printed page 86 independent petition note",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -415,8 +537,30 @@
       ]
     },
     "IA": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "qualifications": {
+          "value": "Supervisor: U.S. citizen, Iowa resident and 18 at election; registered voter of county/supervisor district when sworn in. Four-year term shown. Actual county representation plan and saved voter/residence bindings remain unread.",
+          "url": "https://sos.iowa.gov/sites/default/files/2026-07/2026%20General%20Candidate%27s%20Guide.pdf",
+          "section": "printed page 4; revised February 4, 2026",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "qualifying": {
+          "value": "County NPPO/petition general-election nominations: March 2 through June 2, 2026 at 5 p.m., county auditor, no fee. Primary nominees need not refile; this is not the primary filing window.",
+          "url": "https://sos.iowa.gov/sites/default/files/2026-07/2026%20General%20Candidate%27s%20Guide.pdf",
+          "section": "printed pages 2 and 19; current SOS general-election page agrees",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "term": {
+          "value": "2026 Code: board ordinarily three members, may increase to five. Supervisor term four years, with initial two-year terms when representation plan or board size changes. Registered voter of represented county/district. Actual county plan and stagger remain unbound.",
+          "url": "https://www.legis.iowa.gov/docs/code/2026/331.201.pdf",
+          "section": "331.201 subsections 1, 2, 4, December 12, 2025 publication",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -430,11 +574,37 @@
         "termStart",
         "qualifications",
         "charterExceptions"
-      ]
+      ],
+      "supersededLead": {
+        "url": "https://sos.iowa.gov/sites/default/files/2026-01/Candidate%27s%20Guide_General%202026_010726.pdf",
+        "value": "January 7 revision stated February 23 county filing start; current linked February 4 revision corrects it to March 2. Retained as superseded, no unresolved current-source date conflict."
+      }
     },
     "KS": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryTermsAndResidence": {
+          "value": "Section 19-202 provides three, five or seven commissioners; except 19-204b, each represents a district and remains a district-resident qualified elector during candidacy and office. Ordinary terms last four years starting the second Monday in January after election; staggering prevents more than a simple majority at one general election. Section 19-203a exceptions and charter modifications to size/stagger/term remain open; actual county plan is unbound.",
+          "url": "https://kslegislature.gov/b2025_26/laws/019_000_0000_chapter/019_002_0000_article/019_002_0002_section/019_002_0002_k",
+          "section": "19-202(a)-(e); 2026 edition",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "2026Dates": {
+          "value": "Official 2026 statewide primary August 4 and general November 3. Calendar gives June 1 noon candidate deadline; actual county seat availability and alternate nomination routes remain separate.",
+          "url": "https://www.sos.ks.gov/elections/important-election-dates.html",
+          "section": "2026 Primary Election; General Election",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "2026LocalFiling": {
+          "value": "May 1, 2026 Secretary of State notice directs local candidates to their county election offices by June 1 noon. This dated primary-cycle notice does not establish all alternate filing routes or future years.",
+          "url": "https://www.sos.ks.gov/media/press-releases/2026/05-01-26-one-month-countdown-until-candidate-filing-deadline.html",
+          "section": "May 1, 2026 opening paragraph",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -549,6 +719,41 @@
           "section": "Congressional,state,and local candidates",
           "readOn": "2026-10-01",
           "status": "official-source-inspected-not-production-admitted"
+        },
+        "desotoSeatLabels": {
+          "value": "Official parish roster lists eleven member labels:1-A,1-B,1-C,2,3,4-A,4-B,4-C,4-D,5,6. These are observed roster labels, not yet admitted seat records, electorates, map effective dates, term phases or a person-home district join. Whole-body office key cannot substitute for one of these seats.",
+          "url": "https://www.desotoppj.com/government/police_jury.php",
+          "section": "Police Jury members; read October1,2026",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "desotoProposedRedistricting": {
+          "value": "Official homepage dates a proposed redistricting announcement September24,2026. The linked notice calls its document an87-page proposal and links report9_22_26. No adoption, court order, effective map or current-seat replacement is established by this notice. Keep displayed roster and proposed map separate; no Frierson district inference.",
+          "url": "https://www.desotoppj.com/news_detail_T17_R45.php",
+          "section": "Proposed DeSoto Parish Redistricting; directHTML SHA256b8ff21ead7ba90498a026644544f83eb859ebfdabffb4e8fbc4f9029c7e1bbf1; homepage https://www.desotoppj.com/",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "desotoEnactedPlanEnjoined": {
+          "value": "Filed consent order in5:23-cv-00669, document127, July2,2026 permanently enjoins defendants from using enacted Plan H(Revised) in future elections. It identifies single-member police-jury voting districts and requires a special master to recommend a remedial plan. A displayed old map/roster does not establish admissible future-election boundaries. Order read as filed primary text through third-party mirror; official docket authenticity renewal remains open.",
+          "url": "https://thearp.org/documents/20252/LA_523-cv-669_127.pdf",
+          "section": "Doc127pp1-2; SHA256edfa5d0d8c04f364080334937736a38f3dc366fccca6486b3eca1b87d6d98b72",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "desotoRemedialSchedule": {
+          "value": "Filed amended scheduling order143 datedSeptember14,2026 schedules proposed reportSeptember22, responsesOctober7, final report/proposed planOctober22, responsesNovember6 and court adoption order byDecember22. This schedule is not itself an adoption order or established effective map. Dates remain source-bound and require later docket renewal.",
+          "url": "https://thearp.org/documents/20447/LA_523-cv-669_143.pdf",
+          "section": "Doc143p1; SHA2565016cdc4ed0372dd0fca8e0cbc8bd598e5de6c08a8c8110775069aca9880c436",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "desotoProposedReportMirror": {
+          "value": "Filed special-master demographic report145 datedSeptember22,2026 has87pages and describes BGD2 remedial proposal with eleven districts. Proposed district9 is labeled Frierson CDP on report49-50; this is not a saved person-home join or adopted electorate. Original parish PDF retrieval failed; separately linked filed report mirror read successfully. No byte identity with unavailable parish file or final court adoption inferred.",
+          "url": "https://thearp.org/documents/20459/LA_523-cv-669_145.pdf",
+          "section": "Doc145pp1,6,49-50; SHA256defdf5259dcf90fe0e88b7481261bfc4c3aef6659e8c7fd0154fffa601245741",
+          "readOn": "2026-10-01",
+          "status": "read"
         }
       },
       "openFields": [
@@ -588,8 +793,23 @@
       ]
     },
     "MD": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "constitutionalCycle": {
+          "value": "Current State Archives ArticleXVII: county/state elections ordinary Tuesday after first Monday November1926+4n; four-year terms until successors qualify, with judicial exceptions. Sections1/2/3/5expressly exclude CecilCountyBoardofCountyCommissioners and elective local school boards; charter vacancy elections retained. Section4election/qualification entry applies to constitutionally provided offices, not blanket Jan1 county entry. Actual county charter/publiclocal law, district, filing and qualifications remain open.",
+          "url": "https://www.msa.maryland.gov/msa/mdmanual/43const/html/17art17.html",
+          "section": "XVIIsecs2-4,7; direct official cp1252HTML SHA2560204077c173648d6bc32d8c995fd1ed3242ac8ae22c4dc9e1471847ee1a352d4",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "qualificationDependsOnCounty": {
+          "value": "Current election board qualification table lists four-year county council/commissioner terms; council qualifications are local-charter specific and commissioner qualifications public-local-law specific. Empty age/residence cells are unknown, not zero requirements.",
+          "url": "https://www.elections.maryland.gov/candidacy/qualifications.html",
+          "section": "County Offices table",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -714,8 +934,30 @@
       ]
     },
     "MN": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "officeFamilyAndTerm": {
+          "value": "County commissioners generally form five-member boards with four-year terms until successors qualify. Anoka, Hennepin, Ramsey and St. Louis have seven members. Official page is the 2025 edition; 2026 session-law renewal remains open.",
+          "url": "https://www.revisor.mn.gov/statutes/cite/375.01",
+          "section": "375.01; 2025 edition",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "initialStaggerAndVacancies": {
+          "value": "New counties and enlarged boards initially elect odd districts for two years and even districts for four years, then four-year terms. Vacancy elections fill only the remainder. This section expressly excludes Ramsey County; actual county phases are not established.",
+          "url": "https://www.revisor.mn.gov/statutes/cite/375.03",
+          "section": "375.03 subdivisions 1-2; 2025 edition",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "candidateStages2026": {
+          "value": "County candidates must be eligible Minnesota voters, have no other primary/general filing, be 21 on assuming office, and reside in their district for 30 days before the general election. File with the home county auditor May 19-June 2, 2026, closing 5 p.m.; $50 fee or petition with at least 500 signatures. Special-election filing differs. Other qualifications and actual seat plan still require verification.",
+          "url": "https://www.sos.mn.gov/election-administration-campaigns/become-a-candidate/filing-for-county-offices/",
+          "section": "Qualifications; How to File; special-election caveat",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -775,8 +1017,23 @@
       ]
     },
     "MO": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryCommissionerTerms": {
+          "value": "Under chapter 49, district commissioners use 1996 plus four-year election increments and district voters; presiding commissioners use 1882 plus four-year increments and countywide voters. Both serve four years until successors qualify and begin duties January 1 after election. County residence is required; district members also reside in their districts. Actual county form/charter applicability and other qualifications remain open.",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=49.020",
+          "section": "49.020; displayed effective August 28, 1995",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "2026Calendar": {
+          "value": "Primary August 4, 2026, filing February 24-March 31. General November 3. County independent/new-party petitions go to the county clerk/election board by July 27, 2026, 5 p.m. The July 7-28 general-table filing applies to authorized November director offices, not an ordinary commissioner window. Charter-county calendars and actual seat phases require separate binding.",
+          "url": "https://www.sos.mo.gov/elections/calendar.html",
+          "section": "2026 calendar table, county petition paragraph and asterisk note",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -793,8 +1050,30 @@
       ]
     },
     "MT": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "composition": {
+          "value": "2025 MCA: three commissioners or another number under an allowed Title 7 chapter 3 government form. Actual county form remains unbound.",
+          "url": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0040/part_0210/section_0010/0070-0040-0210-0010.html",
+          "section": "7-4-2101",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "residenceAndElectorate": {
+          "value": "2025 MCA: candidates selected from district residents and electors; ordinary election submitted countywide, except optional/alternative plan or court order. County and district residence must cover two years immediately before the general election. This is an election-stage requirement; actual district, voter facts and filing-stage rules remain unbound.",
+          "url": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0040/part_0210/section_0040/0070-0040-0210-0040.html",
+          "section": "7-4-2104(1)-(2)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "termAndEntry": {
+          "value": "2025 MCA: six-year term unless an optional/alternative county government plan provides otherwise. Office entry is 12:01 a.m. January 1 after election; oath due by last business day December, subject to vacancy exception. Actual seat election phase and filing calendar remain open.",
+          "url": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0040/part_0210/section_0050/0070-0040-0210-0050.html",
+          "section": "7-4-2105(1)-(2)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -811,8 +1090,44 @@
       ]
     },
     "NE": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "commissionerTermAndStagger": {
+          "value": "Ordinary commissioner terms are four years; initial adoption and enlargement differ. Three-member boards elect two seats in 1994 plus four-year increments and one in 1996 plus four-year increments; five-member boards split three/two. Seven-or-more boards split odd/even districts on those anchors. Population above 150,000 through 400,000 uses 2010 odd/2012 even anchors. Partisan district electorate. Actual board size, census category, seat identity and phase require binding. The appointment-expiry date in subsection 4 is not admitted as an ordinary term-start rule.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-528",
+          "section": "32-528(1)-(5)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "supervisorTermAndStagger": {
+          "value": "County supervisors use partisan district elections and ordinary four-year terms. Initial township-organization terms differ; odd districts next elect two years after the first general election and even districts four years after it, recurring every four years. Actual county adoption anchor remains unbound.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-529",
+          "section": "32-529",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "supervisorResidenceStage": {
+          "value": "A supervisor elected after November 1986 need not live in the district when filing, but must live in the district whose office is held. Other eligibility conditions remain open; this fact alone does not grant filing permission.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=23-268",
+          "section": "23-268",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "commissionerQualifications": {
+          "value": "Commissioners must be registered voters and district residents. Above 400,000 inhabitants under the latest federal decennial census, candidates need six months of district residence before the required filing date; appointees before assuming office. The statute also specifies compliance within six months after the population determination. Other eligibility and actual population category remain open.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=23-150",
+          "section": "23-150(1)-(3)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "residenceDurationCeiling": {
+          "value": "Non-state elected or primary-nominated candidates cannot face a residence requirement longer than six months. This ceiling does not itself establish each office requirement or eliminate other qualifications.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-501",
+          "section": "32-501",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -829,8 +1144,16 @@
       ]
     },
     "NV": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "termElectorateAndQualifications": {
+          "value": "2025 code, revised April 15, 2026: ordinary four-year terms begin first Monday in January, with two-year district-transition exceptions and Carson City term-expiry exception. Commissioners must be county electors/registered voters; other chapter qualifications apply and county/township officers are ineligible. Below 100,000 population, ordinary anchors split two seats in 1968+4n and one in 1970+4n; actual expansion/district choices may differ. Large-county districts and actual population/seat bindings remain open.",
+          "url": "https://www.leg.state.nv.us/nrs/NRS-244.html",
+          "section": "244.014-.030, 244.050; actual district plans unbound",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -881,8 +1204,16 @@
       ]
     },
     "NJ": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryAndOptionalTerms": {
+          "value": "Department of State reproduction uses legacy chosen-freeholder terminology: 40:20-23 gives three-year terms beginning at the next annual stated meeting under that article. Sections 40:20-20.4/.5 allow voter-adopted four-year staggered biennial terms for non-Optional-County-Charter counties; later terms start January 1, with separate first-election transition. Actual county adoption, current consolidated text and charter rules remain open; no universal three-year profile admitted.",
+          "url": "https://www.nj.gov/state/dos-statutes-elections-40.shtml",
+          "section": "40:20-20.4, 40:20-20.5, 40:20-23",
+          "readOn": "2026-10-01",
+          "status": "read-legacy-reproduction-applicability-open"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -899,26 +1230,67 @@
       ]
     },
     "NM": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "url": "https://www.sos.nm.gov/wp-content/uploads/2026/04/2026-Primary-Candidate-Guide_Final-.pdf",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified",
+          "value": "Guide lists county commissioner four-year terms and two-term limit; cited constitution/statute not independently verified here.",
+          "section": "page26 specific eligibility, Art.V13/VII2A and4-38-3"
+        },
+        "stagger": {
+          "url": "https://www.sos.nm.gov/wp-content/uploads/2026/04/2026-Primary-Candidate-Guide_Final-.pdf",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified",
+          "value": "2026 county districts differ: DonaAna1/3,SanJuan1/2,SantaFe1/3,Roosevelt3/4/5. LosAlamos seven-member county council has at-large positions1/2/3/6 in2026. No statewide district-parity assumption.",
+          "section": "pages21-23 county ballot list"
+        },
+        "qualifying": {
+          "url": "https://www.sos.nm.gov/wp-content/uploads/2026/04/2026-Primary-Candidate-Guide_Final-.pdf",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified",
+          "value": "Other major-party candidates file March10 2026,9am-5pm with appropriate county clerk. Independent/minor-party county candidates June25,9am-5pm per current SOS webpage; distinct route, not universal deadline.",
+          "section": "pages36-38 filing officer/day"
+        },
+        "primary": {
+          "url": "https://www.sos.nm.gov/candidate-and-campaigns/how-to-become-a-candidate/2026-elections-candidate-information/",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified",
+          "value": "2026 primaryJune2/generalNovember3 per current SOS election page. No county-cycle/term-start extrapolation.",
+          "section": "current SOS 2026 election overview"
+        },
+        "applicability": {
+          "value": "Current SOS Local Election Act page excludes a county from regular-local-election participating governments. Do not copy odd-year municipal/local date to county offices. LosAlamos council exception still requires its own governing profile.",
+          "url": "https://www.sos.nm.gov/voting-and-elections/local-election-act-information/",
+          "section": "Local governments that can participate in Regular Local Election, first definition",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified"
+        }
+      },
       "openFields": [
-        "applicability",
         "officeFamily",
-        "term",
         "cycle",
         "dateRule",
-        "primary",
         "runoff",
-        "qualifying",
-        "stagger",
         "termStart",
         "qualifications",
-        "charterExceptions"
+        "charterExceptions",
+        "underlying-statute-validation",
+        "full33-county-phase-binding"
       ]
     },
     "NY": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "governingBodyVariants": {
+          "value": "Current Senate display, revision2014-09-22: CountyLaw150constitutes county board from lawful convening of city/town supervisors.150-aallows an elected county legislative body established by law or court order to exercise board functions, regardless of name. This does not establish a universal county member election date or term. Actual county charter/local law, seat electorate, stage qualifications and filing remain open.",
+          "url": "https://www.nysenate.gov/legislation/laws/CNT/150",
+          "section": "150; companion150-a https://www.nysenate.gov/legislation/laws/CNT/150-A",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -935,8 +1307,16 @@
       ]
     },
     "NC": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "structureTermsElectorate": {
+          "value": "Current official text retains actual1974county structure until lawfully changed. Optional structures allow two-year, four-year, overlapping four-year or mixed terms; mixed terms require countywide nomination/election and internally selected chair, with vote-ranking transition rules. Other modes distinguish district nomination/district election, district nomination/countywide election and residence-only districts with countywide nomination/election. Oath assembly is first Monday December after general election; approved structure changes take effect then. Actual county plan, qualification and filing rules remain open.",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_153A/Article_4.html",
+          "section": "153A-26,.34,.58-.62",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1019,8 +1399,16 @@
       ]
     },
     "OK": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "termAndStages": {
+          "value": "Official title19PDF: districts1/3elect November1990+4n; district2November1996+4n, all four-year terms beginning first business day January. Filing-stage registered elector/principal residence requires six months before first filing day in county and commissioner district under131(E)/131.1. Principal-residence evidence may include tax return, driver license or automobile registration.132requires qualified county voter at election/appointment. Actual district maps, filing calendar and full qualification renewal remain open.",
+          "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os19.pdf",
+          "section": "19-131(C),(E),131.1,132; PDFpages66-67,131.1includes2022amendment",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1037,8 +1425,16 @@
       ]
     },
     "OR": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryTermAndEligibility": {
+          "value": "Official 2025 edition: commissioners replacing expiring seats elected through 204.005/249.088. Ordinary term four years; when multiple commissioners elected and one fills vacancy, one term is two years. Office begins first Monday January after election. Eligibility under 204.016 includes U.S. citizenship, Oregon elector status and county residence for one year before the next election. Actual charter/district, primary-majority route, seat phase and 2026 law renewal remain open.",
+          "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+          "section": "204.005, .010, .016, .020; official HTML SHA256 48183c0530d2c8d8d9af00c556c818a40877debf583b8e1a0fd7f6e0594b9d0e",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1130,8 +1526,16 @@
       ]
     },
     "SC": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "councilForms": {
+          "value": "Current official text:4-9-90default single-member districts elect by resident district electors, subject to4-9-10/court-plan exceptions. County-specific two/four-year terms beginJan2; four-year terms stagger with initial vote-ranking split; two-to-four conversion needs referendum. Separate council-administrator4-9-610 and manager4-9-810 text says Jan1; discrepancy retained for actual-form resolution. Article11board-of-commissioners is excluded by4-9-190;4-9-1020uses county-specific two/four-year terms with initial half two-year and entry Monday after election. Actual form, seat phases, filing and candidate qualifications remain open.",
+          "url": "https://www.scstatehouse.gov/code/t04c009.php",
+          "section": "4-9-90,.190,.610,.810,.1020; Jan1/Jan2 text conflict retained",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1224,6 +1628,44 @@
           "section": "page1",
           "readOn": "2026-10-01",
           "status": "official-source-inspected-not-production-admitted"
+        },
+        "loudonAdoptedSeatStructure": {
+          "value": "Resolution110121-D adopted November1,2021:10county commissioners in7districts; districts1,2,5 each elect designated seatsA/B. Other districts3,4,6,7 have one member. Members elected from district where resident; one seat per candidate. Passage effective. Page3 records PlanC amendment at AdesaBoulevard/I75 and resolution8\u20131. No home joined.",
+          "url": "https://loudoncounty-tn.gov/documentsAndForms/documents/CommissionMeetingDocuments/20211101_CommissionMeeting_Minutes.pdf",
+          "section": "PDF pages3 and13",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted",
+          "sha256": "85dad2ed49cd9b7edc868e577f6208d4c5e770e5dcf5fd9fd6963bf00b3b3bee"
+        },
+        "loudonMapAvailability": {
+          "value": "Resolution references ExhibitA map, but PDFpage14 contains only the instruction to attach the official map. Rendered page checked. Page11 committee minutes describe plansC/D but supply no map. District geometry and whole-place/home joins remain unknown.",
+          "url": "https://loudoncounty-tn.gov/documentsAndForms/documents/CommissionMeetingDocuments/20211101_CommissionMeeting_Minutes.pdf",
+          "section": "PDF pages11\u201314",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted",
+          "sha256": "85dad2ed49cd9b7edc868e577f6208d4c5e770e5dcf5fd9fd6963bf00b3b3bee"
+        },
+        "districtResidenceAndVoter": {
+          "value": "County commissioner must reside within and be a qualified voter of represented district. Cross-references general office qualifications. County employee permitted except specified director-of-schools rule; simultaneous countywide office restriction and oath requirements also recorded. No voter producer admitted.",
+          "url": "https://www.ctas.tennessee.edu/eli/qualifications-clb",
+          "section": "CTAS-12; TCA5-5-102/5-5-111",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "generalQualifications": {
+          "value": "CTAS-2152:18+,US/TN citizenship, qualifying county voter and county residence one year before qualifying deadline for most county offices. General disqualifications and election residence principles remain separate. Full statute/applicability to actual filing stage still requires source binding.",
+          "url": "https://www.ctas.tennessee.edu/eli/qualifications",
+          "section": "CTAS-2152; TCA8-18-101 and2-2-122",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
+        },
+        "loudonSeparateMap": {
+          "value": "Election Commission separately links countywide commissioner/precinct map, created January25,2022, Tennessee Comptroller author. Full rendered map inspected. No byteidentity with missing resolution attachment, geometric home join, voter count or saved voter fact admitted.",
+          "url": "https://loudoncountyvotes.com/files/maps/2022_Redistricting_CountyWide_Map.pdf",
+          "sha256": "b367ddfa1e172948c90a3d246101c90d4b47ee9d9370dd3b029bdcecaf32fdf1",
+          "section": "Single-page map, title/legend/footer",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
         }
       },
       "openFields": [
@@ -1280,8 +1722,16 @@
       ]
     },
     "UT": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "washington2026Commission": {
+          "value": "Actual Washington County2026official packet: generalNov3, commissionSeatsA/Bfour-year,$740.04fee, county clerk filing. Qualified-party filingJan2at8a.m.\u2013Jan8at5p.m.; registered-partythroughApr27, unaffiliatedthroughJun15, distinct nomination routes retained. Packet cites17-66-201/17-64-201: U.S.citizen, county registered voter, county resident one year by election, residence maintained in elected district, commissioner county voter registration one year before election. Exact electorate/entry, other counties and current recodified full statutes remain open. Superseded17-16/17-52a URLs are not admitted as current rules.",
+          "url": "https://www.washco.utah.gov/wp-content/uploads/2025/12/Declaration-of-Candidacy-Packet.pdf",
+          "section": "2026notice and filing qualifications, PDFpages0-2",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1318,8 +1768,23 @@
       ]
     },
     "VA": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryTermAndElectorate": {
+          "value": "County supervisors ordinarily elected November 1995+4n for four years. Section 24.2-219 and optional county forms are exceptions. Where district/ward residence is imposed, that district/ward elects the member rather than the countywide electorate. Actual county form and residence rule remain open.",
+          "url": "https://law.lis.virginia.gov/vacode/title24.2/chapter2/section24.2-218/",
+          "section": "24.2-218(A)-(B)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "optionalStagger": {
+          "value": "County ordinance or approved referendum can adopt biennial staggered four-year elections, with initial two/four-year terms. Certain countywide chair offices stay on 1995+4n. District changes require assigned phases; no actual county adoption or term-start date admitted.",
+          "url": "https://law.lis.virginia.gov/vacode/title24.2/chapter2/section24.2-219/",
+          "section": "24.2-219(A)-(C)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1399,8 +1864,16 @@
       ]
     },
     "WI": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "supervisorFormsAndTerms": {
+          "value": "Official 2025-biennium text: other-county supervisors under (3) have two-year terms, first Tuesday April in even years, taking office third Tuesday April. Milwaukee/population-at-least-750,000 under (2) uses two-year terms since 2016 and third Monday April entry. Self-organized (1) permits concurrent/staggered two-year terms with initial half terms; one-town (5) composition differs. County officers/employees ineligible under (4). Actual county form, district, candidate qualifications and filing remain open.",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/59/iii/10",
+          "section": "59.10(1)-(5); retrieved official HTML, SHA256 b6769984e80ea43b89aba8b2b07a72e54b69d3a532c1dd671896d9542ceb51b3",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1423,8 +1896,16 @@
       ]
     },
     "WY": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "termAndCountyPlan": {
+          "value": "Official title18PDF: ordinary three qualified electors, one seat1980+4n/two1978+4n, four-year terms; county residence throughout office. Voter-approved five-member expansion permits at most one initial two-year term. Adopted districting can mix district, multi-member and at-large representation and assign phases; court/population-triggered initial plan requires at least51percent initial two-year terms, remainder four. Actual county plan, filing qualifications and term entry remain open.",
+          "url": "https://www.wyoleg.gov/statutes/compress/title18.pdf",
+          "section": "18-3-501(a)-(k), PDFpages67-71",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1455,6 +1936,72 @@
       "state": "AK",
       "url": "https://www.akleg.gov/statutesPDF/Title-29.pdf",
       "result": "tool Internal Error; indexed snippet not full statute admission",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "KS",
+      "url": "https://kslegislature.gov/b2025_26/laws/019_000_0000_chapter/019_002_0000_article/019_002_0003a_section/019_002_0003a_k/",
+      "result": "tool Internal Error; 19-203a exception not admitted from search lead",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "WI",
+      "url": "https://docs.legis.wisconsin.gov/statutes/statutes/59/iii/10",
+      "result": "web tool Internal Error; direct official HTML read succeeded and hash bound in claim",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "OR",
+      "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+      "result": "web tool 403/Internal Error; direct official HTML read succeeded using legacy cp1252 encoding and hash bound in claim",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "ID",
+      "url": "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH7/SECT31-703/",
+      "result": "web reader Internal Error; direct official HTML succeeded; source hashes recorded",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "UT",
+      "url": "https://le.utah.gov/xcode/Title17/Chapter16/C17-16-S6.html",
+      "result": "web Internal Error; direct official HTTP404; superseded code not admitted; current county2026packet read instead",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "UT",
+      "url": "https://le.utah.gov/xcode/Title17/Chapter64/C17-64-S201.html",
+      "result": "web Internal Error; full current statute text remains open",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "MD",
+      "url": "https://www.msa.maryland.gov/msa/mdmanual/43const/html/17art17.html",
+      "result": "web Cache miss; direct official HTML succeeded; initial UTF8 decode failed, actual cp1252 read succeeded with hash",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "IL",
+      "url": "https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=750&ChapterID=12",
+      "result": "web timeout, directHTTP403; individualdocument502; officialFTP2-3009fulltext read through web; current full code renewal remains open",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "IL",
+      "url": "https://cms5.revize.com/revize/dupage/Election/Documents/Candidate%20Information/ProspectiveCandidateInformation/2026%20GPE/2026%20County%20Board%20Member%20Packet.pdf",
+      "result": "HTTP404; search snippet not admitted",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "LA",
+      "url": "https://www.desotoppj.com/Documents/Government/Public%20Notices/DeSoto%20Parish%20Proposed%20Redistricting%20Report%209_22_26.pdf?t=202609241639250",
+      "result": "web inaccessible/direct redirectHTTP403; full proposal NOT READ; announcementHTMLread only; adopted effective map/courtorder remains open",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "LA",
+      "url": "https://www.desotoppj.com/how_do_i/Documents/How%20Do%20I/PJ%20Plan%20H%20rev%2024x36.pdf",
+      "result": "officialdistrict-map page relative download link webCachemiss; map/effectiveversion NOT READ",
       "readOn": "2026-10-01"
     }
   ]
