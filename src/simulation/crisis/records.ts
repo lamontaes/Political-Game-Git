@@ -182,6 +182,7 @@ function referenceSequences(world: World): ReadonlyMap<EntityId, number> {
     world.history.personDeaths,
     world.history.personFunctionalCapacities,
     world.history.incidents,
+    world.history.legislativeEnactments ?? [],
     world.history.resourceFlowTerms,
   ] as readonly (readonly { id: EntityId; sequence: number }[])[])
     for (const record of family) sequences.set(record.id, record.sequence);
