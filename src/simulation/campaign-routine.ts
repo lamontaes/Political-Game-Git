@@ -74,6 +74,16 @@ export const CAMPAIGN_ROUTINE_WORK: Readonly<
     summary:
       "The standing session on the phones, asking people who might give for something the campaign cannot do without.",
   },
+  // Reuse the existing routine copy. The work kind drives petition asks; no
+  // additional player-facing wording is introduced here.
+  petition: {
+    label: "Knocking on doors",
+    locationKey: "campaign-doors",
+    locationLabel: "Somebody's street",
+    title: "A field shift",
+    summary:
+      "The standing shift on the doors, talking to whoever answers. One way to learn what people are hearing.",
+  },
 };
 
 /** The routine in force for a campaign, or null when none was ever set. */

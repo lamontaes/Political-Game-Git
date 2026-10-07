@@ -2,6 +2,7 @@ import { ageOnDate } from "./dates";
 import { stableHash } from "./ids";
 import { spreadOf, type Spread } from "./sample-spread";
 import type { EntityId, World } from "./types";
+import censusFamilyEstimate from "../../data/research/family-shape/census-two-parent-share.json";
 
 export interface DrawnFamilyShape {
   /** Actual saved pattern retained for downstream caregiver estimates. */
@@ -36,12 +37,11 @@ export function drawFamilyShape(
     throw new Error("A family estimate needs its receiving person key.");
   // Bind a receiving key to an actual saved pattern. Retaining the observed
   // patterns carries the game's spread, rather than giving everyone its mean.
-  const representative = estimate.samples.length
-    ? estimate.samples[
-        Number.parseInt(stableHash(personKey).slice(-8), 16) %
-          estimate.samples.length
-      ]
-    : undefined;
+  const representative = pickRecordedFamily(
+    estimate.samples,
+    shrunkTwoParentShare(estimate.samples),
+    Number.parseInt(stableHash(personKey).slice(-8), 16) / 0x1_0000_0000,
+  );
   const gap = estimate.parentAgeGapYears?.mean;
   const generationAge = estimate.parentAgeAtChildBirth?.mean;
   const grandparentAge =
@@ -59,6 +59,59 @@ export function drawFamilyShape(
     ],
     estimate,
   };
+}
+
+/**
+ * ESTIMATED FROM AVERAGE: the share of U.S. children living with two parents,
+ * Census Bureau, America's Families and Living Arrangements, CPS ASEC 2023
+ * (Table C2), about 71 percent. It only pulls a small recorded sample toward
+ * the national share; a large sample speaks for itself.
+ */
+const CENSUS_TWO_PARENT_SHARE = censusFamilyEstimate.twoParentShare;
+
+/** How many recorded families the national share counts as. */
+const CENSUS_PRIOR_FAMILIES = censusFamilyEstimate.priorFamilyCount;
+
+/**
+ * The world's recorded two-parent share, shrunk toward the Census share in
+ * proportion to how few families the world has recorded.
+ */
+export function shrunkTwoParentShare(
+  samples: readonly RecordedFamilySample[],
+): number {
+  const twoParent = samples.filter((row) => row.secondParent === 1).length;
+  return (
+    (twoParent + CENSUS_PRIOR_FAMILIES * CENSUS_TWO_PARENT_SHARE) /
+    (samples.length + CENSUS_PRIOR_FAMILIES)
+  );
+}
+
+/**
+ * A pick among the world's own recorded families, never an invented one. The
+ * two-parent and one-parent families are weighted so the pool carries the
+ * shrunk share; within each group every family weighs the same. When the world
+ * recorded only one kind, the pool is that kind alone.
+ */
+function pickRecordedFamily(
+  samples: readonly RecordedFamilySample[],
+  share: number,
+  position: number,
+): RecordedFamilySample | undefined {
+  if (!samples.length) return undefined;
+  const two = samples.filter((row) => row.secondParent === 1).length;
+  const one = samples.length - two;
+  const weight = (row: RecordedFamilySample) =>
+    two === 0 || one === 0
+      ? 1 / samples.length
+      : row.secondParent === 1
+        ? share / two
+        : (1 - share) / one;
+  let total = 0;
+  for (const row of samples) {
+    total += weight(row);
+    if (position < total) return row;
+  }
+  return samples.at(-1);
 }
 
 /** A recorded family sample; dates belong to these saved people, never new births. */
@@ -183,7 +236,7 @@ export function recordedFamilyEstimates(world: World): {
   );
   return {
     asOf: world.currentDate,
-    note: "ESTIMATED: averaged from this game's recorded families, with their current game spread. Unrecorded relatives are not inferred absent; no birth dates are created.",
+    note: "ESTIMATED: averaged from this game's recorded families, with their current game spread; the two-parent share is pulled toward the Census share (about 71 percent, CPS ASEC 2023) in proportion to how few are recorded. Unrecorded relatives are not inferred absent; no birth dates are created.",
     samples,
     secondParent: samples.length
       ? spreadOf(samples.map((row) => row.secondParent))
