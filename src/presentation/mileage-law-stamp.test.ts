@@ -114,13 +114,42 @@ describe("mileage attribution helper uses the existing saved budget source", () 
   it.each(candidates.slice(0, 5))(
     "%s retains the operative identity without changing revenue or creating a driver payment",
     (usps) => {
-      const { world, government, measure, question } = fixture(usps);
+      const { base, world, government, measure, question } = fixture(usps);
       const month = makeIsoDate("2029-02-01");
+      // Open budgets start in 2026. The later month below checks the enacted
+      // law's attribution window, so get the saved revenue from an in-range
+      // month rather than asking the 2026 budget to settle in 2029.
+      const settlementFlows: MonthFlows = {
+        ...flows,
+        cash: new Map([
+          [
+            government.key,
+            {
+              organizationId: `fixture-budget-${usps}` as EntityId,
+              positionId: `fixture-cash-${usps}` as EntityId,
+              balanceMinorUnits: 0,
+            },
+          ],
+        ]),
+        recorded: new Map([
+          [
+            government.key,
+            {
+              revenueMinorUnits: government.years[0]!.expectedRevenue.map(
+                (amount) => Math.round((amount * 100) / 12),
+              ),
+              spendingMinorUnits: BUDGET_SOURCES.map(() => 0),
+              sourceRecordIds: [],
+              lawEffectStamps: [],
+            },
+          ],
+        ]),
+      };
       const settled = settleGovernmentMonth(
-        world,
+        base,
         government,
-        month,
-        flows,
+        makeIsoDate("2026-02-01"),
+        settlementFlows,
       ).government.months.at(-1)!;
       const before = JSON.stringify(settled);
       const historyBefore = JSON.stringify(world.history);
@@ -136,7 +165,7 @@ describe("mileage attribution helper uses the existing saved budget source", () 
         questionKey: MILEAGE_FEE_QUESTION,
         jurisdictionId: government.lawJurisdictionId,
         appliedAt: month,
-        effectKind: "modeled-road-charge-budget-revenue",
+        effectKind: "tax",
       });
       expect(JSON.stringify(settled)).toBe(before);
       expect(JSON.stringify(world.history)).toBe(historyBefore);

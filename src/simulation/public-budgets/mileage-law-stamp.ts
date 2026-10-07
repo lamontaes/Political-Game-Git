@@ -56,7 +56,7 @@ export function mileageBudgetStamp(
     if (month < firstBill) return null;
   }
   return lawEffectStamp(law, {
-    effectKind: "modeled-road-charge-budget-revenue",
+    effectKind: "tax",
     questionKey: MILEAGE_FEE_QUESTION,
     jurisdictionId: government.lawJurisdictionId,
     appliedAt: month,
