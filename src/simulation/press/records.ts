@@ -288,7 +288,7 @@ export const PROCEDURE_KEYS = [
   "fec-enforcement",
   "ky-legislative-ethics",
   "simulated-inquiry",
-  // A body generated per state from an UNRESEARCHED range, for campaign money
+  // A body generated per state from the recorded regulator range, for campaign money
   // and for legislators whose state's own body has not been read
   // (`generated-state-oversight.ts`).
   "generated-state-oversight",

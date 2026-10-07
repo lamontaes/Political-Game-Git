@@ -51,6 +51,17 @@ for (const record of corpus)
 
 const counties: string[] = [];
 const towns: string[] = [];
+const stateRows = new Map<
+  string,
+  {
+    population: number;
+    rentTotals: [number, number, number, number, number];
+    rentWeight: number;
+    veryLowTotal: number;
+    lowTotal: number;
+    limitWeight: number;
+  }
+>();
 let vintage = "";
 for (const record of corpus) {
   if (record.recordKind !== "fair-market-rent") continue;
@@ -71,12 +82,52 @@ for (const record of corpus) {
     limit ? String(limit.lowIncomeLimitByFamilySize["4"] ?? "") : "",
     fmr.publishedPopulation === null ? "" : String(fmr.publishedPopulation),
   ].join("/");
+  // County rows partition a state; including town rows would count many
+  // residents twice because those towns are already part of county totals.
+  if (code.endsWith("99999")) {
+    const state = stateRows.get(fmr.area.stateUsps) ?? {
+      population: 0,
+      rentTotals: [0, 0, 0, 0, 0],
+      rentWeight: 0,
+      veryLowTotal: 0,
+      lowTotal: 0,
+      limitWeight: 0,
+    };
+    const population = Math.max(0, fmr.publishedPopulation ?? 0);
+    if (population > 0) {
+      state.population += population;
+      state.rentWeight += population;
+      (["0", "1", "2", "3", "4"] as const).forEach((bedrooms, index) => {
+        state.rentTotals[index]! += fmr.rentByBedrooms[bedrooms] * population;
+      });
+      const incomeLimit = limits.get(code);
+      if (incomeLimit) {
+        state.veryLowTotal +=
+          (incomeLimit.veryLowIncomeLimitByFamilySize["4"] ?? 0) * population;
+        state.lowTotal +=
+          (incomeLimit.lowIncomeLimitByFamilySize["4"] ?? 0) * population;
+        state.limitWeight += population;
+      }
+    }
+    stateRows.set(fmr.area.stateUsps, state);
+  }
   if (code.endsWith("99999")) counties.push(`${county}:${cells}`);
   else if (fmr.area.countyTownName)
     towns.push(`${county}|${fmr.area.countyTownName}:${cells}`);
 }
 counties.sort();
 towns.sort();
+const stateRentRows = [...stateRows]
+  .sort(([left], [right]) => left.localeCompare(right))
+  .map(([state, row]) => {
+    const average = (value: number, weight: number) =>
+      weight > 0 ? Math.round(value / weight) : 0;
+    return `${state}:${row.rentTotals
+      .map((total) => average(total, row.rentWeight))
+      .join(
+        "/",
+      )}/${average(row.veryLowTotal, row.limitWeight)}/${average(row.lowTotal, row.limitWeight)}/${row.population}`;
+  });
 
 const output = `/**
  * GENERATED — do not edit by hand.
@@ -107,6 +158,14 @@ export const TOWN_RENT_COUNTIES = ${JSON.stringify(counties.join(";"))};
  * \`countyFips|Town name:r0/r1/r2/r3/r4/veryLow4/low4/population\`.
  */
 export const TOWN_RENT_TOWNS = ${JSON.stringify(towns.join(";"))};
+
+/**
+ * Population-weighted HUD county rents by state or territory, used only
+ * when a playable place has no Census county link. These are estimates, not
+ * additional published HUD areas.
+ * \`USPS:r0/r1/r2/r3/r4/veryLow4/low4/population\`.
+ */
+export const TOWN_RENT_STATES = ${JSON.stringify(stateRentRows.join(";"))};
 `;
 
 if (process.argv.includes("--check")) {

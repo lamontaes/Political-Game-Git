@@ -31,10 +31,6 @@ export function PersonalRoutinePanel({
   return (
     <details data-testid="personal-routine">
       <summary>Jobs, study and outings</summary>
-      <p>
-        Read offers and accepted terms here. Reading does not pass time. Attend
-        includes any journey disclosed by the offer.
-      </p>
       {notice ? (
         <p
           role="status"

@@ -16,6 +16,7 @@ import type { NationwideStateLegislatureOpeningChunk } from "../simulation/natio
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
 import { ensureCountyCouncilOpening } from "../simulation/municipal-council-opening";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { ensureCountyBudgetHearings } from "../simulation/living-world/county-budget-hearings";
 import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
 import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
 import {
@@ -52,13 +53,17 @@ import {
   startTownJobPay,
 } from "../simulation/living-world/town-pay";
 import { ensureEmployerCashPositions } from "../simulation/opening-employer-cash";
-import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
+import {
+  ensureRentDaySchedule,
+  startTownLeases,
+} from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
 import { ensurePublicBudgets } from "../simulation/public-budgets";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
+import { ensureHealthCoveragePass } from "../simulation/crisis/health-coverage";
 import {
   ensureMacroEconomyStarted,
   macroStartForHistory,
@@ -458,8 +463,7 @@ function* completeOpeningLifeSteps(
   const withHazards = ensureHazardProduction(withDevelopment);
   const withCrime = ensureCrimeProduction(withHazards);
   const withEpidemics = ensureEpidemicProduction(withCrime);
-  const withOutcomes = ensurePlaceOutcomes(withEpidemics);
-  const withBudgets = ensurePublicBudgets(withOutcomes);
+  const withBudgets = ensurePublicBudgets(withEpidemics);
   const withMortality = ensureOpeningMortality(
     withBudgets,
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
@@ -483,7 +487,13 @@ function* completeOpeningLifeSteps(
           "opening",
         )
       : withOfficeSalaries;
-  const world = initializeWorkPayCoverage(withEmployerCash);
+  // The opening SNAP baseline reads recorded household pay. Settle it only
+  // after opening wages exist so the first eligibility review sees real income.
+  const withOutcomes = ensurePlaceOutcomes(withEmployerCash);
+  const world = ensureHealthCoveragePass(
+    initializeWorkPayCoverage(withOutcomes),
+    game.playerPersonId,
+  );
   const recovered = recoverOverdueProsecutions(world);
   // Opening owns the one-time catch-up. The canonical clock and registry
   // owners consume these saved wakes; this builder never dispatches them.
@@ -593,12 +603,20 @@ function* openedWorld(
   );
   // Payday starts with the same opening, so a watched world's jobs pay too,
   // and so does rent day, so its renters pay their landlords.
-  const opened = ensureRentDaySchedule(
-    ensurePaydaySchedule(
-      ensureMigrationSchedule(
-        ensureLocalCouncilMeetings(
-          ensureLocalElectionCalendar(seated, playerPersonId),
-          playerPersonId,
+  const playerHouseholdId = householdMembershipsAt(seated, playerPersonId).find(
+    (row) => row.state.residenceRole === "primary",
+  )?.household.id;
+  const withPlayerLease = playerHouseholdId
+    ? startTownLeases(seated, seated.currentDate, playerHouseholdId)
+    : seated;
+  const opened = ensureCountyBudgetHearings(
+    ensureRentDaySchedule(
+      ensurePaydaySchedule(
+        ensureMigrationSchedule(
+          ensureLocalCouncilMeetings(
+            ensureLocalElectionCalendar(withPlayerLease, playerPersonId),
+            playerPersonId,
+          ),
         ),
       ),
     ),
@@ -753,7 +771,10 @@ function establishOpeningLocation(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["playtest65:initial-placement"],
+    tags: [
+      "playtest65:initial-placement",
+      `moment:${JSON.stringify(world.currentMoment)}`,
+    ],
     summary: "You are at home.",
     context: {
       location: {

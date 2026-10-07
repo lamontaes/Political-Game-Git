@@ -5,7 +5,11 @@ import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
 import { resourceTransferTermsCutoff } from "./resources";
 import { createStableId } from "./ids";
-import { recordById, recordsWithFieldValue } from "./history-index";
+import {
+  listExtends,
+  recordById,
+  recordsWithFieldValue,
+} from "./history-index";
 import {
   activeDwellingOccupanciesAt,
   dwellingOccupancyStateHistory,
@@ -127,6 +131,44 @@ export function resourceHousingEntityAvailableAt(
     record.date <= date &&
     record.sequence < historySequenceExclusive
   );
+}
+
+/*
+ * A payment is checked against its source's balance as of the moment it was
+ * made: the positions, flows and payments recorded before it, and nothing
+ * recorded after. History only grows, so a payment that passed in a world
+ * whose lists this one extends passes again, and checking it again read every
+ * earlier payment of its account for each payment in the world. Only the
+ * payments added since are checked; any list that is not an extension of the
+ * one that passed is checked in full.
+ */
+interface OverdrawChecked {
+  readonly positions: readonly unknown[];
+  readonly flows: readonly unknown[];
+  readonly outcomes: readonly unknown[];
+}
+const OVERDRAW_CHECKED: OverdrawChecked[] = [];
+
+function overdrawCheckedCount(h: World["history"]): number {
+  for (let at = OVERDRAW_CHECKED.length - 1; at >= 0; at -= 1) {
+    const done = OVERDRAW_CHECKED[at]!;
+    if (
+      listExtends(h.resourcePositions, done.positions) &&
+      listExtends(h.resourceFlows, done.flows) &&
+      listExtends(h.resourceTransferOutcomes, done.outcomes)
+    )
+      return done.outcomes.length;
+  }
+  return 0;
+}
+
+function rememberOverdrawChecked(h: World["history"]): void {
+  OVERDRAW_CHECKED.push({
+    positions: h.resourcePositions,
+    flows: h.resourceFlows,
+    outcomes: h.resourceTransferOutcomes,
+  });
+  if (OVERDRAW_CHECKED.length > 4) OVERDRAW_CHECKED.shift();
 }
 
 export function assertResourceHousingIntegrity(
@@ -316,7 +358,8 @@ export function assertResourceHousingIntegrity(
     EntityId,
     { readonly startsAt: string; readonly endsAt: string }[]
   >();
-  for (const outcome of h.resourceTransferOutcomes) {
+  const alreadyChecked = overdrawCheckedCount(h);
+  for (const [outcomeAt, outcome] of h.resourceTransferOutcomes.entries()) {
     const flow = byId(h.resourceFlows, outcome.resourceFlowId);
     if (!flow || flow.sequence >= outcome.sequence)
       throw new Error(`Resource outcome has a dangling flow: ${outcome.id}`);
@@ -437,7 +480,10 @@ export function assertResourceHousingIntegrity(
     optional(outcome.note, "resource outcome note");
     provenance(world, outcome.provenance, outcome.occurredAt, outcome.sequence);
     const owner = endpointOwner(flow.source);
-    if (outcome.transferredAmount.minorUnits > 0) {
+    if (
+      outcome.transferredAmount.minorUnits > 0 &&
+      outcomeAt >= alreadyChecked
+    ) {
       const before = resourcePositionAt(
         world,
         owner,
@@ -456,6 +502,8 @@ export function assertResourceHousingIntegrity(
         );
     }
   }
+
+  rememberOverdrawChecked(h);
 
   for (const obligation of h.resourceObligations) {
     const flow = byId(h.resourceFlows, obligation.resourceFlowId);

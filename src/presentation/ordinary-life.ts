@@ -5,7 +5,7 @@ import {
   settleHouseholdAdultJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
-import { contactBases } from "../simulation/people-contact";
+import { contactBases } from "../simulation/relationship-contact";
 import { ensurePeopleTraits } from "../simulation/people-traits";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
