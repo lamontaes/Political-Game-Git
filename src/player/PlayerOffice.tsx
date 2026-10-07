@@ -557,7 +557,6 @@ export function PlayerOffice() {
           world={world}
           fixture={fixture}
           projection={planningProjection}
-          feedback={planningState.feedback}
           onClose={() => planningDispatch({ type: "close" })}
           onDelegate={delegateMeetingBrief}
           onOpenDocument={openWorkingDocument}

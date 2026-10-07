@@ -976,9 +976,20 @@
           "group": "bench-rear",
           "role": "general",
           "id": "city-hall-exterior:spot:7"
+        },
+        {
+          "x": 79,
+          "y": 61,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 61,
+          "seatY": 58,
+          "group": "bench-rear",
+          "role": "general",
+          "id": "city-hall-exterior:spot:8"
         }
       ],
-      "measuredFrom": "entrance doors 2.03 m foot 56.7 top 48.2 and five steps plus 0.9 m handrails give about 4.3% per meter at the steps' foot y 62 (0.54); benches, back about 0.85 m, foot 67-68 top 60 (0.65, weighted most: people read too small against the benches at 0.57); lamp post about 4 m foot 69.5 top 37 (0.52); the top landing is its own floor, scaled from the doors; rear left bench foot point estimated from the native midday image and calibrated against the existing near-bench foot and cushion contacts",
+      "measuredFrom": "entrance doors 2.03 m foot 56.7 top 48.2 and five steps plus 0.9 m handrails give about 4.3% per meter at the steps' foot y 62 (0.54); benches, back about 0.85 m, foot 67-68 top 60 (0.65, weighted most: people read too small against the benches at 0.57); lamp post about 4 m foot 69.5 top 37 (0.52); the top landing is its own floor, scaled from the doors; rear plaza bench foot points estimated from the native midday image and calibrated against the existing near-bench foot and cushion contacts",
       "surfaceSlots": [
         {
           "surfaceId": "city-hall-exterior-name-panel",
@@ -6904,9 +6915,75 @@
           "group": "desk",
           "role": "general",
           "id": "phone-bank-room:spot:10"
+        },
+        {
+          "x": 10,
+          "y": 80,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 80,
+          "seatY": 68,
+          "group": "desk-left",
+          "role": "general",
+          "id": "phone-bank-room:spot:11"
+        },
+        {
+          "x": 19,
+          "y": 69,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 69,
+          "seatY": 57,
+          "group": "desk-left",
+          "role": "general",
+          "id": "phone-bank-room:spot:12"
+        },
+        {
+          "x": 42,
+          "y": 56,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 56,
+          "seatY": 46,
+          "group": "desk-left",
+          "role": "general",
+          "id": "phone-bank-room:spot:13"
+        },
+        {
+          "x": 90,
+          "y": 80,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 80,
+          "seatY": 68,
+          "group": "desk-right",
+          "role": "general",
+          "id": "phone-bank-room:spot:14"
+        },
+        {
+          "x": 81,
+          "y": 69,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 69,
+          "seatY": 57,
+          "group": "desk-right",
+          "role": "general",
+          "id": "phone-bank-room:spot:15"
+        },
+        {
+          "x": 58,
+          "y": 56,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 56,
+          "seatY": 46,
+          "group": "desk-right",
+          "role": "general",
+          "id": "phone-bank-room:spot:16"
         }
       ],
-      "measuredFrom": "horizon from the far desk end vs the near chair; far desk end 0.75 m foot 55.2 top 43 -> 0.70; near left chair seat 0.45 m foot 92 top 73 -> 0.70; near chair back 0.9 m foot 88.5 top 51.5 -> 0.73; back wall floor 52 to ceiling 7.5 reads 2.7 m",
+      "measuredFrom": "horizon from the far desk end vs the near chair; far desk end 0.75 m foot 55.2 top 43 -> 0.70; near left chair seat 0.45 m foot 92 top 73 -> 0.70; near chair back 0.9 m foot 88.5 top 51.5 -> 0.73; back wall floor 52 to ceiling 7.5 reads 2.7 m; added chair foot and seat points are visual estimates from the midday image (about 1-2 percentage points uncertainty)",
       "surfaceSlots": [
         {
           "surfaceId": "phone-bank-room-whiteboard",
@@ -7752,9 +7829,33 @@
           "group": "table",
           "role": "general",
           "id": "rural-farmhouse:spot:8"
+        },
+        {
+          "x": 15.5,
+          "y": 56,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 56,
+          "clipBelowY": 41,
+          "seatY": 47,
+          "group": "table-far-side",
+          "role": "general",
+          "id": "rural-farmhouse:spot:9"
+        },
+        {
+          "x": 23.5,
+          "y": 56,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 56,
+          "clipBelowY": 41,
+          "seatY": 47,
+          "group": "table-far-side",
+          "role": "general",
+          "id": "rural-farmhouse:spot:10"
         }
       ],
-      "measuredFrom": "horizon from the counter run (far end foot 56.1 top 37.8, near foot 71.2 top 42.2 -> 30) and back door vs table (-> 34); back door 2.03 m foot 54.9 top 11 -> 0.95; far counter 0.9 m -> 0.85; near counter -> 0.82; table 0.75 m foot 65.2 top 44.2 -> 0.85; chair seat 0.45 m foot 60 top 49.5 -> 0.82",
+      "measuredFrom": "horizon from the counter run (far end foot 56.1 top 37.8, near foot 71.2 top 42.2 -> 30) and back door vs table (-> 34); back door 2.03 m foot 54.9 top 11 -> 0.95; far counter 0.9 m -> 0.85; near counter -> 0.82; table 0.75 m foot 65.2 top 44.2 -> 0.85; chair seat 0.45 m foot 60 top 49.5 -> 0.82; far-side table chairs placed from the native midday painting with approximately 2 percentage point visual uncertainty",
       "surfaceSlots": []
     },
     "school-board-room": {
