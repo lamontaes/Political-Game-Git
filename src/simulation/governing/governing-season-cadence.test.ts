@@ -150,7 +150,7 @@ describe("governing bill dates follow the saved session cadence", () => {
       result.world.history.futureDueItems.some(
         (due) =>
           due.stableKey.includes(`:${office.officeKey}:bill:`) &&
-          due.dueAt > oldBillDue.dueAt,
+          due.dueAt > scheduled.currentDate,
       ),
     ).toBe(true);
     expect(
