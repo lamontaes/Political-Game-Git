@@ -19,6 +19,7 @@ import { nextMeasureNumbering } from "../measure-numbering";
 import {
   LOCAL_COUNCIL_MEETING,
   meetingItemsThatMatter,
+  playCouncilItems,
 } from "./local-council-meetings";
 
 const seed = "b05-p1-random-place-20261006";
@@ -76,6 +77,25 @@ describe("council meeting items that matter", () => {
       sponsorPersonId: player,
     });
     const sponsored = world.history.legislativeMeasures!.at(-1)!;
+    const unrelatedNumbering = nextMeasureNumbering(world, {
+      jurisdictionId,
+      originChamber: chamberByKey(choice.pack, "council"),
+      rulePackId: choice.pack.packId,
+    });
+    world = introduceMeasure(world, {
+      stableKey: `${seed}:unrelated`,
+      jurisdictionId,
+      rulePackId: choice.pack.packId,
+      ...unrelatedNumbering,
+      shortTitle: "Recorded unrelated measure",
+      summary:
+        "A fixture measure with no saved reason to matter to the player.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "council",
+      sponsorPersonId: world.personOrder.find((id) => id !== player)!,
+    });
+    const unrelated = world.history.legislativeMeasures!.at(-1)!;
     world = scheduleFutureDueItem(world, {
       stableKey: `${seed}:meeting`,
       dueAt: addDays(world.currentDate, 1),
@@ -92,6 +112,14 @@ describe("council meeting items that matter", () => {
     expect(
       first.find((item) => item.measure.id === sponsored.id)?.reasons,
     ).toEqual(["player-sponsored"]);
+    const plan = playCouncilItems(first);
+    expect(plan.pendingItems.map((item) => item.measure.id)).toEqual([
+      sponsored.id,
+    ]);
+    expect(plan.quietItems.map((measure) => measure.id)).toEqual([
+      unrelated.id,
+    ]);
+    expect(plan.playedMeasureIds).toEqual([]);
     expect(meetingItemsThatMatter(world, player, "missing" as never)).toEqual(
       [],
     );
