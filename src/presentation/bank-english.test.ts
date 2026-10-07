@@ -15,8 +15,6 @@ import { openOrdinaryLife } from "./ordinary-life";
 import { placeFor, rng } from "../../scripts/playtest/mass-play/driver";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { explicitNewGameSetup } from "./new-game-geography";
-import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
-import { governmentUnitJurisdictionId } from "../simulation/government-units";
 
 const bank: EnglishBank = {
   parts: [
@@ -146,9 +144,13 @@ describe("generated world", () => {
     }
 
     const home = homeLocalGovernmentUnits(world, game.playerPersonId);
-    const unit = [...home.municipal, ...home.counties, ...home.townships][0];
-    expect(unit).toBeDefined();
-    const jurisdictionId = governmentUnitJurisdictionId(unit!);
+    const noticeUnit = [
+      ...home.municipal,
+      ...home.counties,
+      ...home.townships,
+    ][0];
+    expect(noticeUnit).toBeDefined();
+    const jurisdictionId = governmentUnitJurisdictionId(noticeUnit!);
     const measureId = "notice-test:measure" as EntityId;
     const withNoticeRecords = {
       ...world,

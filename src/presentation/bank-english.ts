@@ -19,7 +19,6 @@ import {
   sittingLocalOfficers,
 } from "../simulation/living-world/local-government-seats";
 import { organizationNameAt } from "../simulation/living-world/party-registry";
-import { governmentUnitJurisdictionId } from "../simulation/government-units";
 
 export interface EnglishPart {
   readonly key: string;
