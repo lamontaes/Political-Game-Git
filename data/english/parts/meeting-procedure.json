@@ -1,0 +1,117 @@
+{
+  "schema": "english-parts/1",
+  "register": "meeting-procedure",
+  "description": "Short procedural phrases mined from Congressional Record debate and committee hearing transcripts.",
+  "slots": {},
+  "maxWords": 12,
+  "mining": {
+    "tool": "manual source review",
+    "read": "Congressional Record floor proceedings and House committee hearing transcripts; short procedural moves retained with their source record."
+  },
+  "parts": [
+    {
+      "key": "meeting-procedure.reserve-balance",
+      "move": "reserve-time",
+      "kind": "spoken",
+      "text": "I reserve the balance of my time.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Volume 172, Issue 86",
+        "date": "2026-05-20",
+        "url": "https://www.govinfo.gov/content/pkg/CREC-2026-05-20/html/CREC-2026-05-20-pt1-PgH3648.htm"
+      }
+    },
+    {
+      "key": "meeting-procedure.reclaim-and-reserve-time",
+      "move": "reclaim-time",
+      "kind": "spoken",
+      "text": "I reclaim my time, and I will reserve the balance of my time.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Volume 172, Issue 86",
+        "date": "2026-05-20",
+        "url": "https://www.govinfo.gov/content/pkg/CREC-2026-05-20/html/CREC-2026-05-20-pt1-PgH3648.htm"
+      }
+    },
+    {
+      "key": "meeting-procedure.yield-self-time",
+      "move": "take-floor-time",
+      "kind": "spoken",
+      "text": "I yield myself such time as I may consume.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Volume 172, Issue 146",
+        "date": "2026-09-16",
+        "url": "https://www.govinfo.gov/content/pkg/CREC-2026-09-16/html/CREC-2026-09-16-pt1-PgH5953.htm"
+      }
+    },
+    {
+      "key": "meeting-procedure.yield-back-time",
+      "move": "yield-time",
+      "kind": "spoken",
+      "text": "I yield back the balance of my time.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Volume 172, Issue 146",
+        "date": "2026-09-16",
+        "url": "https://www.govinfo.gov/content/pkg/CREC-2026-09-16/html/CREC-2026-09-16-pt1-PgH5941.htm"
+      }
+    },
+    {
+      "key": "meeting-procedure.ask-consent-order",
+      "move": "consent-ruling",
+      "kind": "spoken",
+      "text": "Without objection, so ordered.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "The JFK Files, House Committee Hearing",
+        "date": "2025-04-01",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60027/html/CHRG-119hhrg60027.htm"
+      }
+    },
+    {
+      "key": "meeting-procedure.hearing-order",
+      "move": "call-to-order",
+      "kind": "spoken",
+      "text": "will come to order.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "The JFK Files, House Committee Hearing",
+        "date": "2025-04-01",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60027/html/CHRG-119hhrg60027.htm"
+      }
+    },
+    {
+      "key": "meeting-procedure.question-amendment",
+      "move": "put-amendment-question",
+      "kind": "spoken",
+      "text": "The question is on the amendment",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Volume 170, Issue 107",
+        "date": "2024-06-26",
+        "url": "https://www.govinfo.gov/content/pkg/CREC-2024-06-26/html/CREC-2024-06-26-pt1-PgH4167-3.htm"
+      }
+    },
+    {
+      "key": "meeting-procedure.amendment-agreed",
+      "move": "amendment-ruling",
+      "kind": "spoken",
+      "text": "The amendment was agreed to.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Volume 170, Issue 107",
+        "date": "2024-06-26",
+        "url": "https://www.govinfo.gov/content/pkg/CREC-2024-06-26/html/CREC-2024-06-26-pt1-PgH4167-3.htm"
+      }
+    }
+  ]
+}

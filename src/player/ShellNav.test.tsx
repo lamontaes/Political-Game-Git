@@ -81,7 +81,7 @@ describe("ShellNav portrait hub", () => {
     expect(html).toContain("Jordan Avery Price");
     expect(html).toContain("Tuesday, January 20, 2026");
     expect(html).toContain(
-      'aria-label="Jordan Avery Price. Tuesday, January 20, 2026. Somewhere on record. Open navigation."',
+      'aria-label="Jordan Avery Price. Tuesday, January 20, 2026. Somewhere on record."',
     );
     // A figure never sits inside the button.
     expect(html).not.toMatch(

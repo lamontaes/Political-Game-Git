@@ -24,6 +24,7 @@ import {
 } from "./life-places";
 import { factsForPerson } from "./people";
 import { birthConfersCitizenship, isTerritoryUsps } from "./state-reference";
+import { citizenshipEligibility } from "./citizenship";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
@@ -717,6 +718,7 @@ export function candidacyEligibility(
           ) === "split"
         ? ("district-unknown" as const)
         : ("unrecorded" as const);
+  const citizenship = citizenshipEligibility(world, input.personId);
   const compiledAssessments =
     qualificationRules !== null || officeFamily === null
       ? []
@@ -725,7 +727,11 @@ export function candidacyEligibility(
           stateJurisdictionKey,
           officeFamily,
           stateResidenceSince: stateResidenceStart,
-          citizenSince: citizenByBirthSince(world, input.personId),
+          citizenSince:
+            citizenship.record !== null
+              ? citizenship.citizenSince
+              : citizenByBirthSince(world, input.personId),
+          citizenStatus: citizenship.isCitizen,
           districtResidenceSince: districtSince,
           ...(districtGap ? { districtResidenceGap: districtGap } : {}),
           onDate: world.currentDate,

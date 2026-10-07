@@ -1112,10 +1112,10 @@ export function countyCandidacyUnavailableReason(
   officeKey: string,
 ): string | null {
   const office = localGoverningBodyIdentityForOfficeKey(officeKey);
-  // A row office carries the disclosed age estimate and county residence, so
-  // it is not refused; a county board seat stays unavailable until its own
-  // requirements are read.
-  return office?.unit.unitType === "county" && office.seat !== "row-office"
+  // A county's executive and its row offices carry the disclosed age estimate
+  // and county residence, so they are not refused; a county board seat stays
+  // unavailable until its own requirements are read.
+  return office?.unit.unitType === "county" && office.seat === "governing-body"
     ? "Qualifications: not on record"
     : null;
 }
