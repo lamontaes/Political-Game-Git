@@ -14,7 +14,9 @@ City and county councils adopt ordinances and Congress files and votes on bills 
 ## Endpoint
 30-day watch on 3 seeds: ≥3 ordinances adopted across councils including the watched town's, Congress ≥10 bills filed and ≥1 chamber passage; counts posted on #2424.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - The CTO adds root causes here; re-read before M2.
+- CTO FINDING: councils default no-reason votes to YES (council-lawmaking.ts ~140) while states default to 'present'; compiled councils use a stripped copy (municipal-ordinance-procedure.ts ~332) where 0–0 passes. Use one vote rule with the default read from the body's rules.
+- CTO FINDING: two different functions named `municipalRulePackById` (municipal-rule-registry.ts:12 and municipal-government.ts:1331) give the same council different rules depending on the caller; keep one.
 
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

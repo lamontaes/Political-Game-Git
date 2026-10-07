@@ -14,7 +14,7 @@ A game year simulates in under 2 minutes; full detail only near the player, ever
 ## Endpoint
 `npm run speed:year` passes (< 2 min per game year) on the owner's Mac, with before/after numbers in each PR and a same-records check for the focus circle on 3 seeds.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - Measured today: 1.74 s per game day; the state legislature step is 39% of a day; a people-table copy per state step ~20%.
 
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

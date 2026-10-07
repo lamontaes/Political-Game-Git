@@ -14,7 +14,7 @@ The engine writes every kind of text the owner named (conversation, law wording,
 ## Endpoint
 A batch with every text kind present (no 'no output' rows) READY for the owner's grading, and ≥4 new mined banks merged-ready.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - Batch rule: no two items share situation+relationship; every kind appears; 'no output, because…' rows for anything still missing.
 
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

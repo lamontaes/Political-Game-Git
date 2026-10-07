@@ -13,7 +13,7 @@ Screens show only record data, approved control names and English-engine text; e
 ## Endpoint
 Every item below is READY with before/after shots (or merged), and a final #2424 list of PRs with their shot links.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - Journal filler years: delete the `for (let year = 18; year < age…)` loop in character-history.ts and the three no-gap assertions in pre-start-adult-history.test.ts (owner: 'Delete both')
 - Legacy feature flags and the paths only they reach
 - News 'Around you', Places leftovers, People web, Contact panel Ask removal (OW-20), Person card leftovers

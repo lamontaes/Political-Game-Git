@@ -13,7 +13,7 @@ Screens show only record data, approved control names and English-engine text; e
 ## Endpoint
 Every item below is READY with before/after shots (or merged), and a final #2424 list of PRs with their shot links.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - #3020 calendar, #3007 people cards
 - #3015 text guard, #3025 two unused files (+ wire or delete housing-conditions.ts, congressional-procedural-claims.ts, rural-transit-operating-cost.ts)
 - #3023 conversation scene + option 2: offer/reason sentences in life-conversation.ts and contextual-scene-producers.ts become trace keys or engine text

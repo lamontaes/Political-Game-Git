@@ -14,4 +14,8 @@ Every law in force in this family changes named people's records in live play: r
 ## Endpoint
 Every law in this family shows 'reaches named people: yes' in a 30-day watch on 2 random places, with per-law counts in a final #2424 table.
 
+## CTO instructions and findings (do these)
+- CTO FINDING: the benefit formulas (public-benefit-formulas.ts, 6 functions) are never called — no benefit money is paid to anyone; SNAP only records participation. Pay benefits monthly to eligible named people from those formulas.
+- CTO FINDING: rent cap has a dead in-file path (cap is infinite) and health coverage eligibility runs only at lease renewal — one path each, run on their real dates.
+
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

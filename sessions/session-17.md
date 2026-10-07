@@ -13,7 +13,8 @@ People die and are born at real rates in live play (a 30-day watch had 0 deaths 
 ## Endpoint
 30-day watch on 2 seeds: deaths and births within ±50% of the real monthly rate for the world's population, with counts posted.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - The CTO adds the investigator's root cause here.
+- CTO HINT: check whether mortality checks are scheduled at all in a watched world (mortalityCheckPlans/Results were never written in 30 days); the clock has a hidden backup handler lookup (future-transitions.ts ~353) — make sure the mortality handler is in the main list and is scheduled.
 
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

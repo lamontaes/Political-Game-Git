@@ -13,7 +13,7 @@ Screens show only record data, approved control names and English-engine text; e
 ## Endpoint
 Every item below is READY with before/after shots (or merged), and a final #2424 list of PRs with their shot links.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - Delete the setup Difficulty step (12 options + sentence) and the setup 'Your life so far' step entirely
 - One uniform setup panel for start → person → place → appearance → begin (OW-3)
 - Setup backdrop from the player's own place (OW-4)

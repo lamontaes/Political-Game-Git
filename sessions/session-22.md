@@ -13,7 +13,7 @@ Screens show only record data, approved control names and English-engine text; e
 ## Endpoint
 Every item below is READY with before/after shots (or merged), and a final #2424 list of PRs with their shot links.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - #2925 MR-19, #2944 MR-19b, #2972 MR-17c (already shot-passed: merge main in, gate, ready)
 - #3012 MR-13b, #3018 MR-14b, #3024 MR-7b, #3017 MR-18, #3002 MR-16 Guide (definitions from terms.json), #3027 shell menus, #2862 BG-18 title hero
 - Remaining MR-* rows in POOL.md

@@ -14,4 +14,9 @@ Every law in force in this family changes named people's records in live play: s
 ## Endpoint
 Every law in this family shows 'reaches named people: yes' in a 30-day watch on 2 random places, with per-law counts in a final #2424 table.
 
+## CTO instructions and findings (do these)
+- CTO FINDING (verified): pay runs only for the controlled person — `applyDateBoundary` calls settleJobPay only when control.kind === 'person' (time-work.ts ~2070; also ordinary-life.ts ~435, job-market.ts ~2319). Nobody else hired through the job market is ever paid, so no tax withholding, minimum wage or pay law can reach them. First PR: one payday writer that pays every active paid job (town pay, job market, local businesses local-economy.ts ~537, pre-start jobs character-history.ts ~1465), then attach the pay laws to it.
+- CTO FINDING: federal laws reach money four ways; FEDERAL_LAW_EFFECTS / settleFederalTreasuryMonth (federal-treasury.ts ~87, ~244) are dead. Keep the per-paycheck path sized by the bill's terms; delete the dead table and the second attribution of the same tax.
+- CTO FINDING: the 2026 federal income tax table is used for every year; index by year from the law in force.
+
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

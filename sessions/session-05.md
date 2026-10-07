@@ -13,7 +13,7 @@ Every open PR numbered #2490–#2568 ends today either merged into main or close
 ## Endpoint
 Zero open PRs left in #2490–#2568 (except #2429 #2452 #2461 #2555 #2631 #2679), and a final #2424 line with counts merged-ready / closed.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - Rescue rules in RULES.md: close superseded / already-on-main / hand-written-text PRs; otherwise merge origin/main into the branch, fix conflicts and failing changed tests, gate, mark ready (gh pr ready) and post READY.
 
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

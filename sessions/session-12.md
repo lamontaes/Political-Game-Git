@@ -14,4 +14,8 @@ Every law in force in this family changes named people's records in live play: s
 ## Endpoint
 Every law in this family shows 'reaches named people: yes' in a 30-day watch on 2 random places, with per-law counts in a final #2424 table.
 
+## CTO instructions and findings (do these)
+- CTO FINDING: teacher pay floor, tuition freeze and similar laws bypass the shared consequence step (enacted-law-effects.ts ~797); 46 of 118 law links in the outcome web do nothing — each link must move a named person's record, not only the number.
+- CTO FINDING: policy follow-through (policy-semantics.ts ~609) and incidents (incidents.ts ~485) have handlers that are never registered and schedulers never called; register and schedule them.
+
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

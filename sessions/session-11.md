@@ -14,4 +14,7 @@ Every law in force in this family changes named people's records in live play: a
 ## Endpoint
 Every law in this family shows 'reaches named people: yes' in a 30-day watch on 2 random places, with per-law counts in a final #2424 table.
 
+## CTO instructions and findings (do these)
+- CTO FINDING: minimum sentences and the juvenile court age are applied around the shared consequence step (enacted-law-effects.ts ~797) instead of through it; route them through it so they land on named defendants.
+
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

@@ -13,7 +13,7 @@ Screens show only record data, approved control names and English-engine text; e
 ## Endpoint
 Every item below is READY with before/after shots (or merged), and a final #2424 list of PRs with their shot links.
 
-## Items / notes
+## CTO instructions and findings (do these)
 - #3014 OW-15 → #3021 OW-14 → #3026 OW-13 (stacked; retarget each to main as the one below lands)
 - #3031 OW-19 setup city hall
 - #3037 OW-18 part 2 employers
