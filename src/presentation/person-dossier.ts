@@ -28,7 +28,6 @@ import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
 import { favorRecords, favorStandingBetween } from "../simulation/favors";
-import { playSettingsOf } from "../simulation/play-settings";
 
 /**
  * What the player makes of somebody, read from the records they can see.
@@ -99,8 +98,9 @@ export interface PersonDossier {
   readonly details: readonly DossierFact[];
   /** Player-known, outstanding reminders about this person. */
   readonly reminders: readonly DossierFact[];
-  readonly notesMode: "full" | "light" | "none";
-  readonly lastInteraction: string;
+  readonly lastInteraction: string | null;
+  /** True when no conversation is on record; the card shows no line then. */
+  readonly neverSpoken?: boolean;
   /**
    * Where the two of them stand, in the player's own words.
    *
@@ -172,7 +172,10 @@ function describeInteraction(
   world: World,
   playerId: EntityId,
   personId: EntityId,
-): string {
+): string | null {
+  // Observation has no player whose acquaintance can be described as "you."
+  // Keep the relationship record intact, but make no player-relative claim.
+  if (world.control.kind === "observer") return null;
   // The player's own card is not somebody the player has or has not spoken to.
   if (personId === playerId) return "This is you.";
   const summary = deriveRelationshipSummary(world, playerId, personId);
@@ -443,9 +446,7 @@ export function projectPersonDossier(
   if (!subject) return null;
   const context = describePersonContext(world, playerId, personId);
   const details = buildDetails(world, playerId, personId);
-  const notesMode = playSettingsOf(world).notes;
-  const reminders =
-    notesMode === "none" ? [] : buildReminders(world, playerId, personId);
+  const reminders = buildReminders(world, playerId, personId);
 
   return {
     personId,
@@ -505,8 +506,13 @@ export function projectPersonDossier(
     rightNow: options.rightNow ?? null,
     details,
     reminders,
-    notesMode,
     lastInteraction: describeInteraction(world, playerId, personId),
+    neverSpoken:
+      personId !== playerId &&
+      world.control.kind !== "observer" &&
+      deriveRelationshipSummary(world, playerId, personId).interactionCount ===
+        0 &&
+      !readRelationshipStanding(world, playerId, personId).absence.sharesHome,
     strain: recentStrain(world, playerId, personId),
     standing:
       personId === playerId

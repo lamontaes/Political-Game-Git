@@ -105,6 +105,32 @@ function world(seed: string, exposures: readonly LawExposureRecord[]) {
 }
 
 describe("Money and property says what new laws did to money", () => {
+  it("preserves a recorded candidacy cost without inventing a monetary sum", () => {
+    const { world: drawn, home } = world("election-law-summary", [
+      exposure(id("person_a"), null, {
+        channel: "election-rule",
+        direction: "cost",
+      }),
+    ]);
+    const electionWorld = {
+      ...drawn,
+      history: {
+        ...drawn.history,
+        legislativeMeasures: drawn.history.legislativeMeasures!.map(
+          (measure) => ({
+            ...measure,
+            shortTitle: "Council Term Limits",
+            designation: "Ordinance 3",
+          }),
+        ),
+      },
+    };
+    const summary = projectMoneyLaws(electionWorld, PLAYER)!;
+    expect(summary.town.map((line) => line.text)).toEqual([
+      `The Council Term Limits (Ordinance 3) prevented 1 person in ${home.name} from seeking another term.`,
+    ]);
+  });
+
   for (const seed of ["money-laws-1", "money-laws-2"]) {
     it(`sums each resident once, leaves out other places, and lists the player's own (seed ${seed})`, () => {
       const { world: drawn, home } = world(seed, [

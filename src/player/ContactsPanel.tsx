@@ -13,6 +13,7 @@ import {
   projectContacts,
 } from "../presentation/people-contacts";
 import type { ContactEntry } from "../presentation/people-contacts";
+import { AfterOfficeEndorsementPanel } from "./AfterOfficeEndorsementPanel";
 import "./contacts.css";
 
 /**
@@ -113,6 +114,11 @@ export function ContactsPanel({
           {note}
         </p>
       ) : null}
+      <AfterOfficeEndorsementPanel
+        world={world}
+        personId={personId}
+        onWorldChange={onWorldChange}
+      />
       {!contactEntry && view.contacts.length === 0 ? (
         <p data-testid="contacts-empty">
           There is nobody you have a way of reaching yet.

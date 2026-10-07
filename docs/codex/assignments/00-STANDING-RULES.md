@@ -18,8 +18,13 @@ If the coordinator, the board or the CTO goes quiet, keep building. When your pa
 
 ## Subagents (owner, Oct 6)
 
-Traits and law batches are subagent work: the coordinator and any session with subagents fan out, one subagent per trait (after the per-trait registry split T9-0) and one per law batch, each one PR.
+Traits and law batches are subagent work: the coordinator and any session with subagents fan out, one subagent per trait (no prerequisite; own file per trait) and one per law batch, each one PR.
 
 ## Luna subagents for everyone (owner, Oct 6 2:13 a.m.)
 
 Every session, not only the coordinator, may launch Luna subagents to work pool items in parallel (per-trait items, law batches, placeholder chunks, bug items): one subagent per item, one PR each, claimed in POOL.md first.
+
+## Pool open to everyone (owner order, Oct 6 8:10 a.m.)
+
+- Every pool item is open to any session. A claim reserves nothing unless that session posted progress on board #2424 in the last 60 minutes; stale claims expire after 60 minutes without board progress. Take the next open item, post "takes <id>" on #2424, work, PR, repeat.
+- Trait items need no T9-0: each trait writes its own file under the trait-reader folder; the first trait PR to merge adds the loader; later ones only add their file.
