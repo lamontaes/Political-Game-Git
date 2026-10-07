@@ -1,7 +1,7 @@
 ---
 id: s15-t9-facet-intimacy-guarded
 impact: minor
-section: Simulation
+section: Improved
 title: Intimacy-guarded people may decline public press responses
 ---
 
