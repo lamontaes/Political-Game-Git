@@ -1,6 +1,6 @@
 # Codex day rules (Oct 7 2026) — every session reads this first
 
-REPORTING (owner, 1:25 p.m.): report in the Google Drive doc "00j CODEX DAY" (id 1ggMaxfWABEaO3MA3RSyELPwKGepkwLdCCrGMBaZK1ps): insert ONE line at the top of its LOG section per check-in, starting "SESSION NN" (READY / CLAIM / BLOCKED / STATUS combined). The CTO reads Drive every check-in and answers there. GitHub is only for branches and PRs (gh pr create / gh pr ready); do NOT post status comments on GitHub issues (the account hits GitHub's posting limits).
+REPORTING (owner, 1:20 p.m.): report in the Google Drive doc "00j CODEX DAY" (id 1ggMaxfWABEaO3MA3RSyELPwKGepkwLdCCrGMBaZK1ps): insert ONE line at the top of its LOG section per check-in, starting "SESSION NN" (READY / CLAIM / BLOCKED / STATUS combined). The CTO reads Drive every check-in and answers there. GitHub is only for branches and PRs (gh pr create / gh pr ready); do NOT post status comments on GitHub issues (the account hits GitHub's posting limits).
 NEVER FINISH: when your list is done, you are NOT done. Take the next open row in docs/codex/assignments/POOL.md (verify it against main first; already done → record it), then the next. Your goal only ends when the owner stops you.
 NAME (owner, 12:24 p.m.): rename your Codex task/thread to exactly "Session NN" (your number only, e.g. "Session 07"), not what you are doing. Do it now.
 
