@@ -42,12 +42,19 @@ function fixtureWorld() {
     currentDate,
     homeJurisdictionId: homeJurisdiction.id,
   });
+  const anotherMember = createLightweightPerson({
+    worldId: createWorldId(seed),
+    worldSeed: seed,
+    index: 1,
+    currentDate,
+    homeJurisdictionId: homeJurisdiction.id,
+  });
   return createWorld({
     seed,
     currentDate,
     policyCatalog: createProductionPolicyCatalog(),
     jurisdictions,
-    people: [person],
+    people: [person, anotherMember],
     control: { kind: "person", personId: person.id },
   });
 }
@@ -132,6 +139,7 @@ describe("automatic legislation producer guards", () => {
     const cooldownInput = {
       jurisdictionId: measure.jurisdictionId,
       propositionId,
+      sponsorPersonId,
       stableKeyPrefix: "legislative-intake/v1:",
     } as const;
     expect(automaticLawQuestionOnCooldown(world, cooldownInput)).toBe(false);
@@ -166,6 +174,14 @@ describe("automatic legislation producer guards", () => {
     if (!terminalAction) throw new Error("Missing terminal vote action.");
     const terminalAt = terminalAction.occurredAt;
     expect(automaticLawQuestionOnCooldown(world, cooldownInput)).toBe(true);
+    expect(
+      automaticLawQuestionOnCooldown(world, {
+        ...cooldownInput,
+        sponsorPersonId: world.personOrder.find(
+          (personId) => personId !== sponsorPersonId,
+        )!,
+      }),
+    ).toBe(false);
     expect(
       automaticLawQuestionOnCooldown(world, {
         ...cooldownInput,
