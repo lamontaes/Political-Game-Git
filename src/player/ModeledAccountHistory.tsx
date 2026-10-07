@@ -96,7 +96,10 @@ export function ModeledAccountHistory({
           {history.graph ? (
             <EconomicGraph graph={history.graph} />
           ) : (
-            <p data-testid="modeled-account-no-transfers">Transfers: none</p>
+            <p
+              data-testid="modeled-account-no-transfers"
+              data-problem="no-transfers"
+            />
           )}
           {history.entries.length > 0 ? (
             <div className="modeled-account-records">

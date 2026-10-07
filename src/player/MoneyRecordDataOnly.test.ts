@@ -25,6 +25,7 @@ describe("Money screens show record data only", () => {
   it("renders account history with recorded amounts and statuses", () => {
     const text = code("src/player/ModeledAccountHistory.tsx");
     expect(text).not.toContain("No money has moved through this account yet.");
+    expect(text).not.toContain("Transfers: none");
     expect(text).not.toContain("nothing moved (");
     expect(text).not.toContain("attempted (");
   });
