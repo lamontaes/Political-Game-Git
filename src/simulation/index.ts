@@ -1,6 +1,8 @@
 export * from "./dates";
+export * from "./after-office-endorsements";
 export * from "./canonical-json";
 export * from "./character-history";
+export * from "./faith-record";
 export * from "./causal-effects";
 export * from "./candidacy-packs";
 export * from "./candidacy";
@@ -49,6 +51,17 @@ export type {
   ScheduleCampaignActionInput,
   ScheduledCampaignActionResult,
 } from "./campaigns";
+export {
+  addCampaignHelper,
+  askToHelp,
+  campaignHasHelper,
+  campaignHelperCandidates,
+} from "./campaign-helpers";
+export type {
+  AddCampaignHelperInput,
+  AskToHelpResult,
+  CampaignHelperRole,
+} from "./campaign-helpers";
 export {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
@@ -345,3 +358,6 @@ export * from "./crisis/handling-reactions";
 export * from "./nationwide-world/presidential-turnover";
 export * from "./living-world/federal-reform";
 export * from "./federal-tenures";
+
+export * from "./campaign-managers";
+export * from "./campaign-donors";

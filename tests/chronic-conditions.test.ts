@@ -177,7 +177,12 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
         for (const episode of episodes) {
           expect(episode.effectiveAt).toBe(open.currentDate);
           expect(episode.origin.kind).toBe("condition-pack");
-          expect(episode.hazardMultiplierMicros).toBeGreaterThan(1_000_000);
+          // Every condition weighs on mortality except the substance use row,
+          // whose recorded weight is neutral until its deaths have a producer.
+          if (episode.conditionKey === "substance-use-disorder")
+            expect(episode.hazardMultiplierMicros).toBe(1_000_000);
+          else
+            expect(episode.hazardMultiplierMicros).toBeGreaterThan(1_000_000);
         }
         if (
           episodes.some((episode) => episode.conditionKey === "heart-disease")
@@ -194,8 +199,10 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
       // Identical worlds write identical records; a second window adds none.
       const again = exposed(world);
       expect(crisisRecords(again).length).toBe(crisisRecords(open).length);
-      const holder = ids.find(
-        (personId) => conditionEpisodes(open, personId).length > 0,
+      const holder = ids.find((personId) =>
+        conditionEpisodes(open, personId).some(
+          (episode) => episode.conditionKey !== "substance-use-disorder",
+        ),
       )!;
       const nextWindow = open.history.futureDueItems.find(
         (item) =>

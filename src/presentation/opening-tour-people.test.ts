@@ -65,9 +65,10 @@ it("the family reuses an admitted regional plate and keeps missing coverage neut
       alternatives: [],
     },
   };
-  expect(orientationBackdrop("parents", sources)).toEqual(
-    orientationBackdrop("state", sources),
-  );
+  expect(orientationBackdrop("parents", sources)).toEqual({
+    kind: "region",
+    plate: sources.regionalPlate,
+  });
   expect(
     orientationBackdrop("parents", { ...sources, regionalPlate: null }),
   ).toEqual({ kind: "neutral" });

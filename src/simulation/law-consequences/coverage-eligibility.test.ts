@@ -20,6 +20,7 @@ import {
   recordEnactment,
   measurePosition,
 } from "../legislation";
+import { recordFiledProvision } from "../legislative-politics";
 import type { World } from "../types";
 import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
@@ -303,6 +304,28 @@ function enactCoverageRule(
     const measure = world.history.legislativeMeasures?.at(-1);
     if (!measure)
       throw new Error("Canonical introduction did not write a measure.");
+    world = recordFiledProvision(world, {
+      stableKey: tag + ":income-limit",
+      measureId: measure.id,
+      provisionKey: "coverage-income-limit",
+      sectionNumber: 1,
+      heading: "Adult coverage income limit",
+      text: "Controlled fixture term for the enacted-authority test.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "adult Medicaid eligibility",
+      },
+      applicationScope: { jurisdictionId: state.id, segmentKey: null },
+      lawTerms: [
+        {
+          questionKey,
+          key: "income-limit",
+          value: 138,
+          unit: "share-of-federal-poverty-level",
+          scope: { kind: "statewide" },
+        },
+      ],
+    });
     for (const chamber of pack.chambers) {
       const seats = authoredScenarioSeatCount(pack, chamber.chamberKey);
       const body = seatBodyForPack(

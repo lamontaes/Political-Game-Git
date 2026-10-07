@@ -33,7 +33,6 @@ export function ObserverClock({
 
   return (
     <div className="pg-observer-clock" data-testid="observer-clock">
-      <span data-testid="observer-date">{proseDate(view.date)}</span>
       <button
         type="button"
         className="ui-action"
@@ -341,7 +340,6 @@ export function ObserverRecordWorkspace({
         ) : null}
         {record.electionSummaries.length > 0 ? (
           <div data-testid="world-record-election-summaries">
-            {/* PLACEHOLDER(overnight): Claude/CC1 must review these new record labels before publication. */}
             <h4>Legislative results on record</h4>
             <ul>
               {visibleSummaries.map((summary) => (
