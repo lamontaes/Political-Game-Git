@@ -1,7 +1,7 @@
 ---
 id: session-27-trait-effects
-impact: none
-section: Changed
+impact: patch
+section: Fixed
 title: Load thrill-seeking trait effect
 ---
 
