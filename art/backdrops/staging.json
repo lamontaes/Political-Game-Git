@@ -7523,9 +7523,163 @@
           "depth": 69.5,
           "role": "general",
           "id": "park:spot:6"
+        },
+        {
+          "x": 35,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 58.5,
+          "group": "picnic-west",
+          "role": "audience",
+          "id": "park:spot:7"
+        },
+        {
+          "x": 46,
+          "y": 60,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 60,
+          "seatY": 56.5,
+          "group": "picnic-west",
+          "role": "audience",
+          "id": "park:spot:8"
+        },
+        {
+          "x": 51,
+          "y": 63,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 63,
+          "seatY": 59.5,
+          "group": "picnic-center-west",
+          "role": "audience",
+          "id": "park:spot:9"
+        },
+        {
+          "x": 57,
+          "y": 65,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 65,
+          "seatY": 61.5,
+          "group": "picnic-center-west",
+          "role": "audience",
+          "id": "park:spot:10"
+        },
+        {
+          "x": 69,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 60.5,
+          "group": "picnic-center-east",
+          "role": "audience",
+          "id": "park:spot:11"
+        },
+        {
+          "x": 74,
+          "y": 66.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 66.5,
+          "seatY": 63,
+          "group": "picnic-center-east",
+          "role": "audience",
+          "id": "park:spot:12"
+        },
+        {
+          "x": 82,
+          "y": 68,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 68,
+          "seatY": 64.5,
+          "group": "picnic-east",
+          "role": "audience",
+          "id": "park:spot:13"
+        },
+        {
+          "x": 90,
+          "y": 71.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 71.5,
+          "seatY": 68,
+          "group": "picnic-east",
+          "role": "audience",
+          "id": "park:spot:14"
+        },
+        {
+          "x": 43,
+          "y": 70,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 70,
+          "seatY": 66.5,
+          "group": "picnic-front-west",
+          "role": "audience",
+          "id": "park:spot:15"
+        },
+        {
+          "x": 51,
+          "y": 72,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 72,
+          "seatY": 68.5,
+          "group": "picnic-front-west",
+          "role": "audience",
+          "id": "park:spot:16"
+        },
+        {
+          "x": 61,
+          "y": 73,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 73,
+          "seatY": 69.5,
+          "group": "picnic-front-center",
+          "role": "audience",
+          "id": "park:spot:17"
+        },
+        {
+          "x": 69,
+          "y": 74,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 74,
+          "seatY": 70.5,
+          "group": "picnic-front-center",
+          "role": "audience",
+          "id": "park:spot:18"
+        },
+        {
+          "x": 80,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 72.5,
+          "group": "picnic-front-east",
+          "role": "audience",
+          "id": "park:spot:19"
+        },
+        {
+          "x": 90,
+          "y": 78,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 78,
+          "seatY": 74.5,
+          "group": "picnic-front-east",
+          "role": "audience",
+          "id": "park:spot:20"
         }
       ],
-      "measuredFrom": "horizon from the two trash cans (near foot 75.3 top 63.9; far foot 63.2 top 56.5) and the far treeline base; trash can 0.9 m -> 0.43 both; picnic table top 0.75 m foot 59 top 54.2 -> 0.49",
+      "measuredFrom": "horizon from the two trash cans (near foot 75.3 top 63.9; far foot 63.2 top 56.5) and the far treeline base; trash can 0.9 m -> 0.43 both; picnic table top 0.75 m foot 59 top 54.2 -> 0.49; fourteen visual-estimate additional bench contacts sampled from park__midday.jpg using the existing 3.5-point foot-to-seat offset; away-facing positions await matching rear-view art",
       "surfaceSlots": [
         {
           "surfaceId": "park-notice-board",

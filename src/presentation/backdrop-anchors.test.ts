@@ -326,6 +326,26 @@ describe("people anchors on every place picture", () => {
     }
   });
 
+  it("anchors the park picnic-table benches", () => {
+    const seats = STAGES["park"]!.spots.filter((spot) => spot.pose === "sit");
+    const picnic = seats.filter((spot) => spot.group?.startsWith("picnic-"));
+    expect(seats).toHaveLength(16);
+    expect(picnic).toHaveLength(14);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(16);
+    expect(picnic.filter((spot) => spot.facing === "away")).toHaveLength(7);
+    for (const group of [
+      "picnic-west",
+      "picnic-center-west",
+      "picnic-center-east",
+      "picnic-east",
+      "picnic-front-west",
+      "picnic-front-center",
+      "picnic-front-east",
+    ]) {
+      expect(picnic.filter((spot) => spot.group === group)).toHaveLength(2);
+    }
+  });
+
   it.each(PLACES)(
     "%s: every spot is on a floor inside the picture",
     (place) => {
