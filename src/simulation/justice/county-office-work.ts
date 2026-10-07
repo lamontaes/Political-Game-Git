@@ -72,7 +72,10 @@ function jailPopulationOn(
   date: IsoDate,
 ): number {
   const held = new Set<EntityId>();
-  for (const type of [PRETRIAL_HELD_EVENT, PROSECUTION_SENTENCED_EVENT])
+  for (const type of [
+    PRETRIAL_HELD_EVENT,
+    PROSECUTION_SENTENCED_EVENT,
+  ] as const)
     for (const event of eventsOfType(world, type)) {
       if (event.occurredAt > date || !inCounty(event, unit)) continue;
       const personId = sentencedPersonOf(event);
@@ -102,17 +105,18 @@ export function countyOfficeWork(
   const arrests = eventsOfType(world, CRIME_EVENT_TYPES.arrest).filter(
     (event) => inWindow(event, from, to) && inCounty(event, unit),
   );
-  const bookings = [PRETRIAL_HELD_EVENT, PROSECUTION_SENTENCED_EVENT].flatMap(
-    (type) =>
-      eventsOfType(world, type).filter(
-        (event) =>
-          inWindow(event, from, to) &&
-          inCounty(event, unit) &&
-          (type === PRETRIAL_HELD_EVENT ||
-            event.tags.includes("justice.sentence:jail")),
-      ),
+  const bookings = (
+    [PRETRIAL_HELD_EVENT, PROSECUTION_SENTENCED_EVENT] as const
+  ).flatMap((type) =>
+    eventsOfType(world, type).filter(
+      (event) =>
+        inWindow(event, from, to) &&
+        inCounty(event, unit) &&
+        (type === PRETRIAL_HELD_EVENT ||
+          event.tags.includes("justice.sentence:jail")),
+    ),
   );
-  const decisions = (type: string) =>
+  const decisions = (type: HistoricalEvent["type"]) =>
     eventsOfType(world, type).filter(
       (event) =>
         inWindow(event, from, to) &&
