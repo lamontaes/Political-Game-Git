@@ -1,0 +1,325 @@
+[
+  {
+    "artifactId": "abortion-source-01",
+    "requestedUrl": "https://app.leg.wa.gov/RCW/default.aspx?cite=9.02.110",
+    "retrievedAt": "2026-10-02T23:17:22.138457+00:00",
+    "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=9.02.110",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 111783,
+    "sha256": "305d7977de60d1666019edd8a6bf41fb587645ef601c55ed970b7827d6ac0087",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-01.html"
+  },
+  {
+    "artifactId": "abortion-source-02",
+    "requestedUrl": "https://asbar.org/code-annotated/46-3903-authorized-abortions/",
+    "retrievedAt": "2026-10-02T23:17:22.139605+00:00",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "artifactId": "abortion-source-03",
+    "requestedUrl": "https://cnmilaw.org/cons.php",
+    "retrievedAt": "2026-10-02T23:17:22.140632+00:00",
+    "url": "https://cnmilaw.gov/constitution",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 159264,
+    "sha256": "b1e2f8e9c0656d7193525496dc72902d4b9c7ea0bdc9aeb523418cfa93139321",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-03.html"
+  },
+  {
+    "artifactId": "abortion-source-04",
+    "requestedUrl": "https://code.wvlegislature.gov/16-2R-3/",
+    "retrievedAt": "2026-10-02T23:17:22.141146+00:00",
+    "url": "https://code.wvlegislature.gov/16-2R-3/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 53090,
+    "sha256": "cbbe75401f930de50efbfdbbbd3046f0335e2faaf6671efd861710a507031ff9",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-04.html"
+  },
+  {
+    "artifactId": "abortion-source-05",
+    "requestedUrl": "https://codes.ohio.gov/ohio-revised-code/section-2919.201",
+    "retrievedAt": "2026-10-02T23:17:22.458081+00:00",
+    "url": "https://codes.ohio.gov/ohio-revised-code/section-2919.201",
+    "httpStatus": 200,
+    "mediaType": "text/html;charset=UTF-8",
+    "responseBytes": 21435,
+    "sha256": "e235f50f28bd9d7ab340d266cf8916ea7ae747bbafad4accbab087abcd5b4616",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-05.html"
+  },
+  {
+    "artifactId": "abortion-source-06",
+    "requestedUrl": "https://col.guamcourts.gov/sites/default/files/9gc031.pdf",
+    "retrievedAt": "2026-10-02T23:17:22.731756+00:00",
+    "error": "HTTP Error 502: Bad Gateway"
+  },
+  {
+    "artifactId": "abortion-source-07",
+    "requestedUrl": "https://delcode.delaware.gov/title24/c017/sc09/index.html",
+    "retrievedAt": "2026-10-02T23:17:22.767106+00:00",
+    "url": "https://delcode.delaware.gov/title24/c017/sc09/index.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 16311,
+    "sha256": "b7f34725e86202b96820f8b93cf05b7673a8dff40e43705b2d4403b548e80938",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-07.html"
+  },
+  {
+    "artifactId": "abortion-source-08",
+    "requestedUrl": "https://docs.legis.wisconsin.gov/statutes/statutes/253/107",
+    "retrievedAt": "2026-10-02T23:17:23.336546+00:00",
+    "url": "https://docs.legis.wisconsin.gov/statutes/statutes/253/107",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 83993,
+    "sha256": "22856efe5b3bfa0d4dfcc0d09d86b79a99c936bb8ecffd775619eb98d4553cfe",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-08.html"
+  },
+  {
+    "artifactId": "abortion-source-09",
+    "requestedUrl": "https://en.wikipedia.org/wiki/Abortion_in_the_United_States_Virgin_Islands",
+    "retrievedAt": "2026-10-02T23:17:23.524863+00:00",
+    "url": "https://en.wikipedia.org/wiki/Abortion_in_the_United_States_Virgin_Islands",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 112422,
+    "sha256": "eba2033259eab8514755f205d0ca4a31fe918e2731ac0edaecc9c65f939727a3",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-09.html"
+  },
+  {
+    "artifactId": "abortion-source-10",
+    "requestedUrl": "https://law.lis.virginia.gov/vacode/title18.2/chapter4/section18.2-74/",
+    "retrievedAt": "2026-10-02T23:17:23.778607+00:00",
+    "url": "https://law.lis.virginia.gov/vacode/title18.2/chapter4/section18.2-74/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 31056,
+    "sha256": "807766175f93273554da9bc7a45ca14eb5e8847d145c262da7638dcfc4ad2c28",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-10.html"
+  },
+  {
+    "artifactId": "abortion-source-11",
+    "requestedUrl": "https://leg.mt.gov/bills/mca/title_0500/chapter_0200/part_0010/section_0090/0500-0200-0010-0090.html",
+    "retrievedAt": "2026-10-02T23:17:23.966540+00:00",
+    "url": "https://mca.legmt.gov/bills/mca/title_0500/chapter_0200/part_0010/section_0090/0500-0200-0010-0090.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 11438,
+    "sha256": "98d365b9014b1e5b437af6099d33797f08c28b358f1fb06bc48342d52260c46c",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-11.html"
+  },
+  {
+    "artifactId": "abortion-source-12",
+    "requestedUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=HSC&sectionNum=123466",
+    "retrievedAt": "2026-10-02T23:17:23.995686+00:00",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=HSC&sectionNum=123466",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 163930,
+    "sha256": "8a6c16a270c7373212a75670653e9e4894e266822b7304ab9eb47789eefc3d53",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-12.html"
+  },
+  {
+    "artifactId": "abortion-source-13",
+    "requestedUrl": "https://legislature.idaho.gov/statutesrules/idstat/Title18/T18CH6/SECT18-622/",
+    "retrievedAt": "2026-10-02T23:17:24.252527+00:00",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title18/T18CH6/SECT18-622/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 96066,
+    "sha256": "157a88c45a7a99333ccebdc636b2ec223c89de56e3b98ef227d155e885bb59d5",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-13.html"
+  },
+  {
+    "artifactId": "abortion-source-14",
+    "requestedUrl": "https://legislature.maine.gov/statutes/22/title22sec1598.html",
+    "retrievedAt": "2026-10-02T23:17:24.721281+00:00",
+    "url": "https://legislature.maine.gov/statutes/22/title22sec1598.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 15807,
+    "sha256": "42f85f47d94e9edc51751d4e12b4ec70beac4bc6384f83ae5486c85a6f0a37e5",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-14.html"
+  },
+  {
+    "artifactId": "abortion-source-15",
+    "requestedUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter112/Section12M",
+    "retrievedAt": "2026-10-02T23:17:25.003397+00:00",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter112/Section12M",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 73462,
+    "sha256": "600f51b0590602a68ce3d0c2c3a5196ce5a09ff9eac2d1773f6ca1fbe2a2bb31",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-15.html"
+  },
+  {
+    "artifactId": "abortion-source-16",
+    "requestedUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=71-6915",
+    "retrievedAt": "2026-10-02T23:17:25.004704+00:00",
+    "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=71-6915",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 23085,
+    "sha256": "48b875c2a39a7e33500b29be724b5f154a301a30dbfcc59492a1fcbe11f7d7ac",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-16.html"
+  },
+  {
+    "artifactId": "abortion-source-17",
+    "requestedUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=188.030",
+    "retrievedAt": "2026-10-02T23:17:25.389825+00:00",
+    "url": "https://revisor.mo.gov/main/OneSection.aspx?section=188.030",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 42233,
+    "sha256": "5d13d01770bad225c540b0d9a95f8eeccd51616c32082d836ed9b881acf03c30",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-17.html"
+  },
+  {
+    "artifactId": "abortion-source-18",
+    "requestedUrl": "https://sdlegislature.gov/api/Statutes/22-17-5.1.html",
+    "retrievedAt": "2026-10-02T23:17:25.394552+00:00",
+    "url": "https://sdlegislature.gov/api/Statutes/22-17-5.1.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 4890,
+    "sha256": "0089ab073356e86b71878110576f9d498afb8dd82f14bac4671775832232d92f",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-18.html"
+  },
+  {
+    "artifactId": "abortion-source-19",
+    "requestedUrl": "https://webserver.rilegislature.gov/Statutes/TITLE23/23-4.13/23-4.13-2.htm",
+    "retrievedAt": "2026-10-02T23:17:25.550134+00:00",
+    "url": "https://webserver.rilegislature.gov/Statutes/TITLE23/23-4.13/23-4.13-2.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 8995,
+    "sha256": "d9b18739950679407b8d0c904a3da41bba150eba7c0cf6efbf8bc6d164ddb0dd",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-19.html"
+  },
+  {
+    "artifactId": "abortion-source-20",
+    "requestedUrl": "https://www.azleg.gov/ars/36/02301-01.htm",
+    "retrievedAt": "2026-10-02T23:17:25.743126+00:00",
+    "url": "https://www.azleg.gov/ars/36/02301-01.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 3166,
+    "sha256": "05d608da35800bec37a7385a12577673e99894b1e09e91cb781addd06f802233",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-20.html"
+  },
+  {
+    "artifactId": "abortion-source-21",
+    "requestedUrl": "https://www.gencourt.state.nh.us/rsa/html/XXX/329/329-44.htm",
+    "retrievedAt": "2026-10-02T23:17:25.784275+00:00",
+    "url": "https://gc.nh.gov/rsa/html/XXX/329/329-44.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 2950,
+    "sha256": "0ea89dbbc54c3720a3b10200afbe6657c350b388418a9be4a3dc4bcf89989a72",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-21.html"
+  },
+  {
+    "artifactId": "abortion-source-22",
+    "requestedUrl": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+    "retrievedAt": "2026-10-02T23:17:25.933285+00:00",
+    "url": "https://www.guttmacher.org/state-policy/explore/state-policies-abortion-bans",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 79143,
+    "sha256": "0a0d5d48ef2c817b20ab4ef9623cd3a528d2edda9687f7aa6ba351979c3d87ea",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-22.html"
+  },
+  {
+    "artifactId": "abortion-source-23",
+    "requestedUrl": "https://www.ksrevisor.gov/statutes/chapters/ch65/065_067_0024.html",
+    "retrievedAt": "2026-10-02T23:17:26.016194+00:00",
+    "url": "https://www.ksrevisor.gov/statutes/chapters/ch65/065_067_0024.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 22507,
+    "sha256": "fe2ec92a216a441ccb1b47a0eafa582c75c4a5b5e365b92bc55b3b362f399689",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-23.html"
+  },
+  {
+    "artifactId": "abortion-source-24",
+    "requestedUrl": "https://www.leg.state.nv.us/NRS/NRS-442.html",
+    "retrievedAt": "2026-10-02T23:17:26.123485+00:00",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-442.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 233634,
+    "sha256": "0af0b20d9c3ac9bd88572b847927520189354ae63573c261f5cf3ea2afd36657",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-24.html"
+  },
+  {
+    "artifactId": "abortion-source-25",
+    "requestedUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_90/GS_90-21.81B.html",
+    "retrievedAt": "2026-10-02T23:17:26.323890+00:00",
+    "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_90/GS_90-21.81B.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 2579,
+    "sha256": "803cc96689ee3c2b41fec515e479ed140099229c359f2e642ec800f40b2093fb",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-25.html"
+  },
+  {
+    "artifactId": "abortion-source-26",
+    "requestedUrl": "https://www.scstatehouse.gov/code/t44c041.php",
+    "retrievedAt": "2026-10-02T23:17:26.492368+00:00",
+    "url": "https://www.scstatehouse.gov/code/t44c041.php",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 118670,
+    "sha256": "c07fb877806985a86dec10bcb6e80056d8f63ecaf139e2f2f8d26525e8827ab6",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/abortion-source-26.html"
+  },
+  {
+    "artifactId": "abortion-source-27",
+    "requestedUrl": "https://www.guamcourts.org/CompilerofLaws/GCA/09gca/9gc031.PDF",
+    "retrievedAt": "2026-10-02T23:21:41.957191+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "artifactId": "nh-definitions",
+    "requestedUrl": "https://gc.nh.gov/rsa/html/XXX/329/329-43.htm",
+    "retrievedAt": "2026-10-02T23:45:19.922345+00:00",
+    "url": "https://gc.nh.gov/rsa/html/XXX/329/329-43.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 3406,
+    "sha256": "ef9ae24f9c840dda842d02dac78f800639f6e600f2bf0e5c607151591c24d12f",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/nh-definitions.html"
+  },
+  {
+    "artifactId": "nh-2022-chapter86",
+    "requestedUrl": "https://gc.nh.gov/legislation/2022/HB1609.html",
+    "retrievedAt": "2026-10-02T23:45:20.373569+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "nh-2022-chapter119",
+    "requestedUrl": "https://gc.nh.gov/legislation/2022/HB1080.html",
+    "retrievedAt": "2026-10-02T23:45:20.541422+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "nh-hb1609",
+    "requestedUrl": "https://gc.nh.gov/bill_status/legacy/bs2016/billText.aspx?sy=2022&id=1222&txtFormat=html",
+    "retrievedAt": "2026-10-02T23:45:58.786266+00:00",
+    "error": "The read operation timed out"
+  },
+  {
+    "artifactId": "nh-hb1609-bill",
+    "requestedUrl": "https://gc.nh.gov/bills/2022/HB1609.html",
+    "retrievedAt": "2026-10-02T23:46:18.879263+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "nh-hb1080-bill",
+    "requestedUrl": "https://gc.nh.gov/bills/2022/HB1080.html",
+    "retrievedAt": "2026-10-02T23:46:19.044294+00:00",
+    "error": "HTTP Error 404: Not Found"
+  }
+]
