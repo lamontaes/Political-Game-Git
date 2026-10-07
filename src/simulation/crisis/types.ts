@@ -119,6 +119,22 @@ export interface HealthCoverageRecord
   readonly basis: string;
 }
 
+/** A household's SNAP enrollment decision for one dated participation review. */
+export interface SnapParticipationRecord extends CrisisRecordBase {
+  readonly kind: "snap-participation";
+  readonly householdId: EntityId;
+  readonly enrolled: boolean;
+  /** USD cents from the published state average, explicitly estimated. */
+  readonly monthlyBenefitMinor: number | null;
+  readonly benefitBasis: "ESTIMATED FROM STATE AVERAGE" | null;
+  readonly benefitSource: string | null;
+  /** Actual law or outcome cause identity retained even for a zero change. */
+  readonly causeId: EntityId;
+  readonly householdSize: number;
+  readonly monthlyWorkHours: number | null;
+  readonly incomeToThreshold: number | null;
+}
+
 export interface HealthStateRecord extends CrisisRecordBase {
   readonly kind: "health-state";
   readonly episodeId: EntityId;
@@ -348,6 +364,7 @@ export type CrisisRecord =
   | HealthStateRecord
   | HealthDisclosureRecord
   | HealthCoverageRecord
+  | SnapParticipationRecord
   | OfficialContinuityRecord;
 
 export type CrisisRecordKind = CrisisRecord["kind"];

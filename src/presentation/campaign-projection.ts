@@ -1111,8 +1111,11 @@ function latestReading(
 export function countyCandidacyUnavailableReason(
   officeKey: string,
 ): string | null {
-  return localGoverningBodyIdentityForOfficeKey(officeKey)?.unit.unitType ===
-    "county"
+  const office = localGoverningBodyIdentityForOfficeKey(officeKey);
+  // A county's executive and its row offices carry the disclosed age estimate
+  // and county residence, so they are not refused; a county board seat stays
+  // unavailable until its own requirements are read.
+  return office?.unit.unitType === "county" && office.seat === "governing-body"
     ? "The requirements for this county office have not been established."
     : null;
 }
@@ -1239,8 +1242,9 @@ export function fileForOffice(
     // want a seat in, rather than the game's own description of the seat. A
     // mayor sits in no body, so the committee is named for the office.
     committeeName:
-      localGoverningBodyIdentityForOfficeKey(option.officeKey)?.seat ===
-      "chief-executive"
+      localGoverningBodyIdentityForOfficeKey(option.officeKey)?.seat !==
+        "governing-body" &&
+      localGoverningBodyIdentityForOfficeKey(option.officeKey) !== null
         ? `${person.familyName} for ${option.office.title}`
         : `${person.familyName} for the ${option.chamberName}`,
     donorPoolName: "People who might give",

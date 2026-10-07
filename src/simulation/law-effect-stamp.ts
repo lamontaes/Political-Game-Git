@@ -1,8 +1,8 @@
 import { makeIsoDate } from "./dates";
+import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import type { LawInForce } from "./governing/law-in-force";
 import type {
-  LawConsequenceKind,
-  LegacyEffectKind,
+  LawEffectKind,
   LawTermApplicability,
   LawTermScope,
   LawTermResolutionProvenance,
@@ -10,6 +10,7 @@ import type {
 } from "./law-consequence-types";
 import {
   LAW_AMOUNT_UNITS,
+  LAW_EFFECT_KINDS,
   comparableAmountApplicabilityKey,
   lawTermScopeKey,
 } from "./law-consequence-types";
@@ -22,7 +23,7 @@ export interface LawEffectStamp {
   readonly governingLawKey: EntityId;
   readonly source: LawInForce["origin"] | "standing-appropriation";
   readonly standingAuthority?: StandingProgramAuthority;
-  readonly effectKind: string;
+  readonly effectKind: LawEffectKind;
   readonly questionKey: string | null;
   /** Present only for a real enacted rule with no policy question. */
   readonly ruleAuthority?: {
@@ -41,7 +42,7 @@ export interface LawEffectStamp {
 }
 
 export interface LawEffectContext {
-  readonly effectKind: LawConsequenceKind | LegacyEffectKind;
+  readonly effectKind: LawEffectKind;
   readonly questionKey: string | null;
   /** Present only for a real enacted rule with no policy question. */
   readonly ruleAuthority?: {
@@ -123,7 +124,7 @@ export function isLawEffectStamp(value: unknown): value is LawEffectStamp {
     (row.source !== "enacted" &&
       row.source !== "in-force-at-start" &&
       row.source !== "standing-appropriation") ||
-    !nonempty(row.effectKind) ||
+    !LAW_EFFECT_KINDS.includes(row.effectKind as LawEffectKind) ||
     !validSubject(row) ||
     !nonempty(row.jurisdictionId) ||
     !validDate(row.operativeAt) ||
@@ -328,7 +329,11 @@ function validSubject(row: Record<string, unknown>): boolean {
       validDate(row.appliedAt) &&
       row.appliedAt <= ref.availableThrough &&
       !!basis &&
-      basis.kind === "sourced" &&
+      // A county's line rests on its board's vote, written as that budget's
+      // own note; a standing program's basis is a cited source.
+      (basis.kind === "sourced" ||
+        (typeof ref.programKey === "string" &&
+          isCountyServiceProgram(ref.programKey))) &&
       nonempty(basis.note) &&
       Array.isArray(row.sourceRecordIds) &&
       row.sourceRecordIds.includes(ref.appropriationId)

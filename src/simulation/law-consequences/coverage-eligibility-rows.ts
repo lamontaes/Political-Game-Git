@@ -49,3 +49,18 @@ export const COVERAGE_ELIGIBILITY_ROWS: Readonly<
     } satisfies LawConsequenceRow,
   ]),
 );
+
+/** The same recorded eligibility is applied as soon as a new law takes effect. */
+export const COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS: Readonly<
+  Record<string, LawConsequenceRow>
+> = Object.fromEntries(
+  Object.entries(COVERAGE_ELIGIBILITY_ROWS).map(([questionKey, row]) => [
+    questionKey,
+    {
+      ...row,
+      id: `${row.id}:effective`,
+      when: "effective",
+      lag: { days: 0, sourceIds: [] },
+    } satisfies LawConsequenceRow,
+  ]),
+);

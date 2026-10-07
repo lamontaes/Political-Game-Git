@@ -92,7 +92,8 @@ import { PlaceConditionsPanel } from "./PlaceConditions";
 import { MoneyLawsPanel } from "./MoneyLaws";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
-import { projectBudgetEconomy } from "../presentation/budget-economy";
+import { economyVisibilityFor } from "../presentation/economy-visibility";
+import { playerOfficeScope } from "../simulation/governing/office-consequence";
 import { resolveActiveMemberSeat } from "../presentation/legislative-member-seat";
 import {
   ISSUE_WITHHELD,
@@ -116,7 +117,6 @@ import { LifePathsPanel } from "./LifePathsPanel";
 /* PEOPLE/PRESS seam mounts (CRUNCH47 B1/B2). */
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { ContactsPanel } from "./ContactsPanel";
-import { ContactDialog } from "./ContactDialog";
 import { PressSourceDesk } from "./PressSourceDesk";
 import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
@@ -319,6 +319,7 @@ import {
   leavePartyChapter,
 } from "../simulation";
 import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
+import { tagRuntimeWorld } from "../presentation/runtime-text-origin";
 import { attendChapterMeeting } from "../presentation/party-chapter-actions";
 import { FullDossier, QuickDossier } from "./ShellDossier";
 import type { PersonCardAnchor } from "./PersonCard";
@@ -1409,6 +1410,10 @@ function PlayingScreen({
     () => resolvePlayerCapabilities(session.world),
     [session.world],
   );
+  // Only a running text audit listens; in play this does nothing.
+  useEffect(() => {
+    tagRuntimeWorld(session.world);
+  }, [session.world]);
   /*
    * Every writer below computes from `session.world` as rendered, so that is
    * the base each change is committed against.
@@ -1999,15 +2004,8 @@ function PlayingScreen({
    * could not tell anybody whether what they were hunting for was behind it.
    * The hint is now built from what the Work surface will actually mount.
    */
-  const holdsOffice =
-    !capabilities.formativeYears &&
-    (judicialOfficeContexts(session.world).length > 0 ||
-      resolveExecutiveOffice(session.world) !== null ||
-      // A governorship is a held office recorded against the office itself,
-      // not an executive employment relationship, so it has to be asked for
-      // by name or the menu sends an officeholder to Campaigns.
-      governingOfficeForPerson(session.world, session.personId) !== null ||
-      capabilities.legislation);
+  const officeScope = playerOfficeScope(session.world, session.personId);
+  const holdsOffice = !capabilities.formativeYears && officeScope.length > 0;
   const workHint = capabilities.formativeYears
     ? "School, and anything waiting on you"
     : [
@@ -2377,22 +2375,6 @@ function PlayingScreen({
     [session.world, session.personId, dispatch, readOnly],
   );
 
-  /*
-   * Contact on a person card opens its own screen over whatever is open, for
-   * that one person, and closing it leaves everything as it was. Presentation
-   * only: not saved, and opening it changes nothing in the world.
-   */
-  const [contactPersonId, setContactPersonId] = useState<EntityId | null>(null);
-  const openContact = useCallback(
-    (personId: EntityId) => {
-      if (!readOnly) setContactPersonId(personId);
-    },
-    [readOnly],
-  );
-  useEffect(() => {
-    if (readOnly) setContactPersonId(null);
-  }, [readOnly]);
-
   /* A conversation cannot go on once nobody is played. */
   useEffect(() => {
     if (readOnly) dispatch({ type: "end-conversation" });
@@ -2528,7 +2510,6 @@ function PlayingScreen({
     openEntity,
     dossierFor,
     talkTo,
-    openContact,
     presentPersonIds,
     openTheBill,
     goToTheFloor,
@@ -2774,11 +2755,6 @@ function PlayingScreen({
                   ? {}
                   : { onTalk: () => talkTo(selectedDossier.personId) })}
                 onMeet={() => dispatch({ type: "go-to-scene" })}
-                {...(readOnly
-                  ? {}
-                  : {
-                      onContact: () => openContact(selectedDossier.personId),
-                    })}
                 onTravel={() => {
                   if (readOnly) return;
                   const next = travelTowardsPerson(
@@ -2806,17 +2782,6 @@ function PlayingScreen({
                       ? inspectTalkEntry.reason
                       : null
                 }
-              />
-            ) : null}
-
-            {contactPersonId !== null && !readOnly ? (
-              <ContactDialog
-                key={contactPersonId}
-                world={session.world}
-                playerPersonId={session.personId}
-                personId={contactPersonId}
-                onWorldChange={onWorldChange}
-                onClose={() => setContactPersonId(null)}
               />
             ) : null}
 
@@ -3137,7 +3102,6 @@ function renderWorkspace({
   openEntity,
   dossierFor,
   talkTo,
-  openContact,
   presentPersonIds,
   openTheBill,
   goToTheFloor,
@@ -3165,7 +3129,6 @@ function renderWorkspace({
     subject?: ConversationSubjectKey,
   ) => void;
   /** Contact on a person: its own screen over whatever is open. */
-  readonly openContact: (personId: EntityId) => void;
   /** Who the current scene puts in the room with the player. */
   readonly presentPersonIds: readonly EntityId[];
   readonly openTheBill: () => void;
@@ -3390,10 +3353,24 @@ function renderWorkspace({
         scope: shell.preferences.governmentScope,
       },
     );
+    const homeBudgetPlace = issuesPlaceForSelection(
+      session.world,
+      session.personId,
+      {
+        place: "home",
+        scope: "local",
+      },
+    );
+    const economyVisibility = economyVisibilityFor(
+      playerOfficeScope(session.world, session.personId),
+      homeBudgetPlace.jurisdictionId,
+      homeBudgetPlace.jurisdictionId
+        ? session.world.jurisdictions[homeBudgetPlace.jurisdictionId]?.kind
+        : null,
+    );
     const hasBudget =
       issuesPlace.jurisdictionId !== null &&
-      projectBudgetEconomy(session.world, issuesPlace.jurisdictionId)
-        .fiscalAvailability.status === "available";
+      economyVisibility.lookItUpFor(issuesPlace.jurisdictionId) !== "none";
     const hasIssues = hasBudget || access.transit || access.tax;
     const subItems =
       active === "issues"
@@ -3540,9 +3517,6 @@ function renderWorkspace({
             togglePin({ kind: "person", id: dossier.personId })
           }
           onTalk={() => talkTo(dossier.personId)}
-          {...(readOnly
-            ? {}
-            : { onContact: () => openContact(dossier.personId) })}
           onMeet={() => dispatch({ type: "go-to-scene" })}
           talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
           onOpenLink={openEntity}
@@ -3963,6 +3937,7 @@ function renderWorkspace({
         "news-workspace",
         <NewsDesk
           world={session.world}
+          personId={session.personId}
           context={
             view.section === "news-around"
               ? "around"
@@ -4116,6 +4091,21 @@ function renderWorkspace({
           scope: shell.preferences.governmentScope,
         },
       );
+      const homeBudgetPlace = issuesPlaceForSelection(
+        session.world,
+        session.personId,
+        {
+          place: "home",
+          scope: "local",
+        },
+      );
+      const economyVisibility = economyVisibilityFor(
+        playerOfficeScope(session.world, session.personId),
+        homeBudgetPlace.jurisdictionId,
+        homeBudgetPlace.jurisdictionId
+          ? session.world.jurisdictions[homeBudgetPlace.jurisdictionId]?.kind
+          : null,
+      );
       return frame(
         "Politics",
         "politics-workspace",
@@ -4149,6 +4139,12 @@ function renderWorkspace({
               world={session.world}
               jurisdictionId={issuesPlace.jurisdictionId}
               personId={session.personId}
+              economyVisibility={economyVisibility}
+              lookItUp={
+                issuesPlace.jurisdictionId
+                  ? economyVisibility.lookItUpFor(issuesPlace.jurisdictionId)
+                  : "none"
+              }
               onWorldChange={onWorldChange}
             />
           ) : null}
