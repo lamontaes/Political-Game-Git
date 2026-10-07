@@ -111,18 +111,16 @@ export function proveTraitDifference(
     ({ id }) => id === decisionId,
   )!;
   const decide = (world: World) => {
-    const considerations = [
-      ...baselineConsiderations,
-      ...registeredTraitConsiderations(
-        world,
-        loadedTraitRegistry(),
-        personId,
-        `proof:${decisionId}`,
-        decisionId,
-      ),
-    ];
+    const considerations = registeredTraitConsiderations(
+      world,
+      loadedTraitRegistry(),
+      personId,
+      `proof:${decisionId}`,
+      decisionId,
+    );
+    const allConsiderations = [...baselineConsiderations, ...considerations];
     const evaluation = evaluateDecision(world, {
-      stableKey: `proof:${decisionId}:${personId}:${considerations.length}:${considerations[0]?.optionKey ?? "none"}`,
+      stableKey: `proof:${decisionId}:${personId}:${allConsiderations.length}:${allConsiderations[0]?.optionKey ?? "none"}`,
       decisionType: decisionId,
       actorPersonId: personId,
       cutoff: {
@@ -136,7 +134,7 @@ export function proveTraitDifference(
         description: `The person chooses ${key}.`,
       })),
       constraints: [],
-      considerations,
+      considerations: allConsiderations,
       perceptionIds: [],
       randomness: "none",
       retention: "durable",

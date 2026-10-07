@@ -22,6 +22,7 @@ import { facetDefensiveEffects } from "./facet-defensive";
 import { facetDeferentialEffects } from "./facet-deferential";
 import { facetDutyBoundEffects } from "./facet-duty-bound";
 import { facetEnterprisingEffects } from "./facet-enterprising";
+import { facetEntitledEffects } from "./facet-entitled";
 import { facetEnviousEffects } from "./facet-envious";
 import { facetForgivingEffects } from "./facet-forgiving";
 import { facetFriendlyEffects } from "./facet-friendly";
@@ -86,6 +87,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetDeferentialEffects,
     ...facetDutyBoundEffects,
     ...facetEnterprisingEffects,
+    ...facetEntitledEffects,
     ...facetEnviousEffects,
     ...facetForgivingEffects,
     ...facetFriendlyEffects,
