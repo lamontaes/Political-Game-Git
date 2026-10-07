@@ -349,11 +349,18 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
             endedAt: fact.endedAt === null ? null : world.currentDate,
           }
         : { ...fact, occurredAt: world.currentDate };
+    const withoutCitizenship = <T extends Person>(person: T): T => {
+      const unrecorded: Record<string, unknown> = { ...person };
+      delete unrecorded.citizenshipStatuses;
+      return unrecorded as unknown as T;
+    };
     const child = (person: Person): Person => {
       const establishedFacts = person.establishedFacts.map(childFact);
+      // A child born today has no earlier citizenship record: a status dated
+      // before the birth is an invalid history, so the fixture leaves it out.
       return person.detailLevel === "materialized"
         ? {
-            ...person,
+            ...withoutCitizenship(person),
             birthDate: world.currentDate,
             establishedFacts,
             details: {
@@ -361,7 +368,11 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
               generatedFacts: person.details.generatedFacts.map(childFact),
             },
           }
-        : { ...person, birthDate: world.currentDate, establishedFacts };
+        : {
+            ...withoutCitizenship(person),
+            birthDate: world.currentDate,
+            establishedFacts,
+          };
     };
     const children = {
       ...world,

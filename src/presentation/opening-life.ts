@@ -15,6 +15,7 @@ import type { NationwideStateLegislatureOpeningChunk } from "../simulation/natio
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
 import { ensureCountyCouncilOpening } from "../simulation/municipal-council-opening";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { ensureCountyBudgetHearings } from "../simulation/living-world/county-budget-hearings";
 import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
 import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
 import {
@@ -51,7 +52,10 @@ import {
   startTownJobPay,
 } from "../simulation/living-world/town-pay";
 import { ensureEmployerCashPositions } from "../simulation/opening-employer-cash";
-import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
+import {
+  ensureRentDaySchedule,
+  startTownLeases,
+} from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
@@ -586,12 +590,20 @@ function* openedWorld(
   );
   // Payday starts with the same opening, so a watched world's jobs pay too,
   // and so does rent day, so its renters pay their landlords.
-  const opened = ensureRentDaySchedule(
-    ensurePaydaySchedule(
-      ensureMigrationSchedule(
-        ensureLocalCouncilMeetings(
-          ensureLocalElectionCalendar(seated, playerPersonId),
-          playerPersonId,
+  const playerHouseholdId = householdMembershipsAt(seated, playerPersonId).find(
+    (row) => row.state.residenceRole === "primary",
+  )?.household.id;
+  const withPlayerLease = playerHouseholdId
+    ? startTownLeases(seated, seated.currentDate, playerHouseholdId)
+    : seated;
+  const opened = ensureCountyBudgetHearings(
+    ensureRentDaySchedule(
+      ensurePaydaySchedule(
+        ensureMigrationSchedule(
+          ensureLocalCouncilMeetings(
+            ensureLocalElectionCalendar(withPlayerLease, playerPersonId),
+            playerPersonId,
+          ),
         ),
       ),
     ),
