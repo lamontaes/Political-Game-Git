@@ -12173,6 +12173,17 @@
         },
         {
           "x": 60,
+          "y": 88.4,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 88.4,
+          "seatY": 86.6,
+          "group": "walk-bench-right",
+          "role": "general",
+          "id": "state-capitol-pa:spot:7"
+        },
+        {
+          "x": 60,
           "y": 93.5,
           "pose": "stand",
           "facing": "left",
@@ -12199,7 +12210,7 @@
           "id": "state-capitol-pa:spot:6"
         }
       ],
-      "measuredFrom": "high camera; horizon on the far hills and river line (~38); sidewalk lamp ~4 m foot 94.7 top 80.1 -> 0.064; sidewalk bench back ~0.85 m foot 92.1 top 88.6 -> 0.076",
+      "measuredFrom": "high camera; horizon on the far hills and river line (~38); sidewalk lamp ~4 m foot 94.7 top 80.1 -> 0.064; sidewalk bench back ~0.85 m foot 92.1 top 88.6 -> 0.076; right walkway bench mirrored from the left bench estimate within ±2 percentage points, measured from state-capitol-pa__midday.jpg",
       "surfaceSlots": []
     },
     "state-capitol-pr": {
