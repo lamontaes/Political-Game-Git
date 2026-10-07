@@ -1,8 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { assertWorldIntegrity, serializeWorld } from "../simulation";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import {
+  addDays,
+  ageOnDate,
+  assertWorldIntegrity,
+  serializeWorld,
+} from "../simulation";
 import { formativeIntervalAt } from "../simulation/character-history";
 import { playerTemperament } from "../simulation/people-player-traits";
 import { personTrait } from "../simulation/people-traits";
+import { appendChildhoodEntry } from "../simulation/childhood-record";
+import type { EntityId } from "../simulation";
 import {
   caregiverChoice,
   caregiverFor,
@@ -19,12 +27,13 @@ import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
  * choice it is.
  */
 
-function child(seed: string, startAge: number) {
+function child(seed: string, startAge: number, placeKey?: string) {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
       seed,
       startAge,
+      ...(placeKey ? { placeKey } : {}),
       depth: "play-formative-years",
     }),
   ).game!;
@@ -49,23 +58,110 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
   });
 
   it("the player cannot choose for a five-year-old, and the adult's choice is recorded", () => {
+    const seed = "people-childhood-a";
+    const place = drawRandomPlace(seed);
+    const randomChild = child(seed, 6, place.key);
     expect(() =>
-      playChildhoodMoment(world, { personId: player, optionKey: "any" }),
+      playChildhoodMoment(randomChild.world, {
+        personId: randomChild.player,
+        optionKey: "any",
+      }),
     ).toThrow(/the adult responsible decides/);
-    const played = playChildhoodMoment(world, { personId: player });
+    const played = playChildhoodMoment(randomChild.world, {
+      personId: randomChild.player,
+    });
     expect(played.history.events.length).toBeGreaterThan(
-      world.history.events.length,
+      randomChild.world.history.events.length,
     );
     // The child keeps the memory of it.
     const memories = played.history.memories.filter(
-      (memory) => memory.personId === player,
+      (memory) => memory.personId === randomChild.player,
     );
     expect(memories.length).toBeGreaterThan(
-      world.history.memories.filter((memory) => memory.personId === player)
-        .length,
+      randomChild.world.history.memories.filter(
+        (memory) => memory.personId === randomChild.player,
+      ).length,
     );
-    expect(playerTemperament(played, player).said).toEqual([]);
+    const choice = played.history.childhoodRecords?.find(
+      (entry) => entry.kind === "caregiver-choice",
+    );
+    expect(choice).toMatchObject({
+      personId: randomChild.player,
+      caregiverPersonId: caregiverFor(randomChild.world, randomChild.player),
+      situationKey: projectChildhoodMoment(
+        randomChild.world,
+        randomChild.player,
+      )!.scene!.situationKey,
+    });
+    const source = played.history.events.find(
+      (event) => event.id === choice?.sourceRecordId,
+    )!;
+    expect(source.tags).toContain(`choice.${choice!.optionKey}`);
+    expect(source.participants).toContainEqual(
+      expect.objectContaining({
+        personId: choice!.caregiverPersonId,
+        role: "agency:actor",
+      }),
+    );
+    // The writer assigns the id, sequence and recorded date itself, so the
+    // saved entry can be offered back as its own input.
+    const entry = choice!;
+    expect(() =>
+      appendChildhoodEntry(played, {
+        ...entry,
+        stableKey: "test-caregiver-choice-wrong-date",
+        effectiveAt: addDays(choice!.effectiveAt, -1),
+      }),
+    ).toThrow(/adult caregiver and its formative event/);
+    const sourceWithoutChild = {
+      ...played,
+      history: {
+        ...played.history,
+        events: played.history.events.map((event) =>
+          event.id === source.id
+            ? {
+                ...event,
+                involvedEntityIds: event.involvedEntityIds.filter(
+                  (id) => id !== randomChild.player,
+                ),
+              }
+            : event,
+        ),
+      },
+    };
+    expect(() =>
+      appendChildhoodEntry(sourceWithoutChild, {
+        ...entry,
+        stableKey: "test-caregiver-choice-other-child-event",
+      }),
+    ).toThrow(/adult caregiver and its formative event/);
+    const unauthorizedAdult = Object.keys(played.people).find(
+      (candidate) =>
+        candidate !== randomChild.player &&
+        candidate !== choice!.caregiverPersonId &&
+        ageOnDate(played.people[candidate]!.birthDate, played.currentDate) >=
+          18,
+    ) as EntityId | undefined;
+    if (unauthorizedAdult) {
+      expect(() =>
+        appendChildhoodEntry(played, {
+          ...entry,
+          stableKey: "test-unauthorized-caregiver",
+          caregiverPersonId: unauthorizedAdult,
+        }),
+      ).toThrow(/adult caregiver and its formative event/);
+    }
+    expect(
+      played.history.events.some(
+        (event) => event.id === choice?.sourceRecordId,
+      ),
+    ).toBe(true);
+    expect(playerTemperament(played, randomChild.player).said).toEqual([]);
     assertWorldIntegrity(played);
+    console.info(
+      "S6_CHILDHOOD_CAREGIVER_NEW_GAME",
+      JSON.stringify({ seed, place: place.key, personId: randomChild.player }),
+    );
   });
 
   it("an older child chooses, and the choice is theirs", () => {
@@ -194,5 +290,5 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
     // Opens five lives. Measured 2026-09-22: about 3.5s on main at 616dcdb5
     // and about 4.5 to 6s once each opening seats its home state's legislature,
     // since every commit re-checks the whole world's integrity.
-  }, 20_000);
+  }, 300_000);
 });
