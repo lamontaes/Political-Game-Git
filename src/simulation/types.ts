@@ -3677,6 +3677,12 @@ export interface DecisionContext {
   readonly perceptionIds: readonly EntityId[];
   readonly randomness: DecisionRandomnessPolicy;
   readonly retention: DecisionTraceRetention;
+  /**
+   * Whether the general trait system adds its reasons to this decision: `"on"`
+   * when left out. Only a test or fixture about something other than
+   * personality passes `"off"`. See `traits/act-pulls.ts`.
+   */
+  readonly traitActs?: "on" | "off";
 }
 
 export type DecisionPreference =
