@@ -27,6 +27,7 @@ import {
   councilActHandlers,
   COUNCIL_READING_DUE,
 } from "../municipal-ordinance-procedure";
+import { countyGoverningBodyRules } from "../nationwide-world/county-governing-body-rules";
 import { ensureHomeLocalGovernments } from "../nationwide-world/local-governments";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -71,7 +72,7 @@ function openedCounty(): World {
   const seats = municipalSeats(world, county.id).filter(
     (seat) => seat.role === "member" || seat.role === "presiding-member",
   );
-  expect(seats).toHaveLength(5);
+  expect(seats).toHaveLength(countyGoverningBodyRules(county)!.seats);
   // Save one sponsor's reasons for filing. Other members decide their ballots
   // from their own generated principles; the test supplies no vote or result.
   const sponsor = seats[1]!;
