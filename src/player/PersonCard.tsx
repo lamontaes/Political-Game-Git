@@ -539,11 +539,7 @@ export function PersonCard({
           ) : null}
 
           {expanded && connections.length > 0 && onOpenPerson ? (
-            <section
-              className="pg-dossier-section"
-              aria-label="Connected people"
-            >
-              <h3>Connected people</h3>
+            <div className="pg-dossier-section">
               <div
                 className="pg-person-card-connections"
                 data-testid="person-card-connections"
@@ -574,7 +570,7 @@ export function PersonCard({
                   </button>
                 ))}
               </div>
-            </section>
+            </div>
           ) : null}
 
           {expanded &&

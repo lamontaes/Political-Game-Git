@@ -262,12 +262,6 @@
   stroke-width: 4;
   outline: none;
 }
-.pg-relationship-web-caption {
-  margin: 0.45rem 0 0.2rem;
-  color: var(--run-a-ink);
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
 .pg-relationship-web-legend {
   display: flex;
   flex-wrap: wrap;
