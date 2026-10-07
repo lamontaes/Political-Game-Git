@@ -377,7 +377,13 @@ export function referForProsecution(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: input.jurisdictionId,
-    involvedEntityIds: [input.subjectPersonId],
+    involvedEntityIds: [
+      input.subjectPersonId,
+      ...(input.referredBy.personId &&
+      input.referredBy.personId !== input.subjectPersonId
+        ? [input.referredBy.personId]
+        : []),
+    ],
     participants: [
       {
         personId: input.subjectPersonId,
