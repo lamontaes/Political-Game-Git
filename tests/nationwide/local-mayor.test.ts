@@ -118,10 +118,12 @@ describe("how a town's mayor is chosen", () => {
         basis: "read",
       });
       const place = lifePlaceByKey(geoid)!;
+      // The town's own offices: its council and no mayor. The county it sits
+      // in lists its own offices after them.
       expect(
-        localGoverningBodiesForJurisdiction(place.context.jurisdiction.id).map(
-          (office) => office.seat,
-        ),
+        localGoverningBodiesForJurisdiction(place.context.jurisdiction.id)
+          .filter((office) => office.unit.unitType === "municipality")
+          .map((office) => office.seat),
       ).toEqual(["governing-body"]);
     },
   );
@@ -187,9 +189,17 @@ describe("running for mayor", () => {
       expect(mayor.officeTitle).toBe("Mayor");
 
       // Listed after the council, as a local office anybody here may seek.
+      // The county's own offices (its board and row offices) come after the
+      // town's.
       const offices = electiveOfficesForJurisdiction(home);
-      expect(offices.at(-1)!.officeKey).toBe(mayor.officeKey);
-      expect(offices.at(-1)!.office.title).toBe("Mayor");
+      const mayorAt = offices.findIndex(
+        (office) => office.officeKey === mayor.officeKey,
+      );
+      expect(mayorAt).toBeGreaterThan(0);
+      expect(offices[mayorAt]!.office.title).toBe("Mayor");
+      expect(offices[mayorAt - 1]!.officeKey).toBe(
+        localGoverningBodiesForJurisdiction(home)[0]!.officeKey,
+      );
       const listed = projectCampaignOffices(world, personId).find(
         (office) => office.officeKey === mayor.officeKey,
       );
