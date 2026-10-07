@@ -81,5 +81,19 @@
       "state": "NC",
       "finding": "The matrix cell cites G.S. 160A-211 as the city privilege-license authority. The statute was repealed effective July 1, 2015 (Session Laws 2014-3, s. 12.3(a)); the cell should not read as sourced authority and needs the current rule."
     }
+  ],
+  "cells": [
+    {
+      "state": "NC",
+      "instrument": "privilege-license",
+      "level": "MUNICIPAL",
+      "authorization": "NOT_AUTHORIZED",
+      "effectiveThrough": "2015-06-30",
+      "notAuthorizedSince": "2015-07-01",
+      "sourceFile": "raw/nc-gs-160a-211-repealed.pdf",
+      "sourceSha256": "5135751ae857720bd9e7bcc0fe005c31afeb107fd257eab06e225267653bf757",
+      "citation": "N.C.G.S. \u00a7 160A-211 (repealed by S.L. 2014-3, s. 12.3(a))",
+      "note": "Cities had no general license-tax authority from July 1, 2015; the repeal is the source. The earlier authority is dated through June 30, 2015."
+    }
   ]
 }
