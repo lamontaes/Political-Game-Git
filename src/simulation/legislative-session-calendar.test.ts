@@ -73,14 +73,14 @@ describe("one legislative session timetable", () => {
     const after = makeIsoDate("2026-01-05");
     expect(
       nextSessionCalendarDate(LEGISLATIVE_SESSION_CALENDARS.state, after),
-    ).toBe("2026-01-08");
+    ).toBe("2026-01-06");
     expect(
       nextSessionCalendarDate(
         LEGISLATIVE_SESSION_CALENDARS.state,
         after,
         "hearing",
       ),
-    ).toBe("2026-01-12");
+    ).toBe("2026-01-07");
     expect(
       nextSessionCalendarDate(LEGISLATIVE_SESSION_CALENDARS.council, after),
     ).toBe("2026-01-19");

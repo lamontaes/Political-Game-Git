@@ -59,6 +59,7 @@ import { pathForRelationship } from "../simulation/life-paths2";
 import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
+import { HeardOfficialViewsList } from "./HeardOfficialViewsList";
 import {
   authorizeCalendarSimulation,
   declineCalendarActivity,
@@ -652,6 +653,11 @@ export function PeopleWorkspace({
           </button>
         </>
       ) : null}
+
+      <HeardOfficialViewsList
+        views={directory.heardViews}
+        onSelectPerson={selectPerson}
+      />
 
       {shown.length === 0 ? (
         <p className="game-note" data-testid="people-empty" />

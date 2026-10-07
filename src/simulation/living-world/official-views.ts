@@ -479,7 +479,6 @@ export function tellViewToHearers(
   const favors = held.position === "support" ? "support" : "opposition";
   let next = world;
   for (const hearerId of hearersOfPerson(world, input.holderId)) {
-    if (hearerId === input.officialId) continue;
     const key = `${input.stableKey}:told:${hearerId}`;
     if (next.history.knowledge.some((row) => row.stableKey === key)) continue;
     next = recordEventKnowledge(next, {
@@ -497,7 +496,10 @@ export function tellViewToHearers(
         claimId: null,
       },
     });
-    if (next.control.kind === "person" && next.control.personId === hearerId)
+    if (
+      hearerId === input.officialId ||
+      (next.control.kind === "person" && next.control.personId === hearerId)
+    )
       continue;
     const knowledge = next.history.knowledge.find(
       (row) => row.stableKey === key,
