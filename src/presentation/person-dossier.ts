@@ -1,3 +1,4 @@
+import { PRIOR_SERVICE_EVENT } from "./opening-prior-service";
 import { eventById } from "../simulation/event-index";
 import { recentStrain } from "./relationship-strain";
 import { sponsoredLaws, type SponsoredLaw } from "./place-conditions";
@@ -496,7 +497,8 @@ export function projectPersonDossier(
           )?.detail;
           return office &&
             (event.type === "world.office-tenure" ||
-              event.type === "world.legislative-seat-tenure")
+              event.type === "world.legislative-seat-tenure" ||
+              event.type === PRIOR_SERVICE_EVENT)
             ? `Took office as ${office}.`
             : event.summary.replace(/ in this fictional world\./g, ".");
         })(),
