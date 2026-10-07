@@ -591,7 +591,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1180 | Review existing capitol surfaces: KY through OH | PR #1180 (codex/sept29-team7-scenes-09) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1181 | Review existing capitol surfaces: OK through WY | PR #1181 (codex/sept29-team7-scenes-10) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1187 | Trace Team 7 scene and newspaper why-chains | PR #1187 (codex/team7-bedrock-numbers) | open: draft: finish it or close it as superseded | |
-| RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | open: stacked on codex/team-9-bill-number-research: retarget to main; draft: finish it or close it as superseded | |
+| RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | ready #1188 | |
 | RS-1203 | Review remaining canonical scene spots | PR #1203 (codex/sept29-team7-remaining-spots) | open: draft: finish it or close it as superseded | |
 | RS-1220 | Preserve fresh monthly speed baseline and scoped caller evidence | PR #1220 (codex/team-4-monthly-speed-next) | done (superseded by M10; no active allocation) | |
 | RS-1222 | List exact regional picture admissions for existing-bank reconciliation | PR #1222 (codex/team-8-regional-picture-gaps) | done (superseded by regional-opening #281 and place-id research #451; closed Oct 7) | Session 45 |
@@ -609,7 +609,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
 | RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #1306 (codex/team1-consequence-inputs) | open: draft: finish it or close it as superseded | |
 | RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | ready #3271 | |
-| RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | open: draft: finish it or close it as superseded | |
+| RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | ready #1332 | |
 | RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | open: draft: finish it or close it as superseded | |
 | RS-1406 | Deliver the private monthly money call-cost diagnostic | PR #1406 (codex/team7-c9-owned-call-cost-diagnostic) | done (superseded by current-main obligation route; diagnostic depended on closed PR #1353) | |
 | RS-1415 | Preserve native lease renewal proof and save validation blocker | PR #1415 (codex/team-4-m10-native-renewal-entry) | open: draft: finish it or close it as superseded | |
