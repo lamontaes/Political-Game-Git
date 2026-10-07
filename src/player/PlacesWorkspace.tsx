@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { attendMunicipalPublicMeeting } from "../simulation/municipal-public-work";
 import type {
   EntityId,
+  IsoDate,
   FutureTransitionHandlerRegistry,
   World,
 } from "../simulation";
@@ -12,6 +13,8 @@ import {
   projectPlacesWorkspace,
   type PlacesOfferView,
 } from "../presentation/player-places";
+import { proseDate } from "../presentation/prose-dates";
+import { proseClockTime } from "../presentation/routine-outcome";
 import { labelForRef } from "../presentation/person-dossier";
 import { PinToggle } from "./controls/PinToggle";
 import { useTimeCommand, type TimeCommandReport } from "./time-command-runner";
@@ -248,7 +251,7 @@ export function PlacesWorkspace({
       <header className="places-workspace-header">
         <div>
           <p className="places-workspace-kicker">Where you are</p>
-          <h3>Your location and reachable offers</h3>
+          <h3>Places</h3>
         </div>
       </header>
 
@@ -295,11 +298,23 @@ export function PlacesWorkspace({
               <li key={offer.id} data-testid={`places-offer-${offer.id}`}>
                 <div className="places-offer-copy">
                   <p className="places-offer-title">{offer.title}</p>
-                  {offer.summary ? <p>{offer.summary}</p> : null}
                   {offer.companionLabel ? <p>{offer.companionLabel}</p> : null}
-                  {offer.minutes !== null ? (
+                  {offer.activityMinutes != null ? (
                     <p data-testid={`places-offer-${offer.id}-minutes`}>
-                      {offer.minutes} min
+                      {offer.activityMinutes} min
+                    </p>
+                  ) : null}
+                  {offer.tripMinutes != null ? (
+                    <p data-testid={`places-offer-${offer.id}-trip`}>
+                      Trip {offer.tripMinutes} min
+                    </p>
+                  ) : null}
+                  {offer.startsAt ? (
+                    <p data-testid={`places-offer-${offer.id}-starts`}>
+                      <time dateTime={offer.startsAt.date}>
+                        {proseDate(offer.startsAt.date as IsoDate)}
+                      </time>{" "}
+                      {proseClockTime(offer.startsAt.minuteOfDay)}
                     </p>
                   ) : null}
                   {offer.unavailable ? (

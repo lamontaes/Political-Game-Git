@@ -22,3 +22,11 @@ describe("the places screens print no hand-written sentence", () => {
     });
   }
 });
+
+describe("an offer's minutes are the session's own length", () => {
+  it("never prints wait plus session plus trip as one figure", () => {
+    const text = readFileSync("src/player/PlacesWorkspace.tsx", "utf8");
+    expect(text).not.toContain("{offer.minutes}");
+    expect(text).toContain("{offer.activityMinutes}");
+  });
+});

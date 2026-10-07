@@ -36,7 +36,13 @@ export interface PlacesOfferView {
   readonly detail: string | null;
   /** The recorded activity summary alone, for a screen that shows data. */
   readonly summary?: string | null;
+  /** Wait plus session plus trip; not shown, since the wait can be days. */
   readonly minutes: number | null;
+  /** The session's own length, from its performance timing. */
+  readonly activityMinutes?: number | null;
+  /** The recorded start, when the session has not begun. */
+  readonly startsAt?: { date: string; minuteOfDay: number } | null;
+  readonly tripMinutes?: number | null;
   readonly durationLabel: string | null;
   readonly unavailable: string | null;
   readonly companionLabel: string | null;
@@ -171,6 +177,20 @@ function projectVenueOffer(
         ? `${timing} The trip there takes ${formatRoutineElapsedMinutes(journey.journeyMinutes)} before it.`
         : timing;
   }
+  let activityMinutes: number | null = null;
+  let startsAt: { date: string; minuteOfDay: number } | null = null;
+  if (refusal === null) {
+    try {
+      const timing = scheduledActivityPerformanceTiming(world, activity.id);
+      activityMinutes = timing.activityMinutes;
+      if (timing.waitMinutes > 0) {
+        const start = scheduledActivityState(world, activity.id).start;
+        startsAt = { date: start.date, minuteOfDay: start.minuteOfDay };
+      }
+    } catch {
+      /* no timing recorded: the offer shows no length */
+    }
+  }
   return {
     id: `venue-${activity.id}`,
     kind: "attend",
@@ -178,6 +198,10 @@ function projectVenueOffer(
     detail: detailParts.join(" "),
     summary: activity.summary.trim() || null,
     minutes: elapsedMinutes,
+    activityMinutes,
+    startsAt,
+    tripMinutes:
+      journey && !journey.alreadyCompleted ? journey.journeyMinutes : null,
     durationLabel,
     unavailable: refusal,
     companionLabel: null,
@@ -195,6 +219,7 @@ function projectMunicipalMeetingOffer(
   const state = scheduledActivityState(world, meeting.id);
   let unavailable: string | null = null;
   let durationLabel: string | null = null;
+  let activityMinutes: number | null = null;
   if (state?.status !== "scheduled") {
     unavailable = "This meeting is no longer scheduled.";
   } else {
@@ -208,6 +233,7 @@ function projectMunicipalMeetingOffer(
     else {
       try {
         const timing = scheduledActivityPerformanceTiming(world, meeting.id);
+        activityMinutes = timing.activityMinutes;
         durationLabel = `${describeInterval(timing.totalElapsedMinutes)} for this session.`;
       } catch (error) {
         unavailable =
@@ -224,6 +250,7 @@ function projectMunicipalMeetingOffer(
     detail: meeting.summary,
     summary: meeting.summary,
     minutes: null,
+    activityMinutes,
     durationLabel,
     unavailable,
     companionLabel: null,
