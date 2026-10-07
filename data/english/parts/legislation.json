@@ -35,6 +35,7 @@
     {
       "key": "legislation.clause.in-this-scope",
       "move": "clause",
+      "kind": "written",
       "text": "In this {scope}:",
       "billsUsing": 40,
       "shippable": true,
@@ -48,6 +49,7 @@
     {
       "key": "legislation.clause.provision-is-amended-by-adding-at-the-end-the-following",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is amended by adding at the end the following:",
       "billsUsing": 30,
       "shippable": true,
@@ -61,6 +63,7 @@
     {
       "key": "legislation.clause.not-later-than-period-after-the-date-of-enactment-of-this-act-the-offi",
       "move": "clause",
+      "kind": "written",
       "text": "Not later than {period} after the date of enactment of this Act, the {official} shall",
       "billsUsing": 24,
       "shippable": true,
@@ -74,6 +77,7 @@
     {
       "key": "legislation.clause.provision-is-amended-by-striking-oldtext-and-inserting-newtext",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is amended by striking {oldText} and inserting {newText}.",
       "billsUsing": 24,
       "shippable": true,
@@ -87,6 +91,7 @@
     {
       "key": "legislation.clause.except-as-provided-in-provision",
       "move": "clause",
+      "kind": "written",
       "text": "Except as provided in {provision},",
       "billsUsing": 15,
       "shippable": true,
@@ -100,6 +105,7 @@
     {
       "key": "legislation.clause.the-official-shall-submit-to-committees-a-report-on-subject",
       "move": "clause",
+      "kind": "written",
       "text": "the {official} shall submit to {committees} a report on {subject}.",
       "billsUsing": 14,
       "shippable": true,
@@ -113,6 +119,7 @@
     {
       "key": "legislation.clause.there-is-authorized-to-be-appropriated-amount-to-carry-out-this-scope",
       "move": "clause",
+      "kind": "written",
       "text": "There is authorized to be appropriated {amount} to carry out this {scope}.",
       "billsUsing": 13,
       "shippable": true,
@@ -126,6 +133,7 @@
     {
       "key": "legislation.clause.nothing-in-this-scope-shall-be-construed-to-limit",
       "move": "clause",
+      "kind": "written",
       "text": "Nothing in this {scope} shall be construed to {limit}.",
       "billsUsing": 11,
       "shippable": true,
@@ -139,6 +147,7 @@
     {
       "key": "legislation.clause.congress-finds-the-following",
       "move": "clause",
+      "kind": "written",
       "text": "Congress finds the following:",
       "billsUsing": 9,
       "shippable": true,
@@ -152,6 +161,7 @@
     {
       "key": "legislation.clause.provision-is-amended-to-read-as-follows",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is amended to read as follows:",
       "billsUsing": 8,
       "shippable": true,
@@ -165,6 +175,7 @@
     {
       "key": "legislation.clause.provision-is-amended-by-inserting-newtext-after-anchor",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is amended by inserting {newText} after {anchor}.",
       "billsUsing": 6,
       "shippable": true,
@@ -178,6 +189,7 @@
     {
       "key": "legislation.clause.it-is-the-sense-of-congress-that-view",
       "move": "clause",
+      "kind": "written",
       "text": "It is the sense of Congress that {view}.",
       "billsUsing": 2,
       "shippable": true,
@@ -191,6 +203,7 @@
     {
       "key": "legislation.clause.this-scope-shall-take-effect-on-the-date-of-enactment-of-this-act",
       "move": "clause",
+      "kind": "written",
       "text": "This {scope} shall take effect on the date of enactment of this Act.",
       "billsUsing": 2,
       "shippable": true,
@@ -204,6 +217,7 @@
     {
       "key": "legislation.clause.provision-is-repealed",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is repealed.",
       "billsUsing": 2,
       "shippable": true,
@@ -217,6 +231,7 @@
     {
       "key": "legislation.clause.subject-to-the-availability-of-appropriations",
       "move": "clause",
+      "kind": "written",
       "text": "Subject to the availability of appropriations,",
       "billsUsing": 1,
       "shippable": true,
@@ -230,6 +245,7 @@
     {
       "key": "legislation.clause.the-amendments-made-by-this-scope-shall-apply-to-subject-beginning-aft",
       "move": "clause",
+      "kind": "written",
       "text": "The amendments made by this {scope} shall apply to {subject} beginning after the date of the enactment of this Act.",
       "billsUsing": 1,
       "shippable": true,
@@ -243,6 +259,7 @@
     {
       "key": "legislation.enacting-clause.be-it-enacted-by-the-senate-and-house-of-representatives-of-the-united",
       "move": "enacting-clause",
+      "kind": "written",
       "text": "Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled,",
       "billsUsing": 149,
       "shippable": true,
@@ -256,6 +273,7 @@
     {
       "key": "legislation.long-title.to-amend-act-to-purpose-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To amend {act} to {purpose}, and for other purposes.",
       "billsUsing": 33,
       "shippable": true,
@@ -269,6 +287,7 @@
     {
       "key": "legislation.long-title.to-prohibit-conduct-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To prohibit {conduct}, and for other purposes.",
       "billsUsing": 6,
       "shippable": true,
@@ -282,6 +301,7 @@
     {
       "key": "legislation.long-title.to-direct-the-official-to-duty-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To direct the {official} to {duty}, and for other purposes.",
       "billsUsing": 4,
       "shippable": true,
@@ -295,6 +315,7 @@
     {
       "key": "legislation.long-title.to-require-requirement-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To require {requirement}, and for other purposes.",
       "billsUsing": 4,
       "shippable": true,
@@ -308,6 +329,7 @@
     {
       "key": "legislation.long-title.to-designate-the-facility-of-the-united-states-postal-service-located",
       "move": "long-title",
+      "kind": "written",
       "text": "To designate the facility of the United States Postal Service located at {address} as the {name}.",
       "billsUsing": 3,
       "shippable": true,
@@ -321,6 +343,7 @@
     {
       "key": "legislation.long-title.to-provide-for-purpose-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To provide for {purpose}, and for other purposes.",
       "billsUsing": 2,
       "shippable": true,
@@ -334,6 +357,7 @@
     {
       "key": "legislation.long-title.to-authorize-action-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To authorize {action}, and for other purposes.",
       "billsUsing": 1,
       "shippable": true,
@@ -347,6 +371,7 @@
     {
       "key": "legislation.long-title.to-establish-program-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To establish {program}, and for other purposes.",
       "billsUsing": 1,
       "shippable": true,
@@ -360,6 +385,7 @@
     {
       "key": "legislation.long-title.to-improve-program-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To improve {program}, and for other purposes.",
       "billsUsing": 1,
       "shippable": true,
@@ -373,6 +399,7 @@
     {
       "key": "legislation.section-heading.short-title",
       "move": "section-heading",
+      "kind": "written",
       "text": "Short title.",
       "billsUsing": 134,
       "shippable": true,
@@ -386,6 +413,7 @@
     {
       "key": "legislation.section-heading.definitions",
       "move": "section-heading",
+      "kind": "written",
       "text": "Definitions.",
       "billsUsing": 13,
       "shippable": true,
@@ -399,6 +427,7 @@
     {
       "key": "legislation.section-heading.findings",
       "move": "section-heading",
+      "kind": "written",
       "text": "Findings.",
       "billsUsing": 9,
       "shippable": true,
@@ -412,6 +441,7 @@
     {
       "key": "legislation.section-heading.rule-of-construction",
       "move": "section-heading",
+      "kind": "written",
       "text": "Rule of construction.",
       "billsUsing": 4,
       "shippable": true,
@@ -425,6 +455,7 @@
     {
       "key": "legislation.section-heading.authorization-of-appropriations",
       "move": "section-heading",
+      "kind": "written",
       "text": "Authorization of appropriations.",
       "billsUsing": 3,
       "shippable": true,
@@ -438,6 +469,7 @@
     {
       "key": "legislation.section-heading.effective-date",
       "move": "section-heading",
+      "kind": "written",
       "text": "Effective date.",
       "billsUsing": 3,
       "shippable": true,
@@ -451,6 +483,7 @@
     {
       "key": "legislation.section-heading.sense-of-congress",
       "move": "section-heading",
+      "kind": "written",
       "text": "Sense of Congress.",
       "billsUsing": 2,
       "shippable": true,
@@ -464,6 +497,7 @@
     {
       "key": "legislation.short-title.this-act-may-be-cited-as-the-act",
       "move": "short-title",
+      "kind": "written",
       "text": "This Act may be cited as the {act}.",
       "billsUsing": 104,
       "shippable": true,
@@ -477,6 +511,7 @@
     {
       "key": "legislation.short-title.this-act-may-be-cited-as-the-act-or-the-shortact",
       "move": "short-title",
+      "kind": "written",
       "text": "This Act may be cited as the {act} or the {shortAct}.",
       "billsUsing": 29,
       "shippable": true,
