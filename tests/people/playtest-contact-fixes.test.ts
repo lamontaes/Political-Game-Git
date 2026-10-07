@@ -25,7 +25,7 @@ import {
   CONTACT_CALLED_OFF_KIND,
   CONTACT_COUNTERED_EVENT,
   CONTACT_LOCATION_KEY,
-} from "../../src/simulation/people-contact";
+} from "../../src/simulation/relationship-contact";
 import { introducedPeople } from "../../src/simulation/social-introductions";
 import { addDays, ageOnDate } from "../../src/simulation/dates";
 import { proseWeekdayDate } from "../../src/presentation/prose-dates";

@@ -138,7 +138,7 @@ import {
   recordWorkStatus,
 } from "./life";
 import { lifeTransitionHandlers } from "./life-callbacks";
-import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_CONTACT_HANDLERS } from "./relationship-contact";
 import { STATE_LEGISLATURE_QUEUE_HANDLERS } from "./nationwide-world/state-legislature-queue";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { peopleFamilyHandlers } from "./people-family-plan";

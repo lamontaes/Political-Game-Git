@@ -10,7 +10,7 @@ import {
   CONTACT_ACCEPTED_EVENT,
   contactProposals,
   proposeContact,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";

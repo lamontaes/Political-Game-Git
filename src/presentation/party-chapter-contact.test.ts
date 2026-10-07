@@ -5,7 +5,10 @@ import {
   serializeWorld,
   publicPartyAffiliation,
 } from "../simulation";
-import { contactProposals, answerContact } from "../simulation/people-contact";
+import {
+  contactProposals,
+  answerContact,
+} from "../simulation/relationship-contact";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectPartyChapters } from "./party-chapter-surface";

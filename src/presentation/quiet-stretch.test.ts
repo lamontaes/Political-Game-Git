@@ -19,7 +19,7 @@ import {
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
-import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
+import { CONTACT_LOCATION_KEY } from "../simulation/relationship-contact";
 import { venueActivities } from "./venue-activity";
 import {
   goableToday,

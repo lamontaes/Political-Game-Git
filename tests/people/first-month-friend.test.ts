@@ -19,7 +19,7 @@ import {
   venueActivities,
 } from "../../src/presentation/venue-activity";
 import { joinOrdinaryGroup } from "../../src/presentation/ordinary-community";
-import { CONTACT_LOCATION_KEY } from "../../src/simulation/people-contact";
+import { CONTACT_LOCATION_KEY } from "../../src/simulation/relationship-contact";
 import { readRelationshipStanding } from "../../src/simulation/relationship-standing";
 import { introducedPeople } from "../../src/simulation/social-introductions";
 import type { EntityId, World } from "../../src/simulation";

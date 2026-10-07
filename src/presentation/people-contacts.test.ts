@@ -13,7 +13,7 @@ import {
   CONTACT_DECLINED_EVENT,
   CONTACT_PROPOSED_EVENT,
   contactProposals,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { recordRelationshipInteraction } from "../simulation/records";
 import { recordPersonDeath } from "../simulation/vitality";
 import { letAdultTimePass } from "./adult-life";

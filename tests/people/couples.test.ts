@@ -28,7 +28,7 @@ import {
   coupleBetween,
   keptDates,
 } from "../../src/simulation/couples";
-import { CONTACT_LOCATION_KEY } from "../../src/simulation/people-contact";
+import { CONTACT_LOCATION_KEY } from "../../src/simulation/relationship-contact";
 import { describePersonContext } from "../../src/simulation/person-context";
 import { introducedPeople } from "../../src/simulation/social-introductions";
 import { scheduledActivityState } from "../../src/simulation";

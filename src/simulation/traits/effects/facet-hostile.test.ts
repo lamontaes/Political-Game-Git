@@ -5,7 +5,7 @@ import {
   DEFAULT_NEW_GAME_SETUP,
 } from "../../../presentation/new-game";
 import { addDays } from "../../dates";
-import { npcContactAnswer, proposeContact } from "../../people-contact";
+import { npcContactAnswer, proposeContact } from "../../relationship-contact";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
 import { stableHash } from "../../ids";

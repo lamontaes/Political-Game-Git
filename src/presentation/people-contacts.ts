@@ -11,11 +11,11 @@ import {
   contactProposals,
   counterWithNewDay,
   proposeContact,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import type {
   ContactChannel,
   ContactProposal,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { describePersonContext } from "../simulation/person-context";
 import {
   describeRelationshipStanding,
