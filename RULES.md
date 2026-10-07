@@ -2,6 +2,7 @@
 
 REPORTING (owner, 1:20 p.m.): report in the Google Drive doc "00j CODEX DAY" (id 1ggMaxfWABEaO3MA3RSyELPwKGepkwLdCCrGMBaZK1ps): insert ONE line at the top of its LOG section per check-in, starting "SESSION NN" (READY / CLAIM / BLOCKED / STATUS combined). The CTO reads Drive every check-in and answers there. GitHub is only for branches and PRs (gh pr create / gh pr ready); do NOT post status comments on GitHub issues (the account hits GitHub's posting limits).
 NEVER FINISH: when your list is done, you are NOT done. Take the next open row in docs/codex/assignments/POOL.md (verify it against main first; already done → record it), then the next. Your goal only ends when the owner stops you.
+DELETE, NEVER OVERLAY (owner, 2:10 p.m., furious): when you replace UI, DELETE the old component, its CSS and its text in the same PR. Never paste a new panel, kit style or override block over old styles or old components. Old hardcoded UI is deleted, not polished.
 TRAITS (owner decision, 1:50 p.m.): no new per-decision trait PRs (T9-facet rows, "wire X trait into Y"). Traits move to ONE general system (Sessions 13-16 files): act kinds on every option, trait pulls per kind, engine-written reasons. Open per-decision trait PRs are HELD; T9-facet POOL rows are closed. Take other rows.
 NAME (owner, 12:24 p.m.): rename your Codex task/thread to exactly "Session NN" (your number only, e.g. "Session 07"), not what you are doing. Do it now.
 
