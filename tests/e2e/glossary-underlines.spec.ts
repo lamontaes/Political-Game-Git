@@ -48,6 +48,9 @@ test("a civic word is underlined, explains itself on hover, and Got it clears it
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/");
   await startLife(page, { place: "Peoria", state: "Illinois", age: 34 });
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 120_000,
+  });
   await enterLife(page);
 
   await goTo(page, "nav-guide");
