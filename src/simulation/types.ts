@@ -5879,10 +5879,13 @@ export interface SetupPriorStore {
 
 export type SaveMode = "free" | "one-save";
 export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
+export type ChallengeIntensity = "quiet" | "standard" | "relentless";
 
 /** Player-facing choices kept on the World; absent legacy data means defaults. */
 export interface PlaySettings {
   readonly saves: SaveMode;
+  /** Reorders eligible life situations without changing events or outcomes. */
+  readonly challengeIntensity: ChallengeIntensity;
   /** Changes how recorded personal-life events are worded, never world facts. */
   readonly personalLifeDepiction: PersonalLifeDepiction;
 }
