@@ -60,6 +60,7 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import { recordDirectEventMemories } from "../records";
 import { TOWN_RESIDENTS_VERSION } from "./town-residents";
 import { startTownJobPay } from "./town-pay";
 import { ensureOpeningMortgages } from "./opening-mortgages";
@@ -806,6 +807,11 @@ export function reviewTownHomes(
     leaveHome(writer, key, home, "Moved within town.", provenance);
     enterHome(writer, key, household.id, move.kind, move.tenure, provenance);
   }
+  const eventIds = writer.world.history.events
+    .filter((row) => row.stableKey.startsWith(prefix))
+    .map((row) => row.id);
+  for (const eventId of eventIds)
+    writer.world = recordDirectEventMemories(writer.world, eventId);
   return writer.world;
 }
 
