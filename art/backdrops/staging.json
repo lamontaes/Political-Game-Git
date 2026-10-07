@@ -13210,6 +13210,28 @@
           "id": "state-capitol-wy:spot:2"
         },
         {
+          "x": 4,
+          "y": 94.3,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 94.3,
+          "seatY": 91.4,
+          "group": "bench-left",
+          "role": "general",
+          "id": "state-capitol-wy:spot:7"
+        },
+        {
+          "x": 96,
+          "y": 94.3,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 94.3,
+          "seatY": 91.4,
+          "group": "bench-right",
+          "role": "general",
+          "id": "state-capitol-wy:spot:8"
+        },
+        {
           "x": 40.5,
           "y": 89.5,
           "pose": "stand",
@@ -13246,7 +13268,7 @@
           "id": "state-capitol-wy:spot:6"
         }
       ],
-      "measuredFrom": "horizon where the front walk edges converge (~74); bollard ~0.9 m foot 96.5 top 90 -> 0.32; sidewalk bench back ~0.85 m foot 93.5 top 88.8 -> 0.28; globe lamp ~4.5 m foot 96.5 top 65 -> 0.31",
+      "measuredFrom": "horizon where the front walk edges converge (~74); bollard ~0.9 m foot 96.5 top 90 -> 0.32; sidewalk bench back ~0.85 m foot 93.5 top 88.8 -> 0.28; globe lamp ~4.5 m foot 96.5 top 65 -> 0.31; two added outer bench spots are visual estimates from state-capitol-wy__midday.jpg (about ±2 percentage points)",
       "surfaceSlots": []
     },
     "state-legislative-chamber-bicameral": {

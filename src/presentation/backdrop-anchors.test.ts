@@ -79,6 +79,19 @@ describe("people anchors on every place picture", () => {
     expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
   });
 
+  it("anchors both outer benches at the Wyoming state capitol", () => {
+    const seats = STAGES["state-capitol-wy"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(4);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
+    expect(seats.filter((spot) => spot.group === "bench-left")).toHaveLength(2);
+    expect(seats.filter((spot) => spot.group === "bench-right")).toHaveLength(
+      2,
+    );
+    expect(seats.every((spot) => spot.facing === "viewer")).toBe(true);
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
