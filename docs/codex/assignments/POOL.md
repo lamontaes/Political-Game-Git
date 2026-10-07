@@ -527,7 +527,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | done #2637 | |
 | BG-23 | Creator: only 6 faces for a man | BUGS.md BG-23 | open | |
 | BG-24 | Creator 'Who are you?' questions are terrible (club-trip registration and similar) | BUGS.md BG-24 | done #87 | |
-| BG-25 | Opening cards ('In the year 2026', 1 of 8) are a non-approved UI; card text hard to read over the Capitol; '2 No party' should read '2 independents'; ghost figure under card 4; hidden newspaper masthead | BUGS.md BG-25 | open | |
+| BG-25 | Opening cards ('In the year 2026', 1 of 8) are a non-approved UI; card text hard to read over the Capitol; '2 No party' should read '2 independents'; ghost figure under card 4; hidden newspaper masthead | BUGS.md BG-25 | ready #3397 | Session 34 |
 | BG-26 | Life story has a 38-year hole, every event is 'In December', no parents/siblings/spouse/children, unexplained school transfer | BUGS.md BG-26 | done #818, #3095 | |
 | BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | open | |
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
