@@ -17,5 +17,6 @@ Every item below is READY with before/after shots (or merged), and a final #2424
 - Journal filler years: delete the `for (let year = 18; year < age…)` loop in character-history.ts and the three no-gap assertions in pre-start-adult-history.test.ts (owner: 'Delete both')
 - Legacy feature flags and the paths only they reach
 - News 'Around you', Places leftovers, People web, Contact panel Ask removal (OW-20), Person card leftovers
+- OWNER 10:55 a.m.: remove the dating/romance conversation intent entirely ('Ask if they would like this to be a date', life-conversation.ts:104) and toy intents like 'Suggest playing a game together' from the player's conversation options — removal only.
 
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

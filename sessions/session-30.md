@@ -14,4 +14,7 @@ Finish the decided design items and remove stand-in values.
 ## Endpoint
 #3049, #3019, #3043 merged-ready, #2981 READY with shots, ≥10 placeholder rows done.
 
+## CTO instructions and findings (do these)
+- BUG from the owner's grading batch: parents and grandparents with impossible ages — a grandmother aged 121 for a 52-year-old player (Isleta, NM), a mother aged 104 for a 70-year-old (Enfield, NC). Family members must be alive only at real ages; older relatives are dead or never generated. Fix where family members are generated/aged and add a test over 56 random places.
+
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
