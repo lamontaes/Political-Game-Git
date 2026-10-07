@@ -12,7 +12,6 @@ import {
   type EntityId,
   type GoverningMatter,
   type World,
-  type IsoDate,
 } from "../simulation";
 import { describeStateExecutiveTerm } from "./state-executive-term-description";
 
@@ -53,8 +52,8 @@ export interface BriefingMatter {
 
 export interface GoverningBriefing {
   readonly officeTitle: string;
-  readonly termLine: string;
-  readonly termEndsAt: IsoDate | null;
+  /** The date the term ends, or null when none is established. */
+  readonly termEnds: string | null;
   /** Shown in an inspection detail, never as a recurring caveat. */
   readonly calendarNote: string | null;
   readonly chiefOfStaff: {
@@ -136,10 +135,7 @@ export function projectGoverningBriefing(
   const chiefPerson = chief ? world.people[chief] : undefined;
   return {
     officeTitle: office.title,
-    termLine: office.termEndsAt
-      ? `Your term runs until ${americanDate(office.termEndsAt)}.`
-      : "Your term's end date is not established.",
-    termEndsAt: office.termEndsAt ?? null,
+    termEnds: office.termEndsAt ? americanDate(office.termEndsAt) : null,
     calendarNote:
       office.officeKey === "us-president" ||
       office.programOffice?.kind === "municipal"
