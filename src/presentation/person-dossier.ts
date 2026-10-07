@@ -98,7 +98,6 @@ export interface PersonDossier {
   readonly details: readonly DossierFact[];
   /** Player-known, outstanding reminders about this person. */
   readonly reminders: readonly DossierFact[];
-  readonly notesMode: "full" | "light" | "none";
   readonly lastInteraction: string | null;
   /**
    * Where the two of them stand, in the player's own words.
@@ -505,7 +504,6 @@ export function projectPersonDossier(
     rightNow: options.rightNow ?? null,
     details,
     reminders,
-    notesMode,
     lastInteraction: describeInteraction(world, playerId, personId),
     strain: recentStrain(world, playerId, personId),
     standing:

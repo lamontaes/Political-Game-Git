@@ -7,11 +7,7 @@ import {
 } from "./player-model";
 import { lowestDigestFirst, sha256Hex } from "./sha256";
 import { canonicalPriorEncoding, setupPriorsOf } from "./setup-priors";
-import type {
-  LifeSituationBand,
-  LifeSituationKey,
-  World,
-} from "./types";
+import type { LifeSituationBand, LifeSituationKey, World } from "./types";
 
 /**
  * The seed the adaptive layer orders by.
@@ -211,10 +207,7 @@ export function rankSituations(
     const collision = CROSS_PRESSURE_WEIGHT * pressure.strength;
     const continuity = candidate.followsFromHistory ? CONTINUITY_WEIGHT : 0;
     const noveltyPenalty = recent.has(candidate.key) ? NOVELTY_PENALTY : 0;
-    const pacingPenalty = pacingPenaltyFor(
-      candidate.stakes,
-      recentLoad,
-    );
+    const pacingPenalty = pacingPenaltyFor(candidate.stakes, recentLoad);
     return {
       candidate,
       pressure,
@@ -320,10 +313,7 @@ function winsWithout(
   );
 }
 
-function pacingPenaltyFor(
-  stakes: LifeStakesTier,
-  recentLoad: number,
-): number {
+function pacingPenaltyFor(stakes: LifeStakesTier, recentLoad: number): number {
   const load = STAKES_LOAD[stakes];
   const weights = { pressure: PACING_PENALTY, quiet: MONOTONY_PENALTY };
   if (recentLoad >= 0.6) {

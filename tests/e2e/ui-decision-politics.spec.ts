@@ -71,8 +71,6 @@ async function startPoliticsTestLife(
   await expect(page.getByTestId("creator-stage-background")).toBeVisible();
   await page.getByTestId("depth-later").click();
   await page.getByTestId("creator-continue-background").click();
-  await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
-  await page.getByTestId("creator-skip-difficulty").click();
   await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
   await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();

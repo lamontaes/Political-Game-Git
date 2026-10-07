@@ -440,11 +440,7 @@ export function buildProductionWorld(
   // Complete their employment and home through the existing opening writers.
   if (estimateOpeningFamily)
     world = ensureTownHomes(
-      ensureTownEmployment(
-        world,
-        jurisdiction.id,
-        player.id,
-      ),
+      ensureTownEmployment(world, jurisdiction.id, player.id),
       jurisdiction.id,
     );
   // An adult New Game start draws the rest of the family around the parent
