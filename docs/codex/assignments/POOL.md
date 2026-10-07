@@ -558,7 +558,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | open | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | open | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | open | |
-| BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | open | |
+| BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | done #2514 (verified on current main) | |
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | open | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | open | |
