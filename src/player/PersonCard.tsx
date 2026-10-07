@@ -230,7 +230,10 @@ export function PersonCard({
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
   const role =
-    dossier.details.find((fact) => fact.attribution === "record")?.text ?? null;
+    dossier.details.find(
+      (fact) =>
+        fact.key.startsWith("public-role-") || fact.key.startsWith("position-"),
+    )?.text ?? null;
   const isYou = dossier.personId === playerId;
   const alive =
     web.nodes.find((node) => node.personId === dossier.personId)?.alive !==
@@ -318,6 +321,11 @@ export function PersonCard({
           />
           <div className="pg-person-card-titles">
             <h2 data-testid="dossier-name">{dossier.name}</h2>
+            {dossier.age !== null ? (
+              <p className="pg-person-card-age" data-testid="dossier-age">
+                Age · {dossier.age}
+              </p>
+            ) : null}
             {role ? (
               <p className="pg-person-card-role" data-testid="dossier-role">
                 {role}
