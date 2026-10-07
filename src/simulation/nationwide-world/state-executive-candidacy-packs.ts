@@ -1,9 +1,5 @@
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { knownRule, unknownRule } from "../legislature-rules";
-import {
-  standInQualification,
-  standInQualificationEligibilitySentence,
-} from "../office-qualification-profile";
 import type { RuleSourceRef } from "../legislature-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import {
@@ -22,9 +18,10 @@ import {
  *
  * A leaf, like `candidacy-packs.ts` it composes into: no places, no World. It
  * says only that each state has one chief executive office a person can stand
- * for through the existing campaign and contest route. State age estimates
- * remain separate from a legal qualification. Eligibility reads accepted
- * jurisdiction rules; an estimate never establishes who may file.
+ * for through the existing campaign and contest route. Every qualification,
+ * term and filing value stays UNKNOWN here on purpose; candidacy eligibility
+ * reads them from RULES at filing time, so admitting a state's facts changes
+ * behavior with no edit to this file.
  */
 
 /**
@@ -274,13 +271,6 @@ const TERRITORY_STRUCTURE_SOURCE: RuleSourceRef = {
 };
 
 function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
-  const minimumAgeEstimate = isUsState(identity.stateUsps)
-    ? standInQualification(
-        identity.jurisdictionKey,
-        "MINIMUM_AGE",
-        "GOVERNOR",
-      )
-    : null;
   const structure = isDistrictOfColumbia(identity.stateUsps)
     ? DISTRICT_STRUCTURE_SOURCE
     : isUsTerritoryWithGovernor(identity.stateUsps)
@@ -301,11 +291,7 @@ function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
       packName: identity.displayName,
     },
     qualification: {
-      minimumAge: unknownRule(
-        minimumAgeEstimate
-          ? standInQualificationEligibilitySentence(minimumAgeEstimate)
-          : QUALIFICATION_AT_FILING,
-      ),
+      minimumAge: unknownRule(QUALIFICATION_AT_FILING),
       residency: unknownRule(QUALIFICATION_AT_FILING),
       termYears: unknownRule(QUALIFICATION_AT_FILING),
       filing: unknownRule(NO_FILING_PROCEDURE),
