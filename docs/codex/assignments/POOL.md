@@ -560,7 +560,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | open | |
 | BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | done #2514 (verified on current main) | |
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
-| BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | open | |
+| BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | open | |
 | BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | open | |
@@ -823,7 +823,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2602 | Add LW-08 development incentive award records | PR #2602 (session-26/lw08-development-incentive-cap) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2603 | b04-p1: keep leftover campaign funds under state rules | PR #2603 (session31/b04-p1-leftover-funds) | open: draft: finish it or close it as superseded | |
 | RS-2604 | LW-15: Record ranked household SNAP participation | PR #2604 (session52/lw15-health-human-services) | open: rebase on main (conflicts) | |
-| RS-2605 | Source Federal Direct student loan interest rate | PR #2605 (session-51-b27-p4) | open: draft: finish it or close it as superseded | |
+| RS-2605 | Source Federal Direct student loan interest rate | PR #2605 (session-51-b27-p4) | done #2605 | |
 | RS-2606 | docs: publish English batch 08:42 evidence | PR #2606 (codex/session49-english-batch-0842) | open: draft: finish it or close it as superseded | |
 | RS-2607 | Placeholders: PH-data-misc (2 chunks) | PR #2607 (cloud/placeholders-data-misc) | open: rebase on main (conflicts) | |
 | RS-2608 | Placeholders: PH-data-research (12 chunks) | PR #2608 (cloud/placeholders-data-research) | open: rebase on main (conflicts) | |
