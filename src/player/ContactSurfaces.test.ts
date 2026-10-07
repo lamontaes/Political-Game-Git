@@ -15,4 +15,15 @@ describe("the contact and conversation screens carry no authored sentence", () =
     expect(code.match(/"[A-Z][^"]{30,}[.?!]"/g) ?? []).toEqual([]);
     expect(code.match(/>\s*[A-Z][a-z]+ [a-z ,']{30,}/g) ?? []).toEqual([]);
   });
+
+  it.each([
+    "Getting in touch",
+    "Meet somebody new",
+    "You live together.",
+    "Last in touch",
+    "It has been a long while.",
+  ])("ContactsPanel.tsx does not render authored copy: %s", (copy) => {
+    const code = readFileSync(join(__dirname, "ContactsPanel.tsx"), "utf8");
+    expect(code).not.toContain(copy);
+  });
 });

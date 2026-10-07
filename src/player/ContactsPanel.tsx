@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   answerMeeting,
@@ -55,7 +55,6 @@ export function ContactsPanel({
    */
   readonly focused?: boolean;
 }) {
-  const titleId = useId();
   const view = useMemo(
     () => projectContacts(world, personId),
     [world, personId],
@@ -90,17 +89,14 @@ export function ContactsPanel({
   );
 
   return (
-    <section
+    <div
       className={
         focused
           ? "pg-contacts pg-contacts--focused"
           : "pg-personal-section pg-contacts"
       }
       data-testid={focused ? "contact-focus-panel" : "contacts"}
-      aria-labelledby={focused ? undefined : titleId}
-      aria-label={focused ? "Getting in touch" : undefined}
     >
-      {focused ? null : <h3 id={titleId}>Getting in touch</h3>}
       {/* Said where it is seen: at the bottom of a long list it went unread. */}
       {note ? (
         <p
@@ -168,7 +164,6 @@ export function ContactsPanel({
       )}
       {newOptions.length > 0 ? (
         <div className="pg-contacts-new" data-testid="meet-new">
-          <h4>Meet somebody new</h4>
           <ul className="pg-contacts-new-list">
             {newOptions.map((option) => (
               <li key={option.key}>
@@ -198,7 +193,7 @@ export function ContactsPanel({
           </ul>
         </div>
       ) : null}
-    </section>
+    </div>
   );
 }
 
@@ -264,11 +259,13 @@ function ContactRow({
         is nothing to say: an unknown last contact is not "never".
       */}
       {contact.livesWithYou ? (
-        <p className="pg-contact-line">You live together.</p>
+        <p className="pg-contact-line" data-lives-with-you="true" />
       ) : contact.lastContactSpoken ? (
-        <p className="pg-contact-line">
-          Last in touch {contact.lastContactSpoken}.
-          {contact.outOfTouch ? " It has been a long while." : ""}
+        <p
+          className="pg-contact-line"
+          data-out-of-touch={contact.outOfTouch ? "true" : undefined}
+        >
+          {contact.lastContactSpoken}
         </p>
       ) : null}
       {contact.lastAnswer ? (
@@ -314,7 +311,7 @@ function ContactRow({
       {theyAsked ? (
         <div className="pg-contact-ask">
           <p data-testid={tid(`contact-outstanding-${contact.personId}`)}>
-            {contact.name} asked about {theyAsked.onSpoken}: {theyAsked.purpose}
+            {contact.name} · {theyAsked.onSpoken} · {theyAsked.purpose}
           </p>
           <div className="pg-contact-actions">
             <button
