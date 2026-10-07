@@ -475,7 +475,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | T9-facet-hot-headed | Wire trait facet-hot-headed into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-sensitive | Wire trait facet-sensitive into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-tender-hearted | Wire trait facet-tender-hearted into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3248 | |
-| T9-facet-excitable | Wire trait facet-excitable into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
+| T9-facet-excitable | Wire trait facet-excitable into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3245 | Session 59 |
 | T9-facet-light-hearted | Wire trait facet-light-hearted into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-restless | Wire trait facet-restless into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #2938 | |
 | T9-facet-brooding | Wire trait facet-brooding into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3184 | Session 52 |

@@ -109,6 +109,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
   {
+    trait: "personality-v1:facet-excitable",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-excitable.ts",
+  },
+  {
     trait: "personality-v1:facet-affectionate",
     kind: "decision",
     reader:
