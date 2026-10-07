@@ -109,6 +109,20 @@ export interface PersonUpbringing {
   readonly events: readonly UpbringingEvent[];
   readonly schooling: readonly SchoolExperience[];
   readonly firstJob: FirstJobExperience;
+  /**
+   * Smooth leans read from the household records when no schooling or
+   * caregiving experience is recorded (a summarized earlier life). Whole
+   * numbers are never decided here: the sum is rounded once, in
+   * `upbringingCoreValueFrom`.
+   */
+  readonly recordedLean?: RecordedUpbringingLean;
+}
+
+export interface RecordedUpbringingLean {
+  readonly sociability: number;
+  readonly conflict: number;
+  readonly risk: number;
+  readonly source: UpbringingSource;
 }
 
 export interface UpbringingTraitTendency {
@@ -879,8 +893,78 @@ function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
     events: parentDied ? ["parent-death"] : [],
     schooling: [],
     firstJob: "none",
+    recordedLean: recordedLeanFrom(
+      familyContext,
+      money,
+      disruption,
+      parentDied,
+    ),
   };
 }
+
+/** PLACEHOLDER weights until the child-development research is read; every one is smooth. */
+const SIBLING_K = 2;
+const CONGREGATION_K = 1;
+const MONEY_EASE: Record<FamilyMoney, number> = {
+  secure: 0.6,
+  strained: 0,
+  "severe-scarcity": -0.6,
+};
+const MONEY_STRAIN: Record<FamilyMoney, number> = {
+  secure: -0.5,
+  strained: 0,
+  "severe-scarcity": 0.5,
+};
+
+/**
+ * What the world already records about a household bears on a child's
+ * sociability, conflict and risk without a draw: siblings and a congregation
+ * mean more peers; scarcity strains a home; fewer caregivers per child mean
+ * less supervision; moves and a parent's death disrupt friendships and
+ * routines. Pure and continuous: no threshold, no place named.
+ */
+function recordedLeanFrom(
+  family: ChildhoodFamilyContext,
+  money: PersonUpbringing["money"],
+  disruption: number,
+  parentDied: boolean,
+): RecordedUpbringingLean {
+  const siblings = family.estimatedSiblingCount ?? 0;
+  const congregations = family.congregationIds.length;
+  const level = money.at(-1)?.level ?? "strained";
+  const capacity = Math.min(family.caregiverCapacity ?? 1, 2) / 2;
+  const unsupervised = 1 - capacity;
+  const died = parentDied ? 1 : 0;
+  return {
+    sociability:
+      (2 * siblings) / (siblings + SIBLING_K) +
+      (0.5 * congregations) / (congregations + CONGREGATION_K) +
+      MONEY_EASE[level] -
+      0.9 * disruption -
+      0.4 * died -
+      0.6,
+    conflict:
+      1.2 * unsupervised +
+      MONEY_STRAIN[level] +
+      0.5 * disruption +
+      0.4 * died -
+      0.55,
+    risk: 2.4 * unsupervised + 0.3 * died - 1.25,
+    source: {
+      kind: "game-profile",
+      key: "recorded-household-upbringing-lean",
+      note: "ESTIMATED FROM GAME FAMILIES: siblings, congregation, household pay, caregivers per child, school-year moves and a parent's death, each weighed smoothly; nothing is drawn.",
+    },
+  };
+}
+
+const RECORDED_CARE: ReadonlySet<CaregivingClimate> = new Set([
+  "protective-reliable",
+  "consistent-firm",
+  "inconsistent",
+  "high-conflict",
+  "harsh",
+]);
 
 const candidate = (
   trait: string,
@@ -1302,6 +1386,12 @@ export function upbringingCoreValueFrom(
     );
     if (upbringing.firstJob === "autonomy") score += 1;
   }
+  if (
+    (trait === "sociability" && upbringing.schooling.length === 0) ||
+    (trait === "conflict" && !RECORDED_CARE.has(upbringing.caregiving)) ||
+    (trait === "risk" && upbringing.firstJob === "none")
+  )
+    score += upbringing.recordedLean?.[trait] ?? 0;
   // The scale is whole numbers; the score is rounded once, at the very end.
   return (Math.round(Math.max(-2, Math.min(2, score))) + 0) as TraitValue;
 }
