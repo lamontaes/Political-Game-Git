@@ -69,6 +69,7 @@ import { lifePaths2Handlers } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import { seatCountyRowOfficerWinner } from "./living-world/local-government-seats";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
   localElectionHandlers,
@@ -1925,6 +1926,19 @@ function seatOnLocalGoverningBody(
   winnerPersonId: EntityId,
 ): World {
   const unit = office.unit;
+  if (office.seat === "row-office" && office.rowOffice) {
+    const next = seatCountyRowOfficerWinner(world, {
+      unit,
+      office: office.rowOffice,
+      title: office.officeTitle,
+      winnerPersonId,
+      effectiveAt,
+      contestId: contest.id,
+      outcomeEventId,
+    });
+    assertWorldIntegrity(next);
+    return next;
+  }
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
   const compiled = municipalWorkspaceGovernmentForUnit(unit);

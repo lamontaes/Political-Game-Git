@@ -346,6 +346,8 @@ function campaignSeats(
       contest.office.officeKey,
     );
     if (office?.unit.id !== unit.id) continue;
+    // A county row office has no numbered seat; it takes none from the board.
+    if (office.seat === "row-office") continue;
     const seat = localCampaignSeat(
       unit,
       office.seat === "chief-executive",
@@ -376,7 +378,7 @@ export function withdrawTownRaceForCampaign(
   const office = localGoverningBodyIdentityForOfficeKey(
     contest.office.officeKey,
   );
-  if (!office) return world;
+  if (!office || office.seat === "row-office") return world;
   const { unit } = office;
   const campaign = campaigns(world).find((row) => row.contestId === contestId);
   const seat = localCampaignSeat(
