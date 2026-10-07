@@ -7,7 +7,11 @@ import { SeededRng } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
 import { projectCongress } from "./congress";
-import { ensureLivingWorldOpening, LIVING_WORLD_OPENING_KEY } from "./opening";
+import {
+  ensureCongressMemberWork,
+  ensureLivingWorldOpening,
+  LIVING_WORLD_OPENING_KEY,
+} from "./opening";
 
 const seed = "playtest65-o-gap-audit";
 let base: World;
@@ -96,6 +100,29 @@ describe("versioned legislative member names", () => {
       "Roach",
     ]);
     expect(fixed.identity).toEqual({ gender: "male", pronouns: "he-him" });
+  });
+  it("records public legislative work for current members through the work ledger", () => {
+    const legacyMembers = members(legacy);
+    const currentWithWork = ensureCongressMemberWork(current);
+    const currentMembers = members(currentWithWork);
+
+    for (const { person } of legacyMembers) {
+      expect(
+        legacy.history.workRelationships.some(
+          (work) => work.personId === person.id,
+        ),
+      ).toBe(false);
+    }
+    for (const { person } of currentMembers) {
+      expect(
+        currentWithWork.history.workRelationships.some(
+          (work) =>
+            work.personId === person.id &&
+            work.kind === "employment:legislative-member" &&
+            work.stableKey.endsWith(":legislative-work"),
+        ),
+      ).toBe(true);
+    }
   });
   it("never renames stored people and preserves the completed save on reload", () => {
     for (const world of [legacy, current]) {

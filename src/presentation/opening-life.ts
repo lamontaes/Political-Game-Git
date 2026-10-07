@@ -24,6 +24,8 @@ import {
 } from "../simulation/living-world/local-government-seats";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
+import { scheduleNationwideStateBillSeasons } from "../simulation/governing/governing-calendar";
+import { scheduleCongressIntake } from "../simulation/governing/congress-lawmaking";
 import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
@@ -32,6 +34,7 @@ import {
   householdMembershipsAt,
   recordWorldEvent,
   ensureHomePartyChapters,
+  ensureCongressMemberWork,
   ensureLivingWorldDevelopments,
   ensureLivingWorldOpening,
   ensurePressOpening,
@@ -223,6 +226,10 @@ export async function generateOpeningLifeWithProgress(
       });
       await (options.yieldControl ?? yieldOpeningPreparationToHost)();
     }
+    world = scheduleNationwideStateBillSeasons(world);
+    world = scheduleDcCouncilSitting(
+      ensureDistrictOfColumbiaCouncilOpening(world),
+    );
   }
 
   throwIfOpeningAborted(options.signal);
@@ -351,11 +358,14 @@ function* beginOpeningLifeSteps(
     openingData === "playtest65-v1"
       ? ensureOpeningPriorLocalRecords(staffed)
       : staffed;
-  const living = ensureLivingWorldOpening(
+  const livingOpening = ensureLivingWorldOpening(
     withPriorRecords,
     game.playerPersonId,
     session.setup.livingWorldMemberNameVersion,
   );
+  const living = session.setup.livingWorldMemberNameVersion
+    ? ensureCongressMemberWork(livingOpening)
+    : livingOpening;
   const prewarmNationwide =
     worldOpeningVersionOf(living) === CRUNCH46_WORLD_OPENING_VERSION;
   if (!prewarmNationwide) {
@@ -419,6 +429,13 @@ function buildOpeningLife(
         total: chunk.totalStates,
       });
     }
+    world = scheduleNationwideStateBillSeasons(world);
+    // D.C. is a state-level legislature too: seat its Council and seed the
+    // existing Council calendar for every opening world, not only a D.C.-home
+    // player. The Council keeps its own member-agenda intake and numbering.
+    world = scheduleDcCouncilSitting(
+      ensureDistrictOfColumbiaCouncilOpening(world),
+    );
     for (const chunk of prepareOpeningCongressPrinciplesChunks(world)) {
       world = chunk.world;
       onProgress?.({
@@ -441,7 +458,7 @@ function* completeOpeningLifeSteps(
   yield openingStage("Preparing world conditions", preparedWorld);
   const { session, game, prewarmNationwide } = start;
   const withLocalIntakes = prewarmNationwide
-    ? scheduleLocalMemberAgendaIntakes(preparedWorld)
+    ? scheduleCongressIntake(scheduleLocalMemberAgendaIntakes(preparedWorld))
     : preparedWorld;
   const withParties = ensurePartyGoverningBodies(
     ensureHomePartyChapters(

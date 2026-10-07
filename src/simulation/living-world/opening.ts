@@ -48,9 +48,61 @@ import {
   latentsFromRecord,
 } from "../world-setup/political-start";
 import { appendPartyRecords } from "../world-setup/party-store";
+import { createWorkRelationships } from "../life";
+import type { CreateWorkRelationshipInput } from "../life";
 import type { PoliticalStartingConditionsRecord } from "../world-setup/types";
+import { projectCongress } from "./congress";
 
 export { LIVING_WORLD_WRITER_VERSION };
+
+/**
+ * Persist the opening Congress roster's public service through the work ledger.
+ */
+export function ensureCongressMemberWork(world: World): World {
+  const congress = projectCongress(world);
+  if (!congress) return world;
+  const generated: LifeRecordProvenance = {
+    kind: "generated",
+    generatorKey: V,
+  };
+  const dcId = stateJurisdictionForKey("US-DC")?.id;
+  const officeLocation = dcId && world.jurisdictions[dcId] ? dcId : null;
+  const rows: CreateWorkRelationshipInput[] = [];
+  for (const chamber of [congress.house, congress.senate]) {
+    for (const seat of chamber.seats) {
+      if (seat.occupant.kind !== "member") continue;
+      const member = seat.occupant.member;
+      const startedAt = member.serviceSince ?? member.startedAt;
+      if (!startedAt) continue;
+      rows.push({
+        stableKey: `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:${member.termId}:legislative-work`,
+        personId: member.personId,
+        organizationId: chamber.organizationId,
+        startedAt,
+        kind: "employment:legislative-member",
+        compensation: "paid",
+        authority: "shared",
+        dependency: "partly-dependent",
+        economicRisk: "organization-borne",
+        provenance: generated,
+        initialRole: {
+          title: member.title,
+          occupationClassification: "service:elected-legislator",
+          locationJurisdictionId: officeLocation,
+          timeDemand: {
+            expectedWeekly: { minimumHours: 10, maximumHours: 45 },
+            attention: "high",
+            concurrency: "partly-concurrent",
+            scheduleRigidity: "mixed",
+            interruptibility: "limited",
+            locationJurisdictionId: officeLocation,
+          },
+        },
+      });
+    }
+  }
+  return createWorkRelationships(world, rows);
+}
 const V = LIVING_WORLD_WRITER_VERSION;
 
 /** Present exactly once in a save whose public world W established. */

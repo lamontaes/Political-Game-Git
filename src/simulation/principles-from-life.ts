@@ -151,6 +151,7 @@ const BIG_CITY_FROM = 250_000;
 const PUBLIC_EMPLOYERS: readonly string[] = [
   "sector:government",
   "sector:federal-government-office",
+  "sector:federal-legislature",
   "sector:state-government-office",
   "sector:local-government-office",
   "service:municipal-government",
