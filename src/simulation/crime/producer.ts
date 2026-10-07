@@ -589,7 +589,7 @@ export function sampleTownPoliceLog(
   const since = openedOn(world, monthStart);
   const baseWeights = LOCAL_CRIME_RATES.offenses.map((rule) => ({
     offense: rule.offense,
-    weight: rule.annualRate * rule.reportedShare,
+    weight: rule.reportedRate,
   }));
   const baseTotal = baseWeights.reduce((sum, row) => sum + row.weight, 0);
   const perYear = TOWN_POLICE_LOG.reportedPerMonth * 12;

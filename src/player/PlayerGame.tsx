@@ -167,14 +167,13 @@ import {
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
-  applyPreStartCreatorLifeForks,
   createPreStartNewGameWorld,
   finishPreStartNewGameWorld,
   type NewGame,
   type NewGameSetup,
 } from "../presentation/new-game";
 import { olderOneSaveSlots } from "../presentation/one-save-slots";
-import { playSettingsOf, setPlaySetting } from "../simulation/play-settings";
+import { playSettingsOf } from "../simulation/play-settings";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
@@ -209,6 +208,10 @@ import {
   electionNightLocationKey,
 } from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
+import {
+  protestLocationKey,
+  protestPresentPeople,
+} from "../presentation/protest-presence";
 import {
   courtroomLocationKey,
   courtroomPresentPeople,
@@ -1101,10 +1104,7 @@ export function PlayerGame() {
               const completedSetup = endQuestionnaireEarly(setup);
               if (stagedGame) {
                 try {
-                  const answered = applyPreStartCreatorLifeForks(
-                    stagedGame,
-                    completedSetup.creatorLifeForks ?? [],
-                  );
+                  const answered = stagedGame;
                   const preStart = answered.world.preStartLife;
                   if (!preStart)
                     throw new Error("The staged character is missing.");
@@ -1720,7 +1720,8 @@ function PlayingScreen({
             // activity in progress.
             (playScene.purpose !== "activity"
               ? (electionNightLocationKey(session.world, session.personId) ??
-                courtroomLocationKey(session.world, session.personId))
+                courtroomLocationKey(session.world, session.personId) ??
+                protestLocationKey(session.world, session.personId))
               : null) ??
               // An unspecified moment resolves to the home room above it in
               // play-scene-context, so its place picture is home too; without
@@ -1748,14 +1749,20 @@ function PlayingScreen({
             session.personId,
             placeBackdrop.place,
             session.world.currentMoment,
-            // The scene's own people (a meeting's seated officers) first;
-            // on a day the court sat, the judge and jurors the records name.
+            // The scene's own people (a meeting's seated officers) first; on
+            // a day the court sat, the people the records name in the room;
+            // on a protest day, its recorded organizer and attendees.
             placeBackdrop.place === "county-courtroom"
               ? [
                   ...playScene.presentPeople,
                   ...courtroomPresentPeople(session.world, session.personId),
                 ]
-              : playScene.presentPeople,
+              : placeBackdrop.place === "rally-stage"
+                ? [
+                    ...playScene.presentPeople,
+                    ...protestPresentPeople(session.world, session.personId),
+                  ]
+                : playScene.presentPeople,
             {
               speakerId:
                 conversation && conversation.addressee !== "everyone"
@@ -4276,25 +4283,6 @@ function renderWorkspace({
           <OptionsWorkspace
             state={shell}
             dispatch={dispatch}
-            playSettings={playSettingsOf(session.world)}
-            onSetPlaySetting={(key, value) => {
-              if (key === "challenge")
-                onWorldChange(
-                  setPlaySetting(
-                    session.world,
-                    key,
-                    value as "quiet" | "standard" | "relentless",
-                  ),
-                );
-              else
-                onWorldChange(
-                  setPlaySetting(
-                    session.world,
-                    key,
-                    value as "full" | "light" | "none",
-                  ),
-                );
-            }}
             onOpenPatchNotes={() =>
               dispatch({ type: "go-to-surface", surface: "patch-notes" })
             }
@@ -5131,10 +5119,7 @@ function JournalView({
 
       <h3>What has happened</h3>
       {chapters.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
+        <p data-testid="journal-empty" />
       ) : (
         <ol data-testid="journal-entries">
           {chapters.chapters.map((chapter) => (
