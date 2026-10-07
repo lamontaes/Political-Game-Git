@@ -3734,6 +3734,22 @@ export function generateQuickCharacterHistory(
           provenance: generated,
         },
       },
+      ...(ageOnDate(person.birthDate, world.currentDate) >= 18
+        ? [
+            {
+              kind: "household-membership-state" as const,
+              input: {
+                stableKey: key("household:parent-left"),
+                membershipStableKey: `${home}:parent`,
+                effectiveAt: dateAtAge(person.birthDate, 18),
+                status: "ended" as const,
+                residenceRole: "primary" as const,
+                kind: "resident:adult" as const,
+                provenance: generated,
+              },
+            },
+          ]
+        : []),
       {
         kind: "kinship",
         input: {

@@ -541,7 +541,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-41 | 'Back in the room.' debug text shows in the page | BUGS.md BG-41 | open | |
 | BG-42 | First-paycheck block: opening employer cash unset (Session 8) | BUGS.md BG-42 | done #2287 | |
 | BG-43 | Pay-stub test is red | BUGS.md BG-43 | open | |
-| BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | open | |
+| BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | done #2976 | |
 | BG-45 | Newspaper test red | BUGS.md BG-45 | open | |
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
 | BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | open | |
@@ -618,7 +618,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1488 | Read retained majority-member and NJ/Congress filing predicates | PR #1488 (codex/team1-majority-question-counts) | ready #1488 | |
 | RS-1508 | Retain dated county source intake and actual binding gaps | PR #1508 (codex/team7-county-source-intake-02) | done #1508 | |
 | RS-1511 | Persist canonical chunked world saves in SQLite | PR #1511 (codex/audit-sqlite-chunked-world-saves) | done #1511 | S50 |
-| RS-1572 | A57 bypass the blanket renewal cap when final terms govern | PR #1572 (codex/team-4-a57-rent-cap-consumer) | open: draft: finish it or close it as superseded | |
+| RS-1572 | A57 bypass the blanket renewal cap when final terms govern | PR #1572 (codex/team-4-a57-rent-cap-consumer) | done #3118 (superseded by merged shared rent-cap consumer) | |
 | RS-1591 | A56: first landlords follow recorded owners and the saved home roster | PR #1680 (merged: first leases follow recorded owners) | done #1680 | S50 | |
 | RS-1647 | A25: extract sourced juvenile ages without runtime admission | PR #1647 (codex/team9-a25-sourced-age-extraction) | open: stacked on codex/team9-a103-recorded-sentence-terms: retarget to main; draft: finish it or close it as superseded | |
 | RS-1662 | WIP: People's views weigh what they lived through (slice 10 Lives) | PR #1662 (claude/quirky-brown-rq82i7) | open: draft: finish it or close it as superseded | |
