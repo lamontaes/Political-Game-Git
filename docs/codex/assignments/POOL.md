@@ -564,7 +564,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | done #5060835 | |
-| BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
+| BG-60 | Wrong font in places | BUGS.md BG-60 | ready #3517 | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
@@ -639,7 +639,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2117 | research: preserve abortion limits and conditional exceptions | PR #2117 (codex/standby5-abortion-compound-source-packet) | open: draft: finish it or close it as superseded | |
 | RS-2121 | A15: sourced family-leave monetary rows (parked) | PR #2121 (codex/overflow1-labor-starting-terms) | open: draft: finish it or close it as superseded | |
 | RS-2122 | Document voting restoration conditions for sixteen jurisdictions | PR #2122 (codex/a117-restoration-primary-laws) | open: draft: finish it or close it as superseded | |
-| RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | open: draft: finish it or close it as superseded | |
+| RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | ready #2123 | Session 35 |
 | RS-2127 | Checkpoint sourced Missouri Ohio and New Jersey teacher floors | PR #2127 (codex/standby1-teacher-missouri-terms) | open: draft: finish it or close it as superseded | |
 | RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | ready #2147 | |
 | RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | done #2177 | |
