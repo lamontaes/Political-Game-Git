@@ -603,7 +603,6 @@ export function PeopleWorkspace({
         </div>
       </section>
     </div>
-
   );
 }
 
