@@ -547,7 +547,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-40 | 'Paid $193.46' with no payee | BUGS.md BG-40 | done #2778 | |
 | BG-41 | 'Back in the room.' debug text shows in the page | BUGS.md BG-41 | done #2940 | |
 | BG-42 | First-paycheck block: opening employer cash unset (Session 8) | BUGS.md BG-42 | done #2287 | |
-| BG-43 | Pay-stub test is red | BUGS.md BG-43 | open | |
+| BG-43 | Pay-stub test is red | BUGS.md BG-43 | done #3376 | |
 | BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | done #2976 | |
 | BG-45 | Newspaper test red | BUGS.md BG-45 | done #2315 | |
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
@@ -614,7 +614,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1257 | Import 61 approved picture and kids-sheet sources | PR #1257 (codex/team7-law-place-import) | done (superseded by C7; approved sources preserved for later owner review) | S35 |
 | RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
-| RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
+| RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #3279 (session-35/rs-1303-rescue) | ready #3279 | Session 35 |
 | RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #3297 (session-35/rs-1306-fresh) | ready #3297 | |
 | RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | ready #3271 | |
 | RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | ready #1332 | |
