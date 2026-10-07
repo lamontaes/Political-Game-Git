@@ -512,7 +512,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | done #3263        |              |
 | BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | done #2860        |              |
 | BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done              | #2961        |
-| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | ready #3256       |              |
+| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | done #3256       |              |
 | BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done              | merged #2875 |
 | BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878        |              |
 | BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done              | merged #2861 |
@@ -535,26 +535,26 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
 | BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | open | |
 | BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | done #441 | |
-| BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
+| BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | done #2150/#715 | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | done #2220 | |
 | BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | done #1853 | |
 | BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | done #1853, #7eec528 | |
-| BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | ready #3395 (unsupported: generic agenda has no order; 23 reference series across 15 governments lack an order field or current authority for all 56) | Session 34 |
+| BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | done #3395 | Session 34 |
 | BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | ready #3415 | |
-| BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | open | |
+| BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | done #495/#2145/#87 | |
 | BG-38 | 'Until needed' stops at 7 a.m. first and needs two presses to reach an evening event | BUGS.md BG-38 | done #2960 | |
-| BG-39 | A week later the scene is still the meeting room at 7 a.m. with the same people | BUGS.md BG-39 | open | |
+| BG-39 | A week later the scene is still the meeting room at 7 a.m. with the same people | BUGS.md BG-39 | done #1221 | |
 | BG-40 | 'Paid $193.46' with no payee | BUGS.md BG-40 | done #2778 | |
 | BG-41 | 'Back in the room.' debug text shows in the page | BUGS.md BG-41 | done #2940 | |
 | BG-42 | First-paycheck block: opening employer cash unset (Session 8) | BUGS.md BG-42 | done #2287 | |
-| BG-43 | Pay-stub test is red | BUGS.md BG-43 | open | |
+| BG-43 | Pay-stub test is red | BUGS.md BG-43 | done #3376 | |
 | BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | done #2976 | |
 | BG-45 | Newspaper test red | BUGS.md BG-45 | done #2315 | |
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
-| BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | ready #3353 | |
+| BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | done #3353 | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | unsupported: no sourced sitting trigger or nonsitting action contract | |
-| BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
+| BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | done #268 | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
