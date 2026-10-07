@@ -11,7 +11,6 @@ import { electionContestResult } from "../../src/simulation";
 import { projectBillPaper } from "../../src/presentation/bill-paper";
 import { journalInFirstPerson } from "../../src/presentation/journal-first-person";
 import { projectJournalView } from "../../src/presentation/journal-views";
-import { projectNewsFrontPage } from "../../src/presentation/news-front-page";
 import { projectOrdinaryMeetingScene } from "../../src/presentation/ordinary-meeting-scene";
 import {
   readHearingBank,
