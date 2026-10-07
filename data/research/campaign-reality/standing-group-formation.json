@@ -1,0 +1,4 @@
+{
+  "id": "campaign-standing-group",
+  "standingGroupAllowedFrom": ["active", "won", "lost"]
+}

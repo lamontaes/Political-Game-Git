@@ -1,4 +1,8 @@
 import { addDays } from "./dates";
+import {
+  organizationParticipationStateAt,
+  organizationProfileAt,
+} from "./life-queries";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -352,6 +356,7 @@ export function netViewOnLaw(
 // Organized interests: reads of the groups living-world/law-interest-groups.ts
 // forms.
 const G = "law-interest";
+const STANDING_GROUP = "membership:standing-group";
 
 export function lawInterestGroupKey(town: EntityId, measureId: EntityId) {
   return `${G}:${town}:${measureId}`;
@@ -384,6 +389,72 @@ export function lawInterestMembersInTown(
   if (groups.size === 0) return members;
   for (const row of world.history.organizationParticipations)
     if (groups.has(row.organizationId)) members.add(row.personId);
+  return members;
+}
+
+/** Active members of a campaign standing group based in this jurisdiction. */
+export function standingGroupMembersInJurisdiction(
+  world: World,
+  jurisdictionId: EntityId,
+): ReadonlySet<EntityId> {
+  const groups = new Set(
+    world.history.organizations
+      .filter((organization) => {
+        const profile = organizationProfileAt(world, organization.id);
+        return (
+          profile?.classification === STANDING_GROUP &&
+          profile.locationJurisdictionId === jurisdictionId
+        );
+      })
+      .map((organization) => organization.id),
+  );
+  const members = new Set<EntityId>();
+  for (const participation of world.history.organizationParticipations) {
+    if (
+      groups.has(participation.organizationId) &&
+      organizationParticipationStateAt(world, participation.id)?.status ===
+        "active"
+    ) {
+      members.add(participation.personId);
+    }
+  }
+  return members;
+}
+
+/** Active members of one standing group; empty for every other organization. */
+export function standingGroupMembers(
+  world: World,
+  organizationId: EntityId,
+): ReadonlySet<EntityId> {
+  if (
+    organizationProfileAt(world, organizationId)?.classification !==
+    STANDING_GROUP
+  )
+    return new Set();
+  const members = new Set<EntityId>();
+  for (const participation of world.history.organizationParticipations)
+    if (
+      participation.organizationId === organizationId &&
+      organizationParticipationStateAt(world, participation.id)?.status ===
+        "active"
+    )
+      members.add(participation.personId);
+  return members;
+}
+
+/** Active standing-group members from a supplied resident set. */
+export function standingGroupMembersAmong(
+  world: World,
+  personIds: readonly EntityId[],
+): ReadonlySet<EntityId> {
+  const members = new Set<EntityId>();
+  for (const organizationId of new Set(
+    world.history.organizationParticipations
+      .filter((row) => personIds.includes(row.personId))
+      .map((row) => row.organizationId),
+  ))
+    for (const personId of standingGroupMembers(world, organizationId))
+      if (personIds.includes(personId)) members.add(personId);
   return members;
 }
 

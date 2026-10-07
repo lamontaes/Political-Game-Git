@@ -189,13 +189,17 @@ function assertCampaignRoots(
     (candidate) => candidate.id === campaign.organizationId,
   );
   const organizationProfile = world.history.organizationProfiles
-    .filter((candidate) => candidate.organizationId === campaign.organizationId)
+    .filter(
+      (candidate) =>
+        candidate.organizationId === campaign.organizationId &&
+        candidate.sequence < campaign.sequence &&
+        candidate.effectiveAt <= campaign.filedAt,
+    )
     .at(-1);
   if (
     !organization ||
     organization.sequence >= campaign.sequence ||
     !organizationProfile ||
-    organizationProfile.sequence >= campaign.sequence ||
     organizationProfile.classification !==
       CAMPAIGN_ORGANIZATION_CLASSIFICATION ||
     organizationProfile.locationJurisdictionId !== campaign.jurisdictionId

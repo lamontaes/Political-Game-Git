@@ -32,11 +32,13 @@ import {
 } from "./lived-outcomes";
 import { confidantsOf } from "../confidants";
 import {
+  activeOrganizationParticipationsAt,
   activePartnershipsAt,
   activeWorkRelationshipsAt,
   householdMembershipsAt,
   kinshipRelationshipsAt,
 } from "../life-queries";
+import { standingGroupMembers } from "../official-view-reads";
 import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
 import { latestPersonalityTendency } from "../queries";
 import {
@@ -393,6 +395,12 @@ export function peopleKnownTo(
     if (row.personIds.includes(personId))
       for (const other of row.personIds)
         if (world.people[other] && !partners.has(other)) known.add(other);
+  for (const active of activeOrganizationParticipationsAt(world, personId))
+    for (const memberId of standingGroupMembers(
+      world,
+      active.participation.organizationId,
+    ))
+      if (memberId !== personId && !partners.has(memberId)) known.add(memberId);
   for (const other of sharedPlaceAcquaintances(world, personId))
     if (!partners.has(other)) known.add(other);
   known.delete(personId);

@@ -4,10 +4,15 @@ import {
   recordsByKey,
   recordsByStringField,
 } from "./history-index";
-import { currentLifeCutoff, organizationProfileAt } from "./life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  currentLifeCutoff,
+  organizationProfileAt,
+} from "./life-queries";
 import { personName } from "./people";
 import { relationshipHistory } from "./queries";
 import { recordEventKnowledge } from "./records";
+import { standingGroupMembers } from "./official-view-reads";
 import { familyAndFriendsNearby, householdmatesOf } from "./speech-reception";
 import type { EntityId, World } from "./types";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -19,11 +24,12 @@ import { recordWorldEvent } from "./world";
  * An event that happens to somebody (a birth, a move, a job lost) used to be
  * written and told to no one, so nobody could ever have heard of it. Here the
  * people who would know are the ones tied to them by a record: the people they
- * live with (household memberships), their recorded family (kinship and
- * partnership), and the friends whose recorded warmth is marked or strong
- * (relationship interactions). Each learns it through the one event-knowledge
- * writer, told by the person it happened to. Somebody with no recorded tie
- * learns nothing, and nothing here is a chance.
+ * live with (household memberships), their active standing-group members,
+ * their recorded family (kinship and partnership), and the friends whose
+ * recorded warmth is marked or strong (relationship interactions). Each
+ * learns it through the one event-knowledge writer, told by the person it
+ * happened to. Somebody with no recorded tie learns nothing, and nothing here
+ * is a chance.
  */
 
 /** The event a job ending is written as, beside the work status that records it. */
@@ -38,7 +44,8 @@ function alive(world: World, personId: EntityId): boolean {
 }
 
 /**
- * How wide a tie `peopleTiedTo` reads. `close`: who they live with, their
+ * How wide a tie `peopleTiedTo` reads. `close`: who they live with, current
+ * standing-group members, their
  * parents, children, brothers and sisters and partner, and the friends whose
  * recorded warmth is marked or strong, all in the same place: the people who
  * would hear their news. `known`: everybody any record ties them to, wherever
@@ -63,6 +70,12 @@ export function peopleTiedTo(
   const ties = new Set<EntityId>();
   for (const subject of subjects) {
     for (const id of householdmatesOf(world, subject)) ties.add(id);
+    for (const active of activeOrganizationParticipationsAt(world, subject))
+      for (const memberId of standingGroupMembers(
+        world,
+        active.participation.organizationId,
+      ))
+        ties.add(memberId);
     if (reach === "close") {
       for (const id of familyAndFriendsNearby(world, subject)) ties.add(id);
       continue;

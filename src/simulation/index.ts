@@ -97,6 +97,18 @@ export type {
   CampaignHelperRole,
 } from "./campaign-helpers";
 export {
+  formCampaignStandingGroup,
+  STANDING_GROUP_CLASSIFICATION,
+  STANDING_GROUP_LEADER_ROLE,
+  STANDING_GROUP_MEMBER_KIND,
+  STANDING_GROUP_MEMBER_ROLE,
+  standingGroupForCampaign,
+} from "./campaign-standing-groups";
+export type {
+  FormCampaignStandingGroupResult,
+  StandingGroupJoinDecision,
+} from "./campaign-standing-groups";
+export {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
   campaignLifeCatalogEntry,

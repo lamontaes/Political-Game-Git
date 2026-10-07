@@ -9,6 +9,7 @@ import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments"
 import { homeJurisdictionResidenceSince } from "../nationwide-world/residence-duration";
 import {
   lawInterestMembersInTown,
+  standingGroupMembersAmong,
   strongestOfficialStanding,
 } from "../official-view-reads";
 import { latestPrivateBelief } from "../queries";
@@ -511,7 +512,10 @@ export function reviewTownCivicActions(
     localHeadOfGovernment(world, residents[0]!) ??
     (stateKey ? currentGovernorOf(world, stateKey.slice(3)) : null)?.personId ??
     null;
-  const groupMembers = lawInterestMembersInTown(world, town);
+  const groupMembers = new Set([
+    ...lawInterestMembersInTown(world, town),
+    ...standingGroupMembersAmong(world, residents),
+  ]);
   const issueBeliefs = strongestCivicIssueBeliefs(world);
   const wardRepresentative = (personId: EntityId): EntityId | null => {
     const position = homePosition(world, town, personId);
