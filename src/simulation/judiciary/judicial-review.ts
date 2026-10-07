@@ -67,6 +67,7 @@ import { measureAnswersAt } from "../vote-bundle";
 import { recordWorldEvent } from "../world";
 import { seatHolderAt, seatsForCourt } from "./courts";
 import { courtFor } from "./court-for";
+import { playerHandlesJudicialCase } from "../office-workflow";
 import type { JudicialCourt } from "./types";
 
 export const JUDICIAL_REVIEW_EVENT = "court.judicial-review";
@@ -337,6 +338,12 @@ export function justiceVotes(
     readonly ruledAt: IsoDate;
   },
 ): readonly JusticeVote[] {
+  if (
+    input.justiceIds.some((personId) =>
+      playerHandlesJudicialCase(world, personId, "law-review"),
+    )
+  )
+    return [];
   return input.justiceIds.map((personId) => {
     const considerations = considerationsFor(
       world,
@@ -405,6 +412,12 @@ function reviewOne(
     .map((seat) => seatHolderAt(world, seat.seatId, input.ruledAt)?.personId)
     .filter((id): id is EntityId => Boolean(id && world.people[id]));
   if (justiceIds.length === 0) return world;
+  if (
+    justiceIds.some((personId) =>
+      playerHandlesJudicialCase(world, personId, "law-review"),
+    )
+  )
+    return world;
   const next = ensureOfficeholderPrinciples(world, justiceIds);
   const stableKey = judicialRulingKey(input.enactment.id, input.propositionId);
   const votes = justiceVotes(next, {
@@ -438,6 +451,10 @@ function reviewOne(
       `challenge:${input.challenge.id}`,
       `votes:${LAW_STRUCK}:${toStrike}`,
       `votes:${LAW_STANDS}:${votes.length - toStrike}`,
+      ...(next.jurisdictions[input.measure.jurisdictionId]?.kind === "state" &&
+      /supreme/.test(court.courtId)
+        ? ["importance:major"]
+        : []),
       struck ? "outcome:struck" : "outcome:upheld",
     ],
     summary: struck

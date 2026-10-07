@@ -11,7 +11,14 @@ import {
   venueActivities,
   declineVenueActivity,
 } from "./venue-activity";
-import { enterLifePath, changeLifePathStatus } from "../simulation/life-paths2";
+import {
+  enterLifePath,
+  changeLifePathStatus,
+  performLifePathSession,
+  scheduleLifePathSession,
+  lifePaths2Handlers,
+} from "../simulation/life-paths2";
+import { recordedPayStubs } from "../simulation/resource-income";
 import {
   ACTIVITY_LAPSED_EVENT,
   deserializeWorld,
@@ -20,6 +27,7 @@ import {
   createScheduledActivity,
   simulationMomentAtLocalTime,
   addDays,
+  advanceWorld,
   advanceWorldMinutes,
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
@@ -38,6 +46,41 @@ function life(seed = "next24-routine-route") {
 }
 
 describe("NEXT24 combined private-citizen routine route", () => {
+  it("suppresses the routine notice for a recorded paycheck", () => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startAge: 30,
+      placeKey: "2743000",
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      questionnaire: "skipped",
+      priors: [],
+      seed: "next24-no-paycheck-toast",
+    });
+    const personId = game.playerPersonId;
+    const entered = enterLifePath(game.world, "shop-assistant");
+    expect(entered.ok).toBe(true);
+    const scheduled = scheduleLifePathSession(
+      entered.world,
+      entered.world.history.workRelationships.at(-1)!.id,
+    );
+    expect(scheduled.ok).toBe(true);
+    const worked = performLifePathSession(
+      scheduled.world,
+      scheduled.world.history.scheduledActivities.at(-1)!.id,
+    );
+    expect(worked.ok).toBe(true);
+    const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
+    expect(recordedPayStubs(paid, personId)).toHaveLength(1);
+    const notice = describeRoutineOutcome(worked.world, paid, personId);
+    expect(notice).not.toContain("Paycheck:");
+    expect(notice).not.toContain("gross received");
+    expect(notice).not.toContain("net received");
+    expect(notice).not.toContain("Payment for the completed shift");
+    expect(notice).not.toContain("Paid $");
+    expect(notice).not.toContain("Received $");
+  });
+
   it("does not repeat the clock in routine outcome notices", () => {
     const { world, personId } = life("next24-no-clock-toast");
     const advanced = advanceWorldMinutes(
@@ -78,10 +121,14 @@ describe("NEXT24 combined private-citizen routine route", () => {
       (e) => e.activity.title === "Posted public meeting",
     )!;
     expect(meeting.refusal).toBeNull();
+    const arrived = performVenueActivity(loaded, personId, meeting.activity.id);
+    expect(arrived.currentMoment.minuteOfDay).toBe(1110);
     const attended = performVenueActivity(
-      loaded,
+      arrived,
       personId,
       meeting.activity.id,
+      createCampaignElectionTransitionRegistry(),
+      { finishMeeting: true },
     );
     expect(attended.currentMoment.minuteOfDay).toBe(1185);
     expect(
@@ -90,9 +137,19 @@ describe("NEXT24 combined private-citizen routine route", () => {
       ),
     ).toHaveLength(1);
     const paid = passOrdinaryDays(deserializeWorld(serializeWorld(attended)));
+    const paychecks = recordedPayStubs(paid, personId);
+    expect(paychecks).toHaveLength(1);
     expect(
       paid.history.resourceTransferOutcomes.filter(
-        (o) => o.transferredAmount.minorUnits === 7200,
+        (o) => o.id === paychecks[0]!.paycheck.id,
+      ),
+    ).toHaveLength(1);
+    const reopenedPaid = deserializeWorld(serializeWorld(paid));
+    expect(recordedPayStubs(reopenedPaid, personId)).toEqual(paychecks);
+    const paidAgain = passOrdinaryDays(reopenedPaid);
+    expect(
+      paidAgain.history.resourceTransferOutcomes.filter(
+        (o) => o.id === paychecks[0]!.paycheck.id,
       ),
     ).toHaveLength(1);
   });
@@ -119,8 +176,16 @@ describe("NEXT24 combined private-citizen routine route", () => {
       ),
     ).toBeNull();
     expect(entry.journey?.journeyMinutes).toBe(20);
-    const attended = performVenueActivity(morning, personId, entry.activity.id);
-    expect(attended.currentMoment.minuteOfDay).toBe(19 * 60 + 45);
+    const arrived = performVenueActivity(morning, personId, entry.activity.id);
+    expect(arrived.currentMoment.minuteOfDay).toBe(1110);
+    const attended = performVenueActivity(
+      arrived,
+      personId,
+      entry.activity.id,
+      createCampaignElectionTransitionRegistry(),
+      { finishMeeting: true },
+    );
+    expect(attended.currentMoment.minuteOfDay).toBe(1185);
     const shifts = attended.history.events.filter(
       (e) => e.type === "life-paths2.work-session",
     );
@@ -150,30 +215,29 @@ describe("NEXT24 combined private-citizen routine route", () => {
         scheduledActivityState(attended, entry.activity.id).outcomeEventId,
     )!;
     expect(arrival.sequence).toBeLessThan(attendance.sequence);
-    expect(describeRoutineOutcome(morning, attended, personId)).not.toContain(
-      "work shift",
-    );
-    expect(describeRoutineOutcome(morning, attended, personId)).toContain(
-      "has not posted yet",
-    );
+    expect(recordedPayStubs(attended, personId)).toHaveLength(0);
     const loaded = deserializeWorld(serializeWorld(attended));
     expect(performVenueActivity(loaded, personId, entry.activity.id)).toBe(
       loaded,
     );
     const paid = passOrdinaryDays(loaded);
+    const paychecks = recordedPayStubs(paid, personId);
+    expect(paychecks).toHaveLength(1);
     expect(
       paid.history.resourceTransferOutcomes.filter(
-        (o) => o.transferredAmount.minorUnits === 7200,
+        (o) => o.id === paychecks[0]!.paycheck.id,
       ),
     ).toHaveLength(1);
-    expect(describeRoutineOutcome(loaded, paid, personId)).toContain(
-      "Received $72",
-    );
     expect(
-      passOrdinaryDays(paid).history.resourceTransferOutcomes.filter(
-        (o) =>
-          o.transferredAmount.minorUnits === 7200 &&
-          o.periodStartsAt === shifts[0]!.occurredAt,
+      paid.history.resourceTransferOutcomes.filter(
+        (o) => o.id === paychecks[0]!.paycheck.id,
+      ),
+    ).toHaveLength(1);
+    const reopenedPaid = deserializeWorld(serializeWorld(paid));
+    expect(recordedPayStubs(reopenedPaid, personId)).toEqual(paychecks);
+    expect(
+      passOrdinaryDays(reopenedPaid).history.resourceTransferOutcomes.filter(
+        (o) => o.id === paychecks[0]!.paycheck.id,
       ),
     ).toHaveLength(1);
   });

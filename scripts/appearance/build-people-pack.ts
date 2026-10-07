@@ -8,8 +8,12 @@
  * manifest. Rerun it whenever new art is accepted; the game reads only the
  * pack.
  *
- * Usage: node --import tsx scripts/appearance/build-people-pack.ts <bodiesDir> <peopleAppearanceDir> [outDir]
+ * Usage: node --import tsx scripts/appearance/build-people-pack.ts <bodiesDir> <peopleAppearanceDir> [outDir] [ownershipDescriptor] [ownershipSourceRoot] [ownershipCandidateRoot]
  */
+import {
+  applyPinnedRegionOwnership,
+  loadPinnedRegionOwnership,
+} from "./garment-region-ownership";
 import {
   existsSync,
   mkdirSync,
@@ -20,6 +24,12 @@ import {
 import { join } from "node:path";
 import { PNG } from "pngjs";
 import { format, resolveConfig } from "prettier";
+import { createHash } from "node:crypto";
+import hairFaceWindows from "../../art/manifest/hair_face_windows.json" with { type: "json" };
+import {
+  hairFaceWindowErrors,
+  type HairFaceWindow,
+} from "../../src/presentation/appearance-engine/hair-face-window";
 import {
   measureBodyAnchors,
   type BodyAnchors,
@@ -59,11 +69,23 @@ import {
   isSkinPixel,
   measureSkinLuminance,
 } from "../../src/presentation/appearance-engine/skin";
+import { cleanPaintedLayer } from "../../src/presentation/appearance-engine/white-matte";
 
-const [bodiesDir, appearanceDir, outArg] = process.argv.slice(2);
+const [
+  bodiesDir,
+  appearanceDir,
+  outArg,
+  ownershipFile,
+  ownershipSourceRoot,
+  ownershipCandidateRoot,
+] = process.argv.slice(2);
+const ownership = loadPinnedRegionOwnership(ownershipFile, {
+  ...(ownershipSourceRoot ? { source: ownershipSourceRoot } : {}),
+  ...(ownershipCandidateRoot ? { candidate: ownershipCandidateRoot } : {}),
+});
 if (!bodiesDir || !appearanceDir)
   throw new Error(
-    "usage: build-people-pack <bodiesDir> <appearanceDir> [outDir]",
+    "usage: build-people-pack <bodiesDir> <appearanceDir> [outDir] [ownershipDescriptor] [ownershipSourceRoot] [ownershipCandidateRoot]",
   );
 const outDir = outArg ?? "art/people-engine/v1";
 mkdirSync(outDir, { recursive: true });
@@ -79,7 +101,11 @@ const read = (path: string): Raster => {
   const png = PNG.sync.read(readFileSync(path));
   const data = new Uint8ClampedArray(png.width * (png.height + HEADROOM) * 4);
   data.set(png.data, png.width * HEADROOM * 4);
-  return { width: png.width, height: png.height + HEADROOM, data };
+  return cleanPaintedLayer({
+    width: png.width,
+    height: png.height + HEADROOM,
+    data,
+  });
 };
 const write = (raster: Raster, file: string): string => {
   const png = new PNG({ width: raster.width, height: raster.height });
@@ -500,25 +526,47 @@ function dressedBody(
     if (skin) usedSkin!.data[p * 4 + 3] = 255;
   });
   const halfSkin = usedSkin ? halve(usedSkin) : null;
+  const classified = outfitRegions(
+    halfLayer,
+    Object.fromEntries(
+      Object.entries(spec.parts).map(([part, [hue]]) => [
+        part,
+        typeof hue === "string" ? [hue] : hue,
+      ]),
+    ),
+    halfSkin
+      ? Uint8Array.from({ length: halfSkin.width * halfSkin.height }, (_, p) =>
+          halfSkin.data[p * 4 + 3]! ? 1 : 0,
+        )
+      : null,
+    anchors.feet - Math.round((anchors.feet - anchors.top) * 0.08),
+  );
+  // Context comes from the builder call, never from the override packet.
+  const tail = stem.slice(`outfit-${sex}-${spec.id}-${build}`.length);
+  const view = tail.endsWith("-three-quarter") ? "three-quarter" : "front";
+  const poseSuffix = view === "three-quarter" ? tail.slice(0, -14) : tail;
+  const applied = applyPinnedRegionOwnership(ownership, {
+    context: {
+      stem,
+      presentation: sex,
+      build,
+      outfit: spec.id,
+      pose: poseSuffix.startsWith("-") ? poseSuffix.slice(1) : "standing",
+      view,
+    },
+    source: halfLayer,
+    regions: classified,
+    skin: halfSkin,
+  });
   const regions = Object.fromEntries(
-    Object.entries(
-      outfitRegions(
-        halfLayer,
-        Object.fromEntries(
-          Object.entries(spec.parts).map(([part, [hue]]) => [
-            part,
-            typeof hue === "string" ? [hue] : hue,
-          ]),
-        ),
-        halfSkin
-          ? Uint8Array.from(
-              { length: halfSkin.width * halfSkin.height },
-              (_, p) => (halfSkin.data[p * 4 + 3]! ? 1 : 0),
-            )
-          : null,
-        anchors.feet - Math.round((anchors.feet - anchors.top) * 0.08),
-      ),
-    ).map(([part, mask]) => [part, write(mask, `${stem}-${part}.png`)]),
+    Object.entries(applied.regions).map(([part, mask]) => {
+      const file = `${stem}-${part}.png`;
+      if (part === "bottom" && applied.encodedBottom) {
+        writeFileSync(join(outDir, file), applied.encodedBottom);
+        return [part, file];
+      }
+      return [part, write(mask, file)];
+    }),
   );
   console.log(stem, JSON.stringify(offset), garment.clothPixels);
   return {
@@ -1153,31 +1201,46 @@ for (const sex of ["feminine", "masculine"] as const) {
       ...paintedExpressions(FIREFLY_EXPRESSIONS, sex, face.id, ""),
     };
   });
-  const hair = SOURCES[sex].hair.map((style) => ({
-    id: style.id,
-    back: write(
-      downscaleHalf(
-        read(
-          join(
-            style.dir ?? join(appearanceDir, "hair"),
-            `${style.stem}-back-v1.png`,
+  const hair = SOURCES[sex].hair
+    .map((style) => ({
+      id: style.id,
+      back: write(
+        downscaleHalf(
+          read(
+            join(
+              style.dir ?? join(appearanceDir, "hair"),
+              `${style.stem}-back-v1.png`,
+            ),
           ),
         ),
+        `hair-${sex}-${style.id}-back.png`,
       ),
-      `hair-${sex}-${style.id}-back.png`,
-    ),
-    front: write(
-      downscaleHalf(
-        read(
-          join(
-            style.dir ?? join(appearanceDir, "hair"),
-            `${style.stem}-front-v1.png`,
+      front: write(
+        downscaleHalf(
+          read(
+            join(
+              style.dir ?? join(appearanceDir, "hair"),
+              `${style.stem}-front-v1.png`,
+            ),
           ),
         ),
+        `hair-${sex}-${style.id}-front.png`,
       ),
-      `hair-${sex}-${style.id}-front.png`,
-    ),
-  }));
+    }))
+    .map((style) => {
+      const rule = (hairFaceWindows.styles as Record<string, HairFaceWindow>)[
+        style.front
+      ];
+      if (!rule) return style;
+      const hash = createHash("sha256")
+        .update(readFileSync(join(outDir, style.front)))
+        .digest("hex");
+      if (hairFaceWindowErrors(rule).length || hash !== rule.sourceSha256)
+        throw new Error(
+          `Face-window source changed: ${style.front}; review the candidate contract before rebuilding.`,
+        );
+      return { ...style, faceWindow: rule };
+    });
   // The turned view, when its standing bodies are painted: its heads by the
   // front ids, each only where it is painted turned.
   const turnedView = (
@@ -1274,7 +1337,30 @@ for (const sex of ["feminine", "masculine"] as const) {
   };
 }
 
+const slotKindsByPose: NonNullable<PeoplePackManifest["slotKindsByPose"]> =
+  Object.fromEntries(
+    [
+      ...new Set([
+        "standing",
+        "seated",
+        ...Object.values(presentations).flatMap((p) =>
+          Object.keys(p.poses ?? {}),
+        ),
+      ]),
+    ].map((pose) => [
+      pose,
+      [
+        pose === "seated" || pose.startsWith("seated-")
+          ? "sit"
+          : pose === "podium"
+            ? "podium"
+            : "stand",
+      ],
+    ]),
+  );
+
 const manifest: PeoplePackManifest = {
+  slotKindsByPose,
   version: PEOPLE_PACK_VERSION,
   canvas: { width: 512, height: 768 + HEADROOM / 2 },
   presentations: presentations as PeoplePackManifest["presentations"],

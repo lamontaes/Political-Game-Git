@@ -33,7 +33,6 @@ export type CalendarHorizon = "upcoming" | "ongoing" | "history";
 export interface CalendarEntry {
   readonly activityId: EntityId;
   readonly title: string;
-  readonly summary: string;
   readonly kind: ScheduledActivityKind;
   /** "Confirmed", "Maybe", "Flexible work", "Travel". */
   readonly kindLabel: string;
@@ -43,15 +42,16 @@ export interface CalendarEntry {
   readonly status: ScheduledActivityStatus;
   readonly locationLabel: string;
   readonly participantNames: readonly string[];
-  /** Who owns it, said plainly. The distinction the playtest asked for. */
-  readonly ownershipNote: string;
   /**
-   * What the record says about where it comes from: the person responsible
-   * for it and the recorded people it is sourced to. The record has no
-   * inviter field, so this never claims who arranged or relayed it. Null when
-   * the record names nobody; the screen says so rather than guessing.
+   * Who the record says is responsible for it: "You" for this player, a name
+   * for anyone else, null when the record names nobody.
    */
-  readonly arrangementNote: string | null;
+  readonly inCharge: string | null;
+  /**
+   * The recorded people it is sourced to. The record has no inviter field, so
+   * this never claims who arranged or relayed it. Empty when it names nobody.
+   */
+  readonly cameThrough: readonly string[];
   /** Everyone on the record as attending, the player first as "You". */
   readonly attendeeNames: readonly string[];
 }
@@ -66,8 +66,8 @@ export interface PlayerCalendar {
   readonly days: readonly CalendarDay[];
   /** True when neither group has a single entry. */
   readonly empty: boolean;
-  /** What is honestly absent, when something is. */
-  readonly note: string | null;
+  /** True when entries exist and none belongs to this player. */
+  readonly chamberOnly: boolean;
 }
 
 const KIND_LABELS: Readonly<Record<ScheduledActivityKind, string>> = {
@@ -139,7 +139,6 @@ function entryFor(
   return {
     activityId: activity.id,
     title: activity.title,
-    summary: activity.summary,
     kind: activity.kind,
     kindLabel: KIND_LABELS[activity.kind],
     group: mine ? "yours" : "chamber",
@@ -148,12 +147,8 @@ function entryFor(
     status: state.status,
     locationLabel: activity.location.label,
     participantNames: namesOf(world, activity.participantPersonIds),
-    ownershipNote: mine
-      ? activity.kind === "tentative"
-        ? "You might go."
-        : "You're going."
-      : "On the chamber's agenda. Not an appointment of yours.",
-    arrangementNote: arrangementNote(world, personId, activity),
+    inCharge: inChargeOf(world, personId, activity),
+    cameThrough: cameThroughOf(world, personId, activity),
     attendeeNames: [
       ...(mine ? ["You"] : []),
       ...namesOf(
@@ -171,27 +166,28 @@ function namesOf(world: World, ids: readonly EntityId[]): string[] {
     .map((person) => personName(person));
 }
 
-function arrangementNote(
+function inChargeOf(
   world: World,
   personId: EntityId,
   activity: ScheduledActivityRecord,
 ): string | null {
-  const parts: string[] = [];
   const responsible = activity.responsiblePersonId;
-  if (responsible === personId) parts.push("You're in charge of it.");
-  else if (responsible) {
-    const [name] = namesOf(world, [responsible]);
-    if (name) parts.push(`${name} is in charge of it.`);
-  }
-  const through = namesOf(
+  if (!responsible) return null;
+  if (responsible === personId) return "You";
+  return namesOf(world, [responsible])[0] ?? null;
+}
+
+function cameThroughOf(
+  world: World,
+  personId: EntityId,
+  activity: ScheduledActivityRecord,
+): readonly string[] {
+  return namesOf(
     world,
     activity.sourceEntityIds.filter(
-      (id) => id !== personId && id !== responsible,
+      (id) => id !== personId && id !== activity.responsiblePersonId,
     ),
   );
-  if (through.length > 0)
-    parts.push(`It came about through ${through.join(", ")}.`);
-  return parts.length > 0 ? parts.join(" ") : null;
 }
 
 /**
@@ -237,12 +233,8 @@ export function projectPlayerCalendar(
     today: world.currentMoment,
     days,
     empty: visible.length === 0,
-    note:
-      visible.length === 0
-        ? "Nothing is scheduled in this life yet. The calendar fills as commitments are made."
-        : mine === 0
-          ? "Nothing here is yours yet. What is listed belongs to the chamber's agenda."
-          : null,
+    /** Entries exist but none is this player's: the list is the chamber's. */
+    chamberOnly: visible.length > 0 && mine === 0,
   };
 }
 

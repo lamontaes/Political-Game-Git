@@ -1,15 +1,16 @@
 import { describe, expect, it } from "vitest";
+import { explicitNewGameSetup } from "../../src/presentation/new-game-geography";
 import {
-  createNewGameWorld,
-  DEFAULT_NEW_GAME_SETUP,
-} from "../../src/presentation/new-game";
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../src/presentation/opening-life";
 import { describeRoutineOutcome } from "../../src/presentation/routine-outcome";
 import {
   enterLifePath,
   performLifePathSession,
   scheduleLifePathSession,
-  lifePaths2Handlers,
 } from "../../src/simulation/life-paths2";
+import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
 import { recordedPayStubs } from "../../src/simulation/resource-income";
 import { resourcePositionAt } from "../../src/simulation/resource-queries";
 import {
@@ -47,8 +48,7 @@ while (sampled.length < 5)
 describe.each(sampled)("saved pay stub in %s", (placeKey) => {
   it("reconciles actual employee payments and the displayed starting taxes, preserves unknowns/partial pay, and never posts money", () => {
     const seed = `saved-pay-stub:${placeKey}`;
-    const game = createNewGameWorld({
-      ...DEFAULT_NEW_GAME_SETUP,
+    const setup = explicitNewGameSetup({
       startAge: 30,
       placeKey,
       startingLife: "ordinary-life",
@@ -57,6 +57,9 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
       priors: [],
       seed,
     });
+    const opening = generateOpeningLife(prepareOpeningLife(setup));
+    expect(opening.game).toBeDefined();
+    const game = opening.game!;
     const personId = game.playerPersonId;
     const entered = enterLifePath(game.world, "shop-assistant");
     expect(entered.ok, entered.message).toBe(true);
@@ -65,17 +68,53 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
       entered.world.history.workRelationships.at(-1)!.id,
     );
     expect(scheduled.ok, scheduled.message).toBe(true);
+    const timeHandlers = composeWorldTimeHandlers();
     const worked = performLifePathSession(
       scheduled.world,
       scheduled.world.history.scheduledActivities.at(-1)!.id,
+      timeHandlers,
     );
     expect(worked.ok, worked.message).toBe(true);
     const before = worked.world;
-    const paid = advanceWorld(before, 1, lifePaths2Handlers());
+    const paid = advanceWorld(before, 1, timeHandlers);
     const saved = serializeWorld(paid);
     const stubs = recordedPayStubs(paid, personId);
     expect(stubs).toHaveLength(1);
     const stub = stubs[0]!;
+    const notice = describeRoutineOutcome(before, paid, personId);
+    expect(notice).not.toContain("Paycheck:");
+    expect(notice).not.toContain("gross received");
+    expect(notice).not.toContain("net received");
+    expect(notice).not.toContain("Received $");
+    expect(notice).not.toContain("Payment for the completed shift");
+    const paycheckFlow = before.history.resourceFlows.find(
+      (flow) => flow.id === stub.paycheck.resourceFlowId,
+    )!;
+    expect(paycheckFlow.source.kind).toBe("organization");
+    if (paycheckFlow.source.kind === "organization") {
+      const employerCash = resourcePositionAt(
+        paid,
+        {
+          kind: "organization",
+          organizationId: paycheckFlow.source.organizationId,
+        },
+        money(0, "USD").currency,
+      );
+      expect(employerCash?.liquidBalance.minorUnits).toBeGreaterThan(0);
+      const position = paid.history.resourcePositions.find(
+        (row) => row.id === employerCash!.positionId,
+      );
+      expect(position?.provenance).toMatchObject({
+        kind: "authored",
+        note: expect.stringContaining(
+          "ESTIMATED OPENING STOCK recorded before payroll settlement.",
+        ),
+      });
+      expect(position?.provenance).toMatchObject({
+        kind: "authored",
+        note: expect.stringContaining("ESTIMATED FROM AVERAGE:"),
+      });
+    }
     expect(stub.taxes.length).toBeGreaterThan(0);
     const liabilityIds = new Set(stub.taxes.map((row) => row.liability.id));
     const actualPayments = paid.history.statutoryTaxPayments!.filter((row) =>
@@ -100,28 +139,6 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     const cashAfter = resourcePositionAt(paid, owner, money(0, "USD").currency)!
       .liquidBalance.minorUnits;
     expect(stub.netPaid.minorUnits).toBe(cashAfter - cashBefore);
-    const notice = describeRoutineOutcome(before, paid, personId);
-    expect(notice).toContain("Paycheck: gross ");
-    const federal = stub.taxes.find(
-      (row) => row.liability.taxKey === "us-federal:income-tax-withholding",
-    )!;
-    const state = stub.taxes.find((row) =>
-      row.liability.taxKey.endsWith(":wage-income-tax"),
-    )!;
-    expect(federal).toBeDefined();
-    expect(state).toBeDefined();
-    expect(notice).toContain(
-      federal.liability.liability === null
-        ? "Federal income tax not priced"
-        : "Federal income tax withheld",
-    );
-    expect(notice).toContain(
-      state.liability.liability === null
-        ? "State income tax not priced"
-        : state.liability.status === "not-imposed"
-          ? "State income tax not imposed"
-          : "State income tax withheld",
-    );
     for (const row of stub.taxes.filter(
       (tax) => tax.liability.liability === null,
     ))
@@ -132,9 +149,7 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     expect(serializeWorld(paid)).toBe(saved);
     const reopened = deserializeWorld(saved);
     expect(recordedPayStubs(reopened, personId)).toEqual(stubs);
-    expect(describeRoutineOutcome(before, reopened, personId)).toBe(
-      describeRoutineOutcome(before, paid, personId),
-    );
+    expect(describeRoutineOutcome(before, reopened, personId)).toBe(notice);
 
     // Actual canonical transfer/payment controls, not advertised earnings or
     // assumed full tax collections: a partial paycheck and an unassessed one.
@@ -171,12 +186,12 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     expect(partialStub.netPaid.minorUnits).toBe(
       partialStub.paidGross.minorUnits - partialStub.withheld.minorUnits,
     );
-    expect(describeRoutineOutcome(before, assessedPartial, personId)).toContain(
-      "gross received",
-    );
+    expect(
+      describeRoutineOutcome(before, assessedPartial, personId),
+    ).not.toContain("gross received");
     const unassessed = recordedPayStubs(partial, personId)[0]!;
     expect(unassessed.assessmentStatus).toBe("not-recorded");
-    expect(describeRoutineOutcome(before, partial, personId)).toContain(
+    expect(describeRoutineOutcome(before, partial, personId)).not.toContain(
       "withholding assessment not recorded",
     );
     console.log(
@@ -189,8 +204,7 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
         grossMinor: stub.paidGross.minorUnits,
         withheldMinor: stub.withheld.minorUnits,
         netMinor: stub.netPaid.minorUnits,
-        notice,
       }),
     );
-  }, 120000);
+  }, 180000);
 });

@@ -1,5 +1,9 @@
+import { slotAcceptsRole, type SceneSlotRole } from "./scene-slot-contract";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
-import { peopleAtWorkAt } from "../simulation/living-world/work-schedules";
+import {
+  peopleAtWorkAt,
+  presentAt,
+} from "../simulation/living-world/work-schedules";
 import { playerTown } from "../simulation/living-world/town-residents";
 import { personName } from "../simulation/people";
 import type { EntityId, SimulationMoment, World } from "../simulation/types";
@@ -15,13 +19,11 @@ import {
   sceneActivity,
   type SceneActivity,
 } from "./appearance-engine/pose-chooser";
-import { engineRecipeFor } from "./appearance-engine/recipe";
+import { personDayRecipe, roomDayOutfitExclusions } from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackFileAvailable,
 } from "./appearance-engine/runtime";
-import { placeWear } from "./dress-code";
-import { workUniform } from "./work-uniform";
 import { selectedWorkplaceForPerson } from "./place-backdrops";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
 
@@ -49,6 +51,16 @@ import { isPersonAliveAt } from "../simulation/vitality-integrity";
 /** A person standing in a place picture, in percent of the picture. */
 export interface BackdropPerson {
   readonly personId: EntityId;
+  readonly resolvedPose: BodyPose;
+  readonly resolvedView: BodyView;
+  readonly slotId: string;
+  readonly slotRole: SceneSlotRole;
+  readonly facing: SpotFacing;
+  readonly selection: {
+    readonly basis:
+      "computed-work-schedule" | "recorded-attendance" | "supplied-roster";
+    readonly recordId: EntityId | null;
+  };
   readonly name: string;
   readonly title: string;
   readonly leftPercent: number;
@@ -70,6 +82,8 @@ export type SpotPose = "stand" | "sit" | "podium" | "lean";
 export type SpotFacing = "viewer" | "left" | "right" | "away";
 
 export interface StagingSpot {
+  readonly id?: string;
+  readonly role?: SceneSlotRole;
   /** The foot point, in percent of the picture (a seated person's too). */
   readonly x: number;
   readonly y: number;
@@ -106,6 +120,15 @@ export interface PlaceStaging {
   /** Raised floors: the same horizon, each with its own scale. */
   readonly floors?: Readonly<Record<string, number>>;
   readonly spots: readonly StagingSpot[];
+  readonly surfaceSlots?: readonly {
+    readonly surfaceId: string;
+    readonly kind: string;
+    readonly x: number;
+    readonly y: number;
+    readonly width: number;
+    readonly height: number;
+    readonly source: string;
+  }[];
 }
 
 /** Where and how large a person at a spot is drawn, in percent. */
@@ -128,15 +151,6 @@ const PLACES = staging.places as Readonly<Record<string, PlaceStaging>>;
  * and community-room staff dress as the place does. A job with a uniform
  * (scrubs, police, a safety vest) wears it on shift wherever it is.
  */
-const STAFF_WEAR: Readonly<Record<string, "business" | "casual">> = {
-  "clerk-counter": "business",
-  "hospital-hallway": "business",
-  classroom: "business",
-  "church-supper-hall": "business",
-  office: "business",
-  "county-party-office": "business",
-  "campaign-storefront": "business",
-};
 
 /** Jobs done from behind a counter or desk. */
 const COUNTER_TITLE = /clerk|receptionist|cashier|secretary|office assistant/i;
@@ -288,11 +302,22 @@ export function placeBackdropPeople(
   present: readonly {
     readonly personId: EntityId;
     readonly title?: string;
+    readonly role?: SceneSlotRole;
+    readonly presenceRecordId?: EntityId;
   }[] = [],
   options: {
     /** The scene's people stand on the open floor instead of taking seats. */
     readonly standing?: boolean;
     readonly speakerId?: EntityId | null;
+    /** An explicitly selected illustration is not a workplace attendance query. */
+    readonly rosterOnly?: boolean;
+    /**
+     * A turned spot may hold someone facing the room when their clothes have
+     * no turned drawing (a family standing together at home).
+     */
+    readonly faceRoom?: boolean;
+    /** Include the controlled person when the recorded scene names them present. */
+    readonly includeViewer?: boolean;
   } = {},
 ): BackdropPeople {
   const stage = backdropStaging(place);
@@ -300,13 +325,30 @@ export function placeBackdropPeople(
   const workplace = selectedWorkplaceForPerson(world, playerId);
   const selected = workplace?.place === place ? workplace : null;
   const town = selected?.jurisdictionId ?? playerTown(world, playerId);
-  const wear = STAFF_WEAR[place] ?? placeWear(place, world.currentDate);
   const presentIds = new Set(
     present
       .map((person) => person.personId)
-      .filter((id) => id !== playerId && world.people[id]),
+      .filter(
+        (id) => (options.includeViewer || id !== playerId) && world.people[id],
+      ),
   );
-  const onShift = (town ? peopleAtWorkAt(world, town, place, moment) : [])
+  const onShift = (
+    options.rosterOnly
+      ? []
+      : selected && town
+        ? presentAt(
+            world,
+            {
+              jurisdictionId: town,
+              place,
+              organizationId: selected.organizationId,
+            },
+            moment,
+          )
+        : town
+          ? peopleAtWorkAt(world, town, place, moment)
+          : []
+  )
     .filter((worker) => worker.personId !== playerId)
     .filter(
       (worker) =>
@@ -333,7 +375,7 @@ export function placeBackdropPeople(
   const counterJob = (title: string) => COUNTER_TITLE.test(title);
   const usable = (stage?.spots ?? []).filter(
     (spot) =>
-      spot.facing !== "away" &&
+      (spot.facing !== "away" || options.faceRoom) &&
       !(spot.pose === "podium" && spot.audience === "away") &&
       (!options.standing || spot.pose === "stand") &&
       (spot.pose !== "podium" || options.speakerId !== undefined),
@@ -355,14 +397,26 @@ export function placeBackdropPeople(
   // A named counter belongs to staff. Scene roster order must not put a
   // customer behind it or make the cashier lose it to an earlier attendee.
   const isCounterSpot = (spot: StagingSpot) =>
-    spot.group === "counter" && spot.clipBelowY !== undefined;
+    spot.role === "staff-behind-counter";
   const visitorSpots = usable.filter((spot) => !isCounterSpot(spot));
+  const roleByPerson = new Map(
+    present.map((person) => [person.personId, person.role]),
+  );
   const sceneCounterJob = (personId: EntityId) =>
-    counterJob(presentTitle.get(personId) ?? "") ||
+    roleByPerson.get(personId) === "staff-behind-counter" ||
     counterJob(shiftByPerson.get(personId)?.title ?? "");
   const sceneIds = [...presentIds].sort(
     (a, b) => Number(sceneCounterJob(b)) - Number(sceneCounterJob(a)),
   );
+  const eligible = (spot: StagingSpot, personId: EntityId) =>
+    slotAcceptsRole(
+      spot.role ?? "general",
+      personId === options.speakerId
+        ? "speaker"
+        : sceneCounterJob(personId)
+          ? "staff-behind-counter"
+          : roleByPerson.get(personId),
+    );
   const inScene = sceneIds.map((personId) => ({
     worker: {
       personId,
@@ -372,17 +426,32 @@ export function placeBackdropPeople(
     onShift: shiftByPerson.has(personId),
     spot:
       (personId === options.speakerId
-        ? take(usable.filter((spot) => spot.pose === "podium"))
+        ? take(
+            usable.filter(
+              (spot) => spot.pose === "podium" && eligible(spot, personId),
+            ),
+          )
         : undefined) ??
       (sceneCounterJob(personId)
-        ? take(usable.filter(isCounterSpot))
+        ? take(
+            usable.filter(
+              (spot) => isCounterSpot(spot) && eligible(spot, personId),
+            ),
+          )
         : undefined) ??
       take(
         principal.filter(
-          (spot) => spot.pose !== "podium" && !isCounterSpot(spot),
+          (spot) =>
+            spot.pose !== "podium" &&
+            !isCounterSpot(spot) &&
+            eligible(spot, personId),
         ),
       ) ??
-      take(visitorSpots.filter((spot) => spot.pose !== "podium")),
+      take(
+        visitorSpots.filter(
+          (spot) => spot.pose !== "podium" && eligible(spot, personId),
+        ),
+      ),
   }));
   // Everyone on shift keeps the order the spots had before: behind a counter
   // or on the open floor, in the picture's own order.
@@ -407,13 +476,33 @@ export function placeBackdropPeople(
       worker,
       onShift: true,
       spot: counterJob(worker.title)
-        ? (behind.shift() ?? open.shift())
-        : (open.shift() ?? behind.shift()),
+        ? (take(
+            behind.filter((spot) =>
+              slotAcceptsRole(spot.role ?? "general", "staff-behind-counter"),
+            ),
+          ) ??
+          take(
+            open.filter((spot) =>
+              slotAcceptsRole(spot.role ?? "general", "staff-behind-counter"),
+            ),
+          ))
+        : (take(
+            open.filter((spot) => slotAcceptsRole(spot.role ?? "general")),
+          ) ??
+          take(
+            behind.filter((spot) => slotAcceptsRole(spot.role ?? "general")),
+          )),
     })),
   ];
+  const outfitExclusions = roomDayOutfitExclusions(
+    world,
+    assigned
+      .filter(({ spot }) => Boolean(spot && stage))
+      .map(({ worker }) => worker.personId),
+  );
   const placed: BackdropPerson[] = [];
   const overflow: BackdropOverflowPerson[] = [];
-  for (const { worker, onShift, spot } of assigned) {
+  for (const { worker, onShift, spot: assignedSpot } of assigned) {
     const record = world.people[worker.personId];
     if (!record) continue;
     const unplaced = (reason: BackdropOverflowPerson["reason"]) =>
@@ -423,52 +512,88 @@ export function placeBackdropPeople(
         title: worker.title,
         reason,
       });
-    if (!spot || !stage) {
+    if (!assignedSpot || !stage) {
       unplaced("no-spot");
       continue;
     }
-    const recipe = engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
-      wear,
-      // On shift, a uniformed job wears its uniform (work-uniform.ts reads
-      // "business" as dressed for work). Someone who came for the scene
-      // wears what they wear.
-      ...(onShift
-        ? { uniform: workUniform(world, worker.personId, "business") }
-        : {}),
-      pose: spotPose(
-        spot,
-        sceneActivity({
-          personId: record.id,
-          speakerId: options.speakerId ?? null,
-          anchorType:
-            spot.pose === "podium"
-              ? "podium"
-              : (spot.group ?? spot.pose ?? "stand"),
-          seated: spot.pose === "sit",
-        }),
-      ),
-      view: spotView(spot),
-    });
-    if (!recipe) {
+    // The assigned spot first; when the person's art cannot stand there (no
+    // drawing for that view or pose), any other free spot the role accepts,
+    // front-facing first, rather than leaving them out of the room.
+    const tryAt = (at: StagingSpot, view: BodyView = spotView(at)) => {
+      const recipe = personDayRecipe(world, record, {
+        pose: spotPose(
+          at,
+          sceneActivity({
+            personId: record.id,
+            speakerId: options.speakerId ?? null,
+            anchorType:
+              at.pose === "podium"
+                ? "podium"
+                : (at.group ?? at.pose ?? "stand"),
+            seated: at.pose === "sit",
+          }),
+        ),
+        view,
+        avoidOutfits: outfitExclusions.get(record.id),
+      });
+      if (!recipe) return null;
+      const resolved = posedPieces(
+        PEOPLE_PACK.presentations[recipe.presentation],
+        recipe,
+        peoplePackFileAvailable,
+      );
+      if (
+        !PEOPLE_PACK.slotKindsByPose?.[resolved.pose]?.includes(
+          at.pose ?? "stand",
+        ) ||
+        (at.pose === "sit" && !isSeatedPose(resolved.pose)) ||
+        resolved.view !== view
+      )
+        return null;
+      return { recipe, resolved };
+    };
+    let spot = assignedSpot;
+    let fit = tryAt(spot);
+    if (!fit) {
+      const alternatives = usable
+        .filter(
+          (candidate) =>
+            !taken.has(candidate) &&
+            candidate.pose !== "podium" &&
+            slotAcceptsRole(candidate.role ?? "general"),
+        )
+        .sort(
+          (a, b) =>
+            Number(spotView(a) !== "front") - Number(spotView(b) !== "front"),
+        );
+      // Last, a turned spot with the person facing the room, when their
+      // clothes have no turned drawing.
+      for (const [candidate, view] of [
+        ...alternatives.map((at) => [at, spotView(at)] as const),
+        // Their own spot first: it is already theirs, so it is not free.
+        ...[spot, ...alternatives]
+          .filter((at) => options.faceRoom && spotView(at) !== "front")
+          .map((at) => [at, "front" as const] as const),
+      ]) {
+        const attempt = tryAt(candidate, view);
+        if (!attempt) continue;
+        taken.delete(spot);
+        taken.add(candidate);
+        spot = candidate;
+        fit = attempt;
+        break;
+      }
+    }
+    if (!fit) {
       unplaced("missing-art");
       continue;
     }
-    const resolved = posedPieces(
-      PEOPLE_PACK.presentations[recipe.presentation],
-      recipe,
-      peoplePackFileAvailable,
-    );
-    if (
-      (spot.pose === "sit" && !isSeatedPose(resolved.pose)) ||
-      resolved.view !== spotView(spot)
-    ) {
-      unplaced("missing-art");
-      continue;
-    }
+    const { recipe, resolved } = fit;
     // Turned toward the side the spot faces: mirrored when the painting
     // turns the other way.
     const engine =
-      spot.facing === "left" || spot.facing === "right"
+      (spot.facing === "left" || spot.facing === "right") &&
+      resolved.view !== "front"
         ? {
             ...recipe,
             mirrored: mirrorToFace(
@@ -482,6 +607,31 @@ export function placeBackdropPeople(
         : recipe;
     placed.push({
       personId: worker.personId,
+      resolvedPose: resolved.pose,
+      resolvedView: resolved.view,
+      slotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
+      slotRole: spot.role ?? "general",
+      facing: spot.facing ?? "viewer",
+      selection: (() => {
+        const sourceId = present.find(
+          (person) => person.personId === worker.personId,
+        )?.presenceRecordId;
+        const source = sourceId
+          ? world.history.events.find(
+              (event) =>
+                event.id === sourceId &&
+                event.participants.some((p) => p.personId === worker.personId),
+            )
+          : undefined;
+        if (source)
+          return { basis: "recorded-attendance" as const, recordId: source.id };
+        if (onShift)
+          return {
+            basis: "computed-work-schedule" as const,
+            recordId: shiftByPerson.get(worker.personId)!.workRelationshipId,
+          };
+        return { basis: "supplied-roster" as const, recordId: null };
+      })(),
       name: personName(record),
       title: worker.title,
       ...spotFigure(stage, spot, engine),

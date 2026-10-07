@@ -1,0 +1,78 @@
+import corpusJson from "../../data/research/places/local-institutions.json" with { type: "json" };
+import { countyGeoidsForPlace } from "./government-units";
+import { lifePlaceByJurisdictionId } from "./life-places";
+import {
+  EMPTY_LOCAL_INSTITUTIONS,
+  type LocalInstitutionSet,
+  type LocalInstitutionsCorpus,
+} from "./local-institutions-data";
+import type { EntityId, IsoDate, LifeRecordProvenance, World } from "./types";
+import type { SchoolStageKey } from "./school-calendar";
+import type { LocalInstitutionRow } from "./local-institutions-data";
+
+const corpus = corpusJson as LocalInstitutionsCorpus;
+
+/**
+ * The official institutions named for a playable place, with county rows
+ * appended only when that place has no direct row of the same kind.
+ * `world` is part of the reader seam so consumers always ask in world context;
+ * geography is resolved through the stable place identity carried by the
+ * jurisdiction, never by display-name matching.
+ */
+export function localInstitutionsFor(
+  _world: World,
+  jurisdictionId: EntityId,
+): LocalInstitutionSet {
+  const geoid = lifePlaceByJurisdictionId(jurisdictionId)?.sourceGeoid;
+  if (!geoid) return EMPTY_LOCAL_INSTITUTIONS;
+
+  const placeRows = corpus.places[geoid] ?? EMPTY_LOCAL_INSTITUTIONS;
+  const countyRows = countyGeoidsForPlace(geoid).map(
+    (county) => corpus.counties[county],
+  );
+  const keys: (keyof LocalInstitutionSet)[] = [
+    "highSchools",
+    "districts",
+    "hospitals",
+    "banks",
+    "colleges",
+    "largeEmployers",
+  ];
+  return Object.fromEntries(
+    keys.map((key) => {
+      const direct = placeRows[key];
+      const directIds = new Set(
+        direct.map((row) => `${row.sourceKey}:${row.sourceId}`),
+      );
+      const county = countyRows.flatMap((rows) => rows?.[key] ?? []);
+      const fallback = county.filter(
+        (row) => !directIds.has(`${row.sourceKey}:${row.sourceId}`),
+      );
+      return [key, [...direct, ...fallback]];
+    }),
+  ) as unknown as LocalInstitutionSet;
+}
+
+/** A sourced school name for the stage, when this place has one. */
+export function localSchoolInstitutionFor(
+  world: World,
+  jurisdictionId: EntityId,
+  stage: SchoolStageKey,
+): LocalInstitutionRow | null {
+  const institutions = localInstitutionsFor(world, jurisdictionId);
+  return stage === "high"
+    ? (institutions.highSchools[0] ?? institutions.districts[0] ?? null)
+    : (institutions.districts[0] ?? null);
+}
+
+/** Keep source identity on the organization and make back-carried names explicit. */
+export function localInstitutionProvenance(
+  row: LocalInstitutionRow,
+  effectiveAt: IsoDate,
+): LifeRecordProvenance {
+  return {
+    kind: "source-record",
+    reference: `${row.sourceKey}:${row.sourceId} (directory as of ${row.asOf})${row.historicalNameEstimated ? "; historical name estimated before directory vintage" : ""}`,
+    asOf: effectiveAt,
+  };
+}

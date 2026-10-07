@@ -1,0 +1,19 @@
+[
+  {
+    "decision": "career.consider-another-term",
+    "leans": [
+      {
+        "option": "seek",
+        "trait": "personality-v1:voluntary-effort",
+        "pole": "high",
+        "explanation": "They are willing to keep at the work after choosing it."
+      },
+      {
+        "option": "step-down",
+        "trait": "personality-v1:voluntary-effort",
+        "pole": "low",
+        "explanation": "They prefer a less demanding path when the stakes allow it."
+      }
+    ]
+  }
+]

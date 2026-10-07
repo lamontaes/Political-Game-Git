@@ -27,11 +27,42 @@ import type {
   ScheduleElectionContestInput,
   World,
 } from "./types";
+import { recordsWithFieldValue } from "./history-index";
 import { isPersonAliveAt } from "./vitality-integrity";
+import { activeLegislativeTermEvidence } from "./legislative-office-terms";
+import { localSeatHolder } from "./living-world/local-elections";
+import { governmentUnitJurisdictionId } from "./government-units";
+import { sittingCountyRowOfficers } from "./living-world/local-government-seats";
+import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { recordWorldEvent } from "./world";
 
 export const ELECTION_CONTEST_TRANSITION_KEY =
   "election:contest-resolution" as const;
+
+export interface ElectionReportingBatch {
+  readonly batchKey: string;
+  readonly ballotsCast: number;
+  readonly kind: "early-mail" | "precinct";
+}
+
+/** Order only recorded reports. An early-mail batch leads only when the
+ * jurisdiction's recorded rule says so and that batch is present. */
+export function orderElectionReportingBatches<T extends ElectionReportingBatch>(
+  batches: readonly T[],
+  earlyMailFirst: boolean,
+): readonly T[] {
+  return [...batches].sort((left, right) => {
+    if (earlyMailFirst) {
+      const leftEarly = left.kind === "early-mail" ? 0 : 1;
+      const rightEarly = right.kind === "early-mail" ? 0 : 1;
+      if (leftEarly !== rightEarly) return leftEarly - rightEarly;
+    }
+    return (
+      left.ballotsCast - right.ballotsCast ||
+      left.batchKey.localeCompare(right.batchKey)
+    );
+  });
+}
 
 export function scheduleElectionContest(
   world: World,
@@ -615,6 +646,77 @@ export function electionContestById(
       (record) => record.id === contestId,
     ) ?? null
   );
+}
+
+/**
+ * The candidate in this contest who currently holds this exact office or
+ * physical seat. Identity is read from active office records; a prior winner,
+ * title, or chamber-wide match is not enough to establish incumbency.
+ */
+export function contestIncumbentPersonId(
+  world: World,
+  contestId: EntityId,
+): EntityId | null {
+  const contest = electionContestById(world, contestId);
+  if (!contest) return null;
+
+  const localOffice = localGoverningBodyIdentityForOfficeKey(
+    contest.office.officeKey,
+  );
+  if (localOffice) {
+    if (localOffice.seat === "row-office") {
+      // A county row office has one holder: whoever the county's records show
+      // in that office, if they are standing.
+      const holder = sittingCountyRowOfficers(world, localOffice.unit).find(
+        (row) => row.office === localOffice.rowOffice,
+      );
+      return holder && contest.candidatePersonIds.includes(holder.personId)
+        ? holder.personId
+        : null;
+    }
+    if (
+      governmentUnitJurisdictionId(localOffice.unit) !== contest.jurisdictionId
+    )
+      return null;
+
+    let seat: number;
+    if (localOffice.seat === "chief-executive") {
+      if (contest.office.seatKey !== "chief-executive") return null;
+      seat = 0;
+    } else {
+      const match = /^seat-(\d+)$/.exec(contest.office.seatKey ?? "");
+      if (!match) return null;
+      seat = Number(match[1]);
+      if (!Number.isSafeInteger(seat) || seat < 1) return null;
+    }
+
+    const holder = localSeatHolder(world, localOffice.unit, seat);
+    return holder && contest.candidatePersonIds.includes(holder.personId)
+      ? holder.personId
+      : null;
+  }
+
+  const seatKey =
+    contest.office.districtBinding?.recordId ?? contest.office.seatKey;
+  if (!seatKey) return null;
+
+  const incumbents = new Set<EntityId>();
+  for (const relationship of recordsWithFieldValue(
+    world.history.workRelationships,
+    "kind",
+    "employment:legislative-member",
+  )) {
+    if (!contest.candidatePersonIds.includes(relationship.personId)) continue;
+    const term = activeLegislativeTermEvidence(world, relationship.id);
+    if (
+      term?.contest.office.officeKey === contest.office.officeKey &&
+      term.governing.id === contest.jurisdictionId &&
+      term.seatKey === seatKey &&
+      contest.candidatePersonIds.includes(relationship.personId)
+    )
+      incumbents.add(relationship.personId);
+  }
+  return incumbents.size === 1 ? [...incumbents][0]! : null;
 }
 
 export function requireElectionContest(

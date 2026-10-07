@@ -1140,25 +1140,6 @@
   gap: 0.5rem;
 }
 
-/*
- * The development art preview says so, in a band nobody can mistake for the
- * game. It sits above the room rather than over it so it cannot be cropped out
- * of a screenshot of the scene, which is the way an unreleased likeness would
- * otherwise end up circulating as approved art.
- */
-.art-preview-banner {
-  position: relative;
-  z-index: 6;
-  margin: 0;
-  padding: 0.4rem 0.75rem;
-  background: #4a1d1d;
-  color: #ffd9d9;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-align: center;
-}
-
 /* ---------------------------------------------------------- today / work */
 
 /*
@@ -2949,4 +2930,48 @@
 
 .pg-people-search-entry input::-webkit-search-cancel-button {
   -webkit-appearance: none;
+}
+
+/* Permanent Kit 13 rule: static button marks appear only while activated.
+ * Radial menu entries are not static buttons and never receive a mark. */
+.pg-game.pg-game :is(.pg-nav, .pg-workspace) .ui-action--primary {
+  background-image: var(--kit13-grain), var(--kit13-button-face);
+  background-size:
+    96px 64px,
+    auto;
+  background-repeat: repeat, no-repeat;
+}
+.pg-game.pg-game
+  :is(.pg-nav, .pg-workspace)
+  .ui-action--primary:not([role="menuitem"]):not(:disabled):not(
+    [aria-disabled="true"]
+  ):is(:active, [aria-pressed="true"], [aria-current="true"]) {
+  background-image:
+    url("/ui/kit13/primary-corner.svg"), var(--kit13-grain),
+    var(--kit13-button-face);
+  background-size:
+    20px 20px,
+    96px 64px,
+    auto;
+  background-repeat: no-repeat, repeat, no-repeat;
+}
+.pg-game.pg-game .pg-nav-day > [aria-hidden="true"] {
+  display: none;
+}
+.pg-game.pg-game
+  .pg-nav-day:not([aria-disabled="true"]):active
+  > [aria-hidden="true"] {
+  display: inline;
+}
+.pg-game.pg-game .pg-nav-flyout:not(.pg-nav-confirm) .pg-nav-more {
+  display: none;
+}
+.pg-game.pg-game
+  .pg-nav-flyout:not(.pg-nav-confirm)
+  button[role="menuitem"].ui-action--primary {
+  background-image: var(--kit13-grain), var(--kit13-button-face);
+  background-size:
+    96px 64px,
+    auto;
+  background-repeat: repeat, no-repeat;
 }
