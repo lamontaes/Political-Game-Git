@@ -17,7 +17,7 @@ import { money } from "../simulation/resources";
 import type { EntityId, World, WorldMetricValue } from "../simulation/types";
 
 function serviceUnits(value: WorldMetricValue | null) {
-  if (!value || value.kind !== "quantity") return "";
+  if (!value || value.kind !== "quantity") return "—";
   const q = value.quantity;
   // Recorded hours are paid cents over the contract price, so they convert
   // back exactly; the shared wording then gets "1 hour" and partial hours right.
@@ -28,6 +28,7 @@ function serviceUnits(value: WorldMetricValue | null) {
     : `${q.numerator}/${q.denominator} vehicle-service hours`;
 }
 const usd = (minorUnits: number) => dollarsText(money(minorUnits, "USD"));
+
 /** Feature-local Politics leaf. The canonical World remains owned by PlayerGame. */
 export function TransitWorkspace({
   world,
@@ -46,27 +47,38 @@ export function TransitWorkspace({
   const view = projectTransitWork(world, personId);
   const [amount, setAmount] = useState("");
   const [window, setWindow] = useState<"weekday" | "weekend" | "">("");
+  const [feedback, setFeedback] = useState<string | null>(null);
   function act(callback: () => World) {
     try {
       onWorldChange(callback());
-    } catch {
-      return;
+      setFeedback(null);
+    } catch (e) {
+      setFeedback((e as Error).message);
     }
   }
   return (
-    <section className="transit-workspace" data-testid="transit-workspace">
+    <section className="transit-workspace">
       {view.office.kind === "unavailable" ? (
-        <p role="status" data-problem="office-unavailable" />
+        <p role="status" data-reason={view.office.reason} />
       ) : (
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (!window) return;
-            if (!/^\d+(?:\.\d{1,2})?$/.test(amount)) return;
+            if (!window) {
+              setFeedback("choose-service-period");
+              return;
+            }
+            if (!/^\d+(?:\.\d{1,2})?$/.test(amount)) {
+              setFeedback("invalid-amount");
+              return;
+            }
             const [dollars, decimal = ""] = amount.split(".");
             const cents =
               Number(dollars) * 100 + Number(decimal.padEnd(2, "0"));
-            if (!Number.isSafeInteger(cents)) return;
+            if (!Number.isSafeInteger(cents)) {
+              setFeedback("invalid-amount");
+              return;
+            }
             try {
               const filed = fileTransitAppropriation(world, {
                 personId,
@@ -74,13 +86,13 @@ export function TransitWorkspace({
                 serviceWindow: window,
               });
               onWorldChange(filed.world);
-            } catch {
-              return;
+              setFeedback(`filed:${filed.bill.designation}`);
+            } catch (error) {
+              setFeedback((error as Error).message);
             }
           }}
         >
           <fieldset>
-            <legend>Service period</legend>
             {TRANSIT_SERVICE_CHOICES.map((c) => (
               <label key={c.value} className="transit-service-choice">
                 <input
@@ -96,7 +108,6 @@ export function TransitWorkspace({
             ))}
           </fieldset>
           <label>
-            Total amount provided (USD)
             <input
               type="number"
               required
@@ -109,6 +120,16 @@ export function TransitWorkspace({
           </label>
           <button type="submit">File transit appropriation</button>
         </form>
+      )}
+      {feedback && (
+        <p
+          role="status"
+          data-testid="transit-feedback"
+          data-reason={feedback}
+        />
+      )}
+      {view.bills.length === 0 && (
+        <p data-testid="transit-none" data-problem="none-filed" />
       )}
       {view.bills.map(
         ({
@@ -136,31 +157,31 @@ export function TransitWorkspace({
               <h3>
                 {bill.designation} — {bill.shortTitle}
               </h3>
-              <p data-testid="transit-bill-stage">
+              <p>
                 {world.jurisdictions[bill.jurisdictionId]?.name} · {bill.stage}
               </p>
               <button onClick={() => onOpenBill(bill.docketKey)}>
                 Open legislative record
               </button>
               {funding.kind === "unavailable" ? (
-                <p role="status" data-problem="funding-unavailable" />
+                <p role="status" data-reason={funding.reason} />
               ) : (
-                <p
-                  data-testid="transit-funding"
-                  data-ends-at={funding.mandate.endsAt}
-                >
+                <p data-testid="transit-appropriation">
                   {(funding.mandate.amount.minorUnits / 100).toLocaleString(
                     "en-US",
                     { style: "currency", currency: "USD" },
-                  )}
-                  · {funding.mandate.endsAt}
+                  )}{" "}
+                  <time dateTime={funding.mandate.endsAt}>
+                    {funding.mandate.endsAt}
+                  </time>
                 </p>
               )}
               {funding.kind === "available" && (
                 <TransitCashSummary snapshot={cashSnapshot} />
               )}
               {cashShort && (
-                <div className="transit-cash-guidance">
+                <div className="transit-cash-guidance" role="note">
+                  <p data-problem="cash-short" />
                   {onOpenTaxWork && (
                     <button type="button" onClick={onOpenTaxWork}>
                       Open taxes and public receipts
@@ -188,12 +209,17 @@ export function TransitWorkspace({
                 <ol className="transit-periods">
                   {periods.map((p) => (
                     <li key={p.due.id} data-state={p.state.status}>
-                      <p data-testid="transit-period">
-                        {p.due.dueAt} · {p.state.status}
-                      </p>
                       <p>
-                        {serviceUnits(p.forecast)} · {serviceUnits(p.delivered)}
+                        <time dateTime={p.due.dueAt}>{p.due.dueAt}</time>{" "}
+                        <span data-testid="transit-period-state">
+                          {p.state.status}
+                        </span>
                       </p>
+                      <p>{serviceUnits(p.forecast)}</p>
+                      <p>{serviceUnits(p.delivered)}</p>
+                      {p.state.status !== "resolved" && p.state.context && (
+                        <p data-reason={p.state.context} />
+                      )}
                     </li>
                   ))}
                 </ol>
@@ -217,23 +243,25 @@ export function TransitWorkspace({
                   className="transit-outcome"
                   data-testid="transit-outcome"
                 >
-                  <p data-testid="transit-paid-service">
-                    {paidMinorUnits > 0
-                      ? `${serviceHoursText(paidMinorUnits)} · ${usd(paidMinorUnits)}`
-                      : ""}
-                  </p>
-                  <p
-                    data-testid="transit-public-cash"
-                    data-balance={
-                      publicCashMinorUnits === null
-                        ? "missing"
-                        : publicCashMinorUnits
-                    }
-                  >
-                    {publicCashMinorUnits === null
-                      ? ""
-                      : usd(publicCashMinorUnits)}
-                  </p>
+                  <dl>
+                    <dd data-problem={paidMinorUnits > 0 ? undefined : "none"}>
+                      {paidMinorUnits > 0
+                        ? serviceHoursText(paidMinorUnits)
+                        : "—"}
+                    </dd>
+                    <dd>{usd(paidMinorUnits)}</dd>
+                    <dd
+                      data-problem={
+                        publicCashMinorUnits === null
+                          ? "no-balance-on-record"
+                          : undefined
+                      }
+                    >
+                      {publicCashMinorUnits === null
+                        ? "—"
+                        : usd(publicCashMinorUnits)}
+                    </dd>
+                  </dl>
                 </section>
               )}
             </article>
@@ -243,13 +271,13 @@ export function TransitWorkspace({
       {view.reports.length > 0 && (
         <div className="transit-reports">
           {view.reports.map(({ event, published }) => (
-            <article
-              key={event.id}
-              data-testid="transit-report"
-              data-published={published}
-            >
-              <p>{event.occurredAt}</p>
-              {!published ? (
+            <article key={event.id}>
+              <p>
+                {event.occurredAt}: {event.summary}
+              </p>
+              {published ? (
+                <p data-published="true" />
+              ) : (
                 <button
                   onClick={() =>
                     act(() =>
@@ -262,7 +290,7 @@ export function TransitWorkspace({
                 >
                   Publish dated service report
                 </button>
-              ) : null}
+              )}
             </article>
           ))}
         </div>

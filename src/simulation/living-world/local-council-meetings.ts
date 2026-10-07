@@ -100,6 +100,32 @@ export interface CouncilMeetingAgendaItem {
   readonly reasons: readonly CouncilMeetingMatterReason[];
 }
 
+export interface CouncilItemsPlayResult {
+  /** The Session 4 scene consumer receives these actual agenda items later. */
+  readonly pendingItems: readonly CouncilMeetingAgendaItem[];
+  /** Quiet measures stay on the shared office-workflow path. */
+  readonly quietItems: readonly LegislativeMeasureRecord[];
+  /** The stub deliberately creates no spoken beats or ballots. */
+  readonly playedMeasureIds: readonly EntityId[];
+}
+
+/**
+ * Pending-input seam for Session 4's council situation. Until its consumer
+ * lands, matter-bearing agenda items remain pending and only quiet items flow
+ * through the existing office workflow.
+ */
+export function playCouncilItems(
+  items: readonly CouncilMeetingAgendaItem[],
+): CouncilItemsPlayResult {
+  return {
+    pendingItems: items.filter((item) => item.reasons.length > 0),
+    quietItems: items
+      .filter((item) => item.reasons.length === 0)
+      .map((item) => item.measure),
+    playedMeasureIds: [],
+  };
+}
+
 /**
  * Reads the agenda for one scheduled council meeting and explains, without an
  * importance score, which items matter to the player. Later producers attach
@@ -672,16 +698,18 @@ export function localCouncilMeetingHandler(
   const votesBefore = (world.history.legislativeVotes ?? []).length;
   // A member's quiet items follow the voting workflow they chose, before the
   // roll call reads their ballots.
-  const settled = player
-    ? settleQuietCouncilItems(world, {
-        unit,
-        town,
-        playerId: player,
-        quiet: meetingItemsThatMatter(world, player, due.id)
-          .filter((item) => item.reasons.length === 0)
-          .map((item) => item.measure),
-      })
-    : world;
+  const councilItems = player
+    ? playCouncilItems(meetingItemsThatMatter(world, player, due.id))
+    : null;
+  const settled =
+    player && councilItems
+      ? settleQuietCouncilItems(world, {
+          unit,
+          town,
+          playerId: player,
+          quiet: councilItems.quietItems,
+        })
+      : world;
   let next = moveOrdinances(settled, unit, town, rules, player);
   next = fileOrdinances(next, unit, town, rules, player);
   const votes = (next.history.legislativeVotes ?? []).slice(votesBefore);

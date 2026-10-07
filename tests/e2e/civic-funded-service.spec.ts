@@ -157,9 +157,8 @@ test("an Alaska member funds added transit service from a collected tax and sees
   await transit(page)
     .getByRole("button", { name: "File transit appropriation", exact: true })
     .click();
-  await expect(transit(page).getByTestId("transit-bill-stage")).toContainText(
-    "filed",
-  );
+  await expect(transit(page)).toContainText("was filed");
+  await expect(transit(page)).toContainText("has not become law");
 
   // Its record opens in the Docket, where the disclosed appropriation sitting
   // is chosen with an explicit ballot and the procedure is followed.
@@ -216,11 +215,14 @@ test("an Alaska member funds added transit service from a collected tax and sees
   await goTo(page, "nav-politics-transit", "politics");
   for (
     let week = 0;
-    week < 20 && !(await transit(page).getByTestId("transit-funding").count());
+    week < 20 &&
+    !(await transit(page).getByTestId("transit-appropriation").count());
     week++
   )
     await continueOnTransit(page, "week");
-  await expect(transit(page).getByRole("note")).toHaveCount(0);
+  await expect(transit(page).getByRole("note")).toContainText(
+    "Public cash comes only from taxes that have actually been collected",
+  );
   await page.screenshot({
     path: shotPath("civic-transit-unfunded.png"),
     fullPage: true,
@@ -261,6 +263,7 @@ test("an Alaska member funds added transit service from a collected tax and sees
 
   // Transit: request, let both periods come due, then read what changed.
   await goTo(page, "nav-politics-transit", "politics");
+  await expect(transit(page).getByRole("note")).toHaveCount(0);
   await transit(page)
     .getByRole("button", { name: "Request two service periods" })
     .click();
@@ -269,18 +272,22 @@ test("an Alaska member funds added transit service from a collected tax and sees
   ).toHaveCount(0);
   for (let week = 0; week < 5; week++) await continueOnTransit(page, "week");
   const outcome = page.getByTestId("transit-outcome");
-  await expect(outcome.getByTestId("transit-paid-service")).toContainText(
-    "2 vehicle-service hours",
-  );
-  await expect(outcome.getByTestId("transit-public-cash")).toHaveText("$2.00");
-  await expect(transit(page).getByTestId("transit-period")).toHaveCount(2);
+  await expect(outcome).toContainText("2 vehicle-service hours");
+  await expect(outcome).toContainText("$200.00");
+  await expect(outcome).toContainText("$2.00");
+  await expect(
+    transit(page).locator('[data-testid="transit-period-state"]', {
+      hasText: "resolved",
+    }),
+  ).toHaveCount(2);
+  await expect(
+    transit(page).getByText("1 vehicle-service hour", { exact: true }),
+  ).toHaveCount(2);
   await transit(page)
     .getByRole("button", { name: "Publish dated service report" })
     .first()
     .click();
-  await expect(
-    transit(page).getByTestId("transit-report").first(),
-  ).toHaveAttribute("data-published", "true");
+  await expect(transit(page).locator("[data-published]")).toHaveCount(1);
   await page.screenshot({
     path: shotPath("civic-transit-delivered.png"),
     fullPage: true,
@@ -369,11 +376,9 @@ test("an Alaska member funds added transit service from a collected tax and sees
     ),
   ).toContainText("acknowledged the delivered service");
   await goTo(page, "nav-politics-transit", "politics");
-  await expect(page.getByTestId("transit-paid-service")).toContainText(
-    "$200.00",
-  );
+  await expect(page.getByTestId("transit-outcome")).toContainText("$200.00");
   await continueOnTransit(page, "week");
-  await expect(page.getByTestId("transit-public-cash")).toHaveText("$2.00");
+  await expect(page.getByTestId("transit-outcome")).toContainText("$2.00");
   await page.screenshot({
     path: shotPath("civic-transit-reopened.png"),
     fullPage: true,

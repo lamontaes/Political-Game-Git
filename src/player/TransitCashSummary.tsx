@@ -8,6 +8,7 @@ function format(amount: MoneyAmount) {
   });
 }
 
+/** Read-only contract/account facts. Due-time settlement remains authoritative. */
 export function TransitCashSummary({
   snapshot,
 }: {
@@ -17,23 +18,23 @@ export function TransitCashSummary({
   return (
     <div data-testid="transit-cash-snapshot" data-state={snapshot.kind}>
       {snapshot.kind === "authority-unavailable" ? (
-        <p role="status" data-problem="authority-unavailable" />
+        <p role="status" data-reason={snapshot.reason} />
       ) : (
         <>
-          <p data-testid="transit-cash-periods">
-            {format(snapshot.firstPeriodAmount)} ·{" "}
-            {format(snapshot.secondPeriodAmount)}
-          </p>
+          <dl data-testid="transit-cash-periods">
+            <dd>{format(snapshot.firstPeriodAmount)}</dd>
+            <dd>{format(snapshot.secondPeriodAmount)}</dd>
+          </dl>
           {snapshot.kind === "recorded-cash" ? (
             <p
-              data-testid="transit-cash-recorded"
-              data-as-of={snapshot.asOf}
-              data-first-period={snapshot.firstPeriodCash}
+              data-testid="transit-recorded-cash"
+              data-first-period-cash={snapshot.firstPeriodCash}
             >
+              <time dateTime={snapshot.asOf}>{snapshot.asOf}</time>{" "}
               {format(snapshot.recordedLiquidBalance)}
             </p>
           ) : (
-            <p role="status" data-problem={snapshot.kind} />
+            <p role="status" data-reason={snapshot.reason} />
           )}
         </>
       )}
