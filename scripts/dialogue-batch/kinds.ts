@@ -7,9 +7,9 @@
  * A development tool. Read-only: it never advances time or writes records.
  */
 import type { EntityId, World } from "../../src/simulation";
-import { spokenDate } from "../../src/simulation/dates";
 import { electionContestResult } from "../../src/simulation";
 import { projectBillPaper } from "../../src/presentation/bill-paper";
+import { journalInFirstPerson } from "../../src/presentation/journal-first-person";
 import { projectJournalView } from "../../src/presentation/journal-views";
 import { projectNewsFrontPage } from "../../src/presentation/news-front-page";
 import { projectOrdinaryMeetingScene } from "../../src/presentation/ordinary-meeting-scene";
@@ -77,21 +77,32 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     "no newspaper has printed a story in this world yet",
   );
 
+  // A journal item is a chapter of the life, told by the character from the
+  // record (CTO 9:03 p.m. Oct 6): the section's entries in the first person.
+  // A line that only states where the player is now ("You are at home.") is
+  // the present, not a chapter, and is left out.
   const journal = projectJournalView(world, playerId, "chapters", null);
-  const entries = journal.sections.flatMap((section) => section.entries);
   add(
     "journal",
-    entries
+    journal.sections
+      .map((section) => ({
+        section,
+        told: section.entries
+          .filter((entry) => !/^You are\b/.test(entry.text))
+          .map((entry) => journalInFirstPerson(entry.text)),
+      }))
+      .filter((chapter) => chapter.told.length > 0)
       .slice(-PER_KIND)
       .reverse()
-      .map((entry, index) => ({
+      .map(({ section, told }) => ({
         kind: "journal",
-        composer: "projectJournalView in journal-views.ts",
-        situation: `The player's journal, ${["the latest", "the one before", "the third-latest"][index] ?? "an"} entry, dated ${spokenDate(entry.at)}.`,
-        text: entry.text,
-        partKey: `journal:entry:${entry.sourceId}`,
+        composer:
+          "projectJournalView and journalInFirstPerson in journal-views.ts",
+        situation: `The player's journal, the chapter "${section.heading}"${section.span ? ` (${section.span})` : ""}.`,
+        text: told.join(" "),
+        partKey: `journal:chapter:${section.key}`,
       })),
-    "the player's journal has no entries yet",
+    "the player's journal has no chapter told from the record yet",
   );
 
   const bills: KindText[] = [];
