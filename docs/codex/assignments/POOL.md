@@ -364,7 +364,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-press | Replace about 29 placeholders in simulation / press with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-pressure-1 | Replace about 17 placeholders in simulation / pressure / 1 with recorded or estimated-and-marked values | placeholders.md | done #2810 | Session 37 |
 | PH-simulation-pressure-2 | Replace about 17 placeholders in simulation / pressure / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-public-budgets | Replace about 14 placeholders in simulation / public / budgets with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-public-budgets | Replace about 14 placeholders in simulation / public / budgets with recorded or estimated-and-marked values | placeholders.md | done #2623 | Session 37 |
 | PH-simulation-root-1 | Replace about 20 placeholders in simulation / root / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-2 | Replace about 20 placeholders in simulation / root / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-3 | Replace about 20 placeholders in simulation / root / 3 with recorded or estimated-and-marked values | placeholders.md | open | |
