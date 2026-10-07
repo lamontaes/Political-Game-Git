@@ -25,6 +25,7 @@ import { addDays, daysBetween } from "../../src/simulation/dates";
 import { settlePublicBudgets } from "../../src/simulation/public-budgets";
 import { ensureCountyServiceAppropriations } from "../../src/simulation/county-services";
 import { publicProgramRecords } from "../../src/simulation/public-program-integrity";
+import { resourcePositionAt } from "../../src/simulation/resource-queries";
 import { COUNTY_SERVICE_FAMILIES } from "../../src/simulation/law-consequences/service-delivered-data";
 import type { IsoDate, World } from "../../src/simulation/types";
 import { resolveDueThrough } from "../fixtures/due-item-clock";
@@ -125,6 +126,19 @@ describe("a county's voted budget lines fund its services", () => {
         (record) => record.kind === "appropriation" && mine(record),
       );
       expect(appropriations.length).toBeGreaterThan(0);
+      const serviceAppropriation = appropriations.find(
+        (record) => record.kind === "appropriation",
+      );
+      expect(serviceAppropriation).toBeDefined();
+      const serviceAccount = {
+        kind: "organization" as const,
+        organizationId: serviceAppropriation!.accountOrganizationId,
+      };
+      const openingServiceCash = resourcePositionAt(
+        world,
+        serviceAccount,
+        serviceAppropriation!.amount.currency,
+      );
       // Each appropriation is exactly the voted line, so a bigger or smaller
       // vote is a bigger or smaller service budget.
       const voted = world
@@ -168,7 +182,7 @@ describe("a county's voted budget lines fund its services", () => {
             !!record.resourceFlowId,
         );
       };
-      for (let day = 30; day <= 360 && !paid(); day += 30) {
+      for (let day = 30; day <= 390 && !paid(); day += 30) {
         step(day);
       }
       if (!paid()) {
@@ -190,6 +204,24 @@ describe("a county's voted budget lines fund its services", () => {
               record.kind === "installment" && record.status === "failed",
           ),
         ).toHaveLength(0);
+        const endingServiceCash = resourcePositionAt(
+          world,
+          serviceAccount,
+          serviceAppropriation!.amount.currency,
+        );
+        expect(openingServiceCash).toBeDefined();
+        expect(endingServiceCash?.liquidBalance.minorUnits).toBe(
+          openingServiceCash!.liquidBalance.minorUnits,
+        );
+        expect(endingServiceCash?.inflows.minorUnits).toBe(
+          openingServiceCash!.inflows.minorUnits,
+        );
+        expect(endingServiceCash?.outflows.minorUnits).toBe(
+          openingServiceCash!.outflows.minorUnits,
+        );
+        process.stderr.write(
+          `CO-9 county service account stayed at ${openingServiceCash!.liquidBalance.minorUnits} minor units for ${daysBetween(startDay, world.currentDate)} days\n`,
+        );
         return;
       }
       const commitments = publicProgramRecords(world).filter(
