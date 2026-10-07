@@ -698,7 +698,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2346 | [b12 Part 2] Record procedural motions | PR #2346 (session35/b12-part2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2353 | [Session 33 P2] Add reusable chamber leadership races | PR #2353 (codex/session-33-b10-p2) | open: draft: finish it or close it as superseded | |
 | RS-2356 | Let the player choose their election ballot | PR #2356 (session46/b18-1-player-vote) | open: sent back: failed its own changed checks: tests | |
-| RS-2357 | B23 Part 4: Use local names for generated town employers | PR #2357 (codex/session41-b23-part4) | open: rebase on main (conflicts) | |
+| RS-2357 | B23 Part 4: Use local names for generated town employers | PR #2357 (codex/session41-b23-part4) | done #2357 | |
 | RS-2361 | Part 3: Hire managers with campaign experience | PR #2361 (session27/b02-part3-manager) | open: mergeable: needs a changed-file check | |
 | RS-2362 | Save population-based voting precinct membership beside town wards | PR #2362 (codex/session13-precinct-membership) | open: draft: finish it or close it as superseded | |
 | RS-2364 | [B19 Part 2] Read whole-career public offices | PR #2364 (session39/b19-part2-office) | open: draft: finish it or close it as superseded | |
@@ -870,7 +870,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2672 | BG-02: cloud task | PR #2672 (cloud/bg-02-2e0d90) | open: rebase on main (conflicts) | |
 | RS-2673 | BG-03: cloud task | PR #2673 (cloud/bg-03-c3666d) | open: rebase on main (conflicts) | |
 | RS-2674 | BG-04: cloud task | PR #2674 (cloud/bg-04-7385af) | open: rebase on main (conflicts) | |
-| RS-2675 | BG-05: cloud task | PR #2675 (cloud/bg-05-136161) | open: rebase on main (conflicts) | |
+| RS-2675 | BG-05: cloud task | PR #2675 (cloud/bg-05-136161) | done #2675 | |
 | RS-2676 | BG-06: cloud task | PR #2676 (cloud/bg-06-bc45c6) | open: rebase on main (conflicts) | |
 | RS-2677 | BG-07: cloud task | PR #2677 (cloud/bg-07-261bbd) | open: rebase on main (conflicts) | |
 | RS-2678 | BG-09: cloud task | PR #2678 (cloud/bg-09-602652) | open: rebase on main (conflicts) | |
