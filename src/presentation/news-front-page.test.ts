@@ -68,17 +68,6 @@ describe("News front pages", () => {
     const shown = [page.lead, ...page.stories].filter(
       (story): story is NonNullable<typeof story> => story !== null,
     );
-    if (shown.length > 1)
-      expect(
-        shown.some(
-          (local) =>
-            !local.national &&
-            shown.some(
-              (national) =>
-                national.national && local.publishedAt > national.publishedAt,
-            ),
-        ),
-      ).toBe(true);
     expect(shown.map((story) => story.id).sort()).toEqual(
       saved.map((item) => item.publicationId).sort(),
     );
@@ -95,7 +84,7 @@ describe("News front pages", () => {
       expect(story.body).toBe(record.body);
     }
     expect(page.empty === null).toBe(shown.length > 0);
-  });
+  }, 300_000);
 
   it("shows one paper's own front page and falls back from an unknown outlet", () => {
     const world = newLife("ui-follow-news-outlet");

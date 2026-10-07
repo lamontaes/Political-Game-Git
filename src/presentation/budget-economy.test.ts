@@ -8,7 +8,6 @@ import {
   requireLifePlace,
   serializeWorld,
   worldMetricDefinitionByStableKey,
-  type EntityId,
   type MetricReferencePeriod,
   type World,
 } from "../simulation";

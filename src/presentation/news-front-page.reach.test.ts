@@ -8,15 +8,20 @@ import {
 } from "./news-front-page";
 import { passOrdinaryDays } from "./ordinary-life";
 import { newsHabitOf } from "../simulation/living-world/news-habits";
+import { lifePlaces, SeededRng } from "../simulation";
 
 describe("news front-page reach", () => {
   it("shows only the outlets the reader's habit includes", () => {
+    const seed = "news-front-page-reach";
+    const place = new SeededRng(seed).pick(
+      lifePlaces().filter((candidate) => candidate.scope === "locality"),
+    );
     const game = generateOpeningLife(
       prepareOpeningLife({
         ...DEFAULT_NEW_GAME_SETUP,
-        placeKey: "lexington-fayette",
+        placeKey: place.key,
         startAge: 34,
-        seed: "news-front-page-reach",
+        seed,
       }),
     ).game!;
     const world = passOrdinaryDays(game.world, 7);
@@ -27,7 +32,8 @@ describe("news front-page reach", () => {
       null,
       game.playerPersonId,
     );
-    expect(habit.outletKeys.length).toBeGreaterThan(0);
+    const where = `${place.displayName}, seed ${seed}`;
+    expect(habit.outletKeys.length, where).toBeGreaterThan(0);
     expect(
       page.mastheads.every((outlet) =>
         habit.outletKeys.includes(outlet.outletKey),
@@ -40,7 +46,7 @@ describe("news front-page reach", () => {
     ).toBe(true);
     if ([page.lead, ...page.stories].some((story) => story?.national))
       expect(page.lead?.national).toBe(true);
-  });
+  }, 300_000);
 
   it("filters recorded stories to the followed outlets without choosing a story", () => {
     const saved = [

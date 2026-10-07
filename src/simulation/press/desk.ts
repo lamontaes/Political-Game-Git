@@ -65,7 +65,6 @@ import {
 import { sharingSiblings } from "./ownership";
 import {
   PRESS_CONTRACT_VERSION,
-  mediaOutletKey,
   type LeadRoute,
   type MediaBeat,
   type MediaOutletRecord,
