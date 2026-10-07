@@ -499,7 +499,7 @@ describe("standing again after a race is over", () => {
       ),
     ).toEqual(startingJobs);
     expect(projectWorkRole(world, personId).sentence).toBe(
-      `Your roles: ${[
+      `${[
         ...new Set(startingJobs),
         "Member of the City Council, City of Ely",
       ].join("; ")}.`,
