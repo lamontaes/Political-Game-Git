@@ -138,6 +138,31 @@ describe(`Public services play in ${place.displayName}, seed ${SEED}`, () => {
     ).toHaveLength(1);
   });
 
+  it("step 4b: the delivered service names the child and the parent in law exposures", () => {
+    const result = request();
+    if (result.kind !== "scheduled") throw new Error(result.reason);
+    const attended = advanceWorld(result.world, 1);
+    const receipt = attended.history.events.find(
+      (row) => row.type === "service.delivery-recorded",
+    )!;
+    const exposures = (attended.history.lawExposures ?? []).filter(
+      (row) => row.sourceRecordId === receipt.id && row.relation === "own",
+    );
+    expect(exposures.map((row) => row.personId).sort()).toEqual(
+      [fixture.childId, fixture.parentId].sort(),
+    );
+    for (const row of exposures)
+      expect(row).toMatchObject({
+        channel: "public-service",
+        direction: "gain",
+        amount: null,
+      });
+    const reloaded = deserializeWorld(serializeWorld(attended));
+    expect(reloaded.history.lawExposures).toEqual(
+      attended.history.lawExposures,
+    );
+  });
+
   it.todo(
     "step 5: the parent's family schedule reads the child's pending attendance due item (data-only reader not built)",
   );

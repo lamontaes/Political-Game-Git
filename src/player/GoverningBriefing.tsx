@@ -1,16 +1,26 @@
-import { useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   decideGoverningMatter,
   delegateGoverningMatter,
   type EntityId,
   type GoverningActionResult,
   type World,
+  type FutureTransitionHandlerRegistry,
 } from "../simulation";
+import { type BriefingMatter } from "../presentation/governing-briefing";
 import {
-  projectGoverningBriefing,
-  type BriefingMatter,
-} from "../presentation/governing-briefing";
+  projectExecutiveInbox,
+  type ExecutiveInboxItem,
+} from "../presentation/executive-inbox";
+import { ExecutiveWorkCard } from "./ExecutiveWorkCard";
+import { IncidentResponsePanel } from "./IncidentResponsePanel";
+import { spendExecutiveWorkTime } from "../simulation/executive-work";
 import { GuideTermText } from "./GuideTerm";
+import { BUDGET_DOLLARS } from "../simulation/governing/executive-budget-requests";
+import {
+  ExecutiveBudgetRequestEditor,
+  ExecutiveBudgetRequestHistory,
+} from "./ExecutiveBudgetRequest";
 
 /**
  * GOVERNING: the office briefing inside Work. A few matters that need the
@@ -23,13 +33,29 @@ export function GoverningBriefing({
   world,
   personId,
   onWorldChange,
+  handlers,
+  onClose,
+  placement = "inline",
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
+  readonly handlers?: FutureTransitionHandlerRegistry;
+  readonly onClose?: () => void;
+  readonly placement?: "inline" | "overlay";
 }) {
   const [problem, setProblem] = useState<string | null>(null);
-  const briefing = projectGoverningBriefing(world, personId);
+  const briefing = projectExecutiveInbox(world, personId);
+  const inline = placement === "inline";
+  const close = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (inline) return;
+    const previous = document.activeElement;
+    close.current?.focus();
+    return () => {
+      if (previous instanceof HTMLElement) previous.focus();
+    };
+  }, [inline]);
   if (!briefing) return null;
 
   const commit = (result: GoverningActionResult) => {
@@ -38,25 +64,85 @@ export function GoverningBriefing({
       onWorldChange(result.world);
     } else setProblem(result.reason);
   };
-  const card = (matter: BriefingMatter) => (
+  const card = (item: ExecutiveInboxItem) =>
+    item.kind === "work" ? (
+      <ExecutiveWorkCard
+        key={item.id}
+        world={world}
+        item={item.work}
+        onWorldChange={onWorldChange}
+        handlers={handlers}
+      />
+    ) : (
+      governingCard(item.matter)
+    );
+  const governingCard = (matter: BriefingMatter) => (
     <MatterCard
       key={matter.id}
       matter={matter}
       onDecide={(key) => commit(decideGoverningMatter(world, matter.id, key))}
       onDelegate={() => commit(delegateGoverningMatter(world, matter.id))}
+      budgetEditor={
+        matter.options.some((option) => option.key === BUDGET_DOLLARS) ? (
+          <ExecutiveBudgetRequestEditor
+            world={world}
+            personId={personId}
+            matterId={matter.id}
+            onCommit={commit}
+          />
+        ) : null
+      }
     />
   );
 
   return (
-    <section className="governing-briefing" data-testid="governing-briefing">
+    <section
+      className={
+        inline ? "governing-briefing" : "planning-workspace governing-briefing"
+      }
+      aria-label="Executive work"
+      data-testid="governing-briefing"
+      onKeyDown={(event) => {
+        if (!inline && onClose && event.key === "Escape") {
+          event.stopPropagation();
+          onClose();
+        }
+      }}
+    >
       <header>
         <h3>{briefing.officeTitle}</h3>
-        <p className="game-note">
-          {briefing.termLine}{" "}
-          {briefing.chiefOfStaff
-            ? `Chief of staff: ${briefing.chiefOfStaff.name}.`
-            : "No chief of staff yet."}
-        </p>
+        {briefing.canSpendWorkTime && (
+          <button
+            onClick={() => {
+              const result = spendExecutiveWorkTime(world, handlers);
+              if (result.ok) {
+                onWorldChange(result.world);
+                setProblem(null);
+              } else setProblem(result.reason);
+            }}
+          >
+            Work for 30 minutes
+          </button>
+        )}
+        {!inline && onClose && (
+          <button ref={close} onClick={onClose}>
+            Return
+          </button>
+        )}
+        <dl className="game-note">
+          {briefing.termEnds ? (
+            <>
+              <dt>Term ends</dt>
+              <dd>{briefing.termEnds}</dd>
+            </>
+          ) : null}
+          {briefing.chiefOfStaff ? (
+            <>
+              <dt>Chief of staff</dt>
+              <dd>{briefing.chiefOfStaff.name}</dd>
+            </>
+          ) : null}
+        </dl>
         {briefing.calendarNote ? (
           <details className="game-campaign-detail">
             <summary>About this office's rules</summary>
@@ -65,6 +151,8 @@ export function GoverningBriefing({
         ) : null}
       </header>
 
+      <IncidentResponsePanel world={world} onWorldChange={onWorldChange} />
+      <ExecutiveBudgetRequestHistory world={world} personId={personId} />
       <h4>Needs you</h4>
       {briefing.significant.length === 0 ? (
         <p className="game-note" data-testid="governing-nothing-open">
@@ -108,10 +196,12 @@ function MatterCard({
   matter,
   onDecide,
   onDelegate,
+  budgetEditor,
 }: {
   readonly matter: BriefingMatter;
   readonly onDecide: (optionKey: string) => void;
   readonly onDelegate: () => void;
+  readonly budgetEditor: ReactNode;
 }) {
   return (
     <li className="governing-matter" data-testid="governing-matter">
@@ -133,19 +223,21 @@ function MatterCard({
         </p>
       ) : null}
       <div className="game-choices">
-        {matter.options.map((option) => (
-          <button
-            key={option.key}
-            type="button"
-            className="ui-action ui-action--choice"
-            data-testid="governing-option"
-            data-option={option.key}
-            onClick={() => onDecide(option.key)}
-          >
-            {option.label}
-            <small>{option.effect}</small>
-          </button>
-        ))}
+        {matter.options
+          .filter((option) => option.key !== BUDGET_DOLLARS)
+          .map((option) => (
+            <button
+              key={option.key}
+              type="button"
+              className="ui-action ui-action--choice"
+              data-testid="governing-option"
+              data-option={option.key}
+              onClick={() => onDecide(option.key)}
+            >
+              {option.label}
+              <small>{option.effect}</small>
+            </button>
+          ))}
         {matter.canDelegate ? (
           <button
             type="button"
@@ -158,6 +250,7 @@ function MatterCard({
           </button>
         ) : null}
       </div>
+      {budgetEditor}
       <details>
         <summary>Tradeoffs and what happens if you wait</summary>
         <ul>

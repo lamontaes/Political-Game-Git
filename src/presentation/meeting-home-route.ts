@@ -109,15 +109,6 @@ function resolveMeetingHomeRoute(
     return unavailable(
       "Your home has changed since this local route was arranged.",
     );
-  const homeOrigin = world.history.events.find(
-    (event) =>
-      event.sequence < origin.sequence &&
-      event.context.location?.setting === "home" &&
-      event.context.location.jurisdictionId === location.jurisdictionId &&
-      event.participants.some((entry) => entry.personId === personId),
-  );
-  if (!homeOrigin)
-    return unavailable("This local journey has no recorded home endpoint.");
   const state = scheduledActivityState(world, journey.id);
   const minutes = simulationMinutesBetween(state.start, state.end);
   if (!Number.isSafeInteger(minutes) || minutes <= 0)

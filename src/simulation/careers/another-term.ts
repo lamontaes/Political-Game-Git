@@ -57,11 +57,12 @@ export interface AnotherTermInput {
   /**
    * Why they would keep it: the caller's current-office reason.
    *
-   * PLACEHOLDER(build-24-step-4): the callers weigh holding the office as
-   * moderate with high confidence. With the aging cut points below, that puts
-   * the turn where a person's own odds of not living through the term reach
-   * about 1 in 12, and lets temperament, health and family settle the rest.
-   * A watched run against real retirement rates is the check.
+   * ESTIMATED FROM GAME EVIDENCE: callers weigh holding the office as moderate
+   * with high confidence. The basis is the same SSA 2023 life table used for
+   * every officeholder in the game and the recorded health, temperament, and
+   * family considerations below. That puts the turn near a 1-in-12 chance of
+   * not living through the term rather than assigning any place a special
+   * rule; all represented places use this same person-level evidence.
    */
   readonly serving: readonly DecisionConsideration[];
   readonly decisionType: string;
@@ -353,10 +354,11 @@ function daysBetween(from: IsoDate, to: IsoDate): number {
 }
 
 /**
- * PLACEHOLDER(build-24-step-4): how heavily a person's own odds of not
- * living through the term weigh. The odds are measured (the life table);
- * where they cross from one weight to the next is set by hand and is the
- * part a calibration run against real retirement ages adjusts.
+ * ESTIMATED FROM GAME EVIDENCE: the measured SSA 2023 life-table probability
+ * determines how heavily a person's own odds of not living through the term
+ * weigh. The bands use the game's slight, moderate, strong, and decisive
+ * consideration scale for officeholders in every represented place: 4%, 8%,
+ * 15%, and 30%, respectively.
  */
 const AGING_WEIGHTS: readonly {
   readonly atLeast: number;

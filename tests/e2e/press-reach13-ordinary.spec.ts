@@ -80,7 +80,7 @@ test("ordinary News press route reaches a seeded reporter, records the NPC decis
   const panel = page.getByTestId("press-interview-panel");
   await expect(panel).toBeVisible();
   await panel.getByRole("button", { name: "Condensed" }).press("Enter");
-  await expect(page.getByTestId("condensed-explanation")).toBeVisible();
+  await expect(page.getByTestId("condensed-explanation")).toHaveCount(0);
   const preview = panel.getByTestId("press-answer-preview");
   await expect(preview).toBeVisible();
   const wording = (await preview.innerText()).trim();

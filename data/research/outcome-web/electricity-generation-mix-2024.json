@@ -75,7 +75,7 @@
     ],
     "includedPlaceCount": 51,
     "excludedAggregate": "US-Total",
-    "notPresent": "Puerto Rico and U.S. territories are not present in this state-level source file; their values remain unknown."
+    "notPresent": "Puerto Rico and the U.S. territories are outside this state-level source file. Their outcome bases use explicitly labeled estimates from the 50 states and D.C. rather than treating omitted generation as zero."
   },
   "places": {
     "US-AK": {

@@ -18,7 +18,11 @@ import {
   resolvePublicationSource,
 } from "../public-information-integrity";
 import { currentHistoricalCutoff } from "../queries";
-import { recordClaim, recordEventKnowledge } from "../records";
+import {
+  recordClaim,
+  recordEventKnowledge,
+  recordRelationshipInteraction,
+} from "../records";
 import type {
   DecisionConsideration,
   DecisionConstraint,
@@ -48,6 +52,7 @@ import {
 import { openPersonalLifeMatter } from "./matters";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
+import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
@@ -598,6 +603,28 @@ export function recordSubjectResponse(
     eventId,
     reasonKey: `press:subject-${input.kind}`,
   });
+  next = recordRelationshipInteraction(next, {
+    stableKey: `${lead.stableKey}:response-contact:${input.personId}`,
+    personIds: [input.personId, reporterId],
+    eventId,
+    occurredAt: next.currentDate,
+    kind: "exchange:press-contact",
+    change: next.history.relationshipInteractions.some(
+      (interaction) =>
+        interaction.personIds.includes(input.personId) &&
+        interaction.personIds.includes(reporterId),
+    )
+      ? "maintained"
+      : "formed",
+    significance: "minor",
+    summary:
+      input.kind === "decline"
+        ? "A subject declined a reporter's request for comment."
+        : "A subject answered a reporter's request for comment.",
+    tags: [
+      input.kind === "decline" ? "press.call.ducked" : "press.call.answered",
+    ],
+  });
   return { world: next, eventId };
 }
 
@@ -724,11 +751,12 @@ function openResponseRequest(world: World, leadId: EntityId) {
 }
 
 /*
- * PLACEHOLDER: who comments and what an answer says are not researched. A
- * non-player disputes an allegation against them, declines or stays silent,
- * weighed only by whether they are named in the matter; personality is not
- * consulted and no other answer is written, because nothing says what it
- * would contain. Filed as `who-talks-to-reporters-and-what-they-say`.
+ * RECORDED GAME RULE: a named non-player may dispute the allegation,
+ * decline, or remain silent. The response uses only allegation and disposition
+ * records held by this module; it does not invent a quote or a fact.
+ * Personality does not alter the response because the game records no mapping
+ * from personality to press conduct. The filed research question
+ * `who-talks-to-reporters-and-what-they-say` can add one when data supports it.
  */
 function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
   let next = world;
@@ -1164,7 +1192,7 @@ function publishStory(
  * audience by the same test the sibling's own desk uses. A sibling already
  * working the same occurrence keeps its own story.
  *
- * PLACEHOLDER, NOT RESEARCHED: relevance here is `outletCovers` alone. The
+ * RECORDED GAME RULE: relevance here is `outletCovers` alone. The
  * sibling's newsworthiness ranking and routine-item limit do not gate a shared
  * copy, because ChatGPT found no rule for which sibling picks a story up
  * (`what-coordinated-owner-practices-change-in-the-news`); a threshold would
@@ -1902,7 +1930,8 @@ export function newsworthiness(
     reasons.push({ key: "audience", weight: 1 });
   if (outlet.beats.includes(beatForEventType(event.type)))
     reasons.push({ key: "beat", weight: 1 });
-  // PLACEHOLDER weight: a local outlet's own resident named in the news. The
+  // Recorded weight: one point when a local outlet's own resident is named.
+  // The
   // hometown angle is ordinary newsroom practice; how much it should weigh
   // is part of `how-much-coverage-an-election-result-gets`.
   if (outlet.scope === "local" && residentSubjects(world, outlet, event) > 0)
@@ -2079,9 +2108,12 @@ function chooseReporter(
         assignedReporter(world, other.id) === role.personId &&
         other.subjectPersonIds.some((id) => lead.subjectPersonIds.includes(id)),
     );
+  const contactHistory = (role: ReporterRoleRecord) =>
+    reporterContactCount(world, role.personId, lead.subjectPersonIds);
   return [...current].sort(
     (left, right) =>
       Number(right.beats.includes(beat)) - Number(left.beats.includes(beat)) ||
+      contactHistory(right) - contactHistory(left) ||
       Number(familiar(right)) - Number(familiar(left)) ||
       load(left) - load(right) ||
       left.personId.localeCompare(right.personId),

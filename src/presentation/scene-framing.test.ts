@@ -13,17 +13,27 @@ const INSETS = { leftInset: 232, rightInset: 20 };
 
 describe("PT3 — framing around the people in the room", () => {
   it("lowers the camera only as far as the highest crown needs", () => {
-    expect(figureHeadroom([], 900)).toBe(0);
+    expect(figureHeadroom([])).toBe(0);
+    expect(figureHeadroom([{ left: 0, right: 10, top: 40, bottom: 400 }])).toBe(
+      0,
+    );
     expect(
-      figureHeadroom([{ left: 0, right: 10, top: 40, bottom: 400 }], 900),
-    ).toBe(0);
-    expect(
-      figureHeadroom([{ left: 0, right: 10, top: -50, bottom: 850 }], 900),
+      figureHeadroom([{ left: 0, right: 10, top: -50, bottom: 850 }]),
     ).toBe(62);
-    // Bounded: an absurd placement cannot push the room off the screen.
+    // A tall slot gets the entire correction. The former 20% viewport cap
+    // stopped at 180px here and knowingly left the crown outside the frame.
     expect(
-      figureHeadroom([{ left: 0, right: 10, top: -2000, bottom: 850 }], 900),
-    ).toBe(180);
+      figureHeadroom([{ left: 0, right: 10, top: -2000, bottom: 850 }]),
+    ).toBe(2012);
+  });
+
+  it("uses the highest top across standing and seated room slots", () => {
+    const standing = { left: 100, right: 260, top: -260, bottom: 820 };
+    const seated = { left: 700, right: 900, top: -84, bottom: 690 };
+    const correction = figureHeadroom([standing, seated]);
+
+    expect(standing.top + correction).toBe(12);
+    expect(seated.top + correction).toBeGreaterThanOrEqual(12);
   });
 
   it("keeps the panel centered while it covers nobody", () => {

@@ -1,0 +1,146 @@
+import { describe, expect, it } from "vitest";
+import {
+  composeFromBank,
+  readMeetingBank,
+  readMinutesBank,
+  readNoticesBank,
+  type EnglishBank,
+} from "./bank-english";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { governmentUnitJurisdictionId } from "../simulation/government-units";
+import type { EntityId, World } from "../simulation";
+import { createOpeningLifeController } from "./opening-life";
+import { openOrdinaryLife } from "./ordinary-life";
+import { placeFor, rng } from "../../scripts/playtest/mass-play/driver";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { explicitNewGameSetup } from "./new-game-geography";
+
+const bank: EnglishBank = {
+  parts: [
+    {
+      key: "a",
+      move: "m",
+      kind: "k",
+      text: "Hello {who} on {day}.",
+      shippable: true,
+    },
+    {
+      key: "b",
+      move: "m",
+      kind: "k",
+      text: "Greetings {who}.",
+      shippable: true,
+    },
+    {
+      key: "c",
+      move: "m",
+      kind: "k",
+      text: "Unshipped {who}.",
+      shippable: false,
+    },
+    {
+      key: "d",
+      move: "n",
+      kind: "k",
+      text: "Needs {missing}.",
+      shippable: true,
+    },
+  ],
+};
+
+describe("composeFromBank", () => {
+  it("fills slots and leaves no braces", () => {
+    const made = composeFromBank(bank, "m", { who: "Ana", day: "Monday" }, "x");
+    expect(made?.text).toMatch(/Ana/);
+    expect(made?.text).not.toContain("{");
+    expect(made?.partKey).not.toBe("c");
+  });
+  it("returns null when a slot has no fact", () => {
+    expect(composeFromBank(bank, "n", { who: "Ana" }, "x")).toBeNull();
+    expect(composeFromBank(bank, "m", { who: "" }, "x")).toBeNull();
+  });
+  it("is deterministic for the same pickKey", () => {
+    const facts = { who: "Ana", day: "Monday" };
+    expect(composeFromBank(bank, "m", facts, "k1")).toEqual(
+      composeFromBank(bank, "m", facts, "k1"),
+    );
+  });
+});
+
+describe("generated world", () => {
+  it("gives meeting and minutes items or a named reason", () => {
+    const random = rng("bank-1");
+    const states = lifePlaceStateIdentities();
+    let place: ReturnType<typeof placeFor> = null;
+    while (!place)
+      place = placeFor(
+        states[Math.floor(random() * states.length)]!.usps,
+        random,
+      );
+    const setup = explicitNewGameSetup({
+      placeKey: place.key,
+      seed: "bank-1",
+      startAge: 34 as never,
+      depth: "summarize-earlier-life",
+    });
+    const game = createOpeningLifeController(setup).finishTransition().game!;
+    const world = openOrdinaryLife(game.world, game.playerPersonId);
+    for (const reading of [
+      readMeetingBank(world, game.playerPersonId),
+      readMinutesBank(world, game.playerPersonId),
+      readNoticesBank(world, game.playerPersonId),
+    ]) {
+      if (typeof reading === "string")
+        expect(reading.length).toBeGreaterThan(10);
+      else for (const line of reading) expect(line.text).not.toContain("{");
+    }
+
+    const home = homeLocalGovernmentUnits(world, game.playerPersonId);
+    const unit = [...home.municipal, ...home.counties, ...home.townships][0];
+    expect(unit).toBeDefined();
+    const jurisdictionId = governmentUnitJurisdictionId(unit!);
+    const measureId = "notice-test:measure" as EntityId;
+    const withNoticeRecords = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeMeasures: [
+          {
+            id: measureId,
+            jurisdictionId,
+            designation: "ORD 1",
+            shortTitle: "Test measure",
+            introducedAt: world.currentDate,
+          },
+        ],
+        legislativeActions: [
+          {
+            id: "notice-test:hearing" as EntityId,
+            measureId,
+            kind: "committee-hearing-held",
+            occurredAt: world.currentDate,
+          },
+        ],
+        electionContests: [
+          {
+            id: "notice-test:election" as EntityId,
+            jurisdictionId,
+            scheduledAt: world.currentDate,
+            electionDate: world.currentDate,
+            office: { title: "Council member" },
+          },
+        ],
+      },
+    } as unknown as World;
+    const notices = readNoticesBank(withNoticeRecords, game.playerPersonId);
+    expect(typeof notices).not.toBe("string");
+    if (typeof notices !== "string") {
+      expect(notices.map((line) => line.partKey)).toEqual([
+        "notice.hearing.public-hearing",
+        "notice.ordinance.council-ordinances",
+        "notice.election.notice-of-election",
+      ]);
+      expect(notices.every((line) => !line.text.includes("{"))).toBe(true);
+    }
+  }, 240000);
+});

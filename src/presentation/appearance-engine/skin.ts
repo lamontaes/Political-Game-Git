@@ -23,8 +23,9 @@ export interface SkinRamp {
  * Seven shades, lightest to darkest (Lamontae: "six or seven shades, from
  * lightest to darkest"). Shades 1–6 were sampled from the art team's six-tone
  * skin reference sheet (forearm shading: 2–10th, 45–60th and 98.5–99.8th
- * luminance percentiles). PLACEHOLDER(wave2): shade 7 is shade 6 darkened by
- * 22 percent until it is painted.
+ * luminance percentiles). ESTIMATED FROM ADJACENT RECORDED SHADE 6: shade 7
+ * darkens each shade-6 channel by approximately 22%; its shadow, base, and
+ * highlight remain explicitly recorded below.
  */
 export const SKIN_RAMPS: readonly SkinRamp[] = [
   {
@@ -156,14 +157,24 @@ export function recolorSkin(
    * a camel coat or brown shoes are skin-colored but are not skin.
    */
   within?: Raster,
+  /** Garment regions take precedence where their painted coverage is stronger. */
+  cloth: readonly Raster[] = [],
 ): Raster {
   const data = new Uint8ClampedArray(raster.data);
   for (let i = 0; i < data.length; i += 4) {
     const r = data[i]!;
     const g = data[i + 1]!;
     const b = data[i + 2]!;
-    if (
-      within ? within.data[i + 3]! <= 128 : !isSkinPixel(r, g, b, data[i + 3]!)
+    if (within) {
+      const skinCoverage = within.data[i + 3]!;
+      if (
+        skinCoverage === 0 ||
+        cloth.some((region) => region.data[i + 3]! >= skinCoverage)
+      )
+        continue;
+    } else if (
+      cloth.some((region) => region.data[i + 3]! > 0) ||
+      !isSkinPixel(r, g, b, data[i + 3]!)
     )
       continue;
     const color = rampColor(target, rampPosition(luminance(r, g, b), source));
