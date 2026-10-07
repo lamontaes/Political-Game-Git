@@ -357,7 +357,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-living-world-4 | Replace about 19 placeholders in simulation / living / world / 4 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-macro-economy-1 | Replace about 15 placeholders in simulation / macro / economy / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-macro-economy-2 | Replace about 15 placeholders in simulation / macro / economy / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-migration | Replace about 24 placeholders in simulation / migration with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-migration | Replace about 24 placeholders in simulation / migration with recorded or estimated-and-marked values | placeholders.md | done #2805 | Session 37 |
 | PH-simulation-misc | Replace about 9 placeholders in simulation / misc with recorded or estimated-and-marked values | placeholders.md | done | #2621 |
 | PH-simulation-nationwide-world-1 | Replace about 15 placeholders in simulation / nationwide / world / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-nationwide-world-2 | Replace about 16 placeholders in simulation / nationwide / world / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -901,7 +901,7 @@ open: rebase on main (conflicts) | |
 | RS-2703 | PH-simulation-crisis-1: cloud task | PR #2703 (cloud/ph-simulation-crisis-1-8f3f60) | open: rebase on main (conflicts) | |
 | RS-2704 | PH-simulation-justice: cloud task | PR #2704 (cloud/ph-simulation-justice-8ef1b5) | open: rebase on main (conflicts) | |
 | RS-2705 | PH-simulation-living-world-1: cloud task | PR #2705 (cloud/ph-simulation-living-world-1-2e2b58) | open: rebase on main (conflicts) | |
-| RS-2706 | PH-simulation-migration: cloud task | PR #2706 (cloud/ph-simulation-migration-200514) | open: rebase on main (conflicts) | |
+| RS-2706 | PH-simulation-migration: cloud task | PR #2706 (cloud/ph-simulation-migration-200514) | closed: superseded by #2805 | |
 | RS-2707 | PH-simulation-nationwide-world-2: cloud task | PR #2707 (cloud/ph-simulation-nationwide-world-2-4f818b) | open: rebase on main (conflicts) | |
 | RS-2708 | PH-simulation-pressure-1: cloud task | PR #2708 (cloud/ph-simulation-pressure-1-c33a9f) | open: rebase on main (conflicts) | |
 | RS-2709 | PH-simulation-pressure-2: cloud task | PR #2709 (cloud/ph-simulation-pressure-2-8b6d01) | open: rebase on main (conflicts) | |
