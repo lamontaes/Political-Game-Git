@@ -1,0 +1,99 @@
+{
+  "schema": "english-parts/1",
+  "register": "newspaper-ledes",
+  "description": "Record-grounded local news lede structures mined from historical newspaper coverage of public decisions.",
+  "slots": {
+    "actor": "The public body or official named in the current record.",
+    "action": "The recorded action, stated in plain English.",
+    "record": "The ordinance, resolution, application, hearing, or other record item.",
+    "place": "The jurisdiction or location named in the record.",
+    "issue": "The local issue the recorded action addresses.",
+    "affected": "The residents, workers, or services affected, as recorded.",
+    "result": "The recorded outcome or next step."
+  },
+  "maxWords": 30,
+  "mining": {
+    "tool": "manual source review",
+    "read": "Historical U.S. newspaper articles in the Library of Congress Chronicling America collection; lede structures follow who acted, what record changed, and the local consequence."
+  },
+  "parts": [
+    {
+      "key": "newspaper-ledes.decision-and-impact",
+      "move": "decision-impact",
+      "kind": "written",
+      "text": "{actor} {action} {record}, a decision that affects {affected}.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "East Oregonian, December 22, 1904",
+        "date": "1904-12-22",
+        "url": "https://www.loc.gov/resource/sn88086023/1904-12-22/ed-1/?st=text"
+      }
+    },
+    {
+      "key": "newspaper-ledes.denial-and-local-consequence",
+      "move": "denial-consequence",
+      "kind": "written",
+      "text": "{actor} rejected {record}, blocking a change to {issue}.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Pine Bluff Daily Graphic, August 6, 1907",
+        "date": "1907-08-06",
+        "url": "https://www.loc.gov/resource/sn89051168/1907-08-06/ed-1/?sp=1&st=text"
+      }
+    },
+    {
+      "key": "newspaper-ledes.grant-and-beneficiary",
+      "move": "grant-benefit",
+      "kind": "written",
+      "text": "{actor} granted {record}, allowing {affected} to {result}.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "The McCook Tribune, April 18, 1902",
+        "date": "1902-04-18",
+        "url": "https://www.loc.gov/resource/sn94056415/1902-04-18/ed-1/?st=text"
+      }
+    },
+    {
+      "key": "newspaper-ledes.vote-and-public-purpose",
+      "move": "vote-purpose",
+      "kind": "written",
+      "text": "{actor} approved {record} to address {issue} in {place}.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Aberdeen Sunday World, July 18, 1915",
+        "date": "1915-07-18",
+        "url": "https://tile.loc.gov/storage-services/service/ndnp/wa/batch_wa_icicle_ver01/data/sn87093220/00200290471/1915071801/0266.pdf"
+      }
+    },
+    {
+      "key": "newspaper-ledes.service-and-pay",
+      "move": "public-service-impact",
+      "kind": "written",
+      "text": "{actor} granted {record} to {affected} and began reviewing {issue}.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Evening Star, December 16, 1947",
+        "date": "1947-12-16",
+        "url": "https://www.loc.gov/resource/sn83045462/1947-12-16/ed-1/?sp=23&st=text"
+      }
+    },
+    {
+      "key": "newspaper-ledes.action-and-next-step",
+      "move": "action-next-step",
+      "kind": "written",
+      "text": "{actor} took up {record}, and the next step is {result}.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "The Savannah Morning News, June 11, 1902",
+        "date": "1902-06-11",
+        "url": "https://chroniclingamerica.loc.gov/lccn/sn89053684/1902-06-11/ed-1/seq-10/"
+      }
+    }
+  ]
+}
