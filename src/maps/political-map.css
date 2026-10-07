@@ -141,6 +141,8 @@
   touch-action: none;
   cursor: grab;
   user-select: none;
+  shape-rendering: geometricPrecision;
+  text-rendering: optimizeLegibility;
 }
 .pg-map-svg:active {
   cursor: grabbing;
@@ -257,6 +259,7 @@
   text-anchor: middle;
   dominant-baseline: central;
   font-weight: 600;
+  letter-spacing: 0.01em;
 }
 /* Markers never take a click meant for the region beneath them. */
 .pg-map-marker {
