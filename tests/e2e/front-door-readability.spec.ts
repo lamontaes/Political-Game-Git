@@ -166,8 +166,8 @@ test.describe("The front door stays compact and readable over the room", () => {
     // Disabled copy remains readable on the glass: at least 3:1.
     expect(contrast(cont.color, panel.backgroundColor)).toBeGreaterThan(3);
     await expect(page.getByTestId("continue")).toBeDisabled();
-    // Saved games stays open with nothing saved: it is where an import lives.
-    await expect(page.getByTestId("open-saves")).toBeEnabled();
+    // The confirmed empty list disables the action to open Saved games.
+    await expect(page.getByTestId("open-saves")).toBeDisabled();
   });
 
   test("moves focus visibly and activates New game from the keyboard", async ({

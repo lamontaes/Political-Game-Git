@@ -485,6 +485,8 @@ export function TitleScreen({
   const setAside = damaged?.length ?? 0;
   const unread = saveListing === "failed";
   const outdated = saveListing === "outdated";
+  const confirmedEmpty =
+    saveListing === "read" && saves.length === 0 && setAside === 0;
 
   // The room behind this screen is painted by the persistent ambient shell in
   // `PlayerGame`, not here. Mounting a second tableau was what made New Game
@@ -540,7 +542,7 @@ export function TitleScreen({
           data-testid="open-saves"
           data-listing={saveListing}
           onClick={onOpenSaves}
-          disabled={savesUnavailable}
+          disabled={savesUnavailable || confirmedEmpty}
         >
           Saved games
           {saves.length > 0 || setAside > 0 ? (

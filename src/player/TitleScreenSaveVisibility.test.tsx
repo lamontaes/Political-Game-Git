@@ -49,6 +49,14 @@ function render(
   );
 }
 
+function saveButton(markup: string): string {
+  const match = markup.match(
+    /<button[^>]*data-testid="open-saves"[^>]*>[\s\S]*?<\/button>/,
+  );
+  if (!match) throw new Error("Missing saved-games action");
+  return match[0];
+}
+
 describe("the title screen shows saved-game counts as data only", () => {
   it("shows the set-aside count on Continue and on Saved games", () => {
     const markup = render([], [SET_ASIDE]);
@@ -60,6 +68,12 @@ describe("the title screen shows saved-game counts as data only", () => {
     const markup = render([], []);
     expect(markup).not.toContain("continue-set-aside");
     expect(markup).not.toContain("<small>");
+    expect(saveButton(markup)).toContain("disabled");
+  });
+
+  it("keeps Saved games available while a save is set aside", () => {
+    const markup = render([], [SET_ASIDE]);
+    expect(saveButton(markup)).not.toContain("disabled");
   });
 
   it("counts the set-aside ones beside the healthy ones", () => {
@@ -97,6 +111,7 @@ describe("the title screen while the saved lives are being read", () => {
     expect(markup).toContain('data-listing="loading"');
     expect(markup).not.toContain("<small>");
     expect(markup).not.toContain('<p class="game-');
+    expect(saveButton(markup)).not.toContain("disabled");
   });
 
   it("offers only Try again for a failed read", () => {
@@ -104,6 +119,7 @@ describe("the title screen while the saved lives are being read", () => {
     expect(markup).toContain('data-testid="saves-unread"');
     expect(markup).toContain("Try again");
     expect(markup).not.toContain('<p class="game-');
+    expect(saveButton(markup)).not.toContain("disabled");
   });
 
   it("offers only Reload when the saves were kept by a newer version", () => {
@@ -112,6 +128,7 @@ describe("the title screen while the saved lives are being read", () => {
     expect(markup).toContain("Reload");
     expect(markup).not.toContain("Try again");
     expect(markup).not.toContain('<p class="game-');
+    expect(saveButton(markup)).not.toContain("disabled");
   });
 });
 
