@@ -646,7 +646,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2165 | Separate People Web and List navigation | PR #2165 (codex/team8-people-structure) | open: stacked on codex/team8-title-actions: retarget to main; draft: finish it or close it as superseded | |
 | RS-2180 | Share recorded election counts and dated office rules | PR #2180 (codex/session13-elections-one-engine) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2189 | P1 loading shows life before Creator questions | PR #2189 (codex/session7-life-loading-main) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2191 | Member votes cite the sponsor favors that remain owed | PR #2191 (codex/session21-votes-programs) | open: draft: finish it or close it as superseded | |
+| RS-2191 | Member votes cite the sponsor favors that remain owed | PR #2191 (codex/session21-votes-programs) | ready #2191 | |
 | RS-2193 | Hide empty measure request history | PR #2193 (codex/session8-measure-empty-state) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2194 | Assessments, collections, and federal withholding use the shared tax kind | PR #2194 (codex/session21-tax-kind) | open: draft: finish it or close it as superseded | |
 | RS-2199 | Name state service for unincorporated Alaska places | PR #2199 (codex/session8-unincorporated-government) | open: draft: finish it or close it as superseded | |
