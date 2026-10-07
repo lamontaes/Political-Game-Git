@@ -338,8 +338,8 @@ export function LifeScenePanel({
                   setProblem(null);
                   setOutcome(
                     request && reply
-                      ? `You: “${request}” ${personName(world.people[offer.signerPersonId]!)}: “${reply}”`
-                      : "The petition ask was recorded.",
+                      ? `${personName(world.people[offer.circulatorPersonId]!)}: “${request}” ${personName(world.people[offer.signerPersonId]!)}: “${reply}”`
+                      : null,
                   );
                   onWorldChange(result.world);
                 }}
