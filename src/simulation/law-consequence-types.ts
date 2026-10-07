@@ -20,7 +20,8 @@ export type LawConsequenceKind =
   | "business-incentive"
   | "public-library-service"
   | "parks-service-spending"
-  | "government-operations";
+  | "government-operations"
+  | "curriculum-application";
 
 /** Existing bespoke stamp labels awaiting migration; new kinds use LawConsequenceKind. */
 export type LegacyEffectKind =

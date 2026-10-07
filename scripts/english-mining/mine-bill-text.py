@@ -96,6 +96,12 @@ def text_of(path):
     return re.sub(r"\s+", " ", t)
 
 def bill_date(t):
+    # The chamber line ("Passed the House of Representatives <date>." or the
+    # date under "IN THE SENATE OF THE UNITED STATES") dates the version; the
+    # first date in the text can be a future effective date in the bill itself.
+    m = re.search(r"(?:Passed the (?:House of Representatives|Senate)|IN THE (?:HOUSE OF REPRESENTATIVES|SENATE OF THE UNITED STATES)) (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (20\d\d)", t)
+    if m:
+        return datetime.date(int(m.group(3)), MONTHS[m.group(1)], int(m.group(2))).isoformat()
     m = re.search(r"(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (20\d\d)", t)
     if not m:
         return None

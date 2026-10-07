@@ -14,7 +14,6 @@ import {
   bootstrapStudyPeriodProgression,
   cancelStudyPeriodDues,
   enrollmentStudyModel,
-  registerStudyPathResolver,
   scheduleStudyPeriodDue,
   studyProgressSummary,
   studyUsesPeriodModel,
@@ -30,6 +29,7 @@ import {
   studyPeriodDueDate,
   totalStudyPeriods,
 } from "./education-study-progression";
+import { registerStudyPathResolver } from "./study-path-resolver";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeCampaignForCandidate } from "./campaign-queries";
 import {
