@@ -58,7 +58,8 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;
       const developmentIncentive =
-        key === "us-policy-positions:business-commerce.cap-development-incentives";
+        key ===
+        "us-policy-positions:business-commerce.cap-development-incentives";
       if (
         !coverage &&
         !pay &&

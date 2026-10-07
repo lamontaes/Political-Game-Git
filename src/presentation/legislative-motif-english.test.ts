@@ -97,6 +97,8 @@ function input(
     family,
     voice,
     worldSeed: SEED,
+    speakerTraits: {},
+    listenerTraits: {},
     momentKey: `turn-${turn}`,
     speakerPersonId: speaker,
     listenerPersonId: listener,
@@ -218,6 +220,8 @@ describe("the bargaining room speaks these beats through the engine", () => {
     },
     grounding: {
       worldSeed: SEED,
+      speakerTraits: {},
+      listenerTraits: {},
       speakerPersonId: speaker,
       listenerPersonId: listener,
       measureId: measure,
@@ -267,6 +271,8 @@ describe("how the lines sound in the room", () => {
   };
   const grounding = (requested: "absent" | "adopted" | null) => ({
     worldSeed: SEED,
+    speakerTraits: {},
+    listenerTraits: {},
     speakerPersonId: speaker,
     listenerPersonId: listener,
     measureId: measure,

@@ -7,12 +7,23 @@ import {
   DEVELOPMENT_INCENTIVE_REGISTRATION,
   recordDevelopmentIncentiveAward,
 } from ".";
+import { stableHash } from "../../../ids";
+import { lifePlaceStateIdentities } from "../../../life-places";
 import { createLawConsequenceRegistry } from "../../../law-consequence-registry";
 import { validateLawConsequences } from "../../../law-consequence-validation";
 import { createOrganization, createWorkRelationship } from "../../../life";
 
+/** A place from all 56, named by its seed. */
+const SEED = "lw08-cap-gap";
+function drawPlace(): string {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  return places[parseInt(stableHash(SEED).slice(0, 8), 16) % places.length]!
+    .jurisdictionKey;
+}
+
 function fixture() {
-  const small = smallWorld({ place: "US-KY", people: 4, seed: "lw08-cap-gap" });
+  const small = smallWorld({ place: drawPlace(), people: 4, seed: SEED });
   const world = createOrganization(small.world, {
     stableKey: "lw08:recipient-business",
     formedAt: small.world.currentDate,

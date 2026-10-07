@@ -1,3 +1,4 @@
+import { everydayText } from "../presentation/everyday-english";
 import { describePlacesOutcome } from "../presentation/player-places";
 import { useState } from "react";
 import type { EntityId, World } from "../simulation";
@@ -62,7 +63,10 @@ export function OrdinaryMeetingPanel({
   return (
     <section className="pg-meeting-panel" data-testid="ordinary-meeting-panel">
       <h2>{scene?.location.label ?? entry?.activity.location.label}</h2>
-      <p>{scene?.caption ?? "You have arrived for the public meeting."}</p>
+      <p>
+        {scene?.caption ??
+          everydayText(world, personId, "meeting-entry", [activityId])}
+      </p>
       {scene?.actors.length ? (
         <div data-testid="ordinary-meeting-people">
           <h3>In the room</h3>
@@ -138,7 +142,11 @@ export function OrdinaryMeetingPanel({
               </ul>
             </>
           ) : (
-            <p>No roll-call vote is recorded for this agenda.</p>
+            <p>
+              {everydayText(world, personId, "meeting-no-roll-call", [
+                activityId,
+              ])}
+            </p>
           )}
         </div>
       ) : null}

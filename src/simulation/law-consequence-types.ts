@@ -19,7 +19,8 @@ export type LawConsequenceKind =
   | "institution-rule"
   | "business-incentive"
   | "public-library-service"
-  | "parks-service-spending";
+  | "parks-service-spending"
+  | "government-operations";
 
 /** Existing bespoke stamp labels awaiting migration; new kinds use LawConsequenceKind. */
 export type LegacyEffectKind =
@@ -240,6 +241,9 @@ export type LawTermResolutionProvenance =
       readonly unit: LawAmountUnit;
       /** Date the governing law term was read for this consequence. */
       readonly requestedAt: IsoDate;
+      /** Exact measure/provision/source identity of the primary law term. */
+      readonly lawMeasureId: EntityId;
+      readonly sourceRecordIds: readonly EntityId[];
       readonly scope?: LawTermScope;
       readonly applicability?: LawTermApplicability;
     }

@@ -549,6 +549,4 @@ export const DEVELOPMENT_INCENTIVE_REGISTRATION: LawConsequenceKindRegistration 
     apply: applyDevelopmentIncentiveAward,
   };
 
-export const lawConsequenceLw08DevelopmentIncentiveCapRegistrations = [
-  DEVELOPMENT_INCENTIVE_REGISTRATION,
-] as const;
+export const registrations = [DEVELOPMENT_INCENTIVE_REGISTRATION] as const;
