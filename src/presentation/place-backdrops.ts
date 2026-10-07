@@ -19,6 +19,8 @@ import {
 } from "./campus-backdrops";
 import { backdropUrl } from "./backdrop-urls";
 import { openingWorkLocation } from "./opening-work-location";
+import { townWorkplaceFor } from "../simulation/living-world/town-employment";
+import { WORKPLACE_PLACE } from "../simulation/living-world/work-schedules";
 import type {
   DwellingClassification,
   EntityId,
@@ -279,7 +281,9 @@ function currentDwelling(world: World, personId: EntityId) {
  */
 export function workplacePlaceFor(
   classification: OccupationClassification | null,
+  employerPlace: string | null = null,
 ): string {
+  if (employerPlace && hasBackdrop(employerPlace)) return employerPlace;
   if (!classification) return "office";
   const onet = /^custom:onet-(\d\d)/.exec(classification);
   if (onet) return ONET_MAJOR_GROUP_PLACE[onet[1]!] ?? "office";
@@ -375,7 +379,19 @@ export function workplacePlaceForPerson(
   if (arrival?.context.location?.setting === "work")
     return selectedWorkplaceForPerson(world, personId)?.place ?? null;
   const [work] = activeWorkRelationshipsAt(world, personId);
-  return work ? workplacePlaceFor(work.role.occupationClassification) : null;
+  if (!work) return null;
+  const organizationId = work.relationship.organizationId;
+  const organization = organizationId
+    ? world.history.organizations.find((entry) => entry.id === organizationId)
+    : null;
+  const profile = organizationId
+    ? organizationProfileAt(world, organizationId)
+    : null;
+  const workplace = organization
+    ? townWorkplaceFor(organization.stableKey, profile?.classification ?? null)
+    : null;
+  const employerPlace = workplace ? WORKPLACE_PLACE[workplace.key] : null;
+  return workplacePlaceFor(work.role.occupationClassification, employerPlace);
 }
 
 /**
