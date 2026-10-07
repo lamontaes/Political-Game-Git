@@ -1,0 +1,869 @@
+{
+  "id": "eng-20261007-ep1e",
+  "title": "Dialogue batch eng-20261007-ep1e (33 exchanges)",
+  "at": "2026-10-07T02:37:22.529Z",
+  "head": "f63284988bda49560c88737a1c6861313dcffe33",
+  "status": "open",
+  "variety": {
+    "items": 33,
+    "places": 4,
+    "kinds": {
+      "conversation": 9,
+      "legislation": 1,
+      "winning-and-losing": 3,
+      "judges": 3,
+      "news": 3,
+      "journal": 3,
+      "press": 2,
+      "hearing": 3,
+      "meeting": 3,
+      "minutes": 3,
+      "notices-and-screens": 0
+    },
+    "distinctSituationRelationship": 33
+  },
+  "absent": [
+    {
+      "kind": "notices-and-screens",
+      "reason": "no output, because no notices composer or bank exists yet. In these worlds: Horn Lake, Mississippi: no notices bank or composer exists yet; Vaitogi, American Samoa: no notices bank or composer exists yet; Greenwood, Florida: no notices bank or composer exists yet; Fountain N' Lakes, Missouri: no notices bank or composer exists yet"
+    }
+  ],
+  "items": [
+    {
+      "i": 0,
+      "situation": "Your classmate, Trinity Hampton (17), in Horn Lake, Mississippi, on January 7, 2026. You are 17.",
+      "prior": "You: Say hello",
+      "reply": "Your classmate: Hi, Yara. How are you?",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core",
+        "life-reply.first-greeting:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "greet",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 1,
+      "situation": "Your grandmother, Sage Navarro (93), in Vaitogi, American Samoa, on February 3, 2026. You are 34.",
+      "prior": "You: Say hello",
+      "reply": "Your grandmother: Hi, Camila.",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1e:1"
+    },
+    {
+      "i": 2,
+      "situation": "Your grandmother, Yasmin Valentine (113), in Greenwood, Florida, on January 6, 2026. You are 52.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your grandmother: Sure, let's play.",
+      "part": "invitation.company-agree:core:sure-play",
+      "parts": [
+        "invitation.company-agree:core:sure-play"
+      ],
+      "composer": "invitationAgreeLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "invite-game-accept",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Greenwood, Florida",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1e:2"
+    },
+    {
+      "i": 3,
+      "situation": "Your mom, Jean Morton (101), in Fountain N' Lakes, Missouri, on January 6, 2026. You are 70.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your mom: Oh, not a game right now. I'd rather try something new. Thanks for asking.",
+      "part": "english.slow-opener:opener:oh",
+      "parts": [
+        "english.slow-opener:opener:oh",
+        "invitation.company-decline:core:not-a-game",
+        "invitation.company-decline:reason:something-new",
+        "invitation.company-decline:closer:thanks-asking"
+      ],
+      "composer": "invitationDeclineLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Fountain N' Lakes, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1e:3"
+    },
+    {
+      "i": 4,
+      "situation": "Your classmate, Trinity Hampton (17), in Horn Lake, Mississippi, on January 7, 2026. You are 17.",
+      "prior": "You: Talk about an earlier conversation",
+      "reply": "Your classmate: I remember you bringing up “2 people entered the race for U.S. Representative for Alabama's 1st congressional district.” What happened after that?",
+      "part": "life-reply.remembered-topic:core:core",
+      "parts": [
+        "life-reply.remembered-topic:core:core",
+        "life-reply.remembered-topic:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (remembered-topic) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "remembered-topic",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "remember-news-topic",
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 5,
+      "situation": "Your dad, Michael Navarro (61), in Vaitogi, American Samoa, on February 3, 2026. You are 34.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your dad: Me too. I've been meaning to make time to learn something.",
+      "part": "life-reply.tell-shared-plan:core:core",
+      "parts": [
+        "life-reply.tell-shared-plan:core:core",
+        "life-reply.tell-shared-plan:reason:continuation"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:1"
+    },
+    {
+      "i": 6,
+      "situation": "Your mom, Sheila Valentine (79), in Greenwood, Florida, on January 6, 2026. You are 52.",
+      "prior": "",
+      "reply": "Your mom: If you want to, go ahead.",
+      "part": "life-reply.running-open-agree-even:core:core",
+      "parts": [
+        "life-reply.running-open-agree-even:core:core"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-open",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Greenwood, Florida",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1e:2"
+    },
+    {
+      "i": 7,
+      "situation": "Your former classmate, Jacqueline Jones (34), in Vaitogi, American Samoa, on February 3, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your former classmate: Are you thinking of going?",
+      "part": "subject-reply.neighborhood_mention:core:warm-0-core-1",
+      "parts": [
+        "subject-reply.neighborhood_mention:core:warm-0-core-1"
+      ],
+      "composer": "composeSubjectReply (neighborhood) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "neighborhood-mention",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:1"
+    },
+    {
+      "i": 8,
+      "situation": "Reporter, Parker Holt (56), in Fountain N' Lakes, Missouri, on January 6, 2026. You are 70.",
+      "prior": "",
+      "reply": "Reporter: Lincoln County is governed by County board. What is established, and what is still open?",
+      "part": "press.reporter-known-topic:opener:development",
+      "parts": [
+        "press.reporter-known-topic:opener:development",
+        "press.reporter-known-topic:core:question"
+      ],
+      "composer": "composePressLine (reporter question) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview-question",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Fountain N' Lakes, Missouri",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:3"
+    },
+    {
+      "i": 9,
+      "situation": "You, in Horn Lake, Mississippi, on January 7, 2026. You are 17.",
+      "prior": "Reporter: What happened?",
+      "reply": "You: I can't answer that yet.",
+      "part": "press.answer-unknown:core:not-yet",
+      "parts": [
+        "press.answer-unknown:core:not-yet"
+      ],
+      "composer": "composePressLine (answer-unknown) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 10,
+      "situation": "Judge Naomi Pierce sentences Brandon Vasquez (36) for vandalism after a guilty plea. The judge chose probation. In Fountain N' Lakes, Missouri, on January 6, 2026.",
+      "prior": "",
+      "reply": "Judge: They accepted responsibility by pleading guilty. It is their first offense. The law asks for a sentence no greater than necessary.",
+      "part": "justice.sentence:core:accepted-responsibility",
+      "parts": [
+        "justice.sentence:core:accepted-responsibility",
+        "justice.sentence:core:first-offense",
+        "justice.sentence:core:parsimony"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Fountain N' Lakes, Missouri",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:3"
+    },
+    {
+      "i": 11,
+      "situation": "Judge Michele Owen sentences Mary Weaver (73) for assault after a trial. The judge chose jail. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "Judge: The offense was violent.",
+      "part": "justice.sentence:core:violent",
+      "parts": [
+        "justice.sentence:core:violent"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 12,
+      "situation": "Judge Karim Sims sentences David Schneider (29) for burglary after a trial. The judge chose jail. In Vaitogi, American Samoa, on February 3, 2026.",
+      "prior": "",
+      "reply": "Judge: They had been found at fault for the same thing before.",
+      "part": "justice.sentence:core:findings",
+      "parts": [
+        "justice.sentence:core:findings"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1e:1"
+    },
+    {
+      "i": 13,
+      "situation": "Your former classmate, Jacqueline Jones (34), in Vaitogi, American Samoa, on February 3, 2026. You are 34.",
+      "prior": "You: Ask if they would like this to be a date",
+      "reply": "Your former classmate: Oh, no, thank you. I like how things are between us now.",
+      "part": "english.slow-opener:opener:oh",
+      "parts": [
+        "english.slow-opener:opener:oh",
+        "invitation.date-decline:core:no-thank-you",
+        "invitation.date-decline:reason:like-things-now"
+      ],
+      "composer": "invitationDeclineLine (date) in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "decline",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:1"
+    },
+    {
+      "i": 14,
+      "situation": "A Civic Ledger story from Alabama. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 2 people entered the race for U.S. Representative for Alabama's 1st congressional district.",
+      "part": "news:story:event_f48dfaff228c71e5",
+      "parts": [
+        "news:story:event_f48dfaff228c71e5"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 15,
+      "situation": "A Civic Ledger story from Alabama. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 2 people entered the race for Member of the Alabama House of Representatives, District 1.",
+      "part": "news:story:event_872c90bce0b0a5f7",
+      "parts": [
+        "news:story:event_872c90bce0b0a5f7"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 16,
+      "situation": "A Civic Ledger story from Alaska. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 2 people entered the race for U.S. Representative for Alaska's at-large congressional district.",
+      "part": "news:story:event_fa45001b2ffa1459",
+      "parts": [
+        "news:story:event_fa45001b2ffa1459"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 17,
+      "situation": "The player's journal, the chapter \"At 17\" (2026). In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "Your journal: I lived in Horn Lake, Mississippi. I went and asked somebody who had actually done it, and what they told I was not what the school had. I found other people to go instead of going, which worked, and which one of them mentioned later. I turned the job down and kept the week I already had.",
+      "part": "journal:chapter:phase:chapter:17",
+      "parts": [
+        "journal:chapter:phase:chapter:17"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 18,
+      "situation": "The player's journal, the chapter \"2023\" (2023). In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "Your journal: I finished at Elmwood Middle School in June 2023. I was enrolled at Horn Lake High School.",
+      "part": "journal:chapter:year:2023",
+      "parts": [
+        "journal:chapter:year:2023"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 19,
+      "situation": "The player's journal, the chapter \"2020\" (2020). In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "Your journal: I finished at Horn Lake Elementary School in May 2020. I was enrolled at Elmwood Middle School.",
+      "part": "journal:chapter:year:2020",
+      "parts": [
+        "journal:chapter:year:2020"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 20,
+      "situation": "What a member says to the chair of City of Horn Lake, from its recorded seats. Move: opener. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I thank the chair for the time.",
+      "part": "bank:meeting.opener.i-thank-the-chair-for-the-time",
+      "parts": [
+        "bank:meeting.opener.i-thank-the-chair-for-the-time"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 21,
+      "situation": "What a member says to the chair of City of Horn Lake, from its recorded seats. Move: procedural. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I ask that we commence with the previously scheduled vote.",
+      "part": "bank:meeting.procedural.i-ask-that-we-commence-with-the-previously-scheduled-vote",
+      "parts": [
+        "bank:meeting.procedural.i-ask-that-we-commence-with-the-previously-scheduled-vote"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 22,
+      "situation": "What a member says to the chair of City of Horn Lake, from its recorded seats. Move: closer. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I have no further speakers, and I am ready to close.",
+      "part": "bank:meeting.closer.i-have-no-further-speakers-and-i-am-ready-to-close",
+      "parts": [
+        "bank:meeting.closer.i-have-no-further-speakers-and-i-am-ready-to-close"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 23,
+      "situation": "A hearing exchange before City of Horn Lake, from its recorded seats. Move: thanks. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thank you, Chairman.",
+      "part": "bank:hearing.thanks.thank-you-chairman",
+      "parts": [
+        "bank:hearing.thanks.thank-you-chairman"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 24,
+      "situation": "A hearing exchange before City of Horn Lake, from its recorded seats. Move: answer. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thank you for the question, sir.",
+      "part": "bank:hearing.answer.thank-you-for-the-question-sir",
+      "parts": [
+        "bank:hearing.answer.thank-you-for-the-question-sir"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 25,
+      "situation": "A hearing exchange before City of Horn Lake, from its recorded seats. Move: chair procedure. In Horn Lake, Mississippi, on January 7, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Without objection, so ordered.",
+      "part": "bank:hearing.chair-procedure.without-objection-so-ordered",
+      "parts": [
+        "bank:hearing.chair-procedure.without-objection-so-ordered"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Horn Lake, Mississippi",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1e:0"
+    },
+    {
+      "i": 26,
+      "situation": "The short title of ORD 1, a filed measure. In Greenwood, Florida, on January 6, 2026.",
+      "prior": "",
+      "reply": "Bill text: Short title. This Act may be cited as the \"Meeting Room Evening Hours Ordinance\".",
+      "part": "bank:legislation.short-title.this-act-may-be-cited-as-the-act",
+      "parts": [
+        "bank:legislation.short-title.this-act-may-be-cited-as-the-act"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Greenwood, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:2"
+    },
+    {
+      "i": 27,
+      "situation": "The recorded passage of a measure on January 6, 2026. Move: carried. In Greenwood, Florida, on January 6, 2026.",
+      "prior": "",
+      "reply": "Results: The motion is agreed to.",
+      "part": "bank:winning-losing.carried.the-motion-is-agreed-to",
+      "parts": [
+        "bank:winning-losing.carried.the-motion-is-agreed-to"
+      ],
+      "composer": "readWinningLosingBank in bank-english.ts",
+      "kind": "winning-and-losing",
+      "cell": {
+        "register": "everyday",
+        "kind": "winning-and-losing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Greenwood, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:2"
+    },
+    {
+      "i": 28,
+      "situation": "The result of the roll call at the posted public meeting, as the game words it. In Greenwood, Florida, on January 6, 2026.",
+      "prior": "",
+      "reply": "Results: The Greenwood Town Council voted 5-0 to adopt ORD 1, which would open the room one extra evening each week.",
+      "part": "bank:local-council-meetings:posted-meeting-vote-sentence",
+      "parts": [
+        "bank:local-council-meetings:posted-meeting-vote-sentence"
+      ],
+      "composer": "readWinningLosingBank in bank-english.ts",
+      "kind": "winning-and-losing",
+      "cell": {
+        "register": "everyday",
+        "kind": "winning-and-losing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Greenwood, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:2"
+    },
+    {
+      "i": 29,
+      "situation": "Minutes of the roll call taken on January 6, 2026: who voted for, read from each member's recorded vote. In Greenwood, Florida, on January 6, 2026.",
+      "prior": "",
+      "reply": "Minutes: Voting for this action: Luis Sears, Sonia Lloyd, Imani Fields, Thomas Waters and Jose Terrell.",
+      "part": "bank:minutes.vote.voting-for-this-action-members",
+      "parts": [
+        "bank:minutes.vote.voting-for-this-action-members"
+      ],
+      "composer": "readMinutesBank in bank-english.ts",
+      "kind": "minutes",
+      "cell": {
+        "register": "everyday",
+        "kind": "minutes",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Greenwood, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:2"
+    },
+    {
+      "i": 30,
+      "situation": "Minutes of the unanimous roll call taken on January 6, 2026. Move: vote. In Greenwood, Florida, on January 6, 2026.",
+      "prior": "",
+      "reply": "Minutes: By unanimous vote, the Town of Greenwood approved the measure.",
+      "part": "bank:minutes.vote.by-unanimous-vote-the-body-action",
+      "parts": [
+        "bank:minutes.vote.by-unanimous-vote-the-body-action"
+      ],
+      "composer": "readMinutesBank in bank-english.ts",
+      "kind": "minutes",
+      "cell": {
+        "register": "everyday",
+        "kind": "minutes",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Greenwood, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1e:2"
+    },
+    {
+      "i": 31,
+      "situation": "The recorded passage of a measure on January 6, 2026. Move: carried. In Fountain N' Lakes, Missouri, on January 6, 2026.",
+      "prior": "",
+      "reply": "Results: The preamble, as amended, was agreed to.",
+      "part": "bank:winning-losing.carried.the-preamble-as-amended-was-agreed-to",
+      "parts": [
+        "bank:winning-losing.carried.the-preamble-as-amended-was-agreed-to"
+      ],
+      "composer": "readWinningLosingBank in bank-english.ts",
+      "kind": "winning-and-losing",
+      "cell": {
+        "register": "everyday",
+        "kind": "winning-and-losing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Fountain N' Lakes, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1e:3"
+    },
+    {
+      "i": 32,
+      "situation": "Minutes of the roll call taken on January 6, 2026: who voted for, read from each member's recorded vote. In Fountain N' Lakes, Missouri, on January 6, 2026.",
+      "prior": "",
+      "reply": "Minutes: Voting for this action: Emil Garner, Riley Farrell, Valerie Williamson, Adam Wise and David Cabrera.",
+      "part": "bank:minutes.vote.voting-for-this-action-members",
+      "parts": [
+        "bank:minutes.vote.voting-for-this-action-members"
+      ],
+      "composer": "readMinutesBank in bank-english.ts",
+      "kind": "minutes",
+      "cell": {
+        "register": "everyday",
+        "kind": "minutes",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Fountain N' Lakes, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1e:3"
+    }
+  ]
+}
