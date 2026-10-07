@@ -456,8 +456,7 @@ function* completeOpeningLifeSteps(
   const withHazards = ensureHazardProduction(withDevelopment);
   const withCrime = ensureCrimeProduction(withHazards);
   const withEpidemics = ensureEpidemicProduction(withCrime);
-  const withOutcomes = ensurePlaceOutcomes(withEpidemics);
-  const withBudgets = ensurePublicBudgets(withOutcomes);
+  const withBudgets = ensurePublicBudgets(withEpidemics);
   const withMortality = ensureOpeningMortality(
     withBudgets,
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
@@ -481,8 +480,11 @@ function* completeOpeningLifeSteps(
           "opening",
         )
       : withOfficeSalaries;
+  // The opening SNAP baseline reads recorded household pay. Settle it only
+  // after opening wages exist so the first eligibility review sees real income.
+  const withOutcomes = ensurePlaceOutcomes(withEmployerCash);
   const world = ensureHealthCoveragePass(
-    initializeWorkPayCoverage(withEmployerCash),
+    initializeWorkPayCoverage(withOutcomes),
     game.playerPersonId,
   );
   const recovered = recoverOverdueProsecutions(world);
