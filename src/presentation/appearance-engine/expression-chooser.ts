@@ -41,7 +41,6 @@ import type { FaceExpression } from "./pack";
 export type LineTone =
   | "agree"
   | "warm"
-  | "joke"
   | "bad-news"
   | "threat"
   | "accusation"
@@ -139,8 +138,6 @@ export function lineTone(world: World, event: HistoricalEvent): LineTone {
       if (tone) return tone;
     }
   }
-  // Suggesting a game is the one recorded line that is play.
-  if (event.tags.includes("life.talk:suggestGame")) return "joke";
   for (const key of linePartsOf(event.tags) ?? []) {
     const act = bankOf(key)?.act;
     const tone = act ? ACT_TONE[act] : undefined;
@@ -251,8 +248,6 @@ function speakerFace(tone: LineTone): FaceExpression | null {
     case "warm":
     case "praise":
       return "smile";
-    case "joke":
-      return "laugh";
     case "bad-news":
       return "concerned";
     case "threat":
@@ -278,12 +273,6 @@ function listenerFace(
 ): FaceExpression | null {
   if (hurt) return tone === "accusation" || tone === "threat" ? "angry" : "sad";
   switch (tone) {
-    case "joke":
-      return feeling === "warm"
-        ? "laugh"
-        : feeling === "worn"
-          ? "skeptical"
-          : "smile";
     case "agree":
     case "warm":
     case "praise":
