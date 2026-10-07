@@ -228,7 +228,7 @@ describe("a resident decides to found a shared-cause group", () => {
       f.input.subjectEntityId,
       f.input.stance,
     )!;
-    expect(lawInterestMembers(world, groupId).sort()).toEqual(
+    expect([...lawInterestMembers(world, groupId)].sort()).toEqual(
       [f.input.personId, joiner].sort(),
     );
     expect(world.history.goalStates).toBe(beforeGoals);
