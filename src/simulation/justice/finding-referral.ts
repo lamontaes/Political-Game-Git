@@ -21,6 +21,23 @@ export function applyFindingReferral(
   if (matter.family !== "M1") return world;
   const standing = priorAdverseFindings(world, respondentId, step).length + 1;
   const key = `${step.stableKey}:${respondentId}`;
+  const matterTag = `press.matter:${matter.id}`;
+  const storyEventIds = new Set(
+    world.history.events
+      .filter(
+        (candidate) =>
+          candidate.type === "press.story-published" &&
+          candidate.tags.includes(matterTag),
+      )
+      .map((candidate) => candidate.id),
+  );
+  const pressStoryPublicationIds = (world.history.publications ?? [])
+    .filter(
+      (publication) =>
+        publication.kind === "press-story" &&
+        storyEventIds.has(publication.sourceEventId),
+    )
+    .map((publication) => publication.id);
   return referForProsecution(world, {
     stableKey: key,
     subjectPersonId: respondentId,
@@ -32,6 +49,7 @@ export function applyFindingReferral(
       personId: null,
     },
     basisEventIds: [event.id],
+    basisRecordIds: [...step.evidenceArtifactIds, ...pressStoryPublicationIds],
     evidence: "documentary",
     standingFindings: standing,
   }).world;

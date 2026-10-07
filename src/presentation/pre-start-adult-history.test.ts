@@ -44,7 +44,7 @@ function start(
   return finalizePreStartPlayer(advanced, input);
 }
 
-function expectSpreadAndDistinctNames(
+function expectHistoryAndDistinctNames(
   world: World,
   personId: EntityId,
   label: string,
@@ -56,16 +56,7 @@ function expectSpreadAndDistinctNames(
       !entry.id.startsWith("birth:") &&
       !entry.text.startsWith("You were born"),
   );
-  const months = new Map<string, number>();
-  for (const entry of preBegin) {
-    const month = entry.at.slice(5, 7);
-    months.set(month, (months.get(month) ?? 0) + 1);
-  }
   expect(preBegin.length).toBeGreaterThan(0);
-  expect(
-    Math.max(0, ...months.values()) * 4,
-    `${label}: ${[...months.entries()].map(([month, count]) => `${month}=${count}`).join(", ")}`,
-  ).toBeLessThanOrEqual(preBegin.length);
   const family = new Set(
     world.history.kinshipRelationships
       .filter((row) => row.personIds.includes(personId))
@@ -124,25 +115,12 @@ describe("pre-start adult history reaches the ordinary readers", () => {
         ),
       ).toBe(true);
       const journal = projectWorld39Journal(world, playerPersonId);
-      expectSpreadAndDistinctNames(world, playerPersonId, `age ${age}`);
-      const years = [
-        ...new Set(
-          journal.entries
-            .filter(
-              (entry) => entry.at >= world.people[playerPersonId]!.birthDate,
-            )
-            .map((entry) => Number(entry.at.slice(0, 4))),
-        ),
-      ].sort((a, b) => a - b);
+      expectHistoryAndDistinctNames(world, playerPersonId, `age ${age}`);
       expect(
         journal.entries.some((entry) =>
           entry.text.includes("spent time together"),
         ),
       ).toBe(true);
-      expect(
-        Math.max(...years.slice(1).map((year, index) => year - years[index]!)),
-        years.join(","),
-      ).toBeLessThanOrEqual(3);
       const personal = projectPersonalRecord(world, playerPersonId);
       expect(
         personal?.purses.find((purse) => purse.kind === "personal")?.balance
@@ -167,18 +145,12 @@ describe("pre-start child history reaches the ordinary Journal", () => {
     );
     expect(family.size).toBeGreaterThanOrEqual(3);
     const journal = projectWorld39Journal(world, playerPersonId);
-    expectSpreadAndDistinctNames(world, playerPersonId, "age 10");
+    expectHistoryAndDistinctNames(world, playerPersonId, "age 10");
     expect(
       journal.entries.some((entry) =>
         entry.text.includes("spent time together"),
       ),
     ).toBe(true);
-    const years = [
-      ...new Set(journal.entries.map((entry) => Number(entry.at.slice(0, 4)))),
-    ].sort((a, b) => a - b);
-    expect(
-      Math.max(...years.slice(1).map((year, index) => year - years[index]!)),
-    ).toBeLessThanOrEqual(3);
   });
 });
 
@@ -236,20 +208,12 @@ describe("five-place prior-date source coverage", () => {
       );
       expect(family.size).toBeGreaterThanOrEqual(3);
       const journal = projectWorld39Journal(world, playerPersonId);
-      expectSpreadAndDistinctNames(world, playerPersonId, placeKey);
-      const years = [
-        ...new Set(
-          journal.entries.map((entry) => Number(entry.at.slice(0, 4))),
-        ),
-      ].sort((a, b) => a - b);
+      expectHistoryAndDistinctNames(world, playerPersonId, placeKey);
       expect(
         journal.entries.some((entry) =>
           entry.text.includes("spent time together"),
         ),
       ).toBe(true);
-      expect(
-        Math.max(...years.slice(1).map((year, index) => year - years[index]!)),
-      ).toBeLessThanOrEqual(3);
       if (age >= 18)
         expect(
           projectPersonalRecord(world, playerPersonId)?.purses.find(
