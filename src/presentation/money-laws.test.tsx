@@ -190,8 +190,6 @@ describe("Money and property says what new laws did to money", () => {
     );
 
     const { world: quiet } = world("money-laws-3", []);
-    expect(projectMoneyLaws(quiet, PLAYER)!.empty).toBe(
-      `No new law has reached anyone's money in ${home.name} yet.`,
-    );
+    expect(projectMoneyLaws(quiet, PLAYER)!.empty).toBe(true);
   });
 });

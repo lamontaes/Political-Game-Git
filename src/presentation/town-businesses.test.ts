@@ -99,17 +99,11 @@ describe("the businesses of a town", () => {
     expect(market.ownerLine).toMatch(/^\S+ \S+, owner$/);
     const groceryPlan = plans.find((plan) => plan.kind.key === "grocery")!;
     expect(groceryPlan.workers).toBeLessThanOrEqual(LOCAL_BUSINESS_MAX_STAFF);
-    expect(market.staffLine).toBe(
-      `${groceryPlan.workers} other people work there.`,
-    );
+    expect(market.otherStaff).toBe(groceryPlan.workers);
     const law = lines.find((line) => line.name.endsWith(" Law Office"))!;
     expect(law.ownerLine).toMatch(/, attorney$/);
     const lawPlan = plans.find((plan) => plan.kind.key === "law-office")!;
-    expect(law.staffLine).toBe(
-      lawPlan.workers === 1
-        ? "One other person works there."
-        : `${lawPlan.workers} other people work there.`,
-    );
+    expect(law.otherStaff).toBe(lawPlan.workers);
     // Owners carry their own risk; nothing here is played work.
     for (const { organization } of seated) {
       const owner = world.history.workRelationships.find(
