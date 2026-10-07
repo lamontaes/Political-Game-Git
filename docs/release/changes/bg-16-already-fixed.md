@@ -1,6 +1,8 @@
 ---
 id: bg-16-already-fixed
-impact: none
+impact: patch
+section: Fixed
+title: Record the completed BG-16 fix
 ---
 
 The one-candidate race summary was corrected for congressional and state legislative filings.
