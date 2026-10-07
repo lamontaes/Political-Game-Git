@@ -43,7 +43,7 @@ test("normal legislative publication supports search, clear, help, person, Back,
   await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
   await expect(
     page.getByTestId("public-information-for-you-empty"),
-  ).toBeVisible();
+  ).toBeAttached();
   // The directory context mounts the panel with showClose={false}, so there is
   // no close button here and there has not been since the composition landed —
   // this step only became reachable once the assertion above stopped failing

@@ -23,12 +23,12 @@ test("search filters published stories, clears focus, and leaves live state unch
   const articles = page.locator(".public-information-article");
   const baseline = await baselineSnapshot(page);
 
-  await expect(count).toHaveText("2 published stories.");
+  await expect(count).toHaveText("2");
   await expect(articles).toHaveCount(2);
 
   const beforeSearch = await liveSnapshot(page);
   await search.fill("downtown");
-  await expect(count).toHaveText("Showing 1 of 2 published stories.");
+  await expect(count).toHaveText("1 / 2");
   await expect(articles).toHaveCount(1);
   await expect(articles.first()).toContainText("downtown");
 
@@ -73,8 +73,9 @@ test("empty save message differs from active-search no-match state", async ({
   page,
 }) => {
   await page.goto("/tests/e2e/fixtures/news-search1-empty.html");
-  await expect(page.getByTestId("public-information-empty")).toHaveText(
-    "No stories have been published here yet.",
+  await expect(page.getByTestId("public-information-empty")).toHaveAttribute(
+    "data-problem",
+    "nothing-published",
   );
   await expect(page.getByTestId("public-information-search-input")).toHaveCount(
     0,
@@ -172,7 +173,7 @@ test("an updated supplied model re-filters under the active query without mutati
   });
 
   await expect(page.getByTestId("public-information-search-count")).toHaveText(
-    "Showing 2 of 3 published stories.",
+    "2 / 3",
   );
   await expect(page.locator(".public-information-article")).toHaveCount(2);
 

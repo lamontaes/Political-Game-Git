@@ -102,9 +102,7 @@ export function World39News({
       <section aria-label="Recent public events">
         <h4>Lately</h4>
         {model.publicEvents.length === 0 ? (
-          <p data-testid="world39-no-events">
-            Nothing has happened in public here lately.
-          </p>
+          <p data-testid="world39-no-events" data-problem="no-public-events" />
         ) : (
           model.publicEvents.map((event) => (
             <article
@@ -113,10 +111,12 @@ export function World39News({
               data-event-id={event.id}
               data-known-to-you={event.known ? "true" : "false"}
             >
-              <p className="world39-meta">
+              <p
+                className="world39-meta"
+                data-known={event.known ? "true" : undefined}
+              >
                 <time dateTime={event.at}>{world39Date(event.at)}</time>
                 {event.jurisdiction ? ` · ${event.jurisdiction}` : ""}
-                {event.known ? " · You already know about this." : ""}
               </p>
               <p>{event.summary}</p>
             </article>
@@ -171,7 +171,7 @@ export function World39News({
                   {item.jurisdictionName ? ` · ${item.jurisdictionName}` : ""}
                 </p>
                 {model.learnedEventIds.has(item.sourceEventId) ? (
-                  <p>You already know about this event.</p>
+                  <p data-known="true" />
                 ) : null}
                 {item.people.map((person) => (
                   <button
@@ -193,9 +193,10 @@ export function World39News({
           ))}
         </section>
       ) : (
-        <p data-testid="world39-no-reporting">
-          No stories have been published here yet.
-        </p>
+        <p
+          data-testid="world39-no-reporting"
+          data-problem="nothing-published"
+        />
       )}
     </section>
   );

@@ -134,9 +134,10 @@ export function PublicInformationPanel({
       </header>
 
       {model.items.length === 0 ? (
-        <p data-testid="public-information-empty">
-          No stories have been published here yet.
-        </p>
+        <p
+          data-testid="public-information-empty"
+          data-problem="nothing-published"
+        />
       ) : (
         <>
           <nav className="public-information-views" aria-label="News views">
@@ -235,8 +236,9 @@ export function PublicInformationPanel({
                 className="public-information-no-match"
                 data-testid="public-information-no-match"
                 aria-live="polite"
+                data-problem="no-match"
               >
-                No stories match &ldquo;{trimmedQuery}&rdquo;.
+                {trimmedQuery}
               </p>
             ) : (
               <p
@@ -245,10 +247,8 @@ export function PublicInformationPanel({
                 aria-live="polite"
               >
                 {hasActiveSearch
-                  ? `Showing ${filteredItems.length} of ${viewItems.length} published stories.`
-                  : `${viewItems.length} published ${
-                      viewItems.length === 1 ? "story" : "stories"
-                    }.`}
+                  ? `${filteredItems.length} / ${viewItems.length}`
+                  : viewItems.length}
               </p>
             )}
           </div>
@@ -259,11 +259,8 @@ export function PublicInformationPanel({
             <p
               className="public-information-no-match"
               data-testid="public-information-for-you-empty"
-            >
-              No published stories are linked directly to you yet. Following an
-              outlet adds its published stories here; All always keeps the full
-              public record available.
-            </p>
+              data-problem="no-linked-stories"
+            />
           ) : hasActiveSearch && filteredItems.length === 0 ? null : (
             <ol className="public-information-editions">
               {filteredItems.map((item) => (
