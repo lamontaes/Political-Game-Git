@@ -1,6 +1,7 @@
 import { expect, test } from "./fixtures";
 import { drawRandomPlace } from "../support/random-place";
-import { openShellMenu } from "./support/creator";
+import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
+import { enterLife, fillCreator, openShellMenu } from "./support/creator";
 
 const place = drawRandomPlace(
   "session-46-mr-12",
@@ -8,35 +9,27 @@ const place = drawRandomPlace(
 );
 if (!place.stateJurisdictionKey)
   throw new Error(`No jurisdiction for ${place.key}.`);
+const state = lifePlaceStateIdentities().find(
+  (row) => row.jurisdictionKey === place.stateJurisdictionKey,
+);
+if (!state) throw new Error(`No state identity for ${place.key}.`);
 
 test("MR-12 Transit screen from a new game", async ({ page }) => {
+  test.setTimeout(300_000);
   const label = process.env.MR12_SCREEN_LABEL;
   if (label !== "main" && label !== "branch")
     throw new Error("Set MR12_SCREEN_LABEL to main or branch.");
   await page.goto("/");
-  await page.evaluate(
-    async ({ stateKey }) => {
-      const load = (path: string) => import(/* @vite-ignore */ path);
-      const { suppliedLegislativeSeat } = await load(
-        "/tests/fixtures/supplied-legislative-seat.ts",
-      );
-      const { BrowserSaveStore } = await load(
-        "/src/presentation/browser-world-repository.ts",
-      );
-      const life = suppliedLegislativeSeat(stateKey, "house");
-      const store = new BrowserSaveStore();
-      const outcome = await store.save(life.world, store.newSaveId(life.world));
-      if (outcome.status !== "saved") throw new Error("New game save failed.");
-    },
-    { stateKey: place.stateJurisdictionKey },
-  );
-  await page.goto("/");
-  await page.getByTestId("open-saves").click();
-  await page
-    .getByTestId("save-entry")
-    .first()
-    .getByRole("button", { name: "Open", exact: true })
-    .click();
+  await fillCreator(page, {
+    place: place.displayName,
+    state: state.name,
+    age: 35,
+  });
+  await page.getByTestId("begin").click();
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 90_000,
+  });
+  await enterLife(page);
   await expect(page.getByTestId("shell-nav-cluster")).toBeVisible();
   await page
     .getByRole("group", { name: "Move time" })
