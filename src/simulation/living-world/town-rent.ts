@@ -1623,11 +1623,24 @@ function chooseLandlord(
   };
 }
 
+/** The saved market-rent reason names the observed local price driver. */
+export function marketRentRenewalReason(
+  homePriceLevelChange: number,
+  estimateBasis?: string,
+): string {
+  if (!Number.isFinite(homePriceLevelChange) || homePriceLevelChange <= 0)
+    throw new Error(
+      "Market rent renewal requires a positive price-level change",
+    );
+  const reason = `The local housing-market level changed rent by ${((homePriceLevelChange - 1) * 100).toFixed(1)}% over the renewal year.`;
+  return estimateBasis ? `${reason} ${estimateBasis}` : reason;
+}
+
 /**
  * Renews each lease whose year is up: a private landlord's rent moves with
- * the market before the shared rent law consequence applies any adopted cap; a public housing
- * rent is recalculated from income; an affordable rent follows the income
- * limit.
+ * the market before the shared rent law consequence applies any adopted cap;
+ * a public housing rent is recalculated from income; an affordable rent
+ * follows the income limit.
  */
 export function renewTownLeases(world: World, dueOn: IsoDate): World {
   const leases = townLeases(world, dueOn).filter((lease) => !lease.ended);
@@ -1699,11 +1712,12 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const homePrices =
         marketRentLevel(next, lease.town, dueOn) /
         marketRentLevel(next, lease.town, lastYear);
-      // Write the landlord's requested market price first. The canonical
-      // price-cost consequence below applies the adopted cap and coverage
-      // terms; this lease writer does not maintain a second rent rule.
+// The shared price-cost consequence applies an adopted cap from recorded terms.
       amount = Math.round((old * homePrices) / 100) * 100;
-      reason = "The landlord renewed the lease at this year's rent.";
+      reason = marketRentRenewalReason(
+        homePrices,
+        row.estimateBasis ?? undefined,
+      );
     }
     if (amount === old && lease.regime !== "market") continue;
     next = recordResourceFlowTerms(next, {
