@@ -32,6 +32,7 @@ import {
 } from "./law-consequences/price-cost";
 import { settleTuitionFreezeBackfill } from "./public-budgets/tuition-freeze-backfill";
 import { organizationProfileAt } from "./life-queries";
+import { resolveStudyPath } from "./study-path-resolver";
 import { stateJurisdictionOf } from "./governing/law-in-force";
 
 const prefix = "life-paths2.";
@@ -1003,11 +1004,6 @@ export const educationStudyBeginsHandler: FutureTransitionHandler = (
   return resolved(next, "Classes started.");
 };
 
-export type StudyPathResolver = (
-  world: World,
-  enrollmentId: EntityId,
-) => LifePathDefinition | undefined;
-
 export const educationStudyPeriodDueHandler: FutureTransitionHandler = (
   world,
   due: FutureDueItem,
@@ -1140,21 +1136,6 @@ export const educationStudyPeriodDueHandler: FutureTransitionHandler = (
     outcomeEventId: null,
   };
 };
-
-let studyPathResolver: StudyPathResolver | null = null;
-
-export function registerStudyPathResolver(resolver: StudyPathResolver): void {
-  studyPathResolver = resolver;
-}
-
-function resolveStudyPath(
-  world: World,
-  enrollmentId: EntityId,
-): LifePathDefinition | undefined {
-  if (!studyPathResolver)
-    throw new Error("Study path resolver is not registered.");
-  return studyPathResolver(world, enrollmentId);
-}
 
 /**
  * Import/normal-play migration seam for active studies created before period

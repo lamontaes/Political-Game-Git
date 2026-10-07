@@ -261,9 +261,8 @@ export function MunicipalWorkspace({
         <h2>{"Local government"}</h2>
         {homeContext.homePlaceLabel ? (
           <p data-testid="municipal-home-context">
-            {"You live in "}
+            {"Home: "}
             <strong>{homeContext.homePlaceLabel}</strong>
-            {"."}
           </p>
         ) : null}
       </header>

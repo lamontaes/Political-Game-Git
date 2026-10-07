@@ -236,10 +236,7 @@ export function UX39CalendarGrid({
           </tbody>
         </table>
       </div>
-      <p className="game-note ux39-calendar-hint">
-        Select a date to see its upcoming and ongoing entries. Use arrow keys to
-        browse dates.
-      </p>
+      <p className="game-note ux39-calendar-hint" data-hint="select-date" />
     </section>
   );
 }

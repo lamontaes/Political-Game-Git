@@ -16,6 +16,11 @@ import {
   localTaxPowerEvidenceFor,
   localTaxTermsQuestionKey,
 } from "./local-tax-authority";
+import { isTypedPropertyTax } from "./property-tax-schedule";
+import {
+  isStateTaxInstrument,
+  stateTaxPowerEvidenceFor,
+} from "./state-tax-authority";
 import { canonicalJson } from "./canonical-json";
 import { addDays, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
@@ -214,6 +219,8 @@ export function taxPowerEvidenceFor(
       constraints: [...result.record.constraints],
     };
   }
+  if (selection && isStateTaxInstrument(selection.instrument))
+    return stateTaxPowerEvidenceFor(jurisdictionKey, selection.instrument);
   if (selection && selection.instrument !== "selective-excise") return null;
   const source = powerProjection.powers.find(
     (row) => row.jurisdictionKey === jurisdictionKey,
@@ -397,7 +404,12 @@ export function attachTaxProposal(
     throw new Error(
       "Tax authority is unsupported by the available research for this government and instrument.",
     );
-  const localInstrument = input.terms.instrument;
+  const stateInstrument =
+    input.power.level === "STATE" &&
+    isStateTaxInstrument(input.terms.instrument)
+      ? input.terms.instrument
+      : null;
+  const localInstrument = stateInstrument ? undefined : input.terms.instrument;
   const localGovernment =
     input.publicGovernmentIdentity?.kind === "local-government"
       ? localTaxGovernment(input.publicGovernmentIdentity.governmentKey)
@@ -495,7 +507,9 @@ export function attachTaxProposal(
   const termsQuestionKey =
     localGovernment && localInstrument
       ? localTaxTermsQuestionKey(localGovernment.level, localInstrument)
-      : "us-tax-terms:state.excise-tax-terms";
+      : stateInstrument
+        ? `us-tax-terms:state.${stateInstrument}-tax-terms`
+        : "us-tax-terms:state.excise-tax-terms";
   const exciseQuestion = (measure.propositionIds ?? [])
     .map((id) => world.policyCatalog.propositions[id])
     .find((row) => row?.stableKey === termsQuestionKey);
@@ -686,10 +700,7 @@ export function adoptEnactedTaxPolicy(
     outcomeEventId: event.id,
   };
   next = append(next, "taxPolicies", policy);
-  if (
-    proposal.publicGovernmentIdentity?.kind === "local-government" &&
-    proposal.terms.instrument === "property"
-  )
+  if (isTypedPropertyTax(proposal))
     next = schedulePropertyAssessmentDay(
       next,
       proposal.id,
@@ -1345,7 +1356,7 @@ export function taxCollectionTransition(
           lawEffectStamps: assessment.lawEffectStamps
             .map((stamp) => ({
               ...stamp,
-              effectKind: "tax-collection",
+              effectKind: "tax-collection" as const,
               appliedAt: world.currentDate,
               sourceRecordIds: [
                 ...(stamp.sourceRecordIds ?? []),

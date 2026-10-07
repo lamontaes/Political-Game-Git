@@ -27,6 +27,7 @@ import { considerClemencyAfterSentence } from "./clemency";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
 import { ensureProsecutionStageSchedule } from "./prosecution-transitions";
+import { countyRowOfficerForJurisdiction } from "./county-offices";
 import { ensureStartingPersonalMoney } from "../starting-money";
 import {
   payFullCashBail,
@@ -127,14 +128,18 @@ export type { EvidenceStrength } from "./court-reasoning";
  * these decides whether anybody is charged, pleads, is convicted or goes to
  * jail; the people in the case decide that (`court-reasoning.ts`).
  *
- * PLACEHOLDER. Every number here is set by hand and filed with the research
- * queue as `criminal-sentence-consequences`: how long charging, trial and
- * retrial take. Sentence lengths now use the applicable sourced range and
- * the actual judge's recorded term decision; no placeholder midpoint remains.
+ * ESTIMATED FROM AVERAGE. The fallback timings and the hung-jury count are
+ * game estimates, filed with the research queue as
+ * `criminal-sentence-consequences`: how long charging, trial and retrial
+ * take. Sentence lengths use the applicable sourced range and the actual
+ * judge's recorded term decision; no midpoint remains.
  */
-export const UNRESEARCHED_PROSECUTION = {
+export const PROSECUTION_ESTIMATE = {
   version: "prosecution-decided-v3",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "resolve-after days: median of the states read from the National Center for State Courts Effective Criminal Case Management (ECCM) reports, felony filing-to-disposition medians (data/research/justice/time-to-disposition-2026.json, as of 10/1/2026); charge-decision days (60) and two hung juries before dismissal are game estimates with no report series",
   /**
    * ESTIMATED FROM AVERAGE. The labeled fallback only: a case reads its own
    * state's days through `prosecutionTimingFor` (`prosecution-timing.ts`),
@@ -153,14 +158,18 @@ export const UNRESEARCHED_PROSECUTION = {
 } as const;
 
 /**
- * UNRESEARCHED. What a jail sentence does, filed with the research queue as
- * `criminal-sentence-consequences`. Whether an officeholder keeps the office,
- * and whether a jailed candidate stays on the ballot, varies by state and by
- * office; until that is read, one blanket rule applies everywhere.
+ * ESTIMATED FROM AVERAGE. What a jail sentence does, filed with the research
+ * queue as `criminal-sentence-consequences`. Whether an officeholder keeps the
+ * office, and whether a jailed candidate stays on the ballot, varies by state
+ * and by office; until that is read, the common rule (a jailed holder cannot
+ * serve or campaign) applies everywhere.
  */
-export const UNRESEARCHED_JAIL_EFFECTS = {
+export const JAIL_EFFECTS_ESTIMATE = {
   version: "jail-effects-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "the common rule across states that a jailed officeholder cannot serve; state-by-state office rules are not yet read (research request `criminal-sentence-consequences`)",
   /** A jail sentence removes the holder from every office they hold. */
   removedFromOffice: true,
   /** Nobody in jail can campaign; they stay on the ballot. */
@@ -312,11 +321,48 @@ function recordedProsecutorForCase(world: World, courtCase: CourtCase) {
       workRelationshipId: relationship.id,
     });
   }
-  return holders.size === 1 ? [...holders.values()][0]! : null;
+  if (holders.size === 1) {
+    const [hired] = [...holders.values()];
+    return { ...hired!, role: "Prosecutor" };
+  }
+  if (holders.size > 1) return null;
+  return countyProsecutorForCase(world, courtCase, cutoff);
+}
+
+/**
+ * The county's own prosecutor (district attorney, county attorney, state's
+ * attorney: whatever its state calls the office) when no hired prosecutor is
+ * recorded for the venue. The person sitting in the office for the venue's
+ * county decides the charge, the same way a hired one does; nobody who is
+ * the defendant, the played person or no longer living is asked.
+ */
+function countyProsecutorForCase(
+  world: World,
+  courtCase: CourtCase,
+  cutoff: ReturnType<typeof currentLifeCutoff>,
+) {
+  const holder = countyRowOfficerForJurisdiction(
+    world,
+    courtCase.venueJurisdictionId,
+    "prosecutor",
+  );
+  if (
+    !holder ||
+    holder.personId === courtCase.defendantId ||
+    !world.people[holder.personId] ||
+    !isPersonAliveAt(world, holder.personId, cutoff) ||
+    isPlayer(world, holder.personId)
+  )
+    return null;
+  return {
+    personId: holder.personId,
+    workRelationshipId: holder.participationId,
+    role: holder.title || "Prosecutor",
+  };
 }
 
 function referralStableKey(stableKey: string): string {
-  return `${UNRESEARCHED_PROSECUTION.version}:referral:${stableKey}`;
+  return `${PROSECUTION_ESTIMATE.version}:referral:${stableKey}`;
 }
 
 /**
@@ -343,7 +389,13 @@ export function referForProsecution(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: input.jurisdictionId,
-    involvedEntityIds: [input.subjectPersonId],
+    involvedEntityIds: [
+      input.subjectPersonId,
+      ...(input.referredBy.personId &&
+      input.referredBy.personId !== input.subjectPersonId
+        ? [input.referredBy.personId]
+        : []),
+    ],
     participants: [
       {
         personId: input.subjectPersonId,
@@ -363,7 +415,7 @@ export function referForProsecution(
     personFactConstraints: [],
     visibility: "private",
     tags: [
-      UNRESEARCHED_PROSECUTION.version,
+      PROSECUTION_ESTIMATE.version,
       `${OFFENSE_TAG}${input.offenseKey}`,
       `${EVIDENCE_TAG}${input.evidence}`,
       `${STANDING_TAG}${input.standingFindings}`,
@@ -475,7 +527,7 @@ function recordFollowUp(
     personFactConstraints: [],
     visibility: detail.visibility ?? "public",
     tags: [
-      UNRESEARCHED_PROSECUTION.version,
+      PROSECUTION_ESTIMATE.version,
       `${REFERRAL_TAG}${referral.id}`,
       `justice.follows-event:${after.id}`,
       ...referral.tags.filter((tag) => tag.startsWith(OFFENSE_TAG)),
@@ -583,7 +635,7 @@ function removeFromOffice(
   personId: EntityId,
   sentenced: HistoricalEvent,
 ): World {
-  if (!UNRESEARCHED_JAIL_EFFECTS.removedFromOffice) return world;
+  if (!JAIL_EFFECTS_ESTIMATE.removedFromOffice) return world;
   let next = world;
   for (const office of officesHeldBy(world, personId)) {
     next = recordOfficeConsequence(next, {
@@ -770,7 +822,7 @@ export function advanceProsecutions(
   world: World,
   referralId?: EntityId,
 ): World {
-  const rule = UNRESEARCHED_PROSECUTION;
+  const rule = PROSECUTION_ESTIMATE;
   let next = world;
   const byReferral = (type: FollowUpType, referral: HistoricalEvent) =>
     eventsOfType(next, type).filter((event) =>
@@ -949,7 +1001,7 @@ export function advanceProsecutions(
           summary: `Prosecutors declined to charge ${name} with ${offense}.`,
           visibility: "private",
           motivation: chosenReasons(decision),
-          decidedBy: { personId: prosecutor.personId, role: "Prosecutor" },
+          decidedBy: { personId: prosecutor.personId, role: prosecutor.role },
         });
         continue;
       }
@@ -978,7 +1030,7 @@ export function advanceProsecutions(
         })(),
         summary: `Prosecutors charged ${name} with ${offense}.`,
         motivation: chosenReasons(decision),
-        decidedBy: { personId: prosecutor.personId, role: "Prosecutor" },
+        decidedBy: { personId: prosecutor.personId, role: prosecutor.role },
       });
       charged = next.history.events.at(-1)!;
       next = ensureProsecutionStageSchedule(
