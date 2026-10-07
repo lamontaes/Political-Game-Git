@@ -36,7 +36,7 @@ import {
   serializeWorld,
   simulationMomentAtLocalTime,
   addDays,
-  assessKentuckyCampaignContribution,
+  assessCampaignContributionForPack,
   campaignCompliancePackFor,
   campaignObligations,
   committeeCampaignComplianceDocuments,
@@ -45,8 +45,13 @@ import {
   assessContribution,
   assessSecondCommittee,
 } from "./index";
-import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
+import {
+  contributeOwnMoneyToCampaign,
+  leftoverCampaignBalance,
+  leftoverFundsRuleForState,
+} from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { KENTUCKY_CAMPAIGN_COMPLIANCE_PACK } from "./campaign-compliance";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
@@ -672,7 +677,8 @@ describe("filing", () => {
   });
 
   it("keeps candidate money in the committee contribution path and refuses unsupported donors", () => {
-    const candidateMoney = assessKentuckyCampaignContribution({
+    const candidateMoney = assessCampaignContributionForPack({
+      pack: KENTUCKY_CAMPAIGN_COMPLIANCE_PACK,
       onDate: makeIsoDate("2026-07-15"),
       contributorKind: "candidate",
       amountMinorUnits: 25_000,
@@ -687,7 +693,8 @@ describe("filing", () => {
       classification: "candidate-contribution",
       requiresItemization: true,
     });
-    const unsupported = assessKentuckyCampaignContribution({
+    const unsupported = assessCampaignContributionForPack({
+      pack: KENTUCKY_CAMPAIGN_COMPLIANCE_PACK,
       onDate: makeIsoDate("2026-07-15"),
       contributorKind: "unknown",
       amountMinorUnits: 25_000,
@@ -700,7 +707,8 @@ describe("filing", () => {
     expect(unsupported.acceptableForRecording).toBe(false);
     expect(unsupported.refusals.join(" ")).toMatch(/cannot infer|itemization/i);
 
-    const historicalUnknown = assessKentuckyCampaignContribution({
+    const historicalUnknown = assessCampaignContributionForPack({
+      pack: KENTUCKY_CAMPAIGN_COMPLIANCE_PACK,
       onDate: makeIsoDate("2026-07-14"),
       contributorKind: "individual",
       amountMinorUnits: 25_000,
@@ -1121,6 +1129,166 @@ function playToElection(seed: string, outreachSessions: number) {
 }
 
 describe("election day", () => {
+  it("records a new-game campaign loss in a randomly drawn place without spending the committee balance", () => {
+    const seed = "b04-p1-newgame-0";
+    const place = drawRandomPlace(seed);
+    const game = createExplicitGeographyLife({
+      placeKey: place.key,
+      seed,
+      startAge: 30,
+    }).game;
+    const candidatePersonId = game.playerPersonId;
+    const jurisdictionId =
+      game.world.people[candidatePersonId]!.homeJurisdictionId;
+    const office = candidacyAuthority(jurisdictionId).pack?.offices[0];
+    if (!office)
+      throw new Error("The random place has no recorded state office.");
+    const opponents = ensureCampaignOpponents(game.world, {
+      stableKey: "b04-p1-random-game",
+      jurisdictionId,
+      count: 1,
+      excludePersonIds: [candidatePersonId],
+    });
+    const filed = fileCampaign(opponents.world, {
+      stableKey: "b04-p1-random-game",
+      candidatePersonId,
+      jurisdictionId,
+      officeKey: office.officeKey,
+      districtBinding: namedSeatForFixture(
+        game.world,
+        candidatePersonId,
+        office.officeKey,
+      ),
+      electionDate: addDays(game.world.currentDate, 21),
+      rivalPersonIds: opponents.personIds,
+      existingContestId: null,
+      committeeName: `${place.formalName} campaign committee`,
+      donorPoolName: "Campaign supporters",
+      advertisingVendorName: "Local advertising",
+      staffPersonIds: [],
+      treasuryCurrency: makeCurrencyCode("USD"),
+    });
+    const afterElection = advanceWorld(
+      filed.world,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const balance =
+      campaignTreasuryPosition(afterElection, filed.campaign)?.liquidBalance
+        .minorUnits ?? null;
+    console.info("b04-p1 random-place loss proof", {
+      seed,
+      place: place.displayName,
+      campaignId: filed.campaign.id,
+      outcome: campaignState(afterElection, filed.campaign.id).status,
+      committeeBalanceMinorUnits: balance,
+    });
+    expect(campaignState(afterElection, filed.campaign.id).status).toBe("lost");
+    expect(balance).toBe(0);
+    expect(
+      leftoverFundsRuleForState(place.stateJurisdictionKey ?? "")?.allowedUses,
+    ).toContain("keep-for-future-race");
+  });
+
+  it("keeps a losing campaign's balance in its committee for an allowed later use", () => {
+    const filed = fileKentuckyCampaign("probe-3");
+    const cash = createResourcePosition(filed.world, {
+      stableKey: "leftover-funds:recorded-candidate-cash",
+      owner: { kind: "person", personId: filed.candidatePersonId },
+      openedAt: filed.world.currentDate,
+      openingBalance: {
+        minorUnits: 50_000,
+        currency: filed.campaign.treasuryCurrency,
+      },
+      provenance: {
+        kind: "authored",
+        note: "Recorded campaign balance fixture",
+      },
+    });
+    const funded = contributeOwnMoneyToCampaign(
+      cash,
+      filed.candidatePersonId,
+      50_000,
+    );
+    const lost = advanceWorld(
+      funded,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(campaignState(lost, filed.campaign.id).status).toBe("lost");
+    expect(
+      campaignTreasuryPosition(lost, filed.campaign)?.liquidBalance.minorUnits,
+    ).toBe(50_000);
+    expect(leftoverCampaignBalance(lost, filed.campaign.id)?.minorUnits).toBe(
+      50_000,
+    );
+    expect(leftoverFundsRuleForState("US-KY")?.allowedUses).toContain(
+      "keep-for-future-race",
+    );
+  });
+
+  it("moves leftover funds into the same candidate's next campaign only on explicit choice", () => {
+    const first = fileKentuckyCampaign("leftover-explicit-carry");
+    const candidateCash = createResourcePosition(first.world, {
+      stableKey: "leftover-funds:explicit-carry-candidate-cash",
+      owner: { kind: "person", personId: first.candidatePersonId },
+      openedAt: first.world.currentDate,
+      openingBalance: {
+        minorUnits: 50_000,
+        currency: first.campaign.treasuryCurrency,
+      },
+      provenance: {
+        kind: "authored",
+        note: "Recorded campaign balance fixture",
+      },
+    });
+    const funded = contributeOwnMoneyToCampaign(
+      candidateCash,
+      first.candidatePersonId,
+      50_000,
+    );
+    const lost = advanceWorld(
+      funded,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const opponents = ensureCampaignOpponents(lost, {
+      stableKey: "leftover-explicit-carry-next-race",
+      jurisdictionId: first.campaign.jurisdictionId,
+      count: 1,
+      excludePersonIds: [first.candidatePersonId],
+    });
+    const next = fileCampaign(opponents.world, {
+      stableKey: "leftover-explicit-carry-next-race",
+      candidatePersonId: first.candidatePersonId,
+      jurisdictionId: first.campaign.jurisdictionId,
+      officeKey: first.campaign.officeKey,
+      districtBinding: namedSeatForFixture(
+        lost,
+        first.candidatePersonId,
+        first.campaign.officeKey,
+      ),
+      electionDate: addDays(lost.currentDate, 21),
+      rivalPersonIds: opponents.personIds,
+      existingContestId: null,
+      committeeName: "A later committee for the test fixture",
+      donorPoolName: "Supporters, in aggregate",
+      advertisingVendorName: "Advertising, in aggregate",
+      staffPersonIds: [],
+      treasuryCurrency: first.campaign.treasuryCurrency,
+      carryForwardFromCampaignId: first.campaign.id,
+    });
+
+    expect(
+      campaignTreasuryPosition(next.world, first.campaign)?.liquidBalance
+        .minorUnits,
+    ).toBe(0);
+    expect(
+      campaignTreasuryPosition(next.world, next.campaign)?.liquidBalance
+        .minorUnits,
+    ).toBe(50_000);
+  });
+
   it("resolves through the ordinary time advance", () => {
     const played = playToElection("probe-3", 3);
     const result = electionContestResult(

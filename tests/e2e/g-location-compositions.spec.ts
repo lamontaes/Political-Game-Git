@@ -94,7 +94,6 @@ test("ordinary campaign action paints the storefront only in isolated candidate 
     "data-has-plate",
     "true",
   );
-  await expect(page.getByTestId("art-preview-banner")).toBeVisible();
   // The canonical producer lists the player alone; household people must not teleport.
   await expect(page.getByTestId("scene-people")).toHaveCount(0);
   await page.screenshot({

@@ -1,9 +1,42 @@
+export * from "./citizenship";
+export type * from "./citizenship-types";
 export * from "./dates";
 export * from "./after-office-endorsements";
 export * from "./canonical-json";
 export * from "./character-history";
 export * from "./faith-record";
-export * from "./causal-effects";
+export {
+  createCausalMechanismDefinition,
+  createCausalMechanismCatalog,
+  createSyntheticCausalMechanismCatalog,
+  cloneCausalMechanismCatalog,
+  assertCausalMechanismCatalogIntegrity,
+  recordCausalProcess,
+  activateEffect,
+  causalProcessAt,
+  effectActivationsAt,
+  distinctRootCausalIds,
+  causalEffectEntityExists,
+  causalEffectEntityAvailableAt,
+  causalEffectHistoryRecords,
+  assertCausalEffectIntegrity,
+} from "./effect-records";
+export type {
+  CausalMechanismDefinitionInput,
+  CausalMechanismCatalogInput,
+  RecordCausalProcessInput,
+  ActivateEffectInput,
+} from "./effect-records";
+export {
+  evaluateEffectContribution,
+  evaluateAggregateMetric,
+  recordEvaluatedMetricState,
+} from "./outcome-web/legacy-effect-evaluator";
+export type {
+  EvaluateEffectContributionInput,
+  EvaluateAggregateMetricInput,
+  RecordEvaluatedMetricStateInput,
+} from "./outcome-web/legacy-effect-evaluator";
 export * from "./candidacy-packs";
 export * from "./candidacy";
 export * from "./district-residence";
@@ -51,6 +84,18 @@ export type {
   ScheduleCampaignActionInput,
   ScheduledCampaignActionResult,
 } from "./campaigns";
+export {
+  addCampaignHelper,
+  askToHelp,
+  campaignHasHelper,
+  campaignHelperCandidates,
+  helperAskConsiderations,
+} from "./campaign-helpers";
+export type {
+  AddCampaignHelperInput,
+  AskToHelpResult,
+  CampaignHelperRole,
+} from "./campaign-helpers";
 export {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
@@ -347,3 +392,6 @@ export * from "./crisis/handling-reactions";
 export * from "./nationwide-world/presidential-turnover";
 export * from "./living-world/federal-reform";
 export * from "./federal-tenures";
+
+export * from "./campaign-managers";
+export * from "./campaign-donors";

@@ -72,7 +72,7 @@ describe("the one personality trait registry", () => {
 
   it("names real behavior readers and makes every other trait explicit debt", () => {
     expect(traitsWithoutReaderOrDebt()).toEqual([]);
-    expect(PERSONALITY_TRAIT_READERS).toHaveLength(20);
+    expect(PERSONALITY_TRAIT_READERS).toHaveLength(21);
     const effectReaders = loadedTraitRegistry().report.packs.flatMap(
       ({ consumedBy }) =>
         Object.entries(consumedBy)

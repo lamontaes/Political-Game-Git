@@ -61,6 +61,21 @@ const CHANNEL_WORDS: Record<
     gain: "saved {whom} {amount} on a public service",
     none: "changed a public service {whom} used",
   },
+  "court-rule": {
+    cost: "kept {whom} in jail while waiting for trial",
+    gain: "let {whom} go home while waiting for trial",
+    none: "changed how {whom} waited for trial",
+  },
+  "voting-rule": {
+    gain: "gave {whom} the vote back when the sentence ended",
+    cost: "kept {whom} from voting after the sentence ended",
+    none: "changed when {whom} vote again after a sentence",
+  },
+  "sentence-rule": {
+    cost: "set a jail term for {whom} that the judge could not go below",
+    gain: "changed the jail term set for {whom}",
+    none: "changed the sentencing rules for {whom}",
+  },
   rent: {
     cost: "raised {whose} rent by {amount}",
     gain: "lowered {whose} rent by {amount}",
@@ -103,7 +118,10 @@ export function lawExposureSentence(
     (row) => row.id === exposure.measureId,
   );
   const sourceEvent =
-    exposure.channel === "election-rule"
+    exposure.channel === "election-rule" ||
+    exposure.channel === "court-rule" ||
+    exposure.channel === "sentence-rule" ||
+    exposure.channel === "voting-rule"
       ? world.history.events.find((row) => row.id === exposure.sourceRecordId)
       : null;
   const recordedTermLimitBar =
@@ -111,11 +129,33 @@ export function lawExposureSentence(
     sourceEvent.involvedEntityIds.includes(personId) &&
     (sourceEvent.type === "local.officeholder-retired" ||
       sourceEvent.type === "election.state-legislative-candidacy-intent");
+  const recordedPretrialDecision =
+    exposure.channel === "court-rule" &&
+    sourceEvent?.involvedEntityIds.includes(personId) &&
+    (sourceEvent.type === "justice.released-before-trial" ||
+      sourceEvent.type === "justice.held-before-trial");
+  const recordedSentence =
+    exposure.channel === "sentence-rule" &&
+    sourceEvent?.involvedEntityIds.includes(personId) &&
+    sourceEvent.type === "justice.sentenced";
+  const recordedVotingRight =
+    exposure.channel === "voting-rule" &&
+    sourceEvent?.involvedEntityIds.includes(personId) &&
+    sourceEvent.type === "justice.voting-right-set";
   const title =
     measure?.shortTitle?.trim() ||
+    (recordedVotingRight && exposure.measureId.startsWith("starting-law:")
+      ? "voting rights law"
+      : null) ||
+    (recordedSentence && exposure.measureId.startsWith("starting-law:")
+      ? "mandatory minimum law"
+      : null) ||
     (recordedTermLimitBar && exposure.measureId.startsWith("starting-law:")
       ? "term-limit law"
-      : null);
+      : recordedPretrialDecision &&
+          exposure.measureId.startsWith("starting-law:")
+        ? "cash bail law"
+        : null);
   if (!title) return null;
   const via =
     exposure.relation !== "own" && exposure.viaPersonId
@@ -126,7 +166,11 @@ export function lawExposureSentence(
   const whose = friend ? "their" : via ? `${via.givenName}'s` : "your";
   const whom = friend ? "them" : via ? via.givenName : "you";
   const direction =
-    (exposure.amount === null && exposure.channel !== "election-rule") ||
+    (exposure.amount === null &&
+      exposure.channel !== "election-rule" &&
+      exposure.channel !== "court-rule" &&
+      exposure.channel !== "sentence-rule" &&
+      exposure.channel !== "voting-rule") ||
     exposure.direction === "none"
       ? "none"
       : exposure.direction;

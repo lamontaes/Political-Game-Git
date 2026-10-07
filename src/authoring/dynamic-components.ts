@@ -265,7 +265,7 @@ export const DYNAMIC_COMPONENT_FAMILIES: readonly DynamicComponentFamily[] = [
   {
     id: "DISTRICT_MAP",
     purpose:
-      "Jurisdictional territory: district boundaries, municipal wards, who represents what.",
+      "Jurisdictional territory: district boundaries, council districts, who represents what.",
     surfaceKinds: ["large-wall-map", "desk-document", "monitor-or-screen"],
     expresses: ["map-label", "jurisdiction-name", "jurisdiction-seal"],
     emptyState:

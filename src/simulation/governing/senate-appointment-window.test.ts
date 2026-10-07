@@ -13,7 +13,7 @@ import {
 } from "../nationwide-world/senate-vacancy-law";
 import { SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import type { World } from "../types";
+import type { FutureDueItem, World } from "../types";
 import { recordPersonDeath } from "../vitality";
 import {
   applyOfficeContinuityNotices,
@@ -106,6 +106,16 @@ function vacancy(kind: "recorded" | "estimated" | "none", late = false) {
   return { world, next, seat, due, death };
 }
 
+/** The appointment producer records an authored model, not simulated inputs. */
+function appointmentModelNote(due: FutureDueItem | undefined): string {
+  expect(due).toBeDefined();
+  expect(due?.provenance.kind).toBe("authored");
+  if (due?.provenance.kind !== "authored") {
+    throw new Error("Expected an authored Senate appointment model note.");
+  }
+  return due.provenance.note;
+}
+
 describe("Senate vacancy scheduling uses legal windows", () => {
   it("uses the recorded bound instead of ten days and preserves its model provenance on reload", () => {
     const { next, seat, due, death } = vacancy("recorded");
@@ -113,7 +123,9 @@ describe("Senate vacancy scheduling uses legal windows", () => {
     expect(due?.dueAt).toBe(
       addDays(death.diedAt, law.appointmentDeadlineDays!),
     );
-    expect(due?.provenance.note).toContain("not an observed appointment date");
+    expect(appointmentModelNote(due)).toContain(
+      "not an observed appointment date",
+    );
     expect(
       deserializeWorld(serializeWorld(next)).history.futureDueItems.find(
         (item) => item.stableKey === due!.stableKey,
@@ -124,15 +136,17 @@ describe("Senate vacancy scheduling uses legal windows", () => {
     const { seat, due, death } = vacancy("estimated");
     const timing = senateAppointmentTiming(senateVacancyLaw(seat.stateUsps))!;
     expect(due?.dueAt).toBe(addDays(death.diedAt, timing.days));
-    expect(due?.provenance.note).toContain("ESTIMATED FROM LEGAL WINDOWS");
-    expect(due?.provenance.note).toContain(
+    expect(appointmentModelNote(due)).toContain("ESTIMATED FROM LEGAL WINDOWS");
+    expect(appointmentModelNote(due)).toContain(
       `${timing.comparatorCount} recorded deadlines`,
     );
   });
   it("does not restart the bound when a vacancy notice arrives late", () => {
     const { world, due } = vacancy("recorded", true);
     expect(due?.dueAt).toBe(addDays(world.currentDate, 1));
-    expect(due?.provenance.note).toContain("without restarting the window");
+    expect(appointmentModelNote(due)).toContain(
+      "without restarting the window",
+    );
   });
   it("does not schedule an appointment where the law forbids it", () => {
     expect(vacancy("none").due).toBeUndefined();

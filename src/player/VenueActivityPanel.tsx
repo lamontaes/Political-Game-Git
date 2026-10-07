@@ -5,9 +5,12 @@ import {
   goLabel,
   performVenueActivity,
   venueActivities,
-  venueTimingLabel,
+  venueTiming,
 } from "../presentation/venue-activity";
 import { abandonUnperformableCommitment } from "../presentation/scheduled-activity-choice";
+import { proseWeekdayDate } from "../presentation/prose-dates";
+import { formatRoutineElapsedMinutes } from "../presentation/routine-outcome";
+import { formatMinute } from "../presentation/player-calendar";
 
 /** Feature-local normal-play control. The caller owns the sole World/save. */
 export function VenueActivityPanel({
@@ -19,16 +22,23 @@ export function VenueActivityPanel({
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
 }) {
-  const [problem, setProblem] = useState<string | null>(null);
+  // A refusal the engine words is shown as it gave it; ours is only a key.
+  const [problem, setProblem] = useState<{
+    readonly key: string;
+    readonly detail?: string;
+  } | null>(null);
   const entries = venueActivities(world, personId);
   const completed = completedActivityHere(world, personId);
   if (!entries.length && !completed) return null;
   return (
     <section aria-label="Planned activities" data-testid="venue-activities">
       {completed ? (
-        <p role="status" data-testid="venue-activity-completed">
-          You have finished {completed.title} at {completed.location.label}.
-        </p>
+        <dl role="status" data-testid="venue-activity-completed">
+          <dt>Finished</dt>
+          <dd>{completed.title}</dd>
+          <dt>Where</dt>
+          <dd>{completed.location.label}</dd>
+        </dl>
       ) : null}
       {entries.map(({ activity, refusal, abandonable }) => (
         <div key={activity.id}>
@@ -43,16 +53,14 @@ export function VenueActivityPanel({
               try {
                 const next = performVenueActivity(world, personId, activity.id);
                 setProblem(
-                  next === world
-                    ? "This activity could not be completed."
-                    : null,
+                  next === world ? { key: "activity-not-completed" } : null,
                 );
                 if (next !== world) onWorldChange(next);
               } catch (error) {
                 setProblem(
                   error instanceof Error
-                    ? error.message
-                    : "This activity could not be completed.",
+                    ? { key: "activity-refused", detail: error.message }
+                    : { key: "activity-not-completed" },
                 );
               }
             }}
@@ -77,27 +85,55 @@ export function VenueActivityPanel({
                   personId,
                   activity.id,
                 );
-                setProblem(
-                  next === world
-                    ? "This commitment could not be given up."
-                    : null,
-                );
+                setProblem(next === world ? { key: "give-up-refused" } : null);
                 if (next !== world) onWorldChange(next);
               }}
             >
               Give up on this
             </button>
           ) : null}
-          <p>{refusal ?? venueTimingLabel(world, activity.id)}</p>
-          {abandonable ? (
-            <p data-testid={`venue-activity-give-up-note-${activity.id}`}>
-              Giving up takes no time and spends nothing. It clears the
-              commitment so the rest of the day can go on.
-            </p>
-          ) : null}
+          {refusal ? (
+            <p>{refusal}</p>
+          ) : (
+            <VenueTimingValues timing={venueTiming(world, activity.id)} />
+          )}
         </div>
       ))}
-      {problem ? <p role="status">{problem}</p> : null}
+      {problem ? (
+        <p role="status" data-problem={problem.key}>
+          {problem.detail}
+        </p>
+      ) : null}
     </section>
+  );
+}
+
+/** The timing as labeled values: when it starts, how long it takes. */
+function VenueTimingValues({
+  timing,
+}: {
+  readonly timing: ReturnType<typeof venueTiming>;
+}) {
+  if (!timing) return null;
+  const length = formatRoutineElapsedMinutes(timing.minutes);
+  return (
+    <dl data-testid="venue-activity-timing" data-timing={timing.kind}>
+      {timing.kind === "starts" ? (
+        <>
+          <dt>Starts</dt>
+          <dd>
+            {proseWeekdayDate(timing.date)}, {formatMinute(timing.minuteOfDay)}
+          </dd>
+        </>
+      ) : null}
+      <dt>
+        {timing.kind === "travel"
+          ? "Travel"
+          : timing.kind === "stay"
+            ? "Stay"
+            : "Length"}
+      </dt>
+      <dd>{length}</dd>
+    </dl>
   );
 }
