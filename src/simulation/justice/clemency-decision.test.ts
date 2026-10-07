@@ -47,7 +47,7 @@ import {
 import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_ESTIMATE,
   advanceProsecutions,
   enterPlea,
   referForProsecution,
@@ -175,7 +175,7 @@ describe("a saved executive decision immediately reaches its actual petition", (
                     ...event,
                     occurredAt: addDays(
                       plea.world.currentDate,
-                      -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      -PROSECUTION_ESTIMATE.resolveAfterDays,
                     ),
                   }
                 : event,
@@ -193,6 +193,9 @@ describe("a saved executive decision immediately reaches its actual petition", (
         const term = sentencesOf(sentenced, petitionerId).find(
           (sentence) => sentence.sentencedEventId === sentenceId,
         )!;
+        expect(term.until).not.toBeNull();
+        if (term.until === null)
+          throw new Error("The fixture's recorded sentence has no end date.");
         // Authored older-save fixture: the real sentence has already reached
         // the existing body's service gate. No outcome or new wait is invented.
         const sentenceDate = addDays(
@@ -209,8 +212,8 @@ describe("a saved executive decision immediately reaches its actual petition", (
                     ...event,
                     occurredAt: addDays(
                       sentenceDate,
-                      -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                        UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      -PROSECUTION_ESTIMATE.chargeDecisionDays -
+                        PROSECUTION_ESTIMATE.resolveAfterDays,
                     ),
                   }
                 : event.type === PROSECUTION_CHARGED_EVENT &&
@@ -219,7 +222,7 @@ describe("a saved executive decision immediately reaches its actual petition", (
                       ...event,
                       occurredAt: addDays(
                         sentenceDate,
-                        -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                        -PROSECUTION_ESTIMATE.resolveAfterDays,
                       ),
                     }
                   : event.id === sentenceId

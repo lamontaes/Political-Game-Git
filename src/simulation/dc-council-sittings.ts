@@ -1,5 +1,9 @@
-import { addDays } from "./dates";
+import { nextSessionCalendarDate } from "./legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
+import { applyInstitutionSessionEnd } from "./governing/legislative-clock";
+import { legislativeSittingHandler } from "./governing/legislative-sittings";
+import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
 import {
@@ -8,6 +12,14 @@ import {
   ensureCouncilPrinciples,
 } from "./governing/council-lawmaking";
 import { measurePosition, placeMeasureOnCalendar } from "./legislation";
+import { chamberByKey } from "./legislature-rules";
+import { offerPlannedAmendment } from "./governing/amendment-authors";
+import {
+  amendmentAdmissible,
+  floorStageTakesAmendments,
+} from "./governing/chamber-procedure";
+import { publicPartyOf } from "./governing/chamber-votes";
+import { personName } from "./people";
 import {
   municipalGovernmentByKey,
   municipalRulePackFor,
@@ -15,6 +27,7 @@ import {
 import {
   municipalExecutiveHolder,
   recordCouncilReadingVote,
+  recordCouncilOverrideVote,
 } from "./municipal-ordinance-procedure";
 import {
   municipalGovernmentJurisdictionId,
@@ -55,11 +68,6 @@ import type {
 export const DC_COUNCIL_SITTING = "civic:dc-council-sitting" as const;
 export const DC_COUNCIL_SITTINGS_VERSION = "dc-council-sittings/v1" as const;
 
-export const DC_COUNCIL_SITTING_PROFILE = {
-  id: "ocd-dc-council-sitting-placeholder/v1",
-  daysBetweenSittings: 14,
-} as const;
-
 function councilMembers(world: World) {
   return municipalSeats(world, DC_GOVERNMENT_KEY).filter(
     (seat) => seat.role === "member" || seat.role === "presiding-member",
@@ -76,7 +84,13 @@ export function scheduleDcCouncilSitting(
     DC_GOVERNMENT_KEY,
   );
   if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) return world;
-  const dueAt = addDays(after, DC_COUNCIL_SITTING_PROFILE.daysBetweenSittings);
+  const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY);
+  if (!government) return world;
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) return world;
+  const calendar =
+    rules.pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+  const dueAt = nextSessionCalendarDate(calendar, after);
   const stableKey = `${DC_COUNCIL_SITTINGS_VERSION}:sitting:${dueAt}`;
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -88,7 +102,7 @@ export function scheduleDcCouncilSitting(
     jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `${DC_COUNCIL_SITTING_PROFILE.id}: a sitting every ${DC_COUNCIL_SITTING_PROFILE.daysBetweenSittings} days, pending dc-council-legislative-volume.`,
+      note: calendar.note,
     },
   });
 }
@@ -137,78 +151,129 @@ function fileActs(world: World): World {
       ),
       measures: municipalMeasures(world, DC_GOVERNMENT_KEY),
       playerPersonId: player,
-      title: dcCouncilActTitle,
       measureKey: (numbering) =>
         municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
     },
   });
 }
 
-/** "Consumer data privacy law" becomes "Consumer Data Privacy Act of 2026". */
-export function dcCouncilActTitle(questionName: string, year: string): string {
-  const words = questionName
-    .replace(/\s+(law|act)$/i, "")
-    .split(/\s+/)
-    .map((word, index) =>
-      index > 0 &&
-      /^(a|an|and|as|at|by|for|in|of|on|or|the|to|with)$/i.test(word)
-        ? word.toLowerCase()
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    );
-  return `${words.join(" ")} Act of ${year}`;
-}
-
 /** Every act a non-player sponsor carries takes its next lawful step. */
 function moveActs(world: World): World {
   const player =
     world.control.kind === "person" ? world.control.personId : null;
-  let next = world;
-  for (const measure of municipalMeasures(world, DC_GOVERNMENT_KEY)) {
-    if (player && measure.sponsorPersonId === player) continue;
-    const phase = measurePosition(next, measure.id).phase;
-    if (phase === "awaiting-referral") {
-      next = placeMeasureOnCalendar(next, {
-        stableKey: `${measure.stableKey}:agenda`,
+  const measures = municipalMeasures(world, DC_GOVERNMENT_KEY);
+  const pack = measures[0]
+    ? legislativeRulePackForWorld(world, measures[0].rulePackId)
+    : null;
+  if (!pack) return world;
+  return legislativeSittingHandler(world, {
+    chambers: pack.chambers,
+    session: pack.session,
+    measureIds: measures.map((measure) => measure.id),
+    eligible: (current, measureId) => {
+      const measure = measures.find((row) => row.id === measureId);
+      return Boolean(
+        measure &&
+        !(player && measure.sponsorPersonId === player) &&
+        !measurePosition(current, measureId).terminal,
+      );
+    },
+    takeStep: (current, measureId) => {
+      const measure = measures.find((row) => row.id === measureId)!;
+      let next = current;
+      const sessionEnd = applyInstitutionSessionEnd(next, measure.id);
+      if (sessionEnd) {
+        return "world" in sessionEnd && sessionEnd.world
+          ? sessionEnd.world
+          : next;
+      }
+      const phase = measurePosition(next, measure.id).phase;
+      if (phase === "awaiting-referral")
+        return placeMeasureOnCalendar(next, {
+          stableKey: `${measure.stableKey}:agenda`,
+          measureId: measure.id,
+          rationale:
+            "Placed before the Council for its first reading (no committee stage is modeled; placeholder).",
+        });
+      if (phase !== "on-floor" && phase !== "awaiting-override") return next;
+      const members = councilMembers(next);
+      const mayor = municipalExecutiveHolder(next, DC_GOVERNMENT_KEY);
+      next = ensureCouncilPrinciples(next, [
+        ...members,
+        ...(mayor ? [{ personId: mayor }] : []),
+      ]);
+      if (phase === "on-floor") {
+        const position = measurePosition(next, measure.id);
+        const chamber = chamberByKey(pack, "council");
+        const stage = chamber.floorStages.find(
+          (row) => row.stageKey === position.floorStageKey,
+        );
+        if (
+          stage &&
+          members.length > 0 &&
+          members.every((seat) => next.people[seat.personId]) &&
+          (!position.earliestNextFloorDate ||
+            position.earliestNextFloorDate <= next.currentDate) &&
+          floorStageTakesAmendments(chamber, stage)
+        ) {
+          next = offerPlannedAmendment(next, {
+            measureId: measure.id,
+            chamber,
+            stage,
+            members: members.map((seat, index) => ({
+              memberKey: `council:${index + 1}`,
+              personId: seat.personId,
+              name: personName(next.people[seat.personId]!),
+              caucusLabel: publicPartyOf(next, seat.personId) ?? "No party",
+            })),
+            stableKey: `${measure.stableKey}:reading:${stage.stageKey}:amendment`,
+            nonpartisan: false,
+            admissible: (bill, part) =>
+              mayAnswerQuestion(
+                next,
+                measure.jurisdictionId,
+                part.propositionId,
+              ) &&
+              amendmentAdmissible(next, pack, chamber.chamberKey, bill, part)
+                .admissible,
+          });
+        }
+      }
+      const dispositions = decideCouncilVote(next, {
+        stableKey: `${measure.stableKey}:${phase === "awaiting-override" ? "override" : "vote"}:${next.currentDate}`,
         measureId: measure.id,
-        rationale:
-          "Placed before the Council for its first reading (no committee stage is modeled; placeholder).",
+        jurisdictionId: measure.jurisdictionId,
+        members,
+        playerPersonId: player,
+        questionLabel:
+          phase === "awaiting-override"
+            ? `Reenact ${measure.designation} over the executive return`
+            : `Pass ${measure.designation}`,
+        executivePersonId: mayor,
+        // The Council is elected in party primaries, and the Home Rule Act
+        // limits how many at-large seats one party may hold (D.C. Code
+        // § 1-204.01), so its members' parties are cues.
+        nonpartisan: false,
       });
-      continue;
-    }
-    if (phase !== "on-floor") continue;
-    const members = councilMembers(next);
-    const mayor = municipalExecutiveHolder(next, DC_GOVERNMENT_KEY);
-    next = ensureCouncilPrinciples(next, [
-      ...members,
-      ...(mayor ? [{ personId: mayor }] : []),
-    ]);
-    const dispositions = decideCouncilVote(next, {
-      stableKey: `${measure.stableKey}:vote:${next.currentDate}`,
-      measureId: measure.id,
-      jurisdictionId: measure.jurisdictionId,
-      members,
-      playerPersonId: player,
-      questionLabel: `Pass ${measure.designation}`,
-      executivePersonId: mayor,
-      // The Council is elected in party primaries, and the Home Rule Act
-      // limits how many at-large seats one party may hold (D.C. Code
-      // § 1-204.01), so its members' parties are cues.
-      nonpartisan: false,
-    });
-    const result = recordCouncilReadingVote(next, {
-      governmentKey: DC_GOVERNMENT_KEY,
-      measureId: measure.id,
-      dispositions,
-      provenance: {
-        method: "member-decisions",
-        note: COUNCIL_VOTE_NOTE,
-        sourceEntityIds: [measure.id],
-      },
-    });
-    // A reading that may not be taken yet waits for a later sitting.
-    if (result.ok) next = result.world;
-  }
-  return next;
+      const recordVote =
+        phase === "awaiting-override"
+          ? recordCouncilOverrideVote
+          : recordCouncilReadingVote;
+      const result = recordVote(next, {
+        governmentKey: DC_GOVERNMENT_KEY,
+        measureId: measure.id,
+        dispositions,
+        provenance: {
+          method: "member-decisions",
+          note: COUNCIL_VOTE_NOTE,
+          sourceEntityIds: [measure.id],
+        },
+      });
+      // A reading that may not be taken yet waits for a later sitting.
+      return result.ok ? result.world : next;
+    },
+    applyResult: (_current, _measureId, result) => result,
+  });
 }
 
 export function dcCouncilSittingHandler(
@@ -235,6 +300,6 @@ export function dcCouncilSittingHandler(
   };
 }
 
-export const DC_COUNCIL_SITTING_HANDLERS = [
-  [DC_COUNCIL_SITTING, dcCouncilSittingHandler],
-] as const;
+export function dcCouncilSittingHandlers() {
+  return [[DC_COUNCIL_SITTING, dcCouncilSittingHandler]] as const;
+}

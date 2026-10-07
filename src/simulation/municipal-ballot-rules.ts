@@ -50,6 +50,7 @@ import {
   municipalRulePackFor,
 } from "./municipal-election-rule-packs";
 import type {
+  MunicipalBallotStructure,
   MunicipalElectionTiming,
   MunicipalRecallDoctrine,
   MunicipalRunoffRule,
@@ -80,6 +81,20 @@ export interface ResolvedMunicipalBallotRule {
   readonly triggerBasis: MunicipalBallotRuleBasis | null;
   /** The state-law citation behind the rule or its option set, if any. */
   readonly source: MunicipalSourceRef | null;
+}
+
+/** State ballot structure, without treating an unresolved local choice as law. */
+export function resolveMunicipalBallotStructure(stateUsps: string): {
+  readonly structure: MunicipalBallotStructure | null;
+  readonly source: MunicipalSourceRef | null;
+} {
+  const rule = municipalRulePackFor(stateUsps.toUpperCase())?.electoral
+    .ballotStructure;
+  if (rule?.kind === "known")
+    return { structure: rule.value, source: rule.source };
+  if (rule?.kind === "locally-selectable")
+    return { structure: rule.statutoryDefault, source: rule.source };
+  return { structure: null, source: null };
 }
 
 const THRESHOLD_RULES: ReadonlySet<MunicipalRunoffRule> = new Set([

@@ -1,0 +1,244 @@
+{
+  "verifiedFrom": "docs/codex/audit-verified-2026-10-01.json",
+  "engineDoc": "docs/codex/audit-by-engine-2026-10-01.md",
+  "rules": "scripts/audit/rules.json",
+  "coverage": { "withRules": 3, "total": 3 },
+  "counts": {
+    "verified": { "partly": 1, "not-started": 2 },
+    "scanned": { "done": 1, "unknown": 1, "not-started": 1 }
+  },
+  "orderMatchesEngineDoc": true,
+  "orderMismatches": [],
+  "engines": [
+    {
+      "engine": "Clock & decisions",
+      "squads": "Audit/Systems (lead) + Team 7",
+      "items": []
+    },
+    {
+      "engine": "Government",
+      "squads": "Team 1 (lawmaking) + Team 2 (executives, votes, offices) + Team 9 (courts); Coordinator owns the shared law path",
+      "items": [
+        {
+          "id": "A10",
+          "seq": 32,
+          "short": "Move criminal prosecutions and pardons off the…",
+          "owner": "Team 9",
+          "verified": "partly",
+          "scanned": "done",
+          "after": "#1574",
+          "afterSteps": [],
+          "afterDone": null,
+          "drift": ["old-path-still-live"],
+          "covers": "whole",
+          "passed": 5,
+          "checks": [
+            {
+              "check": {
+                "kind": "absent",
+                "file": "src/simulation/press/",
+                "pattern": "\\badvance(Clemency|Prosecutions)\\(",
+                "why": "the newspaper weekly sweep still advancing every prosecution and clemency petition (press/transitions.ts:54)"
+              },
+              "pass": true,
+              "at": []
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/justice/prosecution-transitions.ts",
+                "pattern": "advanceProsecutions\\(world,\\s*referralId\\)",
+                "why": "a case advances on its own saved stage due date (#1357)"
+              },
+              "pass": true,
+              "at": ["src/simulation/justice/prosecution-transitions.ts:95"]
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/justice/clemency-transitions.ts",
+                "pattern": "advanceClemencyPetition\\(world,\\s*petitionId\\)",
+                "why": "a petition advances on its own dated handler (#1389)"
+              },
+              "pass": true,
+              "at": ["src/simulation/justice/clemency-transitions.ts:75"]
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/campaigns.ts",
+                "pattern": "createProsecutionTransitionRegistry\\(\\)",
+                "why": "the prosecution handlers are registered in the production clock"
+              },
+              "pass": true,
+              "at": ["src/simulation/campaigns.ts:2183"]
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/campaigns.ts",
+                "pattern": "createClemencyTransitionRegistry\\(\\)",
+                "why": "the clemency handlers are registered in the production clock"
+              },
+              "pass": true,
+              "at": ["src/simulation/campaigns.ts:2190"]
+            }
+          ],
+          "step": "28"
+        },
+        {
+          "id": "A100",
+          "seq": 33,
+          "short": "Use one 'which court' function with a federal…",
+          "owner": "Team 9",
+          "verified": "not-started",
+          "scanned": "unknown",
+          "unknownBecause": "its proving test is not on main yet",
+          "after": "one court finder (G13)",
+          "afterSteps": [],
+          "afterDone": null,
+          "drift": [],
+          "covers": "whole",
+          "passed": 7,
+          "checks": [
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/judiciary/",
+                "pattern": "export function courtFor\\(",
+                "why": "the one 'which court' function the next step names"
+              },
+              "pass": true,
+              "at": ["src/simulation/judiciary/court-for.ts:50"]
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/judiciary/judicial-review.ts",
+                "pattern": "courtFor\\(",
+                "why": "reviewingCourt (judicial-review.ts:113) goes through it"
+              },
+              "pass": true,
+              "at": ["src/simulation/judiciary/judicial-review.ts:112"]
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/justice/court-reasoning.ts",
+                "pattern": "courtFor\\(",
+                "why": "sentencingJudge (court-reasoning.ts:427) goes through it"
+              },
+              "pass": true,
+              "at": ["src/simulation/justice/court-reasoning.ts:431"]
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/living-world/town-rent.ts",
+                "pattern": "courtFor\\(",
+                "why": "trialJudge (town-rent.ts:2037) goes through it"
+              },
+              "pass": true,
+              "at": ["src/simulation/living-world/town-rent.ts:2101"]
+            },
+            {
+              "check": {
+                "kind": "absent",
+                "file": "src/simulation/judiciary/judicial-review.ts",
+                "pattern": "measure\\.jurisdictionId\\s*===\\s*NATIONAL_ELECTION_JURISDICTION\\.id",
+                "why": "the skip that keeps national laws out of review (judicial-review.ts:371)"
+              },
+              "pass": true,
+              "at": []
+            },
+            {
+              "check": {
+                "kind": "absent",
+                "file": "src/simulation/living-world/town-rent.ts",
+                "pattern": ":general_trial",
+                "why": "the court id built from a state key (town-rent.ts:2044), a third private court finder"
+              },
+              "pass": true,
+              "at": []
+            },
+            {
+              "check": {
+                "kind": "absent",
+                "file": "src/simulation/justice/court-reasoning.ts",
+                "pattern": "court\\.level\\s*===\\s*\"local-general-trial\"",
+                "why": "the state-trial-court-only filter in sentencingJudge (court-reasoning.ts:437)"
+              },
+              "pass": true,
+              "at": []
+            },
+            {
+              "check": {
+                "kind": "test",
+                "file": "src/simulation/judiciary/judicial-review.test.ts",
+                "pattern": "national law.*federal court|federal court.*national law",
+                "why": "the proof the next step names: a national law goes to the federal court, or stays pending when none is seated"
+              },
+              "pass": false,
+              "at": [],
+              "note": "test not on main yet"
+            }
+          ],
+          "step": "29"
+        },
+        {
+          "id": "A105",
+          "seq": 38,
+          "short": "A jury smaller than the law requires should not…",
+          "owner": "Team 9",
+          "verified": "not-started",
+          "scanned": "not-started",
+          "after": "",
+          "afterSteps": [],
+          "afterDone": null,
+          "drift": [],
+          "covers": "whole",
+          "passed": 0,
+          "checks": [
+            {
+              "check": {
+                "kind": "absent",
+                "file": "src/simulation/justice/court-reasoning.ts",
+                "pattern": "drawn\\.length\\s*<\\s*12",
+                "why": "the hard-coded panel size of 12 (court-reasoning.ts:263); the next step reads it from legal data"
+              },
+              "pass": false,
+              "at": ["src/simulation/justice/court-reasoning.ts:261"]
+            },
+            {
+              "check": {
+                "kind": "present",
+                "file": "src/simulation/justice/prosecution.ts",
+                "pattern": "jurors\\.length\\s*<",
+                "why": "a short panel returns a pending trial; only a zero-person jury is blocked today (prosecution.ts:609)"
+              },
+              "pass": false,
+              "at": []
+            }
+          ],
+          "step": "34"
+        }
+      ]
+    },
+    {
+      "engine": "Financial",
+      "squads": "Team 6 (public money, tax, effects map) + Team 3 (pay, jobs) + Team 4 (prices, housing, business, loans)",
+      "items": []
+    },
+    {
+      "engine": "Elections",
+      "squads": "Cloud C (owner); Audit/Systems finishes its three open drafts first",
+      "items": []
+    },
+    {
+      "engine": "Social",
+      "squads": "Team 5 (people, families, opinions) + Standby Claude Team 5 / X5 (life outcomes, the English engine)",
+      "items": []
+    },
+    { "engine": "Narrative", "squads": "Team 8", "items": [] }
+  ]
+}

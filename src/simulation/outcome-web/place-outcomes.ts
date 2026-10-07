@@ -10,7 +10,9 @@ import type {
 } from "../types";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
-import { outcomeFactor } from ".";
+import { outcomeFactor, outcomeRangeViolations } from ".";
+import { settleSnapParticipationForMonth } from "../crisis/snap-participation-producer";
+import { recordMonthlyServiceReceipts } from "../monthly-service-receipts";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
   localOutcomeKey,
@@ -106,9 +108,11 @@ export function localOutcomePlaces(
  *
  * A city or county keeping its own outcomes (`localOutcomePlaces`) gets its
  * own record: its state's level, moved by the web as read in that place, so
- * its own ordinances act there. PLACEHOLDER: a city starts at its state's
- * level, until city-level bases are read. The state's record then weighs
- * those places in by residents.
+ * its own ordinances act there. ESTIMATED FROM THE CONTAINING PLACE: a city or
+ * county without its own recorded base starts at its containing state's
+ * recorded 2024 level. The basis place is therefore the state identified by
+ * that local jurisdiction's Gazetteer relationship, and the state's record
+ * weighs all represented local places by their recorded residents.
  */
 export function placeOutcomesForMonth(
   world: World,
@@ -177,6 +181,7 @@ export function placeOutcomesForMonth(
           multiplier: own.multiplier,
           value: Math.round(valueOf(own) * 100) / 100,
           causes: movedBy(own.causes),
+          rangeViolations: outcomeRangeViolations(own),
         });
         if (local.weight !== null) {
           shares.push({
@@ -208,6 +213,7 @@ export function placeOutcomesForMonth(
         multiplier,
         value: Math.round(value * 100) / 100,
         causes: movedBy(reading.causes),
+        rangeViolations: outcomeRangeViolations(reading),
         ...(shares.length
           ? {
               places: shares,
@@ -242,7 +248,7 @@ export function ensurePlaceOutcomes(world: World): World {
     return world;
   // The opening month is recorded now, so a new game already knows where
   // every place stands.
-  const opened: World = {
+  let opened: World = {
     ...world,
     placeOutcomes: {
       months: [
@@ -256,6 +262,9 @@ export function ensurePlaceOutcomes(world: World): World {
       ],
     },
   };
+  const openingDate = makeIsoDate(world.currentDate);
+  opened = settleSnapParticipationForMonth(opened, openingDate, world.id, true);
+  opened = settleSnapParticipationForMonth(opened, openingDate, world.id);
   const dueAt = firstOfNextMonth(makeIsoDate(world.currentDate));
   return scheduleFutureDueItem(opened, {
     stableKey: `${PLACE_OUTCOMES_VERSION}:pass:${dueAt.slice(0, 7)}`,
@@ -289,6 +298,10 @@ export function placeOutcomesHandler(
           ],
         },
       };
+  if (!already) {
+    next = settleSnapParticipationForMonth(next, month, dueItem.id);
+    next = recordMonthlyServiceReceipts(next, dueItem.dueAt);
+  }
   const following = firstOfNextMonth(addDays(month, 1));
   next = scheduleFutureDueItem(next, {
     stableKey: `${PLACE_OUTCOMES_VERSION}:pass:${following.slice(0, 7)}`,

@@ -151,13 +151,41 @@ const CITY_COMPARE =
  * template literal keeps its `${...}` expressions, which are code.
  */
 function withoutStrings(line) {
-  return line.replace(
-    /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`/g,
-    (literal) =>
-      literal.startsWith("`")
-        ? `"" ${[...literal.matchAll(/\$\{([^{}]*)\}/g)].map((match) => match[1]).join(" ")}`
-        : '""',
-  );
+  const parts = [];
+  let start = 0;
+  for (let index = 0; index < line.length; index += 1) {
+    const quote = line[index];
+    if (quote !== '"' && quote !== "'" && quote !== "`") continue;
+
+    let end = index + 1;
+    for (; end < line.length; end += 1) {
+      if (line[end] === "\\") {
+        end += 1;
+      } else if (line[end] === quote) {
+        break;
+      }
+    }
+    if (end >= line.length) {
+      parts.push(line.slice(start));
+      return parts.join("");
+    }
+
+    parts.push(line.slice(start, index));
+    if (quote === "`") {
+      const literal = line.slice(index, end + 1);
+      parts.push(
+        `"" ${[...literal.matchAll(/\$\{([^{}]*)\}/g)]
+          .map((match) => match[1])
+          .join(" ")}`,
+      );
+    } else {
+      parts.push('""');
+    }
+    index = end;
+    start = end + 1;
+  }
+  parts.push(line.slice(start));
+  return parts.join("");
 }
 
 function isComment(trimmed) {

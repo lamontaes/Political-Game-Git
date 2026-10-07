@@ -31,6 +31,8 @@ export interface PlaceCountyPartRecord {
   readonly stateFips: string;
   readonly partLandAreaSquareMeters: number;
   readonly partWaterAreaSquareMeters: number;
+  /** POP100: residents of this county part on Census Day, April 1, 2020. */
+  readonly partPopulationCount: number;
   /** The place's land area: the sum of its county parts' land. */
   readonly placeLandAreaSquareMeters: number;
   /** How many county parts the place has in the file. */
@@ -38,3 +40,22 @@ export interface PlaceCountyPartRecord {
   readonly publisherPartFlag: PublisherPartFlag;
   readonly evidence: Evidence;
 }
+
+/** Population of a Census place's blocks inside one catalog district. */
+export interface PlaceDistrictPopulationRecord {
+  readonly relationKind: "legislative-district";
+  readonly recordId: string;
+  readonly placeGeoid: string;
+  readonly stateFips: string;
+  readonly chamber: "congressional" | "state-lower" | "state-upper";
+  readonly districtGeoid: string;
+  readonly boundaryVintage: string;
+  readonly populationAsOf: "2020-04-01";
+  readonly partPopulationCount: number;
+  /** Sum of all district parts for this place, chamber and boundary vintage. */
+  readonly placePopulationCount: number;
+  readonly evidence: Evidence;
+}
+
+export type PlaceRelationRecord =
+  PlaceCountyPartRecord | PlaceDistrictPopulationRecord;

@@ -506,7 +506,9 @@ export function governorTermPlanHandler(
   );
 }
 
-export const GOVERNOR_TURNOVER_HANDLERS = [
-  [GOVERNOR_FIELD_CLOSE, governorFieldCloseHandler],
-  [GOVERNOR_TERM_PLAN, governorTermPlanHandler],
-] as const;
+export function governorTurnoverHandlers() {
+  return [
+    [GOVERNOR_FIELD_CLOSE, governorFieldCloseHandler],
+    [GOVERNOR_TERM_PLAN, governorTermPlanHandler],
+  ] as const;
+}

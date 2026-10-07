@@ -1,9 +1,8 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   advanceWorld,
-  ageOnDate,
   createCampaignElectionTransitionRegistry,
   createScenarioWorld,
   deserializeWorld,
@@ -12,11 +11,11 @@ import {
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import type { EntityId, World } from "../types";
 import { resourcePositionAt } from "../resource-queries";
+import { reporterWorkBudget } from "./story-work";
 import { createResourcePosition, makeCurrencyCode, money } from "../resources";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import {
   DEFAULT_MEDIA_OWNERSHIP_PACK,
-  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
   assignStory,
   latestDisposition,
@@ -54,10 +53,8 @@ function withOutlets(seed: string): { world: World; playerId: EntityId } {
   const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
     peopleCount: 5,
   });
-  const playerId = created.personOrder.find(
-    (id) =>
-      ageOnDate(created.people[id]!.birthDate, created.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const playerId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
   const base: World = {
     ...created,
@@ -314,7 +311,13 @@ describe("media owners", () => {
       ),
     ).toEqual([]);
     for (const outlet of held) {
-      const full = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
+      const full = reporterRoles(owned, outlet.id)
+        .filter((role) => reporterIsCurrent(owned, role))
+        .reduce(
+          (minutes, role) =>
+            minutes + reporterWorkBudget(owned, role)!.availableMinutes.minimum,
+          0,
+        );
       expect(outletAssignmentCapacity(after, outlet)).toBe(full);
       expect(outletAssignmentCapacity(owned, outlet)).toBe(full);
     }

@@ -1,10 +1,10 @@
 import { runtimeArtMetadata, runtimeArtUrls } from "./runtime-art";
 import { homeVisualAssets } from "./home-scenes";
 import { rasterUrls as runtimeUrls } from "./bundled-art";
-import bundledManifest from "../../art/manifest/asset_manifest.json";
-import characterCatalog from "../../art/manifest/character_catalog.json";
-import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
-import poseFamilies from "../../art/manifest/pose_families.json";
+import bundledManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
+import characterCatalog from "../../art/manifest/character_catalog.json" with { type: "json" };
+import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json" with { type: "json" };
+import poseFamilies from "../../art/manifest/pose_families.json" with { type: "json" };
 import {
   derivePersonAppearance,
   LEGACY_APPEARANCE_RECIPE_VERSION,

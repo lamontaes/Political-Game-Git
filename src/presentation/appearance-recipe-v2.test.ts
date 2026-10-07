@@ -17,7 +17,7 @@ import {
   decodeReplayDescriptor,
   encodeReplayDescriptor,
 } from "./new-game-identity";
-import oldSave from "./fixtures/leg-american-english1-old-save.json";
+import oldSave from "./fixtures/leg-american-english1-old-save.json" with { type: "json" };
 import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
   DEFAULT_APPEARANCE_RECIPE_VERSION,

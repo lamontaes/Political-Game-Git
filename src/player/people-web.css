@@ -1,3 +1,60 @@
+.pg-game .pg-people-search > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0;
+  list-style: none;
+  color: var(--text-2);
+  font: 500 0.9rem var(--ui);
+  cursor: pointer;
+  border: 0;
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
+.pg-game .pg-people-search > summary:is(:hover, :focus-visible) {
+  outline: none;
+  color: var(--gold);
+  text-shadow: var(--kit12-hover-glow);
+}
+.pg-people-search > summary::-webkit-details-marker {
+  display: none;
+}
+.pg-people-search > summary > svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+}
+.pg-people-search[open] > .pg-field {
+  margin-top: 0.5rem;
+  inline-size: min(100%, 16rem);
+}
+.pg-game .pg-people-search > .pg-field input {
+  inline-size: 100%;
+  min-inline-size: 0;
+  box-sizing: border-box;
+  padding: 0.35rem 0;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  background: none;
+  box-shadow: none;
+  color: var(--text-strong);
+  caret-color: var(--gold);
+  font: 500 1rem var(--ui);
+}
+.pg-game
+  .pg-people-search
+  > .pg-field
+  input:is(:hover, :focus, :focus-visible) {
+  border: 0;
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
+
 .pg-people-web-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -15,7 +72,7 @@
   height: min(26rem, 48vh);
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
-  background: rgb(233 220 194 / 70%);
+  background: transparent;
 }
 
 .pg-relationship-web-edge {
@@ -46,7 +103,7 @@
 }
 
 .pg-relationship-web-node circle {
-  fill: rgb(50 41 27 / 92%);
+  fill: var(--glass-bottom);
   stroke: var(--pg-brass-dim);
   stroke-width: 1.5;
 }
@@ -79,12 +136,6 @@
 
 .pg-relationship-web-node[data-match="false"] {
   opacity: 0.32;
-}
-
-.pg-relationship-web-node text {
-  fill: var(--run-a-ink);
-  font-size: 0.7rem;
-  pointer-events: none;
 }
 
 .pg-people-list-alt[hidden] {
@@ -125,7 +176,7 @@
   display: block;
 }
 .pg-relationship-web-portrait .person-portrait-mark {
-  display: block;
+  display: grid;
   max-width: none;
   border: 0;
   box-sizing: border-box;
@@ -145,12 +196,15 @@
   cursor: pointer;
 }
 .pg-relationship-web-node text {
+  fill: var(--run-a-ink);
   /* The label box beneath takes the click, whole, in every engine. */
   pointer-events: none;
   font-size: 0.78rem;
   paint-order: stroke;
-  stroke: rgb(241 234 221 / 92%);
-  stroke-width: 3px;
+  stroke: var(--iron);
+  stroke-width: 2px;
+  font-family: var(--ui);
+  font-weight: 500;
 }
 .pg-relationship-web-node[data-category="false"],
 .pg-relationship-web-edge[data-category="false"] {
@@ -169,19 +223,19 @@
   stroke-width: 2.5;
 }
 .pg-relationship-web-node[data-selected="true"] circle {
-  stroke: #f1dc9a;
+  stroke: var(--gold);
   stroke-width: 3.5;
 }
 .pg-relationship-web-edge[data-path="true"] {
-  stroke: #f1dc9a;
+  stroke: var(--gold);
   stroke-width: 4;
   opacity: 1;
 }
 .pg-relationship-web-node:hover circle {
-  stroke: #fff5d4;
+  stroke: var(--text-strong);
 }
 .pg-relationship-web-ring:focus-visible {
-  stroke: #fff5d4;
+  stroke: var(--text-strong);
   stroke-width: 4;
   outline: none;
 }
@@ -199,7 +253,7 @@
   padding: 0;
   list-style: none;
   font-size: 0.78rem;
-  color: rgb(50 41 27 / 80%);
+  color: var(--text-strong);
 }
 .pg-relationship-web-legend li {
   display: inline-flex;

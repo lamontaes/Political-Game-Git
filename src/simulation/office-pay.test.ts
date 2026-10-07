@@ -6,13 +6,20 @@ import {
   officePayInForce,
   OFFICE_PAY_META,
   statePayFor,
+  paidOfficeOf,
 } from "./office-pay";
 import { createScenarioWorld } from "./demo";
 import { requireLifePlace, stateJurisdictionForKey } from "./life-places";
 import { ensureStateJurisdictionForKey } from "./nationwide-world/state-executives";
-import { createOrganization, createWorkRelationship } from "./life";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordWorkRole,
+} from "./life";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { personName } from "./people";
+import { advanceWorld } from "./world";
+import { workRoleAt } from "./life-queries";
 
 describe("what states pay for an office", () => {
   it("holds the governor's published salary", () => {
@@ -162,5 +169,78 @@ describe("what states pay for an office", () => {
       work.id,
       pay.annualDollars,
     );
+  });
+  it("reads overdue office pay from its period role after a later state role change and reload", () => {
+    const place = requireLifePlace("4967000");
+    let world = ensureStateJurisdictionForKey(
+      createScenarioWorld("team6-a42-office-reader", place.context, {
+        peopleCount: 3,
+      }),
+      "US-UT",
+    );
+    const personId = world.personOrder[0]!;
+    const jurisdictionId = stateJurisdictionForKey("US-UT")!.id;
+    const provenance = {
+      kind: "authored" as const,
+      note: "Explicit salary-reader fixture, not an election or appointment.",
+    };
+    world = createOrganization(world, {
+      stableKey: "team6-a42:office",
+      formedAt: world.currentDate,
+      provenance,
+      initialProfile: {
+        name: "Authored salary-reader office",
+        classification: "sector:government",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+    world = createWorkRelationship(world, {
+      stableKey: "team6-a42:work",
+      personId,
+      organizationId: world.history.organizations.at(-1)!.id,
+      startedAt: world.currentDate,
+      kind: "employment:legislative-member",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "partly-dependent",
+      economicRisk: "organization-borne",
+      provenance,
+      initialRole: {
+        title: "Authored legislative salary-reader fixture",
+        occupationClassification: null,
+        locationJurisdictionId: jurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+          attention: "high",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: jurisdictionId,
+        },
+      },
+    });
+    const work = world.history.workRelationships.at(-1)!;
+    const onDate = world.currentDate;
+    const expected = officePayInForce(world, work, onDate)!;
+    const role = workRoleAt(world, work.id)!;
+    world = ensureStateJurisdictionForKey(advanceWorld(world, 1), "US-NY");
+    world = recordWorkRole(world, {
+      stableKey: "overdue-office:later-role",
+      workRelationshipId: work.id,
+      effectiveAt: world.currentDate,
+      title: role.title,
+      occupationClassification: role.occupationClassification,
+      locationJurisdictionId: stateJurisdictionForKey("US-NY")!.id,
+      timeDemand: role.timeDemand,
+      provenance,
+      supersedesRoleId: role.id,
+    });
+    expect(paidOfficeOf(world, work)?.state).toBe("NY");
+    expect(
+      officePayInForce(world, work, world.currentDate)?.annualDollars,
+    ).toBe(statePayFor("state-legislator", "NY")!.annualDollars);
+    expect(officePayInForce(world, work, onDate)).toEqual(expected);
+    const loaded = deserializeWorld(serializeWorld(world));
+    expect(officePayInForce(loaded, work, onDate)).toEqual(expected);
   });
 });

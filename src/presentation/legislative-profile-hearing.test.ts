@@ -1,0 +1,496 @@
+import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { enactCostLawFixture } from "../../tests/fixtures/enacted-cost-law-fixture";
+import { enactingGovernmentForPack } from "../simulation/legislation-drafting";
+import {
+  legislatureProfilePack,
+  legislatureProfilePackId,
+} from "../simulation/legislature-game-profile";
+import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../simulation/life-places";
+import { pickDistinct, SeededRng } from "../simulation/rng";
+import { createWorld } from "../simulation/world";
+import { createStableId } from "../simulation/ids";
+import { makeIsoDate } from "../simulation/dates";
+import { createProductionPolicyCatalog } from "../simulation/production-catalog";
+import {
+  COMMITTEE_HEARING_TRANSITION_KEY,
+  introduceMeasure,
+  measureActions,
+  measurePosition,
+  referMeasure,
+  replayMeasure,
+} from "../simulation/legislation";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";
+import { nextSessionCalendarDate } from "../simulation/legislative-session-calendar";
+import {
+  legislativeRulePackForWorld,
+  regularSessionYearForWorld,
+} from "../simulation/legislative-procedure-world";
+import { sessionClosesOn } from "../simulation/governing/session-adjournments";
+import { stateSessionEnds } from "../simulation/governing/statute-effective-date";
+import { serializeWorld, deserializeWorld } from "../simulation/serialization";
+import type { LegislativeProcedureContext } from "../simulation/legislation-scenarios";
+import type { LegislativeMeasureRecord } from "../simulation/types";
+import { applyLegislativeStep } from "./legislation-session";
+import {
+  governorOfficeForJurisdiction,
+  governingMatters,
+  GOVERNING_MATTER_DECIDED,
+} from "../simulation/governing/state-governing";
+import { lawInForce } from "../simulation/governing/law-in-force";
+import { withOpenedBudgets } from "../simulation/public-budgets";
+import {
+  PUBLIC_BUDGETS_VERSION,
+  BUDGET_PROGRAMS,
+} from "../simulation/public-budgets/store";
+import { lawSpendingForMonth } from "../simulation/public-budgets/month";
+
+const seed = "team1-main-green-profile-hearing-all56-20261002";
+const identities = lifePlaceStateIdentities();
+const sampled = pickDistinct(new SeededRng(seed), identities, 5).map(
+  (x) => x.jurisdictionKey,
+);
+// The owner's concrete regressions supplement the five draws from all 56.
+const regressions = [
+  "US-AK",
+  "US-IL",
+  "US-KY",
+  "US-MD",
+  "US-MN",
+  "US-MO",
+  "US-NE",
+  "US-NV",
+  "US-OH",
+  "US-PR",
+];
+const watched = [...new Set([...sampled, ...regressions])];
+
+it("draws its five watched places from the complete 56-place population", () => {
+  expect(identities).toHaveLength(56);
+  expect(sampled).toHaveLength(5);
+  expect(new Set(sampled).size).toBe(5);
+});
+
+describe.each(watched)(
+  `a registered profile hearing in %s (seed ${seed})`,
+  (stateKey) => {
+    it("schedules and actually holds the hearing through the shared fallback", () => {
+      const small = smallWorld({ place: stateKey, seed });
+      const jurisdiction = stateJurisdictionForKey(stateKey)!;
+      const pack = legislatureProfilePack(stateKey, jurisdiction.name);
+      if (!pack)
+        throw new Error("No registered profile for the sampled jurisdiction.");
+      expect(enactingGovernmentForPack(pack)?.government).toMatch(
+        /^(state|territory)$/,
+      );
+      const introduced = introduceMeasure(small.world, {
+        stableKey: `hearing:${stateKey}`,
+        jurisdictionId: jurisdiction.id,
+        rulePackId: pack.packId,
+        designation: "HB hearing",
+        shortTitle: "Recorded hearing regression",
+        summary:
+          "A real scheduled hearing, with no ballots or executive decision.",
+        origin: "member-introduction",
+        subjectClass: "general-policy",
+        originChamberKey: pack.chamberOrder[0]!,
+      });
+      const measureId = introduced.history.legislativeMeasures!.at(-1)!.id;
+      const chamber = pack.chambers.find(
+        (x) => x.chamberKey === pack.chamberOrder[0],
+      )!;
+      const referred = referMeasure(introduced, {
+        stableKey: `hearing:${stateKey}:refer`,
+        measureId,
+        committeeKey: chamber.committees[0]!.committeeKey,
+      });
+      const scenario: LegislativeProcedureContext = {
+        pack,
+        measureId,
+        bodies: [],
+        committeeMemberCount: null,
+        votePlan: {},
+        governorAction: null,
+        governorRationale: "No executive decision in a hearing test.",
+      };
+      const calendar =
+        pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
+      const dueAt = nextSessionCalendarDate(
+        calendar,
+        referred.currentDate,
+        "hearing",
+      );
+      const result = applyLegislativeStep(
+        scenario,
+        referred,
+        "request-committee-hearing",
+      );
+      const hearings = result.world.history.futureDueItems.filter(
+        (x) =>
+          x.transitionKey === COMMITTEE_HEARING_TRANSITION_KEY &&
+          x.entityIds.includes(measureId),
+      );
+      expect(hearings).toHaveLength(1);
+      expect(hearings[0]!.dueAt).toBe(dueAt);
+      expect(result.world.currentDate).toBe(dueAt);
+      expect(measurePosition(result.world, measureId).hearingHeld).toBe(true);
+      expect(
+        measureActions(result.world, measureId).filter(
+          (x) => x.kind === "committee-hearing-held",
+        ),
+      ).toHaveLength(1);
+      expect(measurePosition(referred, measureId).hearingHeld).toBe(false);
+      const loaded = deserializeWorld(serializeWorld(result.world));
+      expect(measurePosition(loaded, measureId)).toEqual(
+        measurePosition(result.world, measureId),
+      );
+      expect(loaded.history.futureDueItems).toEqual(
+        result.world.history.futureDueItems,
+      );
+    });
+  },
+);
+
+it("recognizes the registered profile alongside the preferred researched pack without admitting an invented pack", () => {
+  for (const stateKey of regressions) {
+    const state = stateJurisdictionForKey(stateKey)!;
+    const preferred = legislativePackForJurisdiction(state.id)!;
+    const profile = legislatureProfilePack(stateKey, state.name);
+    if (!profile)
+      throw new Error("No registered profile for the regression jurisdiction.");
+    expect(enactingGovernmentForPack(preferred)).not.toBeNull();
+    expect(enactingGovernmentForPack(profile)).not.toBeNull();
+    expect(
+      enactingGovernmentForPack({
+        ...profile,
+        packId: `${profile.packId}-unregistered`,
+      }),
+    ).toBeNull();
+  }
+});
+
+it("carries the existing Maryland age-verification cost fixture through its profile hearing", () => {
+  const state = stateJurisdictionForKey("US-MD")!;
+  const catalog = createProductionPolicyCatalog();
+  const question = Object.values(catalog.propositions).find(
+    (x) =>
+      x.stableKey ===
+      "us-policy-positions:technology-privacy.age-verification-for-social-media",
+  )!;
+  const base = createWorld({
+    seed,
+    currentDate: makeIsoDate("2026-01-05"),
+    jurisdictions: [state],
+    people: [],
+    policyCatalog: catalog,
+  });
+  const input: LegislativeMeasureRecord = {
+    id: createStableId("legislative-measure", "age-cost:US-MD"),
+    stableKey: "age-cost:US-MD",
+    sequence: base.history.nextSequence,
+    jurisdictionId: state.id,
+    rulePackId: legislatureProfilePackId("US-MD"),
+    designation: "HB cost",
+    shortTitle: "Authored age-verification cost fixture",
+    summary: "An authored legal change for a budget attribution test.",
+    origin: "member-introduction",
+    subjectClass: "general-policy",
+    originChamberKey: "house",
+    sponsorPersonId: null,
+    introducedAt: makeIsoDate("2026-05-01"),
+    sourceDocumentKey: null,
+    policyAlternativeIds: [],
+    propositionIds: [question.id],
+    propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
+  };
+  const enacted = enactCostLawFixture(base, input);
+  const holder = governorOfficeForJurisdiction(
+    enacted.world,
+    "US-MD",
+  )?.holderPersonId;
+  expect(holder).toBeDefined();
+  const matter = governingMatters(enacted.world).find(
+    (row) => row.measureId === enacted.measure.id,
+  );
+  expect(matter?.holderPersonId).toBe(holder);
+  expect(
+    enacted.world.history.events.filter(
+      (event) =>
+        event.type === GOVERNING_MATTER_DECIDED &&
+        event.tags.includes(`matter:${matter!.id}`),
+    ),
+  ).toEqual([
+    expect.objectContaining({
+      participants: expect.arrayContaining([
+        { personId: holder, role: "agency:decider", detail: "player" },
+      ]),
+    }),
+  ]);
+  expect(enacted.world.control).toEqual(base.control);
+  expect(enacted.world.currentDate).toBe(makeIsoDate("2026-06-01"));
+  expect(enacted.measure.propositionAnswers).toEqual(input.propositionAnswers);
+  expect(
+    lawInForce(enacted.world, state.id, question.id, enacted.world.currentDate)
+      ?.measureId,
+  ).toBe(enacted.measure.id);
+  const government = withOpenedBudgets(
+    base,
+    {
+      version: PUBLIC_BUDGETS_VERSION,
+      cursor: { flows: 0, outcomes: 0 },
+      governments: [],
+      adjustments: [],
+      unknown: [],
+    },
+    base.currentDate,
+  ).governments.find((row) => row.key === "US-MD")!;
+  expect(
+    lawSpendingForMonth(enacted.world, government, input.introducedAt),
+  ).toEqual(BUDGET_PROGRAMS.map(() => 0));
+  const loaded = deserializeWorld(serializeWorld(enacted.world));
+  expect(lawInForce(loaded, state.id, question.id, loaded.currentDate)).toEqual(
+    lawInForce(enacted.world, state.id, question.id, enacted.world.currentDate),
+  );
+  expect(measurePosition(enacted.world, enacted.measure.id).phase).toBe(
+    "enacted",
+  );
+  expect(
+    measureActions(enacted.world, enacted.measure.id).filter(
+      (x) => x.kind === "committee-hearing-held",
+    ),
+  ).toHaveLength(2);
+});
+
+function costChronologyFixture(
+  stateKey: string,
+  currentDate = makeIsoDate("2026-01-05"),
+) {
+  const state = stateJurisdictionForKey(stateKey)!;
+  const catalog = createProductionPolicyCatalog();
+  const question = Object.values(catalog.propositions).find(
+    (row) =>
+      row.stableKey ===
+      "us-policy-positions:technology-privacy.age-verification-for-social-media",
+  )!;
+  const base = createWorld({
+    seed,
+    currentDate,
+    jurisdictions: [state],
+    people: [],
+    policyCatalog: catalog,
+  });
+  const effectiveAt = makeIsoDate("2026-05-01");
+  const input: LegislativeMeasureRecord = {
+    id: createStableId("legislative-measure", `cost-chronology:${stateKey}`),
+    stableKey: `cost-chronology:${stateKey}`,
+    sequence: base.history.nextSequence,
+    jurisdictionId: state.id,
+    rulePackId: legislatureProfilePackId(stateKey),
+    designation: "HB cost chronology",
+    shortTitle: "Authored cost chronology fixture",
+    summary: "An explicit effective date with an actual calendar filing date.",
+    origin: "member-introduction",
+    subjectClass: "general-policy",
+    originChamberKey: "house",
+    sponsorPersonId: null,
+    introducedAt: effectiveAt,
+    sourceDocumentKey: null,
+    policyAlternativeIds: [],
+    propositionIds: [question.id],
+    propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
+  };
+  return { state, question, base, input, effectiveAt };
+}
+
+describe("cost fixture filing and operative dates", () => {
+  it.each([...new Set([...sampled, "US-ID", "US-WA"])])(
+    "%s files on its existing calendar before observing the cost month",
+    (stateKey) => {
+      const { state, question, base, input, effectiveAt } =
+        costChronologyFixture(stateKey);
+      const before = serializeWorld(base);
+      const pack = legislativeRulePackForWorld(base, input.rulePackId);
+      const calendar =
+        pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
+      const filingAt = nextSessionCalendarDate(
+        calendar,
+        base.currentDate,
+        "bill",
+        {
+          eligibleYear: (year) =>
+            regularSessionYearForWorld(base, state.id, year),
+        },
+      );
+      const closedOn = sessionClosesOn(
+        base,
+        pack,
+        Number(filingAt.slice(0, 4)),
+      );
+      const enacted = enactCostLawFixture(base, input, { effectiveAt });
+      expect(enacted.measure.introducedAt).toBe(filingAt);
+      expect(filingAt < effectiveAt).toBe(true);
+      expect(enacted.measure.propositionAnswers).toEqual(
+        input.propositionAnswers,
+      );
+      expect(measurePosition(enacted.world, enacted.measure.id).phase).toBe(
+        "enacted",
+      );
+      const record = enacted.world.history.legislativeEnactments!.find(
+        (row) => row.measureId === enacted.measure.id,
+      )!;
+      expect(record.effectiveAt).toBe(effectiveAt);
+      if (closedOn !== null) {
+        const floorActions = measureActions(
+          enacted.world,
+          enacted.measure.id,
+        ).filter(
+          (row) =>
+            row.kind === "floor-stage-passed" ||
+            row.kind === "committee-hearing-held",
+        );
+        expect(floorActions.length).toBeGreaterThan(0);
+        for (const action of floorActions)
+          expect(action.occurredAt <= closedOn).toBe(true);
+      }
+      expect(
+        lawInForce(enacted.world, state.id, question.id, effectiveAt)
+          ?.measureId,
+      ).toBe(enacted.measure.id);
+      expect(enacted.world.currentDate).toBe(makeIsoDate("2026-06-01"));
+      expect(enacted.world.control).toEqual(base.control);
+      expect(serializeWorld(base)).toBe(before);
+      const loaded = deserializeWorld(serializeWorld(enacted.world));
+      expect(measurePosition(loaded, enacted.measure.id)).toEqual(
+        measurePosition(enacted.world, enacted.measure.id),
+      );
+      expect(lawInForce(loaded, state.id, question.id, effectiveAt)).toEqual(
+        lawInForce(enacted.world, state.id, question.id, effectiveAt),
+      );
+    },
+  );
+
+  it.each(["US-ID", "US-WA"])(
+    "%s keeps the adjournment refusal when the next opportunity is closed",
+    (stateKey) => {
+      const closedAt = stateSessionEnds(stateKey, 2026).at(-1)!;
+      const { base, input } = costChronologyFixture(stateKey, closedAt);
+      const before = serializeWorld(base);
+      expect(() => enactCostLawFixture(base, input)).toThrow(
+        /session (ended|cannot continue)/,
+      );
+      expect(serializeWorld(base)).toBe(before);
+    },
+  );
+
+  it("can defer observation for a chronological second filing, and refuses to rewind a June world", () => {
+    const { base, input, effectiveAt } = costChronologyFixture("US-MD");
+    const first = enactCostLawFixture(base, input, {
+      effectiveAt,
+      advanceToObservation: false,
+    });
+    expect(first.world.currentDate < effectiveAt).toBe(true);
+    const secondInput = {
+      ...input,
+      stableKey: input.stableKey + ":second",
+      propositionAnswers: [
+        { propositionId: input.propositionIds![0]!, answer: "no" as const },
+      ],
+    };
+    const second = enactCostLawFixture(first.world, secondInput, {
+      effectiveAt,
+    });
+    expect(second.measure.introducedAt > first.measure.introducedAt).toBe(true);
+    expect(second.world.currentDate).toBe(makeIsoDate("2026-06-01"));
+    expect(measurePosition(second.world, first.measure.id).phase).toBe(
+      "enacted",
+    );
+    expect(measurePosition(second.world, second.measure.id).phase).toBe(
+      "enacted",
+    );
+    const before = serializeWorld(second.world);
+    expect(() =>
+      enactCostLawFixture(
+        second.world,
+        { ...input, stableKey: input.stableKey + ":late" },
+        { effectiveAt },
+      ),
+    ).toThrow(/no filing opportunity before/);
+    expect(serializeWorld(second.world)).toBe(before);
+  });
+});
+
+describe("cost fixture shared filing clock", () => {
+  it.each([...new Set([...sampled, "US-WA"])])(
+    "%s files both laws together and keeps the age-only baseline independent",
+    (stateKey) => {
+      const { base, input, effectiveAt } = costChronologyFixture(stateKey);
+      const bytes = serializeWorld(base);
+      const privacy = Object.values(base.policyCatalog.propositions).find(
+        (row) =>
+          row.stableKey ===
+          "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      )!;
+      const second: LegislativeMeasureRecord = {
+        ...input,
+        stableKey: `${input.stableKey}:privacy`,
+        designation: "HB privacy chronology",
+        propositionIds: [privacy.id],
+        propositionAnswers: [{ propositionId: privacy.id, answer: "yes" }],
+      };
+      const ageOnly = enactCostLawFixture(base, input, { effectiveAt });
+      const combined = enactCostLawFixture(base, [input, second], {
+        effectiveAt,
+      });
+      expect(combined.measures).toHaveLength(2);
+      expect(new Set(combined.measures.map((measure) => measure.id)).size).toBe(
+        2,
+      );
+      expect(combined.measures.map((measure) => measure.introducedAt)).toEqual([
+        ageOnly.measure.introducedAt,
+        ageOnly.measure.introducedAt,
+      ]);
+      expect(ageOnly.world.history.legislativeMeasures).toHaveLength(1);
+      expect(combined.world.history.legislativeMeasures).toHaveLength(2);
+      expect(combined.world.currentDate).toBe(ageOnly.world.currentDate);
+      expect(combined.world.control).toEqual(base.control);
+      const pack = legislativeRulePackForWorld(base, input.rulePackId);
+      const close = sessionClosesOn(
+        base,
+        pack,
+        Number(input.introducedAt.slice(0, 4)),
+      );
+      const hearingDates = combined.measures.map((measure) => {
+        expect(measurePosition(combined.world, measure.id).phase).toBe(
+          "enacted",
+        );
+        expect(replayMeasure(combined.world, measure.id).violations).toEqual(
+          [],
+        );
+        expect(
+          combined.world.history.legislativeEnactments!.find(
+            (row) => row.measureId === measure.id,
+          )?.effectiveAt,
+        ).toBe(effectiveAt);
+        const actions = measureActions(combined.world, measure.id).filter(
+          (row) => row.kind === "committee-hearing-held",
+        );
+        expect(actions).toHaveLength(pack.chambers.length);
+        if (close !== null)
+          for (const action of actions)
+            expect(action.occurredAt <= close).toBe(true);
+        return actions.map((action) => action.occurredAt);
+      });
+      expect(hearingDates[1]).toEqual(hearingDates[0]);
+      const continued = deserializeWorld(serializeWorld(combined.world));
+      for (const measure of combined.measures)
+        expect(measurePosition(continued, measure.id)).toEqual(
+          measurePosition(combined.world, measure.id),
+        );
+      expect(serializeWorld(base)).toBe(bytes);
+    },
+  );
+});

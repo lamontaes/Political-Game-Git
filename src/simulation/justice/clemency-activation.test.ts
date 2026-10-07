@@ -20,7 +20,7 @@ import {
   electedExecutiveTermForRelationship,
 } from "../executive-work-context";
 import {
-  EXECUTIVE_TERM_HANDLERS,
+  executiveTermHandlers,
   planElectedExecutiveOfficeTerm,
   recordElectedExecutiveQualification,
   electedExecutiveTermTransitionHandler,
@@ -59,7 +59,7 @@ import { sentencesOf } from "./jail-terms";
 import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_ESTIMATE,
   advanceProsecutions,
   enterPlea,
   referForProsecution,
@@ -177,6 +177,9 @@ for (const state of states)
       const term = sentencesOf(sentenced, petitionerId).find(
         (sentence) => sentence.sentencedEventId === sentenceId,
       )!;
+      expect(term.until).not.toBeNull();
+      if (term.until === null)
+        throw new Error("The fixture's recorded sentence has no end date.");
       // Authored older-save fixture: the real sentence has already reached
       // the existing body's service gate. No outcome or new wait is invented.
       const sentenceDate = addDays(
@@ -193,7 +196,7 @@ for (const state of states)
                   ...event,
                   occurredAt: addDays(
                     sentenceDate,
-                    -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
+                    -PROSECUTION_ESTIMATE.chargeDecisionDays -
                       prosecutionTimingFor(state.jurisdictionKey)
                         .resolveAfterDays,
                   ),
@@ -432,7 +435,7 @@ for (const state of states)
       const entered = resolveFutureDueItemsThrough(
         afterOldTerm(qualified, setup.term.startsAt),
         setup.term.startsAt,
-        EXECUTIVE_TERM_HANDLERS,
+        executiveTermHandlers(),
       );
       expect(clemencyPetitionStatus(entered, petitionId)).toBe("denied");
       const opening = entered.history.futureDueItems.find(
@@ -558,7 +561,7 @@ for (const state of states)
       const entered = resolveFutureDueItemsThrough(
         afterOldTerm(qualified, setup.term.startsAt),
         setup.term.startsAt,
-        EXECUTIVE_TERM_HANDLERS,
+        executiveTermHandlers(),
       );
       expect(workStatusAt(entered, setup.term.relationship.id)?.status).toBe(
         "active",

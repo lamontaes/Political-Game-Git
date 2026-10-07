@@ -1,6 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { writeFileSync } from "node:fs";
+import { afterAll, describe, expect, it } from "vitest";
+import { renderPlaceCountyModule } from "../../../scripts/source/export-place-county-relations";
+import { drawRandomPlace } from "../../../tests/support/random-place";
 import { makeIsoDate } from "../dates";
 import {
+  lifePlaceByJurisdictionId,
+  lifePlaceByKey,
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
 } from "../life-places";
@@ -12,12 +17,21 @@ import type {
   World,
 } from "../types";
 import {
+  areaResidents,
+  localResidents,
+  localWeights,
   PLACE_OUTCOME_BASES,
   placeOutcomeAt,
   placeOutcomeRecords,
   placeOutcomeValue,
   placeOutcomesForMonth,
 } from "./place-outcomes";
+import {
+  countyGeoidsForPlace,
+  countyPopulationSharesForPlace,
+  PLACE_COUNTY_RELATIONS_META,
+} from "../government-units";
+import { PLACE_COUNTY_RELATIONS_ROWS } from "../place-county-relations.generated";
 import { outcomeFactor } from ".";
 
 /*
@@ -109,6 +123,227 @@ function valueFor(
 const UNINSURED = "health.uninsured-pct";
 const base = (placeKey: string) =>
   PLACE_OUTCOME_BASES[UNINSURED]!.places[placeKey]!;
+
+describe("A167 city population across two counties", () => {
+  const seed = "team2-a167-county-population";
+  const receipts: unknown[] = [];
+  afterAll(() => {
+    if (process.env.TEAM2_A167_RECEIPT)
+      writeFileSync(
+        process.env.TEAM2_A167_RECEIPT,
+        JSON.stringify({ seed, records: receipts }, null, 2) + "\n",
+      );
+  });
+  const places = Array.from({ length: 5 }, (_, index) =>
+    drawRandomPlace(`${seed}:${index}`, (place) => {
+      if (!place.sourceGeoid || localResidents(place.sourceGeoid) === null)
+        return false;
+      const parts = countyPopulationSharesForPlace(place.sourceGeoid);
+      return (
+        parts.length === 2 &&
+        parts.every(
+          ([county, share]) =>
+            share !== null && share > 0 && areaResidents(county) !== null,
+        )
+      );
+    }),
+  );
+
+  it.each(places)(
+    "splits $displayName residents between both county areas",
+    (place) => {
+      const key = place.sourceGeoid!;
+      const population = localResidents(key)!;
+      const state = areaResidents(place.stateJurisdictionKey!)!;
+      const parts = countyPopulationSharesForPlace(key);
+      const countyKeys = parts.map(([county]) => `county:${county}`);
+      const weights = localWeights(place.stateJurisdictionKey!, [
+        key,
+        ...countyKeys,
+      ]);
+      expect(parts.reduce((sum, [, share]) => sum + share!, 0)).toBeCloseTo(
+        1,
+        12,
+      );
+      expect(weights.get(key)! * state).toBeCloseTo(population, 8);
+      for (const [county, share] of parts) {
+        expect(weights.get(`county:${county}`)! * state).toBeCloseTo(
+          areaResidents(county)! - population * share!,
+          8,
+        );
+      }
+      const represented = [...weights.values()].reduce<number>(
+        (sum, weight) => sum + weight! * state,
+        0,
+      );
+      expect(represented).toBeCloseTo(
+        parts.reduce((sum, [county]) => sum + areaResidents(county)!, 0),
+        8,
+      );
+
+      // The ordinary monthly writer records exactly those allocation weights.
+      const jurisdictions = [
+        place.context.jurisdiction.id,
+        ...countyKeys.map(
+          (countyKey) => lifePlaceByKey(countyKey)?.context.jurisdiction.id,
+        ),
+      ];
+      expect(jurisdictions.every((id) => id !== undefined)).toBe(true);
+      const laws = jurisdictions.map((jurisdictionId, index) => {
+        const law = texasExpansion("2026-01-01");
+        const measureId = `measure_a167_${index}` as EntityId;
+        return {
+          measure: {
+            ...law.measure,
+            id: measureId,
+            jurisdictionId: jurisdictionId!,
+            stableKey: `a167:${index}`,
+          },
+          enactment: {
+            ...law.enactment,
+            id: `enactment_a167_${index}` as EntityId,
+            measureId,
+            resolvedAt: makeIsoDate("2026-01-01"),
+          },
+        };
+      });
+      const world = worldAt("2026-02-01", laws);
+      const records = placeOutcomesForMonth(world, world.currentDate);
+      const stateRecord = records.find(
+        (record) =>
+          record.measure === UNINSURED &&
+          record.placeKey === place.stateJurisdictionKey,
+      )!;
+      const participantKeys = [key, ...countyKeys].sort();
+      expect(stateRecord.places!.map((share) => share.placeKey).sort()).toEqual(
+        participantKeys,
+      );
+      for (const share of stateRecord.places!)
+        expect(share.weight).toBeCloseTo(weights.get(share.placeKey)!, 12);
+      const continued = JSON.parse(
+        JSON.stringify({
+          ...world,
+          placeOutcomes: { months: [{ month: world.currentDate, records }] },
+        }),
+      ) as World;
+      // This partial-world JSON reload checks saved allocation records only;
+      // complete canonical Save/Continue is outside this writer fixture.
+      const savedAllocation = participantKeys.map((placeKey) => {
+        const saved = records.filter(
+          (record) =>
+            record.measure === UNINSURED && record.placeKey === placeKey,
+        );
+        expect(saved).toHaveLength(1);
+        const record = saved[0]!;
+        const expectedJurisdiction =
+          lifePlaceByKey(placeKey)!.context.jurisdiction.id;
+        expect(record.jurisdictionId).toBe(expectedJurisdiction);
+        expect(record.stateKey).toBe(place.stateJurisdictionKey);
+        expect(record.weight).toBeCloseTo(weights.get(placeKey)!, 12);
+        const reloaded = placeOutcomeAt(
+          continued,
+          UNINSURED,
+          expectedJurisdiction,
+          world.currentDate,
+        )!;
+        expect(reloaded).toEqual(record);
+        return reloaded;
+      });
+      const deductions = parts.map(([county, share]) => {
+        const record = savedAllocation.find(
+          (saved) => saved.placeKey === `county:${county}`,
+        )!;
+        const before = areaResidents(county)!;
+        const after = record.weight! * state;
+        const deducted = before - after;
+        expect(deducted).toBeGreaterThan(0);
+        expect(deducted).toBeCloseTo(population * share!, 8);
+        return { county, share, before, after, deducted };
+      });
+      expect(
+        deductions.reduce((sum, row) => sum + row.deducted, 0),
+      ).toBeCloseTo(population, 8);
+      const savedResidents = savedAllocation.reduce(
+        (sum, record) => sum + record.weight! * state,
+        0,
+      );
+      expect(savedResidents).toBeCloseTo(
+        deductions.reduce((sum, row) => sum + row.before, 0),
+        8,
+      );
+      expect(placeOutcomesForMonth(continued, world.currentDate)).toEqual(
+        records,
+      );
+      expect(
+        lifePlaceByJurisdictionId(place.context.jurisdiction.id)?.sourceGeoid,
+      ).toBe(key);
+      receipts.push({
+        place: place.displayName,
+        placeKey: key,
+        jurisdictionId: place.context.jurisdiction.id,
+        stateKey: place.stateJurisdictionKey,
+        month: world.currentDate,
+        cityPopulation: population,
+        counties: deductions,
+        savedParticipants: savedAllocation.map((record) => ({
+          placeKey: record.placeKey,
+          jurisdictionId: record.jurisdictionId,
+          weight: record.weight,
+        })),
+        savedResidents,
+      });
+    },
+  );
+
+  it("preserves measured zero parts and existing single-county geography", () => {
+    const austin = countyPopulationSharesForPlace("4805000");
+    expect(austin.find(([county]) => county === "48021")?.[1]).toBe(0);
+    expect(austin.find(([county]) => county === "48209")?.[1]).toBeCloseTo(
+      933 / 961855,
+      12,
+    );
+    expect(countyPopulationSharesForPlace("1714000")).toEqual([
+      ["17031", 1],
+      ["17043", 0],
+    ]);
+    expect(countyPopulationSharesForPlace("0100460")).toEqual([["01073", 1]]);
+    expect(countyPopulationSharesForPlace("not-a-census-place")).toEqual([]);
+    expect(countyPopulationSharesForPlace("7200000")).toEqual([]);
+    expect(PLACE_COUNTY_RELATIONS_META.populationAsOf).toBe("2020-04-01");
+    expect([...countyGeoidsForPlace("4805000")].sort()).toEqual(
+      austin.map(([county]) => county).sort(),
+    );
+  });
+
+  it("replays the projection from all 51 hash-verified locked Census slices", () => {
+    const rendered = renderPlaceCountyModule();
+    const literal = rendered
+      .split("export const PLACE_COUNTY_RELATIONS_ROWS: string = ")[1]!
+      .trim()
+      .slice(0, -1);
+    expect(JSON.parse(literal)).toEqual(PLACE_COUNTY_RELATIONS_ROWS);
+    expect(PLACE_COUNTY_RELATIONS_META.inputs).toHaveLength(51);
+  });
+
+  it("leaves county deductions unknown when the city has no current resident count", () => {
+    // Bucks CDP has measured 2020 parts in Mobile and Washington counties,
+    // but the incorporated-place estimates do not supply its current total.
+    const place = "0111488";
+    expect(localResidents(place)).toBeNull();
+    const parts = countyPopulationSharesForPlace(place);
+    expect(parts).toEqual([
+      ["01097", 102 / 255],
+      ["01129", 153 / 255],
+    ]);
+    const weights = localWeights("US-AL", [
+      place,
+      ...parts.map(([county]) => `county:${county}`),
+    ]);
+    expect(weights.get(place)).toBeNull();
+    for (const [county] of parts)
+      expect(weights.get(`county:${county}`)).toBeNull();
+  });
+});
 
 describe("place outcomes", () => {
   it("every state, D.C. and Puerto Rico where measured starts at its real 2024 level", () => {

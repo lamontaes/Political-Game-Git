@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import fixtureCatalog from "../../art/fixtures/valid_character_catalog.json";
-import fixtureManifest from "../../art/fixtures/valid_character_manifest.json";
+import fixtureCatalog from "../../art/fixtures/valid_character_catalog.json" with { type: "json" };
+import fixtureManifest from "../../art/fixtures/valid_character_manifest.json" with { type: "json" };
 import { createRunBFixture } from "./run-b-fixture";
 import {
   computeCharacterGenerationSignature,

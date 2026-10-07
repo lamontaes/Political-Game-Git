@@ -1,3 +1,4 @@
+import { spreadOf, type Spread } from "./sample-spread";
 /**
  * Income tax withheld from one paycheck, federal and state.
  *
@@ -102,19 +103,8 @@ const STATE_PLACES = stateIncomeTax2026.places as Readonly<
   Record<string, StatePlace>
 >;
 
-/** A mean and the population standard deviation of some values. */
-export interface Spread {
-  readonly mean: number;
-  readonly standardDeviation: number;
-  readonly count: number;
-}
-
-export function spreadOf(values: readonly number[]): Spread {
-  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
-  const variance =
-    values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
-  return { mean, standardDeviation: Math.sqrt(variance), count: values.length };
-}
+export { spreadOf } from "./sample-spread";
+export type { Spread } from "./sample-spread";
 
 /**
  * The single filer's standard deduction, in dollars, across the states with

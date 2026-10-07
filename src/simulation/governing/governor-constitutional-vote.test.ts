@@ -1,3 +1,4 @@
+import { legacyTermLimitBallot as termLimitBallot } from "../../../tests/fixtures/legacy-term-limit-ballot";
 import { beforeAll, describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -41,10 +42,7 @@ import {
   stateConstitutionalBody,
   stateConstitutionalRoster,
 } from "./chamber-votes";
-import {
-  termLimitBallot,
-  termLimitConsiderations,
-} from "../living-world/federal-reform";
+import { termLimitConsiderations } from "../living-world/federal-reform";
 import {
   CONSTITUTIONAL_REFORM_REVIEW,
   constitutionalReformReviewHandler,

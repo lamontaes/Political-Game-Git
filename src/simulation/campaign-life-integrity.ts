@@ -1,3 +1,4 @@
+import { campaignFundraiserPayments } from "./campaign-money-source-queries";
 import { CAMPAIGN_LIFE_CATALOG } from "./campaign-life-catalog";
 import {
   assertCampaignRecordIdentity,
@@ -162,30 +163,19 @@ export function assertCampaignLifeIntegrity(
         record.campaignId === null
           ? undefined
           : campaignById.get(record.campaignId);
+      if (!flow || !campaign) fail("has no recorded fundraiser payment");
+      const paid = campaignFundraiserPayments(world, {
+        eventId: outcome.outcomeEventId,
+        committeeOrganizationId: campaign!.organizationId,
+        currency: campaign!.treasuryCurrency,
+        historySequenceExclusive: outcome.sequence,
+      });
       if (
-        !flow ||
-        !campaign ||
-        flow.recipient.kind !== "organization" ||
-        flow.recipient.organizationId !== campaign.organizationId ||
-        flow.basisKind !== "custom:campaign-contribution" ||
-        flow.restrictionKind !== "purpose:campaign" ||
-        flow.source.kind !== "person" ||
-        !outcome.contactPersonIds.includes(flow.source.personId) ||
-        !world.history.resourceTransferOutcomes.some(
-          (transfer) =>
-            transfer.resourceFlowId === flow.id &&
-            transfer.status === "completed" &&
-            transfer.sequence > event.sequence &&
-            transfer.sequence < outcome.sequence &&
-            transfer.transferredAmount.minorUnits ===
-              outcome.raisedAmount!.minorUnits &&
-            transfer.transferredAmount.currency ===
-              outcome.raisedAmount!.currency,
-        ) ||
-        outcome.raisedAmount.minorUnits <= 0 ||
-        outcome.raisedAmount.currency !== campaign.treasuryCurrency
+        paid.receipts[0]?.resourceFlowId !== flow!.id ||
+        paid.totalMinorUnits !== outcome.raisedAmount.minorUnits ||
+        outcome.raisedAmount.currency !== campaign!.treasuryCurrency
       )
-        fail("moved money somewhere other than the committee");
+        fail("does not report its recorded fundraiser payments");
     }
     if (record.form !== "support-request" && outcome.supportDecision !== null)
       fail("carries a support decision outside a support request");

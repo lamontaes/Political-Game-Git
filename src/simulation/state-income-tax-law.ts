@@ -1,11 +1,12 @@
 /**
- * What a state's income tax law, as enacted in play, does to a paycheck.
+ * What a state's income tax law in force does to a paycheck.
  *
  * Two policy questions reach the paycheck: "Should the state levy a personal
  * income tax?" (`fiscal.adopt-income-tax`) and "Should the state have a
  * graduated income tax?" (`fiscal.graduated-income-tax`). The 2026 schedules
  * in `state-income-tax-2026.json` already carry the law each state began
- * with, so only a law enacted in play changes anything here:
+ * with. Structured starting-law terms reach that same calculator;
+ * a law enacted in play can then change it:
  * 1. a repeal ("no" on the first question) where the state taxes wages ends
  *    the state's withholding;
  * 2. an adoption ("yes") where the state has no wage income tax starts one;
@@ -16,7 +17,8 @@
  * - A law governs the tax year it is in force on January 1, so a law that
  *   takes effect during a year applies from the next one: withholding tables
  *   change by tax year.
- * - A bill does not carry its own rates yet. A new or reshaped tax is
+ * - An adopted flat rate and annual taxable-income threshold govern when
+ *   both are recorded in the final bill. Otherwise a new or reshaped tax is
  *   ESTIMATED FROM AVERAGE: the average of the states that have that kind of
  *   tax in the Tax Foundation's 2026 tables, ranked by Census region and
  *   sourced household-income distance with the approved reciprocal-rank
@@ -46,6 +48,10 @@ import {
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import type { EntityId, IsoDate, World } from "./types";
 import { censusRegionOf } from "./world-setup/census-regions";
+import {
+  readFinalEnactedLawTerm,
+  readFinalEnactedLawSchedule,
+} from "./governing/final-law-term-query";
 
 export const ADOPT_STATE_INCOME_TAX_QUESTION =
   "us-policy-positions:fiscal.adopt-income-tax";
@@ -73,6 +79,14 @@ export type StateIncomeTaxUnderLaw =
   | { readonly kind: "as-begun" }
   /** A law enacted in play ended the state's wage income tax. */
   | { readonly kind: "repealed"; readonly lawMeasureIds: readonly EntityId[] }
+  /** Recorded starting/adopted numeric terms; an unread deduction can be estimated. */
+  | {
+      readonly kind: "enacted";
+      readonly shape: TaxShape;
+      readonly lawMeasureIds: readonly EntityId[];
+      readonly schedule: IncomeTaxSchedule;
+      readonly estimatedFromAverage?: string;
+    }
   /** A law enacted in play started or reshaped the tax; rates estimated. */
   | {
       readonly kind: "estimated";
@@ -96,18 +110,21 @@ export function stateIncomeTaxUnderLaw(
   const state = chiefExecutiveJurisdiction(stateKey.slice(3));
   if (!place || !state) return { kind: "as-begun" };
   const taxYearStart = `${paidAt.slice(0, 4)}-01-01` as IsoDate;
-  const adopt = enactedLaw(
+  const adopt = governingLaw(
     world,
     state.id,
     ADOPT_STATE_INCOME_TAX_QUESTION,
     taxYearStart,
   );
-  const graduated = enactedLaw(
+  const shapeLaw = governingLaw(
     world,
     state.id,
     GRADUATED_STATE_INCOME_TAX_QUESTION,
     taxYearStart,
   );
+  // A starting shape describes the sourced schedule; it is not a bill that
+  // reshapes a newly adopted tax or overrides an enacted numeric rate.
+  const graduated = shapeLaw?.origin === "enacted" ? shapeLaw : null;
   const begunShape: TaxShape | null =
     place.wageIncomeTax === "flat" || place.wageIncomeTax === "graduated"
       ? place.wageIncomeTax
@@ -123,6 +140,120 @@ export function stateIncomeTaxUnderLaw(
       ? "graduated"
       : "flat"
     : (begunShape ?? "graduated");
+  // Keep a starting table only while its sourced shape still governs. An
+  // enacted reshape uses its own terms or the existing labeled fallback.
+  let tableLaw =
+    graduated?.answer === "yes"
+      ? graduated
+      : shapeLaw?.answer === "yes" &&
+          shape === "graduated" &&
+          adopt?.origin !== "enacted"
+        ? shapeLaw
+        : adopt;
+  let table =
+    tableLaw && (tableLaw.origin === "enacted" || shape === begunShape)
+      ? readFinalEnactedLawSchedule(world, tableLaw, {
+          questionKey:
+            tableLaw === shapeLaw
+              ? GRADUATED_STATE_INCOME_TAX_QUESTION
+              : ADOPT_STATE_INCOME_TAX_QUESTION,
+          termKey: tableLaw === shapeLaw ? "brackets" : "rate",
+          onDate: taxYearStart,
+        })
+      : null;
+  if (!table && adopt?.origin === "in-force-at-start" && shape === begunShape) {
+    tableLaw = adopt;
+    table = readFinalEnactedLawSchedule(world, adopt, {
+      questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+      termKey: "rate",
+      onDate: taxYearStart,
+    });
+  }
+  if (table?.term.kind === "income-tax")
+    return {
+      kind: "enacted",
+      shape,
+      lawMeasureIds: [
+        ...new Set([
+          tableLaw!.measureId,
+          ...(adopt?.answer === "yes" ? [adopt.measureId] : []),
+          ...(graduated?.answer === "yes" ? [graduated.measureId] : []),
+        ]),
+      ],
+      schedule: stateScheduleForFilingStatus(table.term.schedule, status),
+    };
+  const flatRate =
+    adopt?.answer === "yes"
+      ? readFinalEnactedLawTerm(world, adopt, {
+          questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+          termKey: "rate",
+          unit: "ratio",
+          onDate: taxYearStart,
+        })
+      : null;
+  const threshold =
+    adopt?.answer === "yes"
+      ? readFinalEnactedLawTerm(world, adopt, {
+          questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+          termKey: "threshold",
+          unit: "minor",
+          onDate: taxYearStart,
+        })
+      : null;
+  const flatRateBasisPoints = flatRate
+    ? Math.round(flatRate.value * 10_000)
+    : null;
+  // One numeric rate cannot represent an explicitly graduated schedule.
+  // Missing, conflicting or wrong-unit terms retain the labeled fallback.
+  // Round-trip the ratio: binary multiplication must not turn an exact 7%
+  // bill into a peer estimate, and finer-than-basis-point rates stay unsupported.
+  if (
+    flatRate &&
+    threshold &&
+    flatRate.value >= 0 &&
+    flatRate.value <= 1 &&
+    flatRateBasisPoints !== null &&
+    Number.isSafeInteger(flatRateBasisPoints) &&
+    flatRateBasisPoints / 10_000 === flatRate.value &&
+    Number.isSafeInteger(threshold.value) &&
+    threshold.value >= 0 &&
+    graduated?.answer !== "yes"
+  ) {
+    const deduction = estimatedSchedule(
+      stateKey,
+      "flat",
+      place.standardDeductionSingle,
+    );
+    return {
+      kind: "enacted",
+      shape: "flat",
+      lawMeasureIds: [
+        adopt!.measureId,
+        ...(graduated ? [graduated.measureId] : []),
+      ],
+      schedule: stateScheduleForFilingStatus(
+        {
+          ...deduction.schedule,
+          brackets: [
+            ...(threshold.value > 0
+              ? [{ overMinor: 0, rateBasisPoints: 0 }]
+              : []),
+            {
+              overMinor: threshold.value,
+              rateBasisPoints: flatRateBasisPoints,
+            },
+          ],
+        },
+        status,
+      ),
+      ...(place.standardDeductionSingle === null
+        ? {
+            estimatedFromAverage:
+              `ESTIMATED FROM AVERAGE: only the single-filer deduction of $${(deduction.schedule.standardDeductionMinor / 100).toLocaleString("en-US")} uses the existing ranked sourced peers. The rate and annual taxable-income threshold are the law's recorded terms. ${status === "single" ? "" : STATE_FILING_STATUS_NOTE[status]}`.trim(),
+          }
+        : {}),
+    };
+  }
   if (!adopted && shape === begunShape) return { kind: "as-begun" };
   const lawMeasureIds = [
     ...(adopted && adopt ? [adopt.measureId] : []),
@@ -145,8 +276,8 @@ export function stateIncomeTaxUnderLaw(
   };
 }
 
-/** The law on a question in force on `onDate`, only when enacted in play. */
-function enactedLaw(
+/** The dated law, including structured terms in the canonical starting row. */
+function governingLaw(
   world: World,
   stateJurisdictionId: EntityId,
   questionKey: string,
@@ -156,13 +287,7 @@ function enactedLaw(
     world.policyCatalog?.propositions ?? {},
   ).find((definition) => definition.stableKey === questionKey);
   if (!proposition) return null;
-  return lawInForce(
-    world,
-    stateJurisdictionId,
-    proposition.id,
-    onDate,
-    "enacted-only",
-  );
+  return lawInForce(world, stateJurisdictionId, proposition.id, onDate, "all");
 }
 
 const bracketsOf = (place: StatePlace): IncomeTaxBracket[] =>

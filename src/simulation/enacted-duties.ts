@@ -496,9 +496,9 @@ export function enactedDutyComplianceHandler(
   };
 }
 
-export const ENACTED_DUTY_HANDLERS = [
-  [ENACTED_DUTY_COMPLIANCE, enactedDutyComplianceHandler],
-] as const;
+export function enactedDutyHandlers() {
+  return [[ENACTED_DUTY_COMPLIANCE, enactedDutyComplianceHandler]] as const;
+}
 
 /** The duties one enacted measure placed, with what each covered body did. */
 export function enactedDutiesOf(

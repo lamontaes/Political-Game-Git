@@ -14,6 +14,7 @@ import {
   scheduleCommitteeHearing,
   takeFloorVote,
   transmitMeasure,
+  type FloorVoteInput,
   type MeasureStepKey,
 } from "../simulation/legislation";
 import {
@@ -31,10 +32,14 @@ import {
   type SeatedMember,
 } from "../simulation/legislation-scenarios";
 import { chamberByKey, floorStageByKey } from "../simulation/legislature-rules";
+import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
 import { futureDueItemStateAt } from "../simulation/future-transitions";
 import { passOrdinaryDays } from "./ordinary-life";
 import { COMMITTEE_HEARING_TRANSITION_KEY } from "../simulation/legislation";
-import { addDays, daysBetween } from "../simulation/dates";
+import { daysBetween, spokenDate } from "../simulation/dates";
+import { enactingGovernmentForPack } from "../simulation/legislation-drafting";
+import { nextSessionCalendarDate } from "../simulation/legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";
 import { typedTaxEnactmentDate } from "../simulation/tax-policy-activation";
 import type {
   LegislativeQuestionIdentity,
@@ -45,7 +50,12 @@ import { decideChamberVote } from "../simulation/governing/chamber-votes";
 import { committeeRoster } from "../simulation/governing/committee-assignment";
 import { memberBallotOn } from "../simulation/governing/member-ballots";
 import { executiveDesk } from "../simulation/governing/state-governing";
-import { legislativeBlueprintForMeasure } from "../simulation/governing/legislative-clock";
+import {
+  applyInstitutionStep,
+  applyInstitutionSessionEnd,
+  legislativeBlueprintForMeasure,
+  referralCommittee,
+} from "../simulation/governing/legislative-clock";
 import { dispositionsHonoringOfficeInstructions } from "./office-vote-instruction";
 
 /**
@@ -152,8 +162,24 @@ export function applyLegislativeStep(
   scenario: LegislativeProcedureContext,
   world: World,
   step: MeasureStepKey,
+  options: {
+    readonly amendmentMotive?: "pass" | "sink" | "record" | "ride";
+  } = {},
 ): StepResult {
   const measureId = scenario.measureId;
+  const sessionEnd = applyInstitutionSessionEnd(world, measureId);
+  if (sessionEnd)
+    return {
+      world: "world" in sessionEnd ? (sessionEnd.world ?? world) : world,
+      message:
+        sessionEnd.kind === "blocked"
+          ? sessionEnd.reason
+          : sessionEnd.kind === "ended"
+            ? "The bill died when the session adjourned."
+            : sessionEnd.kind === "wait-until"
+              ? `The bill waits until ${spokenDate(sessionEnd.date)}.`
+              : "The bill has no further legislative step to take.",
+    };
   const position = measurePosition(world, measureId);
   const pack = scenario.pack;
   const chamberKey = position.chamberKey ?? pack.chamberOrder[0]!;
@@ -175,7 +201,12 @@ export function applyLegislativeStep(
 
   switch (step) {
     case "request-referral": {
-      const committee = chamber.committees[0]!;
+      const committee = referralCommittee(world, measureId, chamberKey);
+      if (!committee)
+        return {
+          world,
+          message: `The ${chamber.name}'s committees are not compiled, so no referral is made.`,
+        };
       return {
         world: referMeasure(world, {
           stableKey: key(`refer:${chamberKey}`),
@@ -195,7 +226,19 @@ export function applyLegislativeStep(
             historySequenceExclusive: world.history.nextSequence,
           })?.status === "scheduled",
       );
-      const hearingDate = pending?.dueAt ?? addDays(world.currentDate, 7);
+      const government = enactingGovernmentForPack(pack)?.government;
+      const calendar =
+        pack.session.sittingCalendar ??
+        (government === "state" ||
+        government === "territory" ||
+        government === "federal"
+          ? LEGISLATIVE_SESSION_CALENDARS.state
+          : undefined);
+      if (!pending && !calendar)
+        throw new Error("This legislature has no committee-hearing calendar.");
+      const hearingDate =
+        pending?.dueAt ??
+        nextSessionCalendarDate(calendar!, world.currentDate, "hearing");
       const scheduled = pending
         ? world
         : scheduleCommitteeHearing(world, {
@@ -215,15 +258,27 @@ export function applyLegislativeStep(
       };
     }
     case "move-committee-report": {
+      const savedCommittee = chamber.committees.find(
+        (entry) => entry.committeeKey === position.committeeKey,
+      );
       const committee =
-        chamber.committees.find(
-          (entry) => entry.committeeKey === position.committeeKey,
-        ) ?? chamber.committees[0]!;
+        savedCommittee ?? referralCommittee(world, measureId, chamberKey);
+      if (!committee)
+        return {
+          world,
+          message: `The ${chamber.name}'s committees are not compiled, so no committee report vote is taken.`,
+        };
       const body = bodyForChamber(scenario, chamberKey);
+      const committees = savedCommittee
+        ? chamber.committees
+        : chamberByKey(
+            legislativeRulePackForWorld(world, measure!.rulePackId),
+            chamberKey,
+          ).committees;
       const members = scenario.memberDecisions
         ? committeeRoster(
             body,
-            chamber.committees,
+            committees,
             committee.committeeKey,
             `${pack.packId}:${chamberKey}`,
           )
@@ -300,6 +355,9 @@ export function applyLegislativeStep(
         description:
           "Narrow the pilot so it starts in the counties already served.",
         offeredByLabel: "Floor sponsor",
+        ...(options.amendmentMotive
+          ? { authorMotive: options.amendmentMotive }
+          : {}),
         dispositions,
         presentMembers: presentFor(scenario, body.members, dispositions),
         electedMembers: body.members.length,
@@ -337,6 +395,11 @@ export function applyLegislativeStep(
       };
     }
     case "move-floor-vote": {
+      if (position.phase !== "on-floor")
+        return {
+          world,
+          message: "The bill has no floor vote to take.",
+        };
       const body = bodyForChamber(scenario, chamberKey);
       const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
       const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
@@ -358,7 +421,7 @@ export function applyLegislativeStep(
           },
         ),
       });
-      const next = takeFloorVote(world, {
+      const voteInput: FloorVoteInput = {
         stableKey,
         measureId,
         dispositions,
@@ -371,7 +434,33 @@ export function applyLegislativeStep(
             ? [scenario.recordedSittingEventId]
             : [],
         },
-      });
+      };
+      const seatedMemberPersonIds = body.members.flatMap((member) =>
+        member.personId ? [member.personId] : [],
+      );
+      // A real saved body passes the caller's existing decision inputs through
+      // the shared driver. Legacy authored non-person bodies stay explicit;
+      // they cannot claim the driver's actual seated-member admission.
+      const driven =
+        seatedMemberPersonIds.length === body.members.length
+          ? applyInstitutionStep(world, measureId, (w) => w, {
+              recordedFloorVote: { ...voteInput, seatedMemberPersonIds },
+            })
+          : null;
+      if (driven && driven.kind !== "applied")
+        return {
+          world: driven.kind === "ended" ? driven.world : world,
+          message:
+            driven.kind === "blocked"
+              ? driven.reason
+              : driven.kind === "ended"
+                ? "The bill died when the session adjourned."
+                : "The bill has no floor vote to take.",
+        };
+      const next =
+        driven?.kind === "applied"
+          ? driven.world
+          : takeFloorVote(world, voteInput);
       const after = measurePosition(next, measureId);
       if (after.phase === "failed") {
         return {

@@ -75,6 +75,7 @@ describe("News says what the laws changed", () => {
     expect(markup).toContain('data-testid="world39-law-effects"');
     expect(markup).toContain("What the laws changed");
     expect(markup).toContain("because of a change in the law");
+    expect(markup).toContain("The game’s model estimates");
     expect(markup).toContain(
       "The game’s model estimates that without this change it would stand at",
     );

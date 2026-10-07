@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { canonicalJson } from "./canonical-json";
 import { describe, expect, it } from "vitest";
 
@@ -5,10 +6,20 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
+import { importContentPack } from "../presentation/content-pack-import";
 import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import { addDays, ageOnDate } from "./dates";
 import { stableHash } from "./ids";
-import { notableQualityRoom, ensurePeopleTraits } from "./people-traits";
+import {
+  notableQualityRoom,
+  ensurePeopleTraits,
+  registeredTraitLean,
+  upbringingQualities,
+  type UpbringingQuality,
+} from "./people-traits";
+import { peopleTraitPack } from "./people-trait-pack";
+import { loadTraitPacks } from "./trait-packs";
+import { traitRegistryFor } from "./trait-registry";
 import {
   establishLifePersonality,
   lifePersonalityFromUpbringing,
@@ -112,6 +123,12 @@ function startingTraits(world: World, id: EntityId) {
     .sort((a, b) => (a.tendencyId < b.tendencyId ? -1 : 1));
 }
 
+/** The example content pack whose seeded trait follows the catalog's patience. */
+const PATIENCE_PACK = readFileSync(
+  new URL("../../examples/content-packs/patience-trait.json", import.meta.url),
+  "utf8",
+);
+
 describe("A138: traits come from upbringing, not a lottery", () => {
   const { seed, usps, placeKey } = drawPlace();
   it(`two seeds give the same traits to people with the same upbringing (US-${usps}, seed ${seed})`, () => {
@@ -126,7 +143,8 @@ describe("A138: traits come from upbringing, not a lottery", () => {
       const people = game.world.personOrder.filter(
         (id) => id !== game.playerPersonId,
       );
-      return { world: game.world, people };
+      // An installed pack's seeded trait starts the same way the five do.
+      return { world: importContentPack(game.world, PATIENCE_PACK), people };
     };
     const first = open(`${seed}:first`);
     const second = open(`${seed}:second`);
@@ -154,12 +172,90 @@ describe("A138: traits come from upbringing, not a lottery", () => {
       expect(traitsA.length).toBeGreaterThan(0);
       expect(traitsB).toEqual(traitsA);
     }
+    // The installed trait is on record for each of them, from the upbringing.
+    const patience = traitRegistryFor(first.world).traits.get(
+      "mod.example.patience:patience",
+    )!;
+    const written = ensurePeopleTraits(
+      first.world,
+      pairs.map(([a]) => a),
+    );
+    for (const [a] of pairs) {
+      const expected = registeredTraitLean(
+        patience,
+        upbringingQualities(upbringingFor(first.world, a)),
+      ).value;
+      const record = latestPersonalityTendenciesForPerson(written, a).find(
+        (row) => row.stableKey === `${patience.qualifiedKey}:${a}:seed`,
+      )!;
+      expect(record, a).toBeDefined();
+      expect(record.expressionKey).toBe(
+        expected === 0
+          ? patience.scale.balancedKey
+          : expected < 0
+            ? patience.poles.low.key
+            : patience.poles.high.key,
+      );
+    }
   }, 60_000);
+
+  it("starts a pack's seeded trait from the upbringing lean it follows", () => {
+    const base = peopleTraitPack().traits[0]!;
+    const trait = loadTraitPacks(
+      [
+        {
+          pack: "a138-test",
+          traits: [
+            {
+              ...base,
+              key: "steadiness",
+              seed: {
+                spread: [-2, -1, 0, 1, 2],
+                follows: ["personality-v1:patience"],
+              },
+            },
+          ],
+          effects: [],
+        },
+      ],
+      [],
+    ).traits.get("a138-test:steadiness")!;
+    expect(trait).toBeDefined();
+    const row = (
+      key: string,
+      value: 1 | -1,
+      weight: number,
+    ): UpbringingQuality => ({
+      trait: key,
+      value,
+      weight,
+      because: [`row ${key} ${value}`],
+      lifePart: null,
+    });
+    const lean = (rows: UpbringingQuality[]) =>
+      registeredTraitLean(trait, rows).value;
+    // No lean on either key: the middle.
+    expect(lean([])).toBe(0);
+    expect(lean([row("personality-v1:facet-generous", 1, 3)])).toBe(0);
+    // The followed key and the trait's own key both count, by weight.
+    expect(lean([row("personality-v1:patience", 1, 1)])).toBe(1);
+    expect(lean([row("personality-v1:patience", 1, 3)])).toBe(2);
+    expect(lean([row("a138-test:steadiness", -1, 2)])).toBe(-2);
+    // Rows that pull both ways cancel to the middle.
+    expect(
+      lean([
+        row("personality-v1:patience", 1, 2),
+        row("a138-test:steadiness", -1, 2),
+      ]),
+    ).toBe(0);
+  });
 
   it("leaves a trait at the middle when the upbringing leans neither way", () => {
     const quiet: PersonUpbringing = {
       personId: "person_quiet" as EntityId,
       money: [],
+      basis: "game-profile",
+      disruption: 1 / 3,
       homeStability: "some-moves",
       caregiving: "inconsistent",
       protectiveCaregiver: false,

@@ -13,6 +13,7 @@ import { ageOnDate } from "./dates";
 import { PERSONALITY_PACK } from "./personality-catalogue";
 import {
   upbringingCoreValue,
+  upbringingCoreValueFrom,
   upbringingFor,
   upbringingTraitTendencies,
   type PersonUpbringing,
@@ -28,7 +29,6 @@ import {
   type RegisteredTrait,
 } from "./trait-packs";
 import type { TraitLifePart } from "./personality-trait-registry";
-import { SeededRng } from "./rng";
 import { readTrait } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";
 import { writeWithWorldIntegrityOnce } from "./world";
@@ -50,8 +50,9 @@ import type {
  * not psychological measurements, not inferred from anybody's name, place or
  * demographics, and never shown to the player as numbers.
  *
- * A person's values are drawn once from their own seeded stream, so the same
- * world always gives the same person the same temperament, and are written as
+ * A person's values come from their upbringing alone, the middle when it
+ * leans no way, so the same upbringing always gives the same temperament,
+ * and are written as
  * ordinary `PersonalityTendencyRecord`s the first time a decision needs them.
  * Writing lazily keeps existing worlds byte-identical at creation. A later
  * change is a new record that supersedes the old one and cites the event that
@@ -231,8 +232,8 @@ function observedTraitReadings(
 /**
  * Every seeded trait this life has loaded beyond the build's own five: the
  * build's other packs and whatever its content packs install. The five are not
- * here: they keep their own stream and their own writer below, so a life is
- * written exactly as before for them. A catalog added as a pack is seeded
+ * here: they keep their own writer below, so a life is written exactly as
+ * before for them. A catalog added as a pack is seeded
  * here without a line of code naming it.
  */
 function registeredSeededTraits(world: World): readonly RegisteredTrait[] {
@@ -244,10 +245,6 @@ function registeredSeededTraits(world: World): readonly RegisteredTrait[] {
   );
 }
 
-/**
- * Writes one registered trait's seeded value for one person, from their own
- * stream under the trait's qualified key, in the magnitudes its pack declares.
- */
 /** Adds a registered trait's definition to a world that does not carry it. */
 export function ensureTraitDefinition(
   world: World,
@@ -297,11 +294,49 @@ export function encodeRegisteredTrait(trait: RegisteredTrait, value: number) {
   };
 }
 
+/**
+ * A registered trait's first value, from the person's upbringing alone.
+ *
+ * The upbringing's net lean on this trait's qualified key, and on every
+ * catalog trait its seed `follows`, sets the side, and its weight picks the largest magnitude the pack's spread declares on that
+ * side without passing it (the smallest declared step when the weight is
+ * below every step). No lean, a lean the spread has no step for, or a low
+ * lean on a one-sided trait leaves the middle. Nothing is drawn: two worlds
+ * with the same upbringing give the same value.
+ */
+export function registeredTraitLean(
+  trait: RegisteredTrait,
+  qualities: readonly UpbringingQuality[],
+): { readonly value: number; readonly because: readonly string[] } {
+  const middle = { value: 0, because: [] as readonly string[] };
+  const keys = new Set([trait.qualifiedKey, ...(trait.seed?.follows ?? [])]);
+  const named = qualities.filter((row) => keys.has(row.trait));
+  const net = named.reduce((sum, row) => sum + row.value * row.weight, 0);
+  if (net === 0) return middle;
+  const because = [...new Set(named.flatMap((row) => row.because))];
+  const quality = { value: Math.sign(net), weight: Math.abs(net) };
+  if (quality.value < 0 && isOneSided(trait)) return middle;
+  const steps = [
+    ...new Set(
+      (trait.seed?.spread ?? [])
+        .filter((value) => Math.sign(value) === quality.value)
+        .map((value) => Math.abs(value)),
+    ),
+  ]
+    .filter((magnitude) => strengthForMagnitude(trait.scale, magnitude))
+    .sort((a, b) => a - b);
+  if (steps.length === 0) return middle;
+  const magnitude =
+    [...steps].reverse().find((step) => step <= quality.weight) ?? steps[0]!;
+  return { value: quality.value * magnitude, because };
+}
+
 function seedRegisteredTrait(
   world: World,
   personId: EntityId,
   trait: RegisteredTrait,
-  onDate: IsoDate = world.currentDate,
+  onDate: IsoDate,
+  qualities: () => readonly UpbringingQuality[],
 ): World {
   const definition = traitDefinitionFromPack(trait);
   const next = ensureTraitDefinition(world, trait);
@@ -309,25 +344,20 @@ function seedRegisteredTrait(
   // reads, is theirs: a seed written over it would claim a first value for
   // somebody who already has a history on this trait.
   if (latestPersonalityTendency(next, personId, definition.id)) return next;
-  const spread = trait.seed!.spread;
-  const value =
-    spread[
-      new SeededRng(next.seed)
-        .fork(`${PEOPLE_MIND_VERSION}:seed:${personId}:${trait.qualifiedKey}`)
-        .integer(0, spread.length)
-    ]!;
-  // The loader refused any spread value the scale does not declare, so a
-  // nonzero value always has a strength here.
+  const lean = registeredTraitLean(trait, qualities());
   return recordPersonalityTendency(next, {
     stableKey: `${trait.qualifiedKey}:${personId}:seed`,
     personId,
     tendencyId: definition.id,
     recordedAt: laterOf(next.people[personId]!.birthDate, onDate),
-    ...encodeRegisteredTrait(trait, value),
+    ...encodeRegisteredTrait(trait, lean.value),
     confidence: "medium",
     scopeTags: [`${PEOPLE_MIND_VERSION}.seed`],
     provenance: createMindProvenance("authored", {
-      note: `Seeded once from this person's own stream, as the pack ${trait.pack} declares.`,
+      note:
+        lean.because.length === 0
+          ? `Nothing in this person's upbringing leans the pack ${trait.pack}'s trait either way, so it starts at the middle.`
+          : `This person's upbringing leans the pack ${trait.pack}'s trait this way because of ${lean.because.join(" and ")}.`,
     }),
     supersedesTendencyId: null,
   });
@@ -371,10 +401,22 @@ function seedPeopleTraits(
       typeof onDate === "string" ? onDate : onDate.get(personId);
     if (personDate === undefined)
       throw new Error(`Missing trait seed date: ${personId}`);
+    // Only trait records and catalog definitions change within this person's
+    // seeding loop. Read the unchanged family/childhood evidence lazily once.
+    let upbringing: PersonUpbringing | undefined;
+    let qualities: readonly UpbringingQuality[] | undefined;
+    const readUpbringing = () => (upbringing ??= upbringingFor(next, personId));
+    const readQualities = () =>
+      (qualities ??= upbringingQualities(readUpbringing()));
     for (const trait of PEOPLE_TRAITS) {
-      if (personTrait(next, personId, trait).recordId !== null) continue;
+      const tendencyId = peopleTraitId(trait);
+      if (
+        next.mindCatalog.tendencies[tendencyId] &&
+        latestPersonalityTendency(next, personId, tendencyId)
+      )
+        continue;
       next = ensurePeopleTraitCatalog(next);
-      const value = seededTraitValue(next, personId, trait);
+      const value = upbringingCoreValueFrom(readUpbringing(), trait);
       next = recordPersonalityTendency(next, {
         stableKey: `${PEOPLE_MIND_VERSION}:${personId}:${trait}:seed`,
         personId,
@@ -390,9 +432,15 @@ function seedPeopleTraits(
       });
     }
     for (const trait of registeredSeededTraits(next)) {
-      next = seedRegisteredTrait(next, personId, trait, personDate);
+      next = seedRegisteredTrait(
+        next,
+        personId,
+        trait,
+        personDate,
+        readQualities,
+      );
     }
-    next = seedSalientQualities(next, personId, personDate);
+    next = seedSalientQualities(next, personId, personDate, readQualities);
   }
   return next;
 }
@@ -470,7 +518,8 @@ export function upbringingQualities(
 function seedSalientQualities(
   world: World,
   personId: EntityId,
-  onDate: IsoDate = world.currentDate,
+  onDate: IsoDate,
+  qualities: () => readonly UpbringingQuality[],
 ): World {
   const person = world.people[personId]!;
   const age = ageOnDate(person.birthDate, onDate);
@@ -489,9 +538,10 @@ function seedSalientQualities(
     .filter((trait): trait is RegisteredTrait => trait !== undefined);
   const selected = new Set(existing.map(({ qualifiedKey }) => qualifiedKey));
   const room = notableQualityRoom(age);
+  if (selected.size >= room) return world;
   let next = world;
   let slot = selected.size;
-  for (const quality of upbringingQualities(upbringingFor(world, personId))) {
+  for (const quality of qualities()) {
     if (selected.size >= room) break;
     const trait = byQualifiedKey.get(quality.trait);
     if (!trait || selected.has(quality.trait)) continue;

@@ -12,7 +12,7 @@ vi.mock("../presentation/build-profile", () => ({
 vi.mock("../presentation/visual-integration", () => ({
   repositoryVisualUrls: () => fixture.urls,
 }));
-import manifest from "../../art/manifest/asset_manifest.json";
+import manifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import {
   BANKED_OPENING_REGIONAL_CANDIDATES,

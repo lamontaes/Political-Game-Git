@@ -1,17 +1,36 @@
+import { stateMemberSeatingEvidence } from "./member-seating";
 import { considerationScore, evaluateDecision } from "../decisions";
+import { decideMemberVote } from "./member-vote-decision";
 import {
+  ARTICLE_V_STATE_KEYS,
   constitutionalEntityAvailableAt,
+  constitutionalPosition,
   stateAmendmentProfile,
 } from "../constitutional-process";
 import { institutionOfficeBindingAt } from "../enacted-rule-changes";
-import { legislativePackForJurisdiction } from "../legislative-institutions";
+import {
+  legislativePackForJurisdiction,
+  legislativePackForWorkKey,
+} from "../legislative-institutions";
+import { isCountyBudgetMeasure } from "../county-budget-record";
+import { legislativeRulePackForWorld } from "../legislative-procedure-world";
+import { chamberByKey } from "../legislature-rules";
+import { seatsForChamber } from "../legislature-game-profile";
 import { organizationProfileAt, workStatusAt } from "../life-queries";
-import { requireMeasure } from "../legislation";
+import {
+  buildLegislativeVoteRecord,
+  measurePosition,
+  recordDebateExtension,
+  recordProceduralMotion,
+  requireMeasure,
+} from "../legislation";
 import {
   memberVoteConsiderations,
   withParts,
 } from "../legislative-member-decisions";
 import { measureAnswersAt } from "../vote-bundle";
+import { minorityPartyProcedureRows } from "../minority-party-procedure";
+import type { MinorityProcedureMotion } from "../legislature-rules";
 import {
   principleVoteConsideration,
   spendingPrincipleConsideration,
@@ -30,18 +49,24 @@ import {
   stateLegislativeSeats,
 } from "../nationwide-world/state-legislature-opening";
 import { activeOrganizationParticipationsAt } from "../life-queries";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { measureCosponsors, seatedCongressChamber } from "./congress-chambers";
 import { personName } from "../people";
 import { readRelationshipStanding } from "../relationship-standing";
 import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
+import { FEDERAL_VACANCY_EVENT } from "../federal-tenures";
+import { PEOPLE_MIND_VERSION } from "../people-trait-definitions";
+import { readTrait } from "../trait-readings";
+import { traitRegistryFor } from "../trait-registry";
 import type {
   DecisionConsideration,
+  DecisionEvaluation,
   DecisionSubject,
   EntityId,
+  IsoDate,
   LegislativeMemberDisposition,
   LegislativeVoteDisposition,
+  MindSourceReference,
   World,
 } from "../types";
 
@@ -91,8 +116,11 @@ export function seatedChamberForPack(
   chamberKey: string,
   chamberName: string,
 ): SeatedChamber | null {
-  // Congress is seated from the living world's own seat roll.
-  if (rulePackId === US_CONGRESS_PACK_ID)
+  // Unregistered institutions still have no roster. The admitted pack reads
+  // its declared saved source, including any active procedure overlay.
+  if (!legislativePackForWorkKey(`institution:${rulePackId}`)) return null;
+  const pack = legislativeRulePackForWorld(world, rulePackId);
+  if (pack.seatRollSource?.kind === "national-election-seats")
     return seatedCongressChamber(world, chamberKey);
   const candidacyPackId = `${rulePackId}:candidacy`;
   if (!stateLegislatureEstablished(world, candidacyPackId)) return null;
@@ -106,22 +134,33 @@ export function seatedChamberForPack(
   const members = stateLegislators(world, candidacyPackId)
     .filter((member) => member.officeKey === officeKey)
     .sort((l, r) => l.ordinal - r.ordinal);
-  if (!sizeTag) return null;
+  const jurisdictionId = opening?.jurisdictionId;
+  if (!sizeTag || !jurisdictionId) return null;
   const seats = Number(sizeTag.split(":")[2]);
   return {
     seats,
     body: {
       chamberKey,
       chamberName,
-      members: members.map((member): SeatedMember => ({
-        memberKey: `${officeKey}:seat:${member.ordinal}`,
-        name: personName(world.people[member.personId]!),
-        personId: member.personId,
-        partyKey: member.party,
-        caucusLabel: member.party
-          ? `${member.party.charAt(0).toUpperCase()}${member.party.slice(1)}`
-          : "No party",
-      })),
+      members: members.map((member): SeatedMember => {
+        const seating = stateMemberSeatingEvidence(
+          world,
+          candidacyPackId,
+          jurisdictionId,
+          member,
+        );
+        return {
+          tenureStartedAt: seating?.occurredAt ?? null,
+          seatingEventId: seating?.eventId ?? null,
+          memberKey: `${officeKey}:seat:${member.ordinal}`,
+          name: personName(world.people[member.personId]!),
+          personId: member.personId,
+          partyKey: member.party,
+          caucusLabel: member.party
+            ? `${member.party.charAt(0).toUpperCase()}${member.party.slice(1)}`
+            : "No party",
+        };
+      }),
     },
   };
 }
@@ -158,6 +197,8 @@ const PUBLIC_PARTIES = new WeakMap<World, Map<EntityId, string | null>>();
 
 interface ChamberVoteCommonInput {
   readonly stableKey: string;
+  /** Actual vote writers may retain the evaluations; previews only read them. */
+  readonly onDecision?: (evaluation: DecisionEvaluation) => void;
   readonly members: readonly SeatedMember[];
   /**
    * Decide only these members (by member key). The whole chamber still names
@@ -168,6 +209,18 @@ interface ChamberVoteCommonInput {
   readonly playerPersonId?: EntityId | null;
   /** The player's own ballot, when they cast one. */
   readonly playerBallot?: LegislativeMemberDisposition | null;
+}
+
+/** The exact ephemeral evaluation used to produce one member's ballot. */
+export interface ChamberVoteMemberEvaluation {
+  readonly disposition: LegislativeVoteDisposition;
+  readonly evaluation: DecisionEvaluation | null;
+  readonly sourceRefs: readonly MindSourceReference[];
+}
+
+/** Optional evidence receiver for the domain roll-call writer. */
+export interface ChamberVoteOptions {
+  readonly onMemberEvaluation?: (row: ChamberVoteMemberEvaluation) => void;
 }
 
 export interface ChamberBillVoteInput extends ChamberVoteCommonInput {
@@ -194,13 +247,20 @@ export interface ChamberBillVoteInput extends ChamberVoteCommonInput {
    * party is no cue on its votes. A member still carries their own bill.
    */
   readonly nonpartisan?: boolean;
+  /**
+   * Recorded relationship strain with a member's own leadership, supplied by
+   * cross-party bargaining when that deal is relevant to this question.
+   */
+  readonly leaderStrainByMember?: ReadonlyMap<
+    EntityId,
+    readonly DecisionConsideration[]
+  >;
 }
 
-export interface ChamberNominationVoteInput extends ChamberVoteCommonInput {
+interface ChamberNominationVoteCommonInput extends ChamberVoteCommonInput {
   readonly kind: "nomination";
   readonly nominationEventId: EntityId;
   readonly nomineeId: EntityId;
-  readonly presidentId: EntityId;
   readonly officeKey: string;
   readonly considerationsByMember: ReadonlyMap<
     string,
@@ -208,16 +268,48 @@ export interface ChamberNominationVoteInput extends ChamberVoteCommonInput {
   >;
 }
 
-export interface ChamberConstitutionalVoteInput extends ChamberVoteCommonInput {
+export type ChamberNominationVoteInput = ChamberNominationVoteCommonInput &
+  (
+    | { readonly nominationKind?: "judicial"; readonly presidentId: EntityId }
+    | {
+        readonly nominationKind: "clemency-board";
+        readonly appointerId: EntityId;
+        readonly jurisdictionId: EntityId;
+        readonly boardKey: string;
+        readonly seatOrdinal: number;
+      }
+    | {
+        readonly nominationKind: "executive-appointment";
+        readonly appointerId: EntityId;
+        readonly jurisdictionId: EntityId;
+        readonly postOfficeKey: string;
+        readonly seatOrdinal: number;
+        readonly vacancyEventId: EntityId;
+        readonly incumbentTermEventId: EntityId;
+        readonly appointmentDecisionTraceId: EntityId;
+      }
+  );
+
+interface ChamberConstitutionalVoteCommonInput extends ChamberVoteCommonInput {
   readonly kind: "constitutional";
   readonly constitutionalMeasureId: EntityId;
   readonly bodyKey: string;
-  readonly purpose: "proposal";
   readonly considerationsByMember: ReadonlyMap<
     string,
     readonly DecisionConsideration[]
   >;
 }
+
+export type ChamberConstitutionalVoteInput =
+  ChamberConstitutionalVoteCommonInput &
+    (
+      | { readonly purpose: "proposal" }
+      | {
+          readonly purpose: "ratification";
+          /** Actual state jurisdiction, distinct from the federal proposal. */
+          readonly ratificationJurisdictionId: EntityId;
+        }
+    );
 
 export type ChamberVoteInput =
   | ChamberBillVoteInput
@@ -231,6 +323,20 @@ interface ChamberVoteContext {
     readonly views: readonly DecisionConsideration[];
     readonly cues: readonly DecisionConsideration[];
   };
+}
+
+/** The exact ephemeral member evaluation used to make one chamber ballot.
+ * A null evaluation means the member was absent, vacant, or had no reason. */
+export interface ChamberVoteMemberEvaluation {
+  readonly disposition: LegislativeVoteDisposition;
+  readonly evaluation: DecisionEvaluation | null;
+  readonly sourceRefs: readonly MindSourceReference[];
+}
+
+/** Optional evidence receiver for domain roll-call writers. The ordinary
+ * disposition API and all existing callers retain their current shape. */
+export interface ChamberVoteOptions {
+  readonly onMemberEvaluation?: (row: ChamberVoteMemberEvaluation) => void;
 }
 
 /** The saved state body, including actual active seat and institution sources. */
@@ -292,6 +398,7 @@ export function stateConstitutionalRoster(
   world: World,
   jurisdictionId: EntityId,
   bodyKey: string,
+  purpose: "proposal" | "ratification" = "proposal",
 ): {
   readonly seated: SeatedChamber;
   readonly sourceRecordIds: readonly EntityId[];
@@ -299,15 +406,29 @@ export function stateConstitutionalRoster(
 } | null {
   const cutoff = currentHistoricalCutoff(world);
   const pack = legislativePackForJurisdiction(jurisdictionId);
-  const profile = pack && stateAmendmentProfile(pack.jurisdictionKey);
+  const profile =
+    purpose === "proposal" && pack
+      ? stateAmendmentProfile(pack.jurisdictionKey)
+      : null;
   const chamber = pack?.chambers.find((row) => row.chamberKey === bodyKey);
   const ruleBody = profile?.bodies.find((row) => row.bodyKey === bodyKey);
+  const actualSeats =
+    purpose === "ratification" && pack ? seatsForChamber(pack, bodyKey) : null;
+  // A federal amendment is ratified by the state's actual legislature, not
+  // the bodies/thresholds of its separate state-amendment proposal profile.
+  // The proposal arm retains its original profile guard and seat count.
+  const expectedSeats =
+    purpose === "ratification"
+      ? (actualSeats?.seats ?? null)
+      : (ruleBody?.members ?? null);
   if (
     !world.jurisdictions[jurisdictionId] ||
     !pack ||
-    !profile ||
     !chamber ||
-    !ruleBody
+    expectedSeats === null ||
+    (purpose === "proposal" && (!profile || !ruleBody)) ||
+    (purpose === "ratification" &&
+      !ARTICLE_V_STATE_KEYS.includes(pack.jurisdictionKey))
   )
     return null;
   const seated = seatedChamberForPack(
@@ -331,7 +452,7 @@ export function stateConstitutionalRoster(
     binding && organizationProfileAt(world, binding.organizationId, cutoff);
   if (
     !seated ||
-    seated.seats !== ruleBody.members ||
+    seated.seats !== expectedSeats ||
     !binding ||
     !organization ||
     organization.sequence >= cutoff.historySequenceExclusive ||
@@ -402,7 +523,12 @@ export function stateConstitutionalRoster(
   return {
     seated: body,
     sourceRecordIds: [...new Set(sources)],
-    profileBasis: profile.basis,
+    profileBasis:
+      purpose === "ratification"
+        ? actualSeats!.basis === "researched"
+          ? "sourced"
+          : "game-profile"
+        : profile!.basis,
   };
 }
 
@@ -415,13 +541,27 @@ function constitutionalVoteContext(
     (row) => row.id === input.constitutionalMeasureId,
   );
   const stateProposal = measure?.processKind === "state-amendment";
-  const body = stateProposal
-    ? stateConstitutionalBody(
+  const ratification = input.purpose === "ratification";
+  const ratificationPack = ratification
+    ? legislativePackForJurisdiction(input.ratificationJurisdictionId)
+    : null;
+  const ratificationRoster = ratification
+    ? stateConstitutionalRoster(
         world,
-        input.constitutionalMeasureId,
+        input.ratificationJurisdictionId,
         input.bodyKey,
-      ).seated.body
-    : seatedCongressChamber(world, input.bodyKey)?.body;
+        "ratification",
+      )
+    : null;
+  const body = ratification
+    ? ratificationRoster?.seated.body
+    : stateProposal
+      ? stateConstitutionalBody(
+          world,
+          input.constitutionalMeasureId,
+          input.bodyKey,
+        ).seated.body
+      : seatedCongressChamber(world, input.bodyKey)?.body;
   const members = new Map(
     body?.members.map((member) => [member.memberKey, member.personId]),
   );
@@ -434,13 +574,21 @@ function constitutionalVoteContext(
       cutoff.historySequenceExclusive,
     ) ||
     (measure.processKind !== "federal-amendment" && !stateProposal) ||
-    measure.proposedBy === "convention" ||
-    measure.proposalRule === null ||
-    input.purpose !== "proposal" ||
-    (!stateProposal &&
+    (!ratification && measure.proposedBy === "convention") ||
+    (!ratification && measure.proposalRule === null) ||
+    (ratification &&
+      (measure.processKind !== "federal-amendment" ||
+        measure.ratificationMode !== "state-legislatures" ||
+        constitutionalPosition(world, measure.id).phase !== "ratification" ||
+        !ratificationPack ||
+        !ARTICLE_V_STATE_KEYS.includes(ratificationPack.jurisdictionKey) ||
+        !ratificationRoster)) ||
+    (!ratification &&
+      !stateProposal &&
       input.bodyKey !== "house" &&
       input.bodyKey !== "senate") ||
-    (stateProposal && input.members.length !== body?.members.length) ||
+    ((stateProposal || ratification) &&
+      input.members.length !== body?.members.length) ||
     !body ||
     new Set(input.members.map((member) => member.memberKey)).size !==
       input.members.length ||
@@ -451,14 +599,18 @@ function constitutionalVoteContext(
     )
   )
     throw new Error(
-      stateProposal
-        ? "A constitutional chamber vote requires its actual dated state proposal, body and seated members."
-        : "A constitutional chamber vote requires its actual dated congressional proposal, body and seated members.",
+      ratification
+        ? "A constitutional ratification vote requires its actual federal proposal in ratification, dated state body and seated members."
+        : stateProposal
+          ? "A constitutional chamber vote requires its actual dated state proposal, body and seated members."
+          : "A constitutional chamber vote requires its actual dated congressional proposal, body and seated members.",
     );
   return {
     subject: {
       kind: "context:constitutional-amendment",
-      key: `${measure.stableKey}:${input.bodyKey}:${input.purpose}`,
+      key: ratification
+        ? `${measure.stableKey}:${input.ratificationJurisdictionId}:${input.bodyKey}:ratification`
+        : `${measure.stableKey}:${input.bodyKey}:${input.purpose}`,
       entityId: null,
     },
     committee: null,
@@ -476,6 +628,241 @@ function nominationVoteContext(
   const event = world.history.events.find(
     (row) => row.id === input.nominationEventId,
   );
+  if (input.nominationKind === "clemency-board") {
+    const traceTag = event?.tags.find((tag) =>
+      tag.startsWith("appointment-decision:"),
+    );
+    const traceId = traceTag?.slice("appointment-decision:".length);
+    const trace = world.history.decisionTraces.find(
+      (row) => row.id === traceId,
+    );
+    if (
+      !event ||
+      event.recordedAt > world.currentDate ||
+      event.occurredAt > world.currentDate ||
+      event.type !== "justice.clemency-board-nominated" ||
+      event.jurisdictionId !== input.jurisdictionId ||
+      !world.jurisdictions[input.jurisdictionId] ||
+      !world.people[input.appointerId] ||
+      !world.people[input.nomineeId] ||
+      !Number.isInteger(input.seatOrdinal) ||
+      input.seatOrdinal < 1 ||
+      input.officeKey !== `${input.boardKey}:seat:${input.seatOrdinal}` ||
+      !event.tags.includes(`board-key:${input.boardKey}`) ||
+      !event.tags.includes(`seat:${input.seatOrdinal}`) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:appointer" && row.personId === input.appointerId,
+      ) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:nominee" && row.personId === input.nomineeId,
+      ) ||
+      !trace ||
+      trace.sequence >= event.sequence ||
+      trace.recordedAt > event.recordedAt ||
+      trace.context.actorPersonId !== input.appointerId ||
+      trace.selectedOptionKey !== `person:${input.nomineeId}`
+    )
+      throw new Error(
+        "A board confirmation requires its actual dated nomination, appointer decision, nominee, jurisdiction and seat.",
+      );
+    return {
+      subject: {
+        kind: "context:clemency-board-nomination",
+        key: event.stableKey,
+        entityId: event.id,
+      },
+      committee: null,
+      memberInputs: (member) => ({
+        views: input.considerationsByMember.get(member.memberKey) ?? [],
+        cues: [],
+      }),
+    };
+  }
+  if (input.nominationKind === "executive-appointment") {
+    const vacancy = world.history.events.find(
+      (row) => row.id === input.vacancyEventId,
+    );
+    const incumbentTerm = world.history.events.find(
+      (row) => row.id === input.incumbentTermEventId,
+    );
+    const trace = world.history.decisionTraces.find(
+      (row) => row.id === input.appointmentDecisionTraceId,
+    );
+    const sourceTag = event?.tags.find((tag) =>
+      tag.startsWith("source-event:"),
+    );
+    const decisionId = sourceTag?.slice("source-event:".length);
+    const decision = world.history.events.find((row) => row.id === decisionId);
+    const vacancyCauseTag = vacancy?.tags.find((tag) =>
+      tag.startsWith("vacancy-cause:"),
+    );
+    const vacancyCause = vacancyCauseTag?.slice("vacancy-cause:".length);
+    const vacancySourceTag = vacancy?.tags.find((tag) =>
+      tag.startsWith("source-event:"),
+    );
+    const vacancySourceId = vacancySourceTag?.slice("source-event:".length);
+    const vacancySource = world.history.events.find(
+      (row) => row.id === vacancySourceId,
+    );
+    const incumbentPersonId = incumbentTerm?.participants.find(
+      (row) => row.role === "focus:subject",
+    )?.personId;
+    const incumbentTermEnd = incumbentTerm?.tags
+      .find((tag) => tag.startsWith("term-end:"))
+      ?.slice("term-end:".length);
+    const latestSeatRecord = world.history.events
+      .filter(
+        (row) =>
+          (row.type === "world.office-tenure" ||
+            row.type === FEDERAL_VACANCY_EVENT) &&
+          row.tags.includes(`appointment-post:${input.postOfficeKey}`) &&
+          row.tags.includes(`appointment-seat:${input.seatOrdinal}`) &&
+          row.occurredAt <= (event?.occurredAt ?? world.currentDate) &&
+          row.recordedAt <= (event?.recordedAt ?? world.currentDate),
+      )
+      .reduce<(typeof world.history.events)[number] | null>(
+        (latest, row) =>
+          !latest || row.sequence > latest.sequence ? row : latest,
+        null,
+      );
+    const matterTag = event?.tags.find((tag) =>
+      tag.startsWith("appointment-matter:"),
+    );
+    const matterId = matterTag?.slice("appointment-matter:".length);
+    const matter = world.history.events.find((row) => row.id === matterId);
+    if (
+      !event ||
+      event.visibility !== "public" ||
+      event.recordedAt > world.currentDate ||
+      event.occurredAt > world.currentDate ||
+      event.type !== "executive.appointment-nominated" ||
+      event.jurisdictionId !== input.jurisdictionId ||
+      !world.jurisdictions[input.jurisdictionId] ||
+      !world.people[input.appointerId] ||
+      !world.people[input.nomineeId] ||
+      !Number.isInteger(input.seatOrdinal) ||
+      input.seatOrdinal < 1 ||
+      input.officeKey !== input.postOfficeKey ||
+      !event.tags.includes(`appointment-post:${input.postOfficeKey}`) ||
+      !event.tags.includes(`appointment-seat:${input.seatOrdinal}`) ||
+      !event.tags.includes(`appointment-vacancy:${input.vacancyEventId}`) ||
+      !event.tags.includes(`appointment-term:${input.incumbentTermEventId}`) ||
+      !event.tags.includes(
+        `appointment-decision:${input.appointmentDecisionTraceId}`,
+      ) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:appointer" && row.personId === input.appointerId,
+      ) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:nominee" && row.personId === input.nomineeId,
+      ) ||
+      !vacancy ||
+      vacancy.type !== FEDERAL_VACANCY_EVENT ||
+      vacancy.sequence >= event.sequence ||
+      vacancy.recordedAt > event.recordedAt ||
+      vacancy.occurredAt > event.occurredAt ||
+      !vacancy.tags.includes(
+        `office:${input.postOfficeKey}:seat:${input.seatOrdinal}`,
+      ) ||
+      !vacancy.tags.includes(`appointment-post:${input.postOfficeKey}`) ||
+      !vacancy.tags.includes(`appointment-seat:${input.seatOrdinal}`) ||
+      !vacancy.tags.includes(
+        `appointment-term:${input.incumbentTermEventId}`,
+      ) ||
+      latestSeatRecord?.id !== vacancy.id ||
+      !["term-expired", "death", "resignation"].includes(vacancyCause ?? "") ||
+      !incumbentTerm ||
+      incumbentTerm.type !== "world.office-tenure" ||
+      incumbentTerm.sequence >= vacancy.sequence ||
+      incumbentTerm.recordedAt > vacancy.recordedAt ||
+      incumbentTerm.occurredAt > vacancy.occurredAt ||
+      !incumbentTerm.tags.includes(`appointment-post:${input.postOfficeKey}`) ||
+      !incumbentTerm.tags.includes(`appointment-seat:${input.seatOrdinal}`) ||
+      !incumbentTerm.participants.some(
+        (row) =>
+          row.role === "focus:subject" &&
+          vacancy.involvedEntityIds.includes(row.personId),
+      ) ||
+      !vacancySource ||
+      vacancySource.sequence >= vacancy.sequence ||
+      vacancySource.recordedAt > vacancy.recordedAt ||
+      vacancySource.occurredAt > vacancy.occurredAt ||
+      !incumbentPersonId ||
+      (vacancyCause === "term-expired" &&
+        (vacancySource.id !== incumbentTerm.id ||
+          !incumbentTermEnd ||
+          incumbentTermEnd > vacancy.occurredAt)) ||
+      (vacancyCause === "death" &&
+        !world.history.personDeaths.some(
+          (death) =>
+            death.personId === incumbentPersonId &&
+            death.eventId === vacancySource.id &&
+            death.diedAt <= vacancy.occurredAt,
+        )) ||
+      (vacancyCause === "resignation" &&
+        (vacancySource.type !== "world.office-resignation" ||
+          !vacancySource.tags.includes(
+            `appointment-term:${input.incumbentTermEventId}`,
+          ) ||
+          !vacancySource.participants.some(
+            (row) =>
+              row.personId === incumbentPersonId && row.role === "focus:actor",
+          ))) ||
+      !decision ||
+      decision.type !== "governing.matter-decided" ||
+      decision.sequence >= event.sequence ||
+      decision.recordedAt > event.recordedAt ||
+      !matter ||
+      !decision.tags.includes(`matter:${matter.id}`) ||
+      !decision.tags.includes(`choice:person:${input.nomineeId}`) ||
+      matter.sequence >= decision.sequence ||
+      matter.recordedAt > decision.recordedAt ||
+      matter.occurredAt > decision.occurredAt ||
+      !decision.participants.some(
+        (row) =>
+          row.role === "agency:decider" && row.personId === input.appointerId,
+      ) ||
+      !trace ||
+      trace.id !== input.appointmentDecisionTraceId ||
+      trace.stableKey !== `appointments-v1:${matter.stableKey}:choose:trace` ||
+      trace.context.decisionType !== "appointment.choose-appointee" ||
+      trace.context.actorPersonId !== input.appointerId ||
+      trace.context.subject.key !== input.postOfficeKey ||
+      trace.sequence >= event.sequence ||
+      trace.sequence >= decision.sequence ||
+      trace.recordedAt > event.recordedAt ||
+      trace.recordedAt > decision.recordedAt ||
+      !world.people[trace.context.actorPersonId] ||
+      trace.selectedOptionKey !== `person:${input.nomineeId}` ||
+      !trace.sourceSnapshots.some(
+        (snapshot) =>
+          snapshot.reference.kind === "historical-event" &&
+          snapshot.reference.eventId === matter.id,
+      ) ||
+      matter.type !== "governing.matter-opened" ||
+      matter.sequence >= event.sequence ||
+      matter.recordedAt > event.recordedAt
+    )
+      throw new Error(
+        "An executive confirmation requires its actual dated nomination, appointer decision, named post and seat, and causal vacancy from a recorded incumbent term.",
+      );
+    return {
+      subject: {
+        kind: "context:executive-appointment-nomination",
+        key: event.stableKey,
+        entityId: event.id,
+      },
+      committee: null,
+      memberInputs: (member) => ({
+        views: input.considerationsByMember.get(member.memberKey) ?? [],
+        cues: [],
+      }),
+    };
+  }
   const chief = input.officeKey === "us-chief-justice";
   if (
     !event ||
@@ -529,15 +916,20 @@ function billVoteContext(
   input: ChamberBillVoteInput,
 ): ChamberVoteContext {
   const measure = requireMeasure(world, input.question.question.measureId);
-  // A Congress bill's backers may sit in the other House, and a member of
-  // Congress holds their party on the seat roll rather than as a
-  // participation record, so both Houses are read.
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  // A pack can supply party cues from its entire saved institution. Supplied
+  // members retain precedence; older packs still read only the voting body.
   const known = [
     ...input.members,
-    ...(measure.rulePackId === US_CONGRESS_PACK_ID
-      ? ["house", "senate"].flatMap(
+    ...(pack.seatRollSource?.partyCueScope === "institution"
+      ? pack.chamberOrder.flatMap(
           (chamberKey) =>
-            seatedCongressChamber(world, chamberKey)?.body.members ?? [],
+            seatedChamberForPack(
+              world,
+              pack.packId,
+              chamberKey,
+              chamberByKey(pack, chamberKey).name,
+            )?.body.members ?? [],
         )
       : []),
   ];
@@ -586,8 +978,11 @@ function billVoteContext(
   // against their own principles, and the day the government's offices
   // close without one (`budget-stakes.ts`; CTO ruling, September 29,
   // 9:45 a.m.: "a budget can't pass").
+  // A county board's budget levy (CO-5) is the county's budget bill: the
+  // measure carries the tax terms, and the hearing record names it.
   const budget =
-    measure.subjectClass === "appropriation" &&
+    (measure.subjectClass === "appropriation" ||
+      isCountyBudgetMeasure(world, measure.id)) &&
     input.question.question.purpose !== "amendment";
   const contested =
     input.contested ??
@@ -640,6 +1035,10 @@ function billVoteContext(
         cueParties,
         contested,
         input.nonpartisan ?? false,
+        input.question.proceduralMotion === "table" ||
+          input.question.proceduralMotion === "postpone" ||
+          input.question.proceduralMotion === "recommit" ||
+          input.question.proceduralMotion === "sine-die",
       );
       // A member's own view is worked out only when it is needed: when the
       // member decides, or when an undecided member who trusts them asks how
@@ -648,13 +1047,18 @@ function billVoteContext(
       let views: readonly DecisionConsideration[] | undefined;
       const viewsOf = (): readonly DecisionConsideration[] =>
         (views ??= [
-          ...memberVoteConsiderations(world, {
-            stableKey: `${input.stableKey}:${member.memberKey}`,
+          ...(input.leaderStrainByMember?.get(personId) ?? []),
+          ...weighRecordedPolicyBeliefs(
+            world,
             personId,
-            question: input.question,
-          }).filter(
-            (consideration) =>
-              consideration.stableKey !== "member:nothing-decisive",
+            memberVoteConsiderations(world, {
+              stableKey: `${input.stableKey}:${member.memberKey}`,
+              personId,
+              question: input.question,
+            }).filter(
+              (consideration) =>
+                consideration.stableKey !== "member:nothing-decisive",
+            ),
           ),
           // GAME ASSUMPTION (Build 25): a member's principles are what they are
           // known to stand for, so a colleague predicting the vote reads them;
@@ -693,6 +1097,7 @@ function billVoteContext(
 export function decideChamberVote(
   world: World,
   input: ChamberVoteInput,
+  options: ChamberVoteOptions = {},
 ): readonly LegislativeVoteDisposition[] {
   const cutoff = currentHistoricalCutoff(world);
   const context =
@@ -746,9 +1151,14 @@ export function decideChamberVote(
   // A member with a view of their own decides from it and the cues, decided
   // once and only when asked for: a named few (`only`) decide exactly as in a
   // full count without every other member's ballot being worked out.
-  const byView = new Map<SeatedMember, LegislativeVoteDisposition>();
+  const byView = new Map<SeatedMember, ChamberVoteMemberEvaluation>();
   const decideByView = (row: (typeof first)[number]) => {
-    if (row.settled) return row.settled;
+    if (row.settled)
+      return {
+        disposition: row.settled,
+        evaluation: null,
+        sourceRefs: [],
+      } satisfies ChamberVoteMemberEvaluation;
     if (!row.views || row.views.length === 0) return null;
     let settled = byView.get(row.member);
     if (!settled) {
@@ -792,33 +1202,42 @@ export function decideChamberVote(
     if (row.member.personId === null || !colleagues.has(row.member.personId))
       continue;
     if (!hasViews(row)) continue;
-    const disposition = decideByView(row)?.disposition;
+    const disposition = decideByView(row)?.disposition.disposition;
     if (disposition === "yea" || disposition === "nay")
       decidedByView.set(row.member.personId, disposition);
   }
   return deciding.map((row) => {
     const settled = decideByView(row);
-    if (settled) return settled;
-    const personId = row.member.personId!;
-    return decideMember(row.member, [
-      ...(row.cues ?? []),
-      ...(committee ? [committee] : []),
-      ...trustedColleagueCues(trusted.get(personId), decidedByView),
-    ]);
+    const decision =
+      settled ??
+      (() => {
+        const personId = row.member.personId!;
+        return decideMember(row.member, [
+          ...(row.cues ?? []),
+          ...(committee ? [committee] : []),
+          ...trustedColleagueCues(trusted.get(personId), decidedByView),
+        ]);
+      })();
+    options.onMemberEvaluation?.(decision);
+    return decision.disposition;
   });
 
   function decideMember(
     member: SeatedMember,
     considerations: readonly DecisionConsideration[],
-  ): LegislativeVoteDisposition {
+  ): ChamberVoteMemberEvaluation {
     if (considerations.length === 0)
       return {
-        memberKey: member.memberKey,
-        personId: member.personId,
-        disposition: "present-not-voting",
-        reason: "member:no-reason",
+        disposition: {
+          memberKey: member.memberKey,
+          personId: member.personId,
+          disposition: "present-not-voting",
+          reason: "member:no-reason",
+        },
+        evaluation: null,
+        sourceRefs: [],
       };
-    const evaluation = evaluateDecision(world, {
+    const { evaluation, disposition } = decideMemberVote(world, {
       stableKey: `${input.stableKey}:${member.memberKey}:decision`,
       decisionType: "legislation.member-vote",
       actorPersonId: member.personId!,
@@ -831,34 +1250,554 @@ export function decideChamberVote(
       randomness: "none",
       retention: "ephemeral",
     });
+    input.onDecision?.(evaluation);
     const selected = evaluation.selectedOptionKey ?? "withhold";
-    const decisive = considerations
+    const decisive = evaluation.context.considerations
       .filter((consideration) => consideration.optionKey === selected)
       .sort(
         (l, r) =>
           Math.abs(considerationScore(r)) - Math.abs(considerationScore(l)),
       )[0];
     return {
-      memberKey: member.memberKey,
-      personId: member.personId,
-      disposition:
-        selected === "vote-yea"
-          ? "yea"
-          : selected === "vote-nay"
-            ? "nay"
-            : "present-not-voting",
-      reason: decisive
-        ? decisive.sourceType === "belief:formed-position" &&
-          decisive.sourceRefs[0]?.kind === "private-belief"
-          ? `member:private-belief:${decisive.sourceRefs[0].beliefId}`
-          : KEPT_REASON_PREFIXES.some((prefix) =>
-                decisive.stableKey.startsWith(prefix),
-              )
-            ? decisive.stableKey
-            : decisive.stableKey.split(":").slice(0, 2).join(":")
-        : "member:no-reason",
+      disposition: {
+        memberKey: member.memberKey,
+        personId: member.personId,
+        disposition,
+        reason: decisive
+          ? decisive.sourceType === "belief:formed-position" &&
+            decisive.sourceRefs[0]?.kind === "private-belief"
+            ? `member:private-belief:${decisive.sourceRefs[0].beliefId}`
+            : KEPT_REASON_PREFIXES.some((prefix) =>
+                  decisive.stableKey.startsWith(prefix),
+                )
+              ? decisive.stableKey
+              : decisive.stableKey.split(":").slice(0, 2).join(":")
+          : "member:no-reason",
+      },
+      evaluation,
+      sourceRefs: evaluation.sourceSnapshots.map(
+        (snapshot) => snapshot.reference,
+      ),
     };
   }
+}
+
+const MEMBER_BELIEF_IMPORTANCE = [
+  "slight",
+  "moderate",
+  "strong",
+  "decisive",
+] as const;
+
+/**
+ * A member's recorded deliberation changes the weight of their own recorded
+ * policy belief; it never supplies a side to vote for. The low pole (thinks it
+ * through) strengthens that belief by the recorded magnitude, while the high
+ * pole (acts on impulse) weakens it by the same amount. Unrecorded and
+ * balanced traits leave the established vote reasons exactly as they are.
+ */
+function weighRecordedPolicyBeliefs(
+  world: World,
+  personId: EntityId,
+  considerations: readonly DecisionConsideration[],
+): readonly DecisionConsideration[] {
+  const trait = traitRegistryFor(world).traits.get(
+    `${PEOPLE_MIND_VERSION}:deliberation`,
+  );
+  if (!trait) return considerations;
+  const reading = readTrait(world, personId, trait);
+  if (reading.state !== "recorded" || reading.value === 0)
+    return considerations;
+
+  const direction = reading.value < 0 ? 1 : -1;
+  const steps = Math.abs(reading.value);
+  return considerations.map((consideration) => {
+    if (
+      consideration.sourceType !== "belief:formed-position" ||
+      !consideration.sourceRefs.some(
+        (reference) => reference.kind === "private-belief",
+      )
+    )
+      return consideration;
+    const current = MEMBER_BELIEF_IMPORTANCE.indexOf(
+      consideration.importance as (typeof MEMBER_BELIEF_IMPORTANCE)[number],
+    );
+    if (current < 0) return consideration;
+    const next = Math.max(
+      0,
+      Math.min(
+        MEMBER_BELIEF_IMPORTANCE.length - 1,
+        current + direction * steps,
+      ),
+    );
+    if (next === current) return consideration;
+    return {
+      ...consideration,
+      importance: MEMBER_BELIEF_IMPORTANCE[next]!,
+      explanation:
+        consideration.explanation +
+        (direction > 0
+          ? " Their recorded deliberation gives this considered view more weight."
+          : " Their recorded impulsiveness gives this considered view less weight."),
+      sourceRefs: [
+        ...consideration.sourceRefs,
+        { kind: "personality-tendency", tendencyRecordId: reading.recordId },
+      ],
+    };
+  });
+}
+
+export interface DecideProceduralMotionInput {
+  readonly measureId: EntityId;
+  readonly chamberKey: string;
+  readonly stableKey: string;
+  readonly motion: MinorityProcedureMotion;
+  readonly playerPersonId?: EntityId | null;
+  readonly playerBallot?: LegislativeMemberDisposition | null;
+  readonly resumeAt?: IsoDate | null;
+  readonly committeeKey?: string | null;
+  readonly actorLabel: string;
+  readonly rationale: string;
+}
+
+export type FloorHoldReason = Omit<DecisionConsideration, "optionKey"> & {
+  readonly optionKey: "hold-floor" | "release-floor";
+};
+
+export interface DecideFloorHoldInput {
+  readonly measureId: EntityId;
+  readonly chamberKey: string;
+  readonly memberPersonId: EntityId;
+  readonly stableKey: string;
+  readonly actorLabel: string;
+  readonly resumeAt: IsoDate;
+  readonly leadershipRequest?: FloorHoldReason | null;
+  readonly homeOpinion?: FloorHoldReason | null;
+  readonly traitReasons?: readonly FloorHoldReason[];
+}
+
+export interface DecideFloorHoldResult {
+  readonly world: World;
+  readonly evaluation: DecisionEvaluation;
+  readonly held: boolean;
+}
+
+export type QuorumAttendanceReason = Omit<
+  DecisionConsideration,
+  "optionKey"
+> & {
+  readonly optionKey: "stay" | "walk-out";
+};
+
+export interface DecideQuorumAttendanceInput {
+  readonly measureId: EntityId;
+  readonly chamberKey: string;
+  readonly stableKey: string;
+  readonly members: readonly SeatedMember[];
+  readonly playerPersonId?: EntityId | null;
+  readonly playerChoice?: "stay" | "walk-out" | null;
+  readonly leadershipRequests?: ReadonlyMap<EntityId, QuorumAttendanceReason>;
+  readonly homeOpinions?: ReadonlyMap<EntityId, QuorumAttendanceReason>;
+  readonly traitReasons?: ReadonlyMap<
+    EntityId,
+    readonly QuorumAttendanceReason[]
+  >;
+}
+
+export interface QuorumAttendanceDecision {
+  readonly memberKey: string;
+  readonly personId: EntityId | null;
+  readonly attendance: "present" | "walk-out";
+  readonly reason: string;
+}
+
+/** Every seated member decides to attend or walk out using the chamber's data. */
+export function decideQuorumAttendance(
+  world: World,
+  input: DecideQuorumAttendanceInput,
+): readonly QuorumAttendanceDecision[] {
+  const measure = requireMeasure(world, input.measureId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const chamber = chamberByKey(pack, input.chamberKey);
+  const procedure = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (procedure?.quorum.kind !== "known")
+    throw new Error(`The ${chamber.name} has no resolved quorum rule.`);
+  const mayCompelAttendance = procedure.mayCompelAttendance;
+  const absencePenalty = procedure.absencePenalty;
+  if (mayCompelAttendance.kind !== "known" || absencePenalty.kind !== "known")
+    throw new Error(`The ${chamber.name} has no resolved attendance rules.`);
+
+  return input.members.map((member) => {
+    const personId = member.personId;
+    if (!personId)
+      return {
+        memberKey: member.memberKey,
+        personId: null,
+        attendance: "present",
+        reason: "member:unidentified-member-attends",
+      };
+    if (personId === input.playerPersonId) {
+      if (!input.playerChoice)
+        return {
+          memberKey: member.memberKey,
+          personId,
+          attendance: "present",
+          reason: "player:attendance-not-chosen",
+        };
+      return {
+        memberKey: member.memberKey,
+        personId,
+        attendance: input.playerChoice === "walk-out" ? "walk-out" : "present",
+        reason:
+          input.playerChoice === "walk-out"
+            ? "player:chose-to-walk-out"
+            : "player:chose-to-attend",
+      };
+    }
+
+    const ownReasons = memberVoteConsiderations(world, {
+      stableKey: `${input.stableKey}:${member.memberKey}:view`,
+      personId,
+      question: {
+        question: {
+          measureId: measure.id,
+          purpose: "floor-stage",
+          forumKey: input.chamberKey,
+          floorStageKey: measurePosition(world, measure.id).floorStageKey,
+          amendmentStableKey: null,
+          provisionKey: null,
+        },
+        questionLabel: "quorum-attendance",
+      },
+    }).flatMap((reason) => {
+      if (reason.optionKey !== "vote-yea" && reason.optionKey !== "vote-nay")
+        return [];
+      const favorsMeasure = reason.optionKey === "vote-yea";
+      return [
+        {
+          ...reason,
+          stableKey: `member:quorum-attendance:${reason.stableKey}`,
+          optionKey: favorsMeasure ? "stay" : "walk-out",
+          explanation: reason.explanation,
+        },
+      ];
+    });
+    const leaderRequest = input.leadershipRequests?.get(personId);
+    const homeOpinion = input.homeOpinions?.get(personId);
+    const traitReasons = input.traitReasons?.get(personId) ?? [];
+    const attendanceRuleReason: QuorumAttendanceReason | null =
+      mayCompelAttendance.value && absencePenalty.value === "chamber-prescribed"
+        ? {
+            stableKey: "attendance:compel-and-penalty-rule",
+            optionKey: "stay",
+            sourceType: "context:chamber-attendance-rule",
+            direction: "supports",
+            importance: "slight",
+            confidence: "medium",
+            explanation: "trace:chamber-compels-attendance-with-penalty",
+            sourceRefs: [],
+          }
+        : null;
+    const considerations = [
+      ...ownReasons,
+      ...(leaderRequest
+        ? [{ ...leaderRequest, stableKey: `leader:${leaderRequest.stableKey}` }]
+        : []),
+      ...(homeOpinion
+        ? [{ ...homeOpinion, stableKey: `home:${homeOpinion.stableKey}` }]
+        : []),
+      ...traitReasons.map((reason) => ({
+        ...reason,
+        stableKey: `trait:${reason.stableKey}`,
+      })),
+      ...(attendanceRuleReason ? [attendanceRuleReason] : []),
+    ];
+    const evaluation = evaluateDecision(world, {
+      stableKey: `${input.stableKey}:${member.memberKey}:attendance`,
+      decisionType: "legislation.quorum-attendance",
+      actorPersonId: personId,
+      cutoff: currentHistoricalCutoff(world),
+      subject: {
+        kind: "context:legislative-question",
+        key: `${measure.stableKey}:quorum-attendance`,
+        entityId: measure.id,
+      },
+      options: [
+        {
+          key: "stay",
+          label: "stay",
+          description: "stay",
+        },
+        {
+          key: "walk-out",
+          label: "walk-out",
+          description: "walk-out",
+        },
+      ],
+      constraints: [],
+      considerations,
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    const attendance =
+      evaluation.selectedOptionKey === "walk-out" ? "walk-out" : "present";
+    const decisive = considerations.find(
+      (reason) => reason.optionKey === evaluation.selectedOptionKey,
+    );
+    return {
+      memberKey: member.memberKey,
+      personId,
+      attendance,
+      reason: decisive?.stableKey ?? "member:no-attendance-reason",
+    };
+  });
+}
+
+/** Apply attendance choices to the chamber's otherwise-decided roll call. */
+export function applyQuorumAttendanceToBallots(
+  ballots: readonly LegislativeVoteDisposition[],
+  attendance: readonly QuorumAttendanceDecision[],
+): readonly LegislativeVoteDisposition[] {
+  const byMember = new Map(
+    attendance.map((decision) => [decision.memberKey, decision]),
+  );
+  return ballots.map((ballot) => {
+    const decision = byMember.get(ballot.memberKey);
+    return decision?.attendance === "walk-out"
+      ? { ...ballot, disposition: "absent", reason: decision.reason }
+      : ballot;
+  });
+}
+
+/** Decide whether an individual member holds a floor under the body's rules. */
+export function decideFloorHold(
+  world: World,
+  input: DecideFloorHoldInput,
+): DecideFloorHoldResult {
+  const measure = requireMeasure(world, input.measureId);
+  const position = measurePosition(world, measure.id);
+  if (position.phase !== "on-floor" || position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A floor hold must concern a measure currently on this floor.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const procedure = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    procedure?.unlimitedDebate.kind !== "known" ||
+    !procedure.unlimitedDebate.value ||
+    procedure.clotureBar.kind !== "known"
+  )
+    throw new Error("This chamber has no recorded unlimited-debate rule.");
+  const member = seatedChamberForPack(
+    world,
+    pack.packId,
+    input.chamberKey,
+    chamberByKey(pack, input.chamberKey).name,
+  )?.body.members.find(
+    (candidate) => candidate.personId === input.memberPersonId,
+  );
+  if (!member)
+    throw new Error("A floor hold needs a recorded member of this chamber.");
+  const ownReasons = memberVoteConsiderations(world, {
+    stableKey: `${input.stableKey}:own-view`,
+    personId: input.memberPersonId,
+    question: {
+      question: {
+        measureId: measure.id,
+        purpose: "floor-stage",
+        forumKey: input.chamberKey,
+        floorStageKey: position.floorStageKey,
+        amendmentStableKey: null,
+        provisionKey: null,
+      },
+      questionLabel: "debate-extended",
+    },
+  }).flatMap((reason) => {
+    if (reason.optionKey !== "vote-yea" && reason.optionKey !== "vote-nay")
+      return [];
+    const supportsMeasure = reason.optionKey === "vote-yea";
+    return [
+      {
+        ...reason,
+        stableKey: `member:floor-hold:${reason.stableKey}`,
+        optionKey: supportsMeasure ? "release-floor" : "hold-floor",
+        explanation: reason.explanation,
+      },
+    ];
+  });
+  const leadershipRequest = input.leadershipRequest
+    ? [
+        {
+          ...input.leadershipRequest,
+          stableKey: `leadership:${input.leadershipRequest.stableKey}`,
+        },
+      ]
+    : [];
+  const homeOpinion = input.homeOpinion
+    ? [
+        {
+          ...input.homeOpinion,
+          stableKey: `home:${input.homeOpinion.stableKey}`,
+        },
+      ]
+    : [];
+  const traitReasons = (input.traitReasons ?? []).map((reason) => ({
+    ...reason,
+    stableKey: `trait:${reason.stableKey}`,
+  }));
+  const evaluation = evaluateDecision(world, {
+    stableKey: `${input.stableKey}:decision`,
+    decisionType: "legislation.floor-hold",
+    actorPersonId: input.memberPersonId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:legislative-question",
+      key: `${measure.stableKey}:floor-hold`,
+      entityId: measure.id,
+    },
+    options: [
+      {
+        key: "hold-floor",
+        label: "hold-floor",
+        description: "hold-floor",
+      },
+      {
+        key: "release-floor",
+        label: "release-floor",
+        description: "release-floor",
+      },
+    ],
+    constraints: [],
+    considerations: [
+      ...ownReasons,
+      ...leadershipRequest,
+      ...homeOpinion,
+      ...traitReasons,
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  const held = evaluation.selectedOptionKey === "hold-floor";
+  return {
+    world: held
+      ? recordDebateExtension(world, {
+          measureId: measure.id,
+          stableKey: input.stableKey,
+          chamberKey: input.chamberKey,
+          memberPersonId: input.memberPersonId,
+          actorLabel: input.actorLabel,
+          rationale:
+            evaluation.context.considerations.find(
+              (reason) => reason.optionKey === "hold-floor",
+            )?.explanation ?? "hold-floor",
+          resumeAt: input.resumeAt,
+        })
+      : world,
+    evaluation,
+    held,
+  };
+}
+
+/** Have the seated members decide a permitted motion and append its roll call. */
+export function decideProceduralMotion(
+  world: World,
+  input: DecideProceduralMotionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const position = measurePosition(world, measure.id);
+  if (position.phase !== "on-floor" || position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A procedural motion must be taken in the measure's current floor chamber.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const chamber = chamberByKey(pack, input.chamberKey);
+  const procedure = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    !procedure ||
+    procedure.motions.kind !== "known" ||
+    !procedure.motions.value.includes(input.motion)
+  )
+    throw new Error(
+      `The ${input.motion} motion is not available in this chamber.`,
+    );
+  const thresholdRule =
+    input.motion === "suspend-rules"
+      ? procedure.suspendRulesBar
+      : procedure.motionBar;
+  if (thresholdRule.kind !== "known")
+    throw new Error(
+      `The ${chamber.name} has no resolved procedural motion threshold.`,
+    );
+  const seated = seatedChamberForPack(
+    world,
+    pack.packId,
+    chamber.chamberKey,
+    chamber.name,
+  );
+  if (!seated)
+    throw new Error(
+      `The ${chamber.name} has no recorded members for this vote.`,
+    );
+  const dispositions = decideChamberVote(world, {
+    stableKey: input.stableKey,
+    members: seated.body.members,
+    playerPersonId: input.playerPersonId,
+    playerBallot: input.playerBallot,
+    question: {
+      question: {
+        measureId: measure.id,
+        purpose: "procedural-motion",
+        forumKey: input.chamberKey,
+        floorStageKey: position.floorStageKey,
+        amendmentStableKey: null,
+        provisionKey: null,
+      },
+      questionLabel: input.motion,
+      proceduralMotion: input.motion,
+    },
+    contested: true,
+  });
+  const presentMembers = dispositions.filter(
+    (row) =>
+      row.disposition === "yea" ||
+      row.disposition === "nay" ||
+      row.disposition === "present-not-voting",
+  ).length;
+  const vote = buildLegislativeVoteRecord(world, {
+    stableKey: `${input.stableKey}:vote`,
+    measureId: measure.id,
+    forum: { kind: "chamber", chamberKey: input.chamberKey },
+    purpose: "procedural-motion",
+    floorStageKey: position.floorStageKey,
+    threshold: thresholdRule.value,
+    eligibleMembers: seated.seats,
+    presentMembers,
+    dispositions,
+    provenance: {
+      method: "member-decisions",
+      note: "trace:procedural-motion-member-decisions",
+      sourceEntityIds: [measure.id],
+    },
+  });
+  return recordProceduralMotion(world, {
+    measureId: measure.id,
+    stableKey: input.stableKey,
+    chamberKey: input.chamberKey,
+    motion: input.motion,
+    vote,
+    actorLabel: input.actorLabel,
+    rationale: input.rationale,
+    resumeAt: input.resumeAt,
+    committeeKey: input.committeeKey,
+  });
 }
 
 /** A member's own bill, or one they put their name on: a view, not a cue. */
@@ -1030,12 +1969,13 @@ function partyCue(
   sponsorParties: ReadonlySet<string>,
   contested: boolean,
   nonpartisan: boolean,
+  invertForDelay: boolean,
 ): readonly DecisionConsideration[] {
   if (sponsorPersonId === personId)
     return [
       {
         stableKey: "member:own-bill",
-        optionKey: "vote-yea",
+        optionKey: invertForDelay ? "vote-nay" : "vote-yea",
         sourceType: "context:own-bill",
         direction: "supports",
         importance: "strong",
@@ -1048,7 +1988,7 @@ function partyCue(
     return [
       {
         stableKey: "member:cosponsor",
-        optionKey: "vote-yea",
+        optionKey: invertForDelay ? "vote-nay" : "vote-yea",
         sourceType: "context:own-bill",
         direction: "supports",
         importance: "strong",
@@ -1068,10 +2008,12 @@ function partyCue(
   // default (CTO ruling, September 29, 12:54 a.m.): with no view of their
   // own, they take the other cues (`decideChamberVote`).
   if (!same && !contested) return [];
+  const supportsMeasure = same;
+  const supportsMotion = invertForDelay ? !supportsMeasure : supportsMeasure;
   return [
     {
       stableKey: same ? "member:party-cue:same" : "member:party-cue:other",
-      optionKey: same ? "vote-yea" : "vote-nay",
+      optionKey: supportsMotion ? "vote-yea" : "vote-nay",
       sourceType: "context:sponsor-party",
       direction: "supports",
       importance: same ? "moderate" : "slight",

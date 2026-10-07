@@ -1,4 +1,4 @@
-import { createCausalMechanismCatalog } from "./causal-effects";
+import { createCausalMechanismCatalog } from "./effect-records";
 import { createIncidentCatalog } from "./incident-catalog";
 import { installedTraitPacks } from "./installed-trait-packs";
 import type { WorldContentPacks } from "./runtime-content-packs";

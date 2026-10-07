@@ -118,6 +118,9 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
     depth: setup.depth,
     startingLife: setup.startingLife,
     household: setup.household,
+    ...(setup.familyShape === undefined
+      ? {}
+      : { familyShape: setup.familyShape }),
     // Absent and blank are the same choice — "generate one" — and must encode
     // identically, or the same game would get two identities.
     givenName: setup.givenName?.trim() || null,
@@ -232,8 +235,7 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
     // The player's own fact about the other parent travels with the replay
-    // but stays out of the world half: the world's identity decides whether
-    // the question is asked, so it cannot depend on the answer.
+    // but stays out of the world half, preserving earlier replay identities.
     ...(setup.otherParent === undefined
       ? {}
       : { otherParent: setup.otherParent }),
@@ -345,6 +347,10 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       record.otherParent !== "living" &&
       record.otherParent !== "nonresident" &&
       record.otherParent !== "deceased") ||
+    (record.familyShape !== undefined &&
+      record.familyShape !== "one-parent" &&
+      record.familyShape !== "two-parents" &&
+      record.familyShape !== "guardian") ||
     (record.givenName !== null && typeof record.givenName !== "string") ||
     (record.familyName !== null && typeof record.familyName !== "string")
   ) {
@@ -529,6 +535,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     depth: record.depth,
     startingLife: record.startingLife,
     household: record.household,
+    ...(record.familyShape === undefined
+      ? {}
+      : { familyShape: record.familyShape as NewGameSetup["familyShape"] }),
     ...(record.otherParent === undefined
       ? {}
       : { otherParent: record.otherParent as NewGameOtherParent }),

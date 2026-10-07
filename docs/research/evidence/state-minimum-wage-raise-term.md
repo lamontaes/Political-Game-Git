@@ -13,4 +13,4 @@ A stretch is consecutive years in which a state's rate rose $0.50 or more. Cost-
 
 Source: U.S. Department of Labor, Wage and Hour Division, [Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024](https://www.dol.gov/agencies/whd/state/minimum-wage/history), fetched September 29, 2026.
 
-The figures live in `data/research/labor/state-minimum-wage-raise-term.json`.
+The figures live in `docs/research/retired/labor/state-minimum-wage-raise-term.json`.

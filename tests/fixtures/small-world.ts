@@ -32,6 +32,10 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../../src/simulation/world-setup
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import { createWorld } from "../../src/simulation/world";
 import { makeIsoDate } from "../../src/simulation/dates";
+import {
+  createHousehold,
+  startHouseholdMembership,
+} from "../../src/simulation/life";
 import type { EntityId, World } from "../../src/simulation/types";
 
 /**
@@ -55,6 +59,8 @@ export interface SmallWorldOptions {
   readonly date?: string;
   /** Residents to generate: default 4, at least 3 (the scenario builder seats a household). The first is the controlled person. */
   readonly people?: number;
+  /** Put the generated residents in one primary household through the existing writers. */
+  readonly household?: boolean;
   readonly offices?: readonly SmallWorldOffice[];
   /**
    * Policy questions the case needs, by stable key; each resolves to its
@@ -139,6 +145,31 @@ export function smallWorld(options: SmallWorldOptions): SmallWorld {
   const personId = world.personOrder[0];
   if (!personId) throw new Error("The small world produced no residents.");
   world = { ...world, control: { kind: "person", personId } };
+
+  if (options.household) {
+    const provenance = {
+      kind: "authored" as const,
+      note: "Controlled small-world household.",
+    };
+    world = createHousehold(world, {
+      stableKey: "test:small-world:household",
+      formedAt: world.currentDate,
+      label: "Test household",
+      provenance,
+    });
+    const householdId = world.history.households.at(-1)!.id;
+    for (const residentId of world.personOrder) {
+      world = startHouseholdMembership(world, {
+        stableKey: `test:small-world:household:${residentId}`,
+        personId: residentId,
+        householdId,
+        startedAt: world.currentDate,
+        residenceRole: "primary",
+        kind: "resident:member",
+        provenance,
+      });
+    }
+  }
 
   const offices = new Set(options.offices ?? []);
   const conditioned = (at: World) =>

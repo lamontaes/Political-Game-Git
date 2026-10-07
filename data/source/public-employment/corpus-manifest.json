@@ -7,9 +7,9 @@
   },
   "corpusId": "public-employment",
   "coverage": {
-    "boundedSampleReason": "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. Annual survey sample, not census universe. Reported/imputed flags retained; FTE unavailable. Census has not reviewed individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See locked publisher disclaimer.",
+    "boundedSampleReason": "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. This is an annual survey sample rather than the census universe. Reported/imputed flags are retained; FTE is unavailable. The publisher has not validated individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See the locked publisher disclaimer.",
     "isCompleteUniverse": false,
-    "universeDescription": "2025 ASPEP individual-government sample observations; Census Bureau source data, not a reviewed individual-unit time series."
+    "universeDescription": "2025 ASPEP individual-government sample observations from Census Bureau source data. The publisher has not validated these as individual-unit time series."
   },
   "inputClass": "production",
   "inputs": [

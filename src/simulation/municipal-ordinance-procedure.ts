@@ -1,3 +1,5 @@
+import { nextSessionCalendarDate } from "./legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 /**
  * A municipal ordinance from introduction to a recorded effective outcome.
  *
@@ -30,15 +32,21 @@ import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
+import { taxPolicyEffectiveDate } from "./tax-policy";
 import { currentMeasureProvisions } from "./legislative-politics";
-import { recordDurableDecisionTrace } from "./decisions";
-import { recordEventKnowledge } from "./records";
-import { ensureOfficeholderPrinciples } from "./governing/officeholder-principles";
+import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import {
-  evaluateGovernorBill,
   BILL_SIGN,
   BILL_RETURN,
+  executiveBillActionWindow,
 } from "./governing/governor-bill-decision";
+import {
+  openMunicipalBillMatter,
+  governingMatters,
+  decideGoverningMatter,
+  governingNpcDecisionHandler,
+  governingDeadlineHandler,
+} from "./governing/state-governing";
 import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import { decideChamberVote } from "./governing/chamber-votes";
 import { memberBallotOn } from "./governing/member-ballots";
@@ -73,6 +81,7 @@ import type { SeatedMember } from "./legislation-scenarios";
 import { personName } from "./people";
 import {
   municipalGovernmentByKey,
+  municipalGovernmentForRulePackId,
   municipalRulePackFor,
   municipalRuleSourceRef,
   municipalVoteThresholdRule,
@@ -85,6 +94,7 @@ import {
   municipalSeats,
 } from "./municipal-public-work";
 import type {
+  DecisionEvaluation,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -241,10 +251,7 @@ export function municipalOrdinanceStatus(
       .sort()
       .at(-1) ?? null;
   const actions = measureActions(world, measureId);
-  const presented = actions
-    .filter((action) => action.kind === "presented-to-executive")
-    .at(-1);
-  const actionWindow = reading.procedure.mayoralActionWindow;
+  const actionWindow = executiveBillActionWindow(world, measure);
   const last = [...actions]
     .reverse()
     .find((action) =>
@@ -271,10 +278,8 @@ export function municipalOrdinanceStatus(
       : null,
     stageLabel: position.phase === "on-floor" ? (stage?.label ?? null) : null,
     executiveActsBy:
-      position.phase === "awaiting-executive" && presented && actionWindow
-        ? actionWindow.dayBasis === "BUSINESS"
-          ? addWeekdays(presented.occurredAt, actionWindow.daysToAct)
-          : addDays(presented.occurredAt, actionWindow.daysToAct)
+      position.phase === "awaiting-executive"
+        ? (actionWindow?.lastActionDate ?? null)
         : null,
     playerIsExecutive:
       world.control.kind === "person" &&
@@ -329,6 +334,7 @@ export function decideOrdinaryCouncilReading(
   governmentKey: string,
   measureId: EntityId,
   ownBallot?: "yea" | "nay" | "present-not-voting" | null,
+  onDecision?: (evaluation: DecisionEvaluation) => void,
 ): readonly LegislativeVoteDisposition[] | null {
   const question = municipalReadingQuestion(world, governmentKey, measureId);
   if (!question || councilSitsOnAuthoredCalendar(governmentKey)) return null;
@@ -350,6 +356,7 @@ export function decideOrdinaryCouncilReading(
       questionLabel: `${measure.designation} council reading`,
     },
     members,
+    ...(onDecision ? { onDecision } : {}),
     playerPersonId: playerId,
     playerBallot:
       ownBallot === undefined
@@ -374,17 +381,29 @@ export function scheduleOrdinaryCouncilReading(
     governmentKey,
     measureId,
   )?.earliestPassageOn;
-  const tomorrow = addDays(world.currentDate, 1);
-  const dueAt = earliest && earliest > tomorrow ? earliest : tomorrow;
+  const calendar =
+    legislativeRulePackForWorld(world, measure.rulePackId).session
+      .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+  const dueAt = nextSessionCalendarDate(
+    calendar,
+    world.currentDate,
+    "reading",
+    {
+      notBefore: earliest ?? undefined,
+    },
+  );
+  const stableKey = `${measure.stableKey}:reading:${question.floorStageKey}:due`;
+  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    return world;
   return scheduleFutureDueItem(world, {
-    stableKey: `${measure.stableKey}:reading:${question.floorStageKey}:due`,
+    stableKey,
     dueAt,
     transitionKey: COUNCIL_READING_DUE,
     entityIds: [measureId],
     jurisdictionId: measure.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `The game's next ${measure.designation} council reading is set for ${dueAt}, respecting the compiled minimum interval.`,
+      note: `${calendar.id}: ${calendar.note} The game's next ${measure.designation} council reading is set for ${dueAt}, respecting the compiled minimum interval.`,
     },
   });
 }
@@ -536,7 +555,26 @@ export function recordCouncilReadingVote(
         },
       },
     );
-    if (result.kind === "blocked") return refuse(world, result.reason);
+    if (result.kind === "blocked") {
+      // The shared writer owns date admission. Present its reading refusal
+      // in the compiled procedure's units (elapsed or whole intervening days).
+      const nextReading = earliestNextReading(
+        world,
+        municipalProcedureReading(government),
+        measure.id,
+      );
+      if (
+        nextReading &&
+        world.currentDate < nextReading.date &&
+        result.reason.includes("the declared reading interval is")
+      )
+        return refuse(
+          world,
+          `The next reading requires ${nextReading.description} between readings and cannot be taken until ${nextReading.date}.`,
+        );
+      return refuse(world, result.reason);
+    }
+    if (result.kind === "ended") return { ok: true, world: result.world };
     if (result.kind !== "applied")
       return refuse(world, "The council has no floor vote to take.");
     next = result.world;
@@ -663,25 +701,6 @@ export const COUNCIL_ACT_OVERRIDE_DEADLINE =
  * no congressional sitting calendar is read. No joint resolution of
  * disapproval is ever enacted in play.
  */
-const CONGRESSIONAL_REVIEW: Readonly<
-  Record<
-    string,
-    {
-      readonly days: number;
-      readonly citation: string;
-      readonly criminalCodeDays: number;
-      readonly criminalCodeCitation: string;
-    }
-  >
-> = {
-  "us-dc-washington": {
-    days: 30,
-    citation: "D.C. Code § 1-206.02(c)(1)",
-    criminalCodeDays: 60,
-    criminalCodeCitation: "D.C. Code § 1-206.02(c)(2)",
-  },
-};
-
 /**
  * Questions whose acts the game treats as codified in Title 22 (criminal
  * offenses), 23 (criminal procedure) or 24 (prisoners and their treatment),
@@ -712,11 +731,6 @@ export function actAmendsCriminalCode(
     return issue !== undefined && CRIMINAL_CODE_ISSUE_KEYS.has(issue.stableKey);
   });
 }
-
-/** Calendar days allowed to reenact a returned act (D.C. Code § 1-204.04(e)). */
-const OVERRIDE_WINDOW_DAYS: Readonly<Record<string, number>> = {
-  "us-dc-washington": 30,
-};
 
 function isWeekend(date: IsoDate): boolean {
   const day = new Date(`${date}T00:00:00Z`).getUTCDay();
@@ -773,11 +787,6 @@ export function municipalExecutiveHolder(
   );
 }
 
-function executiveWindow(governmentKey: string) {
-  const government = municipalGovernmentByKey(governmentKey)!;
-  return municipalProcedureReading(government).procedure.mayoralActionWindow;
-}
-
 /** Enroll, present, or record as law, whichever the pack says comes next. */
 export function completeCouncilPassage(
   world: World,
@@ -826,11 +835,18 @@ export function completeCouncilPassage(
       stableKey: `${measure.stableKey}:enactment`,
       measureId: measure.id,
       actDesignation: measure.designation,
-      // ESTIMATED where the charter's rule is unread
-      // (`ordinance-effective-date.ts`).
-      effectiveAt: effectiveFromPassage
-        ? next.currentDate
-        : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+      // The admitted town profile's executable date is saved by the writer.
+      // Compiled publication rules retain their existing adapter until typed.
+      ...(governmentKey
+        ? {
+            // A filed typed levy states its own delay; the later date rules.
+            effectiveAt:
+              filedTaxEffectiveDate(next, measure.id) ??
+              (effectiveFromPassage
+                ? next.currentDate
+                : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS)),
+          }
+        : {}),
     });
     // Every enactment passes through the one effects step, a council's too.
     return applyEnactedLawEffects(next, measure.id);
@@ -842,30 +858,37 @@ export function completeCouncilPassage(
     measureId: measure.id,
   });
   if (!governmentKey || !government) return next;
-  const actionWindow = executiveWindow(governmentKey);
-  if (!actionWindow) return next;
-  const dueAt =
-    actionWindow.dayBasis === "BUSINESS"
-      ? addWeekdays(next.currentDate, actionWindow.daysToAct)
-      : addDays(next.currentDate, actionWindow.daysToAct);
-  // The executive's desk is looked at on the last day to act. NPC executives
-  // use the shared bill evaluator; the player chooses for themselves. The
-  // pack's rule for silence applies the day after.
-  return scheduleFutureDueItem(next, {
-    stableKey: `${measure.stableKey}:executive-deadline`,
-    dueAt,
-    transitionKey: COUNCIL_ACT_EXECUTIVE_DEADLINE,
-    entityIds: [measure.id],
-    jurisdictionId: measure.jurisdictionId,
-    provenance: {
-      kind: "authored",
-      note: `The ${actionWindow.daysToAct}-${actionWindow.dayBasis === "BUSINESS" ? "weekday" : "day"} period to act on ${measure.designation} closes on ${dueAt}${
-        actionWindow.dayBasis === "BUSINESS"
-          ? "; holidays are not excluded (placeholder pending dc-congressional-review-day-count)"
-          : ""
-      }.`,
-    },
-  });
+  next = openMunicipalBillMatter(next, measure, governmentKey);
+  // A vacancy does not suspend the sourced legal clock. Occupied desks use
+  // the shared matter deadline; this adapter is only for an absent holder.
+  if (governingMatters(next).some((matter) => matter.measureId === measure.id))
+    return next;
+  const window = executiveBillActionWindow(next, measure);
+  return window
+    ? scheduleFutureDueItem(next, {
+        stableKey: `${measure.stableKey}:executive-deadline`,
+        dueAt: window.inactionAt,
+        transitionKey: COUNCIL_ACT_EXECUTIVE_DEADLINE,
+        entityIds: [measure.id],
+        jurisdictionId: measure.jurisdictionId,
+        provenance: {
+          kind: "authored",
+          note: "The recorded presentment window continues during an executive vacancy.",
+        },
+      })
+    : next;
+}
+
+/** Read the actual measure's sourced pack; an absent numeric rule stays absent. */
+function councilActionDays(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  field:
+    "overrideWindowDays" | "congressionalReviewDays" | "criminalCodeReviewDays",
+): number | null {
+  const rule = legislativeRulePackForWorld(world, measure.rulePackId)
+    .councilActions?.[field];
+  return rule?.kind === "known" ? rule.value : null;
 }
 
 /** Record a measure the executive approved, or the council reenacted, as law. */
@@ -874,21 +897,29 @@ function enactCouncilMeasure(
   governmentKey: string,
   measure: LegislativeMeasureRecord,
 ): World {
-  const review = CONGRESSIONAL_REVIEW[governmentKey];
+  const review = councilActionDays(world, measure, "congressionalReviewDays");
+  const criminalReview = councilActionDays(
+    world,
+    measure,
+    "criminalCodeReviewDays",
+  );
   const government = municipalGovernmentByKey(governmentKey)!;
   const reading = municipalProcedureReading(government);
-  const effectiveAt = review
-    ? congressionalReviewEffectiveOn(
-        world.currentDate,
-        actAmendsCriminalCode(world, measure)
-          ? review.criminalCodeDays
-          : review.days,
-      )
-    : reading.procedure.effectivePublication?.includes(
-          "from the date of its passage",
-        )
-      ? world.currentDate
-      : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
+  const reviewDays = actAmendsCriminalCode(world, measure)
+    ? criminalReview
+    : review;
+  const effectiveAt =
+    review === null && filedTaxEffectiveDate(world, measure.id)
+      ? filedTaxEffectiveDate(world, measure.id)
+      : review !== null
+        ? reviewDays !== null
+          ? congressionalReviewEffectiveOn(world.currentDate, reviewDays)
+          : null
+        : reading.procedure.effectivePublication?.includes(
+              "from the date of its passage",
+            )
+          ? world.currentDate
+          : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
   const next = recordEnactment(world, {
     stableKey: `${measure.stableKey}:enactment`,
     measureId: measure.id,
@@ -906,7 +937,7 @@ function measureOfThisCouncil(
   return councilMeasure(world, governmentKey, measureId);
 }
 
-function recordCouncilExecutiveDecision(
+export function recordCouncilExecutiveDecision(
   world: World,
   governmentKey: string,
   measure: LegislativeMeasureRecord,
@@ -914,6 +945,14 @@ function recordCouncilExecutiveDecision(
   rationale: string,
   actorPersonId: EntityId,
 ): World {
+  if (
+    !measureOfThisCouncil(world, governmentKey, measure.id) ||
+    measurePosition(world, measure.id).phase !== "awaiting-executive" ||
+    municipalExecutiveHolder(world, governmentKey) !== actorPersonId
+  )
+    return world;
+  const window = executiveBillActionWindow(world, measure);
+  if (!window || world.currentDate > window.lastActionDate) return world;
   let next = recordExecutiveAction(world, {
     stableKey: `${measure.stableKey}:executive`,
     measureId: measure.id,
@@ -923,7 +962,7 @@ function recordCouncilExecutiveDecision(
   });
   if (action === "signed")
     return enactCouncilMeasure(next, governmentKey, measure);
-  const days = OVERRIDE_WINDOW_DAYS[governmentKey];
+  const days = councilActionDays(world, measure, "overrideWindowDays");
   if (days)
     next = scheduleFutureDueItem(next, {
       stableKey: `${measure.stableKey}:override-deadline`,
@@ -937,6 +976,33 @@ function recordCouncilExecutiveDecision(
       },
     });
   return next;
+}
+
+/** The shared deadline retains this council's publication and review procedure. */
+export function recordCouncilExecutiveInaction(
+  world: World,
+  governmentKey: string,
+  measure: LegislativeMeasureRecord,
+): World {
+  const window = executiveBillActionWindow(world, measure);
+  if (
+    !measureOfThisCouncil(world, governmentKey, measure.id) ||
+    measurePosition(world, measure.id).phase !== "awaiting-executive" ||
+    !window ||
+    world.currentDate < window.inactionAt ||
+    window.inactionOutcome !== "becomes-law-without-signature"
+  )
+    return world;
+  return enactCouncilMeasure(
+    recordExecutiveInaction(world, {
+      stableKey: `${measure.stableKey}:executive-silence`,
+      measureId: measure.id,
+      rationale:
+        "The recorded executive action window ended without a return, so the council act is approved without a signature.",
+    }),
+    governmentKey,
+    measure,
+  );
 }
 
 /**
@@ -977,82 +1043,21 @@ export function actOnCouncilMeasure(
       "Only the person who holds the executive office acts on it.",
     );
   }
-  const presented = measureActions(world, measure.id)
-    .filter((a) => a.kind === "presented-to-executive")
-    .at(-1);
-  if (!presented)
-    return refuse(world, "No presentment to the executive is recorded.");
-  const actionWindow = executiveWindow(input.governmentKey);
-  if (!actionWindow)
-    return refuse(world, "No executable executive action window is available.");
-  const lastDay =
-    actionWindow.dayBasis === "BUSINESS"
-      ? addWeekdays(presented.occurredAt, actionWindow.daysToAct)
-      : addDays(presented.occurredAt, actionWindow.daysToAct);
-  if (world.currentDate > lastDay)
-    return refuse(world, `The time to act ended on ${lastDay}.`);
-  // This controlled request reads the actual delivered act. The clerk's
-  // presentment event does not itself name the executive as a participant.
-  const executivePersonId = world.control.personId;
-  const prepared = world.history.knowledge.some(
-    (knowledge) =>
-      knowledge.personId === executivePersonId &&
-      knowledge.eventId === presented.eventId &&
-      knowledge.learnedAt <= world.currentDate,
-  )
-    ? world
-    : recordEventKnowledge(world, {
-        stableKey: `${measure.stableKey}:executive-desk:read:${world.control.personId}`,
-        personId: world.control.personId,
-        eventId: presented.eventId,
-        learnedAt: world.currentDate,
-        believedSummary: `${measure.designation} was presented to the executive for action.`,
-        accuracy: "accurate",
-        confidence: "high",
-        source: {
-          kind: "public-record",
-          reference: `Council executive desk: ${presented.eventId}`,
-        },
-      });
-  const optionKey = input.decision === "sign" ? BILL_SIGN : BILL_RETURN;
-  const evaluation = evaluateGovernorBill(prepared, {
-    stableKey: `${measure.stableKey}:executive-desk`,
-    governorId: world.control.personId,
-    executiveTitle: legislativeRulePackForWorld(world, measure.rulePackId)
-      .executive.titleLabel,
-    measure,
-    staff: null,
-    playerChoice: {
-      optionKey,
-      matterEventId: presented.eventId,
-      matterKnowledgeId: prepared.history.knowledge.find(
-        (knowledge) =>
-          knowledge.personId === executivePersonId &&
-          knowledge.eventId === presented.eventId &&
-          knowledge.learnedAt <= world.currentDate,
-      )!.id,
-    },
-  });
-  const traced = recordDurableDecisionTrace(prepared, evaluation);
-  if (
-    evaluation.outcomeKind !== "selected" ||
-    evaluation.selectedOptionKey !== optionKey
-  )
-    return refuse(traced, "The executive decision remains pending.");
-  return {
-    ok: true,
-    world: recordCouncilExecutiveDecision(
-      traced,
-      input.governmentKey,
-      measure,
-      input.decision === "sign" ? "signed" : "vetoed",
-      input.decision === "sign"
-        ? "Approved and signed."
-        : input.reasons?.trim() ||
-            "Returned to the council with written reasons for disapproval.",
-      world.control.personId,
-    ),
-  };
+  const prepared = openMunicipalBillMatter(world, measure, input.governmentKey);
+  const matter = governingMatters(prepared).find(
+    (entry) =>
+      entry.family === "bill" &&
+      entry.measureId === measure.id &&
+      entry.status === "open",
+  );
+  if (!matter)
+    return refuse(prepared, "No current executive desk holds this act.");
+  return decideGoverningMatter(
+    prepared,
+    matter.id,
+    input.decision === "sign" ? BILL_SIGN : BILL_RETURN,
+    input.reasons,
+  );
 }
 
 /** The last day the council may reenact a returned measure, if a rule fixes one. */
@@ -1061,7 +1066,10 @@ export function overrideDeadline(
   governmentKey: string,
   measureId: EntityId,
 ): IsoDate | null {
-  const days = OVERRIDE_WINDOW_DAYS[governmentKey];
+  const measure = measureOfThisCouncil(world, governmentKey, measureId);
+  const days = measure
+    ? councilActionDays(world, measure, "overrideWindowDays")
+    : null;
   const vetoed = measureActions(world, measureId)
     .filter((action) => action.kind === "vetoed")
     .at(-1);
@@ -1084,6 +1092,19 @@ export function overrideCouncilVeto(
     "vote-on-ordinance",
   );
   if (!authority.ok) return refuse(world, authority.reason);
+  return recordCouncilOverrideVote(world, input);
+}
+
+/** A saved council roll call reenacts a returned measure, independent of player control. */
+export function recordCouncilOverrideVote(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly measureId: EntityId;
+    readonly dispositions: readonly LegislativeVoteDisposition[];
+    readonly provenance: LegislativeVoteProvenance;
+  },
+): MunicipalOrdinanceResult {
   const measure = measureOfThisCouncil(
     world,
     input.governmentKey,
@@ -1160,6 +1181,24 @@ function councilOfMeasure(measure: LegislativeMeasureRecord): string | null {
   }
 }
 
+/** A filed typed levy takes effect on its own delay from passage, not from the
+ * ordinance's default publication date; the same date function the tax policy
+ * uses decides it, and a measure with no filed levy has none. */
+function filedTaxEffectiveDate(
+  world: World,
+  measureId: EntityId,
+): IsoDate | null {
+  const proposal = world.history.taxProposals?.find(
+    (row) => row.measureId === measureId,
+  );
+  return proposal
+    ? taxPolicyEffectiveDate(
+        { resolvedAt: world.currentDate, effectiveAt: null },
+        proposal.terms,
+      )
+    : null;
+}
+
 /** A scheduled ordinary council reading uses the seated roll and saved ballot. */
 export function councilReadingDueHandler(
   world: World,
@@ -1174,34 +1213,60 @@ export function councilReadingDueHandler(
     return resolved(world, "No ordinary council reading matches.");
   const question = municipalReadingQuestion(world, governmentKey, measure.id);
   if (!question) return resolved(world, "The reading was already decided.");
+  const evaluations: DecisionEvaluation[] = [];
   const dispositions = decideOrdinaryCouncilReading(
     world,
     governmentKey,
     measure.id,
+    undefined,
+    (evaluation) => evaluations.push(evaluation),
   );
   if (!dispositions)
     return {
       world,
       status: "blocked",
-      reasonKey: null,
+      reasonKey: "council:no-seated-councilors",
       context: "No seated councilors can decide the scheduled reading.",
       outcomeEventId: null,
     };
-  const taken = recordCouncilReadingVote(world, {
+  // Retain only an actual roll call, never a preview. Earlier records in this
+  // batch are decisions, so rebasing the history frontier adds no new facts.
+  let traced = world;
+  const traceIds: EntityId[] = [];
+  for (const evaluation of evaluations) {
+    const durable = evaluateDecision(traced, {
+      ...evaluation.context,
+      cutoff: {
+        ...evaluation.context.cutoff,
+        historySequenceExclusive: traced.history.nextSequence,
+      },
+      retention: "durable",
+    });
+    if (
+      durable.selectedOptionKey !== evaluation.selectedOptionKey ||
+      durable.outcomeKind !== evaluation.outcomeKind
+    )
+      throw new Error(
+        "The recorded council decision changed while retaining its reasons.",
+      );
+    traced = recordDurableDecisionTrace(traced, durable);
+    traceIds.push(traced.history.decisionTraces.at(-1)!.id);
+  }
+  const taken = recordCouncilReadingVote(traced, {
     governmentKey,
     measureId: measure.id,
     dispositions,
     provenance: {
       method: "member-decisions",
       note: "The scheduled council reading used seated members' decisions and the player's saved ballot, if any.",
-      sourceEntityIds: [measure.id],
+      sourceEntityIds: [measure.id, ...traceIds],
     },
   });
   if (!taken.ok)
     return {
       world,
       status: "blocked",
-      reasonKey: null,
+      reasonKey: "council:reading-refused",
       context: taken.reason,
       outcomeEventId: null,
     };
@@ -1223,89 +1288,34 @@ export function councilActExecutiveDeadlineHandler(
   if (!measure) return resolved(world, "No measure matches.");
   if (measurePosition(world, measure.id).phase !== "awaiting-executive")
     return resolved(world, "The executive already acted.");
-  const governmentKey = councilOfMeasure(measure);
+  const governmentKey =
+    municipalGovernmentForRulePackId(measure.rulePackId)?.key ??
+    councilOfMeasure(measure);
   if (!governmentKey) return resolved(world, "No council matches.");
-  const actionWindow = executiveWindow(governmentKey);
-  const presented = measureActions(world, measure.id)
-    .filter((action) => action.kind === "presented-to-executive")
-    .at(-1);
-  if (!actionWindow || !presented)
+  const next = openMunicipalBillMatter(world, measure, governmentKey);
+  const matter = governingMatters(next).find(
+    (entry) =>
+      entry.family === "bill" &&
+      entry.measureId === measure.id &&
+      entry.status === "open",
+  );
+  if (!matter)
     return resolved(
-      world,
+      recordCouncilExecutiveInaction(next, governmentKey, measure),
+      "The recorded legal deadline was applied without an executive holder.",
+    );
+  const window = executiveBillActionWindow(next, measure);
+  if (!window)
+    return resolved(
+      next,
       "No executable, recorded presentment window is available.",
     );
-  const lastDay =
-    actionWindow.dayBasis === "BUSINESS"
-      ? addWeekdays(presented.occurredAt, actionWindow.daysToAct)
-      : addDays(presented.occurredAt, actionWindow.daysToAct);
-  const holder = municipalExecutiveHolder(world, governmentKey);
-  const player =
-    world.control.kind === "person" ? world.control.personId : null;
-  if (holder && holder !== player && world.currentDate <= lastDay) {
-    const prepared = ensureOfficeholderPrinciples(world, [holder]);
-    const evaluation = evaluateGovernorBill(prepared, {
-      stableKey: `${measure.stableKey}:executive-desk`,
-      governorId: holder,
-      executiveTitle: legislativeRulePackForWorld(prepared, measure.rulePackId)
-        .executive.titleLabel,
-      measure,
-      staff: null,
-    });
-    const traced = recordDurableDecisionTrace(prepared, evaluation);
-    if (
-      evaluation.outcomeKind !== "selected" ||
-      (evaluation.selectedOptionKey !== BILL_SIGN &&
-        evaluation.selectedOptionKey !== BILL_RETURN)
-    )
-      return resolved(traced, "The executive decision remains pending.");
-    const action =
-      evaluation.selectedOptionKey === BILL_SIGN ? "signed" : "vetoed";
-    const rationale = evaluation.context.considerations
-      .filter((reason) => reason.optionKey === evaluation.selectedOptionKey)
-      .map((reason) => reason.explanation)
-      .join(" ");
-    return resolved(
-      recordCouncilExecutiveDecision(
-        traced,
-        governmentKey,
-        measure,
-        action,
-        rationale,
-        holder,
-      ),
-      action === "signed" ? "Signed." : "Returned with recorded reasons.",
-    );
-  }
-  if (actionWindow.inactionOutcome !== "BECOMES_LAW_WITHOUT_SIGNATURE")
-    return resolved(
-      world,
-      "No rule says what the executive's silence does here.",
-    );
-  if (world.currentDate <= lastDay) {
-    return resolved(
-      scheduleFutureDueItem(world, {
-        stableKey: `${measure.stableKey}:executive-silence-due`,
-        dueAt: addDays(lastDay, 1),
-        transitionKey: COUNCIL_ACT_EXECUTIVE_DEADLINE,
-        entityIds: [measure.id],
-        jurisdictionId: measure.jurisdictionId,
-        provenance: {
-          kind: "authored",
-          note: `The time to act on ${measure.designation} ends on ${lastDay}.`,
-        },
-      }),
-      "The executive still has today to act.",
-    );
-  }
-  const next = recordExecutiveInaction(world, {
-    stableKey: `${measure.stableKey}:executive-silence`,
-    measureId: measure.id,
-    rationale: `Not returned within ${actionWindow.daysToAct} days of presentment, so deemed approved.`,
-  });
-  return resolved(
-    enactCouncilMeasure(next, governmentKey, measure),
-    "Deemed approved.",
-  );
+  const boundDue = { ...due, entityIds: [matter.id] };
+  const player = next.control.kind === "person" ? next.control.personId : null;
+  return matter.holderPersonId !== player &&
+    next.currentDate <= window.lastActionDate
+    ? governingNpcDecisionHandler(next, boundDue)
+    : governingDeadlineHandler(next, boundDue);
 }
 
 /** The time to reenact a returned measure ran out. */
@@ -1329,11 +1339,13 @@ export function councilActOverrideDeadlineHandler(
   );
 }
 
-export const COUNCIL_ACT_HANDLERS = [
-  [COUNCIL_READING_DUE, councilReadingDueHandler],
-  [COUNCIL_ACT_EXECUTIVE_DEADLINE, councilActExecutiveDeadlineHandler],
-  [COUNCIL_ACT_OVERRIDE_DEADLINE, councilActOverrideDeadlineHandler],
-] as const;
+export function councilActHandlers() {
+  return [
+    [COUNCIL_READING_DUE, councilReadingDueHandler],
+    [COUNCIL_ACT_EXECUTIVE_DEADLINE, councilActExecutiveDeadlineHandler],
+    [COUNCIL_ACT_OVERRIDE_DEADLINE, councilActOverrideDeadlineHandler],
+  ] as const;
+}
 
 // ---------------------------------------------------------------------------
 // rules-municipal-authority/v1 — what a council action needs
@@ -1368,9 +1380,6 @@ export type CouncilActionAdmission =
       readonly citations: readonly string[];
     };
 
-/** The date Ord. No. O-26-017 last amended City Code § 2-98. */
-const CVILLE_2_98_AMENDED_ON = "2026-02-02";
-
 /**
  * What one council action needs, for one member, on one date.
  *
@@ -1392,7 +1401,12 @@ export function admitCouncilAction(
   },
 ): CouncilActionAdmission {
   const version = RULES_MUNICIPAL_AUTHORITY_VERSION;
-  if (input.governmentKey !== "us-va-charlottesville") {
+  const government = municipalGovernmentByKey(input.governmentKey);
+  const compiled = government ? municipalRulePackFor(government) : null;
+  const actions = compiled?.ok ? compiled.pack.councilActions : undefined;
+  const localRule = actions?.financialLocalRule;
+  const generalRule = actions?.financialGeneralThresholdUsd;
+  if (localRule?.kind !== "known" || generalRule?.kind !== "known") {
     return {
       ruleVersion: version,
       admitted: false,
@@ -1429,6 +1443,7 @@ export function admitCouncilAction(
       citations: [],
     };
   }
+  const local = localRule.value;
   if (input.kind === "ORDINANCE") {
     return {
       ruleVersion: version,
@@ -1436,17 +1451,11 @@ export function admitCouncilAction(
       requiredVote: {
         basis: "MAJORITY_PRESENT_AND_VOTING",
         recordedYeaNay: true,
-        citations: [
-          "Code of Virginia § 15.2-1427(A)",
-          "City Code § 2-78",
-          "Charter § 12",
-        ],
+        citations: local.ordinaryCitations,
       },
-      minimumInterveningDays: 3,
+      minimumInterveningDays: local.minimumInterveningDays,
       vetoApplies: false,
-      unresolved: [
-        "City Code § 2-97's four-fifths same-day exception does not say what the fraction counts.",
-      ],
+      unresolved: local.ordinaryUnresolved,
     };
   }
   if (input.kind === "APPROPRIATION" && input.amountUsd === undefined) {
@@ -1457,29 +1466,31 @@ export function admitCouncilAction(
       unknownField: "amountUsd",
       detail:
         "Whether § 15.2-1428 and City Code § 2-98 apply turns on the amount appropriated.",
-      citations: ["Code of Virginia § 15.2-1428", "City Code § 2-98"],
+      citations: [generalRule.source.citation, localRule.source.citation],
     };
   }
-  const current2_98 = input.onDate >= CVILLE_2_98_AMENDED_ON;
+  const currentLocalRule = input.onDate >= local.operativeOn;
   const amount = input.amountUsd ?? 0;
-  const stateRuleApplies = input.kind !== "APPROPRIATION" || amount > 500;
+  const stateRuleApplies =
+    input.kind !== "APPROPRIATION" || amount > generalRule.value;
   const cityRuleApplies =
-    current2_98 && (input.kind !== "APPROPRIATION" || amount > 100);
-  if (!stateRuleApplies && !current2_98) {
+    currentLocalRule &&
+    (input.kind !== "APPROPRIATION" || amount > local.fullMembershipAboveUsd);
+  if (!stateRuleApplies && !currentLocalRule) {
     return {
       ruleVersion: version,
       admitted: false,
       reason: "FIELD_UNKNOWN",
-      unknownField: "City Code § 2-98 before 2026-02-02",
-      detail:
-        "The acquired City Code shows § 2-98 as amended on 2026-02-02; the text in force before then was not retrieved, and a small appropriation's vote rule then turns on it.",
-      citations: ["City Code § 2-98"],
+      unknownField: `${localRule.source.citation} before ${local.operativeOn}`,
+      detail: `The acquired local text was amended on ${local.operativeOn}; the earlier text was not retrieved, and this appropriation's vote rule turns on it.`,
+      citations: [localRule.source.citation],
     };
   }
   const intervening =
-    current2_98 && (input.kind !== "APPROPRIATION" || amount > 5000)
-      ? 3
-      : current2_98
+    currentLocalRule &&
+    (input.kind !== "APPROPRIATION" || amount > local.delayedAboveUsd)
+      ? local.minimumInterveningDays
+      : currentLocalRule
         ? null
         : null;
   return {
@@ -1492,17 +1503,17 @@ export function admitCouncilAction(
           : "MAJORITY_PRESENT_AND_VOTING",
       recordedYeaNay: true,
       citations: [
-        ...(stateRuleApplies ? ["Code of Virginia § 15.2-1428"] : []),
-        ...(cityRuleApplies ? ["City Code § 2-98(a)"] : []),
-        "Charter § 12",
+        ...(stateRuleApplies ? [generalRule.source.citation] : []),
+        ...(cityRuleApplies ? [localRule.source.citation] : []),
+        local.quorumCitation,
       ],
     },
     minimumInterveningDays: intervening,
     vetoApplies: false,
-    unresolved: current2_98
+    unresolved: currentLocalRule
       ? []
       : [
-          "City Code § 2-98 before its 2026-02-02 amendment was not retrieved; only Code of Virginia § 15.2-1428 is applied on this date.",
+          `${localRule.source.citation} before its ${local.operativeOn} amendment was not retrieved; only ${generalRule.source.citation} is applied on this date.`,
         ],
   };
 }

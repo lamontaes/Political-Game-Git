@@ -43,6 +43,8 @@ function input(
 ): CostObjectionInput {
   return {
     worldSeed: SEED,
+    speakerTraits: {},
+    listenerTraits: {},
     momentKey,
     speakerPersonId: speaker,
     listenerPersonId: listener,
@@ -143,7 +145,7 @@ describe(`the cost objection, worded from its packet (${place.displayName}, ${pl
         shortTitle: "Transit Access Pilot",
         sectionLabel: "Section 3",
         sectionHeading: "Pilot support limit",
-        reach: "language reaching every eligible rider",
+        reach: { relation: "reaching", who: "every eligible rider" },
         beneficiary: null,
         place: place.displayName,
         amount: null,
@@ -155,6 +157,8 @@ describe(`the cost objection, worded from its packet (${place.displayName}, ${pl
       },
       grounding: {
         worldSeed: SEED,
+        speakerTraits: {},
+        listenerTraits: {},
         speakerPersonId: speaker,
         listenerPersonId: listener,
         measureId: measure,

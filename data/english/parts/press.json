@@ -1,0 +1,819 @@
+{
+  "schema": "english-parts/1",
+  "register": "press",
+  "description": "Sourced press-room parts: how a press secretary opens, takes a question, deflects, holds a line, reacts and closes, and how reporters ask, mined from White House press briefing transcripts (public domain). briefingsUsing counts how many of the 23 briefings read contain the turn.",
+  "slots": {},
+  "maxWords": 16,
+  "mining": {
+    "tool": "scripts/english-mining/mine-press-briefings.py",
+    "read": "23 White House press secretary briefings, archived at bidenwhitehouse.archives.gov, September 9 to December 12, 2024"
+  },
+  "parts": [
+    {
+      "key": "press.opener.good-afternoon-everyone",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "Good afternoon, everyone.",
+      "briefingsUsing": 12,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-september-13-2024/"
+      }
+    },
+    {
+      "key": "press.opener.good-afternoon-everybody",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "Good afternoon, everybody.",
+      "briefingsUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/"
+      }
+    },
+    {
+      "key": "press.opener.hi-everybody",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "Hi, everybody.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.opener.so-a-couple-of-things",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "So, a couple of things.",
+      "briefingsUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.opener.so-look-a-couple-of-things",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "So, look, a couple of things.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-01",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/01/press-briefing-by-press-secretary-karine-jean-pierre-national-security-advisor-jake-sullivan-and-secretary-of-homeland-security-alejandro-mayorkas/"
+      }
+    },
+    {
+      "key": "press.opener.so-a-couple-things",
+      "move": "opener",
+      "kind": "spoken",
+      "text": "So, a couple things.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-30",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/30/press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the-council-of-economic-advisers-jared-bernstein/"
+      }
+    },
+    {
+      "key": "press.take-question.go-ahead",
+      "move": "take-question",
+      "kind": "spoken",
+      "text": "Go ahead.",
+      "briefingsUsing": 20,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.take-question.go-ahead-sir",
+      "move": "take-question",
+      "kind": "spoken",
+      "text": "Go ahead, sir.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.take-question.final-question",
+      "move": "take-question",
+      "kind": "spoken",
+      "text": "Final question.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.take-question.last-question",
+      "move": "take-question",
+      "kind": "spoken",
+      "text": "Last question.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-26",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/26/press-briefing-by-press-secretary-karine-jean-pierre-and-fema-administrator-deanne-criswell-4/"
+      }
+    },
+    {
+      "key": "press.take-question.say-that-one-more-time",
+      "move": "take-question",
+      "kind": "spoken",
+      "text": "Say that one more time.",
+      "briefingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.take-question.wait-say-that-one-more-time",
+      "move": "take-question",
+      "kind": "spoken",
+      "text": "Wait, say that one more time.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-01",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/01/press-briefing-by-press-secretary-karine-jean-pierre-national-security-advisor-jake-sullivan-and-secretary-of-homeland-security-alejandro-mayorkas/"
+      }
+    },
+    {
+      "key": "press.take-question.hold-on",
+      "move": "take-question",
+      "kind": "spoken",
+      "text": "Hold on.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-september-13-2024/"
+      }
+    },
+    {
+      "key": "press.deflect.im-not-going-to-get-into-hypotheticals",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "I'm not going to get into hypotheticals.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/"
+      }
+    },
+    {
+      "key": "press.deflect.im-not-going-to-get-into-hypotheticals-from-here",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "I'm not going to get into hypotheticals from here.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-16",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/16/press-briefing-by-press-secretary-karine-jean-pierre-71/"
+      }
+    },
+    {
+      "key": "press.deflect.im-not-going-to-get-ahead-of-the-president",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "I'm not going to get ahead of the president.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-30",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/30/press-briefing-by-press-secretary-karine-jean-pierre-and-homeland-security-adviser-dr-elizabeth-sherwood-randall/"
+      }
+    },
+    {
+      "key": "press.deflect.i-dont-have-anything-beyond-that",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "I don't have anything beyond that.",
+      "briefingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.deflect.well-have-more-to-share",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "We'll have more to share.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.deflect.dont-have-anything-to-share-with-you-at-this-time",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "Don't have anything to share with you at this time.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-11-07",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/11/07/press-briefing-by-press-secretary-karine-jean-pierre-72/"
+      }
+    },
+    {
+      "key": "press.deflect.im-not-going-to-speak-to-that",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "I'm not going to speak to that.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/"
+      }
+    },
+    {
+      "key": "press.deflect.im-not-going-to-get-into-specifics",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "I'm not going to get into specifics.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-21",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/21/press-briefing-by-press-secretary-karine-jean-pierre-october-21-2024/"
+      }
+    },
+    {
+      "key": "press.deflect.i-just-dont-have-anything",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "I just don't have anything.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-30",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/30/press-briefing-by-press-secretary-karine-jean-pierre-and-homeland-security-adviser-dr-elizabeth-sherwood-randall/"
+      }
+    },
+    {
+      "key": "press.deflect.im-just-not-going-to-do-that-from-here",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "I'm just not going to do that from here.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-30",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/30/press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the-council-of-economic-advisers-jared-bernstein/"
+      }
+    },
+    {
+      "key": "press.deflect.im-not-going-to-do-that",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "I'm not going to do that.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-30",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/30/press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the-council-of-economic-advisers-jared-bernstein/"
+      }
+    },
+    {
+      "key": "press.deflect.thats-what-i-can-speak-to",
+      "move": "deflect",
+      "kind": "spoken",
+      "text": "That's what I can speak to.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-11-07",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/11/07/press-briefing-by-press-secretary-karine-jean-pierre-72/"
+      }
+    },
+    {
+      "key": "press.stance.weve-been-very-clear-about-that",
+      "move": "stance",
+      "kind": "spoken",
+      "text": "We've been very clear about that.",
+      "briefingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-17",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/17/press-briefing-by-press-secretary-karine-jean-pierre-69/"
+      }
+    },
+    {
+      "key": "press.stance.our-policy-has-not-changed",
+      "move": "stance",
+      "kind": "spoken",
+      "text": "Our policy has not changed.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-september-13-2024/"
+      }
+    },
+    {
+      "key": "press.stance.that-stands",
+      "move": "stance",
+      "kind": "spoken",
+      "text": "That stands.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-september-13-2024/"
+      }
+    },
+    {
+      "key": "press.stance.that-is-our-commitment",
+      "move": "stance",
+      "kind": "spoken",
+      "text": "That is our commitment.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/"
+      }
+    },
+    {
+      "key": "press.stance.it-is-not-unusual",
+      "move": "stance",
+      "kind": "spoken",
+      "text": "It is not unusual.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.stance.that-is-not-unusual",
+      "move": "stance",
+      "kind": "spoken",
+      "text": "That is not unusual.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-19",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/19/press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the-council-of-economic-advisers-jared-bernstein-september-19-2024/"
+      }
+    },
+    {
+      "key": "press.stance.thats-what-we-want-to-see",
+      "move": "stance",
+      "kind": "spoken",
+      "text": "That's what we want to see.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/"
+      }
+    },
+    {
+      "key": "press.stance.thats-what-they-deserve",
+      "move": "stance",
+      "kind": "spoken",
+      "text": "That's what they deserve.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-01",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/01/press-briefing-by-press-secretary-karine-jean-pierre-national-security-advisor-jake-sullivan-and-secretary-of-homeland-security-alejandro-mayorkas/"
+      }
+    },
+    {
+      "key": "press.stance.and-i-think-thats-important-to-note",
+      "move": "stance",
+      "kind": "spoken",
+      "text": "And I think that's important to note.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-30",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/30/press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the-council-of-economic-advisers-jared-bernstein/"
+      }
+    },
+    {
+      "key": "press.reaction.all-right",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "All right.",
+      "briefingsUsing": 17,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.reaction.yeah-sure",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "Yeah, sure.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.reaction.no-no-no",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "No, no, no.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-30",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/30/press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the-council-of-economic-advisers-jared-bernstein/"
+      }
+    },
+    {
+      "key": "press.reaction.no-no",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "No, no.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-11-21",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/11/21/press-briefing-by-press-secretary-karine-jean-pierre-74/"
+      }
+    },
+    {
+      "key": "press.reaction.no-not-at-all",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "No, not at all.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-16",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/16/press-briefing-by-press-secretary-karine-jean-pierre-71/"
+      }
+    },
+    {
+      "key": "press.reaction.yeah-yeah",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "Yeah, yeah.",
+      "briefingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.reaction.appreciate-it",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "Appreciate it.",
+      "briefingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-26",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/26/press-briefing-by-press-secretary-karine-jean-pierre-and-fema-administrator-deanne-criswell-4/"
+      }
+    },
+    {
+      "key": "press.reaction.i-appreciate-the-effort",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "I appreciate the effort.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-11-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/11/13/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-advisor-jake-sullivan-19/"
+      }
+    },
+    {
+      "key": "press.reaction.im-sorry",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "I'm sorry.",
+      "briefingsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-17",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/17/press-briefing-by-press-secretary-karine-jean-pierre-69/"
+      }
+    },
+    {
+      "key": "press.reaction.i-apologize",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "I apologize.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/"
+      }
+    },
+    {
+      "key": "press.reaction.oh-sorry",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "Oh, sorry.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-30",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/30/press-briefing-by-press-secretary-karine-jean-pierre-and-homeland-security-adviser-dr-elizabeth-sherwood-randall/"
+      }
+    },
+    {
+      "key": "press.reaction.no-problem",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "No problem.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-30",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/30/press-briefing-by-press-secretary-karine-jean-pierre-and-homeland-security-adviser-dr-elizabeth-sherwood-randall/"
+      }
+    },
+    {
+      "key": "press.reaction.oh-okay",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "Oh, okay.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/09/press-briefing-by-press-secretary-karine-jean-pierre-and-fema-administrator-deanne-criswell-5/"
+      }
+    },
+    {
+      "key": "press.reaction.sorry-guys",
+      "move": "reaction",
+      "kind": "spoken",
+      "text": "Sorry, guys.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-16",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/16/press-briefing-by-press-secretary-karine-jean-pierre-71/"
+      }
+    },
+    {
+      "key": "press.closer.thanks-everybody",
+      "move": "closer",
+      "kind": "spoken",
+      "text": "Thanks, everybody.",
+      "briefingsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-16",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/16/press-briefing-by-press-secretary-karine-jean-pierre-71/"
+      }
+    },
+    {
+      "key": "press.closer.thanks-everyone",
+      "move": "closer",
+      "kind": "spoken",
+      "text": "Thanks, everyone.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-10-21",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/21/press-briefing-by-press-secretary-karine-jean-pierre-october-21-2024/"
+      }
+    },
+    {
+      "key": "press.closer.thank-you-so-much",
+      "move": "closer",
+      "kind": "spoken",
+      "text": "Thank you so much.",
+      "briefingsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.reporter-question.two-questions",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Two questions.",
+      "briefingsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-september-13-2024/"
+      }
+    },
+    {
+      "key": "press.reporter-question.just-one-more-question",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Just one more question.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-26",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/26/press-briefing-by-press-secretary-karine-jean-pierre-and-fema-administrator-deanne-criswell-4/"
+      }
+    },
+    {
+      "key": "press.reporter-question.and-then-on-a-different-topic",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "And then on a different topic.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-19",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/19/press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the-council-of-economic-advisers-jared-bernstein-september-19-2024/"
+      }
+    },
+    {
+      "key": "press.reporter-question.why-is-that",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Why is that?",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-18",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/18/press-briefing-by-press-secretary-karine-jean-pierre-director-of-coalitions-media-luisana-perez-fernandez-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.reporter-question.why-not",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Why not?",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-11-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/11/13/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-advisor-jake-sullivan-19/"
+      }
+    },
+    {
+      "key": "press.reporter-question.can-you-address-that",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Can you address that?",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/"
+      }
+    },
+    {
+      "key": "press.reporter-question.good-to-see-you",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Good to see you.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.reporter-question.nice-to-see-you",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Nice to see you.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-september-13-2024/"
+      }
+    },
+    {
+      "key": "press.reporter-question.thank-you",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "briefingsUsing": 23,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.reporter-question.good-afternoon",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Good afternoon.",
+      "briefingsUsing": 21,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-09",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/"
+      }
+    },
+    {
+      "key": "press.reporter-question.yeah-thanks",
+      "move": "reporter-question",
+      "kind": "spoken",
+      "text": "Yeah, thanks.",
+      "briefingsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "White House press briefing",
+        "date": "2024-09-13",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/"
+      }
+    }
+  ]
+}

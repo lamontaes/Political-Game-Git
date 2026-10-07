@@ -39,7 +39,7 @@ import {
   referForProsecution,
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_ESTIMATE,
 } from "./prosecution";
 import { prosecutionTimingFor } from "./prosecution-timing";
 
@@ -127,6 +127,9 @@ function caseFixture(
   const term = sentencesOf(sentenced, petitionerId).find(
     (sentence) => sentence.sentencedEventId === sentenceId,
   )!;
+  expect(term.until).not.toBeNull();
+  if (term.until === null)
+    throw new Error("The fixture's recorded sentence has no end date.");
   // Authored older-save fixture: the real sentence has already reached
   // the existing body's service gate. No outcome or new wait is invented.
   const sentenceDate = addDays(
@@ -143,7 +146,7 @@ function caseFixture(
               ...event,
               occurredAt: addDays(
                 sentenceDate,
-                -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
+                -PROSECUTION_ESTIMATE.chargeDecisionDays -
                   prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
               ),
             }
@@ -343,6 +346,9 @@ it("the actual sentence-end due item lapses a waiting body petition without vote
   const until = sentencesOf(pending, petitionerId).find(
     (row) => row.sentencedEventId === sentenceId,
   )!.until;
+  expect(until).not.toBeNull();
+  if (until === null)
+    throw new Error("The fixture's recorded sentence has no end date.");
   const actualDue = pending.history.futureDueItems.find(
     (item) =>
       item.transitionKey === CLEMENCY_PETITION_TRANSITION_KEY &&

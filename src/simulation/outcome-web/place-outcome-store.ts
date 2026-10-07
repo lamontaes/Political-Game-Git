@@ -1,5 +1,5 @@
 import bases from "../../../data/research/outcome-web/place-outcome-bases-2024.json" with { type: "json" };
-import { countyGeoidsForPlace } from "../government-units";
+import { countyPopulationSharesForPlace } from "../government-units";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -8,6 +8,7 @@ import { placePopulation } from "../nationwide-world/place-population";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { AREA_RESIDENTS_ROWS } from "./area-residents.generated";
+import type { OutcomeRangeViolation } from ".";
 
 /**
  * PLACE OUTCOMES: the outcomes the world keeps for each state, D.C. and
@@ -71,6 +72,8 @@ export interface PlaceOutcomeRecord {
   readonly value: number;
   /** Each outcome-web link that moved it this month, and by how much. */
   readonly causes: readonly { readonly key: string; readonly factor: number }[];
+  /** Table range violations from the completed calculation; no clipping. */
+  readonly rangeViolations?: readonly OutcomeRangeViolation[];
 }
 
 /** A city's or county's part in its state's value. */
@@ -235,9 +238,9 @@ export function localResidents(localKey: string): number | null {
 /**
  * Each place's share of its state's residents, for the places keeping their
  * own records in one state. A county's share leaves out the residents of any
- * city keeping its own record whose largest part lies in it, so no one is
- * counted twice. PLACEHOLDER: a city across several counties is placed whole
- * in its largest. Null where a count is unknown.
+ * city keeping its own record, allocated across its county areas using the
+ * Census population shares, so no one is counted twice. Null where a count
+ * or the city's population allocation is unknown.
  */
 export function localWeights(
   stateKey: string,
@@ -249,19 +252,34 @@ export function localWeights(
     localKeys.filter((key) => key.startsWith("county:")),
   );
   const inCounty = new Map<string, number>();
+  const unknownCounties = new Set<string>();
   if (counties.size > 0) {
     for (const key of localKeys) {
       if (key.startsWith("county:")) continue;
-      const county = /^\d{7}$/.test(key) ? countyGeoidsForPlace(key)[0] : null;
       const people = localResidents(key);
-      if (!county || people === null || !counties.has(`county:${county}`))
-        continue;
-      inCounty.set(county, (inCounty.get(county) ?? 0) + people);
+      const parts = /^\d{7}$/.test(key)
+        ? countyPopulationSharesForPlace(key)
+        : [];
+      for (const [county, share] of parts) {
+        if (!counties.has(`county:${county}`)) continue;
+        if (share === 0) continue;
+        if (people === null || share === null) {
+          unknownCounties.add(county);
+          continue;
+        }
+        inCounty.set(county, (inCounty.get(county) ?? 0) + people * share);
+      }
     }
   }
   for (const key of localKeys) {
     const people = localResidents(key);
-    if (state === null || state <= 0 || people === null) {
+    if (
+      state === null ||
+      state <= 0 ||
+      people === null ||
+      (key.startsWith("county:") &&
+        unknownCounties.has(key.slice("county:".length)))
+    ) {
       weights.set(key, null);
       continue;
     }

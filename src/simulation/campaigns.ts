@@ -1,11 +1,15 @@
+import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import { addCampaignHelper } from "./campaign-helpers";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
   householdLoanMonthHandler,
 } from "./household-loans";
-import { PAYDAY_HANDLERS } from "./living-world/town-pay";
-import { RENT_DAY_HANDLERS } from "./living-world/town-rent";
+import { paydayHandlers } from "./living-world/town-pay";
+import { rentDayHandlers } from "./living-world/town-rent";
+import { propertyTaxHandlers } from "./property-tax-bases";
+import { countyBudgetHearingHandlers } from "./living-world/county-budget-hearings";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -18,39 +22,39 @@ import {
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
-import { campaignPollingQuality } from "./campaign-polling";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
+import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
+import type { CampaignPollingEstimate } from "./campaign-polling-estimate";
+import { campaignPollingQuality } from "./campaign-polling";
+import { majorPartyOf } from "./statewide-electorate";
 import {
   legislativeTermDates,
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
-import {
-  stateGoverningHandlers,
-  withProgramMatters,
-} from "./governing/state-governing";
-import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
-import { PUBLIC_SERVICE_HANDLERS } from "./public-service-producer";
-import { ENACTED_DUTY_HANDLERS } from "./enacted-duties";
-import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
-import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
-import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
-import { FEDERAL_REFORM_HANDLERS } from "./living-world/federal-reform";
-import { ARTICLE_V_HANDLERS } from "./governing/article-v";
+import { stateGoverningHandlers } from "./governing/state-governing";
+import { publicProgramHandlers } from "./governing/public-program";
+import { publicServiceHandlers } from "./public-service-producer";
+import { enactedDutyHandlers } from "./enacted-duties";
+import { officeContinuityHandlers } from "./governing/office-continuity";
+import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
+import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
+import { federalReformHandlers } from "./living-world/federal-reform";
+import { articleVHandlers } from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
 } from "./living-world/political-reflection";
-import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-turnover";
-import { RECALL_HANDLERS } from "./recall";
-import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
-import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
-import { LOCAL_COUNCIL_MEETING_HANDLERS } from "./living-world/local-council-meetings";
+import { presidentialTurnoverHandlers } from "./nationwide-world/presidential-turnover";
+import { recallHandlers } from "./recall";
+import { councilActHandlers } from "./municipal-ordinance-procedure";
+import { dcCouncilSittingHandlers } from "./dc-council-sittings";
+import { localCouncilMeetingHandlers } from "./living-world/local-council-meetings";
 import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
 import {
-  LOCAL_MEMBER_AGENDA_HANDLERS,
+  localMemberAgendaHandlers,
   scheduleLocalMemberAgendaIntakes,
 } from "./governing/member-agenda";
 import {
@@ -63,13 +67,14 @@ import { createTaxTransitionHandlerRegistry } from "./tax-policy";
 import { createCrisisTransitionRegistry } from "./crisis";
 import { createClemencyTransitionRegistry } from "./justice/clemency-transitions";
 import { composeExecutiveWorkHandlers } from "./executive-work";
-import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
+import { lifePaths2Handlers } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import { seatCountyRowOfficerWinner } from "./living-world/local-government-seats";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
-  LOCAL_ELECTION_HANDLERS,
+  localElectionHandlers,
   localCampaignSeat,
   localSeatHolder,
   withdrawTownRaceForCampaign,
@@ -124,6 +129,7 @@ import {
 import {
   composeFutureTransitionHandlerRegistries,
   createFutureTransitionHandlerRegistry,
+  scheduleFutureDueItem,
 } from "./future-transitions";
 import { createStableId, stableHash } from "./ids";
 import {
@@ -133,10 +139,11 @@ import {
   recordOrganizationParticipationState,
   recordWorkStatus,
 } from "./life";
-import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
-import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { lifeTransitionHandlers } from "./life-callbacks";
+import { PEOPLE_CONTACT_HANDLERS } from "./relationship-contact";
+import { STATE_LEGISLATURE_QUEUE_HANDLERS } from "./nationwide-world/state-legislature-queue";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
-import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
+import { peopleFamilyHandlers } from "./people-family-plan";
 import {
   CLAIM_CONTRADICTION_TRANSITION_KEY,
   claimContradictionTransitionHandler,
@@ -167,9 +174,9 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
-import { drawGeneratedPersonName } from "./people";
+import { drawGeneratedPersonName, personName } from "./people";
 import { createExactQuantity } from "./quantity";
-import { positionOwnerEndpoint } from "./resource-queries";
+import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import {
   createResourceFlow,
   createResourcePosition,
@@ -204,6 +211,7 @@ import type {
   DistrictSeatBinding,
   ElectionContestRecord,
   EntityId,
+  IsoDate,
   FutureDueItem,
   FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
@@ -228,7 +236,7 @@ import {
   assertWorldIntegrity,
   recordWorldEvent,
 } from "./world";
-import { CAMPAIGN_LIFE_HANDLERS } from "./campaign-life-handlers";
+import { campaignLifeHandlers } from "./campaign-life-handlers";
 import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
 import {
   SUPPORT_DENOMINATOR,
@@ -266,13 +274,6 @@ import { moneyText } from "./money-text";
 
 export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
   "campaign.candidate-support-share";
-
-/**
- * What the campaign's field memo claims about its own precision. Four points is
- * a claim, not a guarantee: the error below is drawn from a wider range and
- * sometimes lands outside it, which is what makes reading it a judgment.
- */
-const OBSERVATION_MARGIN_BASIS_POINTS = 400;
 
 export interface CampaignActivityPlan {
   readonly start: SimulationMoment;
@@ -345,7 +346,7 @@ function campaignSupportDefinition(): WorldMetricDefinition {
     stableKey: CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
     name: "Candidate support",
     description:
-      "Canonical bounded support for one candidate in one contest at an explicit point in time. Not shown to any player; the campaign reads it only through fallible observations.",
+      "Canonical bounded support for one candidate in one contest at an explicit point in time. The campaign reads the saved support through separate observation records.",
     domainKey: "campaign.support",
     valueKind: "quantity",
     quantityUnit: "rate:share",
@@ -443,11 +444,7 @@ export function canonicalSupportBasisPoints(
 }
 
 function recordInitialSupport(world: World, campaign: CampaignRecord): World {
-  const rng = new SeededRng(world.seed).fork(
-    `campaign-initial-support:${campaign.contestId}`,
-  );
-  // A first-time filer starts behind somebody who is already known. Nothing
-  // here is a handicap the player can read; it is a starting position.
+  // Every candidate starts from the same owner-approved baseline.
   // A candidate's past moves where they start: a remembered ethics finding,
   // a sitting governor's record on the economy, or how the voters here see
   // their votes on the questions they hold views about (`record-in-office.ts`).
@@ -456,8 +453,6 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
     weight: Math.max(
       1,
       850 +
-        rng.fork(scope.candidatePersonId).integer(0, 301) +
-        (scope.candidatePersonId === campaign.candidatePersonId ? -60 : 0) +
         startingSupportAdjustment(
           world,
           scope.candidatePersonId,
@@ -655,7 +650,7 @@ export function fileCampaign(
   }
   if (!input.municipalSeatKey && municipalSeatMustBeNamed(input.officeKey)) {
     throw new Error(
-      "This council elects named seats. Choose a recorded at-large or ward seat before filing.",
+      "This council elects named seats. Choose a recorded at-large or district seat before filing.",
     );
   }
   const option = eligibility.office;
@@ -807,37 +802,6 @@ export function fileCampaign(
   const candidateWorkRelationshipId = lastWorkRelationshipId(world);
 
   const staffWorkRelationshipIds: EntityId[] = [];
-  for (const staffPersonId of staffPersonIds) {
-    world = createWorkRelationship(world, {
-      stableKey: `${input.stableKey}:work:staff:${staffPersonId}`,
-      personId: staffPersonId,
-      organizationId,
-      startedAt: world.currentDate,
-      kind: "volunteer:campaign-staff",
-      compensation: "unpaid",
-      authority: "shared",
-      dependency: "partly-dependent",
-      economicRisk: "organization-borne",
-      provenance: {
-        kind: "authored",
-        note: "Somebody who agreed to help, recorded as the work it is.",
-      },
-      initialRole: {
-        title: "Campaign volunteer",
-        occupationClassification: "service:campaign-volunteer",
-        locationJurisdictionId: input.jurisdictionId,
-        timeDemand: {
-          expectedWeekly: { minimumHours: 2, maximumHours: 12 },
-          attention: "moderate",
-          concurrency: "partly-concurrent",
-          scheduleRigidity: "flexible",
-          interruptibility: "interruptible",
-          locationJurisdictionId: input.jurisdictionId,
-        },
-      },
-    });
-    staffWorkRelationshipIds.push(lastWorkRelationshipId(world));
-  }
 
   const candidate = inputWorld.people[input.candidatePersonId]!;
   world = recordWorldEvent(world, {
@@ -861,7 +825,15 @@ export function fileCampaign(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["campaign.filing", "election.candidacy"],
+    tags: [
+      "campaign.filing",
+      "election.candidacy",
+      ...(eligibility.minimumAgeEstimate
+        ? [
+            `qualification.minimum-age-estimate:${JSON.stringify(eligibility.minimumAgeEstimate)}`,
+          ]
+        : []),
+    ],
     summary: `${candidate.givenName} ${candidate.familyName} filed to run for ${option.office.title}.`,
     context: {
       location: {
@@ -889,7 +861,7 @@ export function fileCampaign(
     "campaign",
     `${world.id}:${input.stableKey}`,
   );
-  const campaignRecord: CampaignRecord = {
+  let campaignRecord: CampaignRecord = {
     id: campaignId,
     stableKey: input.stableKey,
     sequence: world.history.nextSequence,
@@ -936,6 +908,15 @@ export function fileCampaign(
       campaignStates: [...(world.history.campaignStates ?? []), initialState],
     },
   };
+  for (const staffPersonId of staffPersonIds) {
+    world = addCampaignHelper(world, {
+      campaignId,
+      personId: staffPersonId,
+      role: "volunteer",
+      pay: null,
+    });
+  }
+  campaignRecord = campaignById(world, campaignId)!;
   assertWorldIntegrity(world);
   world = recordInitialSupport(world, campaignRecord);
   assertWorldIntegrity(world);
@@ -1111,6 +1092,58 @@ function bookCampaignAction(
   return { world: next, action };
 }
 
+/** The existing paid-message effect, shared by every committee. */
+export function requestedCampaignAdvertisingGainBasisPoints(
+  spend: MoneyAmount,
+): number {
+  return Math.floor(spend.minorUnits / 500);
+}
+
+/** Field effect from recorded effort, shared by player and rival work. */
+export function requestedCampaignFieldGainBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  minutes: number,
+  workers: number,
+  excludingActionId: EntityId | null = null,
+): number {
+  if (!Number.isFinite(minutes) || !Number.isFinite(workers)) return 0;
+  if (minutes <= 0 || workers <= 0) return 0;
+  return Math.floor(
+    (minutes *
+      workers *
+      3 *
+      doorKnockingReturn(world, campaign, excludingActionId).percent) /
+      200,
+  );
+}
+
+/** Only a completed activity linked to this outcome proves field effort. */
+export function requestedCompletedCampaignFieldGainBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  candidatePersonId: EntityId,
+  outcomeEventId: EntityId,
+): number {
+  const completion = world.history.scheduledActivityStates.find(
+    (state) =>
+      state.status === "completed" &&
+      state.outcomeEventId === outcomeEventId &&
+      compareSimulationMoments(state.end, world.currentMoment) <= 0,
+  );
+  if (!completion) return 0;
+  const activity = world.history.scheduledActivities.find(
+    (record) => record.id === completion.activityId,
+  );
+  if (!activity?.participantPersonIds.includes(candidatePersonId)) return 0;
+  return requestedCampaignFieldGainBasisPoints(
+    world,
+    { ...campaign, candidatePersonId },
+    simulationMinutesBetween(completion.start, completion.end),
+    activity.participantPersonIds.length,
+  );
+}
+
 /**
  * What an afternoon actually moves.
  *
@@ -1147,18 +1180,20 @@ function requestedGainBasisPoints(
   // Who is knocking changes what a door returns: see `campaign-recognition.ts`.
   const base =
     action.kind === "outreach"
-      ? Math.floor(
-          (minutes *
-            workers *
-            3 *
-            doorKnockingReturn(world, campaign, action.id).percent) /
-            200,
+      ? requestedCampaignFieldGainBasisPoints(
+          world,
+          campaign,
+          minutes,
+          workers,
+          action.id,
         )
-      : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
-  const swing = new SeededRng(world.seed)
-    .fork(`campaign-action-effect:${action.id}`)
-    .integer(60, 141);
-  return Math.max(1, Math.floor((base * swing) / 100));
+      : requestedCampaignAdvertisingGainBasisPoints(
+          action.plannedSpend ?? {
+            minorUnits: 0,
+            currency: campaign.treasuryCurrency,
+          },
+        );
+  return Math.max(1, Math.floor(base));
 }
 
 /**
@@ -1191,13 +1226,9 @@ function recordSupportAfterAction(
 }
 
 /**
- * The field memo.
- *
- * Three small independent draws rather than one wide one, so the error clusters
- * near the truth and occasionally does not. The memo states a four-point margin
- * and the error can exceed it, which is true of real polling and is the whole
- * reason the number is worth arguing about. How wide the draws are depends on
- * who on the campaign does the reading (`campaign-polling.ts`).
+ * No recorded voter responses means a district comparison, never an own poll.
+ * Its reported spread is measured across the listed game records; confidence
+ * is deliberately unspecified because those districts are not respondents.
  */
 function recordCampaignObservation(
   world: World,
@@ -1207,30 +1238,30 @@ function recordCampaignObservation(
 ): {
   readonly world: World;
   readonly observation: WorldMetricObservationRecord;
+  readonly estimate: CampaignPollingEstimate;
+  readonly party: "democratic" | "republican" | null;
 } {
-  const state = world.history.metricStates.find(
-    (candidate) => candidate.id === candidateStateId,
-  )!;
-  const trueBasisPoints = quantityBasisPoints(state);
-  const rng = new SeededRng(world.seed).fork(
-    `campaign-observation:${action.id}:${candidateStateId}`,
+  const estimate = campaignOfficePollingEstimate(world, campaign);
+  const party = majorPartyOf(
+    world,
+    campaign.candidatePersonId,
+    world.currentDate,
   );
-  // How far off the memo can be depends on who on the campaign reads it.
-  const spread = campaignPollingQuality(world, campaign).drawBasisPoints;
-  const error =
-    rng.integer(-spread, spread + 1) +
-    rng.integer(-spread, spread + 1) +
-    rng.integer(-spread, spread + 1);
-  const observedBasisPoints = Math.max(
-    0,
-    Math.min(SUPPORT_DENOMINATOR, trueBasisPoints + error),
+  const share =
+    party === "republican"
+      ? 1 - estimate.democraticShare
+      : estimate.democraticShare;
+  const observedBasisPoints = Math.round(share * SUPPORT_DENOMINATOR);
+  const scope = campaign.candidateSupportScopes.find(
+    (candidate) => candidate.candidatePersonId === campaign.candidatePersonId,
   );
+  if (!scope) throw new Error("The campaign candidate has no metric segment.");
   const previous = world.history.metricObservations
     .filter(
       (observation) =>
         observation.metricId === campaign.supportMetricId &&
         observation.scope.jurisdictionId === campaign.jurisdictionId &&
-        observation.scope.segmentKey === state.scope.segmentKey &&
+        observation.scope.segmentKey === scope.segmentKey &&
         observation.referencePeriod.kind === "point" &&
         observation.referencePeriod.at === world.currentDate &&
         observation.sourceSeriesKey === "campaign.field-memo",
@@ -1239,7 +1270,10 @@ function recordCampaignObservation(
   const next = recordWorldMetricObservation(world, {
     stableKey: `${action.stableKey}:observation`,
     metricId: campaign.supportMetricId,
-    scope: { ...state.scope },
+    scope: {
+      jurisdictionId: campaign.jurisdictionId,
+      segmentKey: scope.segmentKey,
+    },
     referencePeriod: { kind: "point", at: world.currentDate },
     value: {
       kind: "quantity",
@@ -1250,9 +1284,16 @@ function recordCampaignObservation(
       ),
     },
     sourceSeriesKey: "campaign.field-memo",
-    sourceLabel: "Campaign field memo",
-    sourceReference: null,
-    methodologyKey: "campaign.bounded-contact-sample",
+    sourceLabel: estimate.label,
+    sourceReference: {
+      title: "Recorded district comparison, not contacted voter responses",
+      locator: JSON.stringify({
+        comparison: estimate.comparison,
+        party,
+        peers: estimate.peers,
+      }),
+    },
+    methodologyKey: "campaign.estimated-district-comparison",
     releaseDate: world.currentDate,
     recordedAt: world.currentDate,
     vintageKey: `campaign.v${world.history.nextSequence}`,
@@ -1261,17 +1302,23 @@ function recordCampaignObservation(
       margin: {
         kind: "quantity",
         quantity: createExactQuantity(
-          OBSERVATION_MARGIN_BASIS_POINTS,
+          Math.round(estimate.standardDeviation * SUPPORT_DENOMINATOR),
           SUPPORT_DENOMINATOR,
           "rate:share",
         ),
       },
-      confidence: createExactQuantity(19, 20, "rate:share"),
+      confidence: null,
     },
     supersedesObservationId: previous?.id ?? null,
+    // Retain the private integrity link without reading its hidden value.
     underlyingStateId: candidateStateId,
   });
-  return { world: next, observation: next.history.metricObservations.at(-1)! };
+  return {
+    world: next,
+    observation: next.history.metricObservations.at(-1)!,
+    estimate,
+    party,
+  };
 }
 
 function actionCompletionEvent(world: World, activityId: EntityId): EntityId {
@@ -1284,6 +1331,75 @@ function actionCompletionEvent(world: World, activityId: EntityId): EntityId {
 
 function moneyLabel(amount: MoneyAmount): string {
   return moneyText(amount);
+}
+
+/** The existing advertising transfer, using the spender's actual saved endpoints. */
+export function recordCampaignAdvertisingExpenditure(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly committeeOrganizationId: EntityId;
+    readonly vendorOrganizationId: EntityId;
+    readonly treasuryPositionId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly outcomeEventId: EntityId;
+    readonly amount: MoneyAmount;
+  },
+) {
+  const amount = input.amount;
+  const treasury = resourcePositionAt(
+    world,
+    { kind: "organization", organizationId: input.committeeOrganizationId },
+    amount.currency,
+  );
+  if (
+    !treasury ||
+    treasury.positionId !== input.treasuryPositionId ||
+    amount.minorUnits <= 0 ||
+    treasury.liquidBalance.minorUnits < amount.minorUnits
+  )
+    throw new Error(
+      "The spending committee cannot overdraw its recorded treasury.",
+    );
+  let next = createResourceFlow(world, {
+    stableKey: `${input.stableKey}:flow`,
+    source: {
+      kind: "organization",
+      organizationId: input.committeeOrganizationId,
+    },
+    recipient: positionOwnerEndpoint({
+      kind: "organization",
+      organizationId: input.vendorOrganizationId,
+    }),
+    startsAt: world.currentDate,
+    initialStatus: "active",
+    amount,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:campaign-expenditure",
+    basisReference: { kind: "general" },
+    restrictionKind: "purpose:campaign",
+    jurisdictionId: input.jurisdictionId,
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+  });
+  const resourceFlowId = next.history.resourceFlows.at(-1)!.id;
+  next = recordResourceTransferOutcome(next, {
+    stableKey: `${input.stableKey}:transfer`,
+    resourceFlowId,
+    periodStartsAt: next.currentDate,
+    periodEndsAt: next.currentDate,
+    occurredAt: next.currentDate,
+    status: "completed",
+    attemptedAmount: amount,
+    transferredAmount: amount,
+    reasonKind: null,
+    note: "An advertising buy, paid out of the committee's own account.",
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+  });
+  return {
+    world: next,
+    resourceFlowId,
+    resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
+  };
 }
 
 function actionMoney(
@@ -1307,63 +1423,31 @@ function actionMoney(
       spentAmount: null,
     };
   }
-  const raising = action.kind === "fundraising";
-  const amount: MoneyAmount = raising
-    ? {
-        minorUnits: new SeededRng(world.seed)
-          .fork(`campaign-fundraising:${action.id}`)
-          .integer(85_000, 175_001),
-        currency: campaign.treasuryCurrency,
-      }
-    : { ...action.plannedSpend! };
-  let next = createResourceFlow(world, {
-    stableKey: `${action.stableKey}:flow`,
-    source: {
-      kind: "organization",
-      organizationId: raising
-        ? campaign.donorPoolOrganizationId
-        : campaign.organizationId,
-    },
-    recipient: positionOwnerEndpoint({
-      kind: "organization",
-      organizationId: raising
-        ? campaign.organizationId
-        : campaign.advertisingVendorOrganizationId,
-    }),
-    startsAt: world.currentDate,
-    initialStatus: "active",
-    amount,
-    cadenceKind: "schedule:one-time",
-    basisKind: raising
-      ? "custom:campaign-contribution"
-      : "custom:campaign-expenditure",
-    basisReference: { kind: "general" },
-    restrictionKind: "purpose:campaign",
-    jurisdictionId: campaign.jurisdictionId,
-    provenance: { kind: "simulated-event", eventId: completionEventId },
-  });
-  const resourceFlowId = next.history.resourceFlows.at(-1)!.id;
-  next = recordResourceTransferOutcome(next, {
-    stableKey: `${action.stableKey}:transfer`,
-    resourceFlowId,
-    periodStartsAt: next.currentDate,
-    periodEndsAt: next.currentDate,
-    occurredAt: next.currentDate,
-    status: "completed",
-    attemptedAmount: amount,
-    transferredAmount: amount,
-    reasonKind: null,
-    note: raising
-      ? "Proceeds of a scheduled fundraising session, received by the committee."
-      : "An advertising buy, paid out of the committee's own account.",
-    provenance: { kind: "simulated-event", eventId: completionEventId },
+  if (action.kind === "advertising") {
+    const amount = { ...action.plannedSpend! };
+    const paid = recordCampaignAdvertisingExpenditure(world, {
+      stableKey: action.stableKey,
+      committeeOrganizationId: campaign.organizationId,
+      vendorOrganizationId: campaign.advertisingVendorOrganizationId,
+      treasuryPositionId: campaign.treasuryPositionId,
+      jurisdictionId: campaign.jurisdictionId,
+      outcomeEventId: completionEventId,
+      amount,
+    });
+    return { ...paid, raisedAmount: null, spentAmount: amount };
+  }
+  const receipts = recordCampaignFundraiserReceipts(world, {
+    eventId: completionEventId,
+    committeeOrganizationId: campaign.organizationId,
+    candidatePersonId: campaign.candidatePersonId,
+    currency: campaign.treasuryCurrency,
   });
   return {
-    world: next,
-    resourceFlowId,
-    resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
-    raisedAmount: raising ? amount : null,
-    spentAmount: raising ? null : amount,
+    world: receipts.world,
+    resourceFlowId: receipts.resourceFlowId,
+    resourceOutcomeId: receipts.resourceOutcomeId,
+    raisedAmount: receipts.raisedAmount,
+    spentAmount: null,
   };
 }
 
@@ -1446,7 +1530,9 @@ function recordCampaignActionOutcome(
 
   const baseOutcomeSummary =
     action.kind === "fundraising"
-      ? `The committee spent the session on the phones and took in ${moneyLabel(money.raisedAmount!)}.`
+      ? money.raisedAmount
+        ? `The committee reported completed gifts of ${moneyLabel(money.raisedAmount)} from its fundraising session.`
+        : "The fundraising session recorded no completed gifts; a dated monetary ask and contribution-cap law term are not available."
       : action.kind === "advertising"
         ? `The committee placed an advertising buy worth ${moneyLabel(money.spentAmount!)}.`
         : "The campaign spent the session knocking on doors and talking to people who answered.";
@@ -1524,6 +1610,19 @@ function recordCampaignActionOutcome(
   );
   next = observationResult.world;
   const observation = observationResult.observation;
+  const { estimate, party } = observationResult;
+  const reader = campaignPollingQuality(next, campaign).reader;
+  const compared = estimate.peers
+    .map(
+      (peer) =>
+        congressSeatIdentityForOfficeKey(peer.seatKey)?.displayName ??
+        peer.seatKey,
+    )
+    .join("; ");
+  const comparisonLabel =
+    party === null
+      ? "Democratic district comparison (your major-party affiliation is not recorded)"
+      : `${party} district comparison`;
   const observed =
     observation.value.kind === "quantity"
       ? (observation.value.quantity.numerator /
@@ -1551,8 +1650,17 @@ function recordCampaignActionOutcome(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["campaign.feedback", "campaign.observation"],
-    summary: `The field memo puts them somewhere around ${Math.round(observed)} percent, give or take four points.`,
+    tags: [
+      "campaign.feedback",
+      "campaign.observation",
+      "campaign.estimate",
+      ...new Set(
+        estimate.peers.map(
+          (peer) => `campaign.estimate-source:${peer.sourceEntityId}`,
+        ),
+      ),
+    ],
+    summary: `${estimate.label}: ${comparisonLabel} around ${Math.round(observed)} percent, give or take ${(estimate.standardDeviation * 100).toFixed(1)} points of recorded district spread. Compared ${compared}.`,
     context: {
       location: {
         jurisdictionId: campaign.jurisdictionId,
@@ -1560,11 +1668,14 @@ function recordCampaignActionOutcome(
         setting: "A memo left on the desk",
       },
       socialContext:
-        "Somebody's best estimate from the calls they made, not the electorate itself.",
+        reader.kind === "experienced"
+          ? `Prepared by ${personName(next.people[reader.personId]!)}, whose recorded survey work totals ${reader.surveyDays} days. This is district evidence, not contacted voter responses.`
+          : "Prepared by the campaign's volunteer reader from recorded district evidence, not contacted voter responses.",
       pressure: null,
       choice: null,
       motivation: "Give the candidate something to act on.",
-      immediateReaction: "It could be wrong, and there is no way to check.",
+      immediateReaction:
+        "The compared districts and their recorded spread are listed; there is no poll of your own yet.",
     },
   });
   const feedbackEventId = next.history.events.at(-1)!.id;
@@ -1616,15 +1727,7 @@ function recordCampaignActionOutcome(
 /* Election day                                                                */
 /* -------------------------------------------------------------------------- */
 
-/**
- * The result.
- *
- * Canonical support decides it, with a bounded keyed swing on top, because an
- * election is not a poll of the electorate's settled mind — turnout, weather and
- * the last week all move it. The swing is drawn per candidate from the world's
- * seed and the contest's identity, so the same world always produces the same
- * night, and a campaign that is genuinely behind can still occasionally win.
- */
+/** Read the latest saved candidate support without an election-night swing. */
 export function evaluateCampaignAwareOutcome(
   world: World,
   contestId: EntityId,
@@ -1640,20 +1743,9 @@ export function evaluateCampaignAwareOutcome(
     const support = quantityBasisPoints(
       latestSupportState(world, campaign, scope),
     );
-    const swing = new SeededRng(world.seed)
-      .fork(
-        `campaign-election-uncertainty:${contest.id}:${scope.candidatePersonId}`,
-      )
-      .integer(-350, 351);
-    // The swing is wider than the support floor, so clamping at one basis
-    // point let election night print a share the support model forbids: a
-    // candidate held at the one-percent floor all campaign, drawing the worst
-    // swing, came out on 0.01 percent — one vote in ten thousand, which is not
-    // a result any real contest produces and read on screen as 0.0%. The floor
-    // is the floor at both ends of the day.
     return {
       id: scope.candidatePersonId,
-      weight: Math.max(SUPPORT_FLOOR_BASIS_POINTS, support + swing),
+      weight: Math.max(SUPPORT_FLOOR_BASIS_POINTS, support),
     };
   });
   const votes = allocateBasisPoints(scores);
@@ -1836,6 +1928,19 @@ function seatOnLocalGoverningBody(
   winnerPersonId: EntityId,
 ): World {
   const unit = office.unit;
+  if (office.seat === "row-office" && office.rowOffice) {
+    const next = seatCountyRowOfficerWinner(world, {
+      unit,
+      office: office.rowOffice,
+      title: office.officeTitle,
+      winnerPersonId,
+      effectiveAt,
+      contestId: contest.id,
+      outcomeEventId,
+    });
+    assertWorldIntegrity(next);
+    return next;
+  }
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
   const compiled = municipalWorkspaceGovernmentForUnit(unit);
@@ -2033,10 +2138,7 @@ function closeCampaignAfterElection(
     },
   };
   assertWorldIntegrity(next);
-  for (const workRelationshipId of [
-    campaign.candidateWorkRelationshipId,
-    ...campaign.staffWorkRelationshipIds,
-  ]) {
+  for (const workRelationshipId of [campaign.candidateWorkRelationshipId]) {
     const previous = workStatusHistory(next, workRelationshipId).at(-1);
     if (previous && previous.status !== "ended") {
       next = recordWorkStatus(next, {
@@ -2049,6 +2151,26 @@ function closeCampaignAfterElection(
         supersedesStatusId: previous.id,
       });
     }
+  }
+  // Staff remain on the record for the election-night gathering. Their
+  // work ends tomorrow through the existing clock, never a future-dated
+  // work-status record written today.
+  if (campaign.staffWorkRelationshipIds.length > 0) {
+    const endedAt = addDays(result.resolvedAt, 1);
+    if (endedAt <= next.currentDate) {
+      next = endCampaignStaff(next, campaign, endedAt, result.outcomeEventId);
+    } else
+      next = scheduleFutureDueItem(next, {
+        stableKey: `${campaign.stableKey}:staff-close:${result.id}`,
+        dueAt: addDays(result.resolvedAt, 1),
+        transitionKey: CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY,
+        entityIds: [campaign.contestId, result.id].sort(),
+        jurisdictionId: campaign.jurisdictionId,
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [result.id, result.outcomeEventId].sort(),
+        },
+      });
   }
   // CRUNCH46 CAMPAIGN: campaign work still on the calendar can no longer be
   // performed once the race is decided, so release it instead of leaving a
@@ -2154,7 +2276,7 @@ export function campaignElectionTransitionHandler(
     provenance: {
       method: "simulated",
       sourceEntityIds: [dueItem.id, campaign.contestId, ...workEventIds],
-      note: "Resolved from canonical candidate support with a bounded keyed swing.",
+      note: "Resolved from recorded canonical candidate support.",
     },
   });
   const result = electionContestResult(resolved, campaign.contestId)!;
@@ -2168,6 +2290,67 @@ export function campaignElectionTransitionHandler(
   };
 }
 
+const CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY = "campaign:staff-close" as const;
+
+function closeCampaignStaffOnDueDate(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const campaign =
+    dueItem.entityIds
+      .map((id) => campaignForContest(world, id))
+      .find((row) => row !== null) ?? null;
+  const result = campaign
+    ? electionContestResult(world, campaign.contestId)
+    : null;
+  if (
+    !campaign ||
+    !result ||
+    !dueItem.entityIds.includes(result.id) ||
+    dueItem.dueAt !== addDays(result.resolvedAt, 1) ||
+    campaignState(world, campaign.id).status === "active"
+  )
+    throw new Error(
+      "Campaign staff closure requires its saved election result and next-day date.",
+    );
+  const next = endCampaignStaff(
+    world,
+    campaign,
+    dueItem.dueAt,
+    result.outcomeEventId,
+  );
+  return {
+    world: next,
+    status: "resolved",
+    reasonKey: null,
+    context: "Campaign staff work ended after election night.",
+    outcomeEventId: null,
+  };
+}
+
+function endCampaignStaff(
+  world: World,
+  campaign: CampaignRecord,
+  endedAt: IsoDate,
+  outcomeEventId: EntityId,
+): World {
+  let next = world;
+  for (const workRelationshipId of campaign.staffWorkRelationshipIds) {
+    const previous = workStatusHistory(next, workRelationshipId).at(-1);
+    if (previous && previous.status !== "ended")
+      next = recordWorkStatus(next, {
+        stableKey: `${campaign.stableKey}:work-ended:${workRelationshipId}`,
+        workRelationshipId,
+        effectiveAt: endedAt,
+        status: "ended",
+        reason: "Campaign staff work ended the day after the election.",
+        provenance: { kind: "simulated-event", eventId: outcomeEventId },
+        supersedesStatusId: previous.id,
+      });
+  }
+  return next;
+}
+
 export function composeWorldTimeHandlers(
   additional?: FutureTransitionHandlerRegistry,
 ): FutureTransitionHandlerRegistry {
@@ -2178,13 +2361,14 @@ export function composeWorldTimeHandlers(
   const ordinary = composeExecutiveWorkHandlers(
     composeFutureTransitionHandlerRegistries(
       createNationalElectionTransitionRegistry(),
+      STATE_LEGISLATURE_QUEUE_HANDLERS,
       createLegislativeTermTransitionRegistry(),
       createTransitTransitionRegistry((world, input, resolver) =>
         settlePublicResourcePayment(world, input, resolver),
       ),
       createTaxTransitionHandlerRegistry(),
       createProsecutionTransitionRegistry(),
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
       // D-11: the candidate's standing campaign hours, after the day job's.
       createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
@@ -2193,43 +2377,45 @@ export function composeWorldTimeHandlers(
       createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+        [CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY, closeCampaignStaffOnDueDate],
         // GOVERNING: state office matters, their deadlines and reports.
         ...stateGoverningHandlers(),
-        ...GOVERNOR_TURNOVER_HANDLERS,
+        ...governorTurnoverHandlers(),
         // A legislature and voters changing the governor's term limit.
-        ...CONSTITUTIONAL_REFORM_HANDLERS,
+        ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
-        ...FEDERAL_REFORM_HANDLERS,
-        ...ARTICLE_V_HANDLERS,
-        ...PRESIDENTIAL_TURNOVER_HANDLERS,
+        ...federalReformHandlers(),
+        ...articleVHandlers(),
+        ...presidentialTurnoverHandlers(),
         // Voters recalling a town official: petition, then recall election.
-        ...RECALL_HANDLERS,
+        ...recallHandlers(),
         // The player's town electing its council and mayor on its own.
-        ...LOCAL_ELECTION_HANDLERS,
+        ...localElectionHandlers(),
         // Local councils enact on their own clocks. Money they appropriate
         // goes to their executive the same day, as a legislature's does.
         ...[
           // Scheduled council readings and executive/return deadlines.
-          ...COUNCIL_ACT_HANDLERS,
+          ...councilActHandlers(),
           // The Council of the District of Columbia sitting on its own.
-          ...DC_COUNCIL_SITTING_HANDLERS,
+          ...dcCouncilSittingHandlers(),
           // Admitted city and county councils use a separate quarterly game clock.
-          ...LOCAL_MEMBER_AGENDA_HANDLERS,
+          ...localMemberAgendaHandlers(),
           // The player's town council meeting and voting on ordinances.
-          ...LOCAL_COUNCIL_MEETING_HANDLERS,
-        ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
-        ...PUBLIC_PROGRAM_HANDLERS,
+          ...localCouncilMeetingHandlers(),
+        ],
+        ...publicProgramHandlers(),
         // Residents ask for a paid public service, then take part in it.
-        ...PUBLIC_SERVICE_HANDLERS,
+        ...publicServiceHandlers(),
         // An enacted law's duty falling due on the bodies it covers.
-        ...ENACTED_DUTY_HANDLERS,
-        ...OFFICE_CONTINUITY_HANDLERS,
+        ...enactedDutyHandlers(),
+        ...officeContinuityHandlers(),
         [
           POLITICAL_REFLECTION_TRANSITION_KEY,
           politicalReflectionTransitionHandler,
         ],
         // Spec 5: people credit or blame the officials behind a law that
-        // reached them.
+        // reached them, and the official who answers for what happened to
+        // them.
         [OFFICIAL_VIEW_TRANSITION_KEY, officialViewReflectionHandler],
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
@@ -2248,11 +2434,15 @@ export function composeWorldTimeHandlers(
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
-        ...PAYDAY_HANDLERS,
+        ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
-        ...RENT_DAY_HANDLERS,
+        ...rentDayHandlers(),
+        // PROPERTY TAX: a local property tax assesses homes on its day.
+        ...propertyTaxHandlers(),
+        // COUNTY BUDGET: a county board hears and votes its yearly levy.
+        ...countyBudgetHearingHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
-        ...CAMPAIGN_LIFE_HANDLERS,
+        ...campaignLifeHandlers(),
       ]),
       // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
       createPressTransitionRegistry(),
@@ -2261,8 +2451,8 @@ export function composeWorldTimeHandlers(
       // 1A PEOPLE: residents take their own steps toward private goals.
       PEOPLE_GOAL_HANDLERS,
       // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
-      PEOPLE_FAMILY_HANDLERS,
-      LIFE_TRANSITION_HANDLERS,
+      peopleFamilyHandlers(),
+      lifeTransitionHandlers(),
     ),
   );
   return additional
