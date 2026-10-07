@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
+import hearingBank from "../../data/english/parts/hearing.json" with { type: "json" };
+import legislationBank from "../../data/english/parts/legislation.json" with { type: "json" };
+import meetingBank from "../../data/english/parts/meeting.json" with { type: "json" };
+import minutesBank from "../../data/english/parts/minutes.json" with { type: "json" };
+import winningLosingBank from "../../data/english/parts/winning-losing.json" with { type: "json" };
 
-import { runDialogueBatch } from "./run";
+import { DEFAULT_AGES, runDialogueBatch } from "./run";
+import { toGradingBatch } from "./grading";
 
 describe("the dialogue batch", () => {
   it(
@@ -38,22 +44,58 @@ describe("the dialogue batch", () => {
   );
 });
 
-describe("the dialogue batch reaches a press interview answer", () => {
+describe("the dialogue batch avoids menu prompts", () => {
   it(
-    "arranges a real exchange and words the player's answer with the answer banks",
+    "creates a 40-item grading batch from recorded producer output",
     { timeout: 300_000 },
     () => {
       const result = runDialogueBatch({
-        seed: "dh1-quick",
-        ages: [34],
+        seed: "eng-20261007-endpoint",
+        ages: DEFAULT_AGES,
         newsDays: 10,
-        max: 40,
+        max: 80,
       });
-      const answer = result.lines.find((line) => line.id === "press-answer");
-      expect(answer?.composer).toBe(
-        "composePressLine (answer-unknown) in press-english.ts",
+      const { batch, bin } = toGradingBatch(result, {
+        id: "eng-20261007-proof",
+        head: "test-head",
+        at: new Date("2026-10-07T17:00:00.000Z"),
+      });
+
+      expect(batch.items.length).toBeGreaterThanOrEqual(40);
+      expect(bin).toHaveLength(0);
+      expect(batch.items.every((item) => item.parts.length > 0)).toBe(true);
+      expect(result.lines.every((line) => line.id.startsWith("text-"))).toBe(
+        true,
       );
-      expect(answer?.line.trim()).not.toBe("");
+      const situationRelationships = batch.items.map(
+        (item) => `${item.situation}|${item.cell.relationship}`,
+      );
+      expect(new Set(situationRelationships).size).toBe(batch.items.length);
+      const sourcedParts = [
+        ...hearingBank.parts,
+        ...legislationBank.parts,
+        ...meetingBank.parts,
+        ...minutesBank.parts,
+        ...winningLosingBank.parts,
+      ];
+      for (const item of batch.items)
+        for (const key of item.parts) {
+          if (key.startsWith("bank:")) {
+            const part = sourcedParts.find((row) => row.key === key.slice(5));
+            expect(part?.source?.url, key).toBeTruthy();
+          } else {
+            expect(
+              key.startsWith("news:story:event_") ||
+                key.startsWith("journal:chapter:"),
+              key,
+            ).toBe(true);
+          }
+        }
+      expect(
+        batch.absent.every((item) =>
+          item.reason.startsWith("no output, because"),
+        ),
+      ).toBe(true);
     },
   );
 });

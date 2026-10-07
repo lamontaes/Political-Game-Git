@@ -48,7 +48,7 @@ export const KINDS_WITHOUT_PRODUCER: Readonly<Record<string, string>> = {
     "no output, because no notices bank or composer exists yet",
 };
 
-const PER_KIND = 3;
+const PER_KIND = 10;
 
 export function readKinds(world: World, playerId: EntityId): KindReading {
   const texts: KindText[] = [];
@@ -58,7 +58,7 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     else texts.push(...found.slice(0, PER_KIND));
   };
 
-  // One story per wording: three copies of one template with other figures
+  // One story per wording: copies of one template with other figures
   // are one item, not three (batch variety rule).
   const shapes = new Set<string>();
   const stories = projectNewsFrontPage(world, "front", null).stories.filter(
@@ -74,7 +74,7 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     stories.map((story) => ({
       kind: "news",
       composer: "projectNewsFrontPage in news-front-page.ts",
-      situation: `A ${story.outletName} story from ${story.place ?? "the nation"}.`,
+      situation: `A ${story.outletName} story about public record ${story.sourceEventId} from ${story.place ?? "the nation"}.`,
       text: story.body.startsWith(story.headline)
         ? story.body
         : `${story.headline} ${story.body}`.trim(),
@@ -178,7 +178,7 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
   addBank(
     "winning-and-losing",
     results,
-    readWinningLosingBank(world, playerId),
+    readWinningLosingBank(world),
     "readWinningLosingBank in bank-english.ts",
     "no race in this world is decided yet",
   );

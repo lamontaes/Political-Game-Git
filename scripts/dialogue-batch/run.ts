@@ -199,7 +199,7 @@ export interface BatchResult {
 
 export interface BatchOptions {
   readonly seed: string;
-  /** The player's age in each world; one world per age (2 to 4). */
+  /** The player's age in each world; one world per age (2 to 8). */
   readonly ages: readonly number[];
   /** Days the first adult world is moved forward so news and press exist. */
   readonly newsDays: number;
@@ -207,7 +207,7 @@ export interface BatchOptions {
   readonly max: number;
 }
 
-export const DEFAULT_AGES: readonly number[] = [6, 17, 34, 52];
+export const DEFAULT_AGES: readonly number[] = [28, 34, 42, 50, 58, 64, 68, 70];
 
 // ---------------------------------------------------------------------------
 // Worlds and the people in them
@@ -1175,7 +1175,9 @@ function privacyMood(ctx: WorldContext): Produced {
   };
 }
 
-const SITUATIONS: readonly Situation[] = [
+// Kept available for situation-specific tests; grading batches exclude these
+// authored menu scenarios until they are backed by real played records.
+export const SITUATIONS: readonly Situation[] = [
   // The sixteen kept first, spread across the composers.
   {
     id: "greet-ask",
@@ -1286,8 +1288,8 @@ const SITUATIONS: readonly Situation[] = [
 // ---------------------------------------------------------------------------
 
 export function runDialogueBatch(options: BatchOptions): BatchResult {
-  if (options.ages.length < 1 || options.ages.length > 4)
-    throw new Error("Use one to four worlds.");
+  if (options.ages.length < 1 || options.ages.length > 8)
+    throw new Error("Use one to eight worlds.");
   // The first adult world is the one moved forward, so news and press exist.
   const newsIndex = Math.max(
     0,
@@ -1299,16 +1301,11 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     const built = buildWorld(options.seed, index, age);
     let { world } = built;
     let advancedDays = 0;
-    // Every world is played at least two days, so the meeting posted on the
-    // first day is held and its roll call recorded (golden path); the news
-    // world is played the full stretch.
-    const days =
-      index === newsIndex ? options.newsDays : Math.min(2, options.newsDays);
-    if (days > 0) {
+    if (index === newsIndex && options.newsDays > 0) {
       const moved = advanceDays(
         world,
         built.playerId,
-        days,
+        options.newsDays,
         `${options.seed}-${index}`,
         random,
       );
@@ -1346,7 +1343,10 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
   const lines: BatchLine[] = [];
   const skipped: BatchSkip[] = [];
   const seenText = new Set<string>();
-  SITUATIONS.forEach((situation, order) => {
+  // Every menu prompt is excluded: this grading batch contains only text
+  // read from records created in the played worlds.
+  const recordedSituations: readonly Situation[] = [];
+  recordedSituations.forEach((situation, order) => {
     if (lines.length >= options.max) {
       skipped.push({ id: situation.id, reason: "over the line cap" });
       return;
@@ -1393,7 +1393,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     }
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
-  // The other kinds of text, read from the game's own producers: up to three
+  // The other kinds of text, read from the game's own producers: up to ten
   // each across the worlds, and a reason for every kind none produced.
   const perKind = new Map<string, number>();
   const why = new Map<string, string[]>();
@@ -1408,7 +1408,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
           "#",
         )
         .replace(/[\d$,.]+/g, "#");
-      if ((perKind.get(text.kind) ?? 0) >= 3 || seenText.has(shape)) continue;
+      if ((perKind.get(text.kind) ?? 0) >= 10 || seenText.has(shape)) continue;
       seenText.add(shape);
       perKind.set(text.kind, (perKind.get(text.kind) ?? 0) + 1);
       lines.push({
@@ -1493,7 +1493,7 @@ function main() {
     seed: opt("seed", "dialogue-batch"),
     ages: opt("ages", DEFAULT_AGES.join(",")).split(",").map(Number),
     newsDays: Number(opt("news-days", "10")),
-    max: Number(opt("max", "16")),
+    max: Number(opt("max", "48")),
   };
   if (
     options.ages.some((age) => !Number.isInteger(age) || age < 0) ||
@@ -1503,7 +1503,7 @@ function main() {
     options.max < 1
   )
     throw new Error(
-      "Use --seed S, --ages a,b,c (1 to 4), --news-days N, --max N and --out FILE.",
+      "Use --seed S, --ages a,b,c (1 to 8), --news-days N, --max N and --out FILE.",
     );
   const out = opt("out", `test-results/dialogue-batch/${options.seed}.json`);
   const result = runDialogueBatch(options);
@@ -1515,7 +1515,8 @@ function main() {
   // to the bin beside it.
   const at = new Date();
   const batchId = opt("batch-id", gradingBatchId(at));
-  const head = execSync("git rev-parse HEAD").toString().trim();
+  const head =
+    opt("head", "") || execSync("git rev-parse HEAD").toString().trim();
   const { batch, bin } = toGradingBatch(result, { id: batchId, head, at });
   const gradingOut = `test-results/dialogue-batch/${batchId}.json`;
   mkdirSync(dirname(gradingOut), { recursive: true });
