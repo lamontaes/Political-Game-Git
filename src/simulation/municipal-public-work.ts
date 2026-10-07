@@ -413,6 +413,9 @@ export function publicMeetingSeries(
  * asks to vote is told they are not a member rather than told the city's
  * passage threshold is unread. Both are true; only one is about them.
  */
+/** Trace key: the action needs the town's enacted text, which is not read. */
+export const ENACTED_TEXT_REQUIRED = "enacted-text-required";
+
 export function municipalActionAuthority(
   world: World,
   input: {
@@ -438,7 +441,7 @@ export function municipalActionAuthority(
     ) &&
     reading.evidence !== "enacted-text"
   ) {
-    return refuse(input.action, "evidence", "Enacted text required");
+    return refuse(input.action, "evidence", ENACTED_TEXT_REQUIRED);
   }
   const standing = municipalStanding(world, input);
   const isMember =

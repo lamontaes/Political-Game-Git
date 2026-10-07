@@ -18,6 +18,7 @@ import type {
   World,
 } from "../simulation/types";
 import {
+  ENACTED_TEXT_REQUIRED,
   attendMunicipalPublicMeeting,
   municipalManagerDecisionRuleSource,
   performMunicipalMeetingNotes,
@@ -336,11 +337,13 @@ export function MunicipalWorkspace({
                   {governing.managerAppointment.summary}
                 </p>
               ) : null}
-              <p>
-                {governing.appointment.ok
-                  ? "Seat recorded"
-                  : governing.appointment.reason}
-              </p>
+              {/* No enacted text: the appointment is not offered at all. */}
+              {governing.appointment.ok ? (
+                <p>Seat recorded</p>
+              ) : governing.appointment.reason ===
+                ENACTED_TEXT_REQUIRED ? null : (
+                <p>{governing.appointment.reason}</p>
+              )}
               {managerRule ? (
                 <details>
                   <summary>Election rule and remaining actions</summary>
