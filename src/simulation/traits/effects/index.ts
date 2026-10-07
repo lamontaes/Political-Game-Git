@@ -17,6 +17,7 @@ import { facetCompetitiveEffects } from "./facet-competitive";
 import { facetContentedEffects } from "./facet-contented";
 import { facetCruelEffects } from "./facet-cruel";
 import { facetCuriousEffects } from "./facet-curious";
+import { facetDaydreamingEffects } from "./facet-daydreaming";
 import { facetDefensiveEffects } from "./facet-defensive";
 import { facetDeferentialEffects } from "./facet-deferential";
 import { facetDutyBoundEffects } from "./facet-duty-bound";
@@ -85,6 +86,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetContentedEffects,
     ...facetCruelEffects,
     ...facetCuriousEffects,
+    ...facetDaydreamingEffects,
     ...facetDefensiveEffects,
     ...facetDeferentialEffects,
     ...facetDutyBoundEffects,
