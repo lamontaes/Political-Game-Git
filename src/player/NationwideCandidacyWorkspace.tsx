@@ -108,7 +108,7 @@ export function NationwideCandidacyWorkspace({
             </ul>
           ) : (
             <p className="game-note" data-testid="home-no-municipal">
-              No city or town government is recorded for this place.
+              City or town government: none
             </p>
           )
         ) : null}
@@ -171,8 +171,9 @@ export function NationwideCandidacyWorkspace({
             <>
               {candidacy.eligible ? (
                 <p>
-                  You may run for {candidacy.identity.displayName} today. Filing
-                  opens a campaign with nothing in it.
+                  {candidacy.minimumAge
+                    ? `Eligible · Minimum age: ${candidacy.minimumAge.value}${candidacy.minimumAge.estimated ? " (estimated)" : ""}`
+                    : "Eligible"}
                 </p>
               ) : (
                 <BlockList blocks={candidacy.blocks} />
@@ -205,7 +206,7 @@ export function NationwideCandidacyWorkspace({
               data-testid="state-executive-calendar"
               data-basis={calendar.basis}
             >
-              <summary>How this office's calendar works</summary>
+              <summary>Calendar</summary>
               <p>{calendar.note}</p>
             </details>
           ) : null}

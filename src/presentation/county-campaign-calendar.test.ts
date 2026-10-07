@@ -46,7 +46,9 @@ describe("county calendar reaches existing campaign readers", () => {
     )!;
     expect(row.electionDate).toBe("2027-11-20");
     expect(row.eligible).toBe(false);
-    expect(row.eligibility).toBe("Qualifications: not on record");
+    expect(row.eligibility).toBe(
+      "Qualifications: not on record · Minimum age: 21 (estimated)",
+    );
     expect(() =>
       fileForOffice(world, person.id, null, county.officeKey),
     ).toThrow("Qualifications: not on record");
@@ -71,7 +73,7 @@ describe("county calendar reaches existing campaign readers", () => {
     expect(row).toMatchObject({
       electionDate: null,
       eligible: false,
-      timing: null,
+      timing: expect.stringMatching(/^Next election: .+ \(estimated\)$/),
     });
     expect(() =>
       fileForOffice(world, person.id, null, county.officeKey),

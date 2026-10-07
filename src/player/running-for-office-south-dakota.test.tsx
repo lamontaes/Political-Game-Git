@@ -45,8 +45,8 @@ function visibleText(markup: string): string {
 }
 
 function ageMinimums(text: string): number[] {
-  return [...text.matchAll(/(?:at least|under) (\d+)/g)].map((match) =>
-    Number(match[1]),
+  return [...text.matchAll(/(?:at least|under|Minimum age:) (\d+)/g)].map(
+    (match) => Number(match[1]),
   );
 }
 

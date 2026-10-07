@@ -78,7 +78,10 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
               : eligibility.eligible
                 ? "Eligible"
                 : eligibility.blocks.map((block) => block.reason).join(" · ")),
-          eligibility.minimumAge
+          eligibility.minimumAge &&
+          !eligibility.blocks.some((block) =>
+            block.reason.startsWith("Minimum age"),
+          )
             ? `Minimum age: ${eligibility.minimumAge.value}${eligibility.minimumAge.estimated ? " (estimated)" : ""}`
             : null,
         ]

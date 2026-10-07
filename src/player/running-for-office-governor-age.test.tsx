@@ -83,9 +83,9 @@ function visibleText(markup: string): string {
 }
 
 function ageMinimums(text: string): number[] {
-  return [...text.matchAll(/(?:at least|under|minimum age of) (\d+)/g)].map(
-    (match) => Number(match[1]),
-  );
+  return [
+    ...text.matchAll(/(?:at least|under|minimum age of|Minimum age:) (\d+)/g),
+  ].map((match) => Number(match[1]));
 }
 
 function renderRaceScreen({ world, personId }: Life): string {
