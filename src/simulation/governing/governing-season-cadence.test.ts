@@ -31,6 +31,67 @@ beforeEach(() => {
 });
 
 describe("governing bill dates follow the saved session cadence", () => {
+  it("uses the recorded 2026 convene date and repeats weekly while in session", () => {
+    const jurisdiction = stateJurisdictionForKey("US-CA")!;
+    const world = createWorld({
+      seed: "governing-calendar-weekly",
+      currentDate: makeIsoDate("2026-01-05"),
+      jurisdictions: [jurisdiction],
+      people: [],
+    });
+    const scheduled = scheduleGoverningSeasons(
+      world,
+      "governor-weekly-calendar-fixture",
+      jurisdiction.id,
+    );
+    const first = scheduled.history.futureDueItems.find(
+      (due) =>
+        due.stableKey.includes("governor-weekly-calendar-fixture") &&
+        due.stableKey.includes(":bill:"),
+    )!;
+    expect(first.dueAt).toBe("2026-01-12");
+
+    const onFirstDate = {
+      ...scheduled,
+      currentDate: first.dueAt,
+      currentMoment: { ...scheduled.currentMoment, date: first.dueAt },
+    };
+    const next = scheduleGoverningSeasons(
+      onFirstDate,
+      "governor-weekly-calendar-fixture",
+      jurisdiction.id,
+    );
+    expect(
+      next.history.futureDueItems.find(
+        (due) =>
+          due.stableKey.includes("governor-weekly-calendar-fixture") &&
+          due.stableKey.includes(":bill:") &&
+          due.dueAt > first.dueAt,
+      )?.dueAt,
+    ).toBe("2026-01-19");
+  });
+
+  it("does not schedule a 2026 regular bill intake where no session is recorded", () => {
+    const jurisdiction = stateJurisdictionForKey("US-TX")!;
+    const world = createWorld({
+      seed: "governing-calendar-off-year",
+      currentDate: makeIsoDate("2026-01-05"),
+      jurisdictions: [jurisdiction],
+      people: [],
+    });
+    const scheduled = scheduleGoverningSeasons(
+      world,
+      "governor-off-year-calendar-fixture",
+      jurisdiction.id,
+    );
+    const bills = scheduled.history.futureDueItems.filter(
+      (due) =>
+        due.stableKey.includes("governor-off-year-calendar-fixture") &&
+        due.stableKey.includes(":bill:"),
+    );
+    expect(bills.every((due) => due.dueAt >= "2027-01-01")).toBe(true);
+  });
+
   it("looks beyond next year for a bill day but keeps the annual budget date", () => {
     const jurisdiction = stateJurisdictionForKey("US-NV")!;
     const world = createWorld({
