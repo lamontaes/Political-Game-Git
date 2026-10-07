@@ -5047,6 +5047,15 @@ export interface LegislativeAmendmentRecord {
    * has to pass. Omitted for the player's amendments and older records.
    */
   readonly authorMotive?: LegislativeAmendmentMotive;
+  /** Potential constitutional issue, not a finding of invalidity. Recorded
+   * only on adoption, using the procedure engine's policy-domain proxy. */
+  readonly potentialSingleSubjectIssue?: {
+    readonly citation: string;
+    readonly assessmentBasis: "policy-domain-proxy";
+    readonly billDomainIds: readonly string[];
+    readonly addedDomainIds: readonly string[];
+    readonly propositionIds: readonly string[];
+  };
 }
 
 export type LegislativeAmendmentMotive = "pass" | "sink" | "record" | "ride";
@@ -5870,10 +5879,13 @@ export interface SetupPriorStore {
 
 export type SaveMode = "free" | "one-save";
 export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
+export type ChallengeIntensity = "quiet" | "standard" | "relentless";
 
 /** Player-facing choices kept on the World; absent legacy data means defaults. */
 export interface PlaySettings {
   readonly saves: SaveMode;
+  /** Reorders eligible life situations without changing events or outcomes. */
+  readonly challengeIntensity: ChallengeIntensity;
   /** Changes how recorded personal-life events are worded, never world facts. */
   readonly personalLifeDepiction: PersonalLifeDepiction;
 }

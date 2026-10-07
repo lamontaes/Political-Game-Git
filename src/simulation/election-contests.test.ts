@@ -11,6 +11,7 @@ import {
   electionContestsForCandidate,
   electionContestsForJurisdiction,
   electionContestTransitionHandler,
+  orderElectionReportingBatches,
   isElectionContestPending,
   isElectionContestResolved,
   pendingElectionContests,
@@ -51,6 +52,30 @@ function createElectionTransitionRegistry() {
 }
 
 describe("Election Contest Substrate", () => {
+  it("orders recorded batches by turnout and honors a recorded early-mail-first rule", () => {
+    const reports = [
+      { batchKey: "precinct-b", ballotsCast: 40, kind: "precinct" as const },
+      { batchKey: "mail", ballotsCast: 500, kind: "early-mail" as const },
+      { batchKey: "precinct-a", ballotsCast: 12, kind: "precinct" as const },
+    ];
+
+    expect(
+      orderElectionReportingBatches(reports, true).map(
+        (batch) => batch.batchKey,
+      ),
+    ).toEqual(["mail", "precinct-a", "precinct-b"]);
+    expect(
+      orderElectionReportingBatches(reports, false).map(
+        (batch) => batch.batchKey,
+      ),
+    ).toEqual(["precinct-a", "precinct-b", "mail"]);
+    expect(reports.map((batch) => batch.batchKey)).toEqual([
+      "precinct-b",
+      "mail",
+      "precinct-a",
+    ]);
+  });
+
   it("1. deterministic creation: creates contest records with stable IDs and scheduled future due items", () => {
     const worldA = createDemoWorld("election-deterministic-creation-seed");
     const worldB = createDemoWorld("election-deterministic-creation-seed");
