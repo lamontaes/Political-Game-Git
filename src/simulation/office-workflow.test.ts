@@ -95,6 +95,31 @@ describe("office workflow persistence", () => {
         relationshipId,
       )?.votingMode,
     ).toBe("review-batch");
+    expect(
+      currentOfficeWorkflowPreference(
+        restored,
+        built.playerPersonId,
+        relationshipId,
+      )?.meetingDepth,
+    ).toBe("what-matters");
     expect(restored.history.officeWorkflowPreferences).toHaveLength(1);
+
+    const everything = recordOfficeWorkflowPreference(restored, {
+      personId: built.playerPersonId,
+      officeRelationshipId: relationshipId,
+      votingMode: "review-batch",
+      caseworkMode: "player-handles-all",
+      meetingDepth: "everything",
+    });
+    expect(everything.kind).toBe("recorded");
+    if (everything.kind !== "recorded") throw new Error(everything.reason);
+    expect(
+      currentOfficeWorkflowPreference(
+        everything.world,
+        built.playerPersonId,
+        relationshipId,
+      )?.meetingDepth,
+    ).toBe("everything");
+    expect(everything.world.history.officeWorkflowPreferences).toHaveLength(2);
   });
 });

@@ -227,7 +227,7 @@ export function validatePressRecords(
         text(record.provenanceNote, "outlet provenance");
         earlier(record.organizationId, seq, "outlet organization");
         if (record.policyVersion !== PRESS_POLICY_VERSION) {
-          throw new Error(`Outlet uses an unknown policy: ${record.id}`);
+          throw new Error(`Outlet uses an unsupported policy: ${record.id}`);
         }
         if (
           (record.scope === "national") !==
@@ -736,8 +736,10 @@ export function validatePressRecords(
         break;
       }
       default: {
-        const unknown: never = record;
-        throw new Error(`Unknown press record: ${JSON.stringify(unknown)}`);
+        const unsupported: never = record;
+        throw new Error(
+          `Unsupported press record: ${JSON.stringify(unsupported)}`,
+        );
       }
     }
     byId.set(record.id, record);
