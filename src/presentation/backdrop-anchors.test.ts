@@ -136,15 +136,25 @@ describe("people anchors on every place picture", () => {
     }
   });
   it("anchors community room chairs and public meeting room pews", () => {
-    const community = STAGES["community-room"]!.spots.filter((spot) => spot.pose === "sit");
+    const community = STAGES["community-room"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
     expect(community).toHaveLength(8);
     expect(new Set(community.map((spot) => spot.id)).size).toBe(8);
-    expect(community.filter((spot) => spot.group === "circle-left")).toHaveLength(3);
-    expect(community.filter((spot) => spot.group === "circle-right")).toHaveLength(3);
-    const meeting = STAGES["public-meeting-room"]!.spots.filter((spot) => spot.pose === "sit");
+    expect(
+      community.filter((spot) => spot.group === "circle-left"),
+    ).toHaveLength(3);
+    expect(
+      community.filter((spot) => spot.group === "circle-right"),
+    ).toHaveLength(3);
+    const meeting = STAGES["public-meeting-room"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
     expect(meeting).toHaveLength(10);
     expect(new Set(meeting.map((spot) => spot.id)).size).toBe(10);
-    expect(meeting.filter((spot) => spot.group === "spectator-pew")).toHaveLength(6);
+    expect(
+      meeting.filter((spot) => spot.group === "spectator-pew"),
+    ).toHaveLength(6);
     expect(meeting.filter((spot) => spot.group === "table")).toHaveLength(4);
     expect(meeting.filter((spot) => spot.facing === "away")).toHaveLength(6);
   });
