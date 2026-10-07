@@ -78,6 +78,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  PrecinctCandidateTally,
   World,
 } from "../types";
 import { isPersonAliveAt } from "../vitality-integrity";
@@ -1157,7 +1158,11 @@ function countVotes(
   seat: number,
   candidates: readonly EntityId[],
   electionDate: IsoDate,
-): CandidateTally[] | null {
+  precinctOfVoter?: (personId: EntityId) => string | null,
+): {
+  readonly tallies: CandidateTally[];
+  readonly precinctTallies: readonly PrecinctCandidateTally[] | null;
+} | null {
   const plan = councilWardPlan(unit);
   const map = townWardMap(world, unit);
   const ward = map && isWardSeat(plan, seat) ? seatWard(map, seat) : null;
@@ -1166,6 +1171,7 @@ function countVotes(
     jurisdictionId: town,
     electionDate,
     candidatePersonIds: candidates,
+    ...(precinctOfVoter ? { precinctOfVoter } : {}),
     ...(ward === null
       ? {}
       : {
@@ -1175,12 +1181,18 @@ function countVotes(
           },
         }),
   });
-  return result ? [...result.tallies] : null;
+  return result
+    ? {
+        tallies: [...result.tallies],
+        precinctTallies: result.precinctTallies,
+      }
+    : null;
 }
 
 export function localElectionCountHandler(
   world: World,
   due: FutureDueItem,
+  precinctOfVoter?: (personId: EntityId) => string | null,
 ): FutureTransitionHandlerResult {
   const parts = countParts(due.stableKey);
   const town = due.jurisdictionId;
@@ -1208,8 +1220,9 @@ export function localElectionCountHandler(
     seat,
     field,
     contest.electionDate,
+    precinctOfVoter,
   );
-  if (!counted || counted.length === 0)
+  if (!counted || counted.tallies.length === 0)
     return {
       world,
       status: "blocked",
@@ -1221,7 +1234,10 @@ export function localElectionCountHandler(
         : "The saved voter decisions do not identify a unique winner.",
       outcomeEventId: null,
     };
-  if (counted.length > 1 && counted[0]!.votes === counted[1]!.votes)
+  if (
+    counted.tallies.length > 1 &&
+    counted.tallies[0]!.votes === counted.tallies[1]!.votes
+  )
     return {
       world,
       status: "blocked",
@@ -1232,7 +1248,7 @@ export function localElectionCountHandler(
     };
   // Candidates who died before the vote are on the ballot with no votes.
   const tallies: CandidateTally[] = [
-    ...counted,
+    ...counted.tallies,
     ...contest.candidatePersonIds
       .filter((id) => !field.includes(id))
       .map((candidatePersonId) => ({
@@ -1242,7 +1258,7 @@ export function localElectionCountHandler(
       })),
   ];
 
-  let winner: EntityId | null = counted[0]!.candidatePersonId;
+  let winner: EntityId | null = counted.tallies[0]!.candidatePersonId;
   let advancing: EntityId[] = [];
   let ruleNote = "";
   if (stage === "primary") {
@@ -1257,8 +1273,8 @@ export function localElectionCountHandler(
       ? tabulateBallot({
           rule: rule.rule,
           majorityTriggerPercent: rule.majorityTriggerPercent,
-          candidateIds: counted.map((row) => row.candidatePersonId),
-          ballots: counted.map((row) => ({
+          candidateIds: counted.tallies.map((row) => row.candidatePersonId),
+          ballots: counted.tallies.map((row) => ({
             ranking: [row.candidatePersonId],
             count: row.votes,
           })),
@@ -1267,7 +1283,10 @@ export function localElectionCountHandler(
     if (outcome?.kind === "decided") {
       ruleNote = ` and won outright under ${unit.stateUsps}'s ${rule.rule} rule (${rule.basis})`;
     } else {
-      if (counted.length > 2 && counted[1]!.votes === counted[2]!.votes)
+      if (
+        counted.tallies.length > 2 &&
+        counted.tallies[1]!.votes === counted.tallies[2]!.votes
+      )
         return {
           world,
           status: "blocked",
@@ -1276,8 +1295,10 @@ export function localElectionCountHandler(
             "Candidates are tied for the last advancing position; no advancing field has been recorded.",
           outcomeEventId: null,
         };
-      advancing = counted.slice(0, 2).map((row) => row.candidatePersonId);
-      winner = counted[0]!.candidatePersonId;
+      advancing = counted.tallies
+        .slice(0, 2)
+        .map((row) => row.candidatePersonId);
+      winner = counted.tallies[0]!.candidatePersonId;
     }
   }
 
@@ -1287,6 +1308,23 @@ export function localElectionCountHandler(
     resolvedAt: world.currentDate,
     winnerPersonId: winner,
     tallies,
+    ...(counted.precinctTallies
+      ? {
+          precinctTallies: counted.precinctTallies.map((row) => ({
+            ...row,
+            tallies: contest.candidatePersonIds.map(
+              (candidatePersonId) =>
+                row.tallies.find(
+                  (tally) => tally.candidatePersonId === candidatePersonId,
+                ) ?? {
+                  candidatePersonId,
+                  votes: 0,
+                  voteShare: 0,
+                },
+            ),
+          })),
+        }
+      : {}),
     provenance: {
       method: "simulated",
       sourceEntityIds: [due.id, contest.id],

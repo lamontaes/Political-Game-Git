@@ -21,6 +21,8 @@ import {
 } from "./election-contests";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import { createStableId } from "./ids";
+import { isEligibleVoterIn } from "./issue-record";
+import { createFormationContext, recordPrivateBelief } from "./politics";
 import { createPortabilityFixture } from "./portability-fixture";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type {
@@ -555,6 +557,113 @@ describe("Election Contest Substrate", () => {
     const resultB = (runB.history.electionContestResults ?? [])[0]!;
     expect(resultA.winnerPersonId).toBe(resultB.winnerPersonId);
     expect(resultA.tallies).toEqual(resultB.tallies);
+  });
+
+  it("groups the same saved ballots by precinct and persists their counts", () => {
+    function run(groupByPrecinct: boolean) {
+      let world = createDemoWorld("election-uncontested-seed");
+      const jurisdictionId = getJurisdictionId(world);
+      const candidatePersonIds = [getPersonId(world, 0)];
+      const electionDate = addDays(world.currentDate, 5);
+      const voterIds = world.personOrder
+        .filter(
+          (personId) =>
+            personId !== candidatePersonIds[0] &&
+            isEligibleVoterIn(
+              world,
+              personId,
+              jurisdictionId,
+              world.currentDate,
+            ),
+        )
+        .slice(0, 2);
+      expect(voterIds).toHaveLength(2);
+      for (const personId of voterIds) {
+        world = recordPrivateBelief(world, {
+          stableKey: `uncontested:belief:${personId}`,
+          personId,
+          propositionId: null,
+          subject: { kind: "official", personId: candidatePersonIds[0]! },
+          formedAt: world.currentDate,
+          position: "support",
+          conviction: "settled",
+          salience: "central",
+          flexibility: "firm",
+          rationale: null,
+          formation: createFormationContext("reflection:initial"),
+          supersedesBeliefId: null,
+        });
+      }
+      world = scheduleElectionContest(world, {
+        stableKey: "uncontested:judge",
+        jurisdictionId,
+        office: {
+          officeKey: "district-judge",
+          title: "District Judge",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        electionDate,
+        candidatePersonIds,
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+      const contest = world.history.electionContests![0]!;
+      const precinctByPerson = new Map(
+        voterIds.map((personId, index) => [personId, `precinct:${index}`]),
+      );
+      const registry = groupByPrecinct
+        ? createFutureTransitionHandlerRegistry([
+            [
+              ELECTION_CONTEST_TRANSITION_KEY,
+              (current, dueItem) =>
+                electionContestTransitionHandler(
+                  current,
+                  dueItem,
+                  (personId) => precinctByPerson.get(personId) ?? null,
+                ),
+            ],
+          ])
+        : createElectionTransitionRegistry();
+      world = advanceWorld(world, 5, registry);
+      assertWorldIntegrity(world);
+      return {
+        result: electionContestResult(world, contest.id),
+        nationalElections: world.history.nationalElections,
+        nationalElectionRecords: world.history.nationalElectionRecords,
+      };
+    }
+    const overall = run(false);
+    const grouped = run(true);
+    expect(overall.result).not.toBeNull();
+    expect(grouped.result).not.toBeNull();
+    expect(grouped.result?.winnerPersonId).toBe(overall.result?.winnerPersonId);
+    expect(grouped.result?.tallies).toEqual(overall.result?.tallies);
+    expect(
+      grouped.result?.precinctTallies?.reduce(
+        (sum, row) => sum + row.ballotsCast,
+        0,
+      ),
+    ).toBe(overall.result?.tallies.reduce((sum, row) => sum + row.votes, 0));
+    const summedByCandidate = new Map<EntityId, number>();
+    for (const row of grouped.result!.precinctTallies!)
+      for (const tally of row.tallies)
+        summedByCandidate.set(
+          tally.candidatePersonId,
+          (summedByCandidate.get(tally.candidatePersonId) ?? 0) + tally.votes,
+        );
+    expect(
+      [...summedByCandidate.entries()].sort(([a], [b]) => a.localeCompare(b)),
+    ).toEqual(
+      overall
+        .result!.tallies.map(
+          (row) => [row.candidatePersonId, row.votes] as const,
+        )
+        .sort(([a], [b]) => a.localeCompare(b)),
+    );
+    expect(grouped.nationalElections).toEqual(overall.nationalElections);
+    expect(grouped.nationalElectionRecords).toEqual(
+      overall.nationalElectionRecords,
+    );
   });
 
   it("9. alternate synthetic jurisdiction portability: functions seamlessly in non-Lexington synthetic environment", () => {
