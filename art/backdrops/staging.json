@@ -3040,6 +3040,94 @@
           "clipBelowY": 50,
           "role": "general",
           "id": "election-night-venue:spot:9"
+        },
+        {
+          "x": 5,
+          "y": 80.5,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 80.5,
+          "seatY": 69.5,
+          "group": "banquet-front-left",
+          "role": "audience",
+          "id": "election-night-venue:spot:10"
+        },
+        {
+          "x": 13,
+          "y": 77.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77.5,
+          "seatY": 66.5,
+          "group": "banquet-front-left",
+          "role": "audience",
+          "id": "election-night-venue:spot:11"
+        },
+        {
+          "x": 8,
+          "y": 61,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61,
+          "seatY": 50,
+          "group": "banquet-back-left",
+          "role": "audience",
+          "id": "election-night-venue:spot:12"
+        },
+        {
+          "x": 29,
+          "y": 61,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61,
+          "seatY": 50,
+          "group": "banquet-back-left",
+          "role": "audience",
+          "id": "election-night-venue:spot:13"
+        },
+        {
+          "x": 95,
+          "y": 80.5,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 80.5,
+          "seatY": 69.5,
+          "group": "banquet-front-right",
+          "role": "audience",
+          "id": "election-night-venue:spot:14"
+        },
+        {
+          "x": 87,
+          "y": 77.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77.5,
+          "seatY": 66.5,
+          "group": "banquet-front-right",
+          "role": "audience",
+          "id": "election-night-venue:spot:15"
+        },
+        {
+          "x": 92,
+          "y": 61,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61,
+          "seatY": 50,
+          "group": "banquet-back-right",
+          "role": "audience",
+          "id": "election-night-venue:spot:16"
+        },
+        {
+          "x": 71,
+          "y": 61,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61,
+          "seatY": 50,
+          "group": "banquet-back-right",
+          "role": "audience",
+          "id": "election-night-venue:spot:17"
         }
       ],
       "measuredFrom": "banquet chair back 0.95 m: near-left chair foot 93 top 55 and second-left chair foot 67 top 46 give horizon 34.9, 0.69; right chair foot 67.9 top 46.3 (0.69); stage: lectern 1.15 m foot 44.2 top 31.4 (1.21); stage face 0.58 m at floor 51.6 gives a geometric 1.15",
@@ -3383,9 +3471,20 @@
           "group": "waiting",
           "role": "audience",
           "id": "hospital-hallway:spot:8"
+        },
+        {
+          "x": 3.5,
+          "y": 74.5,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 74.5,
+          "seatY": 59.5,
+          "group": "waiting",
+          "role": "audience",
+          "id": "hospital-hallway:spot:9"
         }
       ],
-      "measuredFrom": "kept staged 38 / 0.86; checked against the waiting chairs: nearest chair back 0.85 m foot 68.3 top 43.6 (0.96), seat 0.45 m top 55.5 (0.94); middle chair seat top 54, legs 65.4",
+      "measuredFrom": "kept staged 38 / 0.86; checked against the waiting chairs: nearest chair back 0.85 m foot 68.3 top 43.6 (0.96), seat 0.45 m top 55.5 (0.94); middle chair seat top 54, legs 65.4; added the fourth chair at the far left by visual estimate (foot 74.5, seat 59.5), ±2 percentage points",
       "surfaceSlots": []
     },
     "hotel-ballroom": {
