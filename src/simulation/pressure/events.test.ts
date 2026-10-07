@@ -5,7 +5,6 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import { passOrdinaryDays } from "../../presentation/ordinary-life";
 import {
   scheduleFutureDueItem,
   scheduledFutureDueItemsThrough,
@@ -24,6 +23,10 @@ import { householdLocationAt } from "../life-queries";
 import { lifePlaces, searchLifePlaces } from "../life-places";
 import { SeededRng } from "../rng";
 import type { World } from "../types";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  writeWithWorldIntegrityOnce,
+} from "../world";
 import {
   POLITICAL_VIOLENCE_ESTIMATE,
   POLITICAL_THREAT_EVENT,
@@ -69,13 +72,27 @@ function eventsOf(world: World, tag: string) {
   );
 }
 
-/** Advances canonical days so due transitions are recorded before each quarter. */
+/**
+ * Advances the pressure ladder one real quarter at a time. The whole-world
+ * day clock on this 10,000-person opening costs many seconds a day, and a
+ * 91-day quarter of it, run 13 times in one case, kept this file past 20
+ * minutes; the ladder's own review is what these cases read.
+ */
 function quarters(world: World, count: number): World {
-  return passOrdinaryDays(world, count * 91);
+  return watchedPressureQuarters(world, count);
 }
 
 /** Advances only the pressure clock; other scheduled systems are blocked. */
 function watchedPressureQuarters(world: World, count: number): World {
+  // One integrity check for the run, not one per due item: each single write
+  // otherwise re-checks the whole 10,000-person world.
+  return advanceWithWorldIntegrityAtEnd(
+    () => watchedPressureQuartersUnchecked(world, count),
+    world,
+  );
+}
+
+function watchedPressureQuartersUnchecked(world: World, count: number): World {
   let next = world;
   for (let quarter = 0; quarter < count; quarter += 1) {
     const candidates = scheduledFutureDueItemsThrough(
@@ -183,23 +200,30 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     // later on the step's own day is not counted yet (reported to the
     // pressure layer's owner).
     for (let quarter = 0; quarter < 5; quarter += 1) {
-      for (let flood = 0; flood < 3; flood += 1) {
-        world = declareHazardEpisode(world, {
-          stableKey: `oregon-flood-${quarter}-${flood}`,
-          family: "flood",
-          magnitude: "catastrophic",
-          stateUsps,
-          jurisdictionIds: [home],
-          durationDays: 2,
-          basis: "Declared test episode; not a local hazard prediction.",
-          sourceReference: null,
-        });
-        const episode = crisisRecords(world)
-          .filter((record) => record.kind === "hazard-episode")
-          .at(-1)!;
-        if (currentGovernorOf(world, stateUsps)?.personId === governor.personId)
-          world = decideStateDisasterRequest(world, episode.id, "decline");
-      }
+      // The quarter's three episodes and answers are one batch, checked once.
+      world = writeWithWorldIntegrityOnce(world, () => {
+        let next = world;
+        for (let flood = 0; flood < 3; flood += 1) {
+          next = declareHazardEpisode(next, {
+            stableKey: `oregon-flood-${quarter}-${flood}`,
+            family: "flood",
+            magnitude: "catastrophic",
+            stateUsps,
+            jurisdictionIds: [home],
+            durationDays: 2,
+            basis: "Declared test episode; not a local hazard prediction.",
+            sourceReference: null,
+          });
+          const episode = crisisRecords(next)
+            .filter((record) => record.kind === "hazard-episode")
+            .at(-1)!;
+          if (
+            currentGovernorOf(next, stateUsps)?.personId === governor.personId
+          )
+            next = decideStateDisasterRequest(next, episode.id, "decline");
+        }
+        return next;
+      });
       world = watchedPressureQuarters(world, 1);
     }
 
@@ -384,5 +408,5 @@ function holdAnger(
   states: readonly string[],
   anger: number,
 ): World {
-  return passOrdinaryDays(seedAnger(world, states, anger), 91);
+  return watchedPressureQuarters(seedAnger(world, states, anger), 1);
 }

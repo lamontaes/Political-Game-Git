@@ -20,9 +20,56 @@ import type { IsoDate, Person, TensionLevel, World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
+import {
+  INTERNATIONAL_DECISION_KEY,
+  INTERNATIONAL_RESPONSE_KEY,
+  WAR_POWERS_KEY,
+  internationalCycleOrDecisionHandler,
+  internationalResponseHandler,
+  warPowersHandler,
+} from "../simulation/crisis/international";
+import { outsideShockResponseHandler } from "../simulation/crisis/outside-shock";
+import { createFutureTransitionHandlerRegistry } from "../simulation/future-transition-registry";
+import { setDeepTransitionInputGuard } from "../simulation/future-transitions";
 
 const SLOW = 900_000;
 let opening: World;
+
+/**
+ * These cases are about the crisis route, so the days pass through only its
+ * three due-item handlers (the pattern recorded-intelligence.test.ts uses).
+ * The whole-world day clock on this 10,000-person opening costs about five
+ * seconds a day, and 400 days of it is what kept this file past 20 minutes.
+ */
+const crisisHandlers = createFutureTransitionHandlerRegistry([
+  [INTERNATIONAL_DECISION_KEY, internationalCycleOrDecisionHandler],
+  [
+    INTERNATIONAL_RESPONSE_KEY,
+    (world, item) =>
+      outsideShockResponseHandler(world, item, internationalResponseHandler),
+  ],
+  [
+    WAR_POWERS_KEY,
+    (world, item) => outsideShockResponseHandler(world, item, warPowersHandler),
+  ],
+]);
+// Every other scheduled day of the wider world is left unrun here (resolved
+// with nothing written); only the crisis handlers act.
+setDeepTransitionInputGuard(false);
+const CRISIS_ROUTE: typeof crisisHandlers = {
+  ...crisisHandlers,
+  get: (key) =>
+    crisisHandlers.get(key) ??
+    ((world, item) => ({
+      world,
+      status: "resolved",
+      reasonKey: null,
+      context: `Not run in this crisis proof (${item.transitionKey}).`,
+      outcomeEventId: null,
+    })),
+};
+const crisisDays = (world: World, days: number) =>
+  passOrdinaryDays(world, days, CRISIS_ROUTE);
 
 beforeAll(() => {
   opening = generateOpeningLife(
@@ -62,7 +109,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
         "economic",
         "force-posture",
       ]);
-      const later = passOrdinaryDays(world, 60);
+      const later = crisisDays(world, 60);
       const state = internationalCrisisState(later, crisisId);
       expect(state.decisions[0]).toMatchObject({
         option: "diplomatic",
@@ -89,10 +136,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
       const answers = new Set<string>();
       for (let i = 0; i < 12; i += 1) {
         const { world, crisisId } = declare(opening, `vary-${i}`, "elevated");
-        const state = internationalCrisisState(
-          passOrdinaryDays(world, 8),
-          crisisId,
-        );
+        const state = internationalCrisisState(crisisDays(world, 8), crisisId);
         answers.add(state.responses[0]!.counterparty);
       }
       expect(answers.size).toBeGreaterThan(1);
@@ -119,7 +163,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
         "force-posture",
       );
       const day0 = world.currentDate;
-      const run = passOrdinaryDays(world, 110);
+      const run = crisisDays(world, 110);
       const state = internationalCrisisState(run, crisisId);
       expect(state.decisions[0]!.option).toBe("force-posture");
       const stages = state.warPowers.map((r) => [r.stage, r.effectiveAt]);
@@ -156,7 +200,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
       // Partition invariance and save/reopen.
       let stepped = deserializeWorld(serializeWorld(world));
       for (const days of [3, 7, 11, 19, 29, 41])
-        stepped = passOrdinaryDays(stepped, days);
+        stepped = crisisDays(stepped, days);
       const view = (w: World) =>
         crisisRecords(w).map((r) => `${r.stableKey}|${r.effectiveAt}`);
       expect(view(stepped)).toEqual(view(run));
@@ -177,7 +221,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
       expect(
         crisisProtectedDecisions(world, before - 1).map((d) => d.kind),
       ).toContain("international-decision");
-      const waited = passOrdinaryDays(world, 6);
+      const waited = crisisDays(world, 6);
       expect(internationalCrisisState(waited, crisisId).decisions).toEqual([]);
       expect(() =>
         decideInternationalCrisis(
@@ -194,7 +238,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
       expect(() =>
         decideInternationalCrisis(decided, crisisId, "economic"),
       ).toThrow();
-      const reported = passOrdinaryDays(decided, 2);
+      const reported = crisisDays(decided, 2);
       const certified = certifyWarPowersExtension(reported, crisisId);
       expect(
         internationalCrisisState(certified, crisisId).warPowers.map(
@@ -202,7 +246,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
         ),
       ).toContain("withdrawal-extension-certified");
       // Without a certification, forces leave when the 60 days run out.
-      const uncertified = passOrdinaryDays(reported, 70);
+      const uncertified = crisisDays(reported, 70);
       const clock = internationalCrisisState(uncertified, crisisId).warPowers;
       const stages = clock.map((r) => r.stage);
       expect(stages.at(-1)).toBe("forces-withdrawn");
@@ -224,7 +268,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
         people: demo.personOrder.map((id) => demo.people[id] as Person),
       });
       const { world, crisisId } = declare(bare, "bare", "severe");
-      const later = passOrdinaryDays(world, 8);
+      const later = crisisDays(world, 8);
       expect(
         internationalCrisisState(later, crisisId).decisions[0],
       ).toMatchObject({
