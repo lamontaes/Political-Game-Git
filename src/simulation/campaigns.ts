@@ -47,8 +47,16 @@ import { enactedDutyHandlers } from "./enacted-duties";
 import { officeContinuityHandlers } from "./governing/office-continuity";
 import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
 import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
-import { federalReformHandlers } from "./living-world/federal-reform";
-import { articleVHandlers } from "./governing/article-v";
+import {
+  FEDERAL_REFORM_REVIEW,
+  federalReformHandlers,
+  federalReformReviewHandler,
+} from "./living-world/federal-reform";
+import {
+  ARTICLE_V_REVIEW,
+  articleVHandlers,
+  articleVReviewHandler,
+} from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
@@ -2366,6 +2374,16 @@ function endCampaignStaff(
   return next;
 }
 
+/** Both federal amendment routes enter through one clock-handler function. */
+function federalAmendmentReviewHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return due.transitionKey === ARTICLE_V_REVIEW
+    ? articleVReviewHandler(world, due)
+    : federalReformReviewHandler(world, due);
+}
+
 export function composeWorldTimeHandlers(
   additional?: FutureTransitionHandlerRegistry,
 ): FutureTransitionHandlerRegistry {
@@ -2399,6 +2417,8 @@ export function composeWorldTimeHandlers(
         // A legislature and voters changing the governor's term limit.
         ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
+        [FEDERAL_REFORM_REVIEW, federalAmendmentReviewHandler],
+        [ARTICLE_V_REVIEW, federalAmendmentReviewHandler],
         ...federalReformHandlers(),
         ...articleVHandlers(),
         ...presidentialTurnoverHandlers(),
