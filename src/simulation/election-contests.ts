@@ -39,6 +39,31 @@ import { recordWorldEvent } from "./world";
 export const ELECTION_CONTEST_TRANSITION_KEY =
   "election:contest-resolution" as const;
 
+export interface ElectionReportingBatch {
+  readonly batchKey: string;
+  readonly ballotsCast: number;
+  readonly kind: "early-mail" | "precinct";
+}
+
+/** Order only recorded reports. An early-mail batch leads only when the
+ * jurisdiction's recorded rule says so and that batch is present. */
+export function orderElectionReportingBatches<T extends ElectionReportingBatch>(
+  batches: readonly T[],
+  earlyMailFirst: boolean,
+): readonly T[] {
+  return [...batches].sort((left, right) => {
+    if (earlyMailFirst) {
+      const leftEarly = left.kind === "early-mail" ? 0 : 1;
+      const rightEarly = right.kind === "early-mail" ? 0 : 1;
+      if (leftEarly !== rightEarly) return leftEarly - rightEarly;
+    }
+    return (
+      left.ballotsCast - right.ballotsCast ||
+      left.batchKey.localeCompare(right.batchKey)
+    );
+  });
+}
+
 export function scheduleElectionContest(
   world: World,
   input: ScheduleElectionContestInput,
