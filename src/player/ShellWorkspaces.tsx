@@ -60,6 +60,7 @@ import { pathForRelationship } from "../simulation/life-paths2";
 import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
 import { PersonPortrait } from "./PersonPortrait";
 import { SavedPersonFigure } from "./SavedPersonFigure";
+import { HeardOfficialViewsList } from "./HeardOfficialViewsList";
 import {
   authorizeCalendarSimulation,
   declineCalendarActivity,
@@ -542,6 +543,10 @@ export function PeopleWorkspace({
             );
           })}
         </ul>
+        <HeardOfficialViewsList
+          views={directory.heardViews}
+          onSelectPerson={(id) => setSelectedPersonId(id)}
+        />
       </section>
       <section
         className="pg-people-dossier pg-glass-panel"
