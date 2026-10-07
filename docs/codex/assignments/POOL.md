@@ -547,7 +547,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-42 | First-paycheck block: opening employer cash unset (Session 8) | BUGS.md BG-42 | done #2287 | |
 | BG-43 | Pay-stub test is red | BUGS.md BG-43 | open | |
 | BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | done #2976 | |
-| BG-45 | Newspaper test red | BUGS.md BG-45 | open | |
+| BG-45 | Newspaper test red | BUGS.md BG-45 | done #2315 | |
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
 | BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | open | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
