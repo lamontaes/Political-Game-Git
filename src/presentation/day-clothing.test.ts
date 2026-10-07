@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { placeBackdropPeople } from "./backdrop-people";
-import { personDayRecipe } from "./day-clothing";
+import { dayClothing, personDayRecipe } from "./day-clothing";
 import { drawRandomPlace } from "../../tests/support/random-place";
 
 /*
@@ -10,7 +10,7 @@ import { drawRandomPlace } from "../../tests/support/random-place";
  * same people are placed in two different rooms and each is compared with
  * the recipe the card draws.
  */
-describe("one outfit per person per day", { timeout: 180_000 }, () => {
+describe("daily clothing in scene casts", { timeout: 180_000 }, () => {
   const seed = "ow9-one-outfit-2026-10-06";
   const place = drawRandomPlace(seed);
   const game = generateOpeningLife(
@@ -25,7 +25,7 @@ describe("one outfit per person per day", { timeout: 180_000 }, () => {
   const world = game.world;
   const player = game.playerPersonId;
 
-  it(`dresses the same people alike in the card and in two rooms (${place.displayName}, seed ${seed})`, () => {
+  it(`keeps each person's scene outfit stable across rooms (${place.displayName}, seed ${seed})`, () => {
     const present = Object.values(world.people)
       .filter((person) => person.id !== player && person.appearance)
       .slice(0, 3)
@@ -47,13 +47,44 @@ describe("one outfit per person per day", { timeout: 180_000 }, () => {
       present,
       { rosterOnly: true },
     );
+    const outfitsByPerson = new Map<string, string>();
     let compared = 0;
     for (const drawn of [...office, ...park]) {
       const card = personDayRecipe(world, world.people[drawn.personId]!);
-      expect(drawn.engine.outfit, drawn.personId).toBe(card?.outfit);
       expect(drawn.engine.colors, drawn.personId).toEqual(card?.colors);
+      const previous = outfitsByPerson.get(drawn.personId);
+      if (previous !== undefined)
+        expect(drawn.engine.outfit, drawn.personId).toBe(previous);
+      outfitsByPerson.set(drawn.personId, drawn.engine.outfit);
       compared += 1;
     }
     expect(compared).toBeGreaterThan(0);
+  });
+
+  it("gives people in one room different non-uniform outfits when alternatives exist", () => {
+    const byOutfit = new Map<string, string[]>();
+    for (const person of Object.values(world.people)) {
+      if (person.id === player || !person.appearance) continue;
+      if (dayClothing(world, person.id).uniform) continue;
+      const recipe = personDayRecipe(world, person);
+      if (!recipe) continue;
+      const key = `${recipe.presentation}:${recipe.outfit}`;
+      byOutfit.set(key, [...(byOutfit.get(key) ?? []), person.id]);
+    }
+    const sameOutfit = [...byOutfit.values()].find((ids) => ids.length > 1);
+    expect(sameOutfit).toBeDefined();
+    const people = placeBackdropPeople(
+      world,
+      player,
+      "office",
+      world.currentMoment,
+      sameOutfit!.slice(0, 2).map((personId) => ({ personId })),
+      { rosterOnly: true },
+    );
+    const drawn = people.filter((person) =>
+      sameOutfit!.slice(0, 2).includes(person.personId),
+    );
+    expect(drawn).toHaveLength(2);
+    expect(drawn[0]!.engine.outfit).not.toBe(drawn[1]!.engine.outfit);
   });
 });

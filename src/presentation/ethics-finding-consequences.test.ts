@@ -31,8 +31,8 @@ import {
   pressRecordsOfKind,
   publicAdverseFindingsAgainst,
   spendCampaignFundsPersonally,
-  FINDING_EFFECTS_ESTIMATE,
-  REPEAT_OFFENSE_ESTIMATE,
+  RECORDED_FINDING_EFFECTS,
+  RECORDED_REPEAT_OFFENSE,
   STATE_OVERSIGHT_RULE,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
@@ -44,7 +44,7 @@ import {
   PROSECUTION_REFERRED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   referForProsecution,
-  PROSECUTION_ESTIMATE,
+  UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
 import { successorCandidates } from "../simulation/people-continuation";
 import { resourcePositionAt } from "../simulation/resource-queries";
@@ -254,7 +254,7 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
       justBefore,
       run.campaign,
       run.personId,
-      FINDING_EFFECTS_ESTIMATE.supportLossBasisPoints.finding,
+      RECORDED_FINDING_EFFECTS.supportLossBasisPoints.finding,
     );
     const [playerState, rivalState] = [run.personId, run.rivalId].map((id) =>
       lossStates.find((state) => state.stableKey.endsWith(`:support:${id}`))!,
@@ -269,7 +269,7 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     expect(
       canonicalSupportBasisPoints(justBefore, run.campaign, run.personId) -
         share(playerState),
-    ).toBe(FINDING_EFFECTS_ESTIMATE.supportLossBasisPoints.finding);
+    ).toBe(RECORDED_FINDING_EFFECTS.supportLossBasisPoints.finding);
   });
 
   it("orders both payments paid to the state, not back to the committee", () => {
@@ -483,7 +483,7 @@ describe("a Washington candidate who keeps taking after a finding", () => {
       body.civilPenaltyPerPaymentMinorUnits * 2,
       body.civilPenaltyPerPaymentMinorUnits *
         3 *
-        (1 + REPEAT_OFFENSE_ESTIMATE.civilPenaltyStepPerPriorFinding),
+        (1 + RECORDED_REPEAT_OFFENSE.civilPenaltyStepPerPriorFinding),
     ]);
     const notices = world.history.events.filter(
       (event) => event.type === "matter.civil-penalty-imposed",
@@ -542,8 +542,8 @@ describe("a Washington candidate who keeps taking after a finding", () => {
         (referral) =>
           addDays(
             referral.occurredAt,
-            PROSECUTION_ESTIMATE.chargeDecisionDays +
-              PROSECUTION_ESTIMATE.resolveAfterDays +
+            UNRESEARCHED_PROSECUTION.chargeDecisionDays +
+              UNRESEARCHED_PROSECUTION.resolveAfterDays +
               14,
           ) <= w.currentDate,
       );
@@ -612,8 +612,8 @@ describe("a Washington candidate who keeps taking after a finding", () => {
     }).world;
     const jailed = passOrdinaryDays(
       referred,
-      PROSECUTION_ESTIMATE.chargeDecisionDays +
-        PROSECUTION_ESTIMATE.resolveAfterDays +
+      UNRESEARCHED_PROSECUTION.chargeDecisionDays +
+        UNRESEARCHED_PROSECUTION.resolveAfterDays +
         14,
     );
     const term = jailTermOn(jailed, run.personId)!;

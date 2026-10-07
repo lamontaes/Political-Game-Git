@@ -1,0 +1,69 @@
+{
+  "schema": "english-parts/1",
+  "register": "notice",
+  "description": "Mined headings and notice clauses from official public hearing, ordinance, and election notices. Slots are filled only from recorded hearing actions, local measures, and election contests.",
+  "slots": {
+    "date": "The date recorded for the hearing or election.",
+    "title": "The filed measure's recorded short title.",
+    "designation": "The measure's recorded designation.",
+    "place": "The jurisdiction recorded for the election.",
+    "office": "The election contest's recorded office title."
+  },
+  "maxWords": 35,
+  "mining": {
+    "read": "Official City of San Diego public hearing notice and Notice of Election; San Diego City Bulletin of Public Notices; City of South San Francisco Public Notices index.",
+    "sources": [
+      {
+        "document": "City Council Notice of Public Hearing, Project PRJ-1062368",
+        "date": "2026-09-28",
+        "url": "https://docs.sandiego.gov/citybulletin_publicnotices/PublicHearings/CC%20Notice%20-%20PRJ-1062368%20-%2010509%20VISTA%20SORRENTO%20PARKWAY.pdf.pdf"
+      },
+      {
+        "document": "Notice of Election, General Municipal Election",
+        "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf"
+      },
+      {
+        "document": "Public Notices index",
+        "date": "2026-09-30",
+        "url": "https://www.ssfca.gov/Departments/City-Clerk/Public-Notices"
+      }
+    ]
+  },
+  "parts": [
+    {
+      "key": "notice.hearing.public-hearing",
+      "move": "hearing",
+      "kind": "written",
+      "text": "NOTICE OF PUBLIC HEARING\nPROJECT NAME: {title}\nDATE OF MEETING: {date}",
+      "shippable": true,
+      "source": {
+        "document": "City Council Notice of Public Hearing, Project PRJ-1062368",
+        "date": "2026-09-28",
+        "url": "https://docs.sandiego.gov/citybulletin_publicnotices/PublicHearings/CC%20Notice%20-%20PRJ-1062368%20-%2010509%20VISTA%20SORRENTO%20PARKWAY.pdf.pdf"
+      }
+    },
+    {
+      "key": "notice.ordinance.council-ordinances",
+      "move": "ordinance",
+      "kind": "written",
+      "text": "Council Resolutions and Ordinances: {designation}, {title}",
+      "shippable": true,
+      "source": {
+        "document": "City Bulletin of Public Notices, Council Resolutions and Ordinances",
+        "date": "2026-10-07",
+        "url": "https://www.sandiego.gov/city-clerk/officialdocs/public-notices"
+      }
+    },
+    {
+      "key": "notice.election.notice-of-election",
+      "move": "election",
+      "kind": "written",
+      "text": "NOTICE OF ELECTION\nNOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.",
+      "shippable": true,
+      "source": {
+        "document": "Notice of Election, General Municipal Election",
+        "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf"
+      }
+    }
+  ]
+}

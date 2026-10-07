@@ -79,6 +79,10 @@ import {
   residentNameForJurisdiction,
 } from "./life-places";
 import {
+  localInstitutionProvenance,
+  localSchoolInstitutionFor,
+} from "./local-institutions";
+import {
   generateSchoolNames,
   stateUsps,
   type SchoolNameVersion,
@@ -3463,6 +3467,15 @@ export function generateQuickCharacterHistory(
       ),
     },
   );
+  const schoolRows = {
+    elementary: localSchoolInstitutionFor(
+      world,
+      input.jurisdictionId,
+      "elementary",
+    ),
+    middle: localSchoolInstitutionFor(world, input.jurisdictionId, "middle"),
+    high: localSchoolInstitutionFor(world, input.jurisdictionId, "high"),
+  };
   const parentKey = key("parent");
   const peerKey = key("peer");
   const teacherKey = key("teacher");
@@ -3605,9 +3618,11 @@ export function generateQuickCharacterHistory(
         input: {
           stableKey: elementary,
           formedAt: age(0),
-          provenance: generated,
+          provenance: schoolRows.elementary
+            ? localInstitutionProvenance(schoolRows.elementary, age(0))
+            : generated,
           initialProfile: {
-            name: schoolNames.elementary,
+            name: schoolRows.elementary?.name ?? schoolNames.elementary,
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -3618,9 +3633,11 @@ export function generateQuickCharacterHistory(
         input: {
           stableKey: middleSchool,
           formedAt: age(0),
-          provenance: generated,
+          provenance: schoolRows.middle
+            ? localInstitutionProvenance(schoolRows.middle, age(0))
+            : generated,
           initialProfile: {
-            name: schoolNames.middle,
+            name: schoolRows.middle?.name ?? schoolNames.middle,
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -3631,9 +3648,11 @@ export function generateQuickCharacterHistory(
         input: {
           stableKey: highSchool,
           formedAt: age(0),
-          provenance: generated,
+          provenance: schoolRows.high
+            ? localInstitutionProvenance(schoolRows.high, age(0))
+            : generated,
           initialProfile: {
-            name: schoolNames.high,
+            name: schoolRows.high?.name ?? schoolNames.high,
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -3715,6 +3734,22 @@ export function generateQuickCharacterHistory(
           provenance: generated,
         },
       },
+      ...(ageOnDate(person.birthDate, world.currentDate) >= 18
+        ? [
+            {
+              kind: "household-membership-state" as const,
+              input: {
+                stableKey: key("household:parent-left"),
+                membershipStableKey: `${home}:parent`,
+                effectiveAt: dateAtAge(person.birthDate, 18),
+                status: "ended" as const,
+                residenceRole: "primary" as const,
+                kind: "resident:adult" as const,
+                provenance: generated,
+              },
+            },
+          ]
+        : []),
       {
         kind: "kinship",
         input: {
