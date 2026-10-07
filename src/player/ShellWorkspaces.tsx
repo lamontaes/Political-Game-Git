@@ -655,88 +655,89 @@ export function PeopleWorkspace({
 
       {!showWeb ? (
         <>
-        <HeardOfficialViewsList
-          views={directory.heardViews}
-          onSelectPerson={selectPerson}
-        />
+          <HeardOfficialViewsList
+            views={directory.heardViews}
+            onSelectPerson={selectPerson}
+          />
 
-        {shown.length === 0 ? (
-          <p className="game-note" data-testid="people-empty" />
-        ) : (
-          <ul
-            className="pg-people-list"
-            data-view={peopleView}
-            data-testid="people-list"
-          >
-            {shown.map((person) => {
-              const ref: ShellRef = { kind: "person", id: person.personId };
-              const pinned = isPinned(state, ref);
-              return (
-                <li key={person.personId}>
-                  <button
-                    type="button"
-                    className="pg-person-row"
-                    data-testid={`people-person-${person.personId}`}
-                    onClick={() => selectPerson(person.personId)}
-                  >
-                    <PersonPortrait
-                      world={world}
-                      personId={person.personId}
-                      size="small"
+          {shown.length === 0 ? (
+            <p className="game-note" data-testid="people-empty" />
+          ) : (
+            <ul
+              className="pg-people-list"
+              data-view={peopleView}
+              data-testid="people-list"
+            >
+              {shown.map((person) => {
+                const ref: ShellRef = { kind: "person", id: person.personId };
+                const pinned = isPinned(state, ref);
+                return (
+                  <li key={person.personId}>
+                    <button
+                      type="button"
+                      className="pg-person-row"
+                      data-testid={`people-person-${person.personId}`}
+                      onClick={() => selectPerson(person.personId)}
+                    >
+                      <PersonPortrait
+                        world={world}
+                        personId={person.personId}
+                        size="small"
+                      />
+                      <strong>{person.name}</strong>
+                      {person.relationship ? (
+                        <small>{person.relationship}</small>
+                      ) : person.context ? (
+                        <small>{person.context}</small>
+                      ) : null}
+                      {person.strain ? (
+                        <small data-testid={`people-strain-${person.personId}`}>
+                          {person.strain}
+                        </small>
+                      ) : null}
+                    </button>
+                    <PinToggle
+                      className="ui-action ui-action--rail"
+                      pinned={pinned}
+                      name={person.name}
+                      testid={`people-pin-${person.personId}`}
+                      onToggle={() => dispatch({ type: "toggle-pin", ref })}
                     />
-                    <strong>{person.name}</strong>
-                    {person.relationship ? (
-                      <small>{person.relationship}</small>
-                    ) : person.context ? (
-                      <small>{person.context}</small>
-                    ) : null}
-                    {person.strain ? (
-                      <small data-testid={`people-strain-${person.personId}`}>
-                        {person.strain}
-                      </small>
-                    ) : null}
-                  </button>
-                  <PinToggle
-                    className="ui-action ui-action--rail"
-                    pinned={pinned}
-                    name={person.name}
-                    testid={`people-pin-${person.personId}`}
-                    onToggle={() => dispatch({ type: "toggle-pin", ref })}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        )}
-
-        {notYetMet.length > 0 ? (
-          <section
-            className="pg-people-not-yet-met"
-            aria-label="Not met yet"
-            data-testid="people-not-yet-met"
-          >
-            <h3>Not met yet</h3>
-            <ul className="pg-people-list" data-view="list">
-              {notYetMet.map((person) => (
-                <li key={person.personId}>
-                  <button
-                    type="button"
-                    className="pg-person-row"
-                    data-testid={`people-unmet-${person.personId}`}
-                    onClick={() => selectPerson(person.personId)}
-                  >
-                    <PersonPortrait
-                      world={world}
-                      personId={person.personId}
-                      size="small"
-                    />
-                    <strong>{person.name}</strong>
-                    {person.context ? <small>{person.context}</small> : null}
-                  </button>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
-          </section>
+          )}
+
+          {notYetMet.length > 0 ? (
+            <section
+              className="pg-people-not-yet-met"
+              aria-label="Not met yet"
+              data-testid="people-not-yet-met"
+            >
+              <h3>Not met yet</h3>
+              <ul className="pg-people-list" data-view="list">
+                {notYetMet.map((person) => (
+                  <li key={person.personId}>
+                    <button
+                      type="button"
+                      className="pg-person-row"
+                      data-testid={`people-unmet-${person.personId}`}
+                      onClick={() => selectPerson(person.personId)}
+                    >
+                      <PersonPortrait
+                        world={world}
+                        personId={person.personId}
+                        size="small"
+                      />
+                      <strong>{person.name}</strong>
+                      {person.context ? <small>{person.context}</small> : null}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
         </>
       ) : null}
     </>
