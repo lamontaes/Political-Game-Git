@@ -63,8 +63,8 @@ describe("public-information reader views", () => {
       ]),
     ).toEqual(items);
     expect(relevanceReasons(named, VIEWER, ["civic-ledger"])).toEqual([
-      "You follow Civic Ledger.",
-      "This story names you.",
+      "follows-outlet",
+      "names-you",
     ]);
   });
 
