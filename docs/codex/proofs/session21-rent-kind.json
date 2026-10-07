@@ -1,0 +1,175 @@
+{
+  "seed": "session21-price-kind-canonical-save",
+  "placeKey": "4752006",
+  "state": "TN",
+  "eligibleHudPlaces": 50,
+  "scope": "Controlled canonical enacted laws, ownership, income and price path; no natural opening or year performance claim.",
+  "tenant": "John Marshall",
+  "affordableTenant": "Erica Gray",
+  "landlord": "Roland Hardy",
+  "initialAffordable": {
+    "id": "resource-flow-terms_eee4385c77203d43",
+    "stableKey": "town-rent-v1:lease:housing-tenure_33890b241361ec36:person_73f97fc3467e58f8:terms:initial",
+    "sequence": 2298,
+    "resourceFlowId": "resource-flow_aa7f2a646ded33ba",
+    "effectiveAt": "2026-02-03",
+    "status": "active",
+    "amount": {
+      "minorUnits": 120540,
+      "currency": "USD"
+    },
+    "cadenceKind": "schedule:monthly",
+    "reason": null,
+    "provenance": {
+      "kind": "authored",
+      "note": "town-rent-v1: an efficiency, rent set by an affordable home under Controlled Rent Act, 30% of 60% of area median income."
+    },
+    "supersedesTermsId": null,
+    "lawEffectStamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_088131fea442ed50",
+        "source": "enacted",
+        "effectKind": "price-cost",
+        "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+        "jurisdictionId": "jurisdiction_cc7c86c0fd644af9",
+        "operativeAt": "2026-02-02",
+        "appliedAt": "2026-02-03",
+        "sourceRecordIds": [
+          "legislative-measure_088131fea442ed50",
+          "legislative-enactment_6187e88c0e495280",
+          "legislative-provision_837b4589c3049a7f",
+          "resource-flow_aa7f2a646ded33ba",
+          "resource-flow-terms_eee4385c77203d43",
+          "housing-tenure_33890b241361ec36",
+          "dwelling_77da878f7625c298",
+          "person_73f97fc3467e58f8"
+        ]
+      }
+    ]
+  },
+  "marketRequested": {
+    "stableKey": "town-rent-v1:lease:housing-tenure_3bc4817d4b41c7dc:person_73f980c3467e5aab:renewal:1",
+    "resourceFlowId": "resource-flow_71ac34ce79d56cd0",
+    "effectiveAt": "2027-02-01",
+    "status": "active",
+    "amount": {
+      "minorUnits": 233800,
+      "currency": "USD"
+    },
+    "cadenceKind": "schedule:monthly",
+    "reason": "The local housing-market level changed rent by 47.1% over the renewal year.",
+    "provenance": {
+      "kind": "generated",
+      "generatorKey": "town-rent-v1"
+    },
+    "supersedesTermsId": "resource-flow-terms_615f53c8a5bf5cc9",
+    "id": "resource-flow-terms_40866f3477e8d92d",
+    "sequence": 5039
+  },
+  "marketRenewal": {
+    "stableKey": "law-price-cost:[\"price-cost:recorded-rent-stabilization\",\"legislative-measure_08a3f431d5825a43\",\"2026-01-19\",\"person_73f980c3467e5aab\",\"resource-flow-terms_40866f3477e8d92d\",\"2027-02-01\"]",
+    "resourceFlowId": "resource-flow_71ac34ce79d56cd0",
+    "effectiveAt": "2027-02-01",
+    "status": "active",
+    "amount": {
+      "minorUnits": 166845,
+      "currency": "USD"
+    },
+    "cadenceKind": "schedule:monthly",
+    "reason": "The local housing-market level changed rent by 47.1% over the renewal year. The price changed under legislative-measure_08a3f431d5825a43.",
+    "provenance": {
+      "kind": "authored",
+      "note": "Applied law consequence price-cost:recorded-rent-stabilization to the recorded price activity."
+    },
+    "supersedesTermsId": "resource-flow-terms_40866f3477e8d92d",
+    "lawEffectStamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_08a3f431d5825a43",
+        "source": "enacted",
+        "effectKind": "price-cost",
+        "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+        "jurisdictionId": "jurisdiction_cc7c86c0fd644af9",
+        "operativeAt": "2026-01-19",
+        "appliedAt": "2027-02-01",
+        "sourceRecordIds": [
+          "resource-flow_71ac34ce79d56cd0",
+          "resource-flow-terms_40866f3477e8d92d",
+          "person_73f980c3467e5aab",
+          "legislative-measure_08a3f431d5825a43",
+          "legislative-enactment_654dc11719030a72",
+          "legislative-provision_84301f08aaa38258",
+          "housing-tenure_3bc4817d4b41c7dc",
+          "dwelling_00b7eafa4ee6be7e",
+          "resource-flow-terms_615f53c8a5bf5cc9",
+          "legislative-measure_08a3f431d5825a43",
+          "legislative-enactment_654dc11719030a72",
+          "legislative-provision_84301f08aaa38258"
+        ]
+      }
+    ],
+    "id": "resource-flow-terms_e2b517cfd9a27e16",
+    "sequence": 5040
+  },
+  "affordableRenewal": {
+    "stableKey": "town-rent-v1:lease:housing-tenure_33890b241361ec36:person_73f97fc3467e58f8:renewal:1",
+    "resourceFlowId": "resource-flow_aa7f2a646ded33ba",
+    "effectiveAt": "2027-02-01",
+    "status": "active",
+    "amount": {
+      "minorUnits": 120500,
+      "currency": "USD"
+    },
+    "cadenceKind": "schedule:monthly",
+    "reason": "The affordable rent was reset to this year's income limit.",
+    "provenance": {
+      "kind": "generated",
+      "generatorKey": "town-rent-v1"
+    },
+    "supersedesTermsId": "resource-flow-terms_2da40ae2175d969b",
+    "lawEffectStamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_088131fea442ed50",
+        "source": "enacted",
+        "effectKind": "price-cost",
+        "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+        "jurisdictionId": "jurisdiction_cc7c86c0fd644af9",
+        "operativeAt": "2026-02-02",
+        "appliedAt": "2027-02-01",
+        "sourceRecordIds": [
+          "resource-flow_aa7f2a646ded33ba",
+          "resource-flow-terms_2da40ae2175d969b",
+          "housing-tenure_33890b241361ec36",
+          "dwelling_77da878f7625c298",
+          "person_73f97fc3467e58f8"
+        ]
+      }
+    ],
+    "id": "resource-flow-terms_b701706e01ca1bf7",
+    "sequence": 5044
+  },
+  "canonicalReload": true,
+  "historicalReload": true,
+  "repeatedRenewalIdempotent": true,
+  "refresh": {
+    "currentMain": "efeb134b4a93e1806cba8b9ed68e5bf4e5d4bffa",
+    "testedSources": "a11217df325e92d5b3a07b78fe17bef0631ffe07",
+    "interveningCodeChanges": "No rent source or focused tests changed from the tested a112 snapshot through current main; latest intervening commits touch unrelated POOL/council and constitutional-amendment files.",
+    "focusedTests": {
+      "files": [
+        "src/simulation/living-world/town-rent-kind.test.ts",
+        "src/simulation/living-world/town-rent-law-stamps.test.ts"
+      ],
+      "passed": 6,
+      "failed": 0,
+      "durationSeconds": 76.45
+    },
+    "typecheck": {
+      "command": "node --import tsx scripts/dev-lab/typecheck.ts",
+      "exitCode": 0
+    },
+    "latestMainStatus": "Attempted f5 rerun exited 137/ENOSPC before test collection. Current-main focused tests, typecheck, release check and load check still need rerun."
+  }
+}
