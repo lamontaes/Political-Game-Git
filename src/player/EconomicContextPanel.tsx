@@ -117,7 +117,7 @@ export function EconomicContextPanel({
     return (
       <section className="economic-context-panel" role="status">
         <h2>Figures unavailable</h2>
-        <p>The figures for this place aren&apos;t available right now.</p>
+        <p>Figures: none</p>
       </section>
     );
   }
@@ -260,21 +260,8 @@ export function EconomicContextView({
       ) : (
         <p role="status">
           {context.withheldFutureObservationCount > 0
-            ? /*
-               * "Nothing has been published for this date yet" was false, and
-               * falsely reassuring: figures for this place are recorded and
-               * are being held back, because the only date the locked products
-               * establish for them is the day the game fetched them, not the
-               * day their publisher released them. So on an ordinary opening
-               * day every real number sits behind that date and the screen
-               * said there was nothing. Say what is actually happening.
-               */
-              `${context.withheldFutureObservationCount} ${
-                context.withheldFutureObservationCount === 1
-                  ? "figure is"
-                  : "figures are"
-              } recorded for this place, and none is known to have come out by this date, so none is shown yet.`
-            : "No figures for this place reach this date yet."}
+            ? `Figures held until published: ${context.withheldFutureObservationCount}`
+            : "Figures: none"}
         </p>
       )}
 
