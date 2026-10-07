@@ -204,15 +204,17 @@ function ownerProblem(row: OwnershipOwnerRow): string | null {
   if (typeof row.ownerKind !== "string" || !row.ownerKind.trim())
     return "has no owner kind";
   const products = row.holds?.products ?? [];
-  const unknownProduct = products.find(
+  const unsupportedProduct = products.find(
     (product) => !(MEDIA_PRODUCTS as readonly string[]).includes(product),
   );
-  if (unknownProduct) return `holds the unknown product "${unknownProduct}"`;
+  if (unsupportedProduct)
+    return `holds the unsupported product "${unsupportedProduct}"`;
   const scopes = row.holds?.scopes ?? [];
-  const unknownScope = scopes.find(
+  const unsupportedScope = scopes.find(
     (scope) => !(MEDIA_SCOPES as readonly string[]).includes(scope),
   );
-  if (unknownScope) return `holds the unknown scope "${unknownScope}"`;
+  if (unsupportedScope)
+    return `holds the unsupported scope "${unsupportedScope}"`;
   if (!(typeof row.foundingWeight === "number" && row.foundingWeight >= 0))
     return "has a negative founding weight";
   const byProduct = row.foundingWeightByProduct ?? {};
@@ -220,7 +222,7 @@ function ownerProblem(row: OwnershipOwnerRow): string | null {
     return "has founding weights by product that are not a table";
   for (const [product, weight] of Object.entries(byProduct)) {
     if (!(MEDIA_PRODUCTS as readonly string[]).includes(product))
-      return `weights the unknown product "${product}"`;
+      return `weights the unsupported product "${product}"`;
     if (!(typeof weight === "number" && weight >= 0))
       return `has a negative founding weight for "${product}"`;
   }
