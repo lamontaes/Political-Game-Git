@@ -115,6 +115,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
       "registeredTraitConsiderations — src/simulation/traits/effects/facet-affectionate.ts",
   },
   {
+    trait: "personality-v1:facet-closeness-seeking",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-closeness-seeking.ts",
+  },
+  {
     trait: "personality-v1:facet-thrill-seeking",
     kind: "decision",
     reader:
@@ -232,7 +238,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-sensitive",
   "personality-v1:facet-light-hearted",
   "personality-v1:facet-brooding",
-  "personality-v1:facet-closeness-seeking",
   "personality-v1:facet-intimacy-guarded",
   "personality-v1:facet-devoted",
   "personality-v1:facet-nostalgic",
