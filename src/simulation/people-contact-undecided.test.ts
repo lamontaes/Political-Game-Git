@@ -61,6 +61,9 @@ function request() {
 }
 
 function forceAnswer(selected: boolean) {
+  vi.spyOn(decisions, "recordDurableDecisionTrace").mockImplementation(
+    (world) => world,
+  );
   return vi
     .spyOn(decisions, "evaluateDecision")
     .mockImplementation(
