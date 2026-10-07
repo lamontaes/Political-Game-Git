@@ -9,7 +9,9 @@ import * as lawConsequenceGovernmentOperationsRegistrations from "./law-conseque
 import * as lawConsequenceJusticePretrialLandingsRegistrations from "./law-consequences/modules/justice-pretrial-landings";
 import * as lawConsequenceJusticeSentencingLandingsRegistrations from "./law-consequences/modules/justice-sentencing-landings";
 import * as lawConsequenceLw08CurriculumRegistrations from "./law-consequences/modules/lw08-curriculum";
+import * as lawConsequenceLw08DevelopmentIncentiveCapRegistrations from "./law-consequences/modules/lw08-development-incentive-cap";
 import * as lawConsequenceLw08LibraryMaterialsRegistrations from "./law-consequences/modules/lw08-library-materials";
+import * as lawConsequenceSnapParticipationRegistrations from "./law-consequences/modules/snap-participation";
 
 interface GeneratedLawConsequenceModule {
   readonly registrations: readonly AnyLawConsequenceKindRegistration[];
@@ -26,7 +28,9 @@ const GENERATED_LAW_CONSEQUENCE_MODULES: readonly GeneratedLawConsequenceModule[
     lawConsequenceJusticePretrialLandingsRegistrations,
     lawConsequenceJusticeSentencingLandingsRegistrations,
     lawConsequenceLw08CurriculumRegistrations,
+    lawConsequenceLw08DevelopmentIncentiveCapRegistrations,
     lawConsequenceLw08LibraryMaterialsRegistrations,
+    lawConsequenceSnapParticipationRegistrations,
   ];
 
 export const LAW_CONSEQUENCE_MODULE_KEYS = [
@@ -38,7 +42,9 @@ export const LAW_CONSEQUENCE_MODULE_KEYS = [
   "justice-pretrial-landings",
   "justice-sentencing-landings",
   "lw08-curriculum",
+  "lw08-development-incentive-cap",
   "lw08-library-materials",
+  "snap-participation",
 ] as const;
 
 export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =

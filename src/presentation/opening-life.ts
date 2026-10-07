@@ -52,13 +52,17 @@ import {
   startTownJobPay,
 } from "../simulation/living-world/town-pay";
 import { ensureEmployerCashPositions } from "../simulation/opening-employer-cash";
-import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
+import {
+  ensureRentDaySchedule,
+  startTownLeases,
+} from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
 import { ensurePublicBudgets } from "../simulation/public-budgets";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
+import { ensureHealthCoveragePass } from "../simulation/crisis/health-coverage";
 import {
   ensureMacroEconomyStarted,
   macroStartForHistory,
@@ -477,7 +481,10 @@ function* completeOpeningLifeSteps(
           "opening",
         )
       : withOfficeSalaries;
-  const world = initializeWorkPayCoverage(withEmployerCash);
+  const world = ensureHealthCoveragePass(
+    initializeWorkPayCoverage(withEmployerCash),
+    game.playerPersonId,
+  );
   const recovered = recoverOverdueProsecutions(world);
   // Opening owns the one-time catch-up. The canonical clock and registry
   // owners consume these saved wakes; this builder never dispatches them.
@@ -587,12 +594,18 @@ function* openedWorld(
   );
   // Payday starts with the same opening, so a watched world's jobs pay too,
   // and so does rent day, so its renters pay their landlords.
+  const playerHouseholdId = householdMembershipsAt(seated, playerPersonId).find(
+    (row) => row.state.residenceRole === "primary",
+  )?.household.id;
+  const withPlayerLease = playerHouseholdId
+    ? startTownLeases(seated, seated.currentDate, playerHouseholdId)
+    : seated;
   const opened = ensureCountyBudgetHearings(
     ensureRentDaySchedule(
       ensurePaydaySchedule(
         ensureMigrationSchedule(
           ensureLocalCouncilMeetings(
-            ensureLocalElectionCalendar(seated, playerPersonId),
+            ensureLocalElectionCalendar(withPlayerLease, playerPersonId),
             playerPersonId,
           ),
         ),
