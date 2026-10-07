@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import type { EntityId, World } from "../simulation";
 import { addDays, ageOnDate } from "../simulation/dates";
-import { npcContactAnswer, proposeContact } from "../simulation/people-contact";
+import {
+  npcContactAnswer,
+  proposeContact,
+} from "../simulation/relationship-contact";
 import { PRIVACY_GOAL_KEY } from "../simulation/people-goal-pursuit-content";
 import {
   activeGoalFor,

@@ -33,7 +33,7 @@ export interface MoneyLaws {
   /** Each law's reach across the town, largest first. */
   readonly town: readonly MoneyLawLine[];
   /** Said when neither list has a line. */
-  readonly empty: string | null;
+  readonly empty: boolean;
 }
 
 /** The player's most recent lines shown; older ones stay in the Journal. */
@@ -231,9 +231,6 @@ export function projectMoneyLaws(
     placeName,
     yours,
     town,
-    empty:
-      yours.length === 0 && town.length === 0
-        ? `No new law has reached anyone's money in ${placeName} yet.`
-        : null,
+    empty: yours.length === 0 && town.length === 0,
   };
 }

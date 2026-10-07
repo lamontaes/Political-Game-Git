@@ -614,6 +614,7 @@ function isSittingChief(
 
 /** Qualitative assessment read from the person's saved record. */
 import { staffAssessment } from "./staff-evidence";
+import { isCountyServiceProgram } from "../law-consequences/service-delivered-data";
 import type { StaffAssessment } from "./staff-evidence";
 import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
 import {
@@ -3430,7 +3431,25 @@ export function governingNpcDecisionHandler(
       next,
       "No recorded advice or candidate assessment selects a choice; the matter remains open.",
     );
-  const option = recommended ?? steadiest;
+  // A county's own service line was voted by its board for that service, so
+  // the executive without a chief of staff commits it as voted and keeps the
+  // reason on the record; nothing here is drawn.
+  const countyVoted =
+    !recommended && matter.family === "program"
+      ? (world.history.publicProgramRecords ?? []).some(
+          (record) =>
+            record.id === matter.appropriationId &&
+            record.kind === "appropriation" &&
+            record.sourceMeasureId != null &&
+            isCountyServiceProgram(record.programKey),
+        )
+      : false;
+  const option =
+    recommended ??
+    steadiest ??
+    (countyVoted
+      ? matter.options.find((o) => o.key === "program:operate-three-months")
+      : undefined);
   if (!option)
     return resolved(
       next,

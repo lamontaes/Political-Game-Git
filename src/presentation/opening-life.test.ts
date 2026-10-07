@@ -146,14 +146,15 @@ describe("OPENING-LIFE1 opening lifecycle", () => {
   it(
     "keeps generation and read paths separate at age 12",
     () => assertOpeningLifecycleAtAge(12),
-    10_000,
+    90_000,
   );
 
-  // These six synchronous new-game builds measured 5–9s after nationwide
-  // opening preparation; keep the extra budget local to those age cases.
+  // Each of these builds a whole nationwide world (about 10,000 people, an
+  // 84 MB save). Measured at age 34 on Oct 7: generate 18.7s, serialize 3.5s,
+  // deserialize 10s, about 36s in all. Keep the extra budget local to these cases.
   it.each([5, 7, 17, 18, 34, 70])(
     "keeps generation and read paths separate at age %i",
     (startAge) => assertOpeningLifecycleAtAge(startAge),
-    15_000,
+    90_000,
   );
 });

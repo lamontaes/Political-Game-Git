@@ -123,6 +123,11 @@ export function WorldOrientationPanel({
     readonly lines?: readonly string[];
     /** Real headlines of the day, for the year's screen. */
     readonly headlines?: readonly string[];
+    /** Record values under a label, for the year's screen. */
+    readonly facts?: readonly {
+      readonly label: string;
+      readonly value: string;
+    }[];
     /** The heading over them, when it is not the day's news. */
     readonly headlinesTitle?: string;
     /** Parents and guardians, for the family screen. */
@@ -233,6 +238,7 @@ export function WorldOrientationPanel({
               summary: "The country, as your life begins.",
               lines: year.lines,
               headlines: year.headlines,
+              facts: year.facts,
               people: [],
               chambers: [],
             },
@@ -733,6 +739,20 @@ export function WorldOrientationPanel({
                       <li key={line}>{line}</li>
                     ))}
                   </ul>
+                ) : null}
+
+                {step.facts && step.facts.length > 0 ? (
+                  <dl
+                    className="pg-orientation-facts"
+                    data-testid="orientation-facts"
+                  >
+                    {step.facts.map((fact) => (
+                      <div key={fact.label}>
+                        <dt>{fact.label}</dt>
+                        <dd>{fact.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 ) : null}
 
                 {step.headlines && step.headlines.length > 0 ? (
