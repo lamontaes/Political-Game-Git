@@ -901,6 +901,72 @@ export function fatigueAt(
   );
 }
 
+/** Actual simultaneous active intervals, including work that has since ended. */
+export function recordedWorkOverlapIntervals(
+  world: World,
+  left: WorkRelationship,
+  right: WorkRelationship,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly {
+  readonly startedAt: WorkRelationship["startedAt"];
+  readonly endedAt: WorkRelationship["startedAt"] | null;
+  readonly sourceRecordIds: readonly EntityId[];
+}[] {
+  if (
+    left.personId === right.personId ||
+    left.organizationId === null ||
+    left.organizationId !== right.organizationId ||
+    left.sequence >= cutoff.historySequenceExclusive ||
+    right.sequence >= cutoff.historySequenceExclusive ||
+    left.recordedAt > cutoff.asOfDate ||
+    right.recordedAt > cutoff.asOfDate
+  )
+    return [];
+  const leftStatuses = workStatusHistory(world, left.id, cutoff);
+  const rightStatuses = workStatusHistory(world, right.id, cutoff);
+  const dates = [
+    ...new Set([
+      left.startedAt,
+      right.startedAt,
+      ...leftStatuses.map((item) => item.effectiveAt),
+      ...rightStatuses.map((item) => item.effectiveAt),
+      cutoff.asOfDate,
+    ]),
+  ]
+    .filter((date) => date <= cutoff.asOfDate)
+    .sort();
+  const intervals: {
+    startedAt: WorkRelationship["startedAt"];
+    endedAt: WorkRelationship["startedAt"] | null;
+    sourceRecordIds: EntityId[];
+  }[] = [];
+  let active: (typeof intervals)[number] | null = null;
+  for (const date of dates) {
+    const atDate = { ...cutoff, asOfDate: date };
+    const leftStatus = workStatusAt(world, left.id, atDate);
+    const rightStatus = workStatusAt(world, right.id, atDate);
+    const overlaps =
+      leftStatus?.status === "active" &&
+      rightStatus?.status === "active" &&
+      left.startedAt <= date &&
+      right.startedAt <= date;
+    if (overlaps && !active) {
+      active = {
+        startedAt: date,
+        endedAt: null,
+        sourceRecordIds: [left.id, right.id, leftStatus.id, rightStatus.id],
+      };
+      intervals.push(active);
+    } else if (!overlaps && active) {
+      active.endedAt = date;
+      if (leftStatus) active.sourceRecordIds.push(leftStatus.id);
+      if (rightStatus) active.sourceRecordIds.push(rightStatus.id);
+      active = null;
+    }
+  }
+  return intervals;
+}
+
 function workPeriodsOverlap(
   world: World,
   left: WorkRelationship,

@@ -1,0 +1,91 @@
+{
+  "checkedHead": "d7ef7cc2f61a191a2c94e874eb9b682d49bc4fa7",
+  "main": "68c8a66307085d38c5db741ce46be9141cff3e18",
+  "browserProofHead": "83cc2f3bd437aece3368cf129370885fdac0ae06",
+  "runtimeDifferenceFromBrowserProof": [],
+  "sourceTreeDifferenceFromBrowserProof": [
+    "src/simulation/press/press-premise.test.ts"
+  ],
+  "reason": "Main repair adds only two press fixture defaults, lint config and release declaration. Actual executive runtime, browser, test helper and config blobs are unchanged. Browser 1 PASS / 8.6 minutes; focused tests 21 PASS retained at identical owned code.",
+  "receipts": [
+    {
+      "command": "npm run typecheck",
+      "sourceLog": "/tmp/session23-p4-main68-configured-types.log",
+      "exitCode": 0,
+      "sha256": "26cf1dbd2883e2a4fca9e982aa4e8649eb8241a5315d1c5cf300edc1bb6360ce",
+      "tail": "\n> political-life-rpg@0.4.0 typecheck\n> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts && npm run check:law-consequence-modules\n\ntypecheck-test-imports: 804 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 83, src/presentation 538, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).\n\n> political-life-rpg@0.4.0 check:law-consequence-modules\n> node scripts/law-consequence-modules/generate-manifest.mjs --check\n\nLaw consequence module manifest is up to date."
+    },
+    {
+      "command": "npx eslint <10 changed TypeScript files in origin/main...HEAD>",
+      "sourceLog": "/tmp/session23-p4-main68-lint.log",
+      "exitCode": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "command": "Prettier attempt including .prettierignore; no supported parser for ignore file",
+      "sourceLog": "/tmp/session23-p4-main68-format.log",
+      "exitCode": 2,
+      "sha256": "dcfd3650aa73337b080a9f919f18b60b2978fd18d9daaaa9cf795b6ea8f27af3",
+      "tail": "Checking formatting...\n[error] No parser could be inferred for file \"/workspace/Political-Game-Git/.prettierignore\".\nError occurred when checking code style in the above file."
+    },
+    {
+      "command": "npx prettier --check <18 changed files with supported parser>; ignore file covered by git diff --check",
+      "sourceLog": "/tmp/session23-p4-main68-format-correct-roots.log",
+      "exitCode": 0,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "tail": "Checking formatting...\nAll matched files use Prettier code style!"
+    },
+    {
+      "command": "npm run release:check -- --mode pr --base origin/main --head HEAD",
+      "sourceLog": "/tmp/session23-p4-main68-release.log",
+      "exitCode": 0,
+      "sha256": "199592d7769d297d34c8cdff39ba02828dd683bb7ca60e0e7a1248f9a7f2ce86",
+      "tail": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --mode pr --base origin/main --head HEAD\n\nrelease:check \u2014 version 0.4.0, revision d7ef7cc, 1686 pending declaration(s), declaration range origin/main..HEAD (pr). OK."
+    },
+    {
+      "command": "npm run zero-dice",
+      "sourceLog": "/tmp/session23-p4-main68-zero-dice.log",
+      "exitCode": 0,
+      "sha256": "c1c70d95dc66ee5ae8140d3fbb0ccadccd8c53ba9f2684dbc99306d5566ff24d",
+      "tail": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\nzero-dice: nothing new; 122 allowed lines left."
+    }
+  ],
+  "lintArguments": [
+    "npx",
+    "eslint",
+    "src/player/BudgetEconomyWorkspace.tsx",
+    "src/player/ExecutiveBudgetRequest.tsx",
+    "src/player/GoverningBriefing.tsx",
+    "src/simulation/governing/executive-budget-requests.test.ts",
+    "src/simulation/governing/executive-budget-requests.ts",
+    "src/simulation/governing/governor-bill-decision.ts",
+    "src/simulation/governing/state-governing.ts",
+    "tests/e2e/session23-executive-budget-desk.spec.ts",
+    "tests/e2e/support/creator.ts",
+    "tests/fixtures/session23-executive-budget.ts"
+  ],
+  "formatArguments": [
+    "npx",
+    "prettier",
+    "--check",
+    "docs/codex/progress/session-23.md",
+    "docs/codex/session23-budget-desk-proof/README.md",
+    "docs/codex/session23-budget-desk-proof/creator-navigation-failure.json",
+    "docs/codex/session23-budget-desk-proof/main-browser-checks.json",
+    "docs/codex/session23-budget-desk-proof/main-composition-checks.json",
+    "docs/codex/session23-budget-desk-proof/main-record-lines.json",
+    "docs/codex/session23-budget-desk-proof/record-lines.json",
+    "docs/release/changes/session23-dollar-budget-desk.md",
+    "src/player/BudgetEconomyWorkspace.tsx",
+    "src/player/ExecutiveBudgetRequest.tsx",
+    "src/player/GoverningBriefing.tsx",
+    "src/simulation/governing/executive-budget-requests.test.ts",
+    "src/simulation/governing/executive-budget-requests.ts",
+    "src/simulation/governing/governor-bill-decision.ts",
+    "src/simulation/governing/state-governing.ts",
+    "tests/e2e/session23-executive-budget-desk.spec.ts",
+    "tests/e2e/support/creator.ts",
+    "tests/fixtures/session23-executive-budget.ts"
+  ]
+}

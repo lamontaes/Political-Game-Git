@@ -84,9 +84,9 @@ test("normal Carson City citizen attends a public session and retains the real v
   const initial = await savedWorld(page);
   await goTo(page, "nav-municipal");
   const workspace = page.getByTestId("municipal-workspace");
-  await expect(
-    workspace.getByText("Linked to your saved home place."),
-  ).toBeVisible();
+  await expect(workspace.getByTestId("municipal-standing")).toContainText(
+    "Home",
+  );
   await expect(workspace).toContainText("Carson City");
   await save(page);
   expect(await savedWorld(page)).toEqual(initial);

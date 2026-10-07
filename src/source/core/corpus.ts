@@ -119,7 +119,7 @@ export function assertValidNormalizedCorpus(corpus: NormalizedCorpus): void {
     !corpus.coverage.boundedSampleReason?.trim()
   ) {
     fail(
-      "is a bounded sample but gives no reason; a sample that will not say why it is bounded reads as a universe.",
+      "sets isCompleteUniverse to false but its required boundedSampleReason is empty.",
     );
   }
   if (
@@ -127,7 +127,7 @@ export function assertValidNormalizedCorpus(corpus: NormalizedCorpus): void {
     corpus.coverage.boundedSampleReason !== null
   ) {
     fail(
-      "claims a complete universe while also giving a bounded-sample reason.",
+      "sets isCompleteUniverse to true but boundedSampleReason is non-null.",
     );
   }
 }

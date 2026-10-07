@@ -25,9 +25,7 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   await page.getByTestId("new-game").focus();
   await page.keyboard.press("Enter");
   await expect(page.getByTestId("setup-screen")).toBeVisible();
-  await page
-    .getByRole("button", { name: "Return to title", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Back", exact: true }).click();
   await expect(page.getByTestId("title-screen")).toBeVisible();
   await fillCreator(page, {
     place: place.displayName,
@@ -94,7 +92,6 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   await expect(townChoice).toContainText(place.displayName);
   await townChoice.click();
   await page.getByTestId("creator-continue-place").click();
-  await page.getByTestId("whoareyou-play").click();
   await expect(page.getByTestId("creator-engine-figure")).toBeVisible({
     timeout: 30_000,
   });
