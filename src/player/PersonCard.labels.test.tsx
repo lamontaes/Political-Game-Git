@@ -67,7 +67,8 @@ function dossier(personId: EntityId = selfId): PersonDossier {
     publicCareer: [],
     age: 27,
     presentNow: false,
-    rightNow: null,
+    presentRoom: null,
+    reminders: [],
     details: [
       {
         key: "record-fact",
@@ -161,12 +162,19 @@ it("retains another person's recorded relationship and makes no time or knowledg
 });
 
 it("recognizes a person whose card was opened from their figure as present in the room", () => {
-  const entry = dossier("person-other" as EntityId);
+  const entry = {
+    ...dossier("person-other" as EntityId),
+    presentRoom: "The room's own name",
+  };
   const before = JSON.stringify({ world, entry });
   const html = renderAnchored(entry);
 
   expect(html).toContain('data-testid="person-card-present"');
-  expect(html).toContain("Here in the room with you.");
+  expect(html).toContain("Present");
+  expect(html).toContain(
+    '<span data-testid="person-card-present-room">The room&#x27;s own name</span>',
+  );
+  expect(html).not.toContain("Here in the room with you.");
   expect(html).not.toContain("Away from your current location.");
   expect(html).toContain("Recorded office fact.");
   expect(JSON.stringify({ world, entry })).toBe(before);

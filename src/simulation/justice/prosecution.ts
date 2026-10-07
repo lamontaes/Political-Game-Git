@@ -1,5 +1,8 @@
 import { applyPretrialLawLandings } from "../law-consequences/modules/justice-pretrial-landings";
-import { applySentencingLawLandings } from "../law-consequences/modules/justice-sentencing-landings";
+import {
+  applySentencingLawLandings,
+  applyVotingRightLanding,
+} from "../law-consequences/modules/justice-sentencing-landings";
 import { juryCountyForPlace, summonJuryResidents } from "./jury-catchment";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { custodyFloorAt } from "../law-consequences/legal-outcome";
@@ -103,6 +106,7 @@ import {
   SENTENCE_LIFE_TAG,
   type SentenceKind,
 } from "./jail-terms";
+import { recordVotingRightForSentence } from "./voting-standing";
 
 export {
   jailTermOn,
@@ -1157,6 +1161,13 @@ export function advanceProsecutions(
           next,
           savedSentence.id,
           binding.law.measureId,
+        );
+      // A felony term suspends the vote; the state's law decides its return.
+      const withVote = recordVotingRightForSentence(next, savedSentence.id);
+      if (withVote !== next)
+        next = applyVotingRightLanding(
+          withVote,
+          withVote.history.events.at(-1)!.id,
         );
     }
     next = considerClemencyAfterSentence(next, savedSentence.id);
