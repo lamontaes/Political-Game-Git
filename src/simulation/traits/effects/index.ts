@@ -6,6 +6,7 @@ import { concernForDistressEffects } from "./concern-for-distress";
 import { facetAcquisitiveEffects } from "./facet-acquisitive";
 import { facetAmbitiousEffects } from "./facet-ambitious";
 import { facetAnalyticalEffects } from "./facet-analytical";
+import { facetArbitraryEffects } from "./facet-arbitrary";
 import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetAssertiveEffects } from "./facet-assertive";
 import { facetBluntEffects } from "./facet-blunt";
@@ -74,6 +75,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetAcquisitiveEffects,
     ...facetAmbitiousEffects,
     ...facetAnalyticalEffects,
+    ...facetArbitraryEffects,
     ...facetArgumentativeEffects,
     ...facetAssertiveEffects,
     ...facetBluntEffects,
