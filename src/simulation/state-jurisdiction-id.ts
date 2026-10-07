@@ -74,8 +74,15 @@ const STATE_KEY_BY_NAME: ReadonlyMap<string, string> = new Map(
  */
 export function homeStateKey(world: World, personId: EntityId): string | null {
   const person = world.people[personId];
-  if (!person) return null;
-  const jurisdiction = world.jurisdictions[person.homeJurisdictionId];
+  return person ? placeStateKey(world, person.homeJurisdictionId) : null;
+}
+
+/** The state or territory a place (or a state's own record) lies in. */
+export function placeStateKey(
+  world: World,
+  jurisdictionId: EntityId,
+): string | null {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
   if (!jurisdiction) return null;
   return (
     stateKeyForJurisdiction(jurisdiction) ??

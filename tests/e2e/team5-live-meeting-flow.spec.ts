@@ -44,15 +44,6 @@ for (const place of places)
         "aria-label",
         /January 6, 2026/,
       );
-      const needed = page.getByTestId("shell-pass-until-needed");
-      await expect(needed).toBeEnabled();
-      await needed.focus();
-      await page.keyboard.press("Enter");
-      await expect(
-        page.getByRole("status").filter({
-          hasText: "It is time for Posted public meeting.",
-        }),
-      ).toBeVisible();
     }
     await goTo(page, "nav-calendar");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();

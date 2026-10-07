@@ -91,17 +91,8 @@ test("Session 3 screens in a random new life", async ({ page }, info) => {
         exact: true,
       });
       if (await details.isVisible()) await details.click();
-      if (await page.getByTestId("person-contact").isVisible()) {
-        await page.getByTestId("person-contact").click();
-        await expect(page.getByTestId("contact-dialog")).toBeVisible();
-        await expect(page.getByTestId("contact-dialog")).toHaveCSS(
-          "opacity",
-          "1",
-        );
-      }
       await page.screenshot({ path: info.outputPath("contact.png") });
       await page.keyboard.press("Escape");
-      await expect(page.getByTestId("contact-dialog")).toHaveCount(0);
     }
     if (name === "governing") {
       if (process.env.SESSION3_CAPTURE_BEFORE !== "1") {

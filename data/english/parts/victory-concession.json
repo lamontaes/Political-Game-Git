@@ -1,0 +1,156 @@
+{
+  "schema": "english-parts/1",
+  "register": "victory-concession",
+  "description": "Verbatim phrases from U.S. election victory and concession remarks archived by the American Presidency Project.",
+  "slots": {},
+  "maxWords": 20,
+  "mining": {
+    "tool": "manual source review",
+    "read": "Election victory and concession addresses by U.S. presidential candidates, selected for complete short phrases that can stand without names or pronouns from the original race."
+  },
+  "parts": [
+    {
+      "key": "victory-concession.victory.thanks.thank-you-so-much",
+      "move": "victory-thanks",
+      "kind": "spoken",
+      "text": "Thank you so much.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks at an Election Victory Celebration in Chicago, Illinois",
+        "date": "2012-11-07",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-election-victory-celebration-chicago-illinois"
+      }
+    },
+    {
+      "key": "victory-concession.victory.thanks-thank-every-american-who-participated-in-this-election",
+      "move": "victory-thanks",
+      "kind": "spoken",
+      "text": "I want to thank every American who participated in this election.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks at an Election Victory Celebration in Chicago, Illinois",
+        "date": "2012-11-07",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-election-victory-celebration-chicago-illinois"
+      }
+    },
+    {
+      "key": "victory-concession.victory.thanks.for-what-you-did-for-america",
+      "move": "victory-thanks",
+      "kind": "spoken",
+      "text": "Thank you for what you did for America.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Victory Celebration in Little Rock, Arkansas",
+        "date": "1996-11-05",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-victory-celebration-little-rock-arkansas"
+      }
+    },
+    {
+      "key": "victory-concession.victory.reflection-the-american-people-have-spoken",
+      "move": "victory-reflection",
+      "kind": "spoken",
+      "text": "Today the American people have spoken.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Victory Celebration in Little Rock, Arkansas",
+        "date": "1996-11-05",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-victory-celebration-little-rock-arkansas"
+      }
+    },
+    {
+      "key": "victory-concession.concession.acceptance-results-speak-for-themselves",
+      "move": "concession-acceptance",
+      "kind": "spoken",
+      "text": "The results of the election speak for themselves.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Statement Conceding the Presidential Election",
+        "date": "1924-11-05",
+        "url": "https://www.presidency.ucsb.edu/documents/statement-conceding-the-presidential-election"
+      }
+    },
+    {
+      "key": "victory-concession.concession.acceptance-outcome-without-regret-or-bitterness",
+      "move": "concession-acceptance",
+      "kind": "spoken",
+      "text": "I accept the outcome without any vain regret or bitterness.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Statement Conceding the Presidential Election",
+        "date": "1924-11-05",
+        "url": "https://www.presidency.ucsb.edu/documents/statement-conceding-the-presidential-election"
+      }
+    },
+    {
+      "key": "victory-concession.concession.acceptance-peoples-verdict",
+      "move": "concession-acceptance",
+      "kind": "spoken",
+      "text": "The people have rendered their verdict and I gladly accept it.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks Conceding the Presidential Election in Springfield, Illinois",
+        "date": "1952-11-05",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-conceding-the-presidential-election-springfield-illinois"
+      }
+    },
+    {
+      "key": "victory-concession.concession.acceptance-accept-the-results",
+      "move": "concession-acceptance",
+      "kind": "spoken",
+      "text": "But we must accept the results of this election.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Address Conceding the 2024 Presidential Election",
+        "date": "2024-11-06",
+        "url": "https://www.presidency.ucsb.edu/documents/address-conceding-the-2024-presidential-election"
+      }
+    },
+    {
+      "key": "victory-concession.concession.acceptance-close-ranks",
+      "move": "concession-acceptance",
+      "kind": "spoken",
+      "text": "It is equally traditional to close ranks as soon as the people have spoken.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks Conceding the Presidential Election in Springfield, Illinois",
+        "date": "1952-11-05",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-conceding-the-presidential-election-springfield-illinois"
+      }
+    },
+    {
+      "key": "victory-concession.concession.congratulate-the-people-have-made-their-choice",
+      "move": "concession-congratulation",
+      "kind": "spoken",
+      "text": "The people have made their choice and I congratulate you.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Remarks Conceding the Presidential Election in Springfield, Illinois",
+        "date": "1952-11-05",
+        "url": "https://www.presidency.ucsb.edu/documents/remarks-conceding-the-presidential-election-springfield-illinois"
+      }
+    },
+    {
+      "key": "victory-concession.concession.reflection-outcome-is-not-what-we-wanted",
+      "move": "concession-reflection",
+      "kind": "spoken",
+      "text": "The outcome of this election is not what we wanted, not what we fought for, not what we voted for.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Address Conceding the 2024 Presidential Election",
+        "date": "2024-11-06",
+        "url": "https://www.presidency.ucsb.edu/documents/address-conceding-the-2024-presidential-election"
+      }
+    }
+  ]
+}
