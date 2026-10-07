@@ -4490,20 +4490,29 @@ export interface LawPermissionRecord extends LawEffectStampedRecord {
 }
 
 /** Append-only attribution of a sentence already written by the court. */
-export interface LegalOutcomeConsequenceRecord {
+interface LegalOutcomeConsequenceRecordBase {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
   readonly recordedAt: IsoDate;
-  readonly sentenceEventId: EntityId;
   readonly subjectPersonId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly appliedAt: IsoDate;
-  readonly effectKind: "minimum-custody-months";
-  readonly minimumMonths: number;
   readonly sourceRecordIds: readonly EntityId[];
   readonly lawEffectStamps: readonly [LawEffectStamp];
 }
+
+export type LegalOutcomeConsequenceRecord =
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "minimum-custody-months";
+      readonly sentenceEventId: EntityId;
+      readonly minimumMonths: number;
+    })
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "juvenile-jurisdiction-ceiling";
+      readonly caseStageEventId: EntityId;
+      readonly juvenileCourtAgeCeiling: number;
+    });
 
 /**
  * One dated entry in a person's childhood record (`childhood-record.ts`).
