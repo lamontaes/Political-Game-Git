@@ -69,7 +69,11 @@ export function recordSnapParticipation(
     householdId: input.householdId,
     enrolled,
     monthlyBenefitMinor: enrolled ? input.monthlyBenefitMinor : null,
-    benefitBasis: enrolled ? "ESTIMATED FROM STATE AVERAGE" : null,
+    benefitBasis: enrolled
+      ? input.benefitSource?.includes("public-programs-2026.json")
+        ? "CALCULATED FROM RECORDED INCOME AND FY2026 SNAP RULE"
+        : "ESTIMATED FROM STATE AVERAGE"
+      : null,
     benefitSource: enrolled ? input.benefitSource : null,
     causeId: input.causeId,
     householdSize: input.householdSize,

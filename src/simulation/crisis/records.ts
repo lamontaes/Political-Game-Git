@@ -375,7 +375,9 @@ function validateCrisisRecords(
           (record.enrolled
             ? !Number.isSafeInteger(record.monthlyBenefitMinor) ||
               record.monthlyBenefitMinor! < 0 ||
-              record.benefitBasis !== "ESTIMATED FROM STATE AVERAGE" ||
+              (record.benefitBasis !== "ESTIMATED FROM STATE AVERAGE" &&
+                record.benefitBasis !==
+                  "CALCULATED FROM RECORDED INCOME AND FY2026 SNAP RULE") ||
               !record.benefitSource
             : record.monthlyBenefitMinor !== null ||
               record.benefitBasis !== null ||
