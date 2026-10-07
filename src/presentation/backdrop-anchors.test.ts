@@ -89,6 +89,16 @@ describe("people anchors on every place picture", () => {
     expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
   });
 
+  it("anchors the visible chairs at both phone-bank tables", () => {
+    const seats = STAGES["phone-bank-room"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(12);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(12);
+    expect(seats.filter((spot) => spot.facing === "left")).toHaveLength(6);
+    expect(seats.filter((spot) => spot.facing === "right")).toHaveLength(6);
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
@@ -181,6 +191,23 @@ describe("people anchors on every place picture", () => {
       { x: 21, y: 61, facing: "viewer", seatY: 58 },
       { x: 79, y: 61, facing: "viewer", seatY: 58 },
     ]);
+  });
+
+  it("anchors both Pennsylvania capitol walkway benches", () => {
+    const seats = STAGES["state-capitol-pa"]!.spots.filter((spot) =>
+      spot.group?.startsWith("walk-bench-"),
+    );
+    expect(seats).toHaveLength(2);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(2);
+    expect(
+      seats.find((spot) => spot.group === "walk-bench-right"),
+    ).toMatchObject({
+      x: 60,
+      y: 88.4,
+      seatY: 86.6,
+      facing: "left",
+      pose: "sit",
+    });
   });
 
   it("anchors union hall pews along both sides of the aisle", () => {

@@ -6939,9 +6939,75 @@
           "group": "desk",
           "role": "general",
           "id": "phone-bank-room:spot:10"
+        },
+        {
+          "x": 10,
+          "y": 80,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 80,
+          "seatY": 68,
+          "group": "desk-left",
+          "role": "general",
+          "id": "phone-bank-room:spot:11"
+        },
+        {
+          "x": 19,
+          "y": 69,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 69,
+          "seatY": 57,
+          "group": "desk-left",
+          "role": "general",
+          "id": "phone-bank-room:spot:12"
+        },
+        {
+          "x": 42,
+          "y": 56,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 56,
+          "seatY": 46,
+          "group": "desk-left",
+          "role": "general",
+          "id": "phone-bank-room:spot:13"
+        },
+        {
+          "x": 90,
+          "y": 80,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 80,
+          "seatY": 68,
+          "group": "desk-right",
+          "role": "general",
+          "id": "phone-bank-room:spot:14"
+        },
+        {
+          "x": 81,
+          "y": 69,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 69,
+          "seatY": 57,
+          "group": "desk-right",
+          "role": "general",
+          "id": "phone-bank-room:spot:15"
+        },
+        {
+          "x": 58,
+          "y": 56,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 56,
+          "seatY": 46,
+          "group": "desk-right",
+          "role": "general",
+          "id": "phone-bank-room:spot:16"
         }
       ],
-      "measuredFrom": "horizon from the far desk end vs the near chair; far desk end 0.75 m foot 55.2 top 43 -> 0.70; near left chair seat 0.45 m foot 92 top 73 -> 0.70; near chair back 0.9 m foot 88.5 top 51.5 -> 0.73; back wall floor 52 to ceiling 7.5 reads 2.7 m",
+      "measuredFrom": "horizon from the far desk end vs the near chair; far desk end 0.75 m foot 55.2 top 43 -> 0.70; near left chair seat 0.45 m foot 92 top 73 -> 0.70; near chair back 0.9 m foot 88.5 top 51.5 -> 0.73; back wall floor 52 to ceiling 7.5 reads 2.7 m; added chair foot and seat points are visual estimates from the midday image (about 1-2 percentage points uncertainty)",
       "surfaceSlots": [
         {
           "surfaceId": "phone-bank-room-whiteboard",
@@ -12208,6 +12274,17 @@
         },
         {
           "x": 60,
+          "y": 88.4,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 88.4,
+          "seatY": 86.6,
+          "group": "walk-bench-right",
+          "role": "general",
+          "id": "state-capitol-pa:spot:7"
+        },
+        {
+          "x": 60,
           "y": 93.5,
           "pose": "stand",
           "facing": "left",
@@ -12234,7 +12311,7 @@
           "id": "state-capitol-pa:spot:6"
         }
       ],
-      "measuredFrom": "high camera; horizon on the far hills and river line (~38); sidewalk lamp ~4 m foot 94.7 top 80.1 -> 0.064; sidewalk bench back ~0.85 m foot 92.1 top 88.6 -> 0.076",
+      "measuredFrom": "high camera; horizon on the far hills and river line (~38); sidewalk lamp ~4 m foot 94.7 top 80.1 -> 0.064; sidewalk bench back ~0.85 m foot 92.1 top 88.6 -> 0.076; right walkway bench mirrored from the left bench estimate within ±2 percentage points, measured from state-capitol-pa__midday.jpg",
       "surfaceSlots": []
     },
     "state-capitol-pr": {

@@ -3,6 +3,11 @@ import { describe, expect, it } from "vitest";
 
 import type { OrientationView } from "../presentation/world-orientation";
 import { WorldOrientationPanel } from "./WorldOrientationPanel";
+import {
+  FEDERAL_DISTRICT_USPS,
+  STATES,
+  TERRITORY_USPS,
+} from "../simulation/state-reference";
 
 /**
  * The state-wide voting survey covers the fifty states and D.C. A territory's
@@ -22,10 +27,10 @@ const VIEW: OrientationView = {
   ],
 };
 
-function render(homeStateUsps: string): string {
+function render(homeStateUsps: string, view = VIEW): string {
   return renderToStaticMarkup(
     <WorldOrientationPanel
-      view={VIEW}
+      view={view}
       homeStateUsps={homeStateUsps}
       mode="first"
       onClose={() => {}}
@@ -43,5 +48,30 @@ describe("the voting section on the opening state card", () => {
 
   it("is still shown for a state", () => {
     expect(render("OR")).toContain("opening-state-voting");
+  });
+
+  it("removes the authored state summary across every jurisdiction", () => {
+    const view: OrientationView = {
+      ...VIEW,
+      steps: [
+        {
+          ...VIEW.steps[0]!,
+          summary: "The state summary is authored player text.",
+        },
+      ],
+    };
+    const jurisdictions = [
+      ...new Set([
+        ...Object.keys(STATES),
+        ...FEDERAL_DISTRICT_USPS,
+        ...TERRITORY_USPS,
+      ]),
+    ];
+    expect(jurisdictions).toHaveLength(56);
+    for (const usps of jurisdictions) {
+      expect(render(usps, view)).not.toContain(
+        "The state summary is authored player text.",
+      );
+    }
   });
 });
