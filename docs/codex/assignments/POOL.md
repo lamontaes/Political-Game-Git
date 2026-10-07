@@ -602,7 +602,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1229 | Add canonical conversation action audit with explicit coverage limits | PR #1229 (codex/team-8-conversation-audit) | done #1229 | |
 | RS-1231 | Preserve rejected confidants index candidate and timing evidence | PR #1231 (codex/team-4-confidants-interaction-index) | done (superseded by M10; rejected candidate, no retained production change) | |
 | RS-1233 | Add regional home exteriors and corrected street candidates | PR #1233 (codex/team7-regional-exteriors) | done (superseded by C7; art preserved for later owner review) | |
-| RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | open: draft: finish it or close it as superseded | |
+| RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | ready #1238 | Session 45 |
 | RS-1257 | Import 61 approved picture and kids-sheet sources | PR #1257 (codex/team7-law-place-import) | open: draft: finish it or close it as superseded | |
 | RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #1275 (codex/team2-government-about-zero-audit) | open: draft: finish it or close it as superseded | |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | open: stacked on codex/team-4-cannabis-revenue-loss-cost: retarget to main; draft: finish it or close it as superseded | |
