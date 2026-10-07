@@ -148,14 +148,11 @@ describe(`buying a home in ${BUYER_PLACE.displayName} (${BUYER_PLACE.key}), seed
       10_000_000 - termsFor(world, personId).downPaymentMinor,
     );
     const view = projectHomePurchase(bought, personId);
-    expect(view).toEqual({
-      kind: "owns",
-      headline: "Your household owns its home.",
-      mortgageLine: `${usd(
-        termsFor(world, personId).priceMinor -
-          termsFor(world, personId).downPaymentMinor,
-      )} is left on the mortgage.`,
-    });
+    expect(view?.kind).toBe("owns");
+    expect(view?.kind === "owns" ? view.mortgageLeft?.minorUnits : null).toBe(
+      termsFor(world, personId).priceMinor -
+        termsFor(world, personId).downPaymentMinor,
+    );
     expect(homePurchaseReason(bought, personId)).toBe(
       "Your household already owns its home.",
     );
@@ -326,8 +323,6 @@ describe(`buying a home in ${BUYER_PLACE.displayName} (${BUYER_PLACE.key}), seed
     expect(shown?.kind).not.toBe("owns");
     if (!shown || shown.kind === "owns")
       throw new Error("Expected the buyer's home purchase quote.");
-    expect(shown.terms).toContain(
-      `$${(terms.priceMinor / 100).toLocaleString("en-US")}`,
-    );
+    expect(shown.price.minorUnits).toBe(terms.priceMinor);
   });
 });
