@@ -11,7 +11,6 @@ import { electionContestResult } from "../../src/simulation";
 import { projectBillPaper } from "../../src/presentation/bill-paper";
 import { journalInFirstPerson } from "../../src/presentation/journal-first-person";
 import { projectJournalView } from "../../src/presentation/journal-views";
-import { projectNewsFrontPage } from "../../src/presentation/news-front-page";
 import { projectOrdinaryMeetingScene } from "../../src/presentation/ordinary-meeting-scene";
 import {
   readHearingBank,
@@ -58,29 +57,13 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     else texts.push(...found.slice(0, PER_KIND));
   };
 
-  // One story per wording: copies of one template with other figures
-  // are one item, not three (batch variety rule).
-  const shapes = new Set<string>();
-  const stories = projectNewsFrontPage(world, "front", null).stories.filter(
-    (story) => {
-      const shape = story.headline.replace(/[\d$,.]+/g, "#");
-      if (shapes.has(shape)) return false;
-      shapes.add(shape);
-      return true;
-    },
-  );
+  // Do not read a saved news summary aloud as a player-facing line. The
+  // newspaper-lede bank needs a record-field composer before this kind can be
+  // included in a grading batch.
   add(
     "news",
-    stories.map((story) => ({
-      kind: "news",
-      composer: "projectNewsFrontPage in news-front-page.ts",
-      situation: `A ${story.outletName} story about public record ${story.sourceEventId} from ${story.place ?? "the nation"}.`,
-      text: story.body.startsWith(story.headline)
-        ? story.body
-        : `${story.headline} ${story.body}`.trim(),
-      partKey: `news:story:${story.sourceEventId}`,
-    })),
-    "no newspaper has printed a story in this world yet",
+    [],
+    "no output, because the mined newspaper-lede bank has no record-field composer yet",
   );
 
   // A journal item is a chapter of the life, told by the character from the

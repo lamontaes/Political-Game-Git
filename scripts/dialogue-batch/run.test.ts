@@ -44,9 +44,9 @@ describe("the dialogue batch", () => {
   );
 });
 
-describe("the dialogue batch avoids menu prompts", () => {
+describe("the dialogue batch avoids menu prompts and raw news", () => {
   it(
-    "creates a 40-item grading batch from recorded producer output",
+    "uses record-backed output and records the missing lede composer",
     { timeout: 300_000 },
     () => {
       const result = runDialogueBatch({
@@ -61,7 +61,7 @@ describe("the dialogue batch avoids menu prompts", () => {
         at: new Date("2026-10-07T17:00:00.000Z"),
       });
 
-      expect(batch.items.length).toBeGreaterThanOrEqual(40);
+      expect(batch.items.length).toBeGreaterThanOrEqual(25);
       expect(bin).toHaveLength(0);
       expect(batch.items.every((item) => item.parts.length > 0)).toBe(true);
       expect(result.lines.every((line) => line.id.startsWith("text-"))).toBe(
@@ -96,6 +96,7 @@ describe("the dialogue batch avoids menu prompts", () => {
           item.reason.startsWith("no output, because"),
         ),
       ).toBe(true);
+      expect(batch.absent.some((item) => item.kind === "news")).toBe(true);
     },
   );
 });
