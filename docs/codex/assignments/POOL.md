@@ -518,7 +518,7 @@ Take these after the order above, or any time a session is free. Every row is on
 
 | BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | open | |
 | BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | open | |
-| BG-21              | Creator: helper lines remain (e.g. 'Next waits until you choose a place in this state')                                                                                                                                                                                                                     | BUGS.md BG-21             | done #2290 |                    |
+| BG-21 | Creator: helper lines remain (e.g. 'Next waits until you choose a place in this state') | BUGS.md BG-21 | done #2290 | |
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | open | |
 | BG-23 | Creator: only 6 faces for a man | BUGS.md BG-23 | open | |
 | BG-24 | Creator 'Who are you?' questions are terrible (club-trip registration and similar) | BUGS.md BG-24 | done #87 | |
@@ -566,7 +566,6 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | open | |
 | BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | open | |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
-
 
 ## Rescue: every open PR from the Codex sessions and earlier (added Oct 6, 3:40 p.m.)
 
