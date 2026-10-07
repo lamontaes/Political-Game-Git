@@ -14,6 +14,7 @@ import {
   MEDIA_RESOURCE_TIERS,
   MEDIA_SCOPES,
   MISCONDUCT_FAMILIES,
+  PERSONAL_LIFE_MATTER_FAMILY,
   OUTLET_OWNERSHIP_BASES,
   PRESS_POLICY_VERSION,
   PROCEDURE_KEYS,
@@ -26,6 +27,7 @@ import {
   sourceTermsAttributable,
   sourceTermsPubliclyUsable,
   type PressRecord,
+  type MatterFamily,
   type ReporterRoleRecord,
   type StoryDecision,
 } from "./records";
@@ -225,7 +227,7 @@ export function validatePressRecords(
         text(record.provenanceNote, "outlet provenance");
         earlier(record.organizationId, seq, "outlet organization");
         if (record.policyVersion !== PRESS_POLICY_VERSION) {
-          throw new Error(`Outlet uses an unknown policy: ${record.id}`);
+          throw new Error(`Outlet uses an unsupported policy: ${record.id}`);
         }
         if (
           (record.scope === "national") !==
@@ -537,12 +539,50 @@ export function validatePressRecords(
         break;
       }
       case "matter": {
-        member(MISCONDUCT_FAMILIES, record.family, "misconduct family");
+        member(
+          [
+            ...MISCONDUCT_FAMILIES,
+            PERSONAL_LIFE_MATTER_FAMILY,
+          ] as readonly MatterFamily[],
+          record.family,
+          "matter family",
+        );
         if (record.subjectPersonIds.length === 0) {
           throw new Error(`A matter needs its subjects: ${record.id}`);
         }
         for (const id of record.subjectPersonIds) person(id, "matter subject");
         earlier(record.originEventId, seq, "matter origin");
+        if (record.family === PERSONAL_LIFE_MATTER_FAMILY) {
+          const sourceEvent = eventById(world, record.originEventId);
+          const publicClaim = world.history.claims.some(
+            (claim) =>
+              claim.eventId === record.originEventId &&
+              claim.audience === "public" &&
+              claim.sequence < seq,
+          );
+          if (
+            record.personalEventId !== record.originEventId ||
+            !sourceEvent ||
+            (sourceEvent.visibility !== "public" && !publicClaim) ||
+            (!["crime.arrest-made", "life.couple-ended"].includes(
+              sourceEvent.type,
+            ) &&
+              !publicClaim)
+          ) {
+            throw new Error(
+              `A personal-life matter needs an on-record personal event: ${record.id}`,
+            );
+          }
+          if (record.occurrenceId !== null) {
+            throw new Error(
+              `A personal-life matter cannot cite a financial occurrence: ${record.id}`,
+            );
+          }
+        } else if (record.personalEventId) {
+          throw new Error(
+            `A misconduct matter cannot cite a personal event: ${record.id}`,
+          );
+        }
         if (record.occurrenceId) {
           const occurrence = prior(
             record.occurrenceId,
@@ -696,8 +736,10 @@ export function validatePressRecords(
         break;
       }
       default: {
-        const unknown: never = record;
-        throw new Error(`Unknown press record: ${JSON.stringify(unknown)}`);
+        const unsupported: never = record;
+        throw new Error(
+          `Unsupported press record: ${JSON.stringify(unsupported)}`,
+        );
       }
     }
     byId.set(record.id, record);

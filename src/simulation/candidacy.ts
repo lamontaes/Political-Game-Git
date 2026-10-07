@@ -23,6 +23,7 @@ import {
 } from "./life-places";
 import { factsForPerson } from "./people";
 import { birthConfersCitizenship, isTerritoryUsps } from "./state-reference";
+import { citizenshipEligibility } from "./citizenship";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
@@ -58,6 +59,11 @@ import {
 } from "./district-residence";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
+  candidateFilingTerms,
+  type CandidateFilingTerms,
+  type FilingOfficeFamily,
+} from "./candidate-filing-terms";
+import {
   gazetteerChamberForOfficeChamberKey,
   listDistrictIdentities,
 } from "../districts/query";
@@ -87,6 +93,27 @@ export function candidacyPackForJurisdiction(
   jurisdictionId: EntityId,
 ): CandidacyPack | null {
   return candidacyAuthority(jurisdictionId).pack;
+}
+
+/** Match residence to a filing at the scope the office actually represents. */
+export function candidacyResidenceMatches(
+  homeJurisdictionId: EntityId,
+  filingJurisdictionId: EntityId,
+  stateJurisdictionKey: string | null,
+  scope: "local" | "statewide",
+): boolean {
+  if (scope === "local" || stateJurisdictionKey === null) {
+    return homeJurisdictionId === filingJurisdictionId;
+  }
+
+  return (
+    lifePlaceByJurisdictionId(homeJurisdictionId)?.stateJurisdictionKey ===
+      stateJurisdictionKey &&
+    (stateJurisdictionForKey(stateJurisdictionKey)?.id ===
+      filingJurisdictionId ||
+      lifePlaceByJurisdictionId(filingJurisdictionId)?.stateJurisdictionKey ===
+        stateJurisdictionKey)
+  );
 }
 
 /**
@@ -334,6 +361,8 @@ export interface CandidacyEligibility {
   /** The pack the jurisdiction itself declares, if it declares one. */
   readonly pack: CandidacyPack | null;
   readonly office: ElectiveOfficeOption | null;
+  /** The fee, petition, and filing dates read through the one place data path. */
+  readonly filingTerms: CandidateFilingTerms | null;
   /** Every production-compiled field checked for this candidate. */
   readonly qualificationAssessments: readonly QualificationAssessment[];
   readonly blocks: readonly CandidacyBlock[];
@@ -703,6 +732,7 @@ export function candidacyEligibility(
           ) === "split"
         ? ("district-unknown" as const)
         : ("unrecorded" as const);
+  const citizenship = citizenshipEligibility(world, input.personId);
   const compiledAssessments =
     qualificationRules !== null || officeFamily === null
       ? []
@@ -711,7 +741,11 @@ export function candidacyEligibility(
           stateJurisdictionKey,
           officeFamily,
           stateResidenceSince: stateResidenceStart,
-          citizenSince: citizenByBirthSince(world, input.personId),
+          citizenSince:
+            citizenship.record !== null
+              ? citizenship.citizenSince
+              : citizenByBirthSince(world, input.personId),
+          citizenStatus: citizenship.isCitizen,
           districtResidenceSince: districtSince,
           ...(districtGap ? { districtResidenceGap: districtGap } : {}),
           onDate: world.currentDate,
@@ -855,16 +889,20 @@ export function candidacyEligibility(
     if (limit?.barredReason)
       blocks.push({ kind: "term-limit", reason: limit.barredReason });
   }
-  const livesElsewhere = executive
-    ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
-        ?.stateJurisdictionKey !== executive.jurisdictionKey ||
-      input.jurisdictionId !== chiefExecutiveJurisdictionId(executive.stateUsps)
+  const expectedFilingJurisdictionId = executive
+    ? chiefExecutiveJurisdictionId(executive.stateUsps)
     : congress
-      ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
-          ?.stateJurisdictionKey !== congress.jurisdictionKey ||
-        input.jurisdictionId !==
-          stateJurisdictionForKey(congress.jurisdictionKey)?.id
-      : person.homeJurisdictionId !== input.jurisdictionId;
+      ? stateJurisdictionForKey(congress.jurisdictionKey)?.id
+      : input.jurisdictionId;
+  const livesElsewhere =
+    !candidacyResidenceMatches(
+      person.homeJurisdictionId,
+      expectedFilingJurisdictionId ?? input.jurisdictionId,
+      stateJurisdictionKey,
+      local ? "local" : "statewide",
+    ) ||
+    ((executive || congress) &&
+      input.jurisdictionId !== expectedFilingJurisdictionId);
   if (livesElsewhere) {
     blocks.push({
       kind: "lives-elsewhere",
@@ -882,6 +920,19 @@ export function candidacyEligibility(
     });
   }
 
+  const filingFamily: FilingOfficeFamily = executive
+    ? "statewideExecutive"
+    : congress
+      ? "federalLegislative"
+      : local
+        ? "local"
+        : "stateLegislative";
+  const filingStateUsps = stateJurisdictionKey?.replace(/^US-/, "") ?? null;
+  const filingTerms =
+    option && filingStateUsps
+      ? candidateFilingTerms(filingStateUsps, filingFamily)
+      : null;
+
   return {
     eligible: blocks.length === 0,
     minimumAgeEstimate,
@@ -889,6 +940,7 @@ export function candidacyEligibility(
     personId: input.personId,
     pack,
     office: boundOption,
+    filingTerms,
     qualificationAssessments,
     blocks: distinctBlocks(blocks),
   };

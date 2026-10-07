@@ -18,7 +18,11 @@ import {
   resolvePublicationSource,
 } from "../public-information-integrity";
 import { currentHistoricalCutoff } from "../queries";
-import { recordClaim, recordEventKnowledge } from "../records";
+import {
+  recordClaim,
+  recordEventKnowledge,
+  recordRelationshipInteraction,
+} from "../records";
 import type {
   DecisionConsideration,
   DecisionConstraint,
@@ -45,8 +49,10 @@ import {
   partyContactsForSubject,
   produceMatterResponses,
 } from "./responses";
+import { openPersonalLifeMatter } from "./matters";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
+import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
@@ -597,6 +603,28 @@ export function recordSubjectResponse(
     eventId,
     reasonKey: `press:subject-${input.kind}`,
   });
+  next = recordRelationshipInteraction(next, {
+    stableKey: `${lead.stableKey}:response-contact:${input.personId}`,
+    personIds: [input.personId, reporterId],
+    eventId,
+    occurredAt: next.currentDate,
+    kind: "exchange:press-contact",
+    change: next.history.relationshipInteractions.some(
+      (interaction) =>
+        interaction.personIds.includes(input.personId) &&
+        interaction.personIds.includes(reporterId),
+    )
+      ? "maintained"
+      : "formed",
+    significance: "minor",
+    summary:
+      input.kind === "decline"
+        ? "A subject declined a reporter's request for comment."
+        : "A subject answered a reporter's request for comment.",
+    tags: [
+      input.kind === "decline" ? "press.call.ducked" : "press.call.answered",
+    ],
+  });
   return { world: next, eventId };
 }
 
@@ -723,11 +751,12 @@ function openResponseRequest(world: World, leadId: EntityId) {
 }
 
 /*
- * PLACEHOLDER: who comments and what an answer says are not researched. A
- * non-player disputes an allegation against them, declines or stays silent,
- * weighed only by whether they are named in the matter; personality is not
- * consulted and no other answer is written, because nothing says what it
- * would contain. Filed as `who-talks-to-reporters-and-what-they-say`.
+ * RECORDED GAME RULE: a named non-player may dispute the allegation,
+ * decline, or remain silent. The response uses only allegation and disposition
+ * records held by this module; it does not invent a quote or a fact.
+ * Personality does not alter the response because the game records no mapping
+ * from personality to press conduct. The filed research question
+ * `who-talks-to-reporters-and-what-they-say` can add one when data supports it.
  */
 function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
   let next = world;
@@ -923,9 +952,17 @@ function editorialDecision(
   reporterId: EntityId,
 ): FutureTransitionHandlerResult {
   const material = storyMaterial(world, lead);
+  const outlet = requirePressRecord(world, "media-outlet", lead.outletId);
+  const standard = outlet.editorialStandard ?? "realistic";
   const history = dispositionsForLead(world, lead.id);
   const alreadyHeld = history.some((record) => record.decision === "held");
-  const canPublishFull = material.corroborated;
+  const canPublishFull =
+    standard === "tougher"
+      ? material.corroborated || material.usable.length > 0
+      : standard === "gentler"
+        ? material.corroborated &&
+          (material.usable.length >= 2 || material.publicBasis.length > 0)
+        : material.corroborated;
   const canNarrow = !material.corroborated && material.publicBasis.length > 0;
   const constraints: DecisionConstraint[] = [];
   if (!canPublishFull) {
@@ -934,7 +971,9 @@ function editorialDecision(
       optionKey: "publish",
       kind: "editorial:corroboration",
       explanation:
-        "Anonymous information needs a named source, a second source or a document before it runs.",
+        standard === "gentler"
+          ? "This outlet waits for a second source, a document, or a public record before printing an allegation."
+          : "Anonymous information needs a named source, a second source or a document before it runs.",
       sourceRefs: [],
     });
   }
@@ -1153,7 +1192,7 @@ function publishStory(
  * audience by the same test the sibling's own desk uses. A sibling already
  * working the same occurrence keeps its own story.
  *
- * PLACEHOLDER, NOT RESEARCHED: relevance here is `outletCovers` alone. The
+ * RECORDED GAME RULE: relevance here is `outletCovers` alone. The
  * sibling's newsworthiness ranking and routine-item limit do not gate a shared
  * copy, because ChatGPT found no rule for which sibling picks a story up
  * (`what-coordinated-owner-practices-change-in-the-news`); a threshold would
@@ -1493,11 +1532,64 @@ export function pressDeskSweepHandler(
   // moved in a place, become records first, so this sweep can judge them
   // (law-effect-news.ts).
   const reported = reportLawOutcomes(reportLawEffects(world, frontier));
-  const candidates = reported.history.events.filter(
+  let candidates = reported.history.events.filter(
     (event) =>
       event.sequence > frontier && eventIsNewsCandidate(reported, event),
   );
   let next = reported;
+  const personalMatterEvents: HistoricalEvent[] = [];
+  const ensurePersonalMatter = (
+    event: HistoricalEvent,
+    subjectPersonIds: readonly EntityId[],
+    publicClaimId?: EntityId,
+  ) => {
+    if (subjectPersonIds.length === 0) return;
+    let matter = pressRecordsOfKind(next, "matter").find(
+      (record) =>
+        record.family === "personal-life" &&
+        record.personalEventId === event.id,
+    );
+    if (!matter) {
+      const openedMatter = openPersonalLifeMatter(next, {
+        stableKey: `press46:personal-matter:${event.id}`,
+        sourceEventId: event.id,
+        subjectPersonIds,
+        ...(publicClaimId ? { publicClaimId } : {}),
+      });
+      next = openedMatter.world;
+      matter = openedMatter.matter;
+      // The helper also writes the public event that the existing desk routes.
+      const opened = next.history.events.find(
+        (candidate) =>
+          candidate.stableKey ===
+          `press46:personal-matter:${event.id}:on-record`,
+      );
+      if (opened) personalMatterEvents.push(opened);
+    } else {
+      const opened = next.history.events.find(
+        (candidate) =>
+          candidate.type === "matter.personal-life-opened" &&
+          matterIdOf(candidate) === matter!.id,
+      );
+      if (opened) personalMatterEvents.push(opened);
+    }
+  };
+  for (const event of candidates) {
+    if (event.type === "crime.arrest-made" && matterIdOf(event) === null) {
+      ensurePersonalMatter(event, subjectsOf(next, event));
+    }
+  }
+  for (const claim of reported.history.claims) {
+    if (claim.audience !== "public") continue;
+    const event = eventById(reported, claim.eventId);
+    if (event?.type !== "life.couple-ended") continue;
+    ensurePersonalMatter(
+      event,
+      sortedUnique([...subjectsOf(next, event), claim.speakerPersonId]),
+      claim.id,
+    );
+  }
+  candidates = [...candidates, ...personalMatterEvents];
   // A work-blocked checkpoint is terminal on the due ledger. The existing
   // weekly desk resumes it only after its saved work actually becomes ready.
   for (const lead of storyLeads(next)) {
@@ -1838,7 +1930,8 @@ export function newsworthiness(
     reasons.push({ key: "audience", weight: 1 });
   if (outlet.beats.includes(beatForEventType(event.type)))
     reasons.push({ key: "beat", weight: 1 });
-  // PLACEHOLDER weight: a local outlet's own resident named in the news. The
+  // Recorded weight: one point when a local outlet's own resident is named.
+  // The
   // hometown angle is ordinary newsroom practice; how much it should weigh
   // is part of `how-much-coverage-an-election-result-gets`.
   if (outlet.scope === "local" && residentSubjects(world, outlet, event) > 0)
@@ -2015,9 +2108,12 @@ function chooseReporter(
         assignedReporter(world, other.id) === role.personId &&
         other.subjectPersonIds.some((id) => lead.subjectPersonIds.includes(id)),
     );
+  const contactHistory = (role: ReporterRoleRecord) =>
+    reporterContactCount(world, role.personId, lead.subjectPersonIds);
   return [...current].sort(
     (left, right) =>
       Number(right.beats.includes(beat)) - Number(left.beats.includes(beat)) ||
+      contactHistory(right) - contactHistory(left) ||
       Number(familiar(right)) - Number(familiar(left)) ||
       load(left) - load(right) ||
       left.personId.localeCompare(right.personId),

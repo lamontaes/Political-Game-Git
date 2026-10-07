@@ -11,13 +11,29 @@ import {
   lawInterestMembersInTown,
   strongestOfficialStanding,
 } from "../official-view-reads";
-import type { EntityId, FutureDueItem, IsoDate, World } from "../types";
+import { latestPrivateBelief } from "../queries";
+import type {
+  EntityId,
+  FutureDueItem,
+  IsoDate,
+  PrivateBeliefRecord,
+  World,
+} from "../types";
 import { recordWorldEvent } from "../world";
 import {
   localHeadOfGovernment,
   sittingLocalOfficers,
 } from "./local-government-seats";
 import { reactionLens } from "./official-views";
+import { livedOutcomesOf } from "./lived-outcomes";
+import {
+  councilWardPlan,
+  homePosition,
+  isWardSeat,
+  seatWard,
+  townWardMap,
+  wardAt,
+} from "./town-wards";
 
 /**
  * Light civic actions (spec 5): residents contact an official or show up at a
@@ -39,8 +55,9 @@ import { reactionLens } from "./official-views";
  * government meeting (Pew). The measures below are set so a town's totals
  * land near them; `tests/nationwide/town-civic-actions.test.ts` checks it.
  *
- * NOT MODELED: what the contact said. Attendance names the existing scheduled
- * council meeting held in the reviewed quarter, dated on that meeting. A
+ * A contact becomes a recorded message when the resident has a settled view
+ * on a policy proposition. Attendance names the existing scheduled council
+ * meeting held in the reviewed quarter, dated on that meeting. A
  * scheduled meeting is eligible only on the current review date.
  */
 
@@ -50,6 +67,200 @@ export const CIVIC_ACTION_EVENTS = {
   contacted: "life.contacted-official",
   attended: "life.attended-public-meeting",
 } as const;
+
+export type CivicMessageChannel = "letter" | "call" | "email";
+export type CivicMessageStance = "yes" | "no";
+
+const CIVIC_MESSAGE_TAG = "civic-message:v1";
+
+export interface CivicMessageRecord {
+  readonly eventId: EntityId;
+  readonly sequence: number;
+  readonly occurredAt: IsoDate;
+  readonly jurisdictionId: EntityId;
+  readonly senderId: EntityId;
+  readonly officialId: EntityId;
+  readonly propositionId: EntityId;
+  readonly stance: CivicMessageStance;
+  readonly channel: CivicMessageChannel;
+  readonly stakeBeliefId: EntityId | null;
+  readonly salience: PrivateBeliefRecord["salience"];
+}
+
+export interface RecordCivicMessageInput {
+  readonly stableKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly senderId: EntityId;
+  readonly officialId: EntityId;
+  readonly propositionId: EntityId;
+  readonly stance: CivicMessageStance;
+  readonly channel: CivicMessageChannel;
+}
+
+const MESSAGE_CHANNELS: readonly CivicMessageChannel[] = [
+  "letter",
+  "call",
+  "email",
+];
+
+/** One explicit constituent message, using the ordinary saved civic event. */
+export function recordCivicMessage(
+  world: World,
+  input: RecordCivicMessageInput,
+): World {
+  const sender = world.people[input.senderId];
+  const official = world.people[input.officialId];
+  const proposition = world.policyCatalog.propositions[input.propositionId];
+  if (!sender || !official || input.senderId === input.officialId)
+    throw new Error("A civic message needs a sender and a different official.");
+  if (sender.homeJurisdictionId !== input.jurisdictionId)
+    throw new Error("A civic message sender must live in its jurisdiction.");
+  if (!proposition)
+    throw new Error("A civic message must name a saved policy proposition.");
+  if (!MESSAGE_CHANNELS.includes(input.channel))
+    throw new Error("A civic message needs a supported contact channel.");
+  if (input.stance !== "yes" && input.stance !== "no")
+    throw new Error("A civic message must record a position on its topic.");
+
+  const latestBelief = latestPrivateBelief(
+    world,
+    input.senderId,
+    input.propositionId,
+  );
+  const belief =
+    latestBelief?.position === "support" && input.stance === "yes"
+      ? latestBelief
+      : latestBelief?.position === "oppose" && input.stance === "no"
+        ? latestBelief
+        : null;
+  const salience = belief?.salience ?? "low";
+  return recordWorldEvent(world, {
+    stableKey: input.stableKey,
+    type: CIVIC_ACTION_EVENTS.contacted,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: input.jurisdictionId,
+    involvedEntityIds: [input.senderId, input.officialId],
+    participants: [
+      { personId: input.senderId, role: "focus:subject", detail: null },
+      { personId: input.officialId, role: "focus:object", detail: null },
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: [
+      "life.civic",
+      CIVIC_ACTIONS_VERSION,
+      CIVIC_MESSAGE_TAG,
+      `message-channel:${input.channel}`,
+      `message-proposition-id:${input.propositionId}`,
+      `message-proposition:${proposition.stableKey}`,
+      `message-stance:${input.stance}`,
+      belief
+        ? `message-stake:belief:${belief.id}`
+        : "message-stake:declared-position",
+      `message-salience:${salience}`,
+    ],
+    summary: "A resident sent an elected official a civic message.",
+    context: {
+      location: null,
+      socialContext: "A message from a resident to an elected official.",
+      pressure: null,
+      choice: `${input.channel}; ${input.stance} on ${proposition.name}`,
+      motivation: belief
+        ? `The sender's recorded view of ${proposition.name}.`
+        : `The sender's stated position on ${proposition.name}.`,
+      immediateReaction: null,
+    },
+  });
+}
+
+/** Read saved civic messages for one issue in one jurisdiction. */
+export function civicMessagesForProposition(
+  world: World,
+  jurisdictionId: EntityId,
+  propositionId: EntityId,
+): readonly CivicMessageRecord[] {
+  return (
+    civicMessagesForPropositions(world, jurisdictionId, [propositionId]).get(
+      propositionId,
+    ) ?? []
+  );
+}
+
+/** Read matching topics in one pass for callers weighing a multi-part bill. */
+export function civicMessagesForPropositions(
+  world: World,
+  jurisdictionId: EntityId,
+  propositionIds: readonly EntityId[],
+): ReadonlyMap<EntityId, readonly CivicMessageRecord[]> {
+  const wanted = new Set(
+    propositionIds.filter((id) => !!world.policyCatalog.propositions[id]),
+  );
+  const result = new Map<EntityId, CivicMessageRecord[]>();
+  if (wanted.size === 0) return result;
+  for (const event of world.history.events) {
+    if (
+      event.type !== CIVIC_ACTION_EVENTS.contacted ||
+      event.jurisdictionId !== jurisdictionId ||
+      event.occurredAt > world.currentDate ||
+      !event.tags.includes(CIVIC_MESSAGE_TAG)
+    )
+      continue;
+    const propositionTag = event.tags.find((tag) =>
+      tag.startsWith("message-proposition-id:"),
+    );
+    const propositionId = propositionTag?.slice(
+      "message-proposition-id:".length,
+    ) as EntityId | undefined;
+    if (!propositionId || !wanted.has(propositionId)) continue;
+    const senderId = event.participants.find(
+      (participant) => participant.role === "focus:subject",
+    )?.personId;
+    const officialId = event.participants.find(
+      (participant) => participant.role === "focus:object",
+    )?.personId;
+    const stanceTag = event.tags.find((tag) =>
+      tag.startsWith("message-stance:"),
+    );
+    const channelTag = event.tags.find((tag) =>
+      tag.startsWith("message-channel:"),
+    );
+    const salienceTag = event.tags.find((tag) =>
+      tag.startsWith("message-salience:"),
+    );
+    const stakeTag = event.tags.find((tag) =>
+      tag.startsWith("message-stake:belief:"),
+    );
+    const stance = stanceTag?.slice("message-stance:".length);
+    const channel = channelTag?.slice("message-channel:".length);
+    const salience = salienceTag?.slice("message-salience:".length);
+    if (
+      !senderId ||
+      !officialId ||
+      (stance !== "yes" && stance !== "no") ||
+      !MESSAGE_CHANNELS.includes(channel as CivicMessageChannel) ||
+      !["low", "moderate", "high", "central"].includes(salience ?? "")
+    )
+      continue;
+    const list = result.get(propositionId) ?? [];
+    list.push({
+      eventId: event.id,
+      sequence: event.sequence,
+      occurredAt: event.occurredAt,
+      jurisdictionId,
+      senderId,
+      officialId,
+      propositionId,
+      stance,
+      channel: channel as CivicMessageChannel,
+      stakeBeliefId: (stakeTag?.slice("message-stake:belief:".length) ??
+        null) as EntityId | null,
+      salience: salience as PrivateBeliefRecord["salience"],
+    });
+    result.set(propositionId, list);
+  }
+  return result;
+}
 
 const DAYS_PER_QUARTER = 91;
 // PLACEHOLDER weights, in parts of one quarter's pull. Age and years in town
@@ -69,23 +280,80 @@ const STRONG_VIEW_FACTOR = 2;
 // town's yearly totals land near the approved shares above.
 const MEASURE = { contacted: 14, attended: 13 } as const;
 
+const MESSAGE_SALIENCE_WEIGHT: Readonly<
+  Record<PrivateBeliefRecord["salience"], number>
+> = { low: 1, moderate: 2, high: 3, central: 4 };
+
+const civicIssueBeliefIndexes = new WeakMap<
+  World["history"]["privateBeliefs"],
+  ReadonlyMap<EntityId, PrivateBeliefRecord>
+>();
+
+/** One current, settled issue belief per resident, indexed once per history. */
+function strongestCivicIssueBeliefs(
+  world: World,
+): ReadonlyMap<EntityId, PrivateBeliefRecord> {
+  const records = world.history.privateBeliefs;
+  const cached = civicIssueBeliefIndexes.get(records);
+  if (cached) return cached;
+
+  const byPerson = new Map<EntityId, Map<EntityId, PrivateBeliefRecord>>();
+  for (const belief of records) {
+    if (belief.propositionId === null) continue;
+    const issues = byPerson.get(belief.personId) ?? new Map();
+    const prior = issues.get(belief.propositionId);
+    if (
+      !prior ||
+      belief.formedAt > prior.formedAt ||
+      (belief.formedAt === prior.formedAt && belief.sequence > prior.sequence)
+    )
+      issues.set(belief.propositionId, belief);
+    byPerson.set(belief.personId, issues);
+  }
+
+  const strongest = new Map<EntityId, PrivateBeliefRecord>();
+  for (const [personId, issues] of byPerson) {
+    const beliefs = [...issues.values()].filter(
+      (belief) => belief.position === "support" || belief.position === "oppose",
+    );
+    beliefs.sort(
+      (left, right) =>
+        MESSAGE_SALIENCE_WEIGHT[right.salience] -
+          MESSAGE_SALIENCE_WEIGHT[left.salience] ||
+        right.formedAt.localeCompare(left.formedAt) ||
+        right.sequence - left.sequence ||
+        left.propositionId!.localeCompare(right.propositionId!),
+    );
+    const picked = beliefs[0];
+    if (picked) strongest.set(personId, picked);
+  }
+  civicIssueBeliefIndexes.set(records, strongest);
+  return strongest;
+}
+
 /** The official this person holds the strongest saved view of, if any. */
 function strongestViewOf(
   world: World,
   personId: EntityId,
-): { readonly officialId: EntityId; readonly points: number } | null {
-  const view = strongestOfficialStanding(world, personId);
-  return view ? { officialId: view.officialId, points: view.points } : null;
+): ReturnType<typeof strongestOfficialStanding> {
+  return strongestOfficialStanding(world, personId);
 }
 
 interface CivicStake {
   /** The day the pull started adding up: adulthood or arrival in town. */
   readonly since: IsoDate;
   readonly pull: { readonly contacted: number; readonly attended: number };
-  readonly view: {
-    readonly officialId: EntityId;
-    readonly points: number;
-  } | null;
+  readonly view: ReturnType<typeof strongestOfficialStanding>;
+  /** Record evidence that explains why this contact occurred, if any. */
+  readonly reason: {
+    readonly kind:
+      | "law-cost"
+      | "lived-outcome"
+      | "official-view"
+      | "organized-opposition"
+      | "general-opinion";
+    readonly sourceRecordIds: readonly EntityId[];
+  };
 }
 
 /** What gives this resident a stake in the town's government, today. */
@@ -130,9 +398,60 @@ function civicStake(
     ? STAKE.lawCost
     : 0;
   const member = groupMembers.has(personId) ? STAKE.groupMember : 0;
+  const costExposures = (world.history.lawExposures ?? []).filter(
+    (row) =>
+      row.personId === personId &&
+      row.relation === "own" &&
+      row.direction === "cost" &&
+      row.recordedAt > yearAgo &&
+      row.recordedAt <= today,
+  );
+  const outcomes = livedOutcomesOf(world, personId).filter(
+    (outcome) =>
+      outcome.at > yearAgo &&
+      outcome.at <= today &&
+      outcome.direction === "cost",
+  );
+  const oppositionMemberships = world.history.organizationParticipations.filter(
+    (row) =>
+      row.personId === personId &&
+      groupMembers.has(personId) &&
+      world.history.organizations.some(
+        (group) =>
+          group.id === row.organizationId &&
+          group.stableKey.startsWith(`law-interest:${town}:`),
+      ),
+  );
+  const reason =
+    costExposures.length > 0
+      ? {
+          kind: "law-cost" as const,
+          sourceRecordIds: costExposures.map((row) => row.id),
+        }
+      : outcomes.length > 0
+        ? {
+            kind: "lived-outcome" as const,
+            sourceRecordIds: outcomes.map((row) => row.sourceRecordId),
+          }
+        : view
+          ? {
+              kind: "official-view" as const,
+              sourceRecordIds: [
+                ...(view.belief
+                  ? [view.belief.id]
+                  : view.rows.map((row) => row.id)),
+              ],
+            }
+          : oppositionMemberships.length > 0
+            ? {
+                kind: "organized-opposition" as const,
+                sourceRecordIds: oppositionMemberships.map((row) => row.id),
+              }
+            : { kind: "general-opinion" as const, sourceRecordIds: [] };
   const base = reactionLens(world, personId) * settled * viewFactor;
   return {
     since,
+    reason,
     pull: {
       contacted: base + lawCost + member,
       attended: base + member,
@@ -193,6 +512,27 @@ export function reviewTownCivicActions(
     (stateKey ? currentGovernorOf(world, stateKey.slice(3)) : null)?.personId ??
     null;
   const groupMembers = lawInterestMembersInTown(world, town);
+  const issueBeliefs = strongestCivicIssueBeliefs(world);
+  const wardRepresentative = (personId: EntityId): EntityId | null => {
+    const position = homePosition(world, town, personId);
+    if (position === null) return null;
+    for (const unit of home.municipal) {
+      const plan = councilWardPlan(unit);
+      const map = townWardMap(world, unit);
+      if (!plan || !map) continue;
+      const ward = wardAt(map, position);
+      const member = sittingLocalOfficers(world, unit).find((seat) => {
+        const number = Number(/seat (\d+)$/.exec(seat.seatLabel)?.[1]);
+        return (
+          Number.isInteger(number) &&
+          isWardSeat(plan, number) &&
+          seatWard(map, number) === ward
+        );
+      });
+      if (member) return member.personId;
+    }
+    return null;
+  };
   const today = world.currentDate;
   // Resolve the calendar once for this quarterly town pass, not per resident.
   const meeting = latestQuarterMeeting(world, town);
@@ -200,9 +540,41 @@ export function reviewTownCivicActions(
   for (const personId of residents) {
     const stake = civicStake(world, personId, town, groupMembers);
     if (passesMeasure(stake, "contacted", today)) {
-      const officialId = stake.view?.officialId ?? headOfTown;
-      if (officialId && officialId !== personId)
-        next = record(next, town, reviewKey, "contacted", personId, officialId);
+      const officialId =
+        stake.view?.officialId ?? wardRepresentative(personId) ?? headOfTown;
+      const belief = issueBeliefs.get(personId);
+      if (
+        officialId &&
+        officialId !== personId &&
+        belief?.propositionId &&
+        (belief.position === "support" || belief.position === "oppose")
+      ) {
+        next = recordCivicMessage(next, {
+          stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:contacted:${personId}`,
+          jurisdictionId: town,
+          senderId: personId,
+          officialId,
+          propositionId: belief.propositionId,
+          stance: belief.position === "support" ? "yes" : "no",
+          // Background contact defaults to mail; player-authored messages may
+          // select any of the three channels through this same writer.
+          channel: "letter",
+        });
+      } else {
+        // Preserve the existing contact count when no saved issue view can
+        // support a truthful topic and position. This event is not read as
+        // a substantive constituent message.
+        next = record(
+          next,
+          town,
+          reviewKey,
+          "contacted",
+          personId,
+          officialId,
+          null,
+          stake.reason,
+        );
+      }
     }
     if (officers.length > 0 && passesMeasure(stake, "attended", today))
       next = record(next, town, reviewKey, "attended", personId, null, meeting);
@@ -267,6 +639,7 @@ function record(
   personId: EntityId,
   officialId: EntityId | null,
   meeting: QuarterMeeting | null = null,
+  reason: CivicStake["reason"] | null = null,
 ): World {
   const today = world.currentDate;
   if (action === "attended" && !meeting) return world;
@@ -297,17 +670,34 @@ function record(
       "life.civic",
       CIVIC_ACTIONS_VERSION,
       ...(meeting ? [`meeting:${meeting.item.id}`] : []),
+      ...(action === "contacted" && reason
+        ? [
+            `reason:${reason.kind}`,
+            ...reason.sourceRecordIds.map((id) => `source-record:${id}`),
+          ]
+        : []),
     ],
     summary:
       action === "contacted"
-        ? "A resident contacted an elected official."
+        ? reason?.kind === "general-opinion"
+          ? "A resident made a general opinion call to an elected official."
+          : reason?.kind === "law-cost"
+            ? "A resident contacted an elected official about a law that cost them something."
+            : reason?.kind === "lived-outcome"
+              ? "A resident contacted an elected official about something that happened to them."
+              : reason?.kind === "official-view"
+                ? "A resident contacted an elected official whose actions they have a strong view of."
+                : "A resident contacted an elected official about a law they organized against."
         : "A resident attended a public meeting of the town's government.",
     context: {
       location: null,
       socialContext: null,
       pressure: null,
       choice: null,
-      motivation: null,
+      motivation:
+        action === "contacted" && reason
+          ? `${reason.kind}; source records: ${reason.sourceRecordIds.join(", ") || "none recorded"}.`
+          : null,
       immediateReaction: null,
     },
   });

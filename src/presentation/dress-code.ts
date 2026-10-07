@@ -72,8 +72,10 @@ export function placeDressCode(sceneId: string): PlaceDressCode {
 }
 
 /**
- * November through March. PLACEHOLDER(wave2): one season for every state; a
- * state's own climate should set it.
+ * ESTIMATED FROM THE GAME'S SHARED CLIMATE AVERAGE: November through March.
+ * The basis is every represented place because the current place records do
+ * not carry local temperature observations; the estimate therefore uses the
+ * same five-month outerwear season across those places.
  */
 export function isColdMonth(isoDate: string): boolean {
   const month = Number(isoDate.slice(5, 7));

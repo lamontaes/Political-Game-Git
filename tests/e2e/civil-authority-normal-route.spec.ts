@@ -53,7 +53,7 @@ async function worldDate(page: Page): Promise<number> {
   const label =
     (await page.getByTestId("shell-nav-cluster").getAttribute("aria-label")) ??
     "";
-  // "<name>. <Month D, YYYY>. <Place, State>. Open navigation."
+  // "<name>. <Month D, YYYY>. <Place, State>."
   const match = label.match(/[A-Z][a-z]+ \d{1,2}, \d{4}/);
   if (!match) throw new Error(`No date in the shell clock: ${label}`);
   return Date.parse(`${match[0]} UTC`);
@@ -94,7 +94,6 @@ test("current Custom Start reaches dated personnel work, an NPC answer, and save
   await page.keyboard.press("Enter");
   await expect(start).toHaveClass(/is-chosen/);
   await page.getByTestId("creator-continue-background").click();
-  await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   await enterLife(page);
   await openMoment(page);

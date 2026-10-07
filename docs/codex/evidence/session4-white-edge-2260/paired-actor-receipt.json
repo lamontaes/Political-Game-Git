@@ -1,0 +1,774 @@
+{
+  "phase": "P0",
+  "piece": "paired white-outline candidate",
+  "acceptance": "No owner visual approval. Original BEFORE rectangle/DPR absent; AFTER actual visible placed-person button rectangle measured.",
+  "before": {
+    "worldId": "world_ad5214c46f1daa43",
+    "seed": "session4-session11-intro-tags:0",
+    "canonicalSeed": "setup-v3:9bcef4a54e29c908:{\"v\":3,\"seed\":\"session4-session11-intro-tags:0\",\"placeKey\":\"1352416\",\"startAge\":18,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Avery\",\"familyName\":\"Morgan\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+    "moment": {
+      "date": "2026-01-05",
+      "minuteOfDay": 550,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "place": {
+      "key": "1352416",
+      "displayName": "Monticello, Georgia",
+      "formalName": "Monticello",
+      "withinName": "Georgia",
+      "context": {
+        "jurisdiction": {
+          "id": "jurisdiction_dfea1e17f0d2ce13",
+          "slug": "us-place-1352416",
+          "name": "Monticello, Georgia",
+          "kind": "census-place",
+          "parentName": "Georgia",
+          "provenance": {
+            "asOf": "2026-01-05",
+            "source": "census-gazetteer-2025-places-zip",
+            "jurisdiction": "jurisdiction_dfea1e17f0d2ce13",
+            "status": "approved"
+          }
+        },
+        "initialMoment": {
+          "date": "2026-01-05",
+          "minuteOfDay": 550,
+          "timeZone": "America/New_York",
+          "utcOffsetMinutes": -300
+        },
+        "creationSummary": "Seeded world in Monticello, Georgia, from the 2025 Census Gazetteer place identity.",
+        "goalScope": "Monticello, Georgia",
+        "householdLocationLabel": "Monticello, Georgia"
+      },
+      "scope": "locality",
+      "stateJurisdictionKey": "US-GA",
+      "capabilities": {
+        "legislativeScenarioKey": null,
+        "candidacyPackId": null
+      },
+      "sourceGeoid": "1352416"
+    },
+    "card": "legislature",
+    "personId": "person_45a3b1d4d9d42313",
+    "fullResolvedArt": {
+      "packVersion": "people-engine-pack-v1",
+      "recipe": {
+        "presentation": "masculine",
+        "build": "average",
+        "shade": 6,
+        "face": "20s30s-05",
+        "hair": "curly-top",
+        "hairColor": "black",
+        "outfit": "formal",
+        "colors": {
+          "suit": "gray",
+          "shirt": "cream",
+          "tie": "navy"
+        }
+      },
+      "files": [
+        "body-masculine-average.png",
+        "face-masculine-20s30s-05.png",
+        "hair-masculine-curly-top-back.png",
+        "hair-masculine-curly-top-front.png",
+        "outfit-masculine-formal-average.png",
+        "outfit-masculine-formal-average-hides.png",
+        "outfit-masculine-formal-average-suit.png",
+        "outfit-masculine-formal-average-shirt.png",
+        "outfit-masculine-formal-average-tie.png"
+      ]
+    },
+    "placement": {
+      "personId": "person_45a3b1d4d9d42313",
+      "slotId": "state-legislative-chamber-bicameral:spot:0",
+      "slotRole": "general",
+      "pose": "standing",
+      "view": "front",
+      "facing": "viewer",
+      "depth": 80,
+      "selection": null,
+      "selectionGap": "missing-actor",
+      "art": {
+        "packVersion": "people-engine-pack-v1",
+        "recipe": {
+          "presentation": "masculine",
+          "build": "average",
+          "shade": 6,
+          "face": "20s30s-05",
+          "hair": "curly-top",
+          "hairColor": "black",
+          "outfit": "formal",
+          "colors": {
+            "suit": "gray",
+            "shirt": "cream",
+            "tie": "navy"
+          }
+        },
+        "files": [
+          "body-masculine-average.png",
+          "face-masculine-20s30s-05.png",
+          "hair-masculine-curly-top-back.png",
+          "hair-masculine-curly-top-front.png",
+          "outfit-masculine-formal-average.png",
+          "outfit-masculine-formal-average-hides.png",
+          "outfit-masculine-formal-average-suit.png",
+          "outfit-masculine-formal-average-shirt.png",
+          "outfit-masculine-formal-average-tie.png"
+        ]
+      }
+    },
+    "beforeScreenshot": {
+      "originalPath": "/workspace/Political-Game-Git/test-results/runs/session4-intro-six-2257-full-v3/results/session4-intro-placement-p-ed9fc-apture-0-Monticello-Georgia-chromium/0-3-legislature-full-size.png",
+      "publishedPath": "docs/codex/evidence/session4-intro-six-2257-v3/0-3-legislature-full-size.png",
+      "sha256": "47a700fd813f9e6a70d8503cd6e6649d927bf6f7fbcfda8cbb5f242a7fdc0c42",
+      "width": 1920,
+      "height": 1080
+    },
+    "beforeSource": "487921d051fc034fb266a2a488ab1ff397dc6693",
+    "beforeCaptureHead": "75de2212c01adfcec5fa2d5e6e08a4a96fa8bb86",
+    "afterSource": null,
+    "afterScreenshot": null,
+    "measuredFigureRectangle": null,
+    "actualDpr": null,
+    "rendererFromSource": "src/player/PlacePeopleLayer.tsx:159 EngineFigure canvas; source inspection, not a separately recorded renderer flag",
+    "pairStatus": "BEFORE recipe captured; AFTER and measured rectangle/DPR pending",
+    "registeredSourceFileHashes": {
+      "art/people-engine/v1/body-masculine-average.png": "77f5253fe4e3f652f6a55f55547bdd1f7b7dddb6ad9a25e0812a35547a1b96e4",
+      "art/people-engine/v1/face-masculine-20s30s-05.png": "8859c3e17f9e95480eadc699b08567069dc0bc98f9e2621b304b1eb1932da8c5",
+      "art/people-engine/v1/hair-masculine-curly-top-back.png": "1fa916caa5fda6315012092141551a72b0f909f6cc093df9e4c78733f0bc92ce",
+      "art/people-engine/v1/hair-masculine-curly-top-front.png": "d046473285ef76f9e84f2f311b9e172bc5ff5c8cb02bbeac2b08eb59bb935144",
+      "art/people-engine/v1/outfit-masculine-formal-average.png": "2389e02f4e776f6391c7d76fcc3bb2ba1a07ab86bcb488a6f2b3dfc271137384",
+      "art/people-engine/v1/outfit-masculine-formal-average-hides.png": "11dc0794c802149cf6e5a56dd02cd4b709b6a0ada3f516cf3848d14f7aad19f0",
+      "art/people-engine/v1/outfit-masculine-formal-average-suit.png": "0a0f207326a14dd0a53493578160c28ce4f566b35f7f94641aef9c62a2a90a38",
+      "art/people-engine/v1/outfit-masculine-formal-average-shirt.png": "711456c65f68643a9989744cfa0bf885a2fe56f3889ae26f5942bc7dc57693e3",
+      "art/people-engine/v1/outfit-masculine-formal-average-tie.png": "ee9dfe0254f4e65ae768453e38271f87c573de5e3379b440ad91a50b87a534b6"
+    }
+  },
+  "after": {
+    "frozenCandidatePr": 2260,
+    "rendererAndArtHead": "d8f314bac1f6fbf4867f065ae4031e475777c5fa",
+    "receiverHead": "28c17221dbdfd44bee82be632faf5db579772db4",
+    "rendererAndArtDelta": "EMPTY; only released read-only metadata/capture added",
+    "runId": "session4-white-edge-after-2260",
+    "terminalExitCode": 0,
+    "testResult": "1 PASS; actual worldId/personId/card/recipe/files BEFORE assertions passed",
+    "world": {
+      "worldId": "world_ad5214c46f1daa43",
+      "seed": "setup-v3:9bcef4a54e29c908:{\"v\":3,\"seed\":\"session4-session11-intro-tags:0\",\"placeKey\":\"1352416\",\"startAge\":18,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Avery\",\"familyName\":\"Morgan\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+      "moment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/New_York",
+        "utcOffsetMinutes": -300
+      },
+      "playerPersonId": "person_0ce34e81ca662625",
+      "selectionProjection": {
+        "asOf": "2026-01-05",
+        "revision": 69940,
+        "chapters": [
+          {
+            "key": "executive",
+            "actors": [
+              {
+                "slotKey": "president",
+                "role": "president",
+                "person": {
+                  "personId": "person_ec9d59c7e2e0e37b",
+                  "name": "Bo Bates",
+                  "title": "President of the United States",
+                  "party": "Democratic Party",
+                  "facts": [
+                    "In office since January 20, 2025",
+                    "Term runs until January 20, 2029",
+                    "Lives in Washington, District of Columbia"
+                  ]
+                },
+                "recordIds": [
+                  "event_898a5b0b95b4e6ce",
+                  "organization_907ffec9b2ac2137"
+                ],
+                "provenance": {
+                  "kind": "office-tenure",
+                  "roleKey": "us-president",
+                  "institutionId": "organization_907ffec9b2ac2137"
+                },
+                "publicTenure": {
+                  "startedAt": "2025-01-20",
+                  "endExclusive": "2029-01-20"
+                },
+                "presenceBasis": "illustrative-public-role"
+              },
+              {
+                "slotKey": "vice-president",
+                "role": "vice-president",
+                "person": {
+                  "personId": "person_c7c9bfdb80d1a345",
+                  "name": "Jordan Barrett",
+                  "title": "Vice President of the United States",
+                  "party": "Democratic Party",
+                  "facts": [
+                    "In office since January 20, 2025",
+                    "Term runs until January 20, 2029",
+                    "Lives in Washington, District of Columbia"
+                  ]
+                },
+                "recordIds": [
+                  "event_4696b40c9c3ceb36",
+                  "organization_dee6ec8630caa55d"
+                ],
+                "provenance": {
+                  "kind": "office-tenure",
+                  "roleKey": "us-vice-president",
+                  "institutionId": "organization_dee6ec8630caa55d"
+                },
+                "publicTenure": {
+                  "startedAt": "2025-01-20",
+                  "endExclusive": "2029-01-20"
+                },
+                "presenceBasis": "illustrative-public-role"
+              }
+            ],
+            "publicFacts": [
+              "Bo Bates \u2014 President of the United States",
+              "Jordan Barrett \u2014 Vice President of the United States"
+            ],
+            "regionContext": null,
+            "unavailableRoles": [],
+            "stage": {
+              "family": "executive-briefing",
+              "roles": [
+                {
+                  "slotKey": "president",
+                  "personId": "person_ec9d59c7e2e0e37b",
+                  "name": "Bo Bates"
+                },
+                {
+                  "slotKey": "vice-president",
+                  "personId": "person_c7c9bfdb80d1a345",
+                  "name": "Jordan Barrett"
+                }
+              ],
+              "publicFacts": [
+                "Bo Bates \u2014 President of the United States",
+                "Jordan Barrett \u2014 Vice President of the United States"
+              ],
+              "asOf": "2026-01-05",
+              "regionKey": null,
+              "fallback": "Bo Bates \u2014 President of the United States",
+              "visibleAction": "review-papers",
+              "requirements": {
+                "minimumActors": 2,
+                "bodyContacts": [
+                  "standing-floor-or-compatible-desk-seat",
+                  "document-hand-contact"
+                ],
+                "props": ["papers"],
+                "sceneContext": "executive working composition"
+              },
+              "leisureContextRecordIds": []
+            }
+          },
+          {
+            "key": "state",
+            "actors": [
+              {
+                "slotKey": "governor",
+                "role": "governor",
+                "person": {
+                  "personId": "person_5effdec498fdf060",
+                  "name": "Kai Wade",
+                  "title": "Governor of Georgia",
+                  "party": "Republican Party",
+                  "facts": [
+                    "In office since January 2, 2023",
+                    "Term runs until January 4, 2027",
+                    "Lives in Georgia"
+                  ]
+                },
+                "recordIds": [
+                  "event_ac75805e7a820535",
+                  "organization_176f3410c1585495"
+                ],
+                "provenance": {
+                  "kind": "office-tenure",
+                  "roleKey": "us-ga-governor",
+                  "institutionId": "organization_176f3410c1585495"
+                },
+                "publicTenure": {
+                  "startedAt": "2023-01-02",
+                  "endExclusive": "2027-01-04"
+                },
+                "presenceBasis": "illustrative-public-role"
+              }
+            ],
+            "publicFacts": ["Kai Wade \u2014 Governor of Georgia"],
+            "regionContext": {
+              "jurisdictionId": "jurisdiction_dfea1e17f0d2ce13",
+              "placeKey": "1352416",
+              "sourceGeoid": "1352416",
+              "stateJurisdictionKey": "US-GA",
+              "regionTypes": [],
+              "asOf": "2026-01-05",
+              "presentationKey": "opening-region:d0c21d432b5a97c8"
+            },
+            "unavailableRoles": [],
+            "stage": {
+              "family": "public-office-work",
+              "roles": [
+                {
+                  "slotKey": "governor",
+                  "personId": "person_5effdec498fdf060",
+                  "name": "Kai Wade"
+                }
+              ],
+              "publicFacts": ["Kai Wade \u2014 Governor of Georgia"],
+              "asOf": "2026-01-05",
+              "regionKey": "1352416",
+              "fallback": "Kai Wade \u2014 Governor of Georgia",
+              "visibleAction": "listen-to-briefing",
+              "requirements": {
+                "minimumActors": 1,
+                "bodyContacts": ["standing-floor-or-compatible-seat"],
+                "props": [],
+                "sceneContext": "public institution; regional imagery is illustrative"
+              },
+              "leisureContextRecordIds": []
+            }
+          },
+          {
+            "key": "congress",
+            "actors": [
+              {
+                "slotKey": "congress:us-house:GA-10",
+                "role": "congress-member",
+                "person": {
+                  "personId": "person_1538967e4f3033e7",
+                  "name": "Yosef Roth",
+                  "title": "U.S. Representative for Georgia's 10th congressional district",
+                  "party": "Republican Party",
+                  "facts": [
+                    "In office since January 3, 2023",
+                    "Term runs until January 3, 2027",
+                    "Lives in Georgia"
+                  ]
+                },
+                "recordIds": [
+                  "event_e7e266c983abb2d2",
+                  "organization_1c79044ca66d9b71"
+                ],
+                "provenance": {
+                  "kind": "legislative-seat",
+                  "roleKey": "us-house",
+                  "institutionId": "organization_1c79044ca66d9b71"
+                },
+                "publicTenure": {
+                  "startedAt": "2025-01-03",
+                  "endExclusive": "2027-01-03"
+                },
+                "presenceBasis": "illustrative-public-role"
+              },
+              {
+                "slotKey": "congress:us-senate:GA:class-2",
+                "role": "congress-member",
+                "person": {
+                  "personId": "person_89d02542be3c0418",
+                  "name": "John Sutton",
+                  "title": "U.S. Senator from Georgia",
+                  "party": "Democratic Party",
+                  "facts": [
+                    "In office since January 3, 2015",
+                    "Term runs until January 3, 2027",
+                    "Lives in Georgia"
+                  ]
+                },
+                "recordIds": [
+                  "event_e60fee0aede07277",
+                  "organization_c970e0f93ab03ffd"
+                ],
+                "provenance": {
+                  "kind": "legislative-seat",
+                  "roleKey": "us-senate",
+                  "institutionId": "organization_c970e0f93ab03ffd"
+                },
+                "publicTenure": {
+                  "startedAt": "2021-01-03",
+                  "endExclusive": "2027-01-03"
+                },
+                "presenceBasis": "illustrative-public-role"
+              },
+              {
+                "slotKey": "congress:us-senate:GA:class-3",
+                "role": "congress-member",
+                "person": {
+                  "personId": "person_9a0d41b06f96ae1b",
+                  "name": "Travis Cohen",
+                  "title": "U.S. Senator from Georgia",
+                  "party": "Democratic Party",
+                  "facts": [
+                    "In office since January 3, 2011",
+                    "Term runs until January 3, 2029",
+                    "Lives in Georgia"
+                  ]
+                },
+                "recordIds": [
+                  "event_62fcb4649e417536",
+                  "organization_c970e0f93ab03ffd"
+                ],
+                "provenance": {
+                  "kind": "legislative-seat",
+                  "roleKey": "us-senate",
+                  "institutionId": "organization_c970e0f93ab03ffd"
+                },
+                "publicTenure": {
+                  "startedAt": "2023-01-03",
+                  "endExclusive": "2029-01-03"
+                },
+                "presenceBasis": "illustrative-public-role"
+              }
+            ],
+            "publicFacts": [
+              "United States House of Representatives",
+              "United States Senate"
+            ],
+            "regionContext": null,
+            "unavailableRoles": [],
+            "stage": {
+              "family": "congressional-corridor",
+              "roles": [
+                {
+                  "slotKey": "congress:us-house:GA-10",
+                  "personId": "person_1538967e4f3033e7",
+                  "name": "Yosef Roth"
+                },
+                {
+                  "slotKey": "congress:us-senate:GA:class-2",
+                  "personId": "person_89d02542be3c0418",
+                  "name": "John Sutton"
+                },
+                {
+                  "slotKey": "congress:us-senate:GA:class-3",
+                  "personId": "person_9a0d41b06f96ae1b",
+                  "name": "Travis Cohen"
+                }
+              ],
+              "publicFacts": [
+                "United States House of Representatives",
+                "United States Senate"
+              ],
+              "asOf": "2026-01-05",
+              "regionKey": null,
+              "fallback": "United States House of Representatives",
+              "visibleAction": "corridor-conversation",
+              "requirements": {
+                "minimumActors": 2,
+                "bodyContacts": [
+                  "standing-floor",
+                  "mutually-compatible-facing"
+                ],
+                "props": [],
+                "sceneContext": "verified congressional corridor; not a named hall unless source supports it"
+              },
+              "leisureContextRecordIds": []
+            }
+          },
+          {
+            "key": "locality",
+            "actors": [
+              {
+                "slotKey": "local:0",
+                "role": "local-official",
+                "person": {
+                  "personId": "person_0a05e225ceae7353",
+                  "name": "Alex Little",
+                  "title": "City Council \u2014 Council member, seat 3",
+                  "party": null,
+                  "facts": ["Lives in Monticello, Georgia"]
+                },
+                "recordIds": [
+                  "organization-participation_e51229f28c3a5e97",
+                  "organization_d0b9e50347dafa74"
+                ],
+                "provenance": {
+                  "kind": "municipal-participation",
+                  "roleKey": "member",
+                  "institutionId": "organization_d0b9e50347dafa74"
+                },
+                "publicTenure": null,
+                "presenceBasis": "illustrative-public-role"
+              },
+              {
+                "slotKey": "local:1",
+                "role": "mayor",
+                "person": {
+                  "personId": "person_13f8ec85f97a7bcd",
+                  "name": "Alicia Fields",
+                  "title": "Mayor",
+                  "party": null,
+                  "facts": ["Lives in Monticello, Georgia"]
+                },
+                "recordIds": [
+                  "organization-participation_c0d94509247d8dd7",
+                  "organization_d0b9e50347dafa74"
+                ],
+                "provenance": {
+                  "kind": "municipal-participation",
+                  "roleKey": "mayor",
+                  "institutionId": "organization_d0b9e50347dafa74"
+                },
+                "publicTenure": null,
+                "presenceBasis": "illustrative-public-role"
+              }
+            ],
+            "publicFacts": ["City of Monticello", "Jasper County"],
+            "regionContext": {
+              "jurisdictionId": "jurisdiction_dfea1e17f0d2ce13",
+              "placeKey": "1352416",
+              "sourceGeoid": "1352416",
+              "stateJurisdictionKey": "US-GA",
+              "regionTypes": [],
+              "asOf": "2026-01-05",
+              "presentationKey": "opening-region:761f3a60c1b65e2e"
+            },
+            "unavailableRoles": [],
+            "stage": {
+              "family": "public-office-work",
+              "roles": [
+                {
+                  "slotKey": "local:0",
+                  "personId": "person_0a05e225ceae7353",
+                  "name": "Alex Little"
+                },
+                {
+                  "slotKey": "local:1",
+                  "personId": "person_13f8ec85f97a7bcd",
+                  "name": "Alicia Fields"
+                }
+              ],
+              "publicFacts": ["City of Monticello", "Jasper County"],
+              "asOf": "2026-01-05",
+              "regionKey": "1352416",
+              "fallback": "City of Monticello",
+              "visibleAction": "listen-to-briefing",
+              "requirements": {
+                "minimumActors": 1,
+                "bodyContacts": ["standing-floor-or-compatible-seat"],
+                "props": [],
+                "sceneContext": "public institution; regional imagery is illustrative"
+              },
+              "leisureContextRecordIds": []
+            }
+          },
+          {
+            "key": "your-life",
+            "actors": [
+              {
+                "slotKey": "household:person_19af8c127e481d6f",
+                "role": "household-member",
+                "person": {
+                  "personId": "person_19af8c127e481d6f",
+                  "name": "John Barrett",
+                  "title": "your roommate",
+                  "party": null,
+                  "facts": ["John Barrett, your roommate"]
+                },
+                "recordIds": ["household-membership_ef1c1c5aacbbc012"],
+                "provenance": {
+                  "kind": "household-membership",
+                  "roleKey": "your roommate",
+                  "institutionId": null
+                },
+                "publicTenure": null,
+                "presenceBasis": "known-household"
+              }
+            ],
+            "publicFacts": [
+              "You're 18, and you live in Monticello, Georgia.",
+              "You live with John Barrett, your roommate.",
+              "Kelly Morgan is your mom.",
+              "Julia Morgan is your grandmother.",
+              "Leo Morgan is your grandfather.",
+              "You started elementary school at Monticello Elementary School in 2013.",
+              "You started middle school at Monticello Middle School in 2019.",
+              "You started high school at Monticello High School in 2022.",
+              "You worked at Neighborhood Market from 2024."
+            ],
+            "regionContext": null,
+            "unavailableRoles": [],
+            "stage": {
+              "family": "home-conversation",
+              "roles": [
+                {
+                  "slotKey": "household:person_19af8c127e481d6f",
+                  "personId": "person_19af8c127e481d6f",
+                  "name": "John Barrett"
+                }
+              ],
+              "publicFacts": [
+                "You're 18, and you live in Monticello, Georgia.",
+                "You live with John Barrett, your roommate.",
+                "Kelly Morgan is your mom.",
+                "Julia Morgan is your grandmother.",
+                "Leo Morgan is your grandfather.",
+                "You started elementary school at Monticello Elementary School in 2013.",
+                "You started middle school at Monticello Middle School in 2019.",
+                "You started high school at Monticello High School in 2022.",
+                "You worked at Neighborhood Market from 2024."
+              ],
+              "asOf": "2026-01-05",
+              "regionKey": null,
+              "fallback": "You're 18, and you live in Monticello, Georgia.",
+              "visibleAction": "talk-at-home",
+              "requirements": {
+                "minimumActors": 1,
+                "bodyContacts": ["standing-floor-or-compatible-domestic-seat"],
+                "props": [],
+                "sceneContext": "known household; current room still requires actual presence"
+              },
+              "leisureContextRecordIds": []
+            }
+          }
+        ],
+        "startingLocation": {
+          "setting": "home",
+          "label": "Home",
+          "jurisdictionId": "jurisdiction_dfea1e17f0d2ce13"
+        },
+        "startingActors": []
+      }
+    },
+    "actualCard": {
+      "key": "legislature",
+      "title": "Georgia Legislature",
+      "screenshot": "0-3-legislature-full-size.png",
+      "people": [
+        {
+          "personId": "person_45a3b1d4d9d42313",
+          "slotId": null,
+          "slotRole": null,
+          "pose": null,
+          "facing": null,
+          "depth": null,
+          "selectionRecordIds": null,
+          "figureRectangle": {
+            "x": 370.0625,
+            "y": 464.46875,
+            "width": 258.265625,
+            "height": 407.578125
+          },
+          "rendererTag": "BUTTON",
+          "rendererClass": "scene-place-person",
+          "figureStatus": null
+        }
+      ],
+      "placementTrace": {
+        "people": [
+          {
+            "personId": "person_45a3b1d4d9d42313",
+            "slotId": "state-legislative-chamber-bicameral:spot:0",
+            "slotRole": "general",
+            "pose": "standing",
+            "view": "front",
+            "facing": "viewer",
+            "depth": 80,
+            "selection": null,
+            "selectionGap": "missing-actor",
+            "art": {
+              "packVersion": "people-engine-pack-v1",
+              "recipe": {
+                "presentation": "masculine",
+                "build": "average",
+                "shade": 6,
+                "face": "20s30s-05",
+                "hair": "curly-top",
+                "hairColor": "black",
+                "outfit": "formal",
+                "colors": {
+                  "suit": "gray",
+                  "shirt": "cream",
+                  "tie": "navy"
+                }
+              },
+              "files": [
+                "body-masculine-average.png",
+                "face-masculine-20s30s-05.png",
+                "hair-masculine-curly-top-back.png",
+                "hair-masculine-curly-top-front.png",
+                "outfit-masculine-formal-average.png",
+                "outfit-masculine-formal-average-hides.png",
+                "outfit-masculine-formal-average-suit.png",
+                "outfit-masculine-formal-average-shirt.png",
+                "outfit-masculine-formal-average-tie.png"
+              ]
+            }
+          }
+        ],
+        "unstagedActors": []
+      },
+      "imageReadiness": [
+        {
+          "currentSrc": "http://127.0.0.1:4314/art/backdrops/state-legislative-chamber-bicameral__midday.jpg",
+          "complete": true,
+          "naturalWidth": 1672
+        },
+        {
+          "currentSrc": "blob:http://127.0.0.1:4314/bcc2f42d-f450-4473-8791-d3be1ba5c393",
+          "complete": true,
+          "naturalWidth": 512
+        }
+      ],
+      "actualDpr": 1
+    },
+    "screenshot": {
+      "path": "docs/codex/evidence/session4-white-edge-2260/after-monticello-legislature-native.png",
+      "sha256": "33f39f01c4e4856171463c9a3df06e0fb8250b97d017a89b7510ba060aa86e42",
+      "width": 1920,
+      "height": 1080
+    },
+    "provenance": {
+      "expectedIdentity": {
+        "workspace": "/workspace/Political-Game-Git",
+        "head": "28c17221dbdfd44bee82be632faf5db579772db4",
+        "branch": "codex/session4-white-edge-after-2260",
+        "dirty": false,
+        "sourceDigest": "7c7b737f9955b31a05c92c58161e88e5fea411e4e77af0730b3cd3b2e8ef4f9b"
+      },
+      "served": {
+        "workspace": "/workspace/Political-Game-Git",
+        "head": "28c17221dbdfd44bee82be632faf5db579772db4",
+        "branch": "codex/session4-white-edge-after-2260",
+        "dirty": false,
+        "sourceDigest": "7c7b737f9955b31a05c92c58161e88e5fea411e4e77af0730b3cd3b2e8ef4f9b",
+        "pid": 35901,
+        "runId": "session4-white-edge-after-2260"
+      },
+      "baseURL": "http://127.0.0.1:4314",
+      "projects": [
+        {
+          "name": "chromium",
+          "use": {
+            "baseURL": "http://127.0.0.1:4314",
+            "trace": "retain-on-failure",
+            "screenshot": "only-on-failure",
+            "video": "off",
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+            "screen": {
+              "width": 1920,
+              "height": 1080
+            },
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "defaultBrowserType": "chromium"
+          }
+        }
+      ],
+      "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+    }
+  },
+  "sendBack": "Six-set2257 caption fade capture NOT PASSED by CTO6008290207; unchanged-source recapture pending. This AFTER does not release scene merge/slot/visual gates."
+}

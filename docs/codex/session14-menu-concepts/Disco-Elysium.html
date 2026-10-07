@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Disco Elysium inspired menu concept</title
+  ><style>
+    @font-face {
+      font-family: F;
+      src: url(fira-sans-400.ttf);
+    }
+    @font-face {
+      font-family: C;
+      src: url(cinzel-800.ttf);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: url(room-art.jpg) center/cover;
+      color: #f1e8d6;
+      font: 22px/1.3 F;
+    }
+    .stamp {
+      position: absolute;
+      right: 28px;
+      top: 24px;
+      text-align: right;
+      text-shadow: 0 2px 4px #000;
+      background: #181b1bcf;
+      border-radius: 24px;
+      padding: 14px 24px;
+    }
+    .stamp strong {
+      display: block;
+      font: 25px C;
+      color: #ebd4a1;
+    }
+    .stamp small {
+      font: 15px F;
+      color: #d7cfc2;
+    }
+    .glass {
+      background: linear-gradient(130deg, #292d2eee, #121717e8);
+      border: 1px solid #a28a58;
+      box-shadow:
+        0 2px 10px #0007,
+        inset 0 0 0 1px #151615;
+      backdrop-filter: blur(4px);
+    }
+    .player-card {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      width: 550px;
+      height: 144px;
+      border-radius: 12px;
+      padding: 14px 20px 12px 155px;
+    }
+    .bust {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 150px;
+      height: 210px;
+      overflow: hidden;
+      mask-image: linear-gradient(#000 65%, transparent);
+    }
+    .bust img {
+      position: absolute;
+      width: 280px;
+      left: -64px;
+      top: -8px;
+    }
+    .player-card h2 {
+      font: 21px C;
+      color: #ebd4a1;
+      margin: 0 0 4px;
+    }
+    .clock strong {
+      font: 21px C;
+    }
+    .clock {
+      font: 17px F;
+    }
+    .time-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 9px;
+    }
+    .time-actions button {
+      font: 17px F;
+      background: #282b28;
+      color: #f4ead7;
+      border: 1px solid #947e51;
+      padding: 7px 12px;
+      border-radius: 5px;
+    }
+    .corner {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background-image: url(sheet.png);
+      background-size: 973.2px 581.4px;
+      pointer-events: none;
+    }
+    .tl {
+      top: 0;
+      left: 0;
+      background-position: -33px -29.4px;
+    }
+    .tr {
+      top: 0;
+      right: 0;
+      background-position: -906px -29.4px;
+    }
+    .bl {
+      bottom: 0;
+      left: 0;
+      background-position: -33px -513px;
+    }
+    .br {
+      bottom: 0;
+      right: 0;
+      background-position: -906px -513px;
+    }
+    .entry {
+      position: relative;
+      color: #f0e8d8;
+      font: 22px F;
+      border: 1px solid #8f7b50;
+      background: #242827;
+      border-radius: 22px;
+      min-height: 46px;
+      padding: 10px 24px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-align: left;
+      box-shadow:
+        inset 0 1px 0 #aa9b6530,
+        0 2px 4px #0005;
+    }
+    .entry .grain {
+      position: absolute;
+      inset: 0;
+      background-image: url(grain.png);
+      opacity: 0.24;
+      pointer-events: none;
+    }
+    .entry .label {
+      position: relative;
+    }
+    .entry:before,
+    .entry:after {
+      content: none !important;
+    }
+    .heading {
+      font: 28px C;
+      color: #e7d0a0;
+      margin: 0 0 20px;
+    }
+    .muted {
+      font: 18px F;
+      color: #c0b7a4;
+    }
+    .nav {
+      position: absolute;
+    }
+    .section-title {
+      font: 17px C;
+      color: #b9a477;
+      letter-spacing: 2px;
+    }
+    .divider {
+      height: 18px;
+    }
+    .entry.selected {
+      background: #494536;
+      border-color: #d4bc7a;
+      color: #fff4d6;
+    }
+    .sheet-tabs {
+      display: flex;
+      gap: 12px;
+    }
+    .panel {
+      padding: 32px;
+      border-radius: 32px;
+    }
+    .icon {
+      display: block;
+      width: 34px;
+      height: 34px;
+      background-image: url(sheet.png);
+      background-size: 811px 484.5px;
+      background-position: -111px -385px;
+    }
+    .room-label {
+      position: absolute;
+      top: 32px;
+      left: 30px;
+      font: 18px F;
+      color: #efe7d3;
+      text-shadow: 0 1px 4px #000;
+    }
+    .no-frame {
+      border: 0;
+      box-shadow: none;
+      background: none;
+      padding-left: 0;
+    }
+    .no-frame.selected {
+      background: none;
+      color: #f2d49a;
+    }
+    .thin-x {
+      position: absolute;
+      right: 20px;
+      top: 14px;
+      font: 26px F;
+      color: #d3c7ae;
+      border: 0;
+      background: none;
+    }
+  </style>
+  <body>
+    <aside class="stamp">
+      <strong>Disco Elysium</strong
+      ><small>Reading column · Kit13 review concept · not implemented</small>
+    </aside>
+    <nav
+      class="nav glass panel"
+      style="
+        right: 32px;
+        top: 150px;
+        width: 470px;
+        border-radius: 70px 10px 10px 70px;
+        padding-left: 52px;
+      "
+    >
+      <div class="heading">Where to?</div>
+      <div style="display: flex; flex-direction: column; gap: 9px">
+        <button class="entry no-frame" data-destination="Calendar" style="">
+          <i class="grain"></i><span class="label">Calendar</span></button
+        ><button class="entry no-frame" data-destination="People" style="">
+          <i class="grain"></i><span class="label">People</span></button
+        ><button class="entry no-frame" data-destination="Politics" style="">
+          <i class="grain"></i><span class="label">Politics</span></button
+        ><button class="entry no-frame" data-destination="News" style="">
+          <i class="grain"></i><span class="label">News</span></button
+        ><button
+          class="entry no-frame selected"
+          data-destination="Journal"
+          style=""
+        >
+          <i class="grain"></i><span class="label">Journal</span></button
+        ><button class="entry no-frame" data-destination="Who you are" style="">
+          <i class="grain"></i><span class="label">Who you are</span></button
+        ><button
+          class="entry no-frame"
+          data-destination="Money & property"
+          style=""
+        >
+          <i class="grain"></i
+          ><span class="label">Money & property</span></button
+        ><button
+          class="entry no-frame"
+          data-destination="Jobs & study"
+          style=""
+        >
+          <i class="grain"></i><span class="label">Jobs & study</span></button
+        ><button class="entry no-frame" data-destination="Travel" style="">
+          <i class="grain"></i><span class="label">Travel</span></button
+        ><button class="entry no-frame" data-destination="Guide" style="">
+          <i class="grain"></i><span class="label">Guide</span></button
+        ><button class="entry no-frame" data-destination="Options" style="">
+          <i class="grain"></i><span class="label">Options</span>
+        </button>
+      </div>
+    </nav>
+    <section class="player-card glass" aria-label="Player card">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i
+      ><i class="corner br"></i>
+      <div class="bust">
+        <img src="person.png" alt="Recorded Brianna Kennedy game figure" />
+      </div>
+      <h2>Brianna Kennedy, 34</h2>
+      <div class="clock">
+        <strong>9:10 AM</strong> · Monday, January 5, 2026
+      </div>
+      <div class="time-actions">
+        <button>Day</button><button>Week</button><button>Until needed</button>
+      </div>
+    </section>
+    <script>
+      document.fonts.ready.then(() => (window.ready = true));
+    </script>
+  </body>
+</html>

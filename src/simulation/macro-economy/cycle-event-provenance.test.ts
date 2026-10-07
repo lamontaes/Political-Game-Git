@@ -6,7 +6,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import { recordCausalProcess } from "../causal-effects";
+import { recordCausalProcess } from "../effect-records";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {
   createFutureTransitionHandlerRegistry,

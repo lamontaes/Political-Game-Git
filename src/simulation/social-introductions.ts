@@ -10,6 +10,7 @@ import {
 } from "./life-queries";
 import { personName } from "./people";
 import { studyPeers } from "./people-study";
+import { personTrait } from "./people-traits";
 import { recordRelationshipInteraction } from "./records";
 import { readRelationshipStanding } from "./relationship-standing";
 import type { EntityId, IsoDate, World } from "./types";
@@ -52,8 +53,12 @@ import { recordWorldEvent } from "./world";
  *
  * CALIBRATION, NOT RESEARCH: ChatGPT's answer to `how-people-meet-new-people`
  * found no annual acquaintance count or per-interaction chance to use, and
- * says any number here must be a labeled calibration. `INTRODUCTION_SPACING_DAYS`
- * and the even draw across settings are that calibration.
+ * says any number here must be a labeled calibration. `INTRODUCTION_BASE_SPACING_DAYS`
+ * and the even draw across settings are that calibration. The pace is not one
+ * number for everybody: it follows the person's own sociability (see
+ * `introductionSpacingDays`), so an outgoing person falls into talk with new
+ * people sooner and a reserved one later. BG-69 measured the old single
+ * fourteen-day pace at three or four introductions in 56 days for every life.
  */
 
 export const INTRODUCTION_EVENT = "life.introduction";
@@ -71,8 +76,30 @@ export interface IntroductionCandidate {
   readonly organizationId: EntityId | null;
 }
 
-/** Calibration pace for introductions that happen on their own. See header. */
-const INTRODUCTION_SPACING_DAYS = 14;
+/**
+ * Calibration pace, in days, for somebody of middling sociability meeting
+ * somebody new on their own. See the header.
+ */
+const INTRODUCTION_BASE_SPACING_DAYS = 4;
+
+/**
+ * Days this person leaves between meeting new people on their own.
+ *
+ * A smooth scale in the person's sociability, no step and no draw: every two
+ * points of sociability halve the spacing, so the very sociable meet somebody
+ * about every two days and the very reserved about every eight, with everyone
+ * between on the same curve.
+ */
+export function introductionSpacingDays(
+  world: World,
+  personId: EntityId,
+): number {
+  const sociability = personTrait(world, personId, "sociability").value;
+  return Math.max(
+    1,
+    Math.round(INTRODUCTION_BASE_SPACING_DAYS * 2 ** (-sociability / 2)),
+  );
+}
 
 const ADULT_AGE = 18;
 
@@ -548,7 +575,8 @@ export function produceIntroduction(world: World, personId: EntityId): World {
   const last = lastIntroductionOn(world, personId);
   if (
     last !== null &&
-    daysBetween(last, world.currentDate) < INTRODUCTION_SPACING_DAYS
+    daysBetween(last, world.currentDate) <
+      introductionSpacingDays(world, personId)
   )
     return world;
   const candidates = introductionCandidates(world, personId);

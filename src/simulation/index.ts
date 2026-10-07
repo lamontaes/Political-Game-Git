@@ -1,7 +1,42 @@
+export * from "./citizenship";
+export type * from "./citizenship-types";
 export * from "./dates";
+export * from "./after-office-endorsements";
 export * from "./canonical-json";
 export * from "./character-history";
-export * from "./causal-effects";
+export * from "./faith-record";
+export {
+  createCausalMechanismDefinition,
+  createCausalMechanismCatalog,
+  createSyntheticCausalMechanismCatalog,
+  cloneCausalMechanismCatalog,
+  assertCausalMechanismCatalogIntegrity,
+  recordCausalProcess,
+  activateEffect,
+  causalProcessAt,
+  effectActivationsAt,
+  distinctRootCausalIds,
+  causalEffectEntityExists,
+  causalEffectEntityAvailableAt,
+  causalEffectHistoryRecords,
+  assertCausalEffectIntegrity,
+} from "./effect-records";
+export type {
+  CausalMechanismDefinitionInput,
+  CausalMechanismCatalogInput,
+  RecordCausalProcessInput,
+  ActivateEffectInput,
+} from "./effect-records";
+export {
+  evaluateEffectContribution,
+  evaluateAggregateMetric,
+  recordEvaluatedMetricState,
+} from "./outcome-web/legacy-effect-evaluator";
+export type {
+  EvaluateEffectContributionInput,
+  EvaluateAggregateMetricInput,
+  RecordEvaluatedMetricStateInput,
+} from "./outcome-web/legacy-effect-evaluator";
 export * from "./candidacy-packs";
 export * from "./candidacy";
 export * from "./district-residence";
@@ -50,6 +85,18 @@ export type {
   ScheduledCampaignActionResult,
 } from "./campaigns";
 export {
+  addCampaignHelper,
+  askToHelp,
+  campaignHasHelper,
+  campaignHelperCandidates,
+  helperAskConsiderations,
+} from "./campaign-helpers";
+export type {
+  AddCampaignHelperInput,
+  AskToHelpResult,
+  CampaignHelperRole,
+} from "./campaign-helpers";
+export {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
   campaignLifeCatalogEntry,
@@ -77,7 +124,7 @@ export {
 } from "./campaign-life-activities";
 export type {
   CampaignGuidanceOffice,
-  CampaignGuidanceUnestablished,
+  CampaignGuidanceEstablished,
   CampaignGuidanceValue,
   CampaignGuidanceView,
   CampaignLifeActivityState,
@@ -99,6 +146,21 @@ export type {
   CampaignLifeOutcomeRecord,
   CampaignSupportDecision,
 } from "./campaign-life-types";
+export {
+  askToSign,
+  petitionAskedPersonIds,
+  petitionEventsForCampaign,
+  petitionSignaturesForCampaign,
+} from "./candidate-petitions";
+export type { AskToSignInput, AskToSignResult } from "./candidate-petitions";
+export {
+  candidateFilingTerms,
+  filingTermsCoverage,
+} from "./candidate-filing-terms";
+export type {
+  CandidateFilingTerms,
+  FilingOfficeFamily,
+} from "./candidate-filing-terms";
 export {
   CAMPAIGN_CONTACT_MET_KIND,
   CAMPAIGN_CONTACT_RECURRING_KIND,
@@ -202,6 +264,7 @@ export * from "./legislation-scenarios";
 export * from "./legislative-politics";
 export * from "./legislative-member-decisions";
 export * from "./legislature-rules";
+export * from "./minority-party-procedure";
 export * from "./measure-numbering";
 export * from "./legislature-rule-packs";
 export * from "./legislature-game-profile";
@@ -329,3 +392,6 @@ export * from "./crisis/handling-reactions";
 export * from "./nationwide-world/presidential-turnover";
 export * from "./living-world/federal-reform";
 export * from "./federal-tenures";
+
+export * from "./campaign-managers";
+export * from "./campaign-donors";

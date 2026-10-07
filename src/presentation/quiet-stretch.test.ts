@@ -19,7 +19,9 @@ import {
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
-import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
+import { CONTACT_LOCATION_KEY } from "../simulation/relationship-contact";
+import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
+import { submitTimeCommand } from "./time-command";
 import { venueActivities } from "./venue-activity";
 import {
   goableToday,
@@ -45,7 +47,12 @@ function renoLife(startAge = 34): { world: World; personId: EntityId } {
     seed: "quiet-stretch-stops",
   } as NewGameSetup);
   return {
-    world: openOrdinaryLife(created.world, created.playerPersonId),
+    // Begin seats the town's council before the first day; without it the
+    // posted meeting has nobody to chair it and cannot open live (#2556).
+    world: openOrdinaryLife(
+      ensureLocalGovernmentSeats(created.world, created.playerPersonId),
+      created.playerPersonId,
+    ),
     personId: created.playerPersonId,
   };
 }
@@ -113,6 +120,19 @@ function hold(
   return { world: withJourney, activityId };
 }
 
+function finishMeeting(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): World {
+  return submitTimeCommand(world, {
+    requestId: `finish:${activityId}`,
+    personId,
+    sourceMoment: world.currentMoment,
+    command: { kind: "finish-meeting", activityId },
+  }).world;
+}
+
 const quietScene = (world: World, personId: EntityId): StoryScene => ({
   kind: "ordinary-stretch",
   prose: "",
@@ -159,10 +179,9 @@ describe("a quiet stretch stops for civic life", () => {
       optionKey: attend!.key,
     });
     expect(scheduledActivityState(went, meeting.id).status).toBe("scheduled");
-    const stayed = chooseTodayCalendarOption(went, {
-      personId,
-      optionKey: `go-to:${meeting.id}`,
-    })!;
+    // Going opens the live meeting; staying to its end is its own command
+    // since #2556, not a second go-to.
+    const stayed = finishMeeting(went, personId, meeting.id);
     expect(scheduledActivityState(stayed, meeting.id).status).toBe("completed");
     expect(goableToday(stayed, personId).map((a) => a.id)).not.toContain(
       meeting.id,
@@ -267,12 +286,7 @@ describe("beside the persistent Day and Week controls", () => {
     expect(went && scheduledActivityState(went, meeting.id).status).toBe(
       "scheduled",
     );
-    const stayed =
-      went &&
-      chooseTodayCalendarOption(went, {
-        personId,
-        optionKey: `go-to:${meeting.id}`,
-      });
+    const stayed = went && finishMeeting(went, personId, meeting.id);
     expect(stayed && scheduledActivityState(stayed, meeting.id).status).toBe(
       "completed",
     );

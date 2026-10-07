@@ -2,6 +2,7 @@ import type { SceneSlotKind } from "../scene-slot-contract";
 import type { BodyAnchors } from "./anchors";
 import { OPAQUE_ALPHA } from "./anchors";
 import { clothEdgeMask } from "./cloth-edges";
+import { hairWithFaceWindow, type HairFaceWindow } from "./hair-face-window";
 import { assemblePerson, type PersonLayer } from "./assemble";
 import type { Raster } from "./raster";
 import { SKIN_RAMPS, recolorSkin, type MeasuredRamp } from "./skin";
@@ -13,8 +14,9 @@ import {
 } from "./fabric";
 
 /**
- * Hair colors, applied by code to hair painted in dark brown. "natural" keeps
- * the painting. PLACEHOLDER(wave2): picked by eye.
+ * Recorded v1 hair-color ramps, applied by code to hair painted in dark brown.
+ * "natural" keeps the painting; every other entry records the shadow, base,
+ * and highlight used throughout the current people pack.
  */
 export const HAIR_COLORS: readonly (FabricRamp & { readonly label: string })[] =
   [
@@ -256,11 +258,11 @@ export interface PackBody {
 }
 
 /**
- * Which way the whole person is turned: facing front, or turned three
- * quarters (body, outfit, face and hair all painted turned). A turned view is
+ * Which way the whole person is turned (body, outfit, face and hair all
+ * painted in the same view). A turned view is
  * painted turned one way (PackView.toward) and mirrored for the other.
  */
-export const BODY_VIEWS = ["front", "three-quarter"] as const;
+export const BODY_VIEWS = ["front", "three-quarter", "side", "back"] as const;
 export type BodyView = (typeof BODY_VIEWS)[number];
 export type TurnedBodyView = Exclude<BodyView, "front">;
 
@@ -340,6 +342,7 @@ export interface PackHair {
   readonly id: string;
   readonly back: string;
   readonly front: string;
+  readonly faceWindow?: HairFaceWindow;
 }
 
 /**
@@ -541,7 +544,8 @@ function outfitFiles(
 /**
  * The pieces a recipe draws from, in its pose and view. The pose's fallbacks
  * are tried in order (poseFallbacks), and at each pose the recipe's view and
- * then the front: what a person is doing shows before which way they turn.
+ * then three-quarter for side/back, then front: what a person is doing shows
+ * before which way they turn.
  * A pose and view are drawn only when the pack has the body, the recipe's
  * outfit, face and hair in them for the recipe's build, and `available` has
  * every one of their files (every file, when omitted). Standing in front
@@ -556,7 +560,11 @@ export function posedPieces(
   const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
   const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
   const views: readonly BodyView[] =
-    recipe.view && recipe.view !== "front" ? [recipe.view, "front"] : ["front"];
+    recipe.view === "side" || recipe.view === "back"
+      ? [recipe.view, "three-quarter", "front"]
+      : recipe.view === "three-quarter"
+        ? ["three-quarter", "front"]
+        : ["front"];
   for (const pose of poseFallbacks(
     presentationPose(recipe.pose ?? "standing", recipe.presentation),
   ))
@@ -617,6 +625,10 @@ export function posedPieces(
           ? [{ id, placement: accessory.placement, file }]
           : [];
       });
+      const paintedToward = towardOf(pack, pose, view, false);
+      const mirrored = recipe.facing
+        ? paintedToward !== null && paintedToward !== recipe.facing
+        : recipe.mirrored === true;
       return {
         /** Accessories drawn: those worn that this pose and view have. */
         accessories: wornAccessories,
@@ -637,7 +649,8 @@ export function posedPieces(
         view,
         seated: isSeatedPose(pose),
         /** The side of the picture the drawn figure turns toward. */
-        toward: towardOf(pack, pose, view, recipe.mirrored === true),
+        toward: towardOf(pack, pose, view, mirrored),
+        mirrored,
       };
     }
   // Standing in front has no condition above: the loop always returns.
@@ -678,7 +691,7 @@ export function mirrorToFace(
 ): boolean {
   const { toward } = posedPieces(
     pack,
-    { ...recipe, mirrored: false },
+    { ...recipe, facing: undefined, mirrored: false },
     available,
   );
   if (!toward || towardXPercent === fromXPercent) return false;
@@ -696,9 +709,9 @@ export interface PeoplePackManifest {
 }
 
 /**
- * The colors a garment part may take, by palette, from fabric.ts. Each
- * outfit names a palette for each of its parts. PLACEHOLDER(wave2): picked by
- * eye for variety; suits, shirts and ties stay in conservative colors.
+ * The colors a garment part may take, by palette, from fabric.ts. Each outfit
+ * names a recorded v1 palette for each part. The current generator reads these
+ * lists directly; suits, shirts, and ties retain their narrower recorded lists.
  */
 export const PART_PALETTES: Readonly<Record<string, readonly string[]>> = {
   top: [
@@ -802,6 +815,8 @@ export interface EngineRecipe {
   readonly pose?: BodyPose;
   /** Facing front unless the scene turns them (pose-chooser.ts). */
   readonly view?: BodyView;
+  /** Turn the resolved painting toward this side, including after a view fallback. */
+  readonly facing?: "left" | "right";
   /** Neutral unless the moment shows on their face (expression-chooser.ts). */
   readonly expression?: FaceExpression;
   /** A facial hair style (FACIAL_HAIR_STYLES), when they wear one. */
@@ -838,6 +853,7 @@ export function engineRecipeKey(recipe: EngineRecipe): string {
       : []),
     ...(glassesOn(recipe) ? [`glasses:${recipe.glasses}`] : []),
     ...(recipe.mirrored ? ["mirrored"] : []),
+    ...(recipe.facing ? [`facing:${recipe.facing}`] : []),
     ...Object.entries(recipe.colors ?? {})
       .sort()
       .map(([part, color]) => `${part}=${color}`),
@@ -954,6 +970,7 @@ export function composeEnginePerson(
     facialHair,
     glasses,
     accessories,
+    mirrored,
   } = posedPieces(pack, recipe, available);
   const ramp =
     SKIN_RAMPS[Math.min(SKIN_RAMPS.length, Math.max(1, recipe.shade)) - 1]!;
@@ -976,14 +993,15 @@ export function composeEnginePerson(
     const mask = new Uint8Array(hides.width * hides.height);
     for (let p = 0; p < mask.length; p += 1)
       mask[p] = hides.data[p * 4 + 3]! > OPAQUE_ALPHA ? 1 : 0;
+    const regions = Object.entries(outfit.regions ?? {}).map(
+      ([part, file]) => [part, image(file)] as const,
+    );
     let clothes = recolorSkin(
       image(outfit.file),
       ramp,
       body.skin,
       outfit.skin ? image(outfit.skin) : undefined,
-    );
-    const regions = Object.entries(outfit.regions ?? {}).map(
-      ([part, file]) => [part, image(file)] as const,
+      regions.map(([, region]) => region),
     );
     for (const [part, mask] of regions) {
       const color = recipe.colors?.[part];
@@ -1000,6 +1018,49 @@ export function composeEnginePerson(
         );
     }
     layers.push({ slot: "outfit", raster: clothes, hidesBody: mask });
+  }
+  // The face's widest opaque row marks its cheek/ear band. Below it, the
+  // outer quarters belong to the visible face sides, rather than front hair.
+  // Measure the selected face, so the same contract follows every head/view;
+  // bangs above that band and hair outside face support retain their pixels.
+  const faceRaster = image(face.file);
+  const faceSides = new Int32Array(front.height * 2).fill(-1);
+  let cheekRow = canonical.head.top;
+  let widest = 0;
+  for (let y = canonical.head.top; y < faceRaster.height; y += 1) {
+    let left = -1;
+    let right = -1;
+    for (let x = 0; x < faceRaster.width; x += 1)
+      if (faceRaster.data[(y * faceRaster.width + x) * 4 + 3]! >= 250) {
+        if (left < 0) left = x;
+        right = x;
+      }
+    faceSides[y * 2] = left;
+    faceSides[y * 2 + 1] = right;
+    if (left >= 0 && right - left + 1 > widest) {
+      widest = right - left + 1;
+      cheekRow = y;
+    }
+  }
+  const windowed = hairWithFaceWindow(
+    front,
+    faceRaster,
+    hair.front,
+    hair.faceWindow,
+  );
+  let sideHair: Uint8ClampedArray | undefined;
+  for (let y = cheekRow; y < faceRaster.height; y += 1) {
+    const left = faceSides[y * 2]!;
+    const right = faceSides[y * 2 + 1]!;
+    if (left < 0) continue;
+    const sideWidth = Math.floor((right - left + 1) / 4);
+    for (let x = left; x <= right; x += 1) {
+      if (x >= left + sideWidth && x <= right - sideWidth) continue;
+      const at = (y * front.width + x) * 4 + 3;
+      if (windowed.data[at] === 0 || faceRaster.data[at] === 0) continue;
+      sideHair ??= new Uint8ClampedArray(windowed.data);
+      sideHair[at] = windowed.data[at]! * (1 - faceRaster.data[at]! / 255);
+    }
   }
   layers.push(
     {
@@ -1036,13 +1097,13 @@ export function composeEnginePerson(
     ),
     {
       slot: "front-hair",
-      raster: tint(front),
+      raster: tint(sideHair ? { ...windowed, data: sideHair } : windowed),
       authoredFor: canonical,
     },
   );
   const raster = assemblePerson(body.anchors, layers);
   const seatRow = seated ? body.seatRow : undefined;
-  return recipe.mirrored
+  return mirrored
     ? {
         raster: mirrorRaster(raster),
         anchors: mirrorAnchors(body.anchors, raster.width),

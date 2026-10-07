@@ -15,8 +15,6 @@ import type {
  * choices. A member with no supported life pull receives no invented view.
  */
 
-export const OFFICEHOLDER_PRINCIPLES_VERSION = "officeholder-principles/v1";
-
 /**
  * PLACEHOLDER: the least summed weight at which a member's principles weigh
  * moderately, strongly and decisively on a vote.

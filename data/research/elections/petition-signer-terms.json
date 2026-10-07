@@ -1,0 +1,19 @@
+{
+  "id": "petition-signer-terms",
+  "asOf": "2026-10-06",
+  "estimateNote": "ESTIMATED FROM AVERAGE: across the states, a petition signer must be an eligible registered voter at the time of signing, which means at least 18 and living in the state or district the petition covers. In this game registration is automatic at 18 for anyone eligible (owner ruling), so the rule reduces to age, life and residence. Rows below the default are places where a researched statute differs.",
+  "default": {
+    "minimumAge": 18,
+    "mustTurnEighteenBy": null,
+    "basis": "estimated-from-average",
+    "source": "California Elections Code 100 (an eligible registered voter at the time of signing, at least 18) and the common pattern across the states; Maryland State Board of Elections, Petition Signature Gathering FAQ."
+  },
+  "places": {
+    "US-MD": {
+      "minimumAge": 17,
+      "mustTurnEighteenBy": "next-general-election",
+      "basis": "read",
+      "source": "Maryland State Board of Elections, Petition Signature Gathering FAQ: a 17-year-old registered voter may sign if they will be 18 on or before the next general election."
+    }
+  }
+}
