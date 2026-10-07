@@ -12,23 +12,21 @@ test("a new game in a random place keeps every room figure's crown in frame", as
 }, info) => {
   const seed = "bg-05-room-crown-proof";
   const place = drawRandomPlace(seed);
-  const replay = {
-    v: 3,
-    startKind: "custom",
-    seed,
-    placeKey: place.key,
-    startAge: 34,
-    depth: "summarize-formative-years",
-    startingLife: "ordinary-life",
-    household: "shares-a-home",
-    givenName: null,
-    familyName: null,
-  };
   await page.setViewportSize({ width: 1200, height: 720 });
-  await page.goto(
-    `/?replay=${Buffer.from(JSON.stringify(replay)).toString("base64url")}`,
-  );
-  await enterLife(page);
+  await page.goto("/");
+  const [town, ...stateParts] = place.displayName.split(", ");
+  await startLife(page, {
+    age: 34,
+    place: town,
+    state: stateParts.join(", "),
+    route: "custom",
+    household: "shares-a-home",
+  });
+  const orientation = page.getByTestId("world-orientation");
+  await expect(orientation).toBeVisible({ timeout: 60_000 });
+  await page.getByTestId("orientation-skip").click();
+  await expect(orientation).toBeHidden();
+  await expect(page.getByTestId("play-screen")).toBeVisible();
 
   const scene = page.getByTestId("scene-backdrop");
   await expect(scene).toHaveAttribute("data-has-plate", "true");
