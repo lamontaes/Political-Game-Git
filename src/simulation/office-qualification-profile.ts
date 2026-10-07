@@ -40,6 +40,7 @@ import type { RuleSourceRef } from "./legislature-rules";
 import {
   OFFICE_QUALIFICATIONS_META,
   qualificationRows,
+  stateName,
   type QualificationFieldName,
   type QualificationOfficeFamily,
 } from "./office-qualification-rules";
@@ -177,6 +178,15 @@ export function standInRequirementSentence(
   unit: string,
 ): string {
   return `This office asks for ${standIn.value} ${unit} of ${measure}.`;
+}
+
+/** A data-backed estimate for an office with no established local age rule. */
+export function standInQualificationEligibilitySentence(
+  standIn: StandInQualification,
+): string {
+  const donorStates = standIn.states.map(stateName).join(", ");
+  const state = stateName(standIn.stateJurisdictionKey.replace(/^US-/, ""));
+  return `An estimated minimum age of ${standIn.value} years comes from the most common governor age in recorded rules for ${donorStates}. It does not establish a minimum age in ${state}.`;
 }
 
 /** How wide the evidence behind the whole profile is, for a reader who asks. */

@@ -329,20 +329,28 @@ describe("profile age for an unread state governor", () => {
       (row) => row.jurisdictionKey === "US-KY",
     )!;
     const minimumAge = pack.offices[0]!.qualification.minimumAge;
-    expect(minimumAge.kind).toBe("known");
-    if (minimumAge.kind !== "known") throw new Error("Expected a profile age.");
-    expect(minimumAge.source.authority).toBe("game-profile");
-    expect(minimumAge.source.verification).toBe("game-profile");
-    expect(minimumAge.source.note).toContain("ESTIMATED FROM AVERAGE");
+    expect(minimumAge.kind).toBe("unknown");
+    const estimate = standInQualification(
+      "US-KY",
+      "MINIMUM_AGE",
+      "GOVERNOR",
+    )!;
+    expect(minimumAge).toMatchObject({
+      kind: "unknown",
+      note: standInQualificationEligibilitySentence(estimate),
+    });
 
     const governor = governorSection(life);
     expect(governor).toContain(
-      `You must be at least ${minimumAge.value} to run for this office.`,
+      standInQualificationEligibilitySentence(estimate),
     );
     expect(governor).toMatch(
       /The next regular election is [A-Z][a-z]+ \d{1,2}, \d{4}\./,
     );
     expect(governor).not.toContain("Read from RULES at filing time");
+    expect(governor).not.toContain(
+      "You must be at least 30 to run for this office.",
+    );
     expect(governor).not.toContain(
       "This office record has no scheduled election date.",
     );
@@ -350,8 +358,9 @@ describe("profile age for an unread state governor", () => {
       life.world,
       life.personId,
     )!;
+    expect(candidacy.eligible).toBe(false);
     expect(candidacy.blocks).toContainEqual(
-      expect.objectContaining({ kind: "profile-minimum-age" }),
+      expect.objectContaining({ kind: "unproved-sourced-qualification" }),
     );
   });
 });

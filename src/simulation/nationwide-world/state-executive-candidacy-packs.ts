@@ -2,7 +2,7 @@ import { executiveRulePackForJurisdiction } from "../executive-authority-rule-pa
 import { knownRule, unknownRule } from "../legislature-rules";
 import {
   standInQualification,
-  standInQualificationSourceRef,
+  standInQualificationEligibilitySentence,
 } from "../office-qualification-profile";
 import type { RuleSourceRef } from "../legislature-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
@@ -22,10 +22,9 @@ import {
  *
  * A leaf, like `candidacy-packs.ts` it composes into: no places, no World. It
  * says only that each state has one chief executive office a person can stand
- * for through the existing campaign and contest route. The pack records the existing qualification-profile estimate for a state age
- * when no state-specific rule is available. Sourced rules still take
- * precedence at filing time; the other fields remain unknown until their
- * sources are read.
+ * for through the existing campaign and contest route. State age estimates
+ * remain separate from a legal qualification. Eligibility reads accepted
+ * jurisdiction rules; an estimate never establishes who may file.
  */
 
 /**
@@ -302,12 +301,11 @@ function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
       packName: identity.displayName,
     },
     qualification: {
-      minimumAge: minimumAgeEstimate
-        ? knownRule(
-            minimumAgeEstimate.value,
-            standInQualificationSourceRef(minimumAgeEstimate),
-          )
-        : unknownRule(QUALIFICATION_AT_FILING),
+      minimumAge: unknownRule(
+        minimumAgeEstimate
+          ? standInQualificationEligibilitySentence(minimumAgeEstimate)
+          : QUALIFICATION_AT_FILING,
+      ),
       residency: unknownRule(QUALIFICATION_AT_FILING),
       termYears: unknownRule(QUALIFICATION_AT_FILING),
       filing: unknownRule(NO_FILING_PROCEDURE),
