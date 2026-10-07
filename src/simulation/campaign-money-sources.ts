@@ -1,4 +1,8 @@
-import { activeCampaignForCandidate, campaignState, campaigns } from "./campaign-queries";
+import {
+  activeCampaignForCandidate,
+  campaignState,
+  campaigns,
+} from "./campaign-queries";
 import { runCampaignCallTime } from "./campaign-donors";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { campaignFundraiserPayments } from "./campaign-money-source-queries";

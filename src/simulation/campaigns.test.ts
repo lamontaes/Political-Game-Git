@@ -1200,7 +1200,10 @@ describe("election day", () => {
         minorUnits: 50_000,
         currency: filed.campaign.treasuryCurrency,
       },
-      provenance: { kind: "authored", note: "Recorded campaign balance fixture" },
+      provenance: {
+        kind: "authored",
+        note: "Recorded campaign balance fixture",
+      },
     });
     const funded = contributeOwnMoneyToCampaign(
       cash,
@@ -1222,6 +1225,68 @@ describe("election day", () => {
     expect(leftoverFundsRuleForState("US-KY")?.allowedUses).toContain(
       "keep-for-future-race",
     );
+  });
+
+  it("moves leftover funds into the same candidate's next campaign only on explicit choice", () => {
+    const first = fileKentuckyCampaign("leftover-explicit-carry");
+    const candidateCash = createResourcePosition(first.world, {
+      stableKey: "leftover-funds:explicit-carry-candidate-cash",
+      owner: { kind: "person", personId: first.candidatePersonId },
+      openedAt: first.world.currentDate,
+      openingBalance: {
+        minorUnits: 50_000,
+        currency: first.campaign.treasuryCurrency,
+      },
+      provenance: {
+        kind: "authored",
+        note: "Recorded campaign balance fixture",
+      },
+    });
+    const funded = contributeOwnMoneyToCampaign(
+      candidateCash,
+      first.candidatePersonId,
+      50_000,
+    );
+    const lost = advanceWorld(
+      funded,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const opponents = ensureCampaignOpponents(lost, {
+      stableKey: "leftover-explicit-carry-next-race",
+      jurisdictionId: first.campaign.jurisdictionId,
+      count: 1,
+      excludePersonIds: [first.candidatePersonId],
+    });
+    const next = fileCampaign(opponents.world, {
+      stableKey: "leftover-explicit-carry-next-race",
+      candidatePersonId: first.candidatePersonId,
+      jurisdictionId: first.campaign.jurisdictionId,
+      officeKey: first.campaign.officeKey,
+      districtBinding: namedSeatForFixture(
+        lost,
+        first.candidatePersonId,
+        first.campaign.officeKey,
+      ),
+      electionDate: addDays(lost.currentDate, 21),
+      rivalPersonIds: opponents.personIds,
+      existingContestId: null,
+      committeeName: "A later committee for the test fixture",
+      donorPoolName: "Supporters, in aggregate",
+      advertisingVendorName: "Advertising, in aggregate",
+      staffPersonIds: [],
+      treasuryCurrency: first.campaign.treasuryCurrency,
+      carryForwardFromCampaignId: first.campaign.id,
+    });
+
+    expect(
+      campaignTreasuryPosition(next.world, first.campaign)?.liquidBalance
+        .minorUnits,
+    ).toBe(0);
+    expect(
+      campaignTreasuryPosition(next.world, next.campaign)?.liquidBalance
+        .minorUnits,
+    ).toBe(50_000);
   });
 
   it("resolves through the ordinary time advance", () => {
