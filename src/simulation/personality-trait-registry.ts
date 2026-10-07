@@ -222,7 +222,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-sassy",
   "personality-v1:facet-mischievous",
   "personality-v1:facet-dramatic",
-  "personality-v1:facet-practical",
   "personality-v1:facet-imaginative",
   "personality-v1:facet-cynical",
   "personality-v1:facet-daydreaming",
