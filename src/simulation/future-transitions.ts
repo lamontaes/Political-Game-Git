@@ -127,8 +127,8 @@ export function scheduleFutureDueItem(
   assertSemanticTransitionKey(input.transitionKey, "Future transition key");
   const scheduledAt = makeIsoDate(world.currentDate);
   const dueAt = makeIsoDate(input.dueAt);
-  if (dueAt <= scheduledAt) {
-    throw new Error("A future due item must be due after its scheduling date.");
+  if (dueAt < scheduledAt) {
+    throw new Error("A future due item cannot precede its scheduling date.");
   }
   const entityIds = canonicalEntityIds(
     input.entityIds,
@@ -690,7 +690,7 @@ export function assertFutureTransitionIntegrity(
     keys.add(item.stableKey);
     makeIsoDate(item.scheduledAt);
     makeIsoDate(item.dueAt);
-    if (item.dueAt <= item.scheduledAt) {
+    if (item.dueAt < item.scheduledAt) {
       throw new Error(`Future due item has impossible chronology: ${item.id}`);
     }
     assertSemanticTransitionKey(item.transitionKey, "Future transition key");

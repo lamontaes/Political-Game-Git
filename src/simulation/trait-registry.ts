@@ -14,6 +14,7 @@ import type { WorldContentPacks } from "./runtime-content-packs";
 import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
 import { VOTES_AND_OUTREACH_DECISIONS } from "./traits/votes-and-outreach-decisions";
+import { SUBJECT_RESPONSE_DECISION } from "./press/subject-response-decision";
 import {
   FACET_AFFECTIONATE_DECISIONS,
   FACET_AFFECTIONATE_EFFECTS,
@@ -39,6 +40,7 @@ export const BUILT_IN_TRAIT_DECISIONS = [
   JURY_VOTE_DECISION,
   ANOTHER_TERM_DECISION,
   MOGUL_APPROACH_DECISION,
+  SUBJECT_RESPONSE_DECISION,
   ...FACET_AFFECTIONATE_DECISIONS,
   ...JOB_TRAIT_DECISION_DECLARATIONS,
   ...VOTES_AND_OUTREACH_DECISIONS,

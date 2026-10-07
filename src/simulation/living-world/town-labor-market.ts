@@ -31,6 +31,7 @@ import {
 } from "../life-queries";
 import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import { resourceFlowTermsAt } from "../resource-queries";
+import { annualizedRecordedPayMinor } from "../household-pay";
 import {
   macroConditionsAt,
   macroScopeForJurisdiction,
@@ -287,13 +288,11 @@ export function recordedAnnualJobPay(
       continue;
     const terms = resourceFlowTermsAt(world, flow.id);
     if (!terms || terms.status === "ended") continue;
-    if (terms.cadenceKind === "schedule:weekly")
-      return terms.amount.minorUnits * 52;
-    if (
-      terms.cadenceKind === "schedule:monthly" ||
-      terms.cadenceKind === "work:monthly-salary"
-    )
-      return terms.amount.minorUnits * 12;
+    const annual = annualizedRecordedPayMinor(
+      terms.amount.minorUnits,
+      terms.cadenceKind,
+    );
+    if (annual !== null && annual > 0) return annual;
   }
   return null;
 }
