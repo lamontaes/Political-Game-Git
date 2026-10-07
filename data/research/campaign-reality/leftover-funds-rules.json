@@ -1,0 +1,351 @@
+{
+  "sourceNote": "Personal use is excluded. Unread jurisdictions use the conservative estimated-from profile.",
+  "rules": [
+    {
+      "jurisdiction": "US-AL",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-GA"
+    },
+    {
+      "jurisdiction": "US-AK",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-WA"
+    },
+    {
+      "jurisdiction": "US-AZ",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-NV"
+    },
+    {
+      "jurisdiction": "US-AR",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-TN"
+    },
+    {
+      "jurisdiction": "US-CA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-OR"
+    },
+    {
+      "jurisdiction": "US-CO",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-NM"
+    },
+    {
+      "jurisdiction": "US-CT",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-MA"
+    },
+    {
+      "jurisdiction": "US-DE",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-MD"
+    },
+    {
+      "jurisdiction": "US-DC",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-MD"
+    },
+    {
+      "jurisdiction": "US-FL",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-GA"
+    },
+    {
+      "jurisdiction": "US-GA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-NC"
+    },
+    {
+      "jurisdiction": "US-HI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-CA"
+    },
+    {
+      "jurisdiction": "US-ID",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-WA"
+    },
+    {
+      "jurisdiction": "US-IL",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-IN"
+    },
+    {
+      "jurisdiction": "US-IN",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-OH"
+    },
+    {
+      "jurisdiction": "US-IA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-IL"
+    },
+    {
+      "jurisdiction": "US-KS",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-MO"
+    },
+    {
+      "jurisdiction": "US-KY",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-TN"
+    },
+    {
+      "jurisdiction": "US-LA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-TX"
+    },
+    {
+      "jurisdiction": "US-ME",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-NH"
+    },
+    {
+      "jurisdiction": "US-MD",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-VA"
+    },
+    {
+      "jurisdiction": "US-MA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-CT"
+    },
+    {
+      "jurisdiction": "US-MI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-OH"
+    },
+    {
+      "jurisdiction": "US-MN",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-WI"
+    },
+    {
+      "jurisdiction": "US-MS",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-AL"
+    },
+    {
+      "jurisdiction": "US-MO",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-IL"
+    },
+    {
+      "jurisdiction": "US-MT",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-WY"
+    },
+    {
+      "jurisdiction": "US-NE",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-IA"
+    },
+    {
+      "jurisdiction": "US-NV",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-AZ"
+    },
+    {
+      "jurisdiction": "US-NH",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-ME"
+    },
+    {
+      "jurisdiction": "US-NJ",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-NY"
+    },
+    {
+      "jurisdiction": "US-NM",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-AZ"
+    },
+    {
+      "jurisdiction": "US-NY",
+      "allowedUses": [
+        "keep-for-future-race",
+        "refund-donors",
+        "give-to-charity",
+        "give-to-party-candidate"
+      ],
+      "basis": "Brooklyn Eagle, \u201cState law allows defeated candidates to keep campaign funds\u201d (2019-01-25); New York candidate funds may be retained for a later race.",
+      "source": "Brooklyn Eagle, \u201cState law allows defeated candidates to keep campaign funds\u201d (2019-01-25)"
+    },
+    {
+      "jurisdiction": "US-NC",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-VA"
+    },
+    {
+      "jurisdiction": "US-ND",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-MN"
+    },
+    {
+      "jurisdiction": "US-OH",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-PA"
+    },
+    {
+      "jurisdiction": "US-OK",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-TX"
+    },
+    {
+      "jurisdiction": "US-OR",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-WA"
+    },
+    {
+      "jurisdiction": "US-PA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-OH"
+    },
+    {
+      "jurisdiction": "US-RI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-MA"
+    },
+    {
+      "jurisdiction": "US-SC",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-NC"
+    },
+    {
+      "jurisdiction": "US-SD",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-ND"
+    },
+    {
+      "jurisdiction": "US-TN",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-KY"
+    },
+    {
+      "jurisdiction": "US-TX",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-OK"
+    },
+    {
+      "jurisdiction": "US-UT",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-CO"
+    },
+    {
+      "jurisdiction": "US-VT",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-NH"
+    },
+    {
+      "jurisdiction": "US-VA",
+      "allowedUses": [
+        "keep-for-future-race",
+        "refund-donors",
+        "give-to-charity",
+        "give-to-party-candidate"
+      ],
+      "basis": "VPM, \u201cVirginia candidates raked in millions, what can they do with what\u2019s left over\u201d; non-campaign uses and continued account retention are reported.",
+      "source": "VPM, \u201cVirginia candidates raked in millions, what can they do with what\u2019s left over\u201d"
+    },
+    {
+      "jurisdiction": "US-WA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-OR"
+    },
+    {
+      "jurisdiction": "US-WV",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-VA"
+    },
+    {
+      "jurisdiction": "US-WI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-MN"
+    },
+    {
+      "jurisdiction": "US-WY",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-CO"
+    },
+    {
+      "jurisdiction": "US-PR",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-FL"
+    },
+    {
+      "jurisdiction": "US-GU",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-HI"
+    },
+    {
+      "jurisdiction": "US-VI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-PR"
+    },
+    {
+      "jurisdiction": "US-AS",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-HI"
+    },
+    {
+      "jurisdiction": "US-MP",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "basis": "Conservative keep-or-refund profile pending jurisdiction-specific research.",
+      "estimatedFrom": "US-GU"
+    }
+  ]
+}
