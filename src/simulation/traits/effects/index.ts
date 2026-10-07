@@ -23,6 +23,7 @@ import { facetDutyBoundEffects } from "./facet-duty-bound";
 import { facetEnterprisingEffects } from "./facet-enterprising";
 import { facetEntitledEffects } from "./facet-entitled";
 import { facetEnviousEffects } from "./facet-envious";
+import { facetExcitableEffects } from "./facet-excitable";
 import { facetForgivingEffects } from "./facet-forgiving";
 import { facetFriendlyEffects } from "./facet-friendly";
 import { facetGenerousEffects } from "./facet-generous";
@@ -30,6 +31,7 @@ import { facetGentleEffects } from "./facet-gentle";
 import { facetGuardedEffects } from "./facet-guarded";
 import { facetHostileEffects } from "./facet-hostile";
 import { facetHumbleEffects } from "./facet-humble";
+import { facetImaginativeEffects } from "./facet-imaginative";
 import { facetIndependentEffects } from "./facet-independent";
 import { facetInformalEffects } from "./facet-informal";
 import { facetInventiveEffects } from "./facet-inventive";
@@ -46,8 +48,10 @@ import { facetProudEffects } from "./facet-proud";
 import { facetRestlessEffects } from "./facet-restless";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
 import { facetSkepticalEffects } from "./facet-skeptical";
+import { facetSlowToWarmUpEffects } from "./facet-slow-to-warm-up";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
+import { facetTactfulEffects } from "./facet-tactful";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetZealousEffects } from "./facet-zealous";
@@ -88,6 +92,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetEnterprisingEffects,
     ...facetEntitledEffects,
     ...facetEnviousEffects,
+    ...facetExcitableEffects,
     ...facetForgivingEffects,
     ...facetFriendlyEffects,
     ...facetGenerousEffects,
@@ -95,6 +100,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetGuardedEffects,
     ...facetHostileEffects,
     ...facetHumbleEffects,
+    ...facetImaginativeEffects,
     ...facetIndependentEffects,
     ...facetInformalEffects,
     ...facetInventiveEffects,
@@ -111,8 +117,10 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetRestlessEffects,
     ...facetSelfConsciousEffects,
     ...facetSkepticalEffects,
+    ...facetSlowToWarmUpEffects,
     ...facetStudiousEffects,
     ...facetSupportiveEffects,
+    ...facetTactfulEffects,
     ...facetTenderHeartedEffects,
     ...facetWorkCenteredEffects,
     ...facetZealousEffects,
