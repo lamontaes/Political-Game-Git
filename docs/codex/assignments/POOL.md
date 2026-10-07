@@ -997,7 +997,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | CO-5 | County budget and tax hearings. Owner M1 after its rescue list, else anyone.                 | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3033 | done   | M1 after rescue or anyone |
 | CO-6 | County powers cells. Owner L2 after CO-1, else anyone.                                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | L2 after CO-1 or anyone   |
 | CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #1829 | done   | H2 with ART-1             |
-| CO-8 | County court. Anyone (same as SC-2).                                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | anyone                    |
+| CO-8 | County court. Anyone (same as SC-2).                                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #2915 | done   | anyone                    |
 | CO-9 | The fair, roads and the health department as county services. Anyone, after CO-5.            | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | anyone after CO-5         |
 
 ## Owner playthrough Oct 6, 6:35 p.m. (owner: 'JUST PUT IT IN THE POOL'; open to every session, no order; screenshots cto-notes/owner-shots/oct6-1835/1-11.webp on the Opus Mac, copies posted on #2424)
