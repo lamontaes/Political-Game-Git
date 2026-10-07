@@ -9,7 +9,8 @@ export const facetMischievousEffects: readonly TraitEffectDeclaration[] = [
         option: "dispute",
         trait: "personality-v1:facet-mischievous",
         pole: "high",
-        explanation: "They look for playful disruption and small tests of boundaries.",
+        explanation:
+          "They look for playful disruption and small tests of boundaries.",
       },
     ],
   },
