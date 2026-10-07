@@ -13245,7 +13245,7 @@
         },
         "US-AS": {
           "answer": "yes",
-          "note": "Ordinary juvenile delinquency jurisdiction covers offenses committed before age 18; the upper included age is 17. Felony transfer and direct adult-charging exceptions apply, including offenses from age 14 and specified serious/repeat cases.",
+          "note": "Ordinary delinquency jurisdiction covers children under 18, so its inclusive upper age is 17. Section 45.0103(9) excludes specified violent and repeat felony cases; section 45.0115(c) permits adult certification and specified direct felony charges. This age term does not authorize those exceptions. The saved default operative date is retained; no new enactment date is inferred.",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
@@ -13254,7 +13254,7 @@
               "unit": "years"
             }
           ],
-          "cite": "A.S.C.A. §§ 45.0103(2), (3), (9), 45.0115(c)",
+          "cite": "A.S.C.A. §§ 45.0103(2), (3), (9); 45.0115(a), (c)",
           "source": "https://asbar.org/code-annotated/45-0103-definitions/"
         },
         "US-AZ": {

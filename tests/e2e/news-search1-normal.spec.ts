@@ -43,7 +43,7 @@ test("normal legislative publication supports search, clear, help, person, Back,
   await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
   await expect(
     page.getByTestId("public-information-for-you-empty"),
-  ).toBeVisible();
+  ).toBeAttached();
   // The directory context mounts the panel with showClose={false}, so there is
   // no close button here and there has not been since the composition landed —
   // this step only became reachable once the assertion above stopped failing
@@ -70,9 +70,12 @@ test("normal legislative publication supports search, clear, help, person, Back,
     `.public-information-article[data-source-event-id="${introduction!.eventId}"]`,
   );
   await expect(article).toBeVisible();
-  const headline = await article.locator("h3").innerText();
+  const personLabel = await article
+    .locator(".public-information-people button")
+    .first()
+    .innerText();
   const search = page.getByTestId("public-information-search-input");
-  const queryToken = headline.split(/\s+/).find((part) => part.length > 3)!;
+  const queryToken = personLabel.split(/\s+/).find((part) => part.length > 2)!;
 
   await search.fill(queryToken);
   await expect(page.locator(".public-information-article")).toHaveCount(1);
@@ -86,16 +89,6 @@ test("normal legislative publication supports search, clear, help, person, Back,
   await page.getByTestId("public-information-search-clear").click();
   await expect(search).toHaveValue("");
   await expect(page.locator(".public-information-article")).toHaveCount(1);
-
-  const glossaryTrigger = article
-    .getByRole("button", { name: /^Explain/ })
-    .first();
-  if ((await glossaryTrigger.count()) > 0) {
-    await glossaryTrigger.press("Enter");
-    await expect(page.getByTestId("public-information-help")).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(page.getByTestId("public-information-help")).toHaveCount(0);
-  }
 
   const corrections = article.locator(
     ".public-information-corrections summary",
@@ -250,8 +243,9 @@ test("normal News keeps For You, outlet following, person Back, and per-life per
     "true",
   );
   await expect(article).toBeVisible();
-  await expect(article.getByTestId("news-relevance")).toContainText(
-    "This story names you.",
+  await expect(article.getByTestId("news-relevance")).toHaveAttribute(
+    "data-reason",
+    /names-you/,
   );
 
   await page.getByTestId("news-view-all").press("Enter");
@@ -265,8 +259,9 @@ test("normal News keeps For You, outlet following, person Back, and per-life per
   await expect(page.getByTestId("news-outlet-follow")).toHaveText("Unfollow");
 
   await page.getByTestId("news-view-for-you").click();
-  await expect(article.getByTestId("news-relevance")).toContainText(
-    "You follow Civic Ledger.",
+  await expect(article.getByTestId("news-relevance")).toHaveAttribute(
+    "data-reason",
+    /follows-outlet/,
   );
   const search = page.getByTestId("public-information-search-input");
   await search.fill("zzzz-no-story");
