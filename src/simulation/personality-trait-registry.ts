@@ -198,6 +198,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "registeredTraitConsiderations — src/simulation/traits/effects/facet-independent.ts",
   },
+  {
+    trait: "personality-v1:facet-sensitive",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-sensitive.ts",
+  },
 ];
 
 /**
@@ -222,7 +228,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-fickle",
   "personality-v1:facet-mediating",
   "personality-v1:facet-hot-headed",
-  "personality-v1:facet-sensitive",
   "personality-v1:facet-light-hearted",
   "personality-v1:facet-brooding",
   "personality-v1:facet-closeness-seeking",
