@@ -1713,6 +1713,29 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const homePrices =
         marketRentLevel(next, lease.town, dueOn) /
         marketRentLevel(next, lease.town, lastYear);
+      const rule = housingLawYes(
+        next,
+        lease.town,
+        RENT_LAW_KEYS.rentStabilization,
+        dueOn,
+      );
+      const finalCap = rule
+        ? readFinalEnactedLawTerm(next, rule, {
+            questionKey: RENT_LAW_KEYS.rentStabilization,
+            termKey: "cap",
+            unit: "ratio",
+            onDate: dueOn,
+          })
+        : null;
+      // A yes answer alone does not establish a numeric cap. Preserve the
+      // recorded rent until the shared price-cost consumer has a supported
+      // final term to apply.
+      if (
+        rule &&
+        landlordKindOf(next, lease.flow.recipient) !== "public" &&
+        finalCap === null
+      )
+        continue;
       // The shared price-cost consequence applies an adopted cap from recorded terms.
       amount = Math.round((old * homePrices) / 100) * 100;
       reason = marketRentRenewalReason(
