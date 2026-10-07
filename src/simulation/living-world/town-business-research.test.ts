@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import research from "../../../data/research/money/town-business-a71-2026.json" with { type: "json" };
 import creditRequest from "../../../docs/research/requests/small-business-credit-line-size.json" with { type: "json" };
 import salesRequest from "../../../docs/research/requests/local-sales-response-to-town-pay.json" with { type: "json" };
-import { TOWN_FINANCE_POLICY } from "./town-finances";
+import { TOWN_FINANCE_POLICY, townCreditLineDays } from "./town-finances";
 
 const SOURCED = "SOURCED";
 const ESTIMATED = "ESTIMATED FROM AVERAGE";
@@ -39,16 +39,19 @@ const credit = research.answers["small-business-credit-line-size"];
 const sales = research.answers["local-sales-response-to-town-pay"];
 
 describe("town business research (A71)", () => {
-  it("answers each filed A71 question and leaves the game's placeholders as they stand", () => {
+  it("answers each filed A71 question, and the game's books read the answers in place of the placeholders", () => {
     expect(Object.keys(research.answers).sort()).toEqual(
       [creditRequest.questionId, salesRequest.questionId].sort(),
     );
-    expect(credit.placeholderInGame).toBe(
-      TOWN_FINANCE_POLICY.business.creditLineDaysOfRevenue,
+    // CTO ruling 10/1: the books read the research, not the hand-set values.
+    for (const [kind, row] of Object.entries(credit.byGameKind))
+      expect(townCreditLineDays(kind), kind).toBe(row.medianDays);
+    expect(townCreditLineDays("a-kind-not-on-file")).toBe(credit.value);
+    expect(credit.placeholderInGame).not.toBe(credit.value);
+    expect(TOWN_FINANCE_POLICY.business.localDemandElasticity).toBe(
+      sales.value,
     );
-    expect(sales.placeholderInGame).toBe(
-      TOWN_FINANCE_POLICY.business.localDemandElasticity,
-    );
+    expect(sales.placeholderInGame).not.toBe(sales.value);
   });
 
   it("sizes a credit line in days of revenue from a cited source, for every business kind the game opens", () => {

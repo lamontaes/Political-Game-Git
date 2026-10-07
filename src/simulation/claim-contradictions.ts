@@ -11,7 +11,7 @@ import {
 } from "./claim-stances";
 import { CONTRADICTION_ROUTES } from "./claim-contradiction-routes";
 import { addDays } from "./dates";
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { personName } from "./people";
 import {
@@ -335,6 +335,7 @@ function promiseCheck(
 
   let next = world;
   let lastEventId: EntityId | null = null;
+  let waitingForSource = false;
   for (const reporterId of reporters) {
     const sourceId = sources[0]!;
     next = ensurePeopleTraits(next, [sourceId]);
@@ -394,6 +395,10 @@ function promiseCheck(
       randomness: "close-choices",
       retention: "ephemeral",
     });
+    if (!isSelectedDecision(evaluation)) {
+      waitingForSource = true;
+      continue;
+    }
     if (evaluation.selectedOptionKey !== "confirm") continue;
     const source = personName(next.people[sourceId]!);
     const reporter = personName(next.people[reporterId]!);
@@ -477,6 +482,15 @@ function promiseCheck(
     });
     next = found.world;
     lastEventId = found.eventId;
+  }
+  if (waitingForSource) {
+    return {
+      world: next,
+      status: "blocked",
+      reasonKey: "claim-check:source-undecided",
+      context: null,
+      outcomeEventId: lastEventId,
+    };
   }
   return lastEventId
     ? done("contradicted", next, lastEventId)

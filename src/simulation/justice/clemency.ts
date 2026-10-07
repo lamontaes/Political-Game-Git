@@ -401,7 +401,7 @@ export function fileClemencyPetition(
   if (!sentence) return refuse("There is no recorded conviction to ask about.");
   if (sentence.clemency)
     return refuse("Clemency has already been granted on this sentence.");
-  if (sentence.until <= world.currentDate)
+  if (sentence.until !== null && sentence.until <= world.currentDate)
     return refuse("The sentence has already been served.");
   const route = routeFor(world, sentenced, input.personId);
   if (typeof route === "string") return refuse(route);
@@ -465,7 +465,7 @@ function decideWhetherToAsk(
   const inJail =
     sentence.kind === "jail" &&
     sentence.from <= withTraits.currentDate &&
-    withTraits.currentDate < sentence.until;
+    (sentence.until === null || withTraits.currentDate < sentence.until);
   considerations.push({
     stableKey: `${key}:serving`,
     optionKey: "petition",
@@ -476,7 +476,10 @@ function decideWhetherToAsk(
     explanation: inJail ? "They are in jail." : "They are on probation.",
     sourceRefs: [],
   });
-  if (addDays(withTraits.currentDate, NEARLY_SERVED_DAYS) >= sentence.until)
+  if (
+    sentence.until !== null &&
+    addDays(withTraits.currentDate, NEARLY_SERVED_DAYS) >= sentence.until
+  )
     considerations.push({
       stableKey: `${key}:nearly-served`,
       optionKey: "wait",
@@ -578,7 +581,8 @@ function runningSentences(world: World) {
     const sentence = runningSentence(world, personId, event.id);
     if (!sentence || sentence.clemency) continue;
     if (!(
-      sentence.from <= world.currentDate && world.currentDate < sentence.until
+      sentence.from <= world.currentDate &&
+      (sentence.until === null || world.currentDate < sentence.until)
     ))
       continue;
     out.push({ personId, sentenced: event, sentence });
@@ -606,7 +610,7 @@ export function considerClemencyAfterSentence(
     !sentence ||
     sentence.clemency ||
     sentence.from > world.currentDate ||
-    sentence.until <= world.currentDate
+    (sentence.until !== null && sentence.until <= world.currentDate)
   )
     return world;
   const route = routeFor(world, sentenced, personId);
@@ -685,6 +689,8 @@ export function unseatedBodyReading(
   sentence: Sentence,
 ): { readonly favorable: boolean; readonly reason: string } | null {
   const rule = UNSEATED_BODY_READING;
+  // A life term has no served-share endpoint. No board recommendation is invented.
+  if (sentence.until === null) return null;
   const total =
     new Date(`${sentence.until}T00:00:00Z`).getTime() -
     new Date(`${sentence.from}T00:00:00Z`).getTime();
@@ -847,8 +853,12 @@ export function nextClemencyPetitionDueAt(
   const sentenced = sentenceId && eventById(world, sentenceId);
   if (!personId || !sentenced) return null;
   const sentence = runningSentence(world, personId, sentenced.id);
-  if (!sentence || sentence.until <= world.currentDate) return null;
-  const dates = [sentence.until];
+  if (
+    !sentence ||
+    (sentence.until !== null && sentence.until <= world.currentDate)
+  )
+    return null;
+  const dates: IsoDate[] = sentence.until === null ? [] : [sentence.until];
   const route = routeFor(world, sentenced, personId);
   if (typeof route !== "string") {
     const answered = answersTo(world, petitionId);
@@ -866,7 +876,7 @@ export function nextClemencyPetitionDueAt(
       }
     }
   }
-  return dates.sort()[0]!;
+  return dates.sort()[0] ?? null;
 }
 
 /** Review only this saved petition; leave request creation on its current caller. */
@@ -940,7 +950,7 @@ function advancePetition(
   const sentence = runningSentence(world, petitionerId, sentenced.id);
   if (!sentence) return world;
   // A saved sentence end does not need a sitting executive to close its request.
-  if (sentence.until <= world.currentDate)
+  if (sentence.until !== null && sentence.until <= world.currentDate)
     return closePetition(
       world,
       petition,

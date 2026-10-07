@@ -5,9 +5,14 @@
  * above $25m saved revenue and the explicit 100/500 employee convention.
  * No sourced recurring amount exists; no annual share or level is drawn.
  */
-import { lawInForce, type LawInForce } from "./governing/law-in-force";
+import {
+  startingLawTerms,
+  startingLawScope,
+  lawInForce,
+  type LawInForce,
+} from "./governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import { lawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
+import { lawEffectStamp } from "./law-effect-stamp";
 import { recordsWithFieldValue } from "./history-index";
 import {
   organizationProfileAt,
@@ -15,7 +20,7 @@ import {
   workStatusAt,
 } from "./life-queries";
 import type { TownBusinessBooks } from "./living-world/town-finance-types";
-import ccpaCosts from "../../data/research/money/privacy-law-compliance-cost-ccpa-2019.json";
+import ccpaCosts from "../../data/research/money/privacy-law-compliance-cost-ccpa-2019.json" with { type: "json" };
 import type {
   EntityId,
   IsoDate,
@@ -25,9 +30,6 @@ import type {
 
 export const NATIONAL_DATA_PRIVACY_QUESTION =
   "us-federal-positions:science-communications.national-data-privacy";
-
-/** Historical GDPR calibration only; never an executable recurring charge. */
-export const DATA_PRIVACY_COST_RANGE = [0.001, 0.006] as const;
 
 export interface InitialPrivacyComplianceEstimate {
   /** One-time initial dollars in the SRIA's price basis, not a yearly share. */
@@ -75,13 +77,6 @@ export function initialPrivacyComplianceEstimate(
         }
       : {}),
   };
-}
-
-export interface DataPrivacyCost {
-  /** The share of a business's yearly costs the law adds; 0 where none. */
-  readonly share: number;
-  readonly lawMeasureIds: readonly EntityId[];
-  readonly lawEffectStamps: readonly LawEffectStamp[];
 }
 
 export const ESTIMATED_PRIVACY_REVENUE_THRESHOLD_DOLLARS =
@@ -137,19 +132,25 @@ export function dataPrivacyInitialCostOn(
     NATIONAL_ELECTION_JURISDICTION.id,
     proposition.id,
     asOf,
-    "enacted-only",
   );
-  if (!law || law.origin !== "enacted" || law.answer !== "yes") return null;
+  if (!law || law.answer !== "yes") return null;
   const enactment = (world.history.legislativeEnactments ?? []).find(
     (row) => row.measureId === law.measureId && row.outcome === "enacted",
   );
-  if (!enactment) return null;
+  if (law.origin === "enacted" && !enactment) return null;
+  if (
+    law.origin === "in-force-at-start" &&
+    (startingLawTerms(law, NATIONAL_DATA_PRIVACY_QUESTION, asOf).length ||
+      startingLawScope(law, NATIONAL_DATA_PRIVACY_QUESTION, asOf))
+  )
+    return null;
   // No admitted national applicability adapter exists. Refuse final own-law
   // terms/categories rather than replacing them with the temporary estimate.
   const finalProvisions = new Map<string, LegislativeProvisionRecord>();
   for (const provision of world.history.legislativeProvisions ?? []) {
     if (
       provision.measureId !== law.measureId ||
+      !enactment ||
       provision.sequence > enactment.sequence
     )
       continue;
@@ -202,7 +203,7 @@ export function dataPrivacyInitialCostOn(
       organizationId,
       profile.id,
       law.measureId,
-      enactment.id,
+      ...(enactment ? [enactment.id] : []),
       ...[...employees.values()].flat(),
     ],
   };
@@ -250,42 +251,4 @@ export function privacyInitialOccurrence(
     sourceRecordIds: cost.sourceRecordIds,
   });
   return { occurrence, stamps: stamp ? [stamp] : [] };
-}
-
-/** @deprecated No sourced recurring cost exists; the existing caller charges nothing. */
-export function drawnDataPrivacyCostShare(
-  _world: World,
-  _jurisdictionId: EntityId = NATIONAL_ELECTION_JURISDICTION.id,
-): number {
-  void _jurisdictionId;
-  return 0;
-}
-
-/** Legacy read API: no recurring charge or consequence stamp is inferred. */
-export function dataPrivacyCostOn(
-  world: World,
-  asOf: IsoDate,
-  _jurisdictionId: EntityId = NATIONAL_ELECTION_JURISDICTION.id,
-): DataPrivacyCost {
-  void _jurisdictionId;
-  const none = { share: 0, lawMeasureIds: [], lawEffectStamps: [] };
-  const proposition = Object.values(
-    world.policyCatalog?.propositions ?? {},
-  ).find(
-    (definition) => definition.stableKey === NATIONAL_DATA_PRIVACY_QUESTION,
-  );
-  if (!proposition) return none;
-  const law = lawInForce(
-    world,
-    NATIONAL_ELECTION_JURISDICTION.id,
-    proposition.id,
-    asOf,
-    "enacted-only",
-  );
-  if (!law || law.origin !== "enacted" || law.answer !== "yes") return none;
-  return {
-    share: 0,
-    lawMeasureIds: [law.measureId],
-    lawEffectStamps: [],
-  };
 }

@@ -193,6 +193,9 @@ describe("a saved executive decision immediately reaches its actual petition", (
         const term = sentencesOf(sentenced, petitionerId).find(
           (sentence) => sentence.sentencedEventId === sentenceId,
         )!;
+        expect(term.until).not.toBeNull();
+        if (term.until === null)
+          throw new Error("The fixture's recorded sentence has no end date.");
         // Authored older-save fixture: the real sentence has already reached
         // the existing body's service gate. No outcome or new wait is invented.
         const sentenceDate = addDays(

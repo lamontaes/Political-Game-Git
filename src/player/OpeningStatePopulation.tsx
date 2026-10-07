@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import { districtIdentityCatalog } from "../districts/catalog";
+import { estimatedStatePopulation } from "../presentation/opening-state-estimates";
 import {
   queryMapPlaceDemography,
   type MapPlaceDemography,
@@ -71,12 +72,23 @@ export function OpeningStatePopulation({
             {population.estimated ? " estimate" : ""}
           </figcaption>
         </figure>
+      ) : stateUsps ? (
+        <figure className="pg-state-population-figure">
+          <p className="pg-state-population-number">
+            <span className="pg-state-population-value">
+              About{" "}
+              {estimatedStatePopulation(stateUsps).toLocaleString("en-US")}
+            </span>{" "}
+            <span className="pg-state-population-unit">people</span>
+          </p>
+          <figcaption className="pg-state-population-caption">
+            {failed === key
+              ? "Estimated from the average House district"
+              : "Estimated from the average House district; the exact count replaces it when it arrives"}
+          </figcaption>
+        </figure>
       ) : (
-        <p>
-          {!stateUsps || !geoid || ready || failed === key
-            ? "Population unavailable for this date."
-            : "Loading population…"}
-        </p>
+        <p>Population unavailable for this date.</p>
       )}
     </section>
   );

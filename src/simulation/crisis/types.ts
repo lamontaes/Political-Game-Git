@@ -96,9 +96,9 @@ export interface HealthEpisodeRecord extends CrisisRecordBase {
 }
 
 /**
- * A change in a person's public health coverage, written by the quarterly
- * coverage pass (`health-coverage.ts`). While covered, the multiplier applies
- * to their all-cause hazard from `hazardFrom` within the program's ages.
+ * A change in a person's public health coverage, written by the monthly
+ * coverage pass. Legacy hazard fields remain readable for save compatibility;
+ * coverage does not multiply personal mortality strain.
  */
 export interface HealthCoverageRecord
   extends CrisisRecordBase, LawEffectStampedRecord {
@@ -111,12 +111,28 @@ export interface HealthCoverageRecord
   readonly householdSize: number;
   readonly monthlyIncomeMinor: number;
   readonly monthlyWorkHours: number | null;
-  /** Millionths applied to all-cause hazard while covered. */
+  /** Legacy save field; new coverage records use the neutral multiplier. */
   readonly hazardMultiplierMicros: number;
   readonly hazardFrom: IsoDate | null;
   readonly hazardBasis: string;
   /** Why the person holds or lost coverage, in plain words. */
   readonly basis: string;
+}
+
+/** A household's SNAP enrollment decision for one dated participation review. */
+export interface SnapParticipationRecord extends CrisisRecordBase {
+  readonly kind: "snap-participation";
+  readonly householdId: EntityId;
+  readonly enrolled: boolean;
+  /** USD cents from the published state average, explicitly estimated. */
+  readonly monthlyBenefitMinor: number | null;
+  readonly benefitBasis: "ESTIMATED FROM STATE AVERAGE" | null;
+  readonly benefitSource: string | null;
+  /** Actual law or outcome cause identity retained even for a zero change. */
+  readonly causeId: EntityId;
+  readonly householdSize: number;
+  readonly monthlyWorkHours: number | null;
+  readonly incomeToThreshold: number | null;
 }
 
 export interface HealthStateRecord extends CrisisRecordBase {
@@ -348,6 +364,7 @@ export type CrisisRecord =
   | HealthStateRecord
   | HealthDisclosureRecord
   | HealthCoverageRecord
+  | SnapParticipationRecord
   | OfficialContinuityRecord;
 
 export type CrisisRecordKind = CrisisRecord["kind"];

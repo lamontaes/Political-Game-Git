@@ -24,7 +24,7 @@ import { sittingLocalOfficers } from "./local-government-seats";
 import {
   LOCAL_COUNCIL_MEETING,
   LOCAL_COUNCIL_MEETINGS_VERSION,
-  LOCAL_COUNCIL_MEETING_HANDLERS,
+  localCouncilMeetingHandlers,
   townQuestions,
 } from "./local-council-meetings";
 
@@ -150,7 +150,7 @@ describe("actual local council filing caller", () => {
         world: advanceWorld(
           world,
           1,
-          createFutureTransitionHandlerRegistry(LOCAL_COUNCIL_MEETING_HANDLERS),
+          createFutureTransitionHandlerRegistry(localCouncilMeetingHandlers()),
         ),
       };
       const bills = result.world.history.legislativeMeasures ?? [];

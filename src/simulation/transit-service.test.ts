@@ -5,7 +5,7 @@ import {
 } from "../../tests/fixtures/transit-service-fixture";
 import { advanceWorld, assertWorldIntegrity } from "./world";
 import { addDays, daysBetween } from "./dates";
-import { createFutureTransitionHandlerRegistry } from "./future-transitions";
+import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { operativeDateInWorld } from "./governing/law-in-force";
 import { resolveTransitFunding } from "./transit-funding";
@@ -27,7 +27,7 @@ function operative(f = appropriation()) {
     world: advanceWorld(
       f.world,
       daysBetween(f.world.currentDate, f.availableAt),
-      createFutureTransitionHandlerRegistry([]),
+      createCampaignElectionTransitionRegistry(),
     ),
   };
 }
@@ -100,6 +100,7 @@ it("a due period with no cash creates no payment, service effect, or extra units
   expect(world.history.policyRealizations.at(-1)!.status).toBe("blocked");
   expect(world.history.effectActivations).toHaveLength(0);
   expect(world.history.metricStates).toHaveLength(0);
+  expect(world.history.policyRealizations.at(-1)!.consequences).toEqual([]);
   expect(world.history.resourceTransferOutcomes).toEqual(
     f.world.history.resourceTransferOutcomes,
   );
@@ -172,7 +173,7 @@ it("refuses changed adopted terms, wrong actors, expired authority", () => {
   const expired = advanceWorld(
     f.world,
     366,
-    createFutureTransitionHandlerRegistry([]),
+    createCampaignElectionTransitionRegistry(),
   );
   expect(resolveTransitFunding(expired, f.measureId)).toEqual({
     kind: "unavailable",
@@ -190,13 +191,13 @@ it("reads the canonical terminating source's operative and expiration dates, its
   const ready = advanceWorld(
     ending.world,
     daysBetween(ending.world.currentDate, base.availableAt),
-    createFutureTransitionHandlerRegistry([]),
+    createCampaignElectionTransitionRegistry(),
   );
   expect(resolveTransitFunding(ready, base.measureId).kind).toBe("available");
   const expired = advanceWorld(
     ready,
     daysBetween(ready.currentDate, addDays(ending.endsOn, 1)),
-    createFutureTransitionHandlerRegistry([]),
+    createCampaignElectionTransitionRegistry(),
   );
   expect(resolveTransitFunding(expired, base.measureId)).toEqual({
     kind: "unavailable",
@@ -220,7 +221,7 @@ it("reads the canonical terminating source's operative and expiration dates, its
   const defaultReady = advanceWorld(
     unknown.world,
     daysBetween(unknown.world.currentDate, base.availableAt),
-    createFutureTransitionHandlerRegistry([]),
+    createCampaignElectionTransitionRegistry(),
   );
   expect(resolveTransitFunding(defaultReady, base.measureId).kind).toBe(
     "available",
@@ -228,7 +229,7 @@ it("reads the canonical terminating source's operative and expiration dates, its
   const defaultExpired = advanceWorld(
     defaultReady,
     daysBetween(defaultReady.currentDate, addDays(unknown.endsOn, 1)),
-    createFutureTransitionHandlerRegistry([]),
+    createCampaignElectionTransitionRegistry(),
   );
   expect(resolveTransitFunding(defaultExpired, base.measureId)).toEqual({
     kind: "unavailable",

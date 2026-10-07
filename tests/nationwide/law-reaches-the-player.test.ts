@@ -11,7 +11,7 @@ import {
 import { projectWorld39Journal } from "../../src/presentation/world39-journal";
 import {
   enterLifePath,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
   performLifePathSession,
   scheduleLifePathSession,
 } from "../../src/simulation/life-paths2";
@@ -118,7 +118,7 @@ function workOneShift(world: World): World {
   const activityId = scheduled.world.history.scheduledActivities.at(-1)!.id;
   const worked = performLifePathSession(scheduled.world, activityId);
   expect(worked.ok, worked.message).toBe(true);
-  return advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+  return advanceWorld(worked.world, 1, lifePaths2Handlers());
 }
 
 function journalTexts(world: World, personId: EntityId): string[] {

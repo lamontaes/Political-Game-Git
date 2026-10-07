@@ -20,7 +20,7 @@ import {
   pathForRelationship,
   settleStudyTuition,
   changeLifePathStatus,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "./life-paths2";
 import * as catalog from "./life-paths2-catalog";
 import {
@@ -75,7 +75,7 @@ describe("D33 accepted study continuity", () => {
       tuitionGraceDays: 0,
     }).world;
     const id = enrolled.history.educationEnrollments.at(-1)!.id;
-    const due = advanceWorld(enrolled, 182, LIFE_PATHS2_HANDLERS);
+    const due = advanceWorld(enrolled, 182, lifePaths2Handlers());
     expect(
       studyTuitionStatus(due, id, pathForRelationship(due, id)!)?.paused,
     ).toBe(true);
@@ -95,20 +95,20 @@ describe("D33 accepted study continuity", () => {
   it("does not reset an unfunded grace deadline by interrupting and returning", () => {
     let w = enterLifePath(fixture(0), "college-bachelors").world;
     const id = w.history.educationEnrollments.at(-1)!.id;
-    w = advanceWorld(w, 182, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 182, lifePaths2Handlers());
     const deadline = studyTuitionStatus(
       w,
       id,
       pathForRelationship(w, id)!,
     )!.deadline!;
     w = changeLifePathStatus(w, id, "pause").world;
-    w = advanceWorld(w, 40, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 40, lifePaths2Handlers());
     w = changeLifePathStatus(
       deserializeWorld(serializeWorld(w)),
       id,
       "return",
     ).world;
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     expect(w.currentDate > deadline).toBe(true);
     expect(studyTuitionStatus(w, id, pathForRelationship(w, id)!)?.paused).toBe(
       true,
@@ -157,7 +157,7 @@ describe("D33 accepted study continuity", () => {
     let w = enterLifePath(fixture(0), "college-bachelors").world;
     const enrollment = w.history.educationEnrollments.at(-1)!,
       path = pathForRelationship(w, enrollment.id)!;
-    w = advanceWorld(w, 182, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 182, lifePaths2Handlers());
     const blocked = w.currentDate;
     expect(studyTuitionStatus(w, enrollment.id, path)).toMatchObject({
       deadline: addDays(blocked, 30),
@@ -178,9 +178,9 @@ describe("D33 accepted study continuity", () => {
       /^Your tuition is unpaid\. You have until [A-Z][a-z]+ \d{1,2}, \d{4} to pay it before your studies pause\.$/,
     );
     w = deserializeWorld(serializeWorld(w));
-    w = advanceWorld(w, 29, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 29, lifePaths2Handlers());
     expect(educationEnrollmentStateAt(w, enrollment.id)?.status).toBe("active");
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     expect(studyTuitionStatus(w, enrollment.id, path)?.paused).toBe(true);
     expect(completedStudyPeriods(w, enrollment.id, path)).toBe(0);
     expect(changeLifePathStatus(w, enrollment.id, "return").world).toBe(w);
@@ -209,7 +209,7 @@ describe("D33 accepted study continuity", () => {
     }).world;
     const id = w.history.educationEnrollments.at(-1)!.id,
       path = pathForRelationship(w, id)!;
-    w = advanceWorld(w, 182, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 182, lifePaths2Handlers());
     const deadline = w.history.futureDueItems.at(-1)!;
     w = enterLifePath(w, "shop-assistant").world;
     w = passOrdinaryDays(w, 4);
@@ -242,7 +242,7 @@ describe("D33 accepted study continuity", () => {
     w = advanceWorld(
       deserializeWorld(serializeWorld(w)),
       45,
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
     );
     expect(paidStudyPeriods(w, id)).toBe(1);
     expect(completedStudyPeriods(w, id, path)).toBe(1);

@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { eventById } from "../event-index";
 import {
   characterHistoryContextPersonId,
@@ -86,8 +87,6 @@ export function seatGovernorSuccessor(
   const endExclusive =
     formerTermEnd(world, input.formerTermEvidenceId) ?? window.endExclusive;
   const rng = new SeededRng(world.seed).fork(holderKey);
-  const year = Number(input.vacancyDate.slice(0, 4));
-  const age = rng.integer(40, 71);
   let next = createCharacterHistoryContextPeople(world, [
     {
       stableKey: holderKey,
@@ -95,9 +94,10 @@ export function seatGovernorSuccessor(
         rng.fork("name"),
         generatePersonIdentity(rng.fork("identity")),
       ),
-      birthDate: makeIsoDate(
-        `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-      ),
+      birthDate: inventedPersonBirthDate(rng, {
+        role: "state-executive-successor",
+        referenceDate: input.vacancyDate,
+      }),
       homeJurisdictionId: office.jurisdictionId,
     },
   ]);
@@ -129,6 +129,38 @@ export function seatGovernorSuccessor(
       endExclusive === null ? "term-end:unknown" : `term-end:${endExclusive}`,
     ],
     summary: `${personName(next.people[successorId]!)} became ${office.displayName}${former ? ` on the death of ${personName(former)}` : ""}, and serves the rest of the term.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  next = recordWorldEvent(next, {
+    stableKey: `public-governor-change:${stableKey}`,
+    type: "office.governor-changed",
+    occurredAt: input.vacancyDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: office.jurisdictionId,
+    involvedEntityIds: [successorId, input.formerHolderId],
+    participants: [
+      {
+        personId: successorId,
+        role: "focus:subject",
+        detail: `Became ${office.displayName}.`,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      STATE_EXECUTIVE_WRITER_VERSION,
+      `office:${office.officeKey}`,
+      `state:${office.stateUsps}`,
+      "importance:major",
+    ],
+    summary: `${personName(next.people[successorId]!)} became ${office.displayName}.`,
     context: {
       location: null,
       socialContext: null,

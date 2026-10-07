@@ -1,11 +1,16 @@
-import { describe, expect, it } from "vitest";
+import { comparableCampaignCommitteeBalance } from "./campaign-opponents";
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
+import {
+  suggestedAdvertising,
+  CAMPAIGN_AD_CHANNELS,
+} from "./campaign-weekly-plans";
+import { contestDistrictGeography } from "./campaign-geography";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   addDays,
   advanceWorld,
-  ageOnDate,
   campaignOpponentRecords,
   campaignOpponentStepRecords,
   campaignState,
@@ -14,6 +19,7 @@ import {
   createScenarioWorld,
   deserializeWorld,
   electionContestResult,
+  electiveOfficesForJurisdiction,
   ensureCampaignOpponents,
   fileCampaign,
   makeCurrencyCode,
@@ -33,11 +39,19 @@ import {
 } from "./campaign-opponents";
 import { CAMPAIGN_WEEKLY_EVALUATION_KEY } from "./campaign-life-types";
 import { campaignOperatingSpending } from "./campaign-operating-costs";
-import { canonicalSupportBasisPoints } from "./campaigns";
+import {
+  canonicalSupportBasisPoints,
+  requestedCompletedCampaignFieldGainBasisPoints,
+  requestedCampaignFieldGainBasisPoints,
+} from "./campaigns";
 import { canonicalJson } from "./canonical-json";
+import { daysBetween } from "./dates";
 import { cancelFutureDueItem } from "./future-transitions";
+import * as decisions from "./decisions";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { createOrganization, createOrganizationParticipation } from "./life";
+import { doorKnockingReturn } from "./campaign-recognition";
+import { recordRelationshipInteraction } from "./records";
 import {
   LIVING_WORLD_KEYS,
   PARTY_AFFILIATION_KIND,
@@ -45,24 +59,22 @@ import {
 } from "./living-world/opening";
 import { ensureHomePartyChapters } from "./living-world/party-chapters";
 import { resourcePositionAt } from "./resource-queries";
+import { recordWorldEvent } from "./world";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
+import type { LifePlace } from "./life-places";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import type { CampaignRecord, EntityId, World } from "./types";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
+const evaluateDecision = decisions.evaluateDecision;
+
+afterEach(() => vi.restoreAllMocks());
 
 interface Filed {
   readonly world: World;
   readonly campaign: CampaignRecord;
   readonly candidatePersonId: EntityId;
   readonly rivalPersonId: EntityId;
-}
-
-function firstAdult(world: World): EntityId {
-  return world.personOrder.find(
-    (personId) =>
-      ageOnDate(world.people[personId]!.birthDate, world.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
-  )!;
 }
 
 /**
@@ -72,12 +84,25 @@ function firstAdult(world: World): EntityId {
  */
 function fileRace(
   seed: string,
-  options: { electionInDays?: number; chapters?: boolean } = {},
+  options: {
+    electionInDays?: number;
+    chapters?: boolean;
+    /** Anywhere but the Kentucky scenario: its first office is the race. */
+    place?: LifePlace;
+  } = {},
 ): Filed {
-  const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
+  const context = options.place?.context ?? KENTUCKY_CONTEXT;
+  const officeKey = options.place
+    ? electiveOfficesForJurisdiction(context.jurisdiction.id)[0]!.officeKey
+    : candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey;
+  const created = createScenarioWorld(seed, context, {
     peopleCount: 6,
   });
-  const candidatePersonId = firstAdult(created);
+  const candidatePersonId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
+  );
+  if (!candidatePersonId)
+    throw new Error("No recorded-age eligible candidate.");
   let world: World = {
     ...created,
     control: { kind: "person", personId: candidatePersonId },
@@ -100,7 +125,7 @@ function fileRace(
   }
   const opponents = ensureCampaignOpponents(world, {
     stableKey: "opponent-race",
-    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+    jurisdictionId: context.jurisdiction.id,
     count: 1,
     excludePersonIds: [candidatePersonId],
   });
@@ -124,13 +149,9 @@ function fileRace(
   const filed = fileCampaign(world, {
     stableKey: "opponent-race",
     candidatePersonId,
-    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
-    officeKey: candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
-    districtBinding: namedSeatForFixture(
-      world,
-      candidatePersonId,
-      candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
-    ),
+    jurisdictionId: context.jurisdiction.id,
+    officeKey,
+    districtBinding: namedSeatForFixture(world, candidatePersonId, officeKey),
     electionDate: addDays(world.currentDate, options.electionInDays ?? 28),
     rivalPersonIds: [rivalPersonId],
     existingContestId: null,
@@ -152,6 +173,31 @@ const registry = createCampaignElectionTransitionRegistry();
 
 function advance(world: World, days: number): World {
   return advanceWorld(world, days, registry);
+}
+
+/**
+ * Test fixture only: the race runs until the rival's committee opens on its
+ * first weekly evaluation, and the rival's emphasis is then set to working
+ * through the people around them, so the party-chapter paths are reached
+ * without searching for a seed whose rival's temperament leans that way.
+ */
+function withRelationshipsRival(filed: Filed): Filed {
+  let world = filed.world;
+  for (let day = 0; day < 14 && !campaignOpponentRecords(world).length; day++)
+    world = advance(world, 1);
+  return {
+    ...filed,
+    world: {
+      ...world,
+      history: {
+        ...world.history,
+        campaignOpponents: campaignOpponentRecords(world).map((opponent) => ({
+          ...opponent,
+          emphasis: "relationships" as const,
+        })),
+      },
+    },
+  };
 }
 
 function scheduledEvaluations(world: World) {
@@ -226,7 +272,10 @@ describe("CRUNCH46 opponent campaigns", () => {
       const flow = world.history.resourceFlows.find(
         (record) => record.id === step.resourceFlowId,
       );
-      if (step.kind === "fundraising" || step.kind === "messaging") {
+      if (
+        step.kind === "messaging" ||
+        (step.kind === "fundraising" && step.amount !== null)
+      ) {
         expect(flow?.basisKind).toBe(
           step.kind === "fundraising"
             ? "custom:campaign-contribution"
@@ -255,9 +304,16 @@ describe("CRUNCH46 opponent campaigns", () => {
       expect(steps.length).toBe(9);
       let balance = 0;
       for (const step of steps) {
-        if (step.kind === "fundraising") balance += step.amount!.minorUnits;
+        if (step.kind === "fundraising")
+          balance += step.amount?.minorUnits ?? 0;
         if (step.kind === "messaging") {
-          expect(step.amount!.minorUnits).toBeGreaterThanOrEqual(20_000);
+          expect(step.amount!.minorUnits).toBeGreaterThanOrEqual(
+            Math.min(
+              ...CAMPAIGN_AD_CHANNELS.map(
+                (channel) => channel.minimumBuyMinorUnits,
+              ),
+            ),
+          );
           expect(step.amount!.minorUnits).toBeLessThanOrEqual(balance);
           balance -= step.amount!.minorUnits;
         }
@@ -282,14 +338,44 @@ describe("CRUNCH46 opponent campaigns", () => {
   }, 300_000);
 
   it.each([
-    // Pinned seeds: the organizer's own seeded decision differs between them.
-    ["opponents-support-47", "deferred"],
+    // Pinned seeds whose rival raises enough to ask within the window. The
+    // organizer reads the same records in both: a candidate of the
+    // chapter's own party, no finding against them, and no other candidate
+    // already helped. Those records grant the request.
     ["opponents-support-8", "granted"],
+    ["opponents-support-2", "granted"],
   ] as const)(
-    "records a chapter's %s decision on a support request without touching the race",
+    "records a chapter's decision on a support request without touching the race (%s)",
     (seed, expectedDecision) => {
-      const filed = fileRace(seed, { electionInDays: 42, chapters: true });
+      const filed = withRelationshipsRival(
+        fileRace(seed, { electionInDays: 42, chapters: true }),
+      );
+      const spy = vi
+        .spyOn(decisions, "evaluateDecision")
+        .mockImplementation(
+          (
+            world: Parameters<typeof evaluateDecision>[0],
+            input: Parameters<typeof evaluateDecision>[1],
+          ) => {
+            const evaluation = evaluateDecision(world, input);
+            return input.decisionType === "campaign.opponent-weekly-step" &&
+              !campaignOpponentStepRecords(world).some(
+                (step) => step.kind === "support-request",
+              )
+              ? {
+                  ...evaluation,
+                  outcomeKind: "selected",
+                  selectedOptionKey: "support-request",
+                }
+              : evaluation;
+          },
+        );
       const played = advance(filed.world, 34);
+      expect(
+        spy.mock.calls.some(
+          ([, input]) => input.decisionType === "campaign.opponent-weekly-step",
+        ),
+      ).toBe(true);
       const step = campaignOpponentStepRecords(played).find(
         (record) => record.kind === "support-request",
       )!;
@@ -354,10 +440,179 @@ describe("CRUNCH46 opponent campaigns", () => {
     300_000,
   );
 
-  it("scores a field event like a player's canvass and strengthens only a repeat contact", () => {
-    // Pinned seed: this rival favors field work and holds several events.
+  it("reads field effort only from linked completed rival work", () => {
+    let filed = fileRace("opponents-recorded-field", { electionInDays: 60 });
+    // Field gain is recognition-weighted. Record a small, fixed set of real
+    // campaign contacts so this reader test exercises a positive measured gain.
+    const residents = doorKnockingReturn(
+      filed.world,
+      filed.campaign,
+    ).adultResidentIds.slice(0, 2);
+    let contacted = filed.world;
+    for (const residentId of residents) {
+      const event = recordWorldEvent(contacted, {
+        stableKey: `opponents-recorded-field:contact:${residentId}`,
+        type: "campaign.fixture-contact",
+        occurredAt: contacted.currentDate,
+        recordedAt: contacted.currentDate,
+        jurisdictionId: filed.campaign.jurisdictionId,
+        involvedEntityIds: [filed.rivalPersonId, residentId],
+        participants: [
+          {
+            personId: filed.rivalPersonId,
+            role: "presence:participant",
+            detail: "Met a voter",
+          },
+          {
+            personId: residentId,
+            role: "presence:participant",
+            detail: "Met the candidate",
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: ["campaign.fixture"],
+        summary: "A recorded rival campaign contact.",
+        context: {
+          location: {
+            jurisdictionId: filed.campaign.jurisdictionId,
+            label: "Test",
+            setting: "campaign event",
+          },
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const eventId = event.history.events.at(-1)!.id;
+      contacted = recordRelationshipInteraction(event, {
+        stableKey: `opponents-recorded-field:contact:${residentId}`,
+        personIds: [filed.rivalPersonId, residentId],
+        eventId,
+        occurredAt: event.currentDate,
+        kind: CAMPAIGN_CONTACT_MET_KIND,
+        change: "formed",
+        significance: "minor",
+        summary: "Met during campaign work.",
+        tags: ["campaign.contact"],
+      });
+    }
+    filed = { ...filed, world: contacted };
+    const moment = filed.world.currentMoment;
+    const scheduled = scheduleCampaignAction(filed.world, {
+      campaignId: filed.campaign.id,
+      kind: "outreach",
+      plan: {
+        start: moment,
+        end: { ...moment, minuteOfDay: moment.minuteOfDay + 30 },
+        location: {
+          locationKey: "campaign-outreach",
+          label: "Campaign work",
+          jurisdictionId: filed.campaign.jurisdictionId,
+        },
+        title: "Recorded doors",
+        summary: "A completed field shift.",
+      },
+      spend: null,
+    });
+    const activityId = scheduled.action.scheduledActivityId;
+    const outcomeEventId = scheduled.world.history.events.at(-1)!.id;
+    const timing = scheduledActivityState(scheduled.world, activityId);
+    const world: World = {
+      ...scheduled.world,
+      currentMoment: timing.end,
+      currentDate: timing.end.date,
+      history: {
+        ...scheduled.world.history,
+        scheduledActivities: scheduled.world.history.scheduledActivities.map(
+          (record) =>
+            record.id === activityId
+              ? { ...record, participantPersonIds: [filed.rivalPersonId] }
+              : record,
+        ),
+        scheduledActivityStates:
+          scheduled.world.history.scheduledActivityStates.map((record) =>
+            record.id === timing.id
+              ? {
+                  ...record,
+                  status: "completed",
+                  change: "completed",
+                  outcomeEventId,
+                }
+              : record,
+          ),
+      },
+    };
+    const read = (value: World, candidate = filed.rivalPersonId) =>
+      requestedCompletedCampaignFieldGainBasisPoints(
+        value,
+        filed.campaign,
+        candidate,
+        outcomeEventId,
+      );
+    expect(read(scheduled.world)).toBe(0);
+    const expected = requestedCampaignFieldGainBasisPoints(
+      filed.world,
+      { ...filed.campaign, candidatePersonId: filed.rivalPersonId },
+      30,
+      1,
+    );
+    expect(expected).toBeGreaterThan(0);
+    expect(read(world)).toBe(expected);
+    expect(read(world, filed.candidatePersonId)).toBe(0);
+    expect(
+      read({
+        ...world,
+        history: { ...world.history, scheduledActivityStates: [] },
+      }),
+    ).toBe(0);
+    expect(
+      read({
+        ...world,
+        history: {
+          ...world.history,
+          scheduledActivityStates: world.history.scheduledActivityStates.map(
+            (record) => ({ ...record, end: record.start }),
+          ),
+        },
+      }),
+    ).toBe(0);
+  });
+
+  it("gives undated-duration field work zero effect and strengthens only a repeat contact", () => {
     const filed = fileRace("opponents-money-b", { electionInDays: 60 });
+    const spy = vi
+      .spyOn(decisions, "evaluateDecision")
+      .mockImplementation(
+        (
+          world: Parameters<typeof evaluateDecision>[0],
+          input: Parameters<typeof evaluateDecision>[1],
+        ) => {
+          const evaluation = evaluateDecision(world, input);
+          return input.decisionType === "campaign.opponent-weekly-step" &&
+            evaluation.context.considerations.some(
+              (consideration) => consideration.optionKey === "field-event",
+            )
+            ? {
+                ...evaluation,
+                outcomeKind: "selected",
+                selectedOptionKey: "field-event",
+              }
+            : evaluation;
+        },
+      );
     const world = advance(filed.world, 59);
+    expect(
+      spy.mock.calls.some(
+        ([, input]) =>
+          input.decisionType === "campaign.opponent-weekly-step" &&
+          input.considerations.some(
+            (consideration) => consideration.optionKey === "field-event",
+          ),
+      ),
+    ).toBe(true);
     const opponent = campaignOpponentRecords(world)[0]!;
     const fieldSteps = campaignOpponentStepRecords(world).filter(
       (step) => step.kind === "field-event",
@@ -379,7 +634,7 @@ describe("CRUNCH46 opponent campaigns", () => {
       expect(event.participants.map((participant) => participant.role)).toEqual(
         ["presence:participant", "presence:participant"],
       );
-      // Ninety minutes, two people, swing 60-140: the player's own formula.
+      // Public presence is not a completed duration record.
       const rivalState = world.history.metricStates.find(
         (state) =>
           step.supportStateIds.includes(state.id) &&
@@ -398,7 +653,7 @@ describe("CRUNCH46 opponent campaigns", () => {
         .at(-1)!;
       const gain = rivalShare(rivalState.id) - rivalShare(previous.id);
       expect(gain).toBeGreaterThanOrEqual(0);
-      expect(gain).toBeLessThanOrEqual(Math.floor((90 * 2 * 3 * 140) / 200));
+      expect(gain).toBeLessThanOrEqual(0);
 
       const contacts = world.history.relationshipInteractions.filter(
         (interaction) => interaction.eventId === event.id,
@@ -434,10 +689,14 @@ describe("CRUNCH46 opponent campaigns", () => {
   }, 300_000);
 
   it("does not keep choosing a chapter request a rival has no chapter for", () => {
-    // Pinned seed: this rival values relationships, and the World has no
-    // party chapters, so asking one is not a real option.
-    const filed = fileRace("opponents-money-a", { electionInDays: 60 });
-    const world = advance(filed.world, 59);
+    // This rival values relationships, and the World has no party chapters,
+    // so asking one is not a real option.
+    const race = fileRace("opponents-money-a", { electionInDays: 60 });
+    const filed = withRelationshipsRival(race);
+    const world = advance(
+      filed.world,
+      59 - daysBetween(race.world.currentDate, filed.world.currentDate),
+    );
     expect(campaignOpponentRecords(world)[0]!.emphasis).toBe("relationships");
     const fallbacks = campaignOpponentStepRecords(world).filter((step) => {
       const event = world.history.events.find(
@@ -621,4 +880,153 @@ describe("CRUNCH46 opponent campaigns", () => {
       }).status,
     ).toBe("blocked");
   }, 300_000);
+});
+
+describe("A123: a rival campaign acts from its records, not draws", () => {
+  // A place drawn at random from all 56 among those with an office to run
+  // for; the title names it and the seed.
+  const PLACE_SEED = "a123-rival-place";
+  const place = drawRandomPlace(
+    PLACE_SEED,
+    (candidate) =>
+      electiveOfficesForJurisdiction(candidate.context.jurisdiction.id).length >
+      0,
+  );
+  const where = `${place.displayName}, place seed ${PLACE_SEED}`;
+  const race = fileRace("a123-rival-race", { electionInDays: 60, place });
+
+  it(`decides each rival's emphasis from their recorded temperament alone (${where})`, () => {
+    for (const seed of ["a123-first-seed", "a123-second-seed"]) {
+      let world = fileRace(seed, { electionInDays: 60, place }).world;
+      for (
+        let day = 0;
+        day < 14 && !campaignOpponentRecords(world).length;
+        day++
+      )
+        world = advance(world, 1);
+      const opponent = campaignOpponentRecords(world)[0]!;
+      const trace = world.history.decisionTraces.find(
+        (record) =>
+          record.context.decisionType === "campaign.opponent-emphasis" &&
+          record.context.actorPersonId === opponent.candidatePersonId,
+      );
+      // A rival with no leaning trait holds no emphasis and records no
+      // decision; otherwise the recorded decision's reasons are all the
+      // rival's own personality records, and its answer is the emphasis.
+      if (opponent.emphasis === null) {
+        expect(trace).toBeUndefined();
+        continue;
+      }
+      expect(trace?.selectedOptionKey).toBe(opponent.emphasis);
+      expect(trace!.context.considerations.length).toBeGreaterThan(0);
+      for (const consideration of trace!.context.considerations) {
+        expect(consideration.sourceType).toBe("mind:personality");
+        expect(consideration.sourceRefs[0]?.kind).toBe("personality-tendency");
+      }
+    }
+  }, 120_000);
+
+  it(`spends what the account holds on a message, up to the planned amount (${where})`, () => {
+    const world = advance(race.world, 59);
+    const committee =
+      campaignOpponentRecords(world)[0]!.committeeOrganizationId;
+    const billsBefore = (sequence: number) =>
+      campaignOperatingSpending(world, committee) -
+      campaignOperatingSpending(world, committee, sequence);
+    const position = world.history.resourcePositions.find(
+      (row) =>
+        row.owner.kind === "organization" &&
+        row.owner.organizationId === committee,
+    )!;
+    expect(position.provenance.kind).toBe("source-record");
+    let raisedLessSpent = position.openingBalance.minorUnits;
+    let messages = 0;
+    for (const step of campaignOpponentStepRecords(world)) {
+      if (step.kind === "fundraising")
+        raisedLessSpent += step.amount?.minorUnits ?? 0;
+      if (step.kind === "messaging") {
+        messages += 1;
+        // The account before the message: money raised, less earlier
+        // messages and the committee's ordinary bills.
+        const account = raisedLessSpent - billsBefore(step.sequence);
+        const opponent = campaignOpponentRecords(world).find(
+          (row) => row.id === step.opponentId,
+        )!;
+        const contest = requireElectionContest(world, opponent.contestId);
+        const district = contestDistrictGeography(contest.office);
+        const geography = district
+          ? { ...district, kind: "district" as const }
+          : {
+              key: `jurisdiction:${contest.jurisdictionId}`,
+              label:
+                world.jurisdictions[contest.jurisdictionId]?.name ??
+                "the campaign jurisdiction",
+              kind: "jurisdiction" as const,
+            };
+        const proposal = suggestedAdvertising(
+          { minorUnits: account, currency: step.amount!.currency },
+          geography,
+        );
+        expect(proposal).not.toBeNull();
+        expect(step.amount!.minorUnits).toBe(
+          proposal!.buys * proposal!.advertising.amount.minorUnits,
+        );
+        const flow = world.history.resourceFlows.find(
+          (row) => row.id === step.resourceFlowId,
+        )!;
+        expect(flow.source).toEqual({
+          kind: "organization",
+          organizationId: opponent.committeeOrganizationId,
+        });
+        expect(flow.recipient).toEqual({
+          kind: "organization",
+          organizationId: opponent.vendorOrganizationId,
+        });
+        raisedLessSpent -= step.amount!.minorUnits;
+      }
+    }
+    expect(campaignOpponentStepRecords(world).length).toBeGreaterThan(0);
+    console.log(
+      JSON.stringify({
+        a123: "rival steps",
+        place: place.displayName,
+        steps: campaignOpponentStepRecords(world).map((step) => step.kind),
+        messages,
+      }),
+    );
+  }, 120_000);
+});
+
+it("estimates committee cash only from recorded same-office accounts", () => {
+  const filed = fileRace("opponents-recorded-cash-estimate");
+  const position = filed.world.history.resourcePositions.find(
+    (row) =>
+      row.owner.kind === "organization" &&
+      row.owner.organizationId === filed.campaign.organizationId,
+  )!;
+  // Controlled saved account, not a production cash calibration.
+  const recorded: World = {
+    ...filed.world,
+    history: {
+      ...filed.world.history,
+      resourcePositions: filed.world.history.resourcePositions.map((row) =>
+        row.id === position.id
+          ? {
+              ...row,
+              openingBalance: { ...row.openingBalance, minorUnits: 12000 },
+            }
+          : row,
+      ),
+    },
+  };
+  const estimate = comparableCampaignCommitteeBalance(recorded, filed.campaign);
+  expect(estimate.amount).toEqual({
+    minorUnits: 12000,
+    currency: filed.campaign.treasuryCurrency,
+  });
+  expect(estimate.sourceRecordIds).toContain(position.id);
+  expect(
+    comparableCampaignCommitteeBalance(filed.world, filed.campaign).amount
+      .minorUnits,
+  ).toBe(0);
 });

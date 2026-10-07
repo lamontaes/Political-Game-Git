@@ -1,9 +1,6 @@
-import { beforeAll, describe, expect, it } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { legacyPolicyMemberBallot } from "../../../tests/fixtures/a79-legacy-policy-ballot";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stateCandidacyPack } from "../candidacy-packs";
 import {
   constitutionalActions,
@@ -54,6 +51,9 @@ import {
 } from "../world";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createFormationContext, recordPrinciples } from "../politics";
+import * as chamberVotes from "./chamber-votes";
+
+afterEach(() => vi.restoreAllMocks());
 
 // The substrate cases retain authored choices. The A79 migration cases below
 // exercise the shared state evaluator and the actual policy recording caller.
@@ -77,18 +77,14 @@ let beforeProposal: World;
 let personId: EntityId;
 let measureId: EntityId;
 beforeAll(() => {
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped",
-    }),
-  ).game!;
-  personId = game.playerPersonId;
+  const small = smallWorld({
+    place: place.key,
+    seed,
+    offices: ["state-legislature"],
+  });
+  personId = small.personId;
   world = ensureStateLegislatureOpening(
-    game.world,
+    small.world,
     personId,
     state.jurisdictionKey.slice(3),
   );
@@ -360,12 +356,13 @@ describe("A79 shared saved state policy proposal votes", () => {
     const examples: { name: string; ballot: string }[] = [];
     for (const { body } of actualBodies(at)) {
       const input = ballotInput(at, body.bodyKey);
-      const shared = decideChamberVote(at, input);
+      const shared = memberBallot(at, input);
+      expect(shared).toEqual(decideChamberVote(at, input));
       expect(shared.map((row) => [row.memberKey, row.personId])).toEqual(
         input.members.map((row) => [row.memberKey, row.personId]),
       );
       for (const [index, member] of input.members.entries()) {
-        const old = memberBallot(
+        const old = legacyPolicyMemberBallot(
           at,
           `${measure.stableKey}:${member.personId}`,
           member.personId!,
@@ -533,6 +530,107 @@ describe("A79 shared saved state policy proposal votes", () => {
     );
   });
 
+  function endMembersForQuorum(count: number): World {
+    const { seated } = actualBodies(world)[0]!;
+    let at = world;
+    for (const [index, member] of seated.body.members
+      .slice(0, count)
+      .entries()) {
+      const tenure = stateLegislators(
+        at,
+        stateCandidacyPack(state.jurisdictionKey)!.packId,
+      ).find((row) => row.personId === member.personId)!;
+      const prior = at.history.workStatuses
+        .filter((row) => row.workRelationshipId === tenure.workRelationshipId)
+        .at(-1)!;
+      at = recordWorkStatus(at, {
+        stableKey: `constitutional-quorum:ended:${index}`,
+        workRelationshipId: tenure.workRelationshipId,
+        effectiveAt: at.currentDate,
+        status: "ended",
+        reason:
+          "Authored dated tenure endings for a quorum boundary, not benchmark attendees.",
+        provenance: {
+          kind: "authored",
+          note: "Controlled vacancy boundary on actual saved legislators.",
+        },
+        supersedesStatusId: prior.id,
+      });
+    }
+    return at;
+  }
+
+  it("keeps a proposal pending when all actual proposing-body tenures have ended", () => {
+    const { body, seated } = actualBodies(world)[0]!;
+    const at = endMembersForQuorum(seated.seats);
+    expect(
+      ballotInput(at, body.bodyKey).members.every(
+        (member) => member.personId === null,
+      ),
+    ).toBe(true);
+    const saved = recordStatePolicyProposalVotes(at, measureId);
+    expect(saved).toBe(at);
+    expect(constitutionalPosition(saved, measureId).phase).toBe(
+      "consideration",
+    );
+    expect(
+      constitutionalActions(saved, measureId).some(
+        (action) => action.detail.kind === "proposal-vote",
+      ),
+    ).toBe(false);
+    const loaded = deserializeWorld(serializeWorld(saved));
+    expect(recordStatePolicyProposalVotes(loaded, measureId)).toBe(loaded);
+  });
+
+  it("does not submit a rollcall at or below half while the canonical quorum guard stays strict", () => {
+    const { body, seated } = actualBodies(world)[0]!;
+    const at = endMembersForQuorum(seated.seats - Math.floor(seated.seats / 2));
+    const input = ballotInput(at, body.bodyKey);
+    const dispositions = memberBallot(at, input);
+    expect(
+      dispositions.filter((row) => row.disposition !== "absent"),
+    ).toHaveLength(Math.floor(seated.seats / 2));
+    expect(() =>
+      recordConstitutionalProposalVote(
+        at,
+        measureId,
+        body.bodyKey,
+        dispositions,
+        seated.seats,
+        {
+          method: "member-decisions",
+          note: "Authored quorum boundary; canonical guard must refuse.",
+          sourceEntityIds: [],
+        },
+      ),
+    ).toThrow("The rollcall must record actual presence and a quorum.");
+    expect(recordStatePolicyProposalVotes(at, measureId)).toBe(at);
+    expect(constitutionalPosition(at, measureId).phase).toBe("consideration");
+  });
+
+  it("records a real quorum just above half and retains the ended seats as absences", () => {
+    const { body, seated } = actualBodies(world)[0]!;
+    const present = Math.floor(seated.seats / 2) + 1;
+    const at = endMembersForQuorum(seated.seats - present);
+    const saved = recordStatePolicyProposalVotes(at, measureId);
+    const action = constitutionalActions(saved, measureId).find(
+      (row) =>
+        row.detail.kind === "proposal-vote" &&
+        row.detail.bodyKey === body.bodyKey,
+    )!;
+    expect(action).toBeDefined();
+    if (action.detail.kind !== "proposal-vote")
+      throw Error("Missing quorum vote.");
+    expect(action.detail.vote.presentMembers).toBe(present);
+    expect(action.detail.vote.eligibleMembers).toBe(seated.seats);
+    expect(
+      action.detail.vote.dispositions.filter(
+        (row) => row.personId === null && row.disposition === "absent",
+      ),
+    ).toHaveLength(seated.seats - present);
+    expect(recordStatePolicyProposalVotes(saved, measureId)).toBe(saved);
+  });
+
   it("records an actual ended seat as absent with no replacement person", () => {
     const { body, seated } = actualBodies(world)[0]!;
     const member = seated.body.members[0]!;
@@ -580,6 +678,7 @@ describe("A79 shared saved state policy proposal votes", () => {
   });
 
   it("uses the ordinary review caller to save a proposal before actual state rollcalls", () => {
+    const evaluator = vi.spyOn(chamberVotes, "decideChamberVote");
     let at = authoredViews(beforeProposal, true);
     const year = Number(at.currentDate.slice(0, 4));
     const stableKey = `constitutional-reform/v1:${state.jurisdictionKey.slice(3)}:${year}:review`;
@@ -614,9 +713,35 @@ describe("A79 shared saved state policy proposal votes", () => {
     expect(votes).toHaveLength(
       stateAmendmentProfile(state.jurisdictionKey)!.bodies.length,
     );
+    const evaluated = evaluator.mock.calls.flatMap(([world, input], index) =>
+      input.kind === "constitutional" &&
+      input.constitutionalMeasureId === proposal.id
+        ? [{ world, input, result: evaluator.mock.results[index]! }]
+        : [],
+    );
+    expect(evaluated).toHaveLength(votes.length);
     for (const action of votes) {
       if (action.detail.kind !== "proposal-vote")
         throw Error("Missing rollcall.");
+      const { bodyKey, vote } = action.detail;
+      const call = evaluated.find((entry) => entry.input.bodyKey === bodyKey);
+      expect(call).toBeDefined();
+      expect(call!.world.history.constitutionalMeasures).toContainEqual(
+        proposal,
+      );
+      expect(
+        call!.input.members.map(({ memberKey, personId }) => ({
+          memberKey,
+          personId,
+        })),
+      ).toEqual(
+        vote.dispositions.map(({ memberKey, personId }) => ({
+          memberKey,
+          personId,
+        })),
+      );
+      expect(call!.result.type).toBe("return");
+      expect(call!.result.value).toEqual(vote.dispositions);
       expect(action.sequence).toBeGreaterThan(proposal.sequence);
       expect(action.detail.vote.provenance.method).toBe("member-decisions");
       expect(
@@ -678,6 +803,146 @@ describe("A79 shared saved state policy proposal votes", () => {
     });
     expect(refusalContext).toContain("congressional delegation cannot cast");
     expect(unseated.history.constitutionalMeasures ?? []).toHaveLength(0);
+  });
+
+  it("saves a cause-backed policy proposal rejected by actual members instead of suppressing its rollcall", () => {
+    let at = authoredViews(beforeProposal, true);
+    const memberIds = new Set(
+      actualBodies(at).flatMap(({ seated }) =>
+        seated.body.members.map((member) => member.personId),
+      ),
+    );
+    const latest = new Map<string, World["history"]["principles"][number]>();
+    for (const record of at.history.principles) {
+      if (memberIds.has(record.personId) && record.formedAt <= at.currentDate)
+        latest.set(`${record.personId}:${record.principleId}`, record);
+    }
+    at = recordPrinciples(
+      at,
+      [...latest.values()].map((record) => ({
+        stableKey: `a79:slight-policy-cause:${record.id}`,
+        personId: record.personId,
+        principleId: record.principleId,
+        formedAt: at.currentDate,
+        stance: record.stance,
+        strength: 0.001,
+        conviction: record.conviction,
+        flexibility: record.flexibility,
+        qualification: record.qualification,
+        formation: createFormationContext("other:drawn-before-play", {
+          note: "Authored slight policy preference on actual members; the existing constitutional bar can outweigh it.",
+        }),
+        supersedesPrincipleRecordId: record.id,
+      })),
+    );
+    const stableKey = `constitutional-reform/v1:${state.jurisdictionKey.slice(3)}:${at.currentDate.slice(0, 4)}:review`;
+    at = scheduleFutureDueItem(at, {
+      stableKey,
+      dueAt: addDays(at.currentDate, 1),
+      transitionKey: CONSTITUTIONAL_REFORM_REVIEW,
+      entityIds: [jurisdiction.id],
+      jurisdictionId: jurisdiction.id,
+      provenance: {
+        kind: "authored",
+        note: "Controlled scheduled review of a real principle-backed policy cause, not natural filing.",
+      },
+    });
+    const saved = advanceWorld(at, 1, {
+      get: (key) =>
+        key === CONSTITUTIONAL_REFORM_REVIEW
+          ? constitutionalReformReviewHandler
+          : undefined,
+    });
+    const proposal = saved.history.constitutionalMeasures!.find(
+      (row) => row.ruleDelta.kind === "policy-provision",
+    )!;
+    expect(proposal).toBeDefined();
+    if (proposal.ruleDelta.kind !== "policy-provision")
+      throw Error("Missing real policy cause.");
+    const delta = proposal.ruleDelta;
+    const vote = constitutionalActions(saved, proposal.id).find(
+      (row) => row.detail.kind === "proposal-vote",
+    )!;
+    if (vote.detail.kind !== "proposal-vote")
+      throw Error("Missing rejected rollcall.");
+    const actual = stateConstitutionalBody(
+      saved,
+      proposal.id,
+      vote.detail.bodyKey,
+    ).seated.body.members;
+    const old = actual.map((member) =>
+      legacyPolicyMemberBallot(
+        saved,
+        `${proposal.stableKey}:${member.memberKey}`,
+        member.personId!,
+        delta.propositionId,
+        delta.stance === "adopt" ? "yes" : "no",
+      ),
+    );
+    const oldForecast = actualBodies(saved).flatMap(({ seated }) =>
+      seated.body.members.map((member) =>
+        legacyPolicyMemberBallot(
+          saved,
+          `${proposal.stableKey}:${member.memberKey}`,
+          member.personId!,
+          delta.propositionId,
+          delta.stance === "adopt" ? "yes" : "no",
+        ),
+      ),
+    );
+    expect(oldForecast.every((row) => row.ballot === "nay")).toBe(true);
+    expect(vote.detail.vote.dispositions.map((row) => row.disposition)).toEqual(
+      old.map((row) => row.ballot),
+    );
+    expect(vote.detail.vote.dispositions.map((row) => row.personId)).toEqual(
+      actual.map((row) => row.personId),
+    );
+    expect(
+      vote.detail.vote.dispositions.every(
+        (row) => row.reason === "member:constitutional-bar",
+      ),
+    ).toBe(true);
+    expect(vote.sequence).toBeGreaterThan(proposal.sequence);
+    expect(constitutionalPosition(saved, proposal.id).phase).toBe("rejected");
+    expect(
+      saved.history.futureDueItems.some((row) =>
+        row.stableKey.startsWith(`${proposal.stableKey}:ballot:`),
+      ),
+    ).toBe(false);
+    const loaded = deserializeWorld(serializeWorld(saved));
+    expect(constitutionalActions(loaded, proposal.id)).toEqual(
+      constitutionalActions(saved, proposal.id),
+    );
+    const due = loaded.history.futureDueItems.find(
+      (row) => row.stableKey === stableKey,
+    )!;
+    const repeated = constitutionalReformReviewHandler(loaded, due).world;
+    expect(repeated.history.constitutionalMeasures).toEqual(
+      loaded.history.constitutionalMeasures,
+    );
+    expect(repeated.history.constitutionalActions).toEqual(
+      loaded.history.constitutionalActions,
+    );
+    console.info(
+      "A79 rejected policy filing receipt",
+      JSON.stringify({
+        seed,
+        place: place.displayName,
+        state: state.jurisdictionKey,
+        proposalId: proposal.id,
+        propositionId: proposal.ruleDelta.propositionId,
+        phase: "rejected",
+        recordedMembers: actual.length,
+        oldForecastMembers: oldForecast.length,
+        question: saved.policyCatalog.propositions[delta.propositionId]!.name,
+        oldPrefilingGate:
+          "suppressed proposal because every forecast ballot was nay",
+        example: actual[0]!.name,
+        reason: vote.detail.vote.dispositions[0]!.reason,
+        fixture:
+          "Authored slight principles; actual scheduled review, saved proposal and real chamber rollcall",
+      }),
+    );
   });
 
   it("refuses a closed actual body before forming member principles", () => {

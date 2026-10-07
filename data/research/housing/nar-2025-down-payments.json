@@ -1,0 +1,13 @@
+{
+  "id": "nar-2025-down-payments",
+  "publisher": "National Association of REALTORS",
+  "title": "2025 Profile of Home Buyers and Sellers",
+  "url": "https://www.nar.realtor/newsroom/first-time-home-buyer-share-falls-to-historic-low-of-21-median-age-rises-to-40",
+  "retrievedOn": "2026-10-02",
+  "basis": "national median down-payment share; opening estimate, not an individual loan offer",
+  "firstTime": {
+    "medianShare": 0.1,
+    "quotation": "10% median down payment – matching the highest level recorded since 1989"
+  },
+  "repeat": { "medianShare": 0.23, "quotation": "23% median down payment" }
+}

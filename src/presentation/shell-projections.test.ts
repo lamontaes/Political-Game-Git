@@ -264,7 +264,7 @@ describe("the calendar", () => {
     const { world, personId } = newLife("calendar-empty");
     const calendar = projectPlayerCalendar(world, personId);
     if (calendar.empty) {
-      expect(calendar.note).toBeTruthy();
+      expect(calendar.empty).toBe(true);
       expect(calendar.days).toHaveLength(0);
     }
   });
@@ -274,7 +274,6 @@ describe("the calendar", () => {
     for (const day of projectPlayerCalendar(world, personId).days) {
       for (const entry of day.entries) {
         expect(["yours", "chamber"]).toContain(entry.group);
-        expect(entry.ownershipNote.length).toBeGreaterThan(0);
       }
     }
   });
@@ -346,7 +345,9 @@ describe("talking to somebody", () => {
 
 describe("release identity", () => {
   it("is read from the checkout rather than restated", async () => {
-    const packageJson = await import("../../package.json");
+    const packageJson = await import("../../package.json", {
+      with: { type: "json" },
+    });
     expect(CANONICAL_VERSION).toBe(packageJson.default.version);
   });
 

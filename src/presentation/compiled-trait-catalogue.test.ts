@@ -36,7 +36,13 @@ const CATALOGUE: TraitPack = {
         balancedDescription: "No marked lean either way.",
         steps: [{ magnitude: 1, strength: "moderate" }],
       },
-      seed: { spread: [-1, 1] },
+      seed: {
+        spread: [-1, 1],
+        follows: [
+          "personality-v1:voluntary-effort",
+          "personality-v1:facet-practical",
+        ],
+      },
       movability: {
         settledByStrength: {
           subtle: 1.5,
@@ -73,7 +79,7 @@ describe("a trait pack compiled into the build", () => {
     const { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } =
       await import("./new-game");
     const { openOrdinaryLife } = await import("./ordinary-life");
-    const { contactBases } = await import("../simulation/people-contact");
+    const { contactBases } = await import("../simulation/relationship-contact");
 
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,

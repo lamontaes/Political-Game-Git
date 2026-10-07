@@ -1,5 +1,10 @@
 import { makeIsoDate } from "./dates";
-import { activateEffect, recordCausalProcess } from "./causal-effects";
+import {
+  OUTCOME_LINKS,
+  outcomeLinksFedByQuestion,
+  type OutcomeLink,
+} from "./outcome-web";
+import { activateEffect, recordCausalProcess } from "./effect-records";
 import {
   futureTransitionEntityAvailableAt,
   futureTransitionEntityExists,
@@ -66,6 +71,14 @@ import {
 } from "./world-metrics";
 
 const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
+
+/** A law projects through the same rows its live outcome producers read. */
+export function policyOutcomeLinks(
+  questionKey: string,
+): readonly OutcomeLink[] {
+  const matching = new Set(outcomeLinksFedByQuestion(questionKey));
+  return OUTCOME_LINKS.filter((link) => matching.has(link));
+}
 const IMPLEMENTATION_FACTOR_ORDER = [
   "authority",
   "funding",

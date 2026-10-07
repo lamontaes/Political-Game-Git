@@ -11,6 +11,8 @@
  * enacted in play that starts or ends a program starts or ends its benefits.
  *
  * Game rules, labeled:
+ * - An operative enacted law's final `replacement` share governs first.
+ *   Filed terms and invalid units or shares do not replace the rate below.
  * - The share replaced is the program's first-tier rate, the rate for lower
  *   weekly wages, read from each program's own benefit page
  *   (`state-paid-leave-benefits-2026.json`). A worker losing pay here holds a
@@ -39,6 +41,7 @@ import {
 import { rankedPaidLeaveEstimate } from "./paid-leave-estimates";
 import { PAID_LEAVE_QUESTION, paidLeavePremium } from "./state-paid-leave-law";
 import { lawInForce } from "./governing/law-in-force";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import { lawEffectStamp } from "./law-effect-stamp";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
 import type { EntityId, IsoDate, World } from "./types";
@@ -89,6 +92,25 @@ export function paidLeaveBenefitRate(
   const maxWeekly = MAX_WEEKLY[stateKey] ?? null;
   const maxWeeklyMinor =
     maxWeekly === null ? null : Math.round(maxWeekly * 100);
+  const state = chiefExecutiveJurisdiction(stateKey.slice(3));
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (definition) => definition.stableKey === PAID_LEAVE_QUESTION,
+  );
+  const law =
+    state && proposition
+      ? lawInForce(world, state.id, proposition.id, paidAt, "enacted-only")
+      : null;
+  const replacement =
+    law?.answer === "yes"
+      ? readFinalEnactedLawTerm(world, law, {
+          questionKey: PAID_LEAVE_QUESTION,
+          termKey: "replacement",
+          unit: "ratio",
+          onDate: paidAt,
+        })
+      : null;
+  if (replacement && replacement.value >= 0 && replacement.value <= 1)
+    return { percent: replacement.value * 100, maxWeeklyMinor };
   const read = PLACES[stateKey];
   if (read?.status === "read" && read.lowWageReplacementPercent !== null)
     return { percent: read.lowWageReplacementPercent, maxWeeklyMinor };

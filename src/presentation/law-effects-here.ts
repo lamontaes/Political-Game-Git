@@ -33,7 +33,7 @@ export interface LawEffectHere {
   readonly month: IsoDate;
   readonly value: number;
   readonly valueText: string;
-  /** The value the condition would have without this law's part. */
+  /** The model-estimated value without this law's part; not an observation. */
   readonly withoutLaw: number;
   readonly withoutLawText: string;
   readonly direction: "higher" | "lower";
@@ -46,10 +46,16 @@ const LAW_CAUSE_PREFIX = "law:";
 const LEVEL_WORDS: Readonly<Record<LawLevel, string>> = {
   "federal-constitution": "The U.S. Constitution",
   "federal-statute": "Federal law",
+  "federal-regulation": "Federal regulation",
+  "federal-executive-order": "A federal executive order",
   "state-constitution": "The state constitution",
   "state-statute": "State law",
+  "state-regulation": "State regulation",
+  "state-executive-order": "A state executive order",
   "local-charter": "The local charter",
   "local-ordinance": "Local law",
+  "local-regulation": "Local regulation",
+  "local-executive-order": "A local executive order",
 };
 
 /** A rounded value reads the same way the records write it. */
@@ -132,7 +138,7 @@ export function lawEffectsHere(
         headline: `${sentenceCase(definition.name)} runs ${direction} because of a change in the law`,
         sentence:
           `${level} now says ${answer} to “${question.name}”, in force since ${proseDate(law.operativeAt)}. ` +
-          `Here it stands at ${valueText}. Without that change it would stand at ${withoutLawText}.`,
+          `Here it stands at ${valueText}. The game’s model estimates that without this change it would stand at ${withoutLawText}.`,
       });
     }
   }

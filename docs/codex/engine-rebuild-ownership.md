@@ -115,7 +115,6 @@ Team 9 now owns only electedExecutiveTermTransitionHandler's actual-entry post-a
 
 These entries record ownership, not runtime acceptance or merge approval.
 
-
 ## CTO check-ins 17 and 18: October 1
 
 These grants supersede earlier held entries only for the named surfaces. They do not establish merge or runtime acceptance.
@@ -131,7 +130,6 @@ These grants supersede earlier held entries only for the named surfaces. They do
 - Team 8 owns the bounded crisis record-parent lookup repair admitting existing resourceFlowTerms, with missing and non-earlier parent rejection preserved. Team 4 supplied its exact failing renewal fixture and retains rent source ownership.
 
 The active coordinator document is 00c. Completion requires the full rebuild docket, every effects-map link running or explicitly unsupported with a reason, passing multi-year behavior checks, and all checks green on final main. CTO heartbeat silence after 60 minutes narrows work to existing rulings; after 120 minutes finish and publish the current piece, then stop for renewed CTO or owner direction. The coordinator never merges.
-
 
 ## October 1, 8:03 a.m. Eastern: A102 narrow transfer
 

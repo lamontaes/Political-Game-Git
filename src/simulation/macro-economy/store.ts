@@ -167,13 +167,13 @@ export function assertMacroEconomyIntegrity(world: World): void {
     shockKeys.add(shock.key);
     dedupeKeys.add(shock.dedupeKey);
     if (!MACRO_SHOCK_KINDS.includes(shock.kind)) {
-      throw new Error(`Unknown macro shock kind: ${shock.key}`);
+      throw new Error(`Unsupported macro shock kind: ${shock.key}`);
     }
     if (!eventIds.has(shock.originEventId)) {
       throw new Error(`Macro shock has no canonical origin: ${shock.key}`);
     }
     if (shock.sectors.some((sector) => !GAMEPLAY_SECTORS.includes(sector))) {
-      throw new Error(`Macro shock names an unknown sector: ${shock.key}`);
+      throw new Error(`Macro shock names an unsupported sector: ${shock.key}`);
     }
     makeIsoDate(shock.beginsAt);
     makeIsoDate(shock.recordedAt);
@@ -297,7 +297,7 @@ export function assertMacroEconomyIntegrity(world: World): void {
     }
     for (const shockKey of month.shockKeys) {
       if (!shockKeys.has(shockKey)) {
-        throw new Error(`Macro month cites an unknown shock: ${month.key}`);
+        throw new Error(`Macro month cites a missing shock: ${month.key}`);
       }
     }
   }
@@ -351,5 +351,5 @@ export function assertMacroEconomyIntegrity(world: World): void {
       throw new Error("The central bank's record is invalid.");
   }
   if (store.cycle && store.cycle.eventId && !eventIds.has(store.cycle.eventId))
-    throw new Error("The business cycle cites an unknown event.");
+    throw new Error("The business cycle cites a missing event.");
 }

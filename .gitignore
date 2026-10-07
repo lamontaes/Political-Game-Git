@@ -55,3 +55,6 @@ docs/prose-inventory/coverage-counts.json
 # it before reading it back. Both pass identically with it untracked.
 # `classification.json` beside it is written by a person and stays tracked.
 docs/dehardwire/census.json
+
+# Written by npm run audit:scan; regenerated on every run, so never committed.
+scripts/audit/scan-result.json

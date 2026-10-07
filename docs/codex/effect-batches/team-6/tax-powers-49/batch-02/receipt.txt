@@ -1,0 +1,14 @@
+Scope: CTO06:17 #1341, second official state tax-power source batch.
+Five additional foundations: AZ/DE/ID/KS/IA,13artifactscopes. Total12states includingunchangedAlaska;38otherstates gaps.
+Primary/secondary artifacts: actualofficialrawbytes,HTTPstatus,URL,capturetime,bytecount,SHA256 in retrieval*.json/proposed.json. Captured2026-10-02. Capturetime is not a provedhistoricalvalidityinterval.
+Nonlegalindex/appshells and403/404/500/503fetch outcomes retained; neveradmittedaslegalpower or sourced-none.
+Iowa PDF:27pages,actualofficial2024-amendments codifiededition;existingPDF.js dependency/decodeditem convention; literal decodedspacing preserved,rawPDFhashprimary. No alternate productionparser.
+Existingprovider/capabilityreader reused; legalconstraints are evidence strings, not newconstitutionalcondition enforcement. Idaho row explicitly limited to legislative and business-license foundation; no blanketexcisebase permission.
+Completechangedtest tax-powers.test.ts initial2PASS1FAIL/3 at11:02:19UTC,11.68s: primaryartifactcitationlist erroneously expected to equalmultisource row.
+Repair: exactunionofall citedsupportingartifactcitations now must equalrowcitations; SHA/literalquote/bytecount/date checksretained.
+Renewedcompletechangedfile3/3PASS14.90s(1.01s bodies),stocklimits,native40917exit0. Testedownprojection/test/packetbytes preservedthroughconflict-free currentmainintake.
+Initialscopedtypes1root1056files0diagnostics. Current-mainreceivingtypes recorded separatelybelow.
+Currentmain6ad1064aa280441713da222ea4054410e0360343 receivedadditively atdefcf16217b23a72ad14e030254e2e4a84f9ffac; changes onlyknownmerged1928,notownedtaxpowerbytes. No behavior rerun justforheadmovement.
+ChangedESLint/Prettier/whitespacePASS.
+No fullsuite/LOAD/browser. CTOsourceapproval/officialClaudegate pending. No taxrate,liability,cash,service or completeconstitutionalvalidation proved.
+Current-mainreceivingtypes:1root1056files0diagnostics,exit0. Main6ad+branchA13scan5/6→5/6,no flips; sharedpay-kind rule unchanged.

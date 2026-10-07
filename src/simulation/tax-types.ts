@@ -11,16 +11,26 @@ import type {
 export interface TaxPowerEvidence {
   readonly key: string;
   readonly jurisdictionKey: string;
-  readonly level: "STATE" | "COUNTY" | "MUNICIPALITY";
+  readonly level: "FEDERAL" | "STATE" | "COUNTY" | "MUNICIPALITY";
   /** Required before a local authority can bind a proposal to one government. */
   readonly governmentKey?: string;
-  readonly instrument: "selective-excise" | "sales" | "property";
+  readonly instrument:
+    | "selective-excise"
+    | "sales"
+    | "property"
+    | "wage-income"
+    | "payroll"
+    | "corporate-income";
   readonly asOf: IsoDate;
   readonly sourceArtifactId: string;
   readonly sourceSha256: string;
   readonly sourceUrl: string;
   readonly citations: readonly string[];
   readonly constraints: readonly string[];
+  /** Local evidence only: the status the lookup returned. */
+  readonly authorityStatus?: string;
+  /** True when the evidence rests on a secondary source, not a first-party record. */
+  readonly estimated?: boolean;
 }
 
 /** Immutable identity for an explicitly fictional, versioned game profile.
@@ -51,6 +61,8 @@ export interface TaxTerms {
   readonly assumptionNote: string;
   readonly legalBaselineAssumption:
     "carry-forward-acquired-baseline-in-game" | "authored-state-game-profile";
+  /** Which local tax this is. Absent means the original selective excise. */
+  readonly instrument?: "property" | "sales" | "payroll" | "corporate-income";
 }
 
 interface TaxHistoryRoot {
@@ -156,7 +168,8 @@ export interface StatutoryTaxLiabilityRecord
 }
 
 /** Money that actually moved against one liability. */
-export interface StatutoryTaxPaymentRecord extends TaxHistoryRoot {
+export interface StatutoryTaxPaymentRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly liabilityId: EntityId;
   readonly method: "withholding";
   readonly amount: MoneyAmount;

@@ -7,38 +7,100 @@ import {
   recordGoalState,
   createDevelopmentProposal,
 } from "./mind";
+import {
+  upbringingCoreValueFrom,
+  upbringingFor,
+  type PersonUpbringing,
+} from "./people-upbringing";
 import { latestPersonalityTendency } from "./queries";
-import { SeededRng } from "./rng";
 import type { EntityId, World } from "./types";
 
-/** Generation-time preferences use an independent stream, never demographic inputs. */
+type Orientation = "embraces" | "questions" | "conflicted";
+
+/** A three-way choice read from one lean: low end, middle, high end. */
+function byLean<T>(lean: number, low: T, middle: T, high: T): T {
+  return lean < 0 ? low : lean > 0 ? high : middle;
+}
+
+/**
+ * The ordinary-life preferences an upbringing leans toward. Pure: the same
+ * upbringing gives the same preferences in every world. Where the upbringing
+ * leans neither way, the preference sits at its middle.
+ */
+export function lifePersonalityFromUpbringing(upbringing: PersonUpbringing): {
+  readonly conversation: "listen" | "ask" | "direct";
+  readonly leisure: "familiar" | "company" | "explore";
+  readonly privacy: Orientation;
+  readonly connection: Orientation;
+  readonly learning: Orientation;
+  readonly goal: keyof typeof ORDINARY_LIFE_GOALS;
+} {
+  const sociability = upbringingCoreValueFrom(upbringing, "sociability");
+  const conflict = upbringingCoreValueFrom(upbringing, "conflict");
+  const risk = upbringingCoreValueFrom(upbringing, "risk");
+  const schooling = upbringing.schooling;
+  const learningLean =
+    (schooling.some(
+      (x) =>
+        x === "reliable-support" ||
+        x === "earned-success" ||
+        x === "supported-setbacks",
+    )
+      ? 1
+      : 0) -
+    (schooling.some((x) => x === "ridicule-or-exclusion" || x === "bullying")
+      ? 1
+      : 0);
+  return {
+    // Someone who presses a disagreement says so; someone who smooths it over
+    // listens first.
+    conversation: byLean(conflict, "listen", "ask", "direct"),
+    // A cautious upbringing keeps to the familiar; a chance-taking one explores.
+    leisure: byLean(risk, "familiar", "company", "explore"),
+    privacy: byLean<Orientation>(
+      sociability,
+      "embraces",
+      "conflicted",
+      "questions",
+    ),
+    connection: byLean<Orientation>(
+      sociability,
+      "questions",
+      "conflicted",
+      "embraces",
+    ),
+    learning: byLean<Orientation>(
+      learningLean,
+      "questions",
+      "conflicted",
+      "embraces",
+    ),
+    goal: byLean(sociability, "privacy", "learning", "connection"),
+  };
+}
+
+/** Opening preferences come from the person's upbringing, never a draw or demographics. */
 export function establishLifePersonality(
   world: World,
   personId: EntityId,
-  generation: { readonly seed: string; readonly key: string } = {
-    seed: world.seed,
-    key: personId,
-  },
 ): World {
   if (latestPersonalityTendency(world, personId, LIFE_MIND_IDS.conversation))
     return world;
-  const rng = new SeededRng(generation.seed).fork(
-    `${LIFE_MIND_CONTENT_VERSION}:${generation.key}`,
-  );
+  const leans = lifePersonalityFromUpbringing(upbringingFor(world, personId));
   const provenance = createMindProvenance("authored", {
-    note: `${LIFE_MIND_CONTENT_VERSION}: fictional ordinary-life preferences; no empirical or demographic inference.`,
+    note: `${LIFE_MIND_CONTENT_VERSION}: fictional ordinary-life preferences read from this person's upbringing; no empirical or demographic inference.`,
   });
   let next = world;
-  for (const [tendencyId, expressions] of [
-    [LIFE_MIND_IDS.conversation, ["ask", "listen", "direct"]],
-    [LIFE_MIND_IDS.leisure, ["familiar", "explore", "company"]],
+  for (const [tendencyId, expressionKey] of [
+    [LIFE_MIND_IDS.conversation, leans.conversation],
+    [LIFE_MIND_IDS.leisure, leans.leisure],
   ] as const) {
     next = recordPersonalityTendency(next, {
       stableKey: `${LIFE_MIND_CONTENT_VERSION}:${personId}:${tendencyId}`,
       personId,
       tendencyId,
       recordedAt: next.currentDate,
-      expressionKey: rng.pick([...expressions]),
+      expressionKey,
       strength: "subtle",
       confidence: "low",
       scopeTags: ["life:ordinary"],
@@ -46,17 +108,17 @@ export function establishLifePersonality(
       supersedesTendencyId: null,
     });
   }
-  for (const valueId of [
-    LIFE_MIND_IDS.privacy,
-    LIFE_MIND_IDS.connection,
-    LIFE_MIND_IDS.learning,
-  ]) {
+  for (const [valueId, orientation] of [
+    [LIFE_MIND_IDS.privacy, leans.privacy],
+    [LIFE_MIND_IDS.connection, leans.connection],
+    [LIFE_MIND_IDS.learning, leans.learning],
+  ] as const) {
     next = recordPersonalValue(next, {
       stableKey: `${LIFE_MIND_CONTENT_VERSION}:${personId}:${valueId}`,
       personId,
       valueId,
       recordedAt: next.currentDate,
-      orientation: rng.pick(["embraces", "questions", "conflicted"] as const),
+      orientation,
       strength: "subtle",
       salience: "low",
       qualification: null,
@@ -64,7 +126,7 @@ export function establishLifePersonality(
       supersedesValueId: null,
     });
   }
-  const goal = rng.pick(["learning", "connection", "privacy"] as const);
+  const goal = leans.goal;
   return recordGoalState(next, {
     stableKey: `${LIFE_MIND_CONTENT_VERSION}:${personId}:ordinary-goal`,
     personId,

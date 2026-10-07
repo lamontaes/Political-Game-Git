@@ -1,0 +1,51 @@
+{
+  "schema": "english-counts/1",
+  "register": "news",
+  "shippable": false,
+  "description": "Counts of how American wire-style news stories are written: sentence and lead length, paragraph length, how often a sentence quotes someone, attribution words and sentence openers. Counts and one- to three-word tokens only; no sentence from a story ships.",
+  "source": {
+    "document": "Voice of America staff news stories",
+    "publisher": "Voice of America, U.S. Agency for Global Media",
+    "license": "Public domain (work of the U.S. government); stories naming a wire service skipped",
+    "url": "https://www.voanews.com/rssfeeds"
+  },
+  "coverage": "51 VOA staff stories published 2024-08-29 to 2026-10-06, taken from every VOA English RSS feed on 2026-10-06.",
+  "mining": {
+    "tool": "scripts/english-mining/count-voa-news.py",
+    "sentenceRule": "A sentence ends at a period, question mark or exclamation point followed by a capital letter or an opening quote."
+  },
+  "counts": {
+    "stories": 51,
+    "sentences": 2871,
+    "paragraphs": 1729,
+    "medianSentenceWords": 15,
+    "medianLeadSentenceWords": 24,
+    "medianSentencesPerParagraph": 1,
+    "shareParagraphsOneSentence": 0.618,
+    "shareSentencesQuoting": 0.109,
+    "attributionPer1000Sentences": {
+      "said": 79.8,
+      "says": 24.0,
+      "told": 14.3,
+      "according to": 8.0,
+      "added": 5.2,
+      "wrote": 4.2,
+      "asked": 2.4,
+      "noted": 1.4,
+      "stated": 0.7,
+      "explained": 0.7
+    },
+    "sentenceOpenersPer1000Sentences": {
+      "the": 92.3,
+      "but": 29.6,
+      "in": 22.3,
+      "president": 13.9,
+      "this": 13.9,
+      "it": 13.9,
+      "a": 11.1,
+      "on": 7.7,
+      "that": 6.3,
+      "after": 1.0
+    }
+  }
+}

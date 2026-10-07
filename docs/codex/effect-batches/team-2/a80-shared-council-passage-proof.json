@@ -1,0 +1,565 @@
+{
+  "auditId": "A80",
+  "runtimeSource": "2c7aae6d1d70ee7d919c11fd4fa59990d12523ba",
+  "mainSource": "2e78c9c155e6dcfbf400f21cad56266c2dcfc97b",
+  "native": {
+    "council": {
+      "passed": 2,
+      "unselected": 2,
+      "durationSeconds": 30.47
+    },
+    "mayor": {
+      "passed": 1,
+      "unselected": 57,
+      "durationSeconds": 30.23
+    },
+    "initialNewFixture": {
+      "failed": 1,
+      "passed": 1,
+      "reason": "Missing people:political-reflection handler in controlled fixture; subsequently isolated unrelated families via canonical saved cancellations",
+      "observedTerminalSession": 24699,
+      "durationSeconds": 19.22
+    },
+    "scopedTypes": {
+      "roots": 4,
+      "diagnostics": 0
+    },
+    "initialTypes": {
+      "observedTerminalSession": 34397,
+      "diagnostics": 2,
+      "errors": [
+        "TS2345: principleId string is not assignable to EntityId",
+        "TS2339: LifePlace has no name property"
+      ]
+    }
+  },
+  "namedExample": {
+    "seed": "A80-town-passage-survivor",
+    "state": "US-PA",
+    "place": "Abbottstown, Pennsylvania",
+    "sponsor": "Noah Benton",
+    "measureId": "legislative-measure_6efe1626bd2f6c5a",
+    "eventId": "event_c1c1003cde86c6e9",
+    "summary": "ORD A80 fixture was not presented to the Mayor under this profile."
+  },
+  "limits": [
+    "Authored held principles on actual members",
+    "Supplied agenda and meeting date",
+    "Other due families explicitly cancelled in controlled fixture",
+    "No researched Abbottstown charter claim",
+    "No full suite, browser, year, speed or all-56 populated-world proof",
+    "A79 admission questions remain unresolved",
+    "Initial raw failure logs overwritten by repaired scratch runs; terminal handles and observed summaries retained, not a reconstructed raw log"
+  ],
+  "logs": {
+    "selectedCouncil": {
+      "path": "/tmp/team2-a80-shared-passage-final-tests.log",
+      "sha256": "d9240f4a04cd4e8ab8c35d3d17d3a9411f363b52f9eb3804f2130853903666c3",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n{\"seed\":\"A80-town-passage-survivor\",\"state\":\"US-PA\",\"place\":\"Abbottstown, Pennsylvania\",\"sponsor\":\"Noah Benton\",\"measureId\":\"legislative-measure_6efe1626bd2f6c5a\",\"eventId\":\"event_c1c1003cde86c6e9\",\"summary\":\"ORD A80 fixture was not presented to the Mayor under this profile.\"}\n\n Test Files  1 passed | 1 skipped (2)\n      Tests  2 passed | 60 skipped (62)\n   Start at  15:45:27\n   Duration  30.47s (transform 19.37s, setup 24ms, import 27.39s, tests 2.80s, environment 1ms)\n\n"
+    },
+    "selectedMayor": {
+      "path": "/tmp/team2-a80-presentment-tests.log",
+      "sha256": "b2ddc39c3392ac9e35ff5bc3f0ca5c7b907bb04a3df7df030405f29650655627",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n\n Test Files  1 passed (1)\n      Tests  1 passed | 57 skipped (58)\n   Start at  15:47:14\n   Duration  30.23s (transform 15.81s, setup 25ms, import 20.69s, tests 9.37s, environment 0ms)\n\n"
+    },
+    "types": {
+      "path": "/tmp/team2-a80-shared-passage-types.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114",
+      "text": "scoped roots 4; diagnostics 0\n"
+    },
+    "lint": {
+      "path": "/tmp/team2-a80-shared-passage-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    "format": {
+      "path": "/tmp/team2-a80-shared-passage-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "text": "Checking formatting...\nAll matched files use Prettier code style!\n"
+    },
+    "intermediateRepairedCouncil": {
+      "path": "/tmp/team2-a80-shared-passage-tests.log",
+      "sha256": "4f1545dad8d3b5f54c5259a0b5901d36b73092fbfb3c7150c8a50ab4273d9e98",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n{\"seed\":\"A80-town-passage-survivor\",\"state\":\"US-PA\",\"place\":\"Abbottstown, Pennsylvania\",\"sponsor\":\"Noah Benton\",\"measureId\":\"legislative-measure_6efe1626bd2f6c5a\",\"eventId\":\"event_c1c1003cde86c6e9\",\"summary\":\"ORD A80 fixture was not presented to the Mayor under this profile.\"}\n\n Test Files  1 passed (1)\n      Tests  2 passed | 2 skipped (4)\n   Start at  15:43:49\n   Duration  17.88s (transform 11.62s, setup 19ms, import 14.47s, tests 3.29s, environment 0ms)\n\n"
+    }
+  },
+  "currentMainRenewal": {
+    "runtimeSource": "b04da9ccabb2ece9baaeba575ec2647c7ee34bf5",
+    "mainSource": "800bb5a0c57f6301db18e1bd769565386c3e39dd",
+    "merge": "additive, no conflicts, four owned source/test blobs unchanged",
+    "native": {
+      "passed": 3,
+      "unselected": 59,
+      "total": 62,
+      "durationSeconds": 41.82,
+      "terminalSession": 6207,
+      "exitCode": 0
+    },
+    "types": {
+      "roots": 4,
+      "diagnostics": 0,
+      "terminalSession": 94405,
+      "exitCode": 0
+    },
+    "gates": {
+      "release": "FAIL inherited CI declaration prose; owned declaration admitted",
+      "zero": "0 new, 5 inherited stale, exit1",
+      "spelling": "26 existing,0 owned, exit1"
+    },
+    "logs": {
+      "native": {
+        "path": "/tmp/team2-a80-current-main-tests.log",
+        "sha256": "3966b240e2355fbccb41d5c84138268d9497fca88efa33757ae9614999b26f76",
+        "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n{\"seed\":\"A80-town-passage-survivor\",\"state\":\"US-PA\",\"place\":\"Abbottstown, Pennsylvania\",\"sponsor\":\"Noah Benton\",\"measureId\":\"legislative-measure_6efe1626bd2f6c5a\",\"eventId\":\"event_c1c1003cde86c6e9\",\"summary\":\"ORD A80 fixture was not presented to the Mayor under this profile.\"}\n\n Test Files  2 passed (2)\n      Tests  3 passed | 59 skipped (62)\n   Start at  15:57:49\n   Duration  41.82s (transform 20.93s, setup 25ms, import 29.02s, tests 12.49s, environment 1ms)\n\n"
+      },
+      "types": {
+        "path": "/tmp/team2-a80-current-main-types.log",
+        "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114",
+        "text": "scoped roots 4; diagnostics 0\n"
+      },
+      "release": {
+        "path": "/tmp/team2-a80-shared-passage-release.log",
+        "sha256": "6eb5bb28650e3c05c9d05a1dc41d146e3ade4518ed125d481e4b6ac6bcf79424",
+        "text": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --mode pr --base origin/main\n\nrelease:check \u2014 docs/release/changes/ci-changed-tests-only.md: player-facing prose contains merge bookkeeping (\"merge\"). Internal identifiers belong in the traceability ledger, not in patch notes.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+      },
+      "zero": {
+        "path": "/tmp/team2-a80-shared-passage-zero.log",
+        "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+        "text": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\ngone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\n"
+      },
+      "spelling": {
+        "path": "/tmp/team2-a80-shared-passage-spelling.log",
+        "sha256": "81ddb426b928b31ec2f024e04ce52842f645b7382e31264c4ca97c4c345dd088",
+        "text": "\n> political-life-rpg@0.4.0 spelling\n> node --import tsx scripts/prose-eval/spelling.ts\n\ndocs/audits/2026-09-30/bedrock.md:101 \"labelled\" \u2192 \"labeled\"\ndocs/audits/2026-09-30/bedrock.md:104 \"behaviour\" \u2192 \"behavior\"\ndocs/audits/2026-09-30/dice.md:99 \"favourite\" \u2192 \"favorite\"\ndocs/audits/2026-09-30/dice.md:99 \"favourite\" \u2192 \"favorite\"\ndocs/audits/2026-09-30/dice.md:170 \"catalogue\" \u2192 \"catalog\"\ndocs/audits/2026-09-30/dice.md:480 \"Honourable\" \u2192 \"Honorable\"\ndocs/audits/2026-09-30/engines.md:184 \"behaviour\" \u2192 \"behavior\"\ndocs/audits/2026-09-30/golden-rule.md:148 \"behaviour\" \u2192 \"behavior\"\ndocs/codex/audit-verified-2026-10-01.json:872 \"labelled\" \u2192 \"labeled\"\ndocs/codex/audit-verified-2026-10-01.md:269 \"labelled\" \u2192 \"labeled\"\ndocs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json:9 \"Honourable\" \u2192 \"Honorable\"\ndocs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json:28 \"Cancelled\" \u2192 \"Canceled\"\ndocs/codex/effect-batches/team-9/a10-composer-proof.json:96 \"cancelled\" \u2192 \"canceled\"\ndocs/codex/effect-batches/team-9/michigan-cpl-source.json:92 \"analogue\" \u2192 \"analog\"\ndocs/release/changes/plain-american-wording.md:8 \"favour\" \u2192 \"favor\"\ndocs/release/changes/plain-american-wording.md:8 \"neighbour\" \u2192 \"neighbor\"\ndocs/release/changes/plain-american-wording.md:8 \"whilst\" \u2192 \"while\"\ndocs/release/changes/plain-american-wording.md:8 \"programme\" \u2192 \"program\"\ndocs/release/changes/team2-governing-reports-require-recorded-actions.md:9 \"Cancelled\" \u2192 \"Canceled\"\nsrc/presentation/mayor-executive-decision.test.ts:105 \"cancelled\" \u2192 \"canceled\"\nsrc/presentation/president-player-desk.test.ts:295 \"cancelled\" \u2192 \"canceled\"\nsrc/presentation/president-player-desk.test.ts:341 \"cancelled\" \u2192 \"canceled\"\nsrc/simulation/governing/recorded-governing-action.test.ts:287 \"cancelled\" \u2192 \"canceled\"\nsrc/simulation/governing/state-governing.ts:981 \"cancelled\" \u2192 \"canceled\"\nsrc/simulation/justice/clemency-request-activities.test.ts:44 \"cancelled\" \u2192 \"canceled\"\nsrc/simulation/justice/prosecution-composer.test.ts:38 \"cancelled\" \u2192 \"canceled\"\n26 to fix; run npm run spelling -- --write.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+      }
+    }
+  },
+  "fullFileRenewal": {
+    "runtimeSource": "f819843b60b6737d66b09278a75b400ae69e5e0b",
+    "mainSource": "a1e49ab1887298de93e15b85870d19998f0bba9c",
+    "native": {
+      "session": 24537,
+      "exitCode": 0,
+      "completeFiles": 2,
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 35.14,
+      "startedAt": "2026-10-01 18:17:03 UTC",
+      "maxWorkers": 1,
+      "fileParallelism": false,
+      "externalLimitSeconds": 300,
+      "nameFilter": null
+    },
+    "priorReceipts": [
+      {
+        "session": 13654,
+        "source": "54792686e4d10798a33c5c91badd98e860ea528d",
+        "exitCode": 124,
+        "passed": 31,
+        "observedAssertionFailures": 0,
+        "noResult": 31,
+        "reason": "unchanged 300-second cap; populated life opening/reload expense"
+      },
+      {
+        "session": 64902,
+        "exitCode": 0,
+        "passed": 1,
+        "unselected": 57,
+        "durationSeconds": 29.53,
+        "purpose": "one Guam profile, not readiness"
+      },
+      {
+        "session": 90494,
+        "source": "88fd0385d",
+        "exitCode": 1,
+        "passed": 5,
+        "failed": 57,
+        "reason": "old manual jurisdiction insertion omitted canonical order"
+      },
+      {
+        "session": 93129,
+        "source": "bc9a9303e",
+        "exitCode": 1,
+        "passed": 5,
+        "failed": 57,
+        "reason": "demo synthetic catalog has no authorized municipal question"
+      }
+    ],
+    "fixtureRepair": "Existing createWorld/createLightweightPerson primitives with production policy catalog; actual mayor/council opening writers register jurisdiction/body/seats. Every existing assertion retained. Four supplied opening residents; no generated ordinary-life population. This is mechanism proof, not a natural life journey.",
+    "nonNeutralComparisons": {
+      "count": 56,
+      "oldSignsNewVetoes": 56,
+      "startingIdentities": 56,
+      "scope": "same shared adversarial principle input within each fixture; actual DC government materialized in each starting world, not 56 different charter powers"
+    },
+    "sourceBlobs": {
+      "src/simulation/living-world/local-council-meetings.ts": "f94b050c7c81190d7c6621ead676308d9a8529c0",
+      "src/simulation/municipal-ordinance-procedure.ts": "71e3ec494cb959fc102997a5ace92b2e6f9b6e62",
+      "src/simulation/governing/local-member-agenda-integration.test.ts": "53a67bfc55ece79cadaf4db1bf71f617b5c325a9",
+      "src/presentation/mayor-executive-decision.test.ts": "3d69d5cb390ef3c1aa1d362d957b229d864e95c1"
+    },
+    "scopedTypes": {
+      "roots": 4,
+      "diagnostics": 0
+    },
+    "lint": "PASS four changed files",
+    "format": "PASS four changed files",
+    "fullAudit": {
+      "exitCode": 0,
+      "coverage": {
+        "withRules": 149,
+        "total": 149
+      },
+      "counts": {
+        "verified": {
+          "partly": 33,
+          "not-started": 100,
+          "done": 16
+        },
+        "scanned": {
+          "partly": 37,
+          "not-started": 93,
+          "done": 18,
+          "unknown": 1
+        }
+      },
+      "A80": {
+        "id": "A80",
+        "seq": 1,
+        "short": "Presidents, mayors and town councils should\u2026",
+        "owner": "Team 2",
+        "verified": "partly",
+        "scanned": "partly",
+        "after": "FIRST: main is broken by #1478",
+        "afterSteps": [],
+        "afterDone": null,
+        "drift": [],
+        "covers": "whole",
+        "passed": 3,
+        "checks": [
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/presentation/legislation-session.ts",
+              "pattern": "executiveDesk\\(",
+              "why": "done in #1478: the player's await-executive-decision goes through the governor's desk"
+            },
+            "pass": true,
+            "at": ["src/presentation/legislation-session.ts:477"]
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/governing/congress-lawmaking.ts",
+              "pattern": "evaluateGovernorBill\\(",
+              "why": "done: the President decides a bill through the governor evaluation"
+            },
+            "pass": true,
+            "at": ["src/simulation/governing/congress-lawmaking.ts:116"]
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/municipal-ordinance-procedure.ts",
+              "pattern": "evaluateGovernorBill\\(",
+              "why": "done: a mayor decides a council bill through the governor evaluation"
+            },
+            "pass": true,
+            "at": [
+              "src/simulation/municipal-ordinance-procedure.ts:1018",
+              "src/simulation/municipal-ordinance-procedure.ts:1246"
+            ]
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/living-world/local-council-meetings.ts",
+              "pattern": "presentmentRequired",
+              "why": "afterAdoption branches on the town pack's presentmentRequired"
+            },
+            "pass": false,
+            "at": []
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/living-world/local-council-meetings.ts",
+              "pattern": "evaluateGovernorBill\\(",
+              "why": "where presentment is required the town ordinance is decided through evaluateGovernorBill"
+            },
+            "pass": false,
+            "at": []
+          }
+        ],
+        "step": "1"
+      },
+      "limitation": "Two scanner patterns expect evaluator/presentmentRequired inline in town file; actual caller delegates to completeCouncilPassage which reads the rule and evaluates the executive. Scanner remains unchanged; static PARTLY is not runtime closure."
+    },
+    "zeroDice": {
+      "exitCode": 1,
+      "new": 0,
+      "inheritedGone": 5
+    },
+    "release": "FAIL inherited main-identical ci-changed-tests-only.md merge prose; no owned player-copy violation",
+    "logs": {
+      "full-before-minimum.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/full-before-minimum.log",
+        "sha256": "0f268868657e1e70d509632acc48a9d1e887b960f6127bacfe01f2146276dc83"
+      },
+      "gu-profile.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/gu-profile.log",
+        "sha256": "58bcb84210638216a14417f7c5cd02b54e78d06ba2d01c89f8f0783b42c0e39e"
+      },
+      "gu-profile.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/gu-profile.json",
+        "sha256": "3538ffcd2914247100f56663e64cb4ae77607d5a1d8ece275f11a6ccc9920bcd"
+      },
+      "minimum-integrity-failure.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/minimum-integrity-failure.log",
+        "sha256": "1d12fea8469f5f279a6c2aff294bb678a12c0b97f1c2daae400fc14fc15cd520"
+      },
+      "minimum-catalog-failure.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/minimum-catalog-failure.log",
+        "sha256": "67fe75db44b28bb12dcd10e7cb020fe12f9228e3cf2e51e0d4476ea7e90ea182"
+      },
+      "final-full.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/final-full.log",
+        "sha256": "e73f3dc31cd8fb413c65eb4993d49ce3e93afae71f471d31eed30d0189f9a7fd"
+      },
+      "final-profile.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/final-profile.json",
+        "sha256": "1f2ae0d91635d0f3feaa9f7065983ab2e989bb7d8c0d7921b548eb0ac04538b4"
+      },
+      "final-decisions.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/final-decisions.json",
+        "sha256": "8c32039386e6482aaa51bb0810adb274026cf573d90b5aeafb08ea1fdfbf2016"
+      },
+      "types.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/types.log",
+        "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114"
+      },
+      "typecheck.mjs": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/typecheck-executed-original.txt",
+        "sha256": "6eb7ac60101c1996e2edb8d581598393ef75415fa3d7ff99b88f06ca8e2fb509"
+      },
+      "lint.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "format.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/format.log",
+        "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+      },
+      "zero-dice.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/zero-dice.log",
+        "sha256": "946a257437c4a9458a454ab2d4ddb375ce392ae90358d24e9df70f6229770a36"
+      },
+      "audit-all.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/audit-all.json",
+        "sha256": "45a4fb0695844011d766083719bb5dc18c227ef14693c6bafca5c6aef6b88560"
+      },
+      "audit-all.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/audit-all.log",
+        "sha256": "feab1472440b527f6fbd70dc2e0a04c85ec671444fb6fc2258c2fab5f5176f9c"
+      },
+      "release.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/release.log",
+        "sha256": "a34ecaf4301c7e3211e2385bbe49efc870abae260d91adb123627a698b62bbec"
+      },
+      "spelling.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/spelling.log",
+        "sha256": "5d335d2ec6e94ba8908aa05331508f6fe578579032f14f34900cadc229ec3200"
+      }
+    },
+    "notRun": [
+      "full suite",
+      "browser",
+      "ordinary uninterrupted life",
+      "year-speed",
+      "nationwide law effects",
+      "56 distinct municipal powers"
+    ]
+  },
+  "freshMainRenewal": {
+    "runtimeSource": "2c735124372306d957f5dcd31ec9f606fa3908ca",
+    "mainSource": "8606cc73442a9dfbc3b35d01b4951695b935c1d3",
+    "native": {
+      "session": 45459,
+      "exitCode": 0,
+      "completeFiles": 2,
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 33.33,
+      "startAt": "2026-10-01 18:22:04 UTC",
+      "nameFilter": null,
+      "workers": 1,
+      "externalLimitSeconds": 300
+    },
+    "sourceBlobs": {
+      "src/simulation/living-world/local-council-meetings.ts": "f94b050c7c81190d7c6621ead676308d9a8529c0",
+      "src/simulation/municipal-ordinance-procedure.ts": "71e3ec494cb959fc102997a5ace92b2e6f9b6e62",
+      "src/simulation/governing/local-member-agenda-integration.test.ts": "53a67bfc55ece79cadaf4db1bf71f617b5c325a9",
+      "src/presentation/mayor-executive-decision.test.ts": "3d69d5cb390ef3c1aa1d362d957b229d864e95c1"
+    },
+    "scopedTypes": {
+      "roots": 4,
+      "diagnostics": 0
+    },
+    "release": {
+      "exitCode": 0
+    },
+    "zeroDice": {
+      "exitCode": 0,
+      "new": 0,
+      "gone": 0
+    },
+    "fullAudit": {
+      "exitCode": 0,
+      "coverage": {
+        "withRules": 149,
+        "total": 149
+      },
+      "counts": {
+        "verified": {
+          "partly": 33,
+          "not-started": 100,
+          "done": 16
+        },
+        "scanned": {
+          "partly": 37,
+          "not-started": 92,
+          "done": 19,
+          "unknown": 1
+        }
+      },
+      "A80": {
+        "id": "A80",
+        "seq": 1,
+        "short": "Presidents, mayors and town councils should\u2026",
+        "owner": "Team 2",
+        "verified": "partly",
+        "scanned": "partly",
+        "after": "FIRST: main is broken by #1478",
+        "afterSteps": [],
+        "afterDone": null,
+        "drift": [],
+        "covers": "whole",
+        "passed": 3,
+        "checks": [
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/presentation/legislation-session.ts",
+              "pattern": "executiveDesk\\(",
+              "why": "done in #1478: the player's await-executive-decision goes through the governor's desk"
+            },
+            "pass": true,
+            "at": ["src/presentation/legislation-session.ts:477"]
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/governing/congress-lawmaking.ts",
+              "pattern": "evaluateGovernorBill\\(",
+              "why": "done: the President decides a bill through the governor evaluation"
+            },
+            "pass": true,
+            "at": ["src/simulation/governing/congress-lawmaking.ts:116"]
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/municipal-ordinance-procedure.ts",
+              "pattern": "evaluateGovernorBill\\(",
+              "why": "done: a mayor decides a council bill through the governor evaluation"
+            },
+            "pass": true,
+            "at": [
+              "src/simulation/municipal-ordinance-procedure.ts:1018",
+              "src/simulation/municipal-ordinance-procedure.ts:1246"
+            ]
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/living-world/local-council-meetings.ts",
+              "pattern": "presentmentRequired",
+              "why": "afterAdoption branches on the town pack's presentmentRequired"
+            },
+            "pass": false,
+            "at": []
+          },
+          {
+            "check": {
+              "kind": "present",
+              "file": "src/simulation/living-world/local-council-meetings.ts",
+              "pattern": "evaluateGovernorBill\\(",
+              "why": "where presentment is required the town ordinance is decided through evaluateGovernorBill"
+            },
+            "pass": false,
+            "at": []
+          }
+        ],
+        "step": "1"
+      }
+    },
+    "sourceChangesSinceRuntime": "documents/evidence only; verify preserved source blobs at publication",
+    "logs": {
+      "renewed-full.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/renewed-full.log",
+        "sha256": "59933ffd4564850b9b362873d9943b6be6d8d3954c51800fd31e16287bc2163c"
+      },
+      "renewed-profile.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/renewed-profile.json",
+        "sha256": "b3d18c664c876f85aa1ad8133cd9d89aec3d0b868877d40a94aadad7718066d9"
+      },
+      "renewed-decisions.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/renewed-decisions.json",
+        "sha256": "8c32039386e6482aaa51bb0810adb274026cf573d90b5aeafb08ea1fdfbf2016"
+      },
+      "renewed-types.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/renewed-types.log",
+        "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114"
+      },
+      "renewed-release.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/renewed-release.log",
+        "sha256": "c176f5025ecea6ccfe103f0e822fe5ae2265eb8e3c331ff7d0a900af914783ef"
+      },
+      "renewed-zero-dice.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/renewed-zero-dice.log",
+        "sha256": "3c47329a4282915c811fd379a4e99f5f03413f124fde9f6a8a31d9f32e0f3915"
+      },
+      "renewed-audit-all.json": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/renewed-audit-all.json",
+        "sha256": "8c6cd70942ae44eae26c41f48a2bfb8ded3e9d7d34ab37dc34c3b27dbef5ef29"
+      },
+      "renewed-audit-all.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/renewed-audit-all.log",
+        "sha256": "1bdedfa22d160553c10eae9dfe46e580477cbf355a5fae3c23ff3b3e816f8184"
+      },
+      "report-check.log": {
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/report-check.log",
+        "sha256": "f0eaf82d712408673a9e2f740b38ba2faee27d7ec4359997d64d48b56b1610d5"
+      }
+    },
+    "reportCheck": {
+      "errors": 0,
+      "warnings": 0,
+      "log": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/final-report-check.log",
+      "sha256": "f0eaf82d712408673a9e2f740b38ba2faee27d7ec4359997d64d48b56b1610d5"
+    },
+    "reportReviewer": "Existing authorized /root/a80_report_review: PASS after historical checkpoint label repair",
+    "command": "timeout --signal=TERM --kill-after=10s 300s env OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_WORKSPACE_OWNER=team-2 VITE_CONFIG_NATIVE_IGNORE_WARNING=true G6_MAYOR_PROFILE_PATH=/tmp/team2-a80-1576-renewed-profile.json G6_MAYOR_PROFILE_SOURCE=2c735124372306d957f5dcd31ec9f606fa3908ca G6_MAYOR_REPORT_PATH=/tmp/team2-a80-1576-renewed-decisions.json node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/governing/local-member-agenda-integration.test.ts src/presentation/mayor-executive-decision.test.ts --maxWorkers=1 --fileParallelism=false --disableConsoleIntercept --reporter=verbose",
+    "proofScriptCorrection": {
+      "instruction": "CTO2:29: no .mjs committed under docs/codex unless lint clean",
+      "initialErrors": 3,
+      "repair": "explicit node:process import and formatting; game/test blobs unchanged",
+      "finalLintExitCode": 0,
+      "originalExecutedScript": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/typecheck-executed-original.txt",
+      "originalSha256": "6eb7ac60101c1996e2edb8d581598393ef75415fa3d7ff99b88f06ca8e2fb509",
+      "currentScriptSha256": "9404c95b0deb3d1effe2401166ceb40140c33beb940981e61e5598677cc7283f"
+    }
+  }
+}

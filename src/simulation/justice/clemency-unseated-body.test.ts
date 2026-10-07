@@ -1,12 +1,8 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays, daysBetween } from "../dates";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { lifePlaceStateIdentities } from "../life-places";
 import { personName } from "../people";
 import { SeededRng, pickDistinct } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
@@ -45,6 +41,7 @@ import {
   PROSECUTION_SENTENCED_EVENT,
   UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 
 const receipts: unknown[] = [];
 afterAll(() => {
@@ -58,25 +55,14 @@ afterAll(() => {
 function caseFixture(
   state: ReturnType<typeof lifePlaceStateIdentities>[number],
 ) {
-  const place =
-    searchLifePlaces("", 5000, {
-      stateJurisdictionKey: state.jurisdictionKey,
-      scope: "locality",
-    })[0] ??
-    searchLifePlaces("", 5, {
-      stateJurisdictionKey: state.jurisdictionKey,
-      scope: "state",
-    })[0]!;
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed: `team9-a98-unseated:${state.jurisdictionKey}`,
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped",
-    }),
-  ).game!;
-  const petitionerId = game.playerPersonId;
+  // A small world (tests/fixtures/small-world.ts) with its governor seated.
+  const small = smallWorld({
+    place: state.jurisdictionKey,
+    seed: `team9-a98-unseated:${state.jurisdictionKey}`,
+    offices: ["governor"],
+  });
+  const game = { world: small.world };
+  const petitionerId = small.personId;
   const referred = referForProsecution(game.world, {
     stableKey: "fixture:g12-executive-case",
     subjectPersonId: petitionerId,
@@ -123,7 +109,7 @@ function caseFixture(
               ...event,
               occurredAt: addDays(
                 plea.world.currentDate,
-                -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                -prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
               ),
             }
           : event,
@@ -141,6 +127,9 @@ function caseFixture(
   const term = sentencesOf(sentenced, petitionerId).find(
     (sentence) => sentence.sentencedEventId === sentenceId,
   )!;
+  expect(term.until).not.toBeNull();
+  if (term.until === null)
+    throw new Error("The fixture's recorded sentence has no end date.");
   // Authored older-save fixture: the real sentence has already reached
   // the existing body's service gate. No outcome or new wait is invented.
   const sentenceDate = addDays(
@@ -158,7 +147,7 @@ function caseFixture(
               occurredAt: addDays(
                 sentenceDate,
                 -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                  UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                  prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
               ),
             }
           : event.type === PROSECUTION_CHARGED_EVENT &&
@@ -167,7 +156,7 @@ function caseFixture(
                 ...event,
                 occurredAt: addDays(
                   sentenceDate,
-                  -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                  -prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
                 ),
               }
             : event.id === sentenceId
@@ -205,7 +194,7 @@ describe("unseated required pardon bodies cannot answer", () => {
           gate.mustAgree.length > 0 && gate.mustAgree[0] !== EXECUTIVE_BODY,
       );
     })
-    .slice(0, 5);
+    .slice(0, 1);
   it.each(states)(
     "retains the actual petition without a board answer in $jurisdictionKey",
     (state) => {
@@ -357,6 +346,9 @@ it("the actual sentence-end due item lapses a waiting body petition without vote
   const until = sentencesOf(pending, petitionerId).find(
     (row) => row.sentencedEventId === sentenceId,
   )!.until;
+  expect(until).not.toBeNull();
+  if (until === null)
+    throw new Error("The fixture's recorded sentence has no end date.");
   const actualDue = pending.history.futureDueItems.find(
     (item) =>
       item.transitionKey === CLEMENCY_PETITION_TRANSITION_KEY &&

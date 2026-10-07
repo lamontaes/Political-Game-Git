@@ -1,0 +1,79 @@
+[
+  {
+    "artifactId": "ky-171",
+    "requestedUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=198",
+    "retrievedAt": "2026-10-02T12:01:27.875187+00:00",
+    "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=198",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 7333,
+    "sha256": "f4802a74b089d1b4278bf5f14d41490334277daa8bc4bc83b3d4e994181246c7",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-171.pdf"
+  },
+  {
+    "artifactId": "ky-174",
+    "requestedUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=203",
+    "retrievedAt": "2026-10-02T12:01:27.876099+00:00",
+    "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=203",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 4866,
+    "sha256": "148fa5f93c8716d7d5abfef9154217ea01dc154add9d7c9bd4e1764e41d05406",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-174.pdf"
+  },
+  {
+    "artifactId": "ky-180",
+    "requestedUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=209",
+    "retrievedAt": "2026-10-02T12:01:27.876786+00:00",
+    "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=209",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 4874,
+    "sha256": "c47ba5d5bb89894f8c0dee73f48afa16cef4f92cb81155bd4797a8e2704958b4",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-180.pdf"
+  },
+  {
+    "artifactId": "ky-181",
+    "requestedUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=210",
+    "retrievedAt": "2026-10-02T12:01:28.593696+00:00",
+    "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=210",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 5853,
+    "sha256": "7ee7918d799da759c058ebba2d833f31edb6b8239e15471e0fe2ea07d740e1d9",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-181.pdf"
+  },
+  {
+    "artifactId": "ky-47",
+    "requestedUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=51",
+    "retrievedAt": "2026-10-02T12:01:28.942127+00:00",
+    "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=51",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 4359,
+    "sha256": "abadf597b95d8c9b89e48b523419098590dc1b60ae63ea79b5f48e0fcab25c50",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-47.pdf"
+  },
+  {
+    "artifactId": "ky-230",
+    "requestedUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=265",
+    "retrievedAt": "2026-10-02T12:01:29.034492+00:00",
+    "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=265",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 5475,
+    "sha256": "d0427fc3c76817c6279f8bc7d8ff65d732cd960142c98c5398d7fc12028aecd3",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-230.pdf"
+  },
+  {
+    "artifactId": "la-constitution-folder72",
+    "requestedUrl": "https://www.legis.la.gov/Legis/Laws_Toc.aspx?folder=72&level=Parent",
+    "retrievedAt": "2026-10-02T12:01:29.096972+00:00",
+    "url": "https://www.legis.la.gov/Legis/Laws_Toc.aspx?folder=72&level=Parent",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 52425,
+    "sha256": "8a585e93596c53821c07ffba67497f04042736a1a1b0f6be4eb09d228c8a0655",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/la-constitution-folder72.html"
+  }
+]

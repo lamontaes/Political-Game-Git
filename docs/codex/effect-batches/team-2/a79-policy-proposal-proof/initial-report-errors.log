@@ -1,0 +1,9 @@
+
+> political-life-rpg@0.4.0 report:check
+> node scripts/report-check/cli.mjs docs/codex/effect-batches/team-2/a79-policy-proposal-first.md
+
+error docs/codex/effect-batches/team-2/a79-policy-proposal-first.md:3: lead contains code ("`member:constitutional-bar`"); the lead says what happened and why it matters, method goes at the end
+error docs/codex/effect-batches/team-2/a79-policy-proposal-first.md:3: lead contains how the test was run ("fixture"); the lead says what happened and why it matters, method goes at the end
+warn  docs/codex/effect-batches/team-2/a79-policy-proposal-first.md:13: 4 code references in one paragraph; say what happens in words and keep one location as evidence
+warn  docs/codex/effect-batches/team-2/a79-policy-proposal-first.md:25: 5 code references in one paragraph; say what happens in words and keep one location as evidence
+docs/codex/effect-batches/team-2/a79-policy-proposal-first.md: 2 error(s), 2 warning(s)

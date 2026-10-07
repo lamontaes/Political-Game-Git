@@ -2,7 +2,7 @@
 import { writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
-import { adultLifeAt } from "../../tests/fixtures/state-executive-entry";
+import { createProductionPolicyCatalog } from "../simulation/production-catalog";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,
@@ -23,6 +23,7 @@ import {
   municipalOrdinanceStatus,
   actOnCouncilMeasure,
   municipalExecutiveHolder,
+  completeCouncilPassage,
 } from "../simulation/municipal-ordinance-procedure";
 import {
   introduceMeasure,
@@ -47,6 +48,8 @@ import {
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
 import {
+  createWorld,
+  createWorldId,
   recordWorldEvent,
   writeWithWorldIntegrityOnce,
 } from "../simulation/world";
@@ -54,7 +57,7 @@ import {
   playerRequiredWorkIds,
   releasePlayerRequiredWork,
 } from "../simulation/time-work";
-import { personName } from "../simulation/people";
+import { createLightweightPerson, personName } from "../simulation/people";
 import type { World, IsoDate, EntityId } from "../simulation/types";
 
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
@@ -113,22 +116,36 @@ function isolateAt(world: World, date: IsoDate, except?: EntityId): World {
 
 function presentedAct(seed: string, openingPlaceKey = "1150000") {
   const place = requireLifePlace("1150000");
-  let world = profile("adult-life-opening", () =>
-    adultLifeAt(openingPlaceKey, seed),
-  ).world;
+  // This is an executive mechanism fixture, not a generated life journey.
+  // Use existing canonical world/person primitives and the production policy
+  // catalog, not the demo's synthetic questions. The actual mayor,
+  // council seats, terms and actions still come from their production writers.
+  const context = requireLifePlace(openingPlaceKey).context;
+  let world = profile("canonical-small-world-opening", () =>
+    createWorld({
+      seed,
+      currentDate: context.initialMoment.date,
+      currentMoment: context.initialMoment,
+      jurisdictions: [context.jurisdiction],
+      people: Array.from({ length: 4 }, (_, index) =>
+        createLightweightPerson({
+          worldId: createWorldId(seed),
+          worldSeed: seed,
+          index,
+          currentDate: context.initialMoment.date,
+          homeJurisdictionId: context.jurisdiction.id,
+        }),
+      ),
+      policyCatalog: createProductionPolicyCatalog(),
+    }),
+  );
   // Materialize the same real D.C. government in each starting world through
   // its existing opening writer; this is not 56 different municipal powers.
-  if (!world.jurisdictions[place.context.jurisdiction.id])
-    world = {
-      ...world,
-      jurisdictions: {
-        ...world.jurisdictions,
-        [place.context.jurisdiction.id]: place.context.jurisdiction,
-      },
-    };
-  if (world.control.kind !== "person")
-    throw new Error("Actual opening subject required.");
-  const openingPersonId = world.control.personId;
+  // The executive opening registers its jurisdiction and canonical order.
+  // Do not inject a jurisdiction dictionary entry ahead of that writer.
+  const openingPersonId = world.personOrder[0];
+  if (!openingPersonId || !world.people[openingPersonId])
+    throw new Error("Actual saved opening subject required.");
   world = profile("actual-mayor-opening", () =>
     ensureStateExecutiveIncumbent(world, openingPersonId, "DC"),
   );
@@ -417,6 +434,18 @@ describe("municipal executives use the shared bill evaluator", () => {
         place.key,
       );
       const measure = requireMeasure(world, measureId);
+      expect(
+        measureActions(world, measureId).filter(
+          (action) => action.kind === "presented-to-executive",
+        ),
+      ).toHaveLength(1);
+      expect(
+        world.history.events.some(
+          (event) =>
+            event.stableKey === `${measure.stableKey}:executive-not-presented`,
+        ),
+      ).toBe(false);
+      expect(completeCouncilPassage(world, measure, governmentKey)).toBe(world);
       const expected = profile("expected-executive-evaluation", () =>
         evaluateGovernorBill(world, {
           stableKey: `${measure.stableKey}:executive-desk`,

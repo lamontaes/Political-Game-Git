@@ -1,9 +1,6 @@
+import { legacyPolicyMemberBallot } from "../../../tests/fixtures/a79-legacy-policy-ballot";
 import { beforeAll, describe, expect, it, vi } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
   constitutionalActions,
   proposeConstitutionalMeasure,
@@ -19,11 +16,7 @@ import { createFormationContext, recordPrinciples } from "../politics";
 import { SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { DecisionConsideration, EntityId, World } from "../types";
-import {
-  articleVProposalBallots,
-  memberBallot,
-  repeatsLastRejection,
-} from "./article-v";
+import { articleVProposalBallots, repeatsLastRejection } from "./article-v";
 import * as chamber from "./chamber-votes";
 import { seatedCongressChamber } from "./congress-chambers";
 
@@ -37,16 +30,10 @@ let measureId: EntityId;
 let propositionId: EntityId;
 
 beforeAll(() => {
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped",
-    }),
-  ).game!;
-  world = ensureNationalElectionJurisdiction(game.world);
+  // The opening's national offices and Congress, not its households or town.
+  world = ensureNationalElectionJurisdiction(
+    smallWorld({ place: place.key, seed, offices: ["congress"] }).world,
+  );
   propositionId = world.policyCatalog.propositionOrder.find((id) => {
     const proposition = world.policyCatalog.propositions[id]!;
     const bearings = proposition.principles ?? [];
@@ -131,7 +118,7 @@ describe("A79 recorded constitutional proposal uses the shared chamber vote", ()
     (bodyKey) => {
       const members = input(bodyKey).members;
       const old = members.map((member) =>
-        memberBallot(
+        legacyPolicyMemberBallot(
           world,
           `a79:comparison:${member.memberKey}`,
           member.personId!,

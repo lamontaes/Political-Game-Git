@@ -1,0 +1,1153 @@
+{
+  "dataset": "eia-electricity-generation-mix-2024",
+  "asOfYear": 2024,
+  "source": {
+    "agency": "U.S. Energy Information Administration",
+    "title": "Historical State Data: Net Generation by State by Type of Producer by Energy Source",
+    "url": "https://www.eia.gov/electricity/data/state/annual_generation_state.xls",
+    "release": "State Historical Tables for 2024; released September 2025",
+    "retrieved": "2026-10-06",
+    "selection": {
+      "year": 2024,
+      "typeOfProducer": "Total Electric Power Industry"
+    },
+    "sourceRecordUnit": "megawatthours",
+    "sparseFuelRows": "The source omits zero-generation fuel rows; omitted fuel rows are recorded here as source-supported 0 MWh. Explicit source rows retain their published values."
+  },
+  "derivation": {
+    "share": "fuel generation MWh / EIA Total generation MWh for the same state/year/producer",
+    "untrackedResidual": "Total generation minus the six assigned fuel categories (coal, natural gas, nuclear, wind, solar thermal and photovoltaic, and conventional hydroelectric). It includes the other EIA energy-source rows and any source-total rounding difference.",
+    "rounding": "derived shares rounded to 12 decimal places; source MWh retained as integers"
+  },
+  "coverage": {
+    "includedPlaceKeys": [
+      "US-AK",
+      "US-AL",
+      "US-AR",
+      "US-AZ",
+      "US-CA",
+      "US-CO",
+      "US-CT",
+      "US-DC",
+      "US-DE",
+      "US-FL",
+      "US-GA",
+      "US-HI",
+      "US-IA",
+      "US-ID",
+      "US-IL",
+      "US-IN",
+      "US-KS",
+      "US-KY",
+      "US-LA",
+      "US-MA",
+      "US-MD",
+      "US-ME",
+      "US-MI",
+      "US-MN",
+      "US-MO",
+      "US-MS",
+      "US-MT",
+      "US-NC",
+      "US-ND",
+      "US-NE",
+      "US-NH",
+      "US-NJ",
+      "US-NM",
+      "US-NV",
+      "US-NY",
+      "US-OH",
+      "US-OK",
+      "US-OR",
+      "US-PA",
+      "US-RI",
+      "US-SC",
+      "US-SD",
+      "US-TN",
+      "US-TX",
+      "US-UT",
+      "US-VA",
+      "US-VT",
+      "US-WA",
+      "US-WI",
+      "US-WV",
+      "US-WY"
+    ],
+    "includedPlaceCount": 51,
+    "excludedAggregate": "US-Total",
+    "notPresent": "Puerto Rico and the U.S. territories are outside this state-level source file. Their outcome bases use explicitly labeled estimates from the 50 states and D.C. rather than treating omitted generation as zero."
+  },
+  "places": {
+    "US-AK": {
+      "totalNetGenerationMwh": 6690506,
+      "fuelGenerationMwh": {
+        "coal": 752337,
+        "naturalGas": 3134186,
+        "nuclear": 0,
+        "wind": 123366,
+        "solar": 7770,
+        "hydro": 1715040
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.112448445603,
+        "naturalGas": 0.468452759776,
+        "nuclear": 0.0,
+        "wind": 0.018438964108,
+        "solar": 0.001161347139,
+        "hydro": 0.256339356097
+      },
+      "untrackedResidualMwh": 957807,
+      "untrackedResidualShare": 0.143159127277
+    },
+    "US-AL": {
+      "totalNetGenerationMwh": 142921216,
+      "fuelGenerationMwh": {
+        "coal": 20936166,
+        "naturalGas": 64598751,
+        "nuclear": 44487194,
+        "wind": 0,
+        "solar": 1255147,
+        "hydro": 8357262
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.146487460616,
+        "naturalGas": 0.451988534718,
+        "nuclear": 0.311270749334,
+        "wind": 0.0,
+        "solar": 0.008782090127,
+        "hydro": 0.058474607437
+      },
+      "untrackedResidualMwh": 3286696,
+      "untrackedResidualShare": 0.022996557768
+    },
+    "US-AR": {
+      "totalNetGenerationMwh": 61542484,
+      "fuelGenerationMwh": {
+        "coal": 15660355,
+        "naturalGas": 24725307,
+        "nuclear": 14762779,
+        "wind": 0,
+        "solar": 2329090,
+        "hydro": 3134464
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.254464135702,
+        "naturalGas": 0.401759977709,
+        "nuclear": 0.239879479028,
+        "wind": 0.0,
+        "solar": 0.037845238746,
+        "hydro": 0.050931710849
+      },
+      "untrackedResidualMwh": 930489,
+      "untrackedResidualShare": 0.015119457967
+    },
+    "US-AZ": {
+      "totalNetGenerationMwh": 116026511,
+      "fuelGenerationMwh": {
+        "coal": 9814665,
+        "naturalGas": 55089930,
+        "nuclear": 32388118,
+        "wind": 2540455,
+        "solar": 10820663,
+        "hydro": 5313826
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.084589848608,
+        "naturalGas": 0.474804676321,
+        "nuclear": 0.27914411733,
+        "wind": 0.021895470079,
+        "solar": 0.093260263596,
+        "hydro": 0.045798377924
+      },
+      "untrackedResidualMwh": 58854,
+      "untrackedResidualShare": 0.000507246141
+    },
+    "US-CA": {
+      "totalNetGenerationMwh": 214191383,
+      "fuelGenerationMwh": {
+        "coal": 245554,
+        "naturalGas": 86655675,
+        "nuclear": 18378835,
+        "wind": 15648353,
+        "solar": 48427600,
+        "hydro": 29453931
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.001146423337,
+        "naturalGas": 0.404571247388,
+        "nuclear": 0.085805669409,
+        "wind": 0.073057808306,
+        "solar": 0.226094996548,
+        "hydro": 0.137512212618
+      },
+      "untrackedResidualMwh": 15381435,
+      "untrackedResidualShare": 0.071811642395
+    },
+    "US-CO": {
+      "totalNetGenerationMwh": 58798395,
+      "fuelGenerationMwh": {
+        "coal": 16477718,
+        "naturalGas": 17926802,
+        "nuclear": 0,
+        "wind": 17602010,
+        "solar": 4938527,
+        "hydro": 1660362
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.280240948754,
+        "naturalGas": 0.304885907175,
+        "nuclear": 0.0,
+        "wind": 0.299362082928,
+        "solar": 0.083990847029,
+        "hydro": 0.028238219768
+      },
+      "untrackedResidualMwh": 192976,
+      "untrackedResidualShare": 0.003281994347
+    },
+    "US-CT": {
+      "totalNetGenerationMwh": 44761412,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 26036343,
+        "nuclear": 16870305,
+        "wind": 10450,
+        "solar": 476431,
+        "hydro": 368824
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.581669385229,
+        "nuclear": 0.376893941594,
+        "wind": 0.000233460017,
+        "solar": 0.010643788449,
+        "hydro": 0.008239775814
+      },
+      "untrackedResidualMwh": 999059,
+      "untrackedResidualShare": 0.022319648898
+    },
+    "US-DC": {
+      "totalNetGenerationMwh": 187195,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 99595,
+        "nuclear": 0,
+        "wind": 0,
+        "solar": 31648,
+        "hydro": 0
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.532038783087,
+        "nuclear": 0.0,
+        "wind": 0.0,
+        "solar": 0.169064344667,
+        "hydro": 0.0
+      },
+      "untrackedResidualMwh": 55952,
+      "untrackedResidualShare": 0.298896872246
+    },
+    "US-DE": {
+      "totalNetGenerationMwh": 4799212,
+      "fuelGenerationMwh": {
+        "coal": 143875,
+        "naturalGas": 4205666,
+        "nuclear": 0,
+        "wind": 2632,
+        "solar": 165782,
+        "hydro": 0
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.029978879866,
+        "naturalGas": 0.876324279903,
+        "nuclear": 0.0,
+        "wind": 0.000548423366,
+        "solar": 0.034543587572,
+        "hydro": 0.0
+      },
+      "untrackedResidualMwh": 281257,
+      "untrackedResidualShare": 0.058604829293
+    },
+    "US-FL": {
+      "totalNetGenerationMwh": 266119236,
+      "fuelGenerationMwh": {
+        "coal": 7846316,
+        "naturalGas": 204507263,
+        "nuclear": 29053590,
+        "wind": 0,
+        "solar": 18649153,
+        "hydro": 177238
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.029484212107,
+        "naturalGas": 0.768479821579,
+        "nuclear": 0.109175084209,
+        "wind": 0.0,
+        "solar": 0.070078184803,
+        "hydro": 0.000666009728
+      },
+      "untrackedResidualMwh": 5885676,
+      "untrackedResidualShare": 0.022116687574
+    },
+    "US-GA": {
+      "totalNetGenerationMwh": 139805428,
+      "fuelGenerationMwh": {
+        "coal": 17836880,
+        "naturalGas": 56936526,
+        "nuclear": 47975859,
+        "wind": 0,
+        "solar": 9184669,
+        "hydro": 2941170
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.127583601404,
+        "naturalGas": 0.407255475088,
+        "nuclear": 0.343161633181,
+        "wind": 0.0,
+        "solar": 0.065696082988,
+        "hydro": 0.021037595193
+      },
+      "untrackedResidualMwh": 4930324,
+      "untrackedResidualShare": 0.035265612148
+    },
+    "US-HI": {
+      "totalNetGenerationMwh": 9160979,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 0,
+        "nuclear": 0,
+        "wind": 663399,
+        "solar": 704978,
+        "hydro": 100483
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.0,
+        "nuclear": 0.0,
+        "wind": 0.072415731987,
+        "solar": 0.07695443904,
+        "hydro": 0.010968587528
+      },
+      "untrackedResidualMwh": 7692119,
+      "untrackedResidualShare": 0.839661241446
+    },
+    "US-IA": {
+      "totalNetGenerationMwh": 70464148,
+      "fuelGenerationMwh": {
+        "coal": 14464419,
+        "naturalGas": 9764541,
+        "nuclear": 0,
+        "wind": 44277157,
+        "solar": 663478,
+        "hydro": 1030463
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.205273453388,
+        "naturalGas": 0.138574598248,
+        "nuclear": 0.0,
+        "wind": 0.628364327913,
+        "solar": 0.009415823775,
+        "hydro": 0.014623933294
+      },
+      "untrackedResidualMwh": 264090,
+      "untrackedResidualShare": 0.003747863382
+    },
+    "US-ID": {
+      "totalNetGenerationMwh": 20035438,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 6285446,
+        "nuclear": 0,
+        "wind": 3015899,
+        "solar": 1017779,
+        "hydro": 9150273
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.313716425865,
+        "nuclear": 0.0,
+        "wind": 0.150528229031,
+        "solar": 0.050798939359,
+        "hydro": 0.456704415446
+      },
+      "untrackedResidualMwh": 566041,
+      "untrackedResidualShare": 0.028251990298
+    },
+    "US-IL": {
+      "totalNetGenerationMwh": 185012935,
+      "fuelGenerationMwh": {
+        "coal": 26965456,
+        "naturalGas": 30137333,
+        "nuclear": 99211858,
+        "wind": 24910345,
+        "solar": 3057409,
+        "hydro": 74896
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.145749031007,
+        "naturalGas": 0.162893113392,
+        "nuclear": 0.536242819995,
+        "wind": 0.134641099553,
+        "solar": 0.016525379698,
+        "hydro": 0.000404814939
+      },
+      "untrackedResidualMwh": 655638,
+      "untrackedResidualShare": 0.003543741415
+    },
+    "US-IN": {
+      "totalNetGenerationMwh": 97012880,
+      "fuelGenerationMwh": {
+        "coal": 40526060,
+        "naturalGas": 39859718,
+        "nuclear": 0,
+        "wind": 10312184,
+        "solar": 3091430,
+        "hydro": 375251
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.417738964146,
+        "naturalGas": 0.410870371027,
+        "nuclear": 0.0,
+        "wind": 0.106297060761,
+        "solar": 0.031866181068,
+        "hydro": 0.003868053397
+      },
+      "untrackedResidualMwh": 2848237,
+      "untrackedResidualShare": 0.029359369601
+    },
+    "US-KS": {
+      "totalNetGenerationMwh": 57696155,
+      "fuelGenerationMwh": {
+        "coal": 13079183,
+        "naturalGas": 5317906,
+        "nuclear": 9204226,
+        "wind": 29795187,
+        "solar": 121613,
+        "hydro": 20044
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.226690721418,
+        "naturalGas": 0.092170890764,
+        "nuclear": 0.159529278857,
+        "wind": 0.516415469974,
+        "solar": 0.002107818103,
+        "hydro": 0.000347406166
+      },
+      "untrackedResidualMwh": 157996,
+      "untrackedResidualShare": 0.002738414718
+    },
+    "US-KY": {
+      "totalNetGenerationMwh": 66950848,
+      "fuelGenerationMwh": {
+        "coal": 44829322,
+        "naturalGas": 17267337,
+        "nuclear": 0,
+        "wind": 0,
+        "solar": 276643,
+        "hydro": 4113686
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.669585574181,
+        "naturalGas": 0.257910654097,
+        "nuclear": 0.0,
+        "wind": 0.0,
+        "solar": 0.004132031308,
+        "hydro": 0.0614433741
+      },
+      "untrackedResidualMwh": 463860,
+      "untrackedResidualShare": 0.006928366314
+    },
+    "US-LA": {
+      "totalNetGenerationMwh": 99622835,
+      "fuelGenerationMwh": {
+        "coal": 3699808,
+        "naturalGas": 75263347,
+        "nuclear": 14651585,
+        "wind": 0,
+        "solar": 1198620,
+        "hydro": 885203
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.037138152111,
+        "naturalGas": 0.755482887031,
+        "nuclear": 0.147070548635,
+        "wind": 0.0,
+        "solar": 0.012031578905,
+        "hydro": 0.008885543159
+      },
+      "untrackedResidualMwh": 3924272,
+      "untrackedResidualShare": 0.03939129016
+    },
+    "US-MA": {
+      "totalNetGenerationMwh": 20914890,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 16202972,
+        "nuclear": 0,
+        "wind": 169237,
+        "solar": 2126725,
+        "hydro": 880681
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.774709883724,
+        "nuclear": 0.0,
+        "wind": 0.008091699263,
+        "solar": 0.101684732743,
+        "hydro": 0.042107847567
+      },
+      "untrackedResidualMwh": 1535275,
+      "untrackedResidualShare": 0.073405836703
+    },
+    "US-MD": {
+      "totalNetGenerationMwh": 35424816,
+      "fuelGenerationMwh": {
+        "coal": 2465722,
+        "naturalGas": 13910094,
+        "nuclear": 14724068,
+        "wind": 558320,
+        "solar": 1036359,
+        "hydro": 1848233
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.069604369999,
+        "naturalGas": 0.392665243484,
+        "nuclear": 0.41564275168,
+        "wind": 0.015760702893,
+        "solar": 0.029255169596,
+        "hydro": 0.052173397316
+      },
+      "untrackedResidualMwh": 882020,
+      "untrackedResidualShare": 0.024898365033
+    },
+    "US-ME": {
+      "totalNetGenerationMwh": 14655178,
+      "fuelGenerationMwh": {
+        "coal": 29380,
+        "naturalGas": 6398782,
+        "nuclear": 0,
+        "wind": 2446243,
+        "solar": 945193,
+        "hydro": 2851810
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.002004752177,
+        "naturalGas": 0.436622605334,
+        "nuclear": 0.0,
+        "wind": 0.166920046962,
+        "solar": 0.064495497769,
+        "hydro": 0.194594019943
+      },
+      "untrackedResidualMwh": 1983770,
+      "untrackedResidualShare": 0.135363077815
+    },
+    "US-MI": {
+      "totalNetGenerationMwh": 124200090,
+      "fuelGenerationMwh": {
+        "coal": 25738090,
+        "naturalGas": 55734281,
+        "nuclear": 26280776,
+        "wind": 9838928,
+        "solar": 1859352,
+        "hydro": 1254958
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.207230848222,
+        "naturalGas": 0.448745898654,
+        "nuclear": 0.211600297552,
+        "wind": 0.079218364496,
+        "solar": 0.014970617171,
+        "hydro": 0.010104324401
+      },
+      "untrackedResidualMwh": 3493705,
+      "untrackedResidualShare": 0.028129649503
+    },
+    "US-MN": {
+      "totalNetGenerationMwh": 58595222,
+      "fuelGenerationMwh": {
+        "coal": 11430486,
+        "naturalGas": 15888656,
+        "nuclear": 11844611,
+        "wind": 14781458,
+        "solar": 2285276,
+        "hydro": 867762
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.19507539369,
+        "naturalGas": 0.271159583626,
+        "nuclear": 0.202142949471,
+        "wind": 0.252263879127,
+        "solar": 0.039001063943,
+        "hydro": 0.014809432755
+      },
+      "untrackedResidualMwh": 1496973,
+      "untrackedResidualShare": 0.025547697387
+    },
+    "US-MO": {
+      "totalNetGenerationMwh": 66875710,
+      "fuelGenerationMwh": {
+        "coal": 38831623,
+        "naturalGas": 9099566,
+        "nuclear": 10525784,
+        "wind": 6789964,
+        "solar": 207676,
+        "hydro": 1020421
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.580653618481,
+        "naturalGas": 0.136066832038,
+        "nuclear": 0.157393229919,
+        "wind": 0.101531094025,
+        "solar": 0.003105402545,
+        "hydro": 0.015258469779
+      },
+      "untrackedResidualMwh": 400676,
+      "untrackedResidualShare": 0.005991353213
+    },
+    "US-MS": {
+      "totalNetGenerationMwh": 77336712,
+      "fuelGenerationMwh": {
+        "coal": 3334125,
+        "naturalGas": 60025537,
+        "nuclear": 10653403,
+        "wind": 346724,
+        "solar": 1690849,
+        "hydro": 0
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.043111801805,
+        "naturalGas": 0.776158378701,
+        "nuclear": 0.137753503149,
+        "wind": 0.004483304126,
+        "solar": 0.021863471517,
+        "hydro": 0.0
+      },
+      "untrackedResidualMwh": 1286074,
+      "untrackedResidualShare": 0.016629540702
+    },
+    "US-MT": {
+      "totalNetGenerationMwh": 26872883,
+      "fuelGenerationMwh": {
+        "coal": 9785486,
+        "naturalGas": 995229,
+        "nuclear": 0,
+        "wind": 5815191,
+        "solar": 366230,
+        "hydro": 9220043
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.36413979103,
+        "naturalGas": 0.037034694045,
+        "nuclear": 0.0,
+        "wind": 0.216396245985,
+        "solar": 0.013628236315,
+        "hydro": 0.34309839402
+      },
+      "untrackedResidualMwh": 690704,
+      "untrackedResidualShare": 0.025702638604
+    },
+    "US-NC": {
+      "totalNetGenerationMwh": 134965396,
+      "fuelGenerationMwh": {
+        "coal": 17078652,
+        "naturalGas": 55503196,
+        "nuclear": 43349344,
+        "wind": 530043,
+        "solar": 11843879,
+        "hydro": 4829075
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.126540969064,
+        "naturalGas": 0.411240196709,
+        "nuclear": 0.321188580812,
+        "wind": 0.003927251101,
+        "solar": 0.087754930901,
+        "hydro": 0.035780097292
+      },
+      "untrackedResidualMwh": 1831207,
+      "untrackedResidualShare": 0.01356797412
+    },
+    "US-ND": {
+      "totalNetGenerationMwh": 42557243,
+      "fuelGenerationMwh": {
+        "coal": 23183087,
+        "naturalGas": 2442153,
+        "nuclear": 0,
+        "wind": 14762570,
+        "solar": 0,
+        "hydro": 2060635
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.544750678516,
+        "naturalGas": 0.057385131833,
+        "nuclear": 0.0,
+        "wind": 0.34688736768,
+        "solar": 0.0,
+        "hydro": 0.048420312378
+      },
+      "untrackedResidualMwh": 108798,
+      "untrackedResidualShare": 0.002556509593
+    },
+    "US-NE": {
+      "totalNetGenerationMwh": 37228950,
+      "fuelGenerationMwh": {
+        "coal": 16352213,
+        "naturalGas": 1381470,
+        "nuclear": 6095731,
+        "wind": 11891207,
+        "solar": 196130,
+        "hydro": 1182670
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.439233795205,
+        "naturalGas": 0.037107412377,
+        "nuclear": 0.163736312735,
+        "wind": 0.319407530967,
+        "solar": 0.005268211969,
+        "hydro": 0.031767482027
+      },
+      "untrackedResidualMwh": 129529,
+      "untrackedResidualShare": 0.00347925472
+    },
+    "US-NH": {
+      "totalNetGenerationMwh": 16942479,
+      "fuelGenerationMwh": {
+        "coal": 224470,
+        "naturalGas": 4420983,
+        "nuclear": 9676862,
+        "wind": 444569,
+        "solar": 3509,
+        "hydro": 1411400
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.013248946627,
+        "naturalGas": 0.260940739546,
+        "nuclear": 0.571159745867,
+        "wind": 0.026239902673,
+        "solar": 0.000207112548,
+        "hydro": 0.083305400585
+      },
+      "untrackedResidualMwh": 760686,
+      "untrackedResidualShare": 0.044898152154
+    },
+    "US-NJ": {
+      "totalNetGenerationMwh": 60175245,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 29648850,
+        "nuclear": 27676781,
+        "wind": 19390,
+        "solar": 1596360,
+        "hydro": 3541
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.492708421877,
+        "nuclear": 0.459936324314,
+        "wind": 0.000322225526,
+        "solar": 0.026528516834,
+        "hydro": 5.8844796e-5
+      },
+      "untrackedResidualMwh": 1230323,
+      "untrackedResidualShare": 0.020445666652
+    },
+    "US-NM": {
+      "totalNetGenerationMwh": 39697294,
+      "fuelGenerationMwh": {
+        "coal": 8431834,
+        "naturalGas": 11647803,
+        "nuclear": 0,
+        "wind": 15135568,
+        "solar": 4286642,
+        "hydro": 153211
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.212403243405,
+        "naturalGas": 0.29341554112,
+        "nuclear": 0.0,
+        "wind": 0.381274552366,
+        "solar": 0.107983229285,
+        "hydro": 0.003859482211
+      },
+      "untrackedResidualMwh": 42236,
+      "untrackedResidualShare": 0.001063951613
+    },
+    "US-NV": {
+      "totalNetGenerationMwh": 45528427,
+      "fuelGenerationMwh": {
+        "coal": 2323250,
+        "naturalGas": 24999470,
+        "nuclear": 0,
+        "wind": 319340,
+        "solar": 12454761,
+        "hydro": 1606304
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.051028558487,
+        "naturalGas": 0.549095842912,
+        "nuclear": 0.0,
+        "wind": 0.007014079357,
+        "solar": 0.273560099056,
+        "hydro": 0.035281341919
+      },
+      "untrackedResidualMwh": 3825302,
+      "untrackedResidualShare": 0.084020078269
+    },
+    "US-NY": {
+      "totalNetGenerationMwh": 129015493,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 62345507,
+        "nuclear": 27073320,
+        "wind": 6031402,
+        "solar": 3127486,
+        "hydro": 27945295
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.483240466321,
+        "nuclear": 0.209845495068,
+        "wind": 0.04674943962,
+        "solar": 0.024241166137,
+        "hydro": 0.216604179469
+      },
+      "untrackedResidualMwh": 2492483,
+      "untrackedResidualShare": 0.019319253386
+    },
+    "US-OH": {
+      "totalNetGenerationMwh": 142746706,
+      "fuelGenerationMwh": {
+        "coal": 30079964,
+        "naturalGas": 85136664,
+        "nuclear": 17946987,
+        "wind": 2821711,
+        "solar": 4001558,
+        "hydro": 467543
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.210722648829,
+        "naturalGas": 0.596417713485,
+        "nuclear": 0.125726102569,
+        "wind": 0.019767258237,
+        "solar": 0.028032576808,
+        "hydro": 0.003275333022
+      },
+      "untrackedResidualMwh": 2292279,
+      "untrackedResidualShare": 0.016058367049
+    },
+    "US-OK": {
+      "totalNetGenerationMwh": 94069145,
+      "fuelGenerationMwh": {
+        "coal": 6135408,
+        "naturalGas": 47742413,
+        "nuclear": 0,
+        "wind": 37966661,
+        "solar": 311332,
+        "hydro": 1581588
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.065222321304,
+        "naturalGas": 0.50752468304,
+        "nuclear": 0.0,
+        "wind": 0.403603764018,
+        "solar": 0.003309608055,
+        "hydro": 0.016813036836
+      },
+      "untrackedResidualMwh": 331743,
+      "untrackedResidualShare": 0.003526586746
+    },
+    "US-OR": {
+      "totalNetGenerationMwh": 64661249,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 24925820,
+        "nuclear": 0,
+        "wind": 9518977,
+        "solar": 2001404,
+        "hydro": 26932746
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.385483119882,
+        "nuclear": 0.0,
+        "wind": 0.147213008521,
+        "solar": 0.030952139511,
+        "hydro": 0.4165206583
+      },
+      "untrackedResidualMwh": 1282302,
+      "untrackedResidualShare": 0.019831073786
+    },
+    "US-PA": {
+      "totalNetGenerationMwh": 241498648,
+      "fuelGenerationMwh": {
+        "coal": 13041571,
+        "naturalGas": 143912528,
+        "nuclear": 75404472,
+        "wind": 3256555,
+        "solar": 1094923,
+        "hydro": 2720842
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.054002666715,
+        "naturalGas": 0.595914425161,
+        "nuclear": 0.312235586511,
+        "wind": 0.013484775285,
+        "solar": 0.004533868032,
+        "hydro": 0.011266489575
+      },
+      "untrackedResidualMwh": 2067757,
+      "untrackedResidualShare": 0.008562188721
+    },
+    "US-RI": {
+      "totalNetGenerationMwh": 9777027,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 8791211,
+        "nuclear": 0,
+        "wind": 178146,
+        "solar": 600263,
+        "hydro": 2726
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.899170166964,
+        "nuclear": 0.0,
+        "wind": 0.018220876346,
+        "solar": 0.061395248269,
+        "hydro": 0.000278816863
+      },
+      "untrackedResidualMwh": 204681,
+      "untrackedResidualShare": 0.020934891558
+    },
+    "US-SC": {
+      "totalNetGenerationMwh": 100485416,
+      "fuelGenerationMwh": {
+        "coal": 16841756,
+        "naturalGas": 22808743,
+        "nuclear": 53770407,
+        "wind": 0,
+        "solar": 2925656,
+        "hydro": 2411673
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.167603983448,
+        "naturalGas": 0.226985605553,
+        "nuclear": 0.535106577058,
+        "wind": 0.0,
+        "solar": 0.029115230015,
+        "hydro": 0.024000229048
+      },
+      "untrackedResidualMwh": 1727181,
+      "untrackedResidualShare": 0.017188374878
+    },
+    "US-SD": {
+      "totalNetGenerationMwh": 20871994,
+      "fuelGenerationMwh": {
+        "coal": 1562679,
+        "naturalGas": 2260720,
+        "nuclear": 0,
+        "wind": 12073962,
+        "solar": 338312,
+        "hydro": 4600516
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.074869655482,
+        "naturalGas": 0.108313561225,
+        "nuclear": 0.0,
+        "wind": 0.578476689865,
+        "solar": 0.016208896955,
+        "hydro": 0.220415739867
+      },
+      "untrackedResidualMwh": 35805,
+      "untrackedResidualShare": 0.001715456607
+    },
+    "US-TN": {
+      "totalNetGenerationMwh": 76166766,
+      "fuelGenerationMwh": {
+        "coal": 17434868,
+        "naturalGas": 16483405,
+        "nuclear": 32185960,
+        "wind": 13186,
+        "solar": 1104334,
+        "hydro": 8911409
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.228903876528,
+        "naturalGas": 0.216412037239,
+        "nuclear": 0.422572227893,
+        "wind": 0.000173120124,
+        "solar": 0.014498895752,
+        "hydro": 0.116998652667
+      },
+      "untrackedResidualMwh": 33604,
+      "untrackedResidualShare": 0.000441189797
+    },
+    "US-TX": {
+      "totalNetGenerationMwh": 566502688,
+      "fuelGenerationMwh": {
+        "coal": 65545244,
+        "naturalGas": 293193469,
+        "nuclear": 38613118,
+        "wind": 124277504,
+        "solar": 40558964,
+        "hydro": 776742
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.115701558684,
+        "naturalGas": 0.517550004988,
+        "nuclear": 0.068160520361,
+        "wind": 0.219376724299,
+        "solar": 0.071595360197,
+        "hydro": 0.001371117943
+      },
+      "untrackedResidualMwh": 3537647,
+      "untrackedResidualShare": 0.006244713529
+    },
+    "US-UT": {
+      "totalNetGenerationMwh": 35133906,
+      "fuelGenerationMwh": {
+        "coal": 15966584,
+        "naturalGas": 11640450,
+        "nuclear": 0,
+        "wind": 748405,
+        "solar": 5311068,
+        "hydro": 758694
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.454449442655,
+        "naturalGas": 0.331316705862,
+        "nuclear": 0.0,
+        "wind": 0.021301502884,
+        "solar": 0.151166454422,
+        "hydro": 0.021594353898
+      },
+      "untrackedResidualMwh": 708705,
+      "untrackedResidualShare": 0.020171540278
+    },
+    "US-VA": {
+      "totalNetGenerationMwh": 102698615,
+      "fuelGenerationMwh": {
+        "coal": 1972109,
+        "naturalGas": 60998078,
+        "nuclear": 28945327,
+        "wind": 50260,
+        "solar": 6998366,
+        "hydro": 1253138
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.019202878247,
+        "naturalGas": 0.593952294293,
+        "nuclear": 0.281847296577,
+        "wind": 0.000489393163,
+        "solar": 0.068144696985,
+        "hydro": 0.012202092501
+      },
+      "untrackedResidualMwh": 2481337,
+      "untrackedResidualShare": 0.024161348232
+    },
+    "US-VT": {
+      "totalNetGenerationMwh": 2258891,
+      "fuelGenerationMwh": {
+        "coal": 0,
+        "naturalGas": 1068,
+        "nuclear": 0,
+        "wind": 355257,
+        "solar": 216848,
+        "hydro": 1283946
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.0,
+        "naturalGas": 0.000472798378,
+        "nuclear": 0.0,
+        "wind": 0.157270536737,
+        "solar": 0.09599754924,
+        "hydro": 0.568396615862
+      },
+      "untrackedResidualMwh": 401772,
+      "untrackedResidualShare": 0.177862499784
+    },
+    "US-WA": {
+      "totalNetGenerationMwh": 102397711,
+      "fuelGenerationMwh": {
+        "coal": 2846594,
+        "naturalGas": 18097481,
+        "nuclear": 9967139,
+        "wind": 8863339,
+        "solar": 436826,
+        "hydro": 60736309
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.027799390945,
+        "naturalGas": 0.176737163588,
+        "nuclear": 0.097337517633,
+        "wind": 0.086557979797,
+        "solar": 0.004265974266,
+        "hydro": 0.593141276371
+      },
+      "untrackedResidualMwh": 1450023,
+      "untrackedResidualShare": 0.014160697401
+    },
+    "US-WI": {
+      "totalNetGenerationMwh": 65276344,
+      "fuelGenerationMwh": {
+        "coal": 20763128,
+        "naturalGas": 26245562,
+        "nuclear": 10146871,
+        "wind": 1994117,
+        "solar": 2880236,
+        "hydro": 2071802
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.318080436613,
+        "naturalGas": 0.402068504327,
+        "nuclear": 0.155444842315,
+        "wind": 0.030548846302,
+        "solar": 0.0441237334,
+        "hydro": 0.031738940526
+      },
+      "untrackedResidualMwh": 1174628,
+      "untrackedResidualShare": 0.017994696517
+    },
+    "US-WV": {
+      "totalNetGenerationMwh": 50594818,
+      "fuelGenerationMwh": {
+        "coal": 43097869,
+        "naturalGas": 3782254,
+        "nuclear": 0,
+        "wind": 2002848,
+        "solar": 185815,
+        "hydro": 1361332
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.851823777684,
+        "naturalGas": 0.074755758584,
+        "nuclear": 0.0,
+        "wind": 0.039586030332,
+        "solar": 0.003672609317,
+        "hydro": 0.026906549995
+      },
+      "untrackedResidualMwh": 164700,
+      "untrackedResidualShare": 0.003255274088
+    },
+    "US-WY": {
+      "totalNetGenerationMwh": 40709150,
+      "fuelGenerationMwh": {
+        "coal": 24381618,
+        "naturalGas": 5426058,
+        "nuclear": 0,
+        "wind": 9001836,
+        "solar": 423149,
+        "hydro": 1016594
+      },
+      "sharesOfTotalNetGeneration": {
+        "coal": 0.598922306165,
+        "naturalGas": 0.133288413047,
+        "nuclear": 0.0,
+        "wind": 0.221125619179,
+        "solar": 0.010394444492,
+        "hydro": 0.024972125431
+      },
+      "untrackedResidualMwh": 459895,
+      "untrackedResidualShare": 0.011297091686
+    }
+  }
+}

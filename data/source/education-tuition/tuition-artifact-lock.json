@@ -1,0 +1,121 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "IC2023_AY",
+      "bytes": {
+        "length": 309736,
+        "sha256": "42d3ee39a107d69b6da02df2ffa934ebe3bb76657568fb9efb7027b6ce0d69ee"
+      },
+      "localPath": "data/source/education-tuition/raw/IC2023_AY.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ipeds/datacenter/data/IC2023_AY.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2023 Institutional Characteristics student charges; retain each dictionary field's actual academic or program vintage"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 309736,
+        "retrievedAt": "2026-10-02T17:19:42.435Z",
+        "url": "https://nces.ed.gov/ipeds/datacenter/data/IC2023_AY.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical student-charge product.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "IC2023_AY_Dict",
+      "bytes": {
+        "length": 40627,
+        "sha256": "45ce5ace49c5f1e965c1704e531bd2a8224b39fd74765792899e86e0bb0788b9"
+      },
+      "localPath": "data/source/education-tuition/raw/IC2023_AY_Dict.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ipeds/datacenter/data/IC2023_AY_Dict.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2023 Institutional Characteristics student charges; retain each dictionary field's actual academic or program vintage"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 40627,
+        "retrievedAt": "2026-10-02T17:19:44.896Z",
+        "url": "https://nces.ed.gov/ipeds/datacenter/data/IC2023_AY_Dict.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical student-charge product.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "IC2023_PY",
+      "bytes": {
+        "length": 147477,
+        "sha256": "05f944ee4179da344876cbc0b5b56e85ce721134508ef42c10f6480b801b6135"
+      },
+      "localPath": "data/source/education-tuition/raw/IC2023_PY.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ipeds/datacenter/data/IC2023_PY.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2023 Institutional Characteristics student charges; retain each dictionary field's actual academic or program vintage"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 147477,
+        "retrievedAt": "2026-10-02T17:19:47.081Z",
+        "url": "https://nces.ed.gov/ipeds/datacenter/data/IC2023_PY.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical student-charge product.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "IC2023_PY_Dict",
+      "bytes": {
+        "length": 63736,
+        "sha256": "2f77e7ba8c11360f0083bace66e36d7acca6a3b642bcd16de72ea1d503f86306"
+      },
+      "localPath": "data/source/education-tuition/raw/IC2023_PY_Dict.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ipeds/datacenter/data/IC2023_PY_Dict.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2023 Institutional Characteristics student charges; retain each dictionary field's actual academic or program vintage"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 63736,
+        "retrievedAt": "2026-10-02T17:19:49.275Z",
+        "url": "https://nces.ed.gov/ipeds/datacenter/data/IC2023_PY_Dict.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical student-charge product.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "education"
+}

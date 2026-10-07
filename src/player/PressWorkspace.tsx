@@ -1,3 +1,7 @@
+import {
+  pressAnswerPacket,
+  reporterQuestionPacket,
+} from "../presentation/press-english";
 import { useState } from "react";
 import {
   projectEligiblePressAdvisers,
@@ -22,7 +26,6 @@ import {
   publishPressInterview,
   projectPitchablePressBases,
   projectPressReachSnapshot,
-  seekCivicPressContact,
   type EntityId,
   type World,
 } from "../simulation";
@@ -219,12 +222,19 @@ export function PressWorkspace({
         backgroundAttribution: selectedAttribution,
       })
     : { ok: false as const, reason: "Choose a public development." };
-  const reporterQuestion = topic
-    ? composeReporterQuestion({
-        subjectSummary: topic.summary,
-        terms,
-      })
-    : { ok: false as const, reason: "Choose a public development." };
+  const reporterQuestion =
+    topic && reporter && controlledPersonId
+      ? composeReporterQuestion({
+          grounding: reporterQuestionPacket(
+            world,
+            controlledPersonId,
+            reporter.personId,
+            topic.eventId,
+          ),
+          subjectSummary: topic.summary,
+          terms,
+        })
+      : { ok: false as const, reason: "Choose a public development." };
   const requests = world.history.events.filter(
     (event) =>
       event.type === "press.interview-requested" &&
@@ -279,16 +289,7 @@ export function PressWorkspace({
             is optional unless you ask one to prepare you.
           </p>
           {reach.journalistCount === 0 ? (
-            <p>
-              No current journalism role is recorded in this life.
-              <button
-                type="button"
-                data-testid="press-seek-reporter"
-                onClick={() => change(() => seekCivicPressContact(world).world)}
-              >
-                Look for a reporter covering public affairs
-              </button>
-            </p>
+            <p>No current journalism role is recorded in this life.</p>
           ) : null}
           <form
             onSubmit={(event) => {
@@ -511,6 +512,7 @@ export function PressWorkspace({
       {view ? <PressPreparationTimeControl world={world} /> : null}
       {view ? (
         <PressInterviewPanel
+          answerPacket={pressAnswerPacket(world, view.activityId)}
           view={view}
           onClose={() => setSelected(null)}
           onOpenPerson={onOpenPerson}

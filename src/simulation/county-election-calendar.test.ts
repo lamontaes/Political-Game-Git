@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import calendarProfiles from "../../data/research/government/county-election-calendar-profiles.json";
+import calendarProfiles from "../../data/research/government/county-election-calendar-profiles.json" with { type: "json" };
 import { makeIsoDate } from "./dates";
 import { governmentUnit, countyGovernmentUnit } from "./government-units";
 import { nextCountyElection } from "./nationwide-world/county-election-calendar";

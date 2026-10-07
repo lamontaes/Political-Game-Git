@@ -27,7 +27,7 @@
  * currently show anyone.
  */
 
-import manifest from "../../art/manifest/civic_symbols.json";
+import manifest from "../../art/manifest/civic_symbols.json" with { type: "json" };
 
 // ---------------------------------------------------------------------------
 // Identity

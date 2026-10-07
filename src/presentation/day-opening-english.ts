@@ -1,3 +1,4 @@
+import { speakerTraits } from "./speaker-traits";
 import { daysBetween } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
@@ -165,7 +166,7 @@ export function dayOpeningLine(
     facts: factRows,
     // Every fact here is the viewer's own: their clock, their town, their
     // list and their household. They know each from the record it came from.
-    viewer: { personId, traits: {} },
+    viewer: { personId, traits: speakerTraits(world, personId) },
     knowledge: Object.entries(factRows).map(([factKey, fact]) => ({
       personId,
       factKey,

@@ -19,9 +19,6 @@ import { existsSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { join } from "node:path";
 
-import type * as PolygonClipping from "polygon-clipping";
-import type { MultiPolygon, Polygon, Ring as ClipRing } from "polygon-clipping";
-
 import {
   listZipMembers,
   readZipMember,
@@ -30,10 +27,22 @@ import {
 import { LINES_2026_DIRECTORY, loadLines2026 } from "./lines-2026-overlay";
 import type { Ring, ShapeRecord } from "./shapefile";
 
+// The CommonJS boundary uses the package's coordinate-array contract.
+// These types are erased; intersection and all geometry operations stay unchanged.
+type ClipRing = [number, number][];
+type Polygon = ClipRing[];
+type MultiPolygon = Polygon[];
+interface PolygonClipper {
+  intersection(
+    geometry: Polygon | MultiPolygon,
+    ...geometries: (Polygon | MultiPolygon)[]
+  ): MultiPolygon;
+}
+
 // The package ships CommonJS only; Node's ESM loader exposes no named exports.
 const { intersection } = createRequire(import.meta.url)(
   "polygon-clipping",
-) as typeof PolygonClipping;
+) as PolygonClipper;
 
 const MICRO = 1_000_000;
 const SPAN = 2 ** 26;

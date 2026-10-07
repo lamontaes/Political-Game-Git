@@ -398,6 +398,23 @@ function validateEvaluation(
       `Incident occurrence scope does not match incident: ${incident.id}`,
     );
   }
+  // An old save's drawn occurrence (before A134) is read as recorded: its
+  // definition has since become a condition, so it cannot be re-derived.
+  if (evaluation.rng !== null) {
+    const { key, draw, drawRangeExclusive, occurred } = evaluation.rng;
+    if (
+      typeof key !== "string" ||
+      key.length === 0 ||
+      drawRangeExclusive !== 4294967296 ||
+      !Number.isSafeInteger(draw) ||
+      draw < 0 ||
+      draw >= drawRangeExclusive ||
+      occurred !== true
+    ) {
+      throw new Error(`Incident has malformed recorded draw: ${incident.id}`);
+    }
+    return;
+  }
   const reconstructed = evaluateIncidentCore(
     world,
     incidentEvaluationInputFromSnapshot(evaluation),
