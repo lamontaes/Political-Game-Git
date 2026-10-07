@@ -1707,6 +1707,19 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  /*
+   * A person card is attached to the moment it was opened in. When the scene
+   * or the world's clock moves on, the room and the people in it are not the
+   * ones the card was opened over, so it closes instead of following the
+   * player across screens. The first run only records where it opened.
+   */
+  const cardMomentKey = `${playScene.sceneId ?? ""}|${session.world.currentDate}|${session.world.currentMoment?.minuteOfDay ?? ""}`;
+  const cardMomentRef = useRef(cardMomentKey);
+  useEffect(() => {
+    if (cardMomentRef.current === cardMomentKey) return;
+    cardMomentRef.current = cardMomentKey;
+    dispatch({ type: "close-quick-dossier" });
+  }, [cardMomentKey, dispatch]);
   // A place picture fills any screen whose room has no picture of its own:
   // no room at all, or a room whose plate was retired (the public meeting).
   const sceneHasPlate = useMemo(() => {
