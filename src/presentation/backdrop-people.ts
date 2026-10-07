@@ -371,7 +371,10 @@ export function placeBackdropPeople(
   const counterJob = (title: string) => COUNTER_TITLE.test(title);
   const usable = (stage?.spots ?? []).filter(
     (spot) =>
-      spot.facing !== "away" &&
+      // A seat facing away from the viewer has no back-view drawing yet; a
+      // scene that faces its people to the room seats them there front on
+      // until it lands (OW-14).
+      (spot.facing !== "away" || options.faceRoom === true) &&
       !(spot.pose === "podium" && spot.audience === "away") &&
       (!options.standing || spot.pose === "stand") &&
       (spot.pose !== "podium" || options.speakerId !== undefined),

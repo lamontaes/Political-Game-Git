@@ -50,6 +50,7 @@ import {
   openingFamilyPeople,
   openingTourStagedPeople,
   chamberFloorPeople,
+  openingChamberMembers,
   openingHouseholdPeople,
 } from "../presentation/opening-tour-people";
 import {
@@ -398,10 +399,29 @@ export function WorldOrientationPanel({
         : null,
     [step?.key, world, personId],
   );
+  // OW-14: the state chamber seats its lawmakers, yours first.
+  const chamberRoster = useMemo(
+    () =>
+      step?.key === "legislature" &&
+      world &&
+      personId &&
+      backdrop.kind === "place"
+        ? openingChamberMembers(
+            world,
+            personId,
+            backdropStaging(backdrop.place)?.spots.filter((spot) =>
+              ["general", "member-at-dais"].includes(spot.role ?? "general"),
+            ).length ?? 0,
+          )
+        : null,
+    [step?.key, world, personId, backdrop],
+  );
   const sceneRoster =
-    step?.key === "executive" || step?.key === "legislature"
-      ? (step?.people ?? [])
-      : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
+    step?.key === "legislature" && chamberRoster?.length
+      ? chamberRoster
+      : step?.key === "executive" || step?.key === "legislature"
+        ? (step?.people ?? [])
+        : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
   const measuredPlace =
     backdrop.kind === "place" &&
     !(step?.key === "executive" && establishingPlate) &&
@@ -420,16 +440,21 @@ export function WorldOrientationPanel({
               step?.key === "parents" ||
               step?.key === "your-life" ||
               step?.key === "year" ||
-              step?.key === "congress",
-            memberIds: new Set(
-              (chapter?.actors ?? [])
+              step?.key === "congress" ||
+              step?.key === "legislature",
+            // Every lawmaker on a chamber's roster may take a member's desk.
+            memberIds: new Set([
+              ...(chapter?.actors ?? [])
                 .filter(
                   (actor) =>
                     actor.role === "state-legislator" ||
                     actor.role === "congress-member",
                 )
                 .map((actor) => actor.person.personId),
-            ),
+              ...(chamberRoster ?? floorRoster ?? []).map(
+                (person) => person.personId,
+              ),
+            ]),
           })
         : [],
     [measuredPlace, world, personId, sceneRoster, chapter, step?.key],

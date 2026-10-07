@@ -9,6 +9,7 @@ import { placeBackdropPeople } from "./backdrop-people";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import {
+  planStateChambers,
   stateLegislators,
   type StateLegislatorView,
 } from "../simulation/nationwide-world/state-legislature-opening";
@@ -116,6 +117,45 @@ export function openingLegislaturePeople(
   return openingLegislatureActorSources(world, personId).map(
     (source) => source.person,
   );
+}
+
+/**
+ * The state's lawmakers in their chamber (OW-14): your own members first,
+ * then the rest of the seated legislature in roster order, up to the number
+ * of seats the room has, so the chamber is full of the people who sit there.
+ */
+export function openingChamberMembers(
+  world: World,
+  personId: EntityId,
+  limit: number,
+): readonly OrientationPerson[] {
+  const own = openingLegislaturePeople(world, personId);
+  const state = homeStateUsps(world, personId);
+  const pack = state ? stateCandidacyPack(`US-${state}`) : null;
+  const chamberNames = new Map(
+    (pack ? planStateChambers(pack).chambers : []).map((plan) => [
+      plan.officeKey,
+      plan.chamberName,
+    ]),
+  );
+  const seen = new Set(own.map((person) => person.personId));
+  const rest = (pack ? stateLegislators(world, pack.packId) : []).flatMap(
+    (member) => {
+      const person = world.people[member.personId];
+      if (!person || seen.has(member.personId)) return [];
+      seen.add(member.personId);
+      return [
+        {
+          personId: member.personId,
+          name: personName(person),
+          title: chamberNames.get(member.officeKey) ?? "",
+          party: null,
+          facts: [],
+        },
+      ];
+    },
+  );
+  return [...own, ...rest].slice(0, limit);
 }
 
 /** Retain the exact district-qualified selector and its canonical seat source. */
