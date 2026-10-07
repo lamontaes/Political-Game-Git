@@ -278,6 +278,7 @@ import type {
   WorldGeneratorVersion,
   WorldLineage,
 } from "./types";
+
 const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
   "birth-date",
   "birthplace",
