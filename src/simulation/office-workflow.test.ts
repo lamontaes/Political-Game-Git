@@ -23,7 +23,7 @@ import { peopleKnownTo } from "./living-world/official-views";
 import type { EntityId } from "./types";
 
 describe("office workflow persistence", () => {
-  it("records a preference on an existing work relationship and reloads it", () => {
+  it("persists an office preference and routes cases across all 56 jurisdictions", () => {
     const built = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "l-workflow-persist",
