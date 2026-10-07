@@ -25,9 +25,7 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   await page.getByTestId("new-game").focus();
   await page.keyboard.press("Enter");
   await expect(page.getByTestId("setup-screen")).toBeVisible();
-  await page
-    .getByRole("button", { name: "Return to title", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Back", exact: true }).click();
   await expect(page.getByTestId("title-screen")).toBeVisible();
   await fillCreator(page, {
     place: place.displayName,
@@ -94,7 +92,6 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   await expect(townChoice).toContainText(place.displayName);
   await townChoice.click();
   await page.getByTestId("creator-continue-place").click();
-  await page.getByTestId("whoareyou-play").click();
   await expect(page.getByTestId("creator-engine-figure")).toBeVisible({
     timeout: 30_000,
   });
@@ -117,4 +114,21 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   });
   await enterLife(page);
   await expect(page.getByTestId("shell-nav-cluster")).toBeVisible();
+});
+
+test("the title menu stays on the page instead of scrolling inside its frame", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1000, height: 320 });
+  await page.goto(`/?seed=${seed}`);
+  const menu = page.getByTestId("title-screen");
+  await expect(menu).toBeVisible();
+  const overflow = await menu.evaluate((element) => ({
+    clientHeight: element.clientHeight,
+    scrollHeight: element.scrollHeight,
+    overflowY: getComputedStyle(element).overflowY,
+  }));
+  expect(overflow.scrollHeight).toBe(overflow.clientHeight);
+  expect(overflow.overflowY).not.toBe("auto");
+  expect(overflow.overflowY).not.toBe("scroll");
 });

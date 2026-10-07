@@ -1,3 +1,4 @@
+import { recordConversationContact } from "./conversation-contact";
 import { recordClaim, recordEventKnowledge } from "../simulation/records";
 import type {
   ClaimAudience,
@@ -65,5 +66,14 @@ export function recordSpokenExchange(
       },
     });
   }
+  for (const personId of recipients)
+    next = recordConversationContact(next, {
+      playerPersonId: input.speakerPersonId,
+      personId,
+      eventId: event.id,
+      occurredAt: event.occurredAt,
+      timeTogether: false,
+      date: false,
+    });
   return next;
 }

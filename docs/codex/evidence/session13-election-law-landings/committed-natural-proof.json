@@ -1,0 +1,753 @@
+{
+  "source": "aa5f05b2a9e85deb21c933f293ff84dd09e616be",
+  "seed": "session13-election-landing-pool-2026-10-06",
+  "place": {
+    "key": "3823340",
+    "name": "Elliott, North Dakota",
+    "within": "North Dakota"
+  },
+  "drawnPlaceLaw": {
+    "answer": "yes",
+    "measureId": "starting-law:US-ND:us-policy-positions:government-operations.legislative-term-limits",
+    "origin": "in-force-at-start",
+    "level": "state-statute",
+    "operativeAt": "2023-01-01",
+    "operativeBasis": "enacted-date",
+    "preempts": true
+  },
+  "worldId": "world_953a393681a62f20",
+  "playerPersonId": "person_81872335cd75a08a",
+  "from": "2026-01-05",
+  "to": "2026-01-06",
+  "people": 10554,
+  "actualBarCount": 36,
+  "linkedExposureCount": 36,
+  "causes": [
+    {
+      "personId": "person_3c03f16c95c7f2ad",
+      "name": "Mira Jennings",
+      "eventId": "event_4b5240b08719b1ec",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AZ:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_c00c4c51bcfc2c6c",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the Arizona Senate, District 1 may not seek another term: they have served 5 years in this chamber, and the state's limit is 8 (Ariz. Const. art. 4, pt. 2, § 21).",
+      "exposureId": "law-exposure_2608282f576f54ea",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_7b0bcf162964322e",
+      "name": "Martin Barnes",
+      "eventId": "event_79bcd198d2ab1d83",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 6 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_33c740d1a1e58e23",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_eb0a626888cf7c9a",
+      "name": "Wesley Sparks",
+      "eventId": "event_288c9674dad23885",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 11 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_deb33ab9af6fc335",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_21605f4ace1fcc08",
+      "name": "Andrew Trevino",
+      "eventId": "event_db2dafd8cb3df823",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 17 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_36b5d5e444c66183",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_62ee4b02a502b393",
+      "name": "Gabriela McCormick",
+      "eventId": "event_7942cbfce3cdcaf4",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 18 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_3a782c6b9a5f5462",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_57da9ce87be7ff9e",
+      "name": "Margaret Guzman",
+      "eventId": "event_6177d6495b9ecf4d",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 20 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_459eca9ddf0435f5",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_6abf9b52c43ca8a3",
+      "name": "Bo Sullivan",
+      "eventId": "event_c8beeb949b70f2b0",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 25 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_9936716a81d0a919",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_62dfd925b30c9b13",
+      "name": "Deborah Long",
+      "eventId": "event_307599e36ae2af74",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 47 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_58d184bf5319939c",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_49fbb8d1c4d2bea6",
+      "name": "Wesley Wallace",
+      "eventId": "event_858a551efb8ee8f1",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 59 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_64cba69ab01695c4",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_bf2b8562dd759fa2",
+      "name": "Garrett Merritt",
+      "eventId": "event_f3123a7c4d75064d",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 82 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_66f16974ead68713",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_5efd4a0458b05f01",
+      "name": "John Parrish",
+      "eventId": "event_c21ce69184e51d6a",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 85 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_78da242d0a01302d",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_93a5464c156158dd",
+      "name": "Alina Green",
+      "eventId": "event_694a7dc02ec979c6",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 89 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_ee36e2eeb915e22d",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_c00c75aa65a630e5",
+      "name": "Emerson Powell",
+      "eventId": "event_794f176b238b407e",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 92 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_c9a478af7aea0440",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_e2a39a9a1c159eae",
+      "name": "Anya Estes",
+      "eventId": "event_2d15d600a320cbf9",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 95 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_7193d87a3106daf3",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_668cf81fd27a2751",
+      "name": "Vivian Lara",
+      "eventId": "event_56a5eae7321e1b3a",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas House of Representatives, District 96 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_d262673bd79ea600",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_cc7b94bacc2084e2",
+      "name": "Miranda Vang",
+      "eventId": "event_f1e68e78b43fdd37",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 2 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_b9c115edeecae734",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_ce77c6ebe6fcb1e3",
+      "name": "Paige McCarthy",
+      "eventId": "event_170a85e9344cc896",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 3 may not seek another term: they have served 9 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_50c3500d0d7ec33f",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_555cfb6f93516ade",
+      "name": "Philip Dean",
+      "eventId": "event_976125a75cb2a513",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 6 may not seek another term: they have served 9 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_437a2ea4e80209e5",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_283639dd81e5dc0f",
+      "name": "Andre Travis",
+      "eventId": "event_09ce385b18cb14b2",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 7 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_63d1f7ee2973d7ed",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_b5987dea30c8d1dc",
+      "name": "Karim Potter",
+      "eventId": "event_4250c820046f8d97",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 13 may not seek another term: they have served 9 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_7d55bab2dee0ca05",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_6405f2dbf8b8c046",
+      "name": "Taylor Michael",
+      "eventId": "event_49d23258abc88cf1",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 15 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_ef15df2e1ecb2466",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_ab59e26a4ae8c8e9",
+      "name": "Blair Wade",
+      "eventId": "event_b0b38b6c2d00ad12",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 16 may not seek another term: they have served 9 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_155ec652d797789b",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_81556380034968c3",
+      "name": "Bo Ryan",
+      "eventId": "event_de0e14dc8ae8cb44",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 18 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_7bb27499849e02c0",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_7f1bf672ea57fe42",
+      "name": "Derek Schroeder",
+      "eventId": "event_f0458077bf77e27d",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 19 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_11eb7fe4a7634fda",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_004d7c7a6baa9664",
+      "name": "Fatima Jackson",
+      "eventId": "event_22699f232f2080bb",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 26 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_1597413bea403214",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_7ffde6ba728a4285",
+      "name": "Frances Mosley",
+      "eventId": "event_408631d477966cba",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 27 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_043ee3b063abc3c6",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_6c4d3462e27fdb16",
+      "name": "Dakota Sharpe",
+      "eventId": "event_0a26cf5fcd743b75",
+      "eventDate": "2025-11-11",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AR:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2025-11-11"
+      },
+      "savedReason": "The holder of Member of the Arkansas Senate, District 28 may not seek another term: they have served 9 years in the legislature, and the state's limit is 12 (Ark. Const. amend. 73, § 2).",
+      "exposureId": "law-exposure_5e01f988e5bad9ef",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_5828d90afe19a5f4",
+      "name": "Rafael Sawyer",
+      "eventId": "event_d4e7753bdecf93d6",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-CA:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the California Assembly, District 61 may not seek another term: they have served 12 years in the legislature, and the state's limit is 12 (Cal. Const. art. IV, § 2(a)).",
+      "exposureId": "law-exposure_8341e4cd0ee57f3a",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_89d0a80ccb50c722",
+      "name": "Alex McCoy",
+      "eventId": "event_2aa06b563240d35e",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-CO:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_51a962cef0f937d1",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the Colorado House of Representatives, District 1 may not seek another term: they have served 7 years in this chamber, and the state's limit is 8 (Colo. Const. art. V, § 3).",
+      "exposureId": "law-exposure_4a2c5cef2870ed7a",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_9e45fc34bdf31df6",
+      "name": "Priya Owen",
+      "eventId": "event_23553b5def92307a",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-FL:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_83dbdb4d39ee710d",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the Florida House of Representatives, District 1 may not seek another term: they have served 7 years in this chamber, and the state's limit is 8 (Fla. Const. art. VI, § 4(b)).",
+      "exposureId": "law-exposure_57cb8eecb3fe27e1",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_f094114f0c48af5c",
+      "name": "Mina Caldwell",
+      "eventId": "event_62a6a993b74b19de",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-FL:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_83dbdb4d39ee710d",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the Florida Senate, District 1 may not seek another term: they have served 8 years in this chamber, and the state's limit is 8 (Fla. Const. art. VI, § 4(b)).",
+      "exposureId": "law-exposure_76fb8895f3c5e8a6",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_eded65e74d188dbe",
+      "name": "Ahmad Rodgers",
+      "eventId": "event_8bbf4b22f3f7d68a",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-ME:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_95dc3c80ebc2da09",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the Maine House of Representatives, District 1 may not seek another term: they have served 7 years in this chamber, and the state's limit is 8 (Me. Rev. Stat. tit. 21-A, § 553).",
+      "exposureId": "law-exposure_7255090e8e92b986",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_02228a910a37fa61",
+      "name": "Lana Newman",
+      "eventId": "event_d7506ae0f6da0d63",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-MI:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_e3b5bf248cf4b8b5",
+        "operativeAt": "2022-12-23",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the Michigan Senate, District 11 may not seek another term: they have served 11 years in the legislature, and the state's limit is 12 (Mich. Const. art. IV, § 54).",
+      "exposureId": "law-exposure_2302c42320a142df",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_3d419a84a4c562c6",
+      "name": "Omar Sanford",
+      "eventId": "event_ed4846f3a5363bb4",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-MO:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_33cbfed7ea823907",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the Missouri Senate, District 18 may not seek another term: they have served 5 years in this chamber, and the state's limit is 8 (Mo. Const. art. III, § 8).",
+      "exposureId": "law-exposure_81de314fd82ff1d7",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_4125ef9df2643161",
+      "name": "Diana Peck",
+      "eventId": "event_95967e4b8f46e450",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-MT:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_fe97da6aa9eaa7be",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the Montana House of Representatives, District 61 may not seek another term: they have served 8 years in this chamber, and the state's limit is 8 (Mont. Const. art. IV, § 8).",
+      "exposureId": "law-exposure_455623818ca10fec",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    },
+    {
+      "personId": "person_3be108987c7ea901",
+      "name": "Tristan Campos",
+      "eventId": "event_ee3a4339b9ee1f0c",
+      "eventDate": "2026-01-06",
+      "recordedAt": "2026-01-06",
+      "law": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-MT:us-policy-positions:government-operations.legislative-term-limits",
+        "source": "in-force-at-start",
+        "effectKind": "election.state-legislative-candidacy-intent",
+        "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+        "jurisdictionId": "jurisdiction_fe97da6aa9eaa7be",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-06"
+      },
+      "savedReason": "The holder of Member of the Montana Senate, District 21 may not seek another term: they have served 6 years in this chamber, and the state's limit is 8 (Mont. Const. art. IV, § 8).",
+      "exposureId": "law-exposure_c85d1cb33e5c8039",
+      "journalAccount": "The term-limit law prevented you from seeking another term."
+    }
+  ],
+  "limits": [
+    "This is one ordinary generated day, not an election-night scene or browser proof.",
+    "Accounts belong to the named officeholders; the randomly generated player was not assumed to hold office.",
+    "Full-world Save/Continue was not exercised; focused canonical fixtures test reload.",
+    "Other LW-12 and LW-13 laws remain unfinished."
+  ]
+}

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 
 import {
   assertWorldIntegrity,
@@ -22,7 +23,13 @@ import {
 import { isPlayableWork } from "../simulation/playable-work";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
-import type { EntityId, World } from "../simulation";
+import type {
+  EntityId,
+  Organization,
+  OrganizationProfileRecord,
+  World,
+} from "../simulation";
+import { createStableId } from "../simulation/ids";
 import { letAdultTimePass } from "./adult-life";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
@@ -99,17 +106,11 @@ describe("the businesses of a town", () => {
     expect(market.ownerLine).toMatch(/^\S+ \S+, owner$/);
     const groceryPlan = plans.find((plan) => plan.kind.key === "grocery")!;
     expect(groceryPlan.workers).toBeLessThanOrEqual(LOCAL_BUSINESS_MAX_STAFF);
-    expect(market.staffLine).toBe(
-      `${groceryPlan.workers} other people work there.`,
-    );
+    expect(market.otherStaff).toBe(groceryPlan.workers);
     const law = lines.find((line) => line.name.endsWith(" Law Office"))!;
     expect(law.ownerLine).toMatch(/, attorney$/);
     const lawPlan = plans.find((plan) => plan.kind.key === "law-office")!;
-    expect(law.staffLine).toBe(
-      lawPlan.workers === 1
-        ? "One other person works there."
-        : `${lawPlan.workers} other people work there.`,
-    );
+    expect(law.otherStaff).toBe(lawPlan.workers);
     // Owners carry their own risk; nothing here is played work.
     for (const { organization } of seated) {
       const owner = world.history.workRelationships.find(
@@ -256,5 +257,76 @@ describe("the businesses of a town", () => {
     expect(isPlayableWork("employment:civil-service")).toBe(true);
     expect(isPlayableWork("employment:local-business")).toBe(false);
     expect(isPlayableWork("employment:part-time")).toBe(false);
+  });
+
+  it("reads a place's recorded employers in every jurisdiction", () => {
+    const jurisdictions = Object.keys(
+      (nominationRules as { places: Record<string, unknown> }).places,
+    ).sort();
+    expect(jurisdictions).toHaveLength(56);
+    const { world, townId } = openedLife(
+      "ow18-place-records-all-jurisdictions",
+    );
+    let placeWorld = world;
+    const provenance = {
+      kind: "generated" as const,
+      generatorKey: "ow18-place-employer-record-test",
+    };
+
+    for (const jurisdiction of jurisdictions) {
+      const placeId = createStableId(
+        "jurisdiction",
+        `ow18-place-record:${jurisdiction}`,
+      );
+      const stableKey = `place-record-employer:${jurisdiction}`;
+      const organizationId = createStableId(
+        "organization",
+        `${world.id}:${stableKey}`,
+      );
+      const profileKey = `${stableKey}:profile:initial`;
+      const sequence = placeWorld.history.nextSequence;
+      const organization: Organization = {
+        id: organizationId,
+        stableKey,
+        formedAt: placeWorld.currentDate,
+        detailLevel: "lightweight",
+        provenance,
+        sequence,
+      };
+      const profile: OrganizationProfileRecord = {
+        id: createStableId("organization-profile", `${world.id}:${profileKey}`),
+        stableKey: profileKey,
+        sequence: sequence + 1,
+        organizationId,
+        effectiveAt: placeWorld.currentDate,
+        locationJurisdictionId: placeId,
+        name: `Recorded employer ${jurisdiction}`,
+        classification: "enterprise:retail",
+        provenance,
+        supersedesProfileId: null,
+      };
+      placeWorld = {
+        ...placeWorld,
+        history: {
+          ...placeWorld.history,
+          nextSequence: sequence + 2,
+          organizations: [...placeWorld.history.organizations, organization],
+          organizationProfiles: [
+            ...placeWorld.history.organizationProfiles,
+            profile,
+          ],
+        },
+      } as World;
+      expect(
+        projectTownBusinesses(placeWorld, placeId).map(
+          (business) => business.organizationId,
+        ),
+      ).toContain(organizationId);
+      expect(
+        projectTownBusinesses(placeWorld, townId).some(
+          (business) => business.organizationId === organizationId,
+        ),
+      ).toBe(false);
+    }
   });
 });

@@ -26,7 +26,11 @@ import {
   organizationProfileAt,
 } from "./life-queries";
 import { SeededRng } from "./rng";
-import { generateSchoolNames, SCHOOL_NAMES_V2_VERSION } from "./school-names";
+import { generateSchoolNames, SCHOOL_NAMES_V3_VERSION } from "./school-names";
+import {
+  localInstitutionProvenance,
+  localSchoolInstitutionFor,
+} from "./local-institutions";
 import { STATES } from "./state-reference";
 import type {
   EducationEnrollment,
@@ -50,7 +54,8 @@ import type {
  * that end enrolls them in the next school for the fall, and the fall's first
  * day schedules the end of that one, until they graduate.
  *
- * PLACEHOLDER, NOT RESEARCHED — the same calendar a summarized childhood uses
+ * ESTIMATED FROM AVERAGE — the common U.S. grade structure, with the same
+ * calendar a summarized childhood uses
  * (`how-a-summarized-childhood-varies`): a child who is five by September 1
  * starts kindergarten that fall; middle school six years on, high school three
  * after that, graduation four after that. A school year starts on the first
@@ -761,7 +766,7 @@ function catchUpSchool(
     : undefined;
   if (!jurisdiction) return world;
   const ahead = STAGES.slice(STAGES.indexOf(due));
-  const names = stageSchoolNames(world, jurisdiction);
+  const names = stageSchoolNames(world, jurisdiction, today);
   let next = world;
   for (const stage of ahead) {
     if (stage === due && due === started) continue;
@@ -771,9 +776,9 @@ function catchUpSchool(
     next = createOrganization(next, {
       stableKey,
       formedAt: today,
-      provenance: PROVENANCE,
+      provenance: names[stage].provenance,
       initialProfile: {
-        name: names[stage],
+        name: names[stage].name,
         classification: "sector:education",
         locationJurisdictionId: jurisdictionId,
       },
@@ -823,16 +828,33 @@ function catchUpSchool(
 function stageSchoolNames(
   world: World,
   jurisdiction: Jurisdiction,
-): Readonly<Record<SchoolStageKey, string>> {
+  effectiveAt: IsoDate,
+): Readonly<
+  Record<SchoolStageKey, { name: string; provenance: LifeRecordProvenance }>
+> {
   const state = jurisdiction.parentName
     ? (Object.entries(STATES).find(
         ([, reference]) => reference.name === jurisdiction.parentName,
       )?.[0] ?? null)
     : null;
-  return generateSchoolNames(
+  const generated = generateSchoolNames(
     new SeededRng(world.seed).fork("production-world-v1:child-school"),
     residentNameForJurisdiction(jurisdiction.name, jurisdiction.parentName),
-    SCHOOL_NAMES_V2_VERSION,
+    SCHOOL_NAMES_V3_VERSION,
     { state },
   );
+  const result = {} as Record<
+    SchoolStageKey,
+    { name: string; provenance: LifeRecordProvenance }
+  >;
+  for (const stage of STAGES) {
+    const row = localSchoolInstitutionFor(world, jurisdiction.id, stage);
+    result[stage] = row
+      ? {
+          name: row.name,
+          provenance: localInstitutionProvenance(row, effectiveAt),
+        }
+      : { name: generated[stage], provenance: PROVENANCE };
+  }
+  return result;
 }

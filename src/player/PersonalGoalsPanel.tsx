@@ -48,9 +48,7 @@ export function PersonalGoalsPanel({
       setProblem(null);
       if (next !== world) onWorldChange(next);
     } catch (error) {
-      setProblem(
-        error instanceof Error ? error.message : "That aim could not be set.",
-      );
+      setProblem(error instanceof Error ? error.message : "aim-not-set");
     }
   }
 
@@ -68,15 +66,9 @@ export function PersonalGoalsPanel({
       data-testid="personal-goals"
     >
       <h3 id="pg-goals-heading">What you mean to do</h3>
-      <p className="game-note">
-        Private aims. Nobody learns of them unless you act on them, and setting
-        or changing one takes no time.
-      </p>
 
       {current.length === 0 ? (
-        <p className="game-note" data-testid="personal-goals-none">
-          You have not set any aims.
-        </p>
+        <p data-testid="personal-goals-none" />
       ) : (
         <ul className="pg-goals-list">
           {current.map((goal) => (
@@ -100,9 +92,6 @@ export function PersonalGoalsPanel({
                        an aim with nothing under it says why rather than
                        leaving the player to guess. */
                     <>
-                      <p className="game-note">
-                        Nothing offers a way toward this right now, because:
-                      </p>
                       <ul className="pg-goals-obstacles">
                         {goal.obstacles.map((obstacle) => (
                           <li key={obstacle} className="game-note">
@@ -112,9 +101,7 @@ export function PersonalGoalsPanel({
                       </ul>
                     </>
                   ) : (
-                    <p className="game-note">
-                      Nothing in the world offers a way toward this right now.
-                    </p>
+                    <p data-testid="personal-goal-no-way" />
                   )
                 ) : (
                   <div className="pg-goals-actions">

@@ -5,6 +5,7 @@ import {
   applyFullBirthday,
   resolveCreatorBirthday,
   creatorBirthdayAgeRange,
+  birthYearChoiceLabel,
   birthYearChoices,
   birthYearForSetup,
   randomFullBirthday,
@@ -44,6 +45,28 @@ describe("full birthday with a derived starting age", () => {
       expect(range.minimum).toBeGreaterThanOrEqual(MINIMUM_START_AGE);
       expect(range.maximum).toBeLessThanOrEqual(MAXIMUM_START_AGE);
     }
+  });
+
+  it("labels fresh choices with playable ages and excludes partial boundary years", () => {
+    const years = birthYearChoices(null, null, START);
+    expect(years[0]).toBe(2020);
+    expect(years.at(-1)).toBe(1956);
+    expect(birthYearChoiceLabel(years[0]!, null, null, START)).toBe(
+      "2020 (age 5–6)",
+    );
+    expect(
+      years.every((year) => {
+        const range = creatorBirthdayAgeRange(
+          { year, month: null, day: null },
+          START,
+        );
+        return (
+          range !== null &&
+          range.minimum >= MINIMUM_START_AGE &&
+          range.maximum <= MAXIMUM_START_AGE
+        );
+      }),
+    ).toBe(true);
   });
 
   it("starts at agency age five and excludes a birthday still aged four", () => {
