@@ -118,6 +118,30 @@ export function openingLegislaturePeople(
   );
 }
 
+/** Full recorded roster for the player's state legislature, in seat order. */
+export function stateLegislatureFloorPeople(
+  world: World,
+  personId: EntityId,
+): readonly OrientationPerson[] {
+  const state = homeStateUsps(world, personId);
+  const pack = state ? stateCandidacyPack(`US-${state}`) : null;
+  if (!pack) return [];
+  return stateLegislators(world, pack.packId).flatMap((member) => {
+    const person = world.people[member.personId];
+    return person
+      ? [
+          {
+            personId: member.personId,
+            name: personName(person),
+            title: member.title,
+            party: member.party,
+            facts: [],
+          },
+        ]
+      : [];
+  });
+}
+
 /** Retain the exact district-qualified selector and its canonical seat source. */
 export function openingLegislatureActorSources(
   world: World,

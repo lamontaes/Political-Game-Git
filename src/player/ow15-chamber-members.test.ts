@@ -13,7 +13,9 @@ import { projectOpeningFamily } from "../presentation/opening-story";
 import {
   chamberFloorPeople,
   openingHouseholdPeople,
+  openingLegislaturePeople,
   openingTourStagedPeople,
+  stateLegislatureFloorPeople,
 } from "../presentation/opening-tour-people";
 import { backdropStaging } from "../presentation/backdrop-people";
 import { projectOrientationView } from "../presentation/world-orientation";
@@ -43,6 +45,33 @@ describe("chambers seat their members", { timeout: 300_000 }, () => {
         stateNameForUsps,
       );
       const usps = homeStateUsps(world, playerPersonId);
+      const stateMembers = stateLegislatureFloorPeople(world, playerPersonId);
+      expect(stateMembers.length).toBeGreaterThanOrEqual(
+        openingLegislaturePeople(world, playerPersonId).length,
+      );
+      expect(new Set(stateMembers.map((member) => member.personId)).size).toBe(
+        stateMembers.length,
+      );
+      const stateChamber = openingTourStagedPeople(
+        world,
+        playerPersonId,
+        "state-legislative-chamber-bicameral",
+        stateMembers,
+        {
+          furniture: true,
+          faceRoom: true,
+          memberIds: new Set(
+            openingLegislaturePeople(world, playerPersonId).map(
+              (member) => member.personId,
+            ),
+          ),
+        },
+      );
+      expect(stateChamber.length).toBeGreaterThanOrEqual(6);
+      expect(stateChamber.length).toBeLessThan(stateMembers.length);
+      expect(
+        stateChamber.some((person) => person.slotId.endsWith(":spot:4")),
+      ).toBe(true);
       for (const [chamberKey, room] of [
         ["us-senate", "us-senate-floor"],
         ["us-house", "us-house-floor"],

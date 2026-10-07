@@ -51,6 +51,7 @@ import {
   openingTourStagedPeople,
   chamberFloorPeople,
   openingHouseholdPeople,
+  stateLegislatureFloorPeople,
 } from "../presentation/opening-tour-people";
 import {
   homePlacesForPerson,
@@ -404,9 +405,20 @@ export function WorldOrientationPanel({
         : null,
     [step?.key, world, personId],
   );
+  const stateFloorRoster = useMemo(() => {
+    if (step?.key !== "legislature" || !world || !personId) return null;
+    const recorded = stateLegislatureFloorPeople(world, personId);
+    const ordered = [...(step.people ?? []), ...recorded];
+    const seen = new Set<EntityId>();
+    return ordered.filter((person) => {
+      if (seen.has(person.personId)) return false;
+      seen.add(person.personId);
+      return true;
+    });
+  }, [step?.key, step?.people, world, personId]);
   const sceneRoster =
     step?.key === "executive" || step?.key === "legislature"
-      ? (step?.people ?? [])
+      ? (stateFloorRoster ?? step?.people ?? [])
       : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
   const measuredPlace =
     backdrop.kind === "place" &&
@@ -414,32 +426,43 @@ export function WorldOrientationPanel({
     backdropStaging(backdrop.place)
       ? backdrop.place
       : null;
-  const scenePeople = useMemo(
-    () =>
-      measuredPlace && world && personId
-        ? openingTourStagedPeople(world, personId, measuredPlace, sceneRoster, {
-            // The family stands together in its home; offices seat people.
-            furniture: step?.key !== "parents" && step?.key !== "your-life",
-            // Rooms with people the player should see face them: the family,
-            // the household, and the members on each chamber floor (OW-15).
-            faceRoom:
-              step?.key === "parents" ||
-              step?.key === "your-life" ||
-              step?.key === "year" ||
-              step?.key === "congress",
-            memberIds: new Set(
-              (chapter?.actors ?? [])
-                .filter(
-                  (actor) =>
-                    actor.role === "state-legislator" ||
-                    actor.role === "congress-member",
-                )
-                .map((actor) => actor.person.personId),
-            ),
-          })
-        : [],
-    [measuredPlace, world, personId, sceneRoster, chapter, step?.key],
-  );
+  const scenePeople = useMemo(() => {
+    if (!measuredPlace || !world || !personId) return [];
+    const memberIds = new Set(
+      (chapter?.actors ?? [])
+        .filter(
+          (actor) =>
+            actor.role === "state-legislator" ||
+            actor.role === "congress-member",
+        )
+        .map((actor) => actor.person.personId),
+    );
+    if (step?.key === "legislature")
+      for (const member of sceneRoster.slice(
+        0,
+        openingLegislaturePeople(world, personId).length,
+      ))
+        memberIds.add(member.personId);
+    return openingTourStagedPeople(
+      world,
+      personId,
+      measuredPlace,
+      sceneRoster,
+      {
+        // The family stands together in its home; offices seat people.
+        furniture: step?.key !== "parents" && step?.key !== "your-life",
+        // Rooms with people the player should see face them: the family,
+        // the household, and the members on each chamber floor (OW-15).
+        faceRoom:
+          step?.key === "parents" ||
+          step?.key === "your-life" ||
+          step?.key === "year" ||
+          step?.key === "congress" ||
+          step?.key === "legislature",
+        memberIds,
+      },
+    );
+  }, [measuredPlace, world, personId, sceneRoster, chapter, step?.key]);
   const sceneStaged = measuredPlace !== null && sceneRoster.length > 0;
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
