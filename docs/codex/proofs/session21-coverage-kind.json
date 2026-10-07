@@ -1,0 +1,880 @@
+{
+  "testedCodeHead": "837c74b91ad78e7e68b7b1c92d561900384d8d19",
+  "baselineHead": "af8c098372379836cc22a0b487d10f79e2049a32",
+  "scope": "Controlled existing coverage writers; stamp kind conversion only. No natural opening, hazard or lived-outcome coefficient claim.",
+  "runtime": {
+    "passed": 124,
+    "failed": 0,
+    "durationSeconds": 23.7
+  },
+  "baseline": {
+    "passed": 68,
+    "failed": 56,
+    "total": 124,
+    "failure": "Coverage-only handler fixture retained unrelated tax consequences in its catalog."
+  },
+  "initialCandidate": {
+    "passed": 63,
+    "failed": 61,
+    "total": 124,
+    "additionalFailure": "Five new save assertions exposed membership IDs outside validated crisis causal-parent families."
+  },
+  "fixtureRepairs": [
+    "Retain all catalog questions but expose only consequences handled by the isolated coverage registry.",
+    "Record authored coverage-review request using the existing event writer; use actual saved event ID as causal parent."
+  ],
+  "legacySaveKind": "health-coverage",
+  "canonicalStampKind": "coverage-eligibility",
+  "recordKindUnchanged": "health-coverage",
+  "watchedFixtures": [
+    {
+      "kind": "coverage-stamp-fixture",
+      "seed": "coverage-stamp:2464475",
+      "place": "2464475",
+      "stateKey": "US-MD",
+      "personId": "person_cb11ba35944a617e",
+      "name": "Alicia Franco",
+      "records": [
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_cb11ba35944a617e:2026-01-05",
+          "effectiveAt": "2026-01-05",
+          "causalParentIds": ["event_4c781d7021f96826"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_cb11ba35944a617e",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "starting-law:US-MD:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "source": "in-force-at-start",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_4b72ee154e14b52e",
+              "operativeAt": "2000-01-01",
+              "appliedAt": "2026-01-05",
+              "sourceRecordIds": ["event_4c781d7021f96826"]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-MD",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-MD: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_ff56cd340fc366e7",
+          "sequence": 5,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-05"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_cb11ba35944a617e:2026-01-06",
+          "effectiveAt": "2026-01-06",
+          "causalParentIds": ["event_4c781d7021f96826"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_cb11ba35944a617e",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_4b72ee154e14b52e",
+              "operativeAt": "2026-01-06",
+              "appliedAt": "2026-01-06",
+              "sourceRecordIds": [
+                "event_4c781d7021f96826",
+                "crisis-record_ff56cd340fc366e7"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "lost:work-requirement",
+          "stateKey": "US-MD",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Lost Medicaid under the work requirement in US-MD: 0 hours of work a month, under the 80 required, and no exemption.",
+          "id": "crisis-record_ff56ce340fc3689a",
+          "sequence": 8,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-06"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_cb11ba35944a617e:2026-01-07",
+          "effectiveAt": "2026-01-07",
+          "causalParentIds": ["event_4c781d7021f96826"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_cb11ba35944a617e",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work_repeal",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_4b72ee154e14b52e",
+              "operativeAt": "2026-01-07",
+              "appliedAt": "2026-01-07",
+              "sourceRecordIds": [
+                "event_4c781d7021f96826",
+                "crisis-record_ff56ce340fc3689a"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-MD",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-MD: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_ff56cf340fc36a4d",
+          "sequence": 11,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-07"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_cb11ba35944a617e:2026-01-08",
+          "effectiveAt": "2026-01-08",
+          "causalParentIds": ["event_4c781d7021f96826"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_cb11ba35944a617e",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_4b72ee154e14b52e",
+              "operativeAt": "2026-01-08",
+              "appliedAt": "2026-01-08",
+              "sourceRecordIds": [
+                "event_4c781d7021f96826",
+                "crisis-record_ff56cf340fc36a4d"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "outside:no-expansion",
+          "stateKey": "US-MD",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": null,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "The law in force in US-MD no longer expands Medicaid.",
+          "id": "crisis-record_ff56c0340fc350d0",
+          "sequence": 14,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-08"
+        }
+      ]
+    },
+    {
+      "kind": "coverage-stamp-fixture",
+      "seed": "coverage-stamp:1669130",
+      "place": "1669130",
+      "stateKey": "US-ID",
+      "personId": "person_30a6d45f12129f60",
+      "name": "Travis Hubbard",
+      "records": [
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_30a6d45f12129f60:2026-01-05",
+          "effectiveAt": "2026-01-05",
+          "causalParentIds": ["event_dae7f721de71116f"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_30a6d45f12129f60",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "starting-law:US-ID:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "source": "in-force-at-start",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_b553cb6877c707f2",
+              "operativeAt": "2000-01-01",
+              "appliedAt": "2026-01-05",
+              "sourceRecordIds": ["event_dae7f721de71116f"]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-ID",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-ID: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_205e50514a71485f",
+          "sequence": 5,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-05"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_30a6d45f12129f60:2026-01-06",
+          "effectiveAt": "2026-01-06",
+          "causalParentIds": ["event_dae7f721de71116f"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_30a6d45f12129f60",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_b553cb6877c707f2",
+              "operativeAt": "2026-01-06",
+              "appliedAt": "2026-01-06",
+              "sourceRecordIds": [
+                "event_dae7f721de71116f",
+                "crisis-record_205e50514a71485f"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "lost:work-requirement",
+          "stateKey": "US-ID",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Lost Medicaid under the work requirement in US-ID: 0 hours of work a month, under the 80 required, and no exemption.",
+          "id": "crisis-record_205e51514a714a12",
+          "sequence": 8,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-06"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_30a6d45f12129f60:2026-01-07",
+          "effectiveAt": "2026-01-07",
+          "causalParentIds": ["event_dae7f721de71116f"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_30a6d45f12129f60",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work_repeal",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_b553cb6877c707f2",
+              "operativeAt": "2026-01-07",
+              "appliedAt": "2026-01-07",
+              "sourceRecordIds": [
+                "event_dae7f721de71116f",
+                "crisis-record_205e51514a714a12"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-ID",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-ID: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_205e52514a714bc5",
+          "sequence": 11,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-07"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_30a6d45f12129f60:2026-01-08",
+          "effectiveAt": "2026-01-08",
+          "causalParentIds": ["event_dae7f721de71116f"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_30a6d45f12129f60",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_b553cb6877c707f2",
+              "operativeAt": "2026-01-08",
+              "appliedAt": "2026-01-08",
+              "sourceRecordIds": [
+                "event_dae7f721de71116f",
+                "crisis-record_205e52514a714bc5"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "outside:no-expansion",
+          "stateKey": "US-ID",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": null,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "The law in force in US-ID no longer expands Medicaid.",
+          "id": "crisis-record_205e53514a714d78",
+          "sequence": 14,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-08"
+        }
+      ]
+    },
+    {
+      "kind": "coverage-stamp-fixture",
+      "seed": "coverage-stamp:1874780",
+      "place": "1874780",
+      "stateKey": "US-IN",
+      "personId": "person_45f83d9e9cbfdbf7",
+      "name": "Yasmin Farmer",
+      "records": [
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_45f83d9e9cbfdbf7:2026-01-05",
+          "effectiveAt": "2026-01-05",
+          "causalParentIds": ["event_49c66c90ae2db8f7"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_45f83d9e9cbfdbf7",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "starting-law:US-IN:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "source": "in-force-at-start",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_6d6a95d42895c878",
+              "operativeAt": "2000-01-01",
+              "appliedAt": "2026-01-05",
+              "sourceRecordIds": ["event_49c66c90ae2db8f7"]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-IN",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-IN: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_c5feed8e254c294e",
+          "sequence": 5,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-05"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_45f83d9e9cbfdbf7:2026-01-06",
+          "effectiveAt": "2026-01-06",
+          "causalParentIds": ["event_49c66c90ae2db8f7"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_45f83d9e9cbfdbf7",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_6d6a95d42895c878",
+              "operativeAt": "2026-01-06",
+              "appliedAt": "2026-01-06",
+              "sourceRecordIds": [
+                "event_49c66c90ae2db8f7",
+                "crisis-record_c5feed8e254c294e"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "lost:work-requirement",
+          "stateKey": "US-IN",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Lost Medicaid under the work requirement in US-IN: 0 hours of work a month, under the 80 required, and no exemption.",
+          "id": "crisis-record_c5feec8e254c279b",
+          "sequence": 8,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-06"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_45f83d9e9cbfdbf7:2026-01-07",
+          "effectiveAt": "2026-01-07",
+          "causalParentIds": ["event_49c66c90ae2db8f7"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_45f83d9e9cbfdbf7",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work_repeal",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_6d6a95d42895c878",
+              "operativeAt": "2026-01-07",
+              "appliedAt": "2026-01-07",
+              "sourceRecordIds": [
+                "event_49c66c90ae2db8f7",
+                "crisis-record_c5feec8e254c279b"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-IN",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-IN: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_c5feeb8e254c25e8",
+          "sequence": 11,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-07"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_45f83d9e9cbfdbf7:2026-01-08",
+          "effectiveAt": "2026-01-08",
+          "causalParentIds": ["event_49c66c90ae2db8f7"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_45f83d9e9cbfdbf7",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_6d6a95d42895c878",
+              "operativeAt": "2026-01-08",
+              "appliedAt": "2026-01-08",
+              "sourceRecordIds": [
+                "event_49c66c90ae2db8f7",
+                "crisis-record_c5feeb8e254c25e8"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "outside:no-expansion",
+          "stateKey": "US-IN",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": null,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "The law in force in US-IN no longer expands Medicaid.",
+          "id": "crisis-record_c5feea8e254c2435",
+          "sequence": 14,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-08"
+        }
+      ]
+    },
+    {
+      "kind": "coverage-stamp-fixture",
+      "seed": "coverage-stamp:0664000",
+      "place": "0664000",
+      "stateKey": "US-CA",
+      "personId": "person_4ee4f61f00153e2a",
+      "name": "Jonathan Stevenson",
+      "records": [
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_4ee4f61f00153e2a:2026-01-05",
+          "effectiveAt": "2026-01-05",
+          "causalParentIds": ["event_f4c077ab7f95b6ba"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_4ee4f61f00153e2a",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "starting-law:US-CA:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "source": "in-force-at-start",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+              "operativeAt": "2000-01-01",
+              "appliedAt": "2026-01-05",
+              "sourceRecordIds": ["event_f4c077ab7f95b6ba"]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-CA",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-CA: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_5b59f1a2acb96eee",
+          "sequence": 5,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-05"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_4ee4f61f00153e2a:2026-01-06",
+          "effectiveAt": "2026-01-06",
+          "causalParentIds": ["event_f4c077ab7f95b6ba"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_4ee4f61f00153e2a",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+              "operativeAt": "2026-01-06",
+              "appliedAt": "2026-01-06",
+              "sourceRecordIds": [
+                "event_f4c077ab7f95b6ba",
+                "crisis-record_5b59f1a2acb96eee"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "lost:work-requirement",
+          "stateKey": "US-CA",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Lost Medicaid under the work requirement in US-CA: 0 hours of work a month, under the 80 required, and no exemption.",
+          "id": "crisis-record_5b59f0a2acb96d3b",
+          "sequence": 8,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-06"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_4ee4f61f00153e2a:2026-01-07",
+          "effectiveAt": "2026-01-07",
+          "causalParentIds": ["event_f4c077ab7f95b6ba"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_4ee4f61f00153e2a",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work_repeal",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+              "operativeAt": "2026-01-07",
+              "appliedAt": "2026-01-07",
+              "sourceRecordIds": [
+                "event_f4c077ab7f95b6ba",
+                "crisis-record_5b59f0a2acb96d3b"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-CA",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-CA: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_5b59efa2acb96b88",
+          "sequence": 11,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-07"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_4ee4f61f00153e2a:2026-01-08",
+          "effectiveAt": "2026-01-08",
+          "causalParentIds": ["event_f4c077ab7f95b6ba"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_4ee4f61f00153e2a",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+              "operativeAt": "2026-01-08",
+              "appliedAt": "2026-01-08",
+              "sourceRecordIds": [
+                "event_f4c077ab7f95b6ba",
+                "crisis-record_5b59efa2acb96b88"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "outside:no-expansion",
+          "stateKey": "US-CA",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": null,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "The law in force in US-CA no longer expands Medicaid.",
+          "id": "crisis-record_5b59eea2acb969d5",
+          "sequence": 14,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-08"
+        }
+      ]
+    },
+    {
+      "kind": "coverage-stamp-fixture",
+      "seed": "coverage-stamp:5363000",
+      "place": "5363000",
+      "stateKey": "US-WA",
+      "personId": "person_ccf563c68e0481b1",
+      "name": "Ravi Howell",
+      "records": [
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_ccf563c68e0481b1:2026-01-05",
+          "effectiveAt": "2026-01-05",
+          "causalParentIds": ["event_74e1d9677139535d"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_ccf563c68e0481b1",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "starting-law:US-WA:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "source": "in-force-at-start",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_057a41c4dae14607",
+              "operativeAt": "2000-01-01",
+              "appliedAt": "2026-01-05",
+              "sourceRecordIds": ["event_74e1d9677139535d"]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-WA",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-WA: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_216ef48a92cf8e73",
+          "sequence": 5,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-05"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_ccf563c68e0481b1:2026-01-06",
+          "effectiveAt": "2026-01-06",
+          "causalParentIds": ["event_74e1d9677139535d"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_ccf563c68e0481b1",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_057a41c4dae14607",
+              "operativeAt": "2026-01-06",
+              "appliedAt": "2026-01-06",
+              "sourceRecordIds": [
+                "event_74e1d9677139535d",
+                "crisis-record_216ef48a92cf8e73"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "lost:work-requirement",
+          "stateKey": "US-WA",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Lost Medicaid under the work requirement in US-WA: 0 hours of work a month, under the 80 required, and no exemption.",
+          "id": "crisis-record_216ef58a92cf9026",
+          "sequence": 8,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-06"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_ccf563c68e0481b1:2026-01-07",
+          "effectiveAt": "2026-01-07",
+          "causalParentIds": ["event_74e1d9677139535d"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_ccf563c68e0481b1",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test_work_repeal",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "jurisdictionId": "jurisdiction_057a41c4dae14607",
+              "operativeAt": "2026-01-07",
+              "appliedAt": "2026-01-07",
+              "sourceRecordIds": [
+                "event_74e1d9677139535d",
+                "crisis-record_216ef58a92cf9026"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": true,
+          "reasonKey": "covered",
+          "stateKey": "US-WA",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": 0,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "Covered by Medicaid expansion in US-WA: household of 1, recorded pay $0.00 a month, at or under 138% of the poverty line.",
+          "id": "crisis-record_216ef68a92cf91d9",
+          "sequence": 11,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-07"
+        },
+        {
+          "kind": "health-coverage",
+          "stableKey": "health-coverage/v1:person_ccf563c68e0481b1:2026-01-08",
+          "effectiveAt": "2026-01-08",
+          "causalParentIds": ["event_74e1d9677139535d"],
+          "visibility": "private",
+          "eventId": null,
+          "personId": "person_ccf563c68e0481b1",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_medicaid_test",
+              "source": "enacted",
+              "effectKind": "coverage-eligibility",
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "jurisdictionId": "jurisdiction_057a41c4dae14607",
+              "operativeAt": "2026-01-08",
+              "appliedAt": "2026-01-08",
+              "sourceRecordIds": [
+                "event_74e1d9677139535d",
+                "crisis-record_216ef68a92cf91d9"
+              ]
+            }
+          ],
+          "program": "medicaid-expansion",
+          "covered": false,
+          "reasonKey": "outside:no-expansion",
+          "stateKey": "US-WA",
+          "householdSize": 1,
+          "monthlyIncomeMinor": 0,
+          "monthlyWorkHours": null,
+          "hazardMultiplierMicros": 1000000,
+          "hazardFrom": null,
+          "hazardBasis": "Coverage does not apply a population study to personal hazard.",
+          "basis": "The law in force in US-WA no longer expands Medicaid.",
+          "id": "crisis-record_216eff8a92cfa124",
+          "sequence": 14,
+          "schemaVersion": "crisis-record-v1",
+          "recordedAt": "2026-01-08"
+        }
+      ]
+    }
+  ],
+  "typecheck": {
+    "exitCode": 0,
+    "testedCodeHead": "837c74b91ad78e7e68b7b1c92d561900384d8d19",
+    "unresolvedTestImports": 0,
+    "typingDonor": "cf02ef25c06ee9f96e2a369ae23faa38727ef96f",
+    "donorPath": "tests/e2e/opening-preparation-stages.spec.ts"
+  },
+  "checks": {
+    "lint": "PASS",
+    "release": "PASS",
+    "zeroDice": "PASS",
+    "mergeTreeCurrentMain": "PASS",
+    "diffCheck": "PASS"
+  }
+}

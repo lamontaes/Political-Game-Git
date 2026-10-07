@@ -31,7 +31,12 @@ import type {
   World,
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
-import { advanceWorld, createWorld, createWorldId } from "../world";
+import {
+  advanceWorld,
+  createWorld,
+  createWorldId,
+  recordWorldEvent,
+} from "../world";
 import { ensureCrisisMortality } from "./mortality";
 import { annualPovertyLineMinor } from "../household-pay";
 import { MULTIPLIER_ONE } from "./hazard";
@@ -281,7 +286,30 @@ describe("coverage consequence law stamps", () => {
         kind: "resident:fixture",
         provenance,
       });
-      const cause = world.history.householdMemberships.at(-1)!.id;
+      // Full saves require a causal parent from the validated crisis families.
+      // Record the authored review request through the existing event writer.
+      world = recordWorldEvent(world, {
+        stableKey: "stamp:coverage-review",
+        type: "coverage.review-request",
+        occurredAt: date,
+        recordedAt: date,
+        jurisdictionId: place.context.jurisdiction.id,
+        involvedEntityIds: [person.id],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [],
+        summary: "Authored fixture requests a coverage review.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const cause = world.history.events.at(-1)!.id;
       const before = JSON.stringify(world);
       const covered = recordHealthCoverage(world, date, cause);
       expect(JSON.stringify(world)).toBe(before);
@@ -293,13 +321,41 @@ describe("coverage consequence law stamps", () => {
       expect(stamp).toMatchObject({
         source: "in-force-at-start",
         questionKey: EXPANSION,
-        effectKind: "health-coverage",
+        effectKind: "coverage-eligibility",
         jurisdictionId: state.id,
         appliedAt: date,
         sourceRecordIds: [cause],
       });
       expect(stamp.governingLawKey).toMatch(/^starting-law:/);
       expect(recordHealthCoverage(covered, date, cause)).toBe(covered);
+      const canonicalLoaded = deserializeWorld(serializeWorld(covered));
+      expect(
+        healthCoverageRecords(canonicalLoaded).find(
+          (record) => record.id === first.id,
+        ),
+      ).toEqual(first);
+      const legacyStamp = { ...stamp, effectKind: "health-coverage" };
+      const legacySaved = {
+        ...covered,
+        history: {
+          ...covered.history,
+          crisisRecords: covered.history.crisisRecords!.map((record) =>
+            record.id === first.id
+              ? { ...record, lawEffectStamps: [legacyStamp] as const }
+              : record,
+          ),
+        },
+      };
+      const legacyLoaded = deserializeWorld(serializeWorld(legacySaved));
+      expect(
+        healthCoverageRecords(legacyLoaded).find(
+          (record) => record.id === first.id,
+        )?.lawEffectStamps,
+      ).toEqual([legacyStamp]);
+      expect(recordHealthCoverage(legacyLoaded, date, cause)).toBe(
+        legacyLoaded,
+      );
+
       const workQuestion =
         "us-policy-positions:health-human-services.medicaid-work-requirement";
       const workDate = addDays(date, 1);
@@ -317,6 +373,9 @@ describe("coverage consequence law stamps", () => {
       );
       const workLoss = healthCoverageRecords(restricted).at(-1)!;
       expect(workLoss.reasonKey).toBe("lost:work-requirement");
+      expect(workLoss.lawEffectStamps?.[0]?.effectKind).toBe(
+        "coverage-eligibility",
+      );
       expect(workLoss.lawEffectStamps).toMatchObject([
         {
           governingLawKey: "measure_medicaid_test_work",
@@ -339,6 +398,9 @@ describe("coverage consequence law stamps", () => {
       );
       const restoredRecord = healthCoverageRecords(restored).at(-1)!;
       expect(restoredRecord.covered).toBe(true);
+      expect(restoredRecord.lawEffectStamps?.[0]?.effectKind).toBe(
+        "coverage-eligibility",
+      );
       expect(restoredRecord.lawEffectStamps).toMatchObject([
         {
           governingLawKey: "measure_medicaid_test_work_repeal",
@@ -356,6 +418,9 @@ describe("coverage consequence law stamps", () => {
       const ended = recordHealthCoverage(repealed, repealDate, cause);
       const loss = healthCoverageRecords(ended).at(-1)!;
       expect(loss.covered).toBe(false);
+      expect(loss.lawEffectStamps?.[0]?.effectKind).toBe(
+        "coverage-eligibility",
+      );
       expect(loss.lawEffectStamps).toMatchObject([
         {
           source: "enacted",

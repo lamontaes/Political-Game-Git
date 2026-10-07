@@ -26,7 +26,6 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "federal-income-tax-withholding",
     "government-outlay-change",
     "government-program-payment",
-    "health-coverage",
     "housing-permit-units",
     "inclusionary-affordable-rent",
     "justice.held-before-trial",
@@ -53,6 +52,9 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
   // @ts-expect-error A new bespoke outcome label must not enter the shared writer.
   const invented: LawEffectContext["effectKind"] = "invented-new-effect";
   void invented;
+  // @ts-expect-error Retired coverage stamps remain readable, not new writer inputs.
+  const retiredCoverage: LawEffectContext["effectKind"] = "health-coverage";
+  void retiredCoverage;
 });
 
 it("requires exact typed law-term scopes and canonicalizes charge-key sets", () => {

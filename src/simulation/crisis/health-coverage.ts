@@ -499,7 +499,7 @@ export function recordHealthCoverageForSubjects(
     const stamp =
       state && laws
         ? lawEffectStamp(laws[workRuleChangedCoverage ? 1 : 0], {
-            effectKind: "health-coverage",
+            effectKind: "coverage-eligibility",
             questionKey: workRuleChangedCoverage
               ? COVERAGE_QUESTION_KEYS.workRequirement
               : COVERAGE_QUESTION_KEYS.expansion,
