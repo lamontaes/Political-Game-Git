@@ -7,7 +7,7 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
-import { recordContactMeetingKept } from "../simulation/people-contact";
+import { recordContactMeetingKept } from "../simulation/relationship-contact";
 
 /**
  * What a completed calendar activity meant for the domain that booked it.

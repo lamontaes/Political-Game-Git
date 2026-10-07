@@ -19,3 +19,20 @@
     max-height: 43cqh;
   }
 }
+
+/* OW-17: the family's name tags are the Kit 13 label, dark ink on the brass
+   plate (black on #96703a is 4.7:1 at the plate's darkest end), always shown. */
+.scene-place-nametag {
+  transform: translateX(-50%);
+  padding: 2px 8px;
+  border: 1px solid var(--kit13-button-line, #686766);
+  border-radius: 2px;
+  background: var(--kit13-brass-fill, linear-gradient(90deg, #96703a, #d6bd84));
+  box-shadow: var(--kit13-control-shadow);
+  color: #000;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+}

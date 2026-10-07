@@ -44,6 +44,15 @@ export default tseslint.config(
     },
   },
   {
+    files: ["scripts/law-consequence-modules/generate-manifest.mjs"],
+    languageOptions: {
+      globals: {
+        console: "readonly",
+        process: "readonly",
+      },
+    },
+  },
+  {
     // The source substrate is evidence; the running game is truth. Nothing that
     // runs the game may read source records directly — a fact reaches the world
     // through a named one-way adapter or not at all.

@@ -1,3 +1,4 @@
+import { PRIOR_SERVICE_EVENT } from "./opening-prior-service";
 import { eventById } from "../simulation/event-index";
 import { recentStrain } from "./relationship-strain";
 import { sponsoredLaws, type SponsoredLaw } from "./place-conditions";
@@ -28,7 +29,6 @@ import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
 import { favorRecords, favorStandingBetween } from "../simulation/favors";
-import { playSettingsOf } from "../simulation/play-settings";
 
 /**
  * What the player makes of somebody, read from the records they can see.
@@ -91,16 +91,17 @@ export interface PersonDossier {
   /** True only when this moment's scene puts them in the room. */
   readonly presentNow: boolean;
   /**
-   * What they are doing this minute, which is a different kind of claim from
-   * who they are — so it sits beside the identity rather than joining the
-   * lasting details, and is absent when nothing establishes it.
+   * The room this moment's scene puts them in, shown as the value of the
+   * presence label. It is a different kind of claim from who they are, so it
+   * sits beside the identity, and is null when the scene names no room.
    */
-  readonly rightNow: string | null;
+  readonly presentRoom: string | null;
   readonly details: readonly DossierFact[];
   /** Player-known, outstanding reminders about this person. */
   readonly reminders: readonly DossierFact[];
-  readonly notesMode: "full" | "light" | "none";
-  readonly lastInteraction: string;
+  readonly lastInteraction: string | null;
+  /** True when no conversation is on record; the card shows no line then. */
+  readonly neverSpoken?: boolean;
   /**
    * Where the two of them stand, in the player's own words.
    *
@@ -172,7 +173,10 @@ function describeInteraction(
   world: World,
   playerId: EntityId,
   personId: EntityId,
-): string {
+): string | null {
+  // Observation has no player whose acquaintance can be described as "you."
+  // Keep the relationship record intact, but make no player-relative claim.
+  if (world.control.kind === "observer") return null;
   // The player's own card is not somebody the player has or has not spoken to.
   if (personId === playerId) return "This is you.";
   const summary = deriveRelationshipSummary(world, playerId, personId);
@@ -436,16 +440,14 @@ export function projectPersonDossier(
   personId: EntityId,
   options: {
     readonly presentNow?: boolean;
-    readonly rightNow?: string | null;
+    readonly presentRoom?: string | null;
   } = {},
 ): PersonDossier | null {
   const subject = world.people[personId];
   if (!subject) return null;
   const context = describePersonContext(world, playerId, personId);
   const details = buildDetails(world, playerId, personId);
-  const notesMode = playSettingsOf(world).notes;
-  const reminders =
-    notesMode === "none" ? [] : buildReminders(world, playerId, personId);
+  const reminders = buildReminders(world, playerId, personId);
 
   return {
     personId,
@@ -495,18 +497,24 @@ export function projectPersonDossier(
           )?.detail;
           return office &&
             (event.type === "world.office-tenure" ||
-              event.type === "world.legislative-seat-tenure")
+              event.type === "world.legislative-seat-tenure" ||
+              event.type === PRIOR_SERVICE_EVENT)
             ? `Took office as ${office}.`
             : event.summary.replace(/ in this fictional world\./g, ".");
         })(),
       })),
     age: ageOnDate(subject.birthDate, world.currentDate),
     presentNow: options.presentNow ?? false,
-    rightNow: options.rightNow ?? null,
+    presentRoom: options.presentRoom ?? null,
     details,
     reminders,
-    notesMode,
     lastInteraction: describeInteraction(world, playerId, personId),
+    neverSpoken:
+      personId !== playerId &&
+      world.control.kind !== "observer" &&
+      deriveRelationshipSummary(world, playerId, personId).interactionCount ===
+        0 &&
+      !readRelationshipStanding(world, playerId, personId).absence.sharesHome,
     strain: recentStrain(world, playerId, personId),
     standing:
       personId === playerId
