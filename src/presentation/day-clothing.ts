@@ -62,3 +62,25 @@ export function personDayRecipe(
     ...pose,
   });
 }
+
+/**
+ * Non-uniform outfits already used by earlier people in this room. Stable
+ * person ordering makes a room's clothes independent of roster input order.
+ */
+export function roomDayOutfitExclusions(
+  world: World,
+  personIds: readonly EntityId[],
+): ReadonlyMap<EntityId, readonly string[]> {
+  const used = new Set<string>();
+  const exclusions = new Map<EntityId, readonly string[]>();
+  for (const personId of [...new Set(personIds)].sort()) {
+    const person = world.people[personId];
+    if (!person) continue;
+    const avoidOutfits = [...used];
+    exclusions.set(personId, avoidOutfits);
+    if (dayClothing(world, personId).uniform) continue;
+    const recipe = personDayRecipe(world, person, { avoidOutfits });
+    if (recipe) used.add(recipe.outfit);
+  }
+  return exclusions;
+}

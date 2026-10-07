@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { World } from "../types";
 import { smallWorld } from "../../../tests/fixtures/small-world";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+} from "../life-places";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -14,6 +18,9 @@ import { serializeWorld, deserializeWorld } from "../serialization";
 import { recordOrganizationProfile } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { TOWN_WORKPLACES, writeTownEmployer } from "./town-employment";
+import { countyGovernmentUnitsForPlace } from "../government-units";
+import { countyDisplayName } from "./town-employment";
+import { localInstitutionsFor } from "../local-institutions";
 import {
   townBusinesses,
   townBusinessEntryGaps,
@@ -83,6 +90,90 @@ function fixture(state: string) {
 }
 
 describe("A59 recorded same-line town entry", () => {
+  it("names an existing public-school employer from its local district row", () => {
+    const fixture = smallWorld({
+      place: "5363000",
+      seed: `${seed}:public-employer-name`,
+    });
+    const district = localInstitutionsFor(fixture.world, fixture.jurisdictionId)
+      .districts[0]!;
+    const workplace = TOWN_WORKPLACES.find(
+      (row) => row.key === "public-school",
+    )!;
+    const world = writeTownEmployer(
+      fixture.world,
+      fixture.jurisdictionId,
+      workplace,
+      99,
+      fixture.world.currentDate,
+    );
+    const organization = world.history.organizations.find((row) =>
+      row.stableKey.endsWith(":employer:public-school:99"),
+    )!;
+    expect(organizationProfileAt(world, organization.id)?.name).toBe(
+      district.name,
+    );
+    expect(organization.provenance).toMatchObject({
+      kind: "source-record",
+      reference: `${district.sourceKey}:${district.sourceId} (directory as of ${district.asOf}); historical name estimated before directory vintage`,
+      asOf: fixture.world.currentDate,
+    });
+  });
+
+  it("names generated private businesses from local families or counties", () => {
+    const fixture = smallWorld({ place: "NV", seed: `${seed}:private-names` });
+    let world = fixture.world;
+    const familyNames = new Set(
+      Object.values(world.people)
+        .filter(
+          (person) => person.homeJurisdictionId === fixture.jurisdictionId,
+        )
+        .map((person) => person.familyName),
+    );
+    const place = lifePlaceByJurisdictionId(fixture.jurisdictionId)!;
+    const county = place.sourceGeoid
+      ? countyGovernmentUnitsForPlace(place.sourceGeoid)[0]?.unit
+      : undefined;
+    const countyName = county ? countyDisplayName(county.name) : null;
+    const names: string[] = [];
+    for (const key of [
+      "bank",
+      "clinic",
+      "hospital",
+      "inn",
+      "retail",
+    ] as const) {
+      const workplace = TOWN_WORKPLACES.find((row) => row.key === key)!;
+      world = writeTownEmployer(
+        world,
+        fixture.jurisdictionId,
+        workplace,
+        names.length,
+        world.currentDate,
+      );
+      const organization = world.history.organizations.find((row) =>
+        row.stableKey.endsWith(`:employer:${key}:${names.length}`),
+      )!;
+      const name = organizationProfileAt(world, organization.id)!.name;
+      names.push(name);
+      expect(organization.provenance).toMatchObject({
+        kind: "generated",
+        generatorKey: "town-employment-v1:estimated-local-name",
+      });
+      expect(
+        [...familyNames].some((family) => name.includes(family)) ||
+          (countyName !== null && name.includes(countyName)),
+      ).toBe(true);
+      expect(name).not.toMatch(
+        /\b(Walmart|Target|Costco|CVS|Walgreens|McDonald'?s|Starbucks)\b/i,
+      );
+      expect(name).not.toMatch(
+        /\b(Main|Oak|Maple|Pine|Cedar|Elm|Park|Washington|Lake|Hill|Church|Mill|Depot|Front|Second|Railroad) (Street|Avenue)\b/i,
+      );
+    }
+    expect(new Set(names).size).toBe(names.length);
+  });
+
   it("samples five distinct places from all 56", () => {
     expect(catalog).toHaveLength(56);
     expect(new Set(sampled.map((row) => row.jurisdictionKey)).size).toBe(5);

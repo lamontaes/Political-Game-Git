@@ -19,7 +19,7 @@ import {
   sceneActivity,
   type SceneActivity,
 } from "./appearance-engine/pose-chooser";
-import { personDayRecipe } from "./day-clothing";
+import { personDayRecipe, roomDayOutfitExclusions } from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackFileAvailable,
@@ -490,6 +490,12 @@ export function placeBackdropPeople(
           )),
     })),
   ];
+  const outfitExclusions = roomDayOutfitExclusions(
+    world,
+    assigned
+      .filter(({ spot }) => Boolean(spot && stage))
+      .map(({ worker }) => worker.personId),
+  );
   const placed: BackdropPerson[] = [];
   const overflow: BackdropOverflowPerson[] = [];
   for (const { worker, onShift, spot: assignedSpot } of assigned) {
@@ -524,6 +530,7 @@ export function placeBackdropPeople(
           }),
         ),
         view,
+        avoidOutfits: outfitExclusions.get(record.id),
       });
       if (!recipe) return null;
       const resolved = posedPieces(
