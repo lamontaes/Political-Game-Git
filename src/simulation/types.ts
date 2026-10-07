@@ -4083,6 +4083,8 @@ export interface PublicationRecord {
   readonly correctsPublicationId: EntityId | null;
   /** Null on the first edition; required on a correction. */
   readonly correctionNote: string | null;
+  /** Recorded justice.charged events that cite this press-story edition. */
+  readonly justiceChargeEventIds?: readonly EntityId[];
 }
 
 // ---------------------------------------------------------------------------
@@ -4546,6 +4548,13 @@ export type ChildhoodRecordEntry =
       readonly kind: "no-school-on-record";
       readonly toJurisdictionId: EntityId;
       readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /** An adult responsible for the child made this recorded choice. */
+      readonly kind: "caregiver-choice";
+      readonly caregiverPersonId: EntityId;
+      readonly situationKey: LifeSituationKey;
+      readonly optionKey: string;
     })
   | (ChildhoodRecordEntryBase & {
       /** A controlled person's recorded formative faith choice. */
