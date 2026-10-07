@@ -31,7 +31,7 @@
   flex-direction: column;
   gap: 0.2em;
   padding: 0.35em 0.45em;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--ui);
   color: #f4f1e8;
   background: linear-gradient(160deg, #2c2620, #12100d);
   border: 0.08em solid #0d0b09;
@@ -157,7 +157,7 @@
   gap: 0.3em;
   padding: 0.4em 0.3em;
   text-align: center;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--ui);
   border: 0.08em solid #1a1a1a;
   background: var(--bs-poster-bg);
   color: var(--bs-poster-ink);
@@ -213,7 +213,7 @@
   box-sizing: border-box;
   display: flex;
   gap: 6%;
-  font-family: "Marker Felt", "Comic Sans MS", "Segoe Print", cursive;
+  font-family: var(--speech);
 }
 
 /* Sticky notes on cork. */
@@ -318,7 +318,7 @@
   flex-direction: column;
   gap: 0.2em;
   padding: 0.35em 0.45em;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--speech);
   color: #1c1a17;
   background: #f3efe4;
   border: 0.05em solid rgba(28, 26, 23, 0.4);
@@ -330,6 +330,22 @@
   height: 84%;
   margin: 6% auto 0;
   box-shadow: 0.08em 0.12em 0.18em rgba(0, 0, 0, 0.3);
+}
+
+/* Live bills sit on the office's painted green sheet rather than a white overlay. */
+.bs-sheet--office-green-bills {
+  padding: 0.12em 0.16em;
+  color: #173b25;
+  background: transparent;
+  border: 0;
+}
+
+.bs-sheet--office-green-bills .bs-sheet-place {
+  color: #244a31;
+}
+
+.bs-sheet--office-green-bills .bs-sheet-line {
+  color: #173b25;
 }
 
 .bs-sheet-heading {
@@ -365,7 +381,7 @@
   box-sizing: border-box;
   display: flex;
   gap: 0.2em;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--ui);
 }
 
 .bs-brochure--cork {
