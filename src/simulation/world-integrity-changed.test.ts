@@ -1,7 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { makeIsoDate } from "./dates";
-import { requireLifePlace } from "./life-places";
+import {
+  lifePlaceStateIdentities,
+  requireLifePlace,
+  stateJurisdictionForKey,
+} from "./life-places";
 import type { World } from "./types";
 import {
   advanceWithWorldIntegrityAtEnd,
@@ -12,6 +16,7 @@ import {
 import {
   changedHistoryCheckCounts,
   setWorldIntegrityCheckMode,
+  worldIntegrityCheckMode,
 } from "./world-integrity-changed";
 import type { WorldIntegrityCheckMode } from "./world-integrity-changed";
 
@@ -130,10 +135,56 @@ describe("changed-only world integrity", () => {
     expect(changedHistoryCheckCounts.fellBack).toBe(fellBack + 1);
   });
 
-  it("keeps the full check in the test suite by default", async () => {
-    setWorldIntegrityCheckMode(previousMode);
-    const { worldIntegrityCheckMode } =
-      await import("./world-integrity-changed");
+  it("checks changed records through one path across all 56 jurisdiction identities", () => {
+    const identities = lifePlaceStateIdentities();
+    expect(identities).toHaveLength(56);
+    const jurisdictions = identities.map((identity) => {
+      const jurisdiction = stateJurisdictionForKey(identity.jurisdictionKey);
+      expect(jurisdiction).not.toBeNull();
+      return jurisdiction!;
+    });
+    const world = createWorld({
+      seed: "integrity-all-jurisdictions",
+      currentDate: makeIsoDate("2031-06-01"),
+      jurisdictions,
+      people: [],
+    });
+    const passed = changedHistoryCheckCounts.passed;
+    let next = world;
+    for (const jurisdiction of jurisdictions) {
+      next = recordWorldEvent(next, {
+        stableKey: `integrity-all-jurisdictions:${jurisdiction.id}`,
+        type: "test.integrity-changed",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: jurisdiction.id,
+        involvedEntityIds: [jurisdiction.id],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [],
+        summary: "A record for the changed-only integrity test.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    }
+    expect(advanceWithWorldIntegrityAtEnd(() => next, world)).toBe(next);
+    expect(next.history.events).toHaveLength(56);
+    expect(changedHistoryCheckCounts.passed).toBe(passed + 1);
+  });
+
+  it("uses the full check only when a test explicitly requests it", () => {
+    setWorldIntegrityCheckMode("full");
     expect(worldIntegrityCheckMode()).toBe("full");
   });
+});
+
+it("defaults to changed-only integrity checks in the test process", () => {
+  expect(worldIntegrityCheckMode()).toBe("changed");
 });
