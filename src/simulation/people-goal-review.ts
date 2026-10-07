@@ -24,6 +24,7 @@ import {
   introducersFor,
   jobOpening,
   latestApplicationStep,
+  openWeeklyListings,
   openJobListings,
   expectedStart,
   residentApplicationBlocked,
@@ -134,7 +135,7 @@ export function peopleGoalReviewHandler(
     throw new Error("The goal review received another transition.");
   }
   const index = Number(dueItem.stableKey.slice(REVIEW_KEY_PREFIX.length));
-  const reviewed = reviewPeopleGoals(world);
+  const reviewed = reviewPeopleGoals(world, { openingReview: index === 0 });
   const next = scheduleFutureDueItem(reviewed.world, {
     stableKey: `${REVIEW_KEY_PREFIX}${index + 1}`,
     dueAt: reviewed.nextReviewAt,
@@ -264,19 +265,28 @@ export interface GoalReviewResult {
  * most pressing first, until one of them takes a step. A goal that cannot is
  * blocked for its recorded reason. At most one step per person.
  */
-export function reviewPeopleGoals(world: World): GoalReviewResult {
+export function reviewPeopleGoals(
+  world: World,
+  options: { readonly openingReview?: boolean } = {},
+): GoalReviewResult {
   // A cold review initializes several histories for each candidate. Batch the
   // canonical writers, then validate their complete result before returning it.
   let nextReviewAt = addDays(world.currentDate, PACE.reviewIntervalDays);
   const reviewedWorld = writeWithWorldIntegrityOnce(world, () => {
-    const result = reviewPeopleGoalsUnchecked(world);
+    const result = reviewPeopleGoalsUnchecked(
+      world,
+      options.openingReview ?? false,
+    );
     nextReviewAt = result.nextReviewAt;
     return result.world;
   });
   return { world: reviewedWorld, nextReviewAt };
 }
 
-function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
+function reviewPeopleGoalsUnchecked(
+  world: World,
+  openingReview: boolean,
+): GoalReviewResult {
   const weekOn = addDays(world.currentDate, PACE.reviewIntervalDays);
   let nextReviewAt = weekOn;
   const soonest = (date: IsoDate | null) => {
@@ -315,7 +325,7 @@ function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
   }
   for (const personId of candidates) {
     try {
-      next = formLivelihoodGoal(next, personId);
+      next = formLivelihoodGoal(next, personId, openingReview);
     } catch {
       // A circumstance that cannot be read writes nothing; the week goes on.
     }
@@ -401,14 +411,17 @@ function paidWork(world: World, personId: EntityId) {
  * other paid work and is not studying, starts looking for work. Their own
  * circumstance is the only reason; nobody is assigned a search.
  */
-function formLivelihoodGoal(world: World, personId: EntityId): World {
+function formLivelihoodGoal(
+  world: World,
+  personId: EntityId,
+  openingReview: boolean,
+): World {
   const person = world.people[personId]!;
   const age = ageOnDate(person.birthDate, world.currentDate);
   if (age < PACE.workingAge.minimum || age > PACE.workingAge.maximum) {
     return world;
   }
   const work = paidWork(world, personId);
-  if (work.length === 0) return world;
   const cutoff = currentLifeCutoff(world);
   let ended: {
     statusId: EntityId;
@@ -434,7 +447,11 @@ function formLivelihoodGoal(world: World, personId: EntityId): World {
       };
     }
   }
-  if (!ended) return world;
+  // At opening, an unemployed working-age adult has the same reason to look
+  // for paid work as somebody whose work just ended. Their current recorded
+  // circumstances, not a demographic guess, start the goal.
+  const openingSearch = openingReview && work.length === 0;
+  if (!ended && !openingSearch) return world;
   if (activeEducationEnrollmentsAt(world, personId, cutoff).length > 0) {
     return world;
   }
@@ -445,16 +462,20 @@ function formLivelihoodGoal(world: World, personId: EntityId): World {
   );
   // One search per ending: a search already begun after this ending, active
   // or finished, is the answer to it.
-  if (searches.some((record) => record.createdAt >= ended!.effectiveAt)) {
+  if (
+    ended &&
+    searches.some((record) => record.createdAt >= ended.effectiveAt)
+  ) {
     return world;
   }
   if (searches.some((record) => record.status === "active")) return world;
   const goalKey =
     searches.length === 0
       ? LIVELIHOOD_GOAL_KEY
-      : `${LIVELIHOOD_GOAL_KEY}:${ended.effectiveAt}`;
+      : `${LIVELIHOOD_GOAL_KEY}:${ended?.effectiveAt ?? world.currentDate}`;
+  const circumstanceKey = ended?.statusId ?? "opening-unemployed";
   return recordGoalState(world, {
-    stableKey: `${GOAL_PURSUIT_VERSION}:livelihood:${personId}:${ended.statusId}`,
+    stableKey: `${GOAL_PURSUIT_VERSION}:livelihood:${personId}:${circumstanceKey}`,
     personId,
     goalKey,
     recordedAt: world.currentDate,
@@ -467,13 +488,17 @@ function formLivelihoodGoal(world: World, personId: EntityId): World {
     deadline: null,
     outcome: null,
     provenance: createMindProvenance("reflection", {
-      note: `Their work ended on ${ended.effectiveAt}: ${ended.reason}`,
-      sourceRefs: [
-        {
-          kind: "life-history",
-          reference: { family: "work-status", recordId: ended.statusId },
-        },
-      ],
+      note: ended
+        ? `Their work ended on ${ended.effectiveAt}: ${ended.reason}`
+        : "They are an unemployed working-age adult at opening.",
+      sourceRefs: ended
+        ? [
+            {
+              kind: "life-history",
+              reference: { family: "work-status", recordId: ended.statusId },
+            },
+          ]
+        : [],
     }),
     replacesGoalId: null,
     supersedesGoalStateId: null,
@@ -574,6 +599,10 @@ function pursueLivelihood(world: World, goal: GoalStateRecord): PursuitOutcome {
   }
 
   // Nothing waiting on an answer: look at what is actually listed.
+  // Employer listings are shared facts in the town. A resident's weekly goal
+  // review makes the town's recorded openings available without relying on
+  // the player's job-market screen to have been opened first.
+  next = openWeeklyListings(next, personId);
   const listed = openJobListings(next, personId);
   if (listed.length === 0) return blocked(next, goal, "no-listed-opening");
   const open = listed.filter(
