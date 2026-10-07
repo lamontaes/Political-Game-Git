@@ -3,6 +3,10 @@
 Repo: lamontaes/Political-Game-Git. Board (report here): GitHub issue #2424. CTO: Claude Opus (posts as "OPUS CTO").
 Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Sessions 31–32 validate and merge. Finish work, get it onto main, take the next item. Never sit idle.
 
+## Check-in timer (owner order, 11:00 a.m. — every session)
+- Set a timer for your check-ins as soon as you start: e.g. `(sleep 600; echo CHECKIN > /tmp/checkin-NN) &` in the background, or your harness's own timer/reminder if it has one.
+- When it fires (and after every PR): `git fetch origin assignments`, re-read RULES.md and your session file, read the newest OPUS CTO lines on #2424, fix any SEND BACK on your PRs, post one SESSION NN status line if you have nothing else to post, then RESTART the timer. Never let it lapse.
+
 ## Your loop (repeat until stopped)
 1. Read your assignment: `git fetch origin assignments && git show origin/assignments:sessions/session-NN.md` (NN = your number, two digits).
 2. Do the top item that is not marked DONE. One item = one branch = one PR, based on current `origin/main`.
