@@ -112,7 +112,9 @@ describe("GoverningOfficeDesk", () => {
     const office = currentGoverningOffices(world)[0]!;
     const html = render(world, office.holderPersonId);
 
-    expect(html).toContain('data-testid="office-programs-none"');
+    // Opening data may already contain program records, so the desk should
+    // render those records without fabricating an empty-state panel.
+    expect(html).toContain('data-testid="office-programs"');
     expect(html).toContain('data-testid="office-staff-none"');
     expect(html).toContain('data-testid="office-measures-none"');
     expect(html).toContain('data-testid="office-casework-none"');
@@ -134,16 +136,19 @@ describe("GoverningOfficeDesk", () => {
     );
 
     expect(html).toContain('data-testid="office-program"');
-    expect(html).toContain("8 of 10 buses are in service.");
+    expect(html).toContain("8 / 10");
     expect(html).toContain('data-testid="office-program-appropriation"');
     expect(html).toContain('data-authority="available"');
-    expect(html).toContain("$2,000,000 appropriated.");
+    expect(html).toContain("$2,000,000");
     // The authority is the domain's sentence, not a UI guess at the office.
-    expect(html).toContain("executes appropriations the office receives");
+    expect(html).toMatch(
+      /data-basis="[^"]*executes appropriations the office receives/,
+    );
     // An appropriation is plainly not a decision the office has taken.
     expect(html).toContain('data-testid="office-program-uncommitted"');
     expect(html).toContain('data-testid="office-program-no-options"');
     expect(html).not.toContain('data-testid="office-program-commitment"');
+    expect(html).not.toContain("No current record");
   }, 120_000);
 
   it("never titles a program with its record key when nothing names the service", () => {
@@ -155,10 +160,7 @@ describe("GoverningOfficeDesk", () => {
     );
 
     expect(html).toContain('data-testid="office-program-unnamed"');
-    expect(html).toContain("<h5>A program with no recorded name</h5>");
-    expect(html).not.toContain("<h5>transit:state-bus</h5>");
-    expect(html).toContain(
-      "No capacity record establishes what this service has to work with.",
-    );
+    expect(html).not.toContain("transit:state-bus");
+    expect(html).toContain('data-problem="no-capacity-record"');
   }, 120_000);
 });
