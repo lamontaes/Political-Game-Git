@@ -200,7 +200,7 @@ async function materialize(
     for (const e of document.querySelectorAll("stop[data-tone]")) {
       const tone = e.getAttribute("data-tone") as
         "neutral" | "shadow" | "light";
-      if (!ramp[tone]) throw new Error("Unknown tone role.");
+      if (!ramp[tone]) throw new Error(tone);
       e.setAttribute("stop-color", ramp[tone]);
     }
     for (const [id, tone] of [
@@ -277,7 +277,7 @@ export async function renderPreparedSvg(
   );
   for (const id of ids) {
     const p = family.parts.find((p) => p.id === id);
-    if (!p) throw new Error("Unknown prepared part.");
+    if (!p) throw new Error(id);
     const variant =
       expression === "neutral" ? undefined : p.expressionVariants?.[expression];
     const d = parse(await source(variant?.svgPath ?? p.svgPath));

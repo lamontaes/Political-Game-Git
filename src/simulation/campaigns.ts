@@ -1,4 +1,7 @@
-import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import {
+  carryForwardLeftoverFunds,
+  recordCampaignFundraiserReceipts,
+} from "./campaign-money-sources";
 import { addCampaignHelper } from "./campaign-helpers";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
@@ -8,6 +11,8 @@ import {
 } from "./household-loans";
 import { paydayHandlers } from "./living-world/town-pay";
 import { rentDayHandlers } from "./living-world/town-rent";
+import { propertyTaxHandlers } from "./property-tax-bases";
+import { countyBudgetHearingHandlers } from "./living-world/county-budget-hearings";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -16,10 +21,13 @@ import {
 import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
+  townHomeReviewHandler,
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
+import { circulateCandidatePetition } from "./candidate-petitions";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
@@ -39,8 +47,16 @@ import { enactedDutyHandlers } from "./enacted-duties";
 import { officeContinuityHandlers } from "./governing/office-continuity";
 import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
 import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
-import { federalReformHandlers } from "./living-world/federal-reform";
-import { articleVHandlers } from "./governing/article-v";
+import {
+  FEDERAL_REFORM_REVIEW,
+  federalReformHandlers,
+  federalReformReviewHandler,
+} from "./living-world/federal-reform";
+import {
+  ARTICLE_V_REVIEW,
+  articleVHandlers,
+  articleVReviewHandler,
+} from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
@@ -69,6 +85,7 @@ import { lifePaths2Handlers } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import { seatCountyRowOfficerWinner } from "./living-world/local-government-seats";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
   localElectionHandlers,
@@ -137,7 +154,7 @@ import {
   recordWorkStatus,
 } from "./life";
 import { lifeTransitionHandlers } from "./life-callbacks";
-import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_CONTACT_HANDLERS } from "./relationship-contact";
 import { STATE_LEGISLATURE_QUEUE_HANDLERS } from "./nationwide-world/state-legislature-queue";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { peopleFamilyHandlers } from "./people-family-plan";
@@ -305,6 +322,8 @@ export interface FileCampaignInput {
   readonly advertisingVendorName: string;
   readonly staffPersonIds: readonly EntityId[];
   readonly treasuryCurrency: CurrencyCode;
+  /** Explicitly opt into a completed campaign's permitted keep-for-next-race balance. */
+  readonly carryForwardFromCampaignId?: EntityId | null;
 }
 
 export interface FiledCampaignResult {
@@ -647,7 +666,7 @@ export function fileCampaign(
   }
   if (!input.municipalSeatKey && municipalSeatMustBeNamed(input.officeKey)) {
     throw new Error(
-      "This council elects named seats. Choose a recorded at-large or ward seat before filing.",
+      "This council elects named seats. Choose a recorded at-large or district seat before filing.",
     );
   }
   const option = eligibility.office;
@@ -923,6 +942,13 @@ export function fileCampaign(
   // A town seat the town's own election already has on its ballot is decided
   // in this campaign's election instead.
   world = withdrawTownRaceForCampaign(world, campaignRecord.contestId);
+  if (input.carryForwardFromCampaignId) {
+    world = carryForwardLeftoverFunds(
+      world,
+      input.carryForwardFromCampaignId,
+      campaignRecord.id,
+    );
+  }
   return { world, campaign: campaignRecord };
 }
 
@@ -1925,6 +1951,19 @@ function seatOnLocalGoverningBody(
   winnerPersonId: EntityId,
 ): World {
   const unit = office.unit;
+  if (office.seat === "row-office" && office.rowOffice) {
+    const next = seatCountyRowOfficerWinner(world, {
+      unit,
+      office: office.rowOffice,
+      title: office.officeTitle,
+      winnerPersonId,
+      effectiveAt,
+      contestId: contest.id,
+      outcomeEventId,
+    });
+    assertWorldIntegrity(next);
+    return next;
+  }
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
   const compiled = municipalWorkspaceGovernmentForUnit(unit);
@@ -2335,6 +2374,16 @@ function endCampaignStaff(
   return next;
 }
 
+/** Both federal amendment routes enter through one clock-handler function. */
+function federalAmendmentReviewHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return due.transitionKey === ARTICLE_V_REVIEW
+    ? articleVReviewHandler(world, due)
+    : federalReformReviewHandler(world, due);
+}
+
 export function composeWorldTimeHandlers(
   additional?: FutureTransitionHandlerRegistry,
 ): FutureTransitionHandlerRegistry {
@@ -2368,6 +2417,8 @@ export function composeWorldTimeHandlers(
         // A legislature and voters changing the governor's term limit.
         ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
+        [FEDERAL_REFORM_REVIEW, federalAmendmentReviewHandler],
+        [ARTICLE_V_REVIEW, federalAmendmentReviewHandler],
         ...federalReformHandlers(),
         ...articleVHandlers(),
         ...presidentialTurnoverHandlers(),
@@ -2417,10 +2468,15 @@ export function composeWorldTimeHandlers(
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
+        [TOWN_HOME_REVIEW_TRANSITION_KEY, townHomeReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
         ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
         ...rentDayHandlers(),
+        // PROPERTY TAX: a local property tax assesses homes on its day.
+        ...propertyTaxHandlers(),
+        // COUNTY BUDGET: a county board hears and votes its yearly levy.
+        ...countyBudgetHearingHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...campaignLifeHandlers(),
       ]),
@@ -2589,7 +2645,7 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       try {
         return scheduleCampaignAction(world, {
           campaignId: campaign.id,
-          kind: block.work,
+          kind: block.work === "petition" ? "outreach" : block.work,
           plan: {
             start: slot.start,
             end: slot.end,
@@ -2623,11 +2679,29 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       if (!activity || !routineIdOfActivity(world, activity.sourceEntityIds))
         return world;
       const action = campaignActionForActivity(world, activityId);
-      if (!action || campaignActionResult(world, action.id)) return world;
+      if (!action) return world;
       const campaign = campaignById(world, action.campaignId);
       if (!campaign || campaignState(world, campaign.id).status !== "active")
         return world;
-      return recordCampaignActionOutcome(world, campaign, action);
+      const timing = scheduledActivityState(world, activity.id);
+      const routineEventId = activity.sourceEntityIds.find((id) =>
+        Boolean(routineIdOfActivity(world, [id])),
+      );
+      const block = routineEventId
+        ? campaignRoutineBlockAt(world, routineEventId, timing.start)
+        : null;
+      const completed = campaignActionResult(world, action.id)
+        ? world
+        : recordCampaignActionOutcome(world, campaign, action);
+      return block?.work === "petition"
+        ? circulateCandidatePetition(completed, {
+            campaignId: campaign.id,
+            circulatorPersonId: campaign.candidatePersonId,
+            stableKey: `${action.stableKey}:petition-circulation`,
+            minutes: simulationMinutesBetween(timing.start, timing.end),
+            at: timing.end.date,
+          })
+        : completed;
     },
   };
 }

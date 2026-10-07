@@ -5,6 +5,7 @@ import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import { statuteEffectiveRule } from "./governing/statute-effective-date";
 import { enactingGovernmentForPack } from "./legislation-drafting";
 import { recordedSessionAdjournment } from "./governing/session-adjournments";
+import { potentialRiderRuleIssue } from "./governing/rider-rule-trail";
 import {
   growingIndex,
   indexOverArrays,
@@ -27,7 +28,9 @@ import {
   type LegislativeRulePack,
   type VoteDenominator,
   type VoteThresholdRule,
+  type MinorityProcedureMotion,
 } from "./legislature-rules";
+import { minorityPartyProcedureRows } from "./minority-party-procedure";
 import {
   legislativeRulePackForWorld,
   legislativeProcedureForPack,
@@ -292,6 +295,16 @@ const REGULAR_SESSION_ACTIONS: ReadonlySet<LegislativeActionKind> = new Set([
   "amendment-rejected",
   "floor-stage-passed",
   "floor-stage-failed",
+  "procedural-motion-failed",
+  "tabled",
+  "postponed",
+  "recommitted",
+  "recorded-vote-demanded",
+  "full-reading-demanded",
+  "rules-suspended",
+  "sine-die-vote-carried",
+  "quorum-not-present",
+  "debate-extended",
   "transmitted",
   "concurred",
   "concurrence-failed",
@@ -487,6 +500,44 @@ function applyRecordedAction(
         chamber.chamberKey !== measure.originChamberKey
       ) {
         state.secondChamberAmended = true;
+      }
+      return LEGAL;
+    }
+    case "procedural-motion-failed":
+    case "tabled":
+    case "postponed":
+    case "recommitted":
+    case "recorded-vote-demanded":
+    case "full-reading-demanded":
+    case "rules-suspended":
+    case "sine-die-vote-carried":
+    case "quorum-not-present":
+    case "debate-extended": {
+      const gate = requirePhase(state, action.kind, ["on-floor"]);
+      if (!gate.ok) return gate;
+      const chamber = currentChamber();
+      if (!chamber) return illegal("the measure is not in a chamber");
+      if (action.chamberKey !== chamber.chamberKey)
+        return illegal("the procedural action names a different chamber");
+      if (action.kind === "postponed" || action.kind === "tabled") {
+        if (!action.resumeAt || action.resumeAt <= action.occurredAt)
+          return illegal(
+            "a postponed or tabled measure needs a later resume date",
+          );
+        state.earliestNextFloorDate = action.resumeAt;
+      }
+      if (action.kind === "recommitted") {
+        if (!action.committeeKey)
+          return illegal("a recommitted measure must name its committee");
+        committeeByKey(chamber, action.committeeKey);
+        state.phase = "in-committee";
+        state.committeeKey = action.committeeKey;
+        state.floorStageKey = null;
+      }
+      if (action.kind === "debate-extended" && action.resumeAt) {
+        if (action.resumeAt <= action.occurredAt)
+          return illegal("extended debate must resume after the motion date");
+        state.earliestNextFloorDate = action.resumeAt;
       }
       return LEGAL;
     }
@@ -1250,6 +1301,169 @@ export function buildLegislativeVoteRecord<
   };
 }
 
+export interface RecordProceduralMotionInput {
+  readonly measureId: EntityId;
+  readonly stableKey: string;
+  readonly chamberKey: string;
+  readonly motion: MinorityProcedureMotion;
+  readonly vote: LegislativeVoteRecord & {
+    readonly purpose: "procedural-motion";
+  };
+  readonly actorLabel: string;
+  readonly rationale: string;
+  readonly resumeAt?: IsoDate | null;
+  readonly committeeKey?: string | null;
+}
+
+/** Record a procedure vote decided by the shared chamber vote engine. */
+export function recordProceduralMotion(
+  world: World,
+  input: RecordProceduralMotionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const position = assertPhase(
+    world,
+    measure.id,
+    ["on-floor"],
+    "take a procedural motion",
+  );
+  if (position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A procedural motion must name the measure's current chamber.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const rules = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    !rules ||
+    rules.motions.kind !== "known" ||
+    !rules.motions.value.includes(input.motion)
+  )
+    throw new Error(
+      `The ${input.motion} motion is not available in this chamber.`,
+    );
+  if (
+    input.vote.measureId !== measure.id ||
+    input.vote.purpose !== "procedural-motion" ||
+    input.vote.forum.kind !== "chamber" ||
+    input.vote.forum.chamberKey !== input.chamberKey
+  )
+    throw new Error(
+      "A procedural-motion record needs its own vote in the same chamber.",
+    );
+  const thresholdRule =
+    input.motion === "suspend-rules" ? rules.suspendRulesBar : rules.motionBar;
+  if (
+    thresholdRule.kind !== "known" ||
+    input.vote.thresholdLabel !== thresholdRule.value.label
+  )
+    throw new Error("The recorded vote used a different procedural threshold.");
+  if (input.resumeAt && input.resumeAt <= input.vote.takenAt)
+    throw new Error("A procedural delay must resume after the motion date.");
+  if (
+    (input.motion === "postpone" || input.motion === "table") &&
+    !input.resumeAt
+  )
+    throw new Error("A postpone or table motion must name its return date.");
+  if (input.motion === "recommit" && !input.committeeKey)
+    throw new Error("A recommit motion must name its committee.");
+  if (input.motion === "recommit" && input.committeeKey)
+    committeeByKey(chamberByKey(pack, input.chamberKey), input.committeeKey);
+
+  const acceptedKind: Record<MinorityProcedureMotion, LegislativeActionKind> = {
+    table: "tabled",
+    postpone: "postponed",
+    recommit: "recommitted",
+    "recorded-vote": "recorded-vote-demanded",
+    "full-reading": "full-reading-demanded",
+    "suspend-rules": "rules-suspended",
+    "sine-die": "sine-die-vote-carried",
+  };
+  const passed = input.vote.outcome === "passed";
+  const kind = passed ? acceptedKind[input.motion] : "procedural-motion-failed";
+  const chamber = chamberByKey(pack, input.chamberKey);
+  return appendAction(world, {
+    measure,
+    kind,
+    stableKey: input.stableKey,
+    chamberKey: chamber.chamberKey,
+    committeeKey: input.committeeKey ?? null,
+    floorStageKey: position.floorStageKey,
+    actorLabel: input.actorLabel,
+    rationale: input.rationale,
+    summary: `${chamber.name}: ${input.motion} ${passed ? "carried" : "failed"} ${input.vote.tally.yea}-${input.vote.tally.nay}`,
+    eventType: "legislation.procedural-motion",
+    tags: ["legislation.procedure"],
+    vote: input.vote,
+    proceduralMotion: input.motion,
+    resumeAt: input.resumeAt,
+  });
+}
+
+export interface RecordDebateExtensionInput {
+  readonly measureId: EntityId;
+  readonly stableKey: string;
+  readonly chamberKey: string;
+  readonly memberPersonId: EntityId;
+  readonly actorLabel: string;
+  readonly rationale: string;
+  readonly resumeAt: IsoDate;
+}
+
+/** Record one member's decision to keep the floor for another sitting day. */
+export function recordDebateExtension(
+  world: World,
+  input: RecordDebateExtensionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const position = assertPhase(
+    world,
+    measure.id,
+    ["on-floor"],
+    "extend floor debate",
+  );
+  if (position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A debate extension must name the measure's current chamber.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const procedure = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    procedure?.unlimitedDebate.kind !== "known" ||
+    !procedure.unlimitedDebate.value ||
+    procedure.clotureBar.kind !== "known"
+  )
+    throw new Error("This chamber has no recorded unlimited-debate rule.");
+  if (input.resumeAt <= world.currentDate)
+    throw new Error("An extended debate must resume after today.");
+  const chamber = chamberByKey(pack, input.chamberKey);
+  return appendAction(world, {
+    measure,
+    kind: "debate-extended",
+    stableKey: input.stableKey,
+    chamberKey: input.chamberKey,
+    committeeKey: null,
+    floorStageKey: position.floorStageKey,
+    actorLabel: input.actorLabel,
+    rationale: input.rationale,
+    summary: `${chamber.name}: debate-extended by ${input.actorLabel}, resumes ${input.resumeAt}`,
+    eventType: "legislation.debate-extended",
+    tags: ["legislation.procedure"],
+    participants: [
+      {
+        personId: input.memberPersonId,
+        role: "agency:decision-maker",
+        detail: "held the floor",
+      },
+    ],
+    involvedEntityIds: [input.memberPersonId],
+    resumeAt: input.resumeAt,
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Internal append helpers
 // ---------------------------------------------------------------------------
@@ -1269,6 +1483,8 @@ interface AppendActionInput {
   readonly participants?: readonly EventParticipant[];
   readonly involvedEntityIds?: readonly EntityId[];
   readonly vote?: LegislativeVoteRecord | null;
+  readonly proceduralMotion?: MinorityProcedureMotion;
+  readonly resumeAt?: IsoDate | null;
   readonly amendment?: LegislativeAmendmentRecord | null;
   readonly occurredAt?: IsoDate;
 }
@@ -1377,6 +1593,10 @@ function appendAction(world: World, input: AppendActionInput): World {
     chamberKey: input.chamberKey,
     committeeKey: input.committeeKey,
     floorStageKey: input.floorStageKey,
+    ...(input.proceduralMotion === undefined
+      ? {}
+      : { proceduralMotion: input.proceduralMotion }),
+    ...(input.resumeAt === undefined ? {} : { resumeAt: input.resumeAt }),
     actorLabel: input.actorLabel,
     rationale: input.rationale,
     eventId: event.id,
@@ -1438,7 +1658,7 @@ export function electedMembersFor(
   if (electedMembers === undefined) return requireFormalSeatCount(chamber);
   if (!Number.isSafeInteger(electedMembers) || electedMembers <= 0) {
     throw new Error(
-      `The ${chamber.name} needs a positive count of elected members.`,
+      `The ${chamber.name} needs a positive count of elected officials.`,
     );
   }
   if (
@@ -2239,7 +2459,7 @@ export interface OfferAmendmentInput {
    * never enters the bill.
    */
   readonly proposedSections?: readonly LegislativeProposedSection[];
-  /** Why a computer-run member offered it. */
+  /** Why the author offered it, when the author chooses to keep that motive on record. */
   readonly authorMotive?: LegislativeAmendmentMotive;
 }
 
@@ -2300,6 +2520,14 @@ export function offerFloorAmendment(
   });
 
   const adopted = vote.outcome === "passed";
+  const potentialSingleSubjectIssue = adopted
+    ? potentialRiderRuleIssue(
+        world,
+        pack,
+        measure,
+        input.proposedSections ?? [],
+      )
+    : undefined;
   const amendment: LegislativeAmendmentRecord = {
     id: createStableId(
       "legislative-amendment",
@@ -2325,6 +2553,7 @@ export function offerFloorAmendment(
         }
       : {}),
     ...(input.authorMotive ? { authorMotive: input.authorMotive } : {}),
+    ...(potentialSingleSubjectIssue ? { potentialSingleSubjectIssue } : {}),
   };
 
   return appendAction(world, {
@@ -2445,9 +2674,20 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
         : membership,
   );
   if (present < requiredQuorum.requiredVotes)
-    throw new Error(
-      `The ${chamber.name} cannot transact business: ${quorum.label} (${present} present, ${requiredQuorum.requiredVotes} required).`,
-    );
+    return appendAction(world, {
+      measure,
+      kind: "quorum-not-present",
+      stableKey: `${input.stableKey}:quorum-not-present`,
+      chamberKey: chamber.chamberKey,
+      committeeKey: null,
+      floorStageKey: stage.stageKey,
+      actorLabel: chamber.name,
+      rationale: `${quorum.label}: ${present} present, ${requiredQuorum.requiredVotes} required`,
+      summary: `${chamber.name}: quorum-not-present on ${measure.designation}, ${present} present, ${requiredQuorum.requiredVotes} required`,
+      eventType: "legislation.quorum-not-present",
+      tags: ["legislation.procedure"],
+      vote,
+    });
 
   const passed = vote.outcome === "passed";
   const onward = nextFloorStageKey(chamber, stage.stageKey);
@@ -3094,6 +3334,10 @@ export function recordEnactment(
     "Enactment",
   );
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const scaleTags =
+    world.jurisdictions[measure.jurisdictionId]?.kind === "state"
+      ? ["importance:major"]
+      : [];
 
   // Chamber passage and concurrence only: a veto override is not the
   // passage a state counts an effective date from.
@@ -3175,7 +3419,7 @@ export function recordEnactment(
     rationale: "The measure completed every required step and became law.",
     summary: `${measure.designation} — ${measure.shortTitle} — became law.`,
     eventType: "legislation.measure-enacted",
-    tags: ["legislation.enacted"],
+    tags: ["legislation.enacted", ...scaleTags],
   });
 
   const event = recordByStableKey(

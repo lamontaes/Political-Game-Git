@@ -1,4 +1,3 @@
-import { workUniform } from "./work-uniform";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import type { SceneSeatContact } from "../environment/environment-scene-spec";
 import {
@@ -11,10 +10,7 @@ import {
 } from "./appearance-engine/pack";
 import { conversationExpression } from "./appearance-engine/expression-chooser";
 import type { ConversationExchangeTurn } from "./scene-conversation";
-import { officesHeldBy } from "../simulation/governing/office-consequence";
-import { isMarriedNow } from "./appearance-engine/marital-status";
-import { placeWear } from "./dress-code";
-import { engineRecipeFor } from "./appearance-engine/recipe";
+import { personDayRecipe, roomDayOutfitExclusions } from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackAvailable,
@@ -713,6 +709,10 @@ export function planLifeScenePeople(
         .map((person) => [person.personId, person]),
     ).values(),
   ].sort((left, right) => left.personId.localeCompare(right.personId));
+  const outfitExclusions = roomDayOutfitExclusions(
+    world,
+    people.map((person) => person.personId),
+  );
 
   const plateAspect = scene.plate.width / scene.plate.height;
 
@@ -767,16 +767,8 @@ export function planLifeScenePeople(
       record &&
       !savedWardrobes?.artPreview &&
       peoplePackAvailable()
-        ? engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
-            wear: placeWear(sceneId, world.currentDate),
-            officeholder: () =>
-              officesHeldBy(world, person.personId).length > 0,
-            married: () => isMarriedNow(world, person.personId),
-            uniform: workUniform(
-              world,
-              person.personId,
-              placeWear(sceneId, world.currentDate),
-            ),
+        ? personDayRecipe(world, record, {
+            avoidOutfits: outfitExclusions.get(person.personId),
             ...posedFor(
               world,
               person.personId,
