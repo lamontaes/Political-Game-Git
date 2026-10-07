@@ -591,7 +591,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1180 | Review existing capitol surfaces: KY through OH | PR #1180 (codex/sept29-team7-scenes-09) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1181 | Review existing capitol surfaces: OK through WY | PR #1181 (codex/sept29-team7-scenes-10) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1187 | Trace Team 7 scene and newspaper why-chains | PR #1187 (codex/team7-bedrock-numbers) | open: draft: finish it or close it as superseded | |
-| RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | open: stacked on codex/team-9-bill-number-research: retarget to main; draft: finish it or close it as superseded | |
+| RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | ready #1188 | |
 | RS-1203 | Review remaining canonical scene spots | PR #1203 (codex/sept29-team7-remaining-spots) | open: draft: finish it or close it as superseded | |
 | RS-1220 | Preserve fresh monthly speed baseline and scoped caller evidence | PR #1220 (codex/team-4-monthly-speed-next) | done (superseded by M10; no active allocation) | |
 | RS-1222 | List exact regional picture admissions for existing-bank reconciliation | PR #1222 (codex/team-8-regional-picture-gaps) | done (superseded by regional-opening #281 and place-id research #451; closed Oct 7) | Session 45 |
@@ -609,13 +609,13 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
 | RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #1306 (codex/team1-consequence-inputs) | open: draft: finish it or close it as superseded | |
 | RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | ready #3271 | |
-| RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | open: draft: finish it or close it as superseded | |
+| RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | ready #1332 | |
 | RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | open: draft: finish it or close it as superseded | |
 | RS-1406 | Deliver the private monthly money call-cost diagnostic | PR #1406 (codex/team7-c9-owned-call-cost-diagnostic) | done (superseded by current-main obligation route; diagnostic depended on closed PR #1353) | |
 | RS-1415 | Preserve native lease renewal proof and save validation blocker | PR #1415 (codex/team-4-m10-native-renewal-entry) | open: draft: finish it or close it as superseded | |
 | RS-1430 | Prepare scheduled rent proof and preserve runtime budget blocker | PR #1430 (codex/team-4-m10-scheduled-rent-entry) | open: draft: finish it or close it as superseded | |
 | RS-1479 | Remove unavailable reporter search from Press workspace | PR #1479 (codex/team-8-a153-unavailable-action) | open: draft: finish it or close it as superseded | |
-| RS-1488 | Read retained majority-member and NJ/Congress filing predicates | PR #1488 (codex/team1-majority-question-counts) | open: draft: finish it or close it as superseded | |
+| RS-1488 | Read retained majority-member and NJ/Congress filing predicates | PR #1488 (codex/team1-majority-question-counts) | ready #1488 | |
 | RS-1508 | Retain dated county source intake and actual binding gaps | PR #1508 (codex/team7-county-source-intake-02) | open: draft: finish it or close it as superseded | |
 | RS-1511 | Persist canonical chunked world saves in SQLite | PR #1511 (codex/audit-sqlite-chunked-world-saves) | done #1511 | S50 |
 | RS-1572 | A57 bypass the blanket renewal cap when final terms govern | PR #1572 (codex/team-4-a57-rent-cap-consumer) | open: draft: finish it or close it as superseded | |
@@ -988,17 +988,17 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 
 ## County (owner order Oct 6: essential; waits behind nothing)
 
-| item | what it is                                                                                   | doc and part                                                         | status | claimer                   |
-| ---- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------ | ------------------------- |
-| CO-1 | County election calendar for every county. Owner L2.                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | L2                        |
-| CO-2 | Row officers as electable offices. Owner H3.                                                 | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | H3                        |
-| CO-3 | County structure type and executive. Owner L2 (data) then H3 (office).                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | L2 then H3                |
-| CO-4 | Sheriff and district attorney do recorded work. Owner H1 after its rescue list, else anyone. | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3000 | done   | H1 after rescue or anyone |
-| CO-5 | County budget and tax hearings. Owner M1 after its rescue list, else anyone.                 | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3033 | done   | M1 after rescue or anyone |
-| CO-6 | County powers cells. Owner L2 after CO-1, else anyone.                                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | L2 after CO-1 or anyone   |
-| CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #1829 | done   | H2 with ART-1             |
-| CO-8 | County court. Anyone (same as SC-2).                                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #2915 | done   | anyone                    |
-| CO-9 | The fair, roads and the health department as county services. Anyone, after CO-5.            | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | anyone after CO-5         |
+| item | what it is                                                                                   | doc and part                                                         | status     | claimer                   |
+| ---- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------- | ------------------------- |
+| CO-1 | County election calendar for every county. Owner L2.                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open       | L2                        |
+| CO-2 | Row officers as electable offices. Owner H3.                                                 | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | done #3003 | H3                        |
+| CO-3 | County structure type and executive. Owner L2 (data) then H3 (office).                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open       | L2 then H3                |
+| CO-4 | Sheriff and district attorney do recorded work. Owner H1 after its rescue list, else anyone. | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3000 | done       | H1 after rescue or anyone |
+| CO-5 | County budget and tax hearings. Owner M1 after its rescue list, else anyone.                 | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3033 | done       | M1 after rescue or anyone |
+| CO-6 | County powers cells. Owner L2 after CO-1, else anyone.                                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open       | L2 after CO-1 or anyone   |
+| CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #1829 | done       | H2 with ART-1             |
+| CO-8 | County court. Anyone (same as SC-2).                                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #2915 | done       | anyone                    |
+| CO-9 | The fair, roads and the health department as county services. Anyone, after CO-5.            | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open       | anyone after CO-5         |
 
 ## Owner playthrough Oct 6, 6:35 p.m. (owner: 'JUST PUT IT IN THE POOL'; open to every session, no order; screenshots cto-notes/owner-shots/oct6-1835/1-11.webp on the Opus Mac, copies posted on #2424)
 
