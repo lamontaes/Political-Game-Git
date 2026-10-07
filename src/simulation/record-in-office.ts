@@ -7,7 +7,7 @@ import {
   macroScopeForJurisdiction,
 } from "./macro-economy/readers";
 import {
-  rememberedAdverseFindingsAgainst,
+  publicAdverseFindingsAgainst,
   RECORDED_FINDING_EFFECTS,
 } from "./press/findings";
 import type { EntityId, IsoDate, World } from "./types";
@@ -96,8 +96,8 @@ export function recordInOffice(
 
 /**
  * What a candidate's past adds to or takes from their starting weight in a
- * new contest: a public ethics finding still in voters' memory starts them
- * further back, and a sitting governor starts ahead or behind on what
+ * new contest: a public ethics finding remains on the record, and a sitting
+ * governor starts ahead or behind on what
  * happened to unemployment on their watch, and anyone remembered for how they
  * handled a disaster starts ahead or behind for it. Where the contest's
  * jurisdiction is given, its voters also weigh the candidate's votes and
@@ -112,7 +112,7 @@ export function startingSupportAdjustment(
   asOf: IsoDate,
   contestJurisdictionId?: EntityId,
 ): number {
-  const findings = rememberedAdverseFindingsAgainst(world, personId, asOf);
+  const findings = publicAdverseFindingsAgainst(world, personId, asOf);
   return (
     (recordInOffice(world, personId, asOf)?.weight ?? 0) +
     (contestJurisdictionId

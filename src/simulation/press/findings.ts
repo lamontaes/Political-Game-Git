@@ -1,6 +1,7 @@
-import { addDays } from "../dates";
-import type { EntityId, IsoDate, World } from "../types";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
+import { CLAIM_CONTRADICTION_EVENT } from "../claim-stances";
 import type {
+  MatterRecord,
   MatterProceedingRecord,
   ProceedingOutcome,
   ProceedingStepRecord,
@@ -36,8 +37,8 @@ export function isAdversePublicStep(
 
 /**
  * RECORDED GAME RULE. A finding or conciliation removes 300 basis points of
- * support, a report removes 150, a remembered finding subtracts 90 from a
- * later contest's starting weight, and memory lasts six years. The game's
+ * support, a report removes 150, and each public finding subtracts 90 from a
+ * later contest's starting weight. Public findings remain in the record. The game's
  * research memo records a 6-to-11-point association for corruption charges in
  * 1968-1978 U.S. House districts but explicitly does not validate these ethics-
  * finding magnitudes. These values are therefore game rules, not real-world
@@ -53,13 +54,11 @@ export const RECORDED_FINDING_EFFECTS = {
     "report-issued": 150,
   } satisfies Record<AdversePublicOutcome, number>,
   /**
-   * Starting-weight penalty in a later contest, per finding still within the
-   * memory window. Starting weights are drawn from 850 to 1150 in
+   * Starting-weight penalty in a later contest, per public finding. Starting
+   * weights are drawn from 850 to 1150 in
    * `campaigns.ts`, so 90 is roughly a quarter of that spread.
    */
   laterContestWeightPenalty: 90,
-  /** Days a public finding still counts against a later candidacy. */
-  memoryDays: 6 * 365,
 } as const;
 
 export interface AdversePublicFinding {
@@ -89,15 +88,55 @@ export function publicAdverseFindingsAgainst(
   });
 }
 
-/** Findings still inside the recorded memory window on `asOf`. */
-export function rememberedAdverseFindingsAgainst(
+/** Public matter, response and caught-lie events a rival can cite. */
+export function publicPressEventsAbout(
   world: World,
   personId: EntityId,
   asOf: IsoDate = world.currentDate,
-): readonly AdversePublicFinding[] {
-  return publicAdverseFindingsAgainst(world, personId, asOf).filter(
-    (finding) =>
-      addDays(finding.step.at, RECORDED_FINDING_EFFECTS.memoryDays) >= asOf,
+): readonly HistoricalEvent[] {
+  const events = new Map(
+    world.history.events.map((event) => [event.id, event]),
+  );
+  const matters = pressRecordsOfKind(world, "matter").filter((matter) =>
+    matter.subjectPersonIds.includes(personId),
+  );
+  const mattersById = new Map<EntityId, MatterRecord>(
+    matters.map((matter) => [matter.id, matter]),
+  );
+  const selected = new Map<EntityId, HistoricalEvent>();
+  const add = (eventId: EntityId) => {
+    const event = events.get(eventId);
+    if (
+      event?.visibility === "public" &&
+      event.occurredAt <= asOf &&
+      event.recordedAt <= asOf
+    )
+      selected.set(event.id, event);
+  };
+  for (const matter of matters)
+    if (matter.openedAt <= asOf) add(matter.originEventId);
+  for (const response of pressRecordsOfKind(world, "matter-response")) {
+    const matter = mattersById.get(response.matterId);
+    if (
+      response.respondedAt <= asOf &&
+      (response.actorPersonId === personId ||
+        matter?.subjectPersonIds.includes(personId))
+    )
+      add(response.eventId);
+  }
+  for (const event of world.history.events)
+    if (
+      event.type === CLAIM_CONTRADICTION_EVENT &&
+      event.tags.includes("claim.intent.deceive") &&
+      event.participants.some(
+        (participant) => participant.personId === personId,
+      )
+    )
+      add(event.id);
+  return [...selected.values()].sort(
+    (left, right) =>
+      left.occurredAt.localeCompare(right.occurredAt) ||
+      left.sequence - right.sequence,
   );
 }
 

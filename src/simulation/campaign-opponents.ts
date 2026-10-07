@@ -13,7 +13,10 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "./character-history";
-import { rememberedAdverseFindingsAgainst } from "./press/findings";
+import {
+  publicAdverseFindingsAgainst,
+  publicPressEventsAbout,
+} from "./press/findings";
 import {
   CAMPAIGN_WEEKLY_EVALUATION_KEY,
   type CampaignOpponentRecord,
@@ -1196,10 +1199,11 @@ function writeSupportRequest(
       sourceRefs: [],
     },
   ];
-  for (const finding of rememberedAdverseFindingsAgainst(
+  const findings = publicAdverseFindingsAgainst(
     world,
     opponent.candidatePersonId,
-  )) {
+  );
+  for (const finding of findings) {
     considerations.push({
       stableKey: `${stepKey}:organizer:public-finding:${finding.step.id}`,
       optionKey: "decline",
@@ -1209,6 +1213,22 @@ function writeSupportRequest(
       confidence: "high",
       explanation: `The ${finding.proceeding.institutionLabel} has made a public finding against the candidate.`,
       sourceRefs: [{ kind: "historical-event", eventId: finding.step.eventId }],
+    });
+  }
+  for (const event of publicPressEventsAbout(
+    world,
+    opponent.candidatePersonId,
+  )) {
+    if (findings.some((finding) => finding.step.eventId === event.id)) continue;
+    considerations.push({
+      stableKey: `${stepKey}:organizer:press-record:${event.id}`,
+      optionKey: "decline",
+      sourceType: "context:public-press-record",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation: event.summary,
+      sourceRefs: [{ kind: "historical-event", eventId: event.id }],
     });
   }
   if (chapterBackedPlayer) {
