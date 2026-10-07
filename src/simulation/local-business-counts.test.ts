@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import { lifePlaceByKey } from "./life-places";
+import { NATIONAL_PLACES_ROWS } from "./national-places.generated";
+import { TERRITORY_PLACE_ROWS } from "./territory-places";
 import {
   LOCAL_BUSINESS_COUNTS_META,
   LOCAL_BUSINESS_COUNT_KINDS,
@@ -76,11 +78,33 @@ describe("the businesses a town really has", () => {
     expect(total(kualapuu)).toBeGreaterThan(total(limeRidge));
   });
 
-  it("keeps the marked placeholder list where the town's population is not held", () => {
-    const plans = localBusinessPlansFor("no-such-town" as never);
-    expect(plans).toHaveLength(LOCAL_BUSINESS_KINDS.length);
-    expect(plans.every((plan) => !plan.sourced && plan.expected === null)).toBe(
-      true,
-    );
+  it("refuses plans for an unknown locality identity", () => {
+    expect(localBusinessPlansFor("no-such-town" as never)).toEqual([]);
+  });
+  it("covers every registered locality with explicit sourced estimates", () => {
+    const keys = [
+      ...(JSON.parse(NATIONAL_PLACES_ROWS) as string[][]).map((row) => row[0]!),
+      ...TERRITORY_PLACE_ROWS.map((row) => row[0]),
+    ];
+    expect(keys).toHaveLength(32_394);
+    for (const key of keys) {
+      const supply = localBusinessSupplyFor(townId(key));
+      expect(supply, key).not.toBeNull();
+      expect(
+        supply!.every(
+          (row) => Number.isFinite(row.expected) && row.expected >= 0,
+        ),
+        key,
+      ).toBe(true);
+      expect(
+        supply!.every(
+          (row) =>
+            row.estimateBasis.includes("ESTIMATED FROM AVERAGE") &&
+            row.estimateBasis.includes("CBP 2023"),
+        ),
+        key,
+      ).toBe(true);
+      expect(localBusinessPlansFor(townId(key)).length, key).toBeGreaterThan(0);
+    }
   });
 });

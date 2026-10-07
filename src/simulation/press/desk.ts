@@ -1,9 +1,17 @@
 import { eventById } from "../event-index";
 import { addDays, spokenDate } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import { scheduleFutureDueItem } from "../future-transitions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
+import {
+  futureDueItemStateAt,
+  scheduleFutureDueItem,
+} from "../future-transitions";
 import { personName } from "../people";
 import { correctPublication, publishPublicEvent } from "../public-information";
+import { PUBLIC_PROGRAM_EVENT_PREFIX } from "../public-program-integrity";
 import {
   PRESS_STORY_EVENT_TYPE,
   PRESS_STORY_LEAD_TAG,
@@ -11,7 +19,11 @@ import {
   resolvePublicationSource,
 } from "../public-information-integrity";
 import { currentHistoricalCutoff } from "../queries";
-import { recordClaim, recordEventKnowledge } from "../records";
+import {
+  recordClaim,
+  recordEventKnowledge,
+  recordRelationshipInteraction,
+} from "../records";
 import type {
   DecisionConsideration,
   DecisionConstraint,
@@ -24,17 +36,28 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import { workItemState } from "../time-work";
+import {
+  createStoryWorkItem,
+  outletReportingWorkBudget,
+  reporterWorkBudget,
+  storyEffortEstimate,
+  storyWorkItem,
+} from "./story-work";
 import { ACTIVE_STORY_DECISIONS } from "./integrity";
 import {
   colleaguesOf,
   partyContactsForSubject,
   produceMatterResponses,
 } from "./responses";
+import { openPersonalLifeMatter } from "./matters";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
+import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
+  ensurePressExposureCoverage,
   mediaOutlets,
   reporterIsCurrent,
   reporterRoles,
@@ -42,7 +65,6 @@ import {
 } from "./outlets";
 import { sharingSiblings } from "./ownership";
 import {
-  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
   PRESS_CONTRACT_VERSION,
   type LeadRoute,
   type MediaBeat,
@@ -60,6 +82,7 @@ import {
   reportLawEffects,
   reportLawOutcomes,
 } from "./law-effect-news";
+import { recordStoryHeardExposure } from "./story-exposure";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -93,6 +116,8 @@ export const PRESS_DESK_INTERVALS = {
 const RESPONSE_REQUESTED_EVENT = "press.response-requested";
 export const SUBJECT_RESPONDED_EVENT = "press.subject-responded";
 const EXCLUDED_PREFIXES = [
+  // A program's note to the books is not copy; its record keeps the fields.
+  PUBLIC_PROGRAM_EVENT_PREFIX,
   "press.",
   "setup.",
   "simulation.",
@@ -176,7 +201,7 @@ export function publishOpeningPublicRecords(world: World): World {
   const candidates = world.history.events.filter(
     (event) =>
       event.occurredAt >= oldest &&
-      event.occurredAt < world.currentDate &&
+      event.occurredAt <= world.currentDate &&
       event.recordedAt <= world.currentDate &&
       !published.has(event.id) &&
       !event.tags.some(
@@ -253,38 +278,14 @@ function writeDisposition(
   }).world;
 }
 
-/**
- * How many stories the outlet can work at once, which follows its newsroom.
- *
- * The tier's capacity is what the outlet carries fully staffed. After a cut it
- * carries the same share of that capacity as it keeps of its recorded
- * reporters, rounded up so one reporter still works one story, and nothing
- * once nobody is left. The owner decided (2026-09-22) that fewer local
- * reporters can mean fewer local stories, following the recorded staffing
- * rather than a fixed percentage; this is that rule with no number of its own.
- * PLACEHOLDER, NOT RESEARCHED: that capacity scales in proportion to staff is
- * itself a design choice, not a finding.
- *
- * NOT MODELED YET: which beats go uncovered first. A smaller newsroom takes
- * fewer stories of every kind, ranked by the same newsworthiness as before.
- */
+/** Remaining recorded weekly reporting minutes, not a number of stories. */
 export function outletAssignmentCapacity(
   world: World,
   outlet: MediaOutletRecord,
 ): number {
-  const full = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
-  const roles = reporterRoles(world, outlet.id);
-  // The newsroom the outlet opened with is what its tier capacity was set
-  // for; a later hire replaces somebody rather than growing that base.
-  const opening = roles.filter(
-    (role) => role.startedAt <= outlet.establishedAt,
-  ).length;
-  const staffed = opening > 0 ? opening : roles.length;
-  // An outlet with no recorded newsroom keeps its tier's capacity; assignment
-  // still needs a current reporter, so it takes nothing either way.
-  if (staffed === 0) return full;
-  const current = roles.filter((role) => reporterIsCurrent(world, role)).length;
-  return Math.min(full, Math.ceil((full * current) / staffed));
+  return (
+    outletReportingWorkBudget(world, outlet.id)?.availableMinutes.minimum ?? 0
+  );
 }
 
 /**
@@ -300,15 +301,32 @@ export function assignStory(world: World, leadId: EntityId): World {
   const beat = beatForLead(world, lead);
   const reporter = chooseReporter(world, outlet, lead, beat);
   if (!reporter) {
-    return writeDisposition(world, lead, "declined", {
-      reasonKey: "press:no-current-reporter-for-beat",
-    });
+    const hasStaff = reporterRoles(world, outlet.id).some((role) =>
+      reporterIsCurrent(world, role),
+    );
+    return latest
+      ? world
+      : writeDisposition(world, lead, hasStaff ? "queued" : "declined", {
+          reasonKey: hasStaff
+            ? "press:capacity-or-effort-unsupported"
+            : "press:no-current-reporter-for-beat",
+        });
   }
-  const capacity = outletAssignmentCapacity(world, outlet);
-  if (activeAssignments(world, outlet.id).length >= capacity) {
+  const estimate = storyEffortEstimate(world, lead, reporter);
+  const budget = reporterWorkBudget(world, reporter);
+  // Multi-week work may start in an otherwise unreserved work budget; its full
+  // remaining effort then reserves that reporter until real progress frees time.
+  if (
+    !estimate ||
+    !budget ||
+    budget.availableMinutes.minimum <= 0 ||
+    (estimate.requiredMinutes > budget.availableMinutes.minimum &&
+      budget.reservedMinutes > 0)
+  ) {
     return latest
       ? world
       : writeDisposition(world, lead, "queued", {
+          reporterPersonId: reporter.personId,
           reasonKey: "press:capacity-full",
         });
   }
@@ -380,6 +398,7 @@ export function assignStory(world: World, leadId: EntityId): World {
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
   if (evaluation.selectedOptionKey !== "take") {
@@ -389,10 +408,11 @@ export function assignStory(world: World, leadId: EntityId): World {
       reasonKey: "press:reporter-chose-no-story",
     });
   }
+  next = createStoryWorkItem(next, lead, reporter, estimate);
   next = writeDisposition(next, lead, "assigned", {
     reporterPersonId: reporter.personId,
     decisionTraceId: traceId,
-    reasonKey: `press:beat:${beat}`,
+    reasonKey: `press:estimated-work:${beat}`,
   });
   if (needsSubjectResponse(lead)) {
     return requestSubjectResponse(next, lead.id);
@@ -587,6 +607,28 @@ export function recordSubjectResponse(
     eventId,
     reasonKey: `press:subject-${input.kind}`,
   });
+  next = recordRelationshipInteraction(next, {
+    stableKey: `${lead.stableKey}:response-contact:${input.personId}`,
+    personIds: [input.personId, reporterId],
+    eventId,
+    occurredAt: next.currentDate,
+    kind: "exchange:press-contact",
+    change: next.history.relationshipInteractions.some(
+      (interaction) =>
+        interaction.personIds.includes(input.personId) &&
+        interaction.personIds.includes(reporterId),
+    )
+      ? "maintained"
+      : "formed",
+    significance: "minor",
+    summary:
+      input.kind === "decline"
+        ? "A subject declined a reporter's request for comment."
+        : "A subject answered a reporter's request for comment.",
+    tags: [
+      input.kind === "decline" ? "press.call.ducked" : "press.call.answered",
+    ],
+  });
   return { world: next, eventId };
 }
 
@@ -663,6 +705,22 @@ export function pressStoryStepHandler(
       context: null,
       outcomeEventId: null,
     };
+  }
+  const reportingWork = storyWorkItem(world, lead.id);
+  if (reportingWork) {
+    const state = workItemState(world, reportingWork.id);
+    if (
+      !state.assignedPersonIds.includes(reporterId) ||
+      (state.status !== "ready-for-review" && state.status !== "completed")
+    ) {
+      return {
+        world,
+        status: "blocked",
+        reasonKey: "press:reporting-work-incomplete",
+        context: null,
+        outcomeEventId: null,
+      };
+    }
   }
   let next = world;
   if (
@@ -783,6 +841,7 @@ function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
       randomness: "close-choices",
       retention: "durable",
     });
+    if (!isSelectedDecision(evaluation)) continue;
     next = recordDurableDecisionTrace(next, evaluation);
     if (evaluation.selectedOptionKey === "no-response") continue;
     const dispute = evaluation.selectedOptionKey === "dispute";
@@ -980,9 +1039,18 @@ function editorialDecision(
     randomness: "none",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) {
+    return {
+      world: world,
+      status: "blocked",
+      reasonKey: "press:decision-undecided",
+      context: null,
+      outcomeEventId: null,
+    };
+  }
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
-  const choice = evaluation.selectedOptionKey ?? "decline";
+  const choice = evaluation.selectedOptionKey;
   if (choice === "hold") {
     next = writeDisposition(next, lead, "held", {
       reporterPersonId: reporterId,
@@ -1243,6 +1311,24 @@ function recordProfessionalReaders(
     const basis = eventById(world, basisId);
     if (basis) for (const id of lawNewsReaders(world, basis)) readers.add(id);
   }
+  // Individual readers are modeled only where the player follows the outlet
+  // and lives in the represented town. County membership remains unmodeled
+  // without a canonical town-to-county join. Other reach is handled by the
+  // scheduled group model rather than person-level knowledge rows.
+  const playerId =
+    world.control.kind === "person" ? world.control.personId : null;
+  const playerTownId = playerId
+    ? world.people[playerId]?.homeJurisdictionId
+    : null;
+  if (playerTownId) {
+    for (const personId of world.personOrder) {
+      if (
+        world.people[personId]?.homeJurisdictionId === playerTownId &&
+        hasModeledOutletAudience(world, personId, publication.outletKey)
+      )
+        readers.add(personId);
+    }
+  }
   let next = world;
   for (const personId of [...readers].sort()) {
     next = recordEventKnowledge(next, {
@@ -1259,11 +1345,36 @@ function recordProfessionalReaders(
         reference: publication.id,
       },
     });
+    // A story about what a law did is heard from the news (story-exposure.ts).
+    const knowledge = next.history.knowledge.find(
+      (row) => row.stableKey === `${publication.stableKey}:read:${personId}`,
+    );
+    if (knowledge)
+      for (const basisEventId of lead.basisEventIds)
+        next = recordStoryHeardExposure(next, {
+          knowledgeId: knowledge.id,
+          basisEventId,
+        });
   }
   if (lead.matterId) {
     next = produceMatterResponses(next, lead.matterId, story);
   }
   return next;
+}
+
+/**
+ * Local conservative stub until World has a saved person-to-outlet reader
+ * source. A general news habit alone cannot establish outlet readership.
+ */
+export function hasModeledOutletAudience(
+  world: World,
+  personId: EntityId,
+  outletKey: string,
+): boolean {
+  void world;
+  void personId;
+  void outletKey;
+  return false;
 }
 
 interface StoryCopy {
@@ -1439,6 +1550,12 @@ export function pressDeskSweepHandler(
   if (dueItem.transitionKey !== PRESS_DESK_SWEEP_TRANSITION_KEY) {
     throw new Error("The desk sweep handler received another transition.");
   }
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
   // Only the opening sweep reads the archive. Later sweeps retain the
   // incremental frontier so older records are not rescanned every week.
   const frontier =
@@ -1447,11 +1564,100 @@ export function pressDeskSweepHandler(
   // moved in a place, become records first, so this sweep can judge them
   // (law-effect-news.ts).
   const reported = reportLawOutcomes(reportLawEffects(world, frontier));
-  const candidates = reported.history.events.filter(
+  let candidates = reported.history.events.filter(
     (event) =>
       event.sequence > frontier && eventIsNewsCandidate(reported, event),
   );
   let next = reported;
+  const personalMatterEvents: HistoricalEvent[] = [];
+  const ensurePersonalMatter = (
+    event: HistoricalEvent,
+    subjectPersonIds: readonly EntityId[],
+    publicClaimId?: EntityId,
+  ) => {
+    if (subjectPersonIds.length === 0) return;
+    let matter = pressRecordsOfKind(next, "matter").find(
+      (record) =>
+        record.family === "personal-life" &&
+        record.personalEventId === event.id,
+    );
+    if (!matter) {
+      const openedMatter = openPersonalLifeMatter(next, {
+        stableKey: `press46:personal-matter:${event.id}`,
+        sourceEventId: event.id,
+        subjectPersonIds,
+        ...(publicClaimId ? { publicClaimId } : {}),
+      });
+      next = openedMatter.world;
+      matter = openedMatter.matter;
+      // The helper also writes the public event that the existing desk routes.
+      const opened = next.history.events.find(
+        (candidate) =>
+          candidate.stableKey ===
+          `press46:personal-matter:${event.id}:on-record`,
+      );
+      if (opened) personalMatterEvents.push(opened);
+    } else {
+      const opened = next.history.events.find(
+        (candidate) =>
+          candidate.type === "matter.personal-life-opened" &&
+          matterIdOf(candidate) === matter!.id,
+      );
+      if (opened) personalMatterEvents.push(opened);
+    }
+  };
+  for (const event of candidates) {
+    if (event.type === "crime.arrest-made" && matterIdOf(event) === null) {
+      ensurePersonalMatter(event, subjectsOf(next, event));
+    }
+  }
+  for (const claim of reported.history.claims) {
+    if (claim.audience !== "public") continue;
+    const event = eventById(reported, claim.eventId);
+    if (event?.type !== "life.couple-ended") continue;
+    ensurePersonalMatter(
+      event,
+      sortedUnique([...subjectsOf(next, event), claim.speakerPersonId]),
+      claim.id,
+    );
+  }
+  candidates = [...candidates, ...personalMatterEvents];
+  // A work-blocked checkpoint is terminal on the due ledger. The existing
+  // weekly desk resumes it only after its saved work actually becomes ready.
+  for (const lead of storyLeads(next)) {
+    if (
+      !ACTIVE_STORY_DECISIONS.includes(
+        latestDisposition(next, lead.id)?.decision ?? "declined",
+      )
+    )
+      continue;
+    const work = storyWorkItem(next, lead.id);
+    if (!work) continue;
+    const state = workItemState(next, work.id);
+    if (state.status !== "ready-for-review" && state.status !== "completed")
+      continue;
+    const checkpoint = next.history.futureDueItems
+      .filter((item) =>
+        item.stableKey.startsWith(`press46:story-step:${lead.id}:`),
+      )
+      .at(-1);
+    if (!checkpoint) continue;
+    const dueState = futureDueItemStateAt(
+      next,
+      checkpoint.id,
+      currentHistoricalCutoff(next),
+    );
+    if (
+      dueState?.status === "blocked" &&
+      dueState.reasonKey === "press:reporting-work-incomplete"
+    ) {
+      next = scheduleStoryStep(
+        next,
+        lead,
+        addDays(next.currentDate, PRESS_DESK_INTERVALS.routinePublishDays),
+      );
+    }
+  }
   for (const outlet of mediaOutlets(world)) {
     next = sweepOutlet(next, outlet, candidates);
   }
@@ -1579,17 +1785,14 @@ function sweepOutlet(
     if (matterId) byMatter.set(matterId, created);
   }
   const capacity = outletAssignmentCapacity(next, outlet);
-  const free = Math.max(
-    0,
-    capacity - activeAssignments(next, outlet.id).length,
-  );
+  if (capacity <= 0) return next;
   // Authored editorial attention: one routine item per weekly review; items
   // with a substantive reason (a matter, named people, a recorded scale above
   // minor, a public office) may use the rest of the free capacity. Being on
   // the beat or in the outlet's own town does not by itself make an item more
   // than routine.
   let routineTaken = 0;
-  const chosen = routed.slice(0, free).filter(({ routine }) => {
+  const chosen = routed.filter(({ routine }) => {
     if (!routine) return true;
     routineTaken += 1;
     return routineTaken <= PRESS_DESK_INTERVALS.routineItemsPerSweep;
@@ -1878,6 +2081,8 @@ function beatForEventType(type: string): MediaBeat {
   )
     return "international";
   if (type.startsWith("civic.local-matter")) return "local-government";
+  // A protest is covered where it happens, by the reporter on local government.
+  if (type.startsWith("civic.protest-")) return "local-government";
   // What a law did to a town's people is covered where they live.
   if (type.startsWith("law.")) return "local-government";
   if (type.startsWith("congress.")) return "congress";
@@ -1926,9 +2131,7 @@ function chooseReporter(
   const tippedRole = current.find((role) => tipped.includes(role.personId));
   if (tippedRole) return tippedRole;
   const load = (role: ReporterRoleRecord) =>
-    activeAssignments(world, outlet.id).filter(
-      (item) => assignedReporter(world, item.id) === role.personId,
-    ).length;
+    reporterWorkBudget(world, role)?.reservedMinutes ?? Infinity;
   // A reporter who already covered these subjects keeps the relationship.
   const familiar = (role: ReporterRoleRecord) =>
     storyLeads(world).some(
@@ -1938,9 +2141,12 @@ function chooseReporter(
         assignedReporter(world, other.id) === role.personId &&
         other.subjectPersonIds.some((id) => lead.subjectPersonIds.includes(id)),
     );
+  const contactHistory = (role: ReporterRoleRecord) =>
+    reporterContactCount(world, role.personId, lead.subjectPersonIds);
   return [...current].sort(
     (left, right) =>
       Number(right.beats.includes(beat)) - Number(left.beats.includes(beat)) ||
+      contactHistory(right) - contactHistory(left) ||
       Number(familiar(right)) - Number(familiar(left)) ||
       load(left) - load(right) ||
       left.personId.localeCompare(right.personId),

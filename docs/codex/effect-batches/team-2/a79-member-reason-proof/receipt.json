@@ -1,0 +1,215 @@
+{
+  "auditId": "A79",
+  "task": "retain actual member reasons in existing constitutional proposal writer",
+  "sourceCommit": "218d76f268be72dbb04467426b4b37d5e9ee1447",
+  "mainSource": "98e1c61b6bcfdcad104032ae1ed6ed8f6fc86aa8",
+  "executionIdentity": "precommit worktree on main plus captured executed.patch; producer blob identical to committed source",
+  "producerBlob": "12235aa9ff49007c1d4d76ce152b4c30578fb455",
+  "testPath": "src/presentation/constitutional-subjects.test.ts",
+  "testBlob": "68cefebd680155f7c95f68d79b9245865184c4a5",
+  "testUnchangedFromMain": true,
+  "native": {
+    "completeFiles": 1,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 46.16,
+    "startedAt": "2026-10-01 14:42:18 EDT",
+    "nameFilter": null,
+    "maxWorkers": 1,
+    "fileParallelism": false
+  },
+  "strictTypes": {
+    "roots": 2,
+    "diagnostics": 0
+  },
+  "lint": "PASS owned producer",
+  "format": "PASS owned producer",
+  "fullAudit": {
+    "exitCode": 0,
+    "coverage": {
+      "withRules": 149,
+      "total": 149
+    },
+    "A79": {
+      "id": "A79",
+      "seq": 21,
+      "short": "Use one member-vote function",
+      "owner": "Team 2",
+      "verified": "partly",
+      "scanned": "partly",
+      "after": "rest of one member vote",
+      "afterSteps": [],
+      "afterDone": null,
+      "drift": ["old-path-still-live"],
+      "covers": "whole",
+      "passed": 7,
+      "checks": [
+        {
+          "check": {
+            "kind": "present",
+            "file": "src/simulation/governing/council-lawmaking.ts",
+            "pattern": "decideChamberVote\\(",
+            "why": "councils use the one member-vote function (council-lawmaking.ts:92)"
+          },
+          "pass": true,
+          "at": ["src/simulation/governing/council-lawmaking.ts:92"]
+        },
+        {
+          "check": {
+            "kind": "present",
+            "file": "src/simulation/municipal-ordinance-procedure.ts",
+            "pattern": "decideChamberVote\\(",
+            "why": "municipal ordinance votes use it (municipal-ordinance-procedure.ts:345)"
+          },
+          "pass": true,
+          "at": ["src/simulation/municipal-ordinance-procedure.ts:346"]
+        },
+        {
+          "check": {
+            "kind": "present",
+            "file": "src/simulation/governing/supreme-court-appointments.ts",
+            "pattern": "decideChamberVote\\(",
+            "why": "Senate confirmations use it (supreme-court-appointments.ts:493, :527)"
+          },
+          "pass": true,
+          "at": [
+            "src/simulation/governing/supreme-court-appointments.ts:493",
+            "src/simulation/governing/supreme-court-appointments.ts:527"
+          ]
+        },
+        {
+          "check": {
+            "kind": "present",
+            "file": "src/simulation/living-world/constitutional-reform.ts",
+            "pattern": "decideChamberVote\\(",
+            "why": "state amendment roll calls use it (constitutional-reform.ts:912)"
+          },
+          "pass": false,
+          "at": []
+        },
+        {
+          "check": {
+            "kind": "absent",
+            "file": "src/simulation/governing/chamber-votes.ts",
+            "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:function weight\\()",
+            "why": "the weight() copy in chamber-votes was replaced by considerationScore (#1557)"
+          },
+          "pass": true,
+          "at": []
+        },
+        {
+          "check": {
+            "kind": "absent",
+            "file": "src/simulation/legislative-member-decisions.ts",
+            "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:function weight\\()",
+            "why": "the weight() copy was replaced by considerationScore (#1557)"
+          },
+          "pass": true,
+          "at": []
+        },
+        {
+          "check": {
+            "kind": "absent",
+            "file": "src/simulation/living-world/federal-reform.ts",
+            "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:function weight\\()",
+            "why": "the weight() copy was replaced by considerationScore (#1557)"
+          },
+          "pass": true,
+          "at": []
+        },
+        {
+          "check": {
+            "kind": "absent",
+            "file": "src/simulation/governing/article-v.ts",
+            "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bevaluateDecision\\()",
+            "why": "memberBallot decides a forecast with its own evaluateDecision call (article-v.ts:351)"
+          },
+          "pass": true,
+          "at": []
+        },
+        {
+          "check": {
+            "kind": "absent",
+            "file": "src/simulation/living-world/federal-reform.ts",
+            "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bevaluateDecision\\()",
+            "why": "termLimitBallot decides a forecast with its own evaluateDecision call (federal-reform.ts:413)"
+          },
+          "pass": false,
+          "at": ["src/simulation/living-world/federal-reform.ts:413"]
+        },
+        {
+          "check": {
+            "kind": "absent",
+            "file": "src/simulation/legislative-member-decisions.ts",
+            "pattern": "^(?!\\s*(?:\\*|//|/\\*)).*(?:\\bevaluateDecision\\()",
+            "why": "deriveMemberDisposition (bargaining) calls evaluateDecision directly (legislative-member-decisions.ts:162)"
+          },
+          "pass": false,
+          "at": ["src/simulation/legislative-member-decisions.ts:162"]
+        }
+      ],
+      "step": "19"
+    }
+  },
+  "limits": [
+    "Controlled convictions and proposal fixture, not natural amendment rate",
+    "No individual member names printed by raw test output",
+    "Only provenance text changes; no vote/weight/threshold/schema change",
+    "Full suite/browser/year-speed/nationwide outcomes NOT RUN"
+  ],
+  "logs": {
+    "tests.log": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/tests.log",
+      "sha256": "1bc4a2177b48fcf16457d50dff94b267458280908866e93ea2987c0b2f1e2e73"
+    },
+    "types.log": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/types.log",
+      "sha256": "c9d5c43bf5947ee2b29970955950b653de779813c7502001e4ab027c9f85dda3"
+    },
+    "lint.log": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "format.log": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    "audit-all.json": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/audit-all.json",
+      "sha256": "85c23d7cdea6f0a8252b041a5a4058d96592c770230598754654df839f5e5538"
+    },
+    "audit-all.log": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/audit-all.log",
+      "sha256": "659eb3373cdde024d2de83c352c392a4be993e2cb9cd62f90e8115bf6ab8c83e"
+    },
+    "release-initial.log": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/release-initial.log",
+      "sha256": "730dc9e8ee372c4eb201af57e5cb3e56d7702b46ce57cff301c4875fcd2f51d2"
+    },
+    "report.log": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/report.log",
+      "sha256": "3eeaa19ed4eb628ac672f90230b8266559141ecc549399e51019d60490d56146"
+    },
+    "release-final.log": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/release-final.log",
+      "sha256": "0133ddb8b580f2a0817bb8a8551b62b22bf872ac641400e69d612b3b0863f2da"
+    },
+    "zero-dice.log": {
+      "path": "docs/codex/effect-batches/team-2/a79-member-reason-proof/zero-dice.log",
+      "sha256": "e16456e156448a76174e4faaa6642420f9d44d370d5e2edca555cd62ffdc3f99"
+    }
+  },
+  "release": {
+    "exitCode": 0,
+    "initialFailure": "declaration untracked; repaired by committing owned patch declaration before renewed check"
+  },
+  "zeroDice": {
+    "exitCode": 0
+  },
+  "report": {
+    "mechanicalErrors": 0,
+    "warnings": 0,
+    "existingAuthorizedReviewer": "PASS"
+  }
+}

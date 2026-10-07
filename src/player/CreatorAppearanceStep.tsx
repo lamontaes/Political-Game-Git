@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import type { World } from "../simulation";
 import type { NewGameSetup } from "../presentation/new-game";
 import {
@@ -40,10 +41,16 @@ export function CreatorAppearanceStep({
   setup,
   mode,
   onBegin,
+  beginSlot = null,
+  waiting = false,
 }: {
   readonly setup: NewGameSetup;
   readonly mode: ArtPreviewMode;
+  /** The panel's own Back and Next row; Begin sits in it when it is given. */
+  readonly beginSlot?: HTMLElement | null;
   readonly onBegin: (choice: CreatorAppearanceChoice | null) => void;
+  /** True while the recorded life is still being prepared. */
+  readonly waiting?: boolean;
 }) {
   const libraries = artPreviewLibraries(mode);
   const library = useMemo(
@@ -84,6 +91,32 @@ export function CreatorAppearanceStep({
     person?.appearance?.selection?.bodyFamily &&
     !creatorBodyAllowed(setup, person.appearance.selection.bodyFamily),
   );
+  const beginButton = (
+    <button
+      type="button"
+      className="game-creator-next creator-primary-action"
+      data-testid="begin"
+      disabled={
+        waiting ||
+        !person ||
+        Boolean(libraries?.unavailableReason) ||
+        Boolean(
+          person.appearance?.selection?.bodyFamily &&
+          !creatorBodyAllowed(setup, person.appearance.selection.bodyFamily),
+        )
+      }
+      onClick={() =>
+        onBegin(
+          (ready || engine) && person?.appearance
+            ? { personId: person.id, appearance: person.appearance }
+            : null,
+        )
+      }
+    >
+      Begin
+    </button>
+  );
+
   return (
     <section
       className="creator-stage-panel kit41-creator"
@@ -97,9 +130,12 @@ export function CreatorAppearanceStep({
             </div>
           </div>
           <div>
-            <h2>How you look</h2>
+            <h2>Character appearance</h2>
             <EngineAppearanceControls
               recipe={engine}
+              showPresentation={
+                setup.gender !== "male" && setup.gender !== "female"
+              }
               onChange={(recipe) =>
                 changeWorld(
                   withEngineChoice(
@@ -162,18 +198,9 @@ export function CreatorAppearanceStep({
             ) : null}
           </div>
           <div>
-            <h2>How you look</h2>
-            {ready ? (
-              <p className="creator-preview-note">
-                Choose your appearance before beginning. These changes affect
-                only your preview.
-              </p>
-            ) : null}
+            <h2>Character appearance</h2>
             {bodyUnavailable ? (
-              <p role="alert">
-                No compatible masculine body and outfit is available for this
-                preview. Choose a supported body before beginning.
-              </p>
+              <p role="alert" data-problem="no-compatible-body" />
             ) : null}
             {ready ? (
               <PersonAppearanceControls
@@ -240,19 +267,15 @@ export function CreatorAppearanceStep({
                     ? "creator-invalid-pack"
                     : "creator-artwork-status"
                 }
-              >
-                {libraries?.unavailableReason ??
-                  (refusal
-                    ? "This age has no supported portrait artwork yet. Your character can still begin."
-                    : "Choosing how you look is not available yet. Your character can still begin.")}
-              </p>
+              ></p>
             )}
           </div>
         </div>
       ) : (
-        <p>Choose a hometown to preview your character.</p>
+        <p data-problem="no-hometown" />
       )}
-      <div className="game-setup-actions">
+      {beginSlot ? createPortal(beginButton, beginSlot) : null}
+      <div className="game-setup-actions creator-appearance-tools">
         <button
           type="button"
           data-testid="creator-reset-appearance"
@@ -292,30 +315,7 @@ export function CreatorAppearanceStep({
         >
           Undo
         </button>
-        <button
-          type="button"
-          data-testid="begin"
-          disabled={
-            !person ||
-            Boolean(libraries?.unavailableReason) ||
-            Boolean(
-              person.appearance?.selection?.bodyFamily &&
-              !creatorBodyAllowed(
-                setup,
-                person.appearance.selection.bodyFamily,
-              ),
-            )
-          }
-          onClick={() =>
-            onBegin(
-              (ready || engine) && person?.appearance
-                ? { personId: person.id, appearance: person.appearance }
-                : null,
-            )
-          }
-        >
-          Begin
-        </button>
+        {beginSlot ? null : beginButton}
       </div>
     </section>
   );

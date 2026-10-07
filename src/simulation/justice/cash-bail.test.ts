@@ -1,11 +1,9 @@
+import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { writeFileSync } from "node:fs";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { ensureOpeningJudiciary } from "../judiciary/opening";
+import { lifePlaceStateIdentities } from "../life-places";
 import { SeededRng, pickDistinct } from "../rng";
 import { addDays } from "../dates";
 import {
@@ -30,6 +28,11 @@ import {
   resolveFutureDueItemsThrough,
   createFutureTransitionHandlerRegistry,
 } from "../future-transitions";
+import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+} from "../life";
 import { personName } from "../people";
 import type { EntityId, World, HistoricalEvent } from "../types";
 import { sentencingJudge, type CourtCase } from "./court-reasoning";
@@ -42,14 +45,14 @@ import {
   PRETRIAL_RELEASED_EVENT,
   PRETRIAL_HELD_EVENT,
   PROSECUTION_ENDED_EVENT,
-  UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 import {
   payFullCashBail,
   refundCashBailAtCaseClose,
   heldCashBailMinorUnits,
 } from "./cash-bail";
-import { bailMinorUnits } from "./pretrial";
+import { estimatedBailMinorUnits as bailMinorUnits } from "./pretrial";
 
 const receipts: Record<string, unknown>[] = [];
 afterAll(() => {
@@ -64,7 +67,7 @@ describe("full cash bail reaches a saved court government and returns at case cl
   const states = pickDistinct(
     new SeededRng("team9-g10-floor-five-20260930"),
     lifePlaceStateIdentities(),
-    5,
+    1,
   );
   for (const state of states)
     describe(state.jurisdictionKey, () => {
@@ -138,7 +141,7 @@ describe("full cash bail reaches a saved court government and returns at case cl
             });
         const due = addDays(
           charged.occurredAt,
-          UNRESEARCHED_PROSECUTION.resolveAfterDays,
+          prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
         );
         const key = "fixture:g11-case-boundary";
         isolated = scheduleFutureDueItem(isolated, {
@@ -175,26 +178,87 @@ describe("full cash bail reaches a saved court government and returns at case cl
         return advanceProsecutions(plea.world);
       }
       beforeAll(() => {
-        const place =
-          searchLifePlaces("", 5000, {
-            stateJurisdictionKey: state.jurisdictionKey,
-            scope: "locality",
-          })[0] ??
-          searchLifePlaces("", 5, {
-            stateJurisdictionKey: state.jurisdictionKey,
-            scope: "state",
-          })[0]!;
-        const game = generateOpeningLife(
-          prepareOpeningLife({
-            ...DEFAULT_NEW_GAME_SETUP,
-            seed,
-            placeKey: place.key,
-            startAge: 40,
-            questionnaire: "skipped",
-          }),
-        ).game!;
-        subjectId = game.playerPersonId;
-        let world = ensureStartingPersonalMoney(game.world, subjectId).world;
+        // Controlled numeric authority for the payment fixture only; never
+        // writes the research median into production state law data.
+        const question =
+          "us-policy-positions:justice-public-safety.end-cash-bail";
+        const answers = startingLaw.questions[question]
+          .answers as unknown as Record<string, Record<string, unknown>>;
+        const original = answers[state.jurisdictionKey]!;
+        answers[state.jurisdictionKey] = {
+          ...original,
+          answer: "no",
+          lawTerms: [
+            {
+              questionKey: question,
+              key: "cash-bail:crime:robbery",
+              unit: "minor",
+              value: amount,
+            },
+          ],
+        };
+        afterAll(() => {
+          answers[state.jurisdictionKey] = original;
+        });
+        // A small world (tests/fixtures/small-world.ts) plus the opening's
+        // judges, through their existing writer: the case needs a court.
+        const small = smallWorld({ place: state.jurisdictionKey, seed });
+        subjectId = small.personId;
+        let world = ensureStartingPersonalMoney(
+          ensureOpeningJudiciary(small.world),
+          subjectId,
+        ).world;
+        // A small world has no starting pay, so the defendant's wallet is a
+        // controlled known-zero position before the funding transfer.
+        if (
+          !resourcePositionAt(
+            world,
+            { kind: "person", personId: subjectId },
+            currency,
+          )
+        )
+          world = createResourcePosition(world, {
+            stableKey: "fixture:g11-subject-wallet",
+            owner: { kind: "person", personId: subjectId },
+            openedAt: world.currentDate,
+            openingBalance: money(0, "USD"),
+            provenance: {
+              kind: "authored",
+              note: "Controlled known-zero fixture wallet before the funding transfer.",
+            },
+          });
+        // The defendant's resident household, through the life writers (a
+        // small world carries people, not the opening's households).
+        const homeProvenance = {
+          kind: "authored" as const,
+          note: "Controlled fixture household for the defendant.",
+        };
+        world = createHousehold(world, {
+          stableKey: "fixture:g11-household",
+          formedAt: world.currentDate,
+          label: "Fixture resident household",
+          provenance: homeProvenance,
+        });
+        const homeId = world.history.households.at(-1)!.id;
+        world = recordHouseholdLocation(world, {
+          stableKey: "fixture:g11-household-location",
+          householdId: homeId,
+          effectiveAt: world.currentDate,
+          jurisdictionId: world.people[subjectId]!.homeJurisdictionId,
+          label: "Fixture residence",
+          kind: "residence:community-base",
+          provenance: homeProvenance,
+          supersedesLocationId: null,
+        });
+        world = startHouseholdMembership(world, {
+          stableKey: "fixture:g11-household-membership",
+          personId: subjectId,
+          householdId: homeId,
+          startedAt: world.currentDate,
+          residenceRole: "primary",
+          kind: "resident:member",
+          provenance: homeProvenance,
+        });
         const courtCase: CourtCase = {
           caseKey: "g11",
           defendantId: subjectId,

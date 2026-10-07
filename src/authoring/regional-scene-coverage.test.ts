@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import coverageDocument from "../../art/regions/regional-scene-places.json";
+import coverageDocument from "../../art/regions/regional-scene-places.json" with { type: "json" };
 import { GENERIC_HUMID_PARK_TAGS } from "./asset-compatibility";
 import {
   censusDivisionOf,

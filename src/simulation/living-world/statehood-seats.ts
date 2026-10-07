@@ -1,9 +1,9 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { makeIsoDate } from "../dates";
 import {
   STATEHOOD_QUESTION,
   statehoodAdmittedOn,
@@ -148,10 +148,6 @@ function seatTitle(seat: CongressSeat): string {
     : `U.S. Representative for ${name}'s at-large congressional district`;
 }
 
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
-}
-
 interface Term {
   readonly seat: CongressSeat;
   readonly startsAt: IsoDate;
@@ -168,17 +164,17 @@ function newMemberInput(
 ): CharacterHistoryContextPersonInput {
   const key = memberKey(seat, startsAt);
   const rng = new SeededRng(world.seed).fork(key);
-  const age = rng.integer(MINIMUM_AGE[seat.chamberKey] + 7, 72);
-  const year = Number(startsAt.slice(0, 4));
   return {
     stableKey: key,
     ...drawCanonicalNamedIdentity(
       rng.fork("name"),
       generatePersonIdentity(rng.fork("identity")),
     ),
-    birthDate: makeIsoDate(
-      `${year - age - 1}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-    ),
+    birthDate: inventedPersonBirthDate(rng, {
+      role: "new-legislative-member",
+      referenceDate: startsAt,
+      legalMinimumAge: MINIMUM_AGE[seat.chamberKey],
+    }),
     homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
   };
 }

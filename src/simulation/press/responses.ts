@@ -1,5 +1,9 @@
 import { confidantsOf } from "../confidants";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
 import {
   activeWorkRelationshipsAt,
   workRelationshipHistoryForOrganization,
@@ -283,10 +287,10 @@ function respond(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
-  const response = (evaluation.selectedOptionKey ??
-    "no-action") as MatterResponse;
+  const response = evaluation.selectedOptionKey as MatterResponse;
   const actor = personName(next.people[input.actorId]!);
   const subject = personName(next.people[input.subjectId]!);
   const publicStatement =

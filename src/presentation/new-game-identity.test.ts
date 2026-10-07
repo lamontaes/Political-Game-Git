@@ -85,6 +85,9 @@ describe("What makes one new game a different new game", () => {
       { ...BASE, seed: "other" },
       { ...BASE, givenName: "Wren" },
       { ...BASE, familyName: "Okafor" },
+      { ...BASE, familyShape: "one-parent" },
+      { ...BASE, familyShape: "two-parents" },
+      { ...BASE, familyShape: "guardian" },
     ];
     const seeds = new Set(variants.map(worldSeedFor));
     expect(seeds.size).toBe(variants.length);

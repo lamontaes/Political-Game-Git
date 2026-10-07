@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import assetManifest from "../../art/manifest/asset_manifest.json";
-import environmentFamilies from "../../art/manifest/environment_families.json";
+import assetManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
+import environmentFamilies from "../../art/manifest/environment_families.json" with { type: "json" };
 import {
   DRIVE_SWEEP_TOTAL,
   ENVIRONMENT_SOURCES,

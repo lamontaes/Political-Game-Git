@@ -10,8 +10,13 @@ import {
   electionContestResult,
   requireLifePlace,
   serializeWorld,
+  type EntityId,
   type World,
 } from "../simulation";
+import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../simulation/world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
+import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
@@ -36,13 +41,19 @@ function filedLife(seed = "p85c-owner-clock") {
   });
   const personId = built.playerPersonId;
   const world = fileForOffice(
-    openOrdinaryLife(built.world, personId),
+    openOrdinaryLife(
+      ensureWorldStartingConditions(built.world, {
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+        political: generatePoliticalStartingConditions,
+      }),
+      personId,
+    ),
     personId,
   );
   return { world, personId };
 }
 
-function expectResolvedOnce(before: World, after: World, personId: string) {
+function expectResolvedOnce(before: World, after: World, personId: EntityId) {
   const campaign = campaignForCandidate(before, personId)!;
   expect(electionContestResult(after, campaign.contestId)).toBeDefined();
   expect(
@@ -67,7 +78,7 @@ function expectResolvedOnce(before: World, after: World, personId: string) {
  * whole four weeks; it now stops on the morning of each meeting and campaign
  * shift on the calendar first.
  */
-function quietUntilDecided(world: World, personId: string): World {
+function quietUntilDecided(world: World, personId: EntityId): World {
   const campaign = campaignForCandidate(world, personId)!;
   let current = world;
   for (let step = 0; step < 20; step += 1) {
@@ -121,22 +132,31 @@ describe("a state office does not move its winner's home", () => {
     const state = requireLifePlace("kentucky");
     const earlier = life.world.history;
     let world = spendAnAfternoon(life.world, life.personId, "fundraising");
-    // Since CRUNCH46 the rival campaigns every week too, so three afternoons
-    // no longer carry this seat. Advancing a whole day at a time drifts the
-    // clock past the afternoon after four days, so each day opens through the
-    // ordinary-day path instead. Six such days were the fewest that won until
-    // gains above half the field began to shrink toward the campaign ceiling,
-    // and seven until an unknown candidate's first afternoons on the doors
-    // began to return less (`campaign-recognition.ts`); nine are the fewest now
-    // (eight lose).
-    for (let day = 0; day < 9; day += 1) {
+    // Every extra gain comes from a completed outreach action.
+    // Keep the home-seat assertions and the real election count below unchanged.
+    for (let day = 0; day < 20; day += 1) {
       world = passOrdinaryDays(world, 1);
       const outreach = projectCampaign(world, life.personId).offers.find(
         (offer) => offer.kind === "outreach",
       );
-      // A day whose afternoon is already spoken for is simply skipped.
       if (outreach && outreach.unavailable === null)
         world = spendAnAfternoon(world, life.personId, "outreach");
+    }
+    const recordedCampaign = campaignForCandidate(world, life.personId)!;
+    const recordedShare = canonicalSupportBasisPoints(
+      world,
+      recordedCampaign,
+      life.personId,
+    );
+    for (const scope of recordedCampaign.candidateSupportScopes) {
+      if (scope.candidatePersonId !== life.personId)
+        expect(recordedShare).toBeGreaterThan(
+          canonicalSupportBasisPoints(
+            world,
+            recordedCampaign,
+            scope.candidatePersonId,
+          ),
+        );
     }
     for (
       let day = 0;

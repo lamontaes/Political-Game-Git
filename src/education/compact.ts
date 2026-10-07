@@ -1,4 +1,8 @@
-import type { EducationInstitution, EducationCapability } from "./types";
+import type {
+  EducationInstitution,
+  EducationCapability,
+  EducationDirectorySource,
+} from "./types";
 import { releaseLabel, type AcademicYear } from "./vintage";
 /** Positional transport schema v1; shared dictionary removes repeated labels and hashes. */
 export type CompactInstitution = readonly [
@@ -17,6 +21,7 @@ export type CompactInstitution = readonly [
   readonly (readonly [string, string])[],
   readonly (readonly [string, string, number])[],
   AcademicYear,
+  EducationDirectorySource?,
 ];
 export interface EducationDictionary {
   readonly capabilities: Readonly<
@@ -27,7 +32,7 @@ export interface EducationDictionary {
 export function compactInstitution(
   r: EducationInstitution,
 ): CompactInstitution {
-  return [
+  const row = [
     r.id,
     r.kind,
     r.name,
@@ -43,7 +48,8 @@ export function compactInstitution(
     r.capabilities.map((c) => [c.code, c.raw] as const),
     r.evidence.map((e) => [e.artifactId, e.member, e.row] as const),
     r.sourceYear,
-  ];
+  ] as const;
+  return r.directorySource ? [...row, r.directorySource] : row;
 }
 export function expandInstitution(
   r: CompactInstitution,
@@ -59,6 +65,7 @@ export function expandInstitution(
     stateFips: r[5],
     countyGeoid: r[6],
     parentDistrictId: r[7],
+    ...(r[15] ? { directorySource: r[15] } : {}),
     statusCode: r[8],
     statusLabel: r[9],
     statusEffectiveDate: r[10],

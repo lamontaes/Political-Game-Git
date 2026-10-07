@@ -1,10 +1,8 @@
 import { FEDERAL_EMPLOYMENT_RULES } from "../statutory-tax-rules";
-import { federalProgramCostsForMonth } from "../federal-cost-ledger";
+import { publicProgramCostsForMonth } from "../federal-cost-ledger";
 import { FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
 import { federalProgramLine } from "./federal-treasury";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
-import { ageVerificationCostForMonth } from "./age-verification-cost";
-import { appendConsumerPrivacyCostToMonth } from "./consumer-privacy-cost";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -18,6 +16,7 @@ import { recordById } from "../history-index";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
 import { governmentUnit } from "../government-units";
+import { adoptedCountyLevy } from "../county-budget-record";
 import { municipalGovernmentByKey } from "../municipal-government";
 import type { EntityId, IsoDate, ResourceFlow, World } from "../types";
 import {
@@ -26,26 +25,20 @@ import {
   fiscalYearContaining,
   nominalEconomyIndex,
   propositionIdFor,
+  lawSpendingPerResident,
+  budgetObligationPayment,
 } from "./fiscal";
-import { ADOPT_STATE_INCOME_TAX_QUESTION } from "../state-income-tax-law";
 import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
-import { CANNABIS_SALES_QUESTION } from "./cannabis-sales-tax";
+import { CANNABIS_TAX_EFFECT } from "./rules";
 import {
   lawEffectStamp,
   isLawEffectStamp,
   type LawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
-import { actuarialContribution } from "./opening";
-import { pensionFlows, pensionPayment } from "./pension-share";
+import { actuarialContribution, pensionFlows } from "./opening";
 import { reserveRule } from "./reserve-rule";
 import { roadChargeFactor } from "./road-usage-charge";
-import {
-  decideStatehoodCertification,
-  statehoodFederalAidFactor,
-} from "./statehood-funds";
-import { tuitionFreezeFactor } from "./tuition-freeze";
 import { federalAidFactor } from "../federal-outlay-laws";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { principledLeaning } from "../governing/officeholder-principles";
@@ -105,6 +98,7 @@ const PENSION_PROGRAM = BUDGET_PROGRAMS.indexOf("pensionContribution");
 const STATE_AID = BUDGET_SOURCES.indexOf("intergovernmental");
 const LOCAL_AID = BUDGET_PROGRAMS.indexOf("localAid");
 const SALES_TAX = BUDGET_SOURCES.indexOf("generalSalesTax");
+const PROPERTY_TAX = BUDGET_SOURCES.indexOf("propertyTax");
 const SELECTIVE_TAX = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
 
 /**
@@ -156,8 +150,16 @@ export interface MonthFlows {
 /** The budget program an appropriation's program key belongs to. */
 export function budgetProgramFor(programKey: string): BudgetProgram {
   const key = programKey.toLowerCase();
+  // A saved program may already name an exact canonical budget category.
+  // Preserve that binding before interpreting descriptive legacy keys.
+  const namespace = key.split(":", 1)[0];
+  const category = BUDGET_PROGRAMS.find(
+    (program) => program.toLowerCase() === namespace,
+  );
+  if (category) return category;
   if (/transit/.test(key)) return "transit";
   if (/bridge|highway|(^|[^a-z])road/.test(key)) return "highways";
+  if (/college|university|tuition/.test(key)) return "higherEducation";
   if (/school|education|teacher/.test(key)) return "schools";
   if (/police|law-enforcement/.test(key)) return "police";
   if (/fire/.test(key)) return "fire";
@@ -204,6 +206,14 @@ export function readMonthFlows(
       publicOrganizationKey(government.lawJurisdictionId),
       government.key,
     );
+    const account = publicTaxAccountForIdentity(
+      world,
+      publicGovernmentIdentityForRecord(government),
+    );
+    const saved = account
+      ? history.organizations.find((row) => row.id === account.organizationId)
+      : null;
+    if (saved) byStableKey.set(saved.stableKey, government.key);
   }
   for (const organization of history.organizations) {
     let key = byStableKey.get(organization.stableKey);
@@ -241,7 +251,7 @@ export function readMonthFlows(
     }
     if (key) {
       const government = governmentByKey.get(key)!;
-      if (government.level === "county" || government.level === "city") {
+      {
         const account = publicTaxAccountForIdentity(
           world,
           identity ?? publicGovernmentIdentityForRecord(government),
@@ -329,7 +339,7 @@ export function readMonthFlows(
     rows.push(payment);
     taxPaymentsByOutcome.set(payment.resourceOutcomeId, rows);
   }
-  const federalCostsByTransfer = new Map(
+  const programCostsByTransfer = new Map(
     [
       ...new Set(
         history.resourceTransferOutcomes
@@ -337,7 +347,7 @@ export function readMonthFlows(
           .map((row) => `${row.occurredAt.slice(0, 7)}-01` as IsoDate),
       ),
     ]
-      .flatMap((month) => federalProgramCostsForMonth(world, month))
+      .flatMap((month) => publicProgramCostsForMonth(world, month))
       .map((cost) => [cost.transferId, cost] as const),
   );
   const paidLeavePaymentStamps = new Map<string, LawEffectStamp[]>();
@@ -473,13 +483,20 @@ export function readMonthFlows(
           outcome.transferredAmount.minorUnits;
         row.sourceRecordIds.push(flow.id, outcome.id);
         row.lawEffectStamps.push(...savedStamps);
-        if (outOf === federalKey) {
-          const cost = federalCostsByTransfer.get(outcome.id);
-          if (cost) {
-            row.sourceRecordIds.push(...cost.sourceRecordIds);
-            if (!savedStamps.length)
-              row.lawEffectStamps.push(...cost.lawEffectStamps);
-          }
+        const cost = programCostsByTransfer.get(outcome.id);
+        if (cost) {
+          row.sourceRecordIds.push(...cost.sourceRecordIds);
+          row.lawEffectStamps.push(
+            ...cost.lawEffectStamps.filter(
+              (stamp) =>
+                !savedStamps.some(
+                  (saved) =>
+                    saved.governingLawKey === stamp.governingLawKey &&
+                    saved.effectKind === stamp.effectKind &&
+                    saved.questionKey === stamp.questionKey,
+                ),
+            ),
+          );
         }
       }
     }
@@ -603,7 +620,7 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * income tax question). Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
- * A tuition freeze moves charges and fees (`tuition-freeze.ts`). The fuel
+ * Actual tuition charges settle in school books. The fuel
  * tax erodes, and a road charge holds it (`road-usage-charge.ts`); given
  * `erodedOn`, the erosion is read on that date instead, so two dates' laws
  * compare over the same fleet.
@@ -616,27 +633,17 @@ export function taxLawFactor(
   erodedOn: IsoDate = date,
   includeCannabis = true,
 ): number {
-  const onDate =
-    source === "individualIncomeTax"
-      ? (`${date.slice(0, 4)}-01-01` as IsoDate)
-      : date;
+  const onDate = date;
   let factor =
-    source === "individualIncomeTax"
-      ? adoptedIncomeTaxFactor(world, government, onDate)
-      : source === "selectiveSalesTaxes"
-        ? // Cannabis adds its own level; the fuel tax's erosion comes off
-          // its own share. Each is measured against the opening level.
-          (includeCannabis
-            ? cannabisSalesFactor(world, government, onDate)
-            : 1) +
-          roadChargeFactor(world, government, onDate, erodedOn) -
-          1
-        : source === "chargesAndFees"
-          ? tuitionFreezeFactor(world, government, onDate)
-          : source === "federalAid"
-            ? federalAidFactor(world, onDate) *
-              statehoodFederalAidFactor(government, onDate)
-            : 1;
+    source === "selectiveSalesTaxes"
+      ? // Cannabis adds its own level; the fuel tax's erosion comes off
+        // its own share. Each is measured against the opening level.
+        (includeCannabis ? cannabisSalesFactor(world, government, onDate) : 1) +
+        roadChargeFactor(world, government, onDate, erodedOn) -
+        1
+      : source === "federalAid"
+        ? federalAidFactor(world, onDate)
+        : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
@@ -665,10 +672,10 @@ export function taxLawFactor(
 }
 
 /**
- * What a state's laws cost it to carry out in one month, by program, against
+ * What a government's laws cost it to carry out in one month, by program, against
  * the laws it began with (`SPENDING_QUESTION_EFFECTS`): nothing where no law
- * changed, where the cost is not researched, or for a county or city, which
- * these state questions do not bind. A law counts from the day it takes
+ * changed, where the cost is not researched, or where the row does not cover
+ * the government's level. A law counts from the day it takes
  * effect, at the government's own population.
  */
 export function lawSpendingForMonth(
@@ -677,28 +684,14 @@ export function lawSpendingForMonth(
   date: IsoDate,
 ): readonly number[] {
   const spending = BUDGET_PROGRAMS.map(() => 0);
-  if (government.level !== "state") return spending;
   for (const effect of SPENDING_QUESTION_EFFECTS) {
-    const propositionId = propositionIdFor(world, effect.questionKey);
-    if (!propositionId) continue;
-    const now = lawInForce(
+    if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
+    const perResident = lawSpendingPerResident(
       world,
       government.lawJurisdictionId,
-      propositionId,
-      date,
-    )?.answer;
-    const began = lawInForceAtStart(
-      world,
-      government.lawJurisdictionId,
-      propositionId,
+      effect,
       date,
     );
-    const perResident =
-      began === "no" && now === "yes"
-        ? effect.toYes
-        : began === "yes" && now === "no"
-          ? effect.toNo
-          : null;
     if (perResident === null) continue;
     spending[BUDGET_PROGRAMS.indexOf(effect.program)]! +=
       (perResident * government.population) / 12;
@@ -707,52 +700,8 @@ export function lawSpendingForMonth(
 }
 
 /**
- * How a law adopting a wage income tax moves the income tax of a state that
- * began with none (`income-tax-adoption.ts`): 1 for any other state. A state
- * whose income tax collected nothing at the opening reads 0 until a law
- * adopts one and 1 after, against the adopted tax's level
- * (`openingMonthLevel`); a state that collected some, such as a tax on
- * interest and dividends, collects the adopted tax on top of it.
- */
-function adoptedIncomeTaxFactor(
-  world: World,
-  government: PublicBudgetGovernment,
-  taxYearStart: IsoDate,
-): number {
-  const adopted = adoptedIncomeTaxPerYear(
-    government.stateKey,
-    government.population,
-  );
-  if (adopted === null) return 1;
-  const opening = government.years[0]!.expectedRevenue[INCOME_TAX] ?? 0;
-  const propositionId = propositionIdFor(
-    world,
-    ADOPT_STATE_INCOME_TAX_QUESTION,
-  );
-  const now = propositionId
-    ? lawInForce(
-        world,
-        government.lawJurisdictionId,
-        propositionId,
-        taxYearStart,
-      )?.answer
-    : undefined;
-  const began = propositionId
-    ? lawInForceAtStart(
-        world,
-        government.lawJurisdictionId,
-        propositionId,
-        taxYearStart,
-      )
-    : undefined;
-  const inForce = now === "yes" && began !== "yes";
-  if (opening <= 0) return inForce ? 1 : 0;
-  return inForce ? (opening + adopted) / opening : 1;
-}
-
-/**
  * How a law on legal cannabis sales moves a state's selective sales taxes
- * against the law it began with (`cannabis-sales-tax.ts`): a law making sales
+ * against the law it began with (the existing cannabis tax row): a law making sales
  * legal adds the cannabis tax a resident pays from the first store opening,
  * and a law ending them takes it away the day it takes effect. 1 for any
  * other state or date.
@@ -772,8 +721,9 @@ function cannabisSalesFactor(
  * One month of a source at the level the government opened with, under the
  * law it began with, carried to the economy on `economyIndex`. A tax a law
  * ended collected nothing to scale from, so a law that restores it starts
- * again from this level. A state that opened with no income tax at all
- * reads the level of the tax a law adopting one would collect.
+ * again from this level. A newly adopted income tax has no collection
+ * forecast here: only the existing recorded withholding/payment path can
+ * supply its receipts.
  */
 function openingMonthLevel(
   government: PublicBudgetGovernment,
@@ -786,11 +736,7 @@ function openingMonthLevel(
     economyIndex !== null && first.economyAtAdoption
       ? economyIndex / first.economyAtAdoption
       : 1;
-  const opened =
-    source === "individualIncomeTax" && first.expectedRevenue[at]! <= 0
-      ? (adoptedIncomeTaxPerYear(government.stateKey, government.population) ??
-        0)
-      : first.expectedRevenue[at]!;
+  const opened = first.expectedRevenue[at]!;
   return (
     (opened / 12) * Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
   );
@@ -893,14 +839,11 @@ export function settleGovernmentMonth(
     };
   }
   const adjustments: BudgetAdjustment[] = [];
-  // A local government cannot settle from a forecast or an ambiguous/missing
-  // account. Its month must use recorded cash; never create an account here.
-  if (
-    (government.level === "county" || government.level === "city") &&
-    (flows.recorded === undefined || publicCash === undefined)
-  )
+  // Every government needs recorded cash and an unambiguous saved account.
+  // Never settle forecast receipts or create an account here.
+  if (flows.recorded === undefined || publicCash === undefined)
     return { government, adjustments: [] };
-  // A missing recorded map means an older caller still supplies forecasts.
+  // A present recorded map permits actual zero activity in a saved account.
   const cashSettled = publicCash !== undefined && flows.recorded !== undefined;
   const recorded = flows.recorded?.get(government.key);
   const stateId = stateJurisdictionForKey(government.stateKey)?.id ?? null;
@@ -1028,7 +971,10 @@ export function settleGovernmentMonth(
       Math.round(beforeLaw * withoutCannabis) - revenue[SELECTIVE_TAX]!,
     );
   }
-  const cannabisProposition = propositionIdFor(world, CANNABIS_SALES_QUESTION);
+  const cannabisProposition = propositionIdFor(
+    world,
+    CANNABIS_TAX_EFFECT.questionKey,
+  );
   const cannabisStamp =
     zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0) &&
@@ -1042,7 +988,7 @@ export function settleGovernmentMonth(
           ),
           {
             effectKind: "cannabis-selective-tax-revenue",
-            questionKey: CANNABIS_SALES_QUESTION,
+            questionKey: CANNABIS_TAX_EFFECT.questionKey,
             jurisdictionId: government.lawJurisdictionId,
             appliedAt: month,
           },
@@ -1059,15 +1005,16 @@ export function settleGovernmentMonth(
           ),
           {
             effectKind: "state-revenue-loss",
-            questionKey: CANNABIS_SALES_QUESTION,
+            questionKey: CANNABIS_TAX_EFFECT.questionKey,
             jurisdictionId: government.lawJurisdictionId,
             appliedAt: month,
           },
         )
       : null;
-  const cannabisStamps = (
-    cashSettled ? [] : [cannabisStamp, cannabisCostStamp]
-  ).filter((stamp): stamp is NonNullable<typeof stamp> => stamp !== null);
+  // Law-effect metadata survives cash settlement; it does not add paid receipts or outlays.
+  const cannabisStamps = [cannabisStamp, cannabisCostStamp].filter(
+    (stamp): stamp is NonNullable<typeof stamp> => stamp !== null,
+  );
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -1229,9 +1176,6 @@ export function settleGovernmentMonth(
   const paidLeaveStamps = (
     flows.paidLeavePaymentStamps?.get(government.key) ?? []
   ).map((stamp) => ({ ...stamp, appliedAt: asOf }));
-  const ageVerificationCost = cashSettled
-    ? null
-    : ageVerificationCostForMonth(world, government, month);
   const row: BudgetMonthRow &
     LawEffectStampedRecord & {
       readonly cannabisRevenue?: number;
@@ -1259,32 +1203,23 @@ export function settleGovernmentMonth(
           },
         }
       : {}),
-    ...(ageVerificationCost
-      ? { lawCostAttributions: [ageVerificationCost] }
-      : {}),
-    ...(!cashSettled &&
-    zeroOpeningSelectiveTax &&
+    ...(zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0)
       ? { cannabisRevenue }
       : {}),
-    ...(!cashSettled && cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
+    ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
     ...(cannabisStamps.length ||
     paidLeaveStamps.length ||
-    ageVerificationCost ||
     recorded?.lawEffectStamps.length
       ? {
           lawEffectStamps: [
             ...cannabisStamps,
             ...paidLeaveStamps,
             ...(cashSettled ? (recorded?.lawEffectStamps ?? []) : []),
-            ...(ageVerificationCost?.lawEffectStamps ?? []),
           ],
         }
       : {}),
   };
-  const settledRow = cashSettled
-    ? row
-    : appendConsumerPrivacyCostToMonth(world, government, row);
   let next: PublicBudgetGovernment = {
     ...government,
     ...(publicCash && !government.publicAccountMigration
@@ -1316,7 +1251,7 @@ export function settleGovernmentMonth(
             },
           ]
         : government.years,
-    months: [...government.months, settledRow],
+    months: [...government.months, row],
   };
   if (!yearEnds) return { government: next, adjustments };
 
@@ -1640,12 +1575,28 @@ export function decideLawMoneyReaction(
 }
 
 /**
+ * What the books would adopt for the next year at today's projection: the
+ * county board's budget hearing starts from it (CO-5). Reads only.
+ */
+export function proposeNextYearBudget(
+  world: World,
+  government: PublicBudgetGovernment,
+  state: PublicBudgetGovernment | null,
+): AdoptedBudget {
+  const prior = government.years.at(-1)!;
+  const rows = government.months.filter(
+    (row) => row.month >= prior.startsOn && row.month <= prior.endsOn,
+  );
+  return adoptNextYear(world, government, prior, rows, [], state);
+}
+
+/**
  * The government's own modeled adoption for the next year (automatic; a
  * budget passed as a bill comes later). It expects to collect what it
  * collected last year at today's economy, and a county or city expects its
  * state aid at the state's current rate. It pays interest and the pension
  * share its law requires, sets aside the reserve deposit its law requires,
- * and plans programs to spend the rest (PLACEHOLDER rule). Under a
+ * and allocates the rest in the prior adopted program proportions. Under a
  * balanced-budget law programs shrink when that is less than last year;
  * without one they are not cut at adoption, and the gap shows up as a
  * deficit. The balance above the reserve target is carried in and spent
@@ -1693,9 +1644,11 @@ function adoptNextYear(
       // Restate the other taxes through the existing economy/law calculation,
       // then forecast the current cannabis amount exactly once.
       const otherTaxes = rows.map((row) => {
-        const cannabis =
-          (row as BudgetMonthRow & { readonly cannabisRevenue?: number })
-            .cannabisRevenue ?? 0;
+        // Cash rows carry modeled law attribution separately from their paid receipts.
+        const cannabis = row.cashSettlement
+          ? 0
+          : ((row as BudgetMonthRow & { readonly cannabisRevenue?: number })
+              .cannabisRevenue ?? 0);
         const other = Math.max(0, row.revenue[at]! - cannabis);
         const then = Math.max(
           0,
@@ -1763,11 +1716,16 @@ function adoptNextYear(
       (prior.expectedRevenue[STATE_AID]! * stateLocalAidAtAdoption) /
         priorAidBase,
     );
+  // A county board that voted this year's levy at its budget hearing expects
+  // exactly that levy as its property tax (CO-5).
+  const votedLevy = adoptedCountyLevy(world, government.key, year.fiscalYear);
+  if (votedLevy !== null)
+    expectedRevenue[PROPERTY_TAX] = votedLevy.adoptedPropertyTaxLevy!;
   const pensionRequired = actuarialContribution(
     government.pension,
     pensionFlows(government).normalCostShare,
   );
-  const pensionPaid = pensionPayment(
+  const pensionPaid = budgetObligationPayment(
     pensionRequired,
     government.pension.paidShare,
     laws.pensions,
@@ -1938,19 +1896,13 @@ function adoptNextYear(
   );
   appropriations[INTEREST] = interest;
   appropriations[PENSION_PROGRAM] = pensionPaid;
-  // A place admitted as a state decides whether to certify, from its books
-  // as this budget is adopted.
-  const statehoodCertification = decideStatehoodCertification(
-    world,
-    government,
-    startsOn,
-  );
   return {
     fiscalYear: year.fiscalYear,
     startsOn: year.startsOn,
     endsOn: year.endsOn,
     adoptedOn: startsOn,
-    basis: "automatic",
+    basis: votedLevy !== null ? "board-vote" : "automatic",
+    ...(votedLevy !== null ? { hearingKey: votedLevy.key } : {}),
     expectedRevenue,
     appropriations,
     reserveDeposit,
@@ -1960,7 +1912,6 @@ function adoptNextYear(
     laws,
     carriedBalance,
     stateLocalAidAtAdoption,
-    ...(statehoodCertification ? { statehoodCertification } : {}),
     ...(townSalesAtAdoption !== null
       ? { townSalesAtAdoption: Math.round(townSalesAtAdoption * 1e6) / 1e6 }
       : {}),

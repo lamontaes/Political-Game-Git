@@ -4,6 +4,8 @@ import {
   money,
   recordResourceTransferOutcome,
 } from "../resources";
+import { currentResourceCutoff, resourcePositionAt } from "../resource-queries";
+import { pressRecordsOfKind } from "./store";
 import type { EntityId, World } from "../types";
 
 const USD = makeCurrencyCode("USD");
@@ -16,20 +18,61 @@ export function recordMediaPurchasePayment(
   world: World,
   input: {
     readonly stableKey: string;
-    readonly buyerPersonId: EntityId;
     readonly sellerOrganizationId: EntityId;
     readonly sellerName: string;
     readonly outletName: string;
     readonly jurisdictionId: EntityId | null;
     readonly eventId: EntityId;
     readonly priceMinorUnits: number;
-  },
+  } & (
+    | {
+        readonly buyerPersonId: EntityId;
+        readonly buyerOrganizationId?: never;
+        readonly decisionMakerPersonId?: never;
+      }
+    | {
+        readonly buyerOrganizationId: EntityId;
+        readonly decisionMakerPersonId: EntityId;
+        readonly buyerPersonId?: never;
+      }
+  ),
 ): World {
+  const buyer =
+    input.buyerOrganizationId !== undefined
+      ? {
+          kind: "organization" as const,
+          organizationId: input.buyerOrganizationId,
+        }
+      : { kind: "person" as const, personId: input.buyerPersonId };
+  if (buyer.kind === "organization") {
+    if (
+      !world.people[input.decisionMakerPersonId!] ||
+      !pressRecordsOfKind(world, "media-owner").some(
+        (owner) =>
+          owner.organizationId === buyer.organizationId &&
+          owner.principalPersonId === input.decisionMakerPersonId,
+      )
+    )
+      return world;
+  } else if (!world.people[buyer.personId]) return world;
+  const funds = resourcePositionAt(
+    world,
+    buyer,
+    USD,
+    currentResourceCutoff(world),
+  );
+  if (
+    !funds ||
+    !Number.isSafeInteger(input.priceMinorUnits) ||
+    input.priceMinorUnits <= 0 ||
+    funds.liquidBalance.minorUnits < input.priceMinorUnits
+  )
+    return world;
   let next = world;
   const amount = money(input.priceMinorUnits, USD);
   next = createResourceFlow(next, {
     stableKey: `${input.stableKey}:payment`,
-    source: { kind: "person", personId: input.buyerPersonId },
+    source: buyer,
     recipient: {
       kind: "organization",
       organizationId: input.sellerOrganizationId,

@@ -1,4 +1,7 @@
-import type { LawEffectStampedRecord } from "./law-effect-stamp";
+import {
+  cloneTermResolution,
+  type LawEffectStampedRecord,
+} from "./law-effect-stamp";
 import { createStableId } from "./ids";
 import { appendedList, hasStableKey, stableKeysOf } from "./history-index";
 import type {
@@ -42,6 +45,7 @@ import type {
   PrincipleRecord,
   PrincipleStance,
   PrivateBeliefRecord,
+  PrivateBeliefSubject,
   PropositionExposureProvenance,
   PropositionExposureRecord,
   PublicPositionRecord,
@@ -132,8 +136,11 @@ export interface PrivateBeliefRecordInput {
   readonly stableKey: string;
   readonly personId: EntityId;
   readonly propositionId: EntityId | null;
-  /** Absent on legacy policy beliefs; party questions have no proposition. */
-  readonly subject?: { readonly kind: "party-question"; readonly key: string };
+  /**
+   * Absent on legacy policy beliefs. Party questions and officials have no
+   * proposition.
+   */
+  readonly subject?: PrivateBeliefSubject;
   readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
@@ -330,6 +337,7 @@ export function createHistoryStore(): HistoryStore {
     resourceFlows: [],
     resourceFlowTerms: [],
     resourceTransferOutcomes: [],
+    earnedLawPayAssessments: [],
     resourceObligations: [],
     resourceObligationStates: [],
     dwellings: [],
@@ -456,6 +464,9 @@ export function appendHistoricalEvent(
             ...(stamp.sourceRecordIds === undefined
               ? {}
               : { sourceRecordIds: [...stamp.sourceRecordIds] }),
+            ...(stamp.termResolution === undefined
+              ? {}
+              : { termResolution: cloneTermResolution(stamp.termResolution) }),
           })),
         }),
   };

@@ -182,9 +182,14 @@ describe("Congress and the states amending the U.S. Constitution on their own", 
       ]);
       for (const house of count.houses)
         for (const row of house.rows) expect(row.reason).toMatch(/^member:/);
+      // A losing proposal now retains its actual rejection rollcall.
+      expect(first.world.history.constitutionalMeasures).toHaveLength(2);
       expect(
-        (first.world.history.constitutionalMeasures ?? []).length > 1,
-      ).toBe(count.carries);
+        constitutionalPosition(
+          first.world,
+          first.world.history.constitutionalMeasures!.at(-1)!.id,
+        ).phase,
+      ).toBe(count.carries ? "ratification" : "rejected");
       for (const year of [2031, 2071, 2151])
         expect(
           federalReformReviewHandler(limited, review(limited, year)).world

@@ -64,6 +64,7 @@ function aligned(
 
 let world: World;
 let observer: EntityId;
+let filingFingerprint: string;
 beforeAll(() => {
   const initial = fixture();
   observer = initial.subject;
@@ -82,6 +83,16 @@ beforeAll(() => {
       "us-federal-positions:tax.raise-top-income-tax-rate",
   )!;
   world = aligned(world, members, question);
+  const filed = fileMemberAgendaBills(
+    { ...world, control: { kind: "person", personId: observer } },
+    {
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      intakeKey: "g1-parity",
+    },
+  );
+  filingFingerprint = createHash("sha256")
+    .update(JSON.stringify(filed.history))
+    .digest("hex");
 });
 
 describe("the shared member filer, Congress parity in every jurisdiction", () => {
@@ -144,10 +155,10 @@ describe("the shared member filer, Congress parity in every jurisdiction", () =>
       const fingerprint = createHash("sha256")
         .update(JSON.stringify(next.history))
         .digest("hex");
-      // Full saved-history fingerprint captured on current main ab4ac1b8, before old-filer deletion.
-      expect(fingerprint).toBe(
-        "76cb37730224a8f15a1be5975eec6a19c41de5e5137c8175087b6118298c1a9a",
-      );
+      // Observer location must not change the same body's filing records.
+      // The historical majority-gated fingerprint remains in the original G1
+      // receipt; individual agendas intentionally change the selected sponsor.
+      expect(fingerprint).toBe(filingFingerprint);
       for (const chamberKey of ["house", "senate"] as const)
         expect(
           fileMemberAgendaBills(next, {

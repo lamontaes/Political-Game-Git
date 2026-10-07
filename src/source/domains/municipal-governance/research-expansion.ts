@@ -2,9 +2,9 @@
  * Research observations remain separate cells. They grant no legal capability,
  * and a heading never creates a Census place or government-unit crosswalk.
  */
-import structure from "./research-structure.json";
+import structure from "./research-structure.json" with { type: "json" };
 import type { GovernmentForm, CompositionPattern } from "./types";
-import inventory from "../../../../data/source/municipal-governance/research-inventory.json";
+import inventory from "../../../../data/source/municipal-governance/research-inventory.json" with { type: "json" };
 import type { ResearchGovernment } from "./national-research";
 
 const PACKET_URLS: Readonly<Record<string, string>> = {

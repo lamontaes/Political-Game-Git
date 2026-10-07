@@ -1,0 +1,65 @@
+{
+  "base": "aa3d7e742cbaf68231b3d7cb4c981ec2475d627e",
+  "tests": {
+    "changedFourFiles": {
+      "pass": 219,
+      "todo": 5,
+      "fail": 0,
+      "seconds": 112.2
+    },
+    "finalChangedTownFile": {
+      "pass": 6,
+      "fail": 0,
+      "seconds": 13.78
+    }
+  },
+  "types": {
+    "changedRoots": 8,
+    "changedFileDiagnostics": 0
+  },
+  "audit": {
+    "item": "A83",
+    "mainPassed": 2,
+    "branchPassed": 2,
+    "total": 8,
+    "flipped": []
+  },
+  "sourceGaps": [
+    "AL",
+    "HI",
+    "KS"
+  ],
+  "heldFile": "data/research/laws/starting-law-2026.json",
+  "heldBlob": "2f0aec5b778113d0e2d72ee6ad8ca7d121e7b520",
+  "officialGate": "NOT RUN; Claude owns gates",
+  "logs": [
+    {
+      "path": "/tmp/team1-a83-sourced-body-gate.log",
+      "sha256": "f67f125f3869f3367cc846b70d96c040f216d6a2cedd5ece0901ec3710331c37"
+    },
+    {
+      "path": "/tmp/team1-a83-sourced-final-town.log",
+      "sha256": "2c68b38796830c75d1586ed2cb3e5ac2327f2cdcf245176901756bba48a2e21d"
+    },
+    {
+      "path": "/tmp/team1-a83-sourced-eight-root-types.log",
+      "sha256": "118c51c592739167fe0f95680406b3cc27708804d1c7b7070b227077b4eddd42"
+    },
+    {
+      "path": "/tmp/team1-a83-sourced-eight-root-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/team1-a83-sourced-final-format-check.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "/tmp/team1-a83-sourced-main-aa3-audit.json",
+      "sha256": "c07676f39db136db11e7112ebe59d5408314fc37708f3a8eaa5f23180db0cd34"
+    },
+    {
+      "path": "/tmp/team1-a83-sourced-body-candidate-audit.json",
+      "sha256": "c07676f39db136db11e7112ebe59d5408314fc37708f3a8eaa5f23180db0cd34"
+    }
+  ]
+}

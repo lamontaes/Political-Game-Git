@@ -1,3 +1,4 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 /**
  * Disclosed, versioned play rules for a general-purpose local government whose
  * own ordinance procedure has not been compiled. The Census unit supplies only
@@ -11,6 +12,7 @@ import {
   governmentUnitsForPlace,
 } from "./government-units";
 import type { GovernmentUnitIdentity } from "./government-units";
+import { countyGoverningBodyRules } from "./nationwide-world/county-governing-body-rules";
 import { typicalCouncilSeats } from "./nationwide-world/typical-council-size";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
@@ -252,6 +254,7 @@ export function localOrdinanceGameRulePack(
       source,
     },
     session: {
+      sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
       sessionLabel: `${unit.name} local legislative year (game profile)`,
       adjournmentRule: unknownRule(
         "The game profile has no fixed adjournment date.",
@@ -289,7 +292,13 @@ export function localGovernmentGameProfileKey(
 function body(unit: GovernmentUnitIdentity): { name: string; seats: number } {
   switch (unit.unitType) {
     case "county":
-      return { name: "County board", seats: 5 };
+      // The board seats the size its state's law sets (or the average where
+      // that is not read), the same count the county's members are seated
+      // from, so a board never sits more members than its pack allows.
+      return {
+        name: "County board",
+        seats: countyGoverningBodyRules(unit)?.seats ?? 5,
+      };
     case "township":
       return { name: "Township board", seats: 3 };
     case "municipality":
@@ -306,7 +315,7 @@ function body(unit: GovernmentUnitIdentity): { name: string; seats: number } {
         // The same typical size localGoverningBodyRules gives a town that was
         // not read, so its seats, elections and ordinance votes count one
         // council. A read size replaces this through the procedure reading.
-        seats: typicalCouncilSeats(unit.id) ?? 5,
+        seats: typicalCouncilSeats() ?? 5,
       };
   }
 }

@@ -1,35 +1,232 @@
-/**
- * THE STATE'S MINIMUM TEACHER SALARY — what a public school teacher must be
- * paid at least, under the law in force where they teach.
- *
- * The law is the policy question "Should the state set a minimum salary for
- * teachers above the current floor?"
- * (`education.raise-teacher-minimum-salary`), read through `lawInForce`.
- *
- * - A law the game began with changes no one's pay. Town pay comes from the
- *   BLS May 2025 wage tables (`town-pay.ts`), which already measure what
- *   teachers earn under each state's floor in force then.
- * - A law enacted in play that answers yes sets a floor. The floor is
- *   ESTIMATED FROM AVERAGE: a stable world/state draw between 67% and 95% of
- *   the state's median public school teacher wage (below). A
- *   state already paying more than that is raised by no one.
- * - A law enacted in play that answers no ends the floor for pay set from
- *   then on. Nobody's pay is cut, as a repealed minimum wage cuts nobody's.
- * - The floor applies from the first school year that begins on or after the
- *   law takes effect: July 1 (below).
- *
- * Only a public school's teachers are covered: a state salary floor binds
- * school districts, not private schools.
- */
+/** A public teacher's annual floor comes from the operative law's saved terms. */
 
 import { addDays, makeIsoDate, yearOf } from "./dates";
 import { lawInForce } from "./governing/law-in-force";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
+import type { EntityId, IsoDate, World } from "./types";
+import {
+  organizationProfileAt,
+  workRoleAt,
+  workStatusAt,
+} from "./life-queries";
+import { resourceFlowTermsAt } from "./resource-queries";
 import {
   lifePlaceByJurisdictionId,
-  stateJurisdictionForKey,
+  stateKeyForJurisdiction,
 } from "./life-places";
-import { drawnLinkSize } from "./outcome-web";
-import type { EntityId, IsoDate, World } from "./types";
+import { principledLeaning } from "./governing/officeholder-principles";
+import { recordFiledProvision } from "./legislative-politics";
+import { recordWorldEvent } from "./world";
+import { periodsPerYear } from "./law-effects-noticed";
+
+function stateOf(world: World, jurisdictionId: EntityId | null) {
+  if (!jurisdictionId) return null;
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  return (
+    (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null) ??
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ??
+    null
+  );
+}
+
+/** The state's median annual pay from its actual public-teacher agreements. */
+export function recordedTeacherSalaryMedian(
+  world: World,
+  jurisdictionId: EntityId,
+) {
+  const state = stateOf(world, jurisdictionId);
+  if (!state) return null;
+  const work = new Map(
+    world.history.workRelationships.map((row) => [row.id, row]),
+  );
+  const salaries: { minor: number; sourceRecordIds: EntityId[] }[] = [];
+  for (const flow of world.history.resourceFlows) {
+    if (
+      flow.startsAt > world.currentDate ||
+      flow.recordedAt > world.currentDate ||
+      flow.sequence >= world.history.nextSequence ||
+      flow.basisReference.kind !== "work" ||
+      flow.source.kind !== "organization"
+    )
+      continue;
+    const relationship = work.get(flow.basisReference.workRelationshipId);
+    if (
+      !relationship ||
+      relationship.organizationId !== flow.source.organizationId ||
+      relationship.startedAt > world.currentDate ||
+      relationship.recordedAt > world.currentDate
+    )
+      continue;
+    const status = workStatusAt(world, relationship.id);
+    const role = workRoleAt(world, relationship.id);
+    const profile = organizationProfileAt(world, flow.source.organizationId);
+    const terms = resourceFlowTermsAt(world, flow.id);
+    if (
+      status?.status !== "active" ||
+      role?.occupationClassification !== TEACHER_FLOOR_OCCUPATION ||
+      profile?.classification !== TEACHER_FLOOR_EMPLOYER ||
+      stateOf(world, role.locationJurisdictionId) !== state ||
+      terms?.status !== "active" ||
+      terms.amount.currency !== "USD" ||
+      terms.amount.minorUnits <= 0
+    )
+      continue;
+    const cadence =
+      /^schedule:town-(weekly|biweekly|semimonthly|monthly)(?:-\d)?$/.exec(
+        terms.cadenceKind,
+      );
+    if (!cadence) continue;
+    const periods = periodsPerYear(terms.cadenceKind);
+    const hours =
+      (role.timeDemand.expectedWeekly.minimumHours +
+        role.timeDemand.expectedWeekly.maximumHours) /
+      2;
+    if (!Number.isFinite(hours) || !(hours > 0) || periods === null) continue;
+    const minor = Math.round(terms.amount.minorUnits * periods);
+    if (!Number.isSafeInteger(minor)) continue;
+    salaries.push({
+      minor,
+      sourceRecordIds: [
+        relationship.id,
+        status.id,
+        role.id,
+        flow.id,
+        terms.id,
+        profile.id,
+      ],
+    });
+  }
+  if (!salaries.length) return null;
+  salaries.sort((a, b) => a.minor - b.minor);
+  const middle = Math.floor(salaries.length / 2);
+  const minor =
+    salaries.length % 2
+      ? salaries[middle]!.minor
+      : Math.round((salaries[middle - 1]!.minor + salaries[middle]!.minor) / 2);
+  return {
+    minor,
+    teacherCount: salaries.length,
+    sourceRecordIds: [
+      ...new Set(salaries.flatMap((row) => row.sourceRecordIds)),
+    ],
+  };
+}
+
+/** A supporting sponsor writes a floor from actual state pay, with no prior-floor prerequisite. */
+export function requestedTeacherSalaryFloor(
+  world: World,
+  jurisdictionId: EntityId,
+  sponsorPersonId: EntityId,
+) {
+  const proposition = teacherFloorProposition(world);
+  if (!proposition) return null;
+  const leaning = principledLeaning(world, sponsorPersonId, proposition);
+  if (leaning.score <= 0 || !leaning.recordIds.length) return null;
+  const salary = recordedTeacherSalaryMedian(world, jurisdictionId);
+  if (!salary) return null;
+  const current = teacherSalaryFloorAt(
+    world,
+    jurisdictionId,
+    world.currentDate,
+    null,
+  );
+  if (current && salary.minor <= current.annual * 100) return null;
+  return {
+    ...salary,
+    score: leaning.score,
+    principleRecordIds: leaning.recordIds,
+  };
+}
+
+export function recordTeacherSponsorFloor(
+  world: World,
+  measureId: EntityId,
+): World {
+  const measure = world.history.legislativeMeasures?.find(
+    (row) => row.id === measureId,
+  );
+  const proposition = teacherFloorProposition(world);
+  if (
+    !measure?.sponsorPersonId ||
+    !proposition ||
+    !measure.propositionAnswers?.some(
+      (row) => row.propositionId === proposition && row.answer === "yes",
+    )
+  )
+    return world;
+  const stableKey = `${measure.stableKey}:requested-teacher-floor`;
+  if (
+    world.history.legislativeProvisions?.some(
+      (row) => row.stableKey === stableKey,
+    )
+  )
+    return world;
+  const requested = requestedTeacherSalaryFloor(
+    world,
+    measure.jurisdictionId,
+    measure.sponsorPersonId,
+  );
+  if (!requested) return world;
+  const heading = world.policyCatalog.propositions[proposition]!.name;
+  const next = recordFiledProvision(world, {
+    stableKey,
+    measureId,
+    provisionKey: "teacher-salary-floor",
+    sectionNumber: 1,
+    heading,
+    text: `The minimum annual salary for a full-time public school teacher is $${(requested.minor / 100).toLocaleString("en-US")}.`,
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel: "Public school teachers",
+    },
+    applicationScope: {
+      jurisdictionId: measure.jurisdictionId,
+      segmentKey: null,
+    },
+    lawTerms: [
+      {
+        questionKey: TEACHER_SALARY_FLOOR_QUESTION,
+        key: "floor",
+        value: requested.minor,
+        unit: "minor",
+      },
+    ],
+  });
+  return recordWorldEvent(next, {
+    stableKey: `${stableKey}:requested-term-reason`,
+    type: "legislation.sponsor-requested-term",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: measure.jurisdictionId,
+    involvedEntityIds: [measure.id, measure.sponsorPersonId],
+    participants: [
+      {
+        personId: measure.sponsorPersonId,
+        role: "agency:sponsor",
+        detail:
+          "Requested the recorded median public-teacher salary from saved pay and principles.",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [...requested.sourceRecordIds, ...requested.principleRecordIds]
+      .map((id) => `source-record:${id}`)
+      .concat(`term:floor`, `principle-score:${requested.score}`),
+    summary: `${measure.designation}'s sponsor requested ${heading} from the state's recorded public-teacher pay.`,
+    context: {
+      location: {
+        jurisdictionId: measure.jurisdictionId,
+        label: world.jurisdictions[measure.jurisdictionId]!.name,
+        setting: null,
+      },
+      socialContext: measure.designation,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
 
 export const TEACHER_SALARY_FLOOR_QUESTION =
   "us-policy-positions:education.raise-teacher-minimum-salary";
@@ -37,49 +234,6 @@ export const TEACHER_SALARY_FLOOR_QUESTION =
 /** The occupation and employer a state teacher salary floor covers. */
 export const TEACHER_FLOOR_OCCUPATION = "profession:teacher";
 export const TEACHER_FLOOR_EMPLOYER = "service:school";
-
-/**
- * The floor a state law enacted in play sets, as a part of the state's
- * median elementary teacher wage (BLS OEWS May 2025, SOC 25-2021, all ownerships).
- *
- * ESTIMATED FROM AVERAGE: the five most recent enacted floors, each over its
- * state's May 2025 median. Arkansas $50,000 (Act 237 of 2023) over $52,700
- * is 0.95; New Mexico $50,000 (Senate Bill 1 of 2022) over $74,550 is 0.67;
- * Iowa $50,000 (Iowa Code 284.15, 2025-26) over $60,580 is 0.83; Tennessee
- * $50,000 by 2026-27 (Teacher Paycheck Protection Act of 2023) over $59,980
- * is 0.83; Maryland $60,000 from 2026-27 (Md. Code, Educ. 6-1009) over
- * $77,680 is 0.77. The average is 0.81, spread 0.67 to 0.95. The same rule
- * serves every place, so a state or territory where teachers earn less sets
- * a lower floor in dollars.
- */
-export const TEACHER_FLOOR_OF_STATE_MEDIAN = {
-  central: 0.81,
-  low: 0.67,
-  high: 0.95,
-} as const;
-
-/** One estimated floor ratio per world and state, shared by all its towns. */
-export function teacherFloorRatioAt(
-  world: World,
-  jurisdictionId: EntityId,
-): number {
-  const stateKey =
-    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
-  const stateId = stateKey ? stateJurisdictionForKey(stateKey)?.id : undefined;
-  return drawnLinkSize(
-    world,
-    {
-      key: "direct:teacher-salary-floor",
-      size: TEACHER_FLOOR_OF_STATE_MEDIAN.central,
-      range: [
-        TEACHER_FLOOR_OF_STATE_MEDIAN.low,
-        TEACHER_FLOOR_OF_STATE_MEDIAN.high,
-      ],
-      evidence: "researched",
-    },
-    stateId ?? jurisdictionId,
-  );
-}
 
 /**
  * HARDWIRED: a floor first applies in the school year that begins on or after
@@ -108,38 +262,43 @@ export interface TeacherSalaryFloor {
 
 /**
  * The minimum teacher salary in force where the job is on `onDate`, in
- * dollars a year, or null when no law enacted in play sets one.
- * `stateMedian` is the state's median teacher wage in dollars a
- * year, or null where BLS publishes none (then no floor is claimed).
+ * dollars a year. The numeric floor is annual USD minor units in the
+ * adopted `floor` term, independent of wage surveys. Missing terms supply
+ * no floor. The unused median argument is retained for existing callers.
  */
 export function teacherSalaryFloorAt(
   world: World,
   jurisdictionId: EntityId | null,
   onDate: IsoDate,
-  stateMedian: number | null,
+  _stateMedian: number | null,
 ): TeacherSalaryFloor | null {
-  if (!jurisdictionId || stateMedian === null || stateMedian <= 0) return null;
+  if (!jurisdictionId) return null;
   const proposition = teacherFloorProposition(world);
   if (!proposition) return null;
   // The law in force on the first day of the school year `onDate` falls in.
   const law = lawInForce(world, jurisdictionId, proposition, onDate);
-  if (!law || law.origin !== "enacted" || law.answer !== "yes") return null;
-  const from = schoolYearStartOnOrAfter(law.operativeAt);
+  if (!law || law.answer !== "yes") return null;
+  const from =
+    law.origin === "in-force-at-start"
+      ? law.operativeAt
+      : schoolYearStartOnOrAfter(law.operativeAt);
   if (from > onDate) {
     // Enacted but its school year has not begun: the floor before it, if an
     // earlier law set one, still governs.
     const before = addDays(law.operativeAt, -1);
     return before < onDate
-      ? teacherSalaryFloorAt(world, jurisdictionId, before, stateMedian)
+      ? teacherSalaryFloorAt(world, jurisdictionId, before, _stateMedian)
       : null;
   }
-  return {
-    annual: Math.round(
-      stateMedian * teacherFloorRatioAt(world, jurisdictionId),
-    ),
-    measureId: law.measureId,
-    from,
-  };
+  const term = readFinalEnactedLawTerm(world, law, {
+    questionKey: TEACHER_SALARY_FLOOR_QUESTION,
+    termKey: "floor",
+    unit: "minor",
+    onDate,
+  });
+  if (!term || !Number.isSafeInteger(term.value) || term.value <= 0)
+    return null;
+  return { annual: term.value / 100, measureId: law.measureId, from };
 }
 
 const propositionIds = new WeakMap<object, EntityId | null>();
@@ -159,16 +318,9 @@ function teacherFloorProposition(world: World): EntityId | null {
 }
 
 /**
- * Whether a law enacted in play could set a floor: the question is in the
- * catalog and some law was enacted. A cheap test before reading pay; the law
- * itself is read through `lawInForce`, which also finds a floor an amendment
- * or a rider put into another bill.
+ * Whether a saved starting or enacted law could set a floor. The law itself
+ * is read through `lawInForce`, including amendments and riders.
  */
 export function anyTeacherFloorLawEnacted(world: World): boolean {
-  return (
-    teacherFloorProposition(world) !== null &&
-    (world.history.legislativeEnactments ?? []).some(
-      (enactment) => enactment.outcome === "enacted",
-    )
-  );
+  return teacherFloorProposition(world) !== null;
 }

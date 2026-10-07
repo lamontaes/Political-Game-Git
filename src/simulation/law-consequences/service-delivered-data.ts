@@ -1,12 +1,59 @@
 import type { LawConsequenceRow } from "../law-consequence-types";
+import type { EducationContextKind, EducationProgramKind } from "../types";
 
 export const SERVICE_SELECTOR = "service.completed-activity-participants";
 export const SERVICE_ACTION = "record-delivered-service";
 export const SERVICE_HOURS = "service.completed-activity-hours";
 export const FUNDED_SERVICE = "service.funded-by-governing-law";
 export const SERVICE_RECIPIENT_KIND = "activity:public-service";
+export const PUBLIC_SERVICE_ATTENDANCE = "public-service:attendance";
+
+/**
+ * The three services a county's board funds from its voted budget lines
+ * (CO-9). They have no catalog question: the board's own measure and its
+ * budget line are their authority, so each carries a service key of its own.
+ */
+export const COUNTY_HEALTH_CLINICS = "county-service:health-clinics";
+export const COUNTY_ROAD_REPAIR = "county-service:road-repair";
+export const COUNTY_FAIR = "county-service:fair";
+export const COUNTY_SERVICE_QUESTION_KEYS = [
+  COUNTY_HEALTH_CLINICS,
+  COUNTY_ROAD_REPAIR,
+  COUNTY_FAIR,
+] as const;
 
 /** Catalog data for completed, funded service; fare pricing is a separate consequence. */
+export const FARM_PAYMENT_QUESTION =
+  "us-federal-positions:agriculture.cut-farm-subsidies";
+
+function recordedFundedServiceRow(questionKey: string): LawConsequenceRow {
+  return {
+    id: `${questionKey}:recorded-funded-service`,
+    kind: "service-delivered",
+    when: "service",
+    who: { selector: SERVICE_SELECTOR, predicates: [] },
+    what: SERVICE_ACTION,
+    amount: { op: "record", key: SERVICE_HOURS, unit: "hours" },
+    conditions: [{ capability: FUNDED_SERVICE, parameters: {} }],
+    lag: { days: 0, sourceIds: [] },
+    onRepeal: "preserve-completed",
+    evidence: {
+      sourceIds: [
+        "src/simulation/time-work.ts:completeActivity",
+        "src/simulation/public-program-integrity.ts",
+        "src/simulation/resources.ts:recordResourceTransferOutcome",
+      ],
+      population:
+        "Existing recorded service recipients who completed an activity tied to the law's funded commitment.",
+      scope:
+        "Actual completed recipient-hours only; not vehicle-hours, added ridership, free-fare pricing or population access.",
+      why: "The saved activity interval establishes time delivered to its recorded recipient. The commitment, appropriation and positive operating transfer establish the governing law's funding lineage. Neither payment nor legislation establishes attendance.",
+      uncertainty:
+        "No delivery is inferred without these records. An authored service record is not observational research or proof of a live caller.",
+    },
+  } satisfies LawConsequenceRow;
+}
+
 export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
   Record<string, readonly LawConsequenceRow[]>
 > = Object.fromEntries(
@@ -29,42 +76,62 @@ export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
   ].map((questionKey) => [
     questionKey,
-    [
-      {
-        id: `${questionKey}:recorded-funded-service`,
-        kind: "service-delivered",
-        when: "service",
-        who: { selector: SERVICE_SELECTOR, predicates: [] },
-        what: SERVICE_ACTION,
-        amount: { op: "record", key: SERVICE_HOURS, unit: "hours" },
-        conditions: [{ capability: FUNDED_SERVICE, parameters: {} }],
-        lag: { days: 0, sourceIds: [] },
-        onRepeal: "preserve-completed",
-        evidence: {
-          sourceIds: [
-            "src/simulation/time-work.ts:completeActivity",
-            "src/simulation/public-program-integrity.ts",
-            "src/simulation/resources.ts:recordResourceTransferOutcome",
-          ],
-          population:
-            "Existing recorded service recipients who completed an activity tied to the law's funded commitment.",
-          scope:
-            "Actual completed recipient-hours only; not vehicle-hours, added ridership, free-fare pricing or population access.",
-          why: "The saved activity interval establishes time delivered to its recorded recipient. The commitment, appropriation and positive operating transfer establish the governing law's funding lineage. Neither payment nor legislation establishes attendance.",
-          uncertainty:
-            "No delivery is inferred without these records. An authored service record is not observational research or proof of a live caller.",
-        },
-      } satisfies LawConsequenceRow,
-    ],
+    [recordedFundedServiceRow(questionKey)],
   ]),
 );
+
+/** Rows for the county services; kept apart from the sixteen cataloged laws. */
+export const COUNTY_SERVICE_ROWS: Readonly<
+  Record<string, readonly LawConsequenceRow[]>
+> = Object.fromEntries(
+  COUNTY_SERVICE_QUESTION_KEYS.map((questionKey) => [
+    questionKey,
+    [recordedFundedServiceRow(questionKey)],
+  ]),
+);
+
+// Money delivered by the existing public-program writer is separate from attendance.
+(SERVICE_DELIVERED_LAW_ROWS as Record<string, readonly LawConsequenceRow[]>)[
+  "us-federal-positions:agriculture.cut-farm-subsidies"
+] = [
+  {
+    id: "us-federal-positions:agriculture.cut-farm-subsidies:recorded-payment-cap",
+    kind: "service-delivered",
+    when: "payment",
+    who: { selector: "public-program.recorded-recipient", predicates: [] },
+    what: "settle-recorded-program-payment",
+    amount: {
+      op: "minimum",
+      operands: [
+        { op: "record", key: "farm.committed-payment", unit: "minor" },
+        { op: "record", key: "farm.remaining-annual-cap", unit: "minor" },
+      ],
+    },
+    conditions: [],
+    lag: { days: 0, sourceIds: [] },
+    onRepeal: "preserve-completed",
+    evidence: {
+      sourceIds: [
+        "src/simulation/governing/public-program.ts:settleProgramInstallment",
+      ],
+      population:
+        "Actual saved recipients of recorded farm-authorized commitments.",
+      scope:
+        "Adopted dollars-per-recipient annual cap minus that recipient's actual same-year payments.",
+      why: "The legal cap limits the existing payment; only the shared payment writer moves available government cash to the recorded recipient.",
+      uncertainty:
+        "No farm, eligible recipient, appropriation or payment is inferred from research totals or a yes/no answer.",
+    },
+  },
+];
 
 /**
  * How a person asks for each service whose request producer exists, and what
  * the saved activity is called. A service law with no form here has no
  * request producer yet: a request for it is unsupported, never improvised.
- * Wording only; who may ask and what counts as delivered are the same rule
- * for every row.
+ * Who may ask and what counts as delivered are the same rule for every row;
+ * the form names the activity, which of the person's own records bear on
+ * wanting it (`need`), and when the visit runs.
  */
 export interface ServiceRequestForm {
   /** What the person asked for, after "Asked {operator} for". */
@@ -74,6 +141,44 @@ export interface ServiceRequestForm {
   /** The membership's context, with {operator} and {place}. */
   readonly membership: string;
   readonly activityKind: "travel" | "confirmed";
+  /**
+   * Which saved records the resident producer reads to decide whether a
+   * person asks. `travel`: work or classes to get to inside the served place,
+   * against work outside the place the service runs. `outdoors`: children at home and the person's own
+   * time-for-yourself or time-with-people goal, against hours held by work or
+   * a job search. `reading`: classes, a learning goal and children at home,
+   * against hours held by work. `on-call` services (a crisis team) are asked
+   * for from the person's own health record, an acute or serious episode,
+   * against a saved care record naming someone at home who looks after them.
+   * `substance-use` services (harm reduction) are asked for from the person's
+   * own private health record of a substance use disorder, against hours held
+   * by work.
+   */
+  readonly need:
+    | "travel"
+    | "outdoors"
+    | "reading"
+    | "on-call"
+    | "child-in-household"
+    | "substance-use"
+    | "clinic";
+  /** Recorded-family eligibility and enrollment, supplied only by this row. */
+  readonly forChild?: {
+    readonly minimumAge: number;
+    readonly maximumAge: number;
+    readonly programKind: EducationProgramKind;
+    readonly contextKind: EducationContextKind;
+    /** An active enrollment at another provider in these programs blocks a duplicate spot. */
+    readonly notAlreadyEnrolled: readonly EducationProgramKind[];
+  };
+  /**
+   * Authored game profile, not research: the local start time and length of
+   * the visit a resident asks for on the day the service is paid.
+   */
+  readonly visit: {
+    readonly startMinuteOfDay: number;
+    readonly minutes: number;
+  };
 }
 
 const TRANSIT_TRIP: ServiceRequestForm = {
@@ -81,20 +186,223 @@ const TRANSIT_TRIP: ServiceRequestForm = {
   activityTitle: "Ride with {operator}",
   membership: "Registered as a rider with {operator}; home is in {place}.",
   activityKind: "travel",
+  need: "travel",
+  visit: { startMinuteOfDay: 7 * 60 + 30, minutes: 45 },
 };
 
 export const SERVICE_REQUEST_FORMS: Readonly<
   Record<string, ServiceRequestForm>
 > = {
+  "us-policy-positions:education.universal-preschool": {
+    asked: "a pre-K spot",
+    activityTitle: "Pre-K at {operator}",
+    membership: "Enrolled for pre-K with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "child-in-household",
+    // NIEER State of Preschool 2023: preschool covers ages 3 and 4.
+    forChild: {
+      minimumAge: 3,
+      maximumAge: 4,
+      programKind: "schooling:pre-k",
+      contextKind: "program:public-pre-k",
+      notAlreadyEnrolled: ["schooling:pre-k"],
+    },
+    // An authored service-day profile, not a statutory hours requirement.
+    visit: { startMinuteOfDay: 8 * 60, minutes: 360 },
+  },
+  "us-policy-positions:education.equalize-school-funding": {
+    asked: "an after-school program spot",
+    activityTitle: "After-school program at {operator}",
+    membership:
+      "Enrolled in the after-school program with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "child-in-household",
+    // Authored admission and session profile for a funded school-age program;
+    // this does not infer a spot from funding or substitute for attendance.
+    forChild: {
+      minimumAge: 6,
+      maximumAge: 12,
+      programKind: "schooling:after-school",
+      contextKind: "program:public-after-school",
+      notAlreadyEnrolled: ["schooling:after-school"],
+    },
+    visit: { startMinuteOfDay: 15 * 60, minutes: 90 },
+  },
+  "us-policy-positions:education.public-funds-for-private-schooling": {
+    asked: "a private-school program spot",
+    activityTitle: "Private-school program at {operator}",
+    membership:
+      "Enrolled in the private-school program with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "child-in-household",
+    // The saved enrollment records the delivered program. The law's sourced
+    // award and eligibility terms still decide what may be funded; this form
+    // never treats an appropriation or application as attendance.
+    forChild: {
+      minimumAge: 6,
+      maximumAge: 17,
+      programKind: "schooling:private-school-program",
+      contextKind: "program:private-school-choice",
+      notAlreadyEnrolled: [
+        "schooling:elementary",
+        "schooling:middle",
+        "schooling:secondary",
+        "schooling:private-school-program",
+      ],
+    },
+    // An authored service-day profile, not a statutory school-day rule.
+    visit: { startMinuteOfDay: 8 * 60, minutes: 360 },
+  },
   "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours":
     TRANSIT_TRIP,
   "us-policy-positions:transportation-infrastructure.fare-free-transit":
     TRANSIT_TRIP,
+  // Highway money moved to transit buys what a rider uses: a trip.
+  "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit":
+    TRANSIT_TRIP,
+  "us-policy-positions:civil-family-community.dedicated-parks-funding": {
+    asked: "a park program visit",
+    activityTitle: "Park program with {operator}",
+    membership:
+      "Signed up for park programs with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "outdoors",
+    visit: { startMinuteOfDay: 17 * 60 + 30, minutes: 90 },
+  },
+  "us-policy-positions:agriculture-natural-resources.expand-public-land-access":
+    {
+      asked: "a day on the opened public land",
+      activityTitle: "Day on public land with {operator}",
+      membership:
+        "Holds a public land access pass from {operator}; home is in {place}.",
+      activityKind: "confirmed",
+      need: "outdoors",
+      visit: { startMinuteOfDay: 9 * 60, minutes: 180 },
+    },
+  "us-policy-positions:civil-family-community.fund-public-libraries": {
+    asked: "a library visit",
+    activityTitle: "Library visit at {operator}",
+    membership: "Holds a library card from {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "reading",
+    visit: { startMinuteOfDay: 16 * 60, minutes: 60 },
+  },
   "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response":
     {
       asked: "a crisis response",
       activityTitle: "Crisis response visit from {operator}",
       membership: "Case opened with {operator}; home is in {place}.",
       activityKind: "confirmed",
+      need: "on-call",
+      visit: { startMinuteOfDay: 0, minutes: 90 },
     },
+  [COUNTY_HEALTH_CLINICS]: {
+    asked: "a clinic visit",
+    activityTitle: "Clinic visit with {operator}",
+    membership: "Registered as a patient with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "clinic",
+    // Authored service-day profile: a mid-morning appointment, not a rule.
+    visit: { startMinuteOfDay: 10 * 60, minutes: 45 },
+  },
+  [COUNTY_ROAD_REPAIR]: {
+    asked: "a drive on the county's roads",
+    activityTitle: "Drive on roads kept by {operator}",
+    membership: "Lives on roads kept by {operator}; home is in {place}.",
+    activityKind: "travel",
+    need: "travel",
+    visit: { startMinuteOfDay: 7 * 60 + 30, minutes: 40 },
+  },
+  [COUNTY_FAIR]: {
+    asked: "a day at the county fair",
+    activityTitle: "Day at the fair run by {operator}",
+    membership: "Attends the fair run by {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "outdoors",
+    visit: { startMinuteOfDay: 13 * 60, minutes: 180 },
+  },
+  "us-policy-positions:health-human-services.harm-reduction-services": {
+    asked: "a harm reduction visit",
+    activityTitle: "Harm reduction visit with {operator}",
+    membership: "Enrolled with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "substance-use",
+    // Authored service-day profile: a late-morning drop-in visit, not a
+    // statutory requirement.
+    visit: { startMinuteOfDay: 10 * 60, minutes: 60 },
+  },
 };
+
+/**
+ * Services a government runs on standing, sourced appropriation authority
+ * rather than on a bill the game enacted. Keyed by the program-key family the
+ * appropriation writer uses. Each names the service form residents ask
+ * through and which kinds of organization may operate it; money committed to
+ * any other recipient pays for nothing a resident can receive.
+ *
+ * 988 crisis response: SAMHSA's National Guidelines for Behavioral Health
+ * Crisis Care (2020) and the state 988 reports place mobile crisis teams in
+ * community mental health providers, county and city health departments and
+ * hospital systems. The game's matching organization kinds are public health
+ * departments, clinics and hospitals.
+ */
+export const STANDING_SERVICE_PROGRAMS: Readonly<
+  Record<
+    string,
+    {
+      readonly questionKey: string;
+      readonly operatorClassifications: readonly string[];
+    }
+  >
+> = {
+  "behavioral-health-crisis-response": {
+    questionKey:
+      "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+    operatorClassifications: [
+      "service:public-health",
+      "service:clinic",
+      "service:hospital",
+    ],
+  },
+  // A county's own services, funded by its board's voted budget lines.
+  "county-health-clinics": {
+    questionKey: COUNTY_HEALTH_CLINICS,
+    operatorClassifications: [
+      "service:public-health",
+      "service:clinic",
+      "service:hospital",
+    ],
+  },
+  "county-road-repair": {
+    questionKey: COUNTY_ROAD_REPAIR,
+    operatorClassifications: ["sector:local-government-office"],
+  },
+  "county-fair": {
+    questionKey: COUNTY_FAIR,
+    operatorClassifications: [
+      "enterprise:recreation",
+      "community:organizing-nonprofit",
+      "sector:local-government-office",
+    ],
+  },
+};
+
+/** The county services a board's voted budget lines fund, by program family. */
+export const COUNTY_SERVICE_FAMILIES = [
+  { family: "county-health-clinics", line: "healthAndHospitals" },
+  { family: "county-road-repair", line: "highways" },
+  { family: "county-fair", line: "parks" },
+] as const;
+
+export function isCountyServiceProgram(programKey: string): boolean {
+  const family = programKey.split(":")[0]!;
+  return COUNTY_SERVICE_FAMILIES.some((row) => row.family === family);
+}
+
+/** The standing program family of a program key, if it has one. */
+export function standingServiceProgram(programKey: string) {
+  const family = programKey.split(":")[0]!;
+  return Object.hasOwn(STANDING_SERVICE_PROGRAMS, family)
+    ? STANDING_SERVICE_PROGRAMS[family]!
+    : null;
+}

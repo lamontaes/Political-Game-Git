@@ -70,7 +70,7 @@ describe("judicial philosophy from life evidence", () => {
     expect(world.judiciary!.philosophies).toHaveLength(0);
   });
 
-  it("refuses absent, unrelated, future and rapid unsupported views", () => {
+  it("refuses absent, unrelated, future and unsupported views", () => {
     const { world, personId, eventId } = fixture();
     const base = {
       stableKey: "rejected-reading",
@@ -142,38 +142,15 @@ describe("judicial philosophy from life evidence", () => {
         },
       }),
     ).toThrow(/requires a recorded rights dimension/);
-    const recorded = recordJudicialPhilosophy(world, {
-      ...base,
-      dimensions: {
-        reading: {
-          strength: -1,
-          evidence: [{ kind: "historical-event", id: eventId }],
-          reason: "The person's recorded statement favors text first.",
-        },
-      },
-    });
-    expect(() =>
-      recordJudicialPhilosophy(recorded, {
-        ...base,
-        stableKey: "next-day-reversal",
-        dimensions: {
-          reading: {
-            strength: 2,
-            evidence: [{ kind: "historical-event", id: eventId }],
-            reason: "A sudden reversal without a new record.",
-          },
-        },
-      }),
-    ).toThrow(/too soon/);
   });
 
-  it("revises one step after dated experience without erasing earlier evidence", () => {
+  it("revises after new dated experience without a fixed waiting period", () => {
     let world = buildOpeningCourtCatalog(
       createDemoWorld("judicial-philosophy-revision"),
     );
     const personId = world.personOrder[0]!;
     const priorDate = makeIsoDate(
-      `${Number(world.currentDate.slice(0, 4)) - 4}${world.currentDate.slice(4)}`,
+      `${Number(world.currentDate.slice(0, 4)) - 1}${world.currentDate.slice(4)}`,
     );
     world = recordWorldEvent(world, {
       stableKey: "judicial-philosophy:earlier-statement",

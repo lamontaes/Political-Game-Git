@@ -12,7 +12,6 @@ import { legislatureForState } from "./legislature-game-profile";
 import { stateJurisdictionForKey } from "./life-places";
 import { createWorld } from "./world";
 import { makeIsoDate } from "./dates";
-import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 
 describe("saved active legislative procedure", () => {
   it("keeps every state's institutional structure and identifies game rules", () => {
@@ -46,14 +45,10 @@ describe("saved active legislative procedure", () => {
         value: !entry.measuresCarryOver,
         source: { verification: "game-profile" },
       });
-      expect(active.enactment.defaultEffectiveSchedule).toMatchObject({
-        kind: "known",
-        value: { kind: "days-after-enactment", days: entry.effectiveDateDays },
-        source: { verification: "game-profile" },
-      });
-      expect(
-        resolveLegislativeEffectiveDate(active, makeIsoDate("2026-02-01")).kind,
-      ).toBe("game-default");
+      expect(active.enactment).toEqual(entry.baselinePack.enactment);
+      expect(active.enactment.defaultEffectiveSchedule).toEqual(
+        entry.baselinePack.enactment.defaultEffectiveSchedule,
+      );
       if (entry.regularSessionCutoff) {
         expect(active.session.regularSessionLatestAdjournment).toMatchObject({
           kind: "known",

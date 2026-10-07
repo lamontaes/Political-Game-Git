@@ -1,0 +1,210 @@
+{
+  "gap": "A79",
+  "caller": "Governor term-limit saved rollcall",
+  "runtimeSource": "5bf0c950d19aab23fd4f8d8aec2aab6da7deb457",
+  "mainBase": "1bcc9a6cbb8024cae4135a55f01aa069942994b5",
+  "unchangedPredecessor": {
+    "pr": 1529,
+    "head": "efd8b60eb1f5ee116dbe0a5fc87017a666dca100"
+  },
+  "native": {
+    "passed": 14,
+    "failed": 0,
+    "durationSeconds": 40.99,
+    "governorCases": 5,
+    "statePolicyCases": 9
+  },
+  "strict": {
+    "roots": 4,
+    "diagnostics": 0
+  },
+  "parity": {
+    "comparisons": 374,
+    "changedDirections": 0,
+    "changedReasons": 0,
+    "intendedDifferences": "Actual chamber IDs/reasons/tallies replace anonymous seats scaled from the whole-state ratio. No overall outcome flip established for this governor fixture."
+  },
+  "fixture": "Supplied proposal/direction on actual opening governor and actual state legislators; not natural filing or ratification",
+  "scopeLimits": [
+    "Legacy filing preflight remains",
+    "Federal candidate separate",
+    "Game-profile constitutional rules not sourced Connecticut law"
+  ],
+  "notRun": [
+    "Full suite",
+    "Ordinary life/year",
+    "Natural amendment filing",
+    "Statewide ratification",
+    "All56 populated worlds",
+    "Year-speed"
+  ],
+  "observed": [
+    {
+      "receipt": "A79 governor parity",
+      "data": {
+        "seed": "A79-governor-actual-rollcall",
+        "place": "Ansonia, Connecticut",
+        "state": "US-CT",
+        "fullIdentityPool": 56,
+        "admittedPool": 49,
+        "governorId": "person_30bde75d8912da85",
+        "compared": 374,
+        "directionChanges": 0,
+        "examples": [
+          {
+            "body": "house",
+            "seats": 151,
+            "yea": 98,
+            "cast": 151,
+            "example": "Jordan Murray",
+            "ballot": "nay",
+            "reason": "member:other-party",
+            "direction": "extend",
+            "oldProjectedYea": 99
+          },
+          {
+            "body": "senate",
+            "seats": 36,
+            "yea": 24,
+            "cast": 36,
+            "example": "Russell Sanchez",
+            "ballot": "nay",
+            "reason": "member:other-party",
+            "direction": "extend",
+            "oldProjectedYea": 23
+          },
+          {
+            "body": "house",
+            "seats": 151,
+            "yea": 53,
+            "cast": 151,
+            "example": "Jordan Murray",
+            "ballot": "yea",
+            "reason": "member:other-party",
+            "direction": "restore",
+            "oldProjectedYea": 52
+          },
+          {
+            "body": "senate",
+            "seats": 36,
+            "yea": 12,
+            "cast": 36,
+            "example": "Russell Sanchez",
+            "ballot": "yea",
+            "reason": "member:other-party",
+            "direction": "restore",
+            "oldProjectedYea": 13
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "A79 governor recorded",
+      "data": {
+        "seed": "A79-governor-actual-rollcall",
+        "measureId": "constitutional-measure_65419a77520164dc",
+        "phase": "rejected",
+        "bodies": [
+          {
+            "body": "house",
+            "outcome": "failed",
+            "dispositions": 151
+          }
+        ]
+      }
+    }
+  ],
+  "checks": {
+    "lint": "PASS",
+    "format": "PASS",
+    "whitespace": "PASS",
+    "release": "PASS",
+    "zeroDice": {
+      "new": 0,
+      "staleGone": 5,
+      "exitCode": 1
+    },
+    "spelling": {
+      "existingFindings": 23,
+      "newBatchProseFindings": 0,
+      "exitCode": 1
+    },
+    "reportMechanical": "PASS",
+    "lightReview": "PASS"
+  },
+  "postRunChange": "Type-only annotation admits the canonical optional reason; executed code unchanged",
+  "receipts": [
+    {
+      "name": "first",
+      "localPath": "/tmp/team2-a79-governor-first.log",
+      "sha256": "06f8bb9561ba2be5c329683a7d46ea7e714d0a3cb968c20d4a8ee094838999f1",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 state substrate {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"fullIdentityPool\":56,\"supportedGameProfileStatePool\":49,\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"members\":90,\"bodies\":[{\"bodyKey\":\"house\",\"members\":60,\"example\":\"Haley O'Brien\"},{\"bodyKey\":\"senate\",\"members\":30,\"example\":\"Andrew Rice\"}]}\nA79 state shared-vote receipt {\"seed\":\"A79-saved-state-constitutional-body\",\"place\":\"Adair Village, Oregon\",\"state\":\"US-OR\",\"comparisons\":90,\"changedDirections\":0,\"yea\":2,\"examples\":[{\"name\":\"Haley O'Brien\",\"ballot\":\"yea\"},{\"name\":\"Patrick Jackson\",\"ballot\":\"nay\"},{\"name\":\"Andrew Rice\",\"ballot\":\"yea\"},{\"name\":\"Cassandra Copeland\",\"ballot\":\"nay\"}],\"fixture\":\"Authored opposed principles on actual saved state legislators; not natural filing\"}\nA79 intended chamber outcome correction {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"oldScaledWouldCarry\":true,\"newPhase\":\"rejected\",\"opposedBody\":\"senate\",\"example\":\"Andrew Rice\",\"exampleDisposition\":\"nay\",\"fixture\":\"Authored actual chamber disagreement; whole-state scaling counterfactual uses the retained old arithmetic\"}\nA79 actual state policy caller {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"proposalId\":\"constitutional-measure_ee5912a25b77c788\",\"phase\":\"ratification\",\"voters\":90,\"fixture\":\"Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year\"}\nA79 governor parity {\"seed\":\"A79-governor-actual-rollcall\",\"place\":\"Ansonia, Connecticut\",\"state\":\"US-CT\",\"fullIdentityPool\":56,\"admittedPool\":49,\"governorId\":\"person_30bde75d8912da85\",\"compared\":374,\"directionChanges\":0,\"examples\":[{\"direction\":\"extend\",\"body\":\"house\",\"seats\":151,\"yea\":98,\"example\":\"Jordan Murray\",\"ballot\":\"nay\",\"reason\":\"member:other-party\"},{\"direction\":\"extend\",\"body\":\"senate\",\"seats\":36,\"yea\":24,\"example\":\"Russell Sanchez\",\"ballot\":\"nay\",\"reason\":\"member:other-party\"},{\"direction\":\"restore\",\"body\":\"house\",\"seats\":151,\"yea\":53,\"example\":\"Jordan Murray\",\"ballot\":\"yea\",\"reason\":\"member:other-party\"},{\"direction\":\"restore\",\"body\":\"senate\",\"seats\":36,\"yea\":12,\"example\":\"Russell Sanchez\",\"ballot\":\"yea\",\"reason\":\"member:other-party\"}]}\n \u276f src/simulation/governing/governor-constitutional-vote.test.ts (5 tests | 1 failed) 5157ms\n     \u00d7 records actual chamber identities and unchanged terms instead of anonymous scaled seats 29ms\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 1 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  src/simulation/governing/governor-constitutional-vote.test.ts > A79 governor term-limit actual-member rollcall > records actual chamber identities and unchanged terms instead of anonymous scaled seats\nAssertionError: expected undefined to be 151 // Object.is equality\n\n- Expected:\n151\n\n+ Received:\nundefined\n\n \u276f src/simulation/governing/governor-constitutional-vote.test.ts:231:49\n    229|         seated.body.members.map((row) => [row.memberKey, row.personId]\u2026\n    230|       );\n    231|       expect(action.detail.vote.electedMembers).toBe(seated.seats);\n       |                                                 ^\n    232|       expect(action.provenance.method).toBe(\"member-decisions\");\n    233|       expect(action.provenance.sourceEntityIds).toEqual(\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n\n Test Files  1 failed | 1 passed (2)\n      Tests  1 failed | 13 passed (14)\n   Start at  11:19:41\n   Duration  36.11s (transform 9.68s, setup 28ms, import 14.29s, tests 21.55s, environment 1ms)\n\n"
+    },
+    {
+      "name": "final",
+      "localPath": "/tmp/team2-a79-governor-final.log",
+      "sha256": "59c5c80abbeabbc3ad410865ac1fc1346c1c523efcbf660dc4845618cfa4631e",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 governor parity {\"seed\":\"A79-governor-actual-rollcall\",\"place\":\"Ansonia, Connecticut\",\"state\":\"US-CT\",\"fullIdentityPool\":56,\"admittedPool\":49,\"governorId\":\"person_30bde75d8912da85\",\"compared\":374,\"directionChanges\":0,\"examples\":[{\"direction\":\"extend\",\"body\":\"house\",\"seats\":151,\"yea\":98,\"example\":\"Jordan Murray\",\"ballot\":\"nay\",\"reason\":\"member:other-party\"},{\"direction\":\"extend\",\"body\":\"senate\",\"seats\":36,\"yea\":24,\"example\":\"Russell Sanchez\",\"ballot\":\"nay\",\"reason\":\"member:other-party\"},{\"direction\":\"restore\",\"body\":\"house\",\"seats\":151,\"yea\":53,\"example\":\"Jordan Murray\",\"ballot\":\"yea\",\"reason\":\"member:other-party\"},{\"direction\":\"restore\",\"body\":\"senate\",\"seats\":36,\"yea\":12,\"example\":\"Russell Sanchez\",\"ballot\":\"yea\",\"reason\":\"member:other-party\"}]}\nA79 governor recorded {\"seed\":\"A79-governor-actual-rollcall\",\"measureId\":\"constitutional-measure_65419a77520164dc\",\"phase\":\"rejected\",\"bodies\":[{\"body\":\"house\",\"outcome\":\"failed\",\"dispositions\":151}]}\nA79 state substrate {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"fullIdentityPool\":56,\"supportedGameProfileStatePool\":49,\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"members\":90,\"bodies\":[{\"bodyKey\":\"house\",\"members\":60,\"example\":\"Haley O'Brien\"},{\"bodyKey\":\"senate\",\"members\":30,\"example\":\"Andrew Rice\"}]}\nA79 state shared-vote receipt {\"seed\":\"A79-saved-state-constitutional-body\",\"place\":\"Adair Village, Oregon\",\"state\":\"US-OR\",\"comparisons\":90,\"changedDirections\":0,\"yea\":2,\"examples\":[{\"name\":\"Haley O'Brien\",\"ballot\":\"yea\"},{\"name\":\"Patrick Jackson\",\"ballot\":\"nay\"},{\"name\":\"Andrew Rice\",\"ballot\":\"yea\"},{\"name\":\"Cassandra Copeland\",\"ballot\":\"nay\"}],\"fixture\":\"Authored opposed principles on actual saved state legislators; not natural filing\"}\nA79 intended chamber outcome correction {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"oldScaledWouldCarry\":true,\"newPhase\":\"rejected\",\"opposedBody\":\"senate\",\"example\":\"Andrew Rice\",\"exampleDisposition\":\"nay\",\"fixture\":\"Authored actual chamber disagreement; whole-state scaling counterfactual uses the retained old arithmetic\"}\nA79 actual state policy caller {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"proposalId\":\"constitutional-measure_ee5912a25b77c788\",\"phase\":\"ratification\",\"voters\":90,\"fixture\":\"Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year\"}\n\n Test Files  2 passed (2)\n      Tests  14 passed (14)\n   Start at  11:21:52\n   Duration  38.74s (transform 12.70s, setup 28ms, import 17.69s, tests 20.78s, environment 1ms)\n\n"
+    },
+    {
+      "name": "ready",
+      "localPath": "/tmp/team2-a79-governor-ready.log",
+      "sha256": "628a7d1adc37eec000acfff9fffb05873ebd78810edba1eb161684de184b54f4",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 state substrate {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"fullIdentityPool\":56,\"supportedGameProfileStatePool\":49,\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"members\":90,\"bodies\":[{\"bodyKey\":\"house\",\"members\":60,\"example\":\"Haley O'Brien\"},{\"bodyKey\":\"senate\",\"members\":30,\"example\":\"Andrew Rice\"}]}\nA79 state shared-vote receipt {\"seed\":\"A79-saved-state-constitutional-body\",\"place\":\"Adair Village, Oregon\",\"state\":\"US-OR\",\"comparisons\":90,\"changedDirections\":0,\"yea\":2,\"examples\":[{\"name\":\"Haley O'Brien\",\"ballot\":\"yea\"},{\"name\":\"Patrick Jackson\",\"ballot\":\"nay\"},{\"name\":\"Andrew Rice\",\"ballot\":\"yea\"},{\"name\":\"Cassandra Copeland\",\"ballot\":\"nay\"}],\"fixture\":\"Authored opposed principles on actual saved state legislators; not natural filing\"}\nA79 intended chamber outcome correction {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"oldScaledWouldCarry\":true,\"newPhase\":\"rejected\",\"opposedBody\":\"senate\",\"example\":\"Andrew Rice\",\"exampleDisposition\":\"nay\",\"fixture\":\"Authored actual chamber disagreement; whole-state scaling counterfactual uses the retained old arithmetic\"}\nA79 actual state policy caller {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"proposalId\":\"constitutional-measure_ee5912a25b77c788\",\"phase\":\"ratification\",\"voters\":90,\"fixture\":\"Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year\"}\nA79 governor parity {\"seed\":\"A79-governor-actual-rollcall\",\"place\":\"Ansonia, Connecticut\",\"state\":\"US-CT\",\"fullIdentityPool\":56,\"admittedPool\":49,\"governorId\":\"person_30bde75d8912da85\",\"compared\":374,\"directionChanges\":0,\"examples\":[{\"body\":\"house\",\"seats\":151,\"yea\":98,\"cast\":151,\"example\":\"Jordan Murray\",\"ballot\":\"nay\",\"reason\":\"member:other-party\",\"direction\":\"extend\",\"oldProjectedYea\":99},{\"body\":\"senate\",\"seats\":36,\"yea\":24,\"cast\":36,\"example\":\"Russell Sanchez\",\"ballot\":\"nay\",\"reason\":\"member:other-party\",\"direction\":\"extend\",\"oldProjectedYea\":23},{\"body\":\"house\",\"seats\":151,\"yea\":53,\"cast\":151,\"example\":\"Jordan Murray\",\"ballot\":\"yea\",\"reason\":\"member:other-party\",\"direction\":\"restore\",\"oldProjectedYea\":52},{\"body\":\"senate\",\"seats\":36,\"yea\":12,\"cast\":36,\"example\":\"Russell Sanchez\",\"ballot\":\"yea\",\"reason\":\"member:other-party\",\"direction\":\"restore\",\"oldProjectedYea\":13}]}\nA79 governor recorded {\"seed\":\"A79-governor-actual-rollcall\",\"measureId\":\"constitutional-measure_65419a77520164dc\",\"phase\":\"rejected\",\"bodies\":[{\"body\":\"house\",\"outcome\":\"failed\",\"dispositions\":151}]}\n\n Test Files  2 passed (2)\n      Tests  14 passed (14)\n   Start at  11:24:03\n   Duration  40.99s (transform 12.62s, setup 28ms, import 17.65s, tests 23.09s, environment 1ms)\n\n"
+    },
+    {
+      "name": "types",
+      "localPath": "/tmp/team2-a79-governor-types.log",
+      "sha256": "266fb7f671d9b0a0b754f49878e912d8a227605969f12e2a55086374ed91a875",
+      "text": "\u001b[96msrc/simulation/governing/governor-constitutional-vote.test.ts\u001b[0m:\u001b[93m101\u001b[0m:\u001b[93m5\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2322: \u001b[0mType 'string' is not assignable to type '\"US\" | \"us-nv-carson-city\" | `US-${string}`'.\n\n\u001b[7m101\u001b[0m     jurisdictionKey: state.jurisdictionKey,\n\u001b[7m   \u001b[0m \u001b[91m    ~~~~~~~~~~~~~~~\u001b[0m\n\n  \u001b[96msrc/simulation/constitutional-types.ts\u001b[0m:\u001b[93m59\u001b[0m:\u001b[93m12\u001b[0m\n    \u001b[7m59\u001b[0m   readonly jurisdictionKey: \"US\" | `US-${string}` | \"us-nv-carson-city\";\n    \u001b[7m  \u001b[0m \u001b[96m           ~~~~~~~~~~~~~~~\u001b[0m\n    The expected type comes from property 'jurisdictionKey' which is declared here on type 'ProposeConstitutionalMeasureInput'\n\u001b[96msrc/simulation/governing/governor-constitutional-vote.test.ts\u001b[0m:\u001b[93m222\u001b[0m:\u001b[93m58\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty 'bodyKey' does not exist on type 'ConstitutionalActionDetail'.\n  Property 'bodyKey' does not exist on type '{ readonly kind: \"proposed\"; }'.\n\n\u001b[7m222\u001b[0m       ).find((row) => row.body.bodyKey === action.detail.bodyKey)!;\n\u001b[7m   \u001b[0m \u001b[91m                                                         ~~~~~~~\u001b[0m\n\u001b[96msrc/simulation/governing/governor-constitutional-vote.test.ts\u001b[0m:\u001b[93m231\u001b[0m:\u001b[93m33\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty 'electedMembers' does not exist on type 'ConstitutionalVoteRecord'.\n\n\u001b[7m231\u001b[0m       expect(action.detail.vote.electedMembers).toBe(seated.seats);\n\u001b[7m   \u001b[0m \u001b[91m                                ~~~~~~~~~~~~~~\u001b[0m\n\u001b[96msrc/simulation/governing/governor-constitutional-vote.test.ts\u001b[0m:\u001b[93m232\u001b[0m:\u001b[93m21\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty 'provenance' does not exist on type 'ConstitutionalActionRecord'.\n\n\u001b[7m232\u001b[0m       expect(action.provenance.method).toBe(\"member-decisions\");\n\u001b[7m   \u001b[0m \u001b[91m                    ~~~~~~~~~~\u001b[0m\n\u001b[96msrc/simulation/governing/governor-constitutional-vote.test.ts\u001b[0m:\u001b[93m233\u001b[0m:\u001b[93m21\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty 'provenance' does not exist on type 'ConstitutionalActionRecord'.\n\n\u001b[7m233\u001b[0m       expect(action.provenance.sourceEntityIds).toEqual(\n\u001b[7m   \u001b[0m \u001b[91m                    ~~~~~~~~~~\u001b[0m\n\u001b[96msrc/simulation/governing/governor-constitutional-vote.test.ts\u001b[0m:\u001b[93m234\u001b[0m:\u001b[93m32\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2345: \u001b[0mArgument of type 'readonly EntityId[]' is not assignable to parameter of type '(WithAsymmetricMatcher<EntityId> | { readonly [x: number]: WithAsymmetricMatcher<string>; toString: WithAsymmetricMatcher<() => string> | {}; ... 49 more ...; readonly [entityIdBrand]: WithAsymmetricMatcher<...>; })[]'.\n  The type 'readonly EntityId[]' is 'readonly' and cannot be assigned to the mutable type '(WithAsymmetricMatcher<EntityId> | { readonly [x: number]: WithAsymmetricMatcher<string>; toString: WithAsymmetricMatcher<() => string> | {}; ... 49 more ...; readonly [entityIdBrand]: WithAsymmetricMatcher<...>; })[]'.\n\n\u001b[7m234\u001b[0m         expect.arrayContaining(sourceRecordIds),\n\u001b[7m   \u001b[0m \u001b[91m                               ~~~~~~~~~~~~~~~\u001b[0m\n\u001b[96msrc/simulation/living-world/constitutional-reform.ts\u001b[0m:\u001b[93m873\u001b[0m:\u001b[93m9\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2345: \u001b[0mArgument of type 'ReformCause' is not assignable to parameter of type '{ readonly direction: \"extend\" | \"restore\"; readonly holderPersonId: EntityId; }'.\n  Types of property 'direction' are incompatible.\n    Type 'ReformDirection' is not assignable to type '\"extend\" | \"restore\"'.\n      Type '\"background\"' is not assignable to type '\"extend\" | \"restore\"'.\n\n\u001b[7m873\u001b[0m         cause,\n\u001b[7m   \u001b[0m \u001b[91m        ~~~~~\u001b[0m\nscoped roots 4; diagnostics 7\n"
+    },
+    {
+      "name": "types-final",
+      "localPath": "/tmp/team2-a79-governor-types-final.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114",
+      "text": "scoped roots 4; diagnostics 0\n"
+    },
+    {
+      "name": "ready-types",
+      "localPath": "/tmp/team2-a79-governor-ready-types.log",
+      "sha256": "5bfee1dfeeb0f08d4c34d0e73582b706ba4e2d6aaef0355c286362eae5435cbf",
+      "text": "\u001b[96msrc/simulation/governing/governor-constitutional-vote.test.ts\u001b[0m:\u001b[93m195\u001b[0m:\u001b[93m11\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2322: \u001b[0mType 'string | undefined' is not assignable to type 'string | null'.\n  Type 'undefined' is not assignable to type 'string | null'.\n\n\u001b[7m195\u001b[0m           reason: rows[0]!.reason,\n\u001b[7m   \u001b[0m \u001b[91m          ~~~~~~\u001b[0m\n\n  \u001b[96msrc/simulation/governing/governor-constitutional-vote.test.ts\u001b[0m:\u001b[93m150\u001b[0m:\u001b[93m9\u001b[0m\n    \u001b[7m150\u001b[0m         reason: string | null;\n    \u001b[7m   \u001b[0m \u001b[96m        ~~~~~~\u001b[0m\n    The expected type comes from property 'reason' which is declared here on type '{ body: string; seats: number; yea: number; cast: number; example: string; ballot: string; reason: string | null; }'\nscoped roots 4; diagnostics 1\n"
+    },
+    {
+      "name": "ready-types-final",
+      "localPath": "/tmp/team2-a79-governor-ready-types-final.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114",
+      "text": "scoped roots 4; diagnostics 0\n"
+    },
+    {
+      "name": "ready-lint",
+      "localPath": "/tmp/team2-a79-governor-ready-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    {
+      "name": "format",
+      "localPath": "/tmp/team2-a79-governor-format.log",
+      "sha256": "773cff305e1e384801ea09129135096bc71e0b5f6fa6c8fd66938c0de01cafbe",
+      "text": "Checking formatting...\nAll matched files use Prettier code style!\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+    },
+    {
+      "name": "release",
+      "localPath": "/tmp/team2-a79-governor-release.log",
+      "sha256": "48cf3034cc8c08ae4e417f61251d0d6e1d97420ea54042461d7d6ee2d12c8ee9",
+      "text": "release:check \u2014 version 0.4.0, revision 5bf0c95, 1155 pending declaration(s), declaration range origin/main..HEAD (pr). OK.\n"
+    },
+    {
+      "name": "zero",
+      "localPath": "/tmp/team2-a79-governor-zero.log",
+      "sha256": "946a257437c4a9458a454ab2d4ddb375ce392ae90358d24e9df70f6229770a36",
+      "text": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\ngone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+    },
+    {
+      "name": "spelling",
+      "localPath": "/tmp/team2-a79-governor-spelling.log",
+      "sha256": "056df64fe761e0dcc83c4225d4679f45d02b9089d73038dca65a988411b3a2b5",
+      "summary": "23 existing spelling findings; no new governor batch prose finding. Raw evidence preserved at path/hash."
+    }
+  ]
+}

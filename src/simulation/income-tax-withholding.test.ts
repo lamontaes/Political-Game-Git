@@ -4,6 +4,8 @@ import stateHouseholdIncome2023 from "../../data/research/money/state-household-
 import {
   FEDERAL_INCOME_TAX_2026,
   annualTax,
+  reciprocalRankedReferences,
+  weightedReferenceMean,
   payPeriodsPerYear,
   stateDeductionEstimate,
   stateIncomeTaxSchedule,
@@ -280,6 +282,41 @@ describe("state income tax, all 56 places", () => {
     if (montana.kind !== "schedule") return;
     expect(montana.schedule.brackets.map((row) => row.rateBasisPoints)).toEqual(
       [470, 565],
+    );
+  });
+});
+
+describe("shared similar-state estimation method", () => {
+  it("keeps ties equally weighted without using their display order as evidence", () => {
+    const source = [
+      { key: "second", closeness: 0, value: 40 },
+      { key: "farther", closeness: 1, value: 100 },
+      { key: "first", closeness: 0, value: 20 },
+    ];
+    const rows = reciprocalRankedReferences(
+      source,
+      (a, b) => a.closeness - b.closeness,
+      (row) => row.key,
+    );
+    expect(rows.map((row) => [row.key, row.rank, row.weight])).toEqual([
+      ["first", 1, 1],
+      ["second", 1, 1],
+      ["farther", 3, 1 / 3],
+    ]);
+    expect(weightedReferenceMean(rows, (row) => row.value)).toBeCloseTo(40);
+    expect(source.map((row) => row.key)).toEqual([
+      "second",
+      "farther",
+      "first",
+    ]);
+    const reversed = reciprocalRankedReferences(
+      [...source].reverse(),
+      (a, b) => a.closeness - b.closeness,
+      (row) => row.key,
+    );
+    expect(reversed).toEqual(rows);
+    expect(() => weightedReferenceMean([], () => 0)).toThrow(
+      /No sourced references/,
     );
   });
 });

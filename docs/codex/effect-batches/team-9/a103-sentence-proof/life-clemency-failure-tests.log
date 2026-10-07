@@ -1,0 +1,54 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/justice/sentencing-term.test.ts (8 tests) 64310ms
+     ✓ reads all 56 base robbery rows without turning missing facts into a grade  3052ms
+     ✓ saves an actual bounded term for the named defendant in US-ND  8864ms
+     ✓ saves an actual bounded term for the named defendant in US-MA  14478ms
+     ✓ saves an actual bounded term for the named defendant in US-HI  10804ms
+     ✓ saves an actual bounded term for the named defendant in US-IA  11429ms
+     ✓ saves an actual bounded term for the named defendant in US-CA  10853ms
+     ✓ keeps an actual life sentence indefinite through priors, readers and SaveContinue  4526ms
+ ❯ src/simulation/justice/clemency-clock.test.ts (5 tests | 3 failed) 39343ms
+     × reviews the actual petitioner in 'US-IA' 4753ms
+     × reviews the actual petitioner in 'US-LA' 2936ms
+     ✓ reviews the actual petitioner in 'US-TX'  13463ms
+     ✓ reviews the actual petitioner in 'US-CT'  15439ms
+     × reviews the actual petitioner in 'US-ND' 2747ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/justice/clemency-clock.test.ts > a saved clemency petition runs on its own existing boundaries > reviews the actual petitioner in 'US-IA'
+ FAIL  src/simulation/justice/clemency-clock.test.ts > a saved clemency petition runs on its own existing boundaries > reviews the actual petitioner in 'US-LA'
+ FAIL  src/simulation/justice/clemency-clock.test.ts > a saved clemency petition runs on its own existing boundaries > reviews the actual petitioner in 'US-ND'
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/simulation/justice/clemency-clock.test.ts:140:24
+    138|         sentencedEventId: sentence!.id,
+    139|       });
+    140|       expect(filed.ok).toBe(true);
+       |                        ^
+    141|       if (!filed.ok) throw new Error(filed.reason);
+    142|       let isolated = filed.world;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  3 failed | 10 passed (13)
+   Start at  18:25:58
+   Duration  155.66s (transform 37.75s, setup 47ms, import 51.22s, tests 103.65s, environment 1ms)
+
+JSON report written to /tmp/team9-a103-life-tests.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

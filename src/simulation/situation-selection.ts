@@ -315,14 +315,15 @@ function winsWithout(
 
 function pacingPenaltyFor(stakes: LifeStakesTier, recentLoad: number): number {
   const load = STAKES_LOAD[stakes];
+  const weights = { pressure: PACING_PENALTY, quiet: MONOTONY_PENALTY };
   if (recentLoad >= 0.6) {
     // Recently demanding. A demanding candidate pays for it.
-    return PACING_PENALTY * load * recentLoad;
+    return weights.pressure * load * recentLoad;
   }
   if (recentLoad <= 0.15) {
     // Recently quiet. An ordinary candidate pays a smaller price, so a life
     // does not settle permanently into the undemanding end.
-    return MONOTONY_PENALTY * (1 - load);
+    return weights.quiet * (1 - load);
   }
   return 0;
 }

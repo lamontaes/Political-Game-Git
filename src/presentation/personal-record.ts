@@ -62,11 +62,7 @@ export interface PurseLine {
   readonly kind: PurseKind;
   /** What the player calls it. */
   readonly label: string;
-  /** Who owns it, said plainly, because ownership is the point. */
-  readonly ownerNote: string;
   readonly balance: MoneyAmount | null;
-  /** Present only when there is no position, and then it says why. */
-  readonly absence: string | null;
 }
 
 export interface PersonalRecord {
@@ -111,9 +107,7 @@ function buildPurses(world: World, personId: EntityId): readonly PurseLine[] {
   purses.push({
     kind: "personal",
     label: "Your own money",
-    ownerNote: "Yours. Nobody else can spend it.",
     balance: own,
-    absence: own ? null : "This life has no personal balance on record yet.",
   });
 
   const householdId = householdIdFor(world, personId);
@@ -122,9 +116,7 @@ function buildPurses(world: World, personId: EntityId): readonly PurseLine[] {
     purses.push({
       kind: "household",
       label: "The household",
-      ownerNote: "Shared with everyone who lives here.",
       balance: shared,
-      absence: shared ? null : "The household has no shared money yet.",
     });
   }
 
@@ -137,9 +129,6 @@ function buildPurses(world: World, personId: EntityId): readonly PurseLine[] {
   const campaign = activeCampaignForCandidate(world, personId);
   if (campaign) {
     const treasury = campaignTreasuryPosition(world, campaign);
-    const organizationName =
-      organizationProfileAt(world, campaign.organizationId)?.name ??
-      "your campaign committee";
     const balance = treasury
       ? (resourcePositionAt(
           world,
@@ -150,9 +139,7 @@ function buildPurses(world: World, personId: EntityId): readonly PurseLine[] {
     purses.push({
       kind: "campaign",
       label: "Campaign funds",
-      ownerNote: `Held by ${organizationName}, not by you.`,
       balance,
-      absence: balance ? null : "The committee has no treasury on record yet.",
     });
   }
 

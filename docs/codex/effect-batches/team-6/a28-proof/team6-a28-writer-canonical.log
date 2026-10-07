@@ -1,0 +1,61 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/federal-data-privacy-law.test.ts src/simulation/privacy-initial-compliance-estimate.test.ts src/simulation/privacy-initial-compliance-writer.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-a28-writer-canonical.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/privacy-initial-compliance-estimate.test.ts (3 tests) 12ms
+ ✓ src/simulation/federal-data-privacy-law.test.ts (4 tests) 81ms
+ ❯ src/simulation/privacy-initial-compliance-writer.test.ts (3 tests | 2 failed) 26ms
+     ✓ uses only above-threshold saved private firms with actual paid employees 5ms
+     × subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice 12ms
+     × a prospective repeal stops new expense and preserves the completed occurrence 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/privacy-initial-compliance-writer.test.ts > one initial privacy expense through the saved business writer > subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice
+Error: Macro month has invalid period: national:2026-01
+ ❯ assertMacroEconomyIntegrity src/simulation/macro-economy/store.ts:235:13
+    233|       key < startMonth
+    234|     ) {
+    235|       throw new Error(`Macro month has invalid period: ${month.key}`);
+       |             ^
+    236|     }
+    237|     const expected = (lastOrdinal.get(month.scope) ?? -1) + 1;
+ ❯ validateWorldIntegrity src/simulation/world.ts:878:41
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ createWorldSnapshot src/simulation/serialization.ts:91:3
+ ❯ serializeWorld src/simulation/serialization.ts:111:33
+ ❯ src/simulation/privacy-initial-compliance-writer.test.ts:406:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/simulation/privacy-initial-compliance-writer.test.ts > one initial privacy expense through the saved business writer > a prospective repeal stops new expense and preserves the completed occurrence
+Error: Macro month has invalid period: national:2026-01
+ ❯ assertMacroEconomyIntegrity src/simulation/macro-economy/store.ts:235:13
+    233|       key < startMonth
+    234|     ) {
+    235|       throw new Error(`Macro month has invalid period: ${month.key}`);
+       |             ^
+    236|     }
+    237|     const expected = (lastOrdinal.get(month.scope) ?? -1) + 1;
+ ❯ validateWorldIntegrity src/simulation/world.ts:878:41
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ commit src/simulation/future-transitions.ts:1158:3
+ ❯ scheduleFutureDueItem src/simulation/future-transitions.ts:316:10
+ ❯ scheduleCommitteeHearing src/simulation/legislation.ts:1789:10
+ ❯ applyLegislativeStep src/presentation/legislation-session.ts:201:11
+ ❯ enact src/simulation/privacy-initial-compliance-writer.test.ts:118:13
+ ❯ src/simulation/privacy-initial-compliance-writer.test.ts:441:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 8 passed (10)
+   Start at  09:39:16
+   Duration  26.92s (transform 42.25s, setup 53ms, import 57.05s, tests 119ms, environment 1ms)
+
+JSON report written to /tmp/team6-a28-writer-canonical.json

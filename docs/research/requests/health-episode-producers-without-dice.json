@@ -1,0 +1,35 @@
+{
+  "filedAt": "2026-10-01T21:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "LIVES (slice 10): births, deaths, childhood record",
+  "notes": [
+    "Map of every producer that calls beginHealthEpisode (src/simulation/crisis/health.ts:284), on main e1a709596.",
+    "1. Epidemic illness (src/simulation/crisis/epidemic.ts:712). NOT a draw. A person catches it when the week's exposure from the people they spent it with, times their susceptibility, reaches a bar (sampleEpidemicWeek, epidemic.ts:817-880). A town takes it in from outside through its most-connected resident by the season's exposure (epidemic.ts:890-894). Severity is set by age bands and whether the person is already ill (severityFor, epidemic.ts:633-644). Recorded causes: contacts (household, family, work, school), season, age, existing illness. Gaps: the catch bar (U.catchAt) and the severity age bands are hard cutoffs, which the sliding-scale rule (9/29) says to replace with smooth weights; every rate is a placeholder in UNRESEARCHED_EPIDEMIC.",
+    "2. Disaster injury (src/simulation/crisis/disaster.ts:505). A DRAW. Whether a home is damaged or destroyed is drawn (disaster.ts:289-290), and so are injury, its severity and death (disaster.ts:476, 500-503). The hazard episode itself comes from a monthly Poisson draw on recorded storm rates (src/simulation/crisis/hazard-producer.ts:261, 312). Recorded causes that could decide it instead: the hazard record (family, magnitude, footprint) and the season; the dwelling's recorded type and age; whether the household was warned or left; who was home that day.",
+    "3. Attack injury (src/simulation/crisis/international.ts:958). A DRAW. The outcome (killed, injured, unharmed) is rolled against fixed shares (international.ts:900-907). Recorded causes that could decide it instead: the threat evidence on record, the target's protection, where they were.",
+    "4. Fatal illness ahead of a K1 death (src/simulation/crisis/fatal-illness.ts:144). A DRAW at both ends. It begins only because the per-person life-table threshold (src/simulation/crisis/mortality.ts:55-63) already chose a death day, and the illness-with-course cause group was drawn (src/simulation/crisis/death-causes.ts:6-20). It is the only producer of a prognosis-limited state (fatal-illness.ts:93). Recorded causes that could start it instead: age, recorded chronic conditions, coverage (health-coverage records already exist, src/simulation/crisis/health-coverage.ts), occupation and income.",
+    "5. Nothing else starts a health episode. No condition pack is installed (HealthEpisodeOrigin 'condition-pack' has no producer), and no law, price or job writes one directly. A law reaches health only through coverage (health-coverage.ts), which changes a hazard multiplier and not an episode."
+  ],
+  "priority": "P1",
+  "question": "For each way a person in the game falls seriously ill or is injured (the producers mapped in the notes), what recorded, real-world cause predicts it at the level of one person, and how strongly? Specifically: (1) for injuries in a disaster, how does the chance of serious injury or death vary with the home's recorded damage, the building's type and age, and warning time (from FEMA and NWS storm fatality data); (2) for an infectious illness, how does severity vary with age and existing conditions (CDC hospitalization rates by age and condition); (3) for a chronic illness that becomes serious, which recorded conditions predict onset (age, smoking, income and coverage, occupation), and by how much as a smooth relation. Give each as a relative risk or a curve with its source, so the game can let the recorded cause decide and keep the real rates as a check on totals.",
+  "questionId": "health-episode-producers-without-dice",
+  "relatedQuestionIds": [
+    "how-long-a-serious-illness-lasts-by-age",
+    "causes-of-death-by-age"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Team 5 (LIVES slice step 2), session_018u9RMZ77mZTXMEVEUz7o6f",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/*.ts on main e1a709596 (the producer code itself, mapped in the notes)",
+      "whatItDidNotSettle": "It shows how each producer decides today, and the placeholder rates it uses. It holds no person-level evidence for any of them."
+    },
+    {
+      "source": "data/research/outcome-web/links.json",
+      "whatItDidNotSettle": "Its links move place-level rates (births, coverage and others). None of them predicts one person's serious illness or injury."
+    }
+  ],
+  "title": "What recorded causes could start each kind of health episode without a draw",
+  "usableAnswer": "For each producer in the notes: the person-level predictors with a relative risk (or curve) and a source, marked measured, synthesized or assumed, and the real total rate that checks the simulated count. Say plainly where person-level evidence does not exist.",
+  "whyItMatters": "A death attributed to a recorded health record (LIVES slice step 2, with the CTO in 00d) needs a health record that itself came from a cause. Today the producers of serious health episodes are mostly draws, so a no-dice death would only move the dice one step back. The map in the notes shows which producers already follow a recorded cause and which need one."
+}

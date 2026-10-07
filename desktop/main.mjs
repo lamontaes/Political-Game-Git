@@ -192,7 +192,6 @@ function showAbout() {
     type: "info",
     message: "Our Civic Duty",
     detail: [
-      `Release version: ${identity.version}`,
       `Build revision: ${identity.revision}${dirtyNote}`,
       `Composition: ${identity.composition}`,
       `Build profile: ${identity.profile ?? "production"}`,
@@ -212,6 +211,9 @@ function createWindow() {
     show: false,
     backgroundColor: "#1a1a1a",
     title: "Our Civic Duty",
+    icon: app.isPackaged
+      ? path.join(process.resourcesPath, "branding", "icon.png")
+      : path.join(desktopRoot, "build", "icon.png"),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,

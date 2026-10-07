@@ -14,7 +14,7 @@ import type { EntityId, IsoDate, World } from "../types";
 import { organizationProfileAt } from "../life-queries";
 import { describeTownBusinesses } from "./town-businesses";
 import { activeWorkers, laborStatus, townResidents } from "./town-employment";
-import { TOWN_FAMILIES_VERSION } from "./town-families";
+import { isTownBirth } from "./town-families";
 import { activeTownJobs } from "./town-labor-market";
 import { townHourlyPayCents } from "./town-pay";
 
@@ -124,11 +124,9 @@ export function townBirths(
   town: EntityId,
   since: IsoDate,
 ): TownMeasureReading {
-  const prefix = `${TOWN_FAMILIES_VERSION}:${town}:`;
   const births = world.history.events.filter(
     (event) =>
-      event.type === "life.family-member-added" &&
-      event.stableKey.startsWith(prefix) &&
+      isTownBirth(event, town) &&
       event.occurredAt >= since &&
       event.occurredAt <= world.currentDate,
   ).length;
