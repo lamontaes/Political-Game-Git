@@ -18,6 +18,7 @@
     "wording:check": "node --import tsx scripts/english-check/wording.ts",
     "wording:baseline": "node --import tsx scripts/english-check/wording.ts --write",
     "world:aging": "node --enable-source-maps --max-old-space-size=8192 --import tsx scripts/dev-lab/world-aging.ts",
+    "speed:year": "node --enable-source-maps --max-old-space-size=8192 --import tsx scripts/speed-years/year.ts",
     "world:report": "node --max-old-space-size=8192 --import tsx scripts/world-report/run.ts",
     "law:money": "node --max-old-space-size=8192 --import tsx scripts/dev-lab/law-money.ts",
     "world:rent": "node --max-old-space-size=8192 --import tsx scripts/world-report/rent.ts",

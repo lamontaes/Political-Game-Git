@@ -309,14 +309,11 @@ export function pictureForChosenState(
 }
 
 /**
- * The town's own picture once a town is chosen (OW-4): its main street, else
- * its city hall, each only when the staging table places people in it and the
- * build paints it. The state capitol is the fallback before then.
+ * The town's own picture once a town is chosen (OW-4): its city hall, only
+ * when the staging table places people in it and the build paints it. The
+ * state capitol is the fallback before then. Never the main street (OW-19).
  */
-export const TOWN_BACKDROP_ORDER = [
-  "main-street",
-  "city-hall-exterior",
-] as const;
+export const TOWN_BACKDROP_ORDER = ["city-hall-exterior"] as const;
 
 export function pictureForChosenTown(
   staged: ReadonlySet<string>,

@@ -69,7 +69,7 @@ function candidateFor(
   );
   if (!people.length) return null;
   const pay = recordedMonthlyPayByPerson(world, onDate);
-  const anyPay = people.some((id) => pay.has(id));
+  const hasRecordedPay = people.some((id) => pay.has(id));
   const knownMonthlyIncome = people.reduce(
     (sum, id) => sum + (pay.get(id) ?? 0),
     0,
@@ -77,14 +77,19 @@ function candidateFor(
   const line = annualPovertyLineMinor(stateKey, people.length, onDate) / 12;
   const threshold =
     line * (programs.federal.snap.grossIncomeTestPctFpl.value / 100);
-  const incomeToThreshold =
-    anyPay && threshold > 0 ? knownMonthlyIncome / threshold : null;
-  const monthlyWorkHours = people.reduce((sum, personId) => {
-    const jobs = activeWorkRelationshipsAt(world, personId, {
+  const workByPerson = people.map((personId) =>
+    activeWorkRelationshipsAt(world, personId, {
       asOfDate: onDate,
       historySequenceExclusive: world.history.nextSequence,
-    });
-    return (
+    }),
+  );
+  const hasActiveWork = workByPerson.some((jobs) => jobs.length > 0);
+  const incomeToThreshold =
+    threshold > 0 && (hasRecordedPay || !hasActiveWork)
+      ? knownMonthlyIncome / threshold
+      : null;
+  const monthlyWorkHours = workByPerson.reduce(
+    (sum, jobs) =>
       sum +
       jobs.reduce((hours, job) => {
         const range = job.role.timeDemand.expectedWeekly;
@@ -92,9 +97,9 @@ function candidateFor(
           hours +
           ((range.minimumHours + range.maximumHours) / 2) * (365.25 / 12 / 7)
         );
-      }, 0)
-    );
-  }, 0);
+      }, 0),
+    0,
+  );
   const prior = snapParticipationAt(world, householdId, onDate);
   return {
     householdId,

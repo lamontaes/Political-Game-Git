@@ -23,6 +23,16 @@ import {
 } from "./story-scene-resolver";
 import { projectToday } from "./day-overview";
 import { recordedRoomPresence } from "./recorded-room-presence";
+import {
+  createFormationContext,
+  recordPrivateBelief,
+} from "../simulation/politics";
+import { recordWorldEvent } from "../simulation/world";
+import {
+  hearersOfPerson,
+  tellViewToHearers,
+} from "../simulation/living-world/official-views";
+import { projectPeopleDirectory } from "./people-directory";
 
 const seed = "session4-live-place-block-one";
 const random = new SeededRng(seed);
@@ -92,6 +102,142 @@ describe(
       const restored = deserializeWorld(serializeWorld(world));
       expect(currentStorySceneSituation(restored, viewer)).toEqual(
         currentStorySceneSituation(world, viewer),
+      );
+    });
+
+    it("uses recorded presence and heard knowledge in an authored encounter within the generated world", () => {
+      const presentHolder = world.personOrder.find(
+        (id) => id !== viewer && hearersOfPerson(world, id).includes(viewer),
+      )!;
+      expect(
+        presentHolder,
+        "A real confidant can reach the player",
+      ).toBeDefined();
+      const location = recordedRoomPresence(world, viewer)!.location;
+      // The ordinary opening is correctly alone. Author one bounded encounter
+      // through the canonical event writer; this is not automatic scene proof.
+      const encounter = recordWorldEvent(world, {
+        stableKey: "heard-views:authored-encounter",
+        type: "life.scene.opened",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: location.jurisdictionId,
+        involvedEntityIds: [viewer, presentHolder],
+        participants: [viewer, presentHolder].map((personId) => ({
+          personId,
+          role: "presence:participant",
+          detail: null,
+        })),
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [
+          `moment:${JSON.stringify(world.currentMoment)}`,
+          "authored-fixture",
+        ],
+        summary: "Authored encounter for the knowledge-boundary fixture.",
+        context: {
+          location,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const presence = recordedRoomPresence(encounter, viewer)!;
+      expect(presence).not.toBeNull();
+      const absentHolder = world.personOrder.find(
+        (id) => !presence.personIds.includes(id),
+      )!;
+      expect(absentHolder).toBeDefined();
+      let withViews = encounter;
+      const holdView = (holderId: EntityId) => {
+        withViews = recordPrivateBelief(withViews, {
+          stableKey: `heard-views:held:${holderId}`,
+          personId: holderId,
+          propositionId: null,
+          subject: { kind: "official", personId: viewer },
+          formedAt: withViews.currentDate,
+          position: "oppose",
+          conviction: "tentative",
+          salience: "low",
+          flexibility: "open",
+          rationale: null,
+          formation: createFormationContext("evidence:new", {
+            note: "Authored view for the knowledge-boundary fixture.",
+          }),
+          supersedesBeliefId: null,
+        });
+      };
+      holdView(presentHolder);
+      holdView(absentHolder);
+      const before = serializeWorld(withViews);
+      const situation = currentStorySceneSituation(withViews, viewer)!;
+      expect(
+        situation.presentOfficialViews.map((entry) => entry.holderId),
+      ).toEqual([presentHolder]);
+      expect(projectPeopleDirectory(withViews, viewer).heardViews).toEqual([]);
+      expect(serializeWorld(withViews)).toBe(before);
+
+      const tellerId = presentHolder;
+      expect(
+        tellerId,
+        "A real confidant can reach the player in this generated world",
+      ).toBeDefined();
+      if (tellerId !== presentHolder && tellerId !== absentHolder)
+        holdView(tellerId);
+      withViews = recordWorldEvent(withViews, {
+        stableKey: "heard-views:generated-world-reflection",
+        type: "people.law-reflection",
+        occurredAt: withViews.currentDate,
+        recordedAt: withViews.currentDate,
+        jurisdictionId: null,
+        involvedEntityIds: [tellerId],
+        participants: [
+          { personId: tellerId, role: "focus:subject", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["people.official-view"],
+        summary: "Authored reflection for the knowledge-boundary fixture.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const eventId = withViews.history.events.at(-1)!.id;
+      const told = tellViewToHearers(withViews, {
+        holderId: tellerId,
+        officialId: viewer,
+        eventId,
+        stableKey: "heard-views:generated-world",
+      });
+      const heard = projectPeopleDirectory(told, viewer).heardViews;
+      expect(heard).toHaveLength(1);
+      expect(heard[0]).toMatchObject({
+        holderId: tellerId,
+        officialId: viewer,
+        position: "oppose",
+        eventId,
+      });
+      expect(
+        told.history.privateBeliefs.filter(
+          (row) =>
+            row.personId === viewer &&
+            row.subject?.kind === "official" &&
+            row.subject.personId === viewer,
+        ),
+      ).toEqual([]);
+      expect(
+        projectPeopleDirectory(deserializeWorld(serializeWorld(told)), viewer)
+          .heardViews,
+      ).toEqual(heard);
+      process.stdout.write(
+        `heard-view seed=${seed} world=${world.id} date=${world.currentDate} place=${place.key} holder=${tellerId} listener=${viewer} event=${eventId} knowledge=${heard[0]!.knowledgeId}\n`,
       );
     });
 
