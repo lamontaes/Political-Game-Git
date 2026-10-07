@@ -1,0 +1,288 @@
+[
+  {
+    "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": ["right-permission", "price-cost"],
+    "existingActivity": "effective / renewal",
+    "termTimesActualRecordRequirement": "Legal dwelling capacity on an actual covered lot comes from its enacted density terms and parcel restrictions. A saved tenant rent may consume actual available housing alternatives; a permit-unit projection is not completed supply.",
+    "missingCapabilities": [
+      "Actual covered parcel/lot and construction-application records",
+      "Operative density/floor/preemption terms",
+      "Saved construction/completion and nearby household exposure"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "housing-market.ts::housingLawEffect and homePriceLevel are derived; Audit supplied town-rent renewal saved-writer mapping"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": ["price-cost"],
+    "existingActivity": "renewal",
+    "termTimesActualRecordRequirement": "Minimum of the actual proposed renewal rent and the prior recorded rent multiplied by one plus the legally applicable increase ceiling. Retain exemptions, coverage, rounding and transition terms.",
+    "missingCapabilities": [
+      "Exact enacted/starting numeric cap, inflation index and exemptions",
+      "Registered actual leaseholder selector, renewal action and prior/proposed-rent bindings",
+      "Legal rounding binding; a universal five-point/ten-percent stand-in is not an operative term"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "town-rent.ts::renewTownLeases saves capped resourceFlowTerms and law stamps; five-state controlled proof at source base"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": ["right-permission", "price-cost"],
+    "existingActivity": "effective / service / renewal",
+    "termTimesActualRecordRequirement": "A qualifying actual permit application is approved through its legal nondiscretionary procedure. Only completed/available homes and actual processing work can feed rents or compliance costs.",
+    "missingCapabilities": [
+      "Actual permit applicant, parcel, application, eligibility and disposition records",
+      "Operative coverage, exceptions and processing deadlines",
+      "Completed-building/nearby rental exposure and actual compliance activity"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "Existing housingLawEffect feeds derived prices and saved renewal rents; no completed permit applicant proof supplied"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": ["coverage-eligibility", "price-cost"],
+    "existingActivity": "assessment / renewal",
+    "termTimesActualRecordRequirement": "Use actual covered project/unit counts with the enacted set-aside and lawful rounding. Rent comes from the applicable saved income limit and legal affordability terms; select the actual eligible tenant.",
+    "missingCapabilities": [
+      "Exact set-aside, income-limit basis, rent share, alternatives and covenant terms",
+      "Registered covered-unit/eligible-tenant selectors and saved lease-term action",
+      "Legal integer-unit and currency rounding; these operations are not in the published expression list"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "town-rent.ts::startTownLeases and renewTownLeases save affordable lease terms with real tenant/tenure/dwelling IDs and stamps; controlled proof at source base"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": ["institution-rule", "right-permission", "price-cost"],
+    "existingActivity": "effective / renewal",
+    "termTimesActualRecordRequirement": "Apply the actual higher-level legal floor/ceiling to covered local restrictions and applications. Saved rent effects consume actual housing exposure; do not apply a second package multiplier.",
+    "missingCapabilities": [
+      "Registered legal-conflict/preemption adapter with actual jurisdiction and coverage",
+      "Actual local restriction and covered parcel/application records",
+      "Operative scope, exceptions and transition terms; completed supply and exposure"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "Existing HOUSING_SUPPLY_LAWS groups this law with the other supply laws; derived package effect is not an independently attributed completed construction"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  },
+  {
+    "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": [
+      "coverage-eligibility",
+      "service-delivered",
+      "legal-outcome"
+    ],
+    "existingActivity": "service",
+    "termTimesActualRecordRequirement": "Resolve the actual covered tenant and case. Representation consumes an actual attorney assignment/capacity record; the legal outcome consumes the saved case facts and decisions. Costs require actual billable work and legally funded rates.",
+    "missingCapabilities": [
+      "Registered actual filed-case/tenant selector and case/representation actions",
+      "Operative eligibility and transition terms; attorney assignment, workload and hours records",
+      "An admitted legal-disposition value/action contract: an enum outcome is not an invented numeric count",
+      "Actual provider rate, hours and funding/payment base for cost"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "town-rent.ts::evictionCaseFacts and actOnArrears\u2192rentEvent save actually represented case events/stamps; five-state selected-tenant proof at source base"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  },
+  {
+    "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": ["price-cost", "right-permission"],
+    "existingActivity": "assessment / renewal",
+    "termTimesActualRecordRequirement": "Minimum of an actual offered covered-loan APR and its operative legal ceiling. Interest and fees come from the recorded balance, rate, period, repayment and legally permitted charges.",
+    "missingCapabilities": [
+      "Registered covered-borrower/product/transaction selector and loan-term action",
+      "Canonical numeric APR/fee-cap producer, exemptions and operative revision binding",
+      "Exact rate/period/currency normalization through the existing loan writer; no average APR fallback"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "Audit supplied household-loans.ts::openHouseholdLoan/reviseLoanTerms saved-record substrate; supplied rateCap fixture is not a canonical law-cap adapter"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  },
+  {
+    "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": ["right-permission", "price-cost"],
+    "existingActivity": "effective / assessment",
+    "termTimesActualRecordRequirement": "Apply the enacted occupation/requirement changes to an actual applicant and licensed activity. Compliance cost needs actual required training, fees and submitted work; removing a requirement is not automatic employment.",
+    "missingCapabilities": [
+      "Actual license applicant/occupation/activity, qualification and decision records",
+      "Operative removed/reduced requirements, fees, coverage and authority",
+      "Registered licensing selector/action and actual training/fee/payment bases"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "Audit kind-D contract is proposed; no actual license decision or fee writer is established by the existing poverty link"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  },
+  {
+    "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": ["right-permission", "tax", "price-cost"],
+    "existingActivity": "effective / assessment",
+    "termTimesActualRecordRequirement": "Tax revenue is the operative exact rate times actual covered legal retail sales. Sales must be actual purchases or an independently supplied actual market-base producer; tax-base composition, exemptions and instruments remain explicit.",
+    "missingCapabilities": [
+      "Registered canonical cannabis tax series/base and taxable-sale selector/action",
+      "Actual legal retail sale/quantity records; buyer/retailer capacity and market exposure",
+      "Immutable sourced numeric starting terms and enacted TaxPolicy/Proposal/current-levy producer",
+      "Covered age/authorization and explicit sales-tax-including-excise composition; no unit-label-as-value"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "PR1287 exact589eb052eeec8cff9b0e9e74952716bd33127988 tax-term and arithmetic readers are uncalled; main cannabis budget stamps retain fixed-level shortcut, which is not converted"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  },
+  {
+    "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+    "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
+    "requestedKinds": ["institution-rule", "price-cost", "tax"],
+    "existingActivity": "assessment",
+    "termTimesActualRecordRequirement": "Compare the actual requested/awarded incentive against its operative legal cap and remaining lawful authority. Cost is the actual award/payment or tax concession; household consequences require real investment, jobs and pay records.",
+    "missingCapabilities": [
+      "Actual applicant firm, incentive request/award, remaining authorization and payment/concession records",
+      "Operative cap, covered awards, disclosure and protected-contract terms",
+      "Registered award/recipient selector and incentive budget/tax action; no CA universal factor as a term"
+    ],
+    "registryGap": "At shared contract head15f70129854ba05b6f0b966a1b1ca0b1846ec071, the validator accepts caller-supplied capability sets; its published test registry supports pay only. These files supply no Team4 production selector/action allowlist or amount-key resolver. Domain function names here identify existing evidence, not registered capabilities.",
+    "knownExistingEvidence": [
+      "Existing budget rules use inherited corporate/property-tax factors; no actual award-cost base supplied"
+    ],
+    "sourceReferences": [
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/town-rent-stamp-status.json"
+      },
+      {
+        "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+        "path": "docs/codex/effect-batches/team-4/law-record-inventory.json"
+      }
+    ],
+    "repealRequirement": "Resolve this law\u2019s actual prospective transition; preserve completed records and legally protected contracts. No automatic inverse aggregate multiplier.",
+    "ownerRequested": "AUDIT/SYSTEMS for exact existing bindings/producer gaps; coordinator for shared registry/catalog admission"
+  }
+]

@@ -244,7 +244,6 @@ test.describe("The page says whose life this is", () => {
     await answerCharacterBasics(page, { gender: "male" });
     await page.getByTestId("creator-continue-character").click();
     await chooseKentucky(page);
-    await page.getByTestId("whoareyou-play").click();
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);

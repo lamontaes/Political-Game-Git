@@ -5,26 +5,7 @@ import {
   makeIsoDate,
   simulationMomentOnLocalDate,
 } from "../simulation/dates";
-import {
-  introduceMeasure,
-  availableMeasureSteps,
-  measurePosition,
-  recordEnactment,
-} from "../simulation/legislation";
-import { rulePackById } from "../simulation/legislature-rule-packs";
-import { localOrdinanceGameRulePack } from "../simulation/local-ordinance-game-profile";
-import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
-import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
 import { lawInForce } from "../simulation/governing/law-in-force";
-import type { GovernmentUnitIdentity } from "../simulation/government-units";
-import {
-  committeeMembers,
-  votePlanKeyForCommittee,
-  votePlanKeyForFloor,
-  type LegislativeProcedureContext,
-  type AuthoredVoteCounts,
-} from "../simulation/legislation-scenarios";
-import { applyLegislativeStep } from "./legislation-session";
 import { personName } from "../simulation/people";
 import { writeWithWorldIntegrityOnce } from "../simulation/world";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
@@ -65,6 +46,7 @@ import { lawExposureSentence } from "./law-exposure-lines";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../simulation/nationwide-world/state-legislative-term-limits";
 import { applyStateLegislatureTurnover } from "../simulation/nationwide-world/state-legislature-turnover";
 import { observerSetup, openObserverWorld } from "./observer-world";
+import { enactLawFixture } from "./enact-law-fixture";
 
 /**
  * An independent ward commission (the policy question "Should an independent
@@ -108,101 +90,6 @@ function atFixtureDate(world: World, date: IsoDate): World {
       currentMoment: simulationMomentOnLocalDate(next.currentMoment, date),
     };
   });
-}
-
-/** Canonical procedure with explicit supplied votes; not ordinary sponsor proof. */
-function enactLawFixture(
-  world: World,
-  jurisdiction: EntityId,
-  unit: GovernmentUnitIdentity | null,
-  questionKey: string,
-  answer: "yes" | "no",
-): World {
-  const pack = unit
-    ? localOrdinanceGameRulePack(unit)!
-    : rulePackById(legislativePackForJurisdiction(jurisdiction)!.packId);
-  const question = Object.values(world.policyCatalog.propositions).find(
-    (row) => row.stableKey === questionKey,
-  )!;
-  let next = introduceMeasure(world, {
-    stableKey: `stamp-fixture:${questionKey}:${answer}`,
-    jurisdictionId: jurisdiction,
-    rulePackId: pack.packId,
-    designation: "Stamp fixture 1",
-    shortTitle: "Authored stamp fixture law",
-    summary: "Explicit supplied-vote fixture.",
-    origin: "member-introduction",
-    subjectClass: "general-policy",
-    originChamberKey: pack.chamberOrder[0]!,
-    propositionIds: [question.id],
-    propositionAnswers: [{ propositionId: question.id, answer }],
-  });
-  const measureId = next.history.legislativeMeasures!.at(-1)!.id;
-  const bodies = pack.chambers.map((chamber) =>
-    unit
-      ? {
-          chamberKey: chamber.chamberKey,
-          chamberName: chamber.name,
-          members: sittingLocalOfficers(next, unit)
-            .filter((row) => !row.mayor)
-            .map((row, ordinal) => ({
-              memberKey: `${unit.id}:fixture-seat:${ordinal + 1}`,
-              name: personName(next.people[row.personId]!),
-              personId: row.personId,
-              caucusLabel: "Authored fixture",
-            })),
-        }
-      : seatedChamberForPack(
-          next,
-          pack.packId,
-          chamber.chamberKey,
-          chamber.name,
-        )!.body,
-  );
-  const votePlan: Record<string, AuthoredVoteCounts> = {};
-  for (const chamber of pack.chambers) {
-    const body = bodies.find((row) => row.chamberKey === chamber.chamberKey)!;
-    for (const committee of chamber.committees)
-      votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
-        yea: committeeMembers(body, committee.appointedMembers).length,
-      };
-    for (const stage of chamber.floorStages)
-      votePlan[votePlanKeyForFloor(chamber.chamberKey, stage.stageKey)] = {
-        yea: body.members.length,
-      };
-  }
-  const procedure: LegislativeProcedureContext = {
-    pack,
-    measureId,
-    bodies,
-    committeeMemberCount: null,
-    votePlan,
-    governorAction: "signed",
-    governorRationale: "Explicit supplied approval for the fixture.",
-  };
-  for (
-    let i = 0;
-    i < 50 && measurePosition(next, measureId).phase !== "enacted";
-    i++
-  ) {
-    const step = availableMeasureSteps(next, measureId).find(
-      (key) => key !== "offer-amendment",
-    );
-    if (!step)
-      throw new Error(
-        `Fixture law stopped at ${measurePosition(next, measureId).phase}`,
-      );
-    next =
-      step === "record-enactment"
-        ? recordEnactment(next, {
-            stableKey: `${measureId}:fixture-enactment`,
-            measureId,
-            effectiveAt: next.currentDate,
-          })
-        : applyLegislativeStep(procedure, next, step).world;
-  }
-  expect(measurePosition(next, measureId).phase).toBe("enacted");
-  return next;
 }
 
 /** A random town under 60,000 people whose council elects by ward. */
@@ -307,6 +194,30 @@ describe("an independent ward commission law", { timeout: 600_000 }, () => {
           appliedAt: world.currentDate,
         }),
       ]);
+      // Each member the saved map pairs with another in one district carries
+      // a recorded exposure to the commission law; no one else does.
+      const pairedIds = (
+        drawn.tags
+          .find((tag) => tag.startsWith("paired:"))!
+          .slice("paired:".length)
+          .split(",") as string[]
+      ).filter((id) => id.length > 0);
+      const exposed = Object.keys(world.people).filter((id) =>
+        lawExposuresOf(world, id as EntityId).some(
+          (exposure) => exposure.sourceRecordId === drawn.id,
+        ),
+      );
+      expect(exposed.sort()).toEqual([...pairedIds].sort());
+      for (const id of exposed)
+        expect(
+          lawExposuresOf(world, id as EntityId).find(
+            (exposure) => exposure.sourceRecordId === drawn.id,
+          ),
+        ).toMatchObject({
+          measureId: commissionLaw.measureId,
+          channel: "election-rule",
+          direction: "none",
+        });
       expect(drawn.summary).toMatch(
         /drawn by an independent commission, the independent district commission law took effect/,
       );

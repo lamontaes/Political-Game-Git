@@ -23,6 +23,7 @@
     "scripts/prose-corpus/**/*.ts",
     "scripts/prose-eval/**/*.ts",
     "scripts/release/**/*.ts",
+    "scripts/runtime-text/**/*.ts",
     "scripts/source/**/*.ts",
     "scripts/unwired-laws/**/*.ts",
     "src/authoring/**/*.ts",

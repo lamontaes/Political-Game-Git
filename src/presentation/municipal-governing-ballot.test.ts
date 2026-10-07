@@ -95,7 +95,9 @@ describe("ordinary council ballot projection", () => {
         onWorldChange: () => {},
       }),
     );
-    expect(beforeScreen).toContain("Choose a ballot to record your decision");
+    expect(beforeScreen).not.toContain(
+      "Choose a ballot to record your decision",
+    );
     expect(beforeScreen).toContain("municipal-reading-due");
     const preview = previewAuthoredCouncilBallots(
       placed.world,

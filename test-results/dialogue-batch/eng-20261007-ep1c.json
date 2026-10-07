@@ -1,0 +1,589 @@
+{
+  "id": "eng-20261007-ep1c",
+  "title": "Dialogue batch eng-20261007-ep1c (21 exchanges)",
+  "at": "2026-10-07T01:20:09.942Z",
+  "head": "2b49a705b62e1b44b8e9a1b1237dc3300bc49f28",
+  "status": "open",
+  "variety": {
+    "items": 21,
+    "places": 4,
+    "kinds": {
+      "conversation": 10,
+      "legislation": 0,
+      "winning-and-losing": 0,
+      "judges": 3,
+      "news": 3,
+      "journal": 3,
+      "press": 2,
+      "hearing": 0,
+      "meeting": 0,
+      "minutes": 0,
+      "notices-and-screens": 0
+    },
+    "distinctSituationRelationship": 21
+  },
+  "absent": [
+    {
+      "kind": "legislation",
+      "reason": "Nortonville, Kentucky: no Congress measure with printed text is filed; Bolindale, Ohio: no Congress measure with printed text is filed; Isleta, New Mexico: no Congress measure with printed text is filed; Enfield, North Carolina: no Congress measure with printed text is filed"
+    },
+    {
+      "kind": "winning-and-losing",
+      "reason": "Nortonville, Kentucky: no race in this world is decided yet; Bolindale, Ohio: no race in this world is decided yet; Isleta, New Mexico: no race in this world is decided yet; Enfield, North Carolina: no race in this world is decided yet"
+    },
+    {
+      "kind": "hearing",
+      "reason": "Nortonville, Kentucky: no producer writes committee hearing text yet; Bolindale, Ohio: no producer writes committee hearing text yet; Isleta, New Mexico: no producer writes committee hearing text yet; Enfield, North Carolina: no producer writes committee hearing text yet"
+    },
+    {
+      "kind": "meeting",
+      "reason": "Nortonville, Kentucky: the player is not at a meeting; Bolindale, Ohio: the player is not at a meeting; Isleta, New Mexico: the player is not at a meeting; Enfield, North Carolina: the player is not at a meeting"
+    },
+    {
+      "kind": "minutes",
+      "reason": "Nortonville, Kentucky: no producer writes meeting minutes yet; Bolindale, Ohio: no producer writes meeting minutes yet; Isleta, New Mexico: no producer writes meeting minutes yet; Enfield, North Carolina: no producer writes meeting minutes yet"
+    },
+    {
+      "kind": "notices-and-screens",
+      "reason": "Nortonville, Kentucky: no producer writes notices or letters to the player from the world yet; Bolindale, Ohio: no producer writes notices or letters to the player from the world yet; Isleta, New Mexico: no producer writes notices or letters to the player from the world yet; Enfield, North Carolina: no producer writes notices or letters to the player from the world yet"
+    }
+  ],
+  "items": [
+    {
+      "i": 0,
+      "situation": "Your dad, Ravi Love (46), in Nortonville, Kentucky, on January 5, 2026. You are 17.",
+      "prior": "You: Say hello",
+      "reply": "Your dad: Hi, Ryan. How are you?",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core",
+        "life-reply.first-greeting:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    {
+      "i": 1,
+      "situation": "Your grandmother, Aria Smith (121), in Isleta, New Mexico, on January 5, 2026. You are 52.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your grandmother: Yeah, let's play.",
+      "part": "invitation.company-agree:core:yeah-play",
+      "parts": [
+        "invitation.company-agree:core:yeah-play"
+      ],
+      "composer": "invitationAgreeLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "invite-game-accept",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Isleta, New Mexico",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1c-variety:2"
+    },
+    {
+      "i": 2,
+      "situation": "Your mom, Kelly Lewis (104), in Enfield, North Carolina, on January 5, 2026. You are 70.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your mom: Oh, I'll pass for now. I'd rather try something new. Thanks for asking.",
+      "part": "english.slow-opener:opener:oh",
+      "parts": [
+        "english.slow-opener:opener:oh",
+        "invitation.company-decline:core:pass",
+        "invitation.company-decline:reason:something-new",
+        "invitation.company-decline:closer:thanks-asking"
+      ],
+      "composer": "invitationDeclineLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Enfield, North Carolina",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1c-variety:3"
+    },
+    {
+      "i": 3,
+      "situation": "Your dad, Ravi Love (46), in Nortonville, Kentucky, on January 5, 2026. You are 17.",
+      "prior": "You: Talk about an earlier conversation",
+      "reply": "Your dad: I remember you bringing up “Hopkins County is governed by County board.” What happened after that?",
+      "part": "life-reply.remembered-topic:core:core",
+      "parts": [
+        "life-reply.remembered-topic:core:core",
+        "life-reply.remembered-topic:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (remembered-topic) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "remembered-topic",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "remember-news-topic",
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    {
+      "i": 4,
+      "situation": "Your mom, Gabriela Smith (86), in Isleta, New Mexico, on January 5, 2026. You are 52.",
+      "prior": "",
+      "reply": "Your mom: If you want to, go ahead.",
+      "part": "life-reply.running-open-agree-even:core:core",
+      "parts": [
+        "life-reply.running-open-agree-even:core:core"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-open",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Isleta, New Mexico",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1c-variety:2"
+    },
+    {
+      "i": 5,
+      "situation": "Your classmate, Marshall Gonzales (17), in Nortonville, Kentucky, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "Your classmate: How do you want to divide it?",
+      "part": "subject-reply.school_raise:core:even-0-core-2",
+      "parts": [
+        "subject-reply.school_raise:core:even-0-core-2"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-raise",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    {
+      "i": 6,
+      "situation": "Your former classmate, Lauren Cannon (34), in Bolindale, Ohio, on February 3, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your former classmate: We can talk about the meeting.",
+      "part": "subject-reply.neighborhood_mention:core:warm-0-core-2",
+      "parts": [
+        "subject-reply.neighborhood_mention:core:warm-0-core-2"
+      ],
+      "composer": "composeSubjectReply (neighborhood) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "neighborhood-mention",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bolindale, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:1"
+    },
+    {
+      "i": 7,
+      "situation": "Reporter, Harper Dominguez (29), in Enfield, North Carolina, on January 5, 2026. You are 70.",
+      "prior": "",
+      "reply": "Reporter: Halifax County is governed by County board. What is established, and what is still open?",
+      "part": "press.reporter-known-topic:opener:development",
+      "parts": [
+        "press.reporter-known-topic:opener:development",
+        "press.reporter-known-topic:core:question"
+      ],
+      "composer": "composePressLine (reporter question) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview-question",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Enfield, North Carolina",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1c-variety:3"
+    },
+    {
+      "i": 8,
+      "situation": "You, in Isleta, New Mexico, on January 5, 2026. You are 52.",
+      "prior": "Reporter: What happened?",
+      "reply": "You: I can't answer that yet.",
+      "part": "press.answer-unknown:core:not-yet",
+      "parts": [
+        "press.answer-unknown:core:not-yet"
+      ],
+      "composer": "composePressLine (answer-unknown) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Isleta, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:2"
+    },
+    {
+      "i": 9,
+      "situation": "Judge Matthew Velazquez sentences Tyler Donovan (22) for vandalism after a guilty plea. The judge chose probation. In Enfield, North Carolina, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: They accepted responsibility by pleading guilty. It is their first offense. The law asks for a sentence no greater than necessary.",
+      "part": "justice.sentence:core:accepted-responsibility",
+      "parts": [
+        "justice.sentence:core:accepted-responsibility",
+        "justice.sentence:core:first-offense",
+        "justice.sentence:core:parsimony"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Enfield, North Carolina",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1c-variety:3"
+    },
+    {
+      "i": 10,
+      "situation": "Judge Kenneth Martinez sentences Brooke Henderson (25) for assault after a trial. The judge chose jail. In Nortonville, Kentucky, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: The offense was violent.",
+      "part": "justice.sentence:core:violent",
+      "parts": [
+        "justice.sentence:core:violent"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    {
+      "i": 11,
+      "situation": "Judge Ariana Walker sentences Victor Tucker (34) for burglary after a trial. The judge chose jail. In Bolindale, Ohio, on February 3, 2026.",
+      "prior": "",
+      "reply": "Judge: They had been found at fault for the same thing before.",
+      "part": "justice.sentence:core:findings",
+      "parts": [
+        "justice.sentence:core:findings"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bolindale, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:1"
+    },
+    {
+      "i": 12,
+      "situation": "Your grandmother, Vivian Lewis (138), in Enfield, North Carolina, on January 5, 2026. You are 70.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your grandmother: Good luck with it.",
+      "part": "life-reply.tell-plain-plan:core:core",
+      "parts": [
+        "life-reply.tell-plain-plan:core:core"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Enfield, North Carolina",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1c-variety:3"
+    },
+    {
+      "i": 13,
+      "situation": "Your classmate, Marshall Gonzales (17), in Nortonville, Kentucky, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "Your classmate: I understand. You take that part.",
+      "part": "subject-reply.school_offer:core:even-0-core-2",
+      "parts": [
+        "subject-reply.school_offer:core:even-0-core-2",
+        "subject-reply.school_offer:reason:even-0-reason-0"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-offer",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    {
+      "i": 14,
+      "situation": "Your former classmate, Lauren Cannon (34), in Bolindale, Ohio, on February 3, 2026. You are 34.",
+      "prior": "You: Ask if they would like this to be a date",
+      "reply": "Your former classmate: I mean, no, thank you. I like how things are between us now.",
+      "part": "english.slow-opener:opener:i-mean",
+      "parts": [
+        "english.slow-opener:opener:i-mean",
+        "invitation.date-decline:core:no-thank-you",
+        "invitation.date-decline:reason:like-things-now"
+      ],
+      "composer": "invitationDeclineLine (date) in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "decline",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bolindale, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:1"
+    },
+    {
+      "i": 15,
+      "situation": "The player's journal, the chapter \"2026\" (2026). In Nortonville, Kentucky, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: I lived in Nortonville, Kentucky.",
+      "part": "journal:chapter:year:2026",
+      "parts": [
+        "journal:chapter:year:2026"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    {
+      "i": 16,
+      "situation": "The player's journal, the chapter \"2022\" (2022). In Nortonville, Kentucky, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: I finished at Glenwood Middle School in June 2022. I was enrolled at Nortonville High School.",
+      "part": "journal:chapter:year:2022",
+      "parts": [
+        "journal:chapter:year:2022"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    {
+      "i": 17,
+      "situation": "The player's journal, the chapter \"2019\" (2019). In Nortonville, Kentucky, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: I finished at Riverside Elementary School in May 2019. I was enrolled at Glenwood Middle School.",
+      "part": "journal:chapter:year:2019",
+      "parts": [
+        "journal:chapter:year:2019"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    {
+      "i": 18,
+      "situation": "A The Meridian Dispatch story from the nation. In Bolindale, Ohio, on February 3, 2026.",
+      "prior": "",
+      "reply": "Newspaper: Kayla Hill sits on the central bank's board as a governor, and leans toward holding prices down. Reported by Shannon Franklin for The Meridian Dispatch.",
+      "part": "news:story:event_e7a3143aa5e5b899",
+      "parts": [
+        "news:story:event_e7a3143aa5e5b899"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bolindale, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:1"
+    },
+    {
+      "i": 19,
+      "situation": "A The Bolindale Gazette story from Bolindale, Ohio. In Bolindale, Ohio, on February 3, 2026.",
+      "prior": "",
+      "reply": "Newspaper: Police in Bolindale took a report of an assault. Reported by Amara Turner for The Bolindale Gazette.",
+      "part": "news:story:event_dbb76293ca9caf50",
+      "parts": [
+        "news:story:event_dbb76293ca9caf50"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bolindale, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:1"
+    },
+    {
+      "i": 20,
+      "situation": "A Civic Ledger story from California. In Bolindale, Ohio, on February 3, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 2 people entered the race for U.S. Representative for California's 8th congressional district.",
+      "part": "news:story:event_3315d12fd83707ec",
+      "parts": [
+        "news:story:event_3315d12fd83707ec"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bolindale, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:1"
+    }
+  ]
+}
