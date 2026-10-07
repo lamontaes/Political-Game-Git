@@ -63,13 +63,26 @@ const FEDERAL_TAX_TERM_CONSEQUENCE_FAMILIES = new Set([
   "corporate",
 ]);
 
+/** The county and city questions a council may decide, where the state's own
+ * rule is checked at filing by the shared local tax lookup. */
+function localTaxQuestion(levelKey: string, familyKey: string): boolean {
+  return (
+    (levelKey === "county" || levelKey === "city") &&
+    ["property", "sales", "payroll", "corporate"].includes(familyKey)
+  );
+}
+
 function taxTermConsequenceRow(
   levelKey: string,
   familyKey: string,
 ): LawConsequenceRow | undefined {
+  // Federal and local terms are read back through the shared binder; only the
+  // power evidence differs, and local power is the state's own rule, estimated
+  // where the state's row was not read.
   const federalTerm =
-    levelKey === "federal" &&
-    FEDERAL_TAX_TERM_CONSEQUENCE_FAMILIES.has(familyKey);
+    (levelKey === "federal" &&
+      FEDERAL_TAX_TERM_CONSEQUENCE_FAMILIES.has(familyKey)) ||
+    localTaxQuestion(levelKey, familyKey);
   const excise = familyKey === "excise";
   if (!federalTerm && !excise) return undefined;
   return {
@@ -98,6 +111,9 @@ function taxTermConsequenceRow(
       sourceIds: [
         "src/simulation/tax-policy.ts",
         ...(federalTerm ? ["src/simulation/tax-law-term-binding.ts"] : []),
+        ...(localTaxQuestion(levelKey, familyKey)
+          ? ["src/simulation/local-tax-authority.ts"]
+          : []),
         federalTerm
           ? "src/simulation/law-consequences/tax.ts"
           : "src/fiscal-authority/tax-powers.generated.json",
@@ -110,7 +126,7 @@ function taxTermConsequenceRow(
         ? "The common tax consequence reader derives an assessment from the adopted terms and the saved tax base; the row supplies no rate or amount."
         : "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
       uncertainty: federalTerm
-        ? "The existing tax resolver calls bindTaxLawTerms(world, { law, questionKey, proposalId, onDate, cutoff }). Until this federal question has an admitted law, power, and saved-record binding, no assessment is resolved."
+        ? "The existing tax resolver calls bindTaxLawTerms(world, { law, questionKey, proposalId, onDate, cutoff }). Until this question has an admitted law, power, and saved-record binding, no assessment is resolved. A local question also needs the state to let that level levy the tax (the shared local tax lookup); where that answer is estimated the saved power says so."
         : "This row supplies no rate, authority, taxable occurrence or recipient. Missing bindings refuse assessment.",
     },
   };
@@ -137,7 +153,13 @@ export const TAX_TERM_QUESTION_ROWS: readonly PolicyPropositionRow[] =
       ...(taxTermConsequenceRow(level.key, family.key)
         ? { consequences: [taxTermConsequenceRow(level.key, family.key)!] }
         : {}),
-      tags: ["tax", "adopted-terms-required"],
+      tags: [
+        "tax",
+        "adopted-terms-required",
+        ...(localTaxQuestion(level.key, family.key)
+          ? ["local-fiscal-effect:tax-policy"]
+          : []),
+      ],
     })),
   );
 

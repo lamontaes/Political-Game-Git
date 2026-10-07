@@ -71,6 +71,18 @@ it("loads tax questions without assigning any rates or replacing existing questi
         what: "assess-enacted-tax-base",
         amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
       });
+    } else if (
+      /^(city|county)\.(property|sales|payroll|corporate)-tax-terms$/.test(
+        row.key,
+      )
+    ) {
+      // Local terms land through the same binder, with the state's own rule
+      // read by the shared local tax lookup and the question tagged for council.
+      expect(row.consequences).toHaveLength(1);
+      expect(row.tags).toContain("local-fiscal-effect:tax-policy");
+      expect(row.consequences![0]!.evidence.sourceIds).toContain(
+        "src/simulation/local-tax-authority.ts",
+      );
     } else expect(row.consequences).toBeUndefined();
     expect(row.principles).toBeUndefined();
   }
