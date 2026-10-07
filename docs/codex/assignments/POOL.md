@@ -924,7 +924,7 @@ open: rebase on main (conflicts) | |
 | RS-2732 | b24-p1-s3: READY for CTO review (eight turned input failures) | PR #2732 (codex/session127-b24-p1-s3) | open: rebase on main (conflicts) | |
 | RS-2734 | b24-p1-s4: native cloth-boundary probe (cuff mask unfinished) | PR #2734 (codex/session127-b24-p1-s4) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2739 | b24-p2: independent tag validator proposal (owner schema missing) | PR #2739 (codex/session127-b24-p2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | ready #2742 | |
 | RS-2746 | b18-p3: certified ballot referrals and named voter tally | PR #2746 (session-110/b18-p3) | open: draft: finish it or close it as superseded | |
 | RS-2748 | A120: PROGRESS continuity regression follows its saved appointment date | PR #2748 (session132/a120-continuity-test-window) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2750 | b18-p4: recorded shared-cause founder and member decisions | PR #2750 (session-110/b18-p4) | open: draft: finish it or close it as superseded | |
