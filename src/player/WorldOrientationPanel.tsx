@@ -1235,9 +1235,6 @@ function ChamberBlock({
         </label>
         <p className="pg-orientation-roster-note">
           {`All ${stateOptions.find(([usps]) => usps === state)?.[1] ?? "the"} members, in seat order.`}
-          {chamber.chamberKey === "us-house" && state === homeStateUsps
-            ? " The one who represents your home is under Government, in Represented by."
-            : null}
         </p>
         <ul>
           {rows.map((row) => (
