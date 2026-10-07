@@ -5582,7 +5582,57 @@
           "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-DE": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 325000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 0
+                  },
+                  {
+                    "overMinor": 200000,
+                    "rateBasisPoints": 220
+                  },
+                  {
+                    "overMinor": 500000,
+                    "rateBasisPoints": 390
+                  },
+                  {
+                    "overMinor": 1000000,
+                    "rateBasisPoints": 480
+                  },
+                  {
+                    "overMinor": 2000000,
+                    "rateBasisPoints": 520
+                  },
+                  {
+                    "overMinor": 2500000,
+                    "rateBasisPoints": 555
+                  },
+                  {
+                    "overMinor": 6000000,
+                    "rateBasisPoints": 660
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the explicit zero-rate opening band preserves the untaxed income below the first positive bracket."
         },
         "US-FL": {
           "answer": "no"
@@ -5833,7 +5883,37 @@
           "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 440000,
+                "sourceUrl": "https://www.mass.gov/info-details/personal-income-tax-exemptions",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 500
+                  },
+                  {
+                    "overMinor": 108315000,
+                    "rateBasisPoints": 900
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Massachusetts DOR page updated January 6, 2026, and TIR 08-24, effective January 1, 2008 until statutory amendment, record the $4,400 single personal exemption. The existing schedule calculator's deduction field carries this exact base single-taxpayer personal exemption as a taxable-income offset, not a legal standard deduction. The 2026 single-filer brackets are from data/research/money/state-income-tax-2026.json. Additional dependent, age, disability, itemized deductions, and credit provisions are not represented by this base schedule."
         },
         "US-MD": {
           "answer": "yes",
@@ -5998,7 +6078,61 @@
           "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 0
+                  },
+                  {
+                    "overMinor": 134800,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 269600,
+                    "rateBasisPoints": 250
+                  },
+                  {
+                    "overMinor": 404400,
+                    "rateBasisPoints": 300
+                  },
+                  {
+                    "overMinor": 539200,
+                    "rateBasisPoints": 350
+                  },
+                  {
+                    "overMinor": 674000,
+                    "rateBasisPoints": 400
+                  },
+                  {
+                    "overMinor": 808800,
+                    "rateBasisPoints": 450
+                  },
+                  {
+                    "overMinor": 943600,
+                    "rateBasisPoints": 470
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the explicit zero-rate opening band preserves the untaxed income below the first positive bracket."
         },
         "US-MP": {
           "answer": "yes",
@@ -6078,7 +6212,41 @@
           "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-ND": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 0
+                  },
+                  {
+                    "overMinor": 4847500,
+                    "rateBasisPoints": 195
+                  },
+                  {
+                    "overMinor": 24482500,
+                    "rateBasisPoints": 250
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the explicit zero-rate opening band preserves the untaxed income below the first positive bracket."
         },
         "US-NE": {
           "answer": "yes",
@@ -6121,7 +6289,57 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 100000,
+                "sourceUrl": "https://www.nj.gov/treasury/taxation/njit13.shtml",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 140
+                  },
+                  {
+                    "overMinor": 2000000,
+                    "rateBasisPoints": 175
+                  },
+                  {
+                    "overMinor": 3500000,
+                    "rateBasisPoints": 350
+                  },
+                  {
+                    "overMinor": 4000000,
+                    "rateBasisPoints": 553
+                  },
+                  {
+                    "overMinor": 7500000,
+                    "rateBasisPoints": 637
+                  },
+                  {
+                    "overMinor": 50000000,
+                    "rateBasisPoints": 897
+                  },
+                  {
+                    "overMinor": 100000000,
+                    "rateBasisPoints": 1075
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " New Jersey Division of Taxation current deductions page, last updated December 3, 2025, records the $1,000 regular taxpayer exemption. The existing schedule calculator's deduction field carries this exact base single-taxpayer personal exemption as a taxable-income offset, not a legal standard deduction. The 2026 single-filer brackets are from data/research/money/state-income-tax-2026.json. Additional dependent, age, disability, itemized deductions, and credit provisions are not represented by this base schedule."
         },
         "US-NM": {
           "answer": "yes",
@@ -6256,7 +6474,45 @@
           "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-OK": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 635000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 0
+                  },
+                  {
+                    "overMinor": 375000,
+                    "rateBasisPoints": 250
+                  },
+                  {
+                    "overMinor": 490000,
+                    "rateBasisPoints": 350
+                  },
+                  {
+                    "overMinor": 720000,
+                    "rateBasisPoints": 450
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the explicit zero-rate opening band preserves the untaxed income below the first positive bracket."
         },
         "US-OR": {
           "answer": "yes",
@@ -6559,7 +6815,49 @@
           "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-WV": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 200000,
+                "sourceUrl": "https://tax.wv.gov/Individuals/Pages/PersonalIncomeTaxReductionBill.aspx",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 211
+                  },
+                  {
+                    "overMinor": 1000000,
+                    "rateBasisPoints": 281
+                  },
+                  {
+                    "overMinor": 2500000,
+                    "rateBasisPoints": 316
+                  },
+                  {
+                    "overMinor": 4000000,
+                    "rateBasisPoints": 422
+                  },
+                  {
+                    "overMinor": 6000000,
+                    "rateBasisPoints": 458
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " West Virginia Tax Division 2026 Income Tax Rate Cut page records W. Va. Code 11-21-4j codification effective June 12, 2026 and the rate cut retroactive to January 1, 2026. Form WV IT-100.2A (March 2026), optional one-earner single/head-of-household annual table, explicitly subtracts $2,000 per claimed exemption: https://tax.wv.gov/Documents/Withholding/it100.2a.pdf. The existing schedule calculator offset records one base taxpayer exemption, not a legal standard deduction; additional exemptions and credits are outside this base schedule. These official 2026 rates supersede the older rates in the retained Tax Foundation calibration packet."
         },
         "US-WY": {
           "answer": "no"
@@ -10964,21 +11262,23 @@
         "US-AZ": {
           "answer": "no",
           "preempts": true,
-          "cite": "Ariz. Rev. Stat. § 13-907",
+          "cite": "Ariz. Rev. Stat. §§ 13-907(A)-(B), 13-908(A), (C)-(D), (G)",
           "source": "https://www.azleg.gov/ars/13/00907.htm",
-          "note": "First-time offenders are restored automatically on completion of probation or absolute discharge if victim restitution is paid; people with two or more felonies must obtain a pardon or court restoration."
+          "note": "Restoration event and coverage: a first felony committed in Arizona receives automatic civil-rights restoration on completion of probation or absolute discharge from imprisonment if all victim restitution is paid; no application is required under section 13-907(A). A first felony outside Arizona requires a section 13-908 application even when eligible for automatic restoration under section 13-907(B). Prior felony convictions or unpaid victim restitution permit a discretionary court application after final discharge under section 13-908(A); final discharge means completion of probation or absolute discharge. Firearm exceptions are separate from voting. Companion primary source: https://www.azleg.gov/ars/13/00908.htm. Current primary text fetched October 2, 2026; no operative date inferred from retrieval or reader default."
         },
         "US-CA": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.sos.ca.gov/elections/voting-resources/voting-california/who-can-vote-california/voting-rights-californians",
+          "note": "Restoration event and coverage: voting is barred while serving a state or federal prison term for a felony, including such a term housed in a local detention facility under Penal Code section 2910. A local felony jail sentence, probation-condition jail time, pretrial detention, parole, probation, mandatory supervision, post-release community supervision and federal supervised release remain eligible categories in the official guidance. Completion of the disqualifying prison term restores voting rights, but voter registration is still required. Official guidance fetched October 2, 2026; no effective date inferred.",
+          "cite": "California Secretary of State, Voting Rights: Persons with a Prior Felony Conviction"
         },
         "US-CO": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.sos.state.co.us/pubs/elections/FAQs/VotingAndConviction.html",
+          "note": "Restoration event: the day of release from felony detention or incarceration restores eligibility to register. Parole and probation allow voting; pretrial detention and misdemeanor sentences do not impose the felony voting bar. Coverage includes state and federal convictions; restitution payment is not a voting condition. Prior registration cancelled for felony incarceration requires reregistration, so restoration does not itself produce registration. Official guidance fetched October 2, 2026; no enactment date inferred.",
+          "cite": "Colorado Secretary of State, Voting and Conviction FAQs, questions 1-11"
         },
         "US-CT": {
           "answer": "yes",
@@ -10989,9 +11289,9 @@
         "US-DC": {
           "answer": "yes",
           "preempts": true,
-          "cite": "D.C. Code § 1-1001.02(2)",
+          "cite": "D.C. Code § 1-1001.02(2)(D)-(E)",
           "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1001.02",
-          "note": "People never lose the right to vote for a criminal conviction; the former exclusion of people incarcerated for a felony (repealed in 2020) already restored the right on release."
+          "note": "Coverage: the current qualified-elector definition has repealed its criminal-conviction exclusion in paragraph (2)(D), so criminal incarceration does not itself remove the vote and no sentence-completion restoration event is required. Paragraph (2)(E) separately excludes a person found by a court legally incompetent to vote; this is not inferred from a conviction. The previously recorded 2020 repeal and earlier release-stage restoration remain historical context; no new effective date is inferred from the fetched current text. Primary text fetched October 2, 2026; other elector requirements and registration remain separate."
         },
         "US-DE": {
           "answer": "no",
@@ -11022,8 +11322,9 @@
         "US-HI": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://elections.hawaii.gov/voting/voters-with-a-felony-conviction/",
+          "note": "Restoration event and coverage: administering-agency guidance bars a person sentenced for a felony from sentence to final discharge, but expressly permits registration and voting during probation or parole after commitment to imprisonment. Those supervision exceptions preserve voting before full sentence completion. Official guidance last updated March 3, 2021, fetched October 2, 2026; the update date is not a statutory effective date. The separately requested legislative statute endpoint returned HTTP 403; that statute text is not claimed acquired.",
+          "cite": "Hawaii Office of Elections, Voters with a Felony Conviction; citing Haw. Const. art. II, § 2 and HRS § 831-2"
         },
         "US-IA": {
           "answer": "no",
@@ -11035,8 +11336,9 @@
         "US-ID": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/Title18/T18CH3/SECT18-310/",
+          "note": "Restoration event: final discharge means satisfactory completion of imprisonment, probation and parole as applicable. Coverage: an Idaho felony receives full citizenship rights upon final discharge; enumerated offense exclusions in subsection (2) concern firearms, not voting. Other-state or other-jurisdiction felonies allow registration and voting upon final discharge under subsection (4), except persons convicted of treason. Rights that are not political during parole or probation do not establish voting eligibility. Primary text fetched October 2, 2026, with statutory history including 2026 chapter 64; no effective date or universal prison-release rule inferred.",
+          "cite": "Idaho Code § 18-310(1)-(2), (4)"
         },
         "US-IL": {
           "answer": "yes",
@@ -11072,14 +11374,16 @@
         "US-MA": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://malegislature.gov/Laws/Constitution",
+          "note": "Coverage: amendment Article CXX excludes persons incarcerated in a correctional facility due to a felony conviction from the constitutional voting qualification. The exclusion is tied to that incarceration, not all convictions or completion of probation or parole; release removes this felony-incarceration exclusion while other voter qualifications remain separate. Current official constitutional text fetched October 2, 2026; amendment text supplies no precise ratification date here, and the reader-default date is not researched enactment.",
+          "cite": "Mass. Const. amend. art. CXX, amending art. III"
         },
         "US-MD": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison. A conviction for buying or selling votes is a permanent bar unless pardoned, a narrow election-crime exception."
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gel&section=3-102&enactments=false",
+          "note": "Restoration event: a felony disqualifies voter registration only while currently serving a court-ordered sentence of imprisonment for that conviction; probation or parole alone is not that statutory imprisonment condition. Coverage separately excludes conviction for buying or selling votes under subsection (b)(3), preserving the prior record of a permanent bar unless pardoned; this fetched section does not itself state a pardon procedure. A precise voting-related judicial finding in a guardianship is a separate exclusion under subsection (b)(2), not inferred from conviction. Current official text fetched October 2, 2026; no enactment date inferred.",
+          "cite": "Md. Code, Election Law § 3-102(b)(1)-(3)"
         },
         "US-ME": {
           "answer": "yes",
@@ -11096,8 +11400,9 @@
         "US-MN": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.revisor.mn.gov/statutes/cite/201.014",
+          "note": "Restoration event: an individual ineligible because of a felony conviction regains the civil right to vote during any period not incarcerated for that offense; later incarceration for the offense removes that right only during that incarceration. Coverage includes the statutory work-release provisions under sections 241.26, 244.065 and 631.425, which are not deemed incarceration for this voting rule. Court-ordered voting incapacity and guardianship revocation remain separate exclusions under subdivision 2. Official 2025 statutory publication fetched October 2, 2026, cites 2023 chapters 12 and 62. The current subdivision 2a amendment is effective June 1, 2023 under Laws 2023, chapter 62, article 4, section 10 (https://www.revisor.mn.gov/laws/2023/0/Session+Law/Chapter/62/); this revision date is not the beginning of the broader yes-after-sentence policy and is not inferred from the reader default.",
+          "cite": "Minn. Stat. § 201.014, subds. 2, 2a"
         },
         "US-MO": {
           "answer": "yes",
@@ -11128,8 +11433,9 @@
         "US-NC": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon completion of sentence (prison, parole and probation)."
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_13/GS_13-1.html",
+          "note": "Restoration event: citizenship rights return automatically on unconditional discharge of an inmate, probationer, parolee or suspended-sentence defendant by the responsible agency or court; unconditional pardon or satisfaction of all conditional-pardon conditions also restores rights. Coverage includes federal and other-state convictions on the equivalent discharge or pardon conditions in subdivisions (4)-(5), not prison release alone while supervision continues. Primary text fetched October 2, 2026; statutory history lists amendments through 2013 but supplies no precise effective date for this current text; no reader-default enactment date inferred.",
+          "cite": "N.C. Gen. Stat. § 13-1(1)-(5)"
         },
         "US-ND": {
           "answer": "yes",
@@ -11140,9 +11446,9 @@
         "US-NE": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Neb. Rev. Stat. § 29-112",
+          "cite": "Neb. Rev. Stat. § 29-112; Laws 2024, LB20, § 1",
           "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-112",
-          "note": "Disqualification is automatically removed on completion of the sentence including parole; Laws 2024, LB 20 repealed the former two-year waiting period (effective July 19, 2024, per the task brief; the exact date was not on a fetched page)."
+          "note": "Restoration event: felony voting disqualification is automatically removed upon completion of the sentence, including any parole term, where the sentence has not been reversed or annulled. Jury service and officeholding instead require a Board of Pardons warrant and are not automatically restored by the voting clause. Current statutory text cites Laws 2024, LB20 § 1 and contains no two-year waiting period. Primary text fetched October 2, 2026; the existing July 19, 2024 date supplied by the prior task brief has not been verified from this page and is not promoted to operativeAt."
         },
         "US-NH": {
           "answer": "yes",
@@ -11153,8 +11459,9 @@
         "US-NJ": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.nj.gov/state/elections/voter-rights.shtml",
+          "note": "Restoration event and coverage: official election guidance allows voting when not serving a sentence of incarceration resulting from an indictable-offense conviction under New Jersey, another state or federal law, by completing a new voter registration form. Release-stage voting eligibility does not itself create that registration record. Official administering-agency guidance fetched October 2, 2026; no statute enactment date or automatic registration inferred.",
+          "cite": "New Jersey Division of Elections, Voting Right Restoration"
         },
         "US-NM": {
           "answer": "yes",
@@ -11165,8 +11472,9 @@
         "US-NV": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.leg.state.nv.us/NRS/NRS-213.html#NRS213Sec157",
+          "note": "Restoration event: a person convicted of a felony is immediately restored to voting upon probation, parole or pardon, or after serving the sentence and release from prison. Registration cancelled for felony incarceration may be renewed upon release; the county clerk may not require evidence or a court order to prove that release-stage qualification under section 293.543(4). Voting restoration is separate from officeholding and jury-service restoration periods. Companion official registration provisions: https://www.leg.state.nv.us/NRS/NRS-293.html#NRS293Sec543. Current official texts fetched October 2, 2026; no historic effective date inferred.",
+          "cite": "Nev. Rev. Stat. §§ 213.157(1), 293.540(2)(c), 293.543(2), (4)"
         },
         "US-NY": {
           "answer": "yes",
@@ -11177,8 +11485,9 @@
         "US-OH": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison. A person twice convicted of violating Ohio election law is permanently barred unless pardoned, a narrow election-crime exception."
+          "cite": "Ohio Rev. Code §§ 2961.01(A)(1)-(2), (C), 3599.39",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2961.01",
+          "note": "Restoration event: elector competence returns upon parole, judicial release, a conditional pardon, or release under non-jail community control or post-release control, continues during those periods and thereafter following final discharge. Coverage: qualifying felony convictions under Ohio, another state's or federal law, unless reversed or annulled; restoration of voting is distinct from restoration of jury service, officeholding and petition-circulation rights. Section 3599.39 separately disfranchises a person on a second conviction under Ohio election law, a narrow election-crime exception (https://codes.ohio.gov/ohio-revised-code/section-3599.39). The prior record described this as permanent unless pardoned; section 3599.39 itself states no restoration procedure. Primary text fetched October 2, 2026: section 2961.01 revision effective September 30, 2008; section 3599.39 effective December 9, 1997. These revision dates do not establish when the yes policy first began; the unsaved reader-default 2000 date is not a researched enactment date."
         },
         "US-OK": {
           "answer": "yes",
@@ -11207,8 +11516,9 @@
         "US-RI": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE17/17-9.2/17-9.2-3.htm",
+          "note": "Restoration event: discharge from felony incarceration restores the right to vote. Coverage includes Rhode Island residents discharged from incarceration or never incarcerated following felony convictions, whether discharged or sentenced before or after this section took effect; probation and parole are included in the notice program. Corrections provides registration assistance and forwards completed forms unless permission is refused; restoration is distinct from registration. Official statute fetched October 2, 2026; history lists 2006 chapters 366 and 476 but no precise effective date, so no enactment date is inferred.",
+          "cite": "R.I. Gen. Laws § 17-9.2-3(a), (c), (f)-(h)"
         },
         "US-SC": {
           "answer": "yes",
@@ -11261,8 +11571,9 @@
         "US-WA": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.08.520",
+          "note": "Restoration event and coverage: for Washington-court felonies, voting rights return automatically when not serving total confinement under Department of Corrections jurisdiction; federal and other-state convictions restore when no longer incarcerated. Community-custody violation confinement under RCW 9.94A.633(1) is excluded from total confinement for this rule. Reregistration is required before voting after the disqualifying confinement; restored rights do not themselves create a registration. The current release-stage rule took effect January 1, 2022 (2021 ch. 10 § 8); this date does not establish the beginning of the broader yes-after-sentence policy. Primary text fetched October 2, 2026.",
+          "cite": "Wash. Rev. Code § 29A.08.520(1), (3); Laws 2021, ch. 10, §§ 1, 8"
         },
         "US-WI": {
           "answer": "yes",

@@ -6,3 +6,7 @@
   overflow-y: auto;
   align-content: flex-start;
 }
+
+.pg-orientation-state-cast .pg-orientation-cast-figure {
+  width: clamp(112px, min(20cqw, 40cqh), 320px);
+}
