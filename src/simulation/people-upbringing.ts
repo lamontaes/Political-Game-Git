@@ -28,6 +28,7 @@ import type { EntityId, IsoDate, World } from "./types";
 import type { PeopleTrait, TraitValue } from "./people-trait-definitions";
 import type { TraitLifePart } from "./personality-trait-registry";
 import { isPersonAliveAt } from "./vitality-integrity";
+import nationalDistributions from "../../data/research/upbringing/national-childhood-distributions.json" with { type: "json" };
 
 // An immutable people map is one revision of birth dates. Cohort sampling can
 // revisit the same household through many index builds; keep the age-18 date
@@ -109,6 +110,20 @@ export interface PersonUpbringing {
   readonly events: readonly UpbringingEvent[];
   readonly schooling: readonly SchoolExperience[];
   readonly firstJob: FirstJobExperience;
+  /**
+   * Smooth leans read from the household records when no schooling or
+   * caregiving experience is recorded (a summarized earlier life). Whole
+   * numbers are never decided here: the sum is rounded once, in
+   * `upbringingCoreValueFrom`.
+   */
+  readonly recordedLean?: RecordedUpbringingLean;
+}
+
+export interface RecordedUpbringingLean {
+  readonly sociability: number;
+  readonly conflict: number;
+  readonly risk: number;
+  readonly source: UpbringingSource;
 }
 
 export interface UpbringingTraitTendency {
@@ -119,22 +134,51 @@ export interface UpbringingTraitTendency {
   readonly pole: "low" | "high";
 }
 
-/**
- * A family's money when the World holds no household pay for that part of a
- * childhood: the level of the median child, marked as an estimate.
- *
- * ACS 2024 1-year, table B17024 (ratio of income to poverty level by age),
- * United States: of 21,699,134 children under 6, 3,568,376 (16.4%) lived
- * under the poverty level, 4,304,160 (19.8%) at 100 to 199% of it and
- * 13,826,598 (63.7%) at 200% or more; of 25,998,996 aged 12 to 17, 14.5%,
- * 18.7% and 66.8%. The median child in both periods is in a family at 200%
- * of poverty or more, which this model calls secure.
- */
-const MONEY_ESTIMATE: UpbringingSource = {
-  kind: "public-data",
-  key: "acs-2024-1yr-b17024-median-child",
-  note: "ESTIMATED FROM AVERAGE: no household pay is on record for this part of the childhood, so it takes the median U.S. child's family level (ACS 2024 1-year B17024: 63.7% of children under 6 and 66.8% aged 12 to 17 live at 200% of poverty or more).",
-};
+/** Selects a stable, source-weighted estimate rather than making an outcome draw. */
+function weightedObservation<T>(
+  key: string,
+  rows: readonly { readonly value: T; readonly weight: number }[],
+): T {
+  const total = rows.reduce((sum, row) => sum + row.weight, 0);
+  let slot = Number.parseInt(stableHash(key).slice(-8), 16) % total;
+  for (const row of rows) {
+    if (slot < row.weight) return row.value;
+    slot -= row.weight;
+  }
+  return rows.at(-1)!.value;
+}
+
+function estimatedMoney(
+  person: World["people"][EntityId],
+  period: UpbringingPeriod,
+): { readonly level: FamilyMoney; readonly source: UpbringingSource } {
+  const rows = nationalDistributions.familyIncome.periods[period];
+  const level = weightedObservation(
+    `${person.generationKey}:family-money:${period}`,
+    rows.map((row) => ({
+      value: row.level as FamilyMoney,
+      weight: Math.round(row.percent * 10),
+    })),
+  );
+  return {
+    level,
+    source: {
+      kind: "public-data",
+      key: `acs-2024-1yr-b17024-${period}`,
+      note: `ESTIMATED FROM THE NATIONAL DISTRIBUTION: no household pay is recorded for this childhood period, so a stable sample for this person uses the ACS 2024 1-year B17024 U.S. child distribution for ${period}.`,
+    },
+  };
+}
+
+function estimatedSiblingCount(generationKey: string): number {
+  return weightedObservation(
+    `${generationKey}:childhood-siblings`,
+    nationalDistributions.siblings.categories.map((row) => ({
+      value: row.siblings,
+      weight: Math.round(row.percent * 10),
+    })),
+  );
+}
 
 const MONEY_FROM_RECORDS: UpbringingSource = {
   kind: "world-record",
@@ -174,15 +218,15 @@ function moneyRecordDate(
  * A family's money in one part of a childhood, read from the household's
  * recorded pay on that day. When the World has no such record (the period
  * is before its history, still ahead, or someone at work has no recorded
- * pay), it is the median child's level, marked as an estimate.
+ * pay), it uses the national child distribution, marked as an estimate.
  */
 export function familyMoneyFor(
   world: World,
   personId: EntityId,
   period: UpbringingPeriod,
 ): { readonly level: FamilyMoney; readonly source: UpbringingSource } {
-  const estimate = { level: "secure" as const, source: MONEY_ESTIMATE };
   const person = world.people[personId]!;
+  const estimate = estimatedMoney(person, period);
   const onDate = moneyRecordDate(world, person, period);
   if (onDate === null) return estimate;
   const cutoff = {
@@ -235,6 +279,7 @@ export interface ChildhoodFamilyContext {
   readonly caregiverCapacity: number | null;
   readonly estimatedParentCount: number | null;
   readonly estimatedSiblingCount: number | null;
+  readonly siblingSource: UpbringingSource;
   readonly source: UpbringingSource;
 }
 
@@ -856,8 +901,9 @@ function childhoodFamilyContext(
         : own.adultMembers.length
           ? "household"
           : "no-sample";
+  const recordedPattern = index.byPerson.get(personId);
   const pattern =
-    index.byPerson.get(personId) ??
+    recordedPattern ??
     drawFamilyShape(world, world.people[personId]!.generationKey, {
       ...index.estimate,
       samples: peers,
@@ -962,11 +1008,24 @@ function childhoodFamilyContext(
     estimatedParentCount: own.parents.length
       ? null
       : (pattern?.parentIds.length ?? null),
-    estimatedSiblingCount: pattern?.siblingCount ?? null,
+    estimatedSiblingCount:
+      recordedPattern?.siblingCount ??
+      estimatedSiblingCount(world.people[personId]!.generationKey),
+    siblingSource: recordedPattern
+      ? {
+          kind: "world-record",
+          key: "recorded-family-sibling-count",
+          note: "Recorded sibling relationships in this world.",
+        }
+      : {
+          kind: "public-data",
+          key: "sipp-2009-p70-126-table-4",
+          note: "ESTIMATED FROM THE NATIONAL DISTRIBUTION: the U.S. Census Bureau's 2009 SIPP report measures children's household sibling counts; its 4-or-more category is represented by its lower bound.",
+        },
     source: {
       kind: "game-profile",
       key: "recorded-family-childhood-context",
-      note: `ESTIMATED FROM GAME FAMILIES: parents, household adults, pay, place and congregation records supply the person's context. Caregiver availability uses those recorded adults or a saved family pattern's parents per child. Cohort scope: ${cohortScope}; exact place/type/income first, same place next, then the game's recorded families. Current payroll takes priority; otherwise the existing BLS May 2025 place/occupation wage reader and recorded job tenure/hours supply a labeled pay proxy. Income contributors are retained in incomeSourcePersonIds. The existing family-pattern reader retains observed spread. It assigns no real relatives, emotional treatment, faith or events.`,
+      note: `ESTIMATED FROM RECORDS AND PUBLIC DATA: available parents, household adults, payroll, place and congregation records are used first. Missing sibling counts use the national U.S. Census SIPP 2009 distribution and missing pay bands use ACS 2024 B17024; both are labeled estimates and sampled by the person's stable generation key. Caregiver availability uses recorded adults or a saved family pattern's parents per child. Cohort scope: ${cohortScope}; exact place/type/income first, same place next, then the game's recorded families. Current payroll takes priority; otherwise the existing BLS May 2025 place/occupation wage reader and recorded job tenure/hours supply a labeled pay proxy. Income contributors are retained in incomeSourcePersonIds. No relative, emotional treatment, faith or event is created.`,
     },
   };
 }
@@ -1083,21 +1142,9 @@ function readUpbringing(
   const parentDied = recordedChildhoodParentDeath(world, personId, parents);
   const earlyMoney = familyMoneyFor(world, personId, "early-childhood");
   const laterMoney = familyMoneyFor(world, personId, "adolescence");
-  const contextualMoney = (row: ReturnType<typeof familyMoneyFor>) =>
-    row.source.kind === "public-data" &&
-    (familyContext.incomeBand !== "unrecorded-pay" ||
-      familyContext.estimatedIncomeBand !== undefined)
-      ? {
-          level:
-            familyContext.incomeBand === "unrecorded-pay"
-              ? familyContext.estimatedIncomeBand!
-              : familyContext.incomeBand,
-          source: familyContext.source,
-        }
-      : row;
   const money = [
-    { period: "early-childhood", ...contextualMoney(earlyMoney) },
-    { period: "adolescence", ...contextualMoney(laterMoney) },
+    { period: "early-childhood", ...earlyMoney },
+    { period: "adolescence", ...laterMoney },
   ] as const;
   const entries = recordsByStringField(
     childhoodRecordEntries(world),
@@ -1126,8 +1173,96 @@ function readUpbringing(
     events: parentDied ? ["parent-death"] : [],
     schooling: [],
     firstJob: "none",
+    recordedLean: recordedLeanFrom(
+      familyContext,
+      money,
+      disruption,
+      parentDied,
+    ),
   };
 }
+
+/** PLACEHOLDER weights until the child-development research is read; every one is smooth. */
+const SIBLING_K = 2;
+const CONGREGATION_K = 1;
+const MONEY_EASE: Record<FamilyMoney, number> = {
+  secure: 0.6,
+  strained: 0,
+  "severe-scarcity": -0.6,
+};
+const MONEY_STRAIN: Record<FamilyMoney, number> = {
+  secure: -0.5,
+  strained: 0,
+  "severe-scarcity": 0.5,
+};
+
+/**
+ * What the world already records about a household bears on a child's
+ * sociability, conflict and risk without a draw: siblings and a congregation
+ * mean more peers; scarcity strains a home; fewer caregivers per child mean
+ * less supervision; moves and a parent's death disrupt friendships and
+ * routines. Pure and continuous: no threshold, no place named.
+ */
+function recordedLeanFrom(
+  family: ChildhoodFamilyContext,
+  money: PersonUpbringing["money"],
+  disruption: number,
+  parentDied: boolean,
+): RecordedUpbringingLean {
+  const siblings = family.estimatedSiblingCount ?? 0;
+  const congregations = family.congregationIds.length;
+  const level = money.at(-1)?.level ?? "strained";
+  const capacity = Math.min(childhoodCaregiverCapacity(family), 2) / 2;
+  const unsupervised = 1 - capacity;
+  const died = parentDied ? 1 : 0;
+  return {
+    sociability:
+      (2 * siblings) / (siblings + SIBLING_K) +
+      (0.5 * congregations) / (congregations + CONGREGATION_K) +
+      MONEY_EASE[level] -
+      0.9 * disruption -
+      0.4 * died -
+      0.6,
+    conflict:
+      1.2 * unsupervised +
+      MONEY_STRAIN[level] +
+      0.5 * disruption +
+      0.4 * died -
+      0.55,
+    risk: 3 * unsupervised + 0.3 * died - 1.4,
+    source: {
+      kind: "game-profile",
+      key: "recorded-household-upbringing-lean",
+      note: `ESTIMATED FROM RECORDS AND NATIONAL DATA: siblings, congregation, household pay, caregivers per child, school-year moves and a parent's death are weighed smoothly; missing sibling counts use ${family.siblingSource.key}, and missing pay bands use ${money.at(-1)?.source.key ?? "the recorded family pay"}.`,
+    },
+  };
+}
+
+const CARE_CENTER = 1.25;
+
+/**
+ * Caregivers a child had, from childhood records only: the recorded parents,
+ * else the saved family pattern's parents per child. The household an adult
+ * lives in today (a spouse, a roommate) did not raise them, so it never counts
+ * here; with neither, one caregiver is assumed.
+ */
+function childhoodCaregiverCapacity(family?: ChildhoodFamilyContext): number {
+  if (!family) return 1;
+  if (family.parentIds.length) return family.parentIds.length;
+  if (
+    family.estimatedParentCount !== null &&
+    family.estimatedSiblingCount !== null
+  )
+    return family.estimatedParentCount / (family.estimatedSiblingCount + 1);
+  return 1;
+}
+const RECORDED_CARE: ReadonlySet<CaregivingClimate> = new Set([
+  "protective-reliable",
+  "consistent-firm",
+  "inconsistent",
+  "high-conflict",
+  "harsh",
+]);
 
 const candidate = (
   trait: string,
@@ -1535,7 +1670,13 @@ export function upbringingCoreValueFrom(
       score += 1;
   } else if (trait === "reliability") {
     if (upbringing.caregiving === "estimated-care")
-      score += upbringing.familyContext?.caregiverCapacity ?? 0;
+      // Caregivers per child, centered on the household that has just enough
+      // (about one and a quarter adults per child), so a thin household leans
+      // less reliable and a full one more. PLACEHOLDER center until read.
+      score +=
+        1.5 *
+        ((upbringing.familyContext?.caregiverCapacity ?? CARE_CENTER) -
+          CARE_CENTER);
     if (
       upbringing.caregiving === "consistent-firm" ||
       upbringing.firstJob === "reliable-supervision"
@@ -1549,6 +1690,12 @@ export function upbringingCoreValueFrom(
     );
     if (upbringing.firstJob === "autonomy") score += 1;
   }
+  if (
+    (trait === "sociability" && upbringing.schooling.length === 0) ||
+    (trait === "conflict" && !RECORDED_CARE.has(upbringing.caregiving)) ||
+    (trait === "risk" && upbringing.firstJob === "none")
+  )
+    score += upbringing.recordedLean?.[trait] ?? 0;
   // The scale is whole numbers; the score is rounded once, at the very end.
   return (Math.round(Math.max(-2, Math.min(2, score))) + 0) as TraitValue;
 }

@@ -8,6 +8,7 @@ import { isPersonAliveAt } from "../vitality-integrity";
 import type { EntityId, World } from "../types";
 import { pressRecordsOfKind } from "./store";
 import { recordStoryHeardExposure } from "./story-exposure";
+import { recordStoryHeardOfficialViews } from "../living-world/official-views";
 
 /** An explicit player read, using the same saved knowledge and news writer as the desk. */
 export function readPressPublication(
@@ -89,5 +90,5 @@ export function readPressPublication(
       knowledgeId: knowledge.id,
       basisEventId,
     });
-  return next;
+  return recordStoryHeardOfficialViews(next, knowledge.id);
 }
