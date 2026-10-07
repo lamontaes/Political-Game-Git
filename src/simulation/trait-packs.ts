@@ -189,8 +189,8 @@ export interface TraitLeanRow {
   readonly pole: "low" | "high";
   /**
    * A reason a pack supplies in its own words (an installed or modded pack).
-   * Built-in readers leave this out, so the person's recorded pole label is
-   * shown until a reviewed English reason is available.
+   * Built-in readers leave this out, so the reason engine can compose it from
+   * the trait, decision, option, pole, and the person's recorded tendency.
    */
   readonly explanation?: string;
   /**
@@ -550,7 +550,7 @@ export function loadTraitPacks(
             pack: pack.pack,
             where,
             reason:
-              "a lean's own explanation may not be blank; leave it out to show the recorded pole label",
+              "a lean's own explanation may not be blank; leave it out to have the reason composed from its key",
           });
           continue;
         }
