@@ -23,7 +23,6 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "congress-voting-seat-tenure",
     "election.state-legislative-candidacy-intent",
     "eviction-counsel-representation",
-    "federal-income-tax-withholding",
     "government-outlay-change",
     "government-program-payment",
     "health-coverage",
@@ -39,9 +38,6 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "rent-stabilization-renewal",
     "state-revenue-loss",
     "state-spending",
-    "tax-assessment",
-    "tax-collection",
-    "tax-policy",
     "teacher-pay",
     "work-compensation-payment",
   ] as const satisfies readonly LegacyEffectKind[];
@@ -62,6 +58,16 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
   const retiredLegal2: LawEffectContext["effectKind"] =
     "minimum-custody-months";
   void retiredLegal2;
+  // @ts-expect-error Retired tax stamps remain readable, but new writers use tax.
+  const retiredTax: LawEffectContext["effectKind"] = "tax-assessment";
+  void retiredTax;
+  // @ts-expect-error New withholding writers use the same canonical tax kind.
+  const retiredWithholding: LawEffectContext["effectKind"] =
+    "federal-income-tax-withholding";
+  void retiredWithholding;
+  // @ts-expect-error Operative tax-policy effects retain their separate type; stamps use tax.
+  const retiredPolicyStamp: LawEffectContext["effectKind"] = "tax-policy";
+  void retiredPolicyStamp;
 });
 
 it("requires exact typed law-term scopes and canonicalizes charge-key sets", () => {

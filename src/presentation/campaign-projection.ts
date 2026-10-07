@@ -84,6 +84,11 @@ import { personPronouns } from "../simulation/person-identity";
 import { municipalSeatChoiceByKey } from "../simulation/municipal-seat-identity";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { stateSeatsInDistrict } from "../simulation/nationwide-world/state-legislature-opening";
+import { stateExecutiveIdentityForOfficeKey } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  nextRegularElection,
+  stateExecutiveTermRule,
+} from "../simulation/nationwide-world/state-executive-term-rules";
 
 /**
  * What a candidate can actually see.
@@ -1167,6 +1172,11 @@ export function campaignElectionDate(
     );
   }
   if (!stateKey) return addDays(world.currentDate, 28);
+  const executive = stateExecutiveIdentityForOfficeKey(officeKey);
+  if (executive) {
+    const rule = stateExecutiveTermRule(executive.stateUsps);
+    if (rule) return nextRegularElection(rule, world.currentDate);
+  }
   const pack = stateCandidacyPack(stateKey);
   const matchingSeats =
     pack && districtBinding
