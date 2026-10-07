@@ -20,7 +20,7 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
   if (!person) throw new Error("This character is not in the world.");
   const authority = candidacyAuthority(person.homeJurisdictionId);
   const campaign = campaignForCandidate(world, personId);
-  return electiveOfficesForJurisdiction(person.homeJurisdictionId).map(
+  const offices = electiveOfficesForJurisdiction(person.homeJurisdictionId).map(
     (option) => {
       const eligibility = candidacyEligibility(world, {
         personId,
@@ -74,25 +74,22 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
         eligibility: [
           countyRefusal ??
             (electionDate === null
-              ? "The county election calendar has not been read."
+              ? "Election calendar: not on record"
               : eligibility.eligible
-                ? "You can run for this office."
-                : eligibility.blocks.map((block) => block.reason).join(" ")),
-          eligibility.minimumAgeRequirement &&
-          !eligibility.blocks.some(
-            (block) => block.reason === eligibility.minimumAgeRequirement,
-          )
-            ? eligibility.minimumAgeRequirement
+                ? "Eligible"
+                : eligibility.blocks.map((block) => block.reason).join(" · ")),
+          eligibility.minimumAge
+            ? `Minimum age: ${eligibility.minimumAge.value}${eligibility.minimumAge.estimated ? " (estimated)" : ""}`
             : null,
         ]
           .filter(Boolean)
-          .join(" "),
+          .join(" · "),
         // The contest already on the record, else the office's own calendar:
         // the same date a filing today would stand in.
         electionDate,
         timing: electionDate
-          ? `The next election is ${proseDate(electionDate)}.`
-          : "This office record has no scheduled election date.",
+          ? `Next election: ${proseDate(electionDate)}`
+          : null,
         connections: [
           ...(own ? ["Your recorded campaign is for this office."] : []),
           ...[...new Set(contacts)].map(
@@ -103,5 +100,20 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
         gaps: option.unresolvedGaps,
       };
     },
+  );
+  // ESTIMATED FROM AVERAGE: an office with no date on record takes the
+  // earliest election date among the other offices on the same ballot.
+  const dated = offices
+    .map((office) => office.electionDate)
+    .filter((date): date is NonNullable<typeof date> => date !== null)
+    .sort();
+  const estimate = dated[0] ?? null;
+  return offices.map((office) =>
+    office.timing === null && estimate
+      ? {
+          ...office,
+          timing: `Next election: ${proseDate(estimate)} (estimated)`,
+        }
+      : office,
   );
 }

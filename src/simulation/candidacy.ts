@@ -6,6 +6,7 @@ import type { RuleValue } from "./legislature-rules";
 import type { QualificationOfficeFamily } from "./office-qualification-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import {
+  municipalMinimumAgeEstimate,
   municipalMinimumAgeSentence,
   type MunicipalMinimumAgeEstimate,
 } from "./municipal-qualification-estimate";
@@ -335,6 +336,11 @@ export interface CandidacyEligibility {
   readonly eligible: boolean;
   readonly minimumAgeEstimate: MunicipalMinimumAgeEstimate | null;
   readonly minimumAgeRequirement: string | null;
+  /** The minimum age as a value, marked when it is estimated. */
+  readonly minimumAge: {
+    readonly value: number;
+    readonly estimated: boolean;
+  } | null;
   readonly personId: EntityId;
   /** The pack the jurisdiction itself declares, if it declares one. */
   readonly pack: CandidacyPack | null;
@@ -483,7 +489,7 @@ function assessEnactedQualification(
       verdict: meets ? "meets" : "fails",
       reason: meets
         ? `Old enough: ${law} this office has a minimum age of ${change.value}.`
-        : `You must be at least ${change.value} to run for this office, ${law.slice(0, -1)}.`,
+        : `Minimum age: ${change.value}`,
       source: null,
     };
   }
@@ -529,6 +535,7 @@ export function candidacyEligibility(
   const blocks: CandidacyBlock[] = [];
   let minimumAgeEstimate: MunicipalMinimumAgeEstimate | null = null;
   let minimumAgeRequirement: string | null = null;
+  let minimumAgeValue: { value: number; estimated: boolean } | null = null;
   const authority = candidacyAuthority(input.jurisdictionId);
   // A state's executive office is the state's own, whatever legislature pack
   // governs the place: it is filed for statewide, against its own pack.
@@ -826,17 +833,39 @@ export function candidacyEligibility(
           : null;
       minimumAgeRequirement = minimumAgeEstimate
         ? municipalMinimumAgeSentence(minimumAgeEstimate)
-        : `You must be at least ${rule.value} to run for this office.`;
+        : `Minimum age: ${rule.value}`;
     }
-    if (rule.kind === "known" && age < rule.value) {
+    // ESTIMATED FROM AVERAGE: an office whose age rule is not on record takes
+    // the most common minimum age among this state's other elected offices.
+    const estimate =
+      rule.kind === "unknown" && stateJurisdictionKey
+        ? municipalMinimumAgeEstimate(
+            stateJurisdictionKey,
+            input.officeKey,
+            stateCandidacyPack(stateJurisdictionKey),
+          )
+        : null;
+    if (rule.kind === "known")
+      minimumAgeValue = {
+        value: rule.value,
+        estimated: rule.source.verification === "game-profile",
+      };
+    else if (estimate)
+      minimumAgeValue = { value: estimate.minimumAge, estimated: true };
+    if (estimate && age < estimate.minimumAge) {
+      blocks.push({
+        kind: "profile-minimum-age",
+        reason: `Minimum age: ${estimate.minimumAge} (estimated)`,
+      });
+    } else if (estimate) {
+      // The estimate stands in for the unread rule; nothing blocks.
+    } else if (rule.kind === "known" && age < rule.value) {
       blocks.push({
         kind:
           rule.kind === "known" && rule.source.verification === "game-profile"
             ? "profile-minimum-age"
             : "sourced-minimum-age",
-        reason:
-          minimumAgeRequirement ??
-          `You must be at least ${rule.value} to run for this office.`,
+        reason: minimumAgeRequirement ?? `Minimum age: ${rule.value}`,
       });
     } else if (rule.kind === "unknown") {
       blocks.push({
@@ -906,6 +935,7 @@ export function candidacyEligibility(
     eligible: blocks.length === 0,
     minimumAgeEstimate,
     minimumAgeRequirement,
+    minimumAge: minimumAgeValue,
     personId: input.personId,
     pack,
     office: boundOption,

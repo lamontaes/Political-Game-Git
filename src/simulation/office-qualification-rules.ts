@@ -638,7 +638,7 @@ export function assessOfficeQualifications(
           age >= required
             ? `Old enough: this office has a minimum age of ${required}.`
             : // The same sentence every other minimum age uses on screen.
-              `You must be at least ${required} to run for this office.`,
+              `Minimum age: ${required}`,
         source: row,
       });
       continue;

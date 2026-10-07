@@ -97,8 +97,8 @@ export function CongressCandidacySection({
           {seat.eligible ? (
             <p>
               {seat.identity.title === "U.S. Senator"
-                ? "You may run for this seat. A Senator represents the whole state."
-                : "You may stand here. A Representative need only live in the state, so every district in it is open to you."}
+                ? "Eligible · Residency: anywhere in the state"
+                : "Eligible · Residency: anywhere in the state"}
             </p>
           ) : (
             <div className="game-note" data-testid="congress-blocks">
@@ -119,7 +119,7 @@ export function CongressCandidacySection({
           >
             <span className="game-campaign-action-label">Put your name in</span>
             <span className="game-campaign-action-note">
-              {`The election is ${readableCampaignDate(seat.calendar.nextElection)}. The winner takes the seat ${readableCampaignDate(seat.calendar.termStartsAt)} for ${seat.identity.termYears} years.`}
+              {`Next election: ${readableCampaignDate(seat.calendar.nextElection)} · Takes office: ${readableCampaignDate(seat.calendar.termStartsAt)} · Term: ${seat.identity.termYears} years`}
             </span>
           </button>
         </>
@@ -147,9 +147,9 @@ export function congressStatusText(status: CongressSeatStatus): string | null {
     case "none":
       return null;
     case "pending-election":
-      return `You are on the ballot for ${status.identity.displayName} on ${readableCampaignDate(status.electionDate)}. The campaign itself is run from your office and campaigns.`;
+      return `On the ballot: ${status.identity.displayName} · ${readableCampaignDate(status.electionDate)}`;
     case "lost":
-      return `The election for ${status.identity.displayName} on ${readableCampaignDate(status.electionDate)} went to someone else.`;
+      return `Lost: ${status.identity.displayName} · ${readableCampaignDate(status.electionDate)}`;
     case "won-awaiting-term":
       return `You won. You take the seat on ${readableCampaignDate(status.startsAt)}, and the term runs until ${readableCampaignDate(status.endsAt)}.`;
     case "in-office":

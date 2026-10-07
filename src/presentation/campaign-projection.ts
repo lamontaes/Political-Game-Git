@@ -1113,7 +1113,7 @@ export function countyCandidacyUnavailableReason(
 ): string | null {
   return localGoverningBodyIdentityForOfficeKey(officeKey)?.unit.unitType ===
     "county"
-    ? "The requirements for this county office have not been established."
+    ? "Qualifications: not on record"
     : null;
 }
 
