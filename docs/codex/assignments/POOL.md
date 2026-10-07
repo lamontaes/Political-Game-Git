@@ -567,7 +567,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
-| BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | open | Session 2 or pool |
+| BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | open | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
@@ -641,9 +641,9 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2122 | Document voting restoration conditions for sixteen jurisdictions | PR #2122 (codex/a117-restoration-primary-laws) | open: draft: finish it or close it as superseded | |
 | RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | open: draft: finish it or close it as superseded | |
 | RS-2127 | Checkpoint sourced Missouri Ohio and New Jersey teacher floors | PR #2127 (codex/standby1-teacher-missouri-terms) | open: draft: finish it or close it as superseded | |
-| RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | open: draft: finish it or close it as superseded | |
-| RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | open: draft: finish it or close it as superseded | |
-| RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | open: draft: release and room proof pending | |
+| RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | ready #2147 | |
+| RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | done #2177 | |
+| RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | open: draft: finish it or close it as superseded | |
 | RS-2162 | Refine title actions and confirmed-empty save state | PR #2162 (codex/team8-title-actions) | open: stacked on codex/team8-title-actions-base: retarget to main; draft: finish it or close it as superseded | |
 | RS-2165 | Separate People Web and List navigation | PR #2165 (codex/team8-people-structure) | open: stacked on codex/team8-title-actions: retarget to main; draft: finish it or close it as superseded | |
 | RS-2180 | Share recorded election counts and dated office rules | PR #2180 (codex/session13-elections-one-engine) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
@@ -686,7 +686,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2299 | P1: Compose meeting speech from recorded council facts | PR #2299 (codex/session4-english-source-repair) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2304 | P3: Use recorded stances for international crisis responses | PR #2304 (session25/p3-recorded-diplomacy) | open: sent back: failed its own changed checks: tests | |
 | RS-2305 | P1 b05 step 1: classify council matters from recorded reasons | PR #2305 (codex/session8-b05-council-meetings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2307 | P1: Read EIA electricity mix as place outcomes | PR #2307 (session17/eia-electricity-generation-outcomes) | open: draft: finish it or close it as superseded | |
+| RS-2307 | P1: Read EIA electricity mix as place outcomes | PR #2307 (session17/eia-electricity-generation-outcomes) | ready #2307 | S50 |
 | RS-2308 | P1: dispatch state legislature work through dated clock queue | PR #2308 (codex/session1-state-queue-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2316 | P1 b05 step 2: project council agenda notice | PR #2316 (codex/session8-b05-agenda-notice) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2318 | docs: preserve rejected player-card clock and eleven-destination attempt | PR #2318 (codex/session3-card-redo-main) | open: draft: finish it or close it as superseded | |
@@ -924,7 +924,7 @@ open: rebase on main (conflicts) | |
 | RS-2732 | b24-p1-s3: READY for CTO review (eight turned input failures) | PR #2732 (codex/session127-b24-p1-s3) | open: rebase on main (conflicts) | |
 | RS-2734 | b24-p1-s4: native cloth-boundary probe (cuff mask unfinished) | PR #2734 (codex/session127-b24-p1-s4) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2739 | b24-p2: independent tag validator proposal (owner schema missing) | PR #2739 (codex/session127-b24-p2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | ready #2742 | |
 | RS-2746 | b18-p3: certified ballot referrals and named voter tally | PR #2746 (session-110/b18-p3) | open: draft: finish it or close it as superseded | |
 | RS-2748 | A120: PROGRESS continuity regression follows its saved appointment date | PR #2748 (session132/a120-continuity-test-window) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2750 | b18-p4: recorded shared-cause founder and member decisions | PR #2750 (session-110/b18-p4) | open: draft: finish it or close it as superseded | |
