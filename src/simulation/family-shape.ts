@@ -2,6 +2,7 @@ import { ageOnDate } from "./dates";
 import { stableHash } from "./ids";
 import { spreadOf, type Spread } from "./sample-spread";
 import type { EntityId, World } from "./types";
+import censusFamilyEstimate from "../../data/research/family-shape/census-two-parent-share.json";
 
 export interface DrawnFamilyShape {
   /** Actual saved pattern retained for downstream caregiver estimates. */
@@ -66,10 +67,10 @@ export function drawFamilyShape(
  * (Table C2), about 71 percent. It only pulls a small recorded sample toward
  * the national share; a large sample speaks for itself.
  */
-export const CENSUS_TWO_PARENT_SHARE = 0.71;
+const CENSUS_TWO_PARENT_SHARE = censusFamilyEstimate.twoParentShare;
 
 /** How many recorded families the national share counts as. */
-export const CENSUS_PRIOR_FAMILIES = 20;
+const CENSUS_PRIOR_FAMILIES = censusFamilyEstimate.priorFamilyCount;
 
 /**
  * The world's recorded two-parent share, shrunk toward the Census share in
