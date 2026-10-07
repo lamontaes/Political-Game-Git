@@ -1,7 +1,7 @@
 import { livesInJuryCatchment } from "./jury-catchment";
 import { ageOnDate } from "../dates";
 import { evaluateDecision } from "../decisions";
-import { lawInForce } from "../governing/law-in-force";
+import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { officesHeldBy } from "../governing/office-consequence";
 import {
   ensureOfficeholderPrinciples,
@@ -507,14 +507,17 @@ const MANDATORY_MINIMUM_QUESTION =
  * yes binds those cases and leaves every other case to the judge. The term's
  * length stays the court's usual one until each state's minimums are read.
  */
-export function mandatoryJailUnderLaw(
+export function mandatoryMinimumBindingAt(
   world: World,
   courtCase: CourtCase,
   floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
-): string | null {
+): { readonly text: string; readonly law: LawInForce } | null {
   if (floor)
     return floor.months > 0
-      ? `The law requires at least ${floor.months} months in custody for this offense.`
+      ? {
+          text: `The law requires at least ${floor.months} months in custody for this offense.`,
+          law: floor.law,
+        }
       : null;
   if (!courtCase.venueJurisdictionId) return null;
   const violent = VIOLENT_OFFENSES.has(courtCase.offenseKey);
@@ -524,9 +527,20 @@ export function mandatoryJailUnderLaw(
   if (!propositionId) return null;
   const law = lawInForce(world, courtCase.venueJurisdictionId, propositionId);
   if (law?.answer !== "yes") return null;
-  return violent
-    ? "The law here sets a jail term for a violent offense that a judge may not go below."
-    : "The law here sets a jail term for someone sentenced before that a judge may not go below.";
+  return {
+    law,
+    text: violent
+      ? "The law here sets a jail term for a violent offense that a judge may not go below."
+      : "The law here sets a jail term for someone sentenced before that a judge may not go below.",
+  };
+}
+
+export function mandatoryJailUnderLaw(
+  world: World,
+  courtCase: CourtCase,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
+): string | null {
+  return mandatoryMinimumBindingAt(world, courtCase, floor)?.text ?? null;
 }
 
 /** The judge's own view of fixed minimum sentences, when they hold one. */

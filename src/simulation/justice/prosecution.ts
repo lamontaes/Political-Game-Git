@@ -1,4 +1,8 @@
 import { applyPretrialLawLandings } from "../law-consequences/modules/justice-pretrial-landings";
+import {
+  applySentencingLawLandings,
+  applyVotingRightLanding,
+} from "../law-consequences/modules/justice-sentencing-landings";
 import { juryCountyForPlace, summonJuryResidents } from "./jury-catchment";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { custodyFloorAt } from "../law-consequences/legal-outcome";
@@ -23,6 +27,7 @@ import { considerClemencyAfterSentence } from "./clemency";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
 import { ensureProsecutionStageSchedule } from "./prosecution-transitions";
+import { countyRowOfficerForJurisdiction } from "./county-offices";
 import { ensureStartingPersonalMoney } from "../starting-money";
 import {
   payFullCashBail,
@@ -76,6 +81,7 @@ import {
   evaluateDetention,
   evaluatePlea,
   evaluateSentence,
+  mandatoryMinimumBindingAt,
   prepareJudge,
   prepareJurors,
   sentencingJudge,
@@ -101,6 +107,7 @@ import {
   SENTENCE_LIFE_TAG,
   type SentenceKind,
 } from "./jail-terms";
+import { recordVotingRightForSentence } from "./voting-standing";
 
 export {
   jailTermOn,
@@ -314,7 +321,44 @@ function recordedProsecutorForCase(world: World, courtCase: CourtCase) {
       workRelationshipId: relationship.id,
     });
   }
-  return holders.size === 1 ? [...holders.values()][0]! : null;
+  if (holders.size === 1) {
+    const [hired] = [...holders.values()];
+    return { ...hired!, role: "Prosecutor" };
+  }
+  if (holders.size > 1) return null;
+  return countyProsecutorForCase(world, courtCase, cutoff);
+}
+
+/**
+ * The county's own prosecutor (district attorney, county attorney, state's
+ * attorney: whatever its state calls the office) when no hired prosecutor is
+ * recorded for the venue. The person sitting in the office for the venue's
+ * county decides the charge, the same way a hired one does; nobody who is
+ * the defendant, the played person or no longer living is asked.
+ */
+function countyProsecutorForCase(
+  world: World,
+  courtCase: CourtCase,
+  cutoff: ReturnType<typeof currentLifeCutoff>,
+) {
+  const holder = countyRowOfficerForJurisdiction(
+    world,
+    courtCase.venueJurisdictionId,
+    "prosecutor",
+  );
+  if (
+    !holder ||
+    holder.personId === courtCase.defendantId ||
+    !world.people[holder.personId] ||
+    !isPersonAliveAt(world, holder.personId, cutoff) ||
+    isPlayer(world, holder.personId)
+  )
+    return null;
+  return {
+    personId: holder.personId,
+    workRelationshipId: holder.participationId,
+    role: holder.title || "Prosecutor",
+  };
 }
 
 function referralStableKey(stableKey: string): string {
@@ -345,7 +389,13 @@ export function referForProsecution(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: input.jurisdictionId,
-    involvedEntityIds: [input.subjectPersonId],
+    involvedEntityIds: [
+      input.subjectPersonId,
+      ...(input.referredBy.personId &&
+      input.referredBy.personId !== input.subjectPersonId
+        ? [input.referredBy.personId]
+        : []),
+    ],
     participants: [
       {
         personId: input.subjectPersonId,
@@ -951,7 +1001,7 @@ export function advanceProsecutions(
           summary: `Prosecutors declined to charge ${name} with ${offense}.`,
           visibility: "private",
           motivation: chosenReasons(decision),
-          decidedBy: { personId: prosecutor.personId, role: "Prosecutor" },
+          decidedBy: { personId: prosecutor.personId, role: prosecutor.role },
         });
         continue;
       }
@@ -980,7 +1030,7 @@ export function advanceProsecutions(
         })(),
         summary: `Prosecutors charged ${name} with ${offense}.`,
         motivation: chosenReasons(decision),
-        decidedBy: { personId: prosecutor.personId, role: "Prosecutor" },
+        decidedBy: { personId: prosecutor.personId, role: prosecutor.role },
       });
       charged = next.history.events.at(-1)!;
       next = ensureProsecutionStageSchedule(
@@ -1150,8 +1200,28 @@ export function advanceProsecutions(
       PROSECUTION_SENTENCED_EVENT,
       referral,
     ).at(-1)!;
-    if (kind === "jail")
+    if (kind === "jail") {
       next = removeFromOffice(next, subjectId, savedSentence);
+      // The judge's saved decision says whether the minimum law bound it.
+      const binding = sentence.context.constraints.some(
+        (constraint) => constraint.kind === "law:mandatory-minimum",
+      )
+        ? mandatoryMinimumBindingAt(next, courtCase, floor)
+        : null;
+      if (binding)
+        next = applySentencingLawLandings(
+          next,
+          savedSentence.id,
+          binding.law.measureId,
+        );
+      // A felony term suspends the vote; the state's law decides its return.
+      const withVote = recordVotingRightForSentence(next, savedSentence.id);
+      if (withVote !== next)
+        next = applyVotingRightLanding(
+          withVote,
+          withVote.history.events.at(-1)!.id,
+        );
+    }
     next = considerClemencyAfterSentence(next, savedSentence.id);
   }
   return next;

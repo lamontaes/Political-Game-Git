@@ -82,7 +82,6 @@ for (const viewport of [
     await expect(page.getByTestId("begin")).toHaveCount(0);
     await chooseKentucky(page);
     await page.getByTestId("creator-continue-place").click();
-    await page.getByTestId("whoareyou-play").click();
     await expect(page.getByTestId("begin")).toBeEnabled();
     await expectFooterInsideViewport(page, viewport);
   });

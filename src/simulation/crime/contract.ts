@@ -3,8 +3,7 @@
  *
  * EVERY RATE HERE IS ESTIMATED FROM AVERAGE: the national rates of the
  * National Crime Victimization Survey (BJS, Criminal Victimization, 2023,
- * NCJ 309335, tables 1, 2 and 5) and the FBI's national clearance shares
- * (Crime in the Nation, 2023). No place-by-place table is read yet (filed as
+ * NCJ 309335, tables 1, 2, 4 and 5). No place-by-place table is read yet (filed as
  * `local-crime-rates-by-place`), so each town starts from the national
  * average. The version string below is a persisted identifier: events and
  * monthly passes already in a save are keyed by it, so it keeps its spelling.
@@ -30,16 +29,13 @@ export interface CrimeOffenseRule {
    */
   readonly annualRate: number;
   /**
-   * Share of offenses reported to police, for the town's
-   * police log mix only. Whether a named victim reports is their own
-   * decision (`./reporting`).
+   * Expected offenses per year reaching the police for one represented
+   * person or household: the survey's reported-to-police count, a check on
+   * the town's police log totals and its mix of offenses. Whether a named
+   * victim reports is their own decision (`./reporting`); who is arrested
+   * follows from `./offenders`. Neither reads this.
    */
-  readonly reportedShare: number;
-  /**
-   * Share of reported offenses that end in an arrest: a check
-   * on totals only. Who is arrested follows from `./offenders`.
-   */
-  readonly arrestShare: number;
+  readonly reportedRate: number;
 }
 
 export const LOCAL_CRIME_RATES = {
@@ -47,7 +43,7 @@ export const LOCAL_CRIME_RATES = {
   provenance: "estimated-from-average",
   estimated: true,
   estimatedFrom:
-    "BJS Criminal Victimization 2023 (NCJ 309335): 2023 rates per 1,000 persons 12+ (aggravated assault 4.5 plus simple assault 13.8, robbery 2.6) and per 1,000 households (burglary 9.0), and shares reported to police; FBI Crime in the Nation 2023 clearance shares. Vandalism is not an NCVS category: its rate and reported share are carried over from the earlier estimate.",
+    "BJS Criminal Victimization 2023 (NCJ 309335): 2023 rates per 1,000 persons 12+ (aggravated assault 4.5 plus simple assault 13.8, robbery 2.6) and per 1,000 households (burglary 9.0), and the reported-to-police count that follows (assault 0.449, robbery 0.424, burglary 0.422 of offenses, 0.248 for the other-theft category standing in for vandalism). Vandalism is not an NCVS category: its rate is carried over from the earlier estimate. Arrests are not stored here: they follow from the offender's recorded circumstances.",
   /**
    * The same rules everywhere. Real rates differ widely by place; until the
    * place table is read, each town starts from the national average.
@@ -60,29 +56,25 @@ export const LOCAL_CRIME_RATES = {
       offense: "assault",
       target: "person",
       annualRate: 0.0183,
-      reportedShare: 0.449,
-      arrestShare: 0.46,
+      reportedRate: 0.0082,
     },
     {
       offense: "robbery",
       target: "person",
       annualRate: 0.0026,
-      reportedShare: 0.424,
-      arrestShare: 0.28,
+      reportedRate: 0.0011,
     },
     {
       offense: "burglary",
       target: "household",
       annualRate: 0.009,
-      reportedShare: 0.422,
-      arrestShare: 0.13,
+      reportedRate: 0.0038,
     },
     {
       offense: "vandalism",
       target: "household",
       annualRate: 0.02,
-      reportedShare: 0.248,
-      arrestShare: 0.1,
+      reportedRate: 0.005,
     },
   ] as const satisfies readonly CrimeOffenseRule[],
 } as const;
@@ -111,9 +103,9 @@ export const TOWN_POLICE_LOG = {
   reportedPerMonth: 2,
   /**
    * Which offense a logged report is: in proportion to each rule's
-   * `annualRate` times `reportedShare` above, so the two tables agree.
+   * `reportedRate` above, so the two tables agree.
    */
-  offenseMix: "annual-rate-times-reported-share",
+  offenseMix: "reported-rate",
 } as const;
 
 /**

@@ -8,6 +8,8 @@ import {
 } from "../simulation/justice/prosecution";
 import { prosecutionTimingFor } from "../simulation/justice/prosecution-timing";
 import { smallWorld } from "../../tests/fixtures/small-world";
+import { seatProsecutor } from "../../tests/support/seated-prosecutor";
+import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { composeWorldTimeHandlers } from "../simulation/campaigns";
 import { addDays } from "../simulation/dates";
 import { resolveFutureDueItemsThrough } from "../simulation/future-transitions";
@@ -27,7 +29,14 @@ describe("the player's legal record", () => {
   // advanced only to each case's due date: no opening life, no daily run.
   const small = smallWorld({ place: place.key, seed, offices: ["governor"] });
   const playerId = small.personId;
-  const opened = small.world;
+  // A case is charged only by a recorded prosecutor for its venue and
+  // sentenced only by a seated judge, so the fixture seats one of each
+  // (the opening's judges through their existing writer) before the referral.
+  const opened = seatProsecutor(
+    ensureOpeningJudiciary(small.world),
+    small.personId,
+    small.jurisdictionId,
+  ).world;
   const passDays = (world: World, days: number): World =>
     resolveFutureDueItemsThrough(
       world,
@@ -38,7 +47,7 @@ describe("the player's legal record", () => {
     stableKey: `legal-record:${seed}`,
     subjectPersonId: playerId,
     jurisdictionId: opened.people[playerId]!.homeJurisdictionId,
-    offenseKey: "campaign-funds-personal-use",
+    offenseKey: "public-funds-embezzlement",
     referredBy: { kind: "regulator", label: "state regulator", personId: null },
     basisEventIds: [],
     evidence: "documentary",
@@ -59,7 +68,7 @@ describe("the player's legal record", () => {
     const [open] = projectLegalRecord(charged, playerId).cases;
     expect(open).toMatchObject({
       referralId,
-      offense: "taking campaign money for personal use",
+      offense: "embezzlement of public funds",
       enteredPlea: null,
       canEnterPlea: true,
     });
