@@ -45,7 +45,10 @@ import {
   assessContribution,
   assessSecondCommittee,
 } from "./index";
-import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
+import {
+  allowedLeftoverFundsUses,
+  contributeOwnMoneyToCampaign,
+} from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { KENTUCKY_CAMPAIGN_COMPLIANCE_PACK } from "./campaign-compliance";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
@@ -1201,6 +1204,71 @@ describe("election day", () => {
     expect(campaignState(later, played.campaign.id).status).toBe("lost");
     // And the life can be lived further still.
     expect(advanceWorld(later, 90).currentDate > later.currentDate).toBe(true);
+  });
+
+  it("carries committee funds only when the same candidate chooses a later race", () => {
+    const filed = fileKentuckyCampaign("probe-3", 0);
+    const personalCash = createResourcePosition(filed.world, {
+      stableKey: "leftover-carry-forward:candidate-cash",
+      owner: { kind: "person", personId: filed.candidatePersonId },
+      openedAt: filed.world.currentDate,
+      openingBalance: {
+        minorUnits: 50_000,
+        currency: filed.campaign.treasuryCurrency,
+      },
+      provenance: { kind: "authored", note: "Saved campaign test funds" },
+    });
+    const funded = contributeOwnMoneyToCampaign(
+      personalCash,
+      filed.candidatePersonId,
+      50_000,
+    );
+    const lost = advanceWorld(
+      funded,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(campaignState(lost, filed.campaign.id).status).toBe("lost");
+    expect(
+      campaignTreasuryPosition(lost, filed.campaign)?.liquidBalance.minorUnits,
+    ).toBe(50_000);
+
+    const rivalIds = requireElectionContest(
+      lost,
+      filed.campaign.contestId,
+    ).candidatePersonIds.filter((id) => id !== filed.candidatePersonId);
+    const nextRace = fileCampaign(lost, {
+      stableKey: "leftover-carry-forward:next-race",
+      candidatePersonId: filed.candidatePersonId,
+      jurisdictionId: filed.campaign.jurisdictionId,
+      officeKey: filed.campaign.officeKey,
+      districtBinding: namedSeatForFixture(
+        lost,
+        filed.candidatePersonId,
+        filed.campaign.officeKey,
+      ),
+      electionDate: addDays(lost.currentDate, 21),
+      rivalPersonIds: rivalIds,
+      existingContestId: null,
+      committeeName: "The next committee",
+      donorPoolName: "Supporters",
+      advertisingVendorName: "Advertising",
+      staffPersonIds: [],
+      treasuryCurrency: filed.campaign.treasuryCurrency,
+      carryForwardFromCampaignId: filed.campaign.id,
+    });
+    expect(
+      campaignTreasuryPosition(nextRace.world, filed.campaign)?.liquidBalance
+        .minorUnits,
+    ).toBe(0);
+    expect(
+      campaignTreasuryPosition(nextRace.world, nextRace.campaign)?.liquidBalance
+        .minorUnits,
+    ).toBe(50_000);
+    expect(allowedLeftoverFundsUses("US-KY")).toEqual([
+      "keep-for-future-race",
+      "refund-donors",
+    ]);
   });
 
   it("lets the same seed answer differently depending on the campaign run", () => {
