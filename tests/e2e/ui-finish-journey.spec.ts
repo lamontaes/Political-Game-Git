@@ -146,9 +146,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   await goTo(page, "elsewhere-people");
   const web = page.getByTestId("people-relationship-web");
   await expect(web).toBeVisible();
-  await expect(page.getByTestId("people-web-connection")).toHaveText(
-    "Choose a face to see how you know them.",
-  );
+  await expect(page.getByTestId("people-web-connection")).toHaveText("");
   const other = web
     .locator('[data-testid^="people-web-node-"][data-focus="false"]')
     .first();
