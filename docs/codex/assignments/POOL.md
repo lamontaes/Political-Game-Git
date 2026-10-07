@@ -536,9 +536,9 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | open | |
 | BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | done #1853 | |
-| BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | open | |
+| BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | done #7eec528 | |
 | BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | open | |
-| BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | open | |
+| BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | ready #3415 | |
 | BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | open | |
 | BG-38 | 'Until needed' stops at 7 a.m. first and needs two presses to reach an evening event | BUGS.md BG-38 | open | |
 | BG-39 | A week later the scene is still the meeting room at 7 a.m. with the same people | BUGS.md BG-39 | open | |
@@ -568,7 +568,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | open | Session 2 or pool |
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | open | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | open | Session 11 |
-| BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | open | |
+| BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
 | BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | open | |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
 
