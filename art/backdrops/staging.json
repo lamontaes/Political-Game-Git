@@ -10238,9 +10238,163 @@
           "depth": 93,
           "role": "general",
           "id": "union-hall:spot:8"
+        },
+        {
+          "x": 24,
+          "y": 47.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 47.5,
+          "seatY": 44.0,
+          "group": "pew-row-1",
+          "role": "audience",
+          "id": "union-hall:spot:9"
+        },
+        {
+          "x": 76,
+          "y": 47.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 47.5,
+          "seatY": 44.0,
+          "group": "pew-row-1",
+          "role": "audience",
+          "id": "union-hall:spot:10"
+        },
+        {
+          "x": 24,
+          "y": 51,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 51,
+          "seatY": 46.5,
+          "group": "pew-row-2",
+          "role": "audience",
+          "id": "union-hall:spot:11"
+        },
+        {
+          "x": 76,
+          "y": 51,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 51,
+          "seatY": 46.5,
+          "group": "pew-row-2",
+          "role": "audience",
+          "id": "union-hall:spot:12"
+        },
+        {
+          "x": 24,
+          "y": 55,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 55,
+          "seatY": 49.3,
+          "group": "pew-row-3",
+          "role": "audience",
+          "id": "union-hall:spot:13"
+        },
+        {
+          "x": 76,
+          "y": 55,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 55,
+          "seatY": 49.3,
+          "group": "pew-row-3",
+          "role": "audience",
+          "id": "union-hall:spot:14"
+        },
+        {
+          "x": 24,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "seatY": 52.8,
+          "group": "pew-row-4",
+          "role": "audience",
+          "id": "union-hall:spot:15"
+        },
+        {
+          "x": 76,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "seatY": 52.8,
+          "group": "pew-row-4",
+          "role": "audience",
+          "id": "union-hall:spot:16"
+        },
+        {
+          "x": 24,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 57.7,
+          "group": "pew-row-5",
+          "role": "audience",
+          "id": "union-hall:spot:17"
+        },
+        {
+          "x": 76,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 57.7,
+          "group": "pew-row-5",
+          "role": "audience",
+          "id": "union-hall:spot:18"
+        },
+        {
+          "x": 24,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 64.7,
+          "group": "pew-row-6",
+          "role": "audience",
+          "id": "union-hall:spot:19"
+        },
+        {
+          "x": 76,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 64.7,
+          "group": "pew-row-6",
+          "role": "audience",
+          "id": "union-hall:spot:20"
+        },
+        {
+          "x": 24,
+          "y": 90,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 90,
+          "seatY": 73.8,
+          "group": "pew-row-7",
+          "role": "audience",
+          "id": "union-hall:spot:21"
+        },
+        {
+          "x": 76,
+          "y": 90,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 90,
+          "seatY": 73.8,
+          "group": "pew-row-7",
+          "role": "audience",
+          "id": "union-hall:spot:22"
         }
       ],
-      "measuredFrom": "kept staged horizon 36 and 0.68 (stage riser 5.3 percent at base 50 reads about 0.56 m at that scale); stage: lectern 1.15 m (foot 44 top 30.8) 1.43, head table 0.75 m (foot 44 top 36.4) 1.27, head-table chair 0.5 m wide (48 px) with back 0.9 m (top 34) puts the stage floor at y 43.2, 1.35",
+      "measuredFrom": "kept staged horizon 36 and 0.68 (stage riser 5.3 percent at base 50 reads about 0.56 m at that scale); stage: lectern 1.15 m (foot 44 top 30.8) 1.43, head table 0.75 m (foot 44 top 36.4) 1.27, head-table chair 0.5 m wide (48 px) with back 0.9 m (top 34) puts the stage floor at y 43.2, 1.35; added one foot point for each of seven visible pew rows on both sides of the center aisle, visual estimates from the native midday painting with approximately 1-2 percentage point uncertainty",
       "surfaceSlots": [
         {
           "surfaceId": "union-hall-corkboard-left",
