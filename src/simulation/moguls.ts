@@ -89,10 +89,10 @@ import { sortedUnique } from "./press/shared";
  */
 export const MOGUL_OFFERS_ESTIMATE = {
   version: "mogul-offers-unresearched-v1",
-  provenance: "estimated-from-average",
-  estimated: true,
-  estimatedFrom:
-    "game schedule of monthly reconsideration and three-week offers; no public record counts corrupt approaches (research request `corrupt-opportunity-approaches`)",
+  provenance: "designed",
+  estimated: false,
+  rationale:
+    "designed game schedule: reads the day of a mogul's last offer and balances a monthly reconsideration against a three-week offer window, so offers neither flood nor vanish; no public record counts corrupt approaches (research request `corrupt-opportunity-approaches`)",
   researchQuestionId: "corrupt-opportunity-approaches",
   /** Days a mogul waits after one offer before weighing another. */
   reconsiderDays: 28,
