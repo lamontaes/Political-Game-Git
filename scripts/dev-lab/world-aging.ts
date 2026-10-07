@@ -565,6 +565,10 @@ export interface AgingOptions {
   readonly maxMinutes: number;
   /** Game years (1-based) whose Days run under the CPU profiler. */
   readonly profileYears: readonly number[];
+  /** Limit profiling to this many initial Day presses in each profiled year. */
+  readonly profileDayLimit?: number;
+  /** Optional exact number of Day presses in each measured year. */
+  readonly daysPerYear?: number;
 }
 
 export interface AgingYear {
@@ -676,7 +680,7 @@ export async function runAgingBenchmark(
       years: [...years],
       stoppedEarly,
       profiles:
-        first && last && firstYear !== lastYear
+        first && last
           ? {
               first: { year: firstYear!, days: first.days },
               last: { year: lastYear!, days: last.days },
@@ -692,12 +696,22 @@ export async function runAgingBenchmark(
 
   for (let year = 1; year <= options.years; year += 1) {
     const from = button.world.currentDate;
-    const until = anniversary(startedOn, year);
+    const until = options.daysPerYear
+      ? (new Date(
+          Date.parse(`${from}T00:00:00Z`) +
+            options.daysPerYear * 24 * 60 * 60 * 1000,
+        )
+          .toISOString()
+          .slice(0, 10) as IsoDate)
+      : anniversary(startedOn, year);
     const dayMs: number[] = [];
     const dayCpuMs: number[] = [];
     const yearClock = startClock();
-    const pressYear = (): string | null => {
-      while (button.world.currentDate < until) {
+    const yearStartedAt = performance.now();
+    const pressDays = (limit = Number.POSITIVE_INFINITY): string | null => {
+      while (button.world.currentDate < until && dayMs.length < limit) {
+        if ((performance.now() - yearStartedAt) / 60000 >= options.maxMinutes)
+          return `The ${options.maxMinutes}-minute year budget was reached after ${dayMs.length} days.`;
         const dayClock = startClock();
         const pressed = button.press();
         const spent = dayClock();
@@ -710,14 +724,26 @@ export async function runAgingBenchmark(
     let problem: string | null;
     const profiling = options.profileYears.includes(year);
     if (profiling) {
-      const run = await profiled(pressYear);
+      const run = await profiled(() =>
+        pressDays(options.profileDayLimit ?? Number.POSITIVE_INFINITY),
+      );
       problem = run.value;
       profiles.set(year, { costs: run.costs, days: dayMs.length });
+      if (!problem && button.world.currentDate < until) problem = pressDays();
     } else {
-      problem = pressYear();
+      problem = pressDays();
     }
     const yearSpent = yearClock();
-    const trip = await saveAndReopen(button.world);
+    const trip = problem
+      ? {
+          saveBytes: 0,
+          saveMs: 0,
+          saveCpuMs: 0,
+          reopenMs: 0,
+          reopenCpuMs: 0,
+          reopenedMatches: false,
+        }
+      : await saveAndReopen(button.world);
     const sorted = [...dayMs].sort((a, b) => a - b);
     const sortedCpu = [...dayCpuMs].sort((a, b) => a - b);
     years.push({
