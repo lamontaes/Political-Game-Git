@@ -96,6 +96,27 @@ export function candidacyPackForJurisdiction(
   return candidacyAuthority(jurisdictionId).pack;
 }
 
+/** Match residence to a filing at the scope the office actually represents. */
+export function candidacyResidenceMatches(
+  homeJurisdictionId: EntityId,
+  filingJurisdictionId: EntityId,
+  stateJurisdictionKey: string | null,
+  scope: "local" | "statewide",
+): boolean {
+  if (scope === "local" || stateJurisdictionKey === null) {
+    return homeJurisdictionId === filingJurisdictionId;
+  }
+
+  return (
+    lifePlaceByJurisdictionId(homeJurisdictionId)?.stateJurisdictionKey ===
+      stateJurisdictionKey &&
+    (stateJurisdictionForKey(stateJurisdictionKey)?.id ===
+      filingJurisdictionId ||
+      lifePlaceByJurisdictionId(filingJurisdictionId)?.stateJurisdictionKey ===
+        stateJurisdictionKey)
+  );
+}
+
 /**
  * The elected offices of the town governments this place has (the governing
  * body, and the mayor where the town elects one directly), as the Census
@@ -870,16 +891,20 @@ export function candidacyEligibility(
     if (limit?.barredReason)
       blocks.push({ kind: "term-limit", reason: limit.barredReason });
   }
-  const livesElsewhere = executive
-    ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
-        ?.stateJurisdictionKey !== executive.jurisdictionKey ||
-      input.jurisdictionId !== chiefExecutiveJurisdictionId(executive.stateUsps)
+  const expectedFilingJurisdictionId = executive
+    ? chiefExecutiveJurisdictionId(executive.stateUsps)
     : congress
-      ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
-          ?.stateJurisdictionKey !== congress.jurisdictionKey ||
-        input.jurisdictionId !==
-          stateJurisdictionForKey(congress.jurisdictionKey)?.id
-      : person.homeJurisdictionId !== input.jurisdictionId;
+      ? stateJurisdictionForKey(congress.jurisdictionKey)?.id
+      : input.jurisdictionId;
+  const livesElsewhere =
+    !candidacyResidenceMatches(
+      person.homeJurisdictionId,
+      expectedFilingJurisdictionId ?? input.jurisdictionId,
+      stateJurisdictionKey,
+      local ? "local" : "statewide",
+    ) ||
+    ((executive || congress) &&
+      input.jurisdictionId !== expectedFilingJurisdictionId);
   if (livesElsewhere) {
     blocks.push({
       kind: "lives-elsewhere",
