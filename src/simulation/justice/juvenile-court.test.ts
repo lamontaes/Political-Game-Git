@@ -6,6 +6,7 @@ import { smallWorld } from "../../../tests/fixtures/small-world";
 import { makeIsoDate } from "../dates";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { eligibleOffenders } from "../crime/offenders";
+import { recordHouseholdLocation } from "../life";
 import { adultCourtAgeAt, juvenileCourtAgeRuleAt } from "./juvenile-court";
 import { recordJuvenileAgeBillTerm } from "./juvenile-law-term";
 import type {
@@ -189,12 +190,30 @@ describe("general adult age comes from the dated numeric juvenile ceiling", () =
   });
 
   it.each(["US-AS", "US-VI"])(
-    "keeps adult offender admission using the observed peer mode in %s",
+    "reads %s's own juvenile ceiling and admits adult offenders by it",
     (place) => {
-      const small = smallWorld({ place, seed: `team9-a25-unknown:${place}` });
+      const opened = smallWorld({
+        place,
+        people: 64,
+        household: true,
+        seed: `team9-a25-unknown:${place}`,
+      });
+      const small = {
+        ...opened,
+        world: recordHouseholdLocation(opened.world, {
+          stableKey: `juvenile-ceiling:${place}:location`,
+          householdId: opened.world.history.households.at(-1)!.id,
+          effectiveAt: opened.world.currentDate,
+          jurisdictionId: opened.jurisdictionId,
+          kind: "residence:home",
+          label: "Recorded fixture home",
+          provenance: { kind: "authored", note: "Juvenile ceiling fixture" },
+          supersedesLocationId: null,
+        }),
+      };
       const rule = juvenileCourtAgeRuleAt(small.world, small.jurisdictionId);
-      expect(rule?.estimated).toBe(true);
-      expect(rule!.contributors.length).toBeGreaterThan(0);
+      expect(rule?.estimated).toBe(false);
+      expect(rule!.adultAge).toBe(18);
       const candidates = eligibleOffenders(
         small.world,
         small.jurisdictionId,

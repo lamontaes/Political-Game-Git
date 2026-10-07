@@ -7,6 +7,7 @@ import {
   recordsWithFieldValue,
 } from "../history-index";
 import { standingCrisisAuthority } from "../crisis-standing-appropriations";
+import { standingCountyAuthority } from "../county-service-authority";
 import {
   currentLifeCutoff,
   kinshipRelationshipsAt,
@@ -39,6 +40,8 @@ import {
   FUNDED_SERVICE,
   SERVICE_RECIPIENT_KIND,
   SERVICE_DELIVERED_LAW_ROWS,
+  COUNTY_SERVICE_ROWS,
+  isCountyServiceProgram,
   standingServiceProgram,
 } from "./service-delivered-data";
 
@@ -437,13 +440,20 @@ export function resolveStandingServiceConsequences(
     done,
     context,
     (appropriation, commitment) => {
-      if (appropriation.sourceMeasureId != null) return false;
+      // A crisis program has no measure; a county's is adopted by its board's.
+      if (
+        appropriation.sourceMeasureId != null &&
+        !isCountyServiceProgram(appropriation.programKey)
+      )
+        return false;
       const program = standingServiceProgram(appropriation.programKey);
       const candidate = program
-        ? SERVICE_DELIVERED_LAW_ROWS[program.questionKey]?.[0]
+        ? (SERVICE_DELIVERED_LAW_ROWS[program.questionKey] ??
+            COUNTY_SERVICE_ROWS[program.questionKey])?.[0]
         : undefined;
       const read = program
-        ? standingCrisisAuthority(world, appropriation.id, context.onDate)
+        ? (standingCrisisAuthority(world, appropriation.id, context.onDate) ??
+          standingCountyAuthority(world, appropriation.id, context.onDate))
         : null;
       const classification = organizationProfileAt(
         world,
