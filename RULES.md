@@ -3,6 +3,13 @@
 Repo: lamontaes/Political-Game-Git. Board (report here): GitHub issue #2424. CTO: Claude Opus (posts as "OPUS CTO").
 Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Sessions 31–32 validate and merge. Finish work, get it onto main, take the next item. Never sit idle.
 
+## GitHub API budget (11:15 a.m. — the limit ran out once already)
+- All sessions share ONE GitHub account limit: 5,000 API calls per hour (gh pr/issue/api commands). It hit zero at 11:14 a.m.
+- Never poll gh in a loop. Use `git fetch` (not the API) for code and the assignments branch.
+- On each check-in: ONE call for new board lines: `gh api "repos/lamontaes/Political-Game-Git/issues/2424/comments?since=<your last check-in time>&per_page=100"`. No other polling.
+- Mergers: list PRs once per 10 minutes (one `gh pr list --json ...` call), not per PR.
+- If gh says "rate limit exceeded": run `gh api rate_limit --jq .resources.core.reset`, keep working locally (code, tests), and retry after the reset. Never retry in a tight loop.
+
 ## Check-in timer (owner order, 11:00 a.m. — every session)
 - Set a timer for your check-ins as soon as you start: e.g. `(sleep 600; echo CHECKIN > /tmp/checkin-NN) &` in the background, or your harness's own timer/reminder if it has one.
 - When it fires (and after every PR): `git fetch origin assignments`, re-read RULES.md and your session file, read the newest OPUS CTO lines on #2424, fix any SEND BACK on your PRs, post one SESSION NN status line if you have nothing else to post, then RESTART the timer. Never let it lapse.
