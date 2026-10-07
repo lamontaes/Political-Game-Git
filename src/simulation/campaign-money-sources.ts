@@ -1,4 +1,5 @@
 import { activeCampaignForCandidate } from "./campaign-queries";
+import { runCampaignCallTime } from "./campaign-donors";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { campaignFundraiserPayments } from "./campaign-money-source-queries";
 import { viewOfOfficial } from "./official-view-reads";
@@ -58,10 +59,10 @@ export const CAMPAIGN_MONEY_SOURCES = {
 
 export type CampaignMoneySource = keyof typeof CAMPAIGN_MONEY_SOURCES;
 
-/** Read receipts attributed to this event; never settle a completed gift again.
- * The current activity producers save attendance but no dated monetary ask or
- * contribution-cap law binding. Record that missing basis through the shared
- * evaluator instead of manufacturing a donor, ask, pledge, or payment.
+/** Fundraiser completion runs the remaining known-person call-time asks in
+ * stable order. Each answer, contribution, and transfer is stored separately;
+ * any legacy payment attributed directly to this event is read without paying
+ * it again.
  */
 export function recordCampaignFundraiserReceipts(
   world: World,
@@ -79,9 +80,21 @@ export function recordCampaignFundraiserReceipts(
   readonly unavailableBasis: readonly string[];
   readonly note: string;
 } {
-  const { event, flows, receipts } = campaignFundraiserPayments(world, input);
-  const unavailableBasis = ["monetary-ask", "contribution-cap-law-term"];
-  let next = world;
+  const active = activeCampaignForCandidate(world, input.candidatePersonId);
+  const asksBefore = new Set(
+    (world.history.campaignAsks ?? []).map((row) => row.id),
+  );
+  let next = active ? runCampaignCallTime(world, active.id) : world;
+  const callTimePeople = new Set(
+    (next.history.campaignAsks ?? [])
+      .filter((row) => !asksBefore.has(row.id))
+      .map((row) => row.residentId),
+  );
+  const { event, flows, receipts } = campaignFundraiserPayments(next, input);
+  const unavailableBasis = active
+    ? []
+    : ["monetary-ask", "contribution-cap-law-term"];
+
   const paidSources = new Set(
     flows
       .filter((flow) => receipts.some((row) => row.resourceFlowId === flow.id))
@@ -94,6 +107,7 @@ export function recordCampaignFundraiserReceipts(
     if (
       personId === input.candidatePersonId ||
       paidSources.has(personId) ||
+      callTimePeople.has(personId) ||
       (next.control.kind === "person" && next.control.personId === personId)
     )
       continue;
@@ -175,21 +189,27 @@ export function recordCampaignFundraiserReceipts(
           }
         : null,
     unavailableBasis,
-    note: "Completed gifts are reported from the recorded payments. New gifts need a recorded monetary ask and applicable contribution-cap law term; no payment was invented.",
+    note: active
+      ? "Call-time asked the remaining known people individually; each response and payment is saved by person."
+      : "No active campaign is attached to this event; no donor or payment was invented.",
   };
 }
 
 /**
- * UNRESEARCHED. How much of their own money a candidate may put into their
- * committee. Federal law sets no limit on a candidate's own money, and this
- * blanket rule follows it everywhere until the per-state answer to
- * `how-a-campaign-can-be-paid-for` lands: the only limit is what the
- * candidate actually has.
+ * A candidate may spend personal funds on their own candidacy without a legal
+ * ceiling. Buckley v. Valeo invalidated candidate personal-expenditure caps;
+ * current FEC guidance records the same no-limit rule while requiring federal
+ * candidates to report the money. The game separately limits the transfer to
+ * the candidate's recorded available balance.
  */
-export const UNRESEARCHED_OWN_MONEY_RULE = {
-  version: "campaign-own-money-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const CANDIDATE_OWN_MONEY_RULE = {
+  version: "campaign-own-money-buckley-v1",
+  provenance: "recorded-constitutional-rule",
   limitMinorUnits: null,
+  sources: [
+    "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/using-personal-funds-candidate/",
+    "https://www.govinfo.gov/app/details/USREPORTS-424/USREPORTS-424-1/context",
+  ],
 } as const;
 
 export const CANDIDATE_OWN_MONEY_EVENT = "campaign-finance.candidate-own-money";
@@ -287,7 +307,7 @@ export function contributeOwnMoneyToCampaign(
     personFactConstraints: [],
     visibility: "public",
     tags: [
-      UNRESEARCHED_OWN_MONEY_RULE.version,
+      CANDIDATE_OWN_MONEY_RULE.version,
       "campaign-finance:own-money",
       "time-neutral",
     ],

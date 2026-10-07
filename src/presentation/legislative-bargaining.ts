@@ -1,3 +1,4 @@
+import { speakerTraits } from "./speaker-traits";
 import {
   BARGAINING_ANSWER_OFFER_DECISION,
   BARGAINING_ANSWER_REQUEST_DECISION,
@@ -980,6 +981,13 @@ function motifGrounding(
   );
   return {
     worldSeed: world.seed,
+    speakerTraits: speakerTraits(world, speakerPersonId),
+    listenerTraits: speakerTraits(
+      world,
+      speakerPersonId === facts.advocatePersonId
+        ? facts.guardianPersonId
+        : facts.advocatePersonId,
+    ),
     speakerPersonId,
     listenerPersonId:
       speakerPersonId === facts.advocatePersonId

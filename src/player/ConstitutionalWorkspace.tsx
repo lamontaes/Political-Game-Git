@@ -193,7 +193,7 @@ export function ConstitutionalWorkspace({
             </label>
           </fieldset>
           <fieldset>
-            <legend>Proposal kind</legend>
+            <legend>Form of proposal</legend>
             <label>
               <input
                 type="radio"

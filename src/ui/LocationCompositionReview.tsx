@@ -94,10 +94,6 @@ export function LocationCompositionReview() {
       data-testid="location-review"
       data-scene-id={sceneId}
     >
-      <p className="art-preview-banner" role="status">
-        Development location review — unreleased candidate art; synthetic
-        staging; no attendance or saves
-      </p>
       <nav
         aria-label="Candidate locations"
         style={{ position: "fixed", top: 48, left: 20, zIndex: 100 }}

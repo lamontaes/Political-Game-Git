@@ -30,7 +30,7 @@ export function CampaignWeekPanel({
     try {
       const next = work();
       if (next === world) {
-        setMessage("Something already on the calendar has to happen first.");
+        setMessage("Calendar conflict");
         return;
       }
       setMessage(null);

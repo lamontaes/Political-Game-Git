@@ -1,3 +1,5 @@
+import { conversationRegister } from "./conversation-register";
+import { speakerTraits } from "./speaker-traits";
 import { ageOnDate } from "../simulation";
 import { readRelationshipStanding } from "../simulation/relationship-standing";
 import {
@@ -29,6 +31,110 @@ import {
   type RelationshipCondition,
 } from "./english-composition";
 import type { GroundedEnglishPacket } from "./grounded-english";
+import type { CompositionContext } from "./english-composition";
+
+/** Reusable speech acts; the caller supplies the recorded matter and meaning. */
+export type PlayedScenePrimitive =
+  | "recorded-request"
+  | "recorded-observation"
+  | "ask-record"
+  | "tell-record"
+  | "deny-record"
+  | "agree"
+  | "decline"
+  | "undecided"
+  | "acknowledge"
+  | "depart";
+
+export function composePlayedSceneLine(
+  packet: GroundedEnglishPacket,
+  primitive: PlayedScenePrimitive,
+  context: CompositionContext = {},
+) {
+  const texts: Record<PlayedScenePrimitive, string> = {
+    "recorded-request": "{{matter}}",
+    "recorded-observation": "{{matter}}",
+    "ask-record": "Can we talk about this? {{matter}}",
+    "tell-record": "This is what I know: {{matter}}",
+    "deny-record": "That's not true: {{matter}}",
+    agree: "Go on. I'm listening.",
+    decline: "I'd rather not discuss it.",
+    undecided: "I haven't decided whether to talk about it.",
+    acknowledge: "I heard you.",
+    depart: "I'll leave you to it.",
+  };
+  const act: ComposedLineBank["act"] =
+    primitive === "deny-record"
+      ? "lie"
+      : primitive === "ask-record" || primitive === "recorded-request"
+        ? "ask"
+        : primitive === "agree" ||
+            primitive === "decline" ||
+            primitive === "undecided"
+          ? primitive
+          : "tell";
+  const bank: ComposedLineBank = {
+    key: `played-scene.${primitive}`,
+    version: "1",
+    surface: packet.surface,
+    act,
+    parts: {
+      core: {
+        variants:
+          primitive === "ask-record" &&
+          packet.speaker?.traits["expression:direct"]
+            ? [
+                {
+                  key: "direct",
+                  kind: "template",
+                  text: "Let's discuss this: {{matter}}",
+                  requiresTraits: [
+                    { holder: "speaker", traitKey: "expression:direct" },
+                  ],
+                },
+              ]
+            : primitive === "ask-record" &&
+                packet.speaker?.traits["expression:listen"]
+              ? [
+                  {
+                    key: "listen",
+                    kind: "template",
+                    text: "I'd like to hear your thoughts on this: {{matter}}",
+                    requiresTraits: [
+                      { holder: "speaker", traitKey: "expression:listen" },
+                    ],
+                  },
+                ]
+              : primitive === "ask-record" &&
+                  packet.speaker?.traits["expression:ask"]
+                ? [
+                    {
+                      key: "question",
+                      kind: "template",
+                      text: "What do you think about this? {{matter}}",
+                      requiresTraits: [
+                        { holder: "speaker", traitKey: "expression:ask" },
+                      ],
+                    },
+                  ]
+                : [{ key: "plain", kind: "template", text: texts[primitive] }],
+      },
+      ...((primitive === "decline" || primitive === "undecided") && {
+        reason: {
+          required: true,
+          variants: [
+            {
+              key: "recorded-reason",
+              kind: "template" as const,
+              text: "{{reason}}",
+            },
+          ],
+        },
+      }),
+    },
+  };
+  return composeGroundedLine(packet, bank, context);
+}
 
 /**
  * Two small-talk replies built from reviewed parts: a person answering a
@@ -235,6 +341,7 @@ function compose(
   const line = composeGroundedLine(packet, bank, {
     relationship: readRelationshipStanding(world, speakerId, playerPersonId),
     recentPartKeys: recentPartKeys(history),
+    register: conversationRegister(world, speakerId, playerPersonId),
   });
   return line.kind === "rendered"
     ? { text: line.text, parts: line.parts }
@@ -277,8 +384,11 @@ export function greetAgainLine(
           }
         : {}),
     },
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     // The speaker learned the name, and that they talked, in that turn.
     knowledge: [
       {
@@ -326,8 +436,11 @@ export function matterUninformedLine(
     stage: stageOf(world, speakerId),
     sourceRecordIds: [matterEventId],
     facts: {},
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     knowledge: [],
   };
   return compose(
@@ -609,8 +722,11 @@ function livedOutcomeViewLine(
     stage: stageOf(world, speakerId),
     sourceRecordIds: sources,
     facts,
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     // The speaker's own saved view and the record of what happened to them
     // are how they know each of these.
     knowledge: Object.keys(facts).map((factKey) => ({
@@ -751,8 +867,11 @@ export function officialViewLine(
     stage: stageOf(world, speakerId),
     sourceRecordIds: sources,
     facts,
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     // The speaker's own saved view and exposure are the record of their
     // learning each of these: whom they judged, for what, and how it reached
     // them.

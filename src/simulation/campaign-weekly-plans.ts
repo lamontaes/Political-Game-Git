@@ -29,7 +29,7 @@ import {
   requireElectionContest,
 } from "./election-contests";
 import { createStableId } from "./ids";
-import { workStatusAt } from "./life-queries";
+import { workRoleHistory, workStatusAt } from "./life-queries";
 import { personName } from "./people";
 import {
   cancelScheduledActivity,
@@ -49,6 +49,8 @@ import type {
 } from "./types";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import { moneyText } from "./money-text";
+import { campaignWorkDays } from "./campaign-managers";
+import { personTrait } from "./people-traits";
 
 export type {
   CampaignAdChannel,
@@ -339,14 +341,24 @@ function activeStaff(
   world: World,
   campaign: CampaignRecord,
 ): readonly EntityId[] {
-  return campaign.staffWorkRelationshipIds.flatMap((workRelationshipId) => {
-    const work = world.history.workRelationships.find(
-      (candidate) => candidate.id === workRelationshipId,
-    );
-    return work && workStatusAt(world, work.id)?.status === "active"
-      ? [work.personId]
-      : [];
-  });
+  return campaign.staffWorkRelationshipIds
+    .flatMap((workRelationshipId) => {
+      const work = world.history.workRelationships.find(
+        (candidate) => candidate.id === workRelationshipId,
+      );
+      return work && workStatusAt(world, work.id)?.status === "active"
+        ? [
+            {
+              personId: work.personId,
+              manager:
+                workRoleHistory(world, work.id).at(-1)
+                  ?.occupationClassification === "service:campaign-manager",
+            },
+          ]
+        : [];
+    })
+    .sort((left, right) => Number(right.manager) - Number(left.manager))
+    .map(({ personId }) => personId);
 }
 
 function geographyChoices(
@@ -623,9 +635,15 @@ function proposedEmphasis(
   if (!options.some((option) => option.emphasis === "communications")) {
     return "relationships";
   }
-  return latestMemo(world, context.campaign) === null
-    ? "field"
-    : "communications";
+  const managerId = context.proposerPersonId;
+  if (!managerId) return "field";
+  const reliability = personTrait(world, managerId, "reliability").value;
+  const sociability = personTrait(world, managerId, "sociability").value;
+  const experienceDays = campaignWorkDays(world, managerId);
+  if (experienceDays < 90 || reliability < 0) return "relationships";
+  return latestMemo(world, context.campaign) !== null && sociability >= 0
+    ? "communications"
+    : "field";
 }
 
 function refusalExplanation(refusal: CampaignWeeklyRefusal): string {

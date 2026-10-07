@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import type { EntityId, HistoricalEvent, World } from "../types";
-import type { MediaOutletRecord } from "./records";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
+import { PRESS_POLICY_VERSION, type MediaOutletRecord } from "./records";
 import {
   headlineFor,
   readHeadlineParts,
@@ -20,14 +20,26 @@ import {
 
 function outlet(over: Partial<MediaOutletRecord>): MediaOutletRecord {
   return {
+    id: "outlet-1" as EntityId,
+    stableKey: "media-outlet:the-evening-compass",
+    sequence: 1,
+    recordedAt: "2026-01-01" as IsoDate,
     kind: "media-outlet",
+    organizationId: "org-1" as EntityId,
     name: "The Evening Compass",
     product: "general-newspaper",
     scope: "local",
+    primaryJurisdictionIds: ["jur-ky" as EntityId],
     mediums: ["text"],
+    beats: ["general-assignment"],
     resourceTier: "standard",
+    cadence: "daily",
+    acceptsDeepBackground: false,
+    establishedAt: "2026-01-01" as IsoDate,
+    policyVersion: PRESS_POLICY_VERSION,
+    provenanceNote: "Test fixture outlet.",
     ...over,
-  } as MediaOutletRecord;
+  };
 }
 
 function event(over: Partial<HistoricalEvent>): HistoricalEvent {

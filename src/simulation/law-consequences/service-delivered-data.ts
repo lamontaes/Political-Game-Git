@@ -124,9 +124,17 @@ export interface ServiceRequestForm {
    * against hours held by work. `on-call` services (a crisis team) are asked
    * for from the person's own health record, an acute or serious episode,
    * against a saved care record naming someone at home who looks after them.
+   * `substance-use` services (harm reduction) are asked for from the person's
+   * own private health record of a substance use disorder, against hours held
+   * by work.
    */
   readonly need:
-    "travel" | "outdoors" | "reading" | "on-call" | "child-in-household";
+    | "travel"
+    | "outdoors"
+    | "reading"
+    | "on-call"
+    | "child-in-household"
+    | "substance-use";
   /** Recorded-family eligibility and enrollment, supplied only by this row. */
   readonly forChild?: {
     readonly minimumAge: number;
@@ -193,6 +201,31 @@ export const SERVICE_REQUEST_FORMS: Readonly<
     },
     visit: { startMinuteOfDay: 15 * 60, minutes: 90 },
   },
+  "us-policy-positions:education.public-funds-for-private-schooling": {
+    asked: "a private-school program spot",
+    activityTitle: "Private-school program at {operator}",
+    membership:
+      "Enrolled in the private-school program with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "child-in-household",
+    // The saved enrollment records the delivered program. The law's sourced
+    // award and eligibility terms still decide what may be funded; this form
+    // never treats an appropriation or application as attendance.
+    forChild: {
+      minimumAge: 6,
+      maximumAge: 17,
+      programKind: "schooling:private-school-program",
+      contextKind: "program:private-school-choice",
+      notAlreadyEnrolled: [
+        "schooling:elementary",
+        "schooling:middle",
+        "schooling:secondary",
+        "schooling:private-school-program",
+      ],
+    },
+    // An authored service-day profile, not a statutory school-day rule.
+    visit: { startMinuteOfDay: 8 * 60, minutes: 360 },
+  },
   "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours":
     TRANSIT_TRIP,
   "us-policy-positions:transportation-infrastructure.fare-free-transit":
@@ -236,6 +269,16 @@ export const SERVICE_REQUEST_FORMS: Readonly<
       need: "on-call",
       visit: { startMinuteOfDay: 0, minutes: 90 },
     },
+  "us-policy-positions:health-human-services.harm-reduction-services": {
+    asked: "a harm reduction visit",
+    activityTitle: "Harm reduction visit with {operator}",
+    membership: "Enrolled with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "substance-use",
+    // Authored service-day profile: a late-morning drop-in visit, not a
+    // statutory requirement.
+    visit: { startMinuteOfDay: 10 * 60, minutes: 60 },
+  },
 };
 
 /**
