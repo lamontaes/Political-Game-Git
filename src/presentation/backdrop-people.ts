@@ -109,6 +109,9 @@ export interface StagingSpot {
   readonly group?: string;
   /** A raised floor (stage, dais, steps) named in the place's `floors`. */
   readonly floor?: string;
+  /** A raised tier can have its own visible horizon and scale. */
+  readonly floorHorizonY?: number;
+  readonly floorMetersPercent?: number;
   /** Where the main character stands on the title screen: one per place. */
   readonly hero?: boolean;
 }
@@ -187,9 +190,11 @@ export function spotFigure(
   engine?: EngineRecipe,
 ): SpotFigure {
   const meters =
+    spot.floorMetersPercent ??
     (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
     stage.metersPercent;
-  const heightPercent = STANDING_METERS * meters * (spot.y - stage.horizonY);
+  const horizonY = spot.floorHorizonY ?? stage.horizonY;
+  const heightPercent = STANDING_METERS * meters * (spot.y - horizonY);
   const widthPercent =
     (heightPercent * (PEOPLE_PACK.canvas.width / PEOPLE_PACK.canvas.height)) /
     BACKDROP_ASPECT;
@@ -316,6 +321,8 @@ export function placeBackdropPeople(
      * no turned drawing (a family standing together at home).
      */
     readonly faceRoom?: boolean;
+    /** Include the controlled person when the recorded scene names them present. */
+    readonly includeViewer?: boolean;
   } = {},
 ): BackdropPeople {
   const stage = backdropStaging(place);
@@ -326,7 +333,9 @@ export function placeBackdropPeople(
   const presentIds = new Set(
     present
       .map((person) => person.personId)
-      .filter((id) => id !== playerId && world.people[id]),
+      .filter(
+        (id) => (options.includeViewer || id !== playerId) && world.people[id],
+      ),
   );
   const onShift = (
     options.rosterOnly
@@ -371,7 +380,7 @@ export function placeBackdropPeople(
   const counterJob = (title: string) => COUNTER_TITLE.test(title);
   const usable = (stage?.spots ?? []).filter(
     (spot) =>
-      spot.facing !== "away" &&
+      (spot.facing !== "away" || options.faceRoom) &&
       !(spot.pose === "podium" && spot.audience === "away") &&
       (!options.standing || spot.pose === "stand") &&
       (spot.pose !== "podium" || options.speakerId !== undefined),
@@ -566,7 +575,8 @@ export function placeBackdropPeople(
       // clothes have no turned drawing.
       for (const [candidate, view] of [
         ...alternatives.map((at) => [at, spotView(at)] as const),
-        ...alternatives
+        // Their own spot first: it is already theirs, so it is not free.
+        ...[spot, ...alternatives]
           .filter((at) => options.faceRoom && spotView(at) !== "front")
           .map((at) => [at, "front" as const] as const),
       ]) {

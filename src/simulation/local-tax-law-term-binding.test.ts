@@ -191,14 +191,28 @@ const permitsPayroll = (usps: string) =>
     level: "MUNICIPALITY",
     instrument: "payroll",
   }).permits;
+const permitsCorporateIncome = (usps: string) =>
+  localTaxAuthority({
+    stateUsps: usps,
+    level: "MUNICIPALITY",
+    instrument: "corporate-income",
+  }).permits;
 
 describe("one binder for a county or a city in any state", () => {
-  it("binds a county property tax and a city payroll tax in two random places, saying how each was authorized", () => {
+  it("binds county property and city property, payroll, and corporate taxes in random places", () => {
     const county = drawUnit("seam-binder-county", "county");
     const city = drawUnit("seam-binder-city", "municipality", permitsPayroll);
+    const propertyCity = drawUnit("seam-binder-city-property", "municipality");
+    const corporateCity = drawUnit(
+      "seam-binder-city-corporate",
+      "municipality",
+      permitsCorporateIncome,
+    );
     for (const [unit, instrument] of [
       [county, "property"],
       [city, "payroll"],
+      [propertyCity, "property"],
+      [corporateCity, "corporate-income"],
     ] as const) {
       const f = fixture(unit, instrument);
       const before = JSON.stringify(f.world);

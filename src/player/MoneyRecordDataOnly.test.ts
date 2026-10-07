@@ -14,6 +14,8 @@ const FILES = [
   "src/player/MoneyLaws.tsx",
   "src/player/BudgetEconomyWorkspace.tsx",
   "src/player/MacroConditionsPanel.tsx",
+  "src/player/HomePurchasePanel.tsx",
+  "src/player/TownBusinessesPanel.tsx",
 ];
 
 function code(file: string): string {
@@ -100,7 +102,7 @@ describe("Money screens show record data only", () => {
     const html = renderToStaticMarkup(
       createElement(ExecutiveBudgetRequestComparison, { world, request }),
     );
-    expect(html).toContain('data-testid="executive-budget-period"');
+    expect(html).toContain('data-testid="budget-request-period"');
     expect(html).toContain('data-problem="no-enacted-authorization"');
     expect(html).not.toContain("Budget request for");
     expect(html).not.toContain("Each authorization shows its own dates");

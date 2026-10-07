@@ -53,9 +53,7 @@ export function ExecutiveBudgetRequestEditor({
   const addLine = () => {
     const amount = parseExecutiveBudgetDollars(dollars);
     if (!family || !amount) {
-      setProblem(
-        "Choose a program family and enter a nonnegative dollar amount with at most two decimal places.",
-      );
+      setProblem("invalid-line");
       return;
     }
     setLines([
@@ -78,18 +76,13 @@ export function ExecutiveBudgetRequestEditor({
         onCommit(result);
       }
     } catch {
-      setProblem("Enter a valid start and end date for the budget request.");
+      setProblem("invalid-dates");
     }
   };
   return (
     <details data-testid="executive-budget-editor">
-      <summary>Prepare a dollar request</summary>
-      <p>
-        Your request goes to the legislature. It may change the amounts; an
-        enacted appropriation supplies authority to spend.
-      </p>
-      <label>
-        Period begins{" "}
+      <summary>Money</summary>
+      <label aria-label="Calendar">
         <input
           aria-label="Budget request begins"
           type="date"
@@ -97,8 +90,7 @@ export function ExecutiveBudgetRequestEditor({
           onChange={(event) => setStartsOn(event.target.value)}
         />
       </label>
-      <label>
-        Period ends{" "}
+      <label aria-label="Calendar">
         <input
           aria-label="Budget request ends"
           type="date"
@@ -106,33 +98,27 @@ export function ExecutiveBudgetRequestEditor({
           onChange={(event) => setEndsOn(event.target.value)}
         />
       </label>
-      {period ? (
-        <p className="game-note">
-          The suggested dates follow this government's fiscal year.
-        </p>
-      ) : (
-        <p className="game-note">
-          No fiscal-year calendar is recorded for this government. Choose the
-          period you are requesting.
-        </p>
-      )}
-      <label>
-        Program family{" "}
+      <p
+        className="game-note"
+        data-testid="budget-period-basis"
+        data-basis={period ? "fiscal-year" : undefined}
+        data-problem={period ? undefined : "no-fiscal-calendar"}
+      />
+      <label aria-label="Money">
         <select
           aria-label="Budget program family"
           value={family}
           onChange={(event) => setFamily(event.target.value)}
         >
-          <option value="">Choose a program family</option>
+          <option value=""></option>
           {PROGRAM_FAMILIES.map((entry) => (
             <option key={entry.familyKey} value={entry.familyKey}>
-              {entry.title}
+              {entry.familyKey}
             </option>
           ))}
         </select>
       </label>
-      <label>
-        Requested dollars{" "}
+      <label aria-label="Money">
         <input
           aria-label="Requested dollars"
           inputMode="decimal"
@@ -145,7 +131,7 @@ export function ExecutiveBudgetRequestEditor({
         className="ui-action ui-action--quiet"
         onClick={addLine}
       >
-        Add or replace amount
+        Continue
       </button>
       <ul>
         {lines.map((line) => (
@@ -159,18 +145,16 @@ export function ExecutiveBudgetRequestEditor({
                 )
               }
             >
-              Remove {programFamilyTitle(line.familyKey)}
+              Back
             </button>
           </li>
         ))}
       </ul>
       {baseline ? (
         <details>
-          <summary>Current modeled budget totals</summary>
-          <p>
-            {proseDate(baseline.startsOn)} through {proseDate(baseline.endsOn)}.
-            These category totals are not allocations to individual program
-            families.
+          <summary>Money</summary>
+          <p data-testid="budget-baseline-period">
+            {proseDate(baseline.startsOn)}–{proseDate(baseline.endsOn)}
           </p>
           <dl>
             {baseline.categories.map((entry) => (
@@ -184,18 +168,22 @@ export function ExecutiveBudgetRequestEditor({
           </dl>
         </details>
       ) : (
-        <p className="game-note">
-          No current modeled budget is recorded for this exact government.
-        </p>
+        <p className="game-note" data-problem="no-modeled-budget" />
       )}
-      {problem ? <p role="alert">{problem}</p> : null}
+      {problem ? (
+        <p
+          role="alert"
+          data-testid="budget-request-problem"
+          data-reason={problem}
+        />
+      ) : null}
       <button
         type="button"
         className="ui-action ui-action--choice"
         disabled={!lines.length}
         onClick={submit}
       >
-        Send dollar request
+        Continue
       </button>
     </details>
   );
@@ -210,18 +198,11 @@ export function ExecutiveBudgetRequestComparison({
 }) {
   return (
     <section data-testid="executive-budget-comparison">
-      <h4>Requested and appropriated</h4>
-      <p data-testid="executive-budget-period">
+      <p data-testid="budget-request-period">
         {proseDate(request.startsOn)}–{proseDate(request.endsOn)}
       </p>
       <table>
-        <thead>
-          <tr>
-            <th>Program family</th>
-            <th>Requested</th>
-            <th>Enacted authorizations</th>
-          </tr>
-        </thead>
+        <thead />
         <tbody>
           {request.lines.map((line) => {
             const appropriations = enactedFamilyAppropriations(

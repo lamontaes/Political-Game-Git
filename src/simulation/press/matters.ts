@@ -1276,7 +1276,7 @@ function openCandidatePaymentsMatter(
  *    decide for themselves whether to cover it.
  * 2. A rival reads the reports and decides whether to complain.
  * 3. The state regulator's own review of filed reports, when nobody has
- *    complained by the end of its (generated, UNRESEARCHED) review period,
+ *    complained by the end of its generated, recorded review period,
  *    opens the matter itself.
  *
  * Inside the campaign, a staff member keeping the books can go outside after

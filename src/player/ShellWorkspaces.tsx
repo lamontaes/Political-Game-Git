@@ -18,6 +18,11 @@ import { EconomicContextPanel } from "./EconomicContextPanel";
 import { TownBusinessesPanel } from "./TownBusinessesPanel";
 import { economicContextBindingForPlace } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
+import {
+  NOTES_VISIBILITY_LABEL,
+  NOTES_VISIBILITY_OPTIONS,
+} from "../simulation/play-settings";
+import type { NotesVisibility } from "../simulation/types";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
@@ -59,6 +64,7 @@ import { pathForRelationship } from "../simulation/life-paths2";
 import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
+import { HeardOfficialViewsList } from "./HeardOfficialViewsList";
 import {
   authorizeCalendarSimulation,
   declineCalendarActivity,
@@ -653,6 +659,11 @@ export function PeopleWorkspace({
         </>
       ) : null}
 
+      <HeardOfficialViewsList
+        views={directory.heardViews}
+        onSelectPerson={selectPerson}
+      />
+
       {shown.length === 0 ? (
         <p className="game-note" data-testid="people-empty" />
       ) : (
@@ -702,14 +713,6 @@ export function PeopleWorkspace({
         </ul>
       )}
 
-      {category === "all" && directory.notYetMet.length > 0 ? (
-        <p className="game-note" data-testid="people-not-yet-met-note">
-          {directory.notYetMet.length === 1
-            ? "1 person you work or organize with is somebody you have not met yet."
-            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
-          They are under Work and Politics.
-        </p>
-      ) : null}
       {notYetMet.length > 0 ? (
         <section
           className="pg-people-not-yet-met"
@@ -1782,7 +1785,6 @@ export function WorkWorkspace({
         />
       ) : needsYou.length > 0 ? (
         <section className="pg-personal-section">
-          <h3>Waiting on you</h3>
           <ul data-testid="work-pending">
             {needsYou.map((entry) => (
               <li key={entry.item.id}>{entry.item.title}</li>
@@ -1877,13 +1879,34 @@ export function OptionsWorkspace({
   state,
   dispatch,
   onOpenPatchNotes,
+  notesVisibility,
+  onChangeNotesVisibility,
 }: {
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
   readonly onOpenPatchNotes?: () => void;
+  readonly notesVisibility: NotesVisibility;
+  readonly onChangeNotesVisibility: (value: NotesVisibility) => void;
 }) {
   return (
     <>
+      <section className="pg-personal-section">
+        <h3>{NOTES_VISIBILITY_LABEL}</h3>
+        <div role="group" aria-label={NOTES_VISIBILITY_LABEL}>
+          {NOTES_VISIBILITY_OPTIONS.map(({ value, label }) => (
+            <button
+              key={value}
+              type="button"
+              className="ui-action ui-action--rail"
+              aria-pressed={notesVisibility === value}
+              data-testid={`option-notes-${value}`}
+              onClick={() => onChangeNotesVisibility(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
       <section className="pg-personal-section">
         <h3>Calendar</h3>
         <DateFormatSetting />
