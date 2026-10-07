@@ -17,9 +17,11 @@ export type LawConsequenceKind =
   | "service-delivered"
   | "legal-outcome"
   | "institution-rule"
+  | "business-incentive"
   | "public-library-service"
   | "parks-service-spending"
-  | "government-operations";
+  | "government-operations"
+  | "curriculum-application";
 
 /** Existing bespoke stamp labels awaiting migration; new kinds use LawConsequenceKind. */
 export type LegacyEffectKind =
@@ -74,6 +76,7 @@ export const LAW_AMOUNT_UNITS = [
   "tonnes-co2-equivalent",
   "fluid-ounces",
   "litres",
+  "usd-per-award",
 ] as const;
 export type LawAmountUnit = (typeof LAW_AMOUNT_UNITS)[number];
 
