@@ -251,18 +251,16 @@ function ContactRow({
         <p
           className="pg-contact-line"
           data-testid={tid(`contact-last-answer-${contact.personId}`)}
-        >
-          {contact.lastAnswer}
-        </p>
+          data-last-answer={contact.lastAnswer}
+        />
       ) : null}
       {/* How things stand between them, when there is something to say. */}
       {contact.standing ? (
         <p
           className="pg-contact-line"
           data-testid={tid(`contact-standing-${contact.personId}`)}
-        >
-          {contact.standing}
-        </p>
+          data-standing={contact.standing}
+        />
       ) : null}
 
       {/*

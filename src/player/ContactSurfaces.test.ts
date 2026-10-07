@@ -35,6 +35,13 @@ describe("the contact and conversation screens carry no authored sentence", () =
     expect(code).not.toContain(copy);
   });
 
+  it("keeps recorded standing prose out of visible contact text", () => {
+    const code = readFileSync(join(__dirname, "ContactsPanel.tsx"), "utf8");
+    expect(code).not.toMatch(/>\s*\{contact\.(?:lastAnswer|standing)\}\s*</);
+    expect(code).toContain("data-last-answer={contact.lastAnswer}");
+    expect(code).toContain("data-standing={contact.standing}");
+  });
+
   it.each([
     "Endorsement requests",
     "Endorsement request",
