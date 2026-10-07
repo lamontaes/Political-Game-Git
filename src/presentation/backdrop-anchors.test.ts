@@ -72,6 +72,42 @@ describe("people anchors on every place picture", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
 
+  it("anchors visible hotel ballroom banquet chairs", () => {
+    const spots = STAGES["hotel-ballroom"]!.spots;
+    const seats = spots.filter((spot) => spot.pose === "sit");
+    const ballroom = seats.filter((spot) =>
+      spot.group?.startsWith("ballroom-"),
+    );
+    expect(seats).toHaveLength(54);
+    expect(ballroom).toHaveLength(52);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(54);
+    expect(ballroom.filter((spot) => spot.facing === "away")).toHaveLength(16);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-northwest"),
+    ).toHaveLength(5);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-northeast"),
+    ).toHaveLength(5);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-west-center"),
+    ).toHaveLength(6);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-east-center"),
+    ).toHaveLength(6);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-southwest"),
+    ).toHaveLength(7);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-southeast"),
+    ).toHaveLength(7);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-front-left"),
+    ).toHaveLength(8);
+    expect(
+      ballroom.filter((spot) => spot.group === "ballroom-front-right"),
+    ).toHaveLength(8);
+  });
+
   it("anchors visible church supper hall table chairs", () => {
     const spots = STAGES["church-supper-hall"]!.spots;
     const seats = spots.filter((spot) => spot.pose === "sit");
