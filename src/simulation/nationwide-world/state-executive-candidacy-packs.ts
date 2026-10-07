@@ -1,5 +1,9 @@
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { knownRule, unknownRule } from "../legislature-rules";
+import {
+  standInQualification,
+  standInQualificationSourceRef,
+} from "../office-qualification-profile";
 import type { RuleSourceRef } from "../legislature-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import {
@@ -18,10 +22,10 @@ import {
  *
  * A leaf, like `candidacy-packs.ts` it composes into: no places, no World. It
  * says only that each state has one chief executive office a person can stand
- * for through the existing campaign and contest route. Every qualification,
- * term and filing value stays UNKNOWN here on purpose; candidacy eligibility
- * reads them from RULES at filing time, so admitting a state's facts changes
- * behavior with no edit to this file.
+ * for through the existing campaign and contest route. The pack records the existing qualification-profile estimate for a state age
+ * when no state-specific rule is available. Sourced rules still take
+ * precedence at filing time; the other fields remain unknown until their
+ * sources are read.
  */
 
 /**
@@ -271,6 +275,13 @@ const TERRITORY_STRUCTURE_SOURCE: RuleSourceRef = {
 };
 
 function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
+  const minimumAgeEstimate = isUsState(identity.stateUsps)
+    ? standInQualification(
+        identity.jurisdictionKey,
+        "MINIMUM_AGE",
+        "GOVERNOR",
+      )
+    : null;
   const structure = isDistrictOfColumbia(identity.stateUsps)
     ? DISTRICT_STRUCTURE_SOURCE
     : isUsTerritoryWithGovernor(identity.stateUsps)
@@ -291,7 +302,12 @@ function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
       packName: identity.displayName,
     },
     qualification: {
-      minimumAge: unknownRule(QUALIFICATION_AT_FILING),
+      minimumAge: minimumAgeEstimate
+        ? knownRule(
+            minimumAgeEstimate.value,
+            standInQualificationSourceRef(minimumAgeEstimate),
+          )
+        : unknownRule(QUALIFICATION_AT_FILING),
       residency: unknownRule(QUALIFICATION_AT_FILING),
       termYears: unknownRule(QUALIFICATION_AT_FILING),
       filing: unknownRule(NO_FILING_PROCEDURE),

@@ -22,6 +22,9 @@ import {
   searchLifePlaces,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
+import {
+  stateExecutiveCandidacyPacks,
+} from "../simulation/nationwide-world/state-executive-candidacy-packs";
 
 /**
  * Regional playtest lives in Lake Charles, Louisiana and Indianapolis,
@@ -318,6 +321,40 @@ function homeGovernments(life: Life): { markup: string; text: string } {
 }
 
 const COUNTY_WORD = /\bcount(?:y|ies)\b/i;
+
+describe("profile age for an unread state governor", () => {
+  it("uses the recorded qualification profile and shows the office's election date", () => {
+    const life = openLife("Louisville", "US-KY", "governor-profile-age-KY");
+    const pack = stateExecutiveCandidacyPacks().find(
+      (row) => row.jurisdictionKey === "US-KY",
+    )!;
+    const minimumAge = pack.offices[0]!.qualification.minimumAge;
+    expect(minimumAge.kind).toBe("known");
+    if (minimumAge.kind !== "known") throw new Error("Expected a profile age.");
+    expect(minimumAge.source.authority).toBe("game-profile");
+    expect(minimumAge.source.verification).toBe("game-profile");
+    expect(minimumAge.source.note).toContain("ESTIMATED FROM AVERAGE");
+
+    const governor = governorSection(life);
+    expect(governor).toContain(
+      `You must be at least ${minimumAge.value} to run for this office.`,
+    );
+    expect(governor).toMatch(
+      /The next regular election is [A-Z][a-z]+ \d{1,2}, \d{4}\./,
+    );
+    expect(governor).not.toContain("Read from RULES at filing time");
+    expect(governor).not.toContain(
+      "This office record has no scheduled election date.",
+    );
+    const candidacy = stateExecutiveCandidacyForPerson(
+      life.world,
+      life.personId,
+    )!;
+    expect(candidacy.blocks).toContainEqual(
+      expect.objectContaining({ kind: "profile-minimum-age" }),
+    );
+  });
+});
 
 // Each case opens its own life, which takes seconds on a loaded runner.
 describe(
