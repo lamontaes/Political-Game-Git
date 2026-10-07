@@ -34,6 +34,8 @@ export interface PlacesOfferView {
   readonly kind: PlacesActionKind;
   readonly title: string;
   readonly detail: string | null;
+  /** The recorded activity summary alone, for a screen that shows data. */
+  readonly summary?: string | null;
   readonly minutes: number | null;
   readonly durationLabel: string | null;
   readonly unavailable: string | null;
@@ -174,6 +176,7 @@ function projectVenueOffer(
     kind: "attend",
     title: activity.title,
     detail: detailParts.join(" "),
+    summary: activity.summary.trim() || null,
     minutes: elapsedMinutes,
     durationLabel,
     unavailable: refusal,
@@ -219,6 +222,7 @@ function projectMunicipalMeetingOffer(
     kind: "attend",
     title: meeting.title,
     detail: meeting.summary,
+    summary: meeting.summary,
     minutes: null,
     durationLabel,
     unavailable,
@@ -235,6 +239,16 @@ export function describePlacesOutcome(
   personId: EntityId,
 ): string {
   if (after === before) return "Nothing changed. No time passed.";
+  return placesClockOutcome(before, after, personId) || "Done. No time passed.";
+}
+
+/** The clock and arrival change alone; empty when neither moved. */
+export function placesClockOutcome(
+  before: World,
+  after: World,
+  personId: EntityId,
+): string {
+  if (after === before) return "";
   const beforeMoment = before.currentMoment;
   const afterMoment = after.currentMoment;
   const beforePlace = openingLifeLocation(before, personId)?.label ?? null;
@@ -257,6 +271,6 @@ export function describePlacesOutcome(
     afterMoment.minuteOfDay === beforeMoment.minuteOfDay &&
     !moved
   )
-    return "Done. No time passed.";
+    return "";
   return `${clock}${moved}`;
 }
