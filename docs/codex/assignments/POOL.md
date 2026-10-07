@@ -632,7 +632,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1696 | A105 Crime & Courts trial step: prove all 56 saved court paths | PR #1696 (codex/team9-a105-all56-trial-proof) | open: draft: finish it or close it as superseded | |
 | RS-1704 | A10 A105 Crime & Courts play script: saved player plea and sentence | PR #1704 (codex/team9-crime-courts-play-script) | open: stacked on codex/team9-a105-all56-trial-proof: retarget to main; draft: finish it or close it as superseded | |
 | RS-1712 | A25: carry cited juvenile age limits into starting-law terms | PR #1712 (codex/a25-starting-age-terms) | open: draft: finish it or close it as superseded | |
-| RS-2113 | Load seven sourced starting income-tax schedules | PR #2113 (codex/overflow3-starting-income-tax-terms) | open: draft: finish it or close it as superseded | |
+| RS-2113 | Load seven sourced starting income-tax schedules | PR #2113 (codex/overflow3-starting-income-tax-terms) | ready #2113 | Session 35 |
 | RS-2116 | Source American Samoa’s ordinary juvenile age ceiling | PR #2116 (codex/overflow8-territorial-juvenile-terms) | open: draft: finish it or close it as superseded | |
 | RS-2117 | research: preserve abortion limits and conditional exceptions | PR #2117 (codex/standby5-abortion-compound-source-packet) | open: draft: finish it or close it as superseded | |
 | RS-2121 | A15: sourced family-leave monetary rows (parked) | PR #2121 (codex/overflow1-labor-starting-terms) | open: draft: finish it or close it as superseded | |
