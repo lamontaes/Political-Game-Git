@@ -33,6 +33,7 @@ import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PlacePeopleLayer } from "./PlacePeopleLayer";
 import { backdropStaging } from "../presentation/backdrop-people";
+import { roomDayOutfitExclusions } from "../presentation/day-clothing";
 import { SceneChapterTransition } from "./SceneChapterTransition";
 import { introPlacementTrace } from "../presentation/intro-placement-trace";
 import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
@@ -442,6 +443,16 @@ export function WorldOrientationPanel({
       : step?.key === "executive"
         ? (step?.people ?? [])
         : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
+  const executiveOutfitExclusions = useMemo(
+    () =>
+      world && step?.key === "executive"
+        ? roomDayOutfitExclusions(
+            world,
+            sceneRoster.map((person) => person.personId),
+          )
+        : null,
+    [world, step?.key, sceneRoster],
+  );
   const measuredPlace =
     backdrop.kind === "place" &&
     !(step?.key === "executive" && establishingPlate) &&
@@ -608,6 +619,9 @@ export function WorldOrientationPanel({
                             world={world}
                             personId={person.personId}
                             className="pg-opening-figure"
+                            avoidOutfits={executiveOutfitExclusions?.get(
+                              person.personId,
+                            )}
                           />
                         ) : null)}
                     </button>
