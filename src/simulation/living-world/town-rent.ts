@@ -1700,7 +1700,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
     const old = current.amount.minorUnits;
     let amount = old;
     let reason: string;
-    const provenance: LifeRecordProvenance = PROVENANCE;
+    let provenance: LifeRecordProvenance = PROVENANCE;
     let lawEffectStamps: LawEffectStampedRecord["lawEffectStamps"];
     if (lease.regime === "public") {
       const income = householdMonthlyIncome(
