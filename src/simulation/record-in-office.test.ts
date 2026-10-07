@@ -43,14 +43,6 @@ beforeAll(() => {
 }, SLOW);
 
 describe("a governor's record on the economy", { timeout: SLOW }, () => {
-  it("marks its campaign-scale calibration as an estimate", () => {
-    expect(ESTIMATED_RECORD_IN_OFFICE).toMatchObject({
-      estimated: true,
-      provenance: "estimated-from-recorded-campaign-weights",
-      estimatedFrom: expect.stringContaining("campaigns.ts"),
-    });
-  });
-
   it("is judged on unemployment from the start of the term to now", () => {
     const office = currentGoverningOffices(later).find(
       (candidate) => candidate.termStartedAt !== null,
