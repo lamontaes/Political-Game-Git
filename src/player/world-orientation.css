@@ -468,6 +468,9 @@
   flex: 0 1 auto;
   color: var(--text-strong);
   font-family: var(--speech);
+  /* OW-7: the 54px corner pieces frame the content and never cover it. */
+  padding: 54px;
+  box-sizing: border-box;
 }
 /* Original approved sheet pixels; no new corner art or altered source image. */
 .pg-orientation-panel > .pg-orientation-corners {
