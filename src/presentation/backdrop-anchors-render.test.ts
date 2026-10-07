@@ -108,6 +108,7 @@ describe("people drawn on the anchors", { timeout: 120_000 }, () => {
 
   it("renders every recorded sit spot with a seated body and the desk below the shoulders", () => {
     expect(SEATED_SPOTS.length).toBeGreaterThan(0);
+    const failures: string[] = [];
     for (const { place, spot, index } of SEATED_SPOTS) {
       const stage = backdropStaging(place)!;
       const recipe = recipeAt(spot, index);
@@ -116,14 +117,18 @@ describe("people drawn on the anchors", { timeout: 120_000 }, () => {
       const rowY = (row: number) =>
         figure.topPercent + (row / drawn.raster.height) * figure.heightPercent;
 
-      expect(isSeatedPose(drawn.pose), `${place} spot ${index}`).toBe(true);
-      expect(isSeatedPose(spotPose(spot)), `${place} spot ${index}`).toBe(true);
+      if (!isSeatedPose(drawn.pose))
+        failures.push(`${place} spot ${index} resolved non-seated pose`);
+      if (!isSeatedPose(spotPose(spot)))
+        failures.push(`${place} spot ${index} maps to non-seated pose`);
       if (spot.clipBelowY !== undefined) {
-        expect(
-          spot.clipBelowY,
-          `${place} spot ${index} desk/front must stay below the shoulders`,
-        ).toBeGreaterThan(rowY(drawn.anchors.shoulderRow));
+        const shoulderY = rowY(drawn.anchors.shoulderRow);
+        if (spot.clipBelowY <= shoulderY)
+          failures.push(
+            `${place} spot ${index}: clipBelowY ${spot.clipBelowY} <= shoulderY ${shoulderY}`,
+          );
       }
     }
+    expect(failures).toEqual([]);
   });
 });
