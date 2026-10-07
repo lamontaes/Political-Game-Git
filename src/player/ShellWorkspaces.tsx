@@ -1781,7 +1781,6 @@ export function WorkWorkspace({
         />
       ) : needsYou.length > 0 ? (
         <section className="pg-personal-section">
-          <h3>Waiting on you</h3>
           <ul data-testid="work-pending">
             {needsYou.map((entry) => (
               <li key={entry.item.id}>{entry.item.title}</li>

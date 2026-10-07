@@ -63,12 +63,10 @@ export function WorkPendingWorkspace({
     >
       <header className="planning-workspace-header">
         <div>
-          <p>Office catch-up</p>
           <h2 id="work-pending-title">Work / Pending</h2>
-          <span>What actually needs me?</span>
         </div>
         <button ref={closeRef} type="button" onClick={onClose}>
-          Return to office
+          Back
         </button>
       </header>
 
@@ -106,16 +104,6 @@ export function WorkPendingWorkspace({
                             {ownerLabel(world, state.assignedPersonIds)}
                           </span>
                           {state.blocker ? <em>{state.blocker}</em> : null}
-                          {focus.kind === "legislative-material" ? (
-                            <small>Transit Access Pilot working document</small>
-                          ) : focus.kind === "calendar-item" ? (
-                            <small>Linked to the community meeting</small>
-                          ) : focus.kind === "person" ? (
-                            <small>
-                              Follow up with{" "}
-                              {personLabel(world, focus.personId)}
-                            </small>
-                          ) : null}
                         </div>
                         <div className="work-entry-actions">
                           {item.id === fixture.dLite.delegableWorkItemId &&
@@ -154,9 +142,7 @@ export function WorkPendingWorkspace({
                     );
                   })}
                 </div>
-              ) : (
-                <p className="work-group-empty">Nothing here right now.</p>
-              )}
+              ) : null}
             </section>
           );
         })}
