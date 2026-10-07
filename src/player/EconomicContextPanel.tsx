@@ -94,11 +94,7 @@ export function EconomicContextPanel({
   }, [binding, provider, simulationDate]);
 
   if (state.status === "loading") {
-    return (
-      <section className="economic-context-panel" aria-busy="true">
-        <p data-problem="loading" />
-      </section>
-    );
+    return <section className="economic-context-panel" aria-busy="true" />;
   }
   if (state.status === "error") {
     /*
@@ -331,7 +327,7 @@ export function EconomicGraph({
     <figure className="economic-graph" data-graph-kind={graph.kind}>
       <figcaption>
         <strong>{graph.title}</strong>
-        <span>{graph.description}</span>
+        {graph.description && <span>{graph.description}</span>}
         {/*
           Ordinary play names the place and the unit. The provider's level
           vocabulary, its footnote mark and the day the figure reached the

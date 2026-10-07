@@ -24,6 +24,7 @@
 import { execSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { gradingBatchId, toGradingBatch, writeCoverageLedger } from "./grading";
+import { readKinds } from "./kinds";
 import { batchStats, statsSummary, type BatchStat } from "./stats";
 import { LIFE_TALK_INTENTS } from "../../src/presentation/life-conversation";
 import { dirname } from "node:path";
@@ -38,6 +39,15 @@ import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { LIFE_MIND_IDS } from "../../src/simulation/life-mind-content";
 import { activeOrdinaryGoal } from "../../src/simulation/life-personality";
 import { describePersonContext } from "../../src/simulation/person-context";
+import {
+  chosenReasons,
+  evaluateSentence,
+  prepareJudge,
+  sentencingJudge,
+  type CourtCase,
+} from "../../src/simulation/justice/court-reasoning";
+import { householdMembershipsAt } from "../../src/simulation/life-queries";
+import { stateKeyForJurisdiction } from "../../src/simulation/state-jurisdiction-id";
 import {
   latestPersonalValue,
   latestPersonalityTendency,
@@ -178,6 +188,11 @@ export interface BatchResult {
   readonly worlds: readonly BatchWorldSummary[];
   readonly lines: readonly BatchLine[];
   readonly skipped: readonly BatchSkip[];
+  /** Kinds of text no world produced, each with why. */
+  readonly absent?: readonly {
+    readonly kind: string;
+    readonly reason: string;
+  }[];
   /** The lines measured against the everyday register card. */
   readonly stats: readonly BatchStat[];
 }
@@ -948,6 +963,78 @@ function officialsView(ctx: WorldContext): Produced {
 }
 
 /**
+ * A judge's sentence, in the justice code's own fixed sentences (CTO, 6:30
+ * p.m. Oct 6: the first kind of text beyond conversation). The judge is the
+ * sitting trial judge for the player's home court, drawn by the court's own
+ * docket rule; the case is the harness's, and the judge decides it through
+ * the shared decision engine. The line is exactly the reasons the code gives
+ * for the sentence the judge chose.
+ */
+function judgeSentence(
+  offenseKey: string,
+  offenseLabel: string,
+  pleaded: boolean,
+  standingFindings: number,
+) {
+  return (ctx: WorldContext): Produced => {
+    const home = householdMembershipsAt(ctx.world, ctx.playerId).find(
+      (row) => row.location,
+    )?.location;
+    if (!home) return skip("the player has no recorded home");
+    const defendant = findLocal(ctx, () => true);
+    if (!defendant) return skip("no adult outside the player's circle");
+    const jurisdiction = ctx.world.jurisdictions[home.jurisdictionId];
+    const courtCase: CourtCase = {
+      caseKey: `dialogue-batch:case:${offenseKey}:${pleaded ? "plea" : "trial"}:${standingFindings}`,
+      defendantId: defendant.id,
+      offenseKey,
+      offenseLabel,
+      evidence: "documentary",
+      standingFindings,
+      venueJurisdictionId: home.jurisdictionId,
+      stateKey: jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null,
+    };
+    const judgeId = sentencingJudge(ctx.world, courtCase, 0);
+    if (!judgeId) return skip("the home court has no sitting judge");
+    const world = prepareJudge(ctx.world, judgeId);
+    const decision = evaluateSentence(world, judgeId, courtCase, pleaded);
+    const line = chosenReasons(decision);
+    if (!line) return skip("the judge's sentence gave no reasons");
+    const chosen = decision.selectedOptionKey.endsWith("jail")
+      ? "jail"
+      : "probation";
+    return {
+      axis: "interaction",
+      composer: "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      situation: `Judge ${personName(world.people[judgeId]!)} sentences ${defendant.name} (${defendant.age}) for ${offenseLabel}${pleaded ? " after a guilty plea" : " after a trial"}. The judge chose ${chosen}.`,
+      speaker: personOf(world, ctx.playerId, judgeId, "judge"),
+      line,
+      // Each reason is a fixed sentence in the justice code, keyed by the
+      // consideration it explains, so a grade points at the sentence.
+      parts: decision.context.considerations
+        .filter(
+          (row) =>
+            row.optionKey === decision.selectedOptionKey &&
+            row.direction === "supports",
+        )
+        .map((row) => {
+          const variant = row.stableKey.split(":sentence:")[1] ?? row.stableKey;
+          return {
+            part: "core" as const,
+            partKey: `justice.sentence:core:${variant}`,
+            variantKey: variant,
+            text: row.explanation,
+            usedFactKeys: [],
+          };
+        }),
+      harness: [
+        `The case (${offenseLabel}, ${pleaded ? "plea" : "trial"}, ${standingFindings} standing findings) is the harness's; the judge and defendant are real people in this world.`,
+      ],
+    };
+  };
+}
+
+/**
  * A press interview answer: the player asks a reporter for an exchange through
  * the press desk's own writers, the reporter decides from their record, and
  * if they accept the exchange is arranged and the player answers the
@@ -1148,6 +1235,22 @@ const SITUATIONS: readonly Situation[] = [
   { id: "matter-uninformed", run: matterUninformed },
   { id: "officials-view", run: officialsView },
   { id: "press-answer", run: pressAnswer },
+  {
+    id: "judge-sentence-vandalism-plea",
+    run: judgeSentence("crime:vandalism", "vandalism", true, 1),
+  },
+  {
+    id: "judge-sentence-assault-trial",
+    run: judgeSentence("crime:assault", "assault", false, 1),
+  },
+  {
+    id: "judge-sentence-burglary-repeat",
+    run: judgeSentence("crime:burglary", "burglary", false, 3),
+  },
+  {
+    id: "judge-sentence-bribery-plea",
+    run: judgeSentence("public-bribery", "public bribery", true, 1),
+  },
   // Fallbacks, used only when one above cannot be worded in any world.
   { id: "told-plan-second-listener", run: toldPlan(1) },
   { id: "school-offer", run: schoolReply("offer") },
@@ -1285,11 +1388,62 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     }
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
+  // The other kinds of text, read from the game's own producers: up to three
+  // each across the worlds, and a reason for every kind none produced.
+  const perKind = new Map<string, number>();
+  const why = new Map<string, string[]>();
+  for (const ctx of contexts) {
+    const reading = readKinds(ctx.world, ctx.playerId);
+    for (const text of reading.texts) {
+      // The same wording with other figures or places counts once.
+      const shape = text.text
+        .replace(ctx.place, "@")
+        .replace(
+          /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g,
+          "#",
+        )
+        .replace(/[\d$,.]+/g, "#");
+      if ((perKind.get(text.kind) ?? 0) >= 3 || seenText.has(shape)) continue;
+      seenText.add(shape);
+      perKind.set(text.kind, (perKind.get(text.kind) ?? 0) + 1);
+      lines.push({
+        id: `text-${text.kind}-${perKind.get(text.kind)}`,
+        axis: "place",
+        composer: text.composer,
+        situation: text.situation,
+        speaker: speakerOf(
+          ctx,
+          personOf(ctx.world, ctx.playerId, ctx.playerId, null),
+        ),
+        line: text.text,
+        parts: [text.partKey],
+        world: {
+          place: ctx.place,
+          player: ctx.playerName,
+          playerAge: ctx.playerAge,
+          date: ctx.world.currentDate,
+        },
+        harness: [],
+      });
+    }
+    for (const row of reading.absent)
+      why.set(row.kind, [
+        ...(why.get(row.kind) ?? []),
+        `${ctx.place}: ${row.reason}`,
+      ]);
+  }
+  const absent = [...why]
+    .filter(([kind]) => !perKind.has(kind))
+    .map(([kind, reasons]) => ({
+      kind,
+      reason: [...new Set(reasons)].join("; "),
+    }));
   return {
     seed: options.seed,
     worlds: summaries,
     lines,
     skipped,
+    absent,
     stats: batchStats(lines),
   };
 }

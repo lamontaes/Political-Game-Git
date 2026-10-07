@@ -10,7 +10,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../dates";
 import { CRIME_EVENT_TYPES } from "../crime/producer";
 import { recordWorldEvent } from "../world";
 import {
@@ -88,12 +88,11 @@ describe("migration scaffold", () => {
   const town = opened.world.people[opened.playerId]!.homeJurisdictionId;
   const oregon = stateJurisdictionForKey("US-OR")!.id;
 
-  it("schedules a quarterly review for a current opening", () => {
-    expect(
-      opened.world.history.futureDueItems.some(
-        (item) => item.transitionKey === MIGRATION_REVIEW_TRANSITION_KEY,
-      ),
-    ).toBe(true);
+  it("schedules the first town review on the opening date", () => {
+    const review = opened.world.history.futureDueItems.find(
+      (item) => item.transitionKey === MIGRATION_REVIEW_TRANSITION_KEY,
+    );
+    expect(review?.dueAt).toBe(addDays(opened.world.currentDate, 1));
   });
 
   it("moves a person living alone, closing the old residence and recording why", () => {

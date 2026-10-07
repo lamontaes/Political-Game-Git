@@ -35,6 +35,7 @@
     {
       "key": "legislation.clause.in-this-scope",
       "move": "clause",
+      "kind": "written",
       "text": "In this {scope}:",
       "billsUsing": 40,
       "shippable": true,
@@ -48,6 +49,7 @@
     {
       "key": "legislation.clause.provision-is-amended-by-adding-at-the-end-the-following",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is amended by adding at the end the following:",
       "billsUsing": 30,
       "shippable": true,
@@ -61,6 +63,7 @@
     {
       "key": "legislation.clause.not-later-than-period-after-the-date-of-enactment-of-this-act-the-offi",
       "move": "clause",
+      "kind": "written",
       "text": "Not later than {period} after the date of enactment of this Act, the {official} shall",
       "billsUsing": 24,
       "shippable": true,
@@ -74,6 +77,7 @@
     {
       "key": "legislation.clause.provision-is-amended-by-striking-oldtext-and-inserting-newtext",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is amended by striking {oldText} and inserting {newText}.",
       "billsUsing": 24,
       "shippable": true,
@@ -87,6 +91,7 @@
     {
       "key": "legislation.clause.except-as-provided-in-provision",
       "move": "clause",
+      "kind": "written",
       "text": "Except as provided in {provision},",
       "billsUsing": 15,
       "shippable": true,
@@ -100,6 +105,7 @@
     {
       "key": "legislation.clause.the-official-shall-submit-to-committees-a-report-on-subject",
       "move": "clause",
+      "kind": "written",
       "text": "the {official} shall submit to {committees} a report on {subject}.",
       "billsUsing": 14,
       "shippable": true,
@@ -113,6 +119,7 @@
     {
       "key": "legislation.clause.there-is-authorized-to-be-appropriated-amount-to-carry-out-this-scope",
       "move": "clause",
+      "kind": "written",
       "text": "There is authorized to be appropriated {amount} to carry out this {scope}.",
       "billsUsing": 13,
       "shippable": true,
@@ -126,6 +133,7 @@
     {
       "key": "legislation.clause.nothing-in-this-scope-shall-be-construed-to-limit",
       "move": "clause",
+      "kind": "written",
       "text": "Nothing in this {scope} shall be construed to {limit}.",
       "billsUsing": 11,
       "shippable": true,
@@ -139,6 +147,7 @@
     {
       "key": "legislation.clause.congress-finds-the-following",
       "move": "clause",
+      "kind": "written",
       "text": "Congress finds the following:",
       "billsUsing": 9,
       "shippable": true,
@@ -152,6 +161,7 @@
     {
       "key": "legislation.clause.provision-is-amended-to-read-as-follows",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is amended to read as follows:",
       "billsUsing": 8,
       "shippable": true,
@@ -165,6 +175,7 @@
     {
       "key": "legislation.clause.provision-is-amended-by-inserting-newtext-after-anchor",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is amended by inserting {newText} after {anchor}.",
       "billsUsing": 6,
       "shippable": true,
@@ -178,6 +189,7 @@
     {
       "key": "legislation.clause.it-is-the-sense-of-congress-that-view",
       "move": "clause",
+      "kind": "written",
       "text": "It is the sense of Congress that {view}.",
       "billsUsing": 2,
       "shippable": true,
@@ -191,6 +203,7 @@
     {
       "key": "legislation.clause.this-scope-shall-take-effect-on-the-date-of-enactment-of-this-act",
       "move": "clause",
+      "kind": "written",
       "text": "This {scope} shall take effect on the date of enactment of this Act.",
       "billsUsing": 2,
       "shippable": true,
@@ -204,6 +217,7 @@
     {
       "key": "legislation.clause.provision-is-repealed",
       "move": "clause",
+      "kind": "written",
       "text": "{provision} is repealed.",
       "billsUsing": 2,
       "shippable": true,
@@ -217,6 +231,7 @@
     {
       "key": "legislation.clause.subject-to-the-availability-of-appropriations",
       "move": "clause",
+      "kind": "written",
       "text": "Subject to the availability of appropriations,",
       "billsUsing": 1,
       "shippable": true,
@@ -230,6 +245,7 @@
     {
       "key": "legislation.clause.the-amendments-made-by-this-scope-shall-apply-to-subject-beginning-aft",
       "move": "clause",
+      "kind": "written",
       "text": "The amendments made by this {scope} shall apply to {subject} beginning after the date of the enactment of this Act.",
       "billsUsing": 1,
       "shippable": true,
@@ -243,6 +259,7 @@
     {
       "key": "legislation.enacting-clause.be-it-enacted-by-the-senate-and-house-of-representatives-of-the-united",
       "move": "enacting-clause",
+      "kind": "written",
       "text": "Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled,",
       "billsUsing": 149,
       "shippable": true,
@@ -256,6 +273,7 @@
     {
       "key": "legislation.long-title.to-amend-act-to-purpose-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To amend {act} to {purpose}, and for other purposes.",
       "billsUsing": 33,
       "shippable": true,
@@ -269,6 +287,7 @@
     {
       "key": "legislation.long-title.to-prohibit-conduct-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To prohibit {conduct}, and for other purposes.",
       "billsUsing": 6,
       "shippable": true,
@@ -282,6 +301,7 @@
     {
       "key": "legislation.long-title.to-direct-the-official-to-duty-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To direct the {official} to {duty}, and for other purposes.",
       "billsUsing": 4,
       "shippable": true,
@@ -295,6 +315,7 @@
     {
       "key": "legislation.long-title.to-require-requirement-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To require {requirement}, and for other purposes.",
       "billsUsing": 4,
       "shippable": true,
@@ -308,6 +329,7 @@
     {
       "key": "legislation.long-title.to-designate-the-facility-of-the-united-states-postal-service-located",
       "move": "long-title",
+      "kind": "written",
       "text": "To designate the facility of the United States Postal Service located at {address} as the {name}.",
       "billsUsing": 3,
       "shippable": true,
@@ -321,6 +343,7 @@
     {
       "key": "legislation.long-title.to-provide-for-purpose-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To provide for {purpose}, and for other purposes.",
       "billsUsing": 2,
       "shippable": true,
@@ -334,6 +357,7 @@
     {
       "key": "legislation.long-title.to-authorize-action-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To authorize {action}, and for other purposes.",
       "billsUsing": 1,
       "shippable": true,
@@ -347,6 +371,7 @@
     {
       "key": "legislation.long-title.to-establish-program-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To establish {program}, and for other purposes.",
       "billsUsing": 1,
       "shippable": true,
@@ -360,6 +385,7 @@
     {
       "key": "legislation.long-title.to-improve-program-and-for-other-purposes",
       "move": "long-title",
+      "kind": "written",
       "text": "To improve {program}, and for other purposes.",
       "billsUsing": 1,
       "shippable": true,
@@ -373,6 +399,7 @@
     {
       "key": "legislation.section-heading.short-title",
       "move": "section-heading",
+      "kind": "written",
       "text": "Short title.",
       "billsUsing": 134,
       "shippable": true,
@@ -386,6 +413,7 @@
     {
       "key": "legislation.section-heading.definitions",
       "move": "section-heading",
+      "kind": "written",
       "text": "Definitions.",
       "billsUsing": 13,
       "shippable": true,
@@ -399,6 +427,7 @@
     {
       "key": "legislation.section-heading.findings",
       "move": "section-heading",
+      "kind": "written",
       "text": "Findings.",
       "billsUsing": 9,
       "shippable": true,
@@ -412,6 +441,7 @@
     {
       "key": "legislation.section-heading.rule-of-construction",
       "move": "section-heading",
+      "kind": "written",
       "text": "Rule of construction.",
       "billsUsing": 4,
       "shippable": true,
@@ -425,6 +455,7 @@
     {
       "key": "legislation.section-heading.authorization-of-appropriations",
       "move": "section-heading",
+      "kind": "written",
       "text": "Authorization of appropriations.",
       "billsUsing": 3,
       "shippable": true,
@@ -438,6 +469,7 @@
     {
       "key": "legislation.section-heading.effective-date",
       "move": "section-heading",
+      "kind": "written",
       "text": "Effective date.",
       "billsUsing": 3,
       "shippable": true,
@@ -451,6 +483,7 @@
     {
       "key": "legislation.section-heading.sense-of-congress",
       "move": "section-heading",
+      "kind": "written",
       "text": "Sense of Congress.",
       "billsUsing": 2,
       "shippable": true,
@@ -464,6 +497,7 @@
     {
       "key": "legislation.short-title.this-act-may-be-cited-as-the-act",
       "move": "short-title",
+      "kind": "written",
       "text": "This Act may be cited as the {act}.",
       "billsUsing": 104,
       "shippable": true,
@@ -477,6 +511,7 @@
     {
       "key": "legislation.short-title.this-act-may-be-cited-as-the-act-or-the-shortact",
       "move": "short-title",
+      "kind": "written",
       "text": "This Act may be cited as the {act} or the {shortAct}.",
       "billsUsing": 29,
       "shippable": true,
@@ -485,6 +520,762 @@
         "date": "2025-02-05",
         "granule": "BILLS-119hr1000ih",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr1000ih"
+      }
+    },
+    {
+      "key": "legislation.clause.to-the-committee-on-of-the",
+      "move": "clause",
+      "kind": "written",
+      "text": "to the Committee on {subject} of the {committees}.",
+      "billsUsing": 423,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-04-14",
+        "granule": "BILLS-119hconres28ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hconres28ih"
+      }
+    },
+    {
+      "key": "legislation.clause.in-general",
+      "move": "clause",
+      "kind": "written",
+      "text": "In general.--",
+      "billsUsing": 209,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1000ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1000ih"
+      }
+    },
+    {
+      "key": "legislation.clause.not-later-than-after-the-shall",
+      "move": "clause",
+      "kind": "written",
+      "text": "Not later than {period} after {subject}, the {official} shall {duty}.",
+      "billsUsing": 152,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1000ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1000ih"
+      }
+    },
+    {
+      "key": "legislation.clause.definitions-in-this",
+      "move": "clause",
+      "kind": "written",
+      "text": "Definitions.--In this {scope}:",
+      "billsUsing": 116,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1000ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1000ih"
+      }
+    },
+    {
+      "key": "legislation.clause.the-term-means",
+      "move": "clause",
+      "kind": "written",
+      "text": "The term {name} means {subject}.",
+      "billsUsing": 107,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-07",
+        "granule": "BILLS-119hr1121ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1121ih"
+      }
+    },
+    {
+      "key": "legislation.clause.is-amended-by-redesignating-as",
+      "move": "clause",
+      "kind": "written",
+      "text": "{provision} is amended by redesignating {oldText} as {newText}.",
+      "billsUsing": 70,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1011ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1011ih"
+      }
+    },
+    {
+      "key": "legislation.clause.in-consultation-with-shall",
+      "move": "clause",
+      "kind": "written",
+      "text": "{official}, in consultation with {committees}, shall {duty}.",
+      "billsUsing": 63,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1000ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1000ih"
+      }
+    },
+    {
+      "key": "legislation.clause.the-shall-make-the-report-publicly-available-on-the-website",
+      "move": "clause",
+      "kind": "written",
+      "text": "The {official} shall make the report publicly available on the website of {subject}.",
+      "billsUsing": 36,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1023ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1023ih"
+      }
+    },
+    {
+      "key": "legislation.clause.the-term-has-the-meaning-given-the-term-in",
+      "move": "clause",
+      "kind": "written",
+      "text": "The term {name} has the meaning given the term in {provision}.",
+      "billsUsing": 35,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-12",
+        "granule": "BILLS-119hr1267ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1267ih"
+      }
+    },
+    {
+      "key": "legislation.clause.is-amended-by-adding-at-the-end-the-following-new-paragraph",
+      "move": "clause",
+      "kind": "written",
+      "text": "{provision} is amended by adding at the end the following new paragraph:",
+      "billsUsing": 35,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-04-01",
+        "granule": "BILLS-119hr1491rfs",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1491rfs"
+      }
+    },
+    {
+      "key": "legislation.clause.for-each-of-fiscal-years",
+      "move": "clause",
+      "kind": "written",
+      "text": "{amount} for each of fiscal years {period}.",
+      "billsUsing": 30,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-21",
+        "granule": "BILLS-119hr1448ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1448ih"
+      }
+    },
+    {
+      "key": "legislation.clause.is-amended-by-adding-at-the-end-the-following-new-subsection",
+      "move": "clause",
+      "kind": "written",
+      "text": "{provision} is amended by adding at the end the following new subsection:",
+      "billsUsing": 28,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1036ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1036ih"
+      }
+    },
+    {
+      "key": "legislation.clause.is-amended-by-inserting-after-the-following-new-section",
+      "move": "clause",
+      "kind": "written",
+      "text": "{provision} is amended by inserting after {anchor} the following new section:",
+      "billsUsing": 28,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1000ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1000ih"
+      }
+    },
+    {
+      "key": "legislation.clause.not-later-than-after-the-date-of-enactment-of-this-act-and-a",
+      "move": "clause",
+      "kind": "written",
+      "text": "Not later than {period} after the date of enactment of this Act, and annually thereafter, the {official} shall submit a report.",
+      "billsUsing": 27,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-27",
+        "granule": "BILLS-119hr1656ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1656ih"
+      }
+    },
+    {
+      "key": "legislation.clause.in-the-matter-preceding-by-striking-and-inserting",
+      "move": "clause",
+      "kind": "written",
+      "text": "in the matter preceding {anchor}, by striking {oldText} and inserting {newText}.",
+      "billsUsing": 26,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1036ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1036ih"
+      }
+    },
+    {
+      "key": "legislation.clause.is-amended-by-inserting-before-the-following",
+      "move": "clause",
+      "kind": "written",
+      "text": "{provision} is amended by inserting before {anchor} the following:",
+      "billsUsing": 20,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-24",
+        "granule": "BILLS-119hr1548ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1548ih"
+      }
+    },
+    {
+      "key": "legislation.clause.the-table-of-contents-for-this-act-is-as-follows",
+      "move": "clause",
+      "kind": "written",
+      "text": "The table of contents for this Act is as follows:",
+      "billsUsing": 12,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-24",
+        "granule": "BILLS-119hr1548ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1548ih"
+      }
+    },
+    {
+      "key": "legislation.clause.there-are-authorized-to-be-appropriated-such-sums-as-may-be",
+      "move": "clause",
+      "kind": "written",
+      "text": "There are authorized to be appropriated such sums as may be necessary to carry out this {scope}.",
+      "billsUsing": 12,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-13",
+        "granule": "BILLS-119hr1289ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1289ih"
+      }
+    },
+    {
+      "key": "legislation.clause.is-amended-by-striking-each-place-it-appears-and-inserting",
+      "move": "clause",
+      "kind": "written",
+      "text": "{provision} is amended by striking {oldText} each place it appears and inserting {newText}.",
+      "billsUsing": 11,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-12-18",
+        "granule": "BILLS-119hr1366eh",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1366eh"
+      }
+    },
+    {
+      "key": "legislation.clause.rule-of-construction",
+      "move": "clause",
+      "kind": "written",
+      "text": "Rule of construction.--",
+      "billsUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-03-04",
+        "granule": "BILLS-119hr1515rfs",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1515rfs"
+      }
+    },
+    {
+      "key": "legislation.clause.effective-date",
+      "move": "clause",
+      "kind": "written",
+      "text": "Effective date.--",
+      "billsUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-06",
+        "granule": "BILLS-119hr1092ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1092ih"
+      }
+    },
+    {
+      "key": "legislation.clause.authorization-of-appropriations",
+      "move": "clause",
+      "kind": "written",
+      "text": "Authorization of appropriations.--",
+      "billsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-09-20",
+        "granule": "BILLS-119hr2483enr",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr2483enr"
+      }
+    },
+    {
+      "key": "legislation.clause.congress-makes-the-following-findings",
+      "move": "clause",
+      "kind": "written",
+      "text": "Congress makes the following findings:",
+      "billsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-05-07",
+        "granule": "BILLS-119hr3243ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr3243ih"
+      }
+    },
+    {
+      "key": "legislation.clause.none-of-the-funds-made-available-under-this-may-be-used-to",
+      "move": "clause",
+      "kind": "written",
+      "text": "None of the funds made available under this {scope} may be used to {conduct}.",
+      "billsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-03-27",
+        "granule": "BILLS-119hr2415ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr2415ih"
+      }
+    },
+    {
+      "key": "legislation.clause.the-shall-promulgate-regulations-to-carry-out-this",
+      "move": "clause",
+      "kind": "written",
+      "text": "The {official} shall promulgate regulations to carry out this {scope}.",
+      "billsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-27",
+        "granule": "BILLS-119hr1678ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1678ih"
+      }
+    },
+    {
+      "key": "legislation.clause.if-any-provision-of-this-act-is-held-to-be-unconstitutional",
+      "move": "clause",
+      "kind": "written",
+      "text": "If any provision of this Act is held to be unconstitutional, the remainder of this Act shall not be affected.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-05-07",
+        "granule": "BILLS-119hr3243ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr3243ih"
+      }
+    },
+    {
+      "key": "legislation.enacting-clause.now-therefore-be-it",
+      "move": "enacting-clause",
+      "kind": "written",
+      "text": "Now, therefore, be it",
+      "billsUsing": 26,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-04-14",
+        "granule": "BILLS-119hconres28ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hconres28ih"
+      }
+    },
+    {
+      "key": "legislation.enacting-clause.whereas",
+      "move": "enacting-clause",
+      "kind": "written",
+      "text": "Whereas {view};",
+      "billsUsing": 26,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-04-14",
+        "granule": "BILLS-119hconres28ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hconres28ih"
+      }
+    },
+    {
+      "key": "legislation.enacting-clause.resolved-that",
+      "move": "enacting-clause",
+      "kind": "written",
+      "text": "Resolved, That {view}.",
+      "billsUsing": 25,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-21",
+        "granule": "BILLS-119hres148ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hres148ih"
+      }
+    },
+    {
+      "key": "legislation.enacting-clause.resolved-by-the-house-of-representatives-the-senate-concurri",
+      "move": "enacting-clause",
+      "kind": "written",
+      "text": "Resolved by the House of Representatives (the Senate concurring),",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-04-14",
+        "granule": "BILLS-119hconres28ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hconres28ih"
+      }
+    },
+    {
+      "key": "legislation.long-title.to-reauthorize-and-for-other-purposes",
+      "move": "long-title",
+      "kind": "written",
+      "text": "To reauthorize {program}, and for other purposes.",
+      "billsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-01-09",
+        "granule": "BILLS-119hr284ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr284ih"
+      }
+    },
+    {
+      "key": "legislation.long-title.to-ensure-and-for-other-purposes",
+      "move": "long-title",
+      "kind": "written",
+      "text": "To ensure {purpose}, and for other purposes.",
+      "billsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-05-08",
+        "granule": "BILLS-119hr3306ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr3306ih"
+      }
+    },
+    {
+      "key": "legislation.long-title.expressing-the-sense-of-the-that",
+      "move": "long-title",
+      "kind": "written",
+      "text": "Expressing the sense of the {committees} that {view}.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-01-13",
+        "granule": "BILLS-119hres34ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hres34ih"
+      }
+    },
+    {
+      "key": "legislation.long-title.to-extend-and-for-other-purposes",
+      "move": "long-title",
+      "kind": "written",
+      "text": "To extend {program}, and for other purposes.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-09-02",
+        "granule": "BILLS-119hr5100rh",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr5100rh"
+      }
+    },
+    {
+      "key": "legislation.section-heading.definition",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Definition.",
+      "billsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-25",
+        "granule": "BILLS-119hr1561ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1561ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.severability",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Severability.",
+      "billsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-05-07",
+        "granule": "BILLS-119hr3243ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr3243ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.enforcement",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Enforcement.",
+      "billsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-04-14",
+        "granule": "BILLS-119hconres28ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hconres28ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.table-of-contents",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Table of contents.",
+      "billsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-03-31",
+        "granule": "BILLS-119hr2487ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr2487ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.purpose",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Purpose.",
+      "billsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-09-08",
+        "granule": "BILLS-119hr5182ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr5182ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.reports",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Reports.",
+      "billsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-01-21",
+        "granule": "BILLS-119hr187eh",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr187eh"
+      }
+    },
+    {
+      "key": "legislation.section-heading.rulemaking",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Rulemaking.",
+      "billsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-05-08",
+        "granule": "BILLS-119hr3314ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr3314ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.statement-of-policy",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Statement of policy.",
+      "billsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-03-27",
+        "granule": "BILLS-119hr2411ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr2411ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.sunset",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Sunset.",
+      "billsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-03-27",
+        "granule": "BILLS-119hr2444ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr2444ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.advisory-board",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Advisory board.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-18",
+        "granule": "BILLS-119hr1434ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1434ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.appropriate-congressional-committees-defined",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Appropriate congressional committees defined.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-09-10",
+        "granule": "BILLS-119hr5271ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr5271ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.budgetary-effects",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Budgetary effects.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-09-04",
+        "granule": "BILLS-119hr5130ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr5130ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.conforming-amendment",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Conforming amendment.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-06",
+        "granule": "BILLS-119hr1063ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1063ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.cooperation-and-coordination",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Cooperation and coordination.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-01-21",
+        "granule": "BILLS-119hr187eh",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr187eh"
+      }
+    },
+    {
+      "key": "legislation.section-heading.effect",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Effect.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-01-21",
+        "granule": "BILLS-119hr187eh",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr187eh"
+      }
+    },
+    {
+      "key": "legislation.section-heading.grant-program",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Grant program.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-05-20",
+        "granule": "BILLS-119hr3505ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr3505ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.no-additional-funds",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "No additional funds.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-03-27",
+        "granule": "BILLS-119hr2444ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr2444ih"
+      }
+    },
+    {
+      "key": "legislation.section-heading.rules-of-construction",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Rules of construction.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-03-04",
+        "granule": "BILLS-119hr1515rfs",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1515rfs"
+      }
+    },
+    {
+      "key": "legislation.section-heading.termination",
+      "move": "section-heading",
+      "kind": "written",
+      "text": "Termination.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-09-11",
+        "granule": "BILLS-119hr5299ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr5299ih"
+      }
+    },
+    {
+      "key": "legislation.short-title.this-title-may-be-cited-as-the",
+      "move": "short-title",
+      "kind": "written",
+      "text": "This title may be cited as the {act}.",
+      "billsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-03-27",
+        "granule": "BILLS-119hr2444ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr2444ih"
       }
     }
   ]
