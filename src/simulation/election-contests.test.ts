@@ -5,6 +5,7 @@ import { createDemoWorld } from "./demo";
 import {
   ELECTION_CONTEST_TRANSITION_KEY,
   cancelElectionContest,
+  countRecordedVoterBallots,
   electionContestById,
   electionContestResult,
   electionContestStatus,
@@ -14,6 +15,8 @@ import {
   isElectionContestPending,
   isElectionContestResolved,
   pendingElectionContests,
+  recordPlayerElectionBallot,
+  recordedPlayerElectionBallot,
   requireElectionContest,
   resolveElectionContest,
   resolvedElectionContests,
@@ -30,6 +33,7 @@ import type {
   World,
 } from "./types";
 import { assertWorldIntegrity, advanceWorld } from "./world";
+import { isEligibleVoterIn } from "./issue-record";
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
 
 function getPersonId(world: World, index: number): EntityId {
@@ -1742,5 +1746,86 @@ describe("Election Contest Substrate", () => {
       expect(result?.tallies).toHaveLength(2);
       assertWorldIntegrity(resolvedWorld);
     });
+  });
+});
+
+describe("saved player election ballot", () => {
+  it("retains the controlled voter's explicit candidate or abstention choice", () => {
+    const initial = createDemoWorld("saved-player-election-ballot");
+    const personId = initial.personOrder.find((id) =>
+      initial.jurisdictionOrder.some((jurisdictionId) =>
+        isEligibleVoterIn(initial, id, jurisdictionId, initial.currentDate),
+      ),
+    );
+    const candidatePersonId = initial.personOrder.find((id) => id !== personId);
+    const otherCandidatePersonId = initial.personOrder.find(
+      (id) => id !== personId && id !== candidatePersonId,
+    );
+    const jurisdictionId = personId
+      ? initial.jurisdictionOrder.find((id) =>
+          isEligibleVoterIn(initial, personId, id, initial.currentDate),
+        )
+      : null;
+    if (
+      !personId ||
+      !candidatePersonId ||
+      !otherCandidatePersonId ||
+      !jurisdictionId
+    )
+      throw new Error("Demo world lacks an eligible voter or candidate.");
+    const world = {
+      ...initial,
+      control: { kind: "person" as const, personId },
+    };
+    const ballot = recordPlayerElectionBallot(world, {
+      stableKey: "general-election:2026:mayor",
+      jurisdictionId,
+      candidatePersonIds: [candidatePersonId, otherCandidatePersonId],
+      candidatePersonId,
+      electionDate: initial.currentDate,
+    });
+
+    expect(
+      recordedPlayerElectionBallot(
+        ballot,
+        "general-election:2026:mayor",
+        personId,
+        initial.currentDate,
+      ),
+    ).toBe(candidatePersonId);
+    const abstention = recordPlayerElectionBallot(ballot, {
+      stableKey: "general-election:2026:mayor",
+      jurisdictionId,
+      candidatePersonIds: [candidatePersonId, otherCandidatePersonId],
+      candidatePersonId: null,
+      electionDate: initial.currentDate,
+    });
+    expect(
+      recordedPlayerElectionBallot(
+        abstention,
+        "general-election:2026:mayor",
+        personId,
+        initial.currentDate,
+      ),
+    ).toBe("abstain");
+    expect(
+      recordedPlayerElectionBallot(
+        ballot,
+        "another-contest",
+        personId,
+        initial.currentDate,
+      ),
+    ).toBeNull();
+    const tally = countRecordedVoterBallots(ballot, {
+      stableKey: "general-election:2026:mayor",
+      jurisdictionId,
+      electionDate: initial.currentDate,
+      candidatePersonIds: [candidatePersonId, otherCandidatePersonId],
+    });
+    expect(
+      tally?.tallies.find((row) => row.candidatePersonId === candidatePersonId)
+        ?.votes,
+    ).toBeGreaterThanOrEqual(1);
+    assertWorldIntegrity(ballot);
   });
 });
