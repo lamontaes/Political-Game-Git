@@ -1,4 +1,4 @@
-import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import { carryForwardLeftoverFunds, recordCampaignFundraiserReceipts } from "./campaign-money-sources";
 import { addCampaignHelper } from "./campaign-helpers";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
@@ -309,6 +309,8 @@ export interface FileCampaignInput {
   readonly advertisingVendorName: string;
   readonly staffPersonIds: readonly EntityId[];
   readonly treasuryCurrency: CurrencyCode;
+  /** Explicitly keep a prior committee's remaining funds for this race. */
+  readonly carryForwardFromCampaignId?: EntityId | null;
 }
 
 export interface FiledCampaignResult {
@@ -909,6 +911,18 @@ export function fileCampaign(
       campaignStates: [...(world.history.campaignStates ?? []), initialState],
     },
   };
+  if (input.carryForwardFromCampaignId) {
+    const prior = campaignById(world, input.carryForwardFromCampaignId);
+    const priorPlace = prior ? lifePlaceByJurisdictionId(prior.jurisdictionId) : null;
+    if (!prior || !priorPlace?.stateJurisdictionKey) {
+      throw new Error("campaign-finance:leftover-jurisdiction-rules-unavailable");
+    }
+    world = carryForwardLeftoverFunds(world, {
+      priorCampaignId: prior.id,
+      nextCampaignId: campaignId,
+      priorJurisdictionKey: priorPlace.stateJurisdictionKey,
+    });
+  }
   for (const staffPersonId of staffPersonIds) {
     world = addCampaignHelper(world, {
       campaignId,
