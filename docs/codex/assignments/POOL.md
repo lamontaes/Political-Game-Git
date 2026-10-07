@@ -527,7 +527,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | done #2637 | |
 | BG-23 | Creator: only 6 faces for a man | BUGS.md BG-23 | open | |
 | BG-24 | Creator 'Who are you?' questions are terrible (club-trip registration and similar) | BUGS.md BG-24 | done #87 | |
-| BG-25 | Opening cards ('In the year 2026', 1 of 8) are a non-approved UI; card text hard to read over the Capitol; '2 No party' should read '2 independents'; ghost figure under card 4; hidden newspaper masthead | BUGS.md BG-25 | open | |
+| BG-25 | Opening cards ('In the year 2026', 1 of 8) are a non-approved UI; card text hard to read over the Capitol; '2 No party' should read '2 independents'; ghost figure under card 4; hidden newspaper masthead | BUGS.md BG-25 | ready #3397 | Session 34 |
 | BG-26 | Life story has a 38-year hole, every event is 'In December', no parents/siblings/spouse/children, unexplained school transfer | BUGS.md BG-26 | done #818, #3095 | |
 | BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | open | |
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
@@ -538,7 +538,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | done #1853 | |
 | BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | open | |
 | BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | open | |
-| BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | ready #TEMP | |
+| BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | ready #3415 | |
 | BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | open | |
 | BG-38 | 'Until needed' stops at 7 a.m. first and needs two presses to reach an evening event | BUGS.md BG-38 | open | |
 | BG-39 | A week later the scene is still the meeting room at 7 a.m. with the same people | BUGS.md BG-39 | open | |
