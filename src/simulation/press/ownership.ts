@@ -1116,7 +1116,10 @@ export function outletPurchaseTerms(
   }
   if (savings.liquidBalance.minorUnits < price) {
     return {
-      ...refuse("cannot-afford", `${owner.name} is asking more than you have.`),
+      ...(refuse(
+        "cannot-afford",
+        `${owner.name} is asking more than you have.`,
+      ) as Extract<OutletPurchaseTerms, { readonly reason: string }>),
       buyerMoneyMinorUnits: savings.liquidBalance.minorUnits,
     };
   }
