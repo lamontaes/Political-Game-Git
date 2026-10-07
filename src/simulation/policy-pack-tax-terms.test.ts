@@ -90,6 +90,35 @@ it("loads tax questions without assigning any rates or replacing existing questi
       expect(row.consequences![0]!.evidence.sourceIds).toContain(
         "src/simulation/state-tax-authority.ts",
       );
+    } else if (
+      row.key === "state.corporate-tax-terms" ||
+      row.key === "county.income-tax-terms"
+    ) {
+      // LW-05 records the law rows while the shared binder's authority
+      // families remain an explicit dependency; unsupported terms still fail
+      // closed in bindTaxLawTerms.
+      expect(row.consequences).toHaveLength(1);
+      expect(row.consequences![0]).toMatchObject({
+        kind: "tax",
+        when: "assessment",
+        who: {
+          selector: "recorded-tax-base-payer",
+          predicates: [
+            { capability: "has-operative-typed-tax-policy", parameters: {} },
+          ],
+        },
+        what: "assess-enacted-tax-base",
+        amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+        evidence: {
+          sourceIds: expect.arrayContaining([
+            "src/simulation/law-consequences/tax.ts",
+            "src/simulation/tax-law-term-binding.ts",
+          ]),
+          uncertainty: expect.stringContaining(
+            "This question's authority family is not admitted by the current shared binder",
+          ),
+        },
+      });
     } else if (row.key === "state.income-tax-terms") {
       expect(row.consequences).toHaveLength(1);
       expect(row.consequences![0]).toMatchObject({

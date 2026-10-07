@@ -80,6 +80,15 @@ function stateTaxQuestion(levelKey: string, familyKey: string): boolean {
   );
 }
 
+/** LW-05 rows are recorded now; the shared binder must still admit these
+ * authority families before they can resolve an assessment. */
+function lw05TaxQuestion(levelKey: string, familyKey: string): boolean {
+  return (
+    (levelKey === "state" && familyKey === "corporate") ||
+    (levelKey === "county" && familyKey === "income")
+  );
+}
+
 function taxTermConsequenceRow(
   levelKey: string,
   familyKey: string,
@@ -92,9 +101,11 @@ function taxTermConsequenceRow(
       FEDERAL_TAX_TERM_CONSEQUENCE_FAMILIES.has(familyKey)) ||
     localTaxQuestion(levelKey, familyKey) ||
     stateTaxQuestion(levelKey, familyKey);
+  const lw05Term = lw05TaxQuestion(levelKey, familyKey);
   const stateIncomeTerm = levelKey === "state" && familyKey === "income";
   const excise = familyKey === "excise";
-  if (!federalTerm && !excise && !stateIncomeTerm) return undefined;
+  if (!federalTerm && !lw05Term && !excise && !stateIncomeTerm)
+    return undefined;
   if (stateIncomeTerm) {
     return {
       id: "tax:state:income:saved-statutory",
@@ -154,27 +165,35 @@ function taxTermConsequenceRow(
     evidence: {
       sourceIds: [
         "src/simulation/tax-policy.ts",
-        ...(federalTerm ? ["src/simulation/tax-law-term-binding.ts"] : []),
+        ...(federalTerm || lw05Term
+          ? ["src/simulation/tax-law-term-binding.ts"]
+          : []),
         ...(localTaxQuestion(levelKey, familyKey)
           ? ["src/simulation/local-tax-authority.ts"]
           : []),
         ...(stateTaxQuestion(levelKey, familyKey)
           ? ["src/simulation/state-tax-authority.ts"]
           : []),
-        federalTerm
+        federalTerm || lw05Term
           ? "src/simulation/law-consequences/tax.ts"
           : "src/fiscal-authority/tax-powers.generated.json",
       ],
       population: "The actual payer of a saved taxable occurrence.",
       scope: federalTerm
         ? "Only an operative law with supported legal power, saved terms, and a matching taxable record."
-        : "Only an operative law with supported saved taxing authority and exact adopted terms.",
+        : lw05Term
+          ? "Only an operative law with a supported tax family, legal power, saved terms, and a matching taxable record."
+          : "Only an operative law with supported saved taxing authority and exact adopted terms.",
       why: federalTerm
         ? "The common tax consequence reader derives an assessment from the adopted terms and the saved tax base; the row supplies no rate or amount."
-        : "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
+        : lw05Term
+          ? "The row records the consequence, but the shared tax resolver does not yet admit this authority family; missing bindings refuse assessment."
+          : "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
       uncertainty: federalTerm
         ? "The existing tax resolver calls bindTaxLawTerms(world, { law, questionKey, proposalId, onDate, cutoff }). Until this question has an admitted law, power, and saved-record binding, no assessment is resolved. A local question also needs the state to let that level levy the tax (the shared local tax lookup); where that answer is estimated the saved power says so."
-        : "This row supplies no rate, authority, taxable occurrence or recipient. Missing bindings refuse assessment.",
+        : lw05Term
+          ? "The existing tax resolver calls bindTaxLawTerms(world, { law, questionKey, proposalId, onDate, cutoff }). This question's authority family is not admitted by the current shared binder, so no assessment resolves until that binding is added."
+          : "This row supplies no rate, authority, taxable occurrence or recipient. Missing bindings refuse assessment.",
     },
   };
 }
