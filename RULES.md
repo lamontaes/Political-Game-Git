@@ -13,6 +13,10 @@ Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Se
    in docs/codex/assignments/POOL.md: post `SESSION NN CLAIM <row>` on #2424 first, then work it.
 6. If blocked more than 20 minutes: post `SESSION NN BLOCKED <item>: <exact question>` and move to your next item.
 
+## Mergers (Sessions 31–32), ADDED 10:30 a.m.
+- PRs named in an "OPUS CTO PASS" line may still be drafts: run `gh pr ready <N>` yourself, then gate and merge. Also take drafts whose author posted READY on #2424.
+- Do not wait for green GitHub checks; your local changed-files gate decides.
+
 ## Gate (changed files only; no full-suite run, no waiting on GitHub checks)
 - `git merge origin/main` into your branch first (no conflicts left).
 - `npx prettier --check <changed files>` and `npx eslint <changed .ts/.tsx files>`.
@@ -42,10 +46,11 @@ Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Se
 - Never copy the repo. Use your one working copy; don't run `npm install` if node_modules exists — symlink it:
   `ln -s /Users/lamontae/Documents/PG-LAND/node_modules node_modules` (only if missing).
 - Delete test-results/, playwright-report/ and any temp output you create when your item is done.
-- Before any heavy run check `df -h /System/Volumes/Data`. Under 40 GB free: stop heavy runs, post `SESSION NN DISK`.
+- Disk (CHANGED 10:30 a.m.): in a Codex cloud workspace (about 30 GB total), keep working; stop heavy runs only under 5 GB free and clean test-results/ first. On the owner's Mac (/Users/lamontae…) the floor is 40 GB free (`df -h /System/Volumes/Data`).
 - Test runs over 10 minutes: run only the cases your change touches (`-t "<name>"`), say so in the PR.
 
 ## Rescue rules (old Codex PRs)
+- (ADDED 10:30 a.m.) "Session NN", "S29", "Cloud H" and similar labels in old PR bodies or branch names belong to YESTERDAY's Codex sessions, which are all stopped. They own nothing. Every open PR in your range is yours except the exceptions named in your session file. Redo any triage that marked PRs OWNED-ELSEWHERE for that reason.
 - For each PR in your range: if its work is already on main or superseded, CLOSE it with a one-line reason.
   If it adds hand-written player sentences, CLOSE it (do not rebase).
   Otherwise: check out its branch, merge origin/main, fix conflicts and failures, gate, merge (or READY if SCREEN/ENGLISH).
