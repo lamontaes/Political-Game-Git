@@ -51,6 +51,7 @@ import {
 } from "../presentation/opening-tour-people";
 import {
   capitolPlaceFor,
+  homePlaceForPerson,
   middayBackdropUrl,
 } from "../presentation/place-backdrops";
 import {
@@ -322,6 +323,7 @@ export function WorldOrientationPanel({
         regionalPlate?.kind === "plate" ? regionalPlate.plate : null,
       regionScene,
       homeStateUsps,
+      homePlace: world && personId ? homePlaceForPerson(world, personId) : null,
     });
   const backdrop = backdropFor(step?.key ?? "");
   const nextStep = steps[index + 1];
@@ -866,6 +868,8 @@ export function orientationBackdrop(
     readonly regionScene: EstablishingRaster | null;
     /** The home state's postal code, for the right capitol. */
     readonly homeStateUsps?: string | null;
+    /** The player's home picture, from the dwelling the household lives in. */
+    readonly homePlace?: string | null;
   },
 ): OrientationBackdrop {
   const place = (name: string | null | undefined): OrientationBackdrop => {
@@ -891,6 +895,9 @@ export function orientationBackdrop(
         : "state-legislative-chamber-bicameral",
     );
   if (stepKey === "parents") {
+    // The family stands in the home the household record says it lives in.
+    const home = sources.homePlace ? place(sources.homePlace) : null;
+    if (home && home.kind !== "neutral") return home;
     if (sources.regionalPlate)
       return { kind: "region", plate: sources.regionalPlate };
     if (sources.regionScene)
