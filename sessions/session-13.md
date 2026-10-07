@@ -14,4 +14,7 @@ Wire these personality traits into real decisions people make in live play: play
 ## Endpoint
 All 9 traits wired (none left in NOT_YET_CONNECTED_TRAITS from this list), each with its proof, final #2424 line listing them.
 
+## CTO instructions and findings (do these)
+- CTO FINDING (verified by a 93-day run): only 1 of 15 trait-declared decisions ever runs in live play (incumbents running again). Never run: contact.answer (30 leans), labor.worker-quit, court.plea, court.jury-vote, clemency.petition, press.reporter-request-response, campaign.support-request, legislation.member-vote, people.couple-stage. A trait wired only to one of those changes nothing a player sees. For each trait, wire it to a decision that runs in live play (check the saved world's decision traces), and if the decision it belongs to never runs, make that decision run in live play in the same PR (or post SESSION NN BLOCKED naming it). The live press desk records press.subject-response (press/desk.ts ~789) with no traits — feeding press traits into it counts.
+
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
