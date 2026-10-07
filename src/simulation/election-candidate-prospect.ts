@@ -3,6 +3,8 @@ import { lifeWeighsAgainstOffice } from "./careers/another-term";
 import type { CharacterHistoryContextPersonInput } from "./character-history";
 import { makeIsoDate } from "./dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import { registeredTraitConsiderations } from "./trait-readings";
+import { traitRegistryFor } from "./trait-registry";
 import { drawCanonicalNamedIdentity } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { SeededRng } from "./rng";
@@ -116,6 +118,13 @@ export function recordProspectRunChoice(args: {
             optionKey: "decline",
           })
         : []),
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        personId,
+        stableKey,
+        args.decisionType,
+      ),
     ],
     perceptionIds: [],
     randomness: "none",

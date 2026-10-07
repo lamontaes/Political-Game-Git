@@ -7,6 +7,18 @@ import type { TraitEffectDeclaration } from "../../trait-packs";
  */
 export const facetPhilanthropicEffects: readonly TraitEffectDeclaration[] = [
   {
+    decision: "campaign.donor-ask",
+    leans: [
+      {
+        option: "give",
+        trait: "personality-v1:facet-philanthropic",
+        pole: "high",
+        explanation:
+          "They turn concern for others into material support when a candidate asks them to contribute.",
+      },
+    ],
+  },
+  {
     decision: "clemency.petition",
     leans: [
       {

@@ -4,6 +4,9 @@ import { campaignState, requireCampaign } from "./campaign-queries";
 import { campaignCompliancePackFor } from "./campaign-compliance";
 import { createStableId } from "./ids";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import { registeredTraitConsiderations } from "./trait-readings";
+import { traitRegistryFor } from "./trait-registry";
+import { CAMPAIGN_DONOR_ASK_DECISION } from "./campaign-donor-decisions";
 import {
   activeOrganizationParticipationsAt,
   kinshipRelationshipsAt,
@@ -203,6 +206,15 @@ export function askCampaignDonor(
       explanation: "They are family.",
       sourceRefs: [],
     });
+  considerations.push(
+    ...registeredTraitConsiderations(
+      world,
+      traitRegistryFor(world),
+      input.personId,
+      key,
+      CAMPAIGN_DONOR_ASK_DECISION.id,
+    ),
+  );
   const evaluation = evaluateDecision(world, {
     stableKey: key,
     decisionType: "campaign.donor-ask",

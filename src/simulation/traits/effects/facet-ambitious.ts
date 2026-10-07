@@ -7,6 +7,21 @@ import type { TraitEffectDeclaration } from "../../trait-packs";
  * says nothing about wanting to stop.
  */
 export const facetAmbitiousEffects: readonly TraitEffectDeclaration[] = [
+  ...[
+    "election.consider-congress-run",
+    "election.consider-state-legislative-run",
+  ].map((decision) => ({
+    decision,
+    leans: [
+      {
+        option: "run",
+        trait: "personality-v1:facet-ambitious",
+        pole: "high" as const,
+        explanation:
+          "They seek responsibility and meaningful achievement, so taking on public office appeals to them.",
+      },
+    ],
+  })),
   {
     decision: "career.consider-another-term",
     leans: [
