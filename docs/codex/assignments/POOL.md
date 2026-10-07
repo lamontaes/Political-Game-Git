@@ -533,7 +533,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-26 | Life story has a 38-year hole, every event is 'In December', no parents/siblings/spouse/children, unexplained school transfer | BUGS.md BG-26 | done #818, #3095 | |
 | BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | done #2993 | |
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
-| BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | open | |
+| BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | ready #3515 | |
 | BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | done #441 | |
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | done #2220 | |
@@ -564,7 +564,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | done #5060835 | |
-| BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
+| BG-60 | Wrong font in places | BUGS.md BG-60 | done #3517 | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
@@ -610,7 +610,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1229 | Add canonical conversation action audit with explicit coverage limits | PR #1229 (codex/team-8-conversation-audit) | done #1229 | |
 | RS-1231 | Preserve rejected confidants index candidate and timing evidence | PR #1231 (codex/team-4-confidants-interaction-index) | done (superseded by M10; rejected candidate, no retained production change) | |
 | RS-1233 | Add regional home exteriors and corrected street candidates | PR #1233 (codex/team7-regional-exteriors) | done (superseded by C7; art preserved for later owner review) | |
-| RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | open: draft: finish it or close it as superseded | |
+| RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | ready #1238 | S50 |
 | RS-1257 | Import 61 approved picture and kids-sheet sources | PR #1257 (codex/team7-law-place-import) | done (superseded by C7; approved sources preserved for later owner review) | S35 |
 | RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
@@ -639,7 +639,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2117 | research: preserve abortion limits and conditional exceptions | PR #2117 (codex/standby5-abortion-compound-source-packet) | open: draft: finish it or close it as superseded | |
 | RS-2121 | A15: sourced family-leave monetary rows (parked) | PR #2121 (codex/overflow1-labor-starting-terms) | open: draft: finish it or close it as superseded | |
 | RS-2122 | Document voting restoration conditions for sixteen jurisdictions | PR #2122 (codex/a117-restoration-primary-laws) | open: draft: finish it or close it as superseded | |
-| RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | open: draft: finish it or close it as superseded | |
+| RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | ready #2123 | Session 35 |
 | RS-2127 | Checkpoint sourced Missouri Ohio and New Jersey teacher floors | PR #2127 (codex/standby1-teacher-missouri-terms) | open: draft: finish it or close it as superseded | |
 | RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | ready #2147 | |
 | RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | done #2177 | |
@@ -992,7 +992,7 @@ open: rebase on main (conflicts) | |
 | MR-15 | Strip every authored sentence, helper line, explanation and developer word from the Journal screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done                                    | #2937                                |
 | MR-16 | Strip every authored sentence, helper line, explanation and developer word from the Guide screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done                                    | #2935                                |
 | MR-17 | Strip every authored sentence, helper line, explanation and developer word from the Municipal screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#2934, batch-marked by CTO Oct 7) | Builder L3 (anyone if silent 60 min) |
-| MR-18 | Strip every authored sentence, helper line, explanation and developer word from the Measure paper screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.          | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
+| MR-18 | Strip every authored sentence, helper line, explanation and developer word from the Measure paper screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.          | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #3527                             | Builder L3 (anyone if silent 60 min) |
 | MR-19 | Strip every authored sentence, helper line, explanation and developer word from the Press screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #3201                             | Builder L3 (anyone if silent 60 min) |
 
 ## County (owner order Oct 6: essential; waits behind nothing)
