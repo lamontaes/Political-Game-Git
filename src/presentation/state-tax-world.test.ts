@@ -1,60 +1,112 @@
 import { describe, expect, it } from "vitest";
-import { stableHash } from "../simulation/ids";
-import { measurePosition, availableMeasureSteps } from "../simulation";
-import { addDays, makeIsoDate } from "../simulation/dates";
-import { deserializeWorld, serializeWorld } from "../simulation/serialization";
-import { money } from "../simulation/resources";
-import { homeStateKey } from "../simulation/state-jurisdiction-id";
+// Loaded first so the simulation modules resolve their import cycle in order.
+import "../simulation/campaigns";
+import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import {
+  composeFutureTransitionHandlerRegistries,
+  createFutureTransitionHandlerRegistry,
+} from "../simulation/future-transition-registry";
+import { propertyTaxHandlers } from "../simulation/property-tax-bases";
+import { paydayHandlers } from "../simulation/living-world/town-pay";
+import {
+  availableMeasureSteps,
+  introduceMeasure,
+  measurePosition,
+  recordEnactment,
+  recordExecutiveAction,
+} from "../simulation/legislation";
+import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
+import { rulePackById } from "../simulation/legislature-rule-packs";
+import {
+  committeeMembers,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+  type AuthoredVoteCounts,
+  type LegislativeProcedureContext,
+} from "../simulation/legislation-scenarios";
+import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
+import { organizationProfileAt } from "../simulation/life-queries";
 import { PROPERTY_BASE_KEY } from "../simulation/property-tax-bases";
 import { LOCAL_PAYROLL_BASE_KEY } from "../simulation/payroll-tax-bases";
-import { stateTaxPowerEvidenceFor } from "../simulation/state-tax-authority";
-import { scheduledActivityState } from "../simulation/time-work";
-import {
-  castMemberBallot,
-  pendingChamberQuestions,
-} from "../simulation/governing/legislative-clock";
 import { personName } from "../simulation/people";
-import { CAREER_PROVIDERS } from "./career-path7-provider";
-import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
+import { createResourcePosition, money } from "../simulation/resources";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
+import { homeStateKey } from "../simulation/state-jurisdiction-id";
+import { stateTaxPowerEvidenceFor } from "../simulation/state-tax-authority";
+import { stateJurisdictionForKey } from "../simulation/life-places";
 import {
-  applyLegislativeCommand,
-  institutionOwnsStep,
-  resolveLegislativeAssignmentForMeasure,
-} from "./legislation-world";
-import { publishLegislativeTransition } from "./publish-legislative-transition";
-import { declineVenueActivity } from "./scheduled-activity-choice";
-import { passOrdinaryDays } from "./ordinary-life";
-import { fileTaxProposalFromOffice } from "./tax-work";
+  attachTaxProposal,
+  createTaxTransitionHandlerRegistry,
+} from "../simulation/tax-policy";
 import {
-  respondCareerOffer,
-  seekCareerOffer,
-  startCareerWork,
-} from "../simulation/career-path7";
-import { ordinaryStateHouseFilingEntry } from "../../tests/fixtures/multistate-funded-service-entry";
-import type { FundedServiceEntryState } from "../../tests/fixtures/multistate-funded-service-entry";
-import type { EntityId, TaxTerms, World } from "../simulation";
+  advanceWithWorldIntegrityAtEnd,
+  advanceWorld,
+} from "../simulation/world";
+import { setDeepTransitionInputGuard } from "../simulation/future-transitions";
+import { applyEnactedLawEffects } from "../simulation/enacted-law-effects";
+import { regularSessionYearForWorld } from "../simulation/legislative-procedure-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../simulation/world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
+import { applyLegislativeStep } from "./legislation-session";
+import type { EntityId, IsoDate, TaxTerms, World } from "../simulation";
 
-/** The four states whose ordinary state-house route exists as a fixture; the
- * seed draws one, and the run names it. */
-const STATES: readonly FundedServiceEntryState[] = ["KY", "MN", "NV", "NE"];
+// Only the days this proof reads run: tax collection, the property
+// assessment day and payday. The rest of the world is not advanced, so the
+// run stays short; the state legislature in session is what makes full
+// world days slow.
+const taxDays = composeFutureTransitionHandlerRegistries(
+  createTaxTransitionHandlerRegistry(),
+  createFutureTransitionHandlerRegistry([
+    ...propertyTaxHandlers(),
+    ...paydayHandlers(),
+  ]),
+);
+// Every other scheduled day of the wider world is left unrun in this proof
+// (resolved with nothing written); only the tax days above act.
+// The deep input guard is a test-suite default that copies the world per
+// due item; this proof runs with the shipped (shape-only) guard.
+setDeepTransitionInputGuard(false);
+const handlers: typeof taxDays = {
+  ...taxDays,
+  get: (key) =>
+    taxDays.get(key) ??
+    ((_world, item) => ({
+      world: _world,
+      status: "resolved",
+      reasonKey: null,
+      context: `Not run in this proof (${item.transitionKey}).`,
+      outcomeEventId: null,
+    })),
+};
 
-function drawState(seed: string): FundedServiceEntryState {
-  return STATES[parseInt(stableHash(seed).slice(-8), 16) % STATES.length]!;
+function advanceTo(world: World, date: IsoDate): World {
+  const days = daysBetween(world.currentDate, date);
+  let next = world;
+  for (let left = days; left > 0; left -= 10) {
+    const from = next;
+    next = advanceWithWorldIntegrityAtEnd(
+      () => advanceWorld(from, Math.min(10, left), handlers),
+      from,
+    );
+  }
+  return next;
 }
 
-function reopen(world: World): World {
-  return deserializeWorld(serializeWorld(world));
-}
+type Instrument = "property" | "payroll";
+const BASE_KEYS: Record<Instrument, string> = {
+  property: PROPERTY_BASE_KEY,
+  payroll: LOCAL_PAYROLL_BASE_KEY,
+};
 
-function termsFor(instrument: "property" | "payroll"): TaxTerms {
+function termsFor(instrument: Instrument): TaxTerms {
   return {
     seriesKey: `tax:state-${instrument}`,
-    baseKey:
-      instrument === "property" ? PROPERTY_BASE_KEY : LOCAL_PAYROLL_BASE_KEY,
-    baseLabel:
-      instrument === "property"
-        ? "Assessed value of a household's home or a year's rent"
-        : "Wages paid at an employer in the state",
+    baseKey: BASE_KEYS[instrument],
+    baseLabel: `Authored state ${instrument} base`,
     rateNumerator: 1,
     rateDenominator: 100,
     allowanceMinorUnits: 0,
@@ -69,147 +121,235 @@ function termsFor(instrument: "property" | "payroll"): TaxTerms {
   };
 }
 
-function enact(
+/**
+ * The state's own tax terms filed on the state's real revenue question and
+ * passed through the canonical legislative procedure. The votes and the
+ * governor's signature are supplied (the tax-terms question is
+ * direction-neutral, so no member has a recorded reason): this is fixture
+ * evidence for the landing, not proof that a legislature would pass the tax.
+ */
+function enactStateTax(
   world: World,
-  measureId: EntityId,
-  personId: EntityId,
-  memberSeatStableKey: string,
+  stateKey: string,
+  sponsorPersonId: EntityId,
+  instrument: Instrument,
+  seed: string,
 ): World {
-  const input = { measureId, playerPersonId: personId, memberSeatStableKey };
-  let next = world;
+  const jurisdiction = stateJurisdictionForKey(stateKey)!;
+  const pack = rulePackById(
+    legislativePackForJurisdiction(jurisdiction.id)!.packId,
+  );
+  const question = Object.values(world.policyCatalog.propositions).find(
+    (row) => row.stableKey === `us-tax-terms:state.${instrument}-tax-terms`,
+  )!;
+  let next = introduceMeasure(world, {
+    stableKey: `${seed}:measure`,
+    jurisdictionId: jurisdiction.id,
+    rulePackId: pack.packId,
+    designation: "State Tax 1 (authored)",
+    shortTitle: `State ${instrument} tax`,
+    summary: `Authored proof: a state ${instrument} tax.`,
+    origin: "member-introduction",
+    subjectClass: "revenue",
+    originChamberKey: pack.chamberOrder[0]!,
+    sponsorPersonId,
+    propositionIds: [question.id],
+    propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
+  });
+  const measureId = next.history.legislativeMeasures!.at(-1)!.id;
+  next = attachTaxProposal(next, {
+    stableKey: `${seed}:tax`,
+    measureId,
+    sponsorPersonId,
+    power: stateTaxPowerEvidenceFor(stateKey, instrument)!,
+    terms: termsFor(instrument),
+  });
+  const bodies = pack.chambers.map(
+    (chamber) =>
+      seatedChamberForPack(next, pack.packId, chamber.chamberKey, chamber.name)!
+        .body,
+  );
+  const votePlan: Record<string, AuthoredVoteCounts> = {};
+  for (const chamber of pack.chambers) {
+    const body = bodies.find((row) => row.chamberKey === chamber.chamberKey)!;
+    for (const committee of chamber.committees)
+      votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
+        yea: committeeMembers(body, committee.appointedMembers).length,
+      };
+    for (const stage of chamber.floorStages)
+      votePlan[votePlanKeyForFloor(chamber.chamberKey, stage.stageKey)] = {
+        yea: body.members.length,
+      };
+  }
+  const procedure: LegislativeProcedureContext = {
+    pack,
+    measureId,
+    bodies,
+    committeeMemberCount: null,
+    votePlan,
+    governorAction: "signed",
+    governorRationale: "Explicit supplied approval for the fixture.",
+  };
   for (
-    let turn = 0;
-    turn < 100 && measurePosition(next, measureId).outcome === null;
-    turn++
+    let i = 0;
+    i < 60 && measurePosition(next, measureId).phase !== "enacted";
+    i++
   ) {
-    const entry = resolveLegislativeAssignmentForMeasure(next, input);
-    if (entry.kind !== "available") throw new Error(entry.reason);
     const step = availableMeasureSteps(next, measureId).find(
       (key) => key !== "offer-amendment",
     );
     if (!step)
-      throw new Error(`No step at ${measurePosition(next, measureId).phase}.`);
-    for (const forum of pendingChamberQuestions(next, measureId)) {
-      if (!forum.members.some((member) => member.personId === personId))
-        continue;
-      next = castMemberBallot(next, {
-        personId,
-        question: forum.question,
-        ballot: "yea",
-      });
-    }
-    next = publishLegislativeTransition(
-      next,
-      applyLegislativeCommand(
-        next,
-        entry.assignment,
-        institutionOwnsStep(next, entry.assignment, step)
-          ? { kind: "await-institution", step }
-          : { kind: "take-step", step },
-      ).world,
-    );
+      throw new Error(
+        `Stopped at ${measurePosition(next, measureId).phase} on ${next.currentDate}`,
+      );
+    next =
+      step === "record-enactment"
+        ? recordEnactment(next, {
+            stableKey: `${measureId}:enactment`,
+            measureId,
+            effectiveAt: addDays(next.currentDate, 90),
+          })
+        : step === "await-executive-decision"
+          ? recordExecutiveAction(next, {
+              stableKey: `${measureId}:signature`,
+              measureId,
+              action: "signed",
+              rationale: "Explicit supplied approval for the fixture.",
+            })
+          : applyLegislativeStep(procedure, next, step).world;
   }
-  expect(measurePosition(next, measureId).outcome).toBe("enacted");
-  return next;
+  expect(measurePosition(next, measureId).phase).toBe("enacted");
+  return applyEnactedLawEffects(next, measureId);
 }
 
-function advanceTo(world: World, target: string): World {
-  let next = world;
-  for (let guard = 0; guard < 400 && next.currentDate < target; guard++) {
-    if (next.control.kind === "person") {
-      const personId = next.control.personId;
-      for (const activity of next.history.scheduledActivities.filter(
-        (row) =>
-          row.kind === "tentative" &&
-          row.participantPersonIds.includes(personId) &&
-          scheduledActivityState(next, row.id).status === "scheduled",
-      ))
-        next = declineVenueActivity(next, personId, activity.id);
-    }
-    next = passOrdinaryDays(next, 1);
-  }
-  return next;
-}
-
-describe("LW-04 a state's own property and payroll tax lands on named payers", () => {
+describe("LW-04 a state's own tax lands on a named payer in a random state", () => {
   it.each([
     { seed: "m2-state-property-tax", instrument: "property" as const },
     { seed: "m2-state-payroll-tax", instrument: "payroll" as const },
   ])(
-    "is filed by a seated member, passed by the state legislature and reaches payers ($instrument, $seed)",
+    "is filed, passed and reaches payers ($instrument, $seed)",
     ({ seed, instrument }) => {
-      const state = drawState(seed);
-      const t0 = Date.now();
-      const mark = (label: string) =>
-        process.stderr.write(
-          `PROGRESS ${label} ${Math.round((Date.now() - t0) / 1000)}s\n`,
+      // Draw a place from all 56; a state that does not sit in this game year
+      // (some meet only in odd years) is redrawn, never special-cased.
+      let drawn: ReturnType<typeof drawRandomPlace> | null = null;
+      let game: { playerPersonId: EntityId; world: World } | null = null;
+      for (let attempt = 0; attempt < 12 && !game; attempt++) {
+        const candidate = drawRandomPlace(`${seed}:${attempt}`, (place) =>
+          Boolean(
+            place.stateJurisdictionKey &&
+            stateTaxPowerEvidenceFor(place.stateJurisdictionKey, instrument) &&
+            legislativePackForJurisdiction(
+              stateJurisdictionForKey(place.stateJurisdictionKey)?.id ??
+                ("" as EntityId),
+            ),
+          ),
         );
-      const fixture = ordinaryStateHouseFilingEntry(state);
-      mark("fixture");
-      const personId = fixture.personId;
-      let world = fixture.world;
-      const entry = resolveLegislativeFilingEntry(world, personId);
-      expect(entry.kind).toBe("available");
-      if (entry.kind !== "available") throw new Error(entry.reason);
-      const power = stateTaxPowerEvidenceFor(
-        entry.seat.jurisdictionKey,
-        instrument,
-      )!;
+        const created = createNewGameWorld({
+          ...DEFAULT_NEW_GAME_SETUP,
+          seed,
+          placeKey: candidate.key,
+          startAge: 40,
+          questionnaire: "skipped",
+        });
+        const built = {
+          playerPersonId: created.playerPersonId,
+          world: ensureStateLegislatureOpening(
+            ensureWorldStartingConditions(created.world, {
+              openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+              political: generatePoliticalStartingConditions,
+            }),
+            created.playerPersonId,
+            candidate.stateJurisdictionKey!.slice(3),
+          ),
+        };
+        const year = Number(built.world.currentDate.slice(0, 4));
+        if (
+          regularSessionYearForWorld(
+            built.world,
+            stateJurisdictionForKey(candidate.stateJurisdictionKey!)!.id,
+            year,
+          )
+        ) {
+          drawn = candidate;
+          game = built;
+        }
+      }
+      const place = drawn!;
+      const stateKey = place.stateJurisdictionKey!;
+      let world = game!.world;
+      const power = stateTaxPowerEvidenceFor(stateKey, instrument)!;
       process.stderr.write(
-        `STATE TAX world seed ${seed}, state ${state}, date ${world.currentDate}, ${instrument} authority ${power.authorityStatus} (${power.sourceArtifactId}), estimated ${power.estimated}\n`,
+        `STATE TAX world seed ${seed}, place ${place.displayName}, state ${stateKey}, date ${world.currentDate}, ${instrument} authority ${power.authorityStatus} (${power.sourceArtifactId}) estimated ${power.estimated}\n`,
       );
 
-      const filed = fileTaxProposalFromOffice(world, {
-        personId,
-        stableKey: `m2-state-tax:${seed}`,
-        terms: termsFor(instrument),
-      });
-      expect(filed.world.history.taxProposals!.at(-1)!.power).toMatchObject({
-        level: "STATE",
+      // Quiet case: before the law is passed, nothing is assessed.
+      expect(world.history.taxBases ?? []).toHaveLength(0);
+      world = enactStateTax(
+        world,
+        stateKey,
+        game!.playerPersonId,
         instrument,
-      });
-      mark("filed");
-      world = enact(
-        reopen(filed.world),
-        filed.measureId,
-        personId,
-        entry.seat.relationshipStableKey,
+        seed,
       );
-      mark("enacted");
-      const proposal = world.history.taxProposals!.find(
-        (row) => row.measureId === filed.measureId,
-      )!;
-      const policy = world.history.taxPolicies!.find(
-        (row) => row.proposalId === proposal.id,
-      )!;
-      const baseKey =
-        instrument === "property" ? PROPERTY_BASE_KEY : LOCAL_PAYROLL_BASE_KEY;
-      // Quiet before the date: the law is passed but not yet in force.
+      const proposal = world.history.taxProposals![0]!;
+      expect(proposal.power).toMatchObject({ level: "STATE", instrument });
+      world = {
+        ...world,
+        control: { kind: "person", personId: game!.playerPersonId },
+      };
+      const policy = world.history.taxPolicies?.[0];
       expect(
-        (world.history.taxBases ?? []).filter((row) => row.baseKey === baseKey),
-      ).toHaveLength(0);
+        policy,
+        "the passed law is recorded as a tax policy",
+      ).toBeDefined();
+      const effective = policy!.effectiveAt;
+      process.stderr.write(
+        `STATE LAW passed ${world.currentDate}, effective ${effective}\n`,
+      );
 
       if (instrument === "payroll") {
-        const provider = CAREER_PROVIDERS.find(
-          (row) => row.pathId === "shop-assistant",
-        )!;
-        world = advanceTo(world, policy.effectiveAt);
-        const sought = seekCareerOffer(world, provider);
-        expect(sought.ok).toBe(true);
-        world = sought.world;
-        const engagement = world.history.workRelationships.at(-1)!;
-        world = respondCareerOffer(world, engagement.id, provider, true).world;
-        world = passOrdinaryDays(world, 1);
-        const started = startCareerWork(world, engagement.id, provider);
-        expect(started.ok).toBe(true);
-        world = started.world;
-        world = advanceTo(world, addDays(world.currentDate, 20));
-      } else {
-        world = advanceTo(world, addDays(policy.effectiveAt, 1));
+        // Generated employers have no recorded cash (unknown is not zero), so
+        // one employer in the state is given authored cash to watch payday.
+        const employer = world.history.resourceFlows
+          .filter((flow) => flow.basisKind === "compensation:work")
+          .flatMap((flow) =>
+            flow.source.kind === "organization"
+              ? [flow.source.organizationId]
+              : [],
+          )
+          .find((organizationId) => {
+            const at = organizationProfileAt(
+              world,
+              organizationId,
+            )?.locationJurisdictionId;
+            return (
+              at !== undefined &&
+              at !== null &&
+              !world.history.resourcePositions.some(
+                (position) =>
+                  position.owner.kind === "organization" &&
+                  position.owner.organizationId === organizationId,
+              )
+            );
+          });
+        if (employer)
+          world = createResourcePosition(world, {
+            stableKey: `${seed}:funded-employer`,
+            owner: { kind: "organization", organizationId: employer },
+            openedAt: world.currentDate,
+            openingBalance: money(500000000, "USD"),
+            provenance: {
+              kind: "authored",
+              note: "Known fictional test cash for one employer; not an observed balance.",
+            },
+          });
       }
-      world = reopen(world);
+      world = advanceTo(
+        world,
+        makeIsoDate(addDays(effective, instrument === "property" ? 1 : 30)),
+      );
       const bases = (world.history.taxBases ?? []).filter(
-        (row) => row.baseKey === baseKey,
+        (row) => row.baseKey === BASE_KEYS[instrument],
       );
       expect(bases.length).toBeGreaterThan(0);
       const sample = bases[0]!;
@@ -220,29 +360,30 @@ describe("LW-04 a state's own property and payroll tax lands on named payers", (
       expect(assessment.taxAmount.minorUnits).toBe(
         Math.round(sample.amount.minorUnits / 100),
       );
-      if (instrument === "property")
+      if (instrument !== "payroll")
         for (const base of bases)
           expect(
             homeStateKey(
               world,
               (base.payer as { personId: EntityId }).personId,
             ),
-          ).toBe(`US-${state}`);
+          ).toBe(stateKey);
       process.stderr.write(
-        `STATE PAYER ${personName(world.people[payerId]!)} (${state}) ${instrument} base ${sample.amount.minorUnits} tax ${assessment.taxAmount.minorUnits}; ${bases.length} bases, ${world.history.taxAssessments!.length} assessments. ${sample.assumptionNote}\n`,
+        `STATE PAYER ${personName(world.people[payerId]!)} (${stateKey}) ${instrument} base ${sample.amount.minorUnits} tax ${assessment.taxAmount.minorUnits}; ${bases.length} bases. ${sample.assumptionNote}\n`,
+      );
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(reopened.history.taxAssessments).toEqual(
+        world.history.taxAssessments,
       );
     },
     600_000,
   );
 
-  it("reads the state's own rule, and refuses where the catalog says a state may not", () => {
+  it("reads the state's own rule and refuses a place that is not a state", () => {
     expect(stateTaxPowerEvidenceFor("US-KY", "sales")).toMatchObject({
       level: "STATE",
       instrument: "sales",
     });
     expect(stateTaxPowerEvidenceFor("not-a-state", "sales")).toBeNull();
-    expect(makeIsoDate("2026-01-01")).toBe(
-      stateTaxPowerEvidenceFor("US-MN", "payroll")!.asOf,
-    );
   });
 });
