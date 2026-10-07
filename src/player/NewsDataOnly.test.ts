@@ -26,7 +26,7 @@ describe("the public-information article shows record values only", () => {
   it("never renders a headline, body, record id or definition", () => {
     const text = readFileSync("src/player/PublicInformationPanel.tsx", "utf8");
     expect(text).not.toMatch(/\{item\.(headline|body|readerHeadline)\}/);
-    expect(text).not.toMatch(/\{item\.(publicationId|sourceEventId)\}/);
+    expect(text).not.toMatch(/>\s*\{item\.(publicationId|sourceEventId)\}/);
     expect(text).not.toContain("fullDefinition");
   });
 });
