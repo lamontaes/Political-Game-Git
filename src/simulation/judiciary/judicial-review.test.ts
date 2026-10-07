@@ -17,6 +17,10 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { seatHolderAt, seatsForCourt } from "./courts";
 import {
+  playerHandlesJudicialCase,
+  recordOfficeWorkflowPreference,
+} from "../office-workflow";
+import {
   observerPlace,
   observerSetup,
   openObserverWorld,
@@ -430,6 +434,69 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
     if (ruling.tags.includes("outcome:struck")) expect(read).toBeNull();
     else expect(read?.answer).toBe("yes");
     expect(ruling.tags.some((tag) => tag.startsWith("challenge:"))).toBe(true);
+  });
+
+  it("leaves review pending when the controlled person holds a seat on the reviewing court", () => {
+    const base = openObserverWorld(
+      observerSetup(`${SEED}-player-controlled-justice`),
+    ).world;
+    const { world, propositionId: pid } = withLaw(base, lawState, GAS);
+    const challenged = withRecordedChallenge(world, GAS);
+    const court = reviewingCourt(
+      challenged,
+      stateJurisdictionForKey(`US-${lawState}`)!.id,
+    )!;
+    const playerJustice = seatsForCourt(
+      challenged,
+      court.courtId,
+      challenged.currentDate,
+    )
+      .map((seat) => seatHolderAt(challenged, seat.seatId)?.personId)
+      .find((personId): personId is EntityId => Boolean(personId))!;
+    const controlled: World = {
+      ...challenged,
+      control: { kind: "person", personId: playerJustice },
+    };
+    expect(
+      playerHandlesJudicialCase(controlled, playerJustice, "criminal"),
+    ).toBe(true);
+    expect(playerHandlesJudicialCase(controlled, playerJustice, "civil")).toBe(
+      false,
+    );
+    const playerSeat = seatsForCourt(
+      controlled,
+      court.courtId,
+      controlled.currentDate,
+    ).find(
+      (seat) =>
+        seatHolderAt(controlled, seat.seatId)?.personId === playerJustice,
+    )!;
+    const preference = recordOfficeWorkflowPreference(controlled, {
+      personId: playerJustice,
+      officeRelationshipId: playerSeat.seatId as EntityId,
+      votingMode: null,
+      caseworkMode: "player-handles-all",
+      judicialCaseworkModes: { "law-review": "decide-as-usual" },
+    });
+    expect(preference.kind).toBe("recorded");
+    if (preference.kind !== "recorded") throw new Error(preference.reason);
+    expect(
+      playerHandlesJudicialCase(preference.world, playerJustice, "law-review"),
+    ).toBe(false);
+    const eventsBefore = controlled.history.events.length;
+    const eve = addDays(world.currentDate, 90);
+    const advanced = review(addDays(eve, -1), controlled);
+    expect(advanced).toBe(controlled);
+    expect(advanced.history.events).toHaveLength(eventsBefore);
+    expect(
+      justiceVotes(advanced, {
+        stableKey: "player-bench-held-review",
+        justiceIds: [playerJustice],
+        reviewed: REVIEWED_QUESTIONS.find((row) => row.question === GAS)!,
+        propositionId: pid,
+        ruledAt: eve,
+      }),
+    ).toEqual([]);
   });
 
   it("strikes a law when the justices' own principles and the rulings run against it, and upholds it when they run for it", () => {
