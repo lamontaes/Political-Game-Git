@@ -42,7 +42,6 @@ import type { OathForm, OathSwornOn } from "./oath-of-office";
 import { ensurePressHomeCoverage } from "./press/outlets";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, World } from "./types";
-import { ensurePressHomeCoverage } from "./press/outlets";
 
 export const OFFICE_TRANSITION_SERVICE_ATTENDED =
   "election.transition-service-attended";
