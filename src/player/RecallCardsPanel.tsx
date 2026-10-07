@@ -42,11 +42,7 @@ export function RecallCardsPanel({
       aria-labelledby="recall-cards-title"
     >
       <h3 id="recall-cards-title">What you remember</h3>
-      {cards.length === 0 ? (
-        <p data-testid="recall-cards-empty">
-          You have not gone on the record with anybody yet.
-        </p>
-      ) : (
+      {cards.length === 0 ? null : (
         <ul className="pg-recall-list">
           {cards.map((card) => (
             <li
