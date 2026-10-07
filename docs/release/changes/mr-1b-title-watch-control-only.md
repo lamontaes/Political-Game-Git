@@ -1,7 +1,7 @@
 ---
 id: mr-1b-title-watch-control-only
 impact: patch
-section: Player
+section: Changed
 title: Menu reset: the title menu's Watch the world control stands alone
 ---
 

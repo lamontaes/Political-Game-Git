@@ -29,6 +29,7 @@
     {
       "key": "judges.disposition.it-is-so-ordered",
       "move": "disposition",
+      "kind": "written",
       "text": "It is so ordered.",
       "opinionsUsing": 66,
       "shippable": true,
@@ -42,6 +43,7 @@
     {
       "key": "judges.disposition.the-judgment-of-the-court-is-reversed-and-the-case-is-remanded-for-fur",
       "move": "disposition",
+      "kind": "written",
       "text": "The judgment of the {court} is reversed, and the case is remanded for further proceedings consistent with this opinion.",
       "opinionsUsing": 9,
       "shippable": true,
@@ -55,6 +57,7 @@
     {
       "key": "judges.disposition.for-these-reasons-disposition",
       "move": "disposition",
+      "kind": "written",
       "text": "For these reasons, {disposition}.",
       "opinionsUsing": 9,
       "shippable": true,
@@ -68,6 +71,7 @@
     {
       "key": "judges.disposition.the-judgment-of-the-court-is-vacated-and-the-case-is-remanded-for-furt",
       "move": "disposition",
+      "kind": "written",
       "text": "The judgment of the {court} is vacated, and the case is remanded for further proceedings consistent with this opinion.",
       "opinionsUsing": 6,
       "shippable": true,
@@ -81,6 +85,7 @@
     {
       "key": "judges.disposition.the-writ-of-certiorari-is-dismissed-as-improvidently-granted",
       "move": "disposition",
+      "kind": "written",
       "text": "The writ of certiorari is dismissed as improvidently granted.",
       "opinionsUsing": 3,
       "shippable": true,
@@ -94,6 +99,7 @@
     {
       "key": "judges.disposition.for-the-foregoing-reasons-disposition",
       "move": "disposition",
+      "kind": "written",
       "text": "For the foregoing reasons, {disposition}.",
       "opinionsUsing": 3,
       "shippable": true,
@@ -107,6 +113,7 @@
     {
       "key": "judges.disposition.we-vacate-and-remand",
       "move": "disposition",
+      "kind": "written",
       "text": "We vacate and remand.",
       "opinionsUsing": 2,
       "shippable": true,
@@ -120,6 +127,7 @@
     {
       "key": "judges.disposition.we-reverse",
       "move": "disposition",
+      "kind": "written",
       "text": "We reverse.",
       "opinionsUsing": 1,
       "shippable": true,
@@ -133,6 +141,7 @@
     {
       "key": "judges.holding.we-granted-certiorari-to-resolve-question",
       "move": "holding",
+      "kind": "written",
       "text": "We granted certiorari to resolve {question}.",
       "opinionsUsing": 41,
       "shippable": true,
@@ -146,6 +155,7 @@
     {
       "key": "judges.holding.we-hold-that-holding",
       "move": "holding",
+      "kind": "written",
       "text": "We hold that {holding}.",
       "opinionsUsing": 16,
       "shippable": true,
@@ -159,6 +169,7 @@
     {
       "key": "judges.holding.the-question-presented-is-whether-question",
       "move": "holding",
+      "kind": "written",
       "text": "The question presented is whether {question}.",
       "opinionsUsing": 13,
       "shippable": true,
@@ -172,6 +183,7 @@
     {
       "key": "judges.holding.we-disagree",
       "move": "holding",
+      "kind": "written",
       "text": "We disagree.",
       "opinionsUsing": 7,
       "shippable": true,
@@ -185,6 +197,7 @@
     {
       "key": "judges.holding.we-conclude-that-conclusion",
       "move": "holding",
+      "kind": "written",
       "text": "We conclude that {conclusion}.",
       "opinionsUsing": 6,
       "shippable": true,
@@ -198,6 +211,7 @@
     {
       "key": "judges.holding.the-answer-is-no",
       "move": "holding",
+      "kind": "written",
       "text": "The answer is no.",
       "opinionsUsing": 5,
       "shippable": true,
@@ -211,6 +225,7 @@
     {
       "key": "judges.holding.today-the-court-holds-that-holding",
       "move": "holding",
+      "kind": "written",
       "text": "Today, the Court holds that {holding}.",
       "opinionsUsing": 2,
       "shippable": true,
@@ -224,6 +239,7 @@
     {
       "key": "judges.holding.the-answer-is-yes",
       "move": "holding",
+      "kind": "written",
       "text": "The answer is yes.",
       "opinionsUsing": 1,
       "shippable": true,
@@ -237,6 +253,7 @@
     {
       "key": "judges.holding.we-agree",
       "move": "holding",
+      "kind": "written",
       "text": "We agree.",
       "opinionsUsing": 1,
       "shippable": true,
@@ -250,6 +267,7 @@
     {
       "key": "judges.reasoning.to-be-sure-concession",
       "move": "reasoning",
+      "kind": "written",
       "text": "To be sure, {concession}.",
       "opinionsUsing": 35,
       "shippable": true,
@@ -263,6 +281,7 @@
     {
       "key": "judges.reasoning.in-short-summary",
       "move": "reasoning",
+      "kind": "written",
       "text": "In short, {summary}.",
       "opinionsUsing": 30,
       "shippable": true,
@@ -276,6 +295,7 @@
     {
       "key": "judges.reasoning.consider-example",
       "move": "reasoning",
+      "kind": "written",
       "text": "Consider {example}.",
       "opinionsUsing": 25,
       "shippable": true,
@@ -289,6 +309,7 @@
     {
       "key": "judges.reasoning.put-differently-restatement",
       "move": "reasoning",
+      "kind": "written",
       "text": "Put differently, {restatement}.",
       "opinionsUsing": 11,
       "shippable": true,
@@ -302,6 +323,7 @@
     {
       "key": "judges.reasoning.nothing-in-the-scope-limit",
       "move": "reasoning",
+      "kind": "written",
       "text": "Nothing in the {scope} {limit}.",
       "opinionsUsing": 5,
       "shippable": true,
@@ -315,6 +337,7 @@
     {
       "key": "judges.reasoning.the-party-argues-that-argument",
       "move": "reasoning",
+      "kind": "written",
       "text": "The {party} argues that {argument}.",
       "opinionsUsing": 4,
       "shippable": true,
@@ -328,6 +351,7 @@
     {
       "key": "judges.reasoning.so-it-is-here",
       "move": "reasoning",
+      "kind": "written",
       "text": "So it is here.",
       "opinionsUsing": 3,
       "shippable": true,
@@ -341,6 +365,7 @@
     {
       "key": "judges.reasoning.the-same-is-true-here",
       "move": "reasoning",
+      "kind": "written",
       "text": "The same is true here.",
       "opinionsUsing": 2,
       "shippable": true,
@@ -354,6 +379,7 @@
     {
       "key": "judges.reasoning.we-begin-with-the-text",
       "move": "reasoning",
+      "kind": "written",
       "text": "We begin with the text.",
       "opinionsUsing": 1,
       "shippable": true,
@@ -367,6 +393,7 @@
     {
       "key": "judges.separate-opinion.i-respectfully-dissent",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "I respectfully dissent.",
       "opinionsUsing": 27,
       "shippable": true,
@@ -380,6 +407,7 @@
     {
       "key": "judges.separate-opinion.i-write-separately-to-point",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "I write separately to {point}.",
       "opinionsUsing": 21,
       "shippable": true,
@@ -393,6 +421,7 @@
     {
       "key": "judges.separate-opinion.the-court-today-action",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "The Court today {action}.",
       "opinionsUsing": 17,
       "shippable": true,
@@ -406,6 +435,7 @@
     {
       "key": "judges.separate-opinion.i-join-the-court-s-opinion-in-full",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "I join the Court's opinion in full.",
       "opinionsUsing": 7,
       "shippable": true,
@@ -419,6 +449,7 @@
     {
       "key": "judges.separate-opinion.the-majority-holds-that-holding",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "The majority holds that {holding}.",
       "opinionsUsing": 3,
       "shippable": true,
@@ -432,6 +463,7 @@
     {
       "key": "judges.separate-opinion.respectfully-i-dissent",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "Respectfully, I dissent.",
       "opinionsUsing": 3,
       "shippable": true,
@@ -445,6 +477,7 @@
     {
       "key": "judges.separate-opinion.i-concur-in-the-judgment",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "I concur in the judgment.",
       "opinionsUsing": 2,
       "shippable": true,
@@ -458,6 +491,7 @@
     {
       "key": "judges.separate-opinion.with-respect-objection",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "With respect, {objection}.",
       "opinionsUsing": 1,
       "shippable": true,
@@ -471,6 +505,7 @@
     {
       "key": "judges.disposition.we-therefore-reverse",
       "move": "disposition",
+      "kind": "written",
       "text": "We therefore reverse.",
       "opinionsUsing": 5,
       "shippable": true,
@@ -484,6 +519,7 @@
     {
       "key": "judges.holding.we-express-no-view-on",
       "move": "holding",
+      "kind": "written",
       "text": "We express no view on {question}.",
       "opinionsUsing": 10,
       "shippable": true,
@@ -497,6 +533,7 @@
     {
       "key": "judges.holding.it-follows-that",
       "move": "holding",
+      "kind": "written",
       "text": "It follows that {conclusion}.",
       "opinionsUsing": 10,
       "shippable": true,
@@ -510,6 +547,7 @@
     {
       "key": "judges.holding.we-decline-to",
       "move": "holding",
+      "kind": "written",
       "text": "We decline to {action}.",
       "opinionsUsing": 5,
       "shippable": true,
@@ -523,6 +561,7 @@
     {
       "key": "judges.holding.we-need-not-decide",
       "move": "holding",
+      "kind": "written",
       "text": "We need not decide {question}.",
       "opinionsUsing": 3,
       "shippable": true,
@@ -536,6 +575,7 @@
     {
       "key": "judges.reasoning.of-course",
       "move": "reasoning",
+      "kind": "written",
       "text": "Of course, {concession}.",
       "opinionsUsing": 34,
       "shippable": true,
@@ -549,6 +589,7 @@
     {
       "key": "judges.reasoning.in-any-event",
       "move": "reasoning",
+      "kind": "written",
       "text": "In any event, {summary}.",
       "opinionsUsing": 29,
       "shippable": true,
@@ -562,6 +603,7 @@
     {
       "key": "judges.reasoning.at-the-same-time",
       "move": "reasoning",
+      "kind": "written",
       "text": "At the same time, {concession}.",
       "opinionsUsing": 15,
       "shippable": true,
@@ -575,6 +617,7 @@
     {
       "key": "judges.reasoning.for-one-thing",
       "move": "reasoning",
+      "kind": "written",
       "text": "For one thing, {argument}.",
       "opinionsUsing": 14,
       "shippable": true,
@@ -588,6 +631,7 @@
     {
       "key": "judges.reasoning.our-precedents",
       "move": "reasoning",
+      "kind": "written",
       "text": "Our precedents {action}.",
       "opinionsUsing": 11,
       "shippable": true,
@@ -601,6 +645,7 @@
     {
       "key": "judges.reasoning.not-so",
       "move": "reasoning",
+      "kind": "written",
       "text": "Not so.",
       "opinionsUsing": 10,
       "shippable": true,
@@ -614,6 +659,7 @@
     {
       "key": "judges.reasoning.for-another",
       "move": "reasoning",
+      "kind": "written",
       "text": "For another, {argument}.",
       "opinionsUsing": 9,
       "shippable": true,
@@ -627,6 +673,7 @@
     {
       "key": "judges.reasoning.that-is-especially-so-here",
       "move": "reasoning",
+      "kind": "written",
       "text": "That is especially so here.",
       "opinionsUsing": 3,
       "shippable": true,
@@ -640,6 +687,7 @@
     {
       "key": "judges.reasoning.we-have-long-held-that",
       "move": "reasoning",
+      "kind": "written",
       "text": "We have long held that {holding}.",
       "opinionsUsing": 2,
       "shippable": true,
@@ -653,6 +701,7 @@
     {
       "key": "judges.reasoning.more-to-the-point",
       "move": "reasoning",
+      "kind": "written",
       "text": "More to the point, {argument}.",
       "opinionsUsing": 2,
       "shippable": true,
@@ -666,6 +715,7 @@
     {
       "key": "judges.separate-opinion.the-majority-s",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "The majority's {scope} {limit}.",
       "opinionsUsing": 22,
       "shippable": true,
@@ -679,6 +729,7 @@
     {
       "key": "judges.separate-opinion.the-court-s-decision",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "The Court's decision {action}.",
       "opinionsUsing": 10,
       "shippable": true,
@@ -692,6 +743,7 @@
     {
       "key": "judges.separate-opinion.i-concur-in-part-and-dissent-in-part",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "I concur in part and dissent in part.",
       "opinionsUsing": 5,
       "shippable": true,
@@ -705,6 +757,7 @@
     {
       "key": "judges.separate-opinion.i-agree-with-the-court-that",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "I agree with the Court that {holding}.",
       "opinionsUsing": 5,
       "shippable": true,
@@ -718,6 +771,7 @@
     {
       "key": "judges.separate-opinion.i-cannot-agree",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "I cannot agree.",
       "opinionsUsing": 4,
       "shippable": true,
@@ -731,6 +785,7 @@
     {
       "key": "judges.separate-opinion.i-would-reverse",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "I would reverse.",
       "opinionsUsing": 3,
       "shippable": true,
@@ -744,6 +799,7 @@
     {
       "key": "judges.separate-opinion.i-join-the-opinion-of-the-court",
       "move": "separate-opinion",
+      "kind": "written",
       "text": "I join the opinion of the Court.",
       "opinionsUsing": 2,
       "shippable": true,

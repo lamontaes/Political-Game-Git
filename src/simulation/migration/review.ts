@@ -671,7 +671,7 @@ export function townCrimePush(world: World, town: EntityId): number {
     const rule = LOCAL_CRIME_RATES.offenses.find(
       (row) => row.offense === offense,
     )!;
-    return rule.annualRate * rule.reportedShare;
+    return rule.reportedRate;
   };
   const all = LOCAL_CRIME_RATES.offenses.reduce(
     (sum, rule) => sum + weight(rule.offense),

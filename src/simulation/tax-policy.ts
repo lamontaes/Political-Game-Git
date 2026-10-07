@@ -59,6 +59,7 @@ import {
 } from "./future-transitions";
 import { publishPublicEvent } from "./public-information";
 import { recordLawExposure } from "./law-exposure";
+import { schedulePropertyAssessmentDay } from "./property-tax-schedule";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
@@ -432,7 +433,7 @@ export function attachTaxProposal(
     });
     if (canonicalJson(expectedLocal) !== canonicalJson(input.power))
       throw new Error(
-        "The tax power is not a supported local authority contract.",
+        "The tax power is not a supported local government contract.",
       );
   } else {
     const expected = taxPowerEvidenceFor(input.power.jurisdictionKey, {
@@ -685,6 +686,16 @@ export function adoptEnactedTaxPolicy(
     outcomeEventId: event.id,
   };
   next = append(next, "taxPolicies", policy);
+  if (
+    proposal.publicGovernmentIdentity?.kind === "local-government" &&
+    proposal.terms.instrument === "property"
+  )
+    next = schedulePropertyAssessmentDay(
+      next,
+      proposal.id,
+      effectiveAt,
+      proposal.jurisdictionId,
+    );
   return publishPublicEvent(next, {
     stableKey: `${key}:publication`,
     sourceEventId: event.id,

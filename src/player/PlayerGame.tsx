@@ -167,14 +167,13 @@ import {
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
-  applyPreStartCreatorLifeForks,
   createPreStartNewGameWorld,
   finishPreStartNewGameWorld,
   type NewGame,
   type NewGameSetup,
 } from "../presentation/new-game";
 import { olderOneSaveSlots } from "../presentation/one-save-slots";
-import { playSettingsOf, setPlaySetting } from "../simulation/play-settings";
+import { playSettingsOf } from "../simulation/play-settings";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
@@ -197,8 +196,6 @@ import {
 } from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
-  artPreviewBanner,
-  artPreviewIsShowingCandidateArt,
   artPreviewLibraries,
   artPreviewMode,
   previewDatabaseName,
@@ -211,6 +208,10 @@ import {
   electionNightLocationKey,
 } from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
+import {
+  protestLocationKey,
+  protestPresentPeople,
+} from "../presentation/protest-presence";
 import {
   courtroomLocationKey,
   courtroomPresentPeople,
@@ -1103,10 +1104,7 @@ export function PlayerGame() {
               const completedSetup = endQuestionnaireEarly(setup);
               if (stagedGame) {
                 try {
-                  const answered = applyPreStartCreatorLifeForks(
-                    stagedGame,
-                    completedSetup.creatorLifeForks ?? [],
-                  );
+                  const answered = stagedGame;
                   const preStart = answered.world.preStartLife;
                   if (!preStart)
                     throw new Error("The staged character is missing.");
@@ -1426,8 +1424,6 @@ function PlayingScreen({
     () => artPreviewLibraries(previewMode),
     [previewMode],
   );
-  const previewBanner = artPreviewBanner(previewMode);
-  const previewShowsCandidateArt = artPreviewIsShowingCandidateArt(previewMode);
 
   /*
    * One shell for the whole life: what is open, how the player got there, and
@@ -1707,6 +1703,19 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  /*
+   * A person card stays until the next scene. When the scene or the day
+   * moves on, the room and the people in it are not the ones the card was
+   * opened over, so it closes instead of following the player across
+   * screens; acting from the card within the same scene leaves it open.
+   */
+  const cardMomentKey = `${playScene.sceneId ?? ""}|${session.world.currentDate}`;
+  const cardMomentRef = useRef(cardMomentKey);
+  useEffect(() => {
+    if (cardMomentRef.current === cardMomentKey) return;
+    cardMomentRef.current = cardMomentKey;
+    dispatch({ type: "close-quick-dossier" });
+  }, [cardMomentKey, dispatch]);
   // A place picture fills any screen whose room has no picture of its own:
   // no room at all, or a room whose plate was retired (the public meeting).
   const sceneHasPlate = useMemo(() => {
@@ -1724,7 +1733,8 @@ function PlayingScreen({
             // activity in progress.
             (playScene.purpose !== "activity"
               ? (electionNightLocationKey(session.world, session.personId) ??
-                courtroomLocationKey(session.world, session.personId))
+                courtroomLocationKey(session.world, session.personId) ??
+                protestLocationKey(session.world, session.personId))
               : null) ??
               // An unspecified moment resolves to the home room above it in
               // play-scene-context, so its place picture is home too; without
@@ -1752,14 +1762,20 @@ function PlayingScreen({
             session.personId,
             placeBackdrop.place,
             session.world.currentMoment,
-            // The scene's own people (a meeting's seated officers) first;
-            // on a day the court sat, the judge and jurors the records name.
+            // The scene's own people (a meeting's seated officers) first; on
+            // a day the court sat, the people the records name in the room;
+            // on a protest day, its recorded organizer and attendees.
             placeBackdrop.place === "county-courtroom"
               ? [
                   ...playScene.presentPeople,
                   ...courtroomPresentPeople(session.world, session.personId),
                 ]
-              : playScene.presentPeople,
+              : placeBackdrop.place === "rally-stage"
+                ? [
+                    ...playScene.presentPeople,
+                    ...protestPresentPeople(session.world, session.personId),
+                  ]
+                : playScene.presentPeople,
             {
               speakerId:
                 conversation && conversation.addressee !== "everyone"
@@ -2586,29 +2602,6 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
-            {previewBanner ? (
-              /*
-               * Said out loud, on the screen, for as long as the mode is on.
-               * A preview that looked like the game would be worse than no
-               * preview: somebody would screenshot unreleased art as if it had
-               * been approved. `role="status"` so it is announced rather than
-               * only seen.
-               *
-               * `data-candidate-art` carries the state the sentence describes,
-               * so a test can ask whether the bank is actually being drawn
-               * without pinning the wording. It reads "false" in every
-               * checkout a machine can make, because the bank is owner-private
-               * and absent from all of them.
-               */
-              <p
-                className="art-preview-banner"
-                role="status"
-                data-testid="art-preview-banner"
-                data-candidate-art={previewShowsCandidateArt ? "true" : "false"}
-              >
-                {previewBanner}
-              </p>
-            ) : null}
             <SceneBackdrop
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
@@ -3021,13 +3014,17 @@ function PlayingScreen({
                 </p>
               ) : null}
               {session.unsavedSeed !== null ? (
-                <p className="sr-only" data-testid="unsaved-note">
-                  This life has not been saved yet.
-                </p>
+                <p
+                  className="sr-only"
+                  data-testid="unsaved-note"
+                  data-problem="unsaved"
+                />
               ) : null}
-              <p className="sr-only" role="status">
-                {shell.announcement}
-              </p>
+              <p
+                className="sr-only"
+                role="status"
+                data-announcement={shell.announcement}
+              />
             </div>
 
             {scenePeople
@@ -4299,25 +4296,6 @@ function renderWorkspace({
           <OptionsWorkspace
             state={shell}
             dispatch={dispatch}
-            playSettings={playSettingsOf(session.world)}
-            onSetPlaySetting={(key, value) => {
-              if (key === "challenge")
-                onWorldChange(
-                  setPlaySetting(
-                    session.world,
-                    key,
-                    value as "quiet" | "standard" | "relentless",
-                  ),
-                );
-              else
-                onWorldChange(
-                  setPlaySetting(
-                    session.world,
-                    key,
-                    value as "full" | "light" | "none",
-                  ),
-                );
-            }}
             onOpenPatchNotes={() =>
               dispatch({ type: "go-to-surface", surface: "patch-notes" })
             }
@@ -5154,10 +5132,7 @@ function JournalView({
 
       <h3>What has happened</h3>
       {chapters.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
+        <p data-testid="journal-empty" />
       ) : (
         <ol data-testid="journal-entries">
           {chapters.chapters.map((chapter) => (

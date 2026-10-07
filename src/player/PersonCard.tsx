@@ -372,9 +372,8 @@ export function PersonCard({
               <p
                 className="pg-person-card-note"
                 data-testid="person-card-presence-note"
-              >
-                Away from your current location.
-              </p>
+                data-presence="away"
+              />
             )}
           </div>
         </div>
@@ -412,15 +411,13 @@ export function PersonCard({
         ) : null}
         <div className="pg-person-card-reading">
           <section className="pg-dossier-section" aria-label="What you know">
-            {(dossier.notesMode === "full" ||
-              (dossier.notesMode === "light" && expanded)) &&
-            dossier.reminders.length > 0 ? (
+            {dossier.reminders.length > 0 ? (
               <div data-testid="dossier-reminders">
                 <h3>What you may need to remember</h3>
                 <FactList facts={dossier.reminders} testId="dossier-reminder" />
               </div>
             ) : null}
-            {dossier.lastInteraction === null ? null : (
+            {dossier.lastInteraction === null || dossier.neverSpoken ? null : (
               <p
                 className="pg-person-card-read"
                 data-testid={
@@ -455,8 +452,9 @@ export function PersonCard({
               <p
                 className="pg-person-card-note"
                 data-testid="dossier-facts-empty"
+                data-problem="no-facts-known"
               >
-                You don&rsquo;t know much about {dossier.shortName} yet.
+                {dossier.shortName}
               </p>
             ) : null}
             {!expanded && onExpand && (dossier.details.length > 3 || true) ? (
@@ -615,7 +613,6 @@ export function PersonCard({
             type="button"
             className="ui-action ui-action--primary"
             data-testid="dossier-talk"
-            aria-describedby={`person-talk-reason-${dossier.personId}`}
             onClick={onTalk}
           >
             Talk
@@ -626,7 +623,6 @@ export function PersonCard({
             type="button"
             className="ui-action"
             data-testid="person-travel"
-            aria-describedby={`person-travel-reason-${dossier.personId}`}
             onClick={onTravel}
           >
             Travel to
@@ -637,7 +633,6 @@ export function PersonCard({
             type="button"
             className="ui-action"
             data-testid="person-meet"
-            aria-describedby={`person-meet-reason-${dossier.personId}`}
             onClick={onMeet}
           >
             Meet
@@ -649,7 +644,6 @@ export function PersonCard({
             className="ui-action"
             data-testid="person-contact"
             onClick={onContact}
-            aria-describedby={`person-contact-reason-${dossier.personId}`}
           >
             Contact
           </button>
@@ -665,30 +659,13 @@ export function PersonCard({
           </button>
         ) : null}
       </footer>
-      <p
-        className="sr-only"
-        id={`person-talk-reason-${dossier.personId}`}
-        {...(talkUnavailable
-          ? { "data-testid": "dossier-talk-unavailable" }
-          : {})}
-      >
-        {talkUnavailable ??
-          "Starts the established conversation with this person."}
-      </p>
-      {reachable && contact.contact.available && onContact ? (
-        <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
-          {contact.contact.reason}
-        </p>
-      ) : null}
-      {reachable && contact.meet.available && onMeet ? (
-        <p className="sr-only" id={`person-meet-reason-${dossier.personId}`}>
-          {contact.meet.reason}
-        </p>
-      ) : null}
-      {reachable && contact.travel.available && onTravel ? (
-        <p className="sr-only" id={`person-travel-reason-${dossier.personId}`}>
-          {contact.travel.reason}
-        </p>
+      {talkUnavailable ? (
+        <p
+          className="sr-only"
+          id={`person-talk-reason-${dossier.personId}`}
+          data-testid="dossier-talk-unavailable"
+          data-reason={talkUnavailable}
+        />
       ) : null}
       {expanded && contact.travel.available && reachable ? (
         <p className="pg-person-card-note" data-testid="person-contact-reason">
@@ -697,7 +674,7 @@ export function PersonCard({
       ) : null}
       {expanded && unavailableReasons.length > 0 ? (
         <details className="pg-person-card-why">
-          <summary>Why some actions are unavailable</summary>
+          <summary>Unavailable</summary>
           <ul data-testid="person-contact-unavailable">
             {unavailableReasons.map((reason) => (
               <li key={reason}>{reason}</li>
