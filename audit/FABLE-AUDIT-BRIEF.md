@@ -4,10 +4,10 @@ WHO YOU ARE AND WHAT THE OWNER WANTS
 You are Fable, running on the owner's other Claude account. The owner (Lamontae) designs Our Civic Duty, a political-life RPG (repo lamontaes/Political-Game-Git, public; TypeScript, React, Vite, Vitest). He asked for this, in his words: "review fable's audits (the interconnected one, the dupers, etc.) ... then compare it to the current assignments and code and then see how much fluff can be deleted, fixes for hardcoded or any other disallowed stuff, and the simulation system — is it linked? are things called? etc." Then: "everything you find out from this audit can be made its own Luna [agent task]." The work is done by Codex sessions on the Luna model; they work best with very specific instructions: exact files, exact steps, exact endpoints.
 
 So your job has two outputs:
-1. A plain-English results doc for the owner (D1 below).
-2. Detailed pool rows ("AU2-*") that Luna sessions can each finish in one PR (D2 below).
+1. A plain-English results doc for the owner (OUT-1 below).
+2. Detailed pool rows ("AU2-*") that Luna sessions can each finish in one PR (OUT-2 below).
 
-You do NOT fix code yourself, do not merge anything, and do not open PRs other than the single rows PR in D2.
+You do NOT fix code yourself, do not merge anything, and do not open PRs other than the single rows PR in OUT-2.
 
 TIME AND PROGRESS
 - Budget: aim to finish in about 2–3 hours. A previous attempt by local helpers ran 2 hours and produced almost nothing because it tried to be exhaustive. Sample where a full pass is too slow, and SAY you sampled.
@@ -15,35 +15,35 @@ TIME AND PROGRESS
 - If you get stuck over 15 minutes on one part, write what you have for it and move to the next part.
 
 SETUP
-- One fresh clone of main: `git clone https://github.com/lamontaes/Political-Game-Git.git && cd Political-Game-Git && npm ci`. One clone only; never copy the repo again. Read-only analysis except the final rows branch in D2.
+- One fresh clone of main: `git clone https://github.com/lamontaes/Political-Game-Git.git && cd Political-Game-Git && npm ci`. One clone only; never copy the repo again. Read-only analysis except the final rows branch in OUT-2.
 - Also read: `git fetch origin assignments` then `git show origin/assignments:RULES.md`, `git show origin/assignments:TRAIT-SYSTEM.md` (the new general trait system spec), and `docs/codex/assignments/POOL.md` on main (the work pool; rows are table lines `| Row | Do exactly this | Source | Status | Owner |`).
 - Also read the Drive doc "00m WORKER INSTRUCTIONS" (id 1lBz66mTa0tbR-KUCLkNo2SYCQCnfaDlz4rN7ZM2PR9I): it is how every Luna session works; your rows must fit it.
 
 THE OWNER'S RULES (every finding is judged against these; every row must obey them)
-B1. Every fix covers all 56 places (50 states, D.C., the territories) through ONE shared code path, with a test over all 56.
-B2. NO hand-written player text: no sentence a player can read that a developer wrote (headings, explanations, reasons, summaries, fallbacks, sentence aria-labels, "how the game works" text, source citations, developer words). Allowed: record data values, approved control names (docs/ui/kit13/APPROVED-2026-10-04.md), English-engine output composed from records and mined phrase banks (data/english/parts/*.json). Removing hand-written text is always allowed and wanted.
-B3. Nothing hardcoded: names, numbers, places, events, default people in code. Real data only as a starting point; estimates labeled with their source.
-B4. No dice deciding outcomes: choices come from people's reasons (decision considerations), amounts from mechanisms. Seeded randomness that picks an outcome or sizes an effect counts as dice. ID generation and purely visual variety do not.
-B5. American English only.
-B6. Replacing UI: delete the old component, CSS and text in the same PR; never paste over it.
-B7. Never weaken a test.
-B8. Data, not code: one engine per domain plus data rows (one law system, one election engine for all levels, one trait system).
+R1. Every fix covers all 56 places (50 states, D.C., the territories) through ONE shared code path, with a test over all 56.
+R2. NO hand-written player text: no sentence a player can read that a developer wrote (headings, explanations, reasons, summaries, fallbacks, sentence aria-labels, "how the game works" text, source citations, developer words). Allowed: record data values, approved control names (docs/ui/kit13/APPROVED-2026-10-04.md), English-engine output composed from records and mined phrase banks (data/english/parts/*.json). Removing hand-written text is always allowed and wanted.
+R3. Nothing hardcoded: names, numbers, places, events, default people in code. Real data only as a starting point; estimates labeled with their source.
+R4. No dice deciding outcomes: choices come from people's reasons (decision considerations), amounts from mechanisms. Seeded randomness that picks an outcome or sizes an effect counts as dice. ID generation and purely visual variety do not.
+R5. American English only.
+R6. Replacing UI: delete the old component, CSS and text in the same PR; never paste over it.
+R7. Never weaken a test.
+R8. Data, not code: one engine per domain plus data rows (one law system, one election engine for all levels, one trait system).
 
 THE FOUR EARLIER AUDITS (your baselines)
 
 (1) INTERCONNECTION / "EFFECTS" AUDIT — Fable, Oct 1. Google Doc "Effects audit — Fable — Oct 1", id 12UJkfMvHRCDQXxONcEU0aBBsDhuBcGtyV_fuvxK0g3g (read it). Findings then: 222 links between laws, outcomes, people and politics; 96 ran, 36 zero on purpose, 90 not running; only 7 computed outcomes reached a game system; opinions and votes never read a place outcome; effect sizes drawn per world (A127/A128) and outcomes drift by dice (A63); the pay and right-permission effect kinds were not registered; the tax kind never fired in play; a second cause-and-effect engine existed (src/simulation/causal-effects.ts, A129). Part 5 was a wiring plan by engine.
 Merged since (verify): #3102 "Unify law effect kinds and retire causal-effects entrypoint", #3231 generated law consequence registry, Medicaid eligibility from opening and on effective date (#3074, #3091), state income/sales/property/payroll tax on the shared tax seam (#3022, #3032, #3277), rent stabilization terms (#3118), minimum sentences through shared consequences (#3090), monthly service receipts (#3193, #3282), state bill filing bar rescaled (#3073), per-state session calendars (#3098), county budget hearings and levy (#3033, #3053), mortality from opening (#3075), labor review at opening (#3072), events remembered (#3107), NPC contact routed through contact answers (#3089).
 
-(2) REACHABILITY / "TENTACLES" — Fable, Oct 6. A static import trace from src/main.tsx over src/**/*.{ts,tsx,json}. Results then: 3,462 files; MAIN 1,571 (reachable from the game), OTHER-ENTRY 1,817 (reachable only from tests, scripts, or the developer html entries src/review.tsx and src/art-desk-entry.tsx), NOBODY 74. The script is in APPENDIX B (change ROOT to your clone and OUT to a scratch folder). "Imported" is not "called": the deeper question is runtime wiring (below).
+(2) REACHABILITY / "TENTACLES" — Fable, Oct 6. A static import trace from src/main.tsx over src/**/*.{ts,tsx,json}. Results then: 3,462 files; MAIN 1,571 (reachable from the game), OTHER-ENTRY 1,817 (reachable only from tests, scripts, or the developer html entries src/review.tsx and src/art-desk-entry.tsx), NOBODY 74. The script: `git show origin/assignments:audit/trace.mjs > trace.mjs` (change ROOT to your clone and OUT to a scratch folder). "Imported" is not "called": the deeper question is runtime wiring (below).
 
-(3) DUPLICATES — CTO, Oct 7 morning. Full text in APPENDIX A. Session 27 worked on it today.
+(3) DUPLICATES — CTO, Oct 7 morning. Full text: `git show origin/assignments:audit/dupes-audit-2026-10-07.md`. Session 27 worked on it today.
 
 (4) HAND-WRITTEN TEXT INVENTORY — Oct 6: 605 player-facing strings found, 596 hand-written (heuristic regex over string literals and JSX text; e.g. src/player/SetupScreen.tsx alone had 107). A guard test from STUDS-3 (#3015, "a local check that fails when fixed text a player reads grows") should exist on main: find and run it. Authored phrase banks also count as hand-written: src/presentation/*-english.ts (subject-reply-english.ts ~139 fixed parts, legislative-motif-english.ts ~82, small-talk-english.ts ~59, refusal-english.ts ~24, election-speech-english.ts ~22, press-english.ts ~11) versus mined banks in data/english/parts/*.json. Trait reason sentences (`explanation:` in src/simulation/traits/effects/*.ts and inline `traitConsiderations` leans in ~25 files) are hand-written too; the trait spec retires them (pool rows TR-2, TR-3-*, TR-4*).
 
 WHAT TO DO (four parts; write each part's findings as you go)
 
 PART A — FLUFF AND WIRING (reachability)
-A1. Re-run the trace (APPENDIX B) on main. Headline counts vs Oct 6.
+A1. Re-run the trace (audit/trace.mjs on the assignments branch) on main. Headline counts vs Oct 6.
 A2. List src/ files reachable only from tests (not from main, not from review.tsx/art-desk-entry.tsx, not from scripts/), grouped by folder with line counts.
 A3. Runtime wiring: find the day clock's handler registry (where scheduled/transition handlers are registered and dispatched; start from src/simulation/future-transitions.ts and search for the registry and any backup lookup). List: handlers registered but never scheduled by code reachable from opening a world or advancing a day; scheduler functions never called from MAIN code; handlers defined but never registered. Use the transition keys/ids to grep. file:line each.
 A4. Exported functions in src/simulation with zero callers outside their own file and tests (grep each export name across non-test src/). Count, then the top 60 by size.
@@ -58,7 +58,7 @@ B5. Dice: every place randomness decides an outcome or sizes an effect in src/si
 B6. The 20 most important missing connections, each with the exact call site to add.
 
 PART C — DUPLICATES AND HARD-CODING
-C1. Every item in APPENDIX A: FIXED (file:line) / PARTLY (what remains) / OPEN, with lines deletable when finished.
+C1. Every item in the duplicates audit (audit/dupes-audit-2026-10-07.md on the assignments branch): FIXED (file:line) / PARTLY (what remains) / OPEN, with lines deletable when finished.
 C2. New duplicates (two implementations of one concept, where the clock calls one and other code reads another, or both run). Check at least: member vote rules; bill stage movement; effective dates; law→outcome tables; clock handler registries; body-rules lookups; campaign contribution rules; winner seating; the two trait paths (registeredTraitConsiderations in trait-readings.ts vs traitConsiderations in people-traits.ts — the trait spec already plans to retire the second); pay writers; living-cost/sales-tax runners; election engines per level; council seating; rent/benefit formulas; press producers; English phrase banks vs mined banks; room/backdrop pickers; pose choosers; title-screen pickers.
 C3. Hard-coded special cases in shared engine code: state names/abbreviations or place ids in string literals in src/simulation (not data, not tests), fixed ISO dates in code, ids like "us-congress-v1" in shared logic, Kentucky-only checks, Lexington defaults, every state repeating its 2024 vote, fixed fake names.
 
@@ -73,20 +73,23 @@ For every finding, check POOL.md (rows ART-*, TR-*, LW-*, CO-*, b-rows, BG-*, MR
 
 DELIVERABLES
 
-D1 — RESULTS DOC FOR THE OWNER. Create a Google Doc titled "00o AUDIT RESULTS — Oct 7". Top section in plain English, no jargon (the owner reads it on his phone): (a) how much can be deleted (lines and files); (b) is the simulation linked — yes/partly/no with the 5 biggest gaps in one sentence each; (c) are things called — how many systems exist but never run; (d) hardcoded and banned content counts then vs now; (e) dice count. Then the detail tables from Parts A–E.
+OUT-1 — RESULTS DOC FOR THE OWNER. Create a Google Doc titled "00o AUDIT RESULTS — Oct 7". Top section in plain English, no jargon (the owner reads it on his phone): (a) how much can be deleted (lines and files); (b) is the simulation linked — yes/partly/no with the 5 biggest gaps in one sentence each; (c) are things called — how many systems exist but never run; (d) hardcoded and banned content counts then vs now; (e) dice count. Then the detail tables from Parts A–E.
 
-D2 — AU2 POOL ROWS. Each NEW finding that is real work becomes ONE row sized for one Luna session in about 1–2 hours. Row ids AU2-DEL-nn (delete), AU2-WIRE-nn (wire a system into live play), AU2-DUP-nn (merge duplicates), AU2-HC-nn (hard-coding → data), AU2-TXT-nn (remove hand-written text), AU2-DICE-nn (replace dice with a mechanism). Every row's "Do exactly this" cell must contain: the exact files (and functions, file:line); the exact steps in order; what NOT to touch; the test to add (over all 56 places when it touches place logic); and an ENDPOINT someone can check (a test name passing, a grep count reaching 0, a 30-day watched world showing N records). Example of the standard:
+OUT-2 — AU2 POOL ROWS. Each NEW finding that is real work becomes ONE row sized for one Luna session in about 1–2 hours. Row ids AU2-DEL-nn (delete), AU2-WIRE-nn (wire a system into live play), AU2-DUP-nn (merge duplicates), AU2-HC-nn (hard-coding → data), AU2-TXT-nn (remove hand-written text), AU2-DICE-nn (replace dice with a mechanism). Every row's "Do exactly this" cell must contain: the exact files (and functions, file:line); the exact steps in order; what NOT to touch; the test to add (over all 56 places when it touches place logic); and an ENDPOINT someone can check (a test name passing, a grep count reaching 0, a 30-day watched world showing N records). Example of the standard:
 | AU2-WIRE-03 | Pay public benefits monthly: src/simulation/public-benefit-formulas.ts has 6 formula functions with no live caller. Add a monthly handler in the day clock registry (<file:line>) that, for each household enrolled in SNAP/TANF/housing aid on the first of the month, computes the amount with the matching formula from that household's recorded income and size and writes a payment record with a law effect stamp citing the program's law in force. Delete nothing. Test: one seeded enrolled household in each of the 56 places receives exactly one stamped payment per month. ENDPOINT: a 30-day watched world (scripts/world-report/run.ts) shows ≥1 stamped benefit payment per enrolled household. | Fable audit Oct 7 | open | OPEN TO ANYONE |
-Order the rows by game impact (things that make laws reach people and the world feel alive first; pure deletions next; cosmetic last). Then: branch `fable/audit-rows` from main, append a section "## AU2: code audit rows (Fable, Oct 7)" with a one-paragraph intro and the table to the END of docs/codex/assignments/POOL.md, run `npx prettier --write docs/codex/assignments/POOL.md`, add docs/release/changes/fable-audit-rows-oct7.md with the header lines `id: fable-audit-rows-oct7` and `impact: none` between `---` lines and one plain sentence, commit, push, open ONE PR titled "POOL: AU2 code audit rows (Fable, Oct 7)". If you cannot push, paste the rows at the end of the D1 doc instead; the CTO commits them.
+Order the rows by game impact (things that make laws reach people and the world feel alive first; pure deletions next; cosmetic last). Then: branch `fable/audit-rows` from main, append a section "## AU2: code audit rows (Fable, Oct 7)" with a one-paragraph intro and the table to the END of docs/codex/assignments/POOL.md, run `npx prettier --write docs/codex/assignments/POOL.md`, add docs/release/changes/fable-audit-rows-oct7.md with the header lines `id: fable-audit-rows-oct7` and `impact: none` between `---` lines and one plain sentence, commit, push, open ONE PR titled "POOL: AU2 code audit rows (Fable, Oct 7)". If you cannot push, paste the rows at the end of the OUT-1 doc instead; the CTO commits them.
 
-D3 — When done, one line at the top of the 00j LOG: "FABLE AUDIT DONE: results doc <link>; rows PR #N (or in the doc); deletable lines X; WIRE rows Y; dice Z."
+OUT-3 — When done, one line at the top of the 00j LOG: "FABLE AUDIT DONE: results doc <link>; rows PR #N (or in the doc); deletable lines X; WIRE rows Y; dice Z."
 
 DON'TS
 - No code fixes, no merges, no other PRs, no status-only edits to other pool rows.
 - Don't invent sources or numbers; say "estimated" and how.
 - Don't try to be exhaustive where sampling answers the question; the owner wants results today.
 
-APPENDIX A — DUPLICATES AUDIT (CTO, Oct 7 morning), full text:
+APPENDICES: the duplicates audit and the trace script are on the repo's assignments branch: `git show origin/assignments:audit/dupes-audit-2026-10-07.md` and `git show origin/assignments:audit/trace.mjs`. This whole brief is also at `git show origin/assignments:audit/FABLE-AUDIT-BRIEF.md`.
+
+
+APPENDIX A — DUPLICATES AUDIT
 
 # Dupes / wrong-path / never-called audit — 2026-10-07
 
@@ -276,8 +279,9 @@ Correction to the earlier audit:
 - US_CONGRESS_PACK_ID is down from 42 lines to 15.
 
 
-APPENDIX B — tentacles trace script (Oct 6). Change ROOT to your clone's path and OUT to a scratch folder, then `node trace.mjs`:
+APPENDIX B — trace.mjs
 
+```js
 import fs from 'fs'; import path from 'path'; import cp from 'child_process';
 const ROOT='/Users/lamontae/political-game-play/scratchpad/wt-work';
 const OUT='/Users/lamontae/political-game-play/cto-notes/tentacles';
@@ -356,3 +360,4 @@ fs.writeFileSync(OUT+'/tentacles.md',md);
 console.log(counts,unresolved.length,aliases.length);
 console.log(nob.sort((a,b)=>b.lines-a.lines).slice(0,10).map(x=>x.lines+' '+x.path).join('\n'));
 
+```
