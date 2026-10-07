@@ -278,8 +278,6 @@ import type {
   WorldGeneratorVersion,
   WorldLineage,
 } from "./types";
-import { composeWorldTimeHandlers } from "./campaigns";
-
 const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
   "birth-date",
   "birthplace",
