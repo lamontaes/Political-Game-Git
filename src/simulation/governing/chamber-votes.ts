@@ -12,6 +12,7 @@ import {
   legislativePackForJurisdiction,
   legislativePackForWorkKey,
 } from "../legislative-institutions";
+import { isCountyBudgetMeasure } from "../county-budget-record";
 import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import { chamberByKey } from "../legislature-rules";
 import { seatsForChamber } from "../legislature-game-profile";
@@ -761,8 +762,11 @@ function billVoteContext(
   // against their own principles, and the day the government's offices
   // close without one (`budget-stakes.ts`; CTO ruling, September 29,
   // 9:45 a.m.: "a budget can't pass").
+  // A county board's budget levy (CO-5) is the county's budget bill: the
+  // measure carries the tax terms, and the hearing record names it.
   const budget =
-    measure.subjectClass === "appropriation" &&
+    (measure.subjectClass === "appropriation" ||
+      isCountyBudgetMeasure(world, measure.id)) &&
     input.question.question.purpose !== "amendment";
   const contested =
     input.contested ??

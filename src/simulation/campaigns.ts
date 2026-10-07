@@ -9,6 +9,7 @@ import {
 import { paydayHandlers } from "./living-world/town-pay";
 import { rentDayHandlers } from "./living-world/town-rent";
 import { propertyTaxHandlers } from "./property-tax-bases";
+import { countyBudgetHearingHandlers } from "./living-world/county-budget-hearings";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -2438,6 +2439,8 @@ export function composeWorldTimeHandlers(
         ...rentDayHandlers(),
         // PROPERTY TAX: a local property tax assesses homes on its day.
         ...propertyTaxHandlers(),
+        // COUNTY BUDGET: a county board hears and votes its yearly levy.
+        ...countyBudgetHearingHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...campaignLifeHandlers(),
       ]),
