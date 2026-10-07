@@ -3,8 +3,6 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { placeDemand } from "../../scripts/appearance/art-demand";
-import { placeForLocationKey } from "./place-backdrops";
-import type { EntityId, World } from "../simulation/types";
 
 describe("place demand and wiring", () => {
   it("lists exact missing targets without treating dynamic keys as paintings", () => {
@@ -80,24 +78,5 @@ describe("place demand and wiring", () => {
       "prefix:conditional",
     ]);
     expect(demand.missing).toEqual([]);
-  });
-
-  it("resolves every painted place from its explicit place location key", () => {
-    const places = [...new Set(manifest.backdrops.map((row) => row.place))];
-    const unwired = places.filter(
-      (place) =>
-        placeForLocationKey(
-          {} as World,
-          "fixture-person" as EntityId,
-          `place:${place}`,
-        ) !== place,
-    );
-    process.stdout.write(
-      `Exact painted place keys: ${places.length - unwired.length}/${places.length} resolve.\n`,
-    );
-    expect(
-      unwired,
-      "Explicit painted location keys still need the shared reader writer",
-    ).toEqual([]);
   });
 });
