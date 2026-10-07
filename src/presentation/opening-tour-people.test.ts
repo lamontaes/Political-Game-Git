@@ -49,7 +49,7 @@ const cases = [
   },
 ];
 
-it("the family reuses an admitted regional plate and keeps missing coverage neutral", () => {
+it("the family stands in its home picture, never a regional plate", () => {
   const sources = {
     whiteHouse: null,
     regionScene: null,
@@ -65,13 +65,12 @@ it("the family reuses an admitted regional plate and keeps missing coverage neut
       alternatives: [],
     },
   };
-  expect(orientationBackdrop("parents", sources)).toEqual({
-    kind: "region",
-    plate: sources.regionalPlate,
-  });
+  // OW-17: the family is one composition in its own home; a regional plate
+  // is never a second backdrop for it.
+  expect(orientationBackdrop("parents", sources)).toEqual({ kind: "neutral" });
   expect(
-    orientationBackdrop("parents", { ...sources, regionalPlate: null }),
-  ).toEqual({ kind: "neutral" });
+    orientationBackdrop("parents", { ...sources, homePlaces: ["rowhouse"] }),
+  ).toMatchObject({ kind: "place", place: "rowhouse" });
 });
 
 describe("recorded representatives on the opening legislature card", () => {

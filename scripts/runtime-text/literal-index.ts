@@ -82,6 +82,32 @@ export function buildLiteralIndex(root = "src"): LiteralIndex {
   };
 
   for (const file of listSourceFiles(root)) {
+    if (/\.json$/.test(file)) {
+      // Shipped data the screens read: string values only, map geometry and
+      // very large files left out.
+      if (file.includes("/geometry/") || statSync(file).size > 1_500_000)
+        continue;
+      const text = readFileSync(file, "utf8");
+      const json = ts.parseJsonText(file, text);
+      filesRead += 1;
+      const walk = (node: ts.Node, parent: ts.Node | undefined) => {
+        if (ts.isStringLiteral(node)) {
+          const isKey =
+            parent !== undefined &&
+            ts.isPropertyAssignment(parent) &&
+            parent.name === node;
+          if (!isKey)
+            add(
+              node.text,
+              file,
+              json.getLineAndCharacterOfPosition(node.getStart(json)).line + 1,
+            );
+        }
+        ts.forEachChild(node, (child) => walk(child, node));
+      };
+      walk(json, undefined);
+      continue;
+    }
     if (!/\.(ts|tsx)$/.test(file) || /\.d\.ts$/.test(file) || isTestFile(file))
       continue;
     const source = readFileSync(file, "utf8");
@@ -116,6 +142,35 @@ export function buildLiteralIndex(root = "src"): LiteralIndex {
         if (!isKey) add(node.text, file, lineOf(node));
       } else if (ts.isJsxText(node)) {
         add(node.text, file, lineOf(node));
+      } else if (
+        ts.isBinaryExpression(node) &&
+        node.operatorToken.kind === ts.SyntaxKind.PlusToken &&
+        !(
+          ts.isBinaryExpression(node.parent) &&
+          node.parent.operatorToken.kind === ts.SyntaxKind.PlusToken
+        )
+      ) {
+        // "I finished at " + school + " in " + month: the string pieces of a
+        // concatenation fit around whatever the other operands print.
+        const fragments: string[] = [];
+        const flatten = (operand: ts.Expression) => {
+          if (
+            ts.isBinaryExpression(operand) &&
+            operand.operatorToken.kind === ts.SyntaxKind.PlusToken
+          ) {
+            flatten(operand.left);
+            flatten(operand.right);
+          } else if (
+            ts.isStringLiteral(operand) ||
+            ts.isNoSubstitutionTemplateLiteral(operand)
+          ) {
+            const fragment = normalizeText(operand.text);
+            if (fragment.length > 0) fragments.push(fragment);
+          }
+        };
+        flatten(node);
+        if (fragments.some((fragment) => HAS_LETTER.test(fragment)))
+          templates.push({ fragments, file, line: lineOf(node) });
       } else if (ts.isTemplateExpression(node)) {
         const fragments = [
           node.head.text,
@@ -137,7 +192,13 @@ export function buildLiteralIndex(root = "src"): LiteralIndex {
 export function resolveLiteral(
   index: LiteralIndex,
   text: string,
-): readonly { file: string; line: number; via: "literal" | "template" }[] {
+): readonly {
+  file: string;
+  line: number;
+  via: "literal" | "template";
+  /** What the line holds, stable when other lines move: the literal itself, or a template's fixed pieces. */
+  id: string;
+}[] {
   const normalized = normalizeText(text);
   const direct = index.exact.get(normalized);
   if (direct)
@@ -145,8 +206,15 @@ export function resolveLiteral(
       file: entry.file,
       line: entry.line,
       via: "literal" as const,
+      id: entry.text,
     }));
-  const hits: { file: string; line: number; via: "template" }[] = [];
+  const hits: {
+    file: string;
+    line: number;
+    via: "template";
+    id: string;
+    fixed: number;
+  }[] = [];
   for (const template of index.templates) {
     let from = 0;
     let fits = true;
@@ -163,7 +231,65 @@ export function resolveLiteral(
     const fixed = template.fragments.join("").length;
     const opens = normalized.startsWith(template.fragments[0]!);
     if (fits && (fixed >= 8 || (fixed >= 3 && opens)))
-      hits.push({ file: template.file, line: template.line, via: "template" });
+      hits.push({
+        file: template.file,
+        line: template.line,
+        via: "template",
+        id: template.fragments.join("~"),
+        fixed,
+      });
   }
-  return hits;
+  // The template with the most fixed words is the likeliest writer; a loose
+  // template with a few short words fits almost anything and ranks last.
+  return hits.sort((a, b) => b.fixed - a.fixed);
+}
+
+const JOINERS = [", ", " · ", " — ", " - "];
+
+/**
+ * A string made by joining several literals with a separator (an array of
+ * phrases passed to `join`). Found by splitting the text at the separators so
+ * every piece is a literal; the first piece's place is given.
+ */
+export function resolveJoined(
+  index: LiteralIndex,
+  text: string,
+): { file: string; line: number; id: string } | null {
+  const normalized = normalizeText(text);
+  const ends = new Map<
+    number,
+    { file: string; line: number; id: string } | null
+  >();
+  const search = (start: number, pieces: number): boolean => {
+    const whole = index.exact.get(normalized.slice(start));
+    if (whole && pieces >= 1) {
+      if (!ends.has(0))
+        ends.set(0, {
+          file: whole[0]!.file,
+          line: whole[0]!.line,
+          id: whole[0]!.text,
+        });
+      return true;
+    }
+    for (const joiner of JOINERS) {
+      let at = normalized.indexOf(joiner, start + 1);
+      while (at >= 0) {
+        const head = index.exact.get(normalized.slice(start, at));
+        if (head && search(at + joiner.length, pieces + 1)) {
+          if (!ends.has(0) || start === 0)
+            ends.set(0, {
+              file: head[0]!.file,
+              line: head[0]!.line,
+              id: head[0]!.text,
+            });
+          return true;
+        }
+        at = normalized.indexOf(joiner, at + 1);
+      }
+    }
+    return false;
+  };
+  return search(0, 0) && !index.exact.has(normalized)
+    ? (ends.get(0) ?? null)
+    : null;
 }

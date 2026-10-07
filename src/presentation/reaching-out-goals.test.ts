@@ -4,7 +4,7 @@ import {
   contactBases,
   contactProposals,
   produceReachingOut,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import {
   activeGoalFor,
   activeOrdinaryGoals,

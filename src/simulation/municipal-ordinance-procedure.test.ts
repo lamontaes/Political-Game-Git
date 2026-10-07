@@ -217,10 +217,15 @@ describe("a Charlottesville general ordinance through the shared measure engine"
       reason: expect.stringMatching(/declared introduction interval is 4/),
     });
     const ready = deserializeWorld(serializeWorld(advanceWorld(onAgenda, 4)));
-    expect(applyVote(ready, roll(council, 2, 0))).toMatchObject({
-      kind: "blocked",
-      reason: expect.stringMatching(/2 present, 3 required/),
+    // A short quorum is recorded, not refused: the shared driver appends a
+    // quorum-not-present action and the measure stays on the floor.
+    const short = applyVote(ready, roll(council, 2, 0));
+    if (short.kind !== "applied") throw new Error("No council floor result.");
+    expect(short.world.history.legislativeActions?.at(-1)).toMatchObject({
+      kind: "quorum-not-present",
+      rationale: expect.stringMatching(/2 present, 3 required/),
     });
+    expect(measurePosition(short.world, measureId).phase).toBe("on-floor");
     const outsider = applyVote(ready, [
       ...roll(council, 2, 1).slice(0, 4),
       { memberKey: "outsider", personId: people[9]!, disposition: "yea" },
@@ -400,11 +405,14 @@ describe("a Charlottesville general ordinance through the shared measure engine"
       dispositions: roll(council, 2, 0),
       provenance: PROVENANCE,
     });
-    expect(noQuorum.ok).toBe(false);
-    if (!noQuorum.ok) {
-      expect(noQuorum.reason).toMatch(/2 present, 3 required/);
-      expect(noQuorum.world).toBe(ready);
-    }
+    // A short quorum is recorded as a quorum-not-present action; the
+    // ordinance stays on the floor and no passage is recorded.
+    expect(noQuorum.ok).toBe(true);
+    expect(noQuorum.world.history.legislativeActions?.at(-1)).toMatchObject({
+      kind: "quorum-not-present",
+      rationale: expect.stringMatching(/2 present, 3 required/),
+    });
+    expect(measurePosition(noQuorum.world, measureId).phase).toBe("on-floor");
 
     // Two yeas and one nay with two absent is a quorum and a majority voting.
     const passed = passMunicipalOrdinance(ready, {
