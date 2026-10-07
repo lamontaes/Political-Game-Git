@@ -1,26 +1,34 @@
-# Session 56 progress — Oct 7
+# Session 56 update: T3 in review and T4 underway
+
+Current main marks LW-09 and LW-10 done with unsupported effects recorded. The LW-09 readiness correction remains open for review. T3 wires recorded traits into individual campaign donation and candidate-run decisions; its pull request is open and mergeable. T4 now adds registered trait considerations to couple answers, date answers, and town couple-stage decisions. Focused generated-world proofs and producer checks pass. Its T4 pool claim is stale S40, while live availability remains unverified because the assignment board fetch failed. The Drive check-in remains blocked by the earlier automatic review rejection.
 
 ## Done
 
-- Workplace rooms now route by the employer's recorded business kind. PR #3373
+- Workplace rooms now route by the employer's recorded business kind. [PR #3373](https://github.com/lamontaes/Political-Game-Git/pull/3373)
   merged as main commit `8c3255f61`.
-- Pool row LW-03 was already implemented on main in PR #2476, commit
+- Pool row LW-03 was already implemented on main in [PR #2476](https://github.com/lamontaes/Political-Game-Git/pull/2476), commit
   `493b16f2`. The tax terms pack defines federal income, sales, payroll and
-  corporate tax consequence rows; it sends them through the existing `tax`
-  registry handler. `policy-pack-tax-terms.test.ts` verifies the four rows,
-  their handler registration and that the federal question cannot be selected
-  at state level across all 56 jurisdictions. `tax-law-term-binding.test.ts`
-  verifies unsupported or unbound law terms do not create tax effects.
+  corporate tax consequence rows in `data/research/laws/catalog-terms-batch-03.json`.
+  The law consequence registry routes them through the tax handler in
+  `src/simulation/law-consequence-registry.ts`. Its focused test checks all
+  four rows and the 56-jurisdiction state-level restriction in
+  `src/simulation/policy-pack-tax-terms.test.ts`.
 
-## Next
+## LW-12 audit notes
 
-- Check the next open pool row against main and recent claims before beginning.
+- `data/research/laws/lw09-effect-readiness.json` now recognizes named federal loan and noncash discharge writers and records the missing law-consequence binding.
+- The federal loan writer is in `src/simulation/student-debt.ts`; the noncash discharge writer is in `src/simulation/household-loans.ts`.
+- `data/research/laws/catalog-terms-batch-04.json` leaves student-loan cap and eligibility bounds unresolved.
+- Current main marks LW-10 done in `docs/codex/assignments/POOL.md`. Merged [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) supplies its mandatory-minimum row. The stock-trading link remains unsized because the source measures descriptive returns and the game has no member holdings for the effect to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
+- LW-11 remains claimed by S20 in the current pool, which marks LW-12 open with a stale S43 claim (`docs/codex/assignments/POOL.md`). Merged [PR #2495](https://github.com/lamontaes/Political-Game-Git/pull/2495) lands the legislative-term-limit effect; its map lists redistricting, automatic registration, and local-authority effects as unsupported (`data/law-consequences/election-state-landings.json`).
+- The readiness correction is open for review in [PR #3485](https://github.com/lamontaes/Political-Game-Git/pull/3485); it is mergeable and remains unmerged.
+- Current branch `session-56-t4` is based on `origin/main` `65d021f80`. T4 random-world choice proofs are in `src/simulation/traits/effects/facet-affectionate-couple.proof.test.ts`; the town-stage producer trace is in `src/simulation/living-world/town-couple-actor-adapter.traits.test.ts`. The answer producer assertion is in `src/simulation/couple-undecided.test.ts`. T3 remains in separate PR #3522.
 
 ---
 
-# Session 56 progress
+# Session 56 progress (archived October 6 snapshot)
 
-Updated 2026-10-06. Working tree: `session-56/b32-part-2-unified-sittings`, based on current `main` at `e591ffc`.
+Updated October 6, 2026. Working tree: `session-56/b32-part-2-unified-sittings`, based on current `main` at `e591ffc`.
 
 ## Done
 
@@ -42,7 +50,7 @@ Updated 2026-10-06. Working tree: `session-56/b32-part-2-unified-sittings`, base
 - Shared sequencer unit tests: 2 passed.
 - Expanded integration tests for generated-world sittings spent more than eight minutes in fixture setup without an assertion result and were stopped.
 
-## Next
+## LW-12 audit notes
 
 1. The b32-p2 and b32-p3 review PRs are open: #2528 and #2531. Do not merge.
 2. Refresh `docs/codex/assignments/POOL.md` and the newest Fable map; pick the next open item by priority, and verify no recent claim or duplicate scope before edits.
@@ -50,7 +58,7 @@ Updated 2026-10-06. Working tree: `session-56/b32-part-2-unified-sittings`, base
 
 Exact next command after restart: `git status --short --branch` in `/workspace/Political-Game-Git`.
 
-## Oct 7 continuation
+## Oct 7 continuation (archived and superseded by the current LW-12 status above)
 
 - PR #3373 merged workplace room selection as main commit `8c3255f61`.
 - PR #3399 marks LW-03 done because its federal tax-term rows already merged
