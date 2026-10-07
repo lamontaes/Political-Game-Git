@@ -326,16 +326,13 @@ describe("OW-4: the creator's backdrop follows the chosen state", () => {
   });
 });
 
-describe("OW-4: once a town is chosen, its own street leads", () => {
+describe("OW-4/OW-19: once a town is chosen, its city hall leads", () => {
   const url = (place: string) => `/art/backdrops/${place}.png`;
 
-  it("takes main street, then city hall, only where staged and painted", () => {
+  it("takes city hall only where staged and painted, never the main street", () => {
     const both = new Set(["main-street", "city-hall-exterior"]);
-    expect(pictureForChosenTown(both, url)?.place).toBe("main-street");
-    expect(
-      pictureForChosenTown(both, (p) => (p === "main-street" ? null : url(p)))
-        ?.place,
-    ).toBe("city-hall-exterior");
+    expect(pictureForChosenTown(both, url)?.place).toBe("city-hall-exterior");
+    expect(pictureForChosenTown(new Set(["main-street"]), url)).toBeNull();
     expect(pictureForChosenTown(new Set(), url)).toBeNull();
   });
 });
