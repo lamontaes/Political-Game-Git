@@ -48,10 +48,10 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b04-p2 | Volunteers decide again, later                                                                                                                                                                                                                    | b04-*.md part 2      | open (stale claim: S31)                      | S31                      |
 | b04-p3 | A group can outlive the campaign                                                                                                                                                                                                                  | b04-*.md part 3      | blocked (RULES)                              | S48                      |
 | b04-p4 | What you have left, in your words                                                                                                                                                                                                                 | b04-*.md part 4      | open (stale claim: S31)                      | S31                      |
-| b04-p5 | Nothing else resets or is added                                                                                                                                                                                                                   | b04-*.md part 5      | open (stale claim: S31)                      | S31                      |
+| b04-p5 | Nothing else resets or is added                                                                                                                                                                                                                   | b04-*.md part 5      | ready #3362                                  | S31                      |
 | b05-p1 | Which items matter                                                                                                                                                                                                                                | b05-*.md part 1      | done                                         | S51                      |
 | b05-p2 | Agenda before the meeting                                                                                                                                                                                                                         | b05-*.md part 2      | blocked (RULES)                              | S50 (+S8 paycheck parts) |
-| b05-p3 | Play only those items                                                                                                                                                                                                                             | b05-*.md part 3      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
+| b05-p3 | Play only those items                                                                                                                                                                                                                             | b05-*.md part 3      | blocked (dependency: Session 4)              | S48                      |
 | b05-p4 | Quiet items follow the office's voting mode                                                                                                                                                                                                       | b05-*.md part 4      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
 | b05-p5 | Summary in words                                                                                                                                                                                                                                  | b05-*.md part 5      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
 | b05-p6 | Replace the placeholder cadence (required, not optional)                                                                                                                                                                                          | b05-*.md part 6      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
@@ -375,7 +375,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-root-6 | Replace about 20 placeholders in simulation / root / 6 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-7 | Replace about 20 placeholders in simulation / root / 7 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-8 | Replace about 20 placeholders in simulation / root / 8 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-root-9 | Replace about 20 placeholders in simulation / root / 9 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-root-9 | Replace about 20 placeholders in simulation / root / 9 with recorded or estimated-and-marked values | placeholders.md | ready #3348 | |
 | PH-simulation-root-10 | Replace about 20 placeholders in simulation / root / 10 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-11 | Replace about 20 placeholders in simulation / root / 11 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-12 | Replace about 20 placeholders in simulation / root / 12 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -512,7 +512,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | done #3263        |              |
 | BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | done #2860        |              |
 | BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done              | #2961        |
-| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open              |              |
+| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | ready #3256      |              |
 | BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done              | merged #2875 |
 | BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878        |              |
 | BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done              | merged #2861 |
@@ -551,9 +551,9 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | done #2976 | |
 | BG-45 | Newspaper test red | BUGS.md BG-45 | done #2315 | |
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
-| BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | open | |
+| BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | ready #3353 | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
-| BG-49 | State legislators are silently skipped | BUGS.md BG-49 | open | |
+| BG-49 | State legislators are silently skipped | BUGS.md BG-49 | unsupported: no sourced sitting trigger or nonsitting action contract | |
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
@@ -592,15 +592,15 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1167 | Add second Team 7 scene measurement review batch | PR #1167 (codex/sept29-team7-scenes-02) | done #3168 (superseded by C7; art preserved) | |
 | RS-1170 | Add third Team 7 scene measurement review batch | PR #1170 (codex/sept29-team7-scenes-03) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1171 | Add fourth Team 7 scene measurement review batch | PR #1171 (codex/sept29-team7-scenes-04) | done (superseded by C7; art preserved for later owner review) | S50 |
-| RS-1172 | Add fifth Team 7 scene measurement review batch | PR #1172 (codex/sept29-team7-scenes-05) | ready #3155 | Session 45 |
+| RS-1172 | Add fifth Team 7 scene measurement review batch | PR #1172 (codex/sept29-team7-scenes-05) | done #3155 (superseded by C7; art preserved for later owner review) | Session 45 |
 | RS-1176 | Add sixth Team 7 scene preview geometry review batch | PR #1176 (codex/sept29-team7-scenes-06) | done #1176: closed as superseded by C7 engine rebuild; art preserved | |
 | RS-1178 | Add final Team 7 supplied scene preview review batch | PR #1178 (codex/sept29-team7-scenes-07) | done (superseded by C7; art preserved for later owner review) | S45 |
-| RS-1179 | Review existing capitol surfaces: AK through KS | PR #1179 (codex/sept29-team7-scenes-08) | ready #3187 | Session 45 |
+| RS-1179 | Review existing capitol surfaces: AK through KS | PR #1179 (codex/sept29-team7-scenes-08) | done (superseded by C7; art preserved for later owner review) | S45 |
 | RS-1180 | Review existing capitol surfaces: KY through OH | PR #1180 (codex/sept29-team7-scenes-09) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1181 | Review existing capitol surfaces: OK through WY | PR #1181 (codex/sept29-team7-scenes-10) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1187 | Trace Team 7 scene and newspaper why-chains | PR #1187 (codex/team7-bedrock-numbers) | open: draft: finish it or close it as superseded | |
 | RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | done #1188 | |
-| RS-1203 | Review remaining canonical scene spots | PR #1203 (codex/sept29-team7-remaining-spots) | open: draft: finish it or close it as superseded | |
+| RS-1203 | Review remaining canonical scene spots | PR #1203 (codex/sept29-team7-remaining-spots) | done (candidate-only audit preserved; correction unapproved in closed #1203) | Session 45 |
 | RS-1220 | Preserve fresh monthly speed baseline and scoped caller evidence | PR #1220 (codex/team-4-monthly-speed-next) | done (superseded by M10; no active allocation) | |
 | RS-1222 | List exact regional picture admissions for existing-bank reconciliation | PR #1222 (codex/team-8-regional-picture-gaps) | done (superseded by regional-opening #281 and place-id research #451; closed Oct 7) | Session 45 |
 | RS-1223 | Add ten law-place art candidate sets for owner review | PR #1223 (codex/sept30-team7-law-places) | done (superseded by C7; art preserved for later owner review) | S50 |
@@ -615,7 +615,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
 | RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
-| RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #1306 (codex/team1-consequence-inputs) | open: draft: finish it or close it as superseded | |
+| RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #3297 (session-35/rs-1306-fresh) | ready #3297 | |
 | RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | ready #3271 | |
 | RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | ready #1332 | |
 | RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | done #1358 (implementation merged; verified on current main) | |
@@ -628,12 +628,12 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1511 | Persist canonical chunked world saves in SQLite | PR #1511 (codex/audit-sqlite-chunked-world-saves) | done #1511 | S50 |
 | RS-1572 | A57 bypass the blanket renewal cap when final terms govern | PR #1572 (codex/team-4-a57-rent-cap-consumer) | done #3118 (superseded by merged shared rent-cap consumer) | |
 | RS-1591 | A56: first landlords follow recorded owners and the saved home roster | PR #1680 (merged: first leases follow recorded owners) | done #1680 | S50 | |
-| RS-1647 | A25: extract sourced juvenile ages without runtime admission | PR #1647 (codex/team9-a25-sourced-age-extraction) | open: stacked on codex/team9-a103-recorded-sentence-terms: retarget to main; draft: finish it or close it as superseded | |
+| RS-1647 | A25: extract sourced juvenile ages without runtime admission | PR #1647 (codex/team9-a25-sourced-age-extraction) | done #1647 | |
 | RS-1662 | WIP: People's views weigh what they lived through (slice 10 Lives) | PR #1662 (claude/quirky-brown-rq82i7) | open: draft: finish it or close it as superseded | |
 | RS-1673 | Your Home: preserve rent when the legal cap is unresolved | PR #1673 (codex/team-4-a57-unresolved-cap) | open: draft: finish it or close it as superseded | |
 | RS-1696 | A105 Crime & Courts trial step: prove all 56 saved court paths | PR #1696 (codex/team9-a105-all56-trial-proof) | open: draft: finish it or close it as superseded | |
 | RS-1704 | A10 A105 Crime & Courts play script: saved player plea and sentence | PR #1704 (codex/team9-crime-courts-play-script) | open: stacked on codex/team9-a105-all56-trial-proof: retarget to main; draft: finish it or close it as superseded | |
-| RS-1712 | A25: carry cited juvenile age limits into starting-law terms | PR #1712 (codex/a25-starting-age-terms) | open: draft: finish it or close it as superseded | |
+| RS-1712 | A25: carry cited juvenile age limits into starting-law terms | PR #1712 (codex/a25-starting-age-terms) | done #3364 | |
 | RS-2113 | Load seven sourced starting income-tax schedules | PR #2113 (codex/overflow3-starting-income-tax-terms) | open: draft: finish it or close it as superseded | |
 | RS-2116 | Source American Samoa’s ordinary juvenile age ceiling | PR #2116 (codex/overflow8-territorial-juvenile-terms) | open: draft: finish it or close it as superseded | |
 | RS-2117 | research: preserve abortion limits and conditional exceptions | PR #2117 (codex/standby5-abortion-compound-source-packet) | open: draft: finish it or close it as superseded | |
