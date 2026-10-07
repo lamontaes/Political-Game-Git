@@ -122,7 +122,8 @@ describe("PLAYTEST65 real opening and practical-life readers", () => {
       requestId: "journey-stay",
       personId: player,
       sourceMoment: entered.world.currentMoment,
-      command: meeting.command,
+      // The player is now in the room, where the screen offers Stay, not Attend.
+      command: { kind: "finish-meeting", activityId: meeting.activity.id },
     });
     expect(attended.receipt.status).toBe("accepted");
     expect(attended.world.currentMoment).toEqual(meeting.state.end);
