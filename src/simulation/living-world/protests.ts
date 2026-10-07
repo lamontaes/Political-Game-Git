@@ -542,3 +542,41 @@ export function protestConsiderations(
     })),
   );
 }
+
+/**
+ * The protest held today that this person organized or attended, from the saved
+ * held event and its recorded attendance, else null. Read-only: it invents no
+ * crowd, and a protest nobody attended is shown only to its organizer.
+ */
+export function protestHeldToday(
+  world: World,
+  personId: EntityId,
+): {
+  readonly protestKey: string;
+  readonly organizerPersonId: EntityId;
+  readonly attendeeIds: readonly EntityId[];
+} | null {
+  for (const held of recordsWithFieldValue(
+    world.history.events,
+    "type",
+    PROTEST_HELD,
+  )) {
+    if (held.occurredAt !== world.currentDate) continue;
+    const protestKey = held.tags
+      .find((tag) => tag.startsWith("protest:"))
+      ?.slice("protest:".length);
+    const plan = protestKey
+      ? protests(world).find((row) => row.stableKey === protestKey)
+      : null;
+    if (!protestKey || !plan) continue;
+    const attendeeIds = protestAttendance(world, protestKey);
+    if (plan.organizerPersonId !== personId && !attendeeIds.includes(personId))
+      continue;
+    return {
+      protestKey,
+      organizerPersonId: plan.organizerPersonId,
+      attendeeIds,
+    };
+  }
+  return null;
+}

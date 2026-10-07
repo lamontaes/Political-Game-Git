@@ -4,7 +4,6 @@ import type { PersonDossier } from "../presentation/person-dossier";
 import type { ShellRef } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
 import { PersonCard, type PersonCardAnchor } from "./PersonCard";
-import type { PersonSceneAppearance } from "../presentation/person-scene-appearance";
 
 /**
  * Compatibility mounts for the unified person card.
@@ -29,14 +28,12 @@ export function QuickDossier({
   presentPersonIds,
   talkUnavailable,
   anchor = null,
-  sceneAppearance,
 }: {
   readonly world: World;
   readonly playerId: EntityId;
   readonly dossier: PersonDossier;
   readonly pinned: boolean;
   readonly anchor?: PersonCardAnchor | null;
-  readonly sceneAppearance?: PersonSceneAppearance;
   readonly onClose: () => void;
   readonly onTogglePin: () => void;
   readonly onOpenLink: (ref: ShellRef) => void;
@@ -62,7 +59,6 @@ export function QuickDossier({
       expanded={expanded}
       mode="overlay"
       anchor={anchor}
-      sceneAppearance={sceneAppearance}
       onClose={onClose}
       onExpand={() => setExpandedFor(dossier.personId)}
       onTogglePin={onTogglePin}
@@ -121,7 +117,6 @@ export function FullDossier({
   talkUnavailable,
   onOpenLink,
   onOpenPerson,
-  sceneAppearance,
 }: {
   readonly world: World;
   readonly playerId: EntityId;
@@ -133,7 +128,6 @@ export function FullDossier({
   readonly talkUnavailable: string | null;
   readonly onOpenLink: (ref: ShellRef) => void;
   readonly onOpenPerson?: (personId: EntityId) => void;
-  readonly sceneAppearance?: PersonSceneAppearance;
 }) {
   return (
     <PersonCard
@@ -143,7 +137,6 @@ export function FullDossier({
       pinned={pinned}
       expanded
       mode="workspace"
-      sceneAppearance={sceneAppearance}
       onTogglePin={onTogglePin}
       onOpenPerson={onOpenPerson}
       onTalk={onTalk}

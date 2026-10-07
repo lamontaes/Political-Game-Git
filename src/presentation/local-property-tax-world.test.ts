@@ -11,6 +11,7 @@ import { measurePosition, introduceMeasure } from "../simulation/legislation";
 import { addDays } from "../simulation/dates";
 import { makeIsoDate } from "../simulation/dates";
 import { recordCouncilReadingVote } from "../simulation/municipal-ordinance-procedure";
+import { organizationProfileAt } from "../simulation/life-queries";
 import { personName } from "../simulation/people";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { createResourcePosition, money } from "../simulation/resources";
@@ -35,6 +36,7 @@ import {
 } from "../simulation/municipal-ordinance-procedure";
 import { municipalSeats } from "../simulation/municipal-public-work";
 import { ensureHomeLocalGovernments } from "../simulation/nationwide-world/local-governments";
+import { LOCAL_PAYROLL_BASE_KEY } from "../simulation/payroll-tax-bases";
 import { PROPERTY_BASE_KEY } from "../simulation/property-tax-bases";
 
 import { attachTaxProposal } from "../simulation/tax-policy";
@@ -55,12 +57,18 @@ function advanceTo(world: World, date: IsoDate): World {
 }
 
 /** A playable city drawn by seed from every place that has one. */
-function drawCity(seed: string) {
+function drawCity(seed: string, needsPayroll = false) {
   const cities = allGovernmentUnits().filter(
     (unit) =>
       unit.functionalActive &&
       unit.unitType === "municipality" &&
       unit.placeGeoid !== null &&
+      (!needsPayroll ||
+        localTaxAuthority({
+          stateUsps: unit.stateUsps,
+          level: "MUNICIPALITY",
+          instrument: "payroll",
+        }).permits) &&
       municipalGovernmentByKey(unit.id) &&
       municipalRulePackFor(municipalGovernmentByKey(unit.id)!).ok,
   );
@@ -68,10 +76,16 @@ function drawCity(seed: string) {
 }
 
 describe("a city property tax in a generated world", () => {
-  it.each(["m2-local-property-tax", "m2-local-property-tax-b"])(
-    "is filed, decided by the council, and lands on a named payer (%s)",
-    (seed) => {
-      const city = drawCity(seed);
+  it.each([
+    { seed: "m2-local-property-tax", instrument: "property" as const },
+    { seed: "m2-local-property-tax-b", instrument: "property" as const },
+    { seed: "m2-local-payroll-tax", instrument: "payroll" as const },
+  ])(
+    "is filed, decided by the council, and lands on a named payer ($instrument, $seed)",
+    ({ seed, instrument }) => {
+      const baseKey =
+        instrument === "property" ? PROPERTY_BASE_KEY : LOCAL_PAYROLL_BASE_KEY;
+      const city = drawCity(seed, instrument === "payroll");
       const place = requireLifePlace(city.placeGeoid!);
       const game = createNewGameWorld({
         ...DEFAULT_NEW_GAME_SETUP,
@@ -95,10 +109,10 @@ describe("a city property tax in a generated world", () => {
       const government = localTaxGovernment(city.id)!;
       const authority = localTaxAuthority({
         ...government,
-        instrument: "property",
+        instrument,
       });
       process.stderr.write(
-        `LOCAL PROPERTY TAX world seed ${seed}, place ${place.displayName} (${city.stateUsps}, ${city.id}), date ${world.currentDate}, property authority ${authority.status} (${authority.basis})\n`,
+        `LOCAL PROPERTY TAX world seed ${seed}, place ${place.displayName} (${city.stateUsps}, ${city.id}), date ${world.currentDate}, ${instrument} authority ${authority.status} (${authority.basis})\n`,
       );
       // The same council's payroll question is open only where the state lets a
       // city levy one; the admission says so in the state's own terms.
@@ -117,7 +131,7 @@ describe("a city property tax in a generated world", () => {
       );
       expect(payrollGrant.ok).toBe(payroll.permits);
       const proposition = Object.values(world.policyCatalog.propositions).find(
-        (row) => row.stableKey === "us-tax-terms:city.property-tax-terms",
+        (row) => row.stableKey === `us-tax-terms:city.${instrument}-tax-terms`,
       )!;
       expect(proposition).toBeDefined();
       const jurisdictionId = governmentUnitJurisdictionId(city);
@@ -148,12 +162,15 @@ describe("a city property tax in a generated world", () => {
         power: localTaxPowerEvidenceFor({
           ...government,
           governmentKey: city.id,
-          instrument: "property",
+          instrument,
         }),
         terms: {
-          seriesKey: "tax:city-property",
-          baseKey: PROPERTY_BASE_KEY,
-          baseLabel: "Assessed value of a household's home or a year's rent",
+          seriesKey: `tax:city-${instrument}`,
+          baseKey,
+          baseLabel:
+            instrument === "property"
+              ? "Assessed value of a household's home or a year's rent"
+              : "Wages paid at a local employer",
           rateNumerator: 1,
           rateDenominator: 100,
           allowanceMinorUnits: 0,
@@ -164,7 +181,7 @@ describe("a city property tax in a generated world", () => {
           publicPurpose: "City services",
           assumptionNote: "Authored proof terms.",
           legalBaselineAssumption: "carry-forward-acquired-baseline-in-game",
-          instrument: "property",
+          instrument,
         },
       });
       const control = world.control;
@@ -262,9 +279,41 @@ describe("a city property tax in a generated world", () => {
       const policy = law.history.taxPolicies?.[0];
       expect(policy).toBeDefined();
       if (!policy) return;
-      law = advanceTo(law, makeIsoDate(addDays(policy.effectiveAt, 1)));
+      if (instrument === "payroll") {
+        // Generated employers have no recorded cash, so every paycheck blocks
+        // (unknown is not zero). One local employer is given authored cash so
+        // its payroll can be watched.
+        const employer = law.history.resourceFlows
+          .filter((flow) => flow.basisKind === "compensation:work")
+          .flatMap((flow) =>
+            flow.source.kind === "organization"
+              ? [flow.source.organizationId]
+              : [],
+          )
+          .find(
+            (organizationId) =>
+              organizationProfileAt(law, organizationId)
+                ?.locationJurisdictionId === jurisdictionId,
+          )!;
+        law = createResourcePosition(law, {
+          stableKey: `${seed}:funded-employer`,
+          owner: { kind: "organization", organizationId: employer },
+          openedAt: law.currentDate,
+          openingBalance: money(500000000, "USD"),
+          provenance: {
+            kind: "authored",
+            note: "Known fictional test cash for one employer; not an observed balance.",
+          },
+        });
+      }
+      law = advanceTo(
+        law,
+        makeIsoDate(
+          addDays(policy.effectiveAt, instrument === "property" ? 1 : 30),
+        ),
+      );
       const bases = (law.history.taxBases ?? []).filter(
-        (row) => row.baseKey === PROPERTY_BASE_KEY,
+        (row) => row.baseKey === baseKey,
       );
       expect(bases.length).toBeGreaterThan(0);
       expect(law.history.taxAssessments).toHaveLength(bases.length);
@@ -277,6 +326,12 @@ describe("a city property tax in a generated world", () => {
       expect(assessment.taxAmount.minorUnits).toBe(
         Math.round(sample.amount.minorUnits / 100),
       );
+      if (instrument === "payroll")
+        expect(
+          law.history.workRelationships.some(
+            (work) => work.personId === payerId,
+          ),
+        ).toBe(true);
       process.stderr.write(
         `PAYER ${personName(law.people[payerId]!)} base ${sample.amount.minorUnits} tax ${assessment.taxAmount.minorUnits} note: ${sample.assumptionNote}\n`,
       );
@@ -290,30 +345,33 @@ describe("a city property tax in a generated world", () => {
       // payers in a generated world have no recorded cash account, so the city
       // cannot collect from them (unknown is not zero); one authored account
       // shows the money moving where a payer has one.
-      const funded = bases.find(
-        (row) =>
-          row.payer.kind === "person" &&
-          !law.history.resourcePositions.some(
-            (position) =>
-              position.owner.kind === "person" &&
-              row.payer.kind === "person" &&
-              position.owner.personId === row.payer.personId,
-          ),
-      )!;
-      law = createResourcePosition(law, {
-        stableKey: `${seed}:funded-payer`,
-        owner: {
-          kind: "person",
-          personId: (funded.payer as { personId: EntityId }).personId,
-        },
-        openedAt: law.currentDate,
-        openingBalance: money(500000, "USD"),
-        provenance: {
-          kind: "authored",
-          note: "Known fictional test cash for one payer; not an observed balance.",
-        },
-      });
-      law = advanceTo(law, makeIsoDate(addDays(policy.effectiveAt, 35)));
+      const hasPosition = (personId: EntityId) =>
+        law.history.resourcePositions.some(
+          (position) =>
+            position.owner.kind === "person" &&
+            position.owner.personId === personId,
+        );
+      const personOf = (base: (typeof bases)[number]) =>
+        (base.payer as { personId: EntityId }).personId;
+      const funded =
+        bases.find((row) => !hasPosition(personOf(row))) ?? bases[0]!;
+      if (!hasPosition(personOf(funded)))
+        law = createResourcePosition(law, {
+          stableKey: `${seed}:funded-payer`,
+          owner: { kind: "person", personId: personOf(funded) },
+          openedAt: law.currentDate,
+          openingBalance: money(500000, "USD"),
+          provenance: {
+            kind: "authored",
+            note: "Known fictional test cash for one payer; not an observed balance.",
+          },
+        });
+      law = advanceTo(
+        law,
+        makeIsoDate(
+          addDays(policy.effectiveAt, instrument === "property" ? 35 : 65),
+        ),
+      );
       const collections = law.history.taxCollections ?? [];
       const paid = collections.filter((row) => row.status !== "blocked");
       process.stderr.write(
@@ -322,7 +380,15 @@ describe("a city property tax in a generated world", () => {
       process.stderr.write(
         `BLOCKED ${JSON.stringify(collections.reduce((a: Record<string, number>, c) => ({ ...a, [c.status + ":" + c.reason]: (a[c.status + ":" + c.reason] ?? 0) + 1 }), {}))} positions-for-payers ${bases.filter((b) => law.history.resourcePositions.some((p) => p.owner.kind === "person" && b.payer.kind === "person" && p.owner.personId === b.payer.personId)).length}/${bases.length}\n`,
       );
-      expect(collections.length).toBe(bases.length);
+      const assessedIds = new Set(
+        law.history
+          .taxAssessments!.filter((a) => bases.some((b) => b.id === a.baseId))
+          .map((a) => a.id),
+      );
+      const ofBases = collections.filter((row) =>
+        assessedIds.has(row.assessmentId),
+      );
+      expect(ofBases.length).toBe(bases.length);
       const fundedCollection = collections.find(
         (row) =>
           row.assessmentId ===
@@ -333,8 +399,8 @@ describe("a city property tax in a generated world", () => {
         law.history.taxAssessments!.find((a) => a.baseId === funded.id)!
           .taxAmount.minorUnits,
       );
-      expect(collections.filter((row) => row.status === "blocked").length).toBe(
-        bases.length - paid.length,
+      expect(ofBases.filter((row) => row.status === "blocked").length).toBe(
+        bases.length - ofBases.filter((row) => row.status !== "blocked").length,
       );
 
       // Saved and reloaded, the same law, bases and assessments are read back.
