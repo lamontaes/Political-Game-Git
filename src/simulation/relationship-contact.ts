@@ -3,7 +3,11 @@ import { heardOfRefusalConsiderations } from "./favor-collection";
 import { eventById } from "./event-index";
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays, ageOnDate } from "./dates";
-import { evaluateDecision, isSelectedDecision } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeOrganizationParticipationsAt,
@@ -713,6 +717,34 @@ export function npcContactAnswer(
   const on = proposal.tags
     .find((tag) => tag.startsWith("contact.on:"))!
     .slice("contact.on:".length) as IsoDate;
+  // Somebody already has that evening: the day is the problem, not the
+  // person. Resolve this before replaying a prior decision trace too.
+  const evening = meetingWindow(world, on);
+  const busy = scheduledConflictExists(
+    world,
+    [from, to],
+    evening.start,
+    evening.end,
+  );
+  const decisionKey = `contact:${proposalEventId}:answer`;
+  const previous = world.history.decisionTraces.find(
+    (trace) =>
+      trace.context.stableKey === decisionKey &&
+      trace.context.decisionType === "people.contact-answer" &&
+      trace.context.actorPersonId === to &&
+      trace.recordedAt <= world.currentDate,
+  );
+  if (previous) {
+    const chosen = previous.selectedOptionKey;
+    const answer = chosen
+      ? ((busy && chosen === "accept" ? "counter" : chosen) as ContactAnswer)
+      : null;
+    return {
+      answer,
+      counterOn: answer === "counter" ? addDays(on, 7) : null,
+      world,
+    };
+  }
   const considerations: DecisionConsideration[] = [];
   const continuity = assessRelationshipContinuity(
     world,
@@ -741,13 +773,6 @@ export function npcContactAnswer(
   // person. Either of them: an asker who asked two people for the same
   // evening and heard yes from the first cannot be met by the second, and
   // agreeing anyway used to throw from inside passing time.
-  const evening = meetingWindow(world, on);
-  const busy = scheduledConflictExists(
-    world,
-    [from, to],
-    evening.start,
-    evening.end,
-  );
   if (busy) {
     considerations.push({
       stableKey: `contact:${proposalEventId}:busy`,
@@ -799,6 +824,28 @@ export function npcContactAnswer(
       },
     ]),
   );
+  considerations.push(
+    ...traitConsiderations(withTraits, to, `contact:${proposalEventId}`, [
+      {
+        optionKey: "accept",
+        trait: "sociability",
+        pole: "high",
+        explanation: "They enjoy spending time with other people.",
+      },
+      {
+        optionKey: "decline",
+        trait: "sociability",
+        pole: "low",
+        explanation: "They keep more to themselves.",
+      },
+      {
+        optionKey: "accept",
+        trait: "reliability",
+        pole: "high",
+        explanation: "They try to show up for people who ask.",
+      },
+    ]),
+  );
   // Help the one asking once gave is a reason to make the time; having heard
   // they turned down somebody who had helped them is a reason not to.
   considerations.push(
@@ -831,7 +878,7 @@ export function npcContactAnswer(
     ),
   );
   const evaluation = evaluateDecision(withTraits, {
-    stableKey: `contact:${proposalEventId}:answer`,
+    stableKey: decisionKey,
     decisionType: "people.contact-answer",
     actorPersonId: to,
     cutoff: {
@@ -856,10 +903,11 @@ export function npcContactAnswer(
     considerations,
     perceptionIds: [],
     randomness: "close-choices",
-    retention: "ephemeral",
+    retention: "durable",
   });
+  const recordedWorld = recordDurableDecisionTrace(withTraits, evaluation);
   if (!isSelectedDecision(evaluation)) {
-    return { answer: null, counterOn: null, world: withTraits };
+    return { answer: null, counterOn: null, world: recordedWorld };
   }
   const chosen = evaluation.selectedOptionKey as ContactAnswer;
   // Weighed, but not optional: an evening already taken cannot be agreed to.
@@ -868,7 +916,7 @@ export function npcContactAnswer(
   return {
     answer,
     counterOn: answer === "counter" ? addDays(on, 7) : null,
-    world: withTraits,
+    world: recordedWorld,
   };
 }
 
