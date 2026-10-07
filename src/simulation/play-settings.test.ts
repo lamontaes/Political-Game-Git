@@ -22,6 +22,7 @@ describe("play settings", () => {
     expect(playSettingsOf({ ...world, playSettings: undefined })).toEqual({
       saves: "free",
       challengeIntensity: "standard",
+      pressPremise: "realistic",
       personalLifeDepiction: "full",
     });
     const legacy = {
@@ -33,6 +34,7 @@ describe("play settings", () => {
     expect(playSettingsOf({ ...world, playSettings: legacy })).toEqual({
       saves: "free",
       challengeIntensity: "standard",
+      pressPremise: "realistic",
       personalLifeDepiction: "full",
     });
     expect(

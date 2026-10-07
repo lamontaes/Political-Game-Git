@@ -1,4 +1,5 @@
 import { recordWorldEvent } from "./world";
+import type { EditorialStandard } from "./press/records";
 import type {
   ChallengeIntensity,
   PersonalLifeDepiction,
@@ -10,6 +11,7 @@ import type {
 export const DEFAULT_PLAY_SETTINGS: PlaySettings = {
   saves: "free",
   challengeIntensity: "standard",
+  pressPremise: "realistic",
   personalLifeDepiction: "full",
 };
 
@@ -25,6 +27,7 @@ export function playSettingsOf(world: World): PlaySettings {
     saves: saved.saves ?? DEFAULT_PLAY_SETTINGS.saves,
     challengeIntensity:
       saved.challengeIntensity ?? DEFAULT_PLAY_SETTINGS.challengeIntensity,
+    pressPremise: saved.pressPremise ?? DEFAULT_PLAY_SETTINGS.pressPremise,
     personalLifeDepiction:
       saved.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
@@ -83,12 +86,14 @@ export function setPlaySetting(
 export function initialPlaySettings(input: {
   readonly saves?: SaveMode;
   readonly challenge?: ChallengeIntensity;
+  readonly pressPremise?: EditorialStandard;
   readonly personalLifeDepiction?: PersonalLifeDepiction;
 }): PlaySettings {
   return {
     saves: input.saves ?? DEFAULT_PLAY_SETTINGS.saves,
     challengeIntensity:
       input.challenge ?? DEFAULT_PLAY_SETTINGS.challengeIntensity,
+    pressPremise: input.pressPremise ?? DEFAULT_PLAY_SETTINGS.pressPremise,
     personalLifeDepiction:
       input.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,

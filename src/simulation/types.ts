@@ -32,7 +32,11 @@ import type { JudiciaryState } from "./judiciary/types";
 import type { MinorityProcedureMotion } from "./legislature-rules";
 
 import type { AppearanceMaterial } from "./appearance-material";
-import type { MediaOutletKey, PressRecord } from "./press/records";
+import type {
+  EditorialStandard,
+  MediaOutletKey,
+  PressRecord,
+} from "./press/records";
 import type {
   NationalElection,
   NationalElectionRecord,
@@ -5886,6 +5890,8 @@ export interface PlaySettings {
   readonly saves: SaveMode;
   /** Reorders eligible life situations without changing events or outcomes. */
   readonly challengeIntensity: ChallengeIntensity;
+  /** New-game-only outlet standard, copied to outlets when they are founded. */
+  readonly pressPremise: EditorialStandard;
   /** Changes how recorded personal-life events are worded, never world facts. */
   readonly personalLifeDepiction: PersonalLifeDepiction;
 }
