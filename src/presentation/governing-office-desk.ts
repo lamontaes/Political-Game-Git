@@ -24,6 +24,7 @@ import {
   publicProgramKeys,
   type ProgramAuthority,
 } from "../simulation/governing/public-program";
+import type { IsoDate } from "../simulation";
 import { deliveredServiceSentence } from "./law-effects-prose";
 import { proseDate } from "./prose-dates";
 
@@ -47,6 +48,8 @@ export interface OfficeStaffMember {
   /** What this person is assigned to, as the role record classifies it. */
   readonly assignment: string | null;
   readonly sinceLine: string;
+  /** The record the line above is read from, for a screen that shows data. */
+  readonly startedAt: IsoDate;
 }
 
 /** One commitment the office has already made. Never a draft. */
@@ -56,6 +59,10 @@ export interface OfficeProgramCommitment {
   readonly decidedByName: string;
   readonly authority: string;
   readonly decidedOnLine: string;
+  readonly recordedAt: IsoDate;
+  /** Dollar figure of everything committed; null when no money is. */
+  readonly total: string | null;
+  readonly payments: readonly OfficePayment[];
   readonly totalLine: string;
   readonly installmentLines: readonly string[];
   readonly postedCount: number;
@@ -63,8 +70,20 @@ export interface OfficeProgramCommitment {
   readonly failureReasons: readonly string[];
 }
 
+export interface OfficePayment {
+  readonly amount: string;
+  readonly purpose: string;
+  readonly dueAt: IsoDate;
+  readonly status: "posted" | "failed" | "pending";
+}
+
 export interface OfficeProgramAppropriation {
   readonly id: EntityId;
+  readonly amount: string;
+  readonly availableFrom: IsoDate;
+  readonly availableThrough: IsoDate;
+  readonly uncommitted: string;
+  readonly noAlternatives: boolean;
   readonly amountLine: string;
   readonly windowLine: string;
   readonly uncommittedLine: string;
@@ -82,6 +101,16 @@ export interface OfficeProgram {
   /** The service in the office's own words, when a capacity record names it. */
   readonly serviceLabel: string | null;
   readonly objectiveLines: readonly string[];
+  /** The capacity record as figures; null where none is on record. */
+  readonly capacity: {
+    readonly inService: number;
+    readonly total: number;
+    readonly unitLabel: string;
+    readonly monthlyNeed: string;
+    readonly restorationCost: string | null;
+    readonly basisNote: string;
+  } | null;
+  readonly monthsCovered: string | null;
   readonly appropriations: readonly OfficeProgramAppropriation[];
   readonly commitments: readonly OfficeProgramCommitment[];
   readonly outturnLines: readonly string[];
@@ -92,6 +121,8 @@ export interface OfficeMeasure {
   readonly designation: string;
   readonly shortTitle: string;
   readonly introducedLine: string;
+  readonly introducedAt: IsoDate;
+  readonly lastAction: string | null;
   /** The last recorded procedural step, or nothing recorded past filing. */
   readonly stageLine: string;
 }
@@ -100,6 +131,7 @@ export interface OfficeCasework {
   readonly officeRelationshipId: EntityId;
   readonly mode: OfficeCaseworkWorkflowMode | null;
   readonly recordedLine: string | null;
+  readonly recordedAt: IsoDate | null;
   /**
    * The office's recorded voting workflow, carried through unchanged when
    * casework alone is changed. The desk is a governor's, and a governor casts
@@ -112,6 +144,7 @@ export interface OfficeCasework {
 export interface GoverningOfficeDesk {
   readonly officeTitle: string;
   readonly termLine: string;
+  readonly termEndsAt: IsoDate | null;
   readonly programs: readonly OfficeProgram[];
   /** Why the programs section is empty, when it is. */
   readonly programsNote: string | null;
@@ -121,6 +154,11 @@ export interface GoverningOfficeDesk {
   readonly measuresNote: string | null;
   readonly casework: OfficeCasework | null;
   readonly caseworkNote: string | null;
+  /** Why each empty section is empty, as a code a screen can carry. */
+  readonly programsReason: "no-program-record" | null;
+  readonly staffReason: "no-staff-recorded" | null;
+  readonly measuresReason: "no-sponsored-measure" | null;
+  readonly caseworkReason: "no-employment-relationship" | null;
 }
 
 export const CASEWORK_CHOICES: readonly {
@@ -191,6 +229,7 @@ function staffOf(
         roleTitle: role.title,
         assignment: assignmentOf(role.occupationClassification),
         sinceLine: `Working here since ${proseDate(relationship.startedAt)}.`,
+        startedAt: relationship.startedAt,
       });
     }
   }
@@ -220,6 +259,28 @@ function commitmentView(
         decidedByName: decidedBy ? personName(decidedBy) : "No current record",
         authority: record.authority,
         decidedOnLine: `Committed ${proseDate(record.recordedAt)}.`,
+        recordedAt: record.recordedAt,
+        total:
+          total === 0
+            ? null
+            : dollars({
+                minorUnits: total,
+                currency: record.installments[0]!.amount.currency,
+              }),
+        payments: record.installments.map((plan, index) => {
+          const posting = own.find((entry) => entry.installmentIndex === index);
+          return {
+            amount: dollars(plan.amount),
+            purpose: plan.purpose,
+            dueAt: plan.dueAt,
+            status:
+              posting?.status === "posted"
+                ? "posted"
+                : posting?.status === "failed"
+                  ? "failed"
+                  : "pending",
+          } as const;
+        }),
         totalLine:
           total === 0
             ? "No money committed."
@@ -261,6 +322,11 @@ function appropriationView(
   const position = programPosition(world, record.programKey, record.id);
   return {
     id: record.id,
+    amount: dollars(record.amount),
+    availableFrom: record.availableFrom,
+    availableThrough: record.availableThrough,
+    uncommitted: dollars(position.uncommitted),
+    noAlternatives: authority.status === "available",
     amountLine: `${dollars(record.amount)} appropriated.`,
     windowLine: `Available ${proseDate(record.availableFrom)} through ${proseDate(record.availableThrough)}.`,
     uncommittedLine: `${dollars(position.uncommitted)} of it is still uncommitted.`,
@@ -322,6 +388,24 @@ function programView(
         ? capacity.serviceLabel
         : null,
     objectiveLines: objective,
+    capacity:
+      capacity && capacity.jurisdictionId === office.jurisdictionId
+        ? {
+            inService: position.unitsOperational ?? capacity.unitsOperational,
+            total: capacity.unitsTotal,
+            unitLabel: capacity.unitLabel,
+            monthlyNeed: dollars(capacity.monthlyOperatingNeed),
+            restorationCost: capacity.restorationCostPerUnit
+              ? dollars(capacity.restorationCostPerUnit)
+              : null,
+            basisNote: capacity.basis.note,
+          }
+        : null,
+    monthsCovered:
+      position.operatingMonthsPosted &&
+      Number(position.operatingMonthsPosted) > 0
+        ? String(position.operatingMonthsPosted)
+        : null,
     appropriations: appropriations.map((record) =>
       appropriationView(world, personId, record),
     ),
@@ -363,6 +447,8 @@ function measuresOf(
         designation: record.designation,
         shortTitle: record.shortTitle,
         introducedLine: `Filed ${proseDate(record.introducedAt)}.`,
+        introducedAt: record.introducedAt,
+        lastAction: stage.lastActionKind ?? null,
         stageLine: stage.lastActionKind
           ? `Last step recorded: ${stage.lastActionKind.replaceAll("-", " ")}.`
           : "No procedural step is recorded past filing.",
@@ -391,6 +477,7 @@ export function projectGoverningOfficeDesk(
     termLine: office.termEndsAt
       ? `Your term runs until ${proseDate(office.termEndsAt)}.`
       : "Your term's end date is not established.",
+    termEndsAt: office.termEndsAt ?? null,
     programs,
     programsNote:
       programs.length === 0
@@ -413,6 +500,7 @@ export function projectGoverningOfficeDesk(
           recordedLine: preference
             ? `Recorded ${proseDate(preference.recordedAt)}.`
             : null,
+          recordedAt: preference?.recordedAt ?? null,
           votingMode: preference?.votingMode ?? null,
         }
       : null,
@@ -420,5 +508,10 @@ export function projectGoverningOfficeDesk(
       relationshipId === null
         ? "This office has no recorded employment relationship, so how it handles casework cannot be recorded against it yet."
         : null,
+    programsReason: programs.length === 0 ? "no-program-record" : null,
+    staffReason: staff.length === 0 ? "no-staff-recorded" : null,
+    measuresReason: measures.length === 0 ? "no-sponsored-measure" : null,
+    caseworkReason:
+      relationshipId === null ? "no-employment-relationship" : null,
   };
 }

@@ -10,6 +10,7 @@ import {
   projectGoverningBriefing,
   type BriefingMatter,
 } from "../presentation/governing-briefing";
+import { proseDate } from "../presentation/prose-dates";
 import { GuideTermText } from "./GuideTerm";
 import { BUDGET_DOLLARS } from "../simulation/governing/executive-budget-requests";
 import {
@@ -66,35 +67,40 @@ export function GoverningBriefing({
     <section className="governing-briefing" data-testid="governing-briefing">
       <header>
         <h3>{briefing.officeTitle}</h3>
-        <p className="game-note">
-          {briefing.termLine}{" "}
-          {briefing.chiefOfStaff
-            ? `Chief of staff: ${briefing.chiefOfStaff.name}.`
-            : "No chief of staff yet."}
-        </p>
-        {briefing.calendarNote ? (
-          <details className="game-campaign-detail">
-            <summary>About this office's rules</summary>
-            <p>{briefing.calendarNote}</p>
-          </details>
-        ) : null}
+        <dl className="game-note" data-testid="governing-office-facts">
+          <dt>Term ends</dt>
+          <dd
+            data-testid="governing-term-ends"
+            data-problem={briefing.termEndsAt ? undefined : "no-term-end"}
+          >
+            {briefing.termEndsAt ? proseDate(briefing.termEndsAt) : "—"}
+          </dd>
+          <dt>Chief of staff</dt>
+          <dd
+            data-testid="governing-chief-of-staff"
+            data-problem={briefing.chiefOfStaff ? undefined : "no-chief"}
+          >
+            {briefing.chiefOfStaff ? briefing.chiefOfStaff.name : "—"}
+          </dd>
+        </dl>
       </header>
 
       <ExecutiveBudgetRequestHistory world={world} personId={personId} />
       <h4>Needs you</h4>
       {briefing.significant.length === 0 ? (
-        <p className="game-note" data-testid="governing-nothing-open">
-          Nothing is waiting on you right now.
-        </p>
+        <p data-testid="governing-nothing-open" data-problem="nothing-open" />
       ) : (
         <ul className="governing-matters" data-testid="governing-significant">
           {briefing.significant.map(card)}
         </ul>
       )}
       {problem ? (
-        <p role="alert" className="game-note" data-testid="governing-problem">
-          {problem}
-        </p>
+        <p
+          role="alert"
+          className="game-note"
+          data-testid="governing-problem"
+          data-reason={problem}
+        />
       ) : null}
 
       {briefing.more.length > 0 ? (
@@ -137,17 +143,21 @@ function MatterCard({
       <p>
         <GuideTermText text={matter.ask} />
       </p>
-      <p className="game-note">
-        {matter.deadline
-          ? `Decide by ${matter.deadline}`
-          : "No deadline is established"}
-        {matter.daysLeft !== null && matter.daysLeft >= 0
-          ? ` (${matter.daysLeft} days).`
-          : "."}
+      <p
+        className="game-note"
+        data-testid="governing-deadline"
+        data-problem={matter.deadline ? undefined : "no-deadline"}
+        data-days-left={matter.daysLeft ?? undefined}
+      >
+        {matter.deadline ?? "—"}
       </p>
       {matter.recommendation ? (
-        <p data-testid="governing-recommendation">
-          {`${matter.recommendation.byName} recommends: ${matter.recommendation.optionLabel}. ${matter.recommendation.reason}`}
+        <p
+          data-testid="governing-recommendation"
+          data-reason={matter.recommendation.reason}
+        >
+          <strong>{matter.recommendation.byName}</strong>{" "}
+          <span>{matter.recommendation.optionLabel}</span>
         </p>
       ) : null}
       <div className="game-choices">
@@ -174,7 +184,6 @@ function MatterCard({
             onClick={onDelegate}
           >
             Let your chief of staff handle it
-            <small>They will take their own recommendation.</small>
           </button>
         ) : null}
       </div>
@@ -188,8 +197,8 @@ function MatterCard({
             </li>
           ))}
         </ul>
-        <p>
-          <GuideTermText text={`If nothing is decided: ${matter.ifIgnored}`} />
+        <p data-testid="governing-if-ignored">
+          <GuideTermText text={matter.ifIgnored} />
         </p>
       </details>
     </li>

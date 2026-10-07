@@ -179,7 +179,9 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   const staffCard = matters.filter({ hasText: "Choose a chief of staff" });
   await expect(staffCard.getByTestId("governing-option")).toHaveCount(3);
   await staffCard.getByTestId("governing-option").first().click();
-  await expect(briefing).toContainText("Chief of staff:");
+  await expect(
+    briefing.getByTestId("governing-chief-of-staff"),
+  ).not.toHaveAttribute("data-problem", "no-chief");
 
   // The office's other posts: look for staff, and hire a Legislative Director.
   const hiring = page.getByTestId("office-staff-hiring");
