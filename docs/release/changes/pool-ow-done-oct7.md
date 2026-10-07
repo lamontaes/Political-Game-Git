@@ -1,6 +1,6 @@
 ---
 id: pool-ow-done-oct7
 impact: none
-section: Docs
-title: Pool marks the merged playtest rows done
 ---
+
+This records completed work and has no player-visible effect.
