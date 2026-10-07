@@ -22,6 +22,7 @@ import {
   REFERRAL_TAG,
   SENTENCE_KIND_TAG,
   SENTENCE_MONTHS_TAG,
+  jailTermOn,
 } from "./jail-terms";
 import type { CourtCase } from "./court-reasoning";
 import type { EntityId } from "../types";
@@ -253,16 +254,19 @@ describe("appellate review uses the recorded legal bounds", () => {
     expect(decided.involvedEntityIds).toContain(base.trialJudgePersonId);
     expect(decided.tags).toContain(`court:${result!.appellateCourtId}`);
     expect(decided.tags).toContain("outcome:reverse");
+    expect(jailTermOn(result!.world, base.appellantPersonId)).toBeNull();
   });
 
   it("affirms a sentence inside its lawful range in the same new game", () => {
-    const { world, sentenceEventId } = fixture("in-range");
+    const { world, base, sentenceEventId } = fixture("in-range");
+    expect(jailTermOn(world, base.appellantPersonId)).not.toBeNull();
     const result = appealSavedSentence(world, {
       stableKey: "b13-p4:in-bounds",
       sentenceEventId,
     });
     expect(result).not.toBeNull();
     expect(result!.outcome).toBe("affirm");
+    expect(jailTermOn(result!.world, base.appellantPersonId)).not.toBeNull();
     expect(result!.votes.length).toBeGreaterThan(0);
   });
 
