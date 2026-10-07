@@ -70,6 +70,7 @@ import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
 import { patienceEffects } from "./patience";
 import { playfulMannerEffects } from "./playful-manner";
 import { selfConfidenceEffects } from "./self-confidence";
+import { truthfulnessEffects } from "./truthfulness";
 import { uncertainOutlookEffects } from "./uncertain-outlook";
 import { voluntaryEffortEffects } from "./voluntary-effort";
 
@@ -149,6 +150,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...patienceEffects,
     ...playfulMannerEffects,
     ...selfConfidenceEffects,
+    ...truthfulnessEffects,
     ...uncertainOutlookEffects,
     ...voluntaryEffortEffects,
   ];
