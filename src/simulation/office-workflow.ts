@@ -58,6 +58,14 @@ const JUDICIAL_CASEWORK_MODES: readonly JudicialCaseworkMode[] = [
   "player-handles",
   "decide-as-usual",
 ];
+/** First bench defaults: hear criminal and review cases; delegate evictions. */
+const DEFAULT_JUDICIAL_CASEWORK_MODES: Readonly<
+  Record<JudicialCaseKind, JudicialCaseworkMode>
+> = {
+  criminal: "player-handles",
+  civil: "decide-as-usual",
+  "law-review": "player-handles",
+};
 
 const INSTRUCTION_DISPOSITIONS: readonly OfficeVoteInstructionDisposition[] = [
   "yea",
@@ -305,9 +313,7 @@ export function playerHandlesJudicialCase(
         ?.judicialCaseworkModes?.[caseKind] === "decide-as-usual",
   );
   if (delegated) return false;
-  // The first shipped defaults let the player hear criminal cases and law
-  // reviews; eviction cases continue in the background.
-  return caseKind !== "civil";
+  return DEFAULT_JUDICIAL_CASEWORK_MODES[caseKind] === "player-handles";
 }
 
 export interface RecordOfficeVoteInstructionInput {
