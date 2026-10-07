@@ -19,7 +19,7 @@ import {
   sceneActivity,
   type SceneActivity,
 } from "./appearance-engine/pose-chooser";
-import { personDayRecipe } from "./day-clothing";
+import { personDayRecipe, roomDayOutfitExclusions } from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackFileAvailable,
@@ -371,7 +371,7 @@ export function placeBackdropPeople(
   const counterJob = (title: string) => COUNTER_TITLE.test(title);
   const usable = (stage?.spots ?? []).filter(
     (spot) =>
-      spot.facing !== "away" &&
+      (spot.facing !== "away" || options.faceRoom) &&
       !(spot.pose === "podium" && spot.audience === "away") &&
       (!options.standing || spot.pose === "stand") &&
       (spot.pose !== "podium" || options.speakerId !== undefined),
@@ -490,6 +490,12 @@ export function placeBackdropPeople(
           )),
     })),
   ];
+  const outfitExclusions = roomDayOutfitExclusions(
+    world,
+    assigned
+      .filter(({ spot }) => Boolean(spot && stage))
+      .map(({ worker }) => worker.personId),
+  );
   const placed: BackdropPerson[] = [];
   const overflow: BackdropOverflowPerson[] = [];
   for (const { worker, onShift, spot: assignedSpot } of assigned) {
@@ -524,6 +530,7 @@ export function placeBackdropPeople(
           }),
         ),
         view,
+        avoidOutfits: outfitExclusions.get(record.id),
       });
       if (!recipe) return null;
       const resolved = posedPieces(
@@ -559,7 +566,8 @@ export function placeBackdropPeople(
       // clothes have no turned drawing.
       for (const [candidate, view] of [
         ...alternatives.map((at) => [at, spotView(at)] as const),
-        ...alternatives
+        // Their own spot first: it is already theirs, so it is not free.
+        ...[spot, ...alternatives]
           .filter((at) => options.faceRoom && spotView(at) !== "front")
           .map((at) => [at, "front" as const] as const),
       ]) {

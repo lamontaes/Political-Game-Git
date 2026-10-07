@@ -11,12 +11,14 @@ import { electionContestResult } from "../../src/simulation";
 import { projectBillPaper } from "../../src/presentation/bill-paper";
 import { journalInFirstPerson } from "../../src/presentation/journal-first-person";
 import { projectJournalView } from "../../src/presentation/journal-views";
+import { projectNewsFrontPage } from "../../src/presentation/news-front-page";
 import { projectOrdinaryMeetingScene } from "../../src/presentation/ordinary-meeting-scene";
 import {
   readHearingBank,
   readLegislationBank,
   readMeetingBank,
   readMinutesBank,
+  readNoticesBank,
   readWinningLosingBank,
   type BankReading,
 } from "../../src/presentation/bank-english";
@@ -41,12 +43,6 @@ export interface KindReading {
   }[];
 }
 
-/** Kinds no producer in the game writes yet. */
-export const KINDS_WITHOUT_PRODUCER: Readonly<Record<string, string>> = {
-  "notices-and-screens":
-    "no output, because no notices bank or composer exists yet",
-};
-
 const PER_KIND = 10;
 
 export function readKinds(world: World, playerId: EntityId): KindReading {
@@ -57,9 +53,6 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     else texts.push(...found.slice(0, PER_KIND));
   };
 
-  // Do not read a saved news summary aloud as a player-facing line. The
-  // newspaper-lede bank needs a record-field composer before this kind can be
-  // included in a grading batch.
   add(
     "news",
     [],
@@ -197,7 +190,13 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
       `no ${kind} producer writes in the game yet`,
     );
 
-  for (const [kind, reason] of Object.entries(KINDS_WITHOUT_PRODUCER))
-    absent.push({ kind, reason });
+  addBank(
+    "notices-and-screens",
+    [],
+    readNoticesBank(world, playerId),
+    "readNoticesBank in bank-english.ts",
+    "no recorded hearing, local measure, or scheduled election contest is available",
+  );
+
   return { texts, absent };
 }

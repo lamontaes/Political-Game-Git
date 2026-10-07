@@ -8,6 +8,7 @@ import hearingBank from "../../data/english/parts/hearing.json" with { type: "js
 import legislationBank from "../../data/english/parts/legislation.json" with { type: "json" };
 import meetingBank from "../../data/english/parts/meeting.json" with { type: "json" };
 import minutesBank from "../../data/english/parts/minutes.json" with { type: "json" };
+import noticesBank from "../../data/english/parts/notices.json" with { type: "json" };
 import winningLosingBank from "../../data/english/parts/winning-losing.json" with { type: "json" };
 import type { EntityId, World } from "../simulation";
 import { personName, spokenDate } from "../simulation";
@@ -18,6 +19,7 @@ import {
   sittingLocalOfficers,
 } from "../simulation/living-world/local-government-seats";
 import { organizationNameAt } from "../simulation/living-world/party-registry";
+import { governmentUnitJurisdictionId } from "../simulation/government-units";
 
 export interface EnglishPart {
   readonly key: string;
@@ -348,4 +350,107 @@ export function readLegislationBank(world: World): BankReading {
     });
   }
   return out.length ? out : "no filed measure with a short title exists";
+}
+
+/**
+ * Notice wording is attached only to recorded local hearings and measures,
+ * and scheduled election contests. Dates, titles, offices, and jurisdictions
+ * come from those records; this reader never invents a notice or its subject.
+ */
+export function readNoticesBank(world: World, playerId: EntityId): BankReading {
+  const home = homeLocalGovernmentUnits(world, playerId);
+  const localJurisdictions = new Set(
+    [...home.municipal, ...home.counties, ...home.townships].map(
+      governmentUnitJurisdictionId,
+    ),
+  );
+  const measures = world.history.legislativeMeasures ?? [];
+  const localMeasures = new Map(
+    measures
+      .filter(
+        (measure) =>
+          localJurisdictions.has(measure.jurisdictionId) &&
+          !!measure.shortTitle?.trim() &&
+          measure.introducedAt <= world.currentDate,
+      )
+      .map((measure) => [measure.id, measure]),
+  );
+  const out: BankLine[] = [];
+  const add = (
+    move: string,
+    facts: Record<string, string>,
+    pickKey: string,
+    situation: string,
+  ) => {
+    if (
+      out.length >= PER_KIND ||
+      out.some((line) => line.partKey.startsWith(`notice.${move}.`))
+    )
+      return;
+    const made = composeFromBank(
+      noticesBank as EnglishBank,
+      move,
+      facts,
+      pickKey,
+    );
+    if (made)
+      out.push({
+        kind: "notices-and-screens",
+        situation,
+        ...made,
+      });
+  };
+
+  for (const action of world.history.legislativeActions ?? []) {
+    if (action.kind !== "committee-hearing-held") continue;
+    const measure = localMeasures.get(action.measureId);
+    if (!measure || action.occurredAt > world.currentDate) continue;
+    add(
+      "hearing",
+      {
+        title: measure.shortTitle,
+        date: spokenDate(action.occurredAt),
+      },
+      action.id,
+      `Recorded hearing on ${measure.designation} for ${measure.shortTitle}, held ${spokenDate(action.occurredAt)}.`,
+    );
+  }
+
+  for (const measure of localMeasures.values()) {
+    if (out.length >= PER_KIND) break;
+    add(
+      "ordinance",
+      {
+        designation: measure.designation,
+        title: measure.shortTitle,
+      },
+      measure.id,
+      `Recorded local measure ${measure.designation}, introduced ${spokenDate(measure.introducedAt)}.`,
+    );
+  }
+
+  for (const contest of world.history.electionContests ?? []) {
+    if (out.length >= PER_KIND) break;
+    if (
+      contest.scheduledAt > world.currentDate ||
+      contest.electionDate < contest.scheduledAt
+    )
+      continue;
+    const place = world.jurisdictions[contest.jurisdictionId]?.name;
+    if (!place || !contest.office.title.trim()) continue;
+    add(
+      "election",
+      {
+        place,
+        date: spokenDate(contest.electionDate),
+        office: contest.office.title,
+      },
+      contest.id,
+      `Election notice for ${contest.office.title} in ${place}, scheduled for ${spokenDate(contest.electionDate)}.`,
+    );
+  }
+
+  return out.length
+    ? out
+    : "no output, because no recorded local hearing or measure, or scheduled election contest, is available";
 }
