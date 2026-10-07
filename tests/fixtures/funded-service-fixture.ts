@@ -65,7 +65,7 @@ const catalog = {
   ...productionCatalog,
   propositions: Object.fromEntries(
     Object.entries(productionCatalog.propositions).filter(
-      ([id]) => !wageIds.has(id),
+      ([id]) => !wageIds.has(id as EntityId),
     ),
   ),
   propositionOrder: productionCatalog.propositionOrder.filter(
