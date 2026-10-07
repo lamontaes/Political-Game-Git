@@ -534,7 +534,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | open | |
 | BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | open | |
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
-| BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | open | |
+| BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | done #2220 | Session 34 |
 | BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | open | |
 | BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | open | |
 | BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | open | |
