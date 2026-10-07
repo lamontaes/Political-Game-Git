@@ -811,9 +811,6 @@ export function PoliticalMap(props: PoliticalMapProps) {
           {days === 0
             ? "There is no earlier day to look back to."
             : `You can look back to ${proseDate(earliest)}. Each past day shows the map as it stood then.`}
-          {mode === "house"
-            ? " District outlines are the lines drawn for 2026 on every day."
-            : ""}
         </span>
       </div>
 
@@ -1082,9 +1079,6 @@ export function PoliticalMap(props: PoliticalMapProps) {
                 </g>
               ))}
             </svg>
-            <p className="pg-map-attribution">
-              Alaska and Hawaii are drawn as insets.
-            </p>
           </div>
         ) : null}
 

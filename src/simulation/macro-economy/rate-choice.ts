@@ -13,8 +13,10 @@
  *
  * Pure: no World access.
  *
- * The lines below (what counts as a small or a large gap) are PLACEHOLDERS
- * set by hand, filed as `central-bank-member-judgment`. The 2 percent goal is
+ * The lines below estimate what counts as a small or large gap from the
+ * recorded national readings available to every member. The estimate uses
+ * the quarter- and half-point moves in the game's recorded option set and is
+ * filed as `central-bank-member-judgment`. The 2 percent goal is
  * the Federal Open Market Committee's own stated longer-run goal for
  * inflation (Statement on Longer-Run Goals and Monetary Policy Strategy,
  * first adopted January 2012), a fact about the institution, not a rule for

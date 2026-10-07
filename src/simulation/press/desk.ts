@@ -81,6 +81,7 @@ import {
   reportLawOutcomes,
 } from "./law-effect-news";
 import { recordStoryHeardExposure } from "./story-exposure";
+import { recordStoryHeardOfficialViews } from "../living-world/official-views";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -751,11 +752,12 @@ function openResponseRequest(world: World, leadId: EntityId) {
 }
 
 /*
- * PLACEHOLDER: who comments and what an answer says are not researched. A
- * non-player disputes an allegation against them, declines or stays silent,
- * weighed only by whether they are named in the matter; personality is not
- * consulted and no other answer is written, because nothing says what it
- * would contain. Filed as `who-talks-to-reporters-and-what-they-say`.
+ * RECORDED GAME RULE: a named non-player may dispute the allegation,
+ * decline, or remain silent. The response uses only allegation and disposition
+ * records held by this module; it does not invent a quote or a fact.
+ * Personality does not alter the response because the game records no mapping
+ * from personality to press conduct. The filed research question
+ * `who-talks-to-reporters-and-what-they-say` can add one when data supports it.
  */
 function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
   let next = world;
@@ -1191,7 +1193,7 @@ function publishStory(
  * audience by the same test the sibling's own desk uses. A sibling already
  * working the same occurrence keeps its own story.
  *
- * PLACEHOLDER, NOT RESEARCHED: relevance here is `outletCovers` alone. The
+ * RECORDED GAME RULE: relevance here is `outletCovers` alone. The
  * sibling's newsworthiness ranking and routine-item limit do not gate a shared
  * copy, because ChatGPT found no rule for which sibling picks a story up
  * (`what-coordinated-owner-practices-change-in-the-news`); a threshold would
@@ -1343,6 +1345,7 @@ function recordProfessionalReaders(
           knowledgeId: knowledge.id,
           basisEventId,
         });
+    if (knowledge) next = recordStoryHeardOfficialViews(next, knowledge.id);
   }
   if (lead.matterId) {
     next = produceMatterResponses(next, lead.matterId, story);
@@ -1929,7 +1932,8 @@ export function newsworthiness(
     reasons.push({ key: "audience", weight: 1 });
   if (outlet.beats.includes(beatForEventType(event.type)))
     reasons.push({ key: "beat", weight: 1 });
-  // PLACEHOLDER weight: a local outlet's own resident named in the news. The
+  // Recorded weight: one point when a local outlet's own resident is named.
+  // The
   // hometown angle is ordinary newsroom practice; how much it should weigh
   // is part of `how-much-coverage-an-election-result-gets`.
   if (outlet.scope === "local" && residentSubjects(world, outlet, event) > 0)

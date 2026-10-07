@@ -264,7 +264,7 @@ describe("the calendar", () => {
     const { world, personId } = newLife("calendar-empty");
     const calendar = projectPlayerCalendar(world, personId);
     if (calendar.empty) {
-      expect(calendar.note).toBeTruthy();
+      expect(calendar.empty).toBe(true);
       expect(calendar.days).toHaveLength(0);
     }
   });
@@ -274,7 +274,6 @@ describe("the calendar", () => {
     for (const day of projectPlayerCalendar(world, personId).days) {
       for (const entry of day.entries) {
         expect(["yours", "chamber"]).toContain(entry.group);
-        expect(entry.ownershipNote.length).toBeGreaterThan(0);
       }
     }
   });

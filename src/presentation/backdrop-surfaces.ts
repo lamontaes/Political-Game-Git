@@ -219,7 +219,6 @@ export interface BillLine {
 
 export interface BillsContent {
   readonly kind: "bills";
-  readonly heading: string;
   /** The place the bills were filed in: "Bloomington, Indiana". */
   readonly place: string | null;
   readonly bills: readonly BillLine[];
@@ -380,6 +379,7 @@ const QUESTION_LABEL: Readonly<
   amendment: "Amendment",
   concurrence: "Other chamber's changes",
   "veto-override": "Veto override",
+  "procedural-motion": "Procedural motion",
 };
 
 function measuresById(
@@ -478,7 +478,6 @@ export function readBills(
   const place = world.jurisdictions[filed[0]!.jurisdictionId]?.name ?? null;
   return {
     kind: "bills",
-    heading: "Bills filed",
     place,
     bills: filed.map((measure) => ({
       id: measure.id,

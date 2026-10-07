@@ -1,7 +1,6 @@
 import { formatMinute } from "../presentation/player-calendar";
 import { proseWeekdayDate } from "../presentation/prose-dates";
 import type { SimulationMoment } from "../simulation";
-import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
   useEffect,
   useRef,
@@ -243,7 +242,6 @@ export function ShellNav({
   leaving = false,
   leaveProblem = null,
   onPassDays,
-  onPassUntilNeeded,
   passTargets,
   passing = false,
 }: {
@@ -270,8 +268,6 @@ export function ShellNav({
   readonly leaveProblem?: string | null;
   /** Day and week through the canonical clock, including during childhood. */
   readonly onPassDays?: (days: 1 | 7) => void;
-  /** Run the existing quiet-stretch command until the next protected need. */
-  readonly onPassUntilNeeded?: () => void;
   /** Where each skip would land, said before it is pressed. */
   readonly passTargets?: {
     readonly day: string;
@@ -283,12 +279,6 @@ export function ShellNav({
   readonly passing?: boolean;
 }) {
   const open = state.navigation !== "closed";
-  // The interrupt checklist, opened beside Day and Week so what a skip stops
-  // for is in reach at the moment time is passed.
-  const [stopsOpen, setStopsOpen] = useState(false);
-  useEffect(() => {
-    if (open || state.confirmingLeave) setStopsOpen(false);
-  }, [open, state.confirmingLeave]);
   const [visibleNavigation, setVisibleNavigation] = useState(state.navigation);
   if (open && visibleNavigation !== state.navigation)
     setVisibleNavigation(state.navigation);
@@ -487,7 +477,7 @@ export function ShellNav({
             data-testid="shell-nav-cluster"
             aria-expanded={open}
             aria-controls={open ? "pg-nav-flyout" : undefined}
-            aria-label={`${playerName}. ${currentMoment ? proseWeekdayDate(currentMoment.date) : dateLabel}. ${currentMoment ? formatMinute(currentMoment.minuteOfDay) + ". " : ""}${place}. Open navigation.`}
+            aria-label={`${playerName}. ${currentMoment ? proseWeekdayDate(currentMoment.date) : dateLabel}. ${currentMoment ? formatMinute(currentMoment.minuteOfDay) + ". " : ""}${place}.`}
             onClick={() => dispatch({ type: "toggle-navigation" })}
           >
             <span className="pg-nav-cluster-inner" aria-hidden="true">
@@ -501,10 +491,7 @@ export function ShellNav({
                     {playerName}
                   </span>
                   {unsaved ? (
-                    <span
-                      className="pg-nav-unsaved"
-                      title="This life has not been saved yet."
-                    >
+                    <span className="pg-nav-unsaved" data-problem="unsaved">
                       unsaved
                     </span>
                   ) : null}
@@ -551,11 +538,7 @@ export function ShellNav({
                 className="pg-nav-day ui-action"
                 data-testid="shell-pass-day"
                 aria-disabled={passing || undefined}
-                title={
-                  passTargets
-                    ? `${passTargets.day}. Your routine runs; stops early for anything protected.`
-                    : "Let the day run through your routine. Stops for anything that needs you."
-                }
+                title={passTargets?.day}
                 onClick={() => {
                   if (!passing) onPassDays(1);
                 }}
@@ -567,86 +550,13 @@ export function ShellNav({
                 className="pg-nav-day ui-action"
                 data-testid="shell-pass-week"
                 aria-disabled={passing || undefined}
-                title={
-                  passTargets
-                    ? `${passTargets.week}. Your routine runs; stops early for anything protected.`
-                    : "Let the week run through your routine. Stops for anything that needs you."
-                }
+                title={passTargets?.week}
                 onClick={() => {
                   if (!passing) onPassDays(7);
                 }}
               >
                 Week <span aria-hidden="true">»</span>
               </button>
-              {onPassUntilNeeded ? (
-                <button
-                  type="button"
-                  className="pg-nav-day ui-action"
-                  data-testid="shell-pass-until-needed"
-                  aria-disabled={
-                    passing || !passTargets?.untilNeeded || undefined
-                  }
-                  aria-describedby="pg-nav-until-target"
-                  title={
-                    passTargets?.untilNeeded
-                      ? `${passTargets.untilNeeded}. Your routine stops for the next thing that needs you.`
-                      : (passTargets?.untilNeededReason ??
-                        "A choice needs your answer before another quiet stretch.")
-                  }
-                  onClick={() => {
-                    if (!passing && passTargets?.untilNeeded)
-                      onPassUntilNeeded();
-                  }}
-                >
-                  Until needed <span aria-hidden="true">»</span>
-                </button>
-              ) : null}
-              <button
-                type="button"
-                className="pg-nav-day pg-nav-stops-toggle ui-action"
-                data-testid="shell-stops-toggle"
-                aria-expanded={stopsOpen}
-                aria-controls="pg-nav-stops"
-                onClick={() => {
-                  dispatch({ type: "close-navigation" });
-                  setStopsOpen((value) => !value);
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === "Escape") setStopsOpen(false);
-                }}
-              >
-                Stops
-              </button>
-              {stopsOpen && !open && !state.confirmingLeave ? (
-                <div
-                  id="pg-nav-stops"
-                  className="pg-nav-stops pg-glass-panel"
-                  role="dialog"
-                  aria-label="What passing time stops for"
-                  data-testid="shell-stops"
-                  onKeyDown={(event) => {
-                    if (event.key === "Escape") setStopsOpen(false);
-                  }}
-                >
-                  <p className="pg-nav-stops-title">
-                    What passing time stops for
-                  </p>
-                  <InterruptionChecklist
-                    interruptions={state.preferences.interruptions}
-                    onChange={(key, value) =>
-                      dispatch({ type: "set-interruption", key, value })
-                    }
-                    testIdPrefix="shell-stop"
-                  />
-                  <button
-                    type="button"
-                    className="ui-action ui-action--subtle"
-                    onClick={() => setStopsOpen(false)}
-                  >
-                    Done
-                  </button>
-                </div>
-              ) : null}
 
               {passing ? (
                 <span
@@ -777,13 +687,12 @@ export function ShellNav({
           data-testid="leave-confirm"
         >
           <p className="pg-nav-heading" id="pg-nav-confirm-title">
-            Save before returning to the title?
+            Return to title
           </p>
-          <p className="pg-nav-confirm-copy">
-            {unsaved
-              ? "This life has not been saved yet."
-              : "Save your latest progress before returning. Earlier autosaves will remain available."}
-          </p>
+          <p
+            className="pg-nav-confirm-copy"
+            data-reason={unsaved ? undefined : "autosaves-kept"}
+          />
           <button
             type="button"
             className="ui-action ui-action--primary"
@@ -817,10 +726,7 @@ export function ShellNav({
           </button>
           {leaveProblem ? <p role="alert">{leaveProblem}</p> : null}
           {!canSave ? (
-            <p role="alert">
-              Saving is unavailable. You can stay in this life or return without
-              saving.
-            </p>
+            <p role="alert" data-problem="saving-unavailable" />
           ) : null}
         </div>
       ) : null}

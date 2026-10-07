@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
@@ -29,10 +31,8 @@ describe("creator appearance step with no approved artwork", () => {
     expect(markup).toContain('data-testid="creator-artwork-status"');
   });
 
-  it("says so in words a player understands", () => {
-    expect(markup).toContain(
-      "Choosing how you look is not available yet. Your character can still begin.",
-    );
+  it("says nothing in words when there is nothing to choose", () => {
+    expect(markup).toMatch(/data-testid="creator-artwork-status"><\/p>/);
     expect(markup).not.toMatch(/catalog|compatible artwork/i);
     // Nothing on the step invites a choice that does not exist.
     expect(markup).not.toContain("Choose your appearance before beginning");
@@ -51,4 +51,18 @@ describe("creator appearance step with no approved artwork", () => {
     expect(markup).toMatch(/data-testid="begin"/);
     expect(markup).not.toMatch(/data-testid="begin"[^>]*disabled/);
   });
+});
+
+describe("the creator screens carry no authored sentence", () => {
+  it.each(["SetupScreen.tsx", "CreatorAppearanceStep.tsx"])(
+    "%s has no sentence literal",
+    (file) => {
+      const text = readFileSync(join(__dirname, file), "utf8")
+        .split("\n")
+        .filter((line) => !/^\s*(\/\/|\*|\/\*)/.test(line))
+        .join("\n");
+      expect(text.match(/"[A-Z][^"]{25,}[.?!]"/g) ?? []).toEqual([]);
+      expect(text.match(/>\s*[A-Z][a-z]+ [a-z ,']{20,}/g) ?? []).toEqual([]);
+    },
+  );
 });

@@ -1,6 +1,5 @@
 import { expect, type Page } from "@playwright/test";
 import { chooseOption } from "./controls";
-import { CREATOR_LIFE_FORKS } from "../../../src/simulation/creator-life-forks";
 
 import { resolveExplicitCreatorHometown } from "../../../src/presentation/new-game-geography";
 
@@ -147,7 +146,6 @@ export async function chooseCreatorLocation(
       throw new Error("Statewide start is a custom-only control.");
     }
     await page.getByTestId("place-statewide-choice").click();
-    await page.getByTestId("creator-continue-place").click();
     return;
   }
 
@@ -179,7 +177,6 @@ export async function chooseCreatorLocation(
       .filter({ hasText: new RegExp(hometown.townMatch ?? "^$", "i") })
       .first()
       .click();
-  await page.getByTestId("creator-continue-place").click();
 }
 
 function escapeForRegExp(value: string): string {
@@ -218,7 +215,7 @@ export async function chooseStartAge(page: Page, age: number): Promise<void> {
     String(2026 - age - (notYet ? 1 : 0)),
   );
   await expect(page.getByTestId("creator-derived-age")).toContainText(
-    `age ${age},`,
+    `${age} \u00b7`,
   );
 }
 
@@ -291,21 +288,6 @@ export async function fillCreator(
     await page.getByTestId("creator-continue-background").click();
   }
 
-  await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
-  const calibration = life.calibration ?? "skipped";
-  let answeredMoments = false;
-  if (calibration !== "skipped") {
-    for (const fork of CREATOR_LIFE_FORKS) {
-      const pursue = page.getByTestId(`creator-fork-${fork.key}-pursue`);
-      if (await pursue.count()) {
-        await pursue.click();
-        answeredMoments = true;
-      }
-    }
-  }
-  await page
-    .getByTestId(answeredMoments ? "whoareyou-answer" : "whoareyou-play")
-    .click();
   await expect(page.getByTestId("begin")).toBeEnabled();
 }
 

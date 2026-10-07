@@ -1,3 +1,4 @@
+import { applyWardCommissionLandings } from "../law-consequences/modules/election-ward-landings";
 import methods from "../../../data/research/local-government/council-election-methods.json" with { type: "json" };
 import { governmentUnitsForState } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
@@ -197,24 +198,16 @@ export function homePosition(
       }
     }
   }
-  let inTown = world.people[personId]!.homeJurisdictionId === town;
   for (const row of memberships) {
     if (row.household.stableKey.startsWith(prefix)) {
       const index = Number(row.household.stableKey.slice(prefix.length));
       if (Number.isInteger(index)) return index;
     }
-    if (row.location?.jurisdictionId === town) inTown = true;
   }
-  if (!inTown) return null;
-  // Without a recorded roster dwelling, a household the roster did not
-  // write keeps the legacy position from its own id: a
-  // stand-in address, not a choice anyone makes.
-  let hash = 2166136261;
-  for (const char of personId) {
-    hash ^= char.charCodeAt(0);
-    hash = Math.imul(hash, 16777619) >>> 0;
-  }
-  return hash % households;
+  // A home-jurisdiction label places someone in the town, but it does not
+  // identify a household position in the ward map. Leave the ward unknown
+  // until a roster household or recorded address supplies that position.
+  return null;
 }
 
 /** The ward holding household `position` under `map`, from 1. */
@@ -489,7 +482,7 @@ export function redrawTownWards(
   const attribution: LawEffectStampedRecord = stamp
     ? { lawEffectStamps: [stamp] }
     : {};
-  return recordWorldEvent(world, {
+  const drawnWorld = recordWorldEvent(world, {
     ...attribution,
     stableKey: `town-wards:${input.unit.id}:${world.currentDate}:${input.drawnBy}`,
     type: WARDS_DRAWN,
@@ -512,7 +505,7 @@ export function redrawTownWards(
       `drawn-out:${shared.length}`,
       `paired:${paired.map((row) => row.personId).join(",")}`,
     ],
-    summary: `${plan.wardSeats} council wards were drawn by ${by}, ${input.reason}; the largest and smallest differ by ${(deviation * 100).toFixed(1)}% of an even ward${
+    summary: `${plan.wardSeats} council districts were drawn by ${by}, ${input.reason}; the largest and smallest differ by ${(deviation * 100).toFixed(1)}% of an even district${
       shared.length > 0
         ? `, and ${shared.length} sitting ${shared.length === 1 ? "member lives" : "members live"} outside the ward ${shared.length === 1 ? "their seat" : "their seats"} now ${shared.length === 1 ? "represents" : "represent"}`
         : ""
@@ -530,4 +523,12 @@ export function redrawTownWards(
       immediateReaction: null,
     },
   });
+  const saved = drawnWorld.history.events.find(
+    (row) =>
+      row.stableKey ===
+      `town-wards:${input.unit.id}:${world.currentDate}:${input.drawnBy}`,
+  );
+  return stamp && saved
+    ? applyWardCommissionLandings(drawnWorld, saved.id)
+    : drawnWorld;
 }

@@ -746,7 +746,7 @@ export function assessPartyInitiative(
       sourceRefs: [],
     },
   ];
-  const leave = allies.length >= 2 ? "split" : "found";
+  const leave = allies.length >= 1 ? "split" : "found";
   considerations.push(
     {
       stableKey: "repeated-dispute",
@@ -1360,7 +1360,7 @@ export function adoptPartyInitiative(
         PARTY_EVOLUTION_EVENT,
         [source],
         leavers,
-        `${leavers.length} members left ${sourceUnit.name} to form ${name}.`,
+        `${leavers.length} ${leavers.length === 1 ? "member" : "members"} left ${sourceUnit.name} to form ${name}.`,
         ["change:split-off"],
         sourceUnit.jurisdictionId,
       );

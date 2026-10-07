@@ -27,7 +27,7 @@ describe("Options after the morning-note presentation is retired", () => {
       expect(markup).toContain("Date format");
       expect(markup).toContain("People default view");
       expect(markup).toContain("Default pin size");
-      expect(markup).toContain("reduced-motion");
+      expect(markup).not.toContain("reduced-motion");
       expect(markup).toContain('data-testid="nav-patch-notes"');
       expect(JSON.stringify(state)).toBe(before);
       expect(dispatch).not.toHaveBeenCalled();

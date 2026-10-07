@@ -422,8 +422,11 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await openElsewhere(page, "people");
     await page.locator('[data-testid^="people-person-"]').first().click();
     const refusal = page.getByTestId("dossier-talk-unavailable");
-    if (await refusal.isVisible())
-      await expect(refusal).not.toContainText(/spoken for|no time|too late/i);
+    if (await refusal.count())
+      await expect(refusal).not.toHaveAttribute(
+        "data-reason",
+        /spoken for|no time|too late/i,
+      );
 
     await openElsewhere(page, "campaign");
     await page.getByTestId("shell-pass-day").focus();
