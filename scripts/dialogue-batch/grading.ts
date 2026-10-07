@@ -213,6 +213,7 @@ export function toGradingBatch(
   const items: GradingItem[] = [];
   const bin: BinnedExchange[] = [];
   const pairs = new Set<string>();
+  const voices = new Map<string, number>();
   // Conversation repeats when the exchange and the relationship repeat; a
   // read text (news, journal, a judge's reasons) repeats when its words do.
   const pairOf = (item: Omit<GradingItem, "i">) =>
@@ -255,14 +256,20 @@ export function toGradingBatch(
       },
       seed: `${result.seed}:${worldIndex.get(line.world.place) ?? 0}`,
     };
+    // At most two items for any one relationship (CTO 9:03 p.m. Oct 6:
+    // "dads carried 9 of 13").
+    const voice = `${item.kind}|${voiceLabel(line)}`;
     const rule =
       binRule(`${line.line}`) ??
       (pairs.has(pairOf(item))
         ? "repeats a situation and relationship already in the batch"
-        : null);
+        : item.kind === "conversation" && (voices.get(voice) ?? 0) >= 2
+          ? "this relationship already has two items in the batch"
+          : null);
     if (rule) bin.push({ item, rule });
     else {
       pairs.add(pairOf(item));
+      voices.set(voice, (voices.get(voice) ?? 0) + 1);
       items.push({ i: items.length, ...item });
     }
   }
