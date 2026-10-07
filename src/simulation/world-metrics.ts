@@ -1,3 +1,4 @@
+export { assertSemanticTransitionKey } from "./semantic-transition-key";
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
@@ -85,7 +86,6 @@ const AGGREGATION_KINDS = [
   "sum-compatible",
   "derived-only",
 ] as const;
-const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
 
 export function createWorldMetricDefinition(
   input: WorldMetricDefinitionInput,
@@ -1396,13 +1396,4 @@ function assertNonEmpty(
 
 function assertOptional(value: string | null, label: string): void {
   if (value !== null) assertNonEmpty(value, label);
-}
-
-export function assertSemanticTransitionKey(
-  value: string,
-  label: string,
-): void {
-  if (!SEMANTIC_KEY.test(value)) {
-    throw new Error(`${label} must be a namespaced semantic key: ${value}`);
-  }
 }

@@ -581,9 +581,14 @@ describe("law story resident readers", () => {
 });
 
 describe("actual stamped coverage reaches resident news", () => {
-  it.each(["in-force-at-start", "enacted"] as const)(
-    "reads %s coverage without disclosing private basis or inventing an act",
-    (origin) => {
+  it.each([
+    ["in-force-at-start", "health-coverage"],
+    ["enacted", "health-coverage"],
+    ["in-force-at-start", "coverage-eligibility"],
+    ["enacted", "coverage-eligibility"],
+  ] as const)(
+    "reads %s %s without disclosing private basis or inventing an act",
+    (origin, effectKind) => {
       const { world: base, people, town, away } = readerFixture();
       const date = base.currentDate;
       const questionKey =
@@ -636,14 +641,19 @@ describe("actual stamped coverage reaches resident news", () => {
         version: "law-effect-stamp/v1",
         governingLawKey,
         source: origin,
-        effectKind: "health-coverage",
+        effectKind,
         questionKey,
         jurisdictionId: state.id,
         operativeAt: date,
         appliedAt: date,
         sourceRecordIds: [],
       };
-      function coverage(covered: boolean, tag: string, stamped = true) {
+      function coverage(
+        covered: boolean,
+        tag: string,
+        stamped = true,
+        stampKind: LawEffectStamp["effectKind"] = effectKind,
+      ) {
         world = appendCrisisRecord(world, {
           kind: "health-coverage",
           stableKey: `coverage-news:${origin}:${tag}`,
@@ -660,10 +670,12 @@ describe("actual stamped coverage reaches resident news", () => {
           monthlyIncomeMinor: 123456,
           monthlyWorkHours: 0,
           hazardMultiplierMicros: 1000000,
-          hazardFrom: null,
+          hazardFrom: covered ? date : null,
           hazardBasis: "Explicit fixture, no measured health effect.",
           basis: "PRIVATE income 123456 and private medical detail.",
-          ...(stamped ? { lawEffectStamps: [stamp] } : {}),
+          ...(stamped
+            ? { lawEffectStamps: [{ ...stamp, effectKind: stampKind }] }
+            : {}),
         });
       }
       coverage(false, "initial-not-covered");
@@ -681,7 +693,9 @@ describe("actual stamped coverage reaches resident news", () => {
       expect(story.jurisdictionId).not.toBe(town.context.jurisdiction.id);
       expect(story.tags).toContain(`law-effect:source:${source.id}`);
       expect(story.tags).toContain(`law-effect:origin:${origin}`);
-      expect(story.summary).toContain("coverage began for 1 resident");
+      expect(story.summary).toContain(
+        "coverage eligibility began for 1 resident",
+      );
       expect(JSON.stringify(story)).not.toContain("123456");
       expect(JSON.stringify(story)).not.toContain("private medical detail");
       expect(lawNewsReaders(world, story)).toContain(people[2]!.id);
@@ -694,7 +708,9 @@ describe("actual stamped coverage reaches resident news", () => {
         event.tags.includes("law-effect:reach:health-coverage"),
       );
       expect(both).toHaveLength(2);
-      expect(both[1]!.summary).toContain("coverage ended for 1 resident");
+      expect(both[1]!.summary).toContain(
+        "coverage eligibility ended for 1 resident",
+      );
       coverage(true, "coverage-restored");
       world = reportLawEffects(world, 0);
       expect(
@@ -703,6 +719,8 @@ describe("actual stamped coverage reaches resident news", () => {
         ),
       ).toHaveLength(3);
       coverage(false, "unstamped", false);
+      expect(reportLawEffects(world, 0)).toBe(world);
+      coverage(true, "unrelated-kind", true, "pay");
       expect(reportLawEffects(world, 0)).toBe(world);
     },
   );

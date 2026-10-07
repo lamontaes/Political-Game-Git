@@ -1,8 +1,22 @@
 import { describe, expect, it } from "vitest";
 
+import { recordWorldEvent, type EntityId, type World } from "../simulation";
+import { stableHash } from "../simulation/ids";
+import {
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+} from "../simulation/life-places";
 import { buildLifeIntroduction } from "./life-introduction";
 import { resolveLifeScene } from "./life-scene";
-import { createNewGameWorld, type NewGameSetup } from "./new-game";
+import {
+  availableOpeningLifeScenes,
+  openNextLifeScene,
+} from "./life-scene-flow";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+  type NewGameSetup,
+} from "./new-game";
 import { DOMESTIC_SCENE_IDS, SCENE_REGISTRY } from "./scene-registry";
 import { PRODUCTION_VISUAL_LIBRARY } from "./visual-integration";
 
@@ -179,4 +193,136 @@ describe("What the game says about the family it wrote", () => {
       buildLifeIntroduction(game.world, game.playerPersonId)!.personName,
     );
   });
+});
+
+/** The place of all 56 that this seed draws, with a locality to start in. */
+function drawPlace(): { seed: string; usps: string; placeKey: string } {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  for (let n = 1; n < 200; n++) {
+    const seed = `a146-${n}`;
+    const place =
+      places[parseInt(stableHash(seed).slice(0, 8), 16) % places.length]!;
+    const locality = searchLifePlaces("", 1, {
+      stateJurisdictionKey: place.jurisdictionKey,
+      scope: "locality",
+    })[0];
+    if (locality) return { seed, usps: place.usps, placeKey: locality.key };
+  }
+  throw new Error("No place with a locality was drawn.");
+}
+
+/** The scene a life opened last, and the event its opening says it follows. */
+function lastOpened(world: World, personId: EntityId) {
+  const event = world.history.events
+    .filter(
+      (row) =>
+        row.type === "life.scene.opened" &&
+        row.involvedEntityIds.includes(personId),
+    )
+    .at(-1)!;
+  expect(event).toBeDefined();
+  const tag = (prefix: string) =>
+    event.tags.find((row) => row.startsWith(prefix))?.slice(prefix.length) ??
+    null;
+  return {
+    family: tag("family:"),
+    follows: tag("follows-event:"),
+    counterpart:
+      event.participants.find((row) => row.role === "coordination:counterpart")
+        ?.personId ?? null,
+  };
+}
+
+describe("A146: the next life scene follows recent events, not a hash", () => {
+  const { seed, usps, placeKey } = drawPlace();
+  it(`opens the scene tied to the latest event, whatever the world seed (US-${usps}, seed ${seed})`, () => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startKind: "custom",
+      household: "shares-a-home",
+      seed,
+      placeKey,
+      startAge: 6,
+    });
+    const player = game.playerPersonId;
+    const world = game.world;
+    // The setting with the most scenes waiting, so there is a choice to make.
+    const waiting = availableOpeningLifeScenes(world, player).filter(
+      ({ definition, beat }) =>
+        definition.recurrence !== "daily" || beat.stageKey === "follow-through",
+    );
+    const settings = [
+      ...new Set(waiting.map(({ definition }) => definition.setting)),
+    ];
+    const setting = settings
+      .map((key) => ({
+        key,
+        count: waiting.filter(({ definition }) => definition.setting === key)
+          .length,
+      }))
+      .sort((a, b) => b.count - a.count)[0]!.key;
+    const candidates = waiting.filter(
+      ({ definition }) => definition.setting === setting,
+    );
+    expect(candidates.length).toBeGreaterThan(1);
+
+    // The same history under another world seed opens the same scene.
+    const first = lastOpened(openNextLifeScene(world, player, setting), player);
+    const reseeded = lastOpened(
+      openNextLifeScene({ ...world, seed: `${seed}:other` }, player, setting),
+      player,
+    );
+    expect(reseeded).toEqual(first);
+    // What it follows is a recorded event in this life that ties to it;
+    // with nothing tied, it is the first scene in order.
+    if (first.follows !== null) {
+      const followed = world.history.events.find(
+        (row) => row.id === first.follows,
+      )!;
+      expect(followed.involvedEntityIds).toContain(player);
+      expect(
+        followed.tags.includes(`family:${first.family}`) ||
+          (first.counterpart !== null &&
+            followed.involvedEntityIds.includes(first.counterpart)),
+      ).toBe(true);
+    } else {
+      expect(first.family).toBe(candidates[0]!.definition.key);
+    }
+
+    // Something new is recorded about another of those scenes: that scene
+    // comes next, and its opening names the event it follows.
+    const later = candidates.find(
+      ({ definition }) => definition.key !== first.family,
+    )!;
+    const jurisdictionId = world.people[player]!.homeJurisdictionId;
+    const noticed = recordWorldEvent(world, {
+      stableKey: `test:a146:noticed:${player}`,
+      type: "test.a146-noticed",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [player],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [`family:${later.definition.key}`],
+      summary: "Something happened that one of those moments is about.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const recent = noticed.history.events.at(-1)!;
+    const steered = lastOpened(
+      openNextLifeScene(noticed, player, setting),
+      player,
+    );
+    expect(steered.family).toBe(later.definition.key);
+    expect(steered.follows).toBe(recent.id);
+  }, 60_000);
 });

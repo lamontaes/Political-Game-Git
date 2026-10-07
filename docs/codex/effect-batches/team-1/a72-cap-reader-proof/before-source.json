@@ -1,0 +1,7 @@
+{
+  "candidateHead": "7bc876ed963ca43815518d056b41d7301f75dcf9",
+  "main": "2e78c9c155e6dcfbf400f21cad56266c2dcfc97b",
+  "comparison": "Only member-agenda.ts replaced with exact main; new tests and pure reader remain present.",
+  "baselineSha256": "1674472dd8ea57172d1096a120e7baec118821c4c4d65d825686fa5e37635ca1",
+  "candidateSha256": "d981af20758d4d60cfff6dda5a0616571a7747830c84ac9a2bf89b585e796b42"
+}

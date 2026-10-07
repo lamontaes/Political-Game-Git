@@ -436,7 +436,7 @@ export function DeveloperReviewHub() {
                     {session.world.history.organizations.map((org) => (
                       <option key={org.id} value={org.id}>
                         {organizationProfileAt(session.world, org.id)?.name ??
-                          "Name not recorded"}{" "}
+                          "Organization record"}{" "}
                         · {org.id}
                       </option>
                     ))}

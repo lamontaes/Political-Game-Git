@@ -1,4 +1,4 @@
-import { recordsByStringField } from "./history-index";
+import { recordsByKey, recordsByStringField } from "./history-index";
 import { eventById } from "./event-index";
 import { ageOnDate, makeIsoDate } from "./dates";
 import {
@@ -326,12 +326,18 @@ export function relationshipHistory(
   firstPersonId: EntityId,
   secondPersonId?: EntityId,
 ): readonly RelationshipInteraction[] {
-  return world.history.relationshipInteractions
+  // Read through the per-person grouping of the interaction log, not a scan of
+  // the whole log: the same records, in the same order.
+  return recordsByKey(
+    world.history.relationshipInteractions,
+    "relationship-interactions-by-person",
+    (interaction) => interaction.personIds,
+    firstPersonId,
+  )
     .filter(
       (interaction) =>
-        interaction.personIds.includes(firstPersonId) &&
-        (secondPersonId === undefined ||
-          interaction.personIds.includes(secondPersonId)),
+        secondPersonId === undefined ||
+        interaction.personIds.includes(secondPersonId),
     )
     .sort(byDateThenSequence);
 }

@@ -3,6 +3,7 @@ import type { PolicyProvisionStance } from "./constitutional-types";
 import { constitutionalStateUsps } from "./enacted-rule-changes";
 import type {
   EntityId,
+  HistoricalCutoff,
   IsoDate,
   PolicyPropositionDefinition,
   World,
@@ -101,12 +102,19 @@ export function constitutionalPolicyProvisions(
   world: World,
   stateUsps: string,
   onDate: IsoDate = world.currentDate,
+  cutoff?: HistoricalCutoff,
 ): readonly PolicyProvisionInForce[] {
   const latest = new Map<
     EntityId,
     { readonly provision: PolicyProvisionInForce; readonly sequence: number }
   >();
   for (const measure of world.history.constitutionalMeasures ?? []) {
+    if (
+      cutoff &&
+      (measure.sequence >= cutoff.historySequenceExclusive ||
+        measure.introducedAt > cutoff.asOfDate)
+    )
+      continue;
     const delta = measure.ruleDelta;
     if (delta.kind !== "policy-provision") continue;
     const key =
@@ -114,7 +122,12 @@ export function constitutionalPolicyProvisions(
         ? "US"
         : constitutionalStateUsps(measure.jurisdictionKey);
     if (key !== stateUsps) continue;
-    const { operativeAt } = constitutionalPosition(world, measure.id);
+    const { operativeAt } = constitutionalPosition(
+      world,
+      measure.id,
+      onDate,
+      cutoff,
+    );
     if (!operativeAt || operativeAt > onDate) continue;
     const held = latest.get(delta.propositionId);
     if (

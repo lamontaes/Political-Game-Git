@@ -1,6 +1,14 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
+import { crisisRecords } from "../crisis/records";
+import { crisisOfficeContinuityNotices } from "../crisis/notices";
+import { applyCongressTurnover } from "../living-world/congress-turnover";
+import { applyGovernorTurnover } from "../nationwide-world/state-executive-turnover-calendar";
+import { applyPresidentialTurnover } from "../nationwide-world/presidential-turnover";
+import { applyConstitutionalReform } from "../living-world/constitutional-reform";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
+  type CharacterHistoryContextPersonInput,
 } from "../character-history";
 import {
   addDays,
@@ -53,7 +61,7 @@ import {
   seatedStateLegislators,
 } from "./joint-assembly";
 import {
-  SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
+  senateAppointmentTiming,
   SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
   senateVacancyLaw,
 } from "../nationwide-world/senate-vacancy-law";
@@ -172,13 +180,13 @@ function voterChoice(
  *
  * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`):
  * the appointee is still a generated person, not someone the governor
- * knows, and the days to an appointment where the statute sets none.
+ * knows. Unrecorded appointment timing is a marked legal-window estimate.
  */
 export const SENATE_APPOINTMENT = "governing:senate-appointment";
 
 export const SENATE_VACANCY_PROFILE = {
   id: "ocd-senate-vacancy-game-profile/v1",
-  daysFromVacancyToAppointment: 10,
+  daysFromVacancyToAppointment: senateAppointmentTiming(null)!.days,
 } as const;
 
 const APPOINTED_FOR_TAG = "appointed-for-vacancy:";
@@ -440,9 +448,9 @@ function nextCongressionalElectionAfter(date: IsoDate): IsoDate {
  * A vacant U.S. Senate seat, filled under the state's own law
  * (`senate-vacancy-law.ts`): an appointment where the governor may make one,
  * then a special election, prompt or at the next regular November election
- * as the state's statute says. PLACEHOLDER (SENATE_VACANCY_PROFILE) only
- * where the law is silent or unrecorded: the days to an appointment with no
- * statutory deadline, and a prompt election's unrecorded window.
+ * as the state's statute says. Appointment timing uses the recorded latest
+ * window or a marked median proxy from comparable legal windows. A prompt
+ * election's unrecorded window is separately estimated.
  */
 function openSenateVacancy(
   world: World,
@@ -488,13 +496,14 @@ function openSenateVacancy(
   }
   const law = senateVacancyLaw(seat.stateUsps);
   const appoints = law ? law.appointment !== "none" : true;
-  const deadline = law?.appointmentDeadlineDays ?? null;
-  const appointmentDay = addDays(
-    from,
-    deadline === null
-      ? SENATE_APPOINTMENT_PLACEHOLDER_DAYS
-      : Math.min(SENATE_APPOINTMENT_PLACEHOLDER_DAYS, deadline),
-  );
+  const timing = senateAppointmentTiming(law);
+  const modeledAppointmentDay = timing
+    ? addDays(vacancyDate, timing.days)
+    : from;
+  // A late notice cannot restart a statutory window. Process an overdue
+  // appointment on the next available clock day, while retaining the original bound in provenance.
+  const appointmentDay =
+    modeledAppointmentDay <= from ? addDays(from, 1) : modeledAppointmentDay;
   const window = seatTermWindow(seat, vacancyDate);
   const regular = congressionalElectionDay(
     Number(window.endExclusive.slice(0, 4)) - 1,
@@ -514,9 +523,7 @@ function openSenateVacancy(
       jurisdictionId: stateId,
       provenance: {
         kind: "authored",
-        note: law
-          ? `${seat.stateUsps} law (${law.citation ?? law.source}): the governor makes a temporary appointment (U.S. Const. amend. XVII).`
-          : `${SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII); the appointment, its party and its ${SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment}-day interval are a game profile.`,
+        note: `${law ? `${seat.stateUsps} law (${law.citation ?? law.source})` : SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII). ${timing!.basis === "recorded-deadline" ? `Modeled timing uses the recorded ${timing!.days}-day latest appointment window; this is not an observed appointment date and earlier appointment may be lawful.` : `ESTIMATED FROM LEGAL WINDOWS: ${timing!.days} days, the median of ${timing!.comparatorCount} recorded deadlines (${timing!.comparison}); legal deadlines are a proxy, not observed governor appointment durations.`}${appointmentDay !== modeledAppointmentDay ? " Notice arrived after the modeled date; schedule the overdue appointment on the next available clock day without restarting the window." : ""}`,
       },
     });
   const nextGeneral = nextCongressionalElectionAfter(
@@ -586,6 +593,31 @@ export function houseSpecialElectionHandler(
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
   return seatNewMember(world, due, "special-election");
+}
+
+/**
+ * The member a special election or a legislature seats when no known person
+ * is chosen: invented for the seat, with an age from the shared table.
+ */
+export function newMemberInput(
+  world: World,
+  seat: CongressSeat,
+  memberKey: string,
+  rng: SeededRng,
+): CharacterHistoryContextPersonInput {
+  return {
+    stableKey: memberKey,
+    ...drawCanonicalNamedIdentity(
+      rng.fork("name"),
+      generatePersonIdentity(rng.fork("identity")),
+    ),
+    birthDate: inventedPersonBirthDate(rng, {
+      role: "legislative-successor",
+      referenceDate: world.currentDate,
+      legalMinimumAge: MINIMUM_AGE[seat.chamberKey],
+    }),
+    homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
+  };
 }
 
 function seatNewMember(
@@ -737,25 +769,12 @@ function seatNewMember(
   const appointedParty = appointed
     ? publicPartyOf(appointed.world, appointed.personId)
     : null;
-  const age = rng.integer(MINIMUM_AGE[seat.chamberKey] + 3, 70);
-  const year = Number(world.currentDate.slice(0, 4));
   let next = appointed
     ? appointed.world
     : electedPersonId
       ? world
       : createCharacterHistoryContextPeople(world, [
-          {
-            stableKey: memberKey,
-            ...drawCanonicalNamedIdentity(
-              rng.fork("name"),
-              generatePersonIdentity(rng.fork("identity")),
-            ),
-            birthDate: makeIsoDate(
-              `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-            ),
-            homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!
-              .id,
-          },
+          newMemberInput(world, seat, memberKey, rng),
         ]);
   const winner = appointed
     ? appointed.personId
@@ -1378,11 +1397,10 @@ function rulingFor(
  *   to confirm one. The two times it has happened took 57 days (1973) and
  *   121 days (1974) from nomination to confirmation; the profile below sits
  *   between them and is not a finding.
- * - whom a President nominates. The amendment lets the President name anyone
- *   eligible to be Vice President; the game has no rule for whom a President
- *   would choose. Blanket rule meanwhile: an even draw among every living
- *   person in the World old enough for the office (35), other than the
- *   President, the player's own character, who would have to be asked, and
+ * - eligibility is incomplete. The President's existing appointment decision
+ *   selects among recorded colleagues and contacts. Without a selection, the
+ *   nomination is blocked and the office stays vacant. The eligible pool excludes
+ *   the President, the player's own character, who would have to be asked, and
  *   sitting governors. Citizenship and fourteen years' residence are not recorded on a person,
  *   so they are not checked. A nominee who sat in Congress leaves the seat,
  *   which is then filled the way any vacated seat is.
@@ -1530,11 +1548,11 @@ export function vicePresidentNominationHandler(
       world,
       "There is no sitting President to nominate a Vice President.",
     );
-  // PLACEHOLDER: whom the President chooses (see the profile above).
+  // Eligibility remains incomplete (see the profile above).
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
-  // A sitting governor is not drawn: the game has no route for them to give
+  // A sitting governor is not eligible here: the game has no route for them to give
   // up the governorship.
   const governors = new Set(
     currentStateExecutiveHolders(world).map((holder) => holder.personId),
@@ -1555,9 +1573,8 @@ export function vicePresidentNominationHandler(
     return resolved(world, "Nobody in the World is eligible to be nominated.");
   // The President names someone they know: the people the game records them
   // knowing, anyone they owe or who owes them, and the members of Congress
-  // and the governors they work with (appointments-v1). Only when nobody
-  // there is eligible does the old draw from every eligible adult remain,
-  // and that draw is still the PLACEHOLDER above.
+  // and the governors they work with (appointments-v1). An empty decision
+  // does not authorize naming someone else.
   const eligible = new Set(pool);
   const choice = chooseAppointee(world, {
     stableKey: due.stableKey,
@@ -1570,17 +1587,22 @@ export function vicePresidentNominationHandler(
     ),
     eligible: (personId) => eligible.has(personId),
   });
-  const nomineeId =
-    choice?.personId ??
-    new SeededRng(world.seed).fork(due.stableKey).pick(pool);
-  let chosenWorld = choice?.world ?? world;
-  if (choice)
-    chosenWorld = recordPassedOver(chosenWorld, {
-      stableKey: due.stableKey,
-      appointerPersonId: president.personId,
-      passedOver: choice.passedOver,
-      post: VICE_PRESIDENT_POST,
-    });
+  if (!choice)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "government:vice-president-no-nominee",
+      context:
+        "The President has not selected a nominee; the vice presidency remains vacant.",
+      outcomeEventId: null,
+    };
+  const nomineeId = choice.personId;
+  const chosenWorld = recordPassedOver(choice.world, {
+    stableKey: due.stableKey,
+    appointerPersonId: president.personId,
+    passedOver: choice.passedOver,
+    post: VICE_PRESIDENT_POST,
+  });
   const nominee = { personId: nomineeId };
   const presidentName = personName(world.people[president.personId]!);
   const nomineeName = personName(world.people[nominee.personId]!);
@@ -1843,6 +1865,65 @@ export function applyOfficeContinuityNotices(
   return next;
 }
 
+const LAST_APPLIED_NOTICE = new WeakMap<readonly unknown[], number>();
+
+function lastAppliedNoticeSequence(world: World): number {
+  const events = world.history.events;
+  const cached = LAST_APPLIED_NOTICE.get(events);
+  if (cached !== undefined) return cached;
+  let sequence = -1;
+  for (let i = events.length - 1; i >= 0; i -= 1) {
+    const event = events[i]!;
+    if (event.type !== OFFICE_CONTINUITY_EVENT) continue;
+    const key = event.tags
+      .find((tag) => tag.startsWith("crisis-notice:"))
+      ?.slice("crisis-notice:".length);
+    const record = key
+      ? crisisRecords(world).find((candidate) => candidate.stableKey === key)
+      : undefined;
+    if (record) {
+      sequence = record.sequence;
+      break;
+    }
+  }
+  LAST_APPLIED_NOTICE.set(events, sequence);
+  return sequence;
+}
+
+/** Consume recorded office changes through the existing exactly-once writer. */
+export function applyRecordedOfficeContinuity(world: World): World {
+  if (
+    !crisisRecords(world).some(
+      (record) => record.kind === "official-continuity",
+    )
+  )
+    return world;
+  const notices = crisisOfficeContinuityNotices(world, {
+    afterSequence: lastAppliedNoticeSequence(world),
+  });
+  return notices.length ? applyOfficeContinuityNotices(world, notices) : world;
+}
+
+/**
+ * One clock entry for office terms and recorded vacancies. The office-specific
+ * election and seating writers keep their existing legal rules. The intervening
+ * legislative work runs before crisis notices, as it did in the date boundary.
+ * No outer date guard: presidential entry can fall at noon on the same date,
+ * and an already recorded death must reach its office without another day.
+ */
+export function applyOfficeLifecycle(
+  before: IsoDate,
+  world: World,
+  afterTermTurnover: (world: World) => World,
+): World {
+  let next = world;
+  next = applyCongressTurnover(before, next);
+  next = applyGovernorTurnover(before, next);
+  next = applyPresidentialTurnover(before, next);
+  next = applyConstitutionalReform(before, next);
+  return applyRecordedOfficeContinuity(afterTermTurnover(next));
+}
+
 /** What the record says followed for one office, newest first. */
 export function officeContinuityRulings(
   world: World,
@@ -1876,13 +1957,15 @@ export function officeContinuityRulings(
     .reverse();
 }
 
-export const OFFICE_CONTINUITY_HANDLERS = [
-  [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
-  [SENATE_APPOINTMENT, senateAppointmentHandler],
-  [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],
-  [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
-  [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
-  [CHIEF_JUSTICE_CONFIRMATION, chiefJusticeConfirmationHandler],
-  [ASSOCIATE_JUSTICE_NOMINATION, associateJusticeNominationHandler],
-  [ASSOCIATE_JUSTICE_CONFIRMATION, associateJusticeConfirmationHandler],
-] as const;
+export function officeContinuityHandlers() {
+  return [
+    [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
+    [SENATE_APPOINTMENT, senateAppointmentHandler],
+    [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],
+    [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
+    [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
+    [CHIEF_JUSTICE_CONFIRMATION, chiefJusticeConfirmationHandler],
+    [ASSOCIATE_JUSTICE_NOMINATION, associateJusticeNominationHandler],
+    [ASSOCIATE_JUSTICE_CONFIRMATION, associateJusticeConfirmationHandler],
+  ] as const;
+}

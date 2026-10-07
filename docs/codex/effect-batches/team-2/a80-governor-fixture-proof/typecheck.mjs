@@ -1,0 +1,10 @@
+import ts from '/workspace/Political-Game-Git/node_modules/typescript/lib/typescript.js';
+const root='/workspace/Political-Game-Git';
+const c=ts.readConfigFile(root+'/tsconfig.app.json',ts.sys.readFile);
+const cfg=ts.parseJsonConfigFileContent(c.config,ts.sys,root);
+const roots=['src/presentation/enacted-law-effects.test.ts','src/presentation/enacted-duties.test.ts'].map(x=>root+'/'+x);
+const p=ts.createProgram(roots,{...cfg.options,composite:false,incremental:false});
+const d=ts.getPreEmitDiagnostics(p);
+process.stdout.write(ts.formatDiagnosticsWithColorAndContext(d,{getCanonicalFileName:x=>x,getCurrentDirectory:()=>root,getNewLine:()=> '\n'}));
+process.stdout.write(`scoped roots ${roots.length}; diagnostics ${d.length}\n`);
+process.exitCode=d.length?1:0;

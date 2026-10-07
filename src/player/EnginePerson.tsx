@@ -6,6 +6,8 @@ import {
   type EnginePersonImage,
 } from "../presentation/appearance-engine/runtime";
 
+const PORTRAIT_RETRIES = 3;
+
 /** The composed picture for a recipe, once it is ready. */
 export function useEnginePersonImage(
   recipe: EngineRecipe | null,
@@ -18,12 +20,21 @@ export function useEnginePersonImage(
   useEffect(() => {
     if (!recipe || !key) return;
     let live = true;
-    enginePersonImage(recipe).then(
-      (image) => live && setReady({ key, image }),
-      () => {},
-    );
+    let retry: ReturnType<typeof setTimeout> | undefined;
+    // A face that fails to draw is asked for again a few times rather than
+    // left as initials until the page is reloaded.
+    const draw = (attempt: number) =>
+      enginePersonImage(recipe).then(
+        (image) => live && setReady({ key, image }),
+        () => {
+          if (live && attempt < PORTRAIT_RETRIES)
+            retry = setTimeout(() => draw(attempt + 1), 500 * 2 ** attempt);
+        },
+      );
+    void draw(0);
     return () => {
       live = false;
+      if (retry) clearTimeout(retry);
     };
     // The key names the recipe completely.
   }, [key]);
@@ -38,10 +49,13 @@ export function EngineFigure({
   recipe,
   className,
   testId = "engine-figure",
+  canvas = false,
 }: {
   readonly recipe: EngineRecipe;
   readonly className?: string;
   readonly testId?: string;
+  /** Preserve the measured full canvas when a room positions its contact rows. */
+  readonly canvas?: boolean;
 }) {
   const image = useEnginePersonImage(recipe);
   if (!image) return null;
@@ -58,14 +72,25 @@ export function EngineFigure({
       data-engine-recipe={engineRecipeKey(recipe)}
       style={
         {
-          position: "absolute",
-          height: `${(image.height / figure) * 100}%`,
-          width: "auto",
-          maxWidth: "none",
-          bottom: `${(-(image.height - 1 - feet) / figure) * 100}%`,
-          left: "50%",
-          transform: `translateX(${(-neck.centerX / image.width) * 100}%)`,
-          pointerEvents: "none",
+          ...(canvas
+            ? {
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                left: 0,
+                top: 0,
+                pointerEvents: "none",
+              }
+            : {
+                position: "absolute",
+                height: `${(image.height / figure) * 100}%`,
+                width: "auto",
+                maxWidth: "none",
+                bottom: `${(-(image.height - 1 - feet) / figure) * 100}%`,
+                left: "50%",
+                transform: `translateX(${(-neck.centerX / image.width) * 100}%)`,
+                pointerEvents: "none",
+              }),
         } satisfies CSSProperties
       }
     />

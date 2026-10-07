@@ -1,0 +1,29 @@
+P6 / Campaigns tabs mockup finished part
+Source base: 2e0b61f95ee298c37e4994af44311277bc8fb506
+Artifact commit before declaration/receipt-only repair: 5d8d7e6a75e59568f121659fb093e3792f7c2e3c
+No production source differences from base.
+
+$ node /tmp/session14-mockups/campaign-tabs/render.mjs
+Exit: 0. Both Elections and Filing requirements: no clipping/overflow, retiredActions=false; People met excluded.
+[{"viewport":[1920,1080],"clipped":[],"overflow":[],"retiredActions":false,"text":"×\nCampaigns\n\nKaitlyn Watkins · Ashland, Oregon\n\nElections\nFiling requirements\nElections here\nOregon House of Representatives\n\nThe next election is November 3, 2026.\n\nOregon Legislature\nOregon Senate\n\nThe next election is November 3, 2026.\n\nOregon Legislature\nCouncil member\n\nThe next election is November 3, 2026.\n\nCity of Ashland\nMayor\n\nThe next election is November 3, 2026.\n\nCity of Ashland\nCounty Commissioner\n\nThe next election date is not known.\n\nJackson County\nNo campaign is filed. Dates shown are current game calendar records.","panelAreaFraction":0.35108024691358025},{"viewport":[1920,1080],"clipped":[],"overflow":[],"retiredActions":false,"text":"×\nCampaigns\n\nKaitlyn Watkins · Ashland, Oregon\n\nElections\nFiling requirements\nLocal filing rules\n\nAshland’s form of government is not recorded. The record does not establish whether council seats are at large or by ward, or whether the mayor is elected separately.\n\nAshland’s filing deadline, filing officer and ballot-access rules are not recorded.\n\nJackson County’s district boundaries, seat schedule and selection rules are not recorded.\n\nJackson County’s nomination and filing rules are not recorded.\n\nThese missing records do not establish whether you qualify.","panelAreaFraction":0.35108024691358025}]
+
+$ npm run typecheck
+
+> political-life-rpg@0.4.0 typecheck
+> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts
+
+typecheck-test-imports: 798 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 82, src/presentation 533, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).
+Exit: 0. Source matches this PR final source tree; subsequent changes are docs/declaration only.
+
+$ npx eslint docs/codex/session14-mockups/owner-sendback-6008290207/campaigns/render.mjs
+Exit: 0, no diagnostics. Initial CommonJS capture lint failed; converted to ES module and reran actual capture successfully.
+
+
+> political-life-rpg@0.4.0 zero-dice
+> node scripts/zero-dice-guard.mjs
+
+zero-dice: nothing new; 122 allowed lines left.
+Exit: 0.
+
+Release declaration initially failed because impact:none carried section/title; removed invalid metadata and rechecked final head. Actual final result is posted on the board/PR.
+Owner visual pick and fresh gameplay screenshot: pending; not required to merge documentation-only review candidates under CTO6008669969.

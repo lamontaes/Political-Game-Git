@@ -1,3 +1,5 @@
+import { rentConstructionCovered } from "../law-consequences/rent-construction-coverage";
+import { recordedMonthlyPayByPerson } from "../household-pay";
 /**
  * Rent day: every renting household in town pays rent on the first of the
  * month, to a landlord on record.
@@ -17,8 +19,8 @@
  *   body (`<Town> Housing Authority`). A home keeps its landlord from one
  *   tenant to the next; when a person landlord dies or leaves town, or a firm
  *   closes, the home is sold to a new one.
- * - The bedrooms: fixed for the home by its first lease, drawn by the kind of
- *   home and the size of the household that first rented it.
+ * - The bedrooms: fixed for the home by its first lease, using the size of
+ *   the household that first rented it and the representative occupancy rule.
  * - The rent, one of three ways:
  *   - market: the county's HUD Fair Market Rent for that many bedrooms
  *     (`town-rent.generated.ts`), carried forward with the town's home
@@ -83,13 +85,19 @@ import { createStableId } from "../ids";
 import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import type { LawInForce } from "../governing/law-in-force";
 import {
   lawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
+import {
+  seatHolderAt,
+  seatsForCourt,
+  type JudicialSeatHolder,
+} from "../judiciary/courts";
+import { courtFor } from "../judiciary/court-for";
 import { personTrait } from "../people-traits";
 import {
   macroConditionsAt,
@@ -128,7 +136,12 @@ import { recordWorldEvent } from "../world";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { homePriceLevel } from "./housing-market";
 import type { TownHomeKind } from "./town-homes";
-import { TOWN_RENT_COUNTIES, TOWN_RENT_TOWNS } from "./town-rent.generated";
+import {
+  TOWN_RENT_COUNTIES,
+  TOWN_RENT_META,
+  TOWN_RENT_STATES,
+  TOWN_RENT_TOWNS,
+} from "./town-rent.generated";
 
 export const TOWN_RENT_VERSION = "town-rent-v1";
 export const RENT_DAY_TRANSITION_KEY = "living-world:rent-day" as const;
@@ -179,11 +192,13 @@ export const RENT_LAW_KEYS = {
 // ─── Numbers ────────────────────────────────────────────────────────────
 
 /**
- * PLACEHOLDER(research: who-owns-rental-homes). Who owns a rented home of
- * each kind: a person, a business or the public housing body. Set near the
- * Census Rental Housing Finance Survey picture as remembered (individual
- * owners hold most rented houses and a minority of apartments; public
- * housing is a few percent of rented homes), not read from the table.
+ * ESTIMATED FROM AVERAGE: who owns a rented home of each kind—a person, a
+ * business or the public housing body. Basis: the nationwide Census Rental
+ * Housing Finance Survey pattern recorded when this model was authored:
+ * individual owners hold most rented houses and a minority of apartments,
+ * while public housing is a few percent of rented homes. Places used: the
+ * survey's United States rental properties, applied to every supported place
+ * until that place records its own ownership mix.
  */
 export const LANDLORD_SHARES: Readonly<
   Record<TownHomeKind, Readonly<Record<LandlordKind, number>>>
@@ -194,22 +209,6 @@ export const LANDLORD_SHARES: Readonly<
   "large-house": { person: 0.8, business: 0.2, public: 0 },
   "mobile-home": { person: 0.6, business: 0.4, public: 0 },
   "rural-farmhouse": { person: 0.92, business: 0.08, public: 0 },
-};
-
-/**
- * PLACEHOLDER(research: bedrooms-by-kind-of-home). The share of each kind of
- * home with an efficiency and one to four bedrooms. Not read from the
- * American Community Survey table that answers it.
- */
-export const BEDROOM_SHARES: Readonly<
-  Record<TownHomeKind, readonly [number, number, number, number, number]>
-> = {
-  "small-apartment": [0.1, 0.45, 0.37, 0.08, 0],
-  rowhouse: [0, 0.08, 0.42, 0.42, 0.08],
-  "suburban-house": [0, 0.03, 0.2, 0.55, 0.22],
-  "large-house": [0, 0, 0.05, 0.4, 0.55],
-  "mobile-home": [0, 0.08, 0.5, 0.4, 0.02],
-  "rural-farmhouse": [0, 0.03, 0.22, 0.5, 0.25],
 };
 
 /** The Brooke rule: public housing rent is 30% of monthly income. */
@@ -226,23 +225,6 @@ export const AFFORDABLE_LIMIT_OF_VERY_LOW = 1.2;
 export const HUD_FAMILY_SIZE_FACTORS = [
   0.7, 0.8, 0.9, 1, 1.08, 1.16, 1.24, 1.32,
 ] as const;
-
-/**
- * PLACEHOLDER(research: inclusionary-set-aside). The law's set-aside: the part
- * of the apartments and rowhouses recorded after an inclusionary housing law
- * took effect that it makes affordable. Local laws set 10% to 20%; the game
- * uses one figure. These rent terms are law, not odds: nothing is drawn
- * against them.
- */
-export const INCLUSIONARY_SET_ASIDE = 0.15;
-
-/**
- * Rent stabilization's cap on a renewal: the price level's rise plus five
- * points, at most ten percent. Modeled on California's 2019 statute (Civil
- * Code 1947.12); one rule stands in for every place's own. PLACEHOLDER
- * (research: rent-stabilization-cap-by-place).
- */
-export const RENT_STABILIZATION_CAP = { overPrices: 0.05, most: 0.1 } as const;
 
 /**
  * Measured, a check and never a rule: Diamond, McQuade and Qian 2019 found
@@ -313,7 +295,10 @@ export function marketRentLevel(
  * tenant does, and the judge. The share of filings that end in eviction is a
  * result to check against the record (`EVICTION_MEASURED`), never a roll.
  *
- * PLACEHOLDER(research: eviction-filing-and-outcome), set by hand:
+ * ESTIMATED FROM AVERAGE. Basis: the recorded filing and judgment checks
+ * below plus the Providence, Rhode Island watched case. Places used:
+ * Providence for payment-plan behavior and the nationwide studies named in
+ * `EVICTION_MEASURED` for outcome checks:
  * - a landlord files at two months owed; a conciliatory person who rents out
  *   their own home waits a third month;
  * - a conciliatory person landlord settles a case up to three months behind;
@@ -365,9 +350,17 @@ export interface HudRentRow {
   readonly population: number | null;
   /** The HUD area it was read from: a county code, or county and town. */
   readonly area: string;
+  /** Whether this row is an estimate composed from published HUD areas. */
+  readonly estimated: boolean;
+  /** Source and scaling basis for an estimate; kept out of player text. */
+  readonly estimateBasis: string | null;
 }
 
-function parseRow(area: string, cells: string): HudRentRow {
+function parseRow(
+  area: string,
+  cells: string,
+  estimateBasis: string | null = null,
+): HudRentRow {
   const values = cells
     .split("/")
     .map((cell) => (cell === "" ? null : Number(cell)));
@@ -383,14 +376,17 @@ function parseRow(area: string, cells: string): HudRentRow {
     veryLow4: values[5] ?? null,
     low4: values[6] ?? null,
     population: values[7] ?? null,
+    estimated: estimateBasis !== null,
+    estimateBasis,
   };
 }
 
 let countyRows: ReadonlyMap<string, HudRentRow> | null = null;
 let townRows: ReadonlyMap<string, readonly [string, HudRentRow][]> | null =
   null;
+let stateRows: ReadonlyMap<string, HudRentRow> | null = null;
 function loadRows() {
-  if (countyRows && townRows) return;
+  if (countyRows && townRows && stateRows) return;
   const counties = new Map<string, HudRentRow>();
   for (const entry of TOWN_RENT_COUNTIES.split(";")) {
     const [county, cells] = entry.split(":") as [string, string];
@@ -405,8 +401,21 @@ function loadRows() {
     list.push([town, parseRow(key, entry.slice(split + 1))]);
     towns.set(county, list);
   }
+  const states = new Map<string, HudRentRow>();
+  for (const entry of TOWN_RENT_STATES.split(";")) {
+    const split = entry.indexOf(":");
+    const state = entry.slice(0, split);
+    const vintage =
+      TOWN_RENT_META.fairMarketRents.match(/HUD (FY\d+)/)?.[1] ?? "published";
+    const basis = `ESTIMATED FROM AVERAGE: no HUD county link for this playable place; population-weighted HUD ${vintage} county rents for ${state}.`;
+    states.set(
+      state,
+      parseRow(`state:${state}`, entry.slice(split + 1), basis),
+    );
+  }
   countyRows = counties;
   townRows = towns;
+  stateRows = states;
 }
 
 const TOWN_SUFFIX = / (town|city|village|plantation|borough|gore|grant)$/i;
@@ -414,8 +423,8 @@ const TOWN_SUFFIX = / (town|city|village|plantation|borough|gore|grant)$/i;
 /**
  * The HUD row for a place: its county's, or where HUD publishes a New England
  * county's towns instead, the town of the same name, else the towns weighed
- * by population. Null where HUD publishes nothing for the place; a rent there
- * is unknown and none is recorded.
+ * by population. A playable place without a Census county link uses its
+ * population-weighted same-state or territory HUD baseline, marked estimated.
  */
 export function hudRentRowFor(jurisdictionId: EntityId): HudRentRow | null {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
@@ -423,19 +432,30 @@ export function hudRentRowFor(jurisdictionId: EntityId): HudRentRow | null {
     place?.sourceGeoid && /^\d{7}$/.test(place.sourceGeoid)
       ? place.sourceGeoid
       : null;
-  if (!place || !geoid) return null;
-  const county = countyGeoidsForPlace(geoid)[0];
-  if (!county) return null;
+  if (!place) return null;
   loadRows();
-  const whole = countyRows!.get(county);
-  if (whole) return whole;
-  const towns = townRows!.get(county);
-  if (!towns || towns.length === 0) return null;
-  const name = (place.displayName.split(",")[0] ?? "").trim().toLowerCase();
-  const same = towns.find(
-    ([town]) => town.replace(TOWN_SUFFIX, "").toLowerCase() === name,
-  );
-  if (same) return same[1];
+  const state = place.stateJurisdictionKey?.replace(/^US-/, "") ?? null;
+  const countiesForPlace = geoid ? countyGeoidsForPlace(geoid) : [];
+  for (const county of countiesForPlace) {
+    const whole = countyRows!.get(county);
+    if (whole) return whole;
+    const towns = townRows!.get(county);
+    if (!towns || towns.length === 0) continue;
+    const name = (place.displayName.split(",")[0] ?? "").trim().toLowerCase();
+    const same = towns.find(
+      ([town]) => town.replace(TOWN_SUFFIX, "").toLowerCase() === name,
+    );
+    if (same) return same[1];
+    const weighted = populationWeightedTownRow(county, towns);
+    if (weighted) return weighted;
+  }
+  return state ? (stateRows!.get(state) ?? null) : null;
+}
+
+function populationWeightedTownRow(
+  county: string,
+  towns: readonly [string, HudRentRow][],
+): HudRentRow | null {
   let weight = 0;
   const rents = [0, 0, 0, 0, 0];
   let veryLow = 0;
@@ -451,6 +471,8 @@ export function hudRentRowFor(jurisdictionId: EntityId): HudRentRow | null {
       limitWeight += w;
     }
   }
+  if (weight === 0) return null;
+  const basis = `ESTIMATED FROM AVERAGE: no HUD town row for this place; population-weighted HUD FY2025 town rents in county ${county}.`;
   return {
     area: county,
     rents: rents.map((sum) => Math.round(sum / weight)) as unknown as [
@@ -463,6 +485,8 @@ export function hudRentRowFor(jurisdictionId: EntityId): HudRentRow | null {
     veryLow4: limitWeight > 0 ? Math.round(veryLow / limitWeight) : null,
     low4: limitWeight > 0 ? Math.round(low / limitWeight) : null,
     population: null,
+    estimated: true,
+    estimateBasis: basis,
   };
 }
 
@@ -522,28 +546,15 @@ function pick<K extends string>(
   return entries.at(-1)![0];
 }
 
-/** The bedrooms a home gets at its first lease, fitted to who rents it. */
-export function drawBedrooms(
-  kind: TownHomeKind,
-  people: number,
-  draw: number,
-): number {
-  // HUD's rule of thumb, two people a bedroom; one person fits an efficiency.
-  const need = people <= 1 ? 0 : Math.ceil(people / 2);
-  const weights = BEDROOM_SHARES[kind].map((share, bedrooms) => {
-    let weight = share;
-    if (bedrooms < need) weight *= 0.25;
-    if (bedrooms > need + 1) weight *= 0.5;
-    return weight;
-  });
-  const total = weights.reduce((sum, weight) => sum + weight, 0);
-  if (total <= 0) return Math.min(4, need);
-  let point = draw * total;
-  for (let bedrooms = 0; bedrooms < weights.length; bedrooms += 1) {
-    point -= weights[bedrooms]!;
-    if (point < 0) return bedrooms;
-  }
-  return Math.min(4, need);
+/**
+ * Representative occupancy rule for a first lease, not measured unit geometry.
+ * Preserve the existing two-people-per-bedroom rule and HUD table's 0–4 range.
+ * Once recorded, the home's bedrooms survive later leases and renewals.
+ */
+export function bedroomsForHousehold(people: number): number {
+  if (!Number.isSafeInteger(people) || people < 1)
+    throw new Error("First lease requires recorded household members");
+  return people === 1 ? 0 : Math.min(4, Math.ceil(people / 2));
 }
 
 /** The price level on `date` over the world's first month, or 1. */
@@ -700,48 +711,15 @@ function householdMembers(
   return members;
 }
 
-const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
-  weekly: 52,
-  biweekly: 26,
-  semimonthly: 24,
-  monthly: 12,
-};
-
-/** Each person's recorded pay a month on a date, in cents, from pay terms. */
-function monthlyPayByPerson(
+/**
+ * Each person's recorded wages a month on a date, in cents: the shared pay
+ * reader (`household-pay.ts`), wages from work only.
+ */
+export function monthlyPayByPerson(
   world: World,
   onDate: IsoDate,
 ): Map<EntityId, number> {
-  const pay = new Map<EntityId, ResourceFlow>();
-  for (const flow of world.history.resourceFlows)
-    if (
-      flow.basisKind === "compensation:work" &&
-      flow.recipient.kind === "person"
-    )
-      pay.set(flow.id, flow);
-  const terms = latest(
-    world.history.resourceFlowTerms.filter((row) =>
-      pay.has(row.resourceFlowId),
-    ),
-    (row) => row.resourceFlowId,
-    onDate,
-  );
-  const byPerson = new Map<EntityId, number>();
-  for (const [flowId, record] of terms) {
-    if (record.status !== "active") continue;
-    const match = /(weekly|biweekly|semimonthly|monthly)/.exec(
-      record.cadenceKind,
-    );
-    const perYear = match ? PERIODS_PER_YEAR[match[1]!] : undefined;
-    if (!perYear) continue;
-    const flow = pay.get(flowId)!;
-    const personId = (flow.recipient as { personId: EntityId }).personId;
-    byPerson.set(
-      personId,
-      (byPerson.get(personId) ?? 0) + (record.amount.minorUnits * perYear) / 12,
-    );
-  }
-  return byPerson;
+  return recordedMonthlyPayByPerson(world, onDate, "work");
 }
 
 /** A household's recorded pay a month, or null when nobody's pay is known. */
@@ -1064,9 +1042,9 @@ export function rentDayHandler(
   };
 }
 
-export const RENT_DAY_HANDLERS = [
-  [RENT_DAY_TRANSITION_KEY, rentDayHandler],
-] as const;
+export function rentDayHandlers() {
+  return [[RENT_DAY_TRANSITION_KEY, rentDayHandler]] as const;
+}
 
 // ─── Rent day ───────────────────────────────────────────────────────────
 
@@ -1178,8 +1156,42 @@ function chooseLeaseholder(
   )[0]!.id;
 }
 
+/** Existing ownership mixture spread across the actual home roster, not rolled.
+ * The owner's verified A56 contract retains these existing representative shares.
+ */
+function landlordKindsByHome(
+  world: World,
+  dueOn: IsoDate,
+): Map<EntityId, LandlordKind> {
+  const rosters = new Map<EntityId, Map<TownHomeKind, EntityId[]>>();
+  for (const home of world.history.dwellings) {
+    if (home.establishedAt > dueOn) continue;
+    const town =
+      rosters.get(home.jurisdictionId) ?? new Map<TownHomeKind, EntityId[]>();
+    const kind = homeKindOf(home.classification);
+    const homes = town.get(kind) ?? [];
+    homes.push(home.id);
+    town.set(kind, homes);
+    rosters.set(home.jurisdictionId, town);
+  }
+  const kinds = new Map<EntityId, LandlordKind>();
+  for (const town of rosters.values())
+    for (const [kind, homes] of town)
+      homes.forEach((id, index) => {
+        kinds.set(
+          id,
+          pick(LANDLORD_SHARES[kind], (index + 0.5) / homes.length),
+        );
+      });
+  return kinds;
+}
+
 /** Writes a lease for every rented town home that has none. */
-export function startTownLeases(world: World, dueOn: IsoDate): World {
+export function startTownLeases(
+  world: World,
+  dueOn: IsoDate,
+  onlyHouseholdId?: EntityId,
+): World {
   const h = world.history;
   const tenureState = latest(
     h.housingTenureStates,
@@ -1195,12 +1207,28 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     (tenure) =>
       tenure.kind === "lease:rented" &&
       tenure.holder.kind === "household" &&
+      (onlyHouseholdId === undefined ||
+        tenure.holder.householdId === onlyHouseholdId) &&
       tenure.startedAt <= dueOn &&
       !leased.has(tenure.id) &&
       tenureState.get(tenure.id)?.status === "active" &&
       dwellings.has(tenure.dwellingId),
   );
   if (candidates.length === 0) return world;
+  const owners = new Map<EntityId, typeof h.housingTenures>();
+  for (const tenure of h.housingTenures) {
+    if (
+      !tenure.kind.startsWith("ownership:") ||
+      tenure.startedAt > dueOn ||
+      tenureState.get(tenure.id)?.status !== "active"
+    )
+      continue;
+    owners.set(tenure.dwellingId, [
+      ...(owners.get(tenure.dwellingId) ?? []),
+      tenure,
+    ]);
+  }
+  const landlordKinds = landlordKindsByHome(world, dueOn);
   const members = householdMembers(world, dueOn);
   const pay = monthlyPayByPerson(world, dueOn);
   const index = townIndex(world, dueOn, members);
@@ -1226,7 +1254,9 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     const dwelling = dwellings.get(tenure.dwellingId)!;
     const town = dwelling.jurisdictionId;
     const row = hudRentRowFor(town);
-    // No HUD figure for the place: the rent is unknown, and none is written.
+    // Noncatalog jurisdictions have no usable HUD area and do not enter a
+    // player world. Every playable state/territory has a published-area row
+    // or the estimated state baseline above.
     if (!row) continue;
     const household = members.get(tenure.holder.householdId) ?? [];
     const leaseholderId = chooseLeaseholder(household, pay);
@@ -1234,26 +1264,43 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     const stableKey = `${LEASE_PREFIX}${tenure.id}:${leaseholderId}`;
     if (next.history.resourceFlows.some((flow) => flow.stableKey === stableKey))
       continue;
-    const rng = new SeededRng(next.seed).fork(
-      `${TOWN_RENT_VERSION}:home:${dwelling.id}`,
-    );
     const previous = lastOnHome.get(dwelling.id);
     const kind = homeKindOf(dwelling.classification);
     const bedrooms =
-      previous?.bedrooms ??
-      drawBedrooms(kind, household.length, rng.fork("bedrooms").next());
+      previous?.bedrooms ?? bedroomsForHousehold(household.length);
 
     // The landlord: the home's own, unless it no longer can hold it.
     let landlord: ResourceEndpoint | null =
       previous && landlordStands(next, previous.flow.recipient, town, dueOn)
         ? previous.flow.recipient
         : null;
+    const recordedOwners = owners.get(dwelling.id) ?? [];
+    if (recordedOwners.length) {
+      // Known ownership never becomes an invented landlord proxy. Household
+      // owners and co-owners await the canonical recipient contract from Audit.
+      if (recordedOwners.length !== 1) continue;
+      const owner = recordedOwners[0]!.holder;
+      if (owner.kind === "household") continue;
+      if (owner.kind === "person") {
+        if (
+          !next.people[owner.personId] ||
+          next.history.personDeaths.some(
+            (death) =>
+              death.personId === owner.personId && death.diedAt <= dueOn,
+          )
+        )
+          continue;
+      } else {
+        const profile = organizationProfileAt(next, owner.organizationId);
+        if (!profile || profile.closed) continue;
+      }
+      landlord = owner;
+    }
     if (!landlord) {
-      const sold = previous ? `:sold:${dueOn}` : "";
       const landlordKind: LandlordKind =
         previous && landlordKindOf(next, previous.flow.recipient) === "public"
           ? "public"
-          : pick(LANDLORD_SHARES[kind], rng.fork(`landlord${sold}`).next());
+          : landlordKinds.get(dwelling.id)!;
       const chosen = chooseLandlord(
         next,
         index,
@@ -1332,7 +1379,7 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
       jurisdictionId: town,
       provenance: {
         kind: "authored",
-        note: `${TOWN_RENT_VERSION}: ${bedroomLabel(bedrooms)}, rent set by ${basis}.`,
+        note: `${TOWN_RENT_VERSION}: ${bedroomLabel(bedrooms)}, rent set by ${basis}.${row.estimateBasis ? ` ${row.estimateBasis}` : ""}`,
       },
     });
     const flow = next.history.resourceFlows.at(-1)!;
@@ -1344,6 +1391,7 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
         jurisdictionId: town,
         appliedAt: dueOn,
         sourceRecordIds: [
+          ...inclusionary.sourceRecordIds,
           flow.id,
           terms.id,
           tenure.id,
@@ -1422,14 +1470,22 @@ export function publicHousingRentMinor(
  * set-aside is filled by the covered homes eligible households rent, not by
  * whichever homes come first; the caller checks the household's income.
  */
-function inclusionaryHome(
+export function inclusionaryHome(
   world: World,
-  dwelling: { readonly id: EntityId; readonly establishedAt: IsoDate },
+  dwelling: World["history"]["dwellings"][number],
   kind: TownHomeKind,
   town: EntityId,
   affordableLet: number,
-): { readonly designation: string; readonly law: LawInForce } | null {
-  if (!coveredKind(kind)) return null;
+): {
+  readonly designation: string;
+  readonly law: LawInForce;
+  readonly sourceRecordIds: readonly EntityId[];
+} | null {
+  if (
+    !coveredKind(kind) ||
+    rentConstructionCovered(world, dwelling, dwelling.establishedAt, null)
+  )
+    return null;
   const law = housingLawYes(
     world,
     town,
@@ -1437,34 +1493,46 @@ function inclusionaryHome(
     dwelling.establishedAt,
   );
   if (!law) return null;
+  const share = readFinalEnactedLawTerm(world, law, {
+    questionKey: RENT_LAW_KEYS.inclusionary,
+    termKey: "share",
+    unit: "ratio",
+    onDate: dwelling.establishedAt,
+  });
+  if (!share || share.value < 0 || share.value > 1) return null;
   // A law in force at the opening applies only to homes built after it.
   if (dwelling.establishedAt <= law.operativeAt) return null;
   const covered = world.history.dwellings.filter(
     (row) =>
       row.jurisdictionId === town &&
       coveredKind(homeKindOf(row.classification)) &&
+      !rentConstructionCovered(world, row, row.establishedAt, null) &&
       row.establishedAt > law.operativeAt &&
       (row.establishedAt < dwelling.establishedAt ||
         (row.establishedAt === dwelling.establishedAt &&
           row.id.localeCompare(dwelling.id) <= 0)),
   ).length;
-  if (!inclusionarySetAsideOpen(affordableLet, covered)) return null;
-  return { designation: measureDesignation(world, law.measureId), law };
+  if (!inclusionarySetAsideOpen(affordableLet, covered, share.value))
+    return null;
+  return {
+    designation: measureDesignation(world, law.measureId),
+    law,
+    sourceRecordIds: share.sourceRecordIds,
+  };
 }
 
 /**
  * Whether the set-aside still owes an affordable home: fewer are let than the
  * set-aside of the covered homes so far, rounded up the way ordinances round a
- * building's affordable units (with 15%, one for the first six homes, two by
- * the seventh).
+ * building's affordable units, using the adopted share rather than a common
+ * percentage for every ordinance.
  */
 export function inclusionarySetAsideOpen(
   affordableLet: number,
   coveredHomes: number,
+  recordedShare: number,
 ): boolean {
-  return (
-    affordableLet < Math.ceil(coveredHomes * INCLUSIONARY_SET_ASIDE - 1e-9)
-  );
+  return affordableLet < Math.ceil(coveredHomes * recordedShare - 1e-9);
 }
 
 function coveredKind(kind: TownHomeKind): boolean {
@@ -1494,7 +1562,9 @@ function endpointKey(endpoint: ResourceEndpoint): string {
  * is not one of the tenants: the one letting the fewest homes, then the one
  * with the highest recorded pay (people with more means let more homes),
  * then by record. A firm is the one letting the fewest homes, then by
- * record. HARDWIRED, a PLACEHOLDER(research: who-lets-homes).
+ * record. ESTIMATED FROM AVERAGE: means and current holdings order otherwise
+ * eligible landlords. Basis: the town's recorded pay and property holdings;
+ * places used: all supported U.S. jurisdictions.
  */
 function chooseLandlord(
   world: World,
@@ -1562,19 +1632,20 @@ function chooseLandlord(
 export function renewedMarketRent(
   oldMinor: number,
   homePrices: number,
-  prices: number,
+  _prices: number,
   stabilized: boolean,
+  recordedCapRatio?: number,
 ): {
   readonly amountMinor: number;
   readonly uncappedMinor: number;
   readonly capped: boolean;
   readonly cap: number;
 } {
-  const cap = Math.min(
-    RENT_STABILIZATION_CAP.most,
-    prices - 1 + RENT_STABILIZATION_CAP.overPrices,
-  );
-  const capped = stabilized && homePrices - 1 > cap;
+  // A caller can supply a recorded clause for arithmetic fixtures. Production
+  // renewals are restricted by the shared price-cost writer after recording
+  // their requested terms; a yes/no answer supplies no numeric ceiling.
+  const cap = recordedCapRatio ?? Infinity;
+  const capped = stabilized && Number.isFinite(cap) && homePrices - 1 > cap;
   const uncappedMinor = Math.round((oldMinor * homePrices) / 100) * 100;
   return {
     amountMinor: capped
@@ -1991,10 +2062,26 @@ function actOnArrears(
         continue;
       }
       pay ??= monthlyPayByPerson(next, dueOn);
-      const facts = evictionCaseFacts(next, lease, adults, owed, open.filedOn, {
-        played,
-        pay,
-      });
+      const facts = evictionCaseFacts(
+        next,
+        lease,
+        adults,
+        owed,
+        open.filedOn,
+        dueOn,
+        {
+          played,
+          pay,
+        },
+      );
+      // A filing cannot produce a judgment without an actual seated judge.
+      if (!facts?.judicialAuthority) continue;
+      const filing = next.history.events.find(
+        (event) =>
+          event.stableKey ===
+          `${lease.flow.stableKey}:${RENT_EVENTS.filed}:${open.filedOn}`,
+      );
+      if (!filing) continue;
       const decision = decideEvictionCase(facts);
       const lawyer = facts.lawyer
         ? ` A lawyer represented them under ${facts.lawyer}.`
@@ -2003,12 +2090,16 @@ function actOnArrears(
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.evicted, {
           summary: `${householdName(next, lease.householdId)} was evicted from ${bedroomHome(lease)} for ${dollarsOf(owed.owed)} in unpaid rent: ${decision.reason(facts.court)}.${lawyer}`,
           lawEffectStamps: facts.lawEffectStamps,
+          judicialAuthority: facts.judicialAuthority,
+          filingEventId: filing.id,
         });
         next = endTenancy(next, lease, dueOn, "evicted", "Evicted.");
       } else {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.settled, {
           summary: `${householdName(next, lease.householdId)} kept ${bedroomHome(lease)}, still owing ${landlordName(next, lease.flow.recipient)} ${dollarsOf(owed.owed)}: ${decision.reason(facts.court)}.${lawyer}`,
           lawEffectStamps: facts.lawEffectStamps,
+          judicialAuthority: facts.judicialAuthority,
+          filingEventId: filing.id,
         });
       }
       continue;
@@ -2044,6 +2135,10 @@ function fileAtMonths(world: World, lease: LeaseFacts): number {
 
 /** What an eviction case is decided from, read from the record. */
 export interface EvictionCaseFacts extends LawEffectStampedRecord {
+  /** Actual dated court and seat tenure, absent when no judge can hear it. */
+  readonly judicialAuthority?: JudicialSeatHolder & {
+    readonly courtId: string;
+  };
   /** Rent owed over the month's rent. */
   readonly monthsBehind: number;
   /** Whether the landlord pursues the case to a hearing. */
@@ -2059,7 +2154,7 @@ export interface EvictionCaseFacts extends LawEffectStampedRecord {
   readonly planCarried: boolean | null;
   /** The judge's lean: -1 conciliatory, 0 neither, 1 strict; null unseated. */
   readonly judgeLean: -1 | 0 | 1 | null;
-  /** How the summary names the court: "Judge Ana Ruiz" or "the court". */
+  /** How the summary names the actual seated judge: "Judge Ana Ruiz". */
   readonly court: string;
 }
 
@@ -2068,14 +2163,13 @@ function trialJudge(
   world: World,
   town: EntityId,
   onDate: IsoDate,
-): EntityId | null {
-  const state = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
-  if (!state) return null;
-  const courtId = `${state.toLowerCase()}:general_trial`;
-  if (!world.judiciary?.courts[courtId]) return null;
+): (JudicialSeatHolder & { readonly courtId: string }) | null {
+  const court = courtFor(world, town, "local-general-trial", "civil");
+  if (!court) return null;
+  const courtId = court.courtId;
   for (const seat of seatsForCourt(world, courtId, onDate)) {
     const holder = seatHolderAt(world, seat.seatId, onDate);
-    if (holder) return holder.personId;
+    if (holder && world.people[holder.personId]) return { ...holder, courtId };
   }
   return null;
 }
@@ -2086,23 +2180,18 @@ function evictionCaseFacts(
   adults: readonly Member[],
   owed: { readonly owed: number; readonly rent: number },
   filedOn: IsoDate,
+  hearingOn: IsoDate,
   read: {
     readonly played: EntityId | null;
     readonly pay: ReadonlyMap<EntityId, number>;
   },
-): EvictionCaseFacts {
+): EvictionCaseFacts | null {
   const monthsBehind = owed.rent > 0 ? owed.owed / owed.rent : 0;
   const landlord = lease.flow.recipient;
   const landlordPursues = !(
     landlord.kind === "person" &&
     personTrait(world, landlord.personId, "conflict").value < 0 &&
     monthsBehind <= EVICTION.conciliatoryLandlordSettlesUpTo
-  );
-  const law = housingLawYes(
-    world,
-    lease.town,
-    RENT_LAW_KEYS.rightToCounsel,
-    filedOn,
   );
   const householdPay = adults.reduce(
     (sum, member) => sum + (read.pay.get(member.id) ?? 0),
@@ -2112,10 +2201,9 @@ function evictionCaseFacts(
     owed.rent + owed.owed / EVICTION.planMonths <=
     householdPay * EVICTION.planLimitOfPay;
   // The played leaseholder answers for themselves; anyone else answers as
-  // their own reliability goes, takes the lawyer the law provides, and
-  // offers a plan when their pay could carry one.
+  // their own reliability goes and offers a plan when their pay could carry one.
+  // A request for counsel is not a saved admission of a lawyer to this case.
   let tenantAnswers: boolean;
-  let lawyer: boolean;
   let planCarried: boolean | null;
   // A case filed before the notice existed (an older save) was never put to
   // the player, so it is decided like anyone's.
@@ -2128,42 +2216,26 @@ function evictionCaseFacts(
   ) {
     const answer = evictionCaseAnswer(world, read.played, filedOn);
     tenantAnswers = answer !== null;
-    lawyer = answer === EVICTION_CASE_CHOICES.lawyer && law !== null;
-    // A lawyer offers the plan for them when their pay could carry one.
-    planCarried =
-      answer === EVICTION_CASE_CHOICES.plan
-        ? carried
-        : lawyer && carried
-          ? true
-          : null;
+    planCarried = answer === EVICTION_CASE_CHOICES.plan ? carried : null;
   } else {
     tenantAnswers =
       personTrait(world, lease.leaseholderId, "reliability").value >= 0;
-    lawyer = tenantAnswers && law !== null;
     planCarried = tenantAnswers && carried ? true : null;
   }
-  const judge = trialJudge(world, lease.town, filedOn);
-  const conflict = judge ? personTrait(world, judge, "conflict").value : null;
-  const counselStamp =
-    lawyer && law
-      ? lawEffectStamp(law, {
-          effectKind: "eviction-counsel-representation",
-          questionKey: RENT_LAW_KEYS.rightToCounsel,
-          jurisdictionId: lease.town,
-          appliedAt: firstOfNextMonth(filedOn),
-          sourceRecordIds: [lease.flow.id, lease.tenureId, lease.leaseholderId],
-        })
-      : null;
+  const judge = trialJudge(world, lease.town, hearingOn);
+  if (!judge) return null;
+  const conflict = personTrait(world, judge.personId, "conflict").value;
   return {
-    ...(counselStamp ? { lawEffectStamps: [counselStamp] } : {}),
+    judicialAuthority: judge,
     monthsBehind,
     landlordPursues,
     tenantAnswers,
-    lawyer: lawyer && law ? measureDesignation(world, law.measureId) : null,
+    // Eligibility and an answer do not establish actual case representation.
+    // No saved civil counsel admission is available at this boundary yet.
+    lawyer: null,
     planCarried,
-    judgeLean:
-      conflict === null ? null : conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
-    court: judge ? `Judge ${personName(world.people[judge]!)}` : "the court",
+    judgeLean: conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
+    court: `Judge ${personName(world.people[judge.personId]!)}`,
   };
 }
 
@@ -2562,7 +2634,11 @@ function rentEvent(
   adults: readonly Member[],
   onDate: IsoDate,
   type: (typeof RENT_EVENTS)[keyof typeof RENT_EVENTS],
-  text: { readonly summary: string } & LawEffectStampedRecord,
+  text: {
+    readonly summary: string;
+    readonly judicialAuthority?: EvictionCaseFacts["judicialAuthority"];
+    readonly filingEventId?: EntityId;
+  } & LawEffectStampedRecord,
 ): World {
   const stableKey = `${lease.flow.stableKey}:${type}:${onDate}`;
   if (world.history.events.some((event) => event.stableKey === stableKey))
@@ -2572,24 +2648,63 @@ function rentEvent(
     lease.flow.recipient.kind === "person"
       ? [lease.flow.recipient.personId]
       : [];
+  const authority =
+    type === RENT_EVENTS.evicted || type === RENT_EVENTS.settled
+      ? text.judicialAuthority
+      : undefined;
   let next = recordWorldEvent(world, {
     stableKey,
     type,
     occurredAt: onDate,
     recordedAt: onDate,
     jurisdictionId: lease.town,
-    involvedEntityIds: [lease.householdId, ...people, ...landlord],
-    participants: people.map((personId) => ({
-      personId,
-      role: "focus:subject" as const,
-      detail: text.summary,
-    })),
+    involvedEntityIds: [
+      lease.householdId,
+      ...people,
+      ...landlord,
+      ...(authority
+        ? [
+            authority.personId,
+            lease.flow.id,
+            lease.obligationId,
+            lease.tenureId,
+            lease.dwellingId,
+          ]
+        : []),
+    ],
+    participants: [
+      ...people.map((personId) => ({
+        personId,
+        role: "focus:subject" as const,
+        detail: text.summary,
+      })),
+      ...(authority
+        ? [
+            {
+              personId: authority.personId,
+              role: "focus:judge" as const,
+              detail: text.summary,
+            },
+          ]
+        : []),
+    ],
     personFactConstraints: [],
     visibility: "limited",
     tags: [
       "life.home",
       TOWN_RENT_VERSION,
       `${LEASE_TAG_PREFIX}${lease.flow.id}`,
+      // Judicial record identifiers are evidence, not event entities or authority.
+      ...(authority
+        ? [
+            `justice:court-record:${authority.courtId}`,
+            `justice:seat-record:${authority.seatId}`,
+            `justice:tenure-record:${authority.tenureId}`,
+            ...(text.filingEventId
+              ? [`justice:filing-record:${text.filingEventId}`]
+              : []),
+          ]
+        : []),
     ],
     summary: text.summary,
     context: {

@@ -1,5 +1,5 @@
 import { stateCandidacyPack } from "../candidacy-packs";
-import { evaluateDecision } from "../decisions";
+import { considerationScore, evaluateDecision } from "../decisions";
 import { hasStableKey } from "../history-index";
 import { stateJurisdictionForKey } from "../life-places";
 import { personName } from "../people";
@@ -214,12 +214,12 @@ function strongestReason(
   considerations: readonly DecisionConsideration[],
   optionKey: string,
 ): string {
-  const weight = (c: DecisionConsideration): number =>
-    ({ slight: 1, moderate: 2, strong: 4, decisive: 6 })[c.importance] *
-    { low: 1, medium: 2, high: 3 }[c.confidence];
   const best = considerations
     .filter((c) => c.optionKey === optionKey && c.direction === "supports")
-    .sort((a, b) => weight(b) - weight(a))[0]?.stableKey;
+    .sort(
+      (a, b) =>
+        Math.abs(considerationScore(b)) - Math.abs(considerationScore(a)),
+    )[0]?.stableKey;
   return best ? best.replace(`:${optionKey}`, "") : "legislator:no-reason";
 }
 

@@ -1,0 +1,14 @@
+{
+  "auditId": "A100",
+  "testedHead": "9028c327fa668df88576db55c1b7ff59ee90a763",
+  "a10Dependency": "cc763a1e30e07558ca904a3f2272b6a4c129cf91",
+  "preservedCandidate": "8643ef865549abec063ef56fd0d3bb3fb3da153f",
+  "result": "16/16 PASS185.90s; original 3 complete files/30s/maxWorkers1",
+  "NOT_RUN": [
+    "A10 rerun",
+    "browser",
+    "uninterrupted year",
+    "final-main acceptance"
+  ],
+  "claim": "court lookup composition proof, not closure"
+}

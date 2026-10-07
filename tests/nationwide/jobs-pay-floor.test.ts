@@ -1,4 +1,10 @@
 import { describe, expect, it } from "vitest";
+import { drawRandomPlace } from "../support/random-place";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../src/presentation/opening-life";
+import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 
 import {
   payFloorSentence,
@@ -7,7 +13,8 @@ import {
 import { proseDate } from "../../src/presentation/prose-dates";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import { TOWN_MINIMUM_WAGES } from "../../src/simulation/living-world/town-pay.generated";
-import { startingMinimumHourly } from "../../src/simulation/minimum-wage";
+import { minimumHourlyAt } from "../../src/simulation/minimum-wage";
+import { makeIsoDate } from "../../src/simulation/dates";
 import type { EntityId } from "../../src/simulation";
 
 import { nashvilleWithFederalRaise, onDate } from "./federal-raise-fixture";
@@ -22,7 +29,7 @@ describe("the Jobs screen names the pay floor and the law behind it", () => {
     const { world, opened, effectiveAt } = nashvilleWithFederalRaise(45);
     const personId = (world.control as { personId: EntityId }).personId;
     expect(payFloorSentence(world, personId)).toBe(
-      "The lowest legal pay here is $7.25 an hour, set by federal law.",
+      `The lowest legal pay here is $7.25 an hour. Federal law set it on ${proseDate(makeIsoDate("2009-07-24"))}.`,
     );
     const after = payFloorSentence(onDate(world, effectiveAt), personId);
     expect(after).toBe(
@@ -39,7 +46,7 @@ describe("the Jobs screen names the pay floor and the law behind it", () => {
       const jurisdiction = stateJurisdictionForKey(key);
       if (!jurisdiction) continue;
       const sentence = payFloorSentenceAt(world, jurisdiction.id);
-      const rate = startingMinimumHourly(jurisdiction.id);
+      const rate = minimumHourlyAt(world, jurisdiction.id, world.currentDate);
       if (rate === null) {
         expect(sentence, key).toBeNull();
         unknown += 1;
@@ -50,5 +57,61 @@ describe("the Jobs screen names the pay floor and the law behind it", () => {
     }
     expect(named).toBeGreaterThan(40);
     expect(named + unknown).toBeGreaterThan(50);
+  });
+
+  it("reads Alaska's actual dated starting-law phases instead of a timeless opening table", () => {
+    const { world } = nashvilleWithFederalRaise(45);
+    const jurisdiction = stateJurisdictionForKey("US-AK")!;
+    // Isolate starting-law phases from this fixture's later federal enactment.
+    const starting = {
+      ...world,
+      history: { ...world.history, legislativeEnactments: [] },
+    };
+    for (const [date, hourly] of [
+      ["2026-06-30", 13],
+      ["2026-07-01", 14],
+      ["2027-07-01", 15],
+    ] as const) {
+      const dated = onDate(starting, makeIsoDate(date));
+      expect(minimumHourlyAt(dated, jurisdiction.id, dated.currentDate)).toBe(
+        hourly,
+      );
+      expect(payFloorSentenceAt(dated, jurisdiction.id)).toContain(
+        `$${hourly.toFixed(2)} an hour`,
+      );
+    }
+  });
+});
+
+it("opens an actual new game in a randomly selected place with the composed pay stack", () => {
+  const seed = "overflow2-pay-stack-opening-2026-10-02";
+  const place = drawRandomPlace(seed);
+  console.info("PAY_STACK_OPENING_SELECTED", {
+    seed,
+    placeKey: place.key,
+    place: place.displayName,
+  });
+  const opening = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+    }),
+  );
+  expect(opening.game).not.toBeNull();
+  const game = opening.game!;
+  expect(game.world.control).toEqual({
+    kind: "person",
+    personId: game.playerPersonId,
+  });
+  expect(game.world.people[game.playerPersonId]!.homeJurisdictionId).toBe(
+    place.context.jurisdiction.id,
+  );
+  console.info("PAY_STACK_OPENING_RESULT", {
+    seed,
+    placeKey: place.key,
+    place: place.displayName,
+    personId: game.playerPersonId,
+    result: "opened",
   });
 });

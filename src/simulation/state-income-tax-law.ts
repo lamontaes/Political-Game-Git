@@ -1,11 +1,12 @@
 /**
- * What a state's income tax law, as enacted in play, does to a paycheck.
+ * What a state's income tax law in force does to a paycheck.
  *
  * Two policy questions reach the paycheck: "Should the state levy a personal
  * income tax?" (`fiscal.adopt-income-tax`) and "Should the state have a
  * graduated income tax?" (`fiscal.graduated-income-tax`). The 2026 schedules
  * in `state-income-tax-2026.json` already carry the law each state began
- * with, so only a law enacted in play changes anything here:
+ * with. Structured starting-law terms reach that same calculator;
+ * a law enacted in play can then change it:
  * 1. a repeal ("no" on the first question) where the state taxes wages ends
  *    the state's withholding;
  * 2. an adoption ("yes") where the state has no wage income tax starts one;
@@ -16,35 +17,41 @@
  * - A law governs the tax year it is in force on January 1, so a law that
  *   takes effect during a year applies from the next one: withholding tables
  *   change by tax year.
- * - A bill does not carry its own rates yet. A new or reshaped tax is
+ * - An adopted flat rate and annual taxable-income threshold govern when
+ *   both are recorded in the final bill. Otherwise a new or reshaped tax is
  *   ESTIMATED FROM AVERAGE: the average of the states that have that kind of
- *   tax in the Tax Foundation's 2026 tables, moved by the world's seed within
- *   half a standard deviation of the spread between those states, so two
- *   states that adopt a tax do not end up with the same rate.
+ *   tax in the Tax Foundation's 2026 tables, ranked by Census region and
+ *   sourced household-income distance with the approved reciprocal-rank
+ *   estimation rule. The world seed never changes a rate or deduction.
  * - A newly adopted tax with no law on its shape is graduated, because most
  *   states that tax wages (27 of 42 in the tables) use brackets.
  * - A state that reshapes its tax keeps its own read standard deduction; a
- *   state with none read takes the average.
+ *   state with none read takes the ranked peers' read deductions.
  * - Only single filers' schedules have been read. A joint return takes the
  *   single schedule with its brackets and deduction doubled, and a head of
  *   household files on the single schedule: the most common state rules,
  *   not yet counted state by state, so the label says so.
  */
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
+import stateHouseholdIncome2023 from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import {
   annualTax,
-  spreadOf,
+  reciprocalRankedReferences,
+  weightedReferenceMean,
   STATE_FILING_STATUS_NOTE,
   stateScheduleForFilingStatus,
   type FilingStatus,
   type IncomeTaxBracket,
   type IncomeTaxSchedule,
-  type Spread,
 } from "./income-tax-withholding";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
-import { SeededRng } from "./rng";
 import type { EntityId, IsoDate, World } from "./types";
+import { censusRegionOf } from "./world-setup/census-regions";
+import {
+  readFinalEnactedLawTerm,
+  readFinalEnactedLawSchedule,
+} from "./governing/final-law-term-query";
 
 export const ADOPT_STATE_INCOME_TAX_QUESTION =
   "us-policy-positions:fiscal.adopt-income-tax";
@@ -72,6 +79,14 @@ export type StateIncomeTaxUnderLaw =
   | { readonly kind: "as-begun" }
   /** A law enacted in play ended the state's wage income tax. */
   | { readonly kind: "repealed"; readonly lawMeasureIds: readonly EntityId[] }
+  /** Recorded starting/adopted numeric terms; an unread deduction can be estimated. */
+  | {
+      readonly kind: "enacted";
+      readonly shape: TaxShape;
+      readonly lawMeasureIds: readonly EntityId[];
+      readonly schedule: IncomeTaxSchedule;
+      readonly estimatedFromAverage?: string;
+    }
   /** A law enacted in play started or reshaped the tax; rates estimated. */
   | {
       readonly kind: "estimated";
@@ -95,18 +110,21 @@ export function stateIncomeTaxUnderLaw(
   const state = chiefExecutiveJurisdiction(stateKey.slice(3));
   if (!place || !state) return { kind: "as-begun" };
   const taxYearStart = `${paidAt.slice(0, 4)}-01-01` as IsoDate;
-  const adopt = enactedLaw(
+  const adopt = governingLaw(
     world,
     state.id,
     ADOPT_STATE_INCOME_TAX_QUESTION,
     taxYearStart,
   );
-  const graduated = enactedLaw(
+  const shapeLaw = governingLaw(
     world,
     state.id,
     GRADUATED_STATE_INCOME_TAX_QUESTION,
     taxYearStart,
   );
+  // A starting shape describes the sourced schedule; it is not a bill that
+  // reshapes a newly adopted tax or overrides an enacted numeric rate.
+  const graduated = shapeLaw?.origin === "enacted" ? shapeLaw : null;
   const begunShape: TaxShape | null =
     place.wageIncomeTax === "flat" || place.wageIncomeTax === "graduated"
       ? place.wageIncomeTax
@@ -122,13 +140,126 @@ export function stateIncomeTaxUnderLaw(
       ? "graduated"
       : "flat"
     : (begunShape ?? "graduated");
+  // Keep a starting table only while its sourced shape still governs. An
+  // enacted reshape uses its own terms or the existing labeled fallback.
+  let tableLaw =
+    graduated?.answer === "yes"
+      ? graduated
+      : shapeLaw?.answer === "yes" &&
+          shape === "graduated" &&
+          adopt?.origin !== "enacted"
+        ? shapeLaw
+        : adopt;
+  let table =
+    tableLaw && (tableLaw.origin === "enacted" || shape === begunShape)
+      ? readFinalEnactedLawSchedule(world, tableLaw, {
+          questionKey:
+            tableLaw === shapeLaw
+              ? GRADUATED_STATE_INCOME_TAX_QUESTION
+              : ADOPT_STATE_INCOME_TAX_QUESTION,
+          termKey: tableLaw === shapeLaw ? "brackets" : "rate",
+          onDate: taxYearStart,
+        })
+      : null;
+  if (!table && adopt?.origin === "in-force-at-start" && shape === begunShape) {
+    tableLaw = adopt;
+    table = readFinalEnactedLawSchedule(world, adopt, {
+      questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+      termKey: "rate",
+      onDate: taxYearStart,
+    });
+  }
+  if (table?.term.kind === "income-tax")
+    return {
+      kind: "enacted",
+      shape,
+      lawMeasureIds: [
+        ...new Set([
+          tableLaw!.measureId,
+          ...(adopt?.answer === "yes" ? [adopt.measureId] : []),
+          ...(graduated?.answer === "yes" ? [graduated.measureId] : []),
+        ]),
+      ],
+      schedule: stateScheduleForFilingStatus(table.term.schedule, status),
+    };
+  const flatRate =
+    adopt?.answer === "yes"
+      ? readFinalEnactedLawTerm(world, adopt, {
+          questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+          termKey: "rate",
+          unit: "ratio",
+          onDate: taxYearStart,
+        })
+      : null;
+  const threshold =
+    adopt?.answer === "yes"
+      ? readFinalEnactedLawTerm(world, adopt, {
+          questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+          termKey: "threshold",
+          unit: "minor",
+          onDate: taxYearStart,
+        })
+      : null;
+  const flatRateBasisPoints = flatRate
+    ? Math.round(flatRate.value * 10_000)
+    : null;
+  // One numeric rate cannot represent an explicitly graduated schedule.
+  // Missing, conflicting or wrong-unit terms retain the labeled fallback.
+  // Round-trip the ratio: binary multiplication must not turn an exact 7%
+  // bill into a peer estimate, and finer-than-basis-point rates stay unsupported.
+  if (
+    flatRate &&
+    threshold &&
+    flatRate.value >= 0 &&
+    flatRate.value <= 1 &&
+    flatRateBasisPoints !== null &&
+    Number.isSafeInteger(flatRateBasisPoints) &&
+    flatRateBasisPoints / 10_000 === flatRate.value &&
+    Number.isSafeInteger(threshold.value) &&
+    threshold.value >= 0 &&
+    graduated?.answer !== "yes"
+  ) {
+    const deduction = estimatedSchedule(
+      stateKey,
+      "flat",
+      place.standardDeductionSingle,
+    );
+    return {
+      kind: "enacted",
+      shape: "flat",
+      lawMeasureIds: [
+        adopt!.measureId,
+        ...(graduated ? [graduated.measureId] : []),
+      ],
+      schedule: stateScheduleForFilingStatus(
+        {
+          ...deduction.schedule,
+          brackets: [
+            ...(threshold.value > 0
+              ? [{ overMinor: 0, rateBasisPoints: 0 }]
+              : []),
+            {
+              overMinor: threshold.value,
+              rateBasisPoints: flatRateBasisPoints,
+            },
+          ],
+        },
+        status,
+      ),
+      ...(place.standardDeductionSingle === null
+        ? {
+            estimatedFromAverage:
+              `ESTIMATED FROM AVERAGE: only the single-filer deduction of $${(deduction.schedule.standardDeductionMinor / 100).toLocaleString("en-US")} uses the existing ranked sourced peers. The rate and annual taxable-income threshold are the law's recorded terms. ${status === "single" ? "" : STATE_FILING_STATUS_NOTE[status]}`.trim(),
+          }
+        : {}),
+    };
+  }
   if (!adopted && shape === begunShape) return { kind: "as-begun" };
   const lawMeasureIds = [
     ...(adopted && adopt ? [adopt.measureId] : []),
     ...(graduated ? [graduated.measureId] : []),
   ];
   const estimate = estimatedSchedule(
-    world,
     stateKey,
     shape,
     place.standardDeductionSingle,
@@ -145,8 +276,8 @@ export function stateIncomeTaxUnderLaw(
   };
 }
 
-/** The law on a question in force on `onDate`, only when enacted in play. */
-function enactedLaw(
+/** The dated law, including structured terms in the canonical starting row. */
+function governingLaw(
   world: World,
   stateJurisdictionId: EntityId,
   questionKey: string,
@@ -156,17 +287,8 @@ function enactedLaw(
     world.policyCatalog?.propositions ?? {},
   ).find((definition) => definition.stableKey === questionKey);
   if (!proposition) return null;
-  return lawInForce(
-    world,
-    stateJurisdictionId,
-    proposition.id,
-    onDate,
-    "enacted-only",
-  );
+  return lawInForce(world, stateJurisdictionId, proposition.id, onDate, "all");
 }
-
-const placesShaped = (shape: TaxShape): readonly StatePlace[] =>
-  Object.values(STATE_PLACES).filter((place) => place.wageIncomeTax === shape);
 
 const bracketsOf = (place: StatePlace): IncomeTaxBracket[] =>
   place.brackets.map((bracket) => ({
@@ -183,135 +305,138 @@ const GRADUATED_STEPS_DOLLARS = [
   0, 5_000, 10_000, 20_000, 30_000, 40_000, 50_000, 60_000, 80_000, 100_000,
   150_000, 200_000, 300_000, 500_000, 1_000_000,
 ];
-/** The taxable income whose tax measures how far states spread around it. */
-const SPREAD_REFERENCE_DOLLARS = 50_000;
-
-interface AverageShape {
-  readonly brackets: readonly IncomeTaxBracket[];
-  /** Spread of the states' rates, as a share of the average (flat) or of
-   * the average state's tax at the reference income (graduated). */
-  readonly rateSpread: Spread;
-  readonly deduction: Spread;
-  readonly summary: string;
+interface ScheduleReference {
+  readonly stateKey: string;
+  readonly place: StatePlace;
+  readonly sameRegion: boolean;
+  readonly incomeDistanceDollars: number;
+  readonly rank: number;
+  readonly weight: number;
 }
 
-let averages: Readonly<Record<TaxShape, AverageShape>> | null = null;
+const HOUSEHOLD_INCOMES: Readonly<Record<string, number>> =
+  stateHouseholdIncome2023.medianHouseholdIncomeDollarsByState;
+const ESTIMATED_SCHEDULES = new Map<
+  string,
+  { readonly schedule: IncomeTaxSchedule; readonly note: string }
+>();
 
-function averageShapes(): Readonly<Record<TaxShape, AverageShape>> {
-  averages ??= { flat: averageFlat(), graduated: averageGraduated() };
-  return averages;
-}
-
-function deductionSpread(places: readonly StatePlace[]): Spread {
-  return spreadOf(
-    places.flatMap((place) =>
-      place.standardDeductionSingle === null
-        ? []
-        : [place.standardDeductionSingle],
-    ),
+/** Same tax shape first; weights are authored estimates, not legal tax terms. */
+function scheduleReferences(
+  stateKey: string,
+  shape: TaxShape,
+): readonly ScheduleReference[] {
+  const income = HOUSEHOLD_INCOMES[stateKey];
+  const region =
+    income === undefined ? null : censusRegionOf(stateKey.slice(3));
+  const compare = (
+    a: Omit<ScheduleReference, "rank" | "weight">,
+    b: Omit<ScheduleReference, "rank" | "weight">,
+  ) =>
+    Number(b.sameRegion) - Number(a.sameRegion) ||
+    a.incomeDistanceDollars - b.incomeDistanceDollars;
+  const candidates = Object.entries(STATE_PLACES).flatMap(([key, place]) =>
+    place.wageIncomeTax === shape &&
+    (income === undefined || HOUSEHOLD_INCOMES[key] !== undefined)
+      ? [
+          {
+            stateKey: key,
+            place,
+            sameRegion:
+              income !== undefined && censusRegionOf(key.slice(3)) === region,
+            incomeDistanceDollars:
+              income === undefined
+                ? 0
+                : Math.abs(HOUSEHOLD_INCOMES[key]! - income),
+          },
+        ]
+      : [],
   );
-}
-
-function averageFlat(): AverageShape {
-  const places = placesShaped("flat");
-  const rates = spreadOf(places.map((place) => place.brackets[0]!.ratePercent));
-  return {
-    brackets: [{ overMinor: 0, rateBasisPoints: Math.round(rates.mean * 100) }],
-    rateSpread: {
-      ...rates,
-      mean: 1,
-      standardDeviation: rates.standardDeviation / rates.mean,
-    },
-    deduction: deductionSpread(places),
-    summary: `the average flat rate of the ${rates.count} states with one, ${rates.mean.toFixed(2)}%`,
-  };
-}
-
-function averageGraduated(): AverageShape {
-  const places = placesShaped("graduated");
-  const averageTaxMinor = (dollars: number) =>
-    places.reduce(
-      (sum, place) => sum + annualTax(dollars * 100, bracketsOf(place)),
-      0,
-    ) / places.length;
-  const brackets = GRADUATED_STEPS_DOLLARS.map((dollars, index) => {
-    const next = GRADUATED_STEPS_DOLLARS[index + 1];
-    const rateBasisPoints =
-      next === undefined
-        ? Math.round(
-            (places.reduce(
-              (sum, place) => sum + place.brackets.at(-1)!.ratePercent,
-              0,
-            ) /
-              places.length) *
-              100,
-          )
-        : Math.round(
-            ((averageTaxMinor(next) - averageTaxMinor(dollars)) /
-              ((next - dollars) * 100)) *
-              10_000,
-          );
-    return { overMinor: dollars * 100, rateBasisPoints };
-  });
-  const atReference = spreadOf(
-    places.map((place) =>
-      annualTax(SPREAD_REFERENCE_DOLLARS * 100, bracketsOf(place)),
-    ),
-  );
-  return {
-    brackets,
-    rateSpread: {
-      ...atReference,
-      mean: 1,
-      standardDeviation: atReference.standardDeviation / atReference.mean,
-    },
-    deduction: deductionSpread(places),
-    summary: `the average brackets of the ${places.length} states with graduated rates (top rate ${(brackets.at(-1)!.rateBasisPoints / 100).toFixed(2)}%)`,
-  };
+  return reciprocalRankedReferences(candidates, compare, (row) => row.stateKey);
 }
 
 /**
- * The average schedule of states with this shape, moved within half a
- * standard deviation by the world's seed and the state, the same every time
- * for the same world and state.
+ * No admitted bill rate: retain a labeled estimate from actual same-shape
+ * schedules. Region/income reciprocal ranking reuses the owner's #1369 rule;
+ * it is not an empirical coefficient or a statute. No seed chooses a level.
  */
 function estimatedSchedule(
-  world: World,
   stateKey: string,
   shape: TaxShape,
   ownDeductionDollars: number | null,
 ): { readonly schedule: IncomeTaxSchedule; readonly note: string } {
-  const average = averageShapes()[shape];
-  const rng = new SeededRng(world.seed).fork(
-    `state-income-tax-estimate:${stateKey}`,
+  const cacheKey = `${stateKey}:${shape}:${ownDeductionDollars}`;
+  const cached = ESTIMATED_SCHEDULES.get(cacheKey);
+  if (cached) return cached;
+  const references = scheduleReferences(stateKey, shape);
+  if (references.length === 0)
+    throw new Error("No sourced state income-tax schedules for this shape.");
+  const deductions = references.filter(
+    (reference) => reference.place.standardDeductionSingle !== null,
   );
-  const rateScale =
-    1 + (rng.next() - 0.5) * average.rateSpread.standardDeviation;
-  const deductionDraw = rng.next();
+  if (ownDeductionDollars === null && deductions.length === 0)
+    throw new Error("No sourced deductions for the state income-tax estimate.");
   const deductionDollars =
     ownDeductionDollars ??
     Math.round(
-      average.deduction.mean +
-        (deductionDraw - 0.5) * average.deduction.standardDeviation,
-    );
-  const schedule: IncomeTaxSchedule = {
-    standardDeductionMinor: deductionDollars * 100,
-    brackets: average.brackets.map((bracket) => ({
-      overMinor: bracket.overMinor,
-      rateBasisPoints: Math.max(
-        0,
-        Math.round(bracket.rateBasisPoints * rateScale),
+      weightedReferenceMean(
+        deductions,
+        (reference) => reference.place.standardDeductionSingle!,
       ),
-    })),
-    sourceUrl: STATE_SOURCE,
-  };
+    );
+  const weightedTaxMinor = (dollars: number) =>
+    weightedReferenceMean(references, (reference) =>
+      annualTax(dollars * 100, bracketsOf(reference.place)),
+    );
+  const brackets: readonly IncomeTaxBracket[] =
+    shape === "flat"
+      ? [
+          {
+            overMinor: 0,
+            rateBasisPoints: Math.round(
+              weightedReferenceMean(
+                references,
+                (reference) => reference.place.brackets[0]!.ratePercent,
+              ) * 100,
+            ),
+          },
+        ]
+      : GRADUATED_STEPS_DOLLARS.map((dollars, index) => {
+          const next = GRADUATED_STEPS_DOLLARS[index + 1];
+          return {
+            overMinor: dollars * 100,
+            rateBasisPoints:
+              next === undefined
+                ? Math.round(
+                    weightedReferenceMean(
+                      references,
+                      (reference) =>
+                        reference.place.brackets.at(-1)!.ratePercent,
+                    ) * 100,
+                  )
+                : Math.round(
+                    ((weightedTaxMinor(next) - weightedTaxMinor(dollars)) /
+                      ((next - dollars) * 100)) *
+                      10_000,
+                  ),
+          };
+        });
   const deductionNote =
     ownDeductionDollars === null
-      ? `a standard deduction of $${deductionDollars.toLocaleString("en-US")} from the average of the ${average.deduction.count} such states whose deduction was read ($${Math.round(average.deduction.mean).toLocaleString("en-US")})`
+      ? `a standard deduction of $${deductionDollars.toLocaleString("en-US")} from ${deductions.length} peers with read deductions`
       : `the state's own standard deduction of $${deductionDollars.toLocaleString("en-US")}`;
-  const note =
-    `ESTIMATED FROM AVERAGE: ${average.summary}, rates ${rateScale >= 1 ? "raised" : "lowered"} ` +
-    `${Math.abs((rateScale - 1) * 100).toFixed(1)}% by the world's seed within half the spread between states, ` +
-    `and ${deductionNote}. Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026.`;
-  return { schedule, note };
+  const ranking =
+    HOUSEHOLD_INCOMES[stateKey] === undefined
+      ? "same-shape plain mean because the target household income is unread"
+      : "same tax shape, then Census region and household-income distance; authored reciprocal-rank weights";
+  const estimate = {
+    schedule: {
+      standardDeductionMinor: deductionDollars * 100,
+      brackets,
+      sourceUrl: STATE_SOURCE,
+    },
+    note: `ESTIMATED FROM AVERAGE: ${references.length} states with ${shape} rates, ${ranking}, and ${deductionNote}. References: ${references.map((reference) => `${reference.stateKey} weight ${reference.weight}`).join(", ")}. Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026; Census CPS 2023 Table H-8. This estimate is not a rate written in the bill.`,
+  };
+  ESTIMATED_SCHEDULES.set(cacheKey, estimate);
+  return estimate;
 }

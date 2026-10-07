@@ -5,6 +5,7 @@ import { createOrganization, recordOrganizationProfile } from "./life";
 import { currentLifeCutoff, organizationProfileAt } from "./life-queries";
 import { stateJurisdictionForKey, lifePlaceByKey } from "./life-places";
 import { STATES } from "./state-reference";
+import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import {
   allGovernmentUnits,
   governmentUnitJurisdictionId,
@@ -104,6 +105,51 @@ describe("public accounts read saved ownership at an explicit historical cutoff"
       });
       expect(serializeWorld(changed)).toBe(bytes);
       const reloaded = deserializeWorld(bytes);
+      expect(publicTaxAccountForIdentity(reloaded, identity, cutoff)).toEqual({
+        organizationId: saved.organizationId,
+      });
+      expect(serializeWorld(reloaded)).toBe(bytes);
+    },
+  );
+
+  it.each(
+    Object.keys(STATES).filter((usps) => {
+      const state = stateJurisdictionForKey(`US-${usps}`);
+      const executive = chiefExecutiveJurisdiction(usps);
+      return state && executive && state.id !== executive.id;
+    }),
+  )(
+    "refuses a later duplicate alias but keeps the earlier account cutoff in %s",
+    (usps) => {
+      const state = stateJurisdictionForKey(`US-${usps}`)!;
+      const executive = chiefExecutiveJurisdiction(usps)!;
+      const identity = {
+        kind: "jurisdiction" as const,
+        jurisdictionId: state.id,
+      };
+      const saved = account(
+        createWorld({
+          seed: `dated-account:duplicate-alias:${usps}`,
+          currentDate: date,
+          jurisdictions: [state, executive],
+          people: [],
+        }),
+        identity,
+      );
+      const cutoff = currentLifeCutoff(saved.world);
+      const duplicated = account(saved.world, {
+        kind: "jurisdiction",
+        jurisdictionId: executive.id,
+      }).world;
+      expect(publicTaxAccountForIdentity(duplicated, identity)).toBeNull();
+      expect(publicTaxAccountForIdentity(duplicated, identity, cutoff)).toEqual(
+        {
+          organizationId: saved.organizationId,
+        },
+      );
+      const bytes = serializeWorld(duplicated);
+      const reloaded = deserializeWorld(bytes);
+      expect(publicTaxAccountForIdentity(reloaded, identity)).toBeNull();
       expect(publicTaxAccountForIdentity(reloaded, identity, cutoff)).toEqual({
         organizationId: saved.organizationId,
       });

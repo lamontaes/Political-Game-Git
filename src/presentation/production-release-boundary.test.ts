@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import assetManifest from "../../art/manifest/asset_manifest.json";
-import bodyDispositions from "../../art/qa/p71/source_intake_dispositions.json";
-import despillReport from "../../art/qa/p76/edge_despill_report.json";
-import candidateComponentReview from "../../art/qa/p95-recent-drive-sweep/candidate-component-review.json";
+import assetManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
+import bodyDispositions from "../../art/qa/p71/source_intake_dispositions.json" with { type: "json" };
+import despillReport from "../../art/qa/p76/edge_despill_report.json" with { type: "json" };
+import candidateComponentReview from "../../art/qa/p95-recent-drive-sweep/candidate-component-review.json" with { type: "json" };
 import {
   PRODUCTION_CHARACTER_LIBRARY,
   CANDIDATE_REVIEW_CHARACTER_LIBRARY,

@@ -40,10 +40,6 @@ export function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
     <main className="game-setup" data-testid="options-screen">
       <h1>Options</h1>
       <DateFormatSetting />
-      <p className="game-note">
-        Motion in the game follows your system&rsquo;s reduced-motion setting,
-        so nothing here has to be switched on to make it stop.
-      </p>
       <button type="button" onClick={onBack}>
         Back
       </button>

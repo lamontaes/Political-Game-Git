@@ -26,5 +26,11 @@
     "src/source/core/errors.ts"
   ],
   "include": ["src"],
-  "exclude": ["src/**/*.test.ts", "src/cli", "src/persistence", "src/source"]
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/cli",
+    "src/persistence",
+    "src/source"
+  ]
 }

@@ -20,7 +20,7 @@
  * rendering a broken image.
  */
 
-import coverageDocument from "../../art/regions/regional-scene-places.json";
+import coverageDocument from "../../art/regions/regional-scene-places.json" with { type: "json" };
 import type {
   RegionalPlaceQuery,
   RegionalSceneCoverageDocument,

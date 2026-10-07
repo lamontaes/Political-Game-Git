@@ -12,6 +12,7 @@ import {
 } from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { lawEffectStamp } from "./law-effect-stamp";
+import type { LawInForce } from "./governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { EntityId } from "./types";
 const provenance = {
@@ -53,24 +54,22 @@ describe("a wage law's terms reach the actual payment", () => {
       });
       const flow = w.history.resourceFlows.at(-1)!;
       const old = w.history.resourceFlowTerms.at(-1)!;
-      const stamp = lawEffectStamp(
-        {
-          measureId: "legislative-measure_fixture" as EntityId,
-          answer: "yes",
-          origin: "enacted",
-          level: "federal-statute",
-          operativeAt: w.currentDate,
-          operativeBasis: "enacted-date",
-        },
-        {
-          effectKind: "minimum-wage-compensation",
-          questionKey:
-            "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
-          jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-          appliedAt: w.currentDate,
-          sourceRecordIds: [flow.id, old.id],
-        },
-      )!;
+      const law: LawInForce = {
+        measureId: "legislative-measure_fixture" as EntityId,
+        answer: "yes",
+        origin: "enacted",
+        level: "federal-statute",
+        operativeAt: w.currentDate,
+        operativeBasis: "enacted-date",
+      };
+      const stamp = lawEffectStamp(law, {
+        effectKind: "minimum-wage-compensation",
+        questionKey:
+          "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        appliedAt: w.currentDate,
+        sourceRecordIds: [flow.id, old.id],
+      })!;
       w = recordResourceFlowTerms(w, {
         stableKey: "stamp-raise",
         resourceFlowId: flow.id,
@@ -84,6 +83,8 @@ describe("a wage law's terms reach the actual payment", () => {
         lawEffectStamps: [stamp],
       });
       const terms = w.history.resourceFlowTerms.at(-1)!;
+      const termsBeforePayment = structuredClone(w.history.resourceFlowTerms);
+      const stampBeforePayment = structuredClone(stamp);
       w = recordResourceTransferOutcome(w, {
         stableKey: "stamp-paid",
         resourceFlowId: flow.id,
@@ -98,13 +99,16 @@ describe("a wage law's terms reach the actual payment", () => {
         provenance,
       });
       const paid = w.history.resourceTransferOutcomes.at(-1)!;
+      expect(w.history.resourceFlowTerms).toEqual(termsBeforePayment);
+      expect(stamp).toEqual(stampBeforePayment);
+      expect(paid.transferredAmount).toEqual(money(7500, "USD"));
       expect(paid.lawEffectStamps?.[0]).toMatchObject({
         governingLawKey: stamp.governingLawKey,
-        effectKind: "work-compensation-payment",
+        effectKind: "pay",
         appliedAt: paid.occurredAt,
       });
       expect(paid.lawEffectStamps![0]!.sourceRecordIds).toEqual(
-        expect.arrayContaining([terms.id, flow.id, paid.id]),
+        expect.arrayContaining([old.id, terms.id, flow.id, paid.id]),
       );
       expect(
         deserializeWorld(serializeWorld(w)).history.resourceTransferOutcomes.at(

@@ -9,6 +9,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "../life-places";
+import { recordsWithFieldValue } from "../history-index";
 import { factsForPerson } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
 
@@ -63,12 +64,12 @@ function homeChangeDates(
   base: Cutoff,
 ): readonly IsoDate[] {
   const dates = new Set<IsoDate>();
-  for (const membership of world.history.householdMemberships) {
-    if (
-      membership.personId !== personId ||
-      membership.sequence >= base.historySequenceExclusive
-    )
-      continue;
+  for (const membership of recordsWithFieldValue(
+    world.history.householdMemberships,
+    "personId",
+    personId,
+  )) {
+    if (membership.sequence >= base.historySequenceExclusive) continue;
     dates.add(membership.startedAt);
     for (const state of householdMembershipStateHistory(
       world,

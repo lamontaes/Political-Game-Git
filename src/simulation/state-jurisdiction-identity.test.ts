@@ -14,6 +14,9 @@ import {
   stateKeyForJurisdictionSlug,
 } from "./life-places";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+import { makeIsoDate } from "./dates";
+import { createWorld } from "./world";
+import { deserializeWorld, serializeWorld } from "./serialization";
 
 /**
  * One state, two mints. The ids differ and must keep differing, because saved
@@ -21,6 +24,26 @@ import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
  */
 
 describe("a state is recognized whichever path minted it", () => {
+  it("recognizes the constitutional consumer's legacy aliases without renumbering saved jurisdictions", () => {
+    const canonical = stateJurisdictionForKey("US-CA")!;
+    for (const slug of ["california", "us-ca"]) {
+      const world = createWorld({
+        seed: `a109-legacy-state-alias:${slug}`,
+        currentDate: makeIsoDate("2026-01-05"),
+        people: [],
+        jurisdictions: [{ ...canonical, slug }],
+      });
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(reopened.jurisdictions[canonical.id]!.id).toBe(canonical.id);
+      expect(reopened.jurisdictions[canonical.id]!.slug).toBe(slug);
+      expect(
+        stateKeyForJurisdiction(reopened.jurisdictions[canonical.id]!),
+      ).toBe("US-CA");
+      expect(stateKeyForJurisdictionSlug(slug)).toBe("US-CA");
+      expect(stateJurisdictionForKey("US-CA")!.id).toBe(canonical.id);
+      expect(serializeWorld(reopened)).toBe(serializeWorld(world));
+    }
+  });
   it("reads the corpus form and the authored form as the same state", () => {
     const corpus = stateJurisdictionForKey("US-KY")!;
     const authored = KENTUCKY_CONTEXT.jurisdiction;
@@ -118,4 +141,24 @@ describe("what is not a state stays not a state", () => {
     expect(stateJurisdictionForKey("US-ZZ")).toBe(null);
     expect(stateJurisdictionForKey("US-ZZ")).toBe(null);
   });
+});
+
+it("keeps repeated recognized and unknown slug reads independent across all recorded states", () => {
+  const unknowns = [
+    "",
+    "state-us-zz-placeholder",
+    "state-us-ca-placeholder-extra",
+    "locality-us-ca",
+  ];
+  for (const usps of Object.keys(STATES)) {
+    const key = `US-${usps}`;
+    const jurisdiction = stateJurisdictionForKey(key);
+    if (!jurisdiction) continue;
+    for (const unknown of unknowns) {
+      expect(stateKeyForJurisdictionSlug(unknown)).toBeNull();
+      expect(stateKeyForJurisdictionSlug(jurisdiction.slug)).toBe(key);
+      expect(stateKeyForJurisdictionSlug(unknown)).toBeNull();
+      expect(stateKeyForJurisdictionSlug(jurisdiction.slug)).toBe(key);
+    }
+  }
 });

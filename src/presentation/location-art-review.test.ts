@@ -9,7 +9,7 @@ import { validateEnvironmentSceneSpec } from "../environment/environment-scene-s
 import { scenePlateClips } from "./scene-occlusion";
 import { requireScene, SCENE_REGISTRY } from "./scene-registry";
 import { SCENE_VENUES } from "./scene-venues";
-import manifest from "../../art/manifest/asset_manifest.json";
+import manifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
 
 describe("G finite location candidate lift", () => {
   it("never admits the reviewed assets to production or changes their manifest status", () => {

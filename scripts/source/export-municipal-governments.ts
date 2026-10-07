@@ -475,6 +475,30 @@ function exportReading(
       mayoralActionState: stateOf(procedure.mayoralAction),
       mayoralActionWindow: value(procedure.mayoralActionWindow),
       override: value(procedure.override),
+      ...(procedure.financialGeneralThresholdUsd
+        ? {
+            financialGeneralThresholdUsd: value(
+              procedure.financialGeneralThresholdUsd,
+            ),
+          }
+        : {}),
+      ...(procedure.financialLocalRule
+        ? { financialLocalRule: value(procedure.financialLocalRule) }
+        : {}),
+      ...(procedure.managerElectionThreshold
+        ? {
+            managerElectionThreshold: value(procedure.managerElectionThreshold),
+          }
+        : {}),
+      ...(procedure.overrideWindowDays
+        ? { overrideWindowDays: value(procedure.overrideWindowDays) }
+        : {}),
+      ...(procedure.congressionalReviewDays
+        ? { congressionalReviewDays: value(procedure.congressionalReviewDays) }
+        : {}),
+      ...(procedure.criminalCodeReviewDays
+        ? { criminalCodeReviewDays: value(procedure.criminalCodeReviewDays) }
+        : {}),
       overrideState: stateOf(procedure.override),
       overrideAbsence: absence(procedure.override),
       effectivePublication: value(procedure.effectivePublication),

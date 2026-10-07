@@ -12,11 +12,17 @@ import {
   activeWorkRelationshipsAt,
   organizationClosingAt,
   organizationProfileAt,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+  workRoleAt,
 } from "../life-queries";
 import { SeededRng } from "../rng";
+import { localBusinessWageMinor } from "../recorded-employer";
 import type {
   EntityId,
   OrganizationClassification,
+  OccupationClassification,
+  Organization,
   OrganizationParticipationKind,
   OrganizationParticipationRoleKind,
   OrganizationParticipationStateRecord,
@@ -30,7 +36,6 @@ import {
   fillTownJobs,
   laborStatus,
   townResidents,
-  townWorkplaceWeights,
   writeTownEmployer,
   type Workplace,
 } from "./town-employment";
@@ -38,9 +43,7 @@ import { TOWN_JOB_END_REASONS } from "./town-labor-market";
 import { TOWN_BUSINESS_WORKPLACES } from "./town-business-books";
 import {
   closeBusinessesOutOfCash,
-  closeBusinessWithNobodyLeft,
   stepTownFinances,
-  townUnservedJobs,
   TOWN_FINANCE_CLOSING_REASONS,
 } from "./town-finances";
 
@@ -51,9 +54,9 @@ import {
  * a farm, a store, a diner, a garage. Each quarter its books run
  * (`town-finances.ts`): one whose cash and credit are both gone closes, and
  * its staff lose their jobs, who then look for work like anyone laid off
- * (`town-labor-market.ts`). New ones open at the approved entry rate, each
- * where the town is shortest of that kind of business, run by a resident
- * who was out of work.
+ * (`town-labor-market.ts`). New ones open where recorded residents per
+ * business exceed other recorded towns in the same line, run by a resident
+ * admitted by the existing founder and staffing rules.
  *
  * A closing is recorded on the organization's profile (`closed`), so its
  * name and history stay and nothing hires there again.
@@ -168,6 +171,168 @@ export function townBusinesses(
 }
 
 /**
+ * The local business a grown-up new life works at when the game opens, chosen
+ * from the person's own situation rather than first in the town's list.
+ *
+ * - Only work the person is fit for: the professional roles (legal
+ *   assistant, bookkeeper) need schooling no summarized history gives. A
+ *   trade is learned on the job, as most builders and mechanics learn it;
+ *   an apprenticeship the history records counts as that line of work.
+ * - Somebody they know works there or owns it: family and household put a
+ *   person forward, as they do in the job market.
+ * - Otherwise the line of work they already did: a person who worked a shop
+ *   counter at school goes back to a counter.
+ * - Otherwise the best-paid of those jobs, at the town's own published pay.
+ *
+ * Null when the town has no business, or none the person is fit for, and
+ * then nobody is hired: the person starts looking for work.
+ */
+export function recordedTownEmployer(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+): {
+  organization: Organization;
+  kind: {
+    readonly workerTitle: string;
+    readonly workerOccupation: OccupationClassification;
+    readonly workerRelationshipId: EntityId;
+  };
+} | null {
+  if (!world.people[personId]) return null;
+  const past = world.history.workRelationships.filter(
+    (work) => work.personId === personId,
+  );
+  // Borrow only roles that an actual open town business employs today.
+  // A legacy player-only business and its fixed revenue are never candidates.
+  const fit = townBusinesses(world, jurisdictionId).flatMap((business) => {
+    const organization = world.history.organizations.find(
+      (record) => record.id === business.organizationId,
+    );
+    if (!organization || organization.formedAt > world.currentDate) return [];
+    const seen = new Set<string>();
+    return business.jobs.flatMap((job) => {
+      const work = world.history.workRelationships.find(
+        (record) => record.id === job.relationshipId,
+      );
+      const role = workRoleAt(world, job.relationshipId);
+      if (
+        !work ||
+        work.startedAt > world.currentDate ||
+        work.compensation !== "paid" ||
+        job.directsOthers ||
+        !role ||
+        !role.occupationClassification ||
+        role.occupationClassification.startsWith("profession:") ||
+        role.locationJurisdictionId !== jurisdictionId
+      )
+        return [];
+      const kind = {
+        workerTitle: role.title,
+        workerOccupation: role.occupationClassification,
+        workerRelationshipId: work.id,
+      };
+      if (!localBusinessWageMinor(kind, jurisdictionId, world).sourced)
+        return [];
+      const key = JSON.stringify(kind);
+      if (seen.has(key)) return [];
+      seen.add(key);
+      return [{ organization, kind }];
+    });
+  });
+  if (fit.length === 0) return null;
+  const known = new Set<EntityId>();
+  for (const kin of kinshipRelationshipsAt(world, personId))
+    for (const id of kin.personIds) if (id !== personId) known.add(id);
+  const homes = new Set(
+    householdMembershipsAt(world, personId).map((entry) => entry.household.id),
+  );
+  for (const record of world.history.householdMemberships)
+    if (record.personId !== personId && homes.has(record.householdId))
+      known.add(record.personId);
+  const vouched = fit.filter(({ organization }) =>
+    [...known].some(
+      (id) =>
+        world.people[id] &&
+        activeWorkRelationshipsAt(world, id).some(
+          (entry) => entry.relationship.organizationId === organization.id,
+        ),
+    ),
+  );
+  const lines = new Set(
+    past.flatMap((work) => {
+      const occupation = workRoleAt(world, work.id)?.occupationClassification;
+      return occupation ? [occupation.split(":")[0]!] : [];
+    }),
+  );
+  const experienced = fit.filter(({ kind }) =>
+    lines.has(kind.workerOccupation.split(":")[0]!),
+  );
+  const pool =
+    vouched.length > 0 ? vouched : experienced.length > 0 ? experienced : fit;
+  const pay = (kind: { readonly workerOccupation: OccupationClassification }) =>
+    localBusinessWageMinor(kind, jurisdictionId, world).monthlyMinor;
+  return [...pool].sort(
+    (left, right) =>
+      pay(right.kind) - pay(left.kind) ||
+      left.organization.id.localeCompare(right.organization.id),
+  )[0]!;
+}
+
+/** Same-line entry opportunities measured only against other recorded towns. */
+export function townBusinessEntryGaps(
+  world: World,
+  town: EntityId,
+): Map<string, number> {
+  const deaths = new Set(
+    world.history.personDeaths
+      .filter((row) => row.diedAt <= world.currentDate)
+      .map((row) => row.personId),
+  );
+  const residents = new Map<EntityId, number>();
+  for (const person of Object.values(world.people)) {
+    if (person.birthDate > world.currentDate || deaths.has(person.id)) continue;
+    residents.set(
+      person.homeJurisdictionId,
+      (residents.get(person.homeJurisdictionId) ?? 0) + 1,
+    );
+  }
+  const counts = new Map<EntityId, Map<string, number>>();
+  for (const place of residents.keys()) {
+    const kinds = new Map<string, number>();
+    for (const business of townBusinesses(world, place)) {
+      const organization = world.history.organizations.find(
+        (row) => row.id === business.organizationId,
+      );
+      if (!organization || organization.formedAt > world.currentDate) continue;
+      kinds.set(
+        business.workplace.key,
+        (kinds.get(business.workplace.key) ?? 0) + 1,
+      );
+    }
+    counts.set(place, kinds);
+  }
+  const peers = new Map<string, number[]>();
+  for (const [place, kinds] of counts) {
+    if (place === town) continue;
+    for (const [kind, businesses] of kinds) {
+      const values = peers.get(kind) ?? [];
+      values.push(residents.get(place)! / businesses);
+      peers.set(kind, values);
+    }
+  }
+  const gaps = new Map<string, number>();
+  for (const [kind, ratios] of peers) {
+    const mean = ratios.reduce((sum, ratio) => sum + ratio, 0) / ratios.length;
+    gaps.set(
+      kind,
+      (residents.get(town) ?? 0) / mean - (counts.get(town)?.get(kind) ?? 0),
+    );
+  }
+  return gaps;
+}
+
+/**
  * One quarterly turn of the town's businesses, on the world's current date,
  * before its jobs turn over. `round` names the review; a review run twice
  * writes nothing new.
@@ -195,60 +360,37 @@ export function reviewTownBusinesses(
   )
     return world;
   const businesses = townBusinesses(world, town);
-  if (businesses.length === 0) return world;
   const provenance = {
     kind: "generated" as const,
     generatorKey: TOWN_BUSINESSES_VERSION,
   };
   let next = world;
 
-  // Closings. Each business's books run a quarter (`town-finances.ts`), and
-  // a business whose cash and credit are both gone closes. A business the
-  // player works at stays open for now: the game has no way yet to tell the
-  // player their workplace closed.
-  const exempt = new Set(
-    businesses
-      .filter((business) =>
-        business.jobs.some((job) => job.personId === playerPersonId),
-      )
-      .map((business) => business.organizationId),
-  );
-  // A business nobody works at any more closes: its owner retired, died or
-  // left and nobody took over.
-  for (const business of businesses)
-    if (business.jobs.length === 0)
-      next = closeBusinessWithNobodyLeft(
-        next,
-        town,
-        business.organizationId,
-        prefix,
-        TOWN_BUSINESS_CLOSING_REASONS,
-      );
-  const running = businesses.filter((business) => business.jobs.length > 0);
-  if (running.length === 0) return next;
-  const quarter = stepTownFinances(
-    next,
-    town,
-    running.map((business) => ({
-      organizationId: business.organizationId,
-      kind: business.workplace.key,
-      newcomer: business.outlet >= business.workplace.outlets,
-    })),
-    exempt,
-    round,
-  );
-  next = closeBusinessesOutOfCash(quarter.world, town, quarter.closing, prefix);
+  // Only the recorded quarterly books can close a business. Neither an
+  // empty staff list nor the player's employment substitutes for its cash result.
+  if (businesses.length > 0) {
+    const quarter = stepTownFinances(
+      next,
+      town,
+      businesses.map((business) => ({
+        organizationId: business.organizationId,
+        kind: business.workplace.key,
+        newcomer: business.outlet >= business.workplace.outlets,
+      })),
+      new Set(),
+      round,
+    );
+    next = closeBusinessesOutOfCash(
+      quarter.world,
+      town,
+      quarter.closing,
+      prefix,
+    );
+  }
 
-  // Openings, decided by the town's customers: a resident opens a business
-  // of a kind whose customers go unserved, the kind whose spending in town
-  // runs furthest past what its open businesses can serve, by at least one
-  // worker's worth of sales. A kind the town has no market for yet is
-  // judged by the town's own mix of jobs. Nothing is drawn.
-  const weights = [...townWorkplaceWeights(town)].filter(
-    ([key, weight]) => weight > 0 && TOWN_BUSINESS_WORKPLACES.has(key),
-  );
-  const totalWeight = weights.reduce((sum, [, weight]) => sum + weight, 0);
-  if (totalWeight <= 0) return next;
+  // Open only a line whose recorded residents per business exceed the
+  // game average of other towns with a recorded business in that same line.
+  // Missing peers supply no opportunity; the former authored job-mix fallback is gone.
   const working = new Set<EntityId>();
   const latest = new Map<EntityId, string>();
   for (const row of next.history.workStatuses)
@@ -261,27 +403,8 @@ export function reviewTownBusinesses(
   const founders = new Set<EntityId>();
   for (;;) {
     const open = townBusinesses(next, town);
-    const jobsOf = new Map<string, number>();
-    let totalJobs = 0;
-    for (const business of open) {
-      jobsOf.set(
-        business.workplace.key,
-        (jobsOf.get(business.workplace.key) ?? 0) + business.jobs.length,
-      );
-      totalJobs += business.jobs.length;
-    }
-    const unserved = townUnservedJobs(next, town);
-    const [shortest] = weights
-      .filter(([key]) => !opened.has(key))
-      .map(
-        ([key, weight]) =>
-          [
-            key,
-            unserved.get(key) ??
-              (weight / totalWeight) * totalJobs - (jobsOf.get(key) ?? 0),
-          ] as const,
-      )
-      .filter(([, short]) => short >= 1)
+    const [shortest] = [...townBusinessEntryGaps(next, town)]
+      .filter(([key, gap]) => !opened.has(key) && gap > 0)
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
     const workplace = shortest ? WORKPLACE_BY_KEY.get(shortest[0]) : undefined;
     if (!workplace) break;

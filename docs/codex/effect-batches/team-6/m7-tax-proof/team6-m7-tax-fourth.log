@@ -1,0 +1,17 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/law-consequences/tax.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-m7-tax-fourth.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/law-consequences/tax.test.ts (7 tests) 382ms
+     ✓ assesses the named payer once, then collects actual cash after Save/Continue  325ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  12:53:49
+   Duration  22.34s (transform 16.94s, setup 19ms, import 21.79s, tests 382ms, environment 1ms)
+
+JSON report written to /tmp/team6-m7-tax-fourth.json

@@ -139,13 +139,36 @@ export function appropriatedAgainst(world: World, measureId: EntityId): number {
   for (const record of world.history.publicProgramRecords ?? []) {
     if (record.kind !== "appropriation" || record.sourceMeasureId == null)
       continue;
-    const part = parts.find(
-      (lineage) =>
-        lineage.measureId === record.sourceMeasureId &&
-        record.programKey.startsWith(`${lineage.familyKey}:`) &&
-        (lineage.componentKey === undefined ||
-          record.stableKey.includes(`-${lineage.componentKey}`)),
-    );
+    const part = parts.find((lineage) => {
+      // The saved authority target and actual source measure are the join.
+      // The funded program can belong to the target's family rather than
+      // the later appropriation bill's family, including in older saves.
+      if (lineage.measureId !== record.sourceMeasureId) return false;
+      if (lineage.componentKey === undefined) return true;
+      const source = (world.history.legislativeMeasures ?? []).find(
+        (measure) => measure.id === record.sourceMeasureId,
+      );
+      if (!source) return false;
+      const editionBase = `measure-${source.designation.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
+      // Match the producer's complete edition, not a component substring:
+      // "repair" must not collect the sibling "repair-extra" appropriation.
+      if (
+        record.stableKey.endsWith(
+          `:appropriation:${editionBase}-${lineage.componentKey}`,
+        )
+      )
+        return true;
+      const origins = clauseOrigins(world, source.id);
+      return currentMeasureProvisions(world, source.id).some(
+        (provision) =>
+          origins.get(provision.provisionKey)?.componentKey ===
+            lineage.componentKey &&
+          isFamilyAppropriation(provision) &&
+          record.stableKey.endsWith(
+            `:appropriation:${editionBase}-${provision.provisionKey.replace(/[^a-z0-9]+/gi, "-")}`,
+          ),
+      );
+    });
     if (part) total += record.amount.minorUnits;
   }
   return total;

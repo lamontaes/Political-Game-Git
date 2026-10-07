@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "./dates";
 import type { LawInForce } from "./governing/law-in-force";
 import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
+import type { LawEffectContext } from "./law-effect-stamp";
 import type { EntityId } from "./types";
 
 const law: LawInForce = {
@@ -12,8 +13,8 @@ const law: LawInForce = {
   operativeAt: makeIsoDate("2026-08-01"),
   operativeBasis: "enacted-date",
 };
-const context = {
-  effectKind: "education.enrollment-charge",
+const context: LawEffectContext = {
+  effectKind: "price-cost",
   questionKey:
     "us-policy-positions:education.public-funds-for-private-schooling",
   jurisdictionId: "jurisdiction_subject" as EntityId,
@@ -46,6 +47,69 @@ describe("saved law-effect attribution", () => {
     );
     expect(lawEffectStamp(starting, context)?.source).toBe("in-force-at-start");
   });
+  it("persists source versus modeled term evidence and clones donor references", () => {
+    const sourced = {
+      kind: "source" as const,
+      termKey: "housing-land-use.inclusionary-requirement",
+      value: 0.2,
+      unit: "ratio" as const,
+      requestedAt: makeIsoDate("2026-09-01"),
+      lawMeasureId: "measure_nj" as EntityId,
+      sourceRecordIds: ["provision_nj" as EntityId, "source_nj" as EntityId],
+    };
+    expect(
+      isLawEffectStamp(
+        lawEffectStamp(law, { ...context, termResolution: sourced }),
+      ),
+    ).toBe(true);
+    const modeled = {
+      kind: "modeled" as const,
+      termKey: "housing-land-use.inclusionary-requirement",
+      value: 0.09,
+      unit: "ratio" as const,
+      requestedAt: makeIsoDate("2026-09-01"),
+      applicability: {
+        kind: "census-regions" as const,
+        regions: ["south" as const],
+      },
+      estimate: {
+        methodKey: "comparable-place-world-spread",
+        mean: 0.1,
+        spread: 0.02,
+        selectedDonorValue: 0.08,
+        selectionKey: "seeded-place-selection:fixture",
+        worldSeed: "fixture-world-seed",
+        donors: [
+          {
+            placeKey: "US-DC",
+            lawMeasureId: "measure_dc" as EntityId,
+            sourceRecordIds: ["record_dc" as EntityId],
+            value: 0.08,
+            unit: "ratio" as const,
+            region: "south" as const,
+          },
+        ],
+        donorReferences: [],
+      },
+    };
+    const stamp = lawEffectStamp(law, { ...context, termResolution: modeled })!;
+    expect(stamp.termResolution).toEqual(modeled);
+    expect(stamp.termResolution).not.toBe(modeled);
+    expect(isLawEffectStamp(JSON.parse(JSON.stringify(stamp)))).toBe(true);
+    expect(
+      isLawEffectStamp({
+        ...stamp,
+        termResolution: {
+          kind: "modeled",
+          termKey: "term",
+          value: 1,
+          unit: "ratio",
+          requestedAt: "2026-09-01",
+          estimate: { ...modeled.estimate, donors: [], donorReferences: [] },
+        },
+      }),
+    ).toBe(false);
+  });
   it("refuses unknown or future law and malformed saved dates/source identities", () => {
     expect(lawEffectStamp(null, context)).toBeNull();
     expect(
@@ -66,5 +130,81 @@ describe("saved law-effect attribution", () => {
       expect(isLawEffectStamp(invalid)).toBe(false);
     expect(isLawEffectStamp({})).toBe(false);
     expect(isLawEffectStamp(null)).toBe(false);
+  });
+});
+
+describe("standing service authority attribution", () => {
+  const authority = {
+    kind: "standing-program-appropriation" as const,
+    appropriationId: "appropriation_fixture" as EntityId,
+    programKey: "behavioral-health-crisis-response:us-nh",
+    jurisdictionId: context.jurisdictionId,
+    accountOrganizationId: "government_account_fixture" as EntityId,
+    publicGovernmentIdentity: {
+      kind: "jurisdiction" as const,
+      jurisdictionId: context.jurisdictionId,
+    },
+    availableFrom: makeIsoDate("2026-01-01"),
+    availableThrough: makeIsoDate("2026-12-31"),
+    sourceBasis: {
+      kind: "sourced" as const,
+      note: "Explicit source-reference shape fixture; no delivery asserted.",
+    },
+  };
+  const service: LawEffectContext = {
+    ...context,
+    effectKind: "service-delivered",
+    questionKey: null,
+    sourceRecordIds: [
+      authority.appropriationId,
+      "completed_activity_fixture" as EntityId,
+    ],
+  };
+  it("retains the actual appropriation identity without creating an enacted measure", () => {
+    const stamp = lawEffectStamp(authority, service)!;
+    expect(stamp.governingLawKey).toBe(authority.appropriationId);
+    expect(stamp.source).toBe("standing-appropriation");
+    expect(stamp.standingAuthority).toEqual(authority);
+    expect(stamp.standingAuthority).not.toBe(authority);
+    expect(stamp.standingAuthority!.sourceBasis).not.toBe(
+      authority.sourceBasis,
+    );
+    expect(stamp.questionKey).toBeNull();
+    expect(isLawEffectStamp(JSON.parse(JSON.stringify(stamp)))).toBe(true);
+  });
+  it("refuses unbacked identity, expired authority, wrong kind and invented question", () => {
+    expect(
+      lawEffectStamp(authority, { ...service, sourceRecordIds: [] }),
+    ).toBeNull();
+    expect(
+      lawEffectStamp(authority, {
+        ...service,
+        appliedAt: makeIsoDate("2027-01-01"),
+      }),
+    ).toBeNull();
+    expect(
+      lawEffectStamp(authority, {
+        ...service,
+        appliedAt: makeIsoDate("2025-12-31"),
+      }),
+    ).toBeNull();
+    expect(
+      lawEffectStamp(authority, { ...service, effectKind: "pay" }),
+    ).toBeNull();
+    expect(
+      lawEffectStamp(authority, { ...service, questionKey: "invented" }),
+    ).toBeNull();
+    expect(
+      lawEffectStamp(
+        {
+          ...authority,
+          sourceBasis: {
+            kind: "authored-fixture",
+            note: "Not sourced authority",
+          },
+        },
+        service,
+      ),
+    ).toBeNull();
   });
 });

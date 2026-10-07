@@ -1,0 +1,37 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/federal-data-privacy-law.test.ts src/simulation/privacy-initial-compliance-estimate.test.ts src/simulation/privacy-initial-compliance-writer.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-a28-writer.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/privacy-initial-compliance-estimate.test.ts (3 tests) 20ms
+ ✓ src/simulation/federal-data-privacy-law.test.ts (4 tests) 79ms
+ ❯ src/simulation/privacy-initial-compliance-writer.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/privacy-initial-compliance-writer.test.ts [ src/simulation/privacy-initial-compliance-writer.test.ts ]
+Error: Unknown chamber seats are unsupported in this fixture.
+ ❯ tests/fixtures/enacted-cost-law-fixture.ts:48:13
+     46|   const bodies = pack.chambers.map((chamber) => {
+     47|     if (chamber.seats.kind !== "known")
+     48|       throw new Error("Unknown chamber seats are unsupported in this f…
+       |             ^
+     49|     const members = Array.from({ length: chamber.seats.value }, (_, in…
+     50|       memberKey: `${chamber.chamberKey}-fixture-seat-${index + 1}`,
+ ❯ enactCostLawFixture tests/fixtures/enacted-cost-law-fixture.ts:46:32
+ ❯ enact src/simulation/privacy-initial-compliance-writer.test.ts:33:10
+ ❯ fixture src/simulation/privacy-initial-compliance-writer.test.ts:128:18
+ ❯ src/simulation/privacy-initial-compliance-writer.test.ts:245:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  7 passed (7)
+   Start at  09:34:50
+   Duration  25.47s (transform 39.87s, setup 42ms, import 27.85s, tests 99ms, environment 1ms)
+
+JSON report written to /tmp/team6-a28-writer.json

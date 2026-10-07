@@ -11,13 +11,16 @@
  * enacted in play that starts or ends a program starts or ends its benefits.
  *
  * Game rules, labeled:
+ * - An operative enacted law's final `replacement` share governs first.
+ *   Filed terms and invalid units or shares do not replace the rate below.
  * - The share replaced is the program's first-tier rate, the rate for lower
  *   weekly wages, read from each program's own benefit page
  *   (`state-paid-leave-benefits-2026.json`). A worker losing pay here holds a
  *   part-time job, whose weekly wage falls in that first tier.
  * - A program whose rate was not read, or one adopted in play, pays the
- *   average of the rates read, ESTIMATED FROM AVERAGE, moved by the world's
- *   seed within half the spread between them.
+ *   ranked average of the rates read, ESTIMATED FROM AVERAGE, using the
+ *   sourced region and household-income comparison with authored reciprocal
+ *   rank weights. The seed never chooses the rate.
  * - Each program's weekly maximum caps the benefit where it was read.
  * - Waiting period: ESTIMATED FROM THE MOST COMMON RULE. Most programs pay
  *   for the worker's own serious health condition only after 7 days, and pay
@@ -35,9 +38,10 @@ import {
   money,
   recordResourceTransferOutcome,
 } from "./resources";
-import { SeededRng } from "./rng";
+import { rankedPaidLeaveEstimate } from "./paid-leave-estimates";
 import { PAID_LEAVE_QUESTION, paidLeavePremium } from "./state-paid-leave-law";
 import { lawInForce } from "./governing/law-in-force";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import { lawEffectStamp } from "./law-effect-stamp";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
 import type { EntityId, IsoDate, World } from "./types";
@@ -75,23 +79,6 @@ export interface PaidLeaveBenefitRate {
   readonly estimatedFromAverage?: string;
 }
 
-let average: { mean: number; deviation: number; count: number } | null = null;
-
-function averageRate() {
-  if (average) return average;
-  const rates = Object.values(PLACES).flatMap((place) =>
-    place.status === "read" && place.lowWageReplacementPercent !== null
-      ? [place.lowWageReplacementPercent]
-      : [],
-  );
-  const mean = rates.reduce((sum, rate) => sum + rate, 0) / rates.length;
-  const deviation = Math.sqrt(
-    rates.reduce((sum, rate) => sum + (rate - mean) ** 2, 0) / rates.length,
-  );
-  average = { mean, deviation, count: rates.length };
-  return average;
-}
-
 /**
  * The benefit rate of the paid leave program collecting in `stateKey` on
  * `paidAt`, or null when no program is in force there.
@@ -105,20 +92,38 @@ export function paidLeaveBenefitRate(
   const maxWeekly = MAX_WEEKLY[stateKey] ?? null;
   const maxWeeklyMinor =
     maxWeekly === null ? null : Math.round(maxWeekly * 100);
+  const state = chiefExecutiveJurisdiction(stateKey.slice(3));
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (definition) => definition.stableKey === PAID_LEAVE_QUESTION,
+  );
+  const law =
+    state && proposition
+      ? lawInForce(world, state.id, proposition.id, paidAt, "enacted-only")
+      : null;
+  const replacement =
+    law?.answer === "yes"
+      ? readFinalEnactedLawTerm(world, law, {
+          questionKey: PAID_LEAVE_QUESTION,
+          termKey: "replacement",
+          unit: "ratio",
+          onDate: paidAt,
+        })
+      : null;
+  if (replacement && replacement.value >= 0 && replacement.value <= 1)
+    return { percent: replacement.value * 100, maxWeeklyMinor };
   const read = PLACES[stateKey];
   if (read?.status === "read" && read.lowWageReplacementPercent !== null)
     return { percent: read.lowWageReplacementPercent, maxWeeklyMinor };
-  const { mean, deviation, count } = averageRate();
-  const draw = new SeededRng(world.seed)
-    .fork(`state-paid-leave-benefit-estimate:${stateKey}`)
-    .next();
-  const percent = Math.min(100, Math.max(0, mean + (draw - 0.5) * deviation));
+  const { percent, references, method } = rankedPaidLeaveEstimate(
+    stateKey,
+    "low-wage-benefit",
+  );
   return {
     percent,
     maxWeeklyMinor,
     estimatedFromAverage:
-      `ESTIMATED FROM AVERAGE: the average lower-wage replacement rate of the ${count} state paid leave programs read, ` +
-      `${mean.toFixed(1)}%, moved to ${percent.toFixed(1)}% by the world's seed within half the spread between them. ` +
+      `ESTIMATED FROM AVERAGE: the average lower-wage replacement rate of the ${references.length} state paid leave programs read, ` +
+      `${percent.toFixed(1)}% using ${method}. ` +
       "Source: each program's benefit page (state-paid-leave-benefits-2026.json).",
   };
 }

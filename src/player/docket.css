@@ -198,7 +198,7 @@
   padding: 0.32rem 0.5rem;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 0.3rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--kit12-glass);
   color: inherit;
   font: inherit;
   text-align: left;
@@ -219,14 +219,14 @@
 .drafting-selected-crosslinks button:focus-visible,
 .drafting-selected-groups button:hover,
 .drafting-selected-groups button:focus-visible {
-  background: rgba(255, 255, 255, 0.09);
+  background: var(--kit12-glass);
 }
 
 .drafting-browser-mode-current,
 .drafting-subject-current,
 .drafting-shared-group-current {
   border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.11);
+  background: var(--kit12-glass);
 }
 
 .drafting-topic-breadcrumbs {
@@ -273,7 +273,7 @@
   padding: 0.45rem 0.55rem;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 0.3rem;
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--kit12-glass);
   color: inherit;
   font: inherit;
   text-align: left;
@@ -282,7 +282,7 @@
 
 .drafting-content-link:hover,
 .drafting-content-link:focus-visible {
-  background: rgba(255, 255, 255, 0.09);
+  background: var(--kit12-glass);
 }
 
 .drafting-content-link-location {
@@ -306,7 +306,7 @@
   margin: 0.65rem 0;
   padding: 0.55rem;
   border-inline-start: 2px solid rgba(255, 255, 255, 0.26);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--kit12-glass);
   font-size: 0.82rem;
 }
 
@@ -426,7 +426,7 @@
 }
 
 .drafting-row-changed td:last-child {
-  background: rgba(255, 235, 160, 0.13);
+  background: var(--kit12-glass);
 }
 
 @media (max-width: 46rem) {

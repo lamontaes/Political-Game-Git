@@ -27,7 +27,7 @@ import {
   programCommitments,
   programInstallments,
   recordProgramAppropriation,
-  PUBLIC_PROGRAM_HANDLERS,
+  publicProgramHandlers,
 } from "./public-program";
 import {
   decideGoverningMatter,
@@ -180,7 +180,7 @@ describe("ordinary local officeholder program matter", () => {
 
     const handlers = createFutureTransitionHandlerRegistry([
       ...stateGoverningHandlers(),
-      ...PUBLIC_PROGRAM_HANDLERS,
+      ...publicProgramHandlers(),
     ]);
     // The NPC's program deadline is at most 45 days; any immediate and
     // thirty-day installments owed by then use the same canonical clock.
@@ -265,7 +265,7 @@ describe("ordinary local officeholder program matter", () => {
 
     const handlers = createFutureTransitionHandlerRegistry([
       ...stateGoverningHandlers(),
-      ...PUBLIC_PROGRAM_HANDLERS,
+      ...publicProgramHandlers(),
     ]);
     const before = advanceWorld(
       deserializeWorld(serializeWorld(world)),

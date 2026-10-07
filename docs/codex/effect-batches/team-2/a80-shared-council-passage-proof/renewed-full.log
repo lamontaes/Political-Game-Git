@@ -1,0 +1,73 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+{"seed":"A80-town-passage-survivor","state":"US-PA","place":"Abbottstown, Pennsylvania","sponsor":"Noah Benton","measureId":"legislative-measure_6efe1626bd2f6c5a","eventId":"event_c1c1003cde86c6e9","summary":"ORD A80 fixture was not presented to the Mayor under this profile."}
+ ✓ src/simulation/governing/local-member-agenda-integration.test.ts > ordinary local member fiscal agenda > A80 records the actual town meeting's no-presentment outcome and keeps it after Continue 2439ms
+ ✓ src/simulation/governing/local-member-agenda-integration.test.ts > ordinary local member fiscal agenda > schedules the admitted city's own quarterly intake 4792ms
+ ✓ src/simulation/governing/local-member-agenda-integration.test.ts > ordinary local member fiscal agenda > files a reasoned plain bill without a numeric reference and saves the council decision 4462ms
+ ✓ src/simulation/governing/local-member-agenda-integration.test.ts > a council's plain position bills > keeps mapped and unsupported questions separate without inventing numeric terms 4578ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > covers all 56 real starting jurisdictions 1ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > respects both actual mayor player choices and records late inaction without a fabricated signature 314ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AL' 65ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AK' 61ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AS' 58ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AZ' 63ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AR' 55ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-CA' 58ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-CO' 53ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-CT' 55ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-DE' 55ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-DC' 65ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-FL' 52ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-GA' 60ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-GU' 53ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-HI' 52ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-ID' 50ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-IL' 52ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-IN' 50ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-IA' 56ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-KS' 44ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-KY' 48ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-LA' 47ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-ME' 56ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MD' 46ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MA' 50ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MI' 50ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MN' 51ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MS' 46ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MO' 47ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MT' 48ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NE' 63ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NV' 44ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NH' 54ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NJ' 54ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NM' 51ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NY' 46ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NC' 50ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-ND' 48ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MP' 63ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-OH' 48ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-OK' 47ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-OR' 47ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-PA' 53ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-PR' 47ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-RI' 49ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-SC' 52ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-SD' 50ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-TN' 49ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-TX' 49ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-VI' 46ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-UT' 51ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-VT' 50ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-VA' 49ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WA' 55ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WV' 45ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WI' 48ms
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WY' 48ms
+
+ Test Files  2 passed (2)
+      Tests  62 passed (62)
+   Start at  18:22:04
+   Duration  33.33s (transform 9.30s, setup 22ms, import 13.57s, tests 19.50s, environment 1ms)
+

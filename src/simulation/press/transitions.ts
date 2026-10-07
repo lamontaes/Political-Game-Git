@@ -25,8 +25,6 @@ import {
   pressOwnerReviewHandler,
 } from "./ownership";
 import { applyPendingDisasterHandlingReactions } from "../crisis/handling-reactions";
-import { advanceClemency } from "../justice/clemency";
-import { advanceProsecutions } from "../justice/prosecution";
 import { produceCaughtLyingLeads } from "./caught-lying";
 import { produceCampaignSpendingReports } from "./spending-reports";
 import { produceMogulOffers } from "../moguls";
@@ -50,9 +48,7 @@ function pressWeeklyHandler(
       produceMogulOffers(
         produceCampaignFinanceScrutiny(
           produceCampaignSpendingReports(
-            applyPendingDisasterHandlingReactions(
-              advanceClemency(advanceProsecutions(world)),
-            ),
+            applyPendingDisasterHandlingReactions(world),
           ),
         ),
       ),

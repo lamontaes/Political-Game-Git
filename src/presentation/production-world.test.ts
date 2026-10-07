@@ -6,17 +6,29 @@ import {
   activeWorkRelationshipsAt,
   ageOnDate,
   assertWorldIntegrity,
+  characterHistoryContextPersonId,
+  educationEnrollmentStateAt,
   createSyntheticPolicyCatalog,
   createSyntheticVitalityCatalog,
   createWorldId,
   personName,
   serializeWorld,
+  deserializeWorld,
   worldLineage,
 } from "../simulation";
 import type { World } from "../simulation";
-import { createNewGameWorld } from "./new-game";
+import { createNewGameWorld, otherParentQuestionApplies } from "./new-game";
+import type { NewGameOtherParent, NewGameSetup } from "./new-game";
+import {
+  decodeReplayDescriptor,
+  encodeReplayDescriptor,
+} from "./new-game-identity";
+import { observerPlace } from "./observer-world";
 import { openOrdinaryLife } from "./ordinary-life";
-import type { NewGameSetup } from "./new-game";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { drawFamilyShape } from "../simulation/family-shape";
+import { ensureTownEmployment } from "../simulation/living-world/town-employment";
+import { worldSeedFor } from "./new-game-identity";
 
 /**
  * Proof that a new game is a new game.
@@ -34,6 +46,7 @@ const BASE: Omit<NewGameSetup, "seed"> = {
   depth: "play-formative-years",
   startingLife: "ordinary-life",
   household: "shares-a-home",
+  familyShape: "one-parent",
   givenName: null,
   familyName: null,
 };
@@ -385,7 +398,224 @@ describe("The production world is not a renamed fixture", () => {
       );
       expect(enrollments.length, `${earlierLifeGenerationVersion}`).toBe(1);
       expect(enrollments[0]!.programKind).toBe("schooling:general");
-      expect(enrollments[0]!.endedAt ?? null).toBeNull();
+      // Still in school: its latest state is a current one, not a finished one.
+      expect(["expected", "active"]).toContain(
+        educationEnrollmentStateAt(child.world, enrollments[0]!.id)?.status,
+      );
     }
+  });
+});
+
+/**
+ * A148: whether the parent who is not raising the character is alive, living
+ * elsewhere or dead is the player's own fact, asked in setup. The world never
+ * draws it, so no setup records a death the player did not state. The place
+ * is drawn from all 56 by the seed.
+ */
+/** Stated one-parent families, in places drawn by seed. */
+const ONE_PARENT_SETUPS: readonly NewGameSetup[] = (() => {
+  const found: NewGameSetup[] = [];
+  for (let index = 0; index < 3; index += 1) {
+    const seed = `a148-other-parent-${index}`;
+    const setup: NewGameSetup = {
+      ...BASE,
+      seed,
+      placeKey: observerPlace(seed).key,
+      startAge: 6 + (index % 11),
+    };
+    if (otherParentQuestionApplies(setup)) found.push(setup);
+  }
+  return found;
+})();
+const DRAWN = ONE_PARENT_SETUPS.map(
+  (setup) => `${setup.placeKey} (seed ${setup.seed}, age ${setup.startAge})`,
+).join("; ");
+
+describe(`the other parent is the player's answer, never a draw: ${DRAWN}`, () => {
+  function oneParentSetups(count: number): NewGameSetup[] {
+    expect(ONE_PARENT_SETUPS.length).toBeGreaterThanOrEqual(count);
+    return ONE_PARENT_SETUPS.slice(0, count);
+  }
+
+  function otherParentRecords(world: World) {
+    const id = characterHistoryContextPersonId(
+      world,
+      "production:initial-life:nonresident-parent",
+    );
+    return {
+      parents: world.people[id] ? [id] : [],
+      deaths: world.history.personDeaths.filter((row) => row.personId === id),
+    };
+  }
+
+  it("records no death and no other parent when the player says nothing", () => {
+    for (const setup of oneParentSetups(3)) {
+      const { world } = createNewGameWorld(setup);
+      const where = `${setup.placeKey}, seed ${setup.seed}`;
+      expect(world.history.personDeaths, where).toHaveLength(0);
+      expect(otherParentRecords(world).parents, where).toEqual([]);
+    }
+  });
+
+  it("records exactly what the player said about the other parent", () => {
+    const [setup] = oneParentSetups(1);
+    const built = (otherParent: NewGameOtherParent) =>
+      createNewGameWorld({ ...setup!, otherParent });
+    const where = `${setup!.placeKey}, seed ${setup!.seed}`;
+
+    const living = built("living");
+    expect(otherParentRecords(living.world).parents, where).toEqual([]);
+    expect(living.world.history.personDeaths).toHaveLength(0);
+
+    const elsewhere = built("nonresident");
+    const away = otherParentRecords(elsewhere.world);
+    expect(away.parents, where).toHaveLength(1);
+    expect(away.deaths).toHaveLength(0);
+
+    const died = built("deceased");
+    const gone = otherParentRecords(died.world);
+    expect(gone.parents, where).toHaveLength(1);
+    expect(gone.deaths).toHaveLength(1);
+    expect(gone.deaths[0]!.causeKey).toBe("cause:unknown");
+    expect(died.world.history.personDeaths).toHaveLength(1);
+  });
+
+  it("asks only where one parent raises the child, and keeps the answer in a replay", () => {
+    // The stated household makes the question available before an answer.
+    const [setup] = oneParentSetups(1);
+    for (const otherParent of ["living", "nonresident", "deceased"] as const)
+      expect(otherParentQuestionApplies({ ...setup!, otherParent })).toBe(true);
+    expect(otherParentQuestionApplies({ ...setup!, startAge: 4 })).toBe(false);
+    expect(otherParentQuestionApplies({ ...setup!, startAge: 30 })).toBe(false);
+    const replayed = decodeReplayDescriptor(
+      encodeReplayDescriptor({ ...setup!, otherParent: "deceased" }),
+    );
+    expect(replayed?.otherParent).toBe("deceased");
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(setup!))?.otherParent,
+    ).toBeUndefined();
+  });
+
+  it("has no seeded pick for the other parent left in the world builder", () => {
+    const source = readFileSync(
+      resolve(
+        dirname(new URL(import.meta.url).pathname),
+        "production-world.ts",
+      ),
+      "utf8",
+    );
+    expect(source).not.toContain("opening-life-other-parent-v1");
+  });
+
+  it.each(["one-parent", "two-parents", "guardian"] as const)(
+    "records the stated %s household through canonical kinship and authority",
+    (familyShape) => {
+      const seed = `a148-stated-family-${familyShape}`;
+      const place = drawRandomPlace(seed);
+      const setup: NewGameSetup = {
+        ...BASE,
+        seed,
+        placeKey: place.key,
+        startKind: "custom",
+        household: "lives-alone",
+        familyShape,
+      };
+      const game = createNewGameWorld(setup);
+      const replayed = decodeReplayDescriptor(encodeReplayDescriptor(setup));
+      expect(replayed?.familyShape).toBe(familyShape);
+      expect(worldSeedFor(replayed!)).toBe(worldSeedFor(setup));
+      const saved = deserializeWorld(serializeWorld(game.world));
+      const parents = saved.history.kinshipRelationships.filter(
+        (row) =>
+          row.personIds.includes(game.playerPersonId) &&
+          row.kind === "lineal:parent-child",
+      );
+      expect(parents).toHaveLength(
+        familyShape === "two-parents"
+          ? 2
+          : familyShape === "one-parent"
+            ? 1
+            : 0,
+      );
+      const authorities = saved.history.childAuthorities.filter(
+        (row) => row.childPersonId === game.playerPersonId,
+      );
+      expect(authorities).toHaveLength(familyShape === "two-parents" ? 2 : 1);
+      expect(authorities[0]!.kind).toBe(
+        familyShape === "guardian"
+          ? "guardianship:ordinary"
+          : "parental:primary",
+      );
+      expect(
+        saved.history.events.some((row) => row.type === "life.family-estimate"),
+      ).toBe(false);
+      expect(otherParentQuestionApplies(setup)).toBe(
+        familyShape === "one-parent",
+      );
+      assertWorldIntegrity(saved);
+    },
+  );
+
+  it("keeps recorded source families and the estimated household choice through save/reload", () => {
+    const seed = "a148-recorded-family-opening";
+    const place = drawRandomPlace(seed);
+    const setup: NewGameSetup = {
+      ...BASE,
+      seed,
+      placeKey: place.key,
+      familyShape: undefined,
+    };
+    const game = createNewGameWorld(setup);
+    const saved = deserializeWorld(serializeWorld(game.world));
+    const event = saved.history.events.find(
+      (row) => row.type === "life.family-estimate",
+    )!;
+    expect(event).toBeDefined();
+    const estimate = JSON.parse(event.context.motivation!) as ReturnType<
+      typeof drawFamilyShape
+    >["estimate"];
+    expect(estimate.samples.length).toBeGreaterThan(0);
+    expect(event.summary).toContain("ESTIMATED FROM AVERAGE");
+    for (const sample of estimate.samples) {
+      expect(saved.people[sample.personId]!.birthDate).toBe(sample.birthDate);
+      expect(sample.parentIds.map((id) => saved.people[id]!.birthDate)).toEqual(
+        sample.parentBirthDates,
+      );
+      expect(
+        sample.kinshipIds.every((id) =>
+          saved.history.kinshipRelationships.some((row) => row.id === id),
+        ),
+      ).toBe(true);
+    }
+    // The source is the pre-opening cohort, not the newly estimated family.
+    const sourceKinship = saved.history.kinshipRelationships.filter(
+      (row) =>
+        !row.personIds.includes(game.playerPersonId) &&
+        estimate.samples.some((sample) => sample.kinshipIds.includes(row.id)),
+    );
+    const expected = drawFamilyShape(
+      {
+        ...saved,
+        history: { ...saved.history, kinshipRelationships: sourceKinship },
+      },
+      worldSeedFor(setup),
+    );
+    expect(event.context.choice).toBe(
+      expected.secondParent ? "two-parents" : "one-parent",
+    );
+    const parents = saved.history.kinshipRelationships.filter(
+      (row) =>
+        row.personIds.includes(game.playerPersonId) &&
+        row.kind === "lineal:parent-child",
+    );
+    expect(parents).toHaveLength(expected.secondParent ? 2 : 1);
+    expect(
+      ensureTownEmployment(
+        saved,
+        place.context.jurisdiction.id,
+        game.playerPersonId,
+      ).history.workRelationships,
+    ).toEqual(saved.history.workRelationships);
+    assertWorldIntegrity(saved);
   });
 });

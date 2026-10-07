@@ -5,9 +5,12 @@ import {
 } from "../../tests/fixtures/tax-policy-fixture";
 import { declarePersonalTaxOccurrence } from "../presentation/tax-work";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
-import { daysBetween } from "./dates";
+import { daysBetween, makeIsoDate } from "./dates";
 import { createPartnership } from "./life";
 import {
+  assertLawExposureIntegrity,
+  NON_MONEY_FELT_SIZE,
+  lawExposureFeltSize,
   lawExposuresFrom,
   lawExposuresOf,
   recordHeardExposure,
@@ -27,12 +30,28 @@ import {
   lawInterestGroup,
   lawInterestMembers,
   membersAgainstLaw,
+  officialViewReflectionEventKey,
 } from "./official-view-reads";
 import { joinLawInterestGroup } from "./living-world/law-interest-groups";
-import { recordRelationshipInteraction } from "./records";
+import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
+import type { EntityId, PrivateBeliefRecord, World } from "./types";
 import { advanceWorld, assertWorldIntegrity } from "./world";
+
+/** A person's saved views of officials, latest per official. */
+function officialViewsOf(world: World, personId: EntityId) {
+  const latest = new Map<EntityId, PrivateBeliefRecord>();
+  for (const belief of world.history.privateBeliefs)
+    if (belief.personId === personId && belief.subject?.kind === "official")
+      latest.set(belief.subject.personId, belief);
+  return [...latest.values()];
+}
+
+function officialOf(belief: PrivateBeliefRecord): EntityId {
+  if (belief.subject?.kind !== "official") throw new Error("Not an official.");
+  return belief.subject.personId;
+}
 
 function collected(married = false) {
   const fixture = enactedTaxFixture();
@@ -126,27 +145,87 @@ describe("a law reaches a person", () => {
         act.officialId !== spouseId &&
         (act.executive || knowsVote(later, exposure, act.officialId)),
     );
-    const views = (later.history.officialViews ?? []).filter(
-      (row) => row.personId === spouseId,
-    );
-    expect(views.map((row) => row.officialId).sort()).toEqual(
+    const views = officialViewsOf(later, spouseId);
+    expect(views.map(officialOf).sort()).toEqual(
       known.map((act) => act.officialId).sort(),
     );
     expect(views.length).toBeGreaterThan(0);
+    // The reflection is a dated event in the spouse's life.
+    const reflection = later.history.events.find(
+      (event) => event.stableKey === officialViewReflectionEventKey(exposure),
+    )!;
+    expect(reflection.involvedEntityIds).toContain(spouseId);
+    // No old reflection rows are written any more.
+    expect(later.history.officialViews ?? []).toEqual([]);
     for (const view of views) {
-      // Every one of them voted to make the tax law, so it is blame.
-      expect(view.act).toBe("voted-for");
-      expect(view.points).toBeLessThan(0);
-      expect(view.reasons[0]!.kind).toBe("family");
-      expect(viewOfOfficial(later, spouseId, view.officialId).points).toBe(
-        view.points,
+      // Every one of them voted to make the tax law, so it is blame, saved
+      // through the belief pipeline with its decision trace, which weighed
+      // what the law did to the household.
+      expect(view.position).toBe("oppose");
+      expect(view.formation.relevantEventIds).toContain(reflection.id);
+      if (
+        known.some(
+          (act) => !act.executive && act.officialId === officialOf(view),
+        )
+      ) {
+        expect(view.formation.eventKnowledgeIds.length).toBeGreaterThan(0);
+        for (const id of view.formation.eventKnowledgeIds) {
+          const knowledge = later.history.knowledge.find(
+            (row) => row.id === id,
+          )!;
+          expect(knowledge.personId).toBe(spouseId);
+          expect(knowledge.learnedAt <= view.formedAt).toBe(true);
+          expect(
+            later.history.legislativeActions!.some(
+              (action) =>
+                action.eventId === knowledge.eventId && action.voteId !== null,
+            ),
+          ).toBe(true);
+        }
+      }
+      const trace = later.history.decisionTraces.find(
+        (row) => row.id === view.formation.decisionTraceIds[0],
+      )!;
+      expect(trace.context.subject).toEqual({
+        kind: "entity:official",
+        key: `official:${officialOf(view)}`,
+        entityId: officialOf(view),
+      });
+      const law = trace.context.considerations.find(
+        (row) => row.stableKey === `factor:law-exposure:${exposure.id}`,
       );
+      expect(law).toMatchObject({ optionKey: "opposition" });
+      expect(law?.explanation).toMatch(/household/);
+      expect(trace.selectedOptionKey).toBe("opposition");
+      const read = viewOfOfficial(later, spouseId, officialOf(view));
+      expect(read.belief?.id).toBe(view.id);
+      expect(read.points).toBeLessThan(0);
     }
+    expect(officialViewsOf(later, personId)).toEqual([]);
     expect(
-      (later.history.officialViews ?? []).some(
-        (row) => row.personId === personId,
+      later.history.knowledge.filter(
+        (row) =>
+          row.personId === personId &&
+          row.stableKey.startsWith("official-view:vote-knowledge:"),
       ),
-    ).toBe(false);
+    ).toEqual([]);
+    const reloaded = deserializeWorld(serializeWorld(later));
+    expect(officialViewsOf(reloaded, spouseId)).toEqual(views);
+    expect(reloaded.history.knowledge).toEqual(later.history.knowledge);
+    const replayed = advanceWorld(
+      reloaded,
+      3,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(officialViewsOf(replayed, spouseId)).toEqual(views);
+    for (const knowledge of later.history.knowledge.filter((row) =>
+      row.stableKey.startsWith("official-view:vote-knowledge:"),
+    )) {
+      expect(
+        replayed.history.knowledge.filter((row) => row.id === knowledge.id),
+      ).toHaveLength(1);
+    }
+    assertWorldIntegrity(reloaded);
     assertWorldIntegrity(later);
   });
 
@@ -157,9 +236,8 @@ describe("a law reaches a person", () => {
       3,
       createCampaignElectionTransitionRegistry(),
     );
-    const view = (later.history.officialViews ?? []).find(
-      (row) => row.personId === spouseId,
-    )!;
+    const officialId = officialOf(officialViewsOf(later, spouseId)[0]!);
+    const view = { officialId };
     const town = later.people[spouseId]!.homeJurisdictionId!;
     const blamed = townSupportFromViews(
       later,
@@ -218,7 +296,7 @@ describe("a law reaches a person", () => {
         cadence: "monthly",
         sourceRecordId: row.sourceRecordId,
       }),
-    ).toThrow("Only an enacted law can reach a person.");
+    ).toThrow("Only a recorded law in force can reach a person.");
     expect(() =>
       recordLawExposure(world, {
         stableKey: "law-exposure-test:no-cadence",
@@ -292,12 +370,34 @@ describe("a law reaches a person", () => {
         (exposure) => exposure.relation === "friend",
       ),
     ).toEqual(heard);
-    const friendViews = (later.history.officialViews ?? []).filter((view) =>
-      heard.some((exposure) => exposure.id === view.exposureId),
+    const heardReflections = new Set(
+      later.history.events
+        .filter((event) =>
+          heard.some(
+            (exposure) =>
+              event.stableKey === officialViewReflectionEventKey(exposure),
+          ),
+        )
+        .map((event) => event.id),
+    );
+    const friendViews = later.history.privateBeliefs.filter(
+      (belief) =>
+        belief.subject?.kind === "official" &&
+        belief.formation.relevantEventIds.some((id) =>
+          heardReflections.has(id),
+        ),
     );
     for (const view of friendViews) {
-      expect(view.reasons[0]!.kind).toBe("friend");
-      expect(view.points).toBeLessThan(0);
+      // Heard from a friend, so blame held with less certainty than one's own.
+      expect(view.position).not.toBe("support");
+      const trace = later.history.decisionTraces.find(
+        (row) => row.id === view.formation.decisionTraceIds[0],
+      )!;
+      expect(
+        trace.context.considerations.some((row) =>
+          /someone the person knows/.test(row.explanation),
+        ),
+      ).toBe(true);
     }
     assertWorldIntegrity(later);
   });
@@ -336,17 +436,77 @@ describe("a law reaches a person", () => {
     expect(heardShare(close, heardFrom(close))).toBeGreaterThan(1 / 8);
   });
 
-  it("a close news follower knows a legislator's vote; someone who neither follows nor knows them does not", () => {
+  it("public recorded votes are knowable at reflection time; private votes require actual event knowledge", () => {
     const { world } = collected();
     const exposure = lawExposuresOf(world, world.personOrder[0]!)[0]!;
-    const official = world.personOrder[0]!;
-    for (const personId of world.personOrder) {
-      if (personId === official) continue;
-      const probe = { ...exposure, personId };
-      const follows = followsNewsClosely(world, personId);
-      const acquainted = peopleKnownTo(world, personId).includes(official);
-      expect(knowsVote(world, probe, official)).toBe(follows || acquainted);
-    }
+    const vote = world.history.legislativeVotes!.find(
+      (row) => row.purpose === "floor-stage",
+    )!;
+    const official = vote.dispositions.find(
+      (row) =>
+        row.personId &&
+        (row.disposition === "yea" || row.disposition === "nay"),
+    )!.personId!;
+    const action = world.history.legislativeActions!.find(
+      (row) => row.voteId === vote.id,
+    )!;
+    const event = world.history.events.find(
+      (row) => row.id === action.eventId,
+    )!;
+    expect(event.visibility).toBe("public");
+    const personId = world.personOrder.find((id) => id !== official)!;
+    const probe = { ...exposure, personId };
+    expect(knowsVote(world, probe, official)).toBe(
+      followsNewsClosely(world, personId) ||
+        peopleKnownTo(world, personId).includes(official),
+    );
+    const privateWorld = {
+      ...world,
+      history: {
+        ...world.history,
+        events: world.history.events.map((row) =>
+          row.id === event.id
+            ? { ...row, visibility: "private" as const }
+            : row,
+        ),
+      },
+    };
+    expect(knowsVote(privateWorld, probe, official)).toBe(false);
+    const informed = recordEventKnowledge(privateWorld, {
+      stableKey: "vote-knowledge-test:actual-event",
+      personId,
+      eventId: event.id,
+      learnedAt: world.currentDate,
+      believedSummary: event.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "public-record", reference: event.id },
+    });
+    expect(knowsVote(informed, probe, official)).toBe(true);
+    // Restore the actual public event for the canonical save proof: existing
+    // publications still reference this public roll call. The privacy variation
+    // above tests the reader only, not a rewritten historical save.
+    const publicInformed = {
+      ...informed,
+      history: { ...informed.history, events: world.history.events },
+    };
+    const reloaded = deserializeWorld(serializeWorld(publicInformed));
+    expect(knowsVote(reloaded, probe, official)).toBe(true);
+    const beforeVote = { ...informed, currentDate: makeIsoDate("2026-01-01") };
+    expect(knowsVote(beforeVote, probe, official)).toBe(false);
+  });
+
+  it("a cost with no money is felt at one estimated size, labeled PLACEHOLDER", () => {
+    expect(NON_MONEY_FELT_SIZE.basis).toBe("PLACEHOLDER");
+    expect(lawExposureFeltSize({ direction: "cost", amount: null }, 0)).toEqual(
+      { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true },
+    );
+    expect(lawExposureFeltSize({ direction: "none", amount: null }, 0)).toBe(
+      null,
+    );
+    expect(
+      lawExposureFeltSize({ direction: "cost", amount: money(100, "USD") }, 0),
+    ).toBe("unmeasured");
   });
 
   it("people a law cost a tenth of a month's pay form a group once six in town are hit", () => {
@@ -447,5 +607,106 @@ describe("a law reaches a person", () => {
       townSupportFromViews(blamed, town, officialId, blamed.currentDate),
     ).toBeCloseTo(viewsOnly - 0.05, 10);
     expect(groupsAgainst(grouped, town, officialId)).toHaveLength(0);
+  });
+});
+
+/** Writer-boundary fixtures only. These complete the histories this writer
+ * reads; they do not claim that a real paycheck or legislature produced them.
+ * Existing integration cases above cover the enacted collection route.
+ */
+describe("starting and passed wage laws share the exposure record", () => {
+  const questionKey = "us-policy-positions:labor-workforce.raise-minimum-wage";
+  const personId = "person_exposure-control" as EntityId;
+  const questionId = "proposition_exposure-wage" as EntityId;
+  const sourceId = "event_exposure-control-pay" as EntityId;
+  const passedId = "measure_exposure-control-wage" as EntityId;
+  function writerWorld(): World {
+    return {
+      id: "world_exposure-control",
+      currentDate: makeIsoDate("2027-01-20"),
+      people: { [personId]: { id: personId } },
+      control: { kind: "person", personId },
+      policyCatalog: {
+        propositions: {
+          [questionId]: { id: questionId, stableKey: questionKey },
+        },
+      },
+      history: {
+        nextSequence: 2,
+        events: [],
+        resourcePositions: [],
+        resourceFlows: [],
+        resourceTransferOutcomes: [],
+        legislativeMeasures: [],
+        legislativeEnactments: [
+          {
+            measureId: passedId,
+            outcome: "enacted",
+            resolvedAt: makeIsoDate("2027-01-01"),
+          },
+        ],
+      },
+    } as unknown as World;
+  }
+  function input(measureId: EntityId) {
+    return {
+      stableKey: "exposure-control:pay",
+      personId,
+      measureId,
+      channel: "paycheck" as const,
+      direction: "gain" as const,
+      amount: money(100, "USD"),
+      cadence: "monthly" as const,
+      sourceRecordId: sourceId,
+      includeFamily: false,
+    };
+  }
+  it.each(["US-AK", "US-CA", "US-MA", "US-OR", "US-WA"])(
+    "%s records the same fields and validates both origins without a fake enactment",
+    (placeKey) => {
+      const world = writerWorld();
+      const startingId = `starting-law:${placeKey}:${questionKey}` as EntityId;
+      const starting = recordLawExposure(world, input(startingId));
+      const passed = recordLawExposure(world, input(passedId));
+      const startingRow = lawExposuresOf(starting, personId)[0]!;
+      const passedRow = lawExposuresOf(passed, personId)[0]!;
+      expect(startingRow).toEqual({ ...passedRow, measureId: startingId });
+      expect(starting.history.legislativeEnactments).toBe(
+        world.history.legislativeEnactments,
+      );
+      expect(recordLawExposure(starting, input(startingId))).toBe(starting);
+      for (const recorded of [starting, passed]) {
+        expect(() =>
+          assertLawExposureIntegrity(recorded, new Set([sourceId])),
+        ).not.toThrow();
+        const restored = JSON.parse(JSON.stringify(recorded)) as World;
+        expect(() =>
+          assertLawExposureIntegrity(restored, new Set([sourceId])),
+        ).not.toThrow();
+        expect(
+          recordLawExposure(
+            restored,
+            input(recorded === starting ? startingId : passedId),
+          ),
+        ).toBe(restored);
+      }
+    },
+  );
+  it("rejects an invented place, unknown question and a law before its starting date", () => {
+    const world = writerWorld();
+    for (const id of [
+      `starting-law:US-ZZ:${questionKey}`,
+      "starting-law:US-AK:invented-question",
+    ])
+      expect(() => recordLawExposure(world, input(id as EntityId))).toThrow(
+        "recorded law in force",
+      );
+    const before = { ...world, currentDate: makeIsoDate("1900-01-01") };
+    expect(() =>
+      recordLawExposure(
+        before,
+        input(`starting-law:US-AK:${questionKey}` as EntityId),
+      ),
+    ).toThrow("recorded law in force");
   });
 });
