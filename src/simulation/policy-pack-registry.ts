@@ -14,6 +14,10 @@ import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibili
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import { DEVELOPMENT_INCENTIVE_AWARD_ROW } from "./law-consequences/modules/lw08-development-incentive-cap/rows";
 import {
+  SNAP_PARTICIPATION_ROW,
+  SNAP_WORK_REQUIREMENT_QUESTION,
+} from "./law-consequences/modules/snap-participation";
+import {
   loadPolicyPacks,
   type PolicyPack,
   type PolicyRegistry,
@@ -57,6 +61,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;
+      const snap = key === SNAP_WORK_REQUIREMENT_QUESTION;
       const developmentIncentive =
         key ===
         "us-policy-positions:business-commerce.cap-development-incentives";
@@ -66,6 +71,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
         service.length === 0 &&
         !rent &&
         !tuition &&
+        !snap &&
         !developmentIncentive
       )
         return row;
@@ -84,6 +90,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(row.consequences ?? []),
           ...(rent ? [RENT_STABILIZATION_ROW] : []),
           ...(tuition ? [TUITION_FREEZE_ROW] : []),
+          ...(snap ? [SNAP_PARTICIPATION_ROW] : []),
           ...(developmentIncentive ? [DEVELOPMENT_INCENTIVE_AWARD_ROW] : []),
           ...(coverage ? [coverage] : []),
           ...(pay ? [pay] : []),
