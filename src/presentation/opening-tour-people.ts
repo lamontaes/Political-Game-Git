@@ -43,14 +43,14 @@ export function openingFamilyPeople(
 /**
  * The members on a chamber's floor (OW-15), read from its seat roster: the
  * player's own members first, then the rest of the home state's delegation,
- * then every other member in seat order, up to the number the room can hold.
+ * then every other member in seat order. The room places what fits and keeps
+ * the rest in its existing overflow list.
  */
 export function chamberFloorPeople(
   chamber: OrientationChamber | null | undefined,
   options: {
     readonly first?: readonly OrientationPerson[];
     readonly homeUsps?: string | null;
-    readonly limit: number;
   },
 ): readonly OrientationPerson[] {
   const members = (chamber?.roster ?? []).flatMap((row) =>
@@ -69,13 +69,11 @@ export function chamberFloorPeople(
     ...members.filter(({ row }) => !home(row)).map(({ person }) => person),
   ];
   const seen = new Set<EntityId>();
-  return ordered
-    .filter((person) => {
-      if (seen.has(person.personId)) return false;
-      seen.add(person.personId);
-      return true;
-    })
-    .slice(0, options.limit);
+  return ordered.filter((person) => {
+    if (seen.has(person.personId)) return false;
+    seen.add(person.personId);
+    return true;
+  });
 }
 
 /**

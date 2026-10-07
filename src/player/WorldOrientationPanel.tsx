@@ -391,11 +391,6 @@ export function WorldOrientationPanel({
     return chamberFloorPeople(chamber, {
       first: cast.map((actor) => actor.person),
       homeUsps: homeStateUsps,
-      // The open floor's spots; the dais and the chair wait for their roles.
-      limit:
-        backdropStaging(backdrop.place)?.spots.filter(
-          (spot) => (spot.role ?? "general") === "general",
-        ).length ?? 0,
     });
   }, [step?.key, steps, backdrop, cast, homeStateUsps]);
   const householdRoster = useMemo(
@@ -437,12 +432,12 @@ export function WorldOrientationPanel({
         )
         .map((actor) => actor.person.personId),
     );
-    if (step?.key === "legislature")
-      for (const member of sceneRoster.slice(
-        0,
-        openingLegislaturePeople(world, personId).length,
-      ))
-        memberIds.add(member.personId);
+    if (
+      step?.key === "year" ||
+      step?.key === "congress" ||
+      step?.key === "legislature"
+    )
+      for (const member of sceneRoster) memberIds.add(member.personId);
     return openingTourStagedPeople(
       world,
       personId,

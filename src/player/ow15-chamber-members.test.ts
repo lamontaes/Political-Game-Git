@@ -60,11 +60,7 @@ describe("chambers seat their members", { timeout: 300_000 }, () => {
         {
           furniture: true,
           faceRoom: true,
-          memberIds: new Set(
-            openingLegislaturePeople(world, playerPersonId).map(
-              (member) => member.personId,
-            ),
-          ),
+          memberIds: new Set(stateMembers.map((member) => member.personId)),
         },
       );
       expect(stateChamber.length).toBeGreaterThanOrEqual(6);
@@ -82,8 +78,10 @@ describe("chambers seat their members", { timeout: 300_000 }, () => {
         const limit = backdropStaging(room)!.spots.filter(
           (spot) => (spot.role ?? "general") === "general",
         ).length;
-        const members = chamberFloorPeople(chamber, { homeUsps: usps, limit });
-        expect(members.length, chamberKey).toBe(limit);
+        const members = chamberFloorPeople(chamber, { homeUsps: usps });
+        expect(members.length, chamberKey).toBe(
+          chamber?.roster.filter((row) => row.person !== null).length,
+        );
         const staged = openingTourStagedPeople(
           world,
           playerPersonId,
@@ -97,6 +95,10 @@ describe("chambers seat their members", { timeout: 300_000 }, () => {
         // Every open-floor spot but at most one is filled; before OW-15 the
         // floor held one standing figure.
         expect(staged.length, room).toBeGreaterThanOrEqual(limit - 1);
+        expect(staged.overflow.length, room).toBeGreaterThan(0);
+        expect(staged.length + staged.overflow.length, room).toBe(
+          members.length,
+        );
       }
       const living = projectOpeningFamily(world, playerPersonId);
       const expected = [
@@ -155,12 +157,12 @@ describe(
         const limit = backdropStaging(room)!.spots.filter(
           (spot) => (spot.role ?? "general") === "general",
         ).length;
-        const members = chamberFloorPeople(chamber, { homeUsps, limit });
+        const members = chamberFloorPeople(chamber, { homeUsps });
         expect(members, `${candidate.displayName} ${chamberKey}`).toHaveLength(
-          limit,
+          chamber?.roster.filter((row) => row.person !== null).length ?? 0,
         );
         expect(new Set(members.map((member) => member.personId)).size).toBe(
-          limit,
+          members.length,
         );
         const staged = openingTourStagedPeople(
           world,
@@ -173,6 +175,11 @@ describe(
           staged.length,
           `${candidate.displayName} ${room}`,
         ).toBeGreaterThanOrEqual(limit - 1);
+        expect(
+          staged.overflow.length,
+          `${candidate.displayName} ${room}`,
+        ).toBeGreaterThan(0);
+        expect(staged.length + staged.overflow.length).toBe(members.length);
       }
     });
   },
