@@ -38,6 +38,19 @@ function floorOf(spot: StagingSpot): string {
 }
 
 describe("people anchors on every place picture", () => {
+  it("anchors all county commission dais and pew seats", () => {
+    const seats = STAGES["county-commission"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(11);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(11);
+    expect(seats.filter((spot) => spot.group === "dais")).toHaveLength(5);
+    expect(seats.filter((spot) => spot.group === "spectator-pew")).toHaveLength(
+      6,
+    );
+    expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(6);
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
