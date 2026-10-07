@@ -6,6 +6,8 @@ import { concernForDistressEffects } from "./concern-for-distress";
 import { facetAcquisitiveEffects } from "./facet-acquisitive";
 import { facetAmbitiousEffects } from "./facet-ambitious";
 import { facetAnalyticalEffects } from "./facet-analytical";
+import { facetApprovalSeekingEffects } from "./facet-approval-seeking";
+import { facetArbitraryEffects } from "./facet-arbitrary";
 import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetAssertiveEffects } from "./facet-assertive";
 import { facetBluntEffects } from "./facet-blunt";
@@ -36,8 +38,10 @@ import { facetHumbleEffects } from "./facet-humble";
 import { facetImaginativeEffects } from "./facet-imaginative";
 import { facetIndependentEffects } from "./facet-independent";
 import { facetInformalEffects } from "./facet-informal";
+import { facetIntimacyGuardedEffects } from "./facet-intimacy-guarded";
 import { facetInventiveEffects } from "./facet-inventive";
 import { facetMeticulousEffects } from "./facet-meticulous";
+import { facetMischievousEffects } from "./facet-mischievous";
 import { facetNurturingEffects } from "./facet-nurturing";
 import { facetObservantEffects } from "./facet-observant";
 import { facetOpenMindedEffects } from "./facet-open-minded";
@@ -54,7 +58,9 @@ import { facetSlowToWarmUpEffects } from "./facet-slow-to-warm-up";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTactfulEffects } from "./facet-tactful";
+import { facetTeasingEffects } from "./facet-teasing";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
+import { facetVindictiveEffects } from "./facet-vindictive";
 import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetZealousEffects } from "./facet-zealous";
 import { initialTrustEffects } from "./initial-trust";
@@ -78,6 +84,8 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetAcquisitiveEffects,
     ...facetAmbitiousEffects,
     ...facetAnalyticalEffects,
+    ...facetApprovalSeekingEffects,
+    ...facetArbitraryEffects,
     ...facetArgumentativeEffects,
     ...facetAssertiveEffects,
     ...facetBluntEffects,
@@ -108,8 +116,10 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetImaginativeEffects,
     ...facetIndependentEffects,
     ...facetInformalEffects,
+    ...facetIntimacyGuardedEffects,
     ...facetInventiveEffects,
     ...facetMeticulousEffects,
+    ...facetMischievousEffects,
     ...facetNurturingEffects,
     ...facetObservantEffects,
     ...facetOpenMindedEffects,
@@ -126,7 +136,9 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetStudiousEffects,
     ...facetSupportiveEffects,
     ...facetTactfulEffects,
+    ...facetTeasingEffects,
     ...facetTenderHeartedEffects,
+    ...facetVindictiveEffects,
     ...facetWorkCenteredEffects,
     ...facetZealousEffects,
     ...initialTrustEffects,
