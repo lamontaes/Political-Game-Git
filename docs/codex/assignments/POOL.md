@@ -996,7 +996,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | CO-4 | Sheriff and district attorney do recorded work. Owner H1 after its rescue list, else anyone. | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | H1 after rescue or anyone |
 | CO-5 | County budget and tax hearings. Owner M1 after its rescue list, else anyone.                 | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3033 | done   | M1 after rescue or anyone |
 | CO-6 | County powers cells. Owner L2 after CO-1, else anyone.                                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | L2 after CO-1 or anyone   |
-| CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | H2 with ART-1             |
+| CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #1829 | done   | H2 with ART-1             |
 | CO-8 | County court. Anyone (same as SC-2).                                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | anyone                    |
 | CO-9 | The fair, roads and the health department as county services. Anyone, after CO-5.            | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | anyone after CO-5         |
 
