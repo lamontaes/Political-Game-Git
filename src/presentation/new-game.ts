@@ -143,7 +143,7 @@ export type OpeningDataVersion =
 
 export interface NewGameSetup {
   /** Optional on old descriptors; it does not participate in world identity. */
-  readonly playSettings?: Partial<Pick<PlaySettings, "saves">>;
+  readonly playSettings?: Partial<Pick<PlaySettings, "saves" | "pressPremise">>;
   readonly startKind?: NewGameStartKind;
   readonly placeKey: string;
   readonly startAge: number;
@@ -725,6 +725,7 @@ function finishNewGameConstruction(
       ...agency.world,
       playSettings: initialPlaySettings({
         saves: setup.playSettings?.saves,
+        pressPremise: setup.playSettings?.pressPremise,
       }),
     },
     playerPersonId: built.playerPersonId,
