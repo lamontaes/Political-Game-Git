@@ -5944,13 +5944,24 @@
           "id": "governor-office:spot:1"
         },
         {
+          "x": 77,
+          "y": 56.1,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56.1,
+          "seatY": 45.5,
+          "group": "sofa",
+          "role": "general",
+          "id": "governor-office:spot:10"
+        },
+        {
           "x": 92,
           "y": 64.2,
           "pose": "sit",
           "facing": "left",
           "depth": 64.2,
           "seatY": 51.5,
-          "group": "sofa",
+          "group": "armchair",
           "role": "general",
           "id": "governor-office:spot:2"
         },
