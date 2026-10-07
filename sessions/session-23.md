@@ -1,4 +1,4 @@
-# Session 23 — Playtest leftovers: state screen, text in art, clothes
+# Session 23 — Playtest leftovers: the state screen in every state, text in art, clothes
 
 Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
 
@@ -6,7 +6,7 @@ Read RULES.md (same branch) first. The CTO updates this file during the day — 
 Finish the owner's Oct 6 playtest rows that are not done yet (OW-1/2/3/4/6/7/8/9/10/11/16/17/20/22 already merged yesterday — do NOT redo them).
 
 ## Milestones
-1. OW-12 Kentucky/state screen: every value readable (no dim text on light cards), the state's own facts from records, the capitol art without the tiny floating figure; shot from a new game in 3 random states, READY (SCREEN).
+1. OW-12 THE STATE SCREEN IN EVERY STATE (owner, 11:02 a.m.: 'it's every single state' — Kentucky was only his example): one screen component, fixed once for all 50 states, D.C. and the territories — every value readable (no dim text on light cards), each state's own facts from its records, its own capitol art without the tiny floating figure. Proof: a test that renders the screen for all 56 places and fails on any unreadable contrast or missing value, plus shots from new games in 3 random places. READY (SCREEN).
 2. OW-21 text inside paintings: find backdrops with readable words (e.g. 'Bills filed' on the office corkboard) and make those surfaces blank or live record surfaces; list every backdrop checked.
 3. OW-5 appearance: more outfit choices from the people pack, a shoe choice, and pant hems that break over the shoe instead of ending straight across (fix in the figure compositor or request art in the PR); shot of the appearance screen, READY (SCREEN).
 4. OW-14 follow-up: chamber members must render seated (not cut off above the chest) — coordinate with Session 21's #3021.

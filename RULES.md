@@ -31,6 +31,7 @@ Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Se
 - Load check: `node --import tsx -e "import('./src/main.tsx')"` must not throw on a missing import.
 
 ## Content rules (owner's standing orders; breaking one is a send-back)
+- The owner's screenshots and examples name one place (e.g. Kentucky) only as an EXAMPLE. Every fix covers all 56 places (50 states, D.C., territories) through one code path, with a test that runs all 56. Never scope a fix to the place in the screenshot.
 - NO hand-written player text. Never add or reword a sentence the player can read (screens, menus, news, journal, dialogue, tooltips).
   Screens show record data, approved control names (docs/ui/kit13/APPROVED-2026-10-04.md), and English-engine output only.
   REMOVING hand-written text is always allowed and wanted. Never replace removed text with new wording.
