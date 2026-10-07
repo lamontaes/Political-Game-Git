@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 /*
  * The repository's scripts load the simulation through tsx, not through
  * vitest, and the two resolve an import cycle differently. On 2026-09-22 an
- * import from relationship-absence.ts into people-contact.ts closed a cycle
+ * import from relationship-absence.ts into relationship-contact.ts closed a cycle
  * through queries.ts; every unit test still passed, while
  * `npm run corpus:prose` crashed with "__name is not a function" and no branch
  * could regenerate the prose inventory. This loads the whole simulation the

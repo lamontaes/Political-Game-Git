@@ -30,6 +30,7 @@ const DEVELOPER_WORDS = [
 type Part = {
   key: string;
   move: string;
+  kind: "spoken" | "written";
   text: string;
   shippable: boolean;
   source: { document: string; date: string; granule?: string; url: string };
@@ -68,8 +69,9 @@ describe("English part banks", () => {
         expect(new Set(texts).size).toBe(texts.length);
       });
 
-      it("gives every part a move type and an openable source", () => {
+      it("gives every part a move type, a kind and an openable source", () => {
         for (const part of bank.parts) {
+          expect(["spoken", "written"]).toContain(part.kind);
           expect(part.key.startsWith(`${bank.register}.${part.move}.`)).toBe(
             true,
           );

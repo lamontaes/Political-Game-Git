@@ -33,7 +33,7 @@ export interface MoneyLaws {
   /** Each law's reach across the town, largest first. */
   readonly town: readonly MoneyLawLine[];
   /** Said when neither list has a line. */
-  readonly empty: string | null;
+  readonly empty: boolean;
 }
 
 /** The player's most recent lines shown; older ones stay in the Journal. */
@@ -85,6 +85,11 @@ const TOWN_WORDS: Record<
     gain: (who) => `let ${who} go home while waiting for trial`,
     cost: (who) => `kept ${who} in jail while waiting for trial`,
     none: (who) => `changed how ${who} waited for trial`,
+  },
+  "voting-rule": {
+    gain: (who) => `gave ${who} the vote back when the sentence ended`,
+    cost: (who) => `kept ${who} from voting after the sentence ended`,
+    none: (who) => `changed when ${who} vote again after a sentence`,
   },
   "sentence-rule": {
     gain: (who) => `changed the jail term set for ${who}`,
@@ -226,9 +231,6 @@ export function projectMoneyLaws(
     placeName,
     yours,
     town,
-    empty:
-      yours.length === 0 && town.length === 0
-        ? `No new law has reached anyone's money in ${placeName} yet.`
-        : null,
+    empty: yours.length === 0 && town.length === 0,
   };
 }

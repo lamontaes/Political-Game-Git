@@ -51,17 +51,11 @@ describe("a dossier's own recorded history", () => {
       game.playerPersonId,
       otherPersonId,
     )!;
-    const none = projectPersonDossier(
-      { ...world, playSettings: { ...world.playSettings!, notes: "none" } },
-      game.playerPersonId,
-      otherPersonId,
-    )!;
 
     expect(full.reminders.map((reminder) => reminder.text)).toEqual([
       expect.stringContaining("carried the groceries home"),
     ]);
     expect(full.reminders[0]?.text).not.toContain("kindness");
-    expect(none.reminders).toEqual([]);
   });
 
   it("shows public votes involving the person, even when they are not a tenure focus", () => {

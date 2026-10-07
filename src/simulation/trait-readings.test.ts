@@ -5,7 +5,7 @@ import { loadTraitPacks, type DecisionDeclaration } from "./trait-packs";
 import { readTrait, registeredTraitConsiderations } from "./trait-readings";
 import { ensurePeopleTraitCatalog, personTrait } from "./people-traits";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
-import { contactBases } from "./people-contact";
+import { contactBases } from "./relationship-contact";
 import type { EntityId } from "./types";
 import {
   createNewGameWorld,
