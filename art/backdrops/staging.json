@@ -8544,9 +8544,33 @@
           "group": "table",
           "role": "general",
           "id": "rural-farmhouse:spot:8"
+        },
+        {
+          "x": 15.5,
+          "y": 56,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 56,
+          "clipBelowY": 41,
+          "seatY": 47,
+          "group": "table-far-side",
+          "role": "general",
+          "id": "rural-farmhouse:spot:9"
+        },
+        {
+          "x": 23.5,
+          "y": 56,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 56,
+          "clipBelowY": 41,
+          "seatY": 47,
+          "group": "table-far-side",
+          "role": "general",
+          "id": "rural-farmhouse:spot:10"
         }
       ],
-      "measuredFrom": "horizon from the counter run (far end foot 56.1 top 37.8, near foot 71.2 top 42.2 -> 30) and back door vs table (-> 34); back door 2.03 m foot 54.9 top 11 -> 0.95; far counter 0.9 m -> 0.85; near counter -> 0.82; table 0.75 m foot 65.2 top 44.2 -> 0.85; chair seat 0.45 m foot 60 top 49.5 -> 0.82",
+      "measuredFrom": "horizon from the counter run (far end foot 56.1 top 37.8, near foot 71.2 top 42.2 -> 30) and back door vs table (-> 34); back door 2.03 m foot 54.9 top 11 -> 0.95; far counter 0.9 m -> 0.85; near counter -> 0.82; table 0.75 m foot 65.2 top 44.2 -> 0.85; chair seat 0.45 m foot 60 top 49.5 -> 0.82; far-side table chairs placed from the native midday painting with approximately 2 percentage point visual uncertainty",
       "surfaceSlots": []
     },
     "school-board-room": {
