@@ -28,6 +28,7 @@ import { careerOfferAccepted } from "../simulation/career-path7";
 import { currentSchooling } from "../simulation/school-stages";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { openingWorkLocation } from "./opening-work-location";
+import { currentStorySceneSituation } from "./story-scene-day";
 
 /**
  * Today, as four answers rather than a stack of panels.
@@ -73,6 +74,7 @@ export interface TodayOverview {
 }
 
 export function projectToday(world: World, personId: EntityId): TodayOverview {
+  const situation = currentStorySceneSituation(world, personId);
   const day = projectOrdinaryDay(world, personId);
   const finished = completedActivityHere(world, personId);
   const scene = finished ? null : currentOpeningLifeScene(world, personId);
@@ -103,9 +105,12 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
   return {
     dateLabel: day.dateLabel,
     timeLabel: day.timeLabel,
-    placeName: finished
-      ? finished.location.label
-      : (openingLocation?.context.location?.label ?? day.placeName),
+    placeName:
+      situation?.status === "current"
+        ? situation.location!.label
+        : finished
+          ? finished.location.label
+          : (openingLocation?.context.location?.label ?? day.placeName),
     now:
       now ||
       (upcoming

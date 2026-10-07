@@ -20,7 +20,6 @@ import {
   personActionAvailabilityAt,
 } from "../vitality-integrity";
 import { recordWorldEvent } from "../world";
-import { playSettingsOf } from "../play-settings";
 import {
   PRESS_CONTRACT_VERSION,
   PRESS_POLICY_VERSION,
@@ -690,7 +689,6 @@ function ensureOutlet(
     resourceTier: plan.resourceTier,
     cadence: plan.cadence,
     acceptsDeepBackground: plan.acceptsDeepBackground,
-    editorialStandard: playSettingsOf(world).premises.press,
     establishedAt: world.currentDate,
     policyVersion: PRESS_POLICY_VERSION,
     provenanceNote: PROVENANCE_NOTE,
@@ -801,22 +799,13 @@ function hireReporter(
     beats: [...input.beats],
     geographyJurisdictionIds: [...input.geographyJurisdictionIds],
     startedAt: next.currentDate,
-    persistence: temperamentFor(input.outlet, input.rng.fork("persistence")),
-    conflict: temperamentFor(input.outlet, input.rng.fork("conflict")),
+    persistence: temperamentFor(input.rng.fork("persistence")),
+    conflict: temperamentFor(input.rng.fork("conflict")),
   }).world;
 }
 
-function temperamentFor(
-  outlet: MediaOutletRecord,
-  rng: SeededRng,
-): "low" | "medium" | "high" {
-  const range =
-    outlet.editorialStandard === "gentler"
-      ? (["low", "medium"] as const)
-      : outlet.editorialStandard === "tougher"
-        ? (["medium", "high"] as const)
-        : (["low", "medium", "high"] as const);
-  return rng.pick(range);
+function temperamentFor(rng: SeededRng): "low" | "medium" | "high" {
+  return rng.pick(["low", "medium", "high"] as const);
 }
 
 function firstStateJurisdiction(world: World): EntityId {

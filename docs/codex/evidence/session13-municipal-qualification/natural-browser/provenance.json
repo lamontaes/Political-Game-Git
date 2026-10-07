@@ -1,0 +1,44 @@
+{
+  "expectedIdentity": {
+    "workspace": "/workspace/session13-federal-reader",
+    "head": "4601bb033ac5942e2cc77de6ff711ff5674bc4f6",
+    "branch": "codex/session13-municipal-qualification-estimate",
+    "dirty": true,
+    "sourceDigest": "24c5d4930f116eafb77168375625459717c32f5bc7c1df885bfa73a021de8b57"
+  },
+  "served": {
+    "workspace": "/workspace/session13-federal-reader",
+    "head": "4601bb033ac5942e2cc77de6ff711ff5674bc4f6",
+    "branch": "codex/session13-municipal-qualification-estimate",
+    "dirty": true,
+    "sourceDigest": "24c5d4930f116eafb77168375625459717c32f5bc7c1df885bfa73a021de8b57",
+    "pid": 43295,
+    "runId": "session13-municipal-natural-saved-4601bb033"
+  },
+  "baseURL": "http://127.0.0.1:4193",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:4193",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": "off",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+        "screen": {
+          "width": 1920,
+          "height": 1080
+        },
+        "deviceScaleFactor": 1,
+        "isMobile": false,
+        "hasTouch": false,
+        "defaultBrowserType": "chromium"
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}

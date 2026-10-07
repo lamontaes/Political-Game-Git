@@ -23,6 +23,9 @@ import {
   scheduleCongressSitting,
   withSittingSeating,
 } from "./congress-chambers";
+import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
+import { legislativeSittingHandler } from "./legislative-sittings";
+import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import {
   applyInstitutionStep,
   recordGovernorDecisionOnMeasure,
@@ -230,18 +233,33 @@ export function congressSittingHandler(
     (measure) =>
       isCongressMeasure(measure) && !measurePosition(next, measure.id).terminal,
   );
+  const sittingRules = open[0]
+    ? legislativeRulePackForWorld(world, open[0].rulePackId)
+    : US_CONGRESS_RULE_PACK;
   withSittingSeating(world, () => {
-    for (const measure of open) {
-      const result = applyInstitutionStep(next, measure.id, (w, m) =>
-        presidentDesk(w, m),
-      );
-      if (result.kind === "applied" || result.kind === "executive") {
-        next = result.world;
-        steps += 1;
-      } else if (result.kind === "wait-until" && result.world) {
-        next = result.world;
-      }
-    }
+    next = legislativeSittingHandler(world, {
+      chambers: sittingRules.chambers,
+      session: sittingRules.session,
+      measureIds: open.map((measure) => measure.id),
+      eligible: (current, measureId) =>
+        (current.history.legislativeMeasures ?? []).some(
+          (measure) =>
+            measure.id === measureId &&
+            isCongressMeasure(measure) &&
+            !measurePosition(current, measureId).terminal,
+        ),
+      takeStep: (current, measureId) =>
+        applyInstitutionStep(current, measureId, (w, m) => presidentDesk(w, m)),
+      applyResult: (current, _measureId, result) => {
+        if (result.kind === "applied" || result.kind === "executive") {
+          steps += 1;
+          return result.world;
+        }
+        return result.kind === "wait-until" && result.world
+          ? result.world
+          : current;
+      },
+    });
   });
   const stillOpen = (next.history.legislativeMeasures ?? []).some(
     (measure) =>
