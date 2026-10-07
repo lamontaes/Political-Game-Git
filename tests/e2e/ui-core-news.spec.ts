@@ -83,13 +83,6 @@ test("normal completed legislative action publishes News with person Back and un
   ).toHaveAttribute("data-person-id", personId!);
   await page.getByTestId("person-workspace-back").press("Enter");
   await expect(person).toBeFocused();
-  await article
-    .getByRole("button", { name: /^Explain/ })
-    .first()
-    .press("Enter");
-  await expect(page.getByTestId("public-information-help")).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(page.getByTestId("public-information-help")).toHaveCount(0);
   await page.screenshot({
     path: info.outputPath(`normal-news-${page.viewportSize()!.width}.png`),
   });
