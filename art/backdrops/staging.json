@@ -1512,6 +1512,66 @@
           "depth": 72,
           "role": "general",
           "id": "county-commission:spot:9"
+        },
+        {
+          "x": 20,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 57,
+          "role": "audience",
+          "id": "county-commission:spot:10"
+        },
+        {
+          "x": 80,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 57,
+          "role": "audience",
+          "id": "county-commission:spot:11"
+        },
+        {
+          "x": 20,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 66,
+          "role": "audience",
+          "id": "county-commission:spot:12"
+        },
+        {
+          "x": 80,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 66,
+          "role": "audience",
+          "id": "county-commission:spot:13"
+        },
+        {
+          "x": 20,
+          "y": 85,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 85,
+          "seatY": 76,
+          "role": "audience",
+          "id": "county-commission:spot:14"
+        },
+        {
+          "x": 80,
+          "y": 85,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 85,
+          "seatY": 76,
+          "role": "audience",
+          "id": "county-commission:spot:15"
         }
       ],
       "measuredFrom": "pew end posts about 0.95 m: foot 85 top 57 (0.54), foot 75 top 52.5 (0.53), foot 66 top 49 (0.50); platform from the lectern on it: 1.15 m tall, foot 47.5 top 35.5 (0.6), but painted about 0.75 m wide at 6% of the width (0.86); 0.8 used so the speaker matches the commissioners; dais from the commission chairs, 0.65 m wide (5.5% of the width), back top 1.1 m above the hidden floor, top at y 27, so that floor is at y 43.5 behind the desk (top 33.5)",

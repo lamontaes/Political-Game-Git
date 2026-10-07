@@ -25,7 +25,7 @@ const STAGES = staging.places as unknown as Readonly<
   Record<string, PlaceStaging>
 >;
 const POSES = new Set(["stand", "sit", "podium", "lean"]);
-const FACINGS = new Set(["viewer", "left", "right"]);
+const FACINGS = new Set(["viewer", "left", "right", "away"]);
 const AUDIENCES = new Set(["viewer", "left", "right", "away"]);
 /** Places whose picture is a whole building or street from outside. */
 const EXTERIOR =
@@ -121,5 +121,22 @@ describe("people anchors on every place picture", () => {
           expect(spotDepth(near)).toBeGreaterThanOrEqual(spotDepth(far));
       }
     }
+  });
+
+  it("anchors all six county-commission audience benches without front-view substitution", () => {
+    const seats = backdropStaging("county-commission")!.spots.filter(
+      (spot) => spot.role === "audience" && spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(6);
+    expect(seats.map((spot) => spot.id)).toEqual([
+      "county-commission:spot:10",
+      "county-commission:spot:11",
+      "county-commission:spot:12",
+      "county-commission:spot:13",
+      "county-commission:spot:14",
+      "county-commission:spot:15",
+    ]);
+    expect(seats.every((spot) => spot.facing === "away")).toBe(true);
+    expect(seats.every((spot) => spot.seatY !== undefined)).toBe(true);
   });
 });
