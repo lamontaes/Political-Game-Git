@@ -1,0 +1,717 @@
+{
+  "id": "eng-20261007-ep1g",
+  "title": "Dialogue batch eng-20261007-ep1g (27 exchanges)",
+  "at": "2026-10-07T15:58:54.143Z",
+  "head": "0e543ad288a2b4c3efed8050d2f68c4d5a21603c",
+  "status": "open",
+  "variety": {
+    "items": 27,
+    "places": 4,
+    "kinds": {
+      "conversation": 6,
+      "legislation": 1,
+      "winning-and-losing": 1,
+      "judges": 2,
+      "news": 3,
+      "journal": 3,
+      "press": 2,
+      "hearing": 3,
+      "meeting": 3,
+      "minutes": 3,
+      "notices-and-screens": 0
+    },
+    "distinctSituationRelationship": 27
+  },
+  "absent": [
+    {
+      "kind": "notices-and-screens",
+      "reason": "no output, because no notices composer or bank exists yet. In these worlds: Granger, Wyoming: no notices bank or composer exists yet; James Town, Wyoming: no notices bank or composer exists yet; Frederiksted, U.S. Virgin Islands: no notices bank or composer exists yet; Isle of Palms, South Carolina: no notices bank or composer exists yet"
+    }
+  ],
+  "items": [
+    {
+      "i": 0,
+      "situation": "Your mom, Clara Stevens (54), in Granger, Wyoming, on January 14, 2026. You are 20.",
+      "prior": "You: Say hello",
+      "reply": "Your mom: Hi, Mira. How are you?",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core",
+        "life-reply.first-greeting:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 1,
+      "situation": "Your dad, Marshall Strickland (96), in Frederiksted, U.S. Virgin Islands, on January 5, 2026. You are 55.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your dad: Okay. What game?",
+      "part": "invitation.company-agree:core:okay-game",
+      "parts": [
+        "invitation.company-agree:core:okay-game"
+      ],
+      "composer": "invitationAgreeLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "invite-game-accept",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Frederiksted, U.S. Virgin Islands",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1g:2"
+    },
+    {
+      "i": 2,
+      "situation": "Your mom, Betty Martinez (102), in Isle of Palms, South Carolina, on January 5, 2026. You are 70.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your mom: Well, not right now. I feel like doing something else. Maybe another time.",
+      "part": "english.slow-opener:opener:well",
+      "parts": [
+        "english.slow-opener:opener:well",
+        "invitation.company-decline:core:not-right-now",
+        "invitation.company-decline:reason:something-else",
+        "invitation.company-decline:closer:another-time"
+      ],
+      "composer": "invitationDeclineLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Isle of Palms, South Carolina",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1g:3"
+    },
+    {
+      "i": 3,
+      "situation": "Your dad, Tobias Pittman (73), in James Town, Wyoming, on January 5, 2026. You are 34.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your dad: Me too. I've been meaning to make time to learn something.",
+      "part": "life-reply.tell-shared-plan:core:core",
+      "parts": [
+        "life-reply.tell-shared-plan:core:core",
+        "life-reply.tell-shared-plan:reason:continuation"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "James Town, Wyoming",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1g:1"
+    },
+    {
+      "i": 4,
+      "situation": "Your former classmate, Jonah Wiggins (20), in Granger, Wyoming, on January 14, 2026. You are 20.",
+      "prior": "",
+      "reply": "Your former classmate: Okay. What still needs doing?",
+      "part": "subject-reply.school_raise:core:warm-0-core-2",
+      "parts": [
+        "subject-reply.school_raise:core:warm-0-core-2",
+        "subject-reply.school_raise:reason:warm-0-reason-2"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-raise",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 5,
+      "situation": "Your former classmate, Farhan Maldonado (34), in James Town, Wyoming, on January 5, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your former classmate: Are you thinking of going?",
+      "part": "subject-reply.neighborhood_mention:core:warm-0-core-1",
+      "parts": [
+        "subject-reply.neighborhood_mention:core:warm-0-core-1"
+      ],
+      "composer": "composeSubjectReply (neighborhood) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "neighborhood-mention",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "James Town, Wyoming",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1g:1"
+    },
+    {
+      "i": 6,
+      "situation": "Reporter, Mark Olsen (62), in Isle of Palms, South Carolina, on January 5, 2026. You are 70.",
+      "prior": "",
+      "reply": "Reporter: Charleston County is governed by County board. What is established, and what is still open?",
+      "part": "press.reporter-known-topic:opener:development",
+      "parts": [
+        "press.reporter-known-topic:opener:development",
+        "press.reporter-known-topic:core:question"
+      ],
+      "composer": "composePressLine (reporter question) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview-question",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Isle of Palms, South Carolina",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1g:3"
+    },
+    {
+      "i": 7,
+      "situation": "You, in Frederiksted, U.S. Virgin Islands, on January 5, 2026. You are 55.",
+      "prior": "Reporter: What happened?",
+      "reply": "You: I can't answer that yet.",
+      "part": "press.answer-unknown:core:not-yet",
+      "parts": [
+        "press.answer-unknown:core:not-yet"
+      ],
+      "composer": "composePressLine (answer-unknown) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Frederiksted, U.S. Virgin Islands",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1g:2"
+    },
+    {
+      "i": 8,
+      "situation": "Judge Ian Holt sentences Alexandra Drake (20) for vandalism after a guilty plea. The judge chose probation. In Isle of Palms, South Carolina, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: They accepted responsibility by pleading guilty. It is their first offense. The law asks for a sentence no greater than necessary.",
+      "part": "justice.sentence:core:accepted-responsibility",
+      "parts": [
+        "justice.sentence:core:accepted-responsibility",
+        "justice.sentence:core:first-offense",
+        "justice.sentence:core:parsimony"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Isle of Palms, South Carolina",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1g:3"
+    },
+    {
+      "i": 9,
+      "situation": "Judge Victoria Little sentences Michael Stewart (45) for assault after a trial. The judge chose jail. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Judge: The offense was violent.",
+      "part": "justice.sentence:core:violent",
+      "parts": [
+        "justice.sentence:core:violent"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 10,
+      "situation": "A Civic Ledger story from California. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 3 people entered the race for U.S. Representative for California's 48th congressional district.",
+      "part": "news:story:event_ff921d7ea49b0992",
+      "parts": [
+        "news:story:event_ff921d7ea49b0992"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 11,
+      "situation": "A Wyoming Statehouse Review story from Wyoming. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Newspaper: The holder of Member of the Wyoming House of Representatives, District 1 is seeking another term. Victoria Mullins declined to comment.\n\nReported by Bo Collins for Wyoming Statehouse Review.",
+      "part": "news:story:event_58e2756740eed303",
+      "parts": [
+        "news:story:event_58e2756740eed303"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 12,
+      "situation": "A Civic Ledger story from Wyoming. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 1 person entered the race for Member of the Wyoming House of Representatives, District 9.",
+      "part": "news:story:event_6492193cee0fc396",
+      "parts": [
+        "news:story:event_6492193cee0fc396"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 13,
+      "situation": "The player's journal, the chapter \"At 20\" (2026). In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I lived in Granger, Wyoming. I began working as a production worker at Valdez Tool and Die. Somebody on the same schedule asked me to take their shift, saying it was for a funeral. I asked Travis Zimmerman whose funeral it was before giving an answer. I noted my reservations about the proposal privately. I left Travis Zimmerman alone with the chart and took my break. Became seriously unwell. I came down seriously ill with the illness going around Granger, which had just reached town. I met Spencer Reese through Jonah.",
+      "part": "journal:chapter:phase:chapter:20",
+      "parts": [
+        "journal:chapter:phase:chapter:20"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 14,
+      "situation": "The player's journal, the chapter \"2023\" (2023). In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I finished at North Granger High School in June 2023. My work as a store assistant at Granger Market ended.",
+      "part": "journal:chapter:year:2023",
+      "parts": [
+        "journal:chapter:year:2023"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 15,
+      "situation": "The player's journal, the chapter \"2021\" (2021). In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I began working as a store assistant at Granger Market.",
+      "part": "journal:chapter:year:2021",
+      "parts": [
+        "journal:chapter:year:2021"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 16,
+      "situation": "The filed local ordinance of ORD 1. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Bill text: An Ordinance concerning Meeting Room Evening Hours Ordinance",
+      "part": "bank:legislation.local-title.an-ordinance-concerning",
+      "parts": [
+        "bank:legislation.local-title.an-ordinance-concerning"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 17,
+      "situation": "The recorded passage of a measure on January 6, 2026. Move: carried. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Results: Without objection, the previous question is ordered on the resolution.",
+      "part": "bank:winning-losing.carried.without-objection-the-previous-question-is-ordered-on-the-resolution",
+      "parts": [
+        "bank:winning-losing.carried.without-objection-the-previous-question-is-ordered-on-the-resolution"
+      ],
+      "composer": "readWinningLosingBank in bank-english.ts",
+      "kind": "winning-and-losing",
+      "cell": {
+        "register": "everyday",
+        "kind": "winning-and-losing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 18,
+      "situation": "What a member says to the chair of Town of Granger, from its recorded seats. Move: opener. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I thank the ranking member for the time.",
+      "part": "bank:meeting.opener.i-thank-the-ranking-member-for-the-time",
+      "parts": [
+        "bank:meeting.opener.i-thank-the-ranking-member-for-the-time"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 19,
+      "situation": "What a member says to the chair of Town of Granger, from its recorded seats. Move: procedural. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I move to take the words down.",
+      "part": "bank:meeting.procedural.i-move-to-take-the-words-down",
+      "parts": [
+        "bank:meeting.procedural.i-move-to-take-the-words-down"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 20,
+      "situation": "What a member says to the chair of Town of Granger, from its recorded seats. Move: closer. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I have no further requests for time.",
+      "part": "bank:meeting.closer.i-have-no-further-requests-for-time",
+      "parts": [
+        "bank:meeting.closer.i-have-no-further-requests-for-time"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 21,
+      "situation": "Minutes wording for Town of Granger, from its recorded name, seats and today's date. Move: attendance. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Minutes: Moses Norman voted as an alternate member at this meeting.",
+      "part": "bank:minutes.attendance.member-voted-as-an-alternate-member-at-this-meeting",
+      "parts": [
+        "bank:minutes.attendance.member-voted-as-an-alternate-member-at-this-meeting"
+      ],
+      "composer": "readMinutesBank in bank-english.ts",
+      "kind": "minutes",
+      "cell": {
+        "register": "everyday",
+        "kind": "minutes",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 22,
+      "situation": "Minutes wording for Town of Granger, from its recorded name, seats and today's date. Move: vote. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Minutes: Voting for this action: Moses Norman, Brandon Clay and Christopher McLaughlin.",
+      "part": "bank:minutes.vote.voting-for-this-action-members",
+      "parts": [
+        "bank:minutes.vote.voting-for-this-action-members"
+      ],
+      "composer": "readMinutesBank in bank-english.ts",
+      "kind": "minutes",
+      "cell": {
+        "register": "everyday",
+        "kind": "minutes",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 23,
+      "situation": "Minutes wording for Town of Granger, from its recorded name, seats and today's date. Move: weighing. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "Minutes: The extent of these effects remains uncertain.",
+      "part": "bank:minutes.weighing.the-extent-of-these-effects-remains-uncertain",
+      "parts": [
+        "bank:minutes.weighing.the-extent-of-these-effects-remains-uncertain"
+      ],
+      "composer": "readMinutesBank in bank-english.ts",
+      "kind": "minutes",
+      "cell": {
+        "register": "everyday",
+        "kind": "minutes",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 24,
+      "situation": "A hearing exchange before Town of Granger, from its recorded seats. Move: thanks. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thanks, Mr. Chairman.",
+      "part": "bank:hearing.thanks.thanks-mr-chairman",
+      "parts": [
+        "bank:hearing.thanks.thanks-mr-chairman"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 25,
+      "situation": "A hearing exchange before Town of Granger, from its recorded seats. Move: answer. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "At the hearing: That is a great question.",
+      "part": "bank:hearing.answer.that-is-a-great-question",
+      "parts": [
+        "bank:hearing.answer.that-is-a-great-question"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    },
+    {
+      "i": 26,
+      "situation": "A hearing exchange before Town of Granger, from its recorded seats. Move: chair procedure. In Granger, Wyoming, on January 14, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Without objection, so ordered.",
+      "part": "bank:hearing.chair-procedure.without-objection-so-ordered",
+      "parts": [
+        "bank:hearing.chair-procedure.without-objection-so-ordered"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Granger, Wyoming",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "ep1g:0"
+    }
+  ]
+}
