@@ -782,7 +782,8 @@ function CalendarEntryRow({
         <span className="pg-calendar-copy">
           <strong>{entry.title}</strong>
           <small>
-            {calendarKindLabel(entry.kind)} · {entry.ownershipNote}
+            {calendarKindLabel(entry.kind)}
+            {entry.group === "chamber" ? " · Chamber agenda" : ""}
           </small>
         </span>
       </button>
@@ -1029,10 +1030,12 @@ export function CalendarWorkspaceSurface({
               {outcome}
             </p>
           ) : null}
-          {calendar.note ? (
-            <p className="game-note" data-testid="calendar-note">
-              {calendar.note}
-            </p>
+          {calendar.empty || calendar.chamberOnly ? (
+            <p
+              className="game-note"
+              data-testid="calendar-note"
+              data-problem={calendar.empty ? "calendar-empty" : "chamber-only"}
+            />
           ) : null}
           <div data-testid="calendar-upcoming">
             <h3 className="pg-calendar-heading">
@@ -1125,18 +1128,28 @@ function CalendarEntryDetail({
       <dt>What</dt>
       <dd>
         {entry.title} · {entry.kindLabel}
-        {entry.summary ? <span> {entry.summary}</span> : null}
       </dd>
-      <dt>How it was arranged</dt>
-      <dd data-testid="calendar-event-arrangement">
-        {entry.arrangementNote ? `${entry.arrangementNote} ` : ""}
-        {entry.ownershipNote}
+      <dt>On</dt>
+      <dd data-testid="calendar-event-arrangement" data-group={entry.group}>
+        {entry.group === "chamber" ? "Chamber agenda" : "Your calendar"}
       </dd>
+      {entry.inCharge ? (
+        <>
+          <dt>In charge</dt>
+          <dd data-testid="calendar-event-in-charge">{entry.inCharge}</dd>
+        </>
+      ) : null}
+      {entry.cameThrough.length > 0 ? (
+        <>
+          <dt>Through</dt>
+          <dd data-testid="calendar-event-through">
+            {entry.cameThrough.join(", ")}
+          </dd>
+        </>
+      ) : null}
       <dt>Who is going</dt>
       <dd data-testid="calendar-event-attendees">
-        {entry.attendeeNames.length > 0
-          ? entry.attendeeNames.join(", ")
-          : "Nobody is listed yet."}
+        {entry.attendeeNames.length > 0 ? entry.attendeeNames.join(", ") : null}
       </dd>
       <dt>Where</dt>
       <dd>{entry.locationLabel}</dd>
@@ -1430,9 +1443,11 @@ export function CommitmentSurface({
   );
   if (!entry) {
     return (
-      <p className="game-note" data-testid="commitment-missing">
-        This world does not hold that commitment, or it is not yours to see.
-      </p>
+      <p
+        className="game-note"
+        data-testid="commitment-missing"
+        data-problem="commitment-not-held"
+      />
     );
   }
   return (
@@ -1442,21 +1457,33 @@ export function CommitmentSurface({
         {formatMinute(entry.start.minuteOfDay)} –{" "}
         {formatMinute(entry.end.minuteOfDay)}
       </p>
-      {entry.arrangementNote ? (
-        <p data-testid="commitment-arrangement">{entry.arrangementNote}</p>
-      ) : null}
       <p className="pg-kicker" data-testid="commitment-kind">
         {entry.kindLabel}
       </p>
-      <p data-testid="commitment-ownership">{entry.ownershipNote}</p>
-      <p>{entry.summary}</p>
-      <p className="game-note">Where: {entry.locationLabel}</p>
+      <dl data-testid="commitment-ownership" data-group={entry.group}>
+        {entry.inCharge ? (
+          <>
+            <dt>In charge</dt>
+            <dd data-testid="commitment-arrangement">{entry.inCharge}</dd>
+          </>
+        ) : null}
+        {entry.cameThrough.length > 0 ? (
+          <>
+            <dt>Through</dt>
+            <dd>{entry.cameThrough.join(", ")}</dd>
+          </>
+        ) : null}
+        <dt>Where</dt>
+        <dd>{entry.locationLabel}</dd>
+      </dl>
       {/* The player is not "with" themself: only the others are named. */}
       {entry.attendeeNames.filter((name) => name !== "You").length > 0 ? (
-        <p className="game-note" data-testid="commitment-participants">
-          With {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
-          .
-        </p>
+        <dl className="game-note" data-testid="commitment-participants">
+          <dt>With</dt>
+          <dd>
+            {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
+          </dd>
+        </dl>
       ) : null}
     </div>
   );
