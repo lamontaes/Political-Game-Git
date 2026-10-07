@@ -4550,6 +4550,13 @@ export type ChildhoodRecordEntry =
       readonly grade: number;
     })
   | (ChildhoodRecordEntryBase & {
+      /** An adult responsible for the child made this recorded choice. */
+      readonly kind: "caregiver-choice";
+      readonly caregiverPersonId: EntityId;
+      readonly situationKey: LifeSituationKey;
+      readonly optionKey: string;
+    })
+  | (ChildhoodRecordEntryBase & {
       /** A controlled person's recorded formative faith choice. */
       readonly kind: "faith-choice";
       readonly congregationId: EntityId | null;
