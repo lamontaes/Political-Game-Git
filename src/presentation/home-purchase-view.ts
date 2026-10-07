@@ -10,21 +10,20 @@ import {
 } from "../simulation/home-purchase";
 import { householdMembershipsAt } from "../simulation/life-queries";
 import { outstandingDebtAt } from "../simulation/resource-queries";
-import type { EntityId, World } from "../simulation/types";
-import { dollars } from "./campaign-life-surface";
+import type { EntityId, MoneyAmount, World } from "../simulation/types";
 import { money } from "../simulation/resources";
 
 export type HomePurchaseView =
   | {
       readonly kind: "owns";
-      readonly headline: string;
-      readonly mortgageLine: string | null;
+      readonly mortgageLeft: MoneyAmount | null;
     }
   | {
       readonly kind: "can-buy" | "cannot-buy";
-      readonly headline: string;
-      readonly terms: string;
-      readonly reason: string | null;
+      readonly price: MoneyAmount;
+      readonly downPayment: MoneyAmount;
+      /** Null when the economy has no recorded mortgage rate yet. */
+      readonly monthlyPayment: MoneyAmount | null;
     };
 
 /**
@@ -49,16 +48,7 @@ export function projectHomePurchase(
         record.basisKind === MORTGAGE_BASIS,
     );
     const owed = obligation ? outstandingDebtAt(world, obligation.id) : null;
-    return {
-      kind: "owns",
-      headline: "Your household owns its home.",
-      mortgageLine:
-        owed === null
-          ? null
-          : owed.minorUnits > 0
-            ? `${dollars(owed)} is left on the mortgage.`
-            : "The mortgage is paid off.",
-    };
+    return { kind: "owns", mortgageLeft: owed };
   }
   const person = world.people[personId];
   // Nothing to offer a child, or anyone whose money the game does not hold:
@@ -74,11 +64,11 @@ export function projectHomePurchase(
   const reason = homePurchaseReason(world, personId);
   return {
     kind: reason ? "cannot-buy" : "can-buy",
-    headline: "Buy a home",
-    terms:
+    price: money(terms.priceMinor, currency),
+    downPayment: money(terms.downPaymentMinor, currency),
+    monthlyPayment:
       terms.monthlyPaymentMinor === null
-        ? `A house costs ${dollars(money(terms.priceMinor, currency))}. The down payment estimate is ${dollars(money(terms.downPaymentMinor, currency))}. A mortgage quote is unavailable.`
-        : `A house costs ${dollars(money(terms.priceMinor, currency))}. You pay ${dollars(money(terms.downPaymentMinor, currency))} down, then ${dollars(money(terms.monthlyPaymentMinor, currency))} a month on the mortgage instead of rent.`,
-    reason,
+        ? null
+        : money(terms.monthlyPaymentMinor, currency),
   };
 }

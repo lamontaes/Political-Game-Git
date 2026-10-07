@@ -51,7 +51,6 @@ export type MediaResourceTier = (typeof MEDIA_RESOURCE_TIERS)[number];
 
 export const MEDIA_CADENCES = ["continuous", "daily", "periodic"] as const;
 export type MediaCadence = (typeof MEDIA_CADENCES)[number];
-export type EditorialStandard = "gentler" | "realistic" | "tougher";
 export type ReporterTemperament = "low" | "medium" | "high";
 
 /** ALIVE44 R1–R8. */
@@ -381,8 +380,6 @@ export interface MediaOutletRecord extends PressRecordBase {
   readonly resourceTier: MediaResourceTier;
   readonly cadence: MediaCadence;
   readonly acceptsDeepBackground: boolean;
-  /** The outlet's recorded threshold, fixed when it is founded. */
-  readonly editorialStandard?: EditorialStandard;
   readonly establishedAt: IsoDate;
   readonly policyVersion: typeof PRESS_POLICY_VERSION;
   readonly provenanceNote: string;

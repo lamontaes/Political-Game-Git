@@ -1,23 +1,73 @@
-# Session 23 resume marker
+# Session 23 executive track
 
-Current work: Part 5, branch `codex/session23-p5-veto-results-and-items`, based on actual main `f88508186b78f526ecf89a420b5fb584171e039a`.
+Executives can prepare a dollar request without being forced to answer before
+time continues. The desk shows the requested program amount beside the
+legislature's different authorization, and both survive reload. Mayors already
+use the shared governing offices and bill desk. Appointment producers are still
+being completed; the natural mayor election journey remains incomplete.
 
-Completed parts: Part 1 #2286 and Part 2 #2360 merged. Part 4 dollar budget desk is published in #2448 at `9d61a47921f02d2ac6eef1a3708545f01453afec`; final new-game authored original-person governor browser proof passed. Part 6 one inbox is published in #2452 at `e07bb13bbb728c8dc3cf3fd1e44574f3b1abae6e`; both final new-game authored mayor desk routes passed. Whoever merges second preserves the other's shared briefing changes on rebase. No merge authorization assumed.
+## Current checked work
 
-Part 5 reuses `applyItemVetoes` and `decideGoverningMatter` (new optional fifth argument preserves the fourth bill-reasons argument). Player item choices are validated before any decision or signature. The actual saved player decision binds the snapshot and selected provision IDs; its items feed the same immutable item-veto records and enacted-law exclusions as NPC decisions. The pure results reader separates forecasts from actual override votes and actions. The additive scene offer supplies data and writer arguments; Session 4 retains central scene, English, attendance, knowledge and foreground hooks. A played veto scene is not yet verified.
+Parts 1 and 2 are merged: #2286 mayor governing offices and #2360 shared bill
+desk. The successful Part 2 controlled-seat proof honors the fourteen-day reading
+interval. Its initial authority/date refusal and failed receipt remain retained.
 
-Checks: final 17 focused tests passed in `/tmp/session23-p5-final-focused-tests.log`; configured typecheck passed in `/tmp/session23-p5-types-initial.log`; explicit changed TS/UI/test/fixture/browser roots passed in `/tmp/session23-p5-changed-types.log`, followed by updated/new test roots and final result/scene/UI roots in `/tmp/session23-p5-final-test-root-types.log` and `/tmp/session23-p5-final-roots-types.log`. Changed-file lint, formatting, release check and zero-dice passed. The initial Nevada fixture correctly refused its unscheduled 2026 regular session; preserve `/tmp/session23-p5-results-fixture-tests.log`. Nebraska and Indiana fixtures pass in `/tmp/session23-p5-results-fixture-tests-in.log`; do not bypass Nevada's calendar.
+Part 4 is published in #2448 at `83cc2f3bd437aece3368cf129370885fdac0ae06`,
+composed with main `e591ffc637d1f6db84d2ff920e8662ce123202ed` through merge
+`916e2e62f`. Dollar requests are optional, with no invented deadline. An earlier
+saved budget deadline cannot lapse the request. All 21 focused tests pass,
+including the unchanged priority test; strict changed source and test typing,
+lint, formatting, release range and zero-dice pass.
 
-Part 5 browser receipt: both routes passed in 13.0 minutes at clean pushed head `d516a3d67c36242d33b5bc9e03f3ca936331f1cc`. The expected and served digest is `316e46b7b3292230d5192d507299f2589af43d5bdcd939c46da1c939a9eb7552`. Uehling NE `3149425` reached January 14; Brookston IN `1808146` reached January 19 through the actual clock and reading rules. Both retain the original new-life player, an explicitly authored governor tenure, supplied actual member votes, and saved-record/reloaded-desk assertions. Portable screenshots, full record lines, source identity and check commands are in `docs/codex/session23-veto-desk-proof`. Adding this bundle changes no tested source or browser fixture. Exact central-scene handoff: `6012949967`; played new veto scene remains unverified. The shared IN override threshold records 50/25 for 100/50 elected; exact primary-majority rounding question is sent to Session 21 in `6013178706`. No threshold or assertion was altered to conceal it.
+The Terre Haute ordinary-life browser proof passed at that exact clean head:
+one test in 8.6 minutes, matching source identity, desk screenshot, actual saved
+record IDs and final reload equality. Its authored governor tenure and supplied
+legislative votes remain distinct from a natural election and NPC bargaining.
+The new evidence is in `docs/codex/session23-budget-desk-proof/`. Earlier captures,
+failed traces, the own priority regression and exact-main baselines remain intact.
 
-Next actions: finish the documentation-only bundle gate, commit/push the bundle, and publish Part 5 promptly with the passing source head and explicit scene/threshold limits. Then branch Part 3 from actual current main and implement its shared appointment/confirmation producer. Preserve all six existing parts and b17. Do not rerun whole-world year baselines or hold independent work for an ownership release.
+Part 4 now composes actual main `68c8a6630` at `d7ef7cc2f`, including the merged
+two-default press fixture repair. Configured typecheck, test imports and law-module
+drift check now pass; the earlier exact-main errors remain retained. Final lint,
+formatting, release range and zero-dice pass. Runtime, browser and configuration
+files match the passing screenshot head. The final hosted gate is pending; no
+merge is claimed.
 
-Remaining original part: Part 3 player appointments. Prepared, unapplied root patch `/tmp/session23-appointment-shortlist.patch`; primary source notes `/tmp/session23-part3-primary-source-notes.md`. Session 13 now publishes the contract in draft #2455 at exact `1bd8916f88d27e8a2d51053fe0f4eb6170188af8`: `citizenshipStatusOf`, requirement-only `citizenshipEligibility`, sole `recordCitizenshipTransition`, canonical private `Person.citizenshipStatuses`. Full contract and reader were read; no READY or merge is inferred. Consume its admitted producer, never create a transition merely to qualify a nominee and never treat private eligibility reads as another actor's knowledge. `citizenByBirthSince` supplies positive legacy birth evidence; null is unknown. Search at d516 confirmed no named governor-board incumbent/term/vacancy producer and no producer behind the existing clemency-board nomination admission. Build actual named-post/term and causal vacancy records, rather than treating missing incumbency as a vacancy. Keep protected Session 25 presidential-ruling/acting-president bodies and Session 5's newly owned state-legislature daily dispatch hunk/call site unchanged. Use existing confirmation vote admission and records, not a separate vote engine.
+## Next actions
 
-NPC actor-reasons and parks conservation work is retained separately on `codex/session23-p4-budget-and-program-decisions` at `d3927f574`. Actual Carson City IDs and funding stay unchanged. The actor's recorded understand-local-needs goal currently supports no action without parks capacity or need evidence; the protected operate-three-months assertion remains red. Owner question is open; continue source-backed reasons independently. Approved conservation correction must track actual chosen installment IDs, recipient receipts and exact balances, preserve both authored receipts, and never invent a million-dollar drain.
+Part 5 #2458 is now actually merged at `e597ec933608993a9ecfef6110b3f9b9f856a3c7`,
+from head `aaaf35a26537042eaab374ea600c0688b942346f`. Its item-veto admission,
+fourth bill-reasons argument, results reader and scene data adapter are preserved.
+The Uehling NE and Brookston IN browser receipts remain pinned to their actual
+checked head in `docs/codex/session23-veto-desk-proof/`; a played veto scene and
+Indiana majority-rounding owner question remain unresolved.
 
-The natural mayor journey remains distinct: actual main filing proof stopped at Jan31 → Feb1, with no win or desk proven. The original trace is preserved; compact read-only timing rows were sent to Session 5 in 6009241161. The full 303512ms route is not February-handler time. No rerun or timeout increase was used for diagnosis. The inherited Medicaid declaration mismatch and exact main/blob evidence were sent directly to Session 16 in 6009386466.
+Finish Part 4 composition with that actual main, checking both dollar-request
+and item-selection guards. Then land Part 4 and compose #2452 one executive inbox
+with actual main. The latest budget proof is historical until the new composition
+is checked. Next command: run the focused budget, bill and item-veto tests.
 
-b17 extends the existing six parts. Canonical all-56 authority profiles and executive-instrument law records are on main; consume them for remaining priorities, regulations/comments, emergencies, enforcement, successor orders and later public pressure. Do not create a parallel engine or rule table. The independent main three-year speed baseline failed with a 4GB Node heap before producing output; it is unverified. Follow CTO 6011778882: no whole-world year reruns, bigger heap or reduced-world fake pass.
+Part 3's appointment producer milestone is published at `86e93d591` on
+`codex/session23-p3-player-appointments`. It includes real board confirmation,
+player judicial choice and a private member-scoped vote evidence reader. Its
+controlled producer tests do not establish a played hearing or new-game desk.
+Continue cabinet depth and actual vacancy domains, canonical citizenship reader
+integration, the minor-party cap, scene data adapters and the new-game proof.
+The party-cap work is retained separately at `9f61922e1`: two focused minor-party
+and unknown-affiliation tests pass, along with changed-test typing, lint and
+formatting. Existing nomination fixtures without positive affiliation evidence
+remain red with their assertions intact. This is incomplete producer work.
 
-Board is #2424 because #2052 is full. Post only READY, exact BLOCKED plus meanwhile work, or direct owner questions. Latest Part 5 interface/proof question: 6012758799. Keep building; no ownership-release waiting.
+The natural mayor route remains separately blocked at the January 31 to February
+1 navigation failure; retained read-only timings were sent to Session 5. No win
+or natural mayor desk result is claimed. The separate program-assessment branch
+is `codex/session23-p4-budget-and-program-decisions`; its protected Carson City
+operating-choice assertion remains red. Preserve accounts, both authored
+receipts, actual matter IDs and the stronger installment conservation correction.
+
+Continue b17 through the existing shared instrument, authority profile and desk
+families. Bind regulatory delegation to the actual enacted law, then implement
+its remaining actor, comment, review, emergency and successor producers. Do not
+substitute a second engine or presumed vacancy. The mandatory three-year main
+speed baseline exhausted its original 4096 MB heap before year 1; the twenty
+percent comparison remains unverified and must not be repeated or weakened.

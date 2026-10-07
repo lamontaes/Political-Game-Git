@@ -60,107 +60,112 @@ function confer(
 }
 
 describe("nostalgic contact decision effect", () => {
-  it("makes two people differing only in nostalgia choose differently in a random new-game place", () => {
-    const rng = new SeededRng(SEED);
-    const state = rng.pick(lifePlaceStateIdentities());
-    const place = rng.pick(
-      searchLifePlaces("", Number.MAX_SAFE_INTEGER, {
-        stateJurisdictionKey: state.jurisdictionKey,
-      }),
-    );
-    const game = createNewGameWorld({
-      ...DEFAULT_NEW_GAME_SETUP,
-      startKind: "custom",
-      seed: SEED,
-      startAge: 40,
-      depth: "summarize-earlier-life",
-      questionnaire: "skipped",
-      placeKey: place.key,
-      household: "shares-a-home",
-    });
-    const people = Object.values(game.world.people)
-      .filter((person) => person.id !== game.playerPersonId)
-      .slice(0, 2);
-    expect(people).toHaveLength(2);
+  it("makes two people differing only in nostalgia choose differently in all 56 places", () => {
+    const states = lifePlaceStateIdentities();
+    expect(states).toHaveLength(56);
 
-    let world = confer(game.world, people[0]!.id, "facet-nostalgic:high");
-    world = confer(world, people[1]!.id, "facet-nostalgic:unmarked");
-
-    const choose = (personId: EntityId) => {
-      const sharedReason: DecisionConsideration = {
-        stableKey: `${SEED}:${personId}:busy`,
-        optionKey: "decline",
-        sourceType: "context:schedule",
-        direction: "supports",
-        importance: "slight",
-        confidence: "medium",
-        explanation: "They already have demands on their time.",
-        sourceRefs: [],
-      };
-      const considerations = [
-        sharedReason,
-        ...registeredTraitConsiderations(
-          world,
-          loadedTraitRegistry(),
-          personId,
-          `${SEED}:${personId}`,
-          CONTACT_ANSWER_DECISION.id,
-        ),
-      ];
-      return evaluateDecision(world, {
-        stableKey: `${SEED}:decision:${personId}`,
-        decisionType: "people.contact-answer",
-        actorPersonId: personId,
-        cutoff: {
-          asOfDate: world.currentDate,
-          historySequenceExclusive: world.history.nextSequence,
-        },
-        subject: {
-          kind: "context:life",
-          key: "meeting-request",
-          entityId: null,
-        },
-        options: [
-          { key: "accept", label: "Agree", description: "Meet that day." },
-          { key: "decline", label: "Say no", description: "Leave it." },
-        ],
-        constraints: [],
-        considerations,
-        perceptionIds: [],
-        randomness: "none",
-        retention: "ephemeral",
+    for (const state of states) {
+      const caseSeed = `${SEED}:${state.jurisdictionKey}`;
+      const rng = new SeededRng(caseSeed);
+      const place = rng.pick(
+        searchLifePlaces("", Number.MAX_SAFE_INTEGER, {
+          stateJurisdictionKey: state.jurisdictionKey,
+        }),
+      );
+      const game = createNewGameWorld({
+        ...DEFAULT_NEW_GAME_SETUP,
+        startKind: "custom",
+        seed: caseSeed,
+        startAge: 40,
+        depth: "summarize-earlier-life",
+        questionnaire: "skipped",
+        placeKey: place.key,
+        household: "shares-a-home",
       });
-    };
+      const people = Object.values(game.world.people)
+        .filter((person) => person.id !== game.playerPersonId)
+        .slice(0, 2);
+      expect(people).toHaveLength(2);
 
-    const nostalgic = choose(people[0]!.id);
-    const unmarked = choose(people[1]!.id);
-    console.info(
-      "facet-nostalgic two-person trace",
-      JSON.stringify({
-        seed: SEED,
-        worldId: world.id,
-        simulationDate: world.currentDate,
-        place: place.displayName,
-        people: [
-          {
-            name: personName(people[0]!),
-            nostalgia: "strong",
-            selected: nostalgic.selectedOptionKey,
-            considerations: nostalgic.context.considerations,
-          },
-          {
-            name: personName(people[1]!),
-            nostalgia: "unmarked",
-            selected: unmarked.selectedOptionKey,
-            considerations: unmarked.context.considerations,
-          },
-        ],
-      }),
-    );
+      let world = confer(game.world, people[0]!.id, "facet-nostalgic:high");
+      world = confer(world, people[1]!.id, "facet-nostalgic:unmarked");
 
-    expect(nostalgic.selectedOptionKey).toBe("accept");
-    expect(unmarked.selectedOptionKey).toBe("decline");
-    expect(nostalgic.context.randomness).toBe("none");
-    expect(unmarked.context.randomness).toBe("none");
-  }, 60_000);
+      const choose = (personId: EntityId) => {
+        const sharedReason: DecisionConsideration = {
+          stableKey: `${caseSeed}:${personId}:busy`,
+          optionKey: "decline",
+          sourceType: "context:schedule",
+          direction: "supports",
+          importance: "slight",
+          confidence: "medium",
+          explanation: "They already have demands on their time.",
+          sourceRefs: [],
+        };
+        const considerations = [
+          sharedReason,
+          ...registeredTraitConsiderations(
+            world,
+            loadedTraitRegistry(),
+            personId,
+            `${caseSeed}:${personId}`,
+            CONTACT_ANSWER_DECISION.id,
+          ),
+        ];
+        return evaluateDecision(world, {
+          stableKey: `${caseSeed}:decision:${personId}`,
+          decisionType: "people.contact-answer",
+          actorPersonId: personId,
+          cutoff: {
+            asOfDate: world.currentDate,
+            historySequenceExclusive: world.history.nextSequence,
+          },
+          subject: {
+            kind: "context:life",
+            key: "meeting-request",
+            entityId: null,
+          },
+          options: [
+            { key: "accept", label: "Agree", description: "Meet that day." },
+            { key: "decline", label: "Say no", description: "Leave it." },
+          ],
+          constraints: [],
+          considerations,
+          perceptionIds: [],
+          randomness: "none",
+          retention: "ephemeral",
+        });
+      };
+
+      const nostalgic = choose(people[0]!.id);
+      const unmarked = choose(people[1]!.id);
+      console.info(
+        "facet-nostalgic two-person trace",
+        JSON.stringify({
+          seed: caseSeed,
+          worldId: world.id,
+          simulationDate: world.currentDate,
+          place: place.displayName,
+          people: [
+            {
+              name: personName(people[0]!),
+              nostalgia: "strong",
+              selected: nostalgic.selectedOptionKey,
+              considerations: nostalgic.context.considerations,
+            },
+            {
+              name: personName(people[1]!),
+              nostalgia: "unmarked",
+              selected: unmarked.selectedOptionKey,
+              considerations: unmarked.context.considerations,
+            },
+          ],
+        }),
+      );
+
+      expect(nostalgic.selectedOptionKey).toBe("accept");
+      expect(unmarked.selectedOptionKey).toBe("decline");
+      expect(nostalgic.context.randomness).toBe("none");
+      expect(unmarked.context.randomness).toBe("none");
+    }
+  }, 300_000);
 });

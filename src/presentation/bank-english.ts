@@ -1,0 +1,293 @@
+/**
+ * Lines composed from the merged English part banks (schema english-parts/1).
+ * Every line is one bank part with its slots filled from a real World record;
+ * nothing is written here. A part is chosen by a stable hash of a record id,
+ * never by a roll. Pure: reads the world, never advances time or writes.
+ */
+import hearingBank from "../../data/english/parts/hearing.json" with { type: "json" };
+import legislationBank from "../../data/english/parts/legislation.json" with { type: "json" };
+import meetingBank from "../../data/english/parts/meeting.json" with { type: "json" };
+import minutesBank from "../../data/english/parts/minutes.json" with { type: "json" };
+import winningLosingBank from "../../data/english/parts/winning-losing.json" with { type: "json" };
+import type { EntityId, World } from "../simulation";
+import { personName, spokenDate } from "../simulation";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import {
+  organizationIdFor,
+  sittingLocalOfficers,
+} from "../simulation/living-world/local-government-seats";
+import { organizationNameAt } from "../simulation/living-world/party-registry";
+
+export interface EnglishPart {
+  readonly key: string;
+  readonly move: string;
+  readonly kind: string;
+  readonly text: string;
+  readonly shippable: boolean;
+}
+export interface EnglishBank {
+  readonly parts: readonly EnglishPart[];
+}
+
+export interface BankLine {
+  readonly kind: string;
+  /** Plain words describing the real record; never an id. */
+  readonly situation: string;
+  readonly text: string;
+  readonly partKey: string;
+}
+/** Up to three lines, or the reason naming the record that is missing. */
+export type BankReading = readonly BankLine[] | string;
+
+const PER_KIND = 3;
+
+/** A stable 32-bit string hash (FNV-1a). */
+export function stableHash(value: string): number {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash >>> 0;
+}
+
+function slotsOf(text: string): string[] {
+  return [...text.matchAll(/\{(\w+)\}/g)].map((match) => match[1]!);
+}
+
+export function composeFromBank(
+  bank: EnglishBank,
+  move: string,
+  facts: Record<string, string>,
+  pickKey: string,
+  /** Parts whose words claim something the records do not hold. */
+  excludes?: RegExp,
+): { text: string; partKey: string } | null {
+  const fits = bank.parts.filter(
+    (part) =>
+      part.shippable &&
+      !excludes?.test(part.text) &&
+      part.move === move &&
+      slotsOf(part.text).every((slot) => (facts[slot] ?? "").trim() !== ""),
+  );
+  if (fits.length === 0) return null;
+  const part = fits[stableHash(pickKey) % fits.length]!;
+  const text = part.text.replace(/\{(\w+)\}/g, (_m, slot: string) =>
+    facts[slot]!.trim(),
+  );
+  return { text, partKey: part.key };
+}
+
+const WEEKDAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+function weekdayOf(date: string): string {
+  const [y, m, d] = date.slice(0, 10).split("-").map(Number);
+  return WEEKDAYS[new Date(Date.UTC(y!, m! - 1, d!)).getUTCDay()]!;
+}
+
+function nameList(names: readonly string[]): string {
+  if (names.length <= 1) return names[0] ?? "";
+  return `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
+}
+
+interface LocalBody {
+  readonly organizationId: EntityId;
+  readonly bodyName: string;
+  readonly chair: string;
+  readonly members: readonly string[];
+}
+
+/** The player's own town (else county) governing body, from its recorded seats. */
+function localBody(world: World, playerId: EntityId): LocalBody | null {
+  const home = homeLocalGovernmentUnits(world, playerId);
+  for (const unit of [...home.municipal, ...home.counties]) {
+    const organizationId = organizationIdFor(world, unit);
+    if (!organizationId) continue;
+    const bodyName = organizationNameAt(world, organizationId);
+    const officers = sittingLocalOfficers(world, unit).filter(
+      (officer) => world.people[officer.personId],
+    );
+    if (!bodyName || officers.length === 0) continue;
+    const head =
+      officers.find((officer) => officer.presiding) ??
+      officers.find((officer) => officer.mayor);
+    let chair = "";
+    if (head) {
+      const person = world.people[head.personId]!;
+      const gender = person.identity?.gender;
+      chair =
+        gender === "female"
+          ? "Madam Chair"
+          : gender === "male"
+            ? "Mr. Chair"
+            : `Chair ${person.familyName}`;
+    }
+    return {
+      organizationId,
+      bodyName,
+      chair,
+      members: officers.map((officer) =>
+        personName(world.people[officer.personId]!),
+      ),
+    };
+  }
+  return null;
+}
+
+function lines(
+  kind: string,
+  situation: string,
+  bank: EnglishBank,
+  moves: readonly string[],
+  facts: Record<string, string>,
+  pickKey: string,
+  excludes?: RegExp,
+): BankLine[] {
+  const out: BankLine[] = [];
+  const seen = new Set<string>();
+  for (const move of moves) {
+    if (out.length >= PER_KIND) break;
+    const made = composeFromBank(
+      bank,
+      move,
+      facts,
+      `${pickKey}:${move}`,
+      excludes,
+    );
+    if (!made || seen.has(made.text)) continue;
+    seen.add(made.text);
+    out.push({
+      kind,
+      situation: `${situation} Move: ${move.replace(/-/g, " ")}.`,
+      ...made,
+    });
+  }
+  return out;
+}
+
+/**
+ * A local body's speech addresses its own members and its own business. Floor
+ * wording that names an office the body does not have (Senator, the
+ * gentleman yielding) or business it has not recorded (a bill, an amendment,
+ * a recess, a consent request) would claim what the records do not hold.
+ */
+const LOCAL_FLOOR_ONLY =
+  /\b(Senator|Senate|Congress\w*|House|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time|privileged|resolution)\b/i;
+
+const NO_BODY =
+  "no seated local governing body is recorded for the player's home town or county";
+
+function bodyFacts(world: World, body: LocalBody): Record<string, string> {
+  return {
+    body: body.bodyName,
+    chair: body.chair,
+    member: body.members[0] ?? "",
+    members: body.members.length > 1 ? nameList(body.members.slice(0, 3)) : "",
+    day: weekdayOf(world.currentDate),
+    date: spokenDate(world.currentDate),
+  };
+}
+
+export function readMeetingBank(world: World, playerId: EntityId): BankReading {
+  const body = localBody(world, playerId);
+  if (!body) return NO_BODY;
+  if (!body.chair)
+    return `${body.bodyName} has seated members but no recorded chair to address`;
+  const found = lines(
+    "meeting",
+    `What a member says to the chair of ${body.bodyName}, from its recorded seats.`,
+    meetingBank as EnglishBank,
+    ["opener", "procedural", "closer"],
+    bodyFacts(world, body),
+    body.organizationId,
+    LOCAL_FLOOR_ONLY,
+  );
+  return found.length ? found : "no meeting part fits the recorded facts";
+}
+
+export function readMinutesBank(world: World, playerId: EntityId): BankReading {
+  const body = localBody(world, playerId);
+  if (!body) return NO_BODY;
+  // Minutes record a meeting that happened: who attended, what was weighed,
+  // how members voted. Until the body has a recorded vote, any minutes line
+  // would invent one.
+  if (!(world.history.legislativeVotes ?? []).length)
+    return `no output, because ${body.bodyName} has no recorded meeting or vote to take minutes of`;
+  const found = lines(
+    "minutes",
+    `Minutes wording for ${body.bodyName}, from its recorded name, seats and today's date.`,
+    minutesBank as EnglishBank,
+    ["attendance", "vote", "agreement", "discussion", "weighing"],
+    bodyFacts(world, body),
+    body.organizationId,
+  );
+  return found.length
+    ? found
+    : "no minutes part fits: no recorded agenda topic, view, action or meeting time exists to fill the rest";
+}
+
+export function readHearingBank(world: World, playerId: EntityId): BankReading {
+  const body = localBody(world, playerId);
+  if (!body) return NO_BODY;
+  const found = lines(
+    "hearing",
+    `A hearing exchange before ${body.bodyName}, from its recorded seats.`,
+    hearingBank as EnglishBank,
+    ["thanks", "answer", "chair-procedure"],
+    {},
+    body.organizationId,
+    LOCAL_FLOOR_ONLY,
+  );
+  return found.length ? found : "no hearing part is shippable";
+}
+
+export function readWinningLosingBank(world: World): BankReading {
+  const out: BankLine[] = [];
+  for (const vote of world.history.legislativeVotes ?? []) {
+    if (out.length >= PER_KIND) break;
+    out.push(
+      ...lines(
+        "winning-and-losing",
+        `The recorded ${vote.outcome === "passed" ? "passage" : "defeat"} of a measure on ${spokenDate(vote.takenAt)}.`,
+        winningLosingBank as EnglishBank,
+        [vote.outcome === "passed" ? "carried" : "lost"],
+        { n: String(vote.tally.yea) },
+        vote.id,
+      ),
+    );
+  }
+  return out.length
+    ? out.slice(0, PER_KIND)
+    : "no recorded vote or decided contest exists to attach a result line to";
+}
+
+export function readLegislationBank(world: World): BankReading {
+  const out: BankLine[] = [];
+  for (const measure of world.history.legislativeMeasures ?? []) {
+    if (out.length >= PER_KIND) break;
+    const title = measure.shortTitle?.trim();
+    if (!title) continue;
+    const made = composeFromBank(
+      legislationBank as EnglishBank,
+      "short-title",
+      { act: `"${title}"` },
+      measure.id,
+    );
+    if (!made) continue;
+    out.push({
+      kind: "legislation",
+      situation: `The short title of ${measure.designation}, a filed measure.`,
+      text: `Short title. ${made.text}`,
+      partKey: made.partKey,
+    });
+  }
+  return out.length ? out : "no filed measure with a short title exists";
+}

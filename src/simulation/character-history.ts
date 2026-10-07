@@ -1,3 +1,4 @@
+import { initializePersonCitizenship } from "./citizenship-creation";
 import { carryPeopleReadIndexesAfterAppend } from "./history-index";
 import { adultLifeSituations } from "./adult-situations";
 import {
@@ -651,7 +652,7 @@ function buildCharacterHistoryContextPerson(
     ),
     establishedFacts: facts,
   };
-  return person;
+  return initializePersonCitizenship(person, world.seed, world.currentDate);
 }
 
 export function createCharacterHistoryContextPerson(
@@ -1054,12 +1055,24 @@ function drawnAdultFamily(
         taken,
       );
       sideFamilyName ??= drawn.familyName;
+      const firstDay = addDays(yearsBefore(parentBirth, grandparentAge + 1), 1);
+      const afterLastDay = addDays(yearsBefore(parentBirth, grandparentAge), 1);
+      // Age at a child's birth establishes a range, not the child's birthday.
+      // Give each relative a stable real calendar day in that valid range;
+      // otherwise whole couples inherit one birthday and the causal mortality
+      // model makes them reach the same strain threshold on the same day.
+      const birthDate = addDays(
+        firstDay,
+        new SeededRng(world.seed)
+          .fork(`${stableKey}:birth-date`)
+          .integer(0, daysBetween(firstDay, afterLastDay)),
+      );
       people.push({
         stableKey,
         ...drawn,
         familyName: sideFamilyName,
         identity: { gender, pronouns: defaultPronounsForGender(gender) },
-        birthDate: yearsBefore(parentBirth, grandparentAge),
+        birthDate,
         homeJurisdictionId: jurisdictionId,
       });
     }
@@ -3472,12 +3485,13 @@ export function generateQuickCharacterHistory(
   // stream every other generated name goes through, so they are the same
   // schools in every save of this world.
   const homeJurisdiction = world.jurisdictions[input.jurisdictionId];
+  const homeTown = residentNameForJurisdiction(
+    homeJurisdiction?.name ?? "",
+    homeJurisdiction?.parentName ?? null,
+  );
   const schoolNames = generateSchoolNames(
     rng.fork("schools"),
-    residentNameForJurisdiction(
-      homeJurisdiction?.name ?? "",
-      homeJurisdiction?.parentName ?? null,
-    ),
+    homeTown,
     input.schoolNameVersion,
     {
       state: stateUsps(
@@ -3682,9 +3696,12 @@ export function generateQuickCharacterHistory(
           formedAt: age(0),
           provenance: generated,
           initialProfile: {
-            name: input.preStartDates
-              ? `${homeJurisdiction!.name} Market`
-              : "Neighborhood Market",
+            // The town's own name, never "Town, State": a store sign
+            // carries the place it stands in, not its postal address.
+            name:
+              homeTown.length > 0
+                ? `${homeTown} Market`
+                : "Neighborhood Market",
             classification: "enterprise:retail",
             locationJurisdictionId: input.jurisdictionId,
           },

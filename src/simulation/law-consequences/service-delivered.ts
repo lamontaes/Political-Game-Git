@@ -7,11 +7,16 @@ import {
   recordsWithFieldValue,
 } from "../history-index";
 import { standingCrisisAuthority } from "../crisis-standing-appropriations";
+import { standingCountyAuthority } from "../county-service-authority";
 import {
+  currentLifeCutoff,
+  kinshipRelationshipsAt,
   organizationParticipationStateAt,
   organizationProfileAt,
 } from "../life-queries";
 import { lawEffectStamp } from "../law-effect-stamp";
+import { recordLawExposure } from "../law-exposure";
+import { isPersonAliveAt } from "../vitality-integrity";
 import { personName } from "../people";
 import { publicProgramRecords } from "../public-program-integrity";
 import { scheduledActivityState } from "../time-work";
@@ -35,6 +40,8 @@ import {
   FUNDED_SERVICE,
   SERVICE_RECIPIENT_KIND,
   SERVICE_DELIVERED_LAW_ROWS,
+  COUNTY_SERVICE_ROWS,
+  isCountyServiceProgram,
   standingServiceProgram,
 } from "./service-delivered-data";
 
@@ -433,13 +440,20 @@ export function resolveStandingServiceConsequences(
     done,
     context,
     (appropriation, commitment) => {
-      if (appropriation.sourceMeasureId != null) return false;
+      // A crisis program has no measure; a county's is adopted by its board's.
+      if (
+        appropriation.sourceMeasureId != null &&
+        !isCountyServiceProgram(appropriation.programKey)
+      )
+        return false;
       const program = standingServiceProgram(appropriation.programKey);
       const candidate = program
-        ? SERVICE_DELIVERED_LAW_ROWS[program.questionKey]?.[0]
+        ? (SERVICE_DELIVERED_LAW_ROWS[program.questionKey] ??
+            COUNTY_SERVICE_ROWS[program.questionKey])?.[0]
         : undefined;
       const read = program
-        ? standingCrisisAuthority(world, appropriation.id, context.onDate)
+        ? (standingCrisisAuthority(world, appropriation.id, context.onDate) ??
+          standingCountyAuthority(world, appropriation.id, context.onDate))
         : null;
       const classification = organizationProfileAt(
         world,
@@ -538,7 +552,7 @@ export function applyLawServiceConsequence(
     world.history.scheduledActivities,
     canonical.activityId,
   )!;
-  return recordWorldEvent(world, {
+  const delivered = recordWorldEvent(world, {
     stableKey: key,
     type: "service.delivery-recorded",
     occurredAt: canonical.effectiveAt,
@@ -571,6 +585,56 @@ export function applyLawServiceConsequence(
     },
     lawEffectStamps: [stamp],
   });
+  return "law" in canonical
+    ? exposeServiceRecipients(
+        delivered,
+        canonical.law.measureId,
+        canonical.subject.id,
+        delivered.history.events.at(-1)!.id,
+      )
+    : delivered;
+}
+
+/**
+ * A delivered service reaches the person who got it and, for a child, the
+ * recorded parents who arranged it. The exposure is a gain with no dollar
+ * amount: the record shows a service was delivered, not what it cost them.
+ */
+function exposeServiceRecipients(
+  world: World,
+  measureId: EntityId,
+  recipientId: EntityId,
+  deliveryEventId: EntityId,
+): World {
+  const recipient = world.people[recipientId];
+  if (!recipient) return world;
+  const parents = kinshipRelationshipsAt(world, recipientId)
+    .filter(
+      (entry) =>
+        entry.kind.startsWith("lineal:") && entry.kind.includes("parent-child"),
+    )
+    .map((entry) => entry.personIds.find((id) => id !== recipientId)!)
+    .filter(
+      (id) =>
+        world.people[id] &&
+        world.people[id]!.birthDate < recipient.birthDate &&
+        isPersonAliveAt(world, id, currentLifeCutoff(world)),
+    )
+    .sort();
+  let next = world;
+  for (const personId of [recipientId, ...parents])
+    next = recordLawExposure(next, {
+      stableKey: `law-service:${deliveryEventId}:exposure:${personId}`,
+      personId,
+      measureId,
+      channel: "public-service",
+      direction: "gain",
+      amount: null,
+      cadence: null,
+      sourceRecordId: deliveryEventId,
+      includeFamily: personId !== recipientId,
+    });
+  return next;
 }
 
 export const SERVICE_DELIVERED_REGISTRATION: LawConsequenceKindRegistration<ResolvedAnyLawConsequence> =
