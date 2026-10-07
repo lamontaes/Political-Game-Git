@@ -554,7 +554,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | ready #3353 | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | unsupported: no sourced sitting trigger or nonsitting action contract | |
-| BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | ready #2477 | |
+| BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | done #2477 | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
