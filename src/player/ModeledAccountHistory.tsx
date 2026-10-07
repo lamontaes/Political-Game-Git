@@ -77,7 +77,7 @@ export function ModeledAccountHistory({
               <dd data-testid="modeled-account-balance">
                 {history.balance.status === "established"
                   ? `${usd(history.balance.balance)} on ${history.balance.asOf}`
-                  : history.balance.reason}
+                  : null}
               </dd>
             </div>
           </dl>
@@ -92,9 +92,6 @@ export function ModeledAccountHistory({
           {history.entries.length > 0 ? (
             <div className="modeled-account-records">
               <table>
-                <caption>
-                  Recorded transfers, in the order they happened
-                </caption>
                 <thead>
                   <tr>
                     <th scope="col">Date</th>

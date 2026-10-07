@@ -40,12 +40,7 @@ export function MoneyLawsPanel({
     </ul>
   );
   return (
-    <section
-      className="pg-personal-section"
-      aria-label="What new laws did to money"
-      data-testid="money-laws"
-    >
-      <h3>What new laws did to money</h3>
+    <section className="pg-personal-section" data-testid="money-laws">
       {laws.empty ? (
         <p
           className="game-note"
