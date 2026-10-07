@@ -261,17 +261,14 @@ export function MunicipalWorkspace({
         <h2>{"Local government"}</h2>
         {homeContext.homePlaceLabel ? (
           <p data-testid="municipal-home-context">
-            {"You live in "}
+            {"Home: "}
             <strong>{homeContext.homePlaceLabel}</strong>
-            {"."}
           </p>
         ) : null}
       </header>
       {directory}
       {!view ? (
-        <p data-testid="municipal-missing-home-link">
-          {"Your town: not supported"}
-        </p>
+        <p data-testid="municipal-missing-home-link" />
       ) : (
         <>
           <p className="municipal-current" data-testid="municipal-current">

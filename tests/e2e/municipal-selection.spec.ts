@@ -98,7 +98,7 @@ test("a state-scope home is labeled once in the municipal header", async ({
 
   const workspace = page.getByRole("region", { name: "Municipal government" });
   await expect(workspace.getByTestId("municipal-home-context")).toHaveText(
-    "You live in Kentucky.",
+    "Home: Kentucky",
   );
   await expect(
     workspace.getByTestId("municipal-home-context"),
