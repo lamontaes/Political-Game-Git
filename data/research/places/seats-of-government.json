@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-10-06",
-  "method": "Capital identity comes from the cited government or Census source. Each place GEOID is an accepted 2025 Census Gazetteer corpus row; where that corpus has no capital row, the row minimizing great-circle distance from the capital interior point is an estimate.",
+  "asOf": "2026-10-07",
+  "method": "Capital identity comes from the cited government or Census source. Census-backed places retain accepted 2025 Gazetteer GEOIDs. Where the Gazetteer omits an island territory, the seat resolves to an existing local territory-place key with its placeholder provenance retained; it never borrows another jurisdiction. American Samoa uses its recorded legislative and judicial seat in Fagatogo, distinct from the historic capital Pago Pago.",
   "rows": [
     {
       "jurisdictionKey": "US-AK",
@@ -29,15 +29,13 @@
     {
       "jurisdictionKey": "US-AS",
       "capitalName": "Pago Pago",
-      "placeGeoid": "1512530",
-      "matchStatus": "estimated-nearest-gazetteer-row",
-      "capitalInteriorPoint": {
-        "latitude": -14.2756,
-        "longitude": -170.702
-      },
-      "estimateReason": "The capital has no row in the accepted 2025 national Places Gazetteer corpus, so this is the geographically nearest row in that corpus.",
-      "capitalEvidenceUrl": "https://www.usa.gov/states/american-samoa",
-      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+      "matchStatus": "estimated-territory-place",
+      "estimateReason": "The accepted national Places Gazetteer omits this territory. The existing local territory-place identity is used with placeholder provenance; no Census GEOID, population, boundary, or government authority is inferred.",
+      "capitalEvidenceUrl": "https://www.doi.gov/sites/default/files/archive/news/archive/07_News_Releases/070615a.html",
+      "placeEvidenceUrl": "https://www.doi.gov/sites/default/files/archive/news/archive/07_News_Releases/070615a.html",
+      "placeKey": "territory:AS:fagatogo",
+      "seatLocalityName": "Fagatogo",
+      "placeIdentitySource": "src/simulation/territory-places.ts"
     },
     {
       "jurisdictionKey": "US-AZ",
@@ -106,15 +104,13 @@
     {
       "jurisdictionKey": "US-GU",
       "capitalName": "Hagåtña",
-      "placeGeoid": "0204670",
-      "matchStatus": "estimated-nearest-gazetteer-row",
-      "capitalInteriorPoint": {
-        "latitude": 13.4443,
-        "longitude": 144.7937
-      },
-      "estimateReason": "The capital has no row in the accepted 2025 national Places Gazetteer corpus, so this is the geographically nearest row in that corpus.",
-      "capitalEvidenceUrl": "https://mcog.guam.gov/villages-list",
-      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+      "matchStatus": "estimated-territory-place",
+      "estimateReason": "The accepted national Places Gazetteer omits this territory. The existing local territory-place identity is used with placeholder provenance; no Census GEOID, population, boundary, or government authority is inferred.",
+      "capitalEvidenceUrl": "https://www.visitguam.com/about-guam/villages/hagatna/",
+      "placeEvidenceUrl": "https://www.visitguam.com/about-guam/villages/hagatna/",
+      "placeKey": "territory:GU:hagatna",
+      "seatLocalityName": "Hagåtña",
+      "placeIdentitySource": "src/simulation/territory-places.ts"
     },
     {
       "jurisdictionKey": "US-HI",
@@ -231,15 +227,13 @@
     {
       "jurisdictionKey": "US-MP",
       "capitalName": "Capitol Hill, Saipan",
-      "placeGeoid": "0204670",
-      "matchStatus": "estimated-nearest-gazetteer-row",
-      "capitalInteriorPoint": {
-        "latitude": 15.2,
-        "longitude": 145.75
-      },
-      "estimateReason": "The capital has no row in the accepted 2025 national Places Gazetteer corpus, so this is the geographically nearest row in that corpus.",
-      "capitalEvidenceUrl": "https://dcca.gov.mp/about-us/",
-      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+      "matchStatus": "estimated-territory-place",
+      "estimateReason": "The accepted national Places Gazetteer omits this territory. The existing local territory-place identity is used with placeholder provenance; no Census GEOID, population, boundary, or government authority is inferred.",
+      "capitalEvidenceUrl": "https://www.doi.gov/oia/islands/cnmi",
+      "placeEvidenceUrl": "https://www.doi.gov/oia/islands/cnmi",
+      "placeKey": "territory:MP:capitol-hill",
+      "seatLocalityName": "Capitol Hill",
+      "placeIdentitySource": "src/simulation/territory-places.ts"
     },
     {
       "jurisdictionKey": "US-MS",
@@ -420,15 +414,13 @@
     {
       "jurisdictionKey": "US-VI",
       "capitalName": "Charlotte Amalie",
-      "placeGeoid": "7222589",
-      "matchStatus": "estimated-nearest-gazetteer-row",
-      "capitalInteriorPoint": {
-        "latitude": 18.3419,
-        "longitude": -64.9307
-      },
-      "estimateReason": "The capital has no row in the accepted 2025 national Places Gazetteer corpus, so this is the geographically nearest row in that corpus.",
-      "capitalEvidenceUrl": "https://omb.vi.gov/wp-content/uploads/2025/04/FY-2025-USVI-Proposed-Executive-Budget-Book.pdf",
-      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+      "matchStatus": "estimated-territory-place",
+      "estimateReason": "The accepted national Places Gazetteer omits this territory. The existing local territory-place identity is used with placeholder provenance; no Census GEOID, population, boundary, or government authority is inferred.",
+      "capitalEvidenceUrl": "https://www.vi.gov/wp-content/uploads/2022/06/2023-2024-final-budget-book.pdf",
+      "placeEvidenceUrl": "https://www.vi.gov/wp-content/uploads/2022/06/2023-2024-final-budget-book.pdf",
+      "placeKey": "territory:VI:charlotte-amalie",
+      "seatLocalityName": "Charlotte Amalie",
+      "placeIdentitySource": "src/simulation/territory-places.ts"
     },
     {
       "jurisdictionKey": "US-VT",

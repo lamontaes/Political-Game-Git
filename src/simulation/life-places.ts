@@ -1019,8 +1019,7 @@ export function lifePlaceByKey(key: string): LifePlace | null {
   return acceptedLifePlaceProvider.byKey(key);
 }
 
-export type SeatOfGovernmentMatchStatus =
-  "known" | "estimated-nearest-gazetteer-row";
+export type SeatOfGovernmentMatchStatus = "known" | "estimated-territory-place";
 
 export interface SeatOfGovernmentPlace {
   readonly jurisdictionKey: string;
@@ -1030,7 +1029,7 @@ export interface SeatOfGovernmentPlace {
 
 type SeatRow = readonly [
   jurisdictionKey: string,
-  placeGeoid: string,
+  placeKey: string,
   matchStatus: SeatOfGovernmentMatchStatus,
 ];
 
@@ -1046,7 +1045,7 @@ function seatIndex(): ReadonlyMap<string, SeatRow> {
   return seatsOfGovernment;
 }
 
-/** Resolve a government's seat through the same GEOID place loader as a town. */
+/** Resolve a government's seat through the same place loader as an ordinary town. */
 export function seatOfGovernmentPlace(
   jurisdictionKey: string,
 ): SeatOfGovernmentPlace | null {
