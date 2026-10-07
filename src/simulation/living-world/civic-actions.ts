@@ -810,7 +810,10 @@ function openOfficeCaseForContact(
         ? [`office-relationship:${officeRelationshipId}`]
         : []),
       ...contact.tags.filter(
-        (tag) => tag.startsWith("reason:") || tag.startsWith("source-record:"),
+        (tag) =>
+          tag.startsWith("reason:") ||
+          tag.startsWith("source-record:") ||
+          tag.startsWith("message-"),
       ),
     ],
     summary: contact.summary,

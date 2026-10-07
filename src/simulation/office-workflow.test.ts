@@ -15,7 +15,12 @@ import {
 } from "../presentation/new-game";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import { requireLifePlace } from "./life-places";
-import { routeConstituentCase } from "./constituent-casework-routing";
+import {
+  isConstituentCaseException,
+  routeConstituentCase,
+} from "./constituent-casework-routing";
+import { peopleKnownTo } from "./living-world/official-views";
+import type { EntityId } from "./types";
 
 describe("office workflow persistence", () => {
   it("records a preference on an existing work relationship and reloads it", () => {
@@ -87,18 +92,31 @@ describe("office workflow persistence", () => {
     });
     expect(recorded.kind).toBe("recorded");
     if (recorded.kind !== "recorded") throw new Error(recorded.reason);
-    const officeCase = {
+    const officeCaseForResident = (residentId: EntityId) => ({
       type: "office.case-opened",
       tags: [`office-relationship:${relationshipId}`],
-      participants: [{ personId: built.playerPersonId, role: "focus:object" }],
-    };
-    expect(
-      routeConstituentCase(
+      participants: [
+        { personId: residentId, role: "focus:subject" },
+        { personId: built.playerPersonId, role: "focus:object" },
+      ],
+    });
+    const knownResidentId = peopleKnownTo(
+      recorded.world,
+      built.playerPersonId,
+    )[0]!;
+    const knownCase = officeCaseForResident(knownResidentId);
+    const ordinaryResidentId = recorded.world.personOrder.find((personId) => {
+      if (personId === built.playerPersonId) return false;
+      return !isConstituentCaseException(
         recorded.world,
-        officeCase,
+        officeCaseForResident(personId),
         built.playerPersonId,
-        false,
-      )?.kind,
+      );
+    })!;
+    const ordinaryCase = officeCaseForResident(ordinaryResidentId);
+    expect(
+      routeConstituentCase(recorded.world, ordinaryCase, built.playerPersonId)
+        ?.kind,
     ).toBe("player");
     const restored = deserializeWorld(serializeWorld(recorded.world));
     assertWorldIntegrity(restored);
@@ -145,20 +163,12 @@ describe("office workflow persistence", () => {
     expect(routine.kind).toBe("recorded");
     if (routine.kind !== "recorded") throw new Error(routine.reason);
     expect(
-      routeConstituentCase(
-        routine.world,
-        officeCase,
-        built.playerPersonId,
-        false,
-      )?.kind,
+      routeConstituentCase(routine.world, ordinaryCase, built.playerPersonId)
+        ?.kind,
     ).toBe("unassigned");
     expect(
-      routeConstituentCase(
-        routine.world,
-        officeCase,
-        built.playerPersonId,
-        true,
-      )?.kind,
+      routeConstituentCase(routine.world, knownCase, built.playerPersonId)
+        ?.kind,
     ).toBe("player");
 
     const staff = recordOfficeWorkflowPreference(routine.world, {
@@ -170,8 +180,7 @@ describe("office workflow persistence", () => {
     expect(staff.kind).toBe("recorded");
     if (staff.kind !== "recorded") throw new Error(staff.reason);
     expect(
-      routeConstituentCase(staff.world, officeCase, built.playerPersonId, true)
-        ?.kind,
+      routeConstituentCase(staff.world, knownCase, built.playerPersonId)?.kind,
     ).toBe("unassigned");
   });
 });

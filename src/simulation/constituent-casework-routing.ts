@@ -1,12 +1,23 @@
 import { currentOfficeWorkflowPreference } from "./office-workflow";
 import {
   activeOrganizationParticipationsAt,
+  activeWorkRelationshipsAt,
   workStatusAt,
 } from "./life-queries";
+import { peopleKnownTo } from "./living-world/official-views";
+import {
+  viewOfOfficial,
+  OFFICIAL_VIEW_BASE_POINTS,
+} from "./official-view-reads";
 import {
   officeStaffIncumbencyRecords,
   officeStaffPositionRecords,
 } from "./governing/office-staffing";
+import { OFFICE_EMPLOYMENT_KINDS } from "./governing/office-consequence";
+import { publicOfficesHeldBy } from "./crisis/offices";
+import { reporterRoleForPerson } from "./press/outlets";
+import { favorRecords } from "./favors";
+import { measurePosition } from "./legislation";
 import type { EntityId, OfficeCaseworkWorkflowMode, World } from "./types";
 
 export interface OfficeCaseEventReference {
@@ -42,7 +53,6 @@ export function routeConstituentCase(
   world: World,
   event: OfficeCaseEventReference,
   playerPersonId: EntityId,
-  isException: boolean,
 ): ConstituentCaseRoute {
   if (event.type !== "office.case-opened") return null;
   const officeholderId = event.participants.find(
@@ -68,7 +78,10 @@ export function routeConstituentCase(
   );
   if (!preference) return { kind: "unconfigured" };
 
-  const kind = routeForMode(preference.caseworkMode, isException);
+  const kind = routeForMode(
+    preference.caseworkMode,
+    isConstituentCaseException(world, event, playerPersonId),
+  );
   if (kind === "player")
     return {
       kind,
@@ -89,6 +102,68 @@ export function routeConstituentCase(
     handlerPersonId,
     mode: preference.caseworkMode,
   };
+}
+
+/** Record-backed exception rules from the b06 constituent-case assignment. */
+export function isConstituentCaseException(
+  world: World,
+  event: OfficeCaseEventReference,
+  playerPersonId: EntityId,
+): boolean {
+  const residentId = event.participants.find(
+    (participant) => participant.role === "focus:subject",
+  )?.personId;
+  if (!residentId) return false;
+  if (peopleKnownTo(world, playerPersonId).includes(residentId)) return true;
+  if (reporterRoleForPerson(world, residentId)) return true;
+  if (holdsPublicOffice(world, residentId)) return true;
+  if (
+    favorRecords(world).some(
+      (favor) =>
+        favor.kind === "political:campaign-donation" &&
+        favor.giverPersonId === residentId &&
+        favor.receiverPersonId === playerPersonId,
+    )
+  )
+    return true;
+  if (hasPendingMeasureForContact(world, event)) return true;
+  return (
+    viewOfOfficial(world, residentId, playerPersonId).points <=
+    -OFFICIAL_VIEW_BASE_POINTS
+  );
+}
+
+function holdsPublicOffice(world: World, personId: EntityId): boolean {
+  if (publicOfficesHeldBy(world, personId).length > 0) return true;
+  if (
+    activeOrganizationParticipationsAt(world, personId).some(
+      ({ participation, state }) =>
+        participation.kind === "leadership:municipal-office" &&
+        state.roleKind !== null,
+    )
+  )
+    return true;
+  return activeWorkRelationshipsAt(world, personId).some(({ relationship }) =>
+    OFFICE_EMPLOYMENT_KINDS.includes(relationship.kind),
+  );
+}
+
+function hasPendingMeasureForContact(
+  world: World,
+  event: OfficeCaseEventReference,
+): boolean {
+  const propositionTag = event.tags.find((tag) =>
+    tag.startsWith("message-proposition-id:"),
+  );
+  const propositionId = propositionTag?.slice(
+    "message-proposition-id:".length,
+  ) as EntityId | undefined;
+  if (!propositionId) return false;
+  return (world.history.legislativeMeasures ?? []).some(
+    (measure) =>
+      measure.propositionIds?.includes(propositionId) &&
+      !measurePosition(world, measure.id).terminal,
+  );
 }
 
 function officeHandler(
