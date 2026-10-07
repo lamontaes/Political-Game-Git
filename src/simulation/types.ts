@@ -5215,6 +5215,9 @@ export interface LegislativeEnactmentRecord {
 export type OfficeVotingWorkflowMode =
   "review-batch" | "prior-instructions-with-exceptions" | "handle-individually";
 
+/** How much of an ordinary council meeting the member chooses to play. */
+export type OfficeMeetingDepth = "what-matters" | "everything";
+
 /**
  * How this office handles constituent casework. Adjustable and bound to the
  * office relationship, not a global agent default.
@@ -5282,6 +5285,8 @@ export interface OfficeWorkflowPreferenceRecord {
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  /** Absent on older saves; readers treat it as `what-matters`. */
+  readonly meetingDepth?: OfficeMeetingDepth;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;
 }
