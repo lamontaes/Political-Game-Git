@@ -3000,9 +3000,11 @@ function PlayingScreen({
                   data-problem="unsaved"
                 />
               ) : null}
-              <p className="sr-only" role="status">
-                {shell.announcement}
-              </p>
+              <p
+                className="sr-only"
+                role="status"
+                data-announcement={shell.announcement}
+              />
             </div>
 
             {scenePeople
