@@ -17,6 +17,7 @@ import { facetContentedEffects } from "./facet-contented";
 import { facetCruelEffects } from "./facet-cruel";
 import { facetCuriousEffects } from "./facet-curious";
 import { facetDefensiveEffects } from "./facet-defensive";
+import { facetDeferentialEffects } from "./facet-deferential";
 import { facetDutyBoundEffects } from "./facet-duty-bound";
 import { facetEnterprisingEffects } from "./facet-enterprising";
 import { facetEnviousEffects } from "./facet-envious";
@@ -76,6 +77,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetCruelEffects,
     ...facetCuriousEffects,
     ...facetDefensiveEffects,
+    ...facetDeferentialEffects,
     ...facetDutyBoundEffects,
     ...facetEnterprisingEffects,
     ...facetEnviousEffects,
