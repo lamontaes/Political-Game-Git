@@ -636,7 +636,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2116 | Source American Samoa’s ordinary juvenile age ceiling | PR #2116 (codex/overflow8-territorial-juvenile-terms) | open: draft: finish it or close it as superseded | |
 | RS-2117 | research: preserve abortion limits and conditional exceptions | PR #2117 (codex/standby5-abortion-compound-source-packet) | open: draft: finish it or close it as superseded | |
 | RS-2121 | A15: sourced family-leave monetary rows (parked) | PR #2121 (codex/overflow1-labor-starting-terms) | open: draft: finish it or close it as superseded | |
-| RS-2122 | Document voting restoration conditions for sixteen jurisdictions | PR #2122 (codex/a117-restoration-primary-laws) | open: draft: finish it or close it as superseded | |
+| RS-2122 | Document voting restoration conditions for sixteen jurisdictions | PR #2122 (codex/a117-restoration-primary-laws) | ready #2122 | |
 | RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | open: draft: finish it or close it as superseded | |
 | RS-2127 | Checkpoint sourced Missouri Ohio and New Jersey teacher floors | PR #2127 (codex/standby1-teacher-missouri-terms) | open: draft: finish it or close it as superseded | |
 | RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | open: draft: finish it or close it as superseded | |
