@@ -82,7 +82,7 @@ describe("the received locality filter", () => {
     expect(markup).toContain('class="pg-orientation"');
     expect(markup).toContain('class="pg-orientation-stage"');
     expect(markup).toContain('data-step="state"');
-    expect(markup).toContain('data-backdrop="region"');
+    expect(markup).toContain('data-backdrop="place"');
     expect(markup).toContain('class="pg-orientation-scrim"');
     expect(markup).toContain('class="pg-orientation-copy"');
     expect(markup).toContain("Recorded state summary.");
@@ -126,75 +126,40 @@ describe("which approved picture stands behind each card", () => {
     ).toMatchObject({ kind: "place", place: "oval-office" });
   });
 
-  it("prefers the approved regional plate for the state card, then the reviewed preview, then plain ground", () => {
-    expect(
-      orientationBackdrop("state", {
-        whiteHouse: raster,
-        regionalPlate: plate,
-        regionScene: raster,
-      }).kind,
-    ).toBe("region");
-    expect(
-      orientationBackdrop("state", {
-        whiteHouse: raster,
-        regionalPlate: null,
-        regionScene: raster,
-      }).kind,
-    ).toBe("region-preview");
-    expect(
-      orientationBackdrop("state", {
-        whiteHouse: raster,
-        regionalPlate: null,
-        regionScene: null,
-      }),
-    ).toMatchObject({ kind: "place", place: "state-capitol-dome" });
-    expect(
-      orientationBackdrop("state", {
-        whiteHouse: raster,
-        regionalPlate: null,
-        regionScene: null,
-        homeStateUsps: "NE",
-      }),
-      // Nebraska has its own capitol picture, so it wins over the generic tower.
-    ).toMatchObject({ kind: "place", place: "state-capitol-ne" });
-  });
-
-  it("falls back from the civic building to the regional plate on the town card", () => {
-    // Outside the reviewed preview the civic plate does not resolve.
+  it("stands every intro card inside the room where its people work (OW-11)", () => {
+    const sources = {
+      whiteHouse: raster,
+      regionalPlate: plate,
+      regionScene: raster,
+      localChamber: "county-commission",
+      homePlaces: ["rowhouse"],
+    };
+    expect(orientationBackdrop("year", sources)).toMatchObject({
+      kind: "place",
+      place: "us-senate-floor",
+    });
+    expect(orientationBackdrop("congress", sources)).toMatchObject({
+      kind: "place",
+      place: "us-house-floor",
+    });
+    expect(orientationBackdrop("state", sources)).toMatchObject({
+      kind: "place",
+      place: "governor-office",
+    });
+    expect(orientationBackdrop("locality", sources)).toMatchObject({
+      kind: "place",
+      place: "county-commission",
+    });
     expect(
       orientationBackdrop("locality", {
-        whiteHouse: null,
-        regionalPlate: plate,
-        regionScene: null,
-      }).kind,
-    ).toBe("region");
-  });
-
-  it("paints the Capitol behind Congress and your town's street behind your life, never the White House or a region", () => {
-    expect(
-      orientationBackdrop("congress", {
-        whiteHouse: raster,
-        regionalPlate: plate,
-        regionScene: raster,
+        ...sources,
+        localChamber: "council-chamber",
       }),
-    ).toMatchObject({ kind: "place", place: "us-capitol-exterior" });
-    expect(
-      orientationBackdrop("your-life", {
-        whiteHouse: raster,
-        regionalPlate: plate,
-        regionScene: raster,
-      }),
-    ).toMatchObject({ kind: "place", place: "main-street" });
-  });
-
-  it("paints city hall behind the town card when no regional plate exists", () => {
-    expect(
-      orientationBackdrop("locality", {
-        whiteHouse: null,
-        regionalPlate: null,
-        regionScene: null,
-      }),
-    ).toMatchObject({ kind: "place", place: "city-hall-exterior" });
+    ).toMatchObject({ kind: "place", place: "council-chamber" });
+    expect(orientationBackdrop("your-life", sources)).toMatchObject({
+      kind: "place",
+      place: "rowhouse",
+    });
   });
 });
 

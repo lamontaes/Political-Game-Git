@@ -57,6 +57,7 @@ import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
+  ensurePressExposureCoverage,
   mediaOutlets,
   reporterIsCurrent,
   reporterRoles,
@@ -1549,6 +1550,12 @@ export function pressDeskSweepHandler(
   if (dueItem.transitionKey !== PRESS_DESK_SWEEP_TRANSITION_KEY) {
     throw new Error("The desk sweep handler received another transition.");
   }
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
   // Only the opening sweep reads the archive. Later sweeps retain the
   // incremental frontier so older records are not rescanned every week.
   const frontier =
