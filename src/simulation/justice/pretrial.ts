@@ -1,5 +1,8 @@
 import moneyBail from "../../../data/research/justice/money-bail-2026.json" with { type: "json" };
-import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
+import {
+  readFinalEnactedLawTerm,
+  type FinalEnactedLawTerm,
+} from "../governing/final-law-term-query";
 import { eventById } from "../event-index";
 import { recordsByStringField } from "../history-index";
 import { stableHash } from "../ids";
@@ -8,6 +11,7 @@ import {
   comparableAmountApplicabilityKey,
   comparableAmountApplicabilitiesMatch,
   type ComparableAmountApplicability,
+  type LawAmountUnit,
 } from "../law-consequence-types";
 import {
   lifePlaceByJurisdictionId,
@@ -68,9 +72,9 @@ export function bailMinorUnits(
     readonly offenseKey: string;
   },
 ): number | null {
-  const law = pretrialGoverningLawAt(world, input.venueJurisdictionId);
-  if (!law || law.answer !== "no") return null;
-  const term = readFinalEnactedLawTerm(world, law, {
+  if (pretrialLawAt(world, input.venueJurisdictionId) !== "money-bail")
+    return null;
+  const term = pretrialLawTermAt(world, input.venueJurisdictionId, {
     questionKey: END_CASH_BAIL_QUESTION,
     termKey: `cash-bail:${input.offenseKey}`,
     unit: "minor",
@@ -276,6 +280,20 @@ export function pretrialLawAt(
   const law = pretrialGoverningLawAt(world, venueJurisdictionId);
   if (!law) return null;
   return law.answer === "yes" ? "no-money-bail" : "money-bail";
+}
+
+/** Reads an adopted pretrial term only under the law currently in force there. */
+export function pretrialLawTermAt(
+  world: World,
+  venueJurisdictionId: EntityId | null,
+  input: {
+    readonly questionKey: string;
+    readonly termKey: string;
+    readonly unit: LawAmountUnit;
+  },
+): FinalEnactedLawTerm | null {
+  const law = pretrialGoverningLawAt(world, venueJurisdictionId);
+  return law ? readFinalEnactedLawTerm(world, law, input) : null;
 }
 
 /** Exact operative law for attribution on the defendant's saved consequence. */
