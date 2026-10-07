@@ -385,9 +385,9 @@ describe("The press desk", () => {
       />,
     );
     expect(html).toContain('data-testid="press-source-desk"');
-    expect(html).toContain(view.note);
-    // Appearing in this list is not acquaintance, and is never called one.
-    expect(html).toContain("not people you know");
+    expect(html).not.toContain(view.note);
+    expect(html).not.toContain("not people you know");
+    expect(html).not.toMatch(/covers [a-z-]+/);
     expect(html).not.toContain('data-testid="press-source-empty"');
     const contact = view.contacts[0]!;
     expect(html).toContain(
@@ -401,7 +401,7 @@ describe("The press desk", () => {
     );
   });
 
-  it("with no reporter to take anything to, says so", () => {
+  it("with no reporter to take anything to, shows an empty list", () => {
     /*
      * The press family reads `history.pressRecords`, so a world with none is a
      * world with no outlet and no reporter — the honest empty state rather
@@ -420,8 +420,6 @@ describe("The press desk", () => {
       />,
     );
     expect(html).toContain('data-testid="press-source-empty"');
-    expect(html).toContain(
-      "No reporter here is covering anything you could take to them.",
-    );
+    expect(html).not.toContain("No reporter here is covering");
   });
 });

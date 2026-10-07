@@ -210,6 +210,7 @@ describe("PressDeskPanel", () => {
       "PressDeskPanel.tsx",
       "PressWorkspace.tsx",
       "PressInterviewPanel.tsx",
+      "PressSourceDesk.tsx",
     ]) {
       const text = readFileSync(join(__dirname, file), "utf8")
         .split("\n")
