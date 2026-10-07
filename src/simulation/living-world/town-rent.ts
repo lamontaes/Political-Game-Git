@@ -1623,12 +1623,6 @@ function chooseLandlord(
   };
 }
 
-/**
- * A private landlord's renewal: last year's rent moved by the town's market
- * rent level over the year (`homePrices`, the level now over a year ago), held
- * to rent stabilization's cap when it covers the home. The cap reads the
- * general price level's rise (`prices`). Whole dollars, in cents.
- */
 /** The saved market-rent reason names the observed local price driver. */
 export function marketRentRenewalReason(
   homePriceLevelChange: number,
@@ -1642,39 +1636,11 @@ export function marketRentRenewalReason(
   return estimateBasis ? `${reason} ${estimateBasis}` : reason;
 }
 
-export function renewedMarketRent(
-  oldMinor: number,
-  homePrices: number,
-  _prices: number,
-  stabilized: boolean,
-  recordedCapRatio?: number,
-): {
-  readonly amountMinor: number;
-  readonly uncappedMinor: number;
-  readonly capped: boolean;
-  readonly cap: number;
-} {
-  // A caller can supply a recorded clause for arithmetic fixtures. Production
-  // renewals are restricted by the shared price-cost writer after recording
-  // their requested terms; a yes/no answer supplies no numeric ceiling.
-  const cap = recordedCapRatio ?? Infinity;
-  const capped = stabilized && Number.isFinite(cap) && homePrices - 1 > cap;
-  const uncappedMinor = Math.round((oldMinor * homePrices) / 100) * 100;
-  return {
-    amountMinor: capped
-      ? Math.round((oldMinor * (1 + cap)) / 100) * 100
-      : uncappedMinor,
-    uncappedMinor,
-    capped,
-    cap,
-  };
-}
-
 /**
  * Renews each lease whose year is up: a private landlord's rent moves with
- * the market, capped where rent stabilization is in force; a public housing
- * rent is recalculated from income; an affordable rent follows the income
- * limit.
+ * the market before the shared rent law consequence applies any adopted cap;
+ * a public housing rent is recalculated from income; an affordable rent
+ * follows the income limit.
  */
 export function renewTownLeases(world: World, dueOn: IsoDate): World {
   const leases = townLeases(world, dueOn).filter((lease) => !lease.ended);
@@ -1700,7 +1666,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
     const old = current.amount.minorUnits;
     let amount = old;
     let reason: string;
-    let provenance: LifeRecordProvenance = PROVENANCE;
+    const provenance: LifeRecordProvenance = PROVENANCE;
     let lawEffectStamps: LawEffectStampedRecord["lawEffectStamps"];
     if (lease.regime === "public") {
       const income = householdMonthlyIncome(
@@ -1752,8 +1718,6 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
         RENT_LAW_KEYS.rentStabilization,
         dueOn,
       );
-      // A final numeric cap belongs to the registered price-cost consumer.
-      // Do not constrain its actual renewal input with the legacy blanket cap.
       const finalCap = rule
         ? readFinalEnactedLawTerm(next, rule, {
             questionKey: RENT_LAW_KEYS.rentStabilization,
@@ -1762,55 +1726,21 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
             onDate: dueOn,
           })
         : null;
-      // A yes answer alone supplies no lawful increase. Preserve the saved
-      // rent until the canonical reader can resolve the actual numeric term;
-      // missing CPI/coverage data must never become the universal old cap.
+      // A yes answer alone does not establish a numeric cap. Preserve the
+      // recorded rent until the shared price-cost consumer has a supported
+      // final term to apply.
       if (
         rule &&
         landlordKindOf(next, lease.flow.recipient) !== "public" &&
         finalCap === null
       )
         continue;
-      const renewal = renewedMarketRent(
-        old,
+      // The shared price-cost consequence applies an adopted cap from recorded terms.
+      amount = Math.round((old * homePrices) / 100) * 100;
+      reason = marketRentRenewalReason(
         homePrices,
-        homePrices,
-        finalCap === null &&
-          rule !== null &&
-          landlordKindOf(next, lease.flow.recipient) !== "public",
+        row.estimateBasis ?? undefined,
       );
-      const { capped, cap } = renewal;
-      amount = renewal.amountMinor;
-      if (capped) {
-        const stamp = lawEffectStamp(rule, {
-          effectKind: "rent-stabilization-renewal",
-          questionKey: RENT_LAW_KEYS.rentStabilization,
-          jurisdictionId: lease.town,
-          appliedAt: dueOn,
-          sourceRecordIds: [
-            lease.flow.id,
-            current.id,
-            lease.tenureId,
-            lease.leaseholderId,
-          ],
-        });
-        if (stamp) lawEffectStamps = [stamp];
-        const uncapped = renewal.uncappedMinor;
-        const designation = measureDesignation(next, rule!.measureId);
-        reason = `${marketRentRenewalReason(homePrices, row.estimateBasis ?? undefined)} Rent stabilization under ${designation} held the increase to ${(cap * 100).toFixed(1)}% (the landlord sought ${dollarsOf(uncapped)}).`;
-        const enactment = next.history.legislativeEnactments?.find(
-          (row) => row.measureId === rule!.measureId,
-        );
-        if (enactment?.outcomeEventId)
-          provenance = {
-            kind: "simulated-event",
-            eventId: enactment.outcomeEventId,
-          };
-      } else
-        reason = marketRentRenewalReason(
-          homePrices,
-          row.estimateBasis ?? undefined,
-        );
     }
     if (amount === old && lease.regime !== "market") continue;
     next = recordResourceFlowTerms(next, {

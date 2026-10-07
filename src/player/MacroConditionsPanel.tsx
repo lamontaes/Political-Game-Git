@@ -126,7 +126,8 @@ export function MacroConditionsPanel({
                 {formatValue(card.value, card.unit)}
               </strong>
               <span className="pg-macro-card-meta">
-                {card.period ?? "No value yet"} · {card.geographyLabel}
+                {card.period ? `${card.period} · ` : ""}
+                {card.geographyLabel}
               </span>
               <span className="pg-macro-card-meta">
                 {card.unit} · {CLASS_LABEL[card.valueClass]}
