@@ -1,4 +1,5 @@
 import { recordWorldEvent } from "./world";
+import playSettingsContent from "../../data/content/play-settings.json" with { type: "json" };
 import type {
   ChallengeIntensity,
   PersonalLifeDepiction,
@@ -15,6 +16,14 @@ export const DEFAULT_PLAY_SETTINGS: PlaySettings = {
 
 /** One-save remains hidden from new players until the owner enables the option. */
 export const ONE_SAVE_OFFERED = false;
+
+export const CHALLENGE_INTENSITY_LABEL =
+  playSettingsContent.challengeIntensity.label;
+export const CHALLENGE_INTENSITY_OPTIONS = playSettingsContent
+  .challengeIntensity.options as readonly {
+  readonly value: ChallengeIntensity;
+  readonly label: string;
+}[];
 
 export function playSettingsOf(world: World): PlaySettings {
   const saved = world.playSettings;

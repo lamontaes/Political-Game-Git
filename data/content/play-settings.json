@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "challengeIntensity": {
+    "label": "Challenge intensity",
+    "options": [
+      { "value": "quiet", "label": "Quiet" },
+      { "value": "standard", "label": "Standard" },
+      { "value": "relentless", "label": "Relentless" }
+    ]
+  }
+}

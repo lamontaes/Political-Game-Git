@@ -4,6 +4,10 @@ import {
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
 import { playSettingsOf, setPlaySetting } from "./play-settings";
+import {
+  CHALLENGE_INTENSITY_LABEL,
+  CHALLENGE_INTENSITY_OPTIONS,
+} from "./play-settings";
 
 function newLife(seed: string) {
   return createNewGameWorld({
@@ -17,6 +21,15 @@ function newLife(seed: string) {
 }
 
 describe("play settings", () => {
+  it("loads challenge control names and values from the settings record", () => {
+    expect(CHALLENGE_INTENSITY_LABEL).toBe("Challenge intensity");
+    expect(CHALLENGE_INTENSITY_OPTIONS.map((option) => option.value)).toEqual([
+      "quiet",
+      "standard",
+      "relentless",
+    ]);
+  });
+
   it("keeps no difficulty or premise setting (OW-1)", () => {
     const world = newLife("settings-legacy-seed").world;
     expect(playSettingsOf({ ...world, playSettings: undefined })).toEqual({

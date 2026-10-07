@@ -24,6 +24,11 @@ import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import {
+  CHALLENGE_INTENSITY_LABEL,
+  CHALLENGE_INTENSITY_OPTIONS,
+} from "../simulation/play-settings";
+import type { ChallengeIntensity } from "../simulation/types";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
@@ -1882,13 +1887,34 @@ export function OptionsWorkspace({
   state,
   dispatch,
   onOpenPatchNotes,
+  challengeIntensity,
+  onChangeChallengeIntensity,
 }: {
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
   readonly onOpenPatchNotes?: () => void;
+  readonly challengeIntensity: ChallengeIntensity;
+  readonly onChangeChallengeIntensity: (value: ChallengeIntensity) => void;
 }) {
   return (
     <>
+      <section className="pg-personal-section">
+        <h3>{CHALLENGE_INTENSITY_LABEL}</h3>
+        <div role="group" aria-label={CHALLENGE_INTENSITY_LABEL}>
+          {CHALLENGE_INTENSITY_OPTIONS.map(({ value, label }) => (
+            <button
+              key={value}
+              type="button"
+              className="ui-action ui-action--rail"
+              aria-pressed={challengeIntensity === value}
+              data-testid={`option-challenge-${value}`}
+              onClick={() => onChangeChallengeIntensity(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
       <section className="pg-personal-section">
         <h3>Calendar</h3>
         <DateFormatSetting />
