@@ -8,6 +8,7 @@ import { projectOpeningFamily } from "../presentation/opening-story";
 import { dayClothing, personDayRecipe } from "../presentation/day-clothing";
 import { readFileSync } from "node:fs";
 import {
+  homeDwellingKind,
   homePlaceFor,
   homePlaceForPerson,
   homePlacesForPerson,
@@ -134,4 +135,39 @@ describe("the family screen", { timeout: 180_000 }, () => {
       else expect(outfit.tags, parent.introduction).toContain(clothing.wear);
     }
   });
+});
+
+/*
+ * The CTO's check (third send-back): a generated household's own dwelling
+ * kind, read from its record, resolves through the family card's own backdrop
+ * function to a painted home. Three places drawn at random from all 56.
+ */
+describe("a generated household's home picture", { timeout: 300_000 }, () => {
+  for (const seed of ["ow17-home-a", "ow17-home-b", "ow17-home-c"]) {
+    const place = drawRandomPlace(seed);
+    it(`${place.displayName} (seed ${seed})`, () => {
+      const game = generateOpeningLife(
+        prepareOpeningLife({
+          ...DEFAULT_NEW_GAME_SETUP,
+          seed,
+          placeKey: place.key,
+          startAge: 34,
+          questionnaire: "skipped",
+        }),
+      ).game!;
+      const kind = homeDwellingKind(game.world, game.playerPersonId);
+      expect(kind, "the household records a dwelling kind").not.toBeNull();
+      const homes = homePlacesForPerson(game.world, game.playerPersonId);
+      expect(homes[0]).toBe(homePlaceFor(kind));
+      const backdrop = orientationBackdrop("parents", {
+        whiteHouse: null,
+        regionalPlate: null,
+        regionScene: null,
+        homePlaces: homes,
+      });
+      expect(backdrop).toMatchObject({ kind: "place", place: homes[0] });
+      if (backdrop.kind === "place")
+        expect(backdrop.url).toBe(middayBackdropUrl(homes[0]!));
+    });
+  }
 });
