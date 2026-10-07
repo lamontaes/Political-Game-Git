@@ -67,11 +67,11 @@ describe("a program's note to the books is not news", () => {
     (opening) => {
       const notes = programEvents(opening.world);
       console.info(
-        `${opening.place.displayName} (${opening.place.stateJurisdictionKey}), seed ${opening.seed}, ${opening.world.currentDate}: ${notes.length} program notes, ${opening.world.history.publications.length} publications; first: ${notes[0]?.summary}`,
+        `${opening.place.displayName} (${opening.place.stateJurisdictionKey}), seed ${opening.seed}, ${opening.world.currentDate}: ${notes.length} program notes, ${(opening.world.history.publications ?? []).length} publications; first: ${notes[0]?.summary}`,
       );
       expect(notes.length).toBeGreaterThan(0);
       const published = new Set(
-        opening.world.history.publications.map((p) => p.sourceEventId),
+        (opening.world.history.publications ?? []).map((p) => p.sourceEventId),
       );
       for (const note of notes) {
         expect(published.has(note.id)).toBe(false);
@@ -85,7 +85,7 @@ describe("a program's note to the books is not news", () => {
   );
 
   it("keeps every other publication in the same world", () => {
-    const publications = ELIGIBLE.world.history.publications.filter(
+    const publications = (ELIGIBLE.world.history.publications ?? []).filter(
       (p) => p.correctsPublicationId === null,
     );
     const digest = projectPublicInformationDigest(ELIGIBLE.world);
