@@ -48,6 +48,7 @@ describe("recorded civic messages", () => {
     };
     const [senderId, officialId] = world.personOrder;
     const jurisdictionId = world.people[senderId!]!.homeJurisdictionId;
+    const sourceRecordId = world.history.events[0]!.id;
     world = recordCivicMessage(world, {
       stableKey: "session46:civic-message:mail",
       jurisdictionId,
@@ -56,6 +57,10 @@ describe("recorded civic messages", () => {
       propositionId: proposition.id,
       stance: "no",
       channel: "email",
+      reason: {
+        kind: "law-cost",
+        sourceRecordIds: [sourceRecordId],
+      },
     });
 
     const event = world.history.events.find(
@@ -70,5 +75,24 @@ describe("recorded civic messages", () => {
     );
     expect(event.tags).toContain("message-stance:no");
     expect(event.tags).toContain("message-channel:email");
+    expect(event.tags).toContain("reason:law-cost");
+    expect(event.tags).toContain(`source-record:${sourceRecordId}`);
+
+    world = recordCivicMessage(world, {
+      stableKey: "session46:civic-message:general",
+      jurisdictionId,
+      senderId: senderId!,
+      officialId: officialId!,
+      propositionId: proposition.id,
+      stance: "no",
+      channel: "call",
+    });
+    const general = world.history.events.find(
+      (row) => row.stableKey === "session46:civic-message:general",
+    )!;
+    expect(general.tags).toContain("reason:general-opinion");
+    expect(general.tags.some((tag) => tag.startsWith("source-record:"))).toBe(
+      false,
+    );
   });
 });

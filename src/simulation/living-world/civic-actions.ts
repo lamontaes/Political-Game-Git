@@ -76,6 +76,16 @@ export type CivicMessageStance = "yes" | "no";
 
 const CIVIC_MESSAGE_TAG = "civic-message:v1";
 
+export interface CivicContactReason {
+  readonly kind:
+    | "law-cost"
+    | "lived-outcome"
+    | "official-view"
+    | "organized-opposition"
+    | "general-opinion";
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
 export interface CivicMessageRecord {
   readonly eventId: EntityId;
   readonly sequence: number;
@@ -98,6 +108,8 @@ export interface RecordCivicMessageInput {
   readonly propositionId: EntityId;
   readonly stance: CivicMessageStance;
   readonly channel: CivicMessageChannel;
+  /** The stake that led a background contact to happen, when applicable. */
+  readonly reason?: CivicContactReason;
 }
 
 const MESSAGE_CHANNELS: readonly CivicMessageChannel[] = [
@@ -137,6 +149,10 @@ export function recordCivicMessage(
         ? latestBelief
         : null;
   const salience = belief?.salience ?? "low";
+  const reason = input.reason ?? {
+    kind: "general-opinion" as const,
+    sourceRecordIds: [],
+  };
   return recordWorldEvent(world, {
     stableKey: input.stableKey,
     type: CIVIC_ACTION_EVENTS.contacted,
@@ -154,6 +170,8 @@ export function recordCivicMessage(
       "life.civic",
       CIVIC_ACTIONS_VERSION,
       CIVIC_MESSAGE_TAG,
+      `reason:${reason.kind}`,
+      ...reason.sourceRecordIds.map((id) => `source-record:${id}`),
       `message-channel:${input.channel}`,
       `message-proposition-id:${input.propositionId}`,
       `message-proposition:${proposition.stableKey}`,
@@ -348,15 +366,7 @@ interface CivicStake {
   readonly pull: { readonly contacted: number; readonly attended: number };
   readonly view: ReturnType<typeof strongestOfficialStanding>;
   /** Record evidence that explains why this contact occurred, if any. */
-  readonly reason: {
-    readonly kind:
-      | "law-cost"
-      | "lived-outcome"
-      | "official-view"
-      | "organized-opposition"
-      | "general-opinion";
-    readonly sourceRecordIds: readonly EntityId[];
-  };
+  readonly reason: CivicContactReason;
 }
 
 /** What gives this resident a stake in the town's government, today. */
@@ -571,6 +581,7 @@ export function reviewTownCivicActions(
           officialId,
           propositionId: belief.propositionId,
           stance: belief.position === "support" ? "yes" : "no",
+          reason: stake.reason,
           // Background contact defaults to mail; player-authored messages may
           // select any of the three channels through this same writer.
           channel: "letter",
