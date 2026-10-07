@@ -79,7 +79,7 @@ describe("a trait pack compiled into the build", () => {
     const { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } =
       await import("./new-game");
     const { openOrdinaryLife } = await import("./ordinary-life");
-    const { contactBases } = await import("../simulation/people-contact");
+    const { contactBases } = await import("../simulation/relationship-contact");
 
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,

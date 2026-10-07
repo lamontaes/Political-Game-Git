@@ -26,8 +26,8 @@ import {
 } from "./contract";
 import { flowsForYear, latestReadings } from "./flows";
 
-/** BLANKET: the share of every pressure lost each quarter. Not researched. */
-export const BLANKET_FADE_PER_QUARTER = 0.25;
+/** ESTIMATED FROM AVERAGE: the share of every pressure lost each quarter. */
+export const FADE_PER_QUARTER_ESTIMATE = 0.25;
 
 /** How far the first reading looks back: one migration review interval. */
 export const FIRST_PERIOD_DAYS = 91;
@@ -103,7 +103,7 @@ export function stepPressure(world: World): World {
       PRESSURE_KINDS.map((kind) => [
         kind,
         round(
-          (before?.[kind] ?? 0) * (1 - BLANKET_FADE_PER_QUARTER) +
+          (before?.[kind] ?? 0) * (1 - FADE_PER_QUARTER_ESTIMATE) +
             contributions
               .filter((entry) => entry.kind === kind)
               .reduce((sum, entry) => sum + entry.amount, 0),

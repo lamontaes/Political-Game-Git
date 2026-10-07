@@ -108,7 +108,7 @@ export function ConversationStrip({
 
   const player = world.people[room.playerPersonId];
   if (!player) {
-    throw new Error("Conversation player is missing from the current World.");
+    throw new Error("conversation-player-missing");
   }
 
   if (state.transcriptOpen) {
@@ -175,7 +175,7 @@ export function ConversationStrip({
               ) : null}
             </article>
           ) : (
-            <p>No substantive turns yet.</p>
+            <p data-testid="conversation-no-turns" />
           )}
         </div>
 
@@ -189,8 +189,8 @@ export function ConversationStrip({
           </button>
           <span>
             {entry
-              ? `Turn ${state.transcriptCursor + 1} of ${state.transcript.length}`
-              : "No committed turns"}
+              ? `${state.transcriptCursor + 1} / ${state.transcript.length}`
+              : ""}
           </span>
           <button
             type="button"
@@ -345,13 +345,7 @@ export function ConversationStrip({
         >
           View history
         </button>
-        <span>
-          {state.committedTurnCount === 0
-            ? "No committed turns"
-            : `${state.committedTurnCount} committed ${
-                state.committedTurnCount === 1 ? "turn" : "turns"
-              }`}
-        </span>
+        <span>{state.committedTurnCount}</span>
       </div>
     </aside>
   );

@@ -13,13 +13,16 @@ export type LawConsequenceKind =
   | "tax"
   | "price-cost"
   | "coverage-eligibility"
+  | "snap-participation"
   | "right-permission"
   | "service-delivered"
   | "legal-outcome"
   | "institution-rule"
+  | "business-incentive"
   | "public-library-service"
   | "parks-service-spending"
-  | "government-operations";
+  | "government-operations"
+  | "curriculum-application";
 
 /** Existing bespoke stamp labels awaiting migration; new kinds use LawConsequenceKind. */
 export type LegacyEffectKind =
@@ -74,6 +77,7 @@ export const LAW_AMOUNT_UNITS = [
   "tonnes-co2-equivalent",
   "fluid-ounces",
   "litres",
+  "usd-per-award",
 ] as const;
 export type LawAmountUnit = (typeof LAW_AMOUNT_UNITS)[number];
 
@@ -239,6 +243,9 @@ export type LawTermResolutionProvenance =
       readonly unit: LawAmountUnit;
       /** Date the governing law term was read for this consequence. */
       readonly requestedAt: IsoDate;
+      /** Exact measure/provision/source identity of the primary law term. */
+      readonly lawMeasureId: EntityId;
+      readonly sourceRecordIds: readonly EntityId[];
       readonly scope?: LawTermScope;
       readonly applicability?: LawTermApplicability;
     }

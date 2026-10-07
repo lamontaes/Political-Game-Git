@@ -1,3 +1,5 @@
+export * from "./citizenship";
+export type * from "./citizenship-types";
 export * from "./dates";
 export * from "./after-office-endorsements";
 export * from "./canonical-json";
@@ -360,3 +362,4 @@ export * from "./living-world/federal-reform";
 export * from "./federal-tenures";
 
 export * from "./campaign-managers";
+export * from "./campaign-donors";

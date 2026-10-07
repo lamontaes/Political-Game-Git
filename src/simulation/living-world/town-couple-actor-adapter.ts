@@ -162,8 +162,8 @@ export function evaluateTownDateProposal(
       },
       ...supported.map((row) => ({
         key: `date:${row.id}`,
-        label: "Ask this person out",
-        description: "Propose a first date to this recorded acquaintance.",
+        label: "ask-on-a-date",
+        description: "date-proposal",
       })),
     ],
     constraints: [],

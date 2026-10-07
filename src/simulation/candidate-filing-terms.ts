@@ -1,4 +1,4 @@
-import filingTermsData from "../../data/research/elections/candidate-filing-terms.json";
+import filingTermsData from "../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import { STATES } from "./state-reference";
 
 export type FilingOfficeFamily =

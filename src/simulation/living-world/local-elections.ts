@@ -9,6 +9,7 @@ import {
 } from "../people-traits";
 import { lifeWeighsAgainstOffice } from "../careers/another-term";
 import { decideAnotherTerm } from "../careers/another-term";
+import { applyLocalElectionLawLandings } from "../law-consequences/modules/election-local-landings";
 import {
   councilTermLimitBar,
   COUNCIL_TERM_LIMIT_QUESTION,
@@ -345,6 +346,8 @@ function campaignSeats(
       contest.office.officeKey,
     );
     if (office?.unit.id !== unit.id) continue;
+    // A county row office has no numbered seat; it takes none from the board.
+    if (office.seat === "row-office") continue;
     const seat = localCampaignSeat(
       unit,
       office.seat === "chief-executive",
@@ -375,7 +378,7 @@ export function withdrawTownRaceForCampaign(
   const office = localGoverningBodyIdentityForOfficeKey(
     contest.office.officeKey,
   );
-  if (!office) return world;
+  if (!office || office.seat === "row-office") return world;
   const { unit } = office;
   const campaign = campaigns(world).find((row) => row.contestId === contestId);
   const seat = localCampaignSeat(
@@ -463,6 +466,7 @@ function event(
     readonly town: EntityId;
     readonly label: string;
     readonly involved: readonly EntityId[];
+    readonly focusPersonId?: EntityId;
     readonly tags: readonly string[];
     readonly summary: string;
   } & LawEffectStampedRecord,
@@ -479,7 +483,15 @@ function event(
     recordedAt: world.currentDate,
     jurisdictionId: input.town,
     involvedEntityIds: [...input.involved],
-    participants: [],
+    participants: input.focusPersonId
+      ? [
+          {
+            personId: input.focusPersonId,
+            role: "focus:subject",
+            detail: "barred",
+          },
+        ]
+      : [],
     personFactConstraints: [],
     visibility: "public",
     tags: [V, ...input.tags],
@@ -961,9 +973,15 @@ export function localElectionFilingHandler(
           town,
           label: office.governmentName,
           involved: [holder.personId],
+          focusPersonId: holder.personId,
           tags: [`unit:${unit.id}`, `seat:${seat}`, "barred:term-limit"],
           summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: ${barred}`,
         });
+        const barEvent = next.history.events.find(
+          (row) => row.stableKey === `${race}:term-limited`,
+        );
+        if (stamp && barEvent)
+          next = applyLocalElectionLawLandings(next, barEvent.id);
       }
       const decided = barred
         ? { world: next, seeks: false }

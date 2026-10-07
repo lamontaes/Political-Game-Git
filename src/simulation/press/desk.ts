@@ -11,6 +11,7 @@ import {
 } from "../future-transitions";
 import { personName } from "../people";
 import { correctPublication, publishPublicEvent } from "../public-information";
+import { PUBLIC_PROGRAM_EVENT_PREFIX } from "../public-program-integrity";
 import {
   PRESS_STORY_EVENT_TYPE,
   PRESS_STORY_LEAD_TAG,
@@ -56,6 +57,7 @@ import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
+  ensurePressExposureCoverage,
   mediaOutlets,
   reporterIsCurrent,
   reporterRoles,
@@ -114,6 +116,8 @@ export const PRESS_DESK_INTERVALS = {
 const RESPONSE_REQUESTED_EVENT = "press.response-requested";
 export const SUBJECT_RESPONDED_EVENT = "press.subject-responded";
 const EXCLUDED_PREFIXES = [
+  // A program's note to the books is not copy; its record keeps the fields.
+  PUBLIC_PROGRAM_EVENT_PREFIX,
   "press.",
   "setup.",
   "simulation.",
@@ -951,17 +955,9 @@ function editorialDecision(
   reporterId: EntityId,
 ): FutureTransitionHandlerResult {
   const material = storyMaterial(world, lead);
-  const outlet = requirePressRecord(world, "media-outlet", lead.outletId);
-  const standard = outlet.editorialStandard ?? "realistic";
   const history = dispositionsForLead(world, lead.id);
   const alreadyHeld = history.some((record) => record.decision === "held");
-  const canPublishFull =
-    standard === "tougher"
-      ? material.corroborated || material.usable.length > 0
-      : standard === "gentler"
-        ? material.corroborated &&
-          (material.usable.length >= 2 || material.publicBasis.length > 0)
-        : material.corroborated;
+  const canPublishFull = material.corroborated;
   const canNarrow = !material.corroborated && material.publicBasis.length > 0;
   const constraints: DecisionConstraint[] = [];
   if (!canPublishFull) {
@@ -970,9 +966,7 @@ function editorialDecision(
       optionKey: "publish",
       kind: "editorial:corroboration",
       explanation:
-        standard === "gentler"
-          ? "This outlet waits for a second source, a document, or a public record before printing an allegation."
-          : "Anonymous information needs a named source, a second source or a document before it runs.",
+        "Anonymous information needs a named source, a second source or a document before it runs.",
       sourceRefs: [],
     });
   }
@@ -1556,6 +1550,12 @@ export function pressDeskSweepHandler(
   if (dueItem.transitionKey !== PRESS_DESK_SWEEP_TRANSITION_KEY) {
     throw new Error("The desk sweep handler received another transition.");
   }
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
   // Only the opening sweep reads the archive. Later sweeps retain the
   // incremental frontier so older records are not rescanned every week.
   const frontier =
@@ -2081,6 +2081,8 @@ function beatForEventType(type: string): MediaBeat {
   )
     return "international";
   if (type.startsWith("civic.local-matter")) return "local-government";
+  // A protest is covered where it happens, by the reporter on local government.
+  if (type.startsWith("civic.protest-")) return "local-government";
   // What a law did to a town's people is covered where they live.
   if (type.startsWith("law.")) return "local-government";
   if (type.startsWith("congress.")) return "congress";
