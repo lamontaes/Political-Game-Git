@@ -45,6 +45,37 @@ export interface TimeCommandReport {
   /** The actual date reached, which can be earlier than the disclosed target. */
   readonly reached?: SimulationMoment;
   readonly stoppedEarly: boolean;
+  /** Main-thread time spent handling this command, measured around its work. */
+  readonly elapsedMs?: number;
+}
+
+export interface TimeCommandTiming {
+  readonly id: number;
+  readonly kind: string;
+  readonly status: TimeCommandStatus | "failed";
+  readonly elapsedMs: number;
+}
+
+const TIME_COMMAND_TIMING_LIMIT = 50;
+let recentTimings: readonly TimeCommandTiming[] = [];
+const timingListeners = new Set<() => void>();
+let nextTimingId = 1;
+
+export function recentTimeCommandTimings(): readonly TimeCommandTiming[] {
+  return recentTimings;
+}
+
+export function subscribeTimeCommandTimings(listener: () => void): () => void {
+  timingListeners.add(listener);
+  return () => timingListeners.delete(listener);
+}
+
+function rememberTimeCommandTiming(timing: TimeCommandTiming): void {
+  recentTimings = [
+    ...recentTimings.slice(-(TIME_COMMAND_TIMING_LIMIT - 1)),
+    timing,
+  ];
+  for (const listener of timingListeners) listener();
 }
 
 export interface TimeActionResult {
@@ -99,6 +130,7 @@ export function createTimeCommandCore(options: {
   const schedule = (
     work: (source: SimulationMoment) => TimeCommandReport,
     onReport?: (report: TimeCommandReport) => void,
+    kind = "action",
   ) => {
     if (busy) return;
     busy = true;
@@ -106,6 +138,7 @@ export function createTimeCommandCore(options: {
     const source = options.latest().world.currentMoment;
     options.defer(() => {
       let report: TimeCommandReport;
+      const startedAt = globalThis.performance?.now() ?? Date.now();
       try {
         report = work(source);
       } catch (error) {
@@ -120,29 +153,42 @@ export function createTimeCommandCore(options: {
         busy = false;
         options.setPending(false);
       }
-      onReport?.(report);
+      const elapsedMs =
+        (globalThis.performance?.now() ?? Date.now()) - startedAt;
+      const measured = { ...report, elapsedMs };
+      rememberTimeCommandTiming({
+        id: nextTimingId++,
+        kind,
+        status: measured.status,
+        elapsedMs,
+      });
+      onReport?.(measured);
     });
   };
   return {
     submit(command, onReport) {
-      schedule((source) => {
-        const target = options.latest();
-        const result = submitTimeCommand(target.world, {
-          requestId: nextTimeRequestId(),
-          personId: target.personId,
-          sourceMoment: source,
-          command,
-          interruptions: target.interruptions,
-        });
-        if (result.world !== target.world) target.onWorldChange(result.world);
-        return {
-          status: result.receipt.status,
-          outcome: result.receipt.outcome,
-          target: result.receipt.requestedTarget,
-          reached: result.receipt.reached,
-          stoppedEarly: result.receipt.stoppedEarly,
-        };
-      }, onReport);
+      schedule(
+        (source) => {
+          const target = options.latest();
+          const result = submitTimeCommand(target.world, {
+            requestId: nextTimeRequestId(),
+            personId: target.personId,
+            sourceMoment: source,
+            command,
+            interruptions: target.interruptions,
+          });
+          if (result.world !== target.world) target.onWorldChange(result.world);
+          return {
+            status: result.receipt.status,
+            outcome: result.receipt.outcome,
+            target: result.receipt.requestedTarget,
+            reached: result.receipt.reached,
+            stoppedEarly: result.receipt.stoppedEarly,
+          };
+        },
+        onReport,
+        command.kind,
+      );
     },
     perform(run, onReport) {
       schedule((source) => {
