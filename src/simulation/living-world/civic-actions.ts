@@ -545,7 +545,18 @@ export function reviewTownCivicActions(
     const stake = civicStake(world, personId, town, groupMembers);
     if (passesMeasure(stake, "contacted", today)) {
       const officialId =
-        stake.view?.officialId ?? wardRepresentative(personId) ?? headOfTown;
+        [
+          stake.view?.officialId,
+          wardRepresentative(personId),
+          headOfTown,
+          officers.find((officer) => officer.personId !== personId)?.personId,
+          governor?.personId,
+        ].find(
+          (candidate): candidate is EntityId =>
+            candidate !== undefined &&
+            candidate !== null &&
+            candidate !== personId,
+        ) ?? null;
       const belief = issueBeliefs.get(personId);
       if (
         officialId &&
