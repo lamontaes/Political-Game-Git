@@ -2,15 +2,12 @@
 
 ## Completed
 
-- VIEWS work remains on `session-55-views` at `c62386676` with focused tests, Prettier, and ESLint passing. Current-main merge is complete; the new-game screenshot attempt is blocked by current browser-run setup issues (native JSON import and server identity/storage configuration). No PR has been opened for this SCREEN item.
+- b04-p1 merged as PR #3407.
+- VIEWS remains in ready PR #3420 (`session-55-views`). Its side/back view and facing fallback changes are ready, but the full-screen screenshot run is blocked by browser-run setup issues documented in that PR.
+- AU-01 is ready in PR #3461 on `session-55-au-01`, head `df9b4e7de`, based on `1f9f620cd`. Shared federal proposal rollcall recording and pack-based Congress lookup are in place; sourced D.C. appropriation item veto flows through the shared council engine. Focused rollcall, D.C. veto, federal term-limit, and earlier proposal-writer/municipal-veto tests pass. Prettier/ESLint/diff-check pass. Typecheck has six unrelated Crime/Press test errors; release check has the inherited `bg-44-refresh.md` filename/ID mismatch. Full item-veto suite's three date-fixture failures reproduce on clean main.
+- AU-02 was already implemented by merged PR #3102 (`460019b0d`). `causal-effects.ts` and its imports are retired; `LAW_EFFECT_KIND_REGISTRY` supplies the stamp union; enactment opens newly recorded appropriations through the shared office path. Current-main grep found no `withProgramMatters` handler list. POOL marks AU-02 done.
 
-## Current pool item: b04-p1
+## Current pool item: AU-03
 
-- Working on `session-55-b04-p1` from `origin/main` `832492b67`.
-- Rescued implementation from closed PR #2603 as two commits; resolved current-main fundraiser changes in `campaign-money-sources.ts`.
-- Added an explicit next-race carry test: the losing campaign's committee balance moves to the same candidate's next campaign only when `carryForwardFromCampaignId` is supplied.
-- Both changed campaign test files pass 43/43, including the new transfer test.
-- Prettier and ESLint pass on changed source and tests.
-- The player-facing campaign filing helper does not yet pass a carry choice; `fileCampaign` exposes an explicit `carryForwardFromCampaignId` input for the filing layer. Keep this as the simulation contract for b04-p1; b04-p6 owns the player view.
-- Full typecheck reports current-main Press/Crime errors (`PlaySettings.premises`, missing press exports, and unrelated crime test exports). Release check reports the current-main `bg-44-refresh.md` id/filename mismatch. Load check reaches the existing Node `.css` import failure at `src/styles.css`.
-- Next: commit/push and open a new PR; do not reopen #2603. Continue Session 55 VIEWS screenshot route independently after the pool PR.
+- Fresh branch `session-55-au-03` from current `origin/main` `532bf6c0d`.
+- Next: inspect federal law effect sizing in the treasury and the law-specific tax/outlay writers; keep one authoritative size per law.
