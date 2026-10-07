@@ -1712,7 +1712,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const homePrices =
         marketRentLevel(next, lease.town, dueOn) /
         marketRentLevel(next, lease.town, lastYear);
-// The shared price-cost consequence applies an adopted cap from recorded terms.
+      // The shared price-cost consequence applies an adopted cap from recorded terms.
       amount = Math.round((old * homePrices) / 100) * 100;
       reason = marketRentRenewalReason(
         homePrices,

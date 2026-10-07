@@ -229,7 +229,8 @@ describe("saved town rent consequences apply recorded stabilization terms", () =
       world = atDate(world, due);
       const renewed = renewTownLeases(world, due);
       const terms = resourceFlowTermsAt(renewed, lease.flow.id)!;
-      expect(terms.reason).toContain("Price terms under");
+      expect(terms.reason).toContain("The local housing-market level");
+      expect(terms.reason).toContain("The price changed under");
       expect(terms.lawEffectStamps?.[0]).toMatchObject({
         questionKey: RENT_LAW_KEYS.rentStabilization,
         effectKind: "price-cost",
