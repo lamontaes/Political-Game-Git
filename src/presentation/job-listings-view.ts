@@ -120,7 +120,7 @@ function listingView(
     opening.schedule,
     opening.qualifications,
     opening.earliestStartAt
-      ? `Earliest start: ${proseDate(opening.earliestStartAt)}.`
+      ? `Earliest start: ${proseDate(opening.earliestStartAt)}`
       : null,
   ].filter((line): line is string => !!line);
   const blocked = applicationBlocked(world, personId, opening.id);
@@ -131,7 +131,7 @@ function listingView(
       area && area !== employer ? `${employer} · ${area}` : employer,
     termsLine: `${payPhrase(opening.pay)} · ${hoursPhrase(opening)}`,
     details,
-    closesLine: `Taking applications through ${proseDate(opening.closesAt)}.`,
+    closesLine: `Applications close: ${proseDate(opening.closesAt)}`,
     applyBlocked: blocked,
     introducers: blocked
       ? []
@@ -173,40 +173,42 @@ function applicationView(
   if (!latest)
     return view(
       application.route === "introduced"
-        ? "Someone you know put in a word for you. Waiting to hear back."
-        : `You applied on ${proseDate(application.submittedAt)}. Waiting to hear back.`,
+        ? "Introduced · Waiting"
+        : `Applied: ${proseDate(application.submittedAt)} · Waiting`,
     );
   switch (latest.kind) {
     case "declined":
-      return view(`They turned you down. ${latest.reason ?? ""}`.trim());
+      return view(`Declined${latest.reason ? ` · ${latest.reason}` : ""}`);
     case "offered": {
       const hours = latest.agreedWeeklyHours
         ? `, ${latest.agreedWeeklyHours} hours a week`
         : "";
       return view(
-        `They offered you the job at ${payPhrase(opening.pay)}${hours}, starting ${proseDate(latest.startAt!)}. Answer by ${proseDate(latest.replyBy!)}.`,
+        `Offer: ${payPhrase(opening.pay)}${hours} · Starts: ${proseDate(latest.startAt!)} · Answer by: ${proseDate(latest.replyBy!)}`,
         ["accept", "refuse"],
       );
     }
     case "accepted":
-      return view(`You accepted. You start on ${proseDate(latest.startAt!)}.`, [
+      return view(`Accepted · Starts: ${proseDate(latest.startAt!)}`, [
         "start",
       ]);
     case "followed-up":
       return view(
-        `${employer} called when you did not come in. They still want you, starting ${proseDate(expectedStart(world, applicationId)!)}.`,
+        `Accepted · ${employer} called · Starts: ${proseDate(expectedStart(world, applicationId)!)}`,
         ["start"],
       );
     case "refused":
-      return view("You turned down their offer.");
+      return view("Offer refused");
     case "offer-lapsed":
       return view(
-        `The offer lapsed: you did not answer by ${proseDate(applicationOffer(world, applicationId)?.replyBy ?? latest.occurredAt)}.`,
+        `Offer lapsed: ${proseDate(applicationOffer(world, applicationId)?.replyBy ?? latest.occurredAt)}`,
       );
     case "withdrawn":
-      return view(`They withdrew the offer. ${latest.reason ?? ""}`.trim());
+      return view(
+        `Offer withdrawn${latest.reason ? ` · ${latest.reason}` : ""}`,
+      );
     case "started":
-      return view(`You started on ${proseDate(latest.occurredAt)}.`);
+      return view(`Started: ${proseDate(latest.occurredAt)}`);
   }
 }
 
@@ -260,9 +262,9 @@ export function payFloorSentenceAt(
       before && before.hourlyMinor !== now.hourlyMinor
         ? ` from ${dollarsAnHour(before.hourlyMinor)}`
         : "";
-    return `The lowest legal pay here is ${dollarsAnHour(now.hourlyMinor)}. ${levelLaw} set it${from} on ${proseDate(now.effectiveAt)}.`;
+    return `Minimum wage: ${dollarsAnHour(now.hourlyMinor)} · ${levelLaw}${from ? ` · Was${from.replace(" from", "")}` : ""} · Since: ${proseDate(now.effectiveAt)}`;
   }
-  return `The lowest legal pay here is ${dollarsAnHour(now.hourlyMinor)}, set by ${levelLaw.toLowerCase()}.`;
+  return `Minimum wage: ${dollarsAnHour(now.hourlyMinor)} · ${levelLaw}`;
 }
 
 export function projectJobMarket(
@@ -292,7 +294,7 @@ export function projectJobMarket(
     .map((work) => ({
       workRelationshipId: work.id,
       heading: `${workRoleAt(world, work.id)?.title ?? "Job"}, ${employerDisplayName(world, work.organizationId!)}`,
-      status: `You have worked here since ${proseDate(work.startedAt)}.`,
+      status: `Working here since: ${proseDate(work.startedAt)}`,
     }));
   const payFloor = payFloorSentence(world, personId);
   return { townName, payFloor, listings, applications, heldJobs };
