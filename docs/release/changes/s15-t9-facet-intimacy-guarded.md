@@ -1,6 +1,8 @@
 ---
 id: s15-t9-facet-intimacy-guarded
-impact: none
+impact: minor
+section: Simulation
+title: Intimacy-guarded people may decline public press responses
 ---
 
-Pool status correction only; no player-facing change.
+People who guard their privacy may now decline to answer the press in public.
