@@ -3,6 +3,7 @@ import { recordByStableKey } from "../history-index";
 import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 import { addDays, ageOnDate, daysBetween } from "../dates";
 import { currentGovernorOf } from "../crisis/offices";
+import { OFFICE_EMPLOYMENT_KINDS } from "../governing/office-consequence";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { activeWorkRelationshipsAt } from "../life-queries";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
@@ -588,19 +589,30 @@ export function reviewTownCivicActions(
           `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:contacted:${personId}`,
         );
         if (contact) {
+          const officeRelationshipId = officeRelationshipForContact(
+            next,
+            officialId,
+            officers,
+          );
           next = openOfficeCaseForContact(
             next,
             contact,
             officialId,
             officers.some((officer) => officer.personId === officialId) ||
-              governor?.personId === officialId,
-            officeRelationshipForContact(next, officialId, officers),
+              governor?.personId === officialId ||
+              officeRelationshipId !== null,
+            officeRelationshipId,
           );
         }
       } else {
         // Preserve the existing contact count when no saved issue view can
         // support a truthful topic and position. This event is not read as
         // a substantive constituent message.
+        const officeRelationshipId = officeRelationshipForContact(
+          next,
+          officialId,
+          officers,
+        );
         next = record(
           next,
           town,
@@ -611,8 +623,9 @@ export function reviewTownCivicActions(
           null,
           stake.reason,
           officers.some((officer) => officer.personId === officialId) ||
-            governor?.personId === officialId,
-          officeRelationshipForContact(next, officialId, officers),
+            governor?.personId === officialId ||
+            officeRelationshipId !== null,
+          officeRelationshipId,
         );
       }
     }
@@ -633,12 +646,12 @@ function officeRelationshipForContact(
   );
   if (councilSeat) return councilSeat.participationId;
 
-  const executiveOffices = activeWorkRelationshipsAt(world, officialId)
+  const publicOffices = activeWorkRelationshipsAt(world, officialId)
     .map(({ relationship }) => relationship)
-    .filter(
-      (relationship) => relationship.kind === "employment:executive-office",
+    .filter((relationship) =>
+      OFFICE_EMPLOYMENT_KINDS.includes(relationship.kind),
     );
-  return executiveOffices.length === 1 ? executiveOffices[0]!.id : null;
+  return publicOffices.length === 1 ? publicOffices[0]!.id : null;
 }
 
 interface QuarterMeeting {
