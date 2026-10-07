@@ -22,10 +22,8 @@ import {
   CONGRESS_INTAKE_TRANSITION,
   applyCongressLawmaking,
 } from "../simulation/governing/congress-lawmaking";
-import {
-  ensureOfficeholderPrinciples,
-  OFFICEHOLDER_PRINCIPLES_VERSION,
-} from "../simulation/governing/officeholder-principles";
+import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
+import { LIFE_PRINCIPLES_VERSION } from "../simulation/principles-from-life";
 import {
   establishOpeningOfficeholders,
   openingOfficeholders,
@@ -118,10 +116,13 @@ describe("OPENING-LIFE1 opening lifecycle", () => {
       candidate.history.principles.filter(
         (row) =>
           memberIds.includes(row.personId) &&
-          row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
+          row.stableKey.startsWith(`${LIFE_PRINCIPLES_VERSION}:`),
       );
     const before = versionedRowsForCongress(world);
-    expect(before.length).toBeGreaterThan(3_500);
+    // Members' principles form from their recorded lives (no seeded draw), so
+    // only members with enough life pull hold rows; a member with none holds
+    // no invented view.
+    expect(before.length).toBeGreaterThan(0);
     expect(new Set(before.map((row) => row.stableKey)).size).toBe(
       before.length,
     );
