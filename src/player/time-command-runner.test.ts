@@ -8,6 +8,7 @@ import {
 } from "../presentation/new-game";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import { DEFAULT_INTERRUPTIONS } from "../presentation/shell-navigation";
+import { submitTimeCommand } from "../presentation/time-command";
 import type { World } from "../simulation";
 import {
   createTimeCommandCore,
@@ -90,6 +91,46 @@ describe("the shell's time runner", () => {
     h.queue.shift()!();
     expect(reports[0]!.status).toBe("stale");
     expect(h.committed).toHaveLength(0);
+  });
+
+  it("discards a worker result when the same-date World changed meanwhile", async () => {
+    const life = adultLife();
+    const queue: (() => void)[] = [];
+    const committed: World[] = [];
+    const reports: TimeCommandReport[] = [];
+    let target: TimeCommandTarget = {
+      world: life.world,
+      personId: life.personId,
+      interruptions: DEFAULT_INTERRUPTIONS,
+      onWorldChange: (world) => committed.push(world),
+    };
+    let resolveCommand!: (result: ReturnType<typeof submitTimeCommand>) => void;
+    const pendingResult = new Promise<ReturnType<typeof submitTimeCommand>>(
+      (resolve) => (resolveCommand = resolve),
+    );
+    const core = createTimeCommandCore({
+      latest: () => target,
+      setPending: () => undefined,
+      defer: (work) => queue.push(work),
+      executeTimeCommand: () => pendingResult,
+    });
+
+    core.submit({ kind: "days", days: 1 }, (report) => reports.push(report));
+    queue.shift()!();
+    target = { ...target, world: { ...target.world } };
+    resolveCommand(
+      submitTimeCommand(life.world, {
+        requestId: "worker-stale-world",
+        personId: life.personId,
+        sourceMoment: life.world.currentMoment,
+        command: { kind: "days", days: 1 },
+        interruptions: DEFAULT_INTERRUPTIONS,
+      }),
+    );
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(reports[0]?.status).toBe("stale");
+    expect(committed).toHaveLength(0);
   });
 
   it("runs attending under the same busy state and refuses stale worlds", () => {

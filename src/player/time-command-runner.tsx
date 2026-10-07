@@ -1,5 +1,6 @@
 import {
   createContext,
+  startTransition,
   useContext,
   useEffect,
   useMemo,
@@ -26,6 +27,7 @@ import {
 } from "../presentation/shell-navigation";
 import { stoppedEarlyLabel } from "../presentation/time-target-label";
 import { interruptionHandlers } from "../presentation/interruption-policy";
+import { applyWorldDelta, type WorldDelta } from "./time-command-delta";
 
 /**
  * Every time control on the player shell submits through here.
@@ -94,6 +96,10 @@ export function createTimeCommandCore(options: {
   readonly latest: () => TimeCommandTarget;
   readonly setPending: (pending: boolean) => void;
   readonly defer: (work: () => void) => void;
+  readonly executeTimeCommand?: (
+    world: World,
+    request: Parameters<typeof submitTimeCommand>[1],
+  ) => Promise<ReturnType<typeof submitTimeCommand>>;
 }): Omit<TimeCommandRunner, "pending"> {
   let busy = false;
   const schedule = (
@@ -125,6 +131,78 @@ export function createTimeCommandCore(options: {
   };
   return {
     submit(command, onReport) {
+      if (options.executeTimeCommand) {
+        if (busy) return;
+        busy = true;
+        options.setPending(true);
+        const source = options.latest().world.currentMoment;
+        options.defer(() => {
+          const target = options.latest();
+          let committedWorld: World | null = null;
+          void options.executeTimeCommand!(target.world, {
+            requestId: nextTimeRequestId(),
+            personId: target.personId,
+            sourceMoment: source,
+            command,
+            interruptions: target.interruptions,
+          })
+            .then(({ world, receipt }) => {
+              const latest = options.latest();
+              if (
+                latest.world !== target.world ||
+                compareSimulationMoments(latest.world.currentMoment, source) !==
+                  0
+              ) {
+                onReport?.({
+                  status: "stale",
+                  outcome: STALE_OUTCOME,
+                  target: null,
+                  stoppedEarly: false,
+                });
+                return;
+              }
+              if (world !== target.world) {
+                committedWorld = world;
+                startTransition(() => target.onWorldChange(world));
+              }
+              onReport?.({
+                status: receipt.status,
+                outcome: receipt.outcome,
+                target: receipt.requestedTarget,
+                reached: receipt.reached,
+                stoppedEarly: receipt.stoppedEarly,
+              });
+            })
+            .catch((error: unknown) => {
+              onReport?.({
+                status: "failed",
+                outcome:
+                  error instanceof Error
+                    ? error.message
+                    : "Time could not advance.",
+                target: null,
+                stoppedEarly: false,
+              });
+            })
+            .finally(() => {
+              const releaseWhenCommitted = () => {
+                if (
+                  committedWorld !== null &&
+                  options.latest().world !== committedWorld
+                ) {
+                  if (typeof globalThis.requestAnimationFrame === "function")
+                    globalThis.requestAnimationFrame(releaseWhenCommitted);
+                  else globalThis.setTimeout(releaseWhenCommitted, 0);
+                  return;
+                }
+                busy = false;
+                options.setPending(false);
+              };
+              releaseWhenCommitted();
+            });
+        });
+        return;
+      }
       schedule((source) => {
         const target = options.latest();
         const result = submitTimeCommand(target.world, {
@@ -171,15 +249,98 @@ export function useTimeCommandRunner(
   target: TimeCommandTarget,
 ): TimeCommandRunner {
   const latest = useRef(target);
+  const workerRef = useRef<Worker | null>(null);
+  const workerWorldRef = useRef<World | null>(null);
+  const workerJobs = useRef(
+    new Map<
+      string,
+      {
+        readonly baseWorld: World;
+        resolve: (result: ReturnType<typeof submitTimeCommand>) => void;
+        reject: (error: Error) => void;
+      }
+    >(),
+  );
+  const nextWorkerJob = useRef(0);
   useEffect(() => {
     latest.current = target;
-  });
+    const worker = workerRef.current;
+    if (worker && workerWorldRef.current !== target.world) {
+      // Clone the large checkpoint after the World commits, before a player
+      // can press Day. The click message then carries only its small command.
+      workerWorldRef.current = target.world;
+      worker.postMessage({ type: "sync", world: target.world });
+    }
+  }, [target]);
+  useEffect(() => {
+    const worker = new Worker(
+      new URL("./time-command-worker.ts", import.meta.url),
+      { type: "module" },
+    );
+    workerRef.current = worker;
+    worker.onmessage = (event: MessageEvent) => {
+      const job = workerJobs.current.get(event.data?.jobId);
+      if (!job) return;
+      workerJobs.current.delete(event.data.jobId);
+      if (event.data.error) job.reject(new Error(event.data.error));
+      else {
+        const result = event.data.result as {
+          readonly delta: WorldDelta;
+          readonly receipt: ReturnType<typeof submitTimeCommand>["receipt"];
+        };
+        const nextWorld = applyWorldDelta(job.baseWorld, result.delta);
+        // The worker already owns this exact checkpoint. Mark it before React
+        // commits so the effect does not postMessage the whole World back.
+        workerWorldRef.current = nextWorld;
+        job.resolve({
+          world: nextWorld,
+          receipt: result.receipt,
+        });
+      }
+    };
+    worker.onerror = (event) => {
+      for (const job of workerJobs.current.values())
+        job.reject(new Error(event.message || "Time could not advance."));
+      workerJobs.current.clear();
+    };
+    workerWorldRef.current = latest.current.world;
+    worker.postMessage({ type: "sync", world: latest.current.world });
+    return () => {
+      worker.terminate();
+      workerRef.current = null;
+      workerWorldRef.current = null;
+      for (const job of workerJobs.current.values())
+        job.reject(new Error("Time could not advance."));
+      workerJobs.current.clear();
+    };
+  }, []);
   const [pending, setPending] = useState(false);
   const core = useMemo(
     () =>
       createTimeCommandCore({
         latest: () => latest.current,
         setPending,
+        executeTimeCommand: (world, request) =>
+          new Promise((resolve, reject) => {
+            const worker = workerRef.current;
+            if (!worker) {
+              reject(new Error("Time is still preparing."));
+              return;
+            }
+            // Normally the effect above has already synced this exact World.
+            // Preserve correctness if a click races its first mount.
+            if (workerWorldRef.current !== world) {
+              workerWorldRef.current = world;
+              worker.postMessage({ type: "sync", world });
+            }
+            const jobId = `time-${++nextWorkerJob.current}`;
+            workerJobs.current.set(jobId, {
+              baseWorld: world,
+              resolve,
+              reject,
+            });
+            worker.postMessage({ type: "advance", jobId, request });
+          }),
         // One task later, so the busy state is on screen before a long
         // advance holds the main thread.
         defer: (work) => {
