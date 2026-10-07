@@ -236,6 +236,28 @@ describe("people anchors on every place picture", () => {
     ]);
   });
 
+  it("anchors both visible governor office sofa seats", () => {
+    const seats = STAGES["governor-office"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    const sofa = seats.filter((spot) => spot.group === "sofa");
+    expect(seats).toHaveLength(6);
+    expect(sofa).toHaveLength(2);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(6);
+    expect(
+      sofa.filter((spot) => spot.id === "governor-office:spot:10"),
+    ).toMatchObject([{ x: 77, y: 56.1, facing: "viewer", seatY: 45.5 }]);
+  });
+
+  it("anchors all six Washington capitol fountain plaza benches", () => {
+    const seats = STAGES["state-capitol-wa"]!.spots.filter(
+      (spot) => spot.pose === "sit" && spot.group === "fountain-benches",
+    );
+    expect(seats).toHaveLength(6);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(6);
+    expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(4);
+  });
+
   it("anchors both Pennsylvania capitol walkway benches", () => {
     const seats = STAGES["state-capitol-pa"]!.spots.filter((spot) =>
       spot.group?.startsWith("walk-bench-"),
@@ -301,6 +323,26 @@ describe("people anchors on every place picture", () => {
       expect(
         added.filter((spot) => spot.group === `banquet-back-${side}`),
       ).toHaveLength(2);
+    }
+  });
+
+  it("anchors the park picnic-table benches", () => {
+    const seats = STAGES["park"]!.spots.filter((spot) => spot.pose === "sit");
+    const picnic = seats.filter((spot) => spot.group?.startsWith("picnic-"));
+    expect(seats).toHaveLength(16);
+    expect(picnic).toHaveLength(14);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(16);
+    expect(picnic.filter((spot) => spot.facing === "away")).toHaveLength(7);
+    for (const group of [
+      "picnic-west",
+      "picnic-center-west",
+      "picnic-center-east",
+      "picnic-east",
+      "picnic-front-west",
+      "picnic-front-center",
+      "picnic-front-east",
+    ]) {
+      expect(picnic.filter((spot) => spot.group === group)).toHaveLength(2);
     }
   });
 
