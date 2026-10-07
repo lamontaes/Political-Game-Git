@@ -24,6 +24,7 @@ import { facetEnterprisingEffects } from "./facet-enterprising";
 import { facetEntitledEffects } from "./facet-entitled";
 import { facetEnviousEffects } from "./facet-envious";
 import { facetExcitableEffects } from "./facet-excitable";
+import { facetFairMindedEffects } from "./facet-fair-minded";
 import { facetForgivingEffects } from "./facet-forgiving";
 import { facetFriendlyEffects } from "./facet-friendly";
 import { facetGenerousEffects } from "./facet-generous";
@@ -92,6 +93,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetEntitledEffects,
     ...facetEnviousEffects,
     ...facetExcitableEffects,
+    ...facetFairMindedEffects,
     ...facetForgivingEffects,
     ...facetFriendlyEffects,
     ...facetGenerousEffects,
