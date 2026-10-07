@@ -589,7 +589,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1178 | Add final Team 7 supplied scene preview review batch | PR #1178 (codex/sept29-team7-scenes-07) | done (superseded by C7; art preserved for later owner review) | S45 |
 | RS-1179 | Review existing capitol surfaces: AK through KS | PR #1179 (codex/sept29-team7-scenes-08) | ready #3187 | Session 45 |
 | RS-1180 | Review existing capitol surfaces: KY through OH | PR #1180 (codex/sept29-team7-scenes-09) | done (superseded by C7; art preserved for later owner review) | S50 |
-| RS-1181 | Review existing capitol surfaces: OK through WY | PR #1181 (codex/sept29-team7-scenes-10) | ready #3242 | Session 45 |
+| RS-1181 | Review existing capitol surfaces: OK through WY | PR #1181 (codex/sept29-team7-scenes-10) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1187 | Trace Team 7 scene and newspaper why-chains | PR #1187 (codex/team7-bedrock-numbers) | open: draft: finish it or close it as superseded | |
 | RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | open: stacked on codex/team-9-bill-number-research: retarget to main; draft: finish it or close it as superseded | |
 | RS-1203 | Review remaining canonical scene spots | PR #1203 (codex/sept29-team7-remaining-spots) | open: draft: finish it or close it as superseded | |
