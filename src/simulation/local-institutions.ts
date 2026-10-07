@@ -1,4 +1,4 @@
-import corpusText from "../../data/research/places/local-institutions.json?raw";
+import corpusJson from "../../data/research/places/local-institutions.json" with { type: "json" };
 import { countyGeoidsForPlace } from "./government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import {
@@ -10,7 +10,7 @@ import type { EntityId, IsoDate, LifeRecordProvenance, World } from "./types";
 import type { SchoolStageKey } from "./school-calendar";
 import type { LocalInstitutionRow } from "./local-institutions-data";
 
-const corpus = JSON.parse(corpusText) as LocalInstitutionsCorpus;
+const corpus = corpusJson as LocalInstitutionsCorpus;
 
 /**
  * The official institutions named for a playable place, with county rows

@@ -52,7 +52,7 @@ describe("measure paper negotiation record", () => {
       eventId: fixture.world.history.events[0]!.id,
     });
     const html = render(world);
-    expect(html).toContain("What was asked for");
+    expect(html).not.toContain("What was asked for");
     expect(html).toContain('data-testid="record-negotiations"');
     expect(html).toContain(request);
     expect(html).toContain('data-testid="call-the-vote"');

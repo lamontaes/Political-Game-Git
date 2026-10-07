@@ -2,7 +2,10 @@ import {
   DEMO_START_DATE,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
-import { US_CONGRESS_RULE_PACK } from "./congress-rule-pack";
+import {
+  federalRulePackById,
+  US_CONGRESS_RULE_PACK,
+} from "./congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   legislatureForState,
@@ -61,15 +64,17 @@ export function legislativePackForJurisdiction(
 export function legislativePackForWorkKey(
   key: string,
 ): LegislativeRulePack | null {
-  if (key === US_CONGRESS_RULE_PACK.institution?.workKey)
-    return US_CONGRESS_RULE_PACK;
+  const institutionPackId = key.startsWith("institution:")
+    ? key.slice("institution:".length)
+    : null;
+  const federalPack = institutionPackId
+    ? federalRulePackById(institutionPackId)
+    : null;
+  if (federalPack?.jurisdictionKey === "US") return federalPack;
   const compiled = LEGISLATIVE_RULE_PACKS.find(
     (pack) =>
       legislativeWorkKey(pack) === key || `institution:${pack.packId}` === key,
   );
-  const institutionPackId = key.startsWith("institution:")
-    ? key.slice("institution:".length)
-    : null;
   // A researched chamber whose committees are unread refers its bills to the
   // stand-in standing committee, as `rulePackById` does.
   const statePack =

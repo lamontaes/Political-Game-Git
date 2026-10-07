@@ -11,6 +11,8 @@ import {
 import { personName } from "./people";
 import { latestPersonalValue } from "./queries";
 import { recordRelationshipInteraction } from "./records";
+import { registeredTraitConsiderations } from "./trait-readings";
+import { traitRegistryFor } from "./trait-registry";
 import { readRelationshipStanding } from "./relationship-standing";
 import type {
   DecisionConsideration,
@@ -328,7 +330,16 @@ export function askToBeACouple(
       },
     ],
     constraints: [],
-    considerations: romanticConsiderations(world, key, otherPersonId, personId),
+    considerations: [
+      ...romanticConsiderations(world, key, otherPersonId, personId),
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        otherPersonId,
+        `${key}:answer`,
+        "people.couple-answer",
+      ),
+    ],
     perceptionIds: [],
     randomness: "close-choices",
     retention: "ephemeral",
