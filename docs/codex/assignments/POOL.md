@@ -481,7 +481,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | T9-facet-brooding | Wire trait facet-brooding into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3184 | Session 52 |
 | T9-facet-affectionate | Wire trait facet-affectionate into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3122 | Session 42 |
 | T9-facet-closeness-seeking | Wire trait facet-closeness-seeking into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
-| T9-facet-intimacy-guarded | Wire trait facet-intimacy-guarded into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
+| T9-facet-intimacy-guarded | Wire trait facet-intimacy-guarded into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3229 | Session 59 |
 | T9-facet-devoted | Wire trait facet-devoted into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3145 | Session 42 |
 | T9-facet-nostalgic | Wire trait facet-nostalgic into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-teasing | Wire trait facet-teasing into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3096 | Session 42 |
@@ -921,7 +921,7 @@ open: rebase on main (conflicts) | |
 | RS-2726 | b01-p1-s2: ground filing guidance in the canonical gate | PR #2726 (session-110/b01-p1-s2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2727 | b04-p3-s2: include active standing-group members in civic stake | PR #2727 (session-110/b04-p3-s2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2728 | b18-p1: cloud task — saved player ballots in the existing count | PR #2728 (session-110/b18-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2732 | b24-p1-s3: READY for CTO review (eight turned input failures) | PR #2732 (codex/session127-b24-p1-s3) | open: rebase on main (conflicts) | |
+| RS-2732 | b24-p1-s3: READY for CTO review (eight turned input failures) | PR #2732 (codex/session127-b24-p1-s3) | ready #2732 | |
 | RS-2734 | b24-p1-s4: native cloth-boundary probe (cuff mask unfinished) | PR #2734 (codex/session127-b24-p1-s4) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2739 | b24-p2: independent tag validator proposal (owner schema missing) | PR #2739 (codex/session127-b24-p2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | ready #2742 | |
