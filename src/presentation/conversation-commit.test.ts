@@ -8,7 +8,7 @@ import {
   shortPersonName,
 } from "./conversation-subjects";
 import { createNewGameWorld } from "./new-game";
-import { openNextLifeScene } from "./life-scene-flow";
+import { recordHomePresence } from "../../tests/support/home-presence-fixture";
 import { householdConversationRoom, openOrdinaryLife } from "./ordinary-life";
 import { RUN_B_CONVERSATION_INTENTS } from "./run-b-conversation";
 import {
@@ -39,7 +39,7 @@ function household(seed: string) {
     givenName: null,
     familyName: null,
   });
-  const world = openNextLifeScene(
+  const world = recordHomePresence(
     openOrdinaryLife(game.world, game.playerPersonId),
     game.playerPersonId,
   );

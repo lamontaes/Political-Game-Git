@@ -173,11 +173,7 @@ describe("the links these measures switch on", () => {
     expect(status("property-tax-to-rent")).toBe("outcome-not-produced");
     expect(status("corporate-tax-incidence")).toBe("outcome-not-produced");
     // Causes still unrecorded, and the research questions that would fix them.
-    for (const key of [
-      "polling-distance-to-turnout",
-      "lead-to-reading",
-      "eitc-to-low-birthweight",
-    ])
+    for (const key of ["lead-to-reading", "eitc-to-low-birthweight"])
       expect(status(key), key).toBe("cause-not-recorded");
   });
 

@@ -15,11 +15,13 @@ import {
   requireMeasure,
 } from "./legislation";
 import { currentMeasureProvisions } from "./legislative-politics";
+import { councilSeatOffice } from "./living-world/council-seat-office";
 import type {
   EntityId,
   OfficeBriefingInspectionRecord,
   OfficeBriefingItemKind,
   OfficeCaseworkWorkflowMode,
+  OfficeMeetingDepth,
   OfficeVoteInstructionDisposition,
   OfficeVoteInstructionRecord,
   OfficeVotingWorkflowMode,
@@ -38,6 +40,11 @@ const CASEWORK_MODES: readonly OfficeCaseworkWorkflowMode[] = [
   "player-handles-all",
   "staff-routine-player-exceptions",
   "staff-handles-and-briefs",
+];
+
+const MEETING_DEPTHS: readonly OfficeMeetingDepth[] = [
+  "what-matters",
+  "everything",
 ];
 
 const INSTRUCTION_DISPOSITIONS: readonly OfficeVoteInstructionDisposition[] = [
@@ -150,9 +157,10 @@ export type OfficeWorkflowWriteResult =
 export interface RecordOfficeWorkflowPreferenceInput {
   readonly personId: EntityId;
   readonly officeRelationshipId: EntityId;
-  /** Null only for an office that casts no votes; a legislative seat needs one. */
+  /** Null only for an office that casts no votes; a legislative or council seat needs one. */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  readonly meetingDepth?: OfficeMeetingDepth;
 }
 
 export function recordOfficeWorkflowPreference(
@@ -168,23 +176,34 @@ export function recordOfficeWorkflowPreference(
   const relationship = world.history.workRelationships.find(
     (entry) => entry.id === input.officeRelationshipId,
   );
-  if (!relationship) {
+  // A council seat is an organization participation, not a work relationship;
+  // it takes the same workflow through the same writer.
+  const councilSeat = relationship
+    ? null
+    : councilSeatOffice(world, input.personId, input.officeRelationshipId);
+  if (!relationship && !councilSeat) {
     return refused(world, "No office relationship matches this preference.");
   }
-  if (relationship.personId !== input.personId) {
+  if (relationship && relationship.personId !== input.personId) {
     return refused(
       world,
       "An office preference must belong to the person who holds the office.",
     );
   }
   if (input.votingMode === null) {
-    if (relationship.kind === "employment:legislative-member")
+    if (councilSeat)
+      return refused(world, "A council seat needs a voting workflow.");
+    if (relationship?.kind === "employment:legislative-member")
       return refused(world, "A legislative seat needs a voting workflow.");
   } else if (!VOTING_MODES.includes(input.votingMode)) {
     return refused(world, "That voting workflow is not a supported choice.");
   }
   if (!CASEWORK_MODES.includes(input.caseworkMode)) {
     return refused(world, "That casework workflow is not a supported choice.");
+  }
+  const meetingDepth = input.meetingDepth ?? "what-matters";
+  if (!MEETING_DEPTHS.includes(meetingDepth)) {
+    return refused(world, "office-workflow:unsupported-meeting-depth");
   }
   const current = currentOfficeWorkflowPreference(
     world,
@@ -194,7 +213,8 @@ export function recordOfficeWorkflowPreference(
   if (
     current &&
     current.votingMode === input.votingMode &&
-    current.caseworkMode === input.caseworkMode
+    current.caseworkMode === input.caseworkMode &&
+    (current.meetingDepth ?? "what-matters") === meetingDepth
   ) {
     return { kind: "recorded", world };
   }
@@ -210,6 +230,7 @@ export function recordOfficeWorkflowPreference(
     officeRelationshipId: input.officeRelationshipId,
     votingMode: input.votingMode,
     caseworkMode: input.caseworkMode,
+    meetingDepth,
     recordedAt: makeIsoDate(world.currentDate),
     supersedesPreferenceId: current?.id ?? null,
   };
@@ -243,7 +264,11 @@ export function recordOfficeVoteInstruction(
   const relationship = world.history.workRelationships.find(
     (entry) => entry.id === input.officeRelationshipId,
   );
-  if (!relationship || relationship.personId !== input.personId) {
+  const holdsOffice = relationship
+    ? relationship.personId === input.personId
+    : councilSeatOffice(world, input.personId, input.officeRelationshipId) !==
+      null;
+  if (!holdsOffice) {
     return refused(
       world,
       "A vote instruction must bind the person who holds this office.",

@@ -17,10 +17,14 @@ import {
 } from "../presentation/title-ambient";
 import {
   civicTitlePictures,
+  pictureForChosenState,
+  pictureForChosenTown,
   rotationForSave,
   type TitlePicture,
 } from "../presentation/title-civic-rotation";
 import { titlePictureHero } from "../presentation/title-picture-hero";
+import { middayBackdropUrl } from "../presentation/place-backdrops";
+import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import backdropManifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { backdropUrl } from "../presentation/backdrop-urls";
 import {
@@ -46,7 +50,6 @@ import {
   artPreviewMode,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
-import { PlayerVersion } from "./PlayerVersion";
 import {
   nativeQuitAvailable,
   requestNativeQuit,
@@ -153,6 +156,8 @@ export function AmbientTableau({
   hero = null,
   recent = null,
   still = false,
+  chosenState = null,
+  chosenTown = false,
   children,
 }: {
   readonly resolved?: TitlePresentation | null;
@@ -178,6 +183,13 @@ export function AmbientTableau({
    * form is the ghosting the owner saw, and it reads as an error.
    */
   readonly still?: boolean;
+  /**
+   * The postal code of the state a new life is being made in (OW-4). Once the
+   * creator has one, the backdrop is that place's own, never the White House.
+   */
+  readonly chosenState?: string | null;
+  /** A town is chosen too: its own main street or city hall leads instead. */
+  readonly chosenTown?: boolean;
   readonly children: (roomDescription: string) => ReactNode;
 }) {
   const pictures = useMemo(() => titlePictures(), []);
@@ -188,6 +200,21 @@ export function AmbientTableau({
       PRODUCTION_VISUAL_LIBRARY,
       pictures,
     );
+    if (chosenState) {
+      const own =
+        (chosenTown
+          ? pictureForChosenTown(STAGED_PLACES, middayBackdropUrl)
+          : null) ?? pictureForChosenState(pictures, chosenState);
+      const placeFree = ambient.filter(
+        (room) => room.sceneId !== "picture:white-house-exterior",
+      );
+      if (!own) return placeFree;
+      const lead = pictureRoom(own);
+      return [
+        lead,
+        ...placeFree.filter((room) => room.sceneId !== lead.sceneId),
+      ];
+    }
     if (recent) {
       const { first } = rotationForSave(pictures, recent.playerRole);
       if (!first) return ambient;
@@ -204,7 +231,7 @@ export function AmbientTableau({
       label: tableau.label,
     };
     return [first, ...ambient.filter((room) => room.sceneId !== first.sceneId)];
-  }, [resolved, recent, pictures]);
+  }, [resolved, recent, pictures, chosenState, chosenTown]);
 
   /**
    * The returning player in front of their place. Only on the title itself:
@@ -213,9 +240,9 @@ export function AmbientTableau({
    */
   const leadHero = useMemo(() => {
     const lead = cycle[0]?.picture;
-    if (!recent || !lead || !peoplePackAvailable()) return null;
+    if (chosenState || !recent || !lead || !peoplePackAvailable()) return null;
     return titlePictureHero(recent, lead.place);
-  }, [cycle, recent]);
+  }, [cycle, recent, chosenState]);
 
   const reducedMotion = usePrefersReducedMotion();
   const step = useAmbientStep(cycle.length > 1 && !still);
@@ -286,7 +313,6 @@ export function AmbientTableau({
         cycleKey="title-hero"
       >
         {children(hero.presentation.description)}
-        <PlayerVersion />
       </TitleTableau>
     );
   }
@@ -300,7 +326,6 @@ export function AmbientTableau({
       leavingCycleKey={leavingCycleKey}
     >
       {children(presentation.description)}
-      <PlayerVersion />
     </TitleTableau>
   );
 }
@@ -328,6 +353,9 @@ function titlePictures(): readonly TitlePicture[] {
     : pictures;
 }
 
+/** Places the staging table can put people in. */
+const STAGED_PLACES: ReadonlySet<string> = new Set(Object.keys(staging.places));
+
 /** What the wrapper paints when there is no art and no save: nothing at all. */
 const TYPOGRAPHIC_ONLY: TitlePresentation = {
   kind: "typographic",
@@ -335,8 +363,8 @@ const TYPOGRAPHIC_ONLY: TitlePresentation = {
   scene: null,
   heroAnchorId: null,
   heroName: null,
-  description: "The title screen.",
-  reasons: ["No banked tableau is available."],
+  description: "",
+  reasons: ["no-banked-tableau"],
 };
 
 /**
@@ -455,7 +483,6 @@ export function TitleScreen({
 }) {
   const recent = saves[0];
   const setAside = damaged?.length ?? 0;
-  const reading = saveListing === "loading";
   const unread = saveListing === "failed";
   const outdated = saveListing === "outdated";
 
@@ -464,7 +491,7 @@ export function TitleScreen({
   // flash: two of them, each with its own cycle and its own cover transform,
   // swapped at a route change.
   return (
-    <main className="game-title" data-testid="title-screen">
+    <main className="game-title pg-glass-panel" data-testid="title-screen">
       {/*
             The room is the picture; it does not need a line telling the player
             it is a room (Task A). The environment-description prose — "a hall …
@@ -485,7 +512,6 @@ export function TitleScreen({
         {onWatch ? (
           <button type="button" data-testid="watch-world" onClick={onWatch}>
             Watch the world
-            <small>Nobody played. It runs on its own.</small>
           </button>
         ) : null}
         <button
@@ -498,51 +524,31 @@ export function TitleScreen({
           {recent ? (
             <small>
               {recent.observing
-                ? "Watching the world"
+                ? ""
                 : `${recent.playerName}, ${recent.playerAge}`}
               {!recent.observing && recent.playerRole
                 ? ` \u00b7 ${recent.playerRole.title}`
                 : ""}
               {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
             </small>
-          ) : reading ? (
-            <small data-testid="continue-reading">
-              Opening your saved lives…
-            </small>
           ) : setAside > 0 ? (
-            // A disabled button with no reason is the same silence one layer
-            // down, so it says why it cannot be pressed and where to go.
-            <small data-testid="continue-set-aside">
-              {setAside === 1
-                ? "Your saved game needs attention"
-                : "Your saved games need attention"}
-            </small>
+            <small data-testid="continue-set-aside">{setAside}</small>
           ) : null}
         </button>
         <button
           type="button"
           data-testid="open-saves"
+          data-listing={saveListing}
           onClick={onOpenSaves}
           disabled={savesUnavailable}
         >
           Saved games
-          <small>
-            {reading
-              ? "Opening…"
-              : outdated && saves.length === 0
-                ? "Reload the page to open them"
-                : unread && saves.length === 0
-                  ? "Could not be read just now"
-                  : saves.length > 0
-                    ? setAside > 0
-                      ? `${saves.length} saved \u00b7 ${setAside} needs attention`
-                      : `${saves.length} saved`
-                    : setAside > 0
-                      ? setAside === 1
-                        ? "1 saved game needs attention"
-                        : `${setAside} saved games need attention`
-                      : "None yet \u00b7 import one"}
-          </small>
+          {saves.length > 0 || setAside > 0 ? (
+            <small>
+              {saves.length}
+              {setAside > 0 ? ` \u00b7 ${setAside}` : ""}
+            </small>
+          ) : null}
         </button>
         <button
           type="button"
@@ -566,30 +572,15 @@ export function TitleScreen({
           </button>
         ) : null}
       </div>
-      {savesUnavailable ? (
-        <p className="game-note">
-          This browser will not let the game store anything, so a game played
-          here will not still be here later.
-        </p>
-      ) : null}
-      {unread ? (
-        <p className="game-problem" data-testid="saves-unread">
-          Your saved lives could not be read just now. Nothing was deleted.{" "}
-          {onRetrySaves ? (
-            <button type="button" onClick={onRetrySaves}>
-              Try again
-            </button>
-          ) : null}
-        </p>
+      {unread && onRetrySaves ? (
+        <button type="button" data-testid="saves-unread" onClick={onRetrySaves}>
+          Try again
+        </button>
       ) : null}
       {outdated ? (
-        <p className="game-problem" data-testid="saves-outdated">
-          This page is an older copy of the game than the one that kept your
-          saved lives. Reload the page to open them. Nothing was deleted.{" "}
-          <button type="button" onClick={reloadPage}>
-            Reload
-          </button>
-        </p>
+        <button type="button" data-testid="saves-outdated" onClick={reloadPage}>
+          Reload
+        </button>
       ) : null}
       {problem ? <p className="game-problem">{problem}</p> : null}
     </main>

@@ -1,0 +1,10 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run build -- env NODE_OPTIONS=--max-old-space-size=8192 npm run typecheck
+
+[storage-guard] build: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+> political-life-rpg@0.4.0 typecheck
+> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts
+
+typecheck-test-imports: 799 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 82, src/presentation 534, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).

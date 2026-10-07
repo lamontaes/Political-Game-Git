@@ -49,7 +49,7 @@ function SeriesTable({ series }: { readonly series: MacroSeries }) {
             <th scope="row">{macroPeriodLabel(point.period)}</th>
             <td>
               {point.value === null
-                ? `No value — ${point.missingReason ?? "not recorded"}`
+                ? `No published value — ${point.missingReason ?? "the series records a publication gap"}`
                 : formatValue(point.value, series.unit)}
             </td>
           </tr>
@@ -126,7 +126,8 @@ export function MacroConditionsPanel({
                 {formatValue(card.value, card.unit)}
               </strong>
               <span className="pg-macro-card-meta">
-                {card.period ?? "No value yet"} · {card.geographyLabel}
+                {card.period ? `${card.period} · ` : ""}
+                {card.geographyLabel}
               </span>
               <span className="pg-macro-card-meta">
                 {card.unit} · {CLASS_LABEL[card.valueClass]}

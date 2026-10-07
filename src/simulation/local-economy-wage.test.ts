@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   LOCAL_BUSINESS_KINDS,
-  LOCAL_BUSINESS_PLACEHOLDER,
+  LOCAL_BUSINESS_ESTIMATE,
   localBusinessWageMinor,
 } from "./local-economy";
 import {
@@ -32,7 +32,7 @@ describe("what a local business pays its staff", () => {
   it("says so when no wage is published, and uses the marked placeholder", () => {
     const wage = localBusinessWageMinor(LOCAL_BUSINESS_KINDS[0]!, null);
     expect(wage.sourced).toBe(false);
-    expect(wage.monthlyMinor).toBe(LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor);
+    expect(wage.monthlyMinor).toBe(LOCAL_BUSINESS_ESTIMATE.monthlyWageMinor);
   });
 });
 

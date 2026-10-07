@@ -1,3 +1,4 @@
+import type { GroundedEnglishPacket } from "../../../src/presentation/grounded-english";
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -16,6 +17,9 @@ const WORK_ID = "work_press_preparation" as EntityId;
 
 const PREPARED: PressInterviewProjection = {
   activityId: ACTIVITY_ID,
+  arrangementEventId: "fixture:arrangement" as EntityId,
+  preparationEventId: "fixture:preparation" as EntityId,
+  preparationKnowledgeIds: ["fixture:knowledge" as EntityId],
   reporterPersonId: REPORTER_ID,
   reporterName: "Avery Brooks",
   subjectPersonId: SUBJECT_ID,
@@ -43,6 +47,34 @@ const PREPARED: PressInterviewProjection = {
   condensedPenaltyApplied: false,
 };
 
+// Explicit authored UI fixture packet; normal play builds this from canonical records.
+const facts = Object.fromEntries(
+  [
+    ...PREPARED.knownFacts,
+    PREPARED.primaryQuestion,
+    ...PREPARED.likelyFollowUps,
+  ].map((text, index) => [
+    `fixture-${index}`,
+    { text, sourceRecordIds: [`fixture:record:${index}` as EntityId] },
+  ]),
+);
+const ANSWER_PACKET: GroundedEnglishPacket = {
+  surface: "dialogue",
+  worldSeed: "fixture:press-panel",
+  bankVersion: "1",
+  stage: "press-answer",
+  momentKey: "fixture:prepared",
+  sourceRecordIds: [PREPARED.arrangementEventId, PREPARED.preparationEventId!],
+  speaker: { personId: SUBJECT_ID, traits: {} },
+  viewer: { personId: REPORTER_ID, traits: {} },
+  facts,
+  knowledge: Object.entries(facts).map(([factKey, fact]) => ({
+    personId: SUBJECT_ID,
+    factKey,
+    sourceRecordIds: fact.sourceRecordIds,
+  })),
+};
+
 function Fixture() {
   const [view, setView] = useState(PREPARED);
   const [open, setOpen] = useState(true);
@@ -50,6 +82,7 @@ function Fixture() {
 
   return (
     <PressInterviewPanel
+      answerPacket={ANSWER_PACKET}
       view={view}
       onClose={() => {
         document.body.dataset.panelClosed = "true";

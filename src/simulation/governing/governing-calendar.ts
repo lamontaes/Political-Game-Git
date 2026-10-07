@@ -1,3 +1,7 @@
+import {
+  municipalGovernmentByKey,
+  primaryReading,
+} from "../municipal-government";
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -5,7 +9,10 @@ import {
   legislativeProcedureForJurisdiction,
   regularSessionYearForWorld,
 } from "../legislative-procedure-world";
-import type { EntityId, World } from "../types";
+import { addDays, makeIsoDate } from "../dates";
+import { stateKeyForJurisdiction } from "../life-places";
+import type { EntityId, IsoDate, World } from "../types";
+import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
 
 /**
  * The state governing due records the canonical clock keeps filled. Dates
@@ -14,9 +21,64 @@ import type { EntityId, World } from "../types";
 
 const STATE_GOVERNING_VERSION = "state-governing/v1";
 
+type SessionWindow2026 = {
+  readonly conveneAt: string;
+  readonly adjournAt: string | "full-year";
+};
+
+const REGULAR_SESSIONS_2026 = (
+  stateSessionCalendar as unknown as {
+    readonly regularSessions: Readonly<
+      Record<string, readonly SessionWindow2026[]>
+    >;
+  }
+).regularSessions;
+
 export const GOVERNING_SEASON = "governing:season" as const;
 
 export type SeasonKind = "budget" | "bill";
+
+/** The 2026 per-jurisdiction record is authoritative when it has a row. */
+function recordedStateBillDate(
+  world: World,
+  jurisdictionId: EntityId,
+):
+  | { readonly covered: false }
+  | { readonly covered: true; readonly dueAt: IsoDate | null } {
+  if (Number(world.currentDate.slice(0, 4)) > 2026) return { covered: false };
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  const key = jurisdiction && stateKeyForJurisdiction(jurisdiction);
+  if (!key || !Object.hasOwn(REGULAR_SESSIONS_2026, key))
+    return { covered: false };
+  for (const session of REGULAR_SESSIONS_2026[key]!) {
+    const opensAt = makeIsoDate(session.conveneAt);
+    const closesAt =
+      session.adjournAt === "full-year"
+        ? makeIsoDate("2026-12-31")
+        : makeIsoDate(session.adjournAt);
+    const nextAt =
+      world.currentDate < opensAt
+        ? opensAt
+        : world.currentDate < closesAt
+          ? addDays(world.currentDate, 7)
+          : null;
+    if (nextAt && nextAt > world.currentDate && nextAt <= closesAt)
+      return { covered: true, dueAt: nextAt };
+  }
+  return {
+    covered: true,
+    dueAt: nextSessionCalendarDate(
+      LEGISLATIVE_SESSION_CALENDARS.state,
+      world.currentDate,
+      "bill",
+      {
+        notBefore: makeIsoDate("2027-01-01"),
+        eligibleYear: (year) =>
+          regularSessionYearForWorld(world, jurisdictionId, year),
+      },
+    ),
+  };
+}
 
 /**
  * Makes sure a governorship has its next budget season and bill day on the
@@ -27,18 +89,53 @@ export function scheduleGoverningSeasons(
   world: World,
   officeKey: string,
   jurisdictionId: EntityId,
+  municipal?: { readonly kind: "municipal"; readonly governmentKey: string },
 ): World {
-  const calendar =
+  const government = municipal
+    ? municipalGovernmentByKey(municipal.governmentKey)
+    : null;
+  const submission = government
+    ? primaryReading(government).budget.submissionDeadline?.monthDay
+    : null;
+  const baseline =
     legislativeProcedureForJurisdiction(world, jurisdictionId)?.baselinePack
       .session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
+  const budgetCalendar = baseline.tasks?.budget
+    ? baseline
+    : LEGISLATIVE_SESSION_CALENDARS.state;
+  const calendar = submission
+    ? {
+        ...baseline,
+        id: `municipal-budget:${municipal!.governmentKey}`,
+        note: "The recorded municipal budget submission date.",
+        tasks: {
+          ...baseline.tasks,
+          budget: { kind: "annual" as const, monthDays: [submission] },
+        },
+      }
+    : municipal
+      ? budgetCalendar
+      : baseline;
   let next = world;
-  for (const kind of ["budget", "bill"] as const) {
-    const dueAt = nextSessionCalendarDate(calendar, next.currentDate, kind, {
-      eligibleYear:
-        kind === "bill"
-          ? (year) => regularSessionYearForWorld(next, jurisdictionId, year)
-          : undefined,
-    });
+  const kinds: readonly SeasonKind[] = municipal
+    ? ["budget"]
+    : ["budget", "bill"];
+  for (const kind of kinds) {
+    const recordedBillDate =
+      kind === "bill" && !municipal
+        ? recordedStateBillDate(next, jurisdictionId)
+        : { covered: false as const };
+    if (recordedBillDate.covered && recordedBillDate.dueAt === null) continue;
+    const dueAt =
+      kind === "bill" && recordedBillDate.covered
+        ? recordedBillDate.dueAt!
+        : nextSessionCalendarDate(calendar, next.currentDate, kind, {
+            eligibleYear:
+              kind === "bill"
+                ? (year) =>
+                    regularSessionYearForWorld(next, jurisdictionId, year)
+                : undefined,
+          });
     const stableKey = `${STATE_GOVERNING_VERSION}:season:${officeKey}:${kind}:${dueAt}`;
     if (next.history.futureDueItems.some((due) => due.stableKey === stableKey))
       continue;

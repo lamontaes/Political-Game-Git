@@ -5,6 +5,7 @@ import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import { statuteEffectiveRule } from "./governing/statute-effective-date";
 import { enactingGovernmentForPack } from "./legislation-drafting";
 import { recordedSessionAdjournment } from "./governing/session-adjournments";
+import { potentialRiderRuleIssue } from "./governing/rider-rule-trail";
 import {
   growingIndex,
   indexOverArrays,
@@ -27,7 +28,9 @@ import {
   type LegislativeRulePack,
   type VoteDenominator,
   type VoteThresholdRule,
+  type MinorityProcedureMotion,
 } from "./legislature-rules";
+import { minorityPartyProcedureRows } from "./minority-party-procedure";
 import {
   legislativeRulePackForWorld,
   legislativeProcedureForPack,
@@ -69,6 +72,19 @@ import type {
   World,
 } from "./types";
 import { recordWorldEvent } from "./world";
+import { ensureStateJurisdictionForKey } from "./nationwide-world/state-executives";
+import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "./national-election-geography";
+import { executiveRulePackForJurisdiction } from "./executive-authority-rule-packs";
+import {
+  decideExecutiveActionAuthority,
+  type ExecutiveActionClause,
+} from "./executive-action-authority";
+import { lawInForce } from "./governing/law-in-force";
+import { currentGovernorOf, currentPresidentOf } from "./crisis/offices";
 
 /**
  * Canonical legislative process.
@@ -211,7 +227,9 @@ export interface MeasureReplay {
 function initialState(measure: LegislativeMeasureRecord): ReplayState {
   return {
     phase: "drafting",
-    chamberKey: measure.originChamberKey,
+    chamberKey: isExecutiveInstrumentMeasure(measure)
+      ? null
+      : measure.originChamberKey,
     committeeKey: null,
     floorStageKey: null,
     outcome: null,
@@ -221,6 +239,15 @@ function initialState(measure: LegislativeMeasureRecord): ReplayState {
     earliestNextFloorDate: null,
     overrideChambersRecorded: [],
   };
+}
+
+function isExecutiveInstrumentMeasure(
+  measure: LegislativeMeasureRecord,
+): boolean {
+  return (
+    measure.governmentInstrument === "regulation" ||
+    measure.governmentInstrument === "executive-order"
+  );
 }
 
 function positionOf(state: ReplayState): MeasurePosition {
@@ -268,6 +295,16 @@ const REGULAR_SESSION_ACTIONS: ReadonlySet<LegislativeActionKind> = new Set([
   "amendment-rejected",
   "floor-stage-passed",
   "floor-stage-failed",
+  "procedural-motion-failed",
+  "tabled",
+  "postponed",
+  "recommitted",
+  "recorded-vote-demanded",
+  "full-reading-demanded",
+  "rules-suspended",
+  "sine-die-vote-carried",
+  "quorum-not-present",
+  "debate-extended",
   "transmitted",
   "concurred",
   "concurrence-failed",
@@ -297,6 +334,27 @@ function applyRecordedAction(
     return illegal(
       `'${action.kind}' was recorded after the measure had already finished as '${state.outcome}'`,
     );
+  }
+  if (isExecutiveInstrumentMeasure(measure)) {
+    if (action.kind === "introduced") {
+      if (state.phase !== "drafting" || action.chamberKey !== null)
+        return illegal(
+          "an executive instrument must be filed directly by its issuing office",
+        );
+      state.phase = "awaiting-enactment";
+      state.chamberKey = null;
+      return LEGAL;
+    }
+    if (action.kind === "enacted") {
+      if (state.phase !== "awaiting-enactment")
+        return illegal(
+          "an executive instrument can be issued only after filing",
+        );
+      state.phase = "enacted";
+      state.outcome = "enacted";
+      return LEGAL;
+    }
+    return illegal("an executive instrument cannot take a legislative action");
   }
   if (
     pack.session.regularSessionYears &&
@@ -442,6 +500,44 @@ function applyRecordedAction(
         chamber.chamberKey !== measure.originChamberKey
       ) {
         state.secondChamberAmended = true;
+      }
+      return LEGAL;
+    }
+    case "procedural-motion-failed":
+    case "tabled":
+    case "postponed":
+    case "recommitted":
+    case "recorded-vote-demanded":
+    case "full-reading-demanded":
+    case "rules-suspended":
+    case "sine-die-vote-carried":
+    case "quorum-not-present":
+    case "debate-extended": {
+      const gate = requirePhase(state, action.kind, ["on-floor"]);
+      if (!gate.ok) return gate;
+      const chamber = currentChamber();
+      if (!chamber) return illegal("the measure is not in a chamber");
+      if (action.chamberKey !== chamber.chamberKey)
+        return illegal("the procedural action names a different chamber");
+      if (action.kind === "postponed" || action.kind === "tabled") {
+        if (!action.resumeAt || action.resumeAt <= action.occurredAt)
+          return illegal(
+            "a postponed or tabled measure needs a later resume date",
+          );
+        state.earliestNextFloorDate = action.resumeAt;
+      }
+      if (action.kind === "recommitted") {
+        if (!action.committeeKey)
+          return illegal("a recommitted measure must name its committee");
+        committeeByKey(chamber, action.committeeKey);
+        state.phase = "in-committee";
+        state.committeeKey = action.committeeKey;
+        state.floorStageKey = null;
+      }
+      if (action.kind === "debate-extended" && action.resumeAt) {
+        if (action.resumeAt <= action.occurredAt)
+          return illegal("extended debate must resume after the motion date");
+        state.earliestNextFloorDate = action.resumeAt;
       }
       return LEGAL;
     }
@@ -1205,6 +1301,169 @@ export function buildLegislativeVoteRecord<
   };
 }
 
+export interface RecordProceduralMotionInput {
+  readonly measureId: EntityId;
+  readonly stableKey: string;
+  readonly chamberKey: string;
+  readonly motion: MinorityProcedureMotion;
+  readonly vote: LegislativeVoteRecord & {
+    readonly purpose: "procedural-motion";
+  };
+  readonly actorLabel: string;
+  readonly rationale: string;
+  readonly resumeAt?: IsoDate | null;
+  readonly committeeKey?: string | null;
+}
+
+/** Record a procedure vote decided by the shared chamber vote engine. */
+export function recordProceduralMotion(
+  world: World,
+  input: RecordProceduralMotionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const position = assertPhase(
+    world,
+    measure.id,
+    ["on-floor"],
+    "take a procedural motion",
+  );
+  if (position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A procedural motion must name the measure's current chamber.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const rules = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    !rules ||
+    rules.motions.kind !== "known" ||
+    !rules.motions.value.includes(input.motion)
+  )
+    throw new Error(
+      `The ${input.motion} motion is not available in this chamber.`,
+    );
+  if (
+    input.vote.measureId !== measure.id ||
+    input.vote.purpose !== "procedural-motion" ||
+    input.vote.forum.kind !== "chamber" ||
+    input.vote.forum.chamberKey !== input.chamberKey
+  )
+    throw new Error(
+      "A procedural-motion record needs its own vote in the same chamber.",
+    );
+  const thresholdRule =
+    input.motion === "suspend-rules" ? rules.suspendRulesBar : rules.motionBar;
+  if (
+    thresholdRule.kind !== "known" ||
+    input.vote.thresholdLabel !== thresholdRule.value.label
+  )
+    throw new Error("The recorded vote used a different procedural threshold.");
+  if (input.resumeAt && input.resumeAt <= input.vote.takenAt)
+    throw new Error("A procedural delay must resume after the motion date.");
+  if (
+    (input.motion === "postpone" || input.motion === "table") &&
+    !input.resumeAt
+  )
+    throw new Error("A postpone or table motion must name its return date.");
+  if (input.motion === "recommit" && !input.committeeKey)
+    throw new Error("A recommit motion must name its committee.");
+  if (input.motion === "recommit" && input.committeeKey)
+    committeeByKey(chamberByKey(pack, input.chamberKey), input.committeeKey);
+
+  const acceptedKind: Record<MinorityProcedureMotion, LegislativeActionKind> = {
+    table: "tabled",
+    postpone: "postponed",
+    recommit: "recommitted",
+    "recorded-vote": "recorded-vote-demanded",
+    "full-reading": "full-reading-demanded",
+    "suspend-rules": "rules-suspended",
+    "sine-die": "sine-die-vote-carried",
+  };
+  const passed = input.vote.outcome === "passed";
+  const kind = passed ? acceptedKind[input.motion] : "procedural-motion-failed";
+  const chamber = chamberByKey(pack, input.chamberKey);
+  return appendAction(world, {
+    measure,
+    kind,
+    stableKey: input.stableKey,
+    chamberKey: chamber.chamberKey,
+    committeeKey: input.committeeKey ?? null,
+    floorStageKey: position.floorStageKey,
+    actorLabel: input.actorLabel,
+    rationale: input.rationale,
+    summary: `${chamber.name}: ${input.motion} ${passed ? "carried" : "failed"} ${input.vote.tally.yea}-${input.vote.tally.nay}`,
+    eventType: "legislation.procedural-motion",
+    tags: ["legislation.procedure"],
+    vote: input.vote,
+    proceduralMotion: input.motion,
+    resumeAt: input.resumeAt,
+  });
+}
+
+export interface RecordDebateExtensionInput {
+  readonly measureId: EntityId;
+  readonly stableKey: string;
+  readonly chamberKey: string;
+  readonly memberPersonId: EntityId;
+  readonly actorLabel: string;
+  readonly rationale: string;
+  readonly resumeAt: IsoDate;
+}
+
+/** Record one member's decision to keep the floor for another sitting day. */
+export function recordDebateExtension(
+  world: World,
+  input: RecordDebateExtensionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const position = assertPhase(
+    world,
+    measure.id,
+    ["on-floor"],
+    "extend floor debate",
+  );
+  if (position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A debate extension must name the measure's current chamber.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const procedure = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    procedure?.unlimitedDebate.kind !== "known" ||
+    !procedure.unlimitedDebate.value ||
+    procedure.clotureBar.kind !== "known"
+  )
+    throw new Error("This chamber has no recorded unlimited-debate rule.");
+  if (input.resumeAt <= world.currentDate)
+    throw new Error("An extended debate must resume after today.");
+  const chamber = chamberByKey(pack, input.chamberKey);
+  return appendAction(world, {
+    measure,
+    kind: "debate-extended",
+    stableKey: input.stableKey,
+    chamberKey: input.chamberKey,
+    committeeKey: null,
+    floorStageKey: position.floorStageKey,
+    actorLabel: input.actorLabel,
+    rationale: input.rationale,
+    summary: `${chamber.name}: debate-extended by ${input.actorLabel}, resumes ${input.resumeAt}`,
+    eventType: "legislation.debate-extended",
+    tags: ["legislation.procedure"],
+    participants: [
+      {
+        personId: input.memberPersonId,
+        role: "agency:decision-maker",
+        detail: "held the floor",
+      },
+    ],
+    involvedEntityIds: [input.memberPersonId],
+    resumeAt: input.resumeAt,
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Internal append helpers
 // ---------------------------------------------------------------------------
@@ -1224,6 +1483,8 @@ interface AppendActionInput {
   readonly participants?: readonly EventParticipant[];
   readonly involvedEntityIds?: readonly EntityId[];
   readonly vote?: LegislativeVoteRecord | null;
+  readonly proceduralMotion?: MinorityProcedureMotion;
+  readonly resumeAt?: IsoDate | null;
   readonly amendment?: LegislativeAmendmentRecord | null;
   readonly occurredAt?: IsoDate;
 }
@@ -1233,6 +1494,7 @@ function appendAction(world: World, input: AppendActionInput): World {
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   const occurredAt = input.occurredAt ?? world.currentDate;
   if (
+    !isExecutiveInstrumentMeasure(measure) &&
     REGULAR_SESSION_ACTIONS.has(input.kind) &&
     legislativeProcedureForPack(world, measure.rulePackId)
   ) {
@@ -1331,6 +1593,10 @@ function appendAction(world: World, input: AppendActionInput): World {
     chamberKey: input.chamberKey,
     committeeKey: input.committeeKey,
     floorStageKey: input.floorStageKey,
+    ...(input.proceduralMotion === undefined
+      ? {}
+      : { proceduralMotion: input.proceduralMotion }),
+    ...(input.resumeAt === undefined ? {} : { resumeAt: input.resumeAt }),
     actorLabel: input.actorLabel,
     rationale: input.rationale,
     eventId: event.id,
@@ -1392,7 +1658,7 @@ export function electedMembersFor(
   if (electedMembers === undefined) return requireFormalSeatCount(chamber);
   if (!Number.isSafeInteger(electedMembers) || electedMembers <= 0) {
     throw new Error(
-      `The ${chamber.name} needs a positive count of elected members.`,
+      `The ${chamber.name} needs a positive count of elected officials.`,
     );
   }
   if (
@@ -1481,6 +1747,12 @@ export interface IntroduceMeasureInput {
   readonly numberingSession?: LegislativeMeasureNumberingSession;
   readonly shortTitle: string;
   readonly summary: string;
+  readonly governmentInstrument?: "statute" | "regulation" | "executive-order";
+  readonly executiveAuthorityJurisdictionKey?: string;
+  readonly executiveActorLabel?: string;
+  readonly executiveAuthorityChecks?: readonly {
+    readonly clause: ExecutiveActionClause;
+  }[];
   readonly origin: LegislativeMeasureOrigin;
   readonly subjectClass: LegislativeSubjectClass;
   readonly originChamberKey?: string;
@@ -1498,31 +1770,117 @@ export function introduceMeasure(
   world: World,
   input: IntroduceMeasureInput,
 ): World {
+  const isExecutiveInstrument =
+    input.governmentInstrument === "regulation" ||
+    input.governmentInstrument === "executive-order";
   assertUniqueStableKey(
     world.history.legislativeMeasures,
     input.stableKey,
     "Legislative measure",
   );
-  if (!world.jurisdictions[input.jurisdictionId]) {
+  if (!isExecutiveInstrument && !world.jurisdictions[input.jurisdictionId]) {
     throw new Error(
       `Measure references a missing jurisdiction: ${input.jurisdictionId}`,
     );
   }
   const pack = legislativeRulePackForWorld(world, input.rulePackId);
-  if (legislativeProcedureForPack(world, input.rulePackId)) {
+  const executivePack = isExecutiveInstrument
+    ? executiveRulePackForJurisdiction(
+        input.executiveAuthorityJurisdictionKey ?? "",
+      )
+    : null;
+  if (isExecutiveInstrument) {
+    const expectedJurisdictionId =
+      input.executiveAuthorityJurisdictionKey === "US"
+        ? NATIONAL_ELECTION_JURISDICTION.id
+        : chiefExecutiveJurisdiction(
+            input.executiveAuthorityJurisdictionKey
+              ?.slice("US-".length)
+              .toUpperCase() ?? "",
+          )?.id;
+    if (expectedJurisdictionId !== input.jurisdictionId)
+      throw new Error(
+        "The executive instrument does not match its canonical state or territory jurisdiction.",
+      );
+    if (input.origin !== "executive-request")
+      throw new Error(
+        "An executive instrument must use the executive request route.",
+      );
+    if (!input.executiveActorLabel?.trim())
+      throw new Error("An executive instrument needs its issuing office.");
+    const currentHolder =
+      input.executiveAuthorityJurisdictionKey === "US"
+        ? currentPresidentOf(world)
+        : currentGovernorOf(
+            world,
+            input.executiveAuthorityJurisdictionKey!.slice("US-".length),
+          );
+    if (currentHolder?.personId !== input.sponsorPersonId)
+      throw new Error(
+        "Only the current chief executive of this jurisdiction can issue this instrument.",
+      );
+    if (!input.sourceDocumentKey?.trim())
+      throw new Error("An executive instrument needs its bill-paper document.");
+    if (!input.executiveAuthorityChecks?.length)
+      throw new Error(
+        "An executive instrument needs an authority-grounded clause.",
+      );
+    for (const check of input.executiveAuthorityChecks) {
+      const currentLaw =
+        check.clause.kind === "delegated-term"
+          ? lawInForce(
+              world,
+              input.jurisdictionId,
+              check.clause.propositionId,
+              world.currentDate,
+            )
+          : null;
+      const decision = decideExecutiveActionAuthority(
+        executivePack!,
+        check.clause,
+        currentLaw,
+      );
+      if (!decision.allowed) throw new Error(decision.reason);
+    }
+    const authorizedQuestions = new Set(
+      input.executiveAuthorityChecks.flatMap((check) =>
+        check.clause.kind === "delegated-term"
+          ? [check.clause.propositionId]
+          : [],
+      ),
+    );
+    for (const propositionId of input.propositionIds ?? []) {
+      if (!authorizedQuestions.has(propositionId))
+        throw new Error(
+          "An executive instrument can answer only a question its in-force statute delegates.",
+        );
+    }
+    for (const answer of input.propositionAnswers ?? []) {
+      if (!authorizedQuestions.has(answer.propositionId))
+        throw new Error(
+          "An executive instrument can answer only a question its in-force statute delegates.",
+        );
+    }
+  }
+  if (
+    !isExecutiveInstrument &&
+    legislativeProcedureForPack(world, input.rulePackId)
+  ) {
     const refusal = regularSessionRefusalText(pack, world.currentDate);
     if (refusal) throw new Error(refusal);
   }
-  const chamberKey =
-    input.originChamberKey ?? defaultOriginChamber(pack).chamberKey;
-  const chamber = chamberByKey(pack, chamberKey);
-  if (!chamber.introductionAllowed) {
-    throw new Error(`Measures cannot be introduced in the ${chamber.name}.`);
+  const chamberKey = isExecutiveInstrument
+    ? `executive:${executivePack!.office.officeKey}`
+    : (input.originChamberKey ?? defaultOriginChamber(pack).chamberKey);
+  const chamber = isExecutiveInstrument ? null : chamberByKey(pack, chamberKey);
+  if (!isExecutiveInstrument && !chamber!.introductionAllowed) {
+    throw new Error(`Measures cannot be introduced in the ${chamber!.name}.`);
   }
   // Where this particular bill starts has to satisfy the jurisdiction's own
   // origination rule — the Minnesota revenue bill that must begin in the House,
   // and nothing at all where the rule is unresolved.
-  assertOriginationPermitted(pack, input.subjectClass, chamberKey);
+  if (!isExecutiveInstrument)
+    assertOriginationPermitted(pack, input.subjectClass, chamberKey);
   if (input.designation.trim().length === 0) {
     throw new Error("A measure needs an institutional designation.");
   }
@@ -1591,6 +1949,9 @@ export function introduceMeasure(
         }
       : {}),
     shortTitle: input.shortTitle,
+    ...(input.governmentInstrument
+      ? { governmentInstrument: input.governmentInstrument }
+      : {}),
     summary: input.summary,
     origin: input.origin,
     subjectClass: input.subjectClass,
@@ -1632,14 +1993,26 @@ export function introduceMeasure(
     measure,
     kind: "introduced",
     stableKey: `${input.stableKey}:introduced`,
-    chamberKey,
+    chamberKey: isExecutiveInstrument ? null : chamberKey,
     committeeKey: null,
     floorStageKey: null,
-    actorLabel: sponsor ? personName(sponsor) : chamber.name,
-    rationale: `Filed in the ${chamber.name}.`,
-    summary: `${measure.designation} — ${measure.shortTitle} — was filed in the ${chamber.name}.`,
-    eventType: "legislation.measure-introduced",
-    tags: ["legislation.introduced", `chamber:${chamberKey}`],
+    actorLabel: isExecutiveInstrument
+      ? input.executiveActorLabel!
+      : sponsor
+        ? personName(sponsor)
+        : chamber!.name,
+    rationale: isExecutiveInstrument
+      ? `Filed by ${input.executiveActorLabel}.`
+      : `Filed in the ${chamber!.name}.`,
+    summary: isExecutiveInstrument
+      ? `${measure.designation} — ${measure.shortTitle} — was filed by ${input.executiveActorLabel}.`
+      : `${measure.designation} — ${measure.shortTitle} — was filed in the ${chamber!.name}.`,
+    eventType: isExecutiveInstrument
+      ? "executive.instrument-filed"
+      : "legislation.measure-introduced",
+    tags: isExecutiveInstrument
+      ? ["executive", `instrument:${input.governmentInstrument}`]
+      : ["legislation.introduced", `chamber:${chamberKey}`],
     participants: measure.sponsorPersonId
       ? [
           {
@@ -1960,6 +2333,9 @@ export function recordCommitteeDisposition(
     ? { kind: "reported", recommendation: input.recommendation }
     : { kind: "not-reported" };
 
+  const tally = vote.tally;
+  const attendance = `${tally.yea} in favor, ${tally.nay} against, ${tally.presentNotVoting} present without voting, ${tally.absent} absent, ${tally.excused} excused; ${vote.requiredVotes} of ${vote.denominatorValue} needed`;
+
   const withVoteWorld = appendAction(world, {
     measure,
     kind: reported ? "committee-reported" : "committee-not-reported",
@@ -1970,8 +2346,8 @@ export function recordCommitteeDisposition(
     actorLabel: committee.name,
     rationale: input.rationale,
     summary: reported
-      ? `The ${committee.name} reported ${measure.designation} to the floor ${REPORT_PHRASES[input.recommendation]} (${vote.tally.yea}-${vote.tally.nay}).`
-      : `The ${committee.name} did not report ${measure.designation} (${vote.tally.yea}-${vote.tally.nay}); it needed ${vote.requiredVotes}.`,
+      ? `The ${committee.name} reported ${measure.designation} to the floor ${REPORT_PHRASES[input.recommendation]} (${attendance}).`
+      : `The ${committee.name} did not report ${measure.designation} (${attendance}).`,
     eventType: reported
       ? "legislation.committee-reported"
       : "legislation.committee-not-reported",
@@ -2083,7 +2459,7 @@ export interface OfferAmendmentInput {
    * never enters the bill.
    */
   readonly proposedSections?: readonly LegislativeProposedSection[];
-  /** Why a computer-run member offered it. */
+  /** Why the author offered it, when the author chooses to keep that motive on record. */
   readonly authorMotive?: LegislativeAmendmentMotive;
 }
 
@@ -2144,6 +2520,14 @@ export function offerFloorAmendment(
   });
 
   const adopted = vote.outcome === "passed";
+  const potentialSingleSubjectIssue = adopted
+    ? potentialRiderRuleIssue(
+        world,
+        pack,
+        measure,
+        input.proposedSections ?? [],
+      )
+    : undefined;
   const amendment: LegislativeAmendmentRecord = {
     id: createStableId(
       "legislative-amendment",
@@ -2169,6 +2553,7 @@ export function offerFloorAmendment(
         }
       : {}),
     ...(input.authorMotive ? { authorMotive: input.authorMotive } : {}),
+    ...(potentialSingleSubjectIssue ? { potentialSingleSubjectIssue } : {}),
   };
 
   return appendAction(world, {
@@ -2289,9 +2674,20 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
         : membership,
   );
   if (present < requiredQuorum.requiredVotes)
-    throw new Error(
-      `The ${chamber.name} cannot transact business: ${quorum.label} (${present} present, ${requiredQuorum.requiredVotes} required).`,
-    );
+    return appendAction(world, {
+      measure,
+      kind: "quorum-not-present",
+      stableKey: `${input.stableKey}:quorum-not-present`,
+      chamberKey: chamber.chamberKey,
+      committeeKey: null,
+      floorStageKey: stage.stageKey,
+      actorLabel: chamber.name,
+      rationale: `${quorum.label}: ${present} present, ${requiredQuorum.requiredVotes} required`,
+      summary: `${chamber.name}: quorum-not-present on ${measure.designation}, ${present} present, ${requiredQuorum.requiredVotes} required`,
+      eventType: "legislation.quorum-not-present",
+      tags: ["legislation.procedure"],
+      vote,
+    });
 
   const passed = vote.outcome === "passed";
   const onward = nextFloorStageKey(chamber, stage.stageKey);
@@ -2898,6 +3294,10 @@ export interface RecordEnactmentInput {
   readonly measureId: EntityId;
   readonly actDesignation?: string | null;
   readonly effectiveAt?: string | null;
+  readonly publishedAt?: string | null;
+  readonly expiresAt?: string | null;
+  readonly executiveActorLabel?: string;
+  readonly executiveRationale?: string;
   /** An expressly fictional route date, held apart from sourced defaults. */
   readonly effectiveDateGameProfile?: {
     readonly version: string;
@@ -2926,12 +3326,18 @@ export function recordEnactment(
   if (alreadyResolved) {
     throw new Error("This measure has already been recorded as resolved.");
   }
+  if (isExecutiveInstrumentMeasure(measure))
+    return recordExecutiveInstrumentEnactment(world, measure, input);
   assertUniqueStableKey(
     world.history.legislativeEnactments,
     input.stableKey,
     "Enactment",
   );
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const scaleTags =
+    world.jurisdictions[measure.jurisdictionId]?.kind === "state"
+      ? ["importance:major"]
+      : [];
 
   // Chamber passage and concurrence only: a veto override is not the
   // passage a state counts an effective date from.
@@ -3013,7 +3419,7 @@ export function recordEnactment(
     rationale: "The measure completed every required step and became law.",
     summary: `${measure.designation} — ${measure.shortTitle} — became law.`,
     eventType: "legislation.measure-enacted",
-    tags: ["legislation.enacted"],
+    tags: ["legislation.enacted", ...scaleTags],
   });
 
   const event = recordByStableKey(
@@ -3076,6 +3482,192 @@ export function recordEnactment(
       ],
     },
   };
+}
+
+function recordExecutiveInstrumentEnactment(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  input: RecordEnactmentInput,
+): World {
+  if (measure.origin !== "executive-request")
+    throw new Error(
+      "Only an executive request can use the executive instrument route.",
+    );
+  if (
+    input.effectiveAt == null ||
+    input.publishedAt == null ||
+    !input.executiveActorLabel?.trim()
+  )
+    throw new Error(
+      "An executive instrument needs its publication date, effective date and issuing office.",
+    );
+  const publishedAt = makeIsoDate(input.publishedAt);
+  const effectiveAt = makeIsoDate(input.effectiveAt);
+  const expiresAt = input.expiresAt ? makeIsoDate(input.expiresAt) : null;
+  if (publishedAt < measure.introducedAt || effectiveAt < publishedAt)
+    throw new Error(
+      "Publication and effective dates must follow filing in order.",
+    );
+  if (expiresAt && expiresAt < effectiveAt)
+    throw new Error(
+      "An executive instrument cannot expire before it takes effect.",
+    );
+  assertUniqueStableKey(
+    world.history.legislativeEnactments,
+    input.stableKey,
+    "Executive instrument enactment",
+  );
+  const next = appendAction(world, {
+    measure,
+    kind: "enacted",
+    stableKey: `${input.stableKey}:issued`,
+    chamberKey: null,
+    committeeKey: null,
+    floorStageKey: null,
+    actorLabel: input.executiveActorLabel,
+    rationale:
+      input.executiveRationale ??
+      "The executive issued this instrument within its recorded authority.",
+    summary: `${measure.designation} — ${measure.shortTitle} — was issued by ${input.executiveActorLabel}.`,
+    eventType: "executive.instrument-issued",
+    tags: [
+      "executive",
+      "executive.action",
+      `instrument:${measure.governmentInstrument}`,
+    ],
+    participants: measure.sponsorPersonId
+      ? [
+          {
+            personId: measure.sponsorPersonId,
+            role: "other:executive",
+            detail: measure.designation,
+          },
+        ]
+      : [],
+  });
+  const event = recordByStableKey(
+    next.history.events,
+    `event:${input.stableKey}:issued`,
+  );
+  if (!event)
+    throw new Error("Failed to record the executive instrument event.");
+  const enactment: LegislativeEnactmentRecord = {
+    id: createStableId(
+      "legislative-enactment",
+      `${measure.id}:${input.stableKey}`,
+    ),
+    stableKey: input.stableKey,
+    sequence: next.history.nextSequence,
+    measureId: measure.id,
+    resolvedAt: next.currentDate,
+    outcome: "enacted",
+    actDesignation: input.actDesignation ?? measure.designation,
+    effectiveAt,
+    publishedAt,
+    expiresAt,
+    outcomeEventId: event.id,
+  };
+  return {
+    ...next,
+    history: {
+      ...next.history,
+      nextSequence: next.history.nextSequence + 1,
+      legislativeEnactments: [
+        ...(next.history.legislativeEnactments ?? []),
+        enactment,
+      ],
+    },
+  };
+}
+
+export interface IssueExecutiveInstrumentInput {
+  readonly stableKey: string;
+  readonly jurisdictionKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly legislativeRulePackId: string;
+  readonly instrument: "regulation" | "executive-order";
+  readonly designation: string;
+  readonly shortTitle: string;
+  readonly summary: string;
+  readonly actorLabel: string;
+  readonly actorPersonId: EntityId;
+  readonly rationale: string;
+  /** Session 9 bill-paper source; the legal terms remain on that document. */
+  readonly sourceDocumentKey: string;
+  readonly publishedAt: string;
+  readonly effectiveAt: string;
+  readonly expiresAt: string | null;
+  readonly propositionIds: readonly EntityId[];
+  readonly propositionAnswers: readonly {
+    readonly propositionId: EntityId;
+    readonly answer: "yes" | "no";
+  }[];
+  readonly authorityChecks: readonly {
+    readonly clause: ExecutiveActionClause;
+  }[];
+}
+
+/** Records an executive action on the shared measure and enactment histories. */
+export function issueExecutiveInstrument(
+  world: World,
+  input: IssueExecutiveInstrumentInput,
+): World {
+  const expectedJurisdictionId =
+    input.jurisdictionKey === "US"
+      ? NATIONAL_ELECTION_JURISDICTION.id
+      : chiefExecutiveJurisdiction(
+          input.jurisdictionKey.slice("US-".length).toUpperCase(),
+        )?.id;
+  if (expectedJurisdictionId !== input.jurisdictionId)
+    throw new Error(
+      "The executive instrument does not match its canonical state or territory jurisdiction.",
+    );
+  if (!world.people[input.actorPersonId])
+    throw new Error(
+      "The executive instrument names no acting person in this world.",
+    );
+  const pack = executiveRulePackForJurisdiction(input.jurisdictionKey);
+  const jurisdictionReady =
+    input.jurisdictionKey === "US"
+      ? ensureNationalElectionJurisdiction(world)
+      : ensureStateJurisdictionForKey(world, input.jurisdictionKey);
+  if (!jurisdictionReady.jurisdictions[input.jurisdictionId])
+    throw new Error(
+      "The executive instrument jurisdiction is not registered in this world.",
+    );
+  const introduced = introduceMeasure(jurisdictionReady, {
+    stableKey: input.stableKey,
+    jurisdictionId: input.jurisdictionId,
+    rulePackId: input.legislativeRulePackId,
+    designation: input.designation,
+    shortTitle: input.shortTitle,
+    summary: input.summary,
+    governmentInstrument: input.instrument,
+    executiveAuthorityJurisdictionKey: input.jurisdictionKey,
+    executiveActorLabel: input.actorLabel,
+    executiveAuthorityChecks: input.authorityChecks,
+    origin: "executive-request",
+    subjectClass: "general-policy",
+    originChamberKey: `executive:${pack.office.officeKey}`,
+    sponsorPersonId: input.actorPersonId,
+    sourceDocumentKey: input.sourceDocumentKey,
+    propositionIds: input.propositionIds,
+    propositionAnswers: input.propositionAnswers,
+  });
+  const measure = (introduced.history.legislativeMeasures ?? []).find(
+    (row) => row.stableKey === input.stableKey,
+  );
+  if (!measure) throw new Error("The executive measure was not recorded.");
+  return recordEnactment(introduced, {
+    stableKey: `${input.stableKey}:enactment`,
+    measureId: measure.id,
+    actDesignation: input.designation,
+    publishedAt: input.publishedAt,
+    effectiveAt: input.effectiveAt,
+    expiresAt: input.expiresAt,
+    executiveActorLabel: input.actorLabel,
+    executiveRationale: input.rationale,
+  });
 }
 
 export interface RecordAdjournmentDeathInput {

@@ -1,5 +1,9 @@
 import type { EntityId, World } from "../simulation";
-import { activeWorkRelationshipsAt } from "../simulation/life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  activeWorkRelationshipsAt,
+} from "../simulation/life-queries";
+import { countyRowOfficeRoleKind } from "../simulation/nationwide-world/county-row-offices";
 import { seatHolderAt } from "../simulation/judiciary/courts";
 import type { OutfitTag } from "./appearance-engine/pack";
 
@@ -44,6 +48,11 @@ const UNIFORMS: readonly {
 ];
 
 const ROBE_WORN_FOR: readonly Occasion[] = ["portrait", "formal"];
+const SHERIFF_STAND_IN_WORN_FOR: readonly Occasion[] = [
+  "portrait",
+  "business",
+  "formal",
+];
 
 /** The people sitting as judges on a date, cached per judiciary record. */
 const SITTING_JUDGES = new WeakMap<
@@ -95,6 +104,15 @@ export function workUniform(
   const occasion: Occasion = wear ?? "portrait";
   if (ROBE_WORN_FOR.includes(occasion) && isSittingJudge(world, personId))
     return "judge-robe";
+  // A county sheriff wears the city police uniform until the sheriff's own
+  // uniform is drawn (ART-2); listed in BUGS.md as a stand-in.
+  if (
+    SHERIFF_STAND_IN_WORN_FOR.includes(occasion) &&
+    activeOrganizationParticipationsAt(world, personId).some(
+      ({ state }) => state.roleKind === countyRowOfficeRoleKind("sheriff"),
+    )
+  )
+    return "police";
   for (const { role } of activeWorkRelationshipsAt(world, personId)) {
     const occupation = role.occupationClassification ?? "";
     const uniform = UNIFORMS.find(

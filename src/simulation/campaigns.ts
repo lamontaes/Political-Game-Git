@@ -1,4 +1,8 @@
-import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import {
+  carryForwardLeftoverFunds,
+  recordCampaignFundraiserReceipts,
+} from "./campaign-money-sources";
+import { addCampaignHelper } from "./campaign-helpers";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
@@ -7,6 +11,8 @@ import {
 } from "./household-loans";
 import { paydayHandlers } from "./living-world/town-pay";
 import { rentDayHandlers } from "./living-world/town-rent";
+import { propertyTaxHandlers } from "./property-tax-bases";
+import { countyBudgetHearingHandlers } from "./living-world/county-budget-hearings";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -15,10 +21,13 @@ import {
 import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
+  townHomeReviewHandler,
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
+import { circulateCandidatePetition } from "./candidate-petitions";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
@@ -38,8 +47,16 @@ import { enactedDutyHandlers } from "./enacted-duties";
 import { officeContinuityHandlers } from "./governing/office-continuity";
 import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
 import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
-import { federalReformHandlers } from "./living-world/federal-reform";
-import { articleVHandlers } from "./governing/article-v";
+import {
+  FEDERAL_REFORM_REVIEW,
+  federalReformHandlers,
+  federalReformReviewHandler,
+} from "./living-world/federal-reform";
+import {
+  ARTICLE_V_REVIEW,
+  articleVHandlers,
+  articleVReviewHandler,
+} from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
@@ -68,6 +85,7 @@ import { lifePaths2Handlers } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import { seatCountyRowOfficerWinner } from "./living-world/local-government-seats";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
   localElectionHandlers,
@@ -125,6 +143,7 @@ import {
 import {
   composeFutureTransitionHandlerRegistries,
   createFutureTransitionHandlerRegistry,
+  scheduleFutureDueItem,
 } from "./future-transitions";
 import { createStableId, stableHash } from "./ids";
 import {
@@ -135,7 +154,8 @@ import {
   recordWorkStatus,
 } from "./life";
 import { lifeTransitionHandlers } from "./life-callbacks";
-import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_CONTACT_HANDLERS } from "./relationship-contact";
+import { STATE_LEGISLATURE_QUEUE_HANDLERS } from "./nationwide-world/state-legislature-queue";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { peopleFamilyHandlers } from "./people-family-plan";
 import {
@@ -205,6 +225,7 @@ import type {
   DistrictSeatBinding,
   ElectionContestRecord,
   EntityId,
+  IsoDate,
   FutureDueItem,
   FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
@@ -301,6 +322,8 @@ export interface FileCampaignInput {
   readonly advertisingVendorName: string;
   readonly staffPersonIds: readonly EntityId[];
   readonly treasuryCurrency: CurrencyCode;
+  /** Explicitly opt into a completed campaign's permitted keep-for-next-race balance. */
+  readonly carryForwardFromCampaignId?: EntityId | null;
 }
 
 export interface FiledCampaignResult {
@@ -643,7 +666,7 @@ export function fileCampaign(
   }
   if (!input.municipalSeatKey && municipalSeatMustBeNamed(input.officeKey)) {
     throw new Error(
-      "This council elects named seats. Choose a recorded at-large or ward seat before filing.",
+      "This council elects named seats. Choose a recorded at-large or district seat before filing.",
     );
   }
   const option = eligibility.office;
@@ -795,37 +818,6 @@ export function fileCampaign(
   const candidateWorkRelationshipId = lastWorkRelationshipId(world);
 
   const staffWorkRelationshipIds: EntityId[] = [];
-  for (const staffPersonId of staffPersonIds) {
-    world = createWorkRelationship(world, {
-      stableKey: `${input.stableKey}:work:staff:${staffPersonId}`,
-      personId: staffPersonId,
-      organizationId,
-      startedAt: world.currentDate,
-      kind: "volunteer:campaign-staff",
-      compensation: "unpaid",
-      authority: "shared",
-      dependency: "partly-dependent",
-      economicRisk: "organization-borne",
-      provenance: {
-        kind: "authored",
-        note: "Somebody who agreed to help, recorded as the work it is.",
-      },
-      initialRole: {
-        title: "Campaign volunteer",
-        occupationClassification: "service:campaign-volunteer",
-        locationJurisdictionId: input.jurisdictionId,
-        timeDemand: {
-          expectedWeekly: { minimumHours: 2, maximumHours: 12 },
-          attention: "moderate",
-          concurrency: "partly-concurrent",
-          scheduleRigidity: "flexible",
-          interruptibility: "interruptible",
-          locationJurisdictionId: input.jurisdictionId,
-        },
-      },
-    });
-    staffWorkRelationshipIds.push(lastWorkRelationshipId(world));
-  }
 
   const candidate = inputWorld.people[input.candidatePersonId]!;
   world = recordWorldEvent(world, {
@@ -849,7 +841,15 @@ export function fileCampaign(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["campaign.filing", "election.candidacy"],
+    tags: [
+      "campaign.filing",
+      "election.candidacy",
+      ...(eligibility.minimumAgeEstimate
+        ? [
+            `qualification.minimum-age-estimate:${JSON.stringify(eligibility.minimumAgeEstimate)}`,
+          ]
+        : []),
+    ],
     summary: `${candidate.givenName} ${candidate.familyName} filed to run for ${option.office.title}.`,
     context: {
       location: {
@@ -877,7 +877,7 @@ export function fileCampaign(
     "campaign",
     `${world.id}:${input.stableKey}`,
   );
-  const campaignRecord: CampaignRecord = {
+  let campaignRecord: CampaignRecord = {
     id: campaignId,
     stableKey: input.stableKey,
     sequence: world.history.nextSequence,
@@ -924,6 +924,15 @@ export function fileCampaign(
       campaignStates: [...(world.history.campaignStates ?? []), initialState],
     },
   };
+  for (const staffPersonId of staffPersonIds) {
+    world = addCampaignHelper(world, {
+      campaignId,
+      personId: staffPersonId,
+      role: "volunteer",
+      pay: null,
+    });
+  }
+  campaignRecord = campaignById(world, campaignId)!;
   assertWorldIntegrity(world);
   world = recordInitialSupport(world, campaignRecord);
   assertWorldIntegrity(world);
@@ -933,6 +942,13 @@ export function fileCampaign(
   // A town seat the town's own election already has on its ballot is decided
   // in this campaign's election instead.
   world = withdrawTownRaceForCampaign(world, campaignRecord.contestId);
+  if (input.carryForwardFromCampaignId) {
+    world = carryForwardLeftoverFunds(
+      world,
+      input.carryForwardFromCampaignId,
+      campaignRecord.id,
+    );
+  }
   return { world, campaign: campaignRecord };
 }
 
@@ -1935,6 +1951,19 @@ function seatOnLocalGoverningBody(
   winnerPersonId: EntityId,
 ): World {
   const unit = office.unit;
+  if (office.seat === "row-office" && office.rowOffice) {
+    const next = seatCountyRowOfficerWinner(world, {
+      unit,
+      office: office.rowOffice,
+      title: office.officeTitle,
+      winnerPersonId,
+      effectiveAt,
+      contestId: contest.id,
+      outcomeEventId,
+    });
+    assertWorldIntegrity(next);
+    return next;
+  }
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
   const compiled = municipalWorkspaceGovernmentForUnit(unit);
@@ -2132,10 +2161,7 @@ function closeCampaignAfterElection(
     },
   };
   assertWorldIntegrity(next);
-  for (const workRelationshipId of [
-    campaign.candidateWorkRelationshipId,
-    ...campaign.staffWorkRelationshipIds,
-  ]) {
+  for (const workRelationshipId of [campaign.candidateWorkRelationshipId]) {
     const previous = workStatusHistory(next, workRelationshipId).at(-1);
     if (previous && previous.status !== "ended") {
       next = recordWorkStatus(next, {
@@ -2148,6 +2174,26 @@ function closeCampaignAfterElection(
         supersedesStatusId: previous.id,
       });
     }
+  }
+  // Staff remain on the record for the election-night gathering. Their
+  // work ends tomorrow through the existing clock, never a future-dated
+  // work-status record written today.
+  if (campaign.staffWorkRelationshipIds.length > 0) {
+    const endedAt = addDays(result.resolvedAt, 1);
+    if (endedAt <= next.currentDate) {
+      next = endCampaignStaff(next, campaign, endedAt, result.outcomeEventId);
+    } else
+      next = scheduleFutureDueItem(next, {
+        stableKey: `${campaign.stableKey}:staff-close:${result.id}`,
+        dueAt: addDays(result.resolvedAt, 1),
+        transitionKey: CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY,
+        entityIds: [campaign.contestId, result.id].sort(),
+        jurisdictionId: campaign.jurisdictionId,
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [result.id, result.outcomeEventId].sort(),
+        },
+      });
   }
   // CRUNCH46 CAMPAIGN: campaign work still on the calendar can no longer be
   // performed once the race is decided, so release it instead of leaving a
@@ -2267,6 +2313,77 @@ export function campaignElectionTransitionHandler(
   };
 }
 
+const CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY = "campaign:staff-close" as const;
+
+function closeCampaignStaffOnDueDate(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const campaign =
+    dueItem.entityIds
+      .map((id) => campaignForContest(world, id))
+      .find((row) => row !== null) ?? null;
+  const result = campaign
+    ? electionContestResult(world, campaign.contestId)
+    : null;
+  if (
+    !campaign ||
+    !result ||
+    !dueItem.entityIds.includes(result.id) ||
+    dueItem.dueAt !== addDays(result.resolvedAt, 1) ||
+    campaignState(world, campaign.id).status === "active"
+  )
+    throw new Error(
+      "Campaign staff closure requires its saved election result and next-day date.",
+    );
+  const next = endCampaignStaff(
+    world,
+    campaign,
+    dueItem.dueAt,
+    result.outcomeEventId,
+  );
+  return {
+    world: next,
+    status: "resolved",
+    reasonKey: null,
+    context: "Campaign staff work ended after election night.",
+    outcomeEventId: null,
+  };
+}
+
+function endCampaignStaff(
+  world: World,
+  campaign: CampaignRecord,
+  endedAt: IsoDate,
+  outcomeEventId: EntityId,
+): World {
+  let next = world;
+  for (const workRelationshipId of campaign.staffWorkRelationshipIds) {
+    const previous = workStatusHistory(next, workRelationshipId).at(-1);
+    if (previous && previous.status !== "ended")
+      next = recordWorkStatus(next, {
+        stableKey: `${campaign.stableKey}:work-ended:${workRelationshipId}`,
+        workRelationshipId,
+        effectiveAt: endedAt,
+        status: "ended",
+        reason: "Campaign staff work ended the day after the election.",
+        provenance: { kind: "simulated-event", eventId: outcomeEventId },
+        supersedesStatusId: previous.id,
+      });
+  }
+  return next;
+}
+
+/** Both federal amendment routes enter through one clock-handler function. */
+function federalAmendmentReviewHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return due.transitionKey === ARTICLE_V_REVIEW
+    ? articleVReviewHandler(world, due)
+    : federalReformReviewHandler(world, due);
+}
+
 export function composeWorldTimeHandlers(
   additional?: FutureTransitionHandlerRegistry,
 ): FutureTransitionHandlerRegistry {
@@ -2277,6 +2394,7 @@ export function composeWorldTimeHandlers(
   const ordinary = composeExecutiveWorkHandlers(
     composeFutureTransitionHandlerRegistries(
       createNationalElectionTransitionRegistry(),
+      STATE_LEGISLATURE_QUEUE_HANDLERS,
       createLegislativeTermTransitionRegistry(),
       createTransitTransitionRegistry((world, input, resolver) =>
         settlePublicResourcePayment(world, input, resolver),
@@ -2292,12 +2410,15 @@ export function composeWorldTimeHandlers(
       createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+        [CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY, closeCampaignStaffOnDueDate],
         // GOVERNING: state office matters, their deadlines and reports.
         ...stateGoverningHandlers(),
         ...governorTurnoverHandlers(),
         // A legislature and voters changing the governor's term limit.
         ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
+        [FEDERAL_REFORM_REVIEW, federalAmendmentReviewHandler],
+        [ARTICLE_V_REVIEW, federalAmendmentReviewHandler],
         ...federalReformHandlers(),
         ...articleVHandlers(),
         ...presidentialTurnoverHandlers(),
@@ -2347,10 +2468,15 @@ export function composeWorldTimeHandlers(
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
+        [TOWN_HOME_REVIEW_TRANSITION_KEY, townHomeReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
         ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
         ...rentDayHandlers(),
+        // PROPERTY TAX: a local property tax assesses homes on its day.
+        ...propertyTaxHandlers(),
+        // COUNTY BUDGET: a county board hears and votes its yearly levy.
+        ...countyBudgetHearingHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...campaignLifeHandlers(),
       ]),
@@ -2519,7 +2645,7 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       try {
         return scheduleCampaignAction(world, {
           campaignId: campaign.id,
-          kind: block.work,
+          kind: block.work === "petition" ? "outreach" : block.work,
           plan: {
             start: slot.start,
             end: slot.end,
@@ -2553,11 +2679,29 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       if (!activity || !routineIdOfActivity(world, activity.sourceEntityIds))
         return world;
       const action = campaignActionForActivity(world, activityId);
-      if (!action || campaignActionResult(world, action.id)) return world;
+      if (!action) return world;
       const campaign = campaignById(world, action.campaignId);
       if (!campaign || campaignState(world, campaign.id).status !== "active")
         return world;
-      return recordCampaignActionOutcome(world, campaign, action);
+      const timing = scheduledActivityState(world, activity.id);
+      const routineEventId = activity.sourceEntityIds.find((id) =>
+        Boolean(routineIdOfActivity(world, [id])),
+      );
+      const block = routineEventId
+        ? campaignRoutineBlockAt(world, routineEventId, timing.start)
+        : null;
+      const completed = campaignActionResult(world, action.id)
+        ? world
+        : recordCampaignActionOutcome(world, campaign, action);
+      return block?.work === "petition"
+        ? circulateCandidatePetition(completed, {
+            campaignId: campaign.id,
+            circulatorPersonId: campaign.candidatePersonId,
+            stableKey: `${action.stableKey}:petition-circulation`,
+            minutes: simulationMinutesBetween(timing.start, timing.end),
+            at: timing.end.date,
+          })
+        : completed;
     },
   };
 }
