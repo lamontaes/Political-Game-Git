@@ -2,8 +2,7 @@
 id: session-13-facet-self-serving
 impact: patch
 section: Changed
-title: Self-serving organizers favor their own time
+title: Self-serving officeholders can seek another term
 ---
 
-An organizer with a recorded self-serving tendency favors postponing an
-optional campaign activity.
+A person with a recorded self-serving tendency favors seeking another term.

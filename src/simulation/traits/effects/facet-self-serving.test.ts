@@ -9,11 +9,11 @@ describe("the self-serving facet reader", () => {
     BUILT_IN_TRAIT_DECISIONS,
   );
 
-  it("leans toward leaving an optional outreach activity for later", () => {
+  it("leans toward seeking another term", () => {
     expect(
-      leansForDecision(registry, "campaign.organizer-outreach").filter(
+      leansForDecision(registry, "career.consider-another-term").filter(
         ({ trait }) => trait === "personality-v1:facet-self-serving",
       ),
-    ).toMatchObject([{ option: "not-now", pole: "high" }]);
+    ).toMatchObject([{ option: "seek", pole: "high" }]);
   });
 });

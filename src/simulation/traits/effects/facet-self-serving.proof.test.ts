@@ -3,28 +3,28 @@ import type { DecisionConsideration } from "../../types";
 import { proveTraitDifference } from "./trait-proof-support";
 
 describe("the self-serving facet difference in a random new game", () => {
-  it("changes the same person's outreach choice toward personal time", () => {
+  it("changes the same person's decision about seeking another term", () => {
     const baseline: DecisionConsideration = {
       stableKey: "proof:ordinary-outreach",
-      optionKey: "door-canvass",
+      optionKey: "step-down",
       sourceType: "context:ordinary-practice",
       direction: "supports",
       importance: "slight",
       confidence: "high",
-      explanation: "They usually favor a direct door canvass.",
+      explanation: "They plan to leave when the term ends.",
       sourceRefs: [],
     };
     const proof = proveTraitDifference(
       "personality-v1:facet-self-serving",
-      "campaign.organizer-outreach",
+      "career.consider-another-term",
       "l1-proof-facet-self-serving",
       [baseline],
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
-    expect(proof.without).toBe("door-canvass");
-    expect(proof.high.choice).toBe("not-now");
-    expect(proof.low.choice).toBe("door-canvass");
-    expect(proof.high.reason).toContain("own time");
-    expect(proof.low.reason).toContain("direct door canvass");
+    expect(proof.without).toBe("step-down");
+    expect(proof.high.choice).toBe("seek");
+    expect(proof.low.choice).toBe("step-down");
+    expect(proof.high.reason).toContain("advance themselves");
+    expect(proof.low.reason).toContain("leave when the term ends");
   });
 });
