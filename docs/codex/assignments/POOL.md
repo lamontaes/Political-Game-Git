@@ -952,6 +952,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 
 ## Menu reset (owner ruling Oct 6, 3:44 p.m.: no hand-written player text anywhere; the menus get a reset)
 
+<!-- prettier-ignore -->
 | item  | what it is                                                                                                                                                                                                                                         | doc and part                                                     | status | claimer                              |
 | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------ | ------------------------------------ |
 | MR-0  | Shared shell text in src/player/PlayerGame.tsx and ShellWorkspaces.tsx (21 and 3 sentence literals); overflow, anyone                                                                                                                              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open   | Builder L3 (anyone if silent 60 min) |
