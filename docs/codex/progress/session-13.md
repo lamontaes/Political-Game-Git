@@ -1,17 +1,17 @@
-# P1 / Citizenship producer / Session 13
+# P1 / Recorded election-law effects / Session 13
 
-The private citizenship producer is published for review. New people receive a marked county-share estimate; later status changes require a recorded private event. Consumers receive citizenship-only checks and keep their own applicable office and voting requirements.
+The active law work continues under the CTO's fresh-progress ruling. State and local term-limit exposure adapters consume saved barred candidacy events through the existing law-exposure writer. The other listed law landings remain unfinished.
 
-## Checked source
+## Source and evidence
 
-Draft PR: #2455. Registered workspace: `/workspace/session13-federal-reader`. Branch: `codex/session13-citizenship-status`. Source head: `1bd8916f88d27e8a2d51053fe0f4eb6170188af8`; base: `f88508186b78f526ecf89a420b5fb584171e039a`. Final receipts and consumer documentation follow that source commit.
+Registered workspace: `/workspace/session13-federal-reader`. State branch: `codex/session13-lw12-state-election-exposure`, based on main `e591ffc637d1f6db84d2ff920e8662ce123202ed`. The local batch will publish separately on a dependent branch; shared channel and generator compatibility belong to the state part.
 
-Thirteen targeted cases passed with ten skipped. All eight new citizenship cases ran. Configured application and Node typing passed; changed-root typing found zero errors in twelve roots. The separate import check reports 803 uncovered test files and zero unresolved imports. Source compilation, four compiler checks, lint, formatting, zero-dice, and the declaration range passed.
+The combined candidate passed fourteen focused cases, including canonical law/event consumers, replay, reload, migrated stamps and nonmoney rendering. Explicit typing of fourteen changed roots found zero errors. Configured typing still reports two missing `personalLifeDepiction` fields in the existing press-premise test; exact main e591ffc637d1f6db84d2ff920e8662ce123202ed reproduces both errors. Generator, prose grounding and zero-dice checks passed. Earlier source-selector and municipal-authority failures are retained.
 
-The repaired source-reference failure and the auxiliary 16-opening birthday timeout are retained. Exact main reproduces the same 30-second timeout. No timeout was raised. No played naturalization, clerk route, election-night route, merge, or build is claimed.
+An ordinary generated day at random place 3823340 produced thirty-six saved legislative term-limit bars and thirty-six linked exposures. The committed executable passed at aa5f05b2a9e85deb21c933f293ff84dd09e616be (terminal EXIT 0), with canonical affirmative North Dakota law. The random player is not assumed to hold office; the recorded affected legislators are the proof subjects. No browser, local natural bar, clerk scene, election-night scene, merge or build is claimed.
 
-## Next handoff
+## Continue
 
-Publish the final receipt head to Sessions 23 and 21 on #2424. The exact contract is `docs/codex/citizenship-producer-session13.md`; the authoritative field is `Person.citizenshipStatuses`. Use `citizenshipStatusOf`, `citizenshipEligibility`, and `recordCitizenshipTransition` through the simulation index. Missing old saves stay unknown; no transition may be invented to qualify a nominee.
+Publish one partial PR per law batch after exact-head checks. Next: publish the checked partial sources, then resume the retained b03 branch. Preserve unknown individual-effect boundaries; never turn aggregate turnout into a person's ballot or knowledge.
 
-Next command: `git log -1 --format=%H` to resolve the receipt head, then post that exact head and the source contract. Do not merge or build. Earlier clerk/night work remains separate on `codex/session13-clerk-night-composition`; no scene readiness is claimed.
+Citizenship remains published on `codex/session13-citizenship-status`, PR 2455 at `749f3ac9ade290d06dd2a8aee806c965970f6f2a`. The older clerk/night source remains on `codex/session13-clerk-night-composition`, PR 2405 at `30e21462be278d246bbe1d9132fb78a1db796cdd`. Resume b03 work after this publication; keep actual player proof separate from fixtures.

@@ -1,0 +1,75 @@
+{
+  "schema": "english-counts/1",
+  "register": "work",
+  "shippable": false,
+  "description": "Counts of how Americans take turns when they talk at work or across a counter: turn length, short-turn share, question rate, reaction tokens, turn openers and hedges. Counts and one- to three-word tokens only; no line from the corpus ships.",
+  "source": {
+    "document": "Santa Barbara Corpus of Spoken American English, Parts 1 to 4",
+    "publisher": "University of California, Santa Barbara, Department of Linguistics",
+    "license": "CC BY-ND 3.0 US",
+    "url": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english"
+  },
+  "coverage": "The 14 recordings the corpus describes as work or service talk: a lawyer preparing witnesses, board members, bank loan officers, an audio store sale, a veterinary office, an air traffic tower, a heating sales call, aquarium training, a dietitian and an orthopedist with patients, a small claims court, a ranch bill of sale, a judo class, and two coworkers on a break. Recordings 8, 10, 14, 16, 18, 22, 29, 39, 41, 46, 53, 56, 57 and 60.",
+  "mining": {
+    "tool": "scripts/english-mining/count-santa-barbara.py",
+    "turnRule": "A turn is the run of transcript lines by one speaker until another speaker begins.",
+    "selection": "Chosen from each recording's own description on the corpus page; family, friends, classroom and public talk are left out."
+  },
+  "counts": {
+    "turns": 5099,
+    "words": 51359,
+    "medianTurnWords": 5,
+    "shareTurnsThreeWordsOrFewer": 0.429,
+    "shareTurnsOneWord": 0.26,
+    "questionRate": 0.066,
+    "reactionTurnsPer1000Turns": {
+      "mhm": 49.0,
+      "yeah": 46.1,
+      "okay": 45.7,
+      "right": 14.7,
+      "hm": 8.4,
+      "oh": 8.2,
+      "no": 3.3,
+      "wow": 3.3,
+      "yes": 2.2,
+      "sure": 2.2,
+      "that's right": 2.0,
+      "oh yeah": 1.2,
+      "oh really": 0.8,
+      "i know": 0.8,
+      "really": 0.8,
+      "oh no": 0.4,
+      "oh wow": 0.4,
+      "huh": 0.2,
+      "exactly": 0.2
+    },
+    "turnOpenerPer1000Turns": {
+      "and": 55.5,
+      "i": 44.3,
+      "yeah": 35.7,
+      "so": 25.9,
+      "okay": 24.9,
+      "you": 23.9,
+      "oh": 23.1,
+      "well": 22.7,
+      "but": 16.3,
+      "uh": 9.2,
+      "no": 8.8,
+      "um": 5.7,
+      "now": 5.3,
+      "see": 3.7,
+      "like": 2.4
+    },
+    "hedgesPer1000Words": {
+      "you know": 7.15,
+      "like": 5.69,
+      "i think": 2.26,
+      "i mean": 2.01,
+      "probably": 1.5,
+      "maybe": 1.23,
+      "kind of": 0.78,
+      "i guess": 0.68,
+      "sort of": 0.37
+    }
+  }
+}

@@ -1,7 +1,9 @@
 import { readableTuitionSummary } from "../simulation/education-study-progression";
 import {
   ageOnDate,
+  activePartnershipsAt,
   electionContestResult,
+  kinshipRelationshipsAt,
   personName,
   organizationProfileAt,
   privateBeliefHistory,
@@ -19,6 +21,7 @@ import {
 } from "./law-exposure-lines";
 import { INTRODUCTION_EVENT } from "../simulation/social-introductions";
 import { crimeJournalLine } from "../simulation/crime/journal";
+import { playSettingsOf } from "../simulation/play-settings";
 import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
 import {
@@ -89,6 +92,44 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     text: `You were born on ${proseDate(person.birthDate)}.`,
     sourceId: person.id,
   });
+  // Family is part of the canonical life record, not an incidental contact.
+  // Read the same kinship and partnership records used by the household and
+  // relationship surfaces rather than trying to infer family from names or
+  // co-residence.
+  for (const relationship of kinshipRelationshipsAt(world, personId)) {
+    const otherId = relationship.personIds.find((id) => id !== personId);
+    const other = otherId ? world.people[otherId] : null;
+    if (!other) continue;
+    const name = personName(other);
+    const relation = relationship.kind.includes("parent-child")
+      ? relationship.personIds[0] === personId
+        ? "child"
+        : "parent"
+      : relationship.kind.includes("sibling")
+        ? "sibling"
+        : "relative";
+    entries.push({
+      id: `kinship:${relationship.id}`,
+      at: relationship.establishedAt,
+      sequence: relationship.sequence,
+      kind: "life",
+      text: `${name} is your ${relation}.`,
+      sourceId: relationship.id,
+    });
+  }
+  for (const partnership of activePartnershipsAt(world, personId)) {
+    const otherId = partnership.personIds.find((id) => id !== personId);
+    const other = otherId ? world.people[otherId] : null;
+    if (!other) continue;
+    entries.push({
+      id: `partnership:${partnership.id}`,
+      at: partnership.startedAt,
+      sequence: partnership.sequence,
+      kind: "life",
+      text: `${personName(other)} is your ${partnership.kind === "legal:marriage" ? "spouse" : "partner"}.`,
+      sourceId: partnership.id,
+    });
+  }
   for (const fact of person.establishedFacts) {
     if (
       fact.occurredAt > world.currentDate ||
@@ -149,7 +190,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
               : state.status === "temporarily-inactive"
                 ? `Your studies at ${school} were on hold.`
                 : state.status === "transferred"
-                  ? `You transferred out of ${school}.`
+                  ? `You transferred out of ${school}${state.reason ? ` because ${state.reason.charAt(0).toLowerCase()}${state.reason.slice(1).replace(/\.$/, "")}` : ""}.`
                   : `Your time at ${school} ended.`;
     entries.push({
       id: `education:${state.id}`,
@@ -252,7 +293,11 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (isRoutineSocialOccasion(consequentialEvents, event.id, event.type))
       continue;
     // A crime says what happened to its victim; nobody else's Journal has it.
-    const crimeLine = crimeJournalLine(event, personId);
+    const crimeLine = crimeJournalLine(
+      event,
+      personId,
+      playSettingsOf(world).personalLifeDepiction,
+    );
     if (crimeLine === null) continue;
     const text = livedWorld39Sentence(
       crimeLine ??

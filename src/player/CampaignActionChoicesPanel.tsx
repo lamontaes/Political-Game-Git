@@ -35,10 +35,10 @@ export function CampaignActionChoicesPanel({
         revision: view!.revision,
       });
       if (next === world) {
-        setMessage("The calendar did not change. Review this week's choices.");
+        setMessage("Calendar unchanged");
         return;
       }
-      setMessage("Added to your calendar. Open the activity there to go.");
+      setMessage("Added to your calendar");
       onWorldChange(next);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : String(error));
@@ -57,24 +57,18 @@ export function CampaignActionChoicesPanel({
       </p>
       {view.proposerName ? <p>Campaign staff: {view.proposerName}</p> : null}
       <p>Committee balance: {displayMoney(view.committeeTreasury)}</p>
-      {view.committeeTreasury.minorUnits === 0 ? (
-        <p>
-          The committee opened with no money. Its balance rises when it receives
-          a contribution.
-        </p>
-      ) : null}
+      {view.committeeTreasury.minorUnits === 0 ? null : null}
       {view.choices.length === 0 ? (
         <p data-testid="campaign-action-choices-empty">
           {view.availabilityReason === "needs-host" ? (
             <>
-              No one has agreed to host campaign work yet. Ask a local chapter
-              organizer for support in{" "}
-              <a href="#party-work-title">Party and community work</a>.
+              Host: none ·{" "}
+              <a href="#party-work-title">Party and community work</a>
             </>
           ) : view.availabilityReason === "calendar-full" ? (
-            "No campaign activity fits the open calendar this week."
+            "Calendar full"
           ) : (
-            "No campaign activity is offered this week."
+            "None this week"
           )}
         </p>
       ) : (
@@ -89,7 +83,7 @@ export function CampaignActionChoicesPanel({
               <p>
                 {readableMoment(choice.start)} to {readableMoment(choice.end)}
               </p>
-              {/* PLACEHOLDER(wave2): unknown cash cost has no player cost line. */}
+              {/* The recorded choice has no cash charge; travel time is shown below. */}
               {choice.outboundTravelMinutes > 0 ? (
                 <p>
                   A {choice.outboundTravelMinutes}-minute journey there is
@@ -138,10 +132,7 @@ export function CampaignActionChoicesPanel({
                 {result.raisedAmount !== null ? (
                   <p>Raised: {displayMoney(result.raisedAmount)}</p>
                 ) : result.form === "fundraiser" ? (
-                  <p>
-                    No contribution was received by the committee at this
-                    gathering.
-                  </p>
+                  <p>Raised: none</p>
                 ) : null}
               </li>
             ))}

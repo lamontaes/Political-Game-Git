@@ -8,6 +8,14 @@ import { drawRandomPlace } from "./tests/support/random-place.ts";
 import { projectCampaign } from "./src/presentation/campaign-projection.ts";
 import { projectPartyAndCommunityWork } from "./src/presentation/campaign-life-surface.ts";
 import { projectCampaignOffices } from "./src/presentation/campaign-office-discovery.ts";
+// The person-linking fields a history record may carry; absent ones are skipped.
+interface PersonLinkedRecord {
+  personId?: string;
+  candidateId?: string;
+  candidatePersonId?: string;
+  subjectId?: string;
+  actorId?: string;
+}
 const seed = "session14-campaigns-records-20261005";
 const place = drawRandomPlace(seed, (p) => p.scope === "locality");
 const { world, playerPersonId } = generateOpeningLife(
@@ -41,7 +49,7 @@ const history = Object.fromEntries(
     .map(([key, value]) => [
       key,
       Array.isArray(value)
-        ? value.filter((r: any) =>
+        ? (value as PersonLinkedRecord[]).filter((r) =>
             [
               r.personId,
               r.candidateId,

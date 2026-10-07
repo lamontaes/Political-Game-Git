@@ -19,7 +19,7 @@ import {
   QUALIFICATION_COLUMNS,
   RECOVERED_31D_QUALIFICATION_COLUMNS,
   QUALIFICATIONS_SOURCE_BOUNDARY,
-  REJECTED_PLACEHOLDER_CITATIONS,
+  REJECTED_STAND_IN_CITATIONS,
   compileQualificationFixture,
   compileQualificationResearchTransport,
   isOfficeExistence,
@@ -255,7 +255,7 @@ describe("PR #72's failures are permanent validation errors", () => {
       ),
     ).toBe(true);
     expect(isClean(report)).toBe(false);
-    expect(REJECTED_PLACEHOLDER_CITATIONS.length).toBeGreaterThan(0);
+    expect(REJECTED_STAND_IN_CITATIONS.length).toBeGreaterThan(0);
   });
 
   it("rejects the standard-term-limit string #72 wrote in place of a rule", () => {

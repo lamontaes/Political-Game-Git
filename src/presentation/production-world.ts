@@ -79,10 +79,6 @@ import { drawFamilyShape } from "../simulation/family-shape";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import { parentsOf, recordFamilyAddition } from "../simulation/people-family";
 import { recordEarlierConditionOnsets } from "../simulation/crisis/condition-onset";
-import {
-  recordCreatorLifeForks,
-  type CreatorLifeForkChoice,
-} from "../simulation/creator-life-forks";
 import { historicalWorldInputs } from "../simulation/historical-world-inputs";
 import type {
   CharacterHistoryTransition,
@@ -148,7 +144,6 @@ export type OpeningFamilyShape = "one-parent" | "two-parents" | "guardian";
 export interface ProductionWorldInput {
   /** Observe immutable canonical build checkpoints; never advances the clock. */
   readonly onCharacterCheckpoint?: (world: World, personId: EntityId) => void;
-  readonly creatorLifeForks?: readonly CreatorLifeForkChoice[];
   /** The full world seed, already derived from the player's setup. */
   readonly seed: string;
   /** World identity seed, before calibration; topology is not a shaped age range. */
@@ -535,11 +530,6 @@ export function buildProductionWorld(
     input.districtHomeJoinVersion,
   );
   assertWorldIntegrity(world);
-  world = recordCreatorLifeForks(
-    world,
-    player.id,
-    input.creatorLifeForks ?? [],
-  );
   return { world, playerPersonId: player.id, player };
 }
 

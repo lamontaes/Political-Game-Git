@@ -38,6 +38,7 @@ import { ageOnDate, isoDateFromParts, yearOf } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import type { LawInForce } from "../governing/law-in-force";
 import {
+  readFinalEnactedLawTerm,
   readOrEstimateFinalEnactedLawTerm,
   type ModeledFinalEnactedLawTerm,
 } from "../governing/final-law-term-query";
@@ -212,16 +213,29 @@ function decide(
   const jurisdiction = stateJurisdictionForKey(stateKey);
   const incomeLimitDate =
     onDate > world.currentDate ? world.currentDate : onDate;
-  const incomeLimit = jurisdiction
-    ? readOrEstimateFinalEnactedLawTerm(world, expansion, {
-        questionKey: COVERAGE_QUESTION_KEYS.expansion,
-        termKey: "income-limit",
-        unit: "share-of-federal-poverty-level",
-        jurisdictionId: jurisdiction.id,
-        onDate: incomeLimitDate,
-        ...(incomeLimitDate <= cutoff.asOfDate ? { cutoff } : {}),
-      })
-    : { kind: "unsupported" as const, reason: "No state jurisdiction." };
+  const incomeLimitInput = {
+    questionKey: COVERAGE_QUESTION_KEYS.expansion,
+    termKey: "income-limit",
+    unit: "share-of-federal-poverty-level" as const,
+    onDate: incomeLimitDate,
+    ...(incomeLimitDate <= cutoff.asOfDate ? { cutoff } : {}),
+  };
+  const sourcedIncomeLimit = jurisdiction
+    ? readFinalEnactedLawTerm(world, expansion, incomeLimitInput)
+    : null;
+  const incomeLimit = sourcedIncomeLimit
+    ? { kind: "source" as const, term: sourcedIncomeLimit }
+    : jurisdiction
+      ? readOrEstimateFinalEnactedLawTerm(world, expansion, {
+          questionKey: COVERAGE_QUESTION_KEYS.expansion,
+          termKey: "income-limit",
+          unit: "share-of-federal-poverty-level",
+          scope: { kind: "statewide" },
+          jurisdictionId: jurisdiction.id,
+          onDate: incomeLimitDate,
+          ...(incomeLimitDate <= cutoff.asOfDate ? { cutoff } : {}),
+        })
+      : { kind: "unsupported" as const, reason: "No state jurisdiction." };
   if (incomeLimit.kind === "unsupported")
     return {
       covered: false,

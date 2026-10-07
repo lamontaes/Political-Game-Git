@@ -2348,9 +2348,12 @@ function validateHistoryIntegrity(
       );
     }
   }
-  const workRelationshipIds = new Set(
-    history.workRelationships.map((record) => record.id),
-  );
+  // An office is a work relationship, or a council seat, which is an
+  // organization participation (`living-world/council-seat-office.ts`).
+  const officeIds = new Set([
+    ...history.workRelationships.map((record) => record.id),
+    ...history.organizationParticipations.map((record) => record.id),
+  ]);
   for (const record of history.officeWorkflowPreferences ?? []) {
     assertUniqueId(ids, record.id);
     if (!world.people[record.personId]) {
@@ -2358,7 +2361,7 @@ function validateHistoryIntegrity(
         `Office workflow preference names a missing person: ${record.id}`,
       );
     }
-    if (!workRelationshipIds.has(record.officeRelationshipId)) {
+    if (!officeIds.has(record.officeRelationshipId)) {
       throw new Error(
         `Office workflow preference names a missing office: ${record.id}`,
       );
@@ -2382,7 +2385,7 @@ function validateHistoryIntegrity(
         `Office vote instruction names a missing person: ${record.id}`,
       );
     }
-    if (!workRelationshipIds.has(record.officeRelationshipId)) {
+    if (!officeIds.has(record.officeRelationshipId)) {
       throw new Error(
         `Office vote instruction names a missing office: ${record.id}`,
       );
