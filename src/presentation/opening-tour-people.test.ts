@@ -69,7 +69,7 @@ it("the family stands in its home picture, never a regional plate", () => {
   // is never a second backdrop for it.
   expect(orientationBackdrop("parents", sources)).toEqual({ kind: "neutral" });
   expect(
-    orientationBackdrop("parents", { ...sources, homePlace: "rowhouse" }),
+    orientationBackdrop("parents", { ...sources, homePlaces: ["rowhouse"] }),
   ).toMatchObject({ kind: "place", place: "rowhouse" });
 });
 

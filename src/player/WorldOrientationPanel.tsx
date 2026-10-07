@@ -51,7 +51,7 @@ import {
 } from "../presentation/opening-tour-people";
 import {
   capitolPlaceFor,
-  homePlaceForPerson,
+  homePlacesForPerson,
   middayBackdropUrl,
 } from "../presentation/place-backdrops";
 import {
@@ -323,7 +323,7 @@ export function WorldOrientationPanel({
         regionalPlate?.kind === "plate" ? regionalPlate.plate : null,
       regionScene,
       homeStateUsps,
-      homePlace: world && personId ? homePlaceForPerson(world, personId) : null,
+      homePlaces: world && personId ? homePlacesForPerson(world, personId) : [],
     });
   const backdrop = backdropFor(step?.key ?? "");
   const nextStep = steps[index + 1];
@@ -453,6 +453,7 @@ export function WorldOrientationPanel({
                 people={scenePeople}
                 stageRef={sceneStage}
                 overflowLabel="More illustrated people"
+                nameTags={step.key === "parents"}
                 onSelectPerson={(id) => {
                   const selected = sceneRoster.find(
                     (person) => person.personId === id,
@@ -871,7 +872,7 @@ export function orientationBackdrop(
     /** The home state's postal code, for the right capitol. */
     readonly homeStateUsps?: string | null;
     /** The player's home picture, from the dwelling the household lives in. */
-    readonly homePlace?: string | null;
+    readonly homePlaces?: readonly string[];
   },
 ): OrientationBackdrop {
   const place = (name: string | null | undefined): OrientationBackdrop => {
@@ -898,7 +899,12 @@ export function orientationBackdrop(
     );
   // The family stands in the home the household record says it lives in:
   // one composition, the home's picture with the family on its own spots.
-  if (stepKey === "parents") return place(sources.homePlace);
+  if (stepKey === "parents") {
+    const home = (sources.homePlaces ?? []).find((name) =>
+      middayBackdropUrl(name),
+    );
+    return place(home);
+  }
   // The street of your town, not a home: the play screen's own room decides
   // what your home looks like, and the two must never disagree.
   if (stepKey === "your-life") return place("main-street");
