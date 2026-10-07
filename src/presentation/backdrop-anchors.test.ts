@@ -47,6 +47,17 @@ describe("people anchors on every place picture", () => {
     expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
   });
 
+  it("anchors all six rural farmhouse dining chairs", () => {
+    const seats = STAGES["rural-farmhouse"]!.spots.filter(
+      (spot) => spot.pose === "sit" && spot.group?.startsWith("table"),
+    );
+    expect(seats).toHaveLength(6);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(6);
+    const farSide = seats.filter((spot) => spot.group === "table-far-side");
+    expect(farSide).toHaveLength(2);
+    expect(farSide.every((spot) => spot.facing === "away")).toBe(true);
+  });
+
   it("anchors all county commission dais and pew seats", () => {
     const seats = STAGES["county-commission"]!.spots.filter(
       (spot) => spot.pose === "sit",
