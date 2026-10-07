@@ -1,7 +1,7 @@
 ---
 id: bg39-stale-meeting-scene-closeout
 impact: patch
-section: fix
+section: Fixed
 title: Meeting routes open the active meeting scene
 ---
 
