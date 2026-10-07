@@ -453,12 +453,12 @@ export function municipalActionAuthority(
     case "inspect-government":
       return grant(
         input.action,
-        `${reading.displayName} is compiled from ${
+        `${reading.displayName} is compiled${
           reading.evidence === "enacted-text"
-            ? "enacted text this repository retrieved"
+            ? " from enacted text this repository retrieved"
             : reading.evidence === "game-profile"
-              ? "a disclosed local government game profile"
-              : "a research transcription of official municipal pages"
+              ? ""
+              : " from a research transcription of official municipal pages"
         }, and anybody may read what it says.`,
       );
 

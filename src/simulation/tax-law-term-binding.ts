@@ -28,6 +28,10 @@ import {
   localTaxGovernment,
   localTaxPowerEvidenceFor,
 } from "./local-tax-authority";
+import {
+  STATE_TAX_INSTRUMENT_BY_FAMILY,
+  stateTaxPowerEvidenceFor,
+} from "./state-tax-authority";
 import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import type { TaxPowerEvidence, TaxTerms } from "./tax-types";
 import type {
@@ -97,6 +101,10 @@ export function bindTaxLawTerms(
   const localQuestion = /^us-tax-terms:(county|city)\.([a-z]+)-tax-terms$/.exec(
     input.questionKey,
   );
+  const stateQuestion =
+    /^us-tax-terms:state\.(sales|property|payroll)-tax-terms$/.exec(
+      input.questionKey,
+    );
   const localInstrument = localQuestion
     ? LOCAL_TAX_INSTRUMENT_BY_FAMILY[localQuestion[2]!]
     : undefined;
@@ -133,6 +141,20 @@ export function bindTaxLawTerms(
       governmentKey: recorded.governmentKey,
       instrument: localInstrument,
     });
+  } else if (stateQuestion) {
+    // The state's own sales, property or payroll tax: the same catalog row
+    // answers for every state, and the saved terms must name the same tax.
+    const stateInstrument = STATE_TAX_INSTRUMENT_BY_FAMILY[stateQuestion[1]!];
+    if (
+      !stateInstrument ||
+      !power ||
+      proposal.terms.instrument !== stateInstrument
+    )
+      return unavailable("The saved state tax does not match this question.");
+    supportedPower = stateTaxPowerEvidenceFor(
+      power.jurisdictionKey,
+      stateInstrument,
+    );
   } else if (power) supportedPower = taxPowerEvidenceFor(power.jurisdictionKey);
   if (
     !power ||
@@ -144,6 +166,7 @@ export function bindTaxLawTerms(
       "carry-forward-acquired-baseline-in-game" ||
     (proposal.terms.effectiveDelayDays ?? 90) !== 90 ||
     (!localQuestion &&
+      !stateQuestion &&
       input.questionKey !== "us-tax-terms:state.excise-tax-terms")
   )
     return unavailable(

@@ -24,7 +24,7 @@ async function passDaysUntil(page: Page, subject: string, maxDays: number) {
     const starter = page.getByTestId(`conversation-start-${subject}`);
     if (
       (await starter.count()) > 0 &&
-      !(await starter.innerText()).includes("settled for now")
+      (await starter.getAttribute("data-settled")) !== "true"
     ) {
       return starter;
     }
