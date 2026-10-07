@@ -55,6 +55,27 @@ describe("people anchors on every place picture", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
 
+  it("anchors convention hall and debate stage audience chairs", () => {
+    const rooms = [
+      ["convention-hall", 128, 8],
+      ["debate-stage", 22, 3],
+    ] as const;
+    for (const [place, expectedSeats, expectedRows] of rooms) {
+      const spots = STAGES[place]!.spots;
+      const seats = spots.filter((spot) => spot.pose === "sit");
+      const audience = seats.filter((spot) => spot.role === "audience");
+      expect(seats).toHaveLength(expectedSeats);
+      expect(audience).toHaveLength(expectedSeats);
+      expect(new Set(seats.map((spot) => spot.id)).size).toBe(expectedSeats);
+      expect(audience.filter((spot) => spot.facing === "away")).toHaveLength(
+        expectedSeats,
+      );
+      const rowGroups = new Set(audience.map((spot) => spot.group));
+      expect(rowGroups.size).toBe(expectedRows);
+      expect(spots).toHaveLength(7 + expectedSeats);
+    }
+  });
+
   it.each(PLACES)(
     "%s: every spot is on a floor inside the picture",
     (place) => {
