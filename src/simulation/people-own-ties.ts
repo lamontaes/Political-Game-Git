@@ -38,10 +38,18 @@ export const OWN_TIES_VERSION = "own-ties-v1";
 export const OWN_TIES_TAG = "people.own-ties";
 
 /**
- * PLACEHOLDER, set by hand: how many of each kind of tie a person is given.
- * Pacing, not measurement.
+ * ESTIMATED GAME PACING, not a measured social distribution. Counts are caps
+ * on ties already supported by the person's recorded household, neighbor,
+ * work, and shared-place records. The age window is informed by the general
+ * similarity finding in McPherson, Smith-Lovin, and Cook, “Birds of a
+ * Feather,” Annual Review of Sociology (2001); its exact threshold and the
+ * caps remain game estimates because the records do not measure a population
+ * distribution.
  */
-const OWN_TIES = {
+const OWN_TIES_ESTIMATE = {
+  estimated: true,
+  estimatedFrom:
+    "recorded household, neighbor, work, and shared-place relationships; the age-similarity window is informed by McPherson, Smith-Lovin, and Cook (2001)",
   neighbors: 2,
   /** One friend, or two for somebody who leans sociable. */
   friends: { minimum: 1, sociable: 2 },
@@ -150,7 +158,7 @@ export function ensureOwnTies(
         if (!housemates.has(id)) recordedNeighbors.push(id);
   const neighbors = nearestInAge(recordedNeighbors).slice(
     0,
-    OWN_TIES.neighbors,
+    OWN_TIES_ESTIMATE.neighbors,
   );
 
   // Friends from the rooms and the jobs they already share.
@@ -171,8 +179,8 @@ export function ensureOwnTies(
     .map((row) => row.personId);
   const friendCount =
     personTrait(world, personId, "sociability").value >= 1
-      ? OWN_TIES.friends.sociable
-      : OWN_TIES.friends.minimum;
+      ? OWN_TIES_ESTIMATE.friends.sociable
+      : OWN_TIES_ESTIMATE.friends.minimum;
   const friends = nearestInAge([
     ...sharedPlaceAcquaintances(world, personId),
     ...coworkers,
@@ -181,7 +189,7 @@ export function ensureOwnTies(
       (id) =>
         !neighbors.includes(id) &&
         Math.abs(ageOnDate(world.people[id]!.birthDate, today) - age) <=
-          OWN_TIES.friendAgeGapYears,
+          OWN_TIES_ESTIMATE.friendAgeGapYears,
     )
     .slice(0, friendCount);
   // Somebody the record places in no room and no job still has a friend in
@@ -194,7 +202,7 @@ export function ensureOwnTies(
       if (neighbors.includes(id) || friends.includes(id)) continue;
       if (
         Math.abs(ageOnDate(world.people[id]!.birthDate, today) - age) >
-        OWN_TIES.friendAgeGapYears
+        OWN_TIES_ESTIMATE.friendAgeGapYears
       )
         break;
       friends.push(id);
