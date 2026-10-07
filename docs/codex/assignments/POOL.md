@@ -524,7 +524,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-24 | Creator 'Who are you?' questions are terrible (club-trip registration and similar) | BUGS.md BG-24 | done #87 | |
 | BG-25 | Opening cards ('In the year 2026', 1 of 8) are a non-approved UI; card text hard to read over the Capitol; '2 No party' should read '2 independents'; ghost figure under card 4; hidden newspaper masthead | BUGS.md BG-25 | open | |
 | BG-26 | Life story has a 38-year hole, every event is 'In December', no parents/siblings/spouse/children, unexplained school transfer | BUGS.md BG-26 | open | |
-| BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | open | |
+| BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | done #2993 | |
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
 | BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | open | |
 | BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | open | |
