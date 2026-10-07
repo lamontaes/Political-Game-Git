@@ -1,6 +1,34 @@
-# Session 56 progress
+# Session 56 corrects LW-09 readiness and moves to LW-12
 
-Updated 2026-10-06. Working tree: `session-56/b32-part-2-unified-sittings`, based on current `main` at `e591ffc`.
+Current main marks LW-09 and LW-10 done with unsupported effects recorded. This branch corrects a stale LW-09 student-debt readiness claim about named loan and discharge records. LW-12 is the next pool row marked open.
+
+## Done
+
+- Workplace rooms now route by the employer's recorded business kind. [PR #3373](https://github.com/lamontaes/Political-Game-Git/pull/3373)
+  merged as main commit `8c3255f61`.
+- Pool row LW-03 was already implemented on main in [PR #2476](https://github.com/lamontaes/Political-Game-Git/pull/2476), commit
+  `493b16f2`. The tax terms pack defines federal income, sales, payroll and
+  corporate tax consequence rows in `data/research/laws/catalog-terms-batch-03.json`.
+  The law consequence registry routes them through the tax handler in
+  `src/simulation/law-consequence-registry.ts`. Its focused test checks all
+  four rows and the 56-jurisdiction state-level restriction in
+  `src/simulation/policy-pack-tax-terms.test.ts`.
+
+## Next
+
+- `data/research/laws/lw09-effect-readiness.json` now recognizes named federal loan and noncash discharge writers and records the missing law-consequence binding.
+- The federal loan writer is in `src/simulation/student-debt.ts`; the noncash discharge writer is in `src/simulation/household-loans.ts`.
+- `data/research/laws/catalog-terms-batch-04.json` leaves student-loan cap and eligibility bounds unresolved.
+- Current main marks LW-10 done in `docs/codex/assignments/POOL.md`. Merged [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) supplies its mandatory-minimum row. The stock-trading link remains unsized because the source measures descriptive returns and the game has no member holdings for the effect to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
+- LW-11 remains claimed by S20 in the current pool, which marks LW-12 open with a stale S43 claim (`docs/codex/assignments/POOL.md`). Merged [PR #2495](https://github.com/lamontaes/Political-Game-Git/pull/2495) lands the legislative-term-limit effect; its map lists redistricting, automatic registration, and local-authority effects as unsupported (`data/law-consequences/election-state-landings.json`).
+- The readiness correction is open for review in [PR #3485](https://github.com/lamontaes/Political-Game-Git/pull/3485); it is mergeable and remains unmerged.
+- Current branch `session-56-lw09-readiness` is based on current `origin/main` `588637e`. Next step: verify current LW-12 status, then inspect its three remaining consequence paths and person records before making changes.
+
+---
+
+# Session 56 progress (archived October 6 snapshot)
+
+Updated October 6, 2026. Working tree: `session-56/b32-part-2-unified-sittings`, based on current `main` at `e591ffc`.
 
 ## Done
 
@@ -29,3 +57,19 @@ Updated 2026-10-06. Working tree: `session-56/b32-part-2-unified-sittings`, base
 3. Preserve the LW04 tax-terms draft and avoid duplicate LW03/LW04 tax bindings/catalog work.
 
 Exact next command after restart: `git status --short --branch` in `/workspace/Political-Game-Git`.
+
+## Oct 7 continuation (archived and superseded by the current LW-12 status above)
+
+- PR #3373 merged workplace room selection as main commit `8c3255f61`.
+- PR #3399 marks LW-03 done because its federal tax-term rows already merged
+  in #2476; #3399 merged as main commit `7e1bf2f3d`.
+- LW-04 is already implemented by #3022 and #3277. The pool correction is
+  pushed on `session-56-lw04`; its first PR creation returned HTTP 503, but it
+  was rebased onto current main and is ready for review as PR #3408.
+- LW-05 is open and claimed in Drive. County sales/property consequence rows
+  already work. State corporate incidence still lacks recorded owner draws or
+  distributable earnings; county income terms lack a sourced 56-place local
+  authority dataset. `lw05-effect-readiness.json` and its test document these
+  limits without enabling unsupported effects.
+- Next: retain LW-05 as a source blocker, then verify the next open pool item
+  and recent claim before starting it.
