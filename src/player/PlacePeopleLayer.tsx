@@ -26,6 +26,7 @@ export function PlacePeopleLayer({
   onSelectPerson,
   selectedPersonId = null,
   overflowLabel = "Also here",
+  nameTags = false,
 }: {
   readonly people: readonly BackdropPerson[] & {
     readonly overflow?: readonly BackdropOverflowPerson[];
@@ -34,6 +35,8 @@ export function PlacePeopleLayer({
   readonly onSelectPerson?: ScenePersonSelectionHandler;
   readonly selectedPersonId?: string | null;
   readonly overflowLabel?: string;
+  /** Show each person's name on a Kit 13 plate under their feet, always. */
+  readonly nameTags?: boolean;
 }) {
   const rect = useCoverRect(stageRef);
   const overflow = people.overflow ?? [];
@@ -43,14 +46,13 @@ export function PlacePeopleLayer({
       {overflow.length > 0 ? (
         <details
           data-testid="scene-place-overflow"
+          className="pg-glass-panel"
           style={{
             position: "absolute",
             bottom: "1rem",
             maxHeight: "50%",
             overflowY: "auto",
             padding: "0.5rem",
-            color: "#f0e8d8",
-            background: "rgba(18, 20, 22, 0.9)",
             right: "1rem",
             zIndex: 1,
           }}
@@ -160,7 +162,25 @@ export function PlacePeopleLayer({
               </span>
             </button>
           );
-          return button;
+          if (!nameTags) return button;
+          return (
+            <Fragment key={person.personId}>
+              {button}
+              <span
+                className="scene-place-nametag"
+                data-testid="scene-place-nametag"
+                style={
+                  {
+                    position: "absolute",
+                    left: `${person.leftPercent + person.widthPercent / 2}%`,
+                    top: `${Math.min(person.topPercent + visibleHeight, 96)}%`,
+                  } satisfies CSSProperties
+                }
+              >
+                {person.name}
+              </span>
+            </Fragment>
+          );
         })}
       </div>
     </Fragment>

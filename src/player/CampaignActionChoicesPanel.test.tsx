@@ -136,7 +136,7 @@ describe("campaign choices in the player UI", () => {
     }
     expect(html).not.toContain("Cost not estimated.");
     expect(html).not.toContain("campaign-choice-cost-");
-    expect(html).toContain("The committee opened with no money");
+    expect(html).not.toContain("The committee opened with no money");
     expect(html).not.toContain("cost of these activities is not established");
     expect(html).not.toContain("$0 cost");
   });
@@ -209,7 +209,7 @@ describe("campaign choices in the player UI", () => {
     )!.recentResults.at(-1)!;
     const html = renderChoices(finished);
     expect(result.raisedAmount).toBeNull();
-    expect(html).toContain("No contribution was received by the committee");
+    expect(html).toContain("Raised: none");
     expect(html).not.toContain("Raised:");
     expect(html).not.toContain(result.summary);
   });

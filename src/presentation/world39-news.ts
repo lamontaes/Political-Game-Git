@@ -238,7 +238,9 @@ export function isWorldMachineryEvent(
   tags: readonly string[],
 ): boolean {
   return (
-    /^(setup|simulation|information|evidence|publication|world)\./.test(type) ||
+    /^(setup|simulation|information|evidence|publication|world|public-program)\./.test(
+      type,
+    ) ||
     tags.includes("world.created") ||
     tags.includes("life.started")
   );

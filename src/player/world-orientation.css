@@ -468,6 +468,9 @@
   flex: 0 1 auto;
   color: var(--text-strong);
   font-family: var(--speech);
+  /* OW-7: the 54px corner pieces frame the content and never cover it. */
+  padding: 54px;
+  box-sizing: border-box;
 }
 /* Original approved sheet pixels; no new corner art or altered source image. */
 .pg-orientation-panel > .pg-orientation-corners {
@@ -955,4 +958,65 @@
   margin: 0.2rem 0 0.5rem 0.2rem;
   font-size: 0.9rem;
   opacity: 0.9;
+}
+
+/* MR-INTRO-a: a card fits the panel at the smallest supported size, and every
+ * text sits on a surface it reads against (4.5 to 1 or better). The panel is
+ * a column whose reading area scrolls inside the card, so Back, Next and Skip
+ * are never covered. */
+.pg-orientation-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+.pg-orientation-panel > .pg-orientation-reading {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+/* Keep the complete state-card reading area on paper. Its population and
+ * voting records sit beside the official list, outside that list's wrapper. */
+.pg-orientation[data-step="state"] .pg-orientation-reading {
+  color: #3b2f14;
+  background: #f1eadd;
+  border-radius: 0.45rem;
+}
+.pg-orientation[data-step="state"]
+  .pg-orientation-reading
+  :is(h3, p, li, span, small, figcaption, th, td, dt, dd) {
+  color: #3b2f14;
+}
+.pg-orientation[data-step="state"]
+  .pg-orientation-reading
+  :is(.pg-state-population-caption, .pg-state-population-unit, small) {
+  color: #5a4b31;
+}
+.pg-orientation[data-step="state"] .pg-orientation-reading a {
+  color: #6b4f12;
+}
+/* A person's tile is pale paper, so its words are dark: 13 to 1 for the name,
+ * 6.7 to 1 for the title. */
+.pg-orientation[data-step="state"]
+  .pg-orientation-people
+  .pg-orientation-person,
+.pg-orientation-cast .pg-orientation-person {
+  color: #2a2112;
+  background: #eee5d5;
+}
+.pg-orientation[data-step="state"]
+  .pg-orientation-people
+  .pg-orientation-person
+  span,
+.pg-orientation[data-step="state"]
+  .pg-orientation-people
+  .pg-orientation-person
+  small,
+.pg-orientation-cast .pg-orientation-person :is(span, small) {
+  color: #5a4b31;
+}
+.pg-orientation-cast-label {
+  color: #2a2112;
+  background: #f1eadd;
+}
+.pg-orientation-cast-label span {
+  color: #5a4b31;
 }

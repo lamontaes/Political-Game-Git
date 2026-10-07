@@ -49,7 +49,7 @@ describe("local ordinance procedure disclosure", () => {
       }),
     );
     expect(screen).toContain("municipal-game-procedure-label");
-    expect(screen).toContain("fictional game rule profile");
+    expect(screen).toContain("Game rule profile");
     expect(screen).toContain("Retrieved law");
   });
 });

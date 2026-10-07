@@ -42,12 +42,15 @@ export function CreatorAppearanceStep({
   mode,
   onBegin,
   beginSlot = null,
+  waiting = false,
 }: {
   readonly setup: NewGameSetup;
   readonly mode: ArtPreviewMode;
   /** The panel's own Back and Next row; Begin sits in it when it is given. */
   readonly beginSlot?: HTMLElement | null;
   readonly onBegin: (choice: CreatorAppearanceChoice | null) => void;
+  /** True while the recorded life is still being prepared. */
+  readonly waiting?: boolean;
 }) {
   const libraries = artPreviewLibraries(mode);
   const library = useMemo(
@@ -94,6 +97,7 @@ export function CreatorAppearanceStep({
       className="game-creator-next creator-primary-action"
       data-testid="begin"
       disabled={
+        waiting ||
         !person ||
         Boolean(libraries?.unavailableReason) ||
         Boolean(

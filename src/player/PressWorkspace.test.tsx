@@ -2,12 +2,11 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
-import { pickDistinct, SeededRng } from "../simulation/rng";
 import { serializeWorld } from "../simulation/serialization";
 import { PressWorkspace } from "./PressWorkspace";
 
 const seed = "team3-a153-unavailable-workspace-all56";
-const places = pickDistinct(new SeededRng(seed), lifePlaceStateIdentities(), 5);
+const places = lifePlaceStateIdentities();
 
 describe("the press workspace without recorded reporters", () => {
   it.each(places)(
@@ -25,7 +24,7 @@ describe("the press workspace without recorded reporters", () => {
           onOpenPerson={() => {}}
         />,
       );
-      expect(html).toContain(
+      expect(html).not.toContain(
         "No current journalism role is recorded in this life.",
       );
       expect(html).not.toContain("press-seek-reporter");

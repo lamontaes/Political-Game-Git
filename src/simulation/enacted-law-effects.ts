@@ -2,6 +2,7 @@ import {
   createLawConsequenceRegistry,
   LAW_CONSEQUENCE_REGISTRATIONS,
 } from "./law-consequence-registry";
+import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import { validateLawConsequences } from "./law-consequence-validation";
 import { MissingLawConsequenceTerm } from "./law-consequence-integrity-gap";
 import { createStableId } from "./ids";
@@ -285,7 +286,10 @@ export function applyEnactedLawEffects(
     onDate: next.currentDate,
     activity: "effective",
     activityId: enactment.id,
-    subjectIds: [],
+    // Consequence resolvers apply their own row predicates and jurisdiction
+    // checks. Give them the recorded people they can evaluate on the law's
+    // effective date instead of suppressing every subject-filtered row.
+    subjectIds: [...next.personOrder],
     governingLawId: measureId,
   });
 }
@@ -969,8 +973,12 @@ export function applyLawConsequences(
           row.kind !== "service-delivered" ||
           context.activity !== "service" ||
           saved?.kind !== "appropriation" ||
-          saved.sourceMeasureId != null ||
-          saved.basis.kind !== "sourced" ||
+          // A county's service line carries its board's measure, and the
+          // board's vote is its basis; a standing program has a sourced one.
+          (isCountyServiceProgram(saved.programKey)
+            ? saved.sourceMeasureId == null
+            : saved.sourceMeasureId != null ||
+              saved.basis.kind !== "sourced") ||
           !saved.basis.note.trim() ||
           saved.recordedAt > context.onDate ||
           authority.programKey !== saved.programKey ||
