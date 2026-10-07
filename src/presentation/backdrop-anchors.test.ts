@@ -68,6 +68,21 @@ describe("people anchors on every place picture", () => {
     expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
   });
 
+  it("anchors visible member desks in both halves of the state legislature", () => {
+    const seats = STAGES["state-legislative-chamber-bicameral"]!.spots.filter(
+      (spot) => spot.pose === "sit" && spot.role === "member-at-dais",
+    );
+    expect(seats).toHaveLength(24);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(24);
+    expect(seats.filter((spot) => spot.group === "members-left")).toHaveLength(
+      12,
+    );
+    expect(seats.filter((spot) => spot.group === "members-right")).toHaveLength(
+      12,
+    );
+    expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(24);
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
