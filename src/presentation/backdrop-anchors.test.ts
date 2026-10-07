@@ -38,6 +38,19 @@ function floorOf(spot: StagingSpot): string {
 }
 
 describe("people anchors on every place picture", () => {
+  it("anchors all county commission dais and pew seats", () => {
+    const seats = STAGES["county-commission"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(11);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(11);
+    expect(seats.filter((spot) => spot.group === "dais")).toHaveLength(5);
+    expect(seats.filter((spot) => spot.group === "spectator-pew")).toHaveLength(
+      6,
+    );
+    expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(6);
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
@@ -134,5 +147,32 @@ describe("people anchors on every place picture", () => {
     expect(meeting.filter((spot) => spot.group === "spectator-pew")).toHaveLength(6);
     expect(meeting.filter((spot) => spot.group === "table")).toHaveLength(4);
     expect(meeting.filter((spot) => spot.facing === "away")).toHaveLength(6);
+  });
+
+  it("anchors visible U.S. chamber desks and balcony seats", () => {
+    const rooms = [
+      ["us-house-floor", 79, 46, 30],
+      ["us-senate-floor", 73, 40, 30],
+    ] as const;
+    for (const [
+      place,
+      expectedSeats,
+      expectedMembers,
+      expectedGallery,
+    ] of rooms) {
+      const spots = STAGES[place]!.spots;
+      const seats = spots.filter((spot) => spot.pose === "sit");
+      expect(seats).toHaveLength(expectedSeats);
+      expect(new Set(seats.map((spot) => spot.id)).size).toBe(expectedSeats);
+      expect(seats.filter((spot) => spot.group === "members")).toHaveLength(
+        expectedMembers,
+      );
+      expect(seats.filter((spot) => spot.group === "gallery")).toHaveLength(
+        expectedGallery,
+      );
+      expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(
+        expectedMembers + expectedGallery,
+      );
+    }
   });
 });
