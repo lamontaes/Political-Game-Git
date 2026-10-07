@@ -475,13 +475,13 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | T9-facet-hot-headed | Wire trait facet-hot-headed into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-sensitive | Wire trait facet-sensitive into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-tender-hearted | Wire trait facet-tender-hearted into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3248 | |
-| T9-facet-excitable | Wire trait facet-excitable into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
+| T9-facet-excitable | Wire trait facet-excitable into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3245 | Session 59 |
 | T9-facet-light-hearted | Wire trait facet-light-hearted into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-restless | Wire trait facet-restless into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #2938 | |
 | T9-facet-brooding | Wire trait facet-brooding into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3184 | Session 52 |
 | T9-facet-affectionate | Wire trait facet-affectionate into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3122 | Session 42 |
 | T9-facet-closeness-seeking | Wire trait facet-closeness-seeking into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
-| T9-facet-intimacy-guarded | Wire trait facet-intimacy-guarded into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
+| T9-facet-intimacy-guarded | Wire trait facet-intimacy-guarded into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3229 | Session 59 |
 | T9-facet-devoted | Wire trait facet-devoted into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3145 | Session 42 |
 | T9-facet-nostalgic | Wire trait facet-nostalgic into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-teasing | Wire trait facet-teasing into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3096 | Session 42 |
@@ -571,7 +571,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | open | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
-| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | open | |
+| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | ready #3418 | Session 52 |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
 
 ## Rescue: every open PR from the Codex sessions and earlier (added Oct 6, 3:40 p.m.)
