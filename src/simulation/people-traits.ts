@@ -208,10 +208,27 @@ export function strongestObservedTraitLabels(
     .map((reading) => reading.label);
 }
 
+/** A person's recorded, unbalanced trait values for presentation readers. */
+export function observedTraitValues(
+  world: World,
+  personId: EntityId,
+): readonly { readonly qualifiedKey: string; readonly value: number }[] {
+  return observedTraitReadings(world, personId).map(
+    ({ qualifiedKey, value }) => ({
+      qualifiedKey,
+      value,
+    }),
+  );
+}
+
 function observedTraitReadings(
   world: World,
   personId: EntityId,
-): readonly { readonly label: string; readonly value: number }[] {
+): readonly {
+  readonly qualifiedKey: string;
+  readonly label: string;
+  readonly value: number;
+}[] {
   // One pass over the person's records first: most of the catalog is
   // unrecorded for anybody, and reading each trait separately would scan the
   // whole history once per trait on every render of a card.
@@ -224,7 +241,13 @@ function observedTraitReadings(
     if (!recorded.has(traitDefinitionFromPack(trait).id)) return [];
     const reading = readTrait(world, personId, trait);
     return reading.state === "recorded" && reading.label !== null
-      ? [{ label: reading.label, value: reading.value }]
+      ? [
+          {
+            qualifiedKey: trait.qualifiedKey,
+            label: reading.label,
+            value: reading.value,
+          },
+        ]
       : [];
   });
 }

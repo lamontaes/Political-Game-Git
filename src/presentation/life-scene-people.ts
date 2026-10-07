@@ -22,7 +22,7 @@ import {
   sceneActivity,
   type SceneActivity,
 } from "./appearance-engine/pose-chooser";
-import { personTrait } from "../simulation/people-traits";
+import { observedTraitValues } from "../simulation/people-traits";
 import type { PersonRenderSnapshot } from "./person-render-snapshot";
 import {
   SCENE_REGISTRY,
@@ -399,6 +399,7 @@ function posedFor(
   activity: SceneActivity,
   seated: boolean,
   turns: readonly ConversationExchangeTurn[],
+  hasCompanion: boolean,
 ): {
   readonly pose: BodyPose;
   readonly view: BodyView;
@@ -414,23 +415,11 @@ function posedFor(
       activity,
       seated,
       seed: record.appearance?.seed ?? record.id,
-      ...recordedGuardedness(world, personId),
+      traits: observedTraitValues(world, personId),
+      hasCompanion,
     }),
     view: chooseBodyView(activity),
   };
-}
-
-/**
- * How guarded a person is, for the pose chooser: the opposite of their
- * sociability (a reserved person folds their arms more), and only when it
- * has been recorded. A trait nobody has observed is not read.
- */
-function recordedGuardedness(
-  world: World,
-  personId: ScenePerson["personId"],
-): { readonly guarded?: number } {
-  const sociability = personTrait(world, personId, "sociability");
-  return sociability.recordId === null ? {} : { guarded: -sociability.value };
 }
 
 /**
@@ -775,6 +764,7 @@ export function planLifeScenePeople(
               }),
               seated,
               activity?.turns ?? [],
+              people.length > 1,
             ),
           })
         : null;
