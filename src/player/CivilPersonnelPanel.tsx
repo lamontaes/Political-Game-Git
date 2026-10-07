@@ -58,15 +58,14 @@ export function CivilPersonnelPanel({
   const vacancies = reinstatementOpportunities(world).filter(
     (v) => v.candidates.length > 0,
   );
-  if (world.control.kind !== "person")
-    return <p>Choose a person to prepare employment questions.</p>;
+  if (world.control.kind !== "person") return <p>Person: none</p>;
   function prepare(review: boolean) {
     const relationship = employments.find(
       (e) => e.workRelationshipId === employmentId,
     );
     const selectedEmployer = review ? relationship?.organizationId : employerId;
     if (!selectedEmployer) {
-      setNotice("Select an established employer or employment relationship.");
+      setNotice("Employer: none selected");
       return;
     }
     const result = preparePersonnelWork(world, {
@@ -77,9 +76,7 @@ export function CivilPersonnelPanel({
     });
     if (result.ok) {
       onWorldChange(result.world);
-      setNotice(
-        "Your private preparation is in Work. No application, complaint or personnel decision has been filed.",
-      );
+      setNotice("Saved to Work · Not filed");
     } else setNotice(result.reason);
   }
   function apply(result: PersonnelResult, done: string) {
@@ -191,7 +188,7 @@ export function CivilPersonnelPanel({
                                 personId,
                                 probation,
                               }),
-                              "The offer was made and answered on receipt. Only an acceptance is an appointment.",
+                              "Offer answered",
                             )
                           }
                         />
@@ -208,7 +205,7 @@ export function CivilPersonnelPanel({
                         note: input.text,
                         transitionHandlers: handlers,
                       }),
-                      "The informal resolution meeting took place and is on record.",
+                      "Meeting recorded",
                     );
                   case "discipline":
                     return apply(
@@ -219,18 +216,18 @@ export function CivilPersonnelPanel({
                         reasons: input.text,
                       }),
                       input.action === "discharge"
-                        ? "The written notice was issued. The employee's own answer to it is on record."
-                        : "The written notice was issued and recorded.",
+                        ? "Notice issued · Answer recorded"
+                        : "Notice issued",
                     );
                   case "commissioner-filing":
                     return apply(
                       fileNoticeWithCommissioner(world, {
                         actionId: matter.id,
                       }),
-                      "The notice was filed with the commissioner.",
+                      "Filed with the commissioner",
                     );
                   default:
-                    return setNotice("That step is not available.");
+                    return setNotice("Not available");
                 }
               }}
             />
