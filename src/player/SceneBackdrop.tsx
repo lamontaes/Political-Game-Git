@@ -143,6 +143,7 @@ export function SceneBackdrop({
   selectedPersonId = null,
   objects,
   placeBackdrop = null,
+  preferPlaceBackdrop = false,
   placePeople = [],
   placeSurfaces = [],
   children,
@@ -213,6 +214,8 @@ export function SceneBackdrop({
    * own. Nobody stands in it and nothing on it is clickable.
    */
   readonly placeBackdrop?: PlaceBackdrop | null;
+  /** Prefer a record-selected place image over this scene's default room art. */
+  readonly preferPlaceBackdrop?: boolean;
   /**
    * The people on shift at that place (backdrop-people.ts), standing on its
    * marked spots. Drawn only over a place picture.
@@ -259,7 +262,7 @@ export function SceneBackdrop({
     covering.viewport,
   );
 
-  const painted = Boolean(tier.paintedUrl);
+  const painted = Boolean(tier.paintedUrl) && !preferPlaceBackdrop;
 
   /*
    * Framing around the people (see `scene-framing.ts`). The covering camera is
@@ -294,10 +297,7 @@ export function SceneBackdrop({
           };
         })
       : [];
-  const headroom = figureHeadroom(
-    figuresAt(covering.yOffset),
-    covering.viewport.height,
-  );
+  const headroom = figureHeadroom(figuresAt(covering.yOffset));
   const transform = {
     ...covering,
     xOffset:
@@ -528,7 +528,7 @@ export function SceneBackdrop({
           filled with the same painting, softened, rather than left black. It
           is the room's own art stretched as ambience, never a second picture.
         */}
-        {headroom > 0 && tier.paintedUrl ? (
+        {headroom > 0 && painted && tier.paintedUrl ? (
           <img
             className="scene-backdrop-fill"
             src={tier.paintedUrl}
@@ -549,7 +549,7 @@ export function SceneBackdrop({
             } satisfies CSSProperties
           }
         >
-          {tier.paintedUrl ? (
+          {painted && tier.paintedUrl ? (
             <img
               className="scene-environment-art"
               src={tier.paintedUrl}
@@ -677,14 +677,6 @@ export function SceneBackdrop({
                         onSelectPerson(person.personId, person.engine),
                       "aria-haspopup": "menu" as const,
                       "aria-expanded": chosen,
-                      /*
-                       * The accessible name is the presence line the room
-                       * already computes — "Beth Mathis, your housemate" —
-                       * so somebody using a screen reader hears who they are
-                       * about to choose and how this life knows them, which is
-                       * exactly what the rail used to say.
-                       */
-                      "aria-label": person.presence,
                     }
                   : {})}
                 className={`scene-person-token${onSelectPerson ? " scene-person-token--selectable" : ""}${chosen ? " scene-person-token--chosen" : ""}`}
