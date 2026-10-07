@@ -159,7 +159,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b15-p6 | Opposition research | b15-_.md part 6 | open (stale claim: S43) | S43 |
 | b15-p7 | Hearings as scenes | b15-_.md part 7 | open (stale claim: S43) | S43 |
 | b22-p1 | One office-scope reader | b22-_.md part 1 | claimed | S48 |
-| b22-p2 | Visibility table, data not code | b22-_.md part 2 | claimed | S48 |
+| b22-p2 | Visibility table, data not code | b22-_.md part 2 | done (#2385) | S48 |
 | b22-p3 | Coverage follows the player | b22-_.md part 3 | claimed | S48 |
 | b22-p4 | Big stories become national from their own records | b22-_.md part 4 | claimed | S48 |
 | b22-p5 | News screens show what reaches you | b22-_.md part 5 | claimed | S48 |
@@ -235,7 +235,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | LW-11 | Budget and taxes: laws with effect runs, no landing on people | law-batches.md LW-11 | claimed | S20 |
 | LW-12 | Government operations and elections: laws with effect runs, no landing on people | law-batches.md LW-12 | open (stale claim: S43) | S43 |
 | LW-13 | Government operations and elections: laws with effect runs, no landing on people | law-batches.md LW-13 | open (stale claim: S44) | S44 |
-| LW-14 | Education: laws with effect runs, no landing on people | law-batches.md LW-14 | open (stale claim: S51) | S51 |
+| LW-14 | Education: laws with effect runs, no landing on people | law-batches.md LW-14 | done (#2596; verified on main) | S27 |
 | LW-15 | Health and human services: laws with effect runs, no landing on people | law-batches.md LW-15 | open (stale claim: S52) | S52 |
 | LW-16 | Health and human services: laws with effect runs, no landing on people | law-batches.md LW-16 | open (stale claim: S24) | S24 |
 | LW-17 | Justice and public safety: laws with effect runs, no landing on people | law-batches.md LW-17 | open (stale claim: S31) | S31 |
@@ -558,9 +558,9 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | open | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | open | |
-| BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | open | |
+| BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | done #2514 (verified on current main) | |
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
-| BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | open | |
+| BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | open | |
 | BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | open | |
@@ -772,7 +772,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2501 | B07 P1: form official views from published vote stories | PR #2501 (session29-b07-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2503 | b30-p1: Add IPEDS college place identities | PR #2503 (codex/session54-b30-p1) | open: sent back: failed its own changed checks: tests | |
 | RS-2504 | LW-17: Add person-level justice law landings | PR #2504 (session31/lw17-person-landings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2509 | b22-p2: add office-scoped economy visibility | PR #2509 (session48/b22-p2-economy-visibility) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2509 | b22-p2: add office-scoped economy visibility | PR #2509 (session48/b22-p2-economy-visibility) | closed: superseded by current-main implementation (#2385) | |
 | RS-2511 | b22-p3: connect press coverage to player travel and office | PR #2511 (session48/b22-p3-press-coverage-hooks) | open: sent back: failed its own changed checks: tests; draft: finish it or close it as superseded | |
 | RS-2512 | b22-p4: tag government and court news scale | PR #2512 (session48/b22-p4-news-scale) | open: sent back: failed its own changed checks: prettier tests; draft: finish it or close it as superseded | |
 | RS-2513 | b27-p2: One shared household price table | PR #2513 (codex/session7-b27-p2) | open: draft: finish it or close it as superseded | |
@@ -823,7 +823,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2602 | Add LW-08 development incentive award records | PR #2602 (session-26/lw08-development-incentive-cap) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2603 | b04-p1: keep leftover campaign funds under state rules | PR #2603 (session31/b04-p1-leftover-funds) | open: draft: finish it or close it as superseded | |
 | RS-2604 | LW-15: Record ranked household SNAP participation | PR #2604 (session52/lw15-health-human-services) | open: rebase on main (conflicts) | |
-| RS-2605 | Source Federal Direct student loan interest rate | PR #2605 (session-51-b27-p4) | open: draft: finish it or close it as superseded | |
+| RS-2605 | Source Federal Direct student loan interest rate | PR #2605 (session-51-b27-p4) | done #2605 | |
 | RS-2606 | docs: publish English batch 08:42 evidence | PR #2606 (codex/session49-english-batch-0842) | open: draft: finish it or close it as superseded | |
 | RS-2607 | Placeholders: PH-data-misc (2 chunks) | PR #2607 (cloud/placeholders-data-misc) | open: rebase on main (conflicts) | |
 | RS-2608 | Placeholders: PH-data-research (12 chunks) | PR #2608 (cloud/placeholders-data-research) | open: rebase on main (conflicts) | |
