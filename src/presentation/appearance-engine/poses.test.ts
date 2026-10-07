@@ -573,6 +573,9 @@ describe("a conversation in a room", async () => {
       );
     const quiet = standing();
     expect(quiet.length).toBeGreaterThanOrEqual(2);
+    expect(new Set(quiet.map((person) => person.engine!.outfit)).size).toBe(
+      quiet.length,
+    );
     // Nobody talking: nobody posed.
     for (const person of quiet)
       expect(person.engine!.pose ?? "standing").toBe("standing");
@@ -619,6 +622,18 @@ describe("a conversation in a room", async () => {
         undefined,
         { speakerId },
       ).map((person) => person.engine),
+    );
+  });
+
+  it("gives each non-uniform person in the room a distinct outfit", () => {
+    const room = planLifeScenePeople(
+      world,
+      present,
+      DOMESTIC_CANONICAL_SCENE_ID,
+    ).filter((person) => person.engine);
+    expect(room.length).toBeGreaterThanOrEqual(2);
+    expect(new Set(room.map((person) => person.engine!.outfit)).size).toBe(
+      room.length,
     );
   });
 
