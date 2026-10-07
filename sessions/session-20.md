@@ -1,8 +1,16 @@
-# Session 20
+# Session 20 — Speed: catch up on look, instant days
 
-Read RULES.md (same branch) first. Items in order; the CTO marks DONE here and may add items — re-read after every PR.
+Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
 
-SPEED part 2, with Session 19: CATCH UP ON LOOK and instant days. When the player opens a person, place or body outside the focus circle, bring only that entity up to today before the screen shows it.
-Make the day button feel instant: no blocking work on the main thread over 100 ms (move heavy work to a worker or split it). Measure with `npm run speed:year` (Session 19 adds it) and a per-click timing in the browser. Merge each step.
+## Goal
+Pressing the day button feels instant; anything outside the focus circle is computed only when the player opens it.
 
-When everything here is DONE: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+## Milestones
+1. M1: catch-up on look: opening a person/place/body outside the circle brings just that entity to today before the screen shows it.
+2. M2: no main-thread task over 100 ms when pressing Day (heavy work in a worker or split).
+3. M3: per-click timing shown in the dev overlay and posted.
+
+## Endpoint
+Day button under 100 ms per press in the browser in 3 random places, and opening an outside person under 300 ms; numbers posted on #2424.
+
+When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

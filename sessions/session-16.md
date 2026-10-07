@@ -1,11 +1,17 @@
-# Session 16
+# Session 16 — Traits batch 4
 
-Read RULES.md (same branch) first. Items in order; the CTO marks DONE here and may add items — re-read after every PR.
+Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
 
-TRAITS (owner: every personality trait must be wired). Wire each of these into real decisions people make in live play, one trait per PR:
-facet-smug, facet-charming, facet-dramatic, facet-observant, facet-fair-minded, facet-vindictive, facet-light-hearted, facet-devoted.
-Each trait: an effects file in src/simulation/traits/effects/ leaning real decisions (both poles if the catalog says two-sided), remove it from NOT_YET_CONNECTED_TRAITS in
-src/simulation/personality-trait-registry.ts, `npm run generate:trait-effects` + `npm run check:trait-effects`, and a same-person proof: the same person with the trait high vs low
-makes a different choice in a seeded random place. Prefer everyday decisions (work, friends, family, spending, conflict, voting), not only "run again". Gate, merge.
+## Goal
+Wire these personality traits into real decisions people make in live play: facet-smug, facet-charming, facet-dramatic, facet-observant, facet-fair-minded, facet-vindictive, facet-light-hearted, facet-devoted.
 
-When everything here is DONE: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+## Milestones
+1. One trait per PR: effects file in src/simulation/traits/effects/, removed from NOT_YET_CONNECTED_TRAITS, generate:trait-effects + check:trait-effects pass.
+2. Each PR has a same-person proof: same person, trait high vs low, different choice, in a seeded random place.
+3. Prefer everyday decisions (work, friends, family, money, conflict, voting), not only 'run again'.
+4. Pace: at least 2 traits ready per hour.
+
+## Endpoint
+All 8 traits wired (none left in NOT_YET_CONNECTED_TRAITS from this list), each with its proof, final #2424 line listing them.
+
+When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

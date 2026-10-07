@@ -1,10 +1,17 @@
-# Session 10
+# Session 10 — Laws reach people: Housing, benefits and programs
 
-Read RULES.md (same branch) first. Items in order; the CTO marks DONE here and may add items — re-read after every PR.
+Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
 
-LAWS REACH PEOPLE (owner's top priority for weeks): HOUSING, BENEFITS AND PROGRAMS: rent rules, housing assistance, SNAP/Medicaid/TANF-style programs, unemployment, public program records (publicProgramRecords written 0 times).
-For every law in force in this family (data/research/laws/starting-law-2026.json + law-consequence modules + outcome web), make it change named people's records in live play, not only a town-wide statistic:
-the person whose pay, bill, benefit, case, school or ballot the law touches gets a record that cites the law. Work law by law, one law (or tight group) per PR, each proven in a 30-day watched world
-in 2 random places (count of named people touched, before and after). If a duplicate path exists (two sizings, two registries), keep the bill's own terms and delete the copy. Gate, merge.
+## Goal
+Every law in force in this family changes named people's records in live play: rent rules, housing aid, SNAP/Medicaid/TANF-style programs, unemployment, public program records (written 0 times).
 
-When everything here is DONE: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+## Milestones
+1. M1 (45 min): a table on #2424: each law in this family → reaches named people today? (yes / only a town statistic / no) with the evidence from a 30-day watched world (scripts/world-report/run.ts runWorldReport({years:1,days:30,seed,placeKey:observerPlace(seed).key})).
+2. M2: first law fixed and merged-ready: the people it touches get a record citing the law (count before → after).
+3. Then one law (or tight group) per PR, at least 2 per hour.
+4. Duplicate sizings/registries found on the way: keep the bill's own terms, delete the copy.
+
+## Endpoint
+Every law in this family shows 'reaches named people: yes' in a 30-day watch on 2 random places, with per-law counts in a final #2424 table.
+
+When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

@@ -1,9 +1,16 @@
-# Session 28
+# Session 28 — Failing tests on main
 
-Read RULES.md (same branch) first. Items in order; the CTO marks DONE here and may add items — re-read after every PR.
+Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
 
-MAIN RED SWEEP: make these pass on main, one file per PR, fix the cause (never weaken an assertion): job-market "hires through someone the player knows", legislation-integrity ("Histories that could never have happened"),
-public-program x2, player-wording (68 drifts), ownership (3), opening-life "prepares Congress principles in Begin", reach-out-cadence (all seeds wait the same), privacy-goal-answers (hang), first-month-friend.
-Also: remove the "Councillor" allowance #3055 added to tests/american-english.test.ts; the seat word comes from the place's record with "council member" as the fallback. Merge each.
+## Goal
+Main has no red tests that aren't on the known-reds list, and the known-reds list shrinks.
 
-When everything here is DONE: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+## Milestones
+1. One file per PR, fix the cause, never weaken an assertion.
+2. List: job-market 'hires through someone the player knows', legislation-integrity (5), public-program x2, player-wording (68 drifts), ownership (3), opening-life 'prepares Congress principles in Begin', reach-out-cadence, privacy-goal-answers, first-month-friend, local-mayor (640 s vs 120 s).
+3. Remove the 'Councillor' exception #3055 added to tests/american-english.test.ts; seat word from the place's record, fallback 'council member'.
+
+## Endpoint
+Every file on the list passes on main (or is posted with a cause another session owns), and the Councillor exception is gone.
+
+When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

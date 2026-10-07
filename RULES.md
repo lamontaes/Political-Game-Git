@@ -1,15 +1,14 @@
 # Codex day rules (Oct 7 2026) — every session reads this first
 
 Repo: lamontaes/Political-Game-Git. Board (report here): GitHub issue #2424. CTO: Claude Opus (posts as "OPUS CTO").
-Goal today: MERGE, MERGE, MERGE. Finish work, get it onto main, take the next item. Never sit idle.
+Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Sessions 31–32 validate and merge. Finish work, get it onto main, take the next item. Never sit idle.
 
 ## Your loop (repeat until stopped)
 1. Read your assignment: `git fetch origin assignments && git show origin/assignments:sessions/session-NN.md` (NN = your number, two digits).
 2. Do the top item that is not marked DONE. One item = one branch = one PR, based on current `origin/main`.
-3. Gate it (below). If it passes and the item is not a SCREEN or ENGLISH item, merge it yourself:
-   `gh pr merge <N> --squash --delete-branch`. If main moved, merge main in, re-run the gate, retry once.
-4. Post one line on #2424: `SESSION NN MERGED #N: <what the player or the world gets, plain words>` or
-   `SESSION NN READY #N (SCREEN|ENGLISH): <what changed> — shot/batch: <path>` for items the CTO must check.
+3. Gate it (below). If it passes, mark the PR ready (`gh pr ready <N>`); the two merger sessions (31, 32) merge it. Builders never merge.
+4. Post one line on #2424: `SESSION NN READY #N: <what the player or the world gets, plain words>`, adding `(SCREEN) shot: <link>` or
+   `(ENGLISH) batch: <path>` for items the CTO or the owner must check. Fix any `SEND BACK #N` in place on the same branch, then post READY again.
 5. Re-read your assignment file (it changes during the day). If every item is DONE, take the oldest unclaimed row
    in docs/codex/assignments/POOL.md: post `SESSION NN CLAIM <row>` on #2424 first, then work it.
 6. If blocked more than 20 minutes: post `SESSION NN BLOCKED <item>: <exact question>` and move to your next item.

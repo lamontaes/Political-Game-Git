@@ -1,8 +1,20 @@
-# Session 08
+# Session 08 — Laws must pass: councils and Congress
 
-Read RULES.md (same branch) first. Items in order; the CTO marks DONE here and may add items — re-read after every PR.
+Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
 
-LAWS MUST PASS — local and federal. Same 30-day watch as Session 07, but for city/county councils (municipal ordinance procedure; council readings, quorum, votes) and Congress.
-Fix whatever stops ordinances and federal bills from being filed, read, voted and enacted. Done when a 30-day watch shows council ordinances filed and adopted in the watched town's government and in other places, and Congress filing and voting bills. Re-read this file; the CTO adds the root cause.
+## Goal
+City and county councils adopt ordinances and Congress files and votes on bills in live play.
 
-When everything here is DONE: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+## Milestones
+1. M1 (45 min): baseline from a 30-day watched world (scripts/world-report/run.ts runWorldReport({years:1,days:30,seed,placeKey:observerPlace(seed).key})): ordinances filed/read/adopted for the watched town's government and 3 others; Congress bills filed/voted.
+2. M2: root cause for each level (file:line) on #2424.
+3. M3: councils adopt ordinances (quorum, readings, votes from seated members).
+4. M4: Congress files and votes bills; at least one passes a chamber in 30 days.
+
+## Endpoint
+30-day watch on 3 seeds: ≥3 ordinances adopted across councils including the watched town's, Congress ≥10 bills filed and ≥1 chamber passage; counts posted on #2424.
+
+## Items / notes
+- The CTO adds root causes here; re-read before M2.
+
+When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

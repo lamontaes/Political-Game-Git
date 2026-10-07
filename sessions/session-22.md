@@ -1,11 +1,21 @@
-# Session 22
+# Session 22 — Menu reset finish
 
-Read RULES.md (same branch) first. Items in order; the CTO marks DONE here and may add items — re-read after every PR.
+Read RULES.md (same branch) first. The CTO updates this file during the day — re-read every 10 minutes and after every PR.
 
-1. Menu-reset PRs from O3, all already shot-PASSED or label-only: #2925 MR-19 Press, #2944 MR-19b, #2972 MR-17c — merge origin/main, gate, merge (shots already passed; post MERGED).
-2. #3012 MR-13b, #3018 MR-14b, #3024 MR-7b (run prettier on its release note): merge main in, gate, shot, READY (SCREEN).
-3. Then continue the menu reset from POOL rows MR-* not yet DONE (remove every hand-written sentence on the screen; labels from Kit 13 and record values only).
+## Goal
+Screens show only record data, approved control names and English-engine text; every listed PR lands.
 
-4. Also: # Session 15  Read RULES.md (same branch) first. Items in order; mark nothing yourself — the CTO marks DONE here.  1. #3002 MR-16 Guide: definitions must come from the sourced glossary record (terms.json, GL-1), not be deleted outright; confirm, shot, READY (SCREEN). 2. #3017 MR-18 Measure paper: merge main in, gate, shot, READY (SCREEN). 3. #3027 shell-menus sentence deletions (released by O2): merge main in, gate, shot, READY (SCREEN). 4. #2862 BG-18 title hero: run tests/e2e/bg18-title-hero.spec.ts, shot, READY (SCREEN).  When everything here is DONE: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+## Milestones
+1. Each item: merge origin/main, gate, full-screen screenshot of the screen from a NEW game in a random place on main and on the branch, both in the PR body, then READY (SCREEN).
+2. Pace: at least 2 SCREEN PRs ready per hour.
+3. Removal only — never reword or add a sentence.
 
-When everything here is DONE: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
+## Endpoint
+Every item below is READY with before/after shots (or merged), and a final #2424 list of PRs with their shot links.
+
+## Items / notes
+- #2925 MR-19, #2944 MR-19b, #2972 MR-17c (already shot-passed: merge main in, gate, ready)
+- #3012 MR-13b, #3018 MR-14b, #3024 MR-7b, #3017 MR-18, #3002 MR-16 Guide (definitions from terms.json), #3027 shell menus, #2862 BG-18 title hero
+- Remaining MR-* rows in POOL.md
+
+When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
