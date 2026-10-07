@@ -1,4 +1,4 @@
-import { activeCampaignForCandidate } from "./campaign-queries";
+import { activeCampaignForCandidate, campaignState } from "./campaign-queries";
 import { runCampaignCallTime } from "./campaign-donors";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { campaignFundraiserPayments } from "./campaign-money-source-queries";
@@ -8,6 +8,7 @@ import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
 import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
 import { recordWorldEvent } from "./world";
+import leftoverFundsRules from "../../data/research/campaign-reality/leftover-funds-rules.json" with { type: "json" };
 
 /**
  * Where a campaign's money can come from.
@@ -48,7 +49,7 @@ export const CAMPAIGN_MONEY_SOURCES = {
     note: "A bank lends the committee money.",
   },
   "leftover-funds": {
-    status: "unbuilt",
+    status: "built",
     note: "Money left from the candidate's earlier campaign carries over.",
   },
   "outside-spending": {
@@ -58,6 +59,144 @@ export const CAMPAIGN_MONEY_SOURCES = {
 } as const;
 
 export type CampaignMoneySource = keyof typeof CAMPAIGN_MONEY_SOURCES;
+
+export type LeftoverFundsUse =
+  | "keep-for-future-race"
+  | "refund-donors"
+  | "give-to-charity"
+  | "give-to-party-candidate";
+
+type LeftoverFundsRule = {
+  readonly jurisdiction: string;
+  readonly allowedUses: readonly LeftoverFundsUse[];
+  readonly source?: string;
+  readonly estimatedFrom?: string;
+};
+
+const leftoverRules = leftoverFundsRules as {
+  readonly rules: readonly LeftoverFundsRule[];
+};
+
+/** Legal uses for the prior committee, with no action taken by reading them. */
+export function allowedLeftoverFundsUses(
+  jurisdictionKey: string,
+): readonly LeftoverFundsUse[] {
+  return (
+    leftoverRules.rules.find((rule) => rule.jurisdiction === jurisdictionKey)
+      ?.allowedUses ?? []
+  );
+}
+
+/** Explicitly transfers available committee funds to a same-candidate race. */
+export function carryForwardLeftoverFunds(
+  world: World,
+  input: {
+    readonly priorCampaignId: EntityId;
+    readonly nextCampaignId: EntityId;
+    readonly priorJurisdictionKey: string;
+  },
+): World {
+  const prior = world.history.campaigns?.find(
+    (campaign) => campaign.id === input.priorCampaignId,
+  );
+  const next = world.history.campaigns?.find(
+    (campaign) => campaign.id === input.nextCampaignId,
+  );
+  if (!prior || !next || prior.candidatePersonId !== next.candidatePersonId) {
+    throw new Error("campaign-finance:leftover-same-candidate-required");
+  }
+  if (campaignState(world, prior.id).status === "active") {
+    throw new Error("campaign-finance:leftover-source-must-be-terminal");
+  }
+  if (
+    !allowedLeftoverFundsUses(input.priorJurisdictionKey).includes(
+      "keep-for-future-race",
+    )
+  ) {
+    throw new Error("campaign-finance:leftover-keep-not-allowed");
+  }
+  const balance = resourcePositionAt(
+    world,
+    { kind: "organization", organizationId: prior.organizationId },
+    prior.treasuryCurrency,
+  )?.liquidBalance;
+  if (!balance || balance.minorUnits <= 0) return world;
+  const stableKey = `${prior.stableKey}:carry-forward:${next.stableKey}`;
+  const eventWorld = recordWorldEvent(world, {
+    stableKey,
+    type: "campaign-finance.leftover-funds-carried-forward",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: next.jurisdictionId,
+    involvedEntityIds: [
+      prior.organizationId,
+      next.organizationId,
+      next.candidatePersonId,
+    ].sort(),
+    participants: [
+      {
+        personId: next.candidatePersonId,
+        role: "agency:candidate",
+        detail: "campaign-finance:keep-for-future-race",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      "campaign-finance:leftover-funds",
+      "campaign-finance:keep-for-future-race",
+      "time-neutral",
+    ],
+    summary: JSON.stringify({
+      record: "campaign-finance:leftover-funds-carried-forward",
+      amountMinorUnits: balance.minorUnits,
+      currency: balance.currency,
+    }),
+    context: {
+      location: null,
+      socialContext: "campaign-finance:committee-transfer",
+      pressure: null,
+      choice: "campaign-finance:keep-for-future-race",
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const eventId = eventWorld.history.events.at(-1)!.id;
+  const flowKey = `${stableKey}:flow`;
+  const moved = createResourceFlow(eventWorld, {
+    stableKey: flowKey,
+    source: positionOwnerEndpoint({
+      kind: "organization",
+      organizationId: prior.organizationId,
+    }),
+    recipient: positionOwnerEndpoint({
+      kind: "organization",
+      organizationId: next.organizationId,
+    }),
+    startsAt: eventWorld.currentDate,
+    initialStatus: "active",
+    amount: balance,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:campaign-leftover-funds",
+    basisReference: { kind: "general" },
+    restrictionKind: "purpose:campaign",
+    jurisdictionId: next.jurisdictionId,
+    provenance: { kind: "simulated-event", eventId },
+  });
+  return recordResourceTransferOutcome(moved, {
+    stableKey: `${flowKey}:transfer`,
+    resourceFlowId: moved.history.resourceFlows.at(-1)!.id,
+    periodStartsAt: moved.currentDate,
+    periodEndsAt: moved.currentDate,
+    occurredAt: moved.currentDate,
+    status: "completed",
+    attemptedAmount: balance,
+    transferredAmount: balance,
+    reasonKind: null,
+    note: "campaign-finance:keep-for-future-race",
+    provenance: { kind: "simulated-event", eventId },
+  });
+}
 
 /** Fundraiser completion runs the remaining known-person call-time asks in
  * stable order. Each answer, contribution, and transfer is stored separately;
