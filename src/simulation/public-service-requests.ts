@@ -31,6 +31,7 @@ import {
 } from "./time-work";
 import { recordWorldEvent } from "./world";
 import { standingCrisisAuthority } from "./crisis-standing-appropriations";
+import { standingCountyAuthority } from "./county-service-authority";
 import type { StandingProgramAuthority } from "./law-consequence-types";
 import {
   SERVICE_RECIPIENT_KIND,
@@ -167,7 +168,8 @@ export function serviceAuthorityForCommitment(
     return null;
   const program = standingServiceProgram(appropriation.programKey);
   const standing = program
-    ? standingCrisisAuthority(world, appropriation.id, onDate)
+    ? (standingCrisisAuthority(world, appropriation.id, onDate) ??
+      standingCountyAuthority(world, appropriation.id, onDate))
     : null;
   if (!program || !standing) return null;
   return {

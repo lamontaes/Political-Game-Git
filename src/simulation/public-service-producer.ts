@@ -455,6 +455,45 @@ function needConsiderations(
     return !!servedState && state === servedState;
   };
 
+  if (form.need === "clinic") {
+    // A county clinic is asked for from the person's own health record: any
+    // episode still open. The episode names no condition, so it is weighed as
+    // being unwell, never as a diagnosis. Hours already given to work weigh
+    // against going.
+    for (const episode of activeHealthEpisodes(world, personId)) {
+      if (!episode.eventId) continue;
+      out.push(
+        consideration(
+          personId,
+          `health:${episode.id}`,
+          "ask",
+          "moderate",
+          "high",
+          "Is unwell and could use the clinic.",
+          [{ kind: "historical-event", eventId: episode.eventId }],
+          "context:health",
+        ),
+      );
+    }
+    if (out.length === 0) return out;
+    for (const { relationship, role } of work) {
+      const weekly = role.timeDemand.expectedWeekly?.maximumHours ?? null;
+      out.push(
+        consideration(
+          personId,
+          `work-hours:${relationship.id}`,
+          "wait",
+          weekly !== null && weekly >= 40 ? "moderate" : "slight",
+          "high",
+          `Hours already go to work as ${role.title}.`,
+          [lifeRef("work-role", role.id)],
+          "context:work",
+        ),
+      );
+    }
+    return out;
+  }
+
   if (form.need === "on-call") {
     // A crisis team is asked for from the person's own health record: an
     // episode that is acute or serious today. The episode names no condition (no
