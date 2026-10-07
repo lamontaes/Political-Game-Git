@@ -1,4 +1,4 @@
-import { LIFE_PATHS2_HANDLERS } from "../../src/simulation/life-paths2";
+import { lifePaths2Handlers } from "../../src/simulation/life-paths2";
 import { describe, expect, it } from "vitest";
 import {
   createFutureTransitionHandlerRegistry,
@@ -7,6 +7,8 @@ import {
 } from "../../src/simulation/future-transitions";
 import * as leaf from "../../src/simulation/future-transition-registry";
 import type { RoutineTimeHook } from "../../src/simulation/types";
+
+const LIFE_PATHS2_HANDLERS = lifePaths2Handlers();
 
 describe("registry construction on a life-path-first cold graph", () => {
   it("loads actual life handlers and keeps compatibility bindings identical", () => {
