@@ -49,3 +49,19 @@ Updated 2026-10-06. Working tree: `session-56/b32-part-2-unified-sittings`, base
 3. Preserve the LW04 tax-terms draft and avoid duplicate LW03/LW04 tax bindings/catalog work.
 
 Exact next command after restart: `git status --short --branch` in `/workspace/Political-Game-Git`.
+
+## Oct 7 continuation
+
+- PR #3373 merged workplace room selection as main commit `8c3255f61`.
+- PR #3399 marks LW-03 done because its federal tax-term rows already merged
+  in #2476; #3399 merged as main commit `7e1bf2f3d`.
+- LW-04 is already implemented by #3022 and #3277. The pool correction is
+  pushed on `session-56-lw04`; its first PR creation returned HTTP 503, but it
+  was rebased onto current main and is ready for review as PR #3408.
+- LW-05 is open and claimed in Drive. County sales/property consequence rows
+  already work. State corporate incidence still lacks recorded owner draws or
+  distributable earnings; county income terms lack a sourced 56-place local
+  authority dataset. `lw05-effect-readiness.json` and its test document these
+  limits without enabling unsupported effects.
+- Next: retain LW-05 as a source blocker, then verify the next open pool item
+  and recent claim before starting it.

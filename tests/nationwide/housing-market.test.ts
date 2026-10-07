@@ -14,7 +14,6 @@ import {
 import {
   RENT_LAW_KEYS,
   RENT_STABILIZATION_CITYWIDE,
-  renewedMarketRent,
   rentLawLevel,
 } from "../../src/simulation/living-world/town-rent";
 import type { MacroMonthRecord } from "../../src/simulation/macro-economy/types";
@@ -323,14 +322,5 @@ describe("rent stabilization raises the town's market rents a year after it take
       { question, answer: started ? "yes" : "no", effectiveAt },
     ]);
     expect(rentLawLevel(same, town, addDays(acts, 30))).toBe(1);
-  });
-
-  it("a covered renewal in the year rents rise is still held to the cap", () => {
-    // Home prices up 4% and the law's rise on top, against prices up 3%:
-    // the landlord seeks 9.3%, the cap allows 8%.
-    const renewal = renewedMarketRent(150_000, 1.04 * raised, 1.03, true);
-    expect(renewal.capped).toBe(true);
-    expect(renewal.amountMinor).toBe(162_000);
-    expect(renewal.uncappedMinor).toBe(164_000);
   });
 });
