@@ -10,7 +10,10 @@ import {
   TUITION_FREEZE_ROW,
 } from "./law-consequences/tuition-freeze-row";
 import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
-import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
+import {
+  COVERAGE_ELIGIBILITY_ROWS,
+  COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS,
+} from "./law-consequences/coverage-eligibility-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import { DEVELOPMENT_INCENTIVE_AWARD_ROW } from "./law-consequences/modules/lw08-development-incentive-cap/rows";
 import {
@@ -53,7 +56,10 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
     ...US_POLICY_POSITIONS_PACK,
     propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
       const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
-      const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
+      const coverage = [
+        COVERAGE_ELIGIBILITY_ROWS[key],
+        COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS[key],
+      ].filter((consequence) => consequence !== undefined);
       const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
@@ -66,7 +72,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
         key ===
         "us-policy-positions:business-commerce.cap-development-incentives";
       if (
-        !coverage &&
+        coverage.length === 0 &&
         !pay &&
         service.length === 0 &&
         !rent &&
@@ -92,7 +98,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(tuition ? [TUITION_FREEZE_ROW] : []),
           ...(snap ? [SNAP_PARTICIPATION_ROW] : []),
           ...(developmentIncentive ? [DEVELOPMENT_INCENTIVE_AWARD_ROW] : []),
-          ...(coverage ? [coverage] : []),
+          ...coverage,
           ...(pay ? [pay] : []),
           ...service,
         ],
