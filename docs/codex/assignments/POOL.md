@@ -547,7 +547,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-40 | 'Paid $193.46' with no payee | BUGS.md BG-40 | done #2778 | |
 | BG-41 | 'Back in the room.' debug text shows in the page | BUGS.md BG-41 | done #2940 | |
 | BG-42 | First-paycheck block: opening employer cash unset (Session 8) | BUGS.md BG-42 | done #2287 | |
-| BG-43 | Pay-stub test is red | BUGS.md BG-43 | open | |
+| BG-43 | Pay-stub test is red | BUGS.md BG-43 | done #3376 | |
 | BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | done #2976 | |
 | BG-45 | Newspaper test red | BUGS.md BG-45 | done #2315 | |
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
