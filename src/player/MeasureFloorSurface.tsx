@@ -257,11 +257,10 @@ export function MeasureFloorSurface({
             ? `Ask ${world.people[seat.guardianPersonId]!.familyName} back in`
             : `Wait until ${world.people[seat.guardianPersonId]!.familyName} steps out`}
         </button>
-        <p data-testid="room-note">
-          {alone
-            ? "The two of you are alone. What is said here stays between you until one of you repeats it."
-            : `${world.people[seat.guardianPersonId]!.familyName} is four feet away and can hear everything.`}
-        </p>
+        <p
+          data-testid="room-note"
+          data-room={alone ? "advocate-only" : "both-present"}
+        />
       </div>
 
       {paperOpen ? (
