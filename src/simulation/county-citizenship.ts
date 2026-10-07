@@ -1,4 +1,4 @@
-import corpus from "./county-citizenship.generated.json";
+import corpus from "./county-citizenship.generated.json" with { type: "json" };
 import { countyGeoidsForPlace } from "./government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import type { EntityId } from "./types";
