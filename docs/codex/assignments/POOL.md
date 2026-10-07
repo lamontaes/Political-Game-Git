@@ -675,7 +675,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | open: draft: finish it or close it as superseded | |
 | RS-2243 | Repair A52 fixture for recorded household bills and separate rent | PR #2243 (codex/session21-a52-rent-repair) | open: draft: finish it or close it as superseded | |
 | RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2255 | List loading dependencies in the strict Node project | PR #2255 (codex/session5-node-loading-dependencies) | open: draft: finish it or close it as superseded | |
+| RS-2255 | List loading dependencies in the strict Node project | PR #3568 (session35/rs2255-deps) | open: draft: finish it or close it as superseded | Session 35 |
 | RS-2259 | P1: Clerk filing evidence and saved council result scene consumers | PR #2259 (codex/session13-clerk-night-shared) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2266 | Record sourced government law amounts | PR #2266 (codex/session18-government-operations-amounts) | open: draft: finish it or close it as superseded | |
