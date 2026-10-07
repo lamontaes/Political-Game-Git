@@ -72,6 +72,20 @@ describe("people anchors on every place picture", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
 
+  it("anchors every visible school gym town hall audience chair", () => {
+    const spots = STAGES["school-gym-town-hall"]!.spots;
+    const seats = spots.filter((spot) => spot.pose === "sit");
+    const audience = seats.filter((spot) => spot.role === "audience");
+    expect(seats).toHaveLength(115);
+    expect(audience).toHaveLength(112);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(115);
+    expect(audience.filter((spot) => spot.facing === "away")).toHaveLength(112);
+    for (let row = 1; row <= 8; row += 1)
+      expect(
+        audience.filter((spot) => spot.group === `audience-row-${row}`),
+      ).toHaveLength(14);
+  });
+
   it("anchors visible hotel ballroom banquet chairs", () => {
     const spots = STAGES["hotel-ballroom"]!.spots;
     const seats = spots.filter((spot) => spot.pose === "sit");
