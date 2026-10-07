@@ -389,7 +389,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-src-environment-1 | Replace about 19 placeholders in src / environment / 1 with recorded or estimated-and-marked values | placeholders.md | done #2627 | Session 37 |
 | PH-src-environment-2 | Replace about 19 placeholders in src / environment / 2 with recorded or estimated-and-marked values | placeholders.md | done #2857 | Session 52 |
 | PH-src-misc | Replace about 19 placeholders in src / misc with recorded or estimated-and-marked values | placeholders.md | done #3331 | Session 37 |
-| PH-src-player-1 | Replace about 18 placeholders in src / player / 1 with recorded or estimated-and-marked values | placeholders.md | ready #3262 | Session 52 |
+| PH-src-player-1 | Replace about 18 placeholders in src / player / 1 with recorded or estimated-and-marked values | placeholders.md | done #3262 | Session 37 |
 | PH-src-player-2 | Replace about 18 placeholders in src / player / 2 with recorded or estimated-and-marked values | placeholders.md | done #2718 | Session 37 |
 | PH-src-ui | Replace about 10 placeholders in src / ui with recorded or estimated-and-marked values | placeholders.md | done #2719 | Session 42 |
 | T9-self-confidence | Wire trait self-confidence into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done (#2590) | S75 |
@@ -523,7 +523,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done              | #2872        |
 | BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done              | #844         |
 
-| BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | open | |
+| BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | ready #3202 | |
 | BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | done #2949 | |
 | BG-21 | Creator: helper lines remain (e.g. 'Next waits until you choose a place in this state') | BUGS.md BG-21 | done #2290 | |
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | done #2637 | |
