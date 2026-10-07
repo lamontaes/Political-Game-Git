@@ -1,26 +1,26 @@
 {
   "id": "eng-20261007-ep1e",
-  "title": "Dialogue batch eng-20261007-ep1e (34 exchanges)",
-  "at": "2026-10-07T20:03:07.373Z",
-  "head": "18c9f285cdd062298f54b8096cab6d9c61a99830",
+  "title": "Dialogue batch eng-20261007-ep1e (36 exchanges)",
+  "at": "2026-10-07T20:54:06.453Z",
+  "head": "fb42e80dff8453c3a7106d763a9bcfe670f453f9",
   "status": "open",
   "variety": {
-    "items": 34,
+    "items": 36,
     "places": 6,
     "kinds": {
       "conversation": 0,
       "legislation": 4,
-      "winning-and-losing": 0,
+      "winning-and-losing": 1,
       "judges": 0,
       "news": 0,
       "journal": 10,
       "press": 0,
       "hearing": 10,
       "meeting": 9,
-      "minutes": 0,
+      "minutes": 1,
       "notices-and-screens": 1
     },
-    "distinctSituationRelationship": 34
+    "distinctSituationRelationship": 36
   },
   "absent": [
     {
@@ -28,24 +28,16 @@
       "reason": "no output, because no composer reached this kind. In these worlds: no situation in the batch reaches this kind yet"
     },
     {
-      "kind": "winning-and-losing",
-      "reason": "no output, because no composer words a race or vote result yet without a recorded vote or decided contest (readWinningLosingBank needs one). In these worlds: Tonopah, Arizona: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Bothell East, Washington: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Chama, New Mexico: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Lesage, West Virginia: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Hull, Massachusetts: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Leal, North Dakota: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Crookston, Minnesota: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; New River, Arizona: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to"
-    },
-    {
       "kind": "judges",
       "reason": "no output, because no composer reached this kind. In these worlds: no situation in the batch reaches this kind yet"
     },
     {
       "kind": "news",
-      "reason": "no output, because no composer reached this kind. In these worlds: Tonopah, Arizona: the mined newspaper-lede bank has no record-field composer yet; Bothell East, Washington: the mined newspaper-lede bank has no record-field composer yet; Chama, New Mexico: the mined newspaper-lede bank has no record-field composer yet; Lesage, West Virginia: the mined newspaper-lede bank has no record-field composer yet; Hull, Massachusetts: the mined newspaper-lede bank has no record-field composer yet; Leal, North Dakota: the mined newspaper-lede bank has no record-field composer yet; Crookston, Minnesota: the mined newspaper-lede bank has no record-field composer yet; New River, Arizona: the mined newspaper-lede bank has no record-field composer yet"
+      "reason": "no output, because no composer reached this kind. In these worlds: Tonopah, Arizona: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Bothell East, Washington: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Chama, New Mexico: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Lesage, West Virginia: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Hull, Massachusetts: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Leal, North Dakota: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Crookston, Minnesota: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; New River, Arizona: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from"
     },
     {
       "kind": "press",
       "reason": "no output, because no composer reached this kind. In these worlds: no situation in the batch reaches this kind yet"
-    },
-    {
-      "kind": "minutes",
-      "reason": "no output, because no composer writes minutes until the body has a recorded meeting or vote (readMinutesBank needs one). In these worlds: Tonopah, Arizona: no minutes producer writes in the game yet; County of Maricopa has no recorded meeting or vote to take minutes of; Bothell East, Washington: no minutes producer writes in the game yet; County of Snohomish has no recorded meeting or vote to take minutes of; Chama, New Mexico: no minutes producer writes in the game yet; Village of Chama has no recorded meeting or vote to take minutes of; Lesage, West Virginia: no minutes producer writes in the game yet; County of Cabell has no recorded meeting or vote to take minutes of; Hull, Massachusetts: no minutes producer writes in the game yet; County of Plymouth has no recorded meeting or vote to take minutes of; Leal, North Dakota: no minutes producer writes in the game yet; City of Leal has no recorded meeting or vote to take minutes of; Crookston, Minnesota: no minutes producer writes in the game yet; City of Crookston has no recorded meeting or vote to take minutes of; New River, Arizona: no minutes producer writes in the game yet; County of Maricopa has no recorded meeting or vote to take minutes of"
     }
   ],
   "items": [
@@ -351,6 +343,56 @@
     },
     {
       "i": 12,
+      "situation": "The recorded defeat of a measure on January 12, 2026. Move: lost. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Results: The motion was rejected.",
+      "part": "bank:winning-losing.lost.the-motion-was-rejected",
+      "parts": [
+        "bank:winning-losing.lost.the-motion-was-rejected"
+      ],
+      "composer": "readWinningLosingBank in bank-english.ts",
+      "kind": "winning-and-losing",
+      "cell": {
+        "register": "everyday",
+        "kind": "winning-and-losing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 13,
+      "situation": "Minutes of the roll call taken on January 12, 2026: who voted for, read from each member's recorded vote. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Minutes: Voting for this action: Luna Swanson, Kelly Klein, Emerson Warner, Yosef Allen, Anna Powell, Isaiah Copeland, Dakota Larson and Charlotte Wilkinson.",
+      "part": "bank:minutes.vote.voting-for-this-action-members",
+      "parts": [
+        "bank:minutes.vote.voting-for-this-action-members"
+      ],
+      "composer": "readMinutesBank in bank-english.ts",
+      "kind": "minutes",
+      "cell": {
+        "register": "everyday",
+        "kind": "minutes",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 14,
       "situation": "A hearing exchange before County of Maricopa, from its recorded seats. Move: thanks. In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you, Chair.",
@@ -375,7 +417,7 @@
       "seed": "eng-20261007-ep1e:0"
     },
     {
-      "i": 13,
+      "i": 15,
       "situation": "A hearing exchange before County of Maricopa, from its recorded seats. Move: answer. In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
       "reply": "At the hearing: That is a great question.",
@@ -400,7 +442,7 @@
       "seed": "eng-20261007-ep1e:0"
     },
     {
-      "i": 14,
+      "i": 16,
       "situation": "A hearing exchange before County of Maricopa, from its recorded seats. Move: chair procedure. In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
       "reply": "At the hearing: Good morning.",
@@ -425,7 +467,7 @@
       "seed": "eng-20261007-ep1e:0"
     },
     {
-      "i": 15,
+      "i": 17,
       "situation": "The player's journal, the chapter \"2026\" (2026). In Bothell East, Washington, on January 5, 2026.",
       "prior": "",
       "reply": "Your journal: I lived in Bothell East, Washington. I began working as a cashier at Snohomish County Market.",
@@ -450,7 +492,7 @@
       "seed": "eng-20261007-ep1e:1"
     },
     {
-      "i": 16,
+      "i": 18,
       "situation": "A hearing exchange before County of Snohomish, from its recorded seats. Move: thanks. In Bothell East, Washington, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you for that answer.",
@@ -475,7 +517,7 @@
       "seed": "eng-20261007-ep1e:1"
     },
     {
-      "i": 17,
+      "i": 19,
       "situation": "A hearing exchange before County of Snohomish, from its recorded seats. Move: answer. In Bothell East, Washington, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you for the question.",
@@ -500,7 +542,7 @@
       "seed": "eng-20261007-ep1e:1"
     },
     {
-      "i": 18,
+      "i": 20,
       "situation": "The short title of ORD 1, a filed measure. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "Bill text: Short title. This title may be cited as the \"Meeting Room Evening Hours Ordinance\".",
@@ -525,7 +567,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 19,
+      "i": 21,
       "situation": "What a member says to the chair of Village of Chama, from its recorded seats. Move: opener. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Madam Chair, I rise today to honor the life of a true public servant.",
@@ -550,7 +592,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 20,
+      "i": 22,
       "situation": "What a member says to the chair of Village of Chama, from its recorded seats. Move: procedural. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Madam Chair, I missed a vote today.",
@@ -575,7 +617,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 21,
+      "i": 23,
       "situation": "What a member says to the chair of Village of Chama, from its recorded seats. Move: closer. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Madam Chair, I will be brief.",
@@ -600,7 +642,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 22,
+      "i": 24,
       "situation": "A hearing exchange before Village of Chama, from its recorded seats. Move: thanks. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Oh, thank you.",
@@ -625,7 +667,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 23,
+      "i": 25,
       "situation": "A hearing exchange before Village of Chama, from its recorded seats. Move: answer. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Yes, thank you for that.",
@@ -650,7 +692,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 24,
+      "i": 26,
       "situation": "A hearing exchange before Village of Chama, from its recorded seats. Move: chair procedure. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Without objection.",
@@ -675,7 +717,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 25,
+      "i": 27,
       "situation": "Recorded local measure ORD 1, introduced January 5, 2026. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "Screen: Council Resolutions and Ordinances: ORD 1, Meeting Room Evening Hours Ordinance",
@@ -700,7 +742,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 26,
+      "i": 28,
       "situation": "A hearing exchange before County of Cabell, from its recorded seats. Move: thanks. In Lesage, West Virginia, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you for that.",
@@ -725,7 +767,7 @@
       "seed": "eng-20261007-ep1e:3"
     },
     {
-      "i": 27,
+      "i": 29,
       "situation": "A hearing exchange before County of Cabell, from its recorded seats. Move: answer. In Lesage, West Virginia, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you for your question.",
@@ -750,7 +792,7 @@
       "seed": "eng-20261007-ep1e:3"
     },
     {
-      "i": 28,
+      "i": 30,
       "situation": "What a member says to the chair of City of Leal, from its recorded seats. Move: opener. In Leal, North Dakota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I rise today with a profound sense of loss.",
@@ -775,7 +817,7 @@
       "seed": "eng-20261007-ep1e:5"
     },
     {
-      "i": 29,
+      "i": 31,
       "situation": "What a member says to the chair of City of Leal, from its recorded seats. Move: procedural. In Leal, North Dakota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I have a motion at the desk.",
@@ -800,7 +842,7 @@
       "seed": "eng-20261007-ep1e:5"
     },
     {
-      "i": 30,
+      "i": 32,
       "situation": "What a member says to the chair of City of Leal, from its recorded seats. Move: closer. In Leal, North Dakota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I have no more speakers.",
@@ -825,7 +867,7 @@
       "seed": "eng-20261007-ep1e:5"
     },
     {
-      "i": 31,
+      "i": 33,
       "situation": "What a member says to the chair of City of Crookston, from its recorded seats. Move: opener. In Crookston, Minnesota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I thank the chair for the time.",
@@ -850,7 +892,7 @@
       "seed": "eng-20261007-ep1e:6"
     },
     {
-      "i": 32,
+      "i": 34,
       "situation": "What a member says to the chair of City of Crookston, from its recorded seats. Move: procedural. In Crookston, Minnesota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I move to proceed to executive session.",
@@ -875,7 +917,7 @@
       "seed": "eng-20261007-ep1e:6"
     },
     {
-      "i": 33,
+      "i": 35,
       "situation": "What a member says to the chair of City of Crookston, from its recorded seats. Move: closer. In Crookston, Minnesota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I will be brief.",
