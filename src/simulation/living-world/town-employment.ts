@@ -1062,6 +1062,9 @@ const CIVIC_MINIMUM: readonly (readonly [string, string])[] = [
   ["clinic", "Nurse"],
   ["police", "Police officer"],
   ["fire", "Firefighter"],
+  // Every town keeps its roads up; the department is small and the mix
+  // alone leaves some towns without one.
+  ["public-works", "Maintenance worker"],
   ["party-office", "Party office manager"],
   ["campaign-staff", "Campaign field organizer"],
   ["campaign-staff", "Campaign field organizer"],
