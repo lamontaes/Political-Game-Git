@@ -6,7 +6,9 @@ import {
   type LocalInstitutionSet,
   type LocalInstitutionsCorpus,
 } from "./local-institutions-data";
-import type { EntityId, World } from "./types";
+import type { EntityId, IsoDate, LifeRecordProvenance, World } from "./types";
+import type { SchoolStageKey } from "./school-calendar";
+import type { LocalInstitutionRow } from "./local-institutions-data";
 
 const corpus = JSON.parse(corpusText) as LocalInstitutionsCorpus;
 
@@ -49,4 +51,28 @@ export function localInstitutionsFor(
       return [key, [...direct, ...fallback]];
     }),
   ) as unknown as LocalInstitutionSet;
+}
+
+/** A sourced school name for the stage, when this place has one. */
+export function localSchoolInstitutionFor(
+  world: World,
+  jurisdictionId: EntityId,
+  stage: SchoolStageKey,
+): LocalInstitutionRow | null {
+  const institutions = localInstitutionsFor(world, jurisdictionId);
+  return stage === "high"
+    ? (institutions.highSchools[0] ?? institutions.districts[0] ?? null)
+    : (institutions.districts[0] ?? null);
+}
+
+/** Keep source identity on the organization and make back-carried names explicit. */
+export function localInstitutionProvenance(
+  row: LocalInstitutionRow,
+  effectiveAt: IsoDate,
+): LifeRecordProvenance {
+  return {
+    kind: "source-record",
+    reference: `${row.sourceKey}:${row.sourceId} (directory as of ${row.asOf})${row.historicalNameEstimated ? "; historical name estimated before directory vintage" : ""}`,
+    asOf: effectiveAt,
+  };
 }

@@ -13,6 +13,10 @@ import { COUPLE_KIND } from "../simulation/couples";
 import { recordPartnershipState } from "../simulation/life";
 import { partnershipStateHistory } from "../simulation/life-queries";
 import { residentNameForJurisdiction } from "../simulation/life-places";
+import {
+  localInstitutionProvenance,
+  localSchoolInstitutionFor,
+} from "../simulation/local-institutions";
 import { defaultPronounsForGender } from "../simulation/person-identity";
 import {
   SCHOOL_STAGES_V1,
@@ -1433,7 +1437,6 @@ function establishAgeEligibleState(
       place,
       jurisdictionId,
       calendarStage === "after" ? age : STAGE_ENTRY_AGE[calendarStage],
-      childhoodGenerationVersion,
       schoolNameVersion,
     );
     // The world does not know when the school was founded, and does not
@@ -1464,7 +1467,12 @@ function establishAgeEligibleState(
         input: {
           stableKey: schoolKey,
           formedAt: waiting ? world.currentDate : enrolledOn,
-          provenance: PROVENANCE,
+          provenance: schooling.current.row
+            ? localInstitutionProvenance(
+                schooling.current.row,
+                waiting ? world.currentDate : enrolledOn,
+              )
+            : PROVENANCE,
           initialProfile: {
             name: schooling.current.name,
             classification: "service:school",
@@ -1499,7 +1507,9 @@ function establishAgeEligibleState(
           input: {
             stableKey: `${schoolKey}:${stage.key}`,
             formedAt: world.currentDate,
-            provenance: PROVENANCE,
+            provenance: stage.row
+              ? localInstitutionProvenance(stage.row, world.currentDate)
+              : PROVENANCE,
             initialProfile: {
               name: stage.name,
               classification: "service:school",
@@ -1821,6 +1831,7 @@ function summarizeEarlierLife(
 interface ChildSchoolStage {
   readonly key: SchoolStageKey;
   readonly name: string;
+  readonly row: ReturnType<typeof localSchoolInstitutionFor>;
   readonly entryAge: number;
 }
 
@@ -1829,7 +1840,6 @@ function childSchooling(
   place: LifePlace,
   jurisdictionId: EntityId,
   age: number,
-  version: ChildhoodGenerationVersion | undefined,
   schoolNameVersion: SchoolNameVersion | undefined,
 ): {
   readonly current: ChildSchoolStage;
@@ -1837,17 +1847,6 @@ function childSchooling(
   /** The stages still ahead, whose schools a child moves on to in play. */
   readonly later: readonly ChildSchoolStage[];
 } {
-  if (version !== CHILDHOOD_GENERATION_V2) {
-    return {
-      current: {
-        key: "elementary",
-        name: `${place.displayName} public school`,
-        entryAge: SCHOOL_ENTRY_AGE,
-      },
-      finished: [],
-      later: [],
-    };
-  }
   const jurisdiction = world.jurisdictions[jurisdictionId];
   const names = generateSchoolNames(
     new SeededRng(world.seed).fork("production-world-v1:child-school"),
@@ -1858,11 +1857,21 @@ function childSchooling(
     schoolNameVersion,
     { state: stateUsps(place.stateJurisdictionKey) },
   );
-  const stages: readonly ChildSchoolStage[] = [
-    { key: "elementary", name: names.elementary, entryAge: SCHOOL_ENTRY_AGE },
-    { key: "middle", name: names.middle, entryAge: 11 },
-    { key: "high", name: names.high, entryAge: 14 },
-  ];
+  const stages: readonly ChildSchoolStage[] = (
+    [
+      ["elementary", SCHOOL_ENTRY_AGE],
+      ["middle", 11],
+      ["high", 14],
+    ] as const
+  ).map(([key, entryAge]) => {
+    const row = localSchoolInstitutionFor(world, jurisdictionId, key);
+    return {
+      key,
+      name: row?.name ?? names[key],
+      row,
+      entryAge,
+    };
+  });
   const reached = stages.filter((stage) => age >= stage.entryAge);
   return {
     current: reached.at(-1)!,
@@ -1896,7 +1905,9 @@ function earlierSchooling(
         input: {
           stableKey: schoolKey,
           formedAt: startedAt,
-          provenance: PROVENANCE,
+          provenance: stage.row
+            ? localInstitutionProvenance(stage.row, startedAt)
+            : PROVENANCE,
           initialProfile: {
             name: stage.name,
             classification: "service:school",

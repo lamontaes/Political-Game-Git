@@ -11,15 +11,18 @@ import { personWords } from "./english-grammar";
 import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
+  activeWorkRelationshipsAt,
   deriveRelationshipSummary,
   describePersonContext,
   explicitPerceptionHistory,
   factsForPerson,
+  householdLocationAt,
   householdMembershipsAt,
   kinshipRelationshipsAt,
   measureById,
   peopleInHouseholdAt,
   personName,
+  resourceFlowTermsAt,
   scheduledActivitiesVisibleTo,
   type PersonAppearance,
   type EntityId,
@@ -29,6 +32,7 @@ import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
 import { favorRecords, favorStandingBetween } from "../simulation/favors";
+import { moneyText } from "../simulation/money-text";
 
 /**
  * What the player makes of somebody, read from the records they can see.
@@ -283,6 +287,79 @@ function buildDetails(
   }
 
   const subject = world.people[personId];
+  const fullRecordAccess =
+    personId === playerId || world.control.kind === "observer";
+  if (fullRecordAccess || sharedHousehold) {
+    const householdId = householdIdFor(world, personId);
+    if (householdId) {
+      const household = householdMembershipsAt(world, personId).find(
+        (membership) => membership.household.id === householdId,
+      )?.household;
+      const location = householdLocationAt(world, householdId);
+      if (location) {
+        details.push({
+          key: `home-${location.id}`,
+          text: location.label,
+          attribution: "record",
+        });
+      }
+      if (household) {
+        details.push({
+          key: `household-${household.id}`,
+          text: household.label,
+          attribution: "record",
+        });
+        const members = peopleInHouseholdAt(world, householdId)
+          .filter((memberId) => memberId !== personId)
+          .map((memberId) => world.people[memberId])
+          .filter((member): member is NonNullable<typeof member> => !!member)
+          .map(personName);
+        if (members.length > 0) {
+          details.push({
+            key: `household-members-${household.id}`,
+            text: members.join(", "),
+            attribution: "record",
+          });
+        }
+      }
+    }
+  }
+  if (fullRecordAccess) {
+    for (const active of activeWorkRelationshipsAt(world, personId)) {
+      const organization = active.relationship.organizationId
+        ? organizationRefLabel(world, active.relationship.organizationId)
+        : null;
+      const currentWork = [active.role.title, organization]
+        .filter((value): value is string => value !== null)
+        .join(" · ");
+      if (currentWork) {
+        details.push({
+          key: `current-work-${active.relationship.id}`,
+          text: currentWork,
+          attribution: "record",
+        });
+      }
+      const payFlow = world.history.resourceFlows
+        .filter(
+          (flow) =>
+            flow.basisReference.kind === "work" &&
+            flow.basisReference.workRelationshipId === active.relationship.id &&
+            flow.recipient.kind === "person" &&
+            flow.recipient.personId === personId &&
+            flow.basisKind.startsWith("compensation:"),
+        )
+        .at(-1);
+      const pay = payFlow ? resourceFlowTermsAt(world, payFlow.id) : undefined;
+      if (pay?.status === "active") {
+        const cadence = pay.cadenceKind.split(":").at(-1);
+        details.push({
+          key: `current-pay-${pay.id}`,
+          text: `${moneyText(pay.amount)} ${cadence ?? ""}`.trim(),
+          attribution: "record",
+        });
+      }
+    }
+  }
   const knownEvents = new Map(
     world.history.knowledge
       .filter(
@@ -480,10 +557,11 @@ export function projectPersonDossier(
             event.type,
           ) &&
           event.occurredAt <= world.currentDate &&
-          (event.involvedEntityIds.includes(personId) ||
-            event.participants.some(
-              (participant) => participant.personId === personId,
-            )),
+          (event.participants.some(
+            (participant) => participant.personId === personId,
+          ) ||
+            (event.involvedEntityIds.includes(personId) &&
+              /(?:^|[.:/-])vote$/.test(event.type))),
       )
       .map((event) => ({
         eventId: event.id,

@@ -11,7 +11,6 @@ import {
 } from "../future-transitions";
 import { personName } from "../people";
 import { correctPublication, publishPublicEvent } from "../public-information";
-import { PUBLIC_PROGRAM_EVENT_PREFIX } from "../public-program-integrity";
 import {
   PRESS_STORY_EVENT_TYPE,
   PRESS_STORY_LEAD_TAG,
@@ -57,7 +56,6 @@ import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
-  ensurePressExposureCoverage,
   mediaOutlets,
   reporterIsCurrent,
   reporterRoles,
@@ -83,6 +81,7 @@ import {
   reportLawOutcomes,
 } from "./law-effect-news";
 import { recordStoryHeardExposure } from "./story-exposure";
+import { recordStoryHeardOfficialViews } from "../living-world/official-views";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -116,8 +115,6 @@ export const PRESS_DESK_INTERVALS = {
 const RESPONSE_REQUESTED_EVENT = "press.response-requested";
 export const SUBJECT_RESPONDED_EVENT = "press.subject-responded";
 const EXCLUDED_PREFIXES = [
-  // A program's note to the books is not copy; its record keeps the fields.
-  PUBLIC_PROGRAM_EVENT_PREFIX,
   "press.",
   "setup.",
   "simulation.",
@@ -201,7 +198,7 @@ export function publishOpeningPublicRecords(world: World): World {
   const candidates = world.history.events.filter(
     (event) =>
       event.occurredAt >= oldest &&
-      event.occurredAt <= world.currentDate &&
+      event.occurredAt < world.currentDate &&
       event.recordedAt <= world.currentDate &&
       !published.has(event.id) &&
       !event.tags.some(
@@ -755,11 +752,12 @@ function openResponseRequest(world: World, leadId: EntityId) {
 }
 
 /*
- * PLACEHOLDER: who comments and what an answer says are not researched. A
- * non-player disputes an allegation against them, declines or stays silent,
- * weighed only by whether they are named in the matter; personality is not
- * consulted and no other answer is written, because nothing says what it
- * would contain. Filed as `who-talks-to-reporters-and-what-they-say`.
+ * RECORDED GAME RULE: a named non-player may dispute the allegation,
+ * decline, or remain silent. The response uses only allegation and disposition
+ * records held by this module; it does not invent a quote or a fact.
+ * Personality does not alter the response because the game records no mapping
+ * from personality to press conduct. The filed research question
+ * `who-talks-to-reporters-and-what-they-say` can add one when data supports it.
  */
 function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
   let next = world;
@@ -955,9 +953,17 @@ function editorialDecision(
   reporterId: EntityId,
 ): FutureTransitionHandlerResult {
   const material = storyMaterial(world, lead);
+  const outlet = requirePressRecord(world, "media-outlet", lead.outletId);
+  const standard = outlet.editorialStandard ?? "realistic";
   const history = dispositionsForLead(world, lead.id);
   const alreadyHeld = history.some((record) => record.decision === "held");
-  const canPublishFull = material.corroborated;
+  const canPublishFull =
+    standard === "tougher"
+      ? material.corroborated || material.usable.length > 0
+      : standard === "gentler"
+        ? material.corroborated &&
+          (material.usable.length >= 2 || material.publicBasis.length > 0)
+        : material.corroborated;
   const canNarrow = !material.corroborated && material.publicBasis.length > 0;
   const constraints: DecisionConstraint[] = [];
   if (!canPublishFull) {
@@ -966,7 +972,9 @@ function editorialDecision(
       optionKey: "publish",
       kind: "editorial:corroboration",
       explanation:
-        "Anonymous information needs a named source, a second source or a document before it runs.",
+        standard === "gentler"
+          ? "This outlet waits for a second source, a document, or a public record before printing an allegation."
+          : "Anonymous information needs a named source, a second source or a document before it runs.",
       sourceRefs: [],
     });
   }
@@ -1185,7 +1193,7 @@ function publishStory(
  * audience by the same test the sibling's own desk uses. A sibling already
  * working the same occurrence keeps its own story.
  *
- * PLACEHOLDER, NOT RESEARCHED: relevance here is `outletCovers` alone. The
+ * RECORDED GAME RULE: relevance here is `outletCovers` alone. The
  * sibling's newsworthiness ranking and routine-item limit do not gate a shared
  * copy, because ChatGPT found no rule for which sibling picks a story up
  * (`what-coordinated-owner-practices-change-in-the-news`); a threshold would
@@ -1311,24 +1319,6 @@ function recordProfessionalReaders(
     const basis = eventById(world, basisId);
     if (basis) for (const id of lawNewsReaders(world, basis)) readers.add(id);
   }
-  // Individual readers are modeled only where the player follows the outlet
-  // and lives in the represented town. County membership remains unmodeled
-  // without a canonical town-to-county join. Other reach is handled by the
-  // scheduled group model rather than person-level knowledge rows.
-  const playerId =
-    world.control.kind === "person" ? world.control.personId : null;
-  const playerTownId = playerId
-    ? world.people[playerId]?.homeJurisdictionId
-    : null;
-  if (playerTownId) {
-    for (const personId of world.personOrder) {
-      if (
-        world.people[personId]?.homeJurisdictionId === playerTownId &&
-        hasModeledOutletAudience(world, personId, publication.outletKey)
-      )
-        readers.add(personId);
-    }
-  }
   let next = world;
   for (const personId of [...readers].sort()) {
     next = recordEventKnowledge(next, {
@@ -1355,26 +1345,12 @@ function recordProfessionalReaders(
           knowledgeId: knowledge.id,
           basisEventId,
         });
+    if (knowledge) next = recordStoryHeardOfficialViews(next, knowledge.id);
   }
   if (lead.matterId) {
     next = produceMatterResponses(next, lead.matterId, story);
   }
   return next;
-}
-
-/**
- * Local conservative stub until World has a saved person-to-outlet reader
- * source. A general news habit alone cannot establish outlet readership.
- */
-export function hasModeledOutletAudience(
-  world: World,
-  personId: EntityId,
-  outletKey: string,
-): boolean {
-  void world;
-  void personId;
-  void outletKey;
-  return false;
 }
 
 interface StoryCopy {
@@ -1550,12 +1526,6 @@ export function pressDeskSweepHandler(
   if (dueItem.transitionKey !== PRESS_DESK_SWEEP_TRANSITION_KEY) {
     throw new Error("The desk sweep handler received another transition.");
   }
-  // A player's already-recorded public appearances outside their home state
-  // are the only reason this sweep may create additional state outlets.
-  world = ensurePressExposureCoverage(world);
-  // A player's already-recorded public appearances outside their home state
-  // are the only reason this sweep may create additional state outlets.
-  world = ensurePressExposureCoverage(world);
   // Only the opening sweep reads the archive. Later sweeps retain the
   // incremental frontier so older records are not rescanned every week.
   const frontier =
@@ -1962,7 +1932,8 @@ export function newsworthiness(
     reasons.push({ key: "audience", weight: 1 });
   if (outlet.beats.includes(beatForEventType(event.type)))
     reasons.push({ key: "beat", weight: 1 });
-  // PLACEHOLDER weight: a local outlet's own resident named in the news. The
+  // Recorded weight: one point when a local outlet's own resident is named.
+  // The
   // hometown angle is ordinary newsroom practice; how much it should weigh
   // is part of `how-much-coverage-an-election-result-gets`.
   if (outlet.scope === "local" && residentSubjects(world, outlet, event) > 0)
@@ -2081,8 +2052,6 @@ function beatForEventType(type: string): MediaBeat {
   )
     return "international";
   if (type.startsWith("civic.local-matter")) return "local-government";
-  // A protest is covered where it happens, by the reporter on local government.
-  if (type.startsWith("civic.protest-")) return "local-government";
   // What a law did to a town's people is covered where they live.
   if (type.startsWith("law.")) return "local-government";
   if (type.startsWith("congress.")) return "congress";

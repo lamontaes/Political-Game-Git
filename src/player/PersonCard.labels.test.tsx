@@ -142,6 +142,14 @@ it("removes only the standalone record attribution label, retaining all facts an
   expect(JSON.stringify({ world, entry })).toBe(before);
 });
 
+it("shows the recorded age on compact and expanded person cards", () => {
+  for (const expanded of [false, true]) {
+    const html = render(dossier(), expanded);
+    expect(html).toContain('data-testid="dossier-age"');
+    expect(html).toContain("Age · 27");
+  }
+});
+
 it("omits the self-only You badge in compact and expanded cards without deleting ordinary prose", () => {
   for (const expanded of [false, true]) {
     const html = render(dossier(), expanded);
