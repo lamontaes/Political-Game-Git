@@ -59,8 +59,15 @@ describe("English counts-only corpora", () => {
         }
       });
 
-      it("has turn counts a composer can use", () => {
+      it("has turn or sentence counts a composer can use", () => {
         const counts = file.counts as Record<string, number>;
+        if (counts.turns === undefined) {
+          expect(counts.sentences).toBeGreaterThan(1000);
+          expect(counts.medianSentenceWords).toBeGreaterThan(0);
+          expect(counts.shareSentencesQuoting).toBeGreaterThan(0);
+          expect(counts.shareSentencesQuoting).toBeLessThan(1);
+          return;
+        }
         expect(counts.turns).toBeGreaterThan(1000);
         expect(counts.medianTurnWords).toBeGreaterThan(0);
         expect(counts.shareTurnsThreeWordsOrFewer).toBeGreaterThan(0);
