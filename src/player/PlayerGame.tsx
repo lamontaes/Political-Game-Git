@@ -118,7 +118,6 @@ import { LifePathsPanel } from "./LifePathsPanel";
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { ContactsPanel } from "./ContactsPanel";
 import { PressSourceDesk } from "./PressSourceDesk";
-import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
@@ -3703,24 +3702,7 @@ function renderWorkspace({
             personId={session.personId}
             state={shell}
             dispatch={dispatch}
-          />
-          {/*
-            PEOPLE's two reading seams, on the surface People already means:
-            who this life can reach and what is outstanding between them, and
-            what they can be expected to remember. A recall card opens the
-            person through the same `openEntity` everything else uses, so Back
-            returns to the card.
-          */}
-          <ContactsPanel
-            query={shell.peopleQuery}
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-          />
-          <RecallCardsPanel
-            world={session.world}
-            personId={session.personId}
-            onOpenEntity={openEntity}
+            dossierFor={dossierFor}
           />
           {/*
             What this life can actually talk about, in the room it is in — as

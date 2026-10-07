@@ -10,6 +10,7 @@ import {
   type RelationshipEdgeKind,
 } from "../presentation/relationship-web";
 import {
+  CATEGORY_LABELS,
   filterDirectory,
   projectPeopleDirectory,
 } from "../presentation/people-directory";
@@ -85,12 +86,18 @@ export function PeopleRelationshipWeb({
     layout.edges.some((edge) => edge.kind === kind),
   );
 
-  let caption = "";
+  let caption: string;
   if (selectedNode && connection) {
-    caption = [
-      selectedNode.name,
-      ...connection.edges.map((edge) => edge.label),
-    ].join(" \u00b7 ");
+    caption =
+      connection.edges.length > 0
+        ? `How you know ${selectedNode.name} — ${connection.edges
+            .map((edge) => edge.label)
+            .join("; ")}.`
+        : `No record connects you directly to ${selectedNode.name}. Their lines show the people you know who are connected to them.`;
+  } else if (category !== "all") {
+    caption = `${CATEGORY_LABELS[category]} are shown in full color; everyone else is dimmed.`;
+  } else {
+    caption = "Choose a face to see how you know them.";
   }
 
   return (
@@ -152,6 +159,12 @@ export function PeopleRelationshipWeb({
             }
             inCategory={inCategory(node.personId)}
             onPath={connection?.personIds.has(node.personId) ?? false}
+            named={
+              node.labeled ||
+              node.personId === web.focusId ||
+              node.personId === selectedId ||
+              connectedIds.has(node.personId)
+            }
             onSelect={onSelect}
           />
         ))}
@@ -165,8 +178,10 @@ export function PeopleRelationshipWeb({
         {caption}
       </p>
       {layout.hiddenCount > 0 ? (
-        <p data-testid="people-web-hidden">
-          {`+${layout.hiddenCount}`}{" "}
+        <p className="game-note" data-testid="people-web-hidden">
+          {layout.hiddenCount === 1
+            ? "1 more person does not fit in the web."
+            : `${layout.hiddenCount} more people do not fit in the web.`}{" "}
           {onShowList ? (
             <button
               type="button"
@@ -174,7 +189,7 @@ export function PeopleRelationshipWeb({
               data-testid="people-web-show-list"
               onClick={onShowList}
             >
-              List
+              See everyone in the list
             </button>
           ) : null}
         </p>
@@ -207,10 +222,13 @@ function WebNode({
   dimmedBySelection,
   inCategory,
   onPath,
+  named,
   onSelect,
 }: {
   readonly world: World;
   readonly node: LaidOutNode;
+  /** Whether to print the name; a crowded ring keeps it to the tooltip. */
+  readonly named: boolean;
   readonly matched: boolean;
   readonly focused: boolean;
   readonly selected: boolean;
@@ -272,19 +290,21 @@ function WebNode({
         The whole name is a target. Safari hit-tests SVG text by glyph, so a
         click between letters would fall through; this box catches it.
       */}
-      <>
-        <rect
-          className="pg-relationship-web-label-hit"
-          data-testid={`people-web-label-${node.personId}`}
-          x={-labelWidth / 2}
-          y={size / 2 + 5}
-          width={labelWidth}
-          height={17}
-        />
-        <text x={0} y={size / 2 + 17} textAnchor="middle">
-          {shownLabel}
-        </text>
-      </>
+      {named ? (
+        <>
+          <rect
+            className="pg-relationship-web-label-hit"
+            data-testid={`people-web-label-${node.personId}`}
+            x={-labelWidth / 2}
+            y={size / 2 + 5}
+            width={labelWidth}
+            height={17}
+          />
+          <text x={0} y={size / 2 + 17} textAnchor="middle">
+            {shownLabel}
+          </text>
+        </>
+      ) : null}
     </g>
   );
 }
