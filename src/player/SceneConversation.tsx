@@ -7,7 +7,12 @@ import {
   type FutureTransitionHandlerRegistry,
 } from "../simulation";
 import { projectPlayedSceneExchange } from "../presentation/scene-conversation";
-import { commitPlayedSceneTurn } from "../presentation/life-conversation";
+import {
+  commitLifeConversation,
+  commitPlayedSceneTurn,
+  projectLifeConversation,
+  type LifeTalkIntent,
+} from "../presentation/life-conversation";
 import { recordedRoomPresence } from "../presentation/recorded-room-presence";
 import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
@@ -48,6 +53,18 @@ export function SceneConversation({
         : projectPlayedSceneExchange(world, playerPersonId, addressee),
     [world, playerPersonId, addressee],
   );
+  /*
+   * Ordinary talk with someone in the room (coworker, family at home) is the
+   * life-talk writer, not a recorded played-scene exchange. Without this
+   * branch a person the room shows could never be spoken to.
+   */
+  const life = useMemo(
+    () =>
+      scene || addressee === "everyone"
+        ? null
+        : projectLifeConversation(world, playerPersonId, addressee),
+    [scene, world, playerPersonId, addressee],
+  );
   const turns = useMemo(
     () =>
       world.history.events.filter(
@@ -63,6 +80,70 @@ export function SceneConversation({
       ),
     [world, playerPersonId, addressee],
   );
+  if (!scene && life && addressee !== "everyone") {
+    const last = life.transcript.at(-1);
+    const speak = (intent: LifeTalkIntent) => {
+      try {
+        const next = commitLifeConversation(world, {
+          playerPersonId,
+          personId: addressee,
+          intent,
+          revision: life.revision,
+        });
+        onWorldChange(next);
+        setFailure(null);
+        if (intent === FAREWELL_INTENT) onBack();
+      } catch (error) {
+        setFailure(
+          error instanceof Error
+            ? error.message
+            : "This conversation choice is no longer available.",
+        );
+      }
+    };
+    return (
+      <section
+        className="pg-talk"
+        aria-label="Scene conversation"
+        data-testid="scene-conversation"
+      >
+        <div className="pg-talk-head">
+          <div className="pg-talk-faces">
+            <PersonPortrait world={world} personId={addressee} size="small" />
+          </div>
+        </div>
+        {last ? (
+          <div data-testid="talk-exchange">
+            <p className="pg-talk-you" data-testid="talk-you">
+              {last.action}
+            </p>
+            <p className="pg-talk-line" data-testid="talk-reply">
+              {last.reply}
+            </p>
+          </div>
+        ) : null}
+        <div className="pg-talk-choices">
+          {life.intents.map((option) => (
+            <button
+              key={option.key}
+              type="button"
+              className="pg-talk-choice"
+              data-testid="life-talk-choice"
+              onClick={() => speak(option.key as LifeTalkIntent)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        {failure ? <p role="status">{failure}</p> : null}
+        <div className="pg-talk-controls">
+          <button type="button" onClick={onBack}>
+            Return to the room
+          </button>
+        </div>
+      </section>
+    );
+  }
   if (!scene)
     return (
       <section
