@@ -1,4 +1,5 @@
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
+import placeKinds from "../../data/content/place-kinds.json" with { type: "json" };
 import {
   activeWorkRelationshipsAt,
   organizationProfileAt,
@@ -19,6 +20,8 @@ import {
 } from "./campus-backdrops";
 import { backdropUrl } from "./backdrop-urls";
 import { openingWorkLocation } from "./opening-work-location";
+import { townWorkplaceFor } from "../simulation/living-world/town-employment";
+import { WORKPLACE_PLACE } from "../simulation/living-world/work-schedules";
 import type {
   DwellingClassification,
   EntityId,
@@ -56,7 +59,15 @@ interface BackdropRecord {
   readonly place: string;
   readonly variant: string;
   readonly file: string;
+  readonly tags?: readonly string[];
 }
+
+interface PlaceKinds {
+  readonly businessKinds: Readonly<Record<string, readonly string[]>>;
+  readonly classifications: Readonly<Record<string, readonly string[]>>;
+}
+
+const PLACE_KINDS = placeKinds as PlaceKinds;
 
 const BY_PLACE = new Map<string, Map<string, string>>();
 for (const record of manifest.backdrops as readonly BackdropRecord[]) {
@@ -279,15 +290,89 @@ function currentDwelling(world: World, personId: EntityId) {
  */
 export function workplacePlaceFor(
   classification: OccupationClassification | null,
+  employerPlace: string | null = null,
+  businessKind?: string | null,
 ): string {
-  if (!classification) return "office";
+  const kind =
+    businessKind ??
+    (employerPlace &&
+    !hasBackdrop(employerPlace) &&
+    PLACE_KINDS.businessKinds[employerPlace]
+      ? employerPlace
+      : null);
+  const hasBusinessKind = Boolean(kind);
+  if (kind) {
+    const room = employerPlaceForKind(kind);
+    if (room) return room;
+  }
+  if (employerPlace && hasBackdrop(employerPlace)) return employerPlace;
+  if (!classification)
+    return hasBusinessKind ? genericEmployerPlace() : "office";
   const onet = /^custom:onet-(\d\d)/.exec(classification);
-  if (onet) return ONET_MAJOR_GROUP_PLACE[onet[1]!] ?? "office";
+  if (onet)
+    return (
+      ONET_MAJOR_GROUP_PLACE[onet[1]!] ??
+      (hasBusinessKind ? genericEmployerPlace() : "office")
+    );
   const name = classification.slice(classification.indexOf(":") + 1);
   for (const [pattern, place] of WORK_NAME_PLACE) {
     if (pattern.test(name)) return place;
   }
-  return "office";
+  return hasBusinessKind ? genericEmployerPlace() : "office";
+}
+
+function genericEmployerPlace() {
+  return employerPlaceForKind("unlisted-employer") ?? "main-street";
+}
+
+/** The room selected from a recorded employer kind before the worker's job. */
+function employerPlaceForKind(businessKind: string): string | null {
+  const requiredTags = PLACE_KINDS.businessKinds[businessKind] ??
+    PLACE_KINDS.classifications[businessKind] ?? ["business-general"];
+  for (const tag of requiredTags) {
+    const room = (manifest.backdrops as readonly BackdropRecord[]).find(
+      (record) => record.variant === "midday" && record.tags?.includes(tag),
+    )?.place;
+    if (room) return room;
+  }
+  return null;
+}
+
+function recordedBusinessKind(world: World, organizationId: EntityId) {
+  const organization = world.history.organizations.find(
+    (record) => record.id === organizationId,
+  );
+  if (!organization) return null;
+  const profile = organizationProfileAt(world, organizationId);
+  const kind = /:employer:([a-z-]+):\d+$/.exec(organization.stableKey)?.[1];
+  if (kind && PLACE_KINDS.businessKinds[kind]) return kind;
+  if (profile && PLACE_KINDS.classifications[profile.classification])
+    return profile.classification;
+  // A recorded employer with an unrecognized kind still gets a shared
+  // employer room, never the office placeholder.
+  return (
+    kind ??
+    (profile?.classification.startsWith("enterprise:")
+      ? profile.classification
+      : null)
+  );
+}
+
+function workplacePlaceForEmployer(
+  world: World,
+  organizationId: EntityId,
+  occupation: OccupationClassification | null,
+): string {
+  const businessKind = recordedBusinessKind(world, organizationId);
+  const organization = world.history.organizations.find(
+    (record) => record.id === organizationId,
+  );
+  const profile = organizationProfileAt(world, organizationId);
+  const workplace = organization
+    ? townWorkplaceFor(organization.stableKey, profile?.classification ?? null)
+    : null;
+  const employerPlace = workplace ? WORKPLACE_PLACE[workplace.key] : null;
+  return workplacePlaceFor(occupation, employerPlace, businessKind);
 }
 
 const ONET_MAJOR_GROUP_PLACE: Readonly<Record<string, string>> = {
@@ -351,12 +436,16 @@ export function selectedWorkplaceForPerson(world: World, personId: EntityId) {
   const arrival = openingWorkLocation(world, personId);
   if (arrival?.context.location?.setting !== "work") return null;
   const workTag = arrival.tags.find((tag) => tag.startsWith("work:"));
-  const placeTag = arrival.tags.find((tag) => tag.startsWith("place:"));
   const work = activeWorkRelationshipsAt(world, personId).find(
     (job) => job.relationship.id === workTag?.slice("work:".length),
   );
-  const place = placeTag?.slice("place:".length);
-  if (!work || !place || !hasBackdrop(place)) return null;
+  if (!work?.relationship.organizationId) return null;
+  const place = workplacePlaceForEmployer(
+    world,
+    work.relationship.organizationId,
+    work.role.occupationClassification,
+  );
+  if (!hasBackdrop(place)) return null;
   return {
     arrivalId: arrival.id,
     workRelationshipId: work.relationship.id,
@@ -371,11 +460,16 @@ export function workplacePlaceForPerson(
   world: World,
   personId: EntityId,
 ): string | null {
-  const arrival = openingWorkLocation(world, personId);
-  if (arrival?.context.location?.setting === "work")
-    return selectedWorkplaceForPerson(world, personId)?.place ?? null;
+  const selected = selectedWorkplaceForPerson(world, personId);
+  if (selected) return selected.place;
   const [work] = activeWorkRelationshipsAt(world, personId);
-  return work ? workplacePlaceFor(work.role.occupationClassification) : null;
+  return work?.relationship.organizationId
+    ? workplacePlaceForEmployer(
+        world,
+        work.relationship.organizationId,
+        work.role.occupationClassification,
+      )
+    : null;
 }
 
 /**
@@ -389,6 +483,8 @@ export function placeForLocationKey(
   locationKey: string | null,
 ): string | null {
   if (!locationKey) return null;
+  if (locationKey === "workplace")
+    return workplacePlaceForPerson(world, personId);
   const exact = LOCATION_PLACE[locationKey];
   if (exact === "workplace") return workplacePlaceForPerson(world, personId);
   if (exact === "doors")
@@ -396,6 +492,7 @@ export function placeForLocationKey(
   if (exact === "home") return homePlaceForPerson(world, personId);
   if (exact) return exact;
   const prefix = locationKey.slice(0, locationKey.indexOf(":"));
+  if (prefix === "work") return workplacePlaceForPerson(world, personId);
   if (prefix === "press-planned")
     return pressInterviewPlace(world, locationKey);
   if (prefix === "municipal" || prefix === "municipal-notes") {

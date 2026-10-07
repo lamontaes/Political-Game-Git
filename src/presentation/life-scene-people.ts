@@ -10,7 +10,7 @@ import {
 } from "./appearance-engine/pack";
 import { conversationExpression } from "./appearance-engine/expression-chooser";
 import type { ConversationExchangeTurn } from "./scene-conversation";
-import { personDayRecipe } from "./day-clothing";
+import { personDayRecipe, roomDayOutfitExclusions } from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackAvailable,
@@ -709,6 +709,10 @@ export function planLifeScenePeople(
         .map((person) => [person.personId, person]),
     ).values(),
   ].sort((left, right) => left.personId.localeCompare(right.personId));
+  const outfitExclusions = roomDayOutfitExclusions(
+    world,
+    people.map((person) => person.personId),
+  );
 
   const plateAspect = scene.plate.width / scene.plate.height;
 
@@ -764,6 +768,7 @@ export function planLifeScenePeople(
       !savedWardrobes?.artPreview &&
       peoplePackAvailable()
         ? personDayRecipe(world, record, {
+            avoidOutfits: outfitExclusions.get(person.personId),
             ...posedFor(
               world,
               person.personId,
