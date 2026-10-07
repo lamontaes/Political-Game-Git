@@ -74,6 +74,14 @@ export const CAMPAIGN_ROUTINE_WORK: Readonly<
     summary:
       "The standing session on the phones, asking people who might give for something the campaign cannot do without.",
   },
+  petition: {
+    label: "Gathering petition signatures",
+    locationKey: "campaign-doors",
+    locationLabel: "Somebody's street",
+    title: "A petition shift",
+    summary:
+      "The standing shift on the doors, asking district residents to sign the candidate's petition.",
+  },
 };
 
 /** The routine in force for a campaign, or null when none was ever set. */
@@ -106,6 +114,18 @@ export function routineIdOfActivity(
   return null;
 }
 
+/** The routine event that booked an activity, or null for ordinary work. */
+export function routineEventIdOfActivity(
+  world: World,
+  sourceEntityIds: readonly EntityId[],
+): EntityId | null {
+  const eventIds = new Set(sourceEntityIds);
+  return (
+    campaignRoutineRecords(world).find((record) => eventIds.has(record.eventId))
+      ?.eventId ?? null
+  );
+}
+
 function sameBlocks(
   left: readonly CampaignRoutineBlock[],
   right: readonly CampaignRoutineBlock[],
@@ -134,7 +154,7 @@ function canonicalBlocks(
 function validateBlocks(blocks: readonly CampaignRoutineBlock[]): void {
   for (const block of blocks) {
     if (!(block.work in CAMPAIGN_ROUTINE_WORK))
-      throw new Error("A routine session is either doors or phones.");
+      throw new Error("A routine session needs a supported campaign activity.");
     if (
       block.weekdays.length === 0 ||
       block.weekdays.some(

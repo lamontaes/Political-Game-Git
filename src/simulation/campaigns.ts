@@ -183,10 +183,12 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import { recordEventKnowledge } from "./records";
+import { completePetitionCirculation, petitionResidentsForCampaign } from "./candidate-petition-routines";
 import {
   CAMPAIGN_ROUTINE_WORK,
   campaignRoutineBlockAt,
   campaignRoutineSlots,
+  routineEventIdOfActivity,
   routineIdOfActivity,
 } from "./campaign-routine";
 import { SeededRng } from "./rng";
@@ -2609,7 +2611,7 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       try {
         return scheduleCampaignAction(world, {
           campaignId: campaign.id,
-          kind: block.work,
+          kind: block.work === "petition" ? "outreach" : block.work,
           plan: {
             start: slot.start,
             end: slot.end,
@@ -2647,7 +2649,30 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       const campaign = campaignById(world, action.campaignId);
       if (!campaign || campaignState(world, campaign.id).status !== "active")
         return world;
-      return recordCampaignActionOutcome(world, campaign, action);
+      const routineEventId = routineEventIdOfActivity(
+        world,
+        activity.sourceEntityIds,
+      );
+      const block = routineEventId
+        ? campaignRoutineBlockAt(
+            world,
+            routineEventId,
+            scheduledActivityState(world, activityId).start,
+          )
+        : null;
+      const outcomeWorld = recordCampaignActionOutcome(world, campaign, action);
+      if (block?.work !== "petition") return outcomeWorld;
+      const timing = scheduledActivityState(outcomeWorld, activityId);
+      return completePetitionCirculation(outcomeWorld, {
+        campaignId: campaign.id,
+        circulatorPersonId: campaign.candidatePersonId,
+        blockStableKey: activity.stableKey,
+        minutes: simulationMinutesBetween(timing.start, timing.end),
+        residentPersonIds: petitionResidentsForCampaign(
+          outcomeWorld,
+          campaign.id,
+        ),
+      }).world;
     },
   };
 }

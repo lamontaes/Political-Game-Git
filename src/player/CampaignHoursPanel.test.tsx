@@ -18,6 +18,8 @@ import {
 } from "../presentation/opening-life";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import { CampaignHoursPanel } from "./CampaignHoursPanel";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 
 const SLOW = 120_000;
 
@@ -67,6 +69,41 @@ function governorRace(usps: string, seed: string) {
 }
 
 describe("campaign hours panel (D-11)", () => {
+  it("offers signature gathering as a standing campaign activity", () => {
+    const small = smallWorld({
+      place: "US-KY",
+      people: 8,
+      seed: "petition-hours-panel",
+      offices: ["state-legislature"],
+    });
+    const world = fileForOffice(small.world, small.personId);
+    const empty = renderToStaticMarkup(
+      <CampaignHoursPanel
+        world={world}
+        personId={small.personId}
+        onWorldChange={() => undefined}
+      />,
+    );
+    expect(empty).toContain("Gathering petition signatures");
+    const set = setCampaignRoutine(world, small.personId, [
+      {
+        work: "petition",
+        weekdays: [2, 4],
+        startMinute: 840,
+        minutes: 120,
+      },
+    ]);
+    const keeping = renderToStaticMarkup(
+      <CampaignHoursPanel
+        world={set}
+        personId={small.personId}
+        onWorldChange={() => undefined}
+      />,
+    );
+    expect(keeping).toContain("Gathering petition signatures");
+    expect(keeping).toContain("Tue, Thu, 2 p.m. to 4 p.m.");
+  });
+
   it(
     "offers standing hours to a candidate and shows the hours in force",
     () => {
