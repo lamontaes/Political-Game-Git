@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 import {
   COUNTY_BUDGET_HEARING_TRANSITION,
   ensureCountyBudgetHearings,
@@ -31,6 +31,7 @@ import {
 } from "../../src/presentation/opening-life";
 import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
 import { cancelFutureDueItem } from "../../src/simulation/future-transitions";
+import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import { resolveDueThrough } from "../fixtures/due-item-clock";
 
 /**
@@ -51,17 +52,21 @@ import { resolveDueThrough } from "../fixtures/due-item-clock";
 const COUNTY_CLOCK = /^(county:|civic:)|tax|property/;
 
 function isolateCountyClock(world: World): World {
-  let next = world;
-  for (const item of world.history.futureDueItems)
-    if (!COUNTY_CLOCK.test(item.transitionKey))
-      next = cancelFutureDueItem(next, {
-        stableKey: `${item.stableKey}:set-aside-by-test`,
-        dueItemId: item.id,
-        effectiveAt: world.currentDate,
-        reasonKey: "test:county-clock-only",
-        context: "The county budget test runs only the county's own calendar.",
-      });
-  return next;
+  // Many writers in one go: the whole-world check runs once, at the end.
+  return withWorldIntegrityDeferred(() => {
+    let next = world;
+    for (const item of world.history.futureDueItems)
+      if (!COUNTY_CLOCK.test(item.transitionKey))
+        next = cancelFutureDueItem(next, {
+          stableKey: `${item.stableKey}:set-aside-by-test`,
+          dueItemId: item.id,
+          effectiveAt: world.currentDate,
+          reasonKey: "test:county-clock-only",
+          context:
+            "The county budget test runs only the county's own calendar.",
+        });
+    return next;
+  });
 }
 
 function advanceTo(world: World, date: IsoDate): World {
@@ -73,7 +78,18 @@ function advanceTo(world: World, date: IsoDate): World {
  * that serves it. A player starts in a town, so the county's households are
  * the town's homes.
  */
+const opened = new Map<string, ReturnType<typeof openCountyFresh>>();
+afterAll(() => opened.clear());
+
 function openCounty(seed: string) {
+  const known = opened.get(seed);
+  if (known) return known;
+  const value = openCountyFresh(seed);
+  opened.set(seed, value);
+  return value;
+}
+
+function openCountyFresh(seed: string) {
   const place = observerPlace(seed);
   const game = generateOpeningLife(
     prepareOpeningLife({
@@ -94,7 +110,16 @@ describe.each(["co5-budget-hearing-a", "co5-budget-hearing-b"])(
   "a county budget hearing in a randomly drawn county (seed %s)",
   (seed) => {
     it("is on the calendar on its recorded day, is voted by the board, and lands on named households", () => {
+      const clock = { last: Date.now() };
+      const lap = (phase: string) => {
+        const now = Date.now();
+        process.stderr.write(
+          `TIMING ${seed} ${phase}: ${now - clock.last} ms\n`,
+        );
+        clock.last = now;
+      };
       const { county, place, world: opened } = openCounty(seed);
+      lap("open the world");
       const geoid = county.countyGeoid!;
       const books = opened.publicBudgets!.governments.find(
         (row) => row.key === `county:${geoid}`,
@@ -141,6 +166,7 @@ describe.each(["co5-budget-hearing-a", "co5-budget-hearing-b"])(
         ),
       ).toBe(true);
 
+      lap("to the hearing day");
       // Case 2: the board votes at its reading, from its members' own reasons.
       world = advanceTo(world, hearing.startsOn);
       const decided = countyBudgetHearings(world).find(
@@ -184,6 +210,7 @@ describe.each(["co5-budget-hearing-a", "co5-budget-hearing-b"])(
         return;
       }
 
+      lap("to the reading and the board's decision");
       // Case 3: the levy lands on named households' tax records.
       expect(decided.adoptedPropertyTaxLevy).toBe(
         hearing.proposal.propertyTaxLevy,
@@ -216,7 +243,7 @@ describe.each(["co5-budget-hearing-a", "co5-budget-hearing-b"])(
       {
         const identity = proposal.publicGovernmentIdentity as {
           governmentKey: string;
-          jurisdictionId: string;
+          jurisdictionId: EntityId;
         };
         const tenures = activeHousingTenuresAt(assessed);
         const dwellings = new Map(
@@ -255,6 +282,7 @@ describe.each(["co5-budget-hearing-a", "co5-budget-hearing-b"])(
         `HOUSEHOLD ${personName(assessed.people[payerId]!)} base ${sample.amount.minorUnits} tax ${assessment.taxAmount.minorUnits} (policy effective ${policy.effectiveAt})\n`,
       );
 
+      lap("to the assessment day");
       // Case 4: the year's adopted budget expects exactly the levy the board
       // adopted, and the books carry it through a save and reload.
       const lastMonth = addDaysIso(decided.startsOn, -1).slice(0, 7) + "-01";
@@ -271,17 +299,19 @@ describe.each(["co5-budget-hearing-a", "co5-budget-hearing-b"])(
       expect(
         adoptedCountyLevy(settled, `county:${geoid}`, decided.fiscalYear),
       ).not.toBeNull();
+      lap("settle the budgets");
       const reloaded = deserializeWorld(serializeWorld(assessed));
       expect(countyBudgetHearings(reloaded)).toEqual(
         countyBudgetHearings(assessed),
       );
+      lap("save and reload");
     }, 1_800_000);
   },
 );
 
 describe("a county with no seated board", () => {
   it("holds no hearing", () => {
-    const { world } = openCounty("co5-budget-hearing-quiet");
+    const { world } = openCounty("co5-budget-hearing-a");
     const seated = new Set(
       world.publicBudgets!.governments.flatMap((row) => {
         if (row.level !== "county") return [];
