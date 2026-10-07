@@ -2,9 +2,12 @@ import { futureDueItemStateAt } from "../future-transitions";
 import { recordByStableKey } from "../history-index";
 import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 import { addDays, ageOnDate, daysBetween } from "../dates";
-import { currentGovernorOf } from "../crisis/offices";
+import { currentGovernorOf, publicOfficesHeldBy } from "../crisis/offices";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { activeWorkRelationshipsAt } from "../life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  activeWorkRelationshipsAt,
+} from "../life-queries";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import { homeJurisdictionResidenceSince } from "../nationwide-world/residence-duration";
 import {
@@ -558,6 +561,7 @@ export function reviewTownCivicActions(
             candidate !== personId,
         ) ?? null;
       const belief = issueBeliefs.get(personId);
+      const contactStableKey = `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:contacted:${personId}`;
       if (
         officialId &&
         officialId !== personId &&
@@ -565,7 +569,7 @@ export function reviewTownCivicActions(
         (belief.position === "support" || belief.position === "oppose")
       ) {
         next = recordCivicMessage(next, {
-          stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:contacted:${personId}`,
+          stableKey: contactStableKey,
           jurisdictionId: town,
           senderId: personId,
           officialId,
@@ -575,6 +579,13 @@ export function reviewTownCivicActions(
           // select any of the three channels through this same writer.
           channel: "letter",
         });
+        next = recordOfficeCaseOpened(
+          next,
+          contactStableKey,
+          personId,
+          officialId,
+          stake.reason,
+        );
       } else {
         // Preserve the existing contact count when no saved issue view can
         // support a truthful topic and position. This event is not read as
@@ -597,6 +608,61 @@ export function reviewTownCivicActions(
       next = record(next, town, reviewKey, "attended", personId, null, meeting);
   }
   return next;
+}
+
+/** Open one case linked to the resident's saved contact and its reason. */
+function recordOfficeCaseOpened(
+  world: World,
+  contactStableKey: string,
+  residentId: EntityId,
+  officialId: EntityId | null,
+  reason: CivicStake["reason"],
+): World {
+  if (!officialId || !holdsOffice(world, officialId)) return world;
+  const contact = recordByStableKey(world.history.events, contactStableKey);
+  if (!contact || contact.type !== CIVIC_ACTION_EVENTS.contacted) return world;
+  const stableKey = `office-case-opened:${contact.id}`;
+  if (recordByStableKey(world.history.events, stableKey)) return world;
+  return recordWorldEvent(world, {
+    stableKey,
+    type: OFFICE_CASE_OPENED_EVENT,
+    occurredAt: contact.occurredAt,
+    recordedAt: world.currentDate,
+    jurisdictionId: contact.jurisdictionId,
+    involvedEntityIds: [residentId, officialId],
+    participants: [
+      { personId: residentId, role: "focus:subject", detail: null },
+      { personId: officialId, role: "focus:object", detail: null },
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: [
+      "office.case",
+      `contact:${contact.id}`,
+      `reason:${reason.kind}`,
+      ...reason.sourceRecordIds.map((id) => `source-record:${id}`),
+    ],
+    summary: contact.summary,
+    context: contact.context,
+  });
+}
+
+/** Recognize current public, state or municipal offices from their records. */
+function holdsOffice(world: World, personId: EntityId): boolean {
+  if (publicOfficesHeldBy(world, personId).length > 0) return true;
+  if (
+    activeWorkRelationshipsAt(world, personId).some(
+      ({ relationship }) =>
+        relationship.kind === "employment:executive-office" ||
+        relationship.kind === "employment:legislative-member",
+    )
+  )
+    return true;
+  return activeOrganizationParticipationsAt(world, personId).some(
+    ({ participation, state }) =>
+      participation.kind === "leadership:municipal-office" &&
+      state.roleKind !== null,
+  );
 }
 
 interface QuarterMeeting {
