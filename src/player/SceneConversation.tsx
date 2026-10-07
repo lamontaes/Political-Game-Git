@@ -46,6 +46,8 @@ export function SceneConversation({
   const [lying, setLying] = useState(false);
   const [history, setHistory] = useState<number | null>(null);
   const [failure, setFailure] = useState<string | null>(null);
+  /** Ordinary-talk choices the writer refused; hidden, never explained. */
+  const [dropped, setDropped] = useState<readonly string[]>([]);
   const scene = useMemo(
     () =>
       addressee === "everyone"
@@ -91,14 +93,9 @@ export function SceneConversation({
           revision: life.revision,
         });
         onWorldChange(next);
-        setFailure(null);
         if (intent === FAREWELL_INTENT) onBack();
-      } catch (error) {
-        setFailure(
-          error instanceof Error
-            ? error.message
-            : "This conversation choice is no longer available.",
-        );
+      } catch {
+        setDropped((rows) => [...rows, intent]);
       }
     };
     return (
@@ -106,6 +103,9 @@ export function SceneConversation({
         className="pg-talk"
         aria-label="Scene conversation"
         data-testid="scene-conversation"
+        data-dropped-choices={dropped
+          .map((key) => `life-talk:choice-unavailable:${key}`)
+          .join(" ")}
       >
         <div className="pg-talk-head">
           <div className="pg-talk-faces">
@@ -123,19 +123,20 @@ export function SceneConversation({
           </div>
         ) : null}
         <div className="pg-talk-choices">
-          {life.intents.map((option) => (
-            <button
-              key={option.key}
-              type="button"
-              className="pg-talk-choice"
-              data-testid="life-talk-choice"
-              onClick={() => speak(option.key as LifeTalkIntent)}
-            >
-              {option.label}
-            </button>
-          ))}
+          {life.intents
+            .filter((option) => !dropped.includes(option.key))
+            .map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className="pg-talk-choice"
+                data-testid="life-talk-choice"
+                onClick={() => speak(option.key as LifeTalkIntent)}
+              >
+                {option.label}
+              </button>
+            ))}
         </div>
-        {failure ? <p role="status">{failure}</p> : null}
         <div className="pg-talk-controls">
           <button type="button" onClick={onBack}>
             Return to the room
