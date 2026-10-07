@@ -1686,7 +1686,7 @@ export function PersonalFinancesWorkspace({
       >
         <h3>The place you live</h3>
         <p className="game-note">
-          {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
+          {economicPlace?.displayName ?? "Home jurisdiction on this life"} ·{" "}
           {proseDate(world.currentDate)}
         </p>
         {/*
@@ -1831,7 +1831,7 @@ export function PatchNotesWorkspace() {
               ? `Version ${section.version}`
               : "Version not stated"}
             {" · "}
-            {section.releasedOn ?? "Release date not recorded"}
+            {section.releasedOn ?? "This note does not include a release date"}
           </p>
           {section.paragraphs.map((paragraph, index) => (
             <p key={`${section.id}-${index}`}>{paragraph}</p>
@@ -1875,7 +1875,6 @@ export function OptionsWorkspace({
       </section>
       <section className="pg-personal-section">
         <h3>People</h3>
-        <p className="game-note">How the People screen opens.</p>
         <div role="group" aria-label="People default view">
           {(
             [
@@ -1900,7 +1899,6 @@ export function OptionsWorkspace({
 
       <section className="pg-personal-section">
         <h3>Pins</h3>
-        <p className="game-note">The size a new pin is created at.</p>
         <div role="group" aria-label="Default pin size">
           {(
             [
@@ -1921,14 +1919,6 @@ export function OptionsWorkspace({
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="pg-personal-section">
-        <h3>Motion</h3>
-        <p className="game-note">
-          Motion follows your system&rsquo;s reduced-motion setting, so nothing
-          here has to be switched on to make it stop.
-        </p>
       </section>
 
       {onOpenPatchNotes ? (

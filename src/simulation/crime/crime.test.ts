@@ -2,6 +2,11 @@
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordHouseholdLocation,
+} from "../life";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stableHash } from "../ids";
 import {
@@ -38,11 +43,12 @@ import {
   crimeIncidents,
   localCrimeFigures,
   sampleMonthlyCrime,
-  UNRESEARCHED_LOCAL_CRIME,
+  LOCAL_CRIME_RATES,
 } from "./index";
 import { arrestReferral, ensureCrimeProduction, offenseOf } from "./producer";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
 import { referForProsecution } from "../justice/prosecution";
+import type { EntityId, World } from "../types";
 
 const LONG = 900_000;
 
@@ -73,8 +79,18 @@ function openCrimeSmallWorld(seed: string) {
     household: true,
     seed,
   });
+  const admitted = recordHouseholdLocation(small.world, {
+    stableKey: "crime-small-world:location",
+    householdId: small.world.history.households.at(-1)!.id,
+    effectiveAt: small.world.currentDate,
+    jurisdictionId: small.jurisdictionId,
+    kind: "residence:home",
+    label: "Recorded fixture home",
+    provenance: { kind: "authored", note: "Crime fixture household location" },
+    supersedesLocationId: null,
+  });
   const world = ensureCrimeProduction(
-    ensureWorldStartingConditions(small.world, {
+    ensureWorldStartingConditions(admitted, {
       openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
       political: generatePoliticalStartingConditions,
     }),
@@ -90,16 +106,66 @@ function openCrimeSmallWorld(seed: string) {
   return { world, playerPersonId: small.personId, stateUsps: place.usps };
 }
 
+/**
+ * A recorded prosecutor for the town, through the same writers a hired one is
+ * recorded with. A small world opens no prosecutor's office, and a referral
+ * waits for somebody to decide on it, so a referral that goes on to a charge
+ * needs one (the county's own prosecutor is seated by the full opening).
+ */
+function withRecordedProsecutor(world: World, playerPersonId: EntityId) {
+  const town = world.people[playerPersonId]!.homeJurisdictionId;
+  const person = Object.values(world.people)
+    .filter((candidate) => candidate.id !== playerPersonId)
+    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+  const provenance = {
+    kind: "authored" as const,
+    note: "Recorded prosecutor fixture for a small world that opens no prosecutor's office.",
+  };
+  let next = createOrganization(world, {
+    stableKey: "crime-test:prosecutor-office",
+    formedAt: world.currentDate,
+    provenance,
+    initialProfile: {
+      name: "Recorded prosecution office",
+      classification: "sector:government",
+      locationJurisdictionId: town,
+    },
+  });
+  const organizationId = next.history.organizations.at(-1)!.id;
+  next = createWorkRelationship(next, {
+    stableKey: "crime-test:prosecutor-appointment",
+    personId: person.id,
+    organizationId,
+    startedAt: world.currentDate,
+    kind: "employment:executive-office",
+    compensation: "unpaid",
+    authority: "self-directed",
+    dependency: "independent",
+    economicRisk: "organization-borne",
+    provenance,
+    initialRole: {
+      title: "Prosecutor",
+      occupationClassification: "profession:prosecutor",
+      locationJurisdictionId: town,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 0, maximumHours: 0 },
+        attention: "moderate",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: town,
+      },
+    },
+  });
+  return next;
+}
+
 describe("ordinary local crime", () => {
   it("every rate is marked as an unresearched placeholder", () => {
-    expect(UNRESEARCHED_LOCAL_CRIME.provenance).toBe(
-      "unresearched-blanket-rule",
-    );
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
-      for (const share of [rule.reportedShare, rule.arrestShare]) {
-        expect(share).toBeGreaterThan(0);
-        expect(share).toBeLessThan(1);
-      }
+    expect(LOCAL_CRIME_RATES.provenance).toBe("estimated-from-average");
+    for (const rule of LOCAL_CRIME_RATES.offenses) {
+      expect(rule.reportedRate).toBeGreaterThan(0);
+      expect(rule.reportedRate).toBeLessThan(rule.annualRate);
     }
   });
 
@@ -176,7 +242,10 @@ describe("ordinary local crime", () => {
       }
       // Nobody reported it, so only the victims know, and their Journal says
       // what happened to them rather than a crime they could not have heard of.
-      expect(unreported.length).toBeGreaterThan(0);
+      // Whether a named victim reports is their own weighing (`./reporting`,
+      // proven in reporting.test.ts), so a year in one small town may hold no
+      // offense that stays quiet; none is asked of it. Each one that does is
+      // read below. Every named offense is either reported or unreported.
       for (const event of unreported) {
         expect(event.visibility).toBe("private");
         expect(event.summary).not.toContain("went unreported");
@@ -445,7 +514,7 @@ describe("ordinary local crime", () => {
     () => {
       const life = openCrimeSmallWorld("probe");
       const world = advanceWorld(
-        life.world,
+        withRecordedProsecutor(life.world, life.playerPersonId),
         400,
         createCampaignElectionTransitionRegistry(),
       );

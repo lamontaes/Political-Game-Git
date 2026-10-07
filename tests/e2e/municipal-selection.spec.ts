@@ -55,8 +55,8 @@ test("pinned government A, dropdown B, and external pin C all control inspection
   await expect(workspace.getByTestId("municipal-current-name")).toContainText(
     "Carson City",
   );
-  await expect(workspace.getByTestId("municipal-standing")).toContainText(
-    "Library inspection",
+  await expect(workspace.getByTestId("municipal-standing")).toHaveText(
+    /Viewing/,
   );
 
   await page.getByTestId("municipal-workspace-close").click();

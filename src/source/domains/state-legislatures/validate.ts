@@ -186,7 +186,7 @@ export function validateStateLegislatureCorpus(
           findings.push({
             severity: "error",
             code: "state-legislatures/known-without-provenance",
-            message: `${id} chamber "${chamber.chamberKey}" states a KNOWN fact citing nothing. Only UNKNOWN may carry no evidence.`,
+            message: `${id} chamber "${chamber.chamberKey}" states a recorded fact citing nothing. Only an unresolved fact may carry no evidence.`,
             recordId: id,
           });
         }
