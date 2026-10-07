@@ -7,7 +7,6 @@ import {
   readRelationshipStanding,
 } from "../simulation/relationship-standing";
 import { proseDate } from "./prose-dates";
-import { personWords } from "./english-grammar";
 import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
@@ -16,7 +15,6 @@ import {
   explicitPerceptionHistory,
   factsForPerson,
   householdMembershipsAt,
-  kinshipRelationshipsAt,
   measureById,
   peopleInHouseholdAt,
   personName,
@@ -251,36 +249,6 @@ function buildDetails(
   personId: EntityId,
 ): readonly DossierFact[] {
   const details: DossierFact[] = [];
-
-  const playerHouseholdId = householdIdFor(world, playerId);
-  const sharedHousehold =
-    personId !== playerId &&
-    playerHouseholdId !== null &&
-    peopleInHouseholdAt(world, playerHouseholdId).includes(personId);
-  if (sharedHousehold) {
-    details.push({
-      key: "household",
-      text: "You live in the same household.",
-      attribution: "known",
-    });
-  }
-
-  const kin = kinshipRelationshipsAt(world, playerId).find((record) =>
-    record.personIds.includes(personId),
-  );
-  if (kin) {
-    const context = describePersonContext(world, playerId, personId);
-    if (context?.relationship) {
-      details.push({
-        key: `kin-${kin.id}`,
-        text: (() => {
-          const words = personWords(world.people[personId]);
-          return `${words.They} ${words.are} ${context.relationship}.`;
-        })(),
-        attribution: "known",
-      });
-    }
-  }
 
   const subject = world.people[personId];
   const knownEvents = new Map(

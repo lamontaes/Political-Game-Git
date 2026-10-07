@@ -1,21 +1,30 @@
 import { expect, test } from "./fixtures";
 
 import { drawRandomPlace } from "../support/random-place";
-import { enterLife, goTo, startLife } from "./support/creator";
+import { goTo, startLife } from "./support/creator";
 
 test.describe.configure({ timeout: 120_000 });
 
 test("People places the directory beside the selected record", async ({
   page,
 }) => {
+  test.setTimeout(300_000);
   const place = drawRandomPlace("session36-mr5-people-layout");
   const [town, state] = place.displayName.split(", ");
   if (!town || !state)
     throw new Error(`Unexpected place: ${place.displayName}`);
 
   await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
   await startLife(page, { age: 34, place: town, state });
-  await enterLife(page);
+  await expect(page.getByTestId("world-orientation")).toBeVisible({
+    timeout: 60_000,
+  });
+  const orientationSkip = page.getByTestId("orientation-skip");
+  await orientationSkip.click();
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 60_000,
+  });
   await goTo(page, "elsewhere-people");
 
   const layout = page.getByTestId("people-layout");
@@ -24,18 +33,29 @@ test("People places the directory beside the selected record", async ({
   await expect(layout).toBeVisible();
   await expect(list).toBeVisible();
   await expect(dossier).toBeVisible();
+  await expect(dossier).not.toContainText("You live in the same household.");
+  const dossierParagraphs = await dossier.locator("p").allTextContents();
+  expect(
+    dossierParagraphs.some((text) =>
+      /^(?:They are|He is|She is) your /.test(text),
+    ),
+  ).toBe(false);
 
   const first = list.locator('[data-testid^="people-person-"]').first();
   const personId = ((await first.getAttribute("data-testid")) ?? "").replace(
     "people-person-",
     "",
   );
-  const name = await first.locator("strong").textContent();
+  const name = await first.locator("strong").first().textContent();
   expect(personId).not.toBe("");
   expect(name).not.toBeNull();
   await first.click();
   await expect(dossier).toHaveAttribute("data-person-id", personId);
   await expect(dossier.getByRole("heading", { level: 2 })).toHaveText(name!);
+  await page.screenshot({
+    path: test.info().outputPath("people-split-directory.png"),
+    fullPage: true,
+  });
 
   await page.getByText("Search", { exact: true }).click();
   await page.getByTestId("people-search").fill(name!);
