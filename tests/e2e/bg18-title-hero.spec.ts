@@ -50,10 +50,11 @@ test(`BG-18 puts the recent character in the civic title scene from ${place.disp
   if ((await cluster.getAttribute("aria-expanded")) !== "true")
     await cluster.click();
   await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("save-world")).toBeVisible();
+  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
   if ((await cluster.getAttribute("aria-expanded")) !== "true")
     await cluster.click();
   await page.getByTestId("leave-game").click();
+  await expect(page.getByTestId("leave-confirm")).toBeVisible();
   await page.getByTestId("leave-without-saving").click();
   await expect(page.getByTestId("title-screen")).toBeVisible({
     timeout: 60_000,
