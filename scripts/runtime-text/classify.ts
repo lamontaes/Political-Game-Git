@@ -53,6 +53,8 @@ export interface ClassifiedText {
   readonly origin: TextOrigin;
   readonly file: string | null;
   readonly line: number | null;
+  /** `file|what the line holds`: names the source text without its line number, so edits elsewhere in the file do not move it. */
+  readonly source: string | null;
   readonly bank: string | null;
   readonly alsoRecordValue: boolean;
   readonly recordShare: number;
@@ -115,6 +117,7 @@ export function classifyTexts(input: {
     let origin: TextOrigin = "unresolved";
     let file: string | null = null;
     let line: number | null = null;
+    let source: string | null = null;
     let bank: string | null = null;
     let candidates = 0;
 
@@ -139,11 +142,13 @@ export function classifyTexts(input: {
         origin = hits[0]!.via === "literal" ? "literal" : "literal-template";
         file = hits[0]!.file;
         line = hits[0]!.line;
+        source = `${hits[0]!.file}|${hits[0]!.id}`;
       } else if (resolveJoined(input.index, text)) {
         const joined = resolveJoined(input.index, text)!;
         origin = "literal-joined";
         file = joined.file;
         line = joined.line;
+        source = `${joined.file}|${joined.id}`;
       } else if (FORMATTED.some((pattern) => pattern.test(text)))
         origin = "formatted";
       else if (share >= 0.9) origin = "record";
@@ -153,6 +158,7 @@ export function classifyTexts(input: {
       origin,
       file,
       line,
+      source,
       bank,
       alsoRecordValue:
         (origin === "literal" ||

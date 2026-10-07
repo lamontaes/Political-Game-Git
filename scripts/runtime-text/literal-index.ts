@@ -192,7 +192,13 @@ export function buildLiteralIndex(root = "src"): LiteralIndex {
 export function resolveLiteral(
   index: LiteralIndex,
   text: string,
-): readonly { file: string; line: number; via: "literal" | "template" }[] {
+): readonly {
+  file: string;
+  line: number;
+  via: "literal" | "template";
+  /** What the line holds, stable when other lines move: the literal itself, or a template's fixed pieces. */
+  id: string;
+}[] {
   const normalized = normalizeText(text);
   const direct = index.exact.get(normalized);
   if (direct)
@@ -200,8 +206,14 @@ export function resolveLiteral(
       file: entry.file,
       line: entry.line,
       via: "literal" as const,
+      id: entry.text,
     }));
-  const hits: { file: string; line: number; via: "template" }[] = [];
+  const hits: {
+    file: string;
+    line: number;
+    via: "template";
+    id: string;
+  }[] = [];
   for (const template of index.templates) {
     let from = 0;
     let fits = true;
@@ -218,7 +230,12 @@ export function resolveLiteral(
     const fixed = template.fragments.join("").length;
     const opens = normalized.startsWith(template.fragments[0]!);
     if (fits && (fixed >= 8 || (fixed >= 3 && opens)))
-      hits.push({ file: template.file, line: template.line, via: "template" });
+      hits.push({
+        file: template.file,
+        line: template.line,
+        via: "template",
+        id: template.fragments.join("~"),
+      });
   }
   return hits;
 }
@@ -233,14 +250,21 @@ const JOINERS = [", ", " · ", " — ", " - "];
 export function resolveJoined(
   index: LiteralIndex,
   text: string,
-): { file: string; line: number } | null {
+): { file: string; line: number; id: string } | null {
   const normalized = normalizeText(text);
-  const ends = new Map<number, { file: string; line: number } | null>();
+  const ends = new Map<
+    number,
+    { file: string; line: number; id: string } | null
+  >();
   const search = (start: number, pieces: number): boolean => {
     const whole = index.exact.get(normalized.slice(start));
     if (whole && pieces >= 1) {
       if (!ends.has(0))
-        ends.set(0, { file: whole[0]!.file, line: whole[0]!.line });
+        ends.set(0, {
+          file: whole[0]!.file,
+          line: whole[0]!.line,
+          id: whole[0]!.text,
+        });
       return true;
     }
     for (const joiner of JOINERS) {
@@ -249,7 +273,11 @@ export function resolveJoined(
         const head = index.exact.get(normalized.slice(start, at));
         if (head && search(at + joiner.length, pieces + 1)) {
           if (!ends.has(0) || start === 0)
-            ends.set(0, { file: head[0]!.file, line: head[0]!.line });
+            ends.set(0, {
+              file: head[0]!.file,
+              line: head[0]!.line,
+              id: head[0]!.text,
+            });
           return true;
         }
         at = normalized.indexOf(joiner, at + 1);

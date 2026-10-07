@@ -16,7 +16,7 @@ function row(
   origin: ClassifiedText["origin"],
   text: string,
   cause: string | null = null,
-  where: { file: string; line: number } | null = null,
+  where: { file: string; line: number; id: string } | null = null,
   bank: string | null = null,
 ): ClassifiedText {
   return {
@@ -24,6 +24,7 @@ function row(
     origin,
     file: where?.file ?? null,
     line: where?.line ?? null,
+    source: where ? `${where.file}|${where.id}` : null,
     bank,
     alsoRecordValue: false,
     recordShare: 0,
@@ -69,12 +70,12 @@ describe("causes for untraced strings", () => {
 });
 
 describe("the golden-path guard", () => {
-  const nav = { file: "src/player/Nav.tsx", line: 10 };
-  const pin = { file: "src/player/People.tsx", line: 44 };
+  const nav = { file: "src/player/Nav.tsx", line: 10, id: "Calendar" };
+  const pin = { file: "src/player/People.tsx", line: 44, id: "Pin" };
   const baseline = {
     place: "a place",
     seed: "s",
-    fixedLocations: ["src/player/Nav.tsx:10", "src/player/People.tsx:44"],
+    fixedSources: ["src/player/Nav.tsx|Calendar", "src/player/People.tsx|Pin"],
     engineBanks: ["opening:core"],
     unexplained: ["CAB"],
   };
@@ -90,6 +91,16 @@ describe("the golden-path guard", () => {
     expect(evaluateGuard(same, baseline).failures).toEqual([]);
   });
 
+  it("passes when a line moves because of an edit elsewhere in the file", () => {
+    const moved = [
+      row("literal", "Calendar", null, { ...nav, line: 99 }),
+      same[1]!,
+      same[2]!,
+      same[3]!,
+    ];
+    expect(evaluateGuard(moved, baseline).failures).toEqual([]);
+  });
+
   it("passes when a line stops printing or prints more strings", () => {
     const fewer = [row("literal", "Calendar", null, nav), same[2]!, same[3]!];
     const more = [...same, row("literal", "Calendars", null, nav)];
@@ -103,10 +114,11 @@ describe("the golden-path guard", () => {
       row("literal-joined", "Jobs, and study", null, {
         file: "src/player/Jobs.tsx",
         line: 7,
+        id: "Jobs",
       }),
     ];
     const { failures } = evaluateGuard(added, baseline);
-    expect(failures[0]).toMatch(/src\/player\/Jobs\.tsx:7/);
+    expect(failures[0]).toMatch(/src\/player\/Jobs\.tsx\|Jobs/);
   });
 
   it("fails when an engine bank goes silent", () => {
@@ -131,7 +143,10 @@ describe("the golden-path guard", () => {
       row("engine", "x", null, null, "other:core"),
     ]);
     expect(union([a, b])).toEqual({
-      fixedLocations: ["src/player/Nav.tsx:10", "src/player/People.tsx:44"],
+      fixedSources: [
+        "src/player/Nav.tsx|Calendar",
+        "src/player/People.tsx|Pin",
+      ],
       engineBanks: ["other:core"],
       unexplained: [],
     });

@@ -8,9 +8,10 @@ import { UNEXPLAINED } from "./causes";
  * recorded baseline. Three things must hold:
  *
  * - No new fixed text. Each string that equals a literal in the source (or a
- *   template, or joined literals) is keyed by the source line that holds it. A
- *   line that prints fixed text on the path and is not in the baseline fails the
- *   guard. Lines may disappear; they may not appear.
+ *   template, or joined literals) is keyed by its file and the literal's own
+ *   text, not its line number, so an edit elsewhere in a file moves nothing.
+ *   Fixed text on the path that is not in the baseline fails the guard. Text
+ *   may disappear; it may not appear.
  * - Every untraced string has a cause. A string no rule in `causes.ts`
  *   explains must already be in the baseline's `unexplained` list.
  * - The English engine keeps its banks. A bank that wrote text in the baseline
@@ -18,13 +19,13 @@ import { UNEXPLAINED } from "./causes";
  *
  * A run is not identical every time (the same life shows a few more or fewer
  * strings from run to run), so the baseline is the union of several runs and
- * the guard compares lines, not counts.
+ * the guard compares sources, not counts.
  */
 export interface GuardBaseline {
   readonly place: string;
   readonly seed: string;
-  /** `file:line` of every source line that printed fixed text on the path. */
-  readonly fixedLocations: readonly string[];
+  /** `file|text` of every piece of source text that printed fixed text on the path. */
+  readonly fixedSources: readonly string[];
   readonly engineBanks: readonly string[];
   /** Untraced strings no cause rule explains yet, each to be explained. */
   readonly unexplained: readonly string[];
@@ -40,10 +41,10 @@ const unique = (values: readonly string[]) => [...new Set(values)].sort();
 
 export function measure(rows: readonly ClassifiedText[]) {
   return {
-    fixedLocations: unique(
+    fixedSources: unique(
       rows
-        .filter((row) => FIXED_ORIGINS.has(row.origin) && row.file !== null)
-        .map((row) => `${row.file}:${row.line}`),
+        .filter((row) => FIXED_ORIGINS.has(row.origin) && row.source !== null)
+        .map((row) => row.source!),
     ),
     engineBanks: unique(
       rows
@@ -63,7 +64,7 @@ export function measure(rows: readonly ClassifiedText[]) {
 /** Several runs of one life as one measure: every line and bank seen in any. */
 export function union(measures: readonly ReturnType<typeof measure>[]) {
   return {
-    fixedLocations: unique(measures.flatMap((m) => m.fixedLocations)),
+    fixedSources: unique(measures.flatMap((m) => m.fixedSources)),
     engineBanks: unique(measures.flatMap((m) => m.engineBanks)),
     unexplained: unique(measures.flatMap((m) => m.unexplained)),
   };
@@ -75,11 +76,16 @@ export function evaluateGuard(
 ): { failures: string[]; now: ReturnType<typeof measure> } {
   const now = measure(rows);
   const failures: string[] = [];
-  const knownLines = new Set(baseline.fixedLocations);
-  const newLines = now.fixedLocations.filter((line) => !knownLines.has(line));
-  if (newLines.length > 0)
+  const knownSources = new Set(baseline.fixedSources);
+  const newSources = now.fixedSources.filter((line) => !knownSources.has(line));
+  if (newSources.length > 0)
     failures.push(
-      `${newLines.length} source line(s) print fixed text on the golden path that the baseline does not hold: ${newLines.slice(0, 8).join(", ")}. Compose the text from the record, or read it and record a new baseline.`,
+      `${newSources.length} piece(s) of fixed text reach the player on the golden path that the baseline does not hold: ${newSources
+        .slice(0, 5)
+        .map((source) => JSON.stringify(source))
+        .join(
+          ", ",
+        )}. Compose the text from the record, or read it and record a new baseline.`,
     );
   const banks = new Set(now.engineBanks);
   const silent = baseline.engineBanks.filter((bank) => !banks.has(bank));

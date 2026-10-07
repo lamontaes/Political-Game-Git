@@ -339,6 +339,7 @@ test.afterAll(() => {
           bank: row.bank,
           alsoRecordValue: row.alsoRecordValue,
           recordShare: row.recordShare,
+          source: row.source,
           literalCandidates: row.candidates,
           testid: row.testid,
           cause: row.cause,
@@ -355,7 +356,7 @@ test.afterAll(() => {
     ) as GuardBaseline;
     const { failures, now } = evaluateGuard(rows, baseline);
     console.log(
-      `runtime-text guard: ${JSON.stringify({ lines: now.fixedLocations.length, banks: now.engineBanks.length, unexplained: now.unexplained.length })}`,
+      `runtime-text guard: ${JSON.stringify({ fixedText: now.fixedSources.length, banks: now.engineBanks.length, unexplained: now.unexplained.length })}`,
     );
     if (failures.length > 0) throw new Error(failures.join("\n"));
   }
