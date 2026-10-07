@@ -55,6 +55,48 @@ describe("people anchors on every place picture", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
 
+  it("anchors visible church supper hall table chairs", () => {
+    const spots = STAGES["church-supper-hall"]!.spots;
+    const seats = spots.filter((spot) => spot.pose === "sit");
+    const added = seats.filter((spot) => spot.group?.startsWith("supper-"));
+    expect(seats).toHaveLength(36);
+    expect(added).toHaveLength(34);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(36);
+    expect(added.filter((spot) => spot.facing === "away")).toHaveLength(8);
+    expect(
+      added.filter((spot) => spot.group === "supper-back-left"),
+    ).toHaveLength(5);
+    expect(
+      added.filter((spot) => spot.group === "supper-back-right"),
+    ).toHaveLength(5);
+    expect(
+      added.filter((spot) => spot.group === "supper-middle-left"),
+    ).toHaveLength(6);
+    expect(
+      added.filter((spot) => spot.group === "supper-middle-right"),
+    ).toHaveLength(6);
+    expect(
+      added.filter((spot) => spot.group === "supper-front-left"),
+    ).toHaveLength(6);
+    expect(
+      added.filter((spot) => spot.group === "supper-front-right"),
+    ).toHaveLength(6);
+  });
+
+  it("anchors union hall pews along both sides of the aisle", () => {
+    const spots = STAGES["union-hall"]!.spots;
+    const seats = spots.filter((spot) => spot.pose === "sit");
+    const pews = seats.filter((spot) => spot.role === "audience");
+    expect(seats).toHaveLength(17);
+    expect(pews).toHaveLength(14);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(17);
+    expect(pews.filter((spot) => spot.facing === "away")).toHaveLength(14);
+    for (let row = 1; row <= 7; row += 1)
+      expect(
+        pews.filter((spot) => spot.group === `pew-row-${row}`),
+      ).toHaveLength(2);
+  });
+
   it.each(PLACES)(
     "%s: every spot is on a floor inside the picture",
     (place) => {
