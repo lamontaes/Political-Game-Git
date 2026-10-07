@@ -11,6 +11,7 @@ import {
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import { calendarEntryFor } from "./player-calendar";
+import { personName } from "../simulation";
 import { previewTimeCommand } from "./time-command";
 import {
   describeInterval,
@@ -123,13 +124,13 @@ describe("the selected calendar entry", () => {
       source: [other],
     });
     const entry = calendarEntryFor(invited.world, personId, invited.id)!;
-    expect(entry.arrangementNote).toMatch(/^.+ is in charge of it\.$/);
+    expect(entry.inCharge).toBe(personName(world.people[other]!));
     expect(entry.attendeeNames[0]).toBe("You");
     expect(entry.attendeeNames).toHaveLength(2);
 
     const unknown = booked(world, personId, { responsible: null, source: [] });
-    expect(
-      calendarEntryFor(unknown.world, personId, unknown.id)!.arrangementNote,
-    ).toBeNull();
+    const nobody = calendarEntryFor(unknown.world, personId, unknown.id)!;
+    expect(nobody.inCharge).toBeNull();
+    expect(nobody.cameThrough).toEqual([]);
   });
 });

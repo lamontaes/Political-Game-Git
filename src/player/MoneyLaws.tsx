@@ -46,11 +46,7 @@ export function MoneyLawsPanel({
       data-testid="money-laws"
     >
       <h3>What new laws did to money</h3>
-      {laws.empty ? (
-        <p className="game-note" data-testid="money-laws-none">
-          {laws.empty}
-        </p>
-      ) : null}
+      {laws.empty ? <p data-testid="money-laws-none" /> : null}
       {laws.yours.length > 0 ? (
         <>
           <h4>Yours</h4>

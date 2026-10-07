@@ -18,7 +18,7 @@ import type { DecisionDeclaration } from "./trait-packs";
  * under the corpus tool, which is the worst way for a cycle to behave.
  *
  * The keys are the same ones `evaluateDecision` is given in
- * `people-contact.ts`. Where a trait's meaning would depend on the situation,
+ * `relationship-contact.ts`. Where a trait's meaning would depend on the situation,
  * the situation belongs in a key here rather than in a lean; see
  * `docs/systems/traits.md`.
  */
