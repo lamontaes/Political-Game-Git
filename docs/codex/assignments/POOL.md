@@ -595,7 +595,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1172 | Add fifth Team 7 scene measurement review batch | PR #1172 (codex/sept29-team7-scenes-05) | done #3155 (superseded by C7; art preserved for later owner review) | Session 45 |
 | RS-1176 | Add sixth Team 7 scene preview geometry review batch | PR #1176 (codex/sept29-team7-scenes-06) | done #1176: closed as superseded by C7 engine rebuild; art preserved | |
 | RS-1178 | Add final Team 7 supplied scene preview review batch | PR #1178 (codex/sept29-team7-scenes-07) | done (superseded by C7; art preserved for later owner review) | S45 |
-| RS-1179 | Review existing capitol surfaces: AK through KS | PR #1179 (codex/sept29-team7-scenes-08) | ready #3187 | Session 45 |
+| RS-1179 | Review existing capitol surfaces: AK through KS | PR #1179 (codex/sept29-team7-scenes-08) | done (superseded by C7; art preserved for later owner review) | S45 |
 | RS-1180 | Review existing capitol surfaces: KY through OH | PR #1180 (codex/sept29-team7-scenes-09) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1181 | Review existing capitol surfaces: OK through WY | PR #1181 (codex/sept29-team7-scenes-10) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1187 | Trace Team 7 scene and newspaper why-chains | PR #1187 (codex/team7-bedrock-numbers) | open: draft: finish it or close it as superseded | |
