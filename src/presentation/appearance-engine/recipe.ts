@@ -167,6 +167,8 @@ export interface EngineRecipeOptions {
   readonly pose?: BodyPose;
   /** Turned toward something in the scene, rather than facing front. */
   readonly view?: BodyView;
+  /** The side of the scene the person faces after resolving available view art. */
+  readonly facing?: "left" | "right";
   /** The face they make (expression-chooser.ts); neutral when absent. */
   readonly expression?: FaceExpression;
   /**
@@ -274,6 +276,7 @@ export function engineRecipeFor(
       ? { pose: presentationPose(options.pose, presentation) }
       : {}),
     ...(options.view && options.view !== "front" ? { view: options.view } : {}),
+    ...(options.facing ? { facing: options.facing } : {}),
     ...(options.expression && options.expression !== "neutral"
       ? { expression: options.expression }
       : {}),
