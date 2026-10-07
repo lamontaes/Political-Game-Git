@@ -1217,7 +1217,7 @@ export function decideProceduralMotion(
     dispositions,
     provenance: {
       method: "member-decisions",
-      note: "Each seated member decided the procedural motion from their own bill view and recorded cues.",
+      note: "trace:procedural-motion-member-decisions",
       sourceEntityIds: [measure.id],
     },
   });
