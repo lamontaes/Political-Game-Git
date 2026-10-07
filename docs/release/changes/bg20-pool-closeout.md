@@ -2,7 +2,7 @@
 id: bg20-pool-closeout
 impact: patch
 section: Fixed
-title: Creator flow correction recorded
+title: The creator moves straight to the next step
 ---
 
-The creator flow correction from merged PR #2949 is now recorded in the assignment pool.
+The creator now moves straight from choosing a place to the next step.
