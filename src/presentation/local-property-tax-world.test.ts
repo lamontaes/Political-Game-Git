@@ -37,6 +37,9 @@ import {
 import { municipalSeats } from "../simulation/municipal-public-work";
 import { ensureHomeLocalGovernments } from "../simulation/nationwide-world/local-governments";
 import { LOCAL_PAYROLL_BASE_KEY } from "../simulation/payroll-tax-bases";
+import { refreshLifeOpportunities } from "../simulation/life-opportunities";
+import { estimatedHouseholdLivingCostsAt } from "../simulation/cost-of-living";
+import { SALES_BASE_KEY } from "../simulation/sales-tax-bases";
 import { PROPERTY_BASE_KEY } from "../simulation/property-tax-bases";
 
 import { attachTaxProposal } from "../simulation/tax-policy";
@@ -57,17 +60,17 @@ function advanceTo(world: World, date: IsoDate): World {
 }
 
 /** A playable city drawn by seed from every place that has one. */
-function drawCity(seed: string, needsPayroll = false) {
+function drawCity(seed: string, needs: "payroll" | "sales" | null = null) {
   const cities = allGovernmentUnits().filter(
     (unit) =>
       unit.functionalActive &&
       unit.unitType === "municipality" &&
       unit.placeGeoid !== null &&
-      (!needsPayroll ||
+      (!needs ||
         localTaxAuthority({
           stateUsps: unit.stateUsps,
           level: "MUNICIPALITY",
-          instrument: "payroll",
+          instrument: needs,
         }).permits) &&
       municipalGovernmentByKey(unit.id) &&
       municipalRulePackFor(municipalGovernmentByKey(unit.id)!).ok,
@@ -80,12 +83,20 @@ describe("a city property tax in a generated world", () => {
     { seed: "m2-local-property-tax", instrument: "property" as const },
     { seed: "m2-local-property-tax-b", instrument: "property" as const },
     { seed: "m2-local-payroll-tax", instrument: "payroll" as const },
+    { seed: "m2-local-sales-tax", instrument: "sales" as const },
   ])(
     "is filed, decided by the council, and lands on a named payer ($instrument, $seed)",
     ({ seed, instrument }) => {
       const baseKey =
-        instrument === "property" ? PROPERTY_BASE_KEY : LOCAL_PAYROLL_BASE_KEY;
-      const city = drawCity(seed, instrument === "payroll");
+        instrument === "property"
+          ? PROPERTY_BASE_KEY
+          : instrument === "sales"
+            ? SALES_BASE_KEY
+            : LOCAL_PAYROLL_BASE_KEY;
+      const city = drawCity(
+        seed,
+        instrument === "property" ? null : instrument,
+      );
       const place = requireLifePlace(city.placeGeoid!);
       const game = createNewGameWorld({
         ...DEFAULT_NEW_GAME_SETUP,
@@ -170,7 +181,9 @@ describe("a city property tax in a generated world", () => {
           baseLabel:
             instrument === "property"
               ? "Assessed value of a household's home or a year's rent"
-              : "Wages paid at a local employer",
+              : instrument === "sales"
+                ? "Food and bills a household pays in a month"
+                : "Wages paid at a local employer",
           rateNumerator: 1,
           rateDenominator: 100,
           allowanceMinorUnits: 0,
@@ -309,9 +322,37 @@ describe("a city property tax in a generated world", () => {
       law = advanceTo(
         law,
         makeIsoDate(
-          addDays(policy.effectiveAt, instrument === "property" ? 1 : 30),
+          addDays(
+            policy.effectiveAt,
+            instrument === "property" ? 1 : instrument === "sales" ? 45 : 30,
+          ),
         ),
       );
+      // A household's food and bills settle when its person lives through the
+      // days (the same refresh a played day runs), so the player's month is
+      // settled here and its sales tax base is read below.
+      if (instrument === "sales") {
+        // A generated household has no recorded cash, so its bills are never
+        // opened (unknown is not zero). The player's household is given
+        // authored cash, then lives through a month.
+        const householdId = estimatedHouseholdLivingCostsAt(
+          law,
+          game.playerPersonId,
+        )!.householdId;
+        law = createResourcePosition(law, {
+          stableKey: `${seed}:funded-household`,
+          owner: { kind: "household", householdId },
+          openedAt: law.currentDate,
+          openingBalance: money(900000, "USD"),
+          provenance: {
+            kind: "authored",
+            note: "Known fictional test cash for one household; not an observed balance.",
+          },
+        });
+        law = refreshLifeOpportunities(law, game.playerPersonId);
+        law = advanceTo(law, makeIsoDate(addDays(law.currentDate, 40)));
+        law = refreshLifeOpportunities(law, game.playerPersonId);
+      }
       const bases = (law.history.taxBases ?? []).filter(
         (row) => row.baseKey === baseKey,
       );
@@ -369,7 +410,9 @@ describe("a city property tax in a generated world", () => {
       law = advanceTo(
         law,
         makeIsoDate(
-          addDays(policy.effectiveAt, instrument === "property" ? 35 : 65),
+          instrument === "sales"
+            ? addDays(law.currentDate, 45)
+            : addDays(policy.effectiveAt, instrument === "property" ? 35 : 65),
         ),
       );
       const collections = law.history.taxCollections ?? [];
@@ -394,11 +437,17 @@ describe("a city property tax in a generated world", () => {
           row.assessmentId ===
           law.history.taxAssessments!.find((a) => a.baseId === funded.id)!.id,
       )!;
-      expect(fundedCollection.status).not.toBe("blocked");
-      expect(fundedCollection.transferredAmount.minorUnits).toBe(
-        law.history.taxAssessments!.find((a) => a.baseId === funded.id)!
-          .taxAmount.minorUnits,
-      );
+      if (instrument === "sales") {
+        // The buyer's recorded cash did not cover the bill, so the city's
+        // claim is recorded as blocked for that reason: nothing is invented.
+        expect(fundedCollection.reason).toBe("insufficient-funds");
+      } else {
+        expect(fundedCollection.status).not.toBe("blocked");
+        expect(fundedCollection.transferredAmount.minorUnits).toBe(
+          law.history.taxAssessments!.find((a) => a.baseId === funded.id)!
+            .taxAmount.minorUnits,
+        );
+      }
       expect(ofBases.filter((row) => row.status === "blocked").length).toBe(
         bases.length - ofBases.filter((row) => row.status !== "blocked").length,
       );

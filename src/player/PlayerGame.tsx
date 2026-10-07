@@ -117,14 +117,12 @@ import { LifePathsPanel } from "./LifePathsPanel";
 /* PEOPLE/PRESS seam mounts (CRUNCH47 B1/B2). */
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { ContactsPanel } from "./ContactsPanel";
-import { ContactDialog } from "./ContactDialog";
 import { PressSourceDesk } from "./PressSourceDesk";
 import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
-import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
 import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
@@ -147,6 +145,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { DIAGNOSTICS } from "./diagnostics-profile";
+import { TimeCommandDevOverlay } from "./TimeCommandDevOverlay";
 
 import {
   BrowserSaveStore,
@@ -222,6 +222,7 @@ import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-sc
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
 import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
+  PRODUCTION_OFFICE_SCENE_ID,
   SCENE_REGISTRY,
 } from "../presentation/scene-registry";
 import {
@@ -1725,7 +1726,11 @@ function PlayingScreen({
   // no room at all, or a room whose plate was retired (the public meeting).
   const sceneHasPlate = useMemo(() => {
     const raster = sceneId ? SCENE_REGISTRY.scenes.get(sceneId)?.raster : null;
-    return Boolean(raster && sceneVisuals.has(raster.assetId));
+    return Boolean(
+      sceneId !== PRODUCTION_OFFICE_SCENE_ID &&
+      raster &&
+      sceneVisuals.has(raster.assetId),
+    );
   }, [sceneId, sceneVisuals]);
   const placeBackdrop = useMemo(
     () =>
@@ -1741,17 +1746,20 @@ function PlayingScreen({
                 courtroomLocationKey(session.world, session.personId) ??
                 protestLocationKey(session.world, session.personId))
               : null) ??
-              // An unspecified moment resolves to the home room above it in
-              // play-scene-context, so its place picture is home too; without
-              // this a person whose last recorded place had no plate (a shift
-              // the day before) woke to a blank screen.
-              (playScene.purpose === "home" ||
-              playScene.purpose === "unspecified"
-                ? "home"
-                : playScene.locationKey),
+              (sceneId === PRODUCTION_OFFICE_SCENE_ID
+                ? "workplace"
+                : // An unspecified moment resolves to the home room above it in
+                  // play-scene-context, so its place picture is home too; without
+                  // this a person whose last recorded place had no plate (a shift
+                  // the day before) woke to a blank screen.
+                  playScene.purpose === "home" ||
+                    playScene.purpose === "unspecified"
+                  ? "home"
+                  : playScene.locationKey),
           ),
     [
       sceneHasPlate,
+      sceneId,
       session.world,
       session.personId,
       playScene.purpose,
@@ -2376,22 +2384,6 @@ function PlayingScreen({
     [session.world, session.personId, dispatch, readOnly],
   );
 
-  /*
-   * Contact on a person card opens its own screen over whatever is open, for
-   * that one person, and closing it leaves everything as it was. Presentation
-   * only: not saved, and opening it changes nothing in the world.
-   */
-  const [contactPersonId, setContactPersonId] = useState<EntityId | null>(null);
-  const openContact = useCallback(
-    (personId: EntityId) => {
-      if (!readOnly) setContactPersonId(personId);
-    },
-    [readOnly],
-  );
-  useEffect(() => {
-    if (readOnly) setContactPersonId(null);
-  }, [readOnly]);
-
   /* A conversation cannot go on once nobody is played. */
   useEffect(() => {
     if (readOnly) dispatch({ type: "end-conversation" });
@@ -2527,7 +2519,6 @@ function PlayingScreen({
     openEntity,
     dossierFor,
     talkTo,
-    openContact,
     presentPersonIds,
     openTheBill,
     goToTheFloor,
@@ -2587,6 +2578,9 @@ function PlayingScreen({
             data-scene-id={sceneId ?? ""}
             data-scene-purpose={playScene.purpose}
           >
+            {import.meta.env.DEV && DIAGNOSTICS ? (
+              <TimeCommandDevOverlay />
+            ) : null}
             <InvokerFocusReturn
               personId={conversation ? null : returnFocusTo}
               prefer={returnFocusPrefer}
@@ -2603,6 +2597,9 @@ function PlayingScreen({
             <SceneBackdrop
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
+              preferPlaceBackdrop={
+                sceneId === PRODUCTION_OFFICE_SCENE_ID && placeBackdrop !== null
+              }
               placePeople={placePeople}
               placeSurfaces={placeSurfaces}
               readableSurfaces={readableSurfaces}
@@ -2773,11 +2770,6 @@ function PlayingScreen({
                   ? {}
                   : { onTalk: () => talkTo(selectedDossier.personId) })}
                 onMeet={() => dispatch({ type: "go-to-scene" })}
-                {...(readOnly
-                  ? {}
-                  : {
-                      onContact: () => openContact(selectedDossier.personId),
-                    })}
                 onTravel={() => {
                   if (readOnly) return;
                   const next = travelTowardsPerson(
@@ -2805,17 +2797,6 @@ function PlayingScreen({
                       ? inspectTalkEntry.reason
                       : null
                 }
-              />
-            ) : null}
-
-            {contactPersonId !== null && !readOnly ? (
-              <ContactDialog
-                key={contactPersonId}
-                world={session.world}
-                playerPersonId={session.personId}
-                personId={contactPersonId}
-                onWorldChange={onWorldChange}
-                onClose={() => setContactPersonId(null)}
               />
             ) : null}
 
@@ -3136,7 +3117,6 @@ function renderWorkspace({
   openEntity,
   dossierFor,
   talkTo,
-  openContact,
   presentPersonIds,
   openTheBill,
   goToTheFloor,
@@ -3164,7 +3144,6 @@ function renderWorkspace({
     subject?: ConversationSubjectKey,
   ) => void;
   /** Contact on a person: its own screen over whatever is open. */
-  readonly openContact: (personId: EntityId) => void;
   /** Who the current scene puts in the room with the player. */
   readonly presentPersonIds: readonly EntityId[];
   readonly openTheBill: () => void;
@@ -3553,9 +3532,6 @@ function renderWorkspace({
             togglePin({ kind: "person", id: dossier.personId })
           }
           onTalk={() => talkTo(dossier.personId)}
-          {...(readOnly
-            ? {}
-            : { onContact: () => openContact(dossier.personId) })}
           onMeet={() => dispatch({ type: "go-to-scene" })}
           talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
           onOpenLink={openEntity}
@@ -4675,20 +4651,13 @@ function renderWorkspace({
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
+                handlers={createCampaignElectionTransitionRegistry()}
               />
               <GoverningOfficeDesk
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
               />
-              {executive ? (
-                <ExecutiveWorkWorkspace
-                  world={session.world}
-                  onWorldChange={onWorldChange}
-                  handlers={createCampaignElectionTransitionRegistry()}
-                  placement="inline"
-                />
-              ) : null}
             </>
           ),
         });

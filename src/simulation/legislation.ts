@@ -5,6 +5,7 @@ import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import { statuteEffectiveRule } from "./governing/statute-effective-date";
 import { enactingGovernmentForPack } from "./legislation-drafting";
 import { recordedSessionAdjournment } from "./governing/session-adjournments";
+import { potentialRiderRuleIssue } from "./governing/rider-rule-trail";
 import {
   growingIndex,
   indexOverArrays,
@@ -2458,7 +2459,7 @@ export interface OfferAmendmentInput {
    * never enters the bill.
    */
   readonly proposedSections?: readonly LegislativeProposedSection[];
-  /** Why a computer-run member offered it. */
+  /** Why the author offered it, when the author chooses to keep that motive on record. */
   readonly authorMotive?: LegislativeAmendmentMotive;
 }
 
@@ -2519,6 +2520,14 @@ export function offerFloorAmendment(
   });
 
   const adopted = vote.outcome === "passed";
+  const potentialSingleSubjectIssue = adopted
+    ? potentialRiderRuleIssue(
+        world,
+        pack,
+        measure,
+        input.proposedSections ?? [],
+      )
+    : undefined;
   const amendment: LegislativeAmendmentRecord = {
     id: createStableId(
       "legislative-amendment",
@@ -2544,6 +2553,7 @@ export function offerFloorAmendment(
         }
       : {}),
     ...(input.authorMotive ? { authorMotive: input.authorMotive } : {}),
+    ...(potentialSingleSubjectIssue ? { potentialSingleSubjectIssue } : {}),
   };
 
   return appendAction(world, {

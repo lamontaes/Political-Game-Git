@@ -1,7 +1,7 @@
 import { applyLawConsequences } from "./enacted-law-effects";
 import { recordsByStringField } from "./history-index";
 import { organizationProfileAt } from "./life-queries";
-import { placeInGovernment } from "./property-tax-bases";
+import { taxReachesPlace } from "./property-tax-bases";
 import { recordedPaycheckTaxInput } from "./tax-policy";
 import { effectiveTaxPolicy, recordTaxBase } from "./tax-policy";
 import type { EntityId, World } from "./types";
@@ -10,7 +10,7 @@ import { assertWorldIntegrity, recordWorldEvent } from "./world";
 export const LOCAL_PAYROLL_BASE_KEY = "tax-base:local-payroll-wages";
 
 /**
- * A city or county payroll tax reaches the paychecks of people who work for an
+ * A city, county or state payroll tax reaches the paychecks of people who work for an
  * employer inside that government, on the day the paycheck is paid. The base
  * is the wages actually transferred; the payer is the worker. The wage
  * statutory writer, withholding and federal and state liabilities are not
@@ -22,15 +22,14 @@ export function recordLocalPayrollTaxBases(
 ): World {
   const proposals = (world.history.taxProposals ?? []).filter(
     (row) =>
-      row.publicGovernmentIdentity?.kind === "local-government" &&
-      row.terms.instrument === "payroll",
+      row.terms.instrument === "payroll" &&
+      (row.publicGovernmentIdentity?.kind === "local-government" ||
+        row.power?.level === "STATE"),
   );
   if (proposals.length === 0 || outcomeIds.length === 0) return world;
   const today = world.currentDate;
   let next = world;
   for (const proposal of proposals) {
-    const identity = proposal.publicGovernmentIdentity;
-    if (identity?.kind !== "local-government") continue;
     const policy = effectiveTaxPolicy(
       world,
       proposal.jurisdictionId,
@@ -46,15 +45,7 @@ export function recordLocalPayrollTaxBases(
         world,
         paid.organizationId,
       )?.locationJurisdictionId;
-      if (
-        !workplace ||
-        !placeInGovernment(
-          workplace,
-          identity.governmentKey,
-          identity.jurisdictionId,
-        )
-      )
-        continue;
+      if (!workplace || !taxReachesPlace(world, proposal, workplace)) continue;
       const stableKey = `payroll-base:${proposal.id}:${outcomeId}`;
       if (
         recordsByStringField(

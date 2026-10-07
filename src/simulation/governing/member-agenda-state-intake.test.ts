@@ -6,6 +6,7 @@ import { createProductionPolicyCatalog } from "../production-catalog";
 import { stateJurisdictionForKey } from "../life-places";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../nationwide-world/state-executive-candidacy-packs";
 import { fileMemberAgendaBills, fileMemberAgendaBill } from "./member-agenda";
+import { MEMBER_AGENDA_LEVEL_SETTINGS } from "./member-agenda-settings";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
 import { ensureWorldStartingConditions } from "../world-setup/conditions";
@@ -47,6 +48,11 @@ beforeAll(() => {
 });
 
 describe("state intake requires an actual seated sponsor, everywhere", () => {
+  it("sets the state filing bar on the saved 0–1 principle-strength scale", () => {
+    expect(MEMBER_AGENDA_LEVEL_SETTINGS.state.filingThreshold).toBe(1.5);
+    expect(MEMBER_AGENDA_LEVEL_SETTINGS.federal.filingThreshold).toBe(1.5);
+  });
+
   expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
   it.each(CHIEF_EXECUTIVE_JURISDICTIONS)(
     "never invents a sponsor in %s",
@@ -158,7 +164,9 @@ describe("state intake requires an actual seated sponsor, everywhere", () => {
         answer.propositionId,
       );
       expect(reasons.recordIds.length).toBeGreaterThan(0);
-      expect(Math.abs(reasons.score)).toBeGreaterThanOrEqual(3);
+      expect(Math.abs(reasons.score)).toBeGreaterThanOrEqual(
+        MEMBER_AGENDA_LEVEL_SETTINGS.state.filingThreshold,
+      );
     }
     expect(
       governingSeasonHandler(next, due).world.history.legislativeMeasures,

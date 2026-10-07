@@ -49,6 +49,9 @@ import {
   openingLegislaturePeople,
   openingFamilyPeople,
   openingTourStagedPeople,
+  chamberFloorPeople,
+  openingHouseholdPeople,
+  stateLegislatureFloorPeople,
 } from "../presentation/opening-tour-people";
 import {
   homePlacesForPerson,
@@ -119,8 +122,18 @@ export function WorldOrientationPanel({
     readonly key: string;
     /** Plain sentences read from the World, shown under the summary. */
     readonly lines?: readonly string[];
-    /** Real headlines of the day, for the year's screen. */
+    /** Real headlines with the publication's recorded masthead. */
+    readonly publications?: readonly {
+      readonly outletName: string;
+      readonly headline: string;
+    }[];
+    /** Real headlines from the town, for its screen. */
     readonly headlines?: readonly string[];
+    /** Record values under a label, for the year's screen. */
+    readonly facts?: readonly {
+      readonly label: string;
+      readonly value: string;
+    }[];
     /** The heading over them, when it is not the day's news. */
     readonly headlinesTitle?: string;
     /** Parents and guardians, for the family screen. */
@@ -227,10 +240,11 @@ export function WorldOrientationPanel({
         ? [
             {
               key: "year",
-              title: `In the year ${year.year}`,
-              summary: "The country, as your life begins.",
+              title: year.year,
+              summary: "",
               lines: year.lines,
-              headlines: year.headlines,
+              publications: year.publications,
+              facts: year.facts,
               people: [],
               chambers: [],
             },
@@ -366,36 +380,89 @@ export function WorldOrientationPanel({
   // the room's own scale and in a natural stance, like people in any other
   // painted place.
   const sceneStage = useRef<HTMLDivElement>(null);
+  // OW-15: a chamber floor holds its members from the seat roster, and your
+  // life's home holds the people the household record says live there.
+  const floorRoster = useMemo(() => {
+    const floor =
+      step?.key === "year"
+        ? "us-senate"
+        : step?.key === "congress"
+          ? "us-house"
+          : null;
+    if (!floor || backdrop.kind !== "place") return null;
+    const chamber = steps
+      .flatMap((candidate) => candidate.chambers)
+      .find((candidate) => candidate.chamberKey === floor);
+    return chamberFloorPeople(chamber, {
+      first: cast.map((actor) => actor.person),
+      homeUsps: homeStateUsps,
+    });
+  }, [step?.key, steps, backdrop, cast, homeStateUsps]);
+  const householdRoster = useMemo(
+    () =>
+      step?.key === "your-life" && world && personId
+        ? openingHouseholdPeople(world, personId)
+        : null,
+    [step?.key, world, personId],
+  );
+  const stateFloorRoster = useMemo(() => {
+    if (step?.key !== "legislature" || !world || !personId) return null;
+    const recorded = stateLegislatureFloorPeople(world, personId);
+    const ordered = [...(step.people ?? []), ...recorded];
+    const seen = new Set<EntityId>();
+    return ordered.filter((person) => {
+      if (seen.has(person.personId)) return false;
+      seen.add(person.personId);
+      return true;
+    });
+  }, [step?.key, step?.people, world, personId]);
   const sceneRoster =
     step?.key === "executive" || step?.key === "legislature"
-      ? (step?.people ?? [])
-      : cast.map((actor) => actor.person);
+      ? (stateFloorRoster ?? step?.people ?? [])
+      : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
   const measuredPlace =
     backdrop.kind === "place" &&
     !(step?.key === "executive" && establishingPlate) &&
     backdropStaging(backdrop.place)
       ? backdrop.place
       : null;
-  const scenePeople = useMemo(
-    () =>
-      measuredPlace && world && personId
-        ? openingTourStagedPeople(world, personId, measuredPlace, sceneRoster, {
-            // The family stands together in its home; offices seat people.
-            furniture: step?.key !== "parents",
-            faceRoom: step?.key === "parents",
-            memberIds: new Set(
-              (chapter?.actors ?? [])
-                .filter(
-                  (actor) =>
-                    actor.role === "state-legislator" ||
-                    actor.role === "congress-member",
-                )
-                .map((actor) => actor.person.personId),
-            ),
-          })
-        : [],
-    [measuredPlace, world, personId, sceneRoster, chapter, step?.key],
-  );
+  const scenePeople = useMemo(() => {
+    if (!measuredPlace || !world || !personId) return [];
+    const memberIds = new Set(
+      (chapter?.actors ?? [])
+        .filter(
+          (actor) =>
+            actor.role === "state-legislator" ||
+            actor.role === "congress-member",
+        )
+        .map((actor) => actor.person.personId),
+    );
+    if (
+      step?.key === "year" ||
+      step?.key === "congress" ||
+      step?.key === "legislature"
+    )
+      for (const member of sceneRoster) memberIds.add(member.personId);
+    return openingTourStagedPeople(
+      world,
+      personId,
+      measuredPlace,
+      sceneRoster,
+      {
+        // The family stands together in its home; offices seat people.
+        furniture: step?.key !== "parents" && step?.key !== "your-life",
+        // Rooms with people the player should see face them: the family,
+        // the household, and the members on each chamber floor (OW-15).
+        faceRoom:
+          step?.key === "parents" ||
+          step?.key === "your-life" ||
+          step?.key === "year" ||
+          step?.key === "congress" ||
+          step?.key === "legislature",
+        memberIds,
+      },
+    );
+  }, [measuredPlace, world, personId, sceneRoster, chapter, step?.key]);
   const sceneStaged = measuredPlace !== null && sceneRoster.length > 0;
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
@@ -590,9 +657,12 @@ export function WorldOrientationPanel({
                 <span data-corner="bottom-left" />
                 <span data-corner="bottom-right" />
               </span>
-              <p className="pg-orientation-kicker">
-                {index + 1} of {steps.length} · {view.dateLabel}
-              </p>
+              <progress
+                className="pg-orientation-progress"
+                data-testid="orientation-progress"
+                max={steps.length}
+                value={index + 1}
+              />
               <h2
                 id={`pg-orientation-title-${step.key}`}
                 ref={heading}
@@ -602,7 +672,7 @@ export function WorldOrientationPanel({
               >
                 {step.title}
               </h2>
-              {step.key !== "state" ? (
+              {step.key !== "state" && step.summary ? (
                 <p className="pg-orientation-summary">{step.summary}</p>
               ) : null}
 
@@ -695,6 +765,39 @@ export function WorldOrientationPanel({
                       <li key={line}>{line}</li>
                     ))}
                   </ul>
+                ) : null}
+
+                {step.facts && step.facts.length > 0 ? (
+                  <dl
+                    className="pg-orientation-facts"
+                    data-testid="orientation-facts"
+                  >
+                    {step.facts.map((fact) => (
+                      <div key={fact.label}>
+                        <dt>{fact.label}</dt>
+                        <dd>{fact.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : null}
+
+                {step.publications && step.publications.length > 0 ? (
+                  <section
+                    className="pg-orientation-publications"
+                    data-testid="orientation-publications"
+                  >
+                    {step.publications.map((publication, publicationIndex) => (
+                      <article
+                        className="pg-orientation-publication"
+                        key={`${publication.outletName}:${publicationIndex}`}
+                      >
+                        <h3 className="pg-orientation-masthead">
+                          {publication.outletName}
+                        </h3>
+                        <p>{publication.headline}</p>
+                      </article>
+                    ))}
+                  </section>
                 ) : null}
 
                 {step.headlines && step.headlines.length > 0 ? (
@@ -1159,9 +1262,6 @@ function ChamberBlock({
         </label>
         <p className="pg-orientation-roster-note">
           {`All ${stateOptions.find(([usps]) => usps === state)?.[1] ?? "the"} members, in seat order.`}
-          {chamber.chamberKey === "us-house" && state === homeStateUsps
-            ? " The one who represents your home is under Government, in Represented by."
-            : null}
         </p>
         <ul>
           {rows.map((row) => (
