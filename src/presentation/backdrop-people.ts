@@ -112,6 +112,9 @@ export interface StagingSpot {
   readonly group?: string;
   /** A raised floor (stage, dais, steps) named in the place's `floors`. */
   readonly floor?: string;
+  /** A raised tier can have its own visible horizon and scale. */
+  readonly floorHorizonY?: number;
+  readonly floorMetersPercent?: number;
   /** Where the main character stands on the title screen: one per place. */
   readonly hero?: boolean;
 }
@@ -190,9 +193,11 @@ export function spotFigure(
   engine?: EngineRecipe,
 ): SpotFigure {
   const meters =
+    spot.floorMetersPercent ??
     (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
     stage.metersPercent;
-  const heightPercent = STANDING_METERS * meters * (spot.y - stage.horizonY);
+  const horizonY = spot.floorHorizonY ?? stage.horizonY;
+  const heightPercent = STANDING_METERS * meters * (spot.y - horizonY);
   const widthPercent =
     (heightPercent * (PEOPLE_PACK.canvas.width / PEOPLE_PACK.canvas.height)) /
     BACKDROP_ASPECT;
