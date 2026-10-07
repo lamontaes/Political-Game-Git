@@ -17,5 +17,7 @@ Every law in this family shows 'reaches named people: yes' in a 30-day watch on 
 ## CTO instructions and findings (do these)
 - CTO FINDING: teacher pay floor, tuition freeze and similar laws bypass the shared consequence step (enacted-law-effects.ts ~797); 46 of 118 law links in the outcome web do nothing — each link must move a named person's record, not only the number.
 - CTO FINDING: policy follow-through (policy-semantics.ts ~609) and incidents (incidents.ts ~485) have handlers that are never registered and schedulers never called; register and schedule them.
+- CTO FINDING: laws enacted in play reach nobody on their start date — the 'effective' dispatch passes an EMPTY subject list (enacted-law-effects.ts ~289). Pass the actual covered people. Done when an enacted law stamps records the same day.
+- CTO FINDING: only 50 of 121 policy questions carry per-person consequence rows. Aggregate-only today: photo ID, automatic voter registration, loan caps, right to work, paid leave, collective bargaining, abortion and more. Add per-person rows for the ones in this family (voting rules, paid leave at employers, school/health).
 
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).

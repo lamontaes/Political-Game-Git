@@ -16,5 +16,7 @@ Every law in this family shows 'reaches named people: yes' in a 30-day watch on 
 
 ## CTO instructions and findings (do these)
 - CTO FINDING: minimum sentences and the juvenile court age are applied around the shared consequence step (enacted-law-effects.ts ~797) instead of through it; route them through it so they land on named defendants.
+- CTO FINDING: no named crime ever happens in a watched world — the 6 crimes were unnamed town-log reports (involving only the jurisdiction); claims, incidents and court records: 0. Name offenders and victims among detailed residents so cases start; then bail, charging and sentencing laws land on named defendants. Done when a 90-day watch has ≥1 arrest or case stage near the town.
+- CTO FINDING: juvenile court age, voting restoration, concealed carry, stand your ground and cannabis have NO per-person consequence rows (aggregate only). Add rows that change named people's cases/records.
 
 When the endpoint is reached: POOL.md rows, oldest unclaimed first (post CLAIM on #2424).
