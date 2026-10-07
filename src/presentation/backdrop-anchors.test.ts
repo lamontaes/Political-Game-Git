@@ -71,6 +71,16 @@ describe("people anchors on every place picture", () => {
     expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(6);
   });
 
+  it("anchors every county party office meeting chair and desk chair", () => {
+    const spots = STAGES["county-party-office"]!.spots;
+    const tableSeats = spots.filter((spot) => spot.group === "table");
+    const deskSeats = spots.filter((spot) => spot.group === "desk");
+    expect(tableSeats).toHaveLength(6);
+    expect(tableSeats.every((spot) => spot.pose === "sit")).toBe(true);
+    expect(tableSeats.filter((spot) => spot.facing === "away")).toHaveLength(2);
+    expect(deskSeats).toHaveLength(1);
+  });
+
   it("anchors each visible chair in the hospital waiting alcove", () => {
     const seats = STAGES["hospital-hallway"]!.spots.filter(
       (spot) => spot.group === "waiting" && spot.role === "audience",
@@ -105,6 +115,15 @@ describe("people anchors on every place picture", () => {
       expect(
         audience.filter((spot) => spot.group === `audience-row-${row}`),
       ).toHaveLength(14);
+  });
+
+  it("anchors all four suburban house dining chairs", () => {
+    const seats = STAGES["suburban-house"]!.spots.filter(
+      (spot) => spot.group === "dining-table",
+    );
+    expect(seats).toHaveLength(4);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
+    expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
   });
 
   it("anchors visible hotel ballroom banquet chairs", () => {
