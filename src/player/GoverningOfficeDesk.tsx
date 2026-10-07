@@ -230,7 +230,6 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
           className="game-note"
           data-testid="office-program-unnamed"
           data-problem="unnamed-service"
-          data-program-key={program.programKey}
         />
       )}
       {program.capacity ? (

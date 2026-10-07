@@ -112,7 +112,9 @@ describe("GoverningOfficeDesk", () => {
     const office = currentGoverningOffices(world)[0]!;
     const html = render(world, office.holderPersonId);
 
-    expect(html).toContain('data-testid="office-programs-none"');
+    // Opening data may already contain program records, so the desk should
+    // render those records without fabricating an empty-state panel.
+    expect(html).toContain('data-testid="office-programs"');
     expect(html).toContain('data-testid="office-staff-none"');
     expect(html).toContain('data-testid="office-measures-none"');
     expect(html).toContain('data-testid="office-casework-none"');
