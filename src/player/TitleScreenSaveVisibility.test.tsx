@@ -49,27 +49,35 @@ function render(
   );
 }
 
-describe("the title screen shows saved-game counts as data only", () => {
-  it("shows the set-aside count on Continue and on Saved games", () => {
+describe("the title screen shows record values and approved controls", () => {
+  it("keeps the game name and Continue without menu copy", () => {
     const markup = render([], [SET_ASIDE]);
-    expect(markup).toMatch(/data-testid="continue-set-aside">1</);
-    expect(markup).toMatch(/Saved games<small>0 · 1</);
+    expect(markup).toContain("Our Civic Duty");
+    expect(markup).toContain(">Continue</button>");
+    expect(markup).toContain(">Back</button>");
+    expect(markup).not.toMatch(
+      /New game|Watch the world|Saved games|Options|Quit/,
+    );
+    expect(markup).not.toMatch(/needs attention|Try again|Reload/);
   });
 
-  it("shows nothing under Saved games when the store is empty", () => {
+  it("shows no record list when the store is empty", () => {
     const markup = render([], []);
-    expect(markup).not.toContain("continue-set-aside");
-    expect(markup).not.toContain("<small>");
+    expect(markup).not.toContain("title-save-records");
   });
 
-  it("counts the set-aside ones beside the healthy ones", () => {
+  it("shows saved names, places and dates as record values", () => {
     const healthy = {
       saveId: "save-2",
       playerName: "Kian Pearson",
       playerAge: 24,
+      residence: { jurisdictionId: "j", name: "Albany" },
+      currentMoment: { date: "2026-10-06" },
     } as unknown as BrowserWorldSummary;
     const markup = render([healthy], [SET_ASIDE]);
-    expect(markup).toMatch(/Saved games<small>1 · 1</);
+    expect(markup).toContain("Kian Pearson");
+    expect(markup).toContain("Albany");
+    expect(markup).toContain("2026");
   });
 });
 
@@ -92,25 +100,21 @@ describe("the title screen while the saved lives are being read", () => {
     );
   }
 
-  it("shows no line while the list is being read", () => {
+  it("does not expose a save-loading message", () => {
     const markup = renderListing("loading");
-    expect(markup).toContain('data-listing="loading"');
-    expect(markup).not.toContain("<small>");
+    expect(markup).not.toMatch(/Opening|Loading|Saved games/);
     expect(markup).not.toContain('<p class="game-');
   });
 
-  it("offers only Try again for a failed read", () => {
+  it("does not expose a save-read error message", () => {
     const markup = renderListing("failed");
-    expect(markup).toContain('data-testid="saves-unread"');
-    expect(markup).toContain("Try again");
+    expect(markup).not.toMatch(/Could not be read|Try again/);
     expect(markup).not.toContain('<p class="game-');
   });
 
-  it("offers only Reload when the saves were kept by a newer version", () => {
+  it("does not expose an outdated-save message", () => {
     const markup = renderListing("outdated");
-    expect(markup).toContain('data-testid="saves-outdated"');
-    expect(markup).toContain("Reload");
-    expect(markup).not.toContain("Try again");
+    expect(markup).not.toMatch(/older copy|Reload|Try again/);
     expect(markup).not.toContain('<p class="game-');
   });
 });
@@ -130,24 +134,6 @@ describe("the title and saves screens carry no authored sentence", () => {
 });
 
 describe("Observer Mode on the title screen", () => {
-  it("offers watching the world in one press", () => {
-    const markup = renderToStaticMarkup(
-      <TitleScreen
-        saves={[]}
-        savesUnavailable={false}
-        problem={null}
-        onNewGame={() => {}}
-        onWatch={() => {}}
-        onContinue={() => {}}
-        onOpenSaves={() => {}}
-        onOpenOptions={() => {}}
-      />,
-    );
-    expect(markup).toContain('data-testid="watch-world"');
-    expect(markup).toContain("Watch the world");
-    expect(markup).not.toMatch(/runs on its own|Nobody play/i);
-  });
-
   it("does not present a watched world's resident as a played life", () => {
     const watched = {
       saveId: "save-3",
@@ -173,10 +159,9 @@ describe("Observer Mode on the title screen", () => {
         stateUsps: "KY",
         chamber: "senate",
       },
+      currentMoment: { date: "2026-10-06" },
     } as unknown as BrowserWorldSummary;
     const markup = render([senator], []);
-    expect(markup).toContain(
-      "Ada Moss, 52 \u00b7 State Senator \u00b7 Frankfort",
-    );
+    expect(markup).toContain("Ada Moss · 52 · State Senator · Frankfort");
   });
 });

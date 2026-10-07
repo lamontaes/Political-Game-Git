@@ -50,10 +50,6 @@ import {
   artPreviewMode,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
-import {
-  nativeQuitAvailable,
-  requestNativeQuit,
-} from "./native-session-bridge";
 import { TitleTableau } from "./TitleTableau";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
@@ -443,17 +439,9 @@ export function reloadPage(): void {
 
 export function TitleScreen({
   saves,
-  savesUnavailable,
-  saveListing = "read",
-  onRetrySaves,
-  problem,
   onNewGame,
-  onWatch,
   onContinue,
   onOpenSaves,
-  onOpenOptions,
-  onOpenPatchNotes,
-  damaged,
 }: {
   readonly saves: readonly BrowserWorldSummary[];
   /**
@@ -482,9 +470,6 @@ export function TitleScreen({
   readonly onOpenPatchNotes?: () => void;
 }) {
   const recent = saves[0];
-  const setAside = damaged?.length ?? 0;
-  const unread = saveListing === "failed";
-  const outdated = saveListing === "outdated";
 
   // The room behind this screen is painted by the persistent ambient shell in
   // `PlayerGame`, not here. Mounting a second tableau was what made New Game
@@ -492,11 +477,6 @@ export function TitleScreen({
   // swapped at a route change.
   return (
     <main className="game-title pg-glass-panel" data-testid="title-screen">
-      {/*
-            The room is the picture; it does not need a line telling the player
-            it is a room (Task A). The environment-description prose — "a hall …
-            with nobody in it" — is gone, and the scene stands on its own.
-          */}
       <div className="front-door-logo">
         <img
           src="/branding/emblem-final.png"
@@ -506,83 +486,32 @@ export function TitleScreen({
         <h1 className="front-door-wordmark">Our Civic Duty</h1>
       </div>
       <div className="game-title-actions">
-        <button type="button" data-testid="new-game" onClick={onNewGame}>
-          New game
-        </button>
-        {onWatch ? (
-          <button type="button" data-testid="watch-world" onClick={onWatch}>
-            Watch the world
-          </button>
-        ) : null}
         <button
           type="button"
           data-testid="continue"
-          onClick={onContinue}
-          disabled={!recent}
+          onClick={recent ? onContinue : onNewGame}
         >
           Continue
-          {recent ? (
-            <small>
-              {recent.observing
-                ? ""
-                : `${recent.playerName}, ${recent.playerAge}`}
-              {!recent.observing && recent.playerRole
-                ? ` \u00b7 ${recent.playerRole.title}`
-                : ""}
-              {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
-            </small>
-          ) : setAside > 0 ? (
-            <small data-testid="continue-set-aside">{setAside}</small>
-          ) : null}
         </button>
-        <button
-          type="button"
-          data-testid="open-saves"
-          data-listing={saveListing}
-          onClick={onOpenSaves}
-          disabled={savesUnavailable}
-        >
-          Saved games
-          {saves.length > 0 || setAside > 0 ? (
-            <small>
-              {saves.length}
-              {setAside > 0 ? ` \u00b7 ${setAside}` : ""}
-            </small>
-          ) : null}
+        <button type="button" data-testid="back-to-saves" onClick={onOpenSaves}>
+          Back
         </button>
-        <button
-          type="button"
-          data-testid="open-options"
-          onClick={onOpenOptions}
-        >
-          Options
-        </button>
-        {onOpenPatchNotes ? (
-          <button
-            type="button"
-            onClick={onOpenPatchNotes}
-            data-testid="title-patch-notes"
-          >
-            Patch notes
-          </button>
-        ) : null}
-        {nativeQuitAvailable() ? (
-          <button type="button" data-testid="quit" onClick={requestNativeQuit}>
-            Quit
-          </button>
-        ) : null}
       </div>
-      {unread && onRetrySaves ? (
-        <button type="button" data-testid="saves-unread" onClick={onRetrySaves}>
-          Try again
-        </button>
+      {saves.length > 0 ? (
+        <ul className="title-save-records">
+          {saves.map((save) => (
+            <li key={save.saveId}>
+              {save.observing ? "" : save.playerName}
+              {!save.observing ? ` · ${save.playerAge}` : ""}
+              {!save.observing && save.playerRole
+                ? ` · ${save.playerRole.title}`
+                : ""}
+              {save.residence ? ` · ${save.residence.name}` : ""}
+              {save.currentMoment ? ` · ${save.currentMoment.date}` : ""}
+            </li>
+          ))}
+        </ul>
       ) : null}
-      {outdated ? (
-        <button type="button" data-testid="saves-outdated" onClick={reloadPage}>
-          Reload
-        </button>
-      ) : null}
-      {problem ? <p className="game-problem">{problem}</p> : null}
     </main>
   );
 }
