@@ -153,7 +153,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b14-p4 | Records anyone can read | b14-_.md part 4 | open (stale claim: S36) | S36 |
 | b14-p5 | Prosecutors decide (Session 25 is sole writer of src files prosecution.ts, finding-referral.ts, court-reasoning.ts, sentencing-ranges.ts; Opus ruling, #2424, Oct 6 ~4:00 a.m.) | b14-_.md part 5 | claimed | S25 |
 | b14-p6 | Player acts as scene choices (Session 36 takes b14 Part 6 or the next open item on resume) | b14-_.md part 6 | open (stale claim: S36) | S36 |
-| b15-p1 | One inquiry record and its steps | b15-_.md part 1 | open (stale claim: S43) | S43 |
+| b15-p1 | One inquiry record and its steps | b15-_.md part 1 | ready #2682 | S49 |
 | b15-p2 | Subpoena rows | b15-_.md part 2 | open (stale claim: S43) | S43 |
 | b15-p3 | Questioning knowers | b15-_.md part 3 | open (stale claim: S43) | S43 |
 | b15-p4 | Who opens one, from the record | b15-_.md part 4 | open (stale claim: S43) | S43 |
