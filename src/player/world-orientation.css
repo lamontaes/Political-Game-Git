@@ -66,13 +66,14 @@
 }
 
 .pg-orientation-person {
+  --run-a-muted: #5a4b31;
   display: grid;
   gap: 0.1rem;
   width: 100%;
   padding: 0.5rem 0.7rem;
   font: inherit;
   text-align: left;
-  color: inherit;
+  color: #32291b;
   background: rgb(238 229 213 / 92%);
   border: 1px solid var(--run-a-line);
   border-radius: 0.55rem;
@@ -556,6 +557,7 @@
 .pg-orientation-panel > .pg-orientation-reading {
   min-height: 0;
   flex: 0 1 auto;
+  overflow-y: auto;
   padding-bottom: 1.1rem;
 }
 .pg-orientation-panel > .pg-orientation-reading:empty {
@@ -644,7 +646,7 @@
   pointer-events: auto;
 }
 .pg-orientation-cast-figure {
-  width: clamp(80px, min(13cqw, 26cqh), 220px);
+  width: clamp(96px, min(16cqw, 35cqh), 260px);
   filter: drop-shadow(0 0.6rem 0.8rem rgb(46 30 12 / 32%));
 }
 .pg-orientation-cast
@@ -775,15 +777,15 @@
 .pg-regional-state-information {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  color: #3b2f14;
+  gap: 0.65rem;
+  color: var(--text-strong);
 }
 .pg-regional-card-body h3 {
   margin: 0 0 0.4rem;
   font-size: 1rem;
 }
 .pg-regional-card-body a {
-  color: #876822;
+  color: var(--gold);
   text-underline-offset: 0.15em;
 }
 .pg-state-overview {
@@ -800,12 +802,12 @@
 .pg-state-voting-table-wrap table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 .pg-state-voting-table-wrap th,
 .pg-state-voting-table-wrap td {
   padding: 0.5rem 0.3rem;
-  border-bottom: 1px solid #7d8796;
+  border-bottom: 1px solid var(--text-2);
   text-align: left;
   vertical-align: top;
 }
@@ -847,25 +849,25 @@
   margin: 0;
 }
 .pg-state-population-value {
-  font-size: 1.9rem;
+  font-size: 2.1rem;
   font-weight: 700;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
-  color: #3b2f14;
+  color: var(--text-strong);
 }
 .pg-state-population-unit {
   font-size: 1rem;
-  color: var(--run-a-muted);
+  color: var(--text-2);
 }
 .pg-state-population-caption {
   margin: 0.35rem 0 0;
   padding-top: 0.35rem;
   max-width: 22rem;
   border-top: 1px solid rgb(111 85 42 / 45%);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-style: italic;
   letter-spacing: 0.01em;
-  color: #5a4b31;
+  color: var(--text-2);
 }
 
 .pg-opening-household {
