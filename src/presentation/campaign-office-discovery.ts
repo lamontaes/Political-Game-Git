@@ -10,6 +10,7 @@ import {
 import type { EntityId, World } from "../simulation";
 import {
   availableCampaignElectionDate,
+  countyCampaignElectionDateIsEstimated,
   countyCandidacyUnavailableReason,
 } from "./campaign-projection";
 import { proseDate } from "./prose-dates";
@@ -49,8 +50,9 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
         ),
       );
       const own = campaign?.officeKey === option.officeKey;
+      const recordedElectionDate = upcoming[0]?.electionDate ?? null;
       const electionDate =
-        upcoming[0]?.electionDate ??
+        recordedElectionDate ??
         availableCampaignElectionDate(
           world,
           person.homeJurisdictionId,
@@ -91,7 +93,7 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
         // the same date a filing today would stand in.
         electionDate,
         timing: electionDate
-          ? `Next election: ${proseDate(electionDate)}`
+          ? `Next election: ${proseDate(electionDate)}${recordedElectionDate === null && countyCampaignElectionDateIsEstimated(world, option.officeKey) ? " (estimated)" : ""}`
           : null,
         connections: [
           ...(own ? ["Your campaign"] : []),

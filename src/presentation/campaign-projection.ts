@@ -1121,6 +1121,16 @@ export function countyCandidacyUnavailableReason(
 }
 
 /** A missing county calendar remains unknown for read-only consumers. */
+export function countyCampaignElectionDateIsEstimated(
+  world: World,
+  officeKey: string,
+): boolean {
+  const local = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (local?.unit.unitType !== "county") return false;
+  const read = nextCountyElection(local.unit, world.currentDate);
+  return read.status === "read" && read.dates.estimated;
+}
+
 export function availableCampaignElectionDate(
   world: World,
   jurisdictionId: EntityId,

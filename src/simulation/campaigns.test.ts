@@ -300,6 +300,10 @@ describe("candidacy coverage is stated, never assumed", () => {
     expect(eligibility.blocks.map((block) => block.kind)).toContain(
       "no-sourced-office",
     );
+    expect(
+      eligibility.blocks.find((block) => block.kind === "no-sourced-office")
+        ?.reason,
+    ).toBe("Qualifications: not on record");
   });
 
   it("reaches its own state's pack, and never a different state's", () => {

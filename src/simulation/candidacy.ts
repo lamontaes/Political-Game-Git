@@ -306,31 +306,8 @@ export interface CandidacyBlock {
   readonly citation?: string;
 }
 
-/**
- * Why there is nothing to stand for, in the words that are actually true here.
- *
- * The old single sentence said "nobody has written down which offices are
- * elected here" to a character living in a state whose General Assembly the
- * game has read in full. That was the owner-play failure: a true statement
- * about Lexington's council delivered as a false one about Kentucky.
- */
-function noSourcedOfficeReason(authority: CandidacyAuthority): string {
-  if (authority.stateJurisdictionKey === null) {
-    return "The game has not read any elected office for this place, and it will not borrow another jurisdiction's rules to fill the gap.";
-  }
-  if (
-    authority.pack === null &&
-    isTerritoryUsps(authority.stateJurisdictionKey.slice(3))
-  ) {
-    // A territory's Governor stands apart from this list; its legislature and
-    // local offices are not on record until the territory research lands.
-    return "None of this territory's legislative or local offices is on record yet, so there is no seat to run for here. Its Governor is below.";
-  }
-  if (authority.pack === null) {
-    return "The game has not read this state's elected offices yet, so there is nothing to run for here. It will not borrow another state's rules to fill the gap.";
-  }
-  // A pack governs; the office asked for simply is not one of its seats.
-  return "That office is not one the accepted rules for this place establish, so the game will not put it on a ballot.";
+function noSourcedOfficeReason(): string {
+  return "Qualifications: not on record";
 }
 
 export interface CandidacyEligibility {
@@ -613,13 +590,9 @@ export function candidacyEligibility(
     }
   }
   if (!option) {
-    // Two different absences, said as two different sentences. A state the
-    // game has never read is not the same as a city whose council it has never
-    // read, and telling a Kentuckian the first when only the second is true is
-    // the defect this replaced.
     blocks.push({
       kind: "no-sourced-office",
-      reason: noSourcedOfficeReason(authority),
+      reason: noSourcedOfficeReason(),
     });
   }
 
