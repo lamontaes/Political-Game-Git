@@ -148,11 +148,7 @@ export type OpeningDataVersion =
 
 export interface NewGameSetup {
   /** Optional on old descriptors; it does not participate in world identity. */
-  readonly playSettings?: Partial<
-    Pick<PlaySettings, "challenge" | "notes" | "saves">
-  > & {
-    readonly premises?: Partial<PlaySettings["premises"]>;
-  };
+  readonly playSettings?: Partial<Pick<PlaySettings, "saves">>;
   readonly creatorLifeForks?: readonly CreatorLifeForkChoice[];
   readonly startKind?: NewGameStartKind;
   readonly placeKey: string;
@@ -642,7 +638,6 @@ function productionWorldInputForSetup(
     // The build seed, not the world's identity: the calibration is allowed to
     // change what the generator draws, and never which world this is.
     seed: buildSeedFor(setup),
-    familyMoneyPremise: setup.playSettings?.premises?.familyMoney ?? "ordinary",
     familyStructureSeed: worldSeedFor(setup),
     ...(setup.familyShape === undefined
       ? {}
@@ -757,9 +752,7 @@ function finishNewGameConstruction(
     world: {
       ...agency.world,
       playSettings: initialPlaySettings({
-        ...setup.playSettings,
-        familyMoney: setup.playSettings?.premises?.familyMoney,
-        press: setup.playSettings?.premises?.press,
+        saves: setup.playSettings?.saves,
       }),
     },
     playerPersonId: built.playerPersonId,

@@ -30,6 +30,6 @@ test(`choosing ${place.displayName} goes straight to the next creator step (${se
     .first()
     .click();
 
-  await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
+  await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
   await expect(page.getByTestId("creator-continue-place")).toHaveCount(0);
 });
