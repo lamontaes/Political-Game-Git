@@ -298,7 +298,8 @@ const CURRICULUM_APPLICATION_REGISTRATION: LawConsequenceKindRegistration<Resolv
     apply: applyLawCurriculumApplication,
   };
 
-export const lawConsequenceLw08CurriculumRegistrations: readonly AnyLawConsequenceKindRegistration[] =
-  [CURRICULUM_APPLICATION_REGISTRATION];
+export const registrations: readonly AnyLawConsequenceKindRegistration[] = [
+  CURRICULUM_APPLICATION_REGISTRATION,
+];
 
 export { CURRICULUM_STANDARDS_ROW };

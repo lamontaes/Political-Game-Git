@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import type { ResolvedLawConsequence } from "../../../law-consequence-types";
 import type { EntityId, World } from "../../../types";
+import { stableHash } from "../../../ids";
+import { lifePlaceStateIdentities } from "../../../life-places";
 import { CURRICULUM_STANDARDS_ROW } from "./data";
 import {
   appendLawCurriculumApplication,
@@ -9,6 +11,15 @@ import {
 } from "./index";
 
 const entity = (value: string) => value as EntityId;
+
+/** A place from all 56, named by its seed. */
+const SEED = "lw08-curriculum";
+function drawPlace(): string {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  return places[parseInt(stableHash(SEED).slice(0, 8), 16) % places.length]!
+    .jurisdictionKey;
+}
 
 describe("LW-08 curriculum application", () => {
   it("requires an exact saved curriculum category for a school program", () => {
@@ -43,7 +54,7 @@ describe("LW-08 curriculum application", () => {
       row: CURRICULUM_STANDARDS_ROW,
       law,
       questionKey: "us-policy-positions:education.state-curriculum-standards",
-      jurisdictionId: entity("jurisdiction:US-KY"),
+      jurisdictionId: entity(`jurisdiction:${drawPlace()}`),
       subject: { kind: "person", id: entity("person:pupil-1") },
       activityId: entity("event:effective"),
       effectiveAt: "2026-09-01",
