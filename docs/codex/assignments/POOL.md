@@ -628,7 +628,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1591 | A56: first landlords follow recorded owners and the saved home roster | PR #1680 (merged: first leases follow recorded owners) | done #1680 | S50 | |
 | RS-1647 | A25: extract sourced juvenile ages without runtime admission | PR #1647 (codex/team9-a25-sourced-age-extraction) | open: stacked on codex/team9-a103-recorded-sentence-terms: retarget to main; draft: finish it or close it as superseded | |
 | RS-1662 | WIP: People's views weigh what they lived through (slice 10 Lives) | PR #1662 (claude/quirky-brown-rq82i7) | open: draft: finish it or close it as superseded | |
-| RS-1673 | Your Home: preserve rent when the legal cap is unresolved | PR #1673 (codex/team-4-a57-unresolved-cap) | open: draft: finish it or close it as superseded | |
+| RS-1673 | Your Home: preserve rent when the legal cap is unresolved | PR #1673 (codex/team-4-a57-unresolved-cap) | ready #1673 | S50 |
 | RS-1696 | A105 Crime & Courts trial step: prove all 56 saved court paths | PR #1696 (codex/team9-a105-all56-trial-proof) | open: draft: finish it or close it as superseded | |
 | RS-1704 | A10 A105 Crime & Courts play script: saved player plea and sentence | PR #1704 (codex/team9-crime-courts-play-script) | open: stacked on codex/team9-a105-all56-trial-proof: retarget to main; draft: finish it or close it as superseded | |
 | RS-1712 | A25: carry cited juvenile age limits into starting-law terms | PR #1712 (codex/a25-starting-age-terms) | open: draft: finish it or close it as superseded | |
