@@ -1,8 +1,7 @@
 {
   "place": "Egan, South Dakota",
-  "state": "South Dakota",
   "seed": "runtime-text-audit:0",
-  "fixedText": 1365,
+  "fixedText": 1325,
   "engine": 22,
   "unexplained": []
 }
