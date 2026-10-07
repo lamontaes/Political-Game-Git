@@ -139,7 +139,13 @@ describe("LW-04 a state's own property and payroll tax lands on named payers", (
     "is filed by a seated member, passed by the state legislature and reaches payers ($instrument, $seed)",
     ({ seed, instrument }) => {
       const state = drawState(seed);
+      const t0 = Date.now();
+      const mark = (label: string) =>
+        process.stderr.write(
+          `PROGRESS ${label} ${Math.round((Date.now() - t0) / 1000)}s\n`,
+        );
       const fixture = ordinaryStateHouseFilingEntry(state);
+      mark("fixture");
       const personId = fixture.personId;
       let world = fixture.world;
       const entry = resolveLegislativeFilingEntry(world, personId);
@@ -162,12 +168,14 @@ describe("LW-04 a state's own property and payroll tax lands on named payers", (
         level: "STATE",
         instrument,
       });
+      mark("filed");
       world = enact(
         reopen(filed.world),
         filed.measureId,
         personId,
         entry.seat.relationshipStableKey,
       );
+      mark("enacted");
       const proposal = world.history.taxProposals!.find(
         (row) => row.measureId === filed.measureId,
       )!;
