@@ -14,6 +14,7 @@ test("a random new-life first paycheck is visible in Money and property", async 
     const geographyPath = "/src/presentation/new-game-geography.ts";
     const openingPath = "/src/presentation/opening-life.ts";
     const lifePath = "/src/simulation/life-paths2.ts";
+    const worldHandlersPath = "/src/simulation/campaigns.ts";
     const incomePath = "/src/simulation/resource-income.ts";
     const worldPath = "/src/simulation/world.ts";
     const storePath = "/src/presentation/browser-world-repository.ts";
@@ -23,12 +24,11 @@ test("a random new-life first paycheck is visible in Money and property", async 
     const { generateOpeningLife, prepareOpeningLife } = await import(
       /* @vite-ignore */ openingPath
     );
-    const {
-      enterLifePath,
-      scheduleLifePathSession,
-      performLifePathSession,
-      lifePaths2Handlers,
-    } = await import(/* @vite-ignore */ lifePath);
+    const { enterLifePath, scheduleLifePathSession, performLifePathSession } =
+      await import(/* @vite-ignore */ lifePath);
+    const { composeWorldTimeHandlers } = await import(
+      /* @vite-ignore */ worldHandlersPath
+    );
     const { recordedPayStubs } = await import(/* @vite-ignore */ incomePath);
     const { advanceWorld } = await import(/* @vite-ignore */ worldPath);
     const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
@@ -53,12 +53,14 @@ test("a random new-life first paycheck is visible in Money and property", async 
       entered.world.history.workRelationships.at(-1).id,
     );
     if (!scheduled.ok) throw new Error(scheduled.message);
+    const timeHandlers = composeWorldTimeHandlers();
     const worked = performLifePathSession(
       scheduled.world,
       scheduled.world.history.scheduledActivities.at(-1).id,
+      timeHandlers,
     );
     if (!worked.ok) throw new Error(worked.message);
-    const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
+    const paid = advanceWorld(worked.world, 1, timeHandlers);
     const stubs = recordedPayStubs(paid, game.playerPersonId);
     if (stubs.length !== 1)
       throw new Error("Payday fixture did not record one canonical paycheck.");
