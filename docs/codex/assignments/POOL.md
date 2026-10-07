@@ -999,7 +999,7 @@ open: rebase on main (conflicts) | |
 
 | item | what it is                                                                                   | doc and part                                                         | status      | claimer                   |
 | ---- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ----------- | ------------------------- |
-| CO-1 | County election calendar for every county. Owner L2.                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open        | L2                        |
+| CO-1 | County election calendar for every county. Owner L2.                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | done #2906  | L2                        |
 | CO-2 | Row officers as electable offices. Owner H3.                                                 | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | done #3003  | H3                        |
 | CO-3 | County structure type and executive. Owner L2 (data) then H3 (office).                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open        | L2 then H3                |
 | CO-4 | Sheriff and district attorney do recorded work. Owner H1 after its rescue list, else anyone. | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3000 | done        | H1 after rescue or anyone |
