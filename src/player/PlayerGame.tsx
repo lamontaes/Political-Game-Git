@@ -172,7 +172,7 @@ import {
   type NewGameSetup,
 } from "../presentation/new-game";
 import { olderOneSaveSlots } from "../presentation/one-save-slots";
-import { playSettingsOf } from "../simulation/play-settings";
+import { playSettingsOf, setPlaySetting } from "../simulation/play-settings";
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
@@ -194,6 +194,7 @@ import {
   resolvePlaySceneContext,
 } from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
+import { scenePeopleWithControlledPerson } from "../presentation/scene-player-presence";
 import {
   artPreviewLibraries,
   artPreviewMode,
@@ -1632,6 +1633,7 @@ function PlayingScreen({
     if (meeting)
       return {
         purpose: "activity" as const,
+        controlledPersonPresent: true,
         locationKey: meeting.location.locationKey,
         sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
         reason: "Recorded meeting entry or immediate aftermath.",
@@ -1646,6 +1648,7 @@ function PlayingScreen({
     if (guidanceScene)
       return {
         purpose: "activity" as const,
+        controlledPersonPresent: true,
         locationKey: guidanceScene.location.locationKey,
         sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
         reason: "Recorded candidate-guidance entry in the community room.",
@@ -1677,6 +1680,7 @@ function PlayingScreen({
       );
       return {
         purpose: "activity" as const,
+        controlledPersonPresent: true,
         locationKey: activity.location.locationKey,
         sceneId: resolved.sceneId,
         reason: resolved.reason,
@@ -1708,6 +1712,34 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  const controlledPersonPresent =
+    !observing && playScene.controlledPersonPresent;
+  const controlledPerson = session.world.people[session.personId];
+  const controlledPersonName =
+    controlledPerson === undefined ? null : personName(controlledPerson);
+  const controlledScenePerson =
+    controlledPersonName === null
+      ? null
+      : {
+          personId: session.personId,
+          name: controlledPersonName,
+          relationship: null,
+          introduction: controlledPersonName,
+        };
+  const recordedScenePeople = useMemo(
+    () =>
+      scenePeopleWithControlledPerson(
+        projectedMoment.scene.presentPeople,
+        controlledScenePerson,
+        controlledPersonPresent,
+      ),
+    [
+      projectedMoment.scene.presentPeople,
+      controlledPersonPresent,
+      session.personId,
+      controlledPersonName,
+    ],
+  );
   /*
    * A person card stays until the next scene. When the scene or the day
    * moves on, the room and the people in it are not the ones the card was
@@ -1766,6 +1798,32 @@ function PlayingScreen({
     ],
   );
   // Who is on shift at that place, standing in its picture.
+  const placeScenePeople = useMemo(() => {
+    const people =
+      placeBackdrop?.place === "county-courtroom"
+        ? [
+            ...playScene.presentPeople,
+            ...courtroomPresentPeople(session.world, session.personId),
+          ]
+        : placeBackdrop?.place === "rally-stage"
+          ? [
+              ...playScene.presentPeople,
+              ...protestPresentPeople(session.world, session.personId),
+            ]
+          : playScene.presentPeople;
+    return scenePeopleWithControlledPerson(
+      people,
+      controlledScenePerson,
+      controlledPersonPresent,
+    );
+  }, [
+    placeBackdrop,
+    playScene.presentPeople,
+    session.world,
+    session.personId,
+    controlledPersonPresent,
+    controlledPersonName,
+  ]);
   const placePeople = useMemo(
     () =>
       placeBackdrop
@@ -1777,18 +1835,9 @@ function PlayingScreen({
             // The scene's own people (a meeting's seated officers) first; on
             // a day the court sat, the people the records name in the room;
             // on a protest day, its recorded organizer and attendees.
-            placeBackdrop.place === "county-courtroom"
-              ? [
-                  ...playScene.presentPeople,
-                  ...courtroomPresentPeople(session.world, session.personId),
-                ]
-              : placeBackdrop.place === "rally-stage"
-                ? [
-                    ...playScene.presentPeople,
-                    ...protestPresentPeople(session.world, session.personId),
-                  ]
-                : playScene.presentPeople,
+            placeScenePeople,
             {
+              includeViewer: controlledPersonPresent,
               speakerId:
                 conversation && conversation.addressee !== "everyone"
                   ? conversation.addressee
@@ -1801,6 +1850,7 @@ function PlayingScreen({
       session.world,
       session.personId,
       playScene.presentPeople,
+      placeScenePeople,
       conversation,
     ],
   );
@@ -1923,7 +1973,7 @@ function PlayingScreen({
     () =>
       planLifeScenePeople(
         session.world,
-        moment.scene.presentPeople,
+        recordedScenePeople,
         sceneId,
         undefined,
         {
@@ -1936,7 +1986,7 @@ function PlayingScreen({
       ),
     [
       session.world,
-      moment.scene.presentPeople,
+      recordedScenePeople,
       sceneId,
       shell.personWardrobes,
       renderSnapshots,
@@ -4287,6 +4337,12 @@ function renderWorkspace({
           <OptionsWorkspace
             state={shell}
             dispatch={dispatch}
+            notesVisibility={playSettingsOf(session.world).notesVisibility}
+            onChangeNotesVisibility={(notesVisibility) =>
+              onWorldChange(
+                setPlaySetting(session.world, "notes", notesVisibility),
+              )
+            }
             onOpenPatchNotes={() =>
               dispatch({ type: "go-to-surface", surface: "patch-notes" })
             }
