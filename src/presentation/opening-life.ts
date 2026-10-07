@@ -62,6 +62,7 @@ import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
 import { ensurePublicBudgets } from "../simulation/public-budgets";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
+import { ensureHealthCoveragePass } from "../simulation/crisis/health-coverage";
 import {
   ensureMacroEconomyStarted,
   macroStartForHistory,
@@ -479,10 +480,13 @@ function* completeOpeningLifeSteps(
           "opening",
         )
       : withOfficeSalaries;
-  // The opening SNAP baseline reads recorded household pay. Settle it only
+// The opening SNAP baseline reads recorded household pay. Settle it only
   // after opening wages exist so the first eligibility review sees real income.
   const withOutcomes = ensurePlaceOutcomes(withEmployerCash);
-  const world = initializeWorkPayCoverage(withOutcomes);
+  const world = ensureHealthCoveragePass(
+    initializeWorkPayCoverage(withOutcomes),
+    game.playerPersonId,
+  );
   const recovered = recoverOverdueProsecutions(world);
   // Opening owns the one-time catch-up. The canonical clock and registry
   // owners consume these saved wakes; this builder never dispatches them.

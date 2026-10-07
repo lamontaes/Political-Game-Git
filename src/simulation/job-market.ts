@@ -43,6 +43,7 @@ import {
   resourceFlowTermsHistory,
 } from "./resource-queries";
 import { createWorkCompensation, money } from "./resources";
+import { annualizedRecordedPayMinor } from "./household-pay";
 import { playerTown, townRoster } from "./living-world/town-residents";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
@@ -248,10 +249,7 @@ function slug(value: string): string {
 }
 
 function annualFromTerms(minor: number, cadence: string): number | null {
-  if (cadence === "schedule:monthly" || cadence === "work:monthly-salary")
-    return minor * 12;
-  if (cadence === "schedule:weekly") return minor * 52;
-  return null;
+  return annualizedRecordedPayMinor(minor, cadence);
 }
 
 function publicBodyOrganizations(
