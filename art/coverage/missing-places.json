@@ -4,19 +4,19 @@
   "sources": [
     {
       "path": "art/backdrops/manifest.json",
-      "sha256": "61474d0978002d3f29313eb16c2393ae694f60ac7a640913e56c25002f4141e9"
+      "sha256": "ae1cda3d6f02afaefd08a4bf7e1de03593234e918f25420c2d8f2ab055f814cd"
     },
     {
       "path": "src/presentation/place-backdrops.ts",
-      "sha256": "51fdd023240d51e451d04602b82c97b1c99071b15b1800282dc8eb758144e36d"
+      "sha256": "c66db06c11dbbb075ca14955579b335d86827cd2c014a07f317f90eadaf3ea70"
     },
     {
       "path": "src/presentation/scene-venues.ts",
-      "sha256": "0b131fe3f2c154594860f2d52f98bf7933c5b231ff1e0f2ba12c33ef9e8f5b79"
+      "sha256": "3eb715f0c01a6269a07a385e527d9e2f68786cfb9bf01ad9dbbef291598ddd7b"
     },
     {
       "path": "src/simulation/campaign-life-activities.ts",
-      "sha256": "0480d1407b1d988151bfeb830fb44dda7629385bf5441865cba22111fd98a76a"
+      "sha256": "faabf6d892c1ad8de4ad4f44f73a51bc34de931ecda1fbee5084a28852b0650e"
     },
     {
       "path": "src/simulation/campaign-life-catalog.ts",
@@ -24,23 +24,23 @@
     },
     {
       "path": "src/simulation/campaign-life-types.ts",
-      "sha256": "8d42919db4af969c6d1d4dd69e8f39fab3c0416a70d76f2050e897eb5980047f"
+      "sha256": "3eca2f6eb87ad7e694d25016b03e6e726721e65658340b30157776a1a4df021e"
     },
     {
       "path": "src/simulation/campaign-routine.ts",
-      "sha256": "ded0b38b4b6dfb23c8bd5039b9dcf6d92eeef081468139d53a2e5c03aae53d34"
+      "sha256": "204dc5a86a1c3c3f4ede7aceaf1b6284237c1aa1c24ad244b920ecff69ed968d"
     },
     {
       "path": "src/simulation/campaign-speeches.ts",
-      "sha256": "c1c9e4024b50cad680cd527b24903961e509a1278ea73766dd87a2cdc6b4df04"
+      "sha256": "b99556a0ca6a15b64cf2219c090c44c07b6ef7ba91725b6f6ea5df36883dea03"
     },
     {
       "path": "src/simulation/campaign-weekly-plans.ts",
-      "sha256": "9e55c0036fb23cbcb07a59b1c01fcbe37929a0cac4db3fc2ed64b0e6f94a1c95"
+      "sha256": "872b43d8845626e4549987e7db04cf577a50f5d63b1df42c7a6718f6a78e08ca"
     },
     {
       "path": "src/simulation/campaigns.ts",
-      "sha256": "97b5b0cbb0e05c24dde12c5f51a26be8719ae1d3ce3e937f0716ab57eced9148"
+      "sha256": "01912635e8cb59c4268dd0d95e355b0ac0ab45961f4648e5c54422f197f7a1b2"
     },
     {
       "path": "src/simulation/civil-personnel-actions.ts",
@@ -48,11 +48,11 @@
     },
     {
       "path": "src/simulation/executive-work-context.ts",
-      "sha256": "be9651384bb3ed7e3aa5589dd329f44257633a5831d648e5072a51ca013ab0e2"
+      "sha256": "84aa50b8dd5404a462e2c8a5f996e913c10f6977a6d00da3d4a1d56020bce8b7"
     },
     {
       "path": "src/simulation/governing/legislative-clock.ts",
-      "sha256": "04485e9c450b7f478b81ff95561a3950b30eab44184b45176e0391c638e20318"
+      "sha256": "2091fab2cb3985e8113414d60f55fe6becd42eccbacdd0889c556409a33754d9"
     },
     {
       "path": "src/simulation/governing/member-ballots.ts",
@@ -76,7 +76,7 @@
     },
     {
       "path": "src/simulation/life-paths2.ts",
-      "sha256": "f66e878300a9be3883a7f26a7cf1d573977ae14f6aab9362352965761d4532d2"
+      "sha256": "1a8ad1b6de730e50100be47fac9e90bdf6b4d11840c2c4899ac204997f478864"
     },
     {
       "path": "src/simulation/living-world/party-chapters.ts",
@@ -84,7 +84,7 @@
     },
     {
       "path": "src/simulation/municipal-public-work.ts",
-      "sha256": "1299a159ec0be476927d000ae6850f326b36da3e1d5426be3af495a7b63072c5"
+      "sha256": "f662822c2545fca315e4725c9c51d855a926f45c80272e13e2710ca6889f6f44"
     },
     {
       "path": "src/simulation/ordinary-meeting-presence.ts",
@@ -95,28 +95,28 @@
       "sha256": "d52e92993aa5ae5be36a9b4f82b01bbb88c2a51fdf0bb9bce8c62c084cc0aeb5"
     },
     {
-      "path": "src/simulation/people-contact.ts",
-      "sha256": "1006b1bd37b4f93fcad3651733ecdaea22540e963ac55e4377cadeb5f26bbb4b"
-    },
-    {
       "path": "src/simulation/press-interview-producers.ts",
       "sha256": "df530ef0c7851b0c4888a76b65718c98e64ba85fc11bf95211ef5308f5bf6f73"
     },
     {
       "path": "src/simulation/press-interviews.ts",
-      "sha256": "b1326f03eb9e6a177edc41cfd5a1c4c847c9bdce2f43bb889dd92c8dc85febb2"
+      "sha256": "f09b57833013aba17f883825b609f958212b3dac0526ef1bfb9993e2cfb8192a"
     },
     {
       "path": "src/simulation/public-service-requests.ts",
-      "sha256": "75b0044a96bfaa52081ec068eb52d16be50bf5ff0c805962f768bd63c25e7474"
+      "sha256": "6276f5cf0ea3e4aacbcada05dd6ca452ba55a7f17c8b361f837f3c914da86204"
+    },
+    {
+      "path": "src/simulation/relationship-contact.ts",
+      "sha256": "313b72c9d42034e53840c5f74a4c110cc4c0ed90e50e531ff8e95bd87527e6aa"
     },
     {
       "path": "src/simulation/time-work.ts",
-      "sha256": "02f732237254f0a7043bbe1f3a0c7d15292660897384c90dfdb8e271645ab26c"
+      "sha256": "a07236accb6a942bf10149553440603b7c434a9d0ce0dddd5a972f59f23ee6be"
     },
     {
       "path": "src/simulation/types.ts",
-      "sha256": "1c4c2c30fdff27d4f8643ede1e0385587228cb9213b9d0f570053d6e8d502a11"
+      "sha256": "a35124c0add3ffabf5c6a05fcd9f2e1ab78c5add96a538d0045c17f703819188"
     }
   ],
   "inventory": [
@@ -124,26 +124,26 @@
       "locationKey": "campaign-call-desk",
       "place": "phone-bank-room",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 389 },
-        { "source": "src/presentation/scene-venues.ts", "line": 132 },
+        { "source": "src/presentation/place-backdrops.ts", "line": 557 },
+        { "source": "src/presentation/scene-venues.ts", "line": 140 },
         { "source": "src/simulation/campaign-routine.ts", "line": 71 },
-        { "source": "src/simulation/campaign-weekly-plans.ts", "line": 176 }
+        { "source": "src/simulation/campaign-weekly-plans.ts", "line": 178 }
       ]
     },
     {
       "locationKey": "campaign-election-night",
       "place": "election-night-venue",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 393 },
-        { "source": "src/presentation/scene-venues.ts", "line": 104 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 561 },
+        { "source": "src/presentation/scene-venues.ts", "line": 112 }
       ]
     },
     {
       "locationKey": "campaign-life:town-hall-school-gym",
       "place": "school-gym-town-hall",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 394 },
-        { "source": "src/presentation/scene-venues.ts", "line": 97 },
+        { "source": "src/presentation/place-backdrops.ts", "line": 562 },
+        { "source": "src/presentation/scene-venues.ts", "line": 105 },
         { "source": "src/simulation/campaign-life-catalog.ts", "line": 36 }
       ]
     },
@@ -151,16 +151,16 @@
       "locationKey": "campaign-office",
       "place": "campaign-storefront",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 390 },
-        { "source": "src/presentation/scene-venues.ts", "line": 139 },
-        { "source": "src/simulation/campaign-weekly-plans.ts", "line": 187 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 558 },
+        { "source": "src/presentation/scene-venues.ts", "line": 147 },
+        { "source": "src/simulation/campaign-weekly-plans.ts", "line": 189 }
       ]
     },
     {
       "locationKey": "campaign-remote-phone",
       "place": "phone-bank-room",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 387 },
+        { "source": "src/presentation/place-backdrops.ts", "line": 555 },
         { "source": "src/simulation/campaign-life-catalog.ts", "line": 69 }
       ]
     },
@@ -168,63 +168,63 @@
       "locationKey": "east-end-community-room",
       "place": "community-room",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 382 },
-        { "source": "src/presentation/scene-venues.ts", "line": 111 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 550 },
+        { "source": "src/presentation/scene-venues.ts", "line": 119 }
       ]
     },
     {
       "locationKey": "episode:school",
       "place": "classroom",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 376 },
-        { "source": "src/presentation/scene-venues.ts", "line": 69 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 544 },
+        { "source": "src/presentation/scene-venues.ts", "line": 77 }
       ]
     },
     {
       "locationKey": "executive-office",
       "place": "governor-office",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 384 },
-        { "source": "src/presentation/scene-venues.ts", "line": 125 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 552 },
+        { "source": "src/presentation/scene-venues.ts", "line": 133 }
       ]
     },
     {
       "locationKey": "executive-work:office",
       "place": "governor-office",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 385 },
-        { "source": "src/simulation/executive-work-context.ts", "line": 506 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 553 },
+        { "source": "src/simulation/executive-work-context.ts", "line": 517 }
       ]
     },
     {
       "locationKey": "formative:school-corridor",
       "place": "classroom",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 375 },
-        { "source": "src/presentation/scene-venues.ts", "line": 62 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 543 },
+        { "source": "src/presentation/scene-venues.ts", "line": 70 }
       ]
     },
     {
       "locationKey": "life-favor:proofreading",
       "place": "diner",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 391 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 559 }
       ]
     },
     {
       "locationKey": "office-to-east-end",
       "place": "main-street",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 383 },
-        { "source": "src/presentation/scene-venues.ts", "line": 160 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 551 },
+        { "source": "src/presentation/scene-venues.ts", "line": 168 }
       ]
     },
     {
       "locationKey": "ordinary-life:meeting-room",
       "place": "public-meeting-room",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 381 },
-        { "source": "src/presentation/scene-venues.ts", "line": 90 },
+        { "source": "src/presentation/place-backdrops.ts", "line": 549 },
+        { "source": "src/presentation/scene-venues.ts", "line": 98 },
         { "source": "src/simulation/campaign-life-catalog.ts", "line": 24 },
         { "source": "src/simulation/life-opportunities.ts", "line": 368 },
         {
@@ -241,8 +241,8 @@
       "locationKey": "ordinary-life:to-meeting-room",
       "place": "main-street",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 379 },
-        { "source": "src/presentation/scene-venues.ts", "line": 83 },
+        { "source": "src/presentation/place-backdrops.ts", "line": 547 },
+        { "source": "src/presentation/scene-venues.ts", "line": 91 },
         { "source": "src/simulation/life-opportunities.ts", "line": 391 },
         {
           "source": "src/simulation/living-world/party-chapters.ts",
@@ -254,8 +254,8 @@
       "locationKey": "private-field-call",
       "place": "phone-bank-room",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 388 },
-        { "source": "src/presentation/scene-venues.ts", "line": 153 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 556 },
+        { "source": "src/presentation/scene-venues.ts", "line": 161 }
       ]
     }
   ],
@@ -265,61 +265,67 @@
       "locationKey": "campaign-doors",
       "target": "doors",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 386 },
-        { "source": "src/presentation/scene-venues.ts", "line": 146 },
+        { "source": "src/presentation/place-backdrops.ts", "line": 554 },
+        { "source": "src/presentation/scene-venues.ts", "line": 154 },
         { "source": "src/simulation/campaign-routine.ts", "line": 63 },
-        { "source": "src/simulation/campaign-weekly-plans.ts", "line": 165 }
+        { "source": "src/simulation/campaign-routine.ts", "line": 81 },
+        { "source": "src/simulation/campaign-weekly-plans.ts", "line": 167 }
       ]
     },
     {
       "locationKey": "home",
       "target": "home",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 374 }
+        { "source": "src/presentation/place-backdrops.ts", "line": 542 }
       ]
     },
     {
       "locationKey": "incident-response:current-office",
       "target": "workplace",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 378 },
+        { "source": "src/presentation/place-backdrops.ts", "line": 546 },
         { "source": "src/simulation/incident-response.ts", "line": 410 }
       ]
     },
     {
       "locationKey": "lexington-legislative-office",
       "target": null,
-      "sources": [{ "source": "src/presentation/scene-venues.ts", "line": 118 }]
+      "sources": [{ "source": "src/presentation/scene-venues.ts", "line": 126 }]
     },
     {
       "locationKey": "life-circumstance:covered-shift",
       "target": "workplace",
       "sources": [
-        { "source": "src/presentation/place-backdrops.ts", "line": 377 },
-        { "source": "src/presentation/scene-venues.ts", "line": 76 },
+        { "source": "src/presentation/place-backdrops.ts", "line": 545 },
+        { "source": "src/presentation/scene-venues.ts", "line": 84 },
         { "source": "src/simulation/life-circumstances.ts", "line": 1212 }
       ]
+    },
+    {
+      "locationKey": "place:office",
+      "target": null,
+      "sources": [{ "source": "src/presentation/scene-venues.ts", "line": 62 }]
     }
   ],
   "dynamic": [
     {
       "source": "src/simulation/campaign-life-activities.ts",
-      "line": 652,
+      "line": 656,
       "expression": "entry.locationKey"
     },
     {
       "source": "src/simulation/campaign-life-activities.ts",
-      "line": 673,
+      "line": 677,
       "expression": "entry.journeyKey"
     },
     {
       "source": "src/simulation/campaign-weekly-plans.ts",
-      "line": 934,
+      "line": 952,
       "expression": "session.locationKey"
     },
     {
       "source": "src/simulation/campaigns.ts",
-      "line": 2597,
+      "line": 2653,
       "expression": "work.locationKey"
     },
     {
@@ -329,7 +335,7 @@
     },
     {
       "source": "src/simulation/governing/legislative-clock.ts",
-      "line": 1770,
+      "line": 1819,
       "expression": "MEMBER_BALLOT_LOCATION_KEY"
     },
     {
@@ -359,23 +365,23 @@
     },
     {
       "source": "src/simulation/municipal-public-work.ts",
-      "line": 938,
+      "line": 935,
       "expression": "`municipal:${input.governmentKey}:${input.seriesKey}`"
     },
     {
       "source": "src/simulation/municipal-public-work.ts",
-      "line": 1323,
+      "line": 1320,
       "expression": "`municipal-notes:${governmentKey}:${personId}`"
     },
     {
-      "source": "src/simulation/people-contact.ts",
-      "line": 658,
-      "expression": "CONTACT_LOCATION_KEY"
+      "source": "src/simulation/public-service-requests.ts",
+      "line": 447,
+      "expression": "`public-service:${operatorId}`"
     },
     {
-      "source": "src/simulation/public-service-requests.ts",
-      "line": 430,
-      "expression": "`public-service:${operatorId}`"
+      "source": "src/simulation/relationship-contact.ts",
+      "line": 662,
+      "expression": "CONTACT_LOCATION_KEY"
     }
   ]
 }
