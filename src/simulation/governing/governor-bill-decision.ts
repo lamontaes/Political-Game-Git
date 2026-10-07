@@ -1,5 +1,6 @@
 import { addDays } from "../dates";
 import { measureActions } from "../legislation";
+import { vetoWindowDayBasisFor } from "../legislature-game-profile";
 import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import { measureSessionClosedOn } from "./legislative-clock";
 import { evaluateDecision } from "../decisions";
@@ -341,9 +342,15 @@ export function executiveBillActionWindow(
   const days = afterAdjournment
     ? pack.executive.actionWindowDaysAfterAdjournment
     : pack.executive.actionWindowDaysInSession;
-  const basis = afterAdjournment
+  const recordedBasis = afterAdjournment
     ? pack.executive.actionWindowDayBasisAfterAdjournment
     : pack.executive.actionWindowDayBasisInSession;
+  // Older state packs predate this optional field. The same sourced table
+  // reader used by generated profiles supplies their day-count basis, without
+  // replacing an explicit unresolved rule or changing a recorded day count.
+  const basis =
+    recordedBasis ??
+    vetoWindowDayBasisFor(pack.jurisdictionKey, afterAdjournment);
   if (
     days.kind !== "known" ||
     basis?.kind !== "known" ||

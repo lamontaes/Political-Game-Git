@@ -1,3 +1,8 @@
+import { applyPretrialLawLandings } from "../law-consequences/modules/justice-pretrial-landings";
+import {
+  applySentencingLawLandings,
+  applyVotingRightLanding,
+} from "../law-consequences/modules/justice-sentencing-landings";
 import { juryCountyForPlace, summonJuryResidents } from "./jury-catchment";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { custodyFloorAt } from "../law-consequences/legal-outcome";
@@ -75,6 +80,7 @@ import {
   evaluateDetention,
   evaluatePlea,
   evaluateSentence,
+  mandatoryMinimumBindingAt,
   prepareJudge,
   prepareJurors,
   sentencingJudge,
@@ -82,7 +88,7 @@ import {
   CONVICT,
   PLEA,
   PRETRIAL_HOLD,
-  UNRESEARCHED_JURY_PANEL,
+  JURY_PANEL_ESTIMATE,
   SENTENCE_JAIL,
   type CourtCase,
   type EvidenceStrength,
@@ -100,6 +106,7 @@ import {
   SENTENCE_LIFE_TAG,
   type SentenceKind,
 } from "./jail-terms";
+import { recordVotingRightForSentence } from "./voting-standing";
 
 export {
   jailTermOn,
@@ -519,13 +526,16 @@ function recordFollowUp(
     ...event,
     lawEffectStamps: [stamp],
   };
-  return {
-    ...recorded,
-    history: {
-      ...recorded.history,
-      events: [...recorded.history.events.slice(0, -1), stampedEvent],
+  return applyPretrialLawLandings(
+    {
+      ...recorded,
+      history: {
+        ...recorded.history,
+        events: [...recorded.history.events.slice(0, -1), stampedEvent],
+      },
     },
-  };
+    stampedEvent.id,
+  );
 }
 
 /** Run consequence rows only after the court has saved its actual stage. */
@@ -678,11 +688,11 @@ function holdTrial(
   let next = summonJuryResidents(
     world,
     courtCase.venueJurisdictionId,
-    UNRESEARCHED_JURY_PANEL.size,
+    JURY_PANEL_ESTIMATE.size,
     (candidate) => juryPool(candidate, courtCase),
   );
   const jurors = empanelJury(next, courtCase, trialNumber);
-  if (jurors.length < UNRESEARCHED_JURY_PANEL.size)
+  if (jurors.length < JURY_PANEL_ESTIMATE.size)
     return {
       world: next,
       verdict: "pending",
@@ -1040,7 +1050,7 @@ export function advanceProsecutions(
         : null;
       const juryTags = [
         `justice.jury-panel-size:${trial.jurors}`,
-        `justice.jury-panel-basis:${UNRESEARCHED_JURY_PANEL.provenance}`,
+        `justice.jury-panel-basis:${JURY_PANEL_ESTIMATE.provenance}`,
         ...(juryCounty
           ? [
               `justice.jury-catchment:${juryCounty}`,
@@ -1138,8 +1148,28 @@ export function advanceProsecutions(
       PROSECUTION_SENTENCED_EVENT,
       referral,
     ).at(-1)!;
-    if (kind === "jail")
+    if (kind === "jail") {
       next = removeFromOffice(next, subjectId, savedSentence);
+      // The judge's saved decision says whether the minimum law bound it.
+      const binding = sentence.context.constraints.some(
+        (constraint) => constraint.kind === "law:mandatory-minimum",
+      )
+        ? mandatoryMinimumBindingAt(next, courtCase, floor)
+        : null;
+      if (binding)
+        next = applySentencingLawLandings(
+          next,
+          savedSentence.id,
+          binding.law.measureId,
+        );
+      // A felony term suspends the vote; the state's law decides its return.
+      const withVote = recordVotingRightForSentence(next, savedSentence.id);
+      if (withVote !== next)
+        next = applyVotingRightLanding(
+          withVote,
+          withVote.history.events.at(-1)!.id,
+        );
+    }
     next = considerClemencyAfterSentence(next, savedSentence.id);
   }
   return next;

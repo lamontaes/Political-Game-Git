@@ -1243,7 +1243,9 @@ export function ensureTownEmployment(
       !working.has(resident.personId) &&
       laborStatus(world, resident) === "employed",
   );
-  return fillTownJobs(world, town, open, { round: null });
+  return fillTownJobs(world, town, open, {
+    round: null,
+  });
 }
 
 /**
@@ -1511,9 +1513,12 @@ export function fillTownJobs(
         sum + (counted().byRole.get(`${workplace.key}|${entry.title}`) ?? 0),
       0,
     );
-    const short = (entry: Role) =>
-      (entry.weight / total) * (held + 1) -
-      (counted().byRole.get(`${workplace.key}|${entry.title}`) ?? 0);
+    const short = (entry: Role) => {
+      const balance =
+        (entry.weight / total) * (held + 1) -
+        (counted().byRole.get(`${workplace.key}|${entry.title}`) ?? 0);
+      return balance;
+    };
     return [...fits].sort(
       (a, b) => short(b) - short(a) || a.title.localeCompare(b.title),
     )[0]!;

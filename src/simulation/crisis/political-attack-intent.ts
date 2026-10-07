@@ -194,7 +194,7 @@ export function recordPoliticalAttackIntent(
       direction: "supports",
       importance: "decisive",
       confidence: "high",
-      explanation: "The controlled person explicitly confirmed this intent.",
+      explanation: "trace:explicit-player-confirmation",
       sourceRefs: [],
     });
 
@@ -214,13 +214,13 @@ export function recordPoliticalAttackIntent(
     options: [
       {
         key: "intend-attack",
-        label: "Intend an attack",
-        description: "Choose an attack after weighing the recorded factors.",
+        label: "intend-attack",
+        description: "intend-attack",
       },
       {
         key: "refrain",
-        label: "Refrain",
-        description: "Do not form an attack intent.",
+        label: "refrain",
+        description: "refrain",
       },
     ],
     constraints: [],

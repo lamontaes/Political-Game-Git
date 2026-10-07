@@ -163,14 +163,14 @@ export function parseFinanceCrosswalk(
   }
   return result;
 }
-/** S means Alternative source, M Unknown, N Not applicable (publisher codebook). */
+/** S means Alternative source, M means no amount reported, N Not applicable. */
 export function financePublisherAmount(
   row: FinancePublisherRow,
   date: string,
   evidence: Evidence,
 ): Sourced<number> {
   if (row.flag === "M")
-    return unknown("Publisher flag M: Unknown.", [evidence]);
+    return unknown("Publisher flag M: no amount reported.", [evidence]);
   if (row.flag === "N")
     return notApplicable([evidence], "Publisher flag N: Not applicable.");
   if (!"AIRS".includes(row.flag))
@@ -267,7 +267,9 @@ export function adaptFinancePublisher(
         stateFips = row.publisherId.slice(0, 2),
         stateUsps = STATE_USPS[stateFips];
       if (!stateUsps)
-        throw new SourceParseError(`Unknown finance FIPS state ${stateFips}.`);
+        throw new SourceParseError(
+          `Finance codebook does not define FIPS state ${stateFips}.`,
+        );
       return {
         recordId: `${censusGovId}:${category}:${row.itemCode}:${row.surveyYear}`,
         censusGovId,
@@ -341,9 +343,9 @@ export function compileFinanceProduction(
       coverage: {
         isCompleteUniverse: false,
         universeDescription:
-          "2024 Census finance sample inputs, not reviewed individual-unit time series.",
+          "Bounded 2024 Census finance survey inputs, not reviewed individual-unit time series.",
         boundedSampleReason:
-          "First 25 sorted publisher IDs and their published item rows. Annual survey sample, not complete universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
+          "First 25 sorted publisher IDs and their published item rows. This bounded annual-survey subset is not the complete published universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
       },
     },
     records,

@@ -380,6 +380,7 @@ const QUESTION_LABEL: Readonly<
   amendment: "Amendment",
   concurrence: "Other chamber's changes",
   "veto-override": "Veto override",
+  "procedural-motion": "Procedural motion",
 };
 
 function measuresById(

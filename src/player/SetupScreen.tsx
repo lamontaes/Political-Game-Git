@@ -43,7 +43,6 @@ import {
 } from "../presentation/place-start-summary";
 import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
-import { projectCreatorLifeForkMoments } from "../simulation/creator-life-forks";
 import {
   setupForArtPreview,
   type ArtPreviewMode,
@@ -99,19 +98,12 @@ import {
  * are the generator's to decide after Begin (Task E). Only a custom start
  * carries the extra "background" step where those are set by hand.
  */
-const NORMAL_CREATOR_STEPS = [
-  "route",
-  "character",
-  "place",
-  "whoAreYou",
-  "begin",
-] as const;
+const NORMAL_CREATOR_STEPS = ["route", "character", "place", "begin"] as const;
 const CUSTOM_CREATOR_STEPS = [
   "route",
   "character",
   "place",
   "background",
-  "whoAreYou",
   "begin",
 ] as const;
 
@@ -122,22 +114,18 @@ type CreatorStep =
 const OTHER_PARENT_CHOICES: readonly {
   readonly key: NewGameOtherParent;
   readonly label: string;
-  readonly detail: string;
 }[] = [
   {
     key: "living",
     label: "Living",
-    detail: "Alive, and not part of this story.",
   },
   {
     key: "nonresident",
     label: "Lives elsewhere",
-    detail: "Alive, and living somewhere else.",
   },
   {
     key: "deceased",
     label: "Has died",
-    detail: "Died before your story begins.",
   },
 ];
 
@@ -150,6 +138,8 @@ export function SetupScreen({
   onRequestRecordedLife,
   onBack,
   onBegin,
+  onStateChange,
+  onTownChange,
   problem,
 }: {
   readonly seed: string;
@@ -167,6 +157,10 @@ export function SetupScreen({
     stagedGame?: NewGame,
   ) => void;
   readonly problem: string | null;
+  /** The chosen state's postal code, or null, so the backdrop can follow it. */
+  readonly onStateChange?: (usps: string | null) => void;
+  /** Whether a town is chosen, so the backdrop can become the town's own. */
+  readonly onTownChange?: (chosen: boolean) => void;
 }) {
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
@@ -181,6 +175,13 @@ export function SetupScreen({
   const [location, setLocation] = useState<CreatorLocationDraft>(() =>
     creatorLocationFromPlaceKey(initialSetup?.placeKey),
   );
+  const chosenUsps =
+    lifePlaceStateIdentities().find(
+      (state) => state.jurisdictionKey === location.stateJurisdictionKey,
+    )?.usps ?? null;
+  useEffect(() => {
+    onStateChange?.(chosenUsps);
+  }, [chosenUsps, onStateChange]);
   const matchingStates = useMemo(() => {
     const needle = stateQuery.trim().toLowerCase();
     const identities = lifePlaceStateIdentities();
@@ -222,6 +223,10 @@ export function SetupScreen({
         previewMode,
       ),
   );
+  const townChosen = setup.placeKey !== "";
+  useEffect(() => {
+    onTownChange?.(townChosen);
+  }, [townChosen, onTownChange]);
   /**
    * What the age field currently shows, which is not always a number.
    *
@@ -248,6 +253,7 @@ export function SetupScreen({
    * The step the player is on. It only moves forward on its own; the summaries
    * of finished steps move it back when one is reopened to change an answer.
    */
+  const [beginSlot, setBeginSlot] = useState<HTMLElement | null>(null);
   const stateSearchRef = useRef<HTMLInputElement>(null);
   const placeSearchRef = useRef<HTMLInputElement>(null);
   const stateChoicesRef = useRef<HTMLDivElement>(null);
@@ -273,7 +279,6 @@ export function SetupScreen({
     ...committed,
     questionnaire: "skipped",
     priors: [],
-    creatorLifeForks: [],
   };
   const stageIdentity = worldSeedFor(stagedSetup);
   const matchingStagedGame =
@@ -283,7 +288,7 @@ export function SetupScreen({
   const requestedLife = useRef<string | null>(null);
   useEffect(() => {
     if (
-      current !== "whoAreYou" ||
+      current !== "begin" ||
       matchingStagedGame ||
       !onRequestRecordedLife ||
       requestedLife.current === stageIdentity
@@ -298,12 +303,6 @@ export function SetupScreen({
     onRequestRecordedLife,
     stagedSetup,
   ]);
-  const recordedMoments = matchingStagedGame
-    ? projectCreatorLifeForkMoments(
-        matchingStagedGame.world,
-        matchingStagedGame.playerPersonId,
-      )
-    : [];
 
   const problems = newGameSetupProblems(committed);
   /*
@@ -346,9 +345,7 @@ export function SetupScreen({
   const continueCharacter = () => {
     const completed = resolveCreatorBirthday(setup, ageChosen);
     if (!completed) {
-      setBirthdayCompletionProblem(
-        "Choose both a birthday month and day, or leave both blank. Check that the date exists in your chosen year.",
-      );
+      setBirthdayCompletionProblem("incomplete-birthday");
       return;
     }
     setBirthdayCompletionProblem(null);
@@ -382,11 +379,6 @@ export function SetupScreen({
                 : "Everyday life",
         ].join(" · ")
       : "",
-    whoAreYou: setup.creatorLifeForks?.length
-      ? "Your life so far"
-      : setup.questionnaire === "skipped"
-        ? "Discover through play"
-        : "Your life so far",
   };
   const onReady = currentIndex >= steps.indexOf("begin");
 
@@ -447,7 +439,7 @@ export function SetupScreen({
 
       {isCurrent("route") ? (
         <section data-testid="creator-stage-route">
-          <h2>How do you want to start?</h2>
+          <h2>Start</h2>
           <div className="game-choices" data-testid="start-kind-choices">
             <button
               type="button"
@@ -466,11 +458,6 @@ export function SetupScreen({
               }}
             >
               Start a life
-              <small>
-                You say who you are and where you're from. Everything else —
-                your family, your home, the years behind you — the game builds
-                when you begin.
-              </small>
             </button>
             <button
               type="button"
@@ -483,10 +470,6 @@ export function SetupScreen({
               }}
             >
               Custom start
-              <small>
-                Set the background yourself — who's at home, whether you already
-                work somewhere, how much of the early years to play.
-              </small>
             </button>
           </div>
         </section>
@@ -605,7 +588,7 @@ export function SetupScreen({
           </div>
 
           {birthdayCompletionProblem ? (
-            <p role="alert">{birthdayCompletionProblem}</p>
+            <p role="alert" data-problem={birthdayCompletionProblem} />
           ) : null}
         </section>
       ) : null}
@@ -700,9 +683,7 @@ export function SetupScreen({
                   ))}
                 </div>
               ) : (
-                <p className="game-note" data-testid="state-no-match">
-                  Nothing here matches that yet.
-                </p>
+                <p data-testid="state-no-match" />
               )}
             </>
           )}
@@ -710,9 +691,7 @@ export function SetupScreen({
             <>
               {placeListOpen ? (
                 <div className="game-search">
-                  <label htmlFor="creator-place-search">
-                    Search places in this state
-                  </label>
+                  <label htmlFor="creator-place-search">Search</label>
                   <div className="creator-search-entry">
                     <input
                       id="creator-place-search"
@@ -774,12 +753,10 @@ export function SetupScreen({
                         ...now,
                         placeKey: statewidePlace.key,
                       }));
+                      advanceTo("background");
                     }}
                   >
                     {statewidePlace.displayName}
-                    <small data-place-scope="state">
-                      Statewide — not a hometown
-                    </small>
                   </button>
                 </div>
               ) : null}
@@ -820,6 +797,7 @@ export function SetupScreen({
                               ? "ordinary-life"
                               : now.startingLife,
                         }));
+                        advanceTo(custom ? "background" : "begin");
                       }}
                     >
                       {candidate.displayName}
@@ -851,13 +829,6 @@ export function SetupScreen({
                   {replacingPlace ? "Keep" : "Change"}
                 </span>
               </button>
-              {place.scope !== "locality" ? (
-                <p className="game-hint" data-testid="place-scope">
-                  {place.scope === "state"
-                    ? "Statewide start."
-                    : "County-wide start; a specific town is not selected."}
-                </p>
-              ) : null}
               {placeStartFacts(place)
                 .filter((fact) => fact.kind !== "name")
                 .map((fact) => (
@@ -899,7 +870,7 @@ export function SetupScreen({
       {custom && isCurrent("background") ? (
         <section data-testid="creator-stage-background">
           <h2>Your background</h2>
-          <h3>How much of the early years to play</h3>
+          <h3>Early years</h3>
           <div className="game-choices">
             <button
               type="button"
@@ -915,11 +886,6 @@ export function SetupScreen({
               }
             >
               Start in childhood
-              <small>
-                {setup.startAge < 18
-                  ? "Play the early years one at a time."
-                  : "Only for a character under eighteen."}
-              </small>
             </button>
             <button
               type="button"
@@ -937,7 +903,6 @@ export function SetupScreen({
               }
             >
               Begin later
-              <small>The early years are already behind you.</small>
             </button>
           </div>
 
@@ -956,7 +921,6 @@ export function SetupScreen({
               }
             >
               Everyday life
-              <small>No office. No formal political role.</small>
             </button>
             <button
               type="button"
@@ -975,13 +939,6 @@ export function SetupScreen({
               }
             >
               Legislative staff
-              <small>
-                {place?.capabilities.legislativeScenarioKey === null
-                  ? "A legislative staff start is not available for this selected place yet."
-                  : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
-                    ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
-                    : "Working for a state legislature."}
-              </small>
             </button>
           </div>
 
@@ -1003,11 +960,6 @@ export function SetupScreen({
             }
           >
             Judicial office practice
-            <small>
-              Fictional workplace and working relationships, for ages 25 and
-              older. This start grants no election, appointment, legal term or
-              authority to decide cases.
-            </small>
           </button>
           <button
             type="button"
@@ -1027,18 +979,11 @@ export function SetupScreen({
             }
           >
             State agency director
-            <small>
-              {stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null)
-                ? setup.startAge < STATE_AGENCY_START_MINIMUM_AGE
-                  ? `Available for characters ${STATE_AGENCY_START_MINIMUM_AGE} and older.`
-                  : "A fictional state agency with existing staff. Its charter makes you the appointing authority; personnel procedures apply only where acquired law supports them."
-                : "Available only in a state whose personnel procedures the game has compiled."}
-            </small>
           </button>
           <h3>At home</h3>
           {setup.startAge < 18 ? (
             <>
-              <h3>Who raises you?</h3>
+              <h3>Raised by</h3>
               <div className="game-choices" data-testid="family-shape-choices">
                 {(
                   [
@@ -1076,11 +1021,6 @@ export function SetupScreen({
               }
             >
               Nobody else
-              <small>
-                {setup.startAge < 18
-                  ? "No other children in the household."
-                  : "You live on your own."}
-              </small>
             </button>
             <button
               type="button"
@@ -1093,11 +1033,6 @@ export function SetupScreen({
               }
             >
               Somebody else
-              <small>
-                {setup.startAge < 18
-                  ? "A brother or a sister in the house too."
-                  : "One other adult shares the household."}
-              </small>
             </button>
           </div>
           {otherParentQuestionApplies(setup) ? (
@@ -1117,98 +1052,11 @@ export function SetupScreen({
                     }
                   >
                     {choice.label}
-                    <small>{choice.detail}</small>
                   </button>
                 ))}
               </div>
             </>
           ) : null}
-        </section>
-      ) : null}
-
-      {isCurrent("whoAreYou") ? (
-        <section data-testid="creator-stage-whoareyou">
-          <h2>Your life so far</h2>
-          <div className="game-choices" data-testid="whoareyou-choices">
-            {recordedMoments.map((fork) => (
-              <fieldset key={fork.key}>
-                <legend>{fork.occurredAt}</legend>
-                <p>{fork.prompt}</p>
-                {fork.options.map((option) => (
-                  <button
-                    key={option.key}
-                    type="button"
-                    data-testid={`creator-fork-${fork.key}-${option.key}`}
-                    aria-pressed={
-                      setup.creatorLifeForks?.some(
-                        (choice) =>
-                          choice.forkKey === fork.key &&
-                          choice.optionKey === option.key,
-                      ) ?? false
-                    }
-                    onClick={() =>
-                      setSetup((now) => ({
-                        ...now,
-                        questionnaire: "skipped",
-                        priors: [],
-                        creatorLifeForks: [
-                          ...(now.creatorLifeForks ?? []).filter(
-                            (choice) => choice.forkKey !== fork.key,
-                          ),
-                          { forkKey: fork.key, optionKey: option.key },
-                        ],
-                      }))
-                    }
-                  >
-                    {option.label}
-                    <small>{option.description}</small>
-                  </button>
-                ))}
-              </fieldset>
-            ))}
-            <button
-              type="button"
-              data-testid="whoareyou-answer"
-              disabled={
-                recordedMoments.length === 0 ||
-                recordedMoments.some(
-                  (moment) =>
-                    !setup.creatorLifeForks?.some(
-                      (choice) => choice.forkKey === moment.key,
-                    ),
-                )
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "skipped",
-                  priors: [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Continue
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-play"
-              className={
-                setup.questionnaire === "skipped" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "skipped",
-                  priors: [],
-                  creatorLifeForks: [],
-                }));
-                advanceTo("begin");
-              }}
-              disabled={Boolean(onRequestRecordedLife && !matchingStagedGame)}
-            >
-              Begin this life
-            </button>
-          </div>
         </section>
       ) : null}
 
@@ -1233,7 +1081,7 @@ export function SetupScreen({
             else onBack();
           }}
         >
-          {currentIndex === 0 ? "Return to title" : "Back"}
+          Back
         </button>
         {isCurrent("character") ? (
           <button
@@ -1243,22 +1091,7 @@ export function SetupScreen({
             disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
             onClick={continueCharacter}
           >
-            Next
-          </button>
-        ) : null}
-        {isCurrent("place") ? (
-          <button
-            type="button"
-            className="game-creator-next creator-primary-action"
-            data-testid="creator-continue-place"
-            disabled={
-              !place ||
-              !creatorLocationIsReady(location, custom ? "custom" : "normal") ||
-              replacingPlace
-            }
-            onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
-          >
-            Next
+            Continue
           </button>
         ) : null}
         {custom && isCurrent("background") ? (
@@ -1266,10 +1099,13 @@ export function SetupScreen({
             type="button"
             className="game-creator-next creator-primary-action"
             data-testid="creator-continue-background"
-            onClick={() => advanceTo("whoAreYou")}
+            onClick={() => advanceTo("begin")}
           >
-            Next
+            Continue
           </button>
+        ) : null}
+        {onReady && problems.length === 0 ? (
+          <span ref={setBeginSlot} className="creator-begin-slot" />
         ) : null}
       </div>
 
@@ -1278,8 +1114,10 @@ export function SetupScreen({
           key={JSON.stringify(committed)}
           setup={committed}
           mode={previewMode}
+          beginSlot={beginSlot}
+          waiting={Boolean(onRequestRecordedLife && !matchingStagedGame)}
           onBegin={(appearance) =>
-            onBegin(committed, appearance, true, matchingStagedGame)
+            onBegin(stagedSetup, appearance, true, matchingStagedGame)
           }
         />
       ) : null}
@@ -1288,13 +1126,9 @@ export function SetupScreen({
         <details className="game-dev" data-testid="setup-advanced">
           <summary>Advanced &mdash; reproducing this world</summary>
           <p>
-            This world is generated from{" "}
-            <code data-testid="setup-seed">{seed}</code>
-            {seedOrigin === "replay"
-              ? ", which was supplied to reproduce an earlier one."
-              : ", drawn fresh for this session."}{" "}
-            The address below carries the place, the age and any names you typed
-            as well, so it rebuilds the same world.
+            <code data-testid="setup-seed" data-seed-origin={seedOrigin}>
+              {seed}
+            </code>
           </p>
           <p>
             <code data-testid="setup-replay-link">

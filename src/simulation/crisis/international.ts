@@ -150,7 +150,9 @@ function event(
 function crisisOf(world: World, crisisId: EntityId): InternationalCrisisRecord {
   const record = crisisRecords(world).find((r) => r.id === crisisId);
   if (!record || record.kind !== "international-crisis")
-    throw new Error(`Unknown international crisis: ${crisisId}`);
+    throw new Error(
+      `No international crisis matches the recorded ID: ${crisisId}`,
+    );
   return record;
 }
 
@@ -941,13 +943,13 @@ export function recordViolenceAttempt(
     options: [
       {
         key: "unharmed",
-        label: "Unharmed",
-        description: "The target survives without injury.",
+        label: "unharmed",
+        description: "unharmed",
       },
       {
         key: "harm",
-        label: "Harmed",
-        description: "The target is injured or killed.",
+        label: "harm",
+        description: "harm",
       },
     ],
     constraints: [],
@@ -1002,13 +1004,13 @@ export function recordViolenceAttempt(
       options: [
         {
           key: "injured",
-          label: "Injured",
-          description: "The target is injured.",
+          label: "injured",
+          description: "injured",
         },
         {
           key: "killed",
-          label: "Killed",
-          description: "The target is killed.",
+          label: "killed",
+          description: "killed",
         },
       ],
       constraints: [],

@@ -1054,12 +1054,24 @@ function drawnAdultFamily(
         taken,
       );
       sideFamilyName ??= drawn.familyName;
+      const firstDay = addDays(yearsBefore(parentBirth, grandparentAge + 1), 1);
+      const afterLastDay = addDays(yearsBefore(parentBirth, grandparentAge), 1);
+      // Age at a child's birth establishes a range, not the child's birthday.
+      // Give each relative a stable real calendar day in that valid range;
+      // otherwise whole couples inherit one birthday and the causal mortality
+      // model makes them reach the same strain threshold on the same day.
+      const birthDate = addDays(
+        firstDay,
+        new SeededRng(world.seed)
+          .fork(`${stableKey}:birth-date`)
+          .integer(0, daysBetween(firstDay, afterLastDay)),
+      );
       people.push({
         stableKey,
         ...drawn,
         familyName: sideFamilyName,
         identity: { gender, pronouns: defaultPronounsForGender(gender) },
-        birthDate: yearsBefore(parentBirth, grandparentAge),
+        birthDate,
         homeJurisdictionId: jurisdictionId,
       });
     }

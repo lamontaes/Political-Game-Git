@@ -2,6 +2,15 @@
 
 Generated 2026-10-06 by cto-notes/tools/laws_wired.mjs against main. Rerun it to refresh.
 
+## Ownership rule (Opus ruling, #2424, Oct 6 ~5:05 a.m.)
+
+- Session 20 is sole writer of the applyLawConsequences core, the kind registry and the landing core
+- Session 19 is sole writer of lawInForce
+- An LW batch writes ONLY data rows plus, for a new kind, one kind-module file registered through the registry's registration point
+- No batch edits the core files
+- If no data-driven registration point exists yet, Session 20's next PR adds a folder-loaded kind registry before batches add kinds
+- A batch that needs a core change posts the need on the board and waits on Session 20 while finishing its data rows
+
 ## Rules (all batches)
 
 - Zero dice. Nothing is rolled anywhere in a law's effect.
