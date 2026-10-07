@@ -507,7 +507,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done       | #2961        |
 | BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open       |              |
 | BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done       | merged #2875 |
-| BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878 |            |
+| BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878 |              |
 | BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done       | merged #2861 |
 | BG-13 | Date shows twice (status card and Observing bar)                                                                        | BUGS.md BG-13 | done #2874 |              |
 | BG-14 | Deaths run about 15 times too high: 4 in one day in a 10,555-person town                                                | BUGS.md BG-14 | done       | merged #2634 |
@@ -604,7 +604,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1233 | Add regional home exteriors and corrected street candidates | PR #1233 (codex/team7-regional-exteriors) | done (superseded by C7; art preserved for later owner review) | |
 | RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | open: draft: finish it or close it as superseded | |
 | RS-1257 | Import 61 approved picture and kids-sheet sources | PR #1257 (codex/team7-law-place-import) | done (superseded by C7; approved sources preserved for later owner review) | S35 |
-| RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #1275 (codex/team2-government-about-zero-audit) | open: draft: finish it or close it as superseded | |
+| RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
 | RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
 | RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #1306 (codex/team1-consequence-inputs) | open: draft: finish it or close it as superseded | |
