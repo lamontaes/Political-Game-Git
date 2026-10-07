@@ -1448,6 +1448,28 @@
           "group": "chairs",
           "role": "general",
           "id": "community-room:spot:11"
+        },
+        {
+          "x": 3.5,
+          "y": 72,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 72,
+          "seatY": 10.4,
+          "group": "circle-left",
+          "role": "general",
+          "id": "community-room:spot:12"
+        },
+        {
+          "x": 96.5,
+          "y": 72,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 72,
+          "seatY": 10.4,
+          "group": "circle-right",
+          "role": "general",
+          "id": "community-room:spot:13"
         }
       ],
       "measuredFrom": "side-wall floor and ceiling lines meet near y 33; folding chair back 0.85 m foot 75.5 top 52 (0.67) and seat 0.45 m (0.72); coffee table 0.75 m foot 47 top 39.5 (0.77); staged 0.62 kept; stage floor from the lectern on it (1.15 m tall, foot 39 top 29, gives 1.74; its 0.6 m width gives 2.6; 2.1 used)",
@@ -7314,6 +7336,78 @@
           "clipBandEndY": 40.4,
           "role": "general",
           "id": "public-meeting-room:spot:9"
+        },
+        {
+          "x": 20,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 10.8,
+          "clipBelowY": 58,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "public-meeting-room:spot:10"
+        },
+        {
+          "x": 80,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 10.8,
+          "clipBelowY": 58,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "public-meeting-room:spot:11"
+        },
+        {
+          "x": 20,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 13.7,
+          "clipBelowY": 67,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "public-meeting-room:spot:12"
+        },
+        {
+          "x": 80,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 13.7,
+          "clipBelowY": 67,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "public-meeting-room:spot:13"
+        },
+        {
+          "x": 20,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 16.5,
+          "clipBelowY": 76,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "public-meeting-room:spot:14"
+        },
+        {
+          "x": 80,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 16.5,
+          "clipBelowY": 76,
+          "group": "spectator-pew",
+          "role": "audience",
+          "id": "public-meeting-room:spot:15"
         }
       ],
       "measuredFrom": "horizon from ceiling-line convergence (~34) and podium vs chair pair (~34.6), pews pull it to ~29; folding chair back 0.9 m foot 46.5 top 36.5 -> 0.77; chair seat 0.45 m -> 0.72; lectern 1.15 m foot 49.5 top 34.1 -> 0.77; table 0.75 m foot 43.7 top 38.3 -> 0.62; pew backs (1.0 m) read only 0.48-0.50, painted undersized",
