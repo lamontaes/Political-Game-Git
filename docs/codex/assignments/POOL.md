@@ -278,7 +278,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | AU-09 | Opening money from records | pool-audit-repairs.md AU-09 | done (#1992/#2001/#2024, batch-marked by CTO Oct 7) | |
 | AU-10 | Businesses and banks from books | pool-audit-repairs.md AU-10 | open | |
 | AU-11 | Opening politics and town elections without swings | pool-audit-repairs.md AU-11 | open | |
-| AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | open | |
+| AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | done (#3494) | S55 |
 | AU-13 | Hazards and crime from causes | pool-audit-repairs.md AU-13 | open | |
 | AU-14 | Scenes point at real things | pool-audit-repairs.md AU-14 | open | |
 | AU-15 | English engine as the voice (unverified: check first) | pool-audit-repairs.md AU-15 | open | |
@@ -563,7 +563,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | done #2514 (verified on current main) | |
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
-| BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | open | |
+| BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | done #5060835 | |
 | BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
