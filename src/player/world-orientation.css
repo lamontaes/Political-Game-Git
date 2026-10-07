@@ -973,33 +973,43 @@
   flex: 1 1 auto;
   overflow-y: auto;
 }
-/* The state card's reading surface is its own light paper, so the dark ink on
- * it (10.9 to 1) never lands on the dark ground. */
-.pg-regional-state-information {
-  padding: 0.8rem 1rem;
+/* Keep the complete state-card reading area on paper. Its population and
+ * voting records sit beside the official list, outside that list's wrapper. */
+.pg-orientation[data-step="state"] .pg-orientation-reading {
   color: #3b2f14;
   background: #f1eadd;
   border-radius: 0.45rem;
 }
-.pg-regional-state-information :is(h3, p, li, span, small, figcaption, th, td) {
+.pg-orientation[data-step="state"]
+  .pg-orientation-reading
+  :is(h3, p, li, span, small, figcaption, th, td, dt, dd) {
   color: #3b2f14;
 }
-.pg-regional-state-information
+.pg-orientation[data-step="state"]
+  .pg-orientation-reading
   :is(.pg-state-population-caption, .pg-state-population-unit, small) {
   color: #5a4b31;
 }
-.pg-regional-card-body a {
+.pg-orientation[data-step="state"] .pg-orientation-reading a {
   color: #6b4f12;
 }
 /* A person's tile is pale paper, so its words are dark: 13 to 1 for the name,
  * 6.7 to 1 for the title. */
-.pg-orientation-person,
+.pg-orientation[data-step="state"]
+  .pg-orientation-people
+  .pg-orientation-person,
 .pg-orientation-cast .pg-orientation-person {
   color: #2a2112;
   background: #eee5d5;
 }
-.pg-orientation-person span,
-.pg-orientation-person small,
+.pg-orientation[data-step="state"]
+  .pg-orientation-people
+  .pg-orientation-person
+  span,
+.pg-orientation[data-step="state"]
+  .pg-orientation-people
+  .pg-orientation-person
+  small,
 .pg-orientation-cast .pg-orientation-person :is(span, small) {
   color: #5a4b31;
 }
