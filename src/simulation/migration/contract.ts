@@ -40,6 +40,8 @@ export const WAVE_BEGAN_EVENT = "migration.wave-began";
 export const WAVE_ENDED_EVENT = "migration.wave-ended";
 
 export const MIGRATION_REVIEW_TRANSITION_KEY = "migration:quarterly-review";
+/** Household housing facts are checked monthly without re-running the migration pass. */
+export const TOWN_HOME_REVIEW_TRANSITION_KEY = "migration:monthly-home-review";
 
 /**
  * Why somebody moved. Open taxonomy, namespaced like the rest of the life
