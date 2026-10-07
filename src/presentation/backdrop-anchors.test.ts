@@ -71,6 +71,16 @@ describe("people anchors on every place picture", () => {
     expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(6);
   });
 
+  it("anchors every county party office meeting chair and desk chair", () => {
+    const spots = STAGES["county-party-office"]!.spots;
+    const tableSeats = spots.filter((spot) => spot.group === "table");
+    const deskSeats = spots.filter((spot) => spot.group === "desk");
+    expect(tableSeats).toHaveLength(6);
+    expect(tableSeats.every((spot) => spot.pose === "sit")).toBe(true);
+    expect(tableSeats.filter((spot) => spot.facing === "away")).toHaveLength(2);
+    expect(deskSeats).toHaveLength(1);
+  });
+
   it("anchors each visible chair in the hospital waiting alcove", () => {
     const seats = STAGES["hospital-hallway"]!.spots.filter(
       (spot) => spot.group === "waiting" && spot.role === "audience",
@@ -105,6 +115,15 @@ describe("people anchors on every place picture", () => {
       expect(
         audience.filter((spot) => spot.group === `audience-row-${row}`),
       ).toHaveLength(14);
+  });
+
+  it("anchors all four suburban house dining chairs", () => {
+    const seats = STAGES["suburban-house"]!.spots.filter(
+      (spot) => spot.group === "dining-table",
+    );
+    expect(seats).toHaveLength(4);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
+    expect(seats.every((spot) => spot.pose === "sit")).toBe(true);
   });
 
   it("anchors visible hotel ballroom banquet chairs", () => {
@@ -190,6 +209,23 @@ describe("people anchors on every place picture", () => {
     expect(seats).toHaveLength(6);
     expect(new Set(seats.map((spot) => spot.id)).size).toBe(6);
     expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(4);
+  });
+
+  it("anchors both Pennsylvania capitol walkway benches", () => {
+    const seats = STAGES["state-capitol-pa"]!.spots.filter((spot) =>
+      spot.group?.startsWith("walk-bench-"),
+    );
+    expect(seats).toHaveLength(2);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(2);
+    expect(
+      seats.find((spot) => spot.group === "walk-bench-right"),
+    ).toMatchObject({
+      x: 60,
+      y: 88.4,
+      seatY: 86.6,
+      facing: "left",
+      pose: "sit",
+    });
   });
 
   it("anchors union hall pews along both sides of the aisle", () => {
