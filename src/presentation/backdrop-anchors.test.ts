@@ -183,6 +183,15 @@ describe("people anchors on every place picture", () => {
     ]);
   });
 
+  it("anchors all six Washington capitol fountain plaza benches", () => {
+    const seats = STAGES["state-capitol-wa"]!.spots.filter(
+      (spot) => spot.pose === "sit" && spot.group === "fountain-benches",
+    );
+    expect(seats).toHaveLength(6);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(6);
+    expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(4);
+  });
+
   it("anchors union hall pews along both sides of the aisle", () => {
     const spots = STAGES["union-hall"]!.spots;
     const seats = spots.filter((spot) => spot.pose === "sit");

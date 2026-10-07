@@ -13103,6 +13103,50 @@
           "id": "state-capitol-wa:spot:4"
         },
         {
+          "x": 40.5,
+          "y": 82.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 82.5,
+          "seatY": 81.7,
+          "group": "fountain-benches",
+          "role": "general",
+          "id": "state-capitol-wa:spot:6"
+        },
+        {
+          "x": 59.5,
+          "y": 82.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 82.5,
+          "seatY": 81.7,
+          "group": "fountain-benches",
+          "role": "general",
+          "id": "state-capitol-wa:spot:7"
+        },
+        {
+          "x": 40.5,
+          "y": 88.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88.5,
+          "seatY": 87.7,
+          "group": "fountain-benches",
+          "role": "general",
+          "id": "state-capitol-wa:spot:8"
+        },
+        {
+          "x": 59.5,
+          "y": 88.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88.5,
+          "seatY": 87.7,
+          "group": "fountain-benches",
+          "role": "general",
+          "id": "state-capitol-wa:spot:9"
+        },
+        {
           "x": 50,
           "y": 77,
           "pose": "stand",
@@ -13112,7 +13156,7 @@
           "id": "state-capitol-wa:spot:5"
         }
       ],
-      "measuredFrom": "high aerial camera; horizon on the far water and hill line (~40); plaza bench back ~0.85 m foot 89 top 86.5 -> 0.06; plaza lamp ~4 m foot 83.5 top 74 -> 0.055",
+      "measuredFrom": "high aerial camera; horizon on the far water and hill line (~40); plaza bench back ~0.85 m foot 89 top 86.5 -> 0.06; plaza lamp ~4 m foot 83.5 top 74 -> 0.055; four added fountain-plaza bench positions estimated from the native midday painting (±2 percentage points)",
       "surfaceSlots": []
     },
     "state-capitol-wi": {
