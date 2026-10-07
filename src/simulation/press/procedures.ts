@@ -1,3 +1,4 @@
+import { applyFindingReferral } from "../justice/finding-referral";
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { personName } from "../people";
@@ -923,6 +924,7 @@ export function advanceProceeding(
     appended.record,
     event,
     applyFindingRestitution,
+    applyFindingReferral,
   );
   if (nextDueAt) {
     next = scheduleFutureDueItem(next, {

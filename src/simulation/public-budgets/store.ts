@@ -1,15 +1,23 @@
+import type { PublicGovernmentIdentityCarrier } from "../public-government-identity";
 import type {
   LawEffectStamp,
   LawEffectStampedRecord,
 } from "../law-effect-stamp";
 import type { LawLevel } from "../law-hierarchy";
+import type { CountyBudgetHearing } from "../county-budget-record";
 import type { EntityId, IsoDate, World } from "../types";
 import {
   FEDERAL_RECEIPTS,
   FEDERAL_OUTLAYS,
   type FederalTreasury,
 } from "./federal-treasury";
-import type { StatehoodCertification } from "./statehood-funds";
+/** Old saved decisions remain readable; this shape authorizes no new payments. */
+export interface StatehoodCertification {
+  readonly decidedOn: IsoDate;
+  readonly certified: boolean;
+  readonly changeStartsOn: IsoDate | null;
+  readonly reason: string;
+}
 
 /** Historical attribution bytes remain readable; they are never new invoices. */
 export interface GovernmentLawCostAttribution {
@@ -161,6 +169,8 @@ export interface BudgetLawReading {
    * rule's basis, marked ESTIMATED FROM AVERAGE. Absent where a law answers.
    */
   readonly estimated?: string;
+  /** The law's share of the actual actuarially determined contribution. */
+  readonly requiredContributionShare?: number;
 }
 
 export interface AdoptedBudget {
@@ -174,7 +184,13 @@ export interface AdoptedBudget {
    * the year. "automatic": the government's own modeled adoption; a budget
    * passed as a bill comes later (Claude CTO, call 3).
    */
-  readonly basis: "opening" | "automatic";
+  readonly basis: "opening" | "automatic" | "board-vote";
+  /**
+   * "board-vote": a county board voted this year's property tax levy at its
+   * budget hearing (`living-world/county-budget-hearings.ts`); the expected
+   * property tax revenue is exactly that levy. Absent otherwise.
+   */
+  readonly hearingKey?: string;
   /** Annual, aligned to BUDGET_SOURCES. */
   readonly expectedRevenue: readonly number[];
   /** Annual, aligned to BUDGET_PROGRAMS. */
@@ -212,9 +228,8 @@ export interface AdoptedBudget {
    */
   readonly townSalesAtAdoption?: number | null;
   /**
-   * A place admitted as a state: what its government decided about
-   * certifying to the President when it adopted this budget, and why
-   * (`statehood-funds.ts`). Absent: nothing to decide.
+   * Historical compatibility only. The retired forecast wrote these bytes;
+   * they do not certify admission, set matching terms, or authorize payments.
    */
   readonly statehoodCertification?: StatehoodCertification;
 }
@@ -298,12 +313,12 @@ export interface PensionRecord {
   /**
    * The share of the required contribution this government pays when no law
    * requires the full amount: ESTIMATED FROM AVERAGE, measured spread and
-   * drift (`pension-share.ts`).
+   * drift (`opening.ts`).
    */
   readonly paidShare: number;
 }
 
-export interface PublicBudgetGovernment {
+export interface PublicBudgetGovernment extends PublicGovernmentIdentityCarrier {
   /** `US-IL`, `county:17031` or `place:1714000`. */
   readonly key: string;
   readonly jurisdictionId: EntityId;
@@ -369,6 +384,11 @@ export interface PublicBudgetStore {
   readonly cursor: { readonly flows: number; readonly outcomes: number };
   readonly governments: readonly PublicBudgetGovernment[];
   readonly adjustments: readonly BudgetAdjustment[];
+  /**
+   * Each county board's budget hearing, with the levy it proposed and the one
+   * it adopted (CO-5). Absent in a world whose counties never held one.
+   */
+  readonly countyBudgetHearings?: readonly CountyBudgetHearing[];
   /**
    * The public jobs a budget funds in the watched town: the staff and the
    * real funding when the town was first staffed from its budget

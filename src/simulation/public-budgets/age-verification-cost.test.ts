@@ -11,22 +11,29 @@ import { type LawEffectStampedRecord } from "../law-effect-stamp";
 import { withOpenedBudgets } from "./index";
 import {
   lawSpendingForMonth,
+  readMonthFlows,
   settleGovernmentMonth,
-  type MonthFlows,
 } from "./month";
-import { BUDGET_PROGRAMS, PUBLIC_BUDGETS_VERSION } from "./store";
+import {
+  BUDGET_PROGRAMS,
+  PUBLIC_BUDGETS_VERSION,
+  type PublicBudgetGovernment,
+} from "./store";
+import { ensureOpeningGovernmentAccounts } from "./opening-government-accounts";
 import { SPENDING_QUESTION_EFFECTS } from "./rules";
 import { lawInForce } from "../governing/law-in-force";
 const AGE_VERIFICATION_COST_QUESTION =
   "us-policy-positions:technology-privacy.age-verification-for-social-media";
-import type { EntityId, LegislativeMeasureRecord } from "../types";
+import type { EntityId, LegislativeMeasureRecord, World } from "../types";
 
-const FLOWS: MonthFlows = {
-  withheld: new Map(),
-  represented: new Map(),
-  levies: new Map(),
-  payments: new Map(),
-};
+const flowsFor = (world: World, government: PublicBudgetGovernment) =>
+  readMonthFlows(world, {
+    version: PUBLIC_BUDGETS_VERSION,
+    cursor: { flows: 0, outcomes: 0 },
+    governments: [government],
+    adjustments: [],
+    unknown: [],
+  }).flows;
 const states = ["US-MD", "US-ID", "US-IN", "US-CA", "US-WA"];
 
 describe("age-verification without an appropriation or actual hires produces no invoice", () => {
@@ -38,13 +45,15 @@ describe("age-verification without an appropriation or actual hires produces no 
       const question = Object.values(catalog.propositions).find(
         (x) => x.stableKey === AGE_VERIFICATION_COST_QUESTION,
       )!;
-      const base = createWorld({
-        seed: "team8-age-cost:" + stateKey,
-        currentDate: makeIsoDate("2026-01-05"),
-        jurisdictions: [state],
-        people: [],
-        policyCatalog: catalog,
-      });
+      const base = ensureOpeningGovernmentAccounts(
+        createWorld({
+          seed: "team8-age-cost:" + stateKey,
+          currentDate: makeIsoDate("2026-01-05"),
+          jurisdictions: [state],
+          people: [],
+          policyCatalog: catalog,
+        }),
+      );
       const government = withOpenedBudgets(
         base,
         {
@@ -77,19 +86,19 @@ describe("age-verification without an appropriation or actual hires produces no 
         propositionIds: [question.id],
         propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
       };
-      const enacted = enactCostLawFixture(base, measure);
+      const enacted = enactCostLawFixture(base, measure, { effectiveAt: date });
       const world = enacted.world;
       const before = settleGovernmentMonth(
         { ...base, currentDate: world.currentDate },
         government,
         date,
-        FLOWS,
+        flowsFor(base, government),
       ).government.months.at(-1)!;
       const afterGovernment = settleGovernmentMonth(
         world,
         government,
         date,
-        FLOWS,
+        flowsFor(world, government),
       ).government;
       const after = afterGovernment.months.at(-1)!;
       expect(lawInForce(world, state.id, question.id, date)?.measureId).toBe(
@@ -137,8 +146,12 @@ describe("age-verification without an appropriation or actual hires produces no 
       expect(serializeWorld(continued)).toBe(bytes);
       expect(continued.publicBudgets!.governments[0]).toEqual(afterGovernment);
       expect(
-        settleGovernmentMonth(continued, afterGovernment, date, FLOWS)
-          .government,
+        settleGovernmentMonth(
+          continued,
+          afterGovernment,
+          date,
+          flowsFor(continued, afterGovernment),
+        ).government,
       ).toBe(afterGovernment);
       if (stateKey === "US-CA" || stateKey === "US-WA") {
         const cannabis = Object.values(catalog.propositions).find(
@@ -155,15 +168,19 @@ describe("age-verification without an appropriation or actual hires produces no 
           propositionIds: [cannabis.id],
           propositionAnswers: [{ propositionId: cannabis.id, answer: "no" }],
         };
-        const together = enactCostLawFixture(world, ban).world;
-        const onlyBanFixture = enactCostLawFixture(base, ban);
+        const together = enactCostLawFixture(base, [measure, ban], {
+          effectiveAt: date,
+        }).world;
+        const onlyBanFixture = enactCostLawFixture(base, ban, {
+          effectiveAt: date,
+        });
         const banOnly = onlyBanFixture.world;
         const actualBanId = together.history.legislativeMeasures!.at(-1)!.id;
         const combined = settleGovernmentMonth(
           together,
           government,
           date,
-          FLOWS,
+          flowsFor(together, government),
         ).government;
         const saved = combined.months.at(-1)! as typeof after &
           LawEffectStampedRecord & { readonly cannabisRevenueLoss?: number };
@@ -171,7 +188,7 @@ describe("age-verification without an appropriation or actual hires produces no 
           banOnly,
           government,
           date,
-          FLOWS,
+          flowsFor(banOnly, government),
         ).government.months.at(-1)!;
         expect(saved.cannabisRevenueLoss).toBeGreaterThan(0);
         expect(saved.lawEffectStamps).toEqual(
@@ -188,7 +205,12 @@ describe("age-verification without an appropriation or actual hires produces no 
         expect(saved.spending).toEqual(onlyBan.spending);
         expect(JSON.parse(JSON.stringify(saved))).toEqual(saved);
         expect(
-          settleGovernmentMonth(together, combined, date, FLOWS).government,
+          settleGovernmentMonth(
+            together,
+            combined,
+            date,
+            flowsFor(together, combined),
+          ).government,
         ).toBe(combined);
       }
       console.log(

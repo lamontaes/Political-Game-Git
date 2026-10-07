@@ -20,6 +20,20 @@ import { cancelScheduledActivity, scheduledActivityState } from "./time-work";
 import { addDays, daysBetween, spokenDate } from "./dates";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
+import {
+  recordedTuitionFreezePrice,
+  recordedStudyPeriodTuitionPrice,
+} from "../education/tuition-prices";
+import { TUITION_FREEZE_ROW } from "./law-consequences/tuition-freeze-row";
+import { noticeTuitionFreeze } from "./law-consequences/tuition-freeze-noticed";
+import {
+  resolvePriceCostConsequences,
+  applyPriceCostConsequence,
+} from "./law-consequences/price-cost";
+import { settleTuitionFreezeBackfill } from "./public-budgets/tuition-freeze-backfill";
+import { organizationProfileAt } from "./life-queries";
+import { resolveStudyPath } from "./study-path-resolver";
+import { stateJurisdictionOf } from "./governing/law-in-force";
 
 const prefix = "life-paths2.";
 
@@ -52,6 +66,124 @@ export function readableTuitionSummary(summary: string): string {
   return summary;
 }
 const periodDueKey = "education:study-period-due" as const;
+
+/*
+ * CREDITS (A141). Finishing paid study time does not by itself grant a
+ * credential: each period records the credits the student attempted and the
+ * credits they earned, and the credential is granted only once the credits
+ * earned reach the program's requirement.
+ *
+ * - Requirements are the usual credit totals: 30 for a one-year certificate,
+ *   60 for an associate degree, 120 for a bachelor's degree, 36 for a
+ *   master's degree, and 83 for a J.D., the American Bar Association's floor
+ *   (Standard 311(a)). A term saved before this reads thirty credits an
+ *   academic year, the on-time pace of a 120-credit bachelor's degree.
+ * - A student attempts the program's on-time share each period, or what is
+ *   left once past the planned periods.
+ * - How much of that they earn slides with the hours they already owe
+ *   elsewhere each week (work and care, from the life-load record): no draw
+ *   and no cutoff. Students working long hours complete fewer of the credits
+ *   they attempt (NCES, The Condition of Education, college student
+ *   employment); the curve's size is PLACEHOLDER, research question
+ *   `credits-earned-and-outside-hours`.
+ * - A student short of credits after the planned periods keeps studying, and
+ *   paying, one period at a time, up to one and a half times the planned
+ *   length: the federal maximum timeframe for satisfactory academic progress
+ *   (34 CFR 668.34(b)). Past that, the enrollment ends without the
+ *   credential.
+ */
+export const STUDY_CREDIT_PACE = {
+  basis: "PLACEHOLDER",
+  researchQuestionId: "credits-earned-and-outside-hours",
+  /** Credits an academic year when a saved term carries no requirement. */
+  creditsPerAcademicYear: 30,
+  /** Weekly hours owed elsewhere that cost a student no credits. */
+  outsideHoursWithoutStrain: 15,
+  /** Further weekly hours over which the credits earned fall by half. */
+  outsideHoursToHalve: 30,
+} as const;
+
+/** The federal maximum timeframe: 150% of the program's planned length. */
+const MAXIMUM_TIMEFRAME_MULTIPLE = 1.5;
+
+/** The credits the credential requires. */
+export function studyCreditsRequired(path: LifePathDefinition): number {
+  return (
+    path.creditsRequired ??
+    (path.academicYears ?? 0) * STUDY_CREDIT_PACE.creditsPerAcademicYear
+  );
+}
+
+const ATTEMPTED_TAG = "credits-attempted:";
+const EARNED_TAG = "credits-earned:";
+
+function studyPeriodEvents(world: World, enrollmentId: EntityId) {
+  return world.history.events.filter(
+    (e) =>
+      e.type === `${prefix}study-period` &&
+      e.involvedEntityIds.includes(enrollmentId),
+  );
+}
+
+/**
+ * The credits a student has earned in this enrollment. A period recorded
+ * before credits were (and legacy sessions credited as periods) earned the
+ * on-time share it was planned to carry.
+ */
+export function studyCreditsEarned(
+  world: World,
+  enrollmentId: EntityId,
+  path: LifePathDefinition,
+): number {
+  const perPeriod = onTimeCreditsPerPeriod(path);
+  let earned = 0;
+  let recordedPeriods = 0;
+  for (const row of studyPeriodEvents(world, enrollmentId)) {
+    recordedPeriods += 1;
+    const tag = row.tags.find((t) => t.startsWith(EARNED_TAG));
+    earned += tag ? Number(tag.slice(EARNED_TAG.length)) : perPeriod;
+  }
+  const legacyPeriods =
+    completedStudyPeriods(world, enrollmentId, path) - recordedPeriods;
+  return earned + Math.max(0, legacyPeriods) * perPeriod;
+}
+
+function onTimeCreditsPerPeriod(path: LifePathDefinition): number {
+  const total = totalStudyPeriods(path);
+  return total > 0 ? studyCreditsRequired(path) / total : 0;
+}
+
+/**
+ * The share of attempted credits a student earns, from the weekly hours they
+ * owe elsewhere. Slides from 1 with no strain down toward 0.
+ */
+export function creditsEarnedShare(outsideWeeklyHours: number): number {
+  const excess = Math.max(
+    0,
+    outsideWeeklyHours - STUDY_CREDIT_PACE.outsideHoursWithoutStrain,
+  );
+  return 1 / (1 + excess / STUDY_CREDIT_PACE.outsideHoursToHalve);
+}
+
+/**
+ * How many periods this enrollment runs for now: the planned number, or, for
+ * a student still short of credits at the end of it, one more at a time up
+ * to the maximum timeframe.
+ */
+export function studyPeriodsPlanned(
+  world: World,
+  enrollmentId: EntityId,
+  path: LifePathDefinition,
+): number {
+  const total = totalStudyPeriods(path);
+  const completed = completedStudyPeriods(world, enrollmentId, path);
+  if (completed < total) return total;
+  if (
+    studyCreditsEarned(world, enrollmentId, path) >= studyCreditsRequired(path)
+  )
+    return completed;
+  return Math.min(completed + 1, Math.ceil(total * MAXIMUM_TIMEFRAME_MULTIPLE));
+}
 const graceDuePrefix = `${prefix}study-grace-deadline:`;
 const authored = {
   kind: "authored" as const,
@@ -151,7 +283,7 @@ export function completedStudyPeriods(
   const credited = Math.floor(
     (legacySessions * totalStudyPeriods(path)) / path.requiredSessions,
   );
-  return Math.min(totalStudyPeriods(path), credited + recorded);
+  return Math.min(totalStudyPeriods(path), credited) + recorded;
 }
 
 function completedStudySessions(world: World, enrollmentId: EntityId): number {
@@ -202,7 +334,69 @@ export function studyPeriodTuitionOutstanding(
   path: LifePathDefinition,
 ): number {
   const period = completedStudyPeriods(world, enrollmentId, path) + 1;
-  if (period > totalStudyPeriods(path)) return 0;
+  if (period > studyPeriodsPlanned(world, enrollmentId, path)) return 0;
+  const price = recordedStudyPeriodTuitionPrice(world, enrollmentId, period);
+  if (price) {
+    const charge = world.history.resourceFlows.find(
+      (flow) =>
+        flow.stableKey === `${prefix}study-period:${enrollmentId}:${period}`,
+    );
+    const terms = charge && resourceFlowTermsAt(world, charge.id);
+    const paid = charge
+      ? world.history.resourceTransferOutcomes
+          .filter(
+            (outcome) =>
+              outcome.resourceFlowId === charge.id &&
+              (outcome.status === "completed" || outcome.status === "partial"),
+          )
+          .reduce(
+            (total, outcome) => total + outcome.transferredAmount.minorUnits,
+            0,
+          )
+      : 0;
+    const amount = terms
+      ? price.cap === null
+        ? terms.amount.minorUnits
+        : Math.min(terms.amount.minorUnits, price.cap)
+      : price.amountMinor;
+    return Math.max(0, amount - paid);
+  }
+  const frozen = recordedTuitionFreezePrice(world, enrollmentId);
+  if (frozen.status === "frozen") {
+    const charge = world.history.resourceFlows.find(
+      (flow) =>
+        flow.stableKey === `${prefix}study-period:${enrollmentId}:${period}`,
+    );
+    if (charge) {
+      const terms = resourceFlowTermsAt(world, charge.id);
+      if (terms) {
+        const paid = world.history.resourceTransferOutcomes
+          .filter(
+            (outcome) =>
+              outcome.resourceFlowId === charge.id &&
+              (outcome.status === "completed" || outcome.status === "partial"),
+          )
+          .reduce(
+            (total, outcome) => total + outcome.transferredAmount.minorUnits,
+            0,
+          );
+        return Math.max(
+          0,
+          Math.min(terms.amount.minorUnits, frozen.amountMinor) - paid,
+        );
+      }
+    }
+    const periodCost = path.periodCostMinor ?? 0;
+    const remainingLegacyCredit = Math.max(
+      0,
+      completedStudySessions(world, enrollmentId) * path.sessionCostMinor -
+        (period - 1) * periodCost,
+    );
+    return Math.max(
+      0,
+      Math.min(periodCost, frozen.amountMinor) - remainingLegacyCredit,
+    );
+  }
   return Math.max(
     0,
     period * (path.periodCostMinor ?? 0) -
@@ -260,7 +454,7 @@ export function studyTuitionStatus(
       })?.reasonKey === "education:insufficient-tuition",
   );
   if (
-    completed >= totalStudyPeriods(path) ||
+    completed >= studyPeriodsPlanned(world, enrollmentId, path) ||
     (!deadline && !paused && (!blocked || state?.status !== "active"))
   )
     return null;
@@ -383,7 +577,7 @@ export function studyProgressSummary(
       totalCostMinor: (path.requiredSessions ?? 0) * path.sessionCostMinor,
     };
   }
-  const total = totalStudyPeriods(path);
+  const total = studyPeriodsPlanned(world, enrollmentId, path);
   const completed = completedStudyPeriods(world, enrollmentId, path);
   const periodsPerYear = path.periodsPerYear ?? 2;
   const academicYear =
@@ -515,8 +709,7 @@ export function bootstrapStudyPeriodProgression(
 ): World {
   if (!studyUsesPeriodModel(path)) return world;
   const completed = completedStudyPeriods(world, enrollmentId, path);
-  const total = totalStudyPeriods(path);
-  if (completed >= total) return world;
+  if (completed >= studyPeriodsPlanned(world, enrollmentId, path)) return world;
   return scheduleStudyPeriodDue(world, enrollmentId, path, completed + 1);
 }
 
@@ -571,7 +764,8 @@ export function completeStudyPeriod(
   if (status !== "active") return world;
   const periodNumber = completedStudyPeriods(world, enrollmentId, path) + 1;
   const total = totalStudyPeriods(path);
-  if (periodNumber > total) return world;
+  if (periodNumber > studyPeriodsPlanned(world, enrollmentId, path))
+    return world;
   if (
     world.currentDate <
     addDays(
@@ -580,20 +774,17 @@ export function completeStudyPeriod(
     )
   )
     return world;
-  const legacyPaid =
-    completedStudySessions(world, enrollmentId) * path.sessionCostMinor;
-  let cost = Math.max(
-    0,
-    periodNumber * (path.periodCostMinor ?? 0) -
-      legacyPaid -
-      paidPeriodTuitionMinor(world, enrollmentId),
-  );
   const actor = enrollment.personId;
   let next = world;
   const chargeKey = `${prefix}study-period:${enrollmentId}:${periodNumber}`;
   let charge = next.history.resourceFlows.find(
     (record) => record.stableKey === chargeKey,
   );
+  let cost = charge
+    ? resourceFlowTermsAt(next, charge.id)!.amount.minorUnits
+    : (recordedStudyPeriodTuitionPrice(world, enrollmentId, periodNumber)
+        ?.currentAmountMinor ??
+      studyPeriodTuitionOutstanding(world, enrollmentId, path));
   if (cost > 0 && !charge) {
     next = createResourceFlow(next, {
       stableKey: chargeKey,
@@ -608,12 +799,39 @@ export function completeStudyPeriod(
       basisKind: "obligation:tuition",
       basisReference: { kind: "general" },
       restrictionKind: null,
-      jurisdictionId: null,
+      jurisdictionId: organizationProfileAt(next, enrollment.organizationId)
+        ?.locationJurisdictionId
+        ? stateJurisdictionOf(
+            organizationProfileAt(next, enrollment.organizationId)!
+              .locationJurisdictionId!,
+          )
+        : null,
       provenance: authored,
     });
     charge = next.history.resourceFlows.at(-1)!;
   }
-  if (charge) cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
+  if (charge) {
+    const terms = resourceFlowTermsAt(next, charge.id)!;
+    const alreadyPaid = next.history.resourceTransferOutcomes.some(
+      (outcome) =>
+        outcome.resourceFlowId === charge.id && outcome.status === "completed",
+    );
+    if (terms.status === "active" && !alreadyPaid) {
+      for (const resolved of resolvePriceCostConsequences(
+        next,
+        TUITION_FREEZE_ROW,
+        {
+          onDate: next.currentDate,
+          activity: "payment",
+          activityId: terms.id,
+          subjectIds: [actor],
+        },
+      ))
+        next = applyPriceCostConsequence(next, resolved);
+      next = noticeTuitionFreeze(next, charge.id);
+    }
+    cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
+  }
   if (cost > 0 && charge && financing)
     next = financeStudentTuitionWithSavedAidFacts(
       next,
@@ -641,12 +859,53 @@ export function completeStudyPeriod(
       provenance: authored,
     });
   }
+  // The credits attempted and earned this period, from the hours the student
+  // owes elsewhere this week (work and care, not this study).
+  const required = studyCreditsRequired(path);
+  const earnedBefore = studyCreditsEarned(next, enrollmentId, path);
+  const attempted = Math.max(
+    0,
+    Math.min(onTimeCreditsPerPeriod(path), required - earnedBefore),
+  );
+  const outside = assessLifeLoadAt(next, actor).expectedWeekly;
+  const earned = Math.round(
+    attempted *
+      creditsEarnedShare((outside.minimumHours + outside.maximumHours) / 2),
+  );
   next = event(
     next,
     "study-period",
     [enrollmentId],
-    `You completed study period ${periodNumber} of ${total} for ${path.title}.`,
+    required > 0
+      ? `You completed study period ${periodNumber} of ${total} for ${path.title}, earning ${earned} of the ${Math.round(attempted)} credits you took.`
+      : `You completed study period ${periodNumber} of ${total} for ${path.title}.`,
+    [`${ATTEMPTED_TAG}${Math.round(attempted)}`, `${EARNED_TAG}${earned}`],
   );
+  if (charge) next = settleTuitionFreezeBackfill(next, charge.id);
+  const creditsMet = earnedBefore + earned >= required;
+  if (periodNumber >= total && !creditsMet) {
+    // Short of credits: another period, or, past the maximum timeframe, the
+    // enrollment ends without the credential.
+    if (periodNumber < Math.ceil(total * MAXIMUM_TIMEFRAME_MULTIPLE))
+      return scheduleStudyPeriodDue(next, enrollmentId, path, periodNumber + 1);
+    const state = educationEnrollmentStateAt(next, enrollmentId)!;
+    next = recordEducationEnrollmentState(next, {
+      stableKey: `${prefix}short-of-credits:${enrollmentId}`,
+      enrollmentId,
+      effectiveAt: next.currentDate,
+      status: "ended",
+      contextKind: state.contextKind,
+      reason: `Reached the most time allowed for ${path.title} short of credits: ${earnedBefore + earned} of ${required}.`,
+      provenance: authored,
+      supersedesStateId: state.id,
+    });
+    return event(
+      next,
+      "short-of-credits",
+      [enrollmentId],
+      `You reached the most time allowed for ${path.title} with ${earnedBefore + earned} of the ${required} credits it requires, so your studies end without ${path.credential ?? "the credential"}.`,
+    );
+  }
   if (periodNumber >= total) {
     const state = educationEnrollmentStateAt(next, enrollmentId)!;
     next = recordEducationEnrollmentState(next, {
@@ -744,11 +1003,6 @@ export const educationStudyBeginsHandler: FutureTransitionHandler = (
     next = bootstrapStudyPeriodProgression(next, enrollment.id, path);
   return resolved(next, "Classes started.");
 };
-
-export type StudyPathResolver = (
-  world: World,
-  enrollmentId: EntityId,
-) => LifePathDefinition | undefined;
 
 export const educationStudyPeriodDueHandler: FutureTransitionHandler = (
   world,
@@ -882,21 +1136,6 @@ export const educationStudyPeriodDueHandler: FutureTransitionHandler = (
     outcomeEventId: null,
   };
 };
-
-let studyPathResolver: StudyPathResolver | null = null;
-
-export function registerStudyPathResolver(resolver: StudyPathResolver): void {
-  studyPathResolver = resolver;
-}
-
-function resolveStudyPath(
-  world: World,
-  enrollmentId: EntityId,
-): LifePathDefinition | undefined {
-  if (!studyPathResolver)
-    throw new Error("Study path resolver is not registered.");
-  return studyPathResolver(world, enrollmentId);
-}
 
 /**
  * Import/normal-play migration seam for active studies created before period

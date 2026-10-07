@@ -7,6 +7,9 @@
  *
  * The causes read from the record, each a sliding strength from 0 to 1:
  *
+ * - a job offer elsewhere (`work:job-offer`): an offer from a recorded
+ *   employer outside town still waiting for their answer (`job-offers.ts`),
+ *   firmer the more it pays than their own work, at the offer's place.
  * - a lost job (`work:job-lost`): a job that ended in the last year for a
  *   reason other than quitting, retiring or dying, with no job since. It
  *   weighs more the longer they have been out of work and the less anyone
@@ -21,14 +24,19 @@
  * - a relative who moved away (`family:followed-kin`): a recorded move in
  *   the last year by a parent, child, sibling, grandparent or grandchild, to
  *   the place that relative now lives.
+ * - a new household (`family:new-household`): in the last year they left a
+ *   parent's home, moved in with a partner or moved out after a breakup
+ *   (`living-world/town-families.ts`, `living-world/leaving-home.ts`), and
+ *   live in that new home still. A household just formed has the least
+ *   holding it; a breakup weighs more than a move in together.
  *
- * Where they go. A relative's move names its own place. A push from work,
- * rent, eviction or retirement names none, so they go where their closest
- * living relative outside town lives today, and with nobody there, to the
- * rest of their own state (the most common long move: the American
- * Community Survey counts about half of movers between counties as staying
- * in their state). That last fallback is HARDWIRED until a producer records
- * a job offer or a home found elsewhere (`MIGRATION_SEAMS`, `where-people-go`).
+ * Where they go. An offer and a relative's move name their own place. A push
+ * from a lost job, rent, eviction or retirement names none, so they go where
+ * their closest living relative outside town lives today, and with nobody
+ * there, to the rest of their own state (the most common long move: the
+ * American Community Survey counts about half of movers between counties as
+ * staying in their state). That last fallback is HARDWIRED until a producer
+ * records a home found elsewhere (`MIGRATION_SEAMS`, `where-people-go`).
  *
  * The bar, against the causes, in one `evaluateDecision` with no randomness:
  * how rarely people their age in their state move (American Community
@@ -36,8 +44,14 @@
  * home; their own taste for risk; and the town's pushes (waves, the state's
  * pressure, crime, jobs) on either side.
  *
- * NOT PRODUCED, filed as gaps: a job offer elsewhere (the job market posts
- * only the town's own openings); school elsewhere (an admission elsewhere is
+ * - a home a disaster destroyed or damaged (`disaster:home-destroyed`,
+ *   `disaster:home-damaged`): a disaster-damage record on their household or
+ *   the dwelling they live in since the last review (`homeLostCause`). The
+ *   household weighs it with its other causes against the same bar, so a
+ *   renter with family elsewhere leaves a wrecked home sooner than an owner
+ *   with children in school.
+ *
+ * NOT PRODUCED, filed as a gap: school elsewhere (an admission elsewhere is
  * not recorded, and an active enrollment holds a person in town,
  * `who-may-move`).
  */
@@ -59,7 +73,12 @@ import {
   TOWN_JOB_END_REASONS,
   TOWN_JOB_ENDS_NOT_LOST,
 } from "../living-world/town-labor-market";
+import { LEAVING_HOME_EVENT } from "../living-world/leaving-home";
+import { TOWN_FAMILY_EVENTS } from "../living-world/town-families";
+import { employerDisplayName } from "../job-market";
+import { monthlyPayByPerson } from "../living-world/town-rent";
 import { traitConsiderations } from "../people-traits";
+import { offerStrength, openOfferElsewhere } from "./job-offers";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -77,10 +96,72 @@ const EVICTED_EVENT = "housing.evicted";
 /** How far back a cause still weighs: a person is reviewed once a year. */
 const CAUSE_WINDOW_DAYS = 365;
 
+/**
+ * Strengths ESTIMATED FROM AVERAGE (research: `why-americans-move-causes-and-strengths`)
+ * of a household formed in the last year, by what formed it. The Current
+ * Population Survey's reasons for moving count "to establish own household"
+ * and "change in marital status" among the family reasons, and most such
+ * moves stay in the county. So leaving home or moving in together is a
+ * slight push that tips only somebody already near leaving, and a breakup a
+ * moderate one.
+ */
+export const NEW_HOUSEHOLD_STRENGTH: Readonly<Record<string, number>> = {
+  [LEAVING_HOME_EVENT]: 0.2,
+  [TOWN_FAMILY_EVENTS.movedIn]: 0.2,
+  [TOWN_FAMILY_EVENTS.brokeUp]: 0.3,
+  [TOWN_FAMILY_EVENTS.divorced]: 0.3,
+};
+
+/**
+ * Strengths ESTIMATED FROM AVERAGE (research: `disaster-displacement-and-return`) of a
+ * home a disaster wrecked since the last review. After Hurricane Katrina many
+ * households never came back (the owner, September 22, 2026); after most
+ * disasters most households repair and stay. So a destroyed home is a strong
+ * push that a home owned, children at home or a settled age can still hold
+ * against, and a damaged one a slight push that tips only somebody already
+ * near leaving.
+ */
+export const HOME_LOST_STRENGTH = {
+  destroyed: 0.6,
+  damaged: 0.2,
+} as const;
+
+/** The cause a home a disaster destroyed or damaged gives its household. */
+export function homeLostCause(
+  damageId: EntityId,
+  level: keyof typeof HOME_LOST_STRENGTH,
+): LeaveCause {
+  return {
+    kind: "home-lost",
+    reason: `disaster:home-${level}`,
+    strength: HOME_LOST_STRENGTH[level],
+    causeId: damageId,
+    placeId: null,
+    explanation:
+      level === "destroyed"
+        ? "a disaster destroyed their home"
+        : "a disaster damaged their home",
+  };
+}
+
+const NEW_HOUSEHOLD_WORDS: Readonly<Record<string, string>> = {
+  [LEAVING_HOME_EVENT]: "they moved out of a parent's home",
+  [TOWN_FAMILY_EVENTS.movedIn]: "they moved in with their partner",
+  [TOWN_FAMILY_EVENTS.brokeUp]: "they moved out after a breakup",
+  [TOWN_FAMILY_EVENTS.divorced]: "they moved out after a divorce",
+};
+
 /** One recorded reason to leave, with its strength and its place. */
 export interface LeaveCause {
   readonly kind:
-    "job-lost" | "evicted" | "rent-burden" | "retired" | "kin-moved";
+    | "job-offer"
+    | "job-lost"
+    | "evicted"
+    | "rent-burden"
+    | "retired"
+    | "kin-moved"
+    | "new-household"
+    | "home-lost";
   readonly reason: MoveReasonKey;
   /** 0 to 1, smooth in the facts it reads. */
   readonly strength: number;
@@ -155,14 +236,25 @@ export function causeReader(world: World, town: EntityId): CauseReader {
   const since = addDays(today, -CAUSE_WINDOW_DAYS);
   const dead = new Set(world.history.personDeaths.map((d) => d.personId));
 
-  // Evictions and moves in the last year, once.
+  // Evictions, moves and new households in the last year, once.
   const evicted = new Map<EntityId, EntityId>();
   const kinMoved = new Map<EntityId, LeaveCause>();
+  const formed = new Map<EntityId, (typeof world.history.events)[number]>();
   for (const event of recentEvents(
     world,
-    new Set([EVICTED_EVENT, MIGRATION_MOVED_EVENT]),
+    new Set([
+      EVICTED_EVENT,
+      MIGRATION_MOVED_EVENT,
+      ...Object.keys(NEW_HOUSEHOLD_STRENGTH),
+    ]),
     since,
   )) {
+    if (event.type in NEW_HOUSEHOLD_STRENGTH) {
+      // Newest first: the latest household each person formed.
+      for (const row of event.participants)
+        if (!formed.has(row.personId)) formed.set(row.personId, event);
+      continue;
+    }
     if (event.type === EVICTED_EVENT) {
       for (const row of event.participants)
         if (!evicted.has(row.personId)) evicted.set(row.personId, event.id);
@@ -215,9 +307,23 @@ export function causeReader(world: World, town: EntityId): CauseReader {
     });
   };
 
+  let pay: ReadonlyMap<EntityId, number> | null = null;
+  const payByPerson = () => (pay ??= monthlyPayByPerson(world, today));
+
   return {
     causesFor(personId) {
       const causes: LeaveCause[] = [];
+      // An offer of work elsewhere names its own place, so it comes first.
+      const offer = openOfferElsewhere(world, personId, town, payByPerson);
+      if (offer)
+        causes.push({
+          kind: "job-offer",
+          reason: "work:job-offer",
+          strength: offerStrength(offer),
+          causeId: offer.eventId,
+          placeId: offer.placeId,
+          explanation: `${employerDisplayName(world, offer.employer)} offered them ${offer.title.toLowerCase()} work in ${placeName(world, offer.placeId)}`,
+        });
       const ended = endedWork(personId);
       const lost = ended
         .filter((status) => !TOWN_JOB_ENDS_NOT_LOST.has(status.reason ?? ""))
@@ -280,6 +386,23 @@ export function causeReader(world: World, town: EntityId): CauseReader {
       }
       const kin = kinMoved.get(personId);
       if (kin) causes.push(kin);
+      // Only the one who moved: their home now is one they joined that day
+      // or after.
+      const event = formed.get(personId);
+      const home = event
+        ? householdMembershipsAt(world, personId).find(
+            (active) => active.state.residenceRole === "primary",
+          )
+        : undefined;
+      if (event && home && home.membership.startedAt >= event.occurredAt)
+        causes.push({
+          kind: "new-household",
+          reason: "family:new-household",
+          strength: NEW_HOUSEHOLD_STRENGTH[event.type]!,
+          causeId: event.id,
+          placeId: null,
+          explanation: `${NEW_HOUSEHOLD_WORDS[event.type]} on ${spokenDate(event.occurredAt)}`,
+        });
       return causes;
     },
     closestKinElsewhere(personId, home) {
@@ -321,12 +444,25 @@ export function importanceOf(strength: number): DecisionImportance | null {
   return null;
 }
 
+/**
+ * ESTIMATED (research: school-move-to-scores): how much a mid-year school
+ * change weighs against moving at the very middle of a term; less toward
+ * either break, nothing over the summer.
+ */
+export const SCHOOL_YEAR_HOLD_AT_MID_TERM = 0.5;
+
 /** What the person weighs on staying beside the causes. */
 export interface LeaveBar {
   /** The yearly share of people their age in their state who move away. */
   readonly ageMoverRate: number;
   readonly ownsHome: boolean;
   readonly childrenAtHome: number;
+  /**
+   * How deep into a school year a move would land for a pupil at home: 0 at
+   * a term break or with no pupil, rising smoothly to 1 at the middle of the
+   * term (`schoolYearDepth`). Absent is 0.
+   */
+  readonly schoolYearDepth?: number;
   /** The town's pushes multiplied: above 1 pushes out, below holds. */
   readonly townPush: number;
 }
@@ -388,13 +524,22 @@ export function decideToLeave(
     });
   };
   for (const cause of causes)
-    add(`cause:${cause.kind}`, "leave", cause.strength, cause.explanation);
+    add(
+      `cause:${cause.kind}`,
+      "leave",
+      cause.strength,
+      cause.explanation,
+      // ESTIMATED (research: why-americans-move-causes-and-strengths): an
+      // offer is a promise about a place they have not lived, weighed with
+      // less certainty than what has already happened to them.
+      cause.kind === "job-offer" ? "medium" : "high",
+    );
   add(
     "bar:age",
     "keep-home",
     clamp01(1 - bar.ageMoverRate / AGE_RATE_FOR_NO_BAR),
     `few people their age in their state move away (${Math.round(bar.ageMoverRate * 1000) / 10} percent a year)`,
-    // HARDWIRED, a PLACEHOLDER(research: why-americans-move-causes-and-
+    // HARDWIRED, a ESTIMATED (research: why-americans-move-causes-and-
     // strengths): what a person sees of their age group is weighed with
     // less certainty than what happened to them.
     "medium",
@@ -405,7 +550,7 @@ export function decideToLeave(
       "keep-home",
       0.5,
       "they own their home",
-      // PLACEHOLDER(research: why-americans-move-causes-and-strengths).
+      // ESTIMATED (research: why-americans-move-causes-and-strengths).
       "medium",
     );
   if (bar.childrenAtHome > 0)
@@ -414,6 +559,17 @@ export function decideToLeave(
       "keep-home",
       clamp01(0.25 * bar.childrenAtHome),
       "they have children at home",
+      "medium",
+    );
+  if ((bar.schoolYearDepth ?? 0) > 0)
+    add(
+      "bar:school-year",
+      "keep-home",
+      // ESTIMATED (research: school-move-to-scores): the size a mid-year
+      // move weighs against leaving, at the middle of the term. Families are
+      // known to time moves to the summer; how strongly is not sized here.
+      clamp01(SCHOOL_YEAR_HOLD_AT_MID_TERM * bar.schoolYearDepth!),
+      "a child at home would have to change schools in the middle of the year",
       "medium",
     );
   if (bar.townPush > 1)

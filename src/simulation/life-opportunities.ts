@@ -20,7 +20,7 @@ import { createScheduledActivity, createWorkItem } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
 import { advanceJobMarket } from "./job-market";
-import { settleMortgages } from "./home-purchase";
+import { settleHouseholdLoanPayments } from "./household-loans";
 import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
 import {
@@ -74,6 +74,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "candidacy-approach",
   "household-shortfall",
   "eviction-case",
+  "crime-report",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -92,6 +93,9 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   // Written by the rent day in `living-world/town-rent.ts` when a landlord
   // files against the lease the played person holds.
   "eviction-case": "adult.eviction-case",
+  // Written by the monthly crime pass in `crime/producer.ts` when an offense
+  // happened to the played person and nobody else it happened to reported it.
+  "crime-report": "adult.crime-report",
 };
 
 /**
@@ -114,6 +118,7 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "candidacy-approach": false,
   "household-shortfall": false,
   "eviction-case": false,
+  "crime-report": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
@@ -295,7 +300,9 @@ function occasionDatesBySource(world: World): ReadonlyMap<EntityId, IsoDate> {
  *
  * Moved here from the presentation surface without changing what it writes:
  * the same notice, the same meeting on the calendar, and its work item
- * under the same stable keys, the same authored titles and summaries. It lives
+ * under the same stable keys and authored titles and summaries, explicitly
+ * marked as an authored opening. Meeting and travel retain their recorded
+ * responsible person so the existing action readers can find them. It lives
  * in the simulation now because the canonical world builder needs it and a
  * world may not reach up into a screen to find out what an ordinary week is.
  *
@@ -331,7 +338,7 @@ export function openOrdinaryLifeRecords(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["civic.public-meeting"],
+    tags: ["civic.public-meeting", "provenance:authored opening"],
     summary: `A public meeting was posted on the local calendar. Agenda: ${PUBLIC_MEETING_AGENDA}`,
     context: {
       location: jurisdictionId
@@ -450,7 +457,7 @@ export function refreshLifeOpportunities(
   let next = world;
   next = settleOfficeSalaries(next, personId);
   next = advanceJobMarket(next, personId);
-  next = settleMortgages(next, personId);
+  next = settleHouseholdLoanPayments(next, personId);
   next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;

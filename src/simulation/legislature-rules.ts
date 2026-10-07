@@ -1,3 +1,8 @@
+import type { SittingCalendar } from "./legislative-session-calendar";
+import {
+  assertMeasureTitleTemplate,
+  type MeasureTitleTemplate,
+} from "./measure-title";
 /**
  * Runtime institutional rule contract for legislatures.
  *
@@ -422,6 +427,30 @@ export interface ConferenceRule {
   readonly adoptionThresholdLabel: string;
 }
 
+/** Procedural tools a member may use against a pending measure. */
+export type MinorityProcedureMotion =
+  | "table"
+  | "postpone"
+  | "recommit"
+  | "recorded-vote"
+  | "full-reading"
+  | "suspend-rules"
+  | "sine-die";
+
+/** Complete per-chamber delay, debate, and attendance rules. */
+export interface MinorityPartyProcedureRow {
+  readonly packId: string;
+  readonly chamberKey: string;
+  readonly motions: RuleValue<readonly MinorityProcedureMotion[]>;
+  readonly motionBar: RuleValue<VoteThresholdRule>;
+  readonly suspendRulesBar: RuleValue<VoteThresholdRule>;
+  readonly unlimitedDebate: RuleValue<boolean>;
+  readonly clotureBar: RuleValue<VoteThresholdRule>;
+  readonly quorum: RuleValue<VoteThresholdRule>;
+  readonly mayCompelAttendance: RuleValue<boolean>;
+  readonly absencePenalty: RuleValue<"chamber-prescribed" | "none">;
+}
+
 /**
  * Where a veto is reconsidered. Alaska uses one joint sitting of both houses.
  *
@@ -509,6 +538,8 @@ export interface EnactmentRule {
 }
 
 export interface SessionRule {
+  /** Optional in old packs/saves; shared timetable, with explicit provenance. */
+  readonly sittingCalendar?: SittingCalendar;
   /** A saved game's regular-session cadence; absent in legacy rule packs. */
   readonly regularSessionYears?: KnownRuleValue<"annual" | "odd" | "even">;
   /** Outer regular-session boundary only; not proof of convening or bill expiration. */
@@ -574,9 +605,20 @@ export interface OriginationRule {
  * knowledge of its own.
  */
 export interface LegislativeRulePack {
+  /** Authored display title; absent in older packs and saves. */
+  readonly titleTemplate?: MeasureTitleTemplate;
   readonly packId: string;
   readonly jurisdictionKey: string;
   readonly displayName: string;
+  /**
+   * The saved roster this institution reads, and how far that roster supplies
+   * party cues. Older packs use candidacy openings and the current chamber.
+   * This selects a data reader; it grants no seats or legislative authority.
+   */
+  readonly seatRollSource?: {
+    readonly kind: "national-election-seats" | "candidacy-opening";
+    readonly partyCueScope: "chamber" | "institution";
+  };
   /**
    * Whether this pack states read law or the game's own rule.
    *
@@ -595,6 +637,8 @@ export interface LegislativeRulePack {
   readonly basis: "researched" | "game-profile";
   readonly structure: LegislatureStructure;
   readonly chambers: readonly ChamberRule[];
+  /** Per-chamber delay and attendance data; omitted only by legacy packs. */
+  readonly minorityPartyProcedureRows?: readonly MinorityPartyProcedureRow[];
   /**
    * The chambers in their declared order.
    *
@@ -610,6 +654,22 @@ export interface LegislativeRulePack {
   readonly origination: OriginationRule;
   readonly interChamber: InterChamberRule;
   readonly executive: ExecutiveRule;
+  readonly councilActions?: {
+    readonly financialGeneralThresholdUsd?: RuleValue<number>;
+    readonly financialLocalRule?: RuleValue<{
+      readonly operativeOn: string;
+      readonly fullMembershipAboveUsd: number;
+      readonly delayedAboveUsd: number;
+      readonly minimumInterveningDays: number;
+      readonly ordinaryCitations: readonly string[];
+      readonly ordinaryUnresolved: readonly string[];
+      readonly quorumCitation: string;
+    }>;
+    readonly managerElectionThreshold?: VoteThresholdRule;
+    readonly overrideWindowDays?: RuleValue<number>;
+    readonly congressionalReviewDays?: RuleValue<number>;
+    readonly criminalCodeReviewDays?: RuleValue<number>;
+  };
   readonly enactment: EnactmentRule;
   readonly session: SessionRule;
   readonly sources: readonly RuleSourceRef[];
@@ -871,6 +931,19 @@ function assertOriginationChambers(
  * described is internally coherent; it never invents a missing rule.
  */
 export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
+  if (pack.titleTemplate) assertMeasureTitleTemplate(pack.titleTemplate);
+  if (pack.seatRollSource !== undefined) {
+    const source = pack.seatRollSource;
+    if (
+      !source ||
+      !["national-election-seats", "candidacy-opening"].includes(source.kind) ||
+      !["chamber", "institution"].includes(source.partyCueScope)
+    ) {
+      throw new Error(
+        `Rule pack '${pack.packId}' declares an invalid seat roll source.`,
+      );
+    }
+  }
   if (pack.packId.trim().length === 0) {
     throw new Error("A rule pack must have an identifier.");
   }
@@ -1123,6 +1196,38 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
     );
   }
 
+  for (const field of [
+    "overrideWindowDays",
+    "congressionalReviewDays",
+    "criminalCodeReviewDays",
+    "financialGeneralThresholdUsd",
+  ] as const) {
+    const rule = pack.councilActions?.[field];
+    if (rule)
+      assertRuleValue(rule, `council action ${field}`, (value) => {
+        if (!Number.isSafeInteger(value) || value < 1)
+          throw new Error(
+            `Rule pack '${pack.packId}' has an invalid ${field}.`,
+          );
+      });
+  }
+  const localFinancial = pack.councilActions?.financialLocalRule;
+  if (localFinancial)
+    assertRuleValue(localFinancial, "local financial action", (rule) => {
+      if (
+        !/^\d{4}-\d{2}-\d{2}$/.test(rule.operativeOn) ||
+        [
+          rule.fullMembershipAboveUsd,
+          rule.delayedAboveUsd,
+          rule.minimumInterveningDays,
+        ].some((n) => !Number.isSafeInteger(n) || n < 0)
+      )
+        throw new Error(
+          `Rule pack '${pack.packId}' has invalid local financial action terms.`,
+        );
+    });
+  if (pack.councilActions?.managerElectionThreshold)
+    assertThresholdRule(pack.councilActions.managerElectionThreshold);
   const executive = pack.executive;
   assertSourceRef(executive.source, `executive rule in '${pack.packId}'`);
   assertRuleValue(executive.presentmentRequired, "presentment requirement");

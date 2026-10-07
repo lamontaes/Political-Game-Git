@@ -1,3 +1,13 @@
+import {
+  federalStateProgramProviderClasses,
+  recordedStateProgramProviders,
+} from "../federal-state-program-payments";
+import { finalTermProvisions } from "./final-law-term-query";
+import { measureAnswersAt } from "../vote-bundle";
+import {
+  PASSENGER_RAIL_PROGRAM_KEY,
+  EXPAND_PASSENGER_RAIL_QUESTION,
+} from "../federal-passenger-rail";
 import { addDays } from "../dates";
 import {
   draftLineageComponents,
@@ -14,7 +24,11 @@ import {
   stateKeyForJurisdiction,
 } from "../life-places";
 import { organizationProfileAt } from "../life-queries";
-import { standingServiceProgram } from "../law-consequences/service-delivered-data";
+import {
+  isCountyServiceProgram,
+  standingServiceProgram,
+} from "../law-consequences/service-delivered-data";
+import { organizationServesCounty } from "../county-service-authority";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   STATE_TRANSIT_VARIANT_KEY,
@@ -25,7 +39,7 @@ import {
   LEGACY_TRANSIT_COMPILED_STATE,
 } from "../legislation-transit-families";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
+import { isCongressRulePack } from "../congress-rule-pack";
 import { packMayEnactVariant } from "../legislation-drafting";
 import { rulePackById } from "../legislature-rule-packs";
 import type { LegislativeRulePack } from "../legislature-rules";
@@ -39,6 +53,7 @@ import {
   programVariant,
   legalInstrumentRule,
   standingAuthority,
+  npcEligibleProgramConfigurationsFor,
   type ProgramVariant,
 } from "../legislation-program-families";
 import {
@@ -260,6 +275,68 @@ export function appropriationFromEnactedMeasure(
   const existingComponents = draftLineageComponents(world, measureId).filter(
     (lineage) => lineage.componentKey !== undefined,
   );
+  // A catalog bill can carry final numeric terms without a drafted-family
+  // lineage. Admit that exact annual rail amount into the same appropriation
+  // writer; a spending decision still needs a real recipient and cash.
+  if (
+    governmentScope.kind === "federal" &&
+    !draftLineageForMeasure(world, measureId)
+  ) {
+    const terms = finalTermProvisions(world, measureId, enactment.sequence)
+      .filter(
+        (provision) =>
+          provision.applicationScope.jurisdictionId ===
+            measure.jurisdictionId &&
+          provision.applicationScope.segmentKey === null,
+      )
+      .flatMap((provision) =>
+        (provision.lawTerms ?? []).filter(
+          (term) =>
+            term.questionKey === EXPAND_PASSENGER_RAIL_QUESTION &&
+            term.key === "appropriation",
+        ),
+      );
+    const term = terms.length === 1 ? terms[0] : null;
+    const operativeAt = operativeDateInWorld(world, enactment)?.date;
+    const answersYes = measureAnswersAt(
+      world,
+      measureId,
+      enactment.sequence,
+    ).some(
+      (answer) =>
+        answer.answer === "yes" &&
+        world.policyCatalog.propositions[answer.propositionId]?.stableKey ===
+          EXPAND_PASSENGER_RAIL_QUESTION,
+    );
+    const configurations = npcEligibleProgramConfigurationsFor(
+      EXPAND_PASSENGER_RAIL_QUESTION,
+      "yes",
+      "federal",
+    );
+    if (
+      answersYes &&
+      operativeAt &&
+      term?.unit === "dollars/year" &&
+      Number.isFinite(term.value) &&
+      term.value > 0 &&
+      configurations.length === 1
+    ) {
+      const configuration = configurations[0]!;
+      const written = recordAdoptedAppropriation(world, {
+        familyKey: configuration.familyKey,
+        programKey: PASSENGER_RAIL_PROGRAM_KEY,
+        jurisdictionId: measure.jurisdictionId,
+        publicGovernmentIdentity: governmentScope.identity,
+        amountMinorUnits: term.value * 100,
+        adoptedOn: operativeAt,
+        availableThrough: addDays(addYears(operativeAt, 1), -1),
+        edition: `final-annual-term-${measure.id}`,
+        basisNote: `${PROGRAM_GOVERNING_VERSION}: final adopted annual rail appropriation from ${measure.designation}; authority is not cash or delivered service.`,
+        sourceMeasureId: measureId,
+      });
+      return written?.world ?? world;
+    }
+  }
   if (
     governmentScope.kind === "federal" &&
     (existingComponents.length > 0 ||
@@ -817,7 +894,7 @@ function npcProgramServiceCapacityProfileForEnactment(input: {
   } else {
     if (
       measure.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
-      measure.rulePackId !== US_CONGRESS_PACK_ID
+      !isCongressRulePack(measure.rulePackId)
     )
       return null;
     governmentLevel = governmentScope.kind;
@@ -957,7 +1034,7 @@ function publicProgramGovernmentScope(
     readonly rulePackId: string;
   },
 ): PublicProgramGovernmentScope | null {
-  if (measure.rulePackId === US_CONGRESS_PACK_ID)
+  if (isCongressRulePack(measure.rulePackId))
     return measure.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
       ? {
           kind: "federal",
@@ -1132,6 +1209,23 @@ export function programOperatorOrganization(
   if (identity && identity.jurisdictionId !== jurisdictionId)
     throw new Error("A program operator must match the program jurisdiction.");
   if (identity) assertPublicGovernmentIdentity(world, identity);
+  const providerClasses = federalStateProgramProviderClasses(
+    world,
+    programKey,
+    jurisdictionId,
+  );
+  if (providerClasses.length) {
+    const provider = recordedStateProgramProviders(
+      world,
+      jurisdictionId,
+      providerClasses,
+    )[0];
+    if (!provider)
+      throw new Error(
+        "No admitted recorded provider is available for this state program.",
+      );
+    return { world, organizationId: provider };
+  }
   const operatorScope =
     identity?.kind === "local-government"
       ? `local:${encodeURIComponent(identity.governmentKey)}:`
@@ -1242,7 +1336,20 @@ export function eligibleStandingOperator(
     const rank = profile
       ? program.operatorClassifications.indexOf(profile.classification)
       : -1;
-    if (rank < 0 || !inPlace(profile!.locationJurisdictionId)) continue;
+    if (rank < 0) continue;
+    // A county's own service is run by an organization in that county; the
+    // same-state reach below is for a state's programs.
+    if (isCountyServiceProgram(programKey)) {
+      if (
+        !organizationServesCounty(
+          world,
+          organization.id,
+          programKey,
+          jurisdictionId,
+        )
+      )
+        continue;
+    } else if (!inPlace(profile!.locationJurisdictionId)) continue;
     const candidate = {
       rank,
       formedAt: organization.formedAt,

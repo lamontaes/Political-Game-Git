@@ -1,4 +1,4 @@
-import calendarProfiles from "../../../data/research/government/county-election-calendar-profiles.json";
+import calendarProfiles from "../../../data/research/government/county-election-calendar-profiles.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import type { GovernmentUnitIdentity } from "../government-units";
 import type { IsoDate } from "../types";

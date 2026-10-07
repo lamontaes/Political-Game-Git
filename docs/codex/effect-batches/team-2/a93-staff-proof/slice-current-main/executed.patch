@@ -1,0 +1,657 @@
+diff --git a/src/simulation/governing/staff-evidence.test.ts b/src/simulation/governing/staff-evidence.test.ts
+index 0e2fd0101..81527c3a5 100644
+--- a/src/simulation/governing/staff-evidence.test.ts
++++ b/src/simulation/governing/staff-evidence.test.ts
+@@ -1,85 +1,214 @@
+ import { describe, expect, it } from "vitest";
+-
+-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+-import {
+-  generateOpeningLife,
+-  prepareOpeningLife,
+-} from "../../presentation/opening-life";
+-import { openOrdinaryLife } from "../../presentation/ordinary-life";
++import { createScenarioWorld } from "../demo";
++import { createOrganization, createWorkRelationship } from "../life";
+ import { workRelationshipHistoryForPerson } from "../life-queries";
+-import { serializeWorld } from "../serialization";
+-import type { World } from "../types";
+ import {
+-  generateStaffCandidateHistory,
++  lifePlaceStateIdentities,
++  requireLifePlace,
++  searchLifePlaces,
++} from "../life-places";
++import { makeIsoDate } from "../dates";
++import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
++import { personName } from "../people";
++import { SeededRng } from "../rng";
++import { deserializeWorld, serializeWorld } from "../serialization";
++import { createCandidates, currentGoverningOffices } from "./state-governing";
++import {
+   staffAssessment,
+   staffCareerEvidence,
+   staffKnowsLegislature,
+ } from "./staff-evidence";
+ 
+-function openingWorld(seed: string): World {
+-  const game = generateOpeningLife(
+-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
+-  ).game!;
+-  return openOrdinaryLife(game.world, game.playerPersonId);
++const seed = "A93-staff-record-evidence";
++const state = new SeededRng(seed).pick(lifePlaceStateIdentities());
++const place = searchLifePlaces("", 1, {
++  stateJurisdictionKey: state.jurisdictionKey,
++  scope: "locality",
++})[0]!;
++
++function openingWorld(suffix: string) {
++  return createScenarioWorld(`${seed}:${suffix}`, place.context);
+ }
+ 
+-describe("GOVERNING D1: a staff assessment reads the record", () => {
+-  it("says what it does not know about a person with no working history", () => {
+-    const world = openingWorld("staff-evidence-empty");
+-    const stranger = world.personOrder.find(
++describe("A93: a staff assessment reads the actual record", () => {
++  it("uses the same absence-of-evidence rule in all 56 starting jurisdictions", () => {
++    const identities = lifePlaceStateIdentities();
++    expect(identities).toHaveLength(56);
++    for (const identity of identities) {
++      const startingPlace = searchLifePlaces("", 1, {
++        stateJurisdictionKey: identity.jurisdictionKey,
++        scope: "locality",
++      })[0]!;
++      const at = createScenarioWorld(
++        `${seed}:absence:${identity.jurisdictionKey}`,
++        startingPlace.context,
++      );
++      const personId = at.personOrder.find(
++        (id) => workRelationshipHistoryForPerson(at, id).length === 0,
++      )!;
++      expect(personId, identity.jurisdictionKey).toBeDefined();
++      expect(staffAssessment(at, personId).steadiness).toBeNull();
++      expect(staffAssessment(at, personId).evidence).toBe("limited");
++      expect(workRelationshipHistoryForPerson(at, personId)).toHaveLength(0);
++    }
++  });
++
++  it("keeps steadiness unknown without working history through Continue", () => {
++    const world = openingWorld("empty");
++    const personId = world.personOrder.find(
+       (id) => workRelationshipHistoryForPerson(world, id).length === 0,
+     )!;
+-    const assessment = staffAssessment(world, stranger);
++    const assessment = staffAssessment(world, personId);
++    expect(workRelationshipHistoryForPerson(world, personId)).toHaveLength(0);
+     expect(assessment.evidence).toBe("limited");
++    expect(assessment.steadiness).toBeNull();
+     expect(assessment.background).toMatch(/no record/);
+     expect(assessment.caution).toMatch(/without evidence/);
+-    // No invented years of experience appear anywhere in it.
+     expect(`${assessment.background} ${assessment.strength}`).not.toMatch(
+       /\d+ years/,
+     );
+-  }, 300_000);
++    const before = serializeWorld(world);
++    expect(staffAssessment(world, personId)).toEqual(assessment);
++    expect(serializeWorld(world)).toBe(before);
++    expect(staffAssessment(deserializeWorld(before), personId)).toEqual(
++      assessment,
++    );
++    console.log(
++      JSON.stringify({
++        seed: world.seed,
++        state: state.jurisdictionKey,
++        place: place.displayName,
++        person: personName(world.people[personId]!),
++        steadiness: assessment.steadiness,
++        background: assessment.background,
++      }),
++    );
++  });
+ 
+-  it("reads canonical posts, dates and employers once written", () => {
+-    const world = openingWorld("staff-evidence-career");
+-    const person = world.personOrder.find(
++  it("reads supplied canonical posts without inventing another person's career", () => {
++    let world = openingWorld("recorded");
++    const personId = world.personOrder[4]!;
++    const otherId = world.personOrder.find(
+       (id) => workRelationshipHistoryForPerson(world, id).length === 0,
+     )!;
+-    const jurisdictionId = world.people[person]!.homeJurisdictionId;
+-    const written = generateStaffCandidateHistory(world, {
+-      personId: person,
+-      stableKey: "staff-evidence:test-candidate",
+-      jurisdictionId,
++    const jurisdictionId = place.context.jurisdiction.id;
++    world = createOrganization(world, {
++      stableKey: "A93:supplied-staff-employer",
++      formedAt: makeIsoDate("2010-01-01"),
++      provenance: {
++        kind: "authored",
++        note: "Supplied employment fixture, not a generated career.",
++      },
++      initialProfile: {
++        name: "Recorded legislature staff office",
++        classification: "sector:government",
++        locationJurisdictionId: jurisdictionId,
++      },
+     });
+-    const posts = staffCareerEvidence(written, person);
+-    expect(posts.length).toBeGreaterThan(0);
+-    const assessment = staffAssessment(written, person);
++    const employerId = world.history.organizations.at(-1)!.id;
++    world = createWorkRelationship(world, {
++      stableKey: "A93:supplied-recorded-post",
++      personId,
++      organizationId: employerId,
++      startedAt: makeIsoDate("2015-01-01"),
++      kind: "employment:public-sector",
++      compensation: "paid",
++      authority: "directed",
++      dependency: "dependent",
++      economicRisk: "organization-borne",
++      provenance: {
++        kind: "authored",
++        note: "Supplied actual work record for assessment proof.",
++      },
++      initialRole: {
++        title: "Committee staff aide",
++        occupationClassification: "profession:legislative-staff",
++        locationJurisdictionId: jurisdictionId,
++        timeDemand: {
++          expectedWeekly: { minimumHours: 35, maximumHours: 55 },
++          attention: "high",
++          concurrency: "mostly-exclusive",
++          scheduleRigidity: "mixed",
++          interruptibility: "limited",
++          locationJurisdictionId: jurisdictionId,
++        },
++      },
++    });
++    const posts = staffCareerEvidence(world, personId);
++    const assessment = staffAssessment(world, personId);
++    expect(posts).toHaveLength(1);
++    expect(posts[0]!.startedAt).toBe("2015-01-01");
++    expect(posts[0]!.employer).toBe("Recorded legislature staff office");
+     expect(assessment.evidence).toBe("recorded");
+-    // Every claim in the background sentence is in the records.
+-    expect(assessment.background).toContain(posts.at(-1)!.title);
+-    expect(assessment.background).toContain(posts.at(-1)!.years.toString());
+-    expect(staffKnowsLegislature(written, person)).toBe(
+-      posts.some((post) => post.occupation === "profession:legislative-staff"),
++    expect(assessment.steadiness).not.toBeNull();
++    expect(assessment.background).toContain(posts[0]!.title);
++    expect(assessment.background).toContain(posts[0]!.years.toString());
++    expect(staffKnowsLegislature(world, personId)).toBe(true);
++    expect(staffAssessment(world, otherId).steadiness).toBeNull();
++    expect(workRelationshipHistoryForPerson(world, otherId)).toHaveLength(0);
++    const before = serializeWorld(world);
++    expect(staffAssessment(deserializeWorld(before), personId)).toEqual(
++      assessment,
+     );
+-    // Writing it twice writes nothing the second time.
+-    const again = generateStaffCandidateHistory(written, {
+-      personId: person,
+-      stableKey: "staff-evidence:test-candidate",
+-      jurisdictionId,
+-    });
+-    expect(serializeWorld(again)).toBe(serializeWorld(written));
+-    // Two different people do not share one identifier-derived biography.
+-    const other = world.personOrder.find(
+-      (id) =>
+-        id !== person &&
+-        workRelationshipHistoryForPerson(world, id).length === 0,
++    expect(serializeWorld(world)).toBe(before);
++  });
++
++  it("the actual office's candidate producer supplies no career or degree", () => {
++    let world = openingWorld("office-candidates");
++    world = ensureStateExecutiveIncumbent(world, world.personOrder[0]!, "DC");
++    const office = currentGoverningOffices(world).find(
++      (entry) =>
++        entry.jurisdictionId ===
++        requireLifePlace("1150000").context.jurisdiction.id,
+     )!;
+-    const second = generateStaffCandidateHistory(again, {
+-      personId: other,
+-      stableKey: "staff-evidence:test-candidate-2",
+-      jurisdictionId,
+-    });
+-    expect(staffAssessment(second, other).background).not.toBe(
+-      assessment.background,
++    expect(office).toBeDefined();
++    const created = createCandidates(
++      world,
++      office,
++      "A93:actual-office-search",
++      3,
++    );
++    expect(created.personIds).toHaveLength(3);
++    for (const personId of created.personIds) {
++      expect(
++        workRelationshipHistoryForPerson(created.world, personId),
++      ).toHaveLength(0);
++      expect(staffAssessment(created.world, personId).steadiness).toBeNull();
++      expect(staffAssessment(created.world, personId).evidence).toBe("limited");
++      expect(
++        created.world.history.educationEnrollments.some(
++          (row) => row.personId === personId,
++        ),
++      ).toBe(false);
++    }
++    console.info(
++      "A93 actual office candidate record",
++      JSON.stringify({
++        seed: created.world.seed,
++        office: office.officeKey,
++        jurisdictionId: office.jurisdictionId,
++        candidates: created.personIds.map((personId) => ({
++          name: personName(created.world.people[personId]!),
++          workingPosts: workRelationshipHistoryForPerson(
++            created.world,
++            personId,
++          ).length,
++          steadiness: staffAssessment(created.world, personId).steadiness,
++        })),
++      }),
++    );
++    const repeated = createCandidates(
++      created.world,
++      office,
++      "A93:actual-office-search",
++      3,
+     );
+-  }, 300_000);
++    expect(repeated.personIds).toEqual(created.personIds);
++    expect(serializeWorld(repeated.world)).toBe(serializeWorld(created.world));
++    const continued = deserializeWorld(serializeWorld(created.world));
++    expect(
++      createCandidates(continued, office, "A93:actual-office-search", 3)
++        .personIds,
++    ).toEqual(created.personIds);
++  });
+ });
+diff --git a/src/simulation/governing/staff-evidence.ts b/src/simulation/governing/staff-evidence.ts
+index c37f1581b..643dc3d49 100644
+--- a/src/simulation/governing/staff-evidence.ts
++++ b/src/simulation/governing/staff-evidence.ts
+@@ -1,5 +1,3 @@
+-import { dateAtAge, makeIsoDate } from "../dates";
+-import { createStableId } from "../ids";
+ import {
+   educationHistoryEvidenceForPerson,
+   organizationProfileAt,
+@@ -8,22 +6,13 @@ import {
+   workStatusHistory,
+ } from "../life-queries";
+ import { personName } from "../people";
+-import { SeededRng } from "../rng";
+-import { applyCharacterHistoryPlan } from "../character-history";
+-import type { CharacterHistoryTransition } from "../character-history";
+ import type { EntityId, IsoDate, World } from "../types";
+ 
+ /**
+  * What the hiring office actually knows about a staff candidate.
+- *
+- * An assessment used to be three sentences drawn from a list by person id: the
+- * same identifier always "ran a state agency division for years" whether or not
+- * that person had ever held a job. Now a candidate's working life is written
+- * into canonical history once, before anybody is offered, and the assessment is
+- * a reading of those records: where they worked, for how long, what the role
+- * was, and what the record does not show. A person with nothing in their
+- * history gets a limited assessment that says so, rather than a biography
+- * invented at the moment of display.
++ * Only existing canonical work and education records support an assessment.
++ * Offering a candidate never supplies a working life. Without recorded posts,
++ * the office has no evidence of steadiness.
+  */
+ 
+ export const STAFF_EVIDENCE_VERSION = "governing-staff-evidence/v1";
+@@ -35,267 +24,7 @@ export interface StaffAssessment {
+   readonly strength: string;
+   readonly caution: string;
+   /** Internal weight for outcomes; never rendered. */
+-  readonly steadiness: number;
+-}
+-
+-interface CareerPost {
+-  readonly employerKey: string;
+-  readonly employerName: string;
+-  readonly sector: "government" | "legislative" | "private";
+-  readonly title: string;
+-  readonly occupation: string;
+-  readonly startedAgo: number;
+-  readonly endedAgo: number;
+-}
+-
+-/**
+- * Three working lives, written as ordinary records. The organizations and
+- * dates are fiction the game authors, like any other generated person; what
+- * matters is that the assessment later reads them instead of a list.
+- */
+-const CAREERS: readonly (readonly CareerPost[])[] = [
+-  [
+-    {
+-      employerKey: "budget-office",
+-      employerName: "the state budget office",
+-      sector: "government",
+-      title: "Budget analyst",
+-      occupation: "profession:public-budget-analysis",
+-      startedAgo: 16,
+-      endedAgo: 11,
+-    },
+-    {
+-      employerKey: "budget-office",
+-      employerName: "the state budget office",
+-      sector: "government",
+-      title: "Deputy budget director",
+-      occupation: "profession:public-budget-analysis",
+-      startedAgo: 11,
+-      endedAgo: 1,
+-    },
+-  ],
+-  [
+-    {
+-      employerKey: "legislative-staff",
+-      employerName: "the legislature's staff office",
+-      sector: "legislative",
+-      title: "Committee staff aide",
+-      occupation: "profession:legislative-staff",
+-      startedAgo: 13,
+-      endedAgo: 7,
+-    },
+-    {
+-      employerKey: "legislative-staff",
+-      employerName: "the legislature's staff office",
+-      sector: "legislative",
+-      title: "Senior legislative aide",
+-      occupation: "profession:legislative-staff",
+-      startedAgo: 7,
+-      endedAgo: 1,
+-    },
+-  ],
+-  [
+-    {
+-      employerKey: "campaign-firm",
+-      employerName: "a political consulting firm",
+-      sector: "private",
+-      title: "Campaign manager",
+-      occupation: "profession:campaign-management",
+-      startedAgo: 9,
+-      endedAgo: 2,
+-    },
+-  ],
+-];
+-
+-const EMPLOYERS: Readonly<
+-  Record<string, { readonly name: string; readonly classification: string }>
+-> = {
+-  "budget-office": {
+-    name: "State budget office",
+-    classification: "sector:government",
+-  },
+-  "legislative-staff": {
+-    name: "Legislative staff office",
+-    classification: "sector:government",
+-  },
+-  "campaign-firm": {
+-    name: "Political consulting firm",
+-    classification: "sector:private",
+-  },
+-};
+-
+-const AUTHORED = {
+-  kind: "authored" as const,
+-  note: `${STAFF_EVIDENCE_VERSION}: fictional working history for a generated staff candidate.`,
+-};
+-
+-const TIME_DEMAND = (jurisdictionId: EntityId) => ({
+-  expectedWeekly: { minimumHours: 35, maximumHours: 55 },
+-  attention: "high" as const,
+-  concurrency: "mostly-exclusive" as const,
+-  scheduleRigidity: "mixed" as const,
+-  interruptibility: "limited" as const,
+-  locationJurisdictionId: jurisdictionId,
+-});
+-
+-function yearsBefore(date: IsoDate, years: number): IsoDate {
+-  const [y, m, d] = date.split("-").map(Number) as [number, number, number];
+-  return makeIsoDate(
+-    `${y - years}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`,
+-  );
+-}
+-
+-/**
+- * Writes one candidate's working life into canonical history, once. Posts that
+- * would start before the person was 22 are dropped rather than shortened, so a
+- * young candidate legitimately has less to show.
+- */
+-export function generateStaffCandidateHistory(
+-  world: World,
+-  input: {
+-    readonly personId: EntityId;
+-    readonly stableKey: string;
+-    readonly jurisdictionId: EntityId;
+-  },
+-): World {
+-  const person = world.people[input.personId];
+-  if (!person) return world;
+-  if (
+-    workRelationshipHistoryForPerson(world, input.personId).some((record) =>
+-      record.stableKey.startsWith(`${STAFF_EVIDENCE_VERSION}:`),
+-    )
+-  )
+-    return world;
+-  const rng = new SeededRng(world.seed).fork(
+-    `${STAFF_EVIDENCE_VERSION}:${input.stableKey}`,
+-  );
+-  const career = CAREERS[rng.integer(0, CAREERS.length)]!;
+-  // These institutions are older than anybody's career in them, so a candidate
+-  // who started earlier than the last one does not predate their employer.
+-  const institutionsFormedAt = yearsBefore(world.currentDate, 80);
+-  const earliestWork = dateAtAge(person.birthDate, 22);
+-  const transitions: CharacterHistoryTransition[] = [];
+-  const organizations = new Set<string>();
+-  for (const [index, post] of career.entries()) {
+-    const startedAt = yearsBefore(world.currentDate, post.startedAgo);
+-    const endedAt = yearsBefore(world.currentDate, post.endedAgo);
+-    if (startedAt < earliestWork) continue;
+-    const employer = EMPLOYERS[post.employerKey]!;
+-    const organizationKey = `${STAFF_EVIDENCE_VERSION}:${input.jurisdictionId}:${post.employerKey}`;
+-    if (
+-      !organizations.has(organizationKey) &&
+-      !world.history.organizations.some(
+-        (row) => row.stableKey === organizationKey,
+-      )
+-    ) {
+-      organizations.add(organizationKey);
+-      transitions.push({
+-        kind: "organization",
+-        input: {
+-          stableKey: organizationKey,
+-          formedAt: institutionsFormedAt,
+-          provenance: AUTHORED,
+-          initialProfile: {
+-            name: employer.name,
+-            classification: employer.classification as never,
+-            locationJurisdictionId: input.jurisdictionId,
+-          },
+-        },
+-      });
+-    }
+-    const workKey = `${STAFF_EVIDENCE_VERSION}:${input.stableKey}:post:${index}`;
+-    transitions.push({
+-      kind: "work",
+-      input: {
+-        stableKey: workKey,
+-        personId: input.personId,
+-        organizationId: createStableId(
+-          "organization",
+-          `${world.id}:${organizationKey}`,
+-        ),
+-        startedAt,
+-        kind:
+-          post.sector === "private"
+-            ? "employment:private-sector"
+-            : "employment:public-sector",
+-        compensation: "paid",
+-        authority: index === career.length - 1 ? "directs-others" : "directed",
+-        dependency: "dependent",
+-        economicRisk: "organization-borne",
+-        provenance: AUTHORED,
+-        initialRole: {
+-          title: post.title,
+-          occupationClassification: post.occupation as never,
+-          locationJurisdictionId: input.jurisdictionId,
+-          timeDemand: TIME_DEMAND(input.jurisdictionId),
+-        },
+-      },
+-    });
+-    transitions.push({
+-      kind: "work-status",
+-      input: {
+-        stableKey: `${workKey}:ended`,
+-        workStableKey: workKey,
+-        effectiveAt: endedAt,
+-        status: "ended",
+-        reason: "Left the position.",
+-        provenance: AUTHORED,
+-      },
+-    });
+-  }
+-  if (transitions.length === 0) return world;
+-  const schoolKey = `${STAFF_EVIDENCE_VERSION}:${input.jurisdictionId}:university`;
+-  const graduatedAt = dateAtAge(person.birthDate, 22);
+-  if (!world.history.organizations.some((row) => row.stableKey === schoolKey))
+-    transitions.unshift({
+-      kind: "organization",
+-      input: {
+-        stableKey: schoolKey,
+-        formedAt: institutionsFormedAt,
+-        provenance: AUTHORED,
+-        initialProfile: {
+-          name: "State university",
+-          classification: "sector:education" as never,
+-          locationJurisdictionId: input.jurisdictionId,
+-        },
+-      },
+-    });
+-  const enrollmentKey = `${STAFF_EVIDENCE_VERSION}:${input.stableKey}:degree`;
+-  transitions.push(
+-    {
+-      kind: "education",
+-      input: {
+-        stableKey: enrollmentKey,
+-        personId: input.personId,
+-        organizationId: createStableId(
+-          "organization",
+-          `${world.id}:${schoolKey}`,
+-        ),
+-        startedAt: yearsBefore(graduatedAt, 4),
+-        programKind: "postsecondary:bachelors-degree",
+-        contextKind: "stage:postsecondary",
+-        provenance: AUTHORED,
+-      },
+-    },
+-    {
+-      kind: "education-state",
+-      input: {
+-        stableKey: `${enrollmentKey}:completed`,
+-        enrollmentStableKey: enrollmentKey,
+-        effectiveAt: graduatedAt,
+-        status: "completed",
+-        contextKind: "stage:postsecondary",
+-        reason: "Completed the program.",
+-        provenance: AUTHORED,
+-      },
+-    },
+-  );
+-  return applyCharacterHistoryPlan(world, {
+-    stableKey: `${STAFF_EVIDENCE_VERSION}:${input.stableKey}`,
+-    mode: "quick-generated",
+-    personId: input.personId,
+-    transitions,
+-  }).world;
++  readonly steadiness: number | null;
+ }
+ 
+ interface ReadPost {
+@@ -378,7 +107,7 @@ export function staffAssessment(
+       background: `The office has no record of ${person ? personName(person) : "this person"}'s working life.`,
+       strength: "nothing recorded speaks for or against them",
+       caution: "hiring them would be a decision made without evidence",
+-      steadiness: 2,
++      steadiness: null,
+     };
+   }
+   const latest = posts.at(-1)!;
+diff --git a/src/simulation/governing/state-governing.ts b/src/simulation/governing/state-governing.ts
+index 3f57b4a0f..27bb7682f 100644
+--- a/src/simulation/governing/state-governing.ts
++++ b/src/simulation/governing/state-governing.ts
+@@ -460,11 +460,8 @@ function isSittingChief(
+   );
+ }
+ 
+-/** Qualitative, seeded from the person: never a number shown to the player. */
+-import {
+-  generateStaffCandidateHistory,
+-  staffAssessment,
+-} from "./staff-evidence";
++/** Qualitative assessment read from the person's saved record. */
++import { staffAssessment } from "./staff-evidence";
+ import type { StaffAssessment } from "./staff-evidence";
+ import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
+ import {
+@@ -1105,6 +1102,7 @@ export function staffRecommendation(
+               reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
+             };
+     case "program": {
++      if (assessment.steadiness === null) return null;
+       // The advice is about money that exists: a steady chief spreads it over
+       // months; a cautious one waits. Either way it is one fallible view.
+       const spread = matter.options.find(
+@@ -1127,6 +1125,7 @@ export function staffRecommendation(
+         : null;
+     }
+     case "implementation":
++      if (assessment.steadiness === null) return null;
+       return assessment.steadiness >= 2
+         ? {
+             optionKey: "pace:careful",
+@@ -1212,13 +1211,8 @@ export function createCandidates(
+       "person",
+       `${next.id}:life-context-v1:${stableKey}`,
+     );
+-    // A candidate arrives with a working life already in the record, so the
+-    // assessment offered to the player is a reading rather than an invention.
+-    next = generateStaffCandidateHistory(next, {
+-      personId,
+-      stableKey,
+-      jurisdictionId: office.jurisdictionId,
+-    });
++    // Offering a candidate supplies no career or degree. The assessment reads
++    // existing records and names absent experience as absent evidence.
+     personIds.push(personId);
+   }
+   return { world: next, personIds };
+@@ -2426,10 +2420,11 @@ export function governingNpcDecisionHandler(
+     : undefined;
+   const steadiest =
+     matter.family === "chief-of-staff"
+-      ? [...matter.options].sort(
+-          (a, b) =>
+-            (b.assessment?.steadiness ?? 0) - (a.assessment?.steadiness ?? 0),
+-        )[0]
++      ? [...matter.options]
++          .filter((option) => option.assessment?.steadiness != null)
++          .sort(
++            (a, b) => b.assessment!.steadiness! - a.assessment!.steadiness!,
++          )[0]
+       : undefined;
+   // PLACEHOLDER (zero-dice row, left): an agenda with no chief of staff to
+   // advise still falls to a seeded pick.

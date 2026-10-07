@@ -1,4 +1,3 @@
-import { workUniform } from "../presentation/work-uniform";
 import type { PersonRenderSnapshot } from "../presentation/person-render-snapshot";
 import { useSavedRenderSnapshot, useSavedWardrobe } from "./SavedAppearance";
 import { resolvePersonWardrobeContext } from "../presentation/person-visual-selection";
@@ -18,11 +17,8 @@ import {
 } from "../presentation/engine-people29-data";
 import { ModularCharacter } from "./ModularCharacter";
 import { EnginePortrait } from "./EnginePerson";
-import { engineRecipeFor } from "../presentation/appearance-engine/recipe";
-import {
-  PEOPLE_PACK,
-  peoplePackAvailable,
-} from "../presentation/appearance-engine/runtime";
+import { personDayRecipe } from "../presentation/day-clothing";
+import { peoplePackAvailable } from "../presentation/appearance-engine/runtime";
 import { personName } from "../simulation";
 import type { EntityId, PersonAppearance, World } from "../simulation";
 
@@ -95,12 +91,10 @@ export function PersonPortrait({
    */
   const engine =
     !visualLibraries && peoplePackAvailable()
-      ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK, {
-          // Their own portrait: in uniform when their job wears one.
-          uniform: workUniform(world, person.id, undefined),
-        })
+      ? personDayRecipe(world, person)
       : null;
-  if (engine) {
+  const portraitEngine = engine;
+  if (portraitEngine) {
     return (
       <figure
         className={`person-portrait person-portrait--${size}`}
@@ -114,7 +108,7 @@ export function PersonPortrait({
           style={{ position: "relative", overflow: "hidden", flexShrink: 0 }}
         >
           <EnginePortrait
-            recipe={engine}
+            recipe={portraitEngine}
             testId="person-portrait-engine"
             fallback={initials(person.givenName, person.familyName)}
           />

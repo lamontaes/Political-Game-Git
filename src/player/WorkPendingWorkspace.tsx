@@ -22,27 +22,22 @@ interface WorkPendingWorkspaceProps {
 const GROUPS: readonly {
   readonly key: WorkPendingGroup;
   readonly title: string;
-  readonly description: string;
 }[] = [
   {
     key: "needs-you",
     title: "Needs you",
-    description: "A decision or action is still yours.",
   },
   {
     key: "waiting-on-others",
     title: "Waiting on others",
-    description: "The next move belongs to someone else.",
   },
   {
     key: "staff-handling",
     title: "Staff handling",
-    description: "Assigned office work can continue while you are elsewhere.",
   },
   {
     key: "completed-ready",
     title: "Completed / ready to review",
-    description: "Finished work has returned to the office.",
   },
 ];
 
@@ -97,7 +92,6 @@ export function WorkPendingWorkspace({
             >
               <header>
                 <h3 id={`work-group-title-${group.key}`}>{group.title}</h3>
-                <p>{group.description}</p>
               </header>
               {entries.length > 0 ? (
                 <div className="work-entry-list">

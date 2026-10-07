@@ -167,19 +167,6 @@ describe("portable transfer uses the shell's v3 codec", () => {
   const state = {
     version: 3,
     pins: [{ ref: ALICE, size: "expanded" }],
-    journal: {
-      ambition: "A private ambition",
-      notes: [
-        {
-          id: "note-1",
-          title: "Private",
-          body: "Not public news",
-          group: "Life",
-          personId: ALICE.id,
-          eventKey: "event-1",
-        },
-      ],
-    },
     personWardrobes: {
       [ALICE.id]: {
         personId: ALICE.id,
@@ -466,7 +453,6 @@ describe("the shell's own store", () => {
       interruptions: {
         stopForTentativeHolds: false,
       },
-      morningThoughts: true,
       // Reader layouts added later load with their defaults from older records.
       proposalLayout: "auto",
       newsMode: "front",
@@ -729,52 +715,24 @@ describe("what the reader will accept", () => {
   });
 });
 
-describe("private Journal storage", () => {
-  it("migrates old pins and keeps private writing independent of World storage", async () => {
-    const { store } = storeWith();
-    const legacy = readStoredShellState({
-      version: 1,
-      pins: [{ ref: ALICE, size: "normal" }],
-      preferences: {},
-    });
-    expect(legacy?.journal).toEqual({ ambition: "", notes: [] });
-    const journal = {
-      ambition: "My private plan",
-      notes: [
-        {
-          id: "note-1",
-          title: "Remember",
-          body: "A personal interpretation",
-          group: "Family",
-          personId: ALICE.id,
-          eventKey: "history-1",
-        },
-      ],
-    };
-    await store.write(SLOT, { ...EMPTY_SHELL_STATE, journal });
-    expect((await store.read(SLOT))?.journal).toEqual(journal);
-    await store.write(SLOT, {
-      ...EMPTY_SHELL_STATE,
-      journal: { ambition: "Revised", notes: [] },
-    });
-    expect((await store.read(SLOT))?.journal).toEqual({
-      ambition: "Revised",
-      notes: [],
-    });
+it("ignores legacy private notebook fields and never writes them back", async () => {
+  const { store } = storeWith();
+  const legacy = readStoredShellState({
+    version: 4,
+    pins: [{ ref: ALICE, size: "normal" }],
+    preferences: {},
+    journal: { ambition: "Keep this private", notes: [] },
+    journals: { [ALICE.id]: { ambition: "Private", notes: [] } },
   });
-
-  it("keeps notebooks apart per played person", async () => {
-    const { store } = storeWith();
-    const mine = { ambition: "Mine", notes: [] };
-    const theirs = { ambition: "Theirs", notes: [] };
-    await store.write(SLOT, {
-      ...EMPTY_SHELL_STATE,
-      journals: { "person-a": mine, "person-b": theirs, "": theirs },
-    });
-    const read = await store.read(SLOT);
-    expect(read?.journals).toEqual({ "person-a": mine, "person-b": theirs });
-    expect(read?.journal).toEqual({ ambition: "", notes: [] });
-  });
+  expect(legacy).not.toHaveProperty("journal");
+  expect(legacy).not.toHaveProperty("journals");
+  expect(legacy?.pins).toEqual([
+    { key: refKey(ALICE), ref: ALICE, size: "normal" },
+  ]);
+  await store.write(SLOT, { ...EMPTY_SHELL_STATE, ...legacy });
+  const persisted = await store.read(SLOT);
+  expect(persisted).not.toHaveProperty("journal");
+  expect(persisted).not.toHaveProperty("journals");
 });
 
 it("persists per-person wardrobe without discarding an unavailable family and rejects another-person key", async () => {

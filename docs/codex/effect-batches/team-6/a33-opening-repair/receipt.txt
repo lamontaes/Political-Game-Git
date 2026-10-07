@@ -1,0 +1,80 @@
+TEAM 6 CTO Oct2 05:18 four-fix builder receipt
+SOURCE: 27ded65de39c9fe6ac084df31c02c3255ebaa1ff; parent a02786222a6c926129fc5c422f5739063e8da8f0; own branch codex/team-6-a33-opening-cash-repair.
+Receiving #1914 only. Not official Claude GATE RESULT; no merge/child-retarget approval.
+Override: cloud container; CTO ruling Oct 2 4:37
+Changed-file run command prefix: OCD_STORAGE_OVERRIDE=... npm run storage -- run test -- npx --no-install vitest run
+
+FIRST RUN: account-balance.test.ts + federal-account.test.ts + opening-government-accounts.test.ts; session44708 EXIT1. 129PASS2FAIL/131. Account58 and federal61 passed; two new opening controls violated existing profile integrity. This predates final cutoff/forecast guards. Errors retained; no production profile-integrity relaxation.
+
+first account/federal/opening test
+LOG SHA256 d916e1bd111603132c86a52e757e1215e7beb034247ab08246eed51195d2ff8d
+Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 129 passed (131)
+   Start at  09:48:58
+   Duration  49.30s (transform 33.16s, setup 57ms, import 44.01s, tests 43.41s, environment 1ms)
+
+corrected opening file12/12, session22182 EXIT0; before final cutoff/forecast guards
+LOG SHA256 8dfdfadb62fab1049e3ec9ecd4313166c93dc64da8cc661713881f06b8954988
+Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  09:50:32
+   Duration  14.04s (transform 9.52s, setup 21ms, import 11.79s, tests 2.12s, environment 0ms)
+
+final account58+age5+privacy5=68/68, session91934 EXIT0; final production source
+LOG SHA256 cce9d94085285f5987b68d6e34b32daebe2d1cfc88a658df87255deae7e96b67
+Test Files  3 passed (3)
+      Tests  68 passed (68)
+   Start at  09:52:18
+   Duration  28.61s (transform 47.43s, setup 56ms, import 65.71s, tests 19.24s, environment 1ms)
+
+SCOPED TYPES: node /tmp/team6-1914-types.mjs; five changed TS roots; final source; session30754 EXIT0.
+roots 5; files 1215; diagnostics 0
+
+ESLint: five changed TS files only, session76508 EXIT0, zero diagnostics. Prettier --check same five files plus own declaration: all matched use code style. git diff --check EXIT0.
+
+RELEASE: npx --no-install tsx /tmp/team6-1914-declaration.mts; source27ded transition from parenta027 EXIT0.
+a33-opening-government-accounts
+{"baseCommit":"a02786222a6c926129fc5c422f5739063e8da8f0","headCommit":"27ded65de39c9fe6ac084df31c02c3255ebaa1ff","comparisonBase":"a02786222a6c926129fc5c422f5739063e8da8f0","legacyExempt":false,"eligiblePaths":["src/simulation/public-budgets/account-balance.test.ts","src/simulation/public-budgets/federal-account.test.ts","src/simulation/public-budgets/month.ts","src/simulation/public-budgets/opening-government-accounts.test.ts","src/simulation/tax-policy.ts"],"declarationPaths":["docs/release/changes/a33-opening-government-accounts.md"],"problems":[]}
+
+AUDIT: npm run -s audit:scan -- --only A33 --out /tmp/team6-1914-{main,branch}-audit.json. Required read-only current-main source comparison b7fb354bf732754ae36aa57b04d4e8bcb96bc920 via Git object loader; branch finalsource27ded. Both A33 2/5; no flips, no automatic tax-base/assessment proof.
+Pinned A33 static source reads at b7fb354bf732754ae36aa57b04d4e8bcb96bc920; no source/index writes.
+Pinned A33 static source reads at b7fb354bf732754ae36aa57b04d4e8bcb96bc920; no source/index writes.
+
+## Financial — Team 6 (public money, tax, effects map) + Team 3 (pay, jobs) + Team 4 (prices, housing, business, loans)
+
+#  id   verified  scanned  rules  owner   after  item
+1  A33  partly    partly   2/5    Team 6  #1570  Feed the one tax engine automatically from…
+
+1 items, 1 with rules.
+Verified list: {"partly":1}
+Autoscan:      {"partly":1}
+Differ from the verified list: 0 of the 1 with rules.
+Engine and item order match the engine doc.
+Scanned in 17529 ms.
+Wrote /tmp/team6-1914-main-audit.json.
+## Financial — Team 6 (public money, tax, effects map) + Team 3 (pay, jobs) + Team 4 (prices, housing, business, loans)
+
+#  id   verified  scanned  rules  owner   after  item
+1  A33  partly    partly   2/5    Team 6  #1570  Feed the one tax engine automatically from…
+
+1 items, 1 with rules.
+Verified list: {"partly":1}
+Autoscan:      {"partly":1}
+Differ from the verified list: 0 of the 1 with rules.
+Engine and item order match the engine doc.
+Scanned in 2761 ms.
+Wrote /tmp/team6-1914-branch-audit.json.
+
+Initial unprivileged startup EXIT1 spawnSync git EPERM before Vitest collection. Allowed subprocess escalation succeeded. No full suite, unchanged LOAD/browser, broad public-budgets folder, new levels/rates or forecast receipts.
+
+Own helper a22_a45_reuse: read-only source review found and then verified historical cutoff/adoption fixes; PASS static limits. No helper edit/test/publication/official gate.
+
+SOURCE BLOBS (27ded):
+src/simulation/tax-policy.ts bfa1e4c9a3f1caa76cfbb95a9cbd7a33786d6aba
+src/simulation/public-budgets/month.ts 3e15381a738465f827aa0b8a2f61adc4d3e2048b
+src/simulation/public-budgets/account-balance.test.ts 545eb4ef308a7e87e72da9432d48f0da32d3617a
+src/simulation/public-budgets/federal-account.test.ts 92b4efb8441cec8ee6b2e315f6780d71b46729db
+src/simulation/public-budgets/opening-government-accounts.test.ts f745e48c634f5607e897b42b44133f8a81339696
+docs/release/changes/a33-opening-government-accounts.md d0813ff2dd897a02c84ce45ca1ac0a3559b85104
+
+Held child #1928 remains287264dc774d906e0ee6e0b96ac959eb0e5a406d. Only after verified #1914 landing: retarget child and renew READY/AUDIT; close #1900 only after verified containment.

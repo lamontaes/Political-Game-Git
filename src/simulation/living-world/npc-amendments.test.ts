@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays } from "../dates";
@@ -34,11 +35,6 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
 import { voteBundle } from "../vote-bundle";
 import { advanceWorld } from "../world";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
 
 /**
  * Build 25 step 3 in a watched world: on the floor day the legislative clock
@@ -96,15 +92,14 @@ describe("members amend a bill for their own reasons in a watched world", () => 
     const { placeKey, scenarioKey } =
       places[new SeededRng(DRAW_SEED).integer(0, places.length)]!;
     const label = `${placeKey} (seed ${DRAW_SEED})`;
-    const game = generateOpeningLife(
-      prepareOpeningLife({
-        ...DEFAULT_NEW_GAME_SETUP,
-        seed: `${DRAW_SEED}:${placeKey}`,
-        placeKey,
-        startAge: 30,
-        startingLife: "legislative-office",
-      }),
-    ).game!;
+    // The seated chamber and its members, built by the same opening builders,
+    // without a whole life's households and town.
+    const small = smallWorld({
+      place: placeKey,
+      seed: `${DRAW_SEED}:${placeKey}`,
+      offices: ["state-legislature"],
+    });
+    const game = { world: small.world, playerPersonId: small.personId };
     const blueprint = legislativeBlueprint(scenarioKey);
     const pack = blueprint.pack;
     const chamber = defaultOriginChamber(pack);

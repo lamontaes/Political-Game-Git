@@ -1,19 +1,11 @@
+import type { applyFindingReferral } from "../justice/finding-referral";
 import type { applyFindingRestitution } from "../governing/finding-restitution";
-import { campaigns, campaignState } from "../campaign-queries";
-import { recordSupportLoss } from "../campaign-support";
+import { applyFindingSupportLoss } from "../campaign-support";
 import { recheckRoutedClaims } from "../claim-contradictions";
 import { claimStancesBy } from "../claim-stances";
-import { electionContestStatus } from "../election-contests";
 import { recordEventKnowledge } from "../records";
 import type { EntityId, HistoricalEvent, World } from "../types";
-import { referForProsecution, regulatorRefers } from "../justice/prosecution";
-import {
-  isAdversePublicStep,
-  priorAdverseFindings,
-  repeatOffenseMultiplier,
-  UNRESEARCHED_FINDING_EFFECTS,
-  type AdversePublicOutcome,
-} from "./findings";
+import { isAdversePublicStep, type AdversePublicOutcome } from "./findings";
 import {
   type MatterProceedingRecord,
   type ProceedingStepRecord,
@@ -25,7 +17,6 @@ import {
   produceMatterResponses,
 } from "./responses";
 import { sortedUnique } from "./shared";
-import { requirePressRecord } from "./store";
 
 /**
  * What a public adverse outcome does to the person it names, beyond the
@@ -34,7 +25,7 @@ import { requirePressRecord } from "./store";
  *
  * - Votes: every open contest the respondent is a candidate in loses them
  *   support, handed to the rest of the field (`recordSupportLoss`). The size
- *   is an UNRESEARCHED blanket rule (`UNRESEARCHED_FINDING_EFFECTS`).
+ *   is an ESTIMATED FROM AVERAGE value (`FINDING_EFFECTS_ESTIMATE`).
  * - Money: a finding or conciliation about campaign money the respondent
  *   took for themselves (M1) orders it repaid to the committee it came from.
  *   The amount is the recorded misuse itself, not a fine: no researched
@@ -56,66 +47,26 @@ export function applyFindingConsequences(
   step: ProceedingStepRecord,
   event: HistoricalEvent,
   restitution?: typeof applyFindingRestitution,
+  referral?: typeof applyFindingReferral,
 ): World {
   if (!isAdversePublicStep(step)) return world;
   const outcome = step.outcome as AdversePublicOutcome;
   let next = world;
   for (const respondentId of proceeding.respondentPersonIds) {
     if (!next.people[respondentId]) continue;
-    next = supportConsequence(next, respondentId, outcome, step, event);
+    next = applyFindingSupportLoss(next, respondentId, step, event);
     if (restitution && (outcome === "finding" || outcome === "conciliation")) {
       // The saved institutional caller supplies its governing writer here,
       // in the original slot. Press alone does not issue a monetary order.
       next = restitution(next, proceeding, respondentId, step);
     }
-    if (outcome === "finding") {
-      next = referralConsequence(next, proceeding, respondentId, step, event);
+    if (referral && outcome === "finding") {
+      next = referral(next, proceeding, respondentId, step, event);
     }
     next = socialConsequence(next, proceeding, respondentId, event);
     next = deniedToConsequence(next, proceeding, respondentId, event);
   }
   return next;
-}
-
-/**
- * A finding that somebody took campaign money for themselves goes to
- * prosecutors (`justice/prosecution.ts`) when the record shows the violation
- * was knowing and willful: an earlier finding for the same thing stands, or
- * the person denied what this finding established (`regulatorRefers`). The
- * payments are on the committee's own filed reports, so the evidence is
- * documentary.
- */
-function referralConsequence(
-  world: World,
-  proceeding: MatterProceedingRecord,
-  respondentId: EntityId,
-  step: ProceedingStepRecord,
-  event: HistoricalEvent,
-): World {
-  const matter = requirePressRecord(world, "matter", proceeding.matterId);
-  if (matter.family !== "M1") return world;
-  const standing = priorAdverseFindings(world, respondentId, step).length + 1;
-  const key = `${step.stableKey}:${respondentId}`;
-  const deniedIt = claimStancesBy(world, respondentId).some(
-    ({ stance }) =>
-      stance.propositionKey === `matter:${proceeding.matterId}` &&
-      stance.asserted === "denies",
-  );
-  if (!regulatorRefers({ standingFindings: standing, deniedIt })) return world;
-  return referForProsecution(world, {
-    stableKey: key,
-    subjectPersonId: respondentId,
-    jurisdictionId: matter.jurisdictionId,
-    offenseKey: "campaign-funds-personal-use",
-    referredBy: {
-      kind: "regulator",
-      label: proceeding.institutionLabel,
-      personId: null,
-    },
-    basisEventIds: [event.id],
-    evidence: "documentary",
-    standingFindings: standing,
-  }).world;
 }
 
 /**
@@ -157,40 +108,6 @@ function deniedToConsequence(
     });
   }
   return recheckRoutedClaims(next, respondentId, propositionKey);
-}
-
-function supportConsequence(
-  world: World,
-  respondentId: EntityId,
-  outcome: AdversePublicOutcome,
-  step: ProceedingStepRecord,
-  event: HistoricalEvent,
-): World {
-  let next = world;
-  for (const campaign of campaigns(next)) {
-    if (
-      !campaign.candidateSupportScopes.some(
-        (scope) => scope.candidatePersonId === respondentId,
-      ) ||
-      campaign.candidateSupportScopes.length < 2 ||
-      campaignState(next, campaign.id).status !== "active" ||
-      electionContestStatus(next, campaign.contestId) !== "pending"
-    )
-      continue;
-    next = recordSupportLoss(next, campaign, {
-      stableKeyBase: `${step.stableKey}:finding-support:${campaign.id}:${respondentId}`,
-      loserPersonId: respondentId,
-      lossBasisPoints: Math.round(
-        UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome] *
-          repeatOffenseMultiplier(
-            priorAdverseFindings(next, respondentId, step).length,
-            "support-loss",
-          ),
-      ),
-      sourceEntityIds: [event.id],
-    }).world;
-  }
-  return next;
 }
 
 /**

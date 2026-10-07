@@ -1,10 +1,22 @@
+import { conversationRegister } from "./conversation-register";
+import { speakerTraits } from "./speaker-traits";
 import { ageOnDate } from "../simulation";
 import { readRelationshipStanding } from "../simulation/relationship-standing";
 import {
   officialViewReflectionEventKey,
   strongestOfficialStanding,
 } from "../simulation/official-view-reads";
-import { officialsBehind } from "../simulation/living-world/official-views";
+import {
+  LIVED_OUTCOME_REFLECTION_EVENT_TYPE,
+  LIVED_OUTCOME_SOURCE_TAG,
+  officialsBehind,
+} from "../simulation/living-world/official-views";
+import {
+  livedOutcomesOf,
+  type LivedOutcome,
+} from "../simulation/living-world/lived-outcomes";
+import { TOWN_JOB_END_REASONS } from "../simulation/living-world/town-labor-market";
+import { childhoodRecordEntries } from "../simulation/childhood-record";
 import type {
   LawExposureRecord,
   OfficialViewRecord,
@@ -19,6 +31,110 @@ import {
   type RelationshipCondition,
 } from "./english-composition";
 import type { GroundedEnglishPacket } from "./grounded-english";
+import type { CompositionContext } from "./english-composition";
+
+/** Reusable speech acts; the caller supplies the recorded matter and meaning. */
+export type PlayedScenePrimitive =
+  | "recorded-request"
+  | "recorded-observation"
+  | "ask-record"
+  | "tell-record"
+  | "deny-record"
+  | "agree"
+  | "decline"
+  | "undecided"
+  | "acknowledge"
+  | "depart";
+
+export function composePlayedSceneLine(
+  packet: GroundedEnglishPacket,
+  primitive: PlayedScenePrimitive,
+  context: CompositionContext = {},
+) {
+  const texts: Record<PlayedScenePrimitive, string> = {
+    "recorded-request": "{{matter}}",
+    "recorded-observation": "{{matter}}",
+    "ask-record": "Can we talk about this? {{matter}}",
+    "tell-record": "This is what I know: {{matter}}",
+    "deny-record": "That's not true: {{matter}}",
+    agree: "Go on. I'm listening.",
+    decline: "I'd rather not discuss it.",
+    undecided: "I haven't decided whether to talk about it.",
+    acknowledge: "I heard you.",
+    depart: "I'll leave you to it.",
+  };
+  const act: ComposedLineBank["act"] =
+    primitive === "deny-record"
+      ? "lie"
+      : primitive === "ask-record" || primitive === "recorded-request"
+        ? "ask"
+        : primitive === "agree" ||
+            primitive === "decline" ||
+            primitive === "undecided"
+          ? primitive
+          : "tell";
+  const bank: ComposedLineBank = {
+    key: `played-scene.${primitive}`,
+    version: "1",
+    surface: packet.surface,
+    act,
+    parts: {
+      core: {
+        variants:
+          primitive === "ask-record" &&
+          packet.speaker?.traits["expression:direct"]
+            ? [
+                {
+                  key: "direct",
+                  kind: "template",
+                  text: "Let's discuss this: {{matter}}",
+                  requiresTraits: [
+                    { holder: "speaker", traitKey: "expression:direct" },
+                  ],
+                },
+              ]
+            : primitive === "ask-record" &&
+                packet.speaker?.traits["expression:listen"]
+              ? [
+                  {
+                    key: "listen",
+                    kind: "template",
+                    text: "I'd like to hear your thoughts on this: {{matter}}",
+                    requiresTraits: [
+                      { holder: "speaker", traitKey: "expression:listen" },
+                    ],
+                  },
+                ]
+              : primitive === "ask-record" &&
+                  packet.speaker?.traits["expression:ask"]
+                ? [
+                    {
+                      key: "question",
+                      kind: "template",
+                      text: "What do you think about this? {{matter}}",
+                      requiresTraits: [
+                        { holder: "speaker", traitKey: "expression:ask" },
+                      ],
+                    },
+                  ]
+                : [{ key: "plain", kind: "template", text: texts[primitive] }],
+      },
+      ...((primitive === "decline" || primitive === "undecided") && {
+        reason: {
+          required: true,
+          variants: [
+            {
+              key: "recorded-reason",
+              kind: "template" as const,
+              text: "{{reason}}",
+            },
+          ],
+        },
+      }),
+    },
+  };
+  return composeGroundedLine(packet, bank, context);
+}
 
 /**
  * Two small-talk replies built from reviewed parts: a person answering a
@@ -225,6 +341,7 @@ function compose(
   const line = composeGroundedLine(packet, bank, {
     relationship: readRelationshipStanding(world, speakerId, playerPersonId),
     recentPartKeys: recentPartKeys(history),
+    register: conversationRegister(world, speakerId, playerPersonId),
   });
   return line.kind === "rendered"
     ? { text: line.text, parts: line.parts }
@@ -267,8 +384,11 @@ export function greetAgainLine(
           }
         : {}),
     },
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     // The speaker learned the name, and that they talked, in that turn.
     knowledge: [
       {
@@ -316,8 +436,11 @@ export function matterUninformedLine(
     stage: stageOf(world, speakerId),
     sourceRecordIds: [matterEventId],
     facts: {},
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     knowledge: [],
   };
   return compose(
@@ -435,6 +558,193 @@ const OFFICIAL_VIEW: ComposedLineBank = {
   },
 };
 
+/*
+ * A person saying what they hold against the official who answers for
+ * something that happened to them (LIVES slice, step 3). Every clause copies
+ * a recorded fact: the official, that the speaker blames them, and what
+ * happened (a layoff or a closed workplace, from the ended job's own record;
+ * a child who left school mid-year, from the child's own record).
+ * Nothing shows the size of the view as a number. Drafted for Lamontae's
+ * editorial review; not yet reviewed.
+ */
+const LIVED_OUTCOME_VIEW: ComposedLineBank = {
+  key: "small-talk.lived-outcome-view",
+  version: "1",
+  surface: "dialogue",
+  act: "answer",
+  parts: {
+    core: {
+      variants: [
+        {
+          key: "laid-off-blame",
+          kind: "template",
+          text: "I got laid off on {{official-name}}'s watch, and I haven't forgotten it.",
+          requiresFacts: ["blame", "laid-off"],
+        },
+        {
+          key: "laid-off-blame-hold",
+          kind: "template",
+          text: "I lost my job in a layoff, and I hold it against {{official-name}}.",
+          requiresFacts: ["blame", "laid-off"],
+        },
+        {
+          key: "closed-blame",
+          kind: "template",
+          text: "The place I worked shut down on {{official-name}}'s watch, and I haven't forgotten it.",
+          requiresFacts: ["blame", "business-closed"],
+        },
+        {
+          key: "closed-blame-hold",
+          kind: "template",
+          text: "I lost my job when the place I worked closed, and I hold it against {{official-name}}.",
+          requiresFacts: ["blame", "business-closed"],
+        },
+        {
+          key: "school-move-blame",
+          kind: "template",
+          text: "{{child-name}} had to leave school in the middle of the year, and I hold it against {{official-name}}.",
+          requiresFacts: ["blame", "school-move", "child-name"],
+        },
+        {
+          key: "school-move-watch",
+          kind: "template",
+          text: "We moved partway through the school year and {{child-name}} had to leave school. That was on {{official-name}}'s watch, and I haven't forgotten it.",
+          requiresFacts: ["blame", "school-move", "child-name"],
+        },
+      ],
+    },
+  },
+};
+
+/**
+ * The view the speaker holds most strongly of an official, when it was formed
+ * from something that happened to them rather than from a law: the saved
+ * view, the outcome it weighed and the reflection that weighed it.
+ */
+export function strongestLivedOutcomeView(
+  world: World,
+  speakerId: EntityId,
+): {
+  readonly officialId: EntityId;
+  readonly points: number;
+  readonly belief: PrivateBeliefRecord;
+  readonly outcome: LivedOutcome;
+  readonly reflectionEventId: EntityId;
+} | null {
+  const view = strongestOfficialStanding(world, speakerId);
+  if (!view?.belief) return null;
+  const formedFrom = new Set(view.belief.formation.relevantEventIds);
+  const reflection = world.history.events.find(
+    (event) =>
+      formedFrom.has(event.id) &&
+      event.type === LIVED_OUTCOME_REFLECTION_EVENT_TYPE,
+  );
+  const recordId = reflection?.tags
+    .find((tag) => tag.startsWith(LIVED_OUTCOME_SOURCE_TAG))
+    ?.slice(LIVED_OUTCOME_SOURCE_TAG.length);
+  const outcome = recordId
+    ? livedOutcomesOf(world, speakerId).find(
+        (row) => row.sourceRecordId === recordId,
+      )
+    : undefined;
+  if (!reflection || !outcome) return null;
+  return {
+    officialId: view.officialId,
+    points: view.points,
+    belief: view.belief,
+    outcome,
+    reflectionEventId: reflection.id,
+  };
+}
+
+/** What happened, as facts read from the outcome's own record. */
+function outcomeFacts(
+  world: World,
+  outcome: LivedOutcome,
+): GroundedEnglishPacket["facts"] | null {
+  const source = [outcome.sourceRecordId];
+  switch (outcome.kind) {
+    case "job-lost": {
+      const reason = world.history.workStatuses.find(
+        (row) => row.id === outcome.sourceRecordId,
+      )?.reason;
+      const how =
+        reason === TOWN_JOB_END_REASONS.laidOff
+          ? "laid-off"
+          : reason === TOWN_JOB_END_REASONS.businessClosed
+            ? "business-closed"
+            : null;
+      return how ? { [how]: { text: how, sourceRecordIds: source } } : null;
+    }
+    case "school-move": {
+      const childId = childhoodRecordEntries(world).find(
+        (entry) => entry.id === outcome.sourceRecordId,
+      )?.personId;
+      const child = childId ? world.people[childId] : undefined;
+      if (!childId || !child) return null;
+      return {
+        "school-move": { text: "school-move", sourceRecordIds: source },
+        "child-name": {
+          text: child.givenName,
+          sourceRecordIds: [childId, outcome.sourceRecordId],
+        },
+      };
+    }
+  }
+}
+
+/** A person saying what they hold against an official over what happened to them. */
+function livedOutcomeViewLine(
+  world: World,
+  speakerId: EntityId,
+  playerPersonId: EntityId,
+  history: readonly HistoricalEvent[],
+): SmallTalkLine | null {
+  const view = strongestLivedOutcomeView(world, speakerId);
+  const official = view ? world.people[view.officialId] : undefined;
+  if (!view || !official || view.points >= 0) return null;
+  const sources = [view.belief.id, view.reflectionEventId];
+  const what = outcomeFacts(world, view.outcome);
+  if (!what) return null;
+  const facts: GroundedEnglishPacket["facts"] = {
+    "official-name": {
+      text: `${official.givenName} ${official.familyName}`,
+      sourceRecordIds: [view.officialId, view.belief.id],
+    },
+    blame: { text: "blame", sourceRecordIds: sources },
+    ...what,
+  };
+  const packet: GroundedEnglishPacket = {
+    surface: "dialogue",
+    momentKey: `lived-outcome-view:${speakerId}:${playerPersonId}:${view.belief.id}:${history.length}`,
+    worldSeed: world.seed,
+    bankVersion: LIVED_OUTCOME_VIEW.version,
+    stage: stageOf(world, speakerId),
+    sourceRecordIds: sources,
+    facts,
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
+    // The speaker's own saved view and the record of what happened to them
+    // are how they know each of these.
+    knowledge: Object.keys(facts).map((factKey) => ({
+      personId: speakerId,
+      factKey,
+      sourceRecordIds: [...sources, view.outcome.sourceRecordId],
+    })),
+  };
+  return compose(
+    world,
+    speakerId,
+    playerPersonId,
+    history,
+    packet,
+    LIVED_OUTCOME_VIEW,
+  );
+}
+
 /**
  * The view the speaker holds most strongly of an official, with the law and
  * the exposure behind it: their saved view (a private belief formed through
@@ -506,7 +816,8 @@ export function officialViewLine(
   history: readonly HistoricalEvent[],
 ): SmallTalkLine | null {
   const view = strongestOfficialView(world, speakerId);
-  if (!view) return null;
+  if (!view)
+    return livedOutcomeViewLine(world, speakerId, playerPersonId, history);
   const official = world.people[view.officialId];
   const measure = world.history.legislativeMeasures?.find(
     (row) => row.id === view.measureId,
@@ -556,8 +867,11 @@ export function officialViewLine(
     stage: stageOf(world, speakerId),
     sourceRecordIds: sources,
     facts,
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     // The speaker's own saved view and exposure are the record of their
     // learning each of these: whom they judged, for what, and how it reached
     // them.
@@ -582,4 +896,5 @@ export const SMALL_TALK_BANKS = [
   GREET_AGAIN,
   MATTER_UNINFORMED,
   OFFICIAL_VIEW,
+  LIVED_OUTCOME_VIEW,
 ] as const;

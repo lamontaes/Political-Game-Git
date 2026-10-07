@@ -111,12 +111,12 @@ quiet stretch should be. The answer rotates deterministically through
 **Step 2 — `advanceWorld` is called with a handler registry.**
 
 ```
-  advanceWorld(world, days, LIFE_TRANSITION_HANDLERS)
+  advanceWorld(world, days, lifeTransitionHandlers())
 ```
 
 The third argument matters enormously. It is a registry of _who is allowed to
 handle a scheduled thing that becomes due during this jump._ The life surfaces
-pass `LIFE_TRANSITION_HANDLERS`, which registers exactly one key:
+pass `lifeTransitionHandlers()`, which registers exactly one key:
 `"life:callback"`. The legislative surface passes `HEARING_HANDLERS`, which
 registers exactly one key: the committee-hearing key. **[MAIN-PLAYABLE]**
 
@@ -1364,7 +1364,7 @@ its limits is the feature.
    quietStepDays(from)  ->  31 | 47 | 78 | 124        (rotates deterministically)
           |
           v
-   advanceWorld(world, days, LIFE_TRANSITION_HANDLERS)
+   advanceWorld(world, days, lifeTransitionHandlers())
           |
           +-- validate days is a positive integer
           +-- assertWorldIntegrity(world)              BEFORE

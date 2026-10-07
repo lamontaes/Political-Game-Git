@@ -4,7 +4,8 @@ import { appropriationPinnedPaymentsMinorUnits } from "./public-appropriation-ba
 import {
   assertPublicGovernmentIdentity,
   publicGovernmentIdentityForRecord,
-  publicGovernmentOrganizationKey,
+  canonicalPublicGovernmentAccountKey,
+  canonicalSavedPublicGovernmentAccountKey,
   samePublicGovernmentIdentity,
 } from "./public-government-identity";
 import type {
@@ -158,8 +159,9 @@ export function assertPublicProgramIntegrity(
           !world.history.organizations.some(
             (organization) =>
               organization.id === record.accountOrganizationId &&
-              organization.stableKey ===
-                publicGovernmentOrganizationKey(localIdentity) &&
+              canonicalSavedPublicGovernmentAccountKey(
+                organization.stableKey,
+              ) === canonicalPublicGovernmentAccountKey(localIdentity) &&
               world.history.organizationProfiles.some(
                 (profile) =>
                   profile.organizationId === organization.id &&

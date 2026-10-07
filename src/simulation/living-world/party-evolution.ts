@@ -26,6 +26,7 @@ import {
 import { organizationParticipationStateAt } from "../life-queries";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
+import { recordsByStringField } from "../history-index";
 import { SeededRng } from "../rng";
 import type {
   DecisionConsideration,
@@ -61,6 +62,10 @@ import type { LivingWorldReadOptions } from "./congress";
 import { PARTY_AFFILIATION_KIND } from "./opening";
 import { CHAPTER_ORGANIZER_KIND, homePartyChapters } from "./party-chapters";
 import {
+  movementBodyReviewTransitionHandler,
+  MOVEMENT_BODY_REVIEW_TRANSITION_KEY,
+} from "./movement-succession";
+import {
   partyUnit,
   partyUnitStatusAt,
   partyUnits,
@@ -79,7 +84,8 @@ import {
 export const PARTY_EVOLUTION_VERSION = "party-evolution-v1";
 const V = PARTY_EVOLUTION_VERSION;
 
-export const PARTY_BODY_REVIEW_TRANSITION_KEY = "party-life:body-review";
+export const PARTY_BODY_REVIEW_TRANSITION_KEY =
+  MOVEMENT_BODY_REVIEW_TRANSITION_KEY;
 export const PARTY_OFFICER_KIND = "leadership:party-officer" as const;
 export const PARTY_COMMITTEE_KIND = "membership:party-committee" as const;
 export const PARTY_BODY_DECISION_EVENT = "party.body-decision";
@@ -373,9 +379,14 @@ export function affiliationAt(
 ): AffiliationAtView {
   const options: LivingWorldReadOptions = { asOf: date };
   const partyOrganizationId = publicPartyAffiliation(world, personId, options);
-  const hasParticipation = world.history.organizationParticipations.some(
+  // Only this person's participations, through the history index, not every
+  // participation in the world on every call.
+  const hasParticipation = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).some(
     (participation) =>
-      participation.personId === personId &&
       participation.kind === PARTY_AFFILIATION_KIND &&
       participation.startedAt <= date,
   );
@@ -1349,7 +1360,7 @@ export function adoptPartyInitiative(
         PARTY_EVOLUTION_EVENT,
         [source],
         leavers,
-        `${leavers.length} members left ${sourceUnit.name} to form ${name}.`,
+        `${leavers.length} ${leavers.length === 1 ? "member" : "members"} left ${sourceUnit.name} to form ${name}.`,
         ["change:split-off"],
         sourceUnit.jurisdictionId,
       );
@@ -1909,6 +1920,11 @@ export function partyBodyReviewTransitionHandler(
   if (dueItem.transitionKey !== PARTY_BODY_REVIEW_TRANSITION_KEY) {
     throw new Error("The party body handler received another transition.");
   }
+  if (
+    dueItem.stableKey.startsWith("movement-succession:") &&
+    dueItem.stableKey.endsWith(":review")
+  )
+    return movementBodyReviewTransitionHandler(world, dueItem);
   const unit = partyUnits(world).find((candidate) =>
     dueItem.entityIds.includes(candidate.organizationId),
   );

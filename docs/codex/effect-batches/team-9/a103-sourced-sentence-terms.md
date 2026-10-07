@@ -1,6 +1,6 @@
 # Judges choose a sentence from the applicable legal range
 
-A judge now chooses a legal sentence from the case's recorded facts and the applicable sentencing range. A mandatory minimum raises the lowest available term. The previous fixed midpoint is removed. Life imprisonment remains life, with no invented release date. Missing legal grades, probation durations, or a conflicting floor leave the sentence pending. This is a draft for review; broader sentencing coverage still needs legal source work.
+A judge now chooses a legal sentence from the case's recorded facts and the applicable sentencing range. A mandatory minimum raises the lowest available term. Under CTO ruling 25, a later enacted minimum above the old maximum also raises the operative maximum to that floor. The original research row remains unchanged. The previous fixed midpoint is removed. Life imprisonment remains life, with no invented release date. Missing legal grades and probation durations leave the sentence pending. This is a draft for review; broader sentencing coverage still needs legal source work.
 
 ## Acceptance and observed behavior
 
@@ -26,7 +26,7 @@ No new sentence range, legal citation, or empirical decision weight is invented 
 
 ## 3. Revisions
 
-The previous midpoint and sentence-month helpers are removed. One bounds reader combines the applicable statutory range and operative law floor. If the floor exceeds the finite statutory ceiling, the case remains pending for an explicit legal rule. Repeal removes the operative floor; it does not remove the researched range or rewrite a historical sentence.
+The previous midpoint and sentence-month helpers are removed. One bounds reader combines the applicable statutory range and operative law floor. CTO ruling 25 now supplies the previously missing precedence rule: a later enacted floor above a finite old ceiling raises that operative ceiling to the floor. The reader exposes separate operative minimum/maximum values while retaining the original researched row and its source or estimated status. Repeal restores those baseline bounds; it does not rewrite a historical sentence. CTO ruling 26 requires the actual saved term to equal the judge's recorded selected option within these operative bounds, with Iowa's actual minimum still exactly 120 months. The fixture retains randomness none and all attribution/reload/repeat checks.
 
 Life uses an explicit saved life tag. Sentence readers expose no fixed end date, jail continues to hold the person, and the legal record says life imprisonment. Actual clemency can still end the sentence. Existing finite sentence records continue to read normally.
 
@@ -48,6 +48,8 @@ The new allegation input is available to the existing referral writer. Legacy in
 
 ## 6. Proof run
 
+Rulings 25/26 renewal at 13f924d2c on additive main e1a709596: the complete changed legal-outcome.test.ts failed suite import before any case collected, in 14.11 seconds, at the already reported life-paths2.ts:1129 → public-budgets/staffing.ts:1 undefined semantic-key boundary. Zero sentencing assertions executed. This is neither a renewed sentencing failure nor a pass. Node world.ts import passed and macro-economy collection passed (29 collected, zero executed) on this same source; those two entry paths do not waive the changed file's failure. Four strict roots checked 1,177 files with zero diagnostics; lint, formatting and delta whitespace passed. The shared lazy-registry/governor-fixture lanes remain Claude-owned; no import-order workaround or competing repair was applied. Evidence is preserved in a103-rulings-proof.
+
 The logged seed `team9-a100-saved-court-finder-20261001` selects North Dakota, Massachusetts, Hawaii, Iowa and California. Controlled cases use Anika Terry, the actual saved venue, the actual dated judge and original due-stage records. These are bounded native writer fixtures, not a national played-year report.
 
 The retained earlier receipts include the initial fixture API failure, the duplicate provenance-tag failures, seven passing corrected cases, and the life run's three clemency failures. Those clemency failures correctly refused petitions after zero-month terms were already served. The fixture now takes the actual contested-trial path while retaining every original clemency assertion and time limit. The preceding source passed all 13 sentence and clemency cases.
@@ -66,7 +68,7 @@ The branch is additive to current main `98e1c61b6bcfdcad104032ae1ed6ed8f6fc86aa8
 
 Team9 owns the justice consumer and handler edits. The explicit shared presentation grant covers only legal-record termLine/servingNow and campaign-projection's jailed-until message. Team7's county qualification and timing hunks are preserved. Both unrelated intake files remain untracked and preserved.
 
-Missing inputs are unenhanced assault/burglary grades, probation durations, exact day units, recidivist grid cells, the floor-above-ceiling legal rule, and an actual fact-change recovery trigger. Audit supplied the governor-decision fixture contract, which is now consumed. The remaining native cases need their exact saved-record diagnosis and any resulting legal precedence or fixture decision. These gaps prevent full A103 closure.
+Missing inputs are unenhanced assault/burglary grades, probation durations, exact day units, recidivist grid cells, and an actual fact-change recovery trigger. CTO rulings 25/26 now supply the floor-above-ceiling and exact-120 fixture decisions; both are implemented. Audit supplied the governor-decision fixture contract, previously consumed; current broad fixture conversion remains Claude-owned. The complete changed-file entry still needs the admitted shared load repair before renewed native execution. These gaps prevent full A103 closure.
 
 The current autoscan still looks for the floor call directly in prosecution.ts. The sole floor-plus-range query now lives in sentencing-term.ts and is called by the actual sentence writer. That shared scan rule and the old research-data allowlist entry need their owner’s update; this branch does not change shared audit rules. The requested historical justice/jail-absence.test.ts path did not exist and was NOT RUN. The assembled legal-record life text is asserted; browser interaction and the campaign viewport are NOT RUN.
 

@@ -392,6 +392,62 @@ function normalizePack(
       pack.legislativeProcedure.override,
       "legislativeProcedure/override",
     ),
+    ...(pack.legislativeProcedure.financialGeneralThresholdUsd
+      ? {
+          financialGeneralThresholdUsd: cell<number>(
+            pack.legislativeProcedure.financialGeneralThresholdUsd,
+            "legislativeProcedure/financialGeneralThresholdUsd",
+          ),
+        }
+      : {}),
+    ...(pack.legislativeProcedure.financialLocalRule
+      ? {
+          financialLocalRule: cell<{
+            readonly operativeOn: string;
+            readonly fullMembershipAboveUsd: number;
+            readonly delayedAboveUsd: number;
+            readonly minimumInterveningDays: number;
+            readonly ordinaryCitations: readonly string[];
+            readonly ordinaryUnresolved: readonly string[];
+            readonly quorumCitation: string;
+          }>(
+            pack.legislativeProcedure.financialLocalRule,
+            "legislativeProcedure/financialLocalRule",
+          ),
+        }
+      : {}),
+    ...(pack.legislativeProcedure.managerElectionThreshold
+      ? {
+          managerElectionThreshold: cell<VoteThreshold>(
+            pack.legislativeProcedure.managerElectionThreshold,
+            "legislativeProcedure/managerElectionThreshold",
+          ),
+        }
+      : {}),
+    ...(pack.legislativeProcedure.overrideWindowDays
+      ? {
+          overrideWindowDays: cell<number>(
+            pack.legislativeProcedure.overrideWindowDays,
+            "legislativeProcedure/overrideWindowDays",
+          ),
+        }
+      : {}),
+    ...(pack.legislativeProcedure.congressionalReviewDays
+      ? {
+          congressionalReviewDays: cell<number>(
+            pack.legislativeProcedure.congressionalReviewDays,
+            "legislativeProcedure/congressionalReviewDays",
+          ),
+        }
+      : {}),
+    ...(pack.legislativeProcedure.criminalCodeReviewDays
+      ? {
+          criminalCodeReviewDays: cell<number>(
+            pack.legislativeProcedure.criminalCodeReviewDays,
+            "legislativeProcedure/criminalCodeReviewDays",
+          ),
+        }
+      : {}),
     effectivePublication: cell(
       pack.legislativeProcedure.effectivePublication,
       "legislativeProcedure/effectivePublication",

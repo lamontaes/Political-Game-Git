@@ -26,8 +26,8 @@ import {
   enterPlea,
   referForProsecution,
   PROSECUTION_SENTENCED_EVENT,
-  UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 import { createProsecutionTransitionRegistry } from "./prosecution-transitions";
 import {
   sentencingApplicabilityOf,
@@ -178,7 +178,7 @@ describe("recorded applicability and sourced sentencing options", () => {
       });
       const chargedAt = addDays(
         base.currentDate,
-        UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+        prosecutionTimingFor(state.jurisdictionKey).chargeDecisionDays,
       );
       const charged = resolveFutureDueItemsThrough(
         referred.world,
@@ -193,7 +193,7 @@ describe("recorded applicability and sourced sentencing options", () => {
       expect(plea.ok).toBe(true);
       const trialAt = addDays(
         chargedAt,
-        UNRESEARCHED_PROSECUTION.resolveAfterDays,
+        prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
       );
       const sentenced = resolveFutureDueItemsThrough(
         plea.world,
@@ -303,7 +303,7 @@ describe("recorded applicability and sourced sentencing options", () => {
     expect(prior.tags).toContain("justice.outcome:plea");
     const chargeAt = addDays(
       base.world.currentDate,
-      UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+      prosecutionTimingFor("US-MA").chargeDecisionDays,
     );
     const charged = resolveFutureDueItemsThrough(
       referred.world,
@@ -318,7 +318,7 @@ describe("recorded applicability and sourced sentencing options", () => {
     expect(plea.ok).toBe(true);
     const trialAt = addDays(
       chargeAt,
-      UNRESEARCHED_PROSECUTION.resolveAfterDays,
+      prosecutionTimingFor("US-MA").resolveAfterDays,
     );
     const sentenced = resolveFutureDueItemsThrough(
       plea.world,

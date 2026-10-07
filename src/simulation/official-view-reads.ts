@@ -1,6 +1,7 @@
 import { addDays } from "./dates";
 import type {
   EntityId,
+  HistoricalCutoff,
   IsoDate,
   LawExposureRecord,
   OfficialViewRecord,
@@ -114,10 +115,12 @@ function standingIndex(world: World): StandingIndex {
 function latestOn(
   list: readonly PrivateBeliefRecord[] | undefined,
   onDate: string,
+  sequenceExclusive = Infinity,
 ): PrivateBeliefRecord | null {
   if (!list) return null;
   for (let i = list.length - 1; i >= 0; i -= 1)
-    if (list[i]!.formedAt <= onDate) return list[i]!;
+    if (list[i]!.formedAt <= onDate && list[i]!.sequence < sequenceExclusive)
+      return list[i]!;
   return null;
 }
 
@@ -131,12 +134,17 @@ function standingOn(
   officialId: EntityId,
   onDate: string,
   weigh: (formedOn: IsoDate) => number = () => 1,
+  sequenceExclusive = Infinity,
 ): {
   readonly points: number;
   readonly belief: PrivateBeliefRecord | null;
   readonly rows: readonly OfficialViewRecord[];
 } {
-  const belief = latestOn(index.beliefs.get(officialId)?.get(personId), onDate);
+  const belief = latestOn(
+    index.beliefs.get(officialId)?.get(personId),
+    onDate,
+    sequenceExclusive,
+  );
   if (belief)
     return {
       points: officialStanding(belief) * weigh(belief.formedAt),
@@ -144,7 +152,7 @@ function standingOn(
       rows: [],
     };
   const rows = (index.legacy.get(officialId)?.get(personId) ?? []).filter(
-    (row) => row.recordedAt <= onDate,
+    (row) => row.recordedAt <= onDate && row.sequence < sequenceExclusive,
   );
   return {
     points: rows.reduce(
@@ -161,6 +169,7 @@ export function viewOfOfficial(
   world: World,
   personId: EntityId,
   officialId: EntityId,
+  cutoff?: HistoricalCutoff,
 ): {
   readonly points: number;
   readonly belief: PrivateBeliefRecord | null;
@@ -170,7 +179,9 @@ export function viewOfOfficial(
     standingIndex(world),
     personId,
     officialId,
-    world.currentDate,
+    cutoff?.asOfDate ?? world.currentDate,
+    undefined,
+    cutoff?.historySequenceExclusive ?? world.history.nextSequence,
   );
 }
 
@@ -320,7 +331,8 @@ export function netViewOnLaw(
   if (holders.length === 0) return 0;
   const reached = new Set(
     (world.history.lawExposures ?? [])
-      .filter((row) => row.measureId === measureId)
+      // A story read in the news carries no opinion weight.
+      .filter((row) => row.measureId === measureId && row.relation !== "news")
       .map((row) => row.personId),
   );
   let net = 0;

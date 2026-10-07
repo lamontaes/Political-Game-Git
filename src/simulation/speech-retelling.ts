@@ -1,4 +1,9 @@
+import { monthKeyOf, monthStart, nextMonthKey } from "./macro-economy/store";
 import { addDays, ageOnDate } from "./dates";
+import {
+  futureDueItemStateAt,
+  scheduleFutureDueItem,
+} from "./future-transitions";
 import { recordsByStringField } from "./history-index";
 import { personTrait } from "./people-traits";
 import { recordEventKnowledge, recordMemory } from "./records";
@@ -13,6 +18,8 @@ import { speechMovesOf } from "./speech-moves";
 import { eventById } from "./event-index";
 import type {
   EntityId,
+  FutureDueItem,
+  FutureTransitionHandlerResult,
   IsoDate,
   HistoricalEvent,
   MemoryRecord,
@@ -180,6 +187,53 @@ export function retellSpeeches(world: World): World {
   return next;
 }
 
+/** The existing propagation rules, shared by the writer and pending-work check. */
+function speechRetellingRecipients(
+  world: World,
+  speech: HistoricalEvent,
+  holderId: EntityId,
+): EntityId[] {
+  if (!alive(world, holderId)) return [];
+  const memory = latestMemory(world, holderId, speech.id);
+  if (!memory) return [];
+  const reserved = personTrait(world, holderId, "sociability").value < 0;
+  if (MEMORY_STRENGTHS.indexOf(memory.strength) < (reserved ? 2 : 1)) return [];
+  return [
+    ...new Set([
+      ...householdmatesOf(world, holderId),
+      ...familyAndFriendsNearby(world, holderId),
+    ]),
+  ].filter(
+    (listenerId) =>
+      !speech.involvedEntityIds.includes(listenerId) &&
+      alive(world, listenerId) &&
+      !knows(world, listenerId, speech.id) &&
+      ageOnDate(world.people[listenerId]!.birthDate, world.currentDate) >=
+        RETELLING_MIN_AGE,
+  );
+}
+
+/** Read whether any recorded speech can still reach an eligible new listener. */
+export function hasSpeechLeftToRetell(world: World): boolean {
+  return recordsByStringField(
+    world.history.events,
+    "type",
+    SPEECH_RECEPTION_EVENT,
+  ).some((reception) => {
+    const speechId = reception.tags
+      .find((tag) => tag.startsWith(SPEECH_OF_TAG))
+      ?.slice(SPEECH_OF_TAG.length) as EntityId | undefined;
+    const speech = speechId ? eventById(world, speechId) : undefined;
+    return (
+      speech !== undefined &&
+      recordsByStringField(world.history.memories, "eventId", speech.id).some(
+        (memory) =>
+          speechRetellingRecipients(world, speech, memory.personId).length > 0,
+      )
+    );
+  });
+}
+
 /** One month of retelling for one speech. */
 export function retellSpeech(world: World, speech: HistoricalEvent): World {
   let next = world;
@@ -193,62 +247,41 @@ export function retellSpeech(world: World, speech: HistoricalEvent): World {
   for (const holderId of holders) {
     if (!alive(next, holderId)) continue;
     const memory = latestMemory(next, holderId, speech.id)!;
-    const reserved = personTrait(next, holderId, "sociability").value < 0;
-    const threshold = reserved ? 2 : 1;
     let told = false;
-    if (MEMORY_STRENGTHS.indexOf(memory.strength) >= threshold) {
-      // The same circle that fills a room on election night: the people
-      // the holder lives with, then family and close friends in the same
-      // place. Someone who lives alone still tells a sister across town.
-      const listeners = [
-        ...new Set([
-          ...householdmatesOf(next, holderId),
-          ...familyAndFriendsNearby(next, holderId),
-        ]),
-      ];
-      for (const listenerId of listeners) {
-        // Nobody is told about a speech they gave or were there to hear.
-        if (
-          speech.involvedEntityIds.includes(listenerId) ||
-          !alive(next, listenerId) ||
-          knows(next, listenerId, speech.id)
-        )
-          continue;
-        const age = ageOnDate(
-          next.people[listenerId]!.birthDate,
-          next.currentDate,
-        );
-        if (age < RETELLING_MIN_AGE) continue;
-        const key = `${speech.stableKey}:told:${holderId}:${listenerId}`;
-        next = recordEventKnowledge(next, {
-          stableKey: key,
-          personId: listenerId,
-          eventId: speech.id,
-          learnedAt: next.currentDate,
-          believedSummary: speech.summary,
-          accuracy: "accurate",
-          confidence: "medium",
-          source: {
-            kind: "told-by",
-            sourcePersonId: holderId,
-            claimId: null,
-          },
-        });
-        // Second hand is one step less sharp than the teller's own memory.
-        const heard = step(memory.strength, -1);
-        next = recordMemory(next, {
-          stableKey: `${key}:memory`,
-          personId: listenerId,
-          eventId: speech.id,
-          formedAt: next.currentDate,
-          rememberedSummary: speech.summary,
-          interpretation: `Heard about it from ${next.people[holderId]!.givenName}.`,
-          strength: heard,
-          relevanceTags: ["speech.retold"],
-          supersedesMemoryId: null,
-        });
-        told = true;
-      }
+    for (const listenerId of speechRetellingRecipients(
+      next,
+      speech,
+      holderId,
+    )) {
+      const key = `${speech.stableKey}:told:${holderId}:${listenerId}`;
+      next = recordEventKnowledge(next, {
+        stableKey: key,
+        personId: listenerId,
+        eventId: speech.id,
+        learnedAt: next.currentDate,
+        believedSummary: speech.summary,
+        accuracy: "accurate",
+        confidence: "medium",
+        source: {
+          kind: "told-by",
+          sourcePersonId: holderId,
+          claimId: null,
+        },
+      });
+      // Second hand is one step less sharp than the teller's own memory.
+      const heard = step(memory.strength, -1);
+      next = recordMemory(next, {
+        stableKey: `${key}:memory`,
+        personId: listenerId,
+        eventId: speech.id,
+        formedAt: next.currentDate,
+        rememberedSummary: speech.summary,
+        interpretation: `Heard about it from ${next.people[holderId]!.givenName}.`,
+        strength: heard,
+        relevanceTags: ["speech.retold"],
+        supersedesMemoryId: null,
+      });
+      told = true;
     }
     if (told || memory.strength === "faint") continue;
     const lastTold = recordsByStringField(
@@ -281,37 +314,105 @@ export function retellSpeech(world: World, speech: HistoricalEvent): World {
   return next;
 }
 
-/**
- * Retelling on the world's own clock: each time a day advance crosses the
- * first of a month, one month of retelling happens, in every world, with or
- * without an economy record. A skip across several months gives each month
- * its turn, so a story can pass from teller to listener to the listener's
- * family. Records are dated the day the advance ends.
- */
-export function applySpeechRetelling(
-  previousDate: IsoDate,
-  world: World,
-): World {
-  const months = monthStartsCrossed(previousDate, world.currentDate);
-  if (
-    months === 0 ||
-    recordsByStringField(world.history.events, "type", SPEECH_RECEPTION_EVENT)
-      .length === 0
-  )
-    return world;
-  let next = world;
-  for (let month = 0; month < months; month += 1) {
-    const before = next;
-    next = retellSpeeches(next);
-    if (next === before) break;
-  }
-  return next;
+export const SPEECH_RETELLING_TRANSITION_KEY =
+  "speech:monthly-retelling" as const;
+
+function scheduleSpeechRetelling(world: World, dueAt: IsoDate): World {
+  return scheduleFutureDueItem(world, {
+    stableKey: `speech:monthly-retelling:${dueAt}`,
+    dueAt,
+    transitionKey: SPEECH_RETELLING_TRANSITION_KEY,
+    entityIds: [world.id],
+    jurisdictionId: null,
+    provenance: { kind: "simulated", sourceEntityIds: [world.id] },
+  });
 }
 
-function monthStartsCrossed(from: IsoDate, through: IsoDate): number {
-  const index = (date: IsoDate) => {
-    const [year, month] = date.split("-").map(Number) as [number, number];
-    return year * 12 + month;
+function hasRecordedSpeechReceptions(world: World): boolean {
+  return recordsByStringField(
+    world.history.events,
+    "type",
+    SPEECH_RECEPTION_EVENT,
+  ).some((reception) => {
+    const speechId = reception.tags
+      .find((tag) => tag.startsWith(SPEECH_OF_TAG))
+      ?.slice(SPEECH_OF_TAG.length) as EntityId | undefined;
+    return speechId !== undefined && eventById(world, speechId) !== undefined;
+  });
+}
+
+/** Schedule from a recorded reception, with at most one pending month start. */
+export function ensureSpeechRetellingSchedule(world: World): World {
+  if (!hasRecordedSpeechReceptions(world)) return world;
+  const cutoff = {
+    asOfDate: world.currentDate,
+    historySequenceExclusive: world.history.nextSequence,
   };
-  return Math.max(0, index(through) - index(from));
+  if (
+    world.history.futureDueItems.some(
+      (item) =>
+        item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY &&
+        futureDueItemStateAt(world, item.id, cutoff)?.status === "scheduled",
+    )
+  )
+    return world;
+  const retellingItemIds = new Set(
+    world.history.futureDueItems
+      .filter((item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY)
+      .map((item) => item.id),
+  );
+  const lastResolvedSequence = world.history.futureDueItemStates
+    .filter(
+      (state) =>
+        retellingItemIds.has(state.dueItemId) && state.status === "resolved",
+    )
+    .reduce((latest, state) => Math.max(latest, state.sequence), -1);
+  const newReception = recordsByStringField(
+    world.history.events,
+    "type",
+    SPEECH_RECEPTION_EVENT,
+  ).some((reception) => reception.sequence > lastResolvedSequence);
+  if (!newReception && !hasSpeechLeftToRetell(world)) return world;
+  return scheduleSpeechRetelling(
+    world,
+    monthStart(nextMonthKey(monthKeyOf(world.currentDate))),
+  );
+}
+
+/** The existing due resolver dates each pass and visits every crossed month. */
+export function speechRetellingHandler(
+  world: World,
+  item: FutureDueItem,
+): FutureTransitionHandlerResult {
+  if (item.transitionKey !== SPEECH_RETELLING_TRANSITION_KEY)
+    throw new Error("Speech retelling received another transition.");
+  const retold = retellSpeeches(world);
+  const next = hasSpeechLeftToRetell(retold)
+    ? scheduleSpeechRetelling(
+        retold,
+        monthStart(nextMonthKey(monthKeyOf(item.dueAt))),
+      )
+    : retold;
+  return {
+    world: next,
+    status: "resolved",
+    reasonKey: "speech:monthly-retold",
+    context: null,
+    outcomeEventId: null,
+  };
+}
+
+type SpeechRetellingHandlerEntries = readonly [
+  readonly [
+    typeof SPEECH_RETELLING_TRANSITION_KEY,
+    typeof speechRetellingHandler,
+  ],
+];
+let speechRetellingEntries: SpeechRetellingHandlerEntries | undefined;
+
+/** Build handler pairs on first use, after imports have initialized. */
+export function SPEECH_RETELLING_HANDLERS(): SpeechRetellingHandlerEntries {
+  return (speechRetellingEntries ??= [
+    [SPEECH_RETELLING_TRANSITION_KEY, speechRetellingHandler],
+  ]);
 }

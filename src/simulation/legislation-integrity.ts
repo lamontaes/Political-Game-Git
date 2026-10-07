@@ -1,6 +1,7 @@
 import { addDays, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
 import { historyIndex } from "./history-index";
+import { recordedSessionAdjournment } from "./governing/session-adjournments";
 import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import {
   assertOriginationPermitted,
@@ -572,6 +573,21 @@ export function assertLegislationIntegrity(
       const resolved = resolveLegislativeEffectiveDate(
         legislativeRulePackForWorld(world, measure.rulePackId),
         enactment.resolvedAt,
+        {
+          finalPassageAt: () => enactment.finalPassageAt ?? null,
+          sessionEnds: (year) => {
+            const adjourned = recordedSessionAdjournment(
+              world,
+              measure.rulePackId,
+              year,
+              {
+                asOfDate: enactment.resolvedAt,
+                historySequenceExclusive: enactment.sequence,
+              },
+            );
+            return adjourned ? [adjourned.adjournedOn] : null;
+          },
+        },
       );
       if (
         resolved.kind !== "source-default" ||

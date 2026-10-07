@@ -1,11 +1,14 @@
 import {
-  finalTermEnactment,
   finalTermProvisions,
   readFinalEnactedLawTerm,
 } from "./final-law-term-query";
 export {
   readFinalEnactedLawTerm,
   type FinalEnactedLawTerm,
+  readFinalEnactedLawCategories,
+  type FinalEnactedLawCategories,
+  readFinalEnactedLawSchedule,
+  type FinalEnactedLawSchedule,
 } from "./final-law-term-query";
 import {
   compileBillDraft,
@@ -24,7 +27,7 @@ import {
   type RecordFiledProvisionInput,
 } from "../legislative-politics";
 import type { LawAmountUnit } from "../law-consequence-types";
-import { lawInForce, type LawInForce } from "./law-in-force";
+import { lawInForce } from "./law-in-force";
 import { principledLeaning } from "./officeholder-principles";
 import {
   censusRegionOf,
@@ -36,7 +39,6 @@ import {
   draftParameterValues,
   recordDraftLineage,
 } from "../legislation-draft-lineage";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
   npcEligibleProgramConfigurations,
@@ -91,13 +93,6 @@ export interface AutomaticLawCompileContext {
   readonly rulePackId: string;
   readonly scenarioKey: string;
   readonly predicateAuthority: PredicateAuthority;
-}
-
-export interface FinalEnactedLawCategories {
-  readonly values: readonly string[];
-  readonly measureId: EntityId;
-  readonly provisionId: EntityId;
-  readonly sourceRecordIds: readonly EntityId[];
 }
 
 export interface SponsorLawTermRequest {
@@ -393,48 +388,6 @@ export function recordSponsorRequestedLawTerm(
   };
 }
 
-/** Reads explicit closed categories in the adopted text; there is no inferred coverage. */
-export function readFinalEnactedLawCategories(
-  world: World,
-  law: LawInForce,
-  input: { readonly questionKey: string; readonly termKey: string },
-): FinalEnactedLawCategories | null {
-  const enactment = finalTermEnactment(world, law, input.questionKey);
-  if (!enactment) return null;
-  const parameter = world.policyCatalog.propositionOrder
-    .map((id) => world.policyCatalog.propositions[id]!)
-    .find((question) => question.stableKey === input.questionKey)
-    ?.parameters.find((row) => row.key === input.termKey);
-  if (!parameter?.allowedValues?.length) return null;
-  const matches = finalTermProvisions(
-    world,
-    law.measureId,
-    enactment.sequence,
-  ).flatMap((provision) =>
-    provision.applicationScope.segmentKey === null
-      ? (provision.lawCategories ?? [])
-          .filter(
-            (category) =>
-              category.questionKey === input.questionKey &&
-              category.key === input.termKey,
-          )
-          .map((category) => ({ provision, category }))
-      : [],
-  );
-  if (matches.length !== 1) return null;
-  const { provision, category } = matches[0]!;
-  if (
-    category.values.some((value) => !parameter.allowedValues!.includes(value))
-  )
-    return null;
-  return {
-    values: [...category.values],
-    measureId: law.measureId,
-    provisionId: provision.id,
-    sourceRecordIds: [law.measureId, enactment.id, provision.id],
-  };
-}
-
 /** Resolve a bank-declared game profile against a saved public jurisdiction. */
 function profileContextForMapping(
   world: World,
@@ -476,13 +429,11 @@ function profileContextForMapping(
     rulePackId = pack.packId;
     scenarioKey = legislativeWorkKey(pack);
   } else if (governmentLevel === "federal") {
-    if (jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id) return null;
-    const pack = legislativePackForWorkKey(
-      `institution:${US_CONGRESS_PACK_ID}`,
-    );
-    if (!pack || pack.packId !== US_CONGRESS_PACK_ID) return null;
+    if (world.jurisdictions[jurisdictionId]?.kind !== "federal") return null;
+    const pack = legislativePackForJurisdiction(jurisdictionId);
+    if (!pack) return null;
     rulePackId = pack.packId;
-    scenarioKey = `institution:${pack.packId}`;
+    scenarioKey = legislativeWorkKey(pack);
   } else {
     return null;
   }
@@ -541,7 +492,7 @@ export function stateTransitAutomaticLawContext(
 export const AUTOMATIC_LAW_QUESTION_COOLDOWN_DAYS = 365;
 
 /**
- * Prevents an automatic producer from repeatedly toggling the same supported
+ * Prevents one automatic sponsor from repeatedly toggling the same supported
  * question. Only explicitly answered measures in that producer's persisted
  * key namespace count, and the window starts at a terminal legislative action.
  */
@@ -550,6 +501,7 @@ export function automaticLawQuestionOnCooldown(
   input: {
     readonly jurisdictionId: EntityId;
     readonly propositionId: EntityId;
+    readonly sponsorPersonId: EntityId;
     readonly stableKeyPrefix: string;
     readonly asOf?: IsoDate;
     readonly cooldownDays?: number;
@@ -568,6 +520,7 @@ export function automaticLawQuestionOnCooldown(
     if (
       measure.origin !== "member-introduction" ||
       measure.jurisdictionId !== input.jurisdictionId ||
+      measure.sponsorPersonId !== input.sponsorPersonId ||
       !measure.stableKey.startsWith(input.stableKeyPrefix) ||
       !(measure.propositionAnswers ?? []).some(
         (row) => row.propositionId === input.propositionId,
@@ -666,14 +619,13 @@ function contextSupportsMapping(
       return false;
   }
   const pack =
-    mapping.governmentLevel === "state"
+    mapping.governmentLevel === "state" || mapping.governmentLevel === "federal"
       ? legislativePackForJurisdiction(jurisdictionId)
       : legislativePackForWorkKey(context.scenarioKey);
   if (!pack || pack.packId !== context.rulePackId) return false;
   if (
     mapping.governmentLevel === "federal" &&
-    (pack.packId !== US_CONGRESS_PACK_ID ||
-      jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id)
+    context.scenarioKey !== legislativeWorkKey(pack)
   )
     return false;
   return true;
@@ -728,12 +680,13 @@ function verifiedReferenceDraft(
   measure: LegislativeMeasureRecord,
   lineage: LegislativeDraftLineageRecord,
   mapping: AutomaticLawPositionMapping,
+  suppliedContext?: AutomaticLawCompileContext,
 ) {
-  const context = profileContextForMapping(
-    world,
-    measure.jurisdictionId,
-    mapping,
-  );
+  const context =
+    suppliedContext &&
+    contextSupportsMapping(suppliedContext, measure.jurisdictionId, mapping)
+      ? suppliedContext
+      : profileContextForMapping(world, measure.jurisdictionId, mapping);
   if (
     !context ||
     !contextSupportsMapping(context, measure.jurisdictionId, mapping)
@@ -922,6 +875,7 @@ export function compileAutomaticLawDraft(input: {
     currentMeasure,
     currentLineage,
     currentMapping,
+    input.context,
   );
   const currentAmount =
     current?.draft.parameterValues[currentMapping.effectParameterKey];
@@ -965,7 +919,10 @@ export function compileAutomaticLawDraft(input: {
           row.variantKey === mapping.variantKey &&
           row.propositionKey === proposition.stableKey &&
           row.answer === input.answer &&
-          profileContextForMapping(world, measure.jurisdictionId, row),
+          (input.context &&
+          contextSupportsMapping(input.context, measure.jurisdictionId, row)
+            ? input.context
+            : profileContextForMapping(world, measure.jurisdictionId, row)),
       );
       if (!sourceMapping) return [];
       const source = verifiedReferenceDraft(
@@ -973,6 +930,7 @@ export function compileAutomaticLawDraft(input: {
         measure,
         lineage,
         sourceMapping,
+        input.context,
       );
       const amount = source?.draft.parameterValues[mapping.effectParameterKey];
       const population = publicBudgetFor(

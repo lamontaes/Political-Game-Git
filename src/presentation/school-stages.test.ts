@@ -4,7 +4,18 @@ import { createCampaignElectionTransitionRegistry } from "../simulation/campaign
 import { searchLifePlaces } from "../simulation/life-places";
 import { educationEnrollmentStateAt } from "../simulation/life-queries";
 import { scheduledFutureDueItemsThrough } from "../simulation/future-transitions";
-import { SCHOOL_STAGE_TRANSITION_KEY } from "../simulation/school-stages";
+import {
+  SCHOOL_STAGE_TRANSITION_KEY,
+  schoolGradeOn,
+  schoolStageCalendarEnd,
+  schoolStageCalendarStart,
+} from "../simulation/school-stages";
+import {
+  characterHistoryContextPersonId,
+  createCharacterHistoryContextPeople,
+} from "../simulation/character-history";
+import { makeIsoDate } from "../simulation/dates";
+import { observerPlace } from "./observer-world";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { EntityId, World } from "../simulation/types";
 import { advanceWorld, assertWorldIntegrity } from "../simulation/world";
@@ -256,4 +267,62 @@ describe("a child moves on through school while the game is played", () => {
     ]);
     assertWorldIntegrity(world);
   }, 600_000);
+
+  // A140: one calendar per school, not one drawn per child. The place is
+  // drawn by seed from all 56.
+  const CLASS_SEED = "a140-one-calendar";
+  const classPlace = observerPlace(CLASS_SEED);
+  it(`two classmates in ${classPlace.displayName} (${classPlace.key}, seed ${CLASS_SEED}) start and finish every stage on the same days`, () => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: CLASS_SEED,
+      startAge: 30,
+      placeKey: classPlace.key,
+    });
+    const town = game.world.people[game.playerPersonId]!.homeJurisdictionId;
+    // Born months apart, both five by September 1 of the same fall.
+    const world = createCharacterHistoryContextPeople(game.world, [
+      {
+        stableKey: "a140:first",
+        givenName: "Maya",
+        familyName: "Ortiz",
+        birthDate: makeIsoDate("2021-01-09"),
+        homeJurisdictionId: town,
+      },
+      {
+        stableKey: "a140:second",
+        givenName: "Eli",
+        familyName: "Brooks",
+        birthDate: makeIsoDate("2021-08-30"),
+        homeJurisdictionId: town,
+      },
+    ]);
+    const [maya, eli] = ["a140:first", "a140:second"].map((key) =>
+      characterHistoryContextPersonId(world, key),
+    ) as [EntityId, EntityId];
+    for (const stage of ["elementary", "middle", "high"] as const) {
+      const starts = schoolStageCalendarStart(world, maya, stage);
+      const ends = schoolStageCalendarEnd(world, maya, stage);
+      expect(schoolStageCalendarStart(world, eli, stage), stage).toBe(starts);
+      expect(schoolStageCalendarEnd(world, eli, stage), stage).toBe(ends);
+      // A Monday in late August, and the Friday of the fortieth week.
+      expect(new Date(`${starts}T00:00:00Z`).getUTCDay()).toBe(1);
+      expect(new Date(`${ends}T00:00:00Z`).getUTCDay()).toBe(5);
+      expect(starts.slice(5) >= "08-24" && starts.slice(5) <= "08-30").toBe(
+        true,
+      );
+      console.info(
+        `A140 ${classPlace.displayName}: ${stage} ${starts} to ${ends}`,
+      );
+    }
+    // And the same grade on every day of a year.
+    for (let day = 0; day < 366; day += 7) {
+      const date = makeIsoDate(
+        new Date(Date.UTC(2030, 0, 1 + day)).toISOString().slice(0, 10),
+      );
+      expect(schoolGradeOn(world, eli, date), date).toBe(
+        schoolGradeOn(world, maya, date),
+      );
+    }
+  });
 });

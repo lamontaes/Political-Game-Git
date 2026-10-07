@@ -7,11 +7,16 @@ import {
   recordsWithFieldValue,
 } from "../history-index";
 import { standingCrisisAuthority } from "../crisis-standing-appropriations";
+import { standingCountyAuthority } from "../county-service-authority";
 import {
+  currentLifeCutoff,
+  kinshipRelationshipsAt,
   organizationParticipationStateAt,
   organizationProfileAt,
 } from "../life-queries";
 import { lawEffectStamp } from "../law-effect-stamp";
+import { recordLawExposure } from "../law-exposure";
+import { isPersonAliveAt } from "../vitality-integrity";
 import { personName } from "../people";
 import { publicProgramRecords } from "../public-program-integrity";
 import { scheduledActivityState } from "../time-work";
@@ -28,12 +33,15 @@ import type {
 import type { EntityId, PublicProgramRecord, World } from "../types";
 
 import {
+  FARM_PAYMENT_QUESTION,
   SERVICE_SELECTOR,
   SERVICE_ACTION,
   SERVICE_HOURS,
   FUNDED_SERVICE,
   SERVICE_RECIPIENT_KIND,
   SERVICE_DELIVERED_LAW_ROWS,
+  COUNTY_SERVICE_ROWS,
+  isCountyServiceProgram,
   standingServiceProgram,
 } from "./service-delivered-data";
 
@@ -282,11 +290,100 @@ function paidServiceRecipients(
   return [];
 }
 
+/** The native program writer already moved and stamped this exact cash payment. */
+function resolveRecordedFarmPayment(
+  world: World,
+  row: LawConsequenceRow,
+  context: LawConsequenceContext,
+): readonly ResolvedLawConsequence[] {
+  if (
+    row.id !== SERVICE_DELIVERED_LAW_ROWS[FARM_PAYMENT_QUESTION]?.[0]?.id ||
+    context.activity !== "payment" ||
+    context.questionKey !== FARM_PAYMENT_QUESTION
+  )
+    return [];
+  const payment = recordById(
+    world.history.resourceTransferOutcomes,
+    context.activityId,
+  );
+  if (
+    !payment ||
+    payment.occurredAt !== context.onDate ||
+    payment.occurredAt > world.currentDate ||
+    !["completed", "partial"].includes(payment.status) ||
+    payment.transferredAmount.minorUnits <= 0
+  )
+    return [];
+  const flow = recordById(world.history.resourceFlows, payment.resourceFlowId);
+  if (
+    !flow ||
+    flow.basisReference.kind !== "public-program" ||
+    flow.recipient.kind !== "organization" ||
+    !context.subjectIds.includes(flow.recipient.organizationId)
+  )
+    return [];
+  const commitment = recordById(
+    publicProgramRecords(world),
+    flow.basisReference.commitmentId,
+  );
+  if (
+    commitment?.kind !== "commitment" ||
+    commitment.recipientOrganizationId !== flow.recipient.organizationId
+  )
+    return [];
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (candidate) => candidate.stableKey === FARM_PAYMENT_QUESTION,
+  );
+  const law = proposition
+    ? lawInForce(
+        world,
+        commitment.jurisdictionId,
+        proposition.id,
+        context.onDate,
+      )
+    : null;
+  if (
+    !law ||
+    law.answer !== "yes" ||
+    (context.governingLawId && context.governingLawId !== law.measureId)
+  )
+    return [];
+  const stamp = payment.lawEffectStamps?.find(
+    (stamp) =>
+      stamp.effectKind === "service-delivered" &&
+      stamp.questionKey === FARM_PAYMENT_QUESTION &&
+      stamp.governingLawKey === law.measureId &&
+      stamp.appliedAt === context.onDate &&
+      stamp.sourceRecordIds?.includes(commitment.id),
+  );
+  if (!stamp) return [];
+  return [
+    {
+      row,
+      law,
+      questionKey: FARM_PAYMENT_QUESTION,
+      jurisdictionId: commitment.jurisdictionId,
+      subject: { kind: "organization", id: flow.recipient.organizationId },
+      activityId: payment.id,
+      effectiveAt: payment.occurredAt,
+      sourceRecordIds: [...(stamp.sourceRecordIds ?? []), flow.id, payment.id],
+      value: {
+        type: "amount",
+        value: payment.transferredAmount.minorUnits,
+        unit: "minor",
+        currency: payment.transferredAmount.currency,
+      },
+    },
+  ];
+}
+
 export function resolveLawServiceConsequence(
   world: World,
   row: LawConsequenceRow,
   context: LawConsequenceContext,
 ): readonly ResolvedLawConsequence[] {
+  if (context.activity === "payment")
+    return resolveRecordedFarmPayment(world, row, context);
   if (
     !validServiceRow(row) ||
     context.activity !== "service" ||
@@ -343,13 +440,20 @@ export function resolveStandingServiceConsequences(
     done,
     context,
     (appropriation, commitment) => {
-      if (appropriation.sourceMeasureId != null) return false;
+      // A crisis program has no measure; a county's is adopted by its board's.
+      if (
+        appropriation.sourceMeasureId != null &&
+        !isCountyServiceProgram(appropriation.programKey)
+      )
+        return false;
       const program = standingServiceProgram(appropriation.programKey);
       const candidate = program
-        ? SERVICE_DELIVERED_LAW_ROWS[program.questionKey]?.[0]
+        ? (SERVICE_DELIVERED_LAW_ROWS[program.questionKey] ??
+            COUNTY_SERVICE_ROWS[program.questionKey])?.[0]
         : undefined;
       const read = program
-        ? standingCrisisAuthority(world, appropriation.id, context.onDate)
+        ? (standingCrisisAuthority(world, appropriation.id, context.onDate) ??
+          standingCountyAuthority(world, appropriation.id, context.onDate))
         : null;
       const classification = organizationProfileAt(
         world,
@@ -390,6 +494,9 @@ export function applyLawServiceConsequence(
   world: World,
   resolved: ResolvedAnyLawConsequence,
 ): World {
+  // Funding is saved once by settleProgramInstallment, never counted as attendance.
+  // Replay of its canonical receipt preserves the existing cash and immutable stamp.
+  if (resolved.subject.kind === "organization") return world;
   if (resolved.subject.kind !== "person") return world;
   const context = {
     activity: "service" as const,
@@ -445,7 +552,7 @@ export function applyLawServiceConsequence(
     world.history.scheduledActivities,
     canonical.activityId,
   )!;
-  return recordWorldEvent(world, {
+  const delivered = recordWorldEvent(world, {
     stableKey: key,
     type: "service.delivery-recorded",
     occurredAt: canonical.effectiveAt,
@@ -478,16 +585,66 @@ export function applyLawServiceConsequence(
     },
     lawEffectStamps: [stamp],
   });
+  return "law" in canonical
+    ? exposeServiceRecipients(
+        delivered,
+        canonical.law.measureId,
+        canonical.subject.id,
+        delivered.history.events.at(-1)!.id,
+      )
+    : delivered;
+}
+
+/**
+ * A delivered service reaches the person who got it and, for a child, the
+ * recorded parents who arranged it. The exposure is a gain with no dollar
+ * amount: the record shows a service was delivered, not what it cost them.
+ */
+function exposeServiceRecipients(
+  world: World,
+  measureId: EntityId,
+  recipientId: EntityId,
+  deliveryEventId: EntityId,
+): World {
+  const recipient = world.people[recipientId];
+  if (!recipient) return world;
+  const parents = kinshipRelationshipsAt(world, recipientId)
+    .filter(
+      (entry) =>
+        entry.kind.startsWith("lineal:") && entry.kind.includes("parent-child"),
+    )
+    .map((entry) => entry.personIds.find((id) => id !== recipientId)!)
+    .filter(
+      (id) =>
+        world.people[id] &&
+        world.people[id]!.birthDate < recipient.birthDate &&
+        isPersonAliveAt(world, id, currentLifeCutoff(world)),
+    )
+    .sort();
+  let next = world;
+  for (const personId of [recipientId, ...parents])
+    next = recordLawExposure(next, {
+      stableKey: `law-service:${deliveryEventId}:exposure:${personId}`,
+      personId,
+      measureId,
+      channel: "public-service",
+      direction: "gain",
+      amount: null,
+      cadence: null,
+      sourceRecordId: deliveryEventId,
+      includeFamily: personId !== recipientId,
+    });
+  return next;
 }
 
 export const SERVICE_DELIVERED_REGISTRATION: LawConsequenceKindRegistration<ResolvedAnyLawConsequence> =
   {
     kind: "service-delivered",
     owner: "Team5",
-    selectors: [SERVICE_SELECTOR],
-    actions: [SERVICE_ACTION],
+    selectors: [SERVICE_SELECTOR, "public-program.recorded-recipient"],
+    actions: [SERVICE_ACTION, "settle-recorded-program-payment"],
     predicates: [FUNDED_SERVICE],
-    units: ["hours"],
+    units: ["hours", "minor"],
     resolve: resolveLawServiceConsequence,
     resolveSavedRules: resolveStandingServiceConsequences,
     apply: applyLawServiceConsequence,

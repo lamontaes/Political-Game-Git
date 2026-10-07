@@ -2,12 +2,12 @@ import {
   ARTICLE_V_CONVENTION_BODY,
   ARTICLE_V_STATE_KEYS,
   constitutionalPosition,
-  proposeConstitutionalMeasure,
-  recordArticleVRatification,
   constitutionalActions,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
+import { proposeAmendment } from "../living-world/constitutional-reform";
+import { constitutionalStateActionHandler } from "../living-world/federal-reform";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateCandidacyPack } from "../candidacy-packs";
@@ -451,36 +451,29 @@ function propose(
   const name =
     world.policyCatalog.propositions[input.propositionId]?.name ?? "";
   const year = world.currentDate.slice(0, 4);
-  const next = proposeConstitutionalMeasure(
-    ensureNationalElectionJurisdiction(world),
-    {
-      stableKey: input.measureKey,
-      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-      jurisdictionKey: "US",
-      processKind: "federal-amendment",
-      designation: `Proposed Amendment to the Constitution (${year}): ${name}`,
-      shortTitle: name,
-      text: proposalText(world, input.propositionId),
-      textVersion: "v1",
-      sponsoringAuthority: input.byConvention
-        ? "A convention called on the applications of two-thirds of the states"
-        : "The Congress of the United States",
-      sponsorPersonId: null,
-      ratificationMode: "state-legislatures",
-      deadlineAt: yearsLater(
-        world.currentDate,
-        ARTICLE_V_PROFILE.ratificationYears,
-      ),
-      delayedOperativeAt: null,
-      ruleDelta: {
-        kind: "policy-provision",
-        propositionId: input.propositionId,
-        stance: "adopt",
-      },
-      ordinaryMeasureId: null,
-      ...(input.byConvention ? { proposedBy: "convention" as const } : {}),
+  const next = proposeAmendment(ensureNationalElectionJurisdiction(world), {
+    stableKey: input.measureKey,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    jurisdictionKey: "US",
+    processKind: "federal-amendment",
+    designation: `Proposed Amendment to the Constitution (${year}): ${name}`,
+    shortTitle: name,
+    text: proposalText(world, input.propositionId),
+    sponsoringAuthority: input.byConvention
+      ? "A convention called on the applications of two-thirds of the states"
+      : "The Congress of the United States",
+    ratificationMode: "state-legislatures",
+    deadlineAt: yearsLater(
+      world.currentDate,
+      ARTICLE_V_PROFILE.ratificationYears,
+    ),
+    ruleDelta: {
+      kind: "policy-provision",
+      propositionId: input.propositionId,
+      stance: "adopt",
     },
-  );
+    ...(input.byConvention ? { proposedBy: "convention" as const } : {}),
+  });
   return {
     world: next,
     measureId: next.history.constitutionalMeasures!.at(-1)!.id,
@@ -829,49 +822,10 @@ export function articleVConventionHandler(
   );
 }
 
-/** One state legislature acts on a proposed amendment. */
-export function articleVStateActionHandler(
-  world: World,
-  due: FutureDueItem,
-): FutureTransitionHandlerResult {
-  const match = /^(.+):state:(US-[A-Z]{2})$/.exec(due.stableKey);
-  const measure = match
-    ? (world.history.constitutionalMeasures ?? []).find(
-        (candidate) => candidate.stableKey === match[1],
-      )
-    : undefined;
-  if (!match || !measure || measure.ruleDelta.kind !== "policy-provision")
-    return done(world, "No amendment matches this state action.");
-  if (constitutionalPosition(world, measure.id).phase !== "ratification")
-    return done(world, "The amendment is no longer before the states.");
-  const stateKey = match[2]!;
-  const voice = stateVoice(world, stateKey.slice(3));
-  let next = ensureOfficeholderPrinciples(world, voice.personIds);
-  const approved = mostLeanYes(
-    next,
-    voice.personIds,
-    measure.ruleDelta.propositionId,
-  );
-  next = recordArticleVRatification(next, measure.id, {
-    kind: "state-ratification",
-    stateKey,
-    body: "state-legislature",
-    approved,
-    authenticationKey: `${measure.stableKey}:${stateKey}:${next.currentDate}`,
-  });
-  const after = constitutionalPosition(next, measure.id);
-  return done(
-    next,
-    after.phase === "operative" || after.phase === "ratified"
-      ? `${stateKey.slice(3)} ratified ${measure.designation}, the ${after.ratifiedStates.length}th state; it is now part of the Constitution.`
-      : approved
-        ? `${stateKey.slice(3)} ratified ${measure.designation}.`
-        : `${stateKey.slice(3)} declined to ratify ${measure.designation}.`,
-  );
+export function articleVHandlers() {
+  return [
+    [ARTICLE_V_REVIEW, articleVReviewHandler],
+    [ARTICLE_V_CONVENTION, articleVConventionHandler],
+    [ARTICLE_V_STATE_ACTION, constitutionalStateActionHandler],
+  ] as const;
 }
-
-export const ARTICLE_V_HANDLERS = [
-  [ARTICLE_V_REVIEW, articleVReviewHandler],
-  [ARTICLE_V_CONVENTION, articleVConventionHandler],
-  [ARTICLE_V_STATE_ACTION, articleVStateActionHandler],
-] as const;

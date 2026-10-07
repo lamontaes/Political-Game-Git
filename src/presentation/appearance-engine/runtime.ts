@@ -82,6 +82,8 @@ function decode(file: string): Promise<Raster> {
       const data = context.getImageData(0, 0, canvas.width, canvas.height);
       return { width: data.width, height: data.height, data: data.data };
     })();
+    // A failed decode is not remembered: the next ask tries the file again.
+    pending.catch(() => decoded.delete(file));
     decoded.set(file, pending);
   }
   return pending;

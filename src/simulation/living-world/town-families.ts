@@ -1,3 +1,7 @@
+import {
+  evaluateTownCoupleActors,
+  evaluateTownDateProposal,
+} from "./town-couple-actor-adapter";
 /**
  * The town's families change as time passes: people start dating, move in
  * together, marry, break up and have children.
@@ -17,7 +21,13 @@
  * - a single adult may start dating another single adult in town of a near
  *   age, more often in their twenties and thirties and when they work;
  * - a couple who share a home weighs raising a family plan
- *   (`./town-family-plans`), from their own circumstances.
+ *   (`./town-family-plans`), from their own circumstances;
+ * - a grown child living in a parent's home weighs setting up a home of
+ *   their own (`./leaving-home`), from their age, their own pay against the
+ *   town's rent for one, a partner of their own and their taste for risk.
+ *
+ * A new household forms only from one of these recorded causes: a grown
+ * child leaving home, or the partner who moves out after a breakup.
  *
  * A child is born only when two people have a recorded family plan
  * (`../people-family-plan`): one of them raised it, the other agreed, and the
@@ -38,7 +48,8 @@
  */
 
 import { ageOnDate, addDays } from "../dates";
-import { createStableId } from "../ids";
+import { createStableId, stableHash } from "../ids";
+import { largestRemainderAllocation } from "../largest-remainder";
 import {
   createHousehold,
   createPartnership,
@@ -50,7 +61,6 @@ import {
 import { householdMembershipsAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { personName } from "../people";
-import { SeededRng } from "../rng";
 import type {
   EntityId,
   IsoDate,
@@ -60,12 +70,21 @@ import type {
   World,
   HistoricalEvent,
 } from "../types";
+import { ensurePeopleTraits } from "../people-traits";
 import { recordWorldEvent } from "../world";
-import { weighTownFamilyPlans, type TownCouple } from "./town-family-plans";
 import {
-  TOWN_JOB_END_REASONS,
-  townUnemploymentPressure,
-} from "./town-labor-market";
+  decideToLeaveHome,
+  LEAVING_HOME_EVENT,
+  LEAVING_HOME_VERSION,
+} from "./leaving-home";
+import { weighTownFamilyPlans, type TownCouple } from "./town-family-plans";
+import { SAME_SEX_COUPLE_SHARE } from "./town-residents";
+import {
+  hudRentRowFor,
+  marketRentMinor,
+  monthlyPayByPerson,
+} from "./town-rent";
+import { jobsLostBy } from "./town-labor-market";
 
 export const TOWN_FAMILIES_VERSION = "town-families-v1";
 
@@ -101,27 +120,12 @@ export const TOWN_FAMILY_CHANCES = {
     [45, 0.012],
     [65, 0],
   ] as readonly (readonly [number, number])[],
-  /** Share of adults who look for a partner of their own gender. */
-  sameGender: 0.06,
 } as const;
 
 /** The widest age gap between two people who start dating, in years. */
 export const TOWN_DATING_AGE_GAP = 8;
 
 const QUIET_AFTER_ENDING_DAYS = 365;
-
-function byAge(
-  table: readonly (readonly [number, number])[],
-  age: number,
-): number {
-  let chance = 0;
-  for (const [from, value] of table) if (age >= from) chance = value;
-  return chance;
-}
-
-function yearsBetween(from: IsoDate, to: IsoDate): number {
-  return (Date.parse(to) - Date.parse(from)) / (365.25 * 86_400_000);
-}
 
 interface Couple {
   readonly partnership: Partnership;
@@ -259,27 +263,24 @@ function readFamilies(world: World, town: EntityId): FamilyView {
   }
 
   const latestWork = new Map<EntityId, string>();
-  const yearAgo = addDays(today, -365);
-  const endedWork = new Map<EntityId, string>();
   for (const status of h.workStatuses)
-    if (status.effectiveAt <= today) {
+    if (status.effectiveAt <= today)
       latestWork.set(status.workRelationshipId, status.status);
-      if (
-        status.status === "ended" &&
-        (status.reason === TOWN_JOB_END_REASONS.laidOff ||
-          status.reason === TOWN_JOB_END_REASONS.businessClosed) &&
-        status.effectiveAt > yearAgo
-      )
-        endedWork.set(status.workRelationshipId, status.reason);
-    }
   const working = new Set<EntityId>();
-  const laidOffThisYear = new Set<EntityId>();
-  for (const relationship of h.workRelationships) {
+  for (const relationship of h.workRelationships)
     if (latestWork.get(relationship.id) === "active")
       working.add(relationship.personId);
-    if (endedWork.has(relationship.id))
-      laidOffThisYear.add(relationship.personId);
-  }
+  // A resident who lost a job in the past year, read by the one reader of a
+  // lost job.
+  const yearAgo = addDays(today, -365);
+  const laidOffThisYear = new Set<EntityId>();
+  for (const personId of people.keys())
+    if (
+      jobsLostBy(world, personId, today).some(
+        (status) => status.effectiveAt > yearAgo,
+      )
+    )
+      laidOffThisYear.add(personId);
 
   return {
     today,
@@ -298,12 +299,74 @@ function readFamilies(world: World, town: EntityId): FamilyView {
   };
 }
 
+/**
+ * The share of a town's people who look for a partner of their own gender:
+ * the same figure the opening pairs couples by (`SAME_SEX_COUPLE_SHARE`,
+ * town-residents.ts), so a couple who meet in play are two women or two men
+ * as often as the town's opening couples are. ESTIMATED FROM AVERAGE: no
+ * place's own figure is on file, so every one of the 56 places takes the
+ * national share inferred from the Census Bureau's American Community Survey
+ * same-sex couple tables. In parts per million, the allocator's whole weights.
+ */
+export const SAME_GENDER_SHARE_PPM = Math.round(SAME_SEX_COUPLE_SHARE * 1e6);
+
+/**
+ * Who among the town's people looks for a partner of their own gender. It is
+ * a fact about a person, not a decision anybody makes, so it is allocated,
+ * not drawn: of the town's living women, and of its living men, exactly the
+ * share's whole number (largest remainder, `largestRemainderAllocation`) do.
+ * Which of them is the one choice left, among the real people there: they
+ * stand in an order the world's seed fixes for each person, and the first
+ * that many in it are the ones. Because the order is fixed, a person joining
+ * or leaving the town moves the count by at most one and changes nobody else
+ * but the one person at the edge of it. People who are neither recorded as a
+ * woman nor as a man are left to `drawnToEachOther`, as before.
+ */
+export function sameGenderSeekers(
+  world: World,
+  people: Iterable<Person>,
+): ReadonlySet<EntityId> {
+  const byGender = new Map<string, { id: EntityId; order: string }[]>();
+  for (const person of people) {
+    const gender = person.identity?.gender;
+    if (gender !== "female" && gender !== "male") continue;
+    const group = byGender.get(gender) ?? [];
+    group.push({
+      id: person.id,
+      order: stableHash(
+        `${world.seed}\n${TOWN_FAMILIES_VERSION}:looks-for:${person.id}`,
+      ),
+    });
+    byGender.set(gender, group);
+  }
+  const seekers = new Set<EntityId>();
+  for (const group of byGender.values()) {
+    const [count] = largestRemainderAllocation(
+      [SAME_GENDER_SHARE_PPM, 1_000_000 - SAME_GENDER_SHARE_PPM],
+      group.length,
+    );
+    group
+      .sort((a, b) =>
+        a.order !== b.order
+          ? a.order < b.order
+            ? -1
+            : 1
+          : a.id < b.id
+            ? -1
+            : 1,
+      )
+      .slice(0, count)
+      .forEach(({ id }) => seekers.add(id));
+  }
+  return seekers;
+}
+
 /** Whether two people could start dating, by who each of them looks for. */
-function drawnToEachOther(world: World, a: Person, b: Person): boolean {
-  const sameGenderSeeker = (person: Person) =>
-    new SeededRng(world.seed)
-      .fork(`${TOWN_FAMILIES_VERSION}:looks-for:${person.id}`)
-      .next() < TOWN_FAMILY_CHANCES.sameGender;
+function drawnToEachOther(
+  seekers: ReadonlySet<EntityId>,
+  a: Person,
+  b: Person,
+): boolean {
   const genderA = a.identity?.gender;
   const genderB = b.identity?.gender;
   const known = (gender: string | undefined) =>
@@ -311,8 +374,8 @@ function drawnToEachOther(world: World, a: Person, b: Person): boolean {
   if (!known(genderA) || !known(genderB)) return true;
   const same = genderA === genderB;
   return same
-    ? sameGenderSeeker(a) && sameGenderSeeker(b)
-    : !sameGenderSeeker(a) && !sameGenderSeeker(b);
+    ? seekers.has(a.id) && seekers.has(b.id)
+    : !seekers.has(a.id) && !seekers.has(b.id);
 }
 
 /** One quarterly turn of the town's families, on the world's current date. */
@@ -329,25 +392,17 @@ export function reviewTownFamilies(
   const view = readFamilies(world, town);
   if (view.people.size === 0) return world;
   const today = view.today;
-  const pressure = Math.sqrt(townUnemploymentPressure(world, town));
-  const rngFor = (key: string) =>
-    new SeededRng(world.seed).fork(`${prefix}${key}`);
   const touched = new Set<EntityId>();
   const isPlayer = (id: EntityId) => id === playerPersonId;
   let next = world;
 
   const householdOf = (id: EntityId) => view.household.get(id) ?? null;
-  const childUnder = (householdId: EntityId | null, years: number) =>
-    householdId !== null &&
-    (view.householdMembers.get(householdId) ?? []).some(
-      (id) => (view.people.get(id)?.age ?? 99) < years,
-    );
-
   const event = (
     key: string,
     type: `${string}.${string}`,
     ids: readonly EntityId[],
     summary: string,
+    tag = "life.couple",
   ): LifeRecordProvenance => {
     next = recordWorldEvent(next, {
       stableKey: `${prefix}${key}`,
@@ -363,7 +418,7 @@ export function reviewTownFamilies(
       })),
       personFactConstraints: [],
       visibility: "limited",
-      tags: ["life.couple", TOWN_FAMILIES_VERSION],
+      tags: [tag, TOWN_FAMILIES_VERSION],
       summary,
       context: {
         location: null,
@@ -526,36 +581,30 @@ export function reviewTownFamilies(
     const personB = view.people.get(b);
     if (!personA || !personB) continue;
     const key = `couple:${couple.partnership.id}`;
-    const rng = rngFor(key);
-    const years = yearsBetween(couple.partnership.startedAt, today);
+    const decision = evaluateTownCoupleActors(next, {
+      stableKey: `${prefix}${key}:stage`,
+      personIds: [a, b],
+      stage: couple.stage,
+      startedAt: couple.partnership.startedAt,
+      retention: "durable",
+    });
+    next = decision.world;
+    const admits = (optionKey: string) =>
+      decision.admittedOptions.some((option) => option.key === optionKey);
     const homeA = householdOf(a);
     const together = homeA !== null && homeA === householdOf(b);
     const names = `${personName(personA.person)} and ${personName(personB.person)}`;
 
-    let breakUp = TOWN_FAMILY_CHANCES.breakUp[couple.stage] * pressure;
-    if (couple.stage !== "dating") {
-      if (years < 3) breakUp *= 1.5;
-      else if (years >= 15) breakUp *= 0.5;
-    }
-    if (view.laidOffThisYear.has(a) || view.laidOffThisYear.has(b))
-      breakUp *= 1.6;
-    if (
-      !view.working.has(a) &&
-      !view.working.has(b) &&
-      personA.age < 67 &&
-      personB.age < 67
-    )
-      breakUp *= 1.3;
-    if (together && childUnder(homeA, 6)) breakUp *= 0.75;
-    if (rng.fork("break-up").next() < breakUp) {
+    if (admits("break-up") || admits("separate")) {
       const married = couple.stage === "married";
+      if (married && !together) continue;
       const provenance = event(
         key,
-        married ? TOWN_FAMILY_EVENTS.divorced : TOWN_FAMILY_EVENTS.brokeUp,
+        married ? "life.couple-separated" : TOWN_FAMILY_EVENTS.brokeUp,
         [a, b],
-        married ? `${names} divorced.` : `${names} broke up.`,
+        married ? `${names} separated.` : `${names} broke up.`,
       );
-      endPartnership(couple, key, provenance);
+      if (!married) endPartnership(couple, key, provenance);
       if (together && couple.stage !== "dating") {
         const [leaving, staying] = leavesAfterBreakUp(a, b);
         const home = newHousehold(
@@ -569,13 +618,7 @@ export function reviewTownFamilies(
       continue;
     }
 
-    const bothWork = view.working.has(a) && view.working.has(b) ? 1.2 : 1;
-    if (
-      couple.stage === "dating" &&
-      years >= 0.5 &&
-      rng.fork("move-in").next() <
-        (TOWN_FAMILY_CHANCES.moveIn * bothWork) / pressure
-    ) {
+    if (admits("move-in")) {
       const provenance = event(
         key,
         TOWN_FAMILY_EVENTS.movedIn,
@@ -607,12 +650,7 @@ export function reviewTownFamilies(
       touched.add(a).add(b);
       continue;
     }
-    if (
-      couple.stage === "cohabiting" &&
-      years >= 1 &&
-      rng.fork("marry").next() <
-        (TOWN_FAMILY_CHANCES.marry * bothWork) / pressure
-    ) {
+    if (admits("marry")) {
       const provenance = event(
         key,
         TOWN_FAMILY_EVENTS.married,
@@ -629,6 +667,71 @@ export function reviewTownFamilies(
       });
       touched.add(a).add(b);
       continue;
+    }
+  }
+
+  // Grown children: one living in a parent's home weighs setting up a home
+  // of their own (`./leaving-home`). A new household is their own decision.
+  // The player's home is never changed here.
+  const playerHome =
+    playerPersonId === null ? null : householdOf(playerPersonId);
+  const grownAtHome = [...view.people.values()]
+    .filter(({ person, age }) => {
+      const home = householdOf(person.id);
+      return (
+        age >= 18 &&
+        !isPlayer(person.id) &&
+        !touched.has(person.id) &&
+        home !== null &&
+        home !== playerHome &&
+        (view.householdMembers.get(home) ?? []).some(
+          (other) =>
+            other !== person.id &&
+            (view.childrenOf.get(other) ?? []).includes(person.id),
+        )
+      );
+    })
+    .sort((x, y) => (x.person.id < y.person.id ? -1 : 1));
+  if (grownAtHome.length > 0) {
+    next = ensurePeopleTraits(
+      next,
+      grownAtHome.map(({ person }) => person.id),
+    );
+    const pay = monthlyPayByPerson(next, today);
+    const row = hudRentRowFor(town);
+    const rentForOne = row ? marketRentMinor(next, town, row, 0, today) : null;
+    for (const { person, age } of grownAtHome) {
+      const home = householdOf(person.id);
+      const partnerElsewhere = view.couples.some(
+        (couple) =>
+          couple.partnership.personIds.includes(person.id) &&
+          couple.partnership.personIds.some(
+            (other) => other !== person.id && householdOf(other) !== home,
+          ),
+      );
+      const key = `left-home:${person.id}`;
+      const decision = decideToLeaveHome(
+        next,
+        person.id,
+        {
+          age,
+          payMinor: pay.get(person.id) ?? 0,
+          rentForOneMinor: rentForOne,
+          partnerElsewhere,
+        },
+        `${LEAVING_HOME_VERSION}:${prefix}${key}`,
+      );
+      if (!decision.leaves) continue;
+      const provenance = event(
+        key,
+        LEAVING_HOME_EVENT,
+        [person.id],
+        `${personName(person)} moved out of a parent's home into a home of their own.`,
+        LEAVING_HOME_EVENT,
+      );
+      const household = newHousehold(key, person, provenance);
+      moveInto(key, person.id, household, null, provenance);
+      touched.add(person.id);
     }
   }
 
@@ -671,12 +774,12 @@ export function reviewTownFamilies(
     )
     .sort((x, y) => (x.person.id < y.person.id ? -1 : 1));
   const paired = new Set<EntityId>();
+  const seekers = sameGenderSeekers(
+    world,
+    [...view.people.values()].map(({ person }) => person),
+  );
   for (const seeker of singles) {
     if (paired.has(seeker.person.id)) continue;
-    const rng = rngFor(`single:${seeker.person.id}`);
-    let chance = byAge(TOWN_FAMILY_CHANCES.dateByAge, seeker.age);
-    chance *= view.working.has(seeker.person.id) ? 1.2 : 0.85;
-    if (rng.fork("looks").next() >= chance) continue;
     const kin = view.kin.get(seeker.person.id);
     const candidates = singles.filter(
       (other) =>
@@ -684,10 +787,19 @@ export function reviewTownFamilies(
         !paired.has(other.person.id) &&
         Math.abs(other.age - seeker.age) <= TOWN_DATING_AGE_GAP &&
         !kin?.has(other.person.id) &&
-        drawnToEachOther(world, seeker.person, other.person),
+        drawnToEachOther(seekers, seeker.person, other.person),
     );
     if (candidates.length === 0) continue;
-    const match = candidates[rng.fork("who").integer(0, candidates.length)]!;
+    const recipient = evaluateTownDateProposal(
+      next,
+      `${prefix}single:${seeker.person.id}`,
+      seeker.person.id,
+      candidates.map((row) => row.person.id),
+    );
+    const match = recipient
+      ? candidates.find((row) => row.person.id === recipient)
+      : null;
+    if (!match) continue;
     const ids = [seeker.person.id, match.person.id] as const;
     const key = `dating:${[...ids].sort().join(":")}`;
     const provenance = event(

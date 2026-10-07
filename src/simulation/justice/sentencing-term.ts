@@ -29,16 +29,20 @@ export interface SentenceTermChoice {
 export function sourcedCustodyBoundsForCase(
   world: World,
   courtCase: CourtCase,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
 ): {
   readonly range: SourcedSentenceRange;
   readonly minimumMonths: number;
+  readonly maximumMonths: number | null;
 } | null {
   const range = sentencingRangeForCase(courtCase);
   if (!range) return null;
-  const floor = custodyFloorAt(world, courtCase);
   const minimumMonths = Math.max(range.minMonths, floor?.months ?? 0);
-  if (range.maxMonths !== null && minimumMonths > range.maxMonths) return null;
-  return { range, minimumMonths };
+  // CTO ruling 25: the later enacted floor controls if it exceeds the old
+  // ceiling. Keep the research row unchanged and expose the operative bounds.
+  const maximumMonths =
+    range.maxMonths === null ? null : Math.max(range.maxMonths, minimumMonths);
+  return { range, minimumMonths, maximumMonths };
 }
 
 /** Select sourced legal options through the same actor decision engine. */
@@ -47,10 +51,11 @@ export function evaluateCustodyTerm(
   judgeId: EntityId,
   courtCase: CourtCase,
   pleaded: boolean,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
 ): SentenceTermChoice | null {
-  const bounds = sourcedCustodyBoundsForCase(world, courtCase);
+  const bounds = sourcedCustodyBoundsForCase(world, courtCase, floor);
   if (!bounds) return null;
-  const { range, minimumMonths: minimum } = bounds;
+  const { range, minimumMonths: minimum, maximumMonths: maximum } = bounds;
   const key = `${courtCase.caseKey}:custody-term`;
   const candidates = [
     {
@@ -59,7 +64,7 @@ export function evaluateCustodyTerm(
     },
     ...(range.presumptiveMonths !== null &&
     range.presumptiveMonths >= minimum &&
-    (range.maxMonths === null || range.presumptiveMonths <= range.maxMonths)
+    (maximum === null || range.presumptiveMonths <= maximum)
       ? [
           {
             key: "term:presumptive",
@@ -74,7 +79,7 @@ export function evaluateCustodyTerm(
       key: "term:maximum",
       term: range.maxLife
         ? ({ kind: "life" } as CustodyTerm)
-        : ({ kind: "months", months: range.maxMonths! } as CustodyTerm),
+        : ({ kind: "months", months: maximum! } as CustodyTerm),
     },
   ];
   const considerations: DecisionConsideration[] = [];

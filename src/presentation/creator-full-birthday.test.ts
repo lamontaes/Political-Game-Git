@@ -5,6 +5,7 @@ import {
   applyFullBirthday,
   resolveCreatorBirthday,
   creatorBirthdayAgeRange,
+  birthYearChoiceLabel,
   birthYearChoices,
   birthYearForSetup,
   randomFullBirthday,
@@ -46,6 +47,40 @@ describe("full birthday with a derived starting age", () => {
     }
   });
 
+  it("labels fresh choices with playable ages and excludes partial boundary years", () => {
+    const years = birthYearChoices(null, null, START);
+    expect(years[0]).toBe(2020);
+    expect(years.at(-1)).toBe(1956);
+    expect(birthYearChoiceLabel(years[0]!, null, null, START)).toBe(
+      "2020 (age 5–6)",
+    );
+    expect(
+      years.every((year) => {
+        const range = creatorBirthdayAgeRange(
+          { year, month: null, day: null },
+          START,
+        );
+        return (
+          range !== null &&
+          range.minimum >= MINIMUM_START_AGE &&
+          range.maximum <= MAXIMUM_START_AGE
+        );
+      }),
+    ).toBe(true);
+  });
+
+  it("starts at agency age five and excludes a birthday still aged four", () => {
+    expect(MINIMUM_START_AGE).toBe(5);
+    expect(birthYearChoices(1, 5, START)[0]).toBe(2021);
+    expect(birthYearChoices(1, 6, START)[0]).toBe(2020);
+    expect(
+      applyFullBirthday(SETUP, { year: 2021, month: 1, day: 6 }),
+    ).toBeNull();
+    expect(
+      applyFullBirthday(SETUP, { year: 2021, month: 1, day: 5 })!.startAge,
+    ).toBe(5);
+  });
+
   it("writes the derived age and round-trips the birth year", () => {
     const next = applyFullBirthday(SETUP, {
       year: 1991,
@@ -78,21 +113,35 @@ describe("full birthday with a derived starting age", () => {
 });
 
 describe("PLAYTEST65 birthday completion", () => {
-  it("preserves each chosen component and is stable after completion", () => {
+  it("requires both anniversary fields and preserves a complete chosen date", () => {
     const partial = applyFullBirthday(SETUP, {
       year: 1991,
       month: 7,
       day: null,
     })!;
-    const result = resolveCreatorBirthday(partial, true)!;
+    expect(resolveCreatorBirthday(partial, true)).toBeNull();
+    const complete = applyFullBirthday(partial, {
+      year: 1991,
+      month: 7,
+      day: 14,
+    })!;
+    const result = resolveCreatorBirthday(complete, true)!;
     expect(result.birthYear).toBe(1991);
     expect(result.birthMonth).toBe(7);
-    expect(result.birthDay).toBeGreaterThan(0);
+    expect(result.birthDay).toBe(14);
     expect(resolveCreatorBirthday(result, true)).toEqual(result);
-    expect(resolveCreatorBirthday(partial, true)).toEqual(result);
-    const dayOnly = resolveCreatorBirthday({ ...SETUP, birthDay: 31 }, false)!;
-    expect(dayOnly.birthDay).toBe(31);
-    expect(dayOnly.startAge).toBe(SETUP.startAge);
+    expect(resolveCreatorBirthday(complete, true)).toEqual(result);
+    expect(
+      resolveCreatorBirthday({ ...SETUP, birthDay: 31 }, false),
+    ).toBeNull();
+    expect(resolveCreatorBirthday(SETUP, false)).toBe(SETUP);
+    const ageOnly = resolveCreatorBirthday(
+      { ...SETUP, birthMonth: 7, birthDay: 14 },
+      false,
+    )!;
+    expect(ageOnly.startAge).toBe(SETUP.startAge);
+    expect(ageOnly.birthMonth).toBe(7);
+    expect(ageOnly.birthDay).toBe(14);
   });
   it("rejects impossible chosen dates and reports a year-only age range", () => {
     expect(

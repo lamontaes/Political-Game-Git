@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="24" viewBox="0 0 72 24" fill="none">
+  <defs><linearGradient id="brass" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#f0d9a4"/><stop offset=".4" stop-color="#d6bd84"/><stop offset="1" stop-color="#806337"/></linearGradient></defs>
+  <path d="M12 1h48a11 11 0 0 1 0 22H12a11 11 0 0 1 0-22Z" stroke="#141412" stroke-width="2"/>
+  <path d="M12 2h48a10 10 0 0 1 0 20H12a10 10 0 0 1 0-20Z" stroke="url(#brass)" stroke-width="2"/>
+  <path d="M11 3C.5 3 .5 21 11 21Zm50 0c10.5 0 10.5 18 0 18Z" fill="url(#brass)" stroke="#745630" stroke-width=".7"/>
+  <path d="M13 3v18m46-18v18" stroke="#d6bd84" stroke-width="1"/>
+  <path d="M17 2h38" stroke="#f5dfaf" stroke-width=".65"/>
+</svg>

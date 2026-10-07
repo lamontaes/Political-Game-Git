@@ -69,6 +69,7 @@ export function MeasurePaperWorkspace({
   const provisions = currentMeasureProvisions(world, seat.measureId);
   const position = measurePosition(world, seat.measureId);
   const amendments = measureAmendments(world, seat.measureId);
+  const negotiations = measureNegotiations(world, seat.measureId);
   const sectionInBill = provisions.some(
     (provision) => provision.provisionKey === facts.requestedProvisionKey,
   );
@@ -109,8 +110,8 @@ export function MeasurePaperWorkspace({
           </h2>
           <p className="measure-standing" data-testid="measure-standing">
             {position.phase === "on-floor"
-              ? `The text can still change until ${facts.nextStepLabel}.`
-              : "The text is settled here. What was in the bill when it was called is what carried."}
+              ? `Open until ${facts.nextStepLabel}`
+              : "Settled"}
           </p>
         </div>
         <button
@@ -150,12 +151,12 @@ export function MeasurePaperWorkspace({
             <p>{provision.text}</p>
             <p className="measure-section-reach">
               {provision.beneficiary.kind === "particularized"
-                ? `Written for ${provision.beneficiary.beneficiaryLabel}${
+                ? `For: ${provision.beneficiary.beneficiaryLabel}${
                     provision.beneficiary.placeLabel
-                      ? ` in ${provision.beneficiary.placeLabel}`
+                      ? `, ${provision.beneficiary.placeLabel}`
                       : ""
-                  }. Stated ground: ${provision.beneficiary.statedGround}`
-                : `Reaches ${provision.beneficiary.appliesToLabel}.`}
+                  } · Stated ground: ${provision.beneficiary.statedGround}`
+                : `Reaches: ${provision.beneficiary.appliesToLabel}`}
             </p>
           </section>
         ))}
@@ -200,9 +201,7 @@ export function MeasurePaperWorkspace({
             {facts.requestedSectionLabel}. {facts.requestedHeading}
           </h3>
           <p className="measure-panel-note">
-            {sectionInBill
-              ? "This is in the bill. The chamber adopted it."
-              : "Preview only. Nothing here is in the bill until the chamber adopts an amendment carrying it."}
+            {sectionInBill ? "Adopted" : "Preview only"}
           </p>
           {!sectionInBill ? (
             <div
@@ -239,9 +238,8 @@ export function MeasurePaperWorkspace({
               : proposedText}
           </p>
           <p className="measure-section-reach">
-            Written for {facts.requestedBeneficiaryLabel} in{" "}
-            {facts.requestedPlaceLabel}. Stated ground:{" "}
-            {facts.requestedStatedGround}
+            For: {facts.requestedBeneficiaryLabel}, {facts.requestedPlaceLabel}{" "}
+            · Stated ground: {facts.requestedStatedGround}
           </p>
           {!sectionInBill && position.phase === "on-floor" ? (
             <button
@@ -281,9 +279,7 @@ export function MeasurePaperWorkspace({
                 }
               </p>
               <p className="measure-panel-note">
-                Prepared by {personName(world.people[facts.analystPersonId]!)}.
-                A forecast on the bill as filed, not an appropriation and not a
-                guarantee of what any agency will manage to do.
+                Prepared by {personName(world.people[facts.analystPersonId]!)}
               </p>
             </>
           ) : (
@@ -292,7 +288,7 @@ export function MeasurePaperWorkspace({
                 className="measure-panel-note"
                 data-testid="fiscal-note-unread"
               >
-                A note was filed with the bill. You have not read it.
+                Unread
               </p>
               <button
                 type="button"
@@ -322,60 +318,58 @@ export function MeasurePaperWorkspace({
         >
           <h3>What has happened so far</h3>
           <ul data-testid="record-amendments">
-            {amendments.length === 0 ? (
-              <li>No amendment has been offered.</li>
-            ) : (
-              amendments.map((amendment) => (
-                <li key={amendment.id}>
-                  {amendment.description}{" "}
-                  <strong>
-                    {amendment.status === "adopted" ? "Adopted." : "Rejected."}
-                  </strong>
-                </li>
-              ))
-            )}
+            {amendments.length === 0
+              ? null
+              : amendments.map((amendment) => (
+                  <li key={amendment.id}>
+                    {amendment.description}{" "}
+                    <strong>
+                      {amendment.status === "adopted"
+                        ? "Adopted."
+                        : "Rejected."}
+                    </strong>
+                  </li>
+                ))}
           </ul>
           <h4>What people have said</h4>
           <ul data-testid="record-commitments">
             {commitmentsKnownTo(world, seat.playerPersonId, seat.measureId)
-              .length === 0 ? (
-              <li>Nobody has told you anything yet.</li>
-            ) : (
-              commitmentsKnownTo(
-                world,
-                seat.playerPersonId,
-                seat.measureId,
-              ).map((commitment) => {
-                const assessment = assessCommitment(world, commitment.id);
-                return (
-                  <li key={commitment.id} data-testid="record-commitment">
-                    <em>
-                      {personName(world.people[commitment.holderPersonId]!)}
-                    </em>
-                    : {commitment.statement}
-                    <span className="measure-standing-line">
-                      {assessment.account}
-                    </span>
-                    {commitment.conditions.map((condition) => (
-                      <span key={condition.key} className="measure-condition">
-                        Condition: {condition.description}
+              .length === 0
+              ? null
+              : commitmentsKnownTo(
+                  world,
+                  seat.playerPersonId,
+                  seat.measureId,
+                ).map((commitment) => {
+                  const assessment = assessCommitment(world, commitment.id);
+                  return (
+                    <li key={commitment.id} data-testid="record-commitment">
+                      <em>
+                        {personName(world.people[commitment.holderPersonId]!)}
+                      </em>
+                      : {commitment.statement}
+                      <span className="measure-standing-line">
+                        {assessment.account}
                       </span>
-                    ))}
-                  </li>
-                );
-              })
-            )}
+                      {commitment.conditions.map((condition) => (
+                        <span key={condition.key} className="measure-condition">
+                          Condition: {condition.description}
+                        </span>
+                      ))}
+                    </li>
+                  );
+                })}
           </ul>
-          <h4>What was asked for</h4>
-          <ul data-testid="record-negotiations">
-            {measureNegotiations(world, seat.measureId).length === 0 ? (
-              <li>Nobody has asked you for anything yet.</li>
-            ) : (
-              measureNegotiations(world, seat.measureId).map((negotiation) => (
-                <li key={negotiation.id}>{negotiation.request}</li>
-              ))
-            )}
-          </ul>
+          {negotiations.length > 0 ? (
+            <>
+              <h4>What was asked for</h4>
+              <ul data-testid="record-negotiations">
+                {negotiations.map((negotiation) => (
+                  <li key={negotiation.id}>{negotiation.request}</li>
+                ))}
+              </ul>
+            </>
+          ) : null}
           <button
             type="button"
             data-testid="close-panel"
@@ -390,8 +384,7 @@ export function MeasurePaperWorkspace({
         {finalVote ? (
           <div data-testid="floor-result">
             <p>
-              The {facts.chamberName} voted {finalVote.tally.yea}–
-              {finalVote.tally.nay} on the bill.
+              {facts.chamberName} {finalVote.tally.yea}–{finalVote.tally.nay}
             </p>
             <ul data-testid="member-accounts">
               {memberAccounts.map((account) => (

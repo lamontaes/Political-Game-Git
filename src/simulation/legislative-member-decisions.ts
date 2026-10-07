@@ -1,8 +1,5 @@
-import {
-  considerationScore,
-  evaluateDecision,
-  recordDurableDecisionTrace,
-} from "./decisions";
+import { considerationScore, recordDurableDecisionTrace } from "./decisions";
+import { decideMemberVote } from "./governing/member-vote-decision";
 import { favorStandingBetween } from "./favors";
 import { favorEventRefs } from "./patronage/favor-refs";
 import { requireMeasure } from "./legislation";
@@ -16,6 +13,7 @@ import {
   currentMeasureProvisions,
   currentProvisionByKey,
   legislativeQuestionAnswers,
+  reachInSummary,
 } from "./legislative-politics";
 import { currentHistoricalCutoff, latestPrivateBelief } from "./queries";
 import { measureAnswersAt } from "./vote-bundle";
@@ -29,6 +27,7 @@ import type {
   PublicPositionRecord,
   World,
 } from "./types";
+import type { MinorityProcedureMotion } from "./legislature-rules";
 
 /**
  * How one simulated member decides one question.
@@ -98,6 +97,11 @@ export interface MemberVoteQuestion {
    * sponsor. Omitted where the author is not recorded as a person.
    */
   readonly offeredBy?: EntityId;
+  /**
+   * When present, the chamber is deciding whether to delay the underlying
+   * bill. Its own position on the bill bears on table, postpone and recommit.
+   */
+  readonly proceduralMotion?: MinorityProcedureMotion;
 }
 
 export interface DeriveMemberDispositionInput {
@@ -159,7 +163,7 @@ export function deriveMemberDisposition(
   }
 
   const considerations = memberConsiderations(world, input);
-  const evaluation = evaluateDecision(world, {
+  const { evaluation, disposition } = decideMemberVote(world, {
     stableKey: `${input.stableKey}:member-decision`,
     decisionType: "legislation.member-vote",
     actorPersonId: input.personId,
@@ -178,14 +182,8 @@ export function deriveMemberDisposition(
   });
 
   const selected = evaluation.selectedOptionKey ?? "withhold";
-  const disposition: LegislativeMemberDisposition =
-    selected === "vote-yea"
-      ? "yea"
-      : selected === "vote-nay"
-        ? "nay"
-        : "present-not-voting";
 
-  const decisive = considerations
+  const decisive = evaluation.context.considerations
     .filter((consideration) => consideration.optionKey === selected)
     .sort(
       (a, b) =>
@@ -214,7 +212,37 @@ export function memberVoteConsiderations(
   world: World,
   input: DeriveMemberDispositionInput,
 ): readonly DecisionConsideration[] {
-  return memberConsiderations(world, input);
+  const considerations = memberConsiderations(world, input);
+  const motion = input.question.proceduralMotion;
+  if (
+    motion !== "table" &&
+    motion !== "postpone" &&
+    motion !== "recommit" &&
+    motion !== "sine-die"
+  )
+    return considerations;
+  const billConsiderations = memberConsiderations(world, {
+    ...input,
+    question: {
+      ...input.question,
+      proceduralMotion: undefined,
+      question: { ...input.question.question, purpose: "floor-stage" },
+    },
+  });
+  const delayReasons = billConsiderations.flatMap((reason) => {
+    if (reason.optionKey !== "vote-yea" && reason.optionKey !== "vote-nay")
+      return [];
+    const wantsBill = reason.optionKey === "vote-yea";
+    return [
+      {
+        ...reason,
+        stableKey: `member:procedural-motion:${motion}:${reason.stableKey}`,
+        optionKey: wantsBill ? "vote-nay" : "vote-yea",
+        explanation: reason.explanation,
+      },
+    ];
+  });
+  return [...considerations, ...delayReasons];
 }
 
 function memberConsiderations(
@@ -455,7 +483,7 @@ function memberConsiderations(
       direction: "supports",
       importance: "strong",
       confidence: "high",
-      explanation: `${capitalize(billLabel)} carries language written for ${local.join(" and ")}.`,
+      explanation: `${capitalize(billLabel)} carries ${reachInSummary({ relation: "written-for", who: local.join(" and ") })}.`,
       sourceRefs: [],
     });
   } else if ((input.localBeneficiaryLabels ?? []).length > 0) {

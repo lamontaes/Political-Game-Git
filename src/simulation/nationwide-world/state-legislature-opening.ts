@@ -343,14 +343,29 @@ export interface SeatedChamberPlan {
   readonly atLargeSeats: number;
 }
 
+type StateChamberPlan = {
+  readonly chambers: readonly SeatedChamberPlan[];
+  readonly unseated: readonly { officeKey: string; reason: string }[];
+};
+
+// A plan reads only the pack and the static district catalog, so one plan per
+// pack object serves every day of every world, before and after a reload.
+const STATE_CHAMBER_PLANS = new WeakMap<CandidacyPack, StateChamberPlan>();
+
 /**
  * The size and districts of each chamber a state's pack describes, or the
  * reason a chamber cannot be seated. Pure; reads no world.
  */
-export function planStateChambers(pack: CandidacyPack): {
-  readonly chambers: readonly SeatedChamberPlan[];
-  readonly unseated: readonly { officeKey: string; reason: string }[];
-} {
+export function planStateChambers(pack: CandidacyPack): StateChamberPlan {
+  let plan = STATE_CHAMBER_PLANS.get(pack);
+  if (!plan) {
+    plan = buildStateChamberPlan(pack);
+    STATE_CHAMBER_PLANS.set(pack, plan);
+  }
+  return plan;
+}
+
+function buildStateChamberPlan(pack: CandidacyPack): StateChamberPlan {
   const usps = pack.jurisdictionKey.replace(/^US-/, "");
   const catalog = districtIdentityCatalog();
   const chambers: SeatedChamberPlan[] = [];

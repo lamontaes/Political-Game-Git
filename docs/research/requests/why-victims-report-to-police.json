@@ -3,12 +3,13 @@
   "impact": "shapes-design",
   "lane": "crime and justice",
   "notes": [
-    "Under A131 a crime victim decides whether to report from their own side: the harm of the offense against the trouble of reporting, how close they are to the offender (family at full strength, acquaintance sliding with shared moments), their own past reports and past charges, their temperament (reliability plus conflict) and their age. The weights are placeholders in UNRESEARCHED_REPORTING (src/simulation/crime/reporting.ts), set so a drawn town's totals sit near the 2022 NCVS shares reported: robbery 64.0 percent, assault 40.6 percent, burglary 44.9 percent.",
-    "The same NCVS table does not show that a close tie lowers reporting in raw totals. In 2022, 53.8 percent of domestic violence and 51.5 percent of intimate partner violence was reported against 36.0 percent of violence by strangers; in 2021 the figures were 48.9, 50.7 and 48.4 percent. Those totals mix severity, injury and repeat victimization with the tie itself, so they do not settle the tie's weight with other things held equal.",
-    "Vandalism has no share reported in the NCVS report checked; its harm weight is the smallest placeholder and is not checked against a total."
+    "Under A131 (CTO Ruling 11) a crime victim decides whether to report from their own side: the offense, against the trouble of reporting; whether an offense has been recorded against them before (repeat victimization, sliding with the count); their own past reports and past charges; their temperament (reliability plus conflict) and their age. Knowing the offender is no longer a weight. The weights are placeholders in UNRESEARCHED_REPORTING (src/simulation/crime/reporting.ts), set so a drawn town's totals sit near the 2022 and 2023 NCVS shares reported: robbery 64.0 and 42.4 percent, assault 40.6 and 44.9 percent, burglary 44.9 and 42.2 percent.",
+    "The national survey does not show that a close tie lowers reporting. Nonfatal Domestic Violence, 2003-2012 (NCJ 244697, table 8): intimate partner 56 percent, immediate family 56, other relatives 49, acquaintances 39, strangers 49. Criminal Victimization, 2023 (NCJ 309335, table 4): domestic violence 53.8 percent in 2022 and 47.7 in 2023, against stranger violence 36.0 and 44.9. Those shares check the town's totals by relationship; they never decide one victim.",
+    "Still open: the acquaintance group reports less than strangers or family in the survey, and nothing in the weighing yet produces that; the survey's mix of simple assaults among acquaintances is the likely reason, and the world records no injury or loss for an offense, so harm is read from the offense alone.",
+    "Vandalism has no share reported in the NCVS reports checked; its harm weight sits with other theft (26.4 and 24.8 percent) and is not checked against a total."
   ],
   "priority": "P2",
-  "question": "With the offense's seriousness held equal, how much does a victim's relationship to the offender, their earlier contact with police (as a reporter and as someone charged), their age and their temperament change the odds that they report a crime to police?",
+  "question": "With the offense's seriousness held equal, how much do injury, loss, repeat victimization, the victim's earlier contact with police (as a reporter and as someone charged), their age and their temperament change the odds that they report a crime to police, and why do victims of acquaintances report less?",
   "questionId": "why-victims-report-to-police",
   "relatedQuestionIds": [],
   "requestVersion": "research-request/v1",
@@ -17,6 +18,18 @@
     {
       "source": "Bureau of Justice Statistics, Criminal Victimization, 2022, NCJ 307089, table 4",
       "whatItDidNotSettle": "Raw shares reported by offense and by victim-offender relationship; no model holding seriousness, injury or repeat victimization equal, and no figure for vandalism or for prior police contact."
+    },
+    {
+      "source": "Bureau of Justice Statistics, Criminal Victimization, 2023, NCJ 309335, table 4",
+      "whatItDidNotSettle": "Shares reported for 2022 and 2023 by offense, domestic, stranger, injury and weapon; still raw shares, with no adjusted effect of each circumstance."
+    },
+    {
+      "source": "Bureau of Justice Statistics, Nonfatal Domestic Violence, 2003-2012, NCJ 244697, table 8",
+      "whatItDidNotSettle": "Shares reported by relationship (intimate partner, immediate family, other relative, acquaintance, stranger); not adjusted for injury or repeat victimization."
+    },
+    {
+      "source": "Bureau of Justice Statistics, Repeat Violent Victimization, 2005-14, NCJ 250567",
+      "whatItDidNotSettle": "How common repeat victimization is (a fifth of victims, half of violent victimizations); it gives no share reported for repeat against single victimizations."
     }
   ],
   "title": "Why crime victims report to police, or keep quiet",

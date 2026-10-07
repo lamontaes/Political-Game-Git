@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 
 import { introduceMeasure } from "../legislation";
 import { legislativeBlueprint } from "../legislation-scenarios";
@@ -9,11 +10,6 @@ import { createFormationContext, recordPrinciples } from "../politics";
 import { latestPrivateBelief } from "../queries";
 import type { EntityId, World } from "../types";
 import { SeededRng } from "../rng";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
 import {
   formAmendmentAuthorsViews,
   planFloorAmendment,
@@ -47,15 +43,14 @@ describe("amendment authors plan from saved views", () => {
     });
     const placeKey =
       amendable[new SeededRng(DRAW_SEED).integer(0, amendable.length)]!;
-    const game = generateOpeningLife(
-      prepareOpeningLife({
-        ...DEFAULT_NEW_GAME_SETUP,
-        seed: `${DRAW_SEED}:${placeKey}`,
-        placeKey,
-        startAge: 30,
-        startingLife: "legislative-office",
-      }),
-    ).game!;
+    // The seated chamber and its members, built by the same opening builders,
+    // without a whole life's households and town.
+    const small = smallWorld({
+      place: placeKey,
+      seed: `${DRAW_SEED}:${placeKey}`,
+      offices: ["state-legislature"],
+    });
+    const game = { world: small.world, playerPersonId: small.personId };
     const blueprint = legislativeBlueprint(placeKey);
     const pack = blueprint.pack;
     const chamber = defaultOriginChamber(pack);

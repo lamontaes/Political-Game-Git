@@ -19,7 +19,7 @@ describe("every link that does not run says why", () => {
   });
 });
 
-import web from "../../../data/research/outcome-web/links.json";
+import web from "../../../data/research/outcome-web/links.json" with { type: "json" };
 
 afterEach(() => {
   vi.doUnmock("../../../data/research/outcome-web/links.json");

@@ -13,7 +13,7 @@ import type { NewGameSetup } from "../src/presentation/new-game";
 import { projectLifeRecord } from "../src/presentation/life-record";
 import {
   EPISODE_FAMILIES,
-  LIFE_TRANSITION_HANDLERS,
+  lifeTransitionHandlers,
   adultSituationBank,
   advanceWorld,
   eligibleEpisodeBeats,
@@ -391,7 +391,7 @@ describe("What a childhood answer does to an adult life", () => {
         personId,
       }).world;
       for (let step = 0; step < 14; step += 1) {
-        later = advanceWorld(later, 190, LIFE_TRANSITION_HANDLERS);
+        later = advanceWorld(later, 190, lifeTransitionHandlers());
       }
       return eligibleEpisodeBeats({
         world: later,

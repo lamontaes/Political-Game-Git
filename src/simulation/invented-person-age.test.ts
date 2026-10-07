@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "./dates";
 import { electionProspectInput } from "./election-candidate-prospect";
 import { newMemberInput } from "./governing/office-continuity";
 import { createCandidates } from "./governing/state-governing";
@@ -19,7 +19,15 @@ import {
   stateJurisdictionForKey,
 } from "./life-places";
 import { drawNominee } from "./nationwide-world/presidential-turnover";
-import { SeededRng } from "./rng";
+import { SeededRng, pickDistinct } from "./rng";
+import {
+  materializeTownHousehold,
+  townHouseholdSkeleton,
+  townResidentId,
+} from "./living-world/town-residents";
+import { smallWorld } from "../../tests/fixtures/small-world";
+
+const SMALL_WORLD_SEED = "a161-one-way-to-age";
 import type { IsoDate, World } from "./types";
 import { base, procedure } from "../../tests/fixtures/funded-service-fixture";
 
@@ -191,17 +199,18 @@ describe("A161: one age-window table and one birth-date helper", () => {
   });
 
   it("no producer keeps its own age range: the old per-site computations are gone", () => {
-    // A seeded age folded into a birth-date template, or a year less an age,
-    // is the per-site pattern this change removed. The files still allowed
-    // are not invented by role: the population generator and the town's
-    // residents take ages from their own records (A151), and the agency
-    // Custom Start authors each person's age.
+    // A seeded age folded into a birth-date template, a year less an age,
+    // or a fixed age taken from the year is the per-site pattern this change
+    // removed. Only two files may still count years back from an age: the
+    // helper itself, and the scenario generator's stress profile, which
+    // places birthdays on today, tomorrow and yesterday on purpose to test
+    // the calendar, taking its ages from the table and its dates through the
+    // helper's own `birthDateAtAge`.
     const pattern =
-      /\$\{[^}]*-\s*(age\b|ageAt[A-Za-z]*|[A-Za-z]*[Rr]ng\.integer\()|(yearOf\([^)]*\)|\.slice\(0, 4\)\)|[Yy]ear) - age\b/;
+      /\$\{[^}]*-\s*(age\b|ageAt[A-Za-z]*|[A-Za-z]*[Rr]ng\.integer\()|(yearOf\([^)]*\)|\.slice\(0, 4\)\)|[Yy]ear) - age\b|\.slice\(0, 4\)\) - [1-9]\d\}/;
     const allowed = new Set([
+      "src/simulation/invented-person-age.ts",
       "src/simulation/people.ts",
-      "src/simulation/living-world/town-residents.ts",
-      "src/simulation/civil-personnel-start.ts",
     ]);
     const offenders: string[] = [];
     const walk = (dir: string) => {
@@ -219,5 +228,80 @@ describe("A161: one age-window table and one birth-date helper", () => {
     };
     walk("src");
     expect(offenders).toEqual([]);
+  });
+
+  const STATES = lifePlaceStateIdentities();
+  const [drawn] = pickDistinct(new SeededRng(SMALL_WORLD_SEED), STATES, 1);
+  it(`a small world's people, its town's households and the player are all aged by the table (${drawn!.jurisdictionKey}, seed ${SMALL_WORLD_SEED}, drawn from all 56)`, () => {
+    expect(STATES).toHaveLength(56);
+    const small = smallWorld({
+      place: drawn!.jurisdictionKey,
+      seed: SMALL_WORLD_SEED,
+      people: 12,
+    });
+    const today = small.world.currentDate;
+    const scenario = inventedPersonAgeBounds("scenario-resident");
+    for (const id of small.world.personOrder) {
+      const age = ageOnDate(small.world.people[id]!.birthDate, today);
+      expect(age, id).toBeGreaterThanOrEqual(scenario.minimum);
+      expect(age, id).toBeLessThan(scenario.maximumExclusive);
+    }
+
+    // The town's households: each first adult's age is inside its shape's
+    // window, and every member written out is exactly the skeleton's age on
+    // the day the world began.
+    const town = small.jurisdictionId;
+    let world = small.world;
+    const firstAdult: Record<string, InventedPersonRole> = {
+      alone: "household-adult-alone",
+      housemates: "household-housemate",
+      couple: "household-couple-head",
+      "couple-with-children": "household-single-parent",
+      "parent-with-children": "household-single-parent",
+    };
+    for (let index = 0; index < 12; index += 1) {
+      const skeleton = townHouseholdSkeleton(world, town, index);
+      const role = firstAdult[skeleton.shape];
+      if (skeleton.shape !== "couple-with-children" && role) {
+        const bounds = inventedPersonAgeBounds(role);
+        expect(skeleton.members[0]!.age).toBeGreaterThanOrEqual(bounds.minimum);
+        expect(skeleton.members[0]!.age).toBeLessThan(bounds.maximumExclusive);
+      }
+      world = materializeTownHousehold(world, town, index);
+      skeleton.members.forEach((member, n) => {
+        const person = world.people[townResidentId(world, town, index, n)]!;
+        expect(ageOnDate(person.birthDate, world.startedAt)).toBe(member.age);
+      });
+    }
+
+    // The player's own character is exactly the age they chose, whatever
+    // day the drawn birthday falls on.
+    for (let age = 0; age < 100; age += 7) {
+      const date = inventedPersonBirthDate(
+        new SeededRng(`${SMALL_WORLD_SEED}:${age}`),
+        {
+          role: "player-character",
+          referenceDate: today,
+          age,
+          placement: "drawn-exact-any-day",
+        },
+      );
+      expect(ageOnDate(date, today)).toBe(age);
+    }
+    // A fixed age and day need no seed.
+    expect(
+      inventedPersonBirthDate(null, {
+        role: "seated-colleague",
+        referenceDate: makeIsoDate("2026-10-01"),
+        age: 47,
+        placement: { monthDay: "10-01" },
+      }),
+    ).toBe("1979-10-01");
+    expect(() =>
+      inventedPersonBirthDate(null, {
+        role: "seated-colleague",
+        referenceDate: makeIsoDate("2026-10-01"),
+      }),
+    ).toThrow(/needs a seed/);
   });
 });

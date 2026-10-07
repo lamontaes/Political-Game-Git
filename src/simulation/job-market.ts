@@ -1,4 +1,8 @@
-import { settleTownCompensations } from "./living-world/town-pay";
+import { eventById } from "./event-index";
+import {
+  settleTownCompensations,
+  stateMedianAnnualWage,
+} from "./living-world/town-pay";
 import {
   addDays,
   ageOnDate,
@@ -17,9 +21,11 @@ import {
   organizationProfileAt,
   peopleInHouseholdAt,
   workStatusAt,
+  workRoleAt,
 } from "./life-queries";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
-import { adultStartEmployer, localBusinessWageMinor } from "./local-economy";
+import { localBusinessWageMinor } from "./recorded-employer";
+import { recordedTownEmployer } from "./living-world/town-businesses";
 import { governmentUnit } from "./government-units";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
@@ -36,11 +42,8 @@ import {
   resourceFlowTermsAt,
   resourceFlowTermsHistory,
 } from "./resource-queries";
-import {
-  createWorkCompensation,
-  money,
-  recordResourceFlowTerms,
-} from "./resources";
+import { createWorkCompensation, money } from "./resources";
+import { annualizedRecordedPayMinor } from "./household-pay";
 import { playerTown, townRoster } from "./living-world/town-residents";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
@@ -71,8 +74,8 @@ import type {
  *      public bodies the Census 2025 listing verifies. Nothing here invents an
  *      employer or names one; a public body keeps the name its seated
  *      organization was recorded under.
- *   2. A listing shows actual pay and hours. A national median is kept for
- *      optional detail by the screen, never beside the offer.
+ *   2. A listing shows its saved pay and hours. A vacant public role without
+ *      recorded employer pay uses the approved sourced median estimate.
  *   3. Pay is quoted by the hour or as an annual salary.
  *   4. A person applies, or is put forward by someone they know who works
  *      there; either can be turned down, for a reason tied to the role.
@@ -101,12 +104,19 @@ export const JOB_TIMING = {
 } as const;
 
 /**
- * PLACEHOLDER(research: job-market-calibration). Nobody has researched any
- * of these. They stand in until the question is answered; replace them, do
- * not tune them.
+ * ESTIMATED FROM AVERAGE (research: job-market-calibration). Hiring timings
+ * and the offer spread are game estimates of ordinary U.S. hiring, which the
+ * Job Openings and Labor Turnover Survey shows filling most jobs within a
+ * few weeks; the full-time line follows the 30 hours a week the federal
+ * Affordable Care Act counts as full time. A researched table replaces these
+ * under a new research version; do not tune them.
  */
-export const JOB_MARKET_PLACEHOLDER = {
+export const JOB_MARKET_TIMING_ESTIMATE = {
   researchQuestionId: "job-market-calibration",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "Bureau of Labor Statistics Job Openings and Labor Turnover Survey hiring timing; 30 full-time hours from the Affordable Care Act",
   /**
    * How much more an employer offers when the last listing for the same work
    * closed with nobody hired.
@@ -152,24 +162,24 @@ export const JOB_TURNOVER = {
   monthlySeparationRate: 0.033,
   localGovernmentStaffPerResident: 6_789_100 / 340_110_988,
   /**
-   * PLACEHOLDER(research: job-market-calibration): a business this many days
+   * ESTIMATED FROM AVERAGE (research: job-market-calibration): a business this many days
    * old is still taking on its first staff, so it lists every role it has.
    */
   newEmployerDays: 91,
 } as const;
 
 /**
- * PLACEHOLDER(research: public-employer-roles-and-pay). One role for every
+ * ESTIMATED FROM AVERAGE (research: public-employer-roles-and-pay). One role for every
  * county, city and township government in the country, standing in until
- * ChatGPT says which jobs a public body posts and what it pays. The pay is
- * the published national median for general office clerks (BLS OEWS, May
- * 2025, $21.64 an hour), not this government's pay scale.
+ * ChatGPT says which jobs a public body posts and what it pays. Its pay
+ * rate is read from recorded employer pay when available; otherwise the
+ * sourced occupation/workplace median is an estimated vacant-role offer
+ * (owner approval, October 1, 9:47 p.m.), not this government's pay scale.
  */
-export const PUBLIC_BODY_ROLE_PLACEHOLDER = {
+export const PUBLIC_BODY_ROLE_PROFILE = {
   researchQuestionId: "public-employer-roles-and-pay",
   title: "Office clerk",
   occupationClassification: "occupation:office-clerk",
-  hourlyMinor: 2164,
   weeklyHours: { minimumHours: 37, maximumHours: 40 },
 } as const;
 
@@ -225,18 +235,21 @@ export interface EmployerRole {
 /* Employers                                                                  */
 /* -------------------------------------------------------------------------- */
 
+const SLUGS = new Map<string, string>();
+
 function slug(value: string): string {
-  return value
+  const saved = SLUGS.get(value);
+  if (saved !== undefined) return saved;
+  const result = value
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+  SLUGS.set(value, result);
+  return result;
 }
 
 function annualFromTerms(minor: number, cadence: string): number | null {
-  if (cadence === "schedule:monthly" || cadence === "work:monthly-salary")
-    return minor * 12;
-  if (cadence === "schedule:weekly") return minor * 52;
-  return null;
+  return annualizedRecordedPayMinor(minor, cadence);
 }
 
 function publicBodyOrganizations(
@@ -253,6 +266,54 @@ function publicBodyOrganizations(
     if (organization) ids.push(organization.id);
   }
   return ids;
+}
+
+/** Read an actual employer rate before the approved sourced vacant-role estimate. */
+function publicBodyRolePay(
+  world: World,
+  organizationId: EntityId,
+  jurisdictionId: EntityId,
+): {
+  annualMinor: number;
+  currency: string;
+  source: EmployerRole["source"];
+} | null {
+  const role = PUBLIC_BODY_ROLE_PROFILE;
+  const offeredHours =
+    (role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2;
+  const cutoff = currentLifeCutoff(world);
+  for (const work of world.history.workRelationships) {
+    if (
+      work.organizationId !== organizationId ||
+      (work.compensation !== "paid" && work.compensation !== "mixed") ||
+      work.startedAt > cutoff.asOfDate ||
+      workStatusAt(world, work.id, cutoff)?.status !== "active"
+    )
+      continue;
+    const actualRole = workRoleAt(world, work.id, cutoff);
+    if (actualRole?.occupationClassification !== role.occupationClassification)
+      continue;
+    const pay = staffPay(world, work);
+    const hours = actualRole.timeDemand.expectedWeekly;
+    const actualHours = (hours.minimumHours + hours.maximumHours) / 2;
+    if (!pay || actualHours <= 0) continue;
+    return {
+      annualMinor: Math.round((pay.annualMinor * offeredHours) / actualHours),
+      currency: pay.currency,
+      source: "staff-pay",
+    };
+  }
+  const annualMedian = stateMedianAnnualWage(
+    role.occupationClassification,
+    jurisdictionId,
+  );
+  if (annualMedian === null) return null;
+  // OEWS annual wages use 2,080 hours; preserve the role's recorded offer hours.
+  return {
+    annualMinor: Math.round((annualMedian * 100 * offeredHours) / 40),
+    currency: "USD",
+    source: "public-body-profile",
+  };
 }
 
 /**
@@ -274,7 +335,13 @@ export function townEmployerRoles(
   for (const organizationId of publicBodyOrganizations(world, personId)) {
     const profile = organizationProfileAt(world, organizationId);
     if (!profile?.locationJurisdictionId) continue;
-    const role = PUBLIC_BODY_ROLE_PLACEHOLDER;
+    const role = PUBLIC_BODY_ROLE_PROFILE;
+    const pay = publicBodyRolePay(
+      world,
+      organizationId,
+      profile.locationJurisdictionId,
+    );
+    if (!pay) continue;
     const town = playerTown(world, personId);
     roles.push({
       key: `${organizationId}:${slug(role.title)}`,
@@ -282,15 +349,11 @@ export function townEmployerRoles(
       jurisdictionId: profile.locationJurisdictionId,
       title: role.title,
       occupationClassification: role.occupationClassification,
-      annualMinor: Math.round(
-        role.hourlyMinor *
-          52 *
-          ((role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2),
-      ),
-      currency: "USD",
+      annualMinor: pay.annualMinor,
+      currency: pay.currency,
       weeklyHours: role.weeklyHours,
       salaried: false,
-      source: "public-body-profile",
+      source: pay.source,
       holders: town
         ? Math.max(
             1,
@@ -356,7 +419,7 @@ export function townEmployerRoles(
           minimumHours: hours.minimumHours,
           maximumHours: hours.maximumHours,
         },
-        // PLACEHOLDER(research: job-market-calibration): which work is
+        // ESTIMATED FROM AVERAGE (research: job-market-calibration): which work is
         // salaried. A professional occupation is, and everything else is
         // paid by the hour.
         salaried: role.occupationClassification?.startsWith("profession:")
@@ -481,6 +544,7 @@ function note(
     readonly involved: readonly EntityId[];
     readonly jurisdictionId: EntityId | null;
     readonly summary: string;
+    readonly decisionTraceId?: EntityId;
   },
 ): { world: World; eventId: EntityId } {
   const next = recordWorldEvent(world, {
@@ -499,7 +563,12 @@ function note(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["job-market"],
+    tags: [
+      "job-market",
+      ...(input.decisionTraceId
+        ? [`decision-trace:${input.decisionTraceId}`]
+        : []),
+    ],
     summary: input.summary,
     context: {
       location: null,
@@ -760,7 +829,7 @@ function offerTerms(
     last !== undefined &&
     last.closesAt < world.currentDate &&
     !openingFilled(world, last.id);
-  const spread = wentUnfilled ? 1 + JOB_MARKET_PLACEHOLDER.offerSpread : 1;
+  const spread = wentUnfilled ? 1 + JOB_MARKET_TIMING_ESTIMATE.offerSpread : 1;
   const weeklyHours = role.weeklyHours;
   if (role.salaried) {
     return {
@@ -806,7 +875,7 @@ export function openWeeklyListings(world: World, personId: EntityId): World {
       role,
       minimumHourlyMinorFor(next, role.jurisdictionId, next.currentDate),
     );
-    // PLACEHOLDER(research: job-market-calibration): salaried work is
+    // ESTIMATED FROM AVERAGE (research: job-market-calibration): salaried work is
     // advertised for the longest window, hourly work for half of it.
     const closesAt = addDays(
       next.currentDate,
@@ -831,7 +900,7 @@ export function openWeeklyListings(world: World, personId: EntityId): World {
         kind: "authored",
         note:
           role.source === "public-body-profile"
-            ? `${PROVENANCE_NOTE} The role and its pay are the placeholder public-body profile (research: ${PUBLIC_BODY_ROLE_PLACEHOLDER.researchQuestionId}).`
+            ? `Opening, answer and start timing are drawn from the placeholder calibration in job-market.ts. The role remains the public-body profile (research: ${PUBLIC_BODY_ROLE_PROFILE.researchQuestionId}). ESTIMATE FROM SOURCE: its vacant-role offer uses the BLS May 2025 OEWS occupation median for the recorded workplace's state or territory, with the source reader's national fallback where that cell is withheld (https://www.bls.gov/oes/); occupation ${role.occupationClassification}, workplace ${role.jurisdictionId}, annual base ${role.annualMinor} USD cents at the stated hours. Recorded employer pay replaces this estimate when read; this is not an observed employer pay scale.`
             : PROVENANCE_NOTE,
       },
     });
@@ -989,8 +1058,8 @@ function submitApplication(
   const decisionAt = addDays(
     world.currentDate,
     route === "introduced"
-      ? JOB_MARKET_PLACEHOLDER.decisionDays.minimum
-      : JOB_MARKET_PLACEHOLDER.decisionDays.maximum,
+      ? JOB_MARKET_TIMING_ESTIMATE.decisionDays.minimum
+      : JOB_MARKET_TIMING_ESTIMATE.decisionDays.maximum,
   );
   const employer = organizationName(world, opening.organizationId);
   const introducer = introducerPersonId
@@ -1047,6 +1116,7 @@ function addStep(
     readonly agreedWeeklyHours?: number | null;
     readonly workRelationshipId?: EntityId | null;
     readonly summary: string;
+    readonly decisionTraceId?: EntityId;
   },
 ): World {
   const index = applicationSteps(world, application.id).length;
@@ -1063,6 +1133,7 @@ function addStep(
     ],
     jurisdictionId: opening.jurisdictionId,
     summary: step.summary,
+    ...(step.decisionTraceId ? { decisionTraceId: step.decisionTraceId } : {}),
   });
   return append(noted.world, "jobApplicationSteps", "job-application-step", {
     stableKey,
@@ -1076,6 +1147,127 @@ function addStep(
     workRelationshipId: step.workRelationshipId ?? null,
     eventId: noted.eventId,
   });
+}
+
+/** Work a resident looks for at a recorded employer outside their town. */
+export interface WorkElsewhere {
+  readonly personId: EntityId;
+  /** The employer, recorded in the world at `jurisdictionId`. */
+  readonly organizationId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly title: string;
+  readonly occupationClassification: OccupationClassification | null;
+  readonly pay: JobPayTerms;
+  readonly weeklyHours: {
+    readonly minimumHours: number;
+    readonly maximumHours: number;
+  };
+  /** Where the role and its pay come from, kept on the opening. */
+  readonly note: string;
+  /** Names the review, so the same review writes nothing twice. */
+  readonly round: string;
+  /**
+   * Whether the work needs no credential or experience, so the employer
+   * hires somebody who has not done it before. Read from the occupation's
+   * record by the caller.
+   */
+  readonly needsNoExperience: boolean;
+}
+
+/**
+ * A resident's search for work elsewhere (A135): the opening at the employer
+ * elsewhere, their application, and the employer's answer on the same day.
+ *
+ * Nothing is drawn. The employer offers when the applicant has done this
+ * line of work before (`daysInLine`) or the work needs no credential or
+ * experience, and otherwise declines for want of experience. The offer
+ * waits the job market's longest reply window and starts the day it is
+ * accepted: somebody who takes it is moving for it. Refuses the played
+ * person, who applies for themselves.
+ */
+export function offerWorkElsewhere(
+  world: World,
+  input: WorkElsewhere,
+): JobMarketResult {
+  const refusal = residentCanAct(world, input.personId);
+  if (refusal) return { world, ok: false, message: refusal };
+  const openingKey = `job-opening:elsewhere:${input.organizationId}:${input.personId}:${input.round}`;
+  if (
+    (world.history.jobOpenings ?? []).some(
+      (row) => row.stableKey === openingKey,
+    )
+  )
+    return { world, ok: false, message: "This search was already made." };
+  const today = world.currentDate;
+  // Hourly pay is never below the minimum wage where the work is.
+  const minimum = minimumHourlyMinorFor(world, input.jurisdictionId, today);
+  const pay: JobPayTerms =
+    input.pay.basis === "hourly" && input.pay.amount.minorUnits < minimum
+      ? { ...input.pay, amount: money(minimum, input.pay.amount.currency) }
+      : input.pay;
+  let next = append(world, "jobOpenings", "job-opening", {
+    stableKey: openingKey,
+    organizationId: input.organizationId,
+    jurisdictionId: input.jurisdictionId,
+    title: input.title,
+    occupationClassification: input.occupationClassification,
+    pay,
+    weeklyHours: input.weeklyHours,
+    schedule: null,
+    qualifications: null,
+    earliestStartAt: null,
+    opensAt: today,
+    closesAt: addDays(today, JOB_TIMING.recruitmentWindowDays.maximum),
+    provenance: { kind: "authored", note: `${PROVENANCE_NOTE} ${input.note}` },
+  });
+  const opening = next.history.jobOpenings!.at(-1)!;
+  const stableKey = `job-application:${opening.id}:${input.personId}`;
+  const employer = organizationName(next, opening.organizationId);
+  const name = residentName(next, input.personId);
+  next = note(next, {
+    key: stableKey,
+    type: "applied",
+    occurredAt: today,
+    personId: input.personId,
+    involved: [opening.organizationId],
+    jurisdictionId: opening.jurisdictionId,
+    summary: `${name} applied to ${employer} for ${input.title.toLowerCase()} work.`,
+  }).world;
+  next = append(next, "jobApplications", "job-application", {
+    stableKey,
+    openingId: opening.id,
+    personId: input.personId,
+    route: "applied",
+    introducerPersonId: null,
+    submittedAt: today,
+    decisionAt: today,
+  });
+  const application = next.history.jobApplications!.at(-1)!;
+  const experienced =
+    daysInLine(next, input.personId, opening, today) > 0 ||
+    input.needsNoExperience;
+  if (!experienced)
+    return {
+      world: addStep(next, application, {
+        kind: "declined",
+        occurredAt: today,
+        reason: "They wanted someone who had done this work before.",
+        summary: `${employer} turned down ${name}: they wanted someone who had done this work before.`,
+      }),
+      ok: true,
+      message: `${employer} turned ${name} down.`,
+    };
+  const replyBy = addDays(today, JOB_TIMING.offerReplyDays.maximum);
+  next = addStep(next, application, {
+    kind: "offered",
+    occurredAt: today,
+    replyBy,
+    startAt: today,
+    agreedWeeklyHours:
+      pay.basis === "hourly" ? input.weeklyHours.maximumHours : null,
+    summary: `${employer} offered ${name} ${input.title.toLowerCase()} work in ${next.jurisdictions[input.jurisdictionId]?.name ?? "another place"} at ${payPhrase(pay)}. They asked for an answer by ${spoken(replyBy)}.`,
+  });
+  return { world: next, ok: true, message: `${employer} made an offer.` };
 }
 
 /** The offer an application is answering to, if it has one. */
@@ -1115,7 +1307,7 @@ function holdsFullTimeWork(world: World, personId: EntityId): boolean {
       entry.relationship.kind.startsWith("employment:") &&
       entry.relationship.kind !== "employment:education" &&
       entry.role.timeDemand.expectedWeekly.minimumHours >=
-        JOB_MARKET_PLACEHOLDER.fullTimeHours,
+        JOB_MARKET_TIMING_ESTIMATE.fullTimeHours,
   );
 }
 
@@ -1132,10 +1324,14 @@ export function holdsWork(world: World, personId: EntityId): boolean {
  * Days the person has done this line of work, from their recorded jobs: the
  * same title, or the same occupation when the opening names one.
  */
-function daysInLine(
+/**
+ * Days `personId` has worked, by `on`, in the opening's line of work: a job
+ * with the same title or occupation. What an employer reads as experience.
+ */
+export function daysInLine(
   world: World,
   personId: EntityId,
-  opening: JobOpeningRecord,
+  opening: Pick<JobOpeningRecord, "title" | "occupationClassification">,
   on: IsoDate,
 ): number {
   let days = 0;
@@ -1210,7 +1406,8 @@ function decide(world: World, application: JobApplicationRecord): World {
   const played = isPlayed(world, application.personId);
   const name = residentName(world, application.personId);
   if (
-    opening.weeklyHours.minimumHours >= JOB_MARKET_PLACEHOLDER.fullTimeHours &&
+    opening.weeklyHours.minimumHours >=
+      JOB_MARKET_TIMING_ESTIMATE.fullTimeHours &&
     holdsFullTimeWork(world, application.personId)
   )
     return addStep(world, application, {
@@ -1242,7 +1439,7 @@ function decide(world: World, application: JobApplicationRecord): World {
         : `${employer} chose another applicant over ${name} for the ${opening.title.toLowerCase()} job.`,
     });
   const leaving = holdsWork(world, application.personId);
-  // PLACEHOLDER(research: job-market-calibration): salaried work gives the
+  // ESTIMATED FROM AVERAGE (research: job-market-calibration): salaried work gives the
   // long end of the reply window, hourly work the short end.
   const replyBy = addDays(
     on,
@@ -1253,8 +1450,8 @@ function decide(world: World, application: JobApplicationRecord): World {
   const leadStart = addDays(
     replyBy,
     leaving
-      ? JOB_MARKET_PLACEHOLDER.startLeadDays.maximum
-      : JOB_MARKET_PLACEHOLDER.startLeadDays.minimum,
+      ? JOB_MARKET_TIMING_ESTIMATE.startLeadDays.maximum
+      : JOB_MARKET_TIMING_ESTIMATE.startLeadDays.minimum,
   );
   const startAt =
     opening.earliestStartAt && opening.earliestStartAt > leadStart
@@ -1292,8 +1489,15 @@ export function answerJobOfferAsResident(
   world: World,
   applicationId: EntityId,
   accept: boolean,
+  decisionTraceId?: EntityId,
 ): JobMarketResult {
-  return answerOffer(world, applicationId, accept, residentCanAct);
+  return answerOffer(
+    world,
+    applicationId,
+    accept,
+    residentCanAct,
+    decisionTraceId,
+  );
 }
 
 function answerOffer(
@@ -1301,12 +1505,31 @@ function answerOffer(
   applicationId: EntityId,
   accept: boolean,
   canAct: (world: World, personId: EntityId) => string | null,
+  decisionTraceId?: EntityId,
 ): JobMarketResult {
   const application = (world.history.jobApplications ?? []).find(
     (row) => row.id === applicationId,
   );
   if (!application)
     return { world, ok: false, message: "There is no such application." };
+  if (decisionTraceId) {
+    const trace = world.history.decisionTraces.find(
+      (record) => record.id === decisionTraceId,
+    );
+    if (
+      !trace ||
+      trace.context.actorPersonId !== application.personId ||
+      trace.context.decisionType !== "people.job-offer-answer" ||
+      trace.context.stableKey !== `goal-offer:${applicationId}` ||
+      trace.outcomeKind !== "selected" ||
+      trace.selectedOptionKey !== (accept ? "accept" : "hold-out")
+    )
+      return {
+        world,
+        ok: false,
+        message: "The saved decision does not authorize this answer.",
+      };
+  }
   const refusal = canAct(world, application.personId);
   if (refusal) return { world, ok: false, message: refusal };
   const played = isPlayed(world, application.personId);
@@ -1324,6 +1547,7 @@ function answerOffer(
     return {
       world: addStep(world, application, {
         kind: "refused",
+        decisionTraceId,
         occurredAt: world.currentDate,
         summary: played
           ? `You turned down ${employer}'s offer.`
@@ -1335,6 +1559,7 @@ function answerOffer(
   return {
     world: addStep(world, application, {
       kind: "accepted",
+      decisionTraceId,
       occurredAt: world.currentDate,
       startAt: latest.startAt,
       summary: played
@@ -1423,6 +1648,17 @@ function beginWork(world: World, applicationId: EntityId): JobMarketResult {
   const application = (world.history.jobApplications ?? []).find(
     (row) => row.id === applicationId,
   )!;
+  const acceptedStep = applicationSteps(world, applicationId).find(
+    (step) => step.kind === "accepted",
+  );
+  const acceptance = acceptedStep?.eventId
+    ? eventById(world, acceptedStep.eventId)
+    : null;
+  const traceTag = acceptance?.tags.find((tag) =>
+    tag.startsWith("decision-trace:"),
+  );
+  const decisionTraceId = traceTag?.slice("decision-trace:".length) as
+    EntityId | undefined;
   const opening = jobOpening(world, application.openingId)!;
   const offer = applicationOffer(world, applicationId)!;
   const employer = organizationName(world, opening.organizationId);
@@ -1475,6 +1711,7 @@ function beginWork(world: World, applicationId: EntityId): JobMarketResult {
   });
   next = addStep(next, application, {
     kind: "started",
+    ...(decisionTraceId ? { decisionTraceId } : {}),
     occurredAt: world.currentDate,
     workRelationshipId: work.id,
     summary: isPlayed(world, application.personId)
@@ -1556,7 +1793,7 @@ function payWeekly(
 
 /**
  * A grown-up new life arrives holding a job in their own town, at the local
- * business `adultStartEmployer` chooses from their own situation, rather
+ * business `recordedTownEmployer` chooses from their own situation, rather
  * than between jobs. It is an ordinary job of this market: paid each week,
  * raised by a minimum-wage law, and left like any other.
  *
@@ -1578,7 +1815,7 @@ export function hireAtAdultStart(
   if (!person || ageOnDate(person.birthDate, world.currentDate) < 19)
     return world;
   if (activeWorkRelationshipsAt(world, person.id).length > 0) return world;
-  const employer = adultStartEmployer(world, person.id, input.jurisdictionId);
+  const employer = recordedTownEmployer(world, person.id, input.jurisdictionId);
   if (!employer) return world;
   const lastEnded = world.history.workRelationships
     .filter((work) => work.personId === person.id)
@@ -1628,6 +1865,8 @@ export function hireAtAdultStart(
   const monthly = localBusinessWageMinor(
     employer.kind,
     input.jurisdictionId,
+    next,
+    work.id,
   ).monthlyMinor;
   const weekly = weeklyPayAtHire(
     next,
@@ -1844,7 +2083,7 @@ function advanceApplication(
       const startAt = expectedStart(next, application.id)!;
       const missedOn = addDays(
         startAt,
-        JOB_MARKET_PLACEHOLDER.missedStartGraceDays,
+        JOB_MARKET_TIMING_ESTIMATE.missedStartGraceDays,
       );
       if (today <= missedOn) return next;
       const occurredAt = addDays(missedOn, 1);
@@ -1858,8 +2097,8 @@ function advanceApplication(
         const newStart = addDays(
           occurredAt,
           holdsWork(next, application.personId)
-            ? JOB_MARKET_PLACEHOLDER.followUpStartDays.maximum
-            : JOB_MARKET_PLACEHOLDER.followUpStartDays.minimum,
+            ? JOB_MARKET_TIMING_ESTIMATE.followUpStartDays.maximum
+            : JOB_MARKET_TIMING_ESTIMATE.followUpStartDays.minimum,
         );
         next = addStep(next, application, {
           kind: "followed-up",
@@ -1919,75 +2158,6 @@ export function settleJobPay(world: World, personId: EntityId): World {
   );
 }
 
-/**
- * A minimum-wage law's effective date raises the pay of every job paid below
- * the new floor, from the first unpaid week that begins on or after it. Each
- * rise is recorded as a change of the flow's pay terms that names the law. A
- * law that lowers or repeals the floor cuts nobody's pay. Only pay from this
- * job market (`job-pay:`) is read; a week already paid keeps the pay it had.
- *
- * NOT MODELED: back pay, and pay changes inside a week (a week is paid at the
- * terms in force when it begins).
- */
-function raiseWeeklyPayToMinimum(
-  world: World,
-  work: WorkRelationship,
-  flow: World["history"]["resourceFlows"][number],
-  firstUnpaidWeek: number,
-): World {
-  if (!flow.stableKey.startsWith(PAY_KEY_PREFIX)) return world;
-  const role = activeRole(world, work);
-  if (!role) return world;
-  const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
-  const hours = (minimumHours + maximumHours) / 2;
-  if (hours <= 0) return world;
-  const place = workplaceJurisdictionId(world, work);
-  let next = world;
-  let current = resourceFlowTermsAt(next, flow.id, {
-    asOfDate: next.currentDate,
-    historySequenceExclusive: next.history.nextSequence,
-  });
-  if (current?.status !== "active" || current.cadenceKind !== "schedule:weekly")
-    return world;
-  for (
-    let week = firstUnpaidWeek;
-    week < firstUnpaidWeek + CATCH_UP_LIMIT_WEEKS;
-    week += 1
-  ) {
-    const weekStart = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
-    if (weekStart > next.currentDate) break;
-    const setting = minimumWageSettingAt(next, place, weekStart);
-    if (!setting) continue;
-    const weekly = Math.round(setting.hourlyMinor * hours);
-    if (weekly <= current.amount.minorUnits) continue;
-    const enactment = setting.measureId
-      ? (next.history.legislativeEnactments ?? []).find(
-          (row) => row.measureId === setting.measureId,
-        )
-      : undefined;
-    const rate = `$${(setting.hourlyMinor / 100).toFixed(2)} an hour`;
-    const law = setting.designation ?? `The ${setting.level} minimum wage`;
-    next = recordResourceFlowTerms(next, {
-      stableKey: `${flow.stableKey}:minimum-wage:${weekStart}`,
-      resourceFlowId: flow.id,
-      effectiveAt: weekStart,
-      status: "active",
-      amount: money(weekly, current.amount.currency),
-      cadenceKind: current.cadenceKind,
-      reason: `${law} raised the ${setting.level} minimum wage to ${rate}.`,
-      provenance: enactment?.outcomeEventId
-        ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
-        : {
-            kind: "authored",
-            note: `${PROVENANCE_NOTE} Raised to the ${setting.level} minimum wage, ${rate}.`,
-          },
-      supersedesTermsId: current.id,
-    });
-    current = next.history.resourceFlowTerms.at(-1)!;
-  }
-  return next;
-}
-
 function settleRecordedJobPay(
   world: World,
   personId: EntityId,
@@ -2031,7 +2201,6 @@ function settleRecordedJobPay(
           ) + 1
         : 1;
     const firstWeek = Math.max(paidWeeks + 1, firstNewWeek);
-    next = raiseWeeklyPayToMinimum(next, work, flow, firstWeek);
     for (
       let week = firstWeek;
       week < firstWeek + CATCH_UP_LIMIT_WEEKS;
