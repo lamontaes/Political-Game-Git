@@ -17,6 +17,7 @@ import {
 } from "../presentation/title-ambient";
 import {
   civicTitlePictures,
+  pictureForChosenState,
   rotationForSave,
   type TitlePicture,
 } from "../presentation/title-civic-rotation";
@@ -152,6 +153,7 @@ export function AmbientTableau({
   hero = null,
   recent = null,
   still = false,
+  chosenState = null,
   children,
 }: {
   readonly resolved?: TitlePresentation | null;
@@ -177,6 +179,11 @@ export function AmbientTableau({
    * form is the ghosting the owner saw, and it reads as an error.
    */
   readonly still?: boolean;
+  /**
+   * The postal code of the state a new life is being made in (OW-4). Once the
+   * creator has one, the backdrop is that place's own, never the White House.
+   */
+  readonly chosenState?: string | null;
   readonly children: (roomDescription: string) => ReactNode;
 }) {
   const pictures = useMemo(() => titlePictures(), []);
@@ -187,6 +194,18 @@ export function AmbientTableau({
       PRODUCTION_VISUAL_LIBRARY,
       pictures,
     );
+    if (chosenState) {
+      const own = pictureForChosenState(pictures, chosenState);
+      const placeFree = ambient.filter(
+        (room) => room.sceneId !== "picture:white-house-exterior",
+      );
+      if (!own) return placeFree;
+      const lead = pictureRoom(own);
+      return [
+        lead,
+        ...placeFree.filter((room) => room.sceneId !== lead.sceneId),
+      ];
+    }
     if (recent) {
       const { first } = rotationForSave(pictures, recent.playerRole);
       if (!first) return ambient;
@@ -203,7 +222,7 @@ export function AmbientTableau({
       label: tableau.label,
     };
     return [first, ...ambient.filter((room) => room.sceneId !== first.sceneId)];
-  }, [resolved, recent, pictures]);
+  }, [resolved, recent, pictures, chosenState]);
 
   /**
    * The returning player in front of their place. Only on the title itself:
@@ -212,9 +231,9 @@ export function AmbientTableau({
    */
   const leadHero = useMemo(() => {
     const lead = cycle[0]?.picture;
-    if (!recent || !lead || !peoplePackAvailable()) return null;
+    if (chosenState || !recent || !lead || !peoplePackAvailable()) return null;
     return titlePictureHero(recent, lead.place);
-  }, [cycle, recent]);
+  }, [cycle, recent, chosenState]);
 
   const reducedMotion = usePrefersReducedMotion();
   const step = useAmbientStep(cycle.length > 1 && !still);

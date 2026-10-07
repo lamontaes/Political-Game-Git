@@ -150,6 +150,7 @@ export function SetupScreen({
   onRequestRecordedLife,
   onBack,
   onBegin,
+  onStateChange,
   problem,
 }: {
   readonly seed: string;
@@ -167,6 +168,8 @@ export function SetupScreen({
     stagedGame?: NewGame,
   ) => void;
   readonly problem: string | null;
+  /** The chosen state's postal code, or null, so the backdrop can follow it. */
+  readonly onStateChange?: (usps: string | null) => void;
 }) {
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
@@ -181,6 +184,13 @@ export function SetupScreen({
   const [location, setLocation] = useState<CreatorLocationDraft>(() =>
     creatorLocationFromPlaceKey(initialSetup?.placeKey),
   );
+  const chosenUsps =
+    lifePlaceStateIdentities().find(
+      (state) => state.jurisdictionKey === location.stateJurisdictionKey,
+    )?.usps ?? null;
+  useEffect(() => {
+    onStateChange?.(chosenUsps);
+  }, [chosenUsps, onStateChange]);
   const matchingStates = useMemo(() => {
     const needle = stateQuery.trim().toLowerCase();
     const identities = lifePlaceStateIdentities();

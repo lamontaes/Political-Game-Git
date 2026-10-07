@@ -294,3 +294,16 @@ export function rotationForSave(
     rest: first ? pictures.filter((picture) => picture !== first) : pictures,
   };
 }
+
+/**
+ * The picture behind a new life once its state is chosen: that state's own
+ * capitol when the build paints one (OW-4). Null when it does not, so the
+ * caller falls back to its place-free rotation rather than a federal picture.
+ */
+export function pictureForChosenState(
+  pictures: readonly TitlePicture[],
+  usps: string,
+): TitlePicture | null {
+  const place = `state-capitol-${usps.toLowerCase()}`;
+  return pictures.find((picture) => picture.place === place) ?? null;
+}
