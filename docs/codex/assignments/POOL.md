@@ -594,7 +594,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1188 | WIP Team 9 research: costs, fertility, numbering and shelter | PR #1188 (codex/team-9-transfer-wip) | open: stacked on codex/team-9-bill-number-research: retarget to main; draft: finish it or close it as superseded | |
 | RS-1203 | Review remaining canonical scene spots | PR #1203 (codex/sept29-team7-remaining-spots) | open: draft: finish it or close it as superseded | |
 | RS-1220 | Preserve fresh monthly speed baseline and scoped caller evidence | PR #1220 (codex/team-4-monthly-speed-next) | done (superseded by M10; no active allocation) | |
-| RS-1222 | List exact regional picture admissions for existing-bank reconciliation | PR #1222 (codex/team-8-regional-picture-gaps) | open: draft: finish it or close it as superseded | |
+| RS-1222 | List exact regional picture admissions for existing-bank reconciliation | PR #1222 (codex/team-8-regional-picture-gaps) | done (superseded by regional-opening #281 and place-id research #451; closed Oct 7) | Session 45 |
 | RS-1223 | Add ten law-place art candidate sets for owner review | PR #1223 (codex/sept30-team7-law-places) | done (superseded by C7; art preserved for later owner review) | S50 |
 | RS-1224 | Preserve Floral and random-place profiles plus slow-test baselines | PR #1224 (codex/team-4-daily-speed-profile) | done (superseded by M10; no active allocation) | |
 | RS-1226 | Add regional street and home art candidates for review | PR #1226 (codex/team7-regional-priority) | done (superseded by C7; art preserved for later owner review) | |
