@@ -168,3 +168,36 @@
   color: #55605a;
   font-style: italic;
 }
+
+/* The live checkpoint browser uses the inspector's existing diagnostic chrome. */
+.observer-dev {
+  max-width: 100rem;
+  margin: auto;
+  padding: 1rem;
+}
+.observer-dev__record {
+  max-height: 38vh;
+  overflow: auto;
+  margin-top: 1rem;
+  border: 1px solid currentColor;
+  padding: 1rem;
+}
+.observer-dev__roots {
+  max-height: 20vh;
+  overflow: auto;
+}
+
+.observer-dev {
+  color: #2b2419;
+  background: #f8f9f7;
+}
+.observer-dev > h1 {
+  font-size: 1.5rem;
+  max-width: none;
+}
+.observer-dev :is(.game-note, .pg-observer-clock, .ui-link, .ui-action) {
+  color: inherit;
+}
+.observer-dev .pg-observer-clock [data-testid="observer-date"] {
+  color: inherit;
+}

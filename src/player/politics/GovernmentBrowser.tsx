@@ -124,7 +124,6 @@ export function GovernmentBrowser({
         <RepresentedBy
           world={world}
           rows={view.representedBy}
-          homeLabel={base.home.label}
           onOpenPerson={onOpenPerson}
         />
       ) : null}
@@ -365,7 +364,6 @@ function SeatHolder({
           world={world}
           personId={personId}
           className="pg-opening-roster-figure"
-          wear="formal"
         />
         {button}
       </div>
@@ -527,12 +525,10 @@ function EntryBody({
 function RepresentedBy({
   world,
   rows,
-  homeLabel,
   onOpenPerson,
 }: {
   readonly world: World;
   readonly rows: readonly RepresentationRow[];
-  readonly homeLabel: string;
   readonly onOpenPerson: (personId: EntityId) => void;
 }) {
   return (
@@ -542,16 +538,12 @@ function RepresentedBy({
       data-testid="government-represented-by"
     >
       <h3 id="pg-government-represented">Represented by · your districts</h3>
-      <p className="pg-government-entry-detail">
-        Where your home, {homeLabel}, is represented. This follows where you
-        live, not where you are now or the place you are browsing.
-      </p>
       <ul>
         {rows.map((row) => (
           <li key={row.key} data-testid={`government-represented-${row.key}`}>
             <span className="pg-government-entry-title">{row.office}</span>
             <span className="pg-government-seat">
-              {row.district ?? "District not recorded"}
+              {row.district ?? "See the district note below"}
             </span>
             {row.holders.map((holder) => (
               <SeatHolder

@@ -1488,15 +1488,15 @@
     },
     {
       "chamberName": "American Samoa Senate",
-      "reason": "Revised Constitution of American Samoa read (asbar.org copy, https://asbar.org/revised-constitution-of-american-samoa/): art. II has only a one-subject/title rule and 'each house ... determine its rules of procedure'; no original-purpose or germaneness clause. Senate rules not found online (legislature domains did not resolve; americansamoa.gov Fono page has no rules). Stays unknown."
+      "reason": "ESTIMATED FROM AVERAGE — yes; basis: 83 of 83 state and territorial chambers with primary text read in this file require germane amendments; similar places used: Puerto Rico and the Northern Mariana Islands, whose two chambers each record yes from primary text. The Revised Constitution of American Samoa, art. II, supplies a one-subject/title rule and gives each house authority to determine its procedure; the recorded American Samoa Senate row applies the corpus average because the cited constitutional text does not state an amendment-germaneness rule."
     },
     {
       "chamberName": "American Samoa House of Representatives",
-      "reason": "Same as American Samoa Senate: constitution read with no amendment/original-purpose clause; House rules not found online. Stays unknown."
+      "reason": "ESTIMATED FROM AVERAGE — yes; basis: 83 of 83 state and territorial chambers with primary text read in this file require germane amendments; similar places used: Puerto Rico and the Northern Mariana Islands, whose two chambers each record yes from primary text. The same constitutional evidence and corpus basis used for the recorded American Samoa Senate row support the recorded House estimate."
     },
     {
       "chamberName": "Legislature of the Virgin Islands",
-      "reason": "legvi.org returns Cloudflare 522 (origin timeout) for the home page and rules path; legislature rules not read. Stays unknown."
+      "reason": "ESTIMATED FROM AVERAGE — yes; basis: 83 of 83 state and territorial chambers with primary text read in this file require germane amendments; similar places used: Puerto Rico and the Northern Mariana Islands, whose two chambers each record yes from primary text. The recorded Legislature of the Virgin Islands row applies that corpus average; its cited 12/20/2023 report establishes amendment practice but does not resolve whether chamber rules require germaneness."
     },
     {
       "chamberName": "Arizona Senate",

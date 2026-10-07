@@ -1,0 +1,36 @@
+{
+  "phase": "P1",
+  "piece": "ordinary-world legislature queue registry and next-day campaign staff closure",
+  "testedSourceHead": "b36ba9951464bcc9a156c4d2ef85e0a2c4beb7b4",
+  "receivedProducerHead": "3a248442ba2fe1b0efea5f4dca25cfa53c36ee4d",
+  "runtime": {
+    "command": "npx vitest run src/simulation/world-time-queue-registry.test.ts src/simulation/speech-reception.test.ts",
+    "exitCode": 0,
+    "filesPassed": 2,
+    "testsPassed": 2,
+    "receipt": "runtime.txt"
+  },
+  "focusedTyping": {
+    "errors": 0,
+    "roots": 5,
+    "receipt": "focused-typing.txt"
+  },
+  "evidenceKind": "authored focused fixtures using canonical writers and serialization",
+  "doesNotEstablish": [
+    "natural player clerk or election-night route",
+    "two-place visual evidence",
+    "complete daily-dispatch replacement",
+    "opening queue integration",
+    "annual speed"
+  ],
+  "remainingOwners": {
+    "timeWorkDispatchAndReconciliation": "Session 1",
+    "openingPreparation": "Session 7"
+  },
+  "cloudStorageOverride": "CTO6009033958 verified cloud-only exemption; scoped commands, no deletion or global policy change",
+  "configuredTyping": {
+    "exitCode": 0,
+    "unresolvedTestImports": 0,
+    "receipt": "configured-typing.txt"
+  }
+}

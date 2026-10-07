@@ -1,7 +1,8 @@
+import { publicTaxAccountEvidenceForIdentity } from "../tax-policy";
 import { bindFederalClaimsForPaidStateInstallment } from "../federal-state-program-payments";
 import { farmProgramPaymentAt } from "../federal-farm-payments";
 import { createStableId } from "../ids";
-import { addDays, daysBetween } from "../dates";
+import { addDays, daysBetween, spokenDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
 import { resourcePositionAt } from "../resource-queries";
@@ -16,6 +17,9 @@ import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
 import { recordPaidTransitProgramService } from "./public-program-transit";
 import { scheduleResidentServiceRequests } from "../public-service-producer";
 import { reviewGoverningOutturns } from "./state-governing";
+import { PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS } from "../law-consequence-module-manifest";
+import { applyPublicProgramCapacityOutturnReceivers } from "../public-program-capacity-outturn";
+import type { PublicProgramCapacityOutturnReceiverRegistration } from "../public-program-capacity-outturn";
 import {
   appropriationCommittedMinorUnits,
   appropriationPinnedPaymentsMinorUnits,
@@ -34,7 +38,6 @@ import { currentStateExecutiveHolders } from "../nationwide-world/state-executiv
 import {
   assertPublicGovernmentIdentity,
   publicGovernmentIdentityForRecord,
-  publicGovernmentOrganizationKey,
   samePublicGovernmentIdentity,
 } from "../public-government-identity";
 import {
@@ -455,6 +458,11 @@ function stripEdition<T extends { readonly edition: string }>(
   ) as Omit<T, "edition">;
 }
 
+/** A program key's family in plain words: "behavioral health crisis response". */
+function programWords(programKey: string): string {
+  return (programKey.split(":")[0] ?? programKey).replace(/[-_.]+/g, " ");
+}
+
 /** Records spending authority on an existing public account. Not cash. */
 export function recordProgramAppropriation(
   world: World,
@@ -476,11 +484,8 @@ export function recordProgramAppropriation(
   assertPublicGovernmentIdentity(world, identity);
   if (
     identity.kind === "local-government" &&
-    !world.history.organizations.some(
-      (organization) =>
-        organization.id === input.accountOrganizationId &&
-        organization.stableKey === publicGovernmentOrganizationKey(identity),
-    )
+    publicTaxAccountEvidenceForIdentity(world, identity)?.organizationId !==
+      input.accountOrganizationId
   )
     throw new Error(
       "A local appropriation must use that government's canonical public account.",
@@ -502,7 +507,9 @@ export function recordProgramAppropriation(
       participant: null,
       visibility: "public",
       programKey: input.programKey,
-      summary: `${dollars(input.amount)} may be committed for ${input.programKey} from ${input.availableFrom} through ${input.availableThrough}. Authority to spend is not cash.`,
+      // Read aloud by news and memory: words, never the program key or an
+      // ISO date (CTO 8:13 p.m. Oct 6).
+      summary: `${dollars(input.amount)} is set aside for ${programWords(input.programKey)} from ${spokenDate(input.availableFrom)}, through ${spokenDate(input.availableThrough)}.`,
     },
     { kind: "appropriation", ...stripEdition(input) },
   );
@@ -988,6 +995,7 @@ export function settleProgramInstallment(
   world: World,
   commitmentId: EntityId,
   index: number,
+  receivers: readonly PublicProgramCapacityOutturnReceiverRegistration[] = PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
 ): { world: World; installment: PublicProgramInstallmentRecord } {
   const commitment = commitmentById(world, commitmentId);
   if (!commitment) throw new Error("No such program commitment.");
@@ -1137,8 +1145,17 @@ export function settleProgramInstallment(
       jurisdictionId: commitment.jurisdictionId,
       provenance: { kind: "simulated", sourceEntityIds: [installment.eventId] },
     });
-  else if (!reason && plan.purpose === "maintenance")
+  else if (!reason && plan.purpose === "maintenance") {
+    const beforeOutturn = next;
     next = recordCapacityOutturn(next, commitment, installment);
+    next = applyPublicProgramCapacityOutturnReceivers(
+      beforeOutturn,
+      next,
+      commitment,
+      installment,
+      receivers,
+    );
+  }
   next = closeWorkIfDone(next, commitment);
   if (installment.status === "posted")
     next = bindFederalClaimsForPaidStateInstallment(next, installment);
@@ -1352,6 +1369,7 @@ function resolved(
 export function programInstallmentHandler(
   world: World,
   due: FutureDueItem,
+  receivers: readonly PublicProgramCapacityOutturnReceiverRegistration[] = PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
 ): FutureTransitionHandlerResult {
   const target = dueTarget(world, due, "");
   if (!target) return resolved(world, "No program commitment matches.", null);
@@ -1359,6 +1377,7 @@ export function programInstallmentHandler(
     world,
     target.commitment.id,
     target.index,
+    receivers,
   );
   return {
     world: next,
@@ -1373,6 +1392,7 @@ export function programInstallmentHandler(
 export function programDeliveryHandler(
   world: World,
   due: FutureDueItem,
+  receivers: readonly PublicProgramCapacityOutturnReceiverRegistration[] = PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
 ): FutureTransitionHandlerResult {
   const target = dueTarget(world, due, ":delivery");
   if (!target) return resolved(world, "No program commitment matches.", null);
@@ -1395,7 +1415,14 @@ export function programDeliveryHandler(
     ).some((r) => r.installmentId === installment.id)
   )
     return resolved(world, "Already delivered.", null);
-  let next = recordCapacityOutturn(world, target.commitment, installment);
+  const recorded = recordCapacityOutturn(world, target.commitment, installment);
+  let next = applyPublicProgramCapacityOutturnReceivers(
+    world,
+    recorded,
+    target.commitment,
+    installment,
+    receivers,
+  );
   const outturn = programOutturns(
     next,
     target.commitment.programKey,

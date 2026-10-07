@@ -29,6 +29,30 @@ export { municipioUnit } from "../government-units";
 
 export type CountyBodyBasis = "state-law" | "municipal-code" | "estimated";
 
+/**
+ * Whether a county elects an executive, and what the answer rests on:
+ * - `elected`: the county's own reading (a Louisiana council-president
+ *   parish) or the state's, where it says every county (or nearly every
+ *   county) elects one;
+ * - `none`: the state's counties choose no executive;
+ * - `unread`: the state has some counties with an elected executive and the
+ *   record does not yet say which, so none is asserted here.
+ */
+export interface CountyExecutiveReading {
+  readonly kind: "elected" | "none" | "unread";
+  readonly title: string | null;
+  /** The executive chairs the body (a county judge, a county mayor). */
+  readonly presidesOverBody: boolean;
+  readonly basis:
+    | "named-county"
+    | "state-all"
+    | "state-most"
+    | "state-some"
+    | "state-none"
+    | "municipal-code";
+  readonly status: "SOURCED" | "ESTIMATED FROM AVERAGE";
+}
+
 export interface CountyGoverningBodyRules {
   readonly seats: number;
   readonly basis: CountyBodyBasis;
@@ -36,6 +60,9 @@ export interface CountyGoverningBodyRules {
   readonly memberTitle: string;
   /** The elected chief executive seated beside the body, where the law has one. */
   readonly chiefTitle: string | null;
+  /** The form of county government and whether it has an elected executive. */
+  readonly structure: CountyStructureReading | null;
+  readonly executive: CountyExecutiveReading;
   readonly citation: string;
   readonly url: string;
   /** The day the law that sets the body took effect, where it is read. */
@@ -154,15 +181,61 @@ export function countyGoverningBodyRules(
   // A body whose own name is read (a Louisiana police jury) keeps it, though
   // its size may still be the estimate.
   const named = unit.countyGeoid ? NAMED_BODIES[unit.countyGeoid] : undefined;
+  const structure = countyStructureForState(unit.stateUsps);
+  const executive = countyExecutive(structure, named?.chiefTitle ?? null);
   return {
     seats: read ?? AVERAGE.seats,
     basis: read === null ? "estimated" : "state-law",
     bodyName: named?.bodyName ?? reading.bodyName,
     memberTitle: named?.memberTitle ?? reading.memberTitle,
-    chiefTitle: named?.chiefTitle ?? null,
+    chiefTitle: executive.kind === "elected" ? executive.title : null,
+    structure,
+    executive,
     citation: reading.citation,
     url: reading.url,
     inForceSince: null,
+  };
+}
+
+/**
+ * What the record says about a county's executive: its own reading where a
+ * county is named, else its state's structure row. A state where only some
+ * counties elect one is `unread` until a county or charter row says which,
+ * and a county in it is given none rather than a guess.
+ */
+function countyExecutive(
+  structure: CountyStructureReading | null,
+  namedChiefTitle: string | null,
+): CountyExecutiveReading {
+  if (namedChiefTitle !== null)
+    return {
+      kind: "elected",
+      title: namedChiefTitle,
+      presidesOverBody: false,
+      basis: "named-county",
+      status: "SOURCED",
+    };
+  if (!structure)
+    return {
+      kind: "unread",
+      title: null,
+      presidesOverBody: false,
+      basis: "state-some",
+      status: "ESTIMATED FROM AVERAGE",
+    };
+  const elected = structure.electedExecutive;
+  return {
+    kind:
+      elected === "all" || elected === "most"
+        ? "elected"
+        : elected === "none"
+          ? "none"
+          : "unread",
+    title:
+      elected === "all" || elected === "most" ? structure.executiveTitle : null,
+    presidesOverBody: structure.executivePresidesOverBody,
+    basis: `state-${elected}` as CountyExecutiveReading["basis"],
+    status: structure.status,
   };
 }
 
@@ -190,6 +263,14 @@ function municipioRules(
     bodyName: code.bodyName,
     memberTitle: code.memberTitle,
     chiefTitle: code.chiefTitle,
+    structure: null,
+    executive: {
+      kind: "elected",
+      title: code.chiefTitle,
+      presidesOverBody: false,
+      basis: "municipal-code",
+      status: "SOURCED",
+    },
     citation: code.citation,
     url: code.url,
     inForceSince: code.inForceSince,
@@ -214,4 +295,26 @@ export function countyGoverningBodySource(
   rules: CountyGoverningBodyRules,
 ): string {
   return `${rules.citation} (${rules.url})`;
+}
+
+export interface CountyStructureReading {
+  readonly structure: string;
+  readonly electedExecutive: "all" | "most" | "some" | "none";
+  readonly executiveTitle: string | null;
+  readonly executivePresidesOverBody: boolean;
+  readonly status: "SOURCED" | "ESTIMATED FROM AVERAGE";
+  readonly note: string;
+  readonly sourceUrls: readonly string[];
+}
+
+/** The form of county government a state's counties take unless a charter says otherwise. */
+export function countyStructureForState(
+  stateUsps: string,
+): CountyStructureReading | null {
+  const row = (
+    readings.structure.states as Readonly<
+      Record<string, CountyStructureReading>
+    >
+  )[stateUsps];
+  return row ?? null;
 }

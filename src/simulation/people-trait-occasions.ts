@@ -1,4 +1,7 @@
-import { contactProposals, CONTACT_DECLINED_EVENT } from "./people-contact";
+import {
+  contactProposals,
+  CONTACT_DECLINED_EVENT,
+} from "./relationship-contact";
 import { attemptTraitChange } from "./people-trait-change";
 import {
   PEOPLE_MIND_VERSION,

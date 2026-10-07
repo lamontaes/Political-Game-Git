@@ -20,6 +20,7 @@ import {
 import { CONGRESS_SEAT_SOURCES, type CongressSeat } from "./congress-seats";
 import { congressSeatsIn } from "./statehood-seats";
 import { activePartyUnitsAt } from "./party-registry";
+import { seatStartingCondition } from "../world-setup/conditions";
 import {
   CAUCUS_MEMBERSHIP_KIND,
   CHAMBER_NAMES,
@@ -101,9 +102,39 @@ function affiliationWithRoll(
       ? currentRollEvent(world, personId, asOf)
       : knownRoll;
   const party = roll ? tagValue(roll, SEAT_PARTY_TAG) : null;
-  return party && party !== "none"
+  return party && party !== "none" && party !== "independent"
     ? livingWorldOrganizationId(world, LIVING_WORLD_KEYS.nationalParty(party))
     : null;
+}
+
+/** Later affiliation participations supersede the initial public roll. */
+function declaredIndependentAt(
+  world: World,
+  personId: EntityId,
+  roll: HistoricalEvent,
+  asOf: IsoDate,
+): boolean {
+  const hasLaterAffiliation = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).some(
+    (record) =>
+      record.kind === PARTY_AFFILIATION_KIND && record.startedAt <= asOf,
+  );
+  if (hasLaterAffiliation) return false;
+  const declared = tagValue(roll, SEAT_PARTY_TAG);
+  if (declared === "independent") return true;
+  if (declared !== "none") return false;
+  // Older generated saves already retain the exact affiliation in their
+  // starting condition. Read it only for the initial tenure, never a successor.
+  const seatKey = tagValue(roll, "seat:");
+  return (
+    roll.tags.includes("provenance:fictional-initial-tenure") &&
+    tagValue(roll, SEAT_PARTY_TAG) === "none" &&
+    seatKey !== null &&
+    seatStartingCondition(world, seatKey)?.affiliation === "independent"
+  );
 }
 
 /** A chamber caucus membership, with the same precedence as affiliation. */
@@ -366,6 +397,9 @@ function occupantFor(
     title: congressSeatTitle(seat),
     stateUsps: seat.stateUsps,
     partyOrganizationId: affiliationWithRoll(world, person.id, event, asOf),
+    ...(declaredIndependentAt(world, person.id, event, asOf)
+      ? { declaredAffiliation: "independent" as const }
+      : {}),
     caucusOrganizationId: caucusWithRoll(world, person.id, event, asOf),
     termId: event.id,
     startedAt: event.occurredAt,
