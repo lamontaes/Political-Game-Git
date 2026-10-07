@@ -1,7 +1,9 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { causeOf } from "./causes";
 import {
   normalizeText,
+  resolveJoined,
   resolveLiteral,
   type LiteralIndex,
 } from "./literal-index";
@@ -12,6 +14,7 @@ import {
  * - engine: the English engine wrote it (a composer registered the text).
  * - kit13: it is one of the owner's approved control labels.
  * - literal: it is written in a source file; the file and line are given.
+ * - literal-joined: several literals joined by a separator (a hint line).
  * - formatted: a number, date, time or amount a formatter wrote from a value.
  * - record: the world's own values make up the string (names, titles, figures).
  * - unresolved: none of the above, so it was built from pieces the audit
@@ -26,6 +29,7 @@ export type TextOrigin =
   | "kit13"
   | "literal"
   | "literal-template"
+  | "literal-joined"
   | "formatted"
   | "record"
   | "unresolved";
@@ -35,6 +39,7 @@ export interface RenderedText {
   readonly kind: string;
   readonly screen: string;
   readonly place: string;
+  readonly testid?: string;
 }
 
 export interface Coverage {
@@ -56,6 +61,9 @@ export interface ClassifiedText {
   readonly place: string;
   readonly kind: string;
   readonly candidates: number;
+  readonly testid: string | null;
+  /** Why an unresolved string could not be traced; `unexplained` has no rule. */
+  readonly cause: string | null;
 }
 
 const MONTH =
@@ -131,6 +139,11 @@ export function classifyTexts(input: {
         origin = hits[0]!.via === "literal" ? "literal" : "literal-template";
         file = hits[0]!.file;
         line = hits[0]!.line;
+      } else if (resolveJoined(input.index, text)) {
+        const joined = resolveJoined(input.index, text)!;
+        origin = "literal-joined";
+        file = joined.file;
+        line = joined.line;
       } else if (FORMATTED.some((pattern) => pattern.test(text)))
         origin = "formatted";
       else if (share >= 0.9) origin = "record";
@@ -142,13 +155,18 @@ export function classifyTexts(input: {
       line,
       bank,
       alsoRecordValue:
-        (origin === "literal" || origin === "literal-template") && share >= 0.9,
+        (origin === "literal" ||
+          origin === "literal-template" ||
+          origin === "literal-joined") &&
+        share >= 0.9,
       recordShare: Math.round(share * 100) / 100,
       count: 1,
       screen: item.screen,
       place: item.place,
       kind: item.kind,
       candidates,
+      testid: item.testid ?? null,
+      cause: origin === "unresolved" ? causeOf(text, item.testid).id : null,
     });
   }
   return [...rows.values()];

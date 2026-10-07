@@ -82,6 +82,32 @@ export function buildLiteralIndex(root = "src"): LiteralIndex {
   };
 
   for (const file of listSourceFiles(root)) {
+    if (/\.json$/.test(file)) {
+      // Shipped data the screens read: string values only, map geometry and
+      // very large files left out.
+      if (file.includes("/geometry/") || statSync(file).size > 1_500_000)
+        continue;
+      const text = readFileSync(file, "utf8");
+      const json = ts.parseJsonText(file, text);
+      filesRead += 1;
+      const walk = (node: ts.Node, parent: ts.Node | undefined) => {
+        if (ts.isStringLiteral(node)) {
+          const isKey =
+            parent !== undefined &&
+            ts.isPropertyAssignment(parent) &&
+            parent.name === node;
+          if (!isKey)
+            add(
+              node.text,
+              file,
+              json.getLineAndCharacterOfPosition(node.getStart(json)).line + 1,
+            );
+        }
+        ts.forEachChild(node, (child) => walk(child, node));
+      };
+      walk(json, undefined);
+      continue;
+    }
     if (!/\.(ts|tsx)$/.test(file) || /\.d\.ts$/.test(file) || isTestFile(file))
       continue;
     const source = readFileSync(file, "utf8");
@@ -116,6 +142,35 @@ export function buildLiteralIndex(root = "src"): LiteralIndex {
         if (!isKey) add(node.text, file, lineOf(node));
       } else if (ts.isJsxText(node)) {
         add(node.text, file, lineOf(node));
+      } else if (
+        ts.isBinaryExpression(node) &&
+        node.operatorToken.kind === ts.SyntaxKind.PlusToken &&
+        !(
+          ts.isBinaryExpression(node.parent) &&
+          node.parent.operatorToken.kind === ts.SyntaxKind.PlusToken
+        )
+      ) {
+        // "I finished at " + school + " in " + month: the string pieces of a
+        // concatenation fit around whatever the other operands print.
+        const fragments: string[] = [];
+        const flatten = (operand: ts.Expression) => {
+          if (
+            ts.isBinaryExpression(operand) &&
+            operand.operatorToken.kind === ts.SyntaxKind.PlusToken
+          ) {
+            flatten(operand.left);
+            flatten(operand.right);
+          } else if (
+            ts.isStringLiteral(operand) ||
+            ts.isNoSubstitutionTemplateLiteral(operand)
+          ) {
+            const fragment = normalizeText(operand.text);
+            if (fragment.length > 0) fragments.push(fragment);
+          }
+        };
+        flatten(node);
+        if (fragments.some((fragment) => HAS_LETTER.test(fragment)))
+          templates.push({ fragments, file, line: lineOf(node) });
       } else if (ts.isTemplateExpression(node)) {
         const fragments = [
           node.head.text,
@@ -166,4 +221,43 @@ export function resolveLiteral(
       hits.push({ file: template.file, line: template.line, via: "template" });
   }
   return hits;
+}
+
+const JOINERS = [", ", " · ", " — ", " - "];
+
+/**
+ * A string made by joining several literals with a separator (an array of
+ * phrases passed to `join`). Found by splitting the text at the separators so
+ * every piece is a literal; the first piece's place is given.
+ */
+export function resolveJoined(
+  index: LiteralIndex,
+  text: string,
+): { file: string; line: number } | null {
+  const normalized = normalizeText(text);
+  const ends = new Map<number, { file: string; line: number } | null>();
+  const search = (start: number, pieces: number): boolean => {
+    const whole = index.exact.get(normalized.slice(start));
+    if (whole && pieces >= 1) {
+      if (!ends.has(0))
+        ends.set(0, { file: whole[0]!.file, line: whole[0]!.line });
+      return true;
+    }
+    for (const joiner of JOINERS) {
+      let at = normalized.indexOf(joiner, start + 1);
+      while (at >= 0) {
+        const head = index.exact.get(normalized.slice(start, at));
+        if (head && search(at + joiner.length, pieces + 1)) {
+          if (!ends.has(0) || start === 0)
+            ends.set(0, { file: head[0]!.file, line: head[0]!.line });
+          return true;
+        }
+        at = normalized.indexOf(joiner, at + 1);
+      }
+    }
+    return false;
+  };
+  return search(0, 0) && !index.exact.has(normalized)
+    ? (ends.get(0) ?? null)
+    : null;
 }
