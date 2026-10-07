@@ -53,6 +53,60 @@ import { openPersonalLifeMatter } from "./matters";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
 import { reporterContactCount } from "./reporter-history";
+import { newsHabitOf } from "../living-world/news-habits";
+import { playerOfficeScope } from "../governing/office-consequence";
+import { lifePlaceByJurisdictionId, type LifePlace } from "../life-places";
+import { countyGeoidsForPlace } from "../government-units";
+
+/** Whether this person is individually modeled as a reader of this outlet. */
+export function hasModeledOutletAudience(
+  world: World,
+  personId: EntityId,
+  outletKey: string,
+  storyConcernedOfficials: ReadonlySet<EntityId> = new Set(),
+): boolean {
+  const person = world.people[personId];
+  if (!person || !newsHabitOf(world, personId).outletKeys.includes(outletKey))
+    return false;
+  const controlled =
+    world.control.kind === "person"
+      ? world.people[world.control.personId]
+      : undefined;
+  const modeledLocal = (() => {
+    if (!controlled) return false;
+    return sharesPlayerLocalArea(
+      controlled.homeJurisdictionId,
+      person.homeJurisdictionId,
+      lifePlaceByJurisdictionId(controlled.homeJurisdictionId),
+      lifePlaceByJurisdictionId(person.homeJurisdictionId),
+    );
+  })();
+  const modeledOfficial =
+    storyConcernedOfficials.has(personId) &&
+    playerOfficeScope(world, personId).length > 0;
+  return modeledLocal || modeledOfficial;
+}
+
+/** The controlled town and its county area are the individual local scope. */
+export function sharesPlayerLocalArea(
+  controlledHomeId: EntityId,
+  readerHomeId: EntityId,
+  controlledPlace: LifePlace | null,
+  readerPlace: LifePlace | null,
+): boolean {
+  if (controlledHomeId === readerHomeId) return true;
+  const countiesFor = (place: LifePlace | null): readonly string[] =>
+    !place?.sourceGeoid
+      ? []
+      : place.scope === "county"
+        ? [place.sourceGeoid]
+        : countyGeoidsForPlace(place.sourceGeoid);
+  const controlledCounties = countiesFor(controlledPlace);
+  const readerCounties = countiesFor(readerPlace);
+  // The recorded Census crosswalk covers localities and county areas. It can
+  // name multiple counties for a locality that spans county lines.
+  return controlledCounties.some((geoid) => readerCounties.includes(geoid));
+}
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
@@ -76,6 +130,8 @@ import {
 } from "./records";
 import { editorialHeadline, editorialParagraphs } from "./editorial";
 import {
+  LAW_EFFECT_EVENT_TYPE,
+  LAW_EFFECT_MEASURE_TAG,
   lawNewsReaders,
   reportLawEffects,
   reportLawOutcomes,
@@ -1303,6 +1359,7 @@ function recordProfessionalReaders(
   publication: PublicationRecord,
 ): World {
   const readers = new Set<EntityId>();
+  const storyConcernedOfficials = new Set<EntityId>(lead.subjectPersonIds);
   for (const subjectId of lead.subjectPersonIds) {
     if (!world.people[subjectId]) continue;
     readers.add(subjectId);
@@ -1316,10 +1373,41 @@ function recordProfessionalReaders(
   // lawmakers answerable for it (law-effect-news.ts).
   for (const basisId of lead.basisEventIds) {
     const basis = eventById(world, basisId);
-    if (basis) for (const id of lawNewsReaders(world, basis)) readers.add(id);
+    if (basis) {
+      for (const id of lawNewsReaders(world, basis)) readers.add(id);
+      if (basis.type === LAW_EFFECT_EVENT_TYPE) {
+        const measureId = basis.tags
+          .find((tag) => tag.startsWith(LAW_EFFECT_MEASURE_TAG))
+          ?.slice(LAW_EFFECT_MEASURE_TAG.length);
+        if (measureId) {
+          const measure = world.history.legislativeMeasures?.find(
+            (row) => row.id === measureId,
+          );
+          if (measure?.sponsorPersonId)
+            storyConcernedOfficials.add(measure.sponsorPersonId);
+          for (const vote of world.history.legislativeVotes ?? [])
+            if (vote.measureId === measureId)
+              for (const disposition of vote.dispositions)
+                if (disposition.personId)
+                  storyConcernedOfficials.add(disposition.personId);
+        }
+      } else {
+        for (const id of basis.involvedEntityIds)
+          if (world.people[id]) storyConcernedOfficials.add(id);
+      }
+    }
   }
   let next = world;
   for (const personId of [...readers].sort()) {
+    if (
+      !hasModeledOutletAudience(
+        world,
+        personId,
+        publication.outletKey,
+        storyConcernedOfficials,
+      )
+    )
+      continue;
     next = recordEventKnowledge(next, {
       stableKey: `${publication.stableKey}:read:${personId}`,
       personId,
