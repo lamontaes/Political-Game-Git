@@ -13,6 +13,7 @@ import type {
   RelationshipInteractionInput,
 } from "./history";
 import { createStableId } from "./ids";
+import { formOfficialViewsFromStory } from "./press/story-official-views";
 import {
   assertOpenTaxonomyKey,
   RELATIONSHIP_INTERACTION_NAMESPACES,
@@ -171,10 +172,13 @@ export function recordEventKnowledge(
     );
   }
   validateKnowledgeSource(world, event, input);
-  return {
+  const next = {
     ...world,
     history: appendEventKnowledgeRecord(world.history, world.id, input),
   };
+  return input.source.kind === "media"
+    ? formOfficialViewsFromStory(next, next.history.knowledge.at(-1)!.id)
+    : next;
 }
 
 export function recordClaim(world: World, input: ClaimRecordInput): World {

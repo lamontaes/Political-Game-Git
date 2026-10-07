@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { recordByStableKey } from "./history-index";
 import { registeredTraitConsiderations } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";
 import {
@@ -1013,7 +1014,10 @@ export function producePressAdviserFeedback(
       reference: publication.id,
     },
   });
-  const publicationKnowledgeId = next.history.knowledge.at(-1)!.id;
+  const publicationKnowledgeId = recordByStableKey(
+    next.history.knowledge,
+    `${input.stableKey}:publication-knowledge`,
+  )!.id;
   next = recordPressAdviserFeedback(next, {
     ...input,
     publicationKnowledgeId,
