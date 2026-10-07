@@ -26,6 +26,9 @@ import {
 } from "../simulation/legislation-scenarios";
 import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
 import { organizationProfileAt } from "../simulation/life-queries";
+import { SALES_BASE_KEY } from "../simulation/sales-tax-bases";
+import { estimatedHouseholdLivingCostsAt } from "../simulation/cost-of-living";
+import { refreshLifeOpportunities } from "../simulation/life-opportunities";
 import { PROPERTY_BASE_KEY } from "../simulation/property-tax-bases";
 import { LOCAL_PAYROLL_BASE_KEY } from "../simulation/payroll-tax-bases";
 import { personName } from "../simulation/people";
@@ -96,10 +99,11 @@ function advanceTo(world: World, date: IsoDate): World {
   return next;
 }
 
-type Instrument = "property" | "payroll";
+type Instrument = "property" | "payroll" | "sales";
 const BASE_KEYS: Record<Instrument, string> = {
   property: PROPERTY_BASE_KEY,
   payroll: LOCAL_PAYROLL_BASE_KEY,
+  sales: SALES_BASE_KEY,
 };
 
 function termsFor(instrument: Instrument): TaxTerms {
@@ -226,6 +230,7 @@ describe("LW-04 a state's own tax lands on a named payer in a random state", () 
   it.each([
     { seed: "m2-state-property-tax", instrument: "property" as const },
     { seed: "m2-state-payroll-tax", instrument: "payroll" as const },
+    { seed: "m2-state-sales-tax", instrument: "sales" as const },
   ])(
     "is filed, passed and reaches payers ($instrument, $seed)",
     ({ seed, instrument }) => {
@@ -348,6 +353,28 @@ describe("LW-04 a state's own tax lands on a named payer in a random state", () 
         world,
         makeIsoDate(addDays(effective, instrument === "property" ? 1 : 30)),
       );
+      if (instrument === "sales") {
+        // A generated household has no recorded cash, so its bills are never
+        // opened (unknown is not zero): the player's household is given
+        // authored cash, then lives through a month.
+        const householdId = estimatedHouseholdLivingCostsAt(
+          world,
+          game!.playerPersonId,
+        )!.householdId;
+        world = createResourcePosition(world, {
+          stableKey: `${seed}:funded-household`,
+          owner: { kind: "household", householdId },
+          openedAt: world.currentDate,
+          openingBalance: money(900000, "USD"),
+          provenance: {
+            kind: "authored",
+            note: "Known fictional test cash for one household; not an observed balance.",
+          },
+        });
+        world = refreshLifeOpportunities(world, game!.playerPersonId);
+        world = advanceTo(world, makeIsoDate(addDays(world.currentDate, 40)));
+        world = refreshLifeOpportunities(world, game!.playerPersonId);
+      }
       const bases = (world.history.taxBases ?? []).filter(
         (row) => row.baseKey === BASE_KEYS[instrument],
       );
