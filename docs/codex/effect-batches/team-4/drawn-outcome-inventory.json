@@ -1,0 +1,60 @@
+{
+  "team": 4,
+  "dispatch": "CTO 1:03 and 00b 1:17",
+  "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+  "drawnOutcomeSites": [
+    {
+      "path": "src/simulation/public-budgets/cannabis-sales-tax.ts",
+      "function": "cannabisTaxPerResident",
+      "head": "fd2b034a4ffbf5bdb68f53e7ae42a0abae21b3fe",
+      "pr": 1282,
+      "status": "HELD; not merged; source preserved",
+      "outcome": "Annual state cannabis tax dollars per resident, picked inside 26.70–62.00",
+      "consumers": [
+        "cannabisSalesRevenueChange",
+        "state budget receipt and revenue-loss writers"
+      ],
+      "repair": "Remove level draw; operative tax terms multiply actual legal retail sales. Revenue benchmark becomes calibration only."
+    }
+  ],
+  "relatedFixedOutcomeShortcut": {
+    "path": "src/simulation/public-budgets/cannabis-sales-tax.ts",
+    "constant": "CANNABIS_TAX_PER_RESIDENT = 40.7",
+    "sourceHeads": [
+      "4328a7c35c8d5eef7f96dc3f541286e0231f6166",
+      "1e5a0c8f507a7aa526154d7247ba241c09a16fd6"
+    ],
+    "mergedPRs": [1254, 1271],
+    "verifiedMerge": "45995de603346968f3ddfb6d5e62a150f057554a",
+    "status": "Still active in merged amount reader; same mechanism replacement required"
+  },
+  "otherTeam4WorkInspected": {
+    "housingSupplyHelper": {
+      "head": "7ad1126b5ade9177609822de0b7831726f684f3e",
+      "drawnOutcomeLevelAdded": false,
+      "productionCaller": false
+    },
+    "speed": "Paused preserved optimization work adds no drawn outcome levels",
+    "effectBatches": "Proposed effect strengths are not outcome levels; unresolved units and researched-range gaps remain disclosed"
+  },
+  "repairCheckpoint": {
+    "path": "src/simulation/public-budgets/cannabis-retail-mechanism.ts",
+    "formula": "adultResidents × buyerShare × annualPretaxSpendingPerBuyer × actualLegalMarketShare × operative state tax rates, respecting excise inclusion in sales-tax base",
+    "draws": false,
+    "inventedCurve": false,
+    "productionAdapter": false,
+    "legalShareProducer": false,
+    "proof": "4 arithmetic fixtures only, not three-state or nationwide proof",
+    "missingInputs": [
+      "Operative cannabis tax terms and canonical parameter binding",
+      "Actual adult resident base with matched state survey buyer definition",
+      "Sourced annual spending per buyer and price-year",
+      "Research-backed legal-share response or actual retail capacity/competition/choice records",
+      "High-tax, low-tax and new-market state examples"
+    ]
+  },
+  "mainRepairComplete": false,
+  "fivePartsComplete": 0,
+  "assignedLaws": 10,
+  "nationwideProof": "NOT RUN"
+}

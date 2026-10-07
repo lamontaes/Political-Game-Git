@@ -1,6 +1,3 @@
-import { workUniform } from "../presentation/work-uniform";
-import { officesHeldBy } from "../simulation/governing/office-consequence";
-import { isMarriedNow } from "../presentation/appearance-engine/marital-status";
 import type { World } from "../simulation/types";
 import { personName } from "../simulation";
 import { buildCharacterRenderPlan } from "../presentation/character-render-plan";
@@ -20,15 +17,8 @@ import {
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { EngineFigure } from "./EnginePerson";
-import { engineRecipeFor } from "../presentation/appearance-engine/recipe";
-import {
-  PEOPLE_PACK,
-  peoplePackAvailable,
-} from "../presentation/appearance-engine/runtime";
-import {
-  withSceneClothing,
-  type PersonSceneAppearance,
-} from "../presentation/person-scene-appearance";
+import { personDayRecipe } from "../presentation/day-clothing";
+import { peoplePackAvailable } from "../presentation/appearance-engine/runtime";
 
 /** Full-body record leaf. Reads the same saved appearance and wardrobe as the
  * room/headshot. The owning UI sizes this 1:2 stage; no identity reroll occurs. */
@@ -37,20 +27,11 @@ export function SavedPersonFigure({
   personId,
   libraries: explicitLibraries,
   className,
-  wear,
-  sceneAppearance,
 }: {
   readonly world: World;
   readonly personId: string;
   readonly libraries?: PersonVisualLibraries;
   readonly className?: string;
-  /**
-   * What the place or role calls for (dress-code.ts): the opening tour shows
-   * officeholders at work, so it asks for formal wear.
-   */
-  readonly wear?: "casual" | "business" | "formal";
-  /** Actual scene clothing for the expanded card, without saving it. */
-  readonly sceneAppearance?: PersonSceneAppearance;
 }) {
   const snapshot = useSavedRenderSnapshot(personId);
   const preference = useSavedWardrobe(personId);
@@ -67,16 +48,9 @@ export function SavedPersonFigure({
   if (!person) return null;
   const engine =
     !explicitLibraries && peoplePackAvailable()
-      ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK, {
-          ...(wear ? { wear } : {}),
-          uniform: workUniform(world, person.id, wear),
-          officeholder: () => officesHeldBy(world, person.id).length > 0,
-          married: () => isMarriedNow(world, person.id),
-        })
+      ? personDayRecipe(world, person)
       : null;
-  const figureEngine = engine
-    ? withSceneClothing(engine, person.id, world.currentDate, sceneAppearance)
-    : null;
+  const figureEngine = engine;
   if (figureEngine) {
     return (
       <figure

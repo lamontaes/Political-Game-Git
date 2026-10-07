@@ -5,6 +5,8 @@ export interface LocalInstitutionRow {
   readonly sourceKey: string;
   readonly sourceId: string;
   readonly asOf: string;
+  /** The current CCD name is back-carried before the directory vintage. */
+  readonly historicalNameEstimated?: true;
 }
 
 export interface LocalInstitutionSet {

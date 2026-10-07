@@ -46,6 +46,9 @@ import type {
 import { initialPlaySettings } from "../simulation/play-settings";
 import {
   buildProductionWorld,
+  buildPreStartCharacterWorld,
+  finalizePreStartPlayer,
+  type ProductionWorldInput,
   FAMILY_BIRTHDAYS_V1,
   PARENT_PARTNERS_V1,
   ADULT_START_WORK_V1,
@@ -140,11 +143,7 @@ export type OpeningDataVersion =
 
 export interface NewGameSetup {
   /** Optional on old descriptors; it does not participate in world identity. */
-  readonly playSettings?: Partial<
-    Pick<PlaySettings, "challenge" | "notes" | "saves">
-  > & {
-    readonly premises?: Partial<PlaySettings["premises"]>;
-  };
+  readonly playSettings?: Partial<Pick<PlaySettings, "saves">>;
   readonly startKind?: NewGameStartKind;
   readonly placeKey: string;
   readonly startAge: number;
@@ -540,13 +539,74 @@ export function otherParentQuestionApplies(setup: NewGameSetup): boolean {
 }
 
 export function createNewGameWorld(setup: NewGameSetup): NewGame {
+  return buildNewGameWorld(setup);
+}
+
+/** Reuse Creator input mapping while admitting the resident before the past clock runs. */
+export function createPreStartNewGameWorld(
+  setup: NewGameSetup,
+  priorYearStartDate: IsoDate,
+  onCharacterCheckpoint?: ProductionWorldInput["onCharacterCheckpoint"],
+): NewGame {
+  return buildNewGameWorld(
+    setup,
+    {
+      version: "pre-start-world-year-v1",
+      targetStartDate: requireLifePlace(setup.placeKey).context.initialMoment
+        .date,
+      priorYearStartDate,
+    },
+    onCharacterCheckpoint,
+  );
+}
+
+/** Begin changes control only; the World and its money/history remain authoritative. */
+export function finishPreStartNewGameWorld(game: NewGame): NewGame {
+  if (game.world.pastMode)
+    throw new Error(
+      "Close the historical past at its recorded boundary before Begin.",
+    );
+  const preStartLife = game.world.preStartLife;
+  if (!preStartLife || preStartLife.personId !== game.playerPersonId)
+    throw new Error("The game has no pre-start character to hand over.");
+  const built = finalizePreStartPlayer(game.world, {
+    ...productionWorldInputForSetup(game.setup),
+    preStartYear: {
+      version: "pre-start-world-year-v1",
+      targetStartDate: preStartLife.targetStartDate,
+      priorYearStartDate: game.world.startedAt,
+    },
+  });
+  return { ...game, world: built.world };
+}
+
+function buildNewGameWorld(
+  setup: NewGameSetup,
+  preStartYear?: ProductionWorldInput["preStartYear"],
+  onCharacterCheckpoint?: ProductionWorldInput["onCharacterCheckpoint"],
+): NewGame {
   const problems = newGameSetupProblems(setup);
   if (problems.length > 0) {
     throw new Error(problems[0]!.message);
   }
   const place = requireLifePlace(setup.placeKey);
+  const input = productionWorldInputForSetup(setup);
+  const built = preStartYear
+    ? buildPreStartCharacterWorld({
+        ...input,
+        preStartYear,
+        onCharacterCheckpoint,
+      })
+    : buildProductionWorld(input);
+  return finishNewGameConstruction(setup, place, built);
+}
+
+function productionWorldInputForSetup(
+  setup: NewGameSetup,
+): ProductionWorldInput {
+  const place = requireLifePlace(setup.placeKey);
   const priors = setupPriorStoreFor(setup);
-  const built = buildProductionWorld({
+  return {
     // The build seed, not the world's identity: the calibration is allowed to
     // change what the generator draws, and never which world this is.
     seed: buildSeedFor(setup),
@@ -626,7 +686,14 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
-  });
+  };
+}
+
+function finishNewGameConstruction(
+  setup: NewGameSetup,
+  place: LifePlace,
+  built: ReturnType<typeof buildProductionWorld>,
+): NewGame {
   // A town split across several districts gets its resident placed in one of
   // them (GAME PROFILE placeholder, see `assignSplitHomeDistricts`). Current
   // openings only: a legacy replay descriptor rebuilds the bytes it always did.
@@ -657,9 +724,7 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     world: {
       ...agency.world,
       playSettings: initialPlaySettings({
-        ...setup.playSettings,
-        familyMoney: setup.playSettings?.premises?.familyMoney,
-        press: setup.playSettings?.premises?.press,
+        saves: setup.playSettings?.saves,
       }),
     },
     playerPersonId: built.playerPersonId,

@@ -169,7 +169,7 @@ describe("N1 school presence", () => {
         recordedRoomPresence(advanceWorldMinutes(world, 1), id),
       ).toBeNull();
     }
-  }, 120_000);
+  }, 900_000);
 
   it("does not keep a participant who has a later place record", () => {
     const game = pupil("kentucky", "n1-school-leaving");

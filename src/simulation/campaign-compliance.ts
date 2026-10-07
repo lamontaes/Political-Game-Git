@@ -504,13 +504,16 @@ export interface CampaignContributionAssessment {
 }
 
 /** A recordability gate, not a contribution-limit approval engine. */
-export function assessKentuckyCampaignContribution(
-  input: CampaignContributionInput,
+export function assessCampaignContributionForPack(
+  input: CampaignContributionInput & {
+    readonly pack: CampaignComplianceRulePack;
+  },
 ): CampaignContributionAssessment {
   const refusals: string[] = [];
-  const threshold = kentuckyCampaignCompliancePack(
-    input.onDate,
-  ).itemizationThresholdMinorUnits;
+  const threshold = input.pack.itemizationThresholdMinorUnits;
+  const thresholdKnown =
+    threshold.state === "KNOWN" &&
+    input.onDate >= threshold.source.supportCoverageFrom;
   if (
     !Number.isSafeInteger(input.amountMinorUnits) ||
     input.amountMinorUnits <= 0
@@ -521,16 +524,16 @@ export function assessKentuckyCampaignContribution(
   }
   if (input.currency !== "USD") {
     refusals.push(
-      "The accepted Kentucky pack states amounts in U.S. dollars only.",
+      `The accepted ${input.pack.jurisdictionKey} pack states amounts in U.S. dollars only.`,
     );
   }
-  const requiresItemization =
-    threshold.state === "KNOWN"
-      ? input.amountMinorUnits > threshold.value
-      : null;
-  if (threshold.state !== "KNOWN") {
+  const requiresItemization = thresholdKnown
+    ? input.amountMinorUnits >
+      (threshold as Extract<typeof threshold, { state: "KNOWN" }>).value
+    : null;
+  if (!thresholdKnown) {
     refusals.push(
-      `The itemization threshold is ${threshold.state} on ${input.onDate}; the game will not infer a recordability rule from a later source.`,
+      `The itemization threshold is unavailable on ${input.onDate}; the game will not infer a recordability rule from a later source.`,
     );
   }
   if (input.contributorKind === "unknown") {
@@ -546,7 +549,7 @@ export function assessKentuckyCampaignContribution(
       !input.occupation?.trim())
   ) {
     refusals.push(
-      `A contribution over $${(threshold.state === "KNOWN" ? threshold.value / 100 : 0).toFixed(0)} lacks the contributor details required for itemization.`,
+      `A contribution over $${(thresholdKnown ? (threshold as Extract<typeof threshold, { state: "KNOWN" }>).value / 100 : 0).toFixed(0)} lacks the contributor details required for itemization.`,
     );
   }
   return {
