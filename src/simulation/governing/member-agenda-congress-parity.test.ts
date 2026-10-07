@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../dates";
 import { createDemoWorld } from "../demo";
 import { createWorld } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
@@ -16,6 +16,7 @@ import {
 } from "./congress-chambers";
 import { fileMemberAgendaBills } from "./member-agenda";
 import {
+  applyCongressLawmaking,
   CONGRESS_INTAKE_TRANSITION,
   congressIntakeHandler,
 } from "./congress-lawmaking";
@@ -105,6 +106,18 @@ beforeAll(() => {
 
 describe("the shared member filer, Congress parity in every jurisdiction", () => {
   expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
+  it("schedules the opening intake before returning to monthly filing", () => {
+    const scheduled = applyCongressLawmaking(
+      addDays(world.currentDate, -1),
+      world,
+    );
+    const intake = scheduled.history.futureDueItems.find(
+      (item) => item.transitionKey === CONGRESS_INTAKE_TRANSITION,
+    );
+
+    expect(intake?.dueAt).toBe(addDays(world.currentDate, 1));
+  });
+
   it("records the actual Congress bill count for its intake", () => {
     const due = {
       id: observer,
