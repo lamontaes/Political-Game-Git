@@ -278,7 +278,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | AU-09 | Opening money from records | pool-audit-repairs.md AU-09 | done (#1992/#2001/#2024, batch-marked by CTO Oct 7) | |
 | AU-10 | Businesses and banks from books | pool-audit-repairs.md AU-10 | open | |
 | AU-11 | Opening politics and town elections without swings | pool-audit-repairs.md AU-11 | open | |
-| AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | open | |
+| AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | done (#3494) | S55 |
 | AU-13 | Hazards and crime from causes | pool-audit-repairs.md AU-13 | open | |
 | AU-14 | Scenes point at real things | pool-audit-repairs.md AU-14 | open | |
 | AU-15 | English engine as the voice (unverified: check first) | pool-audit-repairs.md AU-15 | open | |
@@ -365,8 +365,8 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-nationwide-world-2 | Replace about 16 placeholders in simulation / nationwide / world / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-press | Replace about 29 placeholders in simulation / press with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-pressure-1 | Replace about 17 placeholders in simulation / pressure / 1 with recorded or estimated-and-marked values | placeholders.md | done #2810 | Session 37 |
-| PH-simulation-pressure-2 | Replace about 17 placeholders in simulation / pressure / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-public-budgets | Replace about 14 placeholders in simulation / public / budgets with recorded or estimated-and-marked values | placeholders.md | done #2623 | Session 37 |
+| PH-simulation-pressure-2 | Replace about 17 placeholders in simulation / pressure / 2 with recorded or estimated-and-marked values | placeholders.md | done #2811 | Session 37 |
+| PH-simulation-public-budgets | Replace about 14 placeholders in simulation / public / budgets with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-1 | Replace about 20 placeholders in simulation / root / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-2 | Replace about 20 placeholders in simulation / root / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-3 | Replace about 20 placeholders in simulation / root / 3 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -533,7 +533,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-26 | Life story has a 38-year hole, every event is 'In December', no parents/siblings/spouse/children, unexplained school transfer | BUGS.md BG-26 | done #818, #3095 | |
 | BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | done #2993 | |
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
-| BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | open | |
+| BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | ready #3515 | |
 | BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | done #441 | |
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | done #2220 | |
@@ -564,10 +564,10 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | done #5060835 | |
-| BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
+| BG-60 | Wrong font in places | BUGS.md BG-60 | ready #3517 | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
-| BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | open | Session 2 or pool |
+| BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | open | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
@@ -610,7 +610,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1229 | Add canonical conversation action audit with explicit coverage limits | PR #1229 (codex/team-8-conversation-audit) | done #1229 | |
 | RS-1231 | Preserve rejected confidants index candidate and timing evidence | PR #1231 (codex/team-4-confidants-interaction-index) | done (superseded by M10; rejected candidate, no retained production change) | |
 | RS-1233 | Add regional home exteriors and corrected street candidates | PR #1233 (codex/team7-regional-exteriors) | done (superseded by C7; art preserved for later owner review) | |
-| RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | open: draft: finish it or close it as superseded | |
+| RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | ready #1238 | S50 |
 | RS-1257 | Import 61 approved picture and kids-sheet sources | PR #1257 (codex/team7-law-place-import) | done (superseded by C7; approved sources preserved for later owner review) | S35 |
 | RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
@@ -639,10 +639,10 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2117 | research: preserve abortion limits and conditional exceptions | PR #2117 (codex/standby5-abortion-compound-source-packet) | open: draft: finish it or close it as superseded | |
 | RS-2121 | A15: sourced family-leave monetary rows (parked) | PR #2121 (codex/overflow1-labor-starting-terms) | open: draft: finish it or close it as superseded | |
 | RS-2122 | Document voting restoration conditions for sixteen jurisdictions | PR #2122 (codex/a117-restoration-primary-laws) | open: draft: finish it or close it as superseded | |
-| RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | open: draft: finish it or close it as superseded | |
+| RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | ready #2123 | Session 35 |
 | RS-2127 | Checkpoint sourced Missouri Ohio and New Jersey teacher floors | PR #2127 (codex/standby1-teacher-missouri-terms) | open: draft: finish it or close it as superseded | |
-| RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | open: draft: finish it or close it as superseded | |
-| RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | open: draft: finish it or close it as superseded | |
+| RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | ready #2147 | |
+| RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | done #2177 | |
 | RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | open: draft: finish it or close it as superseded | |
 | RS-2162 | Refine title actions and confirmed-empty save state | PR #2162 (codex/team8-title-actions) | open: stacked on codex/team8-title-actions-base: retarget to main; draft: finish it or close it as superseded | |
 | RS-2165 | Separate People Web and List navigation | PR #2165 (codex/team8-people-structure) | open: stacked on codex/team8-title-actions: retarget to main; draft: finish it or close it as superseded | |
@@ -686,7 +686,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2299 | P1: Compose meeting speech from recorded council facts | PR #2299 (codex/session4-english-source-repair) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2304 | P3: Use recorded stances for international crisis responses | PR #2304 (session25/p3-recorded-diplomacy) | open: sent back: failed its own changed checks: tests | |
 | RS-2305 | P1 b05 step 1: classify council matters from recorded reasons | PR #2305 (codex/session8-b05-council-meetings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2307 | P1: Read EIA electricity mix as place outcomes | PR #2307 (session17/eia-electricity-generation-outcomes) | open: draft: finish it or close it as superseded | |
+| RS-2307 | P1: Read EIA electricity mix as place outcomes | PR #2307 (session17/eia-electricity-generation-outcomes) | ready #2307 | S50 |
 | RS-2308 | P1: dispatch state legislature work through dated clock queue | PR #2308 (codex/session1-state-queue-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2316 | P1 b05 step 2: project council agenda notice | PR #2316 (codex/session8-b05-agenda-notice) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2318 | docs: preserve rejected player-card clock and eleven-destination attempt | PR #2318 (codex/session3-card-redo-main) | open: draft: finish it or close it as superseded | |
@@ -924,7 +924,7 @@ open: rebase on main (conflicts) | |
 | RS-2732 | b24-p1-s3: READY for CTO review (eight turned input failures) | PR #2732 (codex/session127-b24-p1-s3) | open: rebase on main (conflicts) | |
 | RS-2734 | b24-p1-s4: native cloth-boundary probe (cuff mask unfinished) | PR #2734 (codex/session127-b24-p1-s4) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2739 | b24-p2: independent tag validator proposal (owner schema missing) | PR #2739 (codex/session127-b24-p2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | ready #2742 | |
 | RS-2746 | b18-p3: certified ballot referrals and named voter tally | PR #2746 (session-110/b18-p3) | open: draft: finish it or close it as superseded | |
 | RS-2748 | A120: PROGRESS continuity regression follows its saved appointment date | PR #2748 (session132/a120-continuity-test-window) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2750 | b18-p4: recorded shared-cause founder and member decisions | PR #2750 (session-110/b18-p4) | open: draft: finish it or close it as superseded | |
