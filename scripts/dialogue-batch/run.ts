@@ -91,7 +91,12 @@ import {
 import {
   matterUninformedLine,
   officialViewLine,
+  greetAgainLine,
 } from "../../src/presentation/small-talk-english";
+import {
+  commitLifeConversation,
+  projectLifeConversation,
+} from "../../src/presentation/life-conversation";
 import {
   currentKnownMatter,
   matterAwareness,
@@ -962,6 +967,61 @@ function officialsView(ctx: WorldContext): Produced {
   return skip("no one in this world has formed a view of an official yet");
 }
 
+function greetAgain(ctx: WorldContext): Produced {
+  for (const person of ctx.cast) {
+    const conversation = projectLifeConversation(
+      ctx.world,
+      ctx.playerId,
+      person.id,
+    );
+    if (!conversation?.intents.some((intent) => intent.key === "greet"))
+      continue;
+    let greeted: World;
+    try {
+      greeted = commitLifeConversation(ctx.world, {
+        playerPersonId: ctx.playerId,
+        personId: person.id,
+        intent: "greet",
+        revision: conversation.revision,
+      });
+    } catch {
+      continue;
+    }
+    const history = greeted.history.events.filter(
+      (event) =>
+        event.type === "life.conversation" &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === ctx.playerId &&
+            participant.role === "focus:subject",
+        ) &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === person.id &&
+            participant.role === "coordination:counterpart",
+        ) &&
+        event.occurredAt <= greeted.currentDate,
+    );
+    const line = greetAgainLine(greeted, person.id, ctx.playerId, history);
+    if (!line) continue;
+    return {
+      axis: "interaction",
+      composer: "greetAgainLine in small-talk-english.ts",
+      situation: `${ctx.playerName} says hello again to ${describeWho(person)} after their saved conversation.`,
+      prior: LIFE_TALK_INTENTS.greet,
+      speaker: personOf(greeted, ctx.playerId, person.id, person.relation),
+      line: line.text,
+      parts: line.parts,
+      harness: [
+        "The batch records a first ordinary greeting in the current scene, then reads the next greeting from that saved conversation.",
+      ],
+    };
+  }
+  return skip(
+    "no present person has a current scene where a greeting can be recorded",
+  );
+}
+
 /**
  * A judge's sentence, in the justice code's own fixed sentences (CTO, 6:30
  * p.m. Oct 6: the first kind of text beyond conversation). The judge is the
@@ -1222,6 +1282,7 @@ const SITUATIONS: readonly Situation[] = [
       );
     },
   },
+  { id: "greet-again", run: greetAgain },
   { id: "invite-game-accept", run: invitationAccept },
   { id: "invite-game-decline", run: invitationDecline },
   { id: "remember-news-topic", run: rememberTopic },
