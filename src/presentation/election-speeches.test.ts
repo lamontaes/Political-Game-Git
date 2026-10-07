@@ -3,6 +3,8 @@ import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   addDays,
+  addCampaignHelper,
+  addCampaignHelper,
   candidacyPackForJurisdiction,
   CONCESSION_EVENT,
   ELECTION_NIGHT_LOCATION_KEY,
@@ -62,6 +64,34 @@ describe("election-night speeches", () => {
       office.officeKey,
       addDays(created.game.world.currentDate, 28),
     );
+    const campaign = world.history.campaigns!.at(-1)!;
+    const volunteerId = world.personOrder.find(
+      (id) =>
+        id !== personId &&
+        !world.history.personDeaths.some(
+          (death) => death.personId === id && death.diedAt <= world.currentDate,
+        ),
+    )!;
+    world = addCampaignHelper(world, {
+      campaignId: campaign.id,
+      personId: volunteerId,
+      role: "volunteer",
+      pay: null,
+    });
+    const campaign = world.history.campaigns!.at(-1)!;
+    const volunteerId = world.personOrder.find(
+      (id) =>
+        id !== personId &&
+        !world.history.personDeaths.some(
+          (death) => death.personId === id && death.diedAt <= world.currentDate,
+        ),
+    )!;
+    world = addCampaignHelper(world, {
+      campaignId: campaign.id,
+      personId: volunteerId,
+      role: "volunteer",
+      pay: null,
+    });
     for (
       let day = 0;
       day < 40 && projectCampaign(world, personId).phase === "active";
@@ -120,6 +150,16 @@ describe("election-night speeches", () => {
     // Steps 4 to 6: the people who live with the speaker were in the room.
     // Each heard it firsthand, reacted in their own way, and remembers it.
     const speech = electionSpeechGiven(spoken, contest.id, personId)!;
+    if (result.winnerPersonId !== personId)
+      expect(spoken.history.relationshipInteractions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            personIds: [personId, volunteerId],
+            eventId: speech.id,
+            kind: "support:campaign-thanks",
+          }),
+        ]),
+      );
     // Steps 4 to 6 (continued): the room holds the people the speaker lives
     // with, family and close friends from the same place, and campaign staff.
     const housemates = householdmatesOf(spoken, personId);
@@ -127,6 +167,16 @@ describe("election-night speeches", () => {
     const witnesses = speechReception(spoken, speech)!
       .event.participants.filter((row) => row.role === "observation:witness")
       .map((row) => row.personId);
+    if (result.winnerPersonId !== personId && witnesses.includes(volunteerId))
+      expect(spoken.history.relationshipInteractions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            personIds: [personId, volunteerId],
+            eventId: speech.id,
+            kind: "support:campaign-thanks",
+          }),
+        ]),
+      );
     for (const housemate of housemates) expect(witnesses).toContain(housemate);
     for (const witnessId of witnesses)
       expect(spoken.people[witnessId]!.homeJurisdictionId).toBeDefined();

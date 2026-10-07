@@ -22,6 +22,7 @@ import {
   addCampaignHelper,
   askToHelp,
   campaignHasHelper,
+  helperAskConsiderations,
 } from "./campaign-helpers";
 import { recordRelationshipInteraction } from "./records";
 import type { EntityId, World } from "./types";
@@ -84,6 +85,123 @@ function filedCampaign(): {
 }
 
 describe("campaign helpers", () => {
+  it("uses the previous race, concession reaction, and recorded thanks when volunteers are asked again", () => {
+    const filed = filedCampaign();
+    const personId = filed.people[0]!;
+    const withVolunteer = addCampaignHelper(filed.world, {
+      campaignId: filed.campaignId,
+      personId,
+      role: "volunteer",
+      pay: null,
+    });
+    const currentCampaign = withVolunteer.history.campaigns!.find(
+      (row) => row.id === filed.campaignId,
+    )!;
+    const priorCampaign = {
+      ...currentCampaign,
+      id: "prior-campaign" as EntityId,
+      stableKey: "prior-campaign",
+      sequence: currentCampaign.sequence - 1,
+      contestId: "prior-contest" as EntityId,
+    };
+    const currentState = withVolunteer.history.campaignStates!.find(
+      (row) => row.campaignId === currentCampaign.id,
+    )!;
+    const priorState = {
+      ...currentState,
+      id: "prior-campaign-lost" as EntityId,
+      stableKey: "prior-campaign:state:lost",
+      sequence: currentState.sequence - 1,
+      campaignId: priorCampaign.id,
+      status: "lost" as const,
+      reason: "The campaign ended with the election.",
+    };
+    const speech = {
+      id: "prior-concession" as EntityId,
+      stableKey: "prior-contest:concession",
+      sequence: currentState.sequence - 1,
+      type: "campaign.concession",
+      occurredAt: filed.world.currentDate,
+      recordedAt: filed.world.currentDate,
+      jurisdictionId: currentCampaign.jurisdictionId,
+      involvedEntityIds: [filed.candidatePersonId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["election.contest:prior-contest"],
+      summary: "The candidate conceded the prior race.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    } as const;
+    const reception = {
+      ...speech,
+      id: "prior-concession-reception" as EntityId,
+      stableKey: "prior-contest:concession:reception",
+      type: "speech.reception",
+      tags: [`speech.of:${speech.id}`],
+      participants: [
+        {
+          personId,
+          role: "observation:witness",
+          detail: "Heard it and applauded",
+        },
+      ],
+    } as const;
+    const worldWithPriorRace = {
+      ...withVolunteer,
+      history: {
+        ...withVolunteer.history,
+        campaigns: [priorCampaign, currentCampaign],
+        campaignStates: [priorState, currentState],
+        events: [...withVolunteer.history.events, speech, reception],
+      },
+    };
+    const thanked = recordRelationshipInteraction(worldWithPriorRace, {
+      stableKey: "prior-campaign:thanks",
+      personIds: [filed.candidatePersonId, personId],
+      eventId: null,
+      occurredAt: filed.world.currentDate,
+      kind: "support:campaign-thanks",
+      change: "strengthened",
+      significance: "meaningful",
+      summary: "The candidate thanked the volunteer after the loss.",
+      tags: [],
+    });
+
+    const rows = helperAskConsiderations(
+      thanked,
+      personId,
+      filed.candidatePersonId,
+    );
+    expect(rows).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          sourceType: "social:previous-race-result",
+          optionKey: "help",
+          importance: "slight",
+        }),
+        expect.objectContaining({
+          sourceType: "social:concession-reaction",
+          optionKey: "help",
+          sourceRefs: [{ kind: "historical-event", eventId: reception.id }],
+        }),
+        expect.objectContaining({
+          sourceType: "social:campaign-thanks",
+          optionKey: "help",
+          sourceRefs: [
+            expect.objectContaining({ kind: "relationship-interaction" }),
+          ],
+        }),
+      ]),
+    );
+  });
+
   it("adds a volunteer as canonical unpaid campaign work", () => {
     const filed = filedCampaign();
     const joined = addCampaignHelper(filed.world, {

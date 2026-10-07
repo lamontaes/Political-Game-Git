@@ -2,8 +2,10 @@ import {
   electionContestResult,
   requireElectionContest,
 } from "./election-contests";
+import { campaignForContest } from "./campaign-queries";
 import { personName } from "./people";
 import { addDays } from "./dates";
+import { recordRelationshipInteraction } from "./records";
 import { recordWorldEvent } from "./world";
 import { LIFE_MIND_IDS } from "./life-mind-content";
 import { parentsOf } from "./people-family";
@@ -247,5 +249,32 @@ export function recordElectionSpeech(
     witnessIds,
     won ? "victory" : "concession",
   );
-  return rememberSpeech(received, speech, witnessIds);
+  let remembered = rememberSpeech(received, speech, witnessIds);
+  if (!won) {
+    const campaign = campaignForContest(remembered, contestId);
+    const witnesses = new Set(witnessIds);
+    for (const workId of campaign?.staffWorkRelationshipIds ?? []) {
+      const work = remembered.history.workRelationships.find(
+        (row) => row.id === workId,
+      );
+      if (
+        !work ||
+        work.kind !== "volunteer:campaign-staff" ||
+        !witnesses.has(work.personId)
+      )
+        continue;
+      remembered = recordRelationshipInteraction(remembered, {
+        stableKey: `${speech.stableKey}:thanks:${work.personId}`,
+        personIds: [personId, work.personId],
+        eventId: speech.id,
+        occurredAt: speech.occurredAt,
+        kind: "support:campaign-thanks",
+        change: "maintained",
+        significance: "minor",
+        summary: speech.summary,
+        tags: [],
+      });
+    }
+  }
+  return remembered;
 }
