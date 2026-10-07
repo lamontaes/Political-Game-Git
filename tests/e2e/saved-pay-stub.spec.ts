@@ -17,6 +17,7 @@ test("a random new-life first paycheck is visible in Money and property", async 
     const incomePath = "/src/simulation/resource-income.ts";
     const worldPath = "/src/simulation/world.ts";
     const campaignsPath = "/src/simulation/campaigns.ts";
+    const campaignsPath = "/src/simulation/campaigns.ts";
     const storePath = "/src/presentation/browser-world-repository.ts";
     const { explicitNewGameSetup } = await import(
       /* @vite-ignore */ geographyPath
@@ -30,6 +31,10 @@ test("a random new-life first paycheck is visible in Money and property", async 
       performLifePathSession,
     } = await import(/* @vite-ignore */ lifePath);
     const { recordedPayStubs } = await import(/* @vite-ignore */ incomePath);
+    const { composeWorldTimeHandlers } = await import(
+      /* @vite-ignore */ campaignsPath
+    );
+    const handlers = composeWorldTimeHandlers();
     const { composeWorldTimeHandlers } = await import(
       /* @vite-ignore */ campaignsPath
     );
