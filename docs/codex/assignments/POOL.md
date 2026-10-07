@@ -275,7 +275,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | AU-06 | Courts | pool-audit-repairs.md AU-06 | open | |
 | AU-07 | One clock path | pool-audit-repairs.md AU-07 | open | |
 | AU-08 | Pay and hiring from records | pool-audit-repairs.md AU-08 | open | |
-| AU-09 | Opening money from records | pool-audit-repairs.md AU-09 | open | |
+| AU-09 | Opening money from records | pool-audit-repairs.md AU-09 | done #1992/#2001/#2024 (verified on main) | Session 55 |
 | AU-10 | Businesses and banks from books | pool-audit-repairs.md AU-10 | open | |
 | AU-11 | Opening politics and town elections without swings | pool-audit-repairs.md AU-11 | open | |
 | AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | open | |
