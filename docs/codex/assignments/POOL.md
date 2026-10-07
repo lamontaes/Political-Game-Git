@@ -475,13 +475,13 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | T9-facet-hot-headed | Wire trait facet-hot-headed into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-sensitive | Wire trait facet-sensitive into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-tender-hearted | Wire trait facet-tender-hearted into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3248 | |
-| T9-facet-excitable | Wire trait facet-excitable into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
+| T9-facet-excitable | Wire trait facet-excitable into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3245 | Session 59 |
 | T9-facet-light-hearted | Wire trait facet-light-hearted into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-restless | Wire trait facet-restless into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #2938 | |
 | T9-facet-brooding | Wire trait facet-brooding into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3184 | Session 52 |
 | T9-facet-affectionate | Wire trait facet-affectionate into the decisions it argues in, with a two-person proof | pool-traits.md T9 | ready #3122 | Session 42 |
 | T9-facet-closeness-seeking | Wire trait facet-closeness-seeking into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
-| T9-facet-intimacy-guarded | Wire trait facet-intimacy-guarded into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
+| T9-facet-intimacy-guarded | Wire trait facet-intimacy-guarded into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3229 | Session 59 |
 | T9-facet-devoted | Wire trait facet-devoted into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3145 | Session 42 |
 | T9-facet-nostalgic | Wire trait facet-nostalgic into the decisions it argues in, with a two-person proof | pool-traits.md T9 | open | |
 | T9-facet-teasing | Wire trait facet-teasing into the decisions it argues in, with a two-person proof | pool-traits.md T9 | done #3096 | Session 42 |
@@ -554,7 +554,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | ready #3353 | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | unsupported: no sourced sitting trigger or nonsitting action contract | |
-| BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
+| BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | ready #2477 | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
@@ -569,9 +569,9 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
-| BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | open | Session 11 |
+| BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | ready #3536 | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
-| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | open | |
+| BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | ready #3418 | Session 52 |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
 
 ## Rescue: every open PR from the Codex sessions and earlier (added Oct 6, 3:40 p.m.)
@@ -755,7 +755,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2472 | B14 Part 6: Add player misconduct offer seam | PR #2472 (codex/session36-b14-part6) | open: draft: finish it or close it as superseded | |
 | RS-2474 | b13-p3: Add source-grounded courtroom situation adapter | PR #2474 (codex/session42-b13-p3-courtroom-scenes) | open: sent back: failed its own changed checks: prettier; rebase on main (conflicts) | |
 | RS-2475 | Fix radial menu spacing at ring boundaries | PR #2475 (session14/bg59-radial-clipping) | open: draft: finish it or close it as superseded | |
-| RS-2477 | [BG-50] Give the political map room at play size | PR #2477 (codex/bg50-map-legibility-session14) | open: draft: finish it or close it as superseded | |
+| RS-2477 | [BG-50] Give the political map room at play size | PR #2477 (codex/bg50-map-legibility-session14) | ready #2477; gates in PR |
 | RS-2478 | Kit 13: Show progress while saved lives load | PR #2478 (codex/session2-kit13-loading) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2480 | Bind tax terms through one authority table | PR #2480 (session9/generic-tax-term-binding) | open: draft: finish it or close it as superseded | |
 | RS-2481 | LW-07: add city tax term rows | PR #2481 (codex/session30-lw07) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
@@ -921,7 +921,7 @@ open: rebase on main (conflicts) | |
 | RS-2726 | b01-p1-s2: ground filing guidance in the canonical gate | PR #2726 (session-110/b01-p1-s2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2727 | b04-p3-s2: include active standing-group members in civic stake | PR #2727 (session-110/b04-p3-s2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2728 | b18-p1: cloud task — saved player ballots in the existing count | PR #2728 (session-110/b18-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2732 | b24-p1-s3: READY for CTO review (eight turned input failures) | PR #2732 (codex/session127-b24-p1-s3) | open: rebase on main (conflicts) | |
+| RS-2732 | b24-p1-s3: READY for CTO review (eight turned input failures) | PR #2732 (codex/session127-b24-p1-s3) | ready #2732 | |
 | RS-2734 | b24-p1-s4: native cloth-boundary probe (cuff mask unfinished) | PR #2734 (codex/session127-b24-p1-s4) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2739 | b24-p2: independent tag validator proposal (owner schema missing) | PR #2739 (codex/session127-b24-p2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | ready #2742 | |
