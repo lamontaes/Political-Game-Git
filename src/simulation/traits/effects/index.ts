@@ -40,7 +40,9 @@ import { facetIndependentEffects } from "./facet-independent";
 import { facetInformalEffects } from "./facet-informal";
 import { facetIntimacyGuardedEffects } from "./facet-intimacy-guarded";
 import { facetInventiveEffects } from "./facet-inventive";
+import { facetManipulativeEffects } from "./facet-manipulative";
 import { facetMeticulousEffects } from "./facet-meticulous";
+import { facetMischievousEffects } from "./facet-mischievous";
 import { facetNurturingEffects } from "./facet-nurturing";
 import { facetObservantEffects } from "./facet-observant";
 import { facetOpenMindedEffects } from "./facet-open-minded";
@@ -59,12 +61,14 @@ import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTactfulEffects } from "./facet-tactful";
 import { facetTeasingEffects } from "./facet-teasing";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
+import { facetVindictiveEffects } from "./facet-vindictive";
 import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetZealousEffects } from "./facet-zealous";
 import { initialTrustEffects } from "./initial-trust";
 import { methodRevisionEffects } from "./method-revision";
 import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
 import { patienceEffects } from "./patience";
+import { playfulMannerEffects } from "./playful-manner";
 import { selfConfidenceEffects } from "./self-confidence";
 import { uncertainOutlookEffects } from "./uncertain-outlook";
 import { voluntaryEffortEffects } from "./voluntary-effort";
@@ -115,7 +119,9 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetInformalEffects,
     ...facetIntimacyGuardedEffects,
     ...facetInventiveEffects,
+    ...facetManipulativeEffects,
     ...facetMeticulousEffects,
+    ...facetMischievousEffects,
     ...facetNurturingEffects,
     ...facetObservantEffects,
     ...facetOpenMindedEffects,
@@ -134,12 +140,14 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetTactfulEffects,
     ...facetTeasingEffects,
     ...facetTenderHeartedEffects,
+    ...facetVindictiveEffects,
     ...facetWorkCenteredEffects,
     ...facetZealousEffects,
     ...initialTrustEffects,
     ...methodRevisionEffects,
     ...outwardEmotionalDisplayEffects,
     ...patienceEffects,
+    ...playfulMannerEffects,
     ...selfConfidenceEffects,
     ...uncertainOutlookEffects,
     ...voluntaryEffortEffects,
