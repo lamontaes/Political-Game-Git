@@ -7,6 +7,7 @@ import { facetAcquisitiveEffects } from "./facet-acquisitive";
 import { facetAmbitiousEffects } from "./facet-ambitious";
 import { facetAnalyticalEffects } from "./facet-analytical";
 import { facetArbitraryEffects } from "./facet-arbitrary";
+import { facetApprovalSeekingEffects } from "./facet-approval-seeking";
 import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetAssertiveEffects } from "./facet-assertive";
 import { facetBluntEffects } from "./facet-blunt";
@@ -79,6 +80,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetAmbitiousEffects,
     ...facetAnalyticalEffects,
     ...facetArbitraryEffects,
+    ...facetApprovalSeekingEffects,
     ...facetArgumentativeEffects,
     ...facetAssertiveEffects,
     ...facetBluntEffects,
