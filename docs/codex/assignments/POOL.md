@@ -518,7 +518,7 @@ Take these after the order above, or any time a session is free. Every row is on
 
 | BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | open | |
 | BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | open | |
-| BG-21 | Creator: helper lines remain (e.g. 'Next waits until you choose a place in this state') | BUGS.md BG-21 | open | |
+| BG-21 | Creator: helper lines remain (e.g. 'Next waits until you choose a place in this state') | BUGS.md BG-21 | done #2290 | |
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | open | |
 | BG-23 | Creator: only 6 faces for a man | BUGS.md BG-23 | open | |
 | BG-24 | Creator 'Who are you?' questions are terrible (club-trip registration and similar) | BUGS.md BG-24 | done #87 | |
@@ -996,7 +996,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | CO-4 | Sheriff and district attorney do recorded work. Owner H1 after its rescue list, else anyone. | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | H1 after rescue or anyone |
 | CO-5 | County budget and tax hearings. Owner M1 after its rescue list, else anyone.                 | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3033 | done   | M1 after rescue or anyone |
 | CO-6 | County powers cells. Owner L2 after CO-1, else anyone.                                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | L2 after CO-1 or anyone   |
-| CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | H2 with ART-1             |
+| CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #1829 | done   | H2 with ART-1             |
 | CO-8 | County court. Anyone (same as SC-2).                                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | anyone                    |
 | CO-9 | The fair, roads and the health department as county services. Anyone, after CO-5.            | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open   | anyone after CO-5         |
 
