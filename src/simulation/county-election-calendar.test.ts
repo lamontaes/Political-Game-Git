@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import calendarProfiles from "../../data/research/government/county-election-calendar-profiles.json" with { type: "json" };
 import { makeIsoDate } from "./dates";
-import { governmentUnit, countyGovernmentUnit } from "./government-units";
+import stateSchedule from "../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
+import {
+  governmentUnit,
+  countyGovernmentUnit,
+  governmentUnitsForState,
+} from "./government-units";
+import { SeededRng, pickDistinct } from "./rng";
 import { nextCountyElection } from "./nationwide-world/county-election-calendar";
 
 const deSoto = governmentUnit("gus2025:127794")!;
@@ -49,13 +55,10 @@ describe("sourced county dates remain distinct from municipal defaults", () => {
       },
     );
   });
-  it("never transfers a read county calendar to a city, inactive unit or other county", () => {
+  it("never transfers a read county calendar to a city or inactive unit", () => {
     for (const unit of [
       { ...deSoto, unitType: "municipality" as const },
       { ...deSoto, functionalActive: false },
-      { ...deSoto, countyGeoid: "22017" },
-      { ...loudon, countyGeoid: "47093" },
-      { ...loudon, stateUsps: "KY" },
     ])
       expect(nextCountyElection(unit, makeIsoDate("2026-01-01")).status).toBe(
         "unknown",
@@ -105,4 +108,38 @@ it("refuses invalid profile term lengths before date reads or recurring search",
       "read",
     );
   }
+});
+
+describe("every county reads its state's statutory calendar", () => {
+  const seed = "co1-2026-10-06";
+  const full = stateSchedule.states.filter(
+    (row) => row.countyGovernment === "full",
+  );
+  const states = pickDistinct(
+    new SeededRng(seed),
+    full.map((row) => row.stateUsps),
+    5,
+  );
+  it.each(states)("a random county in %s (seed " + seed + ")", (usps) => {
+    const row = full.find((entry) => entry.stateUsps === usps)!;
+    const counties = governmentUnitsForState(usps).filter(
+      (unit) => unit.unitType === "county" && unit.functionalActive,
+    );
+    expect(counties.length).toBeGreaterThan(0);
+    const county =
+      counties[new SeededRng(`${seed}:${usps}`).integer(0, counties.length)]!;
+    const read = nextCountyElection(county, makeIsoDate("2026-10-07"));
+    if (county.stateUsps === "LA" || county.stateUsps === "TN") return;
+    expect(read.status).toBe("read");
+    if (read.status !== "read") return;
+    const year = Number(read.dates.electionDate.slice(0, 4));
+    expect(row.body!.electionYearResidues).toContain(
+      year % row.body!.cycleYears,
+    );
+    expect(new Date(read.dates.electionDate).getUTCMonth() + 1).toBe(
+      row.body!.election.month,
+    );
+    expect(read.dates.termYears).toBe(row.body!.termYears);
+    expect(read.dates.termStarts > read.dates.electionDate).toBe(true);
+  });
 });
