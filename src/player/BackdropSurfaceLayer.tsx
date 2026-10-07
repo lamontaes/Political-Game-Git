@@ -228,7 +228,6 @@ function SurfaceContent({
       )
         return (
           <div className="bs-board bs-bills" data-testid="backdrop-bills">
-            <strong className="bs-board-heading">{content.heading}</strong>
             {content.place ? (
               <span className="bs-board-sub">{content.place}</span>
             ) : null}
@@ -244,10 +243,9 @@ function SurfaceContent({
         );
       return (
         <div
-          className={`bs-sheet bs-sheet--${slot.finish}`}
+          className={`bs-sheet bs-sheet--${slot.finish}${slot.id === "office-green-poster" ? " bs-sheet--office-green-bills" : ""}`}
           data-testid="backdrop-bills"
         >
-          <strong className="bs-sheet-heading">{content.heading}</strong>
           {content.place ? (
             <span className="bs-sheet-place">{content.place}</span>
           ) : null}
