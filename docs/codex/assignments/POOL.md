@@ -537,7 +537,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | done #2220 | |
 | BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | done #1853 | |
 | BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | done #1853, #7eec528 | |
-| BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | open | |
+| BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | ready #3395 (unsupported: generic agenda has no order; 23 reference series across 15 governments lack an order field or current authority for all 56) | Session 34 |
 | BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | ready #3415 | |
 | BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | open | |
 | BG-38 | 'Until needed' stops at 7 a.m. first and needs two presses to reach an evening event | BUGS.md BG-38 | open | |
@@ -555,7 +555,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
-| BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | open | |
+| BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | open | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | open | |
 | BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | open | |
