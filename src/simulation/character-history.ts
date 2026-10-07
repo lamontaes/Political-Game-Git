@@ -79,6 +79,10 @@ import {
   residentNameForJurisdiction,
 } from "./life-places";
 import {
+  localInstitutionProvenance,
+  localSchoolInstitutionFor,
+} from "./local-institutions";
+import {
   generateSchoolNames,
   stateUsps,
   type SchoolNameVersion,
@@ -1577,63 +1581,7 @@ export function establishPreStartAdultHistory(
     });
     if (momentKey !== earlyKey) countPreStartMonth(occupiedMonths, occurredAt);
   }
-  for (let year = 18; year < age; year += 1) {
-    const occurredAt = preStartEventDate(
-      world,
-      player.birthDate,
-      year,
-      `${key}:year:${year}`,
-      occupiedMonths,
-    );
-    if (occurredAt >= world.currentDate) break;
-    const otherId = companionOn(occurredAt, year);
-    const wantsFamily = occurredAt < workStart || year < 24 || year % 4 === 0;
-    // Nobody left to share the year with, and no work yet: nothing is written.
-    if (otherId === null && occurredAt < workStart) continue;
-    const isFamily = wantsFamily && otherId !== null;
-    const otherName = otherId === null ? "" : next.people[otherId]!.givenName;
-    const summary = isFamily
-      ? `${playerName} and ${otherName} spent time together at age ${year}.`
-      : `${playerName} continued working at ${input.employerName} at age ${year}.`;
-    const involvedEntityIds = isFamily
-      ? [player.id, otherId!]
-      : [player.id, input.employerId];
-    next = recordWorldEvent(next, {
-      stableKey: `${key}:year:${year}`,
-      type: isFamily ? "life.family-time" : "life.work-routine",
-      occurredAt,
-      recordedAt: world.currentDate,
-      jurisdictionId: input.jurisdictionId,
-      involvedEntityIds,
-      participants: involvedEntityIds
-        .filter((id) => next.people[id])
-        .map((personId, index) => ({
-          personId,
-          role: index === 0 ? "agency:participant" : "presence:participant",
-          detail: null,
-        })),
-      personFactConstraints: [],
-      visibility: "limited",
-      tags: [isFamily ? "life.family-time" : "life.work-routine"],
-      summary,
-      context: {
-        location: {
-          jurisdictionId: input.jurisdictionId,
-          label: "Home area",
-          setting: null,
-        },
-        socialContext: isFamily
-          ? "Recorded time with family"
-          : "Recorded employment",
-        pressure: null,
-        choice: null,
-        motivation: null,
-        immediateReaction: null,
-      },
-    });
-    countPreStartMonth(occupiedMonths, occurredAt);
-    input.onCheckpoint?.(next, player.id);
-  }
+
   return next;
 }
 
@@ -3069,6 +3017,8 @@ export interface ResolveLifeSituationInput {
   readonly stableKey: string;
   readonly mode: CharacterHistoryMode;
   readonly personId: EntityId;
+  /** Person who made the choice; defaults to the child for ordinary scenes. */
+  readonly decisionMakerPersonId?: EntityId;
   readonly situationKey: LifeSituationKey;
   readonly optionKey: string;
   readonly occurredAt: IsoDate;
@@ -3183,13 +3133,30 @@ export function resolveLifeSituation(
           // and still handed the sentence, because being listed as a
           // participant is what person history reads. Somebody who witnessed
           // nothing is not on the record of it.
-          involvedEntityIds: [input.personId, ...(shared ? [shared] : [])],
+          involvedEntityIds: [
+            ...new Set([
+              input.personId,
+              ...(input.decisionMakerPersonId
+                ? [input.decisionMakerPersonId]
+                : []),
+              ...(shared ? [shared] : []),
+            ]),
+          ],
           participants: [
             {
-              personId: input.personId,
+              personId: input.decisionMakerPersonId ?? input.personId,
               role: "agency:actor",
               detail: option.label,
             },
+            ...(input.decisionMakerPersonId
+              ? [
+                  {
+                    personId: input.personId,
+                    role: "impact:child" as const,
+                    detail: option.memory,
+                  },
+                ]
+              : []),
             ...(shared
               ? [
                   {
@@ -3500,6 +3467,15 @@ export function generateQuickCharacterHistory(
       ),
     },
   );
+  const schoolRows = {
+    elementary: localSchoolInstitutionFor(
+      world,
+      input.jurisdictionId,
+      "elementary",
+    ),
+    middle: localSchoolInstitutionFor(world, input.jurisdictionId, "middle"),
+    high: localSchoolInstitutionFor(world, input.jurisdictionId, "high"),
+  };
   const parentKey = key("parent");
   const peerKey = key("peer");
   const teacherKey = key("teacher");
@@ -3642,9 +3618,11 @@ export function generateQuickCharacterHistory(
         input: {
           stableKey: elementary,
           formedAt: age(0),
-          provenance: generated,
+          provenance: schoolRows.elementary
+            ? localInstitutionProvenance(schoolRows.elementary, age(0))
+            : generated,
           initialProfile: {
-            name: schoolNames.elementary,
+            name: schoolRows.elementary?.name ?? schoolNames.elementary,
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -3655,9 +3633,11 @@ export function generateQuickCharacterHistory(
         input: {
           stableKey: middleSchool,
           formedAt: age(0),
-          provenance: generated,
+          provenance: schoolRows.middle
+            ? localInstitutionProvenance(schoolRows.middle, age(0))
+            : generated,
           initialProfile: {
-            name: schoolNames.middle,
+            name: schoolRows.middle?.name ?? schoolNames.middle,
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -3668,9 +3648,11 @@ export function generateQuickCharacterHistory(
         input: {
           stableKey: highSchool,
           formedAt: age(0),
-          provenance: generated,
+          provenance: schoolRows.high
+            ? localInstitutionProvenance(schoolRows.high, age(0))
+            : generated,
           initialProfile: {
-            name: schoolNames.high,
+            name: schoolRows.high?.name ?? schoolNames.high,
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -3752,6 +3734,22 @@ export function generateQuickCharacterHistory(
           provenance: generated,
         },
       },
+      ...(ageOnDate(person.birthDate, world.currentDate) >= 18
+        ? [
+            {
+              kind: "household-membership-state" as const,
+              input: {
+                stableKey: key("household:parent-left"),
+                membershipStableKey: `${home}:parent`,
+                effectiveAt: dateAtAge(person.birthDate, 18),
+                status: "ended" as const,
+                residenceRole: "primary" as const,
+                kind: "resident:adult" as const,
+                provenance: generated,
+              },
+            },
+          ]
+        : []),
       {
         kind: "kinship",
         input: {
