@@ -205,6 +205,7 @@ export function openingTourStagedPeople(
   options: {
     readonly furniture?: boolean;
     readonly memberIds?: ReadonlySet<EntityId>;
+    readonly faceRoom?: boolean;
   } = {},
 ) {
   const ids = new Set(people.map((person) => person.personId));
@@ -219,7 +220,11 @@ export function openingTourStagedPeople(
         ? { role: "member-at-dais" as const }
         : {}),
     })),
-    { standing: !options.furniture, rosterOnly: true },
+    {
+      standing: !options.furniture,
+      rosterOnly: true,
+      faceRoom: options.faceRoom ?? false,
+    },
   );
   return Object.assign(
     placed.filter((person) => ids.has(person.personId)),

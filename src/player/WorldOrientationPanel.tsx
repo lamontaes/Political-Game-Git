@@ -408,7 +408,9 @@ export function WorldOrientationPanel({
     () =>
       measuredPlace && world && personId
         ? openingTourStagedPeople(world, personId, measuredPlace, sceneRoster, {
-            furniture: true,
+            // The family stands together in its home; offices seat people.
+            furniture: step?.key !== "parents",
+            faceRoom: step?.key === "parents",
             memberIds: new Set(
               (chapter?.actors ?? [])
                 .filter(
@@ -420,7 +422,7 @@ export function WorldOrientationPanel({
             ),
           })
         : [],
-    [measuredPlace, world, personId, sceneRoster, chapter],
+    [measuredPlace, world, personId, sceneRoster, chapter, step?.key],
   );
   const sceneStaged = measuredPlace !== null && sceneRoster.length > 0;
   const layout =
@@ -485,6 +487,7 @@ export function WorldOrientationPanel({
                 people={scenePeople}
                 stageRef={sceneStage}
                 overflowLabel="More illustrated people"
+                nameTags={step.key === "parents"}
                 onSelectPerson={(id) => {
                   const selected = sceneRoster.find(
                     (person) => person.personId === id,
@@ -931,12 +934,13 @@ export function orientationBackdrop(
         ? "state-legislative-chamber-unicameral"
         : "state-legislative-chamber-bicameral",
     );
+  // The family stands in the home the household record says it lives in:
+  // one composition, the home's picture with the family on its own spots.
   if (stepKey === "parents") {
-    if (sources.regionalPlate)
-      return { kind: "region", plate: sources.regionalPlate };
-    if (sources.regionScene)
-      return { kind: "region-preview", raster: sources.regionScene };
-    return { kind: "neutral" };
+    const home = (sources.homePlaces ?? []).find((name) =>
+      middayBackdropUrl(name),
+    );
+    return place(home);
   }
   // Your life opens in your own home, the same picture the play screen's
   // room reads from the dwelling record.
