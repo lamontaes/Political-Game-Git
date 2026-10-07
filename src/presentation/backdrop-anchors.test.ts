@@ -74,7 +74,7 @@ describe("people anchors on every place picture", () => {
       expect(rowGroups.size).toBe(expectedRows);
       expect(spots).toHaveLength(7 + expectedSeats);
     }
-
+  });
 
   it("anchors visible church supper hall table chairs", () => {
     const spots = STAGES["church-supper-hall"]!.spots;
