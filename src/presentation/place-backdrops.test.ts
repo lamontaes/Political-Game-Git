@@ -158,6 +158,11 @@ describe("place backdrops", () => {
     );
     expect(workplacePlaceFor("custom:onet-43-9061-00")).toBe("office");
     expect(workplacePlaceFor(null)).toBe("office");
+    expect(workplacePlaceFor("profession:teacher", "store")).toBe("store");
+    expect(workplacePlaceFor("occupation:general", "diner")).toBe("diner");
+    expect(workplacePlaceFor("profession:teacher", "unrecorded-room")).toBe(
+      "classroom",
+    );
 
     const named = [
       ...[
