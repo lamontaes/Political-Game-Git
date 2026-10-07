@@ -4283,7 +4283,9 @@ export interface EnactedDutyFindingRecord extends EnactedDutyRecordBase {
    * unknowns say which fact the world does not hold.
    */
   readonly outcome: "complied" | "compliance-unknown" | "coverage-unknown";
-  readonly basis: "game-profile" | "unknown";
+  readonly basis: "game-profile" | "recorded-service" | "unknown";
+  /** The actual program service outturn that established fulfillment, if any. */
+  readonly evidenceRecordId?: EntityId;
   readonly researchQuestionId: string;
   readonly reason: string;
 }
