@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 import manifestJson from "../../art/people-engine/v1/manifest.json" with { type: "json" };
+import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import {
   BODY_BUILDS,
   composeEnginePerson,
@@ -31,6 +32,11 @@ import {
 
 const PACK = manifestJson as unknown as PeoplePackManifest;
 const SCENES = ["state-legislative-chamber-bicameral", "office", "diner"];
+const SEATED_SPOTS = Object.entries(staging.places).flatMap(([place, stage]) =>
+  stage.spots.flatMap((spot, index) =>
+    spot.pose === "sit" ? [{ place, spot, index }] : [],
+  ),
+);
 
 function read(file: string): Raster {
   const png = PNG.sync.read(readFileSync(`art/people-engine/v1/${file}`));
@@ -98,5 +104,31 @@ describe("people drawn on the anchors", { timeout: 120_000 }, () => {
     // Not a row of models: a place with seats has people sitting.
     if (stage.spots.some((spot) => spot.pose === "sit"))
       expect([...poses].some((pose) => isSeatedPose(pose as never))).toBe(true);
+  });
+
+  it("renders every recorded sit spot with a seated body and the desk below the shoulders", () => {
+    expect(SEATED_SPOTS.length).toBeGreaterThan(0);
+    const failures: string[] = [];
+    for (const { place, spot, index } of SEATED_SPOTS) {
+      const stage = backdropStaging(place)!;
+      const recipe = recipeAt(spot, index);
+      const drawn = composeEnginePerson(PACK, read, recipe);
+      const figure = spotFigure(stage, spot, recipe);
+      const rowY = (row: number) =>
+        figure.topPercent + (row / drawn.raster.height) * figure.heightPercent;
+
+      if (!isSeatedPose(drawn.pose))
+        failures.push(`${place} spot ${index} resolved non-seated pose`);
+      if (!isSeatedPose(spotPose(spot)))
+        failures.push(`${place} spot ${index} maps to non-seated pose`);
+      if (spot.clipBelowY !== undefined) {
+        const shoulderY = rowY(drawn.anchors.shoulderRow);
+        if (spot.clipBelowY <= shoulderY)
+          failures.push(
+            `${place} spot ${index}: clipBelowY ${spot.clipBelowY} <= shoulderY ${shoulderY}`,
+          );
+      }
+    }
+    expect(failures).toEqual([]);
   });
 });
