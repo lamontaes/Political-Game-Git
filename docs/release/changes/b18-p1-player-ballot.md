@@ -5,4 +5,7 @@ section: Improved
 title: Election counts honor a saved player ballot
 ---
 
-The existing election count uses the player's saved candidate choice or abstention.
+The shared election count uses a saved player candidate choice or abstention,
+scoped to the voter, contest, jurisdiction, and election date. Without a saved
+choice, it keeps the existing decision fallback. The player ballot input remains
+separate follow-up work.
