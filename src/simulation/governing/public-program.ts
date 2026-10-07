@@ -2,7 +2,7 @@ import { publicTaxAccountEvidenceForIdentity } from "../tax-policy";
 import { bindFederalClaimsForPaidStateInstallment } from "../federal-state-program-payments";
 import { farmProgramPaymentAt } from "../federal-farm-payments";
 import { createStableId } from "../ids";
-import { addDays, daysBetween } from "../dates";
+import { addDays, daysBetween, spokenDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
 import { resourcePositionAt } from "../resource-queries";
@@ -458,6 +458,11 @@ function stripEdition<T extends { readonly edition: string }>(
   ) as Omit<T, "edition">;
 }
 
+/** A program key's family in plain words: "behavioral health crisis response". */
+function programWords(programKey: string): string {
+  return (programKey.split(":")[0] ?? programKey).replace(/[-_.]+/g, " ");
+}
+
 /** Records spending authority on an existing public account. Not cash. */
 export function recordProgramAppropriation(
   world: World,
@@ -502,7 +507,9 @@ export function recordProgramAppropriation(
       participant: null,
       visibility: "public",
       programKey: input.programKey,
-      summary: `${dollars(input.amount)} may be committed for ${input.programKey} from ${input.availableFrom} through ${input.availableThrough}. Authority to spend is not cash.`,
+      // Read aloud by news and memory: words, never the program key or an
+      // ISO date (CTO 8:13 p.m. Oct 6).
+      summary: `${dollars(input.amount)} is set aside for ${programWords(input.programKey)} from ${spokenDate(input.availableFrom)}, through ${spokenDate(input.availableThrough)}.`,
     },
     { kind: "appropriation", ...stripEdition(input) },
   );
