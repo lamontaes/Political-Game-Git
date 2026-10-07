@@ -37,7 +37,6 @@ import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { assertWorldIntegrity } from "../world";
 import { createLawConsequenceRegistry } from "../law-consequence-registry";
-import { applyLawConsequences } from "../enacted-law-effects";
 import { personName } from "../people";
 import { validateLawConsequences } from "../law-consequence-validation";
 import type {
