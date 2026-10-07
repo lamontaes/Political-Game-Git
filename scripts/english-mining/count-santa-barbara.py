@@ -1,6 +1,8 @@
 # Counts turn shapes in the Santa Barbara Corpus of Spoken American English
 # (CC BY-ND 3.0 US; counts and short tokens only, never lines). Usage:
-# python3 -I count-santa-barbara.py <dir of SBC*.trn> > counts.json
+# python3 -I count-santa-barbara.py <dir of SBC*.trn> [recording numbers, e.g. 4,5,13] > counts.json
+# The optional list keeps only those recordings (the family set is chosen from
+# the corpus's own recording descriptions).
 # Corpus: https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english
 import re, glob, sys, json, collections, statistics
 
@@ -12,8 +14,11 @@ def clean(text):
     text = re.sub(r"<[^>]*>|\([^)]*\)|\[\d?|\d?\]|~|=|@+|%|\bX+\b|\.\.+|--+|[<>]", " ", text)
     return re.sub(r"\s+", " ", text).strip()
 
+ONLY = {int(n) for n in sys.argv[2].split(",")} if len(sys.argv) > 2 else None
 turns = []
 for f in sorted(glob.glob(sys.argv[1] + "/SBC*.trn")):
+    if ONLY is not None and int(re.search(r"SBC(\d+)", f).group(1)) not in ONLY:
+        continue
     speaker, words, ends = None, [], ""
     for line in open(f, encoding="latin-1"):
         parts = line.rstrip("\n").split("\t")

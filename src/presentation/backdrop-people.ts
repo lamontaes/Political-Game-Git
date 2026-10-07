@@ -19,13 +19,11 @@ import {
   sceneActivity,
   type SceneActivity,
 } from "./appearance-engine/pose-chooser";
-import { engineRecipeFor } from "./appearance-engine/recipe";
+import { personDayRecipe } from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackFileAvailable,
 } from "./appearance-engine/runtime";
-import { placeWear } from "./dress-code";
-import { workUniform } from "./work-uniform";
 import { selectedWorkplaceForPerson } from "./place-backdrops";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
 
@@ -153,15 +151,6 @@ const PLACES = staging.places as Readonly<Record<string, PlaceStaging>>;
  * and community-room staff dress as the place does. A job with a uniform
  * (scrubs, police, a safety vest) wears it on shift wherever it is.
  */
-const STAFF_WEAR: Readonly<Record<string, "business" | "casual">> = {
-  "clerk-counter": "business",
-  "hospital-hallway": "business",
-  classroom: "business",
-  "church-supper-hall": "business",
-  office: "business",
-  "county-party-office": "business",
-  "campaign-storefront": "business",
-};
 
 /** Jobs done from behind a counter or desk. */
 const COUNTER_TITLE = /clerk|receptionist|cashier|secretary|office assistant/i;
@@ -329,7 +318,6 @@ export function placeBackdropPeople(
   const workplace = selectedWorkplaceForPerson(world, playerId);
   const selected = workplace?.place === place ? workplace : null;
   const town = selected?.jurisdictionId ?? playerTown(world, playerId);
-  const wear = STAFF_WEAR[place] ?? placeWear(place, world.currentDate);
   const presentIds = new Set(
     present
       .map((person) => person.personId)
@@ -513,14 +501,8 @@ export function placeBackdropPeople(
       unplaced("no-spot");
       continue;
     }
-    const recipe = engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
-      wear,
-      // On shift, a uniformed job wears its uniform (work-uniform.ts reads
-      // "business" as dressed for work). Someone who came for the scene
-      // wears what they wear.
-      ...(onShift
-        ? { uniform: workUniform(world, worker.personId, "business") }
-        : {}),
+    // One outfit per person per day (OW-9): the card draws the same one.
+    const recipe = personDayRecipe(world, record, {
       pose: spotPose(
         spot,
         sceneActivity({

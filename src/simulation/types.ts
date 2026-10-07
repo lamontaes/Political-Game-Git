@@ -942,6 +942,7 @@ export type LawExposureChannel =
   | "public-service"
   | "court-rule"
   | "sentence-rule"
+  | "voting-rule"
   | "rent";
 
 /**
@@ -5836,26 +5837,14 @@ export interface SetupPriorStore {
   readonly answers: readonly SetupAnswerRecord[];
 }
 
-export type ChallengeIntensity = "quiet" | "standard" | "relentless";
-export type NotebookNotesSetting = "full" | "light" | "none";
 export type SaveMode = "free" | "one-save";
-export type FamilyMoneyPremise = "comfortable" | "ordinary" | "tight";
-export type PressPremise = "gentler" | "realistic" | "tougher";
 export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
 
 /** Player-facing choices kept on the World; absent legacy data means defaults. */
 export interface PlaySettings {
-  readonly challenge: ChallengeIntensity;
-  readonly notes: NotebookNotesSetting;
   readonly saves: SaveMode;
   /** Changes how recorded personal-life events are worded, never world facts. */
   readonly personalLifeDepiction: PersonalLifeDepiction;
-  readonly premises: {
-    readonly familyMoney: FamilyMoneyPremise;
-    readonly press: PressPremise;
-    /** Placeholder for the unresolved ongoing-cost choice; currently standard. */
-    readonly ongoingMoneyCosts: "standard";
-  };
 }
 
 export interface World {

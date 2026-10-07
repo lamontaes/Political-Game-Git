@@ -7,6 +7,7 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { isProgramBookkeepingPublication } from "../simulation/public-information";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { LIVING_WORLD_SCENARIO_PROFILE } from "../simulation/living-world/contract";
 import { projectPublicMatters } from "../simulation/living-world/developments";
@@ -105,7 +106,8 @@ export function projectOpeningYear(
     .filter(
       (publication) =>
         publication.publishedAt <= world.currentDate &&
-        publication.correctsPublicationId === null,
+        publication.correctsPublicationId === null &&
+        !isProgramBookkeepingPublication(world, publication),
     )
     .sort(
       (left, right) =>
