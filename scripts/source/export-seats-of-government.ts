@@ -1,6 +1,7 @@
 /** Project the reviewed seat table across the Node/browser source boundary. */
 import { readFileSync, writeFileSync } from "fs";
 import path from "path";
+import { format } from "prettier";
 
 const ROOT = path.resolve(import.meta.dirname, "..", "..");
 const INPUT = path.join(ROOT, "data/research/places/seats-of-government.json");
@@ -35,7 +36,7 @@ export const SEATS_OF_GOVERNMENT_ROWS: string =
   ${JSON.stringify(JSON.stringify(rows))};
 `;
 
-writeFileSync(OUTPUT, output);
+writeFileSync(OUTPUT, await format(output, { parser: "typescript" }));
 process.stdout.write(
   `Wrote ${rows.length} seats to ${path.relative(ROOT, OUTPUT)}.\n`,
 );
