@@ -113,19 +113,22 @@ async function provePeopleWebRoute(
 
   await expect(page.getByTestId("people-relationship-web")).toBeVisible();
   await expect(page.getByTestId("people-search")).toBeVisible();
-  await page.getByTestId("people-web-expand").click();
-  const candidateIds = await page
-    .locator('[data-testid^="people-person-"]')
+  const webPeople = await page
+    .locator('[data-testid^="people-web-node-"]')
     .evaluateAll((nodes) =>
-      nodes.map((node) =>
-        (node.getAttribute("data-testid") ?? "").replace("people-person-", ""),
-      ),
+      nodes.map((node) => ({
+        id: (node.getAttribute("data-testid") ?? "").replace(
+          "people-web-node-",
+          "",
+        ),
+        label: node.querySelector("title")?.textContent ?? "",
+      })),
     );
-  const firstName = await page
-    .locator('[data-testid^="people-person-"] strong')
-    .first()
-    .textContent();
-  expect(firstName).not.toBeNull();
+  const candidateIds = webPeople.map((person) => person.id);
+  const firstName =
+    webPeople.find((person) => person.label !== "You")?.label.split(",")[0] ??
+    webPeople[0]?.label;
+  expect(firstName).toBeTruthy();
   await page.getByTestId("people-search").fill(firstName!);
   await page.screenshot({
     path: `/tmp/${screenshotPrefix}-web-before-selection.png`,
