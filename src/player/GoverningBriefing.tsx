@@ -173,7 +173,12 @@ export function GoverningBriefing({
         </div>
       )}
       {problem ? (
-        <p role="alert" className="game-note" data-testid="governing-problem" data-reason={problem} />
+        <p
+          role="alert"
+          className="game-note"
+          data-testid="governing-problem"
+          data-reason={problem}
+        />
       ) : null}
 
       {briefing.more.length > 0 ? (
@@ -216,8 +221,12 @@ function MatterCard({
         {matter.deadline ?? "—"}
       </p>
       {matter.recommendation ? (
-        <p data-testid="governing-recommendation" data-reason={matter.recommendation.reason}>
-          <strong>{matter.recommendation.byName}</strong> {matter.recommendation.optionLabel}
+        <p
+          data-testid="governing-recommendation"
+          data-reason={matter.recommendation.reason}
+        >
+          <strong>{matter.recommendation.byName}</strong>{" "}
+          {matter.recommendation.optionLabel}
         </p>
       ) : null}
       <div className="game-choices">
