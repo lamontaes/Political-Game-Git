@@ -69,9 +69,7 @@ test("current-source transit component enacts two choices and preserves unpaid c
       name: "Transit service",
       exact: true,
     });
-    await expect(workspace).toContainText(
-      "No transit service appropriation has been filed",
-    );
+    await expect(workspace.getByTestId("transit-bill")).toHaveCount(0);
     await expect(
       workspace.getByLabel("Total amount provided (USD)"),
     ).toHaveValue("");
@@ -101,7 +99,9 @@ test("current-source transit component enacts two choices and preserves unpaid c
       await file.focus();
       await page.keyboard.press("Enter");
     } else await file.click();
-    await expect(workspace).toContainText("was filed");
+    await expect(workspace.getByTestId("transit-bill-stage")).toContainText(
+      "filed",
+    );
     await expect(
       workspace.getByRole("button", {
         name: "Open legislative record",
@@ -123,8 +123,10 @@ test("current-source transit component enacts two choices and preserves unpaid c
       }),
     ).toHaveCount(1);
     await expect(
-      page.getByRole("region", { name: "Transit service", exact: true }),
-    ).toContainText("has not become law");
+      page
+        .getByRole("region", { name: "Transit service", exact: true })
+        .getByTestId("transit-bill-stage"),
+    ).toContainText("filed");
     const openRecord = page.getByRole("button", {
       name: "Open legislative record",
       exact: true,
@@ -180,7 +182,10 @@ test("current-source transit component enacts two choices and preserves unpaid c
       name: "Transit service",
       exact: true,
     });
-    await expect(transit).toContainText("takes effect on");
+    await expect(transit.getByTestId("transit-funding")).toHaveAttribute(
+      "data-ends-at",
+      /.+/,
+    );
     const continueDay = transit.getByRole("button", {
       name: "Continue one day",
       exact: true,
@@ -199,12 +204,9 @@ test("current-source transit component enacts two choices and preserves unpaid c
     });
     const cash = page.getByTestId("transit-cash-snapshot");
     await expect(cash).toHaveAttribute("data-state", "account-missing");
-    await expect(cash).toContainText(
-      index
-        ? "First period: $300.12. Second period: $300.13."
-        : "First period: $200.05. Second period: $200.05.",
+    await expect(page.getByTestId("transit-cash-periods")).toHaveText(
+      index ? "$300.12 · $300.13" : "$200.05 · $200.05",
     );
-    await expect(cash).toContainText("reserves no money");
     await expect(request).toBeVisible();
     if (index) {
       await request.focus();
@@ -232,9 +234,10 @@ test("current-source transit component enacts two choices and preserves unpaid c
       await publish.focus();
       await page.keyboard.press("Enter");
     }
-    await expect(
-      transit.getByText("Published in Civic Ledger.", { exact: true }),
-    ).toHaveCount(1);
+    await expect(transit.getByTestId("transit-report").first()).toHaveAttribute(
+      "data-published",
+      "true",
+    );
     await page.screenshot({
       path: shotPath(`a39-t-${window}-unfunded-cancelled.png`),
       fullPage: true,
@@ -245,9 +248,10 @@ test("current-source transit component enacts two choices and preserves unpaid c
     await openTransit();
     await expect(transit).toContainText("blocked");
     await expect(transit).toContainText("cancelled");
-    await expect(
-      transit.getByText("Published in Civic Ledger.", { exact: true }),
-    ).toHaveCount(1);
+    await expect(transit.getByTestId("transit-report").first()).toHaveAttribute(
+      "data-published",
+      "true",
+    );
     const canonical = await page.evaluate(async (saveId) => {
       const repositoryPath = "/src/presentation/browser-world-repository.ts";
       const servicePath = "/src/presentation/transit-work.ts";

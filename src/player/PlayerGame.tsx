@@ -4160,9 +4160,10 @@ function renderWorkspace({
         <>
           {politicsTabs("issues", "transit")}
           {!politicsIssueAccess(session.world, session.personId).transit ? (
-            <p className="game-note" data-testid="transit-withheld">
-              {ISSUE_WITHHELD.transit}
-            </p>
+            <p
+              data-testid="transit-withheld"
+              data-problem="office-unavailable"
+            />
           ) : (
             <TransitWorkspace
               world={session.world}
