@@ -2,7 +2,7 @@ import { applyLawConsequences } from "../enacted-law-effects";
 import { createStableId } from "../ids";
 import { householdLocationAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { SNAP_WORK_REQUIREMENT_QUESTION } from "../law-consequences/modules/snap-participation";
+import { SNAP_WORK_REQUIREMENT_QUESTION } from "../law-consequences/modules/snap-participation/rows";
 import type { EntityId, IsoDate, World } from "../types";
 
 /** Dispatch the household producer once for each state with recorded households. */

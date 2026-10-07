@@ -16,7 +16,7 @@ import { DEVELOPMENT_INCENTIVE_AWARD_ROW } from "./law-consequences/modules/lw08
 import {
   SNAP_PARTICIPATION_ROW,
   SNAP_WORK_REQUIREMENT_QUESTION,
-} from "./law-consequences/modules/snap-participation";
+} from "./law-consequences/modules/snap-participation/rows";
 import {
   loadPolicyPacks,
   type PolicyPack,
