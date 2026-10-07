@@ -22,6 +22,7 @@ import { createFormationContext, recordPrivateBelief } from "./politics";
 import {
   isEligibleVoterIn,
   issueRecordFor,
+  issueRecordForVote,
   issueStandingsFor,
   judgeIssueRecord,
   UNRESEARCHED_ISSUE_RECORD,
@@ -215,6 +216,25 @@ function otherVoters(setup: Setup, world: World): readonly EntityId[] {
 }
 
 describe("voters weighing an officeholder's record, question by question", () => {
+  it("reads the exact reported roll call even after a different vote on the same day", () => {
+    const setup = billOnTheFloor("yes");
+    const committeeVote = setup.world.history.legislativeVotes!.find(
+      (vote) => vote.measureId === setup.measureId,
+    )!;
+    const later = floorVote(setup, setup.world, "nay");
+    expect(issueRecordFor(later, setup.memberId)[0]!.stance).toBe("against");
+    expect(issueRecordForVote(later, committeeVote, setup.memberId)).toEqual([
+      expect.objectContaining({ stance: "for", act: "voted-yea" }),
+    ]);
+    expect(
+      issueRecordForVote(
+        later,
+        { ...committeeVote, purpose: "amendment" },
+        setup.memberId,
+      ),
+    ).toEqual([]);
+  });
+
   it("reads a yea on a bill that answers yes as a vote for the question", () => {
     const setup = billOnTheFloor("yes");
     const world = floorVote(setup, setup.world, "yea");

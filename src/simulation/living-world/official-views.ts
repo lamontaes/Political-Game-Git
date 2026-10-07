@@ -150,6 +150,10 @@ const IMPORTANCE_FROM: readonly (readonly [number, DecisionImportance])[] = [
   [0.1, "moderate"],
   [0, "slight"],
 ];
+
+export function officialViewImportance(felt: number): DecisionImportance {
+  return IMPORTANCE_FROM.find(([from]) => felt >= from)![1];
+}
 // DESIGNED (game weight, no survey ratio): reads the same felt size. Balances
 // how much the view matters to the person against everything else they weigh.
 const SALIENCE_FROM: readonly (readonly [number, PoliticalSalience])[] = [
@@ -610,13 +614,14 @@ function formViewOfOfficial(
  * One reason to credit or blame an official, weighed by the belief pipeline
  * with the view of them the person already holds, and saved.
  */
-function formViewFromFactor(
+export function formViewFromFactor(
   world: World,
   personId: EntityId,
   officialId: EntityId,
   reason: {
     readonly factor: PoliticalBeliefFormationFactor;
     readonly felt: number;
+    readonly salience?: PoliticalSalience;
   },
   stableKey: string,
   tornBecause: string,
@@ -644,7 +649,7 @@ function formViewFromFactor(
     const legacy = legacyFactor(world, personId, officialId);
     if (legacy) factors.push(legacy);
   }
-  const salience = salienceFor(reason.felt, prior, credit);
+  const salience = reason.salience ?? salienceFor(reason.felt, prior, credit);
   const firm: PoliticalBeliefDimensions = {
     conviction: "moderate",
     salience,

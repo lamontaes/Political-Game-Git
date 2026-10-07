@@ -3,6 +3,7 @@ import { governingOfficeForPerson } from "./governing/state-governing";
 import { stateKeyForJurisdiction } from "./life-places";
 import { measureById } from "./legislation";
 import { billPartsBefore } from "./vote-bundle";
+import { recordsWithFieldValue } from "./history-index";
 import {
   homeJurisdictionResidenceSince,
   stateResidenceSince,
@@ -13,6 +14,7 @@ import type {
   IsoDate,
   LegislativeMeasureRecord,
   LegislativeVotePurpose,
+  LegislativeVoteRecord,
   PoliticalSalience,
   PrivateBeliefRecord,
   World,
@@ -192,6 +194,27 @@ function entriesForMeasure(
   return entries;
 }
 
+/** The questions answered by one member's exact recorded roll call. */
+export function issueRecordForVote(
+  world: World,
+  vote: LegislativeVoteRecord,
+  personId: EntityId,
+): readonly IssueRecordEntry[] {
+  if (!BILL_VOTE_PURPOSES.has(vote.purpose)) return [];
+  const member = vote.dispositions.find((row) => row.personId === personId);
+  if (!member || (member.disposition !== "yea" && member.disposition !== "nay"))
+    return [];
+  const measure = measureById(world, vote.measureId);
+  if (!measure) return [];
+  return entriesForMeasure(
+    world,
+    measure,
+    vote.sequence,
+    member.disposition === "yea" ? "voted-yea" : "voted-nay",
+    vote.takenAt,
+  );
+}
+
 /**
  * Everything on a person's record that answers a question, up to `asOf`.
  *
@@ -316,13 +339,19 @@ export function heldBeliefOn(
   personId: EntityId,
   propositionId: EntityId,
   asOf: IsoDate,
+  historySequenceExclusive: number = world.history.nextSequence,
 ): PrivateBeliefRecord | null {
   let latest: PrivateBeliefRecord | null = null;
-  for (const belief of world.history.privateBeliefs) {
+  for (const belief of recordsWithFieldValue(
+    world.history.privateBeliefs,
+    "personId",
+    personId,
+  )) {
     if (
       belief.personId !== personId ||
       belief.propositionId !== propositionId ||
-      belief.formedAt > asOf
+      belief.formedAt > asOf ||
+      belief.sequence >= historySequenceExclusive
     )
       continue;
     if (
