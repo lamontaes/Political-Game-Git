@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../dates";
 import { createDemoWorld } from "../demo";
 import { createWorld } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
@@ -9,10 +9,19 @@ import { ensureNationalElectionJurisdiction } from "../national-election-geograp
 import { createFormationContext, recordPrinciples } from "../politics";
 import { stateJurisdictionForKey } from "../life-places";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../nationwide-world/state-executive-candidacy-packs";
-import { seatedCongressChamber, measureCosponsors } from "./congress-chambers";
+import {
+  isCongressMeasure,
+  measureCosponsors,
+  seatedCongressChamber,
+} from "./congress-chambers";
 import { fileMemberAgendaBills } from "./member-agenda";
+import {
+  applyCongressLawmaking,
+  CONGRESS_INTAKE_TRANSITION,
+  congressIntakeHandler,
+} from "./congress-lawmaking";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import type { EntityId, World } from "../types";
+import type { EntityId, FutureDueItem, World } from "../types";
 
 // Direct filing producers, with complete canonical chambers and no calendar run.
 function fixture() {
@@ -97,6 +106,45 @@ beforeAll(() => {
 
 describe("the shared member filer, Congress parity in every jurisdiction", () => {
   expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
+  it("schedules the opening intake before returning to monthly filing", () => {
+    const scheduled = applyCongressLawmaking(
+      addDays(world.currentDate, -1),
+      world,
+    );
+    const intake = scheduled.history.futureDueItems.find(
+      (item) => item.transitionKey === CONGRESS_INTAKE_TRANSITION,
+    );
+
+    expect(intake?.dueAt).toBe(addDays(world.currentDate, 1));
+  });
+
+  it("records the actual Congress bill count for its intake", () => {
+    const due = {
+      id: observer,
+      stableKey: "congress-intake-test",
+      sequence: 1,
+      scheduledAt: world.currentDate,
+      dueAt: makeIsoDate("2026-03-01"),
+      transitionKey: CONGRESS_INTAKE_TRANSITION,
+      entityIds: [observer],
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      provenance: { kind: "authored", note: "Congress intake count test." },
+    } satisfies FutureDueItem;
+    const beforeIds = new Set(
+      (world.history.legislativeMeasures ?? [])
+        .filter(isCongressMeasure)
+        .map((measure) => measure.id),
+    );
+    const result = congressIntakeHandler(world, due);
+    const filedBills = (result.world.history.legislativeMeasures ?? []).filter(
+      (measure) => isCongressMeasure(measure) && !beforeIds.has(measure.id),
+    ).length;
+
+    expect(filedBills).toBeGreaterThan(0);
+    expect(result.reasonKey).toBe(`congress-intake:filed-bills-${filedBills}`);
+    expect(result.context).toBeNull();
+  });
+
   it.each(CHIEF_EXECUTIVE_JURISDICTIONS)(
     "preserves filing records for an observer in %s",
     (place) => {
