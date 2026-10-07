@@ -7,6 +7,7 @@ import { facetAcquisitiveEffects } from "./facet-acquisitive";
 import { facetAmbitiousEffects } from "./facet-ambitious";
 import { facetAnalyticalEffects } from "./facet-analytical";
 import { facetApprovalSeekingEffects } from "./facet-approval-seeking";
+import { facetArbitraryEffects } from "./facet-arbitrary";
 import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetAssertiveEffects } from "./facet-assertive";
 import { facetBluntEffects } from "./facet-blunt";
@@ -56,6 +57,7 @@ import { facetSlowToWarmUpEffects } from "./facet-slow-to-warm-up";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTactfulEffects } from "./facet-tactful";
+import { facetTeasingEffects } from "./facet-teasing";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetZealousEffects } from "./facet-zealous";
@@ -80,6 +82,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetAmbitiousEffects,
     ...facetAnalyticalEffects,
     ...facetApprovalSeekingEffects,
+    ...facetArbitraryEffects,
     ...facetArgumentativeEffects,
     ...facetAssertiveEffects,
     ...facetBluntEffects,
@@ -129,6 +132,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetStudiousEffects,
     ...facetSupportiveEffects,
     ...facetTactfulEffects,
+    ...facetTeasingEffects,
     ...facetTenderHeartedEffects,
     ...facetWorkCenteredEffects,
     ...facetZealousEffects,

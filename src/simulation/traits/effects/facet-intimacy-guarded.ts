@@ -1,11 +1,22 @@
 import type { TraitEffectDeclaration } from "../../trait-packs";
 
 /**
- * Intimacy-guardedness is distance in moments of emotional closeness. It does
- * not mean a person cannot care or must leave; these rows contribute only
- * when the relationship is becoming close or changing its level of closeness.
+ * Intimacy-guardedness can lead someone to keep private matters private and
+ * take distance as a relationship becomes emotionally close. It does not mean
+ * a person cannot care or must leave.
  */
 export const facetIntimacyGuardedEffects: readonly TraitEffectDeclaration[] = [
+  {
+    decision: "press.subject-response",
+    leans: [
+      {
+        option: "decline",
+        trait: "personality-v1:facet-intimacy-guarded",
+        pole: "high",
+        explanation: "They prefer to keep personal matters private.",
+      },
+    ],
+  },
   {
     decision: "people.couple-answer",
     leans: [
