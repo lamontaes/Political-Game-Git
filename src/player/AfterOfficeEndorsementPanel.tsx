@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   answerAfterOfficeEndorsementScene,
   projectAfterOfficeEndorsementScenes,
@@ -15,22 +14,14 @@ export function AfterOfficeEndorsementPanel({
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
 }) {
-  const [note, setNote] = useState<string | null>(null);
   const scenes = projectAfterOfficeEndorsementScenes(world, personId);
-  if (scenes.length === 0 && note === null) return null;
+  if (scenes.length === 0) return null;
 
   return (
     <section
       className="pg-personal-section"
-      aria-label="Endorsement requests"
       data-testid="after-office-endorsements"
     >
-      <h3>Endorsement requests</h3>
-      {note ? (
-        <p role="status" data-testid="endorsement-answer-note">
-          {note}
-        </p>
-      ) : null}
       {scenes.map((scene) => (
         // Session 4's scene composer is not on main yet. Keep the player reply
         // controls live and expose the saved packet as structured data here.
@@ -39,8 +30,7 @@ export function AfterOfficeEndorsementPanel({
           data-testid={`endorsement-request-${scene.requestEventId}`}
           data-request-event-id={scene.requestEventId}
         >
-          <h4>Endorsement request</h4>
-          <ul aria-label="Saved scene facts">
+          <ul>
             {scene.facts.map((fact) => (
               <li
                 key={fact.sourceEventId}
@@ -52,7 +42,7 @@ export function AfterOfficeEndorsementPanel({
               </li>
             ))}
           </ul>
-          <ul aria-label="People present">
+          <ul>
             {scene.peoplePresent.map((person) => (
               <li
                 key={`${person.personId}:${person.role}`}
@@ -64,7 +54,7 @@ export function AfterOfficeEndorsementPanel({
               </li>
             ))}
           </ul>
-          <ul aria-label="Recorded scene lines">
+          <ul>
             {scene.lines.map((line) => (
               <li
                 key={`${line.sourceEventId}:${line.speakerPersonId}`}
@@ -98,23 +88,12 @@ export function AfterOfficeEndorsementPanel({
                       requestEventId: scene.requestEventId,
                       optionKey: reply.optionKey,
                     });
-                    setNote(
-                      reply.optionKey === "decline"
-                        ? "You declined the endorsement request."
-                        : reply.optionKey.startsWith("repay:")
-                          ? "You endorsed the candidate and returned their earlier help."
-                          : "You endorsed the candidate.",
-                    );
                     onWorldChange(answer.world);
-                  } catch (error) {
-                    setNote(
-                      error instanceof Error ? error.message : String(error),
-                    );
+                  } catch {
+                    // No authored refusal or error text is rendered here.
                   }
                 }}
-              >
-                {reply.label}
-              </button>
+              />
             ))}
           </div>
         </article>

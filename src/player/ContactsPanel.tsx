@@ -59,7 +59,6 @@ export function ContactsPanel({
     () => projectContacts(world, personId),
     [world, personId],
   );
-  const [note, setNote] = useState<string | null>(null);
   /*
    * The day a request carries. It starts at the earliest day the seam permits
    * and the field says so, so the default is disclosed rather than invented;
@@ -68,14 +67,12 @@ export function ContactsPanel({
   const [days, setDays] = useState<Readonly<Record<string, IsoDate>>>({});
   const dayFor = (key: string): IsoDate => days[key] ?? view.earliestMeetingOn;
 
-  function run(work: () => World, said: string | null = null) {
+  function run(work: () => World) {
     try {
       const next = work();
-      setNote(said);
       if (next !== world) onWorldChange(next);
-    } catch (error) {
-      // The seam refuses in one player-readable sentence. That is the answer.
-      setNote(error instanceof Error ? error.message : String(error));
+    } catch {
+      // No authored refusal or error text is rendered on this screen.
     }
   }
 
@@ -97,16 +94,6 @@ export function ContactsPanel({
       }
       data-testid={focused ? "contact-focus-panel" : "contacts"}
     >
-      {/* Said where it is seen: at the bottom of a long list it went unread. */}
-      {note ? (
-        <p
-          role="status"
-          className="pg-contact-note"
-          data-testid="contacts-note"
-        >
-          {note}
-        </p>
-      ) : null}
       <AfterOfficeEndorsementPanel
         world={world}
         personId={personId}
@@ -137,12 +124,9 @@ export function ContactsPanel({
                     kind === "ask-to-be-a-couple"
                       ? askToBeTogether(world, input)
                       : breakUp(world, input);
-                  setNote(done.said);
                   if (done.world !== world) onWorldChange(done.world);
-                } catch (error) {
-                  setNote(
-                    error instanceof Error ? error.message : String(error),
-                  );
+                } catch {
+                  // No authored refusal or error text is rendered on this screen.
                 }
               }}
               onAnswer={(eventId, answer) =>
@@ -177,17 +161,12 @@ export function ContactsPanel({
                         setting: option.setting,
                         viaPersonId: option.viaPersonId,
                       });
-                      setNote(met.said);
                       if (met.world !== world) onWorldChange(met.world);
-                    } catch (error) {
-                      setNote(
-                        error instanceof Error ? error.message : String(error),
-                      );
+                    } catch {
+                      // No authored refusal or error text is rendered on this screen.
                     }
                   }}
-                >
-                  {option.label}
-                </button>
+                ></button>
               </li>
             ))}
           </ul>
@@ -291,7 +270,7 @@ function ContactRow({
         asking and answering, so no channel is drawn as a control.
       */}
       {contact.channels.length > 0 ? (
-        <ul className="pg-contact-channels" aria-label="Ways to reach them">
+        <ul className="pg-contact-channels">
           {contact.channels.map((channel) => (
             <li
               key={channel.kind}
@@ -319,17 +298,13 @@ function ContactRow({
               className="ui-action ui-action--primary"
               data-testid={tid(`contact-accept-${contact.personId}`)}
               onClick={() => onAnswer(theyAsked.eventId, "accept")}
-            >
-              Say yes to {theyAsked.onSpoken}
-            </button>
+            ></button>
             <button
               type="button"
               className="ui-action"
               data-testid={tid(`contact-decline-${contact.personId}`)}
               onClick={() => onAnswer(theyAsked.eventId, "decline")}
-            >
-              Say you cannot
-            </button>
+            ></button>
           </div>
           {/*
             Offering another day is an answer and a fresh request at once, so
@@ -338,7 +313,6 @@ function ContactRow({
           */}
           <div className="pg-contact-actions">
             <label className="pg-contact-day">
-              <span>Another day?</span>
               <input
                 type="date"
                 min={earliest}
@@ -355,9 +329,7 @@ function ContactRow({
               className="ui-action"
               data-testid={tid(`contact-offer-${contact.personId}`)}
               onClick={() => onOfferAnotherDay(theyAsked.eventId, offerOn)}
-            >
-              Offer that day
-            </button>
+            ></button>
           </div>
         </div>
       ) : null}
@@ -373,9 +345,7 @@ function ContactRow({
               onClick={() =>
                 onCouple(couple.kind as "ask-to-be-a-couple" | "end-couple")
               }
-            >
-              {couple.label}
-            </button>
+            ></button>
           </div>
         ) : (
           <p
