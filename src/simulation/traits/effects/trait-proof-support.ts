@@ -25,13 +25,22 @@ export interface TraitProof {
   readonly low: { choice: string | null; reason: string | null };
 }
 
-function randomPlace(seed: string): { placeKey: string; label: string } {
+function randomPlace(
+  seed: string,
+  stateJurisdictionKey?: string,
+): { placeKey: string; label: string } {
   const states = lifePlaceStateIdentities();
   for (let index = 0; index < 200; index += 1) {
-    const state =
-      states[
-        parseInt(stableHash(`${seed}-${index}`).slice(0, 8), 16) % states.length
-      ]!;
+    const state = stateJurisdictionKey
+      ? states.find(
+          ({ jurisdictionKey }) => jurisdictionKey === stateJurisdictionKey,
+        )
+      : states[
+          parseInt(stableHash(`${seed}-${index}`).slice(0, 8), 16) %
+            states.length
+        ];
+    if (!state)
+      throw new Error(`Unknown place jurisdiction: ${stateJurisdictionKey}`);
     const locality = searchLifePlaces("", 1, {
       stateJurisdictionKey: state.jurisdictionKey,
       scope: "locality",
@@ -94,8 +103,9 @@ export function proveTraitDifference(
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
+  stateJurisdictionKey?: string,
 ): TraitProof {
-  const place = randomPlace(seed);
+  const place = randomPlace(seed, stateJurisdictionKey);
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
