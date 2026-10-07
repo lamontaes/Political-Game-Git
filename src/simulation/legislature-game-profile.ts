@@ -59,6 +59,7 @@ import { districtIdentityCatalog } from "../districts/catalog";
 import { listDistrictIdentities } from "../districts/query";
 import { seatsByDistrict } from "../districts/members-per-district";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import { STATES } from "./state-reference";
 import {
   VETO_OVERRIDE_SOURCE_READINGS,
@@ -761,7 +762,7 @@ function buildLegislatureProfilePack(
     override.basis === "read" && readingCitation(stateJurisdictionKey) !== null
       ? readingCitation(stateJurisdictionKey)!
       : overrideSource;
-  return {
+  const pack: LegislativeRulePack = {
     packId: legislatureProfilePackId(stateJurisdictionKey),
     jurisdictionKey: stateJurisdictionKey,
     displayName: `${stateName} Legislature`,
@@ -889,6 +890,7 @@ function buildLegislatureProfilePack(
       ...override.unexpressed,
     ],
   };
+  return withMinorityPartyProcedureRows(pack);
 }
 
 /**

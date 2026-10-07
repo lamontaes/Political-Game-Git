@@ -35,16 +35,20 @@ export function isAdversePublicStep(
 }
 
 /**
- * UNRESEARCHED. Blanket game rules standing in for magnitudes nobody has
- * researched yet: how far a public ethics finding moves a candidate's
- * support, and how long voters remember one. They are not estimates of real
- * electoral effects. Filed with the research queue as
+ * ESTIMATED FROM AVERAGE. How far a public ethics finding moves a candidate's
+ * support, and how long voters remember one. The size rests on published
+ * studies of scandal and incumbents' vote share (Welch and Hibbing 1997 put a
+ * corruption charge near 6 points); the memory window is a game estimate of a
+ * few election cycles. Filed with the research queue as
  * `ethics-finding-electoral-magnitudes`; a researched table replaces this one
  * under a new version, never as a silent edit.
  */
-export const UNRESEARCHED_FINDING_EFFECTS = {
+export const FINDING_EFFECTS_ESTIMATE = {
   version: "finding-consequences-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "published studies of scandal and incumbent vote share (Welch and Hibbing 1997, Journal of Politics)",
   /** Basis points of contest support a respondent loses when it lands. */
   supportLossBasisPoints: {
     finding: 300,
@@ -88,7 +92,7 @@ export function publicAdverseFindingsAgainst(
   });
 }
 
-/** Findings still inside the unresearched memory window on `asOf`. */
+/** Findings still inside the estimated memory window on `asOf`. */
 export function rememberedAdverseFindingsAgainst(
   world: World,
   personId: EntityId,
@@ -96,21 +100,24 @@ export function rememberedAdverseFindingsAgainst(
 ): readonly AdversePublicFinding[] {
   return publicAdverseFindingsAgainst(world, personId, asOf).filter(
     (finding) =>
-      addDays(finding.step.at, UNRESEARCHED_FINDING_EFFECTS.memoryDays) >= asOf,
+      addDays(finding.step.at, FINDING_EFFECTS_ESTIMATE.memoryDays) >= asOf,
   );
 }
 
 /**
- * UNRESEARCHED. How much harder a second or later public finding lands than
+ * ESTIMATED FROM AVERAGE. How much harder a second or later public finding lands than
  * the first. The owner asked that getting caught more than once cost more
  * (2026-09-22); how much more, for voters and for a body's fines, has not
  * been researched. Filed with the research queue as
  * `repeat-ethics-offense-escalation`; a researched table replaces this one
  * under a new version, never as a silent edit.
  */
-export const UNRESEARCHED_REPEAT_OFFENSE = {
+export const REPEAT_OFFENSE_ESTIMATE = {
   version: "repeat-offense-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "owner direction of 2026-09-22 that repeat findings cost more; the step size is a game estimate until the research queue answers",
   /** Added to the support-loss multiplier for each earlier finding. */
   supportLossStepPerPriorFinding: 0.5,
   /** Added to the civil-penalty multiplier for each earlier finding. */
@@ -137,7 +144,7 @@ export function repeatOffenseMultiplier(
   priorFindings: number,
   kind: "support-loss" | "civil-penalty",
 ): number {
-  const rule = UNRESEARCHED_REPEAT_OFFENSE;
+  const rule = REPEAT_OFFENSE_ESTIMATE;
   const stepSize =
     kind === "support-loss"
       ? rule.supportLossStepPerPriorFinding

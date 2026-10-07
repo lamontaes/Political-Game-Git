@@ -16,6 +16,7 @@ import {
 import * as lifeQueries from "./life-queries";
 import * as childhood from "./childhood-record";
 import { addDays } from "./dates";
+import * as dates from "./dates";
 import { ensurePeopleTraits, personTrait } from "./people-traits";
 import { upbringingFor } from "./people-upbringing";
 import * as upbringing from "./people-upbringing";
@@ -28,6 +29,54 @@ const place = drawRandomPlace(seed);
 const fixture = () => smallWorld({ place: place.key, seed });
 
 describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
+  it("reuses age-18 dates within a people revision and refreshes for a new revision", () => {
+    const { world, personId } = smallWorld({
+      place: place.key,
+      seed: "upbringing-age-date-index",
+      people: 8,
+      household: true,
+    });
+    const ageAt = vi.spyOn(dates, "dateAtAge");
+    const adulthoodCalls = () =>
+      ageAt.mock.calls.filter(([, age]) => age === 18).length;
+    try {
+      upbringingFor(world, personId);
+      const firstRevisionCalls = adulthoodCalls();
+      expect(firstRevisionCalls).toBeGreaterThan(0);
+
+      // Changed cohort inputs rebuild the cohort index without changing the
+      // immutable people revision or its derived birthday dates.
+      for (let revision = 0; revision < 3; revision += 1) {
+        const changedHouseholdRows = {
+          ...world,
+          history: {
+            ...world.history,
+            householdLocations: [...world.history.householdLocations],
+          },
+        };
+        upbringingFor(changedHouseholdRows, personId);
+      }
+      expect(adulthoodCalls()).toBe(firstRevisionCalls);
+
+      const changedPersonId = personId;
+      const newPeopleRevision = {
+        ...world,
+        people: {
+          ...world.people,
+          [changedPersonId]: { ...world.people[changedPersonId]! },
+        },
+        history: {
+          ...world.history,
+          householdLocations: [...world.history.householdLocations],
+        },
+      };
+      upbringingFor(newPeopleRevision, personId);
+      expect(adulthoodCalls()).toBe(firstRevisionCalls + 1);
+    } finally {
+      ageAt.mockRestore();
+    }
+  });
+
   it.each(["family-pay-candidates-one", "family-pay-candidates-two"])(
     "estimates only recorded paid-work candidates without changing mixed-work evidence (%s)",
     (seed) => {
@@ -300,11 +349,18 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
             endedAt: fact.endedAt === null ? null : world.currentDate,
           }
         : { ...fact, occurredAt: world.currentDate };
+    const withoutCitizenship = <T extends Person>(person: T): T => {
+      const unrecorded: Record<string, unknown> = { ...person };
+      delete unrecorded.citizenshipStatuses;
+      return unrecorded as unknown as T;
+    };
     const child = (person: Person): Person => {
       const establishedFacts = person.establishedFacts.map(childFact);
+      // A child born today has no earlier citizenship record: a status dated
+      // before the birth is an invalid history, so the fixture leaves it out.
       return person.detailLevel === "materialized"
         ? {
-            ...person,
+            ...withoutCitizenship(person),
             birthDate: world.currentDate,
             establishedFacts,
             details: {
@@ -312,7 +368,11 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
               generatedFacts: person.details.generatedFacts.map(childFact),
             },
           }
-        : { ...person, birthDate: world.currentDate, establishedFacts };
+        : {
+            ...withoutCitizenship(person),
+            birthDate: world.currentDate,
+            establishedFacts,
+          };
     };
     const children = {
       ...world,

@@ -1,0 +1,15 @@
+{
+  "sourceMain": "d8dcd3ade2fc7aa477cd38dcfdac3caed17a6ce2",
+  "approvedSheetSha256": "347c8e90d953229458e5eef34b497f4b109c09c3cc1ba5d79a7ba3f676f0f4c0",
+  "room": {
+    "path": "art/backdrops/mobile-home__morning.jpg",
+    "sha256": "d9981a4fdc8b629121d81a4c72312e8de449405056ba98bab045f301de0dc20c",
+    "approval": "owner-placeholder-2026-09-27",
+    "dimensions": [1672, 941],
+    "matchingRecordedDwelling": false
+  },
+  "recordedCharacterSource": "58468eccd118734fa52ad99f84aea6f32aecf7e9",
+  "seed": "session3-kit13-20261005",
+  "recordedTown": "Scarville, Iowa",
+  "status": "Eight static game-art overlays; no owner pick or production/full-shell proof. No proprietary game asset imported."
+}

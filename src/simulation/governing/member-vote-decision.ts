@@ -1,4 +1,6 @@
 import { evaluateDecision } from "../decisions";
+import { registeredTraitConsiderations } from "../trait-readings";
+import { traitRegistryFor } from "../trait-registry";
 import type {
   DecisionContext,
   DecisionEvaluation,
@@ -17,7 +19,30 @@ export function decideMemberVote(
   readonly evaluation: DecisionEvaluation;
   readonly disposition: LegislativeMemberDisposition;
 } {
-  const evaluation = evaluateDecision(world, context);
+  const options = new Set(context.options.map(({ key }) => key));
+  const traitConsiderations = registeredTraitConsiderations(
+    world,
+    traitRegistryFor(world),
+    context.actorPersonId,
+    context.stableKey,
+    context.decisionType,
+  ).filter(
+    (consideration) =>
+      options.has(consideration.optionKey) &&
+      // Temperament can strengthen a position already supported by evidence.
+      // It cannot supply the missing policy view or decide an unknown measure.
+      (consideration.optionKey === "withhold" ||
+        context.considerations.some(
+          (reason) =>
+            reason.optionKey === consideration.optionKey &&
+            reason.direction === "supports" &&
+            reason.sourceType !== "mind:personality",
+        )),
+  );
+  const evaluation = evaluateDecision(world, {
+    ...context,
+    considerations: [...context.considerations, ...traitConsiderations],
+  });
   const selected = evaluation.selectedOptionKey ?? "withhold";
   return {
     evaluation,

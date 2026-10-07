@@ -75,7 +75,9 @@ import {
   floorStageTakesAmendments,
 } from "./chamber-procedure";
 import {
+  applyQuorumAttendanceToBallots,
   decideChamberVote,
+  decideQuorumAttendance,
   publicPartyOf,
   seatedChamberForPack,
 } from "./chamber-votes";
@@ -94,6 +96,7 @@ import { councilBallotPartisanship } from "./body-partisanship";
 import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
 import { currentMeasureProvisions } from "../legislative-politics";
 import { legislativePackForWorkKey } from "../legislative-institutions";
+import { minorityPartyProcedureRows } from "../minority-party-procedure";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
   adjournmentStopsPhase,
@@ -109,6 +112,7 @@ import {
 } from "./congress-chambers";
 import { chamberByKey, floorStageByKey } from "../legislature-rules";
 import type { CommitteeRule, LegislativeRulePack } from "../legislature-rules";
+import { legislativeSittingHandler } from "./legislative-sittings";
 import { personName } from "../people";
 import type {
   EntityId,
@@ -917,6 +921,18 @@ export function applyInstitutionStep(
       }
     }
     const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
+    const procedure = minorityPartyProcedureRows(pack).find(
+      (row) => row.chamberKey === chamberKey,
+    );
+    const clotureAvailable =
+      procedure?.unlimitedDebate.kind === "known" &&
+      procedure.unlimitedDebate.value &&
+      procedure.clotureBar.kind === "known";
+    if (stage.stageKey === "cloture" && !clotureAvailable)
+      return {
+        kind: "blocked",
+        reason: `The ${chamber.name} has no recorded unlimited-debate rule and cloture bar.`,
+      };
     const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
     // Before the question is put, a member may offer an amendment for their
     // own reasons, where this stage takes amendments and the chamber is
@@ -968,13 +984,7 @@ export function applyInstitutionStep(
                 floorStageKey: stage.stageKey,
               },
               stableKey,
-              // PLACEHOLDER until research question how-congress-moves-bills is
-              // answered: a Senate cloture vote divides by party, so a bill with
-              // backers from only one party needs sixty of that party to get past
-              // a filibuster.
-              isCongressMeasure(measure) && stage.stageKey === "cloture"
-                ? true
-                : undefined,
+              stage.stageKey === "cloture" ? clotureAvailable : undefined,
             )
           : null;
     if (!body || !decided)
@@ -982,15 +992,27 @@ export function applyInstitutionStep(
         kind: "blocked",
         reason: `The ${chamber.name} has no recorded member decisions on this question.`,
       };
+    const attendance = decideQuorumAttendance(world, {
+      measureId,
+      chamberKey,
+      stableKey: `${stableKey}:attendance`,
+      members: body.members,
+      playerPersonId:
+        world.control.kind === "person" ? world.control.personId : null,
+    });
+    const dispositions = applyQuorumAttendanceToBallots(
+      decided.dispositions,
+      attendance,
+    );
     return applyInstitutionFloorVote(
       onFloor,
       {
         stableKey,
         measureId,
-        dispositions: decided.dispositions,
+        dispositions,
         presentMembers:
           decided.method === "member-decisions"
-            ? present(decided.dispositions)
+            ? present(dispositions)
             : body.members.length,
         electedMembers: body.members.length,
         provenance: local
@@ -1303,7 +1325,31 @@ export function createInstitutionStepHandler(
       return done(world, "No measure stands behind this step.");
     if (measurePosition(world, measureId).outcome !== null)
       return done(world, "This measure already has a recorded outcome.");
-    const result = applyInstitutionStep(world, measureId, onExecutiveDesk);
+    const results: InstitutionStepResult[] = [];
+    const pack = legislativeRulePackForWorld(
+      world,
+      requireMeasure(world, measureId).rulePackId,
+    );
+    const stepped = legislativeSittingHandler(world, {
+      chambers: pack.chambers,
+      session: pack.session,
+      measureIds: [measureId],
+      eligible: (current, id) => measurePosition(current, id).outcome === null,
+      takeStep: (current, id) =>
+        applyInstitutionStep(current, id, onExecutiveDesk),
+      applyResult: (current, _id, nextResult) => {
+        results.push(nextResult);
+        return nextResult.kind === "applied" || nextResult.kind === "executive"
+          ? nextResult.world
+          : nextResult.kind === "wait-until" && nextResult.world
+            ? nextResult.world
+            : current;
+      },
+    });
+    // Keep the existing due-handler state machine below as the owner of
+    // rescheduling, outcome reporting, and terminal status.
+    void stepped;
+    const result = results[0] ?? { kind: "idle" as const };
     switch (result.kind) {
       case "idle":
         return done(world, "Nothing for the institution to do.");

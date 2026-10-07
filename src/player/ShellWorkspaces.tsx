@@ -657,9 +657,7 @@ export function PeopleWorkspace({
       ) : null}
 
       {shown.length === 0 ? (
-        <p className="game-note" data-testid="people-empty">
-          Nobody here matches that. This life may simply not have met them yet.
-        </p>
+        <p className="game-note" data-testid="people-empty" />
       ) : (
         <ul
           className="pg-people-list"
@@ -782,7 +780,8 @@ function CalendarEntryRow({
         <span className="pg-calendar-copy">
           <strong>{entry.title}</strong>
           <small>
-            {calendarKindLabel(entry.kind)} · {entry.ownershipNote}
+            {calendarKindLabel(entry.kind)}
+            {entry.group === "chamber" ? " · Chamber agenda" : ""}
           </small>
         </span>
       </button>
@@ -1029,10 +1028,12 @@ export function CalendarWorkspaceSurface({
               {outcome}
             </p>
           ) : null}
-          {calendar.note ? (
-            <p className="game-note" data-testid="calendar-note">
-              {calendar.note}
-            </p>
+          {calendar.empty || calendar.chamberOnly ? (
+            <p
+              className="game-note"
+              data-testid="calendar-note"
+              data-problem={calendar.empty ? "calendar-empty" : "chamber-only"}
+            />
           ) : null}
           <div data-testid="calendar-upcoming">
             <h3 className="pg-calendar-heading">
@@ -1052,7 +1053,7 @@ export function CalendarWorkspaceSurface({
             {liveDays.filter(
               (day) => !selectedDate || day.date === selectedDate,
             ).length === 0 ? (
-              <p className="game-note">Nothing upcoming or ongoing.</p>
+              <p className="game-note" data-problem="nothing-upcoming" />
             ) : (
               renderDays(
                 liveDays.filter(
@@ -1068,9 +1069,7 @@ export function CalendarWorkspaceSurface({
       {tab === "history" ? (
         <div data-testid="calendar-history">
           {historyDays.length === 0 ? (
-            <p className="game-note">
-              Nothing has happened on this calendar yet.
-            </p>
+            <p className="game-note" data-problem="nothing-happened" />
           ) : (
             renderDays(historyDays, "history")
           )}
@@ -1079,11 +1078,7 @@ export function CalendarWorkspaceSurface({
 
       {tab === "interruptions" ? (
         <div className="pg-interruptions" data-testid="calendar-interruptions">
-          <p className="game-note">
-            What a day or week skip stops for. Reading or changing this moves no
-            time. A preference here never spends money, casts a vote or commits
-            you to anything; it only decides where a skip pauses.
-          </p>
+          <p className="game-note" data-note="skip-stops" />
           <InterruptionChecklist
             interruptions={interruptions}
             onChange={onInterruptionChange}
@@ -1125,18 +1120,28 @@ function CalendarEntryDetail({
       <dt>What</dt>
       <dd>
         {entry.title} · {entry.kindLabel}
-        {entry.summary ? <span> {entry.summary}</span> : null}
       </dd>
-      <dt>How it was arranged</dt>
-      <dd data-testid="calendar-event-arrangement">
-        {entry.arrangementNote ? `${entry.arrangementNote} ` : ""}
-        {entry.ownershipNote}
+      <dt>On</dt>
+      <dd data-testid="calendar-event-arrangement" data-group={entry.group}>
+        {entry.group === "chamber" ? "Chamber agenda" : "Your calendar"}
       </dd>
+      {entry.inCharge ? (
+        <>
+          <dt>In charge</dt>
+          <dd data-testid="calendar-event-in-charge">{entry.inCharge}</dd>
+        </>
+      ) : null}
+      {entry.cameThrough.length > 0 ? (
+        <>
+          <dt>Through</dt>
+          <dd data-testid="calendar-event-through">
+            {entry.cameThrough.join(", ")}
+          </dd>
+        </>
+      ) : null}
       <dt>Who is going</dt>
       <dd data-testid="calendar-event-attendees">
-        {entry.attendeeNames.length > 0
-          ? entry.attendeeNames.join(", ")
-          : "Nobody is listed yet."}
+        {entry.attendeeNames.length > 0 ? entry.attendeeNames.join(", ") : null}
       </dd>
       <dt>Where</dt>
       <dd>{entry.locationLabel}</dd>
@@ -1224,8 +1229,8 @@ function CalendarEventActions({
       ? venue.refusal
       : venue?.journey
         ? venue.journey.alreadyCompleted
-          ? `The journey to ${selected.locationLabel} is complete. Attend begins here.`
-          : `Includes the trip to ${selected.locationLabel}, ${describeInterval(venue.journey.journeyMinutes)}. ${venue.journey.costDisclosure}`
+          ? null
+          : `${selected.locationLabel}, ${describeInterval(venue.journey.journeyMinutes)}`
         : null;
   const busy = runner.pending || undefined;
   const meetingScene = projectOrdinaryMeetingScene(world, personId);
@@ -1286,8 +1291,7 @@ function CalendarEventActions({
             );
             onApplyNow({
               world: planned,
-              outcome:
-                "You plan to attend the posted public meeting. Day or Week will take the scheduled trip when it is time to leave.",
+              outcome: selected.title,
             });
           }}
         >
@@ -1298,7 +1302,7 @@ function CalendarEventActions({
           personId,
           selected.activityId,
         ) ? (
-        <p role="status">You plan to attend this meeting.</p>
+        <p role="status" data-planned="true" />
       ) : null}
       {skip ? (
         <button
@@ -1430,9 +1434,11 @@ export function CommitmentSurface({
   );
   if (!entry) {
     return (
-      <p className="game-note" data-testid="commitment-missing">
-        This world does not hold that commitment, or it is not yours to see.
-      </p>
+      <p
+        className="game-note"
+        data-testid="commitment-missing"
+        data-problem="commitment-not-held"
+      />
     );
   }
   return (
@@ -1442,21 +1448,33 @@ export function CommitmentSurface({
         {formatMinute(entry.start.minuteOfDay)} –{" "}
         {formatMinute(entry.end.minuteOfDay)}
       </p>
-      {entry.arrangementNote ? (
-        <p data-testid="commitment-arrangement">{entry.arrangementNote}</p>
-      ) : null}
       <p className="pg-kicker" data-testid="commitment-kind">
         {entry.kindLabel}
       </p>
-      <p data-testid="commitment-ownership">{entry.ownershipNote}</p>
-      <p>{entry.summary}</p>
-      <p className="game-note">Where: {entry.locationLabel}</p>
+      <dl data-testid="commitment-ownership" data-group={entry.group}>
+        {entry.inCharge ? (
+          <>
+            <dt>In charge</dt>
+            <dd data-testid="commitment-arrangement">{entry.inCharge}</dd>
+          </>
+        ) : null}
+        {entry.cameThrough.length > 0 ? (
+          <>
+            <dt>Through</dt>
+            <dd>{entry.cameThrough.join(", ")}</dd>
+          </>
+        ) : null}
+        <dt>Where</dt>
+        <dd>{entry.locationLabel}</dd>
+      </dl>
       {/* The player is not "with" themself: only the others are named. */}
       {entry.attendeeNames.filter((name) => name !== "You").length > 0 ? (
-        <p className="game-note" data-testid="commitment-participants">
-          With {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
-          .
-        </p>
+        <dl className="game-note" data-testid="commitment-participants">
+          <dt>With</dt>
+          <dd>
+            {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
+          </dd>
+        </dl>
       ) : null}
     </div>
   );
@@ -1493,9 +1511,11 @@ export function MeasureSurface({
 
   if (!briefing || !measure) {
     return (
-      <p className="game-note" data-testid="measure-missing">
-        This world does not hold that measure.
-      </p>
+      <p
+        className="game-note"
+        data-testid="measure-missing"
+        data-problem="no-such-measure"
+      />
     );
   }
 
@@ -1511,21 +1531,16 @@ export function MeasureSurface({
       <p className="game-band" data-testid="measure-chamber">
         {briefing.legislatureName}
       </p>
-      <p data-testid="measure-sponsor">
-        {briefing.sponsorName
-          ? `Filed by ${briefing.sponsorName}.`
-          : "No sponsor is on the record."}
+      <p
+        data-testid="measure-sponsor"
+        data-problem={briefing.sponsorName ? undefined : "no-sponsor"}
+      >
+        {briefing.sponsorName}
       </p>
-      <p data-testid="measure-your-role">
-        {yours
-          ? "You filed it."
-          : "You did not file it. Your part in it is whatever the chamber gives you."}
-      </p>
+      <p data-testid="measure-your-role" data-filed={yours ? "yes" : "no"} />
       <p>{briefing.summary}</p>
       {briefing.questions.length > 0 ? (
-        <p data-testid="measure-questions">
-          {`${briefing.questions.length === 1 ? "The question it bears on" : "The questions it bears on"}: ${briefing.questions.join(" ")}`}
-        </p>
+        <p data-testid="measure-questions">{briefing.questions.join(" ")}</p>
       ) : null}
       <p data-testid="measure-standing">{briefing.whereItStands}</p>
       {briefing.outcomeNote ? (
@@ -1657,7 +1672,6 @@ export function PersonalFinancesWorkspace({
           {record.purses.map((purse) => (
             <li key={purse.kind} data-purse={purse.kind}>
               <strong>{purse.label}</strong>
-              <small>{purse.ownerNote}</small>
               {purse.balance ? (
                 <span data-testid={`purse-balance-${purse.kind}`}>
                   {dollars(purse.balance)}
@@ -1666,9 +1680,7 @@ export function PersonalFinancesWorkspace({
                 <span
                   className="game-note"
                   data-testid={`purse-absent-${purse.kind}`}
-                >
-                  {purse.absence}
-                </span>
+                />
               )}
             </li>
           ))}
@@ -1686,7 +1698,7 @@ export function PersonalFinancesWorkspace({
       >
         <h3>The place you live</h3>
         <p className="game-note">
-          {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
+          {economicPlace?.displayName ?? "Home jurisdiction on this life"} ·{" "}
           {proseDate(world.currentDate)}
         </p>
         {/*
@@ -1762,9 +1774,11 @@ export function WorkWorkspace({
   return (
     <>
       {pending.length === 0 ? (
-        <p className="game-note" data-testid="work-empty">
-          Nothing is waiting on you at the moment.
-        </p>
+        <p
+          className="game-note"
+          data-testid="work-empty"
+          data-problem="nothing-waiting"
+        />
       ) : needsYou.length > 0 ? (
         <section className="pg-personal-section">
           <h3>Waiting on you</h3>
@@ -1831,7 +1845,7 @@ export function PatchNotesWorkspace() {
               ? `Version ${section.version}`
               : "Version not stated"}
             {" · "}
-            {section.releasedOn ?? "Release date not recorded"}
+            {section.releasedOn ?? "This note does not include a release date"}
           </p>
           {section.paragraphs.map((paragraph, index) => (
             <p key={`${section.id}-${index}`}>{paragraph}</p>
@@ -1875,7 +1889,6 @@ export function OptionsWorkspace({
       </section>
       <section className="pg-personal-section">
         <h3>People</h3>
-        <p className="game-note">How the People screen opens.</p>
         <div role="group" aria-label="People default view">
           {(
             [
@@ -1900,7 +1913,6 @@ export function OptionsWorkspace({
 
       <section className="pg-personal-section">
         <h3>Pins</h3>
-        <p className="game-note">The size a new pin is created at.</p>
         <div role="group" aria-label="Default pin size">
           {(
             [
@@ -1921,14 +1933,6 @@ export function OptionsWorkspace({
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="pg-personal-section">
-        <h3>Motion</h3>
-        <p className="game-note">
-          Motion follows your system&rsquo;s reduced-motion setting, so nothing
-          here has to be switched on to make it stop.
-        </p>
       </section>
 
       {onOpenPatchNotes ? (

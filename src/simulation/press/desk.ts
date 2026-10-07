@@ -11,6 +11,7 @@ import {
 } from "../future-transitions";
 import { personName } from "../people";
 import { correctPublication, publishPublicEvent } from "../public-information";
+import { PUBLIC_PROGRAM_EVENT_PREFIX } from "../public-program-integrity";
 import {
   PRESS_STORY_EVENT_TYPE,
   PRESS_STORY_LEAD_TAG,
@@ -18,7 +19,11 @@ import {
   resolvePublicationSource,
 } from "../public-information-integrity";
 import { currentHistoricalCutoff } from "../queries";
-import { recordClaim, recordEventKnowledge } from "../records";
+import {
+  recordClaim,
+  recordEventKnowledge,
+  recordRelationshipInteraction,
+} from "../records";
 import type {
   DecisionConsideration,
   DecisionConstraint,
@@ -45,11 +50,14 @@ import {
   partyContactsForSubject,
   produceMatterResponses,
 } from "./responses";
+import { openPersonalLifeMatter } from "./matters";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
+import { reporterContactCount } from "./reporter-history";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
+  ensurePressExposureCoverage,
   mediaOutlets,
   reporterIsCurrent,
   reporterRoles,
@@ -108,6 +116,8 @@ export const PRESS_DESK_INTERVALS = {
 const RESPONSE_REQUESTED_EVENT = "press.response-requested";
 export const SUBJECT_RESPONDED_EVENT = "press.subject-responded";
 const EXCLUDED_PREFIXES = [
+  // A program's note to the books is not copy; its record keeps the fields.
+  PUBLIC_PROGRAM_EVENT_PREFIX,
   "press.",
   "setup.",
   "simulation.",
@@ -191,7 +201,7 @@ export function publishOpeningPublicRecords(world: World): World {
   const candidates = world.history.events.filter(
     (event) =>
       event.occurredAt >= oldest &&
-      event.occurredAt < world.currentDate &&
+      event.occurredAt <= world.currentDate &&
       event.recordedAt <= world.currentDate &&
       !published.has(event.id) &&
       !event.tags.some(
@@ -596,6 +606,28 @@ export function recordSubjectResponse(
     reporterPersonId: reporterId,
     eventId,
     reasonKey: `press:subject-${input.kind}`,
+  });
+  next = recordRelationshipInteraction(next, {
+    stableKey: `${lead.stableKey}:response-contact:${input.personId}`,
+    personIds: [input.personId, reporterId],
+    eventId,
+    occurredAt: next.currentDate,
+    kind: "exchange:press-contact",
+    change: next.history.relationshipInteractions.some(
+      (interaction) =>
+        interaction.personIds.includes(input.personId) &&
+        interaction.personIds.includes(reporterId),
+    )
+      ? "maintained"
+      : "formed",
+    significance: "minor",
+    summary:
+      input.kind === "decline"
+        ? "A subject declined a reporter's request for comment."
+        : "A subject answered a reporter's request for comment.",
+    tags: [
+      input.kind === "decline" ? "press.call.ducked" : "press.call.answered",
+    ],
   });
   return { world: next, eventId };
 }
@@ -1279,6 +1311,24 @@ function recordProfessionalReaders(
     const basis = eventById(world, basisId);
     if (basis) for (const id of lawNewsReaders(world, basis)) readers.add(id);
   }
+  // Individual readers are modeled only where the player follows the outlet
+  // and lives in the represented town. County membership remains unmodeled
+  // without a canonical town-to-county join. Other reach is handled by the
+  // scheduled group model rather than person-level knowledge rows.
+  const playerId =
+    world.control.kind === "person" ? world.control.personId : null;
+  const playerTownId = playerId
+    ? world.people[playerId]?.homeJurisdictionId
+    : null;
+  if (playerTownId) {
+    for (const personId of world.personOrder) {
+      if (
+        world.people[personId]?.homeJurisdictionId === playerTownId &&
+        hasModeledOutletAudience(world, personId, publication.outletKey)
+      )
+        readers.add(personId);
+    }
+  }
   let next = world;
   for (const personId of [...readers].sort()) {
     next = recordEventKnowledge(next, {
@@ -1310,6 +1360,21 @@ function recordProfessionalReaders(
     next = produceMatterResponses(next, lead.matterId, story);
   }
   return next;
+}
+
+/**
+ * Local conservative stub until World has a saved person-to-outlet reader
+ * source. A general news habit alone cannot establish outlet readership.
+ */
+export function hasModeledOutletAudience(
+  world: World,
+  personId: EntityId,
+  outletKey: string,
+): boolean {
+  void world;
+  void personId;
+  void outletKey;
+  return false;
 }
 
 interface StoryCopy {
@@ -1485,6 +1550,12 @@ export function pressDeskSweepHandler(
   if (dueItem.transitionKey !== PRESS_DESK_SWEEP_TRANSITION_KEY) {
     throw new Error("The desk sweep handler received another transition.");
   }
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
+  // A player's already-recorded public appearances outside their home state
+  // are the only reason this sweep may create additional state outlets.
+  world = ensurePressExposureCoverage(world);
   // Only the opening sweep reads the archive. Later sweeps retain the
   // incremental frontier so older records are not rescanned every week.
   const frontier =
@@ -1493,11 +1564,64 @@ export function pressDeskSweepHandler(
   // moved in a place, become records first, so this sweep can judge them
   // (law-effect-news.ts).
   const reported = reportLawOutcomes(reportLawEffects(world, frontier));
-  const candidates = reported.history.events.filter(
+  let candidates = reported.history.events.filter(
     (event) =>
       event.sequence > frontier && eventIsNewsCandidate(reported, event),
   );
   let next = reported;
+  const personalMatterEvents: HistoricalEvent[] = [];
+  const ensurePersonalMatter = (
+    event: HistoricalEvent,
+    subjectPersonIds: readonly EntityId[],
+    publicClaimId?: EntityId,
+  ) => {
+    if (subjectPersonIds.length === 0) return;
+    let matter = pressRecordsOfKind(next, "matter").find(
+      (record) =>
+        record.family === "personal-life" &&
+        record.personalEventId === event.id,
+    );
+    if (!matter) {
+      const openedMatter = openPersonalLifeMatter(next, {
+        stableKey: `press46:personal-matter:${event.id}`,
+        sourceEventId: event.id,
+        subjectPersonIds,
+        ...(publicClaimId ? { publicClaimId } : {}),
+      });
+      next = openedMatter.world;
+      matter = openedMatter.matter;
+      // The helper also writes the public event that the existing desk routes.
+      const opened = next.history.events.find(
+        (candidate) =>
+          candidate.stableKey ===
+          `press46:personal-matter:${event.id}:on-record`,
+      );
+      if (opened) personalMatterEvents.push(opened);
+    } else {
+      const opened = next.history.events.find(
+        (candidate) =>
+          candidate.type === "matter.personal-life-opened" &&
+          matterIdOf(candidate) === matter!.id,
+      );
+      if (opened) personalMatterEvents.push(opened);
+    }
+  };
+  for (const event of candidates) {
+    if (event.type === "crime.arrest-made" && matterIdOf(event) === null) {
+      ensurePersonalMatter(event, subjectsOf(next, event));
+    }
+  }
+  for (const claim of reported.history.claims) {
+    if (claim.audience !== "public") continue;
+    const event = eventById(reported, claim.eventId);
+    if (event?.type !== "life.couple-ended") continue;
+    ensurePersonalMatter(
+      event,
+      sortedUnique([...subjectsOf(next, event), claim.speakerPersonId]),
+      claim.id,
+    );
+  }
+  candidates = [...candidates, ...personalMatterEvents];
   // A work-blocked checkpoint is terminal on the due ledger. The existing
   // weekly desk resumes it only after its saved work actually becomes ready.
   for (const lead of storyLeads(next)) {
@@ -1957,6 +2081,8 @@ function beatForEventType(type: string): MediaBeat {
   )
     return "international";
   if (type.startsWith("civic.local-matter")) return "local-government";
+  // A protest is covered where it happens, by the reporter on local government.
+  if (type.startsWith("civic.protest-")) return "local-government";
   // What a law did to a town's people is covered where they live.
   if (type.startsWith("law.")) return "local-government";
   if (type.startsWith("congress.")) return "congress";
@@ -2015,9 +2141,12 @@ function chooseReporter(
         assignedReporter(world, other.id) === role.personId &&
         other.subjectPersonIds.some((id) => lead.subjectPersonIds.includes(id)),
     );
+  const contactHistory = (role: ReporterRoleRecord) =>
+    reporterContactCount(world, role.personId, lead.subjectPersonIds);
   return [...current].sort(
     (left, right) =>
       Number(right.beats.includes(beat)) - Number(left.beats.includes(beat)) ||
+      contactHistory(right) - contactHistory(left) ||
       Number(familiar(right)) - Number(familiar(left)) ||
       load(left) - load(right) ||
       left.personId.localeCompare(right.personId),

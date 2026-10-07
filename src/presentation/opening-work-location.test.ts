@@ -10,6 +10,7 @@ import {
 } from "../simulation";
 import {
   onShiftAt,
+  peopleAtWorkAt,
   workSchedulesFor,
 } from "../simulation/living-world/work-schedules";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -73,9 +74,22 @@ describe.each(places)(
         );
         const context = resolveOpeningPlaySceneContext(world, viewer);
         expect(context.purpose).toBe("activity");
-        expect(context.locationKey).toBe("life-circumstance:covered-shift");
+        // The room is the pictured workplace of the player's own shift, and
+        // the people in it are the colleagues the recorded shifts put there.
+        expect(context.locationKey).toBe(`work:${shift.workRelationshipId}`);
         expect(context.placeLabel).toBe(location!.context.location!.label);
-        expect(context.presentPeople).toEqual([]);
+        const town = jobs.find(
+          (job) => job.relationship.id === shift.workRelationshipId,
+        )!.role.locationJurisdictionId!;
+        const colleagues = peopleAtWorkAt(world, town, shift.place)
+          .filter(
+            (other) =>
+              other.personId !== viewer &&
+              other.organizationId === shift.organizationId,
+          )
+          .map((other) => other.personId);
+        for (const person of context.presentPeople)
+          expect(colleagues).toContain(person.personId);
       }
     });
 
@@ -111,14 +125,26 @@ describe.each(places)(
     });
 
     it("records the schedule reason for being home outside a shift", () => {
-      const game = createNewGameWorld({
-        ...DEFAULT_NEW_GAME_SETUP,
-        seed: `team5-opening-work:${placeKey}`,
-        placeKey,
-        startKind: "custom",
-        startAge: 34,
-        household: "shares-a-home",
-      });
+      // Whether a generated adult has a job here depends on the town's
+      // employers, so the first seed of this place that gives one is used.
+      const game = (() => {
+        for (let attempt = 0; attempt < 12; attempt += 1) {
+          const candidate = createNewGameWorld({
+            ...DEFAULT_NEW_GAME_SETUP,
+            seed: `team5-opening-work:${placeKey}${attempt === 0 ? "" : `:${attempt}`}`,
+            placeKey,
+            startKind: "custom",
+            startAge: 34,
+            household: "shares-a-home",
+          });
+          if (
+            activeWorkRelationshipsAt(candidate.world, candidate.playerPersonId)
+              .length > 0
+          )
+            return candidate;
+        }
+        throw new Error(`No generated adult in ${placeKey} has a job.`);
+      })();
       const input = {
         ...game.world,
         currentMoment: { ...game.world.currentMoment, minuteOfDay: 0 },
