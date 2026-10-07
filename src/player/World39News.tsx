@@ -36,27 +36,8 @@ export function World39News({
     >
       <header>
         <h3>{model.placeName ? `Around ${model.placeName}` : "Around here"}</h3>
-        <p>
-          As of <time dateTime={model.asOf}>{world39Date(model.asOf)}</time>
-        </p>
+        <time dateTime={model.asOf}>{world39Date(model.asOf)}</time>
       </header>
-      {model.standing.length > 0 ? (
-        <section
-          aria-label="Public institutions"
-          data-testid="world39-standing"
-        >
-          {model.standing.map((item) => (
-            <article
-              key={item.key}
-              data-standing-kind={item.kind}
-              data-record-id={item.recordId}
-            >
-              <h5>{item.headline}</h5>
-              <p>{item.sentence}</p>
-            </article>
-          ))}
-        </section>
-      ) : null}
       {model.laws.length > 0 ? (
         <section aria-label="Laws that reach you" data-testid="world39-laws">
           <h4>Laws that reach you</h4>
@@ -74,9 +55,6 @@ export function World39News({
                   {world39Date(law.enactedOn)}
                 </time>
               </p>
-              {law.sentences.map((sentence) => (
-                <p key={sentence}>{sentence}</p>
-              ))}
             </article>
           ))}
         </section>
@@ -94,7 +72,6 @@ export function World39News({
               data-direction={effect.direction}
             >
               <h5>{effect.headline}</h5>
-              <p>{effect.sentence}</p>
             </article>
           ))}
         </section>
@@ -118,7 +95,6 @@ export function World39News({
                 <time dateTime={event.at}>{world39Date(event.at)}</time>
                 {event.jurisdiction ? ` · ${event.jurisdiction}` : ""}
               </p>
-              <p>{event.summary}</p>
             </article>
           ))
         )}
