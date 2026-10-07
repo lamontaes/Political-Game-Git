@@ -458,7 +458,7 @@ export function PeopleWorkspace({
   readonly personId: EntityId;
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
-  readonly dossierFor: (personId: EntityId) => PersonDossier;
+  readonly dossierFor: (personId: EntityId) => PersonDossier | null;
 }) {
   const [selectedPersonId, setSelectedPersonId] = useState(
     state.quickDossierPersonId ?? personId,
