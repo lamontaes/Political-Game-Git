@@ -29,12 +29,11 @@ test("MR-12 Transit screen from a new game", async ({ page }, info) => {
     throw new Error("Set MR12_SCREEN_LABEL to main or branch.");
   await page.goto("/", { waitUntil: "domcontentloaded", timeout: 60_000 });
   await page.evaluate(async (stateKey) => {
-    const { suppliedLegislativeSeat } = await import(
-      "/tests/fixtures/supplied-legislative-seat.ts"
-    );
-    const life = suppliedLegislativeSeat(stateKey, "house");
-    const { BrowserSaveStore } =
-      await import("/src/presentation/browser-world-repository.ts");
+    const fixturePath = "/tests/fixtures/" + "supplied-legislative-seat.ts";
+    const { suppliedLegislativeSeat } = await import(fixturePath);
+    const world = suppliedLegislativeSeat(stateKey, "house");
+    const saveStorePath = "/src/presentation/" + "browser-world-repository.ts";
+    const { BrowserSaveStore } = await import(saveStorePath);
     const store = new BrowserSaveStore();
     const outcome = await store.save(world, store.newSaveId(world));
     if (outcome.status !== "saved") throw new Error("New game save failed.");
