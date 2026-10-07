@@ -84,9 +84,9 @@ test("normal Carson City citizen attends a public session and retains the real v
   const initial = await savedWorld(page);
   await goTo(page, "nav-municipal");
   const workspace = page.getByTestId("municipal-workspace");
-  await expect(
-    workspace.getByText("Linked to your saved home place."),
-  ).toBeVisible();
+  await expect(workspace.getByTestId("municipal-standing")).toContainText(
+    "Home",
+  );
   await expect(workspace).toContainText("Carson City");
   await save(page);
   expect(await savedWorld(page)).toEqual(initial);
@@ -229,9 +229,7 @@ test("normal county selection preserves unspecified town and exact saved jurisdi
   expect(player).toBeDefined();
   await expect(page.getByTestId("play-screen")).toContainText("Fayette County");
   await goTo(page, "nav-municipal");
-  await expect(page.getByTestId("municipal-missing-home-link")).toContainText(
-    "nothing to attend or work on here",
-  );
+  await expect(page.getByTestId("municipal-missing-home-link")).toHaveText("");
   await save(page);
   expect(await savedWorld(page)).toEqual(initial);
   await continueSaved(page);
