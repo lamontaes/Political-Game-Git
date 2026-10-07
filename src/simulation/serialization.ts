@@ -15,7 +15,7 @@ import {
   unpackTendencies,
 } from "./tendency-packing";
 import type { EntityId, IsoDate, World } from "./types";
-import { assertWorldIntegrity, assertWorldIntegrityFully } from "./world";
+import { assertWorldIntegrity } from "./world";
 
 /**
  * Format 15 changed how `snapshotId` is derived, not what a world is.
@@ -534,8 +534,7 @@ export function readWorldSnapshot(payload: WorldPayload): {
       "World content packs require their supported snapshot format.",
     );
   }
-  // Whatever the play-time check mode, a World read from disk is walked whole.
-  assertWorldIntegrityFully(world);
+  assertWorldIntegrity(world);
   const expected = createWorldSnapshot(world);
   if (
     parsed.snapshotId !== (writtenId ?? expected.snapshotId) ||
