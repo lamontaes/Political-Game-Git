@@ -1,4 +1,5 @@
 import {
+  enterOrdinaryMeeting,
   ordinaryMeetingEntry,
   recordOrdinaryMeetingPresence,
 } from "../simulation/ordinary-meeting-presence";
@@ -25,7 +26,7 @@ import {
   type World,
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
-import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
+import { CONTACT_LOCATION_KEY } from "../simulation/relationship-contact";
 import { MEMBER_BALLOT_LOCATION_KEY } from "../simulation/governing/member-ballots";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { recordDomainAttendance } from "./activity-attendance";
@@ -530,6 +531,7 @@ export interface PerformVenueActivityOptions {
    * "condensed" produces the same outcome with less of the evening shown.
    */
   readonly attendance?: "attended" | "condensed";
+  readonly finishMeeting?: boolean;
 }
 
 export function performVenueActivity(
@@ -551,18 +553,30 @@ export function performVenueActivity(
   return performed === world ? world : releaseMissedHolds(performed, personId);
 }
 
+/** What the timing of a commitment is, as values; the screen labels them. */
+export type VenueTiming =
+  | { readonly kind: "stay"; readonly minutes: number }
+  | { readonly kind: "travel"; readonly minutes: number }
+  | {
+      readonly kind: "starts";
+      readonly date: string;
+      readonly minuteOfDay: number;
+      readonly minutes: number;
+    }
+  | { readonly kind: "takes"; readonly minutes: number };
+
 /**
- * When a commitment starts and how long it takes, as a person would say it.
+ * When a commitment starts and how long it takes, as values.
  *
  * The row used to print the whole time until it was over as one number of
  * minutes: a 15-minute trip to a friend's on Saturday, seen on Tuesday, read
  * "6090 minutes, including any wait before it begins" (Elko playtest,
  * 2026-09-23). Null where the timing cannot be read.
  */
-export function venueTimingLabel(
+export function venueTiming(
   world: World,
   activityId: EntityId,
-): string | null {
+): VenueTiming | null {
   const activity = world.history.scheduledActivities.find(
     (item) => item.id === activityId,
   );
@@ -582,24 +596,49 @@ export function venueTimingLabel(
         scheduledActivityState(world, activityId).start,
       ) >= 0
     ) {
-      return ordinaryMeetingEntry(
-        world,
-        activity.responsiblePersonId,
-        activityId,
-      )
-        ? `Takes ${formatRoutineElapsedMinutes(offer.elapsedMinutes)} to stay through the meeting.`
-        : `Travel takes ${formatRoutineElapsedMinutes(offer.elapsedMinutes)}; the meeting will already be underway.`;
+      const location = openingLifeLocation(world, activity.responsiblePersonId);
+      const inRoom =
+        location?.label === activity.location.label &&
+        location.jurisdictionId === activity.location.jurisdictionId;
+      return {
+        kind: inRoom ? "stay" : "travel",
+        minutes: offer.elapsedMinutes,
+      };
     }
   }
   try {
     const timing = scheduledActivityPerformanceTiming(world, activityId);
     const start = scheduledActivityState(world, activityId).start;
-    const takes = formatRoutineElapsedMinutes(timing.activityMinutes);
     return timing.waitMinutes > 0
-      ? `Starts ${proseWeekdayDate(start.date)} at ${proseClockTime(start.minuteOfDay)} and takes ${takes}.`
-      : `Takes ${takes}.`;
+      ? {
+          kind: "starts",
+          date: start.date,
+          minuteOfDay: start.minuteOfDay,
+          minutes: timing.activityMinutes,
+        }
+      : { kind: "takes", minutes: timing.activityMinutes };
   } catch {
     return null;
+  }
+}
+
+/** The same timing as one sentence, for the surfaces that still print one. */
+export function venueTimingLabel(
+  world: World,
+  activityId: EntityId,
+): string | null {
+  const timing = venueTiming(world, activityId);
+  if (!timing) return null;
+  const takes = formatRoutineElapsedMinutes(timing.minutes);
+  switch (timing.kind) {
+    case "stay":
+      return `Takes ${takes} to stay through the meeting.`;
+    case "travel":
+      return `Travel takes ${takes}; the meeting will already be underway.`;
+    case "starts":
+      return `Starts ${proseWeekdayDate(timing.date)} at ${proseClockTime(timing.minuteOfDay)} and takes ${takes}.`;
+    default:
+      return `Takes ${takes}.`;
   }
 }
 
@@ -701,6 +740,12 @@ function performVenueActivityOnce(
   )
     return world;
   const journey = entry.journey;
+  const opensMeeting =
+    entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+    attendance === "attended" &&
+    !options?.finishMeeting;
+  if (opensMeeting && ordinaryMeetingEntry(world, personId, activityId))
+    return enterOrdinaryMeeting(world, personId, activityId);
   if (!journey) {
     const lateMeeting =
       entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
@@ -735,6 +780,7 @@ function performVenueActivityOnce(
         : world;
     if (compareSimulationMoments(waited.currentMoment, start) < 0)
       return waited;
+    if (opensMeeting) return enterOrdinaryMeeting(waited, personId, activityId);
     // Campaign work is done in place by the campaign's own writer, so its
     // money and outreach are recorded; the bare calendar completion below
     // would mark it done with neither. No arrival is recorded: nobody went
@@ -767,13 +813,16 @@ function performVenueActivityOnce(
       return performed;
     const arrived = arrivedDestinationFor(performed, personId, entry.activity);
     if (!arrived) return performed;
-    return recordJourneyArrival(
+    const placed = recordJourneyArrival(
       performed,
       entry.activity,
       arrived.destination,
       arrived.destinationSetting,
       goLabel(entry.activity),
     );
+    return arrived.destination.stableKey === `${PUBLIC_MEETING_KEY}:activity`
+      ? enterOrdinaryMeeting(placed, personId, arrived.destination.id)
+      : placed;
   }
 
   // Resolve the legitimate ordinary windows crossed while waiting to depart.
@@ -816,6 +865,7 @@ function performVenueActivityOnce(
     !canPersonAccess(refreshed.activity.access, personId)
   )
     return arrived;
+  if (opensMeeting) return enterOrdinaryMeeting(arrived, personId, activityId);
   // Preserve domain outcomes, then record the actual ordinary-meeting
   // aftermath. Neither hook adds another interval or creates a read-time fact.
   return recordOrdinaryMeetingPresence(

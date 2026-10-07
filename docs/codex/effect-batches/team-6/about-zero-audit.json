@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "team": 6,
+  "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+  "scope": "14 owned law direct links and one onward step",
+  "directLinksInspected": 15,
+  "oneStepLinksInspected": 22,
+  "aboutZeroCandidates": [
+    {
+      "key": "home-internet-to-scores",
+      "to": "school.test-scores",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "access",
+      "lagMonths": 0,
+      "group": "students",
+      "owner": "M",
+      "anchor": "Free computers changed no outcome; home access slightly lowered scores",
+      "source": "Fairlie and Robinson 2013; Vigdor, Ladd and Martinez 2014",
+      "from": "broadband.home-access",
+      "evidence": "about-zero"
+    }
+  ],
+  "findings": [
+    {
+      "linkId": "home-internet-to-scores",
+      "classification": "Measured near-zero in a computer-provision trial; NOT VERIFIED as zero for broadband access",
+      "reason": "Fairlie/Robinson reports small computer-provision trial estimates with outcome-specific intervals. This is not the broadband-access treatment of this link. Vigdor/Ladd working-paper abstract reports modest statistically significant negative effects. A universal zero bundles different treatments and contrary estimates.",
+      "coordinatorAction": "Remove research-confirmed universal about-zero classification for broadband access; retain the treatment-specific trial evidence and require a dimensional/treatment bridge before applying a size. Coordinator alone edits links.json.",
+      "missingFigures": [
+        "Broadband-access-specific outcome estimate and uncertainty transferable to the modeled population",
+        "Outcome-specific coefficient and uncertainty from the later Vigdor/Ladd/Martinez publication",
+        "Explicit equivalence threshold for declaring near-zero"
+      ],
+      "primaryEvidence": [
+        {
+          "source": "https://www.nber.org/system/files/working_papers/w19060/w19060.pdf",
+          "study": "Fairlie and Robinson 2013",
+          "location": "Table 4 discussion, printed page 16",
+          "treatment": "Random free home computer provision to schoolchildren",
+          "englishStandardizedScore95CI": [-0.15, 0.05],
+          "mathStandardizedScore95CI": [-0.16, 0.04],
+          "englishProficiency95CI": [-0.04, 0.04],
+          "mathProficiency95CI": [-0.08, 0.04],
+          "units": "Scores in SD; proficiency in probability units. These are printed intervals, not invented sizes.",
+          "limitation": "No predeclared equivalence threshold in this audit; not proof of exact zero or broadband program transportability."
+        },
+        {
+          "source": "https://www.nber.org/system/files/working_papers/w16078/w16078.pdf",
+          "study": "Vigdor and Ladd 2010 working paper",
+          "location": "Abstract",
+          "finding": "Modest but statistically significant negative impacts on math and reading test scores",
+          "limitation": "Later 2014 publication lists Martinez; this read was the 2010 working paper. No coefficient invented."
+        }
+      ]
+    }
+  ],
+  "otherNearZeroClaims": [
+    {
+      "study": "Dettling FEDS2013-065 February2015",
+      "finding": "The main HSI coefficient is statistically insignificant; uncertainty is wide. This is not a narrow measured zero.",
+      "table3Column5MainHSI": -0.02833,
+      "reportedClusteredSE": 0.089906,
+      "action": "No about-zero link or person outcome inferred."
+    }
+  ],
+  "numbers": {
+    "declaredAboutZeroCandidates": 1,
+    "verifiedNearZero": 0,
+    "linksEdited": 0
+  },
+  "notRun": [
+    "Runtime law effects and nationwide proof",
+    "Later Vigdor/Ladd/Martinez 2014 full paper admission"
+  ],
+  "ownership": "Coordinator alone edits links.json; Team6 submits this audit payload."
+}

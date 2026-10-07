@@ -112,9 +112,11 @@ export function principledLeaning(
   for (const bearing of proposition.principles) {
     const held = latest.get(bearing.principleId);
     if (!held || held.stance === "conflicted") continue;
+    const weight = bearing.weight ?? 1;
+    if (weight === 0) continue;
     const agrees =
       (held.stance === "endorses") === (bearing.bearing === "consistent-with");
-    score += (agrees ? 1 : -1) * held.strength * 4;
+    score += (agrees ? 1 : -1) * held.strength * 4 * weight;
     recordIds.push(held.id);
   }
   return { score, recordIds };
@@ -224,11 +226,14 @@ export function principleView(
  * latest record of each, formed by today), the viewer's conviction counts
  * for agreement where the stances match and against where they differ. The
  * importance uses the vote cut points above; null where nothing is shared.
+ * A supplied law question limits the comparison to its arguments and weights.
+ * General nominee comparisons without a question keep their legacy weights.
  */
 export function principleAgreement(
   world: World,
   viewerId: EntityId,
   subjectId: EntityId,
+  propositionId?: EntityId,
 ): {
   readonly score: number;
   readonly importance: "slight" | "moderate" | "strong" | "decisive" | null;
@@ -246,14 +251,29 @@ export function principleAgreement(
   };
   const own = latest(viewerId);
   const theirs = latest(subjectId);
+  const bearings =
+    propositionId === undefined
+      ? [...own.keys()].map((principleId) => ({ principleId, weight: 1 }))
+      : (world.policyCatalog.propositions[propositionId]?.principles ?? []);
   let score = 0;
-  const recordIds: EntityId[] = [];
-  for (const [principleId, mine] of own) {
-    const other = theirs.get(principleId);
-    if (!other || mine.stance === "conflicted" || other.stance === "conflicted")
+  const recordIds = new Set<EntityId>();
+  for (const bearing of bearings) {
+    const mine = own.get(bearing.principleId);
+    const other = theirs.get(bearing.principleId);
+    const weight = bearing.weight ?? 1;
+    if (
+      !mine ||
+      !other ||
+      weight === 0 ||
+      mine.stance === "conflicted" ||
+      other.stance === "conflicted"
+    )
       continue;
-    score += (mine.stance === other.stance ? 1 : -1) * mine.strength * 4;
-    recordIds.push(mine.id);
+    // The law direction applies to both people, so matching stances agree for
+    // either direction. Keep each argument's weight, including opposing rows.
+    score +=
+      (mine.stance === other.stance ? 1 : -1) * mine.strength * weight * 4;
+    recordIds.add(mine.id);
   }
   const size = Math.abs(score);
   return {
@@ -268,7 +288,7 @@ export function principleAgreement(
             : size >= VOTE_IMPORTANCE.moderate
               ? "moderate"
               : "slight",
-    recordIds,
+    recordIds: [...recordIds],
   };
 }
 

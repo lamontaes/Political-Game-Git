@@ -1,0 +1,30 @@
+{
+  "status": "sourced-inputs-not-an-eligibility-award",
+  "sourceReceipt": "Team9 verified primary packet in 00b, September 30, 2026",
+  "limitsSource": "https://fsapartners.ed.gov/knowledge-center/fsa-handbook/2024-2025/vol8/ch4-annual-and-aggregate-loan-limits",
+  "limitsCohort": "2024-2025 representative historical program",
+  "unit": "USD dollars",
+  "dependentAnnualByYear": [5500, 6500, 7500],
+  "independentAnnualByYear": [9500, 10500, 12500],
+  "subsidizedAnnualByYear": [3500, 4500, 5500],
+  "dependentAggregateOutstanding": 31000,
+  "independentAggregateOutstanding": 57500,
+  "subsidizedAggregateOutstanding": 23000,
+  "rateSource": "https://fsapartners.ed.gov/knowledge-center/library/electronic-announcements/2025-05-30/interest-rates-direct-loans-first-disbursed-between-july-1-2025-and-june-30-2026",
+  "rateCohort": {
+    "firstDisbursedFrom": "2025-07-01",
+    "firstDisbursedThrough": "2026-06-30"
+  },
+  "undergraduateFixedRateBasisPoints": 639,
+  "treasuryAuctionYieldPercent": 4.342,
+  "statutoryAddOnPercentagePoints": 2.05,
+  "statutoryRateCapPercent": 8.25,
+  "conditions": [
+    "Historical representative inputs, not a claim for July 2026 originations.",
+    "Legal maxima never create actual balances or automatic awards.",
+    "Actual dependency, grade, eligibility, proration, cost of attendance and other aid must constrain a loan.",
+    "Aggregate limits constrain outstanding principal; do not substitute lifetime original principal or debt including interest.",
+    "A cash-paid tuition period is not financed retroactively.",
+    "No borrower eligibility record or final-law coverage enumeration is authored by this packet."
+  ]
+}

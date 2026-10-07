@@ -17,6 +17,8 @@ import {
 import "./politics-hub.css";
 import { GuideTerm } from "../GuideTerm";
 import { JudiciaryPanel } from "./JudiciaryPanel";
+import { SavedPersonFigure } from "../SavedPersonFigure";
+import "../opening-official-figures.css";
 
 /**
  * Public government for a place, by scope and branch (OCD-UI-004).
@@ -120,6 +122,7 @@ export function GovernmentBrowser({
 
       {view.representedBy ? (
         <RepresentedBy
+          world={world}
           rows={view.representedBy}
           homeLabel={base.home.label}
           onOpenPerson={onOpenPerson}
@@ -332,18 +335,20 @@ function Breakdown({
 }
 
 function SeatHolder({
+  world,
   status,
   name,
   personId,
   onOpenPerson,
 }: {
+  readonly world?: World;
   readonly status: GovernmentSeatRow["status"];
   readonly name: string | null;
   readonly personId: EntityId | null;
   readonly onOpenPerson: (personId: EntityId) => void;
 }) {
-  if (status === "member" && name && personId)
-    return (
+  if (status === "member" && name && personId) {
+    const button = (
       <button
         type="button"
         className="pg-government-holder"
@@ -353,6 +358,18 @@ function SeatHolder({
         {name}
       </button>
     );
+    if (!world) return button;
+    return (
+      <div className="pg-opening-represented-person">
+        <SavedPersonFigure
+          world={world}
+          personId={personId}
+          className="pg-opening-roster-figure"
+        />
+        {button}
+      </div>
+    );
+  }
   return (
     <span className="pg-government-seat-status">
       {status === "vacancy" ? "Vacant" : "No current record"}
@@ -507,10 +524,12 @@ function EntryBody({
 }
 
 function RepresentedBy({
+  world,
   rows,
   homeLabel,
   onOpenPerson,
 }: {
+  readonly world: World;
   readonly rows: readonly RepresentationRow[];
   readonly homeLabel: string;
   readonly onOpenPerson: (personId: EntityId) => void;
@@ -531,10 +550,11 @@ function RepresentedBy({
           <li key={row.key} data-testid={`government-represented-${row.key}`}>
             <span className="pg-government-entry-title">{row.office}</span>
             <span className="pg-government-seat">
-              {row.district ?? "District not recorded"}
+              {row.district ?? "See the district note below"}
             </span>
             {row.holders.map((holder) => (
               <SeatHolder
+                world={world}
                 key={holder.key}
                 status={holder.status}
                 name={holder.name}

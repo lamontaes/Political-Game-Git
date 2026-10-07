@@ -1,3 +1,7 @@
+import {
+  privateBeliefSubjectId,
+  validatePrivateBeliefSubject,
+} from "./political-opinion-subjects";
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
@@ -97,7 +101,7 @@ export function recordPrivateBelief(
   input: PrivateBeliefRecordInput,
 ): World {
   requirePerson(world, input.personId);
-  requireProposition(world, input.propositionId);
+  validatePrivateBeliefSubject(world, input);
   assertRecordDate(
     world,
     input.formedAt,
@@ -124,10 +128,10 @@ export function recordPrivateBelief(
     world.history.privateBeliefs,
     input.supersedesBeliefId,
     input.personId,
-    input.propositionId,
+    privateBeliefSubjectId(input),
     input.formedAt,
     "private belief",
-    (record) => record.propositionId,
+    privateBeliefSubjectId,
     (record) => record.formedAt,
   );
   return validateNext(world, {

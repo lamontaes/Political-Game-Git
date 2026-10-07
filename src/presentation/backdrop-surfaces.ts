@@ -1,3 +1,4 @@
+import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import surfaceData from "../../art/backdrops/surfaces.json" with { type: "json" };
 import { electionContestStatus } from "../simulation/election-contests";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
@@ -104,9 +105,24 @@ export function backdropSurfaceSlots(
   variant: string,
 ): readonly BackdropSurfaceSlot[] {
   const record = PLACE_SURFACES[place];
-  if (!record) return [];
+  if (!record || !record.checked.includes(`${place}__${variant}.jpg`))
+    return [];
+  const staged = (
+    staging.places as Readonly<
+      Record<
+        string,
+        { readonly surfaceSlots: readonly { readonly surfaceId: string }[] }
+      >
+    >
+  )[place];
+  const tagged = new Set(
+    staged?.surfaceSlots.map((slot) => slot.surfaceId) ?? [],
+  );
   return record.surfaces
-    .filter((surface) => !(surface.absentIn ?? []).includes(variant))
+    .filter(
+      (surface) =>
+        tagged.has(surface.id) && !(surface.absentIn ?? []).includes(variant),
+    )
     .map((surface) => ({
       id: surface.id,
       kind: surface.kind,
@@ -364,6 +380,7 @@ const QUESTION_LABEL: Readonly<
   amendment: "Amendment",
   concurrence: "Other chamber's changes",
   "veto-override": "Veto override",
+  "procedural-motion": "Procedural motion",
 };
 
 function measuresById(

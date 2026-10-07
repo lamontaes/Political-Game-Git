@@ -26,7 +26,9 @@ import { legislativeTermForRelationship } from "../simulation/legislative-office
 import { completedActivityHere } from "./scene-venues";
 import { careerOfferAccepted } from "../simulation/career-path7";
 import { currentSchooling } from "../simulation/school-stages";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { openingWorkLocation } from "./opening-work-location";
+import { currentStorySceneSituation } from "./story-scene-day";
 
 /**
  * Today, as four answers rather than a stack of panels.
@@ -72,15 +74,20 @@ export interface TodayOverview {
 }
 
 export function projectToday(world: World, personId: EntityId): TodayOverview {
+  const situation = currentStorySceneSituation(world, personId);
   const day = projectOrdinaryDay(world, personId);
   const finished = completedActivityHere(world, personId);
   const scene = finished ? null : currentOpeningLifeScene(world, personId);
   const openingLocation =
     !finished && !scene ? openingWorkLocation(world, personId) : null;
   // What was finished there is said once, by the activity panel that did it.
-  const now = finished
-    ? `You are at ${finished.location.label}.`
-    : (scene?.prose ?? openingLocation?.summary ?? day.opening);
+  const meeting = projectOrdinaryMeetingScene(world, personId);
+  const now =
+    meeting?.phase === "active"
+      ? `You are at ${meeting.location.label}. ${meeting.caption}`
+      : finished
+        ? `You are at ${finished.location.label}.`
+        : (scene?.prose ?? openingLocation?.summary ?? "");
 
   const moment = world.currentMoment;
   const calendar = projectPlayerCalendar(world, personId);
@@ -98,10 +105,17 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
   return {
     dateLabel: day.dateLabel,
     timeLabel: day.timeLabel,
-    placeName: finished
-      ? finished.location.label
-      : (openingLocation?.context.location?.label ?? day.placeName),
-    now,
+    placeName:
+      situation?.status === "current"
+        ? situation.location!.label
+        : finished
+          ? finished.location.label
+          : (openingLocation?.context.location?.label ?? day.placeName),
+    now:
+      now ||
+      (upcoming
+        ? `Next: ${upcoming.title} at ${formatMinute(upcoming.start.minuteOfDay)}.`
+        : "It's a quiet day. Nothing is happening right now."),
     nowKind:
       finished || openingLocation?.context.location?.setting === "work"
         ? "activity"

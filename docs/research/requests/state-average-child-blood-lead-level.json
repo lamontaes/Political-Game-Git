@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-10-01T19:42:00.000Z",
+  "impact": "shapes-design",
+  "lane": "outcome web",
+  "notes": [
+    "The link's outcome, the share of children far below proficient in reading, is not a kept place outcome either, so the link needs both before it can run."
+  ],
+  "priority": "P2",
+  "question": "For each state, D.C. and territory, what is the average (geometric mean) blood lead level, in micrograms per deciliter, of children under 6 for 2023 or the latest year, from a source that tests a representative share of children? If only the share of tested children at or above the CDC reference value (3.5 micrograms per deciliter) is published, what is the published way to turn that share into a state mean level, and how large are the tested-children biases?",
+  "questionId": "state-average-child-blood-lead-level",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Claude subagent for Claude CTO, outcome-web bases for measures its links name (2026-10-01)",
+  "sourcesChecked": [
+    {
+      "source": "CDC Childhood Lead Poisoning Prevention Program, state surveillance data (https://www.cdc.gov/lead-prevention/php/data/blood-lead-surveillance.html)",
+      "whatItDidNotSettle": "Reports counts and the share of tested children at or above 3.5 micrograms per deciliter, not a mean level, and only for the children states chose to test."
+    },
+    {
+      "source": "CDC NHANES blood lead results (https://www.cdc.gov/nchs/nhanes/)",
+      "whatItDidNotSettle": "Gives a national geometric mean for children, not a state mean; state samples are too small."
+    }
+  ],
+  "title": "Average blood lead in young children, state by state",
+  "usableAnswer": "One row per place: the mean blood lead level in micrograms per deciliter for children under 6, the year, the source and table, the share of children it represents, and how it was computed. Where a place has no value, say so and give the national mean with its source (NHANES) so the game can mark the place ESTIMATED FROM NATIONAL AVERAGE.",
+  "whyItMatters": "The outcome web's lead-to-reading link (Aizer et al. 2018: +26% chance of being far below proficient in reading per 1 microgram per deciliter) is sized per microgram per deciliter, so its cause measure, health.blood-lead, must be a mean level in that unit. CDC's state surveillance reports the share of tested children at or above 3.5, which is a different unit and covers a non-random sample (states test different shares of children), so using it as the cause would move reading by the wrong amount."
+}

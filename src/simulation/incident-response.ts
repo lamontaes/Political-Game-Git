@@ -2,7 +2,6 @@ import { eventById } from "./event-index";
 /** Incident-to-response consumer. State lives in existing event, Work, schedule,
  * knowledge and resource records; this module owns no engine or save schema. */
 import { personActionAvailabilityAt } from "./vitality-integrity";
-import { recordCausalProcess } from "./causal-effects";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { addSimulationMinutes } from "./dates";
 import { activeWorkRelationshipsAt } from "./life-queries";
@@ -126,7 +125,11 @@ function write(
     })),
     personFactConstraints: [],
     visibility,
-    tags: ["incident.response", "provenance.design-authored"],
+    tags: [
+      "incident.response",
+      "provenance.design-authored",
+      `cause-event:${source.id}`,
+    ],
     summary,
     context: {
       location: null,
@@ -138,18 +141,7 @@ function write(
       immediateReaction: null,
     },
   });
-  return recordCausalProcess(next, {
-    stableKey: `${key}:cause`,
-    kind: "incident:response",
-    effectiveAt: w.currentDate,
-    recordedAt: w.currentDate,
-    sourceEntityIds: [source.id, next.history.events.at(-1)!.id],
-    parentCausalIds: [],
-    provenance: {
-      kind: "authored",
-      note: "Design-authored response procedure; preserves source event links.",
-    },
-  });
+  return next;
 }
 function teach(w: World, e: HistoricalEvent, people: EntityId[]) {
   for (const personId of [...new Set(people)])
@@ -559,7 +551,15 @@ function responseReportId(
   const cause = w.history.causalProcesses.find(
     (c) => c.stableKey === `${e.stableKey}:cause`,
   );
-  for (const id of cause?.sourceEntityIds ?? []) {
+  // New responses keep their source on the canonical event. Older saves
+  // retain the causal-process receipt written before this migration.
+  const sourceIds = [
+    ...e.tags
+      .filter((tag) => tag.startsWith("cause-event:"))
+      .map((tag) => tag.slice("cause-event:".length) as EntityId),
+    ...(cause?.sourceEntityIds ?? []),
+  ];
+  for (const id of sourceIds) {
     const source = eventById(w, id);
     if (source) {
       const report = responseReportId(w, source, seen);

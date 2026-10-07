@@ -1,0 +1,43 @@
+{
+  "worktreeBase": "be96f3d6856bdb3280c94fdf89b60dfa8944fbac",
+  "main": "1c2d7ddf5e5ef636efd927d262a8dcbc62b2dff6",
+  "sourceBlobs": {
+    "src/simulation/governing/staff-evidence.ts": "643dc3d4901b5b60b9b62708d42de78e3736651c",
+    "src/simulation/governing/staff-evidence.test.ts": "81527c3a5d4b933e52cc3538d117014a97d26d51",
+    "src/simulation/governing/state-governing.ts": "27bb7682f349c78efe795486efa5626700d53687"
+  },
+  "testFile": "src/simulation/governing/staff-evidence.test.ts",
+  "passed": 4,
+  "failed": 0,
+  "skipped": 0,
+  "seconds": 14.17,
+  "jurisdictionsReadingAbsentEvidence": 56,
+  "actualOfficeCandidateProof": "D.C. mayor",
+  "actualCandidates": [
+    {
+      "name": "Avery Mathews",
+      "workingPosts": 0,
+      "steadiness": null
+    },
+    {
+      "name": "Ramon Anderson",
+      "workingPosts": 0,
+      "steadiness": null
+    },
+    {
+      "name": "Jenna Clayton",
+      "workingPosts": 0,
+      "steadiness": null
+    }
+  ],
+  "strictRoots": 3,
+  "diagnostics": 0,
+  "initialFailureReceiptPreserved": true,
+  "status": "Preserved candidate; no READY/merge claim; A108 extraction resumed",
+  "limits": [
+    "All56 is staff assessment absence-of-evidence, not56 office producers",
+    "Existing NPC fallback/A92 untouched",
+    "Team1 budget-selection hunks untouched",
+    "No global suite or natural office staffing run"
+  ]
+}

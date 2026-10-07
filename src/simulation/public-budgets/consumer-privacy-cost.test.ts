@@ -1,0 +1,197 @@
+import { describe, expect, it } from "vitest";
+import { makeIsoDate } from "../dates";
+import { lawInForceAtStart } from "../governing/law-in-force";
+import { lawInForce } from "../governing/law-in-force";
+import { stateJurisdictionForKey } from "../life-places";
+import { createProductionPolicyCatalog } from "../production-catalog";
+import type { EntityId, LegislativeMeasureRecord, World } from "../types";
+import { createWorld } from "../world";
+import { createStableId } from "../ids";
+import { enactCostLawFixture } from "../../../tests/fixtures/enacted-cost-law-fixture";
+import { legislatureProfilePackId } from "../legislature-game-profile";
+import { deserializeWorld, serializeWorld } from "../serialization";
+const AGE_VERIFICATION_COST_QUESTION =
+  "us-policy-positions:technology-privacy.age-verification-for-social-media";
+const CONSUMER_PRIVACY_COST_QUESTION =
+  "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+import { withOpenedBudgets } from "./index";
+import {
+  lawSpendingForMonth,
+  readMonthFlows,
+  settleGovernmentMonth,
+} from "./month";
+import { SPENDING_QUESTION_EFFECTS } from "./rules";
+import {
+  BUDGET_PROGRAMS,
+  PUBLIC_BUDGETS_VERSION,
+  type PublicBudgetGovernment,
+} from "./store";
+import { ensureOpeningGovernmentAccounts } from "./opening-government-accounts";
+
+const flowsFor = (world: World, government: PublicBudgetGovernment) =>
+  readMonthFlows(world, {
+    version: PUBLIC_BUDGETS_VERSION,
+    cursor: { flows: 0, outcomes: 0 },
+    governments: [government],
+    adjustments: [],
+    unknown: [],
+  }).flows;
+const states = ["US-MD", "US-ID", "US-IN", "US-CA", "US-WA"];
+
+describe("consumer privacy without an appropriation or actual hires produces no invoice", () => {
+  it.each(states)(
+    "%s preserves money and saved records for enactment or repeal",
+    (key) => {
+      const state = stateJurisdictionForKey(key)!;
+      const catalog = createProductionPolicyCatalog();
+      const privacy = Object.values(catalog.propositions).find(
+        (entry) => entry.stableKey === CONSUMER_PRIVACY_COST_QUESTION,
+      )!;
+      const age = Object.values(catalog.propositions).find(
+        (entry) => entry.stableKey === AGE_VERIFICATION_COST_QUESTION,
+      )!;
+      const base = ensureOpeningGovernmentAccounts(
+        createWorld({
+          seed: "team8-consumer-privacy-stamp:" + key,
+          currentDate: makeIsoDate("2026-01-05"),
+          jurisdictions: [state],
+          people: [],
+          policyCatalog: catalog,
+        }),
+      );
+      const opening = lawInForceAtStart(
+        base,
+        state.id,
+        privacy.id,
+        base.currentDate,
+      );
+      expect(["yes", "no"]).toContain(opening);
+      const answer = opening === "yes" ? "no" : "yes";
+      const month = makeIsoDate("2026-05-01");
+      const makeMeasure = (
+        propositionId: EntityId,
+        policyAnswer: "yes" | "no",
+        index: number,
+      ): LegislativeMeasureRecord => ({
+        id: createStableId(
+          "legislative-measure",
+          `privacy-fixture:${key}:${index}`,
+        ),
+        stableKey: `privacy-fixture:${key}:${index}`,
+        sequence: base.history.nextSequence + index * 2,
+        jurisdictionId: state.id,
+        rulePackId: legislatureProfilePackId(key),
+        designation: `HB fixture ${index}`,
+        shortTitle: "Authored attribution fixture",
+        summary: "Controlled legal change; no natural passage claim.",
+        origin: "member-introduction",
+        subjectClass: "general-policy",
+        originChamberKey: "house",
+        sponsorPersonId: null,
+        introducedAt: month,
+        sourceDocumentKey: null,
+        policyAlternativeIds: [],
+        propositionIds: [propositionId],
+        propositionAnswers: [{ propositionId, answer: policyAnswer }],
+      });
+      const ageMeasure = makeMeasure(age.id, "yes", 0);
+      const privacyMeasure = makeMeasure(privacy.id, answer, 1);
+      const ageFixture = enactCostLawFixture(base, ageMeasure, {
+        effectiveAt: month,
+      });
+      const ageOnly = ageFixture.world;
+      const combined = enactCostLawFixture(base, [ageMeasure, privacyMeasure], {
+        effectiveAt: month,
+      });
+      const privacyFixture = {
+        world: combined.world,
+        measure: combined.measures[1]!,
+      };
+      const world = privacyFixture.world;
+      const government = withOpenedBudgets(
+        base,
+        {
+          version: PUBLIC_BUDGETS_VERSION,
+          cursor: { flows: 0, outcomes: 0 },
+          governments: [],
+          adjustments: [],
+          unknown: [],
+        },
+        base.currentDate,
+      ).governments.find((entry) => entry.key === key)!;
+      const baseline = settleGovernmentMonth(
+        ageOnly,
+        government,
+        month,
+        flowsFor(ageOnly, government),
+      ).government.months.at(-1)!;
+      const savedGovernment = settleGovernmentMonth(
+        world,
+        government,
+        month,
+        flowsFor(world, government),
+      ).government;
+      const saved = savedGovernment.months.at(-1)!;
+      expect(lawInForce(world, state.id, privacy.id, month)?.measureId).toBe(
+        privacyFixture.measure.id,
+      );
+      expect(
+        SPENDING_QUESTION_EFFECTS.some(
+          (entry) => entry.questionKey === CONSUMER_PRIVACY_COST_QUESTION,
+        ),
+      ).toBe(false);
+      expect(saved.lawCostAttributions).toBeUndefined();
+      const administration = BUDGET_PROGRAMS.indexOf("administration");
+      expect(saved.spending[administration]).toBe(
+        baseline.spending[administration],
+      );
+      expect(saved.balance).toBe(baseline.balance);
+      expect(saved.revenue).toEqual(baseline.revenue);
+      expect(saved.spending).toEqual(baseline.spending);
+      expect(saved.lawEffectStamps).toEqual(baseline.lawEffectStamps);
+      expect(JSON.parse(JSON.stringify(saved))).toEqual(saved);
+      const stored = {
+        ...world,
+        publicBudgets: {
+          version: PUBLIC_BUDGETS_VERSION,
+          cursor: { flows: 0, outcomes: 0 },
+          governments: [savedGovernment],
+          adjustments: [],
+          unknown: [],
+        },
+      };
+      const bytes = serializeWorld(stored);
+      const loaded = deserializeWorld(bytes);
+      expect(serializeWorld(loaded)).toBe(bytes);
+      expect(loaded.publicBudgets!.governments[0]).toEqual(savedGovernment);
+      expect(
+        settleGovernmentMonth(
+          world,
+          savedGovernment,
+          month,
+          flowsFor(world, savedGovernment),
+        ).government,
+      ).toBe(savedGovernment);
+      expect(
+        lawSpendingForMonth(world, { ...government, level: "county" }, month),
+      ).toEqual(BUDGET_PROGRAMS.map(() => 0));
+      expect(
+        lawSpendingForMonth(
+          { ...world, policyCatalog: { ...catalog, propositions: {} } },
+          government,
+          month,
+        ),
+      ).toEqual(BUDGET_PROGRAMS.map(() => 0));
+      expect(
+        lawSpendingForMonth(
+          world,
+          {
+            ...government,
+            lawJurisdictionId: "jurisdiction_unknown" as EntityId,
+          },
+          month,
+        ),
+      ).toEqual(BUDGET_PROGRAMS.map(() => 0));
+    },
+  );
+});

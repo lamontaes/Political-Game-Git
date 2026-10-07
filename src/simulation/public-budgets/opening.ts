@@ -1,3 +1,8 @@
+import paid from "../../../data/research/money/pension-contribution-paid.json" with { type: "json" };
+import flows from "../../../data/research/money/pension-flows.json" with { type: "json" };
+import funded from "../../../data/research/money/pension-funded-ratio.json" with { type: "json" };
+import liabilityRatio from "../../../data/research/money/pension-liability-ratio.json" with { type: "json" };
+import type { PublicGovernmentIdentityCarrier } from "../public-government-identity";
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import acsTowns from "../../../data/research/money/place-towns-acs-2024.json" with { type: "json" };
@@ -5,6 +10,7 @@ import {
   allGovernmentUnits,
   countyGeoidsForPlace,
   countyGovernmentUnit,
+  governmentUnitJurisdictionId,
   governmentUnitsForPlace,
   governmentUnitsForState,
   type GovernmentUnitIdentity,
@@ -19,35 +25,28 @@ import {
   primaryReading,
 } from "../municipal-government";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
+import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { placePopulation } from "../nationwide-world/place-population";
-import { SeededRng } from "../rng";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
-import { standardNormal } from "../world-setup/deterministic-math";
-import {
-  openingFundedRatio,
-  openingPaidShare,
-  pensionFlows,
-  pensionPayment,
-} from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import {
   budgetLawReadings,
   fiscalYearContaining,
   nominalEconomyIndex,
+  budgetObligationPayment,
 } from "./fiscal";
 import {
-  DEFAULT_INTEREST_RATE,
+  DEFAULT_LOCAL_INTEREST_RATE,
+  DEFAULT_STATE_INTEREST_RATE,
   LOCAL_PROGRAM_SPLIT,
   LOCAL_REVENUE_RULE,
-  OPENING_DRAW_SD,
   PENSION,
 } from "./rules";
 import {
   BUDGET_PROGRAMS,
   BUDGET_SOURCES,
   PROTECTED_PROGRAMS,
-  PUBLIC_BUDGETS_VERSION,
   sum,
   type AdoptedBudget,
   type BudgetLevel,
@@ -65,10 +64,13 @@ import {
  *    column is empty, so the District reads the local column whole.
  * 2. A territory opens from its NASBO totals: one revenue line whose source is
  *    unknown and one program line whose split is unknown.
- * 3. A county or city takes its PLACEHOLDER share of its state's local
- *    figures per resident (`rules.ts`), times its own population.
+ * 3. A county or city takes the estimated county or city program share in
+ *    `rules.ts` from its state's local figures per resident, times its own
+ *    population. The estimates use the same 50-state-and-D.C. Census local
+ *    government base that supplies those figures.
  * 4. A state's opening balance and reserve are NASBO's fiscal 2026 estimates;
- *    a local government's are its state's shares of spending (PLACEHOLDER).
+ *    a local government's use its state's recorded shares of spending, or
+ *    the median share among the 50 states and D.C. when no share is recorded.
  *
  * A figure read for the government itself (a state's Census column, a
  * territory's NASBO totals) opens exactly as read. An estimate from an
@@ -145,6 +147,31 @@ const MEDIAN_RAINY_DAY_SHARE = (() => {
     .map(
       (place) =>
         place.generalFundFY2026Millions.rainyDayFundBalance! /
+        place.generalFundFY2026Millions.expenditures!,
+    )
+    .sort((a, b) => a - b);
+  const middle = Math.floor(shares.length / 2);
+  return shares.length % 2
+    ? shares[middle]!
+    : (shares[middle - 1]! + shares[middle]!) / 2;
+})();
+
+/**
+ * The median ending balance as a share of general-fund spending among the
+ * states and D.C. for which NASBO reports both fiscal 2026 figures. This is
+ * the opening estimate when NASBO has no ending-balance figure.
+ */
+const MEDIAN_ENDING_BALANCE_SHARE = (() => {
+  const shares = Object.values(PLACES)
+    .filter(
+      (place) =>
+        place.state &&
+        place.generalFundFY2026Millions.endingBalance !== null &&
+        place.generalFundFY2026Millions.expenditures,
+    )
+    .map(
+      (place) =>
+        place.generalFundFY2026Millions.endingBalance! /
         place.generalFundFY2026Millions.expenditures!,
     )
     .sort((a, b) => a - b);
@@ -263,7 +290,7 @@ const ACS_TOWN_POPULATION = acsTowns.townPopulation as Readonly<
   Record<string, number>
 >;
 
-export interface BudgetCandidate {
+export interface BudgetCandidate extends PublicGovernmentIdentityCarrier {
   readonly key: string;
   readonly jurisdictionId: EntityId;
   readonly lawJurisdictionId: EntityId;
@@ -302,7 +329,7 @@ export function budgetCandidates(world: World): {
   const townIds = new Set(stateTowns.values());
   for (const usps of Object.keys(STATES)) {
     const key = `US-${usps}`;
-    const jurisdiction = stateJurisdictionForKey(key);
+    const jurisdiction = chiefExecutiveJurisdiction(usps);
     if (!jurisdiction) continue;
     stateIds.add(jurisdiction.id);
     candidates.push({
@@ -362,7 +389,10 @@ export function budgetCandidates(world: World): {
     candidates.push({
       key: serving.key,
       jurisdictionId: serving.jurisdictionId,
-      lawJurisdictionId: serving.jurisdictionId,
+      lawJurisdictionId: serving.lawJurisdictionId ?? serving.jurisdictionId,
+      ...(serving.publicGovernmentIdentity
+        ? { publicGovernmentIdentity: serving.publicGovernmentIdentity }
+        : {}),
       level: serving.level,
       name: serving.name,
       stateKey,
@@ -380,7 +410,8 @@ export function budgetCandidates(world: World): {
   };
 }
 
-export interface ServingGovernment {
+export interface ServingGovernment extends PublicGovernmentIdentityCarrier {
+  readonly lawJurisdictionId?: EntityId;
   /** The budget's key: `county:<GEOID>`, `town:<county subdivision GEOID>` or the state's. */
   readonly key: string;
   readonly level: BudgetLevel;
@@ -455,7 +486,13 @@ export function servingGovernment(
       key: `town:${townGeoid}`,
       level: "city",
       geoid: townGeoid,
-      jurisdictionId: placeJurisdictionId,
+      jurisdictionId: governmentUnitJurisdictionId(town),
+      lawJurisdictionId: placeJurisdictionId,
+      publicGovernmentIdentity: {
+        kind: "local-government",
+        governmentKey: town.id,
+        jurisdictionId: governmentUnitJurisdictionId(town),
+      },
       name: `${titleCase(town.name)}, ${STATES[usps]?.name ?? usps}`,
     };
   if (!area?.townships.length) {
@@ -535,26 +572,6 @@ function titleCase(name: string): string {
     .join(" ");
 }
 
-/**
- * An opening amount. A figure read for this government itself opens exactly
- * as read. An estimate from an average (a county's or city's share of its
- * state's local finances, an unsurveyed territory) opens with a per-world
- * spread around the average, so two worlds do not share one made-up number.
- */
-function opened(
-  world: World,
-  governmentKey: string,
-  line: string,
-  amount: number,
-  read: "read" | "estimated",
-): number {
-  if (read === "read" || !world.seed || amount === 0) return Math.round(amount);
-  const rng = new SeededRng(world.seed).fork(
-    `${PUBLIC_BUDGETS_VERSION}:open:${governmentKey}:${line}`,
-  );
-  return Math.round(amount * Math.exp(standardNormal(rng) * OPENING_DRAW_SD));
-}
-
 function emptyRevenue(): number[] {
   return BUDGET_SOURCES.map(() => 0);
 }
@@ -567,19 +584,20 @@ function emptySpending(): number[] {
  * The opening pension and its actuarial contribution. The assets are the
  * liability times the government's own reported funded ratio
  * (`openingFundedRatio`), and the contribution's normal cost is its own
- * plans' (`pensionFlows`); the liability's size against spending is still
- * PLACEHOLDER.
+ * plans' (`pensionFlows`); the liability is a year's spending times its
+ * state's measured ratio (`openingLiabilityToSpending`).
  */
 export function openingPension(
   spending: number,
   paidShare: number,
   fundedRatio: number,
   normalCostShare: number,
+  liabilityToSpending: number,
 ): {
   pension: PensionRecord;
   required: number;
 } {
-  const liability = Math.round(spending * PENSION.liabilityToSpending);
+  const liability = Math.round(spending * liabilityToSpending);
   const assets = Math.round(liability * fundedRatio);
   return {
     pension: { liability, assets, paidShare },
@@ -641,8 +659,15 @@ interface OpeningAmounts {
   readonly notes: string[];
 }
 
+/** Where an opening interest rate came from, for the opening notes. */
+function interestNote(rate: number, fallback: number): string {
+  const percent = Math.round(rate * 10_000) / 100;
+  return rate === fallback
+    ? `Interest rate: ESTIMATED FROM AVERAGE, ${percent}%, the national effective rate for its level (Census 2022 interest on debt over debt outstanding); its own column shows no debt or no interest.`
+    : `Interest rate: ${percent}%, its own Census 2022 interest on debt over its debt outstanding.`;
+}
+
 function stateOpening(
-  world: World,
   candidate: BudgetCandidate,
   base: PlaceBase,
 ): OpeningAmounts | string {
@@ -651,7 +676,7 @@ function stateOpening(
   const revenue = emptyRevenue();
   const spending = emptySpending();
   let debt = 0;
-  let interestRate = DEFAULT_INTEREST_RATE;
+  let interestRate = DEFAULT_STATE_INTEREST_RATE;
   let population = base.population2024 ?? 0;
   const column = STATE_IS_LOCAL.has(candidate.key)
     ? base.local
@@ -659,28 +684,10 @@ function stateOpening(
   if (column && population > 0) {
     const scale = population * BUDGET_CALIBRATION;
     for (const [at, source] of BUDGET_SOURCES.entries())
-      revenue[at] = opened(
-        world,
-        candidate.key,
-        source,
-        (column.revenue[source] ?? 0) * scale,
-        "read",
-      );
+      revenue[at] = Math.round((column.revenue[source] ?? 0) * scale);
     for (const [at, program] of BUDGET_PROGRAMS.entries())
-      spending[at] = opened(
-        world,
-        candidate.key,
-        program,
-        (column.spending[program] ?? 0) * scale,
-        "read",
-      );
-    debt = opened(
-      world,
-      candidate.key,
-      "debt",
-      column.debt * population,
-      "read",
-    );
+      spending[at] = Math.round((column.spending[program] ?? 0) * scale);
+    debt = Math.round(column.debt * population);
     const interest = column.spending.interest ?? 0;
     if (column.debt > 0 && interest > 0) interestRate = interest / column.debt;
     notes.push(
@@ -705,19 +712,9 @@ function stateOpening(
     const revenueToSpending = surveyed
       ? general.revenues! / general.expenditures!
       : ISLAND_AREA_AVERAGE.revenueToSpending;
-    spending[BUDGET_PROGRAMS.indexOf("programUnknown")] = opened(
-      world,
-      candidate.key,
-      "programUnknown",
-      total,
-      surveyed ? "read" : "estimated",
-    );
-    revenue[BUDGET_SOURCES.indexOf("sourceUnknown")] = opened(
-      world,
-      candidate.key,
-      "sourceUnknown",
+    spending[BUDGET_PROGRAMS.indexOf("programUnknown")] = Math.round(total);
+    revenue[BUDGET_SOURCES.indexOf("sourceUnknown")] = Math.round(
       total * revenueToSpending,
-      surveyed ? "read" : "estimated",
     );
     notes.push(
       surveyed
@@ -727,6 +724,7 @@ function stateOpening(
     );
     if (!surveyed) {
       const totalSpending = sum(spending);
+      notes.push(interestNote(interestRate, DEFAULT_STATE_INTEREST_RATE));
       return {
         population,
         revenue,
@@ -742,9 +740,10 @@ function stateOpening(
   const balance = general.endingBalance;
   const rainy = general.rainyDayFundBalance;
   const totalSpending = sum(spending);
+  notes.push(interestNote(interestRate, DEFAULT_STATE_INTEREST_RATE));
   notes.push(
     balance === null
-      ? "Opening balance unknown in NASBO; opens at none."
+      ? `Opening balance: ESTIMATED FROM AVERAGE, NASBO has no figure, so ${Math.round(MEDIAN_ENDING_BALANCE_SHARE * 1000) / 1000} of spending, the median ending-balance share of the states and D.C. that NASBO reports (fiscal 2026).`
       : "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
     rainy === null
       ? `Opening reserve: ESTIMATED FROM AVERAGE, NASBO has no figure, so ${Math.round(MEDIAN_RAINY_DAY_SHARE * 1000) / 1000} of spending, the median rainy-day share of the states NASBO reports (fiscal 2026).`
@@ -756,7 +755,11 @@ function stateOpening(
     spending,
     debt,
     interestRate,
-    balance: Math.round((balance ?? 0) * 1_000_000),
+    balance: Math.round(
+      balance === null
+        ? totalSpending * MEDIAN_ENDING_BALANCE_SHARE
+        : balance * 1_000_000,
+    ),
     reserve: Math.round(
       rainy === null
         ? totalSpending * MEDIAN_RAINY_DAY_SHARE
@@ -767,7 +770,6 @@ function stateOpening(
 }
 
 function localOpening(
-  world: World,
   candidate: BudgetCandidate,
   base: PlaceBase,
 ): OpeningAmounts | string {
@@ -800,13 +802,7 @@ function localOpening(
   const spending = emptySpending();
   for (const [at, program] of BUDGET_PROGRAMS.entries()) {
     const share = LOCAL_PROGRAM_SPLIT[program]?.[level] ?? 0;
-    spending[at] = opened(
-      world,
-      candidate.key,
-      program,
-      (local.spending[program] ?? 0) * share * scale,
-      "estimated",
-    );
+    spending[at] = Math.round((local.spending[program] ?? 0) * share * scale);
   }
   const localSpendingPerResident = sum(
     BUDGET_PROGRAMS.map((program) =>
@@ -819,49 +815,39 @@ function localOpening(
       : 0;
   const revenue = emptyRevenue();
   for (const [at, source] of BUDGET_SOURCES.entries())
-    revenue[at] = opened(
-      world,
-      candidate.key,
-      source,
-      (local.revenue[source] ?? 0) * scale * share,
-      "estimated",
-    );
-  const debt = opened(
-    world,
-    candidate.key,
-    "debt",
-    local.debt * population * share,
-    "estimated",
-  );
+    revenue[at] = Math.round((local.revenue[source] ?? 0) * scale * share);
+  const debt = Math.round(local.debt * population * share);
   const interest = local.spending.interest ?? 0;
   const general = base.generalFundFY2026Millions;
   const stateSpend = general.expenditures;
   const balanceShare =
     stateSpend && general.endingBalance !== null
       ? Math.max(0, general.endingBalance / stateSpend)
-      : 0;
+      : MEDIAN_ENDING_BALANCE_SHARE;
   const reserveShare =
     stateSpend && general.rainyDayFundBalance !== null
       ? general.rainyDayFundBalance / stateSpend
       : MEDIAN_RAINY_DAY_SHARE;
   const total = sum(spending);
+  const localRate =
+    local.debt > 0 && interest > 0
+      ? interest / local.debt
+      : DEFAULT_LOCAL_INTEREST_RATE;
   return {
     population,
     revenue,
     spending,
     debt,
-    interestRate:
-      local.debt > 0 && interest > 0
-        ? interest / local.debt
-        : DEFAULT_INTEREST_RATE,
+    interestRate: localRate,
     balance: Math.round(total * balanceShare),
     reserve: Math.round(total * reserveShare),
     notes: [
       base.local
-        ? `Census 2022 local-government figures per resident in ${base.name}, the ${level} share of each program (PLACEHOLDER table, research: local-government-finances-by-type), times ${populationSource} population, times the calibration factor.`
-        : `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighted by population), the ${level} share of each program (PLACEHOLDER table), times ${populationSource} population, times the calibration factor.`,
+        ? `Census 2022 local-government figures per resident in ${base.name}, times the estimated ${level} share of each program used across the 50 states and D.C., times ${populationSource} population, times the calibration factor.`
+        : `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighted by population), times the estimated ${level} share of each program used across those places, times ${populationSource} population, times the calibration factor.`,
       `Revenue: ${LOCAL_REVENUE_RULE}.`,
-      "Opening balance and reserve: the state's general fund balance and rainy-day shares of spending (PLACEHOLDER, research: local-government-finances-by-type).",
+      `Opening balance and reserve: estimated at the state's recorded general-fund ending-balance and rainy-day shares of spending; where NASBO records no state share, the estimate uses the median among the states and D.C. it reports (${Math.round(MEDIAN_ENDING_BALANCE_SHARE * 1000) / 1000} balance and ${Math.round(MEDIAN_RAINY_DAY_SHARE * 1000) / 1000} reserve).`,
+      interestNote(localRate, DEFAULT_LOCAL_INTEREST_RATE),
     ],
   };
 }
@@ -896,8 +882,8 @@ export function openGovernmentBudget(
   if (!base) return "Not in the budget research.";
   const opening =
     candidate.level === "state"
-      ? stateOpening(world, candidate, base)
-      : localOpening(world, candidate, base);
+      ? stateOpening(candidate, base)
+      : localOpening(candidate, base);
   if (typeof opening === "string") return opening;
   const { start, basis } = fiscalStartFor(candidate, base);
   const year = fiscalYearContaining(today, start);
@@ -919,17 +905,19 @@ export function openGovernmentBudget(
     candidate.name,
   );
   const flows = pensionFlows(candidate);
+  const size = openingLiabilityToSpending(candidate.stateKey);
   const { pension, required } = openingPension(
     sum(spending),
     paid.share,
     funding.fundedRatio,
     flows.normalCostShare,
+    size.liabilityToSpending,
   );
   // The opening year's contribution: in full under a law requiring it, and
   // at the government's own share otherwise.
   carvePension(
     spending,
-    pensionPayment(required, pension.paidShare, laws.pensions),
+    budgetObligationPayment(required, pension.paidShare, laws.pensions),
   );
   const stateId = stateJurisdictionForKey(candidate.stateKey)?.id ?? null;
   const adopted: AdoptedBudget = {
@@ -952,6 +940,9 @@ export function openGovernmentBudget(
     key: candidate.key,
     jurisdictionId: candidate.jurisdictionId,
     lawJurisdictionId: candidate.lawJurisdictionId,
+    ...(candidate.publicGovernmentIdentity
+      ? { publicGovernmentIdentity: candidate.publicGovernmentIdentity }
+      : {}),
     level: candidate.level,
     name: candidate.name,
     stateKey: candidate.stateKey,
@@ -965,7 +956,9 @@ export function openGovernmentBudget(
     openingNotes: [
       ...opening.notes,
       `Calibration factor ${BUDGET_CALIBRATION}: ${bases.calibration.basis}`,
-      "Pension: the liability's size against spending is PLACEHOLDER (research: public-pension-funding-by-state); the contribution is carved out of salary-paying programs.",
+      size.basis === "state-plans"
+        ? `Pension liability: ${size.liabilityToSpending} times a year's spending, its state's public plans in the Public Plans Database against the state's combined state and local spending (Census 2022); the contribution is carved out of salary-paying programs.`
+        : `Pension liability: ESTIMATED FROM AVERAGE, ${size.liabilityToSpending} times a year's spending, the median of the states' measured ratios; no plan in its place is listed. The contribution is carved out of salary-paying programs.`,
       funding.basis === "reported"
         ? `Pension funded ratio: ${funding.fundedRatio}, as its own plans filed with the Public Plans Database.`
         : `Pension funded ratio: ESTIMATED FROM AVERAGE, ${funding.fundedRatio}, the median of every plan in the Public Plans Database; its own plans are not listed.`,
@@ -976,7 +969,7 @@ export function openGovernmentBudget(
         : `Pension share paid: ${paid.share}, ESTIMATED FROM AVERAGE (the median of every plan in the Public Plans Database, fiscal 2022 to 2024); its own plans are not listed.`,
       ...(basis === "state-start-placeholder"
         ? [
-            "Budget year: begins when the state's does (PLACEHOLDER, research: local-government-finances-by-type).",
+            "Budget year: ESTIMATED FROM AVERAGE to begin when its state's does; every county and city without a recorded city rule uses its state's NASBO fiscal-year start, across the 50 states and D.C.",
           ]
         : []),
       "Adoption is automatic each year; a budget passed as a bill comes later.",
@@ -989,5 +982,203 @@ export function openGovernmentBudget(
     pension,
     years: [adopted],
     months: [],
+  };
+}
+
+/**
+ * The share of its required pension contribution a government pays when no
+ * law requires the full amount. It starts from the government's own real
+ * reported payment (Claude CTO, September 29, 2026, 12:54 a.m. EDT): each
+ * state's from the plans its government administers, and each county's and
+ * city's from its own plans, in the Public Plans Database, the latest year
+ * reported, weighted by each plan's liability
+ * (`data/research/money/pension-contribution-paid.json`, written by
+ * `scripts/research/export-pension-contribution-paid.py`). A government the
+ * database does not list pays the measured median of every plan, fiscal
+ * 2022 to 2024: ESTIMATED FROM AVERAGE.
+ *
+ * The share stays where it starts until officials change it through budget
+ * bills (HARDWIRED until budgets pass as bills).
+ */
+
+/** The measured median share: what an unlisted government pays. */
+export const MEDIAN_PAID_SHARE: number = paid.share.median;
+
+const BY_STATE: Readonly<Record<string, { readonly share: number }>> =
+  paid.byState;
+const BY_LOCAL = new Map(
+  paid.byLocal.map((row) => [
+    `${row.state}|${row.kind}|${row.name.toLowerCase()}`,
+    row.share,
+  ]),
+);
+
+export interface PaidShareSource {
+  readonly share: number;
+  /** Reported by the government's own plans, or the median of all plans. */
+  readonly basis: "reported" | "estimated-from-average";
+}
+
+/**
+ * A government's share when the world opens. `name` is the government's
+ * display name ("Cook County, Illinois"); the part before the comma is
+ * matched against the plans' names.
+ */
+export function openingPaidShare(
+  stateKey: string,
+  level: BudgetLevel,
+  name: string,
+): PaidShareSource {
+  const usps = stateKey.replace(/^US-/, "");
+  const reported =
+    level === "state"
+      ? BY_STATE[usps]?.share
+      : BY_LOCAL.get(
+          `${usps}|${level}|${name.split(",")[0]!.trim().toLowerCase()}`,
+        );
+  return reported === undefined
+    ? { share: MEDIAN_PAID_SHARE, basis: "estimated-from-average" }
+    : { share: reported, basis: "reported" };
+}
+
+/** The measured median funded ratio: what an unlisted government opens at. */
+export const MEDIAN_FUNDED_RATIO: number = funded.median;
+
+const FUNDED_BY_STATE: Readonly<
+  Record<string, { readonly fundedRatio: number }>
+> = funded.byState;
+const FUNDED_BY_LOCAL = new Map(
+  funded.byLocal.map((row) => [
+    `${row.state}|${row.kind}|${row.name.toLowerCase()}`,
+    row.fundedRatio,
+  ]),
+);
+
+export interface FundedRatioSource {
+  readonly fundedRatio: number;
+  /** Reported by the government's own plans, or the median of all plans. */
+  readonly basis: "reported" | "estimated-from-average";
+}
+
+/**
+ * The share of its pension liability a government's plans hold in assets
+ * when the world opens: each state's from the plans its government
+ * administers, each county's and city's from its own plans, the latest year
+ * the Public Plans Database reports (`pension-funded-ratio.json`, written by
+ * `scripts/research/export-pension-funded-ratio.py`). A government the
+ * database does not list opens at the median of every plan: ESTIMATED FROM
+ * AVERAGE.
+ */
+export function openingFundedRatio(
+  stateKey: string,
+  level: BudgetLevel,
+  name: string,
+): FundedRatioSource {
+  const usps = stateKey.replace(/^US-/, "");
+  const reported =
+    level === "state"
+      ? FUNDED_BY_STATE[usps]?.fundedRatio
+      : FUNDED_BY_LOCAL.get(
+          `${usps}|${level}|${name.split(",")[0]!.trim().toLowerCase()}`,
+        );
+  return reported === undefined
+    ? { fundedRatio: MEDIAN_FUNDED_RATIO, basis: "estimated-from-average" }
+    : { fundedRatio: reported, basis: "reported" };
+}
+
+/** The median of the states' measured ratios: what an unlisted place opens at. */
+export const MEDIAN_LIABILITY_TO_SPENDING: number = liabilityRatio.median;
+
+const LIABILITY_BY_STATE: Readonly<
+  Record<string, { readonly liabilityToSpending: number }>
+> = liabilityRatio.byState;
+
+export interface LiabilityToSpendingSource {
+  readonly liabilityToSpending: number;
+  /** The state's own plans against its spending, or the states' median. */
+  readonly basis: "state-plans" | "estimated-from-average";
+}
+
+/**
+ * How large a government's opening pension liability is against a year of
+ * its spending: in its state, every public plan's actuarial liability in the
+ * Public Plans Database over the state's combined state and local direct
+ * general expenditure (`pension-liability-ratio.json`, written by
+ * `scripts/research/export-pension-liability-ratio.py`). Many state plans
+ * also cover local employees, so the ratio is the state's combined one, the
+ * same for the state and each of its counties and cities. A place with no
+ * listed plan or no Census row opens at the median of the states' ratios:
+ * ESTIMATED FROM AVERAGE.
+ */
+export function openingLiabilityToSpending(
+  stateKey: string,
+): LiabilityToSpendingSource {
+  const measured =
+    LIABILITY_BY_STATE[stateKey.replace(/^US-/, "")]?.liabilityToSpending;
+  return measured === undefined
+    ? {
+        liabilityToSpending: MEDIAN_LIABILITY_TO_SPENDING,
+        basis: "estimated-from-average",
+      }
+    : { liabilityToSpending: measured, basis: "state-plans" };
+}
+
+/** The measured medians: what an unlisted government's plans cost and pay. */
+export const MEDIAN_NORMAL_COST_SHARE: number = flows.median.normalCostShare;
+export const MEDIAN_BENEFIT_SHARE: number = flows.median.benefitShare;
+
+interface FlowRow {
+  readonly normalCostShare?: number;
+  readonly benefitShare?: number;
+}
+
+const FLOWS_BY_STATE: Readonly<Record<string, FlowRow>> = flows.byState;
+const FLOWS_BY_LOCAL = new Map<string, FlowRow>(
+  flows.byLocal.map((row) => [
+    `${row.state}|${row.kind}|${row.name.toLowerCase()}`,
+    row,
+  ]),
+);
+
+export interface PensionFlows {
+  /** The employer's normal cost each year, as a share of the liability. */
+  readonly normalCostShare: number;
+  /** The benefits the plans pay each year, as a share of the liability. */
+  readonly benefitShare: number;
+  readonly normalCostBasis: "reported" | "estimated-from-average";
+  readonly benefitBasis: "reported" | "estimated-from-average";
+}
+
+/**
+ * What a government's pension plans cost and pay out each year, as shares
+ * of their liability: the employer's normal cost, which the liability grows
+ * by and the required contribution includes, and the benefits paid, which
+ * both the liability and the assets shrink by. Each state's are read from the
+ * plans its government administers and each county's and city's from its
+ * own plans, the latest year the Public Plans Database reports
+ * (`pension-flows.json`, written by `scripts/research/export-pension-flows.py`),
+ * when the plans reporting a share hold at least half the government's
+ * liability. Otherwise the government takes the median of every plan:
+ * ESTIMATED FROM AVERAGE.
+ */
+export function pensionFlows(
+  government: Pick<PublicBudgetGovernment, "stateKey" | "level" | "name">,
+): PensionFlows {
+  const usps = government.stateKey.replace(/^US-/, "");
+  const row =
+    government.level === "state"
+      ? FLOWS_BY_STATE[usps]
+      : FLOWS_BY_LOCAL.get(
+          `${usps}|${government.level}|${government.name.split(",")[0]!.trim().toLowerCase()}`,
+        );
+  return {
+    normalCostShare: row?.normalCostShare ?? MEDIAN_NORMAL_COST_SHARE,
+    benefitShare: row?.benefitShare ?? MEDIAN_BENEFIT_SHARE,
+    normalCostBasis:
+      row?.normalCostShare === undefined
+        ? "estimated-from-average"
+        : "reported",
+    benefitBasis:
+      row?.benefitShare === undefined ? "estimated-from-average" : "reported",
   };
 }

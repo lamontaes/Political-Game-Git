@@ -7,6 +7,7 @@ import {
   moveOutBeforeHearing,
   payRentOwed,
 } from "../simulation/living-world/town-rent";
+import { reportOffenseToPolice } from "../simulation/crime/producer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   adaptiveSelectionSeed,
@@ -242,7 +243,10 @@ export function selectAdultSituation(
 }
 
 /** Hard moments that come once per request rather than once in a life. */
-const ANSWERED_PER_REQUEST: ReadonlySet<string> = new Set(["eviction-case"]);
+const ANSWERED_PER_REQUEST: ReadonlySet<string> = new Set([
+  "eviction-case",
+  "crime-report",
+]);
 
 function eligibleCandidates(
   context: AdultLifeContext,
@@ -535,7 +539,8 @@ function applyOptionWrites(
   if (
     write === null ||
     write.kind === "pay-rent-owed" ||
-    write.kind === "move-out-before-hearing"
+    write.kind === "move-out-before-hearing" ||
+    write.kind === "report-offense-to-police"
   )
     return world;
   const person = world.people[personId];
@@ -620,6 +625,9 @@ function applyCaseAnswer(
   if (write?.kind === "pay-rent-owed") return payRentOwed(world, personId);
   if (write?.kind === "move-out-before-hearing")
     return moveOutBeforeHearing(world, personId);
+  // A report is the police log's own record, made the day it is chosen.
+  if (write?.kind === "report-offense-to-police")
+    return reportOffenseToPolice(world, personId);
   return world;
 }
 

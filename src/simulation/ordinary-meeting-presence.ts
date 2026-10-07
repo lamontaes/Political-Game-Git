@@ -379,7 +379,16 @@ function eligibleMeetingPerson(
   return (
     personId !== playerId &&
     !!world.people[personId] &&
-    world.people[personId]!.homeJurisdictionId === jurisdictionId &&
+    (world.people[personId]!.homeJurisdictionId === jurisdictionId ||
+      (() => {
+        const units = homeLocalGovernmentUnits(world, playerId);
+        return [...units.municipal, ...units.townships, ...units.counties].some(
+          (unit) =>
+            sittingLocalOfficers(world, unit).some(
+              (seat) => seat.personId === personId,
+            ),
+        );
+      })()) &&
     ageOnDate(world.people[personId]!.birthDate, world.currentDate) >= 18 &&
     !world.history.personDeaths.some(
       (death) =>
@@ -516,6 +525,18 @@ function writePresence(
     }
   }
   const agenda = earlierEntry?.context.socialContext ?? PUBLIC_MEETING_AGENDA;
+  const recordedVote = postedMeetingVote(next, jurisdictionId);
+  const ballots =
+    recordedVote?.vote.takenAt === next.currentDate
+      ? recordedVote.vote.dispositions
+      : [];
+  const reportedBallot = (id: EntityId) => {
+    const ballot = ballots.find((item) => item.personId === id);
+    return ballot &&
+      ["yea", "nay", "present-not-voting"].includes(ballot.disposition)
+      ? `My recorded vote on ${recordedVote!.measure.designation} is ${ballot.disposition === "yea" ? "yes" : ballot.disposition === "nay" ? "no" : "present without voting"}.`
+      : null;
+  };
   // The council's roll call on the agenda item, when the council took one.
   const councilVote =
     phase === "active" ? null : postedMeetingVote(next, jurisdictionId);
@@ -533,6 +554,7 @@ function writePresence(
       personId,
       chairId,
       ...residents.map((resident) => resident.personId),
+      ...(recordedVote ? [recordedVote.vote.id] : []),
     ],
     participants: [
       {
@@ -551,7 +573,9 @@ function writePresence(
         personId: chairId,
         role: "coordination:chair",
         detail:
-          phase === "active" ? "Chairs this meeting" : "Chaired this meeting",
+          phase === "active"
+            ? `The posted agenda is: ${agenda}`
+            : "Chaired this meeting",
       },
       {
         personId: chairId,
@@ -563,7 +587,13 @@ function writePresence(
               : "Present as this meeting starts"
             : "Present as this meeting ended",
       },
-      ...residents,
+      ...residents.map((resident) => ({
+        ...resident,
+        detail:
+          phase === "active"
+            ? (reportedBallot(resident.personId) ?? resident.detail)
+            : resident.detail,
+      })),
     ],
     personFactConstraints: [],
     visibility: "private",

@@ -1,3 +1,4 @@
+import { advanceClemencyAfterExecutiveEntry } from "./justice/clemency";
 import { eventById } from "./event-index";
 /** Custom Start remains an authored office premise and is never an election.
  * Ordinary elected occupancy consumes a recorded result as provenance, then a
@@ -40,6 +41,7 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandler,
+  FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
   World,
 } from "./types";
@@ -256,6 +258,7 @@ export function electedExecutiveTermTransitionHandler(
       },
       supersedesStatusId: status.id,
     });
+    next = advanceClemencyAfterExecutiveEntry(next, term.relationship.id);
     next = scheduleGoverningTransition(next, {
       relationshipId: term.relationship.id,
       entryDate: due.dueAt,
@@ -292,11 +295,16 @@ export function electedExecutiveTermTransitionHandler(
   };
 }
 
-export const EXECUTIVE_TERM_HANDLERS = createFutureTransitionHandlerRegistry([
-  [EXECUTIVE_TERM_END, executiveTermEndHandler],
-  [EXECUTIVE_ELECTED_TERM_ENTRY, electedExecutiveTermTransitionHandler],
-  [EXECUTIVE_ELECTED_TERM_EXPIRY, electedExecutiveTermTransitionHandler],
-]);
+let executiveTermHandlersCache: FutureTransitionHandlerRegistry | undefined;
+
+/** Built on first use, after every module has loaded, so no key is still undefined. */
+export function executiveTermHandlers(): FutureTransitionHandlerRegistry {
+  return (executiveTermHandlersCache ??= createFutureTransitionHandlerRegistry([
+    [EXECUTIVE_TERM_END, executiveTermEndHandler],
+    [EXECUTIVE_ELECTED_TERM_ENTRY, electedExecutiveTermTransitionHandler],
+    [EXECUTIVE_ELECTED_TERM_EXPIRY, electedExecutiveTermTransitionHandler],
+  ]));
+}
 
 function requireElectedExecutiveContest(world: World, contestId: EntityId) {
   const result = electionContestResult(world, contestId);

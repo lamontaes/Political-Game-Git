@@ -1,0 +1,818 @@
+{
+  "schemaVersion": "team-law-ideology/v1",
+  "team": 2,
+  "lawCount": 8,
+  "weightProvenance": "authored-design-choice",
+  "weightMeaning": "0–1 relative importance of this argument in an authored normative mapping; not probability, polling percentage, causal estimate or researched effect size. Support and opposition may use the same principle for different reasons.",
+  "integration": {
+    "writer": "coordinator",
+    "catalog": "src/simulation/policy-pack-us-policy-positions.ts",
+    "interestGroupReader": "src/simulation/living-world/law-interest-groups.ts",
+    "status": "payload only; no shared catalog or runtime group writer edits",
+    "groupIdentity": "Descriptive constituencies are not canonical organization IDs. Existing runtime groups form from measured individual exposures; no fabricated saved organization IDs or membership inferred."
+  },
+  "sources": {
+    "id-debate": {
+      "url": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "role": "NCSL reports supporters’ impersonation/confidence arguments and opponents’ access/administration-cost arguments. This describes claimed reasons, not measured fraud prevention.",
+      "read": "HTTP200; debate paragraph read September30,2026"
+    },
+    "id-rights": {
+      "url": "https://www.brennancenter.org/issues/ensure-every-american-can-vote/vote-suppression/voter-id",
+      "role": "Brennan Center supports accessible identification safeguards and opposes disenfranchisement; do not label it against every identification rule.",
+      "read": "HTTP200; policy summary read September30,2026"
+    },
+    "avr-debate": {
+      "url": "https://www.ncsl.org/elections-and-campaigns/automatic-voter-registration",
+      "role": "NCSL explains accurate rolls, lower provisional-ballot processing costs and disputed turnout claims; opponents cite consent and adequacy of mailed opt-out.",
+      "read": "HTTP200; advantage/disadvantage discussion read September30,2026"
+    },
+    "avr-support": {
+      "url": "https://www.brennancenter.org/issues/ensure-every-american-can-vote/voting-reform/automatic-voter-registration",
+      "role": "Brennan Center voting-reform position supports automatic registration.",
+      "read": "HTTP200; issue page read September30,2026"
+    },
+    "commission-rules": {
+      "url": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "role": "Selection rules distinguish independent, political, advisory and backup bodies; some elected legislatures retain final approval. Grounds for institutional trade-offs; NCSL is not assigned a partisan endorsement.",
+      "read": "HTTP200; commission selection/approval rules read September30,2026"
+    },
+    "commission-support": {
+      "url": "https://www.lwv.org/redistricting",
+      "role": "League of Women Voters redistricting position is a citation for fair, transparent independent redistricting; exact current page could not be refreshed.",
+      "read": "HTTP403; current text NOT verified in this session; catalog equal-treatment/transparency grounds retained, organization endorsement requires source-refresh verification"
+    },
+    "term-support": {
+      "url": "https://www.termlimits.com/why-term-limits/",
+      "role": "U.S. Term Limits argues entrenched incumbency blocks new talent, concentrates power and limits voter competition. Its national/state argument is not an endorsement of each local charter proposal.",
+      "read": "HTTP200; position text read September30,2026"
+    },
+    "term-rules": {
+      "url": "https://www.ncsl.org/about-state-legislatures/the-term-limited-states",
+      "role": "NCSL describes actual consecutive/lifetime limits, ineligibility and repeals; it does not endorse term limits.",
+      "read": "HTTP200; rules/repeals read September30,2026"
+    },
+    "cooling-rules": {
+      "url": "https://www.ncsl.org/ethics/revolving-door-prohibitions",
+      "role": "Actual paid-representation waiting periods, exemptions and Missouri Miller v. Ziegler constitutional rejection. Supports mapping integrity and speech/occupation trade-offs; not a measured corruption effect.",
+      "read": "HTTP200; scope/exceptions/Missouri constitutional rejection read September30,2026"
+    },
+    "home-rule": {
+      "url": "https://www.nlc.org/wp-content/uploads/2020/02/Home-Rule-Principles-ReportWEB-2.pdf",
+      "role": "National League of Cities and Local Solutions Support Center advocate local democratic authority and a presumption against preemption, while recognizing substantial statewide interests and spillovers.",
+      "read": "HTTP200; actual PDF downloaded and text read September30,2026; pages26/53 onward address state-interest/preemption trade-offs"
+    },
+    "catalog": {
+      "path": "src/simulation/policy-pack-us-policy-positions.ts",
+      "role": "Existing canonical authored principle vocabulary and bearings preserved. Canonical vocabulary is not survey evidence.",
+      "sourceHead": "ce6d2414d6c99e3b07ea72650724d4189a46b4fc"
+    }
+  },
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:government-operations.independent-redistricting",
+      "principles": [
+        {
+          "principle": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "strength": 0.95,
+          "direction": "support",
+          "why": "Removing legislators’ control over their own district boundaries can reduce self-dealing; criteria must still protect equal population and legally required representation.",
+          "sourceIds": ["commission-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "strength": 0.9,
+          "direction": "support",
+          "why": "Public membership selection, criteria and hearings let voters examine how their districts were drawn.",
+          "sourceIds": ["commission-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.8,
+          "strength": 0.8,
+          "direction": "support",
+          "why": "Competitive entry and fair representation matter to residents whose votes are diluted by self-protecting maps.",
+          "sourceIds": ["commission-support", "commission-rules"]
+        },
+        {
+          "principle": "us-policy-positions:local-control",
+          "bearing": "against",
+          "weight": 0.55,
+          "strength": 0.55,
+          "direction": "oppose",
+          "why": "Opponents can prefer line-drawing by directly accountable elected representatives to an appointed body; the legislature’s retained approval varies by state.",
+          "sourceIds": ["commission-rules"]
+        },
+        {
+          "principle": "us-policy-positions:tradition",
+          "bearing": "against",
+          "weight": 0.6,
+          "strength": 0.6,
+          "direction": "oppose",
+          "why": "Some defend the existing elected-legislature constitutional arrangement.",
+          "sourceIds": ["commission-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "weight": 0.3,
+          "strength": 0.3,
+          "direction": "oppose",
+          "why": "A new commission entails selection, hearing and mapping administration; the direction depends on actual replacement costs, which are not quantified here.",
+          "sourceIds": ["commission-rules"]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Independent-redistricting and voting-rights advocates",
+          "direction": "support",
+          "why": "Seek fair, public mapping and less incumbent self-dealing.",
+          "sourceIds": ["commission-support", "commission-rules"],
+          "canonicalOrganizationId": null,
+          "status": "constituency description; League current endorsement source-refresh pending"
+        },
+        {
+          "name": "Incumbent elected legislators",
+          "direction": "conditional",
+          "why": "Those who lose map control may oppose; reform-supporting legislators may support. No uniform party stance inferred.",
+          "sourceIds": ["commission-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored interest inference from actual control transfer"
+        },
+        {
+          "name": "Minority-representation organizations",
+          "direction": "conditional",
+          "why": "Support depends on whether commission criteria and resulting maps preserve lawful representation.",
+          "sourceIds": ["commission-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored conditional constituency"
+        }
+      ],
+      "limits": [
+        "No new organization IDs created. A commission label alone does not establish independence or improved representation."
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+      "principles": [
+        {
+          "principle": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "weight": 0.7,
+          "strength": 0.7,
+          "direction": "support",
+          "why": "Supporters frame identity verification as protection against impersonation and harm to election integrity; this is their argument, not proof of prevalence or efficacy.",
+          "sourceIds": ["id-debate", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "weight": 0.55,
+          "strength": 0.55,
+          "direction": "support",
+          "why": "Supporters favor a common identity-verification standard. This support argument can coexist with unequal document access.",
+          "sourceIds": ["id-debate"]
+        },
+        {
+          "principle": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "weight": 0.45,
+          "strength": 0.45,
+          "direction": "support",
+          "why": "An intelligible verification rule can make administration auditable and improve claimed confidence.",
+          "sourceIds": ["id-debate"]
+        },
+        {
+          "principle": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "weight": 0.95,
+          "strength": 0.95,
+          "direction": "oppose",
+          "why": "Document requirements can burden eligible voters differently because possession and ability to obtain accepted ID differ.",
+          "sourceIds": ["id-rights", "id-debate", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "against",
+          "weight": 0.9,
+          "strength": 0.9,
+          "direction": "oppose",
+          "why": "Eligible voters without accepted documents must retain a realistic route to cast a counted ballot.",
+          "sourceIds": ["id-rights", "id-debate"]
+        },
+        {
+          "principle": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "weight": 0.8,
+          "strength": 0.8,
+          "direction": "oppose",
+          "why": "Opponents object to restricting an eligible citizen’s franchise for lack of documentation.",
+          "sourceIds": ["id-debate"]
+        },
+        {
+          "principle": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "weight": 0.5,
+          "strength": 0.5,
+          "direction": "oppose",
+          "why": "Free ID, voter education and cure/provisional processing add public administrative burdens. No cost size asserted.",
+          "sourceIds": ["id-debate"]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Election-identification supporters",
+          "direction": "support",
+          "why": "Emphasize impersonation prevention and confidence.",
+          "sourceIds": ["id-debate"],
+          "canonicalOrganizationId": null,
+          "status": "reported NCSL argument; no named organization invented"
+        },
+        {
+          "name": "Brennan Center and voting-access advocates",
+          "direction": "conditional",
+          "why": "Oppose disenfranchising requirements; can support accessible identity safeguards.",
+          "sourceIds": ["id-rights"],
+          "canonicalOrganizationId": null,
+          "status": "verified organization policy summary"
+        },
+        {
+          "name": "Eligible voters without accepted ID",
+          "direction": "oppose",
+          "why": "Need documents or an effective alternative/cure to avoid exclusion.",
+          "sourceIds": ["id-debate"],
+          "canonicalOrganizationId": null,
+          "status": "authored interest from legal burden"
+        },
+        {
+          "name": "Election administrators",
+          "direction": "conditional",
+          "why": "Care about workable verification, training and processing cost; no common endorsement inferred.",
+          "sourceIds": ["id-debate"],
+          "canonicalOrganizationId": null,
+          "status": "authored conditional constituency"
+        }
+      ],
+      "limits": [
+        "Keep both equal-treatment directions. Coordinator must preserve direction when integrating continuous strengths; never subtract them into a fictitious empirical net score."
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
+      "principles": [
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "strength": 0.95,
+          "direction": "support",
+          "why": "Agency registration reduces the extra step eligible people must navigate to enter the voter roll.",
+          "sourceIds": ["avr-debate", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "weight": 0.85,
+          "strength": 0.85,
+          "direction": "support",
+          "why": "Automatic updates reduce registration-status discrepancies across eligible agency users. Coverage must include real citizenship/eligibility checks.",
+          "sourceIds": ["avr-debate"]
+        },
+        {
+          "principle": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "weight": 0.7,
+          "strength": 0.7,
+          "direction": "support",
+          "why": "Shared agency-to-election data processing replaces repeated individual paper applications.",
+          "sourceIds": ["avr-debate"]
+        },
+        {
+          "principle": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "weight": 0.55,
+          "strength": 0.55,
+          "direction": "support",
+          "why": "Accurate electronic rolls may reduce expensive provisional processing; implementation costs remain separate and unquantified.",
+          "sourceIds": ["avr-debate"]
+        },
+        {
+          "principle": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "weight": 0.85,
+          "strength": 0.85,
+          "direction": "oppose",
+          "why": "Opponents resist government initiating registration without an individual application.",
+          "sourceIds": ["avr-debate", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "weight": 0.8,
+          "strength": 0.8,
+          "direction": "oppose",
+          "why": "Consent, affiliation privacy and a usable opt-out matter, especially when notification comes after the agency transaction.",
+          "sourceIds": ["avr-debate"]
+        },
+        {
+          "principle": "us-policy-positions:transparency",
+          "bearing": "against",
+          "weight": 0.45,
+          "strength": 0.45,
+          "direction": "oppose",
+          "why": "An obscure mailed opt-out can leave people unable to understand or decline the action.",
+          "sourceIds": ["avr-debate"]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Brennan Center and registration-access advocates",
+          "direction": "support",
+          "why": "Seek reduced registration friction and accurate rolls.",
+          "sourceIds": ["avr-support", "avr-debate"],
+          "canonicalOrganizationId": null,
+          "status": "verified policy page"
+        },
+        {
+          "name": "Residents who want to decline registration",
+          "direction": "conditional",
+          "why": "May oppose automatic action unless the opt-out is clear and usable.",
+          "sourceIds": ["avr-debate"],
+          "canonicalOrganizationId": null,
+          "status": "reported argument and authored constituency"
+        },
+        {
+          "name": "Election administrators and participating agencies",
+          "direction": "conditional",
+          "why": "Care about eligibility accuracy, data integration and processing workload, not an assumed common vote.",
+          "sourceIds": ["avr-debate"],
+          "canonicalOrganizationId": null,
+          "status": "authored conditional constituency"
+        }
+      ],
+      "limits": [
+        "Registration is not voting. No deterministic turnout change or numerical causal estimate is encoded here."
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "principles": [
+        {
+          "principle": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "strength": 0.9,
+          "direction": "support",
+          "why": "Regular turnover limits an individual officeholder’s accumulated control over public power.",
+          "sourceIds": ["term-support", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.85,
+          "strength": 0.85,
+          "direction": "support",
+          "why": "Open seats make room for challengers who otherwise face entrenched incumbents.",
+          "sourceIds": ["term-support"]
+        },
+        {
+          "principle": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "weight": 0.45,
+          "strength": 0.45,
+          "direction": "support",
+          "why": "Supporters seek a closer connection between officeholders and ordinary constituents rather than a permanent governing class.",
+          "sourceIds": ["term-support"]
+        },
+        {
+          "principle": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "weight": 0.9,
+          "strength": 0.9,
+          "direction": "oppose",
+          "why": "A binding limit removes the voter’s option to reelect the otherwise eligible experienced representative they prefer.",
+          "sourceIds": ["term-rules"]
+        },
+        {
+          "principle": "us-policy-positions:tradition",
+          "bearing": "against",
+          "weight": 0.7,
+          "strength": 0.7,
+          "direction": "oppose",
+          "why": "Opponents value continuity and established legislative experience rather than forced rotation.",
+          "sourceIds": ["term-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "weight": 0.55,
+          "strength": 0.55,
+          "direction": "oppose",
+          "why": "Losing experienced members can make sustaining complex public administration harder; this is an authored institutional argument, not a quantified performance finding.",
+          "sourceIds": ["term-rules"]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Term-limit reform advocates",
+          "direction": "support",
+          "why": "Seek rotation, competitive openings and reduced incumbent entrenchment.",
+          "sourceIds": ["term-support"],
+          "canonicalOrganizationId": null,
+          "status": "verified national/state advocacy argument"
+        },
+        {
+          "name": "Potential challengers",
+          "direction": "support",
+          "why": "An incumbent’s legal departure opens a candidacy route.",
+          "sourceIds": ["term-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored interest inference, not every challenger’s stated position"
+        },
+        {
+          "name": "Long-serving officeholders and voters who wish to retain them",
+          "direction": "oppose",
+          "why": "A binding bar prevents continued service or the preferred reelection.",
+          "sourceIds": ["term-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored interest from actual eligibility restriction"
+        }
+      ],
+      "limits": [
+        "Weights are authored normative mappings; no measured competence, corruption or turnover rate."
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.council-term-limits",
+      "principles": [
+        {
+          "principle": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "strength": 0.9,
+          "direction": "support",
+          "why": "Regular turnover limits an individual officeholder’s accumulated control over public power.",
+          "sourceIds": ["term-support", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.85,
+          "strength": 0.85,
+          "direction": "support",
+          "why": "Open seats make room for challengers who otherwise face entrenched incumbents.",
+          "sourceIds": ["term-support"]
+        },
+        {
+          "principle": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "weight": 0.45,
+          "strength": 0.45,
+          "direction": "support",
+          "why": "Supporters seek a closer connection between officeholders and ordinary constituents rather than a permanent governing class.",
+          "sourceIds": ["term-support"]
+        },
+        {
+          "principle": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "weight": 0.9,
+          "strength": 0.9,
+          "direction": "oppose",
+          "why": "A binding limit removes the voter’s option to reelect the otherwise eligible experienced representative they prefer.",
+          "sourceIds": ["term-rules"]
+        },
+        {
+          "principle": "us-policy-positions:tradition",
+          "bearing": "against",
+          "weight": 0.7,
+          "strength": 0.7,
+          "direction": "oppose",
+          "why": "Opponents value continuity and established legislative experience rather than forced rotation.",
+          "sourceIds": ["term-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "weight": 0.55,
+          "strength": 0.55,
+          "direction": "oppose",
+          "why": "Losing experienced members can make sustaining complex public administration harder; this is an authored institutional argument, not a quantified performance finding.",
+          "sourceIds": ["term-rules"]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Term-limit reform advocates",
+          "direction": "support",
+          "why": "Seek rotation, competitive openings and reduced incumbent entrenchment.",
+          "sourceIds": ["term-support"],
+          "canonicalOrganizationId": null,
+          "status": "U.S. Term Limits position directly supports national/state argument; local application is authored analogy"
+        },
+        {
+          "name": "Potential challengers",
+          "direction": "support",
+          "why": "An incumbent’s legal departure opens a candidacy route.",
+          "sourceIds": ["term-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored interest inference, not every challenger’s stated position"
+        },
+        {
+          "name": "Long-serving officeholders and voters who wish to retain them",
+          "direction": "oppose",
+          "why": "A binding bar prevents continued service or the preferred reelection.",
+          "sourceIds": ["term-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored interest from actual eligibility restriction"
+        }
+      ],
+      "limits": [
+        "Weights are authored normative mappings; no measured competence, corruption or turnover rate.",
+        "Local charter limits and actual local endorsements require jurisdiction research. National/state advocacy is explicitly an analogy, not a verified municipal platform."
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "principles": [
+        {
+          "principle": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "strength": 0.95,
+          "direction": "support",
+          "why": "Cooling-off rules address the revolving-door relationship between official decisions and later paid representation. A waiting period does not by itself publish lobbying contacts.",
+          "sourceIds": ["cooling-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "weight": 0.8,
+          "strength": 0.8,
+          "direction": "support",
+          "why": "Supporters object to privileged access obtained from recent public office rather than equal access for ordinary petitioners.",
+          "sourceIds": ["cooling-rules"]
+        },
+        {
+          "principle": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "weight": 0.6,
+          "strength": 0.6,
+          "direction": "support",
+          "why": "Separating public office from immediately monetized influence constrains personal use of state power.",
+          "sourceIds": ["cooling-rules"]
+        },
+        {
+          "principle": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "weight": 0.95,
+          "strength": 0.95,
+          "direction": "oppose",
+          "why": "A broad ban restricts paid speech, petition and post-office occupations; Missouri’s constitutional rejection demonstrates these are real legal interests.",
+          "sourceIds": ["cooling-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:worker-protection",
+          "bearing": "against",
+          "weight": 0.45,
+          "strength": 0.45,
+          "direction": "oppose",
+          "why": "Former officials may resist a blanket restriction on lawful work beyond narrowly defined conflicts. Paid/unpaid exceptions matter.",
+          "sourceIds": ["cooling-rules"]
+        },
+        {
+          "principle": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "weight": 0.35,
+          "strength": 0.35,
+          "direction": "oppose",
+          "why": "A broad rule can bar useful public-agency representation; existing public-employer exemptions identify that trade-off.",
+          "sourceIds": ["cooling-rules"]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Ethics and anti-revolving-door advocates",
+          "direction": "support",
+          "why": "Seek separation between public office and compensated access.",
+          "sourceIds": ["cooling-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored constituency mapping; no named organization endorsement inferred"
+        },
+        {
+          "name": "Former officials seeking paid representation work",
+          "direction": "oppose",
+          "why": "Restrictions directly limit work and petition activities.",
+          "sourceIds": ["cooling-rules"],
+          "canonicalOrganizationId": null,
+          "status": "legal interests documented; direction conditional on exact scope"
+        },
+        {
+          "name": "Government employers and clients of former officials",
+          "direction": "conditional",
+          "why": "Care about exemptions and retaining relevant representation; not all clients oppose.",
+          "sourceIds": ["cooling-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored conditional constituency"
+        }
+      ],
+      "limits": [
+        "Current-law exceptions and constitutional invalidation must remain in authority/rule readers. Ideology payload does not confer legal permission."
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
+      "principles": [
+        {
+          "principle": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "strength": 0.95,
+          "direction": "support",
+          "why": "Local democratic bodies can respond to conditions and preferences of people who live with the decision.",
+          "sourceIds": ["home-rule", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.7,
+          "strength": 0.7,
+          "direction": "support",
+          "why": "Local reform can meet unmet needs when statewide action is unavailable, subject to rights and legal limits.",
+          "sourceIds": ["home-rule"]
+        },
+        {
+          "principle": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "weight": 0.65,
+          "strength": 0.65,
+          "direction": "support",
+          "why": "Effective local fiscal and regulatory authority supports services residents choose together.",
+          "sourceIds": ["home-rule"]
+        },
+        {
+          "principle": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "weight": 0.55,
+          "strength": 0.55,
+          "direction": "support",
+          "why": "Nearby decision makers and local civic participation can improve public accountability.",
+          "sourceIds": ["home-rule"]
+        },
+        {
+          "principle": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "weight": 0.85,
+          "strength": 0.85,
+          "direction": "oppose",
+          "why": "Statewide interests include equal legal protections and rules that should not change arbitrarily across municipal borders.",
+          "sourceIds": ["home-rule", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "weight": 0.65,
+          "strength": 0.65,
+          "direction": "oppose",
+          "why": "Opponents may resist additional local regulatory power over private activity. Home rule is authority, not a mandate to regulate.",
+          "sourceIds": ["home-rule"]
+        },
+        {
+          "principle": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "weight": 0.5,
+          "strength": 0.5,
+          "direction": "oppose",
+          "why": "Cross-border spillovers and administrative duplication can justify statewide coordination; no dollar amount is inferred.",
+          "sourceIds": ["home-rule"]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "National League of Cities and Local Solutions Support Center",
+          "direction": "support",
+          "why": "Their report advocates local democratic authority and a presumption against preemption.",
+          "sourceIds": ["home-rule"],
+          "canonicalOrganizationId": null,
+          "status": "verified authored organizational position"
+        },
+        {
+          "name": "Local elected officials and local-service constituencies",
+          "direction": "conditional",
+          "why": "Authority can help act on local needs; exact desired policy determines support.",
+          "sourceIds": ["home-rule"],
+          "canonicalOrganizationId": null,
+          "status": "authored constituency"
+        },
+        {
+          "name": "Multi-jurisdiction businesses and statewide-uniformity advocates",
+          "direction": "conditional",
+          "why": "May oppose a patchwork with cross-border burdens, while some favor local flexibility.",
+          "sourceIds": ["home-rule"],
+          "canonicalOrganizationId": null,
+          "status": "documented trade-off; no uniform organization endorsement"
+        }
+      ],
+      "limits": [
+        "Home-rule report recognizes substantial state interests, general rights protections and spillovers. Unknown authority is not permission; no universal township/territory power inferred."
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.independent-ward-commission",
+      "principles": [
+        {
+          "principle": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "strength": 0.95,
+          "direction": "support",
+          "why": "Council members drawing their own wards have a personal reelection interest; separating map authorship can reduce that conflict.",
+          "sourceIds": ["commission-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "strength": 0.9,
+          "direction": "support",
+          "why": "Public commission selection, criteria and hearings let residents inspect ward changes.",
+          "sourceIds": ["commission-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.8,
+          "strength": 0.8,
+          "direction": "support",
+          "why": "Fair ward representation and opportunities for challengers are local concerns as well as state concerns.",
+          "sourceIds": ["commission-rules"]
+        },
+        {
+          "principle": "us-policy-positions:local-control",
+          "bearing": "against",
+          "weight": 0.65,
+          "strength": 0.65,
+          "direction": "oppose",
+          "why": "Some prefer the directly elected council to retain final accountability for local district decisions.",
+          "sourceIds": ["commission-rules"]
+        },
+        {
+          "principle": "us-policy-positions:tradition",
+          "bearing": "against",
+          "weight": 0.6,
+          "strength": 0.6,
+          "direction": "oppose",
+          "why": "Existing council-drawn charter arrangements can be defended for continuity.",
+          "sourceIds": ["commission-rules", "catalog"]
+        },
+        {
+          "principle": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "weight": 0.35,
+          "strength": 0.35,
+          "direction": "oppose",
+          "why": "A separate ward body can require hearing and mapping administration; costs depend on actual charter and replacement process.",
+          "sourceIds": ["commission-rules"]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Local fair-district and representation advocates",
+          "direction": "support",
+          "why": "Seek less self-interested and more public ward mapping.",
+          "sourceIds": ["commission-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored local application of documented commission trade-offs"
+        },
+        {
+          "name": "Council incumbents who control ward maps",
+          "direction": "conditional",
+          "why": "May oppose losing map authority; reform supporters can support transfer.",
+          "sourceIds": ["commission-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored control-based interest, not uniform actual stance"
+        },
+        {
+          "name": "Neighborhood and minority-representation organizations",
+          "direction": "conditional",
+          "why": "Support depends on criteria, access to hearings and the actual map’s representation.",
+          "sourceIds": ["commission-rules"],
+          "canonicalOrganizationId": null,
+          "status": "authored conditional constituency"
+        }
+      ],
+      "limits": [
+        "Local charter/organization endorsement research remains missing. State commission selection rules ground an authored local analogy; they do not verify a city’s legal commission authority or exact political endorsements."
+      ]
+    }
+  ],
+  "completion": {
+    "ideologyPayloadLaws": 8,
+    "catalogIntegratedLaws": 0,
+    "fivePartsComplete": 0
+  }
+}

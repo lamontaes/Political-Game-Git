@@ -8,6 +8,7 @@ import { projectCandidateGuidanceScene } from "./candidate-guidance-scene";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import {
+  advanceWorldMinutes,
   addDays,
   addSimulationMinutes,
   compareSimulationMoments,
@@ -39,7 +40,11 @@ import {
   advanceStoppingForOfferDeadlines,
   offerDeadlines,
 } from "./offer-deadlines";
-import { capQuietStretch } from "./quiet-stretch";
+import {
+  capQuietStretch,
+  nextKnownCalendarItem,
+  type KnownCalendarItem,
+} from "./quiet-stretch";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import {
   describeRoutineOutcome,
@@ -78,6 +83,7 @@ export type TimeCommand =
   /** Wait until a recorded calendar activity begins. */
   | { readonly kind: "until-activity"; readonly activityId: EntityId }
   | { readonly kind: "attend-activity"; readonly activityId: EntityId }
+  | { readonly kind: "finish-meeting"; readonly activityId: EntityId }
   | { readonly kind: "walk"; readonly destination: "home" | "neighborhood" };
 
 export interface TimeCommandRequest {
@@ -109,13 +115,16 @@ export interface TimeCommandReceipt {
   readonly outcome: string;
 }
 
+/** Bounded command diagnostics intentionally omit text nobody consumed. */
+export type RecentTimeCommandReceipt = Omit<TimeCommandReceipt, "outcome">;
+
 export interface TimeCommandPreview {
   readonly elapsedMinutes?: number;
   readonly target: SimulationMoment;
   readonly targetDate: IsoDate;
   readonly days: number;
   /** Why this target: the pacing length, or the calendar item that caps it. */
-  readonly cappedBy: { readonly title: string; readonly date: IsoDate } | null;
+  readonly cappedBy: KnownCalendarItem | null;
 }
 
 function morningAfter(world: World, days: number): SimulationMoment {
@@ -153,6 +162,25 @@ function unresolvedWorkNow(
   return null;
 }
 
+export function quietStretchRefusal(
+  world: World,
+  personId: EntityId,
+): string | null {
+  const work = unresolvedWorkNow(world, personId);
+  if (work === "offer")
+    return "The work offer needs an answer under Work before another quiet stretch.";
+  if (work === "start")
+    return "Your accepted work can begin under Work before another quiet stretch.";
+  const next = nextKnownCalendarItem(world, personId, { dueItems: false });
+  if (
+    next?.moment &&
+    next.date === world.currentDate &&
+    compareSimulationMoments(next.moment, world.currentMoment) <= 0
+  )
+    return `${next.title} is waiting on your calendar. Decide whether to attend or decline before another quiet stretch.`;
+  return null;
+}
+
 export function previewTimeCommand(
   world: World,
   personId: EntityId,
@@ -160,8 +188,25 @@ export function previewTimeCommand(
 ): TimeCommandPreview | null {
   // "Until something needs me" has already arrived. A further quiet stretch
   // must hand the choice back; explicit Day/Week can still pass it knowingly.
-  if (command.kind === "quiet-stretch" && unresolvedWorkNow(world, personId))
+  if (command.kind === "quiet-stretch" && quietStretchRefusal(world, personId))
     return null;
+  if (command.kind === "quiet-stretch") {
+    const next = nextKnownCalendarItem(world, personId, { dueItems: false });
+    if (next?.moment && next.date === world.currentDate) {
+      const minutes = simulationMinutesBetween(
+        world.currentMoment,
+        next.moment,
+      );
+      if (minutes <= 0) return null;
+      return {
+        target: next.moment,
+        elapsedMinutes: minutes,
+        targetDate: next.date,
+        days: 0,
+        cappedBy: next,
+      };
+    }
+  }
   if (command.kind === "walk") {
     const offer = openingNeighborhoodWalkOffer(
       world,
@@ -178,14 +223,19 @@ export function previewTimeCommand(
       cappedBy: null,
     };
   }
-  if (command.kind === "attend-activity") {
+  if (command.kind === "attend-activity" || command.kind === "finish-meeting") {
     const entry = venueActivities(world, personId).find(
       (item) => item.activity.id === command.activityId,
     );
     if (!entry || entry.refusal) return null;
+    if (
+      command.kind === "finish-meeting" &&
+      projectOrdinaryMeetingScene(world, personId)?.phase !== "active"
+    )
+      return null;
     const openingMeeting =
       entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
-      projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+      command.kind !== "finish-meeting";
     const openingGuidance =
       campaignLifeActivityForScheduledActivity(world, entry.activity.id)
         ?.form === "candidate-guidance" &&
@@ -207,11 +257,21 @@ export function previewTimeCommand(
                 scheduledActivityState(world, item.id).start,
               ) > 0)),
       );
-    const target = lateMeetingJourney
-      ? addSimulationMinutes(world.currentMoment, entry.elapsedMinutes!)
-      : (openingMeeting || openingGuidance) && entry.journey
-        ? scheduledActivityState(world, entry.journey.activity.id).end
-        : scheduledActivityState(world, entry.activity.id).end;
+    const target =
+      openingMeeting &&
+      projectOrdinaryMeetingScene(world, personId)?.phase === "active"
+        ? world.currentMoment
+        : lateMeetingJourney
+          ? addSimulationMinutes(world.currentMoment, entry.elapsedMinutes!)
+          : openingMeeting &&
+              !entry.journey &&
+              projectOrdinaryMeetingScene(world, personId)?.phase === "active"
+            ? world.currentMoment
+            : openingMeeting && !entry.journey
+              ? scheduledActivityState(world, entry.activity.id).start
+              : (openingMeeting || openingGuidance) && entry.journey
+                ? scheduledActivityState(world, entry.journey.activity.id).end
+                : scheduledActivityState(world, entry.activity.id).end;
     return {
       target,
       elapsedMinutes: simulationMinutesBetween(world.currentMoment, target),
@@ -260,7 +320,16 @@ export function previewTimeCommand(
       };
     }
   }
-  const target = morningAfter(world, days);
+  const morningTarget = morningAfter(world, days);
+  // A known appointment carries its exact departure moment. "Until needed"
+  // should reach that need in one press, rather than stopping at the ordinary
+  // 7 a.m. day boundary and asking the player to press the same control again.
+  const target =
+    command.kind === "quiet-stretch" &&
+    cappedBy?.moment &&
+    cappedBy.moment.date === morningTarget.date
+      ? cappedBy.moment
+      : morningTarget;
   return { target, targetDate: target.date, days, cappedBy };
 }
 
@@ -283,20 +352,36 @@ function run(
       outcome: describePlacesOutcome(world, next, request.personId),
     };
   }
-  if (command.kind === "attend-activity")
-    return playCalendarActivity(world, request.personId, command.activityId);
+  if (command.kind === "attend-activity" || command.kind === "finish-meeting")
+    return playCalendarActivity(
+      world,
+      request.personId,
+      command.activityId,
+      command.kind === "finish-meeting",
+    );
+  if (command.kind === "quiet-stretch" && preview.days === 0) {
+    const next = advanceWorldMinutes(
+      world,
+      preview.elapsedMinutes ?? 0,
+      interruptionHandlers(),
+    );
+    return {
+      world: next,
+      reached: next.currentMoment,
+      outcome: `It is time for ${preview.cappedBy?.title ?? "your next commitment"}.`,
+    };
+  }
   if (command.kind === "until-activity")
     return advanceCalendarToActivity(
       world,
       request.personId,
       command.activityId,
-      interruptions,
     );
   const advance = (current: World, days: number) =>
     advanceStoppingForOfferDeadlines(current, request.personId, days, (at, d) =>
       advanceStoppingForPressRequests(at, request.personId, d, (from, n) =>
         passOrdinaryDays(from, n, {
-          handlers: interruptionHandlers(interruptions),
+          handlers: interruptionHandlers(),
           stopForTentativeHolds: interruptions.stopForTentativeHolds,
           // A chosen day count must not carry the player past a posted civic
           // occasion. The ordinary clock already owns this stop boundary.
@@ -304,50 +389,83 @@ function run(
         }),
       ),
     );
-  const next =
+  let next =
     command.kind === "quiet-stretch"
       ? formativeIntervalAt(world, request.personId) !== null
         ? letStoryTimePass(world, request.personId, advance)
         : letAdultTimePass(world, preview.days, advance)
       : advance(world, preview.days);
+  if (
+    command.kind === "quiet-stretch" &&
+    preview.cappedBy?.moment &&
+    next.currentMoment.date === preview.target.date &&
+    compareSimulationMoments(next.currentMoment, preview.target) < 0
+  ) {
+    next = advanceWorldMinutes(
+      next,
+      simulationMinutesBetween(next.currentMoment, preview.target),
+      interruptionHandlers(),
+    );
+  }
   return {
     world: next,
     reached: next.currentMoment,
-    outcome: [
-      ...ownElectionResultsBetween(world, next, request.personId),
-      ...deathNewsBetween(
-        next,
-        request.personId,
-        world.currentDate,
-        next.currentDate,
-      ).map((news) => news.sentence),
-      ...offerDeadlines(next, request.personId)
-        .filter((deadline) => deadline.replyBy === next.currentDate)
-        .map(
-          (deadline) => `Today is the last day to answer. ${deadline.sentence}`,
+    get outcome() {
+      return [
+        ...ownElectionResultsBetween(world, next, request.personId),
+        ...deathNewsBetween(
+          next,
+          request.personId,
+          world.currentDate,
+          next.currentDate,
+        ).map((news) => news.sentence),
+        ...offerDeadlines(next, request.personId)
+          .filter((deadline) => deadline.replyBy === next.currentDate)
+          .map(
+            (deadline) =>
+              `Today is the last day to answer. ${deadline.sentence}`,
+          ),
+        describeRoutineOutcome(
+          world,
+          next,
+          request.personId,
+          simulationMinutesBetween(world.currentMoment, preview.target),
         ),
-      describeRoutineOutcome(
-        world,
-        next,
-        request.personId,
-        simulationMinutesBetween(world.currentMoment, preview.target),
-      ),
-    ].join(" "),
+      ].join(" ");
+    },
   };
 }
 
 const RECENT_LIMIT = 50;
-const recent: TimeCommandReceipt[] = [];
+const recent: RecentTimeCommandReceipt[] = [];
 
 /** Recent receipts, newest last. Diagnostics only; never saved. */
-export function recentTimeCommandReceipts(): readonly TimeCommandReceipt[] {
+export function recentTimeCommandReceipts(): readonly RecentTimeCommandReceipt[] {
   return [...recent];
 }
 
-function remember(receipt: TimeCommandReceipt): TimeCommandReceipt {
-  recent.push(receipt);
+function remember(
+  receipt: RecentTimeCommandReceipt,
+  outcome: () => string,
+): TimeCommandReceipt {
+  let materialized: string | undefined;
+  let resolveOutcome: (() => string) | null = outcome;
+  const diagnostic = { ...receipt };
+  const returned = { ...receipt } as TimeCommandReceipt;
+  Object.defineProperty(returned, "outcome", {
+    enumerable: true,
+    get() {
+      if (materialized === undefined) {
+        const resolve = resolveOutcome;
+        resolveOutcome = null;
+        materialized = resolve?.() ?? "";
+      }
+      return materialized;
+    },
+  });
+  recent.push(diagnostic);
   if (recent.length > RECENT_LIMIT) recent.shift();
-  return receipt;
+  return returned;
 }
 
 export function submitTimeCommand(
@@ -364,54 +482,55 @@ export function submitTimeCommand(
   if (compareSimulationMoments(world.currentMoment, request.sourceMoment) !== 0)
     return {
       world,
-      receipt: remember({
-        ...base,
-        status: "stale",
-        requestedTarget: null,
-        reached: world.currentMoment,
-        stoppedEarly: false,
-        elapsedMs: now() - started,
-        outcome:
+      receipt: remember(
+        {
+          ...base,
+          status: "stale",
+          requestedTarget: null,
+          reached: world.currentMoment,
+          stoppedEarly: false,
+          elapsedMs: now() - started,
+        },
+        () =>
           "Time had already moved since this was shown, so the request was not applied again.",
-      }),
+      ),
     };
   const preview = previewTimeCommand(world, request.personId, request.command);
   if (!preview) {
     const waiting =
       request.command.kind === "quiet-stretch"
-        ? unresolvedWorkNow(world, request.personId)
+        ? quietStretchRefusal(world, request.personId)
         : null;
     return {
       world,
-      receipt: remember({
-        ...base,
-        status: "refused",
-        requestedTarget: null,
-        reached: world.currentMoment,
-        stoppedEarly: false,
-        elapsedMs: now() - started,
-        outcome:
-          waiting === "offer"
-            ? "The work offer needs an answer under Work before another quiet stretch."
-            : waiting === "start"
-              ? "Your accepted work can begin under Work before another quiet stretch."
-              : "That event does not start later than now.",
-      }),
+      receipt: remember(
+        {
+          ...base,
+          status: "refused",
+          requestedTarget: null,
+          reached: world.currentMoment,
+          stoppedEarly: false,
+          elapsedMs: now() - started,
+        },
+        () => waiting ?? "That event does not start later than now.",
+      ),
     };
   }
   const result = run(world, request, preview);
   return {
     world: result.world,
-    receipt: remember({
-      ...base,
-      status: result.world === world ? "refused" : "accepted",
-      requestedTarget: preview.target,
-      reached: result.reached,
-      stoppedEarly:
-        compareSimulationMoments(result.reached, preview.target) < 0,
-      elapsedMs: now() - started,
-      outcome: result.outcome,
-    }),
+    receipt: remember(
+      {
+        ...base,
+        status: result.world === world ? "refused" : "accepted",
+        requestedTarget: preview.target,
+        reached: result.reached,
+        stoppedEarly:
+          compareSimulationMoments(result.reached, preview.target) < 0,
+        elapsedMs: now() - started,
+      },
+      () => result.outcome,
+    ),
   };
 }
 

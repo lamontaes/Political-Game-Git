@@ -1,4 +1,4 @@
-import evidence from "./evidence.json";
+import evidence from "./evidence.json" with { type: "json" };
 import { assertReferenceCatalog } from "./catalog";
 import type {
   ReferenceCatalog,

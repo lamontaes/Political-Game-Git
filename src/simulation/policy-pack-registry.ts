@@ -1,3 +1,22 @@
+import { MINIMUM_WAGE_PAY_ROWS } from "./law-consequences/pay-rows";
+import {
+  RENT_STABILIZATION_QUESTION,
+  RENT_STABILIZATION_ROW,
+  RENT_COVERAGE_VALUES,
+} from "./law-consequences/rent-stabilization-row";
+import { STATUTORY_WAGE_TAX_ROWS } from "./law-consequences/statutory-wage-tax-rows";
+import {
+  TUITION_FREEZE_QUESTION,
+  TUITION_FREEZE_ROW,
+} from "./law-consequences/tuition-freeze-row";
+import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
+import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
+import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
+import { DEVELOPMENT_INCENTIVE_AWARD_ROW } from "./law-consequences/modules/lw08-development-incentive-cap/rows";
+import {
+  SNAP_PARTICIPATION_ROW,
+  SNAP_WORK_REQUIREMENT_QUESTION,
+} from "./law-consequences/modules/snap-participation/rows";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -30,7 +49,56 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   // before the stances that point at it. The positions pack declares its own
   // principles, so it resolves those against itself in the same pass.
   US_STATE_AND_LOCAL_POLICY_PACK,
-  US_POLICY_POSITIONS_PACK,
+  {
+    ...US_POLICY_POSITIONS_PACK,
+    propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
+      const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
+      const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
+      const pay = MINIMUM_WAGE_PAY_ROWS[key];
+      const service = [
+        ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
+        ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
+      ];
+      const rent = key === RENT_STABILIZATION_QUESTION;
+      const tuition = key === TUITION_FREEZE_QUESTION;
+      const snap = key === SNAP_WORK_REQUIREMENT_QUESTION;
+      const developmentIncentive =
+        key ===
+        "us-policy-positions:business-commerce.cap-development-incentives";
+      if (
+        !coverage &&
+        !pay &&
+        service.length === 0 &&
+        !rent &&
+        !tuition &&
+        !snap &&
+        !developmentIncentive
+      )
+        return row;
+      return {
+        ...row,
+        ...(rent
+          ? {
+              parameters: row.parameters?.map((parameter) =>
+                parameter.key === "coverage"
+                  ? { ...parameter, allowedValues: RENT_COVERAGE_VALUES }
+                  : parameter,
+              ),
+            }
+          : {}),
+        consequences: [
+          ...(row.consequences ?? []),
+          ...(rent ? [RENT_STABILIZATION_ROW] : []),
+          ...(tuition ? [TUITION_FREEZE_ROW] : []),
+          ...(snap ? [SNAP_PARTICIPATION_ROW] : []),
+          ...(developmentIncentive ? [DEVELOPMENT_INCENTIVE_AWARD_ROW] : []),
+          ...(coverage ? [coverage] : []),
+          ...(pay ? [pay] : []),
+          ...service,
+        ],
+      };
+    }),
+  },
   // Federal government, in its own namespace. It references nothing in the
   // packs above and nothing above references it, so its place here decides
   // only where its rows sit in the catalog order: after, so every id the
@@ -39,7 +107,28 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   // Positions on federal questions. Last, because it points into both packs
   // above: the federal issues and the principles the state and local
   // positions declare.
-  US_FEDERAL_POSITIONS_PACK,
+  {
+    ...US_FEDERAL_POSITIONS_PACK,
+    propositions: US_FEDERAL_POSITIONS_PACK.propositions?.map((row) => {
+      const key = `${US_FEDERAL_POSITIONS_PACK.pack}:${row.key}`;
+      const pay = MINIMUM_WAGE_PAY_ROWS[key];
+      const service = [
+        ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
+        ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
+      ];
+      return service.length === 0 && !pay
+        ? row
+        : {
+            ...row,
+            consequences: [
+              ...(row.consequences ?? []),
+              ...(pay ? [pay] : []),
+              ...service,
+            ],
+          };
+    }),
+  },
+  TAX_TERMS_POLICY_PACK,
 ];
 
 let cached: PolicyRegistry | null = null;

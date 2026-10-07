@@ -1,0 +1,25 @@
+{
+  "filedAt": "2026-10-01T19:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "families and housing",
+  "notes": [
+    "Under A135 (CTO Ruling 7 step 2) a grown child living in a parent's home decides through the decision engine, with no randomness, whether to set up a home of their own: their age (sliding from 18 to full strength at 28), their own recorded pay against the town's HUD fair market rent for an efficiency (HUD's 30 percent cost-burden line, weighed with medium certainty because the record holds no roommate market), no pay of their own, a partner who lives elsewhere, that staying is easier, and their taste for risk. The weights are placeholders in UNRESEARCHED_LEAVING_HOME (src/simulation/living-world/leaving-home.ts).",
+    "The check on totals is the Current Population Survey: 57 percent of men and 55 percent of women aged 18 to 24, and 19 and 12 percent aged 25 to 34, lived in a parent's home in 2022, with college dorms counted as the parental home (Census Bureau, 'Living Arrangements Varied Across Age Groups', May 2024). Applied to the real age and pay of Honolulu's opening residents, 1 of 21 aged 25 to 34 and 6 of 7 aged 18 to 24 would stay.",
+    "The town's opening households seat no child aged 18 or over (town-residents.ts draws children's ages up to 17), so at the opening there is nobody for this decision to weigh; it acts as children in town turn 18."
+  ],
+  "priority": "P2",
+  "question": "With age held equal, how much do a young adult's own earnings against local rent, employment, school enrollment, a partner, and their family's income change the odds that they live in a parent's home, and how many leave home to another county?",
+  "questionId": "why-young-adults-leave-home",
+  "relatedQuestionIds": ["why-americans-move-causes-and-strengths"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "Census Bureau, 'Living Arrangements Varied Across Age Groups', America Counts, May 2024 (Current Population Survey, 2022)",
+      "whatItDidNotSettle": "Raw shares in a parent's home by age and sex; no effect of pay, rent, work, school or a partner with age held equal, and no share of those leaving home who move to another county."
+    }
+  ],
+  "title": "Why young adults leave a parent's home, or stay",
+  "usableAnswer": "Shares or odds ratios for living in a parent's home by age, own earnings against local rent, employment, enrollment and partnership, from a named Current Population Survey or American Community Survey analysis, plus the share of home-leavers who cross a county line, so each placeholder weight can be read as data.",
+  "whyItMatters": "Whether a grown child leaves home decides how many new households a town forms, who needs a home, and who has a reason to move away."
+}

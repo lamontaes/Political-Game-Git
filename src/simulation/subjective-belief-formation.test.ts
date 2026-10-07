@@ -640,34 +640,90 @@ describe("bounded and actor-isolated general decisions", () => {
     expect(evaluateDecision(world, targetContext)).toStrictEqual(before);
   });
 
-  it("uses only slight deterministic variation for close available choices", () => {
+  it("uses recorded considerations without random variation for close available choices", () => {
     const observed = new Set<string>();
     for (let index = 0; index < 12; index += 1) {
-      const world = createDemoWorld(`stage4-close-choice-${index}`);
-      const evaluation = evaluateDecision(
-        world,
-        basicDecision(world, personId(world, 1)),
-      );
-      for (const option of evaluation.optionEvaluations) {
+      let world = createDemoWorld(`stage4-close-choice-${index}`);
+      const actorId = personId(world, 1);
+      const empty = evaluateDecision(world, basicDecision(world, actorId));
+      expect(empty.outcomeKind).toBe("undecided");
+      expect(empty.selectedOptionKey).toBeNull();
+      for (const option of empty.optionEvaluations) {
         expect(option.available).toBe(true);
         observed.add(option.randomContribution);
       }
-    }
-    expect(observed).toContain("none");
-    expect(observed.has("slight-boost") || observed.has("slight-penalty")).toBe(
-      true,
-    );
-    expect(
-      [...observed].every((value) =>
-        ["none", "slight-boost", "slight-penalty"].includes(value),
-      ),
-    ).toBe(true);
 
-    const separatedWorld = createDemoWorld("stage4-separated-choice");
-    const separatedContext = basicDecision(
-      separatedWorld,
-      personId(separatedWorld, 1),
-    );
+      world = recordPerception(world, {
+        stableKey: `close-choice:${actorId}:opportunity`,
+        personId: actorId,
+        perceivedAt: world.currentDate,
+        subjectKind: "context:situation",
+        subjectKey: "test",
+        subjectEntityId: null,
+        assertion: "The opportunity is ready to pursue.",
+        confidence: "high",
+        sourceCredibility: "unknown",
+        source: {
+          kind: "authored",
+          note: "Controlled recorded reason for the close-choice regression.",
+        },
+        supersedesPerceptionId: null,
+      });
+      const perception = world.history.perceptions.at(-1)!;
+      const context = basicDecision(world, actorId);
+      const recorded = evaluateDecision(world, {
+        ...context,
+        stableKey: `${context.stableKey}:recorded-close-reason`,
+        considerations: [
+          {
+            stableKey: "slight-recorded-reason-to-act",
+            optionKey: "act",
+            sourceType: "information:perceived-opportunity",
+            direction: "supports",
+            importance: "slight",
+            confidence: "low",
+            explanation: "The actor recorded that the opportunity is ready.",
+            sourceRefs: [{ kind: "perception", perceptionId: perception.id }],
+          },
+        ],
+        perceptionIds: [perception.id],
+      });
+      expect(recorded.outcomeKind).toBe("selected");
+      expect(recorded.selectedOptionKey).toBe("act");
+      expect(recorded.context.considerations[0]!.sourceRefs).toEqual([
+        { kind: "perception", perceptionId: perception.id },
+      ]);
+      expect(
+        recorded.optionEvaluations.map((option) => option.randomContribution),
+      ).toEqual(["none", "none"]);
+      const reversed = evaluateDecision(world, {
+        ...recorded.context,
+        options: [...recorded.context.options].reverse(),
+      });
+      expect(reversed.selectedOptionKey).toBe("act");
+    }
+    expect([...observed]).toEqual(["none"]);
+
+    let separatedWorld = createDemoWorld("stage4-separated-choice");
+    const actorId = personId(separatedWorld, 1);
+    separatedWorld = recordPerception(separatedWorld, {
+      stableKey: `separated-choice:${actorId}:opportunity`,
+      personId: actorId,
+      perceivedAt: separatedWorld.currentDate,
+      subjectKind: "context:situation",
+      subjectKey: "test",
+      subjectEntityId: null,
+      assertion: "The opportunity is clearly ready to pursue.",
+      confidence: "high",
+      sourceCredibility: "unknown",
+      source: {
+        kind: "authored",
+        note: "Controlled recorded reason for the separated-choice regression.",
+      },
+      supersedesPerceptionId: null,
+    });
+    const perception = separatedWorld.history.perceptions.at(-1)!;
+    const separatedContext = basicDecision(separatedWorld, actorId);
     const separated = evaluateDecision(separatedWorld, {
       ...separatedContext,
       stableKey: `${separatedContext.stableKey}:clearly-separated`,
@@ -675,15 +731,19 @@ describe("bounded and actor-isolated general decisions", () => {
         {
           stableKey: "strong-reason-to-act",
           optionKey: "act",
-          sourceType: "context:incentive",
+          sourceType: "information:perceived-opportunity",
           direction: "supports",
           importance: "strong",
           confidence: "high",
-          explanation: "The action is clearly preferred before randomness.",
-          sourceRefs: [],
+          explanation:
+            "The actor's recorded opportunity clearly favors acting.",
+          sourceRefs: [{ kind: "perception", perceptionId: perception.id }],
         },
       ],
+      perceptionIds: [perception.id],
     });
+    expect(separated.outcomeKind).toBe("selected");
+    expect(separated.selectedOptionKey).toBe("act");
     expect(
       separated.optionEvaluations.map((option) => option.randomContribution),
     ).toEqual(["none", "none"]);

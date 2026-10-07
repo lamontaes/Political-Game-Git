@@ -1,3 +1,8 @@
+import {
+  assertLawCategories,
+  assertLawSchedules,
+} from "./law-structured-terms";
+import { LAW_AMOUNT_UNITS } from "./law-consequence-types";
 import { eventById } from "./event-index";
 import { createStableId } from "./ids";
 import {
@@ -57,6 +62,9 @@ import { recordWorldEvent } from "./world";
 // ---------------------------------------------------------------------------
 
 export interface RecordFiledProvisionInput {
+  readonly lawSchedules?: LegislativeProvisionRecord["lawSchedules"];
+  readonly lawCategories?: LegislativeProvisionRecord["lawCategories"];
+  readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly stableKey: string;
   readonly measureId: EntityId;
   readonly provisionKey: string;
@@ -74,6 +82,11 @@ export interface RecordFiledProvisionInput {
 }
 
 export interface AdoptProvisionRevisionInput {
+  /** A revision supplies its own categories; omission clears earlier categories. */
+  readonly lawSchedules?: LegislativeProvisionRecord["lawSchedules"];
+  readonly lawCategories?: LegislativeProvisionRecord["lawCategories"];
+  /** A revision supplies its own terms; omission clears earlier terms. */
+  readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly stableKey: string;
   readonly measureId: EntityId;
   /** The adopted amendment that carries this text into the bill. */
@@ -341,12 +354,51 @@ export function isParticularizedProvision(provision: {
 export function describeProvisionReach(provision: {
   readonly beneficiary: LegislativeProvisionBeneficiary;
 }): string {
+  return reachInSummary(provisionReach(provision));
+}
+
+/**
+ * Who a provision reaches, as a fact rather than a sentence: whether it
+ * reaches everyone a rule applies to or is written for someone in
+ * particular, and who. Each reader words it its own way: a summary says
+ * "language reaching …", a legislator says "covers …".
+ */
+export interface ProvisionReach {
+  readonly relation: "reaching" | "written-for";
+  readonly who: string;
+}
+
+export function provisionReach(provision: {
+  readonly beneficiary: LegislativeProvisionBeneficiary;
+}): ProvisionReach {
   const beneficiary = provision.beneficiary;
-  if (beneficiary.kind === "general-application") {
-    return `language reaching ${beneficiary.appliesToLabel}`;
-  }
+  if (beneficiary.kind === "general-application")
+    return { relation: "reaching", who: beneficiary.appliesToLabel };
   const place = beneficiary.placeLabel ? ` in ${beneficiary.placeLabel}` : "";
-  return `language written for ${beneficiary.beneficiaryLabel}${place}`;
+  return {
+    relation: "written-for",
+    who: `${beneficiary.beneficiaryLabel}${place}`,
+  };
+}
+
+/** "reaching every rider", "written for the transit authority". */
+export function reachPhrase(reach: ProvisionReach): string {
+  return `${reach.relation === "reaching" ? "reaching" : "written for"} ${reach.who}`;
+}
+
+/** How a bill summary says it: "language reaching every rider". */
+export function reachInSummary(reach: ProvisionReach): string {
+  return `language ${reachPhrase(reach)}`;
+}
+
+/**
+ * How a legislator says it after the section's label: "Section 4 covers every
+ * rider", "Section 4 is written for the transit authority".
+ */
+export function reachInSpeech(reach: ProvisionReach): string {
+  return reach.relation === "reaching"
+    ? `covers ${reach.who}`
+    : `is written for ${reach.who}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -479,6 +531,8 @@ function questionInWords(question: LegislativeQuestionIdentity): string {
       return "reporting the bill out of committee";
     case "amendment":
       return "the amendment";
+    case "procedural-motion":
+      return "the procedural motion";
   }
 }
 
@@ -1070,6 +1124,54 @@ function validateProvisionContent(
     );
   }
   if (input.answers) assertAnswerRef(world, input.answers);
+  assertProvisionLawTerms(world, input.lawTerms);
+  assertLawSchedules(world, input.lawSchedules);
+  assertProvisionLawCategories(world, input.lawCategories);
+}
+
+/** Categorical rules are supported only by a closed catalog declaration. */
+export function assertProvisionLawCategories(
+  world: World,
+  categories: LegislativeProvisionRecord["lawCategories"],
+): void {
+  assertLawCategories(world, categories);
+}
+
+/** The writer and Save/Continue integrity gate share the same term contract. */
+export function assertProvisionLawTerms(
+  world: World,
+  terms: LegislativeProvisionRecord["lawTerms"],
+): void {
+  if (terms === undefined) return;
+  if (!Array.isArray(terms))
+    throw new Error("Provision law terms must be an array.");
+  const units = new Set<string>(LAW_AMOUNT_UNITS);
+  const questionKeys = new Set(
+    world.policyCatalog.propositionOrder.map(
+      (id) => world.policyCatalog.propositions[id]!.stableKey,
+    ),
+  );
+  const seen = new Set<string>();
+  for (const term of terms) {
+    if (
+      !term ||
+      !questionKeys.has(term.questionKey) ||
+      typeof term.key !== "string" ||
+      !term.key.trim()
+    )
+      throw new Error(
+        "A provision law term needs a catalog question and term key.",
+      );
+    if (!Number.isFinite(term.value) || !units.has(term.unit))
+      throw new Error(
+        "A provision law term needs a finite value and a supported unit.",
+      );
+    if (term.unit.startsWith("minor") && !Number.isSafeInteger(term.value))
+      throw new Error("A monetary law term must use safe integer minor units.");
+    const key = `${term.questionKey}:${term.key}`;
+    if (seen.has(key)) throw new Error("A provision cannot repeat a law term.");
+    seen.add(key);
+  }
 }
 
 /** A section can only answer a question the world's catalog actually asks. */
@@ -1145,6 +1247,20 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
   }
 
   const record: LegislativeProvisionRecord = {
+    ...(input.lawSchedules !== undefined
+      ? { lawSchedules: structuredClone(input.lawSchedules) }
+      : {}),
+    ...(input.lawTerms !== undefined
+      ? { lawTerms: input.lawTerms.map((term) => ({ ...term })) }
+      : {}),
+    ...(input.lawCategories !== undefined
+      ? {
+          lawCategories: input.lawCategories.map((category) => ({
+            ...category,
+            values: [...category.values],
+          })),
+        }
+      : {}),
     id: createStableId(
       "legislative-provision",
       `${measure.id}:${input.stableKey}`,

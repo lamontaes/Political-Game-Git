@@ -1,0 +1,1890 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-06T13:14:19Z",
+  "updatedBy": "Session 45",
+  "source": {
+    "issue": "#2424",
+    "lastReadCommentId": 6016873722,
+    "mainHead": "e597ec933608993a9ecfef6110b3f9b9f856a3c7",
+    "localInventorySource": "user-provided supported app inventory"
+  },
+  "sessions": [
+    {
+      "session": 1,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 2,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 3,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 4,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 5,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 6,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 7,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 8,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 9,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 10,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 11,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 12,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 13,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 14,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 15,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 16,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 17,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 18,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 19,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 20,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 21,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 22,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 23,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 24,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 25,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 26,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "b01",
+        "label": "askToSign",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 27,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "b02",
+        "label": "campaign money",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 28,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "b06",
+        "label": "constituents",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 29,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "b07",
+        "label": "what people think of you",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 30,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "b08",
+        "label": "vote bargaining",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 31,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "b04",
+        "label": "losing",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 32,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b09",
+        "label": "poison pills",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 33,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b10",
+        "label": "committees",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 34,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b11",
+        "label": "capital/home",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 35,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b12",
+        "label": "minority tools",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 36,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b14",
+        "label": "corruption",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 37,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b26",
+        "label": "scandals",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 38,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b17",
+        "label": "executive orders",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 39,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b19",
+        "label": "death look-back",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 40,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b21",
+        "label": "family",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 41,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b23",
+        "label": "local names",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 42,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "b13",
+        "label": "judge play",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "activity observed; process time unverified"
+    },
+    {
+      "session": 43,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unclaimed-reserve",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 44,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unclaimed-reserve",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 45,
+      "model": "GPT-6 Luna",
+      "effort": "Low",
+      "assignment": {
+        "bankId": "roster-keeper",
+        "doc": "docs/codex/roster.json"
+      },
+      "currentPr": "https://github.com/lamontaes/Political-Game-Git/pull/2549 (open)",
+      "head": "d9fa7ad194e0174c91946be2c4a17c0daa610d24",
+      "lastPostAt": "2026-10-06T13:00:00Z",
+      "state": "active; PR #2549 open"
+    }
+  ],
+  "reserveOrder": [
+    "b15 investigations",
+    "b16 redistricting",
+    "b18 citizen actions",
+    "b20",
+    "b22",
+    "b24",
+    "b25"
+  ],
+  "notes": [
+    "Unknown means not verified from bounded board/PR evidence; owner intent to switch models is not evidence of a completed switch.",
+    "Session 26–42 canonical assignment doc paths are unknown pending a verified file index.",
+    "The #2052 recent coordinator snapshot lists assignments 26–41; Session 42 b13 claim observed; duplicate comments do not indicate additional claims.",
+    "No IDLE state is inferred without timestamp evidence of two hours without post or push.",
+    "Inventory stores app status separately from work proof; activity audit receipt timestamps remain unknown unless a timestamped tool/turn receipt is supplied.",
+    "Duplicate Session 11 and Session 56 chat IDs are retained separately; no ownership reassignment was made.",
+    "Session 10 is the listed active coordinator chat; the separately reactivated coordinator chat is unknown pending human identity confirmation.",
+    "49 inventory rows were supplied, including distinct original/current duplicates for Sessions 11 and 56.",
+    "Execution and latest receipt are recorded only when an activity audit or timestamped board receipt supplied evidence; app status/update time is separate.",
+    "New CTO instruction: every open PR composes fresh origin/main lint fixes and reruns exact-head checks; merge #2452/#2458/#2466 only after their reruns are green.",
+    "Sessions 20, 24, 48 and 55 have already received continue-independent-unclaimed-POOL requests; no duplicate pings or assignments sent by Session45.",
+    "Session105 BG-53 is a board claim without supported chat ID/host mapping.",
+    "Latest activity-marker audit supersedes prior no-output snapshots for Sessions 3/16/31/52; outcomes remain coordinator-reported, with no independent rerun by Session45.",
+    "LW-05 ownership remains unresolved between Sessions 9 and 20 until an explicit old-artifact or handoff is supplied.",
+    "Board root #6016855352 confirms Session56 original resumed on disjoint work; previous app inventory's idle status remains the earlier inventory snapshot, not current execution state.",
+    "The latest #2529 repository failure is current hosted evidence, not the stale lint failures fixed by #2470; its unit run was still live at 13:01:56 UTC.",
+    "Coordinator activity delta received after board comment 6016855352; exact receipt times/heads remain absent unless stated.",
+    "Session26 terminally failed on capacity service; same existing work resume sent without model or workspace change.",
+    "Session16 terminally blocked by obsolete #2052 route after #2573 health consumer reported 140-local PASS; current #2424 route and independent next work delivered.",
+    "Session21 terminally drafted #2547 with controlled-proof-only state; random-place proof resume delivered.",
+    "Session47 terminally reported #2415 scene-composer; 20-year proof pending; retained handle and independent work requested.",
+    "Session9 explicitly holds LW05 overlap; independent next work sent; LW05 remains unresolved pending explicit handoff.",
+    "Session20 published #2529 formatting correction at f728f910; fresh exact-head audit queued and checks are not PASS.",
+    "Session55 now has a completed command receipt for P1 schema validation; this supersedes earlier idle/no-output state.",
+    "Session49 is running a two-day random-locale engine multi-life packet; command completed and batch publication pending.",
+    "Session15 Steam work is newly visible but parked and not pinged.",
+    "Session25 published producer contract #2599 at a9343fc and routed exact API/head/readiness to Sessions36/42; local tests 14 PASS, type/hosted pending, runtime acceptance absent.",
+    "Session5 published read-only census diagnostic at d52e48da; diagnostic terminal EXIT 0. Precise one-capped late-boundary replay question 6016919404 sent to Claude; no live-processor new run claimed.",
+    "Session56 LW02 claim 6016919458 may overlap Session14's known ownership; handoff requested from both and overlap held.",
+    "Session48 published P6 #2601; reported local fixture errors are stale relative to published base; source-blob comparison requested.",
+    "PR #2448 fresh head 03ab658e mergeable with audit queued; PR #2452 remains at old conflicting state.",
+    "Session57 PR #2565 head 17528bb composes Session24 #2598 registry entry with actual brazen reader; local 7/7 PASS, production pack/browser pending.",
+    "Session43 canonical prosecutor fixture handoff 6016958194 delivered to Session42; current state is LOCAL/STAGED exact-main composition, no published head.",
+    "Session13 browser receipt 18369/r3 fails Difficulty before Begin; minimal stage-aware helper repair routed to shared writer 7.",
+    "Session28 reports all seven B06 PRs recomposed on current main and local type 800 PASS; broad Vitest terminal 130 is NOT PASS; Save/Continue/screenshots remain open (6016958299).",
+    "Session14 has actual menu proof across two viewports; LW02 handoff reply pending, so stale-owner release is not confirmed.",
+    "Session20 explicitly released LW05 ownership to Session9 (6016909878), verified and delivered; Session9 is sole LW05 writer and unblocked.",
+    "Session14 explicitly retains LW02 (6016985693); Session56 hold remains confirmed and instructed.",
+    "Session56 new LW06 claim (6016978603) conflicts with last-known Session30 owner; exact Session30 artifact/handoff queried and overlap held.",
+    "Session21 shared release gate resolved: Session8 diagnosed identical corrected blob on main and #2547, with exact PR-range PASS (6016968574); no repair needed; Session21 notified to continue proof.",
+    "Historical failures are retained as historical evidence and are not treated as current without a current-head failure.",
+    "Correction: Session49 actual evidence is command exec-aaab6fc4 EXIT 0/8.46s producing one Greasewood Arizona opening world (9,413 people; presentPeople empty); do not represent earlier commentary as an executed 20-world/20–40-line batch.",
+    "Session2 original work exact ownership 6016994640 is fully merged/no UI writer; local composition has 7 tests and type PASS, but browser storage failed (299 MiB short; private art missing), so no browser PASS. Current Session2 counterpart owns #2469 only.",
+    "Session17 and Session19 durable chat IDs and idle inventory timestamps were newly exposed and recorded exactly; assignments and model/effort remain unknown absent evidence.",
+    "Session49 meaningful-English artifact #2606 supersedes the earlier one-world probe-only status; board reports a real 20-life, 2-day artifact but flags it NOT READY for 0/23 composition keys, missing personality/relationship/stable-event facts and unknown docket route. Exact PR head/source verification pending.",
+    "Session12 #2190 READY (eda7f9c) and #2298 blocked (096c6e, OOM, summary absent, gates queued) are distinct; narrow proof is not whole-observer acceptance."
+  ],
+  "localChatInventory": [
+    {
+      "id": "01a10f8b-c98a-7308-81c7-baa78e8da0ce",
+      "host": "durable",
+      "title": "Session 11 — ART — Room placement (current)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290738,
+      "updatedAt": "2026-10-06T12:45:38.000Z",
+      "currentTask": "BG-65 executive portrait recipe/render; current-main rebase and command completed",
+      "workProof": "coordinator activity audit; exact receipt time/head not supplied",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e3a-0cc5-71b3-812c-48715915742c",
+      "host": "local",
+      "title": "Session 10 — Coordinator",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290890,
+      "updatedAt": "2026-10-06T12:48:10.000Z",
+      "currentTask": "coordinator chat (reactivated coordinator identity is separately unknown)",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e1c-5120-750b-b2b6-08943683e017",
+      "host": "durable",
+      "title": "Session 11 — ART — Original handoff (old)",
+      "appStatus": "idle",
+      "updatedAtEpoch": 1791270721,
+      "updatedAt": "2026-10-06T07:12:01.000Z",
+      "currentTask": "original handoff preserved; no reassignment",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9d-0c77-742e-a428-64d2b838d0ed",
+      "host": "durable",
+      "title": "Session 56 — Legislative engine (original)",
+      "appStatus": "idle",
+      "updatedAtEpoch": 1791290829,
+      "updatedAt": "2026-10-06T12:47:09.000Z",
+      "currentTask": "original legislative-engine chat preserved; no reassignment",
+      "workProof": "original chat resumed on independent fresh work per #6016855352; current item/receipt not supplied; second chat remains active separately",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f8b-0803-70e7-9753-9b52073d30c4",
+      "host": "durable",
+      "title": "Session 3 — Kit13 screens and menu concepts (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290774,
+      "updatedAt": "2026-10-06T12:46:14.000Z",
+      "currentTask": "Kit13 menu concepts; Drive 00g dispatch read",
+      "workProof": "discovery active; command and Drive read completed; no implementation yet",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7e-f16a-7041-bf31-231cfab3e0f7",
+      "host": "durable",
+      "title": "Session 45 — Roster keeper",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290708,
+      "updatedAt": "2026-10-06T12:45:08.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e3b-b033-7793-aff7-b9824204802e",
+      "host": "durable",
+      "title": "Session 18 — Business, privacy and government law",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290648,
+      "updatedAt": "2026-10-06T12:44:08.000Z",
+      "currentTask": "next independent item after blocked terminal goal",
+      "workProof": "new turn in progress; no activity receipt yet",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e3b-5e94-7206-8784-4d06f101801d",
+      "host": "durable",
+      "title": "Session 16 — Health and civil law",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290621,
+      "updatedAt": "2026-10-06T12:43:41.000Z",
+      "currentTask": "current assignment; rebase from 68c8 to 8b0a877",
+      "workProof": "command completed; focused gates in progress; exact command/head not supplied",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f72-7151-701b-adb6-419f73a830db",
+      "host": "durable",
+      "title": "Session 31 — What carries forward after a loss",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290607,
+      "updatedAt": "2026-10-06T12:43:27.000Z",
+      "currentTask": "LW17 person landings",
+      "workProof": "coordinator reports 56/56 local and type/import(798) PASS; positive minimum-sentence test publication next; exact proof artifact/time not supplied",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9c-545a-757e-9ea0-83af6b36e0f7",
+      "host": "durable",
+      "title": "Session 52 — Business books and transfers",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290574,
+      "updatedAt": "2026-10-06T12:42:54.000Z",
+      "currentTask": "SNAP integration",
+      "workProof": "actual 30-second timeout observed; rerun live; routed to current-main #2470 fixture fix rather than duplicate old type failure",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7c-e0d0-7722-8b30-86d7e43990d3",
+      "host": "durable",
+      "title": "Session 33 — Committees and leadership",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290467,
+      "updatedAt": "2026-10-06T12:41:07.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9c-76ab-7330-be28-e466479c80c5",
+      "host": "durable",
+      "title": "Session 53 — The world keeps governing",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290296,
+      "updatedAt": "2026-10-06T12:38:16.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f0c-bb1c-7257-b35b-4f76ad9fa008",
+      "host": "durable",
+      "title": "Session 24 — Person records and campaign history",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290204,
+      "updatedAt": "2026-10-06T12:36:44.000Z",
+      "currentTask": "#2484 rebase / Part 3 evidence question",
+      "workProof": "idle after rebase/question in latest audit; continuation request delivered; no new turn receipt supplied",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f8c-1523-770a-a311-26d6e04350f3",
+      "host": "durable",
+      "title": "Session 14 — Menus and media (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290056,
+      "updatedAt": "2026-10-06T12:34:16.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9b-dcc7-7198-8b8f-2b71ff9e30ea",
+      "host": "durable",
+      "title": "Session 49 — Optional difficulty settings",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791290039,
+      "updatedAt": "2026-10-06T12:33:59.000Z",
+      "currentTask": "ENGINE English batch; published artifact #2606 under exact-head/source verification",
+      "workProof": "board reports published artifact #2606: actual 20 lives over 2 days, 19 conversations, 23 saved turns, 20 verbatim lines; reported 0/23 composition keys, missing personality/relationship/stable-event facts, docket route unknown; NOT READY. This supersedes the earlier one-world probe-only status; exact PR head/source check pending.",
+      "latestReceiptAt": "not supplied"
+    },
+    {
+      "id": "01a10f8a-dde5-7690-b362-d1f90153c0ea",
+      "host": "durable",
+      "title": "Session 2 — Kit13 shell and Creator (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791289984,
+      "updatedAt": "2026-10-06T12:33:04.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f0c-97db-74d7-94be-8dc7f4816005",
+      "host": "durable",
+      "title": "Session 25 — Press and corruption (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791289913,
+      "updatedAt": "2026-10-06T12:31:53.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f8c-7b17-765a-922c-335c5e1b80eb",
+      "host": "durable",
+      "title": "Session 20 — Landing engine and records (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791289905,
+      "updatedAt": "2026-10-06T12:31:45.000Z",
+      "currentTask": "completed consumer handoff; resumed LW11 / ownership reconciliation",
+      "workProof": "consumer handoff completed per coordinator audit; LW11 reconciliation request active; exact receipt time/head not supplied",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e1c-9a88-73e0-863d-494e52e6701f",
+      "host": "durable",
+      "title": "Session 13 — Clerk filing and election night",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791289876,
+      "updatedAt": "2026-10-06T12:31:16.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9c-9a57-75ac-a554-258b4fdb50dd",
+      "host": "durable",
+      "title": "Session 54 — Named world and colleges",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791289838,
+      "updatedAt": "2026-10-06T12:30:38.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f8c-a5e9-7333-b3a9-78b83ffce0e7",
+      "host": "durable",
+      "title": "Session 21 — Lived outcomes and votes (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791289786,
+      "updatedAt": "2026-10-06T12:29:46.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7d-fc6a-73cb-95df-5b20fbb940c0",
+      "host": "durable",
+      "title": "Session 39 — Death look-back",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791289761,
+      "updatedAt": "2026-10-06T12:29:21.000Z",
+      "currentTask": "T13 expression chooser",
+      "workProof": "focused/type checks and retained processes reported working (coordinator-reported; no exact receipt timestamp/head supplied)",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7c-9f83-7428-aa21-9865faadf0ea",
+      "host": "durable",
+      "title": "Session 32 — Poison pills, riders and attack ads",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791289514,
+      "updatedAt": "2026-10-06T12:25:14.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7e-2873-7703-bee9-28c9c983c0f2",
+      "host": "durable",
+      "title": "Session 40 — Family, partner and kids",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791288941,
+      "updatedAt": "2026-10-06T12:15:41.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7e-5626-76b0-906c-2362a016f0cf",
+      "host": "durable",
+      "title": "Session 41 — Real local names",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791288863,
+      "updatedAt": "2026-10-06T12:14:23.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f71-8192-777b-8495-df3645f980cd",
+      "host": "durable",
+      "title": "Session 27 — Campaign money and helpers",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791288628,
+      "updatedAt": "2026-10-06T12:10:28.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7d-6f22-72bb-8811-ef25f4e4c0fa",
+      "host": "durable",
+      "title": "Session 36 — Corruption",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791288479,
+      "updatedAt": "2026-10-06T12:07:59.000Z",
+      "currentTask": "adapter test / canonical entity publication",
+      "workProof": "test exit 1 due missing fixture; evidence-artifact case passes; repair directed (coordinator-reported; no exact receipt timestamp/head supplied)",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9c-2b99-73ce-84f4-d84c84cd40c2",
+      "host": "durable",
+      "title": "Session 51 — Living economy",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791288433,
+      "updatedAt": "2026-10-06T12:07:13.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9b-7091-779a-9057-f4f3856670e1",
+      "host": "durable",
+      "title": "Session 47 — Elder statesman and movement succession",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791288338,
+      "updatedAt": "2026-10-06T12:05:38.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7d-35ab-7488-bf3e-71cb1f8500c5",
+      "host": "durable",
+      "title": "Session 35 — Minority-party tools",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791288162,
+      "updatedAt": "2026-10-06T12:02:42.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f8b-7f0d-7529-9169-8167aaa2d0ef",
+      "host": "durable",
+      "title": "Session 7 — Loading and life history (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791287975,
+      "updatedAt": "2026-10-06T11:59:35.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e1b-b083-7096-831e-73eb586ae033",
+      "host": "durable",
+      "title": "Session 8 — Gameplay bug repairs",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791287934,
+      "updatedAt": "2026-10-06T11:58:54.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f8b-56f7-76e3-9b63-c00eb35b10f6",
+      "host": "durable",
+      "title": "Session 6 — Creator and character life (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791287881,
+      "updatedAt": "2026-10-06T11:58:01.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9c-bc87-7255-9fa2-049aad9a60dd",
+      "host": "durable",
+      "title": "Session 55 — Mods and desktop updater",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791287832,
+      "updatedAt": "2026-10-06T11:57:12.000Z",
+      "currentTask": "p5 signed Mac proof blocked; p6 READY",
+      "workProof": "idle in latest audit; explicit independent-unclaimed-POOL continuation request delivered; continuation request delivered; no new turn receipt supplied",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7e-b5e0-712c-8a1a-8f200ba3d0fa",
+      "host": "durable",
+      "title": "Session 44 — Redistricting",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791287784,
+      "updatedAt": "2026-10-06T11:56:24.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e1b-4144-7057-8954-7bade681d03a",
+      "host": "durable",
+      "title": "Session 5 — Simulation performance and history",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791287280,
+      "updatedAt": "2026-10-06T11:48:00.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9b-9cb5-77fa-8f8b-0b0ee92040c5",
+      "host": "durable",
+      "title": "Session 48 — Economy and news data",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791287068,
+      "updatedAt": "2026-10-06T11:44:28.000Z",
+      "currentTask": "b22-p5/p6",
+      "workProof": "fresh claims in board comments 6016790368 and 6016809471; exact execution receipt details not supplied",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7d-ce1e-7092-a0b2-cc3a308050dc",
+      "host": "durable",
+      "title": "Session 38 — Executive orders and emergencies",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791275446,
+      "updatedAt": "2026-10-06T08:30:46.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9b-39d0-754b-9d4b-2b4e8dec00e9",
+      "host": "durable",
+      "title": "Session 46 — Citizen actions",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791270207,
+      "updatedAt": "2026-10-06T07:03:27.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f8b-a89a-7535-9a15-555fe39ad0ec",
+      "host": "durable",
+      "title": "Session 9 — Ordinance bill paper (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791269234,
+      "updatedAt": "2026-10-06T06:47:14.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f71-c6e4-7560-9d8f-ceefb28330e1",
+      "host": "durable",
+      "title": "Session 28 — Constituents",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791267944,
+      "updatedAt": "2026-10-06T06:25:44.000Z",
+      "currentTask": "T5 Vitest route",
+      "workProof": "waiting for exact Vitest handle; queried (coordinator-reported; no exact receipt timestamp/head supplied)",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f72-2817-7507-b8d1-923fc26f50f4",
+      "host": "durable",
+      "title": "Session 30 — Vote bargaining",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791266794,
+      "updatedAt": "2026-10-06T06:06:34.000Z",
+      "currentTask": "P6 draft PR #2522; current-main stack file edit",
+      "workProof": "active; exact head/time not supplied (coordinator-reported; no exact receipt timestamp/head supplied)",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f71-42b0-77bd-a1a3-f2a6317800f9",
+      "host": "durable",
+      "title": "Session 26 — Petition signatures",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791265884,
+      "updatedAt": "2026-10-06T05:51:24.000Z",
+      "currentTask": "library part PR #2544 / curriculum integration",
+      "workProof": "curriculum blocked by missing EntityKind and shared fundedServiceFixture failure; separate library PR reported blocked (coordinator-reported; no exact receipt timestamp/head supplied)",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f9b-f92e-757d-8dbf-38b404db50df",
+      "host": "durable",
+      "title": "Session 50 — Council meeting summaries",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791265689,
+      "updatedAt": "2026-10-06T05:48:09.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10fa6-480e-7085-9911-cee5d7cc00df",
+      "host": "durable",
+      "title": "Session 56 — Legislative engine (second chat)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791265457,
+      "updatedAt": "2026-10-06T05:44:17.000Z",
+      "currentTask": "b32-p4 legislative engine",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f8b-efb0-72a4-9291-454a0fc630ca",
+      "host": "durable",
+      "title": "Session 12 — Observer and place exceptions (Luna)",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791265085,
+      "updatedAt": "2026-10-06T05:38:05.000Z",
+      "currentTask": "Creator-walker repair (Optional settings: Keep defaults) plus random-place proof rerun",
+      "workProof": "coordinator reports measured repair and command/proof rerun; exact timestamp/head unavailable",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7d-9fd7-75ce-bcd1-5d5d80a9d0cd",
+      "host": "durable",
+      "title": "Session 37 — Scandals and press record",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791264911,
+      "updatedAt": "2026-10-06T05:35:11.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7e-9410-7256-ac88-6ae1b17410d0",
+      "host": "durable",
+      "title": "Session 43 — Investigations and opposition research",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791264376,
+      "updatedAt": "2026-10-06T05:26:16.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10f7e-a4a2-72dc-a600-b17bec6d20f8",
+      "host": "durable",
+      "title": "Session 42 — Judge play",
+      "appStatus": "active",
+      "updatedAtEpoch": 1791264375,
+      "updatedAt": "2026-10-06T05:26:15.000Z",
+      "currentTask": "unknown; app title is a label, not verified task",
+      "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e3b-e0b5-73c3-8b88-2502ee0b4033",
+      "host": "durable",
+      "title": "Session 19 — Law schema, applicability and coverage",
+      "appStatus": "idle",
+      "updatedAtEpoch": 1791292296,
+      "updatedAt": "2026-10-06T13:11:36.000Z",
+      "currentTask": "unknown; exact assignment not supplied",
+      "workProof": "unknown pending turn/tool receipt",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e3b-730b-73da-86f3-43a1d52d603e",
+      "host": "durable",
+      "title": "Session 17 — Environment, transport and agriculture",
+      "appStatus": "idle",
+      "updatedAtEpoch": 1791292176,
+      "updatedAt": "2026-10-06T13:09:36.000Z",
+      "currentTask": "unknown; exact assignment not supplied",
+      "workProof": "unknown pending turn/tool receipt",
+      "latestReceiptAt": "unknown"
+    }
+  ],
+  "activityAudit": [
+    {
+      "session": 11,
+      "task": "BG-65; current-main rebase and command completed",
+      "state": "active; command completed",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 33,
+      "task": "committee adapter file change",
+      "state": "change completed",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 27,
+      "task": "random-place browser surfaced self-helper defect; ask/list regression repair",
+      "state": "repair active",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 37,
+      "task": "law exposure file change",
+      "state": "change completed",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 40,
+      "task": "LW18 claim/source command",
+      "state": "command completed",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 41,
+      "task": "parks actual outturn serialization/reload and idempotence",
+      "state": "focused proof 2/2 PASS; broader checks active",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 51,
+      "task": "b27-p1 PR #2518; p3 source integration",
+      "state": "p1 published; p3 active",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "short head d945b62e9 previously reported; current exact head unverified",
+      "source": "board plus coordinator audit"
+    },
+    {
+      "session": 46,
+      "task": "p5 random Aaronsburg proof and independent parts",
+      "state": "proof published; independent parts active",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 38,
+      "task": "P5/P6 stack and successor handoff",
+      "state": "working",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 12,
+      "task": "Creator-walker repair (Optional settings: Keep defaults) and random-place proof rerun",
+      "state": "measured command receipt and random-place proof rerun supplied; prior OOM wait superseded",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 50,
+      "task": "one-worker rerun after exit 137",
+      "state": "rerun queried; result not supplied",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 43,
+      "task": "B15 producer",
+      "state": "discovery only; asked for actual producer; no implementation receipt",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity audit"
+    },
+    {
+      "session": 18,
+      "task": "next independent item after blocked terminal goal",
+      "state": "new turn in progress; no activity receipt yet",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 3,
+      "task": "Kit13 menu concepts; Drive 00g dispatch read",
+      "state": "discovery active; command and Drive read completed; no implementation yet",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator execution-marker audit; reported, not independently re-executed"
+    },
+    {
+      "session": 16,
+      "task": "current assignment; rebase from 68c8 to 8b0a877",
+      "state": "command completed; focused gates in progress; exact command/head not supplied",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator execution-marker audit; reported, not independently re-executed"
+    },
+    {
+      "session": 31,
+      "task": "LW17 person landings",
+      "state": "coordinator reports 56/56 local and type/import(798) PASS; positive minimum-sentence test publication next; exact proof artifact/time not supplied",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "2504c9b244b9 (as supplied; not independently resolved)",
+      "source": "latest coordinator execution-marker audit; reported, not independently re-executed"
+    },
+    {
+      "session": 52,
+      "task": "SNAP integration",
+      "state": "actual 30-second timeout observed; rerun live; routed to current-main #2470 fixture fix rather than duplicate old type failure",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator execution-marker audit; reported, not independently re-executed"
+    },
+    {
+      "session": 48,
+      "task": "PR #2465 at 054d57b",
+      "state": "audit SUCCESS at 2026-10-06T12:50:10Z; repo/unit checks queued",
+      "receiptTimestamp": "2026-10-06T12:50:10Z",
+      "exactHead": "054d57b (short head supplied)",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 57,
+      "task": "traits; T9 facet work",
+      "state": "draft PR #2539 at 5cfd66c reported; next distinct open trait",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "short head 5cfd66c",
+      "source": "board comment 6016625228 and user-provided assignment"
+    },
+    {
+      "session": 48,
+      "task": "#2540 declaration repair and #2465 SP-A",
+      "state": "idle after declaration repair; #2465 merged",
+      "receiptTimestamp": "2026-10-06T12:45:52Z for #2465 merge",
+      "exactHead": "#2540 short head ad26b7b; #2465 merge f7cdc693",
+      "source": "new coordinator audit; no check-pass inference"
+    },
+    {
+      "session": 55,
+      "task": "p5 signed Mac proof; p6",
+      "state": "p5 blocked; p6 READY; now idle after explicit independent-item continuation request",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "new coordinator activity audit"
+    },
+    {
+      "session": 24,
+      "task": "#2484 rebase and Part 3 evidence question",
+      "state": "idle after rebase/question; continuation request delivered",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "#2484 exact head not supplied in this delta",
+      "source": "new coordinator activity audit"
+    },
+    {
+      "session": 20,
+      "task": "#2529 authoritative 240-local result and #2510 closed",
+      "state": "hosted check pending; now idle after continuation request",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "new coordinator activity audit"
+    },
+    {
+      "session": 105,
+      "task": "BG-53 running-for-office item",
+      "state": "claimed on board; handle/host not mapped",
+      "receiptTimestamp": "board comment 6016741814; exact comment time not supplied",
+      "exactHead": "not applicable",
+      "source": "board comment"
+    },
+    {
+      "session": 26,
+      "task": "library part PR #2544 / curriculum integration",
+      "state": "curriculum blocked by missing EntityKind and shared fundedServiceFixture failure; separate library PR reported blocked",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 28,
+      "task": "T5 Vitest route",
+      "state": "waiting for exact Vitest handle; queried",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 29,
+      "task": "B07 P3 draft PR #2536; P2 active",
+      "state": "current-main fixture fix routed; exact head/time not supplied",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 30,
+      "task": "P6 draft PR #2522; current-main stack file edit",
+      "state": "active; exact head/time not supplied",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 36,
+      "task": "adapter test / canonical entity publication",
+      "state": "test exit 1 due missing fixture; evidence-artifact case passes; repair directed",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 39,
+      "task": "T13 expression chooser",
+      "state": "focused/type checks and retained processes reported working",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 20,
+      "task": "consumer handoff; resumed LW11 and ownership reconciliation",
+      "state": "handoff completed; reconciliation request active; LW-05 ownership unresolved with Sessions 9/20 until explicit old-artifact/handoff",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator audit"
+    },
+    {
+      "session": 48,
+      "task": "b22-p5/p6",
+      "state": "fresh claims posted",
+      "receiptTimestamp": "board comments 6016790368 and 6016809471; exact timestamps not independently read",
+      "exactHead": "not supplied",
+      "source": "latest coordinator audit"
+    },
+    {
+      "session": 20,
+      "task": "#2529 exact-head CI",
+      "state": "repository job 112274399135 FAILED changed-file Prettier in generate-manifest.test.mjs and enacted-law-effects.ts; correction delivered to Session20; unit job still live; 240-local result separate",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "a4087a5",
+      "source": "coordinator audit; repository log independently retrieved per report"
+    },
+    {
+      "session": 23,
+      "task": "#2452 inbox / current-main composition",
+      "state": "OPEN at e07bb13; conflicting; repository/validate failures were 08:33 UTC; CTO directs current-main composition in existing branch, resolve inbox seam, publish new head and actual rerun",
+      "receiptTimestamp": "board root comment 2026-10-06T13:02:38Z; old failing runs 08:33 UTC",
+      "exactHead": "e07bb13 (short head from coordinator)",
+      "source": "board comment 6016855352"
+    },
+    {
+      "session": 20,
+      "task": "#2529 a4087a5 hosted CI",
+      "state": "repository job 112274399135 FAILED at 12:57:05 UTC; changed-file Prettier in generate-manifest.test.mjs and enacted-law-effects.ts; unit job active at 13:01:56 UTC; failing logs unavailable while run live; 240-local PASS is separate; correction delivered",
+      "receiptTimestamp": "repo failure 2026-10-06T12:57:05Z; unit active 2026-10-06T13:01:56Z",
+      "exactHead": "a4087a5",
+      "source": "board comment 6016855352 plus coordinator correction"
+    },
+    {
+      "session": 56,
+      "task": "original legislative-engine chat resumed on independent fresh work",
+      "state": "original resumed; exact fresh item unknown; second active chat preserved; b32-p4 identity requested before overlap",
+      "receiptTimestamp": "board root comment 2026-10-06T13:02:38Z",
+      "exactHead": "not supplied",
+      "source": "board comment 6016855352"
+    },
+    {
+      "session": 26,
+      "task": "capacity-service terminal failure / resume",
+      "state": "terminal FAILED; resume request sent on same existing work, no model or workspace change",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 16,
+      "task": "#2573 health consumer / routing",
+      "state": "terminally blocked on obsolete #2052 route after reported 140-local PASS; current #2424 route and independent next work delivered",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 21,
+      "task": "#2547 controlled proof",
+      "state": "terminal draft; controlled-proof-only; random-place proof resume delivered",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 47,
+      "task": "#2415 scene-composer and 20-year proof",
+      "state": "terminal; proof pending; retained handle and independent work requested",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 9,
+      "task": "LW05 overlap",
+      "state": "explicit hold; independent next work sent; LW05 ownership unresolved pending explicit handoff",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 20,
+      "task": "#2529 format correction",
+      "state": "correction published at f728f910; fresh exact-head audit queued; checks not PASS",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "f728f910",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 55,
+      "task": "P1 schema validation",
+      "state": "command completed; supersedes prior idle/no-output state",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 49,
+      "task": "two-day random-locale engine multi-life packet",
+      "state": "command completed; batch publication pending",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 15,
+      "task": "Steam",
+      "state": "newly visible idle; parked and not pinged",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not applicable",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 25,
+      "task": "producer contract PR #2599",
+      "state": "published at a9343fc; exact API/head/readiness routed to Sessions36/42; local tests 14 PASS, type and hosted checks pending, runtime acceptance absent",
+      "receiptTimestamp": "board comment 6016934132",
+      "exactHead": "a9343fc",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 5,
+      "task": "read-only census diagnostic",
+      "state": "terminal EXIT 0; published; precise one-capped late-boundary replay question sent to Claude; no live-processor new run claimed",
+      "receiptTimestamp": "board comment 6016919404",
+      "exactHead": "d52e48da",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 56,
+      "task": "LW02 claim",
+      "state": "claim may overlap Session14 known owner; explicit handoff requested from both; overlap held",
+      "receiptTimestamp": "board comment 6016919458",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 48,
+      "task": "P6 PR #2601",
+      "state": "published; reported local fixture errors are stale relative to published base; source-blob comparison requested",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 57,
+      "task": "PR #2565 trait reader registry",
+      "state": "head 17528bb composes #2598 registry entry and actual brazen reader; local 7/7 PASS; production pack/browser pending",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "17528bb",
+      "source": "coordinator-provided handoff closure"
+    },
+    {
+      "session": 43,
+      "task": "canonical prosecutor fixture handoff to Session42",
+      "state": "delivered; LOCAL/STAGED exact-main composition, no published head",
+      "receiptTimestamp": "board comment 6016958194",
+      "exactHead": "not published",
+      "source": "coordinator-provided handoff closure"
+    },
+    {
+      "session": 13,
+      "task": "browser 18369/r3 Difficulty-before-Begin failure",
+      "state": "minimal stage-aware helper repair routed to shared writer Session7",
+      "receiptTimestamp": "browser receipt 18369/r3",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided handoff closure"
+    },
+    {
+      "session": 28,
+      "task": "seven B06 PRs current-main composition",
+      "state": "local type 800 PASS; broad Vitest terminal 130 NOT PASS; Save/Continue/screenshots open",
+      "receiptTimestamp": "board comment 6016958299",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided handoff closure"
+    },
+    {
+      "session": 14,
+      "task": "menu proof and LW02 ownership handoff",
+      "state": "two viewport menu proof working; LW02 handoff reply pending; stale-owner release not confirmed",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided handoff closure"
+    },
+    {
+      "session": 9,
+      "task": "LW05",
+      "state": "sole writer and unblocked after explicit Session20 ownership release; release verified and delivered",
+      "receiptTimestamp": "board comment 6016909878",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided ownership closure"
+    },
+    {
+      "session": 14,
+      "task": "LW02 ownership",
+      "state": "explicitly retains ownership; Session56 hold confirmed and instructed",
+      "receiptTimestamp": "board comment 6016985693",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided ownership closure"
+    },
+    {
+      "session": 56,
+      "task": "LW06 claim",
+      "state": "new claim conflicts with last-known Session30 owner; exact Session30 artifact/handoff queried; overlap held",
+      "receiptTimestamp": "board comment 6016978603",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided ownership closure"
+    },
+    {
+      "session": 21,
+      "task": "shared release gate on #2547",
+      "state": "resolved; Session8 diagnosed identical corrected blob on main and #2547; exact PR-range PASS; no repair needed; continuation of proof notified",
+      "receiptTimestamp": "board comment 6016968574",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided ownership closure"
+    },
+    {
+      "session": 49,
+      "task": "ENGINE English generated batch",
+      "state": "independently read command exec-aaab6fc4 EXIT 0 in 8.46 seconds; produced ONE Greasewood, Arizona opening world with 9,413 people and presentPeople=[]; temporary runner removed; no confirmed live 20-world batch or 20–40-line output; requested actual batch handle and next reachable engine encounter",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided evidence correction with independently read command result"
+    },
+    {
+      "session": 2,
+      "task": "original 2 exact ownership and browser proof",
+      "state": "exact ownership 6016994640 fully merged/no UI writer; actual local composition 7 tests and type PASS; browser storage failed at 299 MiB short/private art missing; no browser PASS; current 2 counterpart owns #2469 only",
+      "receiptTimestamp": "ownership reference 6016994640; exact receipt times not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided ownership and proof audit"
+    },
+    {
+      "session": 49,
+      "task": "published meaningful-English artifact #2606",
+      "state": "board reports actual 20 lives across 2 days, 19 conversations, 23 saved turns, 20 verbatim lines; 0/23 composition keys; personality/relationship/stable-event facts missing; docket route unknown; NOT READY; exact PR head/source check next",
+      "receiptTimestamp": "board comment 6017032288",
+      "exactHead": "unknown pending exact PR head/source check",
+      "source": "board publication report"
+    },
+    {
+      "session": 12,
+      "task": "observer proof #2190 and #2298",
+      "state": "#2190 READY at eda7f9c; #2298 blocked at 096c6e with OOM and summary absent; gates queued; narrow proof is not whole-observer acceptance",
+      "receiptTimestamp": "board comment 6017034469",
+      "exactHead": "#2190 eda7f9c; #2298 096c6e",
+      "source": "coordinator-provided activity delta"
+    }
+  ],
+  "coordinatorChat": {
+    "session": 10,
+    "id": "01a10e3a-0cc5-71b3-812c-48715915742c",
+    "host": "local",
+    "title": "Session 10 — Coordinator",
+    "status": "active; confirmed current coordinator, not separate reactivated coordinator",
+    "identity": "current coordinator chat per inventory"
+  },
+  "unreturnedChats": {
+    "sessionNumbers": [
+      67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84,
+      85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102,
+      103, 104, 105, 106, 107, 108, 109
+    ],
+    "status": "not returned by current 50-chat list",
+    "handles": "unknown",
+    "coordinatorReactivatedChat": "not identified; Session 10 is confirmed current coordinator, not the separate reactivated chat"
+  },
+  "reactivatedCoordinatorChat": {
+    "id": "unknown",
+    "host": "unknown",
+    "title": "unknown",
+    "status": "not found in supported 49-row inventory or checked recent board handoff"
+  },
+  "newAssignments": [
+    {
+      "session": 24,
+      "task": "deliberation trait reader registry entry",
+      "source": "CTO note 6016713632",
+      "state": "routed; exact handle not resolved"
+    },
+    {
+      "session": 54,
+      "task": "rewrite hotbed campus generator over cited-source scoring rule; campus migration",
+      "source": "CTO send-back 6016670438 as referenced by coordinator audit",
+      "state": "routed; exact activity receipt pending"
+    },
+    {
+      "session": 32,
+      "task": "B09 Lie ClaimRecord and roll-call contradiction route",
+      "source": "CTO answer 6016732670",
+      "state": "routed; exact activity receipt pending"
+    },
+    {
+      "session": 105,
+      "task": "BG-53",
+      "source": "board comment 6016741814",
+      "state": "claimed; chat ID/host unknown"
+    }
+  ],
+  "mergeAndCheckNotes": [
+    {
+      "pr": 2449,
+      "mergeCommit": "5ea3cee2",
+      "state": "merged",
+      "checks": "source CI queued/running; not a PASS"
+    },
+    {
+      "pr": 2452,
+      "state": "open; conflicting at e07bb13; compose current main and rerun required",
+      "mergeCondition": "merge only if rerun is green"
+    },
+    {
+      "pr": 2458,
+      "state": "merged at e597ec933; checks not inferred PASS",
+      "mergeCondition": "merge only if rerun is green"
+    },
+    {
+      "pr": 2466,
+      "state": "merged",
+      "mergeCondition": "merge only if rerun is green",
+      "mergeCommit": "fac1af7",
+      "checks": "pending/unknown; do not infer PASS"
+    },
+    {
+      "pr": 2549,
+      "state": "open; documentation-only roster reconciliation",
+      "head": "d9fa7ad194e0174c91946be2c4a17c0daa610d24",
+      "checks": "not reported"
+    },
+    {
+      "pr": 2529,
+      "head": "f728f910",
+      "repositoryJob": "format correction published",
+      "freshAudit": "queued",
+      "checks": "not PASS"
+    },
+    {
+      "pr": 2448,
+      "head": "03ab658e",
+      "state": "fresh head; mergeable; audit queued",
+      "checks": "queued, not PASS"
+    },
+    {
+      "pr": 2452,
+      "state": "open; old conflict remains",
+      "checks": "current rerun/head not supplied"
+    }
+  ],
+  "handoffs": [
+    {
+      "from": 12,
+      "to": 41,
+      "request": "exact CMS/FDIC candidate request",
+      "state": "delivered via supported app tools; implementation/publication/runtime pending",
+      "source": "board comment 6016855352"
+    },
+    {
+      "from": 25,
+      "to": 36,
+      "request": "charge-producer contract",
+      "state": "delivered via supported app tools; implementation/publication/runtime pending",
+      "source": "board comment 6016855352"
+    },
+    {
+      "from": 25,
+      "to": 42,
+      "request": "charge-producer contract",
+      "state": "delivered via supported app tools; implementation/publication/runtime pending",
+      "source": "board comment 6016855352"
+    },
+    {
+      "from": 9,
+      "to": 20,
+      "request": "LW-05 ownership handoff",
+      "state": "requested; keep unresolved pending explicit old-artifact/handoff",
+      "source": "board comment 6016855352"
+    },
+    {
+      "from": 56,
+      "to": "b32-p4 owner",
+      "request": "identity confirmation between original and active second chat",
+      "state": "requested; keep both writers distinct",
+      "source": "board comment 6016855352"
+    },
+    {
+      "from": 20,
+      "to": 9,
+      "request": "LW05 ownership release",
+      "state": "explicit release verified; Session9 now sole writer and unblocked",
+      "source": "board comment 6016909878"
+    },
+    {
+      "from": 56,
+      "to": 30,
+      "request": "LW06 exact artifact/handoff confirmation",
+      "state": "queried; overlap held pending response",
+      "source": "board comment 6016978603"
+    },
+    {
+      "from": 8,
+      "to": 21,
+      "request": "shared release gate diagnosis",
+      "state": "resolved by identical corrected blob on main/#2547 and exact PR-range PASS; continue proof",
+      "source": "board comment 6016968574"
+    }
+  ]
+}

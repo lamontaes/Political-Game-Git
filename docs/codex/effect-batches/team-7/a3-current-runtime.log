@@ -1,0 +1,23 @@
+
+ RUN  v4.1.1 /private/tmp/team7-county-source-intake-02
+
+ ❯ scripts/engine-proof/parity.test.ts (0 test)
+ ✓ src/simulation/day-caller-child-parity.test.ts (3 tests) 630ms
+     ✓ preserves formative projections and the exact minute survivor  415ms
+ ✓ src/simulation/day-caller-migration.test.ts (5 tests) 383ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/engine-proof/parity.test.ts [ scripts/engine-proof/parity.test.ts ]
+Error: ENOENT: no such file or directory, open '/Users/lamontae/Documents/PG-LAND/scripts/engine-proof/baseline-date-route.ts'
+ ❯ ../../../Users/lamontae/Documents/PG-LAND/scripts/engine-proof/parity.test.ts:45:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  8 passed (8)
+   Start at  12:16:51
+   Duration  45.18s (transform 33.31s, setup 0ms, import 7.35s, tests 1.01s, environment 0ms)
+
+JSON report written to /private/tmp/team7-county-source-intake-02/a3-current-runtime.json

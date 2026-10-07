@@ -1,0 +1,18 @@
+/* The same saved full figure shown for the President and Vice President. */
+.pg-opening-roster-person,
+.pg-opening-represented-person {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.pg-opening-roster-figure {
+  width: clamp(64px, 7vw, 96px);
+  flex: 0 0 auto;
+}
+.pg-opening-roster-person .pg-orientation-person {
+  min-width: 0;
+}
+.pg-opening-represented-person .pg-government-holder {
+  overflow-wrap: anywhere;
+}

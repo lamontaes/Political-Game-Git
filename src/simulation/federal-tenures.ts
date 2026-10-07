@@ -1,4 +1,5 @@
 import { makeIsoDate } from "./dates";
+import { growingIndex, type GrowingIndexKind } from "./history-index";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
 
 /**
@@ -43,6 +44,34 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
   return tag ? tag.slice(prefix.length) : null;
 }
 
+// Transient read index: old saves need no new fields. The shared append index
+// extends proven history prefixes and rebuilds older or unrelated snapshots.
+// Groups stay private, so extending one cannot change a returned event.
+const FEDERAL_OFFICE_RECORDS: GrowingIndexKind<
+  Map<FederalTenureOfficeKey, HistoricalEvent[]>
+> = {
+  create: () => new Map(),
+  add(index, record) {
+    const event = record as HistoricalEvent;
+    if (
+      event.type !== FEDERAL_TENURE_EVENT &&
+      event.type !== FEDERAL_VACANCY_EVENT
+    )
+      return;
+    for (const officeKey of Object.keys(
+      FIXED_TERMS,
+    ) as FederalTenureOfficeKey[]) {
+      if (!event.tags.includes(`office:${officeKey}`)) continue;
+      let records = index.get(officeKey);
+      if (!records) {
+        records = [];
+        index.set(officeKey, records);
+      }
+      records.push(event);
+    }
+  },
+};
+
 /** When the term a tenure record opened ends. */
 export function federalTenureEnd(
   officeKey: FederalTenureOfficeKey,
@@ -65,14 +94,9 @@ export function latestFederalOfficeRecord(
   asOf: IsoDate = world.currentDate,
 ): HistoricalEvent | null {
   let latest: HistoricalEvent | null = null;
-  for (const event of world.history.events) {
-    if (
-      (event.type !== FEDERAL_TENURE_EVENT &&
-        event.type !== FEDERAL_VACANCY_EVENT) ||
-      !event.tags.includes(`office:${officeKey}`) ||
-      event.occurredAt > asOf
-    )
-      continue;
+  const records = growingIndex(FEDERAL_OFFICE_RECORDS, world.history.events);
+  for (const event of records.get(officeKey) ?? []) {
+    if (event.occurredAt > asOf) continue;
     if (
       !latest ||
       event.occurredAt > latest.occurredAt ||

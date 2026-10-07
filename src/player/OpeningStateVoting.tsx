@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { GameSelect } from "./controls/GameSelect";
 import {
   queryStateVotingContext,
+  NO_SURVEY_TOTAL_REASON,
   type CpsVotingCell,
   type StateVotingContext,
 } from "../presentation/state-voting-context";
+import { NATIONAL_REPORTED_VOTING_2024 } from "../presentation/opening-state-estimates";
 
 type Breakdown = "sex" | "age" | "raceAndHispanicOrigin";
 
@@ -69,10 +71,16 @@ export function OpeningStateVoting({
       <h3>Reported voting · November 2024</h3>
       {!totals ? (
         <p role="status">
-          {ready?.unavailableReason ??
-            (!stateUsps || failed === key
-              ? "Voting survey information is unavailable."
-              : "Loading voting survey information…")}
+          {(ready?.unavailableReason !== NO_SURVEY_TOTAL_REASON
+            ? ready?.unavailableReason
+            : null) ??
+            (stateUsps
+              ? `Estimated from the national average: about ${Math.round(NATIONAL_REPORTED_VOTING_2024.votedPercent)}% of citizen adults said they voted${
+                  failed === key || ready
+                    ? "."
+                    : ". The survey for this state replaces it when it arrives."
+                }`
+              : "Voting survey information is unavailable.")}
         </p>
       ) : (
         <>

@@ -1,0 +1,13 @@
+[
+  {
+    "artifactId": "wa-constitution-full",
+    "requestedUrl": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+    "retrievedAt": "2026-10-02T12:02:03.243878+00:00",
+    "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 1939842,
+    "sha256": "5f46f377eee219c6bbf8bae1761f97f5a6f2a196ed2a847ddc78ee322a76e8ff",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/wa-constitution-full.pdf"
+  }
+]

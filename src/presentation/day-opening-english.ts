@@ -1,3 +1,4 @@
+import { speakerTraits } from "./speaker-traits";
 import { daysBetween } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
@@ -69,7 +70,7 @@ const SOMETHING_WAITING = variants("something-waiting", [
   "The list has {{waiting}} on it.",
   "{{waiting}} waiting on you.",
   "{{waiting}} to see to.",
-  "{{waiting}} nobody else is going to do.",
+  "{{waiting}} waiting for an answer.",
 ]);
 
 /** Who is home. Three lines. */
@@ -165,7 +166,7 @@ export function dayOpeningLine(
     facts: factRows,
     // Every fact here is the viewer's own: their clock, their town, their
     // list and their household. They know each from the record it came from.
-    viewer: { personId, traits: {} },
+    viewer: { personId, traits: speakerTraits(world, personId) },
     knowledge: Object.entries(factRows).map(([factKey, fact]) => ({
       personId,
       factKey,

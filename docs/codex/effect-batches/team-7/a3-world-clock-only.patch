@@ -1,0 +1,82 @@
+--- a/src/simulation/world.ts
++++ b/src/simulation/world.ts
+@@ -10 +10,2 @@
+-import { applyDateBoundary } from "./time-work";
++import { advanceWorldMinutes } from "./time-work";
++import { composeWorldTimeHandlers } from "./campaigns";
+@@ -75,0 +77 @@
++  simulationMinutesBetween,
+@@ -131 +132,0 @@
+-  EMPTY_FUTURE_TRANSITION_HANDLERS,
+@@ -136 +136,0 @@
+-  resolveFutureDueItemsThrough,
+@@ -1385,0 +1386 @@
++/** Compatibility day entry; the canonical minute clock owns completion. */
+@@ -1389 +1390 @@
+-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
++  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
+@@ -1396,6 +1397,5 @@
+-
+-  assertWorldIntegrity(world);
+-  // Every writer inside a day advance skips the whole-world check; the
+-  // advanced World is checked once at the end, as a clock press is.
+-  return advanceWithWorldIntegrityAtEnd(
+-    () => advanceWorldUnchecked(world, days, transitionHandlers),
++  const target = simulationMomentOnLocalDate(
++    world.currentMoment,
++    addDays(world.currentDate, days),
++  );
++  return advanceWorldMinutes(
+@@ -1403,15 +1403 @@
+-  );
+-}
+-
+-function advanceWorldUnchecked(
+-  world: World,
+-  days: number,
+-  transitionHandlers: FutureTransitionHandlerRegistry,
+-): World {
+-  const actionSequence = world.actionSequence;
+-  const nextDate = addDays(world.currentDate, days);
+-  const nextMoment = simulationMomentOnLocalDate(world.currentMoment, nextDate);
+-  const primaryJurisdictionId = world.jurisdictionOrder[0] ?? null;
+-  const transitioned = resolveFutureDueItemsThrough(
+-    world,
+-    nextDate,
++    simulationMinutesBetween(world.currentMoment, target),
+@@ -1420,35 +1405,0 @@
+-  const advanced: World = {
+-    ...transitioned,
+-    currentDate: nextDate,
+-    currentMoment: nextMoment,
+-    actionSequence: actionSequence + 1,
+-  };
+-
+-  const continued = applyDateBoundary(world.currentDate, advanced);
+-  return recordWorldEvent(continued, {
+-    stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
+-    type: "simulation.time-advanced",
+-    occurredAt: nextDate,
+-    recordedAt: nextDate,
+-    jurisdictionId: primaryJurisdictionId,
+-    involvedEntityIds: primaryJurisdictionId ? [primaryJurisdictionId] : [],
+-    participants: [],
+-    personFactConstraints: [],
+-    visibility: "public",
+-    tags: ["simulation.time"],
+-    summary: `Simulation time advanced ${days} days to ${nextDate}.`,
+-    context: {
+-      location: primaryJurisdictionId
+-        ? {
+-            jurisdictionId: primaryJurisdictionId,
+-            label: "Primary simulation jurisdiction",
+-            setting: null,
+-          }
+-        : null,
+-      socialContext: "Deterministic simulation clock transition.",
+-      pressure: null,
+-      choice: null,
+-      motivation: null,
+-      immediateReaction: null,
+-    },
+-  });

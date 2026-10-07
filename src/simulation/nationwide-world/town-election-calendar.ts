@@ -3,6 +3,7 @@ import type { IsoDate } from "../types";
 import { resolveMunicipalElectionTiming } from "../municipal-ballot-rules";
 import type { MunicipalBallotRuleBasis } from "../municipal-ballot-rules";
 import type { MunicipalElectionTiming } from "../municipal-election-rules";
+import { MEDIAN_FILING_GAP_DAYS } from "../nominations/filing-gap";
 
 /**
  * When a town's own governing body is next elected.
@@ -17,19 +18,24 @@ import type { MunicipalElectionTiming } from "../municipal-election-rules";
  * Which timing a town has is read through `resolveMunicipalElectionTiming`,
  * the one authorized reader of the state packs, and carries its label: the
  * packs are unaudited, so a state's rule is `state-law-unverified`, and where
- * the law leaves the choice to each town with no default, the town's choice is
- * drawn from the options the law allows, stable per town.
+ * the law leaves the choice to each town with no default, the town takes the
+ * allowed option the most state packs name (`local-choice-estimated`).
  *
- * PLACEHOLDER, pending research question
+ * ESTIMATED FROM AVERAGE, pending research question
  * `town-election-calendar-from-state-municipal-law`: a filing must come at
- * least `FILING_LEAD_DAYS` before election day. Real filing deadlines have not
- * been read. The same number is the whole race where no date is known.
+ * least `FILING_LEAD_DAYS` before the first vote. No town's own filing
+ * deadline is read, so every town in all 56 places uses the national median
+ * candidate filing lead (`MEDIAN_FILING_GAP_DAYS`, 85 days in the FEC's 2026
+ * filing-deadline table; see `MEDIAN_FILING_GAP_SOURCE`). It replaces a
+ * blanket 28 days that no source backed. The same number is the whole race
+ * where no date is known.
  */
-export const FILING_LEAD_DAYS = 28;
+export const FILING_LEAD_DAYS: number = MEDIAN_FILING_GAP_DAYS;
+export { MEDIAN_FILING_GAP_SOURCE as FILING_LEAD_SOURCE } from "../nominations/filing-gap";
 
 export type TownElectionBasis = Exclude<
   MunicipalBallotRuleBasis,
-  "national-range-drawn"
+  "national-estimated"
 >;
 
 export interface TownElection {

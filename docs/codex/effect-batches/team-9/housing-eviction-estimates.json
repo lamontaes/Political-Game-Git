@@ -1,0 +1,56 @@
+{
+  "area": "housing-health",
+  "primarySource": "https://www.nber.org/system/files/working_papers/w30382/w30382.pdf",
+  "version": "August2022revisedJuly2023workingpaper",
+  "access": "PreservedprimaryPDFTablesVandVIIIre-read.",
+  "rows": [
+    {
+      "linkId": "eviction-to-homelessness",
+      "outcome": "Emergency shelter use indicator",
+      "followUpAfterFiling": "Year1",
+      "estimate": 0.034,
+      "standardError": 0.017,
+      "derivedNormal95CI": [0.00068, 0.06732]
+    },
+    {
+      "linkId": "eviction-to-homelessness",
+      "outcome": "Emergency shelter use indicator",
+      "followUpAfterFiling": "Year2",
+      "estimate": -0.001,
+      "standardError": 0.013,
+      "derivedNormal95CI": [-0.02648, 0.02448]
+    },
+    {
+      "linkId": "eviction-to-hospital-visits",
+      "outcome": "Nonpregnancyhospitalvisitcount",
+      "followUpAfterFiling": "Quarters1\u20134",
+      "estimate": 0.188,
+      "standardError": 0.094,
+      "derivedNormal95CI": [0.00376, 0.37224]
+    },
+    {
+      "linkId": "eviction-to-hospital-visits",
+      "outcome": "Nonpregnancyhospitalvisitcount",
+      "followUpAfterFiling": "Quarters5\u20138",
+      "estimate": -0.113,
+      "standardError": 0.142,
+      "derivedNormal95CI": [-0.39132, 0.16532]
+    }
+  ],
+  "tables": {
+    "shelter": "V,p41,equallyweightedCookCounty/NewYorkIVestimates",
+    "hospital": "VIII,p45,NewYorkonlyIVestimates"
+  },
+  "exposure": "Evictionorderamong marginal filed-case tenants,judge-stringencyinstrument. Not every residentialmove or eviction filing.",
+  "unit": "Shelter:absoluteprobabilitydifference. Hospital:additionalvisitcountpercoveredtenantduringfollow-up. Neitherrelativepopulationrate.",
+  "rangeMeaning": "Calculatednormal95CIfromreportedclusteredSE;not across-placeaverage spread or conditions bound.",
+  "conditions": [
+    "Shelterrecordcapturesobservedemergencyshelterstay,not allunshelteredhomelessness.",
+    "Hospitaloutcomeexcludespregnancy-relatedvisits.",
+    "Firstandsecondyearoutcomesremainseparate;uncertainnegativeyear2estimateisnotprovenreversal/nearzero.",
+    "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
+  ],
+  "runtimeGap": "Needmatchingevictionorderexposure,coveredtenantsandseparatefollow-uprecords/outcomeunits. Do notdividebywholecountyhomelessbaseline or apply perratepoint.",
+  "aboutZero": false,
+  "runtimeActivation": "NOTRUN;sharedmapcoordinatoronly"
+}

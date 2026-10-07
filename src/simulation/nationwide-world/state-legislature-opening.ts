@@ -1,3 +1,7 @@
+import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+} from "../invented-person-age";
 import { indexFollowingAppends } from "../history-index";
 import {
   applyCharacterHistoryPlan,
@@ -12,7 +16,7 @@ import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
 import { legislativeTermLimitInForce } from "./state-legislative-term-limits";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
@@ -51,6 +55,7 @@ import type {
 import {
   activeOrganizationParticipationsAt,
   currentLifeCutoff,
+  organizationProfileAt,
   workRoleAt,
   workStatusAt,
 } from "../life-queries";
@@ -76,6 +81,10 @@ import {
   recordById,
   recordsWithFieldValue,
 } from "../history-index";
+import {
+  institutionOfficeBindingAt,
+  recordInstitutionOfficeBinding,
+} from "../enacted-rule-changes";
 
 /**
  * A state legislature with a real person in every seat.
@@ -334,14 +343,29 @@ export interface SeatedChamberPlan {
   readonly atLargeSeats: number;
 }
 
+type StateChamberPlan = {
+  readonly chambers: readonly SeatedChamberPlan[];
+  readonly unseated: readonly { officeKey: string; reason: string }[];
+};
+
+// A plan reads only the pack and the static district catalog, so one plan per
+// pack object serves every day of every world, before and after a reload.
+const STATE_CHAMBER_PLANS = new WeakMap<CandidacyPack, StateChamberPlan>();
+
 /**
  * The size and districts of each chamber a state's pack describes, or the
  * reason a chamber cannot be seated. Pure; reads no world.
  */
-export function planStateChambers(pack: CandidacyPack): {
-  readonly chambers: readonly SeatedChamberPlan[];
-  readonly unseated: readonly { officeKey: string; reason: string }[];
-} {
+export function planStateChambers(pack: CandidacyPack): StateChamberPlan {
+  let plan = STATE_CHAMBER_PLANS.get(pack);
+  if (!plan) {
+    plan = buildStateChamberPlan(pack);
+    STATE_CHAMBER_PLANS.set(pack, plan);
+  }
+  return plan;
+}
+
+function buildStateChamberPlan(pack: CandidacyPack): StateChamberPlan {
   const usps = pack.jurisdictionKey.replace(/^US-/, "");
   const catalog = districtIdentityCatalog();
   const chambers: SeatedChamberPlan[] = [];
@@ -649,7 +673,9 @@ export function ensureStateLegislatureOpening(
         democraticShare = logistic(lean);
         party = democraticShare >= 0.5 ? "democratic" : "republican";
       }
-      const age = seatRng.integer(minimumAge + 7, 81);
+      const age = inventedPersonAge(seatRng, "sitting-legislator-at-opening", {
+        legalMinimumAge: minimumAge,
+      });
       // A state that limits its legislators' terms has no sitting member
       // past the limit: service so far is spread over the years under it
       // (the current term is part of it), not piled at the limit.
@@ -658,10 +684,12 @@ export function ensureStateLegislatureOpening(
         limitYears === null ? drawnYears : drawnYears % limitYears,
         Math.max(0, age - minimumAge - 1),
       );
-      const year = Number(date.slice(0, 4));
-      const birthDate = makeIsoDate(
-        `${year - age - 1}-${pad(seatRng.integer(1, 13))}-${pad(seatRng.integer(1, 29))}`,
-      );
+      const birthDate = inventedPersonBirthDate(seatRng, {
+        role: "sitting-legislator-at-opening",
+        referenceDate: date,
+        legalMinimumAge: minimumAge,
+        age,
+      });
       const serviceSince = addDays(date, -Math.max(1, yearsServed * 365));
       if (serviceSince < earliest.value) earliest.value = serviceSince;
       const identity = generatePersonIdentity(seatRng.fork("identity"));
@@ -800,6 +828,63 @@ export function ensureStateLegislatureOpening(
   next = createWorkRelationships(next, seats);
   next = createOrganizationParticipations(next, affiliations);
 
+  const institutionSeats = new Map<
+    string,
+    { organizationId: EntityId; tenureIds: EntityId[] }
+  >();
+  for (const member of stateLegislators(next, pack.packId)) {
+    const tenure = recordById(
+      next.history.workRelationships,
+      member.workRelationshipId,
+    );
+    if (!tenure?.organizationId)
+      throw new Error(
+        "State institution binding requires its saved seat tenure",
+      );
+    const existing = institutionSeats.get(member.officeKey);
+    if (existing && existing.organizationId !== tenure.organizationId)
+      throw new Error(
+        "State chamber seats disagree on their saved institution",
+      );
+    if (existing) existing.tenureIds.push(tenure.id);
+    else
+      institutionSeats.set(member.officeKey, {
+        organizationId: tenure.organizationId,
+        tenureIds: [tenure.id],
+      });
+  }
+  for (const [officeKey, institution] of institutionSeats) {
+    const organization = recordById(
+      next.history.organizations,
+      institution.organizationId,
+    );
+    const profile = organizationProfileAt(next, institution.organizationId);
+    if (!organization || !profile)
+      throw new Error(
+        "State institution binding requires its saved body profile",
+      );
+    const prior = institutionOfficeBindingAt(
+      next,
+      officeKey,
+      jurisdiction.id,
+      currentLifeCutoff(next),
+    );
+    next = recordInstitutionOfficeBinding(next, {
+      stableKey: `${STATE_LEGISLATURE_KEYS.opening(pack.packId)}:institution:${officeKey}`,
+      officeKey,
+      jurisdictionId: jurisdiction.id,
+      organizationId: organization.id,
+      effectiveAt: date,
+      supersedesBindingId: prior?.id ?? null,
+      sourceRecordIds: [
+        organization.id,
+        profile.id,
+        jurisdiction.id,
+        ...institution.tenureIds,
+      ],
+    });
+  }
+
   return recordWorldEvent(next, {
     stableKey: STATE_LEGISLATURE_KEYS.opening(pack.packId),
     type: "world.state-legislature-opening",
@@ -840,10 +925,6 @@ export function ensureStateLegislatureOpening(
       immediateReaction: null,
     },
   });
-}
-
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
 }
 
 /** "democratic" or "republican" for a national party's organization id. */

@@ -115,7 +115,7 @@ export interface LegislativeBargainingSubjectFacts {
   readonly programProvisionKey: string;
   readonly programSectionLabel: string;
   readonly programHeading: string;
-  readonly programReach: string;
+  readonly programReach: ProvisionReach;
   /** What the whole bill commits as it currently reads. */
   readonly billAmountLabel: string;
 
@@ -222,8 +222,8 @@ export interface LegislativeBargainingProgress {
  * dividing a shared project is not doing constituent casework.
  */
 export interface SchoolProjectSubjectFacts {
-  readonly work: "the part of the project nobody has started";
-  readonly deadline: "the end of next week";
+  readonly work: string;
+  readonly deadline: string;
 }
 
 export type SchoolProjectShare =
@@ -286,13 +286,16 @@ export interface LifeTalkConversationProgress {
   readonly silenceSettled: boolean;
 }
 
-export function createSchoolProjectProgress(): SchoolProjectConversationProgress {
+export function createSchoolProjectProgress(
+  subjectFacts: SchoolProjectSubjectFacts,
+): SchoolProjectConversationProgress {
+  if (!subjectFacts.work.trim() || !subjectFacts.deadline.trim())
+    throw new Error(
+      "A school project requires recorded work and deadline facts.",
+    );
   return {
     subject: "school-project-share",
-    subjectFacts: {
-      work: "the part of the project nobody has started",
-      deadline: "the end of next week",
-    },
+    subjectFacts,
     phase: "opening",
     share: "unsettled",
     latestProposition: null,
@@ -407,7 +410,7 @@ export function canListenToRunBConversation(
 ): boolean {
   return progress.pendingContributions.length > 0 || !progress.silenceSettled;
 }
-import type { EntityId, MetricSegmentKey } from "../simulation";
+import type { EntityId, MetricSegmentKey, ProvisionReach } from "../simulation";
 import type {
   LegislativeMotifFamily,
   LegislativeVoice,

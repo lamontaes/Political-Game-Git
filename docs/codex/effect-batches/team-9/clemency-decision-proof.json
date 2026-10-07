@@ -1,0 +1,347 @@
+{
+  "sourceHead": "09cecd50b05571fb5778d91a457ba7d57f7df5a6",
+  "testedMainComposition": "47fc344685efb46cbf539b882aa1934ea3186f70",
+  "decisionChecks": {
+    "passed": 12,
+    "total": 12,
+    "durationSeconds": 142.26,
+    "testFile": "src/simulation/justice/clemency-decision.test.ts",
+    "proofKind": "controlled historical saved-case fixtures; actual player action and NPC due handler; no natural campaign"
+  },
+  "clockChecks": {
+    "passed": 5,
+    "total": 5,
+    "runDurationSeconds": 86.91,
+    "testFile": "src/simulation/justice/clemency-clock.test.ts",
+    "limit": "Separate file PASS in a two-file run whose original decision fixture failed; not combined 15/15."
+  },
+  "coldNativeModuleExports": "PASS for actual governing player/NPC, targeted clemency and registry exports through node --import tsx",
+  "staticChecks": "five owned strict roots zero diagnostics; lint/format/diff/release/report PASS; zero-dice zero new, five inherited gone (FAIL)",
+  "receipts": [
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-IA",
+      "mode": "player",
+      "petitionerId": "person_715cf3d55e9f700c",
+      "name": "Marshall Stevenson",
+      "deciderId": "person_f2c244eff955f22b",
+      "deciderName": "Skyler Kennedy",
+      "petitionId": "event_7e15a5c2d4cc73e6",
+      "grantEventId": "event_e836d271538795cb"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-IA",
+      "mode": "npc",
+      "petitionerId": "person_715cf3d55e9f700c",
+      "name": "Marshall Stevenson",
+      "deciderId": "person_f2c244eff955f22b",
+      "petitionId": "event_7e15a5c2d4cc73e6",
+      "decisionEventId": "event_7a33bb6a6174f599",
+      "status": "denied"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-LA",
+      "mode": "player",
+      "petitionerId": "person_516983338dfbe392",
+      "name": "Colin Sims",
+      "deciderId": "person_4f619bc3300acc59",
+      "deciderName": "Xavier Summers",
+      "petitionId": "event_a8f74ca7ef0085de",
+      "grantEventId": "event_e00d572178f8bf43"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-LA",
+      "mode": "npc",
+      "petitionerId": "person_516983338dfbe392",
+      "name": "Colin Sims",
+      "deciderId": "person_4f619bc3300acc59",
+      "petitionId": "event_a8f74ca7ef0085de",
+      "decisionEventId": "event_7ec12a961ed410a2",
+      "status": "granted"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-TX",
+      "mode": "player",
+      "petitionerId": "person_db2a48be40f3c76d",
+      "name": "Hannah Miller",
+      "deciderId": "person_97cf1b48a2d28c38",
+      "deciderName": "Nina Hoffman",
+      "petitionId": "event_6cefbe1226a0a39c",
+      "grantEventId": "event_295db0f743c2d7a1"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-TX",
+      "mode": "npc",
+      "petitionerId": "person_db2a48be40f3c76d",
+      "name": "Hannah Miller",
+      "deciderId": "person_97cf1b48a2d28c38",
+      "petitionId": "event_6cefbe1226a0a39c",
+      "decisionEventId": "event_b9d67262d730d4bf",
+      "status": "denied"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-ND",
+      "mode": "player",
+      "petitionerId": "person_f690a61ea7adc601",
+      "name": "Stephen Jones",
+      "deciderId": "person_5cdde5affd59e954",
+      "deciderName": "Tariq Fitzgerald",
+      "petitionId": "event_6aa533a69283f930",
+      "grantEventId": "event_b7a686e4a536775d"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-ND",
+      "mode": "npc",
+      "petitionerId": "person_f690a61ea7adc601",
+      "name": "Stephen Jones",
+      "deciderId": "person_5cdde5affd59e954",
+      "petitionId": "event_6aa533a69283f930",
+      "decisionEventId": "event_3119871121a20ab1",
+      "status": "denied"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-NJ",
+      "mode": "player",
+      "petitionerId": "person_8b8301ce795558e3",
+      "name": "Warren Horton",
+      "deciderId": "person_87cf04cb468f6b88",
+      "deciderName": "Stephen Noel",
+      "petitionId": "event_235ab05414259d71",
+      "grantEventId": "event_564bf5eb3d7a84d0"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-NJ",
+      "mode": "npc",
+      "petitionerId": "person_8b8301ce795558e3",
+      "name": "Warren Horton",
+      "deciderId": "person_87cf04cb468f6b88",
+      "petitionId": "event_235ab05414259d71",
+      "decisionEventId": "event_a502bcbf4b9a5624",
+      "status": "denied"
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-CT",
+      "mode": "board-only",
+      "name": "Reese Lin",
+      "petitionerId": "person_c16b6750b3c3281e",
+      "petitionId": "event_ac4bca17b968e436",
+      "grantEventId": "event_b6be14ec4cc5ecfb",
+      "limit": "Existing unseated board case-record reader; no executive power or individual board-member decision is inferred."
+    }
+  ],
+  "remaining": [
+    "Composer source admission/native composition",
+    "Governor activation and late qualification callbacks",
+    "Opening/load clemency recovery",
+    "NPC request creation migration",
+    "Seeded replacement parity before weekly fallback removal",
+    "Inherited 30-day and half-sentence placeholder calibration"
+  ],
+  "currentMainCombinedRun": {
+    "sourceHead": "55c0d939f5b599de316d0f1d79ce1f1297cb0502",
+    "mainHead": "d687d7d6853df7bc127304ba30b477fa9740bca7",
+    "checksPassed": 17,
+    "checksTotal": 17,
+    "durationSeconds": 127.74,
+    "testFiles": [
+      "src/simulation/justice/clemency-decision.test.ts",
+      "src/simulation/justice/clemency-clock.test.ts"
+    ],
+    "command": "npx vitest run src/simulation/justice/clemency-decision.test.ts src/simulation/justice/clemency-clock.test.ts",
+    "decisionReceipts": [
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-IA",
+        "mode": "player",
+        "petitionerId": "person_715cf3d55e9f700c",
+        "name": "Marshall Stevenson",
+        "deciderId": "person_f2c244eff955f22b",
+        "deciderName": "Skyler Kennedy",
+        "petitionId": "event_7e15a5c2d4cc73e6",
+        "grantEventId": "event_e836d271538795cb"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-IA",
+        "mode": "npc",
+        "petitionerId": "person_715cf3d55e9f700c",
+        "name": "Marshall Stevenson",
+        "deciderId": "person_f2c244eff955f22b",
+        "petitionId": "event_7e15a5c2d4cc73e6",
+        "decisionEventId": "event_7a33bb6a6174f599",
+        "status": "denied"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-LA",
+        "mode": "player",
+        "petitionerId": "person_516983338dfbe392",
+        "name": "Colin Sims",
+        "deciderId": "person_4f619bc3300acc59",
+        "deciderName": "Xavier Summers",
+        "petitionId": "event_a8f74ca7ef0085de",
+        "grantEventId": "event_e00d572178f8bf43"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-LA",
+        "mode": "npc",
+        "petitionerId": "person_516983338dfbe392",
+        "name": "Colin Sims",
+        "deciderId": "person_4f619bc3300acc59",
+        "petitionId": "event_a8f74ca7ef0085de",
+        "decisionEventId": "event_7ec12a961ed410a2",
+        "status": "granted"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-TX",
+        "mode": "player",
+        "petitionerId": "person_db2a48be40f3c76d",
+        "name": "Hannah Miller",
+        "deciderId": "person_97cf1b48a2d28c38",
+        "deciderName": "Nina Hoffman",
+        "petitionId": "event_6cefbe1226a0a39c",
+        "grantEventId": "event_295db0f743c2d7a1"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-TX",
+        "mode": "npc",
+        "petitionerId": "person_db2a48be40f3c76d",
+        "name": "Hannah Miller",
+        "deciderId": "person_97cf1b48a2d28c38",
+        "petitionId": "event_6cefbe1226a0a39c",
+        "decisionEventId": "event_b9d67262d730d4bf",
+        "status": "denied"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-ND",
+        "mode": "player",
+        "petitionerId": "person_f690a61ea7adc601",
+        "name": "Stephen Jones",
+        "deciderId": "person_5cdde5affd59e954",
+        "deciderName": "Tariq Fitzgerald",
+        "petitionId": "event_6aa533a69283f930",
+        "grantEventId": "event_b7a686e4a536775d"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-ND",
+        "mode": "npc",
+        "petitionerId": "person_f690a61ea7adc601",
+        "name": "Stephen Jones",
+        "deciderId": "person_5cdde5affd59e954",
+        "petitionId": "event_6aa533a69283f930",
+        "decisionEventId": "event_3119871121a20ab1",
+        "status": "denied"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-NJ",
+        "mode": "player",
+        "petitionerId": "person_8b8301ce795558e3",
+        "name": "Warren Horton",
+        "deciderId": "person_87cf04cb468f6b88",
+        "deciderName": "Stephen Noel",
+        "petitionId": "event_235ab05414259d71",
+        "grantEventId": "event_564bf5eb3d7a84d0"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-NJ",
+        "mode": "npc",
+        "petitionerId": "person_8b8301ce795558e3",
+        "name": "Warren Horton",
+        "deciderId": "person_87cf04cb468f6b88",
+        "petitionId": "event_235ab05414259d71",
+        "decisionEventId": "event_a502bcbf4b9a5624",
+        "status": "denied"
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-CT",
+        "mode": "board-only",
+        "name": "Reese Lin",
+        "petitionerId": "person_c16b6750b3c3281e",
+        "petitionId": "event_ac4bca17b968e436",
+        "grantEventId": "event_b6be14ec4cc5ecfb",
+        "limit": "Existing unseated board case-record reader; no executive power or individual board-member decision is inferred."
+      }
+    ],
+    "clockReceipts": [
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-IA",
+        "name": "Quentin Waller",
+        "personId": "person_466f940d7a6ab8b3",
+        "sentenceId": "event_701d0afb0a3a2d81",
+        "petitionId": "event_59a40c8aa99bc65b",
+        "dueItemId": "future-due-item_639925095c54fd42",
+        "due": "2027-04-05",
+        "status": "denied",
+        "successor": null
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-LA",
+        "name": "Omar Cole",
+        "personId": "person_a4a81d89d811c828",
+        "sentenceId": "event_11178caf74a80006",
+        "petitionId": "event_da44d024dab814e3",
+        "dueItemId": "future-due-item_550e7e136d71e061",
+        "due": "2026-08-21",
+        "status": "denied",
+        "successor": null
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-TX",
+        "name": "Sage Keller",
+        "personId": "person_0313ca68eed3a21c",
+        "sentenceId": "event_1cc490fe8a58f2fa",
+        "petitionId": "event_4b9804b9b96a93ac",
+        "dueItemId": "future-due-item_b65b379ffa845c44",
+        "due": "2026-08-21",
+        "status": "denied",
+        "successor": null
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-CT",
+        "name": "Rachel McMahon",
+        "personId": "person_5200e386e5b349ed",
+        "sentenceId": "event_d28d2a5ad091622f",
+        "petitionId": "event_53c5229ff89f84e3",
+        "dueItemId": "future-due-item_f9f323a8a8fc6b25",
+        "due": "2026-08-21",
+        "status": "denied",
+        "successor": null
+      },
+      {
+        "seed": "team9-g10-floor-five-20260930",
+        "place": "US-ND",
+        "name": "Jose Richardson",
+        "personId": "person_ad326d417ded3cb7",
+        "sentenceId": "event_8d937c2199fbe819",
+        "petitionId": "event_bf99f647592e03f0",
+        "dueItemId": "future-due-item_919575538661dc0d",
+        "due": "2027-04-05",
+        "status": "denied",
+        "successor": null
+      }
+    ],
+    "limit": "Actual merged cash-bail and held-funds consumer included. Historical fixtures and isolated queues; not natural turnover/opening or final-main acceptance."
+  }
+}

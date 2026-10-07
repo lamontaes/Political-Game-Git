@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "team": 6,
+  "linkId": "broadband-to-married-women-work",
+  "source": {
+    "author": "Lisa J. Dettling",
+    "title": "Broadband in the Labor Market: The Impact of Residential High-Speed Internet on Married Women\u2019s Labor Force Participation",
+    "url": "https://www.federalreserve.gov/pubs/feds/2013/201365/201365pap.pdf",
+    "series": "FEDS 2013-065",
+    "version": "February 2015 working paper; not verified identical to ILR Review 2017 journal version",
+    "httpStatus": 200,
+    "sha256": "a37273946747c1abbe1e2fc381ea60277465ed32708c0d5470178ccac2d2b9fc",
+    "locator": "Table 3 column 5, printed page 39; explanation printed page 17"
+  },
+  "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+  "population": "CPS adults 18\u201359; August 2000, September 2001, October 2003, 2007 and 2009 supplements; state-level instrument, not county introduction",
+  "treatment": "Individual self-reported home high-speed Internet use; instrumented by state multiple-dwelling-unit share interacted with survey year",
+  "identifiedContrast": {
+    "kind": "Married women versus pooled single women/men using high-speed Internet",
+    "coefficientProbabilityUnits": 0.06942,
+    "standardErrorStateClustered": 0.011066,
+    "rangeProbabilityUnits": [0.04773064, 0.09110936],
+    "rangePercentagePoints": [4.773064, 9.110936],
+    "rangeMethod": "Calculated normal approximation coefficient \u00b11.96 reported clustered SE; not a source-printed interval; Team9 verification requested"
+  },
+  "absoluteMarriedWomenEffect": {
+    "pointProbabilityUnits": 0.041089999999999995,
+    "pointPercentagePoints": 4.108999999999999,
+    "components": {
+      "mainHSI": -0.02833,
+      "marriedInteraction": 0.06942
+    },
+    "range": null,
+    "exactMissingFigure": "Covariance of main HSI and married-interaction estimates in Table3 column5 (or reported SE/CI for their sum). Do not apply interaction SE to the 4.1pp sum."
+  },
+  "activation": {
+    "operation": "hold existing absolute-participation link pending correct interval and dimensional bridge",
+    "size": null,
+    "reason": "Current link targets absolute married-women participation, not subgroup contrast. Engine treats size as proportional response per cause unit; the source estimates a probability-point change for binary adoption. A place share percentage point is not one household adoption."
+  },
+  "why": [
+    "Home broadband can enable telework or reduce time spent on home production.",
+    "A person with actual access and a usable work arrangement can fit paid work around household responsibilities.",
+    "The author finds a heterogeneous labor-supply response for married women; the paper does not turn a broadband appropriation into employment.",
+    "The chain reaches a researched decision mechanism, but this game lacks the household-adoption, work-arrangement and time-budget bridge for this link."
+  ],
+  "conditions": [
+    "Applies to the studied adult population and early broadband diffusion, not all 2026 households or a universal county effect.",
+    "Education and children vary the response; some subgroup first stages are marginally weak.",
+    "Access, actual home use, telework opportunity and care obligations are distinct records."
+  ],
+  "reverseOnRepeal": "Repealing public provision does not automatically remove an existing subscription, private service or telework job; no symmetric reversal estimate is established.",
+  "who": "Married women in the studied adult sample, with comparison groups specified; no named saved person is claimed affected.",
+  "lagWhy": "A survey-based diffusion comparison supplies no zero-month response estimate for a new local government program.",
+  "aboutZero": false,
+  "personReader": "No person feels this yet from the current null aggregate link; a source contrast is not a recorded hiring or participation decision.",
+  "numbersDesk": "Team9: verify units/interval method and obtain exact covariance or SE of sum; identify equivalent estimate in published2017 version.",
+  "checks": [
+    "Full primary PDF read and text extracted",
+    "Exact Table3 components and clustered SE inspected",
+    "Calculated contrast interval from reported numbers"
+  ],
+  "notRun": [
+    "Existing link activation",
+    "Runtime person-reader or national proof"
+  ],
+  "otherSourceAccess": {
+    "Atasoy2013": "Journal PDF403; DOI verified10.1177/001979391306600202, no interval invented",
+    "Tyndall2017": "Crossref query429; author research.html404; no estimate or interval admitted",
+    "electricityPriceAC": "Existing source explicitly to-confirm; no empirical size admitted"
+  }
+}

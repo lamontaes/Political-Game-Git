@@ -17,6 +17,7 @@ import {
 } from "../presentation/governing-office-desk";
 import { GameSelect } from "./controls/GameSelect";
 import { OfficeStaffHiring } from "./OfficeStaffHiring";
+import { ExecutiveBillResults } from "./ExecutiveBillResults";
 
 /**
  * The rest of the officeholder's desk, under Work > "Your office" beside the
@@ -102,7 +103,7 @@ export function GoverningOfficeDesk({
         </ul>
       )}
 
-      {office.controlledByPlayer ? (
+      {office.controlledByPlayer && office.organizationId ? (
         <OfficeStaffHiring
           world={world}
           office={executiveStaffOffice(office)}
@@ -126,6 +127,8 @@ export function GoverningOfficeDesk({
           ))}
         </ul>
       )}
+
+      <ExecutiveBillResults world={world} personId={personId} />
 
       <h4>Casework</h4>
       {casework ? (

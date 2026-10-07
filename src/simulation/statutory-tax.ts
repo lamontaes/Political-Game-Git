@@ -20,7 +20,11 @@
  */
 import { createStableId } from "./ids";
 import { appendedList, recordById } from "./history-index";
-import { federalIncomeTaxUnderLaw } from "./federal-top-income-tax-law";
+import {
+  federalIncomeTaxUnderLaw,
+  RAISE_TOP_FEDERAL_RATE_QUESTION,
+} from "./federal-top-income-tax-law";
+import { lawEffectStamp } from "./law-effect-stamp";
 import {
   filingStatusAt,
   payPeriodsPerYear,
@@ -28,10 +32,6 @@ import {
   withholdingForPaycheck,
   type IncomeTaxSchedule,
 } from "./income-tax-withholding";
-import {
-  lifePlaceByJurisdictionId,
-  stateKeyForJurisdiction,
-} from "./life-places";
 import { organizationProfileAt } from "./life-queries";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import {
@@ -291,7 +291,10 @@ function paycheckLiabilities(
     taxKey: string,
     authorityKey: string,
     schedule: IncomeTaxSchedule,
-    law: Pick<LiabilityDraft, "lawMeasureIds" | "estimatedFromAverage"> = {},
+    law: Pick<
+      LiabilityDraft,
+      "lawMeasureIds" | "estimatedFromAverage" | "lawEffectStamps"
+    > = {},
   ): LiabilityDraft => {
     const { taxableMinor, withheldMinor } = withholdingForPaycheck(
       wages.minorUnits,
@@ -326,6 +329,13 @@ function paycheckLiabilities(
     outcome.occurredAt,
   );
   const federalSchedule = federalLaw.schedule;
+  const federalStamp = lawEffectStamp(federalLaw.governingLaw, {
+    effectKind: "federal-income-tax-withholding",
+    questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    appliedAt: outcome.occurredAt,
+    sourceRecordIds: [outcome.id, flow.id],
+  });
   const federalGap =
     taxYear < FIRST_VERIFIED_TAX_YEAR
       ? "tax-rules-before-2026"
@@ -351,7 +361,10 @@ function paycheckLiabilities(
           "US",
           federalSchedule,
           federalLaw.lawMeasureIds.length
-            ? { lawMeasureIds: federalLaw.lawMeasureIds }
+            ? {
+                lawMeasureIds: federalLaw.lawMeasureIds,
+                ...(federalStamp ? { lawEffectStamps: [federalStamp] } : {}),
+              }
             : {},
         ),
   );
@@ -408,11 +421,13 @@ function paycheckLiabilities(
       researchQuestionId: null,
       lawMeasureIds: underLaw.lawMeasureIds,
     });
-  else if (underLaw.kind === "estimated")
+  else if (underLaw.kind === "estimated" || underLaw.kind === "enacted")
     rows.push(
       incomeTax(placeTaxKey, stateKey, underLaw.schedule, {
         lawMeasureIds: underLaw.lawMeasureIds,
-        estimatedFromAverage: underLaw.estimatedFromAverage,
+        ...(underLaw.estimatedFromAverage
+          ? { estimatedFromAverage: underLaw.estimatedFromAverage }
+          : {}),
       }),
     );
   else if (place.status === "not-imposed")
@@ -559,18 +574,9 @@ function federalCoverageGap(
   return null;
 }
 
-/** The place key ("US-NV") of the person's recorded home, or null. */
-export function residenceStateKey(
-  world: World,
-  personId: EntityId,
-): string | null {
-  const person = world.people[personId];
-  if (!person) return null;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  if (place?.stateJurisdictionKey) return place.stateJurisdictionKey;
-  const jurisdiction = world.jurisdictions[person.homeJurisdictionId];
-  return jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
-}
+/** Where a person lives, by state: the one reader (`homeStateKey`). */
+import { homeStateKey as residenceStateKey } from "./state-jurisdiction-id";
+export { residenceStateKey };
 
 /**
  * Wages this employer already paid this employee this calendar year, read off
@@ -918,10 +924,11 @@ export function assertStatutoryTaxIntegrity(
     ) {
       // A paid leave premium's rate comes from the program or its estimate,
       // so the record is checked for bounds: taxed pay never exceeds the pay,
-      // and no program's employee share reaches 5% of it.
+      // and an adopted bill cannot withhold more than the covered wages.
+      // A researched 5% typical-program ceiling is not a bound on bill terms.
       if (
         row.taxableAmount!.minorUnits > row.wages.minorUnits ||
-        row.liability!.minorUnits * 20 > row.taxableAmount!.minorUnits + 20 ||
+        row.liability!.minorUnits > row.taxableAmount!.minorUnits + 1 ||
         row.collection !== "withheld-from-pay"
       )
         throw new Error("A paid leave premium is out of bounds.");

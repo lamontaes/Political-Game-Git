@@ -1,0 +1,1754 @@
+{
+  "sourceHead": "1184ebd61d2811d21ad594ebe100d738a7581d38",
+  "seed": "team1-member-filing-20261001",
+  "placeKey": "4434660",
+  "placeName": "Hope Valley, Rhode Island",
+  "startedOn": "2026-01-05",
+  "currentDate": "2028-01-05",
+  "targetDate": "2028-01-05",
+  "daysPressed": 730,
+  "stopped": null,
+  "elapsedSeconds": 522.211634044,
+  "complete": true,
+  "everySeatedLegislatureFiled": false,
+  "rows": [
+    {
+      "place": "AL",
+      "packId": "us-al-legislature-profile-v1",
+      "observedSeatedMembers": 147,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "AK",
+      "packId": "us-ak-legislature-v1",
+      "observedSeatedMembers": 64,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "AZ",
+      "packId": "us-az-legislature-profile-v1",
+      "observedSeatedMembers": 117,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 2,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.008547008547008548,
+      "intakes": [
+        {
+          "key": "2027-02-15:senate",
+          "seatedMembers": 30,
+          "filingMembers": 1,
+          "memberShare": 0.03333333333333333
+        },
+        {
+          "key": "2027-03-15:senate",
+          "seatedMembers": 30,
+          "filingMembers": 1,
+          "memberShare": 0.03333333333333333
+        }
+      ]
+    },
+    {
+      "place": "AR",
+      "packId": "us-ar-legislature-profile-v1",
+      "observedSeatedMembers": 162,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "CA",
+      "packId": "us-ca-legislature-profile-v1",
+      "observedSeatedMembers": 156,
+      "seated": true,
+      "filed": 1,
+      "memberFiled": 1,
+      "enacted": 1,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.00641025641025641,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 80,
+          "filingMembers": 1,
+          "memberShare": 0.0125
+        }
+      ]
+    },
+    {
+      "place": "CO",
+      "packId": "us-co-legislature-profile-v1",
+      "observedSeatedMembers": 136,
+      "seated": true,
+      "filed": 1,
+      "memberFiled": 1,
+      "enacted": 1,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.007352941176470588,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 65,
+          "filingMembers": 1,
+          "memberShare": 0.015384615384615385
+        }
+      ]
+    },
+    {
+      "place": "CT",
+      "packId": "us-ct-legislature-profile-v1",
+      "observedSeatedMembers": 202,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.0049504950495049506,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 151,
+          "filingMembers": 1,
+          "memberShare": 0.006622516556291391
+        },
+        {
+          "key": "2027-04-15:house",
+          "seatedMembers": 150,
+          "filingMembers": 1,
+          "memberShare": 0.006666666666666667
+        }
+      ]
+    },
+    {
+      "place": "DE",
+      "packId": "us-de-legislature-profile-v1",
+      "observedSeatedMembers": 68,
+      "seated": true,
+      "filed": 1,
+      "memberFiled": 1,
+      "enacted": 1,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.014705882352941176,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 41,
+          "filingMembers": 1,
+          "memberShare": 0.024390243902439025
+        }
+      ]
+    },
+    {
+      "place": "FL",
+      "packId": "us-fl-legislature-profile-v1",
+      "observedSeatedMembers": 193,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "GA",
+      "packId": "us-ga-legislature-profile-v1",
+      "observedSeatedMembers": 245,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "HI",
+      "packId": "us-hi-legislature-profile-v1",
+      "observedSeatedMembers": 86,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 2,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.023255813953488372,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 51,
+          "filingMembers": 1,
+          "memberShare": 0.0196078431372549
+        },
+        {
+          "key": "2026-02-15:senate",
+          "seatedMembers": 25,
+          "filingMembers": 1,
+          "memberShare": 0.04
+        }
+      ]
+    },
+    {
+      "place": "ID",
+      "packId": "us-id-legislature-profile-v1",
+      "observedSeatedMembers": 114,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "IL",
+      "packId": "us-il-general-assembly-v1",
+      "observedSeatedMembers": 199,
+      "seated": true,
+      "filed": 3,
+      "memberFiled": 3,
+      "enacted": 2,
+      "enactedToFiled": 0.6666666666666666,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.010050251256281407,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 118,
+          "filingMembers": 1,
+          "memberShare": 0.00847457627118644
+        },
+        {
+          "key": "2026-02-15:senate",
+          "seatedMembers": 59,
+          "filingMembers": 1,
+          "memberShare": 0.01694915254237288
+        },
+        {
+          "key": "2026-03-15:house",
+          "seatedMembers": 118,
+          "filingMembers": 1,
+          "memberShare": 0.00847457627118644
+        }
+      ]
+    },
+    {
+      "place": "IN",
+      "packId": "us-in-legislature-profile-v1",
+      "observedSeatedMembers": 160,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "IA",
+      "packId": "us-ia-legislature-profile-v1",
+      "observedSeatedMembers": 158,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "KS",
+      "packId": "us-ks-legislature-profile-v1",
+      "observedSeatedMembers": 169,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "KY",
+      "packId": "us-ky-general-assembly-v1",
+      "observedSeatedMembers": 144,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "LA",
+      "packId": "us-la-legislature-profile-v1",
+      "observedSeatedMembers": 203,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "ME",
+      "packId": "us-me-legislature-profile-v1",
+      "observedSeatedMembers": 237,
+      "seated": true,
+      "filed": 5,
+      "memberFiled": 5,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.008438818565400843,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 151,
+          "filingMembers": 1,
+          "memberShare": 0.006622516556291391
+        },
+        {
+          "key": "2026-02-15:senate",
+          "seatedMembers": 35,
+          "filingMembers": 1,
+          "memberShare": 0.02857142857142857
+        },
+        {
+          "key": "2026-03-15:house",
+          "seatedMembers": 151,
+          "filingMembers": 1,
+          "memberShare": 0.006622516556291391
+        },
+        {
+          "key": "2027-03-15:house",
+          "seatedMembers": 150,
+          "filingMembers": 1,
+          "memberShare": 0.006666666666666667
+        },
+        {
+          "key": "2027-04-15:house",
+          "seatedMembers": 150,
+          "filingMembers": 1,
+          "memberShare": 0.006666666666666667
+        }
+      ]
+    },
+    {
+      "place": "MD",
+      "packId": "us-md-general-assembly-v1",
+      "observedSeatedMembers": 219,
+      "seated": true,
+      "filed": 1,
+      "memberFiled": 1,
+      "enacted": 1,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.0045662100456621,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 141,
+          "filingMembers": 1,
+          "memberShare": 0.0070921985815602835
+        }
+      ]
+    },
+    {
+      "place": "MA",
+      "packId": "us-ma-legislature-profile-v1",
+      "observedSeatedMembers": 208,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 2,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.009615384615384616,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 160,
+          "filingMembers": 1,
+          "memberShare": 0.00625
+        },
+        {
+          "key": "2026-02-15:senate",
+          "seatedMembers": 40,
+          "filingMembers": 1,
+          "memberShare": 0.025
+        }
+      ]
+    },
+    {
+      "place": "MI",
+      "packId": "us-mi-legislature-profile-v1",
+      "observedSeatedMembers": 180,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.011111111111111112,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 110,
+          "filingMembers": 1,
+          "memberShare": 0.00909090909090909
+        },
+        {
+          "key": "2027-03-15:house",
+          "seatedMembers": 110,
+          "filingMembers": 1,
+          "memberShare": 0.00909090909090909
+        }
+      ]
+    },
+    {
+      "place": "MN",
+      "packId": "us-mn-legislature-v1",
+      "observedSeatedMembers": 216,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.009259259259259259,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 134,
+          "filingMembers": 1,
+          "memberShare": 0.007462686567164179
+        },
+        {
+          "key": "2027-03-15:senate",
+          "seatedMembers": 67,
+          "filingMembers": 1,
+          "memberShare": 0.014925373134328358
+        }
+      ]
+    },
+    {
+      "place": "MS",
+      "packId": "us-ms-legislature-profile-v1",
+      "observedSeatedMembers": 193,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "MO",
+      "packId": "us-mo-general-assembly-v1",
+      "observedSeatedMembers": 239,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "MT",
+      "packId": "us-mt-legislature-profile-v1",
+      "observedSeatedMembers": 185,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "NE",
+      "packId": "us-ne-legislature-v1",
+      "observedSeatedMembers": 61,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "NV",
+      "packId": "us-nv-legislature-v1",
+      "observedSeatedMembers": 76,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.02631578947368421,
+      "intakes": [
+        {
+          "key": "2027-02-15:assembly",
+          "seatedMembers": 42,
+          "filingMembers": 1,
+          "memberShare": 0.023809523809523808
+        },
+        {
+          "key": "2027-02-15:senate",
+          "seatedMembers": 21,
+          "filingMembers": 1,
+          "memberShare": 0.047619047619047616
+        }
+      ]
+    },
+    {
+      "place": "NH",
+      "packId": "us-nh-legislature-profile-v1",
+      "observedSeatedMembers": 438,
+      "seated": true,
+      "filed": 4,
+      "memberFiled": 4,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.00228310502283105,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 400,
+          "filingMembers": 1,
+          "memberShare": 0.0025
+        },
+        {
+          "key": "2026-03-15:house",
+          "seatedMembers": 400,
+          "filingMembers": 1,
+          "memberShare": 0.0025
+        },
+        {
+          "key": "2027-03-15:house",
+          "seatedMembers": 397,
+          "filingMembers": 1,
+          "memberShare": 0.0025188916876574307
+        },
+        {
+          "key": "2027-04-15:house",
+          "seatedMembers": 397,
+          "filingMembers": 1,
+          "memberShare": 0.0025188916876574307
+        }
+      ]
+    },
+    {
+      "place": "NJ",
+      "packId": "us-nj-legislature-profile-v1",
+      "observedSeatedMembers": 134,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "NM",
+      "packId": "us-nm-legislature-profile-v1",
+      "observedSeatedMembers": 121,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.01652892561983471,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 70,
+          "filingMembers": 1,
+          "memberShare": 0.014285714285714285
+        },
+        {
+          "key": "2026-02-15:senate",
+          "seatedMembers": 42,
+          "filingMembers": 1,
+          "memberShare": 0.023809523809523808
+        }
+      ]
+    },
+    {
+      "place": "NY",
+      "packId": "us-ny-legislature-profile-v1",
+      "observedSeatedMembers": 242,
+      "seated": true,
+      "filed": 1,
+      "memberFiled": 1,
+      "enacted": 1,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.004132231404958678,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 150,
+          "filingMembers": 1,
+          "memberShare": 0.006666666666666667
+        }
+      ]
+    },
+    {
+      "place": "NC",
+      "packId": "us-nc-legislature-profile-v1",
+      "observedSeatedMembers": 186,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "ND",
+      "packId": "us-nd-legislature-profile-v1",
+      "observedSeatedMembers": 150,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "OH",
+      "packId": "us-oh-general-assembly-v1",
+      "observedSeatedMembers": 167,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "OK",
+      "packId": "us-ok-legislature-profile-v1",
+      "observedSeatedMembers": 188,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "OR",
+      "packId": "us-or-legislature-profile-v1",
+      "observedSeatedMembers": 96,
+      "seated": true,
+      "filed": 1,
+      "memberFiled": 1,
+      "enacted": 1,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.010416666666666666,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 60,
+          "filingMembers": 1,
+          "memberShare": 0.016666666666666666
+        }
+      ]
+    },
+    {
+      "place": "PA",
+      "packId": "us-pa-legislature-profile-v1",
+      "observedSeatedMembers": 267,
+      "seated": true,
+      "filed": 3,
+      "memberFiled": 3,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.003745318352059925,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 203,
+          "filingMembers": 1,
+          "memberShare": 0.0049261083743842365
+        },
+        {
+          "key": "2026-03-15:house",
+          "seatedMembers": 203,
+          "filingMembers": 1,
+          "memberShare": 0.0049261083743842365
+        },
+        {
+          "key": "2026-04-15:house",
+          "seatedMembers": 203,
+          "filingMembers": 1,
+          "memberShare": 0.0049261083743842365
+        }
+      ]
+    },
+    {
+      "place": "RI",
+      "packId": "us-ri-legislature-profile-v1",
+      "observedSeatedMembers": 122,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 2,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.01639344262295082,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 75,
+          "filingMembers": 1,
+          "memberShare": 0.013333333333333334
+        },
+        {
+          "key": "2026-02-15:senate",
+          "seatedMembers": 38,
+          "filingMembers": 1,
+          "memberShare": 0.02631578947368421
+        }
+      ]
+    },
+    {
+      "place": "SC",
+      "packId": "us-sc-legislature-profile-v1",
+      "observedSeatedMembers": 181,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "SD",
+      "packId": "us-sd-legislature-profile-v1",
+      "observedSeatedMembers": 141,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "TN",
+      "packId": "us-tn-legislature-profile-v1",
+      "observedSeatedMembers": 141,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "TX",
+      "packId": "us-tx-legislature-profile-v1",
+      "observedSeatedMembers": 190,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "UT",
+      "packId": "us-ut-legislature-profile-v1",
+      "observedSeatedMembers": 109,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "VT",
+      "packId": "us-vt-legislature-profile-v1",
+      "observedSeatedMembers": 200,
+      "seated": true,
+      "filed": 1,
+      "memberFiled": 1,
+      "enacted": 1,
+      "enactedToFiled": 1,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 1,
+      "memberShareAcrossObservedSeats": 0.005,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 150,
+          "filingMembers": 1,
+          "memberShare": 0.006666666666666667
+        }
+      ]
+    },
+    {
+      "place": "VA",
+      "packId": "us-va-legislature-profile-v1",
+      "observedSeatedMembers": 159,
+      "seated": true,
+      "filed": 4,
+      "memberFiled": 4,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.012578616352201259,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 100,
+          "filingMembers": 1,
+          "memberShare": 0.01
+        },
+        {
+          "key": "2026-02-15:senate",
+          "seatedMembers": 40,
+          "filingMembers": 1,
+          "memberShare": 0.025
+        },
+        {
+          "key": "2027-03-15:house",
+          "seatedMembers": 98,
+          "filingMembers": 1,
+          "memberShare": 0.01020408163265306
+        },
+        {
+          "key": "2027-04-15:house",
+          "seatedMembers": 98,
+          "filingMembers": 1,
+          "memberShare": 0.01020408163265306
+        }
+      ]
+    },
+    {
+      "place": "WA",
+      "packId": "us-wa-legislature-profile-v1",
+      "observedSeatedMembers": 168,
+      "seated": true,
+      "filed": 2,
+      "memberFiled": 2,
+      "enacted": 0,
+      "enactedToFiled": 0,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 2,
+      "memberShareAcrossObservedSeats": 0.011904761904761904,
+      "intakes": [
+        {
+          "key": "2026-02-15:house",
+          "seatedMembers": 98,
+          "filingMembers": 1,
+          "memberShare": 0.01020408163265306
+        },
+        {
+          "key": "2026-02-15:senate",
+          "seatedMembers": 49,
+          "filingMembers": 1,
+          "memberShare": 0.02040816326530612
+        }
+      ]
+    },
+    {
+      "place": "WV",
+      "packId": "us-wv-legislature-profile-v1",
+      "observedSeatedMembers": 144,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "WI",
+      "packId": "us-wi-legislature-profile-v1",
+      "observedSeatedMembers": 147,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "WY",
+      "packId": "us-wy-legislature-profile-v1",
+      "observedSeatedMembers": 101,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    },
+    {
+      "place": "DC",
+      "packId": null,
+      "observedSeatedMembers": 0,
+      "seated": false,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": null,
+      "intakes": []
+    },
+    {
+      "place": "PR",
+      "packId": "us-pr-legislature-profile-v1",
+      "observedSeatedMembers": 0,
+      "seated": false,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": null,
+      "intakes": []
+    },
+    {
+      "place": "GU",
+      "packId": null,
+      "observedSeatedMembers": 0,
+      "seated": false,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": null,
+      "intakes": []
+    },
+    {
+      "place": "VI",
+      "packId": null,
+      "observedSeatedMembers": 0,
+      "seated": false,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": null,
+      "intakes": []
+    },
+    {
+      "place": "AS",
+      "packId": null,
+      "observedSeatedMembers": 0,
+      "seated": false,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": null,
+      "intakes": []
+    },
+    {
+      "place": "MP",
+      "packId": null,
+      "observedSeatedMembers": 0,
+      "seated": false,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": null,
+      "intakes": []
+    },
+    {
+      "place": "US",
+      "packId": "us-congress-v1",
+      "observedSeatedMembers": 593,
+      "seated": true,
+      "filed": 0,
+      "memberFiled": 0,
+      "enacted": 0,
+      "enactedToFiled": null,
+      "minorityFiled": 0,
+      "sponsorPartyUnknown": 0,
+      "uniqueMemberSponsors": 0,
+      "memberShareAcrossObservedSeats": 0,
+      "intakes": []
+    }
+  ],
+  "filingDetails": [
+    {
+      "measureId": "legislative-measure_76ca9721bad1355b",
+      "place": "CA",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_285450874505a517",
+      "minority": false,
+      "seatedMembers": 80,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_49a8dea6dee8c45c",
+      "place": "CO",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_01484f4ac4db8284",
+      "minority": false,
+      "seatedMembers": 65,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_246deb6a7c60ed4e",
+      "place": "CT",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_07843261ffea23e3",
+      "minority": false,
+      "seatedMembers": 151,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_3bf6f69dda82fb88",
+      "place": "DE",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_20a8665be837ea2a",
+      "minority": false,
+      "seatedMembers": 41,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_84a7a6f24554445b",
+      "place": "HI",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_2280894e85dd4b96",
+      "minority": false,
+      "seatedMembers": 51,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_691cb517e518109e",
+      "place": "HI",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_525c63af712902bc",
+      "minority": false,
+      "seatedMembers": 25,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_b3f648033f637a56",
+      "place": "IL",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0995a7455d691223",
+      "minority": false,
+      "seatedMembers": 118,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_6f6fb637804b8882",
+      "place": "IL",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_00c0941d7fe29d9c",
+      "minority": false,
+      "seatedMembers": 59,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_da38e6ef14781a1b",
+      "place": "ME",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0244da7338feeb32",
+      "minority": false,
+      "seatedMembers": 151,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_3bf3e9fc0ba9b28c",
+      "place": "ME",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_e3817c5d83bc0f69",
+      "minority": false,
+      "seatedMembers": 35,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_4f1660f7ad72f350",
+      "place": "MD",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_1584d13fa46b6f0a",
+      "minority": false,
+      "seatedMembers": 141,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_89e09ec64a73d98f",
+      "place": "MA",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0129ca38b3e15bc6",
+      "minority": false,
+      "seatedMembers": 160,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_19934e8d26afcedc",
+      "place": "MA",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_016cb2a886c318e0",
+      "minority": false,
+      "seatedMembers": 40,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_541bd7db9def576f",
+      "place": "MI",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0cb45f6fff91c65d",
+      "minority": false,
+      "seatedMembers": 110,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_20be2cb0d61002b4",
+      "place": "MN",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0042ee2fa6f33fbe",
+      "minority": false,
+      "seatedMembers": 134,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_ff74efaa82f79561",
+      "place": "NH",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_059a5334c8bb3962",
+      "minority": false,
+      "seatedMembers": 400,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_00e3dba504560011",
+      "place": "NM",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_01868d1d1e236888",
+      "minority": false,
+      "seatedMembers": 70,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_9495b78fefda3437",
+      "place": "NM",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_3e4d8efebe64f98d",
+      "minority": false,
+      "seatedMembers": 42,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_302354d8c70e0e89",
+      "place": "NY",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_01b73667de936aba",
+      "minority": false,
+      "seatedMembers": 150,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_7897dcec7fb3fd81",
+      "place": "OR",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_09336f992f762b8b",
+      "minority": false,
+      "seatedMembers": 60,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_042ae54937679b21",
+      "place": "PA",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0babe10a733342fa",
+      "minority": false,
+      "seatedMembers": 203,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_c463f8c16d4b0b2e",
+      "place": "RI",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_21889f89e2766c7f",
+      "minority": false,
+      "seatedMembers": 75,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_48fc19b4732dd266",
+      "place": "RI",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_2259e6d007872632",
+      "minority": false,
+      "seatedMembers": 38,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_04e82ca603cbfb7e",
+      "place": "VT",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_19e5526ae79e671c",
+      "minority": false,
+      "seatedMembers": 150,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_8ddb35a4e2f5124c",
+      "place": "VA",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_000d3cabb186d280",
+      "minority": false,
+      "seatedMembers": 100,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_e1620834d772fa08",
+      "place": "VA",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_1695d6d22f1162eb",
+      "minority": false,
+      "seatedMembers": 40,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_fa366a838a2c1a93",
+      "place": "WA",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0a13020ac4c48618",
+      "minority": false,
+      "seatedMembers": 98,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_8fe340e2dd0ab965",
+      "place": "WA",
+      "date": "2026-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_1910b8efebf83031",
+      "minority": false,
+      "seatedMembers": 49,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_dfa700b780bec791",
+      "place": "IL",
+      "date": "2026-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0995a7455d691223",
+      "minority": false,
+      "seatedMembers": 118,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_7b2b1354cbe33a00",
+      "place": "ME",
+      "date": "2026-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0244da7338feeb32",
+      "minority": false,
+      "seatedMembers": 151,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_51d5f1f5d5db7ce6",
+      "place": "NH",
+      "date": "2026-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_059a5334c8bb3962",
+      "minority": false,
+      "seatedMembers": 400,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_c027b4a6988549a6",
+      "place": "PA",
+      "date": "2026-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0babe10a733342fa",
+      "minority": false,
+      "seatedMembers": 203,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_9d44997e40c34797",
+      "place": "PA",
+      "date": "2026-04-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0babe10a733342fa",
+      "minority": false,
+      "seatedMembers": 203,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_6051de5bf1d1641a",
+      "place": "NV",
+      "date": "2027-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_04e87ef6f8795ea6",
+      "minority": false,
+      "seatedMembers": 42,
+      "chamberKey": "assembly"
+    },
+    {
+      "measureId": "legislative-measure_a3ed4a08cdcc2952",
+      "place": "NV",
+      "date": "2027-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0c009d13dd57a296",
+      "minority": false,
+      "seatedMembers": 21,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_5bef4d05d85ae10f",
+      "place": "AZ",
+      "date": "2027-02-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_2c9afbcbd4135f81",
+      "minority": false,
+      "seatedMembers": 30,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_bb400d2628b3c3c4",
+      "place": "AZ",
+      "date": "2027-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_2c9afbcbd4135f81",
+      "minority": false,
+      "seatedMembers": 30,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_567396e00b0732ed",
+      "place": "ME",
+      "date": "2027-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0244da7338feeb32",
+      "minority": false,
+      "seatedMembers": 150,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_f622619d1c9b67a1",
+      "place": "MI",
+      "date": "2027-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_05223a8cf6969b41",
+      "minority": false,
+      "seatedMembers": 110,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_e5f6208b84d666ea",
+      "place": "MN",
+      "date": "2027-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_147e84f8e92fce4f",
+      "minority": false,
+      "seatedMembers": 67,
+      "chamberKey": "senate"
+    },
+    {
+      "measureId": "legislative-measure_56e7735ea7e8124b",
+      "place": "NH",
+      "date": "2027-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_059a5334c8bb3962",
+      "minority": false,
+      "seatedMembers": 397,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_a72865d3c699cda2",
+      "place": "VA",
+      "date": "2027-03-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_000d3cabb186d280",
+      "minority": false,
+      "seatedMembers": 98,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_9036482f42122ce1",
+      "place": "CT",
+      "date": "2027-04-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_07843261ffea23e3",
+      "minority": false,
+      "seatedMembers": 150,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_e9a6f961f0ab6490",
+      "place": "ME",
+      "date": "2027-04-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_0244da7338feeb32",
+      "minority": false,
+      "seatedMembers": 150,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_a8bf35c90d6a27d2",
+      "place": "NH",
+      "date": "2027-04-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_059a5334c8bb3962",
+      "minority": false,
+      "seatedMembers": 397,
+      "chamberKey": "house"
+    },
+    {
+      "measureId": "legislative-measure_5534a4c051793f5b",
+      "place": "VA",
+      "date": "2027-04-15",
+      "memberFiler": true,
+      "sponsorPersonId": "person_000d3cabb186d280",
+      "minority": false,
+      "seatedMembers": 98,
+      "chamberKey": "house"
+    }
+  ],
+  "throughputObservations": [
+    {
+      "id": "us-118th-congress",
+      "jurisdiction": "United States Congress",
+      "period": "118th Congress, January 3, 2023 to January 3, 2025",
+      "introduced": {
+        "houseBills": 10555,
+        "senateBills": 5646,
+        "houseJointResolutions": 230,
+        "senateJointResolutions": 122
+      },
+      "publicLaws": {
+        "houseBills": 178,
+        "senateBills": 91,
+        "houseJointResolutions": 5,
+        "senateJointResolutions": 0,
+        "total": 274
+      },
+      "vetoedMeasures": 13,
+      "vetoOverrides": 0,
+      "sameOriginBillShareEnactedPercent": {
+        "house": 1.69,
+        "senate": 1.61
+      },
+      "sourceId": "house-118",
+      "caveat": "House and Senate bill shares use enacted bills from each originating chamber divided by that chamber's introduced bills. Joint resolutions are excluded from those shares. The 274 laws include five House joint resolutions; dividing 274 by only House bills would mix origins and measure types. Vetoed measures include joint resolutions."
+    },
+    {
+      "id": "kansas-2024-regular",
+      "jurisdiction": "Kansas",
+      "period": "2024 regular session in the 2023-2024 biennium",
+      "introducedInSessionBills": 605,
+      "carriedOverFrom2023Bills": 655,
+      "billsAliveFor2024Session": 1260,
+      "billsBecameLaw": 111,
+      "shareAliveBecameLawPercent": 8.81,
+      "billsVetoed": 21,
+      "billVetoesSustained": 14,
+      "billVetoesOverridden": 7,
+      "lineItemsVetoed": 44,
+      "lineItemVetoesSustained": 37,
+      "sourceId": "kansas-2024",
+      "caveat": "Law total includes bills introduced in 2023 and carried into 2024. Do not divide 111 by the 605 bills introduced only in 2024. Bill vetoes and line-item vetoes have different denominators. Special session is excluded."
+    },
+    {
+      "id": "new-mexico-2024-regular",
+      "jurisdiction": "New Mexico",
+      "period": "2024 regular session, 30-day even-year session",
+      "introducedBills": 583,
+      "billsPassedLegislature": 72,
+      "billsEnactedInBillActionSummary": 69,
+      "enactedShareOfIntroducedPercent": 11.84,
+      "billsVetoed": 3,
+      "vetoShareOfPassedPercent": 4.17,
+      "vetoOverrides": null,
+      "sourceId": "new-mexico-2024",
+      "caveat": "Appendix A's bill action summary gives 583 introduced, 72 passed, 69 enacted, and 3 vetoed. Its adjacent table separately labels five partial vetoes in an enacted category that does not reconcile arithmetically with the 72 passed bills; use the bill action summary for these figures and do not add five to 69. No override count is established here."
+    },
+    {
+      "id": "florida-2024-regular",
+      "jurisdiction": "Florida",
+      "period": "2024 regular session; official statistics report dated August 2, 2024",
+      "generalBillsFiled": 1732,
+      "localBillsFiled": 35,
+      "generalBillsPassedBothChambers": 291,
+      "localBillsPassedBothChambers": 22,
+      "billsApprovedByGovernor": 299,
+      "billsVetoed": 14,
+      "billsWithLineItemVeto": 1,
+      "vetoOverrides": null,
+      "sourceId": "florida-2024",
+      "caveat": "Filed is the report's term and may include bills withdrawn before formal introduction. General and local bills are separate; joint resolutions, memorials, and one-chamber resolutions are excluded from these bill counts. The one line-item veto is separately identified and must not be added to the 14 whole-bill vetoes."
+    },
+    {
+      "id": "kentucky-2024-regular",
+      "jurisdiction": "Kentucky",
+      "period": "2024 regular session, 60 legislative days",
+      "billsIntroduced": 1218,
+      "billsBecameLaw": 212,
+      "billsVetoed": 26,
+      "billVetoesOverridden": 24,
+      "sourceId": "kentucky-2024",
+      "caveat": "The 212 enacted bills comprise 55 Senate bills and 157 House bills. The governor vetoed seven Senate bills and 19 House bills; six and 18, respectively, were overridden. Joint and concurrent resolution vetoes and overrides are excluded from these bill counts."
+    },
+    {
+      "id": "texas-2024-no-regular-session",
+      "jurisdiction": "Texas",
+      "period": "Calendar year 2024",
+      "regularSessionHeld": false,
+      "introducedRegularSessionBills": null,
+      "regularSessionBillsBecameLaw": null,
+      "sourceId": "texas-session-law",
+      "caveat": "Texas regular sessions begin in odd-numbered years. A 2024 regular-session passage rate is not zero; it is undefined because no regular session was scheduled. Special sessions are a separate event."
+    },
+    {
+      "id": "minneapolis-2024",
+      "jurisdiction": "Minneapolis, Minnesota",
+      "period": "January 1 to December 31, 2024",
+      "ordinancesIntroduced": 48,
+      "ordinancesEnacted": 47,
+      "ordinancesCodified": 17,
+      "resolutionsAdopted": 449,
+      "sourceId": "minneapolis-2024",
+      "caveat": "The city's session-statistics counts are activity totals, not necessarily a same-cohort introduction-to-enactment rate. Enacted is different from codified; resolutions and other actions are separate. This large city's count is not a typical U.S. city rate."
+    },
+    {
+      "id": "cleburne-county-2024",
+      "jurisdiction": "Cleburne County, Arkansas",
+      "period": "Calendar year 2024 list",
+      "listedOrdinances": 44,
+      "sourceId": "cleburne-2024",
+      "caveat": "Counted the county's numbered entries 2024-001 through 2024-045 with 033 absent. The page is an ordinance list; it does not establish introduced-versus-adopted statuses or a general county-size rate. Many entries amend appropriations or staffing."
+    },
+    {
+      "id": "queen-annes-county-2024",
+      "jurisdiction": "Queen Anne's County, Maryland",
+      "period": "Calendar year 2024 adoption dates on the 2024 list",
+      "numberedOrdinancesAdoptedIn2024": 13,
+      "sourceId": "queen-annes-2024",
+      "caveat": "Counted 13 main numbered ordinances with 2024 Date Adopted; 24-15 was adopted in 2025. Lettered amendment entries are excluded. This is a list count, not a general county-size rate."
+    }
+  ],
+  "limits": "Natural observer clock; no actor records or law terms injected. Throughput observations have their own cohorts and session lengths; no scaling or success rate is applied. Per-intake member share is observed on dates that filed a bill; an intake with zero filings has no inferred membership denominator. Minority is relative to the actual chamber party counts when filed; absent or tied party counts are not inferred as a minority."
+}

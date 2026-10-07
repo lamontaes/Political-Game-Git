@@ -1,4 +1,7 @@
-import { postedMeetingVoteSentence } from "../simulation/living-world/local-council-meetings";
+import {
+  postedMeetingVote,
+  postedMeetingVoteSentence,
+} from "../simulation/living-world/local-council-meetings";
 import { livingSceneStagePacket } from "./living-scene-prose";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { personName, type EntityId, type World } from "../simulation";
@@ -118,6 +121,40 @@ export function projectOrdinaryMeetingScene(world: World, personId: EntityId) {
     eventId: event.id,
     location: activity.location,
     agendaText: event.context.socialContext,
+    agendaItems: [
+      "Call to order",
+      event.context.socialContext ?? "The posted agenda",
+      "Public comment",
+      "Recorded roll call",
+    ],
+    rollCall: (() => {
+      const recorded = event.jurisdictionId
+        ? postedMeetingVote(world, event.jurisdictionId)
+        : null;
+      return recorded &&
+        recorded.vote.takenAt === event.occurredAt &&
+        recorded.vote.sequence < world.history.nextSequence
+        ? {
+            recordId: recorded.vote.id,
+            summary: postedMeetingVoteSentence(world, event.jurisdictionId!),
+            ballots: recorded.vote.dispositions
+              .filter(
+                (ballot) =>
+                  ballot.personId &&
+                  event.participants.some(
+                    (present) =>
+                      present.personId === ballot.personId &&
+                      present.role === "presence:participant",
+                  ),
+              )
+              .map((ballot) => ({
+                personId: ballot.personId!,
+                name: personName(world.people[ballot.personId!]!),
+                vote: ballot.disposition,
+              })),
+          }
+        : null;
+    })(),
     speechChoices:
       phase === "active" && !comment ? ORDINARY_MEETING_SPEECH_CHOICES : [],
     spokenWords: comment?.context.choice ?? null,
@@ -128,7 +165,7 @@ export function projectOrdinaryMeetingScene(world: World, personId: EntityId) {
         name: personName(world.people[chair.personId]!),
         role: "Meeting chair",
         recordIds: [event.id],
-        spokenLine: null,
+        spokenLine: phase === "active" ? (chair.detail ?? null) : null,
       },
       ...residents.map((resident) => ({
         personId: resident.personId,

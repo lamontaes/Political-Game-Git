@@ -1,0 +1,21 @@
+{
+  "sourceHead": "493621af2e9ddb4fb7429c49747fceb61372a9f3",
+  "sourcePath": "src/simulation/public-budgets/public-budgets.test.ts",
+  "sourceBlob": "13ce133f96edb9c6362e19646ef2159b29ea36f7",
+  "sourceEdited": false,
+  "command": "VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run test -- npx vitest run src/simulation/public-budgets/public-budgets.test.ts -t 'income tax withheld from represented people' --reporter=default --reporter=json --outputFile=/tmp/team6-budget-withholding-before.json",
+  "exitCode": 1,
+  "passed": 0,
+  "failed": 1,
+  "notRun": 28,
+  "durationSeconds": 13.78,
+  "observedFailure": "TypeError: Cannot read properties of undefined (reading 'length'); history-index.ts:175, via currentStateExecutiveHolders and settlePublicBudgets; before financial assertion.",
+  "proofBoundary": "No actual payment absence, missing-law reader, or count of 12 distinct causes established. This is one selected inherited fixture reproduction; remaining 28 were not run.",
+  "nextDependency": "Audit exact twelve failing names/receipt and admitted survivor contracts; preserve all test assertions and production until received.",
+  "rawLog": "/tmp/team6-budget-withholding-before.log",
+  "rawJson": "/tmp/team6-budget-withholding-before.json",
+  "rawHashes": {
+    "/tmp/team6-budget-withholding-before.log": "345f6a32738ebf9617cf16fb8f4542bc9dbdf176428273758eea6e31d2e065df",
+    "/tmp/team6-budget-withholding-before.json": "1f8f66975cc0f2e2d1d9fec0820d048b4e71f53ec601722377e4fa63382f5462"
+  }
+}

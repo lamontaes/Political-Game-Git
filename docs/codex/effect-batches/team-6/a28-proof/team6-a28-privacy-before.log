@@ -1,0 +1,16 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/federal-data-privacy-law.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-a28-privacy-before.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/federal-data-privacy-law.test.ts (3 tests) 135ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  08:25:55
+   Duration  11.19s (transform 8.80s, setup 20ms, import 10.92s, tests 135ms, environment 0ms)
+
+JSON report written to /tmp/team6-a28-privacy-before.json

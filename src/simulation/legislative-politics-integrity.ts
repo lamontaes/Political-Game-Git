@@ -1,5 +1,10 @@
+import { assertLawSchedules } from "./law-structured-terms";
 import { makeIsoDate } from "./dates";
-import { isDecidableConditionKind } from "./legislative-politics";
+import {
+  assertProvisionLawCategories,
+  assertProvisionLawTerms,
+  isDecidableConditionKind,
+} from "./legislative-politics";
 import type { EntityId, LegislativeCommitmentCondition, World } from "./types";
 
 /**
@@ -59,6 +64,9 @@ export function assertLegislativePoliticsIntegrity(
   const amendmentCarriedBy = new Map<string, EntityId>();
 
   for (const provision of provisions) {
+    assertProvisionLawCategories(world, provision.lawCategories);
+    assertProvisionLawTerms(world, provision.lawTerms);
+    assertLawSchedules(world, provision.lawSchedules);
     assertIdentity(ids, provision, RECORD_KINDS.provision);
     provisionById.set(provision.id, provision);
     const measure = measureById.get(provision.measureId);

@@ -1,0 +1,15 @@
+
+ RUN  v4.1.1 /private/tmp/team7-county-source-intake-02
+
+ ✓ scripts/engine-proof/default-payday.test.ts (2 tests) 466ms
+     ✓ pays one completed shift through default days and preserves it through Continue  338ms
+ ✓ src/simulation/day-caller-migration.test.ts (5 tests) 260ms
+ ✓ scripts/engine-proof/day-adapter.test.ts (2 tests) 254ms
+ ✓ src/simulation/day-caller-child-parity.test.ts (3 tests) 184ms
+
+ Test Files  4 passed (4)
+      Tests  12 passed (12)
+   Start at  12:59:35
+   Duration  46.64s (transform 33.45s, setup 0ms, import 44.58s, tests 1.16s, environment 0ms)
+
+JSON report written to /private/tmp/team7-county-source-intake-02/a4-renewed-runtime.json

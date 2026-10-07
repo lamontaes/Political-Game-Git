@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/workspace/Political-Game-Git/test-results/member-filing/before-1184ebd61.world.json",
+    "bytes": 362304218,
+    "sha256": "ac049e26f86b9df46c3511e47fa73055c7453e70e38cb362799d618921334280"
+  },
+  {
+    "path": "/workspace/Political-Game-Git/test-results/member-filing/after-a522ed5be.world.json",
+    "bytes": 364447247,
+    "sha256": "3371b20fdc1baac3a887976776ee655c63aa9d556a181d288c29bd6753cc3c4d"
+  }
+]

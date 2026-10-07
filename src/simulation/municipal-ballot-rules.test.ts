@@ -1,12 +1,15 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  MUNICIPAL_RULE_ESTIMATE_SOURCE,
   municipalBallotRuleCoverage,
   municipalBallotRuleNationalSpread,
   resolveMunicipalBallotRule,
+  resolveMunicipalBallotStructure,
   tabulateBallot,
   type BallotGroup,
 } from "./municipal-ballot-rules";
+import { lifePlaceStateIdentities } from "./life-places";
 import { municipalRulePackFor } from "./municipal-election-rule-packs";
 
 const first = (id: string, count: number): BallotGroup => ({
@@ -35,7 +38,7 @@ describe("which counting rule a town uses", () => {
     });
   });
 
-  it("draws a town's rule from its state's options, stable per town", () => {
+  it("gives a town the allowed option the most states name, chosen by no hash (A118)", () => {
     const pack = municipalRulePackFor("FL")!;
     expect(pack.electoral.runoffRule.kind).toBe("locally-selectable");
     const options =
@@ -43,29 +46,33 @@ describe("which counting rule a town uses", () => {
         ? pack.electoral.runoffRule.options
         : [];
 
-    const drawn = Array.from({ length: 40 }, (_, index) =>
+    const { rules } = municipalBallotRuleNationalSpread();
+    const weightOf = (rule: string) =>
+      rules.find((entry) => entry.rule === rule)?.weight ?? 0;
+    const most = Math.max(...options.map(weightOf));
+    const modal = options.find((rule) => weightOf(rule) === most);
+    const towns = Array.from({ length: 40 }, (_, index) =>
       resolveMunicipalBallotRule("FL", `12${String(index).padStart(5, "0")}`),
     );
-    for (const town of drawn) {
-      expect(town.basis).toBe("local-choice-drawn");
-      expect(options).toContain(town.rule);
+    for (const town of towns) {
+      expect(town.basis).toBe("local-choice-estimated");
+      expect(town.rule).toBe(modal);
     }
-    // Forty towns do not all land on one option: the choice really is local.
-    expect(new Set(drawn.map((town) => town.rule)).size).toBeGreaterThan(1);
-    expect(resolveMunicipalBallotRule("FL", "1245000")).toEqual(
-      resolveMunicipalBallotRule("FL", "1245000"),
-    );
+    expect(MUNICIPAL_RULE_ESTIMATE_SOURCE).toMatch(/^ESTIMATED FROM AVERAGE/);
   });
 
-  it("fills a jurisdiction with no read rule from the national range, never a neighbor", () => {
+  it("fills a jurisdiction with no read rule with the national mode, never a neighbor", () => {
     // Puerto Rico has no pack; Arkansas's compound rule is unrepresentable.
     for (const usps of ["PR", "AR"]) {
       const resolved = resolveMunicipalBallotRule(usps, "anywhere");
-      expect(resolved.basis).toBe("national-range-drawn");
+      expect(resolved.basis).toBe("national-estimated");
       expect(resolved.source).toBeNull();
       const spread = municipalBallotRuleNationalSpread();
-      expect(spread.rules.map((entry) => entry.rule)).toContain(resolved.rule);
-      // Stable per state, and the town does not move it.
+      const most = Math.max(...spread.rules.map((entry) => entry.weight));
+      expect(resolved.rule).toBe(
+        spread.rules.find((entry) => entry.weight === most)!.rule,
+      );
+      // Every unread place gets the same rule; the town does not move it.
       expect(resolveMunicipalBallotRule(usps, "elsewhere")).toEqual(resolved);
     }
   });
@@ -80,15 +87,15 @@ describe("which counting rule a town uses", () => {
       basis: "state-law-unverified",
       rule: "majority-50-plus-1",
     });
-    expect(byUsps.get("FL")?.basis).toBe("local-choice-drawn");
+    expect(byUsps.get("FL")?.basis).toBe("local-choice-estimated");
     expect(byUsps.get("FL")?.options.length).toBeGreaterThan(1);
-    expect(byUsps.get("PR")?.basis).toBe("national-range-drawn");
-    expect(byUsps.get("AR")?.basis).toBe("national-range-drawn");
+    expect(byUsps.get("PR")?.basis).toBe("national-estimated");
+    expect(byUsps.get("AR")?.basis).toBe("national-estimated");
     // Guam, the Virgin Islands, American Samoa and the Northern Mariana
-    // Islands are unresearched, so each draws from the national range rather
+    // Islands are unresearched, so each takes the national mode rather
     // than borrowing any state's rule.
     for (const usps of ["GU", "VI", "AS", "MP"]) {
-      expect(byUsps.get(usps)?.basis).toBe("national-range-drawn");
+      expect(byUsps.get(usps)?.basis).toBe("national-estimated");
     }
     const counts = new Map<string, number>();
     for (const row of coverage) {
@@ -100,8 +107,8 @@ describe("which counting rule a town uses", () => {
     // four other territories are filled in from the national range.
     expect(Object.fromEntries(counts)).toEqual({
       "state-law-unverified": 45,
-      "local-choice-drawn": 5,
-      "national-range-drawn": 6,
+      "local-choice-estimated": 5,
+      "national-estimated": 6,
     });
   });
 });
@@ -271,5 +278,40 @@ describe("counting a race", () => {
         ballots: [first("ana", 1), first("ben", 1)],
       }),
     ).toThrow(/threshold/);
+  });
+});
+
+describe("resolved ballot structure", () => {
+  it("preserves sourced state values and defaults across all 56 places without choosing an unresolved option", () => {
+    const states = lifePlaceStateIdentities();
+    expect(states).toHaveLength(56);
+    let defaults = 0;
+    let unresolved = 0;
+    for (const state of states) {
+      const rule = municipalRulePackFor(state.usps)?.electoral.ballotStructure;
+      const resolved = resolveMunicipalBallotStructure(
+        state.usps.toLowerCase(),
+      );
+      if (rule?.kind === "known") {
+        expect(resolved).toEqual({
+          structure: rule.value,
+          source: rule.source,
+        });
+      } else if (rule?.kind === "locally-selectable") {
+        defaults += Number(rule.statutoryDefault !== null);
+        unresolved += Number(rule.statutoryDefault === null);
+        expect(resolved).toEqual({
+          structure: rule.statutoryDefault,
+          source: rule.source,
+        });
+      } else {
+        unresolved++;
+        expect(resolved).toEqual({ structure: null, source: null });
+      }
+    }
+    // The current source offers local menus without a statutory default.
+    // Resolving one must not turn its first option into a chosen rule.
+    expect(defaults).toBe(0);
+    expect(unresolved).toBeGreaterThan(0);
   });
 });

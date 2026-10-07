@@ -1,0 +1,7 @@
+P6 / Campaigns correction / PR #2280
+$ node /tmp/session14-mockups/campaign-filled/render.mjs
+Exit0.
+[{"viewport":[1920,1080],"clipped":[],"overflow":[],"retiredActions":false,"text":"×\nCampaigns\n\nKaitlyn Watkins · Ashland, Oregon\n\nElections\nCan you run?\nElections near you\nAshland City Council\n\nNovember 3, 2026\n\nFour seats: three four-year terms and one two-year term. All seats are elected citywide.\n\nJackson County Commissioner\n\nMay 19, 2026 · Primary\n\nNovember 3, 2026 · General election. Positions 1 and 3.\n\nYou have not filed for office.","panelAreaFraction":0.35108024691358025},{"viewport":[1920,1080],"clipped":[],"overflow":[],"retiredActions":false,"text":"×\nCampaigns\n\nKaitlyn Watkins · Ashland, Oregon\n\nElections\nCan you run?\nRunning for council\nAshland City Council\n\nYou must be at least 18, be registered to vote in Ashland, and live within the city limits when you file.\n\nYou are 34 and live in Ashland.\n\nFiling for council\n\nCollect 25 valid signatures from Ashland voters after the City Recorder approves your petition.\n\nFiling opens June 3. New candidates must file by August 18, 2026.\n\nNo filing fee.\n\nIncumbents seeking re-election must file by August 11.","panelAreaFraction":0.35108024691358025}]
+
+Production source unchanged from base2e0b61f95; previous typecheck exit0 not relabeled as fresh revision run.
+Original simulation evidence values unchanged. No owner pick or live gameplay proof claimed.

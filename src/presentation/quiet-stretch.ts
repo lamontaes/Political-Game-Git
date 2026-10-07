@@ -9,6 +9,7 @@ import {
   type EntityId,
   type IsoDate,
   type ScheduledActivityRecord,
+  type SimulationMoment,
   type World,
 } from "../simulation";
 import { isCivicHold } from "./civic-hold";
@@ -33,6 +34,7 @@ import { EARLIER_COMMITMENT_REFUSAL, venueActivities } from "./venue-activity";
 export interface KnownCalendarItem {
   readonly title: string;
   readonly date: IsoDate;
+  readonly moment?: SimulationMoment;
 }
 
 export { isCivicHold } from "./civic-hold";
@@ -84,9 +86,29 @@ export function nextKnownCalendarItem(
       continue;
     const state = scheduledActivityState(world, activity.id);
     if (state.status !== "scheduled") continue;
-    if (state.start.date <= world.currentDate) continue;
-    if (!best || state.start.date < best.date)
-      best = { title: activity.title, date: state.start.date };
+    if (compareSimulationMoments(state.start, world.currentMoment) < 0)
+      continue;
+    const journey = world.history.scheduledActivities.find(
+      (entry) =>
+        entry.kind === "travel" &&
+        entry.sourceEntityIds.includes(activity.id) &&
+        entry.participantPersonIds.includes(personId) &&
+        scheduledActivityState(world, entry.id).status === "scheduled",
+    );
+    const departure = journey
+      ? scheduledActivityState(world, journey.id).start
+      : state.start;
+    const moment =
+      compareSimulationMoments(departure, world.currentMoment) >= 0
+        ? departure
+        : state.start;
+    if (
+      !best ||
+      state.start.date < best.date ||
+      (state.start.date === best.date &&
+        (!best.moment || compareSimulationMoments(moment, best.moment) < 0))
+    )
+      best = { title: activity.title, date: state.start.date, moment };
   }
   if (options.dueItems === false) return best;
   const cutoff = currentLifeCutoff(world);
@@ -96,7 +118,14 @@ export function nextKnownCalendarItem(
     if (futureDueItemStateAt(world, due.id, cutoff)?.status !== "scheduled")
       continue;
     if (!best || due.dueAt < best.date)
-      best = { title: "A dated matter", date: due.dueAt };
+      best = {
+        title: due.transitionKey.includes("council")
+          ? "Local council meeting"
+          : due.transitionKey.includes("pay")
+            ? "Payday"
+            : `Scheduled ${due.transitionKey.split(":").at(-1)!.replace(/[-_]/g, " ").replace(/v\d+/, "").trim()}`,
+        date: due.dueAt,
+      };
   }
   return best;
 }

@@ -2558,6 +2558,93 @@ interface SavedRun extends Omit<WorldReportRun, "world"> {
   readonly world: string;
 }
 
+/** The owner's behavior checks, read from the finished world in memory. */
+function behaviorSummary(run: WorldReportRun) {
+  const h = run.world.history;
+  const year = (date: string | null | undefined) => (date ?? "").slice(0, 4);
+  const filed: Record<string, number> = {};
+  const enacted: Record<string, number> = {};
+  const enactedByState: Record<string, number> = {};
+  const measures = new Map(
+    (h.legislativeMeasures ?? []).map((measure) => [measure.id, measure]),
+  );
+  for (const measure of h.legislativeMeasures ?? [])
+    filed[year(measure.introducedAt)] =
+      (filed[year(measure.introducedAt)] ?? 0) + 1;
+  for (const enactment of h.legislativeEnactments ?? []) {
+    if (enactment.outcome !== "enacted") continue;
+    const y = year(enactment.finalPassageAt ?? enactment.resolvedAt);
+    enacted[y] = (enacted[y] ?? 0) + 1;
+    const measure = measures.get(enactment.measureId);
+    const name = measure
+      ? (run.world.jurisdictions[measure.jurisdictionId]?.name ?? "?")
+      : "?";
+    enactedByState[name] = (enactedByState[name] ?? 0) + 1;
+  }
+  const floor: Record<string, { votes: number; passed: number }> = {};
+  for (const vote of h.legislativeVotes ?? []) {
+    if (vote.forum.kind === "committee") continue;
+    const measure = measures.get(vote.measureId);
+    const key = `${measure ? (run.world.jurisdictions[measure.jurisdictionId]?.name ?? "?") : "?"} ${"chamberKey" in vote.forum ? vote.forum.chamberKey : ""}`;
+    const row = (floor[key] ??= { votes: 0, passed: 0 });
+    row.votes += 1;
+    if ((vote.tally?.yea ?? 0) > (vote.tally?.nay ?? 0)) row.passed += 1;
+  }
+  const presidents = h.events
+    .filter(
+      (event) =>
+        /president/.test(event.type) &&
+        /inaugur|took-office|turnover|sworn/.test(event.type),
+    )
+    .map((event) => [event.occurredAt.slice(0, 10), event.type]);
+  const money: Record<string, Record<string, number>> = {};
+  for (const outcome of h.resourceTransferOutcomes ?? []) {
+    if (outcome.status !== "completed") continue;
+    const month = outcome.occurredAt.slice(0, 7);
+    const key = /rent/i.test(outcome.stableKey)
+      ? "rent"
+      : /pay|salary|wage/i.test(outcome.stableKey)
+        ? "pay"
+        : "other";
+    (money[month] ??= {})[key] =
+      (money[month]![key] ?? 0) + outcome.transferredAmount.minorUnits;
+  }
+  for (const payment of h.statutoryTaxPayments ?? []) {
+    const month = payment.recordedAt.slice(0, 7);
+    (money[month] ??= {}).tax =
+      (money[month]!.tax ?? 0) + payment.amount.minorUnits;
+  }
+  const serviceDeliveries = h.events.filter(
+    (event) =>
+      /service/.test(event.type) && /deliver|completed/.test(event.type),
+  ).length;
+  return {
+    place: run.placeName,
+    from: run.startedOn,
+    to: run.world.currentDate,
+    stopped: run.stopped ?? null,
+    filedByYear: filed,
+    enactedByYear: enacted,
+    statesEnacting: Object.keys(enactedByState).length,
+    enactedByState,
+    floorChambers: Object.keys(floor).length,
+    chambersThatNeverPassed: Object.entries(floor)
+      .filter(([, row]) => row.votes >= 5 && row.passed === 0)
+      .map(([key]) => key),
+    presidentEvents: presidents.slice(0, 12),
+    monthsWithoutPay: Object.entries(money)
+      .filter(([, row]) => !row.pay)
+      .map(([m]) => m),
+    monthsWithoutRent: Object.entries(money)
+      .filter(([, row]) => !row.rent)
+      .map(([m]) => m),
+    monthsWithoutTax: Object.entries(money)
+      .filter(([, row]) => !row.tax)
+      .map(([m]) => m),
+    serviceDeliveryEvents: serviceDeliveries,
+  };
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const opt = (name: string, fallback: string) => {
@@ -2586,10 +2673,23 @@ async function main() {
       "keep",
       `test-results/world-report/${slug(run.placeName)}-${options.seed}.run.json`,
     );
-    mkdirSync(dirname(keep), { recursive: true });
-    const saved: SavedRun = { ...run, world: serializeWorld(run.world) };
-    writeFileSync(keep, JSON.stringify(saved));
-    console.log(`Kept the run in ${keep}.`);
+    const summary = opt("summary", "");
+    if (summary) {
+      mkdirSync(dirname(summary), { recursive: true });
+      writeFileSync(summary, JSON.stringify(behaviorSummary(run), null, 1));
+      console.log(`Wrote the behavior summary to ${summary}.`);
+    }
+    // A long run can outgrow one JSON string; the report is still written.
+    try {
+      mkdirSync(dirname(keep), { recursive: true });
+      const saved: SavedRun = { ...run, world: serializeWorld(run.world) };
+      writeFileSync(keep, JSON.stringify(saved));
+      console.log(`Kept the run in ${keep}.`);
+    } catch (error) {
+      console.log(
+        `Could not keep the run (${error instanceof Error ? error.message : String(error)}); writing the report anyway.`,
+      );
+    }
   }
   const out = opt(
     "out",

@@ -4,10 +4,16 @@ import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
   ageOnDate,
+  applyCharacterHistoryPlan,
+  characterHistoryContextPersonId,
+  makeIsoDate,
+  recordWorkStatus,
+  recordEducationEnrollmentState,
   formativeIntervalAt,
   selectPersonHistory,
+  serializeWorld,
 } from "../simulation";
-import type { World } from "../simulation";
+import type { CharacterHistoryTransition, World } from "../simulation";
 import {
   companionRoleFor,
   formativeEligibilityProvider,
@@ -33,8 +39,12 @@ import { sampledProofLocalityForState } from "./new-game-geography";
  * that either has its context or does not happen.
  */
 
-function child(startAge: number, seed = "formative") {
-  return createNewGameWorld({
+function child(
+  startAge: number,
+  seed = "formative",
+  recordedCompanions = true,
+) {
+  const game = createNewGameWorld({
     placeKey: "kentucky",
     startAge,
     depth: "play-formative-years",
@@ -44,9 +54,151 @@ function child(startAge: number, seed = "formative") {
     givenName: null,
     familyName: null,
   });
+  const enrollment = activeEducationEnrollmentsAt(
+    game.world,
+    game.playerPersonId,
+  )[0];
+  if (!recordedCompanions || !enrollment) return game;
+  const player = game.world.people[game.playerPersonId]!;
+  const transitions: CharacterHistoryTransition[] = [];
+  for (const role of ["peer", "teacher"] as const) {
+    const stableKey = `n1-fixture:${role}`;
+    const companionId = characterHistoryContextPersonId(game.world, stableKey);
+    transitions.push({
+      kind: "context-person",
+      input: {
+        stableKey,
+        givenName: role === "peer" ? "Taylor" : "Jordan",
+        familyName: "Lane",
+        birthDate:
+          role === "peer"
+            ? player.birthDate
+            : makeIsoDate(
+                `${Number(player.birthDate.slice(0, 4)) - 30}${player.birthDate.slice(4)}`,
+              ),
+        homeJurisdictionId: player.homeJurisdictionId,
+      },
+    });
+    const provenance = {
+      kind: "authored" as const,
+      note: "Existing school companion fixture, created before scene lookup.",
+    };
+    if (role === "peer")
+      transitions.push({
+        kind: "education",
+        input: {
+          stableKey: `${stableKey}:enrollment`,
+          personId: companionId,
+          organizationId: enrollment.enrollment.organizationId,
+          startedAt: enrollment.enrollment.startedAt,
+          programKind: enrollment.enrollment.programKind,
+          contextKind: startAge >= 14 ? "stage:secondary" : "stage:primary",
+          provenance,
+        },
+      });
+    else
+      transitions.push({
+        kind: "work",
+        input: {
+          stableKey: `${stableKey}:work`,
+          personId: companionId,
+          organizationId: enrollment.enrollment.organizationId,
+          startedAt: enrollment.enrollment.startedAt,
+          kind: "employment:school-teaching",
+          compensation: "paid",
+          authority: "directs-others",
+          dependency: "dependent",
+          economicRisk: "organization-borne",
+          provenance,
+          initialRole: {
+            title: "Teacher",
+            occupationClassification: "occupation:school-teacher",
+            locationJurisdictionId: player.homeJurisdictionId,
+            timeDemand: {
+              expectedWeekly: { minimumHours: 30, maximumHours: 45 },
+              attention: "high",
+              concurrency: "partly-concurrent",
+              scheduleRigidity: "rigid",
+              interruptibility: "non-interruptible",
+              locationJurisdictionId: player.homeJurisdictionId,
+            },
+          },
+        },
+      });
+  }
+  return {
+    ...game,
+    world: applyCharacterHistoryPlan(game.world, {
+      stableKey: "n1-school-fixture",
+      mode: "quick-generated",
+      personId: game.playerPersonId,
+      transitions,
+    }).world,
+  };
 }
 
 describe("Who is actually in the scene", () => {
+  it("does not create missing school companions while offering scenes", () => {
+    const game = child(10, "n1-missing-staff", false);
+    const playerPersonId = game.playerPersonId;
+    let world = game.world;
+    const schoolId = activeEducationEnrollmentsAt(world, playerPersonId)[0]!
+      .enrollment.organizationId;
+    for (const id of world.personOrder) {
+      if (id !== playerPersonId) {
+        for (const entry of activeEducationEnrollmentsAt(world, id)) {
+          if (entry.enrollment.organizationId !== schoolId) continue;
+          world = recordEducationEnrollmentState(world, {
+            stableKey: `n1-ended-peer:${entry.enrollment.id}`,
+            enrollmentId: entry.enrollment.id,
+            effectiveAt: world.currentDate,
+            status: "ended",
+            contextKind: entry.state.contextKind,
+            reason: "The fixture's classmates left before this scene.",
+            provenance: {
+              kind: "authored",
+              note: "Missing school peer fixture.",
+            },
+            supersedesStateId: entry.state.id,
+          });
+        }
+      }
+      for (const entry of activeWorkRelationshipsAt(world, id)) {
+        if (entry.relationship.organizationId !== schoolId) continue;
+        world = recordWorkStatus(world, {
+          stableKey: `n1-ended-staff:${entry.relationship.id}`,
+          workRelationshipId: entry.relationship.id,
+          effectiveAt: world.currentDate,
+          status: "ended",
+          reason: "The fixture's school staff left before this scene.",
+          provenance: {
+            kind: "authored",
+            note: "Missing school staff fixture.",
+          },
+          supersedesStatusId: entry.status.id,
+        });
+      }
+    }
+    const people = [...world.personOrder];
+    const sequence = world.history.nextSequence;
+    expect(
+      resolveFormativeCompanion(world, playerPersonId, "teacher"),
+    ).toBeNull();
+    expect(resolveFormativeCompanion(world, playerPersonId, "peer")).toBeNull();
+    expect(
+      projectFormativeYears(world, playerPersonId).scene?.situationKey,
+    ).not.toBe("formative.teacher-mentor");
+    expect(world.personOrder).toEqual(people);
+    expect(world.history.nextSequence).toBe(sequence);
+  });
+
+  it("returns the identical world when an existing teacher is found", () => {
+    const { world, playerPersonId } = child(10, "n1-existing-teacher");
+    const result = resolveFormativeCompanion(world, playerPersonId, "teacher");
+    expect(result?.world).toBe(world);
+    expect(world.people[result!.personId]!.givenName).toBe("Jordan");
+  });
+
   it("puts a child of about the same age at the lunch table", () => {
     const { world, playerPersonId } = child(9);
     const player = world.people[playerPersonId]!;
@@ -246,7 +398,34 @@ describe("How fast the years go by", () => {
     }
   });
 
-  it("is deterministic for one world and different across worlds", () => {
+  it("spends the expected anchor count and lands exactly at the band boundary", () => {
+    const { world, playerPersonId } = child(9);
+    const interval = formativeIntervalAt(world, playerPersonId)!;
+    const [minimum, maximum] = interval.anchorBudget;
+    const expectedCount = Math.round((minimum + maximum) / 2);
+    let cursor = interval.beginsAt;
+    let count = 0;
+    const before = serializeWorld(world);
+    while (cursor < interval.endsAt) {
+      const step = formativeStepDays(
+        { ...world, currentDate: cursor },
+        playerPersonId,
+        interval,
+      );
+      expect(step).toBeGreaterThan(0);
+      expect(step).toBeLessThanOrEqual(days(cursor, interval.endsAt));
+      cursor = new Date(Date.parse(`${cursor}T00:00:00Z`) + step * 86_400_000)
+        .toISOString()
+        .slice(0, 10) as typeof cursor;
+      count += 1;
+      expect(count).toBeLessThanOrEqual(maximum);
+    }
+    expect(cursor).toBe(interval.endsAt);
+    expect(count).toBe(expectedCount);
+    expect(serializeWorld(world)).toBe(before);
+  });
+
+  it("uses the same accepted anchor budget independently of the seed", () => {
     const first = child(9, "pace-a");
     const second = child(9, "pace-b");
     const firstInterval = formativeIntervalAt(
@@ -261,15 +440,16 @@ describe("How fast the years go by", () => {
     expect(
       formativeStepDays(first.world, first.playerPersonId, firstInterval),
     ).toBe(formativeStepDays(first.world, first.playerPersonId, firstInterval));
-    // Not a claim that they must differ every time — only that pacing is a
-    // property of the world rather than a global constant.
     expect(
-      typeof formativeStepDays(
-        second.world,
-        second.playerPersonId,
-        secondInterval,
+      formativeStepDays(
+        { ...first.world, seed: second.world.seed },
+        first.playerPersonId,
+        firstInterval,
       ),
-    ).toBe("number");
+    ).toBe(formativeStepDays(first.world, first.playerPersonId, firstInterval));
+    expect(
+      formativeStepDays(second.world, second.playerPersonId, secondInterval),
+    ).toBeGreaterThan(0);
   });
 });
 

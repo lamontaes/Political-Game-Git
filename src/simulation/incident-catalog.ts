@@ -38,6 +38,10 @@ const ZERO_SHARE: ExactQuantity = {
   denominator: 1,
   unit: "rate:share",
 };
+/** The events the three synthetic conditions read (their producers' types). */
+const HAZARD_OCCURRED_EVENT = "crisis.hazard-occurred";
+const RECESSION_BEGAN_EVENT = "economy.recession-began";
+const OUTBREAK_REPORTED_EVENT = "epidemic.outbreak-reported";
 const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
 
 export function createIncidentDefinition(
@@ -73,15 +77,26 @@ export function createIncidentCatalog(
 export function createSyntheticIncidentCatalog(): IncidentCatalog {
   return createIncidentCatalog({
     definitions: [
+      // Each condition is read from the record that causes it, never drawn.
+      // The event rules read any matching event before the cutoff: they have
+      // no place or time window yet (A134 missing link).
       createIncidentDefinition({
         stableKey: "incident.localized-natural-hazard",
         label: "Localized natural hazard",
         description:
-          "Synthetic localized storm or flood-like hazard with explicit risk inputs.",
+          "A storm or flood the world has recorded striking, read from its hazard event.",
         incidentKind: "incident:natural-hazard",
-        occurrenceMode: "probabilistic",
-        baseLikelihood: { numerator: 1, denominator: 4, unit: "rate:share" },
-        prerequisites: [],
+        occurrenceMode: "condition",
+        baseLikelihood: { ...ONE_SHARE },
+        prerequisites: [
+          {
+            kind: "historical-event",
+            stableKey: "incident:hazard-recorded",
+            eventType: HAZARD_OCCURRED_EVENT,
+            eventTag: null,
+            reasonKey: "incident:hazard-recorded",
+          },
+        ],
         blockers: [],
         likelihoodModifiers: [],
         tags: ["incident.hazard", "incident.local"],
@@ -90,29 +105,17 @@ export function createSyntheticIncidentCatalog(): IncidentCatalog {
         stableKey: "incident.economic-slowdown",
         label: "Economic slowdown",
         description:
-          "Synthetic persistent economic condition intended for explicit metric-driven evaluation.",
+          "A slowdown the economy has recorded, read from the recession the business cycle records beginning.",
         incidentKind: "incident:economic-slowdown",
-        occurrenceMode: "probabilistic",
-        baseLikelihood: { numerator: 1, denominator: 5, unit: "rate:share" },
+        occurrenceMode: "condition",
+        baseLikelihood: { ...ONE_SHARE },
         prerequisites: [
           {
-            kind: "metric-comparison",
-            stableKey: "incident:housing-pressure-elevated",
-            metricId: createStableId(
-              "world-metric-definition",
-              "definition:housing.availability-pressure",
-            ),
-            reference: { kind: "at-evaluation" },
-            comparison: "at-least",
-            threshold: {
-              kind: "quantity",
-              quantity: {
-                numerator: 100,
-                denominator: 1,
-                unit: "index:housing-pressure",
-              },
-            },
-            reasonKey: "incident:housing-pressure-elevated",
+            kind: "historical-event",
+            stableKey: "incident:recession-recorded",
+            eventType: RECESSION_BEGAN_EVENT,
+            eventTag: null,
+            reasonKey: "incident:recession-recorded",
           },
         ],
         blockers: [],
@@ -123,11 +126,19 @@ export function createSyntheticIncidentCatalog(): IncidentCatalog {
         stableKey: "incident.bounded-outbreak",
         label: "Bounded outbreak condition",
         description:
-          "Synthetic bounded condition with no individual health or mortality model.",
+          "An outbreak the world has recorded being reported, read from the epidemic's own report; no individual health or mortality model.",
         incidentKind: "incident:outbreak",
-        occurrenceMode: "probabilistic",
-        baseLikelihood: { numerator: 1, denominator: 6, unit: "rate:share" },
-        prerequisites: [],
+        occurrenceMode: "condition",
+        baseLikelihood: { ...ONE_SHARE },
+        prerequisites: [
+          {
+            kind: "historical-event",
+            stableKey: "incident:outbreak-recorded",
+            eventType: OUTBREAK_REPORTED_EVENT,
+            eventTag: null,
+            reasonKey: "incident:outbreak-recorded",
+          },
+        ],
         blockers: [],
         likelihoodModifiers: [],
         tags: ["incident.condition", "incident.outbreak"],
@@ -218,7 +229,6 @@ export function assertIncidentCatalogIntegrity(catalog: IncidentCatalog): void {
     assertNonEmpty(definition.description, "Incident definition description");
     assertSemanticKey(definition.incidentKind, "Incident kind");
     if (
-      definition.occurrenceMode !== "probabilistic" &&
       definition.occurrenceMode !== "actor-initiated" &&
       definition.occurrenceMode !== "condition"
     ) {

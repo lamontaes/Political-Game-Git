@@ -1,0 +1,1050 @@
+{
+  "schemaVersion": 1,
+  "team": 5,
+  "authoredOn": "2026-09-30",
+  "weightStatus": "AUTHORED DESIGN CHOICES, grounded in cited published positions and explicit law/cost arguments. Not empirical estimates.",
+  "directionMeaning": "Argument relative to answering yes to the canonical law question, not an actor vote. Opposite arguments can engage the same principle. Repeal and alternate terms require renewed reading.",
+  "weightScale": {
+    "0": "No asserted bearing",
+    "1": "Central argument; not certainty or population frequency"
+  },
+  "integrationLimits": [
+    "Coordinator alone writes shared catalog. Payload does not activate ideology or interest-group runtime.",
+    "All14 existing canonical principle keys preserved; no new principle vocabulary or organization IDs.",
+    "Constituency descriptors are authored interests, not observations of membership. Named group positions only where publishedPositionRead=true.",
+    "Group joining/voting must follow actual records; this payload does not bypass no-dice or exposure readers."
+  ],
+  "sources": {
+    "nea-choice": {
+      "url": "https://www.nea.org/advocating-for-change/action-center/our-issues/vouchers",
+      "readOn": "2026-09-30",
+      "httpStatus": 200,
+      "sha256": "baf889ae3d0932500fa3bbdcf115eed61c844843bcfaa03187311ee2e27e1a5f"
+    },
+    "ala-rights": {
+      "url": "https://www.ala.org/advocacy/intfreedom/librarybill",
+      "readOn": "2026-09-30",
+      "httpStatus": 200,
+      "sha256": "07ca57289e1136776bed6d7ad3b79794f4e740e8d52acf0dae2fa4872b032699"
+    },
+    "aclu-equality": {
+      "url": "https://www.aclu.org/issues/lgbtq-rights",
+      "readOn": "2026-09-30",
+      "httpStatus": 200,
+      "sha256": "5f25a49accbdcb9597124448800ee24dfb9ddca0691d952cca0675c698f26dd8"
+    },
+    "usccb-life": {
+      "url": "https://www.usccb.org/prolife/abortion",
+      "readOn": "2026-09-30",
+      "httpStatus": 200,
+      "sha256": "3a8cb607205d81bd2eeec8adaa5a82b496fcfcdad2538d1750063d4a57ba2315"
+    },
+    "nrpa-parks": {
+      "url": "https://www.nrpa.org/our-work/advocacy/",
+      "readOn": "2026-09-30",
+      "httpStatus": 200,
+      "sha256": "5937395adb941d8a1429ffca503afbdc6fbac78664262d805e5ba380ced9da8b"
+    },
+    "nea-pay": {
+      "url": "https://www.nea.org/resource-library/educator-pay-and-student-spending-how-does-your-state-rank",
+      "readOn": "2026-09-30",
+      "httpStatus": 200,
+      "sha256": "2ec2823da339ceb57a02127d2bc43b51565cbe15c9673b76351976a6591e1d95"
+    },
+    "ala-funding": {
+      "url": "https://www.ala.org/advocacy/fund-libraries",
+      "readOn": "2026-09-30",
+      "httpStatus": 200,
+      "sha256": "ab64eb156317080361615c1a37c4db6ffcca0ba7987f8b49a66f2b96b5d9fdb9"
+    },
+    "edchoice": {
+      "url": "https://www.edchoice.org/school-choice/what-is-school-choice/",
+      "readOn": "2026-09-30",
+      "httpStatus": 200,
+      "sha256": "71334da1b28295da67283088d2a415a8f28c4d908157d385c060c2ffe3c85969"
+    },
+    "aclu-abortion": {
+      "url": "https://www.aclu.org/issues/reproductive-freedom/abortion",
+      "readOn": "2026-09-30",
+      "httpStatus": 200,
+      "sha256": "f2f09bc46b86cc978b92270a1db0b9214cc91f95dfde3ad0b7498aac554b76e0"
+    },
+    "catalog": {
+      "path": "src/simulation/policy-pack-us-policy-positions.ts",
+      "sourceHead": "c47dec12364b93a66f1f9035613da192f81d876d",
+      "role": "Existing authored canonical principles and law questions; not empirical endorsement data."
+    },
+    "law-traces": {
+      "path": "docs/codex/handbacks/team-5-law-traces.md",
+      "role": "Previously read primary legal constraints and causal/cost limits. Title VII, Bostock, federal curriculum limits and library assistance."
+    }
+  },
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:education.equalize-school-funding",
+      "principles": [
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "argument": "A pupil should not inherit inferior school resources from district wealth."
+        },
+        {
+          "principle": "equal-treatment",
+          "canonicalKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "argument": "The state owes comparable educational provision to pupils in different districts."
+        },
+        {
+          "principle": "collective-provision",
+          "canonicalKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "argument": "Pooling revenue can finance schools in places with a smaller tax base."
+        },
+        {
+          "principle": "local-control",
+          "canonicalKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "strength": 0.8,
+          "argument": "Redistribution constrains locally chosen revenue and school spending."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.65,
+          "argument": "Higher state aid must displace other spending, taxes or borrowing."
+        },
+        {
+          "principle": "property-rights",
+          "canonicalKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.45,
+          "argument": "Taxpayers can object to additional levies on their property."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:low-resource-school-families",
+          "name": "Families and staff in under-resourced public schools",
+          "direction": "support",
+          "reason": "Additional available school resources address an unequal starting opportunity.",
+          "sourceRefs": ["nea-choice", "nea-pay"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:high-base-district-taxpayers",
+          "name": "High-tax-base district taxpayers and local boards",
+          "direction": "conditional-oppose",
+          "reason": "Opposition depends on actual transfers, tax changes and lost budget discretion.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "nea-choice", "nea-pay"],
+      "limits": "Weights describe authored argument salience, not measured beliefs, prevalence or guaranteed votes."
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "principles": [
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "argument": "Families can choose an educational setting rather than the assigned public provider."
+        },
+        {
+          "principle": "market-competition",
+          "canonicalKey": "us-policy-positions:market-competition",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "argument": "Alternative providers compete to attract families."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "argument": "An affordable award can extend options beyond families able to pay privately."
+        },
+        {
+          "principle": "tradition",
+          "canonicalKey": "us-policy-positions:tradition",
+          "bearing": "consistent-with",
+          "strength": 0.5,
+          "argument": "Some families seek a religious or established independent educational tradition."
+        },
+        {
+          "principle": "collective-provision",
+          "canonicalKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "strength": 0.9,
+          "argument": "Diversion can weaken the universally available public school system."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "against",
+          "strength": 0.8,
+          "argument": "Admissions exclusions and uncovered charges can leave disadvantaged pupils behind."
+        },
+        {
+          "principle": "transparency",
+          "canonicalKey": "us-policy-positions:transparency",
+          "bearing": "against",
+          "strength": 0.75,
+          "argument": "Public payments need financial and educational accountability."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.65,
+          "argument": "An award for already-private pupils can add costs rather than replace public spending."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:school-choice-families",
+          "name": "Families seeking private options and independent providers",
+          "direction": "support",
+          "reason": "EdChoice calls for all students, all options and predictable public funding.",
+          "sourceRefs": ["edchoice"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:public-school-educators",
+          "name": "Public-school educators / NEA",
+          "direction": "oppose",
+          "reason": "NEA objects to diversion, admissions discrimination and weak accountability.",
+          "sourceRefs": ["nea-choice"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "edchoice", "nea-choice"],
+      "limits": "Weights describe authored argument salience, not measured beliefs, prevalence or guaranteed votes."
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "principles": [
+        {
+          "principle": "worker-protection",
+          "canonicalKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "argument": "A legal salary floor strengthens a teacher bargaining alone."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "argument": "Better ability to retain teachers can improve opportunities in low-pay schools."
+        },
+        {
+          "principle": "collective-provision",
+          "canonicalKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "argument": "Publicly funded teacher compensation supports a common educational service."
+        },
+        {
+          "principle": "local-control",
+          "canonicalKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "strength": 0.8,
+          "argument": "A state floor limits district compensation choices."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.75,
+          "argument": "A floor without funded aid forces local spending trade-offs."
+        },
+        {
+          "principle": "market-competition",
+          "canonicalKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.5,
+          "argument": "A mandated floor constrains employer-specific wage setting."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:teachers",
+          "name": "Public-school teachers and education unions",
+          "direction": "support",
+          "reason": "NEA documents teacher pay gaps and advocates higher educator pay.",
+          "sourceRefs": ["nea-pay"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:school-budget-managers",
+          "name": "School boards and taxpayers facing an unfunded floor",
+          "direction": "conditional-oppose",
+          "reason": "The objection applies when the incremental payroll burden exceeds actual aid or revenue.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "nea-pay"],
+      "limits": "Weights describe authored argument salience, not measured beliefs, prevalence or guaranteed votes."
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "principles": [
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "argument": "Access need not depend on a family ability to buy preschool."
+        },
+        {
+          "principle": "collective-provision",
+          "canonicalKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "argument": "Pooling resources supplies early education for willing families."
+        },
+        {
+          "principle": "worker-protection",
+          "canonicalKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "argument": "Available care can reduce an actual parental constraint on work."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.5,
+          "argument": "A voluntary place adds a family option without compelling attendance."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.85,
+          "argument": "Universal capacity competes with other public expenditures."
+        },
+        {
+          "principle": "market-competition",
+          "canonicalKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.5,
+          "argument": "Provider displacement depends on whether the program includes independent providers."
+        },
+        {
+          "principle": "local-control",
+          "canonicalKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "strength": 0.5,
+          "argument": "A uniform state scheme can constrain local program design."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:preschool-families",
+          "name": "Families seeking an affordable preschool place",
+          "direction": "support",
+          "reason": "Interest follows the recorded child age, unmet need and available capacity.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:private-early-providers",
+          "name": "Independent early-childhood providers",
+          "direction": "conditional",
+          "reason": "Support if eligible for payment; oppose if publicly financed competition displaces them.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:budget-constrained-taxpayers",
+          "name": "Taxpayers and budget managers",
+          "direction": "conditional-oppose",
+          "reason": "Interest follows the actual new appropriation and forgone services.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "nea-choice"],
+      "limits": "Authored constituency analysis from the law question and public-education arguments, not a claim any named organization endorses this exact universal design."
+    },
+    {
+      "questionKey": "us-policy-positions:education.freeze-public-tuition",
+      "principles": [
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "argument": "Preventing new tuition increases limits an access barrier for students without family wealth."
+        },
+        {
+          "principle": "collective-provision",
+          "canonicalKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "argument": "The public budget can share the cost rather than shifting it to entrants."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.5,
+          "argument": "Lower student charges can preserve a real educational choice."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.85,
+          "argument": "A freeze needs replacement revenue or service cuts; the institution cannot spend unpaid revenue."
+        },
+        {
+          "principle": "local-control",
+          "canonicalKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "strength": 0.65,
+          "argument": "A state cap constrains public-college budget discretion."
+        },
+        {
+          "principle": "market-competition",
+          "canonicalKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.5,
+          "argument": "A price freeze suppresses cost signals and institutions ability to adjust prices."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:tuition-paying-students",
+          "name": "Tuition-paying students and their households",
+          "direction": "support",
+          "reason": "A freeze benefits those actually facing an increase; it does not erase existing tuition.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:public-college-budget-managers",
+          "name": "Public-college budget managers",
+          "direction": "conditional-oppose",
+          "reason": "Opposition turns on an actual unreplaced revenue loss.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "catalog"],
+      "limits": "Authored cost/beneficiary argument, not a verified institutional endorsement; replacement-aid design can change the direction."
+    },
+    {
+      "questionKey": "us-policy-positions:education.state-curriculum-standards",
+      "principles": [
+        {
+          "principle": "equal-treatment",
+          "canonicalKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "argument": "A shared requirement establishes comparable entitlements across districts."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "argument": "Pupils moving districts can retain an intelligible progression."
+        },
+        {
+          "principle": "transparency",
+          "canonicalKey": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "argument": "Published standards let families inspect the expected content."
+        },
+        {
+          "principle": "collective-provision",
+          "canonicalKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "argument": "Common material and training can serve several districts."
+        },
+        {
+          "principle": "local-control",
+          "canonicalKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "strength": 0.95,
+          "argument": "State requirements displace some district, teacher and family choices."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.6,
+          "argument": "Compulsory contested content can burden family educational preferences."
+        },
+        {
+          "principle": "tradition",
+          "canonicalKey": "us-policy-positions:tradition",
+          "bearing": "against",
+          "strength": 0.5,
+          "argument": "Communities can object when new standards displace a valued curriculum."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.45,
+          "argument": "Actual adoption can require materials and training purchases."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:mobile-pupil-families",
+          "name": "Families of pupils moving among public districts",
+          "direction": "support",
+          "reason": "Common progression is useful when actual enrollment changes.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:local-school-boards",
+          "name": "Local school boards and educators",
+          "direction": "conditional-oppose",
+          "reason": "Objection depends on displaced discretion and unfunded adoption duties.",
+          "sourceRefs": ["law-traces"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:curriculum-content-families",
+          "name": "Families with conflicting content preferences",
+          "direction": "conditional",
+          "reason": "Different recorded principles can lead to opposite responses to the same content.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "law-traces"],
+      "limits": "Weights describe authored argument salience, not measured beliefs, prevalence or guaranteed votes."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "principles": [
+        {
+          "principle": "equal-treatment",
+          "canonicalKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "argument": "Access to housing and employment should not turn on a protected personal characteristic."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "argument": "Discrimination blocks work and housing opportunities despite relevant qualifications."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "argument": "Residents should be able to live openly without exclusion."
+        },
+        {
+          "principle": "worker-protection",
+          "canonicalKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "argument": "Workers need a remedy against discriminatory compensation or hiring."
+        },
+        {
+          "principle": "property-rights",
+          "canonicalKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.75,
+          "argument": "Owners object to limits on selecting tenants or operating a business."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.6,
+          "argument": "Some religious or association claims conflict with a particular coverage rule."
+        },
+        {
+          "principle": "limited-government",
+          "canonicalKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.55,
+          "argument": "Opponents can object to the scope of regulatory enforcement."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:civil-rights-residents",
+          "name": "Protected residents and civil-rights advocates / ACLU",
+          "direction": "support",
+          "reason": "ACLU supports closing discrimination gaps and preserving autonomy.",
+          "sourceRefs": ["aclu-equality"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:regulated-housing-employers",
+          "name": "Regulated employers and housing owners",
+          "direction": "conditional-oppose",
+          "reason": "Compliance obligations and contested exceptions create interests; no universal opposition is assigned.",
+          "sourceRefs": ["law-traces"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:religious-exemption-claimants",
+          "name": "People asserting religious or association exemptions",
+          "direction": "conditional-oppose",
+          "reason": "The exact duty and applicable exception determine the conflict.",
+          "sourceRefs": ["law-traces"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "aclu-equality", "law-traces"],
+      "limits": "No state/local repeal removes applicable federal protection; no fixed voter/group response or invented existing organization ID. Federal employer coverage and municipal authority need records."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+      "principles": [
+        {
+          "principle": "equal-treatment",
+          "canonicalKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "argument": "Access to housing and employment should not turn on a protected personal characteristic."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "argument": "Discrimination blocks work and housing opportunities despite relevant qualifications."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "argument": "Residents should be able to live openly without exclusion."
+        },
+        {
+          "principle": "worker-protection",
+          "canonicalKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "argument": "Workers need a remedy against discriminatory compensation or hiring."
+        },
+        {
+          "principle": "property-rights",
+          "canonicalKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.75,
+          "argument": "Owners object to limits on selecting tenants or operating a business."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.6,
+          "argument": "Some religious or association claims conflict with a particular coverage rule."
+        },
+        {
+          "principle": "limited-government",
+          "canonicalKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.55,
+          "argument": "Opponents can object to the scope of regulatory enforcement."
+        },
+        {
+          "principle": "local-control",
+          "canonicalKey": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "argument": "A city can address a local gap when authorized."
+        },
+        {
+          "principle": "equal-treatment",
+          "canonicalKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "strength": 0.4,
+          "argument": "A patchwork of city-only rules can treat similar residents differently."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:civil-rights-residents",
+          "name": "Protected residents and civil-rights advocates / ACLU",
+          "direction": "support",
+          "reason": "ACLU supports closing discrimination gaps and preserving autonomy.",
+          "sourceRefs": ["aclu-equality"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:regulated-housing-employers",
+          "name": "Regulated employers and housing owners",
+          "direction": "conditional-oppose",
+          "reason": "Compliance obligations and contested exceptions create interests; no universal opposition is assigned.",
+          "sourceRefs": ["law-traces"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:religious-exemption-claimants",
+          "name": "People asserting religious or association exemptions",
+          "direction": "conditional-oppose",
+          "reason": "The exact duty and applicable exception determine the conflict.",
+          "sourceRefs": ["law-traces"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "aclu-equality", "law-traces"],
+      "limits": "No state/local repeal removes applicable federal protection; no fixed voter/group response or invented existing organization ID. Federal employer coverage and municipal authority need records."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "principles": [
+        {
+          "principle": "public-safety",
+          "canonicalKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "argument": "Supporters describe protecting unborn life as protecting a person from harm."
+        },
+        {
+          "principle": "tradition",
+          "canonicalKey": "us-policy-positions:tradition",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "argument": "Supporters cite established moral and religious obligations concerning unborn life."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.95,
+          "argument": "Opponents defend the pregnant person authority over their own pregnancy."
+        },
+        {
+          "principle": "public-safety",
+          "canonicalKey": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "strength": 0.9,
+          "argument": "Opponents cite treatment delays and burdens on actual maternal health care."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "against",
+          "strength": 0.8,
+          "argument": "Travel and care burdens differ with income and access."
+        },
+        {
+          "principle": "limited-government",
+          "canonicalKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.7,
+          "argument": "Opponents object to state intrusion into intimate medical decisions."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.4,
+          "argument": "Actual enforcement and added service needs require public resources."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:abortion-restriction-advocates",
+          "name": "Abortion-restriction advocates / USCCB",
+          "direction": "support",
+          "reason": "USCCB argues for protecting unborn life and states its view of maternal health.",
+          "sourceRefs": ["usccb-life"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:reproductive-freedom-advocates",
+          "name": "Patients and reproductive-freedom advocates / ACLU",
+          "direction": "oppose",
+          "reason": "ACLU defends personal abortion decisions and access to care.",
+          "sourceRefs": ["aclu-abortion"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:pregnancy-care-clinicians",
+          "name": "Pregnancy-care clinicians",
+          "direction": "conditional-oppose",
+          "reason": "Interest depends on the actual exception, treatment duty and exposure to enforcement.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "usccb-life", "aclu-abortion"],
+      "limits": "Arguments are attributed positions, not clinical evidence or agreement with a claim. Exceptions, gestational limit and federal/legal constraints control actual application."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+      "principles": [
+        {
+          "principle": "collective-provision",
+          "canonicalKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "argument": "A public library provides shared information resources beyond individual purchasing capacity."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "argument": "Accessible books, learning resources and services reduce an access disadvantage."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "argument": "Diverse information supports an individual freedom to inquire."
+        },
+        {
+          "principle": "transparency",
+          "canonicalKey": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "argument": "Access to public information supports informed oversight."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.85,
+          "argument": "A guaranteed floor commits revenue that cannot fund another need."
+        },
+        {
+          "principle": "local-control",
+          "canonicalKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "strength": 0.55,
+          "argument": "A state floor can limit a local budget choice."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:library-users-staff",
+          "name": "Library users and staff / ALA",
+          "direction": "support",
+          "reason": "ALA advocates library appropriations and information access; its fetched funding page concerns federal appropriations, not endorsement of this exact state floor.",
+          "sourceRefs": ["ala-funding", "ala-rights"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:local-budget-taxpayers",
+          "name": "Local budget managers and taxpayers",
+          "direction": "conditional-oppose",
+          "reason": "Direction follows the required incremental contribution and actual funding source.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "ala-funding", "ala-rights", "law-traces"],
+      "limits": "Weights describe authored argument salience, not measured beliefs, prevalence or guaranteed votes."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+      "principles": [
+        {
+          "principle": "local-control",
+          "canonicalKey": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "argument": "A local board can answer to people served by its collection."
+        },
+        {
+          "principle": "transparency",
+          "canonicalKey": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "argument": "A public challenge hearing and reasoned decision can make selection accountable."
+        },
+        {
+          "principle": "tradition",
+          "canonicalKey": "us-policy-positions:tradition",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "argument": "Some residents want collections responsive to local cultural preferences."
+        },
+        {
+          "principle": "personal-liberty",
+          "canonicalKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.9,
+          "argument": "Local removal motivated by viewpoint can restrict a reader freedom to inquire."
+        },
+        {
+          "principle": "equal-treatment",
+          "canonicalKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "strength": 0.8,
+          "argument": "A reader right to information should not depend on local hostility to a viewpoint."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "against",
+          "strength": 0.65,
+          "argument": "Readers without alternative sources bear a larger access loss."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.35,
+          "argument": "Individual challenges can incur actual staff and legal review costs."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:local-library-boards",
+          "name": "Local library boards and community participants",
+          "direction": "support",
+          "reason": "The law gives boards decision authority, not a prescribed removal outcome.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:intellectual-freedom-readers",
+          "name": "Readers and intellectual-freedom advocates / ALA",
+          "direction": "conditional-oppose",
+          "reason": "ALA opposes viewpoint removal, not every lawful local collection choice.",
+          "sourceRefs": ["ala-rights"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:library-challengers",
+          "name": "Residents requesting collection review",
+          "direction": "conditional-support",
+          "reason": "A hearing supplies a lawful avenue; a challenge is not evidence that removal must occur.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "ala-rights", "law-traces"],
+      "limits": "Personal liberty can also support local responsiveness; constitutional rights remain limits under either authority branch. Do not equate local control with censorship."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "principles": [
+        {
+          "principle": "collective-provision",
+          "canonicalKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "argument": "A shared revenue stream supports recreation facilities available across households."
+        },
+        {
+          "principle": "equal-opportunity",
+          "canonicalKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "argument": "Accessible public recreation can serve residents unable to buy private alternatives."
+        },
+        {
+          "principle": "environmental-stewardship",
+          "canonicalKey": "us-policy-positions:environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "argument": "Maintaining green space preserves a resource for future residents."
+        },
+        {
+          "principle": "public-safety",
+          "canonicalKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.5,
+          "argument": "Actual maintenance can remedy documented unsafe facilities."
+        },
+        {
+          "principle": "fiscal-restraint",
+          "canonicalKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.8,
+          "argument": "Earmarked revenue reduces flexibility to meet other funded priorities."
+        },
+        {
+          "principle": "local-control",
+          "canonicalKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "strength": 0.55,
+          "argument": "A dedication can bind future local budget decisions."
+        },
+        {
+          "principle": "property-rights",
+          "canonicalKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.4,
+          "argument": "Interest depends on any actual tax or acquisition affecting an owner."
+        }
+      ],
+      "interestedGroups": [
+        {
+          "constituencyKey": "team5:parks-users-professionals",
+          "name": "Park users and recreation professionals / NRPA",
+          "direction": "support",
+          "reason": "NRPA advocates funding and equitable access; the exact earmarking mechanism remains a design choice.",
+          "sourceRefs": ["nrpa-parks"],
+          "publishedPositionRead": true,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        },
+        {
+          "constituencyKey": "team5:general-budget-managers",
+          "name": "General budget managers and taxpayers",
+          "direction": "conditional-oppose",
+          "reason": "Opposition follows displaced uses and actual additional taxes.",
+          "sourceRefs": ["catalog"],
+          "publishedPositionRead": false,
+          "integration": "Descriptor only; no existing organization/person ID claimed. Membership and response must read actual records."
+        }
+      ],
+      "sourceRefs": ["catalog", "nrpa-parks"],
+      "limits": "Weights describe authored argument salience, not measured beliefs, prevalence or guaranteed votes."
+    }
+  ]
+}

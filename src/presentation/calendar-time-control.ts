@@ -12,7 +12,7 @@ import {
 import {
   callOffContactMeeting,
   CONTACT_LOCATION_KEY,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { interruptionHandlers } from "./interruption-policy";
 import {
   arriveAtCandidateGuidance,
@@ -54,7 +54,7 @@ export function simulateCalendarDays(
 ): CalendarTimeResult {
   const before = world;
   const next = passOrdinaryDays(world, days, {
-    handlers: interruptionHandlers(interruptions),
+    handlers: interruptionHandlers(),
     stopForTentativeHolds: interruptions.stopForTentativeHolds,
     // The direct Calendar day/week controls use the same civic stop boundary.
     stopForCivicHolds: true,
@@ -82,7 +82,6 @@ export function advanceCalendarToActivity(
   world: World,
   personId: EntityId,
   activityId: EntityId,
-  interruptions: InterruptionPreferences = DEFAULT_INTERRUPTIONS,
 ): CalendarTimeResult {
   const state = scheduledActivityState(world, activityId);
   const before = world;
@@ -94,11 +93,7 @@ export function advanceCalendarToActivity(
     };
   }
   const minutes = simulationMinutesBetween(world.currentMoment, state.start);
-  const next = advanceWorldMinutes(
-    world,
-    minutes,
-    interruptionHandlers(interruptions),
-  );
+  const next = advanceWorldMinutes(world, minutes, interruptionHandlers());
   return {
     world: next,
     reached: next.currentMoment,
@@ -110,6 +105,7 @@ export function playCalendarActivity(
   world: World,
   personId: EntityId,
   activityId: EntityId,
+  finishMeeting = false,
 ): CalendarTimeResult {
   const before = world;
   const entry = venueActivities(world, personId).find(
@@ -126,7 +122,7 @@ export function playCalendarActivity(
   try {
     const openingMeeting =
       entry?.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
-      projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+      !finishMeeting;
     const openingGuidance =
       campaignLifeActivityForScheduledActivity(world, activityId)?.form ===
         "candidate-guidance" &&
@@ -135,7 +131,9 @@ export function playCalendarActivity(
       ? arriveAtOrdinaryMeeting(world, personId, activityId)
       : openingGuidance
         ? arriveAtCandidateGuidance(world, personId, activityId)
-        : performVenueActivity(world, personId, activityId);
+        : performVenueActivity(world, personId, activityId, undefined, {
+            finishMeeting,
+          });
   } catch (error) {
     // A writer that refuses (a buy the committee can no longer pay for, a
     // session that is not the week's next) says why, and nothing is written:
@@ -175,7 +173,6 @@ export function authorizeCalendarSimulation(
   world: World,
   personId: EntityId,
   activityId: EntityId,
-  interruptions: InterruptionPreferences = DEFAULT_INTERRUPTIONS,
 ): { readonly authorized: boolean; readonly reason: string } {
   const activity = world.history.scheduledActivities.find(
     (record) => record.id === activityId,
@@ -206,7 +203,7 @@ export function authorizeCalendarSimulation(
   if (venue.refusal) {
     return { authorized: false, reason: venue.refusal };
   }
-  const handlers = interruptionHandlers(interruptions);
+  const handlers = interruptionHandlers();
   if (!handlers.routine?.isAutoResolvableActivity(world, activityId)) {
     return {
       authorized: false,
@@ -224,14 +221,8 @@ export function simulateAuthorizedCalendarActivity(
   world: World,
   personId: EntityId,
   activityId: EntityId,
-  interruptions: InterruptionPreferences = DEFAULT_INTERRUPTIONS,
 ): CalendarTimeResult {
-  const gate = authorizeCalendarSimulation(
-    world,
-    personId,
-    activityId,
-    interruptions,
-  );
+  const gate = authorizeCalendarSimulation(world, personId, activityId);
   if (!gate.authorized) {
     return {
       world,
