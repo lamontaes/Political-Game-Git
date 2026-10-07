@@ -6,6 +6,7 @@ import { concernForDistressEffects } from "./concern-for-distress";
 import { facetAcquisitiveEffects } from "./facet-acquisitive";
 import { facetAmbitiousEffects } from "./facet-ambitious";
 import { facetAnalyticalEffects } from "./facet-analytical";
+import { facetApprovalSeekingEffects } from "./facet-approval-seeking";
 import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetAssertiveEffects } from "./facet-assertive";
 import { facetBluntEffects } from "./facet-blunt";
@@ -19,6 +20,7 @@ import { facetCruelEffects } from "./facet-cruel";
 import { facetCuriousEffects } from "./facet-curious";
 import { facetDefensiveEffects } from "./facet-defensive";
 import { facetDeferentialEffects } from "./facet-deferential";
+import { facetDevotedEffects } from "./facet-devoted";
 import { facetDramaticEffects } from "./facet-dramatic";
 import { facetDutyBoundEffects } from "./facet-duty-bound";
 import { facetEnterprisingEffects } from "./facet-enterprising";
@@ -76,6 +78,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetAcquisitiveEffects,
     ...facetAmbitiousEffects,
     ...facetAnalyticalEffects,
+    ...facetApprovalSeekingEffects,
     ...facetArgumentativeEffects,
     ...facetAssertiveEffects,
     ...facetBluntEffects,
@@ -89,6 +92,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetCuriousEffects,
     ...facetDefensiveEffects,
     ...facetDeferentialEffects,
+    ...facetDevotedEffects,
     ...facetDramaticEffects,
     ...facetDutyBoundEffects,
     ...facetEnterprisingEffects,
