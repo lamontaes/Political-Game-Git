@@ -4111,20 +4111,10 @@ function renderWorkspace({
         "politics-workspace",
         <>
           {politicsTabs("issues", "budget")}
-          <p className="game-note" data-testid="politics-budget-scope">
-            Public finances shown for {issuesPlace.label}. Change the place in
-            Government.
-          </p>
-          {issuesPlace.note ? (
-            <p className="game-note" role="status">
-              {issuesPlace.note}
-            </p>
-          ) : null}
           {issuesPlace.jurisdictionId ? (
             <PublicServicePanel
               world={session.world}
               jurisdictionId={issuesPlace.jurisdictionId}
-              placeLabel={issuesPlace.label}
             />
           ) : null}
           {(session.world.history.nationalElections ?? []).map((election) => (
